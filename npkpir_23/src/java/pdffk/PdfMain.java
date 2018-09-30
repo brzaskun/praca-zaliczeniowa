@@ -268,7 +268,7 @@ public class PdfMain {
                 Plik.zapiszjako(plikzqr,nazwa);
             }
         } catch (Exception ex) {
-            Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
+            E.e(ex);
         }
    }
     

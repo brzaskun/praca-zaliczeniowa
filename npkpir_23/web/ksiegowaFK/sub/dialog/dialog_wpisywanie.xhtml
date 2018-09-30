@@ -452,7 +452,7 @@
                                 </p:inputText>
                             </p:column>
                             <p:column style="width: 20px; text-align: center;" rendered="#{!item.nieduplikuj}">
-                                <p:commandButton value="+" actionListener="#{dokfkView.podepnijEwidencjeVat(1)}" global="false"
+                                <p:commandButton value="+" actionListener="#{dokfkView.podepnijEwidencjeVat(1)}" global="false" update="formwpisdokument:panelzewidencjavat"
                                                  onfocus="focusNowyVAT(event, this);" rendered="#{item.ewidencja.nazwa.contains('sprzedaż') ne true}"/>
                             </p:column>
                             <p:column style="width: 20px; text-align: center;" rendered="#{!item.nieduplikuj}">
@@ -731,9 +731,9 @@
                                  update=":parametry, :formwpisdokument:dataList" 
                                  oncomplete="pokazwybortransakcji();"/>
                 <p:commandButton id="cechadokumentu" value="CechyDok(V)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" 
-                                 onclick="PF('dialogCechyDokumentu').show();" accesskey="v" 
+                                 onclick="PF('dialogCechyDokumentu').show();" accesskey="v" update="formCH"
                                  global="false"/>
-                <p:commandButton id="cechazapisu" value="CechyZap(C)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" 
+                <p:commandButton id="cechazapisu" value="CechyZap(C)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" update="formCHW"
                                  actionListener="#{dokfkView.wybranoStronaWierszaCecha()}" accesskey="c" oncomplete="PF('dialogCechyStronaWiersza').show();"
                                  global="false"/>
                 <p:commandButton id="kwotywpl" value="zmiana waluty" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" global="false"

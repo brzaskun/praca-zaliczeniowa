@@ -310,7 +310,8 @@ public class FakturaView implements Serializable {
     
      public void przygotujfakturekorekte() {
         resetujoznaczeniefakur();
-        fakturaxxl = true;
+        fakturazwykla = true;
+        fakturakorekta = true;
         inicjalizacjaczesciwspolne();
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
@@ -324,6 +325,7 @@ public class FakturaView implements Serializable {
     public void przygotujfakturekorektexxl() {
         resetujoznaczeniefakur();
         fakturaxxl = true;
+        fakturakorekta = true;
         inicjalizacjaczesciwspolne();
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));

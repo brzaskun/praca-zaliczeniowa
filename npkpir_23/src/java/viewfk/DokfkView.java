@@ -617,7 +617,8 @@ public class DokfkView implements Serializable {
                             this.selected.getEwidencjaVAT().add(pierwszaewid);
                         }
                     }
-                    RequestContext.getCurrentInstance().update("formwpisdokument:panelzewidencjavat");
+                    //niepotrzebne renderuje 15 razy
+                    //RequestContext.getCurrentInstance().update("formwpisdokument:panelzewidencjavat");
             } else {
                 this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
             }
@@ -2075,7 +2076,7 @@ public class DokfkView implements Serializable {
                 for (Cechazapisu c : cechyuzyte) {
                     pobranecechypodatnik.remove(c);
                 }
-                RequestContext.getCurrentInstance().update("formCHW");
+                //RequestContext.getCurrentInstance().update("formCHW");
             }
         }
     }
@@ -2772,7 +2773,6 @@ public class DokfkView implements Serializable {
                     pobranecechypodatnik.remove(c);
                 }
             }
-            RequestContext.getCurrentInstance().update("formCH");
         }
     }
 
