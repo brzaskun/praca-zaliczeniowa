@@ -180,7 +180,7 @@
                             </f:facet>
                             <p:inputNumber id="kwotarozliczenia" value="#{iteracja.kwotatransakcji}" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" 
                                             decimalPlaces="2" minValue="-10000000" emptyValue="sign"  readonly="#{iteracja.czymoznaedytowac()}"
-                                            styleClass="kwotarozrachunku" onfocus="doklejfocuswprowadzonych(this)">
+                                            styleClass="kwotarozrachunku" onfocus="doklejfocuswprowadzonych(this)" size="13">
                                 <p:ajax event="blur" listener="#{dokfkView.przetworzwprowadzonakwote(iteracja, row)}" partialSubmit="true" global="false"
                                         update=":rozrachunki:dataList:#{row}:pozostaloWn :rozrachunki:dataList:#{row}:roznicakursowa :rozrachunki:juzrozliczono :rozrachunki:pozostalodorozliczenia"/>
                                 <p:ajax event="blur" global="false" listener="#{dokfkView.sprawdzlimity(iteracja, row)}"/>

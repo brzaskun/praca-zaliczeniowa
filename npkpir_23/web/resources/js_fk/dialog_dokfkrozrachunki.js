@@ -198,81 +198,83 @@ var doklejfocuswprowadzonych = function (e) {
 
 //sluszy do sumowania wprowadzonych kwot czy nie przekraczaja limitu i czy indywidualnie nie przekraczaja limitu w wierszu
 var doklejsumowaniewprowadzonych = function () {
-    r("rozrachunki:dataList").find("input").change(function () {
+    r("rozrachunki:dataList").find("input").blur(function () {
         var wprowadzonowpole = $(this).val();
+        var kwotaplatnosci = zrobFloat(wprowadzonowpole);
         var starawartosc = zrobFloat($(this).data('oldvalue'));
         var rozliczeniebiezace = zrobFloat(r('rozrachunki:rozliczeniebiezace').text());
-        r("rozrachunki:zapiszrozrachunekButton").show();
-        setTonormal(this);
-        var numerwiersza = lp(this);
-        if (wprowadzonowpole === "") {
-            uzupelnijpustepole(numerwiersza);
-            wprowadzonowpole = 0.0;
-        }
-        var walutarachunki = pobierzwaluta(numerwiersza);
-        var kurs = pobierzkurs(numerwiersza);
-        var wierszrachunekpozostalo = "rozrachunki:dataList:" + numerwiersza + ":pozostaloWn";
-        var kwotarachunekpozostalo = zrobFloat(r(wierszrachunekpozostalo).text());
-        if (isNaN(kwotarachunekpozostalo) === true) {
-            wierszrachunekpozostalo = "rozrachunki:dataList:" + numerwiersza + ":pozostaloMa";
-            kwotarachunekpozostalo = zrobFloat(r(wierszrachunekpozostalo).text());
-        }
-        //dopuszczalny margines dla nadplat bo platnosc w walucie
-        var kwotarachunekpozostalowPLN = kwotarachunekpozostalo;
-        if (walutarachunki !== "PLN") {
-            kwotarachunekpozostalowPLN = kwotarachunekpozostalo * kurs + kwotarachunekpozostalo * .2;
-        }
-        setTonormal(wierszrachunekpozostalo);
-        var wierszTransakcjaRozliczajaca = "rozrachunki:pozostalodorozliczenia";
-        setTonormal(wierszTransakcjaRozliczajaca);
-        var kwotaplatnosci = zrobFloat(wprowadzonowpole);
-        var walutaplatnosci = r("rozrachunki:walutarozliczajacego").text();
-        var kwotaplatnosciwPLN = kwotaplatnosci;
-        if (walutaplatnosci !== "PLN" && walutarachunki === "PLN") {
-            var kursplatnosci = parseFloat(r("rozrachunki:kursrozliczajacego").text());
-            kwotaplatnosciwPLN = kwotaplatnosci * kursplatnosci - kwotarachunekpozostalo * 0.2;
-        }
-        var _jednak_nie_odslaniaj;
-        if (kwotaplatnosciwPLN > kwotarachunekpozostalowPLN) {
-            if (kwotarachunekpozostalo === 0) {
-                setToOther(wierszrachunekpozostalo,"normal","green");
-                _jednak_nie_odslaniaj = false;
-            } else {
-                setToOther(wierszrachunekpozostalo,"900","red");
-                r("rozrachunki:zapiszrozrachunekButton").hide();
-                _jednak_nie_odslaniaj = true;
+        if (starawartosc !== kwotaplatnosci) {
+            r("rozrachunki:zapiszrozrachunekButton").show();
+            setTonormal(this);
+            var numerwiersza = lp(this);
+            if (wprowadzonowpole === "") {
+                uzupelnijpustepole(numerwiersza);
+                wprowadzonowpole = 0.0;
             }
-        }
-        if (wprowadzonowpole === " zł") {
-            if (kwotarachunekpozostalo >= MYAPP.limit) {
-                $(this).val(MYAPP.limit);
-            } else {
-                $(this).val(kwotarachunekpozostalo);
+            var walutarachunki = pobierzwaluta(numerwiersza);
+            var kurs = pobierzkurs(numerwiersza);
+            var wierszrachunekpozostalo = "rozrachunki:dataList:" + numerwiersza + ":pozostaloWn";
+            var kwotarachunekpozostalo = zrobFloat(r(wierszrachunekpozostalo).text());
+            if (isNaN(kwotarachunekpozostalo) === true) {
+                wierszrachunekpozostalo = "rozrachunki:dataList:" + numerwiersza + ":pozostaloMa";
+                kwotarachunekpozostalo = zrobFloat(r(wierszrachunekpozostalo).text());
             }
-        }
-        var dorozliczenia = zrobFloat(r('rozrachunki:dorozliczenia').text());
-        var juzrozliczono = zrobFloat(r('rozrachunki:juzrozliczono').text());
-        rozliczeniebiezace = zrobFloat(r('rozrachunki:rozliczeniebiezace').text());
-        var kwotarozliczeniabiezacego = rozliczeniebiezace+kwotaplatnosci-starawartosc;
-        r("rozrachunki:rozliczeniebiezace").text(zamien_na_waluta(kwotarozliczeniabiezacego));
-        var kwotarozliczenia = juzrozliczono+rozliczeniebiezace+kwotaplatnosci-starawartosc;
-        r("rozrachunki:pozostalodorozliczenia").text(zamien_na_waluta(dorozliczenia - kwotarozliczenia));
-        //
-        MYAPP.limit = (dorozliczenia - kwotarozliczenia).round(2);
-        if (MYAPP.limit < 0) {
-            setToOther(wierszTransakcjaRozliczajaca,"900","red");
-            r("rozrachunki:zapiszrozrachunekButton").hide();
-        } else {
+            //dopuszczalny margines dla nadplat bo platnosc w walucie
+            var kwotarachunekpozostalowPLN = kwotarachunekpozostalo;
+            if (walutarachunki !== "PLN") {
+                kwotarachunekpozostalowPLN = kwotarachunekpozostalo * kurs + kwotarachunekpozostalo * .2;
+            }
+            setTonormal(wierszrachunekpozostalo);
+            var wierszTransakcjaRozliczajaca = "rozrachunki:pozostalodorozliczenia";
             setTonormal(wierszTransakcjaRozliczajaca);
-            //inaczej odslania button zapisu nawet jak kwota wprowadzona jest wieksza od tej po prawej
-            if (_jednak_nie_odslaniaj === false) {
-                r("rozrachunki:zapiszrozrachunekButton").show();
+            var walutaplatnosci = r("rozrachunki:walutarozliczajacego").text();
+            var kwotaplatnosciwPLN = kwotaplatnosci;
+            if (walutaplatnosci !== "PLN" && walutarachunki === "PLN") {
+                var kursplatnosci = parseFloat(r("rozrachunki:kursrozliczajacego").text());
+                kwotaplatnosciwPLN = kwotaplatnosci * kursplatnosci - kwotarachunekpozostalo * 0.2;
             }
-        }
-        $(this).css("color", "green");
-        if (MYAPP.limit === 0.0) {
-            r("rozrachunki:zapiszrozrachunekButton").focus();
-            r("rozrachunki:zapiszrozrachunekButton").select();
+            var _jednak_nie_odslaniaj;
+            if (kwotaplatnosciwPLN > kwotarachunekpozostalowPLN) {
+                if (kwotarachunekpozostalo === 0) {
+                    setToOther(wierszrachunekpozostalo,"normal","green");
+                    _jednak_nie_odslaniaj = false;
+                } else {
+                    setToOther(wierszrachunekpozostalo,"900","red");
+                    r("rozrachunki:zapiszrozrachunekButton").hide();
+                    _jednak_nie_odslaniaj = true;
+                }
+            }
+            if (wprowadzonowpole === " zł") {
+                if (kwotarachunekpozostalo >= MYAPP.limit) {
+                    $(this).val(MYAPP.limit);
+                } else {
+                    $(this).val(kwotarachunekpozostalo);
+                }
+            }
+            var dorozliczenia = zrobFloat(r('rozrachunki:dorozliczenia').text());
+            var juzrozliczono = zrobFloat(r('rozrachunki:juzrozliczono').text());
+            rozliczeniebiezace = zrobFloat(r('rozrachunki:rozliczeniebiezace').text());
+            var kwotarozliczeniabiezacego = rozliczeniebiezace+kwotaplatnosci-starawartosc;
+            r("rozrachunki:rozliczeniebiezace").text(zamien_na_waluta(kwotarozliczeniabiezacego));
+            var kwotarozliczenia = juzrozliczono+rozliczeniebiezace+kwotaplatnosci-starawartosc;
+            r("rozrachunki:pozostalodorozliczenia").text(zamien_na_waluta(dorozliczenia - kwotarozliczenia));
+            //
+            MYAPP.limit = (dorozliczenia - kwotarozliczenia).round(2);
+            if (MYAPP.limit < 0) {
+                setToOther(wierszTransakcjaRozliczajaca,"900","red");
+                r("rozrachunki:zapiszrozrachunekButton").hide();
+            } else {
+                setTonormal(wierszTransakcjaRozliczajaca);
+                //inaczej odslania button zapisu nawet jak kwota wprowadzona jest wieksza od tej po prawej
+                if (_jednak_nie_odslaniaj === false) {
+                    r("rozrachunki:zapiszrozrachunekButton").show();
+                }
+            }
+            $(this).css("color", "green");
+            if (MYAPP.limit === 0.0) {
+                r("rozrachunki:zapiszrozrachunekButton").focus();
+                r("rozrachunki:zapiszrozrachunekButton").select();
+            }
         }
     });
 };
