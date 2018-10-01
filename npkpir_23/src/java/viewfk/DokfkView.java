@@ -2119,15 +2119,15 @@ public class DokfkView implements Serializable {
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
             oznaczJakoPlatnosc();
             RequestContext.getCurrentInstance().update("parametry");
-            RequestContext.getCurrentInstance().update("formcheckbox");
+            //RequestContext.getCurrentInstance().update("formcheckbox");
         }
         //nowa transakcja
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 1) {
             biezacetransakcje = tworzenieTransakcjiRachunek(wnmadoprzeniesienia, aktualnyWierszDlaRozrachunkow);
-            RequestContext.getCurrentInstance().update("formcheckbox");
-            RequestContext.getCurrentInstance().update("rozrachunki");
+            //RequestContext.getCurrentInstance().update("formcheckbox");
+            //RequestContext.getCurrentInstance().update("rozrachunki");
             RequestContext.getCurrentInstance().update("dialogdrugi");
-            RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
+            //RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
             //platnosc
         } else if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 2) {
             biezacetransakcje = tworzenieTransakcjiPlatnosc(wnmadoprzeniesienia, aktualnyWierszDlaRozrachunkow);
