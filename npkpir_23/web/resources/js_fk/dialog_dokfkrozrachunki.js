@@ -149,13 +149,12 @@ var znadzpasujacepolerozrachunku2 = function () {
                         }
                     }
                     $(document.getElementById(dopasowanywiersz)).keyup();
-                    $(document.getElementById(dopasowanywiersz)).change();
+                    $(document.getElementById(dopasowanywiersz)).blur();
                     $(document.getElementById(dopasowanywiersz)).select();
                 }
             } else {
                 dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
                 $(document.getElementById(dopasowanywiersz)).focus();
-                $(document.getElementById(dopasowanywiersz)).change();
                 $(document.getElementById(dopasowanywiersz)).select();
             }
         } catch (el) {
