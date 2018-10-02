@@ -264,6 +264,7 @@ public class Vat7DKView implements Serializable {
                 if (niesprawdzajpoprzednichdeklaracji || wymusozmnaczeniejakokorekte) {
                     int p = przeniesieniezpoprzedniejdeklaracji == null? 0 : przeniesieniezpoprzedniejdeklaracji;
                     przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(p);
+                    naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+p);
                     Msg.msg("w", "Nie pobieram kwoty do przeniesienia z poprzednich deklaracji. Wprowadź ją ręcznie.");
                 } else {
                     Deklaracjevat deklaracjaPopMc = bylajuzdeklaracjawpoprzednimmiesiacu(rok,mc);
