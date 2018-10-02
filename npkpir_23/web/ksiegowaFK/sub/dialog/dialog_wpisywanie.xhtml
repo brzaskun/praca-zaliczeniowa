@@ -537,7 +537,7 @@
                             <p:inputNumber   id="wn" value="#{wploop.stronaWn.kwota}" 
                                             style="text-align: right; margin-left: auto; margin-right: auto; width: 80px; color: red;" 
                                             rendered="#{wploop.stronaWn != null}" onfocus="kalkulator_pobierzwiersz(this);"
-                                            symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" size="13" 
+                                            symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" size="12" 
                                             decimalPlaces="2" minValue="-10000000" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}"
                                             readonly="#{wploop.stronaWn.typStronaWiersza ne 0}"
                                             valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaWn}">
@@ -548,7 +548,7 @@
                         <p:column headerText="kwota PLN" style="text-align: center; width: 50px;" rendered="#{dokfkView.pokazzapisywzlotowkach == true}">
                             <p:inputNumber   id="wnpln" value="#{wploop.stronaWn.kwotaPLN}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
                                             rendered="#{wploop.stronaWn != null}" 
-                                            symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-10000000" styleClass="kasa"
+                                            symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" size="12" decimalPlaces="2" minValue="-10000000" styleClass="kasa"
                                             
                                             >
                                 
@@ -585,7 +585,7 @@
                         <p:column headerText="#{mgs.kwota}" style="text-align: center; width: 50px;" width="50" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
                             <p:inputNumber   id="ma" value="#{wploop.stronaMa.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
                                             rendered="#{wploop.stronaMa != null}" onfocus="kalkulator_pobierzwiersz(this);"
-                                            symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-10000000" styleClass="kasa"
+                                            symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" size="12" decimalPlaces="2" minValue="-10000000" styleClass="kasa"
                                             readonly="#{wploop.stronaMa.typStronaWiersza ne 0}"
                                             valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaMa}">
                                 <p:ajax global="false" event="change" partialSubmit="true"  />
@@ -597,7 +597,7 @@
                             <p:inputNumber   id="mapln" value="#{wploop.stronaMa.kwotaPLN}" 
                                             style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
                                             rendered="#{wploop.stronaMa != null}"
-                                            symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-10000000" styleClass="kasa"
+                                            symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" size="12" decimalPlaces="2" minValue="-10000000" styleClass="kasa"
                                             
                                             >
                                 

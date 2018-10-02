@@ -81,36 +81,45 @@ var TabKeyDown;
                     var kursplatnosci = zrobFloat((r("rozrachunki:kursrozliczajacego").text()));
                     var kursrachunku = pobierzkurs(taregetId.split(":")[2]);
                     var walutarachunku = pobierzwaluta(taregetId.split(":")[2]);
-                    var limit = zrobFloat($(document.getElementById('rozrachunki:pozostalodorozliczenia')).text());
+                    var limitplatnosci = zrobFloat($(document.getElementById('rozrachunki:pozostalodorozliczenia')).text());
                     if (walutaplatnosci==="PLN" && kursrachunku !== 0.0) {
-                        limit = (limit/kursrachunku);
-                        limit = limit.round(2);
+                        limitplatnosci = (limitplatnosci/kursrachunku);
+                        limitplatnosci = limitplatnosci.round(2);
                     } else if (walutarachunku==="PLN" && walutaplatnosci!=="PLN") {
-                        limit = (limit*kursplatnosci);
-                        limit = limit.round(2);
+                        limitplatnosci = (limitplatnosci*kursplatnosci);
+                        limitplatnosci = limitplatnosci.round(2);
+                    } else if (walutarachunku!=="PLN" && walutaplatnosci!=="PLN") {
+                        var limitplatnosciwpln =  limitplatnosci*kursplatnosci;
+                        limitplatnosci = limitplatnosciwpln/kursrachunku;
+                        limitplatnosci = limitplatnosci.round(2);
                     }
-                    if (limit > 0) {
+                    if (limitplatnosci > 0) {
                         var i = "rozrachunki:dataList:" + index + ":pozostaloWn";
                         var i_obj = document.getElementById(i);
-                        var wartosc = i_obj.innerText.replace(/\s+/g, '');
-                        wartosc = wartosc.replace(",", ".");
-                        wartosc = parseFloat(wartosc);
+                        var limitrachunku = i_obj.innerText.replace(/\s+/g, '');
+                        limitrachunku = limitrachunku.replace(",", ".");
+                        limitrachunku = parseFloat(limitrachunku);
                         if (walutaplatnosci==="PLN" && kursrachunku !== 0.0) {
-                            wartosc = (wartosc*kursrachunku);
-                            wartosc = wartosc.round(2);
+                            limitrachunku = (limitrachunku*kursrachunku);
+                            limitrachunku = limitrachunku.round(2);
                         } else if (walutarachunku==="PLN" && walutaplatnosci!=="PLN") {
-                            wartosc = (wartosc/kursplatnosci);
-                            wartosc = wartosc.round(2);
+                            limitrachunku = (limitrachunku/kursplatnosci);
+                            limitrachunku = limitrachunku.round(2);
                         }
                         var kom1 = taregetId.split("_")[0]+"_input";
                         var kom2 = taregetId.split("_")[0]+"_hinput";
-                        if (wartosc <= limit) {
-                            r(kom1).val(wartosc);
-                            r(kom2).val(wartosc);
+                        if (limitrachunku <= limitplatnosci) {
+                            if (walutarachunku!=="PLN" && walutaplatnosci!=="PLN") {
+                                limitrachunku = limitrachunku*kursrachunku;
+                                limitrachunku = limitrachunku/kursplatnosci;
+                                limitrachunku = limitrachunku.round(2);
+                            }
+                            r(kom1).val(limitrachunku);
+                            r(kom2).val(limitrachunku);
                         } else {
-                            var limit = zrobFloat($(document.getElementById('rozrachunki:pozostalodorozliczenia')).text());
-                            r(kom1).val(limit);
-                            r(kom2).val(limit);
+                            var limitplatnoscidokladny = zrobFloat($(document.getElementById('rozrachunki:pozostalodorozliczenia')).text());
+                            r(kom1).val(limitplatnoscidokladny);
+                            r(kom2).val(limitplatnoscidokladny);
                         }
                     }
                 } else if (isDeleteKey(event)) {

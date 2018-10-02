@@ -88,82 +88,85 @@ var powrotDoStronyPoWyborzeRachunekPlatnosc = function () {
 //};
 
 var znadzpasujacepolerozrachunku2 = function () {
-    var kwota = zrobFloat(r("rozrachunki:pozostalodorozliczenia")[0].innerText);
-    var wiersze = $(document.getElementById("rozrachunki:dataList_data")).children("tr");
-    var opisy = new Array();
-    var sumarozliczonych = 0.0;
-    var dlwiersze = wiersze.size();
-    if (dlwiersze > 0) {
-        try {//moze sie zdarzyc ze nie bedzie nic
-            for (var i = 0; i < dlwiersze; i++) {
-                var trescwiersza = $(wiersze[i]).children("td");
-                opisy[i] = trescwiersza[3].innerText;
-                var linijka = "rozrachunki:dataList:" + i + ":kwotarozliczenia_input";
-                sumarozliczonych += zrobFloat(r(linijka).val());
-            }
-            //uzupelniamy tylko wtedy jak inne pola sa puste. inaczej przy edycji bedzie gupota
-            if (sumarozliczonych === 0) {
-                var opisaktualnyrorachunek = (document.getElementById("rozrachunki:opiswierszaaktualnyrozrachunek").textContent).toLocaleLowerCase();
-                var dl = opisy.length;
-                var gdzieszukac = -1;
-                for (var i = 0; i < dl; i++) {
-                    var opisbiezacy = opisy[i];
-                    var opisbiezacyLC = (opisbiezacy.toLocaleString()).toLowerCase();
-                    var znaleziono = opisaktualnyrorachunek.indexOf(opisbiezacyLC);
-                    if (znaleziono > -1) {
-                        gdzieszukac = i;
-                        break;
-                    }
-                }
-                if (gdzieszukac > -1) {
-                    var dopasowanywiersz = "rozrachunki:dataList:" + gdzieszukac + ":nrwlasnydok";
-                    $(document.getElementById(dopasowanywiersz)).css("color", "green");
-                    $(document.getElementById(dopasowanywiersz)).css("background-color", "#FFFFB4");
-                    $(document.getElementById(dopasowanywiersz)).css("font-weight", "bold");
-                    dopasowanywiersz = "rozrachunki:dataList:" + gdzieszukac + ":kwotarozliczenia_input";
-                    var dopasowanywierszH = "rozrachunki:dataList:" + gdzieszukac + ":kwotarozliczenia_hinput";
-                    $(document.getElementById(dopasowanywiersz)).css("color", "green");
-                    $(document.getElementById(dopasowanywiersz)).css("background-color", "#FFFFB4");
-                    $(document.getElementById(dopasowanywiersz)).css("font-weight", "bold");
-                    var zastanakwota = $(document.getElementById(dopasowanywiersz)).val();
-                    if (zastanakwota === "0.00") {
-                        $(document.getElementById(dopasowanywiersz)).val(kwota);
-                        $(document.getElementById(dopasowanywierszH)).val(kwota);
-                    }
-                    $(document.getElementById(dopasowanywiersz)).keyup();
-                    //change musi byc bo inaczej n ie przelicza rownic kursowych
-                    $(document.getElementById(dopasowanywiersz)).change();
-                    $(document.getElementById(dopasowanywiersz)).select();
-                } else {
-                    dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
-                    dopasowanywierszH = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_hinput";
-                    var zastanakwota = $(document.getElementById(dopasowanywiersz)).val();
-                    if (zastanakwota === "0.00" && dlwiersze === 1) {
-                        var dorozliczenia = zrobFloat(document.getElementById("rozrachunki:dataList:0:pozostaloWn").innerText);
-                        if (kwota < dorozliczenia) {
-                            $(document.getElementById(dopasowanywiersz)).val(kwota);
-                            $(document.getElementById(dopasowanywierszH)).val(kwota);
-                        } else {
-                            $(document.getElementById(dopasowanywiersz)).val(dorozliczenia);
-                            $(document.getElementById(dopasowanywierszH)).val(dorozliczenia);
-                        }
-                    }
-                    $(document.getElementById(dopasowanywiersz)).keyup();
-                    $(document.getElementById(dopasowanywiersz)).blur();
-                    $(document.getElementById(dopasowanywiersz)).select();
-                }
-            } else {
-                dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
-                $(document.getElementById(dopasowanywiersz)).focus();
-                $(document.getElementById(dopasowanywiersz)).select();
-            }
-        } catch (el) {
-            dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
-            $(document.getElementById(dopasowanywiersz)).keyup();
-            $(document.getElementById(dopasowanywiersz)).change();
+//    var kwota = zrobFloat(r("rozrachunki:pozostalodorozliczenia")[0].innerText);
+//    var wiersze = $(document.getElementById("rozrachunki:dataList_data")).children("tr");
+//    var opisy = new Array();
+//    var sumarozliczonych = 0.0;
+//    var dlwiersze = wiersze.size();
+//    if (dlwiersze > 0) {
+//        try {//moze sie zdarzyc ze nie bedzie nic
+//            for (var i = 0; i < dlwiersze; i++) {
+//                var trescwiersza = $(wiersze[i]).children("td");
+//                opisy[i] = trescwiersza[3].innerText;
+//                var linijka = "rozrachunki:dataList:" + i + ":kwotarozliczenia_input";
+//                sumarozliczonych += zrobFloat(r(linijka).val());
+//            }
+//            //uzupelniamy tylko wtedy jak inne pola sa puste. inaczej przy edycji bedzie gupota
+//            if (sumarozliczonych === 0) {
+//                var opisaktualnyrorachunek = (document.getElementById("rozrachunki:opiswierszaaktualnyrozrachunek").textContent).toLocaleLowerCase();
+//                var dl = opisy.length;
+//                var gdzieszukac = -1;
+//                for (var i = 0; i < dl; i++) {
+//                    var opisbiezacy = opisy[i];
+//                    var opisbiezacyLC = (opisbiezacy.toLocaleString()).toLowerCase();
+//                    var znaleziono = opisaktualnyrorachunek.indexOf(opisbiezacyLC);
+//                    if (znaleziono > -1) {
+//                        gdzieszukac = i;
+//                        break;
+//                    }
+//                }
+//                if (gdzieszukac > -1) {
+//                    var dopasowanywiersz = "rozrachunki:dataList:" + gdzieszukac + ":nrwlasnydok";
+//                    $(document.getElementById(dopasowanywiersz)).css("color", "green");
+//                    $(document.getElementById(dopasowanywiersz)).css("background-color", "#FFFFB4");
+//                    $(document.getElementById(dopasowanywiersz)).css("font-weight", "bold");
+//                    dopasowanywiersz = "rozrachunki:dataList:" + gdzieszukac + ":kwotarozliczenia_input";
+//                    var dopasowanywierszH = "rozrachunki:dataList:" + gdzieszukac + ":kwotarozliczenia_hinput";
+//                    $(document.getElementById(dopasowanywiersz)).css("color", "green");
+//                    $(document.getElementById(dopasowanywiersz)).css("background-color", "#FFFFB4");
+//                    $(document.getElementById(dopasowanywiersz)).css("font-weight", "bold");
+//                    var zastanakwota = $(document.getElementById(dopasowanywiersz)).val();
+//                    if (zastanakwota === "0.00") {
+//                        $(document.getElementById(dopasowanywiersz)).val(kwota);
+//                        $(document.getElementById(dopasowanywierszH)).val(kwota);
+//                    }
+//                    $(document.getElementById(dopasowanywiersz)).keyup();
+//                    //change musi byc bo inaczej n ie przelicza rownic kursowych
+//                    $(document.getElementById(dopasowanywiersz)).change();
+//                    $(document.getElementById(dopasowanywiersz)).select();
+//                } else {
+//                    dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
+//                    dopasowanywierszH = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_hinput";
+//                    var zastanakwota = $(document.getElementById(dopasowanywiersz)).val();
+//                    if (zastanakwota === "0.00" && dlwiersze === 1) {
+//                        var dorozliczenia = zrobFloat(document.getElementById("rozrachunki:dataList:0:pozostaloWn").innerText);
+//                        if (kwota < dorozliczenia) {
+//                            $(document.getElementById(dopasowanywiersz)).val(kwota);
+//                            $(document.getElementById(dopasowanywierszH)).val(kwota);
+//                        } else {
+//                            $(document.getElementById(dopasowanywiersz)).val(dorozliczenia);
+//                            $(document.getElementById(dopasowanywierszH)).val(dorozliczenia);
+//                        }
+//                    }
+//                    $(document.getElementById(dopasowanywiersz)).keyup();
+//                    $(document.getElementById(dopasowanywiersz)).blur();
+//                    $(document.getElementById(dopasowanywiersz)).select();
+//                }
+//            } else {
+//                dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
+//                $(document.getElementById(dopasowanywiersz)).focus();
+//                $(document.getElementById(dopasowanywiersz)).select();
+//            }
+//        } catch (el) {
+//            dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
+//            $(document.getElementById(dopasowanywiersz)).keyup();
+//            $(document.getElementById(dopasowanywiersz)).change();
+//            $(document.getElementById(dopasowanywiersz)).select();
+//        }
+//    }
+            var dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
+            $(document.getElementById(dopasowanywiersz)).focus();
             $(document.getElementById(dopasowanywiersz)).select();
-        }
-    }
 
 };
 
