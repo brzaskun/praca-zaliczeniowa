@@ -82,7 +82,9 @@ var TabKeyDown;
                     var kursrachunku = pobierzkurs(taregetId.split(":")[2]);
                     var walutarachunku = pobierzwaluta(taregetId.split(":")[2]);
                     var limitplatnosci = zrobFloat($(document.getElementById('rozrachunki:pozostalodorozliczenia')).text());
-                    if (walutaplatnosci==="PLN" && kursrachunku !== 0.0) {
+                    if (walutaplatnosci===walutarachunku) {
+                        //nie zmieniaj limitu
+                    } else if (walutaplatnosci==="PLN" && kursrachunku !== 0.0) {
                         limitplatnosci = (limitplatnosci/kursrachunku);
                         limitplatnosci = limitplatnosci.round(2);
                     } else if (walutarachunku==="PLN" && walutaplatnosci!=="PLN") {
@@ -109,7 +111,9 @@ var TabKeyDown;
                         var kom1 = taregetId.split("_")[0]+"_input";
                         var kom2 = taregetId.split("_")[0]+"_hinput";
                         if (limitrachunku <= limitplatnosci) {
-                            if (walutarachunku!=="PLN" && walutaplatnosci!=="PLN") {
+                            if (walutaplatnosci===walutarachunku) {
+                              //nie zmieniaj limitu
+                            } else if (walutarachunku!=="PLN" && walutaplatnosci!=="PLN") {
                                 limitrachunku = limitrachunku*kursrachunku;
                                 limitrachunku = limitrachunku/kursplatnosci;
                                 limitrachunku = limitrachunku.round(2);
