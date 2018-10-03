@@ -131,7 +131,7 @@
             <p:remoteCommand name="przeliczfilter" actionListener="#{fakturaRozrachunkiView.sumuj}" update="@form"/>
                 <p:dataTable value="#{fakturaRozrachunkiView.wprowadzoneplatnosci}" var="item" style="width: 1170px; margin-top: 20px; overflow-y: scroll; height: 500px;"
                              emptyMessage="niczego dzisiaj nie zaksięgowano"  sortOrder="descending" filteredValue="#{fakturaRozrachunkiView.wprowadzoneplatnoscifiltered}"
-                             editable="true" widgetVar="form_wprowadzoneplatnosci" sortBy="#{item.data}">
+                             editable="true" widgetVar="form_wprowadzoneplatnosci" sortBy="#{item.lp}">
                     <p:ajax event="rowEdit" listener="#{fakturaRozrachunkiView.onRowEdit}" />
                     <p:ajax event="filter" global="false" oncomplete="przeliczfilter();"/>
                     <p:column width="30" sortBy="#{item.lp}" sortable="true">
