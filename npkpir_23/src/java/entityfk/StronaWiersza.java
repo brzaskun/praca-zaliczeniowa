@@ -119,13 +119,13 @@ public class StronaWiersza implements Serializable {
     @Column(name = "nowatransakcja")
     private boolean nowatransakcja;
     @JoinColumn(name = "idkonto", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Konto konto;
     @Column(name = "wnma")
     private String wnma;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "rozliczajacy", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "rozliczajacy", fetch = FetchType.LAZY)
     private List<Transakcja> nowetransakcje;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "nowaTransakcja", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "nowaTransakcja", fetch = FetchType.LAZY)
     private List<Transakcja> platnosci;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
