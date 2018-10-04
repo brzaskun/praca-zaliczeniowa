@@ -374,9 +374,9 @@ public class DokfkView implements Serializable {
         obsluzcechydokumentu();
         pobierzopiszpoprzedniegodokItemSelect();
         rodzajBiezacegoDokumentu = 1;
-        RequestContext.getCurrentInstance().update("formwpisdokument");
-        RequestContext.getCurrentInstance().update("wpisywaniefooter");
-        RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:data2DialogWpisywanie')).select();");
+        //RequestContext.getCurrentInstance().update("formwpisdokument");
+        //RequestContext.getCurrentInstance().update("wpisywaniefooter");
+        //RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:data2DialogWpisywanie')).select();");
     }
     
     public String charakterdokumentu (Dokfk d) {

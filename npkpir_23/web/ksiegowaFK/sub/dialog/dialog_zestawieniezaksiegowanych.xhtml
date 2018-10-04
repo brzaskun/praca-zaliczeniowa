@@ -108,7 +108,7 @@
                         <p:commandButton id="wpisujbutton" value="wpisuj"  styleClass="fkbutton" 
                                          actionListener="#{dokfkView.resetujDokument}"  rendered="#{!WpisView.rokzamkniety}"
                                          oncomplete="PF('wpisywanie').show();PF('zestawieniezaksiegowanych').hide();"
-                                         style="margin-left: 10px; width: 120px;" />
+                                         style="margin-left: 10px; width: 120px;" update="formwpisdokument wpisywaniefooter"/>
                     </p:column>
                     <p:column>
                         <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkWeryfikacjaView.sprawdzWnMawDokfk(dokfkView.wykazZaksiegowanychDokumentow)}" style="width: 120px; margin-left: 10px;" 
