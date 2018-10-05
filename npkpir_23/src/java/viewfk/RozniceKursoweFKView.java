@@ -77,11 +77,11 @@ public class RozniceKursoweFKView implements Serializable {
     
     
     public void generowanieDokumentuRRK() {
-        int nrkolejny = oblicznumerkolejny();
-        if (nrkolejny > 1) {
-            usundokumentztegosamegomiesiaca(nrkolejny);
-        }
         try {
+            int nrkolejny = oblicznumerkolejny();
+            if (nrkolejny > 1) {
+                usundokumentztegosamegomiesiaca(nrkolejny);
+            }
             Dokfk dokumentRKK = DokumentFKBean.generujdokument(wpisView, klienciDAO, "RRK", "zaksięgowanie różnicC kursowych", rodzajedokDAO, tabelanbpDAO, kontoDAOfk, pobranetransakcje, dokDAOfk);
             dokDAOfk.dodaj(dokumentRKK);
             Msg.msg("Zaksięgowano dokument RRK");

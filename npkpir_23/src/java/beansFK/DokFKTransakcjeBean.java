@@ -35,7 +35,7 @@ public class DokFKTransakcjeBean implements Serializable{
         
      //************************* jeli pobierztransakcjeJakoSparowany() == 0 to robimy jakby nie byl nowa transakcja
     public static List<StronaWiersza> pobierzStronaWierszazBazy(StronaWiersza stronaWiersza, String wnma, StronaWierszaDAO stronaWierszaDAO, TransakcjaDAO transakcjaDAO) {
-        List<StronaWiersza> listaStronaWierszazBazy = Collections.synchronizedList(new ArrayList<>());
+        List<StronaWiersza> listaStronaWierszazBazy =new ArrayList<>();
 // stare = pobiera tylko w walucie dokumentu rozliczeniowego        
 //      listaNowychRozrachunkow = stronaWierszaDAO.findStronaByKontoWnMaWaluta(stronaWiersza.getKonto(), stronaWiersza.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), stronaWiersza.getWnma());
 // nowe pobiera wszystkie waluty        
@@ -107,7 +107,7 @@ public class DokFKTransakcjeBean implements Serializable{
     }
     
     public static List<StronaWiersza> pobierzStronaWierszazDokumentu(String nrkonta, String wnma, String waluta,List<Wiersz> wiersze) {
-        List<StronaWiersza> listaNowychRozrachunkowDokument = Collections.synchronizedList(new ArrayList<>());
+        List<StronaWiersza> listaNowychRozrachunkowDokument = new ArrayList<>();
         if (wnma.equals("Wn")) {
             for (Wiersz p : wiersze) {
                 StronaWiersza r = null;
@@ -216,7 +216,7 @@ public class DokFKTransakcjeBean implements Serializable{
 
      //pomyslana jako funkcja 
     public static void naniesKwotyZTransakcjiwPowietrzu(StronaWiersza aktualnyWierszDlaRozrachunkow, List<Transakcja> biezacetransakcje, List<Wiersz> listawierszy, String stronawiersza) {
-        List<StronaWiersza> pobraneStronyWiersza = Collections.synchronizedList(new ArrayList<>());
+        List<StronaWiersza> pobraneStronyWiersza = new ArrayList<>();
         //pobieram wiersze z dokumentu do dalszych porownan
         if (stronawiersza.equals("Wn")) {
             for (Wiersz p : listawierszy) {
@@ -231,7 +231,7 @@ public class DokFKTransakcjeBean implements Serializable{
                 }
             }
         }
-        List<Transakcja> transakcjeWPowietrzu = Collections.synchronizedList(new ArrayList<>());
+        List<Transakcja> transakcjeWPowietrzu = new ArrayList<>();
         for (StronaWiersza r : pobraneStronyWiersza) {
             if (r != null) {
                 for (Transakcja u : r.getNowetransakcje()) {

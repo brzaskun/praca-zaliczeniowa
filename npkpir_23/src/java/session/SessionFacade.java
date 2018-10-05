@@ -1423,7 +1423,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<StronaWiersza> findStronaWierszaByKontoWnMa(Konto konto, String wnma) {
         try {
-            return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByStronaWierszaKonto").setParameter("konto", konto).setParameter("wnma", wnma).getResultList());
+            return em.createNamedQuery("StronaWiersza.findByStronaWierszaKonto").setParameter("konto", konto).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -1432,7 +1432,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     
     public List<StronaWiersza> findStronaWierszaByKontoOnly(Konto konto) {
         try {
-            return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoOnly").setParameter("konto", konto).getResultList());
+            return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoOnly").setParameter("konto", konto).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;

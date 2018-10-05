@@ -2170,9 +2170,9 @@ public class DokfkView implements Serializable {
 //        }
 //    }
     public List<Transakcja> tworzenieTransakcjiPlatnosc(String stronawiersza, StronaWiersza wybranastronawiersza) {
-        List<Transakcja> transakcje = Collections.synchronizedList(new ArrayList<>());
-        List<StronaWiersza> stronyWierszazDokumentu = Collections.synchronizedList(new ArrayList<>());
-        List<StronaWiersza> stronyWierszazBazy = Collections.synchronizedList(new ArrayList<>());
+        List<Transakcja> transakcje = new ArrayList<>();
+        List<StronaWiersza> stronyWierszazDokumentu = new ArrayList<>();
+        List<StronaWiersza> stronyWierszazBazy = new ArrayList<>();
         try {
             if (StronaWierszaBean.czyKontoJestRozrachunkowe(wybranastronawiersza, stronawiersza)) {
                 if (wybranastronawiersza.getKwota() < 0) {
