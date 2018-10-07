@@ -248,7 +248,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     private String syntetycznenumer;
     @Column(name = "de")
     private String de;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "kontokategoria",referencedColumnName = "id")
     private Kontokategoria kontokategoria;
     @Column(name = "wnma0wm1ma2")

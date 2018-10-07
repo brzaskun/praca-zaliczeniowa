@@ -48,12 +48,12 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
     private double vatwwalucie;
     @Column(name = "brutto")
     private double brutto;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dokid", referencedColumnName = "id")
     private Dokfk dokfk;
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     private Wiersz wiersz;
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     private Klienci klient;
     @Column(name = "datadokumentu")
     private String datadokumentu;
