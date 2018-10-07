@@ -251,17 +251,17 @@ public class DokFKTransakcjeBean implements Serializable{
 //            }
 //        }
 
-        //duplikuje transakcje i potem baza danych je odrzuca, sa sklonowane wiec dla bazy danych identyczne
-//        for (Transakcja s: transakcjeWPowietrzu) {
-//            for (Transakcja t : biezacetransakcje) {
-//                if (t.getNowaTransakcja().equals(s.getNowaTransakcja())) {
-//                    Transakcja sa = serialclone.SerialClone.clone(s);
-//                    sa.setRozliczajacy(null);
-//                    sa.setNowaTransakcja(null);
-//                    t.getNowaTransakcja().getPlatnosci().add(sa);
-//                }
-//            }
-//        }
+        for (Transakcja s: transakcjeWPowietrzu) {
+            for (Transakcja t : biezacetransakcje) {
+                if (t.getNowaTransakcja().equals(s.getNowaTransakcja())) {
+                    Transakcja sa = serialclone.SerialClone.clone(s);
+                    sa.setId(null);
+                    sa.setRozliczajacy(null);
+                    sa.setNowaTransakcja(null);
+                    t.getNowaTransakcja().getPlatnosci().add(sa);
+                }
+            }
+        }
         
     }
     
