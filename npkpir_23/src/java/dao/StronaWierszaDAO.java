@@ -71,9 +71,9 @@ public class StronaWierszaDAO extends DAO implements Serializable {
         if (pobranestronykorekty != null && pobranestronykorekty.size() > 0) {
             pobranestrony.addAll(pobranestronykorekty);
         }
-        for (StronaWiersza p : pobranestrony) {
-            sessionFacade.refresh(p);
-        }
+//        for (StronaWiersza p : pobranestrony) {
+//            sessionFacade.refresh(p);
+//        }
         return Collections.synchronizedList(pobranestrony);
     }
     

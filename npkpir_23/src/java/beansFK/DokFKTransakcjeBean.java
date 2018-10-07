@@ -40,7 +40,7 @@ public class DokFKTransakcjeBean implements Serializable{
 //      listaNowychRozrachunkow = stronaWierszaDAO.findStronaByKontoWnMaWaluta(stronaWiersza.getKonto(), stronaWiersza.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), stronaWiersza.getWnma());
 // nowe pobiera wszystkie waluty        
         listaStronaWierszazBazy = stronaWierszaDAO.findStronaByKontoWnMa(stronaWiersza.getKonto(), wnma);
-        stronaWierszaDAO.refresh(listaStronaWierszazBazy);
+        //stronaWierszaDAO.refresh(listaStronaWierszazBazy);
         if (listaStronaWierszazBazy != null && !listaStronaWierszazBazy.isEmpty()) {
             try {
                 DateFormat formatter;
@@ -250,16 +250,18 @@ public class DokFKTransakcjeBean implements Serializable{
 //                }
 //            }
 //        }
-        for (Transakcja s: transakcjeWPowietrzu) {
-            for (Transakcja t : biezacetransakcje) {
-                if (t.getNowaTransakcja().equals(s.getNowaTransakcja())) {
-                    Transakcja sa = serialclone.SerialClone.clone(s);
-                    sa.setRozliczajacy(null);
-                    sa.setNowaTransakcja(null);
-                    t.getNowaTransakcja().getPlatnosci().add(sa);
-                }
-            }
-        }
+
+        //duplikuje transakcje i potem baza danych je odrzuca, sa sklonowane wiec dla bazy danych identyczne
+//        for (Transakcja s: transakcjeWPowietrzu) {
+//            for (Transakcja t : biezacetransakcje) {
+//                if (t.getNowaTransakcja().equals(s.getNowaTransakcja())) {
+//                    Transakcja sa = serialclone.SerialClone.clone(s);
+//                    sa.setRozliczajacy(null);
+//                    sa.setNowaTransakcja(null);
+//                    t.getNowaTransakcja().getPlatnosci().add(sa);
+//                }
+//            }
+//        }
         
     }
     

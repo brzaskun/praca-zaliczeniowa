@@ -33,13 +33,13 @@ public abstract class AbstractFacade<T> {
         getEntityManager().remove(getEntityManager().merge(entity));
     }
     
-    public void refresh(T entity) {
-        getEntityManager().refresh(entity);
-    }
+//    public void refresh(T entity) {
+//        getEntityManager().refresh(entity);
+//    }
 
     public T find(Object id) {
         T ob = getEntityManager().find(entityClass, id);
-        getEntityManager().refresh(ob);
+        //getEntityManager().refresh(ob);
         return ob;
     }
 
