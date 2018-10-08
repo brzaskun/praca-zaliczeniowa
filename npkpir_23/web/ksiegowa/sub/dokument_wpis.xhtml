@@ -213,7 +213,7 @@
                     <p:column headerText="#{DokumentView.nieVatowiec ? 'kwota' : 'kwota netto*'}"  width="105">
                         <p:inputNumber id="kwotaPkpir" value="#{row.netto}" symbol="#{DokumentView.symbolWalutyNettoVat}" required="true" 
                                        requiredMessage="Brak kwoty - uzupełnij"  inputStyle="text-align: right;"
-                                        symbolPosition="s" decimalSeparator="."  decimalPlaces="2" minValue="-10000000" 
+                                       symbolPosition="s" thousandSeparator="&#160;" decimalSeparator="."  decimalPlaces="2" minValue="-10000000" 
                                         styleClass="wiersznetto" onfocus="kalkulator_pobierzwiersz(this);dolaczwyliczenieKopiowanie(event);"
                                         > 
                             <p:ajax event="blur" listener="#{DokumentView.podepnijEwidencjeVat}" global="false"
@@ -225,7 +225,7 @@
                         <p:inputNumber id="kwotaPkpir1" value="#{row.nettowaluta}" symbol=" #{DokumentView.selDokument.tabelanbp.waluta.skrotsymbolu}" required="true" 
                                         requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" 
                                         symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" 
-                                        styleClass="wiersznetto" >
+                                        styleClass="wiersznetto" thousandSeparator="&#160;" >
                             <p:ajax event="blur" listener="#{DokumentView.przewalutuj(index)}" global="false" partialSubmit="true"
                                     update="dodWiad:sumbrutto"/>
                         </p:inputNumber>
