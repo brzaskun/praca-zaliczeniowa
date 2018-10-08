@@ -80,10 +80,14 @@
                     <h:outputText value="#{wpis.dokument.opisFaktury}"  style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
                 </p:column>
                 <p:column headerText="netto" sortBy="#{wpis.dokument.nettoFakturaView}" filterBy="#{wpis.dokument.nettoFakturaView}" filterMatchMode="contains" filterStyle="display : none;" width="70">
-                    <bcf:outputpl value="#{wpis.dokument.nettoFakturaView}" />
+                    <bcf:outputpl value="#{wpis.dokument.nettoFakturaView}"/>
+                    <h:outputText value=" #{wpis.dokument.walutafaktury}" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}"/>
                 </p:column>
                 <p:column headerText="brutto" sortBy="#{wpis.dokument.bruttoFakturaView}" filterBy="#{wpis.dokument.bruttoFakturaView}" filterMatchMode="contains" filterStyle="display : none;" width="70">
-                    <bcf:outputpl value="#{wpis.dokument.bruttoFakturaView}" />
+                    <bcf:outputpl value="#{wpis.dokument.bruttoFakturaView}"/>
+                    <h:outputText value=" #{wpis.dokument.walutafaktury}" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}"/>
+                    <bcf:outputpl value="#{wpis.dokument.bruttoFakturaViewPLN}" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}"/>
+                    <h:outputText value=" PLN" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}"/>
                 </p:column>
                 <p:column headerText="01" width="20" sortBy="#{wpis.m1}">  
                     <h:outputText value="#{wpis.m1}" styleClass="#{wpis.m1 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>

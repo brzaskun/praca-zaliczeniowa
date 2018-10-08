@@ -2190,15 +2190,15 @@ public class PdfMain {
             }
             if (nazwaklasy.equals("testobjects.WierszDokfk")) {
                 WierszDokfk p = (WierszDokfk) it.next();
-                table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7, 32f));
-                table.addCell(ustawfrazeAlign(p.getDatadok(), "center", 7));
-                table.addCell(ustawfrazeAlign(p.getDataoperacji(), "center", 7));
-                table.addCell(ustawfrazeAlign(p.getIddok(), "center", 7));
-                table.addCell(ustawfrazeAlign(p.getKontrahent(), "left", 7));
-                table.addCell(ustawfrazeAlign(p.getNrwlasny(), "left", 7));
-                table.addCell(ustawfrazeAlign(p.getOpis(), "left", 7));
-                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getWartosc())), "right", 7));
-                table.addCell(ustawfrazeAlign(p.getWaluta(), "center", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8, 32f));
+                table.addCell(ustawfrazeAlign(p.getDatadok(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getDataoperacji(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getIddok(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getKontrahent(), "left", 8));
+                table.addCell(ustawfrazeAlign(p.getNrwlasny(), "left", 8));
+                table.addCell(ustawfrazeAlign(p.getOpis(), "left", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getWartosc())), "right", 8));
+                table.addCell(ustawfrazeAlign(p.getWaluta(), "center", 8));
             }
             if (nazwaklasy.equals("entityfk.StronaWiersza")) {
                 if (modyfikator == 0 || modyfikator == 1) {
