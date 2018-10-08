@@ -29,9 +29,9 @@ public class VatUe extends VatSuper implements Serializable{
     @JoinColumn(name = "deklaracjavatUE", referencedColumnName = "id")
     @ManyToOne(cascade = CascadeType.ALL)
     private DeklaracjavatUE deklaracjavatUE;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "vatUe")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "vatUe")
     private List<Dok> zawiera;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "vatUe")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "vatUe")
     private List<Dokfk> zawierafk;
     @JoinColumn(name = "vies", referencedColumnName = "lp")
     @OneToOne(mappedBy = "vatue", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)

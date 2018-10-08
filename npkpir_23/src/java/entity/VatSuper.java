@@ -61,9 +61,9 @@ public class VatSuper implements Serializable{
     protected String rok;
     
     
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "vatUe")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "vatUe")
     protected List<Dok> zawiera;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "vatUe")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "vatUe")
     protected List<Dokfk> zawierafk;
     
     @Column(name = "korekta")
