@@ -2009,7 +2009,7 @@ public class DokfkView implements Serializable {
                 String wnma = wybranastronawiersza.getWnma();
                 wnmadoprzeniesienia = wybranastronawiersza.getWnma();
                 if (wybranastronawiersza.getKonto() != null && wybranastronawiersza.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
-                    biezacetransakcje = Collections.synchronizedList(new ArrayList<>());
+                    biezacetransakcje = new ArrayList<>();
                     aktualnyWierszDlaRozrachunkow = wybranastronawiersza;
                     potraktujjakoNowaTransakcje = selected.getRodzajedok().getKategoriadokumentu() == 0 ? false : true;
                     rodzaj = wybranastronawiersza.getTypStronaWiersza();
@@ -2193,6 +2193,14 @@ public class DokfkView implements Serializable {
                 double saWartosciWprowadzone = 0.0;
                 for (Transakcja p : transakcje) {
                     saWartosciWprowadzone += p.getKwotatransakcji();
+                }
+                for (Iterator<Transakcja> it= transakcje.iterator();it.hasNext();) {
+                    Transakcja d = it.next();
+                    for (Transakcja p : transakcje) {
+                        if (d.equals(p)) {
+                            it.remove();
+                        }
+                    }
                 }
                 wybranastronawiersza.setRozliczeniebiezace(Z.z(saWartosciWprowadzone));
                 if (saWartosciWprowadzone > 0) {

@@ -171,7 +171,6 @@ public class Transakcja  implements Serializable {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 71 * hash + Objects.hashCode(this.id);
         hash = 71 * hash + Objects.hashCode(this.rozliczajacy);
         hash = 71 * hash + Objects.hashCode(this.nowaTransakcja);
         return hash;
@@ -189,9 +188,6 @@ public class Transakcja  implements Serializable {
             return false;
         }
         final Transakcja other = (Transakcja) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
         if (!Objects.equals(this.rozliczajacy, other.rozliczajacy)) {
             return false;
         }
