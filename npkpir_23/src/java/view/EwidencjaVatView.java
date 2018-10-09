@@ -231,7 +231,7 @@ public class EwidencjaVatView implements Serializable {
             if (pobierzmiesiacdlajpk) {
                 vatokres = 1;
             }
-            if (wpisView.sprawdzczyue()) {
+            if (wpisView.sprawdzczyue() && vatokres==0) {
                 vatokres = 1;
             }
             pobierzEVATwpis1zaOkres(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
