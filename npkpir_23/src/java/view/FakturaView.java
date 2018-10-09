@@ -873,6 +873,18 @@ public class FakturaView implements Serializable {
             RequestContext.getCurrentInstance().execute(nazwafunkcji);
         }
     }
+    
+    public void odksieguj(List<Faktura> lista) {
+        if (!lista.isEmpty()) {
+            for (Faktura p : lista) {
+                p.setZaksiegowana(true);
+                fakturaDAO.edit(p);
+                fakturyarchiwum.remove(p);
+                faktury.add(p);
+            }
+            Msg.msg("i", "Dokumenty odksięgowane");
+        }
+    }
 
     public void zaksieguj(List<Faktura> lista) throws Exception {
         if (wpisView.getPodatnikObiekt().getFirmafk() == 1) {

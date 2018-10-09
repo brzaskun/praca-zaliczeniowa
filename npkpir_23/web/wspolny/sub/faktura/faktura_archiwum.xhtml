@@ -158,8 +158,9 @@
             </p:dataTable>
             <p:contextMenu for="dokumentyArchiwum">
                  <p:menuitem value="Drukuj" update=":form1:messages" actionListener="#{fakturaView.pdffakturaarch()}" icon="ui-icon-print" />
-                <p:menuitem value="Mail do kontr." update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.mailfaktura()}" >
+                <p:menuitem value="Mail do kontr." update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.mailfaktura(fakturaView.gosciwybralarchiuwm)}" >
                 </p:menuitem>
+                <p:menuitem value="Wyksieguj" update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" actionListener="#{fakturaView.odksieguj(fakturaView.gosciwybralarchiuwm)}" icon="ui-icon-locked" rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
                 <p:menuitem value="Duplikat" actionListener="#{fakturaDuplikatView.generujduplikat(fakturaView.gosciwybralarchiuwm)}" icon="ui-icon-copy"  update=":akordeon:formarchiwum:dokumentyArchiwum :form1:messages"/>
                 <p:menuitem value="Okresowa" update=":form1:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa(fakturaView.gosciwybralarchiuwm)}"/>
                 <p:menuitem value="Usuń wybrane" update=":akordeon:formarchiwum:dokumentyArchiwum" actionListener="#{fakturaView.destroyarchiwalne()}" icon="ui-icon-trash" />

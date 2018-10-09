@@ -184,7 +184,7 @@ public class PozycjaBRKontaView implements Serializable {
     private void uzupelnijpozycjeOKonta(List<PozycjaRZiSBilans> pozycje) {
         List<Konto> lista = kontoDAO.findKontaPrzyporzadkowaneAll("bilansowe", wpisView);
         if (!lista.isEmpty()) {
-            pozycje.parallelStream().forEach((p)->{
+            pozycje.stream().forEach((p)->{
                 PozycjaRZiSFKBean.wyszukajprzyporzadkowaneBLista(lista, p, wpisView, aktywa0pasywa1);
             });
             pozycjaBilansDAO.editList(pozycje);
@@ -254,9 +254,9 @@ public class PozycjaBRKontaView implements Serializable {
                         wnmaPrzypisywanieKont = "wn";
                         onKontoDropKontaSpecjalne(wzorcowy, wybranyuklad);
                     }
-                }
-                if (konto.getKontopozycjaID().getPozycjaWn() != null && konto.getKontopozycjaID().getPozycjaMa() != null ) {
-                    kontabezprzydzialu.remove(konto);
+                    if (konto.getKontopozycjaID().getPozycjaWn() != null && konto.getKontopozycjaID().getPozycjaMa() != null ) {
+                        kontabezprzydzialu.remove(konto);
+                    }
                 }
             } else if (konto.getZwyklerozrachszczegolne().equals("zwykłe")) {
                 PlanKontFKBean.przyporzadkujBilans_kontozwykle(wybranapozycja, konto, wybranyuklad, kontoDAO, wpisView.getPodatnikObiekt(), null, aktywa0pasywa1);
@@ -264,8 +264,9 @@ public class PozycjaBRKontaView implements Serializable {
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
                 kontabezprzydzialu.remove(konto);
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
+                uzupelnijpozycjeOKonta(pozycje);
             }
-            uzupelnijpozycjeOKonta(pozycje);
+            
             RequestContext.getCurrentInstance().update(wybranapozycja_wiersz);
         }
 
@@ -325,6 +326,7 @@ public class PozycjaBRKontaView implements Serializable {
             }
             uzupelnijpozycjeOKonta(pozycje);
             RequestContext.getCurrentInstance().update(wybranapozycja_wiersz);
+            RequestContext.getCurrentInstance().update("formbilansuklad:dostepnekonta");
         }
     }
 
@@ -466,7 +468,7 @@ public class PozycjaBRKontaView implements Serializable {
         FacesContext ctx = FacesContext.getCurrentInstance();
         TreeTable table = (TreeTable) ctx.getViewRoot().findComponent("formrzisuklad:dataList");
         String rowkey = table.getRowKey();
-        wybranapozycja_wiersz = "formrzisuklad:dataList:"+rowkey+":liczba";
+        wybranapozycja_wiersz = "formrzisuklad:dataList";
         wybranapozycja = ((PozycjaRZiS) wybranynodekonta.getData()).getPozycjaString();
         przyporzadkowanekonta.clear();
         przyporzadkowanekonta.addAll(PozycjaRZiSFKBean.wyszukajprzyporzadkowane(kontoDAO, wybranapozycja, wpisView, aktywa0pasywa1, false, wybranyuklad));
@@ -477,7 +479,8 @@ public class PozycjaBRKontaView implements Serializable {
         FacesContext ctx = FacesContext.getCurrentInstance();
         TreeTable table = (TreeTable) ctx.getViewRoot().findComponent("formbilansuklad:dataList");
         String rowkey = table.getRowKey();
-        wybranapozycja_wiersz = "formbilansuklad:dataList:"+rowkey+":liczba";
+        wybranapozycja_wiersz = "formbilansuklad:dataList";
+        //wybranapozycja_wiersz = "formbilansuklad:dataList_node_"+rowkey;
         wybranapozycja = ((PozycjaBilans) wybranynodekonta.getData()).getPozycjaString();
         przyporzadkowanekonta.clear();
         przyporzadkowanekonta.addAll(PozycjaRZiSFKBean.wyszukajprzyporzadkowaneB(kontoDAO, wybranapozycja, wpisView, aktywa0pasywa1, false, wybranyuklad));

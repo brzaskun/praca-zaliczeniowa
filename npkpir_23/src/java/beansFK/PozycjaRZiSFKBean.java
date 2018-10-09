@@ -266,7 +266,7 @@ public class PozycjaRZiSFKBean {
         if (pozycja.getPozycjaString().equals("A.I")) {
             System.out.println("");
         }
-        lista.parallelStream().forEach((p)->{
+        lista.stream().forEach((p)->{
             try {
                     if (aktywa0pasywa1 && pozycja.isPrzychod0koszt1()) {
                     if (p.getKontopozycjaID().getPozycjaMa()!=null && p.getKontopozycjaID().getPozycjaMa().equals(pozycja.getPozycjaString()) && p.getKontopozycjaID().getStronaMa().equals(strona)) {
@@ -293,7 +293,7 @@ public class PozycjaRZiSFKBean {
     public static void wyszukajprzyporzadkowaneRLista(List<Konto> lista, PozycjaRZiSBilans pozycja, WpisView wpisView) {
         List<Konto> kontokwotalist = Collections.synchronizedList(new ArrayList<>());
         if (lista != null) {
-            lista.parallelStream().forEach((p)->{
+            lista.stream().forEach((p)->{
                 if ((p.getKontopozycjaID().getPozycjaWn()!=null && p.getKontopozycjaID().getPozycjaWn().equals(pozycja.getPozycjaString())) || (p.getKontopozycjaID().getPozycjaMa()!=null && p.getKontopozycjaID().getPozycjaMa().equals(pozycja.getPozycjaString()))){ 
                     if (!p.getKontopozycjaID().getSyntetykaanalityka().equals("syntetyka") && !p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
                         p.setKwota(0.0);
