@@ -150,7 +150,7 @@ public class SrodkiTrwBean implements Serializable {
     }
 
     public static List<UmorzenieN> generujumorzeniadlasrodka(SrodekTrw srodek, WpisView wpisView) {
-        List<UmorzenieN> umorzenia = Collections.synchronizedList(new ArrayList<>());
+        List<UmorzenieN> umorzenia = new ArrayList<>();
         if (srodek.getZlikwidowany() == 0) {
             String rok = Data.getRok(srodek.getDataprzek());
             String miesiac = Data.getMc(srodek.getDataprzek());

@@ -61,10 +61,10 @@ public class STRSprzedazView extends STRTabView implements Serializable {
             obsluztransakcje(sprzedawanySrodekTrw,rok,mc);
             try {
                 sTRDAO.edit(sprzedawanySrodekTrw);
-                Msg.msg("i", "Naniesiono sprzedaż: " + sprzedawanySrodekTrw.getNazwa() + ". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!", "dodWiad:mess_add");
+                Msg.msg("i", "Naniesiono sprzedaż: " + sprzedawanySrodekTrw.getNazwa() + ". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!");
             } catch (Exception e) {
                 E.e(e);
-                Msg.msg("e", "Wystapił błąd - nie naniesiono sprzedaży: " + sprzedawanySrodekTrw.getNazwa(), "dodWiad:mess_add");
+                Msg.msg("e", "Wystapił błąd - nie naniesiono sprzedaży: " + sprzedawanySrodekTrw.getNazwa());
             }
         }
     }
@@ -72,15 +72,17 @@ public class STRSprzedazView extends STRTabView implements Serializable {
     public void sprzedazsrodkaFK() {
         SrodekTrw sprzedawanySrodekTrw = sTRTabView.getWybranysrodektrwalyPosiadane();
         if (sprzedawanySrodekTrw != null) {
+            data = Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            nrwlasny = "pk";
             obsluztransakcje(sprzedawanySrodekTrw, wpisView.getRokWpisu(), Integer.parseInt(wpisView.getMiesiacWpisu()));
-            sprzedawanySrodekTrw.setDatasprzedazy(Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
             try {
                 sTRDAO.edit(sprzedawanySrodekTrw);
-                sTRTabView.init();
-                Msg.msg("i", "Naniesiono sprzedaż: " + sprzedawanySrodekTrw.getNazwa() + ". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!", "dodWiad:mess_add");
+                sTRTabView.getSprzedane().add(sprzedawanySrodekTrw);
+                sTRTabView.getPosiadane().remove(sprzedawanySrodekTrw);
+                Msg.msg("i", "Naniesiono sprzedaż: " + sprzedawanySrodekTrw.getNazwa() + ". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!");
             } catch (Exception e) {
                 E.e(e);
-                Msg.msg("e", "Wystapił błąd - nie naniesiono sprzedaży: " + sprzedawanySrodekTrw.getNazwa(), "dodWiad:mess_add");
+                Msg.msg("e", "Wystapił błąd - nie naniesiono sprzedaży: " + sprzedawanySrodekTrw.getNazwa());
             }
         }
     }
@@ -99,25 +101,25 @@ public class STRSprzedazView extends STRTabView implements Serializable {
     
     private void sprzedajsrodek(SrodekTrw sprzedawanySrodekTrw, int rok, int mc) {
         sprzedawanySrodekTrw.setZlikwidowany(9);
-            sprzedawanySrodekTrw.setStyl("color: blue; font-style:  italic;");
-            sprzedawanySrodekTrw.setDatasprzedazy(data);
-            sprzedawanySrodekTrw.setNrwldokumentu(nrwlasny);
-            sprzedawanySrodekTrw.setKwotaodpislikwidacja(0.0);
-            Double suma = 0.0;
-            Double umorzeniesprzedaz = 0.0;
-            for(UmorzenieN x : sprzedawanySrodekTrw.getPlanumorzen()){
-                if (x.getRokUmorzenia()<rok){
-                    suma += x.getKwota();
-                } else if (x.getRokUmorzenia()==rok&&x.getMcUmorzenia()<mc) {
-                    suma += x.getKwota();
-                } else if (x.getRokUmorzenia()==rok&&x.getMcUmorzenia()==mc){
-                    umorzeniesprzedaz = sprzedawanySrodekTrw.getNetto()-sprzedawanySrodekTrw.getUmorzeniepoczatkowe()-suma+sprzedawanySrodekTrw.getNiepodlegaamortyzacji();
-                    x.setKwota(Z.z(umorzeniesprzedaz));
-                    sprzedawanySrodekTrw.setKwotaodpislikwidacja(Z.z(x.getKwota()));
-                } else {
-                    x.setKwota(0.0);
-                }
+        sprzedawanySrodekTrw.setStyl("color: blue; font-style:  italic;");
+        sprzedawanySrodekTrw.setDatasprzedazy(data);
+        sprzedawanySrodekTrw.setNrwldokumentu(nrwlasny);
+        sprzedawanySrodekTrw.setKwotaodpislikwidacja(0.0);
+        Double suma = 0.0;
+        Double umorzeniesprzedaz = 0.0;
+        for(UmorzenieN x : sprzedawanySrodekTrw.getPlanumorzen()){
+            if (x.getRokUmorzenia()<rok){
+                suma += x.getKwota();
+            } else if (x.getRokUmorzenia()==rok&&x.getMcUmorzenia()<mc) {
+                suma += x.getKwota();
+            } else if (x.getRokUmorzenia()==rok&&x.getMcUmorzenia()==mc){
+                umorzeniesprzedaz = sprzedawanySrodekTrw.getNetto()-sprzedawanySrodekTrw.getUmorzeniepoczatkowe()-suma+sprzedawanySrodekTrw.getNiepodlegaamortyzacji();
+                x.setKwota(Z.z(umorzeniesprzedaz));
+                sprzedawanySrodekTrw.setKwotaodpislikwidacja(Z.z(x.getKwota()));
+            } else {
+                x.setKwota(0.0);
             }
+        }
     }
     
     private void sprzedajtensammc(SrodekTrw sprzedawanySrodekTrw,int rokzakupu, int mczakupu) {

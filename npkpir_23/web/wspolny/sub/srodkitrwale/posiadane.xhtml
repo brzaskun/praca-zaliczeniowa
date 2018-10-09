@@ -14,7 +14,7 @@
                 <p:menuitem value="Wycofaj środek z ewidencji" update=":akordeon:str_posiadane  :akordeon:str_sprzedane" actionListener="#{STRTableView.wycofajsrodek()}" icon="ui-icon-trash" />
                 <p:menuitem value="Zmień wartość środka" update="form_dialog_srodkitrwale_zmianawartosci" actionListener="#{STRTableView.kopiujwybrany(STRTableView.wybranysrodektrwalyPosiadane)}" oncomplete="PF('dialog_srodkitrwale_zmianawartosci').show()" icon="fa fa-cc-visa" />
                 <p:menuitem value="Drukuj środek z ewidencji" actionListener="#{STRTableView.drukujsrodek()}" icon="ui-icon-print" />
-                <p:menuitem value="Sprzedaż środka trwałego" update=":akordeon:str_posiadane" actionListener="#{sTRSprzedazView.sprzedazsrodkaFK()}" icon="ui-icon-cart" 
+                <p:menuitem value="Sprzedaż środka trwałego" update=":akordeon:str_posiadane   :akordeon:str_sprzedane" actionListener="#{sTRSprzedazView.sprzedazsrodkaFK()}" icon="ui-icon-cart" 
                             rendered="#{facesContext.externalContext.isUserInRole('BookkeeperFK')}"/>
             </p:contextMenu>
             <p:dataTable  var="wpis" value="#{STRTableView.posiadane}" id="srodkiLista" 

@@ -313,9 +313,9 @@ public class STRTabView implements Serializable {
             posiadane.remove(p);
             sprzedane.add(p);
             Collections.sort(sprzedane, new SrodekTrwcomparator());
-            Msg.msg("i", "Naniesiono wycofanie: " + p.getNazwa() + ". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!", "dodWiad:mess_add");
+            Msg.msg("i", "Naniesiono wycofanie: " + p.getNazwa() + ". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!");
         } catch (Exception e) { E.e(e); 
-            Msg.msg("e", "Wystapił błąd - nie naniesiono wycofania: " + p.getNazwa(), "dodWiad:mess_add");
+            Msg.msg("e", "Wystapił błąd - nie naniesiono wycofania: " + p.getNazwa());
         }
     }
 
@@ -326,13 +326,19 @@ public class STRTabView implements Serializable {
         p.setDatasprzedazy("");
         p.setNrwldokumentu("");
         try {
+            p.setUmorzPlan(null);
+            p.setPlanumorzen(null);
+            sTRDAO.edit(p);
+            p.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(p));
+            p.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(p, wpisView));
             sTRDAO.edit(p);
             posiadane.add(p);
             Collections.sort(posiadane, new SrodekTrwcomparator());
             sprzedane.remove(p);
-            Msg.msg("i", "Cofnięto sprzedaż/wycofanie: " + p.getNazwa() + ". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!", "dodWiad:mess_add");
-        } catch (Exception e) { E.e(e); 
-            Msg.msg("e", "Wystapił błąd - nie cofnięto sprzedaży/wycofania: " + p.getNazwa(), "dodWiad:mess_add");
+            Msg.msg("i", "Cofnięto sprzedaż/wycofanie: " + p.getNazwa() + ". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!");
+        } catch (Exception e) { 
+            E.e(e); 
+            Msg.msg("e", "Wystapił błąd - nie cofnięto sprzedaży/wycofania: " + p.getNazwa());
         }
     }
 
