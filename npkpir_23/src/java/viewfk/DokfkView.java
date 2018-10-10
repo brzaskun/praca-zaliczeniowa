@@ -904,6 +904,7 @@ public class DokfkView implements Serializable {
                 RequestContext.getCurrentInstance().update("wpisywaniefooter");
                 RequestContext.getCurrentInstance().update("rozrachunki");
                 RequestContext.getCurrentInstance().update("formwpisdokument");
+                RequestContext.getCurrentInstance().execute("r('formwpisdokument:data2DialogWpisywanie').select();");
             } catch (Exception e) {
                 E.e(e);
                 komunikatywpisdok = "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.";

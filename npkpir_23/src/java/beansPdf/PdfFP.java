@@ -219,7 +219,7 @@ public class PdfFP {
                         text = "Gutschrift Nr "+ selected.getFakturaPK().getNumerkolejny();
                     } else {
                         if (selected.getRodzajdokumentu().equals("rachunek baz VAT")) {
-                            text = B.b("rachuneknr")+" "+ selected.getFakturaPK().getNumerkolejny();
+                            text = B.b("fakturanr")+" "+ selected.getFakturaPK().getNumerkolejny();
                         } else if (selected.isZaliczkowa()) {
                             text = B.b("fakturazaliczkowanr")+" "+ selected.getFakturaPK().getNumerkolejny();
                         } else {
@@ -858,6 +858,9 @@ public class PdfFP {
         if (selected.isReversecharge()) {
             table.addCell(ustawfraze("'reverse charge'/'odwrotne obciążenie - VAT rozlicza nabywca", 11, 0));
         }
+        if (selected.isRachunek()) {
+            table.addCell(ustawfraze("Dostawa towarów lub świadczenie usług zwolnionych od podatku VAT na podstawie art. 113 ust. 1 ustawy z dnia 11.03.2004 r. o podatku od towarów i usług", 11, 0));
+        }
         // complete the table
         table.completeRow();
         return table;
@@ -985,6 +988,9 @@ public class PdfFP {
         }
         if (korekta) {
             wierszroznicyvatmarza(selected, table);
+        }
+        if (selected.isRachunek()) {
+            table.addCell(ustawfrazeAF("Dostawa towarów lub świadczenie usług zwolnionych od podatku VAT na podstawie art. 113 ust. 1 ustawy z dnia 11.03.2004 r. o podatku od towarów i usług", 11, 0,0,7));
         }
         // complete the table
         table.completeRow();
