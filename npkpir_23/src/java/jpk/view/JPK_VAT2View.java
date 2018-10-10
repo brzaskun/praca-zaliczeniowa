@@ -108,11 +108,30 @@ public class JPK_VAT2View implements Serializable {
     public void przygotujXMLDedra() {
         List<EVatwpisDedra> wiersze =  eVatwpisDedraDAO.findWierszePodatnikMc(wpisView);
         List<EVatwpisSuper> lista = new ArrayList<>(wiersze);
-        generujXML(lista, wpisView.getPodatnikObiekt(), nowa0korekta1);
-        UPO upo = wysylkaJPK(wpisView.getPodatnikObiekt());
-        if (upo != null && upo.getReferenceNumber() != null) {
-            this.lista.add(upo);
+        List<EVatwpisSuper> bledy = weryfikujwiersze(lista);
+        if (bledy.size()==0) {
+            generujXML(lista, wpisView.getPodatnikObiekt(), nowa0korekta1);
+            UPO upo = wysylkaJPK(wpisView.getPodatnikObiekt());
+            if (upo != null && upo.getReferenceNumber() != null) {
+                this.lista.add(upo);
+            }
+        } else {
+            Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
         }
+    }
+    
+    public void przygotujXMLDedraDL() {
+        List<EVatwpisDedra> wiersze =  eVatwpisDedraDAO.findWierszePodatnikMc(wpisView);
+        List<EVatwpisSuper> lista = new ArrayList<>(wiersze);
+        List<EVatwpisSuper> bledy = weryfikujwiersze(lista);
+        if (bledy.size()==0) {
+            String sciezka = generujXML(lista, wpisView.getPodatnikObiekt(), nowa0korekta1);
+            String polecenie = "wydrukXML(\""+sciezka+"\")";
+            RequestContext.getCurrentInstance().execute(polecenie);
+        } else {
+            Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+        }
+        
     }
     
     public void przygotujXML() {
@@ -126,6 +145,20 @@ public class JPK_VAT2View implements Serializable {
             if (upo != null && upo.getReferenceNumber() != null) {
                 this.lista.add(upo);
             }
+        } else {
+            Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+        }
+    }
+    
+     public void przygotujXMLDL() {
+        ewidencjaVatView.setPobierzmiesiacdlajpk(true);
+        ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
+        List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
+        List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
+        if (bledy.size()==0) {
+            String sciezka = generujXML(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
+            String polecenie = "wydrukXML(\""+sciezka+"\")";
+            RequestContext.getCurrentInstance().execute(polecenie);
         } else {
             Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
         }
@@ -201,9 +234,26 @@ public class JPK_VAT2View implements Serializable {
             if (upo != null && upo.getReferenceNumber() != null) {
                 this.lista.add(upo);
             }
+        } else {
+            Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
         }
     }
     
+    public void przygotujXMLFKDL() {
+        ewidencjaVatView.setPobierzmiesiacdlajpk(true);
+        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt(), null);
+        List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
+        List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
+        if (bledy.size()==0) {
+            String sciezka = generujXML(wiersze,wpisView.getPodatnikObiekt(), nowa0korekta1);
+            String polecenie = "wydrukXML(\""+sciezka+"\")";
+            RequestContext.getCurrentInstance().execute(polecenie);
+        } else {
+            Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+        }
+    }
+    
+       
     public void przygotujXMLFKPodglad() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt(), null);
@@ -398,18 +448,21 @@ public class JPK_VAT2View implements Serializable {
     }
     
     
-    public void generujXML(List<EVatwpisSuper> wiersze, Podatnik podatnik, boolean nowa0korekta1) {
+    public String generujXML(List<EVatwpisSuper> wiersze, Podatnik podatnik, boolean nowa0korekta1) {
         JPKSuper jpk = genJPK(wiersze, podatnik, nowa0korekta1);
+        String sciezka = null;
         try {
-            marszajuldoplikuxml(podatnik, jpk);
+            sciezka = marszajuldoplikuxml(podatnik, jpk);
             Msg.msg("Wygenerowano plik JPK");
         } catch(Exception e) {
             Msg.msg("e", "Wystąpił błąd, nie wygenerowano pliku JPK");
             E.e(e);
         }
+        return sciezka;
     }
     
-    private void marszajuldoplikuxml(Podatnik podatnik, JPKSuper jpk) {
+    private String marszajuldoplikuxml(Podatnik podatnik, JPKSuper jpk) {
+        String sciezka = null;
         try {
             JAXBContext context = JAXBContext.newInstance(jpk.getClass());
             Marshaller marshaller = context.createMarshaller();
@@ -421,9 +474,11 @@ public class JPK_VAT2View implements Serializable {
             FileOutputStream fileStream = new FileOutputStream(new File(realPath+mainfilename));
             OutputStreamWriter writer = new OutputStreamWriter(fileStream, "UTF-8");
             marshaller.marshal(jpk, writer);
+            sciezka = mainfilename;
         } catch (Exception ex) {
             E.e(ex);
         }
+        return sciezka;
     }
     
     
