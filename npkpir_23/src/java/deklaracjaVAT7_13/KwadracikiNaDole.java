@@ -121,13 +121,7 @@ public class KwadracikiNaDole {
     }
     
     private void schemaM18K12(PozycjeSzczegoloweVAT pozycjelista, String today, boolean vatzd){
-        if(pozycjelista.getPoleI57()>0 && pozycjelista.getPoleI59()==0){
-            kwadracikiNaDole = kwadracikiNaDole.concat("<P_69>1</P_69>");
-        }
-        if(pozycjelista.getPoleI57()>0 && pozycjelista.getPoleI58()>0){
-            kwadracikiNaDole = kwadracikiNaDole.concat("<P_69>1</P_69>");
-            kwadracikiNaDole = kwadracikiNaDole.concat("<P_70>1</P_70>");
-        }
+        //inne kwadraciki 60 sa robione w PozycjeSzczegolowe bo ktos odwrocil kolejnosc kwadracikow
         if(vatzd) {
             kwadracikiNaDole = kwadracikiNaDole.concat("<P_71>1</P_71>");
         }

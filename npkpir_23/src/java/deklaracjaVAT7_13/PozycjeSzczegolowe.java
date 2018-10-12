@@ -31,7 +31,16 @@ public class PozycjeSzczegolowe {
             lista.add(wynik);
         }
         PozycjeSzczegolowe = "<PozycjeSzczegolowe>";
-        pobierzSzczegolowe(lista, 10);
+        String nazwaschemy = schema.getNazwaschemy();
+        switch (nazwaschemy) {
+            case "M-18":
+            case "K-12":
+                pobierzSzczegoloweM18(lista, 10);
+                break;
+            default:
+                pobierzSzczegolowe(lista, 10);
+                break;
+        }
     }
     
         
@@ -46,6 +55,44 @@ public class PozycjeSzczegolowe {
             } catch (Exception e){}
             j++;
         }
+    }
+    
+    private void pobierzSzczegoloweM18(List<String> lista, int poczatek) {
+        int j = poczatek;
+        boolean robdalej = true;
+        boolean doprzeniesienia = false;
+        for(String p : lista){
+            try {
+                boolean poleWypelnione = !p.isEmpty();
+                if(poleWypelnione){
+                    if (j==54 && !p.equals("0")) {
+                        doprzeniesienia=true;
+                    }
+                    if (j==56 && !p.equals("0")) {
+                        robdalej=false;
+                        PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_"+j+">"+p+"</P_"+j+">");
+                        break;
+                    } else if (j==56 && p.equals("0") && doprzeniesienia) {
+                        PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_"+j+">"+p+"</P_"+j+">");
+                        break;
+                    }
+                    if (robdalej) {
+                        if (j==59 && !p.equals("0")) {
+                            PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_"+j+">"+p+"</P_"+j+">");
+                            PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_70>1</P_70>");
+                            PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_69>1</P_69>");
+                       } else if ((j==60 || j==61) && !p.equals("0")) {
+                            PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_"+j+">"+p+"</P_"+j+">");
+                            PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_69>1</P_69>");
+                       } else {
+                            PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_"+j+">"+p+"</P_"+j+">");
+                       }
+                    }
+                }
+            } catch (Exception e){}
+            j++;
+        }
+        
     }
     
     public String getPozycjeSzczegolowe() {

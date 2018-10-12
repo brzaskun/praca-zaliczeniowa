@@ -491,8 +491,7 @@ public class VatUeFKView implements Serializable {
                 Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UE. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
             }
         } catch (Exception e) {
-            E.e(e);
-            Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UE miesięczną wersja 4");
+            Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UE miesięczną wersja. Sprawdź parametry podatnika!");
         }
         return zwrot;
     }

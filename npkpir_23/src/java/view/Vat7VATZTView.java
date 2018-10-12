@@ -47,38 +47,42 @@ public class Vat7VATZTView extends Vat7DKView implements Serializable{
     private DeklaracjaVatZZPowod powod;
     
     public void dodajzalacznikVATZT() throws IOException{
-        String podatnik = wpisView.getPodatnikWpisu();
-        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDowyslania(podatnik);
-        DeklaracjaVatZT zal = temp.getSchemaobj().getDeklaracjaVatZT();
-        Msg.msg("i","Wprowadzono tresc informacji "+informacja,"formX:msg");
-        String zalacznik;
-        String trescdeklaracji = temp.getDeklaracja();
-        //pozbywamy sie koncowki </ns:Deklaracja> ale szukamy wpierw czy isteje juz inny zalacznik
-        int lastIndexOf = trescdeklaracji.lastIndexOf("</Zalaczniki>");
-        if (lastIndexOf == -1) {
-            zalacznik = new VATZT(zal,kwota,informacja,0).getVatzt();
-            lastIndexOf = trescdeklaracji.lastIndexOf("<podp:DaneAutoryzujace");
-            if (lastIndexOf==-1) {
-                lastIndexOf = trescdeklaracji.lastIndexOf("</Deklaracja>");
+        try {
+            String podatnik = wpisView.getPodatnikWpisu();
+            Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDowyslania(podatnik);
+            DeklaracjaVatZT zal = temp.getSchemaobj().getDeklaracjaVatZT();
+            Msg.msg("i","Wprowadzono tresc informacji "+informacja,"formX:msg");
+            String zalacznik;
+            String trescdeklaracji = temp.getDeklaracja();
+            //pozbywamy sie koncowki </ns:Deklaracja> ale szukamy wpierw czy isteje juz inny zalacznik
+            int lastIndexOf = trescdeklaracji.lastIndexOf("</Zalaczniki>");
+            if (lastIndexOf == -1) {
+                zalacznik = new VATZT(zal,kwota,informacja,0).getVatzt();
+                lastIndexOf = trescdeklaracji.lastIndexOf("<podp:DaneAutoryzujace");
+                if (lastIndexOf==-1) {
+                    lastIndexOf = trescdeklaracji.lastIndexOf("</Deklaracja>");
+                }
+            } else {
+                zalacznik = new VATZT(zal,kwota,informacja,1).getVatzt();
             }
-        } else {
-            zalacznik = new VATZT(zal,kwota,informacja,1).getVatzt();
+            String koncowka = trescdeklaracji.substring(lastIndexOf);
+            trescdeklaracji = trescdeklaracji.substring(0, lastIndexOf);
+            //zalaczamy zalacznik
+            trescdeklaracji = trescdeklaracji+zalacznik;
+            //dodajemy usuniete zakonczenie
+            trescdeklaracji = trescdeklaracji+koncowka;
+            temp.setDeklaracja(trescdeklaracji);
+            temp.setVatzt(informacja);
+            try{
+                deklaracjevatDAO.edit(temp);
+                Msg.msg("i","Sukces, załączono VAT-ZT.","formX:msg");
+            } catch (Exception e) { E.e(e); 
+                Msg.msg("e","Wystapil błąd. Nie udało się załączyć VAT-ZT.","formX:msg");
+            }
+        } catch (Exception e) { 
+            E.e(e); 
+            Msg.msg("e","Wystapil błąd. Nie udało się załączyć VAT-ZT. Sprawdź wersję deklaracji i podpięte schematy");
         }
-        String koncowka = trescdeklaracji.substring(lastIndexOf);
-        trescdeklaracji = trescdeklaracji.substring(0, lastIndexOf);
-        //zalaczamy zalacznik
-        trescdeklaracji = trescdeklaracji+zalacznik;
-        //dodajemy usuniete zakonczenie
-        trescdeklaracji = trescdeklaracji+koncowka;
-        temp.setDeklaracja(trescdeklaracji);
-        temp.setVatzt(informacja);
-        try{
-            deklaracjevatDAO.edit(temp);
-            Msg.msg("i","Sukces, załączono VAT-ZT.","formX:msg");
-        } catch (Exception e) { E.e(e); 
-            Msg.msg("e","Wystapil błąd. Nie udało się załączyć VAT-ZT.","formX:msg");
-        }
-        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaVatdowysylki.xhtml?faces-redirect=true");
     }
    
 

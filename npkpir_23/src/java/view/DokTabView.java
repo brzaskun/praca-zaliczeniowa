@@ -257,9 +257,9 @@ public class DokTabView implements Serializable {
         if(dokdoUsuniecia.getStatus().equals("bufor")){
         String temp = dokdoUsuniecia.getRodzajedok().getSkrot();
         if ((Rozrachunki.sprawdzczyniemarozrachunkow(dokdoUsuniecia) == true)) {
-            Msg.msg("e",  "Dokument nie usunięty - Usuń wpierw dokument strono, proszę "+dokdoUsuniecia.getIdDok().toString(),"form:messages");
+            Msg.msg("e",  "Dokument nie usunięty - Usuń wpierw dokument strono, proszę "+dokdoUsuniecia.getIdDok().toString());
         } else if (sprawdzczytoniesrodek(dokdoUsuniecia) == true) {
-            Msg.msg("e",  "Dokument nie usunięty - Usuń wpierw środek z ewidencji "+dokdoUsuniecia.getIdDok().toString(),"form:messages");
+            Msg.msg("e",  "Dokument nie usunięty - Usuń wpierw środek z ewidencji "+dokdoUsuniecia.getIdDok().toString());
         } else {
             if(dokdoUsuniecia.getRodzajedok().getSkrot().equals("AMO")){
                 //poszukiwanie czy nie ma po nim jakiegos
@@ -293,7 +293,7 @@ public class DokTabView implements Serializable {
             Msg.msg("i", "Dokument usunięty " + dokdoUsuniecia.getIdDok().toString(), "form:messages");
         }
     } else {
-            Msg.msg("e","Dokument w księgach, nie można usunąć ","form:messages");
+            Msg.msg("e","Dokument w księgach, nie można usunąć ");
         }
     }
     
@@ -335,7 +335,7 @@ public class DokTabView implements Serializable {
     //usun jak wciaz dziala bez nich
     public void aktualizujTabele(AjaxBehaviorEvent e) throws IOException {
         aktualizuj();
-        Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu(),"form:messages");
+        Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu());
     }
     
     //usun jak wciaz dziala bez nich
@@ -345,7 +345,7 @@ public class DokTabView implements Serializable {
         gosciuwybral = null;
         aktualizuj();
         init();
-        Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu(),"form:messages");
+        Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu());
     }
   
    
@@ -443,11 +443,11 @@ public class DokTabView implements Serializable {
    * @param actionEvent 
    */
 	public void update(ActionEvent actionEvent) {
-		Msg.msg("i","Data updated","form:messages");
+		Msg.msg("i","Data updated");
 	}
 	
 	public void delete(ActionEvent actionEvent) {
-		Msg.msg("i","Data deleted","form:messages");
+		Msg.msg("i","Data deleted");
 	}
 
       public void naprawiamdokumenty() {
