@@ -421,7 +421,7 @@ public class PdfFP {
                     absText(writer, podpis, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:podpis"), 8);
                     absText(writer, "..........................................", (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:podpis") - 20, 8);
                     if (selected.getRodzajdokumentu().equals("rachunek baz VAT")) {
-                        absText(writer, B.b("wystawcarachunku"), (int) (pozycja.getLewy() / dzielnik) + 15, wymiaryGora.get("akordeon:formwzor:podpis") - 40, 8);
+                        absText(writer, B.b("wystawcafaktury"), (int) (pozycja.getLewy() / dzielnik) + 15, wymiaryGora.get("akordeon:formwzor:podpis") - 40, 8);
                     } else {
                         absText(writer, B.b("wystawcafaktury"), (int) (pozycja.getLewy() / dzielnik) + 15, wymiaryGora.get("akordeon:formwzor:podpis") - 40, 8);
                     }
