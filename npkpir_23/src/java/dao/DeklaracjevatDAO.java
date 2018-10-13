@@ -128,34 +128,15 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
        return znalezionedeklaracje;
     }
 
-    public List<String> findDeklaracjeDowyslania(String rok, String mc, WpisView wpisView) {
-         List<Deklaracjevat> temp = deklaracjevatFacade.findDeklaracjewysylka(rok, mc);
-         List<String> wynik = Collections.synchronizedList(new ArrayList<>());
-         String sporzadzil = wpisView.getWprowadzil().getImie()+" "+wpisView.getWprowadzil().getNazw();
-         for(Deklaracjevat p :temp){
-            if(p.getIdentyfikator().isEmpty() && p.getSporzadzil()!= null && p.getSporzadzil().equals(sporzadzil)){
-                wynik.add(p.getPodatnik());
-            }
-        }
-        return wynik;
-    }
- 
     public List<Deklaracjevat> findDeklaracjewysylka(WpisView wpisView) {
          return deklaracjevatFacade.findDeklaracjewysylka(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
     }
     
-    
-    public List<String> findDeklaracjeBezupo(String rok, String mc, WpisView wpisView) {
-         List<Deklaracjevat> temp = deklaracjevatFacade.findDeklaracjewysylka(rok, mc);
-         List<String> wynik = Collections.synchronizedList(new ArrayList<>());
-         String sporzadzil = wpisView.getWprowadzil().getImie()+" "+wpisView.getWprowadzil().getNazw();
-         for(Deklaracjevat p :temp){
-            if(p.getStatus().startsWith("3") && p.getSporzadzil()!= null && p.getSporzadzil().equals(sporzadzil)){
-                wynik.add(p.getPodatnik());
-            }
-        }
-        return wynik;
+    public List<Deklaracjevat> findDeklaracjewysylka(String rok, String mc) {
+         return deklaracjevatFacade.findDeklaracjewysylka(rok, mc);
     }
+    
+
     
     public Deklaracjevat findDeklaracjaPodatnik(String identyfikator, String podatnik) {
          return deklaracjevatFacade.findDeklaracjaPodatnik(identyfikator, podatnik);

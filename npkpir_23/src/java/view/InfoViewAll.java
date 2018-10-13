@@ -8,7 +8,9 @@ import dao.DeklaracjevatDAO;
 import dao.DokDAO;
 import dao.PodatnikDAO;
 import embeddable.Mce;
+import entity.Deklaracjevat;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -41,6 +43,12 @@ private static final long serialVersionUID = 1L;
     private List<String> deklaracjeniebezupo;
     private List<String> kliencinieruszeni;
 
+    
+    public InfoViewAll() {
+        this.deklaracjeniewyslane = new ArrayList<>();
+        this.deklaracjeniebezupo = new ArrayList<>();
+    }
+
     @PostConstruct
     private void init() {
         Calendar c = Calendar.getInstance();
@@ -54,8 +62,16 @@ private static final long serialVersionUID = 1L;
             mcdzisiejszy = Mce.getNumberToMiesiac().get(c.get(c.MONTH));
         }
         try {
-            deklaracjeniewyslane = deklaracjevatDAO.findDeklaracjeDowyslania(rokdzisiejszy, mcdzisiejszy, wpisView);
-            deklaracjeniebezupo = deklaracjevatDAO.findDeklaracjeBezupo(rokdzisiejszy, mcdzisiejszy, wpisView);
+            String sporzadzil = wpisView.getWprowadzil().getImie()+" "+wpisView.getWprowadzil().getNazw();
+            List<Deklaracjevat> deklaracje = deklaracjevatDAO.findDeklaracjewysylka(rokdzisiejszy, mcdzisiejszy);
+            for (Deklaracjevat p : deklaracje) {
+                if(p.getIdentyfikator().isEmpty() && p.getSporzadzil()!= null && p.getSporzadzil().equals(sporzadzil)){
+                    deklaracjeniewyslane.add(p.getPodatnik());
+                }
+                if(p.getStatus().startsWith("3") && p.getSporzadzil()!= null && p.getSporzadzil().equals(sporzadzil)){
+                    deklaracjeniebezupo.add(p.getPodatnik());
+                }
+            }
         } catch (Exception e) {}
         /**
          * Klienci nie ruszeni zajmuja duzo czasu
