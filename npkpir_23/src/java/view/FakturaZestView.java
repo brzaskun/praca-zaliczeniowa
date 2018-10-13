@@ -59,6 +59,7 @@ public class FakturaZestView implements Serializable {
     public void init() {
         fakturyZestawienie = Collections.synchronizedList(new ArrayList<>());
         fakturyWystawione = fakturaDAO.findFakturyByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikWpisu());
+        List<Podatnik> podatnicy = podatnikDAO.findAll();
         Set<String> odnalezioneNIP = new HashSet<>();
         if (fakturyWystawione != null) {
             for (Faktura p : fakturyWystawione) {
@@ -87,7 +88,7 @@ public class FakturaZestView implements Serializable {
                 } else {
                     Podatnik odnalezionyPodatnik = null;
                     try {
-                        odnalezionyPodatnik = podatnikDAO.findPodatnikByNIP(n);
+                        odnalezionyPodatnik = znajdzpodattniknip(n);
                     } catch (Exception e) { E.e(e); }
                     FakturaZestawienie.FZTresc ft = f.new FZTresc();
                     if (odnalezionyPodatnik != null) {
@@ -120,7 +121,16 @@ public class FakturaZestView implements Serializable {
         }
         Msg.msg("Pobrano faktury");
     }
-    
+    private Podatnik znajdzpodattniknip(String n) {
+        Podatnik zwrot = null;
+        for (Podatnik p : podatnicyWProgramie) {
+            if (p.getNip().equals(n)) {
+                zwrot = p;
+                break;
+            }
+        }
+        return zwrot;
+    }
   
     public WpisView getWpisView() {
         return wpisView;
@@ -145,6 +155,8 @@ public class FakturaZestView implements Serializable {
     public void setFakturyZestawienie(List<FakturaZestawienie> fakturyZestawienie) {
         this.fakturyZestawienie = fakturyZestawienie;
     }
+
+    
     
     
     

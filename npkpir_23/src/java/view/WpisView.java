@@ -184,6 +184,7 @@ public class WpisView implements Serializable {
             for (Wpis p : wpislista) {
                 if (p.getWprowadzil().equals(wprowadzilX)) {
                     wprowadzil = znajdzuzytkownika(p.getWprowadzil());
+                    break;
                 }
             }
             wpis = znajdzwpis(wprowadzilX);
@@ -198,6 +199,7 @@ public class WpisView implements Serializable {
         for (Uz p : wprowadzillista) {
             if (p.getLogin().equals(wprowadzilX)) {
                 zwrot = p;
+                break;
             }
         }
         return zwrot;
