@@ -67,14 +67,7 @@ public class PodatekView implements Serializable{
     
     @PostConstruct
     private void init(){
-        String nazwapodatnika = null;
-        try{
-            nazwapodatnika = wpisView.findNazwaPodatnika();
-            selected = podatnikDAO.find(nazwapodatnika);
-        } catch (Exception e) { E.e(e); 
-            nazwapodatnika = wpisView.findNazwaPodatnika();
-            selected = podatnikDAO.find(nazwapodatnika);
-        }
+        selected = wpisView.getPodatnikObiekt();
         przychodyRyczalt.put("17%", BigDecimal.ZERO);
         przychodyRyczalt.put("8.5%", BigDecimal.ZERO);
         przychodyRyczalt.put("5.5%", BigDecimal.ZERO);

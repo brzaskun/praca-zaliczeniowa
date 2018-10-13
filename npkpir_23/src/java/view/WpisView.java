@@ -81,6 +81,8 @@ public class WpisView implements Serializable {
     private String zrodlo;
     private boolean rokzamkniety;
     private boolean rokpoprzednizamkniety;
+    private List<Wpis> wpislista;
+    private List<Uz> wprowadzillista;
 
     public WpisView() {
         czegosbrakuje = false;
@@ -90,6 +92,8 @@ public class WpisView implements Serializable {
     @PostConstruct
     private void init() {
         ustawMceOdDo();
+        wpislista = wpisDAO.findAll();
+        wprowadzillista = uzDAO.findAll();
         Wpis wpis = pobierzWpisBD();
         if (wpis != null) {
             podatnikWpisu = wpis.getPodatnikWpisu();
@@ -177,12 +181,36 @@ public class WpisView implements Serializable {
         Wpis wpis = null;
         try {
             String wprowadzilX = getPrincipal().getName();
-            wprowadzil = uzDAO.findUzByLogin(wprowadzilX);
-            wpis = wpisDAO.find(wprowadzilX);
+            for (Wpis p : wpislista) {
+                if (p.getWprowadzil().equals(wprowadzilX)) {
+                    wprowadzil = znajdzuzytkownika(p.getWprowadzil());
+                }
+            }
+            wpis = znajdzwpis(wprowadzilX);
         } catch (Exception e) {
             E.e(e); 
         } 
         return wpis;
+    }
+    
+    private Uz znajdzuzytkownika(String wprowadzilX) {
+        Uz zwrot = null;
+        for (Uz p : wprowadzillista) {
+            if (p.getLogin().equals(wprowadzilX)) {
+                zwrot = p;
+            }
+        }
+        return zwrot;
+    }
+    
+    private Wpis znajdzwpis(String wprowadzilX) {
+        Wpis zwrot = null;
+        for (Wpis p : wpislista) {
+            if (p.getWprowadzil().equals(wprowadzilX)) {
+                zwrot = p;
+            }
+        }
+        return zwrot;
     }
     
     private void obsluzMce(Wpis wpis) {
@@ -241,10 +269,11 @@ public class WpisView implements Serializable {
     
     public void naniesDaneDoWpis() {
         czegosbrakuje = false;
-        String wprowadzilX = getPrincipal().getName();
-        wprowadzil = uzDAO.findUzByLogin(wprowadzilX);
-        Wpis wpis = new Wpis();
-        wpis = wpisDAO.find(wprowadzilX);
+        if (wprowadzil==null) {
+            String wprowadzilX = getPrincipal().getName();
+            wprowadzil = uzDAO.findUzByLogin(wprowadzilX);
+        }
+        Wpis wpis = wpisDAO.find(wprowadzil.getLogin());
         wpis.setPodatnikWpisu(podatnikWpisu);
         if (!miesiacWpisu.equals("CR")) {
             wpis.setMiesiacWpisu(miesiacWpisu);
@@ -265,7 +294,7 @@ public class WpisView implements Serializable {
      public void aktualizuj(){
         HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
+        Wpis wpistmp = znajdzwpis(user);
         wpistmp.setMiesiacWpisu(miesiacWpisu);
         wpistmp.setRokWpisu(rokWpisu);
         wpistmp.setRokWpisuSt(String.valueOf(rokWpisu));
@@ -279,22 +308,7 @@ public class WpisView implements Serializable {
         return request.getUserPrincipal();
     }
     
-    public String findNazwaPodatnika() {
-        String wprowadzilX = getPrincipal().getName();
-        wprowadzil = uzDAO.findUzByLogin(wprowadzilX);
-        Wpis wpis = wpisDAO.find(wprowadzilX);
-        if (wpis.getPodatnikWpisu() != null) {
-            return wpis.getPodatnikWpisu();
-        } else {
-            Podatnik podatnik = podatnikDAO.findPodatnikByNIP(wprowadzil.getFirma());
-            String nazwapelna = podatnik.getNazwapelna();
-            wpis.setPodatnikWpisu(nazwapelna);
-            wpisDAO.edit(wpis);
-            return nazwapelna;
-        }
-    }
-
-  
+   
     private void uzupelnijdanepodatnika() {
         obsluzPodatnikObiekt();
         obsluzMcPrzedPo();
@@ -727,6 +741,10 @@ public class WpisView implements Serializable {
     public void setVatokres(int vatokres) {
         this.vatokres = vatokres;
     }
+
+    
+
+    
 
   
 

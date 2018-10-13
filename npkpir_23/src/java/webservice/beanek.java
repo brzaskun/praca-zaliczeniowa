@@ -594,7 +594,7 @@ public class beanek  implements Serializable {
 //            return;
 //        }
         try {
-            wysylanaDeklaracja.setIdentyfikator(wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+wpisView.findNazwaPodatnika()+wpisView.getWprowadzil().getLogin());
+            wysylanaDeklaracja.setIdentyfikator(wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+wpisView.getPrintNazwa()+wpisView.getWprowadzil().getLogin());
             wysylanaDeklaracja.setIdentyfikator(idpobierzT);
             wysylanaDeklaracja.setStatus("200");
             statMBT = wysylanaDeklaracja.getStatus();
