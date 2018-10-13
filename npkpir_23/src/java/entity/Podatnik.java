@@ -208,6 +208,9 @@ public class Podatnik implements Serializable {
     @Size (max = 512)
     @Column(name = "schematnumeracji")
     private String schematnumeracji;
+    //nie fk 0
+    //f 1
+    //pkpir i fk 3
     @Column(name = "firmafk")
     private int firmafk;
     @Column(name = "podmiotaktywny")

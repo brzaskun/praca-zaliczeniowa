@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
@@ -23,7 +24,7 @@ import javax.inject.Inject;
  * @author Osito
  */
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class PodatnikWyborView implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
@@ -32,36 +33,37 @@ public class PodatnikWyborView implements Serializable {
     private List<Podatnik> listaPodatnikowNoFK;
     private List<Podatnik> listaPodatnikowFK;
     private List<Podatnik> listaPodatnikow;
+
+    public PodatnikWyborView() {
+        this.listaPodatnikowNoFKmanager = new ArrayList<>();
+        this.listaPodatnikowNoFK = new ArrayList<>();
+        this.listaPodatnikowFK = new ArrayList<>();
+    }
+    
     
     @PostConstruct
     public void init() {
-        List<Podatnik> lista = podatnikDAO.findPodatnikFKPkpir();
-        listaPodatnikowNoFK = podatnikDAO.findPodatnikNieFK();
-        listaPodatnikowNoFKmanager = new ArrayList<>(listaPodatnikowNoFK);
-        for (Podatnik p : lista) {
-            if (!listaPodatnikowNoFK.contains(p)) {
-                listaPodatnikowNoFK.add(p);
-                listaPodatnikowNoFKmanager.add(p);
-            }
-        }
-        for(Iterator<Podatnik> it = listaPodatnikowNoFK.iterator(); it.hasNext();) {
-            Podatnik p = it.next();
-            if (p.isTylkodlaZUS()) {
-                it.remove();
-            }
-        }
-        Collections.sort(listaPodatnikowNoFKmanager, new Podatnikcomparator());
-        Collections.sort(listaPodatnikowNoFK, new Podatnikcomparator());
-        listaPodatnikowFK = podatnikDAO.findPodatnikFK();
-        for (Podatnik p : lista) {
-            if (!listaPodatnikowFK.contains(p)) {
-                listaPodatnikowFK.add(p);
-            }
-        }
-        Collections.sort(listaPodatnikowFK, new Podatnikcomparator());
         listaPodatnikow = podatnikDAO.findAll();
         Collections.sort(listaPodatnikow, new Podatnikcomparator());
-        
+        for (Podatnik p : listaPodatnikow) {
+            if (!p.isTylkodlaZUS()) {
+                switch (p.getFirmafk()) {
+                    case 0:
+                        listaPodatnikowNoFK.add(p);
+                        listaPodatnikowNoFKmanager.add(p);
+                        break;
+                    case 1:
+                        listaPodatnikowFK.add(p);
+                        break;
+                    case 3:
+                        listaPodatnikowFK.add(p);
+                        listaPodatnikowNoFK.add(p);
+                        listaPodatnikowNoFKmanager.add(p);
+                        break;
+                }
+            }
+            listaPodatnikowNoFKmanager = new ArrayList<>(listaPodatnikowNoFK);
+        }
     }
 
    
