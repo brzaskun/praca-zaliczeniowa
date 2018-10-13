@@ -177,23 +177,7 @@
                     }
                 </style>
                 <h:form id="tabelazzapisami">
-                    <p:contextMenu for="tabela" style="width: 200px;"  rendered="#{!WpisView.rokzamkniety}">
-                        <p:menuitem value="edytuj dok" global="false" icon="fa fa-edit" 
-                                    update="formwpisdokument zestawieniezapisownakontachpola"
-                                    actionListener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(kontoZapisFKView.wybranezapisydosumowania.get(0))}"
-                                    oncomplete="PF('wpisywanie').show();"/>
-                        <p:menuitem value="rozlicz transakcje" icon="fa fa-tasks" actionListener="#{kontoZapisFKView.rozliczzaznaczone()}" update=":tabelazzapisami:tabela"/>
-                        <p:menuitem value="usuń różnice kursowe" icon="fa fa-minus" actionListener="#{kontoZapisFKView.usunroznicekursowe()}" update=":tabelazzapisami:tabela"/>
-                        <p:menuitem value="rozlicz konto bankowe" icon="fa fa-book" actionListener="#{kontoZapisFKView.rozliczkontobankowe()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
-                        <p:menuitem value="usuń z listy" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListy()}" update=":tabelazzapisami:tabela"/>
-                        <p:separator/>
-                        <p:menuitem value="zeruj saldo" icon="fa fa-eye" actionListener="#{kontoZapisFKView.rozliczsaldo()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
-                        <p:menuitem value="zeruj saldo pln" icon="fa fa-bullseye" actionListener="#{kontoZapisFKView.rozliczsaldopln()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
-                        <p:menuitem value="usuń dok ARS" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListyARS()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
-                    </p:contextMenu>
-                     <p:contextMenu for="tabela" style="width: 200px;"  rendered="#{WpisView.rokzamkniety}">
-                        <p:menuitem value="rok zamknięty nie można nanosić zmian" />
-                    </p:contextMenu>
+                    
                     <p:remoteCommand actionListener="#{kontoZapisFKView.sumazapisowtotal}" name="przeliczfilterzapisy" update=":tabelazsumami:sumy" global="false"/>
 
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.id}"
@@ -293,6 +277,23 @@
                                                     <h:outputText value="9{kontoprzeciwstawne eq '000' ? 'zapis z BO' : loop.kontoprzeciwstawne}"/>
                                                 </p:column>-->
                     </p:dataTable>
+                    <p:contextMenu for="tabela" style="width: 200px;"  rendered="#{!WpisView.rokzamkniety}">
+                        <p:menuitem value="edytuj dok" global="false" icon="fa fa-edit" 
+                                    update="formwpisdokument zestawieniezapisownakontachpola"
+                                    actionListener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(kontoZapisFKView.wybranezapisydosumowania.get(0))}"
+                                    oncomplete="PF('wpisywanie').show();"/>
+                        <p:menuitem value="rozlicz transakcje" icon="fa fa-tasks" actionListener="#{kontoZapisFKView.rozliczzaznaczone()}" update=":tabelazzapisami:tabela"/>
+                        <p:menuitem value="usuń różnice kursowe" icon="fa fa-minus" actionListener="#{kontoZapisFKView.usunroznicekursowe()}" update=":tabelazzapisami:tabela"/>
+                        <p:menuitem value="rozlicz konto bankowe" icon="fa fa-book" actionListener="#{kontoZapisFKView.rozliczkontobankowe()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
+                        <p:menuitem value="usuń z listy" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListy()}" update=":tabelazzapisami:tabela"/>
+                        <p:separator/>
+                        <p:menuitem value="zeruj saldo" icon="fa fa-eye" actionListener="#{kontoZapisFKView.rozliczsaldo()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
+                        <p:menuitem value="zeruj saldo pln" icon="fa fa-bullseye" actionListener="#{kontoZapisFKView.rozliczsaldopln()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
+                        <p:menuitem value="usuń dok ARS" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListyARS()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
+                    </p:contextMenu>
+                     <p:contextMenu for="tabela" style="width: 200px;"  rendered="#{WpisView.rokzamkniety}">
+                        <p:menuitem value="rok zamknięty nie można nanosić zmian" />
+                    </p:contextMenu>
                 </h:form>  
             </p:layoutUnit> 
             <p:layoutUnit position="south" style="height: 70px;">

@@ -653,6 +653,7 @@
         <navigation-case>
             <from-outcome>BookkeeperFK</from-outcome>
             <to-view-id>/indexFK.xhtml?faces-redirect=true</to-view-id>
+            <redirect></redirect>
         </navigation-case>
         <navigation-case>
             <from-outcome>Multiuser</from-outcome>
