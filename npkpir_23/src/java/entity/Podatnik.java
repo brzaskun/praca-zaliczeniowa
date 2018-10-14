@@ -274,15 +274,20 @@ public class Podatnik implements Serializable {
     @Size(max = 10)
     @Column(name = "dataotwarcialikwidacji")
     private String dataotwarcialikwidacji;
+    @Size(max = 2)
+    @Column(name = "jezykmaila")
+    private String jezykmaila;
 
     
     public Podatnik() {
         this.podmiotaktywny = true;
+        this.jezykmaila = "pl";
     }
 
     public Podatnik(String nip) {
         this.nip = nip;
         this.podmiotaktywny = true;
+        this.jezykmaila = "pl";
     }
     
     public String podatnikDaneWydruk() {
@@ -316,6 +321,14 @@ public class Podatnik implements Serializable {
     }
     public String getSchematnumeracji() {
         return schematnumeracji;
+    }
+
+    public String getJezykmaila() {
+        return jezykmaila;
+    }
+
+    public void setJezykmaila(String jezykmaila) {
+        this.jezykmaila = jezykmaila;
     }
 
     public String getDataotwarcialikwidacji() {

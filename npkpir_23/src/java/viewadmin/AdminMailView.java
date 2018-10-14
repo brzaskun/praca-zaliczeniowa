@@ -68,6 +68,7 @@ public class AdminMailView implements Serializable {
     private boolean tylkovat;
     private InputStream zalacznik;
     private String nazwazalacznik;
+    private String jezykmaila;
 
     public AdminMailView() {
     }
@@ -93,7 +94,14 @@ public class AdminMailView implements Serializable {
             Set<Klienci> klientListtemp = new HashSet<>();
             for (Fakturywystokresowe p : wykazfaktur) {
                 if (p.getDokument().getKontrahent().getEmail() != null && !p.getDokument().getKontrahent().getEmail().contains("brak") && !p.getDokument().getKontrahent().getEmail().equals("")) {
-                    klientListtemp.add(p.getDokument().getKontrahent());
+                    if (jezykmaila==null) {
+                        klientListtemp.add(p.getDokument().getKontrahent());
+                    } else {
+                        Podatnik pod = podatnikDAO.findPodatnikByNIP(p.getDokument().getKontrahent().getNip());
+                        if (pod != null && pod.getJezykmaila() != null && pod.getJezykmaila().equals(jezykmaila)) {
+                            klientListtemp.add(p.getDokument().getKontrahent());
+                        }
+                    }
                 }
             }
             if (tylkozus) {
@@ -217,6 +225,14 @@ public class AdminMailView implements Serializable {
 
     public void setZawartoscmaila(String zawartoscmaila) {
         this.zawartoscmaila = zawartoscmaila;
+    }
+
+    public String getJezykmaila() {
+        return jezykmaila;
+    }
+
+    public void setJezykmaila(String jezykmaila) {
+        this.jezykmaila = jezykmaila;
     }
 
     public String getNazwazalacznik() {

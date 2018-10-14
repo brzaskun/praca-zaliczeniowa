@@ -1709,6 +1709,13 @@ public class PodatnikView implements Serializable {
         this.sumaudzialow = sumaudzialow;
     }
 
-
+public void naniesjezykmaila() {
+    try {
+        podatnikDAO.edit(selected);
+        Msg.msg("Zmieniono język maila");
+    } catch (Exception E) {
+        Msg.msg("e","Wystąpił błąd nie zmieniono języka maila");
+    }
+}
     
 }

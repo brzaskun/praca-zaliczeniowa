@@ -115,7 +115,7 @@ public class WalutyFKBean {
             try {
                 wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty()));
             } catch (IOException | ParserConfigurationException | SAXException | ParseException e) {
-                mail.Mail.nadajMailWystapilBlad(E.e(e), null, sMTPSettingsDAO.findSprawaByDef());
+                //mail.Mail.nadajMailWystapilBlad(E.e(e), null, sMTPSettingsDAO.findSprawaByDef());
                 
             }
             for (Tabelanbp p : wierszepobranezNBP) {

@@ -24,7 +24,7 @@
         </p:tab>
         <p:tab title="adresaci">
             <h:form>
-                <p:panelGrid columns="6">
+                <p:panelGrid columns="7">
                     <h:outputText value="tylko pracodawcy"/>
                     <p:selectBooleanCheckbox value="#{adminMailView.tylkozus}">
                         <p:ajax event="change" update="@form" listener="#{adminMailView.init}"/>
@@ -37,6 +37,14 @@
                     <p:selectBooleanCheckbox value="#{adminMailView.tylkovat}">
                         <p:ajax event="change" update="@form" listener="#{adminMailView.init}"/>
                     </p:selectBooleanCheckbox>
+                    <p:selectOneMenu value="#{adminMailView.jezykmaila}">
+                        <p:ajax event="change" partialSubmit="true" update="@form" listener="#{adminMailView.init}"/>
+                        <f:selectItem itemLabel="wszystkie"/>
+                        <f:selectItem itemLabel="polski" itemValue="pl"/>
+                        <f:selectItem itemLabel="niemiecki" itemValue="de"/>
+                        <f:selectItem itemLabel="angielski" itemValue="en"/>
+                        <f:selectItem itemLabel="czeski" itemValue="cze"/>
+                    </p:selectOneMenu>
                 </p:panelGrid>
                 <p:dataTable value="#{adminMailView.klientList}" var="loop" rowIndexVar="index" style="width: 800px;" id="adresy"  sortBy="#{loop.npelna}" rowKey="#{loop.id}">
                     <f:facet name="header">
