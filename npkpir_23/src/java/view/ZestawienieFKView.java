@@ -14,6 +14,7 @@ import dao.PodatnikUdzialyDAO;
 import dao.StrataDAO;
 import dao.WpisDAO;
 import dao.ZobowiazanieDAO;
+import daoFK.WynikFKRokMcDAO;
 import embeddable.Kwartaly;
 import embeddable.Mce;
 import entity.Dok;
@@ -26,10 +27,12 @@ import entity.StrataWykorzystanie;
 import entity.Wpis;
 import entity.Zobowiazanie;
 import entity.Zusstawki;
+import entityfk.WynikFKRokMc;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -67,6 +70,8 @@ public class ZestawienieFKView implements Serializable {
     private PodatnikDAO podatnikDAO;
     @Inject
     private StrataDAO strataDAO;
+    @Inject
+    private WynikFKRokMcDAO wynikFKRokMcDAO;
     //bieżący pit
     private Pitpoz pitpoz;
     //sumowanie poprzednich pitów jeżeli są zachowane
@@ -147,19 +152,19 @@ public class ZestawienieFKView implements Serializable {
                     }
                 }
                 biezacyPit.setPodatnik(wpisView.getPodatnikWpisu());
-                biezacyPit.setPkpirR(wpisView.getRokWpisu().toString());
+                biezacyPit.setPkpirR(wpisView.getRokWpisuSt());
                 biezacyPit.setPkpirM(wpisView.getMiesiacWpisu());
-                biezacyPit.setPrzychody(BigDecimal.TEN);
-                double procent = Double.parseDouble(wybranyprocent) / 100;
-                biezacyPit.setPrzychodyudzial(biezacyPit.getPrzychody().multiply(new BigDecimal(procent)));
-                biezacyPit.setKoszty(BigDecimal.ONE);
+                WynikFKRokMc znalezione = wynikFKRokMcDAO.findWynikFKPodatnikRokUdzialowiec(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), wybranyudzialowiec);
+                biezacyPit.setPrzychody(new BigDecimal(znalezione.getPrzychodyPodatkowe()));
+                biezacyPit.setPrzychodyudzial(biezacyPit.getPrzychody());
+                biezacyPit.setKoszty(new BigDecimal(znalezione.getKosztyPodatkowe()));
                 if (wpisView.getMiesiacWpisu().equals("12")) {
                     BigDecimal roznicaremanentow = new BigDecimal(remanentView.getRoznica());
                     biezacyPit.setRemanent(roznicaremanentow);
                     BigDecimal kosztypokorekcie = biezacyPit.getKoszty().add(roznicaremanentow);
-                    biezacyPit.setKosztyudzial(kosztypokorekcie.multiply(new BigDecimal(procent)));
+                    biezacyPit.setKosztyudzial(kosztypokorekcie);
                 } else {
-                    biezacyPit.setKosztyudzial(biezacyPit.getKoszty().multiply(new BigDecimal(procent)));
+                    biezacyPit.setKosztyudzial(biezacyPit.getKoszty());
                 }
                 biezacyPit.setWynik(biezacyPit.getPrzychodyudzial().subtract(biezacyPit.getKosztyudzial()));
                 biezacyPit.setUdzialowiec(wybranyudzialowiec);

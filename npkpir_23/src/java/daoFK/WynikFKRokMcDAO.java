@@ -6,6 +6,7 @@
 package daoFK;
 
 import dao.DAO;
+import entity.Podatnik;
 import entityfk.WynikFKRokMc;
 import java.io.Serializable;
 import java.util.List;
@@ -50,6 +51,11 @@ public class WynikFKRokMcDAO extends DAO implements Serializable {
     public WynikFKRokMc findWynikFKPodatnikRokUdzialowiec(WynikFKRokMc wynikFKRokMc) {
         return sessionFacade.findWynikFKRokMcUdzialowiec(wynikFKRokMc);
     }
+    
+    public WynikFKRokMc findWynikFKPodatnikRokUdzialowiec(Podatnik podatnik, String rok, String mc, String udzialowiec) {
+        return sessionFacade.findWynikFKRokMcUdzialowiec(podatnik, rok, mc, udzialowiec);
+    }
+    
 
     public List<WynikFKRokMc> findAll() {
         return sessionFacade.findAll(WynikFKRokMc.class);

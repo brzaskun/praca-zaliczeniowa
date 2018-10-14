@@ -29,6 +29,7 @@ import org.jsoup.Connection.Method;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.FormElement;
 import org.jsoup.select.Elements;
 
 /**
@@ -189,9 +190,64 @@ public class VIESCheckBean {
         }
     }
     
-//    public static void main(String[] args) {
-//        sprawdz();
-//    }
+    public static void main(String[] args) {
+        try {
+            String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36";
+            Connection.Response res = Jsoup.connect("https://translate.google.pl/") 
+                    .data()
+                    .method(Method.GET)
+                    .userAgent(USER_AGENT)
+                    .execute();
+            
+            FormElement loginForm = (FormElement)res.parse().select("#gt-form").first();
+
+            // ## ... then "type" the username ...
+            Element loginField = loginForm.select("#source").first();
+            loginField.val("kotek");
+            Element gtsl = loginForm.select("#gt-sl").first();
+            gtsl.val("polski");
+            Element gttl = loginForm.select("#gt-tl").first();
+            gttl.val("angielski");
+            
+//
+//            // ## ... and "type" the password
+//            Element passwordField = loginForm.select("#password").first();
+//            checkElement("Password Field", passwordField);
+//            passwordField.val(PASSWORD);        
+//
+//
+//            // # Now send the form for login
+            Connection.Response loginActionResponse = loginForm.submit()
+                    .data("source","kotek","gt-sl","polski","gt-tl","angielski")
+                    .method(Method.POST)
+                    .cookies(res.cookies())
+                    .userAgent(USER_AGENT)  
+                    .execute();
+
+
+            System.out.println(loginActionResponse.parse().html());
+            System.out.println("");
+            Document doc = res.parse();
+            
+            List<Element> tab = doc.getAllElements();
+            Element table = doc.getElementById("source");
+            Elements tds = table.getElementsByTag("td");
+//            boolean znalazl = false;
+//            //System.out.println(new Date(tds.get(8).text()).toString());
+//            for (Element link : tds) {
+//                String linkText = link.text();
+//                if (linkText.contains("Yes, valid VAT number") || znalazl == true) {
+//                    znalazl = true;
+//                    if (!linkText.equals("")) {
+//                    }
+//                } else {
+//                    break;
+//                }
+//            }
+        } catch (IOException ex) {
+            Logger.getLogger(VIESCheckBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 
     
