@@ -59,44 +59,64 @@ public class PozycjeSzczegolowe {
     
     private void pobierzSzczegoloweM18(List<String> lista, int poczatek) {
         int j = poczatek;
-        boolean robdalej = true;
-        boolean doprzeniesienia = false;
+        String dodajdla59 = "<P_70>1</P_70><P_69>1</P_69>";
+        String dodajdla6061 = "<P_69>1</P_69>";
+        boolean jest59 = false;
+        boolean jest60 = false;
+        boolean jest61 = false;
         for(String p : lista){
             try {
                 boolean poleWypelnione = !p.isEmpty();
                 if(poleWypelnione){
-                    if (j==54 && !p.equals("0")) {
-                        doprzeniesienia=true;
-                    }
-                    if (j==56 && !p.equals("0")) {
-                        robdalej=false;
-                        PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_"+j+">"+p+"</P_"+j+">");
-                        break;
-                    } else if (j==56 && p.equals("0") && doprzeniesienia) {
-                        PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_"+j+">"+p+"</P_"+j+">");
-                        break;
-                    }
-                    if (robdalej) {
-                        if (j==59 && !p.equals("0")) {
-                            PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_"+j+">"+p+"</P_"+j+">");
-                            PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_70>1</P_70>");
-                            PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_69>1</P_69>");
-                       } else if ((j==60 || j==61) && !p.equals("0")) {
-                            PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_"+j+">"+p+"</P_"+j+">");
-                            PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_69>1</P_69>");
-                       } else {
-                            PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_"+j+">"+p+"</P_"+j+">");
-                       }
-                    }
+                    //25 dni na konto
+                    if (j==59 && !p.equals("0")) {
+                        jest59=true;
+                    //60dni i 180 dni na konto
+                    } else if (j==60 && !p.equals("0")) {
+                        jest60 = true;
+                    } else if (j==61 && !p.equals("0")) {
+                        jest61 = true;
+                    } 
+                    PozycjeSzczegolowe = PozycjeSzczegolowe.concat("<P_"+j+">"+p+"</P_"+j+">");
                 }
             } catch (Exception e){}
             j++;
+        }
+        if (jest59) {
+            doklej("</P_59>",dodajdla59);
+        }
+        if (jest60) {
+            doklej("</P_60>",dodajdla6061);
+        }
+        if (jest61) {
+            doklej("</P_61>",dodajdla6061);
         }
         
     }
     
     public String getPozycjeSzczegolowe() {
         return PozycjeSzczegolowe;
+    }
+
+    private void doklej(String p_59, String dodajdla59) {
+        int ind = PozycjeSzczegolowe.indexOf(p_59)+7;
+        String pocz = PozycjeSzczegolowe.substring(0,ind);
+        String koniec = PozycjeSzczegolowe.substring(ind);
+        String suma = pocz+dodajdla59+koniec;
+        PozycjeSzczegolowe = suma;
+    }
+
+    public static void main(String[] main) {
+        String dekla = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Deklaracja xmlns=\"http://crd.gov.pl/wzor/2018/08/27/5658/\" xmlns:etd=\"http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/\"><Naglowek><KodFormularza kodSystemowy=\"VAT-7 (18)\" kodPodatku=\"VAT\" rodzajZobowiazania=\"Z\" wersjaSchemy=\"1-1E\">VAT-7</KodFormularza><WariantFormularza>18</WariantFormularza><CelZlozenia poz=\"P_7\">1</CelZlozenia><Rok>2018</Rok><Miesiac>08</Miesiac><KodUrzedu>3217</KodUrzedu></Naglowek><Podmiot1 rola=\"Podatnik\"><OsobaNiefizyczna><NIP>8513203267</NIP><PelnaNazwa>INTERIO MARINE SP. Z O.O.</PelnaNazwa></OsobaNiefizyczna></Podmiot1><PozycjeSzczegolowe><P_11>487593</P_11><P_12>487593</P_12><P_40>487593</P_40><P_41>0</P_41><P_42>247514</P_42><P_43>0</P_43><P_44>0</P_44><P_45>579091</P_45><P_46>61387</P_46><P_51>308901</P_51><P_52>0</P_52><P_54>0</P_54><P_55>0</P_55><P_56>308901</P_56><P_57>308901</P_57><P_60>308901</P_60><P_69>1</P_69><P_75>918120976</P_75><P_76>2018-10-15</P_76></PozycjeSzczegolowe><Pouczenia>1</Pouczenia></Deklaracja>";
+        int ind = dekla.indexOf("</P_60>")+7;
+        String pocz = dekla.substring(0,ind);
+        String koniec = dekla.substring(ind);
+        System.out.println(ind);
+        System.out.println(pocz);
+        System.out.println(koniec);
+        String suma = pocz+"<lalala>"+koniec;
+        System.out.println(suma);
+        
     }
     
     
