@@ -1426,7 +1426,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<StronaWiersza> findStronaWierszaByKontoWnMa(Konto konto, String wnma) {
         try {
-            return em.createNamedQuery("StronaWiersza.findByStronaWierszaKonto").setParameter("konto", konto).setParameter("wnma", wnma).getResultList();
+            return em.createNamedQuery("StronaWiersza.findByStronaWierszaKonto").setParameter("konto", konto).setParameter("wnma", wnma).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -1444,8 +1444,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<StronaWiersza> findStronaWierszaByKontoWnMaWalutaKorekta(Konto konto, String symbolwaluty, String wnma) {
         try {
-            
-            return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoWalutaKorekta").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).getResultList());
+            return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoWalutaKorekta").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -1455,7 +1454,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<StronaWiersza> findStronaWierszaByKontoWnMaKorekta(Konto konto, String wnma) {
         try {
             
-            return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoKorekta").setParameter("konto", konto).setParameter("wnma", wnma).getResultList());
+            return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoKorekta").setParameter("konto", konto).setParameter("wnma", wnma).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -1741,7 +1740,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
     
     public List<StronaWiersza> findStronaByPodatnikKontoStartRokWalutyWszystkie(Podatnik podatnikObiekt, String konto, String rokWpisuSt) {
-        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoStartRokWalutyWszystkie").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).getResultList());
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoStartRokWalutyWszystkie").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoRokMcWalutyWszystkie(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt, String mc) {
