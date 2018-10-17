@@ -16,7 +16,7 @@
             <p:printer target="formtablicaporownawcza:tablicaporownawcza" />
         </p:commandButton>
     <h:form id="formtablicaporownawcza">
-        
+        <p:messages autoUpdate="true" id="wiad"/>
         <h:outputText value="brak bilansu otwarcia, dane są niekompletne" rendered="#{srodkiKontaView.brakbo}"/>
         <p:dataTable value="#{srodkiKontaView.lista}" var="wpisks" rowIndexVar="indxwpisks" style="height: 580px;overflow-y: scroll; width: 1100px;" id="tablicaporownawcza">
              <p:column style="width: 10px; height: 25px; text-align: center;" >

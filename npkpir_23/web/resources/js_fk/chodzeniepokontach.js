@@ -190,7 +190,7 @@ var isScrolledIntoView = function(elem) {
 
     
 var znajdzwierszzkontonumer = function(wiersze, wartosc) {
-    var iloscrzedow = wiersze.size();
+    var iloscrzedow = wiersze.length;
     try {
         for(var i = 0; i < iloscrzedow; i++) {
             var trescwiersza = $(wiersze[i]).children()[2].innerText;
@@ -231,7 +231,7 @@ var zaznacznoda = function(tabela, tabela1, inputpole) {
 
 var przejdzwierszNode = function(tabela, tabela1, node) {
     var wiersze = $(document.getElementById(tabela)).children("tr");
-    var iloscrzedow = wiersze.size();
+    var iloscrzedow = wiersze.length;
     try {
         var numerwiersza = 0;
         for(var i = 0; i < iloscrzedow; i++) {

@@ -54,6 +54,7 @@ public class ObslugaPodpisuBean {
                 byte[] pkcs11configBytes = pkcs11config.getBytes("UTF-8");
                 ByteArrayInputStream configStream = new ByteArrayInputStream(pkcs11configBytes);
                 pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
+                Security.removeProvider(pkcs11Provider.getName());
                 Security.addProvider(pkcs11Provider);
                 proba++;
             } while (proba < 3 && pkcs11Provider==null);

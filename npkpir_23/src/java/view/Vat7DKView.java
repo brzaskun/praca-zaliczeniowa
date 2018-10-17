@@ -890,8 +890,8 @@ public class Vat7DKView implements Serializable {
     }
     
     private Deklaracjevat stworzdeklaracje(Vatpoz pozycje, String vatokres, DeklaracjaVatSchema schema, boolean vatzd) {
-        if (schema.getNazwaschemy().equals("M-18")) {
-            korektaM18(pozycje);
+        if (schema.getNazwaschemy().equals("M-18") || schema.getNazwaschemy().equals("K-12")) {
+            korektaM18K12(pozycje);
         }
         Deklaracjevat nowadekl = new Deklaracjevat();
         String wiersz = null;
@@ -940,7 +940,7 @@ public class Vat7DKView implements Serializable {
         return nowadekl;
     }
     
-  private void korektaM18(Vatpoz pozycje) {
+  private void korektaM18K12(Vatpoz pozycje) {
       PozycjeSzczegoloweVAT poz  = pozycje.getPozycjeszczegolowe();
             if (poz.getPoleI57()==0) {
                 poz.setPoleI57(0);
@@ -961,10 +961,6 @@ public class Vat7DKView implements Serializable {
             if (poz.getPoleI61()==0) {
                 poz.setPoleI61(0);
                 poz.setPole61(null);
-            }
-            if (poz.getPoleI62()==0) {
-                poz.setPoleI62(0);
-                poz.setPole62(null);
             }
   }
     

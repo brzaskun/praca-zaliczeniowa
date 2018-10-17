@@ -203,7 +203,7 @@ public class DokumentFKBean implements Serializable {
         Konto kosztyfinansowe = kontoDAOfk.findKonto("759", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         for (Iterator<Transakcja> it = pobranetransakcje.iterator(); it.hasNext();) {
             Transakcja p = it.next();
-            naniesPojedynczaTransakcje(idporzadkowy, nd, p, tabelanbpDAO, kontoRozniceKursowe, przychodyfinansowe, kosztyfinansowe);
+            naniesPojedynczaTransakcje(idporzadkowy++, nd, p, tabelanbpDAO, kontoRozniceKursowe, przychodyfinansowe, kosztyfinansowe);
         }
     }
 

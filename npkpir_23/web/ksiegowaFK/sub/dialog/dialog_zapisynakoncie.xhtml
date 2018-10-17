@@ -170,10 +170,16 @@
                 </h:form>
             </p:layoutUnit>  
 
-            <p:layoutUnit id="centertree" position="center" style="width: 1170px;">
+            <p:layoutUnit id="centertree" position="center" >
                 <style>
                     .grid1 td {
-                        height: 40px!important;
+                        height: 40px !important;
+                    }
+                    #centertree {
+                        width: 1250px !important;
+                    }
+                    .lolo {
+                        width: 20px;
                     }
                 </style>
                 <h:form id="tabelazzapisami">
@@ -182,7 +188,7 @@
 
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.id}"
                                  filteredValue="#{kontoZapisFKView.kontozapisyfiltered}"
-                                 selection="#{kontoZapisFKView.wybranezapisydosumowania}" sortBy="#{loop}" style="height: 535px; overflow-y: scroll;"
+                                 selection="#{kontoZapisFKView.wybranezapisydosumowania}" sortBy="#{loop}" style="height: 525px; overflow-y: scroll; width: 1230px;"
                                  sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" emptyMessage="Nie ma zapisów na koncie"
                                  rowIndexVar="rowindex" styleClass="walkingtable" rowSelectMode="add"
                                  >

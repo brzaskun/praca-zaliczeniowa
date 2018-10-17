@@ -241,17 +241,22 @@ public class SrodkiKontaView implements Serializable {
         double umorzenia = 0.0;
         List<SrodekTrw> wybrane = new ArrayList<>();
         for (SrodekTrw t : posiadane) {
-            boolean dodac = false;
-            if (t.getKontonetto().equals(p)) {
-                koszzakupu += pobierzentto(t);
-                dodac = true;
-            }
-            if (t.getKontoumorzenie().equals(p)) {
-                umorzenia += pobierzumorzenie(t);
-                dodac = true;
-            }
-            if (dodac) {
-                wybrane.add(t);
+            try {
+                boolean dodac = false;
+                if (t.getKontonetto().equals(p)) {
+                    koszzakupu += pobierzentto(t);
+                    dodac = true;
+                }
+                if (t.getKontoumorzenie().equals(p)) {
+                    umorzenia += pobierzumorzenie(t);
+                    dodac = true;
+                }
+                if (dodac) {
+                    wybrane.add(t);
+                }
+            } catch (Exception e){
+                E.e(e);
+                Msg.msg("e", "Nie podpięto konta pod środek "+t.getNazwa(), "formtablicaporownawcza:wiad");
             }
         }
         zwrot.setKosztnabycia(koszzakupu);

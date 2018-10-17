@@ -109,20 +109,36 @@ public class VATDeklaracja implements Serializable {
                 int nettoI = (int) Z.z0(ws.getSumanetto());
                 String vat = String.valueOf(ws.getSumavat());
                 int vatI = (int) Z.z0(ws.getSumavat());
-                if ((nrpolanetto != null) && (!nrpolanetto.isEmpty()) && ew.getNetto1vat2() != 2) {
-                    ustawPozycjeSumaryczne(pozycjeSzczegoloweVAT, nrpolanetto, netto, nettoI);
+                boolean jestzwrotnarachunek = false;
+                if (ws.getNazwapozycji().equals("Kwota do zwrotu na rachunek bankowy") && vatI>0) {
+                    jestzwrotnarachunek = true;
                 }
-                if ((nrpolavat != null) && (!nrpolavat.isEmpty()) && ew.getNetto1vat2() != 1) {
-                    ustawPozycjeSumaryczne(pozycjeSzczegoloweVAT, nrpolavat, vat, vatI);
+                if (ws.getNazwapozycji().contains("do zwrotu w") && jestzwrotnarachunek) {
+                    if ((nrpolanetto != null) && (!nrpolanetto.isEmpty()) && ew.getNetto1vat2() != 2) {
+                        ustawPozycjeSumaryczne(pozycjeSzczegoloweVAT, nrpolanetto, netto, nettoI);
+                    }
+                    if ((nrpolavat != null) && (!nrpolavat.isEmpty()) && ew.getNetto1vat2() != 1) {
+                        ustawPozycjeSumaryczne(pozycjeSzczegoloweVAT, nrpolavat, vat, vatI);
+                    }
+                } else {
+                    if ((nrpolanetto != null) && (!nrpolanetto.isEmpty()) && ew.getNetto1vat2() != 2) {
+                        ustawPozycjeSumaryczne(pozycjeSzczegoloweVAT, nrpolanetto, netto, nettoI);
+                    }
+                    if ((nrpolavat != null) && (!nrpolavat.isEmpty()) && ew.getNetto1vat2() != 1) {
+                        ustawPozycjeSumaryczne(pozycjeSzczegoloweVAT, nrpolavat, vat, vatI);
+                    }
                 }
-                //to jest uzywane przy korektach
-                if (nowaWartoscVatZPrzeniesienia != null) {
-                    pozycjeSzczegoloweVAT.setPoleI47(nowaWartoscVatZPrzeniesienia);
-                    pozycjeSzczegoloweVAT.setPole47(String.valueOf(nowaWartoscVatZPrzeniesienia));
-                }
+//                if (ws.getNazwapozycji().equals("Kwota podatku podlegająca wpłacie") && vatI>0) {
+//                    break;
+//                }
             } catch (Exception ex) {
                 E.e(ex);
             }
+        }
+        //to jest uzywane przy korektach
+        if (nowaWartoscVatZPrzeniesienia != null) {
+            pozycjeSzczegoloweVAT.setPoleI47(nowaWartoscVatZPrzeniesienia);
+            pozycjeSzczegoloweVAT.setPole47(String.valueOf(nowaWartoscVatZPrzeniesienia));
         }
     }
     
