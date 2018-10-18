@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jpk.view;
+package jpkview;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -50,12 +50,12 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
-import static jpk.view.JPK_VAT2_Bean.dodajWierszeSprzedazy;
-import static jpk.view.JPK_VAT2_Bean.dodajWierszeZakupy;
-import static jpk.view.JPK_VAT2_Bean.naglowek;
-import static jpk.view.JPK_VAT2_Bean.obliczsprzedazCtrl;
-import static jpk.view.JPK_VAT2_Bean.obliczzakupCtrl;
-import static jpk.view.JPK_VAT2_Bean.podmiot1;
+import static jpkview.JPK_VAT2_Bean.dodajWierszeSprzedazy;
+import static jpkview.JPK_VAT2_Bean.dodajWierszeZakupy;
+import static jpkview.JPK_VAT2_Bean.naglowek;
+import static jpkview.JPK_VAT2_Bean.obliczsprzedazCtrl;
+import static jpkview.JPK_VAT2_Bean.obliczzakupCtrl;
+import static jpkview.JPK_VAT2_Bean.podmiot1;
 import jpk201701.JPK;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 

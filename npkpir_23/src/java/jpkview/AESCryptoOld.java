@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jpk.view;
+package jpkview;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,7 +18,7 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
-import static jpk.view.WysylkaSub.removeCryptographyRestrictions;
+import static jpkview.WysylkaSub.removeCryptographyRestrictions;
 
 
 /**

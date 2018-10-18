@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jpk.view;
+package jpkview;
 
 import data.Data;
 import entity.JPKSuper;
@@ -25,7 +25,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import jpk.initupload.PrzygotujInitUploadXML;
-import static jpk.view.UnzipUtility.unzip;
+import static jpkview.UnzipUtility.unzip;
 import view.WpisView;
 
 /**

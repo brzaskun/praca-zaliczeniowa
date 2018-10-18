@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jpk.view;
+package jpkview;
 
 import beansPodpis.ObslugaPodpisuBean;
 import dao.UPODAO;
@@ -41,6 +41,7 @@ import org.primefaces.context.RequestContext;
 import pdf.PdfUPO;
 import view.EwidencjaVatView;
 import view.WpisView;
+import jpkview.JPK_VAT3_Bean;
 import waluty.Z;
 
 /**

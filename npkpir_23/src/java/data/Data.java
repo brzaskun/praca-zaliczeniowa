@@ -410,9 +410,9 @@ public class Data implements Serializable {
             if (mc.equals("07") || mc.equals("12")) {
                 dzien = "31";
             } else if (mod==0) {
-                dzien = "30";
-            } else {
                 dzien = "31";
+            } else {
+                dzien = "30";
             }
         }
         StringBuilder sb = new StringBuilder();

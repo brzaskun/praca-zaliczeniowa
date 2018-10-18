@@ -1,4 +1,4 @@
-package jpk.view;
+package jpkview;
 
 
 import java.security.Security;
