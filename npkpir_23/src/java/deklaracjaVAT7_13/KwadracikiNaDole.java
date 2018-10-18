@@ -24,7 +24,7 @@ public class KwadracikiNaDole {
     public KwadracikiNaDole() {
     }
 
-    public KwadracikiNaDole(Vatpoz selected, DeklaracjaVatSchema schema, boolean vatzd) {
+    public KwadracikiNaDole(Vatpoz selected, DeklaracjaVatSchema schema, boolean vatzd, String nrtelefonu) {
         PozycjeSzczegoloweVAT pozycjelista = selected.getPozycjeszczegolowe();
         String nazwaschemy = schema.getNazwaschemy();
         Date date = Calendar.getInstance().getTime();
@@ -53,7 +53,7 @@ public class KwadracikiNaDole {
                 break;
             case "M-18":
             case "K-12":
-                this.schemaM18K12(pozycjelista, today, vatzd);
+                this.schemaM18K12(pozycjelista, today, vatzd, nrtelefonu);
                 break;
         }
     }
@@ -120,12 +120,12 @@ public class KwadracikiNaDole {
         kwadracikiNaDole = kwadracikiNaDole.concat("</PozycjeSzczegolowe>");
     }
     
-    private void schemaM18K12(PozycjeSzczegoloweVAT pozycjelista, String today, boolean vatzd){
+    private void schemaM18K12(PozycjeSzczegoloweVAT pozycjelista, String today, boolean vatzd, String nrtelefonu){
         //inne kwadraciki 60 sa robione w PozycjeSzczegolowe bo ktos odwrocil kolejnosc kwadracikow
         if(vatzd) {
             kwadracikiNaDole = kwadracikiNaDole.concat("<P_71>1</P_71>");
         }
-        kwadracikiNaDole = kwadracikiNaDole.concat("<P_75>918120976</P_75>");
+        kwadracikiNaDole = kwadracikiNaDole.concat("<P_75>"+nrtelefonu+"</P_75>");
         kwadracikiNaDole = kwadracikiNaDole.concat("<P_76>"+today+"</P_76>");
         kwadracikiNaDole = kwadracikiNaDole.concat("</PozycjeSzczegolowe>");
     }

@@ -897,12 +897,13 @@ public class Vat7DKView implements Serializable {
         String wiersz = null;
         byte[] deklaracjapodpisana = null;
         try {
+            String nrtelefonu = wpisView.getWprowadzil().getNrtelefonu() == null ? "605586176" : wpisView.getWprowadzil().getNrtelefonu();
             if (wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
-                VAT713 vat713 = new VAT713(pozycje, schema, true, vatzd);
+                VAT713 vat713 = new VAT713(pozycje, schema, true, vatzd, nrtelefonu);
                 wiersz = vat713.getWiersz();
                 nowadekl.setJestcertyfikat(true);
             } else {
-                VAT713 vat713 = new VAT713(pozycje, schema, false, vatzd);
+                VAT713 vat713 = new VAT713(pozycje, schema, false, vatzd, nrtelefonu);
                 //to jest wygenerowana dekalracjia w xml
                 wiersz = vat713.getWiersz();
                 nowadekl.setJestcertyfikat(false);

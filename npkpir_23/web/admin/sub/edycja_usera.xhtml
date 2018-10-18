@@ -5,8 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:panel id="editDane" menuTitle="Edytowanie danych użytkownika" header="Edytowanie danych użytkownika" >
-        <h:messages id="mess_edit" tooltip="true" />
-        <p:panelGrid columns="8" >
+        <p:panelGrid columns="9" >
             <h:outputLabel value="imie"/>
             <h:outputLabel value="nazwisko"/>
             <h:outputLabel value="hasło"/>
@@ -14,6 +13,7 @@
             <h:outputLabel value="locale"/>
             <h:outputLabel value="firma"/>
             <h:outputLabel value="login główny"/>
+            <h:outputLabel value="nr telefonu"/>
             <br/>
             <p:inputText  value="#{UzView.selUzytkownik.imie}"/>
             <p:inputText  value="#{UzView.selUzytkownik.nazw}"/>
@@ -35,7 +35,8 @@
                 <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                 <f:selectItems value="#{UzView.listaUzytkownikow}" var="item" itemLabel="#{item.login}" itemValue="#{item}"/>
             </p:selectOneMenu>
-            <p:commandButton action="#{UzView.zachowajzmiany()}" value="Edytuj" update=":form:uzytkownicyLista,mess_edit,:dodWiad:ostatniUzytkownik"/>
+            <p:inputText  value="#{UzView.selUzytkownik.nrtelefonu}"/>
+            <p:commandButton action="#{UzView.zachowajzmiany()}" value="Edytuj" update=":form:uzytkownicyLista :dodWiad:ostatniUzytkownik"/>
         </p:panelGrid>
     </p:panel>
 </ui:composition>   

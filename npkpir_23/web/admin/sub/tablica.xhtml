@@ -9,8 +9,8 @@
 
     <p:outputPanel id="wrapper">
         <p:dataTable  var="wpis" value="#{UzView.listaUzytkownikow}" id="uzytkownicyLista" editable="true"
-                      paginator="true" paginatorAlwaysVisible="true" filteredValue="#{UzView.obiektUZjsfselected}"
-                      scrollable="true" scrollHeight="300"
+                       filteredValue="#{UzView.obiektUZjsfselected}"
+                       style="width: 1600px; height: 400px; overflow-y: scroll;"
                       rowKey="#{wpis.login}" selection="#{UzView.selUzytkownik}" selectionMode="single"> 
             <p:ajax event="rowEdit" update=":form:messages" listener="#{UzView.zachowajzmiany()}" />
             <p:ajax event="rowSelect" update=":form:messages, :editUzyt" listener="#{UzView.wybranoUzytkownika}" />
@@ -57,7 +57,20 @@
                     </f:facet>
                 </p:cellEditor>
             </p:column>
-            <p:column id="locale" headerText="locale" filterBy="#{wpis.locale}" filterMatchMode="contains" sortBy="#{wpis.locale}"
+            <p:column headerText="nr telefonu" filterBy="#{wpis.nrtelefonu}" filterMatchMode="contains" sortBy="#{wpis.nrtelefonu}">  
+                <f:facet name="header">  
+                    <h:outputText value="uprawnienia" />  
+                </f:facet> 
+                 <p:cellEditor>
+                    <f:facet name="output">  
+                        <h:outputText value="#{wpis.nrtelefonu}" />
+                    </f:facet>
+                    <f:facet name="input">  
+                        <p:inputText value="#{wpis.nrtelefonu}" valueChangeListener="#{UzView.edit}"/>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column id="locale" headerText="locale" filterBy="#{wpis.locale}" filterMatchMode="contains" sortBy="#{wpis.locale}" width="70"
                       style="text-align: center;">  
                 <f:facet name="header">  
                     <h:outputText value="locale" />  
@@ -90,10 +103,10 @@
                     </f:facet>
                 </p:cellEditor>
             </p:column>
-            <p:column id="editColumn" headerText="edytuj" style="text-align: center;">
+            <p:column id="editColumn" headerText="edytuj" style="text-align: center;" width="70">
                 <p:rowEditor />  
             </p:column>
-            <p:column id="deleteColumn" headerText="usuń" style="text-align: center;">
+            <p:column id="deleteColumn" headerText="usuń" style="text-align: center;" width="70">
                 <p:commandButton  action="#{UzView.destroy(wpis)}" value="Usuń"  update="@(form)"/>
             </p:column>
         </p:dataTable>

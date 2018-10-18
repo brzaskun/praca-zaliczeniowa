@@ -79,6 +79,9 @@ public class Uz implements Serializable {
     @JoinColumn(name = "loginglowny", referencedColumnName = "login")
     @ManyToOne
     private Uz loginglowny;
+    @Size(max = 45)
+    @Column(name = "nrtelefonu")
+    private String nrtelefonu;
 
     public Uz() {
     }
@@ -177,6 +180,14 @@ public class Uz implements Serializable {
     }
     public String getImieNazwisko() {
         return this.getImie()+" "+this.getNazw();
+    }
+
+    public String getNrtelefonu() {
+        return nrtelefonu;
+    }
+
+    public void setNrtelefonu(String nrtelefonu) {
+        this.nrtelefonu = nrtelefonu;
     }
 
     public Uz getLoginglowny() {

@@ -7,27 +7,30 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:panel >
         <p:panel menuTitle="Wprowadzanie nowego użytkownika" header="Wprowadzanie danych nowego użytkownika"  >
+            <p:growl id="mess_add" autoUpdate="true"/>
          <h:form id="tabelaform">
-             <h:messages id="mess_add" tooltip="true" />
-         <p:panelGrid columns="7" >
+             
+         <p:panelGrid columns="8" >
             <h:outputLabel value="login"/>
             <h:outputLabel value="imie"/>
             <h:outputLabel value="nazwisko"/>
             <h:outputLabel value="hasło"/>
             <h:outputLabel value="uprawnienia"/>
             <h:outputLabel value="log"/>
-            <br/>
-            <h:inputText value="#{UzDAO.selUzytkownik.logi}" accesskey="s" required="true" requiredMessage="logi  - uzupełnij">
+            <h:outputLabel value="telefon"/>
+            <h:outputLabel value=""/>
+            <p:inputText value="#{UzDAO.selUzytkownik.logi}" accesskey="s" required="true" requiredMessage="logi  - uzupełnij">
                 <f:validateLength minimum="8" maximum="15"/>
-            </h:inputText>
-            <h:inputText value="#{UzDAO.selUzytkownik.imie}" required="true" requiredMessage="imie - uzupełnij"/>
-            <h:inputText value="#{UzDAO.selUzytkownik.nazw}" required="true" requiredMessage="nazwisko - uzupełnij"/>
-            <h:inputText value="#{UzDAO.selUzytkownik.haslo}" required="true" requiredMessage="hasło - uzupełnij"/>
-            <h:selectOneMenu value="#{UzDAO.selUzytkownik.upr}" required="true" requiredMessage="uprawnienia - uzupełnij">
+            </p:inputText>
+            <p:inputText value="#{UzDAO.selUzytkownik.imie}" required="true" requiredMessage="imie - uzupełnij"/>
+            <p:inputText value="#{UzDAO.selUzytkownik.nazw}" required="true" requiredMessage="nazwisko - uzupełnij"/>
+            <p:inputText value="#{UzDAO.selUzytkownik.haslo}" required="true" requiredMessage="hasło - uzupełnij"/>
+            <p:selectOneMenu value="#{UzDAO.selUzytkownik.upr}" required="true" requiredMessage="uprawnienia - uzupełnij">
                 <f:selectItems value="#{uprawnienia.listaUprawnien}"/>
-            </h:selectOneMenu>
-            <h:inputText value="#{UzDAO.selUzytkownik.log}" required="true" requiredMessage="login - uzupełnij"/>
-            <p:commandButton action="#{UzDAO.dodajNowyWpis()}" value="Dodaj" update=":form:uzytkownicyLista,mess_add,:dodWiad:ostatniUzytkownik"/>
+            </p:selectOneMenu>
+            <p:inputText value="#{UzDAO.selUzytkownik.loginglowny}" required="true" requiredMessage="login główny - uzupełnij"/>
+            <p:inputText value="#{uzDAO.selUzytkownik.nrtelefonu}" required="true" requiredMessage="hasło - uzupełnij"/>
+            <p:commandButton action="#{UzDAO.dodajNowyWpis()}" value="Dodaj" update=":form:uzytkownicyLista :dodWiad:ostatniUzytkownik"/>
         </p:panelGrid>
          </h:form>
     </p:panel>
@@ -39,14 +42,15 @@
             <h:outputLabel value="nazwisko"/>
             <h:outputLabel value="hasło"/>
             <h:outputLabel value="uprawnienia"/>
-            <h:outputLabel value="log"/>
-            <br/>
+            <h:outputLabel value="loginglowny"/>
+            <h:outputLabel value="telefon"/>
+
                 <h:outputText  value="#{UzDAO.selUzytkownik.logi}"/>
                 <h:outputText  value="#{UzDAO.selUzytkownik.imie}"/>
                 <h:outputText  value="#{UzDAO.selUzytkownik.nazw}"/>
                 <h:outputText  value="#{UzDAO.selUzytkownik.haslo}"/>
                 <h:outputText  value="#{UzDAO.selUzytkownik.upr}"/>
-                <h:outputText  value="#{UzDAO.selUzytkownik.log}"/>
+                <h:outputText  value="#{UzDAO.selUzytkownik.loginglowny}"/>
          </p:panelGrid>
     </p:panel>
         </p:panel>
