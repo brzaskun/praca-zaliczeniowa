@@ -2,21 +2,28 @@
 <!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
 <resources>
      <jdbc-resource enabled="true" jndi-name="pkpirNew" object-type="user" pool-name="mysql_pkpir_brzaskunPool"/>
-    <jdbc-connection-pool allow-non-component-callers="false" associate-with-thread="false" 
+    <jdbc-connection-pool associate-with-thread="false" 
                           wrap-jdbc-objects="true"
                           statement-cache-size="100"
-                          datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" 
+                          datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" idle-timeout-in-seconds="300" 
                           is-isolation-level-guaranteed="true" lazy-connection-association="false" 
                           lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="512"
-                          max-wait-time-in-millis="60000" name="mysql_pkpir_brzaskunPool" non-transactional-connections="false"
-                          pool-resize-quantity="4" res-type="javax.sql.DataSource"  
+                          max-wait-time-in-millis="60000" name="mysql_pkpir_brzaskunPool" non-transactional-connections="true"
+                          pool-resize-quantity="4" res-type="javax.sql.DataSource"   
                           steady-pool-size="4" ping="true"
-                          validate-atmost-once-period-in-seconds="10" >
+                          validate-atmost-once-period-in-seconds="10"
+                          is-connection-validation-required="true"
+                          connection-validation-method="table"
+                          validation-table-name="wpis"
+                          fail-all-connections="true"
+                          allow-non-component-callers="true"
+    >
         <property name="serverName" value="localhost"/>
         <property name="portNumber" value="3306"/>
         <property name="databaseName" value="pkpir"/>
         <property name="User" value="brzaskun"/>
         <property name="Password" value="pufikun"/>
+        <property name="PasswordCredential" value="pufikun"/>
         <property name="URL" value="jdbc:mysql://localhost:3306/pkpir?useUnicode=true&amp;characterEncoding=UTF-8"/>
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
        
