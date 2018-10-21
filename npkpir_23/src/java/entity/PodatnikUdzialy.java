@@ -59,6 +59,9 @@ public class PodatnikUdzialy implements Serializable{
     private String datarozpoczecia;
     @Column(name = "datazakonczenia")
     private String datazakonczenia;
+    @Column(name = "opodatkowanie")
+    private String opodatkowanie;
+    
    
 
     public PodatnikUdzialy() {
@@ -218,6 +221,14 @@ public class PodatnikUdzialy implements Serializable{
 
     public void setDatazakonczenia(String datazakonczenia) {
         this.datazakonczenia = datazakonczenia;
+    }
+
+    public String getOpodatkowanie() {
+        return opodatkowanie;
+    }
+
+    public void setOpodatkowanie(String opodatkowanie) {
+        this.opodatkowanie = opodatkowanie;
     }
 
    

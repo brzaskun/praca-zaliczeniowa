@@ -12,47 +12,47 @@
             <p:growl life="3600"  showDetail="true"/>
             <p:focus for="parametryp2"/><br/>
             <p:panelGrid columns="4" style="width: 920px">
-                <p:dataTable value="#{podatnikView.selected.zusparametr}"  var="loop" paginatorAlwaysVisible="true" paginatorPosition="top"
+                <p:dataTable value="#{podatnikView.selected.zusparametr}"  var="loopzus" paginatorAlwaysVisible="true" paginatorPosition="top"
                              paginator="true" pageLinks="12" rows="12" id="datatable"
-                             sortFunction="#{zUSStawkiZbiorczeView.sortujZUSstawki}"  sortBy="#{loop.zusstawkiPK}" sortOrder="descending" selection="#{podatnikView.zusstawkiWybierz}" selectionMode="single" rowKey="#{loop.zusstawkiPK}"
+                             sortFunction="#{zUSStawkiZbiorczeView.sortujZUSstawki}"  sortBy="#{loopzus.zusstawkiPK}" sortOrder="descending" selection="#{podatnikView.zusstawkiWybierz}" selectionMode="single" rowKey="#{loopzus.zusstawkiPK}"
                              rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" >
                     <p:ajax event="rowSelect" listener="#{podatnikView.wybranowiadomosc()}" update="@form:parametryp2"/>       
                     <f:facet name="header">
                         <h:outputText value="Lista wprowadzonych stawek"/>
                     </f:facet>
                     <p:column headerText="rok"  style="text-align: center">
-                        <h:outputText value="#{loop.zusstawkiPK.rok}"   style="#{loop.zusstawkiPK.rok eq podatnikView.biezacadata ? 'color: green; font-weight: 900;' : null}"/>
+                        <h:outputText value="#{loopzus.zusstawkiPK.rok}"   style="#{loopzus.zusstawkiPK.rok eq podatnikView.biezacadata ? 'color: green; font-weight: 900;' : null}"/>
                     </p:column>
                     <p:column headerText="#{mgs.miesiąc}"  style="text-align: center">
-                        <h:outputText value="#{loop.zusstawkiPK.miesiac}"  style="#{loop.zusstawkiPK.rok eq podatnikView.biezacadata ? 'color: green; font-weight: 900;' : null}"/>
+                        <h:outputText value="#{loopzus.zusstawkiPK.miesiac}"  style="#{loopzus.zusstawkiPK.rok eq podatnikView.biezacadata ? 'color: green; font-weight: 900;' : null}"/>
                     </p:column>
                     <p:column headerText="ZUS 51">
-                        <h:outputText value="#{loop.zus51ch}"  style="#{loop.zusstawkiPK.rok eq podatnikView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
+                        <h:outputText value="#{loopzus.zus51ch}"  style="#{loopzus.zusstawkiPK.rok eq podatnikView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="ZUS 51/bch">
-                        <h:outputText value="#{loop.zus51bch}"  style="#{loop.zusstawkiPK.rok eq podatnikView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
+                        <h:outputText value="#{loopzus.zus51bch}"  style="#{loopzus.zusstawkiPK.rok eq podatnikView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="ZUS 52">
-                        <h:outputText value="#{loop.zus52}"  style="#{loop.zusstawkiPK.rok eq podatnikView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
+                        <h:outputText value="#{loopzus.zus52}"  style="#{loopzus.zusstawkiPK.rok eq podatnikView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="ZUS 52 odl.">
-                        <h:outputText value="#{loop.zus52odl}"  style="#{loop.zusstawkiPK.rok eq podatnikView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
+                        <h:outputText value="#{loopzus.zus52odl}"  style="#{loopzus.zusstawkiPK.rok eq podatnikView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="ZUS 53">
-                        <h:outputText value="#{loop.zus53}"  style="#{loop.zusstawkiPK.rok eq podatnikView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
+                        <h:outputText value="#{loopzus.zus53}"  style="#{loopzus.zusstawkiPK.rok eq podatnikView.biezacadata ? 'color: green; font-weight: 900;' : null}; float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
                      <p:column style="text-align: center">
-                        <p:commandButton action="#{podatnikView.usunzus(loop)}" value="usun" update="@form:datatable" type="submit" />
+                        <p:commandButton action="#{podatnikView.usunzus(loopzus)}" value="usun" update="@form:datatable" type="submit" />
                     </p:column>
                 </p:dataTable>
             </p:panelGrid>

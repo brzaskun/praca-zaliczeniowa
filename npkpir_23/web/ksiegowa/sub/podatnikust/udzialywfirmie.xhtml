@@ -9,12 +9,13 @@
 
     <p:tab title="Udziały w firmie">
         <h:form id="form9" >
-            <h:outputText value="Udziały w firmie - razem " style="font-size: 15px"/>
-            <h:outputText id="sumaudzialow" value="#{podatnikView.sumaudzialow}" style="font-size: 15px"/>
+            <p:panelGrid columns="2">
+                <h:outputText value="Udziały w firmie - razem " style="font-size: 15px"/>
+                <h:outputText id="sumaudzialow" value="#{podatnikView.sumaudzialow}%" style="font-size: 15px"/>
+            </p:panelGrid>
             <p:growl life="3600"  id="messages"/>
-            <p:focus for="parametryp9"/><br/>
-            <br/>
-            <p:panelGrid columns="4" style="width: 900px">
+            <p:focus for="parametryp9"/>
+            <p:panelGrid columns="4" style="width: 1000px; padding: 5px;">
                 <p:dataTable value="#{podatnikView.podatnikUdzialy}"  var="loop" rowKey="#{loop.id}" selection="#{podatnikView.wybranyPodatnikUdzialy}" id="form9tablica"
                               editable="true">
                     <p:ajax event="rowEdit" update=":akordeon:form9:messages" listener="#{podatnikView.editUdzialy}" />
@@ -38,13 +39,19 @@
                     <p:column headerText="udział" style="text-align: center;">
                         <h:outputText value="#{loop.udzial}" />
                     </p:column>
+                    <p:column headerText="opodatkowanie" style="text-align: center;" width="100">
+                        <h:outputText value="#{loop.opodatkowanie}" rendered="#{loop.opodatkowanie ne null}"/>
+                        <h:outputText value="nie wybrano" rendered="#{loop.opodatkowanie eq null}" style="color: red;"/>
+                    </p:column>
                     <p:column style="text-align: center;" headerText="usuń">
                         <p:commandButton action="#{podatnikView.usunUdzialy(loop)}"  icon="ui-icon-trash" update="akordeon:form9:form9tablica" type="submit"/>
                     </p:column>
                 </p:dataTable>
             </p:panelGrid>
-            <h:outputText value="wpisz dane"/><br/>
-            <p:panelGrid id="parametryp9" columns="4" >
+            <p:panelGrid columns="1" >
+                <h:outputText value="wpisz dane"/>
+            </p:panelGrid>
+            <p:panelGrid id="parametryp9" columns="4" style="padding: 10px;" >
                 <h:outputText value="data od: "/>
                 <p:inputText id="dataod" value="#{podatnikView.udzialy.datarozpoczecia}" maxlength="10" placeholder="rrrr-mm-dd" size="10" required="true">
                     <p:ajax event="blur" onstart="weryfikujdateauto('akordeon:form1:dataod')"/>
@@ -54,18 +61,22 @@
                     <p:ajax event="blur" onstart="weryfikujdateauto('akordeon:form1:datado')"/>
                 </p:inputText>
             </p:panelGrid>
-            <p:panelGrid id="parametryp9a" columns="2" >
+            <p:panelGrid id="parametryp9a" columns="2"  style="padding: 10px;">
                 <h:outputText value="nazwisko i imie"/><h:inputText value="#{podatnikView.udzialy.nazwiskoimie}" required="true"/>
                 <h:outputText value="nip"/><h:inputText value="#{podatnikView.udzialy.nip}"/>
                 <h:outputText value="pesel"/><h:inputText value="#{podatnikView.udzialy.pesel}"/>
                 <h:outputText value="udział - 100=100%"/><h:inputText value="#{podatnikView.udzialy.udzial}" required="true"/>
+                <h:outputText value="rodzaj opod: "/>
+                <p:selectOneMenu value="#{podatnikView.udzialy.opodatkowanie}">
+                    <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/> 
+                    <f:selectItem itemValue="zasady ogólne" itemLabel="zasady ogólne"/> 
+                    <f:selectItem itemValue="podatek liniowy" itemLabel="podatek liniowy"/>
+                </p:selectOneMenu>
             </p:panelGrid>
-            <br/>
             <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
                 <p:commandButton action="#{podatnikView.dodajUdzialy()}" value="dodaj udział" update="akordeon:form9:sumaudzialow akordeon:form9:parametryp9 akordeon:form9:parametryp9a akordeon:form9:form9tablica" type="submit" style="width: 120px;"/>
                 <p:commandButton action="#{podatnikView.editUdzialy()}" value="edytuj udział" update="akordeon:form9:sumaudzialow akordeon:form9:parametryp9 akordeon:form9:parametryp9a akordeon:form9:form9tablica" type="submit" style="margin-left: 10px; width: 120px;"/>
             </p:panelGrid>
         </h:form>
-        <br/><br/>
     </p:tab>
 </ui:composition> 

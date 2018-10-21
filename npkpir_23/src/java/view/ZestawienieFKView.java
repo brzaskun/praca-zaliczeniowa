@@ -61,7 +61,8 @@ import waluty.Z;
 public class ZestawienieFKView implements Serializable {
     private static final long serialVersionUID = 1L;
     //dane niezbedne do wyliczania pit
-    private static String wybranyudzialowiec;
+    private String wybranyudzialowiec;
+    private String wybranyudzialowiecopodatkowanie;
     @Inject
     private DokDAO dokDAO;
     @Inject
@@ -148,6 +149,7 @@ public class ZestawienieFKView implements Serializable {
                 for (PodatnikUdzialy p : udzialy) {
                     if (p.getNazwiskoimie().equals(wybranyudzialowiec)) {
                         wybranyprocent = p.getUdzial();
+                        wybranyudzialowiecopodatkowanie = p.getOpodatkowanie();
                         break;
                     }
                 }
@@ -222,14 +224,14 @@ public class ZestawienieFKView implements Serializable {
                     Msg.msg("e", "Brak wprowadzonej skali opodatkowania dla wszystkich podatników na obecny rok. Przerywam wyliczanie PIT-u");
                     return;
                 }
-                String opodatkowanie = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(wpisView).getFormaopodatkowania();
-                String rodzajop = opodatkowanie;
+               // String opodatkowanie = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(wpisView).getFormaopodatkowania();
+                //String rodzajop = opodatkowanie;
                 Double stawka = 0.0;
                 BigDecimal podatek = BigDecimal.ZERO;
                 BigDecimal dochód = biezacyPit.getPodstawa();
                 BigDecimal przychody = biezacyPit.getPrzychody();
                 try {
-                    switch (rodzajop) {
+                    switch (wybranyudzialowiecopodatkowanie) {
                         case "zasady ogólne":
                             podatek = WyliczPodatekZasadyOgolne.wyliczopodatek(skalaPodatkowaZaDanyRok, dochód);
                             break;
@@ -715,14 +717,15 @@ public class ZestawienieFKView implements Serializable {
     public void setZobowiazanieDAO(ZobowiazanieDAO zobowiazanieDAO) {
         this.zobowiazanieDAO = zobowiazanieDAO;
     }
-    
+
     public String getWybranyudzialowiec() {
         return wybranyudzialowiec;
     }
-    
+
     public void setWybranyudzialowiec(String wybranyudzialowiec) {
-        ZestawienieFKView.wybranyudzialowiec = wybranyudzialowiec;
+        this.wybranyudzialowiec = wybranyudzialowiec;
     }
+    
     
     public String getWybranyprocent() {
         return wybranyprocent;
@@ -788,5 +791,18 @@ public class ZestawienieFKView implements Serializable {
     public void setKomunikatblad(String komunikatblad) {
         this.komunikatblad = komunikatblad;
     }
+    
+    public String getWybranyudzialowiecopodatkowanie() {
+        return wybranyudzialowiecopodatkowanie;
+    }
+
+    public void setWybranyudzialowiecopodatkowanie(String wybranyudzialowiecopodatkowanie) {
+        this.wybranyudzialowiecopodatkowanie = wybranyudzialowiecopodatkowanie;
+    }
+    
+    
 //</editor-fold>
+
+    
+
 }

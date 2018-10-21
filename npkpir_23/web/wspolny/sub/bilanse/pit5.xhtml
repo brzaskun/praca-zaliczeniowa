@@ -39,9 +39,9 @@
                             <p:ajax event="change" update=":akordeon:formpit" listener="#{zestawienieFKView.obliczPit()}" partialSubmit="true"/>
                         </p:selectOneMenu>
                         <p:panel header="imię nazwisko przedsiębiorcy: " style="width: 250px;" rendered="#{zestawienieFKView.listawybranychudzialowcow.size() eq 1}"/>
-                        <h:outputText value="#{zestawienieFKView.wybranyudzialowiec}"/>
+                        <h:outputText value="#{zestawienieFKView.wybranyudzialowiec}" rendered="#{zestawienieFKView.listawybranychudzialowcow.size() eq 1}"/>
                         <p:panel header="opodatkowanie: "/>
-                        <h:outputText value="#{WpisView.rodzajopodatkowania}"/>
+                        <h:outputText value="#{zestawienieFKView.wybranyudzialowiecopodatkowanie}"/>
                         <h:outputText value="#{WpisView.mc0kw1 ? ' rozliczenie kwartalne': null}"/>
                         <h:outputText id="pole1" value="czy to jest pierwszy PIT w roku?" rendered="#{zestawienieFKView.pierwszypitwrokuzaznacz}"/>
                         <h:selectBooleanCheckbox id="pole2" value="#{zestawienieFKView.pierwszypitwroku}"  rendered="#{zestawienieFKView.pierwszypitwrokuzaznacz}">
@@ -77,8 +77,7 @@
                             <p:panelGrid columns="2" style="border: none;">
                                 <h:inputText id="kwotazus51" value="#{zestawienieFKView.biezacyPit.zus51}" style=" font-weight: 700; float: right; text-align: right;"  >
                                     <f:convertNumber locale="PL" maxFractionDigits="2"/>
-                                    <p:ajax event="keyup" listener="#{zestawienieFKView.zus51zrekiF}" partialSubmit="true" update=":akordeon:formpit:reka51"/>
-                                    <p:ajax event="blur" listener="#{zestawienieFKView.obliczPit()}" global="false" update=":akordeon:formpit"/>
+                                    <p:ajax event="blur" listener="#{zestawienieFKView.zus51zrekiF}" partialSubmit="true" update=":akordeon:formpit:reka51"/>
                                 </h:inputText>
                                 <h:selectBooleanCheckbox id="reka51" label="z ręki" value="#{zestawienieFKView.zus51zreki}"/>
                             </p:panelGrid>
@@ -93,7 +92,7 @@
                             <p:panelGrid columns="2">
                                 <h:inputText value="#{zestawienieFKView.biezacyPit.zus52}" style=" font-weight: 700; float: right; text-align: right;" >
                                     <f:convertNumber locale="PL"/>
-                                    <p:ajax event="keyup" listener="#{zestawienieFKView.setZus52zreki(true)}" update=":akordeon:formpit:reka52"/>
+                                    <p:ajax event="blur" listener="#{zestawienieFKView.setZus52zreki(true)}" update=":akordeon:formpit:reka52"/>
                                 </h:inputText>
                                 <h:selectBooleanCheckbox id="reka52" label="z ręki" value="#{zestawienieFKView.zus52zreki}"/>
                             </p:panelGrid>
