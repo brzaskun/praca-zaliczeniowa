@@ -15,7 +15,7 @@
         </h:selectOneListbox>
     </h:form>
     <h:form id="formdod2">
-                <pe:tooltip global="true" myPosition="left center" atPosition="right center" autoShow="true"/> 
+        <p:tooltip for="formdod2:wprowadzaniepodatnika"/> 
                 <p:panel header="dodawanie/edycja podatnika - osoby fizycznej" style="width: 500px;"/>
                 <p:focus for="wprowadzaniepodatnika"/>
                 <p:panelGrid id="wprowadzaniepodatnika" columns="4">
@@ -139,15 +139,15 @@
                     <h:outputLabel value="id firmy"/>
                     <h:outputText value="#{podatnikView.selectedDod.nazwapelna}"/>
                 </p:panelGrid>
-                    <p:panelGrid columns="3">
-                    <p:commandButton action="#{podatnikView.dodaj()}" value="dodaj" update="@form form" 
+                <p:panelGrid columns="3" id="wprowadzaniepodatnikaprzyciski">
+                    <p:commandButton actionListener="#{podatnikView.dodaj()}" value="dodaj" update="@form form" 
                                      rendered="#{podatnikView.selectedDodedycja eq null}"
                                      type="submit" style="margin-top: 10px; width: 120px;"/>
-                    <p:commandButton action="#{podatnikView.edytujfiz()}" value="edytuj" update="@form" 
+                    <p:commandButton actionListener="#{podatnikView.edytujfiz()}" value="edytuj" update="@form" 
                                      rendered="#{podatnikView.selectedDodedycja ne null}"
                                      type="submit" style="margin-top: 10px; width: 120px;"/>
-                    <p:commandButton action="#{podatnikView.resetuj()}" 
-                                     value="resetuj" update="@form form" type="submit" style="margin-top: 10px; margin-left: 20px; width: 120px;"/>
+                    <p:commandButton actionListener="#{podatnikView.resetuj()}" process="@this"
+                                     value="resetuj" update="wprowadzaniepodatnika wprowadzaniepodatnikaprzyciski" style="margin-top: 10px; margin-left: 20px; width: 120px;"/>
                 </p:panelGrid>
     </h:form>
 </ui:composition>   
