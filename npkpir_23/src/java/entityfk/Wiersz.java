@@ -328,6 +328,10 @@ public class Wiersz implements Serializable {
         }
         return zwrot;
     }
+    
+    public String getDataDokumentu() {
+        return this.dokfk.getDatadokumentu();
+    }
 
     public Map<String, StronaWiersza> getStrona() {
         return strona;

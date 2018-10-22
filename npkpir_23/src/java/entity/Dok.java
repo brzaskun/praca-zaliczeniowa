@@ -187,7 +187,7 @@ public class Dok extends DokSuper implements Serializable {
     @Column(name = "termin_platnosci")
 //    @Temporal(TemporalType.DATE)
     private String terminPlatnosci;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dok", cascade = CascadeType.ALL,  orphanRemoval=true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "dok", cascade = CascadeType.ALL,  orphanRemoval=true)
     private List<Rozrachunek1> rozrachunki1;
     @Size(max = 10)
     @Column(name = "termin_30")

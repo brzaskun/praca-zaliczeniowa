@@ -202,6 +202,7 @@ public class VatUeFKView implements Serializable {
                     deklaracja0korekta1 = true;
                 }
             }
+            pobierzdeklaracjeUE();
         } catch (Exception e) { 
             E.e(e); 
         }
@@ -437,7 +438,7 @@ public class VatUeFKView implements Serializable {
             }
             boolean robickorekte = false;
             int nrkolejny = 0;
-            if (staralista.size()<lista.size()) {
+            if (staralista.size()!=lista.size()) {
                 robickorekte = true;
             } else {
                 for (VatUe s : staralista) {
@@ -456,7 +457,6 @@ public class VatUeFKView implements Serializable {
             if (robickorekte) {
                 nrkolejny = stara.getNrkolejny()+1;
                 boolean ok = robdeklaracjekorekta(lista, staralista, true, nrkolejny);
-                init3();
             } else {
                 Msg.msg("w","Nie ma różnic w pozycjach deklaracji. Nie ma sensu robic korekty");
             }
@@ -510,6 +510,7 @@ public class VatUeFKView implements Serializable {
                 deklaracjavatUE.setPozycje(lista);
                 //deklaracjavatUEDAO.dodaj(deklaracjavatUE);
                 deklaracjeUE.add(deklaracjavatUE);
+                deklaracjeUE_biezace.add(deklaracjavatUE);
                 Msg.msg("Sporządzono deklarację VAT-UEK miesięczną wersja 4");
                 zwrot = true;
             } else {
