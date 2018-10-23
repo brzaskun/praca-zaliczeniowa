@@ -202,7 +202,6 @@ public class VatUeFKView implements Serializable {
                     deklaracja0korekta1 = true;
                 }
             }
-            pobierzdeklaracjeUE();
         } catch (Exception e) { 
             E.e(e); 
         }
