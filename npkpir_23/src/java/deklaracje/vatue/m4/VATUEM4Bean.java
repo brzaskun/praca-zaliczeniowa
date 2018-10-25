@@ -97,7 +97,7 @@ public class VATUEM4Bean {
     private static TIdentyfikatorOsobyNiefizycznej pobierzidentyfikatorspolka(WpisView w) {
         TIdentyfikatorOsobyNiefizycznej idf = new TIdentyfikatorOsobyNiefizycznej();
         idf.setNIP(w.getPodatnikObiekt().getNip());
-        idf.setPelnaNazwa(w.getPodatnikObiekt().getNazwapelna());
+        idf.setPelnaNazwa(w.getPodatnikObiekt().getPrintnazwa());
         idf.setREGON(w.getPodatnikObiekt().getRegon());
         return idf;
     }
