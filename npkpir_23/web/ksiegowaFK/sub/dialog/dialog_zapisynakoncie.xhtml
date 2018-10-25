@@ -239,7 +239,7 @@
                             </h:outputText>
                         </p:column>
                         <p:column headerText="Wn PLN" width="50" sortBy="#{loop.kwotaPLN}"   filterBy="#{loop.kwotaPLN}" filterMatchMode="contains"
-                                  rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN' and kontoZapisFKView.pokaztransakcje eq false}" filterStyle="width:60px;">
+                                  rendered="#{kontoZapisFKView.pokaztransakcje eq false}" filterStyle="width:60px;">
                             <h:outputText id="kwotawnwierszPLN" value="#{loop.wnma eq 'Wn' ? loop.kwotaPLN : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
@@ -254,7 +254,7 @@
                             </h:outputText>
                         </p:column>
                         <p:column headerText="Ma PLN" width="50" sortBy="#{loop.kwotaPLN}"  filterBy="#{loop.kwotaPLN}" filterMatchMode="contains"
-                                  rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN' and kontoZapisFKView.pokaztransakcje eq false}"  filterStyle="width:60px;">
+                                  rendered="#{kontoZapisFKView.pokaztransakcje eq false}"  filterStyle="width:60px;">
                             <h:outputText id="kwotamawierszPLN" value="#{loop.wnma eq 'Ma' ? loop.kwotaPLN : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
