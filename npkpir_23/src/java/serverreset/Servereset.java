@@ -28,7 +28,7 @@ public class Servereset {
     
     public void reset() {
         try {
-            String path="cmd /c start G:\\payara-4.1.2.174\\payara41\\bin\\reset.bat";
+            String path="cmd /c start G:\\payara174\\bin\\reset.bat";
             Runtime rn=Runtime.getRuntime();
             Process pr=rn.exec(path);
             pokazbutton = false;
