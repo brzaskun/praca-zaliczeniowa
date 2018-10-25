@@ -70,6 +70,21 @@ public class DokFKBean {
         return tabelanbpPLN;
     }
 
+    public static Tabelanbp pobierzWaluteDomyslnaDoDokumentu(WalutyDAOfk walutyDAOfk, TabelanbpDAO tabelanbpDAO) {
+        Tabelanbp tabelanbpPLN = null;
+        try {
+            tabelanbpPLN = tabelanbpDAO.findByTabelaPLN();
+        } catch (Exception e) {
+            E.e(e);
+        }
+        if (tabelanbpPLN == null) {
+            tabelanbpDAO.dodaj(new Tabelanbp("000/A/NBP/0000", walutyDAOfk.findWalutaBySymbolWaluty("PLN"), "2012-01-01", 1.0));
+            tabelanbpPLN = tabelanbpDAO.findByTabelaPLN();
+        }
+        return tabelanbpPLN;
+    }
+    
+    
     public static Rodzajedok odnajdzZZ(List<Rodzajedok> rodzajedokKlienta) {
         for (Rodzajedok p : rodzajedokKlienta) {
             if (p.getSkrot().equals("ZZ")) {

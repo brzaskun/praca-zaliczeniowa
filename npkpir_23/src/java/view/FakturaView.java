@@ -5,6 +5,7 @@
 package view;
 
 import beansDok.ListaEwidencjiVat;
+import beansFK.DokFKBean;
 import beansFaktura.FDfkBean;
 import beansFaktura.FakturaBean;
 import beansFaktura.FakturaOkresowaGenNum;
@@ -51,6 +52,7 @@ import entity.Podatnik;
 import entity.Rodzajedok;
 import entity.Wpis;
 import entityfk.Dokfk;
+import entityfk.Tabelanbp;
 import error.E;
 import gus.GUSView;
 import java.io.ByteArrayInputStream;
@@ -196,7 +198,8 @@ public class FakturaView implements Serializable {
     private FakturaelementygraficzneDAO fakturaelementygraficzneDAO;
     @Inject
     private LogofakturaDAO logofakturaDAO;
-    
+    private Tabelanbp domyslatabela;
+        
 
     public FakturaView() {
 
@@ -234,6 +237,7 @@ public class FakturaView implements Serializable {
             sprawdzczyniezniknalplik(elementgraficzny.getFakturaelementygraficznePK().getNazwaelementu());
         }
         sumawartosciwybranych(faktury);
+        domyslatabela = DokFKBean.pobierzWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO);
 //        RequestContext.getCurrentInstance().update("akordeon:formsporzadzone");
 //        RequestContext.getCurrentInstance().update("akordeon:proforma");
 //        RequestContext.getCurrentInstance().update("akordeon:formarchiwum");
@@ -877,7 +881,7 @@ public class FakturaView implements Serializable {
     public void odksieguj(List<Faktura> lista) {
         if (!lista.isEmpty()) {
             for (Faktura p : lista) {
-                p.setZaksiegowana(true);
+                p.setZaksiegowana(false);
                 fakturaDAO.edit(p);
                 fakturyarchiwum.remove(p);
                 faktury.add(p);
@@ -970,6 +974,11 @@ public class FakturaView implements Serializable {
             selDokument.setNetto(tmpX.getNetto());
             selDokument.setBrutto(tmpX.getBrutto());
             selDokument.setRozliczony(true);
+            if (faktura.getTabelanbp()!=null) {
+                selDokument.setWalutadokumentu(faktura.getTabelanbp().getWaluta());
+            } else {
+                selDokument.setWalutadokumentu(domyslatabela.getWaluta());
+            }
             List<EVatwpis1> ewidencjaTransformowana = Collections.synchronizedList(new ArrayList<>());
             for (EVatwpis r : faktura.getEwidencjavat()) {
                 EVatwpis1 eVatwpis1 = new EVatwpis1(r.getEwidencja(), r.getNettopln(), r.getVatpln(), r.getEstawka(), p.getMc(), p.getRok());
