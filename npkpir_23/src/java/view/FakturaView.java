@@ -885,6 +885,7 @@ public class FakturaView implements Serializable {
                 fakturaDAO.edit(p);
                 fakturyarchiwum.remove(p);
                 faktury.add(p);
+                fakturyFilteredarchiwum.remove(p);
             }
             Msg.msg("i", "Dokumenty odksięgowane");
         }

@@ -88,7 +88,7 @@
                     <f:facet name="header">
                         <h:outputText value="saldo"/>
                     </f:facet>
-                    <bcf:outputpl value="#{item.saldo}" stylePlus="color: #{item.color};"/>
+                    <bcf:outputpl value="#{item.saldo}" stylePlus="color: #{item.color};" rendered="#{item.saldo ne 0}"/>
                 </p:column>
                 <p:column width="80" sortBy="#{item.saldopln}" sortable="true">
                     <f:facet name="header">

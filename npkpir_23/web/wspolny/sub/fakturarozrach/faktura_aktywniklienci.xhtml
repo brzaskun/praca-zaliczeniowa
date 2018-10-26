@@ -11,7 +11,7 @@
 
     <p:tab  title="Aktywacja kontrahentów" >
         <h:form>
-        <p:dataTable value="#{fakturaRozrachunkiAnalizaView.klienciaktywowanie}" var="wpis"
+        <p:dataTable value="#{fakturaAktywniKlienci.klienciaktywowanie}" var="wpis"
                      style="width: 580px;" rowIndexVar="idf">
             <p:ajax event="filter" global="false"/>
             <f:facet name="header">
@@ -27,7 +27,7 @@
                 <h:outputText value="#{wpis.aktywnydlafaktrozrachunki eq true ? 'tak' : ''}"/>
             </p:column>
              <p:column>
-                 <p:commandButton value="+-" actionListener="#{fakturaRozrachunkiAnalizaView.aktywacjakontrahenta(wpis)}" update="@parent:@parent" global="false"/>
+                 <p:commandButton value="+-" actionListener="#{fakturaAktywniKlienci.aktywacjakontrahenta(wpis)}" update="@parent:@parent akordeon:fakturarozrachunki akordeon:fakturaanaliza" global="false"/>
             </p:column>
         </p:dataTable>
             </h:form>
