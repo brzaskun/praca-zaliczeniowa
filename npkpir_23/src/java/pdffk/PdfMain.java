@@ -1879,8 +1879,8 @@ public class PdfMain {
                         table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getStrOdpisyPlan())), "right", 8));
                         table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getStrNettoPlan())), "right", 8));
                         table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getStawka().doubleValue())), "right", 8));
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOdpisrok())), "right", 8));
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOdpismc())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOdpisrok()!=null?p.getOdpisrok():0)), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOdpismc()!=null?p.getOdpismc():0)), "right", 8));
                         table.addCell(ustawfrazeAlign(p.getUmarzanyDoRokMc(), "right", 8));
                      }
                 } else {

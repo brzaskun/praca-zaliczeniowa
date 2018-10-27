@@ -49,7 +49,7 @@ public class Amodok implements Serializable {
     private List<Umorzenie> umorzenia;
     @Column(name = "zaksiegowane")
     private Boolean zaksiegowane;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "amodok")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "amodok")
     private List<UmorzenieN> planumorzen;
     
     public double getSuma() {

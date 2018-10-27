@@ -48,7 +48,7 @@ public class UmorzenieN implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private int id;
+    private Integer id;
     @ManyToOne
     @JoinColumn(name = "srodekTrw", referencedColumnName = "id")
     private SrodekTrw srodekTrw;
@@ -127,13 +127,7 @@ public class UmorzenieN implements Serializable {
 
     
     //<editor-fold defaultstate="collapsed" desc="comment">
-    public int getId() {
-        return id;
-    }
-    
-    public void setId(int id) {
-        this.id = id;
-    }
+  
     
     public SrodekTrw getSrodekTrw() {
         return srodekTrw;
@@ -141,6 +135,14 @@ public class UmorzenieN implements Serializable {
     
     public void setSrodekTrw(SrodekTrw srodekTrw) {
         this.srodekTrw = srodekTrw;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
     
     public int getNrUmorzenia() {

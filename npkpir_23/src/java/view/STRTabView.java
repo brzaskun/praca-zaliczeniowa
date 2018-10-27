@@ -850,8 +850,8 @@ public class STRTabView implements Serializable {
                     umorzeniepocz += p.getUmorzeniepoczatkowe();
                     odpisplan += p.getStrOdpisyPlan();
                     nettoplan += p.getStrNettoPlan();
-                    odpisrok += p.getOdpisrok();
-                    odpismc += p.getOdpismc();
+                    odpisrok += p.getOdpisrok()!=null?p.getOdpisrok():0;
+                    odpismc += p.getOdpismc()!=null?p.getOdpismc():0;
                 }
             }
             SrodekTrw suma = new SrodekTrw();

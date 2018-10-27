@@ -74,8 +74,8 @@ public class STRSprzedazView extends STRTabView implements Serializable {
         if (sprzedawanySrodekTrw != null) {
             data = Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
             nrwlasny = "pk";
-            obsluztransakcje(sprzedawanySrodekTrw, wpisView.getRokWpisu(), Integer.parseInt(wpisView.getMiesiacWpisu()));
             try {
+                obsluztransakcje(sprzedawanySrodekTrw, wpisView.getRokWpisu(), Integer.parseInt(wpisView.getMiesiacWpisu()));
                 sTRDAO.edit(sprzedawanySrodekTrw);
                 sTRTabView.getSprzedane().add(sprzedawanySrodekTrw);
                 sTRTabView.getPosiadane().remove(sprzedawanySrodekTrw);
