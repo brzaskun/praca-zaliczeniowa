@@ -687,6 +687,9 @@ public class DokfkView implements Serializable {
                 if (p.equals(eVatwpisFK)) {
                     it.remove();
                 }
+                if (selected.getEwidencjaVAT().size()==1) {
+                    break;
+                }
             }
         }
     }

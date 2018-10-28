@@ -61,14 +61,14 @@
                             <p:inputText id="dataPole" value="#{DokumentView.selDokument.dataWyst}"   accesskey="s" maxlength="10"
                                          style="height: 19px;" size="10"  required="true" requiredMessage="Pole daty nie może byc puste" immediate="false"  onblur="ustawDate(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});" title="wpisz numer dnia, lub miesiąc i dzień"  >
                                 <!--     archeo     <p:ajax event="blur" listener="{DokumentView.podlaczPierwszaKolumne()}" update=":dodWiad:tabelapkpir"  />-->
-                                <p:ajax event="blur" listener="#{DokumentView.zmienokresVAT}"/>
+                                <p:ajax event="blur" listener="#{DokumentView.zmienokresVAT}" global="false"/>
                             </p:inputText>
                         </p:column>
                         <p:column width="60">
                             <p:inputText id="dataSPole" value="#{DokumentView.selDokument.dataSprz}" size="10"
                                          onblur="ustawDateSprzedazy(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});" 
                                          required="true" requiredMessage="Pole daty sprzedaży nie może byc puste" >
-                                <p:ajax event="blur" listener="#{DokumentView.zmienokresVAT}"/>
+                                <p:ajax event="blur" listener="#{DokumentView.zmienokresVAT}" global="false"/>
                             </p:inputText>
                         </p:column>
                         <p:column>
@@ -82,7 +82,7 @@
                                                       $(this).addClass('ui-state-default');"
                                               style="height: 26px;"
                                               >
-                                <p:ajax event="change" partialSubmit="true" update="dodWiad:panelTabelaNBP, dodWiad:dokumentprosty"/>
+                                <p:ajax event="change" partialSubmit="true" update="dodWiad:panelTabelaNBP, dodWiad:dokumentprosty" global="false"/>
                                 <f:selectItems value="#{DokumentView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                             </h:selectOneMenu>
                         </p:column>
@@ -144,7 +144,7 @@
                                         required="true" requiredMessage="Pole klienta nie może być puste"
                                         onkeyup="sprawdzczykopiowacklienta();" onblur="sprawdzczybrakklienta();">
                             <f:ajax event="blur"  listener="#{DokumentView.wygenerujnumerkolejnyonblur()}"/>
-                            <p:ajax event="itemSelect" partialSubmit="true"
+                            <p:ajax event="itemSelect" partialSubmit="true"  global="false"
                                     update="dodWiad:rodzajTrans,dodWiad:opis"  />
                             <f:facet name="itemtip">  
                                 <h:panelGrid  columns="2" cellpadding="5" width="400">  
@@ -179,7 +179,7 @@
                         <p:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}" title="wpisz numer własny faktury" style="width: 150px;">
                             <p:ajax event="focus" listener="#{DokumentView.podepnijListe()}" 
                                     update="dodWiad:tabelapkpir" global="false" onstart="aktywujopis(#{DokumentView.nieVatowiec});"/>
-                            <p:ajax event="blur" partialSubmit="true" listener="#{DokumentView.sprawdzCzyNieDuplikatwtrakcie}"/>
+                            <p:ajax event="blur" partialSubmit="true" listener="#{DokumentView.sprawdzCzyNieDuplikatwtrakcie}" global="false"/>
                         </p:inputText>
                     </p:column>
                     <p:column>
