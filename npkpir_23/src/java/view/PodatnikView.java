@@ -1261,17 +1261,17 @@ public class PodatnikView implements Serializable {
             }
         }
     
-    private void odksiegujdokumenty() {
+    public void odksiegujdokumenty() {
         List<Dokfk> selectedlist = dokDAOfk.findDokfkPodatnikRok(wpisView);
             try {
                 for (Dokfk p : selectedlist) {
                     p.setDataksiegowania(null);
                 }
                 dokDAOfk.editList(selectedlist);
-                Msg.msg("Zaksięgowano dokumenty w liczbie: "+selectedlist.size());
+                Msg.msg("Odksięgowano dokumenty w liczbie: "+selectedlist.size());
             } catch (Exception e) {
                 E.e(e);
-                Msg.msg("e", "Wystąpił błąd podczas księgowania dokumentów.");
+                Msg.msg("e", "Wystąpił błąd podczas odksięgowania dokumentów.");
             }
         }
     

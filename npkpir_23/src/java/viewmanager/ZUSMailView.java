@@ -108,10 +108,11 @@ public class ZUSMailView implements Serializable {
             + " PIT-4</td> <td style=\"text-align: right;\"> <span style=\"text-align: right;\">%.2f</span></td> </tr> <td style=\"text-align: center;\"> 5</td> <td>"
             + " PIT-8AR</td> <td style=\"text-align: right;\"> <span style=\"text-align: right;\">%.2f</span></td> </tr> </tbody> </table>"
             + " <p> &nbsp;</p> <p> &nbsp;</p> <p> &nbsp;</p> <p> &nbsp;</p> <p> &nbsp;</p> "
-            + "<p> Ważne! Przelew do ZUS od stycznia 2018 robimy jedną kwotą na JEDNO indywidulane konto wskazane przez ZUS.</p>"
+            + "<p> Ważne! Przelew do ZUS od stycznia 2018 robimy jedną kwotą na JEDNO indywidualne konto wskazane przez ZUS.</p>"
             + "<p> Przypominamy o terminach płatności ZUS:</p>"
             + " <p> do <span style=\"color:#008000;\">10-go</span> &nbsp;- dla os&oacute;b niezatrudniających pracownik&oacute;w</p>"
             + " <p> do <span style=\"color:#008000;\">15-go</span> - dla firm z pracownikami</p>"
+            + " <p> Termin płatności podatku:</p>"
             + " <p> do <span style=\"color:#006400;\">20-go</span> - PIT-4/PIT-8 od wynagrodzeń pracownik&oacute;w</p>"
             + " <p> &nbsp;</p>";
     
