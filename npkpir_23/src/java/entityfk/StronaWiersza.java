@@ -27,6 +27,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -41,6 +43,8 @@ import waluty.Z;
  * @author Osito
  */
 @Entity
+@NamedEntityGraph(name = "graph.Order.items", 
+      attributeNodes = @NamedAttributeNode("items"))
 @Table(name = "stronawiersza", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id", "wierszbo_id"})
 })
@@ -61,10 +65,10 @@ import waluty.Z;
     @NamedQuery(name = "StronaWiersza.findByPodatnikKontoBOWalutaWszystkie", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokWalutaWszystkie", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokMcWalutaWszystkie", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.rok = :rok AND t.wiersz.dokfk.miesiac = :mc AND t.wiersz.dokfk.podatnikObj = :podatnikObj"),
-    @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokWszystkieNT", query = "SELECT DISTINCT t  FROM StronaWiersza t LEFT OUTER JOIN FETCH t.platnosci WHERE t.konto = :konto AND t.wiersz.dokfk.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.nowatransakcja = '1'"),
-    @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokWalutyWszystkieNT", query = "SELECT DISTINCT t FROM StronaWiersza t LEFT OUTER JOIN FETCH t.platnosci WHERE t.konto = :konto AND t.wiersz.dokfk.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.wiersz.tabelanbp.waluta.symbolwaluty = :wybranaWalutaDlaKonta AND t.nowatransakcja = '1'"),
-    @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokWszystkieR", query = "SELECT DISTINCT t FROM StronaWiersza t LEFT OUTER JOIN FETCH t.nowetransakcje WHERE t.konto = :konto AND t.wiersz.dokfk.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.nowatransakcja = '0'"),
-    @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokWalutyWszystkieR", query = "SELECT DISTINCT t FROM StronaWiersza t LEFT OUTER JOIN FETCH t.nowetransakcje WHERE t.konto = :konto AND t.wiersz.dokfk.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.wiersz.tabelanbp.waluta.symbolwaluty = :wybranaWalutaDlaKonta AND t.nowatransakcja = '0'"),
+    @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokWszystkieNT", query = "SELECT DISTINCT t  FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.nowatransakcja = '1'"),
+    @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokWalutyWszystkieNT", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.wiersz.tabelanbp.waluta.symbolwaluty = :wybranaWalutaDlaKonta AND t.nowatransakcja = '1'"),
+    @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokWszystkieR", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.nowatransakcja = '0'"),
+    @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokWalutyWszystkieR", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.wiersz.tabelanbp.waluta.symbolwaluty = :wybranaWalutaDlaKonta AND t.nowatransakcja = '0'"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikKontoStartRokWalutyWszystkie", query = "SELECT DISTINCT t FROM StronaWiersza t LEFT OUTER JOIN FETCH t.platnosci LEFT OUTER JOIN FETCH t.wiersz.dokfk LEFT OUTER JOIN FETCH t.wiersz.tabelanbp WHERE t.konto.pelnynumer LIKE :konto AND t.wiersz.dokfk.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokWalutyWszystkie", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokMcWalutyWszystkie", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.rok = :rok AND t.wiersz.dokfk.miesiac = :mc AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.typStronaWiersza != 9"),
