@@ -153,8 +153,8 @@ public class SrodkiTrwaleView implements Serializable {
             dodawanysrodektrwaly.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(dodawanysrodektrwaly));
             dodawanysrodektrwaly.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(dodawanysrodektrwaly, wpisView));
             sTRDAO.dodaj(dodawanysrodektrwaly);
-            RequestContext.getCurrentInstance().update("srodki:panelekXA");
-            Msg.msg("i", "Środek trwały "+dodawanysrodektrwaly.getNazwa()+" dodany", "formSTR:messages");
+//            RequestContext.getCurrentInstance().update("srodki:panelekXA");
+            Msg.msg("i", "Środek trwały "+dodawanysrodektrwaly.getNazwa()+" dodany");
         } catch (Exception e) { 
             E.e(e); 
             Msg.msg("e","Nowy srodek nie zachowany "+dodawanysrodektrwaly.getNazwa());

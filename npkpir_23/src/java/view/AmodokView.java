@@ -179,7 +179,7 @@ public class AmodokView implements Serializable {
         }
         //sTRDAO.editList(srodkiTrwale);
         nowalistadokamo();
-        Msg.msg("i", "Dokumenty amortyzacyjne wygenerowane od miesiąca " + wpisView.getMiesiacWpisu() + " roku " + wpisView.getRokWpisuSt(), "formSTR:mess_add");
+        Msg.msg("i", "Dokumenty amortyzacyjne wygenerowane od miesiąca " + wpisView.getMiesiacWpisu() + " roku " + wpisView.getRokWpisuSt());
     }
 
     private void nowalistadokamo() {

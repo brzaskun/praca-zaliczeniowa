@@ -268,7 +268,7 @@ public class STRTabView implements Serializable {
             Msg.msg("Usunieto środek trwały o nazwie: "+wybranySrodekTrw.getNazwa());
         } catch (Exception e) { 
             E.e(e);
-            Msg.msg("e", "Nie usnieto " + wybranySrodekTrw.getNazwa() + ". Umorzenie srodka w ksiegach", ":formSTR:mess_add");
+            Msg.msg("e", "Nie usnieto " + wybranySrodekTrw.getNazwa() + ". Umorzenie srodka w ksiegach");
         }
     }
         
@@ -708,7 +708,7 @@ public class STRTabView implements Serializable {
             dodawanysrodektrwaly.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(dodawanysrodektrwaly));
             dodawanysrodektrwaly.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(dodawanysrodektrwaly, wpisView));
             sTRDAO.dodaj(dodawanysrodektrwaly);
-            RequestContext.getCurrentInstance().update("srodki:panelekXA");
+//            RequestContext.getCurrentInstance().update("srodki:panelekXA");
             Msg.msg("i", "Środek trwały "+dodawanysrodektrwaly.getNazwa()+" dodany", "formSTR:messages");
         } catch (Exception e) { 
             E.e(e); 

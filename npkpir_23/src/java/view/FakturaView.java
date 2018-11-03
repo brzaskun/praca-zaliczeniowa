@@ -44,6 +44,7 @@ import entity.FakturaStopkaNiemiecka;
 import entity.FakturaWalutaKonto;
 import entity.Fakturadodelementy;
 import entity.Fakturaelementygraficzne;
+import entity.Fakturyokresowe;
 import entity.Fakturywystokresowe;
 import entity.Klienci;
 import entity.KwotaKolumna1;
@@ -671,7 +672,22 @@ public class FakturaView implements Serializable {
                     zaktualizujokresowa(p);
                 }
                 Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getFakturaPK().getNumerkolejny());
-            } catch (Exception e) { E.e(e); 
+            } catch (Exception e) { 
+                E.e(e); 
+            }
+            try {
+                p.setTylkodlaokresowej(true);
+                fakturaDAO.edit(p);
+                faktury.remove(p);
+                if (fakturyFiltered != null) {
+                    fakturyFiltered.remove(p);
+                }
+                if (p.isWygenerowanaautomatycznie() == true) {
+                    zaktualizujokresowa(p);
+                }
+                Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getFakturaPK().getNumerkolejny());
+            } catch (Exception e) { 
+                E.e(e); 
                 Msg.msg("e", "Nie usunięto faktury sporządzonej: " + p.getFakturaPK().getNumerkolejny()+". Problem z aktualizacją okresowych.");
             }
         }
@@ -1181,112 +1197,114 @@ public class FakturaView implements Serializable {
 
     public void wygenerujzokresowych() {
         for (Fakturywystokresowe p : gosciwybralokres) {
-            Faktura nowa = SerialClone.clone(p.getDokument());
-            nowa.setDatawysylki(null);
-            if (waloryzajca > 0) {
-                try {
-                    waloryzacjakwoty(nowa, waloryzajca);
-                } catch (Exception e) { E.e(e); 
-                    Msg.msg("e", "Nieudane generowanie faktury okresowej z waloryzacją FakturaView:wygenerujzokresowych");
-                }
-            } else if (waloryzajca == -1) {
-                try {
-                    FakturaBean.ewidencjavat(nowa, evewidencjaDAO);
-                    Msg.msg("i", "Generowanie nowej ewidencji vat");
-                } catch (Exception e) { E.e(e); 
-                    Msg.msg("e", "Nieudane generowanie nowej ewidencji vat dla faktury generowanej z okresowej FakturaView:wygenerujzokresowych");
-                }
-            }
-            int dniDoZaplaty = nowa.getDnizaplaty();
-            if (datawystawienia.isEmpty()) {
-                DateTime dt = new DateTime();
-                String miesiacBiezacy = Mce.getNumberToMiesiac().get(dt.getMonthOfYear());
-                String miesiacWybrany = wpisView.getMiesiacWpisu();
-                if (miesiacBiezacy.equals(miesiacWybrany) == false) {
-                    String nowadata = wpisView.getRokWpisuSt()+"-"+miesiacWybrany+"-05";
-                    dt = new DateTime(nowadata);
-                }
-                LocalDate firstDate = dt.toLocalDate();
-                nowa.setDatawystawienia(firstDate.toString());
-                nowa.setDatasprzedazy(firstDate.toString());
-                MutableDateTime dateTime = new MutableDateTime(firstDate.toString());
-                dateTime.addDays(dniDoZaplaty);
-                nowa.setTerminzaplaty(dateTime.toString().substring(0, 10));
-            } else {
-                nowa.setDatawystawienia(datawystawienia);
-                nowa.setDatasprzedazy(datawystawienia);
-                MutableDateTime dateTime = new MutableDateTime(datawystawienia);
-                dateTime.addDays(dniDoZaplaty);
-                nowa.setTerminzaplaty(dateTime.toString().substring(0, 10));
-            }
-            nowa.setWygenerowanaautomatycznie(true);
-            nowa.setIdfakturaokresowa(p);
-            nowa.setWyslana(false);
-            nowa.setDatazaplaty(null);
-            nowa.setZaksiegowana(false);
-            nowa.setZatwierdzona(false);
-            nowa.setTylkodlaokresowej(false);
-            nowa.setAutor(wpisView.getWprowadzil().getLogin());
-            int fakturanowyrok = 0;
-            boolean istnieje = true;
-            FakturaOkresowaGenNum.wygenerujnumerfaktury(fakturaDAO, nowa, wpisView);
-            String datasprzedazy = nowa.getDatasprzedazy();
-            String miesiacsprzedazy = datasprzedazy.substring(5, 7);
-            String roksprzedazy = datasprzedazy.substring(0, 4);
-            nowa.setRok(roksprzedazy);
-            nowa.setMc(miesiacsprzedazy);
-            try {
-                fakturaDAO.dodaj(nowa);
-                faktury.add(nowa);
-                if (fakturanowyrok == 0) {
-                    String datawystawienia = nowa.getDatawystawienia();
-                    String miesiac = datawystawienia.substring(5, 7);
-                    switch (miesiac) {
-                        case "01":
-                            p.setM1(p.getM1() + 1);
-                            break;
-                        case "02":
-                            p.setM2(p.getM2() + 1);
-                            break;
-                        case "03":
-                            p.setM3(p.getM3() + 1);
-                            break;
-                        case "04":
-                            p.setM4(p.getM4() + 1);
-                            break;
-                        case "05":
-                            p.setM5(p.getM5() + 1);
-                            break;
-                        case "06":
-                            p.setM6(p.getM6() + 1);
-                            break;
-                        case "07":
-                            p.setM7(p.getM7() + 1);
-                            break;
-                        case "08":
-                            p.setM8(p.getM8() + 1);
-                            break;
-                        case "09":
-                            p.setM9(p.getM9() + 1);
-                            break;
-                        case "10":
-                            p.setM10(p.getM10() + 1);
-                            break;
-                        case "11":
-                            p.setM11(p.getM11() + 1);
-                            break;
-                        case "12":
-                            p.setM12(p.getM12() + 1);
-                            break;
+            if (!p.isZawieszona()) {
+                Faktura nowa = SerialClone.clone(p.getDokument());
+                nowa.setDatawysylki(null);
+                if (waloryzajca > 0) {
+                    try {
+                        waloryzacjakwoty(nowa, waloryzajca);
+                    } catch (Exception e) { E.e(e); 
+                        Msg.msg("e", "Nieudane generowanie faktury okresowej z waloryzacją FakturaView:wygenerujzokresowych");
                     }
-                    p.setDatawystawienia(nowa.getDatawystawienia());
-                    fakturywystokresoweDAO.edit(p);
+                } else if (waloryzajca == -1) {
+                    try {
+                        FakturaBean.ewidencjavat(nowa, evewidencjaDAO);
+                        Msg.msg("i", "Generowanie nowej ewidencji vat");
+                    } catch (Exception e) { E.e(e); 
+                        Msg.msg("e", "Nieudane generowanie nowej ewidencji vat dla faktury generowanej z okresowej FakturaView:wygenerujzokresowych");
+                    }
                 }
-                Msg.msg("i", "Generuje bieżącą fakturę z okresowej. Kontrahent: " + nowa.getKontrahent().getNpelna());
-            } catch (Exception e) { 
-                E.e(e); 
-                Faktura nibyduplikat = fakturaDAO.findbyNumerPodatnik(nowa.getFakturaPK().getNumerkolejny(), nowa.getFakturaPK().getWystawcanazwa());
-                Msg.msg("e", "Faktura o takim numerze istnieje juz w bazie danych: data-" + nibyduplikat.getDatawystawienia()+" numer-"+nibyduplikat.getFakturaPK().getNumerkolejny()+" wystawca-"+nibyduplikat.getFakturaPK().getWystawcanazwa());
+                int dniDoZaplaty = nowa.getDnizaplaty();
+                if (datawystawienia.isEmpty()) {
+                    DateTime dt = new DateTime();
+                    String miesiacBiezacy = Mce.getNumberToMiesiac().get(dt.getMonthOfYear());
+                    String miesiacWybrany = wpisView.getMiesiacWpisu();
+                    if (miesiacBiezacy.equals(miesiacWybrany) == false) {
+                        String nowadata = wpisView.getRokWpisuSt()+"-"+miesiacWybrany+"-05";
+                        dt = new DateTime(nowadata);
+                    }
+                    LocalDate firstDate = dt.toLocalDate();
+                    nowa.setDatawystawienia(firstDate.toString());
+                    nowa.setDatasprzedazy(firstDate.toString());
+                    MutableDateTime dateTime = new MutableDateTime(firstDate.toString());
+                    dateTime.addDays(dniDoZaplaty);
+                    nowa.setTerminzaplaty(dateTime.toString().substring(0, 10));
+                } else {
+                    nowa.setDatawystawienia(datawystawienia);
+                    nowa.setDatasprzedazy(datawystawienia);
+                    MutableDateTime dateTime = new MutableDateTime(datawystawienia);
+                    dateTime.addDays(dniDoZaplaty);
+                    nowa.setTerminzaplaty(dateTime.toString().substring(0, 10));
+                }
+                nowa.setWygenerowanaautomatycznie(true);
+                nowa.setIdfakturaokresowa(p);
+                nowa.setWyslana(false);
+                nowa.setDatazaplaty(null);
+                nowa.setZaksiegowana(false);
+                nowa.setZatwierdzona(false);
+                nowa.setTylkodlaokresowej(false);
+                nowa.setAutor(wpisView.getWprowadzil().getLogin());
+                int fakturanowyrok = 0;
+                boolean istnieje = true;
+                FakturaOkresowaGenNum.wygenerujnumerfaktury(fakturaDAO, nowa, wpisView);
+                String datasprzedazy = nowa.getDatasprzedazy();
+                String miesiacsprzedazy = datasprzedazy.substring(5, 7);
+                String roksprzedazy = datasprzedazy.substring(0, 4);
+                nowa.setRok(roksprzedazy);
+                nowa.setMc(miesiacsprzedazy);
+                try {
+                    fakturaDAO.dodaj(nowa);
+                    faktury.add(nowa);
+                    if (fakturanowyrok == 0) {
+                        String datawystawienia = nowa.getDatawystawienia();
+                        String miesiac = datawystawienia.substring(5, 7);
+                        switch (miesiac) {
+                            case "01":
+                                p.setM1(p.getM1() + 1);
+                                break;
+                            case "02":
+                                p.setM2(p.getM2() + 1);
+                                break;
+                            case "03":
+                                p.setM3(p.getM3() + 1);
+                                break;
+                            case "04":
+                                p.setM4(p.getM4() + 1);
+                                break;
+                            case "05":
+                                p.setM5(p.getM5() + 1);
+                                break;
+                            case "06":
+                                p.setM6(p.getM6() + 1);
+                                break;
+                            case "07":
+                                p.setM7(p.getM7() + 1);
+                                break;
+                            case "08":
+                                p.setM8(p.getM8() + 1);
+                                break;
+                            case "09":
+                                p.setM9(p.getM9() + 1);
+                                break;
+                            case "10":
+                                p.setM10(p.getM10() + 1);
+                                break;
+                            case "11":
+                                p.setM11(p.getM11() + 1);
+                                break;
+                            case "12":
+                                p.setM12(p.getM12() + 1);
+                                break;
+                        }
+                        p.setDatawystawienia(nowa.getDatawystawienia());
+                        fakturywystokresoweDAO.edit(p);
+                    }
+                    Msg.msg("i", "Generuje bieżącą fakturę z okresowej. Kontrahent: " + nowa.getKontrahent().getNpelna());
+                } catch (Exception e) { 
+                    E.e(e); 
+                    Faktura nibyduplikat = fakturaDAO.findbyNumerPodatnik(nowa.getFakturaPK().getNumerkolejny(), nowa.getFakturaPK().getWystawcanazwa());
+                    Msg.msg("e", "Faktura o takim numerze istnieje juz w bazie danych: data-" + nibyduplikat.getDatawystawienia()+" numer-"+nibyduplikat.getFakturaPK().getNumerkolejny()+" wystawca-"+nibyduplikat.getFakturaPK().getWystawcanazwa());
+                }
             }
         }
         RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
@@ -1342,6 +1360,22 @@ public class FakturaView implements Serializable {
             }
             fakturywystokresoweDAO.edit(okresowe);
         }
+    }
+    
+    public void zawiesfakture() {
+        if (gosciwybralokres.isEmpty()) {
+            Msg.msg("e", "Nie wybrano faktury do zawieszenia");
+            return;
+        }
+        for (Fakturywystokresowe p : gosciwybralokres) {
+            if (p.isZawieszona()) {
+                p.setZawieszona(false);
+            } else {
+                p.setZawieszona(true);
+            }
+        }
+        fakturywystokresoweDAO.editList(gosciwybralokres);
+        Msg.msg("Naniesiono zawieszenie dla wybranych faktur");
     }
 
     public void oznaczbiezacymiesiac() {

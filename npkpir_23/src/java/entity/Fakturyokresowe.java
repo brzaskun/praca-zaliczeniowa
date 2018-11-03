@@ -107,6 +107,7 @@ public class Fakturyokresowe implements Serializable {
     @NotNull
     @Column(nullable = false)
     private int m12;
+   
 
     public Fakturyokresowe() {
     }
@@ -253,6 +254,7 @@ public class Fakturyokresowe implements Serializable {
         this.m12 = m12;
     }
 
+   
     @Override
     public int hashCode() {
         int hash = 0;

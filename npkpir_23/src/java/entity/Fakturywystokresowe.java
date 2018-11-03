@@ -132,6 +132,8 @@ public class Fakturywystokresowe implements Serializable {
     private int m12;
     @Column(name = "biezaca0archiwalna1")
     private boolean biezaca0archiwalna1;
+    @Column(name = "zawieszona")
+    private boolean zawieszona;
 
     public Fakturywystokresowe() {
     }
@@ -303,7 +305,14 @@ public class Fakturywystokresowe implements Serializable {
     public void setM12(int m12) {
         this.m12 = m12;
     }
-    
+     public boolean isZawieszona() {
+        return zawieszona;
+    }
+
+    public void setZawieszona(boolean zawieszona) {
+        this.zawieszona = zawieszona;
+    }
+
     public double getNetto() {
         return this.dokument.getNettoPrzelicz();
     }
