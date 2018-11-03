@@ -42,6 +42,17 @@
                                 <p:commandButton id="decline" value="Odwołaj" onclick="PF('confirm3').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
                             </h:form>
                         </p:confirmDialog> 
+                         <p:confirmDialog id="confirmDialog5" message="Rozpoczynam porządkowanie wybranego konta."  
+                                         header="Porządkowanie pojedynczego konta" severity="alert" widgetVar="confirm5" width="500" appendTo="@(body)"
+                                         >
+                            <h:form>
+                                <p:commandButton id="confirm" value="Akceptuj"  oncomplete="PF('confirm5').hide();"
+                                                 actionListener="#{planKontView.porzadkowanieWybranegoKontaPodatnika()}"
+                                                 style="float: left; width: 120px; margin-left: 2%;" update="form_dialog_plankont:dataList">
+                                </p:commandButton>
+                                <p:commandButton id="decline" value="Odwołaj" onclick="PF('confirm5').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
+                            </h:form>
+                        </p:confirmDialog> 
                         <p:confirmDialog id="confirmDialog4" message="Rozpoczynam porządkowanie słowników"  
                                          header="Porządkowanie kont" severity="alert" widgetVar="confirm4" width="500" appendTo="@(body)"
                                          >

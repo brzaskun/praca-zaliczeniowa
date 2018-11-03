@@ -1952,6 +1952,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
             em.createNamedQuery("KontopozycjaZapis.DeleteBilansowe").setParameter("uklad", uklad).executeUpdate();
         }
     }
+    
+    public void usunZapisaneKontoPozycjaPodatnikUkladByKonto(UkladBR uklad, Konto konto) {
+        em.createNamedQuery("KontopozycjaZapis.DeleteByKonto").setParameter("uklad", uklad).setParameter("konto", konto).executeUpdate();
+     }
 
     public void usunZapisaneKontoPozycjaBiezacaPodatnikUklad(UkladBR uklad, String rb) {
         if (rb.equals("wynikowe")) {
@@ -1959,6 +1963,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         } else {
             em.createNamedQuery("KontopozycjaBiezaca.DeleteBilansowe").setParameter("uklad", uklad).executeUpdate();
         }
+    }
+    
+    public void usunZapisaneKontoPozycjaBiezacaPodatnikUkladByKonto(UkladBR uklad, Konto konto) {
+        em.createNamedQuery("KontopozycjaBiezaca.DeleteByKonto").setParameter("uklad", uklad).setParameter("konto", konto).executeUpdate();
     }
 
 

@@ -132,13 +132,23 @@ public class SaldoAnalitykaView implements Serializable {
 
     public void zmienkryteriawyswietlania() {
         if (tylkosaldaniezerowe) {
-            for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();) {
-                SaldoKonto p = it.next();
-                if (p.getSaldoWn() == 0.0 && p.getSaldoMa() == 0.0) {
-                    it.remove();
+            if (listaSaldoKontofilter!=null && !listaSaldoKontofilter.isEmpty()) {
+                for (Iterator<SaldoKonto> it = listaSaldoKontofilter.iterator(); it.hasNext();) {
+                    SaldoKonto p = it.next();
+                    if (p.getSaldoWn() == 0.0 && p.getSaldoMa() == 0.0) {
+                        it.remove();
+                    }
+                }
+            } else {
+                for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();) {
+                    SaldoKonto p = it.next();
+                    if (p.getSaldoWn() == 0.0 && p.getSaldoMa() == 0.0) {
+                        it.remove();
+                    }
                 }
             }
         } else {
+            RequestContext.getCurrentInstance().execute("PF('tablicasaldaanalityczne').clearFilters();PF('tablicasaldaanalityczne').unselectAllRows();");
             init();
         }
     }

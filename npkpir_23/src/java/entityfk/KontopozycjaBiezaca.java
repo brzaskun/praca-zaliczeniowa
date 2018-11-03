@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "KontopozycjaBiezaca.DeleteWynikowe", query = "DELETE FROM KontopozycjaBiezaca p WHERE p.ukladBR = :uklad AND  p.wynik0bilans1 = false"),
     @NamedQuery(name = "KontopozycjaBiezaca.DeleteBilansowe", query = "DELETE FROM KontopozycjaBiezaca p WHERE p.ukladBR = :uklad AND  p.wynik0bilans1 = true"),
+    @NamedQuery(name = "KontopozycjaBiezaca.DeleteByKonto", query = "DELETE FROM KontopozycjaBiezaca p WHERE p.ukladBR = :uklad AND p.kontoID = :konto"),
     @NamedQuery(name = "KontopozycjaBiezaca.findAll", query = "SELECT k FROM KontopozycjaBiezaca k"),
     @NamedQuery(name = "KontopozycjaBiezaca.findByPozycjaWn", query = "SELECT k FROM KontopozycjaBiezaca k WHERE k.pozycjaWn = :pozycjaWn"),
     @NamedQuery(name = "KontopozycjaBiezaca.findByPozycjaMa", query = "SELECT k FROM KontopozycjaBiezaca k WHERE k.pozycjaMa = :pozycjaMa"),

@@ -5,6 +5,7 @@
 package daoFK;
 
 import dao.DAO;
+import entityfk.Konto;
 import entityfk.KontopozycjaBiezaca;
 import entityfk.UkladBR;
 import error.E;
@@ -48,6 +49,14 @@ public class KontopozycjaBiezacaDAO extends DAO implements Serializable{
             sessionFacade.usunZapisaneKontoPozycjaBiezacaPodatnikUklad(uklad, rb);
         } catch (Exception e) {
             E.e(e); 
+        }
+    }
+
+    public void usunKontoPozycjaBiezacaPodatnikUladKonto(UkladBR wybranyuklad, List<Konto> wykazkontf) {
+        if (wykazkontf!=null) {
+            for (Konto p : wykazkontf) {
+                sessionFacade.usunZapisaneKontoPozycjaBiezacaPodatnikUkladByKonto(wybranyuklad, p);
+            }
         }
     }
     

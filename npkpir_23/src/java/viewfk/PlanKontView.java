@@ -947,6 +947,56 @@ public class PlanKontView implements Serializable {
             Msg.msg("w", "Coś poszło nie tak. Lista kont do usuniecia jest pusta.");
         }
     }
+    
+    public void porzadkowanieWybranegoKontaPodatnika() {
+        if (selectednodekonto!=null) {
+            List<Konto> wykazkontf = kontoDAOfk.findKontaWszystkiePotomnePodatnik(wpisView, selectednodekonto);
+            //resetuj kolumne macierzyste
+            kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUladKonto(wybranyuklad, wykazkontf);
+            for (Konto p : wykazkontf) {
+                p.setKontopozycjaID(null);
+            }
+            //tutaj nanosi czy ma potomkow
+            KontaFKBean.ustawCzyMaPotomkow(wykazkontf, kontoDAOfk, wpisView, kontopozycjaZapisDAO, wybranyuklad);
+            wykazkontf = kontoDAOfk.findKontaWszystkiePotomnePodatnik(wpisView, selectednodekonto);
+            for (Konto p : wykazkontf) {
+                KontopozycjaZapis kpo = PlanKontFKBean.naniesprzyporzadkowanie(p, wpisView, kontoDAOfk, kontopozycjaZapisDAO, wybranyuklad);
+                if (p.isMapotomkow() == true && kpo != null && !kpo.getSyntetykaanalityka().equals("analityka")) {
+                    if (p.getBilansowewynikowe().equals("wynikowe")) {
+                        if (p.getZwyklerozrachszczegolne().equals("szczególne")) {
+                            PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(p, p.getKontopozycjaID(), kontoDAOfk, wpisView.getPodatnikObiekt(), "wnma", wpisView.getRokWpisu());
+                        } else {
+                            PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(p.getPelnynumer(), p.getKontopozycjaID(), kontoDAOfk, wpisView.getPodatnikObiekt(), "wynik", wpisView.getRokWpisu());
+                        }
+                    } else if (p.getZwyklerozrachszczegolne().equals("rozrachunkowe") || p.getZwyklerozrachszczegolne().equals("vat") || p.getZwyklerozrachszczegolne().equals("szczególne")) {
+                        PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(p, p.getKontopozycjaID(), kontoDAOfk, wpisView.getPodatnikObiekt(), "wnma", wpisView.getRokWpisu());
+                    } else {
+                        PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(p.getPelnynumer(), p.getKontopozycjaID(), kontoDAOfk, wpisView.getPodatnikObiekt(), "bilans", wpisView.getRokWpisu());
+                    }
+                }
+            }
+            kontopozycjaZapisDAO.usunKontoPozycjaPodatnikUladKonto(wybranyuklad, wykazkontf);
+            List<KontopozycjaZapis> nowepozycje = Collections.synchronizedList(new ArrayList<>());
+            for (Konto p : wykazkontf) {
+                try {
+                    nowepozycje.add(new KontopozycjaZapis(p.getKontopozycjaID()));
+                } catch (Exception e) {
+                    E.e(e);
+                }
+            }
+            kontopozycjaZapisDAO.editList(nowepozycje);
+            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            listaukladow = ukladBRDAO.findPodatnikRok(wpisView);
+            wybranyuklad = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladow);
+            PozycjaRZiSFKBean.zmianaukladu("bilansowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
+            PozycjaRZiSFKBean.zmianaukladu("wynikowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
+            Collections.sort(wykazkont, new Kontocomparator());
+            wykazkontlazy = new LazyKontoDataModel(wykazkontf);
+            Msg.msg("Zakończono porządkowanie kont");
+        } else {
+            Msg.msg("e","Nie wybrano konta");
+        }
+    }
 
     public void porzadkowanieKontPodatnika() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());

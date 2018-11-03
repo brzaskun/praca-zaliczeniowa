@@ -67,16 +67,19 @@
                 </p:column>
                     <p:commandButton value="zaksięguj" actionListener="#{saldoAnalitykaView.zaksiegujsaldakont()}" style="width: 120px; margin-left: 20px;"/>
                     <p:selectBooleanCheckbox id="tylkoniezerowe" itemLabel="tylko niezerowe" value="#{saldoAnalitykaView.tylkosaldaniezerowe}" style="margin-left: 5px;">
-                        <p:ajax event="change" partialSubmit="true" global="false" listener="#{saldoAnalitykaView.zmienkryteriawyswietlania}" update="formtablicaanalityczne:tablicasaldaanalityczne"/>
+                        <p:ajax event="change" partialSubmit="true" global="false" listener="#{saldoAnalitykaView.zmienkryteriawyswietlania}" update="formtablicaanalityczne:tablicasaldaanalityczne"
+                                />
                     </p:selectBooleanCheckbox>
                     <p:selectBooleanCheckbox id="zzapisami" itemLabel="z zapisami" value="#{saldoAnalitykaView.zzapisami}" style="margin-left: 5px;">
-                        <p:ajax event="change" partialSubmit="true" global="false" update="formtablicaanalityczne:tablicasaldaanalityczne"/>
+                        <p:ajax event="change" partialSubmit="true" global="false" update="formtablicaanalityczne:tablicasaldaanalityczne"
+                               />
                     </p:selectBooleanCheckbox>
                     <p:selectBooleanCheckbox id="bezslownika" itemLabel="bez słownikowych" value="#{saldoAnalitykaView.bezslownikowych}" style="margin-left: 5px;">
-                        <p:ajax event="change" partialSubmit="true" listener="#{saldoAnalitykaView.zmienkryteriabezslownikowych}" update="formtablicaanalityczne:tablicasaldaanalityczne"/>
+                        <p:ajax event="change" partialSubmit="true" listener="#{saldoAnalitykaView.zmienkryteriabezslownikowych}" update="formtablicaanalityczne:tablicasaldaanalityczne"
+                                onstart="PF('tablicasaldaanalityczne').clearFilters();PF('tablicasaldaanalityczne').unselectAllRows();"/>
                     </p:selectBooleanCheckbox>
                     <p:selectBooleanCheckbox id="zwaluta" itemLabel="zapisy w walucie" value="#{saldoAnalitykaView.tylkozapisywalutowe}" style="margin-left: 5px;">
-                        <p:ajax event="change" partialSubmit="true" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}"
+                        <p:ajax event="change" partialSubmit="true" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" onstart="PF('tablicasaldaanalityczne').clearFilters();PF('tablicasaldaanalityczne').unselectAllRows();"
                                 update="formtablicaanalityczne:tablicasaldaanalityczne"/>
                     </p:selectBooleanCheckbox>
                     <h:outputText value="księgowania z cechami"/>
@@ -110,7 +113,7 @@
                 <p:column width="20">
                     <p:rowToggler rendered="#{saldoAnalitykaView.zzapisami}"/>
                 </p:column>
-                <p:column styleClass="filter60" headerText="#{mgs.konto}" width="50"  filterBy="#{loop.konto.pelnynumer}">
+                <p:column styleClass="filter60" headerText="#{mgs.konto}" width="50"  filterBy="#{loop.konto.pelnynumer}" sortBy="#{loop.konto.pelnynumer}" >
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
                 <p:column  headerText="#{mgs.opis}" width="140" sortBy="#{loop.konto.nazwapelna}">

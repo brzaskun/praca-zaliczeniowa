@@ -25,6 +25,8 @@
                 <p:menuitem value="Implem. konto z analityką" actionListener="#{planKontView.implementacjaJednegoKontadoWzorcowychZAnalitykom()}" icon="ui-icon-tag" update="form_dialog_plankont:dataList" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Blokada" actionListener="#{planKontView.obslugaBlokadyKonta()}" icon="ui-icon-locked" update=":form_dialog_plankont"/>
                 <p:menuitem value="Blokada wszystkie" actionListener="#{planKontView.obslugaBlokadyKontaWszystkie()}" icon="ui-icon-locked" update=":form_dialog_plankont"/>
+                <p:menuitem value="Porządkuj wybrane konto" onclick="PF('confirm5').show();" global="false" icon="ui-icon-tag" 
+                            rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Porządkuj konta" onclick="PF('confirm3').show();" global="false" icon="ui-icon-tag" 
                             rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Weryfikuj słowniki" onclick="PF('confirm4').show();" global="false" icon="ui-icon-note" update="form_dialog_plankont:dataList" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>

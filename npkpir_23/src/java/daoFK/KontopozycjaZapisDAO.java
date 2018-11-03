@@ -62,6 +62,14 @@ public class KontopozycjaZapisDAO extends DAO implements Serializable{
         }
     }
     
+     public void usunKontoPozycjaPodatnikUladKonto(UkladBR wybranyuklad, List<Konto> wykazkontf) {
+        if (wykazkontf!=null) {
+            for (Konto p : wykazkontf) {
+                sessionFacade.usunZapisaneKontoPozycjaPodatnikUkladByKonto(wybranyuklad, p);
+            }
+        }
+    }
+    
         
     public KontopozycjaZapis findByKonto(Konto konto, UkladBR ukladBR) {
         KontopozycjaZapis kontopozycjaZapis = null;
