@@ -32,7 +32,7 @@
             };
         </script>
         <h:form id="formsymulacja">
-            <p:panelGrid columns="14" style="margin-left: 2%;" >
+            <p:panelGrid columns="16" style="margin-left: 2%;" >
                 <h:outputText value="rok" style="margin-right: 10px;"/>
                 <h:outputText value="#{WpisView.rokWpisuSt}" style="margin-right: 10px;"/>
                 <h:outputText value="m-c" style="margin-right: 10px;"/>
@@ -50,13 +50,23 @@
                 </p:column>
                 <p:commandButton value="zaksięguj" actionListener="#{symulacjaWynikuView.zaksiegujwynik}" rendered="#{facesContext.externalContext.isUserInRole('BookkeeperFK')}"
                                 style="width: 120px; " update="akordeon:formsymulacjanarastajaco"/>
-                <p:commandButton id="drukujtab" value="#{mgs.drukujtab}" action="#{sesjaView.dodajwydruk()}" actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px; margin-left: 20px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 1)"/>
-                <p:commandButton id="drukujszcz" value="#{mgs.drukujszcz}" action="#{sesjaView.dodajwydruk()}" actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 2)"/>
+                <p:splitButton id="drukujtab" value="#{mgs.drukujtab}" action="#{sesjaView.dodajwydruk()}" actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px;margin-left: 10px;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 1)">
+                    <p:menuitem id="drukujszcz" value="#{mgs.drukujszcz}" action="#{sesjaView.dodajwydruk()}" actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 2)"/>
+                </p:splitButton>
+<!--                <p:commandButton id="drukujtab" value="#{mgs.drukujtab}" action="#{sesjaView.dodajwydruk()}" actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px; margin-left: 20px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 1)"/>
+                <p:commandButton id="drukujszcz" value="#{mgs.drukujszcz}" action="#{sesjaView.dodajwydruk()}" actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikObiekt.nip}', 2)"/>-->
                 <p:selectBooleanCheckbox  id="tylkosyntcheck" value="#{symulacjaWynikuView.tylkokontasyntetyczne}"  style="margin-left: 5px; display: none;" itemLabel="tylko konta syntetyczne"  >
                     <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" partialSubmit="true" update="akordeon:formsymulacja akordeon:formsymulacjankup"
                             oncomplete="pokazprzyciski();"/>
                 </p:selectBooleanCheckbox>
-                                 <p:selectOneMenu value="#{symulacjaWynikuView.wybranacechadok}" id="cechydokuk"
+                    <p:selectOneMenu value="#{symulacjaWynikuView.wybranawaluta}" id="walutadokuk"
+                                         style="width: 200px;" >
+                            <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" 
+                                    update="akordeon:formsymulacja akordeon:formsymulacjankup"/>
+                            <f:selectItem itemLabel="wybierz walutę" itemValue="" />
+                            <f:selectItems value="#{symulacjaWynikuView.pobranewalutypodatnik}" var="item1" itemLabel="#{item1}" itemValue="#{item1}"/>
+                    </p:selectOneMenu>
+                    <p:selectOneMenu value="#{symulacjaWynikuView.wybranacechadok}" id="cechydokuk"
                                          style="width: 200px;" >
                             <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" 
                                     update="akordeon:formsymulacja akordeon:formsymulacjankup"  oncomplete="pokazprzyciski();"/>

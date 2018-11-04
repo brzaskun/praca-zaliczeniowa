@@ -21,13 +21,16 @@ import entity.PodatnikUdzialy;
 import entityfk.Cechazapisu;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
+import entityfk.Waluty;
 import entityfk.WynikFKRokMc;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -86,7 +89,9 @@ public class SymulacjaWynikuView implements Serializable {
     private double wynikfinansowy;
     private boolean tylkokontasyntetyczne;
     private String wybranacechadok;
+    private String wybranawaluta;
     private List<Cechazapisu> pobranecechypodatnik;
+    private List<String> pobranewalutypodatnik;
     @Inject
     private CechazapisuDAOfk cechazapisuDAOfk;
     
@@ -112,8 +117,10 @@ public class SymulacjaWynikuView implements Serializable {
                 kontaklientaprzychody.add(p);
             }
         }
-        listakontaprzychody = przygotowanalistasaldR(kontaklientaprzychody, 0);
-        listakontakoszty = przygotowanalistasaldR(kontaklientakoszty, 1);
+        List<StronaWiersza> zapisyRok = pobierzzapisyR();
+        pobranewalutypodatnik = pobierzswaluty(zapisyRok);
+        listakontaprzychody = przygotowanalistasaldR(zapisyRok, kontaklientaprzychody, 0);
+        listakontakoszty = przygotowanalistasaldR(zapisyRok, kontaklientakoszty, 1);
         pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
         pobierzzapisyzcechami();
         obliczsymulacje();
@@ -129,9 +136,8 @@ public class SymulacjaWynikuView implements Serializable {
     }
 
     
-     private List<SaldoKonto> przygotowanalistasaldR(List<Konto> kontaklienta, int przychod0koszt1) {
+     private List<SaldoKonto> przygotowanalistasaldR(List<StronaWiersza> zapisyRok, List<Konto> kontaklienta, int przychod0koszt1) {
         List<SaldoKonto> przygotowanalista = Collections.synchronizedList(new ArrayList<>());
-        List<StronaWiersza> zapisyRok = pobierzzapisyR();
         CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyRok);
         for (Konto p : kontaklienta) {
             SaldoKonto saldoKonto = new SaldoKonto();
@@ -155,24 +161,47 @@ public class SymulacjaWynikuView implements Serializable {
         double sumaMa = 0.0;
         for (StronaWiersza r : zapisyRok) {
             if (r.getKonto().equals(p)) {
-                if (r.getKonto().getZwyklerozrachszczegolne().equals("szczególne")) {
-                     if (r.getWnma().equals("Wn") && przychod0koszt1 == 1) {
-                        sumaWn += r.getKwotaPLN();
-                     } else if (r.getWnma().equals("Wn") && przychod0koszt1 == 0 && r.getKwotaPLN() < 0.0) {
-                        sumaMa -= r.getKwotaPLN();
-                     } else if (r.getWnma().equals("Ma") && przychod0koszt1 == 0) {
-                        sumaMa += r.getKwotaPLN(); 
-                     } else if (r.getWnma().equals("Ma") && przychod0koszt1 == 1 && r.getKwotaPLN() < 0.0) {
-                        sumaWn -= r.getKwotaPLN(); 
-                     }
-                } else {
-                    if (r.getWnma().equals("Wn")) {
-                        sumaWn += r.getKwotaPLN();
+                if (wybranawaluta == null) {
+                    if (r.getKonto().getZwyklerozrachszczegolne().equals("szczególne")) {
+                        if (r.getWnma().equals("Wn") && przychod0koszt1 == 1) {
+                            sumaWn += r.getKwotaPLN();
+                        } else if (r.getWnma().equals("Wn") && przychod0koszt1 == 0 && r.getKwotaPLN() < 0.0) {
+                            sumaMa -= r.getKwotaPLN();
+                        } else if (r.getWnma().equals("Ma") && przychod0koszt1 == 0) {
+                            sumaMa += r.getKwotaPLN();
+                        } else if (r.getWnma().equals("Ma") && przychod0koszt1 == 1 && r.getKwotaPLN() < 0.0) {
+                            sumaWn -= r.getKwotaPLN();
+                        }
                     } else {
-                        sumaMa += r.getKwotaPLN();
+                        if (r.getWnma().equals("Wn")) {
+                            sumaWn += r.getKwotaPLN();
+                        } else {
+                            sumaMa += r.getKwotaPLN();
+                        }
+                    }
+                    saldoKonto.getZapisy().add(r);
+                } else {
+                    if (r.getSymbolWalutBOiSW().equals(wybranawaluta)) {
+                        if (r.getKonto().getZwyklerozrachszczegolne().equals("szczególne")) {
+                            if (r.getWnma().equals("Wn") && przychod0koszt1 == 1) {
+                                sumaWn += r.getKwota();
+                            } else if (r.getWnma().equals("Wn") && przychod0koszt1 == 0 && r.getKwota() < 0.0) {
+                                sumaMa -= r.getKwota();
+                            } else if (r.getWnma().equals("Ma") && przychod0koszt1 == 0) {
+                                sumaMa += r.getKwota();
+                            } else if (r.getWnma().equals("Ma") && przychod0koszt1 == 1 && r.getKwota() < 0.0) {
+                                sumaWn -= r.getKwota();
+                            }
+                        } else {
+                            if (r.getWnma().equals("Wn")) {
+                                sumaWn += r.getKwota();
+                            } else {
+                                sumaMa += r.getKwota();
+                            }
+                        }
+                        saldoKonto.getZapisy().add(r);
                     }
                 }
-                saldoKonto.getZapisy().add(r);
             }
         }
         saldoKonto.setObrotyWn(sumaWn);
@@ -471,6 +500,22 @@ public class SymulacjaWynikuView implements Serializable {
         this.wybraneprzychody = wybraneprzychody;
     }
 
+    public String getWybranawaluta() {
+        return wybranawaluta;
+    }
+
+    public void setWybranawaluta(String wybranawaluta) {
+        this.wybranawaluta = wybranawaluta;
+    }
+
+    public List<String> getPobranewalutypodatnik() {
+        return pobranewalutypodatnik;
+    }
+
+    public void setPobranewalutypodatnik(List<String> pobranewalutypodatnik) {
+        this.pobranewalutypodatnik = pobranewalutypodatnik;
+    }
+
     public List<CechyzapisuPrzegladView.CechaStronaWiersza> getZapisyZCechaP() {
         return zapisyZCechaP;
     }
@@ -663,6 +708,18 @@ public class SymulacjaWynikuView implements Serializable {
 
     public void setZapisyZCechafiltered(List<CechyzapisuPrzegladView.CechaStronaWiersza> zapisyZCechafiltered) {
         this.zapisyZCechafiltered = zapisyZCechafiltered;
+    }
+
+    private List<String> pobierzswaluty(List<StronaWiersza> zapisyRok) {
+        Set<String> walutylista = new HashSet<>();
+        if (zapisyRok!=null) {
+            for (StronaWiersza p : zapisyRok) {
+                walutylista.add(p.getSymbolWalutBOiSW());
+            }
+        }
+        List<String> zwrot = new ArrayList<>(walutylista);
+        Collections.sort(zwrot);
+        return zwrot;
     }
 
     
