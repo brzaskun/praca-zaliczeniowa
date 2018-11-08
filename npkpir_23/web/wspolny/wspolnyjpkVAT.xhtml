@@ -111,7 +111,7 @@
                 <f:facet name="header">
                     <h:outputText value="v"/>
                 </f:facet>
-                 <h:outputText value="#{item.getJpkWersja()}" />
+                 <h:outputText value="#{item.getJpkWersja()}" style="color: #{item.getJpkWersja() eq 'kor.'? 'red':initial}"/>
             </p:column>
             <p:column style="width: 30px; text-align: center;" sortBy="#{item.miesiac}">
                 <f:facet name="header">
@@ -147,7 +147,8 @@
                 <f:facet name="header">
                     <h:outputText value="data przyjęcia"/>
                 </f:facet>
-                <h:outputText value="#{item.timestamp.substring(0,16)}">
+                <h:outputText value="#{item.timestampData}">
+                    <f:convertDateTime locale="pl"/>
                 </h:outputText>
             </p:column>
             <p:column style="width: 40px; text-align: center;">

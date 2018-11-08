@@ -150,7 +150,7 @@ public class PozycjaBRZestawienieView implements Serializable {
 //            pozycje_old.add(new PozycjaRZiS(23, "E.III", "III", 20, 1, "Inne koszty operacyjne", true, 0.0));
 //            pozycje_old.add(new PozycjaRZiS(24, "F", "F", 0, 0, "Zysk (strata) ze działalności operacyjnej (C+D-E)", false, "C+D-E"));
             pozycje.addAll(pozycjaRZiSDAO.findAll());
-            bilansnadzien = Data.dzienostatni(wpisView);
+            bilansnadzien = Data.ostatniDzien(wpisView);
             bilansoddnia = wpisView.getRokUprzedniSt()+"-12-31";
         } catch (Exception e){}
     }

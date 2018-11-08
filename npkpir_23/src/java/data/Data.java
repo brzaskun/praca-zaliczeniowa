@@ -62,7 +62,7 @@ public class Data implements Serializable {
     }
     
     public static String ostatniDzien(WpisView wpisView) {
-       return pobierzdzien(wpisView);
+       return ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
     }
     
     /**
@@ -389,40 +389,9 @@ public class Data implements Serializable {
         return sb.toString();
     }
 
-    public static String dzienostatni(WpisView wpisView) {
-        return pobierzdzien(wpisView);
-    }
+  
 
-    private static String pobierzdzien(WpisView wpisView) {
-        String dzien = null;
-        String mc = wpisView.getMiesiacWpisu();
-        Integer rok = wpisView.getRokWpisu();
-        int mod = Integer.parseInt(mc) % 2;
-        Year currentYear = Year.of(rok);
-        boolean jestprzestepny = currentYear.isLeap();
-        if (mc.equals("02")) {
-            if (jestprzestepny) {
-                dzien = "29";
-            } else {
-                dzien = "28";
-            }
-        } else {
-            if (mc.equals("07") || mc.equals("12")) {
-                dzien = "31";
-            } else if (mod==0) {
-                dzien = "31";
-            } else {
-                dzien = "30";
-            }
-        }
-        StringBuilder sb = new StringBuilder();
-        sb.append(rok);
-        sb.append("-");
-        sb.append(mc);
-        sb.append("-");
-        sb.append(dzien);
-        return sb.toString();
-   }
+    
     
    public static int czyczterymiesiace(String datawplywu, String dataoperacji, String mcwpisu, String rokwpisu) {
        //fakture WNT z operacja w styczniu(data obowiazku podatkowego) mozna musi rozliczyc asymetrycznie nalezny/naliczony

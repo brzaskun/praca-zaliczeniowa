@@ -127,7 +127,7 @@ public class PozycjaBRView implements Serializable {
             if (uklad == null || uklad.getUklad() == null) {
                 uklad = ukladBRDAO.findukladBRPodatnikRokAktywny(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             }
-            bilansnadzien = Data.dzienostatni(wpisView);
+            bilansnadzien = Data.ostatniDzien(wpisView);
             bilansoddnia = wpisView.getRokWpisuSt()+"-01-01";
         } catch (Exception e) {
             
@@ -537,21 +537,21 @@ public class PozycjaBRView implements Serializable {
 //    }
 //    
     public void zmianaukladprzegladBilansBO() {
-        bilansnadzien = Data.dzienostatni(wpisView);
+        bilansnadzien = Data.ostatniDzien(wpisView);
         PozycjaRZiSFKBean.zmianaukladu("bilansowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
         obliczBilansOtwarciaBilansDataWybierz();
         bilansnadzien = Data.ostatniDzien(wpisView);
     }
     
      public void zmianaukladprzegladRZiS() {
-        bilansnadzien = Data.dzienostatni(wpisView);
+        bilansnadzien = Data.ostatniDzien(wpisView);
         PozycjaRZiSFKBean.zmianaukladu("wynikowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
         pobierzukladprzegladRZiS();
         bilansnadzien = Data.ostatniDzien(wpisView);
     }
     
     public void zmianaukladprzegladBilans() {
-        bilansnadzien = Data.dzienostatni(wpisView);
+        bilansnadzien = Data.ostatniDzien(wpisView);
         PozycjaRZiSFKBean.zmianaukladu("bilansowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
         pobierzukladprzegladBilans("aktywa");
         bilansnadzien = Data.ostatniDzien(wpisView);
