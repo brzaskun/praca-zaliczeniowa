@@ -82,6 +82,8 @@ public class Klienci extends KlienciSuper implements Serializable {
     private boolean aktywnydlafaktrozrachunki;
     @Transient
     private String adresincydentalny;
+    @Transient
+    private String jezykwysylki;
     
 
     public Klienci() {
@@ -298,6 +300,14 @@ public class Klienci extends KlienciSuper implements Serializable {
 
     public void setZnacznik3(String znacznik3) {
         this.znacznik3 = znacznik3;
+    }
+
+    public String getJezykwysylki() {
+        return jezykwysylki;
+    }
+
+    public void setJezykwysylki(String jezykwysylki) {
+        this.jezykwysylki = jezykwysylki;
     }
     
     @XmlTransient

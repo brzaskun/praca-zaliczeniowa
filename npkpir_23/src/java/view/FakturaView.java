@@ -1252,6 +1252,7 @@ public class FakturaView implements Serializable {
                 String roksprzedazy = datasprzedazy.substring(0, 4);
                 nowa.setRok(roksprzedazy);
                 nowa.setMc(miesiacsprzedazy);
+                FakturaBean.dodajtabelenbp(nowa, tabelanbpDAO);
                 try {
                     fakturaDAO.dodaj(nowa);
                     faktury.add(nowa);

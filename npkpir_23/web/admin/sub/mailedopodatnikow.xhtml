@@ -24,7 +24,7 @@
         </p:tab>
         <p:tab title="adresaci">
             <h:form>
-                <p:panelGrid columns="7">
+                <p:panelGrid columns="11">
                     <h:outputText value="tylko pracodawcy"/>
                     <p:selectBooleanCheckbox value="#{adminMailView.tylkozus}">
                         <p:ajax event="change" update="@form" listener="#{adminMailView.init}"/>
@@ -33,8 +33,16 @@
                     <p:selectBooleanCheckbox value="#{adminMailView.tylkospolki}">
                         <p:ajax event="change" update="@form" listener="#{adminMailView.init}"/>
                     </p:selectBooleanCheckbox>
+                    <h:outputText value="osoby fizyczne"/>
+                    <p:selectBooleanCheckbox value="#{adminMailView.tylkofizyczne}">
+                        <p:ajax event="change" update="@form" listener="#{adminMailView.init}"/>
+                    </p:selectBooleanCheckbox>
                     <h:outputText value="vat-owcy"/>
                     <p:selectBooleanCheckbox value="#{adminMailView.tylkovat}">
+                        <p:ajax event="change" update="@form" listener="#{adminMailView.init}"/>
+                    </p:selectBooleanCheckbox>
+                    <h:outputText value="nievat-owcy"/>
+                    <p:selectBooleanCheckbox value="#{adminMailView.tylkonievat}">
                         <p:ajax event="change" update="@form" listener="#{adminMailView.init}"/>
                     </p:selectBooleanCheckbox>
                     <p:selectOneMenu value="#{adminMailView.jezykmaila}">
@@ -58,6 +66,16 @@
                     </p:column>
                     <p:column headerText="adres">
                         <h:outputText value="#{loop.email}"/>
+                    </p:column>
+                    <p:column headerText="wysyłka">
+                        <p:selectOneMenu value="#{loop.jezykwysylki}" label="język maila" >
+                        <p:ajax event="change" partialSubmit="true" listener="#{adminMailView.naniesjezykmaila(loop)}" global="false"/>
+                        <f:selectItem itemLabel="nie wysyłać"/>
+                        <f:selectItem itemLabel="polski" itemValue="pl"/>
+                        <f:selectItem itemLabel="niemiecki" itemValue="de"/>
+                        <f:selectItem itemLabel="angielski" itemValue="en"/>
+                        <f:selectItem itemLabel="czeski" itemValue="cze"/>
+                    </p:selectOneMenu>
                     </p:column>
                 </p:dataTable>
             </h:form>

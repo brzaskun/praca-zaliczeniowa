@@ -128,6 +128,7 @@
                     <h:outputText value="#{wpis.rodzajdokumentu}" style="#{wpis.pozycjepokorekcie.size() gt 0  or wpis.gutschrift ? 'color:red;' : null}"/>
                     <h:outputText value=" korekta" rendered="#{wpis.pozycjepokorekcie.size() gt 0 or wpis.gutschrift}" style="color: red;"/>
                     <h:outputText value=" +duplikaty" rendered="#{wpis.duplikaty.size() gt 0}" style="color: green;"/>
+                    <h:outputText value=" zalicz." rendered="#{wpis.zaliczkowa}" style="color: orange;"/>
                 </p:column>
                 <p:column  headerText="edytuj" style="text-align: center;"  width="40">
                     <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedoedycjiZwykla(wpis)}" 

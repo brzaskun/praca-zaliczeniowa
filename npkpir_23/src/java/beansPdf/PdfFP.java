@@ -218,9 +218,7 @@ public class PdfFP {
                     if (selected.isGutschrift()) {
                         text = "Gutschrift Nr "+ selected.getFakturaPK().getNumerkolejny();
                     } else {
-                        if (selected.getRodzajdokumentu().equals("rachunek baz VAT")) {
-                            text = B.b("fakturanr")+" "+ selected.getFakturaPK().getNumerkolejny();
-                        } else if (selected.isZaliczkowa()) {
+                        if (selected.isZaliczkowa()) {
                             text = B.b("fakturazaliczkowanr")+" "+ selected.getFakturaPK().getNumerkolejny();
                         } else {
                             text = B.b("fakturanr")+" "+ selected.getFakturaPK().getNumerkolejny();
