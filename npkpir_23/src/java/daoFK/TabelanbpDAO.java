@@ -4,6 +4,7 @@
  */
 package daoFK;
 
+import comparator.Tabelanbpcomparator;
 import dao.DAO;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
@@ -84,6 +85,20 @@ public class TabelanbpDAO extends DAO implements Serializable {
     public List<Tabelanbp> findLast(){
         try {
             return tabelanbpFacade.findXLast(Tabelanbp.class,1);
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
+    
+    public Tabelanbp findLastWalutaMc(String nazwawaluty, String rok, String mc){
+        try {
+            Tabelanbp zwrot = null;
+            List<Tabelanbp> lista = tabelanbpFacade.findByWalutaMcRok(nazwawaluty, mc, rok);
+            if (lista!=null) {
+                Collections.sort(lista, new Tabelanbpcomparator());
+                zwrot = lista.get(lista.size()-1);
+            }
+            return zwrot;
         } catch (Exception e) { E.e(e); 
             return null;
         }

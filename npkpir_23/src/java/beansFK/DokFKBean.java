@@ -202,7 +202,7 @@ public class DokFKBean {
        return numerwlasny;
     }
     
-    public static String wygenerujnumerkolejnyRozrach(Dokfk selected, WpisView wpisView, DokDAOfk dokDAOfk) {
+    public static String wygenerujnumerkolejnyRozrach(Dokfk selected, WpisView wpisView, DokDAOfk dokDAOfk, String seria) {
         String wzorzec = pobierzWzorzec(selected);
         String skrotDokfk = pobierzSkrotDokfk(selected);
         Dokfk ostatnidokument = pobierzOstatniWMc(wpisView, dokDAOfk, skrotDokfk);
@@ -217,7 +217,7 @@ public class DokFKBean {
                 if (dokfk != null) {
                     numerwlasny = oblicznumerwlasny(wzorzec, dokfk, wpisView);
                 } else {
-                    numerwlasny = "1/"+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt()+"/ARS";
+                    numerwlasny = "1/"+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt()+"/"+seria;
                 }
             } 
         }

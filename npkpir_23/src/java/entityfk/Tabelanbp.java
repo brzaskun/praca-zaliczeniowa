@@ -41,6 +41,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Tabelanbp.findByKurssredni", query = "SELECT t FROM Tabelanbp t WHERE t.kurssredni = :kurssredni"),
     @NamedQuery(name = "Tabelanbp.findByNrtabeli", query = "SELECT t FROM Tabelanbp t WHERE t.nrtabeli = :nrtabeli"),
     @NamedQuery(name = "Tabelanbp.findBySymbolWaluty", query = "SELECT t FROM Tabelanbp t WHERE t.waluta.symbolwaluty = :symbolwaluty"),
+    @NamedQuery(name = "Tabelanbp.findBySymbolWalutyRokMc", query = "SELECT t FROM Tabelanbp t WHERE t.waluta.symbolwaluty = :symbolwaluty AND t.datatabeli LIKE :likedatatabeli "),
     @NamedQuery(name = "Tabelanbp.findByWaluta", query = "SELECT t FROM Tabelanbp t WHERE t.waluta = :waluta"),
     @NamedQuery(name = "Tabelanbp.findBySymbolWalutyOstatnia", query = "SELECT t FROM Tabelanbp t WHERE t.waluta.symbolwaluty = :symbolwaluty ORDER BY t.datatabeli DESC"),
     @NamedQuery(name = "Tabelanbp.findByDatatabeliSymbolwaluty", query = "SELECT t FROM Tabelanbp t WHERE t.datatabeli = :datatabeli AND t.waluta.symbolwaluty = :symbolwaluty AND t.nrtabeli LIKE '%/NBP/%'")

@@ -72,7 +72,7 @@ public class DokumentFKBean implements Serializable {
     public static Dokfk generujdokumentAutomRozrach(WpisView wpisView, KlienciDAO klienciDAO, String symbokdok, String opisdok, RodzajedokDAO rodzajedokDAO, TabelanbpDAO tabelanbpDAO, KontoDAOfk kontoDAOfk, List konta, Map<String, ListaSum> sumy, DokDAOfk dokDAOfk, CechazapisuDAOfk cechazapisuDAOfk) {
         Dokfk nowydok = stworznowydokument(wpisView, klienciDAO, symbokdok, opisdok, rodzajedokDAO, tabelanbpDAO, dokDAOfk);
         Cechazapisu nkup = cechazapisuDAOfk.findPodatniknkup();
-        nowydok.setNumerwlasnydokfk(DokFKBean.wygenerujnumerkolejnyRozrach(nowydok, wpisView, dokDAOfk));
+        nowydok.setNumerwlasnydokfk(DokFKBean.wygenerujnumerkolejnyRozrach(nowydok, wpisView, dokDAOfk, symbokdok));
         ustawwierszePK(nowydok, konta, new ArrayList<ListaSum>(sumy.values()), wpisView, kontoDAOfk, nkup);
         if (nowydok.getListawierszy() != null) {
             nowydok.przeliczKwotyWierszaDoSumyDokumentu();
@@ -80,10 +80,10 @@ public class DokumentFKBean implements Serializable {
         return nowydok;
     }
     
-    public static Dokfk generujdokumentAutomSaldo(WpisView wpisView, KlienciDAO klienciDAO, String symbokdok, String opisdok, RodzajedokDAO rodzajedokDAO, TabelanbpDAO tabelanbpDAO, KontoDAOfk kontoDAOfk, List konta, double[] rownicawnroznicama, DokDAOfk dokDAOfk) {
+    public static Dokfk generujdokumentAutomSaldo(String opiswiersza, WpisView wpisView, KlienciDAO klienciDAO, String symbokdok, String opisdok, RodzajedokDAO rodzajedokDAO, TabelanbpDAO tabelanbpDAO, KontoDAOfk kontoDAOfk, List konta, double[] rownicawnroznicama, DokDAOfk dokDAOfk) {
         Dokfk nowydok = stworznowydokument(wpisView, klienciDAO, symbokdok, opisdok, rodzajedokDAO, tabelanbpDAO, dokDAOfk);
-        nowydok.setNumerwlasnydokfk(DokFKBean.wygenerujnumerkolejnyRozrach(nowydok, wpisView, dokDAOfk));
-        ustawwierszePKSaldo(nowydok, konta, rownicawnroznicama, wpisView, kontoDAOfk, tabelanbpDAO);
+        nowydok.setNumerwlasnydokfk(DokFKBean.wygenerujnumerkolejnyRozrach(nowydok, wpisView, dokDAOfk, symbokdok));
+        ustawwierszePKSaldo(opiswiersza, nowydok, konta, rownicawnroznicama, wpisView, kontoDAOfk, tabelanbpDAO);
         if (nowydok.getListawierszy() != null) {
             nowydok.przeliczKwotyWierszaDoSumyDokumentu();
         }
@@ -358,7 +358,7 @@ public class DokumentFKBean implements Serializable {
         }
     }
     
-    private static void ustawwierszePKSaldo(Dokfk nowydok, List stronywiersza, double[] roznicawnroznicama, WpisView wpisView, KontoDAOfk kontoDAOfk, TabelanbpDAO tabelanbpDAO) {
+    private static void ustawwierszePKSaldo(String opiswiersza, Dokfk nowydok, List stronywiersza, double[] roznicawnroznicama, WpisView wpisView, KontoDAOfk kontoDAOfk, TabelanbpDAO tabelanbpDAO) {
         nowydok.setListawierszy(new ArrayList<Wiersz>());
         int idporzadkowy = 1;
         StronaWiersza sw = (StronaWiersza) stronywiersza.get(0);
@@ -367,10 +367,10 @@ public class DokumentFKBean implements Serializable {
         Konto kontodorozliczenia = sw.getKonto();
         double roznicawn = roznicawnroznicama[0];
         double roznicama = roznicawnroznicama[1];
+        String opiswiersza2 = opiswiersza + sw.getKonto().getPelnynumer() + " na koniec " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt();
             Wiersz w = new Wiersz(idporzadkowy++, 0);
             uzupelnijwierszWaluta(w, nowydok, tabelanbpDAO.findByTabelaPLN());
-            String opiswiersza = "różnice kursowe na środkach własnych: " + sw.getKonto().getPelnynumer() + " na koniec " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt();
-            w.setOpisWiersza(opiswiersza);
+            w.setOpisWiersza(opiswiersza2);
             if (roznicawn > 0.0) {
                 StronaWiersza strWn = new StronaWiersza(w, "Wn", roznicawn, pko);
                 StronaWiersza strMa = new StronaWiersza(w, "Ma", roznicawn, kontodorozliczenia);

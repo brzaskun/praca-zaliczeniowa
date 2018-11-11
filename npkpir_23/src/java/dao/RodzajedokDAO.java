@@ -8,6 +8,7 @@ import entity.Podatnik;
 import entity.Rodzajedok;
 import error.E;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -54,6 +55,23 @@ public class RodzajedokDAO extends DAO implements Serializable{
     public List<Rodzajedok> findListaPodatnik(Podatnik podatnik) {
         try {
             return rodzajedokFacade.findListaPodatnik(podatnik);
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
+    
+    public List<Rodzajedok> findListaPodatnikEdycja(Podatnik podatnik) {
+        try {
+            List<Rodzajedok> lista = rodzajedokFacade.findListaPodatnik(podatnik);
+            if (lista != null) {
+                for (Iterator<Rodzajedok> it = lista.iterator(); it.hasNext();) {
+                    Rodzajedok p = it.next();
+                    if (p.isNiepokazuj()) {
+                        it.remove();
+                    }
+                }
+            }
+            return lista;
         } catch (Exception e) { E.e(e); 
             return null;
         }

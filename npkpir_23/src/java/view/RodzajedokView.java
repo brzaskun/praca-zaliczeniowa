@@ -4,6 +4,7 @@
  */
 package view;
 
+import comparator.Rodzajedokcomparator;
 import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
 import entity.Podatnik;
@@ -72,7 +73,9 @@ public class RodzajedokView implements Serializable {
                     }
                 }
             }
-            
+            listaPodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
+            Collections.sort(listaPodatnika, new Rodzajedokcomparator());
+            Collections.sort(listaWspolnych, new Rodzajedokcomparator());
         } catch (Exception e) { 
             E.e(e); 
         }
@@ -85,8 +88,9 @@ public class RodzajedokView implements Serializable {
             wprowadzany.setSkrot(wprowadzany.getSkrotNazwyDok());
             rodzajedokDAO.dodaj(wprowadzany);
             listaWspolnych.add(wprowadzany);
-            wprowadzany = new Rodzajedok();
+            Collections.sort(listaWspolnych, new Rodzajedokcomparator());
             Msg.msg("Dodatno nowy rodzaj dokumentu: " + wprowadzany.getNazwa());
+            wprowadzany = new Rodzajedok();
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Niedodatno nowego rodzaju dokumentu. Sprawdz czy skrót się nie powtarza.");
         }
@@ -101,6 +105,16 @@ public class RodzajedokView implements Serializable {
             Msg.msg("e", "Niewyedytowano rodzaju dokumentu. Wystąpił błąd");
         }
 
+    }
+    
+    public void resetuj() {
+        try {
+            wprowadzany = new Rodzajedok();
+            Msg.msg("i", "Zresetowano formularz");
+        } catch (Exception e) { 
+            E.e(e); 
+            Msg.msg("e", "Wystąpił błąd podczas resetowania formularza");
+        }
     }
 
     public void destroy(Rodzajedok selDok) {

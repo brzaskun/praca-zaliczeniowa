@@ -1039,6 +1039,11 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<Tabelanbp> findByWaluta(Waluty waluta) {
         return Collections.synchronizedList(em.createNamedQuery("Tabelanbp.findByWaluta").setParameter("waluta", waluta).getResultList());
     }
+    
+    public List<Tabelanbp> findByWalutaMcRok(String symbolwaluty, String mc, String rok) {
+        String likedatatabeli = rok+"-"+mc+"-%";
+        return Collections.synchronizedList(em.createNamedQuery("Tabelanbp.findBySymbolWalutyRokMc").setParameter("symbolwaluty", symbolwaluty).setParameter("likedatatabeli", likedatatabeli).getResultList());
+    }
 
     public List<Tabelanbp> findByDateWalutaLista(String datatabeli, String nazwawaluty) {
         return Collections.synchronizedList(em.createNamedQuery("Tabelanbp.findByDatatabeliSymbolwaluty").setParameter("datatabeli", datatabeli).setParameter("symbolwaluty", nazwawaluty).getResultList());
