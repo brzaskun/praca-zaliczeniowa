@@ -1,0 +1,29 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .paneldialog_ukladwzorcowy_kopiuj .ui-panelgrid-cell {
+            width: 200px;
+        }
+    </style>
+    <p:dialog id="dialog_wyksiegowanieroznic" header="Wykaz dokumentów ATR z poprzedniego roku" widgetVar="dialog_wyksiegowanieroznic" dynamic="true"
+              resizable="false" onShow="ustawdialogWindow('dialog_wyksiegowanieroznic', 630, 130);" closeOnEscape="true" onHide="resetujdialog('dialog_wyksiegowanieroznic');"  >
+        <h:form id="form_dialog_wyksiegowanieroznic">
+            <p:outputPanel style="text-align: center;">
+                <h:outputText value="W roku #{WpisView.rokUprzedniSt} nie zaksiegowano dokumentów ATR" style="margin-left: auto; margin-right: auto;" rendered="#{dokATRView.lista eq null or dokATRView.lista.size()==0}"/>
+                <h:outputText value="W roku #{WpisView.rokUprzedniSt} zaksiegowano #{dokATRView.lista.size()} dokument ATR" style="margin-left: auto; margin-right: auto;" rendered="#{dokATRView.lista.size()==1}"/>
+                <h:outputText value="W roku #{WpisView.rokUprzedniSt} zaksiegowano #{dokATRView.lista.size()} dokumentów ATR" style="margin-left: auto; margin-right: auto;" rendered="#{dokATRView.lista.size() gt 1}"/>
+            </p:outputPanel>
+            <p:commandButton value="wyksięguj" type="submit" actionListener="#{dokATRView.wyksiegowanie()}" 
+                                 style="margin-left: 130px; margin-right: auto; margin-top: 20px; width: 120px;" onclick="PF('dialog_wyksiegowanieroznic').hide();"
+                                 />
+            <p:commandButton value="anuluj" type="button" 
+                                 onclick="PF('dialog_wyksiegowanieroznic').hide();" style="margin-right: auto; margin-left: 80px; margin-top: 20px; width: 120px;"/>
+        </h:form>
+    </p:dialog>
+</ui:composition>

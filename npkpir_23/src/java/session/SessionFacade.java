@@ -1324,6 +1324,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<Dokfk> findDokfkPodatnikRokKategoria(WpisView w, String kategoria) {
         return Collections.synchronizedList(em.createNamedQuery("Dokfk.findByPodatnikRokKategoria").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).setParameter("kategoria", kategoria).getResultList());
     }
+    
+    public List<Dokfk> findDokfkPodatnikRokKategoria(Podatnik podatnik, String rok, String kategoria) {
+        return Collections.synchronizedList(em.createNamedQuery("Dokfk.findByPodatnikRokKategoria").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("kategoria", kategoria).getResultList());
+    }
 
     public List<Dokfk> findDokfkPodatnikRokKategoriaOrderByNo(WpisView w, String kategoria) {
         return Collections.synchronizedList(em.createNamedQuery("Dokfk.findByPodatnikRokKategoriaOrderByNo").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).setParameter("kategoria", kategoria).getResultList());
