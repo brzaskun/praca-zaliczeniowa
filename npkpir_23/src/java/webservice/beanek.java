@@ -55,6 +55,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.ws.Holder;
 import javax.xml.ws.WebServiceRef;
+import jpkview.JPK_VAT2View;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import org.w3c.dom.Document;
@@ -70,6 +71,9 @@ import view.WpisView;
 @ManagedBean
 @ViewScoped
 public class beanek  implements Serializable {
+    
+    @ManagedProperty(value="#{jPK_VAT2View}")
+    private JPK_VAT2View jPK_VAT2View;
     
     private static final long serialVersionUID = 1L;
 
@@ -275,7 +279,7 @@ public class beanek  implements Serializable {
         }
     }
     
-    public void rob(List<Deklaracjevat> deklaracje) throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
+    public void rob(List<Deklaracjevat> deklaracje, boolean wyslijtezjpk) throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
         String rok = wpisView.getRokWpisu().toString();
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
@@ -322,6 +326,17 @@ public class beanek  implements Serializable {
             wysylanaDeklaracja.setSporzadzil(wpisView.getWprowadzil().getImie() + " " + wpisView.getWprowadzil().getNazw());
             deklaracjevatDAO.edit(wysylanaDeklaracja);
             Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
+            try {
+                if (wyslijtezjpk) {
+                    if (jPK_VAT2View.isPkpir0ksiegi1()) {
+                        jPK_VAT2View.przygotujXMLFK();
+                    } else {
+                        jPK_VAT2View.przygotujXML();
+                    }
+                }
+            } catch (Exception e1) {
+                Msg.msg("e","Nieudane łączne wysyłanie jpk z deklaracją");
+            }
         } catch (ClientTransportException ex1) {
             Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania deklaracji podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
         }
@@ -809,7 +824,13 @@ public class beanek  implements Serializable {
         this.statMBT = statMBT;
     }
 
-   
+    public JPK_VAT2View getjPK_VAT2View() {
+        return jPK_VAT2View;
+    }
+
+    public void setjPK_VAT2View(JPK_VAT2View jPK_VAT2View) {
+        this.jPK_VAT2View = jPK_VAT2View;
+    }
 
     public String getOpisMBT() {
         return opisMBT;

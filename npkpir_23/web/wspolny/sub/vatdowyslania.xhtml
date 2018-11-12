@@ -12,9 +12,12 @@
     <h:form id="formX">
         <p:growl life="3600"  id="msg" autoUpdate="true"/>
         <p:panel header="Wykaz oczekujacych wysyłki deklaracji" style="width: 1250px;"/>
-        <p:panelGrid columns="2">
+        <p:panelGrid columns="3">
             <h:outputText value="saldo konta 222: " />
             <bcf:outputpl value="#{deklaracjevatView.saldo222}" rendered="#{WpisView.ksiegirachunkowe}" stylePlus="color: blue;"/>
+            <p:selectBooleanCheckbox itemLabel="wysłać jednocześnie jpk" rendered="#{deklaracjevatView.oczekujace.get(0).selected.celzlozenia eq 1}"> 
+                <p:ajax event="change" listener="#{deklaracjevatView.wyslijtezjpk}" />
+            </p:selectBooleanCheckbox>
         </p:panelGrid>
         <p:dataTable value="#{deklaracjevatView.oczekujace}" var="item" sortBy="#{item.miesiac}"  id="dokumentyLista" 
                      emptyMessage="brak oczekujących deklaracji do wyslania" style="max-width: 1400px;">
@@ -165,10 +168,10 @@
                     <h:outputText value="brak karty, nie mozna wysłać" 
                                      rendered="#{WpisView.podatnikObiekt.podpiscertyfikowany and !podpisView.jestkarta}"
                                      style="width: 320px;color: red;margin-right: 200px;"/>
-                    <p:commandButton value="wyślij" actionListener="#{beanek.rob(deklaracjevatView.oczekujace)}" 
+                    <p:commandButton value="wyślij" actionListener="#{beanek.rob(deklaracjevatView.oczekujace, deklaracjevatView.wyslijtezjpk)}" 
                                      rendered="#{(vat7DKView.pokazuproszczona and !WpisView.podatnikObiekt.podpiscertyfikowany) or (vat7DKView.pokazuproszczona and WpisView.podatnikObiekt.podpiscertyfikowany and podpisView.jestkarta)}"
                                      update=":akordeon:form @parent" style="width: 120px;"/>
-                    <p:commandButton value="wyślij" actionListener="#{beanek.rob(deklaracjevatView.oczekujace)}" 
+                    <p:commandButton value="wyślij" actionListener="#{beanek.rob(deklaracjevatView.oczekujace, deklaracjevatView.wyslijtezjpk)}" 
                                      rendered="#{vat7DKView.pokazpelna and WpisView.podatnikObiekt.podpiscertyfikowany and podpisView.jestkarta}"
                                      update=":akordeon:form @parent" style="margin-left: 3%; width: 120px;"/>
                     <p:commandButton value="upo" actionListener="#{beanek.pobierz()}" update=":akordeon:form" style="margin-left: 3%; width: 120px;" rendered="#{beanek.idpobierz ne null}"/>

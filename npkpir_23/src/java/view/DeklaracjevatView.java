@@ -37,6 +37,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
+import jpkview.JPK_VAT2View;
 import mail.MailOther;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
@@ -64,6 +65,7 @@ public class DeklaracjevatView implements Serializable {
     private WpisView wpisView;
     @ManagedProperty(value="#{saldoAnalitykaView}")
     private SaldoAnalitykaView saldoAnalitykaView;
+   
     @Inject
     private WpisDAO wpisDAO;
     @Inject
@@ -82,6 +84,7 @@ public class DeklaracjevatView implements Serializable {
     private boolean pokazZZ;
     private boolean pokazprzyciskpodpis;
     private double saldo222;
+    private boolean wyslijtezjpk;
 
     public DeklaracjevatView() {
         wyslane = Collections.synchronizedList(new ArrayList<>());
@@ -475,6 +478,16 @@ public class DeklaracjevatView implements Serializable {
     public void setSaldoAnalitykaView(SaldoAnalitykaView saldoAnalitykaView) {
         this.saldoAnalitykaView = saldoAnalitykaView;
     }
+
+    public boolean isWyslijtezjpk() {
+        return wyslijtezjpk;
+    }
+
+    public void setWyslijtezjpk(boolean wyslijtezjpk) {
+        this.wyslijtezjpk = wyslijtezjpk;
+    }
+
+   
     
     
     
