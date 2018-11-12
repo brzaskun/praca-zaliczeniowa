@@ -13,9 +13,9 @@
         <p:growl life="3600"  id="msg" autoUpdate="true"/>
         <p:panel header="Wykaz oczekujacych wysyłki deklaracji" style="width: 1250px;"/>
         <p:panelGrid columns="3">
-            <h:outputText value="saldo konta 222: " />
+            <h:outputText value="saldo konta 222: "  rendered="#{WpisView.ksiegirachunkowe}"/>
             <bcf:outputpl value="#{deklaracjevatView.saldo222}" rendered="#{WpisView.ksiegirachunkowe}" stylePlus="color: blue;"/>
-            <p:selectBooleanCheckbox itemLabel="wysłać jednocześnie jpk" rendered="#{deklaracjevatView.oczekujace.get(0).selected.celzlozenia eq 1}"> 
+            <p:selectBooleanCheckbox itemLabel="wysłać jednocześnie jpk" rendered="#{deklaracjevatView.oczekujace.get(0).selected.celzlozenia ne 1}" style="float: right; margin-left: 100px;"> 
                 <p:ajax event="change" listener="#{deklaracjevatView.wyslijtezjpk}" />
             </p:selectBooleanCheckbox>
         </p:panelGrid>
