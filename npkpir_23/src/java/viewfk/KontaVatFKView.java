@@ -482,13 +482,13 @@ public class KontaVatFKView implements Serializable {
         nd.setListawierszy(new ArrayList<Wiersz>());
         int idporzadkowy = 1;
         dodajzaokraglenia(kontavat);
+        Konto kontoRozrachunkizUS = kontoDAOfk.findKonto("222", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         for (SaldoKonto p : kontavat) {
             if (p.getSaldoWn() != 0.0 || p.getSaldoMa() != 0.0) {
                 Wiersz w = new Wiersz(idporzadkowy++, 0);
                 uzupelnijwiersz(w, nd);
                 String opiswiersza = "przeksięg. konto: "+p.getKonto().getPelnynumer();
                 w.setOpisWiersza(opiswiersza);
-                Konto kontoRozrachunkizUS = kontoDAOfk.findKonto("222", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
                 if (p.getSaldoWn() != 0.0) {
                     StronaWiersza wn = new StronaWiersza(w, "Wn", p.getSaldoWn(), kontoRozrachunkizUS);
                     wn.setKwotaPLN(p.getSaldoWn());

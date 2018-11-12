@@ -99,7 +99,6 @@ public class SaldoAnalitykaView implements Serializable {
             }
         }
         pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
-        listaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
         List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView);
         List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView);
         przygotowanalistasald(kontaklienta, zapisyBO, zapisyObrotyRozp, wybranyRodzajKonta);
@@ -123,7 +122,6 @@ public class SaldoAnalitykaView implements Serializable {
             }
         }
         pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
-        listaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
         List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView);
         List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView);
         List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlitykaRokPop(wpisView);
@@ -265,7 +263,8 @@ public class SaldoAnalitykaView implements Serializable {
         p.wyliczSaldo();
     }
 
-    private void przygotowanalistasald(List<Konto> kontaklienta, List<StronaWiersza> zapisyBO, List<StronaWiersza> zapisyObrotyRozp, String rodzajkonta) {
+    public void przygotowanalistasald(List<Konto> kontaklienta, List<StronaWiersza> zapisyBO, List<StronaWiersza> zapisyObrotyRozp, String rodzajkonta) {
+        listaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
         List<StronaWiersza> zapisyRok = pobierzzapisy(rodzajkonta);
         CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyRok);
         CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyBO);

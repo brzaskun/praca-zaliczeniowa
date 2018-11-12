@@ -4,6 +4,7 @@
  */
 package view;
 
+import beansFK.BOFKBean;
 import beansPodpis.ObslugaPodpisuBean;
 import beansVAT.VATDeklaracja;
 import comparator.Vatcomparator;
@@ -13,10 +14,14 @@ import dao.PodatnikDAO;
 import dao.SMTPSettingsDAO;
 import dao.SchemaEwidencjaDAO;
 import dao.WpisDAO;
+import daoFK.DokDAOfk;
+import daoFK.KontoDAOfk;
 import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Deklaracjevat;
 import entity.Wpis;
+import entityfk.Konto;
+import entityfk.StronaWiersza;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
@@ -38,6 +43,7 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import pdf.PdfVAT7;
 import pdf.PdfVAT7new;
+import viewfk.SaldoAnalitykaView;
 
 /**
  *
@@ -56,19 +62,26 @@ public class DeklaracjevatView implements Serializable {
     private List<Deklaracjevat> oczekujace;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
+    @ManagedProperty(value="#{saldoAnalitykaView}")
+    private SaldoAnalitykaView saldoAnalitykaView;
     @Inject
     private WpisDAO wpisDAO;
     @Inject
     private PodatnikDAO podatnikDAO;
+    @Inject
+    private DokDAOfk dokDAOfk;
     @Inject
     private DeklaracjaVatSchemaDAO deklaracjaVatSchemaDAO;
     @Inject
     private SchemaEwidencjaDAO schemaEwidencjaDAO;
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
+    @Inject
+    private KontoDAOfk kontoDAOfk;
     private boolean pokazZT;
     private boolean pokazZZ;
     private boolean pokazprzyciskpodpis;
+    private double saldo222;
 
     public DeklaracjevatView() {
         wyslane = Collections.synchronizedList(new ArrayList<>());
@@ -90,6 +103,15 @@ public class DeklaracjevatView implements Serializable {
         wyslanetestowe = Collections.synchronizedList(new ArrayList<>());
         wyslanezbledem = Collections.synchronizedList(new ArrayList<>());
         wyslaneniepotwierdzone = Collections.synchronizedList(new ArrayList<>());
+        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView);
+        List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView);
+        Konto kontoRozrachunkizUS = kontoDAOfk.findKonto("222", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        List<Konto> konta = new ArrayList<>();
+        konta.add(kontoRozrachunkizUS);
+        saldoAnalitykaView.przygotowanalistasald(konta, zapisyBO, zapisyObrotyRozp, "wszystkie");
+        double saldown = saldoAnalitykaView.getSumaSaldoKonto().get(0).getSaldoWn();
+        double saldoma = saldoAnalitykaView.getSumaSaldoKonto().get(0).getSaldoMa();
+        saldo222 = saldown != 0.0 ? saldown : -saldoma;
         try {
             oczekujace = deklaracjevatDAO.findDeklaracjeDowyslaniaList(wpisView.getPodatnikWpisu());
             if (oczekujace != null && oczekujace.size() == 1) {
@@ -436,6 +458,22 @@ public class DeklaracjevatView implements Serializable {
 
     public void setPokazZT(boolean pokazZT) {
         this.pokazZT = pokazZT;
+    }
+
+    public double getSaldo222() {
+        return saldo222;
+    }
+
+    public void setSaldo222(double saldo222) {
+        this.saldo222 = saldo222;
+    }
+
+    public SaldoAnalitykaView getSaldoAnalitykaView() {
+        return saldoAnalitykaView;
+    }
+
+    public void setSaldoAnalitykaView(SaldoAnalitykaView saldoAnalitykaView) {
+        this.saldoAnalitykaView = saldoAnalitykaView;
     }
     
     

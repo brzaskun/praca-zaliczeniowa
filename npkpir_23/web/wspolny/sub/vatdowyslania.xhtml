@@ -12,6 +12,10 @@
     <h:form id="formX">
         <p:growl life="3600"  id="msg" autoUpdate="true"/>
         <p:panel header="Wykaz oczekujacych wysyłki deklaracji" style="width: 1250px;"/>
+        <p:panelGrid columns="2">
+            <h:outputText value="saldo konta 222: " />
+            <bcf:outputpl value="#{deklaracjevatView.saldo222}" rendered="#{WpisView.ksiegirachunkowe}" stylePlus="color: blue;"/>
+        </p:panelGrid>
         <p:dataTable value="#{deklaracjevatView.oczekujace}" var="item" sortBy="#{item.miesiac}"  id="dokumentyLista" 
                      emptyMessage="brak oczekujących deklaracji do wyslania" style="max-width: 1400px;">
             <p:column style="width: 10px; text-align: center; float: inside;">
