@@ -287,7 +287,7 @@
                                     <p:autoComplete id="acForce" value="#{dokfkView.selected.kontr}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefk"
                                                     var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                                     minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient" 
-                                                    forceSelection="true" queryDelay="10" styleClass="wpisywaniekontrfk" autocomplete="true" moreText="jest więcej pasujących pozycji"
+                                                    forceSelection="true" styleClass="wpisywaniekontrfk" autocomplete="true" moreText="jest więcej pasujących pozycji"
                                                     rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu != 5 and dokfkView.selected.rodzajedok.kategoriadokumentu != 0 ? true : false}" style="width: 250px;">
                                         <p:ajax event="query" global="false"/>
                                         <p:ajax event="focus" listener="#{kliencifkView.pobieraniekontaFKWpis}" global="false" update=":formwpisdokument:panelwalutowy"/>
