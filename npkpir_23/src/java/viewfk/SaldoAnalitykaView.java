@@ -264,39 +264,43 @@ public class SaldoAnalitykaView implements Serializable {
     }
 
     public void przygotowanalistasald(List<Konto> kontaklienta, List<StronaWiersza> zapisyBO, List<StronaWiersza> zapisyObrotyRozp, String rodzajkonta) {
-        listaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
-        List<StronaWiersza> zapisyRok = pobierzzapisy(rodzajkonta);
-        CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyRok);
-        CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyBO);
-        Map<String, SaldoKonto> przygotowanalista = new ConcurrentHashMap<>();
-        List<StronaWiersza> wierszenieuzupelnione = Collections.synchronizedList(new ArrayList<>());
-        kontaklienta.parallelStream().forEach((p) -> {
-            SaldoKonto saldoKonto = new SaldoKonto();
-            saldoKonto.setKonto(p);
-            przygotowanalista.put(p.getPelnynumer(), saldoKonto);
-        });
-        naniesBOnaKonto(przygotowanalista, zapisyBO);
-        naniesZapisyNaKonto(przygotowanalista, zapisyObrotyRozp, wierszenieuzupelnione, false);
-        naniesZapisyNaKonto(przygotowanalista, zapisyRok, wierszenieuzupelnione, true);
-        przygotowanalista.values().parallelStream().map((s) -> {
-            s.sumujBOZapisy();
-            return s;
-        }).forEachOrdered(SaldoKonto::wyliczSaldo);
-//        for (int i = 1; i < przygotowanalista.size()+1; i++) {
-//            przygotowanalista.get(i-1).setId(i);
-//        }
-        sumaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
-        sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(przygotowanalista));
-        for (StronaWiersza t : wierszenieuzupelnione) {
-            Msg.msg("e", "W tym dokumencie nie ma uzupełnionych kont: " + t.getDokfkS());
-        }
-        listaSaldoKonto.addAll(przygotowanalista.values());
-        for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();) {
-            SaldoKonto skn = it.next();
-            if (skn.getSaldoMa() == 0.0 && skn.getSaldoWn() == 0.0 && skn.getObrotyBoWn() == 0.0 && skn.getObrotyBoMa() == 0.0) {
-                it.remove();
+        try {
+            if (kontaklienta!=null) {
+                listaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
+                List<StronaWiersza> zapisyRok = pobierzzapisy(rodzajkonta);
+                CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyRok);
+                CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyBO);
+                Map<String, SaldoKonto> przygotowanalista = new ConcurrentHashMap<>();
+                List<StronaWiersza> wierszenieuzupelnione = Collections.synchronizedList(new ArrayList<>());
+                kontaklienta.parallelStream().forEach((p) -> {
+                    SaldoKonto saldoKonto = new SaldoKonto();
+                    saldoKonto.setKonto(p);
+                    przygotowanalista.put(p.getPelnynumer(), saldoKonto);
+                });
+                naniesBOnaKonto(przygotowanalista, zapisyBO);
+                naniesZapisyNaKonto(przygotowanalista, zapisyObrotyRozp, wierszenieuzupelnione, false);
+                naniesZapisyNaKonto(przygotowanalista, zapisyRok, wierszenieuzupelnione, true);
+                przygotowanalista.values().parallelStream().map((s) -> {
+                    s.sumujBOZapisy();
+                    return s;
+                }).forEachOrdered(SaldoKonto::wyliczSaldo);
+        //        for (int i = 1; i < przygotowanalista.size()+1; i++) {
+        //            przygotowanalista.get(i-1).setId(i);
+        //        }
+                sumaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
+                sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(przygotowanalista));
+                for (StronaWiersza t : wierszenieuzupelnione) {
+                    Msg.msg("e", "W tym dokumencie nie ma uzupełnionych kont: " + t.getDokfkS());
+                }
+                listaSaldoKonto.addAll(przygotowanalista.values());
+                for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();) {
+                    SaldoKonto skn = it.next();
+                    if (skn.getSaldoMa() == 0.0 && skn.getSaldoWn() == 0.0 && skn.getObrotyBoWn() == 0.0 && skn.getObrotyBoMa() == 0.0) {
+                        it.remove();
+                    }
+                }
             }
-        }
+        } catch (Exception e){}
     }
 
     private void przygotowanalistasaldBO(List<Konto> kontaklienta, List<StronaWiersza> zapisyRok) {
