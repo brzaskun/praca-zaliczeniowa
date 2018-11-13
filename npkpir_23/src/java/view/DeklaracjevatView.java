@@ -108,18 +108,18 @@ public class DeklaracjevatView implements Serializable {
         wyslaneniepotwierdzone = Collections.synchronizedList(new ArrayList<>());
         List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView);
         List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView);
-        Konto kontoRozrachunkizUS = kontoDAOfk.findKonto("222", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-        if (kontoRozrachunkizUS!=null) {
-            List<Konto> konta = new ArrayList<>();
-            konta.add(kontoRozrachunkizUS);
-            saldoAnalitykaView.przygotowanalistasald(konta, zapisyBO, zapisyObrotyRozp, "wszystkie");
-            double saldown = saldoAnalitykaView.getSumaSaldoKonto().get(0).getSaldoWn();
-            double saldoma = saldoAnalitykaView.getSumaSaldoKonto().get(0).getSaldoMa();
-            saldo222 = saldown != 0.0 ? saldown : -saldoma;
-        }
         try {
             oczekujace = deklaracjevatDAO.findDeklaracjeDowyslaniaList(wpisView.getPodatnikWpisu());
             if (oczekujace != null && oczekujace.size() == 1) {
+                Konto kontoRozrachunkizUS = kontoDAOfk.findKonto("222", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+            if (kontoRozrachunkizUS!=null) {
+                List<Konto> konta = new ArrayList<>();
+                konta.add(kontoRozrachunkizUS);
+                saldoAnalitykaView.przygotowanalistasald(konta, zapisyBO, zapisyObrotyRozp, "wszystkie");
+                double saldown = saldoAnalitykaView.getSumaSaldoKonto().get(0).getSaldoWn();
+                double saldoma = saldoAnalitykaView.getSumaSaldoKonto().get(0).getSaldoMa();
+                saldo222 = saldown != 0.0 ? saldown : -saldoma;
+            }
                 Deklaracjevat p = oczekujace.get(0);
                 DeklaracjaVatSchemaWierszSum narachunek25dni = VATDeklaracja.pobierzschemawiersz(p.getSchemawierszsumarycznylista(),"do zwrotu w terminie 25 dni");
                 int kwota25 = narachunek25dni.getDeklaracjaVatWierszSumaryczny().getSumavat();
