@@ -15,8 +15,8 @@
         <p:panelGrid columns="3">
             <h:outputText value="saldo konta 222: "  rendered="#{WpisView.ksiegirachunkowe and deklaracjevatView.oczekujace ne null and deklaracjevatView.oczekujace.size() gt 0}"/>
             <bcf:outputpl value="#{deklaracjevatView.saldo222}" rendered="#{WpisView.ksiegirachunkowe and deklaracjevatView.oczekujace ne null and deklaracjevatView.oczekujace.size() gt 0}" stylePlus="color: blue;"/>
-            <p:selectBooleanCheckbox itemLabel="wysłać jednocześnie jpk" rendered="#{deklaracjevatView.oczekujace ne null and deklaracjevatView.oczekujace.size() gt 0 and deklaracjevatView.oczekujace.get(0).selected.celzlozenia eq 1}" style="float: right; margin-left: 100px;"> 
-                <p:ajax event="change" listener="#{deklaracjevatView.wyslijtezjpk}" />
+            <p:selectBooleanCheckbox value="#{deklaracjevatView.wyslijtezjpk}" itemLabel="wysłać jednocześnie jpk" rendered="#{deklaracjevatView.oczekujace ne null and deklaracjevatView.oczekujace.size() gt 0 and deklaracjevatView.oczekujace.get(0).selected.celzlozenia eq 1}" style="float: right; margin-left: 100px;"> 
+                <p:ajax event="change" partialSubmit="true" />
             </p:selectBooleanCheckbox>
         </p:panelGrid>
         <p:dataTable value="#{deklaracjevatView.oczekujace}" var="item" sortBy="#{item.miesiac}"  id="dokumentyLista" 
