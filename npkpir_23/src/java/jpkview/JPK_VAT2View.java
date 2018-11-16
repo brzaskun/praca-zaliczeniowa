@@ -144,6 +144,9 @@ public class JPK_VAT2View implements Serializable {
             generujXML(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
             UPO upo = wysylkaJPK(wpisView.getPodatnikObiekt());
             if (upo != null && upo.getReferenceNumber() != null) {
+                if (this.lista==null) {
+                    this.lista = new ArrayList<>();
+                }
                 this.lista.add(upo);
             }
         } else {
@@ -233,6 +236,9 @@ public class JPK_VAT2View implements Serializable {
             generujXML(wiersze,wpisView.getPodatnikObiekt(), nowa0korekta1);
             UPO upo = wysylkaJPK(wpisView.getPodatnikObiekt());
             if (upo != null && upo.getReferenceNumber() != null) {
+                if (this.lista==null) {
+                    this.lista = new ArrayList<>();
+                }
                 this.lista.add(upo);
             }
         } else {
