@@ -11,6 +11,7 @@ import embeddable.Umorzenie;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -91,9 +92,11 @@ public class UmorzenieN implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + this.id;
+        hash = 97 * hash + Objects.hashCode(this.id);
         return hash;
     }
+    
+    
 
     @Override
     public boolean equals(Object obj) {
