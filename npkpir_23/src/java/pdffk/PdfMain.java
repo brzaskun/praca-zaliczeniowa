@@ -2479,13 +2479,13 @@ public class PdfMain {
                         } else {
                             table.addCell(ustawfrazeAlign("", "right", 8));
                         }
-                        table.addCell(ustawfrazeAlign(p.getOpiskontaWn(), "left", 7));
+                        table.addCell(ustawfrazeAlign(p.getOpiskontaWn(), "left", 8));
                         if (p.getKwotaMa() != 0.0) {
                             table.addCell(ustawfrazeAlign(number.format(p.getKwotaMa()), "right", 8));
                         } else {
                             table.addCell(ustawfrazeAlign("", "right", 8));
                         }
-                        table.addCell(ustawfrazeAlign(p.getOpiskontaMa(), "left", 7));
+                        table.addCell(ustawfrazeAlign(p.getOpiskontaMa(), "left", 8));
                         table.addCell(ustawfrazeAlign(p.getWaluta(), "center", 7));
                         if (p.getWaluta() != null && !p.getWaluta().equals("PLN") && !p.getOpis().equals("podsumowanie")) {
                             table.addCell(ustawfrazeAlign("", "center", 8, 25f));
@@ -2517,13 +2517,13 @@ public class PdfMain {
                         } else {
                             table.addCell(ustawfrazeAlign("", "right", 8));
                         }
-                        table.addCell(ustawfrazeAlign(p.getOpiskontaWn(), "left", 7));
+                        table.addCell(ustawfrazeAlign(p.getOpiskontaWn(), "left", 8));
                         if (p.getKwotaMa() != 0.0) {
                             table.addCell(ustawfrazeAlign(number.format(p.getKwotaMa()), "right", 8));
                         } else {
                             table.addCell(ustawfrazeAlign("", "right", 8));
                         }
-                        table.addCell(ustawfrazeAlign(p.getOpiskontaMa(), "left", 7));
+                        table.addCell(ustawfrazeAlign(p.getOpiskontaMa(), "left", 8));
                         table.addCell(ustawfrazeAlign(number.format(p.getSaldo()), "right", 8));
                 }
             }
