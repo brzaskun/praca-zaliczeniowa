@@ -89,7 +89,7 @@ public class Wiersz implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private Tabelanbp tabelanbp;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.LAZY)
-    @MapKeyColumn(name = "strona_key")
+    @MapKeyColumn(name = "strona_key", nullable = false)
     private Map<String, StronaWiersza> strona;
     @Column(name = "lpmacierzystego")
     private Integer lpmacierzystego;

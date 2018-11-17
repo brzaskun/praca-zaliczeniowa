@@ -1657,7 +1657,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Transakcja> findByNowaTransakcja(StronaWiersza s) {
-        return Collections.synchronizedList(em.createNamedQuery("Transakcja.findByNowaTransakcja").setParameter("nowatransakcja", s).getResultList());
+        return Collections.synchronizedList(em.createNamedQuery("Transakcja.findByNowaTransakcja").setParameter("nowatransakcja", s).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
     }
 
     public List<Transakcja> findByRozliczajacy(StronaWiersza s) {

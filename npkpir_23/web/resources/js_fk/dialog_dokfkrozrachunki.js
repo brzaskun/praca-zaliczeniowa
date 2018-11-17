@@ -541,7 +541,7 @@ var zablokujcheckbox = function (zablokuj, pole) {
 
 var zablokujwierszereadonly = function () {
     var wiersze = $(document.getElementById("formwpisdokument:dataList_data")).children("tr");
-    var dl = wiersze.size();
+    var dl = wiersze.length;
     if (dl > 0) {
         var blockwaluty = "formwpisdokument:wybranawaluta";
         try {//moze sie zdarzyc ze nie bedzie nic
