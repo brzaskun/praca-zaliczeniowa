@@ -65,14 +65,15 @@ public class VAT27DeklaracjaView implements Serializable {
                 }
             }
             if (robickorekte) {
-                deklaracjavat27DAO.usundeklaracje27(wpisView);
-                for (Iterator<Deklaracjavat27> it = vat27View.getDeklaracjevat27().iterator(); it.hasNext();) {
-                    Deklaracjavat27 d = it.next();
-                    if (d.getMiesiac().equals(wpisView.getMiesiacWpisu()) && d.getRok().equals(wpisView.getRokWpisuSt())) {
-                        vat27View.getDeklaracjevat27().remove(d);
-                        break;
-                    }
-                }
+//                nie rozumiem, dlaczdego musze usuwac poprzednia deklaracje                
+//                deklaracjavat27DAO.usundeklaracje27(wpisView);
+//                for (Iterator<Deklaracjavat27> it = vat27View.getDeklaracjevat27().iterator(); it.hasNext();) {
+//                    Deklaracjavat27 d = it.next();
+//                    if (d.getMiesiac().equals(wpisView.getMiesiacWpisu()) && d.getRok().equals(wpisView.getRokWpisuSt())) {
+//                        vat27View.getDeklaracjevat27().remove(d);
+//                        break;
+//                    }
+//                }
                 robdeklaracje(lista, true, nrkolejny);
             } else {
                 Msg.msg("w","Nie ma różnic w pozycjach deklaracji. Nie ma sensu robic korekty");
@@ -101,14 +102,15 @@ public class VAT27DeklaracjaView implements Serializable {
                 }
             }
             if (robickorekte) {
-                deklaracjavat27DAO.usundeklaracje27(wpisView);
-                for (Iterator<Deklaracjavat27> it = vat27View.getDeklaracjevat27().iterator(); it.hasNext();) {
-                    Deklaracjavat27 d = it.next();
-                    if (d.getMiesiac().equals(wpisView.getMiesiacWpisu()) && d.getRok().equals(wpisView.getRokWpisuSt())) {
-                        vat27View.getDeklaracjevat27().remove(d);
-                        break;
-                    }
-                }
+//                nie rozumiem, dlaczdego musze usuwac poprzednia deklaracje                
+//                deklaracjavat27DAO.usundeklaracje27(wpisView);
+//                for (Iterator<Deklaracjavat27> it = vat27View.getDeklaracjevat27().iterator(); it.hasNext();) {
+//                    Deklaracjavat27 d = it.next();
+//                    if (d.getMiesiac().equals(wpisView.getMiesiacWpisu()) && d.getRok().equals(wpisView.getRokWpisuSt())) {
+//                        vat27View.getDeklaracjevat27().remove(d);
+//                        break;
+//                    }
+//                }
                 robdeklaracjeFK(lista, true, nrkolejny);
             } else {
                 Msg.msg("w","Nie ma różnic w pozycjach deklaracji. Nie ma sensu robic korekty");
