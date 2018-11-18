@@ -385,6 +385,10 @@ public class WpisView implements Serializable {
             if (rodzajopodatkowania == null) {
                 czegosbrakuje = true;
             }
+            if (podatnikObiekt.getFormaPrawna() == null) {
+                czegosbrakuje = true;
+                Msg.msg("e", "Brak wyboru formy prawnej");
+            }
         } catch (Exception e) {
             czegosbrakuje = true;
             //E.e(e);

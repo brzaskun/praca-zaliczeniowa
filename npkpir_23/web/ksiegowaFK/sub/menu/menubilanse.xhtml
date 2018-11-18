@@ -18,7 +18,6 @@
                             <p:menuitem value="internacjonalizacja" onclick="PF('dialog_bilans_projekt_inter').show();"></p:menuitem>
                             <p:menuitem value="projekt układu" onclick="PF('bilansprojekt').show();"></p:menuitem>
                             <p:menuitem value="kopiowanie przyporządkowania kont Bilans" onclick="PF('dialog_bilans_przypisywanie_podatnik_kopiuj').show();"></p:menuitem>
-                            <p:menuitem value="drukuj sprawozdanie bilansowe" actionListener="#{drukujsprawozdaniefinansoweView.drukuj()}"></p:menuitem>
                         </p:menu>  
                     </h:form>
                 </p:tab>
@@ -47,6 +46,13 @@
                         </p:menu>  
                     </h:form>
                 </p:tab>
+                <p:tab title="Sprawozdanie fin.">
+                    <h:form id="dialog1menu6">
+                        <p:menu id="d1m6" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="drukuj sprawozdanie finansowe" actionListener="#{drukujsprawozdaniefinansoweView.drukuj()}"></p:menuitem>
+                        </p:menu>  
+                    </h:form>
+                </p:tab>  
                 <p:tab title="BO">
                     <h:form id="dialog1menu1">
                         <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
@@ -77,18 +83,19 @@
                 <p:tab title="Układ RZiS/Bilans">
                    <h:form id="dialog1menu5">
                        <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                           <p:menuitem value="Kopiowanie układu RZiS/Bilans" onclick="PF('dialog_uklad_kopiuj').show();"></p:menuitem>
+                           <p:menuitem value="Kopiowanie układu własnego" onclick="PF('dialog_uklad_kopiuj').show();"></p:menuitem>
+                           <p:menuitem value="Kopiowanie układu z innej firmy" onclick="PF('dialog_uklad_kopiuj_innafirma').show();"></p:menuitem>
                            <p:menuitem value="Definiowanie układu" onclick="PF('dialogprojektuklad').show();"></p:menuitem>
                        </p:menu>  
                    </h:form>
                </p:tab>
                 <p:tab title="CIT">
-                    <h:form id="dialog1menu4">
-                        <p:menu id="d1m4" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                            <p:menuitem value="bieżący CIT" onclick="PF('citbiezacy').show();"></p:menuitem>
-                            <p:menuitem value="archiwum" onclick="PF('archiwumcit').show();"></p:menuitem>
-                        </p:menu>  
-                    </h:form>
-                </p:tab>  
+                            <h:form id="dialog1menu4">
+                                <p:menu id="d1m4" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                                    <p:menuitem value="bieżący CIT" onclick="PF('citbiezacy').show();"></p:menuitem>
+                                    <p:menuitem value="archiwum" onclick="PF('archiwumcit').show();"></p:menuitem>
+                                </p:menu>  
+                            </h:form>
+                        </p:tab>  
             </p:tabView>
 </ui:composition>

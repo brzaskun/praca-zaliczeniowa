@@ -7,6 +7,7 @@ package viewfk;
 
 import comparator.SaldoKontocomparator;
 import embeddablefk.SaldoKonto;
+import error.E;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
@@ -82,7 +83,7 @@ public class DrukujsprawozdaniefinansoweView  implements Serializable {
             PdfPlanKont.drukujPlanKont(planKontView.getWykazkont(), wpisView);
             Msg.msg("Wydrukowano sprawozdanie finansowe");
         } catch (Exception e) {
-            Msg.msg("e","Wystąpił błąd podczas drukowania sprawozdanie finansowego");
+            Msg.msg("e","Wystąpił błąd podczas drukowania sprawozdanie finansowego "+E.e(e));
         }
     }
 

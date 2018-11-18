@@ -39,6 +39,7 @@ public class UkladBRView implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private List<UkladBR> lista;
+    private List<UkladBR> listawszyscyrokbiezacy;
     private List<UkladBR> listarokbiezacy;
     private List<UkladBR> listaWzorcowy;
     private List<UkladBR> listaWzorcowyBiezacy;
@@ -79,6 +80,7 @@ public class UkladBRView implements Serializable {
             lista = ukladBRDAO.findPodatnik(wpisView.getPodatnikWpisu());
             listarokbiezacy = ukladBRDAO.findPodatnikRok(wpisView);
             listaWzorcowy = ukladBRDAO.findPodatnik("Wzorcowy");
+            listawszyscyrokbiezacy = ukladBRDAO.findRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             listaWzorcowyBiezacy = ukladBRDAO.findukladBRWzorcowyRok(wpisView.getRokWpisuSt());
             Collections.sort(listaWzorcowy, new UkladBRcomparator());
             ukladdocelowyrok = wpisView.getRokWpisuSt();
@@ -339,6 +341,14 @@ public class UkladBRView implements Serializable {
 
     public void setListaWzorcowyBiezacy(List<UkladBR> listaWzorcowyBiezacy) {
         this.listaWzorcowyBiezacy = listaWzorcowyBiezacy;
+    }
+
+    public List<UkladBR> getListawszyscyrokbiezacy() {
+        return listawszyscyrokbiezacy;
+    }
+
+    public void setListawszyscyrokbiezacy(List<UkladBR> listawszyscyrokbiezacy) {
+        this.listawszyscyrokbiezacy = listawszyscyrokbiezacy;
     }
 
     public List<UkladBR> getListaWzorcowy() {
