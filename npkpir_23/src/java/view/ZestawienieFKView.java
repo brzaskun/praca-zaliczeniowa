@@ -123,10 +123,11 @@ public class ZestawienieFKView implements Serializable {
                 Msg.msg("e", "Nie uzupełnione parametry podatnika", "formpit:messages");
             }
         }
-        if (listawybranychudzialowcow.size() == 1) {
-            wybranyudzialowiec = listawybranychudzialowcow.get(0);
-            obliczPit();
-        }
+        //sprawa nie dokonczona wylaczam
+//        if (listawybranychudzialowcow.size() == 1) {
+//            wybranyudzialowiec = listawybranychudzialowcow.get(0);
+//            obliczPit();
+//        }
     }
 
     
