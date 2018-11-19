@@ -143,7 +143,7 @@ public class UkladBRView implements Serializable {
                 pozycjaBRKontaView.setUkladzrodlowykonta(ukladzrodlowy);
                 pozycjaBRKontaView.kopiujprzyporzadkowaniekont("r", true);
                 pozycjaBRKontaView.kopiujprzyporzadkowaniekont("b", true);
-                Msg.msg("i", "Skopiowano przyporządkowanie kont z układu wzorcowego");
+                Msg.msg("i", "Skopiowano przyporządkowanie kont z układu pierwotnego");
             }
         } catch (EJBException ejb) {
             Msg.msg("e", "Nieudana próba skopiowania układu. Układ za dany rok już istnieje " + ejb.getMessage());

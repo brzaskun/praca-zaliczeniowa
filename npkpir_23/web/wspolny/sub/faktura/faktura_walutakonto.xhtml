@@ -61,7 +61,7 @@
             </p:panelGrid>
         </h:form>
         <h:form id="form_fakturawalutakonto1">
-            <p:dataTable id="tabela" value="#{fakturaWalutaKontoView.listakont}" var="item" style="width: 1200px;" emptyMessage="Nie wprowadzono numerów kont bankowych">
+            <p:dataTable id="tabela" value="#{fakturaWalutaKontoView.listakont}" var="item" style="width: 1300px;" emptyMessage="Nie wprowadzono numerów kont bankowych">
                 <p:column width="50">
                     <f:facet name="header">
                         <h:outputText value="waluta"/>
@@ -80,7 +80,7 @@
                     </f:facet>
                     <h:outputText value="#{item.blz}"/>
                 </p:column>
-                <p:column width="80">
+                <p:column width="100">
                     <f:facet name="header">
                         <h:outputText value="Swift"/>
                     </f:facet>
@@ -88,7 +88,7 @@
                 </p:column>
                 <p:column width="200">
                     <f:facet name="header">
-                        <h:outputText value="iban"/>
+                        <h:outputText value="IBAN"/>
                     </f:facet>
                     <h:outputText value="#{item.iban}"  style="word-break: break-all !important; word-wrap: break-word !important; white-space: pre-wrap;"/>
                 </p:column>
@@ -98,14 +98,14 @@
                     </f:facet>
                     <h:outputText value="#{item.nrkonta}"  style="word-break: break-all !important; word-wrap: break-word !important; white-space: pre-wrap;"/>
                 </p:column>
-                <p:column width="70">
+                <p:column width="70" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="aktywne"/>
                     </f:facet>
-                    <h:outputText value="#{item.nieaktywny ? 'nie' : 'tak'}"/>
+                    <h:outputText value="#{item.nieaktywny ? 'nie' : 'tak'}" style="color: #{item.nieaktywny ? 'red':'green'}"/>
                 </p:column>
-                <p:column style="text-align: center;" width="40">
-                    <p:commandButton icon="fa fa-edit" actionListener="#{fakturaWalutaKontoView.dezaktywacja(item)}" global="false" update="@parent:@parent"/>
+                <p:column style="text-align: center;" width="40" headerText="deakt.">
+                    <p:commandButton icon="fa fa-adjust" actionListener="#{fakturaWalutaKontoView.dezaktywacja(item)}" global="false" update="@parent:@parent"/>
                 </p:column>
                 <p:column style="text-align: center;" width="40">
                     <p:commandButton icon="fa fa-trash" actionListener="#{fakturaWalutaKontoView.usun(item)}" global="false" update="@parent:@parent:@parent"/>
