@@ -280,54 +280,54 @@ public class beanek  implements Serializable {
     }
     
     public void rob(List<Deklaracjevat> deklaracje, boolean wyslijtezjpk) throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
-//        String rok = wpisView.getRokWpisu().toString();
-//        String mc = wpisView.getMiesiacWpisu();
-//        String podatnik = wpisView.getPodatnikWpisu();
-//        Deklaracjevat wysylanaDeklaracja = deklaracje.get(deklaracje.size() - 1);
-//        if (!wysylanaDeklaracja.getSchemaobj().getNazwaschemy().equals("M-18") && !wysylanaDeklaracja.getSchemaobj().getNazwaschemy().equals("K-12")) {
-//            if (wysylanaDeklaracja.getSelected().getPozycjeszczegolowe().getPoleI62() > 0 && !wysylanaDeklaracja.getDeklaracja().contains("Wniosek_VAT-ZT")) {
-//                Msg.msg("e", "Jest to deklaracja z wnioskiem o zwrot VAT, a nie wypełniłeś załacznika VAT-ZT. Deklaracja nie może być wysłana!", "formX:msg");
-//                return;
-//            }
+        String rok = wpisView.getRokWpisu().toString();
+        String mc = wpisView.getMiesiacWpisu();
+        String podatnik = wpisView.getPodatnikWpisu();
+        Deklaracjevat wysylanaDeklaracja = deklaracje.get(deklaracje.size() - 1);
+        if (!wysylanaDeklaracja.getSchemaobj().getNazwaschemy().equals("M-18") && !wysylanaDeklaracja.getSchemaobj().getNazwaschemy().equals("K-12")) {
+            if (wysylanaDeklaracja.getSelected().getPozycjeszczegolowe().getPoleI62() > 0 && !wysylanaDeklaracja.getDeklaracja().contains("Wniosek_VAT-ZT")) {
+                Msg.msg("e", "Jest to deklaracja z wnioskiem o zwrot VAT, a nie wypełniłeś załacznika VAT-ZT. Deklaracja nie może być wysłana!", "formX:msg");
+                return;
+            }
+        }
+//        if (wysylanaDeklaracja.getSelected().getCelzlozenia().equals("2") && !wysylanaDeklaracja.getDeklaracja().contains("Zalacznik_ORD-ZU")) {
+//            Msg.msg("e", "Jest to deklaracja korygująca, a nie wypełniłeś załacznika ORD-ZU z wyjaśnieniem. Deklaracja nie może być wysłana!", "formX:msg");
+//            return;
 //        }
-////        if (wysylanaDeklaracja.getSelected().getCelzlozenia().equals("2") && !wysylanaDeklaracja.getDeklaracja().contains("Zalacznik_ORD-ZU")) {
-////            Msg.msg("e", "Jest to deklaracja korygująca, a nie wypełniłeś załacznika ORD-ZU z wyjaśnieniem. Deklaracja nie może być wysłana!", "formX:msg");
-////            return;
-////        }
-//        String strFileContent = wysylanaDeklaracja.getDeklaracja();
-//        if (strFileContent != null) {
-//            String tmp = DatatypeConverter.printBase64Binary(strFileContent.getBytes("UTF-8"));
-//            dok = DatatypeConverter.parseBase64Binary(tmp);
-//        } else {
-//            
-//        }
-//        try {
-//            if (wysylanaDeklaracja.isJestcertyfikat()) {
-//                dok = wysylanaDeklaracja.getDeklaracjapodpisana();
-//                sendSignDocument(dok, id, stat, opis);
-//            } else {
-//                sendUnsignDocument(dok, lang, signT, id, stat, opis);
-//            }
-//            idMB = id.value;
-//            idpobierz = id.value;
-//            List<String> komunikat = null;
-//            opisMB = opis.value;
-//            komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
-//            if (komunikat.size() > 1) {
-//                    Msg.msg(komunikat.get(0), komunikat.get(1));
-//                    opisMB = komunikat.get(1);
-//            }
-//            upoMB = upo.value;
-//            statMB = stat.value + " "+opis.value;
-//            wysylanaDeklaracja.setIdentyfikator(idMB);
-//            wysylanaDeklaracja.setStatus(statMB.toString());
-//            wysylanaDeklaracja.setOpis(opisMB);
-//            wysylanaDeklaracja.setDatazlozenia(new Date());
-//            wysylanaDeklaracja.setSporzadzil(wpisView.getWprowadzil().getImie() + " " + wpisView.getWprowadzil().getNazw());
-//            deklaracjevatDAO.edit(wysylanaDeklaracja);
- //           Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
+        String strFileContent = wysylanaDeklaracja.getDeklaracja();
+        if (strFileContent != null) {
+            String tmp = DatatypeConverter.printBase64Binary(strFileContent.getBytes("UTF-8"));
+            dok = DatatypeConverter.parseBase64Binary(tmp);
+        } else {
+            
+        }
+        try {
+            if (wysylanaDeklaracja.isJestcertyfikat()) {
+                dok = wysylanaDeklaracja.getDeklaracjapodpisana();
+                sendSignDocument(dok, id, stat, opis);
+            } else {
+                sendUnsignDocument(dok, lang, signT, id, stat, opis);
+            }
+            idMB = id.value;
+            idpobierz = id.value;
+            List<String> komunikat = null;
+            opisMB = opis.value;
+            komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
+            if (komunikat.size() > 1) {
+                    Msg.msg(komunikat.get(0), komunikat.get(1));
+                    opisMB = komunikat.get(1);
+            }
+            upoMB = upo.value;
+            statMB = stat.value + " "+opis.value;
+            wysylanaDeklaracja.setIdentyfikator(idMB);
+            wysylanaDeklaracja.setStatus(statMB.toString());
+            wysylanaDeklaracja.setOpis(opisMB);
+            wysylanaDeklaracja.setDatazlozenia(new Date());
+            wysylanaDeklaracja.setSporzadzil(wpisView.getWprowadzil().getImie() + " " + wpisView.getWprowadzil().getNazw());
+            deklaracjevatDAO.edit(wysylanaDeklaracja);
+            Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
             try {
-                if (true) {
+                if (wyslijtezjpk) {
                     if (jPK_VAT2View.isPkpir0ksiegi1()) {
                         jPK_VAT2View.przygotujXMLFK();
                     } else {
@@ -337,9 +337,9 @@ public class beanek  implements Serializable {
             } catch (Exception e1) {
                 Msg.msg("e","Nieudane łączne wysyłanie jpk z deklaracją");
             }
-//        } catch (ClientTransportException ex1) {
-//            Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania deklaracji podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
-//        }
+        } catch (ClientTransportException ex1) {
+            Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania deklaracji podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
+        }
 
     }
 
