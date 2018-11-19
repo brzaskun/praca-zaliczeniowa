@@ -99,6 +99,7 @@ import javax.persistence.TemporalType;
 import org.eclipse.persistence.config.CascadePolicy;
 import org.eclipse.persistence.config.HintValues;
 import org.eclipse.persistence.config.QueryHints;
+import org.eclipse.persistence.queries.LoadGroup;
 import view.WpisView;
 
 
@@ -1758,7 +1759,17 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
     
     public List<StronaWiersza> findStronaByPodatnikKontoStartRokWalutyWszystkie(Podatnik podatnikObiekt, String konto, String rokWpisuSt) {
-        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoStartRokWalutyWszystkie").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
+        //t.platnosci t.wiersz.dokfk t.wiersz.tabelanbp
+        LoadGroup lg = new LoadGroup();
+        lg.addAttribute("platnosci");
+        lg.addAttribute("wiersz.dokfk");
+        lg.addAttribute("wiersz.tabelanbp");
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoStartRokWalutyWszystkie")
+                .setParameter("podatnikObj", podatnikObiekt)
+                .setParameter("konto", konto)
+                .setParameter("rok", rokWpisuSt)
+                .setHint(QueryHints.REFRESH, HintValues.TRUE)
+                .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoRokMcWalutyWszystkie(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt, String mc) {
