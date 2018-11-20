@@ -153,10 +153,21 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                 </h:form>
             </p:layoutUnit>  
 
-            <p:layoutUnit position="center" >
+            <p:layoutUnit position="center"  id="centertree1">
+                <style>
+                    .grid1 td {
+                        height: 40px !important;
+                    }
+                    #centertree1 {
+                        width: 1150px !important;
+                    }
+                    .lolo {
+                        width: 20px;
+                    }
+                </style>
                 <h:form id="tabelanowerozrachunki">
                      
-                    <p:dataTable id="tabela" value="#{rozrachunkiPrzegladView.stronyWiersza}" var="loop" rowKey="#{loop.id}" style="height: 525px; overflow-y: scroll; width: 1080px;"
+                    <p:dataTable id="tabela" value="#{rozrachunkiPrzegladView.stronyWiersza}" var="loop" rowKey="#{loop.id}" style="height: 525px; overflow-y: scroll; width: 1120px;"
                                  emptyMessage="Nie ma rozrachunków na koncie" sortBy="#{loop.id}" selection="#{rozrachunkiPrzegladView.stronyWierszawybrane}"
                                  rowIndexVar="rowindex"  rowSelectMode="add"
                                   styleClass="walkingtable"
@@ -165,7 +176,7 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                         <p:ajax event="rowUnselectCheckbox" listener="#{rozrachunkiPrzegladView.sumujwybrane}" update="sumy" global="false"/>
                         <p:ajax event="toggleSelect" listener="#{rozrachunkiPrzegladView.sumujwybrane}" update="sumy" global="false"/>
                         <p:column selectionMode="multiple" styleClass="checkwiersza" width="35" style="text-align: center;"></p:column>
-                        <p:column style="height: 19px; text-align: center;" width="20">
+                        <p:column style="height: 19px; text-align: center;" width="25">
                             <p:rowToggler />
                         </p:column>
                         <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center;"  >
