@@ -225,7 +225,7 @@ public class KontoZapisFKView implements Serializable{
                 KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
                 int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
                 int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
-                List<StronaWiersza> zapisyshortfilter = zapisyshort.parallelStream().filter((r) -> (kontapotomneListaOstateczna.contains(r.getKonto()))).collect(Collectors.toList());
+                List<StronaWiersza> zapisyshortfilter = zapisyshort.stream().filter((r) -> (kontapotomneListaOstateczna.contains(r.getKonto()))).collect(Collectors.toList());
                  zapisyshortfilter.parallelStream().forEach((r) -> {
                     if (wybranaWalutaDlaKont.equals("wszystkie")) {
                         int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
