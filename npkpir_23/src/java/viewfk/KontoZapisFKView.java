@@ -271,33 +271,33 @@ public class KontoZapisFKView implements Serializable{
         }
     }
     
-    public void pobierzZapisyNaKoncieNodeRozrachunki(Konto wybraneKontoNode) {
-        if (wykazkont == null) {
-            init();
-        }
-        try {
-            wybranezapisydosumowania = Collections.synchronizedList(new ArrayList<>());
-            wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
-            kontozapisy = Collections.synchronizedList(new ArrayList<>());
-            List<Konto> kontapotomnetmp = Collections.synchronizedList(new ArrayList<>());
-            List<Konto> kontapotomneListaOstateczna = Collections.synchronizedList(new ArrayList<>());
-            kontapotomnetmp.add(wybranekonto);
-            KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
-            int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
-            int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
-            zapisyRok.parallelStream().filter((r) -> (kontapotomneListaOstateczna.contains(r.getKonto()))).forEachOrdered((r) -> {
-                int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
-                if (mc >= granicaDolna && mc <=granicaGorna) {
-                    kontozapisy.add(r);
-                }
-            });
-            sumazapisow();
-            sumazapisowpln();
-            //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
-        } catch (Exception e) {
-            E.e(e);
-        }
-    }
+//    public void pobierzZapisyNaKoncieNodeRozrachunki(Konto wybraneKontoNode) {
+//        if (wykazkont == null) {
+//            init();
+//        }
+//        try {
+//            wybranezapisydosumowania = Collections.synchronizedList(new ArrayList<>());
+//            wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
+//            kontozapisy = Collections.synchronizedList(new ArrayList<>());
+//            List<Konto> kontapotomnetmp = Collections.synchronizedList(new ArrayList<>());
+//            List<Konto> kontapotomneListaOstateczna = Collections.synchronizedList(new ArrayList<>());
+//            kontapotomnetmp.add(wybranekonto);
+//            KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
+//            int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
+//            int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
+//            zapisyRok.stream().filter((r) -> (kontapotomneListaOstateczna.contains(r.getKonto()))).forEachOrdered((r) -> {
+//                int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+//                if (mc >= granicaDolna && mc <=granicaGorna) {
+//                    kontozapisy.add(r);
+//                }
+//            });
+//            sumazapisow();
+//            sumazapisowpln();
+//            //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
+//        } catch (Exception e) {
+//            E.e(e);
+//        }
+//    }
     
 
     

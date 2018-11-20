@@ -54,8 +54,8 @@ public class RozrachunkiPrzegladView implements Serializable{
     //@Inject private RozrachunekfkDAO rozrachunekfkDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-    @ManagedProperty(value = "#{kontoZapisFKView}")
-    private KontoZapisFKView kontoZapisFKView;
+//    @ManagedProperty(value = "#{kontoZapisFKView}")
+//    private KontoZapisFKView kontoZapisFKView;
     private String wybranaWalutaDlaKont;
     private String wybranyRodzajTransakcji;
     private String coWyswietlacRozrachunkiPrzeglad;
@@ -224,8 +224,8 @@ public class RozrachunkiPrzegladView implements Serializable{
         
     private void wykonczrozachunki() {
         filtrrozrachunkow();
-        kontoZapisFKView.pobierzZapisyNaKoncieNodeRozrachunki(wybranekonto);
-        kontoZapisFKView.setWybranekonto(wybranekonto);
+        //kontoZapisFKView.pobierzZapisyNaKoncieNodeRozrachunki(wybranekonto);
+        //kontoZapisFKView.setWybranekonto(wybranekonto);
         sumawaluta = 0.0;
         sumapl = 0.0;
         sumujwszystkie();
@@ -545,13 +545,13 @@ public class RozrachunkiPrzegladView implements Serializable{
         this.stronyWierszawybrane = stronyWierszawybrane;
     }
 
-    public KontoZapisFKView getKontoZapisFKView() {
-        return kontoZapisFKView;
-    }
-
-    public void setKontoZapisFKView(KontoZapisFKView kontoZapisFKView) {
-        this.kontoZapisFKView = kontoZapisFKView;
-    }
+//    public KontoZapisFKView getKontoZapisFKView() {
+//        return kontoZapisFKView;
+//    }
+//
+//    public void setKontoZapisFKView(KontoZapisFKView kontoZapisFKView) {
+//        this.kontoZapisFKView = kontoZapisFKView;
+//    }
 
     public String getWybranyRodzajTransakcji() {
         return wybranyRodzajTransakcji;
