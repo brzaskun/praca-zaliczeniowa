@@ -1786,6 +1786,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         //t.platnosci t.wiersz.dokfk t.wiersz.tabelanbp
         LoadGroup lg = new LoadGroup();
         lg.addAttribute("platnosci");
+        lg.addAttribute("konto");
         lg.addAttribute("wiersz.dokfk");
         lg.addAttribute("wiersz.tabelanbp");
         return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoStartRokWalutyWszystkie")

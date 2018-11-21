@@ -22,6 +22,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
@@ -59,9 +61,9 @@ public class StatystykaKalkulacjaView  implements Serializable {
     
     public void generuj() {
         List<Podatnik> podatnicytmp = podatnikDAO.findPodatnikNieFK();
-        List<Podatnik> podatnicy = podatnicytmp.stream().filter(p -> p.isPodmiotaktywny()).collect(Collectors.toList());
+        List<Podatnik> podatnicy = podatnicytmp.parallelStream().filter(p -> p.isPodmiotaktywny()).collect(collectingAndThen(toList(), Collections::synchronizedList));
         List<Podatnik> podatnicyFKtmp = podatnikDAO.findPodatnikFK();
-        List<Podatnik> podatnicyFK = podatnicyFKtmp.stream().filter(p -> p.isPodmiotaktywny()).collect(Collectors.toList());
+        List<Podatnik> podatnicyFK = podatnicyFKtmp.parallelStream().filter(p -> p.isPodmiotaktywny()).collect(collectingAndThen(toList(), Collections::synchronizedList));
         podatnikroklista = stworzliste(podatnicy);
         podatnikroklista.addAll(stworzlistefk(podatnicyFK));
         listadozachowania = Collections.synchronizedList(new ArrayList<>());

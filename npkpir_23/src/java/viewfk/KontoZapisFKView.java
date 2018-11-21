@@ -40,7 +40,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.DoubleAccumulator;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -222,10 +225,10 @@ public class KontoZapisFKView implements Serializable{
                 List<Konto> kontapotomnetmp = Collections.synchronizedList(new ArrayList<>());
                 List<Konto> kontapotomneListaOstateczna = Collections.synchronizedList(new ArrayList<>());
                 kontapotomnetmp.add(wybranekonto);
-                KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
+                KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, new ArrayList<>(wykazkont));
                 int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
                 int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
-                List<StronaWiersza> zapisyshortfilter = zapisyshort.stream().filter((r) -> (kontapotomneListaOstateczna.contains(r.getKonto()))).collect(Collectors.toList());
+                List<StronaWiersza> zapisyshortfilter = zapisyshort.parallelStream().filter((r) -> (kontapotomneListaOstateczna.contains(r.getKonto()))).collect(collectingAndThen(toList(), Collections::synchronizedList));
                  zapisyshortfilter.parallelStream().forEach((r) -> {
                     if (wybranaWalutaDlaKont.equals("wszystkie")) {
                         int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());

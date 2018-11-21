@@ -385,7 +385,7 @@ public class WpisView implements Serializable {
             if (rodzajopodatkowania == null) {
                 czegosbrakuje = true;
             }
-            if (podatnikObiekt.getFormaPrawna() == null) {
+            if (podatnikObiekt.getFormaPrawna() == null && ksiegirachunkowe) {
                 czegosbrakuje = true;
                 Msg.msg("e", "Brak wyboru formy prawnej");
             }
