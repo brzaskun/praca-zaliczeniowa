@@ -190,12 +190,13 @@ public class AdminMailView implements Serializable {
         for (Klienci p : klientList) {
             try {
                 if (p.getEmail() != null && p.getJezykwysylki()!=null) {
-                    //MailAdmin.mailAdmin(p.getEmail(), tematwiadomosci, zawartoscmaila, sMTPSettingsDAO.findSprawaByDef(), zalacznik, nazwazalacznik);
+                    MailAdmin.mailAdmin(p.getEmail(), tematwiadomosci, zawartoscmaila, sMTPSettingsDAO.findSprawaByDef(), zalacznik, nazwazalacznik);
                     ilosc++;
                 } else {
                     Msg.msg("w", "Brak maila/zakaz wysyłki dla " + p.getNpelna());
                 }
             } catch (Exception e) {
+                E.e(e);
                 Msg.msg("e", "Blad nie wyslano wiadomosci dla " + p.getNpelna());
             }
         }
