@@ -36,9 +36,11 @@
                 </p:commandButton>
                 <p:commandButton  value="Drukuj rok" actionListener="#{sesjaView.dodajwydruk()}" action="#{ksiegaView.drukujPKPIRrok()}" style="margin-left: 100px; width: 120px;">
                 </p:commandButton>
+                 <p:commandButton  value="JPKPKPIR" actionListener="#{jPKPKPIR2018View.generuj(ksiegaView.lista)}"  style="margin-left: 100px; width: 120px;">
+                </p:commandButton>
                  <h:outputText value="dok z cechami"/>
                 <p:selectOneMenu value="#{ksiegaView.wybranacechadok}" id="cechydokuk"
-                                 style="width: 200px; margin-left: 10px;" >
+                                 style="width: 200px; margin-left: 30px;" >
                     <p:ajax event="change" listener="#{ksiegaView.init()}" partialSubmit="true"
                             onstart="PF('dokKsiega').clearFilters();PF('dokKsiega').unselectAllRows();"
                             update=":form:dokumentyKsiega"/>
@@ -82,7 +84,7 @@
                         <p:column headerText="razem przychód (7+8)"   />  
                         <p:column headerText="wynagrodz. w gotówce i w naturze"  />  
                         <p:column headerText="pozostałe wydatki"  />  
-                        <p:column headerText="razem wydatki (13+14)"  />  
+                        <p:column headerText="razem wydatki (12+13)"  />  
                         <p:column headerText="inwestycje"  />  
                     </p:row>
                     <p:row>  

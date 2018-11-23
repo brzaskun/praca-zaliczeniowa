@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Year;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Named;
@@ -445,6 +446,17 @@ public class Data implements Serializable {
             zwrot=false;
         }
         return zwrot;
+    }
+ 
+    public static XMLGregorianCalendar databiezaca() throws DatatypeConfigurationException {
+        GregorianCalendar gcal = new GregorianCalendar();
+        return DatatypeFactory.newInstance().newXMLGregorianCalendar(gcal).normalize();
+    }
+
+    public static XMLGregorianCalendar dataoddo(String data) throws DatatypeConfigurationException {
+        String f = "yyyy-MM-dd";
+        DateFormat format = new SimpleDateFormat(f);
+        return DatatypeFactory.newInstance().newXMLGregorianCalendar(f.format(data));
     }
    
     public static void main(String[] args) {

@@ -5,6 +5,7 @@
  */
 package jpkview;
 
+import data.Data;
 import entity.EVatwpis1;
 import entity.EVatwpisSuper;
 import entity.Evewidencja;
@@ -80,9 +81,9 @@ public class JPK_VAT3_Bean {
             k.setKodSystemowy(k.getKodSystemowy());
             k.setWersjaSchemy(k.getWersjaSchemy());
             n.setKodFormularza(k);
-            n.setDataWytworzeniaJPK(databiezaca());
-            n.setDataOd(dataoddo(dataod));
-            n.setDataDo(dataoddo(datado));
+            n.setDataWytworzeniaJPK(Data.databiezaca());
+            n.setDataOd(Data.dataoddo(dataod));
+            n.setDataDo(Data.dataoddo(datado));
             n.setNazwaSystemu("Taxman");
         } catch (Exception ex) {
 
@@ -90,16 +91,7 @@ public class JPK_VAT3_Bean {
         return n;
     }
 
-    public static XMLGregorianCalendar databiezaca() throws DatatypeConfigurationException {
-        GregorianCalendar gcal = new GregorianCalendar();
-        return DatatypeFactory.newInstance().newXMLGregorianCalendar(gcal).normalize();
-    }
-
-    public static XMLGregorianCalendar dataoddo(String data) throws DatatypeConfigurationException {
-        String f = "yyyy-MM-dd";
-        DateFormat format = new SimpleDateFormat(f);
-        return DatatypeFactory.newInstance().newXMLGregorianCalendar(f.format(data));
-    }
+   
 
     public static Podmiot1 podmiot1(Podatnik wv) {
         Podmiot1 p = new Podmiot1();
@@ -126,8 +118,8 @@ public class JPK_VAT3_Bean {
         JPK.SprzedazWiersz w = new JPK.SprzedazWiersz();
         try {
             w.setLpSprzedazy(lp);
-            w.setDataSprzedazy(dataoddo(ev.getDok().getDataSprz()));
-            w.setDataWystawienia(dataoddo(ev.getDok().getDataWyst()));
+            w.setDataSprzedazy(Data.dataoddo(ev.getDok().getDataSprz()));
+            w.setDataWystawienia(Data.dataoddo(ev.getDok().getDataWyst()));
             w.setNrKontrahenta(ev.getDok().getKontr1().getNip());
             w.setNazwaKontrahenta(ev.getDok().getKontr1().getNpelna());
             w.setAdresKontrahenta(ev.getDok().getKontr1().getAdres());
@@ -143,8 +135,8 @@ public class JPK_VAT3_Bean {
         JPK.SprzedazWiersz w = new JPK.SprzedazWiersz();
         try {
             w.setLpSprzedazy(lp);
-            w.setDataSprzedazy(dataoddo(ev.getDataoperacji()));
-            w.setDataWystawienia(dataoddo(ev.getDatadokumentu()));
+            w.setDataSprzedazy(Data.dataoddo(ev.getDataoperacji()));
+            w.setDataWystawienia(Data.dataoddo(ev.getDatadokumentu()));
             w.setNrKontrahenta("brak");
             w.setNazwaKontrahenta(ev.getImienazwisko());
             w.setAdresKontrahenta(ev.getAdres());
@@ -163,15 +155,15 @@ public class JPK_VAT3_Bean {
         try {
             w.setLpSprzedazy(lp);
             if ((ev.getDokfk().getRodzajedok().getKategoriadokumentu()==0 || ev.getDokfk().getRodzajedok().getKategoriadokumentu()==5) && ev.getNumerwlasnydokfk()!=null) {
-                w.setDataSprzedazy(dataoddo(ev.getDataoperacji()));
-                w.setDataWystawienia(dataoddo(ev.getDatadokumentu()));
+                w.setDataSprzedazy(Data.dataoddo(ev.getDataoperacji()));
+                w.setDataWystawienia(Data.dataoddo(ev.getDatadokumentu()));
                 w.setNrKontrahenta(ev.getKlient().getNip());
                 w.setNazwaKontrahenta(ev.getKlient().getNpelna());
                 w.setAdresKontrahenta(ev.getKlient().getAdres());
                 w.setDowodSprzedazy(ev.getNumerwlasnydokfk());
             } else {
-                w.setDataSprzedazy(dataoddo(ev.getDokfk().getDataoperacji()));
-                w.setDataWystawienia(dataoddo(ev.getDokfk().getDatawystawienia()));
+                w.setDataSprzedazy(Data.dataoddo(ev.getDokfk().getDataoperacji()));
+                w.setDataWystawienia(Data.dataoddo(ev.getDokfk().getDatawystawienia()));
                 w.setNrKontrahenta(ev.getDokfk().getKontr().getNip());
                 w.setNazwaKontrahenta(ev.getDokfk().getKontr().getNpelna());
                 w.setAdresKontrahenta(ev.getDokfk().getKontr().getAdres());
@@ -188,8 +180,8 @@ public class JPK_VAT3_Bean {
         JPK.SprzedazWiersz w = new JPK.SprzedazWiersz();
         try {
             w.setLpSprzedazy(BigInteger.ONE);
-            w.setDataSprzedazy(dataoddo("2016-01-01"));
-            w.setDataWystawienia(dataoddo("2016-01-02"));
+            w.setDataSprzedazy(Data.dataoddo("2016-01-01"));
+            w.setDataWystawienia(Data.dataoddo("2016-01-02"));
             w.setNrKontrahenta("nrkonrahenta");
             w.setNazwaKontrahenta("nazwakontrahenta");
             w.setAdresKontrahenta("adreskontrahenta");
@@ -236,8 +228,8 @@ public class JPK_VAT3_Bean {
         JPK.ZakupWiersz w = new JPK.ZakupWiersz();
         try {
             w.setLpZakupu(lp);
-            w.setDataZakupu(dataoddo(ev.getDok().getDataSprz()));
-            w.setDataWplywu(dataoddo(ev.getDok().getDataWyst()));
+            w.setDataZakupu(Data.dataoddo(ev.getDok().getDataSprz()));
+            w.setDataWplywu(Data.dataoddo(ev.getDok().getDataWyst()));
             w.setNazwaDostawcy(ev.getDok().getKontr1().getNpelna());
             w.setNrDostawcy(ev.getDok().getKontr1().getNip());
             w.setAdresDostawcy(ev.getDok().getKontr1().getAdres());
@@ -254,15 +246,15 @@ public class JPK_VAT3_Bean {
         try {
             w.setLpZakupu(lp);
             if ((ev.getDokfk().getRodzajedok().getKategoriadokumentu()==0 || ev.getDokfk().getRodzajedok().getKategoriadokumentu()==5) && ev.getNumerwlasnydokfk()!=null) {
-                w.setDataZakupu(dataoddo(ev.getDataoperacji()));
-                w.setDataWplywu(dataoddo(ev.getDatadokumentu()));
+                w.setDataZakupu(Data.dataoddo(ev.getDataoperacji()));
+                w.setDataWplywu(Data.dataoddo(ev.getDatadokumentu()));
                 w.setNrDostawcy(ev.getKlient().getNip());
                 w.setNazwaDostawcy(ev.getKlient().getNpelna());
                 w.setAdresDostawcy(ev.getKlient().getAdres());
                 w.setDowodZakupu(ev.getNumerwlasnydokfk());
             } else {
-                w.setDataZakupu(dataoddo(ev.getDokfk().getDataoperacji()));
-                w.setDataWplywu(dataoddo(ev.getDokfk().getDatawystawienia()));
+                w.setDataZakupu(Data.dataoddo(ev.getDokfk().getDataoperacji()));
+                w.setDataWplywu(Data.dataoddo(ev.getDokfk().getDatawystawienia()));
                 w.setNazwaDostawcy(ev.getDokfk().getKontr().getNpelna());
                 w.setNrDostawcy(ev.getDokfk().getKontr().getNip());
                 w.setAdresDostawcy(ev.getDokfk().getKontr().getAdres());
@@ -278,8 +270,8 @@ public class JPK_VAT3_Bean {
         JPK.ZakupWiersz w = new JPK.ZakupWiersz();
         try {
             w.setLpZakupu(BigInteger.ONE);
-            w.setDataZakupu(dataoddo("2016-01-01"));
-            w.setDataWplywu(dataoddo("2016-01-02"));
+            w.setDataZakupu(Data.dataoddo("2016-01-01"));
+            w.setDataWplywu(Data.dataoddo("2016-01-02"));
             w.setNrDostawcy("nrdostawcy");
             w.setNazwaDostawcy("nazwadostawcy");
             w.setAdresDostawcy("adresdostawcy");
