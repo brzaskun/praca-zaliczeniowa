@@ -18,30 +18,27 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * Informacje opisujące adres zagraniczny
+ * Informacje opisujące adres
  * 
- * <p>Java class for TAdresZagraniczny complex type.
+ * <p>Java class for TAdresJPK complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="TAdresZagraniczny">
+ * &lt;complexType name="TAdresJPK">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="KodKraju">
- *           &lt;simpleType>
- *             &lt;restriction base="{http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/}TKodKraju">
- *               &lt;pattern value="P[A-KM-Z]"/>
- *               &lt;pattern value="[A-OQ-Z][A-Z]"/>
- *             &lt;/restriction>
- *           &lt;/simpleType>
- *         &lt;/element>
- *         &lt;element name="KodPocztowy" type="{http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/}TKodPocztowy" minOccurs="0"/>
- *         &lt;element name="Miejscowosc" type="{http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/}TMiejscowosc"/>
+ *         &lt;element name="KodKraju" type="{http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/}TKodKraju"/>
+ *         &lt;element name="Wojewodztwo" type="{http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/}TJednAdmin" minOccurs="0"/>
+ *         &lt;element name="Powiat" type="{http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/}TJednAdmin" minOccurs="0"/>
+ *         &lt;element name="Gmina" type="{http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/}TJednAdmin" minOccurs="0"/>
  *         &lt;element name="Ulica" type="{http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/}TUlica" minOccurs="0"/>
  *         &lt;element name="NrDomu" type="{http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/}TNrBudynku" minOccurs="0"/>
  *         &lt;element name="NrLokalu" type="{http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/}TNrLokalu" minOccurs="0"/>
+ *         &lt;element name="Miejscowosc" type="{http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/}TMiejscowosc"/>
+ *         &lt;element name="KodPocztowy" type="{http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/}TKodPocztowy" minOccurs="0"/>
+ *         &lt;element name="Poczta" type="{http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/}TMiejscowosc" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -51,26 +48,35 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TAdresZagraniczny", propOrder = {
+@XmlType(name = "TAdresJPK", namespace = "http://jpk.mf.gov.pl/wzor/2016/10/26/10262/", propOrder = {
     "kodKraju",
-    "kodPocztowy",
-    "miejscowosc",
+    "wojewodztwo",
+    "powiat",
+    "gmina",
     "ulica",
     "nrDomu",
-    "nrLokalu"
+    "nrLokalu",
+    "miejscowosc",
+    "kodPocztowy",
+    "poczta"
 })
-public class TAdresZagraniczny {
+public class TAdresJPK {
 
     @XmlElement(name = "KodKraju", required = true)
+    @XmlSchemaType(name = "normalizedString")
     protected TKodKraju kodKraju;
-    @XmlElement(name = "KodPocztowy")
+    @XmlElement(name = "Wojewodztwo")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     @XmlSchemaType(name = "token")
-    protected String kodPocztowy;
-    @XmlElement(name = "Miejscowosc", required = true)
+    protected String wojewodztwo;
+    @XmlElement(name = "Powiat")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     @XmlSchemaType(name = "token")
-    protected String miejscowosc;
+    protected String powiat;
+    @XmlElement(name = "Gmina")
+    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+    @XmlSchemaType(name = "token")
+    protected String gmina;
     @XmlElement(name = "Ulica")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     @XmlSchemaType(name = "token")
@@ -83,6 +89,18 @@ public class TAdresZagraniczny {
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     @XmlSchemaType(name = "token")
     protected String nrLokalu;
+    @XmlElement(name = "Miejscowosc", required = true)
+    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+    @XmlSchemaType(name = "token")
+    protected String miejscowosc;
+    @XmlElement(name = "KodPocztowy")
+    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+    @XmlSchemaType(name = "token")
+    protected String kodPocztowy;
+    @XmlElement(name = "Poczta")
+    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+    @XmlSchemaType(name = "token")
+    protected String poczta;
 
     /**
      * Gets the value of the kodKraju property.
@@ -109,51 +127,75 @@ public class TAdresZagraniczny {
     }
 
     /**
-     * Gets the value of the kodPocztowy property.
+     * Gets the value of the wojewodztwo property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getKodPocztowy() {
-        return kodPocztowy;
+    public String getWojewodztwo() {
+        return wojewodztwo;
     }
 
     /**
-     * Sets the value of the kodPocztowy property.
+     * Sets the value of the wojewodztwo property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setKodPocztowy(String value) {
-        this.kodPocztowy = value;
+    public void setWojewodztwo(String value) {
+        this.wojewodztwo = value;
     }
 
     /**
-     * Gets the value of the miejscowosc property.
+     * Gets the value of the powiat property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getMiejscowosc() {
-        return miejscowosc;
+    public String getPowiat() {
+        return powiat;
     }
 
     /**
-     * Sets the value of the miejscowosc property.
+     * Sets the value of the powiat property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setMiejscowosc(String value) {
-        this.miejscowosc = value;
+    public void setPowiat(String value) {
+        this.powiat = value;
+    }
+
+    /**
+     * Gets the value of the gmina property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getGmina() {
+        return gmina;
+    }
+
+    /**
+     * Sets the value of the gmina property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setGmina(String value) {
+        this.gmina = value;
     }
 
     /**
@@ -226,6 +268,78 @@ public class TAdresZagraniczny {
      */
     public void setNrLokalu(String value) {
         this.nrLokalu = value;
+    }
+
+    /**
+     * Gets the value of the miejscowosc property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getMiejscowosc() {
+        return miejscowosc;
+    }
+
+    /**
+     * Sets the value of the miejscowosc property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setMiejscowosc(String value) {
+        this.miejscowosc = value;
+    }
+
+    /**
+     * Gets the value of the kodPocztowy property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getKodPocztowy() {
+        return kodPocztowy;
+    }
+
+    /**
+     * Sets the value of the kodPocztowy property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setKodPocztowy(String value) {
+        this.kodPocztowy = value;
+    }
+
+    /**
+     * Gets the value of the poczta property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getPoczta() {
+        return poczta;
+    }
+
+    /**
+     * Sets the value of the poczta property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setPoczta(String value) {
+        this.poczta = value;
     }
 
 }

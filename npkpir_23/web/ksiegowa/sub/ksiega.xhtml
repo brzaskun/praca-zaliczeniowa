@@ -38,9 +38,9 @@
                 </p:commandButton>
                  <p:commandButton  value="JPKPKPIR" actionListener="#{jPKPKPIR2018View.generuj(ksiegaView.lista)}"  style="margin-left: 100px; width: 120px;">
                 </p:commandButton>
-                 <h:outputText value="dok z cechami"/>
+                 <h:outputText value="dok z cechami" style="margin-left: 80px;"/>
                 <p:selectOneMenu value="#{ksiegaView.wybranacechadok}" id="cechydokuk"
-                                 style="width: 200px; margin-left: 30px;" >
+                                 style="width: 200px; margin-left: 10px;" >
                     <p:ajax event="change" listener="#{ksiegaView.init()}" partialSubmit="true"
                             onstart="PF('dokKsiega').clearFilters();PF('dokKsiega').unselectAllRows();"
                             update=":form:dokumentyKsiega"/>

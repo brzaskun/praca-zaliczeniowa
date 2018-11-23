@@ -19,6 +19,13 @@ import java.util.List;
 import java.util.Map;
 import javax.inject.Inject;
 import javax.xml.datatype.XMLGregorianCalendar;
+import jpkpkpir.v2018.CurrCodeType;
+import jpkpkpir.v2018.JPK;
+import jpkpkpir.v2018.TAdresPolski;
+import jpkpkpir.v2018.TIdentyfikatorOsobyNiefizycznej;
+import jpkpkpir.v2018.TKodFormularza;
+import jpkpkpir.v2018.TKodKraju;
+import jpkpkpir.v2018.TNaglowek;
 import view.ParametrView;
 import view.WpisView;
 import waluty.Z;
@@ -53,6 +60,7 @@ public class JPKPKPIR2018Bean {
         TNaglowek.KodFormularza kf = new TNaglowek.KodFormularza();
         kf.kodSystemowy = kf.getKodSystemowy();
         kf.wersjaSchemy = kf.getWersjaSchemy();
+        kf.value = TKodFormularza.JPK_PKPIR;
         return kf;
     }
 
@@ -71,8 +79,8 @@ public class JPKPKPIR2018Bean {
         return ionf;
     }
 
-    private static TAdresPolski adrespodmiotu(WpisView wpisView) {
-        TAdresPolski ap = new TAdresPolski();
+    private static TAdresJPK adrespodmiotu(WpisView wpisView) {
+        TAdresJPK ap = new TAdresJPK();
         Podatnik p = wpisView.getPodatnikObiekt();
         ap.kodKraju = TKodKraju.PL;
         ap.wojewodztwo = p.getWojewodztwo();
@@ -92,8 +100,6 @@ public class JPKPKPIR2018Bean {
         pi.p2 = (BigDecimal) danepkpir_info.get("p2");
         pi.p3 = (BigDecimal) danepkpir_info.get("p3");
         pi.p4 = (BigDecimal) danepkpir_info.get("p4");
-        pi.p5A = (XMLGregorianCalendar) danepkpir_info.get("p5a");
-        pi.p5B = (BigDecimal) danepkpir_info.get("p5b");
         return pi;
     }
 
@@ -103,21 +109,22 @@ public class JPKPKPIR2018Bean {
             for (DokKsiega p : wierszeksiegi) {
                 if (p.getKontr()!=null) {
                     JPK.PKPIRWiersz w = new JPK.PKPIRWiersz();
+                    w.typ = "G";
                     w.k1 = BigInteger.valueOf(p.getNrWpkpir());
                     w.k2 = Data.dataoddo(p.getDokument().getDataSprz());
                     w.k3 = p.getNrWlDk();
                     w.k4 = p.getKontr().getNpelna();
                     w.k5 = p.getKontr().getAdres();
                     w.k6 = p.getOpis();
-                    w.k7 = p.getKolumna7() != null ? BigDecimal.valueOf(p.getKolumna7()) : null;
-                    w.k8 = p.getKolumna8() != null ? BigDecimal.valueOf(p.getKolumna8()) : null;
-                    w.k9 = p.getKolumna9() != null ? BigDecimal.valueOf(p.getKolumna9()) : null;
-                    w.k10 = p.getKolumna10() != null ? BigDecimal.valueOf(p.getKolumna10()) : null;
-                    w.k11 = p.getKolumna11() != null ? BigDecimal.valueOf(p.getKolumna11()) : null;
-                    w.k12 = p.getKolumna12() != null ? BigDecimal.valueOf(p.getKolumna12()) : null;
-                    w.k13 = p.getKolumna13() != null ? BigDecimal.valueOf(p.getKolumna13()) : null;
-                    w.k14 = p.getKolumna14() != null ? BigDecimal.valueOf(p.getKolumna14()) : null;
-                    w.k15 = p.getKolumna15() != null ? BigDecimal.valueOf(p.getKolumna15()) : null;
+                    w.k7 = p.getKolumna7() != null ? BigDecimal.valueOf(Z.z(p.getKolumna7())) : BigDecimal.ZERO;
+                    w.k8 = p.getKolumna8() != null ? BigDecimal.valueOf(Z.z(p.getKolumna8())) : BigDecimal.ZERO;
+                    w.k9 = p.getKolumna9() != null ? BigDecimal.valueOf(Z.z(p.getKolumna9())) : BigDecimal.ZERO;
+                    w.k10 = p.getKolumna10() != null ? BigDecimal.valueOf(Z.z(p.getKolumna10())) : BigDecimal.ZERO;
+                    w.k11 = p.getKolumna11() != null ? BigDecimal.valueOf(Z.z(p.getKolumna11())) : BigDecimal.ZERO;
+                    w.k12 = p.getKolumna12() != null ? BigDecimal.valueOf(Z.z(p.getKolumna12())) : BigDecimal.ZERO;
+                    w.k13 = p.getKolumna13() != null ? BigDecimal.valueOf(Z.z(p.getKolumna13())) : BigDecimal.ZERO;
+                    w.k14 = p.getKolumna14() != null ? BigDecimal.valueOf(Z.z(p.getKolumna14())) : BigDecimal.ZERO;
+                    w.k15 = p.getKolumna15() != null ? BigDecimal.valueOf(Z.z(p.getKolumna15())) : BigDecimal.ZERO;
                     lista.add(w);
                 }
             }
@@ -150,8 +157,6 @@ public class JPKPKPIR2018Bean {
         infolista.put("p2", spisznaturynakoniec(wpisView));
         infolista.put("p3", kosztyuzyskanianar(wierszeksiegi));
         infolista.put("p4", dochodnar(wierszeksiegi));
-        infolista.put("p5a", null);
-        infolista.put("p5b", null);
         return infolista;
     }
 

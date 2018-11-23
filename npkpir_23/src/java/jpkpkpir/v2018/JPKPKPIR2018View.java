@@ -5,6 +5,7 @@
  */
 package jpkpkpir.v2018;
 
+import jpkpkpir.v2018.JPKPKPIR2018Bean;
 import embeddable.DokKsiega;
 import embeddable.TKodUS;
 import entity.JPKSuper;
@@ -27,6 +28,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import view.WpisView;
 import jpkpkpir.v2018.JPKPKPIR2018Bean.*;
+import jpkpkpir.v2018.JPK;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 
