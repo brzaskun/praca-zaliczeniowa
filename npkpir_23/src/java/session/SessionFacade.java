@@ -1192,6 +1192,20 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         }
     }
     
+    public List<Konto> findKontoPodatnikImplementacja(Podatnik podatnik, String rok) {
+        LoadGroup lg = new LoadGroup();
+        lg.addAttribute("kontopozycjaID");
+        lg.addAttribute("kontokategoria");
+        lg.addAttribute("kontomacierzyste");
+        if (podatnik == null) {
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikWzorcowy").setParameter("rok", Integer.parseInt(rok)).setHint(QueryHints.REFRESH, HintValues.TRUE)
+                .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
+        } else {
+            return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).setHint(QueryHints.REFRESH, HintValues.TRUE)
+                .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
+        }
+    }
+    
     public List<Konto> findKontoPodatnikEager(Podatnik podatnik, String rok) {
         if (podatnik == null) {
             return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikWzorcowyEager").setParameter("rok", Integer.parseInt(rok)).getResultList());

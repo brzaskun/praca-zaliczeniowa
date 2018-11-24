@@ -1231,7 +1231,7 @@ public class PdfMain {
                 int[] col102 = new int[size];
                     col102[0] = 1;
                     col102[1] = 2;
-                    col102[2] = 4;
+                    col102[2] = 5;
                     col102[3] = 3;
                     col102[4] = 3;
                     col102[5] = 3;
@@ -1239,8 +1239,6 @@ public class PdfMain {
                     col102[7] = 3;
                     col102[8] = 3;
                     col102[9] = 3;
-                    col102[10] = 3;
-                    col102[11] = 3;
                     return col102;
             case "entityfk.Konto":
                 if (modyfikator==1) {
@@ -2258,10 +2256,6 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(p.getPelnynumer(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getNazwapelna(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getZwyklerozrachszczegolne(), "center", 8));
-                    String pozycjaWn = p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaWn() : "brak przyp.Wn";
-                    table.addCell(ustawfrazeAlign(pozycjaWn, "center", 8));
-                    String pozycjaMa = p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaMa() : "brak przyp.Ma";
-                    table.addCell(ustawfrazeAlign(pozycjaMa, "center", 8));
                     table.addCell(ustawfrazeAlign(F.numberS(p.getBoWn()), "right", 8));
 //                    double roznica = p.getBoWn() - p.getBoMa();
 //                    double kwota = roznica > 0.0 ? roznica: 0.0;

@@ -76,6 +76,7 @@ public class PlanKontKopiujView implements Serializable {
             planKontView.init();
             planKontView.porzadkowanieKontPodatnika();
             kopiujSlownikowe = false;
+            Msg.msg("Skopiowano plan kont z firmy do firmy");
         }
     }
 
@@ -94,7 +95,7 @@ public class PlanKontKopiujView implements Serializable {
     }
 
     public void implementujplankontWzorcowy() {
-        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(null, rokzrodlowy_wzorzec);
+        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaPobierzRelacje(null, rokzrodlowy_wzorzec);
         if (wpisView.isParamCzworkiPiatki() == false) {
             for (Iterator<Konto> it = wykazkont.iterator(); it.hasNext();) {
                 Konto p = it.next();
@@ -109,7 +110,7 @@ public class PlanKontKopiujView implements Serializable {
             macierzyste = skopiujlevel(null, wpisView.getPodatnikObiekt(), wykazkont, macierzyste, i, rokdocelowy);
         }
         planKontView.init();
-        Msg.msg("Zaimplementowano wzorcowy plan kont z roku "+rokzrodlowy);
+        Msg.msg("Zaimplementowano wzorcowy plan kont z roku "+rokzrodlowy_wzorzec);
     }
 
     private List<Konto> skopiujlevel0(Podatnik podatnikDocelowy, List<Konto> wykazkont, String rokDocelowy) {

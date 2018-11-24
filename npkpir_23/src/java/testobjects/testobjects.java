@@ -186,8 +186,6 @@ public class testobjects {
        n.add("nr konta");
        n.add("nazwa pełna");
        n.add("typ konta");
-       n.add("strona wn");
-       n.add("strona ma");
        n.add("saldo wn");
        n.add("saldo wn rok pop.");
        n.add("saldo ma");

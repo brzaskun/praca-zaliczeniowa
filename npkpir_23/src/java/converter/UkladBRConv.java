@@ -4,32 +4,43 @@
  */
 package converter;
 
+import daoFK.UkladBRDAO;
 import entityfk.UkladBR;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
+import javax.inject.Inject;
 import viewfk.UkladBRView;
 
 /**
  *
  * @author Osito
  */
+@ManagedBean
+@ViewScoped
 public class UkladBRConv  implements javax.faces.convert.Converter{
+    @Inject
+    private UkladBRDAO ukladBRDAO;
+    private List<UkladBR> ukladBRall;
     
+    @PostConstruct
+    public void init() {
+        ukladBRall = ukladBRDAO.findAll();
+    }
      
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        UkladBRView ukladBRView = (UkladBRView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"ukladBRView");
-        List<UkladBR> kl = ukladBRView.getLista();
         if (submittedValue.trim().isEmpty()) {  
             return null;  
         } else {  
             try {  
                 String skrot = submittedValue;  
-                for (UkladBR p : kl) {  
+                for (UkladBR p : ukladBRall) {  
                      if (String.valueOf(p.getLp()).equals(skrot)) {  
                         return p;  
                     }  

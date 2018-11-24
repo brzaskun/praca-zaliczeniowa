@@ -64,7 +64,6 @@ public class UkladBRView implements Serializable {
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     @Inject
     private KontoDAOfk kontoDAOfk;
-    @Inject
     private UkladBR ukladzrodlowy;
     private String ukladdocelowyrok;
     private String nazwanowegoukladu;

@@ -15,7 +15,7 @@
             <p:panelGrid columns="7">
                 <p:panelGrid columns="3">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
-                    <p:selectOneMenu value="#{pozycjaRZiSPorMcyView.uklad}" converter="UkladBRConv">
+                    <p:selectOneMenu value="#{pozycjaRZiSPorMcyView.uklad}" converter="#{ukladBRConv}">
                         <f:selectItems value="#{ukladBRView.listarokbiezacy}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
                         <p:ajax event="change" listener="#{pozycjaRZiSPorMcyView.zmianaukladprzegladRZiSBO()}" update="form_dialog_rzis_porownanie_mcy"/>
                     </p:selectOneMenu>

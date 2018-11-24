@@ -11,7 +11,7 @@
             width: 200px;
         }
     </style>
-    <p:dialog id="dialog_uklad_kopiuj_innafirma" header="Kopiowanie układu w inny układ klienta" widgetVar="dialog_uklad_kopiuj_innafirma" dynamic="true"
+    <p:dialog id="dialog_uklad_kopiuj_innafirma" header="Kopiowanie układu innej firmy w układ klienta" widgetVar="dialog_uklad_kopiuj_innafirma" dynamic="true"
               resizable="false" onShow="ustawdialog('dialog_uklad_kopiuj_innafirma','menubilanse', 650, 220);" closeOnEscape="true" onHide="resetujdialog('dialog_uklad_kopiuj_innafirma');"  >
         <h:form id="formdialog_uklad_kopiuj_innafirma">
             <p:outputPanel>
@@ -22,8 +22,9 @@
             </p:outputPanel>
             <p:panelGrid  columns="2" style="padding: 10px;">
                 <h:outputText value="Wybrany układ" style="width: 300px;"/>
-                <p:selectOneMenu  value="#{ukladBRView.ukladzrodlowy}" style="width: 280px;"  converter="UkladBRConv">
-                    <f:selectItems value="#{ukladBRView.listawszyscyrokbiezacy}" var="p" itemLabel="#{p.podatnik} - #{p.uklad}" itemValue="#{String.valueOf(p.lp)}"/>
+                <p:selectOneMenu  value="#{ukladBRView.ukladzrodlowy}" style="width: 280px;"  converter="#{ukladBRConv}">
+                    <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                    <f:selectItems value="#{ukladBRView.listawszyscyrokbiezacy}" var="p" itemLabel="#{p.podatnik} - #{p.uklad}"  itemValue="#{String.valueOf(p.lp)}"/>
                 </p:selectOneMenu>
                 <h:outputText value="Skopiuj do roku" style="width: 300px; margin-top: 10px;"/>
                 <p:selectOneMenu value="#{ukladBRView.ukladdocelowyrok}" style="width: 100px;">

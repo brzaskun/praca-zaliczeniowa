@@ -38,7 +38,7 @@ public class PdfBilansPodgladKonta {
         }
         if (wykazkont != null && wykazkont.size() > 0) {
             Uz uz = wpisView.getWprowadzil();
-            Document document = inicjacjaA4Landscape();
+            Document document = PdfMain.inicjacjaA4Portrait();
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);

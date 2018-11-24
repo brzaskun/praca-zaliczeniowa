@@ -84,7 +84,7 @@
                         <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
                   </p:selectOneMenu>
                    <h:outputText value="#{mgs.nazwaukładu}"/>
-                   <p:selectOneMenu value="#{planKontView.wybranyuklad}" converter="UkladBRConv">
+                   <p:selectOneMenu value="#{planKontView.wybranyuklad}" converter="#{ukladBRConv}">
                         <f:selectItems value="#{planKontView.listaukladow}" var="loop"  itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
                         <p:ajax event="change" update="form_dialog_plankont:dataList" listener="#{planKontView.zmienuklad()}"/>
                     </p:selectOneMenu>
