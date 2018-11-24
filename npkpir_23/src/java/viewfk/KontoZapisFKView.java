@@ -110,6 +110,7 @@ public class KontoZapisFKView implements Serializable{
     private boolean pokaztransakcje;
     private List<Konto> ostatniaanalityka;
     private boolean pobierzrokpoprzedni;
+    private boolean odswiezbazedanych;
 
     
 
@@ -220,7 +221,12 @@ public class KontoZapisFKView implements Serializable{
             wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
             kontozapisy = Collections.synchronizedList(new ArrayList<>());
             String rok = pobierzrokpoprzedni ? wpisView.getRokUprzedniSt() : wpisView.getRokWpisuSt();
-            List<StronaWiersza> zapisyshort = stronaWierszaDAO.findStronaByPodatnikKontoStartRokWszystkie(wpisView.getPodatnikObiekt(), wybranekonto, rok);
+            List<StronaWiersza> zapisyshort = null;
+            if (odswiezbazedanych) {
+                zapisyshort = stronaWierszaDAO.findStronaByPodatnikKontoStartRokWalutyWszystkieOdswiez(wpisView.getPodatnikObiekt(), wybranekonto, rok);
+            } else {
+                zapisyshort = stronaWierszaDAO.findStronaByPodatnikKontoStartRokWszystkie(wpisView.getPodatnikObiekt(), wybranekonto, rok);
+            }
             if (zapisyshort!=null) {
                 List<Konto> kontapotomnetmp = Collections.synchronizedList(new ArrayList<>());
                 List<Konto> kontapotomneListaOstateczna = Collections.synchronizedList(new ArrayList<>());
@@ -1362,6 +1368,14 @@ public class KontoZapisFKView implements Serializable{
     
     public void setWykazkont(List<Konto> wykazkont) {
         this.wykazkont = wykazkont;
+    }
+
+    public boolean isOdswiezbazedanych() {
+        return odswiezbazedanych;
+    }
+
+    public void setOdswiezbazedanych(boolean odswiezbazedanych) {
+        this.odswiezbazedanych = odswiezbazedanych;
     }
 
     public boolean isPobierzrokpoprzedni() {

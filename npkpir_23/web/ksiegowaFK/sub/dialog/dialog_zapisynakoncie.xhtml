@@ -78,9 +78,11 @@
                                 <p:menuitem global="false" value="druk poziomy" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncie}" action="#{sesjaView.dodajwydruk()}"   icon="fa fa-print" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"/>  
                                 <p:menuitem global="false" value="druk poziomy duży" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncieDuzy}" action="#{sesjaView.dodajwydruk()}"   icon="fa fa-print" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"/>  
                             </p:splitButton>
-                            
+                            <p:selectBooleanCheckbox value="#{kontoZapisFKView.odswiezbazedanych}" itemLabel="odswież bazę danych" style="margin-left: 40px;">
+                                <p:ajax event="change" partialSubmit="true"/>
+                            </p:selectBooleanCheckbox>
                             <p:commandButton value="nierozliczone" icon="fa fa-money" actionListener="#{kontoZapisFKView.usunPozycjeRozliczone}" 
-                                             style="width: 120px; margin-left: 200px;"
+                                             style="width: 120px; margin-left: 60px;"
                                              update="tabelazzapisami, :tabelazsumami:sumy" />
                             <p:commandButton value="wszystkie" icon="fa fa-file-text" actionListener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode(kontoZapisFKView.wybranekonto)}" 
                                              style="width: 120px; margin-left: 5px;"

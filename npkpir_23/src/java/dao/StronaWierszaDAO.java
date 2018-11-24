@@ -219,6 +219,16 @@ public class StronaWierszaDAO extends DAO implements Serializable {
         return Collections.synchronizedList(sessionFacade.findStronaByPodatnikKontoStartRokWalutyWszystkie(podatnikObiekt, like, rokWpisuSt));
     }
     
+    public List<StronaWiersza> findStronaByPodatnikKontoStartRokWalutyWszystkieOdswiez(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt) {
+        String like = "";
+        if (konto.isMapotomkow()) {
+            like = konto.getPelnynumer()+"%";
+        } else {
+            like = konto.getPelnynumer();
+        }
+        return Collections.synchronizedList(sessionFacade.findStronaByPodatnikKontoStartRokWalutyWszystkieOdswiez(podatnikObiekt, like, rokWpisuSt));
+    }
+    
     public List<StronaWiersza> findStronaByPodatnikKontoRokMcWszystkie(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt, String mc) {
         return Collections.synchronizedList(sessionFacade.findStronaByPodatnikKontoRokMcWalutyWszystkie(podatnikObiekt, konto, rokWpisuSt, mc));
     }

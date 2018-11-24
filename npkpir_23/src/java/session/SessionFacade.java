@@ -1807,6 +1807,20 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
                 .setParameter("podatnikObj", podatnikObiekt)
                 .setParameter("konto", konto)
                 .setParameter("rok", rokWpisuSt)
+                .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
+    }
+    
+    public List<StronaWiersza> findStronaByPodatnikKontoStartRokWalutyWszystkieOdswiez(Podatnik podatnikObiekt, String konto, String rokWpisuSt) {
+        //t.platnosci t.wiersz.dokfk t.wiersz.tabelanbp
+        LoadGroup lg = new LoadGroup();
+        lg.addAttribute("platnosci");
+        lg.addAttribute("konto");
+        lg.addAttribute("wiersz.dokfk");
+        lg.addAttribute("wiersz.tabelanbp");
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoStartRokWalutyWszystkie")
+                .setParameter("podatnikObj", podatnikObiekt)
+                .setParameter("konto", konto)
+                .setParameter("rok", rokWpisuSt)
                 .setHint(QueryHints.REFRESH, HintValues.TRUE)
                 .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
     }
