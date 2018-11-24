@@ -26,6 +26,7 @@ import jpkpkpir.v2018.TIdentyfikatorOsobyNiefizycznej;
 import jpkpkpir.v2018.TKodFormularza;
 import jpkpkpir.v2018.TKodKraju;
 import jpkpkpir.v2018.TNaglowek;
+import msg.Msg;
 import view.ParametrView;
 import view.WpisView;
 import waluty.Z;
@@ -38,7 +39,7 @@ public class JPKPKPIR2018Bean {
 
 
     
-    static TNaglowek naglowek(WpisView wpisView, byte celzlozenia, TKodUS tKodUS) {
+    static TNaglowek naglowek(WpisView wpisView, byte celzlozenia, TKodUS tKodUS) throws Exception {
         TNaglowek tNaglowek = new TNaglowek();
         try {
             tNaglowek.celZlozenia = celzlozenia;
@@ -52,6 +53,7 @@ public class JPKPKPIR2018Bean {
             tNaglowek.wariantFormularza = b;
         } catch (Exception e) {
             E.e(e);
+            throw e;
         }
         return  tNaglowek;
     }
@@ -81,16 +83,22 @@ public class JPKPKPIR2018Bean {
 
     private static TAdresJPK adrespodmiotu(WpisView wpisView) {
         TAdresJPK ap = new TAdresJPK();
-        Podatnik p = wpisView.getPodatnikObiekt();
-        ap.kodKraju = TKodKraju.PL;
-        ap.wojewodztwo = p.getWojewodztwo();
-        ap.powiat = p.getPowiat();
-        ap.gmina = p.getGmina();
-        ap.miejscowosc = p.getMiejscowosc();
-        ap.nrDomu = p.getNrdomu();
-        ap.nrLokalu = p.getNrlokalu();
-        ap.kodPocztowy = p.getKodpocztowy();
-        ap.poczta = p.getPoczta();
+        try {
+            Podatnik p = wpisView.getPodatnikObiekt();
+            ap.kodKraju = TKodKraju.PL;
+            ap.wojewodztwo = p.getWojewodztwo();
+            ap.powiat = p.getPowiat();
+            ap.gmina = p.getGmina();
+            ap.miejscowosc = p.getMiejscowosc();
+            ap.nrDomu = p.getNrdomu();
+            ap.nrLokalu = p.getNrlokalu() != null ? p.getNrlokalu() : "";
+            ap.kodPocztowy = p.getKodpocztowy();
+            ap.poczta = p.getPoczta();
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e","Niewypełnione wsztyskie pola w adresie");
+            throw e;
+        }
         return ap;
     }
 
