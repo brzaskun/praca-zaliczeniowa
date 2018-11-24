@@ -18,6 +18,9 @@
         <p:commandButton id="buttondrukowanie3" value="drukuj posiadane2" style="margin-left: 20px; width: 150px;" actionListener="#{STRTableView.drukowanietabeli(STRTableView.posiadane2, 'posiadane2',1)}"/>
         <p:commandButton id="buttondrukowanie4" value="drukuj umorzenia plan" style="margin-left: 20px; width: 150px;" actionListener="#{STRTableView.drukowanietabeliPlan(STRTableView.posiadane, 'posiadaneplan',2)}"/>
         <p:commandButton id="buttondrukowanie2" value="drukuj sprzedane" style="margin-left: 20px; width: 150px;" actionListener="#{STRTableView.drukowanietabeli(STRTableView.sprzedane, 'sprzedane',0)}"/>
+        <p:selectBooleanCheckbox value="#{STRTableView.pokazwnip}" itemLabel="pokaż wnip" style="margin-left: 20px;">
+            <p:ajax event="change" partialSubmit="true" update="akordeon" listener="#{STRTableView.init()}"/>
+        </p:selectBooleanCheckbox>
     </h:form>
     <h:form id="formSTR">
         <p:growl life="3600"  id="mess_add" autoUpdate="true"/>
@@ -44,7 +47,8 @@
                 </p:column>
                 <p:column style="text-align: center;">
                     <p:selectBooleanCheckbox value="#{STRTableView.bezcalkowicieumorzonych}" label="bez umorzonych całkowicie" >
-                        <p:ajax event="change" global="false" listener="#{STRTableView.init}" update=":akordeon:str_posiadane"/>
+                        <p:ajax event="change" global="false" listener="#{STRTableView.init}" update=":akordeon:str_posiadane"
+                                 />
                     </p:selectBooleanCheckbox>
                 </p:column>
             </p:row>

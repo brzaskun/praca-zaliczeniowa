@@ -27,14 +27,14 @@ public class NapiszDoAdminaTimer implements Serializable{
     
     //usuwa dawne zrobione statusy
     
-    @Schedule(hour="14", persistent=false)
+    @Schedule(dayOfWeek="1-5", hour = "10", persistent = false)
     public void zmienstatuswiadomosci() {
         List<Pismoadmin> lista = pismoadminDAO.findAll();
+        DateTime dzisiaj = new DateTime();
         for (Pismoadmin p : lista) {
             DateTime datastatusu = new DateTime(p.getDatastatus());
             if (datastatusu instanceof DateTime) {
                 datastatusu = datastatusu.plusDays(14);
-                DateTime dzisiaj = new DateTime();
                 if (datastatusu.compareTo(dzisiaj) < 0 && !p.getStatus().equals("admin przeczytał")) {
                     p.setStatus("archiwalna");
                 }

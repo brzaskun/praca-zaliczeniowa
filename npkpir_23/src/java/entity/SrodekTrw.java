@@ -118,6 +118,9 @@ public class SrodekTrw implements Serializable {
     @Column(name = "KST")
     private String kst;
     @Size(max = 255)
+    //srodek trw.
+    //wnip
+    //wysosazenie
     @Column(name = "typ")
     private String typ;
     @Column(name = "umorzeniepoczatkowe")

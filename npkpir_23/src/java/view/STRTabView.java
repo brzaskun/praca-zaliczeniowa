@@ -51,8 +51,6 @@ public class STRTabView implements Serializable {
     @Inject
     protected STRDAO sTRDAO;
     @Inject
-    private SrodkikstDAO srodkikstDAO;
-    @Inject
     private SrodekTrw selectedSTR;
     @Inject
     private Srodkikst srodekkategoria;
@@ -70,11 +68,8 @@ public class STRTabView implements Serializable {
     private List<SrodekTrw> posiadane;
     private List<SrodekTrw> posiadane2;
     private List<SrodekTrw> filtrowaneposiadane;
-    private List<SrodekTrw> posiadane_wnip;
     private double posiadanesumanetto;
-    private double posiadanesumanetto_wnip;
     private List<SrodekTrw> sprzedane;
-    private List<SrodekTrw> sprzedane_wnip;
     //tablica obiektów danego klienta z określonego roku i miesiąca
     protected List<SrodekTrw> srodkiZakupRokBiezacy;
     //wyposazenie
@@ -94,9 +89,7 @@ public class STRTabView implements Serializable {
      * Dane informacyjne gora strony srodkitablica.xhtml
      */
     private int iloscsrodkow;
-    private int iloscsrodkow_wnip;
     private int zakupionewbiezacyrok;
-    private int zakupionewbiezacyrok_wnip;
     //zmiana wartosci srodka trwalego
     private String datazmiany;
     private double kwotazmiany;
@@ -109,6 +102,7 @@ public class STRTabView implements Serializable {
     private double umplan_wartoscnetto;
     private double umplan_odpisrok;
     private double umplan_odpismc;
+    private boolean pokazwnip;
     
 
     public STRTabView() {
@@ -124,10 +118,7 @@ public class STRTabView implements Serializable {
         wyposazenie = Collections.synchronizedList(new ArrayList<>());
         posiadane = Collections.synchronizedList(new ArrayList<>());
         posiadane2 = Collections.synchronizedList(new ArrayList<>());
-        posiadane_wnip = Collections.synchronizedList(new ArrayList<>());
         sprzedane = Collections.synchronizedList(new ArrayList<>());
-        sprzedane_wnip = Collections.synchronizedList(new ArrayList<>());
-        
     }
 
     @PostConstruct
@@ -141,12 +132,11 @@ public class STRTabView implements Serializable {
         ustawTabele();
         String rokdzisiejszy = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
         zakupionewbiezacyrok = 0;
-        zakupionewbiezacyrok_wnip = 0;
         try {
             if (wpisView.getPodatnikWpisu() != null) {
                 List<SrodekTrw> srodkizBazy = Collections.synchronizedList(new ArrayList<>());
                 try {
-                    srodkizBazy = sTRDAO.findStrPod(wpisView.getPodatnikWpisu());
+                    srodkizBazy = pobierzsrodki();
                 } catch (Exception e) {
                     E.e(e);
                 }
@@ -163,38 +153,6 @@ public class STRTabView implements Serializable {
                                 if (srodek.getTyp() != null && srodek.getTyp().equals("wyposazenie")) {
                                     srodek.setNrsrodka(i++);
                                     wyposazenie.add(srodek);
-
-                                } else if (srodek.getTyp() != null && srodek.getTyp().equals("wnip")) {
-                                    srodek.setNrsrodka(j++);
-                                    if (srodek.getDatazak().substring(0, 4).equals(rokdzisiejszy)) {
-                                        zakupionewbiezacyrok_wnip++;
-                                    }
-                                    if (srodek.getPlanumorzen() != null && srodek.getPlanumorzen().size() > 0 && srodek.getStawka() < 100) {
-                                        planUmorzen.add(srodek);
-                                    }
-                                    if (srodek.getNetto().equals(srodek.getUmorzeniepoczatkowe())) {
-                                        planUmorzen_100.add(srodek);
-                                    } else if (srodek.getPlanumorzen() != null && srodek.getPlanumorzen().size() > 0 && srodek.getStawka() == 100) {
-                                        planUmorzen_100.add(srodek);
-                                    }
-                                    srodkiTrwale.add(srodek);
-                                    if (srodek.getDatasprzedazy() == null || srodek.getDatasprzedazy().equals("")) {
-                                        if (bezcalkowicieumorzonych && srodek.getNetto() == srodek.getUmorzeniepoczatkowe()) {
-                                            
-                                        } else {
-                                            posiadane_wnip.add(srodek);
-                                            posiadanesumanetto_wnip += srodek.getNetto();
-                                        }
-                                    } else if (srodek.getRokSprzedazy() <= wpisView.getRokWpisu()){
-                                        sprzedane_wnip.add(srodek);
-                                    } else {
-                                        if (bezcalkowicieumorzonych && srodek.getNetto() == srodek.getUmorzeniepoczatkowe()) {
-                                            
-                                        } else {
-                                            posiadane_wnip.add(srodek);
-                                            posiadanesumanetto_wnip += srodek.getNetto();
-                                        }
-                                    }
                                 } else {
                                     srodek.setNrsrodka(j++);
                                     if (srodek.getDatazak().substring(0, 4).equals(rokdzisiejszy)) {
@@ -248,7 +206,25 @@ public class STRTabView implements Serializable {
         }
     }
 
-   
+   private List<SrodekTrw> pobierzsrodki() {
+        List<SrodekTrw> lista = sTRDAO.findStrPod(wpisView.getPodatnikWpisu());
+        if (pokazwnip) {
+            for (Iterator<SrodekTrw> it = lista.iterator(); it.hasNext();) {
+                if (it.next().getTyp().equals("srodek trw.")) {
+                    it.remove();;
+                }
+            }
+        } else {
+            for (Iterator<SrodekTrw> it = lista.iterator(); it.hasNext();) {
+                if (it.next().getTyp().equals("wnip")) {
+                    it.remove();;
+                }
+            }
+        }
+        return lista;
+    }
+    
+    
     public void destroy(SrodekTrw selDok) {
         wybranySrodekTrw = new SrodekTrw();
         wybranySrodekTrw = selDok;
@@ -407,46 +383,7 @@ public class STRTabView implements Serializable {
      public void setListaWyposazenia(List<SrodekTrw> listaWyposazenia) {
          this.listaWyposazenia = listaWyposazenia;
      }
-     
-     public List<SrodekTrw> getPosiadane_wnip() {
-         return posiadane_wnip;
-     }
-     
-     public void setPosiadane_wnip(List<SrodekTrw> posiadane_wnip) {
-         this.posiadane_wnip = posiadane_wnip;
-     }
-     
-     public double getPosiadanesumanetto_wnip() {
-         return posiadanesumanetto_wnip;
-     }
-     
-     public void setPosiadanesumanetto_wnip(double posiadanesumanetto_wnip) {
-         this.posiadanesumanetto_wnip = posiadanesumanetto_wnip;
-     }
-     
-     public List<SrodekTrw> getSprzedane_wnip() {
-         return sprzedane_wnip;
-     }
-     
-     public void setSprzedane_wnip(List<SrodekTrw> sprzedane_wnip) {
-         this.sprzedane_wnip = sprzedane_wnip;
-     }
-     
-     public int getIloscsrodkow_wnip() {
-         return iloscsrodkow_wnip;
-     }
-     
-     public void setIloscsrodkow_wnip(int iloscsrodkow_wnip) {
-         this.iloscsrodkow_wnip = iloscsrodkow_wnip;
-     }
-     
-     public int getZakupionewbiezacyrok_wnip() {
-         return zakupionewbiezacyrok_wnip;
-     }
-     
-     public void setZakupionewbiezacyrok_wnip(int zakupionewbiezacyrok_wnip) {
-         this.zakupionewbiezacyrok_wnip = zakupionewbiezacyrok_wnip;
-     }
+    
      
      public STREwidencja getsTREwidencja() {
          return sTREwidencja;
@@ -611,6 +548,14 @@ public class STRTabView implements Serializable {
         this.posiadane = posiadane;
     }
 
+    public boolean isPokazwnip() {
+        return pokazwnip;
+    }
+
+    public void setPokazwnip(boolean pokazwnip) {
+        this.pokazwnip = pokazwnip;
+    }
+
     public List<SrodekTrw> getSprzedane() {
         return sprzedane;
     }
@@ -644,8 +589,7 @@ public class STRTabView implements Serializable {
         this.wybranysrodektrwalyPosiadane = null;
         this.wybranysrodektrwalyPosiadane2 = wybranysrodektrwalyPosiadane2;
     }
-    
-    
+
     public Srodkikst getSrodekkategoria() {
         return srodekkategoria;
     }
@@ -988,6 +932,8 @@ public class STRTabView implements Serializable {
         umplan_odpisrok += srodek.getOdpisrok()==null ? 0.0 : srodek.getOdpisrok();
         umplan_odpismc += srodek.getOdpismc()==null ? 0.0 : srodek.getOdpismc();
     }
+
+    
 
     
 
