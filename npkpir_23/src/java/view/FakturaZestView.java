@@ -6,6 +6,7 @@
 
 package view;
 
+import comparator.FakturaZestawieniecomparator;
 import dao.FakturaDAO;
 import dao.PodatnikDAO;
 import embeddable.FakturaZestawienie;
@@ -16,8 +17,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -59,22 +63,14 @@ public class FakturaZestView implements Serializable {
     public void init() {
         fakturyZestawienie = Collections.synchronizedList(new ArrayList<>());
         fakturyWystawione = fakturaDAO.findFakturyByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikWpisu());
-        List<Podatnik> podatnicy = podatnikDAO.findAll();
-        Set<String> odnalezioneNIP = new HashSet<>();
+        //List<Podatnik> podatnicy = podatnikDAO.findAll();
+        Map<String,FakturaZestawienie> odnalezione = new ConcurrentHashMap<>();
         if (fakturyWystawione != null) {
-            for (Faktura p : fakturyWystawione) {
+            fakturyWystawione.parallelStream().forEach((p)->{
                 String n = p.getKontrahent().getNip();
                 FakturaZestawienie f = new FakturaZestawienie();
-                if (odnalezioneNIP.contains(n)) {
-                    for (FakturaZestawienie r : fakturyZestawienie) {
-                        if (r.getKontrahent() != null && r.getKontrahent().getNip().equals(n)) {
-                            f = r;
-                            break;
-                        } else if (r.getPodatnik() != null && r.getPodatnik().getNip().equals(n)) {
-                            f = r;
-                            break;
-                        }
-                    }
+                if (odnalezione.keySet().contains(n)) {
+                    f = odnalezione.get(n);
                     FakturaZestawienie.FZTresc ft = f.new FZTresc();
                     ft.setMc(p.getMc());
                     ft.setNrfakt(p.getFakturaPK().getNumerkolejny());
@@ -114,11 +110,13 @@ public class FakturaZestView implements Serializable {
                         ft.setFaktura(p);
                         f.getTrescfaktury().add(ft);
                     }
-                    odnalezioneNIP.add(n);
-                    fakturyZestawienie.add(f);
+                    odnalezione.put(n,f);
                 }
-            }
+            });
         }
+        List<FakturaZestawienie> lista = new ArrayList(odnalezione.values());
+        Collections.sort(lista, new FakturaZestawieniecomparator());
+        fakturyZestawienie.addAll(lista);
         Msg.msg("Pobrano faktury");
     }
     private Podatnik znajdzpodattniknip(String n) {

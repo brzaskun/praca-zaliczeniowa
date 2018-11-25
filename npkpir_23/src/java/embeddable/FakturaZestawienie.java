@@ -59,6 +59,15 @@ public class FakturaZestawienie  implements Serializable{
         return true;
     }
 
+    @Override
+    public String toString() {
+        String kont = kontrahent!=null ? kontrahent.getNskrocona() : "brak";
+        String poda = podatnik!=null ? podatnik.getPrintnazwa() : "brak";
+        int sizefakt  = trescfaktury!=null ? trescfaktury.size() : 0;
+        return "FakturaZestawienie{" + "podatnik=" + poda + ", kontrahent=" + kont + ", zprogramu=" + zprogramu + ", trescfaktury=" + sizefakt + '}';
+    }
+
+    
     
     public Podatnik getPodatnik() {
         return podatnik;
