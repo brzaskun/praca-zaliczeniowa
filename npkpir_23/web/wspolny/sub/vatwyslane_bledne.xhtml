@@ -49,15 +49,15 @@
                     <p:column headerText="rodzaj deklaracji"><h:outputText value="#{loop.rodzajdeklaracji}"/></p:column>
                     <p:column headerText="pierw./kor."><h:outputText value="#{loop.celzlozenia eq 1 ? 'pierwotna' : 'korekta'}"/></p:column>
                     <p:column headerText="nazwa urzędu" width="100"><h:outputText value="#{loop.nazwaurzedu} - #{item.kodurzedu}"/></p:column>
-                    <p:column headerText="należny (p.46)"><h:outputText value="#{loop.pozycjeszczegolowe.pole46} zł" style="float: right;">
+                    <p:column headerText="należny (p.46)"><h:outputText value="#{loop.selected.pozycjeszczegolowe.pole46} zł" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText></p:column>
-                    <p:column headerText="naliczony (p.55)"><h:outputText value="#{loop.pozycjeszczegolowe.pole55} zł" style="float: right;">
+                    <p:column headerText="naliczony (p.55)"><h:outputText value="#{loop.selected.pozycjeszczegolowe.pole55} zł" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText></p:column>
-                    <p:column headerText="przeniesienie (p.47)"><h:outputText value="#{loop.pozycjeszczegolowe.pole47} zł" style="float: right;">
+                    <p:column headerText="przeniesienie (p.47)"><h:outputText value="#{loop.selected.pozycjeszczegolowe.pole47} zł" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText></p:column>
-                    <p:column headerText="do zapłaty (p.58)"><h:outputText value="#{loop.pozycjeszczegolowe.pole58} zł" style="float: right;">
+                    <p:column headerText="do zapłaty (p.58)"><h:outputText value="#{loop.selected.pozycjeszczegolowe.pole58} zł" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText></p:column>
-                    <p:column headerText="do zwrotu(p.60)"><h:outputText value="#{loop.pozycjeszczegolowe.pole60} zł" style="float: right;">
+                    <p:column headerText="do zwrotu(p.60)"><h:outputText value="#{loop.selected.pozycjeszczegolowe.pole60} zł" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText></p:column>
                     <p:column headerText="kwota autoryzacyjna"><h:outputText value="#{loop.kwotaautoryzacja} zł" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText></p:column>

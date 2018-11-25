@@ -243,15 +243,15 @@ public class VatKorektaView implements Serializable {
         ewidencjeUzupelniane.addAll(sumaewidencjiNowakorekta.values());
         VATDeklaracja.duplikujZapisyDlaTransakcji(ewidencjeUzupelniane);
         VATDeklaracja.agregacjaEwidencjiZakupowych5152(ewidencjeUzupelniane,evpozycja);
-        VATDeklaracja.przyporzadkujPozycjeSzczegolowe(ewidencjeUzupelniane, deklaracjaVATPoKorekcie.getPozycjeszczegolowe(), nowaWartoscVatZPrzeniesienia);
+        VATDeklaracja.przyporzadkujPozycjeSzczegolowe(ewidencjeUzupelniane, deklaracjaVATPoKorekcie.getSelected().getPozycjeszczegolowe(), nowaWartoscVatZPrzeniesienia);
         /**
          * robie podsumowanie szczegolowych oraz uzupelniam pozycje nowej deklaracji, usuwam jakies statusy i wpisy
          */
         if (pole70zreki == true) {
-            deklaracjaVATPoKorekcie.getPozycjeszczegolowe().setPole70("1");
-            deklaracjaVATPoKorekcie.getPozycjeszczegolowe().setPoleI70(1);
+            deklaracjaVATPoKorekcie.getSelected().getPozycjeszczegolowe().setPole70("1");
+            deklaracjaVATPoKorekcie.getSelected().getPozycjeszczegolowe().setPoleI70(1);
         }
-        VATDeklaracja.podsumujSzczegolowe(deklaracjaVATPoKorekcie.getPozycjeszczegolowe());
+        VATDeklaracja.podsumujSzczegolowe(deklaracjaVATPoKorekcie.getSelected().getPozycjeszczegolowe());
         deklaracjaVATPoKorekcie.setIdentyfikator("");
         deklaracjaVATPoKorekcie.setUpo("");
         deklaracjaVATPoKorekcie.setStatus("");
@@ -264,7 +264,7 @@ public class VatKorektaView implements Serializable {
         deklaracjaVATPoKorekcie.setVatzt(null);
         deklaracjaVATPoKorekcie.setVatzz(null);
         Vatpoz pozycjeDeklaracjiVAT = deklaracjaVATPoKorekcie.getSelected();
-        pozycjeDeklaracjiVAT.setPozycjeszczegolowe(deklaracjaVATPoKorekcie.getPozycjeszczegolowe());
+        pozycjeDeklaracjiVAT.setPozycjeszczegolowe(deklaracjaVATPoKorekcie.getSelected().getPozycjeszczegolowe());
         pozycjeDeklaracjiVAT.setCelzlozenia("2");
         pozycjeDeklaracjiVAT.setPodatnik(wpisView.getPodatnikWpisu());
         pozycjeDeklaracjiVAT.setKodurzedu(tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy()));

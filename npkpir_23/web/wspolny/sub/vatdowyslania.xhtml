@@ -47,7 +47,7 @@
                     </h:panelGrid>
                 </p:dataGrid>
                 <p:panelGrid columns="2"  style="height: 150px;" columnClasses="thirty-percent seventy-percent">
-                    <p:dataTable value="#{item.pozycjeszczegolowe.getPozycje()}" var="wiersz" >
+                    <p:dataTable value="#{item.selected.pozycjeszczegolowe.getPozycje()}" var="wiersz" >
                         <p:column width="100">
                             <h:outputText value="#{wiersz.nazwapola}"/>
                         </p:column>

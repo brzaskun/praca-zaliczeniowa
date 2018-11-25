@@ -68,7 +68,7 @@ public class PdfVATZT {
         absText(writer, "X", 356, 612);
         absText(writer, p.getNazwisko(), 60, 585);absText(writer, p.getImie(), 170, 585);
         absText(writer, p.getDataurodzenia(), 300, 585);
-        absText(writer, l.getPozycjeszczegolowe().getPole62(), 60, 525);
+        absText(writer, l.getSelected().getPozycjeszczegolowe().getPole62(), 60, 525);
         ColumnText ct = new ColumnText(writer.getDirectContent());
         ct.setSimpleColumn(500,200,60,500);
         Paragraph par =new Paragraph();

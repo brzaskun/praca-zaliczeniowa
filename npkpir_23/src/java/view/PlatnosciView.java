@@ -143,13 +143,13 @@ public class PlatnosciView implements Serializable {
             try {
                 List<Deklaracjevat> deklaracje = deklaracjevatDAO.findDeklaracjewszystkie(rok, mc, podatnik);
                 dekl = deklaracje.get(deklaracje.size() - 1);
-                if (dekl.getPozycjeszczegolowe().getPoleI58() != 0) {
-                    selectedZob.setVat(Double.parseDouble(dekl.getPozycjeszczegolowe().getPole58()));
+                if (dekl.getSelected().getPozycjeszczegolowe().getPoleI58() != 0) {
+                    selectedZob.setVat(Double.parseDouble(dekl.getSelected().getPozycjeszczegolowe().getPole58()));
                 } else {
-                    selectedZob.setVat(0 - Double.parseDouble(dekl.getPozycjeszczegolowe().getPole60()));
+                    selectedZob.setVat(0 - Double.parseDouble(dekl.getSelected().getPozycjeszczegolowe().getPole60()));
                 }
             } catch (Exception e) { E.e(e); 
-                selectedZob.setVat(0 - Double.parseDouble(dekl.getPozycjeszczegolowe().getPole60()));
+                selectedZob.setVat(0 - Double.parseDouble(dekl.getSelected().getPozycjeszczegolowe().getPole60()));
             }
         } catch (Exception e) { E.e(e); 
             selectedZob.setVat(0.0);

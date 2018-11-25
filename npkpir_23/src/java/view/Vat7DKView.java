@@ -695,8 +695,8 @@ public class Vat7DKView implements Serializable {
     private void pobierz47zpoprzedniej(Deklaracjevat deklaracja) {
         if (flaga != 1) {
            if (deklaracja != null){
-                pozycjeSzczegoloweVAT.setPole47(deklaracja.getPozycjeszczegolowe().getPole65());
-                pozycjeSzczegoloweVAT.setPoleI47(deklaracja.getPozycjeszczegolowe().getPoleI65());
+                pozycjeSzczegoloweVAT.setPole47(deklaracja.getSelected().getPozycjeszczegolowe().getPole65());
+                pozycjeSzczegoloweVAT.setPoleI47(deklaracja.getSelected().getPozycjeszczegolowe().getPoleI65());
             } else {
                 Msg.msg("w", "Nie ma żadnej dekalracji, z której można by pobrać pole VAT do przeniesienia");
             }
@@ -930,7 +930,6 @@ public class Vat7DKView implements Serializable {
         nowadekl.setKodurzedu(pozycjeDeklaracjiVAT.getKodurzedu());
         nowadekl.setPodatnik(podatnik);
         nowadekl.setSelected(pozycjeDeklaracjiVAT);
-        nowadekl.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
         nowadekl.setIdentyfikator("");
         nowadekl.setUpo("");
         nowadekl.setStatus("");

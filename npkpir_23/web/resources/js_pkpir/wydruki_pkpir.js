@@ -39,7 +39,7 @@ var wydrukvat7 = function(kto, index){
 };
 var wydrukvat7wysylkaN = function(kto){
     try {
-        window.open('../wydruki/VAT7Comb'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+       // window.open('../wydruki/VAT7Comb'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
         document.getElementById("formX:dokumentyLista:0:mailbuttonN").style.display='inline';
     } catch (e){
     }

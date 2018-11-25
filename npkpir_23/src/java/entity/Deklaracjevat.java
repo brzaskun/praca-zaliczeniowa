@@ -62,9 +62,6 @@ public class Deklaracjevat extends DeklSuper implements Serializable {
     @Column(name = "podsumowanieewidencji")
     private HashMap<String, EVatwpisSuma>  podsumowanieewidencji;
     @Lob
-    @Column(name = "pozycjeszczegolowe")
-    private PozycjeSzczegoloweVAT pozycjeszczegolowe;
-    @Lob
     @Column(name = "selected")
     private Vatpoz selected;
     @Column(name = "ordzu")
@@ -206,14 +203,6 @@ public class Deklaracjevat extends DeklSuper implements Serializable {
 
     public void setPodsumowanieewidencji(HashMap<String, EVatwpisSuma> podsumowanieewidencji) {
         this.podsumowanieewidencji = podsumowanieewidencji;
-    }
-
-    public PozycjeSzczegoloweVAT getPozycjeszczegolowe() {
-        return pozycjeszczegolowe;
-    }
-
-    public void setPozycjeszczegolowe(PozycjeSzczegoloweVAT pozycjeszczegolowe) {
-        this.pozycjeszczegolowe = pozycjeszczegolowe;
     }
 
     public String getRok() {
