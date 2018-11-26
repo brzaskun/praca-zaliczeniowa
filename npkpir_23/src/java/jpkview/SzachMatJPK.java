@@ -162,7 +162,7 @@ public class SzachMatJPK {
             String plikxmlnazwapodpis = "wysylkapodpis.xml";
             PrzygotujInitUploadXML.robDokument(wpisView, encryptionkeystring, mainfilename, mainfilesize, mainfilehash, new String(ivBytes), partfilename, partfilesize, partfilehash, plikxmlnazwa);
             String content = new String(Files.readAllBytes(Paths.get("wysylka.xml")));
-            beansPodpis.Xad.podpiszjpk(content, plikxmlnazwapodpis);
+            beansPodpis.Xad.podpiszjpk(content, plikxmlnazwapodpis, wpisView.getPodatnikObiekt().getKartacert());
             UPO upo = new UPO();
             beanJPKwysylka.wysylkadoMF(partfilename, plikxmlnazwapodpis, upo);
         } catch (Exception ex) {
