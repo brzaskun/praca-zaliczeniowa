@@ -268,10 +268,17 @@ public class PodatnikView implements Serializable {
     public void edytuj() {
         try {
             sformatuj(selected);
+            edytujhaslo(selected);
             zachowajZmiany(selected);
             Msg.msg("i", "Edytowano dane podatnika-klienta " + selected.getNazwapelna(), "akordeon:form:msg");
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd - dane niezedytowane", "akordeon:form:msg");
+        }
+    }
+    
+    private void edytujhaslo(Podatnik selected) {
+        if (selected.getKartacert()!=null && selected.getKartacert().equals("")) {
+            selected.setKartacert(null);
         }
     }
     

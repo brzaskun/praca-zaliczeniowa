@@ -182,7 +182,7 @@ public class DeklaracjevatView implements Serializable {
                 Deklaracjevat biezaca = oczekujace.get(0);
                 FacesContext context = FacesContext.getCurrentInstance();
                 PodpisView podpisView = (PodpisView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"podpisView");
-                Object[] deklaracje = podpisView.podpiszDeklaracje(biezaca.getDeklaracja());
+                Object[] deklaracje = podpisView.podpiszDeklaracje(biezaca.getDeklaracja(),wpisView);
                 biezaca.setDeklaracjapodpisana((byte[]) deklaracje[0]);
                 biezaca.setDeklaracja((String) deklaracje[1]);
                 deklaracjevatDAO.edit(biezaca);
@@ -262,7 +262,7 @@ public class DeklaracjevatView implements Serializable {
         if (oczekujace != null && wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
             for (Deklaracjevat d : oczekujace) {
                 if (d.getDeklaracjapodpisana()==null) {
-                    pokazprzyciskpodpis = ObslugaPodpisuBean.moznaPodpisac();
+                    pokazprzyciskpodpis = ObslugaPodpisuBean.moznaPodpisac(wpisView.getPodatnikObiekt().getKartacert());
                 }
             }
         }

@@ -71,7 +71,7 @@ public class Xad {
 
     private static final String FILE = "d:/vat7a.xml";
     private static final String OUTPUTFILE = "d:/plik.xml";
-    private static final String HASLO = "marlena1";
+    private static String haslo = "marlena1";
 
 
     /**
@@ -80,18 +80,25 @@ public class Xad {
     public static void main(String[] args) {
         try {
             String content = new String(Files.readAllBytes(Paths.get(FILE)));
-            podpisz(content);
+            podpisz(content, null);
         } catch (IOException ex) {
             Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public static Object[] podpisz(String deklaracja) {
+    public static void inneHaslo(String innehaslo) {
+        if (innehaslo!=null) {
+            haslo = innehaslo;
+        }
+    }
+    
+    public static Object[] podpisz(String deklaracja, String innehaslo) {
+        inneHaslo(innehaslo);
         Object[] podpisana = null;
         try {
             //deklaracja = deklaracja.substring(38);
             Provider provider = ObslugaPodpisuBean.jestDriver();
-            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(HASLO);
+            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(haslo);
             String alias = ObslugaPodpisuBean.aktualnyAlias(keyStore);
             X509Certificate signingCertificate = (X509Certificate) ObslugaPodpisuBean.certyfikat(alias, keyStore);
             String X509IssuerName = signingCertificate.getIssuerX500Principal().getName();
@@ -100,7 +107,7 @@ public class Xad {
             MessageDigest digest = MessageDigest.getInstance("SHA-1");
             byte[] hash = digest.digest(signingCertificate.getEncoded());
             String hasz = DatatypeConverter.printBase64Binary(hash);
-            PrivateKey privkey = (PrivateKey) keyStore.getKey(alias, HASLO.toCharArray());
+            PrivateKey privkey = (PrivateKey) keyStore.getKey(alias, haslo.toCharArray());
             PublicKey pubKey = signingCertificate.getPublicKey();
             XMLSignatureFactory xmlSigFactory = XMLSignatureFactory.getInstance("DOM");
             Document doc = loadXML(deklaracja);
@@ -151,12 +158,13 @@ public class Xad {
         return podpisana;
     }
     
-    public static Object[] podpiszjpk(String deklaracja, String plikxmlnazwapodpis) {
+    public static Object[] podpiszjpk(String deklaracja, String plikxmlnazwapodpis, String innehaslo) {
+        inneHaslo(innehaslo);
         Object[] podpisana = null;
         try {
             //deklaracja = deklaracja.substring(38);
             Provider provider = ObslugaPodpisuBean.jestDriver();
-            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(HASLO);
+            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(haslo);
             String alias = ObslugaPodpisuBean.aktualnyAlias(keyStore);
             X509Certificate signingCertificate = (X509Certificate) ObslugaPodpisuBean.certyfikat(alias, keyStore);
             String X509IssuerName = signingCertificate.getIssuerX500Principal().getName();
@@ -165,7 +173,7 @@ public class Xad {
             MessageDigest digest = MessageDigest.getInstance("SHA-1");
             byte[] hash = digest.digest(signingCertificate.getEncoded());
             String hasz = DatatypeConverter.printBase64Binary(hash);
-            PrivateKey privkey = (PrivateKey) keyStore.getKey(alias, HASLO.toCharArray());
+            PrivateKey privkey = (PrivateKey) keyStore.getKey(alias, haslo.toCharArray());
             PublicKey pubKey = signingCertificate.getPublicKey();
             XMLSignatureFactory xmlSigFactory = XMLSignatureFactory.getInstance("DOM");
             Document doc = loadXML(deklaracja);

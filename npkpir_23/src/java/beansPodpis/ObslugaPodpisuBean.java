@@ -5,6 +5,7 @@
  */
 package beansPodpis;
 
+import static beansPodpis.Xad.inneHaslo;
 import error.E;
 import java.io.ByteArrayInputStream;
 import java.security.KeyStore;
@@ -26,15 +27,16 @@ import javax.servlet.ServletContext;
  */
 public class ObslugaPodpisuBean {
     
-    static String HASLO = "marlena1";
+    static String haslo = "marlena1";
 //    static String PLIK = "james.xml";
     static String DRIVER = "resources\\podpis\\cryptoCertum3PKCS.dll";
 //  
-    public static boolean moznapodpisacjpk() {
+    public static boolean moznapodpisacjpk(String innehaslo) {
+        inneHaslo(innehaslo);
         boolean zwrot = false;
         Provider provider = ObslugaPodpisuBean.jestDriver();
         if (provider!=null) {
-            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(HASLO);
+            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(haslo);
             if (provider != null && keyStore != null) {
                 zwrot = true;
             }
@@ -211,7 +213,7 @@ public class ObslugaPodpisuBean {
 //    private static SignatureValue generujpodpis(ToBeSigned dataToSign,XAdESSignatureParameters parameters) {
 //        // This function obtains the signature value for signed information using the
 //        // private key and specified algorithm
-//        char [] password = HASLO.toCharArray();
+//        char [] password = haslo.toCharArray();
 //        Pkcs11SignatureToken signingToken = new Pkcs11SignatureToken(DRIVER, password);
 //        DSSPrivateKeyEntry pkey = signingToken.getKeys().get(1);
 //        SignatureValue signatureValue = signingToken.sign(dataToSign, parameters.getDigestAlgorithm(), pkey);
@@ -266,10 +268,11 @@ public class ObslugaPodpisuBean {
 //        }
 //    }
 //    
-    public static boolean moznaPodpisac() {
+    public static boolean moznaPodpisac(String innehaslo) {
+        inneHaslo(innehaslo);
         boolean zwrot = false;
         Provider provider = jestDriver();
-        KeyStore keyStore = jestKarta(HASLO);
+        KeyStore keyStore = jestKarta(haslo);
         if (provider != null && keyStore != null) {
             zwrot = true;
         }
@@ -277,12 +280,18 @@ public class ObslugaPodpisuBean {
         return zwrot;
     }
     
+    public static void inneHaslo(String innehaslo) {
+        if (innehaslo!=null) {
+            haslo = innehaslo;
+        }
+    }
+    
 //        
 //    public static String podpiszDeklaracje(String xml) {
 //        //xml = StringEscapeUtils.escapeJava(xml);
 //        DSSTransform d = new DSSTransform();
 //        Provider provider = jestDriver();
-//        KeyStore keyStore = jestKarta(HASLO);
+//        KeyStore keyStore = jestKarta(haslo);
 //        String alias = aktualnyAlias(keyStore);
 //        System.out.println("symbol aktualnego certyfikatu "+alias);
 //        Certificate cert = certyfikat(alias, keyStore);
@@ -298,7 +307,7 @@ public class ObslugaPodpisuBean {
 //    public static byte[] podpiszDeklaracjeByte(String xml) {
 //        //xml = StringEscapeUtils.escapeJava(xml);
 //        Provider provider = jestDriver();
-//        KeyStore keyStore = jestKarta(HASLO);
+//        KeyStore keyStore = jestKarta(haslo);
 //        String alias = aktualnyAlias(keyStore);
 //        System.out.println("symbol aktualnego certyfikatu "+alias);
 //        Certificate cert = certyfikat(alias, keyStore);
@@ -315,11 +324,11 @@ public class ObslugaPodpisuBean {
 //        try {
             //        Boolean driver = jestDriver();
 //        drukuj(driver,"driver");
-//        KeyStore keyStore = jestKarta(HASLO);
+//        KeyStore keyStore = jestKarta(haslo);
 //        drukuj(keyStore,"karta");
 //        boolean mozna = moznaPodpisac();
 //        if (mozna) {
-//            KeyStore keyStore = jestKarta(HASLO);
+//            KeyStore keyStore = jestKarta(haslo);
 //            String alias = aktualnyAlias(keyStore);
 //            System.out.println("symbol aktualnego certyfikatu "+alias);
 //            Certificate cert = certyfikat(alias, keyStore);

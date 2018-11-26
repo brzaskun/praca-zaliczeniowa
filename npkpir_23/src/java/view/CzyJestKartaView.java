@@ -23,7 +23,7 @@ public class CzyJestKartaView   implements Serializable {
     
     @PostConstruct
     private void init() {
-         moznapodpisywac = ObslugaPodpisuBean.moznapodpisacjpk();
+         moznapodpisywac = ObslugaPodpisuBean.moznapodpisacjpk(null);
     }
 
     public boolean isMoznapodpisywac() {

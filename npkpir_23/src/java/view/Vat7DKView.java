@@ -984,7 +984,7 @@ public class Vat7DKView implements Serializable {
 
      public boolean sprawdzczymozna() {
         if (wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
-            return ObslugaPodpisuBean.moznaPodpisac();
+            return ObslugaPodpisuBean.moznaPodpisac(wpisView.getPodatnikObiekt().getKartacert());
         } else {
             return false;
         }

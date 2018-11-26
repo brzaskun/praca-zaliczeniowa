@@ -277,6 +277,8 @@ public class Podatnik implements Serializable {
     @Size(max = 2)
     @Column(name = "jezykmaila")
     private String jezykmaila;
+    @Column(name = "kartacert")
+    private String kartacert;
 
     
     public Podatnik() {
@@ -321,6 +323,14 @@ public class Podatnik implements Serializable {
     }
     public String getSchematnumeracji() {
         return schematnumeracji;
+    }
+
+    public String getKartacert() {
+        return kartacert;
+    }
+
+    public void setKartacert(String kartacert) {
+        this.kartacert = kartacert;
     }
 
     public String getJezykmaila() {

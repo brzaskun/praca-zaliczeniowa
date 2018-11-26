@@ -6,8 +6,8 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:tab title="Ustawienia dodatkowe">  
+        <p:panelGrid columns="2">
         <h:form >
-            <p:panelGrid columns="2">
             <h:outputText value="język maila"/>
             <p:selectOneListbox value="#{podatnikView.selected.jezykmaila}" label="język maila" >
                 <p:ajax event="change" partialSubmit="true" listener="#{podatnikView.naniesjezykmaila()}" global="false"/>
@@ -17,7 +17,13 @@
                 <f:selectItem itemLabel="angielski" itemValue="en"/>
                 <f:selectItem itemLabel="czeski" itemValue="cze"/>
             </p:selectOneListbox>
-            </p:panelGrid>
         </h:form>
+        <h:form >
+            <h:outputText value="hasło do karty z certyfikatem"/>
+            <p:inputText value="#{podatnikView.selected.kartacert}">
+                <p:ajax event="blur" partialSubmit="true" listener="#{podatnikView.edytuj()}"/>
+            </p:inputText>
+        </h:form>
+        </p:panelGrid>
     </p:tab>
 </ui:composition> 
