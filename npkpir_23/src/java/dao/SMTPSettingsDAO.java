@@ -38,11 +38,13 @@ public class SMTPSettingsDAO extends DAO implements Serializable {
 
  
     public SMTPSettings findSprawaByUzytkownik(Uz uzytkownik) {
+        SMTPSettings zwrot = null;
         try {
-            return wpisFacade.findSMTPSettingsByUzytkownik(uzytkownik);
+            zwrot = wpisFacade.findSMTPSettingsByUzytkownik(uzytkownik);
         } catch (Exception e) {
-            return null;
+            
         }
+        return zwrot;
     }
 
     public SMTPSettings findSprawaByDef() {
