@@ -12,6 +12,14 @@
         <param-name>primefaces.UPLOADER</param-name>
         <param-value>auto</param-value>
     </context-param>
+    <context-param>
+    <param-name>fish.payara.faces.enableParallelInit</param-name>
+    <param-value>true</param-value>
+</context-param>
+<context-param>
+    <param-name>com.sun.faces.enableThreading</param-name>
+    <param-value>true</param-value>
+</context-param>
     <filter>
         <filter-name>PrimeFaces FileUpload Filter</filter-name>
         <filter-class>
