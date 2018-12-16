@@ -210,13 +210,15 @@ public class STRTabView implements Serializable {
         List<SrodekTrw> lista = sTRDAO.findStrPod(wpisView.getPodatnikWpisu());
         if (pokazwnip) {
             for (Iterator<SrodekTrw> it = lista.iterator(); it.hasNext();) {
-                if (it.next().getTyp().equals("srodek trw.")) {
+                SrodekTrw st = it.next();
+                if (st.getTyp()!=null && st.getTyp().equals("srodek trw.")) {
                     it.remove();;
                 }
             }
         } else {
             for (Iterator<SrodekTrw> it = lista.iterator(); it.hasNext();) {
-                if (it.next().getTyp().equals("wnip")) {
+                SrodekTrw st = it.next();
+                if (st.getTyp()!=null && st.getTyp().equals("wnip")) {
                     it.remove();;
                 }
             }

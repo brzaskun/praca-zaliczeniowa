@@ -38,7 +38,7 @@
                     <h:outputText value="#{item.podatnik.nip}"/>
                 </p:column>
                 <p:column headerText="nazwa" width="250">
-                    <h:outputText value="#{item.podatnik.nazwapelna}"/>
+                    <h:outputText value="#{item.printnazwa}"/>
                 </p:column>
                 <p:column width="50" style="text-align: center;">
                     <p:commandButton value="-" actionListener="#{multiuserView.odepnijfirme(item)}" update=":multiuserdodaj, :firmyniepodpiete"/>
@@ -46,8 +46,8 @@
             </p:dataTable>
         </h:form>
         <h:form id="firmyniepodpiete">
-            <p:dataTable value="#{multiuserView.listafirm}" var="item" style="width: 500px; padding: 10px;"
-                         emptyMessage="brak niepodpiętych firm" sortBy="#{item.nazwapelna}">
+            <p:dataTable value="#{multiuserView.listafirm}" var="item" style="width: 500px; padding: 10px; height: 500px; overflow-y: scroll"
+                         emptyMessage="brak niepodpiętych firm" sortBy="#{item.printnazwa}">
                 <f:facet name="header">
                     <h:outputText value="Firmy do podpięcia"/>
                 </f:facet>
@@ -55,7 +55,7 @@
                     <h:outputText value="#{item.nip}"/>
                 </p:column>
                 <p:column headerText="nazwa" width="250">
-                    <h:outputText value="#{item.nazwapelna}"/>
+                    <h:outputText value="#{item.printnazwa}"/>
                 </p:column>
                 <p:column width="50" style="text-align: center;">
                     <p:commandButton value="+" actionListener="#{multiuserView.podepnijfirme(item)}" update=":multiuserdodaj, :firmyniepodpiete"/>

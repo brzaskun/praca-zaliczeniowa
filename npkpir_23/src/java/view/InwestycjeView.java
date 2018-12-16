@@ -183,6 +183,7 @@ public class InwestycjeView implements Serializable {
             selectedSTR.setStawka(Double.valueOf(wybranainwestycja.getSrodkikst().getStawka()));
             selectedSTR.setKst(wybranainwestycja.getSrodkikst().getSymbol());
             selectedSTR.setDatasprzedazy("");
+            selectedSTR.setTyp("srodek trw.");
             selectedSTR.setPodatnik(wpisView.getPodatnikWpisu());
             selectedSTR.setNazwa(wybranainwestycja.getOpis());
             SrodkiTrwBean.odpisroczny(selectedSTR);
