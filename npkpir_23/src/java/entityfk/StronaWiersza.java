@@ -32,6 +32,7 @@ import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -48,6 +49,7 @@ import waluty.Z;
 @Table(name = "stronawiersza", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id", "wierszbo_id"})
 })
+
 @NamedQueries({
     @NamedQuery(name = "StronaWiersza.findByStronaWierszaKontoWaluta", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty AND t.wnma = :wnma AND t.typStronaWiersza = '1'"),
     @NamedQuery(name = "StronaWiersza.findByStronaWierszaKonto", query = "SELECT t FROM StronaWiersza t  WHERE t.konto = :konto AND t.wnma = :wnma AND t.typStronaWiersza = '1'"),

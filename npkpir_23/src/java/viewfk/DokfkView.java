@@ -501,6 +501,9 @@ public class DokfkView implements Serializable {
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
                 wiersz.getStronaWn().setKwota(kwotanowa);
                 przepiszWaluty(wiersz);
+//                if (kwotastara!=0.0) {
+//                    sprawdzwartoscigrupy(wiersz);
+//                }
             } catch (Exception e1) {
                 E.e(e1);
             }
@@ -520,6 +523,9 @@ public class DokfkView implements Serializable {
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
                 wiersz.getStronaMa().setKwota(kwotanowa);
                 przepiszWaluty(wiersz);
+//                if (kwotastara!=0.0) {
+//                    sprawdzwartoscigrupy(wiersz);
+//                }
             } catch (Exception e1) {
                 E.e(e1);
             }
@@ -1152,8 +1158,9 @@ public class DokfkView implements Serializable {
     public void usunWierszWDokumencie() {
         try {
             int liczbawierszyWDokumencie = selected.getListawierszy().size();
+            Wiersz wierszDoUsuniecia = null;
             if (liczbawierszyWDokumencie > 1) {
-                Wiersz wierszDoUsuniecia = selected.getListawierszy().get(liczbawierszyWDokumencie - 1);
+                wierszDoUsuniecia = selected.getListawierszy().get(liczbawierszyWDokumencie - 1);
                 if (wierszDoUsuniecia.getTypWiersza() == 5) {
                     Msg.msg("e", "Usuń najpierw wiersz z 4.");
                 } else {
@@ -1169,7 +1176,7 @@ public class DokfkView implements Serializable {
                     }
                 }
             } else if (liczbawierszyWDokumencie == 1) {
-                Wiersz wiersz = selected.getListawierszy().get(0);
+                wierszDoUsuniecia = selected.getListawierszy().get(0);
                 try {
                     if (wiersz.getIdporzadkowy() != null) {
                         usunrozrachunki(liczbawierszyWDokumencie);
@@ -1192,7 +1199,8 @@ public class DokfkView implements Serializable {
             }
         } catch (Exception e) {
             E.e(e);
-            Msg.msg("Błąd podczas usuwania wiersz");
+            System.out.println(""+E.e(e));
+            Msg.msg("Błąd podczas usuwania wiersza");
         }
     }
 
@@ -2850,6 +2858,10 @@ public class DokfkView implements Serializable {
             Wiersz wierszpodstawowy = selected.poprzedniWiersz(wiersznastepny);
             if (wierszpodstawowy!= null && wierszpodstawowy.getLpmacierzystego() != 0) {
                 wierszpodstawowy = selected.getListawierszy().get(wierszpodstawowy.getLpmacierzystego()-1);
+            } else if (wierszpodstawowy!= null && wierszpodstawowy.getLpmacierzystego() == 0) {
+                if (wierszpodstawowy.getKwotaWn()!=wierszpodstawowy.getKwotaMa()) {
+                    //nic nie trzeba robic. nienajszczesliwszy if
+                }
             } else {
                 wierszpodstawowy = wiersznastepny;
             }
@@ -4030,7 +4042,7 @@ public class DokfkView implements Serializable {
             }
         }
     }
-
+//nie wiem czy to nie jest zbedne
     private void usunrozrachunki(int liczbawierszyWDokumencie) {
         List<StronaWiersza> strony = Collections.synchronizedList(new ArrayList<>());
         int rowid = liczbawierszyWDokumencie-1;
@@ -4042,7 +4054,9 @@ public class DokfkView implements Serializable {
                     for (Iterator<Transakcja> itt1 = drugastrona.getPlatnosci().iterator();itt1.hasNext();) {
                         if (itt1.next().getRozliczajacy().equals(sw)) {
                             itt1.remove();
-                            strony.add(drugastrona);
+                            if (drugastrona.getId()!=null) {
+                                strony.add(drugastrona);
+                            }
                         }
                     }
                 }
@@ -4053,7 +4067,9 @@ public class DokfkView implements Serializable {
                     for (Iterator<Transakcja> itt1 = drugastrona.getNowetransakcje().iterator();itt1.hasNext();) {
                         if (itt1.next().getNowaTransakcja().equals(sw)) {
                             itt1.remove();
-                            strony.add(drugastrona);
+                            if (drugastrona.getId()!=null) {
+                                strony.add(drugastrona);
+                            }
                         }
                     }
                 }
@@ -4073,7 +4089,9 @@ public class DokfkView implements Serializable {
                     for (Iterator<Transakcja> itt1 = drugastrona.getPlatnosci().iterator();itt1.hasNext();) {
                         if (itt1.next().getRozliczajacy().equals(sw)) {
                             itt1.remove();
-                            strony.add(drugastrona);
+                            if (drugastrona.getId()!=null) {
+                                strony.add(drugastrona);
+                            }
                         }
                     }
                 }
@@ -4084,7 +4102,9 @@ public class DokfkView implements Serializable {
                     for (Iterator<Transakcja> itt1 = drugastrona.getNowetransakcje().iterator();itt1.hasNext();) {
                         if (itt1.next().getNowaTransakcja().equals(sw)) {
                             itt1.remove();
-                            strony.add(drugastrona);
+                            if (drugastrona.getId()!=null) {
+                                strony.add(drugastrona);
+                            }
                         }
                     }
                 }

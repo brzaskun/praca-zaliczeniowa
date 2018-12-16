@@ -4,6 +4,7 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -114,13 +115,13 @@ public class Wiersz implements Serializable {
     
 
     public Wiersz() {
-        this.strona = new ConcurrentHashMap<>();
+        this.strona = new HashMap<>();
         this.piatki = new HashSet<>();
     }
 
     //trzeba wstawiac numer porzadkowy dla celow funkcji javascript ktore odpowiednio obrabiaja wiersze w trakcie wprowadzania
     public Wiersz(int idporzadkowy, int typwiersza) {
-        this.strona = new ConcurrentHashMap<>();
+        this.strona = new HashMap<>();
         this.idporzadkowy = idporzadkowy;
         this.typWiersza = typwiersza;
         this.piatki = new HashSet<>();
@@ -294,7 +295,7 @@ public class Wiersz implements Serializable {
     }
 
     public List<StronaWiersza> getStronyWiersza() {
-        List<StronaWiersza> strony = Collections.synchronizedList(new ArrayList<>());
+        List<StronaWiersza> strony = new ArrayList<>();
         if (this.strona.get("Wn") != null) {
             strony.add(this.strona.get("Wn"));
         }
@@ -305,7 +306,7 @@ public class Wiersz implements Serializable {
     }
 
     public List<StronaWiersza> getStronyWierszaKonto() {
-        List<StronaWiersza> strony = Collections.synchronizedList(new ArrayList<>());
+        List<StronaWiersza> strony = new ArrayList<>();
         if (this.strona.get("Wn") != null && this.strona.get("Wn").getKonto() != null) {
             strony.add(this.strona.get("Wn"));
         }

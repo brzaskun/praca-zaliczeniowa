@@ -353,8 +353,8 @@ public class ObslugaWiersza {
                 break;
             }
         } while(true);
-        //double roznica = Z.z(sumaWn) - Z.z(sumaMa) > 0 ? Z.z(sumaWn) - Z.z(sumaMa) : Z.z(sumaWn) - Z.z(sumaMa) < 0 ? Z.z(sumaMa) - Z.z(sumaWn) : 0;
-        return Z.z(sumaWn) - Z.z(sumaMa);
+        double roznica = Z.z(sumaWn) - Z.z(sumaMa) > 0 ? Z.z(sumaWn) - Z.z(sumaMa) : Z.z(sumaWn) - Z.z(sumaMa) < 0 ? Z.z(sumaMa) - Z.z(sumaWn) : 0;
+        return roznica;
     }
         
     
