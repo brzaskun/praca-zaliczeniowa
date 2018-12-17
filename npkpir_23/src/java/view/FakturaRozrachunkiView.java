@@ -132,7 +132,7 @@ public class FakturaRozrachunkiView  implements Serializable {
             boolean czynipzagraniczny = m.matches();
             if (czynipzagraniczny) {
                 for (Klienci p : klienci) {
-                    if (p.getNip().startsWith(query.toUpperCase())) {
+                    if (p.getNip() !=null && p.getNip().startsWith(query.toUpperCase())) {
                             results.add(p);
                     }
                 }
@@ -141,7 +141,7 @@ public class FakturaRozrachunkiView  implements Serializable {
                     String q = query.substring(0, 1);
                     int i = Integer.parseInt(q);
                     for (Klienci p : klienci) {
-                        if (p.getNip().startsWith(query)) {
+                        if (p.getNip() !=null && p.getNip().startsWith(query)) {
                             results.add(p);
                         }
                     }
