@@ -150,17 +150,17 @@
                         <f:facet name="header">
                             <h:outputText value="kontrahent"/>
                         </f:facet>
-                        <p:cellEditor>
-                            <f:facet name="output">
+<!--                        <p:cellEditor>
+                            <f:facet name="output">-->
                                 <h:outputText value="#{item.kontrahent.npelna}"/>
-                            </f:facet>
-                            <f:facet name="input">
-                                <p:selectOneListbox value="#{item.kontrahent}" converter="KlientConv" filter="true" required="true" scrollHeight="120" filterMatchMode="contains" style="width: 300px;">
+<!--                            </f:facet>
+                            <f:facet name="input">-->
+<!--                                <p:selectOneListbox value="#{item.kontrahent}" converter="KlientConv" filter="true" required="true" scrollHeight="120" filterMatchMode="contains" style="width: 300px;">
                                     <f:selectItems value="#{fakturaRozrachunkiView.klienci}" var="par" itemLabel="#{par.npelna}" />
-                                </p:selectOneListbox>
+                                </p:selectOneListbox>-->
                                 
-                            </f:facet>
-                        </p:cellEditor>
+<!--                            </f:facet>
+                        </p:cellEditor>-->
                     </p:column>
                     <p:column width="70"  sortable="true" sortBy="#{item.data}">
                         <f:facet name="header">
