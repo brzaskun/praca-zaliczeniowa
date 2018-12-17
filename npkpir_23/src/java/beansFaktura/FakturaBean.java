@@ -476,6 +476,8 @@ public class FakturaBean {
             DateTime dzienposzukiwany = new DateTime(selected.getDatawystawienia());
             Tabelanbp tabela = TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty);
             selected.setTabelanbp(tabela);
+        } else {
+            selected.setTabelanbp(null);
         }
     }
 

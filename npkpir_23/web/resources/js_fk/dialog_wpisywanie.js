@@ -731,7 +731,7 @@ var skopiujopis = function(nrbiezacegowiersza){
         var poprzedniopisval = r("formwpisdokument:dataList:"+nrstaregowiersza+":opisdokwpis").val();
         if (r(biezacywiersz).val() === "") {
             r(biezacywiersz).val(poprzedniopisval);
-            r(biezacywiersz).select();
+            //r(biezacywiersz).select(); skacze jak yo jest
         }
     }
 };

@@ -354,7 +354,7 @@ public class ObslugaWiersza {
             }
         } while(true);
         double roznica = Z.z(sumaWn) - Z.z(sumaMa) > 0 ? Z.z(sumaWn) - Z.z(sumaMa) : Z.z(sumaWn) - Z.z(sumaMa) < 0 ? Z.z(sumaMa) - Z.z(sumaWn) : 0;
-        return roznica;
+        return Math.abs(roznica);
     }
         
     
@@ -676,7 +676,7 @@ public class ObslugaWiersza {
                 if (kontoWn instanceof Konto) {
                     double roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy, nrgrupy);
                         if (roznica != 0.0) {
-                            ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, -roznica, 1);
+                            ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 1);
                         }
                 }
             }

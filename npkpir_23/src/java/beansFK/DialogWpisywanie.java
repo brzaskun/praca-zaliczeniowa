@@ -70,26 +70,30 @@ public class DialogWpisywanie {
     
     public static int dolaczNowyWierszPusty(Dokfk selected, int wierszbiezacyIndex, boolean przenumeruj) {
         Wiersz wierszbiezacy = selected.getListawierszy().get(wierszbiezacyIndex);
-        try {
-            boolean czyWszystkoWprowadzono = DokFKBean.sprawdzczyWnRownasieMa(wierszbiezacy);
-            if (czyWszystkoWprowadzono) {
-                int nrgrupy = wierszbiezacy.getLpmacierzystego() == 0 ? wierszbiezacy.getIdporzadkowy() : wierszbiezacy.getLpmacierzystego();
-                double roznica = 0.0;
-                if (!wierszbiezacy.getDokfk().getSeriadokfk().equals("BO")) {
-                    roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy, nrgrupy);
+        Wiersz wiersznastepny = selected.nastepnyWiersz(wierszbiezacy);
+        if (wiersznastepny==null) {
+            try {
+                boolean czyWszystkoWprowadzono = DokFKBean.sprawdzczyWnRownasieMa(wierszbiezacy);
+                if (czyWszystkoWprowadzono) {
+                    int nrgrupy = wierszbiezacy.getLpmacierzystego() == 0 ? wierszbiezacy.getIdporzadkowy() : wierszbiezacy.getLpmacierzystego();
+                    double roznica = 0.0;
+                    if (!wierszbiezacy.getDokfk().getSeriadokfk().equals("BO")) {
+                        roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy, nrgrupy);
+                    }
+                    if (roznica == 0) {
+                        ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 0);
+                    } else if (roznica != 0.0) {
+                        ObslugaWiersza.wygenerujWierszRoznicowy(wierszbiezacy, false, nrgrupy, selected);
+                    }
+                    //to jest tez w  DokfkView.dodajPustyWierszNaKoncu selected.przeliczKwotyWierszaDoSumyDokumentu();
                 }
-                if (roznica == 0) {
-                    ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 0);
-                } else if (roznica != 0.0) {
-                    ObslugaWiersza.wygenerujWierszRoznicowy(wierszbiezacy, false, nrgrupy, selected);
-                }
-                //to jest tez w  DokfkView.dodajPustyWierszNaKoncu selected.przeliczKwotyWierszaDoSumyDokumentu();
+                return 0;
+            } catch (Exception e) {  
+                E.e(e);
+                return 1;
             }
-            return 0;
-        } catch (Exception e) {  
-            E.e(e);
-            return 1;
         }
+        return 2;
     }
     
       private static double obliczsaldo(Wiersz w, Konto kontorozrachunkowe) {

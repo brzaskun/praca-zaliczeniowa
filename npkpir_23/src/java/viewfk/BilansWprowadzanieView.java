@@ -787,7 +787,7 @@ public class BilansWprowadzanieView implements Serializable {
 
     public void edytowanieDokumentuBO() {
         List<WierszBO> zachowaneWiersze = zapiszBilansBOdoBazy();
-        dokumentBO = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt());
+        dokumentBO = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         edytujwiersze(dokumentBO, zachowaneWiersze);
         usunwiersze(dokumentBO, zachowaneWiersze);
         dokumentBO.przeliczKwotyWierszaDoSumyDokumentu();
@@ -804,7 +804,7 @@ public class BilansWprowadzanieView implements Serializable {
                 }
             }
             wierszBODAO.editList(zachowaneWiersze);
-            dokumentBO = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt());
+            dokumentBO = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
             wierszedousuniecia = Collections.synchronizedList(new ArrayList<>());
             init();
             Msg.msg("Naniesiono zmiany w dokumencie BO");
@@ -961,37 +961,39 @@ public class BilansWprowadzanieView implements Serializable {
         int idporzadkowy = wiersze.size() + 1;
         for (Iterator<WierszBO> it = zachowaneWiersze.iterator(); it.hasNext();) {
             WierszBO p = it.next();
-            Wiersz wierszwdokumencie = niezawierategokonta(wiersze, p);
-            if (wierszwdokumencie == null && (Z.z(p.getKwotaWn()) != 0.0 || Z.z(p.getKwotaWnPLN()) != 0.0 || Z.z(p.getKwotaMa()) != 0.0 || Z.z(p.getKwotaMaPLN()) != 0.0)) {
-                Wiersz w = new Wiersz(idporzadkowy++, 0);
-                uzupelnijwiersz(w, nd);
-                String opiswiersza = "zapis BO: " + p.getOpis();
-                if (!wpisView.getMiesiacWpisu().equals("01")) {
-                    opiswiersza = "kwota obrotów: " + p.getOpis();
+            if (p.getNowy0edycja1usun2Int()!=3) {
+                Wiersz wierszwdokumencie = niezawierategokonta(wiersze, p);
+                if (wierszwdokumencie == null && (Z.z(p.getKwotaWn()) != 0.0 || Z.z(p.getKwotaWnPLN()) != 0.0 || Z.z(p.getKwotaMa()) != 0.0 || Z.z(p.getKwotaMaPLN()) != 0.0)) {
+                    Wiersz w = new Wiersz(idporzadkowy++, 0);
+                    uzupelnijwiersz(w, nd);
+                    String opiswiersza = "zapis BO: " + p.getOpis();
+                    if (!wpisView.getMiesiacWpisu().equals("01")) {
+                        opiswiersza = "kwota obrotów: " + p.getOpis();
+                    }
+                    w.setOpisWiersza(opiswiersza);
+                    if (p.getKwotaWn() != 0.0 || p.getKwotaWnPLN()!= 0.0) {
+                        generujStronaWierszaWn(p, w);
+                    } else if (p.getKwotaMa() != 0.0 || p.getKwotaMaPLN() != 0.0) {
+                        generujStronaWierszaMa(p, w);
+                    }
+                    nd.getListawierszy().add(w);
+                } else if (wierszwdokumencie != null && (Z.z(p.getKwotaWn()) == 0.0 && Z.z(p.getKwotaMa()) == 0.0) && Z.z(p.getKwotaWnPLN()) == 0.0 && Z.z(p.getKwotaMaPLN()) == 0.0) {
+                    usunWiersz(wierszwdokumencie);
+                } else if (wierszwdokumencie != null && wierszwdokumencie.getStronaWn() != null && (p.getKwotaWn() != 0.0  || p.getKwotaWnPLN()!= 0.0)) {
+                    edytujKwotaWiersz(p, wierszwdokumencie.getStronaWn(), "Wn");
+                } else if (wierszwdokumencie != null && wierszwdokumencie.getStronaMa() != null && (p.getKwotaMa() != 0.0 || p.getKwotaMaPLN() != 0.0)) {
+                    edytujKwotaWiersz(p, wierszwdokumencie.getStronaMa(), "Ma");
+                } else if (wierszwdokumencie != null && wierszwdokumencie.getStronaWn() != null && (p.getKwotaMa() != 0.0 || p.getKwotaMaPLN() != 0.0)) {
+                    usunStronaWiersza(wierszwdokumencie, "Wn");
+                    generujStronaWierszaMa(p, wierszwdokumencie);
+                } else if (wierszwdokumencie != null && wierszwdokumencie.getStronaMa() != null && (p.getKwotaWn() != 0.0  || p.getKwotaWnPLN()!= 0.0)) {
+                    usunStronaWiersza(wierszwdokumencie, "Ma");
+                    generujStronaWierszaWn(p, wierszwdokumencie);
                 }
-                w.setOpisWiersza(opiswiersza);
-                if (p.getKwotaWn() != 0.0 || p.getKwotaWnPLN()!= 0.0) {
-                    generujStronaWierszaWn(p, w);
-                } else if (p.getKwotaMa() != 0.0 || p.getKwotaMaPLN() != 0.0) {
-                    generujStronaWierszaMa(p, w);
+                if (Z.z(p.getKwotaWn()) == 0.0 && Z.z(p.getKwotaMa()) == 0.0 && Z.z(p.getKwotaWnPLN()) == 0.0 && Z.z(p.getKwotaMaPLN()) == 0.0) {
+                    wierszBODAO.destroy(p);
+                    it.remove();
                 }
-                nd.getListawierszy().add(w);
-            } else if (wierszwdokumencie != null && (Z.z(p.getKwotaWn()) == 0.0 && Z.z(p.getKwotaMa()) == 0.0) && Z.z(p.getKwotaWnPLN()) == 0.0 && Z.z(p.getKwotaMaPLN()) == 0.0) {
-                usunWiersz(wierszwdokumencie);
-            } else if (wierszwdokumencie != null && wierszwdokumencie.getStronaWn() != null && (p.getKwotaWn() != 0.0  || p.getKwotaWnPLN()!= 0.0)) {
-                edytujKwotaWiersz(p, wierszwdokumencie.getStronaWn(), "Wn");
-            } else if (wierszwdokumencie != null && wierszwdokumencie.getStronaMa() != null && (p.getKwotaMa() != 0.0 || p.getKwotaMaPLN() != 0.0)) {
-                edytujKwotaWiersz(p, wierszwdokumencie.getStronaMa(), "Ma");
-            } else if (wierszwdokumencie != null && wierszwdokumencie.getStronaWn() != null && (p.getKwotaMa() != 0.0 || p.getKwotaMaPLN() != 0.0)) {
-                usunStronaWiersza(wierszwdokumencie, "Wn");
-                generujStronaWierszaMa(p, wierszwdokumencie);
-            } else if (wierszwdokumencie != null && wierszwdokumencie.getStronaMa() != null && (p.getKwotaWn() != 0.0  || p.getKwotaWnPLN()!= 0.0)) {
-                usunStronaWiersza(wierszwdokumencie, "Ma");
-                generujStronaWierszaWn(p, wierszwdokumencie);
-            }
-            if (Z.z(p.getKwotaWn()) == 0.0 && Z.z(p.getKwotaMa()) == 0.0 && Z.z(p.getKwotaWnPLN()) == 0.0 && Z.z(p.getKwotaMaPLN()) == 0.0) {
-                wierszBODAO.destroy(p);
-                it.remove();
             }
         }
     }
