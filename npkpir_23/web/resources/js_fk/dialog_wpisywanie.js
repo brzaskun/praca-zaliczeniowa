@@ -730,7 +730,12 @@ var skopiujopis = function(nrbiezacegowiersza){
         var biezacywiersz = "formwpisdokument:dataList:"+nrbiezacegowiersza+":opisdokwpis";
         var poprzedniopisval = r("formwpisdokument:dataList:"+nrstaregowiersza+":opisdokwpis").val();
         if (r(biezacywiersz).val() === "") {
+            var czyjestpodatek = poprzedniopisval.indexOf(" - podatek vat");
+            if (czyjestpodatek > -1) {
+                poprzedniopisval = poprzedniopisval.substring(0,czyjestpodatek);
+            }
             r(biezacywiersz).val(poprzedniopisval);
+            r(biezacywiersz).select();
             //r(biezacywiersz).select(); skacze jak yo jest
         }
     }

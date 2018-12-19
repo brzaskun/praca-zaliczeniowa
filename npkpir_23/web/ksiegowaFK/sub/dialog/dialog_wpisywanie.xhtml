@@ -500,6 +500,7 @@
                                 <!--                                     onkeypress="wywolajdok('{planKontJSView.opiskonta}', '{planKontJSView.pelnynumerkonta}', '{wploop.idporzadkowy}');" -->
                                 <p:ajax global="false" event="focus" onstart="zachowajwierszVATRK(#{index+1})" listener="#{dokfkView.setLpwierszaRK(index+1)}"/>
                                 <p:ajax global="false" event="blur" partialSubmit="true"/>
+                                <p:ajax global="false" event="focus" oncomplete="skopiujopis(#{wploop.idporzadkowy});" listener="#{dokfkView.skopiujopis(wploop.idporzadkowy)}"/>
 <!--                                <p:ajax global="false" event="focus" listener="#{dokfkView.sprawdzwartoscigrupy(wploop)}"/>-->
                             </p:inputText>
                             <p:tooltip value="#{wploop.opisWiersza}" for="formwpisdokument:dataList:#{index}:opisdokwpis" trackMouse="true"/>
@@ -541,7 +542,6 @@
                                             decimalPlaces="2" minValue="-10000000" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}"
                                             readonly="#{wploop.stronaWn.typStronaWiersza ne 0}"
                                             valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaWn}">
-                                <p:ajax global="false" event="focus" oncomplete="skopiujopis(#{wploop.idporzadkowy});" listener="#{dokfkView.skopiujopis(wploop.idporzadkowy)}"/>
                                 <p:ajax global="false" event="blur" onstart="skopiujKwoteZWierszaWyzej(#{wploop.idporzadkowy-1}, 'Wn');"  partialSubmit="true"/>
                             </p:inputNumber>
                         </p:column>
@@ -590,7 +590,6 @@
                                             valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaMa}">
                                 <p:ajax global="false" event="change" partialSubmit="true"  />
                                 <p:ajax global="false" event="blur" partialSubmit="true"  onstart="skopiujKwoteZeStronaWn(#{wploop.idporzadkowy-1}, 'Wn');"/>
-                                <p:ajax global="false" event="focus" oncomplete="skopiujopis(#{wploop.idporzadkowy});" listener="#{dokfkView.skopiujopis(wploop.idporzadkowy)}"/>
                             </p:inputNumber> 
                         </p:column>
                         <p:column headerText="kwota PLN" style="text-align: center; width: 50px;" rendered="#{dokfkView.pokazzapisywzlotowkach == true}">
