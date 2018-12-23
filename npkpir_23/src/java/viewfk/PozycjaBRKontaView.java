@@ -98,7 +98,7 @@ public class PozycjaBRKontaView implements Serializable {
 
     @PostConstruct
     public void init() {
-        listaukladow = ukladBRDAO.findPodatnik(wpisView.getPodatnikWpisu());
+        listaukladow = ukladBRDAO.findPodatnik(wpisView.getPodatnikObiekt());
         wybranyuklad = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladow);
         if (listaukladow != null && wybranyuklad != null) {
             for (UkladBR p : listaukladow) {
@@ -266,8 +266,8 @@ public class PozycjaBRKontaView implements Serializable {
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
                 uzupelnijpozycjeOKonta(pozycje);
             }
-            
             RequestContext.getCurrentInstance().update(wybranapozycja_wiersz);
+            RequestContext.getCurrentInstance().update(".ui-state-highlight");
         }
 
     }
@@ -469,6 +469,7 @@ public class PozycjaBRKontaView implements Serializable {
         TreeTable table = (TreeTable) ctx.getViewRoot().findComponent("formrzisuklad:dataList");
         String rowkey = table.getRowKey();
         wybranapozycja_wiersz = "formrzisuklad:dataList";
+        wybranapozycja_wiersz = "formbilansuklad:dataList:"+rowkey+":liczba";
         wybranapozycja = ((PozycjaRZiS) wybranynodekonta.getData()).getPozycjaString();
         przyporzadkowanekonta.clear();
         przyporzadkowanekonta.addAll(PozycjaRZiSFKBean.wyszukajprzyporzadkowane(kontoDAO, wybranapozycja, wpisView, aktywa0pasywa1, false, wybranyuklad));
@@ -480,7 +481,7 @@ public class PozycjaBRKontaView implements Serializable {
         TreeTable table = (TreeTable) ctx.getViewRoot().findComponent("formbilansuklad:dataList");
         String rowkey = table.getRowKey();
         wybranapozycja_wiersz = "formbilansuklad:dataList";
-        //wybranapozycja_wiersz = "formbilansuklad:dataList_node_"+rowkey;
+        wybranapozycja_wiersz = "formbilansuklad:dataList:"+rowkey+":liczba";
         wybranapozycja = ((PozycjaBilans) wybranynodekonta.getData()).getPozycjaString();
         przyporzadkowanekonta.clear();
         przyporzadkowanekonta.addAll(PozycjaRZiSFKBean.wyszukajprzyporzadkowaneB(kontoDAO, wybranapozycja, wpisView, aktywa0pasywa1, false, wybranyuklad));
@@ -615,7 +616,7 @@ public class PozycjaBRKontaView implements Serializable {
         if (wybranyuklad == null) {
             Msg.msg("e", "Nie wybrano układu. Nie można zaimplementować przyporządkowania.");
         }
-        List<UkladBR> ukladyPodatnika = ukladBRDAO.findPodatnik(wpisView.getPodatnikWpisu());
+        List<UkladBR> ukladyPodatnika = ukladBRDAO.findPodatnik(wpisView.getPodatnikObiekt());
         if (ukladyPodatnika != null && ukladyPodatnika.size() > 0) {
             UkladBR czyJestTakiUklad = sprawdzNazwyUkladu(ukladyPodatnika, wybranyuklad);
             if (czyJestTakiUklad == null) {
@@ -674,7 +675,7 @@ public class PozycjaBRKontaView implements Serializable {
     
     
     private UkladBR znajdzUkladWzorcowy(UkladBR ukladpodatnika) {
-        List<UkladBR> lista = ukladBRDAO.findPodatnik("Wzorcowy");
+        List<UkladBR> lista = ukladBRDAO.findPodatnik(wpisView.getPodatnikwzorcowy());
         for (UkladBR p : lista) {
             if (p.getUklad().equals(ukladpodatnika.getUklad()) && p.getRok().equals(ukladpodatnika.getRok())) {
                 return p;

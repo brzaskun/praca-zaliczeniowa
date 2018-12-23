@@ -200,7 +200,7 @@ public class BilansGenerowanieView implements Serializable {
             } else {
                 komunikatyok.add("Sprawdzono obecnosc planu kont. Liczba kont: " + konta.size());
             }
-            List<UkladBR> uklad = ukladBRDAO.findukladBRPodatnikRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            List<UkladBR> uklad = ukladBRDAO.findukladBRPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             if (uklad.isEmpty()) {
                 stop = true;
                 String error = "Brak ukladu w roku " + wpisView.getRokWpisuSt() + " nie można generować BO";

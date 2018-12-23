@@ -7,6 +7,7 @@
 package entityfk;
 
 import daoFK.UkladBRDAO;
+import entity.Podatnik;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -16,6 +17,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -38,24 +40,21 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "UkladBR.findByPodatnik", query = "SELECT r FROM UkladBR r WHERE r.podatnik = :podatnik ORDER BY r.lp DESC"),
     @NamedQuery(name = "UkladBR.ustawNieaktywne", query = "UPDATE UkladBR k SET k.aktualny = '0' WHERE k.podatnik = :podatnik"),
     @NamedQuery(name = "UkladBR.findByPodatnikRok", query = "SELECT r FROM UkladBR r WHERE r.podatnik = :podatnik AND r.rok = :rok ORDER BY r.lp DESC"),
-    @NamedQuery(name = "UkladBR.findByRokNieWzor", query = "SELECT r FROM UkladBR r WHERE r.podatnik != 'Wzorcowy' AND r.podatnik != :podatnik AND r.rok = :rok ORDER BY r.podatnik DESC"),
+    @NamedQuery(name = "UkladBR.findByRokNieWzor", query = "SELECT r FROM UkladBR r WHERE r.podatnik.nazwapelna!='Wzorcowy' AND r.podatnik != :podatnik AND r.rok = :rok ORDER BY r.podatnik.printnazwa DESC"),
     @NamedQuery(name = "UkladBR.ukladBRustawnieaktywne", query = "UPDATE UkladBR k SET k.aktualny = '0' WHERE k.podatnik = :podatnik"),
     @NamedQuery(name = "UkladBR.findByPodatnikRokPodstawowy", query = "SELECT r FROM UkladBR r WHERE r.podatnik = :podatnik AND r.rok = :rok AND r.uklad = 'Podstawowy' ORDER BY r.lp DESC"),
     @NamedQuery(name = "UkladBR.findByPodatnikRokAktywny", query = "SELECT r FROM UkladBR r WHERE r.podatnik = :podatnik AND r.rok = :rok AND r.aktualny = '1'"),
     @NamedQuery(name = "UkladBR.findByRok", query = "SELECT r FROM UkladBR r WHERE r.rok = :rok"),
     @NamedQuery(name = "UkladBR.findByUkladPodRok", query = "SELECT r FROM UkladBR r WHERE r.uklad = :uklad AND r.podatnik = :podatnik AND r.rok = :rok"),
-    @NamedQuery(name = "UkladBR.findByWzorcowyRok", query = "SELECT r FROM UkladBR r WHERE r.podatnik = 'Wzorcowy' AND r.rok = :rok"),
+    @NamedQuery(name = "UkladBR.findByWzorcowyRok", query = "SELECT r FROM UkladBR r WHERE r.podatnik.nazwapelna = 'Wzorcowy' AND r.rok = :rok"),
     @NamedQuery(name = "UkladBR.findByBlokada", query = "SELECT r FROM UkladBR r WHERE r.blokada = :blokada")})
 public class UkladBR implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int lp;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(nullable = false, length = 255)
-    private String podatnik;
+    @JoinColumn(name = "podatnik", referencedColumnName = "NAZWAPELNA")
+    private Podatnik podatnik;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -80,7 +79,7 @@ public class UkladBR implements Serializable {
     public UkladBR() {
     }
 
-    public UkladBR(String uklad, String podatnik, String rok, boolean blokada) {
+    public UkladBR(String uklad, Podatnik podatnik, String rok, boolean blokada) {
         this.uklad = uklad;
         this.podatnik = podatnik;
         this.rok = rok;
@@ -135,11 +134,11 @@ public class UkladBR implements Serializable {
         this.uklad = uklad;
     }
 
-    public String getPodatnik() {
+    public Podatnik getPodatnik() {
         return podatnik;
     }
 
-    public void setPodatnik(String podatnik) {
+    public void setPodatnik(Podatnik podatnik) {
         this.podatnik = podatnik;
     }
 

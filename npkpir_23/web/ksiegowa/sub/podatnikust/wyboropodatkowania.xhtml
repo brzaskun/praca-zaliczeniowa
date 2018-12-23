@@ -69,12 +69,15 @@
                 <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.symbolroku}"><f:selectItems value="#{Roki.rokiListString}"/>
                 </p:selectOneMenu>
                 <h:outputText value="rodzaj opod: "/>
-                <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.formaopodatkowania}">
+                <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.formaopodatkowania}"  rendered="#{!WpisView.ksiegirachunkowe}">
                     <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/> 
                     <f:selectItem itemValue="zasady ogólne" itemLabel="zasady ogólne"/> 
                     <f:selectItem itemValue="podatek liniowy" itemLabel="podatek liniowy"/>
                     <f:selectItem itemValue="ryczałt" itemLabel="ryczałt"/>
-                    <f:selectItem itemValue="księgi rachunkowe" itemLabel="księgi rachunkowe"/>
+                </p:selectOneMenu>
+                <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.formaopodatkowania}"  rendered="#{WpisView.ksiegirachunkowe}">
+                    <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/> 
+                    <f:selectItem itemValue="księgi rachunkowe" itemLabel="księgi rachunkowe" rendered="#{WpisView.ksiegirachunkowe}"/>
                 </p:selectOneMenu>
                 <h:outputText value="mc/kw: "/>
                 <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.mc0kw1}" >

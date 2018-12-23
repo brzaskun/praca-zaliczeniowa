@@ -45,7 +45,7 @@ public class UkladBRDAO extends DAO implements Serializable{
         }
     }
     
-    public List<UkladBR> findPodatnik(String nazwapelna) {
+    public List<UkladBR> findPodatnik(Podatnik nazwapelna) {
         try {
             return sessionFacade.findUkladBRPodatnik(nazwapelna);
         } catch (Exception e) { E.e(e); 
@@ -87,7 +87,7 @@ public class UkladBRDAO extends DAO implements Serializable{
         }
     }
 
-    public List<UkladBR> findukladBRPodatnikRok(String podatnikWpisu, String rokWpisuSt) {
+    public List<UkladBR> findukladBRPodatnikRok(Podatnik podatnikWpisu, String rokWpisuSt) {
          try {
             return sessionFacade.findukladBRPodatnikRok(podatnikWpisu, rokWpisuSt);
         } catch (Exception e) { 
@@ -96,7 +96,7 @@ public class UkladBRDAO extends DAO implements Serializable{
         }
     }
     
-    public UkladBR findukladBRPodatnikRokPodstawowy(String podatnikWpisu, String rokWpisuSt) {
+    public UkladBR findukladBRPodatnikRokPodstawowy(Podatnik podatnikWpisu, String rokWpisuSt) {
          try {
             return sessionFacade.findukladBRPodatnikRokPodstawowy(podatnikWpisu, rokWpisuSt);
         } catch (Exception e) { 
@@ -105,7 +105,7 @@ public class UkladBRDAO extends DAO implements Serializable{
         }
     }
     
-    public UkladBR findukladBRPodatnikRokAktywny(String podatnikWpisu, String rokWpisuSt) {
+    public UkladBR findukladBRPodatnikRokAktywny(Podatnik podatnikWpisu, String rokWpisuSt) {
         UkladBR uklad = null;
          try {
             uklad =  sessionFacade.findukladBRPodatnikRokAktywny(podatnikWpisu, rokWpisuSt);
@@ -120,7 +120,7 @@ public class UkladBRDAO extends DAO implements Serializable{
          return uklad;
     }
 
-    public void ustawnieaktywne(String podatnik) {
+    public void ustawnieaktywne(Podatnik podatnik) {
          try {
             sessionFacade.ukladBRustawnieaktywne(podatnik);
         } catch (Exception e) {

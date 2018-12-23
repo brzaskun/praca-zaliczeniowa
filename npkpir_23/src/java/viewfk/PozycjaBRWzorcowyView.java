@@ -350,7 +350,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
                 Msg.msg("i", nowyelementRZiS.getNazwa() + "zachowam pod " + nowalitera);
             }
             nowyelementRZiS.setUklad(uklad.getUklad());
-            nowyelementRZiS.setPodatnik(uklad.getPodatnik());
+            nowyelementRZiS.setPodatnik(uklad.getPodatnik().getNazwapelna());
             nowyelementRZiS.setRok(uklad.getRok());
             try {
                 pozycjaRZiSDAO.dodaj(nowyelementRZiS);
@@ -394,7 +394,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
                 nowyelementRZiS.setFormula("");
             }
             nowyelementRZiS.setUklad(uklad.getUklad());
-            nowyelementRZiS.setPodatnik(uklad.getPodatnik());
+            nowyelementRZiS.setPodatnik(uklad.getPodatnik().getNazwapelna());
             nowyelementRZiS.setRok(uklad.getRok());
             try {
                 pozycjaRZiSDAO.dodaj(nowyelementRZiS);
@@ -446,7 +446,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
                 Msg.msg("i", nowyelementBilans.getNazwa() + "zachowam pod " + nowalitera);
             }
             nowyelementBilans.setUklad(uklad.getUklad());
-            nowyelementBilans.setPodatnik(uklad.getPodatnik());
+            nowyelementBilans.setPodatnik(uklad.getPodatnik().getNazwapelna());
             nowyelementBilans.setRok(uklad.getRok());
             try {
                 pozycjaRZiSDAO.dodaj(nowyelementBilans);
@@ -490,7 +490,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
                 nowyelementBilans.setFormula("");
             }
             nowyelementBilans.setUklad(uklad.getUklad());
-            nowyelementBilans.setPodatnik(uklad.getPodatnik());
+            nowyelementBilans.setPodatnik(uklad.getPodatnik().getNazwapelna());
             nowyelementBilans.setRok(uklad.getRok());
             try {
                 pozycjaRZiSDAO.dodaj(nowyelementBilans);

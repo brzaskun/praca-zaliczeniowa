@@ -112,6 +112,7 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
     public void usun(FakturaRozrachunki p) {
         try {
             fakturaRozrachunkiDAO.destroy(p);
+            wprowadzoneplatnoscifiltered.remove(p);
             wprowadzoneplatnosci.remove(p);
             Msg.msg("Usunięto zapis");
         } catch (Exception e) {

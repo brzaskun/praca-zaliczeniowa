@@ -181,7 +181,7 @@ public class PlanKontView implements Serializable {
     }
     
     public void zmienuklad() {
-        listaukladow = ukladBRDAO.findPodatnik(wpisView.getPodatnikWpisu());
+        listaukladow = ukladBRDAO.findPodatnik(wpisView.getPodatnikObiekt());
         for (UkladBR p : listaukladow) {
             p.setAktualny(false);
         }
@@ -863,7 +863,7 @@ public class PlanKontView implements Serializable {
 
     public void usunieciewszystkichKontPodatnika() {
         if (!wykazkont.isEmpty()) {
-            List<UkladBR> uklady = ukladBRDAO.findukladBRPodatnikRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            List<UkladBR> uklady = ukladBRDAO.findukladBRPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             for (UkladBR ukladpodatnika : uklady) {
                 wyczyscKonta("wynikowe");
                 kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "wynikowe");

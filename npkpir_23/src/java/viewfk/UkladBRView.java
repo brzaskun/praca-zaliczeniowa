@@ -76,9 +76,9 @@ public class UkladBRView implements Serializable {
     @PostConstruct
     public void init() {
         try {
-            lista = ukladBRDAO.findPodatnik(wpisView.getPodatnikWpisu());
+            lista = ukladBRDAO.findPodatnik(wpisView.getPodatnikObiekt());
             listarokbiezacy = ukladBRDAO.findPodatnikRok(wpisView);
-            listaWzorcowy = ukladBRDAO.findPodatnik("Wzorcowy");
+            listaWzorcowy = ukladBRDAO.findPodatnik(wpisView.getPodatnikwzorcowy());
             listawszyscyrokbiezacy = ukladBRDAO.findRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             listaWzorcowyBiezacy = ukladBRDAO.findukladBRWzorcowyRok(wpisView.getRokWpisuSt());
             Collections.sort(listaWzorcowy, new UkladBRcomparator());
@@ -100,7 +100,7 @@ public class UkladBRView implements Serializable {
         }
         try {
             UkladBR ukladBR = new UkladBR();
-            ukladBR.setPodatnik(wpisView.getPodatnikWpisu());
+            ukladBR.setPodatnik(wpisView.getPodatnikObiekt());
             ukladBR.setRok(wpisView.getRokWpisuSt());
             ukladBR.setUklad(nazwanowegoukladu);
             ukladBR.setZwykly0wzrocowy1(false);
@@ -122,7 +122,7 @@ public class UkladBRView implements Serializable {
                 Msg.msg("e", "Rok docelowy jest inny od roku bieżącego. Nie można kopiować układu");
             } else {
                 UkladBR ukladBR = serialclone.SerialClone.clone(ukladzrodlowy);
-                ukladBR.setPodatnik(wpisView.getPodatnikWpisu());
+                ukladBR.setPodatnik(wpisView.getPodatnikObiekt());
                 ukladBR.setRok(ukladdocelowyrok);
                 ukladBR.setImportowany(true);
                 ukladBRDAO.dodaj(ukladBR);
@@ -154,7 +154,7 @@ public class UkladBRView implements Serializable {
     public void implementujWzorcowy() {
         try {
             UkladBR ukladBR = serialclone.SerialClone.clone(wybranyukladwzorcowy);
-            ukladBR.setPodatnik(wpisView.getPodatnikWpisu());
+            ukladBR.setPodatnik(wpisView.getPodatnikObiekt());
             ukladBR.setRok(wpisView.getRokWpisuSt());
             ukladBR.setImportowany(true);
             ukladBRDAO.dodaj(ukladBR);

@@ -125,7 +125,7 @@ public class PozycjaBRView implements Serializable {
     public void init() {
         try {
             if (uklad == null || uklad.getUklad() == null) {
-                uklad = ukladBRDAO.findukladBRPodatnikRokAktywny(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                uklad = ukladBRDAO.findukladBRPodatnikRokAktywny(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             }
             bilansnadzien = Data.ostatniDzien(wpisView);
             bilansoddnia = wpisView.getRokWpisuSt()+"-01-01";
@@ -193,7 +193,7 @@ public class PozycjaBRView implements Serializable {
     //gdy sa obroty rozpoczecia
     public void pobierzukladprzegladRZiSBO() {
         if (uklad.getUklad() == null) {
-            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         }
         List<PozycjaRZiSBilans> pozycje = UkladBRBean.pobierzpozycje(pozycjaRZiSDAO, pozycjaBilansDAO, uklad, "", "r");
         UkladBRBean.czyscPozycje(pozycje);
@@ -212,7 +212,7 @@ public class PozycjaBRView implements Serializable {
      
     public void pobierzukladprzegladRZiS() {
         if (uklad.getUklad() == null) {
-            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         }
         List<PozycjaRZiSBilans> pozycje = UkladBRBean.pobierzpozycje(pozycjaRZiSDAO, pozycjaBilansDAO, uklad, "", "r");
         //UkladBRBean.czyscPozycje(pozycje);
@@ -283,7 +283,7 @@ public class PozycjaBRView implements Serializable {
 //        PozycjaBRBOView bean = context.getApplication().evaluateExpressionGet(context, "#{pozycjaBRBOView}", PozycjaBRBOView.class);
 //        bean.obliczBilansNaDzien();
         if (uklad.getUklad() == null) {
-            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         }
         List<PozycjaRZiSBilans> pozycjeaktywa = Collections.synchronizedList(new ArrayList<>());
         List<PozycjaRZiSBilans> pozycjepasywa = Collections.synchronizedList(new ArrayList<>());
@@ -317,7 +317,7 @@ public class PozycjaBRView implements Serializable {
     
      public void obliczBilansOtwarcia() {
         if (uklad.getUklad() == null) {
-            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         }
         List<PozycjaRZiSBilans> pozycjeaktywa = Collections.synchronizedList(new ArrayList<>());
         List<PozycjaRZiSBilans> pozycjepasywa = Collections.synchronizedList(new ArrayList<>());
@@ -362,7 +362,7 @@ public class PozycjaBRView implements Serializable {
      
      public void obliczBilansOtwarciaBilansDataDwaLata() {
         if (uklad==null || uklad.getUklad() == null) {
-            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         }
         List<PozycjaRZiSBilans> pozycjeaktywa = Collections.synchronizedList(new ArrayList<>());
         List<PozycjaRZiSBilans> pozycjepasywa = Collections.synchronizedList(new ArrayList<>());
@@ -401,7 +401,7 @@ public class PozycjaBRView implements Serializable {
      
         public void obliczBilansOtwarciaBilansData() {
         if (uklad==null || uklad.getUklad() == null) {
-            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         }
         List<PozycjaRZiSBilans> pozycjeaktywa = Collections.synchronizedList(new ArrayList<>());
         List<PozycjaRZiSBilans> pozycjepasywa = Collections.synchronizedList(new ArrayList<>());
@@ -482,7 +482,7 @@ public class PozycjaBRView implements Serializable {
     private void pobierzPozycjeAktywaPasywa(List<PozycjaRZiSBilans> pozycjeaktywa, List<PozycjaRZiSBilans> pozycjepasywa) {
         try {
             if (uklad.getUklad() == null) {
-                uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             }
             pozycjeaktywa.addAll(pozycjaBilansDAO.findBilansukladAktywa(uklad));
             pozycjepasywa.addAll(pozycjaBilansDAO.findBilansukladPasywa(uklad));
@@ -596,7 +596,7 @@ public class PozycjaBRView implements Serializable {
                 Msg.msg("i", nowyelementRZiS.getNazwa() + "zachowam pod " + nowalitera);
             }
             nowyelementRZiS.setUklad(uklad.getUklad());
-            nowyelementRZiS.setPodatnik(uklad.getPodatnik());
+            nowyelementRZiS.setPodatnik(uklad.getPodatnik().getNazwapelna());
             nowyelementRZiS.setRok(uklad.getRok());
             try {
                 pozycjaRZiSDAO.dodaj(nowyelementRZiS);
@@ -640,7 +640,7 @@ public class PozycjaBRView implements Serializable {
                 nowyelementRZiS.setFormula("");
             }
             nowyelementRZiS.setUklad(uklad.getUklad());
-            nowyelementRZiS.setPodatnik(uklad.getPodatnik());
+            nowyelementRZiS.setPodatnik(uklad.getPodatnik().getNazwapelna());
             nowyelementRZiS.setRok(uklad.getRok());
             try {
                 pozycjaRZiSDAO.dodaj(nowyelementRZiS);
@@ -679,7 +679,7 @@ public class PozycjaBRView implements Serializable {
                 Msg.msg("i", nowyelementBilans.getNazwa() + "zachowam pod " + nowalitera);
             }
             nowyelementBilans.setUklad(uklad.getUklad());
-            nowyelementBilans.setPodatnik(uklad.getPodatnik());
+            nowyelementBilans.setPodatnik(uklad.getPodatnik().getNazwapelna());
             nowyelementBilans.setRok(uklad.getRok());
             try {
                 pozycjaRZiSDAO.dodaj(nowyelementBilans);
@@ -723,7 +723,7 @@ public class PozycjaBRView implements Serializable {
                 nowyelementBilans.setFormula("");
             }
             nowyelementBilans.setUklad(uklad.getUklad());
-            nowyelementBilans.setPodatnik(uklad.getPodatnik());
+            nowyelementBilans.setPodatnik(uklad.getPodatnik().getNazwapelna());
             nowyelementBilans.setRok(uklad.getRok());
             try {
                 pozycjaRZiSDAO.dodaj(nowyelementBilans);

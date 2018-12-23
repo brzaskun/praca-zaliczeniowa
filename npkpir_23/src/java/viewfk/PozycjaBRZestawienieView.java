@@ -123,7 +123,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     @PostConstruct
     public void init() {
         try {
-            uklad = ukladBRDAO.findukladBRPodatnikRokAktywny(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            uklad = ukladBRDAO.findukladBRPodatnikRokAktywny(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             //(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota)
 //            pozycje_old.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Przychody netto ze sprzedaży i zrównane z nimi, w tym:", false));
 //            pozycje_old.add(new PozycjaRZiS(2, "A.I", "I", 1, 1, "Przychody netto ze sprzedaży produktów", false, 0.0));
@@ -188,7 +188,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     
     public void obliczRZiSOtwarciaRZiSData() {
         if (uklad.getUklad() == null) {
-            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         }
         List<PozycjaRZiSBilans> pozycje = Collections.synchronizedList(new ArrayList<>());
         pobierzPozycje(pozycje);
@@ -250,7 +250,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     
     public void pobierzukladprzegladRZiSDwaLata() {
         if (uklad.getUklad() == null) {
-            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         }
         List<PozycjaRZiSBilans> pozycje = Collections.synchronizedList(new ArrayList<>());
         pobierzPozycje(pozycje);
@@ -275,7 +275,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     
     public void pobierzukladprzegladRZiS() {
         if (uklad.getUklad() == null) {
-            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         }
         List<PozycjaRZiSBilans> pozycje = Collections.synchronizedList(new ArrayList<>());
         pobierzPozycje(pozycje);
@@ -521,7 +521,7 @@ public class PozycjaBRZestawienieView implements Serializable {
                 Msg.msg("i", nowyelementRZiS.getNazwa() + "zachowam pod " + nowalitera);
             }
             nowyelementRZiS.setUklad(uklad.getUklad());
-            nowyelementRZiS.setPodatnik(uklad.getPodatnik());
+            nowyelementRZiS.setPodatnik(uklad.getPodatnik().getNazwapelna());
             nowyelementRZiS.setRok(uklad.getRok());
             try {
                 pozycjaRZiSDAO.dodaj(nowyelementRZiS);
@@ -565,7 +565,7 @@ public class PozycjaBRZestawienieView implements Serializable {
                 nowyelementRZiS.setFormula("");
             }
             nowyelementRZiS.setUklad(uklad.getUklad());
-            nowyelementRZiS.setPodatnik(uklad.getPodatnik());
+            nowyelementRZiS.setPodatnik(uklad.getPodatnik().getNazwapelna());
             nowyelementRZiS.setRok(uklad.getRok());
             try {
                 pozycjaRZiSDAO.dodaj(nowyelementRZiS);
@@ -606,7 +606,7 @@ public class PozycjaBRZestawienieView implements Serializable {
                 Msg.msg("i", nowyelementBilans.getNazwa() + "zachowam pod " + nowalitera);
             }
             nowyelementBilans.setUklad(uklad.getUklad());
-            nowyelementBilans.setPodatnik(uklad.getPodatnik());
+            nowyelementBilans.setPodatnik(uklad.getPodatnik().getNazwapelna());
             nowyelementBilans.setRok(uklad.getRok());
             try {
                 pozycjaRZiSDAO.dodaj(nowyelementBilans);
@@ -650,7 +650,7 @@ public class PozycjaBRZestawienieView implements Serializable {
                 nowyelementBilans.setFormula("");
             }
             nowyelementBilans.setUklad(uklad.getUklad());
-            nowyelementBilans.setPodatnik(uklad.getPodatnik());
+            nowyelementBilans.setPodatnik(uklad.getPodatnik().getNazwapelna());
             nowyelementBilans.setRok(uklad.getRok());
             try {
                 pozycjaRZiSDAO.dodaj(nowyelementBilans);

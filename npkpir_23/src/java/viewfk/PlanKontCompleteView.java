@@ -154,7 +154,7 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
             wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
             if (wynikdodaniakonta == 0) {
                 try {
-                    UkladBR wybranyuklad = ukladBRDAO.findukladBRPodatnikRokAktywny(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                    UkladBR wybranyuklad = ukladBRDAO.findukladBRPodatnikRokAktywny(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                     KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(kontomacierzyste, wybranyuklad);
                     if (kpo.getSyntetykaanalityka().equals("analityka")) {
                         Msg.msg("w", "Konto przyporządkowane z poziomu analityki!");

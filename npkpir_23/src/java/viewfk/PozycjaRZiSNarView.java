@@ -70,7 +70,7 @@ public class PozycjaRZiSNarView  implements Serializable {
        
     public void obliczRZiSOtwarciaRZiSData() {
         if (uklad.getUklad() == null) {
-            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         }
         List<PozycjaRZiSBilans> pozycje = BilansBean.pobierzPoszerzPozycje(uklad, pozycjaRZiSDAO, wpisView.getMiesiacWpisu());
         rootProjektRZiS.getChildren().clear();

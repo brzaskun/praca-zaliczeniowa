@@ -68,14 +68,14 @@ public class PozycjaRZiSDAO extends DAO implements Serializable{
 
     public void findRemoveRzisuklad(UkladBR ukladBR) {
         try {
-            sessionFacade.findRemoveRzisuklad(ukladBR.getUklad(), ukladBR.getPodatnik(), ukladBR.getRok());
+            sessionFacade.findRemoveRzisuklad(ukladBR.getUklad(), ukladBR.getPodatnik().getNazwapelna(), ukladBR.getRok());
         } catch (Exception e) { E.e(e); 
         }
     }
 
     public Integer findMaxLevelPodatnik(UkladBR ukladBR) {
         try {
-            return sessionFacade.findMaxLevelRzisuklad(ukladBR.getUklad(), ukladBR.getPodatnik(), ukladBR.getRok());
+            return sessionFacade.findMaxLevelRzisuklad(ukladBR.getUklad(), ukladBR.getPodatnik().getNazwapelna(), ukladBR.getRok());
         } catch (Exception e) { E.e(e); 
         }
         return 0;

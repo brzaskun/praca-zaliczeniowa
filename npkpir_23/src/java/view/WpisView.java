@@ -82,6 +82,7 @@ public class WpisView implements Serializable {
     private boolean rokzamkniety;
     private boolean rokpoprzednizamkniety;
     private Wpis wpis;
+    private Podatnik podatnikwzorcowy;
 
     public WpisView() {
         czegosbrakuje = false;
@@ -113,6 +114,7 @@ public class WpisView implements Serializable {
            obsluzMce(wpis);
            uzupelnijdanepodatnika();
            czyniegosc();
+           podatnikwzorcowy = podatnikDAO.findPodatnikByNIP("0000000000");
         }
      
         }
@@ -724,6 +726,14 @@ public class WpisView implements Serializable {
 
     public void setVatokres(int vatokres) {
         this.vatokres = vatokres;
+    }
+
+    public Podatnik getPodatnikwzorcowy() {
+        return podatnikwzorcowy;
+    }
+
+    public void setPodatnikwzorcowy(Podatnik podatnikwzorcowy) {
+        this.podatnikwzorcowy = podatnikwzorcowy;
     }
 
   

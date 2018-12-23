@@ -75,13 +75,13 @@ public class PozycjaBilansDAO extends DAO implements Serializable{
     
     public void findRemoveBilansuklad(UkladBR ukladBR) {
         try {
-            sessionFacade.findRemoveBilansuklad(ukladBR.getUklad(), ukladBR.getPodatnik(), ukladBR.getRok());
+            sessionFacade.findRemoveBilansuklad(ukladBR.getUklad(), ukladBR.getPodatnik().getNazwapelna(), ukladBR.getRok());
         } catch (Exception e) { E.e(e); 
         }
     }
     public Integer findMaxLevelPodatnikAktywa(UkladBR ukladBR) {
         try {
-            return sessionFacade.findMaxLevelBilansukladAktywa(ukladBR.getUklad(), ukladBR.getPodatnik(), ukladBR.getRok());
+            return sessionFacade.findMaxLevelBilansukladAktywa(ukladBR.getUklad(), ukladBR.getPodatnik().getNazwapelna(), ukladBR.getRok());
         } catch (Exception e) { E.e(e); 
         }
         return null;
@@ -89,7 +89,7 @@ public class PozycjaBilansDAO extends DAO implements Serializable{
     
     public Integer findMaxLevelPodatnikPasywa(UkladBR ukladBR) {
         try {
-            return sessionFacade.findMaxLevelBilansukladPasywa(ukladBR.getUklad(), ukladBR.getPodatnik(), ukladBR.getRok());
+            return sessionFacade.findMaxLevelBilansukladPasywa(ukladBR.getUklad(), ukladBR.getPodatnik().getNazwapelna(), ukladBR.getRok());
         } catch (Exception e) { E.e(e); 
         }
         return null;

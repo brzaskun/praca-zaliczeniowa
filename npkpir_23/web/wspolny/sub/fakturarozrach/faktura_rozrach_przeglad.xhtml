@@ -28,7 +28,7 @@
             <p:remoteCommand name="przeliczfilter1" actionListener="#{fakturaRozrachunkiRozlView.sumuj}" update="akordeon:razemfaktury"/>
             <p:commandButton value="pobierz" style="width: 120px;" actionListener="#{fakturaRozrachunkiRozlView.pobierzplatnosci()}" update="fakturarozliczenia" global="false"/>
             <p:dataTable value="#{fakturaRozrachunkiRozlView.wprowadzoneplatnosci}" var="item" style="width: 1150px; margin-top: 20px;" filteredValue="#{fakturaRozrachunkiRozlView.wprowadzoneplatnoscifiltered}"
-                         sortBy="#{item.nrdokumentu}" sortFunction="#{fakturaRozrachunkiRozlView.sortujfaktrozrach}" sortOrder="descending"
+                         sortBy="#{item.nrdokumentu}" sortFunction="#{fakturaRozrachunkiRozlView.sortujfaktrozrach}" sortOrder="descending" 
                          emptyMessage="niczego nie zaksięgowano w miesiącu #{WpisView.miesiacWpisu}" id="wprowadzonetabela"
                          widgetVar="fakturarozliczenia_tablica" editable="true">
                 <p:ajax event="rowEdit" listener="#{fakturaRozrachunkiView.onRowEdit}"/>
