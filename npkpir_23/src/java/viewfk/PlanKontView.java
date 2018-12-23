@@ -188,6 +188,14 @@ public class PlanKontView implements Serializable {
         return podatnik;
     }
     
+    private UkladBR ustawuklad() {
+        UkladBR wybranyuklad = this.wybranyuklad;
+        if (czyoddacdowzorca == true) {
+            wybranyuklad = this.wybranyukladwzorcowy;
+        }
+        return wybranyuklad;
+    }
+    
     private Konto ustawselected() {
         Konto konto = selectednodekonto;
         if (czyoddacdowzorca == true) {
@@ -791,7 +799,7 @@ public class PlanKontView implements Serializable {
                     Konto konto = new Konto(selectednodekontowzorcowy);
                     konto = dodajpojedynczekoto(konto, p);
                     KontoPozycjaBean.duplikujpozycje(ukladBRDAO, wybranyukladwzorcowy.getUklad(), p, wpisView.getRokWpisuSt(), selectednodekontowzorcowy, konto, kontopozycjaZapisDAO);
-                    List<Konto> potomnelista = kontoDAOfk.findKontaPotomneWzorcowy(wpisView.getRokWpisu(), selectednodekontowzorcowy.getPelnynumer());
+                    List<Konto> potomnelista = kontoDAOfk.findKontaPotomne(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisu(), selectednodekontowzorcowy.getPelnynumer(), selectednodekontowzorcowy.getBilansowewynikowe());
                     if (potomnelista != null) {
                         for (Konto r : potomnelista) {
                             Konto potomne = new Konto(r);
@@ -814,7 +822,7 @@ public class PlanKontView implements Serializable {
             try {
                 Konto konto = selectednodekonto;
                 dodajpojedynczekoto(konto, null);
-                List<Konto> potomne = kontoDAOfk.findKontaPotomne(wpisView, konto.getPelnynumer(), konto.getBilansowewynikowe());
+                List<Konto> potomne = kontoDAOfk.findKontaPotomne(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisu(),  konto.getPelnynumer(), konto.getBilansowewynikowe());
                 for (Konto r : potomne) {
                     dodajpojedynczekotoWzorcowy(r, konto.getPelnynumer());
                 }
@@ -964,7 +972,7 @@ public class PlanKontView implements Serializable {
     
     public void porzadkowanieWybranegoKontaPodatnika() {
         if (selectednodekonto!=null) {
-            List<Konto> wykazkontf = kontoDAOfk.findKontaWszystkiePotomnePodatnik(wpisView, selectednodekonto);
+            List<Konto> wykazkontf = kontoDAOfk.findKontaWszystkiePotomnePodatnik(wykazkont, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), selectednodekonto);
             //resetuj kolumne macierzyste
             kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUladKonto(wybranyuklad, wykazkontf);
             for (Konto p : wykazkontf) {
@@ -972,7 +980,7 @@ public class PlanKontView implements Serializable {
             }
             //tutaj nanosi czy ma potomkow
             KontaFKBean.ustawCzyMaPotomkow(wykazkontf, kontoDAOfk, wpisView, kontopozycjaZapisDAO, wybranyuklad);
-            wykazkontf = kontoDAOfk.findKontaWszystkiePotomnePodatnik(wpisView, selectednodekonto);
+            wykazkontf = kontoDAOfk.findKontaWszystkiePotomnePodatnik(wykazkont, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), selectednodekonto);
             for (Konto p : wykazkontf) {
                 KontopozycjaZapis kpo = PlanKontFKBean.naniesprzyporzadkowanie(p, wpisView, kontoDAOfk, kontopozycjaZapisDAO, wybranyuklad);
                 if (p.isMapotomkow() == true && kpo != null && !kpo.getSyntetykaanalityka().equals("analityka")) {
@@ -1322,14 +1330,27 @@ public class PlanKontView implements Serializable {
     }
 
     public void zmiananazwykonta() {
+        Konto selectednodekonto = ustawselected();
+        Podatnik podatnik = ustawpodatnika();
+        UkladBR wybranyuklad = ustawuklad();
         try {
-            List<Konto> kontapotomne = kontoDAOfk.findKontaWszystkiePotomnePodatnik(wpisView, selectednodekonto);
+            List<Konto> kontapotomne = new ArrayList<>();
+            if (czyoddacdowzorca) {
+                kontoDAOfk.findKontaWszystkiePotomnePodatnik(wykazkontwzor, podatnik, wpisView.getRokWpisu(), selectednodekonto);
+            } else {
+                kontoDAOfk.findKontaWszystkiePotomnePodatnik(wykazkont, podatnik, wpisView.getRokWpisu(), selectednodekonto);
+            }
             for (Konto p : kontapotomne) {
                 if (p != null) {
                     p.setZwyklerozrachszczegolne(selectednodekonto.getZwyklerozrachszczegolne());
                     p.setBilansowewynikowe(selectednodekonto.getBilansowewynikowe());
                     try {
-                        Konto r = wykazkont.get(wykazkont.indexOf(p));
+                        Konto r = null; 
+                        if (czyoddacdowzorca) {
+                            wykazkontwzor.get(wykazkontwzor.indexOf(p));
+                        } else {
+                            wykazkont.get(wykazkont.indexOf(p));
+                        }
                         if (r != null) {
                             r.setZwyklerozrachszczegolne(selectednodekonto.getZwyklerozrachszczegolne());
                             r.setBilansowewynikowe(selectednodekonto.getBilansowewynikowe());
@@ -1364,48 +1385,48 @@ public class PlanKontView implements Serializable {
         }
     }
 
-    public void zmiananazwykontawzorcowy() {
-        try {
-            List<Konto> kontapotomne = kontoDAOfk.findKontaWszystkiePotomneWzorcowy(wpisView, selectednodekontowzorcowy);
-            for (Konto p : kontapotomne) {
-                if (p != null) {
-                    p.setZwyklerozrachszczegolne(selectednodekontowzorcowy.getZwyklerozrachszczegolne());
-                    p.setBilansowewynikowe(selectednodekontowzorcowy.getBilansowewynikowe());
-                    try {
-                        Konto r = wykazkontwzor.get(wykazkontwzor.indexOf(p));
-                        if (r != null) {
-                            r.setZwyklerozrachszczegolne(selectednodekontowzorcowy.getZwyklerozrachszczegolne());
-                            r.setBilansowewynikowe(selectednodekontowzorcowy.getBilansowewynikowe());
-                        }
-                        if (usunprzyporzadkowanie) {
-                            r.setKontopozycjaID(null);
-                        }
-                    } catch (Exception e) {
-                        E.e(e);
-                    }
-                    if (usunprzyporzadkowanie) {
-                        KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(p, wybranyukladwzorcowy);
-                        if (kp != null) {
-                            kontopozycjaZapisDAO.destroy(kp);
-                        }
-                        p.setKontopozycjaID(null);
-                    }
-                    kontoDAOfk.edit(p);
-                }
-            }
-            if (usunprzyporzadkowanie) {
-                KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(selectednodekontowzorcowy, wybranyukladwzorcowy);
-                if (kp != null) {
-                    kontopozycjaZapisDAO.destroy(kp);
-                }
-                selectednodekontowzorcowy.setKontopozycjaID(null);
-            }
-            kontoDAOfk.edit(selectednodekontowzorcowy);
-            usunprzyporzadkowanie = false;
-        } catch (Exception e) {
-            E.e(e);
-        }
-    }
+//    public void zmiananazwykontawzorcowy() {
+//        try {
+//            List<Konto> kontapotomne = kontoDAOfk.findKontaWszystkiePotomneWzorcowy(wpisView, selectednodekontowzorcowy);
+//            for (Konto p : kontapotomne) {
+//                if (p != null) {
+//                    p.setZwyklerozrachszczegolne(selectednodekontowzorcowy.getZwyklerozrachszczegolne());
+//                    p.setBilansowewynikowe(selectednodekontowzorcowy.getBilansowewynikowe());
+//                    try {
+//                        Konto r = wykazkontwzor.get(wykazkontwzor.indexOf(p));
+//                        if (r != null) {
+//                            r.setZwyklerozrachszczegolne(selectednodekontowzorcowy.getZwyklerozrachszczegolne());
+//                            r.setBilansowewynikowe(selectednodekontowzorcowy.getBilansowewynikowe());
+//                        }
+//                        if (usunprzyporzadkowanie) {
+//                            r.setKontopozycjaID(null);
+//                        }
+//                    } catch (Exception e) {
+//                        E.e(e);
+//                    }
+//                    if (usunprzyporzadkowanie) {
+//                        KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(p, wybranyukladwzorcowy);
+//                        if (kp != null) {
+//                            kontopozycjaZapisDAO.destroy(kp);
+//                        }
+//                        p.setKontopozycjaID(null);
+//                    }
+//                    kontoDAOfk.edit(p);
+//                }
+//            }
+//            if (usunprzyporzadkowanie) {
+//                KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(selectednodekontowzorcowy, wybranyukladwzorcowy);
+//                if (kp != null) {
+//                    kontopozycjaZapisDAO.destroy(kp);
+//                }
+//                selectednodekontowzorcowy.setKontopozycjaID(null);
+//            }
+//            kontoDAOfk.edit(selectednodekontowzorcowy);
+//            usunprzyporzadkowanie = false;
+//        } catch (Exception e) {
+//            E.e(e);
+//        }
+//    }
 
     public void selrow() {
         Map<String,String> par_map = new HashMap<String,String>(); par_map=FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -1420,7 +1441,7 @@ public class PlanKontView implements Serializable {
 
     public void zachowajZmianyWKoncieWzorcowy(Konto konto) {
         kontoDAOfk.edit(konto);
-        List<Konto> kontapotomne = kontoDAOfk.findKontaWszystkiePotomneWzorcowy(wpisView, konto);
+        List<Konto> kontapotomne = kontoDAOfk.findKontaPotomne(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisu(), konto.getPelnynumer(), konto.getBilansowewynikowe());
         for (Konto p : kontapotomne) {
             p.setZwyklerozrachszczegolne(konto.getZwyklerozrachszczegolne());
             kontoDAOfk.edit(p);

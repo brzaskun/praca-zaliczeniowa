@@ -154,14 +154,14 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
 
     private void drugiinit() {
         kontabezprzydzialu.clear();
-        List<Konto> pobraneKontaSyntetyczne = kontoDAO.findKontaPotomneWzorcowy(Integer.parseInt(uklad.getRok()), "0", "wynikowe");
+        List<Konto> pobraneKontaSyntetyczne = kontoDAO.findKontaPotomne(wpisView.getPodatnikwzorcowy(), Integer.parseInt(uklad.getRok()), "0", "wynikowe");
         PozycjaRZiSFKBean.wyluskajNieprzyporzadkowaneAnalitykiRZiS(pobraneKontaSyntetyczne, kontabezprzydzialu, kontoDAO, null, Integer.parseInt(uklad.getRok()));
         Collections.sort(kontabezprzydzialu, new Kontocomparator());
     }
 
     private void drugiinitbilansowe() {
         kontabezprzydzialu.clear();
-        List<Konto> pobraneKontaSyntetyczne = kontoDAO.findKontaPotomneWzorcowy(Integer.parseInt(uklad.getRok()), "0", "bilansowe");
+        List<Konto> pobraneKontaSyntetyczne = kontoDAO.findKontaPotomne(wpisView.getPodatnikwzorcowy(), Integer.parseInt(uklad.getRok()), "0", "bilansowe");
         PozycjaRZiSFKBean.wyluskajNieprzyporzadkowaneAnalitykiBilans(pobraneKontaSyntetyczne, kontabezprzydzialu, kontoDAO, null, aktywa0pasywa1, Integer.parseInt(uklad.getRok()));
         Collections.sort(kontabezprzydzialu, new Kontocomparator());
     }
@@ -539,7 +539,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
         List<Konto> listaSiostrzane = kontoDAO.findKontaSiostrzaneWzorcowy(wpisView, konto.getMacierzyste());
         List<Konto> listaPotomne = Collections.synchronizedList(new ArrayList<>());
         for (Konto t : listaSiostrzane) {
-            listaPotomne.addAll(kontoDAO.findKontaWszystkiePotomneWzorcowy(wpisView, t));
+            listaPotomne.addAll(kontoDAO.findKontaWszystkiePotomnePodatnik(new ArrayList<Konto>(), wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisu(), t));
         }
         listaSiostrzane.addAll(listaPotomne);
         boolean jestprzypisane = false;

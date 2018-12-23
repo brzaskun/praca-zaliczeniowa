@@ -85,7 +85,7 @@ import view.WpisView;
     @NamedQuery(name = "Konto.findByRMKPodatnik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.rok = :rok AND  k.mapotomkow = false AND k.pelnynumer LIKE '64%'"),
     @NamedQuery(name = "Konto.findByMacierzyste", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND NOT k.pelnynumer = '000'"),
     @NamedQuery(name = "Konto.findByMacierzysteBOPodatnik", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000' AND k.rok = :rok"),
-    @NamedQuery(name = "Konto.findByMacierzysteBOPodatnikWZOR", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND k.podatnik IS NULL AND NOT k.pelnynumer = '000' AND k.rok = :rok"),
+//    @NamedQuery(name = "Konto.findByMacierzysteBOPodatnikWZOR", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND k.podatnik IS NULL AND NOT k.pelnynumer = '000' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findBySiostrzaneBOPodatnik", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findBySiostrzaneBOPodatnikWZOR", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND k.podatnik IS NULL AND NOT k.pelnynumer = '000' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByMacierzystePodatnikCOUNT", query = "SELECT MAX(CAST (k.nrkonta AS DECIMAL)) FROM Konto k WHERE k.macierzyste = :macierzyste AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000' AND k.rok = :rok"),
@@ -100,8 +100,8 @@ import view.WpisView;
     @NamedQuery(name = "Konto.findByPozycjaBilansoweWZOR", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'bilansowe' AND k.podatnik IS NULL  AND k.rok = :rok AND ((k.kontopozycjaID.pozycjaWn = :pozycja AND k.kontopozycjaID.stronaWn = :aktywa0pasywa1) OR (k.kontopozycjaID.pozycjaMa = :pozycja AND k.kontopozycjaID.stronaMa = :aktywa0pasywa1))"),
     @NamedQuery(name = "Konto.findByPozycjaBilansoweWZORaLL", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'bilansowe' AND k.podatnik IS NULL  AND k.rok = :rok AND k.kontopozycjaID IS NOT NULL"),
     @NamedQuery(name = "Konto.findByMacierzysteBilansowe", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND NOT k.pelnynumer = '000' AND k.bilansowewynikowe = 'bilansowe' AND k.podatnik = :podatnik AND k.rok = :rok"),
-    @NamedQuery(name = "Konto.findByMacierzysteWynikoweWZOR", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND NOT k.pelnynumer = '000' AND k.bilansowewynikowe = 'wynikowe' AND k.podatnik IS NULL AND k.rok = :rok"),
-    @NamedQuery(name = "Konto.findByMacierzysteBilansoweWZOR", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND NOT k.pelnynumer = '000' AND k.bilansowewynikowe = 'bilansowe' AND k.podatnik IS NULL AND k.rok = :rok"),
+//    @NamedQuery(name = "Konto.findByMacierzysteWynikoweWZOR", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND NOT k.pelnynumer = '000' AND k.bilansowewynikowe = 'wynikowe' AND k.podatnik IS NULL AND k.rok = :rok"),
+//    @NamedQuery(name = "Konto.findByMacierzysteBilansoweWZOR", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND NOT k.pelnynumer = '000' AND k.bilansowewynikowe = 'bilansowe' AND k.podatnik IS NULL AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPelnynumer", query = "SELECT k FROM Konto k WHERE k.pelnynumer = :pelnynumer"),
     @NamedQuery(name = "Konto.findByPelnynumerPodatnik", query = "SELECT k FROM Konto k WHERE k.pelnynumer = :pelnynumer AND k.podatnik = :podatnik AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPelnynumerPodatnikWzorcowy", query = "SELECT k FROM Konto k WHERE k.pelnynumer = :pelnynumer AND k.podatnik IS NULL AND k.rok = :rok"),
@@ -349,39 +349,15 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.boMa = ma;
     }
     
-    public void getAllChildren(List<Konto> listakontwszystkie, WpisView wpisView, SessionFacade kontoFacade) {
-        List<Konto> children = kontoFacade.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), this.pelnynumer);
+    public void getAllChildren(List<Konto> listakontwszystkie, Podatnik podatnik, Integer rok, SessionFacade kontoFacade) {
+        List<Konto> children = kontoFacade.findKontaPotomnePodatnik(podatnik, rok, this.pelnynumer);
         if (!children.isEmpty()) {
             for (Konto o : children) {
                 listakontwszystkie.add(o);
-                o.getAllChildren(listakontwszystkie,wpisView, kontoFacade);
+                o.getAllChildren(listakontwszystkie,podatnik, rok, kontoFacade);
             }
         }
     }
-    
-
-    
-    public List<Konto> getAllChildrenRok(List<Konto> listakontwszystkie, WpisView wpisView, SessionFacade kontoFacade) {
-        List<Konto> children = kontoFacade.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), this.pelnynumer);
-        if (!children.isEmpty()) {
-            for (Konto o : children) {
-                listakontwszystkie.add(o);
-                o.getAllChildrenRok(listakontwszystkie,wpisView, kontoFacade);
-            }
-        }
-        return children;
-    }
-   
-    public void getAllChildrenWzorcowy(List<Konto> listakontwszystkie, WpisView wpisView, SessionFacade kontoFacade) {
-        List<Konto> children = kontoFacade.findKontaPotomneWzorcowy(wpisView.getRokWpisu(), this.pelnynumer);
-        if (!children.isEmpty()) {
-            for (Konto o : children) {
-                listakontwszystkie.add(o);
-                o.getAllChildrenWzorcowy(listakontwszystkie,wpisView, kontoFacade);
-            }
-        }
-    }
-    
     
 
     public Integer getId() {

@@ -504,10 +504,9 @@ public class KontoDAOfk extends DAO implements Serializable {
         }
     }
 
-    public List<Konto> findKontaWszystkiePotomnePodatnik(WpisView wpisView, Konto macierzyste) {
-        List<Konto> listakontwszystkie = Collections.synchronizedList(new ArrayList<>());
+    public List<Konto> findKontaWszystkiePotomnePodatnik(List<Konto> listakontwszystkie, Podatnik podatnik, Integer rok, Konto macierzyste) {
         try {
-            macierzyste.getAllChildren(listakontwszystkie, wpisView, kontoFacade);
+            macierzyste.getAllChildren(listakontwszystkie, podatnik, rok, kontoFacade);
             return Collections.synchronizedList(listakontwszystkie);
         } catch (Exception e) {
             E.e(e);
@@ -515,49 +514,10 @@ public class KontoDAOfk extends DAO implements Serializable {
         }
     }
 
-    public List<Konto> findKontaWszystkiePotomneWzorcowy(WpisView wpisView, Konto macierzyste) {
-        List<Konto> listakontwszystkie = Collections.synchronizedList(new ArrayList<>());
-        try {
-            macierzyste.getAllChildrenWzorcowy(listakontwszystkie, wpisView, kontoFacade);
-            return Collections.synchronizedList(listakontwszystkie);
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
 
-    public List<Konto> findKontaWszystkiePotomneRok(WpisView wpisView, Konto macierzyste) {
-        List<Konto> listakontwszystkie = Collections.synchronizedList(new ArrayList<>());
+    public List<Konto> findKontaPotomne(Podatnik podatnik, Integer rok, String macierzyste, String bilansowewynikowe) {
         try {
-            macierzyste.getAllChildrenRok(listakontwszystkie, wpisView, kontoFacade);
-            return Collections.synchronizedList(listakontwszystkie);
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-
-    public List<Konto> findKontaPotomne(WpisView wpisView, String macierzyste, String bilansowewynikowe) {
-        try {
-            return Collections.synchronizedList(kontoFacade.findKontaPotomne(wpisView, macierzyste, bilansowewynikowe));
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-
-    public List<Konto> findKontaPotomneWzorcowy(Integer rok, String macierzyste, String bilansowewynikowe) {
-        try {
-            return Collections.synchronizedList(kontoFacade.findKontaPotomneWzorcowy(rok, macierzyste, bilansowewynikowe));
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-    
-    public List<Konto> findKontaPotomneWzorcowy(Integer rok, String macierzyste) {
-        try {
-            return Collections.synchronizedList(kontoFacade.findKontaPotomneWzorcowy(rok, macierzyste));
+            return Collections.synchronizedList(kontoFacade.findKontaPotomne(podatnik, rok, macierzyste, bilansowewynikowe));
         } catch (Exception e) {
             E.e(e);
             return null;

@@ -25,7 +25,7 @@ public class PlanKontTablicaBean {
         for (int i = 0 ; i <= maxlevel ; i++) {
             List<Konto> level = leveleKonta.get(i);
             for (Konto p : level) {
-                p.getAllChildren(plankont, wpisView, null);
+                p.getAllChildren(plankont, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), null);
             }
         }
         return plankont;

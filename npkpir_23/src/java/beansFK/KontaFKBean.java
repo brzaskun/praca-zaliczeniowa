@@ -224,7 +224,7 @@ public class KontaFKBean implements Serializable{
         konto.setPrzychod0koszt1(przychod0koszt1);
         kontoDAOfk.edit(konto);
         if (konto.isMapotomkow()) {
-            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomneWzorcowy(wpisView.getRokWpisu(), konto.getPelnynumer(), "wynikowe");
+            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomne(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisu(), konto.getPelnynumer(), "wynikowe");
             for (Konto p : kontapotomne) {
                 oznaczkontoPrzychod0Koszt1Wzorcowy(p, kontoDAOfk, przychod0koszt1, wpisView);
             }
