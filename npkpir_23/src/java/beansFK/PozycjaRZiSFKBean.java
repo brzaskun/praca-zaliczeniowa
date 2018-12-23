@@ -200,13 +200,9 @@ public class PozycjaRZiSFKBean {
         }
     }
     
-    public static List<Konto> wyszukajprzyporzadkowane(KontoDAOfk kontoDAO, String pozycja, WpisView wpisView, boolean aktywa0pasywa1, boolean wzorcowy, UkladBR uklad) {
+    public static List<Konto> wyszukajprzyporzadkowane(KontoDAOfk kontoDAO, String pozycja,boolean aktywa0pasywa1, UkladBR uklad) {
         List<Konto> przyporzadkowane = null;
-        if (wzorcowy) {
-            przyporzadkowane = kontoDAO.findKontaPrzyporzadkowaneWzorcowy(pozycja, "wynikowe", Integer.parseInt(uklad.getRok()), aktywa0pasywa1);
-        } else {
-            przyporzadkowane = kontoDAO.findKontaPrzyporzadkowane(pozycja, "wynikowe", wpisView, aktywa0pasywa1);
-        }
+        przyporzadkowane = kontoDAO.findKontaPrzyporzadkowane(pozycja, "wynikowe", uklad.getPodatnik(), Integer.parseInt(uklad.getRok()), aktywa0pasywa1);
         List<Konto> returnlist = Collections.synchronizedList(new ArrayList<>());
         int level = 0;
         if (przyporzadkowane != null) {
@@ -231,13 +227,9 @@ public class PozycjaRZiSFKBean {
 
     }
     
-    public static List<Konto> wyszukajprzyporzadkowaneB(KontoDAOfk kontoDAO, String pozycja,  WpisView wpisView, boolean aktywa0pasywa1, boolean wzorcowy, UkladBR uklad) {
+    public static List<Konto> wyszukajprzyporzadkowaneB(KontoDAOfk kontoDAO, String pozycja,  boolean aktywa0pasywa1, UkladBR uklad) {
         List<Konto> przyporzadkowane = null;
-        if (wzorcowy) {
-            przyporzadkowane = kontoDAO.findKontaPrzyporzadkowaneWzorcowy(pozycja, "bilansowe", Integer.parseInt(uklad.getRok()), aktywa0pasywa1);
-        } else {
-            przyporzadkowane = kontoDAO.findKontaPrzyporzadkowane(pozycja, "bilansowe", wpisView, aktywa0pasywa1);
-        }
+        przyporzadkowane = kontoDAO.findKontaPrzyporzadkowane(pozycja, "bilansowe", uklad.getPodatnik(), Integer.parseInt(uklad.getRok()), aktywa0pasywa1);
         List<Konto> returnlist = Collections.synchronizedList(new ArrayList<>());
         int level = 0;
         for (Konto p : przyporzadkowane) {

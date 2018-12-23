@@ -145,6 +145,10 @@ public class UkladBR implements Serializable {
     public String getRok() {
         return rok;
     }
+    
+    public Integer getRokInt() {
+        return Integer.parseInt(rok);
+    }
 
     public void setRok(String rok) {
         this.rok = rok;

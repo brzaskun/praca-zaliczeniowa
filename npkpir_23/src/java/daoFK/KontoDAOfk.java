@@ -210,14 +210,6 @@ public class KontoDAOfk extends DAO implements Serializable {
         return zwrot;
     }
 
-    public Konto findKonto(String numer, Podatnik podatnik, String rok) {
-        try {
-            return kontoFacade.findKonto(numer, podatnik, Integer.parseInt(rok));
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
 
     public Konto findKontoNazwaPodatnik(String nazwaskrocona, WpisView wpisView) {
         try {
@@ -438,7 +430,7 @@ public class KontoDAOfk extends DAO implements Serializable {
         }
     }
 
-    public List<Konto> findKontaPrzyporzadkowane(String pozycja, String bilansowewynikowe, WpisView wpisView, boolean aktywa0pasywa1) {
+    public List<Konto> findKontaPrzyporzadkowane(String pozycja, String bilansowewynikowe, Podatnik podatnik, Integer rok, boolean aktywa0pasywa1) {
         try {
             String aktywapasywa = "";
             if (aktywa0pasywa1) {
@@ -446,46 +438,23 @@ public class KontoDAOfk extends DAO implements Serializable {
             } else {
                 aktywapasywa = "0";
             }
-            return Collections.synchronizedList(kontoFacade.findKontaPrzyporzadkowane(pozycja, bilansowewynikowe, wpisView, aktywapasywa));
+            return Collections.synchronizedList(kontoFacade.findKontaPrzyporzadkowane(pozycja, bilansowewynikowe, podatnik, rok, aktywapasywa));
         } catch (Exception e) {
             E.e(e);
             return null;
         }
     }
     
-    public List<Konto> findKontaPrzyporzadkowaneAll(String bilansowewynikowe, WpisView wpisView) {
+    public List<Konto> findKontaPrzyporzadkowaneAll(String bilansowewynikowe, Podatnik podatnik, Integer rok) {
         try {
-            return Collections.synchronizedList(kontoFacade.findKontaPrzyporzadkowaneAll(bilansowewynikowe, wpisView));
+            return Collections.synchronizedList(kontoFacade.findKontaPrzyporzadkowaneAll(bilansowewynikowe, podatnik, rok));
         } catch (Exception e) {
             E.e(e);
             return null;
         }
     }
     
-    public List<Konto> findKontaPrzyporzadkowaneWzorcowyAll(String bilansowewynikowe, int rok) {
-        try {
-            return Collections.synchronizedList(kontoFacade.findKontaPrzyporzadkowaneWzorcowyAll(bilansowewynikowe, rok));
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-
-    public List<Konto> findKontaPrzyporzadkowaneWzorcowy(String pozycja, String bilansowewynikowe, int rok, boolean aktywa0pasywa1) {
-        try {
-            String aktywapasywa = "";
-            if (aktywa0pasywa1) {
-                aktywapasywa = "1";
-            } else {
-                aktywapasywa = "0";
-            }
-            return Collections.synchronizedList(kontoFacade.findKontaPrzyporzadkowaneWzorcowy(pozycja, bilansowewynikowe, rok, aktywapasywa));
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-
+   
     public List<Konto> findKontaPotomnePodatnik(Podatnik podatnik, Integer rok, String macierzyste) {
         try {
             return Collections.synchronizedList(kontoFacade.findKontaPotomnePodatnik(podatnik, rok, macierzyste));
@@ -596,15 +565,12 @@ public class KontoDAOfk extends DAO implements Serializable {
         }
     }
 
-    public List<Konto> findKontaSiostrzanePodatnik(WpisView wpisView, String pelnynumer) {
-        return Collections.synchronizedList(kontoFacade.findKontaSiostrzanePodatnik(wpisView, pelnynumer));
+    public List<Konto> findKontaSiostrzanePodatnik(Podatnik podatnik, Integer rok, String pelnynumer) {
+        return Collections.synchronizedList(kontoFacade.findKontaSiostrzanePodatnik(podatnik, rok, pelnynumer));
 
     }
 
-    public List<Konto> findKontaSiostrzaneWzorcowy(WpisView wpisView, String pelnynumer) {
-        return Collections.synchronizedList(kontoFacade.findKontaSiostrzaneWzorcowy(wpisView, pelnynumer));
 
-    }
 
     public List<Konto> findlistaKontKasaBank(WpisView wpisView) {
         return Collections.synchronizedList(kontoFacade.findlistaKontKasaBank(wpisView));

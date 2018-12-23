@@ -167,7 +167,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
     }
 
     private void uzupelnijpozycjeOKonta(List<PozycjaRZiSBilans> pozycje) {
-        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowaneWzorcowyAll("bilansowe", Integer.parseInt(uklad.getRok()));
+        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowaneAll("bilansowe", wpisView.getPodatnikwzorcowy(), uklad.getRokInt());
         if (!lista.isEmpty()) {
             for (PozycjaRZiSBilans p : pozycje) {
                 PozycjaRZiSFKBean.wyszukajprzyporzadkowaneBLista(lista, p, wpisView, aktywa0pasywa1);
@@ -176,7 +176,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
     }
 
     private void uzupelnijpozycjeOKontaR(List<PozycjaRZiSBilans> pozycje) {
-        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowaneWzorcowyAll("wynikowe", Integer.parseInt(uklad.getRok()));
+        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowaneAll("wynikowe", wpisView.getPodatnikwzorcowy(), uklad.getRokInt());
         if (!lista.isEmpty()) {
             pozycje.parallelStream().forEach((p)->{
                 PozycjaRZiSFKBean.wyszukajprzyporzadkowaneRLista(lista, p, wpisView);
@@ -480,7 +480,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
         wybranapozycja_wiersz = "formprzypisywaniekont:dataList:"+rowkey+":liczba";
         wybranapozycja = ((PozycjaRZiS) wybranynodekonta.getData()).getPozycjaString();
         przyporzadkowanekonta.clear();
-        przyporzadkowanekonta.addAll(PozycjaRZiSFKBean.wyszukajprzyporzadkowane(kontoDAO, wybranapozycja, wpisView, aktywa0pasywa1, true, uklad));
+        przyporzadkowanekonta.addAll(PozycjaRZiSFKBean.wyszukajprzyporzadkowane(kontoDAO, wybranapozycja, aktywa0pasywa1, uklad));
         Msg.msg("i", "Wybrano pozycję " + ((PozycjaRZiS) wybranynodekonta.getData()).getNazwa());
     }
 
@@ -491,7 +491,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
         wybranapozycja_wiersz = "formdialogbilansukladwzorcowy:dataList:"+rowkey+":liczba";
         wybranapozycja = ((PozycjaBilans) wybranynodekonta.getData()).getPozycjaString();
         przyporzadkowanekonta.clear();
-        przyporzadkowanekonta.addAll(PozycjaRZiSFKBean.wyszukajprzyporzadkowaneB(kontoDAO, wybranapozycja, wpisView, aktywa0pasywa1, true, uklad));
+        przyporzadkowanekonta.addAll(PozycjaRZiSFKBean.wyszukajprzyporzadkowaneB(kontoDAO, wybranapozycja, aktywa0pasywa1, uklad));
         //Msg.msg("i", "Wybrano pozycję " + ((PozycjaBilans) wybranynodekonta.getData()).getNazwa());
     }
 
@@ -536,7 +536,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
     }
 
     public void zwinrzadanalityki(Konto konto) {
-        List<Konto> listaSiostrzane = kontoDAO.findKontaSiostrzaneWzorcowy(wpisView, konto.getMacierzyste());
+        List<Konto> listaSiostrzane = kontoDAO.findKontaSiostrzanePodatnik(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisu(), konto.getMacierzyste());
         List<Konto> listaPotomne = Collections.synchronizedList(new ArrayList<>());
         for (Konto t : listaSiostrzane) {
             listaPotomne.addAll(kontoDAO.findKontaWszystkiePotomnePodatnik(new ArrayList<Konto>(), wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisu(), t));

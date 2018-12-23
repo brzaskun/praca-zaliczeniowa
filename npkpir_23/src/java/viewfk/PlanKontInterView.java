@@ -6,6 +6,7 @@
 package viewfk;
 
 import daoFK.KontoDAOfk;
+import entity.Podatnik;
 import entityfk.Konto;
 import error.E;
 import java.io.Serializable;
@@ -91,13 +92,9 @@ public class PlanKontInterView implements Serializable {
          wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
      }
      
-    public void pobierzdanezpliku() {
-        ReadXLSFile.updateKonta(kontoDAOfk, wpisView, "c://temp//plankont.xlsx");
-        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-    }
-    public void pobierzdanezplikuwzorcowy() {
-        ReadXLSFile.updateKontaWzorcowy(kontoDAOfk, wpisView, "c://temp//plankont.xlsx");
-        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+    public void pobierzdanezpliku(Podatnik podatnik, String rok) {
+        ReadXLSFile.updateKonta(kontoDAOfk, podatnik, Integer.parseInt(rok), "c://temp//plankont.xlsx");
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(podatnik, rok);
     }
 
     public List<Konto> getWykazkont() {

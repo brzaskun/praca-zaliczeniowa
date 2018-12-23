@@ -102,7 +102,7 @@ public class PlanKontUzupelnijView implements Serializable {
                     break;
                 }
                 Konto starekonto = pobierzkontozlisty(brakujacekonta, r);
-                Konto nowekonto = kontoDAOfk.findKonto(starekonto.getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                Konto nowekonto = kontoDAOfk.findKonto(starekonto.getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
                 if (starekonto != null && nowekonto != null) {
                     KontopozycjaZapis kp = new KontopozycjaZapis(r, nowekonto, uklad);
                     nowekontopozycjazapis.add(kp);

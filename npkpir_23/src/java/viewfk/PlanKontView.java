@@ -863,7 +863,7 @@ public class PlanKontView implements Serializable {
     private void dodajpojedynczekotoWzorcowy(Konto konto, String pelnynumer) {
         konto.setPodatnik(null);
         if (!konto.getMacierzyste().equals("0")) {
-            Konto macierzyste = kontoDAOfk.findKonto(pelnynumer, null, wpisView.getRokWpisu());
+            Konto macierzyste = kontoDAOfk.findKonto(pelnynumer, wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisu());
             konto.setMacierzysty(macierzyste.getId());
             konto.setKontomacierzyste(macierzyste);
             macierzyste.setMapotomkow(true);
@@ -1718,7 +1718,7 @@ public class PlanKontView implements Serializable {
     public void usunslownik() {
         try {
             if (selectednodekonto.isSlownikowe()) {
-                List<Konto> kontadousuniecia = kontoDAOfk.findKontaSiostrzanePodatnik(wpisView, selectednodekonto.getMacierzyste());
+                List<Konto> kontadousuniecia = kontoDAOfk.findKontaSiostrzanePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), selectednodekonto.getMacierzyste());
                 kontoDAOfk.destroy(kontadousuniecia);
                 for (Konto p : kontadousuniecia) {
                     wykazkont.remove(p);

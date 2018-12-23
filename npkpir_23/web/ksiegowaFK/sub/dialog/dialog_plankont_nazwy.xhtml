@@ -20,7 +20,7 @@
                   <p:commandButton id="zwinw" value="zwiń poziom" onclick="zwinjeden('form_dialog_plankont_nazwy:dataList_data')"  global="false" style="float: left;" />
                   <p:commandButton id="zachowaj" value="zachowaj" actionListener="#{planKontInterView.zachowajzmiany()}"  global="false" style="float: left; margin-left: 20px;width: 120px;" />
                   <p:commandButton id="xlsbutton" value="dane w formacie XLS" actionListener="#{xLSPlanKontView.zachowajPlanKontwXLS(planKontInterView.wykazkont)}" style=" margin-left: 5px;" global="false" ajax="false"/>
-                  <p:commandButton id="xlsbutton2" value="pobierz dane z pliku" actionListener="#{planKontInterView.pobierzdanezpliku()}" style=" margin-left: 5px;" global="false" update=":form_dialog_plankont_nazwy"/>
+                  <p:commandButton id="xlsbutton2" value="pobierz dane z pliku" actionListener="#{planKontInterView.pobierzdanezpliku(WpisView.podatnikObiekt, WpisView.rokWpisuSt)}" style=" margin-left: 5px;" global="false" update=":form_dialog_plankont_nazwy"/>
                   <p:commandButton id="implementuj" value="implementuj" actionListener="#{planKontInterView.implementuj()}"   style="float: left; margin-left: 20px;width: 120px;" update=":form_dialog_plankont_nazwy"/>
             </p:panelGrid>
             <p:panelGrid columns="2" >

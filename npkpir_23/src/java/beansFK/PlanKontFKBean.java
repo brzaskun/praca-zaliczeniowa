@@ -360,7 +360,7 @@ public class PlanKontFKBean {
      
      public static void naniesprzyporzadkowanieWzorcowy(Konto noweKonto, WpisView wpisView, KontoDAOfk kontoDAOfk, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
         try {
-            Konto macierzyste = kontoDAOfk.findKonto(noweKonto.getMacierzyste(), null, wpisView.getRokWpisu());
+            Konto macierzyste = kontoDAOfk.findKonto(noweKonto.getMacierzyste(), wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisu());
             KontopozycjaZapis kpo = null;
             if (macierzyste != null) {
                 kpo = kontopozycjaZapisDAO.findByKonto(macierzyste, ukladBR);
