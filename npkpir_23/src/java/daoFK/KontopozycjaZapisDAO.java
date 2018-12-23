@@ -46,13 +46,13 @@ public class KontopozycjaZapisDAO extends DAO implements Serializable{
         }
     }
     
-    public List<KontopozycjaZapis> findKontaPozycjaZapisPodatnikUkladWzorzec (UkladBR uklad, String rb) {
-       try {
-            return sessionFacade.findKontaZapisPodatnikUkladWzorzec(uklad, rb);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-    }
+//    public List<KontopozycjaZapis> findKontaPozycjaZapisPodatnikUkladWzorzec (UkladBR uklad, String rb) {
+//       try {
+//            return sessionFacade.findKontaZapisPodatnikUkladWzorzec(uklad, rb);
+//        } catch (Exception e) { E.e(e); 
+//            return null;
+//        }
+//    }
     
     public void usunZapisaneKontoPozycjaPodatnikUklad(UkladBR uklad, String rb) {
         try {

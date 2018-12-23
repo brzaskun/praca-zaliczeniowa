@@ -628,10 +628,10 @@ public class PozycjaBRKontaView implements Serializable {
                 Msg.msg("e", "Nie odnaleziono odpowiadającego układu wzorcowego. Przewywam implementację");
             } else {
                 if (rb.equals("r")) {
-                    skopiujPozycje(rb, wybranyuklad, ukladwzorcowy, wpisView.getPodatnikObiekt(), true);
+                    skopiujPozycje(rb, wybranyuklad, ukladwzorcowy, wpisView.getPodatnikObiekt());
                     pobierzukladkontoR();
                 } else {
-                    skopiujPozycje(rb, wybranyuklad, ukladwzorcowy, wpisView.getPodatnikObiekt(), true);
+                    skopiujPozycje(rb, wybranyuklad, ukladwzorcowy, wpisView.getPodatnikObiekt());
                     pobierzukladkontoB("aktywa");
                 }
             }
@@ -642,7 +642,7 @@ public class PozycjaBRKontaView implements Serializable {
 //r, true
     public void kopiujprzyporzadkowaniekont(String rb, boolean wzorcowe0podatnik1) {
         try {
-            Podatnik podatnik = wzorcowe0podatnik1 == false ? null: wpisView.getPodatnikObiekt();
+            Podatnik podatnik = wzorcowe0podatnik1 == false ? wpisView.getPodatnikwzorcowy(): wpisView.getPodatnikObiekt();
             if (ukladdocelowykonta.equals(ukladzrodlowykonta)) {
                 Msg.msg("e", "Nie można kopiować układu w ten sam układ");
                 return;
@@ -653,13 +653,13 @@ public class PozycjaBRKontaView implements Serializable {
             }
             if (rb.equals("r")) {
                 Msg.msg("Rozpoczynam kopiowanie przyporządkowania kont wzorcowych-wynikowych");
-                skopiujPozycje(rb, ukladdocelowykonta, ukladzrodlowykonta, podatnik, false);
+                skopiujPozycje(rb, ukladdocelowykonta, ukladzrodlowykonta, podatnik);
                 //wybranyuklad = ukladdocelowykonta;
                 //zaksiegujzmianypozycji("r", wybranyuklad);
                 pobierzukladkontoR();
             } else {
                 Msg.msg("Rozpoczynam kopiowanie przyporządkowania kont wzorcowych-bilansowych");
-                skopiujPozycje(rb, ukladdocelowykonta, ukladzrodlowykonta, podatnik, false);
+                skopiujPozycje(rb, ukladdocelowykonta, ukladzrodlowykonta, podatnik);
                 //wybranyuklad = ukladdocelowykonta;
                 //zaksiegujzmianypozycji("b", wybranyuklad);
                 pobierzukladkontoB("aktywa");
@@ -684,7 +684,7 @@ public class PozycjaBRKontaView implements Serializable {
         return null;
     }
 
-    private void skopiujPozycje(String rb, UkladBR ukladdocelowy, UkladBR ukladzrodlowy, Podatnik podatnik, boolean zwzorca) {
+    private void skopiujPozycje(String rb, UkladBR ukladdocelowy, UkladBR ukladzrodlowy, Podatnik podatnik) {
         if (rb.equals("r")) {
             wyczyscKonta("wynikowe", podatnik, ukladdocelowy.getRok());
             kontabezprzydzialu = Collections.synchronizedList(new ArrayList<>());
@@ -695,10 +695,10 @@ public class PozycjaBRKontaView implements Serializable {
             List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(ukladzrodlowy, "wynikowe");
             List<Konto> kontarokudocelowego = kontoDAO.findWszystkieKontaWynikowePodatnika(podatnik, ukladdocelowy.getRok());
             List<KontopozycjaZapis> nowekontopozycjazapis = Collections.synchronizedList(new ArrayList<>());
-            if (podatnik==null) {
+            if (podatnik.equals(wpisView.getPodatnikwzorcowy())) {
                 for (Iterator<KontopozycjaZapis> it = zapisanePOzycjezUkladuWzorcowego.iterator();it.hasNext();) {
                     KontopozycjaZapis p = it.next();
-                    if (p.getKontoID().getPodatnik()!=null) {
+                    if (!p.getKontoID().getPodatnik().equals(wpisView.getPodatnikwzorcowy())) {
                         it.remove();
                         kontopozycjaZapisDAO.destroy(p);
                     }
@@ -724,24 +724,20 @@ public class PozycjaBRKontaView implements Serializable {
             kontopozycjaZapisDAO.dodaj(nowekontopozycjazapis);
         }
         if (rb.equals("b")) {
-            wyczyscKonta("bilansowe", podatnik, wpisView.getRokWpisuSt());
+            wyczyscKonta("bilansowe", podatnik, ukladdocelowy.getRok());
             kontabezprzydzialu = Collections.synchronizedList(new ArrayList<>());
             przyporzadkowanekonta = Collections.synchronizedList(new ArrayList<>());
             kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(ukladdocelowy, "bilansowe");
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowy, "bilansowe");
             List<PozycjaBilans> pozycjedoprzejrzenia = pozycjaBilansDAO.findBilansukladAktywaPasywa(ukladdocelowy);
             List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = Collections.synchronizedList(new ArrayList<>());
-            if (zwzorca) {
-                zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUkladWzorzec(ukladzrodlowy, "bilansowe");
-            } else {
-                zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(ukladzrodlowy, "bilansowe");
-            }
+            zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(ukladzrodlowy, "bilansowe");
             List<Konto> kontarokudocelowego = kontoDAO.findWszystkieKontaBilansowePodatnika(podatnik, ukladdocelowy.getRok());
             List<KontopozycjaZapis> nowekontopozycjazapis = Collections.synchronizedList(new ArrayList<>());
-            if (podatnik==null) {
+            if (podatnik.equals(wpisView.getPodatnikwzorcowy())) {
                 for (Iterator<KontopozycjaZapis> it = zapisanePOzycjezUkladuWzorcowego.iterator();it.hasNext();) {
                     KontopozycjaZapis p = it.next();
-                    if (p.getKontoID().getPodatnik()!=null) {
+                    if (!p.getKontoID().getPodatnik().equals(wpisView.getPodatnikwzorcowy())) {
                         it.remove();
                         kontopozycjaZapisDAO.destroy(p);
                     }

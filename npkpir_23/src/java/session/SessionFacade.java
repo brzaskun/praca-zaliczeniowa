@@ -1105,13 +1105,13 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         }
     }
     
-    public List<KontopozycjaZapis> findKontaZapisPodatnikUkladWzorzec(UkladBR uklad, String rb) {
-        if (rb.equals("wynikowe")) {
-            return Collections.synchronizedList(em.createNamedQuery("KontopozycjaZapis.findByUkladWynikowe").setParameter("uklad", uklad).getResultList());
-        } else {
-            return Collections.synchronizedList(em.createNamedQuery("KontopozycjaZapis.findByUkladBilansoweWzorzec").setParameter("uklad", uklad).getResultList());
-        }
-    }
+//    public List<KontopozycjaZapis> findKontaZapisPodatnikUkladWzorzec(UkladBR uklad, String rb) {
+//        if (rb.equals("wynikowe")) {
+//            return Collections.synchronizedList(em.createNamedQuery("KontopozycjaZapis.findByUkladWynikowe").setParameter("uklad", uklad).getResultList());
+//        } else {
+//            return Collections.synchronizedList(em.createNamedQuery("KontopozycjaZapis.findByUkladBilansoweWzorzec").setParameter("uklad", uklad).getResultList());
+//        }
+//    }
 
     public Object findVatuepodatnik(String rokWpisu, String symbolokresu, String podatnikWpisu) {
         return em.createNamedQuery("Vatuepodatnik.findByRokKlientSymbolokresu").setParameter("rok", rokWpisu).setParameter("klient", podatnikWpisu).setParameter("symbolokresu", symbolokresu).getSingleResult();

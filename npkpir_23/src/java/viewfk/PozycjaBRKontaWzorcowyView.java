@@ -7,6 +7,7 @@ package viewfk;
 
 import beansFK.PlanKontFKBean;
 import beansFK.PozycjaRZiSFKBean;
+import beansFK.UkladBRBean;
 import comparator.Kontocomparator;
 import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaBiezacaDAO;
@@ -15,6 +16,7 @@ import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
 import daoFK.UkladBRDAO;
 import embeddablefk.TreeNodeExtended;
+import entity.Podatnik;
 import entityfk.Konto;
 import entityfk.KontopozycjaBiezaca;
 import entityfk.KontopozycjaZapis;
@@ -93,7 +95,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
         try {
             uklad.oznaczUkladBR(ukladBRDAO);
             przyporzadkowanekonta = Collections.synchronizedList(new ArrayList<>());
-            wyczyscKontaWzorcowy(uklad, "wynikowe");
+            wyczyscKontaWzorcowy("wynikowe", wpisView.getPodatnikwzorcowy(), uklad.getRok());
             kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(uklad, "wynikowe");
             //kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(uklad, "wynikowe");
             PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, true, "wynikowe");
@@ -122,7 +124,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
         try {
             uklad.oznaczUkladBR(ukladBRDAO);
             przyporzadkowanekonta = Collections.synchronizedList(new ArrayList<>());
-            wyczyscKontaWzorcowy(uklad, "bilansowe");
+            wyczyscKontaWzorcowy("bilansowe", wpisView.getPodatnikwzorcowy(), uklad.getRok());
             kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(uklad, "bilansowe");
             //kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(uklad, "bilansowe");
             PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, true, "bilansowe");
@@ -607,14 +609,14 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
     
     public void resetujprzyporzadkowanie(String rb) {
         if (rb.equals("r")) {
-            wyczyscKontaWzorcowy(uklad, "wynikowe");
+            wyczyscKontaWzorcowy("wynikowe", uklad.getPodatnik(), uklad.getRok());
             kontabezprzydzialu = Collections.synchronizedList(new ArrayList<>());
             przyporzadkowanekonta = Collections.synchronizedList(new ArrayList<>());
             //kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(uklad, "wynikowe");
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "wynikowe");
             pobierzukladkontoR();
         } else {
-            wyczyscKontaWzorcowy(uklad, "bilansowe");
+            wyczyscKontaWzorcowy("bilansowe", uklad.getPodatnik(), uklad.getRok());
             kontabezprzydzialu = Collections.synchronizedList(new ArrayList<>());
             przyporzadkowanekonta = Collections.synchronizedList(new ArrayList<>());
             //kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(uklad, "bilansowe");
@@ -628,16 +630,13 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
     }
     
    
-   private void wyczyscKontaWzorcowy(UkladBR uklad, String rb) {
-        List<Konto> list =  kontoDAO.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
-        for (Konto p : list) {
-            if (rb.equals("wynikowe") && p.getBilansowewynikowe().equals("wynikowe")) {
-                p.setKontopozycjaID(null);
-                kontoDAO.edit(p);
-            } else if (rb.equals("bilansowe") && p.getBilansowewynikowe().equals("bilansowe")) {
-                p.setKontopozycjaID(null);
-                kontoDAO.edit(p);
-            }
+   private void wyczyscKontaWzorcowy(String rb, Podatnik podatnik, String rok) {
+        if (rb.equals("wynikowe")) {
+            List<Konto> listakont = kontoDAO.findWszystkieKontaWynikowePodatnika(podatnik, rok);
+            UkladBRBean.czyscPozycjeKont(kontoDAO, listakont);
+        } else {
+            List<Konto> listakont = kontoDAO.findWszystkieKontaBilansowePodatnika(podatnik, rok);
+            UkladBRBean.czyscPozycjeKont(kontoDAO, listakont);
         }
     }
     
