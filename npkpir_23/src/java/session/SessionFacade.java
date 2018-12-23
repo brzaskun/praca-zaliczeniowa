@@ -933,13 +933,13 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return Collections.synchronizedList(em.createNamedQuery("Konto.findBySiostrzaneBOPodatnikWZOR").setParameter("macierzyste", macierzyste).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 
-    public Object findKontaPotomnePodatnikCount(WpisView wpisView, String macierzyste) {
-        return em.createNamedQuery("Konto.findByMacierzystePodatnikCOUNT").setParameter("macierzyste", macierzyste).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getSingleResult();
+    public Object findKontaPotomnePodatnikCount(Podatnik podatnik, Integer rok, String macierzyste) {
+        return em.createNamedQuery("Konto.findByMacierzystePodatnikCOUNT").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
     }
 
-    public Object findKontaPotomneWzorcowyCount(WpisView wpisView, String macierzyste) {
-        return em.createNamedQuery("Konto.findByMacierzystePodatnikCOUNTWZOR").setParameter("macierzyste", macierzyste).setParameter("rok", wpisView.getRokWpisu()).getSingleResult();
-    }
+//    public Object findKontaPotomneWzorcowyCount(WpisView wpisView, String macierzyste) {
+//        return em.createNamedQuery("Konto.findByMacierzystePodatnikCOUNTWZOR").setParameter("macierzyste", macierzyste).setParameter("rok", wpisView.getRokWpisu()).getSingleResult();
+//    }
 
     public List<Konto> findKontaMaSlownik(Podatnik podatnik, Integer rok, int idslownika) {
         return Collections.synchronizedList(em.createNamedQuery("Konto.findByMaSlownik").setParameter("idslownika", idslownika).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
@@ -1219,11 +1219,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Konto> findKontoPodatnikBezSlownik(Podatnik podatnik, String rok) {
-        if (podatnik == null) {
-            return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikBezSlownikWzorcowy").setParameter("rok", Integer.parseInt(rok)).getResultList());
-        } else {
-            return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikBezSlownik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList());
-        }
+         return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikBezSlownik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList());
     }
     public List<Konto> findKontoPodatnikBezSlownikKsiegi(Podatnik podatnik, String rok) {
         return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikBezSlownikKsiegi").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList());
@@ -1845,13 +1841,13 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return Collections.synchronizedList(em.createNamedQuery("Dokfk.findBySeriaNumerRokdokfk").setParameter("seriadokfk", vat).setParameter("rok", rokWpisuSt).setParameter("podatnik", podatnikWpisu).setParameter("mc", mc).getResultList());
     }
 
-    public List<Konto> findKontaWzorcowy(WpisView wpisView) {
-        return Collections.synchronizedList(em.createNamedQuery("Konto.findWzorcowe").setParameter("rok", wpisView.getRokWpisu()).getResultList());
-    }
-    
-    public List<Konto> findKontaWzorcowy(Integer rok) {
-        return Collections.synchronizedList(em.createNamedQuery("Konto.findWzorcowe").setParameter("rok", rok).getResultList());
-    }
+//    public List<Konto> findKontaWzorcowy(WpisView wpisView) {
+//        return Collections.synchronizedList(em.createNamedQuery("Konto.findWzorcowe").setParameter("rok", wpisView.getRokWpisu()).getResultList());
+//    }
+//    
+//    public List<Konto> findKontaWzorcowy(Integer rok) {
+//        return Collections.synchronizedList(em.createNamedQuery("Konto.findWzorcowe").setParameter("rok", rok).getResultList());
+//    }
 
     public List<RMK> findRMKByPodatnikRok(WpisView wpisView) {
         return Collections.synchronizedList(em.createNamedQuery("RMK.findByPodatnikRok").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList());
@@ -1966,13 +1962,13 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return (PozycjaBilans) em.createNamedQuery("PozycjaBilans.findByLp").setParameter("lp", lp).getSingleResult();
     }
 
-    public List<Konto> findKontazLevelu(WpisView wpisView, int i) {
-        return Collections.synchronizedList(em.createNamedQuery("Konto.findByLevelPodatnik").setParameter("level", i).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
+    public List<Konto> findKontazLevelu(Podatnik podatnik, Integer rok, int i) {
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByLevelPodatnik").setParameter("level", i).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
 
-    public List<Konto> findKontazLeveluWzorcowy(WpisView wpisView, int i) {
-        return Collections.synchronizedList(em.createNamedQuery("Konto.findByLevelWzorcowy").setParameter("level", i).setParameter("rok", wpisView.getRokWpisu()).getResultList());
-    }
+//    public List<Konto> findKontazLeveluWzorcowy(WpisView wpisView, int i) {
+//        return Collections.synchronizedList(em.createNamedQuery("Konto.findByLevelWzorcowy").setParameter("level", i).setParameter("rok", wpisView.getRokWpisu()).getResultList());
+//    }
 
     public List<Konto> findKontazLeveluRok(WpisView wpisView, int i) {
         return Collections.synchronizedList(em.createNamedQuery("Konto.findByLevelRok").setParameter("level", i).setParameter("rok", 2015).getResultList());

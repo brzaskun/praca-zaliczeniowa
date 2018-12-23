@@ -59,7 +59,7 @@ public class SaldoSyntetykaView implements Serializable {
     
     public void init() {
         try {
-            List<Konto> kontaklienta = kontoDAOfk.findKontazLevelu(wpisView, 0);
+            List<Konto> kontaklienta = kontoDAOfk.findKontazLevelu(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), 0);
             if (wybranyRodzajKonta != null) {
              if (wybranyRodzajKonta.equals("bilansowe")) {
                  for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {

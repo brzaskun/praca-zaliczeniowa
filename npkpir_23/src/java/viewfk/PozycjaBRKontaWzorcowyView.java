@@ -629,7 +629,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
     
    
    private void wyczyscKontaWzorcowy(UkladBR uklad, String rb) {
-        List<Konto> list = kontoDAO.findWszystkieKontaWzorcowy(wpisView);
+        List<Konto> list =  kontoDAO.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
         for (Konto p : list) {
             if (rb.equals("wynikowe") && p.getBilansowewynikowe().equals("wynikowe")) {
                 p.setKontopozycjaID(null);

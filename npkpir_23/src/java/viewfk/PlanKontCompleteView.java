@@ -151,7 +151,7 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
         if (kontomacierzyste != null && kontomacierzyste.getIdslownika() == 0) {
             int wynikdodaniakonta = 1;
             List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
+            wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(wpisView.getPodatnikObiekt(), wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView.getRokWpisu());
             if (wynikdodaniakonta == 0) {
                 try {
                     UkladBR wybranyuklad = ukladBRDAO.findukladBRPodatnikRokAktywny(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());

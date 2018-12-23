@@ -72,11 +72,11 @@ public class PlanKontSaldaView implements Serializable {
 
     public void planBezSlownikowychSyntetyczne() {
         if (bezslownikowych == true && tylkosyntetyka == true) {
-            wykazkont = kontoDAOfk.findKontazLevelu(wpisView,0);
+            wykazkont = kontoDAOfk.findKontazLevelu(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(),0);
         } else if (bezslownikowych == true) {
             wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownikKsiegi(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         } else if (tylkosyntetyka == true) {
-            wykazkont = kontoDAOfk.findKontazLevelu(wpisView,0);
+            wykazkont = kontoDAOfk.findKontazLevelu(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(),0);
         } else {
             wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaKsiegi(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         }

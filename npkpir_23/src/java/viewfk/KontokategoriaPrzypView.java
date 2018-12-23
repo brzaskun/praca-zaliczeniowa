@@ -49,8 +49,8 @@ public class KontokategoriaPrzypView  implements Serializable {
     @PostConstruct
     private void init() {
         this.lista = kontokategoriaDAOfk.findAll();
-        this.wykazkont = kontoDAOfk.findKontazLevelu(wpisView, 0);
-        this.wykazkontwzor = kontoDAOfk.findKontazLeveluWzorcowy(wpisView,0);
+        this.wykazkont = kontoDAOfk.findKontazLevelu(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), 0);
+        this.wykazkontwzor = kontoDAOfk.findKontazLevelu(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisu(), 0);
     }
     
     public void zachowajkontaWzorzec() {

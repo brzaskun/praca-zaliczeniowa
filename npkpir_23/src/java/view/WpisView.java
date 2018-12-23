@@ -114,7 +114,7 @@ public class WpisView implements Serializable {
            obsluzMce(wpis);
            uzupelnijdanepodatnika();
            czyniegosc();
-           podatnikwzorcowy = podatnikDAO.findPodatnikByNIP("0000000000");
+           podatnikwzorcowy = podatnikDAO.find("Wzorcowy");
         }
      
         }
