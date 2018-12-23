@@ -55,7 +55,7 @@ public class KontokategoriaPrzypView  implements Serializable {
     
     public void zachowajkontaWzorzec() {
         try {
-            List<Konto> wszystkiekonta = kontoDAOfk.findWszystkieKontaPodatnika(null, wpisView.getRokWpisuSt());
+            List<Konto> wszystkiekonta = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
             usunzerowe(wszystkiekonta);
             kontoDAOfk.editList(wykazkontwzor);
             nanieskategorie(wykazkontwzor, wszystkiekonta);

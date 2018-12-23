@@ -1155,11 +1155,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Konto> findKontoPodatnik(Podatnik podatnik, String rok) {
-        if (podatnik == null) {
-            return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikWzorcowy").setParameter("rok", Integer.parseInt(rok)).getResultList());
-        } else {
-            return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList());
-        }
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList());
     }
     
     public List<Konto> findKontoPodatnikImplementacja(Podatnik podatnik, String rok) {
@@ -2017,9 +2013,9 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
     
     
-    public List<UkladBR> findUkladBRWzorcowyRok(String rokWpisu) {
-        return Collections.synchronizedList(em.createNamedQuery("UkladBR.findByWzorcowyRok").setParameter("rok", rokWpisu).getResultList());
-    }
+//    public List<UkladBR> findUkladBRWzorcowyRok(String rokWpisu) {
+//        return Collections.synchronizedList(em.createNamedQuery("UkladBR.findByWzorcowyRok").setParameter("rok", rokWpisu).getResultList());
+//    }
 
     public List<UkladBR> findukladBRPodatnikRok(Podatnik podatnikWpisu, String rokWpisuSt) {
         return Collections.synchronizedList(em.createNamedQuery("UkladBR.findByPodatnikRok").setParameter("podatnik", podatnikWpisu).setParameter("rok", rokWpisuSt).getResultList());

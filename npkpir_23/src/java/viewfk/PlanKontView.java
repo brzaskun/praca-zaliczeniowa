@@ -169,7 +169,7 @@ public class PlanKontView implements Serializable {
         Collections.sort(wykazkont, new Kontocomparator());
         wykazkontlazy = new LazyKontoDataModel(wykazkont);
         //root = rootInit(wykazkont);
-        listaukladowwzorcowy = ukladBRDAO.findukladBRWzorcowyRok(wpisView.getRokWpisuSt());
+        listaukladowwzorcowy = ukladBRDAO.findRok(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
         wybranyukladwzorcowy = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladowwzorcowy);
         if (wybranyukladwzorcowy != null) {
             PozycjaRZiSFKBean.zmianaukladuwzorcowy("bilansowe", wybranyukladwzorcowy, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
@@ -276,7 +276,7 @@ public class PlanKontView implements Serializable {
     
     
     public void zmienukladwzorcowy() {
-        listaukladowwzorcowy = ukladBRDAO.findukladBRWzorcowyRok(wpisView.getRokWpisuSt());
+        listaukladowwzorcowy = ukladBRDAO.findRok(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
         for (UkladBR p : listaukladowwzorcowy) {
             p.setAktualny(false);
         }
@@ -826,7 +826,7 @@ public class PlanKontView implements Serializable {
                 for (Konto r : potomne) {
                     dodajpojedynczekotoWzorcowy(r, konto.getPelnynumer());
                 }
-                wykazkontwzor = kontoDAOfk.findWszystkieKontaPodatnika(null, wpisView.getRokWpisuSt());
+                wykazkontwzor = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
                 Msg.msg("Zakonczono z sukcesem implementacje pojedyńczego konta z analityką do Wzorcowych");
             } catch (Exception e1) {
                 Msg.msg("e", "Próbujesz zaimplementować konto analityczne. Zaimplementuj najpierw jego konto macierzyste.");
@@ -947,7 +947,7 @@ public class PlanKontView implements Serializable {
 
     public void usunieciewszystkichKontWzorcowy() {
         if (!wykazkontwzor.isEmpty()) {
-            List<UkladBR> uklady = ukladBRDAO.findukladBRWzorcowyRok(wpisView.getRokWpisuSt());
+            List<UkladBR> uklady = ukladBRDAO.findRok(wpisView.getPodatnikwzorcowy(),wpisView.getRokWpisuSt());
             for (UkladBR u : uklady) {
                 wyczyscKonta("wynikowe");
                 kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(u, "wynikowe");
@@ -962,7 +962,7 @@ public class PlanKontView implements Serializable {
                     Msg.msg("e", "Wystąpił błąd przy usuwaniu wszytskich kont. Na nieusuniętych kontach istnieją zapisy. Przerywam wykonywanie funkcji");
                 }
             }
-            wykazkontwzor = kontoDAOfk.findWszystkieKontaPodatnika(null, wpisView.getRokWpisuSt());
+            wykazkontwzor = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
             RequestContext.getCurrentInstance().update("formwzorcowy");
             Msg.msg("Zakonczono z sukcesem usuwanie kont wzorocwych");
         } else {

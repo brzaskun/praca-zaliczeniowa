@@ -84,7 +84,7 @@ public class PlanKontKopiujView implements Serializable {
         if (rokzrodlowy.equals(rokdocelowy)) {
             Msg.msg("e", "Rok źródłowy i docelowy jest ten sam");
         } else {
-            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(null, rokzrodlowy);
+            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikwzorcowy(), rokzrodlowy);
             List<Konto> macierzyste = skopiujlevel0(null, wykazkont, rokdocelowy);
             int maxlevel = kontoDAOfk.findMaxLevelPodatnik(wpisView.getPodatnikwzorcowy(), Integer.parseInt(rokzrodlowy));
             for (int i = 1; i <= maxlevel; i++) {
