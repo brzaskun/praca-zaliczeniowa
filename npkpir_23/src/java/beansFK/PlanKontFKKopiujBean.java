@@ -114,7 +114,7 @@ public class PlanKontFKKopiujBean {
             }
             pozycjaRZiSDAO.dodaj(pozycjenowe);
         } else {
-            Msg.msg("e", "Brak pozycji bilansu przyporządkowanych do wybranego układu");
+            Msg.msg("e", "Brak pozycji RZiS przyporządkowanych do wybranego układu");
         }
     }
     

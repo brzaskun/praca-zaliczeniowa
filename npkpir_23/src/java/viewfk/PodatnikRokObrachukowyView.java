@@ -124,6 +124,7 @@ public class PodatnikRokObrachukowyView implements Serializable {
                     pozycjaBRKontaView.kopiujprzyporzadkowaniekont("r", true);
                     pozycjaBRKontaView.kopiujprzyporzadkowaniekont("b", true);
                     Msg.msg("i", "Skopiowano przyporządkowanie kont z układu pierwotnego");
+                    zwrot = 0;
                 }
             }
         } catch (EJBException ejb) {

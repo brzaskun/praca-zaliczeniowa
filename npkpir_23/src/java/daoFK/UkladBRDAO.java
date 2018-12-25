@@ -127,5 +127,14 @@ public class UkladBRDAO extends DAO implements Serializable{
             E.e(e); 
         }
     }
+
+    public List<UkladBR> findWszystkie() {
+         try {
+            return sessionFacade.findWszystkieUkladBR();
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
     
 }

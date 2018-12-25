@@ -1091,17 +1091,17 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<KontopozycjaBiezaca> findKontaBiezacePodatnikUklad(UkladBR uklad, String rb) {
         if (rb.equals("wynikowe")) {
-            return Collections.synchronizedList(em.createNamedQuery("KontopozycjaBiezaca.findByUkladWynikowe").setParameter("uklad", uklad).getResultList());
+            return Collections.synchronizedList(em.createNamedQuery("KontopozycjaBiezaca.findByUkladWynikowe").setParameter("uklad", uklad).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
         } else {
-            return Collections.synchronizedList(em.createNamedQuery("KontopozycjaBiezaca.findByUkladBilansowe").setParameter("uklad", uklad).getResultList());
+            return Collections.synchronizedList(em.createNamedQuery("KontopozycjaBiezaca.findByUkladBilansowe").setParameter("uklad", uklad).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
         }
     }
 
     public List<KontopozycjaZapis> findKontaZapisPodatnikUklad(UkladBR uklad, String rb) {
         if (rb.equals("wynikowe")) {
-            return Collections.synchronizedList(em.createNamedQuery("KontopozycjaZapis.findByUkladWynikowe").setParameter("uklad", uklad).getResultList());
+            return Collections.synchronizedList(em.createNamedQuery("KontopozycjaZapis.findByUkladWynikowe").setParameter("uklad", uklad).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
         } else {
-            return Collections.synchronizedList(em.createNamedQuery("KontopozycjaZapis.findByUkladBilansowe").setParameter("uklad", uklad).getResultList());
+            return Collections.synchronizedList(em.createNamedQuery("KontopozycjaZapis.findByUkladBilansowe").setParameter("uklad", uklad).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
         }
     }
     
@@ -2326,6 +2326,14 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<WniosekVATZDEntity> findWniosekZDByPodatnikRokMcFK(Podatnik podatnik, String rok, String mc) {
         return Collections.synchronizedList(em.createNamedQuery("WniosekVATZDEntity.findByPodatnikRokMcFK").setParameter("rok", rok).setParameter("mc", mc).setParameter("podatnik", podatnik).getResultList());
+    }
+
+    public void ukladBRustawnieaktywneUkladBR() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public List<UkladBR> findWszystkieUkladBR() {
+        return Collections.synchronizedList(em.createNamedQuery("UkladBR.findAll").setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
     }
 
     

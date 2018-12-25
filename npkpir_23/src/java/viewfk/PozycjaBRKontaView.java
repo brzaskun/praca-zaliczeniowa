@@ -694,7 +694,7 @@ public class PozycjaBRKontaView implements Serializable {
             List<PozycjaRZiS> pozycjedoprzejrzenia = pozycjaRZiSDAO.findRzisuklad(ukladdocelowy);
             List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(ukladzrodlowy, "wynikowe");
             if (zapisanePOzycjezUkladuWzorcowego.isEmpty()) {
-                Msg.msg("e","Brak pprzyporzadkowania kont RZiS do skopiowania");
+                Msg.msg("e","Brak przyporzadkowania kont RZiS do skopiowania");
             } else {
                 List<Konto> kontarokudocelowego = kontoDAO.findWszystkieKontaWynikowePodatnika(podatnik, ukladdocelowy.getRok());
                 List<KontopozycjaZapis> nowekontopozycjazapis = Collections.synchronizedList(new ArrayList<>());
@@ -735,11 +735,10 @@ public class PozycjaBRKontaView implements Serializable {
             kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(ukladdocelowy, "bilansowe");
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowy, "bilansowe");
             List<PozycjaBilans> pozycjedoprzejrzenia = pozycjaBilansDAO.findBilansukladAktywaPasywa(ukladdocelowy);
-            List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = Collections.synchronizedList(new ArrayList<>());
+            List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(ukladzrodlowy, "bilansowe");
             if (zapisanePOzycjezUkladuWzorcowego.isEmpty()) {
-                Msg.msg("e","Brak pprzyporzadkowania kont RZiS do skopiowania");
+                Msg.msg("e","Brak pprzyporzadkowania kont bilsndu do skopiowania");
             } else {
-                zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(ukladzrodlowy, "bilansowe");
                 List<Konto> kontarokudocelowego = kontoDAO.findWszystkieKontaBilansowePodatnika(podatnik, ukladdocelowy.getRok());
                 List<KontopozycjaZapis> nowekontopozycjazapis = Collections.synchronizedList(new ArrayList<>());
                 if (podatnik.equals(wpisView.getPodatnikwzorcowy())) {

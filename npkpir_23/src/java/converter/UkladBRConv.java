@@ -10,6 +10,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -22,7 +23,7 @@ import viewfk.UkladBRView;
  * @author Osito
  */
 @ManagedBean
-@ViewScoped
+@RequestScoped
 public class UkladBRConv  implements javax.faces.convert.Converter{
     @Inject
     private UkladBRDAO ukladBRDAO;
@@ -30,7 +31,7 @@ public class UkladBRConv  implements javax.faces.convert.Converter{
     
     @PostConstruct
     public void init() {
-        ukladBRall = ukladBRDAO.findAll();
+        ukladBRall = ukladBRDAO.findWszystkie();
     }
      
     @Override
