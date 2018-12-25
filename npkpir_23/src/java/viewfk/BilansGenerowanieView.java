@@ -432,7 +432,7 @@ public class BilansGenerowanieView implements Serializable {
     private List<SaldoKonto> przetwarzajSaldoKonto(List<SaldoKonto> listaSaldoKonto) {
         List<SaldoKonto> nowalista = Collections.synchronizedList(new ArrayList<>());
         for (SaldoKonto p : listaSaldoKonto) {
-            if (p.getKonto().getPelnynumer().equals("201-2")) {
+            if (p.getKonto().getPelnynumer().equals("203-2-1")) {
                 System.out.println("");
             }
             if (p.getKonto().getPelnynumer().startsWith("149")) {
@@ -563,7 +563,8 @@ public class BilansGenerowanieView implements Serializable {
     }
 
     private Collection<? extends SaldoKonto> przetworzWBRK(SaldoKonto p, Waluty waluta) {
-        if (p.getKonto().getPelnynumer().equals("149-3")) {
+        if (p.getKonto().getPelnynumer().equals("132")) {
+            System.out.println("s");
         }
         List<SaldoKonto> nowalista_wierszy = Collections.synchronizedList(new ArrayList<>());
         Waluty walutapln = listawalut.get("PLN");
@@ -573,25 +574,34 @@ public class BilansGenerowanieView implements Serializable {
         double saldowal = obliczsaldo(p.getZapisy(), waluta);
         double roznica = Z.z(Z.z(saldowal) - Z.z(saldopln));
         List<Double> kwotywpln = Collections.synchronizedList(new ArrayList<>());
+        //tzn ze na koncie sa tylko zlotowki
         if (roznica == 0.0) {
             nowalista_wierszy.add(p);
         } else {
-            
             nowalista_wierszy.addAll(tworzwierszewaluty(waluta, p.getZapisy(), saldowal, kwotywpln));
-            double sumasaldokont = obliczsaldoplnsaldokont(kwotywpln);
+            double sumasaldozapisywaluta = obliczsaldoplnsaldokont(kwotywpln);
             double roznicekursowe = 0.0;
-            if ((saldopln > 0 && sumasaldokont > 0) || (saldopln < 0 && sumasaldokont < 0)) {
-                roznicekursowe = Z.z(sumasaldokont-saldopln);
+            if ((saldopln > 0 && sumasaldozapisywaluta > 0) || (saldopln < 0 && sumasaldozapisywaluta < 0)) {
+                if (saldopln>sumasaldozapisywaluta) {
+                    roznicekursowe = Z.z(saldopln-sumasaldozapisywaluta);
+                } else {
+                    roznicekursowe = Z.z(sumasaldozapisywaluta-saldopln);
+                }
+                
             } else {
                 if (saldopln < 0) {
-                    roznicekursowe = Z.z(saldopln - sumasaldokont);
+                    roznicekursowe = Z.z(saldopln - sumasaldozapisywaluta);
                 } else {
-                    roznicekursowe = Z.z(sumasaldokont - saldopln);
+                    roznicekursowe = Z.z(sumasaldozapisywaluta - saldopln);
                 }
                 
             }
             if (roznicekursowe != 0.0) {
-                nowalista_wierszy.add(new SaldoKonto(p, roznicekursowe, walutapln));
+                if (saldopln>0) {
+                    nowalista_wierszy.add(new SaldoKonto(p, roznicekursowe, walutapln, "Wn"));    
+                } else {
+                    nowalista_wierszy.add(new SaldoKonto(p, roznicekursowe, walutapln, "Ma"));    
+                }
             }
         }
         return nowalista_wierszy;
@@ -705,10 +715,14 @@ public class BilansGenerowanieView implements Serializable {
         }
         List<StronaWiersza> zapisydopor = Collections.synchronizedList(new ArrayList<>());
         zapisydopor.addAll(zapisy);
+        List<SaldoKonto> zapisykonta = Collections.synchronizedList(new ArrayList<>());
         for (ListIterator<StronaWiersza> it = zapisy.listIterator(); it.hasNext();) {
             StronaWiersza w = it.next();
             double kwota = w.getKwota();
             boolean usun = false;
+            //plus to wn minus to ma
+            double roznicakursowaWn = 0.0;
+            double roznicakursowaMa = 0.0;
             //ten loop 'rozlicza' pozycje o takich samych kwotach a przeciwnych stronach
             for (ListIterator<StronaWiersza> it1 = zapisydopor.listIterator(); it1.hasNext();) {
                 StronaWiersza w1 = it1.next();
@@ -716,19 +730,29 @@ public class BilansGenerowanieView implements Serializable {
                 if (kwota != 0.0 && kwota1 != 0.0 && Z.z(kwota) == Z.z(kwota1) && w.isWn() != w1.isWn()) {
                     it1.remove();
                     usun = true;
+                    if (w.isWn()) {
+                        roznicakursowaWn = Z.z(w.getKwotaPLN()-w1.getKwotaPLN());
+                    } else {
+                        roznicakursowaMa = Z.z(w1.getKwotaPLN()-w.getKwotaPLN());
+                    }
                     break;
                 }
             }
             if (usun) {
                 it.remove();
             }
+            if (roznicakursowaWn!=0.0) {
+                zapisykonta.add(new SaldoKonto(w.getKonto(), roznicakursowaWn, 0.0, listawalut.get("PLN")));
+            } else if (roznicakursowaMa!=0.0) {
+                zapisykonta.add(new SaldoKonto(w.getKonto(), 0.0, roznicakursowaMa, listawalut.get("PLN")));
+            }
         }
-        List<SaldoKonto> zapisykonta = Collections.synchronizedList(new ArrayList<>());
         for (StronaWiersza t : zapisy) {
             if (t.getPozostalo() != 0.0 && t.getSymbolWalutBOiSW().equals(wal.getSymbolwaluty()) && t.getToNieJestRRK()) {
                 zapisykonta.add(new SaldoKonto(t, wal));
             }
         }
+        
         return zapisykonta;
     }
 

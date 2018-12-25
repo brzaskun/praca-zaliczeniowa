@@ -558,7 +558,7 @@ public class StronaWiersza implements Serializable {
         } else if (this.getKursBO() != 0.0) {
             kwotaprzeliczenia = Z.z(this.pozostalo * kursBO);
         }
-        return kwotaprzeliczenia;
+        return Z.z(kwotaprzeliczenia);
     }
 
     public String getNazwaWaluty() {

@@ -63,12 +63,23 @@ public class PlanKontUzupelnijView implements Serializable {
         podatnikdocelowy = wpisView.getPodatnikObiekt();
     }
 
+    private boolean czybrakukladwdanymroku(String rokdocelowy) {
+        boolean zwrot = true;
+        List<UkladBR> uklad = ukladBRDAO.findPodatnikRok(wpisView);
+        if (!uklad.isEmpty()) {
+            zwrot = false;
+        }
+        return zwrot;
+    }
+    
     public void uzupelnijplankont() {
         if (podatnikzrodlowy.equals(podatnikdocelowy) && rokzrodlowy.equals(rokdocelowy)) {
             Msg.msg("e", "Podatnik oraz rok źródłowy i docelowy jest ten sam");
+        } else if (czybrakukladwdanymroku(rokdocelowy)){
+            Msg.msg("e", "Brak układu w bieżącym roku, nie można uzupełnić kont");
         } else {
-            List<Konto> kontazrodlowe = kontoDAOfk.findWszystkieKontaPodatnika(podatnikzrodlowy, rokzrodlowy);
-            List<Konto> kontadocelowe = kontoDAOfk.findWszystkieKontaPodatnika(podatnikdocelowy, rokdocelowy);
+            List<Konto> kontazrodlowe = kontoDAOfk.findWszystkieKontaPodatnikaPobierzRelacje(podatnikzrodlowy, rokzrodlowy);
+            List<Konto> kontadocelowe = kontoDAOfk.findWszystkieKontaPodatnikaPobierzRelacje(podatnikdocelowy, rokdocelowy);
             List<Konto> brakujacelevel0 = Collections.synchronizedList(new ArrayList<>());
             List<Konto> brakujacelevelinne = Collections.synchronizedList(new ArrayList<>());
             for (Konto p : kontazrodlowe) {
@@ -98,7 +109,7 @@ public class PlanKontUzupelnijView implements Serializable {
             List<KontopozycjaZapis> nowekontopozycjazapis = Collections.synchronizedList(new ArrayList<>());
             for (KontopozycjaZapis r : zapisanePOzycjezUkladuWzorcowego) {
                 UkladBR uklad = odnajdzuklad(ukladBRDAO, r.getUkladBR(), wpisView.getRokWpisuSt());
-                if (uklad.getUklad() == null) {
+                if (uklad == null || uklad.getUklad() == null) {
                     break;
                 }
                 Konto starekonto = pobierzkontozlisty(brakujacekonta, r);
