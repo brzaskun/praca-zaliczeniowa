@@ -30,7 +30,7 @@
                     }
                 }
             </script>
-            <p:panelGrid columns="7">
+            <p:panelGrid columns="7" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
                 <p:panelGrid columns="3">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="#{ukladBRConv}">
@@ -60,6 +60,7 @@
                     <p:commandButton value="#{mgs.drukujnrkont}" style="width: 120px; margin-left: 10px;" type="submit" action="#{sesjaView.dodajwydruk()}" actionListener="#{pozycjaBRView.drukujRZiSPozycje()}"/>
                 </p:column>
             </p:panelGrid>
+            <h:outputText value="brak układu na rok bieżący" style="color: red;" rendered="#{ukladBRView.listarokbiezacy.isEmpty()}"/>
             <p:panelGrid columns="2" style="height: 600px;">
                 <p:column>
                     <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektRZiS}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 

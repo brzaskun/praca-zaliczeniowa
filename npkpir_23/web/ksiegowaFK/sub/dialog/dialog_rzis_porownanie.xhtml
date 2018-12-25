@@ -8,7 +8,7 @@
 
     xmlns:bcf="http://brzaskun.com/facelets">
 
-    <p:dialog id="dialog_rzis_porownanie" header="Rachunek Zysków i Strat za okresy rozliczeniowe1" widgetVar="dialog_rzis_porownanie" 
+    <p:dialog id="dialog_rzis_porownanie" header="Rachunek Zysków i Strat za okresy rozliczeniowe" widgetVar="dialog_rzis_porownanie" 
               resizable="false" onShow="ustawdialog('dialog_rzis_porownanie','menubilanse', 1250, 780);" closeOnEscape="true" onHide="resetujdialog('dialog_rzis_porownanie');"  >
         <p:ajax event="open" listener="#{pozycjaBRZestawienieView.init()}"/>
         <bcf:ajaxs/>
@@ -31,7 +31,7 @@
                     }
                 }
             </script>
-            <p:panelGrid columns="9">
+            <p:panelGrid columns="9" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
                 <p:panelGrid columns="3">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaBRZestawienieView.uklad}" converter="#{ukladBRConv}">
@@ -62,6 +62,7 @@
                     <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-left: 50px;" type="submit" action="#{sesjaView.dodajwydruk()}" actionListener="#{pozycjaBRZestawienieView.drukujRZiSBO()}"/>
                 </p:column>
             </p:panelGrid>
+            <h:outputText value="brak układu na rok bieżący" style="color: red;" rendered="#{ukladBRView.listarokbiezacy.isEmpty()}"/>
             <p:panelGrid columns="2" style="height: 600px;">
                 <p:column>
                     <p:treeTable id="dataList" value="#{pozycjaBRZestawienieView.rootProjektRZiS}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRZestawienieView.selectedNodes}" 

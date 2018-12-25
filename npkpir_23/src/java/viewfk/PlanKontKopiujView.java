@@ -5,6 +5,7 @@
  */
 package viewfk;
 
+import beansFK.PlanKontFKKopiujBean;
 import daoFK.KontoDAOfk;
 import embeddable.Roki;
 import entity.Podatnik;
@@ -67,11 +68,11 @@ public class PlanKontKopiujView implements Serializable {
         } else if (podatnikzrodlowy.equals(podatnikdocelowy) && rokzrodlowy.equals(rokdocelowy)) {
             Msg.msg("e", "Podatnik oraz rok źródłowy i docelowy jest ten sam");
         } else {
-            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaEager(podatnikzrodlowy, rokzrodlowy);
-            List<Konto> macierzyste = skopiujlevel0(podatnikdocelowy, wykazkont, rokdocelowy);
+            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaPobierzRelacje(podatnikzrodlowy, rokzrodlowy);
+            List<Konto> macierzyste = PlanKontFKKopiujBean.skopiujlevel0(kontoDAOfk,podatnikdocelowy, wykazkont, rokdocelowy);
             int maxlevel = kontoDAOfk.findMaxLevelPodatnik(podatnikzrodlowy, Integer.parseInt(rokzrodlowy));
             for (int biezacylevel = 1; biezacylevel <= maxlevel; biezacylevel++) {
-                macierzyste = skopiujlevel(podatnikzrodlowy, podatnikdocelowy, wykazkont, macierzyste, biezacylevel, rokdocelowy);
+                macierzyste = PlanKontFKKopiujBean.skopiujlevel(kontoDAOfk,podatnikzrodlowy, podatnikdocelowy, wykazkont, macierzyste, biezacylevel, rokdocelowy, kopiujSlownikowe);
             }
             planKontView.init();
             planKontView.porzadkowanieKontPodatnika();
@@ -85,7 +86,7 @@ public class PlanKontKopiujView implements Serializable {
             Msg.msg("e", "Rok źródłowy i docelowy jest ten sam");
         } else {
             List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikwzorcowy(), rokzrodlowy);
-            List<Konto> macierzyste = skopiujlevel0(null, wykazkont, rokdocelowy);
+            List<Konto> macierzyste = PlanKontFKKopiujBean.skopiujlevel0(kontoDAOfk, wpisView.getPodatnikObiekt(), wykazkont, rokdocelowy);
             int maxlevel = kontoDAOfk.findMaxLevelPodatnik(wpisView.getPodatnikwzorcowy(), Integer.parseInt(rokzrodlowy));
             for (int i = 1; i <= maxlevel; i++) {
                 macierzyste = skopiujlevelWzorcowy(null, wykazkont, macierzyste, i, rokdocelowy);
@@ -104,81 +105,16 @@ public class PlanKontKopiujView implements Serializable {
                 }
             }
         }
-        List<Konto> macierzyste = skopiujlevel0(wpisView.getPodatnikObiekt(), wykazkont, rokdocelowy);
+        List<Konto> macierzyste = PlanKontFKKopiujBean.skopiujlevel0(kontoDAOfk, wpisView.getPodatnikObiekt(), wykazkont, rokdocelowy);
         int maxlevel = kontoDAOfk.findMaxLevelPodatnik(wpisView.getPodatnikwzorcowy(), Integer.parseInt(rokzrodlowy_wzorzec));
         for (int i = 1; i <= maxlevel; i++) {
-            macierzyste = skopiujlevel(null, wpisView.getPodatnikObiekt(), wykazkont, macierzyste, i, rokdocelowy);
+            macierzyste = PlanKontFKKopiujBean.skopiujlevel(kontoDAOfk, wpisView.getPodatnikwzorcowy(), wpisView.getPodatnikObiekt(), wykazkont, macierzyste, i, rokdocelowy, kopiujSlownikowe);
         }
         planKontView.init();
         Msg.msg("Zaimplementowano wzorcowy plan kont z roku "+rokzrodlowy_wzorzec);
     }
 
-    private List<Konto> skopiujlevel0(Podatnik podatnikDocelowy, List<Konto> wykazkont, String rokDocelowy) {
-        List<Konto> macierzyste = Collections.synchronizedList(new ArrayList<>());
-        for (Konto p : wykazkont) {
-            if (p.getLevel() == 0) {
-                Konto r = serialclone.SerialClone.clone(p);
-                r.setPodatnik(podatnikDocelowy);
-                r.setRok(Integer.parseInt(rokDocelowy));
-                zeruDanekontaBO(r);
-                macierzyste.add(r);
-            }
-        }
-        kontoDAOfk.createListRefresh(macierzyste);
-        return macierzyste;
-    }
-
-    private List<Konto> skopiujlevel(Podatnik podatnikzrodlowy, Podatnik podatnikDocelowy, List<Konto> wykazkont, List<Konto> macierzystelista, int biezacylevel, String rokdocelowy) {
-        List<Konto> nowemacierzyste = Collections.synchronizedList(new ArrayList<>());
-        for (Konto p : wykazkont) {
-            if (p.getLevel() == biezacylevel) {
-                try {
-                    if (!podatnikzrodlowy.equals(podatnikDocelowy) && p.isSlownikowe()) {
-                    } else if (p.isSlownikowe() == true && kopiujSlownikowe) {
-                        Konto noweslownikowe = kopiujKonto(p, macierzystelista, podatnikDocelowy, true);
-                        if (noweslownikowe!=null) {
-                            nowemacierzyste.add(noweslownikowe);
-                        }
-                    } else if (p.isSlownikowe() == false) {
-                        nowemacierzyste.add(kopiujKonto(p, macierzystelista, podatnikDocelowy, false));
-                    }
-                } catch (Exception e) {
-                    E.e(e);
-                }
-            }
-        }
-        if (!nowemacierzyste.isEmpty()) {
-            kontoDAOfk.createListRefresh(nowemacierzyste);
-        }
-        return nowemacierzyste;
-    }
-
-    private void zeruDanekontaBO(Konto p) {
-        p.setId(null);
-        p.setBoWn(0);
-        p.setBoMa(0);
-        p.setObrotyWn(0);
-        p.setObrotyMa(0);
-        p.setKontopozycjaID(null);
-    }
-
-    private Konto kopiujKonto(Konto p, List<Konto> macierzystelista, Podatnik podatnikDocelowy, boolean slownikowe) {
-        Konto r = serialclone.SerialClone.clone(p);
-        Konto macierzyste = wyszukajmacierzyste(r.getMacierzyste(), macierzystelista);
-        if (macierzyste.getIdslownika()!= 5 && macierzyste.getIdslownika()!= 6) {
-            zeruDanekontaBO(r);
-            r.setKontopozycjaID(null);
-            r.setPodatnik(podatnikDocelowy);
-            r.setRok(Integer.parseInt(rokdocelowy));
-            r.setSlownikowe(slownikowe);
-            r.setMacierzyste(macierzyste.getPelnynumer());
-            r.setMacierzysty(macierzyste.getId());
-            r.setKontomacierzyste(macierzyste);
-        } else {
-            r=null;
-        }
-        return r;
-    }
+    
 
     private List<Konto> skopiujlevelWzorcowy(Podatnik docelowy, List<Konto> wykazkont, List<Konto> macierzystelista, int i, String rokdocelowy) {
         List<Konto> nowemacierzyste = Collections.synchronizedList(new ArrayList<>());
@@ -189,7 +125,7 @@ public class PlanKontKopiujView implements Serializable {
                     r.setKontopozycjaID(null);
                     r.setPodatnik(docelowy);
                     r.setRok(Integer.parseInt(rokdocelowy));
-                    Konto macierzyste = wyszukajmacierzyste(r.getMacierzyste(), macierzystelista);
+                    Konto macierzyste = PlanKontFKKopiujBean.wyszukajmacierzyste(r.getMacierzyste(), macierzystelista);
                     r.setMacierzyste(macierzyste.getPelnynumer());
                     r.setMacierzysty(macierzyste.getId());
                     r.setKontomacierzyste(macierzyste);
@@ -204,14 +140,7 @@ public class PlanKontKopiujView implements Serializable {
         return nowemacierzyste;
     }
 
-    private Konto wyszukajmacierzyste(String macierzyste, List<Konto> macierzystelista) {
-        for (Konto p : macierzystelista) {
-            if (p.getPelnynumer().equals(macierzyste)) {
-                return p;
-            }
-        }
-        return null;
-    }
+    
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     public Podatnik getPodatnikzrodlowy() {

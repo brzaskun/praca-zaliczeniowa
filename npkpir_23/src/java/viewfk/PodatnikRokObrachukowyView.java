@@ -1,0 +1,166 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package viewfk;
+
+import beansFK.PlanKontFKKopiujBean;
+import comparator.UkladBRcomparator;
+import daoFK.KontoDAOfk;
+import daoFK.PozycjaBilansDAO;
+import daoFK.PozycjaRZiSDAO;
+import daoFK.UkladBRDAO;
+import entity.Podatnik;
+import entityfk.Konto;
+import entityfk.UkladBR;
+import error.E;
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
+import javax.ejb.EJBException;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
+import msg.Msg;
+import view.WpisView;
+
+/**
+ *
+ * @author Osito
+ */
+@ManagedBean
+@ViewScoped
+public class PodatnikRokObrachukowyView implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
+    @ManagedProperty(value = "#{planKontView}")
+    private PlanKontView planKontView;
+    @ManagedProperty(value = "#{pozycjaBRKontaView}")
+    private PozycjaBRKontaView pozycjaBRKontaView;
+    @Inject
+    private KontoDAOfk kontoDAOfk;
+    @Inject
+    private UkladBRDAO ukladBRDAO;
+    @Inject
+    private PozycjaRZiSDAO pozycjaRZiSDAO;
+    @Inject
+    private PozycjaBilansDAO pozycjaBilansDAO;
+    
+    public void otworzrok() {
+        try {
+            int zwrot = 1;
+            zwrot = kopiujplankont();
+            zwrot = kopiujuklad();
+            if (zwrot==0) {
+                Msg.msg("Otwarto rok "+wpisView.getRokWpisuSt());
+            } else {
+                Msg.msg("w","Nie dokończono otwierania roku");
+            }
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Nieudało się otworzyć roku");
+        }
+    }
+    
+    
+    public int kopiujplankont() {
+        int zwrot = 1;
+        Podatnik podatnikzrodlowy = wpisView.getPodatnikObiekt();
+        Podatnik podatnikdocelowy = wpisView.getPodatnikObiekt();
+        String rokzrodlowy = wpisView.getRokUprzedniSt();
+        String rokdocelowy = wpisView.getRokWpisuSt();
+        List<Konto> plankontdocelowy = kontoDAOfk.findWszystkieKontaPodatnika(podatnikzrodlowy, rokdocelowy);
+        if (plankontdocelowy != null && !plankontdocelowy.isEmpty()) {
+            Msg.msg("e", "W bieżącym roku istnieje już plan kont firmy. Usuń go najpierw, aby skopiować plan kont z innego roku/firmy");
+        } else if (podatnikzrodlowy.equals(podatnikdocelowy) && rokzrodlowy.equals(rokdocelowy)) {
+            Msg.msg("e", "Podatnik oraz rok źródłowy i docelowy jest ten sam");
+        } else {
+            List<Konto> plankontzrodlowy = kontoDAOfk.findWszystkieKontaPodatnikaPobierzRelacje(podatnikzrodlowy, rokzrodlowy);
+            if (plankontzrodlowy.isEmpty()) {
+                Msg.msg("e", "Nie ma planu kont w roku poprzednim, nie można automatycznie otworzyć roku "+wpisView.getRokWpisuSt());
+            } else {
+                List<Konto> macierzyste = PlanKontFKKopiujBean.skopiujlevel0(kontoDAOfk,podatnikdocelowy, plankontzrodlowy, rokdocelowy);
+                int maxlevel = kontoDAOfk.findMaxLevelPodatnik(podatnikzrodlowy, Integer.parseInt(rokzrodlowy));
+                for (int biezacylevel = 1; biezacylevel <= maxlevel; biezacylevel++) {
+                    macierzyste = PlanKontFKKopiujBean.skopiujlevel(kontoDAOfk,podatnikzrodlowy, podatnikdocelowy, plankontzrodlowy, macierzyste, biezacylevel, rokdocelowy, true);
+                }
+                planKontView.init();
+                planKontView.porzadkowanieKontPodatnika();
+                Msg.msg("Skopiowano plan kont z firmy do firmy");
+                zwrot = 0;
+            }
+        }
+        return zwrot;
+    }
+    
+    public int kopiujuklad() {
+        int zwrot = 1;
+        try {
+            UkladBR ukladzrodlowy = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
+            String ukladdocelowyrok = wpisView.getRokWpisuSt();
+            if (ukladzrodlowy==null) {
+                Msg.msg("e", "Brak uładu w poprzednim roku. Nie można skopiować układu");
+            } else {
+                List<Konto> kontagrupa0 = kontoDAOfk.findKontaGrupa0(wpisView);
+                if (kontagrupa0 == null || kontagrupa0.isEmpty()) {
+                    Msg.msg("e", "Brak planu kont w bieżacym roku. Nie można kopiować układu");
+                } else if (!ukladdocelowyrok.equals(wpisView.getRokWpisuSt())) {
+                    Msg.msg("e", "Rok docelowy jest inny od roku bieżącego. Nie można kopiować układu");
+                } else {
+                    UkladBR ukladBR = serialclone.SerialClone.clone(ukladzrodlowy);
+                    ukladBR.setPodatnik(wpisView.getPodatnikObiekt());
+                    ukladBR.setRok(ukladdocelowyrok);
+                    ukladBR.setImportowany(true);
+                    ukladBRDAO.dodaj(ukladBR);
+                    PlanKontFKKopiujBean.implementujRZiS(pozycjaRZiSDAO, ukladzrodlowy, wpisView.getPodatnikWpisu(), ukladdocelowyrok, ukladzrodlowy.getUklad());
+                    PlanKontFKKopiujBean.implementujBilans(pozycjaBilansDAO, ukladzrodlowy, wpisView.getPodatnikWpisu(), ukladdocelowyrok, ukladzrodlowy.getUklad());
+                    Msg.msg("i", "Skopiowano układ podatnika");
+                    pozycjaBRKontaView.init();
+                    pozycjaBRKontaView.setUkladdocelowykonta(ukladBR);
+                    pozycjaBRKontaView.setUkladzrodlowykonta(ukladzrodlowy);
+                    pozycjaBRKontaView.kopiujprzyporzadkowaniekont("r", true);
+                    pozycjaBRKontaView.kopiujprzyporzadkowaniekont("b", true);
+                    Msg.msg("i", "Skopiowano przyporządkowanie kont z układu pierwotnego");
+                }
+            }
+        } catch (EJBException ejb) {
+            Msg.msg("e", "Nieudana próba skopiowania układu. Układ za dany rok już istnieje " + ejb.getMessage());
+        } catch (Exception e) {
+            Msg.msg("e", "Nieudana próba skopiowania układu. " + e.getMessage());
+        } finally {
+          return zwrot;
+        }
+    }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+
+    public PlanKontView getPlanKontView() {
+        return planKontView;
+    }
+
+    public void setPlanKontView(PlanKontView planKontView) {
+        this.planKontView = planKontView;
+    }
+
+    public PozycjaBRKontaView getPozycjaBRKontaView() {
+        return pozycjaBRKontaView;
+    }
+
+    public void setPozycjaBRKontaView(PozycjaBRKontaView pozycjaBRKontaView) {
+        this.pozycjaBRKontaView = pozycjaBRKontaView;
+    }
+
+  
+    
+    
+    
+}

@@ -45,7 +45,7 @@ import view.WpisView;
     @NamedQuery(name = "Konto.findById", query = "SELECT k FROM Konto k WHERE k.id = :id"),
 //    @NamedQuery(name = "Konto.findWzorcowe", query = "SELECT k FROM Konto k WHERE k.podatnik IS NULL AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok"),
-    @NamedQuery(name = "Konto.findByPodatnikEager", query = "SELECT DISTINCT k FROM Konto k LEFT OUTER JOIN FETCH k.kontopozycjaID LEFT OUTER JOIN FETCH k.kontokategoria WHERE k.podatnik = :podatnik  AND k.rok = :rok"),
+//    @NamedQuery(name = "Konto.findByPodatnikEager", query = "SELECT DISTINCT k FROM Konto k LEFT OUTER JOIN FETCH k.kontopozycjaID LEFT OUTER JOIN FETCH k.kontokategoria WHERE k.podatnik = :podatnik  AND k.rok = :rok"),
 //    @NamedQuery(name = "Konto.findByPodatnikWzorcowy", query = "SELECT k FROM Konto k WHERE k.podatnik IS NULL  AND k.rok = :rok"),
 //    @NamedQuery(name = "Konto.findByPodatnikWzorcowyEager", query = "SELECT DISTINCT k FROM Konto k LEFT OUTER JOIN FETCH k.kontopozycjaID LEFT OUTER JOIN FETCH k.kontokategoria WHERE k.podatnik IS NULL  AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnikKsiegi", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok AND k.zaksiegowane = '1'"),

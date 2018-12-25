@@ -69,15 +69,15 @@
                 <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.symbolroku}"><f:selectItems value="#{Roki.rokiListString}"/>
                 </p:selectOneMenu>
                 <h:outputText value="rodzaj opod: "/>
-                <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.formaopodatkowania}"  rendered="#{!WpisView.ksiegirachunkowe}">
+                <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.formaopodatkowania}"  rendered="#{WpisView.podatnikObiekt.firmafk eq 0}">
                     <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/> 
                     <f:selectItem itemValue="zasady ogólne" itemLabel="zasady ogólne"/> 
                     <f:selectItem itemValue="podatek liniowy" itemLabel="podatek liniowy"/>
                     <f:selectItem itemValue="ryczałt" itemLabel="ryczałt"/>
                 </p:selectOneMenu>
-                <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.formaopodatkowania}"  rendered="#{WpisView.ksiegirachunkowe}">
+                <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.formaopodatkowania}"  rendered="#{WpisView.podatnikObiekt.firmafk ne 0}">
                     <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/> 
-                    <f:selectItem itemValue="księgi rachunkowe" itemLabel="księgi rachunkowe" rendered="#{WpisView.ksiegirachunkowe}"/>
+                    <f:selectItem itemValue="księgi rachunkowe" itemLabel="księgi rachunkowe"/>
                 </p:selectOneMenu>
                 <h:outputText value="mc/kw: "/>
                 <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.mc0kw1}" >
@@ -91,6 +91,11 @@
             <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
                 <p:commandButton action="#{podatnikView.usundoch()}" value="usun parametr" update="@form" type="submit"/>
                 <p:commandButton action="#{podatnikView.dodajdoch()}" value="dodaj parametr" update="@form" type="submit"/>
+            </p:panelGrid>
+        </h:form>
+        <h:form>
+            <p:panelGrid columns="2" style="padding: 10px;margin-top: 30px;">
+                <p:commandButton action="#{podatnikRokObrachukowyView.otworzrok()}" value="otwórz rok obrachunkowy" style="width: 180px;color: red;"/>
             </p:panelGrid>
         </h:form>
         <br/><br/>

@@ -1167,9 +1167,9 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
                 .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
     }
     
-    public List<Konto> findKontoPodatnikEager(Podatnik podatnik, String rok) {
-        return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikEager").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList());
-    }
+//    public List<Konto> findKontoPodatnikEager(Podatnik podatnik, String rok) {
+//        return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikEager").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList());
+//    }
     
     public List<Konto> findKontoPodatnikKsiegi(Podatnik podatnik, String rok) {
         return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikKsiegi").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList());
