@@ -103,9 +103,9 @@ public class PodatnikRokObrachukowyView implements Serializable {
     public int kopiujuklad() {
         int zwrot = 1;
         try {
-            UkladBR ukladzrodlowy = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
+            List<UkladBR> listaukladow = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
             String ukladdocelowyrok = wpisView.getRokWpisuSt();
-            if (ukladzrodlowy==null) {
+            if (listaukladow.isEmpty()) {
                 Msg.msg("e", "Brak uładu w poprzednim roku. Nie można skopiować układu");
             } else {
                 List<Konto> kontagrupa0 = kontoDAOfk.findKontaGrupa0(wpisView);
@@ -114,21 +114,23 @@ public class PodatnikRokObrachukowyView implements Serializable {
                 } else if (!ukladdocelowyrok.equals(wpisView.getRokWpisuSt())) {
                     Msg.msg("e", "Rok docelowy jest inny od roku bieżącego. Nie można kopiować układu");
                 } else {
-                    UkladBR ukladBR = serialclone.SerialClone.clone(ukladzrodlowy);
-                    ukladBR.setPodatnik(wpisView.getPodatnikObiekt());
-                    ukladBR.setRok(ukladdocelowyrok);
-                    ukladBR.setImportowany(true);
-                    ukladBRDAO.dodaj(ukladBR);
-                    PlanKontFKKopiujBean.implementujRZiS(pozycjaRZiSDAO, ukladzrodlowy, wpisView.getPodatnikWpisu(), ukladdocelowyrok, ukladzrodlowy.getUklad());
-                    PlanKontFKKopiujBean.implementujBilans(pozycjaBilansDAO, ukladzrodlowy, wpisView.getPodatnikWpisu(), ukladdocelowyrok, ukladzrodlowy.getUklad());
-                    Msg.msg("i", "Skopiowano układ podatnika");
-                    pozycjaBRKontaView.init();
-                    pozycjaBRKontaView.setUkladdocelowykonta(ukladBR);
-                    pozycjaBRKontaView.setUkladzrodlowykonta(ukladzrodlowy);
-                    pozycjaBRKontaView.kopiujprzyporzadkowaniekont("r", true);
-                    pozycjaBRKontaView.kopiujprzyporzadkowaniekont("b", true);
-                    Msg.msg("i", "Skopiowano przyporządkowanie kont z układu pierwotnego");
-                    zwrot = 0;
+                    for(UkladBR ukladzrodlowy :listaukladow) {
+                        UkladBR ukladBR = serialclone.SerialClone.clone(ukladzrodlowy);
+                        ukladBR.setPodatnik(wpisView.getPodatnikObiekt());
+                        ukladBR.setRok(ukladdocelowyrok);
+                        ukladBR.setImportowany(true);
+                        ukladBRDAO.dodaj(ukladBR);
+                        PlanKontFKKopiujBean.implementujRZiS(pozycjaRZiSDAO, ukladzrodlowy, wpisView.getPodatnikWpisu(), ukladdocelowyrok, ukladzrodlowy.getUklad());
+                        PlanKontFKKopiujBean.implementujBilans(pozycjaBilansDAO, ukladzrodlowy, wpisView.getPodatnikWpisu(), ukladdocelowyrok, ukladzrodlowy.getUklad());
+                        Msg.msg("i", "Skopiowano układ podatnika "+ukladzrodlowy.getUklad());
+                        pozycjaBRKontaView.init();
+                        pozycjaBRKontaView.setUkladdocelowykonta(ukladBR);
+                        pozycjaBRKontaView.setUkladzrodlowykonta(ukladzrodlowy);
+                        pozycjaBRKontaView.kopiujprzyporzadkowaniekont("r", true);
+                        pozycjaBRKontaView.kopiujprzyporzadkowaniekont("b", true);
+                        Msg.msg("i", "Skopiowano przyporządkowanie kont z układu pierwotnego "+ukladzrodlowy.getUklad());
+                        zwrot = 0;
+                    };
                 }
             }
         } catch (EJBException ejb) {
@@ -163,6 +165,7 @@ public class PodatnikRokObrachukowyView implements Serializable {
     public void setPozycjaBRKontaView(PozycjaBRKontaView pozycjaBRKontaView) {
         this.pozycjaBRKontaView = pozycjaBRKontaView;
     }
+
 
   
     
