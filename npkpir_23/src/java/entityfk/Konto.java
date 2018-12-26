@@ -240,6 +240,15 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Basic(optional = false)
     @Column(name = "slownikowe")
     private boolean slownikowe;
+    /*
+    KONTR = 1
+    MIEJS = 2
+    SAMOC = 3
+    MIESI = 4
+    DELEK = 5
+    DELEZ = 6
+    MIEJP = 7
+    */
     @Basic(optional = false)
     @Column(name = "idslownika")
     private int idslownika;

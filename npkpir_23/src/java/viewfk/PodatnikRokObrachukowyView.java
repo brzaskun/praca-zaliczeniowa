@@ -6,6 +6,7 @@
 package viewfk;
 
 import beansFK.PlanKontFKKopiujBean;
+import comparator.Kontocomparator;
 import comparator.UkladBRcomparator;
 import daoFK.KontoDAOfk;
 import daoFK.PozycjaBilansDAO;

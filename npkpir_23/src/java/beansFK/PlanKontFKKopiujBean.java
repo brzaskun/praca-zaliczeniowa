@@ -16,6 +16,7 @@ import entityfk.UkladBR;
 import error.E;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import msg.Msg;
 
@@ -27,13 +28,15 @@ public class PlanKontFKKopiujBean {
     
     public static List<Konto> skopiujlevel0(KontoDAOfk kontoDAOfk, Podatnik podatnikDocelowy, List<Konto> wykazkont, String rokDocelowy) {
         List<Konto> macierzyste = new ArrayList<>();
-        for (Konto p : wykazkont) {
+        for (Iterator<Konto> it= wykazkont.iterator(); it.hasNext();) {
+            Konto p = it.next();
             if (p.getLevel() == 0) {
                 Konto r = serialclone.SerialClone.clone(p);
                 r.setPodatnik(podatnikDocelowy);
                 r.setRok(Integer.parseInt(rokDocelowy));
                 zeruDanekontaBO(r);
                 macierzyste.add(r);
+                it.remove();
             }
         }
         kontoDAOfk.createListRefresh(macierzyste);
@@ -51,17 +54,21 @@ public class PlanKontFKKopiujBean {
 
     public static List<Konto> skopiujlevel(KontoDAOfk kontoDAOfk, Podatnik podatnikzrodlowy, Podatnik podatnikDocelowy, List<Konto> wykazkont, List<Konto> macierzystelista, int biezacylevel, String rokdocelowy, boolean kopiujSlownikowe) {
         List<Konto> nowemacierzyste = new ArrayList<>();
-        for (Konto p : wykazkont) {
+        for (Iterator<Konto> it= wykazkont.iterator(); it.hasNext();) {
+            Konto p = it.next();
             if (p.getLevel() == biezacylevel) {
                 try {
                     if (!podatnikzrodlowy.equals(podatnikDocelowy) && p.isSlownikowe()) {
+                        System.out.println("a teraa");
                     } else if (p.isSlownikowe() == true && kopiujSlownikowe) {
                         Konto noweslownikowe = kopiujKonto(p, macierzystelista, podatnikDocelowy, true, rokdocelowy);
                         if (noweslownikowe!=null) {
                             nowemacierzyste.add(noweslownikowe);
+                            it.remove();
                         }
                     } else if (p.isSlownikowe() == false) {
                         nowemacierzyste.add(kopiujKonto(p, macierzystelista, podatnikDocelowy, false, rokdocelowy));
+                        it.remove();
                     }
                 } catch (Exception e) {
                     E.e(e);
