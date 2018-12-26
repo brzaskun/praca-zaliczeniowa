@@ -5,6 +5,7 @@
 package daoFK;
 
 import dao.DAO;
+import entity.Podatnik;
 import entityfk.Konto;
 import entityfk.KontopozycjaBiezaca;
 import entityfk.UkladBR;
@@ -39,6 +40,14 @@ public class KontopozycjaBiezacaDAO extends DAO implements Serializable{
     public List<KontopozycjaBiezaca> findKontaPozycjaBiezacaPodatnikUklad (UkladBR uklad, String rb) {
        try {
             return sessionFacade.findKontaBiezacePodatnikUklad(uklad, rb);
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
+    
+    public List<KontopozycjaBiezaca> findKontaPozycjaBiezacaPodatnikRok(Podatnik podatnik, String rok) {
+       try {
+            return sessionFacade.findKontaPozycjaBiezacaPodatnikRok(podatnik, rok);
         } catch (Exception e) { E.e(e); 
             return null;
         }

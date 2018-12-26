@@ -33,6 +33,7 @@ import entity.Rodzajedok;
 import entityfk.Delegacja;
 import entityfk.Kliencifk;
 import entityfk.Konto;
+import entityfk.KontopozycjaBiezaca;
 import entityfk.KontopozycjaZapis;
 import entityfk.MiejsceKosztow;
 import entityfk.MiejscePrzychodow;
@@ -885,13 +886,12 @@ public class PlanKontView implements Serializable {
 
     public void usunieciewszystkichKontPodatnika() {
         if (!wykazkont.isEmpty()) {
+            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             List<UkladBR> uklady = ukladBRDAO.findukladBRPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            for (UkladBR ukladpodatnika : uklady) {
-                wyczyscKonta("wynikowe");
-                kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "wynikowe");
-                wyczyscKonta("bilansowe");
-                kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "bilansowe");
-            }
+            wyczyscKonta("wynikowe");
+            usunpozycjebiezace();
+            wyczyscKonta("bilansowe");
+            usunpozycjezapisane();
             wierszBODAO.deletePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             List<Rodzajedok> rodzajeDokPodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             if (!rodzajeDokPodatnika.isEmpty()) {
@@ -917,7 +917,6 @@ public class PlanKontView implements Serializable {
                     return;
                 }
             }
-            wykazkont = Collections.synchronizedList(new ArrayList<>());
             RequestContext.getCurrentInstance().update("form_dialog_plankont");
             Msg.msg("Zakonczono z sukcesem usuwanie kont u bieżącego podatnika");
         } else {
@@ -928,17 +927,17 @@ public class PlanKontView implements Serializable {
     private void wyczyscKonta(String rb) {
         if (rb.equals("wynikowe")) {
             List<Konto> listakont = kontoDAOfk.findWszystkieKontaWynikowePodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            for (Konto p : listakont) {
+            listakont.forEach((p) -> {
                 p.setKontopozycjaID(null);
-            }
+            });
             if (listakont != null) {
                 kontoDAOfk.editList(listakont);
             }
         } else {
             List<Konto> listakont = kontoDAOfk.findWszystkieKontaBilansowePodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            for (Konto p : listakont) {
+            listakont.forEach((p) -> {
                 p.setKontopozycjaID(null);
-            }
+            });
             if (listakont != null) {
                 kontoDAOfk.editList(listakont);
             }
@@ -2076,6 +2075,20 @@ public class PlanKontView implements Serializable {
             System.out.println("BLAD implementujwmma0mn1ma0Wszystkie");
         }
     }    
+
+    private void usunpozycjebiezace() {
+        List<KontopozycjaBiezaca> pozycje = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        if (!pozycje.isEmpty()) {
+            kontopozycjaBiezacaDAO.destroy(pozycje);
+        }
+    }
+
+    private void usunpozycjezapisane() {
+        List<KontopozycjaZapis> pozycje = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        if (!pozycje.isEmpty()) {
+            kontopozycjaBiezacaDAO.destroy(pozycje);
+        }
+    }
 
     
 

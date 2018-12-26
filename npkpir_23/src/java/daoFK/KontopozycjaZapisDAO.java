@@ -5,6 +5,7 @@
 package daoFK;
 
 import dao.DAO;
+import entity.Podatnik;
 import entityfk.Konto;
 import entityfk.KontopozycjaZapis;
 import entityfk.UkladBR;
@@ -89,6 +90,14 @@ public class KontopozycjaZapisDAO extends DAO implements Serializable{
             E.e(e);
         }
         return kontopozycjaZapis;
+    }
+
+    public List<KontopozycjaZapis> findKontaPozycjaZapisPodatnikRok(Podatnik podatnik, String rok) {
+        try {
+            return sessionFacade.findKontaPozycjaZapisPodatnikRok(podatnik, rok);
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
     }
     
 }

@@ -26,7 +26,7 @@ import msg.Msg;
 public class PlanKontFKKopiujBean {
     
     public static List<Konto> skopiujlevel0(KontoDAOfk kontoDAOfk, Podatnik podatnikDocelowy, List<Konto> wykazkont, String rokDocelowy) {
-        List<Konto> macierzyste = Collections.synchronizedList(new ArrayList<>());
+        List<Konto> macierzyste = new ArrayList<>();
         for (Konto p : wykazkont) {
             if (p.getLevel() == 0) {
                 Konto r = serialclone.SerialClone.clone(p);
@@ -50,7 +50,7 @@ public class PlanKontFKKopiujBean {
     }
 
     public static List<Konto> skopiujlevel(KontoDAOfk kontoDAOfk, Podatnik podatnikzrodlowy, Podatnik podatnikDocelowy, List<Konto> wykazkont, List<Konto> macierzystelista, int biezacylevel, String rokdocelowy, boolean kopiujSlownikowe) {
-        List<Konto> nowemacierzyste = Collections.synchronizedList(new ArrayList<>());
+        List<Konto> nowemacierzyste = new ArrayList<>();
         for (Konto p : wykazkont) {
             if (p.getLevel() == biezacylevel) {
                 try {

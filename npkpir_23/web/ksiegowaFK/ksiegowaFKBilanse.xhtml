@@ -21,6 +21,20 @@
                     <h:form>
                         <p:growl life="3600"  autoUpdate="true"/>
                     </h:form>
+                    <p:confirmDialog id="confirmDialog" message="Usunąć dany układ? Operacja jest nieodwracalna!"  
+                                         header="Usuwanie układu" severity="alert" widgetVar="confirm" width="500" appendTo="@(body)"
+                                         >
+                        <h:form id="dialogusuwanieukladu">
+                            <p:outputPanel style="height: 40px; text-align: center;">
+                                <h:outputText value="układ - #{ukladBRView.selected.uklad} #{ukladBRView.selected.rok}"/>
+                            </p:outputPanel>
+                                <p:commandButton id="confirm" value="Tak"  oncomplete="PF('confirm').hide();"
+                                                 actionListener="#{ukladBRView.usun()}"
+                                                 style="float: left; width: 120px; margin-left: 2%;" update=":formprojektuklad :formdialog_uklad_kopiuj">
+                                </p:commandButton>
+                                <p:commandButton id="decline" value="Nie" onclick="PF('confirm').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
+                            </h:form>
+                    </p:confirmDialog> 
                     <ui:include src="sub/menu/menubilanse.xhtml"/>
                     
                     <ui:include src="sub/dialog/dialog_rzis_porownanie.xhtml"/>

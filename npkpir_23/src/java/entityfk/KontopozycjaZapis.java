@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "KontopozycjaZapis.findByPozycjaWn", query = "SELECT k FROM KontopozycjaZapis k WHERE k.pozycjaWn = :pozycjaWn"),
     @NamedQuery(name = "KontopozycjaZapis.findByPozycjaMa", query = "SELECT k FROM KontopozycjaZapis k WHERE k.pozycjaMa = :pozycjaMa"),
     @NamedQuery(name = "KontopozycjaZapis.findByPodatnik", query = "SELECT k FROM KontopozycjaZapis k WHERE k.ukladBR = :podatnik"),
+    @NamedQuery(name = "KontopozycjaZapis.findByPodatnikRok", query = "SELECT k FROM KontopozycjaZapis k WHERE k.ukladBR.podatnik = :podatnik AND k.ukladBR.rok = :rok"),
     @NamedQuery(name = "KontopozycjaZapis.findByUklad", query = "SELECT k FROM KontopozycjaZapis k WHERE k.ukladBR = :uklad"),
     @NamedQuery(name = "KontopozycjaZapis.findByUkladWynikowe", query = "SELECT k FROM KontopozycjaZapis k WHERE k.ukladBR = :uklad AND  k.wynik0bilans1 = false"),
     @NamedQuery(name = "KontopozycjaZapis.findByUkladBilansowe", query = "SELECT k FROM KontopozycjaZapis k WHERE k.ukladBR = :uklad AND  k.wynik0bilans1 = true"),

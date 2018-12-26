@@ -37,8 +37,8 @@
                         </p:column>
                         <p:column headerText="zablokowany" style="width: 120px; text-align: center;">
                             <h:outputText value="zablokowany" rendered="#{loop.blokada}"/>
-                            <p:commandButton value="usuń" actionListener="#{ukladBRView.usun(loop)}" rendered="#{!loop.blokada}" style="width: 100px;" 
-                                             update=":formprojektuklad :formdialog_uklad_kopiuj" global="false"/>
+                            <p:commandButton value="usuń"  rendered="#{!loop.blokada}" style="width: 100px;" onclick="PF('confirm').show()"
+                                             update="dialogusuwanieukladu" global="false"/>
                         </p:column>
 
                     </p:dataTable>

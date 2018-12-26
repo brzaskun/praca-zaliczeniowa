@@ -6,6 +6,8 @@
 package viewfk;
 
 import beansFK.PlanKontFKBean;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
+import comparator.Kontocomparator;
 import comparator.RoznicaSaldBOcomparator;
 import comparator.StronaWierszacomparatorBO;
 import daoFK.KontoDAOfk;
@@ -399,7 +401,7 @@ public class BilansGenerowanieView implements Serializable {
     }
 
     private List<Konto> zrobwierszeBO(List<WierszBO> wierszeBO, List<SaldoKonto> listaSaldoKonto, List<Konto> kontaNowyRok, List<Konto> kontazdziecmi) {
-        List<Konto> brakujacekontanowyrok = Collections.synchronizedList(new ArrayList<>());
+        Set<Konto> brakujacekontanowyrok = new HashSet<>();
         if (!listaSaldoKonto.isEmpty()) {
             for (SaldoKonto p : listaSaldoKonto) {
                 if (p.getKonto().getBilansowewynikowe().equals("bilansowe")) {
@@ -415,7 +417,9 @@ public class BilansGenerowanieView implements Serializable {
                 }
             }
         }
-        return brakujacekontanowyrok;
+        List<Konto> zwrot = new ArrayList<>(brakujacekontanowyrok);
+        Collections.sort(zwrot, new Kontocomparator());
+        return zwrot;
     }
 
     private Konto nowekonto(Konto konto, List<Konto> kontaNowyRok) {

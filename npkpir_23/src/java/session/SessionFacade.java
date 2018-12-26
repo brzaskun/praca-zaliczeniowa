@@ -192,8 +192,8 @@ public class SessionFacade<T> implements Serializable {
         for (T p : entityList) {
             try {
                 getEntityManager().persist(p);
-                
             } catch (Exception e) {
+                E.e(e);
             }
         }
     }
@@ -1155,7 +1155,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Konto> findKontoPodatnik(Podatnik podatnik, String rok) {
-        return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList());
+        return em.createNamedQuery("Konto.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList();
     }
     
     public List<Konto> findKontoPodatnikImplementacja(Podatnik podatnik, String rok) {
@@ -1163,8 +1163,8 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         lg.addAttribute("kontopozycjaID");
         lg.addAttribute("kontokategoria");
         lg.addAttribute("kontomacierzyste");
-        return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).setHint(QueryHints.REFRESH, HintValues.TRUE)
-                .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
+        return em.createNamedQuery("Konto.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).setHint(QueryHints.REFRESH, HintValues.TRUE)
+                .setHint(QueryHints.LOAD_GROUP, lg).getResultList();
     }
     
 //    public List<Konto> findKontoPodatnikEager(Podatnik podatnik, String rok) {
@@ -2334,6 +2334,14 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<UkladBR> findWszystkieUkladBR() {
         return Collections.synchronizedList(em.createNamedQuery("UkladBR.findAll").setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
+    }
+
+    public List<KontopozycjaBiezaca> findKontaPozycjaBiezacaPodatnikRok(Podatnik podatnik, String rok) {
+        return em.createNamedQuery("KontopozycjaBiezaca.findByPodatnikRok").setParameter("rok", rok).setParameter("podatnik", podatnik).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList();
+    }
+
+    public List<KontopozycjaZapis> findKontaPozycjaZapisPodatnikRok(Podatnik podatnik, String rok) {
+        return em.createNamedQuery("KontopozycjaZapis.findByPodatnikRok").setParameter("rok", rok).setParameter("podatnik", podatnik).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList();
     }
 
     

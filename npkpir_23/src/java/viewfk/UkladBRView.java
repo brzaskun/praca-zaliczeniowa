@@ -174,22 +174,23 @@ public class UkladBRView implements Serializable {
         }
     }
 
-    public void usun(UkladBR ukladBR) {
+    public void usun() {
         try {
-            if (ukladBR != null) {
+            if (selected != null) {
                 List<Konto> konta = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                 for (Konto k : konta) {
                     k.setKontopozycjaID(null);
                 }
                 kontoDAOfk.editList(konta);
-                kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "wynikowe");
-                kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "bilansowe");
-                kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(ukladBR, "wynikowe");
-                kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(ukladBR, "bilansowe");
-                ukladBRDAO.destroy(ukladBR);
-                lista.remove(ukladBR);
-                pozycjaRZiSDAO.findRemoveRzisuklad(ukladBR);
-                pozycjaBilansDAO.findRemoveBilansuklad(ukladBR);
+                kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(selected, "wynikowe");
+                kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(selected, "bilansowe");
+                kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(selected, "wynikowe");
+                kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(selected, "bilansowe");
+                ukladBRDAO.destroy(selected);
+                lista.remove(selected);
+                pozycjaRZiSDAO.findRemoveRzisuklad(selected);
+                pozycjaBilansDAO.findRemoveBilansuklad(selected);
+                selected = null;
                 Msg.msg("i", "Usunięto wybrany układ");
             } else {
                 Msg.msg("e", "Nie wybrano układu do usunięcia");

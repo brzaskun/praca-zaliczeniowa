@@ -41,7 +41,7 @@
                     <h:outputText value="Rok - #{WpisView.rokWpisuSt}"/>
                 </p:column>
             </p:panelGrid>
-            <p:panelGrid columns="1" style="height: 550px;">
+            <p:panelGrid columns="1" style="height: 550px; overflow-y: scroll;">
                 <p:dataGrid value="#{bilansGenerowanieView.komunikatyok}" var="ok" emptyMessage=""
                             columns="1" rowIndexVar="index">
                     <h:outputText value="#{index+1}. " style="color: green;"/>

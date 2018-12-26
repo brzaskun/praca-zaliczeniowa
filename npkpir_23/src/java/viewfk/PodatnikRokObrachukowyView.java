@@ -53,6 +53,9 @@ public class PodatnikRokObrachukowyView implements Serializable {
         try {
             int zwrot = 1;
             zwrot = kopiujplankont();
+            if (zwrot==1) {
+                throw new Exception();
+            }
             zwrot = kopiujuklad();
             if (zwrot==0) {
                 Msg.msg("Otwarto rok "+wpisView.getRokWpisuSt());
