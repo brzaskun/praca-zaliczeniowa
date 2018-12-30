@@ -54,18 +54,24 @@ public class JPKPKPIR2018View implements Serializable {
         } else {
             try {
                 Map<String,Object> danepkpir_info = JPKPKPIR2018Bean.zrobwierszeinfo(wierszeksiegi, wpisView);
-                jpk.setNaglowek(JPKPKPIR2018Bean.naglowek(wpisView, celzlozenia, tKodUS));
-                jpk.setPodmiot1(JPKPKPIR2018Bean.podmiot(wpisView));
-                jpk.setPKPIRInfo(JPKPKPIR2018Bean.pkpirinfo(danepkpir_info));
-                Collection<? extends JPK.PKPIRWiersz> listawierszy = JPKPKPIR2018Bean.generujwiersze(wierszeksiegi);
-                jpk.getPKPIRWiersz().addAll(listawierszy);
-                jpk.setPKPIRCtrl(JPKPKPIR2018Bean.kontrola(listawierszy));
-                String sciezka = marszajuldoplikuxml(wpisView.getPodatnikObiekt(), jpk);
-                String polecenie = "wydrukXML(\""+sciezka+"\")";
-                RequestContext.getCurrentInstance().execute(polecenie);
-                Msg.msg("Wygenerowano JPK_PKPIR");
+                if (danepkpir_info.get("p1")==null) {
+                    Msg.msg("e", "Brak remanentu początkowego");
+                } else if (danepkpir_info.get("p2")==null) {
+                    Msg.msg("e", "Brak remanentu końcowego");
+                } else {
+                    jpk.setNaglowek(JPKPKPIR2018Bean.naglowek(wpisView, celzlozenia, tKodUS));
+                    jpk.setPodmiot1(JPKPKPIR2018Bean.podmiot(wpisView));
+                    jpk.setPKPIRInfo(JPKPKPIR2018Bean.pkpirinfo(danepkpir_info));
+                    Collection<? extends JPK.PKPIRWiersz> listawierszy = JPKPKPIR2018Bean.generujwiersze(wierszeksiegi);
+                    jpk.getPKPIRWiersz().addAll(listawierszy);
+                    jpk.setPKPIRCtrl(JPKPKPIR2018Bean.kontrola(listawierszy));
+                    String sciezka = marszajuldoplikuxml(wpisView.getPodatnikObiekt(), jpk);
+                    String polecenie = "wydrukXML(\""+sciezka+"\")";
+                    RequestContext.getCurrentInstance().execute(polecenie);
+                    Msg.msg("Wygenerowano JPK_PKPIR");
+                }
             } catch (Exception e) {
-                Msg.msg("e","Wsytąpił błąd. Nie wygenerowano jpkpkpir");
+                Msg.msg("e","Wystąpił błąd. Nie wygenerowano jpkpkpir");
             }
         }
         return jpk;

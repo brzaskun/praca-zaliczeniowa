@@ -171,8 +171,10 @@ public class JPKPKPIR2018Bean {
     private static BigDecimal spisznaturynapoczatek(WpisView wpisView) {
         BigDecimal zwrot = BigDecimal.ZERO;
         String wartosc = ParametrView.zwrocParametr(wpisView.getPodatnikObiekt().getRemanent(), wpisView.getRokWpisu(), 1);
-        if (wartosc.equals("blad")) {
+        if (!wartosc.equals("blad")) {
             zwrot = new BigDecimal(wartosc);
+        } else {
+            zwrot = null;
         }
         return zwrot;
     }
@@ -180,8 +182,10 @@ public class JPKPKPIR2018Bean {
     private static BigDecimal spisznaturynakoniec(WpisView wpisView) {
         BigDecimal zwrot = BigDecimal.ZERO;
         String wartosc = ParametrView.zwrocParametr(wpisView.getPodatnikObiekt().getRemanent(), wpisView.getRokWpisu(), 12);
-        if (wartosc.equals("blad")) {
+        if (!wartosc.equals("blad")) {
             zwrot = new BigDecimal(wartosc);
+        } else {
+            zwrot = null;
         }
         return zwrot;
     }
