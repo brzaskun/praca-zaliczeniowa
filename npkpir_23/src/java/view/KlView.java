@@ -25,6 +25,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
+import static msg.Msg.msg;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import params.Params;
@@ -333,12 +334,10 @@ public class KlView implements Serializable {
             //kl1 = Collections.synchronizedList(new ArrayList<>());
             //kl1.addAll(klDAO.findAll());
             selected = new Klienci();
-            FacesMessage msg = new FacesMessage("Zapisano zmienione dane klienta", selected.getNpelna());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            Msg.msg("Zapisano zmienione dane klienta ", selected.getNpelna());
         } catch (Exception e) {
             E.e(e);
-            FacesMessage msg = new FacesMessage("Wystąpił błąd. Nie zapisano zmienionych danych klienta", e.getStackTrace().toString());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            Msg.msg("e","Wystąpił błąd. Nie zapisano zmienionych danych klienta", e.getStackTrace().toString());
         }
     }
 

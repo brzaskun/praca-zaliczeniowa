@@ -38,8 +38,9 @@ import org.jsoup.select.Elements;
  */
 public class VIESCheckBean {
     
-    public static void sprawdz(List klienciWDTWNT, ViesDAO viesDAO, Podatnik podatnik, Uz wprowadzil)  {
-         if (klienciWDTWNT != null) {
+    public static boolean sprawdz(List klienciWDTWNT, ViesDAO viesDAO, Podatnik podatnik, Uz wprowadzil)  {
+        boolean zwrot = true;
+        if (klienciWDTWNT != null) {
             List<Vies> viesy = Collections.synchronizedList(new ArrayList<>());
              for (Iterator it = klienciWDTWNT.iterator(); it.hasNext();) {
                  VatUe p = (VatUe) it.next();
@@ -59,7 +60,10 @@ public class VIESCheckBean {
                          p.setVies(v);
                          v.setVatue(p);
                      } catch (SocketTimeoutException se) {
+                         zwrot = false;
                          E.e(se);
+                     } catch (Exception e) {
+                         zwrot = false;
                      }
                      if (v != null) {
                          viesy.add(v);
@@ -67,6 +71,7 @@ public class VIESCheckBean {
                  }
              }
         }
+        return zwrot;
     }
     
     private static boolean sprawdznip(String nip) {

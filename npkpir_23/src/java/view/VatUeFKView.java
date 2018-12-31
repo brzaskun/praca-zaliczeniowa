@@ -47,6 +47,7 @@ import pdffk.PdfVIES;
 import vies.VIESCheckBean;
 import vies.Vies;
 import waluty.Z;
+import xml.XMLValid;
 
 /**
  *
@@ -239,10 +240,12 @@ public class VatUeFKView implements Serializable {
         for (DokSuper p : listadokumentow) {
             if (warunekkontrahenci(p)) {
                 //wyszukujemy dokumenty WNT i WDT dodajemu do sumy
-                VatUe veu = new VatUe(p.getRodzajedok().getSkrot(), p.getKontr(), 0.0, 0);
-                veu.setZawierafk(new ArrayList<>());
-                klienty.add(veu);
-                uzupelnijdanekontrahenta(p.getKontr());
+                if (p.getKontr()!=null) {
+                    VatUe veu = new VatUe(p.getRodzajedok().getSkrot(), p.getKontr(), 0.0, 0);
+                    veu.setZawierafk(new ArrayList<>());
+                    klienty.add(veu);
+                    uzupelnijdanekontrahenta(p.getKontr());
+                }
             }
         }
         return klienty;
@@ -336,8 +339,13 @@ public class VatUeFKView implements Serializable {
     
     public void sprawdzVIES() {
        try {
-        VIESCheckBean.sprawdz(klienciWDTWNT, viesDAO, wpisView.getPodatnikObiekt(), wpisView.getWprowadzil());
-        Msg.msg("Sprawdzono VIES");
+        boolean zwrot = true;
+        zwrot = VIESCheckBean.sprawdz(klienciWDTWNT, viesDAO, wpisView.getPodatnikObiekt(), wpisView.getWprowadzil());
+        if (zwrot) {
+            Msg.msg("Sprawdzono VIES");
+        } else {
+            Msg.msg("e","Problem z NIP-em. Przerwano sprawdzanie VIES. Przejrzyj niesprawdzone pozycje");
+        }
        } catch (Exception e) {
            E.e(e);
        }
@@ -473,21 +481,26 @@ public class VatUeFKView implements Serializable {
         boolean zwrot = false;
         try {
             String deklaracja = sporzadz(lista, korekta);
-            Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
-            if (podpisanadeklaracja != null) {
-                DeklaracjavatUE deklaracjavatUE = generujdeklaracje(podpisanadeklaracja);
-                deklaracjavatUE.setNrkolejny(nrkolejny);
-                for (VatUe p : lista) {
-                    p.setDeklaracjavatUE(deklaracjavatUE);
+            Object[] walidacja = XMLValid.walidujCMLVATUE(deklaracja);
+            if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
+                Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
+                if (podpisanadeklaracja != null) {
+                    DeklaracjavatUE deklaracjavatUE = generujdeklaracje(podpisanadeklaracja);
+                    deklaracjavatUE.setNrkolejny(nrkolejny);
+                    for (VatUe p : lista) {
+                        p.setDeklaracjavatUE(deklaracjavatUE);
+                    }
+                    deklaracjavatUE.setPozycje(lista);
+                    //deklaracjavatUEDAO.dodaj(deklaracjavatUE); dodamy ja przy wysylce bo wtedy robimy edit dok
+                    deklaracjeUE.add(deklaracjavatUE);
+                    deklaracjeUE_biezace.add(deklaracjavatUE);
+                    Msg.msg("Sporządzono deklarację VAT-UE miesięczną wersja 4");
+                    zwrot = true;
+                } else {
+                    Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UE. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
                 }
-                deklaracjavatUE.setPozycje(lista);
-                //deklaracjavatUEDAO.dodaj(deklaracjavatUE); dodamy ja przy wysylce bo wtedy robimy edit dok
-                deklaracjeUE.add(deklaracjavatUE);
-                deklaracjeUE_biezace.add(deklaracjavatUE);
-                Msg.msg("Sporządzono deklarację VAT-UE miesięczną wersja 4");
-                zwrot = true;
             } else {
-                Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UE. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
+                Msg.msg("e", (String) walidacja[1]);
             }
         } catch (Exception e) {
             Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UE miesięczną wersja. Sprawdź parametry podatnika!");

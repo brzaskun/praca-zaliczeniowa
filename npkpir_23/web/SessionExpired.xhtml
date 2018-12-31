@@ -25,14 +25,26 @@
             var czerwonyobrazek = function() {
                 document.getElementById("buttonwylogowanie").src = "resources/images/redbutton.png";
             };
+            
+            const LOCAL_DOMAINS = ["localhost"];
+            const LOCAL_DOMAINS_OFFICE = ["192.168.1.13"];
+            var czylocal = function() {
+                var zwrot = "http://taxman.pl:8080/npkpir_23";
+                if (LOCAL_DOMAINS.includes(window.location.hostname)) {
+                  zwrot = "http://localhost:8080/npkpir_23";
+                } else if (LOCAL_DOMAINS_OFFICE.includes(window.location.hostname)) {
+                  zwrot = "http://192.168.1.13:8080/npkpir_23";
+                }
+                document.getElementById("actionform").action = zwrot;
+            };
         </script>
             <p:panel style="text-align: center; margin: 10% auto;  width: 600px; border-style: none;">
                 <h:outputText value="Twoja sesja niestety wygasła  z powodu bezczynności - zaloguj się ponownie." style="font-weight: bold;"></h:outputText>
                 <p></p>
-                <form action="http://taxman.pl:8080">
+                <form id="actionform"  >
                     <input type="image" value="Zaloguj się ponownie" src="resources/images/redbutton.png" style="width: 50px; height: 50px;"
                            id="buttonwylogowanie"
-                           onmouseover="zielonyobrazek()" onmouseout="czerwonyobrazek()"
+                           onmouseover="czylocal(),zielonyobrazek()" onmouseout="czerwonyobrazek()"
                            />
                 </form>
             </p:panel>
