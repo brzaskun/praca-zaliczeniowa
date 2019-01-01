@@ -981,7 +981,10 @@ public class StronaWiersza implements Serializable {
     }
     
     public String getKontrahetZapisy(String podatniknip) {
-        String zwrot = this.getDokfk().getKontr().getNip().equals(podatniknip) ? "" : this.getKontrahent();
+        String zwrot = this.getKontrahent();
+        if (this.getDokfk().getKontr().getNip()!=null) {
+            zwrot = this.getDokfk().getKontr().getNip().equals(podatniknip) ? "" : this.getKontrahent();
+        }
         if (this.wiersz.geteVatwpisFK() != null) {
             zwrot = this.wiersz.geteVatwpisFK().getKontr().getNpelna();
         }
