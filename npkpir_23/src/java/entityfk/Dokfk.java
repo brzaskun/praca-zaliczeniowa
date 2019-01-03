@@ -63,6 +63,7 @@ import waluty.Z;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Dokfk.findAll", query = "SELECT d FROM Dokfk d"),
+    @NamedQuery(name = "Dokfk.findById", query = "SELECT d FROM Dokfk d WHERE d.id = :id"),
     @NamedQuery(name = "Dokfk.findBySeriadokfk", query = "SELECT d FROM Dokfk d WHERE d.seriadokfk = :seriadokfk"),
     @NamedQuery(name = "Dokfk.findBySeriaRokdokfk", query = "SELECT d FROM Dokfk d WHERE d.seriadokfk = :seriadokfk AND d.rok = :rok"),
     @NamedQuery(name = "Dokfk.findBySeriaNumerRokdokfk", query = "SELECT d FROM Dokfk d WHERE d.seriadokfk = :seriadokfk AND d.rok = :rok AND d.podatnikObj = :podatnik AND d.miesiac = :mc"),
@@ -92,7 +93,7 @@ import waluty.Z;
     @NamedQuery(name = "Dokfk.znajdzDokumentPodatnikWpr", query = "SELECT DISTINCT d.podatnikObj.nazwapelna FROM Dokfk d WHERE d.wprowadzil = :wprowadzil"),
     @NamedQuery(name = "Dokfk.znajdzSeriePodatnik", query = "SELECT DISTINCT d.seriadokfk FROM Dokfk d WHERE d.rok = :rok AND d.podatnikObj = :podatnik")
 })
-@Cacheable
+@Cacheable(false)
 public class Dokfk extends DokSuper implements Serializable {
 
     private static final long serialVersionUID = 1L; //dd

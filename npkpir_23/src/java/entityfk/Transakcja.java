@@ -45,7 +45,7 @@ import waluty.Z;
     @NamedQuery(name = "Transakcja.findByPodatnikRokRozniceKursowe", query = "SELECT t FROM Transakcja t WHERE t.rozliczajacy.wiersz.dokfk.rok = :rok AND t.rozliczajacy.wiersz.dokfk.miesiac = :mc AND t.rozliczajacy.wiersz.dokfk.podatnikObj = :podatnikObj AND t.roznicekursowe != 0"),
     @NamedQuery(name = "Transakcja.findByPodatnikBORozniceKursowe", query = "SELECT t FROM Transakcja t WHERE t.nowaTransakcja.wiersz IS NULL AND t.nowaTransakcja.konto.podatnik = :podatnik AND t.roznicekursowe != 0 AND t.rozliczajacy.wiersz.dokfk.rok = :rok AND t.rozliczajacy.wiersz.dokfk.miesiac = :mc")
 })
-@Cacheable
+@Cacheable(false)
 public class Transakcja  implements Serializable {
     private static final long serialVersionUID = 1L;
     

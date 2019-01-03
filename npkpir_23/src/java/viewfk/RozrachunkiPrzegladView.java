@@ -226,7 +226,7 @@ public class RozrachunkiPrzegladView implements Serializable{
         filtrrozrachunkow();
         //kontoZapisFKView.pobierzZapisyNaKoncieNodeRozrachunki(wybranekonto);
         //kontoZapisFKView.setWybranekonto(wybranekonto);
-        sumawaluta = 0.0;
+            sumawaluta = 0.0;
         sumapl = 0.0;
         sumujwszystkie();
         RequestContext.getCurrentInstance().update("paseknorth");

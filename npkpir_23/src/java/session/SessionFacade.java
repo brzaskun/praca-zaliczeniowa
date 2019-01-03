@@ -1412,7 +1412,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<StronaWiersza> findStronaWierszaByKontoWnMa(Konto konto, String wnma) {
         try {
-            return em.createNamedQuery("StronaWiersza.findByStronaWierszaKonto").setParameter("konto", konto).setParameter("wnma", wnma).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList();
+            LoadGroup lg = new LoadGroup();
+            lg.addAttribute("nowetransakcje");
+            return em.createNamedQuery("StronaWiersza.findByStronaWierszaKonto").setParameter("konto", konto).setParameter("wnma", wnma)
+                    .setHint(QueryHints.LOAD_GROUP, lg).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -1439,8 +1442,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<StronaWiersza> findStronaWierszaByKontoWnMaKorekta(Konto konto, String wnma) {
         try {
-            
-            return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoKorekta").setParameter("konto", konto).setParameter("wnma", wnma).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
+            LoadGroup lg = new LoadGroup();
+            lg.addAttribute("nowetransakcje");
+            return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoKorekta").setParameter("konto", konto).setParameter("wnma", wnma)
+                    .setHint(QueryHints.LOAD_GROUP, lg).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -1520,25 +1525,37 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<StronaWiersza> findStronaByPodatnikKontoRokWszystkieNT(Podatnik podatnik, Konto konto, String rok) {
         //List lista = em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWszystkieNT").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList();
         //this.refresh(lista);
-        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWszystkieNT").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
+        LoadGroup lg = new LoadGroup();
+        lg.addAttribute("nowetransakcje");
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWszystkieNT").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok)
+                .setHint(QueryHints.LOAD_GROUP, lg).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoRokWalutyWszystkieNT(Podatnik podatnik, String wybranaWalutaDlaKonta, Konto konto, String rok) {
         //List lista = em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkieNT").setParameter("podatnikObj", podatnik).setParameter("wybranaWalutaDlaKonta", wybranaWalutaDlaKonta).setParameter("konto", konto).setParameter("rok", rok).getResultList();
         //this.refresh(lista);
-        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkieNT").setParameter("podatnikObj", podatnik).setParameter("wybranaWalutaDlaKonta", wybranaWalutaDlaKonta).setParameter("konto", konto).setParameter("rok", rok).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
+        LoadGroup lg = new LoadGroup();
+        lg.addAttribute("nowetransakcje");
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkieNT").setParameter("podatnikObj", podatnik).setParameter("wybranaWalutaDlaKonta", wybranaWalutaDlaKonta).setParameter("konto", konto).setParameter("rok", rok)
+                .setHint(QueryHints.LOAD_GROUP, lg).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoRokWszystkieR(Podatnik podatnik, Konto konto, String rok) {
         //List lista = em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWszystkieR").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList();
         //this.refresh(lista);
-        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWszystkieR").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
+        LoadGroup lg = new LoadGroup();
+        lg.addAttribute("platnosci");
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWszystkieR").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok)
+                .setHint(QueryHints.LOAD_GROUP, lg).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoRokWalutyWszystkieR(Podatnik podatnik, String wybranaWalutaDlaKonta, Konto konto, String rok) {
         //List lista = em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkieR").setParameter("podatnikObj", podatnik).setParameter("wybranaWalutaDlaKonta", wybranaWalutaDlaKonta).setParameter("konto", konto).setParameter("rok", rok).getResultList();
         //this.refresh(lista);
-        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkieR").setParameter("podatnikObj", podatnik).setParameter("wybranaWalutaDlaKonta", wybranaWalutaDlaKonta).setParameter("konto", konto).setParameter("rok", rok).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
+        LoadGroup lg = new LoadGroup();
+        lg.addAttribute("platnosci");
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkieR").setParameter("podatnikObj", podatnik).setParameter("wybranaWalutaDlaKonta", wybranaWalutaDlaKonta).setParameter("konto", konto).setParameter("rok", rok)
+                .setHint(QueryHints.LOAD_GROUP, lg).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikRokWalutaWynik(Podatnik podatnik, String rok, String skrotWaluty) {
@@ -2342,6 +2359,23 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<KontopozycjaZapis> findKontaPozycjaZapisPodatnikRok(Podatnik podatnik, String rok) {
         return em.createNamedQuery("KontopozycjaZapis.findByPodatnikRok").setParameter("rok", rok).setParameter("podatnik", podatnik).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList();
+    }
+
+    public Dokfk findDokfId(Dokfk wybranyDokfk) {
+        try {
+            LoadGroup lg = new LoadGroup();
+            lg.addAttribute("listawierszy");
+            lg.addAttribute("listawierszy.strona.nowetransakcje");
+            lg.addAttribute("listawierszy.strona.platnosci"); 
+            return (Dokfk) em.createNamedQuery("Dokfk.findById")
+                    .setParameter("id", wybranyDokfk.getId())
+                    .setHint(QueryHints.REFRESH, HintValues.TRUE)
+                    .setHint(QueryHints.LOAD_GROUP, lg)
+                    .getSingleResult();
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
     }
 
     

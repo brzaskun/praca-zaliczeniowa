@@ -1178,7 +1178,7 @@ public class DokfkView implements Serializable {
                 if (wierszDoUsuniecia.getTypWiersza() == 5) {
                     Msg.msg("e", "Usuń najpierw wiersz z 4.");
                 } else {
-                    usunrozrachunki(liczbawierszyWDokumencie);
+                    //usunrozrachunki(liczbawierszyWDokumencie);
                     liczbawierszyWDokumencie--;
                     selected.getListawierszy().remove(liczbawierszyWDokumencie);
                     Msg.msg("Wiersz usunięty.");
@@ -1193,11 +1193,11 @@ public class DokfkView implements Serializable {
                 wierszDoUsuniecia = selected.getListawierszy().get(0);
                 try {
                     if (wiersz.getIdporzadkowy() != null) {
-                        usunrozrachunki(liczbawierszyWDokumencie);
+                      //  usunrozrachunki(liczbawierszyWDokumencie);
                         selected.setListawierszy(new ArrayList<Wiersz>());
                         liczbawierszyWDokumencie--;
                     } else {
-                        usunrozrachunki(liczbawierszyWDokumencie);
+                        //usunrozrachunki(liczbawierszyWDokumencie);
                         selected.getListawierszy().remove(0);
                         liczbawierszyWDokumencie--;
                     }
@@ -1620,9 +1620,10 @@ public class DokfkView implements Serializable {
     
     public void przygotujDokumentEdycja(Dokfk wybranyDokfk, Integer row) {
         try {
+                selected = dokDAOfk.findDokfkID(wybranyDokfk);
                 wybranyDokfk.setwTrakcieEdycji(true);
                 idwierszedycjaodswiezenie = row;
-                selected = wybranyDokfk;
+                
                 //selected.setwTrakcieEdycji(true);
                 //dokDAOfk.edit(selected);
                 wybranaTabelanbp = selected.getTabelanbp();
@@ -2053,19 +2054,20 @@ public class DokfkView implements Serializable {
                         rachunekCzyPlatnosc = rachunek == true ? "rachunek" : "płatność";
                         RequestContext.getCurrentInstance().update("formtransakcjawybor:transakcjawybormenu");
                     }
-                    if (wybranastronawiersza.getTypStronaWiersza() == 1) {
-                        biezacetransakcje = tworzenieTransakcjiRachunek(wnma, wybranastronawiersza);
-                        RequestContext.getCurrentInstance().update("rozrachunki");
-                        RequestContext.getCurrentInstance().update("dialogdrugi");
-                        RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
-                        //platnosc
-                    } else if (wybranastronawiersza.getTypStronaWiersza() == 2) {
-                        biezacetransakcje = tworzenieTransakcjiPlatnosc(wnma, wybranastronawiersza);
-                        RequestContext.getCurrentInstance().update("rozrachunki");
-                        RequestContext.getCurrentInstance().update("dialogdrugi");
-                        RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
-                    } else {
-                    }
+                    //to juz jest jak wciakam art-r no i zostawienie tego powoduje ze przy edycji dokumentu kreuja sie puste transakcje, ktore potem sa zachowywane  bazie
+//                    if (wybranastronawiersza.getTypStronaWiersza() == 1) {
+//                        biezacetransakcje = tworzenieTransakcjiRachunek(wnma, wybranastronawiersza);
+//                        RequestContext.getCurrentInstance().update("rozrachunki");
+//                        RequestContext.getCurrentInstance().update("dialogdrugi");
+//                        RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
+//                        //platnosc
+//                    } else if (wybranastronawiersza.getTypStronaWiersza() == 2) {
+//                        biezacetransakcje = tworzenieTransakcjiPlatnosc(wnma, wybranastronawiersza);
+//                        RequestContext.getCurrentInstance().update("rozrachunki");
+//                        RequestContext.getCurrentInstance().update("dialogdrugi");
+//                        RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
+//                    } else {
+//                    }
 
                 } 
                 if (wybranastronawiersza.getKonto() != null && wybranastronawiersza.getKonto().equals(selected.getRodzajedok().getKontorozrachunkowe())) {
@@ -2300,6 +2302,7 @@ public class DokfkView implements Serializable {
         while (it.hasNext()) {
             Transakcja tr = (Transakcja) it.next();
             if (Z.z(tr.getKwotatransakcji()) == 0.0) {
+                tr.getNowaTransakcja().getPlatnosci().remove(tr);
                 it.remove();
             } else if (aktualnyWierszDlaRozrachunkow.getWiersz().getDataWalutyWiersza() != null) {
                 tr.setDatarozrachunku(ustawdatetransakcji());

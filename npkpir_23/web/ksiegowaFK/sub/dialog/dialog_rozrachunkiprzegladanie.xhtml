@@ -177,7 +177,7 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                         <p:ajax event="toggleSelect" listener="#{rozrachunkiPrzegladView.sumujwybrane}" update="sumy" global="false"/>
                         <p:column selectionMode="multiple" styleClass="checkwiersza" width="35" style="text-align: center;"></p:column>
                         <p:column style="height: 19px; text-align: center;" width="25">
-                            <p:rowToggler />
+                            <p:rowToggler rendered="#{loop.platnosci.size() gt 0 or loop.nowetransakcje.size() gt 0}"/>
                         </p:column>
                         <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center;"  >
                             <h:outputText styleClass="lpwiersza" value="#{rowindex+1}" style="width: 20px;"/>
