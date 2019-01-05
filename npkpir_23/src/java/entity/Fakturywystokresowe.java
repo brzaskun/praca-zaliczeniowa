@@ -79,6 +79,7 @@ public class Fakturywystokresowe implements Serializable {
         @JoinColumn(name = "fa_numerkolejny", referencedColumnName = "numerkolejny")
     })
     private Faktura dokument;
+    private Faktura fakturaoryginal;
     @Size(max = 10)
     @Column(length = 10)
     private String datawystawienia;

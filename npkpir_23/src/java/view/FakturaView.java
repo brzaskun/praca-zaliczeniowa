@@ -39,7 +39,6 @@ import entity.Dok;
 import entity.EVatwpis1;
 import entity.Evewidencja;
 import entity.Faktura;
-import entity.FakturaPK;
 import entity.FakturaStopkaNiemiecka;
 import entity.FakturaWalutaKonto;
 import entity.Fakturadodelementy;
@@ -371,8 +370,8 @@ public class FakturaView implements Serializable {
         String pelnadata = FakturaBean.obliczdatawystawienia(wpisView);
         selected.setDatawystawienia(pelnadata);
         selected.setDatasprzedazy(pelnadata);
-        FakturaPK fakturaPK = new FakturaPK("wpisz numer",wpisView.getPodatnikWpisu());
-        selected.setFakturaPK(fakturaPK);
+        selected.setNumerkolejny("wpisz numer");
+        selected.setWystawcanazwa(wpisView.getPodatnikWpisu());
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setMiejscewystawienia(FakturaBean.pobierzmiejscewyst(podatnikobiekt));
         selected.setTerminzaplaty(FakturaBean.obliczterminzaplaty(podatnikobiekt, pelnadata));
@@ -456,7 +455,7 @@ public class FakturaView implements Serializable {
             }
             if (selected.getIdfakturaokresowa()!=null && selected.isTylkodlaokresowej()) {
                 String nowynumer = String.valueOf(new DateTime().getMillis());
-                selected.getFakturaPK().setNumerkolejny(nowynumer);
+                selected.setNumerkolejny(nowynumer);
                 selected.setTylkodlaokresowej(true);
                 fakturaDAO.dodaj(selected);
                 selected.getIdfakturaokresowa().setDokument(selected);
@@ -580,7 +579,7 @@ public class FakturaView implements Serializable {
         selected = serialclone.SerialClone.clone(faktura);
         selected.setZaksiegowana(false);
         selected.setWyslana(false);
-        selected.setPrzyczynakorekty("Korekta faktury nr "+faktura.getFakturaPK().getNumerkolejny()+" z dnia "+faktura.getDatawystawienia()+" z powodu: ");
+        selected.setPrzyczynakorekty("Korekta faktury nr "+faktura.getNumerkolejny()+" z dnia "+faktura.getDatawystawienia()+" z powodu: ");
         fakturazwykla = faktura.isFakturaNormalna();
         fakturavatmarza = faktura.isFakturavatmarza();
         fakturaxxl = faktura.isFakturaxxl();
@@ -589,7 +588,7 @@ public class FakturaView implements Serializable {
         aktywnytab = 0;
         pokazfakture = true;
         zapis0edycja1 = false;
-        selected.getFakturaPK().setNumerkolejny(selected.getFakturaPK().getNumerkolejny()+"/KOR");
+        selected.setNumerkolejny(selected.getNumerkolejny()+"/KOR");
         selected.setPozycjepokorekcie(SerialClone.clone(faktura.getPozycjenafakturze()));
 //        String funkcja = "PF('tworzenieklientapolenazwy').search('"+faktura.getKontrahent_nip()+"');";
 //        RequestContext.getCurrentInstance().execute(funkcja);
@@ -671,7 +670,7 @@ public class FakturaView implements Serializable {
                 if (p.isWygenerowanaautomatycznie() == true) {
                     zaktualizujokresowa(p);
                 }
-                Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getFakturaPK().getNumerkolejny());
+                Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getNumerkolejny());
             } catch (Exception e) { 
                 E.e(e); 
             }
@@ -685,10 +684,10 @@ public class FakturaView implements Serializable {
                 if (p.isWygenerowanaautomatycznie() == true) {
                     zaktualizujokresowa(p);
                 }
-                Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getFakturaPK().getNumerkolejny());
+                Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getNumerkolejny());
             } catch (Exception e) { 
                 E.e(e); 
-                Msg.msg("e", "Nie usunięto faktury sporządzonej: " + p.getFakturaPK().getNumerkolejny()+". Problem z aktualizacją okresowych.");
+                Msg.msg("e", "Nie usunięto faktury sporządzonej: " + p.getNumerkolejny()+". Problem z aktualizacją okresowych.");
             }
         }
     }
@@ -701,10 +700,10 @@ public class FakturaView implements Serializable {
                 if (fakturyFilteredpro != null) {
                     fakturyFilteredpro.remove(p);
                 }
-                Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getFakturaPK().getNumerkolejny());
+                Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getNumerkolejny());
             } catch (Exception e) { 
                 E.e(e); 
-                Msg.msg("e", "Nie usunięto faktury sporządzonej: " + p.getFakturaPK().getNumerkolejny());
+                Msg.msg("e", "Nie usunięto faktury sporządzonej: " + p.getNumerkolejny());
             }
         }
     }
@@ -728,13 +727,13 @@ public class FakturaView implements Serializable {
                 if (p.isWygenerowanaautomatycznie() == true) {
                     zaktualizujokresowa(p);
                 }
-                Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getFakturaPK().getNumerkolejny());
+                Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getNumerkolejny());
                 if (mialokresowo) {
                     Msg.msg("i", "Usunięto też fakturę okresową, która powstała na bazie usuwanej");
                 }
             } catch (Exception e) { 
                 E.e(e); 
-                Msg.msg("e", "Nie usunięto faktury sporządzonej: " + p.getFakturaPK().getNumerkolejny());
+                Msg.msg("e", "Nie usunięto faktury sporządzonej: " + p.getNumerkolejny());
             }
         }
     }
@@ -752,11 +751,11 @@ public class FakturaView implements Serializable {
                 if (fakturyFiltered != null) {
                     fakturyFiltered.remove(p);
                 }
-                Msg.msg("i", "Usunięto fakturę archiwalną: " + p.getFakturaPK().getNumerkolejny());
+                Msg.msg("i", "Usunięto fakturę archiwalną: " + p.getNumerkolejny());
                 usunfakturezaksiegowana(p);
             } catch (Exception e) { 
                 E.e(e); 
-                Msg.msg("e", "Nie usunięto faktury archiwalnej: " + p.getFakturaPK().getNumerkolejny());
+                Msg.msg("e", "Nie usunięto faktury archiwalnej: " + p.getNumerkolejny());
             }
             
         }
@@ -764,13 +763,13 @@ public class FakturaView implements Serializable {
     
     private void usunfakturezaksiegowana(Faktura p) {
         try {
-                Dok znajdka = dokDAO.findFaktWystawione(p.getWystawca(), p.getKontrahent(), p.getFakturaPK().getNumerkolejny(), p.getBrutto());
+                Dok znajdka = dokDAO.findFaktWystawione(p.getWystawca(), p.getKontrahent(), p.getNumerkolejny(), p.getBrutto());
                 dokDAO.destroy(znajdka);
-                Msg.msg("i", "Usunięto księgowanie faktury: " + p.getFakturaPK().getNumerkolejny());
+                Msg.msg("i", "Usunięto księgowanie faktury: " + p.getNumerkolejny());
             } catch (EJBException e1) {
                 Msg.msg("w", "Faktura nie była zaksięgowana");
             } catch (Exception e2) {
-                Msg.msg("e", "Błąd! Nie usunięto księgowania faktury: " + p.getFakturaPK().getNumerkolejny());
+                Msg.msg("e", "Błąd! Nie usunięto księgowania faktury: " + p.getNumerkolejny());
             }
     }
 
@@ -975,7 +974,7 @@ public class FakturaView implements Serializable {
             selDokument.setTabelanbp(p.getTabelanbp());
             Rodzajedok rodzajedok = rodzajedokDAO.find("SZ", wpisView.getPodatnikObiekt());
             selDokument.setRodzajedok(rodzajedok);
-            selDokument.setNrWlDk(faktura.getFakturaPK().getNumerkolejny());
+            selDokument.setNrWlDk(faktura.getNumerkolejny());
             selDokument.setOpis(faktura.getPozycjenafakturze().get(0).getNazwa());
             List<KwotaKolumna1> listaX = Collections.synchronizedList(new ArrayList<>());
             KwotaKolumna1 tmpX = new KwotaKolumna1();
@@ -1303,8 +1302,8 @@ public class FakturaView implements Serializable {
                     Msg.msg("i", "Generuje bieżącą fakturę z okresowej. Kontrahent: " + nowa.getKontrahent().getNpelna());
                 } catch (Exception e) { 
                     E.e(e); 
-                    Faktura nibyduplikat = fakturaDAO.findbyNumerPodatnik(nowa.getFakturaPK().getNumerkolejny(), nowa.getFakturaPK().getWystawcanazwa());
-                    Msg.msg("e", "Faktura o takim numerze istnieje juz w bazie danych: data-" + nibyduplikat.getDatawystawienia()+" numer-"+nibyduplikat.getFakturaPK().getNumerkolejny()+" wystawca-"+nibyduplikat.getFakturaPK().getWystawcanazwa());
+                    Faktura nibyduplikat = fakturaDAO.findbyNumerPodatnik(nowa.getNumerkolejny(), nowa.getWystawcanazwa());
+                    Msg.msg("e", "Faktura o takim numerze istnieje juz w bazie danych: data-" + nibyduplikat.getDatawystawienia()+" numer-"+nibyduplikat.getNumerkolejny()+" wystawca-"+nibyduplikat.getWystawcanazwa());
                 }
             }
         }
@@ -1752,7 +1751,7 @@ public class FakturaView implements Serializable {
         }
         for (int i = gosciwybral.size()-1; i > -1 ; i--) {
            Faktura p = SerialClone.clone(gosciwybral.get(i));
-           String[] tabelanumer = p.getFakturaPK().getNumerkolejny().split("/");
+           String[] tabelanumer = p.getNumerkolejny().split("/");
            int nowynumer = Integer.parseInt(tabelanumer[j]);
            nowynumer++;
            String nowynumerS = String.valueOf(nowynumer);
@@ -1775,7 +1774,7 @@ public class FakturaView implements Serializable {
                }
            }
            fakturaDAO.destroy(gosciwybral.get(i));
-           p.getFakturaPK().setNumerkolejny(nowynumerfakt);
+           p.setNumerkolejny(nowynumerfakt);
            fakturaDAO.dodaj(p);
         }
         gosciwybral = Collections.synchronizedList(new ArrayList<>());
@@ -1795,7 +1794,7 @@ public class FakturaView implements Serializable {
         }
         for (int i = 0; i <gosciwybral.size() ; i++) {
            Faktura p = SerialClone.clone(gosciwybral.get(i));
-           String[] tabelanumer = p.getFakturaPK().getNumerkolejny().split("/");
+           String[] tabelanumer = p.getNumerkolejny().split("/");
            int nowynumer = Integer.parseInt(tabelanumer[j]);
            nowynumer--;
            String nowynumerS = String.valueOf(nowynumer);
@@ -1818,7 +1817,7 @@ public class FakturaView implements Serializable {
                }
            }
            fakturaDAO.destroy(gosciwybral.get(i));
-           p.getFakturaPK().setNumerkolejny(nowynumerfakt);
+           p.setNumerkolejny(nowynumerfakt);
            fakturaDAO.dodaj(p);
         }
         gosciwybral = Collections.synchronizedList(new ArrayList<>());
@@ -1840,9 +1839,9 @@ public class FakturaView implements Serializable {
     
     public void oznaczproforma() {
         wgenerujnumerfaktury();
-        if (selected.getFakturaPK().getNumerkolejny() != null && selected.getFakturaPK().getNumerkolejny().length() > 1 && !selected.getFakturaPK().getNumerkolejny().equals("wpisz numer")) {
-            if (selected.isProforma() && !selected.getFakturaPK().getNumerkolejny().contains("/PROFORMA")) {
-                selected.getFakturaPK().setNumerkolejny(selected.getFakturaPK().getNumerkolejny()+"/PROFORMA");
+        if (selected.getNumerkolejny() != null && selected.getNumerkolejny().length() > 1 && !selected.getNumerkolejny().equals("wpisz numer")) {
+            if (selected.isProforma() && !selected.getNumerkolejny().contains("/PROFORMA")) {
+                selected.setNumerkolejny(selected.getNumerkolejny()+"/PROFORMA");
             }
             Msg.msg("Oznaczono fakturę jako PROFORMA Zmieniono numer faktury.");
         } else {
@@ -2182,14 +2181,14 @@ public class FakturaView implements Serializable {
     }
    
    public void skorygujnumer() {
-       String numer = selected.getFakturaPK().getNumerkolejny();
+       String numer = selected.getNumerkolejny();
        boolean jest = false;
        if (numer.contains(".") || numer.contains("-") || numer.contains("\\")) {
            jest = true;
            numer = numer.replace(".", "/");
            numer = numer.replace(",", "/");
            numer = numer.replace("\\", "/");
-           selected.getFakturaPK().setNumerkolejny(numer);
+           selected.setNumerkolejny(numer);
        }
        if (jest) {
            Msg.msg("w", "Skorygowano numer faktury. Usunięto niedozwolone znaki");

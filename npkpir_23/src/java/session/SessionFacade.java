@@ -1742,7 +1742,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public Faktura findfaktura(Faktura f) {
-        return em.find(Faktura.class, f.getFakturaPK());
+        return em.find(Faktura.class, f);
     }
 
     public Fakturaelementygraficzne findFaktElementyGraficzne(String podatnik) {

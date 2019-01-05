@@ -2549,7 +2549,7 @@ public class PdfMain {
                 Faktura p = (Faktura) it.next();
                 table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8, 20f));
                 table.addCell(ustawfrazeAlign(p.getDatawystawienia(), "center", 8));
-                table.addCell(ustawfrazeAlign(p.getFakturaPK().getNumerkolejny(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getNumerkolejny(), "center", 8));
                 table.addCell(ustawfrazeAlign(p.getKontrahent().getNpelna()+" "+p.getKontrahent().getNip(), "left", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(p.getPozycjenafakturze().get(0).getNazwa()), "left", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getBrutto())), "right", 8));

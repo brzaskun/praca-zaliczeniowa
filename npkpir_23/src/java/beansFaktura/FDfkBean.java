@@ -85,7 +85,7 @@ public class FDfkBean {
     }
      
     private static void ustawnumerwlasny(Dokfk nd, Faktura faktura) {
-        String numer = faktura.getFakturaPK().getNumerkolejny();
+        String numer = faktura.getNumerkolejny();
         nd.setNumerwlasnydokfk(numer);
     }
     

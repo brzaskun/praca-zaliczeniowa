@@ -109,7 +109,7 @@ public class FakturaBean {
     }
     
     private static String[] elementydokumentu(Faktura ostatnidokument, String separator) {
-        return ostatnidokument.getFakturaPK().getNumerkolejny().split(separator);
+        return ostatnidokument.getNumerkolejny().split(separator);
     }
     
     private static String zwieksznumer(String[] elementywzorca, String[] elementypoprzedniafakt, WpisView wpisView, String separator, int nowanumeracjamc) {

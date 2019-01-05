@@ -73,7 +73,7 @@ public class FakturaZestView implements Serializable {
                     f = odnalezione.get(n);
                     FakturaZestawienie.FZTresc ft = f.new FZTresc();
                     ft.setMc(p.getMc());
-                    ft.setNrfakt(p.getFakturaPK().getNumerkolejny());
+                    ft.setNrfakt(p.getNumerkolejny());
                     ft.setNetto(p.getNetto());
                     ft.setVat(p.getVat());
                     ft.setBrutto(p.getBrutto());
@@ -90,7 +90,7 @@ public class FakturaZestView implements Serializable {
                     if (odnalezionyPodatnik != null) {
                         f.setPodatnik(odnalezionyPodatnik);
                         ft.setMc(p.getMc());
-                        ft.setNrfakt(p.getFakturaPK().getNumerkolejny());
+                        ft.setNrfakt(p.getNumerkolejny());
                         ft.setNetto(p.getNetto());
                         ft.setVat(p.getVat());
                         ft.setBrutto(p.getBrutto());
@@ -101,7 +101,7 @@ public class FakturaZestView implements Serializable {
                     } else {
                         f.setKontrahent(p.getKontrahent());
                         ft.setMc(p.getMc());
-                        ft.setNrfakt(p.getFakturaPK().getNumerkolejny());
+                        ft.setNrfakt(p.getNumerkolejny());
                         ft.setNetto(p.getNetto());
                         ft.setVat(p.getVat());
                         ft.setBrutto(p.getBrutto());

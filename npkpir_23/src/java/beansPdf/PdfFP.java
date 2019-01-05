@@ -216,12 +216,12 @@ public class PdfFP {
                     pozycja = zwrocPolozenieElementu(skladnikifaktury, "fakturanumer");
                     prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:fakturanumer") - 5, 190, 20);
                     if (selected.isGutschrift()) {
-                        text = "Gutschrift Nr "+ selected.getFakturaPK().getNumerkolejny();
+                        text = "Gutschrift Nr "+ selected.getNumerkolejny();
                     } else {
                         if (selected.isZaliczkowa()) {
-                            text = B.b("fakturazaliczkowanr")+" "+ selected.getFakturaPK().getNumerkolejny();
+                            text = B.b("fakturazaliczkowanr")+" "+ selected.getNumerkolejny();
                         } else {
-                            text = B.b("fakturanr")+" "+ selected.getFakturaPK().getNumerkolejny();
+                            text = B.b("fakturanr")+" "+ selected.getNumerkolejny();
                         }
                     }
                     absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:fakturanumer"), 10);
@@ -488,7 +488,7 @@ public class PdfFP {
                     //Dane do modulu fakturanumer
                     pobrane = zwrocPolozenieElementu(skladnikifaktury, "fakturanumer");
                     prost(canvas, (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:fakturanumer") - 5, 190, 20);
-                    absText(canvas, B.b("fakturanr")+" " + selected.getFakturaPK().getNumerkolejny(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:fakturanumer"), 10);
+                    absText(canvas, B.b("fakturanr")+" " + selected.getNumerkolejny(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:fakturanumer"), 10);
                     break;
                 case "akordeon:formwzor:wystawca":
                     //Dane do modulu sprzedawca

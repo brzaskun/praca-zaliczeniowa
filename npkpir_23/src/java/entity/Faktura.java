@@ -13,12 +13,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -28,6 +32,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -37,28 +42,31 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(catalog = "pkpir", schema = "")
+@Table(catalog = "pkpir",uniqueConstraints = {
+    @UniqueConstraint(
+            columnNames={"wystawcanazwa, numerkolejny, tylkodlaokresowej"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Faktura.findAll", query = "SELECT f FROM Faktura f"),
-    @NamedQuery(name = "Faktura.findByWystawcanazwa", query = "SELECT f FROM Faktura f WHERE f.fakturaPK.wystawcanazwa = :wystawcanazwa"),
-    @NamedQuery(name = "Faktura.findByNumerkolejnyWystawcanazwa", query = "SELECT f FROM Faktura f WHERE f.fakturaPK.numerkolejny = :numerkolejny AND f.fakturaPK.wystawcanazwa = :wystawcanazwa"),
-    @NamedQuery(name = "Faktura.findByWystawcanazwaRok", query = "SELECT f FROM Faktura f WHERE f.fakturaPK.wystawcanazwa = :wystawcanazwa AND f.rok = :rok"),
-    @NamedQuery(name = "Faktura.findByWystawcanazwaRokMc", query = "SELECT f FROM Faktura f WHERE f.fakturaPK.wystawcanazwa = :wystawcanazwa AND f.rok = :rok AND f.mc = :mc"),
-    @NamedQuery(name = "Faktura.findByWystawcanazwaRokMcNiezaplacone", query = "SELECT f FROM Faktura f WHERE f.fakturaPK.wystawcanazwa = :wystawcanazwa AND f.rok = :rok AND f.mc = :mc AND f.datazaplaty IS NULL AND f.tylkodlaokresowej = '0'"),
-    @NamedQuery(name = "Faktura.findByWystawcanazwaRokMcZaplacone", query = "SELECT f FROM Faktura f WHERE f.fakturaPK.wystawcanazwa = :wystawcanazwa AND f.rok = :rok AND f.mc = :mc AND f.datazaplaty IS NOT NULL AND f.tylkodlaokresowej = '0'"),
-    @NamedQuery(name = "Faktura.findByNumerkolejny", query = "SELECT f FROM Faktura f WHERE f.fakturaPK.numerkolejny = :numerkolejny"),
+    @NamedQuery(name = "Faktura.findByWystawcanazwa", query = "SELECT f FROM Faktura f WHERE f.wystawcanazwa = :wystawcanazwa"),
+    @NamedQuery(name = "Faktura.findByNumerkolejnyWystawcanazwa", query = "SELECT f FROM Faktura f WHERE f.numerkolejny = :numerkolejny AND f.wystawcanazwa = :wystawcanazwa"),
+    @NamedQuery(name = "Faktura.findByWystawcanazwaRok", query = "SELECT f FROM Faktura f WHERE f.wystawcanazwa = :wystawcanazwa AND f.rok = :rok"),
+    @NamedQuery(name = "Faktura.findByWystawcanazwaRokMc", query = "SELECT f FROM Faktura f WHERE f.wystawcanazwa = :wystawcanazwa AND f.rok = :rok AND f.mc = :mc"),
+    @NamedQuery(name = "Faktura.findByWystawcanazwaRokMcNiezaplacone", query = "SELECT f FROM Faktura f WHERE f.wystawcanazwa = :wystawcanazwa AND f.rok = :rok AND f.mc = :mc AND f.datazaplaty IS NULL AND f.tylkodlaokresowej = '0'"),
+    @NamedQuery(name = "Faktura.findByWystawcanazwaRokMcZaplacone", query = "SELECT f FROM Faktura f WHERE f.wystawcanazwa = :wystawcanazwa AND f.rok = :rok AND f.mc = :mc AND f.datazaplaty IS NOT NULL AND f.tylkodlaokresowej = '0'"),
+    @NamedQuery(name = "Faktura.findByNumerkolejny", query = "SELECT f FROM Faktura f WHERE f.numerkolejny = :numerkolejny"),
     @NamedQuery(name = "Faktura.findByRodzajdokumentu", query = "SELECT f FROM Faktura f WHERE f.rodzajdokumentu = :rodzajdokumentu"),
     @NamedQuery(name = "Faktura.findByRodzajtransakcji", query = "SELECT f FROM Faktura f WHERE f.rodzajtransakcji = :rodzajtransakcji"),
     @NamedQuery(name = "Faktura.findByKontrahent_nip", query = "SELECT f FROM Faktura f WHERE f.kontrahent_nip = :kontrahent_nip"),
-    @NamedQuery(name = "Faktura.findByKontrahent", query = "SELECT f FROM Faktura f WHERE f.kontrahent_nip = :kontrahent_nip AND f.fakturaPK.wystawcanazwa = :wystawcanazwa"),
-    @NamedQuery(name = "Faktura.findByKontrahentRok", query = "SELECT f FROM Faktura f WHERE f.kontrahent.nip = :kontrahent_nip AND f.fakturaPK.wystawcanazwa = :wystawcanazwa AND f.rok = :rok AND f.tylkodlaokresowej = '0' ORDER BY f.datawystawienia"),
-    @NamedQuery(name = "Faktura.findByKontrahentRokPo2015", query = "SELECT f FROM Faktura f WHERE f.kontrahent_nip = :kontrahent_nip AND f.fakturaPK.wystawcanazwa = :wystawcanazwa AND f.rok > 2015 ORDER BY f.datawystawienia"),
+    @NamedQuery(name = "Faktura.findByKontrahent", query = "SELECT f FROM Faktura f WHERE f.kontrahent_nip = :kontrahent_nip AND f.wystawcanazwa = :wystawcanazwa"),
+    @NamedQuery(name = "Faktura.findByKontrahentRok", query = "SELECT f FROM Faktura f WHERE f.kontrahent.nip = :kontrahent_nip AND f.wystawcanazwa = :wystawcanazwa AND f.rok = :rok AND f.tylkodlaokresowej = '0' ORDER BY f.datawystawienia"),
+    @NamedQuery(name = "Faktura.findByKontrahentRokPo2015", query = "SELECT f FROM Faktura f WHERE f.kontrahent_nip = :kontrahent_nip AND f.wystawcanazwa = :wystawcanazwa AND f.rok > 2015 ORDER BY f.datawystawienia"),
     @NamedQuery(name = "Faktura.findByRok", query = "SELECT f FROM Faktura f WHERE f.rok = :rok"),
-    @NamedQuery(name = "Faktura.findByRokPodatnik", query = "SELECT f FROM Faktura f WHERE f.rok = :rok AND f.fakturaPK.wystawcanazwa = :wystawcanazwa"),
+    @NamedQuery(name = "Faktura.findByRokPodatnik", query = "SELECT f FROM Faktura f WHERE f.rok = :rok AND f.wystawcanazwa = :wystawcanazwa"),
     @NamedQuery(name = "Faktura.findByKonrahentPodatnik", query = "SELECT DISTINCT f.kontrahent FROM Faktura f WHERE f.wystawca = :podatnik"),
-    @NamedQuery(name = "Faktura.liczByRokPodatnik", query = "SELECT COUNT(f) FROM Faktura f WHERE f.rok = :rok AND f.fakturaPK.wystawcanazwa = :wystawcanazwa  AND f.tylkodlaokresowej = '0'"),
-    @NamedQuery(name = "Faktura.findOstatniaFakturaByRokPodatnik", query = "SELECT f FROM Faktura f WHERE f.rok = :rok AND f.fakturaPK.wystawcanazwa = :wystawcanazwa AND f.tylkodlaokresowej = '0' ORDER BY f.lp DESC"),
+    @NamedQuery(name = "Faktura.liczByRokPodatnik", query = "SELECT COUNT(f) FROM Faktura f WHERE f.rok = :rok AND f.wystawcanazwa = :wystawcanazwa  AND f.tylkodlaokresowej = '0'"),
+    @NamedQuery(name = "Faktura.findOstatniaFakturaByRokPodatnik", query = "SELECT f FROM Faktura f WHERE f.rok = :rok AND f.wystawcanazwa = :wystawcanazwa AND f.tylkodlaokresowej = '0' ORDER BY f.lp DESC"),
     @NamedQuery(name = "Faktura.findByDatawystawienia", query = "SELECT f FROM Faktura f WHERE f.datawystawienia = :datawystawienia"),
     @NamedQuery(name = "Faktura.findByDatasprzedazy", query = "SELECT f FROM Faktura f WHERE f.datasprzedazy = :datasprzedazy"),
     @NamedQuery(name = "Faktura.findByMiejscewystawienia", query = "SELECT f FROM Faktura f WHERE f.miejscewystawienia = :miejscewystawienia"),
@@ -77,8 +85,21 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Faktura.findByBrutto", query = "SELECT f FROM Faktura f WHERE f.brutto = :brutto")})
 public class Faktura implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected FakturaPK fakturaPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(nullable = false, length = 255)
+    private String wystawcanazwa;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 126)
+    @Column(nullable = false, length = 126)
+    private String numerkolejny;
     @JoinColumn(name = "podid", referencedColumnName = "id")
     @ManyToOne
     private Podatnik wystawca;
@@ -285,7 +306,8 @@ public class Faktura implements Serializable {
     }
 
     public Faktura(Faktura stara) {
-        this.fakturaPK =  stara.fakturaPK;
+        this.wystawcanazwa =  stara.wystawcanazwa;
+        this.numerkolejny = stara.numerkolejny;
         this.wystawca =  stara.wystawca;
         this.rodzajdokumentu =  stara.rodzajdokumentu;
         this.rodzajtransakcji =  stara.rodzajtransakcji;
@@ -322,16 +344,18 @@ public class Faktura implements Serializable {
 
     
 
-    public Faktura(FakturaPK fakturaPK) {
-        this.fakturaPK = fakturaPK;
+    public Faktura(String wystawcanazwa, String numerkolejny) {
+        this.wystawcanazwa =  wystawcanazwa;
+        this.numerkolejny = numerkolejny;
     }
 
-    public Faktura(FakturaPK fakturaPK, Podatnik wystawca, String rodzajdokumentu, String rodzajtransakcji, Klienci kontrahent, 
+    public Faktura(String wystawcanazwa, String numerkolejny, Podatnik wystawca, String rodzajdokumentu, String rodzajtransakcji, Klienci kontrahent, 
             String datawystawienia, String datasprzedazy, String miejscewystawienia, String terminzaplaty, String sposobzaplaty, 
             String nrkontabankowego, String walutafaktury, String podpis, List<Pozycjenafakturzebazadanych> pozycjenafakturze, 
             boolean zatwierdzona, boolean wyslana, boolean zaksiegowana, String autor, double netto, double vat, double brutto, 
             List<EVatwpis> ewidencjavat, String rok, String mc, String numerzamowienia, String swift) {
-        this.fakturaPK = fakturaPK;
+        this.wystawcanazwa =  wystawcanazwa;
+        this.numerkolejny = numerkolejny;
         this.wystawca = wystawca;
         this.rodzajdokumentu = rodzajdokumentu;
         this.rodzajtransakcji = rodzajtransakcji;
@@ -361,10 +385,7 @@ public class Faktura implements Serializable {
         this.duplikaty = Collections.synchronizedList(new ArrayList<>());
     }
 
-    public Faktura(String wystawcanazwa, String numerkolejny) {
-        this.fakturaPK = new FakturaPK(wystawcanazwa, numerkolejny);
-    }
-    
+       
     public String kolorklawisza() {
         String zwrot="";
         if (Data.compareDay(this.terminzaplaty, Data.aktualnaData())<0) {
@@ -372,8 +393,31 @@ public class Faktura implements Serializable {
         }
         return zwrot;
     }
+//<editor-fold defaultstate="collapsed" desc="comment">
+    public String getWystawcanazwa() {
+        return wystawcanazwa;
+    }
 
-    //<editor-fold defaultstate="collapsed" desc="comment">
+    public void setWystawcanazwa(String wystawcanazwa) {
+        this.wystawcanazwa = wystawcanazwa;
+    }
+
+    public String getNumerkolejny() {
+        return numerkolejny;
+    }
+
+    
+    public void setNumerkolejny(String numerkolejny) {
+        this.numerkolejny = numerkolejny;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getNazwa() {
         return nazwa;
@@ -676,13 +720,6 @@ public class Faktura implements Serializable {
         this.zaliczkowa = zaliczkowa;
     }
 
-    public FakturaPK getFakturaPK() {
-        return fakturaPK;
-    }
-    
-    public void setFakturaPK(FakturaPK fakturaPK) {
-        this.fakturaPK = fakturaPK;
-    }
 
     public boolean isFakturaniemiecka13b() {
         return fakturaniemiecka13b;
@@ -1046,31 +1083,7 @@ public class Faktura implements Serializable {
     
     
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (fakturaPK != null ? fakturaPK.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Faktura)) {
-            return false;
-        }
-        Faktura other = (Faktura) object;
-        if ((this.fakturaPK == null && other.fakturaPK != null) || (this.fakturaPK != null && !this.fakturaPK.equals(other.fakturaPK))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Faktura{" + "fakturaPK=" + fakturaPK + "kontrahent "+ kontrahent.getNpelna() +"}";
-    }
-
+   
 
 //    public Integer getKontrahentID() {
 //        return kontrahentID;
@@ -1087,6 +1100,45 @@ public class Faktura implements Serializable {
 //    public void setWystawcaNIP(String wystawcaNIP) {
 //        this.wystawcaNIP = wystawcaNIP;
 //    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 89 * hash + Objects.hashCode(this.id);
+        hash = 89 * hash + Objects.hashCode(this.wystawcanazwa);
+        hash = 89 * hash + Objects.hashCode(this.numerkolejny);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Faktura other = (Faktura) obj;
+        if (!Objects.equals(this.wystawcanazwa, other.wystawcanazwa)) {
+            return false;
+        }
+        if (!Objects.equals(this.numerkolejny, other.numerkolejny)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Faktura{" + "numerkolejny=" + numerkolejny + ", wystawca=" + wystawca.getPrintnazwa() + ", kontrahent=" + kontrahent.getNskrocona() + '}';
+    }
+
 
     
    

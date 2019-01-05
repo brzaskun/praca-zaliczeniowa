@@ -29,4 +29,7 @@ public class WniosekVATZDSuper  implements Serializable {
 //            return null;
 //        }
 //    }
+
+    public WniosekVATZDSuper() {
+    }
 }
