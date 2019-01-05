@@ -5,6 +5,10 @@
  */
 package treasures;
 
+import entity.Faktura;
+import entity.FakturaDuplikat;
+import entity.Fakturywystokresowe;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -33,7 +37,17 @@ public class JPAProgramatically {
 //  </persistence-unit>
                 
        public static void main(String[] args)  {
-        EntityManagerFactory emfH2 = javax.persistence.Persistence.createEntityManagerFactory("fkKonto1");
+        EntityManagerFactory emfH2 = javax.persistence.Persistence.createEntityManagerFactory("JavaApplication4PU");
         EntityManager emH2 = emfH2.createEntityManager();
+        List<Fakturywystokresowe> faktury = emH2.createQuery("SELECT o FROM Fakturywystokresowe o").getResultList();
+        emH2.getTransaction().begin();
+        for (Fakturywystokresowe f: faktury) {
+            //String query = "SELECT d FROM Faktura d WHERE d.fakturaPK.numerkolejny='"+f.getDokument().getFakturaPK().getNumerkolejny()+"' AND d.fakturaPK.wystawcanazwa='"+f.getDokument().getFakturaPK().getWystawcanazwa()+"'";
+            //Faktura faktura = (Faktura) emH2.createQuery(query).getSingleResult();
+            //f.setFa_id(faktura.getId());
+            emH2.merge(f);
+        }
+        emH2.getTransaction().commit();
+        System.out.println("koniec");
     }
 }

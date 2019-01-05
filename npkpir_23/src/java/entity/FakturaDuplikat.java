@@ -43,10 +43,7 @@ public class FakturaDuplikat implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @JoinColumns({
-        @JoinColumn(name = "fa_wystawcanazwa", referencedColumnName = "wystawcanazwa"),
-        @JoinColumn(name = "fa_numerkolejny", referencedColumnName = "numerkolejny")
-    })
+    @JoinColumn(name = "fa_id", referencedColumnName = "id")
     private Faktura dokument;
     @Basic(optional = false)
     @NotNull

@@ -74,12 +74,8 @@ public class Fakturywystokresowe implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(precision = 22)
     private Double brutto;
-    @JoinColumns({
-        @JoinColumn(name = "fa_wystawcanazwa", referencedColumnName = "wystawcanazwa"),
-        @JoinColumn(name = "fa_numerkolejny", referencedColumnName = "numerkolejny")
-    })
+    @JoinColumn(name = "fa_id", referencedColumnName = "id")
     private Faktura dokument;
-    private Faktura fakturaoryginal;
     @Size(max = 10)
     @Column(length = 10)
     private String datawystawienia;
