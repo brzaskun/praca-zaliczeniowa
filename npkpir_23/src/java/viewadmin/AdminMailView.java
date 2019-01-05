@@ -85,12 +85,18 @@ public class AdminMailView implements Serializable {
             wyslanemaile = Collections.synchronizedList(new ArrayList<>());
             DateTime dt = new DateTime();  // current time
             int month = dt.getMonthOfYear();
-            String mc = Mce.getNumberToMiesiac().get(month-1);
+            String mc = Mce.getNumberToMiesiac().get(month);
             String rok = String.valueOf(dt.getYear());
-            if (month == 0) {
+            if (month == 1) {
                 mc = Mce.getNumberToMiesiac().get(12);
                 rok = String.valueOf(dt.getYear()-1);
+            } else {
+                mc = Mce.getNumberToMiesiac().get(month-1);
+                rok = String.valueOf(dt.getYear());   
             }
+            System.out.println("pobieram rok "+rok);
+            System.out.println("pobieram miesiac "+mc);
+            System.out.println("pobieram month "+month);
             List<Fakturywystokresowe> wykazfaktur = fakturywystokresoweDAO.findOkresoweOstatnie("GRZELCZYK", mc, rok);
             if (wykazfaktur == null || wykazfaktur.size() == 0) {
                 String[] nowyrokmc = Mce.zmniejszmiesiac(rok,mc);
