@@ -5,8 +5,6 @@
  */
 package sprawozdania.rok2018;
 
-import entity.JPKSuper;
-import entity.Podatnik;
 import error.E;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,15 +13,9 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
-import jpkpkpir.v2018.JPK;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
 import view.WpisView;
-import viewfk.BilansGenerowanieView;
 
 /**
  *
@@ -41,6 +33,7 @@ public class SprawozdanieFin2018View  implements Serializable {
         try {
             JednostkaInna sprawozdanie = new JednostkaInna();
             sprawozdanie.naglowek = SprawozdanieFin2018Bean.naglowek("2019-01-01", "2018-01-01", "2018-12-31");
+            sprawozdanie.wprowadzenieDoSprawozdaniaFinansowego = SprawozdanieFin2018Bean.wprowadzenieDoSprawozdaniaFinansowego();
             String sciezka = marszajuldoplikuxml("8511005008", "01", "2019", sprawozdanie);
             //String polecenie = "wydrukXML(\""+sciezka+"\")";
             //RequestContext.getCurrentInstance().execute(polecenie);
