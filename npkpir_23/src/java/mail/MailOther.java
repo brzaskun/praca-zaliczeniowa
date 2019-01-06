@@ -99,7 +99,7 @@ public class MailOther implements Serializable{
                         + "<p>W załączeniu bieżąca faktura automatycznie wygenerowana przez nasz program księgowy.</p>"
                         + "<p>dla firmy "+klientf.getNpelna()+"</p>"
                         + "<p>za okres "+faktura.getRok()+"/"+faktura.getMc()+"</p>"
-                        + "<p>"+wiadomoscdodatkowa+"</p>"
+                        + "<p style=\"color: green;font-weight: bold;\">"+wiadomoscdodatkowa+"</p>"
                         + Mail.reklama
                         + stopka,  "text/html; charset=utf-8");
 

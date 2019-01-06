@@ -700,8 +700,6 @@ public class FakturaView implements Serializable {
                     E.e(e1);
                     Msg.msg("e", "Nie usunięto faktury sporządzonej: " + p.getNumerkolejny() + ". Problem z aktualizacją okresowych.");
                 }
-                Msg.msg("e", "Nie usunięto faktury sporządzonej: " + p.getNumerkolejny() + ". Problem z aktualizacją okresowych.");
-                E.e(e);
             }
 
         }
