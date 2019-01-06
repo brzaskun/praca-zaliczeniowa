@@ -790,6 +790,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return (Faktura) em.createNamedQuery("Faktura.findByNumerkolejnyWystawcanazwa").setParameter("wystawcanazwa", podatnik).setParameter("numerkolejny", numerkolejny).getSingleResult();
     }
 
+    public Faktura findByNumerPodatnikDlaOkresowej(String numerkolejny, String podatnik) {
+        return (Faktura) em.createNamedQuery("Faktura.findByNumerkolejnyWystawcanazwaDlaOkresowej").setParameter("wystawcanazwa", podatnik).setParameter("numerkolejny", numerkolejny).getSingleResult();
+    }
+    
     public List<Faktura> findByPodatnikRok(String podatnik, String rok) {
         return Collections.synchronizedList(em.createNamedQuery("Faktura.findByWystawcanazwaRok").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).getResultList());
     }
@@ -2377,6 +2381,8 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
             return null;
         }
     }
+
+    
 
     
 

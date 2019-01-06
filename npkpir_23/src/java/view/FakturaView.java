@@ -671,24 +671,39 @@ public class FakturaView implements Serializable {
                     zaktualizujokresowa(p);
                 }
                 Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getNumerkolejny());
-            } catch (Exception e) { 
-                E.e(e); 
-            }
-            try {
-                p.setTylkodlaokresowej(true);
-                fakturaDAO.edit(p);
-                faktury.remove(p);
-                if (fakturyFiltered != null) {
-                    fakturyFiltered.remove(p);
+            } catch (Exception e) {
+                try {
+                    Faktura jestjuzjednausunieta = fakturaDAO.findbyNumerPodatnikDlaOkresowej(p.getNumerkolejny(), p.getWystawcanazwa());
+                    if (jestjuzjednausunieta != null) {
+                        fakturaDAO.destroy(p);
+                        faktury.remove(p);
+                        if (fakturyFiltered != null) {
+                            fakturyFiltered.remove(p);
+                        }
+                        if (p.isWygenerowanaautomatycznie() == true) {
+                            zaktualizujokresowa(p);
+                        }
+                        Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getNumerkolejny());
+                    } else {
+                        p.setTylkodlaokresowej(true);
+                        fakturaDAO.edit(p);
+                        faktury.remove(p);
+                        if (fakturyFiltered != null) {
+                            fakturyFiltered.remove(p);
+                        }
+                        if (p.isWygenerowanaautomatycznie() == true) {
+                            zaktualizujokresowa(p);
+                        }
+                        Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getNumerkolejny());
+                    }
+                } catch (Exception e1) {
+                    E.e(e1);
+                    Msg.msg("e", "Nie usunięto faktury sporządzonej: " + p.getNumerkolejny() + ". Problem z aktualizacją okresowych.");
                 }
-                if (p.isWygenerowanaautomatycznie() == true) {
-                    zaktualizujokresowa(p);
-                }
-                Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getNumerkolejny());
-            } catch (Exception e) { 
-                E.e(e); 
-                Msg.msg("e", "Nie usunięto faktury sporządzonej: " + p.getNumerkolejny()+". Problem z aktualizacją okresowych.");
+                Msg.msg("e", "Nie usunięto faktury sporządzonej: " + p.getNumerkolejny() + ". Problem z aktualizacją okresowych.");
+                E.e(e);
             }
+
         }
     }
     

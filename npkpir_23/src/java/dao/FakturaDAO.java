@@ -116,6 +116,14 @@ public class FakturaDAO extends DAO implements Serializable {
         }
         return zwrot;
     }
+    public Faktura findbyNumerPodatnikDlaOkresowej(String numerkolejny, String podatnik) {
+        Faktura zwrot = null;
+        try {
+            zwrot = fakturaFacade.findByNumerPodatnikDlaOkresowej(numerkolejny, podatnik);
+        } catch (Exception e) {
+        }
+        return zwrot;
+    }
      
       public List<Faktura> findbyPodatnikRok(String podatnik, String rok) {
          try {

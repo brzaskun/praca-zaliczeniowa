@@ -67,28 +67,12 @@ public class FakturaZestView implements Serializable {
         Map<String,FakturaZestawienie> odnalezione = new ConcurrentHashMap<>();
         if (fakturyWystawione != null) {
             fakturyWystawione.parallelStream().forEach((p)->{
-                String n = p.getKontrahent().getNip();
-                FakturaZestawienie f = new FakturaZestawienie();
-                if (odnalezione.keySet().contains(n)) {
-                    f = odnalezione.get(n);
-                    FakturaZestawienie.FZTresc ft = f.new FZTresc();
-                    ft.setMc(p.getMc());
-                    ft.setNrfakt(p.getNumerkolejny());
-                    ft.setNetto(p.getNetto());
-                    ft.setVat(p.getVat());
-                    ft.setBrutto(p.getBrutto());
-                    ft.setData(p.getDatawystawienia());
-                    ft.setOpis(p.getPozycjenafakturze().get(0).getNazwa());
-                    ft.setFaktura(p);
-                    f.getTrescfaktury().add(ft);
-                } else {
-                    Podatnik odnalezionyPodatnik = null;
-                    try {
-                        odnalezionyPodatnik = znajdzpodattniknip(n);
-                    } catch (Exception e) { E.e(e); }
-                    FakturaZestawienie.FZTresc ft = f.new FZTresc();
-                    if (odnalezionyPodatnik != null) {
-                        f.setPodatnik(odnalezionyPodatnik);
+                if (p.isTylkodlaokresowej()==false) {
+                    String n = p.getKontrahent().getNip();
+                    FakturaZestawienie f = new FakturaZestawienie();
+                    if (odnalezione.keySet().contains(n)) {
+                        f = odnalezione.get(n);
+                        FakturaZestawienie.FZTresc ft = f.new FZTresc();
                         ft.setMc(p.getMc());
                         ft.setNrfakt(p.getNumerkolejny());
                         ft.setNetto(p.getNetto());
@@ -99,18 +83,36 @@ public class FakturaZestView implements Serializable {
                         ft.setFaktura(p);
                         f.getTrescfaktury().add(ft);
                     } else {
-                        f.setKontrahent(p.getKontrahent());
-                        ft.setMc(p.getMc());
-                        ft.setNrfakt(p.getNumerkolejny());
-                        ft.setNetto(p.getNetto());
-                        ft.setVat(p.getVat());
-                        ft.setBrutto(p.getBrutto());
-                        ft.setData(p.getDatawystawienia());
-                        ft.setOpis(p.getPozycjenafakturze().get(0).getNazwa());
-                        ft.setFaktura(p);
-                        f.getTrescfaktury().add(ft);
+                        Podatnik odnalezionyPodatnik = null;
+                        try {
+                            odnalezionyPodatnik = znajdzpodattniknip(n);
+                        } catch (Exception e) { E.e(e); }
+                        FakturaZestawienie.FZTresc ft = f.new FZTresc();
+                        if (odnalezionyPodatnik != null) {
+                            f.setPodatnik(odnalezionyPodatnik);
+                            ft.setMc(p.getMc());
+                            ft.setNrfakt(p.getNumerkolejny());
+                            ft.setNetto(p.getNetto());
+                            ft.setVat(p.getVat());
+                            ft.setBrutto(p.getBrutto());
+                            ft.setData(p.getDatawystawienia());
+                            ft.setOpis(p.getPozycjenafakturze().get(0).getNazwa());
+                            ft.setFaktura(p);
+                            f.getTrescfaktury().add(ft);
+                        } else {
+                            f.setKontrahent(p.getKontrahent());
+                            ft.setMc(p.getMc());
+                            ft.setNrfakt(p.getNumerkolejny());
+                            ft.setNetto(p.getNetto());
+                            ft.setVat(p.getVat());
+                            ft.setBrutto(p.getBrutto());
+                            ft.setData(p.getDatawystawienia());
+                            ft.setOpis(p.getPozycjenafakturze().get(0).getNazwa());
+                            ft.setFaktura(p);
+                            f.getTrescfaktury().add(ft);
+                        }
+                        odnalezione.put(n,f);
                     }
-                    odnalezione.put(n,f);
                 }
             });
         }

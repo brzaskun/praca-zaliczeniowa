@@ -51,6 +51,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Faktura.findAll", query = "SELECT f FROM Faktura f"),
     @NamedQuery(name = "Faktura.findByWystawcanazwa", query = "SELECT f FROM Faktura f WHERE f.wystawcanazwa = :wystawcanazwa"),
     @NamedQuery(name = "Faktura.findByNumerkolejnyWystawcanazwa", query = "SELECT f FROM Faktura f WHERE f.numerkolejny = :numerkolejny AND f.wystawcanazwa = :wystawcanazwa"),
+    @NamedQuery(name = "Faktura.findByNumerkolejnyWystawcanazwaDlaOkresowej", query = "SELECT f FROM Faktura f WHERE f.numerkolejny = :numerkolejny AND f.wystawcanazwa = :wystawcanazwa AND f.tylkodlaokresowej=1"),
     @NamedQuery(name = "Faktura.findByWystawcanazwaRok", query = "SELECT f FROM Faktura f WHERE f.wystawcanazwa = :wystawcanazwa AND f.rok = :rok"),
     @NamedQuery(name = "Faktura.findByWystawcanazwaRokMc", query = "SELECT f FROM Faktura f WHERE f.wystawcanazwa = :wystawcanazwa AND f.rok = :rok AND f.mc = :mc"),
     @NamedQuery(name = "Faktura.findByWystawcanazwaRokMcNiezaplacone", query = "SELECT f FROM Faktura f WHERE f.wystawcanazwa = :wystawcanazwa AND f.rok = :rok AND f.mc = :mc AND f.datazaplaty IS NULL AND f.tylkodlaokresowej = '0'"),
