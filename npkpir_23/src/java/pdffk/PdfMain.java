@@ -1516,7 +1516,7 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(p.getRodzajDok(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getNrDok(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getData(), "center", 8));
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSaldo())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSaldopln())), "right", 8));
                     table.addCell(ustawfrazeAlign(p.getOstatniaplatnoscdata(), "center", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOstatniaplatnosckwota())), "right", 8));
                 }
