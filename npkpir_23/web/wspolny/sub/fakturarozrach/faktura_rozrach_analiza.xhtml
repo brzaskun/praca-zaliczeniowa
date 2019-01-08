@@ -25,7 +25,7 @@
                                                     $(this).addClass('ui-state-default');">
                     <f:selectItems value="#{fakturaRozrachunkiAnalizaView.klienci}"/>
                     <p:ajax event="change" global="false" listener="#{fakturaRozrachunkiAnalizaView.pobierzwszystkoKlienta()}" 
-                            update=":akordeon:fakturaanaliza:tablicaanaliza :akordeon:fakturaanaliza:mailklienta"/>
+                            update=":akordeon:fakturaanaliza:tablicaanaliza :akordeon:fakturaanaliza:mailklientapanel"/>
                 </h:selectOneListbox>
                 <p:commandButton icon="fa fa-print" actionListener="#{fakturaRozrachunkiAnalizaView.drukujKlienci()}" style="width: 120px;"/>
             </p:panelGrid>
@@ -35,10 +35,15 @@
                 }
             </style>
                 <p:panelGrid style="margin-top: 10px;" columns="2">
-                    <p:panelGrid columns="1" style="width: 250px;">
-                <p:column width="250">
-                    <h:outputText id="mailklienta" value="mail: #{fakturaRozrachunkiAnalizaView.szukanyklient.email}" style="margin-top: 10px;" />
-                </p:column>
+                    <p:panelGrid columns="1" style="width: 250px;margin-top: 10px;" id="mailklientapanel">
+                    <p:column width="250">
+                        <h:outputText value="mail: "/>
+                        <p:inplace id="nrfaktury" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
+                            <p:inputText value="#{fakturaRozrachunkiAnalizaView.szukanyklient.email}"
+                                            required="true" label="text" style="font-weight: bolder;"/>  
+                            <p:ajax event="save" global="false" partialSubmit="true"/>
+                        </p:inplace>
+                    </p:column>
                 </p:panelGrid>
                 <p:panelGrid columns="2">
                  <p:column width="35" style="text-align: center;">
