@@ -255,7 +255,11 @@ public class PdfFP {
                         adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom();
                     }
                     absText(writer, adres, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca") - 40, 8);
-                    text = B.b("NIP")+": " + selected.getKontrahent().getNip();
+                    if (selected.getKontrahent().getNip() != null && selected.getKontrahent().getNip().startsWith("XX")) {
+                        text = B.b("numerklienta")+": " + selected.getKontrahent().getNip();
+                    } else {
+                        text = B.b("NIP")+": " + selected.getKontrahent().getNip();
+                    }
                     absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca") - 60, 8);
                     break;
                 case "akordeon:formwzor:towary":
@@ -514,7 +518,11 @@ public class PdfFP {
                     }
                     adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom();
                     absText(canvas, adres, (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca") - 40, 8);
-                    absText(canvas, B.b("NIP")+": " + selected.getKontrahent().getNip(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca") - 60, 8);
+                    if (selected.getKontrahent().getNip() != null && selected.getKontrahent().getNip().startsWith("XX")) {
+                        absText(canvas, B.b("numerklienta")+": " + selected.getKontrahent().getNip(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca") - 60, 8);
+                    } else {
+                        absText(canvas, B.b("NIP")+": " + selected.getKontrahent().getNip(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca") - 60, 8);
+                    }
                     break;
                 case "akordeon:formwzor:przewłaszczenie":
                     //Dane do modulu przewłaszczenie
