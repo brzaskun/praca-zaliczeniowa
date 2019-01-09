@@ -220,6 +220,8 @@ public class PdfFP {
                     } else {
                         if (selected.isZaliczkowa()) {
                             text = B.b("fakturazaliczkowanr")+" "+ selected.getNumerkolejny();
+                        } else if (selected.getPozycjepokorekcie() != null) {
+                            text = B.b("fakturakorektanr")+" "+ selected.getNumerkolejny();
                         } else {
                             text = B.b("fakturanr")+" "+ selected.getNumerkolejny();
                         }

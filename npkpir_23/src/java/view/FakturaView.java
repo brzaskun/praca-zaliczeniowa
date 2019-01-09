@@ -1850,6 +1850,31 @@ public class FakturaView implements Serializable {
         }
     }
     
+    public void drukujokresowezerowe() {
+        try {
+            List<Fakturywystokresowe> fakt = new ArrayList<>();
+            if (gosciwybralokres != null && gosciwybralokres.size() > 0) {
+                for (Fakturywystokresowe p :gosciwybralokres) {
+                    int wynik = pobierzpe(p);
+                    if (wynik==0) {
+                        fakt.add(p);
+                    }
+                }
+                PdfFakturyOkresowe.drukuj(fakt, wpisView.getPodatnikObiekt().getNip());
+            } else {
+                for (Fakturywystokresowe p :fakturyokresowe) {
+                    int wynik = pobierzpe(p);
+                    if (wynik==0) {
+                        fakt.add(p);
+                    }
+                }
+                PdfFakturyOkresowe.drukuj(fakt, wpisView.getPodatnikObiekt().getNip());
+            }
+        } catch (Exception e) {
+            Msg.dPe();
+        }
+    }
+    
     public void oznaczproforma() {
         wgenerujnumerfaktury();
         if (selected.getNumerkolejny() != null && selected.getNumerkolejny().length() > 1 && !selected.getNumerkolejny().equals("wpisz numer")) {
@@ -2172,6 +2197,49 @@ public class FakturaView implements Serializable {
         }
     }
   }
+
+    private int pobierzpe(Fakturywystokresowe p) {
+        int wynik = 0;
+        switch (wpisView.getMiesiacWpisu()) {
+            case "01":
+                wynik = p.getM1();
+                break;
+            case "02":
+                wynik = p.getM2();
+                break;
+            case "03":
+                wynik = p.getM3();
+                break;
+            case "04":
+                wynik = p.getM4();
+                break;
+            case "05":
+                wynik = p.getM5();
+                break;
+            case "06":
+                wynik = p.getM6();
+                break;
+            case "07":
+                wynik = p.getM7();
+                break;
+            case "08":
+                wynik = p.getM8();
+                break;
+            case "09":
+                wynik = p.getM9();
+                break;
+            case "10":
+                wynik = p.getM10();
+                break;
+            case "11":
+                wynik = p.getM11();
+                break;
+            case "12":
+                wynik = p.getM12();
+                break;
+        }
+        return wynik;
+    }
    
 
    static public class ColumnModel implements Serializable {

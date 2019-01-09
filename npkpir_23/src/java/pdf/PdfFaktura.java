@@ -255,7 +255,7 @@ public class PdfFaktura extends Pdf implements Serializable {
     }
 
     private String drukujcd(Faktura selected, List<Fakturadodelementy> elementydod, int nrfakt, String przeznaczenie, WpisView wpisView, boolean duplikat,
-            FakturaDuplikat duplikatobj) throws DocumentException, FileNotFoundException, IOException {
+        FakturaDuplikat duplikatobj) throws DocumentException, FileNotFoundException, IOException {
         ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         String realPath = ctx.getRealPath("/");
         String nazwapliku = realPath + "wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
