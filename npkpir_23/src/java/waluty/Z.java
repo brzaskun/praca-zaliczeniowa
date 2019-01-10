@@ -44,6 +44,11 @@ public class Z implements Serializable {
         double m = Math.round(l);
         return m;
     }
+    //obcina kwoty po przeciku typu 1,49999 = 1
+    public static double zm1(double l) {
+        double m = Math.round(l/10);
+        return m*10;
+    }
     
     //zaokragla kwoty po przeciku do int typu 1,49999 = 2
      public static int zUD(int l) {

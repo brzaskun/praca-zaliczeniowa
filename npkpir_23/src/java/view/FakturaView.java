@@ -189,6 +189,7 @@ public class FakturaView implements Serializable {
     private boolean fakturaxxl;
     private boolean fakturakorekta;
     private boolean rachunek;
+    private boolean podazedytorvar;
     private AutoComplete kontrahentstworz;
     @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
@@ -596,7 +597,8 @@ public class FakturaView implements Serializable {
 //        RequestContext.getCurrentInstance().execute(funkcja);
        }
 
-    private void waloryzacjakwoty(Faktura faktura, double procent) throws Exception {
+    private void waloryzacjakwoty(Faktura faktura, double proc) throws Exception {
+        double procent = proc/100;
         kwotaprzedwaloryzacja = faktura.getBrutto();
         List<Pozycjenafakturzebazadanych> pozycje = faktura.getPozycjenafakturze();
         double netto = 0.0;
@@ -608,7 +610,7 @@ public class FakturaView implements Serializable {
         for (Pozycjenafakturzebazadanych p : pozycje) {
             double nowacena = p.getBrutto() * procent;
             nowacena = nowacena + p.getBrutto();
-            nowacena = Math.round(nowacena);
+            nowacena = Z.zm1(nowacena);
             p.setBrutto(nowacena);
             brutto += nowacena;
             double podatekstawka = p.getPodatek();
@@ -1215,6 +1217,9 @@ public class FakturaView implements Serializable {
                 if (waloryzajca > 0) {
                     try {
                         waloryzacjakwoty(nowa, waloryzajca);
+                        Faktura stara = p.getDokument();
+                        waloryzacjakwoty(stara, waloryzajca);
+                        fakturaDAO.edit(stara);
                     } catch (Exception e) { E.e(e); 
                         Msg.msg("e", "Nieudane generowanie faktury okresowej z waloryzacją FakturaView:wygenerujzokresowych");
                     }
@@ -1312,7 +1317,11 @@ public class FakturaView implements Serializable {
                         p.setDatawystawienia(nowa.getDatawystawienia());
                         fakturywystokresoweDAO.edit(p);
                     }
-                    Msg.msg("i", "Generuje bieżącą fakturę z okresowej. Kontrahent: " + nowa.getKontrahent().getNpelna());
+                    if (waloryzajca > 0) {
+                        Msg.msg("i", "Generuje bieżącą fakturę z okresowej z waloryzacją. Kontrahent: " + nowa.getKontrahent().getNpelna());
+                    } else {
+                        Msg.msg("i", "Generuje bieżącą fakturę z okresowej. Kontrahent: " + nowa.getKontrahent().getNpelna());
+                    }
                 } catch (Exception e) { 
                     E.e(e); 
                     Faktura nibyduplikat = fakturaDAO.findbyNumerPodatnik(nowa.getNumerkolejny(), nowa.getWystawcanazwa());
@@ -2159,6 +2168,14 @@ public class FakturaView implements Serializable {
         this.fakturaniemiecka = fakturaniemiecka;
     }
 
+    public boolean isPodazedytorvar() {
+        return podazedytorvar;
+    }
+
+    public void setPodazedytorvar(boolean podazedytorvar) {
+        this.podazedytorvar = podazedytorvar;
+    }
+
     public boolean isFakturazwykla() {
         return fakturazwykla;
     }
@@ -2287,5 +2304,14 @@ public class FakturaView implements Serializable {
 //       }
 //   }
     public static void main(String[] args) {
+    }
+    
+    public void pokazedytor(int i) {
+        if (i==1) {
+            podazedytorvar = true;
+        } else {
+            podazedytorvar = false;
+            wiadomoscdodatkowa = "";
+        }
     }
 }

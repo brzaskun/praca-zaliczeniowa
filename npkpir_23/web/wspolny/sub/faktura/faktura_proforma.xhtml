@@ -62,7 +62,7 @@
                 <h:outputText value="Nie skonfigurowano maila firmy. Faktury proforma będą wysyłane z domyślnego maila programu: info@taxman.biz.pl" style="font-weight: 800; color: red;"/>
             </p:panelGrid>
             <p:panel header="dołącz krótką wiadomość do wysyłanego maila">
-                <h:inputText value="#{fakturaView.wiadomoscdodatkowa}" style="width: 800px;"/>
+                <p:inputText value="#{fakturaView.wiadomoscdodatkowa}" style="width: 800px;"></p:inputText>
                 <p:commandButton value="drukuj zestawienie" actionListener="#{fakturaView.drukujfakturysporzadzone}" style="width: 150px; margin-left: 30px;"/>
             </p:panel>
             <p:dataTable id="dokumentyListaPro" value="#{fakturaView.fakturypro}" var="wpispro" rowIndexVar="row" filteredValue="#{fakturaView.fakturyFilteredpro}" 

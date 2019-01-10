@@ -42,7 +42,10 @@
                 </p:row>
             </p:panelGrid>
             <p:panelGrid columns="7">
-                <h:outputText value="Procent waloryzacji 1=100%"/><h:inputText  id="kwotawaloryzacji" value="#{fakturaView.waloryzajca}" style="text-align:  right;"/>
+                <h:outputText value="Procent waloryzacji 1=100%"/>
+                <p:inputNumber  id="kwotawaloryzacji" value="#{fakturaView.waloryzajca}"  decimalPlaces="2" decimalSeparator="." inputStyle="text-align: right;" symbol=" %" symbolPosition="s" maxValue="100">
+                    <p:ajax event="blur" partialSubmit="true" global="false"/>
+                </p:inputNumber>
                 <h:outputText value="Data wystawienia"/>
                 <p:inputText  id="datawystawienia" value="#{fakturaView.datawystawienia}" maxlength="10" placeholder="rrrr-mm-dd" onblur="weryfikujsporzadzfakture(this)"/>
                 <p:commandButton value="drukuj" actionListener="#{fakturaView.drukujokresowe}" global="false" style="width: 120px; margin-left: 10px;"/>

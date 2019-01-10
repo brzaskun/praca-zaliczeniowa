@@ -97,9 +97,9 @@ public class MailOther implements Serializable{
                     mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
                     mbp1.setContent("Witam"
                         + "<p>W załączeniu bieżąca faktura automatycznie wygenerowana przez nasz program księgowy.</p>"
-                        + "<p>dla firmy "+klientf.getNpelna()+"</p>"
+                        + "<p style=\"color: green;font-weight: bold;\">dla firmy "+klientf.getNpelna()+"</p>"
                         + "<p>za okres "+faktura.getRok()+"/"+faktura.getMc()+"</p>"
-                        + "<p style=\"color: green;font-weight: bold;\">"+wiadomoscdodatkowa+"</p>"
+                        + "<span>"+wiadomoscdodatkowa+"</span><br/>"
                         + Mail.reklama
                         + stopka,  "text/html; charset=utf-8");
 
