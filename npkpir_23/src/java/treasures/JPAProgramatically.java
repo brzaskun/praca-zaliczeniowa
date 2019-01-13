@@ -27,7 +27,7 @@ public class JPAProgramatically {
 //    <validation-mode>NONE</validation-mode>
 //    <properties>
 //        <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-//        <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/pkpir?useUnicode=true&amp;characterEncoding=UTF-8"/>
+//        <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/pkpir?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
 //        <property name="javax.persistence.jdbc.user" value="brzaskun"/>
 //        <property name="javax.persistence.jdbc.password" value="pufikun"/>
 //        <property name="eclipselink.logging.level" value="FINEST"/>
@@ -40,14 +40,14 @@ public class JPAProgramatically {
         EntityManagerFactory emfH2 = javax.persistence.Persistence.createEntityManagerFactory("JavaApplication4PU");
         EntityManager emH2 = emfH2.createEntityManager();
         List<Fakturywystokresowe> faktury = emH2.createQuery("SELECT o FROM Fakturywystokresowe o").getResultList();
-        emH2.getTransaction().begin();
-        for (Fakturywystokresowe f: faktury) {
-            //String query = "SELECT d FROM Faktura d WHERE d.fakturaPK.numerkolejny='"+f.getDokument().getFakturaPK().getNumerkolejny()+"' AND d.fakturaPK.wystawcanazwa='"+f.getDokument().getFakturaPK().getWystawcanazwa()+"'";
-            //Faktura faktura = (Faktura) emH2.createQuery(query).getSingleResult();
-            //f.setFa_id(faktura.getId());
-            emH2.merge(f);
-        }
-        emH2.getTransaction().commit();
+//        emH2.getTransaction().begin();
+//        for (Fakturywystokresowe f: faktury) {
+//            //String query = "SELECT d FROM Faktura d WHERE d.fakturaPK.numerkolejny='"+f.getDokument().getFakturaPK().getNumerkolejny()+"' AND d.fakturaPK.wystawcanazwa='"+f.getDokument().getFakturaPK().getWystawcanazwa()+"'";
+//            //Faktura faktura = (Faktura) emH2.createQuery(query).getSingleResult();
+//            //f.setFa_id(faktura.getId());
+//            emH2.merge(f);
+//        }
+//        emH2.getTransaction().commit();
         System.out.println("koniec");
     }
 }
