@@ -36,6 +36,8 @@ import org.xml.sax.SAXException;
 public class XMLValid {
     private static String schemaVATUE4 = "resources\\schema\\vatue4schemat.xsd";
     private static String schemaVATUE4l = "d:\\vatue4schemat.xsd";
+    private static String schemasprfin = "d:\\JednostkaInnaWZlotych(1)_v1-0.xsd";
+    
     
     public static Object[] walidujCMLVATUE(String deklaracja) {
         Object[] zwrot = new Object[2];
@@ -58,6 +60,65 @@ public class XMLValid {
             try {
                 //FileInputStream fis = new FileInputStream("d:\\vatue4.xml");
                 //data = IOUtils.toString(fis, "UTF-8");
+                int czyjestpodpis = data.indexOf("<Signature");
+                if (czyjestpodpis > 0) {
+                    data = data.substring(0, data.indexOf("<Signature")) + data.substring(data.indexOf("</Signature>") + 12);
+                    //System.out.println(data);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(XMLValid.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            stream = new ByteArrayInputStream(data.getBytes("UTF-8"));
+            //Source xmlFile = new StreamSource(new File("d:\\vatue4.xml"));
+            Source xmlFile = new StreamSource(stream);
+            SchemaFactory schemaFactory = SchemaFactory
+                    .newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            try {
+                Schema schema = schemaFactory.newSchema(schemaFile);
+                Validator validator = schema.newValidator();
+                validator.validate(xmlFile);
+                zwrot[0] = Boolean.TRUE;
+                zwrot[1] = "Plik prawidłowy";
+                System.out.println("Plik jest prawidłowy");
+            } catch (SAXException e) {
+                zwrot[0] = Boolean.FALSE;
+                zwrot[1] = obsluzblad(e);
+                //System.out.println(obsluzblad(e));
+            } catch (Exception e) {
+                zwrot[0] = Boolean.FALSE;
+                zwrot[1] = "Błąd walidacji pliku. Sprawdzanie przerwane";
+            }
+        } catch (Exception ex) {
+            E.e(ex);
+        } finally {
+            try {
+                stream.close();
+            } catch (IOException ex) {
+                Logger.getLogger(XMLValid.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return zwrot;
+    }
+    
+    public static Object[] walidujsprawozdanie() {
+        Object[] zwrot = new Object[2];
+        zwrot[0] = Boolean.FALSE;
+        InputStream stream = null;
+        try {
+            File schemaFile = null;
+        try {
+            schemaFile = new File(schemasprfin);
+        } catch (Exception ex) {
+            Logger.getLogger(XMLValid.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //webapp example xsd:
+        //URL schemaFile = new URL("http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd");
+        //local file example:
+            //File schemaFile = new File(realPath); // etc.
+            String data = null;
+            try {
+                FileInputStream fis = new FileInputStream("d:\\sprawozdaniefinansowe8511005008mcrok012019.xml");
+                data = IOUtils.toString(fis, "UTF-8");
                 int czyjestpodpis = data.indexOf("<Signature");
                 if (czyjestpodpis > 0) {
                     data = data.substring(0, data.indexOf("<Signature")) + data.substring(data.indexOf("</Signature>") + 12);
@@ -128,7 +189,7 @@ public class XMLValid {
 
     
     public static void main(String[] args) {
-        //walidujCMLVATUE();
+        walidujsprawozdanie();
     }
 
     

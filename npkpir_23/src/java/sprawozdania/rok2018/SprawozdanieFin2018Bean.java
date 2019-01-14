@@ -100,8 +100,8 @@ public class SprawozdanieFin2018Bean {
         adres.kodPocztowy = "70-100";
         adres.miejscowosc = "Miejscowosc";
         adres.ulica = "Ulica";
-        adres.nrDomu = "Nrdomu";
-        adres.nrLokalu = "Nrlokalu";
+        adres.nrDomu = "5";
+        adres.nrLokalu = "12";
         return adres;
     }
 
@@ -112,14 +112,15 @@ public class SprawozdanieFin2018Bean {
     private static PKDPodstawowaDzialalnosc pobierzpodstawowadzialalnosc() {
         PKDPodstawowaDzialalnosc dzialanosc = new PKDPodstawowaDzialalnosc();
         List<String> kodPKD = dzialanosc.getKodPKD();
-        kodPKD.add("74.23.Z");
+        kodPKD.add("7911A");
         return dzialanosc;
     }
 
     private static TIdentyfikatorPodmiotu zrobidentyfikatorpodmiotu() {
         TIdentyfikatorPodmiotu id = new TIdentyfikatorPodmiotu();
-        id.krs = "NRKRS";
-        id.nip = "NRNIP";
+        id.krs = "0000009673";
+        //tylko jeden numer jest wymagany
+        //id.nip = "8511005008";
         return id;
     }
 
@@ -163,5 +164,17 @@ public class SprawozdanieFin2018Bean {
         return c;
     }
 
+    public static <T extends TKwotyPozycji> TPozycjaSprawozdania zrobsuma(T a, T b, T c) {
+        TPozycjaSprawozdania d = new TPozycjaSprawozdania();
+        d.kwotaA = a.kwotaA.add(b.kwotaA).min(c.kwotaA);
+        d.kwotaB = a.kwotaB.add(b.kwotaB).min(c.kwotaB);
+        return d;
+    }
     
+    public static <T extends TKwotyPozycji> TPozycjaSprawozdania zrobsumaminus(T a, T b, T c) {
+        TPozycjaSprawozdania d = new TPozycjaSprawozdania();
+        d.kwotaA = a.kwotaA.min(b.kwotaA).min(c.kwotaA);
+        d.kwotaB = a.kwotaB.min(b.kwotaB).min(c.kwotaB);
+        return d;
+    }
 }
