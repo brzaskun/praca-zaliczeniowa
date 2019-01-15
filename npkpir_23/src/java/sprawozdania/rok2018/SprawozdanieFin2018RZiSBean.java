@@ -7,6 +7,7 @@ package sprawozdania.rok2018;
 
 import java.math.BigDecimal;
 import static sprawozdania.rok2018.SprawozdanieFin2018Bean.naniesKwotyAB;
+import static sprawozdania.rok2018.SprawozdanieFin2018Bean.zrobTPoztchaSprawozdania;
 import static sprawozdania.rok2018.SprawozdanieFin2018Bean.zrobsuma;
 import static sprawozdania.rok2018.SprawozdanieFin2018Bean.zrobsumaminus;
 
@@ -49,11 +50,7 @@ public class SprawozdanieFin2018RZiSBean {
         return a;
     }
 
-    private static TPozycjaSprawozdania zrobTPoztchaSprawozdania() {
-        TPozycjaSprawozdania a = new TPozycjaSprawozdania();
-        naniesKwotyAB(a, BigDecimal.TEN, BigDecimal.TEN);
-        return a;
-    }
+   
 
     private static RZiSJednostkaInna.RZiSPor.B czescB() {
         RZiSJednostkaInna.RZiSPor.B a = new RZiSJednostkaInna.RZiSPor.B();

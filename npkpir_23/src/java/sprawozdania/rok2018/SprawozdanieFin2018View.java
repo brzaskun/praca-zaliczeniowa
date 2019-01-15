@@ -38,7 +38,7 @@ public class SprawozdanieFin2018View  implements Serializable {
             JednostkaInna sprawozdanie = new JednostkaInna();
             sprawozdanie.naglowek = SprawozdanieFin2018Bean.naglowek("2019-01-01", "2018-01-01", "2018-12-31");
             sprawozdanie.wprowadzenieDoSprawozdaniaFinansowego = SprawozdanieFin2018Bean.wprowadzenieDoSprawozdaniaFinansowego("2018-01-01", "2018-12-31");
-            //sprawozdanie.bilans = SprawozdanieFin2018BilansBean.generujbilans();
+            sprawozdanie.bilans = SprawozdanieFin2018BilansBean.generujbilans();
             sprawozdanie.rZiS = SprawozdanieFin2018RZiSBean.generujrzis();
             //sprawozdanie.dodatkoweInformacjeIObjasnieniaJednstkaInna = SprawozdanieFin2018DodInfoBean.generuj();
             String sciezka = marszajuldoplikuxml("8511005008", "01", "2019", sprawozdanie);

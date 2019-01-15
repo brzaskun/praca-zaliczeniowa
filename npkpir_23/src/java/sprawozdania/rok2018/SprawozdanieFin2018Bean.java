@@ -177,4 +177,10 @@ public class SprawozdanieFin2018Bean {
         d.kwotaB = a.kwotaB.min(b.kwotaB).min(c.kwotaB);
         return d;
     }
+    
+    public static TPozycjaSprawozdania zrobTPoztchaSprawozdania() {
+        TPozycjaSprawozdania a = new TPozycjaSprawozdania();
+        naniesKwotyAB(a, BigDecimal.TEN, BigDecimal.TEN);
+        return a;
+    }
 }
