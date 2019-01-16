@@ -143,6 +143,7 @@ public class XMLValid {
                 zwrot[0] = Boolean.FALSE;
                 zwrot[1] = obsluzblad(e);
                 //System.out.println(obsluzblad(e));
+                zwrot[1] = "Błąd walidacji pliku. Brak info o szczegolach";
             } catch (Exception e) {
                 zwrot[0] = Boolean.FALSE;
                 zwrot[1] = "Błąd walidacji pliku. Sprawdzanie przerwane";
@@ -156,6 +157,7 @@ public class XMLValid {
                 Logger.getLogger(XMLValid.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        System.out.println("Koniec walidacji bezbledna");
         return zwrot;
     }
     

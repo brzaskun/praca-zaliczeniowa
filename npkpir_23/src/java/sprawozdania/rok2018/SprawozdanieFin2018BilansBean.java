@@ -32,22 +32,37 @@ public class SprawozdanieFin2018BilansBean {
     private static BilansJednostkaInna.Aktywa generujaktywa() {
         BilansJednostkaInna.Aktywa a = new BilansJednostkaInna.Aktywa();
         naniesKwotyAB(a, BigDecimal.TEN, BigDecimal.TEN);
-        a.setAktywaA(generyj_AktywaA());
-        a.setAktywaB(generyj_AktywaB());
-        a.setAktywaC(generyj_AktywaC());
-        a.setAktywaD(generyj_AktywaD());
+        a.setAktywaA(generuj_AktywaA());
+        a.setAktywaB(generuj_AktywaB());
+        a.setAktywaC(generuj_AktywaC());
+        a.setAktywaD(generuj_AktywaD());
         return a;
     }
 
     private static BilansJednostkaInna.Pasywa.PasywaA generuj_PasywaA() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        BilansJednostkaInna.Pasywa.PasywaA a = new BilansJednostkaInna.Pasywa.PasywaA();
+        naniesKwotyAB(a, BigDecimal.TEN, BigDecimal.TEN);
+        a.pasywaAI = zrobTPoztchaSprawozdania();
+        a.pasywaAII = generujPasywaAII();
+        a.pasywaAIII = generujPasywaAIII();
+        a.pasywaAIV = generujPasywaAIV();
+        a.pasywaAV = zrobTPoztchaSprawozdania();
+        a.pasywaAVI = zrobTPoztchaSprawozdania();
+        a.pasywaAVII = zrobTPoztchaSprawozdania();
+        return a;
     }
 
     private static BilansJednostkaInna.Pasywa.PasywaB generuj_PasywaB() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        BilansJednostkaInna.Pasywa.PasywaB a = new BilansJednostkaInna.Pasywa.PasywaB();
+        naniesKwotyAB(a, BigDecimal.TEN, BigDecimal.TEN);
+        a.pasywaBI = generujPasywaBI();
+        a.pasywaBII = generujPasywaBII();
+        a.pasywaBIII = generujPasywaBIII();
+        a.pasywaBIV = generujPasywaBIV();
+        return a;
     }
 
-    private static BilansJednostkaInna.Aktywa.AktywaA generyj_AktywaA() {
+    private static BilansJednostkaInna.Aktywa.AktywaA generuj_AktywaA() {
         BilansJednostkaInna.Aktywa.AktywaA a = new BilansJednostkaInna.Aktywa.AktywaA();
         a.aktywaAI = generujAktywaAI();
         a.aktywaAII = generujAktywaAII();
@@ -57,7 +72,7 @@ public class SprawozdanieFin2018BilansBean {
         return a;
     }
 
-    private static BilansJednostkaInna.Aktywa.AktywaB generyj_AktywaB() {
+    private static BilansJednostkaInna.Aktywa.AktywaB generuj_AktywaB() {
         BilansJednostkaInna.Aktywa.AktywaB a = new BilansJednostkaInna.Aktywa.AktywaB();
         a.aktywaBI = generujAktywaBI();
         a.aktywaBII = generujAktywaBII();
@@ -66,11 +81,11 @@ public class SprawozdanieFin2018BilansBean {
         return a;
     }
 
-    private static TPozycjaSprawozdania generyj_AktywaC() {
+    private static TPozycjaSprawozdania generuj_AktywaC() {
         return zrobTPoztchaSprawozdania();
     }
 
-    private static TPozycjaSprawozdania generyj_AktywaD() {
+    private static TPozycjaSprawozdania generuj_AktywaD() {
         return zrobTPoztchaSprawozdania();
     }
 
@@ -282,6 +297,144 @@ public class SprawozdanieFin2018BilansBean {
         a.aktywaBIII1C1 =  zrobTPoztchaSprawozdania();
         a.aktywaBIII1C2 =  zrobTPoztchaSprawozdania();
         a.aktywaBIII1C3 =  zrobTPoztchaSprawozdania();
+        return a;
+    }
+
+    private static BilansJednostkaInna.Pasywa.PasywaA.PasywaAII generujPasywaAII() {
+        BilansJednostkaInna.Pasywa.PasywaA.PasywaAII a = new BilansJednostkaInna.Pasywa.PasywaA.PasywaAII();
+        naniesKwotyAB(a, BigDecimal.TEN, BigDecimal.TEN);
+        a.pasywaAII1 =  zrobTPoztchaSprawozdania();
+        return a;
+    }
+
+    private static BilansJednostkaInna.Pasywa.PasywaA.PasywaAIII generujPasywaAIII() {
+        BilansJednostkaInna.Pasywa.PasywaA.PasywaAIII a = new BilansJednostkaInna.Pasywa.PasywaA.PasywaAIII();
+        naniesKwotyAB(a, BigDecimal.TEN, BigDecimal.TEN);
+        a.pasywaAIII1 =  zrobTPoztchaSprawozdania();
+        return a;
+    }
+
+    private static BilansJednostkaInna.Pasywa.PasywaA.PasywaAIV generujPasywaAIV() {
+        BilansJednostkaInna.Pasywa.PasywaA.PasywaAIV a = new BilansJednostkaInna.Pasywa.PasywaA.PasywaAIV();
+        naniesKwotyAB(a, BigDecimal.TEN, BigDecimal.TEN);
+        a.pasywaAIV1 =  zrobTPoztchaSprawozdania();
+        a.pasywaAIV2 =  zrobTPoztchaSprawozdania();
+        return a;
+    }
+
+    private static BilansJednostkaInna.Pasywa.PasywaB.PasywaBI generujPasywaBI() {
+        BilansJednostkaInna.Pasywa.PasywaB.PasywaBI a = new BilansJednostkaInna.Pasywa.PasywaB.PasywaBI();
+        naniesKwotyAB(a, BigDecimal.TEN, BigDecimal.TEN);
+        a.pasywaBI1 =  zrobTPoztchaSprawozdania();
+        a.pasywaBI2 = zrobPasywaBI2();
+        a.pasywaBI3 = zrobPasywaBI3();
+        return a;
+    }
+
+    private static BilansJednostkaInna.Pasywa.PasywaB.PasywaBII generujPasywaBII() {
+        BilansJednostkaInna.Pasywa.PasywaB.PasywaBII a = new BilansJednostkaInna.Pasywa.PasywaB.PasywaBII();
+        naniesKwotyAB(a, BigDecimal.TEN, BigDecimal.TEN);
+        a.pasywaBII1 =  zrobTPoztchaSprawozdania();
+        a.pasywaBII2 =  zrobTPoztchaSprawozdania();
+        a.pasywaBII3 = zrobPasywaBII3();
+        return a;
+    }
+
+    private static BilansJednostkaInna.Pasywa.PasywaB.PasywaBIII generujPasywaBIII() {
+        BilansJednostkaInna.Pasywa.PasywaB.PasywaBIII a = new BilansJednostkaInna.Pasywa.PasywaB.PasywaBIII();
+        naniesKwotyAB(a, BigDecimal.TEN, BigDecimal.TEN);
+        a.pasywaBIII1 = zrobPasywaBIII1();
+        a.pasywaBIII2 = zrobPasywaBIII2();
+        a.pasywaBIII3 = zrobPasywaBIII3();
+        a.pasywaBIII4 =  zrobTPoztchaSprawozdania();
+        return a;
+    }
+
+    private static BilansJednostkaInna.Pasywa.PasywaB.PasywaBIV generujPasywaBIV() {
+        BilansJednostkaInna.Pasywa.PasywaB.PasywaBIV a = new BilansJednostkaInna.Pasywa.PasywaB.PasywaBIV();
+        naniesKwotyAB(a, BigDecimal.TEN, BigDecimal.TEN);
+        return a;
+    }
+
+    private static BilansJednostkaInna.Pasywa.PasywaB.PasywaBI.PasywaBI2 zrobPasywaBI2() {
+        BilansJednostkaInna.Pasywa.PasywaB.PasywaBI.PasywaBI2 a = new BilansJednostkaInna.Pasywa.PasywaB.PasywaBI.PasywaBI2();
+        naniesKwotyAB(a, BigDecimal.TEN, BigDecimal.TEN);
+        a.pasywaBI21 =  zrobTPoztchaSprawozdania();
+        a.pasywaBI22 =  zrobTPoztchaSprawozdania();
+        return a;
+    }
+
+    private static BilansJednostkaInna.Pasywa.PasywaB.PasywaBI.PasywaBI3 zrobPasywaBI3() {
+        BilansJednostkaInna.Pasywa.PasywaB.PasywaBI.PasywaBI3 a = new BilansJednostkaInna.Pasywa.PasywaB.PasywaBI.PasywaBI3();
+        naniesKwotyAB(a, BigDecimal.TEN, BigDecimal.TEN);
+        a.pasywaBI31 =  zrobTPoztchaSprawozdania();
+        a.pasywaBI32 =  zrobTPoztchaSprawozdania();
+        return a;
+    }
+
+    private static BilansJednostkaInna.Pasywa.PasywaB.PasywaBII.PasywaBII3 zrobPasywaBII3() {
+        BilansJednostkaInna.Pasywa.PasywaB.PasywaBII.PasywaBII3 a = new BilansJednostkaInna.Pasywa.PasywaB.PasywaBII.PasywaBII3();
+        naniesKwotyAB(a, BigDecimal.TEN, BigDecimal.TEN);
+        a.pasywaBII3A =  zrobTPoztchaSprawozdania();
+        a.pasywaBII3B =  zrobTPoztchaSprawozdania();
+        a.pasywaBII3C =  zrobTPoztchaSprawozdania();
+        a.pasywaBII3D =  zrobTPoztchaSprawozdania();
+        a.pasywaBII3E =  zrobTPoztchaSprawozdania();
+        return a;
+    }
+
+    private static BilansJednostkaInna.Pasywa.PasywaB.PasywaBIII.PasywaBIII1 zrobPasywaBIII1() {
+        BilansJednostkaInna.Pasywa.PasywaB.PasywaBIII.PasywaBIII1 a = new BilansJednostkaInna.Pasywa.PasywaB.PasywaBIII.PasywaBIII1();
+        naniesKwotyAB(a, BigDecimal.TEN, BigDecimal.TEN);
+        a.pasywaBIII1A = zrobPasywaBIII1A();
+        a.pasywaBIII1B =  zrobTPoztchaSprawozdania();
+        return a;
+    }
+
+    private static BilansJednostkaInna.Pasywa.PasywaB.PasywaBIII.PasywaBIII1.PasywaBIII1A zrobPasywaBIII1A() {
+        BilansJednostkaInna.Pasywa.PasywaB.PasywaBIII.PasywaBIII1.PasywaBIII1A a = new BilansJednostkaInna.Pasywa.PasywaB.PasywaBIII.PasywaBIII1.PasywaBIII1A();
+        naniesKwotyAB(a, BigDecimal.TEN, BigDecimal.TEN);
+        a.pasywaBIII1A1 =  zrobTPoztchaSprawozdania();
+        a.pasywaBIII1A2 =  zrobTPoztchaSprawozdania();
+        return a;
+    }
+
+    private static BilansJednostkaInna.Pasywa.PasywaB.PasywaBIII.PasywaBIII2 zrobPasywaBIII2() {
+        BilansJednostkaInna.Pasywa.PasywaB.PasywaBIII.PasywaBIII2 a = new BilansJednostkaInna.Pasywa.PasywaB.PasywaBIII.PasywaBIII2();
+        naniesKwotyAB(a, BigDecimal.TEN, BigDecimal.TEN);
+        a.pasywaBIII2A = zrobPasywaBIII2A();
+        a.pasywaBIII2B =  zrobTPoztchaSprawozdania();
+        return a;
+    }
+
+    private static BilansJednostkaInna.Pasywa.PasywaB.PasywaBIII.PasywaBIII2.PasywaBIII2A zrobPasywaBIII2A() {
+        BilansJednostkaInna.Pasywa.PasywaB.PasywaBIII.PasywaBIII2.PasywaBIII2A a = new BilansJednostkaInna.Pasywa.PasywaB.PasywaBIII.PasywaBIII2.PasywaBIII2A();
+        naniesKwotyAB(a, BigDecimal.TEN, BigDecimal.TEN);
+        a.pasywaBIII2A1 =  zrobTPoztchaSprawozdania();
+        a.pasywaBIII2A2 =  zrobTPoztchaSprawozdania();
+        return a;
+    }
+
+    private static BilansJednostkaInna.Pasywa.PasywaB.PasywaBIII.PasywaBIII3 zrobPasywaBIII3() {
+        BilansJednostkaInna.Pasywa.PasywaB.PasywaBIII.PasywaBIII3 a = new BilansJednostkaInna.Pasywa.PasywaB.PasywaBIII.PasywaBIII3();
+        naniesKwotyAB(a, BigDecimal.TEN, BigDecimal.TEN);
+        a.pasywaBIII3A =  zrobTPoztchaSprawozdania();
+        a.pasywaBIII3B =  zrobTPoztchaSprawozdania();
+        a.pasywaBIII3C =  zrobTPoztchaSprawozdania();
+        a.pasywaBIII3D =  zrobPasywaBIII3D();
+        a.pasywaBIII3E =  zrobTPoztchaSprawozdania();
+        a.pasywaBIII3F =  zrobTPoztchaSprawozdania();
+        a.pasywaBIII3G =  zrobTPoztchaSprawozdania();
+        a.pasywaBIII3H =  zrobTPoztchaSprawozdania();
+        a.pasywaBIII3I =  zrobTPoztchaSprawozdania();
+        return a;
+    }
+
+    private static BilansJednostkaInna.Pasywa.PasywaB.PasywaBIII.PasywaBIII3.PasywaBIII3D zrobPasywaBIII3D() {
+        BilansJednostkaInna.Pasywa.PasywaB.PasywaBIII.PasywaBIII3.PasywaBIII3D  a = new BilansJednostkaInna.Pasywa.PasywaB.PasywaBIII.PasywaBIII3.PasywaBIII3D();
+        naniesKwotyAB(a, BigDecimal.TEN, BigDecimal.TEN);
+        a.pasywaBIII3D1 =  zrobTPoztchaSprawozdania();
+        a.pasywaBIII3D2 =  zrobTPoztchaSprawozdania();
         return a;
     }
 
