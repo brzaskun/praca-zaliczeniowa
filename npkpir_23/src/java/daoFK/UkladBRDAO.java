@@ -78,6 +78,14 @@ public class UkladBRDAO extends DAO implements Serializable{
         }
     }
     
+    public List<UkladBR> findRokUkladnazwa(String rok, String ukladnazwa) {
+        try {
+            return sessionFacade.findRokUkladnazwa(rok, ukladnazwa);
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
+    
 
 //    public List<UkladBR> findukladBRWzorcowyRok(String rokWpisu) {
 //        try {

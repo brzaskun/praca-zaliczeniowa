@@ -12,6 +12,7 @@ import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
+import daoFK.UkladBRDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.PozycjaBilans;
@@ -75,6 +76,8 @@ public class PozycjaBRWzorcowyView implements Serializable {
     private PozycjaRZiSDAO pozycjaRZiSDAO;
     @Inject
     private PozycjaBilansDAO pozycjaBilansDAO;
+    @Inject
+    private UkladBRDAO ukladBRDAO;
     @Inject
     private UkladBR uklad;
     private String nowanazwa;
@@ -506,6 +509,43 @@ public class PozycjaBRWzorcowyView implements Serializable {
         }
     }
    
+    
+            
+    public void implementujdopochodnych() {
+        try {
+            if (wybranynodekonta.getChildCount() > 0) {
+                Msg.msg("w", "Wybrana pozycja Bilansu/RZiS zawiera podpunkty!");
+            } else {
+                PozycjaRZiSBilans implementowanapozycja = (PozycjaRZiSBilans) wybranynodekonta.getData();
+                if (implementowanapozycja.getDe()==null) {
+                    Msg.msg("e", "Brak tłumaczenia na niemiecki, nie można implementować");
+                } else {
+                    List<UkladBR> uklady = ukladBRDAO.findRokUkladnazwa(implementowanapozycja.getRok(),implementowanapozycja.getUklad());
+                    for (UkladBR u : uklady) {
+                        if (!u.getPodatnik().getNip().equals("9999999999")) {
+                            dodajpozycje(u, implementowanapozycja);
+                        }
+                    }
+                    Msg.msg("i", "Zaimplementowano pozycje");
+                }
+            }
+        } catch (Exception e) {  E.e(e);
+            Msg.msg("e", "Nie udało się zaimplementować pozycji");
+        }
+    }
+    
+    private void dodajpozycje(UkladBR u, PozycjaRZiSBilans implementowanapozycja) {
+        try {
+            PozycjaRZiSBilans nowa = serialclone.SerialClone.clone(implementowanapozycja);
+            nowa.setPodatnik(u.getPodatnik().getNazwapelna());
+            nowa.setLp(null);
+            pozycjaBilansDAO.dodaj(nowa);
+        } catch (Exception e) {
+            Msg.msg("e", "Bład nie dodano pozycji dla podatnika "+u.getPodatnik().getPrintnazwa());
+        }
+    }
+
+    
     public void usunpozycje() {
         try {
             if (wybranynodekonta.getChildCount() > 0) {
@@ -883,6 +923,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
    
     
     //</editor-fold>
+
 
    
 

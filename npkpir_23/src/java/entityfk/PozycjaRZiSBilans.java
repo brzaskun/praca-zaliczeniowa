@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -30,7 +31,7 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
-    protected int lp;
+    protected Integer lp;
     @Size(max = 255)
     @Column(length = 255)
     protected String formula;
@@ -139,10 +140,9 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
         return lp;
     }
 
-    public void setLp(int lp) {
+    public void setLp(Integer lp) {
         this.lp = lp;
     }
-
 
     public String getFormula() {
         return formula;
@@ -280,7 +280,7 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 37 * hash + this.lp;
+        hash = 37 * hash + Objects.hashCode(this.lp);
         return hash;
     }
 
@@ -301,6 +301,14 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
         }
         return true;
     }
+
+    @Override
+    public void setLp(int lp) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
+    
 
    
 

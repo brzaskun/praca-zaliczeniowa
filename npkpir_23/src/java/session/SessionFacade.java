@@ -1900,6 +1900,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return Collections.synchronizedList(em.createNamedQuery("UkladBR.findByRokNieWzor").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
 
+    public List<UkladBR> findRokUkladnazwa(String rok, String ukladnazwa) {
+        return em.createNamedQuery("UkladBR.findByRokNazwa").setParameter("ukladnazwa", ukladnazwa).setParameter("rok", rok).getResultList();
+    }
+    
     public void findRemoveRzisuklad(String uklad, String podatnik, String rok) {
         em.createNamedQuery("PozycjaRZiS.Delete").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).executeUpdate();
     }
@@ -2381,6 +2385,8 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
             return null;
         }
     }
+
+    
 
     
 
