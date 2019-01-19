@@ -240,7 +240,7 @@
                                     <h:selectOneMenu id="symbol" value="#{dokfkView.selected.rodzajedok}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                                      onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
                                                      onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');" 
-                                                     style="width: 200px; height: 19px;" converter="RodzajedokConv">
+                                                     style="width: 200px; height: 19px;" converter="#{rodzajedokConv}">
                                         <f:selectItems value="#{rodzajeDokKlientaView.rodzajedokKlienta}"  var="wploop" itemLabel="#{wploop.skrotNazwyDok} - #{wploop.nazwa}"/>
                                         <p:ajax global="false" event="change" listener="#{dokfkView.wygenerujnumerkolejny}" update="formwpisdokument:numer formwpisdokument:numerwlasny formwpisdokument:przypkontotxt formwpisdokument:przypkonto" partialSubmit="true"/>
                                         <p:ajax global="false" event="change" listener="#{dokfkView.podepnijEwidencjeVatDok(0)}" update=":formwpisdokument:panelzewidencjavat"/>

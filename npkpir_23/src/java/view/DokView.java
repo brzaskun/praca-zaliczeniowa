@@ -770,6 +770,24 @@ public class DokView implements Serializable {
             selDokument.setUsunpozornie(false);
             //jezeli jest edytowany dokument to nie dodaje a edytuje go w bazie danych
             Rodzajedok rodzajdokdoprzeniesienia = selDokument.getRodzajedok();
+            //zmiana w zwiazku z wejscie w zycie czesciowego odliczania koszto eksploatacji samochodu w 2019
+            if (selDokument.getRodzajedok().getProcentkup() != 0.0 && !wpisView.getRodzajopodatkowania().contains("ryczałt") && kwotanetto != 0.0) {
+                double pro = selDokument.getRodzajedok().getProcentkup();
+                for (KwotaKolumna1 p: selDokument.getListakwot1()) {
+                    if (p.getNetto() != null && p.getNetto() != 0.0) {
+                        p.setNetto(Z.z(p.getNetto()*pro/100));
+                    }
+                    if (p.getNettowaluta() != null && p.getNettowaluta()!= 0.0) {
+                        p.setNettowaluta(Z.z(p.getNettowaluta()*pro/100));
+                    }
+                    if (p.getVat() != null && p.getVat()!= 0.0) {
+                        p.setVat(Z.z(p.getVat()*pro/100));
+                    }
+                    if (p.getVatwaluta()!= 0.0) {
+                        p.setVatwaluta(Z.z(p.getVatwaluta()*pro/100));
+                    }
+                }
+            }
             if (rodzajdodawania == 1) {
                 sprawdzCzyNieDuplikat(selDokument);
                 if (cechastala != null) {

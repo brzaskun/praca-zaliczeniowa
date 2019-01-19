@@ -18,6 +18,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -54,31 +55,32 @@ public class RodzajedokView implements Serializable {
 
     @PostConstruct
     private void init() {
-        try {
+       // to samo jest w PodatnikViev
+//        try {
             Podatnik podatnikwspolny = podatnikDAO.findPodatnikByNIP("0001005008");
             listaWspolnych = rodzajedokDAO.findListaWspolne(podatnikwspolny);
             listaPodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
-            //automatycznie uzupelnia liste podatnika o nowo dodane do wzorcow
-            if (!wpisView.getPodatnikObiekt().getNip().equals("0001005008")) {
-                for (Rodzajedok zrodlo : listaWspolnych) {
-                    boolean znaleziono = false;
-                    for (Rodzajedok docelowy : listaPodatnika) {
-                        if ( zrodlo.getSkrot().equals(docelowy.getSkrot())) {
-                            znaleziono = true;
-                            break;
-                        }
-                    }
-                    if (znaleziono == false) {
-                        rodzajedokDAO.dodaj(new Rodzajedok(zrodlo, wpisView.getPodatnikObiekt()));
-                    }
-                }
-            }
-            listaPodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
+//            //automatycznie uzupelnia liste podatnika o nowo dodane do wzorcow
+//            if (!wpisView.getPodatnikObiekt().getNip().equals("0001005008")) {
+//                for (Rodzajedok zrodlo : listaWspolnych) {
+//                    boolean znaleziono = false;
+//                    for (Rodzajedok docelowy : listaPodatnika) {
+//                        if ( zrodlo.getSkrot().equals(docelowy.getSkrot())) {
+//                            znaleziono = true;
+//                            break;
+//                        }
+//                    }
+//                    if (znaleziono == false) {
+//                        rodzajedokDAO.dodaj(new Rodzajedok(zrodlo, wpisView.getPodatnikObiekt()));
+//                    }
+//                }
+//            }
+//            listaPodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             Collections.sort(listaPodatnika, new Rodzajedokcomparator());
             Collections.sort(listaWspolnych, new Rodzajedokcomparator());
-        } catch (Exception e) { 
-            E.e(e); 
-        }
+//        } catch (Exception e) { 
+//            E.e(e); 
+//        }
 
     }
 

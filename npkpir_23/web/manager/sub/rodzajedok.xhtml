@@ -12,7 +12,7 @@
         <p:growl life="3600"  id="messages" autoUpdate="true" showDetail="true"/>
         <br/>
 
-        <p:panelGrid columns="1" style="max-width: 1050px">
+        <p:panelGrid columns="1" style="max-width: 1190px">
             <p:dataTable id="dokLista" value="#{rodzajedokView.listaWspolnych}"  var="loop"  paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
                          selection="#{rodzajedokView.selected}" rowKey="#{loop.skrotNazwyDok}" selectionMode="single" >
                 <p:ajax event="rowSelect" listener="#{rodzajedokView.skopiujwierszdoedycji}"/>
@@ -36,6 +36,16 @@
                 </p:column>
                 <p:column headerText="% VAT" width="30" style="text-align: right;">
                     <h:outputText value="#{loop.procentvat}">
+                        <f:convertNumber integerOnly="true"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="stawka VAT" width="30" style="text-align: right;">
+                    <h:outputText value="#{loop.stawkavat}">
+                        <f:convertNumber integerOnly="true"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="% kup" width="30" style="text-align: right;">
+                    <h:outputText value="#{loop.procentkup}">
                         <f:convertNumber integerOnly="true"/>
                     </h:outputText>
                 </p:column>
@@ -81,6 +91,16 @@
                 <f:validateLongRange minimum="0" maximum="99"/>
                 <f:convertNumber integerOnly="true" type="number" />
             </p:inputText>
+            <h:outputText value=" stawka VAT***: " />
+            <p:inputText value="#{rodzajedokView.wprowadzany.stawkavat}" maxlength="2" validatorMessage="Wprowadz procent od 1 do 99">
+                <f:validateLongRange minimum="0" maximum="99"/>
+                <f:convertNumber integerOnly="true" type="number" />
+            </p:inputText>
+            <h:outputText value=" procent kup****: " />
+            <p:inputText value="#{rodzajedokView.wprowadzany.procentkup}" maxlength="2" validatorMessage="Wprowadz procent od 1 do 99">
+                <f:validateLongRange minimum="0" maximum="99"/>
+                <f:convertNumber integerOnly="true" type="number" />
+            </p:inputText>
             <h:outputText value=" dokument automatyczny: " />
             <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.niepokazuj}"/>
             <h:outputText value=" tylko vat należny" />
@@ -91,6 +111,12 @@
             <p:commandButton  actionListener="#{rodzajedokView.edytuj()}" value="edytuj dokument" update="form form1" style="width: 120px;"/>
             <p:commandButton actionListener="#{rodzajedokView.resetuj()}" process="@this"
                                      value="resetuj" update="form1" style="width: 120px;"/>
+        </p:panelGrid>
+        <p:panelGrid columns="1" style="margin-top: 15px;">
+                <h:outputText value="*Dopuszczalne elementy wzorca: n - numer kolejny w roku, N - numer kolejny w miesiącu,	m - numer miesiąca, r - numer roku, s - dowolny ciąg znaków za wyjątkiem: /"/>
+                <h:outputText value="**Dotyczy faktur kosztowych. Wpisać tylko gdy inny niż 100%. Format wpisu dla np. faktur samochodowych: 50"/>
+                <h:outputText value="***Dotyczy faktur typu WNT. Wpisać tylko gdy inny niż 100%. Format wpisu dla np. WNT: 8"/>
+                <h:outputText value="****Dotyczy faktur typu ZZP(samochodowych od 2019). Wpisać tylko gdy inny niż 100%. Format wpisu dla osobowych: 75"/>
         </p:panelGrid>
     </h:form>
 </ui:composition>   

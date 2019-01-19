@@ -103,6 +103,8 @@ public class Rodzajedok implements Serializable {
     private double stawkavat;
     @Column(name="tylkovatnalezny")
     private boolean tylkovatnalezny;
+    @Column(name = "procentkup")
+    private double procentkup;
 
 
     public Rodzajedok() {
@@ -120,6 +122,7 @@ public class Rodzajedok implements Serializable {
         this.pokazkg = rodzajedok.isPokazkg();
         this.pokazszt = rodzajedok.isPokazszt();
         this.procentvat = rodzajedok.getProcentvat();
+        this.procentkup = rodzajedok.getProcentkup();
         this.rodzajtransakcji = rodzajedok.getRodzajtransakcji();
         this.skrot = rodzajedok.getSkrot();
         this.wzorzec = rodzajedok.getWzorzec();
@@ -196,6 +199,14 @@ public class Rodzajedok implements Serializable {
 
     public void setRodzajtransakcji(String rodzajtransakcji) {
         this.rodzajtransakcji = rodzajtransakcji;
+    }
+
+    public double getProcentkup() {
+        return procentkup;
+    }
+
+    public void setProcentkup(double procentkup) {
+        this.procentkup = procentkup;
     }
 
     public String getWzorzec() {

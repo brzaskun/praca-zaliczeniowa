@@ -167,7 +167,7 @@
                 <p:column id="rodzTrColumn"  filterBy="#{wpis.rodzajedok}" filterStyle="display : none;" filterMatchMode="contains" 
                           sortBy="#{wpis.rodzajedok}"  style="width: 5%;text-align: center;">
                     <f:facet name="filter">
-                        <p:selectOneMenu onchange="PF('dokTable').filter()" style="width: 30px;" autoWidth="false" converter="RodzajedokConv">
+                        <p:selectOneMenu onchange="PF('dokTable').filter()" style="width: 30px;" autoWidth="false" converter="#{rodzajedokConv}">
                             <f:selectItem itemLabel="dok" itemValue="#{null}" noSelectionOption="true"/>
                             <f:selectItems value="#{DokTabView.dokumentypodatnika}" var="ixi" itemLabel="#{ixi.skrotNazwyDok}" itemValue="#{ixi}"/>
                         </p:selectOneMenu>

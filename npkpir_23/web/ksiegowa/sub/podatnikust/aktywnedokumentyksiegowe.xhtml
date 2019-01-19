@@ -12,7 +12,7 @@
             <p:growl life="3600"  id="messages" />
             <p:panelGrid columns="1" style="width: 1150px">
                 <p:dataTable id="pDokKsi" value="#{podatnikView.rodzajeDokumentowLista}"  var="loop" selection="#{podatnikView.wybranyRodzajDokumentu}"
-                             scrollable="true" scrollHeight="330" selectionMode="single" rowKey="#{loop.skrotNazwyDok}"
+                             style="height: 300px; overflow-y: scroll" selectionMode="single" rowKey="#{loop.skrotNazwyDok}"
                              sortBy="#{loop.skrotNazwyDok}"
                              >
                     <p:ajax event="rowSelect" update=":akordeon:form7" listener="#{podatnikView.przygotujdoedycjiDokKsi}" />
@@ -45,6 +45,11 @@
                     </p:column>
                      <p:column headerText="stw. VAT" width="30" style="text-align: right;">
                          <h:outputText value="#{loop.stawkavat}" rendered="#{loop.stawkavat ne 0}">
+                            <f:convertNumber integerOnly="true"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="% kup" width="30" style="text-align: right;">
+                        <h:outputText value="#{loop.procentkup}"  rendered="#{loop.procentkup ne 0}">
                             <f:convertNumber integerOnly="true"/>
                         </h:outputText>
                     </p:column>
@@ -107,6 +112,11 @@
                         <f:validateLongRange minimum="0" maximum="99"/>
                         <f:convertNumber integerOnly="true" type="number" />
                     </p:inputText>
+                    <h:outputText value=" procent kup****: " />
+                    <p:inputText value="#{podatnikView.selectedDokKsi.procentkup}" maxlength="2" validatorMessage="Wprowadz procent od 1 do 99">
+                        <f:validateLongRange minimum="0" maximum="99"/>
+                        <f:convertNumber integerOnly="true" type="number" />
+                    </p:inputText>
                     <h:outputText value=" pokaż kg: " />
                     <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.pokazkg}" />
                     <h:outputText value=" pokaż szt: " />
@@ -153,7 +163,8 @@
             <p:panelGrid columns="1" style="margin-top: 15px;">
                 <h:outputText value="*Dopuszczalne elementy wzorca: n - numer kolejny w roku, N - numer kolejny w miesiącu,	m - numer miesiąca, r - numer roku, s - dowolny ciąg znaków za wyjątkiem: /"/>
                 <h:outputText value="**Dotyczy faktur kosztowych. Wpisać tylko gdy inny niż 100%. Format wpisu dla np. faktur samochodowych: 50"/>
-                <h:outputText value="***Dotyczy faktur tyypu WNT. Wpisać tylko gdy inny niż 100%. Format wpisu dla np. WNT: 8"/>
+                <h:outputText value="***Dotyczy faktur typu WNT. Wpisać tylko gdy inny niż 100%. Format wpisu dla np. WNT: 8"/>
+                <h:outputText value="****Dotyczy faktur typu ZZP(samochodowych od 2019). Wpisać tylko gdy inny niż 100%. Format wpisu dla osobowych: 75"/>
             </p:panelGrid>
                 
         </h:form>
