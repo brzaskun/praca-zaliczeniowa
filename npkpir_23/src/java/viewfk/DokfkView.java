@@ -24,6 +24,7 @@ import beansFK.DokFKWalutyBean;
 import beansFK.DokumentFKBean;
 import beansFK.StronaWierszaBean;
 import beansFK.TabelaNBPBean;
+import beansFK.WartosciVAT;
 import beansPdf.PdfDokfk;
 import beansRegon.SzukajDaneBean;
 import com.itextpdf.text.Document;
@@ -731,7 +732,7 @@ public class DokfkView implements Serializable {
         boolean niesumuj = evatwpis.isNieduplikuj() && evatwpis.getEwidencja().getNazwa().equals("zakup");
         if (!selected.iswTrakcieEdycji() && !niesumuj){
             Rodzajedok rodzajdok = selected.getRodzajedok();
-            double[] wartosciVAT = podsumujwartosciVAT(selected.getEwidencjaVAT());
+            WartosciVAT wartosciVAT = podsumujwartosciVAT(selected.getEwidencjaVAT());
             if (selected.getListawierszy().size() == 1 && selected.isImportowany() == false) {
                 if (kontoRozrachunkowe == null) {
                     kontoRozrachunkowe = pobierzKontoRozrachunkowe(kliencifkDAO, selected, wpisView, kontoDAOfk);
@@ -739,7 +740,7 @@ public class DokfkView implements Serializable {
                 if (rodzajdok.getKategoriadokumentu() == 1) {
                     if (selected.getRodzajedok().getProcentvat() != 0.0 && evatwpis.getEwidencja().getTypewidencji().equals("z")) {
                         //oblicza polowe vat dla faktur samochody osobowe
-                        evatwpis.setVat(Z.z(wartosciVAT[4]));
+                        evatwpis.setVat(Z.z(wartosciVAT.getVatPlndodoliczenia()));
                         evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
                         RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":vat");
                         RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":brutto");
