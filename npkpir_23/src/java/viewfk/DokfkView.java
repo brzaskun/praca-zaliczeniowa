@@ -733,6 +733,7 @@ public class DokfkView implements Serializable {
         if (!selected.iswTrakcieEdycji() && !niesumuj){
             Rodzajedok rodzajdok = selected.getRodzajedok();
             WartosciVAT wartosciVAT = podsumujwartosciVAT(selected.getEwidencjaVAT());
+            Cechazapisu nkup = cechazapisuDAOfk.findPodatniknkup();
             if (selected.getListawierszy().size() == 1 && selected.isImportowany() == false) {
                 if (kontoRozrachunkowe == null) {
                     kontoRozrachunkowe = pobierzKontoRozrachunkowe(kliencifkDAO, selected, wpisView, kontoDAOfk);
@@ -745,12 +746,12 @@ public class DokfkView implements Serializable {
                         RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":vat");
                         RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":brutto");
                     }
-                    rozliczVatKoszt(evatwpis, wartosciVAT, selected, kontadlaewidencji, wpisView, poprzedniDokument, kontoRozrachunkowe);
+                    rozliczVatKoszt(evatwpis, wartosciVAT, selected, kontadlaewidencji, wpisView, poprzedniDokument, kontoRozrachunkowe, nkup);
                 } else if (selected.getListawierszy().get(0).getStronaWn().getKonto() == null && rodzajdok.getKategoriadokumentu() == 2) {
                     rozliczVatPrzychod(evatwpis, wartosciVAT, selected, kontadlaewidencji, wpisView, poprzedniDokument, kontoRozrachunkowe);
                 }
             } else if (selected.getListawierszy().size() > 1 && rodzajdok.getKategoriadokumentu() == 1) {
-                rozliczVatKosztEdycja(evatwpis, wartosciVAT, selected, wpisView);
+                rozliczVatKosztEdycja(evatwpis, wartosciVAT, selected, wpisView, nkup);
             } else if (selected.getListawierszy().size() > 1 && rodzajdok.getKategoriadokumentu() == 2) {
                 rozliczVatPrzychodEdycja(evatwpis, wartosciVAT, selected, wpisView);
             }
