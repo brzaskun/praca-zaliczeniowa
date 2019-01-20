@@ -341,7 +341,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             fakturaDAO.edit(fa);
         }
         f.setKontrahent(szukanyklient);
-        f.setKwota(saldo);
+        f.setKwota(p.getSaldopln());
         f.setRok(wpisView.getRokNastepnySt());
         f.setMc("01");
         f.setWystawca(wpisView.getPodatnikObiekt());
