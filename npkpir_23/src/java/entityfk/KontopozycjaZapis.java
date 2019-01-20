@@ -33,6 +33,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "KontopozycjaZapis.findByPodatnik", query = "SELECT k FROM KontopozycjaZapis k WHERE k.ukladBR = :podatnik"),
     @NamedQuery(name = "KontopozycjaZapis.findByPodatnikRok", query = "SELECT k FROM KontopozycjaZapis k WHERE k.ukladBR.podatnik = :podatnik AND k.ukladBR.rok = :rok"),
     @NamedQuery(name = "KontopozycjaZapis.findByUklad", query = "SELECT k FROM KontopozycjaZapis k WHERE k.ukladBR = :uklad"),
+    @NamedQuery(name = "KontopozycjaZapis.findKontoPozycjaByRokUkladBilans", query = "SELECT k FROM KontopozycjaZapis k WHERE k.ukladBR.uklad = :uklad AND k.ukladBR.rok = :rok AND  k.wynik0bilans1 = true"),
+    @NamedQuery(name = "KontopozycjaZapis.findKontoPozycjaByRokUkladRZiS", query = "SELECT k FROM KontopozycjaZapis k WHERE k.ukladBR.uklad = :uklad AND k.ukladBR.rok = :rok AND  k.wynik0bilans1 = false"),
     @NamedQuery(name = "KontopozycjaZapis.findByUkladWynikowe", query = "SELECT k FROM KontopozycjaZapis k WHERE k.ukladBR = :uklad AND  k.wynik0bilans1 = false"),
     @NamedQuery(name = "KontopozycjaZapis.findByUkladBilansowe", query = "SELECT k FROM KontopozycjaZapis k WHERE k.ukladBR = :uklad AND  k.wynik0bilans1 = true"),
 //    @NamedQuery(name = "KontopozycjaZapis.findByUkladBilansoweWzorzec", query = "SELECT k FROM KontopozycjaZapis k WHERE k.ukladBR = :uklad AND  k.wynik0bilans1 = true AND k.kontoID.podatnik IS NULL"),

@@ -55,9 +55,8 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
     @Column(length = 255)
     protected String pozycjaSymbol;
     protected Integer pozycjanr;
-//    //przychod 0 koszt 1
-//    //aktywa 2 pasywa 3
-//    protected int bilanslubrzis;
+//    przychod 0 koszt 1
+//    aktywa 0 pasywa 1
     protected boolean przychod0koszt1;
     @Transient
     protected List<Konto> przyporzadkowanekonta;

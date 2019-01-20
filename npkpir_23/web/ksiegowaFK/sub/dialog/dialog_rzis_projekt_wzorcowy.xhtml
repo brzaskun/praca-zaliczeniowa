@@ -18,6 +18,7 @@
                 <p:menuitem value="Dodaj/edytuj formułę" icon="ui-icon-circle-plus" actionListener="#{pozycjaBRWzorcowyView.skopiujpole('r')}" update=":formXrzisprojektformula" onsuccess="PF('rzisprojektsyntetyczneformula').show();"/>
                 <p:menuitem value="Zmień nazwę" icon="ui-icon-circle-plus" actionListener="#{pozycjaBRWzorcowyView.skopiujnazwe('r')}" update=":formdialog_zmiananazwypozycji_wzor" onsuccess="PF('dialog_zmiananazwypozycji_wzor').show();"/>
                 <p:menuitem value="Usuń" actionListener="#{pozycjaBRWzorcowyView.usunpozycje}" global="false" icon="ui-icon-trash" update=":formprojektwzorcowy"/>
+                <p:menuitem value="Usuń z implementacjami" actionListener="#{pozycjaBRWzorcowyView.usunpozycjeimplantacje}" icon="ui-icon-trash" update=":formprojektwzorcowy"/>
             </p:contextMenu>
             <p:panelGrid columns="4" >
                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" global="false" actionListener="#{pozycjaBRWzorcowyView.rozwinwszystkie(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":formprojektwzorcowy:dataList" style="float: left;" />

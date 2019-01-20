@@ -10,11 +10,13 @@ import beansFK.UkladBRBean;
 import converter.RomNumb;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
+import daoFK.KontopozycjaZapisDAO;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
 import daoFK.UkladBRDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
+import entityfk.KontopozycjaZapis;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
@@ -78,6 +80,8 @@ public class PozycjaBRWzorcowyView implements Serializable {
     private PozycjaBilansDAO pozycjaBilansDAO;
     @Inject
     private UkladBRDAO ukladBRDAO;
+    @Inject
+    private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     @Inject
     private UkladBR uklad;
     private String nowanazwa;
@@ -546,7 +550,8 @@ public class PozycjaBRWzorcowyView implements Serializable {
     }
 
     
-    public void usunpozycje() {
+    public boolean usunpozycje() {
+        boolean zwrot = false;
         try {
             if (wybranynodekonta.getChildCount() > 0) {
                 Msg.msg("w", "Wybrana pozycja RZiS zawiera podpunkty!");
@@ -561,11 +566,82 @@ public class PozycjaBRWzorcowyView implements Serializable {
             rootProjektRZiS = new TreeNodeExtended("root", null);
             PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
             level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
+            zwrot = true;
             Msg.msg("i", "Usuwam w RZiS");
-        } catch (Exception e) {  E.e(e);
+        } catch (Exception e) {  
+            E.e(e);
             Msg.msg("e", "Nie udało się usunąć pozycji w RZiS");
         }
+        return zwrot;
     }
+    
+    public void usunpozycjeimplantacje() {
+        boolean usunnajpierw = usunpozycje();
+        PozycjaRZiSBilans p = (PozycjaRZiSBilans) wybranynodekonta.getData();
+        List<KontopozycjaZapis> kontopozycjebilans = kontopozycjaZapisDAO.findKontoPozycjaByRokUkladBilans(wpisView.getRokWpisuSt(), p.getUklad());
+        List<KontopozycjaZapis> kontopozycjerzis = kontopozycjaZapisDAO.findKontoPozycjaByRokUkladRzis(wpisView.getRokWpisuSt(), p.getUklad());
+        List<KontopozycjaZapis> dousuniecia = new ArrayList<>();
+        try {
+            if (usunnajpierw) {
+                List<PozycjaRZiSBilans> pozycjepodatnikow = null;
+                String classname = p.getClass().getName();
+                if (classname.equals("entityfk.PozycjaBilans")) {
+                    pozycjepodatnikow = pozycjaBilansDAO.findBilansPozString(p.getPozycjaString(), wpisView.getRokWpisuSt(), p.getUklad());
+                    for (PozycjaRZiSBilans s : pozycjepodatnikow) {
+                        dousuniecia.addAll(znajdzdousuniecia(kontopozycjebilans,s));
+                    }
+                    for (KontopozycjaZapis s : dousuniecia) {
+                        try {
+                            kontopozycjaZapisDAO.destroy(s);
+                        } catch (Exception e) {}
+                    }
+                    pozycjaBilansDAO.destroy(pozycjepodatnikow);
+                    Msg.msg("Udane usuniecie pozycji Bilansu");
+                } else {
+                    pozycjepodatnikow = pozycjaRZiSDAO.findRZiSPozString(p.getPozycjaString(), wpisView.getRokWpisuSt(), p.getUklad());
+                    for (PozycjaRZiSBilans s : pozycjepodatnikow) {
+                        dousuniecia.addAll(znajdzdousunieciaRziS(kontopozycjerzis,s));
+                    }
+                    for (KontopozycjaZapis s : dousuniecia) {
+                        try {
+                            kontopozycjaZapisDAO.destroy(s);
+                        } catch (Exception e) {}
+                    }
+                    pozycjaRZiSDAO.destroy(pozycjepodatnikow);
+                    Msg.msg("Udane usuniecie pozycji RZiS");
+                }
+            }
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Nie udało się usunąć pozycji w bilansie/RZiS implementacja");
+        }
+    }
+    
+    
+    private List<KontopozycjaZapis> znajdzdousuniecia(List<KontopozycjaZapis> kontopozycjebilans, PozycjaRZiSBilans s) {
+        List<KontopozycjaZapis> dousuniecia = new ArrayList<>();
+        for (KontopozycjaZapis p : kontopozycjebilans) {
+            if (s.isPrzychod0koszt1()== false && p.getStronaWn().equals("0") && (s.getPozycjaString().equals(p.getPozycjaMa())||s.getPozycjaString().equals(p.getPozycjaWn()))) {
+                dousuniecia.add(p);
+            } else if (s.isPrzychod0koszt1()== true && p.getStronaMa().equals("1") && (s.getPozycjaString().equals(p.getPozycjaMa())||s.getPozycjaString().equals(p.getPozycjaMa()))) {
+                dousuniecia.add(p);
+            }
+        }
+        return dousuniecia;
+    }
+    
+    private List<KontopozycjaZapis> znajdzdousunieciaRziS(List<KontopozycjaZapis> kontopozycjebilans, PozycjaRZiSBilans s) {
+        List<KontopozycjaZapis> dousuniecia = new ArrayList<>();
+        for (KontopozycjaZapis p : kontopozycjebilans) {
+            if (s.isPrzychod0koszt1()== false && p.getStronaWn().equals("99") && (s.getPozycjaString().equals(p.getPozycjaMa())||s.getPozycjaString().equals(p.getPozycjaWn()))) {
+                dousuniecia.add(p);
+            } else if (s.isPrzychod0koszt1()== true && p.getStronaMa().equals("99") && (s.getPozycjaString().equals(p.getPozycjaMa())||s.getPozycjaString().equals(p.getPozycjaMa()))) {
+                dousuniecia.add(p);
+            }
+        }
+        return dousuniecia;
+    }
+    
     
     public void usunwszystkie() {
         try {
@@ -954,6 +1030,8 @@ public class PozycjaBRWzorcowyView implements Serializable {
         }
         System.out.println("");
     }
+
+    
 
 
    

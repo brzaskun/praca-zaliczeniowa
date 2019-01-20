@@ -99,5 +99,13 @@ public class KontopozycjaZapisDAO extends DAO implements Serializable{
             return null;
         }
     }
+
+    public List<KontopozycjaZapis> findKontoPozycjaByRokUkladBilans(String rokWpisuSt, String uklad) {
+        return sessionFacade.findKontoPozycjaByRokUkladBilans(rokWpisuSt, uklad);
+    }
+
+    public List<KontopozycjaZapis> findKontoPozycjaByRokUkladRzis(String rokWpisuSt, String uklad) {
+        return sessionFacade.findKontoPozycjaByRokUkladRZiS(rokWpisuSt, uklad);
+    }
     
 }

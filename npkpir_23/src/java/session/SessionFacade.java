@@ -2383,6 +2383,14 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<KontopozycjaZapis> findKontaPozycjaZapisPodatnikRok(Podatnik podatnik, String rok) {
         return em.createNamedQuery("KontopozycjaZapis.findByPodatnikRok").setParameter("rok", rok).setParameter("podatnik", podatnik).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList();
     }
+    
+    public List<KontopozycjaZapis> findKontoPozycjaByRokUkladBilans(String rokWpisuSt, String uklad) {
+        return em.createNamedQuery("KontopozycjaZapis.findKontoPozycjaByRokUkladBilans").setParameter("rok", rokWpisuSt).setParameter("uklad", uklad).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList();
+    }
+    public List<KontopozycjaZapis> findKontoPozycjaByRokUkladRZiS(String rokWpisuSt, String uklad) {
+        return em.createNamedQuery("KontopozycjaZapis.findKontoPozycjaByRokUkladRZiS").setParameter("rok", rokWpisuSt).setParameter("uklad", uklad).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList();
+    }
+
 
     public Dokfk findDokfId(Dokfk wybranyDokfk) {
         try {
@@ -2400,6 +2408,9 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
             return null;
         }
     }
+
+    
+    
 
     
     
