@@ -38,7 +38,7 @@
                     <h:outputText value="#{item.podatnik.nip}"/>
                 </p:column>
                 <p:column headerText="nazwa" width="250">
-                    <h:outputText value="#{item.printnazwa}"/>
+                    <h:outputText value="#{item.podatnik.printnazwa}"/>
                 </p:column>
                 <p:column width="50" style="text-align: center;">
                     <p:commandButton value="-" actionListener="#{multiuserView.odepnijfirme(item)}" update=":multiuserdodaj, :firmyniepodpiete"/>
