@@ -1141,6 +1141,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<Kliencifk> znajdzkontofkKlient(String podatniknip) {
         return Collections.synchronizedList(em.createNamedQuery("Kliencifk.findByPodatniknip").setParameter("podatniknip", podatniknip).getResultList());
     }
+    public Kliencifk znajdzkontofkByKonto(Konto konto) {
+        return (Kliencifk) em.createNamedQuery("Kliencifk.findByNrkonta").setParameter("nrkonta", konto.getNrkonta()).setParameter("podatniknip", konto.getPodatnik().getNip()).getSingleResult();
+    }
+
 
     public List<Podatnik> findPodatnikFK() {
         return Collections.synchronizedList(em.createNamedQuery("Podatnik.findByFirmafk").setParameter("firmafk", 1).getResultList());
@@ -2385,6 +2389,9 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
             return null;
         }
     }
+
+    
+    
 
     
 

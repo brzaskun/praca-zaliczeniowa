@@ -9,10 +9,12 @@ package viewfk;
 import beansFK.RozliczTransakcjeBean;
 import comparator.StronaWierszacomparator;
 import dao.StronaWierszaDAO;
+import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
 import daoFK.TransakcjaDAO;
 import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
+import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
@@ -61,6 +63,8 @@ public class RozrachunkiPrzegladView implements Serializable{
     private String coWyswietlacRozrachunkiPrzeglad;
     private double sumawaluta;
     private double sumapl;
+    @Inject
+    private KliencifkDAO kliencifkDAO;
 
     public RozrachunkiPrzegladView() {
          E.m(this);
@@ -68,7 +72,7 @@ public class RozrachunkiPrzegladView implements Serializable{
         //listaRozrachunkow = Collections.synchronizedList(new ArrayList<>());
         stronyWiersza = Collections.synchronizedList(new ArrayList<>());
         wybranaWalutaDlaKont = "wszystkie";
-        coWyswietlacRozrachunkiPrzeglad = "nowe";
+        coWyswietlacRozrachunkiPrzeglad = "potwierdzenie";
         wybranyRodzajTransakcji = "transakcje";
     }
     
@@ -78,7 +82,7 @@ public class RozrachunkiPrzegladView implements Serializable{
         //listaRozrachunkow = Collections.synchronizedList(new ArrayList<>());
         stronyWiersza = Collections.synchronizedList(new ArrayList<>());
         wybranaWalutaDlaKont = "wszystkie";
-        coWyswietlacRozrachunkiPrzeglad = "nowe";
+        coWyswietlacRozrachunkiPrzeglad = "potwierdzenie";
         wybranyRodzajTransakcji = "transakcje";
         wykazkont = stronaWierszaDAO.findKontoByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         pobierzmacierzyste(wykazkont);
@@ -226,7 +230,7 @@ public class RozrachunkiPrzegladView implements Serializable{
         filtrrozrachunkow();
         //kontoZapisFKView.pobierzZapisyNaKoncieNodeRozrachunki(wybranekonto);
         //kontoZapisFKView.setWybranekonto(wybranekonto);
-            sumawaluta = 0.0;
+        sumawaluta = 0.0;
         sumapl = 0.0;
         sumujwszystkie();
         RequestContext.getCurrentInstance().update("paseknorth");
@@ -418,7 +422,8 @@ public class RozrachunkiPrzegladView implements Serializable{
     }
     
     public void drukuj() {
-        PDFRozrachunki.drukujRozrachunki(stronyWiersza, wpisView);
+        Kliencifk k = kliencifkDAO.znajdzkontofkByKonto(wybranekonto);
+        PDFRozrachunki.drukujRozrachunki(stronyWiersza, wpisView, k);
     }
     
     public void pobierzZapisyNaKoncieNodeUnselect(NodeUnselectEvent event) {

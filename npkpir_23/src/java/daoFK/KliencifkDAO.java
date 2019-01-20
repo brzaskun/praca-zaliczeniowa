@@ -8,6 +8,7 @@ package daoFK;
 
 import dao.DAO;
 import entityfk.Kliencifk;
+import entityfk.Konto;
 import error.E;
 import java.io.Serializable;
 import java.util.List;
@@ -46,6 +47,10 @@ public class KliencifkDAO extends DAO implements Serializable{
     
     public List<Kliencifk> znajdzkontofkKlient(String podatniknip) {
         return sessionFacade.znajdzkontofkKlient(podatniknip);
+    }
+    
+    public Kliencifk znajdzkontofkByKonto(Konto konto) {
+        return sessionFacade.znajdzkontofkByKonto(konto);
     }
     
     

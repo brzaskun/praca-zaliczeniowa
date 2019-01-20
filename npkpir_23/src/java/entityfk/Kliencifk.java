@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Kliencifk.findByNazwa", query = "SELECT k FROM Kliencifk k WHERE k.nazwa = :nazwa"),
     @NamedQuery(name = "Kliencifk.findByPodatniknip", query = "SELECT k FROM Kliencifk k WHERE k.podatniknip = :podatniknip"),
     @NamedQuery(name = "Kliencifk.findByPodatniknazwa", query = "SELECT k FROM Kliencifk k WHERE k.podatniknazwa = :podatniknazwa"),
-    @NamedQuery(name = "Kliencifk.findByNrkonta", query = "SELECT k FROM Kliencifk k WHERE k.nrkonta = :nrkonta"),
+    @NamedQuery(name = "Kliencifk.findByNrkonta", query = "SELECT k FROM Kliencifk k WHERE k.nrkonta = :nrkonta AND k.podatniknip = :podatniknip"),
     @NamedQuery(name = "Kliencifk.findByAktywny", query = "SELECT k FROM Kliencifk k WHERE k.aktywny = :aktywny")})
 @Cacheable
 public class Kliencifk implements Serializable {
