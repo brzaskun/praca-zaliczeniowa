@@ -617,7 +617,7 @@ public class KontoZapisFKView implements Serializable{
     public void sumazapisowplnAut(){
         sumaWnPLN = 0.0;
         sumaMaPLN = 0.0;
-        kontozapisy.parallelStream().forEach((p)->{
+        kontozapisy.forEach((p)->{
             if (p.getWnma().equals("Wn")) {
                 Z.z(sumaWnPLN = sumaWnPLN + p.getKwotaPLN());
             } else if (p.getWnma().equals("Ma")){
