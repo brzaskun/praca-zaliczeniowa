@@ -74,6 +74,7 @@ import entityfk.MiejsceKosztow;
 import entityfk.Pojazdy;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
+import entityfk.PozycjaRZiSBilans;
 import entityfk.RMK;
 import entityfk.SprawozdanieFinansowe;
 import entityfk.StronaWiersza;
@@ -1067,6 +1068,11 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<PozycjaRZiS> findUkladBR(String uklad, String podatnik, String rok) {
         return Collections.synchronizedList(em.createNamedQuery("PozycjaRZiS.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
+    
+    public List<PozycjaRZiSBilans> findRZiSPozString(String pozycjaString, String rokWpisuSt, String uklad) {
+        return Collections.synchronizedList(em.createNamedQuery("PozycjaRZiS.findBilansPozString").setParameter("pozycjaString", pozycjaString).setParameter("rok", rokWpisuSt).setParameter("uklad", uklad).getResultList());
+    }
+
 
     public List<PozycjaRZiS> findUkladBRBilans(String uklad, String podatnik, String rok) {
         return Collections.synchronizedList(em.createNamedQuery("PozycjaBilans.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
@@ -1093,6 +1099,11 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return Collections.synchronizedList(em.createNamedQuery("PozycjaBilans.findByUkladPodRokAtywaPasywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
 
+    public List<PozycjaRZiSBilans> findBilansPozString(String pozycjaString, String rokWpisuSt, String uklad) {
+        return Collections.synchronizedList(em.createNamedQuery("PozycjaBilans.findBilansPozString").setParameter("pozycjaString", pozycjaString).setParameter("rok", rokWpisuSt).setParameter("uklad", uklad).getResultList());
+    }
+
+    
     public List<KontopozycjaBiezaca> findKontaBiezacePodatnikUklad(UkladBR uklad, String rb) {
         if (rb.equals("wynikowe")) {
             return Collections.synchronizedList(em.createNamedQuery("KontopozycjaBiezaca.findByUkladWynikowe").setParameter("uklad", uklad).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
@@ -2390,6 +2401,8 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         }
     }
 
+    
+    
     
     
 

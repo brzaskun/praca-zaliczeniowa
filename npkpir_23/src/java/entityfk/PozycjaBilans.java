@@ -46,6 +46,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "PozycjaBilans.findByUkladPodRokPasywa", query = "SELECT p FROM PozycjaBilans p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok AND p.przychod0koszt1 = '1'"),
     @NamedQuery(name = "PozycjaBilans.findByUkladPodRokAtywaPasywa", query = "SELECT p FROM PozycjaBilans p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok"),
     @NamedQuery(name = "PozycjaBilans.findByUkladPodRok", query = "SELECT p FROM PozycjaBilans p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok"),
+    @NamedQuery(name = "PozycjaBilans.findBilansPozString", query = "SELECT p FROM PozycjaBilans p WHERE p.pozycjaString = :pozycjaString AND p.rok = :rok AND p.uklad = :uklad"),
     @NamedQuery(name = "PozycjaBilans.findByUklad", query = "SELECT p FROM PozycjaBilans p WHERE p.uklad = :uklad")})
 public class PozycjaBilans extends PozycjaRZiSBilans implements Serializable {
    @JoinColumn(name = "macierzysta", referencedColumnName = "lp")

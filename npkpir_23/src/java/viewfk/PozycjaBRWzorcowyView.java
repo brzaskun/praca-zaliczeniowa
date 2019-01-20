@@ -724,17 +724,25 @@ public class PozycjaBRWzorcowyView implements Serializable {
     }
     
     public void zmiennazwepozycji() {
-        String classname = wybranynodekonta.getData().getClass().getName();
-        if (classname.equals("entityfk.PozycjaBilans")) {
-            PozycjaBilans p = (PozycjaBilans) wybranynodekonta.getData();
-            p.setNazwa(nowanazwa);
-            pozycjaBilansDAO.edit(p);
-        } else {
-            PozycjaRZiS r = (PozycjaRZiS) wybranynodekonta.getData();
-            r.setNazwa(nowanazwa);
-            pozycjaBilansDAO.edit(r);
+        try {
+            String classname = wybranynodekonta.getData().getClass().getName();
+            if (classname.equals("entityfk.PozycjaBilans")) {
+                PozycjaBilans p = (PozycjaBilans) wybranynodekonta.getData();
+                p.setNazwa(nowanazwa);
+                pozycjaBilansDAO.edit(p);
+                implementujzmianenazwy(p);
+                Msg.msg("Zmieniono nazwę pozycji bilansu");
+            } else {
+                PozycjaRZiS r = (PozycjaRZiS) wybranynodekonta.getData();
+                r.setNazwa(nowanazwa);
+                pozycjaBilansDAO.edit(r);
+                implementujzmianenazwy(r);
+                Msg.msg("Zmieniono nazwę pozycji RZiS");
+            }
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e","Wystąpił błąd przy zmianai nazwy pozycji bilansu/RZiS");
         }
-        Msg.msg("Zmieniono nazwę pozycji bilansu");
     }
     
     public void wybranopozycjeRZiS() {
@@ -923,6 +931,29 @@ public class PozycjaBRWzorcowyView implements Serializable {
    
     
     //</editor-fold>
+
+    private void implementujzmianenazwy(PozycjaRZiSBilans p) {
+        List<PozycjaRZiSBilans> pozycjepodatnikow = null;
+        String classname = p.getClass().getName();
+        if (classname.equals("entityfk.PozycjaBilans")) {
+            pozycjepodatnikow = pozycjaBilansDAO.findBilansPozString(p.getPozycjaString(), wpisView.getRokWpisuSt(), p.getUklad());
+            for (PozycjaRZiSBilans r : pozycjepodatnikow) {
+                r.setNazwa(p.getNazwa());
+                r.setDe(p.getDe());
+            }
+            //pozycjaBilansDAO.editList(pozycjepodatnikow);
+            Msg.msg("Udana implementacja zmiany");
+        } else {
+            pozycjepodatnikow = pozycjaRZiSDAO.findRZiSPozString(p.getPozycjaString(), wpisView.getRokWpisuSt(), p.getUklad());
+            for (PozycjaRZiSBilans r : pozycjepodatnikow) {
+                r.setNazwa(p.getNazwa());
+                r.setDe(p.getDe());
+            }
+            //pozycjaBilansDAO.editList(pozycjepodatnikow);
+            Msg.msg("Udana implementacja zmiany");
+        }
+        System.out.println("");
+    }
 
 
    

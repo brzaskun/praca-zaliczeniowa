@@ -6,6 +6,7 @@ package daoFK;
 
 import dao.DAO;
 import entityfk.PozycjaBilans;
+import entityfk.PozycjaRZiSBilans;
 import entityfk.UkladBR;
 import error.E;
 import java.io.Serializable;
@@ -101,6 +102,10 @@ public class PozycjaBilansDAO extends DAO implements Serializable{
         } catch (Exception e) { E.e(e); 
             return null;
         }
+    }
+
+    public List<PozycjaRZiSBilans> findBilansPozString(String pozycjaString, String rokWpisuSt, String uklad) {
+        return sessionFacade.findBilansPozString(pozycjaString, rokWpisuSt, uklad);
     }
     
     
