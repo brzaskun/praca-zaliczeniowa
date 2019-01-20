@@ -46,6 +46,12 @@ public class PDFRozrachunki {
             String kontrahent = stronyWiersza.get(0).getKonto().getNazwapelna();
             dodajOpisWstepny(document, B.b("zestawienierozrachunków")+" "+kontrahent,wpisView.getPodatnikObiekt(), null, wpisView.getRokWpisuSt());
             dodajLinieOpisu(document, "wydruk na dzień "+Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+           String wezwanie =  "Na podstawie art. 29 ustawy o rachunkowości z dnia 29 września 1994 r. (Dz. U. z 2013 r. poz."
+                +"330 ze zm.), zwracamy się z prośbą o potwierdzenie, na jednym egzemplarzu zestawienia, w ciągu 14 dni,"
+                +"sald wynikających z naszych ksiąg rachunkowych na wskazany dzień. "
+                +"W przypadku niezgodności salda prosimy o przesłanie specyfikacji transakcji składających się"
+                +" na różnice.";
+           dodajLinieOpisu(document, wezwanie);
             double naleznosci = 0.0;
             double zobowiazania = 0.0;
             String symbolwaluty = "PLN";
@@ -59,9 +65,9 @@ public class PDFRozrachunki {
                     int kat = p.getDokfk().getRodzajedok().getKategoriadokumentu();
                     String transakcja = kat == 2 || kat == 4 ? "należność dla nas" : "zobowiązanie względem kontrahenta";
                     if (kat == 2 || kat == 4) {
-                        naleznosci += p.getKwota();
+                        naleznosci += p.getPozostalo();
                     } else {
-                        zobowiazania += p.getKwota();
+                        zobowiazania += p.getPozostalo();
                     }
                     PdfMain.dodajLinieOpisuBezOdstepu(document, transakcja);
                     document.add(dodajSubTabele(testobjects.testobjects.getTabelaRozrachunki(l),95,1,8));
@@ -71,11 +77,13 @@ public class PDFRozrachunki {
                 }
             }
             double wartosc = Math.abs(naleznosci-zobowiazania);
-            dodajLinieOpisuBezOdstepu(document, "Razem wartość powyższych kwot: "+F.curr(wartosc,symbolwaluty));
+            dodajLinieOpisuBezOdstepu(document, "Symbol konta: "+stronyWiersza.get(0).getKonto().getPelnynumer());
+            dodajLinieOpisuBezOdstepu(document, "Razem wartość nierozliczonych faktur: "+F.curr(wartosc,symbolwaluty));
             dodajLinieOpisu(document, "Słownie: "+Slownie.slownie(String.valueOf(wartosc), skrótsymbolu));
             String sp = wpisView.getWprowadzil().getImie()+" "+wpisView.getWprowadzil().getNazw();
             dodajLinieOpisuBezOdstepu(document, "..................... ");
             dodajLinieOpisu(document, "sporządzający "+wpisView.getWprowadzil().getImieNazwisko()+" dnia "+Data.aktualnaData());
+            dodajLinieOpisu(document, "telefon: "+wpisView.getWprowadzil().getNrtelefonu());
             dodajLinieOpisu(document, " ");
             dodajLinieOpisuBezOdstepu(document, "..................... ");
             dodajLinieOpisu(document, "salda zgodnie potwierdzam");

@@ -268,6 +268,11 @@ public class RozrachunkiPrzegladView implements Serializable{
                          p.remove();
                      }
                      break;
+                case "potwierdzenie":
+                     if (p.next().getPozostalo() == 0) {
+                         p.remove();
+                     }
+                     break;
                  default:
                      p.next();
                      break;

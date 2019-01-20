@@ -46,7 +46,7 @@
                     </p:column>
                     <p:column style="text-align: center;" width="85">
                         <p:commandButton value="usuń" actionListener="#{vatUeFKView.usundekl(row)}" update="@(.upd3)" style="width: 80px;" rendered="#{row.identyfikator eq null or row.status.startsWith('4')}"/>
-                        <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslaneUE(row)}" update="@(.upd3)" style="width: 80px;" rendered="#{row.identyfikator ne null and !row.status.startsWith('4')}"/>
+                        <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslaneUE(row)}" update="@(.upd3)" style="width: 80px;" rendered="#{row.identyfikator ne null and (row.status.startsWith('1') or row.status.startsWith('3'))}"/>
                     </p:column>
                     <p:column style="text-align: center;" width="85">
                         <p:commandButton value="drukuj" actionListener="#{vatUeFKView.drukuj(row)}" update="@form" style="width: 80px;"/>

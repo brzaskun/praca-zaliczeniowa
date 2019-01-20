@@ -11,7 +11,6 @@ package enumy;
  */
 
 public enum FormaPrawna {
-
     SPOLKA_Z_O_O,
     SPOLKA_KOMANDYTOWA,
     STOWARZYSZENIE,

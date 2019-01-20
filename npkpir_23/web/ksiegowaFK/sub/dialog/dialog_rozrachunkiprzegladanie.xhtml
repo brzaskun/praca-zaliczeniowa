@@ -25,7 +25,7 @@
         /* ]]> */
     </script>
     <p:dialog id="rozrachunkiPrzeglad" header="Rozrachunki1 na kontach - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="rozrachunkiPrzeglad" 
-              resizable="false" onShow="ustawdialog('rozrachunkiPrzeglad','menuzapisykont',1490,750);$(document.getElementById('formwpisrozrachunki:wyborkonta_input')).select();
+              resizable="false" onShow="ustawdialog('rozrachunkiPrzeglad','menuzapisykont',1550,750);$(document.getElementById('formwpisrozrachunki:wyborkonta_input')).select();
 doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnEscape="true" 
               minimizable="true"
               >
@@ -281,7 +281,7 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                             <f:selectItem itemLabel="nowe" itemValue="nowe"/>
                             <f:selectItem itemLabel="częściowo" itemValue="częściowo"/>
                             <f:selectItem itemLabel="rozliczone" itemValue="rozliczone"/>
-                            <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
+                            <f:selectItem itemLabel="potwierdzenie sald" itemValue="potwierdzenie"/>
                         </p:selectOneMenu>
                     </h:form>
 

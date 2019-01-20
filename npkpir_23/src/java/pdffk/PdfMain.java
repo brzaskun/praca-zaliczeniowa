@@ -1039,12 +1039,12 @@ public class PdfMain {
                     col = new int[size];
                     col[0] = 1;
                     col[1] = 2;
-                    col[2] = 1;
+                    col[2] = 2;
                     col[3] = 3;
-                    col[4] = 6;
-                    col[5] = 3;
-                    col[6] = 3;
-                    col[7] = 3;
+                    col[4] = 5;
+                    col[5] = 2;
+                    col[6] = 2;
+                    col[7] = 2;
                     return col;
                 } else {
                     //PdfKontoZapisy drukujzapisyKompakt
@@ -1990,8 +1990,8 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getPrzychody())), "right", 8));
                     table.addCell(ustawfrazeAlign("", "center", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getPrzychodyudzial())), "right", 8));
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getZus51())), "right", 8));
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getZus52())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(p.getZus51()!=null ? number.format(p.getZus51()) :"0.00"), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(p.getZus52()!=null ? number.format(p.getZus52()) :"0.00"), "right", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNaleznazal())), "right", 8));
                 } else {
                     table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8));
@@ -2000,8 +2000,8 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getPrzychody())), "right", 8));
                     table.addCell(ustawfrazeAlign(p.getUdzial(), "center", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getPrzychodyudzial())), "right", 8));
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getZus51())), "right", 8));
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getZus52())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(p.getZus51()!=null ? number.format(p.getZus51()) :"0.00"), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(p.getZus52()!=null ? number.format(p.getZus52()) :"0.00"), "right", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNaleznazal())), "right", 8));
                 }
             }
