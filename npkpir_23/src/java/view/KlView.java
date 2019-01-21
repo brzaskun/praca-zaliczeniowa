@@ -333,8 +333,8 @@ public class KlView implements Serializable {
             //refresh();
             //kl1 = Collections.synchronizedList(new ArrayList<>());
             //kl1.addAll(klDAO.findAll());
-            selected = new Klienci();
             Msg.msg("Zapisano zmienione dane klienta ", selected.getNpelna());
+            selected = new Klienci();
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e","Wystąpił błąd. Nie zapisano zmienionych danych klienta", e.getStackTrace().toString());

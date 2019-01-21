@@ -175,6 +175,7 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                         <p:ajax event="rowSelectCheckbox" listener="#{rozrachunkiPrzegladView.sumujwybrane}" update="sumy" global="false"/>
                         <p:ajax event="rowUnselectCheckbox" listener="#{rozrachunkiPrzegladView.sumujwybrane}" update="sumy" global="false"/>
                         <p:ajax event="toggleSelect" listener="#{rozrachunkiPrzegladView.sumujwybrane}" update="sumy" global="false"/>
+                        <p:ajax event="filter" global="false"/>
                         <p:column selectionMode="multiple" styleClass="checkwiersza" width="35" style="text-align: center;"></p:column>
                         <p:column style="height: 19px; text-align: center;" width="25">
                             <p:rowToggler rendered="#{loop.platnosci.size() gt 0 or loop.nowetransakcje.size() gt 0}"/>
@@ -192,23 +193,23 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                         <p:column headerText="#{mgs.data}" width="60" style="text-align: center;" sortBy="#{loop.wiersz.dataksiegowania}">
                             <h:outputText value="#{loop.wiersz.dataksiegowania}"/>
                         </p:column>
-                        <p:column headerText="dok." width="50" >
+                        <p:column headerText="dok." width="50" filterBy="#{loop.wiersz.dokfkS}" sortBy="#{loop.wiersz.dokfkS}">
                             <h:outputText value="#{loop.wiersz.dokfkS}"/>
                         </p:column>
                         <p:column headerText="nr własny dok" sortBy="#{loop.wiersz.dokfk.numerwlasnydokfk}" filterBy="#{loop.wiersz.dokfk.numerwlasnydokfk}"
                                   filterMatchMode="contains" width="90">
                             <h:outputText value="#{loop.wiersz.dokfk.numerwlasnydokfk}"/>
                         </p:column>
-                        <p:column headerText="#{mgs.opis}" width="210" sortBy="#{loop.opisSW}">
+                        <p:column headerText="#{mgs.opis}" width="210" sortBy="#{loop.opisSW}" filterBy="#{loop.opisSW}">
                             <h:outputText value="#{loop.opisSW}" style="#{loop.stylopisrozrachunki}"/>
                         </p:column>
-                        <p:column headerText="kwota pierwotna" width="70">
+                        <p:column headerText="kwota pierwotna" width="70" sortBy="#{loop.kwota}">
                             <bcf:outputpl value="#{loop.kwota}"/>
                         </p:column>
-                        <p:column headerText="rozliczono" width="70">
+                        <p:column headerText="rozliczono" width="70" sortBy="#{loop.rozliczono}">
                             <bcf:outputpl value="#{loop.rozliczono}"/>
                         </p:column>
-                        <p:column headerText="pozostało" width="70">
+                        <p:column headerText="pozostało" width="70" sortBy="#{loop.pozostalo}">
                             <bcf:outputpl value="#{loop.pozostalo}"/>
                             <br/>
                             <bcf:outputpl value="#{loop.pozostaloPLN}" rendered="#{loop.pozostaloPLN ne 0.0}"/>
