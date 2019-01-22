@@ -1195,7 +1195,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Konto> findKontoPodatnikBezSlownik(Podatnik podatnik, String rok) {
-         return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikBezSlownik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList());
+        LoadGroup lg = new LoadGroup();
+        lg.addAttribute("kontopozycjaID");
+         return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikBezSlownik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).setHint(QueryHints.REFRESH, HintValues.TRUE)
+                .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
     }
     public List<Konto> findKontoPodatnikBezSlownikKsiegi(Podatnik podatnik, String rok) {
         return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikBezSlownikKsiegi").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList());
