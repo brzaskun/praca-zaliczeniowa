@@ -170,7 +170,7 @@ public class PlanKontView implements Serializable {
         Collections.sort(wykazkont, new Kontocomparator());
         wykazkontlazy = new LazyKontoDataModel(wykazkont);
         //root = rootInit(wykazkont);
-        listaukladowwzorcowy = ukladBRDAO.findRok(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
+        listaukladowwzorcowy = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
         wybranyukladwzorcowy = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladowwzorcowy);
         if (wybranyukladwzorcowy != null) {
             PozycjaRZiSFKBean.zmianaukladuwzorcowy("bilansowe", wybranyukladwzorcowy, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
@@ -277,7 +277,7 @@ public class PlanKontView implements Serializable {
     
     
     public void zmienukladwzorcowy() {
-        listaukladowwzorcowy = ukladBRDAO.findRok(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
+        listaukladowwzorcowy = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
         for (UkladBR p : listaukladowwzorcowy) {
             p.setAktualny(false);
         }
@@ -946,7 +946,7 @@ public class PlanKontView implements Serializable {
 
     public void usunieciewszystkichKontWzorcowy() {
         if (!wykazkontwzor.isEmpty()) {
-            List<UkladBR> uklady = ukladBRDAO.findRok(wpisView.getPodatnikwzorcowy(),wpisView.getRokWpisuSt());
+            List<UkladBR> uklady = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikwzorcowy(),wpisView.getRokWpisuSt());
             for (UkladBR u : uklady) {
                 wyczyscKonta("wynikowe");
                 kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(u, "wynikowe");

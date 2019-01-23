@@ -80,8 +80,8 @@ public class UkladBRView implements Serializable {
             lista = ukladBRDAO.findPodatnik(wpisView.getPodatnikObiekt());
             listarokbiezacy = ukladBRDAO.findPodatnikRok(wpisView);
             listaWzorcowy = ukladBRDAO.findPodatnik(wpisView.getPodatnikwzorcowy());
-            listawszyscyrokbiezacy = ukladBRDAO.findRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            listaWzorcowyBiezacy = ukladBRDAO.findRok(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
+            listawszyscyrokbiezacy = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            listaWzorcowyBiezacy = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
             Collections.sort(listaWzorcowy, new UkladBRcomparator());
             ukladdocelowyrok = wpisView.getRokWpisuSt();
         } catch (Exception e) {

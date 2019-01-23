@@ -203,7 +203,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 } else {
                     if (p.getRozliczenie() != null && p.getRozliczenie().getKurs() != 0.0) {
                         saldo -= p.getKwota();
-                    } else if (p.getFaktura().getWalutafaktury() != null && !p.getFaktura().getWalutafaktury().equals("PLN")) {
+                    } else if (p.getFaktura()!=null && p.getFaktura().getWalutafaktury() != null && !p.getFaktura().getWalutafaktury().equals("PLN")) {
                         saldo += p.getKwota();
                     }
                     saldopln += p.getKwotapln();
