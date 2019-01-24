@@ -63,7 +63,7 @@ public class DeklSuper implements Serializable {
     @Size(max = 255)
     @Column(name = "status")
     protected String status;
-    @Size(max = 255)
+    @Size(max = 512)
     @Column(name = "opis")
     protected String opis;
     @Column(name = "datazlozenia")

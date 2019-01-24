@@ -38,7 +38,7 @@
                         </h:outputText>
                     </p:column>
                     <p:column headerText="status" width="50">
-                        <h:outputText value="#{row.status}" />
+                        <h:outputText value="#{row.status}"  style="#{row.status.startsWith('4') ? 'color: red':null}"/>
                     </p:column>
                    
                     <p:column style="text-align: center;" width="85">
@@ -52,9 +52,11 @@
                         <p:commandButton value="drukuj" actionListener="#{vatUeFKView.drukuj(row)}" update="@form" style="width: 80px;"/>
                     </p:column>
                     <p:rowExpansion>
-                        <p:panelGrid columns="3" columnClasses="twenty-percent eighty-percent">
-                            <h:outputText value="#{row.opis}" rendered="#{row.upo eq null}"/>
+                        <p:panelGrid columns="2" columnClasses="twenty-percent eighty-percent">
+                            <h:outputText value="#{row.opis}" rendered="#{row.upo eq null}" style="#{row.upo eq null ? 'color: red':null}"/>
                             <h:outputText value="#{row.identyfikator}" rendered="#{row.upo ne null}"/>
+                        </p:panelGrid>
+                        <p:panelGrid columns="1" columnClasses="twenty-percent eighty-percent">
                             <h:outputText value="#{row.deklaracja}"/>
                         </p:panelGrid>
                     </p:rowExpansion>
