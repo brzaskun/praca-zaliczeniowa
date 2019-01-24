@@ -66,7 +66,7 @@ public class FakturaZestView implements Serializable {
         //List<Podatnik> podatnicy = podatnikDAO.findAll();
         Map<String,FakturaZestawienie> odnalezione = new ConcurrentHashMap<>();
         if (fakturyWystawione != null) {
-            fakturyWystawione.parallelStream().forEach((p)->{
+            fakturyWystawione.stream().forEach((p)->{
                 if (p.isTylkodlaokresowej()==false) {
                     String n = p.getKontrahent().getNip();
                     FakturaZestawienie f = new FakturaZestawienie();
