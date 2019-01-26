@@ -316,6 +316,7 @@ pdffk.PdfMain.dodajQR(nazwapliku);
             }
             //Msg.msg("i","Wydrukowano ewidencje","form:messages");
         } catch (Exception e) {
+            E.e(e);
         }
     }
     

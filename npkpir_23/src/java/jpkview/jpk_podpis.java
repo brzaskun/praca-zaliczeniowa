@@ -74,7 +74,7 @@ public class jpk_podpis {
 
     private static final String FILE = "d:/vat7a.xml";
     private static final String OUTPUTFILE = "wysylkapodpis.xml";
-    private static String haslo = "marlena1";
+
     
 
     /**
@@ -90,15 +90,17 @@ public class jpk_podpis {
         }
     }
     
-     public static void inneHaslo(String innehaslo) {
-        if (innehaslo!=null) {
-            haslo = innehaslo;
+    public static String inneHaslo(String innehaslo) {
+        String zwrot = "marlena1";
+        if (innehaslo!=null && !innehaslo.equals("")) {
+            zwrot = innehaslo;
         }
+        return zwrot;
     }
     
     
     public static Object[] podpisz(String deklaracja, String innehaslo) {
-        inneHaslo(innehaslo);
+        String haslo = inneHaslo(innehaslo);
         Object[] podpisana = null;
         try {
             deklaracja = deklaracja.substring(56);

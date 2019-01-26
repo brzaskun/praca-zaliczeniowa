@@ -98,15 +98,15 @@ public class EVatwpisSuper implements Serializable {
     }
 
     public String getDataWyst() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "";
     }
 
     public double getNetto() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return 0.0;
     }
 
     public double getVat() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return 0.0;
     }
 
     public String getOpizw() {
@@ -114,7 +114,7 @@ public class EVatwpisSuper implements Serializable {
     }
 
     public Evewidencja getNazwaewidencji() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new Evewidencja();
     }
 
     public void setId(int i) {

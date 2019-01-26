@@ -10,9 +10,11 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     
     <h:form>
-    <p:outputPanel style="padding: 10px;margin-top: 30px; width: 300px;">
-        <h:outputText value="Działa tylko z kartą biurową! Z inną kartą - wprowadź hasło"/>
-        <p:inputText value="#{czyJestKartaView.innehaslo}"/>
+    <p:outputPanel style="padding: 10px;margin-top: 30px; width: 400px;">
+        <div style="padding: 10px;">
+            <h:outputText value="Działa tylko z kartą biurową! Jeżeli sprawdzasz inną kartę - wprowadź hasło"/>
+            <p:inputText value="#{czyJestKartaView.innehaslo}"/>
+        </div>
         <p:panel header="można podpisać" rendered="#{czyJestKartaView.moznapodpisywac}"/>
         <p:panel header="nie można podpisać" rendered="#{!czyJestKartaView.moznapodpisywac}"/>
     </p:outputPanel>

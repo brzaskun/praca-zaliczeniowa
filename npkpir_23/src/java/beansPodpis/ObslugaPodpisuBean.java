@@ -28,12 +28,11 @@ import javax.servlet.ServletContext;
  */
 public class ObslugaPodpisuBean {
     
-    static String haslo = "marlena1";
 //    static String PLIK = "james.xml";
     static String DRIVER = "resources\\\\podpis\\\\cryptoCertum3PKCS.dll";
 //  
     public static boolean moznapodpisacjpk(String innehaslo) {
-        inneHaslo(innehaslo);
+        String haslo = inneHaslo(innehaslo);
         boolean zwrot = false;
         Provider provider = ObslugaPodpisuBean.jestDriver();
         if (provider!=null) {
@@ -51,8 +50,8 @@ public class ObslugaPodpisuBean {
         try {
             do {
                 ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-                //String realPath = ctx.getRealPath("/").replace("\\", "\\\\")+DRIVER;
-                String realPath = "C:\\Windows\\System32\\cryptoCertum3PKCS.dll";
+                String realPath = ctx.getRealPath("/").replace("\\", "\\\\")+DRIVER;
+                //String realPath = "C:\\Windows\\System32\\cryptoCertum3PKCS.dll";
                 String pkcs11config = "name=SmartCardn"+"\r"
                         + "library="+realPath;
                 byte[] pkcs11configBytes = pkcs11config.getBytes("UTF-8");
@@ -271,7 +270,7 @@ public class ObslugaPodpisuBean {
     }
 //    
     public static boolean moznaPodpisac(String innehaslo) {
-        inneHaslo(innehaslo);
+        String haslo = inneHaslo(innehaslo);
         boolean zwrot = false;
         Provider provider = jestDriver();
         KeyStore keyStore = jestKarta(haslo, provider);
@@ -282,10 +281,12 @@ public class ObslugaPodpisuBean {
         return zwrot;
     }
     
-    public static void inneHaslo(String innehaslo) {
-        if (innehaslo!=null) {
-            haslo = innehaslo;
+    public static String inneHaslo(String innehaslo) {
+        String zwrot = "marlena1";
+        if (innehaslo!=null && !innehaslo.equals("")) {
+            zwrot = innehaslo;
         }
+        return zwrot;
     }
     
 //        
@@ -372,7 +373,8 @@ public class ObslugaPodpisuBean {
             Security.removeProvider(pkcs11Provider.getName());
             Security.addProvider(pkcs11Provider);
             KeyStore keyStore = KeyStore.getInstance("PKCS11", pkcs11Provider);
-            keyStore.load(null, "5030".toCharArray());  // Load keystore
+            //keyStore.load(null, "5030".toCharArray());  // Load keystore
+            keyStore.load(null, "marlena1".toCharArray());  // Load keystore
             System.out.println("");
         } catch (Exception ex) {
             Logger.getLogger(ObslugaPodpisuBean.class.getName()).log(Level.SEVERE, null, ex);

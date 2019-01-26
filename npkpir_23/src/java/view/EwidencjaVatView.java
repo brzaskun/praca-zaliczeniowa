@@ -15,6 +15,7 @@ import dao.WpisDAO;
 import daoFK.EVatwpisDedraDAO;
 import daoFK.EVatwpisFKDAO;
 import data.Data;
+import embeddable.EVatwpis;
 import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
 import embeddable.Mce;
@@ -736,7 +737,7 @@ public class EwidencjaVatView implements Serializable {
         }
     }
     
-    private EVatwpisSuper dodajsumyDoEwidencji(double netto, double vat) {
+    private EVatwpisSuper dodajsumyDoEwidencji(double netto, double vat, Class c) {
         EVatwpisSuper wiersz = new EVatwpisSuper();
         wiersz.setId(9999);
         wiersz.setKontr(null);
@@ -851,13 +852,19 @@ public class EwidencjaVatView implements Serializable {
     }
     
     private void podsumujwybranewierszeprzedwydrukiem(List<EVatwpisSuper> zachowanewybranewierszeewidencji) {
+        Class c = zachowanewybranewierszeewidencji.getClass();
         double netto = 0.0;
         double vat = 0.0;
-        for (EVatwpisSuper p : zachowanewybranewierszeewidencji) {
-            netto += p.getNetto();
-            vat += p.getVat();
+        for (Iterator<EVatwpisSuper> it = zachowanewybranewierszeewidencji.iterator(); it.hasNext();) {
+            EVatwpisSuper p = it.next();
+            if (p.getEwidencja()!= null) {
+                netto += p.getNetto();
+                vat += p.getVat();
+            } else {
+                it.remove();
+            }
         }
-        zachowanewybranewierszeewidencji.add(dodajsumyDoEwidencji(Z.z(netto), Z.z(vat)));
+        zachowanewybranewierszeewidencji.add(dodajsumyDoEwidencji(Z.z(netto), Z.z(vat), c));
     }
     
     private void ewidencjazamc (Podatnik podatnik, String rok, String mc) {
