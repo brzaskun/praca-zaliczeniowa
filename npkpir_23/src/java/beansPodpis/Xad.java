@@ -98,7 +98,7 @@ public class Xad {
         try {
             //deklaracja = deklaracja.substring(38);
             Provider provider = ObslugaPodpisuBean.jestDriver();
-            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(haslo);
+            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(innehaslo);
             String alias = ObslugaPodpisuBean.aktualnyAlias(keyStore);
             X509Certificate signingCertificate = (X509Certificate) ObslugaPodpisuBean.certyfikat(alias, keyStore);
             String X509IssuerName = signingCertificate.getIssuerX500Principal().getName();

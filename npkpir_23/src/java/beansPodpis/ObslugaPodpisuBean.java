@@ -36,7 +36,7 @@ public class ObslugaPodpisuBean {
         boolean zwrot = false;
         Provider provider = ObslugaPodpisuBean.jestDriver();
         if (provider!=null) {
-            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(haslo);
+            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(innehaslo);
             if (provider != null && keyStore != null) {
                 zwrot = true;
             }

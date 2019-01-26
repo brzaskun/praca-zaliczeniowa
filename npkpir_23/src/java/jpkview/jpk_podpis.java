@@ -6,6 +6,7 @@
 package jpkview;
 
 import beansPodpis.*;
+import static beansPodpis.Xad.inneHaslo;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -73,7 +74,7 @@ public class jpk_podpis {
 
     private static final String FILE = "d:/vat7a.xml";
     private static final String OUTPUTFILE = "wysylkapodpis.xml";
-    private static String HASLO = "marlena1";
+    private static String haslo = "marlena1";
     
 
     /**
@@ -83,18 +84,26 @@ public class jpk_podpis {
         try {
             JPK jpk = WysylkaSub.makedummyJPK();
             String content = new String(Files.readAllBytes(Paths.get("james2.xml")));
-            podpisz(content);
+            podpisz(content, null);
         } catch (IOException ex) {
             Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public static Object[] podpisz(String deklaracja) {
+     public static void inneHaslo(String innehaslo) {
+        if (innehaslo!=null) {
+            haslo = innehaslo;
+        }
+    }
+    
+    
+    public static Object[] podpisz(String deklaracja, String innehaslo) {
+        inneHaslo(innehaslo);
         Object[] podpisana = null;
         try {
             deklaracja = deklaracja.substring(56);
             Provider provider = ObslugaPodpisuBean.jestDriver();
-            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(HASLO);
+            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(haslo);
             String alias = ObslugaPodpisuBean.aktualnyAlias(keyStore);
             X509Certificate signingCertificate = (X509Certificate) ObslugaPodpisuBean.certyfikat(alias, keyStore);
             String X509IssuerName = signingCertificate.getIssuerX500Principal().getName();
@@ -104,7 +113,7 @@ public class jpk_podpis {
             byte[] hash = digest.digest(signingCertificate.getEncoded());
             String hasz = DatatypeConverter.printBase64Binary(hash);
             System.out.println(""+hasz);
-            PrivateKey privkey = (PrivateKey) keyStore.getKey(alias, HASLO.toCharArray());
+            PrivateKey privkey = (PrivateKey) keyStore.getKey(alias, haslo.toCharArray());
             PublicKey pubKey = signingCertificate.getPublicKey();
             XMLSignatureFactory xmlSigFactory = XMLSignatureFactory.getInstance("DOM");
             Document doc = loadXML(deklaracja);

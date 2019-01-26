@@ -9,6 +9,7 @@ import beansPodpis.ObslugaPodpisuBean;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 
 /**
@@ -20,10 +21,14 @@ import javax.faces.bean.RequestScoped;
 public class CzyJestKartaView   implements Serializable {
     private static final long serialVersionUID = 1L;
     private boolean moznapodpisywac;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
+    private String innehaslo;
+    
     
     @PostConstruct
     private void init() {
-         moznapodpisywac = ObslugaPodpisuBean.moznapodpisacjpk(null);
+         moznapodpisywac = ObslugaPodpisuBean.moznapodpisacjpk(innehaslo);
     }
 
     public boolean isMoznapodpisywac() {
@@ -32,6 +37,22 @@ public class CzyJestKartaView   implements Serializable {
 
     public void setMoznapodpisywac(boolean moznapodpisywac) {
         this.moznapodpisywac = moznapodpisywac;
+    }
+    
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+    
+    public String getInnehaslo() {
+        return innehaslo;
+    }
+
+    public void setInnehaslo(String haslo) {
+        this.innehaslo = haslo;
     }
     
     
