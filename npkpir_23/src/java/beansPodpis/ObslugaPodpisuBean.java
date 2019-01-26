@@ -5,7 +5,6 @@
  */
 package beansPodpis;
 
-import static beansPodpis.Xad.inneHaslo;
 import error.E;
 import java.io.ByteArrayInputStream;
 import java.security.KeyStore;
@@ -18,6 +17,8 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
@@ -29,14 +30,14 @@ public class ObslugaPodpisuBean {
     
     static String haslo = "marlena1";
 //    static String PLIK = "james.xml";
-    static String DRIVER = "resources\\podpis\\cryptoCertum3PKCS.dll";
+    static String DRIVER = "resources\\\\podpis\\\\cryptoCertum3PKCS.dll";
 //  
     public static boolean moznapodpisacjpk(String innehaslo) {
         inneHaslo(innehaslo);
         boolean zwrot = false;
         Provider provider = ObslugaPodpisuBean.jestDriver();
         if (provider!=null) {
-            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(innehaslo);
+            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(haslo, provider);
             if (provider != null && keyStore != null) {
                 zwrot = true;
             }
@@ -50,7 +51,8 @@ public class ObslugaPodpisuBean {
         try {
             do {
                 ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-                String realPath = ctx.getRealPath("/")+DRIVER;
+                //String realPath = ctx.getRealPath("/").replace("\\", "\\\\")+DRIVER;
+                String realPath = "C:\\Windows\\System32\\cryptoCertum3PKCS.dll";
                 String pkcs11config = "name=SmartCardn"+"\r"
                         + "library="+realPath;
                 byte[] pkcs11configBytes = pkcs11config.getBytes("UTF-8");
@@ -66,11 +68,11 @@ public class ObslugaPodpisuBean {
         return pkcs11Provider;
     }
     
-    public static KeyStore jestKarta(String haslo) {
+    public static KeyStore jestKarta(String haslo, Provider provider) {
         KeyStore keyStore = null;
         try {
             char [] pin = haslo.toCharArray();
-            keyStore = KeyStore.getInstance("PKCS11");
+            keyStore = KeyStore.getInstance("PKCS11", provider);
             keyStore.load(null, pin);
         }   catch (KeyStoreException | NoSuchAlgorithmException | CertificateException ex) {
             keyStore = null;
@@ -260,19 +262,19 @@ public class ObslugaPodpisuBean {
 //        return xml;
 //    }
 //    
-//    private static void drukuj(Object o, String opis) {
-//        if (o != null) {
-//            System.out.println("jest "+opis);
-//            } else {
-//            System.out.println("nie ma "+opis);
-//        }
-//    }
+    private static void drukuj(Object o, String opis) {
+        if (o != null) {
+            System.out.println("jest "+opis);
+            } else {
+            System.out.println("nie ma "+opis);
+        }
+    }
 //    
     public static boolean moznaPodpisac(String innehaslo) {
         inneHaslo(innehaslo);
         boolean zwrot = false;
         Provider provider = jestDriver();
-        KeyStore keyStore = jestKarta(haslo);
+        KeyStore keyStore = jestKarta(haslo, provider);
         if (provider != null && keyStore != null) {
             zwrot = true;
         }
@@ -358,4 +360,22 @@ public class ObslugaPodpisuBean {
 //            Logger.getLogger(ObslugaPodpisuBean.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //}    
+    public static void main(String[] args) {
+        try {
+            Provider pkcs11Provider = null;
+            String realPath = "d:\\cryptoCertum3PKCS.dll";
+            String pkcs11config = "name=SmartCardn"+"\r"
+                    + "library="+realPath;
+            byte[] pkcs11configBytes = pkcs11config.getBytes("UTF-8");
+            ByteArrayInputStream configStream = new ByteArrayInputStream(pkcs11configBytes);
+            pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
+            Security.removeProvider(pkcs11Provider.getName());
+            Security.addProvider(pkcs11Provider);
+            KeyStore keyStore = KeyStore.getInstance("PKCS11", pkcs11Provider);
+            keyStore.load(null, "5030".toCharArray());  // Load keystore
+            System.out.println("");
+        } catch (Exception ex) {
+            Logger.getLogger(ObslugaPodpisuBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

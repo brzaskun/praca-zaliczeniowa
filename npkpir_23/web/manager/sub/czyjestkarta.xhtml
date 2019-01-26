@@ -12,11 +12,11 @@
     <h:form>
     <p:outputPanel style="padding: 10px;margin-top: 30px; width: 300px;">
         <h:outputText value="Działa tylko z kartą biurową! Z inną kartą - wprowadź hasło"/>
-        <p:inputText validator="#{czyJestKartaView.innehaslo}"/>
+        <p:inputText value="#{czyJestKartaView.innehaslo}"/>
         <p:panel header="można podpisać" rendered="#{czyJestKartaView.moznapodpisywac}"/>
         <p:panel header="nie można podpisać" rendered="#{!czyJestKartaView.moznapodpisywac}"/>
     </p:outputPanel>
-        <p:commandButton value="sprawdź" update="@form" style="width: 120px;margin-left: 20px;"/>
+        <p:commandButton value="sprawdź" update="@form" actionListener="#{czyJestKartaView.init()}" style="width: 120px;margin-left: 20px;"/>
     </h:form>
  
 </ui:composition>

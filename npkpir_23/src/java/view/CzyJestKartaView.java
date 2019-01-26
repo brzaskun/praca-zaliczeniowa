@@ -26,8 +26,7 @@ public class CzyJestKartaView   implements Serializable {
     private String innehaslo;
     
     
-    @PostConstruct
-    private void init() {
+    public void init() {
          moznapodpisywac = ObslugaPodpisuBean.moznapodpisacjpk(innehaslo);
     }
 

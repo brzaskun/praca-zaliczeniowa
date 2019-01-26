@@ -103,7 +103,7 @@ public class jpk_podpis {
         try {
             deklaracja = deklaracja.substring(56);
             Provider provider = ObslugaPodpisuBean.jestDriver();
-            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(haslo);
+            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(haslo, provider);
             String alias = ObslugaPodpisuBean.aktualnyAlias(keyStore);
             X509Certificate signingCertificate = (X509Certificate) ObslugaPodpisuBean.certyfikat(alias, keyStore);
             String X509IssuerName = signingCertificate.getIssuerX500Principal().getName();
