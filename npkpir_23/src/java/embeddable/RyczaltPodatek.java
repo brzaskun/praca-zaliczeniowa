@@ -13,6 +13,7 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class RyczaltPodatek implements Serializable{
+    private static final long serialVersionUID = -5151252292977634570l;
     private String opis;
     private Double stawka;
     private Double przychod;
@@ -20,8 +21,17 @@ public class RyczaltPodatek implements Serializable{
     private Double zmniejszenie;
     private Double podstawa;
     private Double podatek;
-    
 
+    public RyczaltPodatek() {
+    }
+    
+    public RyczaltPodatek(double d, double p17, double p17p) {
+        this.stawka = d;
+        this.przychod = p17;
+        this.podatek = p17p;
+    }
+    
+    
     public String getOpis() {
         return opis;
     }

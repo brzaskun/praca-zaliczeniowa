@@ -738,7 +738,7 @@ public class EwidencjaVatView implements Serializable {
     }
     
     private EVatwpisSuper dodajsumyDoEwidencji(double netto, double vat, Class c) {
-        EVatwpisSuper wiersz = new EVatwpisSuper();
+        EVatwpisSuper wiersz = c.getCanonicalName().equals("entityfk.EVatwpisFK") ? new EVatwpisFK(): new EVatwpis1();
         wiersz.setId(9999);
         wiersz.setKontr(null);
         wiersz.setOpis("podsumowanie");
@@ -852,7 +852,7 @@ public class EwidencjaVatView implements Serializable {
     }
     
     private void podsumujwybranewierszeprzedwydrukiem(List<EVatwpisSuper> zachowanewybranewierszeewidencji) {
-        Class c = zachowanewybranewierszeewidencji.getClass();
+        Class c = zachowanewybranewierszeewidencji.get(0).getClass();
         double netto = 0.0;
         double vat = 0.0;
         for (Iterator<EVatwpisSuper> it = zachowanewybranewierszeewidencji.iterator(); it.hasNext();) {

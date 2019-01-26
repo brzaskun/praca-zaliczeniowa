@@ -55,7 +55,7 @@
                     <p:printer target="dodrukupit" />  
                 </p:commandButton> 
        </p:panelGrid>
-    <p:panelGrid columns="1" style="width: 800px" rendered="#{!WpisView.ksiegaryczalt}" >
+    <p:panelGrid columns="1" style="width: 1400px" rendered="#{!WpisView.ksiegaryczalt}" >
                 <p:panel header="zachowane PIT-y: " />
                 <p:commandButton value="drukuj" actionListener="#{pit36View.drukujryczalt}" global="false" style="width: 120px;"/>
                 <br/>
@@ -68,7 +68,22 @@
                     <p:column headerText="udzialowiec: " width="200">
                         <h:outputText value="#{loop.udzialowiec}"/>
                     </p:column>
-                     <p:column headerText="przychody: ">
+                    <p:column headerText="17%: ">
+                        <bcf:outputpl value="#{loop.p17}" rendered="#{loop.p17 gt 0}"/>
+                    </p:column>
+                    <p:column headerText="8.5%: ">
+                         <bcf:outputpl value="#{loop.p85}" rendered="#{loop.p85 gt 0}"/>
+                    </p:column>
+                    <p:column headerText="5.5%: ">
+                         <bcf:outputpl value="#{loop.p55}" rendered="#{loop.p55 gt 0}"/>
+                    </p:column>
+                    <p:column headerText="3%: ">
+                         <bcf:outputpl value="#{loop.p30}" rendered="#{loop.p30 gt 0}"/>
+                    </p:column>
+                    <p:column headerText="suma przychodów: ">
+                         <bcf:outputpl value="#{loop.przychody}"/>
+                    </p:column>
+                    <p:column headerText="suma przychodów: ">
                          <bcf:outputpl value="#{loop.przychody}"/>
                     </p:column>
                     <p:column headerText="udział: " style="text-align: center;" width="30">
@@ -85,6 +100,18 @@
                     </p:column>
                     <p:column headerText="należna zaliczka za m-c: ">
                         <bcf:outputpl value="#{loop.naleznazal}"/>
+                    </p:column>
+                    <p:column headerText="17%: ">
+                        <bcf:outputpl value="#{loop.p17p}" rendered="#{loop.p17p gt 0}"/>
+                    </p:column>
+                    <p:column headerText="8.5%: ">
+                         <bcf:outputpl value="#{loop.p85p}" rendered="#{loop.p85p gt 0}"/>
+                    </p:column>
+                    <p:column headerText="5.5%: ">
+                         <bcf:outputpl value="#{loop.p55p}" rendered="#{loop.p55p gt 0}"/>
+                    </p:column>
+                    <p:column headerText="3%: ">
+                         <bcf:outputpl value="#{loop.p30p}" rendered="#{loop.p30p gt 0}"/>
                     </p:column>
                 </p:dataTable>
        </p:panelGrid>

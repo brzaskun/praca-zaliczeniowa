@@ -12,6 +12,7 @@ import entity.Uz;
 import java.io.File;
 import java.util.List;
 import org.primefaces.context.RequestContext;
+import pdffk.PdfMain;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
 import static pdffk.PdfMain.finalizacjaDokumentuQR;
@@ -36,7 +37,7 @@ public class PdfRyczpoz {
             file.delete();
         }
         Uz uz = wpisView.getWprowadzil();
-        Document document = inicjacjaA4Portrait();
+        Document document = PdfMain.inicjacjaA4Landscape();
         PdfWriter writer = inicjacjaWritera(document, nazwa);
         naglowekStopkaP(writer);
         otwarcieDokumentu(document, nazwa);

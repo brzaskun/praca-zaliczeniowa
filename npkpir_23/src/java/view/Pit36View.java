@@ -89,7 +89,23 @@ public class Pit36View implements Serializable {
         double zus52 = 0.0;
         double naleznazaliczka = 0.0;
         int id = 0;
+        double p17 = 0.0;
+        double p85 = 0.0;
+        double p55 = 0.0;
+        double p30 = 0.0;
+        double p17p = 0.0;
+        double p85p = 0.0;
+        double p55p = 0.0;
+        double p30p = 0.0;
         for (Ryczpoz p : listaryczalt) {
+            p17 += p.getP17();
+            p85 += p.getP85();
+            p55 += p.getP55();
+            p30 += p.getP30();
+            p17p += p.getP17p();
+            p85p += p.getP85p();
+            p55p += p.getP55p();
+            p30p += p.getP30p();
             przychody += p.getPrzychody().doubleValue();
             przychodyWgUdzialu += p.getPrzychodyudzial().doubleValue();
             if(p.getZus51() != null) {
@@ -101,6 +117,7 @@ public class Pit36View implements Serializable {
             naleznazaliczka += p.getNaleznazal().doubleValue();
             id = p.getId() > id ? p.getId() : id;
         }
+        suma.setSumowaniePrzych(p17,p85,p55,p30,p17p,p85p,p55p,p30p);
         suma.setPrzychody(new BigDecimal(Z.z(przychody)));
         suma.setPrzychodyudzial(new BigDecimal(Z.z(przychodyWgUdzialu)));
         suma.setZus51(new BigDecimal(Z.z(zus51)));
