@@ -97,22 +97,28 @@ public class PlanKontKopiujView implements Serializable {
     }
 
     public void implementujplankontWzorcowy() {
-        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaPobierzRelacje(wpisView.getPodatnikwzorcowy(), rokzrodlowy_wzorzec);
-        if (wpisView.isParamCzworkiPiatki() == false) {
-            for (Iterator<Konto> it = wykazkont.iterator(); it.hasNext();) {
-                Konto p = it.next();
-                if (p.getPelnynumer().startsWith("5")) {
-                    it.remove();
+        List<Konto> wykazkontpodatnika = kontoDAOfk.findWszystkieKontaPodatnikaPobierzRelacje(wpisView.getPodatnikObiekt(), rokzrodlowy_wzorzec);
+        if (wykazkontpodatnika.isEmpty()) {
+            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaPobierzRelacje(wpisView.getPodatnikwzorcowy(), rokzrodlowy_wzorzec);
+            if (wpisView.isParamCzworkiPiatki() == false) {
+                for (Iterator<Konto> it = wykazkont.iterator(); it.hasNext();) {
+                    Konto p = it.next();
+                    if (p.getPelnynumer().startsWith("5")) {
+                        it.remove();
+                    }
                 }
             }
+            List<Konto> macierzyste = PlanKontFKKopiujBean.skopiujlevel0(kontoDAOfk, wpisView.getPodatnikObiekt(), wykazkont, rokdocelowy);
+            int maxlevel = kontoDAOfk.findMaxLevelPodatnik(wpisView.getPodatnikwzorcowy(), Integer.parseInt(rokzrodlowy_wzorzec));
+            for (int i = 1; i <= maxlevel; i++) {
+                macierzyste = PlanKontFKKopiujBean.skopiujlevel(kontoDAOfk, wpisView.getPodatnikwzorcowy(), wpisView.getPodatnikObiekt(), wykazkont, macierzyste, i, rokdocelowy, kopiujSlownikowe);
+            }
+            planKontView.init();
+            Msg.msg("Zaimplementowano wzorcowy plan kont z roku "+rokzrodlowy_wzorzec);
+        } else {
+            
+            Msg.msg("w","Istnieje plan kont podatnika. Dokonam uzupełnienia kont i sprawdzę nazwy z roku "+rokzrodlowy_wzorzec);
         }
-        List<Konto> macierzyste = PlanKontFKKopiujBean.skopiujlevel0(kontoDAOfk, wpisView.getPodatnikObiekt(), wykazkont, rokdocelowy);
-        int maxlevel = kontoDAOfk.findMaxLevelPodatnik(wpisView.getPodatnikwzorcowy(), Integer.parseInt(rokzrodlowy_wzorzec));
-        for (int i = 1; i <= maxlevel; i++) {
-            macierzyste = PlanKontFKKopiujBean.skopiujlevel(kontoDAOfk, wpisView.getPodatnikwzorcowy(), wpisView.getPodatnikObiekt(), wykazkont, macierzyste, i, rokdocelowy, kopiujSlownikowe);
-        }
-        planKontView.init();
-        Msg.msg("Zaimplementowano wzorcowy plan kont z roku "+rokzrodlowy_wzorzec);
     }
 
     

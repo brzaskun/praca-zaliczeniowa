@@ -10,12 +10,13 @@
     <p:layoutUnit position="west" size="255"  collapsible="true" style="box-shadow: 10px 10px 5px #888888;">
         <h:form>
             <p:menu style="width: 238px; border: none;">
-                <p:menuitem value="bieżący plan kont" action="#{menu_plankont.ufile1(true)}" icon="ui-icon-circle-arrow-e" />  
-                <p:menuitem value="plan kont - salda"  action="#{menu_plankont.ufile2(true)}" icon="ui-icon-circle-arrow-e" />  
-                <p:menuitem value="edycja nazwy kont"  action="#{menu_plankont.ufile3(true)}" icon="ui-icon-circle-arrow-e" />  
-                <p:menuitem value="nazwy kont de"  action="#{menu_plankont.ufile4(true)}" icon="ui-icon-circle-arrow-e" />  
-                <p:menuitem value="klasyfikacja kont"  action="#{menu_plankont.ufile5(true)}" icon="ui-icon-circle-arrow-e" />  
-                <p:menuitem value="implementacje"  action="#{menu_plankont.ufile6(true)}" icon="ui-icon-circle-arrow-e" />  
+                <p:menuitem value="bieżący plan kont" action="#{menu_plankont.ufile1(true)}" icon="ui-icon-circle-arrow-e"  style="#{menu_plankont.file1style}"/>  
+                <p:menuitem value="plan kont - salda"  action="#{menu_plankont.ufile2(true)}" icon="ui-icon-circle-arrow-e"  style="#{menu_plankont.file2style}"/>  
+                <p:menuitem value="edycja nazwy kont"  action="#{menu_plankont.ufile3(true)}" icon="ui-icon-circle-arrow-e"  style="#{menu_plankont.file3style}"/>  
+                <p:menuitem value="nazwy kont de"  action="#{menu_plankont.ufile4(true)}" icon="ui-icon-circle-arrow-e"  style="#{menu_plankont.file4style}"/>  
+                <p:menuitem value="klasyfikacja kont"  action="#{menu_plankont.ufile5(true)}" icon="ui-icon-circle-arrow-e"  style="#{menu_plankont.file5style}"/>  
+                <p:menuitem value="implementacje"  action="#{menu_plankont.ufile6(true)}" icon="ui-icon-circle-arrow-e"  style="#{menu_plankont.file6style}"/>  
+                <p:menuitem value="porównanie nazw"  action="#{menu_plankont.ufile7(true)}" icon="ui-icon-circle-arrow-e" style="#{menu_plankont.file7style}"/>  
             </p:menu>
         </h:form>
         <p:panel>

@@ -274,6 +274,10 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     private boolean niewidoczne;
     @Transient
     private double kwota;
+    @Transient
+    private String nazwapelnawzorcowy;
+    @Transient
+    private String nazwaskroconawzorcowy;
     
     
 //    @OneToMany(mappedBy = "konto")
@@ -669,6 +673,22 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
 
     public double getSaldoWn() {
         return saldoWn;
+    }
+
+    public String getNazwapelnawzorcowy() {
+        return nazwapelnawzorcowy;
+    }
+
+    public void setNazwapelnawzorcowy(String nazwapelnawzorcowy) {
+        this.nazwapelnawzorcowy = nazwapelnawzorcowy;
+    }
+
+    public String getNazwaskroconawzorcowy() {
+        return nazwaskroconawzorcowy;
+    }
+
+    public void setNazwaskroconawzorcowy(String nazwaskroconawzorcowy) {
+        this.nazwaskroconawzorcowy = nazwaskroconawzorcowy;
     }
 
     public void setSaldoWn(double saldoWn) {

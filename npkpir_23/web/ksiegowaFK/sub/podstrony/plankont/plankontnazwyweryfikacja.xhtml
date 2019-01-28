@@ -1,0 +1,49 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+        
+    xmlns:bcf="http://brzaskun.com/facelets"
+    xmlns:f="http://java.sun.com/jsf/core">
+    <style>
+       
+    </style>
+    <p:outputPanel deferredMode="true">
+        <h:form id="form_plankontnazwyweryfikacja">
+            <p:panelGrid columns="2" >
+                <p:dataTable id="dataList" value="#{planKontNazwyView.wykazkont}" var="loop"  selectionMode="multiple"  selection="#{planKontNazwyView.wykazkontselected}" 
+                             styleClass="tablicaplankont" rowHover="true"  editable="true" editMode="cell"
+                             style="width: 1650px;margin-bottom:0px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                             scrollRows="1400" 
+                             rowIndexVar="index" rowSelectMode="add"
+                             >
+                    <p:ajax event="filter" global="false"/>
+                    <p:ajax event="rowSelect" update=":dodawaniekontaanalitycznego, :dialogedycjanazwkonta" 
+                            listener="#{planKontNazwyView.selrow}" global="false"/>
+                    <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"></p:column>
+                    <p:column headerText="nr konta" style="width: 100px;" styleClass="#{loop.level eq 2 ? 'druga' : null}" >
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '0' ? true : false)}" /> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '3' ? true : false)}" style="margin-left: 30px;"/> 
+                    </p:column>
+                    <p:column headerText="nazwa pełna" style="width: 300px;">
+                        <h:outputText value="#{loop.nazwapelna}" /> 
+                        <h:outputText value=" id " rendered="#{loop.idslownika gt 0}"/> 
+                        <h:outputText value="#{loop.idslownika}" rendered="#{loop.idslownika gt 0}"/> 
+                    </p:column>
+                    <p:column headerText="nazwa pełna wzorzec" style="width: 300px;">
+                        <h:outputText value="#{loop.nazwapelnawzorcowy}" /> 
+                    </p:column>
+                    <p:column headerText="nazwa skrócona" style="width: 300px;">
+                        <h:outputText  value="#{loop.nazwaskrocona}" /> 
+                    </p:column>
+                    <p:column headerText="nazwa skrócona wzorzec" style="width: 300px;">
+                        <h:outputText value="#{loop.nazwaskroconawzorcowy}" /> 
+                    </p:column>
+                </p:dataTable>
+            </p:panelGrid>
+        </h:form>
+       </p:outputPanel>
+</ui:composition>
