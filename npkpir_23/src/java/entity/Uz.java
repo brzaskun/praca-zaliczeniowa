@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -82,6 +83,10 @@ public class Uz implements Serializable {
     @Size(max = 45)
     @Column(name = "nrtelefonu")
     private String nrtelefonu;
+    @Transient
+    private double sumafaktur;
+    @Transient
+    private int liczbapodatnikow;
 
     public Uz() {
     }
@@ -196,6 +201,22 @@ public class Uz implements Serializable {
 
     public void setLoginglowny(Uz loginglowny) {
         this.loginglowny = loginglowny;
+    }
+
+    public double getSumafaktur() {
+        return sumafaktur;
+    }
+
+    public void setSumafaktur(double sumafaktur) {
+        this.sumafaktur = sumafaktur;
+    }
+
+    public int getLiczbapodatnikow() {
+        return liczbapodatnikow;
+    }
+
+    public void setLiczbapodatnikow(int liczbapodatnikow) {
+        this.liczbapodatnikow = liczbapodatnikow;
     }
     
     

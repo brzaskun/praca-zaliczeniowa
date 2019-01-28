@@ -25,6 +25,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.Msg;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
@@ -47,15 +48,17 @@ public class StatisticAdminView implements Serializable {
     @Inject private DokDAOfk dokDAOfk;
     @Inject private UzDAO uzDAO;
     @Inject private WierszDAO wierszDAO;
+    private String rok;
 
     public StatisticAdminView() {
         this.sesje = Collections.synchronizedList(new ArrayList<>());
         this.statystyka = Collections.synchronizedList(new ArrayList<>());
         this.obrabiani = Collections.synchronizedList(new ArrayList<>());
+        this.rok = "2018";
     }
 
-    @PostConstruct
-    private void init() {
+    
+    public void init() {
        List<String> pracownicy = uzDAO.findUzByUprawnienia("Bookkeeper");
        pracownicy.addAll(uzDAO.findUzByUprawnienia("BookkeeperFK"));
        obliczstatystyki(pracownicy);
@@ -90,8 +93,8 @@ public class StatisticAdminView implements Serializable {
     }
     
     private void statystykiinaczej(List<String> pracownicy) {
-        List<Wiersz> wiersze = wierszDAO.findAll();
-        List<Dok> dok = dokDAO.findAll();
+        List<Wiersz> wiersze = wierszDAO.findWierszeRok(wpisView.getRokWpisuSt());
+        List<Dok> dok = dokDAO.zwrocRok(wpisView.getRokWpisuSt());
         System.out.println("pobrano dane");
         for (String r : pracownicy){
             double ilosc = 0;
@@ -119,6 +122,7 @@ public class StatisticAdminView implements Serializable {
                 }
             }
             System.out.println("zliczono dla "+r);
+            Msg.msg("Zliczono dla "+r);
         }
         
     }
@@ -152,6 +156,15 @@ public class StatisticAdminView implements Serializable {
     public void setObrabiani(List<Obrabiani> obrabiani) {
         this.obrabiani = obrabiani;
     }
+
+    public String getRok() {
+        return rok;
+    }
+
+    public void setRok(String rok) {
+        this.rok = rok;
+    }
+    
     
     
 

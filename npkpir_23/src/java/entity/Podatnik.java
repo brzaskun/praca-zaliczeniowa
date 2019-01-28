@@ -33,6 +33,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -279,6 +280,8 @@ public class Podatnik implements Serializable {
     private String jezykmaila;
     @Column(name = "kartacert")
     private String kartacert;
+    @Transient
+    private double cena;
 
     
     public Podatnik() {
@@ -323,6 +326,14 @@ public class Podatnik implements Serializable {
     }
     public String getSchematnumeracji() {
         return schematnumeracji;
+    }
+
+    public double getCena() {
+        return cena;
+    }
+
+    public void setCena(double cena) {
+        this.cena = cena;
     }
 
     public String getKartacert() {

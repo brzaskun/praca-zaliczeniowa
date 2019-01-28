@@ -2412,6 +2412,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         }
     }
 
+    public List<Wiersz> findWierszeRok(String rok) {
+        return em.createNamedQuery("Wiersz.findByRok").setParameter("rok", rok).getResultList();
+    }
+
     
     
 

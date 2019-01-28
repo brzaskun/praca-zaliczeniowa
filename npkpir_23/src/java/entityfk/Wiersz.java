@@ -51,6 +51,7 @@ import waluty.Z;
     @NamedQuery(name = "Wiersz.findByPodatnikMcRok", query = "SELECT w FROM Wiersz w WHERE w.dokfk.podatnikObj = :podatnik AND w.dokfk.rok = :rok AND w.dokfk.miesiac = :mc"),
     @NamedQuery(name = "Wiersz.findByPodatnikMcRokWNTWDT", query = "SELECT w FROM Wiersz w WHERE w.dokfk.podatnikObj = :podatnik AND w.dokfk.rok = :rok AND w.dokfk.miesiac = :mc AND w.dokfk.seriadokfk = :wntwdt"),
     @NamedQuery(name = "Wiersz.findByPodatnikRok", query = "SELECT w FROM Wiersz w WHERE w.dokfk.podatnikObj = :podatnik AND w.dokfk.rok = :rok"),
+    @NamedQuery(name = "Wiersz.findByRok", query = "SELECT w FROM Wiersz w WHERE w.dokfk.rok = :rok"),
     @NamedQuery(name = "Wiersz.findByPodatnikRokTabela", query = "SELECT w FROM Wiersz w WHERE w.dokfk.podatnikObj = :podatnik AND w.dokfk.rok = :rok AND w.tabelanbp = :tabelanbp")
 })
 @Cacheable
