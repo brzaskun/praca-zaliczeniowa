@@ -51,7 +51,6 @@ public class PodatnikKsiegowaView implements Serializable{
     
 
     public void init() {
-        rok = "2019";
         listapodatnikow = podatnikDAO.findAll();
         Collections.sort(listapodatnikow, new Podatnikcomparator());
         listaksiegowych = uzDAO.findByUprawnienia("Bookkeeper");
