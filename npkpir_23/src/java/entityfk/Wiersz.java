@@ -3,14 +3,12 @@ package entityfk;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
@@ -27,6 +25,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -38,9 +38,9 @@ import waluty.Z;
  */
 @Entity
 //@Table(name = "wiersz")
-//@Table(name = "wiersz", uniqueConstraints = {
-//    @UniqueConstraint(columnNames = {"idwiersza, idporzadkowy, nrkolejnywserii, rok, podatnikObj, seriadokfk"})
-//})
+@Table(name = "wiersz", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"idwiersza, idporzadkowy"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Wiersz.findAll", query = "SELECT w FROM Wiersz w"),
@@ -396,16 +396,20 @@ public class Wiersz implements Serializable {
     }
 
     //</editor-fold>
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.idwiersza);
-        hash = 53 * hash + Objects.hashCode(this.idporzadkowy);
+        int hash = 5;
+        hash = 23 * hash + Objects.hashCode(this.idwiersza);
+        hash = 23 * hash + Objects.hashCode(this.idporzadkowy);
         return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (obj == null) {
             return false;
         }
@@ -422,6 +426,24 @@ public class Wiersz implements Serializable {
         return true;
     }
 
+    
+    
+    public static void main(String[] args) {
+        Wiersz a = new Wiersz();
+        a.setIdporzadkowy(4);
+        Wiersz b = new Wiersz();
+        b.setIdporzadkowy(4);
+        if (a==b) {
+            System.out.println("pasuje ==");
+        } else 
+        if (a.equals(b)) {
+            System.out.println("pasuje equals");
+        } else {
+            System.out.println("rozne");
+        }
+    }
+    
+    
     @Override
     public String toString() {
         try {

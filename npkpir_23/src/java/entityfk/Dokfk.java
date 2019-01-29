@@ -838,13 +838,16 @@ public class Dokfk extends DokSuper implements Serializable {
     }
 
     public Wiersz nastepnyWiersz(Wiersz wiersz) {
+        Wiersz zwrot = null;
         int index = this.listawierszy.indexOf(wiersz);
         try {
-            return this.listawierszy.get(index + 1);
+            zwrot = this.listawierszy.get(index + 1);
         } catch (Exception e) {
-
         }
-        return null;
+        if (wiersz==zwrot) {
+            zwrot = null;
+        }
+        return zwrot;
     }
 
     public void usunpuste() {

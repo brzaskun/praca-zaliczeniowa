@@ -61,6 +61,8 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
     private String dataoperacji;
     @Column(name = "paliwo")
     private boolean paliwo;
+    @Column(name = "koszty75")
+    private boolean koszty75;
     @Column(name = "innyokres")
     private int innyokres;
     @Column(name = "numerwlasnydokfk", nullable = false, length = 120)
@@ -312,6 +314,14 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
     
     public void setDataoperacji(String dataoperacji) {
         this.dataoperacji = dataoperacji;
+    }
+
+    public boolean isKoszty75() {
+        return koszty75;
+    }
+
+    public void setKoszty75(boolean koszty75) {
+        this.koszty75 = koszty75;
     }
     
     

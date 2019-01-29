@@ -70,6 +70,7 @@
                 <h:outputText value="brutto" style="width: 95px;"/>
                 <h:outputText value="op/zw" style="width: 75px;"/>
                 <h:outputText value="50%" />
+<!--                <h:outputText value="75%" />-->
                 <p:inputText id="opisvat" value="#{dokfkView.ewidencjaVatRK.opisvat}" style="width: 170px;"/>
                 <h:selectOneMenu value="#{dokfkView.ewidencjaVatRK.ewidencja}" converter="EVatwpisFKConv"
                                  onblur="$(this).removeClass('ui-state-focus');
@@ -103,7 +104,8 @@
                     <f:selectItem itemLabel="sprz.op" itemValue="sprz.op"/>
                     <f:selectItem itemLabel="sprzed.op.izw." itemValue="sprzed.op.izw."/>
                 </h:selectOneMenu>
-                 <p:selectBooleanCheckbox label="Paliwo" value="#{dokfkView.ewidencjaVatRK.paliwo}"/>
+                <p:selectBooleanCheckbox label="Paliwo" value="#{dokfkView.ewidencjaVatRK.paliwo}"/>
+<!--                <p:selectBooleanCheckbox label="Koszty 75%" value="#{dokfkView.ewidencjaVatRK.koszty75}"/>-->
             </p:panelGrid>
             <p:commandButton value="Zapisz" style="margin-left: 30%; margin-top: 15px; width: 120px;" actionListener="#{dokfkView.dolaczWierszZKwotamiRK}" 
                              oncomplete="odtworzwierszVATRK(#{dokfkView.lpWierszaWpisywanie});PF('dialogewidencjavatRK').hide();" global="false" rendered="#{!dokfkView.ewidencjaVATRKzapis0edycja1}"/>

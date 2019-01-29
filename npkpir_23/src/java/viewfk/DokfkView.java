@@ -256,6 +256,7 @@ public class DokfkView implements Serializable {
     private GUSView gUSView;
     private Cechazapisu cechazapisudododania;
     private String linijkaewidencjiupdate;
+    private Cechazapisu nkup;
     
 
     public DokfkView() {
@@ -299,11 +300,14 @@ public class DokfkView implements Serializable {
                 miesiacWpisuPokaz = wpisView.getMiesiacWpisu();
                 kontadlaewidencji.put("221-3", kontoDAOfk.findKonto("221-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
                 kontadlaewidencji.put("221-1", kontoDAOfk.findKonto("221-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+                kontadlaewidencji.put("149-3", kontoDAOfk.findKonto("149-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
                 kontadlaewidencji.put("404-2", kontoDAOfk.findKonto("404-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
                 //kontadlaewidencji.put("490", kontoDAOfk.findKonto("490", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+                nkup = cechazapisuDAOfk.findPodatniknkup();
                 resetujDokumentOpen();
             }
         } catch (Exception e) {
+            Msg.msg("e","Brak planu kont!");
             E.e(e);
         }
     }
@@ -733,7 +737,6 @@ public class DokfkView implements Serializable {
         if (!selected.iswTrakcieEdycji() && !niesumuj){
             Rodzajedok rodzajdok = selected.getRodzajedok();
             WartosciVAT wartosciVAT = podsumujwartosciVAT(selected.getEwidencjaVAT());
-            Cechazapisu nkup = cechazapisuDAOfk.findPodatniknkup();
             if (selected.getListawierszy().size() == 1 && selected.isImportowany() == false) {
                 if (kontoRozrachunkowe == null) {
                     kontoRozrachunkowe = pobierzKontoRozrachunkowe(kliencifkDAO, selected, wpisView, kontoDAOfk);
@@ -774,7 +777,7 @@ public class DokfkView implements Serializable {
         double[] wartosciVAT = podsumujwartosciVATRK(ewidencjaVatRK);
         List<Wiersz> dodanewiersze = null;
         if (ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-            dodanewiersze = rozliczVatKosztRK(evatwpis, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk, kontadlaewidencji);
+            dodanewiersze = rozliczVatKosztRK(evatwpis, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk, kontadlaewidencji, nkup);
         } else if (!ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
             dodanewiersze = rozliczVatPrzychodRK(evatwpis, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk, kontadlaewidencji);
         }
