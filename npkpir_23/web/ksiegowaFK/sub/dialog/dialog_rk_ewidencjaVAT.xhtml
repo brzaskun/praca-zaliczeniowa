@@ -62,7 +62,7 @@
                 <p:inputText value="#{dokfkView.ewidencjaVatRK.numerwlasnydokfk}" style="width: 170px;" required="true" requiredMessage="brak nr wlasnego dokumentu" onblur="czypuste(this)">
                 </p:inputText>
             </p:panelGrid>
-            <p:panelGrid id="panelzewidencjavat" columns="7"  styleClass="uipanelGrid0" style="min-width: 470px; margin-top: 2%;">
+            <p:panelGrid id="panelzewidencjavat" columns="8"  styleClass="uipanelGrid0" style="min-width: 470px; margin-top: 2%;">
                 <h:outputText value="opis transakcji" style="width: 160px;"/>
                 <h:outputText value="rodzaj ewidencji" style="width: 110px;"/>
                 <h:outputText value="#{mgs.netto}" style="width: 95px;"/>
@@ -70,7 +70,7 @@
                 <h:outputText value="brutto" style="width: 95px;"/>
                 <h:outputText value="op/zw" style="width: 75px;"/>
                 <h:outputText value="50%" />
-<!--                <h:outputText value="75%" />-->
+                <h:outputText value="75%" />
                 <p:inputText id="opisvat" value="#{dokfkView.ewidencjaVatRK.opisvat}" style="width: 170px;"/>
                 <h:selectOneMenu value="#{dokfkView.ewidencjaVatRK.ewidencja}" converter="EVatwpisFKConv"
                                  onblur="$(this).removeClass('ui-state-focus');
@@ -105,7 +105,7 @@
                     <f:selectItem itemLabel="sprzed.op.izw." itemValue="sprzed.op.izw."/>
                 </h:selectOneMenu>
                 <p:selectBooleanCheckbox label="Paliwo" value="#{dokfkView.ewidencjaVatRK.paliwo}"/>
-<!--                <p:selectBooleanCheckbox label="Koszty 75%" value="#{dokfkView.ewidencjaVatRK.koszty75}"/>-->
+                <p:selectBooleanCheckbox label="Koszty 75%" value="#{dokfkView.ewidencjaVatRK.koszty75}"/>
             </p:panelGrid>
             <p:commandButton value="Zapisz" style="margin-left: 30%; margin-top: 15px; width: 120px;" actionListener="#{dokfkView.dolaczWierszZKwotamiRK}" 
                              oncomplete="odtworzwierszVATRK(#{dokfkView.lpWierszaWpisywanie});PF('dialogewidencjavatRK').hide();" global="false" rendered="#{!dokfkView.ewidencjaVATRKzapis0edycja1}"/>

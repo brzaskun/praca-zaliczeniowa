@@ -804,7 +804,7 @@ public class DokfkView implements Serializable {
             double[] wartosciVAT = podsumujwartosciVATRK(ewidencjaVatRK);
             List<Wiersz> dodanewiersze = null;
             if (ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-                dodanewiersze = rozliczEdytujVatKosztRK(e, wartosciVAT, selected, wierszRKindex, kontadlaewidencji);
+                dodanewiersze = rozliczEdytujVatKosztRK(e, wartosciVAT, selected, wierszRKindex, kontadlaewidencji, nkup);
             } else if (!ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
                 dodanewiersze = rozliczEdytujVatPrzychodRK(e, wartosciVAT, selected, wierszRKindex);
             }

@@ -767,8 +767,9 @@ public class DokFKVATBean {
                     wierszdrugi.getStronaWn().setKonto(kontadlaewidencji.get("221-3"));
                 }
                 nowewiersze.add(wierszdrugi);
+                Wiersz wiersztrzeci = null;
                 if (ewidencjaVatRK.isPaliwo()) {
-                    Wiersz wiersztrzeci = selected.nastepnyWiersz(wierszdrugi);
+                    wiersztrzeci = selected.nastepnyWiersz(wierszdrugi);
                     jestjuzwierszvat = false;
                     if (wiersztrzeci != null) {
                         if (wiersztrzeci.getTypWiersza() == 1) {
@@ -788,14 +789,93 @@ public class DokFKVATBean {
                     wiersztrzeci.getStronaWn().setKonto(kontadlaewidencji.get("404-2"));
                     nowewiersze.add(wiersztrzeci);
                 }
-//                if (ewidencjaVatRK.isKoszty75()) {
-//                    rozliczobcieciekosztow(selected, nkup);
-//                }
+                
+                if (ewidencjaVatRK.isKoszty75()) {
+                    //rozliczobcieciekosztow(selected, nkup);
+                    boolean jestjuzwierszczwarty = false;
+                    Wiersz wierszczwarty = selected.nastepnyWiersz(wiersztrzeci);
+                    if (wierszczwarty != null) {
+                        if (wiersztrzeci.getTypWiersza() == 1) {
+                            if (wierszczwarty.getOpisWiersza().contains(" - nkup")) {
+                                jestjuzwierszczwarty = true;
+                            }
+                        }
+                    }
+                    if (jestjuzwierszczwarty) {
+                        edytujwierszrk75(selected, wierszpierwszy, wierszczwarty);
+                        Wiersz wierszpiaty = selected.nastepnyWiersz(wierszczwarty);
+                        edytujwierszrk75(selected, wiersztrzeci, wierszpiaty);
+                    } else {
+                        nowewiersze.add(dodajwierszrk75(selected, wierszpierwszy, wierszRKindex, nkup));
+                        nowewiersze.add(dodajwierszrk75(selected, wiersztrzeci, wierszRKindex, nkup));
+                    }
+                }
             }
+            sprawdzsumyobciecie(nowewiersze);
         return nowewiersze;
     }
     
-     public static List<Wiersz> rozliczEdytujVatKosztRK(EVatwpisFK ewidencjaVatRK, double[] wartosciVAT, Dokfk selected, int wierszRKindex, Map<String, Konto> kontadlaewidencji) {
+    
+            
+     private static Wiersz dodajwierszrk75(Dokfk selected, Wiersz wierszdorozliczenia, int wierszRKindex, Cechazapisu nkup) {
+            StronaWiersza p = wierszdorozliczenia.getStronaWn();
+            double procent = 0.75;
+            Wiersz wierszdodawany = null;
+            if (p.isWn() && p.getKonto().getPelnynumer().startsWith("4")) {
+                double starawartosc = p.getKwota();
+                double starawartoscWaluta = p.getKwotaWaluta();
+                double starawartoscPLN = p.getKwotaPLN();
+                double nowawartosc = starawartosc * procent;
+                double nowawartoscnkup = starawartosc - nowawartosc;
+                double nowawartoscWaluta = starawartoscWaluta * procent;
+                double nowawartoscnkupWaluta = starawartoscWaluta - nowawartoscWaluta;
+                double nowawartoscPLN = starawartoscPLN * procent;
+                double nowawartoscnkupPLN = starawartoscPLN - nowawartoscPLN;
+                wierszdodawany = ObslugaWiersza.wygenerujiDodajWierszRK(selected, wierszRKindex, true, nowawartoscnkup, 1);
+                wierszdodawany.getStronaWn().setKwotaPLN(nowawartoscnkupPLN);
+                wierszdodawany.getStronaWn().setKwotaWaluta(nowawartoscnkupWaluta);
+                wierszdodawany.getStronaWn().setKonto(p.getKonto());
+                wierszdodawany.getStronaWn().getCechazapisuLista().add(nkup);
+                wierszdodawany.setTabelanbp(selected.getTabelanbp());
+                wierszdodawany.setDataWalutyWiersza(wierszdorozliczenia.getDataWalutyWiersza());
+                String opis = p.getWiersz().getOpisWiersza() + " - nkup";
+                wierszdodawany.setOpisWiersza(opis);
+                p.setKwota(nowawartosc);
+                p.setKwotaWaluta(nowawartoscWaluta);
+                p.setKwotaPLN(nowawartoscPLN);
+            }
+            return wierszdodawany;
+    }
+     
+      private static Wiersz edytujwierszrk75(Dokfk selected, Wiersz wierszdorozliczenia, Wiersz wierszedytowany) {
+            StronaWiersza p = wierszdorozliczenia.getStronaWn();
+            double procent = 0.75;
+            if (p.isWn() && p.getKonto().getPelnynumer().startsWith("4")) {
+                double starawartosc = p.getKwota();
+                double starawartoscWaluta = p.getKwotaWaluta();
+                double starawartoscPLN = p.getKwotaPLN();
+                double nowawartosc = starawartosc * procent;
+                double nowawartoscnkup = starawartosc - nowawartosc;
+                double nowawartoscWaluta = starawartoscWaluta * procent;
+                double nowawartoscnkupWaluta = starawartoscWaluta - nowawartoscWaluta;
+                double nowawartoscPLN = starawartoscPLN * procent;
+                double nowawartoscnkupPLN = starawartoscPLN - nowawartoscPLN;
+                wierszedytowany.getStronaWn().setKwota(nowawartoscnkup);
+                wierszedytowany.getStronaWn().setKwotaPLN(nowawartoscnkupPLN);
+                wierszedytowany.getStronaWn().setKwotaWaluta(nowawartoscnkupWaluta);
+                wierszedytowany.getStronaWn().setKonto(p.getKonto());
+                wierszedytowany.setTabelanbp(selected.getTabelanbp());
+                wierszedytowany.setDataWalutyWiersza(wierszdorozliczenia.getDataWalutyWiersza());
+                String opis = p.getWiersz().getOpisWiersza() + " - nkup";
+                wierszedytowany.setOpisWiersza(opis);
+                p.setKwota(nowawartosc);
+                p.setKwotaWaluta(nowawartoscWaluta);
+                p.setKwotaPLN(nowawartoscPLN);
+            }
+            return wierszedytowany;
+    }
+    
+     public static List<Wiersz> rozliczEdytujVatKosztRK(EVatwpisFK ewidencjaVatRK, double[] wartosciVAT, Dokfk selected, int wierszRKindex, Map<String, Konto> kontadlaewidencji, Cechazapisu nkup) {
         List<Wiersz> nowewiersze = Collections.synchronizedList(new ArrayList<>());
         double nettoEwidVat = ewidencjaVatRK.getNetto();
         double vatEwidVat = ewidencjaVatRK.getVat();
@@ -839,8 +919,9 @@ public class DokFKVATBean {
                  wierszdrugi.setTabelanbp(selected.getTabelanbp());
                  wierszdrugi.setDataWalutyWiersza(wierszpierwszy.getDataWalutyWiersza());
                  nowewiersze.add(wierszdrugi);
+                  Wiersz wiersztrzeci = null;
                  if (ewidencjaVatRK.isPaliwo()) {
-                     Wiersz wiersztrzeci = selected.nastepnyWiersz(wierszdrugi);
+                     wiersztrzeci = selected.nastepnyWiersz(wierszdrugi);
                      if (wiersztrzeci != null && wiersztrzeci.getLpmacierzystego() == wierszpierwszy.getIdporzadkowy()) {
                          wiersztrzeci.getStronaWn().setKwota(vatkoszt);
                      } else {
@@ -852,11 +933,31 @@ public class DokFKVATBean {
                      wiersztrzeci.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat k.u.p.");
                      nowewiersze.add(wiersztrzeci);
                  } else if (!ewidencjaVatRK.isPaliwo()) {
-                     Wiersz wiersztrzeci = selected.nastepnyWiersz(wierszdrugi);
+                     wiersztrzeci = selected.nastepnyWiersz(wierszdrugi);
                      if (wiersztrzeci != null && wiersztrzeci.getLpmacierzystego() == wierszpierwszy.getIdporzadkowy()) {
                          selected.getListawierszy().remove(wiersztrzeci);
                      }
                  }
+                 if (ewidencjaVatRK.isKoszty75()) {
+                    //rozliczobcieciekosztow(selected, nkup);
+                    boolean jestjuzwierszczwarty = false;
+                    Wiersz wierszczwarty = selected.nastepnyWiersz(wiersztrzeci);
+                    if (wierszczwarty != null) {
+                        if (wiersztrzeci.getTypWiersza() == 1) {
+                            if (wierszczwarty.getOpisWiersza().contains(" - nkup")) {
+                                jestjuzwierszczwarty = true;
+                            }
+                        }
+                    }
+                    if (jestjuzwierszczwarty) {
+                        edytujwierszrk75(selected, wierszpierwszy, wierszczwarty);
+                        Wiersz wierszpiaty = selected.nastepnyWiersz(wierszczwarty);
+                        edytujwierszrk75(selected, wiersztrzeci, wierszpiaty);
+                    } else {
+                        nowewiersze.add(dodajwierszrk75(selected, wierszpierwszy, wierszRKindex, nkup));
+                        nowewiersze.add(dodajwierszrk75(selected, wiersztrzeci, wierszRKindex, nkup));
+                    }
+                }
              }
          } else {
              Msg.msg("w", "Brak Zdefiniowanego konta rozrachunkowego. Nie można generować zapisów VAT.");
