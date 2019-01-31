@@ -7,7 +7,7 @@
     >
     <p:tab title="Edycja danych podatnika">
         <h:form id="form">
-            <p:outputPanel id="wrapper" rendered="#{podatnikView.selected.firmafk == 0}">
+            <p:outputPanel id="wrapper" rendered="#{podatnikView.selected.firmafk == 0 or podatnikView.selected.firmafk == 3}">
                 <p:growl life="3600"  id="msg" autoUpdate="true"/>
                 
                 <p:focus for="wprowadzaniepodatnika"/>

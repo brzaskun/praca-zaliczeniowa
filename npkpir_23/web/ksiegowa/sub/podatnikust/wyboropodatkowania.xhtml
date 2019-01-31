@@ -75,8 +75,15 @@
                     <f:selectItem itemValue="podatek liniowy" itemLabel="podatek liniowy"/>
                     <f:selectItem itemValue="ryczałt" itemLabel="ryczałt"/>
                 </p:selectOneMenu>
-                <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.formaopodatkowania}"  rendered="#{WpisView.podatnikObiekt.firmafk ne 0}">
+                <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.formaopodatkowania}"  rendered="#{WpisView.podatnikObiekt.firmafk eq 1}">
                     <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/> 
+                    <f:selectItem itemValue="księgi rachunkowe" itemLabel="księgi rachunkowe"/>
+                </p:selectOneMenu>
+                <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.formaopodatkowania}"  rendered="#{WpisView.podatnikObiekt.firmafk eq 3}">
+                    <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/> 
+                    <f:selectItem itemValue="zasady ogólne" itemLabel="zasady ogólne"/> 
+                    <f:selectItem itemValue="podatek liniowy" itemLabel="podatek liniowy"/>
+                    <f:selectItem itemValue="ryczałt" itemLabel="ryczałt"/>
                     <f:selectItem itemValue="księgi rachunkowe" itemLabel="księgi rachunkowe"/>
                 </p:selectOneMenu>
                 <h:outputText value="mc/kw: "/>
