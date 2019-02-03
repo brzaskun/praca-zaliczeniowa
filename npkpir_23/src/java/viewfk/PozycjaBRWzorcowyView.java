@@ -388,9 +388,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
                 //w zaleznosci od levelu zwraca nastepny numer
                 nastepnysymbol = PozycjaRZiSFKBean.zwrocNastepnySymbol(level + 1);
             } else {
-                int index = wybranynodekonta.getChildCount() - 1;
-                PozycjaRZiS lastchild = (PozycjaRZiS) wybranynodekonta.getChildren().get(index).getData();
-                nastepnysymbol = PozycjaRZiSFKBean.zwrocNastepnySymbol(level + 1, lastchild.getPozycjaSymbol());
+                nastepnysymbol = zwrockolejnalitere();
             }
             nowyelementRZiS.setPozycjaSymbol(nastepnysymbol);
             nowyelementRZiS.setPozycjaString(parent.getPozycjaString() + "." + nastepnysymbol);
@@ -484,9 +482,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
                 //w zaleznosci od levelu zwraca nastepny numer
                 nastepnysymbol = PozycjaRZiSFKBean.zwrocNastepnySymbol(level + 1);
             } else {
-                int index = wybranynodekonta.getChildCount() - 1;
-                PozycjaBilans lastchild = (PozycjaBilans) wybranynodekonta.getChildren().get(index).getData();
-                nastepnysymbol = PozycjaRZiSFKBean.zwrocNastepnySymbol(level + 1, lastchild.getPozycjaSymbol());
+                nastepnysymbol = zwrockolejnalitere();
             }
             nowyelementBilans.setPozycjaSymbol(nastepnysymbol);
             nowyelementBilans.setPozycjaString(parent.getPozycjaString() + "." + nastepnysymbol);
@@ -513,6 +509,23 @@ public class PozycjaBRWzorcowyView implements Serializable {
         }
     }
    
+    private String zwrockolejnalitere() {
+        int levelp = ((PozycjaBilans) wybranynodekonta.getData()).getLevel()+1;
+        String pozycjaoczekiwana = PozycjaRZiSFKBean.zwrocPierwszySymbol(levelp);
+        List<TreeNode> lista = wybranynodekonta.getChildren();
+        for (TreeNode p : lista) {
+            PozycjaRZiSBilans r = (PozycjaRZiSBilans)(p.getData());
+            int level = r.getLevel();
+            String pozycjazastana = r.getPozycjaSymbol();
+            String nastepnysymbol = PozycjaRZiSFKBean.zwrocNastepnySymbol(level, pozycjaoczekiwana);
+            if (pozycjaoczekiwana.equals(pozycjazastana)) {
+                pozycjaoczekiwana = nastepnysymbol;
+            } else {
+                break;
+            }
+        }
+        return pozycjaoczekiwana;
+    }
     
             
     public void implementujdopochodnych() {
@@ -662,6 +675,45 @@ public class PozycjaBRWzorcowyView implements Serializable {
         }
     }
     
+    public void przesunwdol() {
+        try {
+            if (wybranynodekonta == null) {
+                Msg.msg("e", "Nie wybrano pozycji");
+            } else {
+                PozycjaRZiSBilans p  = (PozycjaRZiSBilans) wybranynodekonta.getData();
+                TreeNode parent = wybranynodekonta.getParent();
+                int level = ((PozycjaRZiSBilans) wybranynodekonta.getData()).getLevel();
+                String nastepnysymbol = PozycjaRZiSFKBean.zwrocNastepnySymbol(level, p.getPozycjaSymbol());
+                p.setPozycjaSymbol(nastepnysymbol);
+                p.setPozycjaString(((PozycjaRZiSBilans) parent.getData()).getPozycjaString() + "." + nastepnysymbol);
+                pozycjaBilansDAO.edit(p);
+                if (wybranynodekonta.getChildCount() > 0) {
+                    for (TreeNode child : parent.getChildren()) {
+                        przenumerujdzieci(child);
+                    }
+                }
+                rootProjektRZiS = new TreeNodeExtended("root", null);
+                PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
+                Msg.msg("i", "Przenumerowano pozycje");
+            }
+        } catch (Exception e) {  
+            E.e(e);
+            Msg.msg("e", "Nie udało się przenumerować pozycji");
+        }
+    }
+    
+    private void przenumerujdzieci (TreeNode superchild) {
+        PozycjaRZiSBilans p  = (PozycjaRZiSBilans) superchild.getData();
+        TreeNode parent = superchild.getParent();
+        p.setPozycjaString(((PozycjaRZiSBilans) parent.getData()).getPozycjaString() + "." + p.getPozycjaSymbol());
+        pozycjaBilansDAO.edit(p);
+        if (superchild.getChildren()!= null) {
+           for (TreeNode r : superchild.getChildren()) {
+               przenumerujdzieci(r);
+           }
+        }
+    }
+    
     public void usunpozycjeprzenumeruj() {
         try {
             if (wybranynodekonta.getChildCount() > 0) {
@@ -692,11 +744,12 @@ public class PozycjaBRWzorcowyView implements Serializable {
             rootProjektRZiS = new TreeNodeExtended("root", null);
             PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
             level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
-            Msg.msg("i", "Usuwam w RZiS");
+            Msg.msg("i", "Usuwam pozycję w Bilansie/RZiS wzorcowym");
         } catch (Exception e) {  
-                E.e(e);
+            E.e(e);
+            Msg.msg("e", "Nie udało się usunąć pozycji w Bilansie/RZiS wzorcowym");
         }
-            Msg.msg("e", "Nie udało się usunąć pozycji w RZiS");
+            
     }
 
 
