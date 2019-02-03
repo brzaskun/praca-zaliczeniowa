@@ -13,6 +13,7 @@ import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import entityfk.Wiersz;
 import error.E;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -26,10 +27,13 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import javax.xml.parsers.ParserConfigurationException;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
+import org.xml.sax.SAXException;
 import view.WpisView;
+import waluty.WalutyNBP;
 import waluty.Z;
 
 /**
@@ -64,6 +68,11 @@ public class WalutyViewFK implements Serializable {
     private WpisView wpisView;
     @ManagedProperty(value = "#{dokfkView}")
     private DokfkView dokfkView;
+    private String datawstepna;
+    private String nrtabeli;
+    
+    @Inject
+    private WalutyNBP walutyNBP;
 
     public WalutyViewFK() {
          E.m(this);
@@ -99,6 +108,35 @@ public class WalutyViewFK implements Serializable {
         }
         if (!symboleTabelRecznie.isEmpty()) {
             kurswprowadzonyrecznie.setNrtabeli(generujNumerTabeli(symbolRecznie, wprowadzonekursyRok));
+        }
+    }
+    
+    public void pobierzkursyWalutaRecznie() {
+        try {
+            E.m(this);
+            Integer numertabeli = Integer.valueOf(nrtabeli);
+            List<Tabelanbp> wierszepobranezNBP = Collections.synchronizedList(new ArrayList<>());
+            try {
+                for (Waluty p : pobraneRodzajeWalut) {
+                    wierszepobranezNBP.addAll(walutyNBP.pobierzjedenpliknbp(datawstepna, numertabeli, p.getSymbolwaluty()));
+                }
+                if (wierszepobranezNBP.isEmpty()) {
+                    Msg.msg("e", "Nie ma takiej tabeli. Nie udalo sie pobrac kursow walut z internetu");
+                } else {
+                    try {
+                        tabelanbpDAO.dodaj(wierszepobranezNBP);
+                    } catch (Exception e) { 
+                        E.e(e);
+                    }
+                    Msg.msg("i", "Udalo sie pobrac kursow walut z internetu");
+                    init();
+                }
+            } catch (Exception e) {
+                Msg.msg("e", "Nie udalo sie pobrac kursow walut z internetu");
+            }
+        } catch (Exception e) {
+            E.e(e);
+            Msg.dPe();
         }
     }
     
@@ -272,6 +310,23 @@ public class WalutyViewFK implements Serializable {
         this.walutywuzyciu = walutywuzyciu;
     }
 
+    public String getDatawstepna() {
+        return datawstepna;
+    }
+
+    public void setDatawstepna(String datawstepna) {
+        this.datawstepna = datawstepna;
+    }
+
+    public String getNrtabeli() {
+        return nrtabeli;
+    }
+
+    public void setNrtabeli(String nrtabeli) {
+        this.nrtabeli = nrtabeli;
+    }
+
+    
     public Tabelanbp getKurswprowadzonyrecznie() {
         return kurswprowadzonyrecznie;
     }

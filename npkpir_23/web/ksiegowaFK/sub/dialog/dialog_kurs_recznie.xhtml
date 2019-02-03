@@ -6,8 +6,20 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     
     >
-    <p:dialog id="dialogkursrecznie" header="Wprowadzenie kursu ręcznie" widgetVar="dialogkursrecznie"  
-              resizable="false"  onShow="ustawdialog('dialogkursrecznie','menukartoteki',800,150);" closeOnEscape="true" onHide="resetujdialog('dialogkursrecznie');" >
+    <p:dialog id="dialogkursrecznie" header="Pobranie/Wprowadzenie kursu ręcznie" widgetVar="dialogkursrecznie"  
+              resizable="false"  onShow="ustawdialog('dialogkursrecznie','menukartoteki',800,350);" closeOnEscape="true" onHide="resetujdialog('dialogkursrecznie');" >
+        <h:form id="formkursreczniepobierz">
+            <p:outputPanel style="padding: 10px; margin-bottom: 10px;">
+                <h:outputText value="pobieranie jednej tabeli z internetu" style="font-weight: 900"/>
+            <p:panelGrid columns="2">
+                <h:outputText value="data tabeli"/>
+                <p:inputText value="#{walutyViewFK.datawstepna}" placeholder="rrrr-mm-dd" maxlength="10" size="10"/>
+                <h:outputText value="numer tabeli"/>
+                <p:inputText value="#{walutyViewFK.nrtabeli}" size="3" maxlength="3"/>
+            </p:panelGrid>
+            <p:commandButton value="pobierz" style="width: 120px;" actionListener="#{walutyViewFK.pobierzkursyWalutaRecznie()}" update="wprowadzonekursy"/>
+            </p:outputPanel>
+        </h:form>
         <h:form id="formkursrecznie">
             <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 780px;">
                 <p:column headerText="nr tabeli" width="100" style="text-align: center; height: 25px;">

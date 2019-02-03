@@ -11,7 +11,9 @@
         <bcf:ajaxs/>
         <h:form id="wprowadzonekursyrecznie">
             <p:dataTable id="dataTablekursy" var="wpis" value="#{walutyViewFK.wprowadzonekursyRok}" editable="true" emptyMessage="Nie ma wprowadzonych ręcznie kursow" 
-                         style="overflow-y: scroll; height: 600px;" rowKey="#{wpis.idtabelanbp}" widgetVar="dataTablekursy">
+                          rowKey="#{wpis.idtabelanbp}" widgetVar="dataTablekursy"
+                          style="overflow-y: scroll; height: 600px;" 
+                         rowsPerPageTemplate="15,30,250,500" paginatorPosition="top" paginator="true" rows="15">
                 <p:ajax event="filter" global="false"/>
                 <p:ajax event="sort" global="false"/>
                  <f:facet name="header">  

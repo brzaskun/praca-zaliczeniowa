@@ -11,7 +11,9 @@
         
         <h:form id="wprowadzonekursy">
             <p:dataTable id="dataTablekursy" var="wpisT" value="#{walutyViewFK.pobranekursyRok}"  emptyMessage="Nie ma wprowadzonych kursow" 
-                         widgetVar="dataTablekursyT"  style="overflow-y: scroll; height: 600px;" rowKey="#{wpisT.idtabelanbp}" sortBy="#{wpisT.datatabeli}"
+                         widgetVar="dataTablekursyT"  rowKey="#{wpisT.idtabelanbp}" sortBy="#{wpisT.datatabeli}"
+                         style="overflow-y: scroll; height: 600px;" 
+                         rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
                          >
                 <p:ajax event="filter" global="false"/>
                 <p:ajax event="sort" global="false"/>
