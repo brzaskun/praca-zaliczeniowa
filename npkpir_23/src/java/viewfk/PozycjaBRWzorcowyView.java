@@ -47,7 +47,7 @@ import xls.ReadXLSFile;
 public class PozycjaBRWzorcowyView implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private TreeNode wybranynodekonta;
+    private TreeNodeExtended wybranynodekonta;
     private List<PozycjaRZiSBilans> pozycje;
     private List<PozycjaRZiSBilans> pozycje_old;
     private String wybranapozycja;
@@ -549,7 +549,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
         }
     }
 
-    
+       
     public boolean usunpozycje() {
         boolean zwrot = false;
         try {
@@ -945,15 +945,15 @@ public class PozycjaBRWzorcowyView implements Serializable {
         this.wykazkont = wykazkont;
     }
 
-   
-
-    public TreeNode getWybranynodekonta() {
+    public TreeNodeExtended getWybranynodekonta() {
         return wybranynodekonta;
     }
 
-    public void setWybranynodekonta(TreeNode wybranynodekonta) {
+    public void setWybranynodekonta(TreeNodeExtended wybranynodekonta) {
         this.wybranynodekonta = wybranynodekonta;
     }
+
+   
 
     public TreeNodeExtended getRootProjektRZiS() {
         return rootProjektRZiS;

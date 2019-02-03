@@ -229,6 +229,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         }
     }
     
+      
     public void getChildrenTree(List<TreeNodeExtended> nodes, List<T> pozycje) {
         List<TreeNode> children = this.getChildren();
         boolean madzieci = this.getChildCount() > 0;

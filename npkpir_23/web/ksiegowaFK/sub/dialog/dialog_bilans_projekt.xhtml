@@ -9,9 +9,9 @@
               resizable="false" onShow="ustawdialog('dialogbilansprojekt','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansprojekt');"  >
         <h:form id="formbilansprojekt">
             <p:contextMenu for="formbilansprojekt:dataList" style="width: 200px;">
-                <p:menuitem value="Nowa syntetyczna" icon="ui-icon-circle-plus" update=":formbilansprojekt" onclick="PF('bilansprojektsyntetyczne').show();" rendered="#{pozycjaBRView.uklad.importowany eq false ? 'true' : 'false'}"/>
-                <p:menuitem value="Nowa syntetyczna z formułą" icon="ui-icon-circle-plus" update=":formbilansprojekt" onclick="PF('bilansprojektsyntetyczneformula').show();" rendered="#{pozycjaBRView.uklad.importowany eq false ? 'true' : 'false'}"/>
-                <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" update=":formbilansprojekt" onclick="PF('bilansprojektanalityczne').show();" rendered="#{pozycjaBRView.uklad.importowany eq false ? 'true' : 'false'}"/>
+                <p:menuitem value="Nowa syntetyczna" icon="ui-icon-circle-plus"  onclick="PF('bilansprojektsyntetyczne').show();" rendered="#{pozycjaBRView.uklad.importowany eq false ? 'true' : 'false'}"/>
+                <p:menuitem value="Nowa syntetyczna z formułą" icon="ui-icon-circle-plus"  onclick="PF('bilansprojektsyntetyczneformula').show();" rendered="#{pozycjaBRView.uklad.importowany eq false ? 'true' : 'false'}"/>
+                <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" onclick="PF('bilansprojektanalityczne').show();" rendered="#{pozycjaBRView.uklad.importowany eq false ? 'true' : 'false'}"/>
                 <p:menuitem value="Usuń" actionListener="#{pozycjaBRView.usunpozycje}" icon="ui-icon-trash" update=":formbilansprojekt" rendered="#{pozycjaBRView.uklad.importowany eq false ? 'true' : 'false'}"/>
                 <p:menuitem value="nie można modyfikować importowanego układu" rendered="#{pozycjaBRView.uklad.importowany eq false ? 'false' : 'true'}"/>
             </p:contextMenu>
