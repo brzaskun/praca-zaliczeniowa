@@ -71,14 +71,29 @@ public class RomNumb implements Serializable{
         return num2rom(++number);
     }
     
+    public static String romIncBack(String roman) {
+        int number = rom2num(roman);
+        return num2rom(--number);
+    }
+    
     public static String numbInc(String numb) {
         int number = Integer.parseInt(numb);
         return String.valueOf(++number);
     }
     
+    public static String numbIncBack(String numb) {
+        int number = Integer.parseInt(numb);
+        return String.valueOf(--number);
+    }
+    
     public static String alfaInc(String alfa) {
         int charValue = alfa.charAt(0);
         return String.valueOf( (char) (charValue + 1));
+    }
+    
+    public static String alfaIncBack(String alfa) {
+        int charValue = alfa.charAt(0);
+        return String.valueOf( (char) (charValue - 1));
     }
     
     public static String otherSign(String othersign) {
@@ -94,6 +109,23 @@ public class RomNumb implements Serializable{
             case "-(9)" : return "-(10)";
             case "-(10)" : return "-(11)";
             case "-(11)" : return "-(12)";
+        }
+        return "-(x)";
+    }
+    
+    public static String otherSignBack(String othersign) {
+        switch (othersign) {
+            case "-(1)" : return "-(x)";
+            case "-(2)" : return "-(1)";
+            case "-(3)" : return "-(2)";
+            case "-(4)" : return "-(3)";
+            case "-(5)" : return "-(4)";
+            case "-(6)" : return "-(5)";
+            case "-(7)" : return "-(6)";
+            case "-(8)" : return "-(7)";
+            case "-(9)" : return "-(8)";
+            case "-(10)" : return "-(9)";
+            case "-(11)" : return "-(10)";
         }
         return "-(x)";
     }

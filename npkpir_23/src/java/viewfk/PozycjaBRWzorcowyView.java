@@ -674,7 +674,37 @@ public class PozycjaBRWzorcowyView implements Serializable {
             Msg.msg("e", "Nie udało się usunąć wszystkich pozycji w bilansie wzorcowym");
         }
     }
-    
+    public void przesunwgore() {
+        try {
+            if (wybranynodekonta == null) {
+                Msg.msg("e", "Nie wybrano pozycji");
+            } else {
+                PozycjaRZiSBilans p  = (PozycjaRZiSBilans) wybranynodekonta.getData();
+                TreeNode parent = wybranynodekonta.getParent();
+                int level = ((PozycjaRZiSBilans) wybranynodekonta.getData()).getLevel();
+                String poprzednisymbol = PozycjaRZiSFKBean.zwrocPoprzedniSymbol(level, p.getPozycjaSymbol());
+                if (poprzednisymbol==null) {
+                    Msg.msg("e", "Nie można przesunąć wyżej. To pierwszy element");
+                } else {
+                    p.setPozycjaSymbol(poprzednisymbol);
+                    String ps = !parent.getData().equals("root") ? ((PozycjaRZiSBilans) parent.getData()).getPozycjaString() + "." : "";
+                    p.setPozycjaString(ps + poprzednisymbol);
+                    pozycjaBilansDAO.edit(p);
+                    if (wybranynodekonta.getChildCount() > 0) {
+                        for (TreeNode child : parent.getChildren()) {
+                            przenumerujdzieci(child);
+                        }
+                    }
+                    rootProjektRZiS = new TreeNodeExtended("root", null);
+                    PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
+                    Msg.msg("i", "Przenumerowano pozycje");
+                }
+            }
+        } catch (Exception e) {  
+            E.e(e);
+            Msg.msg("e", "Nie udało się przenumerować pozycji");
+        }
+    } 
     public void przesunwdol() {
         try {
             if (wybranynodekonta == null) {
@@ -684,8 +714,9 @@ public class PozycjaBRWzorcowyView implements Serializable {
                 TreeNode parent = wybranynodekonta.getParent();
                 int level = ((PozycjaRZiSBilans) wybranynodekonta.getData()).getLevel();
                 String nastepnysymbol = PozycjaRZiSFKBean.zwrocNastepnySymbol(level, p.getPozycjaSymbol());
+                String ps = !parent.getData().equals("root") ? ((PozycjaRZiSBilans) parent.getData()).getPozycjaString() + "." : "";
+                p.setPozycjaString(ps + nastepnysymbol);
                 p.setPozycjaSymbol(nastepnysymbol);
-                p.setPozycjaString(((PozycjaRZiSBilans) parent.getData()).getPozycjaString() + "." + nastepnysymbol);
                 pozycjaBilansDAO.edit(p);
                 if (wybranynodekonta.getChildCount() > 0) {
                     for (TreeNode child : parent.getChildren()) {

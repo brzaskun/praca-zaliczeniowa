@@ -313,6 +313,8 @@ public class PozycjaRZiSFKBean {
     
     public static String zwrocNastepnySymbol(int level, String pozycjasymbol) {
         switch (level) {
+            case 0:
+                return RomNumb.alfaInc(pozycjasymbol);
             case 1:
                 return RomNumb.romInc(pozycjasymbol);
             case 2:
@@ -322,6 +324,24 @@ public class PozycjaRZiSFKBean {
             case 4:
                 return RomNumb.otherSign(pozycjasymbol);
         }
+        return null;
+    }
+    
+    public static String zwrocPoprzedniSymbol(int level, String pozycjasymbol) {
+        try {
+            switch (level) {
+                case 0:
+                    return RomNumb.alfaIncBack(pozycjasymbol);
+                case 1:
+                    return RomNumb.romIncBack(pozycjasymbol);
+                case 2:
+                    return RomNumb.numbIncBack(pozycjasymbol);
+                case 3:
+                    return RomNumb.alfaIncBack(pozycjasymbol);
+                case 4:
+                    return RomNumb.otherSignBack(pozycjasymbol);
+            }
+        } catch (Exception e){}
         return null;
     }
     

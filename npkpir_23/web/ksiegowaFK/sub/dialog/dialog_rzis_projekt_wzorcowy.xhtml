@@ -14,6 +14,7 @@
                 <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" global="false"  onclick="PF('rzisprojektanalityczne').show();"/>
                 <p:separator/>
                 <p:menuitem value="Przesuń w dół" icon="ui-icon-circle-plus" actionListener="#{pozycjaBRWzorcowyView.przesunwdol}" update="formprojektwzorcowy:dataList"/>
+                <p:menuitem value="Przesuń w górę" icon="ui-icon-circle-plus" actionListener="#{pozycjaBRWzorcowyView.przesunwgore()}" update="formprojektwzorcowy:dataList"/>
                 <p:separator/>
                 <p:menuitem value="Implementuj do pochodnych" icon="ui-icon-circle-plus" actionListener="#{pozycjaBRWzorcowyView.implementujdopochodnych}"/>
                 <p:separator/>
