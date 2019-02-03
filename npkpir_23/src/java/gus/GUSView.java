@@ -205,14 +205,56 @@ public class GUSView implements Serializable {
                 zwrot = element.replace("SPÓŁKA AKCYJNA", "S.A.");
             } else if (element.contains("SPÓŁKA CYWILNA")) {
                 zwrot = element.replace("SPÓŁKA CYWILNA", "S.C.");
-            } else if (element.contains("STOWARZYSZENIE")) {
-                zwrot = element.replace("STOWARZYSZENIE", "Stowarzyszenie");
-            } else if (element.contains("FUNDACJA")) {
-                zwrot = element.replace("FUNDACJA", "Fundacja");
+            } 
+            if (element.contains("PRZEDSIĘBIORSTWO PROJEKTOWO-USŁUGOWE")) {
+                zwrot = zwrot.replace("PRZEDSIĘBIORSTWO PROJEKTOWO-USŁUGOWE", "PPU");
+            } else if (zwrot.contains("PRZEDSIĘBIORSTWO PROJEKTOWO USŁUGOWE")) {
+                zwrot = zwrot.replace("PRZEDSIĘBIORSTWO PROJEKTOWO USŁUGOWE", "PPU");
+            } else if (zwrot.contains("PRZEDSIĘBIORSTWO HANDLOWO TRANSPORTOWE")) {
+                zwrot = zwrot.replace("PRZEDSIĘBIORSTWO HANDLOWO TRANSPORTOWE", "PHT");
+            } else if (zwrot.contains("PRZEDSIĘBIORSTWO HANDLOWO USŁUGOWE")) {
+                zwrot = zwrot.replace("PRZEDSIĘBIORSTWO HANDLOWO USŁUGOWE", "PHU");
+            } else if (zwrot.contains("PRZEDSIĘBIORSTWO USŁUGOWO HANDLOWE")) {
+                zwrot = zwrot.replace("PRZEDSIĘBIORSTWO USŁUGOWO HANDLOWE", "PUH");
+            } else if (zwrot.contains("PRZEDSIĘBIORSTWO HANDLOWO USŁUGOWO PRODUKCYJNE")) {
+                zwrot = zwrot.replace("PRZEDSIĘBIORSTWO HANDLOWO USŁUGOWO PRODUKCYJNE", "PHUP");
+            } else if (zwrot.contains("PRZEDSIĘBIORSTWO HANDLOWO PRODUKCYJNO USŁUGOWE")) {
+                zwrot = zwrot.replace("PRZEDSIĘBIORSTWO HANDLOWO PRODUKCYJNO USŁUGOWE", "PHUP");
+            } else if (zwrot.contains("PRZEDSIĘBIORSTWO PRODUKCYJNO USŁUGOWO HANDLOWE")) {
+                zwrot = zwrot.replace("PRZEDSIĘBIORSTWO PRODUKCYJNO USŁUGOWO HANDLOWE", "PPHU");
+            } else if (zwrot.contains("PRZEDSIĘBIORSTWO PRODUKCYJNO HANDLOWO USŁUGOWE")) {
+                zwrot = zwrot.replace("PRZEDSIĘBIORSTWO PRODUKCYJNO HANDLOWO USŁUGOWE", "PPHU");
+            } else if (zwrot.contains("PRZEDSIĘBIORSTWO PRODUKCYJNO HANDLOWE")) {
+                zwrot = zwrot.replace("PRZEDSIĘBIORSTWO PRODUKCYJNO HANDLOWE", "PPH");
+            } else if (zwrot.contains("PRZEDSIĘBIORSTWO PROJEKTOWO-USŁUGOWE")) {
+                zwrot = zwrot.replace("PRZEDSIĘBIORSTWO PROJEKTOWO-USŁUGOWE", "PPU");
+            } else if (zwrot.contains("PRZEDSIĘBIORSTWO HANDLOWO-TRANSPORTOWE")) {
+                zwrot = zwrot.replace("PRZEDSIĘBIORSTWO HANDLOWO-TRANSPORTOWE", "PHT");
+            } else if (zwrot.contains("PRZEDSIĘBIORSTWO HANDLOWO-USŁUGOWE")) {
+                zwrot = zwrot.replace("PRZEDSIĘBIORSTWO HANDLOWO-USŁUGOWE", "PHU");
+            } else if (zwrot.contains("PRZEDSIĘBIORSTWO USŁUGOWO-HANDLOWE")) {
+                zwrot = zwrot.replace("PRZEDSIĘBIORSTWO USŁUGOWO-HANDLOWE", "PUH");
+            } else if (zwrot.contains("PRZEDSIĘBIORSTWO PRODUKCYJNO-USŁUGOWO-HANDLOWE")) {
+                zwrot = zwrot.replace("PRZEDSIĘBIORSTWO PRODUKCYJNO-USŁUGOWO-HANDLOWE", "PHUP");
+            } else if (zwrot.contains("PRZEDSIĘBIORSTWO HANDLOWO-USŁUGOWO-PRODUKCYJNE")) {
+                zwrot = zwrot.replace("PRZEDSIĘBIORSTWO HANDLOWO-USŁUGOWO-PRODUKCYJNE", "PHUP");
+            } else if (zwrot.contains("PRZEDSIĘBIORSTWO HANDLOWO-PRODUKCYJNO-USŁUGOWE")) {
+                zwrot = zwrot.replace("PRZEDSIĘBIORSTWO HANDLOWO-PRODUKCYJNO-USŁUGOWE", "PHUP");
+            } else if (zwrot.contains("PRZEDSIĘBIORSTWO PRODUKCYJNO-HANDLOWO-USŁUGOWE")) {
+                zwrot = zwrot.replace("PRZEDSIĘBIORSTWO PRODUKCYJNO-HANDLOWO-USŁUGOWE", "PPHU");
+            } else if (zwrot.contains("PRZEDSIĘBIORSTWO PRODUKCYJNO-HANDLOWE")) {
+                zwrot = zwrot.replace("PRZEDSIĘBIORSTWO PRODUKCYJNO-HANDLOWE", "PPH");
+            } else if (zwrot.contains("STOWARZYSZENIE")) {
+                zwrot = zwrot.replace("STOWARZYSZENIE", "Stowarzyszenie");
+            } else if (zwrot.contains("FUNDACJA")) {
+                zwrot = zwrot.replace("FUNDACJA", "Fundacja");
             } else if (a.length>3) {
                 zwrot = zloznazwe(a,a.length);
-            }else if (a.length==3) {
+            } else if (a.length==3) {
                 zwrot = a[0]+" "+StringUtils.capitalize(StringUtils.lowerCase(a[1]))+" "+StringUtils.capitalize(StringUtils.lowerCase(a[2]));
+                if (zwrot.contains(" S.c.")) {
+                    zwrot = zwrot.replace(" S.c.", " S.C.");
+                }
             } else if (a.length==2) {
                 zwrot = StringUtils.capitalize(StringUtils.lowerCase(a[0]))+" "+StringUtils.capitalize(StringUtils.lowerCase(a[1]));
             }
@@ -233,7 +275,11 @@ public class GUSView implements Serializable {
         sb.append(StringUtils.capitalize(StringUtils.lowerCase(a[length-2])));
         sb.append(" ");
         sb.append(StringUtils.capitalize(StringUtils.lowerCase(a[length-1])));
-        return sb.toString();
+        String zwrot = sb.toString();
+        if (zwrot.contains(" S.c.")) {
+            zwrot = zwrot.replace(" S.c.", " S.C.");
+        }
+        return zwrot;
     }
     private String drukujdanefirmy(String wiersz) {
         String zwrot = "brak danych";

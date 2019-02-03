@@ -333,7 +333,7 @@ public class KlView implements Serializable {
             //refresh();
             //kl1 = Collections.synchronizedList(new ArrayList<>());
             //kl1.addAll(klDAO.findAll());
-            Msg.msg("Zapisano zmienione dane klienta ", selected.getNpelna());
+            Msg.msg("Zapisano zmienione dane klienta "+ selected.getNpelna());
             selected = new Klienci();
         } catch (Exception e) {
             E.e(e);
@@ -446,6 +446,28 @@ public class KlView implements Serializable {
             E.e(e);
         }
     }
+    
+    public void znajdzdaneregonAutomat(Klienci klientfaktura) {
+        try {
+            Klienci aktualizuj = SzukajDaneBean.znajdzdaneregonAutomat(klientfaktura.getNip(), gUSView);
+            klientfaktura.setNpelna(aktualizuj.getNpelna());
+            klientfaktura.setMiejscowosc(aktualizuj.getMiejscowosc());
+            klientfaktura.setUlica(aktualizuj.getUlica());
+            klientfaktura.setDom(aktualizuj.getDom());
+            klientfaktura.setLokal(aktualizuj.getLokal());
+            klientfaktura.setKodpocztowy(aktualizuj.getKodpocztowy());
+            if (klientfaktura.getNskrocona()==null || klientfaktura.getNskrocona().isEmpty()) {
+                klientfaktura.setNskrocona(aktualizuj.getNpelna());
+            }
+            klDAO.edit(klientfaktura);
+            Msg.msg("Zaktualizowano dane klienta pobranymi z GUS");
+        } catch (Exception e) {
+            Msg.msg("e","Błąd, niezaktualizowano dane klienta pobranymi z GUS");
+            E.e(e);
+        }
+    }
+    
+    
     
     public void wstawkreske(int wstaw) {
         if (wstaw==0) {

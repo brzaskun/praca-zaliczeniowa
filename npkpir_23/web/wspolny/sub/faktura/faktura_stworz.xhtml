@@ -203,6 +203,9 @@
                                 <f:param name="passedValue" value="#{p}" />
                             </p:autoComplete>
                         </div>
+                        <div class="ui-grid-col-2">
+                            <p:commandButton value="aktualizuj z GUS" actionListener="#{KlView.znajdzdaneregonAutomat(fakturaView.selected.kontrahent)}" style="width: 140px; margin-left: 100px;" update="akordeon:formstworz:acForce"/>
+                        </div>
                     </div>
                     <div class="ui-grid-row" style="height: 40px;">
                         <div class="ui-grid-col-2">
