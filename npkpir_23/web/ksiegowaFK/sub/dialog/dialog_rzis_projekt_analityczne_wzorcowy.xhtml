@@ -12,7 +12,7 @@
             <h:outputLabel value="Nazwa pozycji:" for="nazwa" />
                         <p:inputText id="nazwa" value="#{pozycjaBRWzorcowyView.nowyelementRZiS.nazwa}" title="Nazwa pozycji RZiS" required="true" requiredMessage="Wprowadź nazwę pozycji" style="width: 350px;"/>
                        <p:commandButton value="dodaj" styleClass="nb"
-                                        actionListener="#{pozycjaBRWzorcowyView.dodajnowapozycje('analityczna')}" accesskey="d" type="submit" update=":formYrzisprojekt, :formprojektwzorcowy" style="float: right;" onclick="PF('rzisprojektanalityczne').hide()"/>
+                                        actionListener="#{pozycjaBRWzorcowyView.dodajnowapozycje('analityczna')}" update=":formYrzisprojekt, :formprojektwzorcowy" style="float: right;" onclick="PF('rzisprojektanalityczne').hide()"/>
         </p:panelGrid>
             </p:focus>
             </h:form>

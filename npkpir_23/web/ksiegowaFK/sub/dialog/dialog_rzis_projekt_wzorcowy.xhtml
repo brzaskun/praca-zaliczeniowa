@@ -9,9 +9,9 @@
               resizable="false" onShow="ustawdialog('dialogrzisprojektwzorcowy','menuustawienia', 1180, 750);" closeOnEscape="true" onHide="resetujdialog('dialogrzisprojektwzorcowy');"  >
         <h:form id="formprojektwzorcowy">
             <p:contextMenu for="formprojektwzorcowy:dataList" style="width: 250px;">
-                <p:menuitem value="Nowa syntetyczna" icon="ui-icon-circle-plus" global="false" update=":formprojektwzorcowy" onclick="PF('rzisprojektsyntetyczne').show();"/>
-                <p:menuitem value="Nowa syntetyczna z formułą" icon="ui-icon-circle-plus" global="false" update=":formprojektwzorcowy" onclick="PF('rzisprojektsyntetyczneformula').show();"/>
-                <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" global="false" update=":formprojektwzorcowy" onclick="PF('rzisprojektanalityczne').show();"/>
+                <p:menuitem value="Nowa syntetyczna" icon="ui-icon-circle-plus" global="false"  onclick="PF('rzisprojektsyntetyczne').show();"/>
+                <p:menuitem value="Nowa syntetyczna z formułą" icon="ui-icon-circle-plus" global="false" onclick="PF('rzisprojektsyntetyczneformula').show();"/>
+                <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" global="false"  onclick="PF('rzisprojektanalityczne').show();"/>
                 <p:separator/>
                 <p:menuitem value="Przesuń w dół" icon="ui-icon-circle-plus" actionListener="#{pozycjaBRWzorcowyView.przesunwdol}" update="formprojektwzorcowy:dataList"/>
                 <p:separator/>
