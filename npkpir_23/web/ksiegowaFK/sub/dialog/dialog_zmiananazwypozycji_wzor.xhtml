@@ -6,13 +6,13 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     
     >
-    <p:dialog id="dialog_zmiananazwypozycji_wzor" header="Zmiana nazwy pozycji ukłądu RZiS" widgetVar="dialog_zmiananazwypozycji_wzor"  
+    <p:dialog id="dialog_zmiananazwypozycji_wzor" header="Zmiana nazwy pozycji układu Bilans/RZiS wzorcowy" widgetVar="dialog_zmiananazwypozycji_wzor"  
               resizable="false"  onShow="ustawdialogAuto('dialog_zmiananazwypozycji_wzor',450,120);" closeOnEscape="true" onHide="resetujdialog('dialog_zmiananazwypozycji_wzor');" >
         <h:form id="formdialog_zmiananazwypozycji_wzor">
             <p:panelGrid columns="1" style="text-align: center;">
                 <p:inputText value="#{pozycjaBRWzorcowyView.nowanazwa}" style="width: 400px;"/>
                 <p:commandButton value="zachowaj zmiany" actionListener="#{pozycjaBRWzorcowyView.zmiennazwepozycji}" oncomplete="PF('dialog_zmiananazwypozycji_wzor').hide();"
-                                 update=":formbilansprojekt, :formprojektwzorcowy" style="width: 150px; margin-top: 20px;"/>
+                                 update="formbilansprojekt:dataList formprojektwzorcowy" style="width: 150px; margin-top: 20px;"/>
             </p:panelGrid>
         </h:form>
     </p:dialog>
