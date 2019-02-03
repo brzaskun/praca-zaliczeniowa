@@ -5,19 +5,16 @@
  */
 package sprawozdania.rok2018;
 
+import entity.Podatnik;
 import error.E;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import view.WpisView;
 
@@ -37,9 +34,9 @@ public class SprawozdanieFin2018View  implements Serializable {
         try {
             JednostkaInna sprawozdanie = new JednostkaInna();
             sprawozdanie.naglowek = SprawozdanieFin2018Bean.naglowek("2019-01-01", "2018-01-01", "2018-12-31");
-            sprawozdanie.wprowadzenieDoSprawozdaniaFinansowego = SprawozdanieFin2018Bean.wprowadzenieDoSprawozdaniaFinansowego("2018-01-01", "2018-12-31");
-            sprawozdanie.bilans = SprawozdanieFin2018BilansBean.generujbilans();
-            sprawozdanie.rZiS = SprawozdanieFin2018RZiSBean.generujrzis();
+            sprawozdanie.wprowadzenieDoSprawozdaniaFinansowego = SprawozdanieFin2018Bean.wprowadzenieDoSprawozdaniaFinansowego(new Podatnik(),"2018-01-01", "2018-12-31");
+            //sprawozdanie.bilans = SprawozdanieFin2018BilansBean.generujbilans();
+            //sprawozdanie.rZiS = SprawozdanieFin2018RZiSBean.generujrzis();
             //sprawozdanie.dodatkoweInformacjeIObjasnieniaJednstkaInna = SprawozdanieFin2018DodInfoBean.generuj();
             String sciezka = marszajuldoplikuxml("8511005008", "01", "2019", sprawozdanie);
             //String polecenie = "wydrukXML(\""+sciezka+"\")";

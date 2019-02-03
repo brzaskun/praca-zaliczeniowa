@@ -184,7 +184,12 @@ public class PozycjaBRZestawienieView implements Serializable {
         Msg.msg("i", "Pobrano układ ");
     }
 
-    
+    public List<PozycjaRZiSBilans> obliczRZiSOtwarciaRZiSDataXML() {
+        obliczRZiSOtwarciaRZiSData();
+        List<PozycjaRZiSBilans> poz =  new ArrayList<>();
+        rootProjektRZiS.getChildrenTree( new ArrayList(), poz);
+        return poz;
+    }
     
     public void obliczRZiSOtwarciaRZiSData() {
         if (uklad.getUklad() == null) {

@@ -280,6 +280,11 @@ public class Podatnik implements Serializable {
     private String jezykmaila;
     @Column(name = "kartacert")
     private String kartacert;
+    @Column(name = "nazwaRejestr")
+    private String nazwaRejestr;
+    @Column(name = "kodPKD")
+    private String kodPKD;
+    
     @Transient
     private double cena;
 
@@ -326,6 +331,22 @@ public class Podatnik implements Serializable {
     }
     public String getSchematnumeracji() {
         return schematnumeracji;
+    }
+
+    public String getKodPKD() {
+        return kodPKD;
+    }
+
+    public void setKodPKD(String kodPKD) {
+        this.kodPKD = kodPKD;
+    }
+
+    public String getNazwaRejestr() {
+        return nazwaRejestr;
+    }
+
+    public void setNazwaRejestr(String nazwaRejestr) {
+        this.nazwaRejestr = nazwaRejestr;
     }
 
     public double getCena() {

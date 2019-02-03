@@ -29,8 +29,10 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -359,6 +361,40 @@ public class PozycjaBRView implements Serializable {
          }
          bilansnadzien = Data.ostatniDzien(wpisView);
      }
+     
+     public Map obliczBilansOtwarciaBilansDataXML() {
+         if (laczlata) {
+             obliczBilansOtwarciaBilansDataDwaLata();
+         } else {
+             obliczBilansOtwarciaBilansData();
+         }
+         List<PozycjaRZiSBilans> aktywa = new ArrayList<>();
+         rootBilansAktywa.getChildrenTree(new ArrayList(), aktywa);
+         aktywa.add(sumujstrone(aktywa, "Aktywa"));
+         List<PozycjaRZiSBilans> pasywa = new ArrayList<>();
+         rootBilansAktywa.getChildrenTree(new ArrayList(), pasywa);
+         pasywa.add(sumujstrone(pasywa, "Pasywa"));
+         Map<String, List<PozycjaRZiSBilans>> mapa = new HashMap<>();
+         mapa.put("aktywa", aktywa);
+         mapa.put("pasywa", pasywa);
+         return mapa;
+     }
+     
+     private PozycjaRZiSBilans sumujstrone(List<PozycjaRZiSBilans> aktywa, String pozycjastring) {
+        double suma = 0.0;
+        double sumabo = 0.0;
+        for (PozycjaRZiSBilans p : aktywa) {
+            if (p.getPozycjaString().equals("A")||p.getPozycjaString().equals("B")||p.getPozycjaString().equals("C")||p.getPozycjaString().equals("D")) {
+                suma+=p.getKwota();
+                sumabo+=p.getKwotabo();
+            }
+        }
+        PozycjaRZiSBilans s = new PozycjaBilans();
+        s.setPozycjaString(pozycjastring);
+        s.setKwota(suma);
+        s.setKwotabo(sumabo);
+        return s;
+    }
      
      public void obliczBilansOtwarciaBilansDataDwaLata() {
         if (uklad==null || uklad.getUklad() == null) {
@@ -1173,6 +1209,8 @@ public class PozycjaBRView implements Serializable {
    
     
     //</editor-fold>
+
+    
 
 }
 

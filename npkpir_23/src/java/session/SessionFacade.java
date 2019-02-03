@@ -76,6 +76,7 @@ import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.RMK;
+import entityfk.SprFinKwotyInfDod;
 import entityfk.SprawozdanieFinansowe;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
@@ -2414,6 +2415,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public List<Wiersz> findWierszeRok(String rok) {
         return em.createNamedQuery("Wiersz.findByRok").setParameter("rok", rok).getResultList();
+    }
+
+    public SprFinKwotyInfDod findsprfinkwoty(Podatnik podatnikObiekt, String rokWpisuSt) {
+        return (SprFinKwotyInfDod) em.createNamedQuery("SprFinKwotyInfDod.findsprfinkwoty").setParameter("podatnik", podatnikObiekt).setParameter("rok", rokWpisuSt).getSingleResult();
     }
 
     

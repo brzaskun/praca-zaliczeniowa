@@ -50,18 +50,13 @@ public class DrukujsprawozdaniefinansoweView  implements Serializable {
     
     
     
-
-    @PostConstruct
-    private void init() {
-        pozycjaBRView.init();
-        pozycjaBRZestawienieView.init();
-        saldoAnalitykaView.init();
-        saldoSyntetykaView.init();
-        planKontView.init();
-    }
-    
     public void drukuj() {
         try {
+            pozycjaBRView.init();
+            pozycjaBRZestawienieView.init();
+            saldoAnalitykaView.init();
+            saldoSyntetykaView.init();
+            planKontView.init();
             pozycjaBRView.obliczBilansOtwarciaBilansDataWybierz();
             PdfBilans.drukujBilansBODataAP(pozycjaBRView.getRootBilansAktywa(),pozycjaBRView.getRootBilansPasywa(), wpisView, " do sprawozdania finansowego", pozycjaBRView.getSumabilansowapasywaBO(), pozycjaBRView.getSumabilansowaaktywa(), pozycjaBRView.getSumabilansowapasywa(), pozycjaBRView.getBilansnadzien(), pozycjaBRView.getBilansoddnia(), false);
             pozycjaBRZestawienieView.obliczRZiSOtwarciaRZiSData();

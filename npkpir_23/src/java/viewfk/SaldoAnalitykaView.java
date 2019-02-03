@@ -18,6 +18,7 @@ import embeddablefk.SaldoKonto;
 import embeddablefk.Sprawozdanie_0;
 import entityfk.Cechazapisu;
 import entityfk.Konto;
+import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
 import entityfk.Waluty;
 import error.E;
@@ -200,6 +201,8 @@ public class SaldoAnalitykaView implements Serializable {
         wpisView.wpisAktualizuj();
         init();
     }
+    
+     
     
     public void odswiezsaldoanalitycznebo() {
         tylkosaldaniezerowe = false;
@@ -788,6 +791,8 @@ public class SaldoAnalitykaView implements Serializable {
             }
         }
     }
+
+   
 
     
 }

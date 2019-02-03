@@ -211,6 +211,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         }
     }
     
+    
     public void getRemoveZeroBOChildrenTree(List<TreeNodeExtended> oldnodes, List<TreeNodeExtended> newnodes) {
         List<TreeNode> children = this.getChildren();
         boolean madzieci = this.getChildCount() > 0;

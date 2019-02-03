@@ -6,12 +6,17 @@
 package sprawozdania.rok2018;
 
 import data.Data;
+import entity.Podatnik;
+import entityfk.PozycjaRZiSBilans;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
+import waluty.Z;
 
 /**
  *
@@ -19,7 +24,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  */
 public class SprawozdanieFin2018Bean {
 
-    static TNaglowekSprawozdaniaFinansowegoJednostkaInnaWZlotych naglowek(String datasporzadzenia, String okresod, String okresdo) {
+    public static TNaglowekSprawozdaniaFinansowegoJednostkaInnaWZlotych naglowek(String datasporzadzenia, String okresod, String okresdo) {
         TNaglowekSprawozdaniaFinansowegoJednostkaInnaWZlotych naglowek = new TNaglowekSprawozdaniaFinansowegoJednostkaInnaWZlotych();
         try {
             naglowek.dataSporzadzenia = Data.dataoddo(datasporzadzenia);
@@ -42,14 +47,14 @@ public class SprawozdanieFin2018Bean {
         return  kodsprawozdania;
     }
 
-    static JednostkaInna.WprowadzenieDoSprawozdaniaFinansowego wprowadzenieDoSprawozdaniaFinansowego(String okresod, String okresdo) {
+    public static JednostkaInna.WprowadzenieDoSprawozdaniaFinansowego wprowadzenieDoSprawozdaniaFinansowego(Podatnik podatnik, String okresod, String okresdo) {
         JednostkaInna.WprowadzenieDoSprawozdaniaFinansowego wprowadzenie = new JednostkaInna.WprowadzenieDoSprawozdaniaFinansowego();
         try {
             JednostkaInna.WprowadzenieDoSprawozdaniaFinansowego.P1 p1 = new JednostkaInna.WprowadzenieDoSprawozdaniaFinansowego.P1();
-            p1.p1A = zrobnazwasiedziba();
-            p1.p1B = zrobadres();
-            p1.p1C = pobierzpodstawowadzialalnosc();
-            p1.p1D = zrobidentyfikatorpodmiotu();
+            p1.p1A = zrobnazwasiedziba(podatnik);
+            p1.p1B = zrobadres(podatnik);
+            p1.p1C = pobierzpodstawowadzialalnosc(podatnik);
+            p1.p1D = zrobidentyfikatorpodmiotu(podatnik);
             wprowadzenie.p1 = p1;
             wprowadzenie.setP3(pobierzzakresdat(okresod, okresdo));
             JednostkaInna.WprowadzenieDoSprawozdaniaFinansowego.P5 p5 = new JednostkaInna.WprowadzenieDoSprawozdaniaFinansowego.P5();
@@ -68,40 +73,40 @@ public class SprawozdanieFin2018Bean {
         }
     }
 
-    private static TNazwaSiedziba zrobnazwasiedziba() {
+    private static TNazwaSiedziba zrobnazwasiedziba(Podatnik podatnik) {
         TNazwaSiedziba nazwasiedziba = new TNazwaSiedziba();
-        nazwasiedziba.nazwaFirmy = "Nazwa firmy";
-        nazwasiedziba.siedziba = zrobsiedziba();
+        nazwasiedziba.nazwaFirmy = podatnik.getNazwaRejestr();
+        nazwasiedziba.siedziba = zrobsiedziba(podatnik);
         return nazwasiedziba;
     }
 
-    private static TSiedziba zrobsiedziba() {
+    private static TSiedziba zrobsiedziba(Podatnik podatnik) {
         TSiedziba siedziba = new TSiedziba();
-        siedziba.wojewodztwo = "Zachodniopomorskie";
-        siedziba.powiat = "M.Szczecin";
-        siedziba.gmina = "Szczecin";
-        siedziba.miejscowosc = "Szczecin";
+        siedziba.wojewodztwo = podatnik.getWojewodztwo();
+        siedziba.powiat = podatnik.getPowiat();
+        siedziba.gmina = podatnik.getGmina();
+        siedziba.miejscowosc = podatnik.getMiejscowosc();
         return siedziba;
     }
 
-    private static TAdresZOpcZagranicznym zrobadres() {
+    private static TAdresZOpcZagranicznym zrobadres(Podatnik podatnik) {
         TAdresZOpcZagranicznym adres = new TAdresZOpcZagranicznym();
-        adres.adres = zrobadrespolski();
+        adres.adres = zrobadrespolski(podatnik);
         return adres;
     }
 
-    private static TAdresPolski zrobadrespolski() {
+    private static TAdresPolski zrobadrespolski(Podatnik podatnik) {
         TAdresPolski adres = new TAdresPolski();
         adres.kodKraju = zrobkodkraju();
-        adres.wojewodztwo = "Zachodniopomorskie";
-        adres.powiat = "Powiat";
-        adres.gmina = "Gmina";
-        adres.poczta = "Poczta";
-        adres.kodPocztowy = "70-100";
-        adres.miejscowosc = "Miejscowosc";
-        adres.ulica = "Ulica";
-        adres.nrDomu = "5";
-        adres.nrLokalu = "12";
+        adres.wojewodztwo = podatnik.getWojewodztwo();
+        adres.powiat = podatnik.getPowiat();
+        adres.gmina = podatnik.getGmina();
+        adres.poczta = podatnik.getPoczta();
+        adres.kodPocztowy = podatnik.getKodpocztowy();
+        adres.miejscowosc = podatnik.getMiejscowosc();
+        adres.ulica = podatnik.getUlica();
+        adres.nrDomu = podatnik.getNrdomu();
+        adres.nrLokalu = podatnik.getNrlokalu();
         return adres;
     }
 
@@ -109,16 +114,16 @@ public class SprawozdanieFin2018Bean {
         return TKodKraju.PL;
     }
 
-    private static PKDPodstawowaDzialalnosc pobierzpodstawowadzialalnosc() {
+    private static PKDPodstawowaDzialalnosc pobierzpodstawowadzialalnosc(Podatnik podatnik) {
         PKDPodstawowaDzialalnosc dzialanosc = new PKDPodstawowaDzialalnosc();
         List<String> kodPKD = dzialanosc.getKodPKD();
-        kodPKD.add("7911A");
+        kodPKD.add(podatnik.getKodPKD());
         return dzialanosc;
     }
 
-    private static TIdentyfikatorPodmiotu zrobidentyfikatorpodmiotu() {
+    private static TIdentyfikatorPodmiotu zrobidentyfikatorpodmiotu(Podatnik podatnik) {
         TIdentyfikatorPodmiotu id = new TIdentyfikatorPodmiotu();
-        id.krs = "0000009673";
+        id.nip = podatnik.getNip();
         //tylko jeden numer jest wymagany
         //id.nip = "8511005008";
         return id;
@@ -157,6 +162,30 @@ public class SprawozdanieFin2018Bean {
         return a;
     }
 
+    public static <T extends TKwotyPozycji> T naniesKwotyAB(String pozycjaString, T a, List<PozycjaRZiSBilans> l) {
+        BigDecimal kwotaA = BigDecimal.ZERO;
+        BigDecimal kwotaB = BigDecimal.ZERO;
+        pozycjaString = pozycjaString.toLowerCase();
+        for (Iterator<PozycjaRZiSBilans> it = l.iterator(); it.hasNext();) {
+            PozycjaRZiSBilans p = it.next();
+            String poz = p.getPozycjaString().replace(".", "");
+            poz = poz.replace("-", "");
+            poz = poz.replace("(", "");
+            poz = poz.replace(")", "");
+            poz = poz.toLowerCase();
+            if (poz.equals(pozycjaString)) {
+                kwotaA = new BigDecimal(Z.z(p.getKwotabo())).setScale(2, BigDecimal.ROUND_HALF_UP);
+                kwotaB = new BigDecimal(Z.z(p.getKwota())).setScale(2, BigDecimal.ROUND_HALF_UP);
+                it.remove();
+                break;
+            }
+        }
+        a.kwotaA = kwotaA;
+        a.kwotaB = kwotaB;
+        return a;
+    }
+    
+    
     public static <T extends TKwotyPozycji> TPozycjaSprawozdania zrobsuma(T a, T b) {
         TPozycjaSprawozdania c = new TPozycjaSprawozdania();
         c.kwotaA = a.kwotaA.min(b.kwotaA);
@@ -178,9 +207,12 @@ public class SprawozdanieFin2018Bean {
         return d;
     }
     
-    public static TPozycjaSprawozdania zrobTPoztchaSprawozdania() {
+        
+    public static TPozycjaSprawozdania zrobTPoztchaSprawozdania(String pozycjaString, List<PozycjaRZiSBilans> l) {
         TPozycjaSprawozdania a = new TPozycjaSprawozdania();
-        naniesKwotyAB(a, BigDecimal.TEN, BigDecimal.TEN);
+        naniesKwotyAB(pozycjaString, a, l);
         return a;
     }
+
+    
 }
