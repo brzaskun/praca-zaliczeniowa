@@ -510,7 +510,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
     }
    
     private String zwrockolejnalitere() {
-        int levelp = ((PozycjaBilans) wybranynodekonta.getData()).getLevel()+1;
+        int levelp = ((PozycjaRZiSBilans) wybranynodekonta.getData()).getLevel()+1;
         String pozycjaoczekiwana = PozycjaRZiSFKBean.zwrocPierwszySymbol(levelp);
         List<TreeNode> lista = wybranynodekonta.getChildren();
         for (TreeNode p : lista) {
