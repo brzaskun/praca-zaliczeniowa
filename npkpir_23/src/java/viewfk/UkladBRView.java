@@ -78,7 +78,7 @@ public class UkladBRView implements Serializable {
     public void init() {
         try {
             lista = ukladBRDAO.findPodatnik(wpisView.getPodatnikObiekt());
-            listarokbiezacy = ukladBRDAO.findPodatnikRok(wpisView);
+            listarokbiezacy = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             listaWzorcowy = ukladBRDAO.findPodatnik(wpisView.getPodatnikwzorcowy());
             listawszyscyrokbiezacy = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             listaWzorcowyBiezacy = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
@@ -167,7 +167,7 @@ public class UkladBRView implements Serializable {
             pozycjaBRKontaView.init();
             pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie("r");
             pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie("b");
-            planKontView.porzadkowanieKontPodatnika();
+            planKontView.porzadkowanieKontPodatnika(wpisView.getPodatnikObiekt());
             Msg.msg("i", "Skopiowano przyporządkowanie kont z układu wzorcowego");
         } catch (Exception e) {
             Msg.msg("e", "Nieudana próba dodania implementacji układu wzorcowego. " + e.getMessage());

@@ -7,7 +7,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:bcf="http://brzaskun.com/facelets">
    
-    <p:dialog id="dialogpierwszywzorcowy" header="Plan kont WZORCOWY - struktura" widgetVar="dialogplankontwzorcowy" dynamic="true"
+    <p:dialog id="dialogpierwszywzorcowy" header="Plan kont WZORCOWY - struktura" widgetVar="dialogplankontwzorcowy" 
               resizable="false" onShow="ustawdialog('dialogpierwszywzorcowy','menuustawienia', 1450, 750);ustalmaxlevel('formwzorcowy:dataListwzorcowy_data');" closeOnEscape="true" onHide="resetujdialog('dialogpierwszywzorcowy');"  >
         <h:form id="formwzorcowy">
             <p:contextMenu id="contextforplankontwzorcowy" for="dataListwzorcowy" style="width: 200px;">
@@ -21,7 +21,7 @@
                 <p:separator/>
                 <p:menuitem value="Implem. konto" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowego()}" icon="ui-icon-trash" update=":formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Implem. konto z analityką" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowegoZAnalitykom()}" icon="ui-icon-tag" update=" :formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
-                <p:menuitem value="Porządkuj konta" actionListener="#{planKontView.porzadkowanieKontWzorcowych()}" icon="ui-icon-note" update=":formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                <p:menuitem value="Porządkuj konta" actionListener="#{planKontView.porzadkowanieKontPodatnika(WpisView.podatnikwzorcowy)}" icon="ui-icon-note" update="formwzorcowy:dataListwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Blokada" actionListener="#{planKontView.obslugaBlokadyKontaWzorcowy()}" icon="ui-icon-locked" update=":formwzorcowy"/>
             </p:contextMenu>
             <!--            <script>
@@ -44,10 +44,10 @@
                 <p:commandButton id="zwinw" value="zwiń poziom" onclick="zwinjeden('formwzorcowy:dataListwzorcowy_data')" global="false" style="float: left; width: 130px;" />
                 <p:spacer width="50"/>
                  <p:selectBooleanCheckbox itemLabel="tylko syntetyka" value="#{planKontView.tylkosyntetyka}">
-                      <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczneWzorcowy()}" update="formwzorcowy:dataListwzorcowy"/>
+                     <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikwzorcowy)}" update="formwzorcowy:dataListwzorcowy"/>
                   </p:selectBooleanCheckbox>
                   <p:selectOneMenu id="bilansowewynikowe" value="#{planKontView.kontadowyswietlenia}"  style="width: 170px;">
-                        <p:ajax event="change" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczneWzorcowy()}" update="formwzorcowy:dataListwzorcowy"/>
+                        <p:ajax event="change" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikwzorcowy)}" update="formwzorcowy:dataListwzorcowy"/>
                         <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
                         <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
                         <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>

@@ -53,14 +53,7 @@ public class UkladBRDAO extends DAO implements Serializable{
         }
     }
     
-    public List<UkladBR> findPodatnikRok(WpisView wpisView) {
-        try {
-            return sessionFacade.findUkladBRPodatnikRok(wpisView);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-    }
-    
+     
     
     public List<UkladBR> findPodatnikRok(Podatnik podatnik, String rok) {
         try {

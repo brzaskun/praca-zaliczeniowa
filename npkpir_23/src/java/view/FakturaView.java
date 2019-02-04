@@ -1065,7 +1065,7 @@ public class FakturaView implements Serializable {
     
 
     public void dodajfaktureokresowa(List<Faktura> gosciwybral) {
-        if (gosciwybral != null && gosciwybral.size()==1) {
+        if (gosciwybral != null && gosciwybral.size()>0) {
             for (Faktura p : gosciwybral) {
                 String podatnik = wpisView.getPodatnikWpisu();
                 Fakturywystokresowe nowafakturaokresowa = new Fakturywystokresowe();

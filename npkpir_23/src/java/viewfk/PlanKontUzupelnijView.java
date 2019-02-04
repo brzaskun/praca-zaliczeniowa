@@ -65,7 +65,7 @@ public class PlanKontUzupelnijView implements Serializable {
 
     private boolean czybrakukladwdanymroku(String rokdocelowy) {
         boolean zwrot = true;
-        List<UkladBR> uklad = ukladBRDAO.findPodatnikRok(wpisView);
+        List<UkladBR> uklad = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         if (!uklad.isEmpty()) {
             zwrot = false;
         }
@@ -252,7 +252,7 @@ public class PlanKontUzupelnijView implements Serializable {
 //</editor-fold>
 
     private UkladBR odnajdzuklad(UkladBRDAO ukladBRDAO, UkladBR ukladBR, String rokWpisuSt) {
-        List<UkladBR> odnalezione = ukladBRDAO.findPodatnikRok(wpisView);
+        List<UkladBR> odnalezione = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         UkladBR znaleziony = null;
         for (UkladBR p : odnalezione) {
             if (p.getRok().equals(rokWpisuSt) && p.getUklad().equals(ukladBR.getUklad())) {

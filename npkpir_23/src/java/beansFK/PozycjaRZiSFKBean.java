@@ -585,7 +585,7 @@ public class PozycjaRZiSFKBean {
             UkladBRBean.ustawAktywny(uklad, ukladBRDAO);
             ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();
             PozycjaRZiSFKBean.pobierzPozycje(pozycje, pozycjaRZiSDAO, uklad);
-            PozycjaRZiSFKBean.wyczyscKonta(bilansowewynikowe, null, wpisView.getRokWpisuSt(), kontoDAO);
+            PozycjaRZiSFKBean.wyczyscKonta(bilansowewynikowe, wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt(), kontoDAO);
             kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(uklad, bilansowewynikowe);
             PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, false, bilansowewynikowe);
         } catch (Exception e) {

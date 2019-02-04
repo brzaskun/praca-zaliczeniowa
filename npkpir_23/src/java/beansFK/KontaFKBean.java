@@ -38,7 +38,7 @@ public class KontaFKBean implements Serializable{
      * @param kontoDAO KontoDAOfk
      * @param podatnikWpisu String
      */
-    public static void ustawCzyMaPotomkow(List<Konto> wykazkont, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
+    public static void ustawCzyMaPotomkow(List<Konto> wykazkont, KontoDAOfk kontoDAO) {
         for (Konto r : wykazkont) {
             r.setMapotomkow(false);
             r.setBlokada(false);
@@ -60,28 +60,28 @@ public class KontaFKBean implements Serializable{
         kontoDAO.editList(wykazkont);
     }
     
-    public static void ustawCzyMaPotomkowWzorcowy(List<Konto> wykazkont, KontoDAOfk kontoDAO, String wzorcowy, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
-        for (Konto r : wykazkont) {
-            r.setMapotomkow(false);
-            r.setBlokada(false);
-        }
-        kontoDAO.editList(wykazkont);
-        List<Konto> sprawdzonemacierzyste = Collections.synchronizedList(new ArrayList<>());
-        for (Konto p : wykazkont) {
-             if (p.getKontomacierzyste()!=null) {
-                try {
-                    naniesBlokade(p.getKontomacierzyste());
-                    sprawdzonemacierzyste.add(p.getKontomacierzyste());
-                    PlanKontFKBean.naniesprzyporzadkowanieWzorcowy(p, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBR);
-                } catch (PersistenceException e) {
-                    Msg.msg("e","Wystąpił błąd przy edycji konta. "+p.getPelnynumer());
-                } catch (Exception ef) {
-                    Msg.msg("e","Wystąpił błąd przy edycji konta. "+ef.getMessage()+" Nie wyedytowanododano: "+p.getPelnynumer());
-                }
-               
-            } 
-        }
-    }
+//    public static void ustawCzyMaPotomkowWzorcowy(List<Konto> wykazkont, KontoDAOfk kontoDAO, String wzorcowy, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
+//        for (Konto r : wykazkont) {
+//            r.setMapotomkow(false);
+//            r.setBlokada(false);
+//        }
+//        kontoDAO.editList(wykazkont);
+//        List<Konto> sprawdzonemacierzyste = Collections.synchronizedList(new ArrayList<>());
+//        for (Konto p : wykazkont) {
+//             if (p.getKontomacierzyste()!=null) {
+//                try {
+//                    naniesBlokade(p.getKontomacierzyste());
+//                    sprawdzonemacierzyste.add(p.getKontomacierzyste());
+//                    PlanKontFKBean.naniesprzyporzadkowanieWzorcowy(p, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBR);
+//                } catch (PersistenceException e) {
+//                    Msg.msg("e","Wystąpił błąd przy edycji konta. "+p.getPelnynumer());
+//                } catch (Exception ef) {
+//                    Msg.msg("e","Wystąpił błąd przy edycji konta. "+ef.getMessage()+" Nie wyedytowanododano: "+p.getPelnynumer());
+//                }
+//               
+//            } 
+//        }
+//    }
     
       
        
