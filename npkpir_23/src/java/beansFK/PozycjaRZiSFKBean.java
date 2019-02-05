@@ -282,7 +282,7 @@ public class PozycjaRZiSFKBean {
         pozycja.setPrzyporzadkowanekonta(kontokwotalist);
     }
     
-    public static void wyszukajprzyporzadkowaneRLista(List<Konto> lista, PozycjaRZiSBilans pozycja, WpisView wpisView) {
+    public static void wyszukajprzyporzadkowaneRLista(List<Konto> lista, PozycjaRZiSBilans pozycja) {
         List<Konto> kontokwotalist = Collections.synchronizedList(new ArrayList<>());
         if (lista != null) {
             lista.stream().forEach((p)->{

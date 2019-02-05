@@ -801,7 +801,7 @@ public class PlanKontFKBean {
         return nrmacierzystego;
     }
     
-    public static void przyporzadkujBilans_kontoszczegolne(String wybranapozycja, Konto konto, UkladBR uklad, KontoDAOfk kontoDAO, WpisView wpisView, boolean wzorcowy, String wnmaPrzypisywanieKont, boolean aktywa0pasywa1, String rodzajkonta, Podatnik podatnik) {
+    public static void przyporzadkujBilans_kontoszczegolne(String wybranapozycja, Konto konto, UkladBR uklad, KontoDAOfk kontoDAO, WpisView wpisView, String wnmaPrzypisywanieKont, boolean aktywa0pasywa1, String rodzajkonta, Podatnik podatnik) {
         try {
             KontopozycjaBiezaca kp = konto.getKontopozycjaID() != null ? konto.getKontopozycjaID() : new KontopozycjaBiezaca();
             if (wnmaPrzypisywanieKont.equals("wn")) {

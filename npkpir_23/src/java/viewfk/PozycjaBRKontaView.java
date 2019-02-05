@@ -195,7 +195,7 @@ public class PozycjaBRKontaView implements Serializable {
         List<Konto> lista = kontoDAO.findKontaPrzyporzadkowaneAll("wynikowe", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         if (!lista.isEmpty()) {
             pozycje.parallelStream().forEach((p)->{
-                PozycjaRZiSFKBean.wyszukajprzyporzadkowaneRLista(lista, p, wpisView);
+                PozycjaRZiSFKBean.wyszukajprzyporzadkowaneRLista(lista, p);
             });
             pozycjaBilansDAO.editList(pozycje);
         }
@@ -312,14 +312,14 @@ public class PozycjaBRKontaView implements Serializable {
             }
             //to duperele porzadkujace sytuacje w okienkach
             if (konto.getZwyklerozrachszczegolne().equals("rozrachunkowe") || konto.getZwyklerozrachszczegolne().equals("vat")) {
-                PlanKontFKBean.przyporzadkujBilans_kontoszczegolne(wybranapozycja,konto, ukladpodatnika, kontoDAO, wpisView, wzorcowy, wnmaPrzypisywanieKont, aktywa0pasywa1,"rozrachunkowe/vat", wpisView.getPodatnikObiekt());
+                PlanKontFKBean.przyporzadkujBilans_kontoszczegolne(wybranapozycja,konto, ukladpodatnika, kontoDAO, wpisView, wnmaPrzypisywanieKont, aktywa0pasywa1,"rozrachunkowe/vat", wpisView.getPodatnikObiekt());
                 przyporzadkowanekonta.add(konto);
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
                 kontabezprzydzialu.remove(konto);
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
             } else if (konto.getZwyklerozrachszczegolne().equals("szczególne")) {
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
-                PlanKontFKBean.przyporzadkujBilans_kontoszczegolne(wybranapozycja,konto, ukladpodatnika, kontoDAO, wpisView, wzorcowy, wnmaPrzypisywanieKont, aktywa0pasywa1,"szczególne", wpisView.getPodatnikObiekt());
+                PlanKontFKBean.przyporzadkujBilans_kontoszczegolne(wybranapozycja,konto, ukladpodatnika, kontoDAO, wpisView, wnmaPrzypisywanieKont, aktywa0pasywa1,"szczególne", wpisView.getPodatnikObiekt());
                 przyporzadkowanekonta.add(konto);
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
                 //czesc nanoszaca informacje na potomku
