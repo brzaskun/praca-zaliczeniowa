@@ -20,7 +20,7 @@
                         <f:selectItem itemLabel="saldem Wn" itemValue="wn"/>
                         <f:selectItem itemLabel="saldem Ma" itemValue="ma"/>
                     </h:selectOneMenu>
-                    <p:commandButton value="ok" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.onKontoDropKontaSpecjalneRZiS(true, pozycjaBRKontaWzorcowyView.uklad)}" 
+                    <p:commandButton value="ok" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.onKontoDropKontaSpecjalneRZiS(pozycjaBRKontaWzorcowyView.uklad)}" 
                                      oncomplete="PF('dialog_rzis_konta_wnma_wzorcowy').hide();"
                                      update=":formdialog_rzis_konta_wnma_wzorcowy :formprzypisywaniekont:dostepnekonta :formprzypisywaniekont:kontaprzypisane"/>
                 </p:focus>

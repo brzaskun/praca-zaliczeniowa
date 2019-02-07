@@ -203,7 +203,6 @@ public class PozycjaBRKontaView implements Serializable {
 
     public void onKontoDropR(Konto konto, String br) {
         //to jest dla rachunku zyskow i strat wiec konto moze byc jedynie zwykle lub szczegolne
-        boolean wzorcowy = false;
         if (wybranapozycja == null) {
             Msg.msg("e", "Nie wybrano pozycji rozrachunku, nie można przyporządkowac konta");
         } else {
@@ -216,10 +215,10 @@ public class PozycjaBRKontaView implements Serializable {
                 } else {
                     if (konto.getKontopozycjaID().getPozycjaWn() != null) {
                         wnmaPrzypisywanieKont = "ma";
-                        onKontoDropKontaSpecjalneRZiS(wzorcowy, wybranyuklad);
+                        onKontoDropKontaSpecjalneRZiS(wybranyuklad);
                     } else {
                         wnmaPrzypisywanieKont = "wn";
-                        onKontoDropKontaSpecjalneRZiS(wzorcowy, wybranyuklad);
+                        onKontoDropKontaSpecjalneRZiS(wybranyuklad);
                     }
                     uzupelnijpozycjeOKontaR(pozycje);   
                 }
@@ -272,7 +271,7 @@ public class PozycjaBRKontaView implements Serializable {
 
     }
 
-    public void onKontoDropKontaSpecjalneRZiS(boolean wzorcowy, UkladBR ukladpodatnika) {
+    public void onKontoDropKontaSpecjalneRZiS(UkladBR ukladpodatnika) {
         if (wybranapozycja == null) {
             Msg.msg("e", "Nie wybrano pozycji rozrachunku, nie można przyporządkowac konta");
         } else {
@@ -890,14 +889,14 @@ public class PozycjaBRKontaView implements Serializable {
     
     public void onKontoDropRAutoSzczegolne(Konto konto, String pozycja, UkladBR ukladpodatnika, boolean wzorcowy) {
                 if (konto.getKontopozycjaID() == null) {
-                        onKontoDropKontaSpecjalneRZiS(wzorcowy, ukladpodatnika);
+                        onKontoDropKontaSpecjalneRZiS(ukladpodatnika);
                 } else {
                     if (konto.getKontopozycjaID().getPozycjaWn() != null) {
                         wnmaPrzypisywanieKont = "ma";
-                        onKontoDropKontaSpecjalneRZiS(wzorcowy, ukladpodatnika);
+                        onKontoDropKontaSpecjalneRZiS(ukladpodatnika);
                     } else {
                         wnmaPrzypisywanieKont = "wn";
-                        onKontoDropKontaSpecjalneRZiS(wzorcowy, ukladpodatnika);
+                        onKontoDropKontaSpecjalneRZiS(ukladpodatnika);
                     }
                 }
     }

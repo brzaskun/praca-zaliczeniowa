@@ -19,7 +19,7 @@
                         <f:selectItem itemLabel="saldem Wn" itemValue="wn"/>
                         <f:selectItem itemLabel="saldem Ma" itemValue="ma"/>
                     </h:selectOneMenu>
-                    <p:commandButton value="ok" type="submit" actionListener="#{pozycjaBRKontaView.onKontoDropKontaSpecjalneRZiS(false, pozycjaBRKontaView.wybranyuklad)}" 
+                    <p:commandButton value="ok" type="submit" actionListener="#{pozycjaBRKontaView.onKontoDropKontaSpecjalneRZiS(pozycjaBRKontaView.wybranyuklad)}" 
                                      oncomplete="PF('kontownmawyborRZiS').hide();" update=":formkontowyborRZiS :formrzisuklad:dostepnekonta :formrzisuklad:selected"/>
                 </p:focus>
             </p:panelGrid>
