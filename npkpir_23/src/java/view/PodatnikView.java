@@ -501,7 +501,7 @@ public class PodatnikView implements Serializable {
             wybranyPodatnikOpodatkowanie = new PodatnikOpodatkowanieD();
             Msg.msg("Dodatno parametr pod.dochodowy do podatnika "+selected.getNazwapelna());
         } else {
-            Msg.msg("e", "Niedodatno parametru pod.doch. Niedopasowane okresy. Podatnik "+selected.getNazwapelna());
+            Msg.msg("e", "Niedodatno parametru pod.doch. Niedopasowane okresy. Podatnik "+selected.getPrintnazwa());
         }
     }
     
@@ -589,7 +589,7 @@ public class PodatnikView implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr VAT metoda do podatnika.", selected.getNazwapelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru VAT metoda. Niedopasowane okresy.", selected.getNazwapelna());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru VAT metoda. Niedopasowane okresy.", selected.getPrintnazwa());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
@@ -605,7 +605,7 @@ public class PodatnikView implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr VAT metoda do podatnika.", selected.getNazwapelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru VAT metoda. Niedopasowane okresy.", selected.getNazwapelna());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru VAT metoda. Niedopasowane okresy.", selected.getPrintnazwa());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
@@ -743,7 +743,7 @@ public class PodatnikView implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr ZUS do podatnika.", selected.getNazwapelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) { E.e(e); 
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru ZUS. Niedopasowane okresy.", selected.getNazwapelna());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru ZUS. Niedopasowane okresy.", selected.getPrintnazwa());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
@@ -845,7 +845,7 @@ public class PodatnikView implements Serializable {
             parametr = new Parametr();
             Msg.msg("Dodatno parametr remanent do podatnika: "+selected.getNazwapelna());
         } else {
-            Msg.msg("e","Niedodatno parametru remanent. Niedopasowane okresy: "+selected.getNazwapelna());
+            Msg.msg("e","Niedodatno parametru remanent. Niedopasowane okresy: "+selected.getPrintnazwa());
         }
     }
 
@@ -880,7 +880,7 @@ public class PodatnikView implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr kwota autoryzująca do podatnika.", selected.getNazwapelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru kwota autoryzujaca. Niedopasowane okresy.", selected.getNazwapelna());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru kwota autoryzujaca. Niedopasowane okresy.", selected.getPrintnazwa());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
@@ -913,7 +913,7 @@ public class PodatnikView implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno numer początkowy w pkpir dla podatnika.", selected.getNazwapelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno numeru początkowego w pkpir dla podatnika. Niedopasowane okresy.", selected.getNazwapelna());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno numeru początkowego w pkpir dla podatnika. Niedopasowane okresy.", selected.getPrintnazwa());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }

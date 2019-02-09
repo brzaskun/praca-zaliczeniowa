@@ -5,7 +5,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
         
     xmlns:f="http://java.sun.com/jsf/core">
-    <p:dialog id="dialogprojektukladwzorcowy" header="Kreacja uładu - Wzorcowy" widgetVar="dialogprojektukladwzorcowy" 
+    <p:dialog id="dialogprojektukladwzorcowy" header="Kreacja układu - Wzorcowy" widgetVar="dialogprojektukladwzorcowy" 
               resizable="false" onShow="ustawdialog('dialogprojektukladwzorcowy','menuustawienia', 1000, 650);" closeOnEscape="true" onHide="resetujdialog('dialogprojektukladwzorcowy');"  >
         <h:form id="formprojektukladwzorcowy">
 <!--             <p:contextMenu for="formprojektukladwzorcowy:dataList">
@@ -22,7 +22,7 @@
             <p:panelGrid columns="2" style="width: 720px;">
                 <p:panelGrid columns="1" style="width: 550px;">
                 <p:dataTable id="dataList" value="#{ukladBRWzorcowyView.lista}" var="loop" selectionMode="single" selection="#{ukladBRWzorcowyView.selected}" 
-                             style="width: 550px; margin-top: 0%; margin-bottom: 50px;" rowKey="#{loop.uklad}" scrollable="true" scrollHeight="500"
+                             style="width: 550px; margin-top: 0%; margin-bottom: 50px; height: 500px; overflow-y: scroll" rowKey="#{loop.uklad}" 
                              emptyMessage="Brak wzorcowych układów">
                     <p:ajax event="rowSelect" listener="#{ukladBRWzorcowyView.wybranouklad}" global="false"/>
                     <p:column headerText="nazwa ukladu" width="200">
@@ -32,7 +32,7 @@
                         <h:outputText value="#{loop.rok}"/> 
                     </p:column>
                     <p:column headerText="podatnik" style="text-align: center;">
-                        <h:outputText value="#{loop.podatnik}"/>
+                        <h:outputText value="#{loop.podatnik.printnazwa}"/>
                     </p:column>
                     <p:column headerText="zablokowany" style="width: 120px; text-align: center;">
                         <h:outputText value="zablokowany" rendered="#{loop.blokada}"/>

@@ -83,21 +83,26 @@ public class PlanKontKopiujView implements Serializable {
     }
 
     public void kopiujplankontWzorcowy() {
-        if (rokzrodlowy.equals(rokdocelowy)) {
-            Msg.msg("e", "Rok źródłowy i docelowy jest ten sam");
-        } else {
-            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikwzorcowy(), rokzrodlowy);
-            List<Konto> macierzyste = PlanKontFKKopiujBean.skopiujlevel0(kontoDAOfk, wpisView.getPodatnikObiekt(), wykazkont, rokdocelowy);
-            int maxlevel = kontoDAOfk.findMaxLevelPodatnik(wpisView.getPodatnikwzorcowy(), Integer.parseInt(rokzrodlowy));
-            for (int i = 1; i <= maxlevel; i++) {
-                macierzyste = skopiujlevelWzorcowy(null, wykazkont, macierzyste, i, rokdocelowy);
+        try {
+            if (rokzrodlowy.equals(rokdocelowy)) {
+                Msg.msg("e", "Rok źródłowy i docelowy jest ten sam");
+            } else {
+                List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaPobierzRelacje(wpisView.getPodatnikwzorcowy(), rokzrodlowy);
+                List<Konto> macierzyste = PlanKontFKKopiujBean.skopiujlevel0(kontoDAOfk, wpisView.getPodatnikwzorcowy(), wykazkont, rokdocelowy);
+                int maxlevel = kontoDAOfk.findMaxLevelPodatnik(wpisView.getPodatnikwzorcowy(), Integer.parseInt(rokzrodlowy));
+                for (int i = 1; i <= maxlevel; i++) {
+                    macierzyste = skopiujlevelWzorcowy(wpisView.getPodatnikwzorcowy(), wykazkont, macierzyste, i, rokdocelowy);
+                }
+                kopiujSlownikowe = false;
+                Msg.msg("Skopiowano wzorcowy plan kont");
             }
-            kopiujSlownikowe = false;
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd. Nie skopiowano wzorcowego planu kont");
         }
     }
 
     public void implementujplankontWzorcowy() {
-        List<Konto> wykazkontpodatnika = kontoDAOfk.findWszystkieKontaPodatnikaPobierzRelacje(wpisView.getPodatnikObiekt(), rokzrodlowy_wzorzec);
+        List<Konto> wykazkontpodatnika = kontoDAOfk.findWszystkieKontaPodatnikaPobierzRelacje(wpisView.getPodatnikObiekt(), rokdocelowy);
         if (wykazkontpodatnika.isEmpty()) {
             List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaPobierzRelacje(wpisView.getPodatnikwzorcowy(), rokzrodlowy_wzorzec);
             if (wpisView.isParamCzworkiPiatki() == false) {

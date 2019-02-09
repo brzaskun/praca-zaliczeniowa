@@ -82,7 +82,7 @@ public class UkladBRWzorcowyView implements Serializable{
     public void dodaj() {
         try {
             UkladBR ukladBR = new UkladBR();
-            ukladBR.setPodatnik(null);
+            ukladBR.setPodatnik(wpisView.getPodatnikwzorcowy());
             ukladBR.setZwykly0wzrocowy1(true);
             ukladBR.setRok(wpisView.getRokWpisuSt());
             ukladBR.setUklad(nazwanowegoukladu);
@@ -202,7 +202,7 @@ public class UkladBRWzorcowyView implements Serializable{
                 PozycjaRZiS r = serialclone.SerialClone.clone(p);
                 r.setPrzyporzadkowanekonta(null);
                 r.setPrzyporzadkowanestronywiersza(null);
-                r.setPodatnik(null);
+                r.setPodatnik(ukladdocelowy.getPodatnik().getNazwapelna());
                 r.setUklad(ukladdocelowy.getUklad());
                 r.setRok(ukladdocelowy.getRok());
                 try {
@@ -223,13 +223,13 @@ public class UkladBRWzorcowyView implements Serializable{
                 PozycjaBilans r = serialclone.SerialClone.clone(p);
                 r.setPrzyporzadkowanekonta(null);
                 r.setPrzyporzadkowanestronywiersza(null);
-                r.setPodatnik(null);
+                r.setPodatnik(ukladdocelowy.getPodatnik().getNazwapelna());
                 r.setUklad(ukladdocelowy.getUklad());
                 r.setRok(ukladdocelowy.getRok());
                 try {
                     pozycjaBilansDAO.dodaj(r);
-                } catch (Exception e) {  E.e(e);
-                    
+                } catch (Exception e) {  
+                    E.e(e);
                 }
                 macierzyste.add(r);
             }
@@ -245,7 +245,7 @@ public class UkladBRWzorcowyView implements Serializable{
                     PozycjaRZiS r = serialclone.SerialClone.clone(p);
                     r.setPrzyporzadkowanekonta(null);
                     r.setPrzyporzadkowanestronywiersza(null);
-                    r.setPodatnik(null);
+                    r.setPodatnik(ukladdocelowy.getPodatnik().getNazwapelna());
                     r.setUklad(ukladdocelowy.getUklad());
                     r.setRok(ukladdocelowy.getRok());
                     PozycjaRZiS macierzyste = wyszukajmacierzysteRZiS(p, macierzystelista);
@@ -268,15 +268,15 @@ public class UkladBRWzorcowyView implements Serializable{
                     PozycjaBilans r = serialclone.SerialClone.clone(p);
                     r.setPrzyporzadkowanekonta(null);
                     r.setPrzyporzadkowanestronywiersza(null);
-                    r.setPodatnik(null);
+                    r.setPodatnik(ukladdocelowy.getPodatnik().getNazwapelna());
                     r.setUklad(ukladdocelowy.getUklad());
                     r.setRok(ukladdocelowy.getRok());
                     PozycjaBilans macierzyste = wyszukajmacierzysteBilans(p, macierzystelista);
                     r.setMacierzysta(macierzyste);
                     pozycjaBilansDAO.dodaj(r);
                     nowemacierzyste.add(r);
-                } catch (Exception e) {  E.e(e);
-                    
+                } catch (Exception e) {  
+                    E.e(e);
                 }
             }
         }
