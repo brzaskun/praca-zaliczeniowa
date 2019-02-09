@@ -258,7 +258,7 @@ public class PozycjaRZiSFKBean {
         if (pozycja.getPozycjaString().equals("A.I")) {
             System.out.println("");
         }
-        lista.stream().forEach((p)->{
+        for (Konto p : lista) {
             try {
                     if (aktywa0pasywa1 && pozycja.isPrzychod0koszt1()) {
                     if (p.getKontopozycjaID().getPozycjaMa()!=null && p.getKontopozycjaID().getPozycjaMa().equals(pozycja.getPozycjaString()) && p.getKontopozycjaID().getStronaMa().equals(strona)) {
@@ -278,7 +278,7 @@ public class PozycjaRZiSFKBean {
             } catch (Exception e) {
                 E.e(e);
             }
-        });
+        }
         pozycja.setPrzyporzadkowanekonta(kontokwotalist);
     }
     

@@ -5,6 +5,8 @@
  */
 package config;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -16,6 +18,9 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class Config implements ServletContextListener {
 
+    @PersistenceContext(unitName = "npkpir_22PU")
+    private EntityManager em;
+    
     @Override
     public void contextInitialized(ServletContextEvent event) {
         // ...
@@ -23,7 +28,7 @@ public class Config implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent event) {
-        
+        em.close();
     }
 
 }

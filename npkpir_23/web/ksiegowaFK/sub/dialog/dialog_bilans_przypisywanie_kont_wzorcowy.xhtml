@@ -60,12 +60,12 @@
                 <p:column>
                     <!--                    <p:fieldset legend="DostepneKonta"  style="margin-top: 0%; float: left; height: 600px; width: 350px;">-->
                     <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaBRKontaWzorcowyView.kontabezprzydzialu}" emptyMessage="wszystkie konta przyporządkowane"
-                                 style="margin-top: -13%; height: 650px; width: 450px; overflow-y: scroll" >
+                                 style="margin-top: -13%; height: 650px; width: 450px; overflow-y: scroll" rowIndexVar="index">
                         <f:facet name="header">
                             <h:outputText value="konta nieprzypisane"/>
                         </f:facet>
                         <p:column style="height: 30px; width: 80%" headerText="#{mgs.nazwakonta}">
-                            <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwaskrocona}" global="false"
+                            <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwaskrocona}" global="false" 
                                            actionListener="#{pozycjaBRKontaWzorcowyView.onKontoDropB(konto,'b')}" 
                                            update=":formdialogbilansukladwzorcowy:dostepnekonta, :formdialogbilansukladwzorcowy:kontaprzypisane"
                                            style="color: #{konto.level eq 0 ? 'blue' : konto.level eq 1 ? 'green' : konto.level eq 2 ? 'red' : 'black'};" 
@@ -73,7 +73,6 @@
                                 <p:menuitem value="analityka" global="false" actionListener="#{pozycjaBRKontaWzorcowyView.rozwinrzadanalityki(konto)}"  update=":formdialogbilansukladwzorcowy:dostepnekonta, :formdialogbilansukladwzorcowy:kontaprzypisane" icon="ui-icon-arrowrefresh-1-w" 
                                             rendered="#{konto.mapotomkow}"/>  
                                 <p:menuitem value="syntetyka" global="false" actionListener="#{pozycjaBRKontaWzorcowyView.zwinrzadanalityki(konto)}"  update=":formdialogbilansukladwzorcowy:dostepnekonta, :formdialogbilansukladwzorcowy:kontaprzypisane" icon="ui-icon-arrowrefresh-1-w"/>  
-
                             </p:splitButton>
                             <p:commandButton id="pn2" value="#{konto.pelnynumer} #{konto.nazwapelna}" 
                                              actionListener="#{pozycjaBRKontaWzorcowyView.onKontoDropB(konto,'b')}"  global="false"
