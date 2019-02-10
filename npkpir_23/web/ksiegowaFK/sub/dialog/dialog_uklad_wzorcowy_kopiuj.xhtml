@@ -24,7 +24,7 @@
                 <h:outputText value="Skopiuj pobrany układ jako" style="width: 250px; margin-top: 10px;"/>
                 <p:inputText value="#{ukladBRWzorcowyView.ukladdocelowynazwa}" id="nazwadocelowego" readonly="true"/>
                 <h:outputText value="Rok skopiowanego" />
-                <p:inputText value="#{ukladBRWzorcowyView.ukladdocelowyrok}"/>
+                <p:inputText value="#{ukladBRWzorcowyView.ukladdocelowyrok}" size="8" maxlength="4"/>
             </p:panelGrid>
             <p:commandButton value="kopiuj" actionListener="#{ukladBRWzorcowyView.kopiujukladwzorcowy}" type="submit" 
                                  style="margin-left: 130px; margin-right: auto; margin-top: 20px; width: 120px;" onclick="PF('dialog_ukladwzorcowy_kopiuj').hide();"

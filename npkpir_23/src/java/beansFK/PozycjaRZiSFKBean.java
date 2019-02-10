@@ -18,6 +18,7 @@ import entity.Podatnik;
 import entityfk.Konto;
 import entityfk.KontopozycjaBiezaca;
 import entityfk.KontopozycjaZapis;
+import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
@@ -36,8 +37,6 @@ import waluty.Z;
  *
  * @author Osito
  */
-@Named
-
 public class PozycjaRZiSFKBean {
     
     public static void wyluskajNieprzyporzadkowaneAnalitykiRZiS(List<Konto> pobraneKontaSyntetyczne, List<Konto> wykazkont, KontoDAOfk kontoDAO, Podatnik podatnik, Integer rok) {
@@ -592,4 +591,126 @@ public class PozycjaRZiSFKBean {
             E.e(e);
         }
     }
+     
+      public static void skopiujPozycje(String rb, UkladBR ukladdocelowy, UkladBR ukladzrodlowy, Podatnik podatnik, KontoDAOfk kontoDAO, KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, WpisView wpisView, PozycjaBilansDAO pozycjaBilansDAO, PozycjaRZiSDAO pozycjaRZiSDAO) {
+        if (rb.equals("r")) {
+            wyczyscKonta("wynikowe", podatnik, ukladdocelowy.getRok(), kontoDAO);
+            kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(ukladdocelowy, "wynikowe");
+            kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowy, "wynikowe");
+            List<PozycjaRZiS> pozycjedoprzejrzenia = pozycjaRZiSDAO.findRzisuklad(ukladdocelowy);
+            List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(ukladzrodlowy, "wynikowe");
+            if (zapisanePOzycjezUkladuWzorcowego.isEmpty()) {
+                Msg.msg("e","Brak przyporzadkowania kont RZiS do skopiowania");
+            } else {
+                List<Konto> kontarokudocelowego = kontoDAO.findWszystkieKontaWynikowePodatnika(podatnik, ukladdocelowy.getRok());
+//                List<KontopozycjaZapis> nowekontopozycjazapis = Collections.synchronizedList(new ArrayList<>());
+//                if (podatnik.equals(wpisView.getPodatnikwzorcowy())) {
+//                    for (Iterator<KontopozycjaZapis> it = zapisanePOzycjezUkladuWzorcowego.iterator();it.hasNext();) {
+//                        KontopozycjaZapis p = it.next();
+//                        if (!p.getKontoID().getPodatnik().equals(wpisView.getPodatnikwzorcowy())) {
+//                            it.remove();
+//                            kontopozycjaZapisDAO.destroy(p);
+//                        }
+//                    }
+//                }
+                for (KontopozycjaZapis p : zapisanePOzycjezUkladuWzorcowego) {
+                    if (czypozycjazawiera(pozycjedoprzejrzenia, p) && p.getKontoID().getRok()==ukladzrodlowy.getRokInt() && p.getKontoID().getPodatnik().equals(ukladzrodlowy.getPodatnik())) {
+                        Konto nowekonto = pobierzkontozlisty(kontarokudocelowego, p);
+                        if (nowekonto != null) {
+                            KontopozycjaZapis kp = new KontopozycjaZapis();
+                            kp.setKontoID(nowekonto);
+                            kp.setPozycjaWn(p.getPozycjaWn());
+                            kp.setPozycjaMa(p.getPozycjaMa());
+                            kp.setStronaWn(p.getStronaWn());
+                            kp.setStronaMa(p.getStronaMa());
+                            kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
+                            kp.setUkladBR(ukladdocelowy);
+                            kp.setWynik0bilans1(false);
+                            System.out.println("kp "+kp.toString());
+                            kontopozycjaZapisDAO.dodaj(kp);
+                        }
+                    }
+                }
+
+                Msg.msg("Zapamiętano przyporządkowane pozycje RZiS");
+            }
+        }
+        if (rb.equals("b")) {
+            wyczyscKonta("bilansowe", podatnik, ukladdocelowy.getRok(), kontoDAO);
+            kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(ukladdocelowy, "bilansowe");
+            kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowy, "bilansowe");
+            List<PozycjaBilans> pozycjedoprzejrzenia = pozycjaBilansDAO.findBilansukladAktywaPasywa(ukladdocelowy);
+            List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(ukladzrodlowy, "bilansowe");
+            if (zapisanePOzycjezUkladuWzorcowego.isEmpty()) {
+                Msg.msg("e","Brak pprzyporzadkowania kont bilsndu do skopiowania");
+            } else {
+                List<Konto> kontarokudocelowego = kontoDAO.findWszystkieKontaBilansowePodatnika(podatnik, ukladdocelowy.getRok());
+                
+//                if (podatnik.equals(wpisView.getPodatnikwzorcowy())) {
+//                    for (Iterator<KontopozycjaZapis> it = zapisanePOzycjezUkladuWzorcowego.iterator();it.hasNext();) {
+//                        KontopozycjaZapis p = it.next();
+//                        if (!p.getKontoID().getPodatnik().equals(wpisView.getPodatnikwzorcowy())) {
+//                            it.remove();
+//                            kontopozycjaZapisDAO.destroy(p);
+//                        }
+//                    }
+//                }
+                for (KontopozycjaZapis p : zapisanePOzycjezUkladuWzorcowego) {
+                    if (czypozycjazawieraBilans(pozycjedoprzejrzenia, p) && p.getKontoID().getRok()==ukladzrodlowy.getRokInt() && p.getKontoID().getPodatnik().equals(ukladzrodlowy.getPodatnik())) {
+                        Konto nowekonto = pobierzkontozlisty(kontarokudocelowego, p);
+                        if (nowekonto != null) {
+                            KontopozycjaZapis kp = new KontopozycjaZapis();
+                            kp.setKontoID(nowekonto);
+                            kp.setPozycjaWn(p.getPozycjaWn());
+                            kp.setPozycjaMa(p.getPozycjaMa());
+                            kp.setStronaWn(p.getStronaWn());
+                            kp.setStronaMa(p.getStronaMa());
+                            kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
+                            kp.setUkladBR(ukladdocelowy);
+                            kp.setWynik0bilans1(true);
+                            System.out.println("kp "+kp.toString());
+                            kontopozycjaZapisDAO.dodaj(kp);
+                        }
+                    }
+                }
+                Msg.msg("Zapamiętano przyporządkowane pozycje bilansu");
+            }
+        }
+    }
+    
+    private static Konto pobierzkontozlisty(List<Konto> kontarokudocelowego, KontopozycjaZapis stara) {
+        Konto nowekonto = null;
+        try {
+            for (Konto p : kontarokudocelowego) {
+                if (stara.getKontoID().getPelnynumer().equals(p.getPelnynumer())) {
+                    nowekonto = p;
+                    break;
+                }
+            }
+        } catch (Exception e) {}
+        return nowekonto;
+    }
+    
+    private static boolean czypozycjazawiera(List<PozycjaRZiS> pozycjedoprzejrzenia, KontopozycjaZapis p) {
+        boolean zwrot = false;
+        for (PozycjaRZiS r : pozycjedoprzejrzenia) {
+            if (r.getPozycjaString().equals(p.getPozycjaWn()) || r.getPozycjaString().equals(p.getPozycjaMa())) {
+                zwrot = true;
+                break;
+            }
+        }
+        return zwrot;
+    }
+    
+    private static boolean czypozycjazawieraBilans(List<PozycjaBilans> pozycjedoprzejrzenia, KontopozycjaZapis p) {
+        boolean zwrot = false;
+        for (PozycjaBilans r : pozycjedoprzejrzenia) {
+            if (r.getPozycjaString().equals(p.getPozycjaWn()) || r.getPozycjaString().equals(p.getPozycjaMa())) {
+                zwrot = true;
+                break;
+            }
+        }
+        return zwrot;
+    }
+   
 }

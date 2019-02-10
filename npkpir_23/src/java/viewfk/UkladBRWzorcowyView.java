@@ -4,7 +4,9 @@
  */
 package viewfk;
 
+import beansFK.PozycjaRZiSFKBean;
 import comparator.UkladBRcomparator;
+import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaBiezacaDAO;
 import daoFK.KontopozycjaZapisDAO;
 import daoFK.PozycjaBilansDAO;
@@ -48,7 +50,9 @@ public class UkladBRWzorcowyView implements Serializable{
     private PozycjaRZiSDAO pozycjaRZiSDAO;
     @Inject
     private PozycjaBilansDAO pozycjaBilansDAO;
-     @Inject
+    @Inject
+    private KontoDAOfk kontoDAO;
+    @Inject
     private KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO;
     @Inject
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
@@ -89,6 +93,7 @@ public class UkladBRWzorcowyView implements Serializable{
             ukladBRDAO.dodaj(ukladBR);
             lista.add(ukladBR);
             ukladBRView.init();
+            init();
             nazwanowegoukladu = "";
             Msg.msg("i", "Dodano nowy układ");
         } catch (Exception e) {  E.e(e);
@@ -137,6 +142,7 @@ public class UkladBRWzorcowyView implements Serializable{
                 ukladdocelowy.setZwykly0wzrocowy1(true);
                 ukladBRDAO.dodaj(ukladdocelowy);
                 lista.add(ukladdocelowy);
+                Collections.sort(lista, new UkladBRcomparator());
                 implementujRZiS(ukladzrodlowy,ukladdocelowy);
                 implementujBilans(ukladzrodlowy,ukladdocelowy);
                 Msg.msg("Skopiowano ukłąd wzorcowy z pozycjami");
@@ -178,6 +184,7 @@ public class UkladBRWzorcowyView implements Serializable{
         for(int i = 1; i <= maxlevel;i++) {
                 macierzyste = skopiujlevelRZiS(pozycje, macierzyste,i, ukladdocelowy);
         }
+        PozycjaRZiSFKBean.skopiujPozycje("r", ukladdocelowy, ukladzrodlowy, wpisView.getPodatnikwzorcowy(), kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, wpisView, pozycjaBilansDAO, pozycjaRZiSDAO);
     }
      
       private void implementujBilans(UkladBR ukladzrodlowy, UkladBR ukladdocelowy) {
@@ -193,6 +200,7 @@ public class UkladBRWzorcowyView implements Serializable{
         for(int i = 1; i <= maxlevel;i++) {
                 macierzyste = skopiujlevelBilans(pozycje, macierzyste,i, ukladdocelowy);
         }
+        PozycjaRZiSFKBean.skopiujPozycje("b", ukladdocelowy, ukladzrodlowy, wpisView.getPodatnikwzorcowy(), kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, wpisView, pozycjaBilansDAO, pozycjaRZiSDAO);
     }
      
       private List<PozycjaRZiS> skopiujlevel0RZiS(List<PozycjaRZiS> pozycje, UkladBR ukladdocelowy) {

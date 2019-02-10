@@ -1120,10 +1120,13 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<KontopozycjaZapis> findKontaZapisPodatnikUklad(UkladBR uklad, String rb) {
+        LoadGroup lg = new LoadGroup();
+        lg.addAttribute("ukladBR");
+        lg.addAttribute("kontoID");
         if (rb.equals("wynikowe")) {
-            return Collections.synchronizedList(em.createNamedQuery("KontopozycjaZapis.findByUkladWynikowe").setParameter("uklad", uklad).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
+            return Collections.synchronizedList(em.createNamedQuery("KontopozycjaZapis.findByUkladWynikowe").setParameter("uklad", uklad).setHint(QueryHints.REFRESH, HintValues.TRUE).setHint(QueryHints.LOAD_GROUP, lg).getResultList());
         } else {
-            return Collections.synchronizedList(em.createNamedQuery("KontopozycjaZapis.findByUkladBilansowe").setParameter("uklad", uklad).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList());
+            return Collections.synchronizedList(em.createNamedQuery("KontopozycjaZapis.findByUkladBilansowe").setParameter("uklad", uklad).setHint(QueryHints.REFRESH, HintValues.TRUE).setHint(QueryHints.LOAD_GROUP, lg).getResultList());
         }
     }
     
@@ -1224,11 +1227,21 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Konto> findWszystkieKontaBilansowePodatnika(Podatnik podatnik, String rok) {
-        return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikBilansowe").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList());
+        LoadGroup lg = new LoadGroup();
+        lg.addAttribute("kontopozycjaID");
+        lg.addAttribute("kontokategoria");
+        lg.addAttribute("kontomacierzyste");
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikBilansowe").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).setHint(QueryHints.REFRESH, HintValues.TRUE)
+                .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
     }
 
     public List<Konto> findWszystkieKontaWynikowePodatnika(Podatnik podatnik, String rok) {
-       return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikWynikowe").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList());
+        LoadGroup lg = new LoadGroup();
+        lg.addAttribute("kontopozycjaID");
+        lg.addAttribute("kontokategoria");
+        lg.addAttribute("kontomacierzyste");
+       return Collections.synchronizedList(em.createNamedQuery("Konto.findByPodatnikWynikowe").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).setHint(QueryHints.REFRESH, HintValues.TRUE)
+                .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
     }
 
     public List<Konto> findKontaWynikowePodatnikaBezPotomkow(WpisView wpisView) {
