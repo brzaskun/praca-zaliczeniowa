@@ -159,6 +159,7 @@ public class ImportCSVView  implements Serializable {
     private Dok generujdok(Object p) {
         AmazonCSV wiersz = (AmazonCSV) p;
         Dok selDokument = new Dok();
+        selDokument.setAmazonCSV(wiersz);
         try {
             HttpServletRequest request;
             request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -177,7 +178,7 @@ public class ImportCSVView  implements Serializable {
             selDokument.setDataWyst(wiersz.getData());
             selDokument.setDataSprz(wiersz.getData());
             selDokument.setKontr(pobierzkontrahenta(wiersz));
-            if (wiersz.getBuyerTaxRegistration().equals("") || wiersz.getBuyerTaxRegistrationJurisdiction().equals("DE")){
+            if ((wiersz.getBuyerTaxRegistration().equals("") || wiersz.getBuyerTaxRegistrationJurisdiction().equals("DE")) && wiersz.getTaxRateD()>0.0){
                 selDokument.setRodzajedok(dokSZ);
                 selDokument.setOpis("sprzedaż detaliczna");
             } else {
@@ -195,7 +196,12 @@ public class ImportCSVView  implements Serializable {
             tmpX.setDok(selDokument);
             tmpX.setBrutto(Z.z(Z.z(wiersz.getNetto()+wiersz.getVat())));
             listaX.add(tmpX);
-            Tabelanbp innatabela = pobierztabele("EUR", selDokument.getDataWyst());
+            String symbolwalt = "EUR";
+            if (selDokument.getAmazonCSV()!=null) {
+                //System.out.println(selDokument.getAmazonCSV().getCurrency());
+                symbolwalt = selDokument.getAmazonCSV().getCurrency();
+            }
+            Tabelanbp innatabela = pobierztabele(symbolwalt, selDokument.getDataWyst());
             selDokument.setTabelanbp(innatabela);
             Tabelanbp walutadok = pobierztabele(wiersz.getCurrency(), selDokument.getDataWyst());
             selDokument.setWalutadokumentu(walutadok.getWaluta());

@@ -71,6 +71,12 @@ public class PF {
             case "red":
                 zwrot = BaseColor.RED;
                 break;
+            case "blue":
+                zwrot = BaseColor.BLUE;
+                break;
+            case "green":
+                zwrot = BaseColor.GREEN;
+                break;
         }
         return zwrot;
     }

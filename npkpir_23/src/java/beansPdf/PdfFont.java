@@ -8,6 +8,7 @@ package beansPdf;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
@@ -141,7 +142,9 @@ public class PdfFont {
         PdfPCell cell = null;
         try {
             String fraza2 = fraza != null ? fraza : "";
-            cell = new PdfPCell(new Phrase(fraza2, PF.getFont(Fonty.CALIBRI, fontsize)));
+            Font font = PF.getFont(Fonty.CALIBRI, fontsize);
+            font.setColor(color);
+            cell = new PdfPCell(new Phrase(fraza2, font));
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             getOrient(cell, orient);
         } catch (Exception ex) {

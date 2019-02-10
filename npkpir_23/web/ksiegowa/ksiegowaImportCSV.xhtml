@@ -9,6 +9,7 @@
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
+            <bcf:ajaxs/>
             <f:view contentType="text/html">
                 <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
                     <ui:include src="sub/layoutIndex/north.xhtml"/>  <!-- panel polnocny-->
@@ -85,12 +86,19 @@
                                     <bcf:outputpl value="#{wpis.nettoWaluta}" rendered="#{wpis.symbolWaluty ne 'PLN'}"/> 
                                     <h:outputText value="#{wpis.symbolWaluty}" rendered="#{wpis.symbolWaluty ne 'PLN'}"/>
                                 </p:column>
-                                <p:column id="nettoColumn1" headerText="#{mgs.vat}" styleClass="filter40" rendered="#{WpisView.vatowiec}"
+                                <p:column id="nettoColumn1" headerText="#{mgs.vat}" styleClass="filter40"
                                           filterBy="#{wpis.vat}" filterMatchMode="contains"  sortBy="#{wpis.vat}"  style="width: 60px;">  
                                     <bcf:outputpl value="#{wpis.vat}" rendered="#{wpis.ewidencjaVAT1.size() gt 0}"/>
-                                    <br/>
                                 </p:column>
-                                <p:column id="pkpirKolColumn" headerText="zapis w pkpir" style="width: 14%;" resizable="true" >
+                                <p:column headerText="stawka vat" styleClass="filter40"
+                                          filterBy="#{wpis.amazonCSV.taxRateD}" filterMatchMode="contains"  sortBy="#{wpis.amazonCSV.taxRateD}"  style="width: 60px;">  
+                                    <bcf:outputplprocent value="#{wpis.amazonCSV.taxRateD}"/>
+                                </p:column>
+                                 <p:column headerText="kraj rozliczenia" styleClass="filter40"
+                                          filterBy="#{wpis.amazonCSV.jurisdictionName}" filterMatchMode="contains"  sortBy="#{wpis.amazonCSV.jurisdictionName}"  style="width: 60px;">  
+                                    <h:outputText  value="#{wpis.amazonCSV.jurisdictionName}"/>
+                                </p:column>
+<!--                                <p:column id="pkpirKolColumn" headerText="zapis w pkpir" style="width: 14%;" resizable="true" >
                                     <ui:repeat value="#{wpis.listakwot1}" var="item" varStatus="nr">
                                         <h:outputText value="#{wpis.listakwot1.get(nr.index).netto}" style="float: right;">
                                             <f:convertNumber minFractionDigits="2" locale="PL"/>
@@ -99,11 +107,8 @@
                                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                                         </h:outputText><br/>
                                     </ui:repeat>
-                                </p:column>
-                                <p:column headerText="spr" style="text-align: center;" width="20" sortBy="#{wpis.sprawdzony}">  
-                                    <h:outputText id="polespr" value="#{wpis.sprawdzony eq 2 ? '. .' : (wpis.sprawdzony eq 1 ? '. .' : '.')}" 
-                                                  style="#{wpis.sprawdzony eq 2 ? 'background-color: red; color: red;' : (wpis.sprawdzony eq 1 ? 'background-color: green; color: green;' : null)}"/>
-                                </p:column>
+                                </p:column>-->
+                               
                                 <p:rowExpansion>
                                     <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" width="300" resizable="true">  
                                         <p:dataTable var="subwpis" value="#{wpis.ewidencjaVAT1}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 50%;">
@@ -154,7 +159,7 @@
                                 </p:column>
                             </p:dataTable> 
                             <p:growl life="3600"  id="messages2" autoUpdate="true"/>
-                            <p:commandButton  icon="fa fa-print" style="margin-top: 20px; width: 120px;" actionListener="#{importCSVView.drukuj()}" global="false" rendered="#{importCSVView.dokumenty.size() gt 0}"/>
+                            <p:commandButton  icon="fa fa-print" style="margin-top: 20px; width: 120px;" actionListener="#{importCSVView.drukuj()}"  rendered="#{importCSVView.dokumenty.size() gt 0}"/>
                         </h:form>
                     </p:layoutUnit>
                 </p:layout>

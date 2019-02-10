@@ -4,6 +4,7 @@
  */
 package entity;
 
+import embeddable.AmazonCSV;
 import embeddable.Stornodoch;
 import entityfk.Cechazapisu;
 import entityfk.Tabelanbp;
@@ -34,6 +35,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -241,6 +243,8 @@ public class Dok extends DokSuper implements Serializable {
     @JoinColumn(name = "wniosekVATZDEntity", referencedColumnName = "id")
     @OneToOne
     private WniosekVATZDEntity wniosekVATZDEntity;
+    @Transient
+    private AmazonCSV amazonCSV;
     
     public Dok() {
         this.listakwot1 = Collections.synchronizedList(new ArrayList<>());
@@ -365,6 +369,14 @@ public class Dok extends DokSuper implements Serializable {
 
     public String getVatM() {
         return vatM;
+    }
+
+    public AmazonCSV getAmazonCSV() {
+        return amazonCSV;
+    }
+
+    public void setAmazonCSV(AmazonCSV amazonCSV) {
+        this.amazonCSV = amazonCSV;
     }
 
     public void setVatM(String vatM) {

@@ -562,6 +562,18 @@ public class PdfMain {
         }
     }
     
+    public static void dodajLinieOpisuBezOdstepuKolor(Document document, String opis, BaseColor color) {
+        try {
+            Font font = ft[1];
+            font.setColor(color);
+            Paragraph opiswstepny = new Paragraph(new Phrase(opis, font));
+            opiswstepny.setAlignment(Element.ALIGN_LEFT);
+            document.add(opiswstepny);
+        } catch (DocumentException ex) {
+            E.e(ex);
+        }
+    }
+    
     public static void informacjaoZaksiegowaniu(Document document, String lp) {
         try {
             document.add(new Chunk("Biuro Rachunkowe Taxman"));
@@ -974,7 +986,9 @@ public class PdfMain {
                     col[6] = 2;
                     col[7] = 2;
                     col[8] = 2;
-                    col[9] = 3;
+                    col[9] = 2;
+                    col[10] = 2;
+                    col[11] = 3;
                 }
                 return col;
             case "entity.Ryczpoz":
@@ -1487,11 +1501,12 @@ public class PdfMain {
     }
     
 
-    private static void ustawwiersze(PdfPTable table, List wiersze, String nazwaklasy, int modyfikator) {
+   private static void ustawwiersze(PdfPTable table, List wiersze, String nazwaklasy, int modyfikator) {
         Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
         String l = locale.getLanguage();
         NumberFormat currency = getCurrencyFormater();
         NumberFormat number = getNumberFormater();
+        NumberFormat percent = getPercentFormater();
         int i = 1;
         int maxlevel = 0;
         for (Iterator it = wiersze.iterator(); it.hasNext();) {
@@ -2158,29 +2173,31 @@ public class PdfMain {
                 } else {
                     Dok p = (Dok) it.next();
                     try {
-                        System.out.println(""+p.toString());
-                        table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 9, 25f));
-                        table.addCell(ustawfrazeAlign(p.getDataWyst(), "center", 9));
-                        table.addCell(ustawfrazeAlign(p.getKontr1().getNpelna(), "left", 9));
-                        table.addCell(ustawfrazeAlign(p.getKontr1().toString4(), "left", 9));
-                        table.addCell(ustawfrazeAlign(p.getNrWlDk(), "center", 9));
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 9));
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 9));
+                        //System.out.println(""+p.toString());
+                        table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8, 20f));
+                        table.addCell(ustawfrazeAlign(p.getDataWyst(), "center", 8));
+                        table.addCell(ustawfrazeAlign(p.getKontr1().getNpelna(), "left", 8));
+                        table.addCell(ustawfrazeAlign(p.getKontr1().toString4(), "left", 8));
+                        table.addCell(ustawfrazeAlign(p.getNrWlDk(), "center", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 8));
                         if (p.getWalutadokumentu()!=null) {
-                            table.addCell(ustawfrazeAlign(p.getWalutadokumentu().getSymbolwaluty().equals("PLN")? "":String.valueOf(number.format(p.getNettoWaluta())), "right", 9));
-                            table.addCell(ustawfrazeAlign(p.getWalutadokumentu().getSymbolwaluty().equals("PLN")? "":String.valueOf(number.format(p.getVatWalutaCSV())), "right", 9));
+                            table.addCell(ustawfrazeAlign(p.getWalutadokumentu().getSymbolwaluty().equals("PLN")? "":String.valueOf(number.format(p.getNettoWaluta())), "right", 8));
+                            table.addCell(ustawfrazeAlign(p.getWalutadokumentu().getSymbolwaluty().equals("PLN")? "":String.valueOf(number.format(p.getVatWalutaCSV())), "right", 8));
                         } else {
-                            table.addCell(ustawfrazeAlign("", "center", 9));
-                            table.addCell(ustawfrazeAlign("", "center", 9));
+                            table.addCell(ustawfrazeAlign("", "center", 8));
+                            table.addCell(ustawfrazeAlign("", "center", 8));
                         }
+                        table.addCell(ustawfrazeAlign(String.valueOf(percent.format(p.getAmazonCSV().getTaxRateD())), "right", 8));
+                        table.addCell(ustawfrazeAlign(p.getAmazonCSV().getJurisdictionName(), "left", 8));
                         if (p.getTabelanbp()==null || p.getTabelanbp().getNrtabeli().equals("000/A/NBP/0000")) {
                             if (p.getWalutadokumentu()!=null) {
-                                table.addCell(ustawfrazeAlign(p.getWalutadokumentu().getSymbolwaluty(), "left", 9));
+                                table.addCell(ustawfrazeAlign(p.getWalutadokumentu().getSymbolwaluty(), "left", 8));
                             } else {
-                                table.addCell(ustawfrazeAlign("", "left", 9));
+                                table.addCell(ustawfrazeAlign("", "left", 8));
                             }
                         } else {
-                            table.addCell(ustawfrazeAlign(p.getTabelanbp().getNrtabeli()+" "+p.getTabelanbp().getKurssredniPrzelicznik()+" / "+p.getWalutadokumentu().getSymbolwaluty(), "just", 9));
+                            table.addCell(ustawfrazeAlign(p.getTabelanbp().getNrtabeli()+" "+p.getTabelanbp().getKurssredniPrzelicznik()+" / "+p.getWalutadokumentu().getSymbolwaluty(), "just", 8));
                         }
                     } catch (Exception e) {
                         E.e(e);
@@ -2763,7 +2780,7 @@ public class PdfMain {
 //	}
 
 	public static void displayNumbers(String whichFormat, NumberFormat numberFormat) {
-		System.out.println("Format:" + whichFormat);
+		//System.out.println("Format:" + whichFormat);
 		for (int i = 0; i <= 10; i++) {
 			double num = Math.PI * Math.pow(i, i) * i;
 			System.out.print("  formatted:" + numberFormat.format(num));

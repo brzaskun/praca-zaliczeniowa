@@ -91,9 +91,13 @@ public class Z implements Serializable {
 //    }
      
       public static void main(String[] args) {
-//        double kurswyliczony = Math.round(555354.35 / 133434.49 * 10000);
-//        kurswyliczony /= 10000;
-//          System.out.println(kurswyliczony);
+        //double kurswyliczony = Math.round(555354.35 / 133434.49 * 10000);
+        //kurswyliczony /= 10000;
+        String va= "0,19".replace(",", ".");
+        double dab = Double.valueOf(va);
+         System.out.println(dab);
 
     }
+
+    
 }

@@ -6,6 +6,7 @@
 
 package pdf;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 import entity.Dok;
@@ -14,7 +15,9 @@ import error.E;
 import format.F;
 import java.io.File;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.primefaces.context.RequestContext;
 import pdffk.PdfMain;
@@ -118,25 +121,39 @@ public class PdfDok extends Pdf implements Serializable {
         if (file.isFile()) {
             file.delete();
         }
-        Document document = PdfMain.inicjacjaA4Portrait();
+        Document document = PdfMain.inicjacjaA4Landscape();
         try {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Zestawienie zaksięgowanych dokumentów firma -  ", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             PdfMain.dodajLinieOpisu(document, "Waluta pliku jpk "+lista.get(0).getSymbolWaluty());
-            PdfMain.dodajLinieOpisuBezOdstepu(document, "SPRZEDAŻ OPODATKOWANA NIEMCY");
+            Set<String> waluty = pobierzwaluty(lista);
+            Set<String> kraje = pobierzkraje(lista);
             List<Dok> sprzedaz = lista.stream().filter((p)->p.getRodzajedok().getSkrotNazwyDok().equals("SZ")).collect(Collectors.toList());
-            dodajTabele(document, testobjects.testobjects.getListaDokImport(sprzedaz),100,modyfikator);
-            dodajsumy(sprzedaz, document);
+            for (String kraj : kraje) {
+                List<Dok> sprzedazkraj = sprzedaz.stream().filter((p)->p.getAmazonCSV().getJurisdictionName().equals(kraj)).collect(Collectors.toList());
+                for (String waluta : waluty) {
+                    List<Dok> sprzedazwaluty = sprzedazkraj.stream().filter((p)->p.getAmazonCSV().getCurrency().equals(waluta)).collect(Collectors.toList());
+                    if (!sprzedazwaluty.isEmpty()) {
+                        dodajtabelekraj(kraj, waluta, document, sprzedazwaluty, modyfikator);
+                    }
+                }
+            }
             PdfMain.dodajLinieOpisu(document, "");
             List<Dok> wdt = lista.stream().filter((p)->p.getRodzajedok().getSkrotNazwyDok().equals("WDT")).collect(Collectors.toList());
             if (wdt.isEmpty()) {
-                PdfMain.dodajLinieOpisuBezOdstepu(document, "BRAK SPRZEDAŻY WDT NIEMCY");
+                PdfMain.dodajLinieOpisuBezOdstepu(document, "BRAK SPRZEDAŻY WDT");
             } else {
-                PdfMain.dodajLinieOpisuBezOdstepu(document, "SPRZEDAŻ WDT NIEMCY");
-                dodajTabele(document, testobjects.testobjects.getListaDokImport(wdt),100,modyfikator);
-                dodajsumy(wdt, document);
+                for (String kraj : kraje) {
+                List<Dok> sprzedazkraj = wdt.stream().filter((p)->p.getAmazonCSV().getJurisdictionName().equals(kraj)).collect(Collectors.toList());
+                for (String waluta : waluty) {
+                    List<Dok> sprzedazwaluty = sprzedazkraj.stream().filter((p)->p.getAmazonCSV().getCurrency().equals(waluta)).collect(Collectors.toList());
+                    if (!sprzedazwaluty.isEmpty()) {
+                        dodajtabeleWDT(kraj, waluta, document, sprzedazwaluty, modyfikator);
+                    }
+                }
+            }
             }
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
@@ -148,7 +165,19 @@ public class PdfDok extends Pdf implements Serializable {
         }
     }
     
-    public static void dodajsumy(List<Dok> lista, Document document) {
+    private static void dodajtabelekraj(String kraj, String waluta, Document document, List<Dok> lista, int modyfikator) {
+        PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "SPRZEDAŻ OPODATKOWANA "+kraj.toUpperCase()+" WALUTA "+waluta, BaseColor.BLUE);
+        dodajTabele(document, testobjects.testobjects.getListaDokImport(lista),100,modyfikator);
+        dodajsumy(lista, document, waluta);
+    }
+    private static void dodajtabeleWDT(String kraj, String waluta, Document document, List<Dok> lista, int modyfikator) {
+        PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "SPRZEDAŻ WDT "+kraj.toUpperCase()+" WALUTA "+waluta, BaseColor.BLUE);
+        dodajTabele(document, testobjects.testobjects.getListaDokImport(lista),100,modyfikator);
+        dodajsumy(lista, document, waluta);
+    }
+    
+    
+    public static void dodajsumy(List<Dok> lista, Document document, String waluta) {
         double netto = 0.0;
         double vat = 0.0;
         double nettowaluta = 0.0;
@@ -176,9 +205,9 @@ public class PdfDok extends Pdf implements Serializable {
         PdfMain.dodajLinieOpisu(document, opis);
         if (tab!=null) {
             String wal = tab.getWaluta().getSymbolwaluty();
-            opis = "Razem wartość wybranych dokumentów - waluta dokumentów "+wal;
+            opis = "Razem wartość wybranych dokumentów - waluta dokumentów "+waluta;
             PdfMain.dodajLinieOpisuBezOdstepu(document, opis);
-            opis = "netto wal: "+F.curr(netto, wal)+" vat wal: "+F.curr(vat, wal)+" brutto: "+F.curr(brutto, wal);
+            opis = "netto wal: "+F.curr(netto, waluta)+" vat wal: "+F.curr(vat, waluta)+" brutto: "+F.curr(brutto, waluta);
             PdfMain.dodajLinieOpisu(document, opis);
         }
     }
@@ -247,6 +276,28 @@ public class PdfDok extends Pdf implements Serializable {
         } finally {
             finalizacjaDokumentuQR(document,nazwa);
         }
+    }
+
+    private static Set<String> pobierzwaluty(List<Dok> lista) {
+        Set<String> zwrot = new HashSet<>();
+        for (Dok p : lista) {
+            String poz = p.getAmazonCSV().getCurrency();
+            if (poz!=null) {
+                zwrot.add(poz);
+            }
+        }
+        return zwrot;
+    }
+
+    private static Set<String> pobierzkraje(List<Dok> lista) {
+        Set<String> zwrot = new HashSet<>();
+        for (Dok p : lista) {
+            String poz = p.getAmazonCSV().getJurisdictionName();
+            if (poz!=null) {
+                zwrot.add(poz);
+            }
+        }
+        return zwrot;
     }
     
 }

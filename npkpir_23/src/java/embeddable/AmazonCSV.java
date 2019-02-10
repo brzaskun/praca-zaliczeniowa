@@ -7,6 +7,7 @@ package embeddable;
 
 import data.Data;
 import entityfk.Waluty;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import waluty.Z;
@@ -206,6 +207,12 @@ public class AmazonCSV {
 
     public String getTaxRate() {
         return TaxRate;
+    }
+    
+     public double getTaxRateD() {
+        String va= TaxRate.replace(",", ".");
+        double dab = Double.valueOf(va);
+        return dab;
     }
 
     public void setTaxRate(String TaxRate) {

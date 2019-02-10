@@ -299,6 +299,8 @@ public class testobjects {
        n.add("vat");  
        n.add("netto wal.");
        n.add("vat wal.");
+       n.add("vat stawka");
+       n.add("vat kraj");
        n.add("tab/kurs");
        List[] tabela = new List[2];
        tabela[0] = n;
