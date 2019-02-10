@@ -185,6 +185,7 @@ public class PdfDok extends Pdf implements Serializable {
         double nettopl = 0.0;
         double vatpl = 0.0;
         Tabelanbp tab = null;
+        String invoicelevelcurrencycode = waluta;
         for (Dok p : lista) {
             netto = Z.z(netto+p.getNetto());
             vat = Z.z(vat+p.getVat());
@@ -194,6 +195,7 @@ public class PdfDok extends Pdf implements Serializable {
             vatpl = Z.z(vatpl+Z.z(p.getVat()*p.getTabelanbp().getKurssredniPrzelicznik()));
             if (p.getTabelanbp()!=null) {
                 tab=p.getTabelanbp();
+                invoicelevelcurrencycode = p.getAmazonCSV().getInvoiceLevelCurrencyCode();
             }
         }
         double brutto = Z.z(netto+vat);
@@ -204,11 +206,24 @@ public class PdfDok extends Pdf implements Serializable {
         opis = "netto: "+F.curr(nettopl)+" vat: "+F.curr(vatpl)+" brutto: "+F.curr(bruttopln);
         PdfMain.dodajLinieOpisu(document, opis);
         if (tab!=null) {
-            String wal = tab.getWaluta().getSymbolwaluty();
-            opis = "Razem wartość wybranych dokumentów - waluta dokumentów "+waluta;
-            PdfMain.dodajLinieOpisuBezOdstepu(document, opis);
-            opis = "netto wal: "+F.curr(netto, waluta)+" vat wal: "+F.curr(vat, waluta)+" brutto: "+F.curr(brutto, waluta);
-            PdfMain.dodajLinieOpisu(document, opis);
+            
+            if (!waluta.equals(invoicelevelcurrencycode) && !invoicelevelcurrencycode.equals("")) {
+                opis = "Razem wartość wybranych dokumentów - kraju jurysdykcji "+invoicelevelcurrencycode;
+                PdfMain.dodajLinieOpisuBezOdstepu(document, opis);
+                opis = "netto wal: "+F.curr(netto, invoicelevelcurrencycode)+" vat wal: "+F.curr(vat, invoicelevelcurrencycode)+" brutto: "+F.curr(brutto, invoicelevelcurrencycode);
+                PdfMain.dodajLinieOpisu(document, opis);
+                String wal = tab.getWaluta().getSymbolwaluty();
+                opis = "Razem wartość wybranych dokumentów - waluta dokumentu "+waluta;
+                PdfMain.dodajLinieOpisuBezOdstepu(document, opis);
+                opis = "netto wal: "+F.curr(nettowaluta, waluta)+" vat wal: "+F.curr(vatwaluta, waluta)+" brutto: "+F.curr(bruttowal, waluta);
+                PdfMain.dodajLinieOpisu(document, opis);
+            } else {
+                String wal = tab.getWaluta().getSymbolwaluty();
+                opis = "Razem wartość wybranych dokumentów - waluta "+waluta;
+                PdfMain.dodajLinieOpisuBezOdstepu(document, opis);
+                opis = "netto wal: "+F.curr(netto, waluta)+" vat wal: "+F.curr(vat, waluta)+" brutto: "+F.curr(brutto, waluta);
+                PdfMain.dodajLinieOpisu(document, opis);
+            }
         }
     }
     
