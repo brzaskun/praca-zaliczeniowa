@@ -20,10 +20,10 @@
             <p:focus for="wprowadzaniepodatnika"/>
             <p:panelGrid id="wprowadzaniepodatnika" columns="4" style="width: 600px;">
                 <h:outputLabel value="nip"/>
-                <p:inputMask id="polenip" value="#{podatnikView.selectedDod.nip}" maxlength="10" required="true" requiredMessage="NIP - jest wymagany, uzupełnij!"
-                             mask="9999999999" validatorMessage="Nip powinien składać się z 10 cyfr">
-                    <f:validateLength minimum="10" />
-                </p:inputMask>
+                 <h:inputText id="polenip" value="#{podatnikView.selectedDod.nip}" maxlength="10" required="true" requiredMessage="NIP - jest wymagany, uzupełnij!">
+                        <f:validateLength minimum="10"/>
+                        <p:ajax event="blur" partialSubmit="true" global="false" listener="#{podatnikView.znajdzdaneregon('form')}"/>
+                </h:inputText>
                 <h:outputText value=""/>
                 <h:outputText value=""/>
                 <h:outputLabel value="nazwa pełna"/>
