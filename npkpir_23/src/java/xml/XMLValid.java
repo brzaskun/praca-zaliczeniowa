@@ -117,7 +117,7 @@ public class XMLValid {
             //File schemaFile = new File(realPath); // etc.
             String data = null;
             try {
-                FileInputStream fis = new FileInputStream("d:\\sprawozdaniefinansowe8511005008mcrok012019.xml");
+                FileInputStream fis = new FileInputStream("d:\\a.xml");
                 data = IOUtils.toString(fis, "UTF-8");
                 int czyjestpodpis = data.indexOf("<Signature");
                 if (czyjestpodpis > 0) {

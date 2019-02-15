@@ -21,6 +21,7 @@
                 <p:separator/>
                 <p:menuitem value="Implem. konto" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowego()}" icon="ui-icon-trash" update=":formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Implem. konto z analityką" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowegoZAnalitykom()}" icon="ui-icon-tag" update=" :formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                <p:menuitem value="Porządkuj wybrane konto" actionListener="#{planKontView.porzadkowanieWybranegoKontaPodatnika()}" icon="ui-icon-note" update="formwzorcowy:dataListwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Porządkuj konta" actionListener="#{planKontView.porzadkowanieKontPodatnika(WpisView.podatnikwzorcowy)}" icon="ui-icon-note" update="formwzorcowy:dataListwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Blokada" actionListener="#{planKontView.obslugaBlokadyKontaWzorcowy()}" icon="ui-icon-locked" update=":formwzorcowy"/>
             </p:contextMenu>
@@ -61,7 +62,7 @@
             </p:panelGrid>
             <p:panelGrid columns="2">
                 <p:dataTable id="dataListwzorcowy" value="#{planKontView.wykazkontwzor}" var="loop"  selectionMode="single"
-                             selection="#{planKontView.selectednodekontowzorcowy}" 
+                             selection="#{planKontView.selectednodekonto}" 
                              rowStyleClass="#{planKontView.kontadowyswietlenia eq 'bilansowe' ?
                                               (loop.zwyklerozrachszczegolne eq 'zwykłe' ? 'rowb_zwykle' : loop.zwyklerozrachszczegolne eq 'szczególne' ? 'rowb_szczegolne' : loop.zwyklerozrachszczegolne eq 'vat' ? 'rowb_vat' : 'rowb_rozrachunkowe') :
                                               (planKontView.kontadowyswietlenia eq 'wynikowe' ? (loop.przychod0koszt1 eq false ? 'rowb_szczegolne' : 'rowb_zwykle') : 

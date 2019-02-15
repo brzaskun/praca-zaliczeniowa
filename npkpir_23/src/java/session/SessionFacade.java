@@ -1192,7 +1192,8 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         lg.addAttribute("kontopozycjaID");
         lg.addAttribute("kontokategoria");
         lg.addAttribute("kontomacierzyste");
-        return em.createNamedQuery("Konto.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).setHint(QueryHints.REFRESH, HintValues.TRUE)
+        lg.setIsConcurrent(Boolean.TRUE);
+        return em.createNamedQuery("Konto.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).setHint(QueryHints.REFRESH, HintValues.TRUE).setHint(QueryHints.REFRESH_CASCADE, CascadePolicy.CascadeAllParts)
                 .setHint(QueryHints.LOAD_GROUP, lg).getResultList();
     }
     

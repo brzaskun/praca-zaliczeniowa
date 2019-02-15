@@ -44,7 +44,7 @@ public class KontaFKBean implements Serializable{
             r.setBlokada(false);
         }
         List<Konto> sprawdzonemacierzyste = Collections.synchronizedList(new ArrayList<>());
-        wykazkont.parallelStream().filter((p) -> (p.getKontomacierzyste()!=null)).forEachOrdered((p) -> {
+        wykazkont.stream().filter((p) -> (p.getKontomacierzyste()!=null)).forEachOrdered((p) -> {
             try {
                 Konto macierzyste = p.getKontomacierzyste();
                 if (!sprawdzonemacierzyste.contains(macierzyste)) {
@@ -57,7 +57,7 @@ public class KontaFKBean implements Serializable{
                 Msg.msg("e","Wystąpił błąd przy edycji konta. "+ef.getMessage()+" Nie wyedytowanododano: "+p.getPelnynumer());
             }
         });
-        kontoDAO.editList(wykazkont);
+        kontoDAO.editList(sprawdzonemacierzyste);
     }
     
 //    public static void ustawCzyMaPotomkowWzorcowy(List<Konto> wykazkont, KontoDAOfk kontoDAO, String wzorcowy, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
