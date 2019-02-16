@@ -281,10 +281,11 @@ public class DokFKVATBean {
         }
     }
      
-     private static void pobierzkontaZpoprzedniegoDokumentu(Dokfk poprzedniDokument, Dokfk selected) {
+     public static void pobierzkontaZpoprzedniegoDokumentu(Dokfk poprzedniDokument, Dokfk selected) {
         try {
             if (poprzedniDokument != null) {
-                for (int i = 0; i < 3; i++) {
+                int rozmiar = poprzedniDokument.getListawierszy().size() > 1 ? 3 : 2;
+                for (int i = 0; i < rozmiar; i++) {
                     Wiersz wierszDokumentuPoprzedniego = poprzedniDokument.getListawierszy().get(i);
                     Wiersz wierszDokumentuBiezacego = selected.getListawierszy().get(i);
                     if (wierszDokumentuPoprzedniego != null && wierszDokumentuBiezacego != null) {

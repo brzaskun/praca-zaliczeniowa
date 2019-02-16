@@ -8,6 +8,7 @@ import beansDok.ListaEwidencjiVat;
 import beansFK.DialogWpisywanie;
 import beansFK.DokFKBean;
 import beansFK.DokFKTransakcjeBean;
+import beansFK.DokFKVATBean;
 import static beansFK.DokFKVATBean.pobierzKontoRozrachunkowe;
 import static beansFK.DokFKVATBean.podsumujwartosciVAT;
 import static beansFK.DokFKVATBean.podsumujwartosciVATRK;
@@ -1339,6 +1340,9 @@ public class DokfkView implements Serializable {
                         Wiersz w = selected.getListawierszy().get(0);
                         if (w.getOpisWiersza() == null || w.getOpisWiersza().equals("")) {
                             w.setOpisWiersza(selected.getOpisdokfk());
+                        }
+                        if(wpisView.getVatokres()==0) {
+                            DokFKVATBean.pobierzkontaZpoprzedniegoDokumentu(poprzedniDokument, selected);
                         }
                     } else {
                         kontoRozrachunkowe = null;
