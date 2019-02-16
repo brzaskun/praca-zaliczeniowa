@@ -18,10 +18,13 @@ import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import msg.Msg;
+import org.primefaces.context.RequestContext;
 import pdffk.PdfZaksiegowaneView;
 import sprawozdania.rok2018.JednostkaInna;
 import sprawozdania.rok2018.SprawozdanieFin2018Bean;
@@ -97,8 +100,8 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
             sprawozdanie.setRZiS(SprawozdanieFin2018RZiSBean.generujrzis(rzis));
             sprawozdanie.setDodatkoweInformacjeIObjasnieniaJednstkaInna(SprawozdanieFin2018DodInfoBean.generuj(sprFinKwotyInfDod));
             String sciezka = marszajuldoplikuxml(wpisView.getPodatnikObiekt().getNip(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt(), sprawozdanie);
-            //String polecenie = "wydrukXML(\""+sciezka+"\")";
-            //RequestContext.getCurrentInstance().execute(polecenie);
+            String polecenie = "wydrukXML(\""+sciezka+"\")";
+            RequestContext.getCurrentInstance().execute(polecenie);
             Msg.msg("Wygenerowano sprawozdanie finansowe");
             System.out.println("Wygenerowano sprawozdanie finansowe");
         } catch (Exception e) {
@@ -117,9 +120,9 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
             marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "http://www.mf.gov.pl/schematy/SF/DefinicjeTypySprawozdaniaFinansowe/2018/07/09/JednostkaInnaWZlotych http://www.mf.gov.pl/documents/764034/6464789/JednostkaInnaWZlotych(1)_v1-0.xsd");
             //String mainfilename = "sprawozdaniefinansowe"+podatnik.getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
             String mainfilename = "sprawozdaniefinansowe"+nip+"mcrok"+mc+rok+".xml";
-            //ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-            //String realPath = ctx.getRealPath("/")+"resources\\xml\\";
-            String realPath = "D:\\";
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/")+"resources\\xml\\";
+            //String realPath = "D:\\";
             FileOutputStream fileStream = new FileOutputStream(new File(realPath+mainfilename));
             OutputStreamWriter writer = new OutputStreamWriter(fileStream, "UTF-8");
             marshaller.marshal(sprawozdanie, writer);
