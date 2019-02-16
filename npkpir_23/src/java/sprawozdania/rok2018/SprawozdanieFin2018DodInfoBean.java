@@ -29,30 +29,41 @@ public class SprawozdanieFin2018DodInfoBean {
 
     public static JednostkaInna.DodatkoweInformacjeIObjasnieniaJednstkaInna generuj(SprFinKwotyInfDod sprFinKwotyInfDod) {
         JednostkaInna.DodatkoweInformacjeIObjasnieniaJednstkaInna p = new JednostkaInna.DodatkoweInformacjeIObjasnieniaJednstkaInna();
-        p.dodatkoweInformacjeIObjasnienia = zrobdodatkoweinfo();
+        p.dodatkoweInformacjeIObjasnienia = zrobdodatkoweinfo(sprFinKwotyInfDod);
         p.informacjaDodatkowaDotyczacaPodatkuDochodowego = zrobinfopodatekdochodowy(sprFinKwotyInfDod);
         return p;
     }
 
-    private static List<TInformacjaDodatkowa> zrobdodatkoweinfo() {
+    private static List<TInformacjaDodatkowa> zrobdodatkoweinfo(SprFinKwotyInfDod sprFinKwotyInfDod) {
         List<TInformacjaDodatkowa> zwrot = new ArrayList<>();
         TInformacjaDodatkowa p = new TInformacjaDodatkowa();
         p.opis = "Załącznik 1 - polityka rachunkowości przedsiębiorstwa";
-        p.plik = zrobplik("d:\\aplik.pdf");
+        p.plik = zrobstream(sprFinKwotyInfDod);
         zwrot.add(p);
         return zwrot;
     }
 
-    private static TZalacznik zrobplik(String filename) {
+    
+    private static TZalacznik zrobstream(SprFinKwotyInfDod sprFinKwotyInfDod) {
         TZalacznik p = new TZalacznik();
         try {
-            Path path = Paths.get(filename);
-            byte[] data = Files.readAllBytes(path);
-            p.nazwa = "Polityka_rachunkowosci.pdf";
+            byte[] data = sprFinKwotyInfDod.getPlik();
+            p.nazwa = sprFinKwotyInfDod.getNazwapliku();
             p.zawartosc = data;
-        } catch (IOException ex) {}
+        } catch (Exception ex) {}
         return p;
     }
+    
+//    private static TZalacznik zrobplik(String filename) {
+//        TZalacznik p = new TZalacznik();
+//        try {
+//            Path path = Paths.get(filename);
+//            byte[] data = Files.readAllBytes(path);
+//            p.nazwa = "Polityka_rachunkowosci.pdf";
+//            p.zawartosc = data;
+//        } catch (IOException ex) {}
+//        return p;
+//    }
 
     private static TInformacjaDodatkowaDotyczacaPodatkuDochodowego zrobinfopodatekdochodowy(SprFinKwotyInfDod s) {
         TInformacjaDodatkowaDotyczacaPodatkuDochodowego p = new TInformacjaDodatkowaDotyczacaPodatkuDochodowego();
@@ -114,15 +125,15 @@ public class SprawozdanieFin2018DodInfoBean {
     }
     
      public static void main(String[] args) {
-        try {
-            TZalacznik p = zrobplik("d:\\aplik.pdf");
-            InputStream targetStream = new ByteArrayInputStream(p.zawartosc);
-            File targetFile = new File("d:\\apliknowy.pdf");
-            java.nio.file.Files.copy(targetStream, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            IOUtils.closeQuietly(targetStream);
-        } catch (IOException ex) {
-            Logger.getLogger(SprawozdanieFin2018DodInfoBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //try {
+//            TZalacznik p = zrobplik("d:\\aplik.pdf");
+//            InputStream targetStream = new ByteArrayInputStream(p.zawartosc);
+//            File targetFile = new File("d:\\apliknowy.pdf");
+//            java.nio.file.Files.copy(targetStream, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+//            IOUtils.closeQuietly(targetStream);
+//        } catch (IOException ex) {
+//            Logger.getLogger(SprawozdanieFin2018DodInfoBean.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
     

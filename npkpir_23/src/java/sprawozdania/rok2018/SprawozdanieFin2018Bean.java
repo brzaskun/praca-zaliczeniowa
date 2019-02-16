@@ -123,7 +123,7 @@ public class SprawozdanieFin2018Bean {
 
     private static TIdentyfikatorPodmiotu zrobidentyfikatorpodmiotu(Podatnik podatnik) {
         TIdentyfikatorPodmiotu id = new TIdentyfikatorPodmiotu();
-        id.nip = podatnik.getNip();
+        id.krs = podatnik.getImie();
         //tylko jeden numer jest wymagany
         //id.nip = "8511005008";
         return id;

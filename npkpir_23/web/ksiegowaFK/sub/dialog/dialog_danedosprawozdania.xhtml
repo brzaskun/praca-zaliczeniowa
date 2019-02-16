@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:dialog id="dialogdanedosprawozdania" header="Wzorcowy Układ Rachunku Zysków i Strat - przypisywanie kont" widgetVar="danedosprawozdania" dynamic="true"
-              resizable="false" onShow="ustawdialog('dialogdanedosprawozdania','menubilanse', 1050, 550);" closeOnEscape="true" onHide="resetujdialog('dialogdanedosprawozdania');"  >
+              resizable="false" onShow="ustawdialog('dialogdanedosprawozdania','menubilanse', 1050, 610);" closeOnEscape="true" onHide="resetujdialog('dialogdanedosprawozdania');"  >
         <h:form id="form_dialogdanedosprawozdania">
             <p:panelGrid columns="3">
                 <h:outputText value="nazwa pozycji wyliczenia" style="font-weight: 900"/>
@@ -46,7 +46,28 @@
                 <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid11A}" decimalPlaces="2" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
                 <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid11B}" decimalPlaces="2" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
             </p:panelGrid>
-            <p:commandButton value="zapisz" actionListener="#{sprFinKwotyInfDodView.zapisz}" style="width: 120px;" update="@form"/>
+            <p:panelGrid columns="2" style="margin-top: 10px;">
+                <h:outputText value="data sporządzenia" style="font-weight: bold;"/>
+                <h:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.datasporzadzenia}" size="14" maxlength="10"/>
+            </p:panelGrid>
+            <p:panelGrid columns="2" style="margin-top: 10px;">
+                <p:commandButton value="zapisz" actionListener="#{sprFinKwotyInfDodView.zapisz}" style="width: 120px;" update="@form"/>
+            </p:panelGrid>
+        </h:form>
+        <h:form>
+            <p:panelGrid columns="1" style="margin-top: 20px;">
+               <h:outputText value="plik z informacją dodatkową" style="font-weight: bold;"/>
+               <p:fileUpload fileUploadListener="#{sprFinKwotyInfDodView.zachowajplik}" 
+                                mode="advanced" dragDropSupport="true" fileLimit="3"
+                                update="messages1" sizeLimit="400000"  allowTypes="/(\.|\/)(pdf)$/" 
+                                validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
+                                fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
+                                uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
+                                style="height: 100px;">
+                </p:fileUpload>
+               <p:growl life="3600"  id="messages1" showDetail="true"/>
+               <h:outputText value="uprzednio wprowadzono plik #{sprFinKwotyInfDodView.sprFinKwotyInfDod.nazwapliku}" rendered="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.plik ne null}" style="font-weight: bold; color: green;"/>
+            </p:panelGrid>
         </h:form>
     </p:dialog>
 </ui:composition>

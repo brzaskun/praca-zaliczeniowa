@@ -5,10 +5,7 @@
  */
 package viewfk;
 
-import com.itextpdf.text.pdf.PdfName;
-import comparator.SaldoKontocomparator;
 import daoFK.SprFinKwotyInfDodDAO;
-import embeddablefk.SaldoKonto;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.SprFinKwotyInfDod;
 import error.E;
@@ -16,10 +13,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -27,9 +22,6 @@ import javax.inject.Inject;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import msg.Msg;
-import pdf.PdfKonta;
-import pdffk.PdfBilans;
-import pdffk.PdfPlanKont;
 import pdffk.PdfZaksiegowaneView;
 import sprawozdania.rok2018.JednostkaInna;
 import sprawozdania.rok2018.SprawozdanieFin2018Bean;
@@ -76,8 +68,20 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
             //saldoAnalitykaView.odswiezsaldoanalityczne();
             //List<SaldoKonto> saldokontolist = saldoAnalitykaView.getListaSaldoKonto();
             //Collections.sort(saldokontolist, new SaldoKontocomparator());
-            generuj(bilans, rzis);
-            Msg.msg("Wygenerowano sprawozdanie finansowe");
+            SprFinKwotyInfDod sprFinKwotyInfDod = sprFinKwotyInfDodDAO.findsprfinkwoty(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            if (wpisView.getPodatnikObiekt().getNazwaRejestr()==null || wpisView.getPodatnikObiekt().getNazwaRejestr().equals("")) {
+                Msg.msg("e","Brak w danych podatnika nazwy z rejestru KRS. Nie można generować sprawozdania");
+            } else if (wpisView.getPodatnikObiekt().getKodPKD()==null || wpisView.getPodatnikObiekt().getKodPKD().equals("")) {
+                Msg.msg("e","Brak w danych podatnika kodu PKD działalności. Nie można generować sprawozdania");
+            } else if (sprFinKwotyInfDod==null) {
+                Msg.msg("e","Brak danych dodatkowych do sprawozdania. Nie można generować sprawozdania");
+            } else if (sprFinKwotyInfDod.getDatasporzadzenia()==null) {
+                Msg.msg("e","Brak daty sporządzenia sprawozdania. Nie można generować sprawozdania");
+            } else if (sprFinKwotyInfDod.getPlik()==null) {
+                Msg.msg("e","Brak pliku z informacją dodatkową. Nie można generować sprawozdania");
+            } else {
+                generuj(bilans, rzis);
+            }
         } catch (Exception e) {
             Msg.msg("e","Wystąpił błąd podczas generowania sprawozdania finansowego "+E.e(e));
         }
@@ -85,17 +89,17 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
     
     public void generuj(Map<String, List<PozycjaRZiSBilans>> bilans, List<PozycjaRZiSBilans> rzis) {
         try {
+            SprFinKwotyInfDod sprFinKwotyInfDod = sprFinKwotyInfDodDAO.findsprfinkwoty(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             JednostkaInna sprawozdanie = new JednostkaInna();
-            sprawozdanie.setNaglowek(SprawozdanieFin2018Bean.naglowek(data.Data.aktualnaData(), start(wpisView), stop(wpisView)));
+            sprawozdanie.setNaglowek(SprawozdanieFin2018Bean.naglowek(sprFinKwotyInfDod.getDatasporzadzenia(), start(wpisView), stop(wpisView)));
             sprawozdanie.setWprowadzenieDoSprawozdaniaFinansowego(SprawozdanieFin2018Bean.wprowadzenieDoSprawozdaniaFinansowego(wpisView.getPodatnikObiekt(), start(wpisView), stop(wpisView)));
             sprawozdanie.setBilans(SprawozdanieFin2018BilansBean.generujbilans(bilans.get("aktywa"), bilans.get("pasywa")));
             sprawozdanie.setRZiS(SprawozdanieFin2018RZiSBean.generujrzis(rzis));
-            SprFinKwotyInfDod sprFinKwotyInfDod = sprFinKwotyInfDodDAO.findsprfinkwoty(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             sprawozdanie.setDodatkoweInformacjeIObjasnieniaJednstkaInna(SprawozdanieFin2018DodInfoBean.generuj(sprFinKwotyInfDod));
-            String sciezka = marszajuldoplikuxml("8511005008", "01", "2019", sprawozdanie);
+            String sciezka = marszajuldoplikuxml(wpisView.getPodatnikObiekt().getNip(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt(), sprawozdanie);
             //String polecenie = "wydrukXML(\""+sciezka+"\")";
             //RequestContext.getCurrentInstance().execute(polecenie);
-            //Msg.msg("Wygenerowano sprawozdanie finansowe");
+            Msg.msg("Wygenerowano sprawozdanie finansowe");
             System.out.println("Wygenerowano sprawozdanie finansowe");
         } catch (Exception e) {
             //Msg.msg("e","Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
@@ -110,6 +114,7 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+            marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "http://www.mf.gov.pl/schematy/SF/DefinicjeTypySprawozdaniaFinansowe/2018/07/09/JednostkaInnaWZlotych http://www.mf.gov.pl/documents/764034/6464789/JednostkaInnaWZlotych(1)_v1-0.xsd");
             //String mainfilename = "sprawozdaniefinansowe"+podatnik.getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
             String mainfilename = "sprawozdaniefinansowe"+nip+"mcrok"+mc+rok+".xml";
             //ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
@@ -126,11 +131,11 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
     }
     
     private String start(WpisView wpisView) {
-        return wpisView.getRokWpisuSt()+"01-01";
+        return wpisView.getRokWpisuSt()+"-01-01";
     }
     
     private String stop(WpisView wpisView) {
-        return wpisView.getRokWpisuSt()+"12-01";
+        return wpisView.getRokWpisuSt()+"-12-31";
     }
 
     public WpisView getWpisView() {

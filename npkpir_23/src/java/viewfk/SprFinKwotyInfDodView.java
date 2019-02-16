@@ -6,14 +6,23 @@
 package viewfk;
 
 import daoFK.SprFinKwotyInfDodDAO;
+import entity.Fakturaelementygraficzne;
+import entity.Logofaktura;
 import entityfk.SprFinKwotyInfDod;
+import error.E;
 import java.io.Serializable;
+import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 import view.WpisView;
 
 /**
@@ -45,6 +54,23 @@ public class SprFinKwotyInfDodView  implements Serializable{
             Msg.msg("Zachowano zmiany");
         } catch (Exception e) {
             Msg.msg("e","Wystąpił błąd, niezachowano zmian");
+        }
+    }
+    
+    public void zachowajplik(FileUploadEvent event) {
+        try {
+            UploadedFile uploadedFile = event.getFile();
+            String filename = uploadedFile.getFileName();
+            //String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
+            //String dt = String.valueOf((new Date()).getTime());
+            //String nazwakrotka = wpisView.getPodatnikObiekt().getNip()+"_"+dt+"_"+"logo."+extension;
+            sprFinKwotyInfDod.setPlik(IOUtils.toByteArray(uploadedFile.getInputstream()));
+            sprFinKwotyInfDod.setNazwapliku(filename);
+            sprFinKwotyInfDodDAO.edit(sprFinKwotyInfDod);
+            Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
+        } catch (Exception ex) {
+            E.e(ex);
+            Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");
         }
     }
 

@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -89,6 +90,13 @@ public class SprFinKwotyInfDod implements Serializable{
     private BigDecimal pid11A;
     @Column(name = "pid11B")
     private BigDecimal pid11B;
+    @Column(name = "datasporzadzenia")
+    private String datasporzadzenia;
+    @Column(name = "plik")
+    @Lob
+    private byte[] plik;
+    @Column(name = "nazwapliku")
+    private String nazwapliku;
 
     public SprFinKwotyInfDod() {
         this.pid1A = BigDecimal.ZERO;
@@ -378,6 +386,31 @@ public class SprFinKwotyInfDod implements Serializable{
     public void setPid11B(BigDecimal pid11B) {
         this.pid11B = pid11B;
     }
+
+    public String getDatasporzadzenia() {
+        return datasporzadzenia;
+    }
+
+    public void setDatasporzadzenia(String datasporzadzenia) {
+        this.datasporzadzenia = datasporzadzenia;
+    }
+
+    public byte[] getPlik() {
+        return plik;
+    }
+
+    public void setPlik(byte[] plik) {
+        this.plik = plik;
+    }
+
+    public String getNazwapliku() {
+        return nazwapliku;
+    }
+
+    public void setNazwapliku(String nazwapliku) {
+        this.nazwapliku = nazwapliku;
+    }
+    
     
     
     
