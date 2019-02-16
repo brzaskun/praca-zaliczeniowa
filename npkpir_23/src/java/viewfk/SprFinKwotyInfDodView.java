@@ -6,23 +6,30 @@
 package viewfk;
 
 import daoFK.SprFinKwotyInfDodDAO;
-import entity.Fakturaelementygraficzne;
-import entity.Logofaktura;
 import entityfk.SprFinKwotyInfDod;
 import error.E;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
+import static jdk.nashorn.internal.objects.ArrayBufferView.buffer;
 import msg.Msg;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
+import plik.Plik;
 import view.WpisView;
 
 /**
@@ -71,6 +78,28 @@ public class SprFinKwotyInfDodView  implements Serializable{
         } catch (Exception ex) {
             E.e(ex);
             Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");
+        }
+    }
+    
+    public void pokazplik() {
+        OutputStream outStream = null;
+        try {
+            String nazwa = "informacjadodatkowa"+wpisView.getPodatnikObiekt().getNip();
+            File targetFile = Plik.plik(nazwa+".pdf", true);
+            outStream = new FileOutputStream(targetFile);
+            outStream.write(sprFinKwotyInfDod.getPlik());
+            String f = "pokazwydruk('"+nazwa+"');";
+            RequestContext.getCurrentInstance().execute(f);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                outStream.close();
+            } catch (IOException ex) {
+                Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

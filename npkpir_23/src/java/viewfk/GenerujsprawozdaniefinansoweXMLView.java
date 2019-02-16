@@ -62,12 +62,6 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
     
     public void drukuj() {
         try {
-            pozycjaBRView.init();
-            pozycjaBRZestawienieView.init();
-            saldoAnalitykaView.init();
-            planKontView.init();
-            Map<String, List<PozycjaRZiSBilans>> bilans = pozycjaBRView.obliczBilansOtwarciaBilansDataXML();
-            List<PozycjaRZiSBilans> rzis = pozycjaBRZestawienieView.obliczRZiSOtwarciaRZiSDataXML();
             //saldoAnalitykaView.odswiezsaldoanalityczne();
             //List<SaldoKonto> saldokontolist = saldoAnalitykaView.getListaSaldoKonto();
             //Collections.sort(saldokontolist, new SaldoKontocomparator());
@@ -79,10 +73,20 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
             } else if (sprFinKwotyInfDod==null) {
                 Msg.msg("e","Brak danych dodatkowych do sprawozdania. Nie można generować sprawozdania");
             } else if (sprFinKwotyInfDod.getDatasporzadzenia()==null) {
-                Msg.msg("e","Brak daty sporządzenia sprawozdania. Nie można generować sprawozdania");
-            } else if (sprFinKwotyInfDod.getPlik()==null) {
+                Msg.msg("e","Brak daty ODsporządzenia sprawozdania. Nie można generować sprawozdania");
+            } else if (sprFinKwotyInfDod.getDataod()==null) {
+                Msg.msg("e","Brak daty OD sprawozdania. Nie można generować sprawozdania");
+            } else if (sprFinKwotyInfDod.getDatado()==null) {
+                Msg.msg("e","Brak daty DO sprawozdania. Nie można generować sprawozdania");
+            }else if (sprFinKwotyInfDod.getPlik()==null) {
                 Msg.msg("e","Brak pliku z informacją dodatkową. Nie można generować sprawozdania");
             } else {
+                pozycjaBRView.init();
+                pozycjaBRZestawienieView.init();
+                saldoAnalitykaView.init();
+                planKontView.init();
+                Map<String, List<PozycjaRZiSBilans>> bilans = pozycjaBRView.obliczBilansOtwarciaBilansDataXML();
+                List<PozycjaRZiSBilans> rzis = pozycjaBRZestawienieView.obliczRZiSOtwarciaRZiSDataXML();
                 generuj(bilans, rzis);
             }
         } catch (Exception e) {
@@ -94,8 +98,8 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
         try {
             SprFinKwotyInfDod sprFinKwotyInfDod = sprFinKwotyInfDodDAO.findsprfinkwoty(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             JednostkaInna sprawozdanie = new JednostkaInna();
-            sprawozdanie.setNaglowek(SprawozdanieFin2018Bean.naglowek(sprFinKwotyInfDod.getDatasporzadzenia(), start(wpisView), stop(wpisView)));
-            sprawozdanie.setWprowadzenieDoSprawozdaniaFinansowego(SprawozdanieFin2018Bean.wprowadzenieDoSprawozdaniaFinansowego(wpisView.getPodatnikObiekt(), start(wpisView), stop(wpisView)));
+            sprawozdanie.setNaglowek(SprawozdanieFin2018Bean.naglowek(sprFinKwotyInfDod.getDatasporzadzenia(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado()));
+            sprawozdanie.setWprowadzenieDoSprawozdaniaFinansowego(SprawozdanieFin2018Bean.wprowadzenieDoSprawozdaniaFinansowego(wpisView.getPodatnikObiekt(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado()));
             sprawozdanie.setBilans(SprawozdanieFin2018BilansBean.generujbilans(bilans.get("aktywa"), bilans.get("pasywa")));
             sprawozdanie.setRZiS(SprawozdanieFin2018RZiSBean.generujrzis(rzis));
             sprawozdanie.setDodatkoweInformacjeIObjasnieniaJednstkaInna(SprawozdanieFin2018DodInfoBean.generuj(sprFinKwotyInfDod));
@@ -133,13 +137,13 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
         return sciezka;
     }
     
-    private String start(WpisView wpisView) {
-        return wpisView.getRokWpisuSt()+"-01-01";
-    }
-    
-    private String stop(WpisView wpisView) {
-        return wpisView.getRokWpisuSt()+"-12-31";
-    }
+//    private String start(WpisView wpisView) {
+//        return wpisView.getRokWpisuSt()+"-01-01";
+//    }
+//    
+//    private String stop(WpisView wpisView) {
+//        return wpisView.getRokWpisuSt()+"-12-31";
+//    }
 
     public WpisView getWpisView() {
         return wpisView;

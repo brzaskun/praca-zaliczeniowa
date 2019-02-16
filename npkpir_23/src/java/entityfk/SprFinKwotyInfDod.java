@@ -97,6 +97,10 @@ public class SprFinKwotyInfDod implements Serializable{
     private byte[] plik;
     @Column(name = "nazwapliku")
     private String nazwapliku;
+    @Column(name = "dataod")
+    private String dataod;
+    @Column(name = "datado")
+    private String datado;
 
     public SprFinKwotyInfDod() {
         this.pid1A = BigDecimal.ZERO;
@@ -409,6 +413,22 @@ public class SprFinKwotyInfDod implements Serializable{
 
     public void setNazwapliku(String nazwapliku) {
         this.nazwapliku = nazwapliku;
+    }
+
+    public String getDataod() {
+        return dataod;
+    }
+
+    public void setDataod(String dataod) {
+        this.dataod = dataod;
+    }
+
+    public String getDatado() {
+        return datado;
+    }
+
+    public void setDatado(String datado) {
+        this.datado = datado;
     }
     
     
