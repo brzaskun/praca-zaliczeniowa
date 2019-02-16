@@ -8,6 +8,7 @@ package daoFK;
 import dao.DAO;
 import entity.Podatnik;
 import entityfk.SprFinKwotyInfDod;
+import error.E;
 import java.io.Serializable;
 
 /**
@@ -28,7 +29,9 @@ public class SprFinKwotyInfDodDAO extends DAO implements Serializable{
         SprFinKwotyInfDod zwrot = null;
         try {
             zwrot = sessionFacade.findsprfinkwoty(podatnikObiekt, rokWpisuSt);
-        } catch (Exception e){}
+        } catch (Exception e){
+            E.e(e);
+        }
         return zwrot;
     }
     

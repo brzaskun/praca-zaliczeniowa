@@ -676,7 +676,7 @@ public class PozycjaBRKontaView implements Serializable {
     private UkladBR znajdzUkladWzorcowy(UkladBR ukladpodatnika) {
         List<UkladBR> lista = ukladBRDAO.findPodatnik(wpisView.getPodatnikwzorcowy());
         for (UkladBR p : lista) {
-            if (p.getUklad().equals(ukladpodatnika.getUklad()) && p.getRok().equals(ukladpodatnika.getRok())) {
+            if (p.getUklad().equals(ukladpodatnika.getUklad()) && p.getRok().equals("2018")) {
                 return p;
             }
         }
