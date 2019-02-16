@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.IOUtils;
+import org.apache.xml.security.utils.Base64;
 
 /**
  *
@@ -49,7 +50,7 @@ public class SprawozdanieFin2018DodInfoBean {
         try {
             byte[] data = sprFinKwotyInfDod.getPlik();
             p.nazwa = sprFinKwotyInfDod.getNazwapliku();
-            p.zawartosc = data;
+            p.zawartosc = Base64.encode(data).getBytes();
         } catch (Exception ex) {}
         return p;
     }
