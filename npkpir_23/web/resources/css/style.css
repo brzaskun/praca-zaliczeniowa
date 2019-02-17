@@ -23,7 +23,17 @@ body {
 .pe-inputNumber {
             text-align: right;
         }
+.rwioletta {
+    background: #d9b3ff !important;
+}
 
+.rrenata {
+    background: #c2f0c2 !important;
+}
+
+.rmalgosia {
+    background: #ffd9b3 !important;
+}
 .old{
     background-image:none !important;
     color: blue !important;

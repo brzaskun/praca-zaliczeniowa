@@ -83,10 +83,16 @@ public class Uz implements Serializable {
     @Size(max = 45)
     @Column(name = "nrtelefonu")
     private String nrtelefonu;
-    @Transient
+    @Column(name = "sumafaktur")
     private double sumafaktur;
-    @Transient
+    @Column(name = "liczbapodatnikow")
     private int liczbapodatnikow;
+    @Column(name = "wynagrodzenieobecne")
+    private double wynagrodzenieobecne;
+    @Column(name = "procent")
+    private double procent;
+    @Column(name = "wynagrodzenieprocentowe")
+    private double wynagrodzenieprocentowe;
 
     public Uz() {
     }
@@ -209,6 +215,30 @@ public class Uz implements Serializable {
 
     public void setSumafaktur(double sumafaktur) {
         this.sumafaktur = sumafaktur;
+    }
+
+    public double getWynagrodzenieobecne() {
+        return wynagrodzenieobecne;
+    }
+
+    public void setWynagrodzenieobecne(double wynagrodzenieobecne) {
+        this.wynagrodzenieobecne = wynagrodzenieobecne;
+    }
+
+    public double getProcent() {
+        return procent;
+    }
+
+    public void setProcent(double procent) {
+        this.procent = procent;
+    }
+
+    public double getWynagrodzenieprocentowe() {
+        return wynagrodzenieprocentowe;
+    }
+
+    public void setWynagrodzenieprocentowe(double wynagrodzenieprocentowe) {
+        this.wynagrodzenieprocentowe = wynagrodzenieprocentowe;
     }
 
     public int getLiczbapodatnikow() {

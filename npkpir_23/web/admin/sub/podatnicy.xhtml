@@ -23,10 +23,13 @@
         </p:panelGrid>
     </p:outputPanel>
     <p:outputPanel style="padding: 10px;">
-        <p:commandButton value="przeliczaj" actionListener="#{podatnikKsiegowaView.init()}" update="@form"/>
+        <p:panelGrid columns="2">
+            <p:commandButton value="przeliczaj" actionListener="#{podatnikKsiegowaView.init()}" update="@form" style="width: 120px;"/>
+            <p:commandButton value="zachowaj" actionListener="#{podatnikKsiegowaView.zachowaj}" update="@form" style="margin-left: 50px;width: 120px;"/>
+        </p:panelGrid>
     </p:outputPanel>
     <p:outputPanel style="padding: 10px;">
-        <p:dataTable value="#{podatnikKsiegowaView.listaksiegowych}" var="it" style="width: 500px" rowIndexVar="indx">
+        <p:dataTable value="#{podatnikKsiegowaView.listaksiegowych}" var="it" style="width: 900px" rowIndexVar="indx">
             <p:column  width="30">
                 <h:outputText value="#{indx+1}"/>
             </p:column>
@@ -39,11 +42,24 @@
             <p:column headerText="liczba pod." width="40">
                 <bcf:outputpl0 value="#{it.liczbapodatnikow}"/>
             </p:column>
+            <p:column headerText="wynagrodzenie" width="90">
+                <p:inputNumber value="#{it.wynagrodzenieobecne}" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" style="width: 120px;">
+                    <p:ajax event="change" listener="#{podatnikKsiegowaView.przeliczdane(it)}" partialSubmit="true" update="@parent:@parent" global="false"/>
+                </p:inputNumber>
+            </p:column>
+            <p:column headerText="proc." width="40">
+                <p:inputNumber value="#{it.procent}" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" maxValue="99.9" size="5" maxlength="4">
+                    <p:ajax event="change" listener="#{podatnikKsiegowaView.przeliczdaneproc(it)}" partialSubmit="true" update="@parent:@parent" global="false"/>
+                </p:inputNumber>
+            </p:column>
+            <p:column headerText="wynagrodzenie proc" width="90">
+                <bcf:outputpl value="#{it.wynagrodzenieprocentowe}"/>
+            </p:column>
         </p:dataTable>
     </p:outputPanel>
     <p:outputPanel>
-        <p:commandButton value="zapisz" style="width: 200px; margin: 10px;" actionListener="#{podatnikKsiegowaView.zapisz}"/>
-        <p:dataTable value="#{podatnikKsiegowaView.listapodatnikow}" var="item" style="width: 800px;" rowIndexVar="index">
+        <p:commandButton value="zapisz podatnicy" style="width: 200px; margin: 10px;" actionListener="#{podatnikKsiegowaView.zapisz}"/>
+        <p:dataTable value="#{podatnikKsiegowaView.listapodatnikow}" var="item" style="width: 800px;" rowIndexVar="index" rowStyleClass="#{item.ksiegowa.login.startsWith('wda') ? 'rwioletta' : item.ksiegowa.login.startsWith('go') ? 'rmalgosia' : 'rrenata'}">
             <p:ajax event="filter" global="false"/>
             <p:column headerText="podatnik" width="30">
                 <h:outputText value="#{index+1}"/>

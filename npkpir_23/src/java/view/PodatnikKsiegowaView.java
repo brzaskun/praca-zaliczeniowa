@@ -18,6 +18,7 @@ import entity.Podatnik;
 import entity.Uz;
 import error.E;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -75,6 +76,7 @@ public class PodatnikKsiegowaView implements Serializable{
                }
             }
         }
+        List<Uz> dousuniecia = new ArrayList<>();
         for (Uz r: listaksiegowych) {
             double suma = 0.0;
             int liczba = 0;
@@ -87,6 +89,20 @@ public class PodatnikKsiegowaView implements Serializable{
             }
             r.setSumafaktur(suma);
             r.setLiczbapodatnikow(liczba);
+            if (Z.z(suma)==0.0) {
+                dousuniecia.add(r);
+            }
+        }
+        listaksiegowych.removeAll(dousuniecia);
+    }
+    
+    public void zachowaj() {
+        try {
+            uzDAO.editList(listaksiegowych);
+            Msg.msg("Zaksiegowano zmiany księgowych");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Wystąpił błąd, nie naniesiono zmian księgowych");
         }
     }
     
@@ -99,7 +115,48 @@ public class PodatnikKsiegowaView implements Serializable{
             Msg.msg("e", "Wystąpił błąd, nie naniesiono zmian.");
         }
     }
+    
+    public void przeliczdane(Uz ksiegowa) {
+        try {
+            double wynagrodzenie = ksiegowa.getWynagrodzenieobecne();
+            double sumafaktur = sumujfaktury(listaksiegowych, ksiegowa);
+            double procent = Z.z4(wynagrodzenie/sumafaktur);
+            ksiegowa.setProcent(Z.z(procent*100));
+            double wynwyliczone = Z.z(sumafaktur*procent);
+            ksiegowa.setWynagrodzenieprocentowe(wynwyliczone);
+            uzDAO.edit(ksiegowa);
+            Msg.msg("Przeliczono ksiegową nowe wynagrodzenie");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Wystąpił błąd, nie naniesiono zmian księgowej");
+        }
+    }
+    
+    public void przeliczdaneproc(Uz ksiegowa) {
+        try {
+            double sumafaktur = sumujfaktury(listaksiegowych, ksiegowa);
+            double procent = ksiegowa.getProcent();
+            double wynwyliczone = Z.z(sumafaktur*procent/100);
+            ksiegowa.setWynagrodzenieprocentowe(wynwyliczone);
+            uzDAO.edit(ksiegowa);
+            Msg.msg("Przeliczono ksiegową nowy procent");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Wystąpił błąd, nie naniesiono zmian księgowej");
+        }
+    }
 
+    private double sumujfaktury(List<Uz> listaksiegowych, Uz ksiegowa) {
+        double zwrot = 0.0;
+        String pocz = ksiegowa.getLogin().substring(0,2);
+        for (Uz p : listaksiegowych) {
+            if (p.getLogin().startsWith(pocz)) {
+                zwrot+=Z.z(p.getSumafaktur());
+            }
+        }
+        return zwrot;
+    }
+    
     public List<Podatnik> getListapodatnikow() {
         return listapodatnikow;
     }
@@ -139,6 +196,8 @@ public class PodatnikKsiegowaView implements Serializable{
     public void setEdycja(boolean edycja) {
         this.edycja = edycja;
     }
+
+    
     
     
 }
