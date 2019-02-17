@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -56,6 +58,8 @@ public class UzView implements Serializable {
     private SMTPSettingsDAO sMTPSettingsDAO;
     @Inject
     private Uz selUzytkownik;
+    @Inject
+    private Uz nowyUzytkownik;
     private String confPassword;
     private String login;
     private String firstPassword;
@@ -94,7 +98,7 @@ public class UzView implements Serializable {
         sformatuj();
         if (validateData()) {
             try {
-                haszuj(selUzytkownik.getHaslo());
+                selUzytkownik.setHaslo(haszuj(selUzytkownik.getHaslo()));
                 uzDAO.dodaj(selUzytkownik);
                 String wiadomosc = B.b("rejestracjaudana");
                 Msg.msg(wiadomosc);
@@ -105,6 +109,22 @@ public class UzView implements Serializable {
             }
         }
     }
+    
+    public void dodajNowyWpis() {
+        try {
+            nowyUzytkownik.setIloscwierszy("12");
+            nowyUzytkownik.setLogin(nowyUzytkownik.getLogin().toLowerCase());
+            nowyUzytkownik.setTheme("redmond");
+            nowyUzytkownik.setLoginglowny(nowyUzytkownik);
+            nowyUzytkownik.setLocale("pl");
+            nowyUzytkownik.setHaslo(haszuj(nowyUzytkownik.getHaslo()));
+            uzDAO.dodaj(nowyUzytkownik);
+            Msg.msg("Rejestracja udana");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e","Rejestracja nieudana");
+        }
+    }
 
     public void zmianaHaslaUz() {
         if (!nowymail.equals(selUzytkownik.getEmail()) || !"".equals(nowehaslo)) {
@@ -113,7 +133,7 @@ public class UzView implements Serializable {
                 return;
             } else {
                 try {
-                    haszuj(nowehaslo);
+                    selUzytkownik.setHaslo(haszuj(nowehaslo));
                     if (!nowymail.equals(selUzytkownik.getEmail())) {
                         selUzytkownik.setEmail(nowymail);
                     }
@@ -158,7 +178,7 @@ public class UzView implements Serializable {
         }
         if (validateData()) {
             try {
-                haszuj(selUzytkownik.getHaslo());
+                selUzytkownik.setHaslo(haszuj(selUzytkownik.getHaslo()));
                 uzDAO.edit(selUzytkownik);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reset hasła udany.", selUzytkownik.getLogin());
                 FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -176,7 +196,7 @@ public class UzView implements Serializable {
         selUzytkownik.setNazw(selUzytkownik.getNazw().substring(0, 1).toUpperCase() + selUzytkownik.getNazw().substring(1).toLowerCase());
     }
 
-    public void haszuj(String password) throws NoSuchAlgorithmException {
+    public String haszuj(String password) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         md.update(password.getBytes());
         byte byteData[] = md.digest();
@@ -185,7 +205,7 @@ public class UzView implements Serializable {
         for (int i = 0; i < byteData.length; i++) {
             sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
         }
-        selUzytkownik.setHaslo(sb.toString());
+        return sb.toString();
     }
 
     public void destroy(Uz uzytkownik) {
@@ -394,6 +414,15 @@ public class UzView implements Serializable {
     public void setRenderujrejestracje(boolean renderujrejestracje) {
         this.renderujrejestracje = renderujrejestracje;
     }
+
+    public Uz getNowyUzytkownik() {
+        return nowyUzytkownik;
+    }
+
+    public void setNowyUzytkownik(Uz nowyUzytkownik) {
+        this.nowyUzytkownik = nowyUzytkownik;
+    }
+    
 
     public List<Uz> getObiektUZjsfselected() {
         return obiektUZjsfselected;

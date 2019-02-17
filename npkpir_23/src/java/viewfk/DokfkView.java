@@ -735,7 +735,7 @@ public class DokfkView implements Serializable {
 
     public void dolaczWierszeZKwotami(EVatwpisFK evatwpis) {
         boolean niesumuj = evatwpis.isNieduplikuj() && evatwpis.getEwidencja().getNazwa().equals("zakup");
-        if (!selected.iswTrakcieEdycji() && !niesumuj){
+        if (!selected.iswTrakcieEdycji() && !niesumuj && !selected.getRodzajedok().isTylkojpk()){
             Rodzajedok rodzajdok = selected.getRodzajedok();
             WartosciVAT wartosciVAT = podsumujwartosciVAT(selected.getEwidencjaVAT());
             if (selected.getListawierszy().size() == 1 && selected.isImportowany() == false) {
@@ -904,25 +904,30 @@ public class DokfkView implements Serializable {
             try {
                 selected.setLp(selected.getNrkolejnywserii());
                 selected.setPodatnikObj(wpisView.getPodatnikObiekt());
+                selected.oznaczVATdokument(sprawdzjakiokresvat());//nanosi zmiany okresu vat
+                if ((selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) && klientdlaPK != null) {
+                    selected.setKontr(klientdlaPK);
+                }
                 UzupelnijWierszeoDane.uzupelnijWierszeoDate(selected);
                 //mialo sprawdzac czy sa rozrachunki, ale jak ich nie ma to wywala komunikat, ktory i tak nie jest wyswietlany...
 //                if (selected.sprawdzczynaniesionorozrachunki() == 1) {
 //                    komunikatywpisdok = "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.";
 //                    RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
 //                }
-                for (Wiersz p : selected.getListawierszy()) {
-                    przepiszWalutyZapisEdycja(p);
+                if (selected.getRodzajedok().isTylkojpk()) {
+                    for (Wiersz p : selected.getListawierszy()) {
+                        przepiszWalutyZapisEdycja(p);
+                    }
+
+                    oznaczdokumentSTRMK(selected, "0");
+                    oznaczdokumentSTRMK(selected, "64");
+                    //dodaje roznice kursowa w dokumencie
+                    oznaczdokumentRozKurs(selected);
+                    //nanieswierszeRRK(selected);
+                    selected.przeliczKwotyWierszaDoSumyDokumentu();
+                } else {
+                    selected.getListawierszy().remove(0);
                 }
-                selected.oznaczVATdokument(sprawdzjakiokresvat());//nanosi zmiany okresu vat
-                if ((selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) && klientdlaPK != null) {
-                    selected.setKontr(klientdlaPK);
-                }
-                oznaczdokumentSTRMK(selected, "0");
-                oznaczdokumentSTRMK(selected, "64");
-                //dodaje roznice kursowa w dokumencie
-                oznaczdokumentRozKurs(selected);
-                //nanieswierszeRRK(selected);
-                selected.przeliczKwotyWierszaDoSumyDokumentu();
                 selected.setDataujecia(new Date());
                 dokDAOfk.dodaj(selected);
                 biezacetransakcje = null;
@@ -1072,17 +1077,21 @@ public class DokfkView implements Serializable {
                 }
                 selected.setwTrakcieEdycji(false);
                 selected.setImportowany(false);
-                for (Wiersz p : selected.getListawierszy()) {
-                    przepiszWalutyZapisEdycja(p);
-                }
-                ObslugaWiersza.przenumerujSelected(selected);
                 selected.oznaczVATdokument(sprawdzjakiokresvat());
-                oznaczdokumentSTRMK(selected, "0");
-                oznaczdokumentSTRMK(selected, "64");
-                //dodaje roznice kursowa w dokumencie
-                oznaczdokumentRozKurs(selected);
-                //nanieswierszeRRK(selected);
-                selected.przeliczKwotyWierszaDoSumyDokumentu();
+                if (selected.getRodzajedok().isTylkojpk()) {
+                    for (Wiersz p : selected.getListawierszy()) {
+                        przepiszWalutyZapisEdycja(p);
+                    }
+                    ObslugaWiersza.przenumerujSelected(selected);
+                    oznaczdokumentSTRMK(selected, "0");
+                    oznaczdokumentSTRMK(selected, "64");
+                    //dodaje roznice kursowa w dokumencie
+                    oznaczdokumentRozKurs(selected);
+                    //nanieswierszeRRK(selected);
+                    selected.przeliczKwotyWierszaDoSumyDokumentu();
+                } else {
+                    selected.getListawierszy().remove(0);
+                }
                 selected.setDataujecia(new Date());
                 dokDAOfk.edit(selected);
                 wykazZaksiegowanychDokumentow.remove(selected);

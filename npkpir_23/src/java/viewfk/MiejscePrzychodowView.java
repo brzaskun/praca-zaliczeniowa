@@ -265,6 +265,12 @@ public class MiejscePrzychodowView  implements Serializable{
         return dane.matches(regex);
     }
 
+    public void skopiujnazwy() {
+        if (selected!=null) {
+            selected.setOpisskrocony(selected.getOpismiejsca());
+        }
+    }
+    
     
     //<editor-fold defaultstate="collapsed" desc="comment">
     public MiejscePrzychodow getSelected() {

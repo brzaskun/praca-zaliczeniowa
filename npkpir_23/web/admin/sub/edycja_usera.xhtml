@@ -36,7 +36,7 @@
                 <f:selectItems value="#{UzView.listaUzytkownikow}" var="item" itemLabel="#{item.login}" itemValue="#{item}"/>
             </p:selectOneMenu>
             <p:inputText  value="#{UzView.selUzytkownik.nrtelefonu}"/>
-            <p:commandButton action="#{UzView.zachowajzmiany()}" value="Edytuj" update=":form:uzytkownicyLista :dodWiad:ostatniUzytkownik"/>
+            <p:commandButton action="#{UzView.zachowajzmiany()}" value="Edytuj" update=":form:uzytkownicyLista"/>
         </p:panelGrid>
     </p:panel>
 </ui:composition>   

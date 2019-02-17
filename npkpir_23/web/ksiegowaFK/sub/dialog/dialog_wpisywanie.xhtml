@@ -244,7 +244,7 @@
                                         <f:selectItems value="#{rodzajeDokKlientaView.rodzajedokKlienta}"  var="wploop" itemLabel="#{wploop.skrotNazwyDok} - #{wploop.nazwa}"/>
                                         <p:ajax global="false" event="change" listener="#{dokfkView.wygenerujnumerkolejny}" update="formwpisdokument:numer formwpisdokument:numerwlasny formwpisdokument:przypkontotxt formwpisdokument:przypkonto" partialSubmit="true"/>
                                         <p:ajax global="false" event="change" listener="#{dokfkView.podepnijEwidencjeVatDok(0)}" update=":formwpisdokument:panelzewidencjavat"/>
-                                        <p:ajax global="false" event="blur" listener="#{dokfkView.podepnijEwidencjeVatDokBlur(0)}" update=":formwpisdokument:panelzewidencjavat"/>
+                                        <p:ajax global="false" event="blur" listener="#{dokfkView.podepnijEwidencjeVatDokBlur(0)}" update=":formwpisdokument:panelzewidencjavat formwpisdokument:pudelkonaliste" />
                                         <p:ajax global="false" event="change" listener="#{dokfkView.przygotujDokumentWpisywanie()}" 
                                                 update=":formwpisdokument:panelwalutowy :formwpisdokument:panelzkwotamidok :formwpisdokument:dataList"/>
                                     </h:selectOneMenu>
@@ -292,7 +292,8 @@
                                         <p:ajax event="query" global="false"/>
                                         <p:ajax event="focus" listener="#{kliencifkView.pobieraniekontaFKWpis}" global="false" update=":formwpisdokument:panelwalutowy"/>
                                         <p:ajax event="blur" listener="#{dokfkView.znajdzduplicatdokumentuKontrahent}" partialSubmit="true" global="false"  update=":formwpisdokument:panelwpisbutton" oncomplete="znalezionoduplikat();"/>
-                                        <p:ajax event="itemSelect" listener="#{dokfkView.pobierzopiszpoprzedniegodokItemSelect}" partialSubmit="true" update=":formwpisdokument:opisdokumentu" oncomplete="dodajnowegoklienta();" global="false"/>
+                                        <p:ajax event="itemSelect" listener="#{dokfkView.pobierzopiszpoprzedniegodokItemSelect}" partialSubmit="true" 
+                                                update=":formwpisdokument:opisdokumentu" oncomplete="dodajnowegoklienta();" global="false"/>
                                         <f:facet name="itemtip">  
                                             <h:panelGrid  columns="2" cellpadding="5" width="400">  
                                                 <f:facet name="header">  
@@ -466,7 +467,7 @@
                         </p:dataTable>
                     </p:panelGrid>
                 </p:panelGrid>
-                <div style="height: 340px;">
+                <p:outputPanel style="height: 340px;" id="pudelkonaliste">
                     <p:contextMenu id="contextmenudok" for=":formwpisdokument:dataList">
 <!--ARCHIWUM            <p:menuitem value="napraw wiersz" icon="ui-icon-arrowreturn-1-n" update=":formwpisdokument:dataList" actionListener="#{dokfkView.naprawwiersznkup}"/>-->
                         <p:menuitem value="usuń wiersz" icon="ui-icon-circle-minus" update=":formwpisdokument:dataList" actionListener="#{dokfkView.usunWskazanyWiersz}" oncomplete="PF('tablicawierszydokwpisu').unselectAllRows();aktywujPierwszePoleNowegoWiersza();"/>
@@ -480,7 +481,7 @@
                     <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="wploop" style="width: 1100px; height: 280px; overflow-y: scroll;" 
                                  rowIndexVar="index" selection="#{dokfkView.wybranyWiersz}" selectionMode="single" rowKey="#{wploop.hashCode()}" 
                                  widgetVar="tablicawierszydokwpisu" rowStyleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}" 
-                                 styleClass="walkingtable2">
+                                 styleClass="walkingtable2" rendered="#{!dokfkView.selected.rodzajedok.tylkojpk}">
 <!--                        <style>
                             .ui-datatable-scrollable-theadclone {
                                 display: none !important;
@@ -710,7 +711,7 @@
                         </p:row>
                     </p:panelGrid>
                     
-                </div>
+            </p:outputPanel>
             </h:form>
         </p:focus>
         <f:facet name="footer">

@@ -683,6 +683,46 @@
             <redirect></redirect>
         </navigation-case>
         <navigation-case>
+            <from-outcome>Stowarzyszenie</from-outcome>
+            <to-view-id>/stowarzyszenie/stowarzyszenieIndex.xhtml</to-view-id>
+            <redirect></redirect>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>stowarzyszenieRodzajeCzlonkostwa</from-outcome>
+            <to-view-id>/stowarzyszenie/stowarzyszenieRodzajeCzlonkostwa.xhtml</to-view-id>
+            <redirect></redirect>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>stowarzyszenieRodzajeSkladek</from-outcome>
+            <to-view-id>/stowarzyszenie/stowarzyszenieRodzajeSkladek.xhtml</to-view-id>
+            <redirect></redirect>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>stowarzyszenieCzlonekSkladka</from-outcome>
+            <to-view-id>/stowarzyszenie/stowarzyszenieCzlonekSkladka.xhtml</to-view-id>
+            <redirect></redirect>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>stowarzyszenieRozrachunkiZbiorcze</from-outcome>
+            <to-view-id>/stowarzyszenie/stowarzyszenieRozrachunkiZbiorcze.xhtml</to-view-id>
+            <redirect></redirect>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>stowarzyszenieRozrachunki</from-outcome>
+            <to-view-id>/stowarzyszenie/stowarzyszenieRozrachunki.xhtml</to-view-id>
+            <redirect></redirect>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>stowarzyszenieZestawienieNaliczen</from-outcome>
+            <to-view-id>/stowarzyszenie/stowarzyszenieZestawienieNaliczen.xhtml</to-view-id>
+            <redirect></redirect>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>stowarzyszenieSkladki</from-outcome>
+            <to-view-id>/stowarzyszenie/stowarzyszenieSkladki.xhtml</to-view-id>
+            <redirect></redirect>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>GuestFK</from-outcome>
             <to-view-id>/guestFK/guestFKIndex.xhtml</to-view-id>
             <redirect></redirect>

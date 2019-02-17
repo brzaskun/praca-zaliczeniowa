@@ -36,6 +36,9 @@ public class ObslugaWiersza {
         if (dokfk.getSeriadokfk().equals("BO")) {
             return true;
         }
+        if (dokfk.getRodzajedok().isTylkojpk()) {
+            return true;
+        }
         double stronalewa = 0.0;
         double stronaprawa = 0.0;
         Konto kontoWn;

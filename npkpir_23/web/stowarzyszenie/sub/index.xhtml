@@ -1,0 +1,45 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    
+    <p:outputPanel style="padding: 20px;">
+        <h:form id="miejscaprzychodow">
+            <p:panel header="dodawanie nowego członka">
+            <p:panelGrid columns="2" >
+                <p:panelGrid columns="2" >
+                    <h:outputText value="nazwisko i imię "/>
+                    <p:inputText id="nazwamiejsca" value="#{miejscePrzychodowView.selected.opismiejsca}" style="width: 180px;">
+                        <p:ajax event="blur" partialSubmit="true" listener="#{miejscePrzychodowView.skopiujnazwy()}" global="false"/>
+                    </p:inputText>
+                    <h:outputText value="data przystąpinia"/>
+                    <p:inputText id="nazwamiejscas" value="#{miejscePrzychodowView.selected.poczatek}" size="14" maxlength="10" />
+                </p:panelGrid>
+                <p:panelGrid columns="2" >
+                    <p:commandButton value="dodaj" actionListener="#{miejscePrzychodowView.dodaj()}" style="margin: 2%; width: 120px;" 
+                                     update="form_dialog_stowarzyszenie_wykaz_czlonkow" rendered="#{miejscePrzychodowView.zapisz0edytuj1 == false}"/>
+                    <p:commandButton value="edytuj" actionListener="#{miejscePrzychodowView.zapiszedycje()}" style="margin: 2%; width: 120px;" 
+                                     update="form_dialog_stowarzyszenie_wykaz_czlonkow"
+                                     oncomplete="PF('listamiejscaprzychodow').clearFilters();" rendered="#{miejscePrzychodowView.zapisz0edytuj1 == true}"
+                                     />
+                    <p:commandButton value="rezygnuj" actionListener="#{miejscePrzychodowView.canceledycje()}" style="margin: 2%; width: 120px;" 
+                                     update="form_dialog_stowarzyszenie_wykaz_czlonkow" global="false"
+                                     oncomplete="PF('listamiejscaprzychodow').clearFilters();" rendered="#{miejscePrzychodowView.zapisz0edytuj1 == true}"
+                                     />
+                </p:panelGrid>
+            </p:panelGrid>
+        </p:panel>
+        </h:form>
+        <p:panel header="wykaz obecnych członków">
+            <ui:include src="../../wspolny/sub/stow_wykazczlonkow.xhtml"/>
+        </p:panel>
+    </p:outputPanel>   
+    
+</ui:composition>
+

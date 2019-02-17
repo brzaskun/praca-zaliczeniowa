@@ -210,12 +210,12 @@ public class Vat7DKView implements Serializable {
         obliczNowa();
     }
     public void obliczNowaPkpir() {
-        ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
+        ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt(), true);
         mapaewidencji =  ewidencjaVatView.getSumaewidencji();
         obliczNowa();
     }
     public void obliczNowaFK() {
-        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt(), wniosekVATZDEntity);
+        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt(), wniosekVATZDEntity, true);
         mapaewidencji =  ewidencjaVatView.getSumaewidencji();
         obliczNowa();
     }

@@ -12,7 +12,7 @@
         <p:growl life="3600"  id="messages" autoUpdate="true" showDetail="true"/>
         <br/>
 
-        <p:panelGrid columns="1" style="max-width: 1190px">
+        <p:panelGrid columns="1" style="max-width: 1240px">
             <p:dataTable id="dokLista" value="#{rodzajedokView.listaWspolnych}"  var="loop"  paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
                          selection="#{rodzajedokView.selected}" rowKey="#{loop.skrotNazwyDok}" selectionMode="single" >
                 <p:ajax event="rowSelect" listener="#{rodzajedokView.skopiujwierszdoedycji}"/>
@@ -54,6 +54,9 @@
                 </p:column>
                 <p:column headerText="tylko vat należ." style="text-align: center;">
                     <h:outputText value="#{loop.tylkovatnalezny eq true ? 'tak' : null}" />
+                </p:column>
+                 <p:column headerText="tylko jpk" style="text-align: center;">
+                     <h:outputText value="#{loop.tylkojpk eq true ? 'tak' : null}" />
                 </p:column>
                 <p:column id="deleteColumn" headerText="usuń" style="text-align: center;">
                     <p:commandButton actionListener="#{rodzajedokView.destroy(loop)}" onclick="PF('confirmation').show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
@@ -105,6 +108,8 @@
             <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.niepokazuj}"/>
             <h:outputText value=" tylko vat należny" />
             <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.tylkovatnalezny}"/>
+             <h:outputText value=" tylko jpk" />
+             <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.tylkojpk}"/>
         </p:panelGrid>
         <p:panelGrid columns="3" style="column-width: 350px; width: 450px">
             <p:commandButton  actionListener="#{rodzajedokView.dodaj()}" value="dodaj dokument" update="form form1" style="width: 120px;"/>

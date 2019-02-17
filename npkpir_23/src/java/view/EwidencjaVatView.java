@@ -153,7 +153,7 @@ public class EwidencjaVatView implements Serializable {
     public void aktualizujTabeleTabela(AjaxBehaviorEvent e) throws IOException {
         aktualizuj();
         init();
-        stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
+        stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt(), true);
         Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu(),"form:messages");
     }
     
@@ -224,7 +224,7 @@ public class EwidencjaVatView implements Serializable {
         }
     }
 
-    public void stworzenieEwidencjiZDokumentow(Podatnik podatnik) {
+    public void stworzenieEwidencjiZDokumentow(Podatnik podatnik, boolean dlaewidencji) {
         try {
             ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");
             zerujListy();
@@ -236,7 +236,7 @@ public class EwidencjaVatView implements Serializable {
                 vatokres = 1;
             }
             pobierzEVATwpis1zaOkres(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-            przejrzyjEVatwpis1Lista();
+            przejrzyjEVatwpis1Lista(dlaewidencji);
             stworzenieEwidencjiCzescWspolna();
             for (String k : listaewidencji.keySet()) {
                 nazwyewidencji.add(k);
@@ -282,7 +282,7 @@ public class EwidencjaVatView implements Serializable {
     }
 
   
-    public void stworzenieEwidencjiZDokumentowFK(Podatnik podatnik, WniosekVATZDEntity wniosekVATZDEntity) {
+    public void stworzenieEwidencjiZDokumentowFK(Podatnik podatnik, WniosekVATZDEntity wniosekVATZDEntity, boolean dlaewidencji) {
         try {
             listadokvatprzetworzona = Collections.synchronizedList(new ArrayList<>());
             ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");
@@ -305,7 +305,7 @@ public class EwidencjaVatView implements Serializable {
             listaprzesunietychBardziejPrzychody = pobierzEVatRokFKNastepnyOkresBardziej(vatokres);
             wyluskajzlisty(listaprzesunietychBardziejPrzychody, "przychody");
             sumaprzesunietychBardziejPrzychody = sumujprzesuniete(listaprzesunietychBardziejPrzychody);
-            przejrzyjEVatwpis1Lista();
+            przejrzyjEVatwpis1Lista(dlaewidencji);
             dodajwierszeVATZDsprzedaz(wniosekVATZDEntity);
             stworzenieEwidencjiCzescWspolnaFK();
             for (String k : listaewidencji.keySet()) {
@@ -611,18 +611,23 @@ public class EwidencjaVatView implements Serializable {
         }
     }
 
-    private  Map<String, Evewidencja> przejrzyjEVatwpis1Lista() {
+    private  Map<String, Evewidencja> przejrzyjEVatwpis1Lista(boolean dlaewidencja) {
         Map<String, Evewidencja> ewidencje = evewidencjaDAO.findAllMapByPole();
         List<EVatwpisSuper> wierszedodatkowe = Collections.synchronizedList(new ArrayList<>());
+        List<EVatwpisSuper> dousuniecia = new ArrayList<>();
         for (EVatwpisSuper ewid : listadokvatprzetworzona) {
             if (ewid.getNazwaewidencji().getTypewidencji().equals("sz") && !ewid.isNieduplikuj()) {
                 wierszedodatkowe.add(beansVAT.EwidencjaVATSporzadzanie.duplikujEVatwpisSuper(ewid,ewidencjazakupu));
+            }
+            if (dlaewidencja && ewid.getDokfk().getRodzajedok().isTylkojpk()) {
+                dousuniecia.add(ewid);
             }
 // to nie ma prawa dzialac funkcja ta jest w miejscyu beansvat vatdeklaracja przyporzadkujPozycjeSzczegoloweNowe            
 //            if (ewid.getNazwaewidencji().getNazwapola() != null && ewid.getNazwaewidencji().getNazwapola().getMacierzysty() != null){
 //                wierszedodatkowe.add(duplikujsubwiersze(ewid, ewidencje));
 //            }
         }
+        listadokvatprzetworzona.removeAll(dousuniecia);
         listadokvatprzetworzona.addAll(wierszedodatkowe);
         return ewidencje;
     }
@@ -886,7 +891,7 @@ public class EwidencjaVatView implements Serializable {
         listaprzesunietychBardziejPrzychody = pobierzEVatRokFKNastepnyOkresBardziej(vatokres);
         wyluskajzlisty(listaprzesunietychBardziejPrzychody, "przychody");
         sumaprzesunietychBardziejPrzychody = sumujprzesuniete(listaprzesunietychBardziejPrzychody);
-        przejrzyjEVatwpis1Lista();
+        przejrzyjEVatwpis1Lista(false);
         List<WniosekVATZDEntity> wniosekVATZDEntity = wniosekVATZDEntityDAO.findByPodatnikRokMcFK(podatnik, rok, mc);
         if (wniosekVATZDEntity!=null && wniosekVATZDEntity.size()>0) {
             dodajwierszeVATZDsprzedaz(wniosekVATZDEntity.get(0));
@@ -901,7 +906,7 @@ public class EwidencjaVatView implements Serializable {
             zerujListy();
             int vatokres = wpisView.getVatokres();
             pobierzEVATwpis1zaOkres(podatnik, vatokres, rok, mc);
-            przejrzyjEVatwpis1Lista();
+            przejrzyjEVatwpis1Lista(false);
             stworzenieEwidencjiCzescWspolna();
         } catch (Exception e) { 
             Msg.dPe();

@@ -123,8 +123,10 @@
                     <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.pokazszt}" />
                     <h:outputText value=" rozliczaj tylko VAT należny: " />
                     <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.tylkovatnalezny}" />
+                     <h:outputText value=" dokument tylko dla jpk: " />
+                     <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.tylkojpk}" />
                 </p:panelGrid>
-                <p:panelGrid id="parametryDokKsi1" columns="4" rendered="#{WpisView.ksiegirachunkowe}">
+            <p:panelGrid id="parametryDokKsi1" columns="4" rendered="#{WpisView.ksiegirachunkowe and podatnikView.selectedDokKsi.tylkojpk eq false}">
 
                     <p:column headerText="konto rozrach." style="text-align: center;" >
                         <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kontorozrachunkowe}" style="width: 250px;" converter="#{kontoConv}"  rendered="#{podatnikView.selectedDokKsi.kategoriadokumentu == 0}">
