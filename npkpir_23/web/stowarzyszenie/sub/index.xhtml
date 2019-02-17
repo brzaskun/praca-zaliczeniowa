@@ -13,23 +13,27 @@
         <h:form id="miejscaprzychodow">
             <p:panel header="dodawanie nowego członka">
             <p:panelGrid columns="2" >
-                <p:panelGrid columns="2" >
+                <p:panelGrid columns="4" >
                     <h:outputText value="nazwisko i imię "/>
-                    <p:inputText id="nazwamiejsca" value="#{miejscePrzychodowView.selected.opismiejsca}" style="width: 180px;">
+                    <p:inputText id="nazwamiejsca" value="#{miejscePrzychodowView.selected.opismiejsca}" style="width: 200px;">
                         <p:ajax event="blur" partialSubmit="true" listener="#{miejscePrzychodowView.skopiujnazwy()}" global="false"/>
                     </p:inputText>
                     <h:outputText value="data przystąpinia"/>
-                    <p:inputText id="nazwamiejscas" value="#{miejscePrzychodowView.selected.poczatek}" size="14" maxlength="10" />
+                    <p:inputText id="nazwamiejscas" value="#{miejscePrzychodowView.selected.poczatek}" size="14" maxlength="10" placeholder="____-__-__"/>
+                    <h:outputText value="email"/>
+                    <p:inputText  value="#{miejscePrzychodowView.selected.email}" size="20"/>
+                    <h:outputText value="telefon"/>
+                    <p:inputText  value="#{miejscePrzychodowView.selected.telefon}" size="20"/>
                 </p:panelGrid>
                 <p:panelGrid columns="2" >
                     <p:commandButton value="dodaj" actionListener="#{miejscePrzychodowView.dodaj()}" style="margin: 2%; width: 120px;" 
-                                     update="form_dialog_stowarzyszenie_wykaz_czlonkow" rendered="#{miejscePrzychodowView.zapisz0edytuj1 == false}"/>
+                                     update="form_dialog_stowarzyszenie_wykaz_czlonkow_lista @form" rendered="#{miejscePrzychodowView.zapisz0edytuj1 == false}"/>
                     <p:commandButton value="edytuj" actionListener="#{miejscePrzychodowView.zapiszedycje()}" style="margin: 2%; width: 120px;" 
-                                     update="form_dialog_stowarzyszenie_wykaz_czlonkow"
+                                     update="form_dialog_stowarzyszenie_wykaz_czlonkow_lista"
                                      oncomplete="PF('listamiejscaprzychodow').clearFilters();" rendered="#{miejscePrzychodowView.zapisz0edytuj1 == true}"
                                      />
                     <p:commandButton value="rezygnuj" actionListener="#{miejscePrzychodowView.canceledycje()}" style="margin: 2%; width: 120px;" 
-                                     update="form_dialog_stowarzyszenie_wykaz_czlonkow" global="false"
+                                     update="form_dialog_stowarzyszenie_wykaz_czlonkow_lista @form" global="false"
                                      oncomplete="PF('listamiejscaprzychodow').clearFilters();" rendered="#{miejscePrzychodowView.zapisz0edytuj1 == true}"
                                      />
                 </p:panelGrid>

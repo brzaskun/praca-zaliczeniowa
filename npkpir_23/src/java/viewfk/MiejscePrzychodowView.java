@@ -10,6 +10,7 @@ package viewfk;
 import beansFK.MiejscePrzychodowBean;
 import beansFK.PlanKontFKBean;
 import beansFK.SlownikiBean;
+import comparator.MiejscePrzychodowcomparator;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaZapisDAO;
@@ -112,9 +113,10 @@ public class MiejscePrzychodowView  implements Serializable{
             miejscePrzychodowDAO.dodaj(selected);
             PlanKontFKBean.aktualizujslownikMiejscaPrzychodow(wykazkont, miejscePrzychodowDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
             miejscaprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
-            selected.setOpismiejsca(null);
-            selected.setOpisskrocony(null);
+            czlonkowiestowarzyszenia.add(selected);
             Msg.msg("Dodaje miejsce");
+            selected = new MiejscePrzychodow();
+            Collections.sort(czlonkowiestowarzyszenia, new MiejscePrzychodowcomparator());
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Wystąpił błąd. Nie dodano miejsca");

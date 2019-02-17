@@ -11,7 +11,7 @@
             </p:outputPanel>
         </h:form>
         <h:form id="form_dialog_stowarzyszenie_wykaz_czlonkow_lista">
-            <p:dataTable value="#{miejscePrzychodowView.czlonkowiestowarzyszenia}" var="item" style="width: 1030px;" rowIndexVar="index"
+            <p:dataTable value="#{miejscePrzychodowView.czlonkowiestowarzyszenia}" var="item" style="width: 1130px;" rowIndexVar="index"
                          scrollable="true" scrollHeight="450"  emptyMessage="brak zdefiniowanych członków stowarzyszenia"
                          sortBy="#{item.opismiejsca}">
                 <p:ajax event="filter" global="false"/>
@@ -39,6 +39,12 @@
                           filterMatchMode="contains" >
                     <p:inputText value="#{item.email}" >
                         <p:ajax event="blur" partialSubmit="true" global="false" listener="#{miejscePrzychodowView.edytujpozycje(item, item.email, 1)}"/>
+                    </p:inputText>
+                </p:column>
+                <p:column headerText="telefon" style="text-align: center;width: 200px;" styleClass="filter180" sortBy="#{item.email}" filterBy="#{item.email}"
+                          filterMatchMode="contains" >
+                    <p:inputText value="#{item.telefon}" >
+                        <p:ajax event="blur" partialSubmit="true" global="false" listener="#{miejscePrzychodowView.edytujpozycje(item, item.telefon, -1)}"/>
                     </p:inputText>
                 </p:column>
                 <p:column headerText="nr legit." style="text-align: center;" sortBy="#{item.nrlegitymacji}" filterBy="#{item.nrlegitymacji}"  sortFunction="#{miejscePrzychodowView.compare}"

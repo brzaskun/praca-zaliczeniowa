@@ -23,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import pdffk.PDFStowRozrachCzlonk;
@@ -34,7 +35,7 @@ import waluty.Z;
  * @author Osito
  */
 @ManagedBean
-@ViewScoped
+@RequestScoped
 public class StowRozrachCzlonkView implements Serializable {
 
     private static final long serialVersionUID = 1L;

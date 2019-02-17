@@ -16,6 +16,9 @@
                     <ui:include src="sub/layout/west.xhtml"/>   <!-- panel zachodni-->
                     <ui:include src="sub/layout/east.xhtml"/>   <!-- panel zachodni-->
                     <p:layoutUnit position="center">
+                        <h:form>
+                            <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
+                        </h:form>
                         <ui:include src="sub/zestawienienaliczen.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                     </p:layoutUnit>
                 </p:layout>

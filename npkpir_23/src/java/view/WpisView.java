@@ -268,6 +268,7 @@ public class WpisView implements Serializable {
         wpis.setPodatnikWpisu(podatnikWpisu);
         wpisDAO.edit(wpis);
         naniesDaneDoWpis();
+        init();
     }
 
     private Principal getPrincipal() {
@@ -447,6 +448,8 @@ public class WpisView implements Serializable {
     public void kopiujmiesiac() {
         zmianaokresuMc = new String(miesiacWpisu);
     }
+     
+    
 
 //<editor-fold defaultstate="collapsed" desc="comment">
     public Integer getRokNastepny() {

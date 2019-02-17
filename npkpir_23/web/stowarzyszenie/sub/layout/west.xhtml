@@ -7,6 +7,14 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:layoutUnit position="west" size="250"  collapsible="true">
+        <p:panel header="rok">
+            <h:form>
+                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 70px;">
+                    <f:selectItems value="#{Roki.rokiList}"/>
+                    <p:ajax event="change" listener="#{WpisView.aktualizuj()}" update="@(form)"/>
+                </p:selectOneMenu>
+            </h:form>
+        </p:panel>
         <p:panel style="padding: 5px,5px,5px,5px;" header="Członkowie">
             <h:form>
                 <p:menu >
