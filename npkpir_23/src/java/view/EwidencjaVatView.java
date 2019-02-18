@@ -619,7 +619,7 @@ public class EwidencjaVatView implements Serializable {
             if (ewid.getNazwaewidencji().getTypewidencji().equals("sz") && !ewid.isNieduplikuj()) {
                 wierszedodatkowe.add(beansVAT.EwidencjaVATSporzadzanie.duplikujEVatwpisSuper(ewid,ewidencjazakupu));
             }
-            if (dlaewidencja && ewid.getDokfk().getRodzajedok().isTylkojpk()) {
+            if (dlaewidencja && ewid.getDokfk().getRodzajedok() != null &&  ewid.getDokfk().getRodzajedok().isTylkojpk()) {
                 dousuniecia.add(ewid);
             }
 // to nie ma prawa dzialac funkcja ta jest w miejscyu beansvat vatdeklaracja przyporzadkujPozycjeSzczegoloweNowe            
