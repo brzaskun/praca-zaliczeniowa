@@ -914,7 +914,7 @@ public class DokfkView implements Serializable {
 //                    komunikatywpisdok = "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.";
 //                    RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
 //                }
-                if (selected.getRodzajedok().isTylkojpk()) {
+                if (!selected.getRodzajedok().isTylkojpk()) {
                     for (Wiersz p : selected.getListawierszy()) {
                         przepiszWalutyZapisEdycja(p);
                     }
@@ -1078,7 +1078,7 @@ public class DokfkView implements Serializable {
                 selected.setwTrakcieEdycji(false);
                 selected.setImportowany(false);
                 selected.oznaczVATdokument(sprawdzjakiokresvat());
-                if (selected.getRodzajedok().isTylkojpk()) {
+                if (!selected.getRodzajedok().isTylkojpk()) {
                     for (Wiersz p : selected.getListawierszy()) {
                         przepiszWalutyZapisEdycja(p);
                     }
