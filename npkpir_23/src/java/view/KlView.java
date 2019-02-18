@@ -344,6 +344,11 @@ public class KlView implements Serializable {
     public void wybranodoedycji(SelectEvent ex) {
         edycja = true;
         selected = selectedtabela;
+        if (selected.getNskrocona()==null ||selected.getNskrocona().equals("")) {
+            selected.setNskrocona(selected.getNpelna());
+            klDAO.edit(selected);
+            Msg.msg("dodano nazwę skróconą");
+        }
         //selected = (Klienci) ex.getObject();
         Msg.msg("Wybrano klienta do edycji: " + selected.getNpelna());
     }
@@ -456,9 +461,7 @@ public class KlView implements Serializable {
             klientfaktura.setDom(aktualizuj.getDom());
             klientfaktura.setLokal(aktualizuj.getLokal());
             klientfaktura.setKodpocztowy(aktualizuj.getKodpocztowy());
-            if (klientfaktura.getNskrocona()==null || klientfaktura.getNskrocona().isEmpty()) {
-                klientfaktura.setNskrocona(aktualizuj.getNpelna());
-            }
+            klientfaktura.setNskrocona(aktualizuj.getNpelna());
             klDAO.edit(klientfaktura);
             Msg.msg("Zaktualizowano dane klienta pobranymi z GUS");
         } catch (Exception e) {

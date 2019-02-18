@@ -137,7 +137,7 @@ public class JPK_VAT2View implements Serializable {
     
     public void przygotujXML() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
-        ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt(), false);
+        ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
         if (bledy.size()==0) {
@@ -156,7 +156,7 @@ public class JPK_VAT2View implements Serializable {
     
      public void przygotujXMLDL() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
-        ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt(), false);
+        ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
         if (bledy.size()==0) {
@@ -171,9 +171,9 @@ public class JPK_VAT2View implements Serializable {
      public void przygotujXMLAll(Podatnik podatnik,  List<Podatnik> dowyslania,  List<UPO> jpkzrobione) {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         if (podatnik.getFormaPrawna()==null) {
-            ewidencjaVatView.stworzenieEwidencjiZDokumentow(podatnik, false);
+            ewidencjaVatView.stworzenieEwidencjiZDokumentow(podatnik);
         } else {
-            ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(podatnik, null, false);
+            ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(podatnik, null);
         }
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         generujXML(wiersze, podatnik, nowa0korekta1);
@@ -186,7 +186,7 @@ public class JPK_VAT2View implements Serializable {
     
     public void przygotujXMLPodglad() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
-        ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt(), false);
+        ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
         if (bledy.size()==0) {
@@ -219,9 +219,9 @@ public class JPK_VAT2View implements Serializable {
     public void przygotujXMLPodgladAll(Podatnik podatnik) {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         if (podatnik.getFormaPrawna()==null) {
-            ewidencjaVatView.stworzenieEwidencjiZDokumentow(podatnik, false);
+            ewidencjaVatView.stworzenieEwidencjiZDokumentow(podatnik);
         } else {
-            ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(podatnik, null, false);
+            ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(podatnik, null);
         }
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         generujXMLPodglad(wiersze, podatnik, nowa0korekta1);
@@ -229,7 +229,7 @@ public class JPK_VAT2View implements Serializable {
     
     public void przygotujXMLFK() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
-        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt(), null, false);
+        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt(), null);
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
         if (bledy.size()==0) {
@@ -248,7 +248,7 @@ public class JPK_VAT2View implements Serializable {
     
     public void przygotujXMLFKDL() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
-        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt(), null, false);
+        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt(), null);
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
         if (bledy.size()==0) {
@@ -263,7 +263,7 @@ public class JPK_VAT2View implements Serializable {
        
     public void przygotujXMLFKPodglad() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
-        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt(), null, false);
+        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt(), null);
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
         if (bledy.size()==0) {

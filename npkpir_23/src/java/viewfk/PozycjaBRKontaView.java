@@ -467,8 +467,7 @@ public class PozycjaBRKontaView implements Serializable {
         FacesContext ctx = FacesContext.getCurrentInstance();
         TreeTable table = (TreeTable) ctx.getViewRoot().findComponent("formrzisuklad:dataList");
         String rowkey = table.getRowKey();
-        wybranapozycja_wiersz = "formrzisuklad:dataList";
-        wybranapozycja_wiersz = "formbilansuklad:dataList:"+rowkey+":liczba";
+        wybranapozycja_wiersz = "formrzisuklad:dataList:"+rowkey+":liczba";
         wybranapozycja = ((PozycjaRZiS) wybranynodekonta.getData()).getPozycjaString();
         przyporzadkowanekonta.clear();
         przyporzadkowanekonta.addAll(PozycjaRZiSFKBean.wyszukajprzyporzadkowane(kontoDAO, wybranapozycja, aktywa0pasywa1, wybranyuklad));
@@ -479,7 +478,6 @@ public class PozycjaBRKontaView implements Serializable {
         FacesContext ctx = FacesContext.getCurrentInstance();
         TreeTable table = (TreeTable) ctx.getViewRoot().findComponent("formbilansuklad:dataList");
         String rowkey = table.getRowKey();
-        wybranapozycja_wiersz = "formbilansuklad:dataList";
         wybranapozycja_wiersz = "formbilansuklad:dataList:"+rowkey+":liczba";
         wybranapozycja = ((PozycjaBilans) wybranynodekonta.getData()).getPozycjaString();
         przyporzadkowanekonta.clear();

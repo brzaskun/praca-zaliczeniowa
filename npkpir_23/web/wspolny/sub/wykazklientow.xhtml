@@ -70,6 +70,7 @@
                 <p:commandButton value="Dodaj" actionListener="#{KlView.dodajKlienta()}" update=":formX :formY" icon="ui-icon-disk"
                                  rendered="#{KlView.selected.id eq null}" style="width: 120px; margin-top: 5px;"/>
                 <p:commandButton value="Edytuj" actionListener="#{KlView.edit()}" update=":formX :formY" icon="ui-icon-arrowrefresh-1-w" rendered="#{KlView.selected.id ne null}" style="width: 120px; margin-top: 5px;"/>
+                <p:commandButton value="aktualizuj GUS" actionListener="#{KlView.znajdzdaneregonAutomat(KlView.selected)}" style="width: 120px;margin-top: 5px;" update="@form" rendered="#{KlView.selected.id ne null}"/>
             </p:panelGrid>
            
         </p:panel>

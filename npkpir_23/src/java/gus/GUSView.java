@@ -196,16 +196,6 @@ public class GUSView implements Serializable {
     private static String zmniejsznazwe(String element, String p) {
         String zwrot = element;
         if (p.equals("Nazwa")) {
-            String[] a = StringUtils.splitPreserveAllTokens(element);
-            if (element.contains("SPÓŁKA KOMANDYTOWA")) {
-                zwrot = element.replace("SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ SPÓŁKA KOMANDYTOWA", "sp. z o.o. sp.k.");
-            } else if (element.contains("SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ")) {
-                zwrot = element.replace("SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ", "sp. z o.o.");
-            } else if (element.contains("SPÓŁKA AKCYJNA")) {
-                zwrot = element.replace("SPÓŁKA AKCYJNA", "S.A.");
-            } else if (element.contains("SPÓŁKA CYWILNA")) {
-                zwrot = element.replace("SPÓŁKA CYWILNA", "S.C.");
-            } 
             if (element.contains("PRZEDSIĘBIORSTWO PROJEKTOWO-USŁUGOWE")) {
                 zwrot = zwrot.replace("PRZEDSIĘBIORSTWO PROJEKTOWO-USŁUGOWE", "PPU");
             } else if (zwrot.contains("PRZEDSIĘBIORSTWO PROJEKTOWO USŁUGOWE")) {
@@ -248,6 +238,16 @@ public class GUSView implements Serializable {
                 zwrot = zwrot.replace("STOWARZYSZENIE", "Stowarzyszenie");
             } else if (zwrot.contains("FUNDACJA")) {
                 zwrot = zwrot.replace("FUNDACJA", "Fundacja");
+            }
+            String[] a = StringUtils.splitPreserveAllTokens(zwrot);
+            if (element.contains("SPÓŁKA KOMANDYTOWA")) {
+                zwrot = element.replace("SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ SPÓŁKA KOMANDYTOWA", "sp. z o.o. sp.k.");
+            } else if (element.contains("SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ")) {
+                zwrot = element.replace("SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ", "sp. z o.o.");
+            } else if (element.contains("SPÓŁKA AKCYJNA")) {
+                zwrot = element.replace("SPÓŁKA AKCYJNA", "S.A.");
+            } else if (element.contains("SPÓŁKA CYWILNA")) {
+                zwrot = element.replace("SPÓŁKA CYWILNA", "S.C.");
             } else if (a.length>3) {
                 zwrot = zloznazwe(a,a.length);
             } else if (a.length==3) {
