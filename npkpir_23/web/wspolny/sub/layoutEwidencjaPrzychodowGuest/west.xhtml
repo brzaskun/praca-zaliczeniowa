@@ -30,7 +30,7 @@
                             <p:menuitem global="false" value="ewid. przychodów"  outcome="gewidencjaprzychodow" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.ksiegaryczalt == false}"/>
                             <p:menuitem value="ewidencja vat" icon="ui-icon-circle-arrow-e" outcome="gewidencja"  rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>
                              <p:menuitem value="ewidencja vat" icon="ui-icon-circle-arrow-e" outcome="gewidencja"  rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
-                                 <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow(WpisView.podatnikObiekt)}"/>
+                                 <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow(WpisView.podatnikObiekt, true)}"/>
                             </p:menuitem>
                             <p:menuitem value="niezapłacone"  outcome="gniezaplacone" icon="ui-icon-circle-arrow-e" />
                             <p:menuitem value="faktury okresowe"  outcome="gfmiesieczne" icon="ui-icon-circle-arrow-e" />

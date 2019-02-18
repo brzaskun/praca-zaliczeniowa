@@ -28,7 +28,7 @@
                             <p:menuitem value="dokumenty w roku"  icon="ui-icon-circle-arrow-e" action="#{obrotyView.initGuest()}" update="@form"/>
                             <p:menuitem value="podatkowa ksiega"  outcome="gksiega" icon="ui-icon-circle-arrow-e" />
                             <p:menuitem value="ewidencja vat" icon="ui-icon-circle-arrow-e"   action="#{ewidencjaVatView.przekierowanieEwidencjiGuest()}" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
-                                <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow(WpisView.podatnikObiekt)}"/>
+                                <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow(WpisView.podatnikObiekt, true)}"/>
                                 <f:actionListener binding="#{ewidencjaVatView.drukujPdfEwidencje()}"/>
                                 
                             </p:menuitem>

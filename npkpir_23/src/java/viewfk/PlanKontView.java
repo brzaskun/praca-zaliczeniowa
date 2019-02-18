@@ -89,7 +89,7 @@ public class PlanKontView implements Serializable {
     @Inject
     private StronaWierszaDAO stronaWierszaDAO;
     private Konto selectednodekonto;
-    private Konto selectednodekontowzorcowy;
+    
     private String wewy;
     private boolean czyoddacdowzorca;
     @Inject
@@ -201,7 +201,7 @@ public class PlanKontView implements Serializable {
     private Konto ustawselected() {
         Konto konto = selectednodekonto;
         if (czyoddacdowzorca == true) {
-            konto = selectednodekontowzorcowy;
+            konto = selectednodekonto;
         }
         return konto;
     }
@@ -761,11 +761,11 @@ public class PlanKontView implements Serializable {
     }
 
     public void implementacjaJednegoKontaWzorcowego() {
-        if (selectednodekontowzorcowy != null) {
+        if (selectednodekonto != null) {
             try {
                 List<Podatnik> listapodatnikowfk = podatnikDAO.findPodatnikFK();
                 for (Podatnik p : listapodatnikowfk) {
-                    Konto kontopodatnik = new Konto(selectednodekontowzorcowy);
+                    Konto kontopodatnik = new Konto(selectednodekonto);
                     try {
                         kontopodatnik.setPodatnik(p);
                         Konto macierzyste = kontoDAOfk.findKonto(kontopodatnik.getMacierzyste(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
@@ -780,7 +780,7 @@ public class PlanKontView implements Serializable {
                             kontopodatnik.setBlokada(false);
                         }
                         kontoDAOfk.dodaj(kontopodatnik);
-                        KontoPozycjaBean.duplikujpozycje(ukladBRDAO,wybranyukladwzorcowy.getUklad(), p, wpisView.getRokWpisuSt(), selectednodekontowzorcowy, kontopodatnik, kontopozycjaZapisDAO);
+                        KontoPozycjaBean.duplikujpozycje(ukladBRDAO,wybranyukladwzorcowy.getUklad(), p, wpisView.getRokWpisuSt(), selectednodekonto, kontopodatnik, kontopozycjaZapisDAO);
                     } catch (RollbackException e) {
                         E.e(e);
                     } catch (PersistenceException x) {
@@ -799,14 +799,14 @@ public class PlanKontView implements Serializable {
     }
 
     public void implementacjaJednegoKontaWzorcowegoZAnalitykom() {
-        if (selectednodekontowzorcowy != null) {
+        if (selectednodekonto != null) {
             try {
                 List<Podatnik> listapodatnikowfk = podatnikDAO.findPodatnikFK();
                 for (Podatnik p : listapodatnikowfk) {
-                    Konto konto = new Konto(selectednodekontowzorcowy);
+                    Konto konto = new Konto(selectednodekonto);
                     konto = dodajpojedynczekoto(konto, p);
-                    KontoPozycjaBean.duplikujpozycje(ukladBRDAO, wybranyukladwzorcowy.getUklad(), p, wpisView.getRokWpisuSt(), selectednodekontowzorcowy, konto, kontopozycjaZapisDAO);
-                    List<Konto> potomnelista = kontoDAOfk.findKontaPotomne(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisu(), selectednodekontowzorcowy.getPelnynumer(), selectednodekontowzorcowy.getBilansowewynikowe());
+                    KontoPozycjaBean.duplikujpozycje(ukladBRDAO, wybranyukladwzorcowy.getUklad(), p, wpisView.getRokWpisuSt(), selectednodekonto, konto, kontopozycjaZapisDAO);
+                    List<Konto> potomnelista = kontoDAOfk.findKontaPotomne(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisu(), selectednodekonto.getPelnynumer(), selectednodekonto.getBilansowewynikowe());
                     if (potomnelista != null) {
                         for (Konto r : potomnelista) {
                             Konto potomne = new Konto(r);
@@ -1102,7 +1102,7 @@ public class PlanKontView implements Serializable {
 //    }
 
     public void usunZsubkontami(String klientWzor) {
-        Konto kontoDoUsuniecia = selectednodekonto != null ? selectednodekonto : selectednodekontowzorcowy;
+        Konto kontoDoUsuniecia = selectednodekonto;
         List<Rodzajedok> rodzajedokumentowpodatnika = null;
         if (klientWzor.equals("K")) {
             rodzajedokumentowpodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
@@ -1255,7 +1255,7 @@ public class PlanKontView implements Serializable {
     }
 
     public void usun(String klientWzor) {
-        Konto kontoDoUsuniecia = selectednodekonto != null ? selectednodekonto : selectednodekontowzorcowy;
+        Konto kontoDoUsuniecia = selectednodekonto;
         if (kontoDoUsuniecia != null) {
             if (kontoDoUsuniecia.isBlokada() == true) {
                 Msg.msg("e", "Konto zablokowane. Na koncie istnieją zapisy. Nie można go usunąć");
@@ -1301,14 +1301,14 @@ public class PlanKontView implements Serializable {
     
     public void obslugaBlokadyKontaWzorcowy() {
         try {
-            if (selectednodekontowzorcowy != null) {
-                if (selectednodekontowzorcowy.isBlokada() == false) {
-                    selectednodekontowzorcowy.setBlokada(true);
-                    kontoDAOfk.edit(selectednodekontowzorcowy);
+            if (selectednodekonto != null) {
+                if (selectednodekonto.isBlokada() == false) {
+                    selectednodekonto.setBlokada(true);
+                    kontoDAOfk.edit(selectednodekonto);
                     Msg.msg("w", "Zabezpieczono konto przed edycją.");
-                } else if (selectednodekontowzorcowy.isBlokada() == true) {
-                    selectednodekontowzorcowy.setBlokada(false);
-                    kontoDAOfk.edit(selectednodekontowzorcowy);
+                } else if (selectednodekonto.isBlokada() == true) {
+                    selectednodekonto.setBlokada(false);
+                    kontoDAOfk.edit(selectednodekonto);
                     Msg.msg("w", "Odblokowano edycję konta.");
                 }
             } else {
@@ -1419,7 +1419,7 @@ public class PlanKontView implements Serializable {
     }
 
     public void selrowwzorcowy() {
-        Msg.msg("i", "Wybrano: " + selectednodekontowzorcowy.getPelnynumer() + " " + selectednodekontowzorcowy.getNazwapelna());
+        Msg.msg("i", "Wybrano: " + selectednodekonto.getPelnynumer() + " " + selectednodekonto.getNazwapelna());
     }
 
     public void zachowajZmianyWKoncieWzorcowy(Konto konto) {

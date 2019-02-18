@@ -46,7 +46,7 @@
                 <p:menu>
                     <p:menuitem value="PIT"  outcome="pitoblicz" icon="ui-icon-circle-arrow-e"/>
                     <p:menuitem value="#{mgs.VAT}" icon="ui-icon-circle-arrow-e" action="#{ewidencjaVatView.przekierowanieEwidencji()}" update="westWpis" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
-                        <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow(WpisView.podatnikObiekt)}"/>
+                        <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow(WpisView.podatnikObiekt, true)}"/>
                         <f:actionListener binding="#{ewidencjaVatView.drukujPdfEwidencje()}"/>
                         
                     </p:menuitem>
