@@ -20,6 +20,7 @@
                         <h:outputText value="import dokumentów z pliku JPK_VAT"/>
                         <h:form>
                             <p:growl life="3600"  id="messages1"/>
+                            <p:panelGrid columns="3">
                             <p:fileUpload fileUploadListener="#{importSprzedazyView.importujsprzedaz}"
                                           mode="advanced" dragDropSupport="true" fileLimit="1"
                                           update="messages1 importtabela" sizeLimit="2000000"  allowTypes="/(\.|\/)(xml)$/" 
@@ -28,8 +29,23 @@
                                           uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj"  onstart="PF('dialogAjaxCzekaj').show();"
                                           style="height: 100px;">
                             </p:fileUpload>
+                            <p:selectBooleanCheckbox label="wybierz osoby fizyczne" value="#{importSprzedazyView.wybierzosobyfizyczne}" itemLabel="wybierz tylko osoby fizyczne">
+                                    <p:ajax event="change" partialSubmit="true" update="importtabela"/>
+                            </p:selectBooleanCheckbox>
+                            <p:selectBooleanCheckbox label="wybierz zagraniczne" value="#{importSprzedazyView.wybierzfirmyzagraniczne}" itemLabel="wybierz tylko firmy zagraniczne">
+                                    <p:ajax event="change" partialSubmit="true" update="importtabela"/>
+                            </p:selectBooleanCheckbox>
+                            </p:panelGrid>
                         </h:form>
                         <h:form id="importtabela">
+                            <p:panelGrid columns="6">
+                                <h:outputText value="netto"/>
+                                <bcf:outputpl value="#{importSprzedazyView.netto}"/>
+                                <h:outputText value="vat"/>
+                                <bcf:outputpl value="#{importSprzedazyView.vat}"/>
+                                <h:outputText value="brutto"/>
+                                <bcf:outputpl value="#{importSprzedazyView.brutto}"/>
+                            </p:panelGrid>
                             <p:dataTable  var="wpis" value="#{importSprzedazyView.dokumenty}" id="dokumentyLista" 
                                           rowIndexVar="index" 
                                           style="width: 1400px; margin-top: 10px; height: 600px; overflow-y: scroll;" 

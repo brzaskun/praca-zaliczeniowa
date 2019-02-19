@@ -2188,8 +2188,13 @@ public class PdfMain {
                             table.addCell(ustawfrazeAlign("", "center", 8));
                             table.addCell(ustawfrazeAlign("", "center", 8));
                         }
-                        table.addCell(ustawfrazeAlign(String.valueOf(percent.format(p.getAmazonCSV().getTaxRateD())), "right", 8));
-                        table.addCell(ustawfrazeAlign(p.getAmazonCSV().getJurisdictionName(), "left", 8));
+                        if (p.getAmazonCSV()!=null) {
+                            table.addCell(ustawfrazeAlign(String.valueOf(percent.format(p.getAmazonCSV().getTaxRateD())), "right", 8));
+                            table.addCell(ustawfrazeAlign(p.getAmazonCSV().getJurisdictionName(), "left", 8));
+                        } else {
+                            table.addCell(ustawfrazeAlign("", "center", 8));
+                            table.addCell(ustawfrazeAlign("", "center", 8));
+                        }
                         if (p.getTabelanbp()==null || p.getTabelanbp().getNrtabeli().equals("000/A/NBP/0000")) {
                             if (p.getWalutadokumentu()!=null) {
                                 table.addCell(ustawfrazeAlign(p.getWalutadokumentu().getSymbolwaluty(), "left", 8));

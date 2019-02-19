@@ -238,7 +238,7 @@ public class PdfDok extends Pdf implements Serializable {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Zestawienie zaksięgowanych dokumentów firma -  ", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, "Zestawienie zaksięgowanych dokumentów firma -  "+wpisView.getPrintNazwa(), wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             PdfMain.dodajLinieOpisu(document, "Waluta pliku jpk "+lista.get(0).getSymbolWaluty());
             dodajTabele(document, testobjects.testobjects.getListaDokImport(lista),100,modyfikator);
             double netto = 0.0;

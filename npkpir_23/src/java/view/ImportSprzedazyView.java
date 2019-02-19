@@ -17,6 +17,7 @@ import entity.JPKSuper;
 import entity.Klienci;
 import entity.KwotaKolumna1;
 import entity.Rodzajedok;
+import entityfk.Tabelanbp;
 import error.E;
 import gus.GUSView;
 import java.io.InputStream;
@@ -66,6 +67,11 @@ public class ImportSprzedazyView  implements Serializable {
     private EvewidencjaDAO evewidencjaDAO;
     @Inject
     private KlienciDAO klDAO;
+    private boolean wybierzosobyfizyczne;
+    private boolean wybierzfirmyzagraniczne;
+    public double netto;
+    public double vat;
+    public double brutto;
         
     @PostConstruct
     private void init() {
@@ -80,7 +86,21 @@ public class ImportSprzedazyView  implements Serializable {
             UploadedFile uploadedFile = event.getFile();
             String filename = uploadedFile.getFileName();
             JPKSuper jpk = pobierzJPK(uploadedFile);
-            dokumenty = stworzdokumenty(jpk);
+            if (wybierzosobyfizyczne) {
+                dokumenty = stworzdokumentyFizyczne(jpk);
+            } else if (wybierzfirmyzagraniczne) {
+                dokumenty = stworzdokumentyZagraniczne(jpk);
+            } else {
+                dokumenty = stworzdokumenty(jpk);
+            }
+            netto = 0.0;
+            vat = 0.0;
+            brutto = 0.0;
+            for (Dok p : dokumenty) {
+                netto = netto+p.getNetto();
+                vat = vat+p.getVat();
+            }
+            brutto = Z.z(netto+vat);
             Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
         } catch (Exception ex) {
             E.e(ex);
@@ -108,11 +128,42 @@ public class ImportSprzedazyView  implements Serializable {
     
     private List<Dok> stworzdokumenty(JPKSuper jpk) {
         List<Dok> dokumenty = Collections.synchronizedList(new ArrayList<>());
-        
         if (jpk != null) {
             jpk.getSprzedazWiersz().forEach((p) -> {
                 SprzedazWierszA wiersz = (SprzedazWierszA) p;
                 if (wiersz.getNrKontrahenta() != null && wiersz.getNrKontrahenta().length()==10) {
+                    Dok dok = generujdok(p);
+                    if (dok!=null) {
+                        dokumenty.add(dok);
+                    }
+                }
+            });
+        }
+        return dokumenty;
+    }
+    
+    private List<Dok> stworzdokumentyFizyczne(JPKSuper jpk) {
+        List<Dok> dokumenty = Collections.synchronizedList(new ArrayList<>());
+        if (jpk != null) {
+            jpk.getSprzedazWiersz().forEach((p) -> {
+                SprzedazWierszA wiersz = (SprzedazWierszA) p;
+                if (wiersz.getNrKontrahenta() == null ||(wiersz.getNrKontrahenta() != null && wiersz.getNrKontrahenta().length()<6)) {
+                    Dok dok = generujdok(p);
+                    if (dok!=null) {
+                        dokumenty.add(dok);
+                    }
+                }
+            });
+        }
+        return dokumenty;
+    }
+    
+    private List<Dok> stworzdokumentyZagraniczne(JPKSuper jpk) {
+        List<Dok> dokumenty = Collections.synchronizedList(new ArrayList<>());
+        if (jpk != null) {
+            jpk.getSprzedazWiersz().forEach((p) -> {
+                SprzedazWierszA wiersz = (SprzedazWierszA) p;
+                if (wiersz.getNrKontrahenta() != null && !wiersz.getNrKontrahenta().startsWith("PL") && wiersz.getNrKontrahenta().matches("^[A-I].*$")  && wiersz.getNrKontrahenta().length()> 6) {
                     Dok dok = generujdok(p);
                     if (dok!=null) {
                         dokumenty.add(dok);
@@ -147,7 +198,7 @@ public class ImportSprzedazyView  implements Serializable {
             } else {
                 selDokument.setDataSprz(wiersz.getDataWystawienia().toString());
             }
-            selDokument.setKontr(pobierzkontrahenta(wiersz.getNrKontrahenta()));
+            selDokument.setKontr(pobierzkontrahenta(wiersz, wiersz.getNrKontrahenta()));
             selDokument.setRodzajedok(rodzajedok);
             selDokument.setNrWlDk(wiersz.getDowodSprzedazy());
             selDokument.setOpis("przychód ze sprzedaży");
@@ -186,29 +237,37 @@ public class ImportSprzedazyView  implements Serializable {
         return tmp;
     }
     
-    private Klienci pobierzkontrahenta(String nrKontrahenta) {
+    private Klienci pobierzkontrahenta(jpk201801.JPK.SprzedazWiersz wiersz, String nrKontrahenta) {
         if (nrKontrahenta.equals("9720927876")) {
             System.out.println("");
         }
-        Klienci klientznaleziony = klDAO.findKlientByNipImport(nrKontrahenta);
-        if (klientznaleziony==null) {
-            klientznaleziony = SzukajDaneBean.znajdzdaneregonAutomat(nrKontrahenta, gUSView);
-            if (klientznaleziony!=null && klientznaleziony.getNip()!=null) {
-                boolean juzjest = false;
-                for (Klienci p : klienci) {
-                    if (p.getNip().equals(klientznaleziony.getNip())) {
-                        juzjest = true;
-                        break;
+        if (wybierzosobyfizyczne || wybierzfirmyzagraniczne) {
+           Klienci inc = new Klienci();
+           inc.setNip(wiersz.getNrKontrahenta());
+           inc.setNpelna(wiersz.getNazwaKontrahenta()!=null ? wiersz.getNazwaKontrahenta(): "brak nazwy indycentalnego");
+           inc.setAdresincydentalny(wiersz.getAdresKontrahenta()!=null ? wiersz.getAdresKontrahenta(): "brak adresu indycentalnego");
+           return inc;
+        } else {
+            Klienci klientznaleziony = klDAO.findKlientByNipImport(nrKontrahenta);
+            if (klientznaleziony==null) {
+                klientznaleziony = SzukajDaneBean.znajdzdaneregonAutomat(nrKontrahenta, gUSView);
+                if (klientznaleziony!=null && klientznaleziony.getNip()!=null) {
+                    boolean juzjest = false;
+                    for (Klienci p : klienci) {
+                        if (p.getNip().equals(klientznaleziony.getNip())) {
+                            juzjest = true;
+                            break;
+                        }
+                    }
+                    if (juzjest==false && !klientznaleziony.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
+                        klienci.add(klientznaleziony);
                     }
                 }
-                if (juzjest==false && !klientznaleziony.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
-                    klienci.add(klientznaleziony);
-                }
+            } else if (klientznaleziony.getNpelna()==null) {
+                klientznaleziony.setNpelna("istnieje wielu kontrahentów o tym samym numerze NIP! "+nrKontrahenta);
             }
-        } else if (klientznaleziony.getNpelna()==null) {
-            klientznaleziony.setNpelna("istnieje wielu kontrahentów o tym samym numerze NIP! "+nrKontrahenta);
+            return klientznaleziony;
         }
-        return klientznaleziony;
     }
     
     private Evewidencja pobierzewidencje(SprzedazWierszA wiersz, List<Evewidencja> evewidencje) {
@@ -303,6 +362,46 @@ public class ImportSprzedazyView  implements Serializable {
 
     public void setgUSView(GUSView gUSView) {
         this.gUSView = gUSView;
+    }
+
+    public boolean isWybierzosobyfizyczne() {
+        return wybierzosobyfizyczne;
+    }
+
+    public void setWybierzosobyfizyczne(boolean wybierzosobyfizyczne) {
+        this.wybierzosobyfizyczne = wybierzosobyfizyczne;
+    }
+
+    public boolean isWybierzfirmyzagraniczne() {
+        return wybierzfirmyzagraniczne;
+    }
+
+    public void setWybierzfirmyzagraniczne(boolean wybierzfirmyzagraniczne) {
+        this.wybierzfirmyzagraniczne = wybierzfirmyzagraniczne;
+    }
+
+    public double getNetto() {
+        return netto;
+    }
+
+    public void setNetto(double netto) {
+        this.netto = netto;
+    }
+
+    public double getVat() {
+        return vat;
+    }
+
+    public void setVat(double vat) {
+        this.vat = vat;
+    }
+
+    public double getBrutto() {
+        return brutto;
+    }
+
+    public void setBrutto(double brutto) {
+        this.brutto = brutto;
     }
 
     
