@@ -198,6 +198,7 @@ public class SessionFacade<T> implements Serializable {
                 E.e(e);
             }
         }
+        getEntityManager().flush();
     }
 
     public List<T> findXLast(Class<T> entityClass, int ile) {
@@ -1187,13 +1188,15 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return em.createNamedQuery("Konto.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList();
     }
     
-    public List<Konto> findKontoPodatnikImplementacja(Podatnik podatnik, String rok) {
+    public List<Konto> findKontoPodatnikRelacje(Podatnik podatnik, String rok) {
         LoadGroup lg = new LoadGroup();
         lg.addAttribute("kontopozycjaID");
         lg.addAttribute("kontokategoria");
         lg.addAttribute("kontomacierzyste");
         lg.setIsConcurrent(Boolean.TRUE);
-        return em.createNamedQuery("Konto.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).setHint(QueryHints.REFRESH, HintValues.TRUE).setHint(QueryHints.REFRESH_CASCADE, CascadePolicy.CascadeAllParts)
+        return em.createNamedQuery("Konto.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok))
+                .setHint(QueryHints.REFRESH, HintValues.TRUE)
+                .setHint(QueryHints.REFRESH_CASCADE, CascadePolicy.CascadeAllParts)
                 .setHint(QueryHints.LOAD_GROUP, lg).getResultList();
     }
     

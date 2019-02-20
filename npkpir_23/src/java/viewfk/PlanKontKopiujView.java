@@ -70,7 +70,9 @@ public class PlanKontKopiujView implements Serializable {
             Msg.msg("e", "Podatnik oraz rok źródłowy i docelowy jest ten sam");
         } else {
             List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaPobierzRelacje(podatnikzrodlowy, rokzrodlowy);
+            Collections.sort(wykazkont, new Kontocomparator());
             List<Konto> macierzyste = PlanKontFKKopiujBean.skopiujlevel0(kontoDAOfk,podatnikdocelowy, wykazkont, rokdocelowy);
+            Collections.sort(macierzyste, new Kontocomparator());
             int maxlevel = kontoDAOfk.findMaxLevelPodatnik(podatnikzrodlowy, Integer.parseInt(rokzrodlowy));
             for (int biezacylevel = 1; biezacylevel <= maxlevel; biezacylevel++) {
                 macierzyste = PlanKontFKKopiujBean.skopiujlevel(kontoDAOfk,podatnikzrodlowy, podatnikdocelowy, wykazkont, macierzyste, biezacylevel, rokdocelowy, kopiujSlownikowe);

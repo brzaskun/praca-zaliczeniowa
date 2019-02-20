@@ -44,12 +44,17 @@ public class PlanKontFKKopiujBean {
     }
     
     private static void zeruDanekontaBO(Konto p) {
-        p.setId(null);
-        p.setBoWn(0);
-        p.setBoMa(0);
-        p.setObrotyWn(0);
-        p.setObrotyMa(0);
-        p.setKontopozycjaID(null);
+        try {
+            p.setId(null);
+            p.setBoWn(0);
+            p.setBoMa(0);
+            p.setObrotyWn(0);
+            p.setObrotyMa(0);
+            p.setKontopozycjaID(null);
+        } catch (Exception e) {
+            E.e(e);
+            System.out.println("");
+        }
     }
 
     public static List<Konto> skopiujlevel(KontoDAOfk kontoDAOfk, Podatnik podatnikzrodlowy, Podatnik podatnikDocelowy, List<Konto> wykazkont, List<Konto> macierzystelista, int biezacylevel, String rokdocelowy, boolean kopiujSlownikowe) {
@@ -58,6 +63,9 @@ public class PlanKontFKKopiujBean {
             Konto p = it.next();
             if (p.getLevel() == biezacylevel) {
                 try {
+                    if (p.getPelnynumer().equals("201-2")) {
+                        System.out.println("");
+                    } 
                     if (!podatnikzrodlowy.equals(podatnikDocelowy) && p.isSlownikowe()) {
                         System.out.println("a teraa");
                     } else if (p.isSlownikowe() == true && kopiujSlownikowe) {
@@ -86,7 +94,6 @@ public class PlanKontFKKopiujBean {
         Konto macierzyste = wyszukajmacierzyste(r.getMacierzyste(), macierzystelista);
         if (macierzyste.getIdslownika()!= 5 && macierzyste.getIdslownika()!= 6) {
             zeruDanekontaBO(r);
-            r.setKontopozycjaID(null);
             r.setPodatnik(podatnikDocelowy);
             r.setRok(Integer.parseInt(rokdocelowy));
             r.setSlownikowe(slownikowe);
