@@ -135,13 +135,14 @@ public class SessionFacade<T> implements Serializable {
 
     public void create(T entity) {
         getEntityManager().persist(entity);
+        getEntityManager().flush();
     }
     
     public void create(List<T> entityList) {
         for (T p : entityList) {
             getEntityManager().persist(p);
         }
-        
+        getEntityManager().flush();
     }
     
 //    public void refresh(List<T> entityList) {
@@ -178,6 +179,7 @@ public class SessionFacade<T> implements Serializable {
 
     public void edit(T entity) {
         getEntityManager().merge(entity);
+        getEntityManager().flush();
         
     }
 
@@ -185,7 +187,7 @@ public class SessionFacade<T> implements Serializable {
         for (T p : entityList) {
             getEntityManager().merge(p);
         }
-        
+        getEntityManager().flush();
     }
 
     //to jest po to, ze jk juz jest cos w np. planie kont to 
