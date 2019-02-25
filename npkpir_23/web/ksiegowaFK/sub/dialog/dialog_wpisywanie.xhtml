@@ -563,7 +563,7 @@
                             <p:autoComplete id="kontown" value="#{wploop.stronaWn.konto}" completeMethod="#{planKontCompleteView.complete}" 
                                             rendered="#{wploop.stronaWn != null}"
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" forceSelection="true" 
-                                            minQueryLength="1" converter="#{planKontCompleteView}" queryDelay="200"  maxResults="150"
+                                            minQueryLength="1" converter="#{planKontCompleteView}" queryDelay="10"  maxResults="150"
                                             converterMessage="Nieudana konwersja Klient" scrollHeight="180" widgetVar="complWn#{wploop.idporzadkowy}"
                                             styleClass="kontoinput #{wploop.stronaWn.typStronaWiersza eq 1 ? 'kontorozrachunki' : null} #{wploop.stronaWn.typStronaWiersza eq 2 ? 'kontoplatnosci' : null} #{wploop.stronaWn.cechazapisuLista.size() gt 0 ? 'zapisZcecha' : null}"
                                             onfocus="zachowajwiersz(#{wploop.idporzadkowy}, 'Wn', #{wploop.typWiersza}, event);
@@ -607,7 +607,7 @@
                             <p:autoComplete id="kontoma" value="#{wploop.stronaMa.konto}" completeMethod="#{planKontCompleteView.complete}" 
                                             rendered="#{wploop.stronaMa != null}" 
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" widgetVar="complMa#{wploop.idporzadkowy}"
-                                            minQueryLength="1" converter="#{planKontCompleteView}" queryDelay="200" maxResults="150"
+                                            minQueryLength="1" converter="#{planKontCompleteView}" queryDelay="10" maxResults="150"
                                             converterMessage="Nieudana konwersja Klient"   scrollHeight="180" forceSelection="true"
                                             styleClass="kontoinput #{wploop.stronaMa.typStronaWiersza eq 1 ? 'kontorozrachunki' : null} #{wploop.stronaMa.typStronaWiersza eq 2 ? 'kontoplatnosci' : null} #{wploop.stronaMa.cechazapisuLista.size() gt 0 ? 'zapisZcecha' : ''}"
                                             onfocus="zachowajwiersz(#{wploop.idporzadkowy}, 'Ma', #{wploop.typWiersza}, event);
