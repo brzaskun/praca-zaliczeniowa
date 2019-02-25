@@ -1551,12 +1551,12 @@ public class DokfkView implements Serializable {
                     for (Wiersz p : dolaczonePiatki) {
                         selected.getListawierszy().remove(p);
                     }
-                    usunrozrachunki(wybranyWiersz);
+                    //usunrozrachunki(wybranyWiersz);
                     selected.getListawierszy().remove(wybranyWiersz);
                     ObslugaWiersza.przenumerujSelected(selected);
                     break;
                 default:
-                    usunrozrachunki(wybranyWiersz);
+                    //usunrozrachunki(wybranyWiersz);
                     selected.getListawierszy().remove(wybranyWiersz);
                     ObslugaWiersza.przenumerujSelected(selected);
                     break;
@@ -4084,77 +4084,77 @@ public class DokfkView implements Serializable {
         }
     }
 //nie wiem czy to nie jest zbedne
-    private void usunrozrachunki(int liczbawierszyWDokumencie) {
-        List<StronaWiersza> strony = Collections.synchronizedList(new ArrayList<>());
-        int rowid = liczbawierszyWDokumencie-1;
-        Wiersz w = selected.getListawierszy().get(rowid);
-        for (StronaWiersza sw : w.getStronyWiersza()) {
-            if (sw.getNowetransakcje()!=null) {
-                for (Transakcja t : sw.getNowetransakcje()) {
-                    StronaWiersza drugastrona = t.getNowaTransakcja();
-                    for (Iterator<Transakcja> itt1 = drugastrona.getPlatnosci().iterator();itt1.hasNext();) {
-                        if (itt1.next().getRozliczajacy().equals(sw)) {
-                            itt1.remove();
-                            if (drugastrona.getId()!=null) {
-                                strony.add(drugastrona);
-                            }
-                        }
-                    }
-                }
-            }
-            if (sw.getPlatnosci()!=null) {
-                for (Transakcja t : sw.getPlatnosci()) {
-                    StronaWiersza drugastrona = t.getRozliczajacy();
-                    for (Iterator<Transakcja> itt1 = drugastrona.getNowetransakcje().iterator();itt1.hasNext();) {
-                        if (itt1.next().getNowaTransakcja().equals(sw)) {
-                            itt1.remove();
-                            if (drugastrona.getId()!=null) {
-                                strony.add(drugastrona);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        if (strony.size()>0) {
-           stronaWierszaDAO.editList(strony);
-        }
-    }
-
-    private void usunrozrachunki(Wiersz w) {
-        List<StronaWiersza> strony = Collections.synchronizedList(new ArrayList<>());
-        for (StronaWiersza sw : w.getStronyWiersza()) {
-            if (sw.getNowetransakcje()!=null) {
-                for (Transakcja t : sw.getNowetransakcje()) {
-                    StronaWiersza drugastrona = t.getNowaTransakcja();
-                    for (Iterator<Transakcja> itt1 = drugastrona.getPlatnosci().iterator();itt1.hasNext();) {
-                        if (itt1.next().getRozliczajacy().equals(sw)) {
-                            itt1.remove();
-                            if (drugastrona.getId()!=null) {
-                                strony.add(drugastrona);
-                            }
-                        }
-                    }
-                }
-            }
-            if (sw.getPlatnosci()!=null) {
-                for (Transakcja t : sw.getPlatnosci()) {
-                    StronaWiersza drugastrona = t.getRozliczajacy();
-                    for (Iterator<Transakcja> itt1 = drugastrona.getNowetransakcje().iterator();itt1.hasNext();) {
-                        if (itt1.next().getNowaTransakcja().equals(sw)) {
-                            itt1.remove();
-                            if (drugastrona.getId()!=null) {
-                                strony.add(drugastrona);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        if (strony.size()>0) {
-           stronaWierszaDAO.editList(strony);
-        }
-    }
+//    private void usunrozrachunki(int liczbawierszyWDokumencie) {
+//        List<StronaWiersza> strony = Collections.synchronizedList(new ArrayList<>());
+//        int rowid = liczbawierszyWDokumencie-1;
+//        Wiersz w = selected.getListawierszy().get(rowid);
+//        for (StronaWiersza sw : w.getStronyWiersza()) {
+//            if (sw.getNowetransakcje()!=null) {
+//                for (Transakcja t : sw.getNowetransakcje()) {
+//                    StronaWiersza drugastrona = t.getNowaTransakcja();
+//                    for (Iterator<Transakcja> itt1 = drugastrona.getPlatnosci().iterator();itt1.hasNext();) {
+//                        if (itt1.next().getRozliczajacy().equals(sw)) {
+//                            itt1.remove();
+//                            if (drugastrona.getId()!=null) {
+//                                strony.add(drugastrona);
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            if (sw.getPlatnosci()!=null) {
+//                for (Transakcja t : sw.getPlatnosci()) {
+//                    StronaWiersza drugastrona = t.getRozliczajacy();
+//                    for (Iterator<Transakcja> itt1 = drugastrona.getNowetransakcje().iterator();itt1.hasNext();) {
+//                        if (itt1.next().getNowaTransakcja().equals(sw)) {
+//                            itt1.remove();
+//                            if (drugastrona.getId()!=null) {
+//                                strony.add(drugastrona);
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        if (strony.size()>0) {
+//           stronaWierszaDAO.editList(strony);
+//        }
+//    }
+//
+//    private void usunrozrachunki(Wiersz w) {
+//        List<StronaWiersza> strony = Collections.synchronizedList(new ArrayList<>());
+//        for (StronaWiersza sw : w.getStronyWiersza()) {
+//            if (sw.getNowetransakcje()!=null) {
+//                for (Transakcja t : sw.getNowetransakcje()) {
+//                    StronaWiersza drugastrona = t.getNowaTransakcja();
+//                    for (Iterator<Transakcja> itt1 = drugastrona.getPlatnosci().iterator();itt1.hasNext();) {
+//                        if (itt1.next().getRozliczajacy().equals(sw)) {
+//                            itt1.remove();
+//                            if (drugastrona.getId()!=null) {
+//                                strony.add(drugastrona);
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            if (sw.getPlatnosci()!=null) {
+//                for (Transakcja t : sw.getPlatnosci()) {
+//                    StronaWiersza drugastrona = t.getRozliczajacy();
+//                    for (Iterator<Transakcja> itt1 = drugastrona.getNowetransakcje().iterator();itt1.hasNext();) {
+//                        if (itt1.next().getNowaTransakcja().equals(sw)) {
+//                            itt1.remove();
+//                            if (drugastrona.getId()!=null) {
+//                                strony.add(drugastrona);
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        if (strony.size()>0) {
+//           stronaWierszaDAO.editList(strony);
+//        }
+//    }
         
       
 

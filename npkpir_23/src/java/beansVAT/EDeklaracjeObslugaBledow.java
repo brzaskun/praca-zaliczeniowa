@@ -29,9 +29,12 @@ public class EDeklaracjeObslugaBledow {
                             + "Ten status wysyłki świadczy o wysłaniu do serwisu e-Deklaracje komunikatu niezgodnego ze standardem.");
                     break;
                 case 101:
+                    komunikaty.add("e");
+                    komunikaty.add("Na skutek nieprzewidzianych trudności np. przerwanie połączenia nie udało się z sukcesem utrwalić w serwisie e-Deklaracje przesłanej deklaracji (dokumentu elektronicznego)");
+                    
                 case 102:
                     komunikaty.add("e");
-                    komunikaty.add("Deklaracja nie została wysłana, trzeba ponownie ją wysłać.");
+                    komunikaty.add("Na skutek nieprzewidzianych trudności np. przerwanie połączenia nie udało się z sukcesem odpowiedzieć na żądanie UPO. W związku z powyższym sugerowane jest powtórzenie operacji – ponowne przesłanie żądania UPO.");
                     break;
                 case 200:
                     komunikaty.add("i");
@@ -71,6 +74,11 @@ public class EDeklaracjeObslugaBledow {
                              "Przesłany dokument nie jest zgodny z opisującym go schematem xsd, \n"
                             + "np. brak wypełnienia pozycji obowiązkowych, niewłaściwy format daty lub inny błąd wypełnienia deklaracji. ");
                     break;
+                case 402:
+                    komunikaty.add("e");
+                    komunikaty.add("Brak aktualnego pełnomocnictwa/upoważnienia do podpisywania deklaracji\n" +
+                             "Osoba składająca podpis elektroniczny pod przesłanym dokumentem nie ma stosownego pełnomocnictwa lub upoważnienia lub jest nieważne (UPL-1).");
+                    break;
                 case 403:
                     komunikaty.add("e");
                     komunikaty.add("Weryfikacja podpisu elektronicznego zakończyła się negatywnie wskutek np:\n" +
@@ -96,6 +104,11 @@ public class EDeklaracjeObslugaBledow {
                     komunikaty.add(" Dokument zawiera niewłaściwą ilość i/lub rodzaj elementów\n" +
                             "Zła struktura dokumentu np. próba wysłania wielu deklaracji (paczki dokumentów) w jednym komunikacie.");
                     break;
+                case 410:
+                    komunikaty.add("e");
+                    komunikaty.add(" Złożony dokument (zeznanie) bez podpisu nie może być korektą\n" +
+                            "Dokument elektroniczny bez bezpiecznego podpisu elektronicznego weryfikowanego kwalifikowanym certyfikatem nie może być korektą.");
+                    break;
                 case 411:
                     komunikaty.add("e");
                     komunikaty.add("Weryfikacja negatywna – w systemie jest już złożony dokument (zeznanie) z takim identyfikatorem podatkowym");
@@ -120,6 +133,10 @@ public class EDeklaracjeObslugaBledow {
                     komunikaty.add("e");
                     komunikaty.add("Dla złożonej deklaracji wymagane jest użycie podpisu kwalifikowanego");
                     break;
+                case 419:
+                    komunikaty.add("e");
+                    komunikaty.add("Brak zaznaczenia celu złożenia formularza jako korekty deklaracji (zeznania) lub brak uzasadnienia przyczyny złożenia korekty deklaracji");
+                    break;
                 case 422:
                     komunikaty.add("e");
                     komunikaty.add("Weryfikacja negatywna – dokument złożony z użyciem danych autoryzujących może złożyć wyłącznie podatnik, będący osobą fizyczną");
@@ -131,6 +148,22 @@ public class EDeklaracjeObslugaBledow {
                 case 440:
                     komunikaty.add("e");
                     komunikaty.add("Paczka/Dokument zbiorczy zawiera deklarację, która została już przesłana");
+                    break;
+                case 443:
+                    komunikaty.add("e");
+                    komunikaty.add(" Dokument znajduje się już w systemie");
+                    break;
+                case 452:
+                    komunikaty.add("e");
+                    komunikaty.add("Weryfikacja negatywna – nieobsługiwany typ deklaracji");
+                    break;
+                case 460:
+                    komunikaty.add("e");
+                    komunikaty.add("Nieprawidłowa struktura Numeru identyfikacyjnego VAT lub go brak");
+                    break;
+                case 466:
+                    komunikaty.add("e");
+                    komunikaty.add("Nieprawidłowe podsumowanie kwot");
                     break;
                 default:
                     komunikaty.add("e");
