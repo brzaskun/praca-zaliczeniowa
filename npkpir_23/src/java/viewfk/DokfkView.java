@@ -113,6 +113,7 @@ import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
 import plik.Plik;
+import view.KlienciConverterView;
 import view.ParametrView;
 import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
@@ -255,6 +256,8 @@ public class DokfkView implements Serializable {
     private double[] sumadokbo;
     @ManagedProperty(value = "#{gUSView}")
     private GUSView gUSView;
+    @ManagedProperty(value = "#{klienciConverterView}")
+    private KlienciConverterView klienciConverterView;
     private Cechazapisu cechazapisudododania;
     private String linijkaewidencjiupdate;
     private Cechazapisu nkup;
@@ -1251,6 +1254,7 @@ public class DokfkView implements Serializable {
             }
         }
     }
+    
 //zastapilem to javascriptem nie do konca wiec jest hybryda. znikalo jak inne rzeczy odsiwezalem
     public void skopiujopisdopierwszegowiersza() {
         try {
@@ -1300,6 +1304,7 @@ public class DokfkView implements Serializable {
             if (ewidencjaVatRK.getKlient().getNpelna().equals("dodaj klienta automatycznie")) {
                 Klienci dodany = SzukajDaneBean.znajdzdaneregonAutomat(ewidencjaVatRK.getKlient().getNip(), gUSView);
                 ewidencjaVatRK.setKlient(dodany);
+                klienciConverterView.dodajdolisty(dodany);
                 if (!dodany.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
                     klienciDAO.dodaj(dodany);
                 }
@@ -1329,6 +1334,7 @@ public class DokfkView implements Serializable {
             if (selected.getKontr().getNpelna().equals("dodaj klienta automatycznie")) {
                 Klienci dodany = SzukajDaneBean.znajdzdaneregonAutomat(selected.getKontr().getNip(), gUSView);
                 if (!dodany.getNpelna().equals("dodaj klienta automatycznie")) {
+                    klienciConverterView.dodajdolisty(dodany);
                     selected.setKontr(dodany);
                     if (!dodany.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
                         klienciDAO.dodaj(dodany);
@@ -4141,6 +4147,14 @@ public class DokfkView implements Serializable {
 //           stronaWierszaDAO.editList(strony);
 //        }
 //    }
+
+    public KlienciConverterView getKlienciConverterView() {
+        return klienciConverterView;
+    }
+
+    public void setKlienciConverterView(KlienciConverterView klienciConverterView) {
+        this.klienciConverterView = klienciConverterView;
+    }
         
       
 

@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
@@ -29,13 +30,17 @@ public class KlienciConverterView implements Serializable{
     @Inject
     private KlienciDAO klienciDAO;
     private Klienci klientautomat;
+    private List<Klienci> listaKlientow;
     
     
+    @PostConstruct
+    public void init() {
+        listaKlientow = Collections.synchronizedList(klienciDAO.findAll());
+    }
     
-     public List<Klienci> completeKL(String query) {
+    public List<Klienci> completeKL(String query) {
         List<Klienci> results = Collections.synchronizedList(new ArrayList<>());
         if (query.length() > 3) {
-            List<Klienci> listaKlientow = klienciDAO.findAll();
             Pattern pattern = Pattern.compile("[A-Z]{2}\\d+");
             Matcher m = pattern.matcher(query.toUpperCase());
             boolean czynipzagraniczny = m.matches();
@@ -43,7 +48,7 @@ public class KlienciConverterView implements Serializable{
             m = pattern.matcher(query.toUpperCase());
             boolean czynipzagraniczny2 = m.matches();
             if (czynipzagraniczny || czynipzagraniczny2) {
-                listaKlientow.stream().forEach((p)->{
+                listaKlientow.parallelStream().forEach((p)->{
                     if (p.getNip().startsWith(query.toUpperCase())) {
                             results.add(p);
                     }
@@ -53,13 +58,13 @@ public class KlienciConverterView implements Serializable{
                     //sluzydosporawdzenia czy chodzi o nip
                     String q = query.substring(0, 1);
                     int i = Integer.parseInt(q);
-                    listaKlientow.stream().forEach((p)->{
+                    listaKlientow.parallelStream().forEach((p)->{
                         if (p.getNip().startsWith(query)) {
                             results.add(p);
                         }
                     });
                 } catch (NumberFormatException e) {
-                    listaKlientow.stream().forEach((p)->{
+                    listaKlientow.parallelStream().forEach((p)->{
                         if (p.getNpelna().toLowerCase().contains(query.toLowerCase())) {
                             results.add(p);
                         }
@@ -79,6 +84,10 @@ public class KlienciConverterView implements Serializable{
         return results;
     }
 
+    public void dodajdolisty(Klienci nowy) {
+        listaKlientow.add(nowy);
+    }
+    
     public List<Klienci> getListaKlientow() {
         return klienciDAO.findAll();
     }
