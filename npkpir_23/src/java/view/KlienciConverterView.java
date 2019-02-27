@@ -48,7 +48,7 @@ public class KlienciConverterView implements Serializable{
             m = pattern.matcher(query.toUpperCase());
             boolean czynipzagraniczny2 = m.matches();
             if (czynipzagraniczny || czynipzagraniczny2) {
-                listaKlientow.parallelStream().forEach((p)->{
+                listaKlientow.stream().forEach((p)->{
                     if (p.getNip().startsWith(query.toUpperCase())) {
                             results.add(p);
                     }
@@ -58,13 +58,13 @@ public class KlienciConverterView implements Serializable{
                     //sluzydosporawdzenia czy chodzi o nip
                     String q = query.substring(0, 1);
                     int i = Integer.parseInt(q);
-                    listaKlientow.parallelStream().forEach((p)->{
+                    listaKlientow.stream().forEach((p)->{
                         if (p.getNip().startsWith(query)) {
                             results.add(p);
                         }
                     });
                 } catch (NumberFormatException e) {
-                    listaKlientow.parallelStream().forEach((p)->{
+                    listaKlientow.stream().forEach((p)->{
                         if (p.getNpelna().toLowerCase().contains(query.toLowerCase())) {
                             results.add(p);
                         }
