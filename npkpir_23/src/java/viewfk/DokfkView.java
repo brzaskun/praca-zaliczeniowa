@@ -1259,7 +1259,7 @@ public class DokfkView implements Serializable {
             boolean kopiowac1 = w.getStronyWiersza().size() == 2;
             if (kopiowac || kopiowac1) {
                 w.setOpisWiersza(selected.getOpisdokfk());
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                RequestContext.getCurrentInstance().update("formwpisdokument:dataList:0");
             }
         } catch (Exception e) {
             E.e(e);
