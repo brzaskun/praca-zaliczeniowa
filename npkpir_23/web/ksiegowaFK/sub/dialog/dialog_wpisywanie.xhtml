@@ -290,7 +290,7 @@
                                                     forceSelection="true" styleClass="wpisywaniekontrfk" autocomplete="true" moreText="jest więcej pasujących pozycji"
                                                     rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu != 5 and dokfkView.selected.rodzajedok.kategoriadokumentu != 0 ? true : false}" style="width: 250px;">
                                         <p:ajax event="query" global="false"/>
-                                        <p:ajax event="blur" listener="#{dokfkView.pobierzopiszpoprzedniegodokItemSelect}" partialSubmit="true" 
+                                        <p:ajax event="itemSelect" listener="#{dokfkView.pobierzopiszpoprzedniegodokItemSelect}" partialSubmit="true" 
                                                 oncomplete="dodajnowegoklienta();" global="false"/>
                                         <f:facet name="itemtip">  
                                             <h:panelGrid  columns="2" cellpadding="5" width="400">  
