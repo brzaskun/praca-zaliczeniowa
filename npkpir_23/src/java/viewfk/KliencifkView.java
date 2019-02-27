@@ -101,6 +101,7 @@ public class KliencifkView implements Serializable {
     
     public void pobieraniekontaFKWpis() {
         if (dokfkView.isNiedodawajkontapole() == false) {
+            Msg.msg("pobieraniekontaFKWpis");
             if (dokfkView.getRodzajBiezacegoDokumentu() != 0 && dokfkView.getRodzajBiezacegoDokumentu() != 5) {
                 wybranyklient = dokfkView.selected.getKontr();
                 if (!wybranyklient.getNpelna().equals("nowy klient")) {

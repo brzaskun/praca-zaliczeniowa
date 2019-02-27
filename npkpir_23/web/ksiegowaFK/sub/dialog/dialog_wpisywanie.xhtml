@@ -243,10 +243,10 @@
                                                      style="width: 200px; height: 19px;" converter="#{rodzajedokConv}">
                                         <f:selectItems value="#{rodzajeDokKlientaView.rodzajedokKlienta}"  var="wploop" itemLabel="#{wploop.skrotNazwyDok} - #{wploop.nazwa}"/>
                                         <p:ajax global="false" event="blur" listener="#{dokfkView.wygenerujnumerkolejny}" update="formwpisdokument:numer formwpisdokument:przypkontotxt formwpisdokument:przypkonto" partialSubmit="true"/>
-                                        <p:ajax global="false" event="blur" listener="#{dokfkView.podepnijEwidencjeVatDok(0)}" update=":formwpisdokument:panelzewidencjavat"/>
-                                        <p:ajax global="false" event="blur" listener="#{dokfkView.podepnijEwidencjeVatDokBlur(0)}" update=":formwpisdokument:panelzewidencjavat formwpisdokument:pudelkonaliste" />
+                                        <p:ajax global="false" event="blur" listener="#{dokfkView.podepnijEwidencjeVatDok(0)}" update="formwpisdokument:panelzewidencjavat"/>
+                                        <p:ajax global="false" event="blur" listener="#{dokfkView.podepnijEwidencjeVatDokBlur(0)}" update="formwpisdokument:panelzewidencjavat formwpisdokument:pudelkonaliste" />
                                         <p:ajax global="false" event="blur" listener="#{dokfkView.przygotujDokumentWpisywanie()}" 
-                                                update=":formwpisdokument:panelwalutowy :formwpisdokument:panelzkwotamidok :formwpisdokument:dataList"/>
+                                                update="formwpisdokument:panelwalutowy formwpisdokument:dataList"/>
                                     </h:selectOneMenu>
                                 </p:column>
                                 <p:column>
@@ -290,8 +290,6 @@
                                                     forceSelection="true" styleClass="wpisywaniekontrfk" autocomplete="true" moreText="jest więcej pasujących pozycji"
                                                     rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu != 5 and dokfkView.selected.rodzajedok.kategoriadokumentu != 0 ? true : false}" style="width: 250px;">
                                         <p:ajax event="query" global="false"/>
-                                        <p:ajax event="blur" listener="#{kliencifkView.pobieraniekontaFKWpis}" global="false" update=":formwpisdokument:panelwalutowy"/>
-                                        <p:ajax event="blur" listener="#{dokfkView.znajdzduplicatdokumentuKontrahent}" partialSubmit="true" global="false"  update=":formwpisdokument:panelwpisbutton" oncomplete="znalezionoduplikat();"/>
                                         <p:ajax event="blur" listener="#{dokfkView.pobierzopiszpoprzedniegodokItemSelect}" partialSubmit="true" 
                                                 oncomplete="dodajnowegoklienta();" global="false"/>
                                         <f:facet name="itemtip">  
@@ -313,6 +311,8 @@
                                     <p:inputText id="opisdokumentu" value="#{dokfkView.selected.opisdokfk}" 
                                                  style="height: 19px; width: 230px;"
                                                  autocomplete="true">
+                                        <p:ajax event="focus" listener="#{dokfkView.znajdzduplicatdokumentuKontrahent}" partialSubmit="true" global="false"  update=":formwpisdokument:panelwpisbutton" oncomplete="znalezionoduplikat();"/>
+                                        <p:ajax event="focus" listener="#{kliencifkView.pobieraniekontaFKWpis}" global="false" update=":formwpisdokument:panelwalutowy"/>
                                         <p:ajax event="blur" global="false" onstart="stworzdelegacje();" />
                                         <p:ajax event="blur" partialSubmit="true" global="false" 
                                                 listener="#{dokfkView.skopiujopisdopierwszegowiersza()}"/>
