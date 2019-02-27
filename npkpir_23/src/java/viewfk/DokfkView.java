@@ -290,14 +290,10 @@ public class DokfkView implements Serializable {
                 //wykazZaksiegowanychDokumentowSrodkiTrw = dokDAOfk.findDokfkPodatnikRokSrodkiTrwale(wpisView);
                 //wykazZaksiegowanychDokumentowRMK = dokDAOfk.findDokfkPodatnikRokRMK(wpisView);
                 wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
-                klientdlaPK = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
                 ewidencjadlaRKDEL = evewidencjaDAO.znajdzponazwie("zakup");
                 wybranacechadok = null;
                 pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
                 pobranecechypodatnikzapas.addAll(pobranecechypodatnik);
-                if (klientdlaPK == null) {
-                    klientdlaPK = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
-                }
                 miesiacWpisuPokaz = wpisView.getMiesiacWpisu();
                 kontadlaewidencji.put("221-3", kontoDAOfk.findKonto("221-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
                 kontadlaewidencji.put("221-1", kontoDAOfk.findKonto("221-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
@@ -305,6 +301,10 @@ public class DokfkView implements Serializable {
                 kontadlaewidencji.put("404-2", kontoDAOfk.findKonto("404-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
                 //kontadlaewidencji.put("490", kontoDAOfk.findKonto("490", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
                 nkup = cechazapisuDAOfk.findPodatniknkup();
+                klientdlaPK = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+                if (klientdlaPK == null) {
+                    klientdlaPK = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
+                } 
                 resetujDokumentOpen();
             }
         } catch (Exception e) {
@@ -351,10 +351,7 @@ public class DokfkView implements Serializable {
         try {
             //?????????????????????????????????co to jest to po-winno byc gdzie indziej
             if (ostatniklient == null) {
-                ostatniklient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
-                if (ostatniklient == null) {
-                    ostatniklient = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
-                }
+                ostatniklient = klientdlaPK;
             }
         } catch (Exception e) {
             E.e(e);
@@ -1345,7 +1342,10 @@ public class DokfkView implements Serializable {
                 if (selected.getKontr() != null) {
                     poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
                     if (poprzedniDokument != null) {
-                        selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
+                        if(selected.getOpisdokfk()==null ||selected.getOpisdokfk().equals("")) {
+                            selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
+                            RequestContext.getCurrentInstance().update("formwpisdokument:opisdokumentu");
+                        }
                         Wiersz w = selected.getListawierszy().get(0);
                         if (w.getOpisWiersza() == null || w.getOpisWiersza().equals("")) {
                             w.setOpisWiersza(selected.getOpisdokfk());
@@ -1427,18 +1427,18 @@ public class DokfkView implements Serializable {
             pokazPanelWalutowy = false;
         }
         rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
-        try {
-            if (rodzajBiezacegoDokumentu != 1 && rodzajBiezacegoDokumentu != 2) {
-                Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
-                selected.setKontr(k);
-                if (k == null) {
-                    selected.setKontr(new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!"));
-                }
-            }
-        } catch (Exception e) {
-            E.e(e);
-
-        }
+//        try {
+//            if (rodzajBiezacegoDokumentu != 1 && rodzajBiezacegoDokumentu != 2) {
+//                Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+//                selected.setKontr(k);
+//                if (k == null) {
+//                    selected.setKontr(new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!"));
+//                }
+//            }
+//        } catch (Exception e) {
+//            E.e(e);
+//
+//        }
     }
 
     public void przygotujDokumentEdycja() {
@@ -2638,24 +2638,10 @@ public class DokfkView implements Serializable {
     }
 
     public void wygenerujnumerkolejny() {
-        Klienci klient = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
-        if (klient == null) {
-            klientdlaPK = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
-        } else if (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5 ) {
-            selected.setKontr(klient);
-        }
-        String nowynumer = DokFKBean.wygenerujnumerkolejny(selected, wpisView, dokDAOfk, klient, wierszBODAO);
-        if (!nowynumer.isEmpty() && selected.getNumerwlasnydokfk() == null) {
+        String nowynumer = DokFKBean.wygenerujnumerkolejny(selected, wpisView, dokDAOfk, klientdlaPK, wierszBODAO);
+        if (zapisz0edytuj1 == false && nowynumer!=null && !nowynumer.equals("") && selected.getNumerwlasnydokfk() == null) {
             selected.setNumerwlasnydokfk(nowynumer);
-        }
-        if (!nowynumer.isEmpty() && selected.getNumerwlasnydokfk().isEmpty()) {
-            selected.setNumerwlasnydokfk(nowynumer);
-        }
-        if (!nowynumer.isEmpty() && zapisz0edytuj1 == false) {
-            selected.setNumerwlasnydokfk(nowynumer);
-        }
-        if (nowynumer.equals("")) {
-            selected.setNumerwlasnydokfk("");
+            RequestContext.getCurrentInstance().update("formwpisdokument:numerwlasny");
         }
     }
 

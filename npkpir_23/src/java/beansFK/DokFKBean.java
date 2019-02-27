@@ -182,7 +182,7 @@ public class DokFKBean {
         selected.setLp(numerserii);
         String numerwlasny = "";
         if (selected.getRodzajedok() != null) {
-            if (wzorzec != null) {
+            if (wzorzec != null && !wzorzec.equals("")) {
                 Dokfk dokfk = wzorzec.contains("N") ? ostatnidokument : ostatnidokumentR;
                 if (dokfk != null) {
                     numerwlasny = oblicznumerwlasny(wzorzec, dokfk, wpisView);
@@ -193,10 +193,8 @@ public class DokFKBean {
            if (selected.getRodzajedok().getKategoriadokumentu() == 0 && numerserii > 1) {
                Dokfk dokfk = ostatnidokument != null ? ostatnidokument : ostatnidokumentR;
                obsluzsalda(dokfk, selected);
-               pobierzklienta(selected, klient);
            } else if (selected.getRodzajedok().getKategoriadokumentu() == 0 && numerserii == 1){
                obliczsaldoBO(selected, wpisView, wierszBODAO);
-               pobierzklienta(selected, klient);
            }
         }
        return numerwlasny;
@@ -224,7 +222,7 @@ public class DokFKBean {
        return numerwlasny;
     }
 
-    private static String pobierzWzorzec(Dokfk selected) {
+    public static String pobierzWzorzec(Dokfk selected) {
         Rodzajedok rodzajdok = selected.getRodzajedok();
         if (rodzajdok != null) {
             return rodzajdok.getWzorzec();
@@ -305,10 +303,6 @@ public class DokFKBean {
         double saldoBO = pobierzwartosczBO(selected.getRodzajedok().getKontorozrachunkowe(), wpisView, wierszBODAO);
         selected.getListawierszy().get(0).setSaldoWBRK(saldoBO);
         selected.setSaldopoczatkowe(Z.z(saldoBO));
-    }
-    
-    private static void pobierzklienta(Dokfk selected, Klienci klient) {
-        selected.setKontr(klient);
     }
   
     public static double pobierzwartosczBO(Konto kontorozrachunkowe, WpisView wpisView, WierszBODAO wierszBODAO) {
