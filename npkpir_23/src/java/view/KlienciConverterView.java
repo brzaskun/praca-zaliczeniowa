@@ -14,7 +14,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
@@ -30,17 +29,13 @@ public class KlienciConverterView implements Serializable{
     @Inject
     private KlienciDAO klienciDAO;
     private Klienci klientautomat;
-    private List<Klienci> listaKlientow;
     
     
-    @PostConstruct
-    public void init() {
-        listaKlientow = Collections.synchronizedList(klienciDAO.findAll());
-    }
     
-    public List<Klienci> completeKL(String query) {
+     public List<Klienci> completeKL(String query) {
         List<Klienci> results = Collections.synchronizedList(new ArrayList<>());
-        if (query.length() > 3 && listaKlientow!=null) {
+        if (query.length() > 3) {
+            List<Klienci> listaKlientow = klienciDAO.findAll();
             Pattern pattern = Pattern.compile("[A-Z]{2}\\d+");
             Matcher m = pattern.matcher(query.toUpperCase());
             boolean czynipzagraniczny = m.matches();
@@ -84,10 +79,6 @@ public class KlienciConverterView implements Serializable{
         return results;
     }
 
-    public void dodajdolisty(Klienci nowy) {
-        listaKlientow.add(nowy);
-    }
-    
     public List<Klienci> getListaKlientow() {
         return klienciDAO.findAll();
     }
