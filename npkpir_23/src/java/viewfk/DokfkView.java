@@ -4146,6 +4146,14 @@ public class DokfkView implements Serializable {
 //        }
 //    }
 
+    public KlienciConverterView getKlienciConverterView() {
+        return klienciConverterView;
+    }
+
+    public void setKlienciConverterView(KlienciConverterView klienciConverterView) {
+        this.klienciConverterView = klienciConverterView;
+    }
+
 
       
 
