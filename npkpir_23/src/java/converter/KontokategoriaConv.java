@@ -28,7 +28,7 @@ public class KontokategoriaConv implements javax.faces.convert.Converter{
             return null;  
         } else {  
             try {  
-                Integer number = Integer.parseInt(submittedValue);  
+                Integer number = Integer.parseInt(submittedValue);
                   for (Kontokategoria p : lista) {  
                     if (p.getId() == number) {  
                         return p;  
