@@ -2700,7 +2700,7 @@ public class DokfkView implements Serializable {
                     //                Object o = d.getLocalSelection();
                     //                wierszRKindex = d.getRowIndex();
                     //                wierszRK = (Wiersz) d.getRowData();
-                    System.out.println("lpwiersza " + lpWierszaWpisywanie);
+                    //System.out.println("lpwiersza " + lpWierszaWpisywanie);
 //                DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("formwpisdokument:dataList");
                     //                Object o = d.getLocalSelection();
                     //                wierszRKindex = d.getRowIndex();
