@@ -230,6 +230,7 @@ public class DokfkView implements Serializable {
     private Tabelanbp tabelanbprecznie;
     @Inject
     private Tabelanbp wybranaTabelanbp;
+    private Tabelanbp domyslnaTabelanbp;
     private String wierszedytowany;
     private List dokumentypodatnika;
     private List rodzajedokumentowPodatnika;
@@ -294,6 +295,7 @@ public class DokfkView implements Serializable {
                 //wykazZaksiegowanychDokumentowRMK = dokDAOfk.findDokfkPodatnikRokRMK(wpisView);
                 wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
                 ewidencjadlaRKDEL = evewidencjaDAO.znajdzponazwie("zakup");
+                domyslnaTabelanbp = DokFKBean.pobierzWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO);
                 wybranacechadok = null;
                 pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
                 pobranecechypodatnikzapas.addAll(pobranecechypodatnik);
@@ -372,7 +374,7 @@ public class DokfkView implements Serializable {
         wygenerujnumerkolejny();
         podepnijEwidencjeVat(0);
         try {
-            DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selected);
+            DokFKBean.dodajWaluteDomyslnaDoDokumentu(domyslnaTabelanbp, selected);
             resetprzyciskow();
         } catch (Exception e) {
             E.e(e);
@@ -1263,7 +1265,7 @@ public class DokfkView implements Serializable {
             boolean kopiowac1 = w.getStronyWiersza().size() == 2;
             if (kopiowac || kopiowac1) {
                 w.setOpisWiersza(selected.getOpisdokfk());
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList:0");
+                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
             }
         } catch (Exception e) {
             E.e(e);
@@ -3759,7 +3761,7 @@ public class DokfkView implements Serializable {
     private List znajdzcechy(List<Dokfk> wykazZaksiegowanychDokumentow) {
         if (wybranacechadok == null || wybranacechadok.equals("")) {
             List<String> lista =  Collections.synchronizedList(new ArrayList<>());
-            wykazZaksiegowanychDokumentow.parallelStream().filter((p) -> (p.getCechadokumentuLista() != null && p.getCechadokumentuLista().size() > 0)).forEachOrdered((p) -> {
+            wykazZaksiegowanychDokumentow.stream().filter((p) -> (p.getCechadokumentuLista() != null && p.getCechadokumentuLista().size() > 0)).forEachOrdered((p) -> {
                 for (Cechazapisu r : p.getCechadokumentuLista()) {
                     lista.add(r.getNazwacechy());
                 }

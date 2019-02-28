@@ -112,7 +112,7 @@
               onHide="wpisywanieOnHide();pokazeditbutton()"
               focus="formwpisdokument:data2DialogWpisywanie"
               >
-        <p:ajax event="open" listener="#{dokfkView.resetujDokumentOpen}" global="false" update="formwpisdokument"  oncomplete="pokazwierszoznaczony()"/>
+        <p:ajax event="open" listener="#{dokfkView.resetujDokumentOpen}" global="false"  oncomplete="pokazwierszoznaczony()"/>
 <!--        <p:ajax event="open" listener="#{dokfkView.resetujDokumentOpen}" global="false" />-->
         <p:focus for="formwpisdokument">
             <h:form id="formwpisdokument" >
@@ -242,11 +242,11 @@
                                                      onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');" 
                                                      style="width: 200px; height: 19px;" converter="#{rodzajedokConv}">
                                         <f:selectItems value="#{rodzajeDokKlientaView.rodzajedokKlienta}"  var="wploop" itemLabel="#{wploop.skrotNazwyDok} - #{wploop.nazwa}"/>
-                                        <p:ajax global="false" event="blur" listener="#{dokfkView.wygenerujnumerkolejny}" update="formwpisdokument:numer formwpisdokument:przypkontotxt formwpisdokument:przypkonto" partialSubmit="true"/>
-                                        <p:ajax global="false" event="blur" listener="#{dokfkView.podepnijEwidencjeVatDok(0)}" update="formwpisdokument:panelzewidencjavat"/>
-                                        <p:ajax global="false" event="blur" listener="#{dokfkView.podepnijEwidencjeVatDokBlur(0)}" update="formwpisdokument:panelzewidencjavat formwpisdokument:pudelkonaliste" />
-                                        <p:ajax global="false" event="blur" listener="#{dokfkView.przygotujDokumentWpisywanie()}" 
-                                                update="formwpisdokument:panelwalutowy formwpisdokument:dataList"/>
+                                        <p:ajax global="false" event="change" listener="#{dokfkView.wygenerujnumerkolejny}" update="formwpisdokument:numer formwpisdokument:numerwlasny formwpisdokument:przypkontotxt formwpisdokument:przypkonto" partialSubmit="true"/>
+                                        <p:ajax global="false" event="change" listener="#{dokfkView.podepnijEwidencjeVatDok(0)}" update=":formwpisdokument:panelzewidencjavat"/>
+                                        <p:ajax global="false" event="blur" listener="#{dokfkView.podepnijEwidencjeVatDokBlur(0)}" update=":formwpisdokument:panelzewidencjavat"/>
+                                        <p:ajax global="false" event="change" listener="#{dokfkView.przygotujDokumentWpisywanie()}" 
+                                                update=":formwpisdokument:panelwalutowy :formwpisdokument:panelzkwotamidok :formwpisdokument:dataList"/>
                                     </h:selectOneMenu>
                                 </p:column>
                                 <p:column>
@@ -286,12 +286,12 @@
                                 <p:column>
                                     <p:autoComplete id="acForce" value="#{dokfkView.selected.kontr}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefk"
                                                     var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
-                                                    minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient" queryDelay="10"
+                                                    minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient" 
                                                     forceSelection="true" styleClass="wpisywaniekontrfk" autocomplete="true" moreText="jest więcej pasujących pozycji"
                                                     rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu != 5 and dokfkView.selected.rodzajedok.kategoriadokumentu != 0 ? true : false}" style="width: 250px;">
                                         <p:ajax event="query" global="false"/>
-                                        <p:ajax event="blur" listener="#{dokfkView.pobierzopiszpoprzedniegodokItemSelect}" partialSubmit="true" 
-                                                oncomplete="dodajnowegoklienta();" global="false"/>
+                                        <p:ajax event="blur" listener="#{dokfkView.znajdzduplicatdokumentuKontrahent}" partialSubmit="true" global="false"  update=":formwpisdokument:panelwpisbutton" oncomplete="znalezionoduplikat();"/>
+                                        <p:ajax event="itemSelect" listener="#{dokfkView.pobierzopiszpoprzedniegodokItemSelect}" partialSubmit="true" update=":formwpisdokument:opisdokumentu" oncomplete="dodajnowegoklienta();" global="false"/>
                                         <f:facet name="itemtip">  
                                             <h:panelGrid  columns="2" cellpadding="5" width="400">  
                                                 <f:facet name="header">  
@@ -311,10 +311,8 @@
                                     <p:inputText id="opisdokumentu" value="#{dokfkView.selected.opisdokfk}" 
                                                  style="height: 19px; width: 230px;"
                                                  autocomplete="true">
-                                        <p:ajax event="focus" listener="#{dokfkView.znajdzduplicatdokumentuKontrahent}" global="false"  update=":formwpisdokument:panelwpisbutton" oncomplete="znalezionoduplikat();"/>
                                         <p:ajax event="focus" listener="#{kliencifkView.pobieraniekontaFKWpis}" global="false" update=":formwpisdokument:panelwalutowy"/>
-                                        <p:ajax event="blur" global="false" onstart="stworzdelegacje();" />
-                                        <p:ajax event="blur" partialSubmit="true" global="false" 
+                                        <p:ajax event="blur" partialSubmit="true" global="false" onstart="stworzdelegacje();"
                                                 listener="#{dokfkView.skopiujopisdopierwszegowiersza()}"/>
                                     </p:inputText>
                                 </p:column>
@@ -467,7 +465,7 @@
                         </p:dataTable>
                     </p:panelGrid>
                 </p:panelGrid>
-                <p:outputPanel style="height: 340px;" id="pudelkonaliste">
+                <div style="height: 340px;">
                     <p:contextMenu id="contextmenudok" for=":formwpisdokument:dataList">
 <!--ARCHIWUM            <p:menuitem value="napraw wiersz" icon="ui-icon-arrowreturn-1-n" update=":formwpisdokument:dataList" actionListener="#{dokfkView.naprawwiersznkup}"/>-->
                         <p:menuitem value="usuń wiersz" icon="ui-icon-circle-minus" update=":formwpisdokument:dataList" actionListener="#{dokfkView.usunWskazanyWiersz}" oncomplete="PF('tablicawierszydokwpisu').unselectAllRows();aktywujPierwszePoleNowegoWiersza();"/>
@@ -481,7 +479,7 @@
                     <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="wploop" style="width: 1100px; height: 280px; overflow-y: scroll;" 
                                  rowIndexVar="index" selection="#{dokfkView.wybranyWiersz}" selectionMode="single" rowKey="#{wploop.hashCode()}" 
                                  widgetVar="tablicawierszydokwpisu" rowStyleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}" 
-                                 styleClass="walkingtable2" rendered="#{!dokfkView.selected.rodzajedok.tylkojpk}">
+                                 styleClass="walkingtable2">
 <!--                        <style>
                             .ui-datatable-scrollable-theadclone {
                                 display: none !important;
@@ -561,9 +559,9 @@
 
                         <p:column headerText="konto Wn" style="text-align: center; width: 100px;"> 
                             <p:autoComplete id="kontown" value="#{wploop.stronaWn.konto}" completeMethod="#{planKontCompleteView.complete}" 
-                                            rendered="#{wploop.stronaWn != null}" queryDelay="10"
+                                            rendered="#{wploop.stronaWn != null}"
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" forceSelection="true" 
-                                            minQueryLength="1" converter="#{planKontCompleteView}" maxResults="150"
+                                            minQueryLength="1" converter="#{planKontCompleteView}" queryDelay="200"  maxResults="150"
                                             converterMessage="Nieudana konwersja Klient" scrollHeight="180" widgetVar="complWn#{wploop.idporzadkowy}"
                                             styleClass="kontoinput #{wploop.stronaWn.typStronaWiersza eq 1 ? 'kontorozrachunki' : null} #{wploop.stronaWn.typStronaWiersza eq 2 ? 'kontoplatnosci' : null} #{wploop.stronaWn.cechazapisuLista.size() gt 0 ? 'zapisZcecha' : null}"
                                             onfocus="zachowajwiersz(#{wploop.idporzadkowy}, 'Wn', #{wploop.typWiersza}, event);
@@ -605,9 +603,9 @@
                         </p:column>
                         <p:column headerText="konto Ma" style="text-align: center; width: 100px;">
                             <p:autoComplete id="kontoma" value="#{wploop.stronaMa.konto}" completeMethod="#{planKontCompleteView.complete}" 
-                                            rendered="#{wploop.stronaMa != null}"  queryDelay="10"
+                                            rendered="#{wploop.stronaMa != null}" 
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" widgetVar="complMa#{wploop.idporzadkowy}"
-                                            minQueryLength="1" converter="#{planKontCompleteView}"  maxResults="150"
+                                            minQueryLength="1" converter="#{planKontCompleteView}" queryDelay="200" maxResults="150"
                                             converterMessage="Nieudana konwersja Klient"   scrollHeight="180" forceSelection="true"
                                             styleClass="kontoinput #{wploop.stronaMa.typStronaWiersza eq 1 ? 'kontorozrachunki' : null} #{wploop.stronaMa.typStronaWiersza eq 2 ? 'kontoplatnosci' : null} #{wploop.stronaMa.cechazapisuLista.size() gt 0 ? 'zapisZcecha' : ''}"
                                             onfocus="zachowajwiersz(#{wploop.idporzadkowy}, 'Ma', #{wploop.typWiersza}, event);
@@ -711,7 +709,7 @@
                         </p:row>
                     </p:panelGrid>
                     
-            </p:outputPanel>
+                </div>
             </h:form>
         </p:focus>
         <f:facet name="footer">
