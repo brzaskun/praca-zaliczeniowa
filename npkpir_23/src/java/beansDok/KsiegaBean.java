@@ -53,7 +53,7 @@ public class KsiegaBean {
             dokumentyZaRok = dokDAO.zwrocBiezacegoKlientaRok(podatnik, rok.toString());
             dokumentyZaMc = dokDAO.zwrocBiezacegoKlientaRokMC(podatnik, rok.toString(), mc);
             int iloscdo = 0;
-            iloscdo = (int) dokumentyZaRok.parallelStream().filter((p)->(Integer.parseInt(p.getPkpirM()) < Integer.parseInt(mc))).count();
+            iloscdo = (int) dokumentyZaRok.stream().filter((p)->(Integer.parseInt(p.getPkpirM()) < Integer.parseInt(mc))).count();
             if (numerkolejny == 1 && dokumentyZaRok != null && dokumentyZaMc != null) {
                 numerkolejny = iloscdo+1;
             }

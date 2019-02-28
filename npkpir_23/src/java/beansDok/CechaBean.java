@@ -26,7 +26,7 @@ public class CechaBean  implements Serializable{
         List zwrot = Collections.synchronizedList(new ArrayList<>());
         try {
                 Set<String> lista = new HashSet<>();
-                wykazZaksiegowanychDokumentow.parallelStream().filter((p) -> (p.getCechadokumentuLista() != null && p.getCechadokumentuLista().size() > 0)).forEachOrdered((p) -> {
+                wykazZaksiegowanychDokumentow.stream().filter((p) -> (p.getCechadokumentuLista() != null && p.getCechadokumentuLista().size() > 0)).forEachOrdered((p) -> {
                     for (Cechazapisu r : p.getCechadokumentuLista()) {
                         lista.add(r.getNazwacechy());
                     }
