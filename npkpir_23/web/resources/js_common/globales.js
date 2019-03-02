@@ -117,16 +117,20 @@ var popupBlockerChecker = {
     };
 
 var znajdzdivshown = function() {
-    MYAPP.otwartedialogi = new Array();
-    $(".ui-dialog").each(function() {
-        if ($(this).attr("aria-hidden") === "false") {
-            let did = $(this).attr("id")
-            let wvar = getWidgetVarById(did);
-            MYAPP.otwartedialogi.push(wvar);
-            PF(wvar).hide();
-            };
-    });
-    console.log('');
+    try {
+        MYAPP.otwartedialogi = new Array();
+        $(".ui-dialog").each(function() {
+            if ($(this).attr("aria-hidden") === "false") {
+                let did = $(this).attr("id")
+                let wvar = getWidgetVarById(did);
+                MYAPP.otwartedialogi.push(wvar);
+                PF(wvar).hide();
+                };
+        });
+    } catch (e) {
+        console.log('blad znajdzdivshown globales.js');
+    }
+    
 };
 
 var getWidgetVarById = function (id) {
