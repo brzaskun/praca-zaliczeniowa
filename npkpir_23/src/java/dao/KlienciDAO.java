@@ -34,6 +34,14 @@ public class KlienciDAO extends DAO implements Serializable {
         }
    }
     
+    public  List<Klienci> findAllReadOnly(){
+        try {
+            return klienciFacade.findAllReadOnly(Klienci.class);
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+   }
+    
     public  List<String> findNIP(){
         try {
             return klienciFacade.findKlienciNIP();
