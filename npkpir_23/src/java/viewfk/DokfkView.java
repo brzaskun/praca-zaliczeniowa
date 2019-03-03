@@ -1351,10 +1351,11 @@ public class DokfkView implements Serializable {
                         if(selected.getOpisdokfk()==null ||selected.getOpisdokfk().equals("")) {
                             selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
                             RequestContext.getCurrentInstance().update("formwpisdokument:opisdokumentu");
-                        }
-                        Wiersz w = selected.getListawierszy().get(0);
-                        if (w.getOpisWiersza() == null || w.getOpisWiersza().equals("")) {
-                            w.setOpisWiersza(selected.getOpisdokfk());
+                            Wiersz w = selected.getListawierszy().get(0);
+                            if (w.getOpisWiersza() == null || w.getOpisWiersza().equals("")) {
+                                w.setOpisWiersza(selected.getOpisdokfk());
+                            }
+                            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                         }
                         if(wpisView.getVatokres()==0) {
                             DokFKVATBean.pobierzkontaZpoprzedniegoDokumentu(poprzedniDokument, selected);

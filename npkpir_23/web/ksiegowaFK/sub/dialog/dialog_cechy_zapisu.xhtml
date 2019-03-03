@@ -37,11 +37,11 @@
                     </f:facet>
                     <h:outputText value="#{cechazapisuView.przesuniecie(item.przesuniecie)}"/>
                 </p:column>
-                <p:column width="200" filterBy="#{item.podatnik.nazwapelna}">
+                <p:column width="200" filterBy="#{item.podatnik.printnazwa}">
                     <f:facet name="header">
                         <h:outputText value="podatnik"/>
                     </f:facet>
-                    <h:outputText value="#{item.podatnik.nazwapelna}"/>
+                    <h:outputText value="#{item.podatnik.printnazwa}"/>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton icon="fa fa-edit"  actionListener="#{cechazapisuView.edit(item)}"
@@ -103,7 +103,7 @@
                      <p:column>
                          <p:selectOneMenu id="podatnikWpisu" value="#{cechazapisuView.selected.podatnik}" style="width: 280px;" converter="#{podatConv}">
                              <f:selectItem itemLabel="wszyscy" itemValue=""/>
-                            <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p}"/>
+                            <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.printnazwa}" itemValue="#{p}"/>
                          </p:selectOneMenu>
                     </p:column>
                 </p:row>
