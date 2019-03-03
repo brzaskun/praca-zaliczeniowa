@@ -66,5 +66,6 @@ public class E {
             StringBuilder p = new StringBuilder();
             p.append("Init klasa ");
             p.append(e.getClass().toString());
+            System.out.println(p.toString());
     }
 }

@@ -39,7 +39,7 @@ public class PlanKontSrTrw implements Serializable {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() {E.m(this);
         if (wpisView instanceof WpisView) {
             listakontSrodkiTrwale = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "0%");
             if (listakontSrodkiTrwale != null) {

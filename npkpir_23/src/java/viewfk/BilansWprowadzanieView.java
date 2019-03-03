@@ -146,7 +146,7 @@ public class BilansWprowadzanieView implements Serializable {
         init();
     }
 
-    public void init() {
+    public void init() {E.m(this);
         this.miesiacWpisu = wpisView.getMiesiacWpisu();
         this.lista0 = Collections.synchronizedList(new ArrayList<>());
         this.lista1 = Collections.synchronizedList(new ArrayList<>());

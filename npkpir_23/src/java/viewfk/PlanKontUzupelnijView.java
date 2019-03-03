@@ -56,7 +56,7 @@ public class PlanKontUzupelnijView implements Serializable {
     
 
     @PostConstruct
-    private void init() {
+    private void init() {E.m(this);
         rokzrodlowy = Roki.rokPoprzedni(wpisView.getRokWpisuSt());
         rokdocelowy = wpisView.getRokWpisuSt();
         podatnikzrodlowy = wpisView.getPodatnikObiekt();

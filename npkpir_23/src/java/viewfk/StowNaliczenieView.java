@@ -77,7 +77,7 @@ public class StowNaliczenieView  implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    private void init() {E.m(this);
         try {
             if (wpisView.getFormaprawna().equals("STOWARZYSZENIE")) {
                 //przychody

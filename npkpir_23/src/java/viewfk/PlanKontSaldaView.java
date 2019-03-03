@@ -8,6 +8,7 @@ package viewfk;
 import comparator.Kontocomparator;
 import daoFK.KontoDAOfk;
 import entityfk.Konto;
+import error.E;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
@@ -39,7 +40,7 @@ public class PlanKontSaldaView implements Serializable {
     private boolean tylkosyntetyka;
     private String kontadowyswietlenia;
 
-    public void init() {
+    public void init() {E.m(this);
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         int czysaslownikowe = sprawdzkonta();
         if (czysaslownikowe == 0) {

@@ -10,6 +10,7 @@ import dao.PodatnikDAO;
 import daoFK.SprawozdanieFinansoweDAO;
 import entity.Podatnik;
 import entityfk.SprawozdanieFinansowe;
+import error.E;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class SprawozdanieFinansoweView implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    private void init() {E.m(this);
         listapodatnikow = podatnikDAO.findPodatnikFK();
         Collections.sort(listapodatnikow, new Podatnikcomparator());
         sprawozdaniapodatnicy = Collections.synchronizedList(new ArrayList<>());
