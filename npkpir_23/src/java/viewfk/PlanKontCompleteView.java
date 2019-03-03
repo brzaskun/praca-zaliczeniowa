@@ -66,9 +66,11 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
     
     
   @PostConstruct
-  public void init() {
+  public void init() {E.m(this);
       listakontOstatniaAnalitykaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
+      Collections.sort(listakontOstatniaAnalitykaklienta, new Kontocomparator());
       konta = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+      Collections.sort(konta, new Kontocomparator());
   }
     
     public List<Konto> complete(String qr) {
@@ -252,8 +254,9 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
     public String getAsString(FacesContext facesContext, UIComponent component, Object value) {  
         if (value == null || value.equals("")) {  
             return "";  
-        } else {  
-            return ((Konto) value).getId()!=null ? String.valueOf(((Konto) value).getId()):null;  
+        } else {
+            String zwrot = ((Konto) value).getId()!=null ? String.valueOf(((Konto) value).getId()):null;
+            return zwrot;  
         }  
     }  
 

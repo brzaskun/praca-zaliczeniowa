@@ -11,6 +11,7 @@ import entityfk.Dokfk;
 import entityfk.StronaWiersza;
 import entityfk.Wiersz;
 import entityfk.WierszBO;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,7 +42,7 @@ public class BilansRozniceView implements Serializable {
     private int liczbawierszyBO;
     private int liczbawierszyDok;
     
-    public void init() {
+    public void init() {E.m(this);
         List<WierszBO> wierszeBO = wierszBODAO.listaRokMc(wpisView);
         liczbawierszyBO = wierszeBO.size();
         List<Dokfk> dokfk = dokDAOfk.findDokfkPodatnikRokMcKategoria(wpisView, "BO");

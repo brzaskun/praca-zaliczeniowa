@@ -67,7 +67,7 @@ public class MiejsceKosztowView  implements Serializable{
         
     }
 
-    public void init() {
+    public void init() {E.m(this);
         try {
             miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnikWszystkie(wpisView.getPodatnikObiekt());
         } catch (Exception e) { 

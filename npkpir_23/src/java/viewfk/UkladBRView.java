@@ -75,7 +75,7 @@ public class UkladBRView implements Serializable {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() {E.m(this);
         try {
             lista = ukladBRDAO.findPodatnik(wpisView.getPodatnikObiekt());
             listarokbiezacy = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());

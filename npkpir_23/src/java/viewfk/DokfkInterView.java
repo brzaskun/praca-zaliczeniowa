@@ -40,7 +40,7 @@ public class DokfkInterView implements Serializable {
     
     
     @PostConstruct
-    public void init() {
+    public void init() {E.m(this);
         rodzajedoklista = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
     }
     

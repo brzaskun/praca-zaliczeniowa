@@ -81,7 +81,7 @@ public class SrodkiTrwaleAMOView implements Serializable {
     
     
     @PostConstruct
-    public void init() {
+    public void init() {E.m(this);
        List<Konto> kontaklienta = kontoDAOfk.findKontaSrodkiTrw(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
        kontasrodkitrw = przygotowanalistasald(kontaklienta);
         RequestContext.getCurrentInstance().update("srodkiamo");

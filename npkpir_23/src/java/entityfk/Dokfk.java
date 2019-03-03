@@ -565,6 +565,10 @@ public class Dokfk extends DokSuper implements Serializable {
     public String getRok() {
         return rok;
     }
+    
+    public int getRokInt() {
+        return Integer.parseInt(rok);
+    }
 
     public void setRok(String rok) {
         this.rok = rok;

@@ -66,7 +66,7 @@ public class PojazdyView  implements Serializable{
          E.m(this);
     }
     
-    public void init() {
+    public void init() {E.m(this);
         try {
             pojazdy = pojazdyDAO.findPojazdyPodatnik(wpisView.getPodatnikObiekt());
         } catch (Exception e) {  E.e(e);

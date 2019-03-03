@@ -43,7 +43,7 @@ public class CechazapisuView implements Serializable {
     }
     
     @PostConstruct
-    public void init() {
+    public void init() {E.m(this);
         pobranecechy = cechazapisuDAOfk.findAll();
     }
     

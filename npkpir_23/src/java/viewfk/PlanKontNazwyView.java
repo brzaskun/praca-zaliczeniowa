@@ -8,6 +8,7 @@ package viewfk;
 import comparator.Kontocomparator;
 import daoFK.KontoDAOfk;
 import entityfk.Konto;
+import error.E;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
@@ -38,7 +39,7 @@ public class PlanKontNazwyView implements Serializable {
     private List<Konto> wykazkontselected;
     
     @PostConstruct
-    private void init() {
+    private void init() {E.m(this);
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         List<Konto> wykazkontwzorzec = kontoDAOfk.findWszystkieKontaPodatnikaPobierzRelacje(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
         for (Iterator<Konto> it = wykazkont.iterator();it.hasNext();) {

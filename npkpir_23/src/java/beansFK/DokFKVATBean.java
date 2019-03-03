@@ -240,7 +240,7 @@ public class DokFKVATBean {
                     }
                     wierszdrugi.setOpisWiersza(wierszpierwszy.getOpisWiersza()+" - podatek vat");
                     Konto kontovat = selected.getRodzajedok().getKontovat();
-                    if (kontovat != null) {
+                    if (kontovat != null && kontovat.getRok()==selected.getRokInt()) {
                         wierszdrugi.getStronaMa().setKonto(kontovat);
                     } else {
                         wierszdrugi.getStronaMa().setKonto(kontadlaewidencji.get("221-1"));
@@ -283,7 +283,7 @@ public class DokFKVATBean {
      
      public static void pobierzkontaZpoprzedniegoDokumentu(Dokfk poprzedniDokument, Dokfk selected) {
         try {
-            if (poprzedniDokument != null) {
+            if (poprzedniDokument != null && poprzedniDokument.getRok().equals(selected.getRok())) {
                 int rozmiar = poprzedniDokument.getListawierszy().size() > 1 ? 3 : 2;
                 for (int i = 0; i < rozmiar; i++) {
                     Wiersz wierszDokumentuPoprzedniego = poprzedniDokument.getListawierszy().get(i);
@@ -339,7 +339,7 @@ public class DokFKVATBean {
                         wierszpierwszy.getStronaMa().setKonto(kontadlaewidencji.get("149-3"));
                     }
                     Konto kontovat = selected.getRodzajedok().getKontovat();
-                    if (kontovat != null) {
+                    if (kontovat != null && kontovat.getRok()==selected.getRokInt()) {
                         wierszpierwszy.getStronaWn().setKonto(kontovat);
                     } else {
                         wierszpierwszy.getStronaWn().setKonto(kontadlaewidencji.get("221-3"));
@@ -487,7 +487,7 @@ public class DokFKVATBean {
                 wiersz2_3.setTabelanbp(selected.getTabelanbp());
                 if (odliczenie0koszt1==0   && !selected.getRodzajedok().isTylkovatnalezny()) {
                     Konto kontovat = selected.getRodzajedok().getKontovat();
-                    if (kontovat != null) {
+                    if (kontovat != null && kontovat.getRok()==selected.getRokInt()) {
                         wiersz2_3.getStronaWn().setKonto(kontovat);
                     } else {
                         wiersz2_3.getStronaWn().setKonto(kontadlaewidencji.get("221-3"));
@@ -530,7 +530,7 @@ public class DokFKVATBean {
                 wiersz2_3.setTabelanbp(selected.getTabelanbp());
                 if (odliczenie0koszt1==0) {
                     Konto kontovat = selected.getRodzajedok().getKontovat();
-                    if (kontovat != null) {
+                    if (kontovat != null && kontovat.getRok()==selected.getRokInt()) {
                         wiersz2_3.getStronaWn().setKonto(kontovat);
                     } else {
                         wiersz2_3.getStronaWn().setKonto(kontadlaewidencji.get("221-3"));
@@ -1087,7 +1087,7 @@ public class DokFKVATBean {
                 wierszdrugi.setDataWalutyWiersza(wierszpierwszy.getDataWalutyWiersza());
                 wierszdrugi.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat");
                 Konto kontovat = selected.getRodzajedok().getKontovat();
-                if (kontovat != null) {
+                if (kontovat != null && kontovat.getRok()==selected.getRokInt()) {
                     wierszdrugi.getStronaMa().setKonto(kontovat);
                 } else {
                     wierszdrugi.getStronaMa().setKonto(kontadlaewidencji.get("221-1"));

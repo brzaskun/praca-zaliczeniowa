@@ -82,7 +82,7 @@ public class SaldoAnalitykaView implements Serializable {
         wybranyRodzajKonta = "wszystkie";
     }
 
-    public void init() {
+    public void init() {E.m(this);
         List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
         if (wybranyRodzajKonta != null) {
             if (wybranyRodzajKonta.equals("bilansowe")) {

@@ -147,7 +147,7 @@ public class PlanKontView implements Serializable {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() {E.m(this);
 //        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         listaukladow = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         wybranyuklad = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladow);

@@ -90,7 +90,7 @@ public class RMKView  implements Serializable {
     }
     
     
-    public void init() {
+    public void init() {E.m(this);
         listakontkosztowych = kontoDAO.findKontaGrupa4(wpisView);
         for (Iterator<Konto> p = listakontkosztowych.iterator(); p.hasNext();) {
             if (p.next().isMapotomkow() == true) {

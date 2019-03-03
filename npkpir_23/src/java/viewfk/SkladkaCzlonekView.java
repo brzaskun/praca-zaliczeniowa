@@ -11,6 +11,7 @@ import daoFK.SkladkaStowarzyszenieDAO;
 import entityfk.MiejscePrzychodow;
 import entityfk.SkladkaCzlonek;
 import entityfk.SkladkaStowarzyszenie;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +50,7 @@ public class SkladkaCzlonekView implements Serializable {
     private SkladkaStowarzyszenie skladkadomyslna;
     
     @PostConstruct
-    private void init() {
+    private void init() {E.m(this);
         skladkaStowarzyszenieLista = skladkaStowarzyszenieDAO.findByPodatnikRok(wpisView);
         List<MiejscePrzychodow> czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
         skladkaCzlonekLista = skladkaCzlonekDAO.findPodatnikRok(wpisView);

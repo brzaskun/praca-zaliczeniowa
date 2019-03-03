@@ -15,7 +15,6 @@ import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaZapisDAO;
 import daoFK.UkladBRDAO;
 import entity.Klienci;
-import entityfk.Dokfk;
 import entityfk.Kliencifk;
 import entityfk.Konto;
 import error.E;
@@ -39,7 +38,7 @@ import view.WpisView;
  */
 @ManagedBean
 @ViewScoped
-public class KliencifkView implements Serializable {
+public class KliencifkBOView implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Inject
@@ -63,8 +62,14 @@ public class KliencifkView implements Serializable {
     private Kliencifk selected;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @ManagedProperty(value = "#{dokfkView}")
+    private DokfkView dokfkView;
     @ManagedProperty(value = "#{planKontCompleteView}")
     private PlanKontCompleteView planKontCompleteView;
+    @ManagedProperty(value = "#{planKontBOView}")
+    private PlanKontBOView planKontBOView;
+    @ManagedProperty(value = "#{planKontSrTrw}")
+    private PlanKontSrTrw planKontSrTrw;
     @ManagedProperty(value = "#{kontoConv}")
     private KontoConv kontoConv;
     private boolean makonto0niemakonta1;
@@ -72,7 +77,7 @@ public class KliencifkView implements Serializable {
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     private boolean zapisz0edytuj1;
 
-    public KliencifkView() {
+    public KliencifkBOView() {
          E.m(this);
         listawszystkichklientow = Collections.synchronizedList(new ArrayList<>());
         listawszystkichklientowFk = Collections.synchronizedList(new ArrayList<>());
@@ -94,11 +99,11 @@ public class KliencifkView implements Serializable {
         }
     }
     
-    public void pobieraniekontaFKWpis(boolean niedodawajkontapole, Dokfk selected) {
-        if (niedodawajkontapole == false) {
+    public void pobieraniekontaFKWpis() {
+        if (dokfkView.isNiedodawajkontapole() == false) {
             //Msg.msg("pobieraniekontaFKWpis");
-            if (selected.getRodzajedok().getKategoriadokumentu() != 0 && selected.getRodzajedok().getKategoriadokumentu() != 5) {
-                wybranyklient = selected.getKontr();
+            if (dokfkView.getRodzajBiezacegoDokumentu() != 0 && dokfkView.getRodzajBiezacegoDokumentu() != 5) {
+                wybranyklient = dokfkView.selected.getKontr();
                 if (wybranyklient!=null && !wybranyklient.getNpelna().equals("nowy klient")) {
                     int wynik = pobieraniekontaFK();
                     if (wynik == 1 && !wybranyklient.getNip().equals(wpisView.getPodatnikObiekt().getNip())) {
@@ -179,6 +184,12 @@ public class KliencifkView implements Serializable {
         klientBezKonta = new Kliencifk();
     }
     
+    public void przyporzadkujdokontaBO() {
+        przyporzadkujdokonta();
+        planKontCompleteView.init();
+        planKontBOView.init();
+        kontoConv.init();
+    }
     
     public void kopiujwybranyklient(ValueChangeEvent e) {
         wybranyklient1 = serialclone.SerialClone.clone((Klienci) e.getNewValue());
@@ -260,6 +271,22 @@ public class KliencifkView implements Serializable {
         this.kontoConv = kontoConv;
     }
 
+    public PlanKontBOView getPlanKontBOView() {
+        return planKontBOView;
+    }
+
+    public void setPlanKontBOView(PlanKontBOView planKontBOView) {
+        this.planKontBOView = planKontBOView;
+    }
+
+    public PlanKontSrTrw getPlanKontSrTrw() {
+        return planKontSrTrw;
+    }
+
+    public void setPlanKontSrTrw(PlanKontSrTrw planKontSrTrw) {
+        this.planKontSrTrw = planKontSrTrw;
+    }
+
    
     public Klienci getWybranyklient1() {
         return wybranyklient1;
@@ -279,6 +306,14 @@ public class KliencifkView implements Serializable {
 
     public void setListawszystkichklientow(List<Klienci> listawszystkichklientow) {
         this.listawszystkichklientow = listawszystkichklientow;
+    }
+
+    public DokfkView getDokfkView() {
+        return dokfkView;
+    }
+
+    public void setDokfkView(DokfkView dokfkView) {
+        this.dokfkView = dokfkView;
     }
 
     public Klienci getWybranyklient() {
