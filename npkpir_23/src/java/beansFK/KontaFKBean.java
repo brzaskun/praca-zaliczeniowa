@@ -43,6 +43,7 @@ public class KontaFKBean implements Serializable{
             r.setMapotomkow(false);
             r.setBlokada(false);
         }
+        kontoDAO.editList(wykazkont);
         List<Konto> sprawdzonemacierzyste = Collections.synchronizedList(new ArrayList<>());
         wykazkont.stream().filter((p) -> (p.getKontomacierzyste()!=null)).forEachOrdered((p) -> {
             try {

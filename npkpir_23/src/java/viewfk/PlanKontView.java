@@ -979,6 +979,7 @@ public class PlanKontView implements Serializable {
         if (selectednodekonto!=null) {
             Podatnik podatnik = selectednodekonto.getPodatnik();
             List<Konto> wykazkontf = new ArrayList<>();
+            wykazkontf.add(selectednodekonto);
             kontoDAOfk.findKontaWszystkiePotomnePodatnik(wykazkontf, podatnik, wpisView.getRokWpisu(), selectednodekonto);
             //resetuj kolumne macierzyste
             kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUladKonto(wybranyuklad, wykazkontf);
