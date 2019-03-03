@@ -37,29 +37,17 @@ public class KontoConv implements javax.faces.convert.Converter{
     }
      
     @Override
-    public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
-        if (submittedValue.length() > 2) {
+    public Object getAsObject(FacesContext facesContext, UIComponent component, String sub) {
             try {//robie to bo jak edytuje dokument to PlanKontView nie jest zainicjowany i WykazkontS jest pusty
-                if (submittedValue.trim().isEmpty()) {
-                    return null;
-                } else {
-                    try {
-                        String number = submittedValue.split(" ")[0];
-                        for (Konto p : konta) {
-                            if (p.getPelnynumer().equals(number)) {
-                                return p;
-                            }
-                        }
-
-                    } catch (NumberFormatException exception) {
-                        throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid klient"));
+                int submittedValue = Integer.parseInt(sub);
+                for (Konto p : konta) {
+                    if (p.getId()==submittedValue) {
+                        return p;
                     }
                 }
             } catch (Exception e) {
-                return null;
             }
-        }
-        return null;
+            return null;
     }
   
     @Override
@@ -67,7 +55,7 @@ public class KontoConv implements javax.faces.convert.Converter{
         if (value == null || value.equals("")) {  
             return "";  
         } else {  
-            return String.valueOf(((Konto) value).getPelnynumer());  
+            return ((Konto) value).getPelnynumer() != null ? String.valueOf(((Konto) value).getId()):null;  
         }  
     }  
 

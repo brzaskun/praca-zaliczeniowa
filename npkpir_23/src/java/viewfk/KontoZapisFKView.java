@@ -168,7 +168,7 @@ public class KontoZapisFKView implements Serializable{
     private void usunkontabezsald() {
         List<Konto> konta = Collections.synchronizedList(new ArrayList<>());
         
-//        zapisyRok.parallelStream().filter((p) -> (p.getKonto() != null)).forEach((p) -> {
+//        zapisyRok.stream().filter((p) -> (p.getKonto() != null)).forEach((p) -> {
 //            konta.add(p.getKonto());
 //        });
         List<Konto> listakont = pobierzkontazsaldem(wpisView.getRokWpisuSt());
@@ -180,7 +180,7 @@ public class KontoZapisFKView implements Serializable{
     
     private Set<Konto> wyluskajmacierzyste(List<Konto> listakont) {
         Set<Konto> listamacierzyste = new HashSet<>();
-        listakont.parallelStream().map((p) -> p.getKontomacierzyste()).forEachOrdered((m) -> {
+        listakont.stream().map((p) -> p.getKontomacierzyste()).forEachOrdered((m) -> {
             while (m != null) {
                 listamacierzyste.add(m);
                 m = m.getKontomacierzyste();
@@ -234,8 +234,8 @@ public class KontoZapisFKView implements Serializable{
                 KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, new ArrayList<>(wykazkont));
                 int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
                 int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
-                List<StronaWiersza> zapisyshortfilter = zapisyshort.parallelStream().filter((r) -> (kontapotomneListaOstateczna.contains(r.getKonto()))).collect(collectingAndThen(toList(), Collections::synchronizedList));
-                 zapisyshortfilter.parallelStream().forEach((r) -> {
+                List<StronaWiersza> zapisyshortfilter = zapisyshort.stream().filter((r) -> (kontapotomneListaOstateczna.contains(r.getKonto()))).collect(collectingAndThen(toList(), Collections::synchronizedList));
+                 zapisyshortfilter.stream().forEach((r) -> {
                     if (wybranaWalutaDlaKont.equals("wszystkie")) {
                         int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
                         if (mc >= granicaDolna && mc <= granicaGorna) {
@@ -451,7 +451,7 @@ public class KontoZapisFKView implements Serializable{
             sumaMa = 0.0;
             DoubleAccumulator  wn = new DoubleAccumulator(Double::sum,0.d);
             DoubleAccumulator  ma = new DoubleAccumulator(Double::sum,0.d);
-            kontozapisy.parallelStream().forEach((p) -> {
+            kontozapisy.stream().forEach((p) -> {
                 sumujstrony(wn, ma, p);
             });
             sumaWn = Z.z(sumaWn+wn.doubleValue());
@@ -480,15 +480,15 @@ public class KontoZapisFKView implements Serializable{
             DoubleAccumulator  wn = new DoubleAccumulator(Double::sum,0.d);
             DoubleAccumulator  ma = new DoubleAccumulator(Double::sum,0.d);
             if (wybranezapisydosumowania != null && wybranezapisydosumowania.size() > 0) {
-                wybranezapisydosumowania.parallelStream().forEach((p) -> {
+                wybranezapisydosumowania.stream().forEach((p) -> {
                     sumujstrony(wn, ma, p);
                 });
             } else if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
-                kontozapisyfiltered.parallelStream().forEach((p) -> {
+                kontozapisyfiltered.stream().forEach((p) -> {
                     sumujstrony(wn, ma, p);
                 });
             } else {
-                kontozapisy.parallelStream().forEach((p) -> {
+                kontozapisy.stream().forEach((p) -> {
                     sumujstrony(wn, ma, p);
                 });
             }
@@ -516,7 +516,7 @@ public class KontoZapisFKView implements Serializable{
             sumaMa = 0.0;
             DoubleAccumulator  wn = new DoubleAccumulator(Double::sum,0.d);
             DoubleAccumulator  ma = new DoubleAccumulator(Double::sum,0.d);
-            kontozapisy.parallelStream().forEach((p) -> {
+            kontozapisy.stream().forEach((p) -> {
                 sumujstrony(wn, ma, p);
             });
             sumaWn = Z.z(sumaWn+wn.doubleValue());
@@ -572,7 +572,7 @@ public class KontoZapisFKView implements Serializable{
         DoubleAccumulator  wn = new DoubleAccumulator(Double::sum,0.d);
         DoubleAccumulator  ma = new DoubleAccumulator(Double::sum,0.d);
         if (wybranezapisydosumowania != null && wybranezapisydosumowania.size() > 0) {
-            wybranezapisydosumowania.parallelStream().forEach((p) -> {
+            wybranezapisydosumowania.stream().forEach((p) -> {
                 double kwotadlasumy = pokaztransakcje ? p.getPozostalo() : p.getKwotaPLN();
                 if (p.getWnma().equals("Wn")) {
                     wn.accumulate(kwotadlasumy);
@@ -581,7 +581,7 @@ public class KontoZapisFKView implements Serializable{
                 }
             });
         } else if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
-            kontozapisyfiltered.parallelStream().forEach((p) -> {
+            kontozapisyfiltered.stream().forEach((p) -> {
                 double kwotadlasumy = pokaztransakcje ? p.getPozostaloPLN() : p.getKwotaPLN();
                 if (p.getWnma().equals("Wn")) {
                     wn.accumulate(kwotadlasumy);
@@ -590,7 +590,7 @@ public class KontoZapisFKView implements Serializable{
                 }
             });
         }  else {
-            kontozapisy.parallelStream().forEach((p) -> {
+            kontozapisy.stream().forEach((p) -> {
                 double kwotadlasumy = pokaztransakcje ? p.getPozostaloPLN() : p.getKwotaPLN();
                 if (p.getWnma().equals("Wn")) {
                     wn.accumulate(kwotadlasumy);
@@ -1601,7 +1601,7 @@ public class KontoZapisFKView implements Serializable{
                         query = query.substring(0, 3) + "-" + query.substring(3, 4);
                     }
                     String[] qlist = {query};
-                    wykazkont.parallelStream().forEach((p)->{
+                    wykazkont.stream().forEach((p)->{
                         if (p.getPelnynumer().startsWith(qlist[0])) {
                             results.add(p);
                         }
@@ -1617,7 +1617,7 @@ public class KontoZapisFKView implements Serializable{
                     }
                 } catch (NumberFormatException e) {
                     String[] qlist = {query.toLowerCase()};
-                    wykazkont.parallelStream().forEach((p)->{
+                    wykazkont.stream().forEach((p)->{
                         if (p.getNazwapelna().toLowerCase().contains(qlist[0])) {
                             results.add(p);
                         }
@@ -1657,7 +1657,7 @@ public class KontoZapisFKView implements Serializable{
                         query = query.substring(0, 3) + "-" + query.substring(3, 4);
                     }
                     String[] qlist = {query};
-                    wszystkiekonta.parallelStream().forEach((p)->{
+                    wszystkiekonta.stream().forEach((p)->{
                         if (p.getPelnynumer().startsWith(qlist[0])) {
                             results.add(p);
                         }
@@ -1673,7 +1673,7 @@ public class KontoZapisFKView implements Serializable{
                     }
                 } catch (NumberFormatException e) {
                     String[] qlist = {query.toLowerCase()};
-                    wszystkiekonta.parallelStream().forEach((p)->{
+                    wszystkiekonta.stream().forEach((p)->{
                         if (p.getNazwapelna().toLowerCase().contains(qlist[0])) {
                             results.add(p);
                         }
@@ -1713,7 +1713,7 @@ public class KontoZapisFKView implements Serializable{
                         query = query.substring(0, 3) + "-" + query.substring(3, 4);
                     }
                     String[] qlist = {query};
-                    ostatniaanalityka.parallelStream().forEach((p)->{
+                    ostatniaanalityka.stream().forEach((p)->{
                         if (p.getPelnynumer().startsWith(qlist[0])) {
                             results.add(p);
                         }
@@ -1729,7 +1729,7 @@ public class KontoZapisFKView implements Serializable{
                     }
                 } catch (NumberFormatException e) {
                     String[] qlist = {query.toLowerCase()};
-                    ostatniaanalityka.parallelStream().forEach((p)->{
+                    ostatniaanalityka.stream().forEach((p)->{
                         if (p.getNazwapelna().toLowerCase().contains(qlist[0].toLowerCase())) {
                             results.add(p);
                         }

@@ -133,7 +133,7 @@ public class KontaFKBean implements Serializable{
         DoubleAccumulator obboma = new DoubleAccumulator(Double::sum,0.d);
         DoubleAccumulator saldown = new DoubleAccumulator(Double::sum,0.d);
         DoubleAccumulator saldoma = new DoubleAccumulator(Double::sum,0.d);
-        przygotowanalista.parallelStream().forEach(r-> {
+        przygotowanalista.stream().forEach(r-> {
             bown.accumulate(r.getBoWn());
             boma.accumulate(r.getBoMa());
             obwnmc.accumulate(r.getObrotyWnMc());
@@ -175,7 +175,7 @@ public class KontaFKBean implements Serializable{
         DoubleAccumulator obboma = new DoubleAccumulator(Double::sum,0.d);
         DoubleAccumulator saldown = new DoubleAccumulator(Double::sum,0.d);
         DoubleAccumulator saldoma = new DoubleAccumulator(Double::sum,0.d);
-        przygotowanalista.values().parallelStream().forEach(r-> {
+        przygotowanalista.values().stream().forEach(r-> {
             bown.accumulate(r.getBoWn());
             boma.accumulate(r.getBoMa());
             obwnmc.accumulate(r.getObrotyWnMc());
@@ -225,9 +225,9 @@ public class KontaFKBean implements Serializable{
     public static void pobierzKontaPotomne(List<Konto> kontamacierzyste, List<Konto> kontaostateczna, List<Konto> wykazkont) {
         List<Konto> nowepotomne = Collections.synchronizedList(new ArrayList<>());
         List<Konto> dousuniecia = Collections.synchronizedList(new ArrayList<>());;
-        kontamacierzyste.parallelStream().forEach((p)->{
+        kontamacierzyste.stream().forEach((p)->{
             if (p.isMapotomkow()==true) {
-                wykazkont.parallelStream().filter((r) -> (r.getKontomacierzyste() != null && r.getKontomacierzyste().equals(p))).forEachOrdered((r) -> {
+                wykazkont.stream().filter((r) -> (r.getKontomacierzyste() != null && r.getKontomacierzyste().equals(p))).forEachOrdered((r) -> {
                     nowepotomne.add(r);
                     dousuniecia.add(r);
                 });

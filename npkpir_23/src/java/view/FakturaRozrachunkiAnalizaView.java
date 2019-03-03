@@ -165,7 +165,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                     }
                 }
             }
-            results.add(new Klienci("nowy klient", "nowy klient", "0123456789", "11-111", "miejscowosc", "ulica", "1", "1"));
+            results.add(new Klienci(-1, "nowy klient", "nowy klient", "0123456789", "11-111", "miejscowosc", "ulica", "1", "1"));
         }
         return results;
     }

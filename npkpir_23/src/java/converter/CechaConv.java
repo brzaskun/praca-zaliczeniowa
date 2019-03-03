@@ -38,20 +38,16 @@ public class CechaConv implements javax.faces.convert.Converter {
     }
 
     @Override
-    public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
-        if (submittedValue.trim().isEmpty()) {
-            return null;
-        } else {
-            try {
-                String number = submittedValue;
-                for (Cechazapisu p : lista) {
-                    if (p.getId().equals(Integer.parseInt(number))) {
-                        return p;
-                    }
+    public Object getAsObject(FacesContext facesContext, UIComponent component, String sub) {
+        try {
+            int submittedValue = Integer.parseInt(sub);
+            for (Cechazapisu p : lista) {
+                if (p.getId()==submittedValue) {
+                    return p;
                 }
-            } catch (NumberFormatException exception) {
-                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid klient"));
             }
+        } catch (NumberFormatException exception) {
+            
         }
         return null;
     }

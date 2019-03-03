@@ -104,7 +104,7 @@ public class KontaVatFKView implements Serializable {
         List<SaldoKonto> przygotowanalista = Collections.synchronizedList(new ArrayList<>());
         int[] licznik = {0};
         String vatokres = sprawdzjakiokresvat();
-        kontaklienta.parallelStream().forEach((p) ->{
+        kontaklienta.stream().forEach((p) ->{
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setId(licznik[0]++);
             saldoKonto.setKonto(p);

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -99,11 +100,7 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
                         query = query.substring(0, 3) + "-" + query.substring(3, 5);
                     }
                     String[] ql = {query};
-                    listakontOstatniaAnalitykaklienta.parallelStream().forEach((p)->{
-                        if (p.getPelnynumer().startsWith(ql[0]) && !p.isNiewidoczne()) {
-                            results.add(p);
-                        }
-                    });
+                    results = listakontOstatniaAnalitykaklienta.parallelStream().filter((p)->(p.getPelnynumer().startsWith(ql[0]) && !p.isNiewidoczne())).collect(Collectors.toList()); 
                     //rozwiazanie dla rozrachunkow szukanie po nazwie kontrahenta
                     if (nazwa != null && nazwa.length() > 2) {
                         for (Iterator<Konto> it = results.iterator(); it.hasNext();) {
@@ -115,11 +112,7 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
                     }
                 } catch (NumberFormatException e) {
                     String[] ql = {query.toLowerCase()};
-                    listakontOstatniaAnalitykaklienta.parallelStream().forEach((p)->{
-                        if (p.getNazwapelna().toLowerCase().contains(ql[0]) && !p.isNiewidoczne()) {
-                            results.add(p);
-                        }
-                    });
+                    results = listakontOstatniaAnalitykaklienta.parallelStream().filter((p)->(p.getNazwapelna().toLowerCase().contains(ql[0]) && !p.isNiewidoczne())).collect(Collectors.toList()); 
                 } catch (Exception e) {
                     E.e(e);
                 }
@@ -240,28 +233,18 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
     }
     
     @Override
-    public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
-        if (submittedValue.length() > 2) {
-            try {//robie to bo jak edytuje dokument to PlanKontView nie jest zainicjowany i WykazkontS jest pusty
-                if (submittedValue.trim().isEmpty()) {
-                    return null;
-                } else {
-                    try {
-                        String number = submittedValue.split(" ")[0];
-                        for (Konto p : konta) {
-                            if (p.getPelnynumer().equals(number)) {
-                                return p;
-                            }
-                        }
-
-                    } catch (NumberFormatException exception) {
-                        throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid klient"));
+    public Object getAsObject(FacesContext facesContext, UIComponent component, String sub) {
+            try {
+                int submittedValue = Integer.parseInt(sub);
+                for (Konto p : konta) {
+                    if (p.getId()== submittedValue) {
+                        return p;
                     }
                 }
-            } catch (Exception e) {
-                return null;
+
+            } catch (Exception exception) {
+
             }
-        }
         return null;
     }
   
@@ -270,7 +253,7 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
         if (value == null || value.equals("")) {  
             return "";  
         } else {  
-            return String.valueOf(((Konto) value).getPelnynumer());  
+            return ((Konto) value).getId()!=null ? String.valueOf(((Konto) value).getId()):null;  
         }  
     }  
 

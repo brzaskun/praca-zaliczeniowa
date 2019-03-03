@@ -110,7 +110,7 @@ public class StatystykaBean implements Runnable {
     	  System.out.println(sum);
           
           List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);	  
-          DoubleSummaryStatistics stats = list.parallelStream()
+          DoubleSummaryStatistics stats = list.stream()
   			     .collect(Collectors.summarizingDouble(i -> i));
   	  System.out.println("Sum:"+stats.getSum());
     }

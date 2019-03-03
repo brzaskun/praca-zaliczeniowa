@@ -20,29 +20,23 @@ public class KlientConv implements javax.faces.convert.Converter{
     
        
     @Override
-    public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
+    public Object getAsObject(FacesContext facesContext, UIComponent component, String sub) {
        FacesContext context = FacesContext.getCurrentInstance();
        KlienciConverterView klienciConverterView = (KlienciConverterView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"klienciConverterView");
        List<Klienci> listaKlientow = klienciConverterView.getListaKlientow();
-        Klienci kl = new Klienci();
-        if (submittedValue.equals("dodaj klienta automatycznie")){  
+        int submittedValue = Integer.parseInt(sub);
+        if (submittedValue==-2){  
             listaKlientow.add(klienciConverterView.getKlientautomat());
         } 
-        if (submittedValue.trim().isEmpty()) {  
-            return null;  
-        } else {
-            try {  
-                String number = submittedValue;  
-                for (Klienci p : listaKlientow) {  
-                    if (p.getNpelna().equals(number)) {  
-                        return p;  
-                    }  
+        try {  
+            for (Klienci p : listaKlientow) {  
+                if (p.getId()==submittedValue) {  
+                    return p;  
                 }  
-            } catch(NumberFormatException exception) {  
-                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid klient"));  
             }  
+        } catch(NumberFormatException exception) {  
+            return null;
         }  
-  
         return null;  
     }  
   
@@ -50,8 +44,8 @@ public class KlientConv implements javax.faces.convert.Converter{
     public String getAsString(FacesContext facesContext, UIComponent component, Object value) {  
         if (value == null || value.equals("")) {  
             return "";  
-        } else {  
-            return String.valueOf(((Klienci) value).getNpelna());  
+        } else {
+            return ((Klienci) value).getId() != null ? String.valueOf(((Klienci) value).getId()) : null;  
         }  
     }  
     

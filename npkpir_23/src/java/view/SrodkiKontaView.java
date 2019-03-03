@@ -93,7 +93,7 @@ public class SrodkiKontaView implements Serializable {
         List<StronaWiersza> zapisyRok = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Map<String, SaldoKonto> przygotowanalista = new ConcurrentHashMap<>();
         List<StronaWiersza> wierszenieuzupelnione = Collections.synchronizedList(new ArrayList<>());
-        kontaklienta.parallelStream().forEach((p) -> {
+        kontaklienta.stream().forEach((p) -> {
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setKonto(p);
             przygotowanalista.put(p.getPelnynumer(), saldoKonto);
@@ -101,7 +101,7 @@ public class SrodkiKontaView implements Serializable {
         naniesBOnaKonto(przygotowanalista, zapisyBO);
         naniesZapisyNaKonto(przygotowanalista, zapisyObrotyRozp, wierszenieuzupelnione, false);
         naniesZapisyNaKonto(przygotowanalista, zapisyRok, wierszenieuzupelnione, true);
-        przygotowanalista.values().parallelStream().map((s) -> {
+        przygotowanalista.values().stream().map((s) -> {
             s.sumujBOZapisy();
             return s;
         }).forEachOrdered(SaldoKonto::wyliczSaldo);

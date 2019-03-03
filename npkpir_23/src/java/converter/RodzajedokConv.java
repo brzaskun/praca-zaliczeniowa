@@ -39,22 +39,17 @@ public class RodzajedokConv implements javax.faces.convert.Converter{
         lista = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
     }
     @Override
-    public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
-        if (submittedValue.trim().isEmpty()) {  
-            return null;  
-        } else {  
-            try {  
-                String skrot = submittedValue;  
-                  for (Rodzajedok p : lista) {  
-                    if (p.getSkrotNazwyDok().equals(skrot)) {  
-                        return p;  
-                    }  
+    public Object getAsObject(FacesContext facesContext, UIComponent component, String sub) {
+        try {
+            int submittedValue = Integer.parseInt(sub);
+              for (Rodzajedok p : lista) {  
+                if (p.getId()==submittedValue) {  
+                    return p;  
                 }  
-              } catch(NumberFormatException exception) {  
-                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid rodzajdok"));  
             }  
+          } catch(Exception exception) {  
         }  
-          return null;  
+        return null;  
     }  
   
     @Override
@@ -62,7 +57,7 @@ public class RodzajedokConv implements javax.faces.convert.Converter{
         if (value == null || value.equals("")) {  
             return "";  
         } else {  
-            return String.valueOf(((Rodzajedok) value).getSkrotNazwyDok());  
+            return String.valueOf(((Rodzajedok) value).getId());  
         }  
     }  
 

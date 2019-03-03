@@ -98,9 +98,9 @@ public class InfoView implements Serializable{
                 tmpset1.add(p.getRodzajedok().getSkrot());
             }
             osobawprowadzajaca = new ArrayList<>(tmpset);
-            tmpset1.parallelStream().forEach((p) -> {
+            tmpset1.stream().forEach((p) -> {
                 int[] i = {0};
-                dokumenty.parallelStream().forEach((r) -> {
+                dokumenty.stream().forEach((r) -> {
                     if (r.getRodzajedok().getSkrot().equals(p)) {
                         i[0]++;
                     }

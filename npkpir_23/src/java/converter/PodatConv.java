@@ -34,21 +34,17 @@ public class PodatConv implements javax.faces.convert.Converter {
     }
 
     @Override
-    public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
-        if (submittedValue.trim().isEmpty()) {
-            return null;
-        } else {
+    public Object getAsObject(FacesContext facesContext, UIComponent component, String sub) {
             try {
-                String number = submittedValue;
+                int submittedValue = Integer.parseInt(sub);
                 for (Podatnik p : lista) {
-                    if (p.getNazwapelna().equals(number)) {
+                    if (p.getId()==submittedValue) {
                         return p;
                     }
                 }
-            } catch (NumberFormatException exception) {
-                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid klient"));
+            } catch (Exception exception) {
+                
             }
-        }
         return null;
     }
 
@@ -57,7 +53,7 @@ public class PodatConv implements javax.faces.convert.Converter {
         if (value == null || value.equals("")) {
             return "";
         } else {
-            return String.valueOf(((Podatnik) value).getNazwapelna());
+            return String.valueOf(((Podatnik) value).getId());
         }
     }
 

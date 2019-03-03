@@ -29,7 +29,7 @@ public class BOFKBean {
     public static List<StronaWiersza> pobierzZapisyBO(DokDAOfk dokDAOfk, WpisView wpisView) {
         List<StronaWiersza> zapisy = Collections.synchronizedList(new ArrayList<>());
         List<Dokfk> dokfk = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, "BO");
-        dokfk.parallelStream().filter((p) -> (p.getOpisdokfk().contains("bilans otwarcia roku:"))).forEachOrdered((p) -> {
+        dokfk.stream().filter((p) -> (p.getOpisdokfk().contains("bilans otwarcia roku:"))).forEachOrdered((p) -> {
             zapisy.addAll(p.getStronyWierszy());
         });
         return zapisy;
@@ -38,7 +38,7 @@ public class BOFKBean {
     public static List<StronaWiersza> pobierzZapisyObrotyRozp(DokDAOfk dokDAOfk, WpisView wpisView) {
         List<StronaWiersza> zapisy = Collections.synchronizedList(new ArrayList<>());
         List<Dokfk> dokfk = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, "BO");
-        dokfk.parallelStream().filter((p) -> (!p.getOpisdokfk().contains("bilans otwarcia roku:"))).forEachOrdered((p) -> {
+        dokfk.stream().filter((p) -> (!p.getOpisdokfk().contains("bilans otwarcia roku:"))).forEachOrdered((p) -> {
             zapisy.addAll(p.getStronyWierszy());
         });
         return zapisy;
@@ -86,7 +86,7 @@ public class BOFKBean {
     public static List<StronaWiersza> pobierzZapisyBOSyntetyka(KontoDAOfk kontoDAOfk, Konto konto, DokDAOfk dokDAOfk, WpisView wpisView) {
         List<StronaWiersza> zapisy = Collections.synchronizedList(new ArrayList<>());
         List<Dokfk> dokfk = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, "BO");
-        dokfk.parallelStream().filter((p) -> (p.getNrkolejnywserii()==1)).forEachOrdered((p) -> {
+        dokfk.stream().filter((p) -> (p.getNrkolejnywserii()==1)).forEachOrdered((p) -> {
             for (StronaWiersza r : p.getStronyWierszy()) {
                 if (r.getKonto().equals(konto)) {
                     zapisy.add(r);

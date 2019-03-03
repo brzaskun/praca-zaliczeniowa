@@ -97,7 +97,7 @@ public class FakturaRozrachunkiView  implements Serializable {
             }
         }
         wprowadzoneplatnosci = fakturaRozrachunkiDAO.rozrachunkiZDnia(wpisView);
-        suma = wprowadzoneplatnosci.parallelStream().mapToDouble(FakturaRozrachunki::getKwota).sum();
+        suma = wprowadzoneplatnosci.stream().mapToDouble(FakturaRozrachunki::getKwota).sum();
         selected.setRodzajdokumentu("rk");
         pobierzostatninumer();
         Collections.sort(klienci, new Kliencicomparator());
@@ -105,9 +105,9 @@ public class FakturaRozrachunkiView  implements Serializable {
    
     public void sumuj() {
         if (wprowadzoneplatnoscifiltered!=null) {
-            suma = wprowadzoneplatnoscifiltered.parallelStream().mapToDouble(FakturaRozrachunki::getKwota).sum();
+            suma = wprowadzoneplatnoscifiltered.stream().mapToDouble(FakturaRozrachunki::getKwota).sum();
         } else {
-            suma = wprowadzoneplatnosci.parallelStream().mapToDouble(FakturaRozrachunki::getKwota).sum();
+            suma = wprowadzoneplatnosci.stream().mapToDouble(FakturaRozrachunki::getKwota).sum();
         }
     }
     
@@ -153,7 +153,7 @@ public class FakturaRozrachunkiView  implements Serializable {
                     }
                 }
             }
-            results.add(new Klienci("nowy klient", "nowy klient", "0123456789", "11-111", "miejscowosc", "ulica", "1", "1"));
+            results.add(new Klienci(-1, "nowy klient", "nowy klient", "0123456789", "11-111", "miejscowosc", "ulica", "1", "1"));
         }
         return results;
     }

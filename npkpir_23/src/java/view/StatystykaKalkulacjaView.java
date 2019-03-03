@@ -61,9 +61,9 @@ public class StatystykaKalkulacjaView  implements Serializable {
     
     public void generuj() {
         List<Podatnik> podatnicytmp = podatnikDAO.findPodatnikNieFK();
-        List<Podatnik> podatnicy = podatnicytmp.parallelStream().filter(p -> p.isPodmiotaktywny()).collect(collectingAndThen(toList(), Collections::synchronizedList));
+        List<Podatnik> podatnicy = podatnicytmp.stream().filter(p -> p.isPodmiotaktywny()).collect(collectingAndThen(toList(), Collections::synchronizedList));
         List<Podatnik> podatnicyFKtmp = podatnikDAO.findPodatnikFK();
-        List<Podatnik> podatnicyFK = podatnicyFKtmp.parallelStream().filter(p -> p.isPodmiotaktywny()).collect(collectingAndThen(toList(), Collections::synchronizedList));
+        List<Podatnik> podatnicyFK = podatnicyFKtmp.stream().filter(p -> p.isPodmiotaktywny()).collect(collectingAndThen(toList(), Collections::synchronizedList));
         podatnikroklista = stworzliste(podatnicy);
         podatnikroklista.addAll(stworzlistefk(podatnicyFK));
         listadozachowania = Collections.synchronizedList(new ArrayList<>());

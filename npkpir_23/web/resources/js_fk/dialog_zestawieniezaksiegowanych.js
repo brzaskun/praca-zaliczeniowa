@@ -44,10 +44,10 @@ var zapisywierszywybordok = function() {
 
 var pokazwierszoznaczony = function() {
     try {
-        if (document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value === "-1") {
-            r("formwpisdokument:data2DialogWpisywanie").focus();
-            r("formwpisdokument:data2DialogWpisywanie").select();
-        } else {
+        if (document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value !== "-1") {
+//            r("formwpisdokument:data2DialogWpisywanie").focus();
+//            r("formwpisdokument:data2DialogWpisywanie").select();
+//        } else {
             var lp = document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value;
             var jest = rj("formwpiskonta:wyborkonta_input").value;
             if (lp !== "-1") {

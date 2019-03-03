@@ -59,7 +59,7 @@ public class PlanKontNazwyView implements Serializable {
 
     private Konto pobierzzewzorca(String pelnynumer, List<Konto> wykazkontwzorzec) {
         Konto zwrot = null;
-        List<Konto> result = wykazkontwzorzec.parallelStream().filter(p -> p.getPelnynumer().equals(pelnynumer)).collect(Collectors.toList());
+        List<Konto> result = wykazkontwzorzec.stream().filter(p -> p.getPelnynumer().equals(pelnynumer)).collect(Collectors.toList());
         if (!result.isEmpty() && result.size()==1) {
             zwrot = result.get(0);
         }

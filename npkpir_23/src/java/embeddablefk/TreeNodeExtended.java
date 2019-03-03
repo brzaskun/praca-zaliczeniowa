@@ -516,7 +516,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             if (p.getSaldoWn() != 0.0 || p.getSaldoMa() != 0.0) {
                 try {
                     if (kontopobrane.getKontopozycjaID() != null) {
-                        finallNodes.parallelStream().forEach((r)->{
+                        finallNodes.stream().forEach((r)->{
                         String pozycjaBilansWn = kontopobrane.getKontopozycjaID().getPozycjaWn();
                         String pozycjaBilansMa = kontopobrane.getKontopozycjaID().getPozycjaMa();
                         boolean stronaWn =  kontopobrane.getKontopozycjaID().getStronaWn().equals("1") ? true : false;
@@ -629,7 +629,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             if (p.getSaldoWn() != 0.0 || p.getSaldoMa() != 0.0) {
                 try {
                     if (kontopobrane.getKontopozycjaID() != null) {
-                        finallNodes.parallelStream().forEach((r) -> {
+                        finallNodes.stream().forEach((r) -> {
                             String pozycjaBilansWn = kontopobrane.getKontopozycjaID().getPozycjaWn();
                             String pozycjaBilansMa = kontopobrane.getKontopozycjaID().getPozycjaMa();
                             boolean stronaWn = kontopobrane.getKontopozycjaID().getStronaWn().equals("1") ? true : false;

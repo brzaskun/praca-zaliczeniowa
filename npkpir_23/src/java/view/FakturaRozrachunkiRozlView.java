@@ -103,7 +103,7 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
                     }
                 }
             }
-            results.add(new Klienci("nowy klient", "nowy klient", "0123456789", "11-111", "miejscowosc", "ulica", "1", "1"));
+            results.add(new Klienci(-1, "nowy klient", "nowy klient", "0123456789", "11-111", "miejscowosc", "ulica", "1", "1"));
         }
         return results;
     }
@@ -146,9 +146,9 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
     }
     public void sumuj() {
         if (wprowadzoneplatnoscifiltered!=null) {
-            suma = wprowadzoneplatnoscifiltered.parallelStream().mapToDouble(FakturaRozrachunki::getKwota).sum();
+            suma = wprowadzoneplatnoscifiltered.stream().mapToDouble(FakturaRozrachunki::getKwota).sum();
         } else {
-            suma = wprowadzoneplatnosci.parallelStream().mapToDouble(FakturaRozrachunki::getKwota).sum();
+            suma = wprowadzoneplatnosci.stream().mapToDouble(FakturaRozrachunki::getKwota).sum();
         }
     }
     

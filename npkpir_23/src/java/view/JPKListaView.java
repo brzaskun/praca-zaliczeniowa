@@ -60,7 +60,7 @@ public class JPKListaView  implements Serializable {
 //        for (Deklaracjevat p : wyslaneVAT7) {
 //            podatnikdowyslania.add(znajdzpodanik(p.getPodatnik(), podatnicy));
 //        }
-        podatnicy.parallelStream().forEach((p)->{
+        podatnicy.stream().forEach((p)->{
             if (!sprawdzjakiokresvat(p).equals("blad") && p.isPodmiotaktywny()) {
                 jpkmoznarobic.add(p);
             }

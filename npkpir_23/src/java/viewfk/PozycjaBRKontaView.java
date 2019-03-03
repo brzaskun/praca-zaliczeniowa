@@ -184,7 +184,7 @@ public class PozycjaBRKontaView implements Serializable {
     private void uzupelnijpozycjeOKonta(List<PozycjaRZiSBilans> pozycje) {
         List<Konto> lista = kontoDAO.findKontaPrzyporzadkowaneAll("bilansowe", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         if (!lista.isEmpty()) {
-            pozycje.parallelStream().forEach((p)->{
+            pozycje.stream().forEach((p)->{
                 PozycjaRZiSFKBean.wyszukajprzyporzadkowaneBLista(lista, p, wpisView, aktywa0pasywa1);
             });
             pozycjaBilansDAO.editList(pozycje);
@@ -194,7 +194,7 @@ public class PozycjaBRKontaView implements Serializable {
     private void uzupelnijpozycjeOKontaR(List<PozycjaRZiSBilans> pozycje) {
         List<Konto> lista = kontoDAO.findKontaPrzyporzadkowaneAll("wynikowe", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         if (!lista.isEmpty()) {
-            pozycje.parallelStream().forEach((p)->{
+            pozycje.stream().forEach((p)->{
                 PozycjaRZiSFKBean.wyszukajprzyporzadkowaneRLista(lista, p);
             });
             pozycjaBilansDAO.editList(pozycje);

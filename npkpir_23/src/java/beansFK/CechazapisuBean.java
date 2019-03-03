@@ -174,7 +174,7 @@ public class CechazapisuBean {
         ForkJoinPool commonPool = ForkJoinPool.commonPool();
         System.out.println(commonPool.getParallelism());
         Arrays.asList("a1", "a2", "b1", "c2", "c1")
-    .parallelStream()
+    .stream()
     .filter(s -> {
         System.out.format("filter: %s [%s]\n",
             s, Thread.currentThread().getName());

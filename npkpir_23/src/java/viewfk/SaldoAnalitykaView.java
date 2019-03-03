@@ -275,7 +275,7 @@ public class SaldoAnalitykaView implements Serializable {
                 CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyBO);
                 Map<String, SaldoKonto> przygotowanalista = new ConcurrentHashMap<>();
                 List<StronaWiersza> wierszenieuzupelnione = Collections.synchronizedList(new ArrayList<>());
-                kontaklienta.parallelStream().forEach((p) -> {
+                kontaklienta.stream().forEach((p) -> {
                     SaldoKonto saldoKonto = new SaldoKonto();
                     saldoKonto.setKonto(p);
                     przygotowanalista.put(p.getPelnynumer(), saldoKonto);
@@ -283,7 +283,7 @@ public class SaldoAnalitykaView implements Serializable {
                 naniesBOnaKonto(przygotowanalista, zapisyBO);
                 naniesZapisyNaKonto(przygotowanalista, zapisyObrotyRozp, wierszenieuzupelnione, false);
                 naniesZapisyNaKonto(przygotowanalista, zapisyRok, wierszenieuzupelnione, true);
-                przygotowanalista.values().parallelStream().map((s) -> {
+                przygotowanalista.values().stream().map((s) -> {
                     s.sumujBOZapisy();
                     return s;
                 }).forEachOrdered(SaldoKonto::wyliczSaldo);
@@ -309,7 +309,7 @@ public class SaldoAnalitykaView implements Serializable {
     private void przygotowanalistasaldBO(List<Konto> kontaklienta, List<StronaWiersza> zapisyRok) {
         Map<String, SaldoKonto> przygotowanalista = new ConcurrentHashMap<>();
         List<StronaWiersza> wierszenieuzupelnione = Collections.synchronizedList(new ArrayList<>());
-        kontaklienta.parallelStream().map((p) -> {
+        kontaklienta.stream().map((p) -> {
             if (p.getPelnynumer().equals("201-2-34")) {
             }
             return p;
@@ -320,7 +320,7 @@ public class SaldoAnalitykaView implements Serializable {
         });
         resetujBOnaKonto(przygotowanalista);
         naniesZapisyNaKontoBO(przygotowanalista, zapisyRok, wierszenieuzupelnione);
-        przygotowanalista.values().parallelStream().map((s) -> {
+        przygotowanalista.values().stream().map((s) -> {
             s.sumujBOZapisy();
             return s;
         }).forEachOrdered((s) -> {
@@ -472,7 +472,7 @@ public class SaldoAnalitykaView implements Serializable {
 //</editor-fold>
 
     private void resetujBOnaKonto(Map<String, SaldoKonto> przygotowanalista) {
-        przygotowanalista.values().parallelStream().filter((r) -> (r != null)).map((r) -> {
+        przygotowanalista.values().stream().filter((r) -> (r != null)).map((r) -> {
             r.setBoWn(0.0);
             return r;
         }).forEachOrdered((r) -> {
@@ -748,7 +748,7 @@ public class SaldoAnalitykaView implements Serializable {
         CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyBO);
         Map<String, SaldoKonto> przygotowanalista = new ConcurrentHashMap<>();
         List<StronaWiersza> wierszenieuzupelnione = Collections.synchronizedList(new ArrayList<>());
-        kontaklienta.parallelStream().map((p) -> {
+        kontaklienta.stream().map((p) -> {
             if (p.getPelnynumer().equals("202-1-5")) {
             }
             return p;
@@ -760,7 +760,7 @@ public class SaldoAnalitykaView implements Serializable {
         naniesBOnaKonto(przygotowanalista, zapisyBO);
         naniesZapisyNaKonto(przygotowanalista, zapisyObrotyRozp, wierszenieuzupelnione, false);
         naniesZapisyNaKonto(przygotowanalista, zapisyRok, wierszenieuzupelnione, true);
-        przygotowanalista.values().parallelStream().map((s) -> {
+        przygotowanalista.values().stream().map((s) -> {
             s.sumujBOZapisy();
             return s;
         }).forEachOrdered((s) -> {

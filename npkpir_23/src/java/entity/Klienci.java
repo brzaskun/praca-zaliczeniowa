@@ -124,7 +124,10 @@ public class Klienci extends KlienciSuper implements Serializable {
         this.znacznik3 = klienci.znacznik3;
     }
 
-    public Klienci(String npelna, String nskrocona, String nip, String kodpocztowy, String miejscowosc, String ulica, String dom, String lokal) {
+    //id==-1 nowyklient
+    //id==-2 dodaj automatycznie
+    public Klienci(int id, String npelna, String nskrocona, String nip, String kodpocztowy, String miejscowosc, String ulica, String dom, String lokal) {
+        this.id = id;
         this.npelna = npelna;
         this.nskrocona = nskrocona;
         this.nip = nip;

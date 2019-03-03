@@ -382,9 +382,9 @@ public class DokfkView implements Serializable {
         obsluzcechydokumentu();
         pobierzopiszpoprzedniegodokItemSelect();
         rodzajBiezacegoDokumentu = 1;
-        //RequestContext.getCurrentInstance().update("formwpisdokument");
-        //RequestContext.getCurrentInstance().update("wpisywaniefooter");
-        //RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:data2DialogWpisywanie')).select();");
+        RequestContext.getCurrentInstance().update("formwpisdokument");
+        RequestContext.getCurrentInstance().update("wpisywaniefooter");
+        RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:data2DialogWpisywanie')).select();");
     }
     
     public String charakterdokumentu (Dokfk d) {
@@ -1409,7 +1409,7 @@ public class DokfkView implements Serializable {
     }
 
     public void skorygujokreswpisudokumentu(ValueChangeEvent event) {
-        if (selected.getRodzajedok().getKategoriadokumentu() == 1) {
+        if (selected.getRodzajedok()!=null && selected.getRodzajedok().getKategoriadokumentu() == 1) {
             //generuje okres wpisu tylko jezeli jest w trybie wpisu, a wiec zapisz0edytuj1 jest false
             if (zapisz0edytuj1 == false) {
                 String data = selected.getDatawplywu();

@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
@@ -43,38 +44,28 @@ public class KlienciConverterView implements Serializable{
             m = pattern.matcher(query.toUpperCase());
             boolean czynipzagraniczny2 = m.matches();
             if (czynipzagraniczny || czynipzagraniczny2) {
-                listaKlientow.stream().forEach((p)->{
-                    if (p.getNip().startsWith(query.toUpperCase())) {
-                            results.add(p);
-                    }
-                });
+                String query2 = query.toUpperCase();
+                results = listaKlientow.parallelStream().filter((p)->(p.getNip().startsWith(query2))).collect(Collectors.toList()); 
             } else {
                 try {
                     //sluzydosporawdzenia czy chodzi o nip
                     String q = query.substring(0, 1);
                     int i = Integer.parseInt(q);
-                    listaKlientow.stream().forEach((p)->{
-                        if (p.getNip().startsWith(query)) {
-                            results.add(p);
-                        }
-                    });
+                    results = listaKlientow.parallelStream().filter((p)->(p.getNip().startsWith(query))).collect(Collectors.toList()); 
                 } catch (NumberFormatException e) {
-                    listaKlientow.stream().forEach((p)->{
-                        if (p.getNpelna().toLowerCase().contains(query.toLowerCase())) {
-                            results.add(p);
-                        }
-                    });
+                    String query2 = query.toLowerCase();
+                    results = listaKlientow.parallelStream().filter((p)->(p.getNpelna().toLowerCase().contains(query2.toLowerCase()))).collect(Collectors.toList()); 
                 }
             }
             pattern = Pattern.compile("[0-9]{10}");
             m = pattern.matcher(query);
             boolean czytopolskinip  = m.matches();
             if (czytopolskinip) {
-                klientautomat = new Klienci("dodaj klienta automatycznie", "", query, "", "", "", "", "");
+                klientautomat = new Klienci(-2,"dodaj klienta automatycznie", "", query, "", "", "", "", "");
                 results.add(klientautomat);
                 
             }
-            results.add(new Klienci("nowy klient", "nowy klient", "0123456789", "11-111", "miejscowosc", "ulica", "1", "1"));
+            results.add(new Klienci(-1,"nowy klient", "nowy klient", "0123456789", "11-111", "miejscowosc", "ulica", "1", "1"));
         }
         return results;
     }
