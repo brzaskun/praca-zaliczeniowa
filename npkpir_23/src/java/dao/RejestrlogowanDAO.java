@@ -32,7 +32,11 @@ public class RejestrlogowanDAO  extends DAO implements Serializable {
     }
 
     public Rejestrlogowan findByIP(String ip) {
-        return sessionFacade.findRejestrlogowanByIP(ip);
+        Rejestrlogowan zwrot = null;
+        try {
+            zwrot = sessionFacade.findRejestrlogowanByIP(ip);
+        } catch (Exception e){}
+        return zwrot;
     }
 
     
