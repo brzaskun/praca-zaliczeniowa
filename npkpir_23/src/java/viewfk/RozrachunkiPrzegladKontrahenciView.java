@@ -64,7 +64,7 @@ public class RozrachunkiPrzegladKontrahenciView implements Serializable{
     }
     
     @PostConstruct
-    private void init() {E.m(this);
+    private void init() {
         listaKontRozrachunkowych.addAll(kontoDAOfk.findKontaRozrachunkoweWszystkie(wpisView));
         zweryfikujobecnosczapisow();
         if (listaKontRozrachunkowych != null && listaKontRozrachunkowych.isEmpty()==false) {

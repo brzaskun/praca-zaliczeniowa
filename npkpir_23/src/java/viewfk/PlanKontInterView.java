@@ -43,7 +43,7 @@ public class PlanKontInterView implements Serializable {
     
     
     @PostConstruct
-    public void init() {E.m(this);
+    public void init() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         wykazkontwzor = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
     }

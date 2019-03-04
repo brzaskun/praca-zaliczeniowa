@@ -43,7 +43,7 @@ public class SkladkaStowarzyszenieView implements Serializable {
     private WpisView wpisView;
     
     @PostConstruct
-    private void init() {E.m(this);
+    private void init() {
         skladkaStowarzyszenieLista = skladkaStowarzyszenieDAO.findByPodatnikRok(wpisView);
         rodzajCzlonkostwaLista = rodzajCzlonkostwaDAO.findAll();
         Collections.sort(rodzajCzlonkostwaLista, new RodzajCzlonkostwacomparator());

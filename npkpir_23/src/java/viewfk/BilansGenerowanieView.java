@@ -109,7 +109,7 @@ public class BilansGenerowanieView implements Serializable {
     }
     
     @PostConstruct
-    private void init() {E.m(this);
+    private void init() {
         List<Waluty> waluty = walutyDAOfk.findAll();
         for (Waluty p : waluty) {
             listawalut.put(p.getSymbolwaluty(), p);

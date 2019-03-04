@@ -45,7 +45,7 @@ public class PlanKontBOView implements Serializable {
     }
 
     @PostConstruct
-    public void init() {E.m(this);
+    public void init() {
         if (wpisView instanceof WpisView) {
             this.wykazkontGrupa = new ConcurrentHashMap<>();
             List<Konto> wykazkont0 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "0%");

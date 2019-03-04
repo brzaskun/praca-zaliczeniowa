@@ -66,7 +66,7 @@ public class DelegacjeView  implements Serializable{
    }
     
     
-    public void init() {E.m(this);
+    public void init() {
         try {
             delegacjekrajowe = delegacjaDAO.findDelegacjaPodatnik(wpisView, false);
             delegacjezagraniczne = delegacjaDAO.findDelegacjaPodatnik(wpisView,true);

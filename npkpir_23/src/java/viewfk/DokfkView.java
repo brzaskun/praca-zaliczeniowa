@@ -283,7 +283,7 @@ public class DokfkView implements Serializable {
 
     //to zostaje bo tu i tak nie pobiera dokumentow
     @PostConstruct
-    public void init() {E.m(this);
+    public void init() {
         E.m(this);
         try {
             if (wpisView.isKsiegirachunkowe()) {
@@ -1231,7 +1231,6 @@ public class DokfkView implements Serializable {
             }
         } catch (Exception e) {
             E.e(e);
-            System.out.println(""+E.e(e));
             Msg.msg("Błąd podczas usuwania wiersza");
         }
     }
@@ -1356,7 +1355,6 @@ public class DokfkView implements Serializable {
                             if (w.getOpisWiersza() == null || w.getOpisWiersza().equals("")) {
                                 w.setOpisWiersza(selected.getOpisdokfk());
                             }
-                            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                         }
                         if(wpisView.getVatokres()==0) {
                             DokFKVATBean.pobierzkontaZpoprzedniegoDokumentu(poprzedniDokument, selected);

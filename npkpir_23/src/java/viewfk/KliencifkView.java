@@ -79,7 +79,7 @@ public class KliencifkView implements Serializable {
     }
 
     @PostConstruct
-    private void init() {E.m(this);
+    private void init() {
         if (wpisView.isKsiegirachunkowe()) {
             listawszystkichklientow = klienciDAO.findAll();
             listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());

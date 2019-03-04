@@ -107,7 +107,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
     }
 
     @PostConstruct
-    private void init() {E.m(this);
+    private void init() {
 
         //(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota)
 //        pozycje_old.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Przychody netto ze sprzedaży i zrównane z nimi, w tym:", false));

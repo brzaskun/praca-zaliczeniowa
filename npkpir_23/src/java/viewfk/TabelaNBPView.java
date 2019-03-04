@@ -33,7 +33,7 @@ public class TabelaNBPView implements Serializable {
     }
     
     @PostConstruct
-    private void init() {E.m(this);
+    private void init() {
         listanpb = tabelanbpDAO.findAll();
     }
 

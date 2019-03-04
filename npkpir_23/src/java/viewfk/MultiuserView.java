@@ -51,7 +51,7 @@ public class MultiuserView   implements Serializable{
     }
     
     @PostConstruct
-    private void init() {E.m(this);
+    private void init() {
         listamutliuserow.addAll(uzDAO.findByUprawnienia("Multiuser"));
         listamutliuserow.addAll(uzDAO.findByUprawnienia("GuestFaktura"));
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();

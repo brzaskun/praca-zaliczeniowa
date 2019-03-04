@@ -52,7 +52,7 @@ public class SprawozdanieFinansoweView implements Serializable {
     }
 
     @PostConstruct
-    private void init() {E.m(this);
+    private void init() {
         listapodatnikow = podatnikDAO.findPodatnikFK();
         Collections.sort(listapodatnikow, new Podatnikcomparator());
         sprawozdaniapodatnicy = Collections.synchronizedList(new ArrayList<>());

@@ -72,7 +72,7 @@ public class UkladBRWzorcowyView implements Serializable{
     }
     
     @PostConstruct
-    private void init() {E.m(this);
+    private void init() {
        try {
             lista =  ukladBRDAO.findPodatnik(wpisView.getPodatnikwzorcowy());
             Collections.sort(lista, new UkladBRcomparator());

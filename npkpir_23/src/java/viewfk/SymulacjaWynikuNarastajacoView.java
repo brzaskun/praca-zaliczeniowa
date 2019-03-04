@@ -75,7 +75,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     
     
     @PostConstruct
-    public void init() {E.m(this);
+    public void init() {
         this.listamiesiecy = Collections.synchronizedList(new ArrayList<>());
         this.listamiesiecypoprzednich = Collections.synchronizedList(new ArrayList<>());
         this.dozaplaty = Collections.synchronizedList(new ArrayList<>());

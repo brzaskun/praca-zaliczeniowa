@@ -40,7 +40,7 @@ public class PlanKontSaldaView implements Serializable {
     private boolean tylkosyntetyka;
     private String kontadowyswietlenia;
 
-    public void init() {E.m(this);
+    public void init() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         int czysaslownikowe = sprawdzkonta();
         if (czysaslownikowe == 0) {

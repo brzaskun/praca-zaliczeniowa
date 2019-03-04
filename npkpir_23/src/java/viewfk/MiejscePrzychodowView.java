@@ -73,7 +73,7 @@ public class MiejscePrzychodowView  implements Serializable{
     }
 
     @PostConstruct
-    public void init() {E.m(this);
+    public void init() {
         try {
             miejscaprzychodow = miejscePrzychodowDAO.findMiejscaPodatnikWszystkie(wpisView.getPodatnikObiekt());
             czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());

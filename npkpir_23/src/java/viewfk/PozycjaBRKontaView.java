@@ -97,7 +97,7 @@ public class PozycjaBRKontaView implements Serializable {
     }
 
     @PostConstruct
-    public void init() {E.m(this);
+    public void init() {
         listaukladow = ukladBRDAO.findPodatnik(wpisView.getPodatnikObiekt());
         wybranyuklad = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladow);
         if (listaukladow != null && wybranyuklad != null) {

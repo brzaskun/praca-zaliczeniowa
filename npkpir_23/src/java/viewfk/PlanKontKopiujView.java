@@ -53,7 +53,7 @@ public class PlanKontKopiujView implements Serializable {
     
 
     @PostConstruct
-    private void init() {E.m(this);
+    private void init() {
         rokzrodlowy = Roki.rokPoprzedni(wpisView.getRokWpisuSt());
         rokzrodlowy_wzorzec = wpisView.getRokWpisuSt();
         rokdocelowy = wpisView.getRokWpisuSt();

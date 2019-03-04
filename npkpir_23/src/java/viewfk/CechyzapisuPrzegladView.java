@@ -55,7 +55,7 @@ public class CechyzapisuPrzegladView implements Serializable{
     }
     
     
-    public void init() {E.m(this);
+    public void init() {
         wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
         zapisyZCecha = Collections.synchronizedList(new ArrayList<>());
         zapisyZCecha = CechazapisuBean.pobierzstrony(wykazZaksiegowanychDokumentow);

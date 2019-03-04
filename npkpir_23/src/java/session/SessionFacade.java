@@ -885,6 +885,12 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<Konto> findKontaOstAlityka(Podatnik podatnik, Integer rok) {
         return Collections.synchronizedList(em.createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnik").setParameter("mapotomkow", false).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
+    
+    public List<Konto> findKontaOstAlitykaRO(Podatnik podatnik, Integer rok) {
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnik").setParameter("mapotomkow", false).setParameter("podatnik", podatnik).setParameter("rok", rok)
+                .setHint(QueryHints.READ_ONLY, HintValues.TRUE)
+                .getResultList());
+    }
 
     public List<Konto> findKontaOstAlitykaWynikowe(Podatnik podatnik, Integer rok) {
         return Collections.synchronizedList(em.createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnikWynikowe").setParameter("mapotomkow", false).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
@@ -1645,6 +1651,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         LoadGroup lg = new LoadGroup();
         lg.addAttribute("wiersz.dokfk");
         return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikRok").setParameter("podatnikObj", podatnik).setParameter("rok", rok)
+                .setHint(QueryHints.READ_ONLY, HintValues.TRUE)
                 .setHint(QueryHints.REFRESH, HintValues.TRUE)
                 .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
     }
@@ -1654,6 +1661,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         LoadGroup lg = new LoadGroup();
         lg.addAttribute("wiersz.dokfk");
         return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikRokWalutaBilans").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty)
+                .setHint(QueryHints.READ_ONLY, HintValues.TRUE)
                 .setHint(QueryHints.REFRESH, HintValues.TRUE)
                 .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
     }
@@ -1663,12 +1671,13 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         LoadGroup lg = new LoadGroup();
         lg.addAttribute("wiersz.dokfk");
         return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikRokWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok)
+                .setHint(QueryHints.READ_ONLY, HintValues.TRUE)
                 .setHint(QueryHints.REFRESH, HintValues.TRUE)
                 .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
     }
     
     public List<StronaWiersza> findStronaByPodatnikRokBilans(Podatnik podatnik, String rok) {
-        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikRokBilans").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList());
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikRokBilans").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setHint(QueryHints.READ_ONLY, HintValues.TRUE).getResultList());
     }
 
     public List<Konto> findKontoByPodatnikRokBilans(Podatnik podatnik, String rok) {
@@ -2023,15 +2032,15 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<EVatwpisFK> findEVatwpisFKByPodatnik(Podatnik podatnik) {
-        return Collections.synchronizedList(em.createNamedQuery("EVatwpisFK.findByPodatnik").setParameter("podatnik", podatnik).getResultList());
+        return Collections.synchronizedList(em.createNamedQuery("EVatwpisFK.findByPodatnik").setParameter("podatnik", podatnik).setHint(QueryHints.READ_ONLY, HintValues.TRUE).getResultList());
     }
 
     public List<EVatwpisFK> findEVatwpisFKByPodatnikRok(Podatnik podatnik, String rok) {
-        return Collections.synchronizedList(em.createNamedQuery("EVatwpisFK.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
+        return Collections.synchronizedList(em.createNamedQuery("EVatwpisFK.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).setHint(QueryHints.READ_ONLY, HintValues.TRUE).getResultList());
     }
 
     public List<EVatwpisFK> findEVatwpisFKByPodatnikRokInnyOkres(Podatnik podatnik, String rok) {
-        return Collections.synchronizedList(em.createNamedQuery("EVatwpisFK.findByPodatnikRokInnyOkres").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
+        return Collections.synchronizedList(em.createNamedQuery("EVatwpisFK.findByPodatnikRokInnyOkres").setParameter("podatnik", podatnik).setParameter("rok", rok).setHint(QueryHints.READ_ONLY, HintValues.TRUE).getResultList());
     }
 
     public UkladBR findUkladBRUklad(UkladBR ukladBR) {

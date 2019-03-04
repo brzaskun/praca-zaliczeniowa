@@ -101,7 +101,7 @@ public class SymulacjaWynikuView implements Serializable {
         this.pozycjePodsumowaniaWynikuNowe = Collections.synchronizedList(new ArrayList<>());
     }
 
-    public void init() {E.m(this);
+    public void init() {
         List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlitykaWynikowe(wpisView);
         List<Konto> kontaklientaprzychody = Collections.synchronizedList(new ArrayList<>());
         List<Konto> kontaklientakoszty = Collections.synchronizedList(new ArrayList<>());

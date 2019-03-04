@@ -50,7 +50,7 @@ public class SkladkaCzlonekView implements Serializable {
     private SkladkaStowarzyszenie skladkadomyslna;
     
     @PostConstruct
-    private void init() {E.m(this);
+    private void init() {
         skladkaStowarzyszenieLista = skladkaStowarzyszenieDAO.findByPodatnikRok(wpisView);
         List<MiejscePrzychodow> czlonkowiestowarzyszenia = miejscePrzychodowDAO.findCzlonkowieStowarzyszenia(wpisView.getPodatnikObiekt());
         skladkaCzlonekLista = skladkaCzlonekDAO.findPodatnikRok(wpisView);

@@ -43,7 +43,7 @@ public class CechazapisuView implements Serializable {
     }
     
     @PostConstruct
-    public void init() {E.m(this);
+    public void init() {
         pobranecechy = cechazapisuDAOfk.findAll();
     }
     
@@ -90,7 +90,6 @@ public class CechazapisuView implements Serializable {
     private DokDAO dokDAO;
     
     public void nadajid() {
-        System.out.println("start");
         List<Dok> wszystkie = dokDAO.findAll();
         List<Cechazapisu> cechy = cechazapisuDAOfk.findAll();
         HashMap<String, Cechazapisu> cechymapa = stworzmape(cechy);
@@ -100,7 +99,6 @@ public class CechazapisuView implements Serializable {
             });
         }
         cechazapisuDAOfk.editList(wszystkie);
-        System.out.println("koniec");
     }
     
     private HashMap<String, Cechazapisu> stworzmape(List<Cechazapisu> cechy) {

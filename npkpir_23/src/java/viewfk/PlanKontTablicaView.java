@@ -39,7 +39,7 @@ public class PlanKontTablicaView {
     
     
     @PostConstruct
-    private void init() {E.m(this);
+    private void init() {
         int maxlevel = kontoDAOfk.findMaxLevelPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         for (int i = 0; i <= maxlevel; i++) {
             List<Konto> pobranekontazlevelu = kontoDAOfk.findKontazLevelu(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), i);

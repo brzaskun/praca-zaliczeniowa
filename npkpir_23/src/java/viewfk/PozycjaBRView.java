@@ -124,7 +124,7 @@ public class PozycjaBRView implements Serializable {
     }
 
     @PostConstruct
-    public void init() {E.m(this);
+    public void init() {
         try {
             if (uklad == null || uklad.getUklad() == null) {
                 uklad = ukladBRDAO.findukladBRPodatnikRokAktywny(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());

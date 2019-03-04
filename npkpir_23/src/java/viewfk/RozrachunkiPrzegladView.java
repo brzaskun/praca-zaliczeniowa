@@ -77,7 +77,7 @@ public class RozrachunkiPrzegladView implements Serializable{
     }
     
     
-    public void init() {E.m(this);
+    public void init() {
         wykazkont = Collections.synchronizedList(new ArrayList<>());
         //listaRozrachunkow = Collections.synchronizedList(new ArrayList<>());
         stronyWiersza = Collections.synchronizedList(new ArrayList<>());

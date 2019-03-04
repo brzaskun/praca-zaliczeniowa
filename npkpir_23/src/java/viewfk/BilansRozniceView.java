@@ -42,7 +42,7 @@ public class BilansRozniceView implements Serializable {
     private int liczbawierszyBO;
     private int liczbawierszyDok;
     
-    public void init() {E.m(this);
+    public void init() {
         List<WierszBO> wierszeBO = wierszBODAO.listaRokMc(wpisView);
         liczbawierszyBO = wierszeBO.size();
         List<Dokfk> dokfk = dokDAOfk.findDokfkPodatnikRokMcKategoria(wpisView, "BO");

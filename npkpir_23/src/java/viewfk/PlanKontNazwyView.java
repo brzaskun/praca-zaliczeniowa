@@ -39,7 +39,7 @@ public class PlanKontNazwyView implements Serializable {
     private List<Konto> wykazkontselected;
     
     @PostConstruct
-    private void init() {E.m(this);
+    private void init() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         List<Konto> wykazkontwzorzec = kontoDAOfk.findWszystkieKontaPodatnikaPobierzRelacje(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
         for (Iterator<Konto> it = wykazkont.iterator();it.hasNext();) {

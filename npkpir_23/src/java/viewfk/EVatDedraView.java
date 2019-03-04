@@ -55,7 +55,7 @@ public class EVatDedraView  implements Serializable {
     }
     
     @PostConstruct
-    private void init() {E.m(this);
+    private void init() {
         wiersze = eVatwpisDedraDAO.findWierszePodatnikMc(wpisView);
         if (!wiersze.isEmpty()) {
             wiersze.add(sumuj());

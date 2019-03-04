@@ -32,7 +32,7 @@ public class RodzajeCzlonkostwaView implements Serializable {
     boolean zapisz0edytuj1;
     
     @PostConstruct
-    private void init() {E.m(this);
+    private void init() {
         rodzajCzlonkostwaLista = rodzajCzlonkostwaDAO.findAll();
     }
     public void pobierz() {

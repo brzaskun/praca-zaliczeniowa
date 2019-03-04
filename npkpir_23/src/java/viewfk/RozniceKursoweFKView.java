@@ -61,7 +61,7 @@ public class RozniceKursoweFKView implements Serializable {
     }
 
     
-    public void init() {E.m(this);
+    public void init() {
         mczaksiegowane = wpisView.getMiesiacWpisu();
         pobierzdane();
     }

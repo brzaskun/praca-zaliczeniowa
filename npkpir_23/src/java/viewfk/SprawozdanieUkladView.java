@@ -44,7 +44,7 @@ public class SprawozdanieUkladView  implements Serializable {
     }
     
     @PostConstruct
-    private void init() {E.m(this);
+    private void init() {
         zachowaneuklady = sprawozdanieUkladDAO.findAll();
     }
     

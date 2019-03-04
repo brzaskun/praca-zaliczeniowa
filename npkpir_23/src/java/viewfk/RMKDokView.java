@@ -43,7 +43,7 @@ public class RMKDokView implements Serializable {
     private double obrotyWn;
     
     
-    public void init() {E.m(this);
+    public void init() {
          E.m(this);
        List<Konto> kontaklienta = kontoDAOfk.findKontaRMK(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
        kontarmk = przygotowanalistasald(kontaklienta);

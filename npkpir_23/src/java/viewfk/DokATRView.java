@@ -54,7 +54,7 @@ public class DokATRView  implements Serializable{
     
 
     @PostConstruct
-    private void init() {E.m(this);
+    private void init() {
         lista= dokDAOfk.findDokfkPodatnikRokKategoria(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt(), "ATR");
     }
     

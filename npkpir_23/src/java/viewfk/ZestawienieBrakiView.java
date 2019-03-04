@@ -34,7 +34,7 @@ public class ZestawienieBrakiView  implements Serializable {
     private boolean jestAMO;
     
     @PostConstruct
-    private void init() {E.m(this);
+    private void init() {
         List<Dokfk> dokmc = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
         for (Dokfk p : dokmc) {
             if (p.getSeriadokfk().equals("ARS")) {

@@ -39,7 +39,7 @@ public class KontokategoriaView  implements Serializable {
     }
     
     @PostConstruct
-    private void init() {E.m(this);
+    private void init() {
         this.lista = kontokategoriaDAOfk.findAll();
     }
     
