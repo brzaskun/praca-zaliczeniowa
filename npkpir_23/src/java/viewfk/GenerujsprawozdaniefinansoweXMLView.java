@@ -107,10 +107,10 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
             String polecenie = "wydrukXML(\""+sciezka+"\")";
             RequestContext.getCurrentInstance().execute(polecenie);
             Msg.msg("Wygenerowano sprawozdanie finansowe");
-            System.out.println("Wygenerowano sprawozdanie finansowe");
+            //System.out.println("Wygenerowano sprawozdanie finansowe");
         } catch (Exception e) {
-            //Msg.msg("e","Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
-            System.out.println("Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
+            Msg.msg("e","Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
+            //System.out.println("Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
         }
     }
     
