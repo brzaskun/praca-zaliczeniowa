@@ -8,6 +8,9 @@ package treasures;
 import entity.Faktura;
 import entity.FakturaDuplikat;
 import entity.Fakturywystokresowe;
+import entity.Podatnik;
+import entity.Rodzajedok;
+import entityfk.Konto;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -39,15 +42,54 @@ public class JPAProgramatically {
        public static void main(String[] args)  {
         EntityManagerFactory emfH2 = javax.persistence.Persistence.createEntityManagerFactory("JavaApplication4PU");
         EntityManager emH2 = emfH2.createEntityManager();
-        List<Fakturywystokresowe> faktury = emH2.createQuery("SELECT o FROM Fakturywystokresowe o").getResultList();
-//        emH2.getTransaction().begin();
+        List<Podatnik> podatnicy = emH2.createQuery("SELECT o FROM Podatnik o").getResultList();
+        
 //        for (Fakturywystokresowe f: faktury) {
 //            //String query = "SELECT d FROM Faktura d WHERE d.fakturaPK.numerkolejny='"+f.getDokument().getFakturaPK().getNumerkolejny()+"' AND d.fakturaPK.wystawcanazwa='"+f.getDokument().getFakturaPK().getWystawcanazwa()+"'";
 //            //Faktura faktura = (Faktura) emH2.createQuery(query).getSingleResult();
 //            //f.setFa_id(faktura.getId());
 //            emH2.merge(f);
 //        }
-//        emH2.getTransaction().commit();
+        for (Podatnik p :podatnicy) {
+            emH2.getTransaction().begin();
+            List<Konto> konta =  emH2.createQuery("SELECT o FROM Konto o WHERE o.podatnik =:podatnik AND o.rok =:rok").setParameter("podatnik", p).setParameter("rok", 2019).getResultList();
+            List<Rodzajedok> rodzajedok = emH2.createQuery("SELECT o FROM Rodzajedok o WHERE o.podatnikObj =:podatnik").setParameter("podatnik", p).getResultList();
+            if (!konta.isEmpty()) {
+                for (Rodzajedok s : rodzajedok) {
+                    podmienkonta(s,konta);
+                    emH2.merge(s);
+                }
+                System.out.println("podatnik "+p.getPrintnazwa());
+            }
+            emH2.getTransaction().commit();
+            
+        }
         System.out.println("koniec");
+    }
+
+    private static void podmienkonta(Rodzajedok s, List<Konto> konta) {
+        Konto p1 = s.getKontoRZiS();
+        Konto p2 = s.getKontorozrachunkowe();
+        Konto p3 = s.getKontovat();
+        if (p1!=null && p1.getRok()!=2019) {
+            s.setKontoRZiS(nowekonto(p1,konta));
+        }
+        if (p2!=null && p2.getRok()!=2019) {
+            s.setKontorozrachunkowe(nowekonto(p2,konta));
+        }
+        if (p3!=null && p3.getRok()!=2019) {
+            s.setKontovat(nowekonto(p3,konta));
+        }
+    }
+
+    private static Konto nowekonto(Konto p1, List<Konto> konta) {
+        Konto zwrot = null;
+        for (Konto k : konta) {
+            if (p1.getPelnynumer().equals(k.getPelnynumer())) {
+                zwrot = k;
+                break;
+            }
+        }
+        return zwrot;
     }
 }
