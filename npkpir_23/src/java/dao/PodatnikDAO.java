@@ -32,6 +32,14 @@ public class PodatnikDAO extends DAO implements Serializable{
         }
     }
     
+    public  List<Podatnik> findAllRO(){
+        try {
+            return podatnikFacade.findAktywnyPodatnikRO(true);
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
+    
      public  List<Podatnik> findAllManager(){
         try {
             return podatnikFacade.findAll(Podatnik.class);

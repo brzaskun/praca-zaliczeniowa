@@ -44,7 +44,7 @@ public class RodzajeDokKlientaView implements Serializable {
     @PostConstruct
     private void init() {
         try {
-            rodzajedokKlienta = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
+            rodzajedokKlienta = rodzajedokDAO.findListaPodatnikRO(wpisView.getPodatnikObiekt());
             boolean niepodatnikVAT = !wpisView.isVatowiec();
             if (niepodatnikVAT) {
                 for (Iterator<Rodzajedok> it = rodzajedokKlienta.iterator();it.hasNext();) {
