@@ -1348,14 +1348,12 @@ public class DokfkView implements Serializable {
                 if (selected.getKontr() != null) {
                     poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
                     if (poprzedniDokument != null) {
-                        if(selected.getOpisdokfk()==null ||selected.getOpisdokfk().equals("")) {
                             selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
                             RequestContext.getCurrentInstance().update("formwpisdokument:opisdokumentu");
                             Wiersz w = selected.getListawierszy().get(0);
                             if (w.getOpisWiersza() == null || w.getOpisWiersza().equals("")) {
                                 w.setOpisWiersza(selected.getOpisdokfk());
                             }
-                        }
                         if(wpisView.getVatokres()==0) {
                             DokFKVATBean.pobierzkontaZpoprzedniegoDokumentu(poprzedniDokument, selected);
                         }
