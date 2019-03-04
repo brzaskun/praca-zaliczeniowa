@@ -256,6 +256,15 @@ public class KontoDAOfk extends DAO implements Serializable {
         }
     }
     
+    public List<Konto> findWszystkieKontaPodatnikaRO(Podatnik podatnik, String rok) {
+        try {
+            return Collections.synchronizedList(kontoFacade.findKontoPodatnikRO(podatnik, rok));
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
+    
     public List<Konto> findWszystkieKontaPodatnikaPobierzRelacje(Podatnik podatnik, String rok) {
         try {
             return kontoFacade.findKontoPodatnikRelacje(podatnik, rok);
