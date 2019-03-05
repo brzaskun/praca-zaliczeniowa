@@ -1760,7 +1760,7 @@ public class DokfkView implements Serializable {
             totylkoedycjazapis = true;
             Msg.msg("Wybrano dokument do edycji: "+selected.getDokfkSN());
 //            RequestContext.getCurrentInstance().update("formwpisdokument");
-//            RequestContext.getCurrentInstance().update("zestawieniezapisownakontachpola");
+//            RequestContext.getCurrentInstance().update("zestawieniezapisownakontachpola1");
 //            String nazwa = "formwpisdokument:dataList:"+numer+":opisdokwpis";
 //            String wierszf = "$(document.getElementById('"+nazwa+"')).select()";
 //            RequestContext.getCurrentInstance().execute(wierszf);
@@ -1776,7 +1776,7 @@ public class DokfkView implements Serializable {
             totylkoedycjazapis = true;
             Msg.msg("Wybrano dokument do edycji: "+selected.getDokfkSN());
 //            RequestContext.getCurrentInstance().update("formwpisdokument");
-//            RequestContext.getCurrentInstance().update("zestawieniezapisownakontachpola");
+//            RequestContext.getCurrentInstance().update("zestawieniezapisownakontachpola1");
 //            String nazwa = "formwpisdokument:dataList:"+numer+":opisdokwpis";
 //            String wierszf = "$(document.getElementById('"+nazwa+"')).select()";
 //            RequestContext.getCurrentInstance().execute(wierszf);

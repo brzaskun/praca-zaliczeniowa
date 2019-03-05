@@ -35,8 +35,8 @@
                     <p:commandButton value="#{mgs.pobierz}" actionListener="#{saldoSyntetykaView.odswiezsaldosyntetyczne()}" style="width: 120px; margin-left: 20px;" update="@form, :akordeon:tabelazsumamisyntetyka"/>
                 </p:column>
                 <h:outputText value="#{mgs.przetwarzanie}"/>
-                <p:commandButton value="#{mgs.drukujtab}" actionListener="#{saldoSyntetykaView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
-                <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{saldoSyntetykaView.drukujS(2)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
+                <p:commandButton value="#{mgs.drukujtab}" actionListener="#{saldoSyntetykaView.drukuj(1)}" style="width: 120px; margin-left: 20px;" />
+                <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{saldoSyntetykaView.drukujS(2)}" style="width: 120px; margin-left: 20px;" />
             </p:panelGrid>
             
             <p:dataTable id="tablicasaldasyntetyczne" value="#{saldoSyntetykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"

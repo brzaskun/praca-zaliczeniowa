@@ -216,9 +216,9 @@ public class SaldoSyntetykaView implements Serializable {
     
     public void drukuj(int i) {
         if (listaSaldoKontofilter == null) {
-            PdfKonta.drukuj(listaSaldoKonto, wpisView, i, 0, wpisView.getMiesiacWpisu(), sumaSaldoKonto);
+            PdfKonta.drukuj(listaSaldoKonto, wpisView, i, 1, wpisView.getMiesiacWpisu(), sumaSaldoKonto);
         } else {
-            PdfKonta.drukuj(listaSaldoKontofilter, wpisView, i, 0, wpisView.getMiesiacWpisu(), sumaSaldoKonto);
+            PdfKonta.drukuj(listaSaldoKontofilter, wpisView, i, 1, wpisView.getMiesiacWpisu(), sumaSaldoKonto);
         }
     }
     

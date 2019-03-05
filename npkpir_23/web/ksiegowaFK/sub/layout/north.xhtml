@@ -11,7 +11,6 @@
             <p:menubar autoDisplay="true" style="border: none;">
                 <p:menuitem icon="fa fa-institution" value="firma" outcome="firmaFK"/>
                 <p:menuitem icon="fa fa-stack-overflow" value="#{mgs.dokumenty}" outcome="menudokumentyFK" rendered="#{WpisView.czegosbrakuje == false}"/>
-                <p:menuitem icon="fa fa-pencil" value="zapisy kont" outcome="raportyFK" rendered="#{WpisView.czegosbrakuje == false}"/>
                 <p:menuitem icon="fa fa-sheqel" value="salda kont" outcome="zestawieniaFK" rendered="#{WpisView.czegosbrakuje == false}"/>
                 <p:menuitem icon="fa fa-tasks" value="VAT" outcome="rejestryFK" rendered="#{WpisView.czegosbrakuje == false}"/>
                 <p:menuitem icon="fa fa-clock-o" value="rejestry" outcome="rmkFK" rendered="#{WpisView.czegosbrakuje == false}"/>
@@ -20,6 +19,7 @@
                 <p:menuitem icon="fa fa-gear" value="wzorce" outcome="menuustawieniaFK" rendered="#{WpisView.czegosbrakuje == false and facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem icon="fa fa-building-o" value="#{mgs.bilans}" outcome="bilanseFK" rendered="#{WpisView.czegosbrakuje == false}"/>
                 <p:menuitem icon="fa fa-columns" value="deklaracje"  rendered="#{WpisView.czegosbrakuje == false}"/>
+                <p:menuitem icon="fa fa-pencil" value="stow." outcome="raportyFK" rendered="#{WpisView.czegosbrakuje == false}"/>
                 <p:menuitem icon="fa fa-car" value="środki trw." outcome="srodkitrwaleFK" rendered="#{WpisView.czegosbrakuje == false}">
                     <f:actionListener binding="#{srodkiTrwaleAMOView.init()}"/>
                     <f:actionListener binding="#{STRTableView.init()}"/>

@@ -34,8 +34,8 @@
                 </p:column>
                 
                     <h:outputText value="#{mgs.przetwarzanie}"/>
-                    <p:commandButton value="#{mgs.drukujtab}" actionListener="#{saldoAnalitykaView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikObiekt.nip}')"/>
-                    <p:splitButton value="#{mgs.drukujszcz}" actionListener="#{saldoAnalitykaView.drukuj(2)}"  style="margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikObiekt.nip}')">
+                    <p:commandButton value="#{mgs.drukujtab}" actionListener="#{saldoAnalitykaView.drukuj(1)}" style="width: 120px; margin-left: 20px;" />
+                    <p:splitButton value="#{mgs.drukujszcz}" actionListener="#{saldoAnalitykaView.drukuj(2)}"  style="margin-left: 20px;" >
                         <p:menuitem value="#{mgs.drukujzapbieżmc}" actionListener="#{saldoAnalitykaView.drukuj(3)}" oncomplete="wydrukkonta('#{WpisView.podatnikObiekt.nip}')"/>
                     </p:splitButton>
                      <p:column >
@@ -172,7 +172,7 @@
         </h:form>
         <h:form id="tabelazsumamianalityka">
             <p:dataTable id="sumy" value="#{saldoAnalitykaView.sumaSaldoKonto}" var="loopka1" styleClass="gridtablicaanalityczne"
-                         style="float: right; margin-right: 170px; width: 900px; height: 60px;" emptyMessage="#{mgs.niewybranokonta}">
+                         style="float: right; margin-right: 200px; width: 890px; height: 60px;" emptyMessage="#{mgs.niewybranokonta}">
                 <p:column headerText="#{mgs.boWn}" width="45" >
                     <bcf:outputpl value="#{loopka1.boWn}"/>
                 </p:column>

@@ -23,7 +23,7 @@
     </script>
 
     <p:dialog id="zapisy" header="Zapisy na pojedynczym koncie firma - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zapisynakoncie" appendTo="@(body)"
-              resizable="false" onShow="ustawdialog('zapisy','menuzapisykont',1650,780);doczeplistnerydopol();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
+              resizable="false" onShow="ustawdialog('zapisy','menudokumenty',1650,780);doczeplistnerydopol();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
               onHide="resetujdialog('zapisy');"  closeOnEscape="true" minimizable="true" dynamic="true"
               >
         <p:ajax event="open" listener="#{kontoZapisFKView.init()}" update="formwpiskonta form tabelazzapisami tabelazsumami"/>
@@ -287,7 +287,7 @@
                     </p:dataTable>
                     <p:contextMenu for="tabela" style="width: 200px;"  rendered="#{!WpisView.rokzamkniety}">
                         <p:menuitem value="edytuj dok" global="false" icon="fa fa-edit" 
-                                    update="formwpisdokument zestawieniezapisownakontachpola"
+                                    update="formwpisdokument zestawieniezapisownakontachpola1"
                                     actionListener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(kontoZapisFKView.wybranezapisydosumowania.get(0))}"
                                     oncomplete="PF('wpisywanie').show();"/>
                         <p:menuitem value="rozlicz transakcje" icon="fa fa-tasks" actionListener="#{kontoZapisFKView.rozliczzaznaczone()}" update=":tabelazzapisami:tabela"/>
@@ -384,7 +384,7 @@
                 </p:panelGrid>
             </p:layoutUnit>  
         </p:layout>
-        <h:form id="zestawieniezapisownakontachpola">
+        <h:form id="zestawieniezapisownakontachpola1">
             <h:inputHidden id="wierszDoPodswietlenia" value="#{dokfkView.wierszDoPodswietlenia}"/>
         </h:form>
     </p:dialog>

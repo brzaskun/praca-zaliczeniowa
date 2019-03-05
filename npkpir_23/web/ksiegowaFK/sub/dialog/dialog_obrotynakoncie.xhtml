@@ -7,7 +7,7 @@
     >
 
     <p:dialog id="obroty" header="Obroty na kontach - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="obrotynakoncie"   dynamic="true"
-              resizable="false" onShow="ustawdialog('obroty','menuzapisykont',1500,750);$(document.getElementById('formobrotykonta:wyborkontaobroty_input')).select();" onHide="resetujdialog('obroty');"  closeOnEscape="true"  
+              resizable="false" onShow="ustawdialog('obroty','menudokumenty',1500,750);$(document.getElementById('formobrotykonta:wyborkontaobroty_input')).select();" onHide="resetujdialog('obroty');"  closeOnEscape="true"  
               >
         <p:layout fullPage="false" style="width: 1450px; height: 700px;">  
             <p:layoutUnit position="north" >
@@ -76,7 +76,7 @@
                     <p:dataTable id="dataListObroty" value="#{kontoObrotyFKView.wykazkont}" var="loop" selectionMode="single" 
                                  selection="#{kontoObrotyFKView.wybranekonto}"
                                  sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop}" 
-                                 styleClass="grid" style="width: 100%; height: 520px; overflow-y: scroll;" rowKey="#{loop.id}">
+                                 styleClass="grid" style="width: 100%; height: 480px; overflow-y: scroll;" rowKey="#{loop.id}">
                         <p:ajax event="rowSelect" update=":tabelazobrotami:tabelaobroty :tabelazsumamiobrotow:sumy :formobrotykonta:nazwawybranegokonta" 
                                 listener="#{kontoObrotyFKView.pobierzZapisyNaKoncieNode}" />
                         <p:ajax event="rowUnselect" update=":tabelazobrotami:tabelaobroty :tabelazsumamiobrotow:sumy :formobrotykonta:nazwawybranegokonta" 
