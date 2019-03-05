@@ -630,6 +630,10 @@ public class DokView implements Serializable {
         if (selDokument.getNrWlDk() == null || selDokument.getNrWlDk().equals("")) {
             wygenerujnumerkolejny();
         }
+        if (selDokument.getRodzajedok()!=null && selDokument.getRodzajedok().getSkrotNazwyDok().equals("IN")) {
+            String f = "dodWiad:rowinwestycja";
+            RequestContext.getCurrentInstance().update(f);
+        }
     }
     
     public void wygenerujnumerkolejny() {
