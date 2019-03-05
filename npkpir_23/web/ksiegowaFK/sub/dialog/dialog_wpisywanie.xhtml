@@ -285,7 +285,7 @@
                                 <p:column>
                                     <p:autoComplete id="acForce" value="#{dokfkView.selected.kontr}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefk"
                                                     var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
-                                                    minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient" queryDelay="10"
+                                                    minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient" queryDelay="5"
                                                     forceSelection="true" styleClass="wpisywaniekontrfk" autocomplete="true" moreText="jest więcej pasujących pozycji"
                                                     rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu != 5 and dokfkView.selected.rodzajedok.kategoriadokumentu != 0 ? true : false}" style="width: 250px;">
                                         <p:ajax event="query" global="false"/>
@@ -560,7 +560,7 @@
                             <p:autoComplete id="kontown" value="#{wploop.stronaWn.konto}" completeMethod="#{planKontCompleteView.complete}" 
                                             rendered="#{wploop.stronaWn != null}"
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" forceSelection="true" 
-                                            minQueryLength="1" converter="#{planKontCompleteView}" queryDelay="200"  maxResults="150"
+                                            minQueryLength="1" converter="#{planKontCompleteView}" queryDelay="50"  maxResults="150"
                                             converterMessage="Nieudana konwersja Klient" scrollHeight="180" widgetVar="complWn#{wploop.idporzadkowy}"
                                             styleClass="kontoinput #{wploop.stronaWn.typStronaWiersza eq 1 ? 'kontorozrachunki' : null} #{wploop.stronaWn.typStronaWiersza eq 2 ? 'kontoplatnosci' : null} #{wploop.stronaWn.cechazapisuLista.size() gt 0 ? 'zapisZcecha' : null}"
                                             onfocus="zachowajwiersz(#{wploop.idporzadkowy}, 'Wn', #{wploop.typWiersza}, event);
@@ -604,7 +604,7 @@
                             <p:autoComplete id="kontoma" value="#{wploop.stronaMa.konto}" completeMethod="#{planKontCompleteView.complete}" 
                                             rendered="#{wploop.stronaMa != null}" 
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" widgetVar="complMa#{wploop.idporzadkowy}"
-                                            minQueryLength="1" converter="#{planKontCompleteView}" queryDelay="200" maxResults="150"
+                                            minQueryLength="1" converter="#{planKontCompleteView}" queryDelay="50" maxResults="150"
                                             converterMessage="Nieudana konwersja Klient"   scrollHeight="180" forceSelection="true"
                                             styleClass="kontoinput #{wploop.stronaMa.typStronaWiersza eq 1 ? 'kontorozrachunki' : null} #{wploop.stronaMa.typStronaWiersza eq 2 ? 'kontoplatnosci' : null} #{wploop.stronaMa.cechazapisuLista.size() gt 0 ? 'zapisZcecha' : ''}"
                                             onfocus="zachowajwiersz(#{wploop.idporzadkowy}, 'Ma', #{wploop.typWiersza}, event);
