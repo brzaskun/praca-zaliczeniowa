@@ -11,7 +11,7 @@
       <!--      <property name="eclipselink.ddl-generation" value="create-tables"/>-->
       <property name="eclipselink.ddl-generation" value="none"/>
       <property name="eclipselink.query-results-cache" value="true"/>
-      <property name="eclipselink.cache-usage" value="CheckCacheOnly"/>
+      <property name="eclipselink.cache-usage" value="CheckCacheThenDatabase"/>
       <!-- configure logging -->
 <!--      <property name="eclipselink.logging.level" value="INFO"/>
       <property name="eclipselink.logging.level.sql" value="FINE"/>
