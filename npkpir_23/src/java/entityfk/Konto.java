@@ -789,8 +789,13 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         s.append(this.pelnynumer);
         s.append("-");
         s.append(this.nazwapelna);
+        return s.toString();
+    }
+    
+     public String getNumerNazwaMacierzyste() {
+        StringBuilder s = new StringBuilder();
         if (this.kontomacierzyste != null) {
-            s.append(" macierzyste ");
+            s.append("macierzyste ");
             s.append(this.kontomacierzyste.pelnynumer);
             s.append("-");
             s.append(this.kontomacierzyste.nazwapelna);

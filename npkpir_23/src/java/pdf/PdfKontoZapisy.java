@@ -37,6 +37,7 @@ import java.util.logging.Logger;
 import javax.inject.Named;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import pdffk.PdfMain;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
 import static pdffk.PdfMain.finalizacjaDokumentuQR;
@@ -340,6 +341,9 @@ public class PdfKontoZapisy {
             otwarcieDokumentu(document, nazwa);
             String mce = "od "+wpisView.getMiesiacOd()+" do "+wpisView.getMiesiacDo();
             dodajOpisWstepny(document, "Zapisy na koncie "+wybranekonto.getNumerNazwa(), wpisView.getPodatnikObiekt(),mce, wpisView.getRokWpisuSt());
+            if (wybranekonto.getKontomacierzyste()!=null) {
+                PdfMain.dodajLinieOpisuCenter(document, wybranekonto.getNumerNazwaMacierzyste());
+            }
             dodajTabele(document, testobjects.testobjects.getKontoZapisy(nowalista),95,2);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";

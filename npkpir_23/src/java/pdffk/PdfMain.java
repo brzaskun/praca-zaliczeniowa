@@ -434,7 +434,6 @@ public class PdfMain {
                 opiswstepny = new Paragraph(new Phrase(B.b("okresrozliczeniony") + " rok "+ rok, ft[1]));
             }
             document.add(opiswstepny);
-            document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
             E.e(ex);
         }
@@ -557,6 +556,17 @@ public class PdfMain {
             Paragraph opiswstepny = new Paragraph(new Phrase(opis, ft[1]));
             opiswstepny.setAlignment(Element.ALIGN_LEFT);
             document.add(opiswstepny);
+        } catch (DocumentException ex) {
+            E.e(ex);
+        }
+    }
+    
+    public static void dodajLinieOpisuCenter(Document document, String opis) {
+        try {
+            Paragraph opiswstepny = new Paragraph(new Phrase(opis, ft[1]));
+            opiswstepny.setAlignment(Element.ALIGN_CENTER);
+            document.add(opiswstepny);
+            document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
             E.e(ex);
         }
