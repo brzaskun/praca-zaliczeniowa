@@ -17,6 +17,7 @@ import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
 import daoFK.TransakcjaDAO;
 import daoFK.WierszBODAO;
+import data.Data;
 import embeddable.Mce;
 import embeddablefk.ListaSum;
 import entityfk.Cechazapisu;
@@ -110,7 +111,6 @@ public class KontoZapisFKView implements Serializable{
     private boolean pokaztransakcje;
     private List<Konto> ostatniaanalityka;
     private boolean pobierzrokpoprzedni;
-    private boolean odswiezbazedanych;
 
     
 
@@ -222,11 +222,7 @@ public class KontoZapisFKView implements Serializable{
             kontozapisy = Collections.synchronizedList(new ArrayList<>());
             String rok = pobierzrokpoprzedni ? wpisView.getRokUprzedniSt() : wpisView.getRokWpisuSt();
             List<StronaWiersza> zapisyshort = null;
-            if (odswiezbazedanych) {
-                zapisyshort = stronaWierszaDAO.findStronaByPodatnikKontoStartRokWalutyWszystkieOdswiez(wpisView.getPodatnikObiekt(), wybranekonto, rok);
-            } else {
-                zapisyshort = stronaWierszaDAO.findStronaByPodatnikKontoStartRokWszystkie(wpisView.getPodatnikObiekt(), wybranekonto, rok);
-            }
+            zapisyshort = stronaWierszaDAO.findStronaByPodatnikKontoStartRokWalutyWszystkieOdswiez(wpisView.getPodatnikObiekt(), wybranekonto, rok);
             if (zapisyshort!=null) {
                 List<Konto> kontapotomnetmp = Collections.synchronizedList(new ArrayList<>());
                 List<Konto> kontapotomneListaOstateczna = Collections.synchronizedList(new ArrayList<>());
@@ -1370,13 +1366,6 @@ public class KontoZapisFKView implements Serializable{
         this.wykazkont = wykazkont;
     }
 
-    public boolean isOdswiezbazedanych() {
-        return odswiezbazedanych;
-    }
-
-    public void setOdswiezbazedanych(boolean odswiezbazedanych) {
-        this.odswiezbazedanych = odswiezbazedanych;
-    }
 
     public boolean isPobierzrokpoprzedni() {
         return pobierzrokpoprzedni;
@@ -1769,7 +1758,20 @@ public class KontoZapisFKView implements Serializable{
         }
     }
 
-    
+    public void oznaczjakosprawdzone(int sprawdz) {
+        if (wybranekonto==null) {
+            Msg.msg("e","Nie wybrano konta");
+        } else {
+            if (sprawdz==1) {
+                wybranekonto.setSprawdzono(Data.aktualnaData());
+                Msg.msg("Oznaczono konto jako sprawdzone");
+            } else {
+                wybranekonto.setSprawdzono(null);
+                Msg.msg("Odznaczono konto jako sprawdzone");
+            }
+            kontoDAOfk.edit(wybranekonto);
+        }
+    }
     
     
 

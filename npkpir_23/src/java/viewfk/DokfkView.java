@@ -2418,9 +2418,10 @@ public class DokfkView implements Serializable {
                     RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                     selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
                 } else {
-                    selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
+                    Waluty waluta = walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty);
+                    selected.setWalutadokumentu(waluta);
                     //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
-                    wybranawaluta = walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty).getSymbolwaluty();
+                    wybranawaluta = waluta.getSymbolwaluty();
                 }
                 if (zapisz0edytuj1 == false) {
                     symbolWalutyNettoVat = " " + selected.getTabelanbp().getWaluta().getSkrotsymbolu();
@@ -2432,26 +2433,16 @@ public class DokfkView implements Serializable {
                 if (staranazwa != null && selected.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
                     DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
                     RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-                    selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
+                    selected.setWalutadokumentu(domyslnaTabelanbp.getWaluta());
                 } else {
-                    selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
+                    selected.setWalutadokumentu(domyslnaTabelanbp.getWaluta());
                     //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
-                    wybranawaluta = walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty).getSymbolwaluty();
+                    wybranawaluta = domyslnaTabelanbp.getWaluta().getSkrotsymbolu();
                 }
-                Tabelanbp tabelanbpPLN = null;
-                try {
-                    tabelanbpPLN = tabelanbpDAO.findByDateWaluta("2012-01-01", "PLN");
-                    if (tabelanbpPLN == null) {
-                        tabelanbpPLN = new Tabelanbp("000/A/NBP/0000", walutyDAOfk.findWalutaBySymbolWaluty("PLN"), "2012-01-01", 1.0);
-                        tabelanbpDAO.dodaj(tabelanbpPLN);
-                    }
-                } catch (Exception e) {
-                    E.e(e);
-                }
-                selected.setTabelanbp(tabelanbpPLN);
+                selected.setTabelanbp(domyslnaTabelanbp);
                 List<Wiersz> wiersze = selected.getListawierszy();
                 for (Wiersz p : wiersze) {
-                    p.setTabelanbp(tabelanbpPLN);
+                    p.setTabelanbp(domyslnaTabelanbp);
                 }
                 pokazRzadWalutowy = false;
                 if (zapisz0edytuj1 == false) {

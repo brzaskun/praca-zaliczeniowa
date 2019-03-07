@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -44,10 +45,10 @@ public class Waluty implements Serializable {
     private int przelicznik;
     @Column(name = "skrotsymbolu")
     private String skrotsymbolu;
-    @OneToMany(mappedBy = "waluta")
-    private List<Tabelanbp> tabelanbp;
-    @OneToMany(mappedBy = "walutadokumentu")
-    private List<Dokfk> dokfk;
+//    @OneToMany(mappedBy = "waluta", fetch = FetchType.LAZY)
+//    private List<Tabelanbp> tabelanbp;
+//    @OneToMany(mappedBy = "walutadokumentu", fetch = FetchType.LAZY)
+//    private List<Dokfk> dokfk;
             
 
     public Waluty() {

@@ -19,6 +19,12 @@
                 }
             });
         };
+        var zmienkolor = function() {
+            $(".ui-state-highlight td").css("background-color","#c2f9d2");
+        };
+        var zmienkolor1 = function() {
+            $(".ui-state-highlight td").css("background-color","#c2f9d2");
+        };
         /* ]]> */
     </script>
 
@@ -78,9 +84,6 @@
                                 <p:menuitem global="false" value="druk poziomy" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncie}" action="#{sesjaView.dodajwydruk()}"   icon="fa fa-print" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"/>  
                                 <p:menuitem global="false" value="druk poziomy duży" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncieDuzy}" action="#{sesjaView.dodajwydruk()}"   icon="fa fa-print" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"/>  
                             </p:splitButton>
-                            <p:selectBooleanCheckbox value="#{kontoZapisFKView.odswiezbazedanych}" itemLabel="odswież bazę danych" style="margin-left: 40px;">
-                                <p:ajax event="change" partialSubmit="true"/>
-                            </p:selectBooleanCheckbox>
                             <p:commandButton value="nierozliczone" icon="fa fa-money" actionListener="#{kontoZapisFKView.usunPozycjeRozliczone}" 
                                              style="width: 120px; margin-left: 60px;"
                                              update="tabelazzapisami, :tabelazsumami:sumy" />
@@ -157,17 +160,24 @@
                             <p:column  style="width: 50px; text-align: center;" width="10">
                                 <h:outputText value="#{loop1.mapotomkow == true ? '+' : null}" /> 
                             </p:column>
-                            <p:column headerText="nr konta" styleClass="#{loop1.level eq 2 ? 'druga' : null}" style="width: 100px; height: 30px;">
-                                <h:outputText value="#{loop1.nrkonta}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '0' ? true : false)}" style="font-weight: 900;"/> 
+                            <p:column headerText="nr konta"  styleClass="#{loop1.level eq 2 ? 'druga' : null}" style="width: 100px; height: 30px;  #{loop1.sprawdzono ne null?'background-color: #c2f9d2':null}">
+                                <p:outputPanel id="kontokolor">
+                                <h:outputText value="#{loop1.nrkonta}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '0' ? true : false)}" style="font-weight: 900;" /> 
                                 <h:outputText value="#{loop1.pelnynumer}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
                                 <h:outputText value="#{loop1.pelnynumer}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
-                                <h:outputText value="#{loop1.pelnynumer}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '3' ? true : false)}" style="margin-left: 30px;"/> 
+                                <h:outputText value="#{loop1.pelnynumer}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '3' ? true : false)}" style="margin-left: 30px;"/>
+                                </p:outputPanel>
+                                <p:tooltip value="#{loop1.sprawdzono}" for="form:dataList:#{wykazkontindex}:kontokolor" trackMouse="true"/>
                             </p:column>
                             <p:column headerText="nazwa pełna" >
                                 <h:outputText value="#{loop1.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
                                 <h:outputText value="#{loop1.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                             </p:column>
                         </p:dataTable>
+                    <p:contextMenu for="dataList" style="width: 200px;" >
+                        <p:menuitem icon="fa fa-check-square" value="sprawdzono" actionListener="#{kontoZapisFKView.oznaczjakosprawdzone(1)}" oncomplete="zmienkolor()" global="false"/>
+                        <p:menuitem icon="fa fa-ban" value="odsprawdź" actionListener="#{kontoZapisFKView.oznaczjakosprawdzone(0)}"  oncomplete="zmienkolor1()" global="false"/>
+                    </p:contextMenu>
                     </p:outputPanel>
                 </h:form>
             </p:layoutUnit>  
@@ -285,6 +295,7 @@
                                                     <h:outputText value="9{kontoprzeciwstawne eq '000' ? 'zapis z BO' : loop.kontoprzeciwstawne}"/>
                                                 </p:column>-->
                     </p:dataTable>
+                    
                     <p:contextMenu for="tabela" style="width: 200px;"  rendered="#{!WpisView.rokzamkniety}">
                         <p:menuitem value="edytuj dok" global="false" icon="fa fa-edit" 
                                     update="formwpisdokument zestawieniezapisownakontachpola1"

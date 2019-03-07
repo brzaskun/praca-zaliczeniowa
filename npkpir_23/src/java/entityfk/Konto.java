@@ -253,12 +253,15 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     private boolean zaksiegowane;
     @Column(name = "niewidoczne")
     private boolean niewidoczne;
+    @Column(name = "sprawdzono")
+    private String sprawdzono;
     @Transient
     private double kwota;
     @Transient
     private String nazwapelnawzorcowy;
     @Transient
     private String nazwaskroconawzorcowy;
+    
     
     
 //    @OneToMany(mappedBy = "konto")
@@ -608,6 +611,14 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
 
     public void setKontokategoria(Kontokategoria kontokategoria) {
         this.kontokategoria = kontokategoria;
+    }
+
+    public String getSprawdzono() {
+        return sprawdzono;
+    }
+
+    public void setSprawdzono(String sprawdzono) {
+        this.sprawdzono = sprawdzono;
     }
 
    
