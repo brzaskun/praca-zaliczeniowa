@@ -29,7 +29,7 @@ public class SlownikiBean {
         List<Konto> kontaslownik = null;
         kontaslownik = kontoDAOfk.findKontaMaSlownik(podatnik, rok, nrslownika);
         for (Konto p : kontaslownik) {
-            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(podatnik, rok, p.getPelnynumer());
+            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(podatnik, rok, p);
             if (kontapotomne != null) {
                 for (Konto r : kontapotomne) {
                     if (r.getNrkonta().equals(pola[0])) {
@@ -77,7 +77,7 @@ public class SlownikiBean {
         List<Konto> kontaslownik = null;
         kontaslownik = kontoDAOfk.findKontaMaSlownik(podatnik, rok, nrslownika);
         for (Konto p : kontaslownik) {
-            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(podatnik, rok, p.getPelnynumer());
+            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(podatnik, rok, p);
             if (kontapotomne != null) {
                 for (Konto r : kontapotomne) {
                     if (r.getNrkonta().equals(pola[0])) {

@@ -183,8 +183,7 @@ public class PlanKontUzupelnijView implements Serializable {
         r.setPodatnik(podatnikDocelowy);
         r.setRok(Integer.parseInt(rokdocelowy));
         r.setSlownikowe(slownikowe);
-        Konto macierzyste = wyszukajmacierzyste(r.getMacierzyste(), macierzystelista);
-        r.setMacierzyste(macierzyste.getPelnynumer());
+        Konto macierzyste = wyszukajmacierzyste(r.getKontomacierzyste().getPelnynumer(), macierzystelista);
         r.setMacierzysty(macierzyste.getId());
         r.setKontomacierzyste(macierzyste);
         return r;

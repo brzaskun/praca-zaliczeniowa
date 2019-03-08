@@ -91,13 +91,12 @@ public class PlanKontFKKopiujBean {
     
     private static Konto kopiujKonto(Konto p, List<Konto> macierzystelista, Podatnik podatnikDocelowy, boolean slownikowe, String rokdocelowy) {
         Konto r = serialclone.SerialClone.clone(p);
-        Konto macierzyste = wyszukajmacierzyste(r.getMacierzyste(), macierzystelista);
+        Konto macierzyste = wyszukajmacierzyste(r.getKontomacierzyste().getPelnynumer(), macierzystelista);
         if (macierzyste.getIdslownika()!= 5 && macierzyste.getIdslownika()!= 6) {
             zeruDanekontaBO(r);
             r.setPodatnik(podatnikDocelowy);
             r.setRok(Integer.parseInt(rokdocelowy));
             r.setSlownikowe(slownikowe);
-            r.setMacierzyste(macierzyste.getPelnynumer());
             r.setMacierzysty(macierzyste.getId());
             r.setKontomacierzyste(macierzyste);
         } else {

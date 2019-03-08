@@ -48,7 +48,7 @@ public class PozycjaRZiSFKBean {
                     }
                 } else if (p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
                     List<Konto> potomki = null;
-                    potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, p.getPelnynumer());
+                    potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, p);
                     wyluskajNieprzyporzadkowaneAnalitykiRZiS(potomki, wykazkont, kontoDAO, podatnik, rok);
                 }
             } else {
@@ -69,13 +69,13 @@ public class PozycjaRZiSFKBean {
                     //tu szukamy przyporzadkowanych analitych
                 } else if (p.getKontopozycjaID().getPozycjaWn() != null && p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
                     List<Konto> potomki = null;
-                    potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, p.getPelnynumer());
+                    potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, p);
                     for (Konto r : potomki) {
                         wyluskajNieprzyporzadkowaneAnalitykiBilans(potomki, wykazkont, kontoDAO, podatnik, aktywa0pasywa1, rok);
                     }
                 } else if (p.getKontopozycjaID().getPozycjaMa() != null && p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
                     List<Konto> potomki = null;
-                    potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, p.getPelnynumer());
+                    potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, p);
                     for (Konto r : potomki) {
                         wyluskajNieprzyporzadkowaneAnalitykiBilans(potomki, wykazkont, kontoDAO, podatnik, aktywa0pasywa1, rok);
                     }
@@ -360,7 +360,7 @@ public class PozycjaRZiSFKBean {
 
     public static void odznaczmacierzyste(Konto macierzyste, String kontoanalizowane, KontoDAOfk kontoDAO, Podatnik podatnik, Integer rok) {
         List<Konto> siostry = null;
-        siostry = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, macierzyste.getPelnynumer());
+        siostry = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, macierzyste);
         if (siostry.size() > 1) {
             boolean sainne = false;
             for (Konto p : siostry) {
@@ -381,8 +381,7 @@ public class PozycjaRZiSFKBean {
     }
     
     public static void oznaczmacierzyste(Konto dziecko, UkladBR uklad, KontoDAOfk kontoDAO, Podatnik podatnik, Integer rok, boolean wynik0bilans1) {
-        Konto kontomacierzyste = null;
-        kontomacierzyste = kontoDAO.findKonto(dziecko.getMacierzyste(), podatnik, rok);
+        Konto kontomacierzyste = dziecko.getKontomacierzyste();
         KontopozycjaBiezaca kp = kontomacierzyste.getKontopozycjaID() != null ? kontomacierzyste.getKontopozycjaID() : new KontopozycjaBiezaca();
         if (kp.getIdKP() == null) {
             kp.setSyntetykaanalityka("analityka");
@@ -411,7 +410,7 @@ public class PozycjaRZiSFKBean {
         }
     }
     
-    public static void przyporzadkujpotkomkowZwykle(String macierzyste, KontopozycjaBiezaca pozycja, KontoDAOfk kontoDAO, Podatnik podatnik, String bilanswynik, Integer rok) {
+    public static void przyporzadkujpotkomkowZwykle(Konto macierzyste, KontopozycjaBiezaca pozycja, KontoDAOfk kontoDAO, Podatnik podatnik, String bilanswynik, Integer rok) {
         List<Konto> potomki = null;
         potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, macierzyste);
         if (potomki != null) {
@@ -438,7 +437,7 @@ public class PozycjaRZiSFKBean {
                 }
                 kontoDAO.edit(p);
                 if (p.isMapotomkow() == true) {
-                    przyporzadkujpotkomkowZwykle(p.getPelnynumer(), pozycja, kontoDAO, podatnik, bilanswynik, rok);
+                    przyporzadkujpotkomkowZwykle(p, pozycja, kontoDAO, podatnik, bilanswynik, rok);
                 }
             }
         }
@@ -448,7 +447,7 @@ public class PozycjaRZiSFKBean {
     
     public static void przyporzadkujpotkomkowRozrachunkowe(Konto konto, KontopozycjaBiezaca pozycja, KontoDAOfk kontoDAO,  Podatnik podatnik, String wnma, Integer rok) {
         List<Konto> potomki = null;
-        potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, konto.getPelnynumer());
+        potomki = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, konto);
         if (potomki != null) {
             for (Konto p : potomki) {
                 try {

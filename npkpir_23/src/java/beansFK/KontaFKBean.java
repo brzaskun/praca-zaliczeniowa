@@ -104,7 +104,7 @@ public class KontaFKBean implements Serializable{
     public static List<StronaWiersza> pobierzZapisyRokSyntetyka(KontoDAOfk kontoDAOfk, WpisView wpisView, Konto konto, Podatnik podatnik, String rok, StronaWierszaDAO stronaWierszaDAO) {
         List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkie(podatnik, konto, rok);
         if (konto.isMapotomkow()) {
-            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), rok, konto.getPelnynumer());
+            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), rok, konto);
             for (Konto p : kontapotomne) {
                 pobranezapisy.addAll(pobierzZapisyRokSyntetyka(kontoDAOfk, wpisView, p, podatnik, rok, stronaWierszaDAO));
             }
@@ -205,7 +205,7 @@ public class KontaFKBean implements Serializable{
         konto.setPrzychod0koszt1(przychod0koszt1);
         kontoDAOfk.edit(konto);
         if (konto.isMapotomkow()) {
-            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), konto.getPelnynumer());
+            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), konto);
             for (Konto p : kontapotomne) {
                 oznaczkontoPrzychod0Koszt1(p, kontoDAOfk, przychod0koszt1, wpisView);
             }
@@ -216,7 +216,7 @@ public class KontaFKBean implements Serializable{
         konto.setPrzychod0koszt1(przychod0koszt1);
         kontoDAOfk.edit(konto);
         if (konto.isMapotomkow()) {
-            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomne(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisu(), konto.getPelnynumer(), "wynikowe");
+            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomne(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisu(), konto, "wynikowe");
             for (Konto p : kontapotomne) {
                 oznaczkontoPrzychod0Koszt1Wzorcowy(p, kontoDAOfk, przychod0koszt1, wpisView);
             }

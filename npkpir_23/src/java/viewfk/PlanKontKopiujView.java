@@ -139,8 +139,7 @@ public class PlanKontKopiujView implements Serializable {
                     r.setKontopozycjaID(null);
                     r.setPodatnik(docelowy);
                     r.setRok(Integer.parseInt(rokdocelowy));
-                    Konto macierzyste = PlanKontFKKopiujBean.wyszukajmacierzyste(r.getMacierzyste(), macierzystelista);
-                    r.setMacierzyste(macierzyste.getPelnynumer());
+                    Konto macierzyste = PlanKontFKKopiujBean.wyszukajmacierzyste(r.getKontomacierzyste().getPelnynumer(), macierzystelista);
                     r.setMacierzysty(macierzyste.getId());
                     r.setKontomacierzyste(macierzyste);
                     kontoDAOfk.dodaj(r);

@@ -474,7 +474,7 @@ public class KontoDAOfk extends DAO implements Serializable {
     }
     
    
-    public List<Konto> findKontaPotomnePodatnik(Podatnik podatnik, Integer rok, String macierzyste) {
+    public List<Konto> findKontaPotomnePodatnik(Podatnik podatnik, Integer rok, Konto macierzyste) {
         try {
             return Collections.synchronizedList(kontoFacade.findKontaPotomnePodatnik(podatnik, rok, macierzyste));
         } catch (Exception e) {
@@ -483,7 +483,7 @@ public class KontoDAOfk extends DAO implements Serializable {
         }
     }
 
-    public List<Konto> findKontaPotomnePodatnik(Podatnik podatnik, String rok, String macierzyste) {
+    public List<Konto> findKontaPotomnePodatnik(Podatnik podatnik, String rok, Konto macierzyste) {
         try {
             return Collections.synchronizedList(kontoFacade.findKontaPotomnePodatnik(podatnik, Integer.parseInt(rok), macierzyste));
         } catch (Exception e) {
@@ -503,7 +503,7 @@ public class KontoDAOfk extends DAO implements Serializable {
     }
 
 
-    public List<Konto> findKontaPotomne(Podatnik podatnik, Integer rok, String macierzyste, String bilansowewynikowe) {
+    public List<Konto> findKontaPotomne(Podatnik podatnik, Integer rok, Konto macierzyste, String bilansowewynikowe) {
         try {
             return Collections.synchronizedList(kontoFacade.findKontaPotomne(podatnik, rok, macierzyste, bilansowewynikowe));
         } catch (Exception e) {
@@ -548,7 +548,7 @@ public class KontoDAOfk extends DAO implements Serializable {
         }
     }
 
-    public int policzPotomne(Podatnik podatnik, Integer rok, String macierzyste) {
+    public int policzPotomne(Podatnik podatnik, Integer rok, Konto macierzyste) {
         try {
             return Integer.parseInt(String.valueOf(kontoFacade.findKontaPotomnePodatnikCount(podatnik, rok, macierzyste)));
         } catch (Exception e) {
@@ -584,7 +584,7 @@ public class KontoDAOfk extends DAO implements Serializable {
         }
     }
 
-    public List<Konto> findKontaSiostrzanePodatnik(Podatnik podatnik, Integer rok, String pelnynumer) {
+    public List<Konto> findKontaSiostrzanePodatnik(Podatnik podatnik, Integer rok, Konto pelnynumer) {
         return Collections.synchronizedList(kontoFacade.findKontaSiostrzanePodatnik(podatnik, rok, pelnynumer));
 
     }

@@ -94,7 +94,7 @@ public class BOFKBean {
             }
         });
         if (konto.isMapotomkow()) {
-            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), konto.getPelnynumer());
+            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), konto);
             kontapotomne.forEach((p) -> {
                 zapisy.addAll(pobierzZapisyBOSyntetyka(kontoDAOfk, p, dokDAOfk, wpisView));
             });

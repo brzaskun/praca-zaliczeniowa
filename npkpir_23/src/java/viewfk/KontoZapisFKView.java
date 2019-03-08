@@ -416,7 +416,7 @@ public class KontoZapisFKView implements Serializable{
       
       private List<Konto> pobierzpotomkow(Konto macierzyste) {
           try {
-              return kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(),macierzyste.getPelnynumer());
+              return kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(),macierzyste);
           } catch (Exception e) {  E.e(e);
               Msg.msg("e", "nie udane pobierzpotomkow");
           }
@@ -1304,7 +1304,7 @@ public class KontoZapisFKView implements Serializable{
     private void przeksiegujslownikowe() {
         int rozrachunkowe = 0;
         int bo = 0;
-        List<Konto> potomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), kontodoprzeksiegowania.getPelnynumer());
+        List<Konto> potomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), kontodoprzeksiegowania);
         if (potomne == null || potomne.size() == 0) {
             Msg.msg("e", "Konto docelowe nie zawiera podłączonego słownika. Nie można przeksięgować");
             return;

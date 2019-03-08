@@ -48,7 +48,6 @@ public class PlanKontFKBean {
          nowekonto.setSyntetyczne("syntetyczne");
          nowekonto.setPodatnik(podatnik);
          nowekonto.setRok(rokwpisu);
-         nowekonto.setMacierzyste("0");
          nowekonto.setLevel(0);
          nowekonto.setMacierzysty(0);
          nowekonto.setKontomacierzyste(null);
@@ -72,11 +71,10 @@ public class PlanKontFKBean {
          nowekonto.setNrkonta(oblicznumerkonta(macierzyste, kontoDAOfk, podatnik, rok));
          nowekonto.setPrzychod0koszt1(macierzyste.isPrzychod0koszt1());
          nowekonto.setMapotomkow(false);
-         nowekonto.setMacierzyste(macierzyste.getPelnynumer());
          nowekonto.setMacierzysty(macierzyste.getLp());
          nowekonto.setKontomacierzyste(macierzyste);
-         nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
-         nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
+         nowekonto.setLevel(obliczlevel(nowekonto.getKontomacierzyste().getPelnynumer()));
+         nowekonto.setPelnynumer(nowekonto.getKontomacierzyste().getPelnynumer() + "-" + nowekonto.getNrkonta());
          nowekonto.setWnma0wm1ma2(macierzyste.getWnma0wm1ma2());
          return zachowajkonto(wykazkont, nowekonto, kontoDAOfk);
     }
@@ -118,11 +116,10 @@ public class PlanKontFKBean {
          nowekonto.setNrkonta(numerkonta);
          nowekonto.setPrzychod0koszt1(macierzyste.isPrzychod0koszt1());
          nowekonto.setMapotomkow(false);
-         nowekonto.setMacierzyste(macierzyste.getPelnynumer());
          nowekonto.setMacierzysty(macierzyste.getLp());
          nowekonto.setKontomacierzyste(macierzyste);
-         nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
-         nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
+         nowekonto.setLevel(obliczlevel(nowekonto.getKontomacierzyste().getPelnynumer()));
+         nowekonto.setPelnynumer(nowekonto.getKontomacierzyste().getPelnynumer() + "-" + nowekonto.getNrkonta());
          nowekonto.setWnma0wm1ma2(macierzyste.getWnma0wm1ma2());
          return zachowajkonto(wykazkont, nowekonto, kontoDAOfk);
     }
@@ -183,12 +180,11 @@ public class PlanKontFKBean {
          nowekonto.setZwyklerozrachszczegolne(macierzyste.getZwyklerozrachszczegolne());
          nowekonto.setNrkonta("0");
          nowekonto.setMapotomkow(false);
-         nowekonto.setMacierzyste(macierzyste.getPelnynumer());
          nowekonto.setMacierzysty(macierzyste.getLp());
          nowekonto.setKontomacierzyste(macierzyste);
          nowekonto.setPrzychod0koszt1(macierzyste.isPrzychod0koszt1());
-         nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
-         nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
+         nowekonto.setLevel(obliczlevel(nowekonto.getKontomacierzyste().getPelnynumer()));
+         nowekonto.setPelnynumer(nowekonto.getKontomacierzyste().getPelnynumer() + "-" + nowekonto.getNrkonta());
          int wynikdodaniakonta = zachowajkonto(wykazkont,nowekonto, kontoDAOfk);
          naniesPozycjenaKonto(wynikdodaniakonta, kontopozycjaZapisDAO, nowekonto, macierzyste, kontoDAOfk, ukladBR);
          return wynikdodaniakonta;
@@ -595,7 +591,7 @@ public class PlanKontFKBean {
     
     
             
-    public static int usunelementyslownika(String kontomacierzyste, KontoDAOfk kontoDAO, Podatnik podatnik, Integer rok, List<Konto> wykazkont, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
+    public static int usunelementyslownika(Konto kontomacierzyste, KontoDAOfk kontoDAO, Podatnik podatnik, Integer rok, List<Konto> wykazkont, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
         List<Konto> listakont = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, kontomacierzyste);
         if (listakont != null) {
             for (Konto p : listakont) {
@@ -673,7 +669,7 @@ public class PlanKontFKBean {
    
     
     private static String oblicznumerkonta(Konto macierzyste, KontoDAOfk kontoDAOfk, Podatnik podatnik, Integer rok) {
-        int liczbakont = kontoDAOfk.policzPotomne(podatnik, rok, macierzyste.getPelnynumer());
+        int liczbakont = kontoDAOfk.policzPotomne(podatnik, rok, macierzyste);
         if (liczbakont > 0) {
             return String.valueOf(liczbakont+1);
         } else {
@@ -683,21 +679,21 @@ public class PlanKontFKBean {
   
    public static boolean sprawdzczymacierzystymapotomne(Podatnik podatnik, Integer rok, Konto doUsuniecia, KontoDAOfk kontoDAO) {
         List<Konto> kontapotomne = Collections.synchronizedList(new ArrayList<>());
-        kontapotomne.addAll(kontoDAO.findKontaPotomnePodatnik(podatnik, rok, doUsuniecia.getMacierzyste()));
+        kontapotomne.addAll(kontoDAO.findKontaPotomnePodatnik(podatnik, rok, doUsuniecia.getKontomacierzyste()));
         kontapotomne.remove(doUsuniecia);
         return !kontapotomne.isEmpty();
     }
    
    public static List<Konto> pobierzpotomne(Podatnik podatnik, Integer rok, Konto doUsuniecia, KontoDAOfk kontoDAO) {
         List<Konto> kontapotomne = Collections.synchronizedList(new ArrayList<>());
-        kontapotomne.addAll(kontoDAO.findKontaPotomnePodatnik(podatnik, rok, doUsuniecia.getPelnynumer()));
+        kontapotomne.addAll(kontoDAO.findKontaPotomnePodatnik(podatnik, rok, doUsuniecia));
         kontapotomne.remove(doUsuniecia);
         return kontapotomne;
     }
    
     public static List<Konto> pobierzpotomne(Konto doUsuniecia, KontoDAOfk kontoDAO) {
         List<Konto> kontapotomne = Collections.synchronizedList(new ArrayList<>());
-        kontapotomne.addAll(kontoDAO.findKontaPotomnePodatnik(doUsuniecia.getPodatnik(), doUsuniecia.getRok(), doUsuniecia.getPelnynumer()));
+        kontapotomne.addAll(kontoDAO.findKontaPotomnePodatnik(doUsuniecia.getPodatnik(), doUsuniecia.getRok(), doUsuniecia));
         kontapotomne.remove(doUsuniecia);
         return kontapotomne;
     }
@@ -705,7 +701,7 @@ public class PlanKontFKBean {
     public static void usunelementslownika(Delegacja delegacja, KontoDAOfk kontoDAOfk, WpisView wpisView) {
         List<Konto> kontamacierzysteZeSlownikiem = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(),6);
         for (Konto p : kontamacierzysteZeSlownikiem) {
-            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomne(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), p.getPelnynumer(), p.getBilansowewynikowe());
+            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomne(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), p, p.getBilansowewynikowe());
             for (Konto r : kontapotomne) {
                 if (r.getNrkonta().equals(delegacja.getNrkonta())) {
                     kontoDAOfk.destroy(r);
@@ -849,7 +845,7 @@ public class PlanKontFKBean {
             kontoDAO.edit(konto);
             //czesc nanoszaca informacje na potomku
             if (konto.isMapotomkow() == true) {
-                PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, podatnik, "bilans", Integer.parseInt(uklad.getRok()));
+                PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto, kp, kontoDAO, podatnik, "bilans", Integer.parseInt(uklad.getRok()));
             }
             //czesc nanoszaca informacje na macierzyste
             if (konto.getKontomacierzyste() != null) {
@@ -870,7 +866,7 @@ public class PlanKontFKBean {
             kontoDAO.edit(konto);
             //czesc nanoszaca informacje na potomku
             if (konto.isMapotomkow() == true) {
-                PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, podatnik, "wynik", Integer.parseInt(uklad.getRok()));
+                PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto, kp, kontoDAO, podatnik, "wynik", Integer.parseInt(uklad.getRok()));
             }
             //czesc nanoszaca informacje na macierzyste
             if (konto.getKontomacierzyste() != null) {

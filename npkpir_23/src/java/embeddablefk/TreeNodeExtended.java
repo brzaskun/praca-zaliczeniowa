@@ -70,8 +70,8 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                         try {
                             //tutaj wyszukujemy funkcje, a mozna bylo uzyc abstrakcji
                             if (p.getClass().getSimpleName().equals("KontoBO")) {
-                            String lps = ((Konto) p).getMacierzyste();
-                            String macs = ((Konto) parent).getPelnynumer();
+                            Konto lps = ((Konto) p).getKontomacierzyste();
+                            Konto macs = ((Konto) parent);
                             if (lps.equals(macs)) {
                                  TreeNodeExtended tmp = new TreeNodeExtended(p, r);
                                  tmp.setExpanded(true);

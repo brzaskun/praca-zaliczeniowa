@@ -169,14 +169,14 @@ public class PozycjaBRKontaView implements Serializable {
 
     private void drugiinit() {
         kontabezprzydzialu.clear();
-        List<Konto> pobraneKontaSyntetyczne = kontoDAO.findKontaPotomne(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), "0", "wynikowe");
+        List<Konto> pobraneKontaSyntetyczne = kontoDAO.findKontaPotomne(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), null, "wynikowe");
         PozycjaRZiSFKBean.wyluskajNieprzyporzadkowaneAnalitykiRZiS(pobraneKontaSyntetyczne, kontabezprzydzialu, kontoDAO, wpisView.getPodatnikObiekt(), Integer.parseInt(wybranyuklad.getRok()));
         Collections.sort(kontabezprzydzialu, new Kontocomparator());
     }
 
     private void drugiinitbilansowe() {
         kontabezprzydzialu.clear();
-        List<Konto> pobraneKontaSyntetyczne = kontoDAO.findKontaPotomne(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), "0", "bilansowe");
+        List<Konto> pobraneKontaSyntetyczne = kontoDAO.findKontaPotomne(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), null, "bilansowe");
         PozycjaRZiSFKBean.wyluskajNieprzyporzadkowaneAnalitykiBilans(pobraneKontaSyntetyczne, kontabezprzydzialu, kontoDAO,  wpisView.getPodatnikObiekt(), aktywa0pasywa1, Integer.parseInt(wybranyuklad.getRok()));
         Collections.sort(kontabezprzydzialu, new Kontocomparator());
     }
@@ -386,7 +386,7 @@ public class PozycjaBRKontaView implements Serializable {
             kontoDAO.edit(konto);
             //zerujemy potomkow
             if (konto.isMapotomkow() == true) {
-                PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), null, kontoDAO, wpisView.getPodatnikObiekt(), "bilans", Integer.parseInt(wybranyuklad.getRok()));
+                PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto, null, kontoDAO, wpisView.getPodatnikObiekt(), "bilans", Integer.parseInt(wybranyuklad.getRok()));
             }
             //zajmujemy sie macierzystym, ale sprawdzamy czy nie ma siostr
             if (konto.getMacierzysty() > 0) {
@@ -450,7 +450,7 @@ public class PozycjaBRKontaView implements Serializable {
             kontoDAO.edit(konto);
             //zerujemy potomkow
             if (konto.isMapotomkow() == true) {
-                PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), null, kontoDAO, wpisView.getPodatnikObiekt(), "wynik", Integer.parseInt(wybranyuklad.getRok()));
+                PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto, null, kontoDAO, wpisView.getPodatnikObiekt(), "wynik", Integer.parseInt(wybranyuklad.getRok()));
             }
             //zajmujemy sie macierzystym, ale sprawdzamy czy nie ma siostr
             if (konto.getMacierzysty() > 0) {
@@ -517,9 +517,9 @@ public class PozycjaBRKontaView implements Serializable {
     }
 
     public void rozwinrzadanalityki(Konto konto) {
-        List<Konto> lista = kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), konto.getPelnynumer());
+        List<Konto> lista = kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), konto);
         if (lista.size() > 0) {
-            kontabezprzydzialu.addAll(kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), konto.getPelnynumer()));
+            kontabezprzydzialu.addAll(kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), konto));
             kontabezprzydzialu.remove(konto);
             Collections.sort(kontabezprzydzialu, new Kontocomparator());
         } else {
@@ -528,7 +528,7 @@ public class PozycjaBRKontaView implements Serializable {
     }
 
     public void zwinrzadanalityki(Konto konto) {
-        List<Konto> listaSiostrzane = kontoDAO.findKontaSiostrzanePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), konto.getMacierzyste());
+        List<Konto> listaSiostrzane = kontoDAO.findKontaSiostrzanePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), konto.getKontomacierzyste());
         List<Konto> listaPotomne = Collections.synchronizedList(new ArrayList<>());
         for (Konto t : listaSiostrzane) {
             listaPotomne.addAll(kontoDAO.findKontaWszystkiePotomnePodatnik(new ArrayList<Konto>(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), t));
@@ -546,7 +546,7 @@ public class PozycjaBRKontaView implements Serializable {
             String result = StringUtils.join(analitykinazwy, ", ");
             Msg.msg("e", "Nie można zwinąć analityk. Istnieją analityki przypisane do kont: " + result);
         } else {
-            Konto macierzyste = kontoDAO.findKonto(konto.getMacierzyste(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+            Konto macierzyste = kontoDAO.findKonto(konto.getKontomacierzyste().getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
             for (Konto p : listaSiostrzane) {
                 kontabezprzydzialu.remove(p);
             }

@@ -296,7 +296,7 @@ public class BilansPodgladView  implements Serializable{
                 }
             } else {
                 for (Iterator<KontoBO> it = w.iterator(); it.hasNext();) {
-                    if (!it.next().getMacierzyste().equals("0")) {
+                    if (it.next().getKontomacierzyste()!=null) {
                         it.remove();
                     }
                 }
