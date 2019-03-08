@@ -642,9 +642,9 @@ public class KontoDAOfk extends DAO implements Serializable {
         return Collections.synchronizedList(kontoFacade.findSlownikoweKlienci(wpisView, kliencifk));
     }
 
-    public void zerujkontazLevelu(WpisView wpisView, int i) {
-        kontoFacade.zerujkontazLevelu(wpisView, i);
-    }
+//    public void zerujkontazLevelu(WpisView wpisView, int i) {
+//        kontoFacade.zerujkontazLevelu(wpisView, i);
+//    }
 
     public Konto findBySlownikoweMacierzyste(Konto konto, String nrkonta, WpisView wpisView) {
         return kontoFacade.findByKontoSlownikoweMacierzyste(konto, nrkonta, wpisView);

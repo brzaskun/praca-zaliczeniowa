@@ -106,8 +106,8 @@ import view.WpisView;
     @NamedQuery(name = "Konto.wyzerujSaldaZaksiegowanewKontach", query = "UPDATE Konto k SET k.saldoWnksiegi = NULL, k.saldoMaksiegi = NULL, k.zaksiegowane = NULL WHERE k.podatnik = :podatnik AND k.rok = :rok"),
     @NamedQuery(name = "Konto.NullBoWnLevel", query = "UPDATE Konto k SET k.boWn = 0.0 WHERE k.podatnik = :podatnik AND k.rok = :rok AND k.level = :level"),
     @NamedQuery(name = "Konto.NullBoMaLevel", query = "UPDATE Konto k SET k.boMa = 0.0 WHERE k.podatnik = :podatnik AND k.rok = :rok AND k.level = :level"),
-    @NamedQuery(name = "Konto.NullObrotyWnLevel", query = "UPDATE Konto k SET k.obrotyWn = 0.0 WHERE k.podatnik = :podatnik AND k.rok = :rok AND k.level = :level"),
-    @NamedQuery(name = "Konto.NullObrotyMaLevel", query = "UPDATE Konto k SET k.obrotyMa = 0.0 WHERE k.podatnik = :podatnik AND k.rok = :rok AND k.level = :level"),
+//    @NamedQuery(name = "Konto.NullObrotyWnLevel", query = "UPDATE Konto k SET k.obrotyWn = 0.0 WHERE k.podatnik = :podatnik AND k.rok = :rok AND k.level = :level"),
+//    @NamedQuery(name = "Konto.NullObrotyMaLevel", query = "UPDATE Konto k SET k.obrotyMa = 0.0 WHERE k.podatnik = :podatnik AND k.rok = :rok AND k.level = :level"),
     @NamedQuery(name = "Konto.findlistaKontKasaBank", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '1%' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findlistaKontGrupa0", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '0%' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findlistaKontGrupa0Analityka", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '0%' AND k.rok = :rok AND k.mapotomkow = '0'"),
@@ -203,17 +203,13 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Basic(optional = false)
     @Column(name = "boMa")
     private double boMa;
-    @Basic(optional = false)
-    @Column(name = "obrotyWn")
+    @Transient
     private double obrotyWn;
-    @Basic(optional = false)
-    @Column(name = "obrotyMa")
+    @Transient
     private double obrotyMa;
-    @Basic(optional = false)
-    @Column(name = "saldoWn")
+    @Transient
     private double saldoWn;
-    @Basic(optional = false)
-    @Column(name = "saldoMa")
+    @Transient
     private double saldoMa;
     @Basic(optional = false)
     @Column(name = "blokada")

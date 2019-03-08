@@ -2103,10 +2103,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 //    public void wyzerujPozycjeWKontachWzorcowy(UkladBR uklad, String bilansowewynikowe) {
 //        em.createNamedQuery("Konto.NullPozycjaBilansoweWynikowe").setParameter("podatnik", null).setParameter("rok", Integer.parseInt(uklad.getRok())).setParameter("bilansowewynikowe", bilansowewynikowe).executeUpdate();
 //    }
-    public void zerujkontazLevelu(WpisView wpisView, int i) {
-        em.createNamedQuery("Konto.NullObrotyWnLevel").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("level", i).executeUpdate();
-        em.createNamedQuery("Konto.NullObrotyMaLevel").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("level", i).executeUpdate();
-    }
+//    public void zerujkontazLevelu(WpisView wpisView, int i) {
+//        em.createNamedQuery("Konto.NullObrotyWnLevel").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("level", i).executeUpdate();
+//        em.createNamedQuery("Konto.NullObrotyMaLevel").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("level", i).executeUpdate();
+//    }
     
     public Konto findByKontoSlownikoweMacierzyste(Konto konto, String nrkonta, WpisView wpisView) {
         return (Konto) em.createNamedQuery("Konto.findBySlownikoweMacierzyste").setParameter("kontomacierzyste", konto).setParameter("nrkonta", nrkonta).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getSingleResult();
