@@ -116,7 +116,7 @@ public class VatKorektaView implements Serializable {
         try {
             deklaracjeWyslane = deklaracjevatDAO.findDeklaracjeWyslane200(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             Podatnik podatnik = wpisView.getPodatnikObiekt();
-            List<Rodzajedok> rodzajedokumentow = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
+            List<Rodzajedok> rodzajedokumentow = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             List<Rodzajedok> rodzajedokumentowFilter = Collections.synchronizedList(new ArrayList<>());
             Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
             for (Rodzajedok p : rodzajedokumentow) {

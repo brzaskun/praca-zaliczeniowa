@@ -41,7 +41,7 @@ public class DokfkInterView implements Serializable {
     
     @PostConstruct
     public void init() {
-        rodzajedoklista = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
+        rodzajedoklista = rodzajedokDAO.findListaPodatnikRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
     }
     
     public void zachowajzmiany() {
@@ -56,7 +56,7 @@ public class DokfkInterView implements Serializable {
     
     public void pobierzdanezpliku() {
         ReadXLSFile.updateRodzajedok(rodzajedokDAO, wpisView, "c://temp//rodzajedok.xlsx");
-        rodzajedoklista = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
+        rodzajedoklista = rodzajedokDAO.findListaPodatnikRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
     }
 
     public List<Rodzajedok> getRodzajedoklista() {

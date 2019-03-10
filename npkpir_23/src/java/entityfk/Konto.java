@@ -553,6 +553,10 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     public int getRok() {
         return rok;
     }
+    
+    public String getRokSt() {
+        return String.valueOf(rok);
+    }
 
     public void setRok(int rok) {
         this.rok = rok;

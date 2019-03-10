@@ -4,6 +4,7 @@
  */
 package view;
 
+import beansFK.KontaFKBean;
 import beansRegon.SzukajDaneBean;
 import comparator.Kontocomparator;
 import dao.PodatnikDAO;
@@ -162,13 +163,13 @@ public class PodatnikView implements Serializable {
         nazwaWybranegoPodatnika = wpisView.getPodatnikWpisu();
         try {
             selected = wpisView.getPodatnikObiekt();
-            pobierzogolneDokKsi();
+            weryfikujlisteDokumentowPodatnika();
             zweryfikujBazeBiezacegoPodatnika();
             uzupelnijListyKont();
             selectedStrata = podatnikDAO.find(wpisView.getPodatnikWpisu());
         } catch (Exception e) { E.e(e); 
         }
-        rodzajeDokumentowLista = rodzajedokDAO.findListaPodatnikEdycja(wpisView.getPodatnikObiekt());
+        rodzajeDokumentowLista = rodzajedokDAO.findListaPodatnikEdycja(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         podatnikUdzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
         podatnikOpodatkowanie = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnik(wpisView);
         biezacadata = String.valueOf(new DateTime().getYear());
@@ -1089,11 +1090,34 @@ public class PodatnikView implements Serializable {
         Msg.msg("i", "Usunięto wzor dokumentu", "akordeon:form6");
     }
 
-    public void pobierzogolneDokKsi() {
+    public void weryfikujlisteDokumentowPodatnika() {
         selected = wpisView.getPodatnikObiekt();
-        List<Rodzajedok> dokumentyBiezacegoPodatnika = rodzajedokDAO.findListaPodatnik(selected);
+        List<Rodzajedok> dokumentyBiezacegoPodatnika = rodzajedokDAO.findListaPodatnik(selected, wpisView.getRokWpisuSt());
+        List<Rodzajedok> dokumentyBiezacegoPodatnikaRokPoprzedni = rodzajedokDAO.findListaPodatnik(selected, wpisView.getRokUprzedniSt());
+        List<Rodzajedok> dokumentyBiezacegoPodatnikaOgolnie = rodzajedokDAO.findListaPodatnikNull(selected);
+        if ((dokumentyBiezacegoPodatnikaRokPoprzedni==null || dokumentyBiezacegoPodatnika.isEmpty()) && (dokumentyBiezacegoPodatnikaOgolnie!=null && !dokumentyBiezacegoPodatnikaOgolnie.isEmpty())) {
+            dokumentyBiezacegoPodatnikaRokPoprzedni = dokumentyBiezacegoPodatnikaOgolnie;
+        }
         List<Rodzajedok> ogolnaListaDokumentow = rodzajedokView.getListaWspolnych();
         try {
+            if (dokumentyBiezacegoPodatnikaRokPoprzedni!=null && !dokumentyBiezacegoPodatnikaRokPoprzedni.isEmpty()) {
+                for (Rodzajedok tmp : dokumentyBiezacegoPodatnikaRokPoprzedni) {
+                    boolean odnaleziono = false;
+                    for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
+                        if (r.getSkrot().equals(tmp.getSkrot())) {
+                            odnaleziono = true;
+                        }
+                    }
+                    if (odnaleziono == false) {
+                        Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
+                        nowy.setRok(wpisView.getRokWpisuSt());
+                        nowy.setPodatnikObj(selected);
+                        KontaFKBean.nanieskonta(nowy, kontoDAOfk);
+                        rodzajedokDAO.dodaj(nowy);
+                        dokumentyBiezacegoPodatnika.add(nowy);
+                    }
+                }
+            }
             for (Rodzajedok tmp : ogolnaListaDokumentow) {
                 boolean odnaleziono = false;
                 for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
@@ -1104,6 +1128,7 @@ public class PodatnikView implements Serializable {
                 if (odnaleziono == false) {
                     Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
                     nowy.setPodatnikObj(selected);
+                    nowy.setRok(wpisView.getRokWpisuSt());
                     nowy.setKontoRZiS(null);
                     nowy.setKontorozrachunkowe(null);
                     nowy.setKontovat(null);

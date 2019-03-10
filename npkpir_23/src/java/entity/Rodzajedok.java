@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "rodzajedok",uniqueConstraints = {
     @UniqueConstraint(
-            columnNames={"SKROTNAZWYDOK, podid"})
+            columnNames={"SKROTNAZWYDOK, podid, rok"})
 })
 @XmlRootElement
 @NamedQueries({
@@ -40,7 +40,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Rodzajedok.findByNazwa", query = "SELECT r FROM Rodzajedok r WHERE r.nazwa = :nazwa"),
     @NamedQuery(name = "Rodzajedok.findByRodzajtransakcji", query = "SELECT r FROM Rodzajedok r WHERE r.rodzajtransakcji = :rodzajtransakcji"),
     @NamedQuery(name = "Rodzajedok.findByWzorzec", query = "SELECT r FROM Rodzajedok r WHERE r.wzorzec = :wzorzec"),
-    @NamedQuery(name = "Rodzajedok.findByPodatnik", query = "SELECT r FROM Rodzajedok r WHERE r.podatnikObj = :podatnik"),
+    @NamedQuery(name = "Rodzajedok.findByPodatnikNull", query = "SELECT r FROM Rodzajedok r WHERE r.podatnikObj = :podatnik AND r.rok IS NULL"),
+    @NamedQuery(name = "Rodzajedok.findByPodatnikRok", query = "SELECT r FROM Rodzajedok r WHERE r.podatnikObj = :podatnik AND r.rok = :rok"),
     @NamedQuery(name = "Rodzajedok.findByListaWspolna", query = "SELECT r FROM Rodzajedok r WHERE r.podatnikObj = :podatnik"),
     @NamedQuery(name = "Rodzajedok.findByKategoriaDokumentu", query = "SELECT r FROM Rodzajedok r WHERE r.kategoriadokumentu = :kategoriadokumentu")
 })
@@ -107,6 +108,8 @@ public class Rodzajedok implements Serializable {
     private double procentkup;
     @Column(name = "tylkojpk")
     private boolean tylkojpk;
+    @Column(name = "rok")
+    private String rok;
 
 
     public Rodzajedok() {
@@ -315,6 +318,14 @@ public class Rodzajedok implements Serializable {
 
     public void setTylkovatnalezny(boolean tylkovatnalezny) {
         this.tylkovatnalezny = tylkovatnalezny;
+    }
+
+    public String getRok() {
+        return rok;
+    }
+
+    public void setRok(String rok) {
+        this.rok = rok;
     }
     
     

@@ -1547,12 +1547,16 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
          return Collections.synchronizedList(em.createNamedQuery("Rodzajedok.findByListaWspolna").setParameter("podatnik", podatnik).getResultList());
     }
 
-    public List<Rodzajedok> findListaPodatnik(Podatnik podatnik) {
-        return Collections.synchronizedList(em.createNamedQuery("Rodzajedok.findByPodatnik").setParameter("podatnik", podatnik).getResultList());
+    public List<Rodzajedok> findListaPodatnik(Podatnik podatnik, String rok) {
+        return Collections.synchronizedList(em.createNamedQuery("Rodzajedok.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
     
-    public List<Rodzajedok> findListaPodatnikRO(Podatnik podatnik) {
-        return Collections.synchronizedList(em.createNamedQuery("Rodzajedok.findByPodatnik").setParameter("podatnik", podatnik).setHint(QueryHints.READ_ONLY, HintValues.TRUE).setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).getResultList());
+    public List<Rodzajedok> findListaPodatnikNull(Podatnik podatnik) {
+        return Collections.synchronizedList(em.createNamedQuery("Rodzajedok.findByPodatnikNull").setParameter("podatnik", podatnik).getResultList());
+    }
+    
+    public List<Rodzajedok> findListaPodatnikRO(Podatnik podatnik, String rok) {
+        return Collections.synchronizedList(em.createNamedQuery("Rodzajedok.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).setHint(QueryHints.READ_ONLY, HintValues.TRUE).setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoRokWaluta(Podatnik podatnik, Konto konto, String rok, String skrotWaluty) {

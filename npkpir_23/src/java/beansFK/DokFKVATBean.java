@@ -292,12 +292,16 @@ public class DokFKVATBean {
                         StronaWiersza wnDokumentuPoprzedniego = wierszDokumentuPoprzedniego.getStronaWn();
                         StronaWiersza wnDokumenuBiezacego = wierszDokumentuBiezacego.getStronaWn();
                         if (wnDokumentuPoprzedniego != null && !wnDokumentuPoprzedniego.getKonto().getZwyklerozrachszczegolne().equals("vat") && !selected.getRodzajedok().isTylkovatnalezny()) {
-                            wnDokumenuBiezacego.setKonto(wnDokumentuPoprzedniego.getKonto());
+                            if (wnDokumentuPoprzedniego.getKonto().getRok()==selected.getRokInt()) {
+                                wnDokumenuBiezacego.setKonto(wnDokumentuPoprzedniego.getKonto());
+                            }
                         }
                         StronaWiersza maDokumentuPoprzedniego = wierszDokumentuPoprzedniego.getStronaMa();
                         StronaWiersza maDokumenuBiezacego = wierszDokumentuBiezacego.getStronaMa();
                         if (maDokumentuPoprzedniego != null && !maDokumentuPoprzedniego.getKonto().getZwyklerozrachszczegolne().equals("vat")) {
-                            maDokumenuBiezacego.setKonto(maDokumentuPoprzedniego.getKonto());
+                            if (maDokumentuPoprzedniego.getKonto().getRok()==selected.getRokInt()) {
+                                maDokumenuBiezacego.setKonto(maDokumentuPoprzedniego.getKonto());
+                            }
                         }
                     }
                 }

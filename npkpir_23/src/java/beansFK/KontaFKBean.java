@@ -11,6 +11,7 @@ import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaZapisDAO;
 import embeddablefk.SaldoKonto;
 import entity.Podatnik;
+import entity.Rodzajedok;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.UkladBR;
@@ -251,6 +252,27 @@ public class KontaFKBean implements Serializable{
             zwrot = 1;
         }
         return zwrot;
+    }
+
+    public static void nanieskonta(Rodzajedok nowy, KontoDAOfk kontoDAOfk) {
+        if (nowy.getKontoRZiS()!=null || nowy.getKontorozrachunkowe()!=null || nowy.getKontovat()!=null) {
+            if ((nowy.getKontoRZiS()!=null && !nowy.getKontoRZiS().getRokSt().equals(nowy.getRok())) || 
+                    (nowy.getKontorozrachunkowe()!=null && !nowy.getKontorozrachunkowe().getRokSt().equals(nowy.getRok())) || 
+                    (nowy.getKontovat()!=null && !nowy.getKontovat().getRokSt().equals(nowy.getRok()))) {
+                List<Konto> konta = kontoDAOfk.findWszystkieKontaPodatnika(nowy.getPodatnikObj(), nowy.getRok());
+                for (Konto p : konta) {
+                    if (nowy.getKontoRZiS()!=null && nowy.getKontoRZiS().getPelnynumer().equals(p.getPelnynumer())) {
+                        nowy.setKontoRZiS(p);
+                    }
+                    if (nowy.getKontorozrachunkowe()!=null && nowy.getKontorozrachunkowe().getPelnynumer().equals(p.getPelnynumer())) {
+                        nowy.setKontorozrachunkowe(p);
+                    }
+                    if (nowy.getKontovat()!=null && nowy.getKontovat().getPelnynumer().equals(p.getPelnynumer())) {
+                        nowy.setKontovat(p);
+                    }
+                }
+            }
+        }
     }
     
 }

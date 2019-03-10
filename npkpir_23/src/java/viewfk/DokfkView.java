@@ -291,7 +291,7 @@ public class DokfkView implements Serializable {
                 //obsluzcechydokumentu();
                 stworzlisteewidencjiRK();
                 //RequestContext.getCurrentInstance().update("ewidencjavatRK");
-                dokumentypodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
+                dokumentypodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                 //wykazZaksiegowanychDokumentowSrodkiTrw = dokDAOfk.findDokfkPodatnikRokSrodkiTrwale(wpisView);
                 //wykazZaksiegowanychDokumentowRMK = dokDAOfk.findDokfkPodatnikRokRMK(wpisView);
                 wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
@@ -2400,8 +2400,12 @@ public class DokfkView implements Serializable {
         tabelenbp = Collections.synchronizedList(new ArrayList<>());
         symbolwalutydowiersza = ((Waluty) el.getNewValue()).getSymbolwaluty();
         String nazwawaluty = ((Waluty) el.getNewValue()).getSymbolwaluty();
-        String staranazwa = ((Waluty) el.getOldValue()).getSymbolwaluty();
-        if (!staranazwa.equals("PLN") && !nazwawaluty.equals("PLN") && selected.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
+        Waluty stara = ((Waluty) el.getOldValue());
+        String staranazwa = null;
+        if (stara!=null) {
+            staranazwa = stara.getSymbolwaluty();
+        }
+        if (staranazwa!=null && !staranazwa.equals("PLN") && !nazwawaluty.equals("PLN") && selected.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
             Msg.msg("w", "Prosze przewalutowywać do PLN");
         } else {
             if (!nazwawaluty.equals("PLN")) {
@@ -2637,6 +2641,9 @@ public class DokfkView implements Serializable {
         if (zapisz0edytuj1 == false && nowynumer!=null && !nowynumer.equals("") && selected.getNumerwlasnydokfk() == null) {
             selected.setNumerwlasnydokfk(nowynumer);
             RequestContext.getCurrentInstance().update("formwpisdokument:numerwlasny");
+        }
+        if (selected.getRodzajedok()!=null && (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5)) {
+            pobierzopiszpoprzedniegodokItemSelect();
         }
     }
 

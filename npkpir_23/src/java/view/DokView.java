@@ -276,7 +276,7 @@ public class DokView implements Serializable {
             E.e(e);
             String pod = "GRZELCZYK";
             podX = podatnikDAO.find(pod);
-            rodzajedokKlienta.addAll(rodzajedokDAO.findListaPodatnik(podX));
+            rodzajedokKlienta.addAll(rodzajedokDAO.findListaPodatnik(podX, wpisView.getRokWpisuSt()));
         }
         //pobranie ostatniego dokumentu
         try {
@@ -347,7 +347,7 @@ public class DokView implements Serializable {
     
     
     private List<Rodzajedok> pobierzrodzajedok() {
-        List<Rodzajedok> rodzajedokumentow = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
+        List<Rodzajedok> rodzajedokumentow = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
         return rodzajedokumentow;
     }

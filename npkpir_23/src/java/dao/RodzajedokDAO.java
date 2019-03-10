@@ -52,30 +52,38 @@ public class RodzajedokDAO extends DAO implements Serializable{
         }
    }
 
-    public List<Rodzajedok> findListaPodatnik(Podatnik podatnik) {
+    public List<Rodzajedok> findListaPodatnik(Podatnik podatnik, String rok) {
         try {
-            return rodzajedokFacade.findListaPodatnik(podatnik);
+            return rodzajedokFacade.findListaPodatnik(podatnik, rok);
         } catch (Exception e) { E.e(e); 
             return null;
         }
     }
     
-    public List<Rodzajedok> findListaPodatnikRO(Podatnik podatnik) {
+    public List<Rodzajedok> findListaPodatnikNull(Podatnik podatnik) {
         try {
-            return rodzajedokFacade.findListaPodatnikRO(podatnik);
+            return rodzajedokFacade.findListaPodatnikNull(podatnik);
         } catch (Exception e) { E.e(e); 
             return null;
         }
     }
     
-    public List<Rodzajedok> findListaPodatnikEdycja(Podatnik podatnik) {
+    public List<Rodzajedok> findListaPodatnikRO(Podatnik podatnik, String rok) {
         try {
-            List<Rodzajedok> lista = rodzajedokFacade.findListaPodatnik(podatnik);
+            return rodzajedokFacade.findListaPodatnikRO(podatnik, rok);
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
+    
+    public List<Rodzajedok> findListaPodatnikEdycja(Podatnik podatnik, String rok) {
+        try {
+            List<Rodzajedok> lista = rodzajedokFacade.findListaPodatnik(podatnik, rok);
             if (lista != null) {
                 for (Iterator<Rodzajedok> it = lista.iterator(); it.hasNext();) {
                     Rodzajedok p = it.next();
                     if (p.isNiepokazuj()) {
-                        it.remove();
+                        //it.remove();
                     }
                 }
             }

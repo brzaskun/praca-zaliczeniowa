@@ -1033,7 +1033,7 @@ public class Dokfk extends DokSuper implements Serializable {
      
      public String getKontoRozrachunkowe() {
          String zwrot = "b/k";
-         if (this.getRodzajedok().getKontorozrachunkowe() != null) {
+         if (this.getRodzajedok()!=null && this.getRodzajedok().getKontorozrachunkowe() != null) {
              zwrot = this.getRodzajedok().getKontorozrachunkowe().getPelnynumer();
          }
          return zwrot;
