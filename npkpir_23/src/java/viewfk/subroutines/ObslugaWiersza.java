@@ -356,8 +356,9 @@ public class ObslugaWiersza {
                 break;
             }
         } while(true);
-        double roznica = Z.z(sumaWn) - Z.z(sumaMa) > 0 ? Z.z(sumaWn) - Z.z(sumaMa) : Z.z(sumaWn) - Z.z(sumaMa) < 0 ? Z.z(sumaMa) - Z.z(sumaWn) : 0;
-        return Math.abs(roznica);
+        double roznica = typwiersza== 2 ? Z.z(sumaWn) - Z.z(sumaMa) : Z.z(sumaMa) - Z.z(sumaWn);
+        roznica = typwiersza==0 ? Math.abs(roznica) : roznica;
+        return roznica;
     }
         
     
@@ -648,9 +649,9 @@ public class ObslugaWiersza {
                                         //ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, liczbawierszyWDokumencie, wierszbiezacy, przenumeruj, roznica, 0);
                                     }
                                 } else if (typnastepnego == 2) {
-                                    ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 2);
+                                        ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 2);
                                 } else if (typnastepnego == 1) {
-                                    ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 1);
+                                        ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 1);
                                 } else if (typnastepnego == 5) {
                                     int nowyindexzpiatkami = wierszbiezacy.getIdwiersza() + wierszbiezacy.getPiatki().size();
                                     if (kwotaWn > kwotaMa) {
