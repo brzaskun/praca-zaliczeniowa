@@ -73,8 +73,8 @@ public class PlanKontFKBean {
          nowekonto.setMapotomkow(false);
          nowekonto.setMacierzysty(macierzyste.getLp());
          nowekonto.setKontomacierzyste(macierzyste);
-         nowekonto.setLevel(obliczlevel(nowekonto.getKontomacierzyste().getPelnynumer()));
-         nowekonto.setPelnynumer(nowekonto.getKontomacierzyste().getPelnynumer() + "-" + nowekonto.getNrkonta());
+         nowekonto.setLevel(obliczlevel(macierzyste.getPelnynumer()));
+         nowekonto.setPelnynumer(macierzyste.getPelnynumer() + "-" + nowekonto.getNrkonta());
          nowekonto.setWnma0wm1ma2(macierzyste.getWnma0wm1ma2());
          return zachowajkonto(wykazkont, nowekonto, kontoDAOfk);
     }
