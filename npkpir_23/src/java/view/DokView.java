@@ -627,7 +627,7 @@ public class DokView implements Serializable {
 //    }
 
     public void wygenerujnumerkolejnyonblur() {
-        if (selDokument.getNrWlDk() == null || selDokument.getNrWlDk().equals("")) {
+        if (selDokument.getRodzajedok()!=null && selDokument.getNrWlDk() == null || selDokument.getNrWlDk().equals("")) {
             wygenerujnumerkolejny();
         }
         if (selDokument.getRodzajedok()!=null && selDokument.getRodzajedok().getSkrotNazwyDok().equals("IN")) {
