@@ -83,7 +83,7 @@ public class ImportFakturyView  implements Serializable {
         
     @PostConstruct
     private void init() {
-        rodzajedok = rodzajedokDAO.find("SZ", wpisView.getPodatnikObiekt());
+        rodzajedok = rodzajedokDAO.find("SZ", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         evewidencje = evewidencjaDAO.znajdzpotransakcji("sprzedaz");
         tabeladomyslna = tabelanbpDAO.findByTabelaPLN();
     }

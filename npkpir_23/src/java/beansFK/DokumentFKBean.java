@@ -181,7 +181,7 @@ public class DokumentFKBean implements Serializable {
     }
 
     private static void ustawrodzajedok(Dokfk nd, String symbokdok, RodzajedokDAO rodzajedokDAO, WpisView wpisView) {
-        Rodzajedok rodzajedok = rodzajedokDAO.find(symbokdok, wpisView.getPodatnikObiekt());
+        Rodzajedok rodzajedok = rodzajedokDAO.find(symbokdok, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         if (rodzajedok != null) {
             nd.setSeriadokfk(rodzajedok.getSkrot());
             nd.setRodzajedok(rodzajedok);

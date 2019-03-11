@@ -164,7 +164,7 @@ public class ReadXLSFile {
                     String nazwapelna = row.getCell(2).getStringCellValue();
                     String tlumaczenie = row.getCell(3).getStringCellValue();
                     if (!tlumaczenie.equals("")) {
-                        Rodzajedok k = rodzajedokDAO.find(skrot, wpisView.getPodatnikObiekt());
+                        Rodzajedok k = rodzajedokDAO.find(skrot, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                         if (k != null && k.getNazwa().equals(nazwapelna)) {
                             k.setDe(tlumaczenie);
                             rodzajedokDAO.edit(k);

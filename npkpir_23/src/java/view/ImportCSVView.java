@@ -81,8 +81,8 @@ public class ImportCSVView  implements Serializable {
         
     @PostConstruct
     private void init() {
-        dokSZ = rodzajedokDAO.find("SZ", wpisView.getPodatnikObiekt());
-        dokWDT = rodzajedokDAO.find("WDT", wpisView.getPodatnikObiekt());
+        dokSZ = rodzajedokDAO.find("SZ", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        dokWDT = rodzajedokDAO.find("WDT", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         evewidencje = evewidencjaDAO.znajdzpotransakcji("sprzedaz");
         listaWalut = walutyDAOfk.findAll();
         if (listaWalut!=null) {

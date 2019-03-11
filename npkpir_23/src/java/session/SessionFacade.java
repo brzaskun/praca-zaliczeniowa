@@ -410,10 +410,10 @@ public class SessionFacade<T> implements Serializable {
         return wynik;
     }
 
-    public Rodzajedok findRodzajedokPodatnik(String skrot, Podatnik podatnik) {
+    public Rodzajedok findRodzajedokPodatnikRok(String skrot, Podatnik podatnik, String rok) {
         Rodzajedok wynik = null;
         try {
-            wynik = (Rodzajedok) em.createNamedQuery("Rodzajedok.findBySkrotPodatnik").setParameter("skrot", skrot).setParameter("podatnik", podatnik).getSingleResult();
+            wynik = (Rodzajedok) em.createNamedQuery("Rodzajedok.findBySkrotPodatnikRok").setParameter("skrot", skrot).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
         } catch (Exception e) {
             E.e(e);
 

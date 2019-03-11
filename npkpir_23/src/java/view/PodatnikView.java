@@ -7,6 +7,8 @@ package view;
 import beansFK.KontaFKBean;
 import beansRegon.SzukajDaneBean;
 import comparator.Kontocomparator;
+import comparator.Podatnikcomparator;
+import dao.DokDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDDAO;
 import dao.PodatnikUdzialyDAO;
@@ -17,6 +19,7 @@ import daoFK.KontoDAOfk;
 import data.Data;
 import embeddable.Parametr;
 import embeddable.Udzialy;
+import entity.Dok;
 import entity.ParamCzworkiPiatki;
 import entity.ParamDeklVatNadwyzka;
 import entity.ParamProcentVat;
@@ -163,6 +166,7 @@ public class PodatnikView implements Serializable {
         nazwaWybranegoPodatnika = wpisView.getPodatnikWpisu();
         try {
             selected = wpisView.getPodatnikObiekt();
+            //zrobdokumenty();
             weryfikujlisteDokumentowPodatnika();
             zweryfikujBazeBiezacegoPodatnika();
             uzupelnijListyKont();
@@ -183,6 +187,40 @@ public class PodatnikView implements Serializable {
         udzialy.setDatarozpoczecia(wpisView.getRokWpisuSt()+"-01-01");
         wybranyPodatnikOpodatkowanie.setStawkapodatkuospr(0.19);
         sumaudzialow = sumujudzialy(podatnikUdzialy);
+    }
+    
+@Inject
+private DokDAO dokDAO;
+    
+    public void zrobdokumenty() {
+        List<Podatnik> podatnicy = podatnikDAO.findAllManager();
+        Collections.sort(podatnicy, new Podatnikcomparator());
+        for (Podatnik pod : podatnicy) {
+            //List<Dokfk> dokfk =  dokDAOfk.findDokfkPodatnikRok(pod, wpisView.getRokWpisuSt());
+            List<Dok> dokfk =  dokDAO.zwrocBiezacegoKlientaRok(pod, wpisView.getRokWpisuSt());
+            List<Rodzajedok> rodzajedok = rodzajedokDAO.findListaPodatnik(pod, wpisView.getRokWpisuSt());
+            if (dokfk!=null && dokfk.size()>0 && rodzajedok!=null && rodzajedok.size()>0) {
+                System.out.println("Liczba dok "+dokfk.size());
+                for (Dok s : dokfk) {
+                    naniesrodzaj(s,rodzajedok);
+                }
+                System.out.println("podatnik "+pod.getPrintnazwa());
+                dokDAOfk.editList(dokfk);
+            }
+        }
+        System.out.println("Koniec ");
+    }
+    
+    private void naniesrodzaj(Dok s, List<Rodzajedok> rodzajedok) {
+        Rodzajedok rodzaj = s.getRodzajedok();
+        if (rodzaj!=null) {
+            for (Rodzajedok t : rodzajedok) {
+                if (t.getSkrot().equals(rodzaj.getSkrot())) {
+                    s.setRodzajedok(t);
+                    break;
+                }
+            }
+        }
     }
 
     public void skopiujdoedycji() {

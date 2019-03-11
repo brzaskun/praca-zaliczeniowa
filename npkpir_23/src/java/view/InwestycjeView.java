@@ -140,7 +140,7 @@ public class InwestycjeView implements Serializable {
                 selDokument.setUsunpozornie(false);
                 selDokument.setDataWyst(Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
                 selDokument.setKontr(new Klienci("", "dowód wewnętrzny"));
-                Rodzajedok amodok = rodzajedokDAO.find("OT", wpisView.getPodatnikObiekt());
+                Rodzajedok amodok = rodzajedokDAO.find("OT", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                 selDokument.setRodzajedok(amodok);
                 selDokument.setNrWlDk("OTINW/"+wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisu().toString());
                 selDokument.setOpis("inwestycja "+wybranainwestycja.getSkrot()+" zakończenie");

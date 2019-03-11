@@ -885,7 +885,7 @@ public class BilansWprowadzanieView implements Serializable {
     }
 
     private void ustawrodzajedok(Dokfk nd) {
-        Rodzajedok rodzajedok = rodzajedokDAO.find("BO", wpisView.getPodatnikObiekt());
+        Rodzajedok rodzajedok = rodzajedokDAO.find("BO", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         if (rodzajedok != null) {
             nd.setSeriadokfk(rodzajedok.getSkrot());
             nd.setRodzajedok(rodzajedok);

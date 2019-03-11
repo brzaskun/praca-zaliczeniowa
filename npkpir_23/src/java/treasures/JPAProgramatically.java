@@ -10,6 +10,7 @@ import entity.FakturaDuplikat;
 import entity.Fakturywystokresowe;
 import entity.Podatnik;
 import entity.Rodzajedok;
+import entityfk.Dokfk;
 import entityfk.Konto;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -52,17 +53,16 @@ public class JPAProgramatically {
 //        }
         for (Podatnik p :podatnicy) {
             emH2.getTransaction().begin();
-            List<Konto> konta =  emH2.createQuery("SELECT o FROM Konto o WHERE o.podatnik =:podatnik AND o.rok =:rok").setParameter("podatnik", p).setParameter("rok", 2019).getResultList();
-            List<Rodzajedok> rodzajedok = emH2.createQuery("SELECT o FROM Rodzajedok o WHERE o.podatnikObj =:podatnik").setParameter("podatnik", p).getResultList();
-            if (!konta.isEmpty()) {
-                for (Rodzajedok s : rodzajedok) {
-                    podmienkonta(s,konta);
+            List<Dokfk> dokfk =  emH2.createQuery("SELECT o FROM Dokfk o WHERE o.podatnik =:podatnik AND o.rok =:rok").setParameter("podatnik", p).setParameter("rok", 2019).getResultList();
+            List<Rodzajedok> rodzajedok = emH2.createQuery("SELECT o FROM Rodzajedok o WHERE o.podatnikObj =:podatnik AND o.rok =:rok").setParameter("podatnik", p).setParameter("rok", 2019).getResultList();
+            if (dokfk!=null && !dokfk.isEmpty() && rodzajedok!=null && !rodzajedok.isEmpty()) {
+                for (Dokfk s : dokfk) {
+                    naniesrodzaj(s,rodzajedok);
                     emH2.merge(s);
                 }
                 System.out.println("podatnik "+p.getPrintnazwa());
             }
             emH2.getTransaction().commit();
-            
         }
         System.out.println("koniec");
     }
@@ -91,5 +91,15 @@ public class JPAProgramatically {
             }
         }
         return zwrot;
+    }
+
+    private static void naniesrodzaj(Dokfk s, List<Rodzajedok> rodzajedok) {
+        Rodzajedok rodzaj = s.getRodzajedok();
+        for (Rodzajedok t : rodzajedok) {
+            if (t.getSkrot().equals(rodzaj.getSkrot())) {
+                s.setRodzajedok(t);
+                break;
+            }
+        }
     }
 }

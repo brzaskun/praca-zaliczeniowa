@@ -259,7 +259,7 @@ public class RMKView  implements Serializable {
     }
     
     private void ustawrodzajedok(Dokfk nd) {
-        Rodzajedok rodzajedok = rodzajedokDAO.find("RMK", wpisView.getPodatnikObiekt());
+        Rodzajedok rodzajedok = rodzajedokDAO.find("RMK", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         if (rodzajedok != null) {
             nd.setSeriadokfk(rodzajedok.getSkrot());
             nd.setRodzajedok(rodzajedok);

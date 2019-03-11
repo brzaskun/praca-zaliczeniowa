@@ -98,7 +98,7 @@ public class FDfkBean {
     }
     
     private static void ustawrodzajedok(Dokfk nd, String rodzajdok, RodzajedokDAO rodzajedokDAO, WpisView wpisView) {
-        Rodzajedok rodzajedok = rodzajedokDAO.find(rodzajdok, wpisView.getPodatnikObiekt());
+        Rodzajedok rodzajedok = rodzajedokDAO.find(rodzajdok, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         if (rodzajedok != null) {
             nd.setSeriadokfk(rodzajedok.getSkrot());
             nd.setRodzajedok(rodzajedok);

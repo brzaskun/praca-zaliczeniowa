@@ -298,11 +298,11 @@ public class DokView implements Serializable {
                 wygenerujnumerkolejny();
             } else {
                 this.typdokumentu = "ZZ";
-                selDokument.setRodzajedok(rodzajedokDAO.find("ZZ", wpisView.getPodatnikObiekt()));
+                selDokument.setRodzajedok(rodzajedokDAO.find("ZZ", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt()));
             }
         } catch (Exception e) {
             this.typdokumentu = "ZZ";
-            selDokument.setRodzajedok(rodzajedokDAO.find("ZZ", wpisView.getPodatnikObiekt()));
+            selDokument.setRodzajedok(rodzajedokDAO.find("ZZ", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt()));
             E.e(e);
         }
         selDokument.setKontr1(wstawKlientaDoNowegoDok());
@@ -532,7 +532,7 @@ public class DokView implements Serializable {
         try {
             e.setVat(Z.z(e.getNetto() * stawkavat/100));
         } catch (Exception ex) {
-            Rodzajedok r = rodzajedokDAO.find(skrotRT, wpisView.getPodatnikObiekt());
+            Rodzajedok r = rodzajedokDAO.find(skrotRT, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         }
         e.setBrutto(e.getNetto() + e.getVat());
         sumbruttoAddwiad();
@@ -587,7 +587,7 @@ public class DokView implements Serializable {
             } else {
                 ewidencjaAddwiad.get(lp).setBrutto(e.getNetto() + e.getVat());
                 String skrotRT = (String) Params.params("dodWiad:rodzajTrans");
-                Rodzajedok r = rodzajedokDAO.find(skrotRT, wpisView.getPodatnikObiekt());
+                Rodzajedok r = rodzajedokDAO.find(skrotRT, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                 if (r.getProcentvat() != 0.0) {
                     sumbrutto = e.getNetto() + (e.getVat() * 2);
                 } else {
@@ -1031,7 +1031,7 @@ public class DokView implements Serializable {
                 selDokument.setUsunpozornie(false);
                 selDokument.setDataWyst(Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
                 selDokument.setKontr(new Klienci("", "dowód wewnętrzny"));
-                Rodzajedok amodok = rodzajedokDAO.find("AMO", wpisView.getPodatnikObiekt());
+                Rodzajedok amodok = rodzajedokDAO.find("AMO", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                 selDokument.setRodzajedok(amodok);
                 selDokument.setNrWlDk(wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisu().toString());
                 selDokument.setOpis("umorzenie za miesiac");

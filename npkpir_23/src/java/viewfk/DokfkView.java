@@ -351,7 +351,7 @@ public class DokfkView implements Serializable {
             //RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
             //RequestContext.getCurrentInstance().update("zestawieniedokumentowimport:dataListImport");
         } else {
-            rodzajDokPoprzedni = rodzajedokDAO.find("ZZ", wpisView.getPodatnikObiekt());
+            rodzajDokPoprzedni = rodzajedokDAO.find("ZZ", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             symbolPoprzedniegoDokumentu = "ZZ";
         }
         try {
