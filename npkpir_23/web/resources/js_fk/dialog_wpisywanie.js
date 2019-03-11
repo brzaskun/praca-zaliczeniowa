@@ -721,7 +721,7 @@ var kopiujdatedialogwpis = function() {
 };
 
 //kopiuje opis jak nic nie ma
-var skopiujopis = function(nrbiezacegowiersza){
+var zachowajwierszVATRK = function(nrbiezacegowiersza){
     if(nrbiezacegowiersza===1){
         return;
     } else {
