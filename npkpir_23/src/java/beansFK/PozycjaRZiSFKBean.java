@@ -655,20 +655,22 @@ public class PozycjaRZiSFKBean {
 //                    }
 //                }
                 for (KontopozycjaZapis p : zapisanePOzycjezUkladuWzorcowego) {
-                    if (czypozycjazawieraBilans(pozycjedoprzejrzenia, p) && p.getKontoID().getRok()==ukladzrodlowy.getRokInt() && p.getKontoID().getPodatnik().equals(ukladzrodlowy.getPodatnik())) {
-                        Konto nowekonto = pobierzkontozlisty(kontarokudocelowego, p);
-                        if (nowekonto != null) {
-                            KontopozycjaZapis kp = new KontopozycjaZapis();
-                            kp.setKontoID(nowekonto);
-                            kp.setPozycjaWn(p.getPozycjaWn());
-                            kp.setPozycjaMa(p.getPozycjaMa());
-                            kp.setStronaWn(p.getStronaWn());
-                            kp.setStronaMa(p.getStronaMa());
-                            kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
-                            kp.setUkladBR(ukladdocelowy);
-                            kp.setWynik0bilans1(true);
-                            System.out.println("kp "+kp.toString());
-                            kontopozycjaZapisDAO.dodaj(kp);
+                    if (p.getKontoID()!=null) {
+                        if (czypozycjazawieraBilans(pozycjedoprzejrzenia, p) && p.getKontoID().getRok()==ukladzrodlowy.getRokInt() && p.getKontoID().getPodatnik().equals(ukladzrodlowy.getPodatnik())) {
+                            Konto nowekonto = pobierzkontozlisty(kontarokudocelowego, p);
+                            if (nowekonto != null) {
+                                KontopozycjaZapis kp = new KontopozycjaZapis();
+                                kp.setKontoID(nowekonto);
+                                kp.setPozycjaWn(p.getPozycjaWn());
+                                kp.setPozycjaMa(p.getPozycjaMa());
+                                kp.setStronaWn(p.getStronaWn());
+                                kp.setStronaMa(p.getStronaMa());
+                                kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
+                                kp.setUkladBR(ukladdocelowy);
+                                kp.setWynik0bilans1(true);
+
+                                kontopozycjaZapisDAO.dodaj(kp);
+                            }
                         }
                     }
                 }

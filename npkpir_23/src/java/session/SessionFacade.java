@@ -959,10 +959,18 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<Konto> findKontaPotomne(Podatnik podatnik, Integer rok, Konto macierzyste, String bilansowewynikowe) {
-        if (bilansowewynikowe.equals("bilansowe")) {
-            return Collections.synchronizedList(em.createNamedQuery("Konto.findByMacierzysteBilansowe").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
+        if (macierzyste==null) {
+            if (bilansowewynikowe.equals("bilansowe")) {
+               return Collections.synchronizedList(em.createNamedQuery("Konto.findByMacierzysteBilansoweNull").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
+           } else {
+               return Collections.synchronizedList(em.createNamedQuery("Konto.findByMacierzysteWynikoweNull").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
+           }   
         } else {
-            return Collections.synchronizedList(em.createNamedQuery("Konto.findByMacierzysteWynikowe").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
+            if (bilansowewynikowe.equals("bilansowe")) {
+                return Collections.synchronizedList(em.createNamedQuery("Konto.findByMacierzysteBilansowe").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
+            } else {
+                return Collections.synchronizedList(em.createNamedQuery("Konto.findByMacierzysteWynikowe").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
+            }
         }
     }
 
