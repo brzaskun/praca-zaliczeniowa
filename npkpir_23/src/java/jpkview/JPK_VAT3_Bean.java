@@ -16,6 +16,7 @@ import error.E;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
@@ -29,6 +30,7 @@ import jpk201801.JPK;
 import jpk201801.JPK.Podmiot1;
 import jpk201801.TKodFormularza;
 import jpk201801.TNaglowek;
+import waluty.Z;
 
 
 /**
@@ -316,21 +318,21 @@ public class JPK_VAT3_Bean {
             String vatsuma = ev.getEwidencja().getPolejpk_vat_sprzedaz_suma() != null ? ev.getEwidencja().getPolejpk_vat_sprzedaz_suma().replace("_", "") : null;
             if (netto != null) {
                 Method method = JPK.SprzedazWiersz.class.getMethod(zwrocpolejpk(ev.getEwidencja(),netto),BigDecimal.class);
-                method.invoke(w, BigDecimal.valueOf(ev.getNetto()));
+                method.invoke(w, BigDecimal.valueOf(Z.z(ev.getNetto())).setScale(2, RoundingMode.HALF_EVEN));
             }
             if (nettosuma != null) {
                 Method method = JPK.SprzedazWiersz.class.getMethod(zwrocpolejpk(ev.getEwidencja(),nettosuma),BigDecimal.class);
-                method.invoke(w, BigDecimal.valueOf(ev.getNetto()));
+                method.invoke(w, BigDecimal.valueOf(Z.z(ev.getNetto())).setScale(2, RoundingMode.HALF_EVEN));
             }
             if (vat != null) {
                 Method method = JPK.SprzedazWiersz.class.getMethod(zwrocpolejpk(ev.getEwidencja(),vat),BigDecimal.class);
-                method.invoke(w, BigDecimal.valueOf(ev.getVat()));
-                sprzedazCtrl.setPodatekNalezny(sprzedazCtrl.getPodatekNalezny().add(BigDecimal.valueOf(ev.getVat())));
+                method.invoke(w, BigDecimal.valueOf(Z.z(ev.getVat())));
+                sprzedazCtrl.setPodatekNalezny(sprzedazCtrl.getPodatekNalezny().add(BigDecimal.valueOf(ev.getVat())).setScale(2, RoundingMode.HALF_EVEN));
             }
             if (vatsuma != null) {
                 Method method = JPK.SprzedazWiersz.class.getMethod(zwrocpolejpk(ev.getEwidencja(),vatsuma),BigDecimal.class);
-                method.invoke(w, BigDecimal.valueOf(ev.getVat()));
-                sprzedazCtrl.setPodatekNalezny(sprzedazCtrl.getPodatekNalezny().add(BigDecimal.valueOf(ev.getVat())));
+                method.invoke(w, BigDecimal.valueOf(Z.z(ev.getVat())));
+                sprzedazCtrl.setPodatekNalezny(sprzedazCtrl.getPodatekNalezny().add(BigDecimal.valueOf(ev.getVat())).setScale(2, RoundingMode.HALF_EVEN));
             }
             if (ev.getNetto() != 0.0 || ev.getVat() != 0.0) {
                 sprzedazCtrl.setLiczbaWierszySprzedazy(sprzedazCtrl.getLiczbaWierszySprzedazy().add(BigInteger.ONE));
@@ -347,12 +349,12 @@ public class JPK_VAT3_Bean {
             String vat = ev.getEwidencja().getPolejpk_vat_zakup() != null ? ev.getEwidencja().getPolejpk_vat_zakup().replace("_", "") : null;
             if (netto != null) {
                 Method method = JPK.ZakupWiersz.class.getMethod(zwrocpolejpk(ev.getEwidencja(),netto),BigDecimal.class);
-                method.invoke(w, BigDecimal.valueOf(ev.getNetto()));
+                method.invoke(w, BigDecimal.valueOf(Z.z(ev.getNetto())).setScale(2, RoundingMode.HALF_EVEN));
             }
             if (vat != null) {
                 Method method = JPK.ZakupWiersz.class.getMethod(zwrocpolejpk(ev.getEwidencja(),vat),BigDecimal.class);
-                method.invoke(w, BigDecimal.valueOf(ev.getVat()));
-                zakupCtrl.setPodatekNaliczony(zakupCtrl.getPodatekNaliczony().add(BigDecimal.valueOf(ev.getVat())));
+                method.invoke(w, BigDecimal.valueOf(Z.z(ev.getVat())));
+                zakupCtrl.setPodatekNaliczony(zakupCtrl.getPodatekNaliczony().add(BigDecimal.valueOf(ev.getVat())).setScale(2, RoundingMode.HALF_EVEN));
             }
              if (ev.getNetto() != 0.0 || ev.getVat() != 0.0) {
                 zakupCtrl.setLiczbaWierszyZakupow(zakupCtrl.getLiczbaWierszyZakupow().add(BigInteger.ONE));
