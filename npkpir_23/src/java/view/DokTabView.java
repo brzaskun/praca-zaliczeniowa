@@ -254,33 +254,7 @@ public class DokTabView implements Serializable {
           }
       }
     public void destroy2() {
-        if(dokdoUsuniecia.getStatus().equals("bufor")){
-        String temp = dokdoUsuniecia.getRodzajedok().getSkrot();
-        if ((Rozrachunki.sprawdzczyniemarozrachunkow(dokdoUsuniecia) == true)) {
-            Msg.msg("e",  "Dokument nie usunięty - Usuń wpierw dokument strono, proszę "+dokdoUsuniecia.getIdDok().toString());
-        } else if (sprawdzczytoniesrodek(dokdoUsuniecia) == true) {
-            Msg.msg("e",  "Dokument nie usunięty - Usuń wpierw środek z ewidencji "+dokdoUsuniecia.getIdDok().toString());
-        } else {
-            if(dokdoUsuniecia.getRodzajedok().getSkrot().equals("AMO")){
-                //poszukiwanie czy nie ma po nim jakiegos
-                Amodok amotmpnas = new Amodok();
-                if(!"12".equals(wpisView.getMiesiacWpisu())){
-                    amotmpnas = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacNastepny());
-                }
-                if(amotmpnas != null && amotmpnas.getZaksiegowane() == true){
-                   Msg.msg("e", "Uwaga, istnieją dokumenty AMO zaksięgowane w następnych miesiącach!", "form:messages"); 
-                }
-                Amodok amotmp = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-                amotmp.setZaksiegowane(false);
-                amoDokDAO.edit(amotmp);
-            }
-            try {
-                String probsymbolu = dokdoUsuniecia.getSymbolinwestycji();
-                if(!probsymbolu.equals("wybierz")&&(!probsymbolu.isEmpty())){
-                    usunDokInwestycje(dokdoUsuniecia);
-                }
-            } catch (Exception e) { E.e(e); 
-            }
+        if (dokdoUsuniecia.getRodzajedok() == null) {
             try {
                 dokdoUsuniecia.setInwestycja(null);
                 dokDAO.edit(dokdoUsuniecia);
@@ -288,12 +262,51 @@ public class DokTabView implements Serializable {
                 dokumentypobrane.remove(dokdoUsuniecia);
                 dokumentylista.remove(dokdoUsuniecia);
                 dokumentyFiltered.remove(dokdoUsuniecia);
-            } catch (Exception e) { E.e(e); 
+            } catch (Exception e) {
+                E.e(e);
             }
             Msg.msg("i", "Dokument usunięty " + dokdoUsuniecia.getIdDok().toString(), "form:messages");
-        }
-    } else {
-            Msg.msg("e","Dokument w księgach, nie można usunąć ");
+        } else if (dokdoUsuniecia.getStatus().equals("bufor")) {
+            if ((Rozrachunki.sprawdzczyniemarozrachunkow(dokdoUsuniecia) == true)) {
+                Msg.msg("e", "Dokument nie usunięty - Usuń wpierw dokument strono, proszę " + dokdoUsuniecia.getIdDok().toString());
+            } else if (sprawdzczytoniesrodek(dokdoUsuniecia) == true) {
+                Msg.msg("e", "Dokument nie usunięty - Usuń wpierw środek z ewidencji " + dokdoUsuniecia.getIdDok().toString());
+            } else {
+                if (dokdoUsuniecia.getRodzajedok().getSkrot().equals("AMO")) {
+                    //poszukiwanie czy nie ma po nim jakiegos
+                    Amodok amotmpnas = new Amodok();
+                    if (!"12".equals(wpisView.getMiesiacWpisu())) {
+                        amotmpnas = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacNastepny());
+                    }
+                    if (amotmpnas != null && amotmpnas.getZaksiegowane() == true) {
+                        Msg.msg("e", "Uwaga, istnieją dokumenty AMO zaksięgowane w następnych miesiącach!", "form:messages");
+                    }
+                    Amodok amotmp = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+                    amotmp.setZaksiegowane(false);
+                    amoDokDAO.edit(amotmp);
+                }
+                try {
+                    String probsymbolu = dokdoUsuniecia.getSymbolinwestycji();
+                    if (!probsymbolu.equals("wybierz") && (!probsymbolu.isEmpty())) {
+                        usunDokInwestycje(dokdoUsuniecia);
+                    }
+                } catch (Exception e) {
+                    E.e(e);
+                }
+                try {
+                    dokdoUsuniecia.setInwestycja(null);
+                    dokDAO.edit(dokdoUsuniecia);
+                    dokDAO.destroy(dokdoUsuniecia);
+                    dokumentypobrane.remove(dokdoUsuniecia);
+                    dokumentylista.remove(dokdoUsuniecia);
+                    dokumentyFiltered.remove(dokdoUsuniecia);
+                } catch (Exception e) {
+                    E.e(e);
+                }
+                Msg.msg("i", "Dokument usunięty " + dokdoUsuniecia.getIdDok().toString(), "form:messages");
+            }
+        } else {
+            Msg.msg("e", "Dokument w księgach, nie można usunąć ");
         }
     }
     

@@ -191,7 +191,11 @@ public class SessionFacade<T> implements Serializable {
 
     public void edit(List<T> entityList) {
         for (T p : entityList) {
-            getEntityManager().merge(p);
+            try {
+                getEntityManager().merge(p);
+            } catch (Exception e) {
+                E.e(e);
+            }
         }
         getEntityManager().flush();
     }
