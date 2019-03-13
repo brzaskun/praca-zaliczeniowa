@@ -749,7 +749,11 @@ public class KontoZapisFKView implements Serializable{
                             double proporcja = ilezostalo / p.getKwota();
                             sumazliczaniePLN += Z.z(Z.z(p.getKwota()*kursnakoniecorkesu) * proporcja);
                             saldowalutywnpln += Z.z(p.getKwotaPLN() * proporcja);
-                            roznicawn = saldowalutywnpln > 0.0 ? Z.z(saldowalutywnpln - sumazliczaniePLN) : -Z.z(saldowalutymapln + sumazliczaniePLN);
+                            if (saldowalutywnpln > 0.0) {
+                                roznicawn = saldowalutywnpln > sumazliczaniePLN ? Z.z(sumazliczaniePLN- saldowalutywnpln):Z.z(saldowalutywnpln - sumazliczaniePLN);
+                            } else {
+                                roznicawn = saldowalutywnpln > sumazliczaniePLN ? -Z.z(sumazliczaniePLN- saldowalutymapln): -Z.z(saldowalutymapln - sumazliczaniePLN);
+                            }
                             break;
                         }
 
@@ -767,6 +771,11 @@ public class KontoZapisFKView implements Serializable{
                             sumazliczaniePLN += Z.z(Z.z(p.getKwota()*kursnakoniecorkesu) * proporcja);
                             saldowalutymapln += Z.z(p.getKwotaPLN() * proporcja);
                             roznicama = saldowalutymapln > 0.0 ? Z.z(saldowalutymapln - sumazliczaniePLN) : -Z.z(saldowalutywnpln + sumazliczaniePLN);
+                            if (saldowalutymapln > 0.0) {
+                                roznicama = saldowalutymapln > sumazliczaniePLN ? Z.z(sumazliczaniePLN- saldowalutymapln):Z.z(saldowalutymapln - sumazliczaniePLN);
+                            } else {
+                                roznicama = saldowalutymapln > sumazliczaniePLN ? -Z.z(sumazliczaniePLN- saldowalutywnpln): -Z.z(saldowalutywnpln - sumazliczaniePLN);
+                            }
                             break;
                         }
 
