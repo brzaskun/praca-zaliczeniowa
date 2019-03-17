@@ -18,7 +18,7 @@
                 <p:panelGrid columns="4">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaBRKontaView.wybranyuklad}" converter="#{ukladBRConv}" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
-                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
+                        <f:selectItems value="#{ukladBRView.listarokbiezacy}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
                         <p:ajax event="change" listener="#{pozycjaBRKontaView.pobierzukladkontoB('aktywa')}" update=":formbilansuklad"/>
                     </p:selectOneMenu>
                      <h:outputText value="brak układu na rok bieżący" style="color: red;" rendered="#{ukladBRView.listarokbiezacy.isEmpty()}"/>

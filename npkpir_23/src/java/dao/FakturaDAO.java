@@ -156,4 +156,12 @@ public class FakturaDAO extends DAO implements Serializable {
             return null;
         }
     }
+    
+    public Collection<? extends Klienci> findKontrahentFakturyRO(Podatnik podatnikObiekt) {
+        try {
+            return fakturaFacade.findKontrahentFakturyRO(podatnikObiekt); 
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

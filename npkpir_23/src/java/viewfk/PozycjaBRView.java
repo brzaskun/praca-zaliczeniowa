@@ -453,14 +453,20 @@ public class PozycjaBRView implements Serializable {
             PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankontBO);
             zapisy = StronaWierszaBean.pobraniezapisowbilansowe(stronaWierszaDAO, wpisView);
             Konto kontowyniku = PlanKontFKBean.findKonto860(plankont);
-            naniesKwoteWynikFinansowy(kontowyniku);
-            PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
-            PozycjaRZiSFKBean.ustawRootaBilansBOData(rootBilansAktywa, pozycjeaktywa, plankontBO, plankont, "aktywa");
-            PozycjaRZiSFKBean.ustawRootaBilansBOData(rootBilansPasywa, pozycjepasywa, plankontBO, plankont, "pasywa");
-            level = PozycjaRZiSFKBean.ustawLevel(rootBilansAktywa, pozycje);
-            Msg.msg("i", "Pobrano i wyliczono BO");
-            sumaaktywapasywaoblicz("aktywa");
-            sumaaktywapasywaoblicz("pasywa");
+            if (kontowyniku==null) {
+                rootBilansAktywa.getChildren().clear();
+                rootBilansPasywa.getChildren().clear();
+                Msg.msg("e", "Istnieją nieprzyporządkowane konta, nie można wygenerować bilansu");
+            } else {
+                naniesKwoteWynikFinansowy(kontowyniku);
+                PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
+                PozycjaRZiSFKBean.ustawRootaBilansBOData(rootBilansAktywa, pozycjeaktywa, plankontBO, plankont, "aktywa");
+                PozycjaRZiSFKBean.ustawRootaBilansBOData(rootBilansPasywa, pozycjepasywa, plankontBO, plankont, "pasywa");
+                level = PozycjaRZiSFKBean.ustawLevel(rootBilansAktywa, pozycje);
+                Msg.msg("i", "Pobrano i wyliczono BO");
+                sumaaktywapasywaoblicz("aktywa");
+                sumaaktywapasywaoblicz("pasywa");
+            }
         } catch (Exception e) {
             E.e(e);
             rootBilansAktywa.getChildren().clear();

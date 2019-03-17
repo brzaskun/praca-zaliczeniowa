@@ -112,7 +112,7 @@ public class FakturaRozrachunkiView  implements Serializable {
     }
     
     private Collection<? extends Klienci> pobierzkontrahentow() {
-        Collection p =  fakturaDAO.findKontrahentFaktury(wpisView.getPodatnikObiekt());
+        Collection p =  fakturaDAO.findKontrahentFakturyRO(wpisView.getPodatnikObiekt());
         for (Iterator<Klienci> it = p.iterator(); it.hasNext();) {
             Klienci k = it.next();
             if (k == null) {

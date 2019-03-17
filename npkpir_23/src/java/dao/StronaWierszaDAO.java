@@ -143,6 +143,10 @@ public class StronaWierszaDAO extends DAO implements Serializable {
         return Collections.synchronizedList(sessionFacade.findStronaByPodatnikRokWynik(podatnik, rok));
     }
     
+    public List<StronaWiersza> findStronaByPodatnikRokWynikRO(Podatnik podatnik, String rok) {
+        return Collections.synchronizedList(sessionFacade.findStronaByPodatnikRokWynikRO(podatnik, rok));
+    }
+    
     public List<StronaWiersza> findStronaByPodatnikRokWynikBO(Podatnik podatnik, String rok) {
         return Collections.synchronizedList(sessionFacade.findStronaByPodatnikRokWynikBO(podatnik, rok));
     }
@@ -172,6 +176,11 @@ public class StronaWierszaDAO extends DAO implements Serializable {
         return Collections.synchronizedList(sessionFacade.findStronaByPodatnikRok(podatnik, rok));
     }
      
+    
+    public List<StronaWiersza> findStronaByPodatnikRokRO(Podatnik podatnik, String rok) {
+        return Collections.synchronizedList(sessionFacade.findStronaByPodatnikRokRO(podatnik, rok));
+    }
+     
     public List<Konto> findStronaByPodatnikRokKontoDist(Podatnik podatnik, String rok) {
         return Collections.synchronizedList(sessionFacade.findStronaByPodatnikRokKontoDist(podatnik, rok));
     }
@@ -184,6 +193,11 @@ public class StronaWierszaDAO extends DAO implements Serializable {
     public List<StronaWiersza> findStronaByPodatnikRokBilans(Podatnik podatnik, String rok) {
         return Collections.synchronizedList(sessionFacade.findStronaByPodatnikRokBilans(podatnik, rok));
     }
+    
+    public List<StronaWiersza> findStronaByPodatnikRokBilansRO(Podatnik podatnik, String rok) {
+        return Collections.synchronizedList(sessionFacade.findStronaByPodatnikRokBilansRO(podatnik, rok));
+    }
+    
     
     public List<Konto> findKontoByPodatnikRokBilans(Podatnik podatnik, String rok) {
         return Collections.synchronizedList(sessionFacade.findKontoByPodatnikRokBilans(podatnik, rok));
