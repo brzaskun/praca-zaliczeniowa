@@ -34,7 +34,7 @@ public class PlanKontJSView implements Serializable {
     private WpisView wpisView;
 
     public PlanKontJSView() {
-         E.m(this);
+         //E.m(this);
         opisKontaLista = Collections.synchronizedList(new ArrayList<>());
     }
 

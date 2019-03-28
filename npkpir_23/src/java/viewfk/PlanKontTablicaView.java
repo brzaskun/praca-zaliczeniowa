@@ -32,7 +32,7 @@ public class PlanKontTablicaView {
     private List<Konto> tablica;
 
     public PlanKontTablicaView() {
-         E.m(this);
+         //E.m(this);
         leveleKonta = new ConcurrentHashMap<>();
     }
     

@@ -61,7 +61,7 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
     private List<Konto> konta;
 
     public PlanKontCompleteView() {
-         E.m(this);
+         //E.m(this);
     }
     
     

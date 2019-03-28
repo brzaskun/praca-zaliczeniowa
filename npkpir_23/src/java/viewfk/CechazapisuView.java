@@ -38,7 +38,7 @@ public class CechazapisuView implements Serializable {
     private Cechazapisu selected;
 
     public CechazapisuView() {
-        E.m(this);
+        //E.m(this);
         this.pobranecechy = Collections.synchronizedList(new ArrayList<>());
     }
     

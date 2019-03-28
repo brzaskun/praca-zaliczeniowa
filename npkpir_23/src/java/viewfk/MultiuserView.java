@@ -46,7 +46,7 @@ public class MultiuserView   implements Serializable{
     private MultiuserSettingsDAO multiuserSettingsDAO;
 
     public MultiuserView() {
-         E.m(this);
+         //E.m(this);
         listamutliuserow = Collections.synchronizedList(new ArrayList<>());
     }
     

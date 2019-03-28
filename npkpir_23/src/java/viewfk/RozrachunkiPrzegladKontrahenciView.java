@@ -56,7 +56,7 @@ public class RozrachunkiPrzegladKontrahenciView implements Serializable{
     private String coWyswietlacRozrachunkiPrzeglad;
 
     public RozrachunkiPrzegladKontrahenciView() {
-         E.m(this);
+         //E.m(this);
         listaKontRozrachunkowych = Collections.synchronizedList(new ArrayList<>());
         //listaRozrachunkow = Collections.synchronizedList(new ArrayList<>());
         stronyWiersza = Collections.synchronizedList(new ArrayList<>());

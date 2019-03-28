@@ -47,7 +47,7 @@ public class PlanKontKopiujView implements Serializable {
     private KontoDAOfk kontoDAOfk;
 
     public PlanKontKopiujView() {
-         E.m(this);
+         //E.m(this);
     }
     
     

@@ -34,7 +34,7 @@ public class DokfkInterView implements Serializable {
     private RodzajedokDAO rodzajedokDAO;
 
     public DokfkInterView() {
-         E.m(this);
+         //E.m(this);
     }
     
     

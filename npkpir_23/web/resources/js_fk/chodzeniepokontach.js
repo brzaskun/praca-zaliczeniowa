@@ -48,7 +48,7 @@
 
 var zachowajobiekt = function(obiekt, event) {
     try {
-        console.log("wywołanei: chodzeniepokontach/zachowajobiekt");
+        //console.log("wywołanei: chodzeniepokontach/zachowajobiekt");
         if (event !== null) {
             var source = event.target || event.srcElement;
         } else {

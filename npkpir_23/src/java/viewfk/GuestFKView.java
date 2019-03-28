@@ -33,7 +33,7 @@ public class GuestFKView implements Serializable {
     private WpisDAO wpisDAO;
 
     public GuestFKView() {
-         E.m(this);
+         //E.m(this);
     }
     
     public void aktualizujGuestFK() throws IOException {

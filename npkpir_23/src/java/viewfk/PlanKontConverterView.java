@@ -33,7 +33,7 @@ public class PlanKontConverterView implements Serializable{
     private WpisView wpisView;
 
     public PlanKontConverterView() {
-         E.m(this);
+         //E.m(this);
     }
 
     

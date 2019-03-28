@@ -34,7 +34,7 @@ public class KontokategoriaView  implements Serializable {
     private KontokategoriaDAOfk kontokategoriaDAOfk;
 
     public KontokategoriaView() {
-         E.m(this);
+         //E.m(this);
         this.lista = Collections.synchronizedList(new ArrayList<>());
     }
     

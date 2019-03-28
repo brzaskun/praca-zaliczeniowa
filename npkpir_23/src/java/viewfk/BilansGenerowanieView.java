@@ -81,7 +81,7 @@ public class BilansGenerowanieView implements Serializable {
     private List<RoznicaSaldBO> kontainnesaldo;
 
     public BilansGenerowanieView() {
-        E.m(this);
+        //E.m(this);
         this.komunikatyok = Collections.synchronizedList(new ArrayList<>());
         this.komunikatyok.add("Nie rozpoczęto analizy");
         this.komunikatyerror = Collections.synchronizedList(new ArrayList<>());

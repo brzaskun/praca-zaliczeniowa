@@ -43,7 +43,7 @@ public class KontokategoriaPrzypView  implements Serializable {
     private WpisView wpisView;
 
     public KontokategoriaPrzypView() {
-         E.m(this);
+         //E.m(this);
     }
     
     @PostConstruct

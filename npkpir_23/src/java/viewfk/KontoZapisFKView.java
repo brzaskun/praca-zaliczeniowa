@@ -115,7 +115,7 @@ public class KontoZapisFKView implements Serializable{
     
 
     public KontoZapisFKView() {
-        E.m(this);
+        //E.m(this);
         kontozapisy = Collections.synchronizedList(new ArrayList<>());
         wybranezapisydosumowania = Collections.synchronizedList(new ArrayList<>());
         wybranaWalutaDlaKont = "wszystkie";

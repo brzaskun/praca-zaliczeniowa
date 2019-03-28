@@ -34,7 +34,7 @@ public class XLSRodzajeDokView implements Serializable{
     private WpisView wpisView;
 
     public XLSRodzajeDokView() {
-         E.m(this);
+         //E.m(this);
     }
     
     

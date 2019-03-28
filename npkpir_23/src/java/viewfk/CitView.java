@@ -62,7 +62,7 @@ public class CitView implements Serializable {
     private WpisView wpisView;
 
     public CitView() {
-         E.m(this);
+         //E.m(this);
         this.listaPrzychody = Collections.synchronizedList(new ArrayList<>());
         this.listaKoszty = Collections.synchronizedList(new ArrayList<>());
     }

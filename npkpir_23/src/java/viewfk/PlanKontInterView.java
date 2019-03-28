@@ -38,7 +38,7 @@ public class PlanKontInterView implements Serializable {
     private KontoDAOfk kontoDAOfk;
 
     public PlanKontInterView() {
-         E.m(this);
+         //E.m(this);
     }
     
     

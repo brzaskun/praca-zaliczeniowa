@@ -40,7 +40,7 @@ public class PlanKontBOView implements Serializable {
     private List<Konto> wykazkont;
 
     public PlanKontBOView() {
-         E.m(this);
+         //E.m(this);
         this.wykazkontGrupa = new ConcurrentHashMap<>();
     }
 

@@ -88,7 +88,7 @@ public class PozycjaBRKontaView implements Serializable {
     private List<UkladBR> listaukladow;
 
     public PozycjaBRKontaView() {
-         E.m(this);
+         //E.m(this);
         this.kontabezprzydzialu = Collections.synchronizedList(new ArrayList<>());
         this.rootProjektKontaRZiS = new TreeNodeExtended("root", null);
         this.rootProjektKontaBilans = new TreeNodeExtended("root", null);

@@ -21,7 +21,7 @@ public class DokfkSortView implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public DokfkSortView() {
-         E.m(this);
+         //E.m(this);
     }
     
     

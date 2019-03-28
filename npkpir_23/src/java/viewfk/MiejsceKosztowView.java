@@ -63,7 +63,7 @@ public class MiejsceKosztowView  implements Serializable{
     private boolean rozwinwszystkie;
 
     public MiejsceKosztowView() {
-         E.m(this);
+         //E.m(this);
         
     }
 

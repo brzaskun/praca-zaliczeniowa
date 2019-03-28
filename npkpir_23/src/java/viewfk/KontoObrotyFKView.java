@@ -61,7 +61,7 @@ public class KontoObrotyFKView implements Serializable{
     
 
     public KontoObrotyFKView() {
-         E.m(this);
+         //E.m(this);
         this.lista = Collections.synchronizedList(new ArrayList<>());
         this.kontozapisy = Collections.synchronizedList(new ArrayList<>());
         this.wybranekontadosumowania = Collections.synchronizedList(new ArrayList<>());

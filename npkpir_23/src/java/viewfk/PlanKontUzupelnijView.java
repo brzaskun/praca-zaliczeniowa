@@ -50,7 +50,7 @@ public class PlanKontUzupelnijView implements Serializable {
     private UkladBRDAO ukladBRDAO;
 
     public PlanKontUzupelnijView() {
-         E.m(this);
+         //E.m(this);
     }
     
     

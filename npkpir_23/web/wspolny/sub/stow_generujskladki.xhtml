@@ -59,8 +59,8 @@
                     <h:outputText value="#{wpisstow.miejsce.koniec}"/>
                 </p:column>
                 <p:column width="90" headerText="kwota">
-                    <p:inputNumber id="vat" value="#{wpisstow.kwota}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                                symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                    <p:inputNumber id="vat" value="#{wpisstow.kwota}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" size="10"
+                                                symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-100000" styleClass="wiersznetto"/> 
                 </p:column>
                 <p:column headerText="zachowane">
                     <h:outputText value="#{wpisstow.dataksiegowania}">

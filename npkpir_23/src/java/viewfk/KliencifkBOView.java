@@ -78,7 +78,7 @@ public class KliencifkBOView implements Serializable {
     private boolean zapisz0edytuj1;
 
     public KliencifkBOView() {
-         E.m(this);
+         //E.m(this);
         listawszystkichklientow = Collections.synchronizedList(new ArrayList<>());
         listawszystkichklientowFk = Collections.synchronizedList(new ArrayList<>());
     }

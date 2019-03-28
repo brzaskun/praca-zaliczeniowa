@@ -46,7 +46,7 @@ public class XLSSymulacjaView implements Serializable{
     private WpisView wpisView;
     
     public void zachowajSymulacjewXLS(int modulator) {
-         E.m(this);
+         //E.m(this);
         try {
             List wynikpopmc = transferToPozycjaPrzychodKosztOdPoczRok();
             List przychody = null;

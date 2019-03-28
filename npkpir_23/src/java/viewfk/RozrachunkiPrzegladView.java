@@ -67,7 +67,7 @@ public class RozrachunkiPrzegladView implements Serializable{
     private KliencifkDAO kliencifkDAO;
 
     public RozrachunkiPrzegladView() {
-         E.m(this);
+         //E.m(this);
         wykazkont = Collections.synchronizedList(new ArrayList<>());
         //listaRozrachunkow = Collections.synchronizedList(new ArrayList<>());
         stronyWiersza = Collections.synchronizedList(new ArrayList<>());

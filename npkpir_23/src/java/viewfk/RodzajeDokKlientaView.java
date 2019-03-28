@@ -35,7 +35,7 @@ public class RodzajeDokKlientaView implements Serializable {
     private WpisView wpisView;
 
     public RodzajeDokKlientaView() {
-          E.m(this);
+          //E.m(this);
     }
 
     

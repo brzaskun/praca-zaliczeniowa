@@ -70,7 +70,7 @@ public class UkladBRView implements Serializable {
     private String nazwanowegoukladu;
 
     public UkladBRView() {
-         E.m(this);
+         //E.m(this);
         lista = Collections.synchronizedList(new ArrayList<>());
     }
 

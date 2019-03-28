@@ -78,7 +78,7 @@ public class KontaVatFKView implements Serializable {
 //    boolean dodajBO;
 
     public KontaVatFKView() {
-         E.m(this);
+         //E.m(this);
     }
     
     

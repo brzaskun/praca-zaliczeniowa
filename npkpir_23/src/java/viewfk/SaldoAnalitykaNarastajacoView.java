@@ -53,7 +53,7 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     private boolean saldaniezerowe;
 
     public SaldoAnalitykaNarastajacoView() {
-         E.m(this);
+         //E.m(this);
     }
     
     public void init() {

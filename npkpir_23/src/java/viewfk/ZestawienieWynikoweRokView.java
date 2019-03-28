@@ -48,7 +48,7 @@ public class ZestawienieWynikoweRokView implements Serializable {
  
 
     public ZestawienieWynikoweRokView() {
-         E.m(this);
+         //E.m(this);
     }
 
     public void init() {

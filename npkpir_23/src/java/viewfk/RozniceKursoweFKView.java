@@ -56,7 +56,7 @@ public class RozniceKursoweFKView implements Serializable {
     private String mczaksiegowane;
 
     public RozniceKursoweFKView() {
-        E.m(this);
+        //E.m(this);
         pobranetransakcje = Collections.synchronizedList(new ArrayList<>());
     }
 

@@ -124,7 +124,7 @@ public class BilansWprowadzanieView implements Serializable {
     private WpisView wpisView;
 
     public BilansWprowadzanieView() {
-         E.m(this);
+         //E.m(this);
 
     }
     

@@ -83,7 +83,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
     
 
     public PozycjaBRKontaWzorcowyView() {
-         E.m(this);
+         //E.m(this);
         this.kontabezprzydzialu = Collections.synchronizedList(new ArrayList<>());
         this.rootProjektKontaRZiS = new TreeNodeExtended("root", null);
         this.rootProjektKontaBilans = new TreeNodeExtended("root", null);

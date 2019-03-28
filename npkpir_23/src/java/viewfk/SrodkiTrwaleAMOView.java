@@ -75,7 +75,7 @@ public class SrodkiTrwaleAMOView implements Serializable {
     private double roznicasald;
 
     public SrodkiTrwaleAMOView() {
-         E.m(this);
+         //E.m(this);
     }
     
     

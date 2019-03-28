@@ -108,7 +108,7 @@ public class PozycjaBRView implements Serializable {
     
 
     public PozycjaBRView() {
-        E.m(this);
+        //E.m(this);
         this.wykazkont = Collections.synchronizedList(new ArrayList<>());
         this.nowyelementRZiS = new PozycjaRZiS();
         this.nowyelementBilans = new PozycjaBilans();

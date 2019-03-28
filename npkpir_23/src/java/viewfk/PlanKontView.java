@@ -142,7 +142,7 @@ public class PlanKontView implements Serializable {
     public PlanKontView() {
         bezslownikowych = true;
         kontadowyswietlenia = "wszystkie";
-        E.m(this);
+        //E.m(this);
         wybranaseriakont = 9;
     }
 

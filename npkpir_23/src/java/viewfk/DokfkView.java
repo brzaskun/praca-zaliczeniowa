@@ -265,7 +265,7 @@ public class DokfkView implements Serializable {
     
 
     public DokfkView() {
-         E.m(this);
+         //E.m(this);
         this.wykazZaksiegowanychDokumentow = Collections.synchronizedList(new ArrayList<>());
         this.biezacetransakcje = Collections.synchronizedList(new ArrayList<>());
         this.transakcjejakosparowany = Collections.synchronizedList(new ArrayList<>());
@@ -284,7 +284,7 @@ public class DokfkView implements Serializable {
     //to zostaje bo tu i tak nie pobiera dokumentow
     @PostConstruct
     public void init() {
-        E.m(this);
+        //E.m(this);
         try {
             if (wpisView.isKsiegirachunkowe()) {
                 //resetujDokument(); //to jest chyba niepotrzebne bo ta funkcja jest wywolywana jak otwieram okienko wpisu i potem po kazdym zachowaniu

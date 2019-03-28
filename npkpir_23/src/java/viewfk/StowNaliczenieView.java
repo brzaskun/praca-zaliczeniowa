@@ -80,7 +80,7 @@ public class StowNaliczenieView  implements Serializable {
     private void init() {
         try {
             if (wpisView.getFormaprawna().equals("STOWARZYSZENIE")) {
-                E.m(this);
+                //E.m(this);
                 //przychody
                 konta = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), 7);
                 Konto kontoprzychodypo = kontoDAOfk.findKonto("251", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
@@ -214,20 +214,27 @@ public class StowNaliczenieView  implements Serializable {
     private void generujskladki() {
         try {
             List<SkladkaCzlonek> listaskladki = skladkaCzlonekDAO.findPodatnikRok(wpisView);
+            if (listaskladki.isEmpty()) {
+                Msg.msg("w","Nie zdefiniowano składek, pobieram kwotę globalną");
+            }
             for (StowNaliczenie p : lista) {
                 if (nalicz(p)) {
-                    double kwota = pobierzkwote(listaskladki,p);
                     if (kwotadlawszystkich != 0.0) {
                         p.setKwota(kwotadlawszystkich);
                     } else {
-                        p.setKwota(kwota);
+                        if (listaskladki.isEmpty()) {
+                            p.setKwota(kwotadlawszystkich);
+                        } else {
+                            double kwota = pobierzkwote(listaskladki,p);
+                            p.setKwota(kwota);
+                        }
                     }
                 }
             }
             Msg.dP();
         } catch (Exception e) {
             E.e(e);
-            Msg.msg("e","Wystąpuł błąd, sprawdź czy zdefiniowano składki");
+            Msg.msg("e","Wystąpił błąd, sprawdź czy zdefiniowano składki");
            
         }
     }

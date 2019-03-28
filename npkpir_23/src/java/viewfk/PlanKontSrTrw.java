@@ -35,7 +35,7 @@ public class PlanKontSrTrw implements Serializable {
     private List<Konto> listakontSrodkiTrwaleUmorzenia;
 
     public PlanKontSrTrw() {
-         E.m(this);
+         //E.m(this);
     }
 
     @PostConstruct

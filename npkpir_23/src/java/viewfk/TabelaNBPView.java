@@ -28,7 +28,7 @@ public class TabelaNBPView implements Serializable {
     private List<Tabelanbp> listanpb;
 
     public TabelaNBPView() {
-         E.m(this);
+         //E.m(this);
         listanpb = Collections.synchronizedList(new ArrayList<>());
     }
     

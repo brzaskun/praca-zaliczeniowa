@@ -77,7 +77,7 @@ public class SaldoAnalitykaView implements Serializable {
     private CechazapisuDAOfk cechazapisuDAOfk;
 
     public SaldoAnalitykaView() {
-        E.m(this);
+        //E.m(this);
         sumaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
         wybranyRodzajKonta = "wszystkie";
     }

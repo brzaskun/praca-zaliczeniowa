@@ -75,7 +75,7 @@ public class WalutyViewFK implements Serializable {
     private WalutyNBP walutyNBP;
 
     public WalutyViewFK() {
-         E.m(this);
+         //E.m(this);
         pobraneRodzajeWalut = Collections.synchronizedList(new ArrayList<>());
         walutywuzyciu = Collections.synchronizedList(new ArrayList<>());
         symboleWalut = Collections.synchronizedList(new ArrayList<>());
@@ -113,7 +113,7 @@ public class WalutyViewFK implements Serializable {
     
     public void pobierzkursyWalutaRecznie() {
         try {
-            E.m(this);
+            //E.m(this);
             Integer numertabeli = Integer.valueOf(nrtabeli);
             List<Tabelanbp> wierszepobranezNBP = Collections.synchronizedList(new ArrayList<>());
             try {

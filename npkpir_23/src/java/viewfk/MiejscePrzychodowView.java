@@ -68,7 +68,7 @@ public class MiejscePrzychodowView  implements Serializable{
     private boolean rozwinwszystkie;
 
     public MiejscePrzychodowView() {
-         E.m(this);
+         //E.m(this);
         
     }
 

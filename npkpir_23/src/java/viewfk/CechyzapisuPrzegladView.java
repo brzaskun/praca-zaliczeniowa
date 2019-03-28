@@ -48,7 +48,7 @@ public class CechyzapisuPrzegladView implements Serializable{
     private boolean cit8;
 
     public CechyzapisuPrzegladView() {
-         E.m(this);
+         //E.m(this);
         this.wykazZaksiegowanychDokumentow = Collections.synchronizedList(new ArrayList<>());
         this.zapisyZCecha = Collections.synchronizedList(new ArrayList<>());
         this.wykazcech = new HashSet<>();

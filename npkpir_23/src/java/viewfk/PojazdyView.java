@@ -63,7 +63,7 @@ public class PojazdyView  implements Serializable{
     private boolean rozwinwszystkie;
 
     public PojazdyView() {
-         E.m(this);
+         //E.m(this);
     }
     
     public void init() {
