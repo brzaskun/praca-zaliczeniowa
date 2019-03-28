@@ -17,4 +17,5 @@
     <system systemId="file:/C:/Regon/UslugaBIRzewnPubl_xsd1.xsd" uri="src/conf/xml-resources/web-services/GUS/wsdl/UslugaBIRzewnPubl_xsd1.xsd"/>
     <system systemId="file:/C:/Regon/UslugaBIRzewnPubl_xsd2.xsd" uri="src/conf/xml-resources/web-services/GUS/wsdl/UslugaBIRzewnPubl_xsd2.xsd"/>
     <system systemId="file:/C:/Regon/UslugaBIRzewnPubl_xsd3.xsd" uri="src/conf/xml-resources/web-services/GUS/wsdl/UslugaBIRzewnPubl_xsd3.xsd"/>
+    <system systemId="file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/wsdlnipvat.wsdl" uri="src/conf/xml-resources/web-services/NIPVATcheck/wsdl/wsdlnipvat.wsdl"/>
 </catalog>

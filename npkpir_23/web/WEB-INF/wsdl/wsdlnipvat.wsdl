@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions name="WeryfikacjaVAT"
+ targetNamespace="http://www.mf.gov.pl/uslugiBiznesowe/uslugiDomenowe/AP/WeryfikacjaVAT/2018/03/01"
+ xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+ xmlns:tns="http://www.mf.gov.pl/uslugiBiznesowe/uslugiDomenowe/AP/WeryfikacjaVAT/2018/03/01"
+ xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<wsdl:types>
+		<xs:schema elementFormDefault="qualified"
+targetNamespace="http://www.mf.gov.pl/uslugiBiznesowe/uslugiDomenowe/AP/WeryfikacjaVAT/2018/03/01"
+xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			<xs:element name="NIP" type="tns:TNumerNIP">
+				<xs:annotation>
+					<xs:documentation>Identyfikator podatkowy NIP podmiotu (10 cyfr, bez białych znaków i znaków specjalnych)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Data" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>Data statusu rejestracji podmiotu jako podatnika VAT</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="WynikOperacji" type="tns:TWynikWeryfikacjiVAT">
+				<xs:annotation>
+					<xs:documentation>Odpowiedź usługi zawierająca status rejestracji podmiotu jako podatnika VAT lub kod błędu</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:simpleType name="TNumerNIP">
+				<xs:annotation>
+					<xs:documentation/>
+				</xs:annotation>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="[1-9]((\d[1-9])|([1-9]\d))\d{7}"/>
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:complexType name="TWynikWeryfikacjiVAT">
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="Kod" type="tns:TKodWeryfikacjiVAT">
+						<xs:annotation>
+							<xs:documentation>
+ Kod statusu rejestracji podmiotu jako podatnika VAT lub błędu zapytania
+ N - Podmiot o podanym identyfikatorze podatkowym NIP nie jest zarejestrowany jako podatnik VAT
+ C - Podmiot o podanym identyfikatorze podatkowym NIP jest zarejestrowany jako podatnik VAT czynny
+ Z - Podmiot o podanym identyfikatorze podatkowym NIP jest zarejestrowany jako podatnik VAT zwolniony
+ I - Błąd zapytania - Nieprawidłowy Numer Identyfikacji Podatkowej
+ D - Błąd zapytania - Data spoza ustalonego zakresu
+ X - Usługa nieaktywna
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element minOccurs="1" maxOccurs="1" name="Komunikat" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Opis statusu rejestracji podmiotu jako podatnika VAT lub opis błędu</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:simpleType name="TKodWeryfikacjiVAT">
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="N"/>
+					<xs:enumeration value="C"/>
+					<xs:enumeration value="Z"/>
+					<xs:enumeration value="I"/>
+					<xs:enumeration value="D"/>
+					<xs:enumeration value="X"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="SprawdzNIPZapytanie">
+		<wsdl:part name="NIP" element="tns:NIP"/>
+	</wsdl:message>
+	<wsdl:message name="SprawdzNIPOdpowiedz">
+		<wsdl:part name="WynikOperacji" element="tns:WynikOperacji"/>
+	</wsdl:message>
+	<wsdl:message name="SprawdzNIPNaDzienZapytanie">
+		<wsdl:part name="NIP" element="tns:NIP"/>
+		<wsdl:part name="Data" element="tns:Data"/>
+	</wsdl:message>
+	<wsdl:message name="SprawdzNIPNaDzienOdpowiedz">
+		<wsdl:part name="WynikOperacji" element="tns:WynikOperacji"/>
+	</wsdl:message>
+	<wsdl:portType name="WeryfikacjaVAT">
+		<wsdl:operation name="SprawdzNIP">
+			<wsdl:documentation>Operacja weryfikuje czy podmiot jest zarejestrowany jako podatnik VAT na podstawie numeru NIP w dniu
+poprzedząjacym zapytanie</wsdl:documentation>
+			<wsdl:input
+wsam:Action="http://www.mf.gov.pl/uslugiBiznesowe/uslugiDomenowe/AP/WeryfikacjaVAT/2018/03/01/WeryfikacjaVAT/SprawdzNIP"
+name="SprawdzNIPZapytanie" message="tns:SprawdzNIPZapytanie"/>
+			<wsdl:output
+wsam:Action="http://www.mf.gov.pl/uslugiBiznesowe/uslugiDomenowe/AP/WeryfikacjaVAT/2018/03/01/WeryfikacjaVAT/SprawdzNIPResponse"
+name="SprawdzNIPOdpowiedz" message="tns:SprawdzNIPOdpowiedz"/>
+		</wsdl:operation>
+		<wsdl:operation name="SprawdzNIPNaDzien">
+			<wsdl:documentation>Operacja weryfikuje czy podmiot był zarejestrowany jako podatnik VAT na podstawie numeru NIP w dniu wskazanym
+w zapytaniu</wsdl:documentation>
+			<wsdl:input
+wsam:Action="http://www.mf.gov.pl/uslugiBiznesowe/uslugiDomenowe/AP/WeryfikacjaVAT/2018/03/01/WeryfikacjaVAT/SprawdzNIPNaDzien"
+name="SprawdzNIPNaDzienZapytanie" message="tns:SprawdzNIPNaDzienZapytanie"/>
+			<wsdl:output
+wsam:Action="http://www.mf.gov.pl/uslugiBiznesowe/uslugiDomenowe/AP/WeryfikacjaVAT/2018/03/01/WeryfikacjaVAT/SprawdzNIPNaDzienResponse"
+name="SprawdzNIPNaDzienOdpowiedz" message="tns:SprawdzNIPNaDzienOdpowiedz"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="BasicHttpBinding_WeryfikacjaVAT" type="tns:WeryfikacjaVAT">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="SprawdzNIP">
+			<soap:operation
+soapAction="http://www.mf.gov.pl/uslugiBiznesowe/uslugiDomenowe/AP/WeryfikacjaVAT/2018/03/01/WeryfikacjaVAT/SprawdzNIP"
+style="document"/>
+			<wsdl:input name="SprawdzNIPZapytanie">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="SprawdzNIPOdpowiedz">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SprawdzNIPNaDzien">
+			<soap:operation
+soapAction="http://www.mf.gov.pl/uslugiBiznesowe/uslugiDomenowe/AP/WeryfikacjaVAT/2018/03/01/WeryfikacjaVAT/SprawdzNIPNaDzien"
+style="document"/>
+			<wsdl:input name="SprawdzNIPNaDzienZapytanie">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="SprawdzNIPNaDzienOdpowiedz">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="WeryfikacjaVAT">
+		<wsdl:documentation>Usługa umożliwiająca sprawdzenie czy podmiot jest czynnym, zwolnionym lub nie jest zarejestrowanym podatnikiem
+VAT</wsdl:documentation>
+		<wsdl:port name="BasicHttpBinding_WeryfikacjaVAT" binding="tns:BasicHttpBinding_WeryfikacjaVAT">
+			<soap:address location="https://sprawdz-status-vat.mf.gov.pl"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

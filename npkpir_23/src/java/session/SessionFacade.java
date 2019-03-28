@@ -193,11 +193,11 @@ public class SessionFacade<T> implements Serializable {
         for (T p : entityList) {
             try {
                 getEntityManager().merge(p);
+                getEntityManager().flush();
             } catch (Exception e) {
                 E.e(e);
             }
         }
-        getEntityManager().flush();
     }
 
     //to jest po to, ze jk juz jest cos w np. planie kont to 

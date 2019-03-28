@@ -59,7 +59,8 @@ public class PozycjaRZiSFKBean {
     
      public static void wyluskajNieprzyporzadkowaneAnalitykiBilans(List<Konto> pobraneKontaSyntetyczne, List<Konto> wykazkont, KontoDAOfk kontoDAO, Podatnik podatnik, boolean aktywa0pasywa1, Integer rok) {
         for (Konto p : pobraneKontaSyntetyczne) {
-            if (p.getPelnynumer().equals("201")) {
+            if (p.getPelnynumer().equals("010")) {
+                System.out.println("");
             }
             if (p.getKontopozycjaID() != null) {
                 if (p.getZwyklerozrachszczegolne().equals("szczególne") && (p.getKontopozycjaID().getPozycjaWn() != null || p.getKontopozycjaID().getPozycjaMa() != null)) {
@@ -183,8 +184,8 @@ public class PozycjaRZiSFKBean {
             List<Konto> l = Collections.synchronizedList(new ArrayList<>());
             for (KontopozycjaZapis p : kontopozycja) {
                 try {
-                    if (!p.getSyntetykaanalityka().equals("syntetyka")) {
-                        //System.out.println("d");
+                    if (p.getKontoID().getPelnynumer().equals("010")) {
+                        System.out.println("d");
                     }
                     Konto konto = p.getKontoID();
                     konto.setKontopozycjaID(new KontopozycjaBiezaca(p));

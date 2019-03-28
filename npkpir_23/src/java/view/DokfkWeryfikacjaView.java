@@ -18,13 +18,17 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import waluty.Z;
+import webservice.NIPVATcheck;
 
 /**
  *
@@ -42,6 +46,31 @@ public class DokfkWeryfikacjaView implements Serializable {
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
 
+    public void sprawdzNIPVAT(List<Dokfk> wykazZaksiegowanychDokumentow) {
+        for (Iterator<Dokfk> it =  wykazZaksiegowanychDokumentow.iterator(); it.hasNext();) {
+            Dokfk dok = it.next();
+            if (dok.getEwidencjaVAT()!=null && !dok.getEwidencjaVAT().isEmpty()) {
+                if (dok.getKontr().getKrajkod()!=null && dok.getKontr().getKrajkod().equals("PL")) {
+                    pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01.TWynikWeryfikacjiVAT wynik = NIPVATcheck.sprawdzNIP(dok.getKontr().getNip());
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(DokfkWeryfikacjaView.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    if (wynik.getKod().value().equals("C")) {
+                        it.remove();
+                    }
+                    System.out.println("nip "+dok.getKontr().getNip()+" wynik "+wynik.getKomunikat());
+                } else {
+                    it.remove();
+                }
+            } else {
+                it.remove();
+            }
+        }
+        Msg.msg("Zakończyłem sprawdzanie czy kontrahent jest czynnym VAT-owcem");
+    }
+    
     public void sprawdzWnMawDokfk(List<Dokfk> wykazZaksiegowanychDokumentow) {
         List<Dokfk> listaRozniceWnMa = Collections.synchronizedList(new ArrayList<>());
         List<Dokfk> listabrakiKontaAnalityczne = Collections.synchronizedList(new ArrayList<>());
