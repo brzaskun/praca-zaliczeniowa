@@ -80,7 +80,8 @@
                 <p:ajax event="rowSelectCheckbox" listener="#{cechyzapisuPrzegladView.sumujwybrane}" update=":formcechyzapisow:podsumowanie" global="false"/>
                 <p:ajax event="rowUnselectCheckbox" listener="#{cechyzapisuPrzegladView.sumujwybrane}" update=":formcechyzapisow:podsumowanie" global="false"/>
                 <p:ajax event="toggleSelect" listener="#{cechyzapisuPrzegladView.sumujwybrane}" update=":formcechyzapisow:podsumowanie" global="false"/>
-                <p:ajax event="filter" global="false" listener="#{cechyzapisuPrzegladView.resetujsuma}" onstart="PF('tabelacechyzapisow').unselectAllRows();" update=":formcechyzapisow:podsumowanie"/>
+                <p:ajax event="filter" global="false" listener="#{cechyzapisuPrzegladView.sumujfiltrowane}" onstart="PF('tabelacechyzapisow').unselectAllRows();" 
+                        update=":formcechyzapisow:podsumowanie"/>
                 <p:ajax event="sort" global="false"/>
                 <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"/>
                 <p:column headerText="#{mgs.numerkolejny}" width="30"  >

@@ -82,9 +82,11 @@
                         </p:column>
                         <p:column headerText="Wn" style="text-align: center;">
                             <h:outputText value="#{konto.pozycjaWn != null ? '&#x2713;' : ''}"/>
+                            <h:outputText value="#{konto.stronaWn != null ? konto.stronaWn ==0 ? 'a':'p' : ''}"/>
                         </p:column>
                         <p:column headerText="Ma" style="text-align: center;">
                             <h:outputText value="#{konto.pozycjaMa != null ? '&#x2713;' : ''}"/>
+                            <h:outputText value="#{konto.stronaMa != null ? konto.stronaMa ==0 ? 'a':'p' : ''}"/>
                         </p:column>
                     </p:dataTable>
                 </p:column>
@@ -99,10 +101,12 @@
                                              actionListener="#{pozycjaBRKontaView.onKontoRemoveB(konto,'b')}" update=":formbilansuklad:dostepnekonta :formbilansuklad:selected"/>
                         </p:column>
                         <p:column headerText="Wn" style="text-align: center;">
-                            <h:outputText value="#{konto.pozycjaWn != null ? '&#x2713;' : ''}"/>
+                            <h:outputText value="#{konto.pozycjaWn != null ? '&#x2713; ' : ''}"/>
+                            <h:outputText value="#{konto.stronaWn != null ? konto.stronaWn ==0 ? 'a':'p' : ''}"/>
                         </p:column>
                         <p:column headerText="Ma" style="text-align: center;">
-                            <h:outputText value="#{konto.pozycjaMa != null ? '&#x2713;' : ''}"/>
+                            <h:outputText value="#{konto.pozycjaMa != null ? '&#x2713; ' : ''}"/>
+                            <h:outputText value="#{konto.stronaMa != null ? konto.stronaMa ==0 ? 'a':'p' : ''}"/>
                         </p:column>
                     </p:dataTable>
                 </p:column>

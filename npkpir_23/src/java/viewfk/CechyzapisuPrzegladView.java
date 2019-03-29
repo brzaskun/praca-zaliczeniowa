@@ -117,24 +117,43 @@ public class CechyzapisuPrzegladView implements Serializable{
             wpisView.wpisAktualizuj();
             init();
         }
+        sumujpobrane();
+    }
+    
+    public void sumujpobrane() {
+        razem = 0.0;
+        if (zapisyZCecha!=null) {
+            for (CechaStronaWiersza p : zapisyZCecha) {
+                razem += p.getStronaWiersza().getKwotaPLN();
+            }
+        }
     }
 
     public void sumujwybrane() {
         razem = 0.0;
-        for (CechaStronaWiersza p : wybraneZapisyZCecha) {
-            razem += p.getStronaWiersza().getKwotaPLN();
+        if (wybraneZapisyZCecha!=null) {
+            for (CechaStronaWiersza p : wybraneZapisyZCecha) {
+                razem += p.getStronaWiersza().getKwotaPLN();
+            }
         }
     }
     
-    public void resetujsuma(){
+    public void sumujfiltrowane(){
         razem = 0.0;
+        if (zapisyZCechafilter!=null) {
+            for (CechaStronaWiersza p : zapisyZCechafilter) {
+                razem += p.getStronaWiersza().getKwotaPLN();
+            }
+        }
     }
     
     public void drukujzaksiegowanydokument() {
-        if (wybraneZapisyZCecha != null && !wybraneZapisyZCecha.isEmpty()) {
-            PdfCechyZapisow.drukujzaksiegowanydokument(wpisView, wybraneZapisyZCecha);
+        if (wybraneZapisyZCecha != null && wybraneZapisyZCecha.size()>0) {
+            PdfCechyZapisow.drukujlistaCech(wpisView, wybraneZapisyZCecha);
+        } else if (zapisyZCechafilter != null && zapisyZCechafilter.size()>0) {
+            PdfCechyZapisow.drukujlistaCech(wpisView, zapisyZCechafilter);
         } else {
-            PdfCechyZapisow.drukujzaksiegowanydokument(wpisView, zapisyZCecha);
+            PdfCechyZapisow.drukujlistaCech(wpisView, zapisyZCecha);
         }
     }
     
