@@ -174,7 +174,6 @@ public class PlanKontUzupelnijView implements Serializable {
         p.setBoMa(0);
         p.setObrotyWn(0);
         p.setObrotyMa(0);
-        p.setKontopozycjaID(null);
     }
 
     private Konto kopiujKonto(Konto p, List<Konto> macierzystelista, Podatnik podatnikDocelowy, boolean slownikowe) {

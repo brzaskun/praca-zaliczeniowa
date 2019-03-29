@@ -93,18 +93,18 @@ public class PdfKontoZapisyLista {
                     table.addCell(ustawfrazeAlign(p.getStronywiersza().size(), "center", 8));
                     table.addCell(ustawfrazeAlign(p.getKonto().getPelnynumer(), "center", 8));
                     table.addCell(ustawfrazeAlign(p.getKonto().getNazwapelna(), "center", 8));
-                    if (p.getKonto().getKontopozycjaID()!= null) {
-                        if (p.getKonto().getKontopozycjaID().getPozycjaMa()!= null) {
-                            table.addCell(ustawfrazeAlign(p.getKonto().getKontopozycjaID().getPozycjaWn(), "center", 8));
+                    if (p.getKonto().getPozycjaWn()!= null) {
+                        if (p.getKonto().getPozycjaWn()!= null) {
+                            table.addCell(ustawfrazeAlign(p.getKonto().getPozycjaWn(), "center", 8));
                         } else {
                             table.addCell(ustawfrazeAlign("", "center", 8));
                         }   
                     } else {
                         table.addCell(ustawfrazeAlign("", "center", 8));
                     }
-                    if (p.getKonto().getKontopozycjaID()!= null) {
-                        if (p.getKonto().getKontopozycjaID().getPozycjaMa()!= null) {
-                            table.addCell(ustawfrazeAlign(p.getKonto().getKontopozycjaID().getPozycjaMa(), "center", 8));
+                    if (p.getKonto().getPozycjaMa()!= null) {
+                        if (p.getKonto().getPozycjaMa()!= null) {
+                            table.addCell(ustawfrazeAlign(p.getKonto().getPozycjaMa(), "center", 8));
                         } else {
                             table.addCell(ustawfrazeAlign("", "center", 8));
                         }

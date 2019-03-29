@@ -333,8 +333,8 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                 Konto kontopobrane = stronaWiersza.getKonto();
                 if (kontopobrane.getPelnynumer().equals("755")) {
                 }
-                String pozycjaRZiS_wn = kontopobrane.getKontopozycjaID().getPozycjaWn();
-                String pozycjaRZiS_ma = kontopobrane.getKontopozycjaID().getPozycjaMa();
+                String pozycjaRZiS_wn = kontopobrane.getPozycjaWn();
+                String pozycjaRZiS_ma = kontopobrane.getPozycjaMa();
                 boolean wn = false;
                 boolean ma = false;
                 for (TreeNodeExtended wybranapozycja : finallNodes) {
@@ -393,8 +393,8 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         double kwotaMa = stronaWiersza.getWnma().equals("Ma") ? stronaWiersza.getKwotaPLN() : 0.0;
             try {
                 Konto kontopobrane = stronaWiersza.getKonto();
-                String pozycjaRZiS_wn = kontopobrane.getKontopozycjaID().getPozycjaWn();
-                String pozycjaRZiS_ma = kontopobrane.getKontopozycjaID().getPozycjaMa();
+                String pozycjaRZiS_wn = kontopobrane.getPozycjaWn();
+                String pozycjaRZiS_ma = kontopobrane.getPozycjaMa();
                 boolean wn = false;
                 boolean ma = false;
                 for (TreeNodeExtended wybranapozycja : finallNodes) {
@@ -456,8 +456,8 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             double kwotaMa = stronaWiersza.getWnma().equals("Ma") ? stronaWiersza.getKwotaPLN() : 0.0;
             try {
                 Konto kontopobrane = stronaWiersza.getKonto();
-                String pozycjaRZiS_wn = kontopobrane.getKontopozycjaID().getPozycjaWn();
-                String pozycjaRZiS_ma = kontopobrane.getKontopozycjaID().getPozycjaMa();
+                String pozycjaRZiS_wn = kontopobrane.getPozycjaWn();
+                String pozycjaRZiS_ma = kontopobrane.getPozycjaMa();
                 boolean wn = false;
                 boolean ma = false;
                 for (TreeNodeExtended wybranapozycja : finallNodes) {
@@ -515,12 +515,12 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             Konto kontopobrane = p;
             if (p.getSaldoWn() != 0.0 || p.getSaldoMa() != 0.0) {
                 try {
-                    if (kontopobrane.getKontopozycjaID() != null) {
+                    if (kontopobrane.getPozycjaWn() != null && kontopobrane.getPozycjaMa()!=null) {
                         finallNodes.stream().forEach((r)->{
-                        String pozycjaBilansWn = kontopobrane.getKontopozycjaID().getPozycjaWn();
-                        String pozycjaBilansMa = kontopobrane.getKontopozycjaID().getPozycjaMa();
-                        boolean stronaWn =  kontopobrane.getKontopozycjaID().getStronaWn().equals("1") ? true : false;
-                        boolean stronaMa = kontopobrane.getKontopozycjaID().getStronaMa().equals("1") ? true : false;
+                        String pozycjaBilansWn = kontopobrane.getPozycjaWn();
+                        String pozycjaBilansMa = kontopobrane.getPozycjaMa();
+                        boolean stronaWn =  kontopobrane.getStronaWn().equals("1") ? true : false;
+                        boolean stronaMa = kontopobrane.getStronaMa().equals("1") ? true : false;
                         boolean zrobionoWn = false;
                         boolean zrobionoMa = false;
                             //sprawdzamy czy dane konto nalezy do danego wezla
@@ -628,12 +628,12 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             Konto kontopobrane = p;
             if (p.getSaldoWn() != 0.0 || p.getSaldoMa() != 0.0) {
                 try {
-                    if (kontopobrane.getKontopozycjaID() != null) {
+                    if (kontopobrane.getPozycjaWn() != null && kontopobrane.getPozycjaMa()!=null) {
                         finallNodes.stream().forEach((r) -> {
-                            String pozycjaBilansWn = kontopobrane.getKontopozycjaID().getPozycjaWn();
-                            String pozycjaBilansMa = kontopobrane.getKontopozycjaID().getPozycjaMa();
-                            boolean stronaWn = kontopobrane.getKontopozycjaID().getStronaWn().equals("1") ? true : false;
-                            boolean stronaMa = kontopobrane.getKontopozycjaID().getStronaMa().equals("1") ? true : false;
+                            String pozycjaBilansWn = kontopobrane.getPozycjaWn();
+                            String pozycjaBilansMa = kontopobrane.getPozycjaMa();
+                            boolean stronaWn = kontopobrane.getStronaWn().equals("1") ? true : false;
+                            boolean stronaMa = kontopobrane.getStronaMa().equals("1") ? true : false;
                             boolean zrobionoWn = false;
                             boolean zrobionoMa = false;
                             //sprawdzamy czy dane konto nalezy do danego wezla
@@ -744,11 +744,11 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                 String pozycjaBilansMa = null;
                 boolean stronaWn;
                 boolean stronaMa;
-                if (kontopobrane.getKontopozycjaID() != null) {
-                    pozycjaBilansWn = kontopobrane.getKontopozycjaID().getPozycjaWn();
-                    pozycjaBilansMa = kontopobrane.getKontopozycjaID().getPozycjaMa();
-                    stronaWn =  kontopobrane.getKontopozycjaID().getStronaWn().equals("1") ? true : false;
-                    stronaMa = kontopobrane.getKontopozycjaID().getStronaMa().equals("1") ? true : false;
+                if (kontopobrane.getPozycjaWn() != null && kontopobrane.getPozycjaMa()!=null) {
+                    pozycjaBilansWn = kontopobrane.getPozycjaWn();
+                    pozycjaBilansMa = kontopobrane.getPozycjaMa();
+                    stronaWn =  kontopobrane.getStronaWn().equals("1") ? true : false;
+                    stronaMa = kontopobrane.getStronaMa().equals("1") ? true : false;
                     for (TreeNodeExtended r : finallNodes) {
                         //sprawdzamy czy dane konto nalezy do danego wezla
                             PozycjaRZiSBilans pozycja = (PozycjaRZiSBilans) r.getData();

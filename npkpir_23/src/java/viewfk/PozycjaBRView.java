@@ -11,7 +11,6 @@ import beansFK.UkladBRBean;
 import converter.RomNumb;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaBiezacaDAO;
 import daoFK.KontopozycjaZapisDAO;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
@@ -93,8 +92,6 @@ public class PozycjaBRView implements Serializable {
     private UkladBRDAO ukladBRDAO;
     @Inject
     private UkladBR uklad;
-    @Inject
-    private KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO;
     @Inject
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     private boolean laczlata;
@@ -580,21 +577,21 @@ public class PozycjaBRView implements Serializable {
 //    
     public void zmianaukladprzegladBilansBO() {
         bilansnadzien = Data.ostatniDzien(wpisView);
-        PozycjaRZiSFKBean.zmianaukladu("bilansowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
+        PozycjaRZiSFKBean.zmianaukladu("bilansowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
         obliczBilansOtwarciaBilansDataWybierz();
         bilansnadzien = Data.ostatniDzien(wpisView);
     }
     
      public void zmianaukladprzegladRZiS() {
         bilansnadzien = Data.ostatniDzien(wpisView);
-        PozycjaRZiSFKBean.zmianaukladu("wynikowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
+        PozycjaRZiSFKBean.zmianaukladu("wynikowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
         pobierzukladprzegladRZiS();
         bilansnadzien = Data.ostatniDzien(wpisView);
     }
     
     public void zmianaukladprzegladBilans() {
         bilansnadzien = Data.ostatniDzien(wpisView);
-        PozycjaRZiSFKBean.zmianaukladu("bilansowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
+        PozycjaRZiSFKBean.zmianaukladu("bilansowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
         pobierzukladprzegladBilans("aktywa");
         bilansnadzien = Data.ostatniDzien(wpisView);
     }

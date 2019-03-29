@@ -136,7 +136,6 @@ public class PlanKontKopiujView implements Serializable {
             if (p.getLevel() == i) {
                 try {
                     Konto r = serialclone.SerialClone.clone(p);
-                    r.setKontopozycjaID(null);
                     r.setPodatnik(docelowy);
                     r.setRok(Integer.parseInt(rokdocelowy));
                     Konto macierzyste = PlanKontFKKopiujBean.wyszukajmacierzyste(r.getKontomacierzyste().getPelnynumer(), macierzystelista);

@@ -17,30 +17,30 @@
             <p:panelGrid columns="10">
                 <p:panelGrid columns="3">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
-                    <p:selectOneMenu value="#{pozycjaBRKontaWzorcowyView.uklad}" converter="UkladBRWzorcowyConv" style="width: 200px;" >
+                    <p:selectOneMenu value="#{pozycjaBRKontaView.uklad}" converter="UkladBRWzorcowyConv" style="width: 200px;" >
                         <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}" />
-                        <p:ajax event="change" listener="#{pozycjaBRKontaWzorcowyView.pobierzukladkontoR()}" update=":formprzypisywaniekont:dataList :formprzypisywaniekont:dostepnekonta :formprzypisywaniekont:kontaprzypisane"/>
+                        <p:ajax event="change" listener="#{pozycjaBRKontaView.pobierzukladkontoR()}" update=":formprzypisywaniekont:dataList :formprzypisywaniekont:dostepnekonta :formprzypisywaniekont:kontaprzypisane"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.pobierzukladkontoR()}" update=":formprzypisywaniekont:dataList :formprzypisywaniekont:dostepnekonta :formprzypisywaniekont:kontaprzypisane"/>
+                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaView.pobierzukladkontoR()}" update=":formprzypisywaniekont:dataList :formprzypisywaniekont:dostepnekonta :formprzypisywaniekont:kontaprzypisane"/>
                 </p:panelGrid>
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRKontaWzorcowyView.rozwinwszystkie(rootProjektKonta)}" update=":formprzypisywaniekont:dataList" style="float: left;" />
-                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRKontaWzorcowyView.rozwin(rootProjektKonta)}" update=":formprzypisywaniekont:dataList" style="float: left;" />
-                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRKontaWzorcowyView.zwinwszystkie(rootProjektKonta)}" update=":formprzypisywaniekont:dataList" style="float: left;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRKontaWzorcowyView.zwin(rootProjektKonta)}" update=":formprzypisywaniekont:dataList" style="float: left;" />
+                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRKontaView.rozwinwszystkie(rootProjektKonta)}" update=":formprzypisywaniekont:dataList" style="float: left;" />
+                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRKontaView.rozwin(rootProjektKonta)}" update=":formprzypisywaniekont:dataList" style="float: left;" />
+                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRKontaView.zwinwszystkie(rootProjektKonta)}" update=":formprzypisywaniekont:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRKontaView.zwin(rootProjektKonta)}" update=":formprzypisywaniekont:dataList" style="float: left;" />
                 <p:spacer width="40"/>
-                <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaWzorcowyView.zaksiegujzmianypozycji('r')}" icon="ui-icon-locked" update=":formprzypisywaniekont"/>
-                <p:commandButton value="resetuj" actionListener="#{pozycjaBRKontaWzorcowyView.resetujprzyporzadkowanie('r')}" icon="ui-icon-locked" update=":formprzypisywaniekont" style="margin-left: 10px;"/>
+                <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaView.zaksiegujzmianypozycji('r')}" icon="ui-icon-locked" update=":formprzypisywaniekont"/>
+                <p:commandButton value="resetuj" actionListener="#{pozycjaBRKontaView.resetujprzyporzadkowanie('r')}" icon="ui-icon-locked" update=":formprzypisywaniekont" style="margin-left: 10px;"/>
                 <p:column>
-                    <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.drukujWynikKonta()}"/>
+                    <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRKontaView.drukujWynikKonta()}"/>
                 </p:column>
             </p:panelGrid>
             <p:panelGrid columns="3">
-                <p:treeTable id="dataList" value="#{pozycjaBRKontaWzorcowyView.rootProjektKontaRZiS}" var="loop" selectionMode="single" selection="#{pozycjaBRKontaWzorcowyView.wybranynodekonta}" 
+                <p:treeTable id="dataList" value="#{pozycjaBRKontaView.rootProjektKontaRZiS}" var="loop" selectionMode="single" selection="#{pozycjaBRKontaView.wybranynodekonta}" 
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; width: 450px; overflow-y: scroll;"
                              emptyMessage="Brak pozycji RZiS">
-                    <p:ajax event="select" global="false" listener="#{pozycjaBRKontaWzorcowyView.wybranopozycjeRZiS}" update=":formprzypisywaniekont:kontaprzypisane"/>
+                    <p:ajax event="select" global="false" listener="#{pozycjaBRKontaView.wybranopozycjeRZiS}" update=":formprzypisywaniekont:kontaprzypisane"/>
                     <f:facet name="header">
-                        <h:outputText value="uklad #{pozycjaBRKontaWzorcowyView.uklad.uklad}"/>
+                        <h:outputText value="uklad #{pozycjaBRKontaView.uklad.uklad}"/>
                     </f:facet>
                     <p:column style="width: 400px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder;" /> 
@@ -52,7 +52,7 @@
                     </p:column>
                 </p:treeTable>
                 <p:column>
-                    <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaBRKontaWzorcowyView.kontabezprzydzialu}"
+                    <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaBRKontaView.kontabezprzydzialu}"
                                  emptyMessage="wszystkie konta przyporządkowane"
                                  style="margin-top: -13%; height: 650px; width: 450px; overflow-y: scroll" >
                         <f:facet name="header">
@@ -60,43 +60,43 @@
                         </f:facet>
                         <p:column  style="height: 30px; width: 80%" headerText="#{mgs.nazwakonta}">
                             <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwaskrocona}" global="false"
-                                           actionListener="#{pozycjaBRKontaWzorcowyView.onKontoDropR(konto,'r')}" 
+                                           actionListener="#{pozycjaBRKontaView.onKontoDropR(konto,'r')}" 
                                            update=":formprzypisywaniekont:dostepnekonta :formprzypisywaniekont:kontaprzypisane"
                                            style="color: #{konto.level eq 0 ? 'blue' : konto.level eq 1 ? 'green' : konto.level eq 2 ? 'red' : 'black'};" 
                                            rendered="#{konto.mapotomkow == true ? true : (konto.level != 0 ? true : false)}">
-                                <p:menuitem value="analityka" actionListener="#{pozycjaBRKontaWzorcowyView.rozwinrzadanalityki(konto)}" global="false"  update=":formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:kontaprzypisane" icon="ui-icon-arrowrefresh-1-w" rendered="#{konto.mapotomkow}"/>  
-                                <p:menuitem value="syntetyka" actionListener="#{pozycjaBRKontaWzorcowyView.zwinrzadanalityki(konto)}" global="false" update=":formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:kontaprzypisane" icon="ui-icon-arrowrefresh-1-w" rendered="#{konto.level != 0}"/>  
+                                <p:menuitem value="analityka" actionListener="#{pozycjaBRKontaView.rozwinrzadanalityki(konto)}" global="false"  update=":formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:kontaprzypisane" icon="ui-icon-arrowrefresh-1-w" rendered="#{konto.mapotomkow}"/>  
+                                <p:menuitem value="syntetyka" actionListener="#{pozycjaBRKontaView.zwinrzadanalityki(konto)}" global="false" update=":formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:kontaprzypisane" icon="ui-icon-arrowrefresh-1-w" rendered="#{konto.level != 0}"/>  
                             </p:splitButton>
                             <p:commandButton id="pn2" value="#{konto.pelnynumer} #{konto.nazwapelna}" global="false"
-                                             actionListener="#{pozycjaBRKontaWzorcowyView.onKontoDropR(konto,'r')}" update=":formprzypisywaniekont:dostepnekonta :formprzypisywaniekont:kontaprzypisane"
+                                             actionListener="#{pozycjaBRKontaView.onKontoDropR(konto,'r')}" update=":formprzypisywaniekont:dostepnekonta :formprzypisywaniekont:kontaprzypisane"
                                              style="color: #{konto.level eq 0 ? 'blue' : konto.level eq 1 ? 'green' : konto.level eq 2 ? 'red' : 'black'};"
                                              rendered="#{konto.mapotomkow == false ? (konto.level == 0 ? true : false) : null}">
                             </p:commandButton>
                         </p:column>
                         <p:column headerText="Wn" style="text-align: center;">
-                            <h:outputText value="#{konto.kontopozycjaID.pozycjaWn != null ? '&#x2713;' : ''}"/>
+                            <h:outputText value="#{konto.pozycjaWn != null ? '&#x2713;' : ''}"/>
                         </p:column>
                         <p:column headerText="Ma" style="text-align: center;">
-                            <h:outputText value="#{konto.kontopozycjaID.pozycjaMa != null ? '&#x2713;' : ''}"/>
+                            <h:outputText value="#{konto.pozycjaMa != null ? '&#x2713;' : ''}"/>
                         </p:column>
                     </p:dataTable>
                 </p:column>
                 <p:column>
-                    <p:dataTable id="kontaprzypisane" var="konto" value="#{pozycjaBRKontaWzorcowyView.przyporzadkowanekonta}"
+                    <p:dataTable id="kontaprzypisane" var="konto" value="#{pozycjaBRKontaView.przyporzadkowanekonta}"
                                  emptyMessage="brak przyporządkowanych kont"
                                  style="margin-top: -13%; height: 650px; width: 450px; overflow-y: scroll" >
                         <f:facet name="header">
-                            <h:outputText value="konta przypisane do #{pozycjaBRKontaWzorcowyView.wybranapozycja}"/>
+                            <h:outputText value="konta przypisane do #{pozycjaBRKontaView.wybranapozycja}"/>
                         </f:facet>
                         <p:column style="height: 30px; width: 80%" headerText="#{mgs.nazwakonta}">
                             <p:commandButton value="#{konto.pelnynumer} #{konto.nazwapelna}" global="global"
-                                             actionListener="#{pozycjaBRKontaWzorcowyView.onKontoRemoveR(konto,'r')}" update=":formprzypisywaniekont:dostepnekonta :formprzypisywaniekont:kontaprzypisane"/>
+                                             actionListener="#{pozycjaBRKontaView.onKontoRemoveR(konto,'r')}" update=":formprzypisywaniekont:dostepnekonta :formprzypisywaniekont:kontaprzypisane"/>
                         </p:column>
                         <p:column headerText="Wn" style="text-align: center;">
-                            <h:outputText value="#{konto.kontopozycjaID.pozycjaWn != null ? '&#x2713;' : ''}"/>
+                            <h:outputText value="#{konto.pozycjaWn != null ? '&#x2713;' : ''}"/>
                         </p:column>
                         <p:column headerText="Ma" style="text-align: center;">
-                            <h:outputText value="#{konto.kontopozycjaID.pozycjaMa != null ? '&#x2713;' : ''}"/>
+                            <h:outputText value="#{konto.pozycjaMa != null ? '&#x2713;' : ''}"/>
                         </p:column>
                     </p:dataTable>
                 </p:column>

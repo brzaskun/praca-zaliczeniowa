@@ -13,14 +13,14 @@
         <h:form id="formdialog_rzis_konta_wnma_wzorcowy">
             <p:panelGrid id="wyborgridRZiS" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;" >
                 <p:focus for="wybormenuRZiS">
-                    <h:selectOneMenu id="wybormenuRZiS" value="#{pozycjaBRKontaWzorcowyView.wnmaPrzypisywanieKont}" style="width: 120px;"
+                    <h:selectOneMenu id="wybormenuRZiS" value="#{pozycjaBRKontaView.wnmaPrzypisywanieKont}" style="width: 120px;"
                                      styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                      onfocus="$(this).addClass('ui-state-focus');"
                                      onblur="$(this).removeClass('ui-state-focus');">
                         <f:selectItem itemLabel="saldem Wn" itemValue="wn"/>
                         <f:selectItem itemLabel="saldem Ma" itemValue="ma"/>
                     </h:selectOneMenu>
-                    <p:commandButton value="ok" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.onKontoDropKontaSpecjalneRZiS(pozycjaBRKontaWzorcowyView.uklad)}" 
+                    <p:commandButton value="ok" type="submit" actionListener="#{pozycjaBRKontaView.onKontoDropKontaSpecjalneRZiS(pozycjaBRKontaView.uklad)}" 
                                      oncomplete="PF('dialog_rzis_konta_wnma_wzorcowy').hide();"
                                      update=":formdialog_rzis_konta_wnma_wzorcowy :formprzypisywaniekont:dostepnekonta :formprzypisywaniekont:kontaprzypisane"/>
                 </p:focus>

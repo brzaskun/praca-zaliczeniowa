@@ -55,9 +55,9 @@ import view.WpisView;
     @NamedQuery(name = "Konto.findByKontaPodatnikaBO", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE :wzorzec AND k.mapotomkow = 0 AND k.nrkonta != 0  AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnikBilansowe", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'bilansowe' AND k.nrkonta != 0  AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnikWynikowe", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'wynikowe' AND k.nrkonta != 0  AND k.rok = :rok"),
-    @NamedQuery(name = "Konto.findByPodatnikBilansoweBezPotomkow", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'bilansowe' AND k.kontopozycjaID IS NOT NULL AND k.mapotomkow = 0  AND k.nrkonta != 0 AND k.rok = :rok"),
-    @NamedQuery(name = "Konto.findByPodatnikBilansoweKwotaBezPotomkow", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'bilansowe' AND k.kontopozycjaID IS NOT NULL AND k.mapotomkow = 0  AND k.nrkonta != 0 AND k.rok = :rok AND (k.boWn != 0 OR k.boMa != 0)"),
-    @NamedQuery(name = "Konto.findByPodatnikWynikoweBezPotomkow", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'wynikowe' AND k.kontopozycjaID IS NOT NULL AND k.mapotomkow = 0  AND k.nrkonta != 0  AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findByPodatnikBilansoweBezPotomkow", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'bilansowe' AND (k.pozycjaWn IS NOT NULL OR k.pozycjaMa IS NOT NULL) AND k.mapotomkow = 0  AND k.nrkonta != 0 AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findByPodatnikBilansoweKwotaBezPotomkow", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'bilansowe' AND (k.pozycjaWn IS NOT NULL OR k.pozycjaMa IS NOT NULL) AND k.mapotomkow = 0  AND k.nrkonta != 0 AND k.rok = :rok AND (k.boWn != 0 OR k.boMa != 0)"),
+    @NamedQuery(name = "Konto.findByPodatnikWynikoweBezPotomkow", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'wynikowe' AND (k.pozycjaWn IS NOT NULL OR k.pozycjaMa IS NOT NULL) AND k.mapotomkow = 0  AND k.nrkonta != 0  AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnikZPotomkami", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.mapotomkow = 1  AND k.nrkonta != 0  AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnik490", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.nrkonta = '490' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByKonto860", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer = '860' AND k.rok = :rok"),
@@ -78,10 +78,10 @@ import view.WpisView;
     @NamedQuery(name = "Konto.findByMacierzysteBOPodatnik", query = "SELECT k FROM Konto k WHERE k.kontomacierzyste = :macierzyste AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findBySiostrzaneBOPodatnik", query = "SELECT k FROM Konto k WHERE k.kontomacierzyste = :macierzyste AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByMacierzystePodatnikCOUNT", query = "SELECT MAX(CAST (k.nrkonta AS DECIMAL)) FROM Konto k WHERE k.kontomacierzyste = :macierzyste AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000' AND k.rok = :rok"),
-    @NamedQuery(name = "Konto.findByPozycjaWynikowe", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'wynikowe'  AND (k.kontopozycjaID.pozycjaWn = :pozycja OR k.kontopozycjaID.pozycjaMa = :pozycja)  AND k.podatnik = :podatnik AND k.rok = :rok"),
-    @NamedQuery(name = "Konto.findByPozycjaWynikoweAll", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'wynikowe'  AND k.kontopozycjaID IS NOT NULL AND k.podatnik = :podatnik AND k.rok = :rok"),
-    @NamedQuery(name = "Konto.findByPozycjaBilansowe", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'bilansowe' AND k.podatnik = :podatnik  AND k.rok = :rok AND ((k.kontopozycjaID.pozycjaWn = :pozycja AND k.kontopozycjaID.stronaWn = :aktywa0pasywa1) OR (k.kontopozycjaID.pozycjaMa = :pozycja AND k.kontopozycjaID.stronaMa = :aktywa0pasywa1))"),
-    @NamedQuery(name = "Konto.findByPozycjaBilansoweAll", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'bilansowe' AND k.podatnik = :podatnik  AND k.rok = :rok AND k.kontopozycjaID IS NOT NULL"),
+    @NamedQuery(name = "Konto.findByPozycjaWynikowe", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'wynikowe'  AND (k.pozycjaWn = :pozycja OR k.pozycjaMa = :pozycja)  AND k.podatnik = :podatnik AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findByPozycjaWynikoweAll", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'wynikowe'  AND (k.pozycjaWn IS NOT NULL OR k.pozycjaMa IS NOT NULL) AND k.podatnik = :podatnik AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findByPozycjaBilansowe", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'bilansowe' AND k.podatnik = :podatnik  AND k.rok = :rok AND ((k.pozycjaWn = :pozycja AND k.stronaWn = :aktywa0pasywa1) OR (k.pozycjaMa = :pozycja AND k.stronaMa = :aktywa0pasywa1))"),
+    @NamedQuery(name = "Konto.findByPozycjaBilansoweAll", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'bilansowe' AND k.podatnik = :podatnik  AND k.rok = :rok AND (k.pozycjaWn IS NOT NULL OR k.pozycjaMa IS NOT NULL)"),
     @NamedQuery(name = "Konto.findByMacierzysteWynikowe", query = "SELECT k FROM Konto k WHERE k.kontomacierzyste = :macierzyste AND NOT k.pelnynumer = '000' AND k.bilansowewynikowe = 'wynikowe' AND k.podatnik = :podatnik AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByMacierzysteWynikoweNull", query = "SELECT k FROM Konto k WHERE k.kontomacierzyste IS NULL AND NOT k.pelnynumer = '000' AND k.bilansowewynikowe = 'wynikowe' AND k.podatnik = :podatnik AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByMacierzysteBilansowe", query = "SELECT k FROM Konto k WHERE k.kontomacierzyste = :macierzyste AND NOT k.pelnynumer = '000' AND k.bilansowewynikowe = 'bilansowe' AND k.podatnik = :podatnik AND k.rok = :rok"),
@@ -168,9 +168,6 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "zwyklerozrachszczegolne")
     private String zwyklerozrachszczegolne;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "kontoID", fetch = FetchType.LAZY)
-    @JoinColumn(name = "kontopozycjaID",referencedColumnName = "idKP")
-    private KontopozycjaBiezaca kontopozycjaID;
     @Basic(optional = false)
     @NotNull
     @Column(name = "macierzysty")
@@ -253,6 +250,26 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     private String nazwapelnawzorcowy;
     @Transient
     private String nazwaskroconawzorcowy;
+    @Size(max = 255)
+    @Column(length = 255, name = "pozycjaWn")
+    protected String pozycjaWn;
+    //0 aktywa
+    //1 pasywa
+    //99 rzis
+    @Column(length = 10, name = "stronaWn")
+    protected String stronaWn;
+    @Size(max = 255)
+    @Column(length = 255, name = "pozycjaMa")
+    protected String pozycjaMa;
+    //0 aktywa
+    //1 pasywa
+    //99 rzis
+    @Column(length = 10, name = "stronaMa")
+    protected String stronaMa;
+    @Column(name = "syntetykaanalityka")
+    protected String syntetykaanalityka;
+    @Column(name = "wynik0bilans1")
+    protected boolean wynik0bilans1;
     
     
     
@@ -278,7 +295,6 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.nazwaskrocona = old.nazwaskrocona;
         this.bilansowewynikowe = old.bilansowewynikowe;
         this.zwyklerozrachszczegolne = old.zwyklerozrachszczegolne;
-        this.kontopozycjaID = null;
         this.macierzysty = old.macierzysty;
         this.kontomacierzyste = old.kontomacierzyste;
         this.pelnynumer = old.pelnynumer;
@@ -449,14 +465,6 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Override
     public void setLevel(int level) {
         this.level = level;
-    }
-
-    public KontopozycjaBiezaca getKontopozycjaID() {
-        return kontopozycjaID;
-    }
-
-    public void setKontopozycjaID(KontopozycjaBiezaca kontopozycjaID) {
-        this.kontopozycjaID = kontopozycjaID;
     }
 
 
@@ -710,6 +718,54 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     public void setKontomacierzyste(Konto kontomacierzyste) {
         this.kontomacierzyste = kontomacierzyste;
     }
+
+    public String getPozycjaWn() {
+        return pozycjaWn;
+    }
+
+    public void setPozycjaWn(String pozycjaWn) {
+        this.pozycjaWn = pozycjaWn;
+    }
+
+    public String getStronaWn() {
+        return stronaWn;
+    }
+
+    public void setStronaWn(String stronaWn) {
+        this.stronaWn = stronaWn;
+    }
+
+    public String getPozycjaMa() {
+        return pozycjaMa;
+    }
+
+    public void setPozycjaMa(String pozycjaMa) {
+        this.pozycjaMa = pozycjaMa;
+    }
+
+    public String getStronaMa() {
+        return stronaMa;
+    }
+
+    public void setStronaMa(String stronaMa) {
+        this.stronaMa = stronaMa;
+    }
+
+    public String getSyntetykaanalityka() {
+        return syntetykaanalityka;
+    }
+
+    public void setSyntetykaanalityka(String syntetykaanalityka) {
+        this.syntetykaanalityka = syntetykaanalityka;
+    }
+
+    public boolean isWynik0bilans1() {
+        return wynik0bilans1;
+    }
+
+    public void setWynik0bilans1(boolean wynik0bilans1) {
+        this.wynik0bilans1 = wynik0bilans1;
+    }
    
     
     
@@ -839,8 +895,55 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
        }
        return zwrot;
     }
-
-   
     
+    public void czyscPozycje() {
+        this.setPozycjaWn(null);
+        this.setPozycjaMa(null);
+        this.setStronaWn(null);
+        this.setStronaMa(null);
+        this.setSyntetykaanalityka(null);
+    }
+    
+    public void kopiujPozycje(Konto p) {
+        this.setPozycjaWn(p.getPozycjaWn());
+        this.setPozycjaMa(p.getPozycjaMa());
+        this.setStronaWn(p.getStronaWn());
+        this.setStronaMa(p.getStronaMa());
+        this.setSyntetykaanalityka(p.getSyntetykaanalityka());
+        this.setWynik0bilans1(p.isWynik0bilans1());
+    }
+    
+    public void kopiujPozycje(Konto p, String wnma) {
+        if (wnma.equals("wn")) {
+            this.setPozycjaWn(p.getPozycjaWn());
+            this.setStronaWn(p.getStronaWn());
+        } else {
+            this.setPozycjaMa(p.getPozycjaMa());
+            this.setStronaMa(p.getStronaMa());
+        }
+        this.setSyntetykaanalityka(p.getSyntetykaanalityka());
+        this.setWynik0bilans1(p.isWynik0bilans1());
+    }
+    
+    public void naniesPozycje(KontopozycjaZapis p) {
+        this.setPozycjaWn(p.getPozycjaWn());
+        this.setPozycjaMa(p.getPozycjaMa());
+        this.setStronaWn(p.getStronaWn());
+        this.setStronaMa(p.getStronaMa());
+        this.setSyntetykaanalityka(p.getSyntetykaanalityka());
+        this.setWynik0bilans1(p.isWynik0bilans1());
+    }
+   
+    public void kontopozycjaBiezacaWn (String wybranapozycja,String numer, String wynikoweszczegolne) {
+        this.setPozycjaWn(wybranapozycja);
+        this.setStronaWn(numer);
+        this.setSyntetykaanalityka(wynikoweszczegolne);
+    }
+    
+    public void kontopozycjaBiezacaMa (String wybranapozycja, String numer, String wynikoweszczegolne) {
+        this.setPozycjaMa(wybranapozycja);
+        this.setStronaMa(numer);
+        this.setSyntetykaanalityka(wynikoweszczegolne);
+    }
     
 }

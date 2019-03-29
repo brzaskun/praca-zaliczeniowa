@@ -2327,9 +2327,9 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(p.getPelnynumer(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getNazwapelna(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getZwyklerozrachszczegolne(), "center", 8));
-                    String pozycjaWn = p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaWn() : "brak przyp.Wn";
+                    String pozycjaWn = p.getPozycjaWn()!=null ? p.getPozycjaWn() : "brak przyp.Wn";
                     table.addCell(ustawfrazeAlign(pozycjaWn, "center", 8));
-                    String pozycjaMa = p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaMa() : "brak przyp.Ma";
+                    String pozycjaMa = p.getPozycjaMa()!=null ? p.getPozycjaMa() : "brak przyp.Ma";
                     table.addCell(ustawfrazeAlign(pozycjaMa, "center", 8));
                     double roznica = p.getBoWn() - p.getBoMa();
                     double kwota = roznica > 0.0 ? roznica: 0.0;
@@ -2359,8 +2359,8 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(p.getBilansowewynikowe(), "center", 8));
                     table.addCell(ustawfrazeAlign(p.getZwyklerozrachszczegolne(), "center", 8));
                     table.addCell(ustawfrazeAlign(p.isMapotomkow() == true ? "T": "N", "center", 8));
-                    table.addCell(ustawfrazeAlign(p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaWn() : "", "left", 8));
-                    table.addCell(ustawfrazeAlign(p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaMa() : "", "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getPozycjaWn() != null ? p.getPozycjaWn() : "", "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getPozycjaMa() != null ? p.getPozycjaMa() : "", "left", 8));
                 }
             }
             if (nazwaklasy.equals("entityfk.WierszBO")) {

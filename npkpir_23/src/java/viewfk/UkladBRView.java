@@ -7,7 +7,6 @@ package viewfk;
 import beansFK.PlanKontFKKopiujBean;
 import comparator.UkladBRcomparator;
 import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaBiezacaDAO;
 import daoFK.KontopozycjaZapisDAO;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
@@ -59,8 +58,6 @@ public class UkladBRView implements Serializable {
     private PozycjaRZiSDAO pozycjaRZiSDAO;
     @Inject
     private PozycjaBilansDAO pozycjaBilansDAO;
-    @Inject
-    private KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO;
     @Inject
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     @Inject
@@ -179,13 +176,11 @@ public class UkladBRView implements Serializable {
             if (selected != null) {
                 List<Konto> konta = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                 for (Konto k : konta) {
-                    k.setKontopozycjaID(null);
+                    k.czyscPozycje();
                 }
                 kontoDAOfk.editList(konta);
                 kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(selected, "wynikowe");
                 kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(selected, "bilansowe");
-                kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(selected, "wynikowe");
-                kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(selected, "bilansowe");
                 ukladBRDAO.destroy(selected);
                 lista.remove(selected);
                 pozycjaRZiSDAO.findRemoveRzisuklad(selected);

@@ -10,7 +10,6 @@ import beansFK.PozycjaRZiSFKBean;
 import beansFK.StronaWierszaBean;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaBiezacaDAO;
 import daoFK.KontopozycjaZapisDAO;
 import daoFK.PozycjaRZiSDAO;
 import daoFK.UkladBRDAO;
@@ -46,8 +45,6 @@ public class PozycjaRZiSPorMcyView  implements Serializable {
     @Inject
     private PozycjaRZiSDAO pozycjaRZiSDAO;
     @Inject
-    private KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO;
-    @Inject
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     @Inject 
     private StronaWierszaDAO stronaWierszaDAO;
@@ -63,7 +60,7 @@ public class PozycjaRZiSPorMcyView  implements Serializable {
     
     
     public void zmianaukladprzegladRZiSBO() {
-        BilansBean.zmianaukladprzegladRZiSBO(uklad, ukladBRDAO, wpisView, kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, pozycjaRZiSDAO);
+        BilansBean.zmianaukladprzegladRZiSBO(uklad, ukladBRDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, pozycjaRZiSDAO);
         obliczRZiSOtwarciaRZiSData();
     }
     

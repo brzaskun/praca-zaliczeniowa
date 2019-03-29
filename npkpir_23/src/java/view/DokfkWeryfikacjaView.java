@@ -342,7 +342,7 @@ public class DokfkWeryfikacjaView implements Serializable {
                     if (wn != null) {
                         if (wn.getKonto() == null) {
                             brakkonto = true;
-                        } else if (wn.getKonto().getKontopozycjaID() == null) {
+                        } else if (wn.getKonto().getPozycjaWn() == null && wn.getKonto().getPozycjaMa()==null) {
                             brakPozycji = true;
                         }
                         if (wn.getKonto() != null) {
@@ -361,7 +361,7 @@ public class DokfkWeryfikacjaView implements Serializable {
                     if (ma != null) {
                         if (ma.getKonto() == null) {
                             brakkonto = true;
-                        } else if (ma.getKonto().getKontopozycjaID() == null) {
+                        } else if (ma.getKonto().getPozycjaWn() == null && ma.getKonto().getPozycjaMa()==null) {
                             brakPozycji = true;
                         }
                         if (ma.getKonto() != null) {

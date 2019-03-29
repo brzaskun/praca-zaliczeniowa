@@ -70,10 +70,10 @@
                                 </p:commandButton>
                             </p:column>
                             <p:column headerText="Wn" style="text-align: center;">
-                            <h:outputText value="#{konto.kontopozycjaID.pozycjaWn != null ? '&#x2713;' : ''}"/>
+                            <h:outputText value="#{konto.pozycjaWn != null ? '&#x2713;' : ''}"/>
                         </p:column>
                         <p:column headerText="Ma" style="text-align: center;">
-                            <h:outputText value="#{konto.kontopozycjaID.pozycjaMa != null ? '&#x2713;' : ''}"/>
+                            <h:outputText value="#{konto.pozycjaMa != null ? '&#x2713;' : ''}"/>
                         </p:column>
                         </p:dataTable>
                 </p:column>
@@ -88,10 +88,10 @@
                                                  actionListener="#{pozycjaBRKontaView.onKontoRemoveR(konto,'r')}" update=":formrzisuklad:dostepnekonta :formrzisuklad:selected"/>
                             </p:column>
                          <p:column headerText="Wn" style="text-align: center;">
-                            <h:outputText value="#{konto.kontopozycjaID.pozycjaWn != null ? '&#x2713;' : ''}"/>
+                            <h:outputText value="#{konto.pozycjaWn != null ? '&#x2713;' : ''}"/>
                         </p:column>
                         <p:column headerText="Ma" style="text-align: center;">
-                            <h:outputText value="#{konto.kontopozycjaID.pozycjaMa != null ? '&#x2713;' : ''}"/>
+                            <h:outputText value="#{konto.pozycjaMa != null ? '&#x2713;' : ''}"/>
                         </p:column>
                         </p:dataTable>
                     </p:column>

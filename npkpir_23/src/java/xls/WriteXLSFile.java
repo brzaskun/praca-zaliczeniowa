@@ -405,7 +405,7 @@ public class WriteXLSFile {
             createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.CENTER, VerticalAlignment.CENTER, String.valueOf(rowIndex));
             createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getPelnynumer());
             createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getNazwapelna());
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getKontopozycjaID()!=null&&st.getKontopozycjaID().getSyntetykaanalityka()!=null?st.getKontopozycjaID().getSyntetykaanalityka():"");
+            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getSyntetykaanalityka()!=null?st.getSyntetykaanalityka():"");
             createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getDe());
         }   else if (c.getName().contains("Rodzajedok")) {
             Rodzajedok st = (Rodzajedok) ob;

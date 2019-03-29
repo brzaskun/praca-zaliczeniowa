@@ -50,7 +50,7 @@ public class PlanKontFKKopiujBean {
             p.setBoMa(0);
             p.setObrotyWn(0);
             p.setObrotyMa(0);
-            p.setKontopozycjaID(null);
+            p.czyscPozycje();
         } catch (Exception e) {
             E.e(e);
             System.out.println("");

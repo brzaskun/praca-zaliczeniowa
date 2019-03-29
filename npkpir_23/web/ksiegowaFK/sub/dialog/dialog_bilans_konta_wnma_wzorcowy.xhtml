@@ -13,14 +13,14 @@
         <h:form id="formdialog_bilans_konta_wnma_wzorcowy">
             <p:panelGrid id="wyborgrid" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;" >
                 <p:focus for="wybormenu">
-                    <h:selectOneMenu id="wybormenu" value="#{pozycjaBRKontaWzorcowyView.wnmaPrzypisywanieKont}" style="width: 120px;"
+                    <h:selectOneMenu id="wybormenu" value="#{pozycjaBRKontaView.wnmaPrzypisywanieKont}" style="width: 120px;"
                                      styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                      onfocus="$(this).addClass('ui-state-focus');"
                                      onblur="$(this).removeClass('ui-state-focus');">
                         <f:selectItem itemLabel="saldem Wn" itemValue="wn"/>
                         <f:selectItem itemLabel="saldem Ma" itemValue="ma"/>
                     </h:selectOneMenu>
-                    <p:commandButton value="ok" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.onKontoDropKontaSpecjalne(pozycjaBRKontaWzorcowyView.uklad)}" 
+                    <p:commandButton value="ok" type="submit" actionListener="#{pozycjaBRKontaView.onKontoDropKontaSpecjalne(pozycjaBRKontaView.uklad)}" 
                                      oncomplete="PF('dialog_bilans_konta_wnma_wzorcowy').hide();"
                                      update=":formdialog_bilans_konta_wnma_wzorcowy :formdialogbilansukladwzorcowy:dostepnekonta :formdialogbilansukladwzorcowy:kontaprzypisane"/>
                 </p:focus>

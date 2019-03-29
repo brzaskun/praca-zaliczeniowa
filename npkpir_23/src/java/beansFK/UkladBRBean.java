@@ -31,7 +31,7 @@ public class UkladBRBean {
     public static int czyscPozycjeKont(KontoDAOfk kontoDAO, List<Konto> listakont) {
         int zwrot = 0;
         for (Konto p : listakont) {
-            p.setKontopozycjaID(null);
+            p.czyscPozycje();
         }
         try {
             kontoDAO.editList(listakont);

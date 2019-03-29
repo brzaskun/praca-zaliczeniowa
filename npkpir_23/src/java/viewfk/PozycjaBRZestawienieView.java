@@ -10,7 +10,6 @@ import beansFK.UkladBRBean;
 import converter.RomNumb;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaBiezacaDAO;
 import daoFK.KontopozycjaZapisDAO;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
@@ -80,8 +79,6 @@ public class PozycjaBRZestawienieView implements Serializable {
     
     @Inject
     private KontoDAOfk kontoDAO;
-    @Inject
-    private KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO;
     @Inject
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     @Inject 
@@ -216,8 +213,7 @@ public class PozycjaBRZestawienieView implements Serializable {
         List<PozycjaRZiSBilans> pozycje = Collections.synchronizedList(new ArrayList<>());
         pobierzPozycje(pozycje);
         wyczyscKonta("wynikowe", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(uklad, "wynikowe");
-        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, false, "wynikowe");
+        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaZapisDAO, uklad, wpisView, false, "wynikowe");
         pobierzukladprzegladRZiSWybierz();
         bilansnadzien = Data.ostatniDzien(wpisView);
     }
@@ -227,8 +223,7 @@ public class PozycjaBRZestawienieView implements Serializable {
         List<PozycjaRZiSBilans> pozycje = Collections.synchronizedList(new ArrayList<>());
         pobierzPozycje(pozycje);
         wyczyscKonta("wynikowe", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(uklad, "wynikowe");
-        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, false, "wynikowe");
+        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaZapisDAO, uklad, wpisView, false, "wynikowe");
         obliczRZiSOtwarciaRZiSData();
         bilansnadzien = Data.ostatniDzien(wpisView);
     }
@@ -239,8 +234,7 @@ public class PozycjaBRZestawienieView implements Serializable {
         List<PozycjaRZiSBilans> pozycje = Collections.synchronizedList(new ArrayList<>());
         pobierzPozycje(pozycje);
         wyczyscKonta("bilansowe", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        kontopozycjaBiezacaDAO.usunKontoPozycjaBiezacaPodatnikUklad(uklad, "bilansowe");
-        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, false, "bilansowe");
+        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaZapisDAO, uklad, wpisView, false, "bilansowe");
         pobierzukladprzegladBilans();
         bilansnadzien = Data.ostatniDzien(wpisView);
     }

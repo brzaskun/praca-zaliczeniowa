@@ -88,6 +88,7 @@
                         <f:selectItems value="#{planKontView.listaukladow}" var="loop"  itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
                         <p:ajax event="change" update="form_dialog_plankont:dataList" partialSubmit="true" listener="#{planKontView.zmienuklad()}"/>
                     </p:selectOneMenu>
+                   <p:commandButton value="update konta" actionListener="#{planKontView.updatekonta}" update="form_dialog_plankont:dataList"/>
             </p:panelGrid>
             <p:panelGrid columns="10">
                 <p:commandButton value="0" actionListener="#{planKontView.pobierzlista(0)}" update="form_dialog_plankont:dataList form_dialog_plankont:bezslownikowych"/>
@@ -136,7 +137,7 @@
                         <h:outputText value="#{loop.mapotomkow eq true ? 't' : null}"/> 
                     </p:column>
                     <p:column headerText="przyp." style="width: 100px;"  rendered="#{facesContext.externalContext.remoteUser eq '4'}">
-                        <h:outputText value="#{loop.kontopozycjaID.syntetykaanalityka}"/> 
+                        <h:outputText value="#{loop.syntetykaanalityka}"/> 
                     </p:column>
                     <p:column headerText="nazw skróc."  style="width: 100px;"  rendered="#{facesContext.externalContext.remoteUser ne '4'}">
                         <h:outputText value="#{loop.nazwaskrocona.length() lt 37 ? loop.nazwaskrocona : loop.nazwaskrocona.substring(0,37)}"/> 
@@ -154,10 +155,10 @@
                         <h:outputText value="#{loop.macierzyste}" /> 
                     </p:column>-->
                     <p:column  headerText="pozycja Wn" style="width: 90px; text-align: center;">
-                        <h:outputText value="#{loop.kontopozycjaID != null ? loop.kontopozycjaID.pozycjaWn : '!'}" style="#{loop.kontopozycjaID == null ? 'color: red' : null}"/> 
+                        <h:outputText value="#{loop.pozycjaWn != null ? loop.pozycjaWn : '!'}" style="#{loop.pozycjaWn == null ? 'color: red' : null}"/> 
                     </p:column>
                     <p:column headerText="pozycja Ma" style="width: 90px; text-align: center;">
-                        <h:outputText value="#{loop.kontopozycjaID != null ? loop.kontopozycjaID.pozycjaMa : '!'}" style="#{loop.kontopozycjaID == null ? 'color: red' : null}"/> 
+                        <h:outputText value="#{loop.pozycjaMa != null ? loop.pozycjaMa : '!'}" style="#{loop.pozycjaMa == null ? 'color: red' : null}"/> 
                     </p:column>
                     <p:column headerText="blok" style="width: 40px; text-align: center;">
                         <h:outputText value="#{loop.blokada eq 'true' ? 'blok' : null}" /> 

@@ -93,7 +93,7 @@
                         <h:outputText value="#{loop.mapotomkow eq true ? 't' : null}"/> 
                     </p:column>
                     <p:column style="width: 80px;"  rendered="#{facesContext.externalContext.remoteUser eq '4'}">
-                        <h:outputText value="#{loop.kontopozycjaID.syntetykaanalityka}"/> 
+                        <h:outputText value="#{loop.syntetykaanalityka}"/> 
                     </p:column>
                     <p:column style="width: 100px;"  rendered="#{facesContext.externalContext.remoteUser ne '4'}">
                         <h:outputText value="#{loop.nazwaskrocona.length() lt 37 ? loop.nazwaskrocona : loop.nazwaskrocona.substring(0,37)}"/> 
@@ -117,10 +117,10 @@
                         <bcf:outputpl value="#{loop.saldoMaksiegi}" rendered="#{loop.saldoMaksiegi != 0.0}"/>
                     </p:column>
 <!--                    <p:column  style="width: 100px; text-align: center;">
-                        <h:outputText value="#{loop.kontopozycjaID != null ? loop.kontopozycjaID.pozycjaWn : '!'}" style="#{loop.kontopozycjaID == null ? 'color: red' : null}"/> 
+                        <h:outputText value="#{loop.pozycjaWn != null ? loop.pozycjaWn : '!'}" style="#{loop.pozycjaWn == null ? 'color: red' : null}"/> 
                     </p:column>
                     <p:column  style="width: 100px; text-align: center;">
-                        <h:outputText value="#{loop.kontopozycjaID != null ? loop.kontopozycjaID.pozycjaMa : '!'}" style="#{loop.kontopozycjaID == null ? 'color: red' : null}"/> 
+                        <h:outputText value="#{loop.pozycjaMa != null ? loop.pozycjaMa : '!'}" style="#{loop.pozycjaMa == null ? 'color: red' : null}"/> 
                     </p:column>-->
                     <p:column  style="width: 40px; text-align: center;">
                         <h:outputText value="#{loop.blokada eq 'true' ? 'blok' : null}" /> 
