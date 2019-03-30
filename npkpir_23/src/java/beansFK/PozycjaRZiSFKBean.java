@@ -382,6 +382,7 @@ public class PozycjaRZiSFKBean {
     public static void oznaczmacierzyste(Konto dziecko, KontoDAOfk kontoDAO, Podatnik podatnik, boolean wynik0bilans1) {
         Konto kontomacierzyste = dziecko.getKontomacierzyste();
         kontomacierzyste.kopiujPozycje(dziecko);
+        kontomacierzyste.setSyntetykaanalityka("analityka");
         kontoDAO.edit(kontomacierzyste);
         if (kontomacierzyste.getKontomacierzyste() != null) {
             oznaczmacierzyste(kontomacierzyste, kontoDAO, podatnik, wynik0bilans1);
@@ -394,6 +395,7 @@ public class PozycjaRZiSFKBean {
         if (potomki != null) {
             for (Konto p : potomki) {
                 p.kopiujPozycje(macierzyste);
+                p.setSyntetykaanalityka("syntetyka");
                 kontoDAO.edit(p);
                 if (p.isMapotomkow() == true) {
                     przyporzadkujpotkomkowZwykle(p, kontoDAO, podatnik, bilanswynik);
@@ -411,7 +413,8 @@ public class PozycjaRZiSFKBean {
             for (Konto p : potomki) {
                 try {
                     p.setZwyklerozrachszczegolne(konto.getZwyklerozrachszczegolne());
-                    p.kopiujPozycje(p, wnma);
+                    p.kopiujPozycje(konto, wnma);
+                    p.setSyntetykaanalityka("syntetyka");
                     kontoDAO.edit(p);
                 } catch (Exception e) {
                     E.e(e);
@@ -570,7 +573,7 @@ public class PozycjaRZiSFKBean {
             List<PozycjaBilans> pozycjedoprzejrzenia = pozycjaBilansDAO.findBilansukladAktywaPasywa(ukladdocelowy);
             List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(ukladzrodlowy, "bilansowe");
             if (zapisanePOzycjezUkladuWzorcowego.isEmpty()) {
-                Msg.msg("e","Brak pprzyporzadkowania kont bilsndu do skopiowania");
+                Msg.msg("e","Brak pprzyporzadkowania kont bilansu do skopiowania");
             } else {
                 List<Konto> kontarokudocelowego = kontoDAO.findWszystkieKontaBilansowePodatnika(podatnik, ukladdocelowy.getRok());
                 

@@ -16,7 +16,7 @@
                             <p:menuitem value="przegladaj Bilans zapisy" onclick="PF('bilansprzegladukladzapisy').show();"  actionListener="#{pozycjaBRView.pobierzukladprzegladBilans('aktywa')}"
                                         update="formprzegladbilanszapisy">
                             </p:menuitem>
-                            <p:menuitem value="przyporządkowanie kont" onclick="PF('bilansuklad').show();" actionListener="#{pozycjaBRKontaView.pobierzukladkontoB('pasywa')}" update="formbilansuklad"></p:menuitem>
+                            <p:menuitem value="przyporządkowanie kont" onclick="PF('bilansuklad').show();" actionListener="#{pozycjaBRKontaView.pobierzukladkontoB('aktywa')}" update="formbilansuklad"></p:menuitem>
                             <p:menuitem value="internacjonalizacja" onclick="PF('dialog_bilans_projekt_inter').show();"></p:menuitem>
                             <p:menuitem value="projekt układu" onclick="PF('bilansprojekt').show();"></p:menuitem>
                             <p:menuitem value="kopiowanie przyporządkowania kont Bilans" onclick="PF('dialog_bilans_przypisywanie_podatnik_kopiuj').show();"></p:menuitem>
@@ -54,6 +54,7 @@
                             <p:menuitem value="drukuj sprawozdanie finansowe" actionListener="#{drukujsprawozdaniefinansoweView.drukuj()}"></p:menuitem>
                             <p:menuitem value="nanieś dane podatkowe do sprawozdania finansowego"  onclick="PF('danedosprawozdania').show();"></p:menuitem>
                             <p:menuitem value="generuj sprawozdanie finansowe xml" actionListener="#{generujsprawozdaniefinansoweXMLView.drukuj()}"></p:menuitem>
+                            <p:menuitem value="zachowaj podpisane sprawozdanie finansowe xml"  onclick="PF('sprawozdaniexml').show();"></p:menuitem>
                         </p:menu>  
                     </h:form>
                 </p:tab>  

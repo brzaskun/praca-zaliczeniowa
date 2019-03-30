@@ -180,7 +180,8 @@
                         <h:outputText value="#{loop.przychod0koszt1 eq true ? 'K' : 'P'}" rendered="#{loop.bilansowewynikowe eq 'wynikowe'}"/> 
                     </p:column>
                     <p:column style="width: 40px; text-align: center;">
-                        <p:cellEditor>
+                        <h:outputText value="#{loop.wnma0wm1ma2S}" />
+<!--                        <p:cellEditor>
                             <f:facet name="output">
                                 <h:outputText value="#{loop.wnma0wm1ma2S}" /></f:facet>
                             <f:facet name="input">
@@ -191,7 +192,7 @@
                                     <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontView.nanieswnma(loop)}" update="form_dialog_plankont:dataList"/>
                                 </h:selectOneMenu>
                             </f:facet>
-                        </p:cellEditor>
+                        </p:cellEditor>-->
                     </p:column>
                 </p:dataTable>
             </p:panelGrid>

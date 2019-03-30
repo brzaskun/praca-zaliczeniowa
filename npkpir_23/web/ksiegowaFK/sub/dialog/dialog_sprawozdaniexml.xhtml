@@ -1,0 +1,28 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:dialog id="dialogsprawozdaniexml" header="Wzorcowy Układ Rachunku Zysków i Strat - przypisywanie kont" widgetVar="sprawozdaniexml" dynamic="true"
+              resizable="false" onShow="ustawdialog('dialogsprawozdaniexml','menubilanse', 1050, 710);" closeOnEscape="true" onHide="resetujdialog('dialogsprawozdaniexml');"  >
+        <h:form>
+            <p:panelGrid columns="1" style="margin-top: 20px;">
+               <h:outputText value="plik z podpisanym sprawozdaniem " style="font-weight: bold;"/>
+               <p:fileUpload fileUploadListener="#{sprFinKwotyInfDodView.zachowajplikxml}" 
+                                mode="advanced" dragDropSupport="true" fileLimit="3"
+                                update="messages1" sizeLimit="2000000"  allowTypes="/(\.|\/)(xml)$/" 
+                                validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
+                                fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
+                                uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
+                                style="height: 100px;">
+                </p:fileUpload>
+               <p:growl life="3600"  id="messages1" showDetail="true"/>
+               <h:outputText value="uprzednio wprowadzono plik: #{sprFinKwotyInfDodView.sprFinKwotyInfDod.nazwaplikuxml}" rendered="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.plikxml ne null}" style="font-weight: bold; color: green;"/>
+               <p:commandButton value="pokaż" style="width: 120px;" actionListener="#{sprFinKwotyInfDodView.pokazplikxml}"/>
+            </p:panelGrid>
+        </h:form>
+    </p:dialog>
+</ui:composition>
+

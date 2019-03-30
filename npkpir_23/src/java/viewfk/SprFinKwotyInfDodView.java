@@ -80,6 +80,22 @@ public class SprFinKwotyInfDodView  implements Serializable{
             Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");
         }
     }
+    public void zachowajplikxml(FileUploadEvent event) {
+        try {
+            UploadedFile uploadedFile = event.getFile();
+            String filename = uploadedFile.getFileName();
+            //String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
+            //String dt = String.valueOf((new Date()).getTime());
+            //String nazwakrotka = wpisView.getPodatnikObiekt().getNip()+"_"+dt+"_"+"logo."+extension;
+            sprFinKwotyInfDod.setPlikxml(IOUtils.toByteArray(uploadedFile.getInputstream()));
+            sprFinKwotyInfDod.setNazwaplikuxml(filename);
+            sprFinKwotyInfDodDAO.edit(sprFinKwotyInfDod);
+            Msg.msg("Sukces. Plik xml " + filename + " został skutecznie załadowany");
+        } catch (Exception ex) {
+            E.e(ex);
+            Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku xml");
+        }
+    }
     
     public void pokazplik() {
         OutputStream outStream = null;
@@ -89,6 +105,29 @@ public class SprFinKwotyInfDodView  implements Serializable{
             outStream = new FileOutputStream(targetFile);
             outStream.write(sprFinKwotyInfDod.getPlik());
             String f = "pokazwydruk('"+nazwa+"');";
+            RequestContext.getCurrentInstance().execute(f);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                outStream.close();
+            } catch (IOException ex) {
+                Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    public void pokazplikxml() {
+        OutputStream outStream = null;
+        try {
+            String nazwa = "sprawozdaniefin"+wpisView.getPodatnikObiekt().getNip();
+            File targetFile = Plik.plik(nazwa+".xml", true);
+            outStream = new FileOutputStream(targetFile);
+            outStream.write(sprFinKwotyInfDod.getPlikxml());
+            nazwa = nazwa+".xml";
+            String f = "pokazwydrukpdf('"+nazwa+"');";//jest pdf ale to pokazuje bez dodawanai rozszerzenia
             RequestContext.getCurrentInstance().execute(f);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
