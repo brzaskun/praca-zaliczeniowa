@@ -17,7 +17,7 @@
             <p:panelGrid columns="10">
                 <p:panelGrid columns="3">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
-                    <p:selectOneMenu value="#{pozycjaBRKontaView.uklad}" converter="UkladBRWzorcowyConv" style="width: 200px;" >
+                    <p:selectOneMenu value="#{pozycjaBRKontaView.wybranyuklad}" converter="UkladBRWzorcowyConv" style="width: 200px;" >
                         <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}" />
                         <p:ajax event="change" listener="#{pozycjaBRKontaView.pobierzukladkontoR()}" update=":formprzypisywaniekont:dataList :formprzypisywaniekont:dostepnekonta :formprzypisywaniekont:kontaprzypisane"/>
                     </p:selectOneMenu>
@@ -40,7 +40,7 @@
                              emptyMessage="Brak pozycji RZiS">
                     <p:ajax event="select" global="false" listener="#{pozycjaBRKontaView.wybranopozycjeRZiS}" update=":formprzypisywaniekont:kontaprzypisane"/>
                     <f:facet name="header">
-                        <h:outputText value="uklad #{pozycjaBRKontaView.uklad.uklad}"/>
+                        <h:outputText value="uklad #{pozycjaBRKontaView.wybranyuklad.uklad}"/>
                     </f:facet>
                     <p:column style="width: 400px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder;" /> 

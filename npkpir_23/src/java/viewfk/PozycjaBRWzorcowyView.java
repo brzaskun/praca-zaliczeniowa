@@ -88,6 +88,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
     
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    private String aktywapasywa;
     
 
     public PozycjaBRWzorcowyView() {
@@ -150,6 +151,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
     
 // to jest uruchamiane po wyborze ukladu pierwsza funkcja
     public void pobierzuklad(String br, TreeNodeExtended root, String aktywapasywa) {
+        this.aktywapasywa = aktywapasywa;
         pozycje = Collections.synchronizedList(new ArrayList<>());
         try {
          pozycje = UkladBRBean.pobierzpozycje(pozycjaRZiSDAO, pozycjaBilansDAO, uklad, aktywapasywa, br);
@@ -1116,7 +1118,9 @@ public class PozycjaBRWzorcowyView implements Serializable {
     }
 
     
-
+public String getAktywapasywa() {
+    return this.aktywapasywa;
+}
 
    
 

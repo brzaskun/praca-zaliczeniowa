@@ -18,7 +18,7 @@
             <p:panelGrid columns="9">
                 <p:panelGrid columns="4">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
-                    <p:selectOneMenu value="#{pozycjaBRKontaView.uklad}" converter="UkladBRWzorcowyConv">
+                    <p:selectOneMenu value="#{pozycjaBRKontaView.wybranyuklad}" converter="UkladBRWzorcowyConv">
                         <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
                         <p:ajax event="change" listener="#{pozycjaBRKontaView.pobierzukladkontoB('aktywa')}" update=":formdialogbilansukladwzorcowy:dataList :formdialogbilansukladwzorcowy:dostepnekonta :formdialogbilansukladwzorcowy:kontaprzypisane"/>
                     </p:selectOneMenu>
@@ -45,7 +45,7 @@
                         <p:ajax event="select" global="false" listener="#{pozycjaBRKontaView.wybranopozycjeBilans()}"
                                 update=":formdialogbilansukladwzorcowy:kontaprzypisane :formdialogbilansukladwzorcowy:dostepnekonta"/>
                         <f:facet name="header">
-                            <h:outputText value="uklad #{pozycjaBRKontaView.uklad.uklad}, strona #{pozycjaBRKontaView.aktywa0pasywa1 == false ? 'aktywa' : 'pasywa'}"/>
+                            <h:outputText value="uklad #{pozycjaBRKontaView.wybranyuklad.uklad}, strona #{pozycjaBRKontaView.aktywa0pasywa1 == false ? 'aktywa' : 'pasywa'}"/>
                         </f:facet>
                         <p:column style="width: 370px;">
                             <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 

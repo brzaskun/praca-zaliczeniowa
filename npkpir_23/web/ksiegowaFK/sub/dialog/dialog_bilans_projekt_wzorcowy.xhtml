@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog id="dialogbilansprojektwzorcowy" header="Projekt Bilansu - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialogbilansprojektwzorcowy" 
+    <p:dialog id="dialogbilansprojektwzorcowy" header="Projekt Bilansu Wzorzec" widgetVar="dialogbilansprojektwzorcowy" 
               resizable="false" onShow="ustawdialog('dialogbilansprojektwzorcowy','menuustawienia', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansprojektwzorcowy');"  >
         <h:form id="formbilansprojekt">
             <p:contextMenu for="formbilansprojekt:dataList" style="width: 250px;">
@@ -35,7 +35,7 @@
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; width: 850px; margin-bottom: 50px; overflow-y: scroll;"
                              emptyMessage="Brak wybranego układu lub pozycji w wybranym Bilansie">
                     <f:facet name="header">
-                         <h:outputText value="uklad #{pozycjaBRWzorcowyView.uklad.uklad} - #{pozycjaBRWzorcowyView.uklad.rok}"/>
+                         <h:outputText value="uklad #{pozycjaBRWzorcowyView.uklad.uklad} #{pozycjaBRWzorcowyView.uklad.rok} - #{pozycjaBRWzorcowyView.aktywapasywa}"/>
                     </f:facet>
                     <p:ajax event="select" global="false" listener="#{pozycjaBRWzorcowyView.wybranopozycjeBilans()}"/>
                     <p:column headerText="symbol i nazwa pozycji"  style="width: 460px;">
