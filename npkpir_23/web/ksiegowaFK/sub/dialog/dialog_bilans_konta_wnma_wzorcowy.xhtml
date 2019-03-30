@@ -22,7 +22,7 @@
                     </h:selectOneMenu>
                     <p:commandButton value="ok" type="submit" actionListener="#{pozycjaBRKontaView.onKontoDropKontaSpecjalne(pozycjaBRKontaView.wybranyuklad)}" 
                                      oncomplete="PF('dialog_bilans_konta_wnma_wzorcowy').hide();"
-                                     update=":formdialog_bilans_konta_wnma_wzorcowy :formdialogbilansukladwzorcowy:dostepnekonta :formdialogbilansukladwzorcowy:kontaprzypisane"/>
+                                     update=":formdialog_bilans_konta_wnma_wzorcowy :formbilansuklad:dostepnekonta :formbilansuklad:kontaprzypisane"/>
                 </p:focus>
             </p:panelGrid>
         </h:form>
