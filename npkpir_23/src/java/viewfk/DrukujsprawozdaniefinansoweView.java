@@ -69,6 +69,7 @@ public class DrukujsprawozdaniefinansoweView  implements Serializable {
             PdfKonta.drukuj(saldokontolist, wpisView, 2, 0, wpisView.getMiesiacWpisu(), saldoAnalitykaView.getSumaSaldoKonto());
             saldoSyntetykaView.odswiezsaldosyntetyczne();
             saldokontolist = saldoSyntetykaView.getListaSaldoKonto();
+            Collections.sort(saldokontolist, new SaldoKontocomparator());
             PdfKonta.drukuj(saldokontolist, wpisView, 1, 1, wpisView.getMiesiacWpisu(), saldoSyntetykaView.getSumaSaldoKonto());
             dokfkView.init();
             dokfkView.setMiesiacWpisuPokaz("CR");
