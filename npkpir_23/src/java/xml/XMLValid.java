@@ -36,7 +36,7 @@ import org.xml.sax.SAXException;
 public class XMLValid {
     private static String schemaVATUE4 = "resources\\schema\\vatue4schemat.xsd";
     private static String schemaVATUE4l = "d:\\vatue4schemat.xsd";
-    private static String schemasprfin = "d:\\JednostkaInnaWZlotych(1)_v1-0.xsd";
+    private static String schemasprfin = "d:\\schemat.xsd";
     
     
     public static Object[] walidujCMLVATUE(String deklaracja) {
@@ -139,6 +139,7 @@ public class XMLValid {
                 zwrot[0] = Boolean.TRUE;
                 zwrot[1] = "Plik prawidłowy";
                 System.out.println("Plik jest prawidłowy");
+                System.out.println("Koniec walidacji bezbledna");
             } catch (SAXException e) {
                 zwrot[0] = Boolean.FALSE;
                 zwrot[1] = obsluzblad(e);
@@ -150,6 +151,7 @@ public class XMLValid {
             }
         } catch (Exception ex) {
             E.e(ex);
+            System.out.println("Błąd ładowania plików do walidacji. Sprawdzanie przerwane");
         } finally {
             try {
                 stream.close();
@@ -157,7 +159,6 @@ public class XMLValid {
                 Logger.getLogger(XMLValid.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        System.out.println("Koniec walidacji bezbledna");
         return zwrot;
     }
     

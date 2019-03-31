@@ -27,10 +27,15 @@ import msg.Msg;
 import org.primefaces.context.RequestContext;
 import pdffk.PdfZaksiegowaneView;
 import sprawozdania.rok2018.JednostkaInna;
+import sprawozdania.rok2018.JednostkaOp;
 import sprawozdania.rok2018.SprawozdanieFin2018Bean;
+import sprawozdania.rok2018.SprawozdanieFinOP2018Bean;
 import sprawozdania.rok2018.SprawozdanieFin2018BilansBean;
+import sprawozdania.rok2018.SprawozdanieFinOP2018BilansBean;
 import sprawozdania.rok2018.SprawozdanieFin2018DodInfoBean;
 import sprawozdania.rok2018.SprawozdanieFin2018RZiSBean;
+import sprawozdania.rok2018.SprawozdanieFinOP2018DodInfoBean;
+import sprawozdania.rok2018.SprawozdanieFinOP2018RZiSBean;
 import view.WpisView;
 
 /**
@@ -68,6 +73,8 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
             SprFinKwotyInfDod sprFinKwotyInfDod = sprFinKwotyInfDodDAO.findsprfinkwoty(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             if (wpisView.getPodatnikObiekt().getNazwaRejestr()==null || wpisView.getPodatnikObiekt().getNazwaRejestr().equals("")) {
                 Msg.msg("e","Brak w danych podatnika nazwy z rejestru KRS. Nie można generować sprawozdania");
+            } else if (wpisView.getPodatnikObiekt().getImie() == null || wpisView.getPodatnikObiekt().getImie().length()!=10) {
+                Msg.msg("e","Brak lub nieprawidłowy nr KRS. Nie można generować sprawozdania");
             } else if (wpisView.getPodatnikObiekt().getKodPKD()==null || wpisView.getPodatnikObiekt().getKodPKD().equals("")) {
                 Msg.msg("e","Brak w danych podatnika kodu PKD działalności. Nie można generować sprawozdania");
             } else if (sprFinKwotyInfDod==null) {
@@ -94,6 +101,40 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
         }
     }
     
+    public void drukujOP() {
+        try {
+            //saldoAnalitykaView.odswiezsaldoanalityczne();
+            //List<SaldoKonto> saldokontolist = saldoAnalitykaView.getListaSaldoKonto();
+            //Collections.sort(saldokontolist, new SaldoKontocomparator());
+            SprFinKwotyInfDod sprFinKwotyInfDod = sprFinKwotyInfDodDAO.findsprfinkwoty(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            if (wpisView.getPodatnikObiekt().getNazwaRejestr()==null || wpisView.getPodatnikObiekt().getNazwaRejestr().equals("")) {
+                Msg.msg("e","Brak w danych podatnika nazwy z rejestru KRS. Nie można generować sprawozdania");
+            } else if (wpisView.getPodatnikObiekt().getImie() == null || wpisView.getPodatnikObiekt().getImie().length()!=10) {
+                Msg.msg("e","Brak lub nieprawidłowy nr KRS. Nie można generować sprawozdania");
+            } else if (sprFinKwotyInfDod==null) {
+                Msg.msg("e","Brak danych dodatkowych do sprawozdania. Nie można generować sprawozdania");
+            } else if (sprFinKwotyInfDod.getDatasporzadzenia()==null) {
+                Msg.msg("e","Brak daty ODsporządzenia sprawozdania. Nie można generować sprawozdania");
+            } else if (sprFinKwotyInfDod.getDataod()==null) {
+                Msg.msg("e","Brak daty OD sprawozdania. Nie można generować sprawozdania");
+            } else if (sprFinKwotyInfDod.getDatado()==null) {
+                Msg.msg("e","Brak daty DO sprawozdania. Nie można generować sprawozdania");
+            }else if (sprFinKwotyInfDod.getPlik()==null) {
+                Msg.msg("e","Brak pliku z informacją dodatkową. Nie można generować sprawozdania");
+            } else {
+                pozycjaBRView.init();
+                pozycjaBRZestawienieView.init();
+                saldoAnalitykaView.init();
+                planKontView.init();
+                Map<String, List<PozycjaRZiSBilans>> bilans = pozycjaBRView.obliczBilansOtwarciaBilansDataXML();
+                List<PozycjaRZiSBilans> rzis = pozycjaBRZestawienieView.obliczRZiSOtwarciaRZiSDataXML();
+                generujOP(bilans, rzis);
+            }
+        } catch (Exception e) {
+            Msg.msg("e","Wystąpił błąd podczas generowania sprawozdania finansowego "+E.e(e));
+        }
+    }
+    
     public void generuj(Map<String, List<PozycjaRZiSBilans>> bilans, List<PozycjaRZiSBilans> rzis) {
         try {
             SprFinKwotyInfDod sprFinKwotyInfDod = sprFinKwotyInfDodDAO.findsprfinkwoty(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
@@ -114,7 +155,27 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
         }
     }
     
-    private String marszajuldoplikuxml(String nip, String mc, String rok, JednostkaInna sprawozdanie) {
+    public void generujOP(Map<String, List<PozycjaRZiSBilans>> bilans, List<PozycjaRZiSBilans> rzis) {
+        try {
+            SprFinKwotyInfDod sprFinKwotyInfDod = sprFinKwotyInfDodDAO.findsprfinkwoty(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            JednostkaOp sprawozdanie = new JednostkaOp();
+            sprawozdanie.setNaglowek(SprawozdanieFinOP2018Bean.naglowek(sprFinKwotyInfDod.getDatasporzadzenia(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado()));
+            sprawozdanie.setWprowadzenieDoSprawozdaniaFinansowegoJednostkaOp(SprawozdanieFinOP2018Bean.wprowadzenieDoSprawozdaniaFinansowego(wpisView.getPodatnikObiekt(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado()));
+            sprawozdanie.setBilansJednostkaOp(SprawozdanieFinOP2018BilansBean.generujbilans(bilans.get("aktywa"), bilans.get("pasywa")));
+            sprawozdanie.setRZiSJednostkaOp(SprawozdanieFinOP2018RZiSBean.generujrzis(rzis));
+            sprawozdanie.setDodatkoweInformacjeIObjasnieniaJednostkaInna(SprawozdanieFinOP2018DodInfoBean.generuj(sprFinKwotyInfDod));
+            String sciezka = marszajuldoplikuxml(wpisView.getPodatnikObiekt().getNip(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt(), sprawozdanie);
+            String polecenie = "wydrukXML(\""+sciezka+"\")";
+            RequestContext.getCurrentInstance().execute(polecenie);
+            Msg.msg("Wygenerowano sprawozdanie finansowe");
+            //System.out.println("Wygenerowano sprawozdanie finansowe");
+        } catch (Exception e) {
+            Msg.msg("e","Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
+            //System.out.println("Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
+        }
+    }
+    
+    private String marszajuldoplikuxml(String nip, String mc, String rok, Object sprawozdanie) {
         String sciezka = null;
         try {
             JAXBContext context = JAXBContext.newInstance(sprawozdanie.getClass());

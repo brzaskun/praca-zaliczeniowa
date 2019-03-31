@@ -309,7 +309,7 @@ private DokDAO dokDAO;
             sformatuj(selected);
             edytujhaslo(selected);
             zachowajZmiany(selected);
-            Msg.msg("i", "Edytowano dane podatnika-klienta " + selected.getNazwapelna(), "akordeon:form:msg");
+            Msg.msg("i", "Edytowano dane podatnika-klienta " + selected.getPrintnazwa(), "akordeon:form:msg");
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd - dane niezedytowane", "akordeon:form:msg");
         }
@@ -342,7 +342,7 @@ private DokDAO dokDAO;
         try {
             sformatuj(selected);
             zachowajZmiany(selected);
-            Msg.msg("i", "Edytowano dane podatnika-klienta " + selected.getNazwapelna(), "akordeon:form:msg");
+            Msg.msg("i", "Edytowano dane podatnika-klienta " + selected.getPrintnazwa(), "akordeon:form:msg");
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd - dane niezedytowane", "akordeon:form:msg");
         }

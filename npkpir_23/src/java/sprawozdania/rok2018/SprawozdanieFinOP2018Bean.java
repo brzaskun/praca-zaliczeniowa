@@ -22,10 +22,10 @@ import waluty.Z;
  *
  * @author Osito
  */
-public class SprawozdanieFin2018Bean {
+public class SprawozdanieFinOP2018Bean {
 
-    public static TNaglowekSprawozdaniaFinansowegoJednostkaInnaWZlotych naglowek(String datasporzadzenia, String okresod, String okresdo) {
-        TNaglowekSprawozdaniaFinansowegoJednostkaInnaWZlotych naglowek = new TNaglowekSprawozdaniaFinansowegoJednostkaInnaWZlotych();
+    public static TNaglowekSprawozdaniaFinansowegoOpWZlotych naglowek(String datasporzadzenia, String okresod, String okresdo) {
+        TNaglowekSprawozdaniaFinansowegoOpWZlotych naglowek = new TNaglowekSprawozdaniaFinansowegoOpWZlotych();
         try {
             naglowek.dataSporzadzenia = Data.dataoddo(datasporzadzenia);
             naglowek.okresOd = Data.dataoddo(okresod);
@@ -33,41 +33,40 @@ public class SprawozdanieFin2018Bean {
             naglowek.wariantSprawozdania = "1";
             naglowek.kodSprawozdania = pobierzkodsprawozdania();
         } catch (DatatypeConfigurationException ex) {
-            Logger.getLogger(SprawozdanieFin2018Bean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SprawozdanieFinOP2018Bean.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             return naglowek;
         }
     }
 
-    private static TNaglowekSprawozdaniaFinansowegoJednostkaInnaWZlotych.KodSprawozdania pobierzkodsprawozdania() {
-        TNaglowekSprawozdaniaFinansowegoJednostkaInnaWZlotych.KodSprawozdania kodsprawozdania = new TNaglowekSprawozdaniaFinansowegoJednostkaInnaWZlotych.KodSprawozdania();
+    private static TNaglowekSprawozdaniaFinansowegoOpWZlotych.KodSprawozdania pobierzkodsprawozdania() {
+        TNaglowekSprawozdaniaFinansowegoOpWZlotych.KodSprawozdania kodsprawozdania = new TNaglowekSprawozdaniaFinansowegoOpWZlotych.KodSprawozdania();
         kodsprawozdania.kodSystemowy = kodsprawozdania.getKodSystemowy();
         kodsprawozdania.wersjaSchemy = kodsprawozdania.getWersjaSchemy();
-        kodsprawozdania.value = "SprFinJednostkaInnaWZlotych";
+        kodsprawozdania.value = "SprFinOpWZlotych";
         return  kodsprawozdania;
     }
 
-    public static JednostkaInna.WprowadzenieDoSprawozdaniaFinansowego wprowadzenieDoSprawozdaniaFinansowego(Podatnik podatnik, String okresod, String okresdo) {
-        JednostkaInna.WprowadzenieDoSprawozdaniaFinansowego wprowadzenie = new JednostkaInna.WprowadzenieDoSprawozdaniaFinansowego();
+    public static JednostkaOp.WprowadzenieDoSprawozdaniaFinansowegoJednostkaOp wprowadzenieDoSprawozdaniaFinansowego(Podatnik podatnik, String okresod, String okresdo) {
+        JednostkaOp.WprowadzenieDoSprawozdaniaFinansowegoJednostkaOp wprowadzenie = new JednostkaOp.WprowadzenieDoSprawozdaniaFinansowegoJednostkaOp();
         try {
-            JednostkaInna.WprowadzenieDoSprawozdaniaFinansowego.P1 p1 = new JednostkaInna.WprowadzenieDoSprawozdaniaFinansowego.P1();
+            JednostkaOp.WprowadzenieDoSprawozdaniaFinansowegoJednostkaOp.P1 p1 = new JednostkaOp.WprowadzenieDoSprawozdaniaFinansowegoJednostkaOp.P1();
             p1.p1A = zrobnazwasiedziba(podatnik);
             p1.p1B = zrobadres(podatnik);
-            p1.p1C = pobierzpodstawowadzialalnosc(podatnik);
-            p1.p1D = zrobidentyfikatorpodmiotu(podatnik);
+            p1.p1C = zrobidentyfikatorpodmiotu(podatnik);
             wprowadzenie.p1 = p1;
             wprowadzenie.setP3(pobierzzakresdat(okresod, okresdo));
-            JednostkaInna.WprowadzenieDoSprawozdaniaFinansowego.P5 p5 = new JednostkaInna.WprowadzenieDoSprawozdaniaFinansowego.P5();
-            p5.p5A = true;
-            p5.p5B = true;
-            wprowadzenie.p5 = p5;
+            JednostkaOp.WprowadzenieDoSprawozdaniaFinansowegoJednostkaOp.P4 p4 = new JednostkaOp.WprowadzenieDoSprawozdaniaFinansowegoJednostkaOp.P4();
+            p4.p4A = true;
+            p4.p4B = true;
+            wprowadzenie.p4 = p4;
             //tego nie bo dotyczy czy po polaczenu spolek
-            //        JednostkaInna.WprowadzenieDoSprawozdaniaFinansowego.P6 p6 = new JednostkaInna.WprowadzenieDoSprawozdaniaFinansowego.P6();
+            //        JednostkaOp.WprowadzenieDoSprawozdaniaFinansowegoJednostkaOp.P6 p6 = new JednostkaOp.WprowadzenieDoSprawozdaniaFinansowegoJednostkaOp.P6();
             //        p6.p6A = true;
-            JednostkaInna.WprowadzenieDoSprawozdaniaFinansowego.P7 p7 = uzupelnijp7();
-            wprowadzenie.p7 = p7;
+            JednostkaOp.WprowadzenieDoSprawozdaniaFinansowegoJednostkaOp.P5 p5 = uzupelnijp5();
+            wprowadzenie.p5 = p5;
         } catch (Exception ex) {
-            Logger.getLogger(SprawozdanieFin2018Bean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SprawozdanieFinOP2018Bean.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             return wprowadzenie;
         }
@@ -114,12 +113,6 @@ public class SprawozdanieFin2018Bean {
         return TKodKraju.PL;
     }
 
-    private static PKDPodstawowaDzialalnosc pobierzpodstawowadzialalnosc(Podatnik podatnik) {
-        PKDPodstawowaDzialalnosc dzialanosc = new PKDPodstawowaDzialalnosc();
-        List<String> kodPKD = dzialanosc.getKodPKD();
-        kodPKD.add(podatnik.getKodPKD());
-        return dzialanosc;
-    }
 
     private static TIdentyfikatorPodmiotu zrobidentyfikatorpodmiotu(Podatnik podatnik) {
         TIdentyfikatorPodmiotu id = new TIdentyfikatorPodmiotu();
@@ -129,20 +122,19 @@ public class SprawozdanieFin2018Bean {
         return id;
     }
 
-    private static JednostkaInna.WprowadzenieDoSprawozdaniaFinansowego.P7 uzupelnijp7() {
-        JednostkaInna.WprowadzenieDoSprawozdaniaFinansowego.P7 p7 = new JednostkaInna.WprowadzenieDoSprawozdaniaFinansowego.P7();
-        p7.getP7A().add("Szczegółowy opis polityki rachunkowości znajduje się w sekcji \"Dodatkowe informacje i objaśnienia\", w Załączniku 1 (plik polityka_rachunkowosci.pdf)");
-        p7.getP7B().add("Kompletny opis wyceny aktywów i pasywów znajduje się w Załączniku 1 (plik \"polityka_rachunkowosci.pdf). W szczególności metody wyceny: ");
-        p7.getP7B().add("Wartości niematerialnych i prawnych: por. Załącznik 1, sekcja III");
-        p7.getP7B().add("Środków trwałych:  por. Załącznik 1, sekcja IV");
-        p7.getP7B().add("Inwestycje w nieruchomości i prawa wycenia się w cenie nabycia");
-        p7.getP7B().add("Należności: po. Załącznik 1, sekcja VI");
-        p7.getP7B().add("Zapasy: por. Załącznik 1, sekcja VII");
-        p7.getP7B().add("Kosztów działalności operacyjnej: por. Załącznik 1, skecja VIII");
-        p7.getP7B().add("Aktywa i pasywa w walutach obcych: por. Załącznik 1, sekcja IX");
-        p7.getP7C().add("Zgodnie z polityką rachunkowości przedsiębiorstwa - patrz Załącznik 1.");
-        p7.getP7D().add("Zgodnie z polityką rachunkowości przedsiębiorstwa - patrz Załącznik 1.");
-        return p7;
+    private static JednostkaOp.WprowadzenieDoSprawozdaniaFinansowegoJednostkaOp.P5 uzupelnijp5() {
+        JednostkaOp.WprowadzenieDoSprawozdaniaFinansowegoJednostkaOp.P5 p5 = new JednostkaOp.WprowadzenieDoSprawozdaniaFinansowegoJednostkaOp.P5();
+        p5.getP5A().add("Szczegółowy opis polityki rachunkowości znajduje się w sekcji \"Dodatkowe informacje i objaśnienia\", w Załączniku 1 (plik polityka_rachunkowosci.pdf)");
+        p5.getP5B().add("Kompletny opis wyceny aktywów i pasywów znajduje się w Załączniku 1 (plik \"polityka_rachunkowosci.pdf). W szczególności metody wyceny: ");
+        p5.getP5B().add("Wartości niematerialnych i prawnych: por. Załącznik 1, sekcja III");
+        p5.getP5B().add("Środków trwałych:  por. Załącznik 1, sekcja IV");
+        p5.getP5B().add("Inwestycje w nieruchomości i prawa wycenia się w cenie nabycia");
+        p5.getP5B().add("Należności: po. Załącznik 1, sekcja VI");
+        p5.getP5B().add("Zapasy: por. Załącznik 1, sekcja VII");
+        p5.getP5B().add("Kosztów działalności operacyjnej: por. Załącznik 1, skecja VIII");
+        p5.getP5B().add("Aktywa i pasywa w walutach obcych: por. Załącznik 1, sekcja IX");
+        p5.getP5C().add("Zgodnie z polityką rachunkowości przedsiębiorstwa - patrz Załącznik 1.");
+        return p5;
     }
 
     private static TZakresDatSF pobierzzakresdat(String okresod, String okresdo) {
@@ -151,7 +143,7 @@ public class SprawozdanieFin2018Bean {
             zakres.dataOd = Data.dataoddo(okresod);
             zakres.dataDo = Data.dataoddo(okresdo);
         } catch (DatatypeConfigurationException ex) {
-            Logger.getLogger(SprawozdanieFin2018Bean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SprawozdanieFinOP2018Bean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return zakres;
     }
@@ -206,9 +198,21 @@ public class SprawozdanieFin2018Bean {
         d.kwotaB = a.kwotaB.min(b.kwotaB).min(c.kwotaB);
         return d;
     }
+    public static <T extends TKwotyPozycji> TPozycjaSprawozdania zrobsumaplusplusminus(T a, T b, T c) {
+        TPozycjaSprawozdania d = new TPozycjaSprawozdania();
+        d.kwotaA = a.kwotaA.add(b.kwotaA).min(c.kwotaA);
+        d.kwotaB = a.kwotaB.add(b.kwotaB).min(c.kwotaB);
+        return d;
+    }
     
-   
-    
+    public static <T extends TKwotyPozycji> TPozycjaSprawozdania zrobsumaplusminusplusminus(T a, T b, T c, T d, T e) {
+        TPozycjaSprawozdania z = new TPozycjaSprawozdania();
+        z.kwotaA = a.kwotaA.add(b.kwotaA).min(c.kwotaA).add(d.kwotaA).min(e.kwotaA);
+        z.kwotaB = a.kwotaB.add(b.kwotaB).min(c.kwotaB).add(d.kwotaB).min(e.kwotaB);
+        return z;
+    }
+     
+     
         
     public static TPozycjaSprawozdania zrobTPoztchaSprawozdania(String pozycjaString, List<PozycjaRZiSBilans> l) {
         TPozycjaSprawozdania a = new TPozycjaSprawozdania();

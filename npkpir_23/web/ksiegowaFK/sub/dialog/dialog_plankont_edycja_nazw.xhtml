@@ -29,6 +29,13 @@
                         <f:selectItem itemLabel="szczególne" itemValue="szczególne"/>
                         <f:selectItem itemLabel="#{mgs.VAT}" itemValue="vat"/>
                     </p:selectOneMenu>
+                    <p:selectOneMenu  value="#{planKontView.selectednodekonto.syntetykaanalityka}" style="width: 170px;">
+                        <f:selectItem itemLabel="analityka" itemValue="analityka"/>
+                        <f:selectItem itemLabel="syntetyka" itemValue="zwykłe"/>
+                        <f:selectItem itemLabel="rozrachunkowe/vat" itemValue="rozrachunkowe/vat"/>
+                        <f:selectItem itemLabel="szczególne" itemValue="szczególne"/>
+                        <f:selectItem itemLabel="zwykłe" itemValue="zwykłe"/>
+                    </p:selectOneMenu>
                     <h:outputText value="usuń przyporządkowanie"/>
                     <p:selectBooleanCheckbox value="#{planKontView.usunprzyporzadkowanie}"/>
                     <h:outputText value=""/>
