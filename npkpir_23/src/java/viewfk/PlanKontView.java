@@ -1042,7 +1042,7 @@ public class PlanKontView implements Serializable {
 //                }
 //            }
 //            kontopozycjaZapisDAO.editList(nowepozycje);
-kontoDAO.editList(wykazkont);
+kontoDAO.editList(wykazkontf);
             if (podatnik.equals(wpisView.getPodatnikObiekt())) {
                 wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(podatnik, wpisView.getRokWpisuSt());
             } else {
