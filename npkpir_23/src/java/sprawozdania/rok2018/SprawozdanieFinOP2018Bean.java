@@ -180,35 +180,35 @@ public class SprawozdanieFinOP2018Bean {
     
     public static <T extends TKwotyPozycji> TPozycjaSprawozdania zrobsuma(T a, T b) {
         TPozycjaSprawozdania c = new TPozycjaSprawozdania();
-        c.kwotaA = a.kwotaA.min(b.kwotaA);
-        c.kwotaB = a.kwotaB.min(b.kwotaB);
+        c.kwotaA = a.kwotaA.subtract(b.kwotaA);
+        c.kwotaB = a.kwotaB.subtract(b.kwotaB);
         return c;
     }
 
     public static <T extends TKwotyPozycji> TPozycjaSprawozdania zrobsuma(T a, T b, T c) {
         TPozycjaSprawozdania d = new TPozycjaSprawozdania();
-        d.kwotaA = a.kwotaA.add(b.kwotaA).min(c.kwotaA);
-        d.kwotaB = a.kwotaB.add(b.kwotaB).min(c.kwotaB);
+        d.kwotaA = a.kwotaA.add(b.kwotaA).subtract(c.kwotaA);
+        d.kwotaB = a.kwotaB.add(b.kwotaB).subtract(c.kwotaB);
         return d;
     }
     
     public static <T extends TKwotyPozycji> TPozycjaSprawozdania zrobsumaminus(T a, T b, T c) {
         TPozycjaSprawozdania d = new TPozycjaSprawozdania();
-        d.kwotaA = a.kwotaA.min(b.kwotaA).min(c.kwotaA);
-        d.kwotaB = a.kwotaB.min(b.kwotaB).min(c.kwotaB);
+        d.kwotaA = a.kwotaA.subtract(b.kwotaA).subtract(c.kwotaA);
+        d.kwotaB = a.kwotaB.subtract(b.kwotaB).subtract(c.kwotaB);
         return d;
     }
     public static <T extends TKwotyPozycji> TPozycjaSprawozdania zrobsumaplusplusminus(T a, T b, T c) {
         TPozycjaSprawozdania d = new TPozycjaSprawozdania();
-        d.kwotaA = a.kwotaA.add(b.kwotaA).min(c.kwotaA);
-        d.kwotaB = a.kwotaB.add(b.kwotaB).min(c.kwotaB);
+        d.kwotaA = a.kwotaA.add(b.kwotaA).subtract(c.kwotaA);
+        d.kwotaB = a.kwotaB.add(b.kwotaB).subtract(c.kwotaB);
         return d;
     }
     
     public static <T extends TKwotyPozycji> TPozycjaSprawozdania zrobsumaplusminusplusminus(T a, T b, T c, T d, T e) {
         TPozycjaSprawozdania z = new TPozycjaSprawozdania();
-        z.kwotaA = a.kwotaA.add(b.kwotaA).min(c.kwotaA).add(d.kwotaA).min(e.kwotaA);
-        z.kwotaB = a.kwotaB.add(b.kwotaB).min(c.kwotaB).add(d.kwotaB).min(e.kwotaB);
+        z.kwotaA = a.kwotaA.add(b.kwotaA).subtract(c.kwotaA).add(d.kwotaA).subtract(e.kwotaA);
+        z.kwotaB = a.kwotaB.add(b.kwotaB).subtract(c.kwotaB).add(d.kwotaB).subtract(e.kwotaB);
         return z;
     }
      

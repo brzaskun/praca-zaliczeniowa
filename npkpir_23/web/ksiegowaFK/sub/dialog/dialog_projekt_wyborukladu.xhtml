@@ -56,7 +56,7 @@
                 <h:form>
                     <p:panel header="importuj z wzorca">
                         <h:outputText value="wybierz nazwę importowanego układu"/>
-                        <p:selectOneListbox value="#{ukladBRView.wybranyukladwzorcowy}" style="width: 250px; height: 100px; margin-top: 10px; overflow-y: scroll;" 
+                        <p:selectOneListbox value="#{ukladBRView.wybranyukladwzorcowy}" style="width: 250px; height: 200px; margin-top: 10px;" 
                                             converter="UkladBRWzorcowyConv">
                             <f:selectItems value="#{ukladBRView.listaWzorcowy}" var="item" itemLabel="#{item.uklad} - #{item.rok}"
                                            itemValue="#{String.valueOf(item.lp)}"/>
