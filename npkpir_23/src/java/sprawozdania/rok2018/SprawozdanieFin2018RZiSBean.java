@@ -39,7 +39,7 @@ public class SprawozdanieFin2018RZiSBean {
         r.i = zrobsuma(r.f,r.g,r.h);
         r.j = zrobTPoztchaSprawozdania("J", l);
         r.k = zrobTPoztchaSprawozdania("K", l);
-        r.l = zrobsumaminus(r.f,r.g,r.h);
+        r.l = zrobsumaminus(r.i,r.j,r.k);
         return r;
     }
 
