@@ -369,7 +369,7 @@ public class PozycjaBRView implements Serializable {
          rootBilansAktywa.getChildrenTree(new ArrayList(), aktywa);
          aktywa.add(sumujstrone(aktywa, "Aktywa"));
          List<PozycjaRZiSBilans> pasywa = new ArrayList<>();
-         rootBilansAktywa.getChildrenTree(new ArrayList(), pasywa);
+         rootBilansPasywa.getChildrenTree(new ArrayList(), pasywa);
          pasywa.add(sumujstrone(pasywa, "Pasywa"));
          Map<String, List<PozycjaRZiSBilans>> mapa = new HashMap<>();
          mapa.put("aktywa", aktywa);
