@@ -1015,7 +1015,7 @@ public class PlanKontView implements Serializable {
             wykazkontf = new ArrayList<>();
             kontoDAOfk.findKontaWszystkiePotomnePodatnik(wykazkontf, podatnik, wpisView.getRokWpisu(), selectednodekonto);
             for (Konto p : wykazkontf) {
-                p.kopiujPozycje(p);
+                p.kopiujPozycje(selectednodekonto);
                 p.setSyntetykaanalityka("analityczne");;
 //                KontopozycjaZapis kpo = PlanKontFKBean.naniesprzyporzadkowanie(selectednodekonto, kontoDAOfk, kontopozycjaZapisDAO, wybranyuklad);
 //                if (p.isMapotomkow() == true && kpo != null && !kpo.getSyntetykaanalityka().equals("analityka")) {
