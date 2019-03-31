@@ -12,6 +12,7 @@ import static sprawozdania.rok2018.SprawozdanieFin2018Bean.naniesKwotyAB;
 import static sprawozdania.rok2018.SprawozdanieFin2018Bean.zrobTPoztchaSprawozdania;
 import static sprawozdania.rok2018.SprawozdanieFin2018Bean.zrobsuma;
 import static sprawozdania.rok2018.SprawozdanieFin2018Bean.zrobsumaminus;
+import static sprawozdania.rok2018.SprawozdanieFin2018Bean.zrobsumaplusminus;
 
 /**
  *
@@ -32,7 +33,7 @@ public class SprawozdanieFin2018RZiSBean {
         r.c = zrobsuma(r.a,r.b);
         r.d = czescD(l);
         r.e = czescE(l);
-        r.f = zrobsuma(r.d,r.e);
+        r.f = zrobsumaplusminus(r.c,r.d,r.e);
         r.g = czescG(l);
         r.h = czescH(l);
         r.i = zrobsuma(r.f,r.g,r.h);

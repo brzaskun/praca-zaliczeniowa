@@ -204,6 +204,12 @@ public class SprawozdanieFinOP2018Bean {
         d.kwotaB = a.kwotaB.add(b.kwotaB).subtract(c.kwotaB);
         return d;
     }
+    public static <T extends TKwotyPozycji> TPozycjaSprawozdania zrobsumaplusminus(T a, T b, T c) {
+        TPozycjaSprawozdania d = new TPozycjaSprawozdania();
+        d.kwotaA = a.kwotaA.add(b.kwotaA).subtract(c.kwotaA);
+        d.kwotaB = a.kwotaB.add(b.kwotaB).subtract(c.kwotaB);
+        return d;
+    }
     
     public static <T extends TKwotyPozycji> TPozycjaSprawozdania zrobsumaplusminusplusminus(T a, T b, T c, T d, T e) {
         TPozycjaSprawozdania z = new TPozycjaSprawozdania();
