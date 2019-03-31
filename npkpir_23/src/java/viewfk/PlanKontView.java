@@ -1016,7 +1016,7 @@ public class PlanKontView implements Serializable {
             kontoDAOfk.findKontaWszystkiePotomnePodatnik(wykazkontf, podatnik, wpisView.getRokWpisu(), selectednodekonto);
             for (Konto p : wykazkontf) {
                 p.kopiujPozycje(selectednodekonto);
-                p.setSyntetykaanalityka("analityczne");;
+                p.setSyntetykaanalityka("analityczne");
 //                KontopozycjaZapis kpo = PlanKontFKBean.naniesprzyporzadkowanie(selectednodekonto, kontoDAOfk, kontopozycjaZapisDAO, wybranyuklad);
 //                if (p.isMapotomkow() == true && kpo != null && !kpo.getSyntetykaanalityka().equals("analityka")) {
 //                    if (p.getBilansowewynikowe().equals("wynikowe")) {
@@ -1032,17 +1032,17 @@ public class PlanKontView implements Serializable {
 //                    }
 //                }
             }
-//            kontopozycjaZapisDAO.usunKontoPozycjaPodatnikUladKonto(wybranyuklad, wykazkontf);
-//            List<KontopozycjaZapis> nowepozycje = Collections.synchronizedList(new ArrayList<>());
-//            for (Konto p : wykazkontf) {
-//                try {
-//                    nowepozycje.add(new KontopozycjaZapis(p, wybranyuklad));
-//                } catch (Exception e) {
-//                    E.e(e);
-//                }
-//            }
-//            kontopozycjaZapisDAO.editList(nowepozycje);
-kontoDAO.editList(wykazkontf);
+            kontopozycjaZapisDAO.usunKontoPozycjaPodatnikUladKonto(wybranyuklad, wykazkontf);
+            List<KontopozycjaZapis> nowepozycje = Collections.synchronizedList(new ArrayList<>());
+            for (Konto p : wykazkontf) {
+                try {
+                    nowepozycje.add(new KontopozycjaZapis(p, wybranyuklad));
+                } catch (Exception e) {
+                    E.e(e);
+                }
+            }
+            kontopozycjaZapisDAO.editList(nowepozycje);
+            kontoDAO.editList(wykazkontf);
             if (podatnik.equals(wpisView.getPodatnikObiekt())) {
                 wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(podatnik, wpisView.getRokWpisuSt());
             } else {
