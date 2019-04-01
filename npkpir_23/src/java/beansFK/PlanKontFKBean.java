@@ -724,7 +724,7 @@ public class PlanKontFKBean {
                 kp.setUkladBR(ukladBR);
                 kp.setWynik0bilans1(kpo.isWynik0bilans1());
                 kontopozycjaZapisDAO.dodaj(kp);
-                noweKonto.naniesPozycje(kp);
+                noweKonto.naniesPozycje(kpo);
                 kontoDAOfk.edit(noweKonto);
             } else {
                 kp.setPozycjaWn(kpo.getPozycjaWn());
@@ -735,7 +735,7 @@ public class PlanKontFKBean {
                 kp.setUkladBR(ukladBR);
                 kp.setWynik0bilans1(kpo.isWynik0bilans1());
                 kontopozycjaZapisDAO.edit(kp);
-                noweKonto.naniesPozycje(kp);
+                noweKonto.naniesPozycje(kpo);
                 kontoDAOfk.edit(noweKonto);
             }
         } catch (Exception e) {
