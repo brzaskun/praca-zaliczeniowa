@@ -180,6 +180,11 @@ public class KontoZapisFKView implements Serializable{
     
     private Set<Konto> wyluskajmacierzyste(List<Konto> listakont) {
         Set<Konto> listamacierzyste = new HashSet<>();
+        for (Iterator<Konto> it = listakont.iterator();it.hasNext();) {
+            if (it.next()==null) {
+                it.remove();
+            }
+        }
         listakont.stream().map((p) -> p.getKontomacierzyste()).forEachOrdered((m) -> {
             while (m != null) {
                 listamacierzyste.add(m);
