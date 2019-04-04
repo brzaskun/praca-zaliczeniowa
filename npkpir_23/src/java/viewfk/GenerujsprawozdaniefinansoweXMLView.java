@@ -77,6 +77,8 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
                 Msg.msg("e","Brak lub nieprawidłowy nr KRS. Nie można generować sprawozdania");
             } else if (wpisView.getPodatnikObiekt().getKodPKD()==null || wpisView.getPodatnikObiekt().getKodPKD().equals("")) {
                 Msg.msg("e","Brak w danych podatnika kodu PKD działalności. Nie można generować sprawozdania");
+            } else if (wpisView.getPodatnikObiekt().getKodPKD()!=null && wpisView.getPodatnikObiekt().getKodPKD().length()<5) {
+                Msg.msg("e","Kodu PKD ma mniej niż 5 znaków. Nie można generować sprawozdania");
             } else if (sprFinKwotyInfDod==null) {
                 Msg.msg("e","Brak danych dodatkowych do sprawozdania. Nie można generować sprawozdania");
             } else if (sprFinKwotyInfDod.getDatasporzadzenia()==null) {

@@ -34,7 +34,7 @@
         </h:form>
         <h:form >
             <h:outputText value="przedmiot działalność PKD (bez kropek) "/>
-            <p:inputText value="#{podatnikView.selected.kodPKD}" maxlength="5" size="5">
+            <p:inputText value="#{podatnikView.selected.kodPKD}"  maxlength="5" size="5" validatorMessage="Wymagane 5 znaków">
                 <p:ajax event="blur" partialSubmit="true" listener="#{podatnikView.edytuj()}"/>
             </p:inputText>
         </h:form>

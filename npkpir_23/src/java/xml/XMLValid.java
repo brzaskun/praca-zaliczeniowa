@@ -116,8 +116,9 @@ public class XMLValid {
         //local file example:
             //File schemaFile = new File(realPath); // etc.
             String data = null;
+            System.out.println("start walidacji");
             try {
-                FileInputStream fis = new FileInputStream("d:\\a.xml");
+                FileInputStream fis = new FileInputStream("d:\\spr.xml");
                 data = IOUtils.toString(fis, "UTF-8");
                 int czyjestpodpis = data.indexOf("<Signature");
                 if (czyjestpodpis > 0) {
@@ -143,7 +144,7 @@ public class XMLValid {
             } catch (SAXException e) {
                 zwrot[0] = Boolean.FALSE;
                 zwrot[1] = obsluzblad(e);
-                //System.out.println(obsluzblad(e));
+                System.out.println(obsluzblad(e));
                 zwrot[1] = "Błąd walidacji pliku. Brak info o szczegolach";
             } catch (Exception e) {
                 zwrot[0] = Boolean.FALSE;
@@ -155,6 +156,7 @@ public class XMLValid {
         } finally {
             try {
                 stream.close();
+                System.out.println("byly inne bledy zamykam stream");
             } catch (IOException ex) {
                 Logger.getLogger(XMLValid.class.getName()).log(Level.SEVERE, null, ex);
             }

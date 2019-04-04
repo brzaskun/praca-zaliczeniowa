@@ -282,7 +282,8 @@ public class Podatnik implements Serializable {
     private String kartacert;
     @Column(name = "nazwaRejestr")
     private String nazwaRejestr;
-    @Column(name = "kodPKD")
+    @Size(min = 5)
+    @Column(name = "kodPKD", nullable = true)
     private String kodPKD;
     
     @Transient

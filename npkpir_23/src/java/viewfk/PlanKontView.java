@@ -1074,20 +1074,22 @@ public class PlanKontView implements Serializable {
         KontaFKBean.ustawCzyMaPotomkow(kontadoporzadkowania, kontoDAOfk);
         kontadoporzadkowania = kontoDAOfk.findWszystkieKontaPodatnikaPobierzRelacje(podatnik, wpisView.getRokWpisuSt());
         for (Konto p : kontadoporzadkowania) {
-            KontopozycjaZapis kpo = PlanKontFKBean.naniesprzyporzadkowanie(p, kontoDAOfk, kontopozycjaZapisDAO, uklad);
-            if (p.isMapotomkow() == true && kpo != null && !kpo.getSyntetykaanalityka().equals("analityka")) {
-                if (p.getBilansowewynikowe().equals("wynikowe")) {
-                    if (p.getZwyklerozrachszczegolne().equals("szczególne")) {
+            try {
+                KontopozycjaZapis kpo = PlanKontFKBean.naniesprzyporzadkowanie(p, kontoDAOfk, kontopozycjaZapisDAO, uklad);
+                if (p.isMapotomkow() == true && kpo != null && !kpo.getSyntetykaanalityka().equals("analityka")) {
+                    if (p.getBilansowewynikowe().equals("wynikowe")) {
+                        if (p.getZwyklerozrachszczegolne().equals("szczególne")) {
+                            PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(p,kontoDAOfk, podatnik, "wnma");
+                        } else {
+                            PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(p, kontoDAOfk, podatnik, "wynik");
+                        }
+                    } else if (p.getZwyklerozrachszczegolne().equals("rozrachunkowe") || p.getZwyklerozrachszczegolne().equals("vat") || p.getZwyklerozrachszczegolne().equals("szczególne")) {
                         PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(p,kontoDAOfk, podatnik, "wnma");
                     } else {
-                        PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(p, kontoDAOfk, podatnik, "wynik");
+                        PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(p, kontoDAOfk, podatnik, "bilans");
                     }
-                } else if (p.getZwyklerozrachszczegolne().equals("rozrachunkowe") || p.getZwyklerozrachszczegolne().equals("vat") || p.getZwyklerozrachszczegolne().equals("szczególne")) {
-                    PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(p,kontoDAOfk, podatnik, "wnma");
-                } else {
-                    PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(p, kontoDAOfk, podatnik, "bilans");
                 }
-            }
+            } catch (Exception e) {}
         }
         kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "wynikowe");
         kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "bilansowe");

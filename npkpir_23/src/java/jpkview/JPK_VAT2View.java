@@ -79,7 +79,7 @@ public class JPK_VAT2View implements Serializable {
             } else {
                 for (UPO p : lista) {
                     werjsajpkrecznie = 0;
-                    if (p.getMiesiac().equals(wpisView.getMiesiacWpisu())) {
+                    if (p.getMiesiac().equals(wpisView.getMiesiacWpisu()) && p.getCode()==200) {
                         nowa0korekta1 = true;
                         werjsajpkrecznie = pobierznumerkorekty();
                         break;
@@ -746,7 +746,7 @@ public class JPK_VAT2View implements Serializable {
                 numer = 1;
             } else if (p.getJpk().getClass().getName().equals("jpk201801.JPK")) {
                 int celzlozenia = ((jpk201801.JPK)p.getJpk()).getNaglowek().getCelZlozenia();
-                if (p.getRok().equals(wpisView.getRokWpisuSt()) && p.getMiesiac().equals(wpisView.getMiesiacWpisu()) && celzlozenia > numer) {
+                if (p.getRok().equals(wpisView.getRokWpisuSt()) && p.getMiesiac().equals(wpisView.getMiesiacWpisu()) && celzlozenia > numer && p.getCode()==200) {
                     numer = celzlozenia;
                 }
             }
