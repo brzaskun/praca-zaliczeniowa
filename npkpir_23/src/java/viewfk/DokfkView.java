@@ -3228,21 +3228,21 @@ public class DokfkView implements Serializable {
                     for (StronaWiersza sa : strony) {
                         try {
                             StronaWiersza s = stronaWierszaDAO.findStronaById(sa);
-                            System.out.println("DELETE FROM `pkpir`.`stronawiersza` WHERE `id`='"+sa.getId()+"';");
-                            //stronaWierszaDAO.destroy(sa);
+                            //System.out.println("DELETE FROM `pkpir`.`stronawiersza` WHERE `id`='"+sa.getId()+"';");
+                            stronaWierszaDAO.destroy(sa);
                         } catch (Exception e){
                             System.out.println("DELETE FROM `pkpir`.`stronawiersza` WHERE `id`='"+sa.getId()+"';");
                         }
                     }
-//                    for (Wiersz s : wiersze) {
-//                        try {
-//                            wierszDAO.destroy(s);
-//                        } catch (Exception e){
-//                            System.out.println(""+s.toString());
-//                        }
-//                    }
-//                    dokDAOfk.destroy(p);
-//                    wykazZaksiegowanychDokumentow.remove(p);
+                    for (Wiersz s : wiersze) {
+                        try {
+                            wierszDAO.destroy(s);
+                        } catch (Exception e){
+                            System.out.println(""+s.toString());
+                        }
+                    }
+                    dokDAOfk.destroy(p);
+                    wykazZaksiegowanychDokumentow.remove(p);
                 }
                 selectedlist = null;
             }
