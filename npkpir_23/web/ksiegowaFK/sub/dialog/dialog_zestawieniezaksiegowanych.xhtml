@@ -165,6 +165,9 @@
                 <p:menuitem value="usuń zaznaczone" icon="fa fa-times" actionListener="#{dokfkView.usunzaznaczone}"
                             oncomplete="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
                             update=":zestawieniedokumentow:dataList"/>
+                <p:menuitem value="usuń nieusuwalne" icon="fa fa-times" actionListener="#{dokfkView.usunspecjalne}"
+                            oncomplete="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
+                            update=":zestawieniedokumentow:dataList" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
             </p:contextMenu>
 
             <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 

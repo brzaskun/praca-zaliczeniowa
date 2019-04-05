@@ -50,6 +50,7 @@ import daoFK.TabelanbpDAO;
 import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.WierszBODAO;
+import daoFK.WierszDAO;
 import data.Data;
 import embeddable.Mce;
 import embeddable.Parametr;
@@ -186,6 +187,8 @@ public class DokfkView implements Serializable {
     private WalutyDAOfk walutyDAOfk;
     @Inject
     private TabelanbpDAO tabelanbpDAO;
+    @Inject
+    private WierszDAO wierszDAO;
     private String wybranawaluta;
     private String symbolwalutydowiersza;
     private List<Waluty> wprowadzonesymbolewalut;
@@ -3207,6 +3210,65 @@ public class DokfkView implements Serializable {
             Msg.msg("e", "Wystapił błąd poczad usuwania wybranych dokumentów. Spróbuj usunąć je pojedynczo");
         }
     }
+    
+    
+    public void usunspecjalne() {
+        try {
+            if (selectedlist != null && selectedlist.size() > 0) {
+                for (Dokfk pa : selectedlist) {
+                    Dokfk p = dokDAOfk.findDokfkID(pa);
+                    List<Wiersz> wiersze = p.getListawierszy();
+                    List<StronaWiersza> strony = pobierzwiersze(wiersze);
+                    List<Transakcja> transakcje = pobierztransakcje(strony);
+                    for (Transakcja sz : transakcje) {
+                        try {
+                            transakcjaDAO.destroy(sz);
+                        } catch (Exception e){}
+                    }
+                    for (StronaWiersza sa : strony) {
+                        try {
+                            StronaWiersza s = stronaWierszaDAO.findStronaById(sa);
+                            System.out.println("DELETE FROM `pkpir`.`stronawiersza` WHERE `id`='"+sa.getId()+"';");
+                            //stronaWierszaDAO.destroy(sa);
+                        } catch (Exception e){
+                            System.out.println("DELETE FROM `pkpir`.`stronawiersza` WHERE `id`='"+sa.getId()+"';");
+                        }
+                    }
+//                    for (Wiersz s : wiersze) {
+//                        try {
+//                            wierszDAO.destroy(s);
+//                        } catch (Exception e){
+//                            System.out.println(""+s.toString());
+//                        }
+//                    }
+//                    dokDAOfk.destroy(p);
+//                    wykazZaksiegowanychDokumentow.remove(p);
+                }
+                selectedlist = null;
+            }
+            Msg.msg("Usunięto zaznaczone dokumnety");
+        } catch (Exception e) {
+            Msg.msg("e", "Wystapił błąd poczad usuwania wybranych dokumentów. Spróbuj usunąć je pojedynczo");
+        }
+    }
+    
+    private List<StronaWiersza> pobierzwiersze(List<Wiersz> wiersze) {
+        List<StronaWiersza> zwrot = new ArrayList<>();
+        for (Wiersz w : wiersze) {
+            zwrot.addAll(w.getStronyWiersza());
+        }
+        return zwrot;
+    }
+    
+    private List<Transakcja> pobierztransakcje(List<StronaWiersza> strony) {
+        List<Transakcja> zwrot = new ArrayList<>();
+        for (StronaWiersza w : strony) {
+            zwrot.addAll(transakcjaDAO.findByNowaTransakcja(w));
+            zwrot.addAll(transakcjaDAO.findByRozliczajacy(w));
+        }
+        return zwrot;
+    }
+
 
 //<editor-fold defaultstate="collapsed" desc="comment">
     public String getWybranakategoriadok() {
@@ -4151,6 +4213,9 @@ public class DokfkView implements Serializable {
     public void setKlienciConverterView(KlienciConverterView klienciConverterView) {
         this.klienciConverterView = klienciConverterView;
     }
+
+    
+    
 
 
       

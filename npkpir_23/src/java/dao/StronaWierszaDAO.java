@@ -40,6 +40,10 @@ public class StronaWierszaDAO extends DAO implements Serializable {
         this.sessionFacade = sessionFacade;
     }
     
+    public StronaWiersza findStronaById(StronaWiersza strona) {
+        return sessionFacade.findStronaWierszaById(strona);
+    }
+    
     public List<StronaWiersza> findStronaByKontoOnly(Konto konto) {
         return Collections.synchronizedList(sessionFacade.findStronaWierszaByKontoOnly(konto));
     }

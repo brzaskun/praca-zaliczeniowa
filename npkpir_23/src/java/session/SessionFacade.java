@@ -2499,6 +2499,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return (SprFinKwotyInfDod) em.createNamedQuery("SprFinKwotyInfDod.findsprfinkwoty").setParameter("podatnik", podatnikObiekt).setParameter("rok", rokWpisuSt).getSingleResult();
     }
 
+    public StronaWiersza findStronaWierszaById(StronaWiersza strona) {
+        return (StronaWiersza) em.createNamedQuery("StronaWiersza.findById").setParameter("id", strona.getId()).getSingleResult();
+    }
+
     
     
 

@@ -53,6 +53,7 @@ import waluty.Z;
 @NamedQueries({
     @NamedQuery(name = "StronaWiersza.findByStronaWierszaKontoWaluta", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty AND t.wnma = :wnma AND t.typStronaWiersza = '1'"),
     @NamedQuery(name = "StronaWiersza.findByStronaWierszaKonto", query = "SELECT t FROM StronaWiersza t  WHERE t.konto = :konto AND t.wnma = :wnma AND t.typStronaWiersza = '1'"),
+    @NamedQuery(name = "StronaWiersza.findById", query = "SELECT t FROM StronaWiersza t WHERE t.id = :id"),
     @NamedQuery(name = "StronaWiersza.findByStronaWierszaKontoOnly", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto"),
     @NamedQuery(name = "StronaWiersza.findByStronaWierszaKontoWalutaKorekta", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty AND t.wnma = :wnma AND t.kwota < 0 AND t.typStronaWiersza = '1'"),
     @NamedQuery(name = "StronaWiersza.findByStronaWierszaKontoKorekta", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wnma = :wnma AND t.kwota < 0 AND t.typStronaWiersza = '1'"),
