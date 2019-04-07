@@ -64,6 +64,7 @@ public class Kolmn implements Serializable{
         kolumnKoszty.add("koszty ub.zak.");
         kolumnKoszty.add("wynagrodzenia");
         kolumnKoszty.add("poz. koszty");
+        kolumnKoszty.add("uwagi");
         
         kolumnST = Collections.synchronizedList(new ArrayList<>());
         kolumnST.add("inwestycje");
