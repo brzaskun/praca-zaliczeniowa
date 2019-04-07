@@ -343,8 +343,10 @@
                             <p:ajax event="query" global="false"/>
                             <p:ajax event="itemSelect" global="false"/>
                         </p:autoComplete>
-                        <p:commandButton value="przeksięguj" styleClass="nb" actionListener="#{kontoZapisFKView.przeksieguj}" 
-                                         update="tabelazzapisami:tabela tabelazsumami:sumy @form form:dataList"/>
+                        <p:splitButton value="przeksięguj" actionListener="#{kontoZapisFKView.przeksieguj}" 
+                                         update="tabelazzapisami:tabela tabelazsumami:sumy @form form:dataList">
+                            <p:menuitem global="false" value="zaksięguj PK" actionListener="#{kontoZapisFKView.zaksiegujpk}" icon="ui-icon-arrow"/>  
+                        </p:splitButton>
                         </p:panelGrid>
                     </h:form>
                     <h:form id="tabelazsumami">

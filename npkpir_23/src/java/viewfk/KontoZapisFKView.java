@@ -1287,6 +1287,46 @@ public class KontoZapisFKView implements Serializable{
         }
     }
     
+    public void zaksiegujpk() {
+        try {
+            if (wybranekonto != null && wybranekonto.getId() != null && kontodoprzeksiegowania != null) {
+                if (KontaFKBean.czytesamekonta(wybranekonto, kontodoprzeksiegowania) == 1) {
+                    Msg.msg("e", "Konto źródłowe jest tożsame z docelowym, przerywam przeksięgowanie");
+                    return;
+                }
+                if (wybranezapisydosumowania == null || wybranezapisydosumowania.isEmpty()) {
+                    Msg.msg("e", "Nie wybrano pozycji do przeksięgowania. Nie można wykonać przeksięgowania");
+                    return;
+                }
+                if (kontodoprzeksiegowania.isMapotomkow() == true && kontodoprzeksiegowania.getIdslownika()==0) {
+                    Msg.msg("e", "Konto docelowe jest kontem syntetycznym. Nie można wykonać przeksięgowania");
+                    return;
+                } else {
+                    generujPK(kontodoprzeksiegowania);
+                    kontodoprzeksiegowania = null;
+                    Msg.msg("Zaksięgowano kwoty");
+                }
+            } else {
+                Msg.msg("e", "Nie wybrałeś konta docelowego");
+            }
+        } catch (Exception e) {
+            E.e(e);
+            Msg.dPe();
+        }
+    }
+    
+    public void generujPK(Konto docelowe) {
+        try {
+            Dokfk dokfk = null;
+            dokfk = DokumentFKBean.generujdokumentZaksieguj(wpisView, klienciDAO, "PK", "przeksięgowanie zapisów", rodzajedokDAO, tabelanbpDAO, docelowe, kontoDAOfk, wybranezapisydosumowania, dokDAOfk);
+            dokDAOfk.dodaj(dokfk);
+            Msg.msg("Wygenerowano dokument PK");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Wystąpił błąd - nie wygenerowano dokumentu PK");
+        }
+    }
+    
     private void przeksiegujanalityke() {
         int rozrachunkowe = 0;
         int bo = 0;

@@ -60,6 +60,16 @@ public class DokumentFKBean implements Serializable {
         return nowydok;
     }
     
+    public static Dokfk generujdokumentZaksieguj(WpisView wpisView, KlienciDAO klienciDAO, String symbokdok, String opisdok, RodzajedokDAO rodzajedokDAO, TabelanbpDAO tabelanbpDAO, Konto docelowe, KontoDAOfk kontoDAOfk, List wiersze, DokDAOfk dokDAOfk) throws Exception {
+        Dokfk nowydok = stworznowydokumentPK(wpisView, klienciDAO, symbokdok, opisdok, rodzajedokDAO, tabelanbpDAO, dokDAOfk);
+        ustawwierszePrzeksieguj(nowydok, wiersze, wpisView, docelowe,kontoDAOfk, tabelanbpDAO, opisdok);
+        if (nowydok.getListawierszy() != null) {
+            nowydok.przeliczKwotyWierszaDoSumyDokumentu();
+        }
+        return nowydok;
+    }
+    
+    
     public static Dokfk generujdokumentSkladki(WpisView wpisView, KlienciDAO klienciDAO, String symbokdok, String opisdok, RodzajedokDAO rodzajedokDAO, TabelanbpDAO tabelanbpDAO, Konto kontoWn, Konto kontoMa, KontoDAOfk kontoDAOfk, List wiersze, DokDAOfk dokDAOfk) {
         Dokfk nowydok = stworznowydokumentPK(wpisView, klienciDAO, symbokdok, opisdok, rodzajedokDAO, tabelanbpDAO, dokDAOfk);
         ustawwierszeSkladki(nowydok, wiersze, wpisView, kontoWn, kontoMa,kontoDAOfk, tabelanbpDAO, opisdok);
@@ -278,6 +288,47 @@ public class DokumentFKBean implements Serializable {
         }
     }
     
+    private static void ustawwierszePrzeksieguj(Dokfk nd, List lista, WpisView wpisView, Konto docelowe, KontoDAOfk kontoDAOfk, TabelanbpDAO tabelanbpDAO, String opisdok) throws Exception {
+        nd.setListawierszy(new ArrayList<Wiersz>());
+        int idporzadkowy = 1;
+        for (Iterator<StronaWiersza> it = lista.iterator(); it.hasNext();) {
+            StronaWiersza p = it.next();
+            double kwota = p.getKwota();
+            if (kwota != 0.0) {
+                Wiersz w = new Wiersz(idporzadkowy++, 0);
+                uzupelnijwiersz(w, nd, tabelanbpDAO);
+                String opiswiersza = "przeksięgowanie: "+p.getOpisSW()+" " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt();
+                w.setOpisWiersza(opiswiersza);
+                Konto doceloweslownik = null;
+                if (p.getKonto().isSlownikowe() && docelowe.isMapotomkow()) {
+                    if (p.getKonto().getKontomacierzyste().getIdslownika()==docelowe.getIdslownika()) {
+                        try {
+                            doceloweslownik = kontoDAOfk.findBySlownikoweMacierzyste(docelowe, p.getKonto().getNrkonta(), wpisView);
+                        } catch (Exception e){}
+                    } else {
+                        Msg.msg("e", "Konto źródłowe i docelowe mają różnye słowniki. Przerywam księgowanie");
+                        throw new Exception();
+                    }
+                }
+                Konto dowklejenia = doceloweslownik != null ? doceloweslownik : docelowe;
+                if (p.isWn()) {
+                    StronaWiersza stronaWn = new StronaWiersza(w, "Wn", kwota, dowklejenia);
+                    StronaWiersza stronaMa = new StronaWiersza(w, "Ma", kwota, p.getKonto());
+                    w.setStronaWn(stronaWn);
+                    w.setStronaMa(stronaMa);
+                } else {
+                    StronaWiersza stronaWn = new StronaWiersza(w, "Wn", kwota, p.getKonto());
+                    StronaWiersza stronaMa = new StronaWiersza(w, "Ma", kwota, dowklejenia);
+                    w.setStronaWn(stronaWn);
+                    w.setStronaMa(stronaMa);
+                }
+                w.getStronaWn().setKwotaPLN(kwota);
+                w.getStronaMa().setKwotaPLN(kwota);
+                nd.getListawierszy().add(w);
+            }
+        }
+    }
+    
     private static void ustawwierszeSkladki(Dokfk nd, List lista, WpisView wpisView, Konto kontoWn, Konto kontoMa, KontoDAOfk kontoDAOfk, TabelanbpDAO tabelanbpDAO, String opisdok) {
         nd.setListawierszy(new ArrayList<Wiersz>());
         int idporzadkowy = 1;
@@ -436,12 +487,10 @@ public class DokumentFKBean implements Serializable {
             Integer nowynumer = Integer.parseInt(pozycje[0]);
             nowynumer += 1;
             sb.append(String.valueOf(nowynumer));
-            sb.append("/");
-            sb.append(pozycje[1]);
-            sb.append("/");
-            sb.append(pozycje[2]);
-            sb.append("/");
-            sb.append(pozycje[3]);
+            for (int i=1;i<pozycje.length;i++) {
+                sb.append("/");
+                sb.append(pozycje[i]);
+            }
         }
         return sb.toString();
     }
