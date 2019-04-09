@@ -430,23 +430,23 @@ public class DokFKVATBean {
                 double starawartosc = p.getKwota();
                 double starawartoscWaluta = p.getKwotaWaluta();
                 double starawartoscPLN = p.getKwotaPLN();
-                double nowawartosc = starawartosc * procent;
+                double nowawartosc = Z.z(starawartosc * procent);
                 double nowawartoscnkup = starawartosc-nowawartosc;
-                double nowawartoscWaluta = starawartoscWaluta * procent;
+                double nowawartoscWaluta = Z.z(starawartoscWaluta * procent);
                 double nowawartoscnkupWaluta = starawartoscWaluta-nowawartoscWaluta;
-                double nowawartoscPLN = starawartoscPLN * procent;
+                double nowawartoscPLN = Z.z(starawartoscPLN * procent);
                 double nowawartoscnkupPLN = starawartoscPLN-nowawartoscPLN;
                 Wiersz wiersznkup = ObslugaWiersza.utworzNowyWierszWn(selected, liczbawierszy++, nowawartoscnkup, 1);
-                wiersznkup.getStronaWn().setKwotaPLN(nowawartoscnkupPLN);
-                wiersznkup.getStronaWn().setKwotaWaluta(nowawartoscnkupWaluta);
+                wiersznkup.getStronaWn().setKwotaPLN(Z.z(nowawartoscnkupPLN));
+                wiersznkup.getStronaWn().setKwotaWaluta(Z.z(nowawartoscnkupWaluta));
                 wiersznkup.getStronaWn().setKonto(p.getKonto());
                 wiersznkup.getStronaWn().getCechazapisuLista().add(nkup);
                 String opis = p.getWiersz().getOpisWiersza()+" - nkup";
                 wiersznkup.setOpisWiersza(opis);
                 wierszenkup.add(wiersznkup);
-                p.setKwota(nowawartosc);
-                p.setKwotaWaluta(nowawartoscWaluta);
-                p.setKwotaPLN(nowawartoscPLN);
+                p.setKwota(Z.z(nowawartosc));
+                p.setKwotaWaluta(Z.z(nowawartoscWaluta));
+                p.setKwotaPLN(Z.z(nowawartoscPLN));
             }
         }
         selected.getListawierszy().addAll(wierszenkup);
