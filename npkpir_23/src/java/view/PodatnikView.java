@@ -399,12 +399,14 @@ private DokDAO dokDAO;
     }
     
     public static void main(String[] args) {
-        String pricesString = "2015-04-30";
-        String regex = "^((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(pricesString);
-        while (m.find()) {
-        }
+//        String pricesString = "2015-04-30";
+//        String regex = "^((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$";
+//        Pattern p = Pattern.compile(regex);
+//        Matcher m = p.matcher(pricesString);
+//        while (m.find()) {
+//        }
+        String s = "WB1".toUpperCase(new Locale("pl"));
+        System.out.println("nazwa "+s);
     }
 
     public void sformatuj(Podatnik s) throws Exception {
@@ -1113,6 +1115,8 @@ private DokDAO dokDAO;
     
     public void editdok() {
         try {
+            selectedDokKsi.setSkrot(selectedDokKsi.getSkrotNazwyDok().toUpperCase(new Locale("pl")));
+            selectedDokKsi.setSkrotNazwyDok(selectedDokKsi.getSkrotNazwyDok().toUpperCase(new Locale("pl")));
             rodzajedokDAO.edit(selectedDokKsi);
             selectedDokKsi = new Rodzajedok();
             Msg.msg("i", "Wyedytowano wzorce dokumentów");
