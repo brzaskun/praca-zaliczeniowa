@@ -219,7 +219,7 @@
                                        symbolPosition="s" thousandSeparator="&#160;" decimalSeparator="."  decimalPlaces="2" minValue="-10000000" 
                                         styleClass="wiersznetto" onfocus="kalkulator_pobierzwiersz(this);dolaczwyliczenieKopiowanie(event);"
                                         > 
-                            <p:ajax event="blur" listener="#{DokumentView.podepnijEwidencjeVat}" global="false"
+                            <p:ajax event="focus" listener="#{DokumentView.podepnijEwidencjeVat}" global="false"
                                     update="dodWiad:panelewidencjivat, dodWiad:sumbrutto, dodWiad:dokumentprosty"/>
                             <p:ajax event="change" listener="#{DokumentView.skopiujwartosc(index)}" global="false" partialSubmit="true"/>
                         </p:inputNumber>

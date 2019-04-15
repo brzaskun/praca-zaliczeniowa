@@ -268,10 +268,6 @@ public class DokView implements Serializable {
         try {
             wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
             rodzajedokKlienta.addAll(pobierzrodzajedok());
-            if (!wpisView.isVatowiec()) {
-                selDokument.setDokumentProsty(true);
-                ukryjEwiencjeVAT = true;
-            }
         } catch (Exception e) {
             E.e(e);
             String pod = "GRZELCZYK";
@@ -295,6 +291,11 @@ public class DokView implements Serializable {
                 typdokumentu = wysDokument.getRodzajedok().getSkrot();
                 selDokument.setRodzajedok(wysDokument.getRodzajedok());
                 selDokument.setOpis(wysDokument.getOpis());
+                if (!wpisView.isVatowiec() || (selDokument.getRodzajedok()!= null&& selDokument.getRodzajedok().isDokProsty())) {
+                    selDokument.setDokumentProsty(true);
+                    ukryjEwiencjeVAT = true;
+                    ewidencjaAddwiad.clear();
+                }
                 wygenerujnumerkolejny();
             } else {
                 this.typdokumentu = "ZZ";
@@ -388,9 +389,13 @@ public class DokView implements Serializable {
             kolumny = Kolmn.zwrockolumnyR(transakcjiRodzaj);
         }
         if (transakcjiRodzaj.equals("srodek trw sprzedaz")){
-                    setPokazEST(true);
-                    RequestContext.getCurrentInstance().update("dodWiad:panelewidencji");
-            }
+            setPokazEST(true);
+            RequestContext.getCurrentInstance().update("dodWiad:panelewidencji");
+        } else {
+            setPokazEST(false);
+            RequestContext.getCurrentInstance().update("dodWiad:panelewidencji");
+        }
+           
     }
 
 
@@ -401,7 +406,8 @@ public class DokView implements Serializable {
 //            sumujnetto();
 //            ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
 //        } else 
-        if (selDokument.isDokumentProsty() && !selDokument.getRodzajedok().getSkrot().equals("IU")) {
+        if (!wpisView.isVatowiec() || (selDokument.getRodzajedok() !=null && !selDokument.getRodzajedok().getSkrot().equals("IU") && selDokument.getRodzajedok().isDokProsty())) {
+            selDokument.setDokumentProsty(true);
             ukryjEwiencjeVAT = true;
             sumujnetto();
             ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
@@ -842,7 +848,7 @@ public class DokView implements Serializable {
                 selDokument.setWalutadokumentu(domyslatabela.getWaluta());
                 selDokument.setRodzajedok(rodzajdokdoprzeniesienia);
                 selectedSTR = new SrodekTrw();
-                if (!wpisView.isVatowiec() && !selDokument.getRodzajedok().getSkrot().equals("IU")) {
+                if (!wpisView.isVatowiec() && !selDokument.getRodzajedok().getSkrot().equals("IU") && selDokument.getRodzajedok().isDokProsty()) {
                     selDokument.setDokumentProsty(true);
                     ewidencjaAddwiad.clear();
                     ukryjEwiencjeVAT = true;

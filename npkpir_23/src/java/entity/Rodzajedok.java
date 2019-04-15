@@ -329,6 +329,13 @@ public class Rodzajedok implements Serializable {
         this.rok = rok;
     }
     
+    public boolean isDokProsty() {
+        boolean zwrot = true;
+        if (this.kategoriadokumentu==1 || this.kategoriadokumentu==2) {
+            zwrot = false;
+        }
+        return zwrot;
+    }
     
 
     @Override
