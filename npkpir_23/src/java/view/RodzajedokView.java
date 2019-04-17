@@ -7,6 +7,7 @@ package view;
 import comparator.Rodzajedokcomparator;
 import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
+import data.Data;
 import entity.Podatnik;
 import entity.Rodzajedok;
 import error.E;
@@ -44,6 +45,7 @@ public class RodzajedokView implements Serializable {
     private List<Rodzajedok> listaPodatnika;
     @Inject
     private PodatnikDAO podatnikDAO;
+    private String rok;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
  
@@ -57,8 +59,9 @@ public class RodzajedokView implements Serializable {
     private void init() {
        // to samo jest w PodatnikViev
 //        try {
+            rok = Data.aktualnyRok();
             Podatnik podatnikwspolny = podatnikDAO.findPodatnikByNIP("0001005008");
-            listaWspolnych = rodzajedokDAO.findListaWspolne(podatnikwspolny);
+            listaWspolnych = rodzajedokDAO.findListaPodatnik(podatnikwspolny, rok);
             listaPodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
 //            //automatycznie uzupelnia liste podatnika o nowo dodane do wzorcow
 //            if (!wpisView.getPodatnikObiekt().getNip().equals("0001005008")) {
@@ -78,10 +81,17 @@ public class RodzajedokView implements Serializable {
 //            listaPodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             Collections.sort(listaPodatnika, new Rodzajedokcomparator());
             Collections.sort(listaWspolnych, new Rodzajedokcomparator());
+            
 //        } catch (Exception e) { 
 //            E.e(e); 
 //        }
 
+    }
+    
+    public void zmianaroku() {
+        Podatnik podatnikwspolny = podatnikDAO.findPodatnikByNIP("0001005008");
+        listaWspolnych = rodzajedokDAO.findListaPodatnik(podatnikwspolny, rok);
+        Msg.msg("Udana zmiana roku");
     }
 
     public void dodaj() {
@@ -151,6 +161,14 @@ public class RodzajedokView implements Serializable {
 
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
+    }
+
+    public String getRok() {
+        return rok;
+    }
+
+    public void setRok(String rok) {
+        this.rok = rok;
     }
 
     public List<Rodzajedok> getListaPodatnika() {
