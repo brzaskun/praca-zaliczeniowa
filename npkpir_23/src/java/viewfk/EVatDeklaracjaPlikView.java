@@ -5,10 +5,10 @@
  */
 package viewfk;
 
-import dao.WpisDAO;
+
 import daoFK.EVatDeklaracjaPlikDAO;
 import data.Data;
-import entity.Wpis;
+
 import entityfk.EVatDeklaracjaPlik;
 import error.E;
 import java.io.File;
@@ -44,8 +44,6 @@ public class EVatDeklaracjaPlikView  implements Serializable {
     private WpisView wpisView;
     @Inject
     private EVatDeklaracjaPlikDAO eVatDeklaracjaPlikDAO;
-    @Inject 
-    private WpisDAO wpisDAO;
     private List<EVatDeklaracjaPlik> wiersze;
 
     public EVatDeklaracjaPlikView() {
@@ -109,13 +107,6 @@ public class EVatDeklaracjaPlikView  implements Serializable {
     }
      
     private void aktualizuj(){
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
-        wpisDAO.edit(wpistmp);
         wpisView.naniesDaneDoWpis();
     }
     

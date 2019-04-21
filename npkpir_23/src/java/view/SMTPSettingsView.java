@@ -35,7 +35,7 @@ public class SMTPSettingsView implements Serializable {
     @PostConstruct
     private void init() {
         try {
-            selected = sMTPSettingsDAO.findSprawaByUzytkownik(wpisView.getWprowadzil());
+            selected = sMTPSettingsDAO.findSprawaByUzytkownik(wpisView.getUzer());
         } catch (Exception e) {
         }
     }
@@ -43,12 +43,12 @@ public class SMTPSettingsView implements Serializable {
     public void dodaj() {
         try {
             if (nowy.getUsername() != null) {
-                nowy.setUzytkownik(wpisView.getWprowadzil());
+                nowy.setUzytkownik(wpisView.getUzer());
                 nowy.setGlowne(true);
                 sMTPSettingsDAO.edit(nowy);
                 Msg.dP();
                 nowy = new SMTPSettings();
-                selected = sMTPSettingsDAO.findSprawaByUzytkownik(wpisView.getWprowadzil());
+                selected = sMTPSettingsDAO.findSprawaByUzytkownik(wpisView.getUzer());
             }
         } catch (Exception e) {
             E.e(e);
@@ -59,12 +59,12 @@ public class SMTPSettingsView implements Serializable {
     public void dodajuser() {
         try {
             if (nowy.getUsername() != null) {
-                nowy.setUzytkownik(wpisView.getWprowadzil());
+                nowy.setUzytkownik(wpisView.getUzer());
                 nowy.setGlowne(false);
                 sMTPSettingsDAO.edit(nowy);
                 Msg.dP();
                 nowy = new SMTPSettings();
-                selected = sMTPSettingsDAO.findSprawaByUzytkownik(wpisView.getWprowadzil());
+                selected = sMTPSettingsDAO.findSprawaByUzytkownik(wpisView.getUzer());
             }
         } catch (Exception e) {
             E.e(e);

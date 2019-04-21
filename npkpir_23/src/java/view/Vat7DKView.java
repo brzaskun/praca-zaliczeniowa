@@ -897,7 +897,7 @@ public class Vat7DKView implements Serializable {
         String wiersz = null;
         byte[] deklaracjapodpisana = null;
         try {
-            String nrtelefonu = wpisView.getWprowadzil().getNrtelefonu() == null ? "605586176" : wpisView.getWprowadzil().getNrtelefonu();
+            String nrtelefonu = wpisView.getUzer().getNrtelefonu() == null ? "605586176" : wpisView.getUzer().getNrtelefonu();
             if (wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
                 VAT713 vat713 = new VAT713(pozycje, schema, true, vatzd, nrtelefonu);
                 wiersz = vat713.getWiersz();

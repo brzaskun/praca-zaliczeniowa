@@ -23,7 +23,7 @@
                     <p:ajax event="change" partialSubmit="true"  listener="#{zUSMailView.dokonajZmianyElementu('statusu wysyłki.')}" update=":wykazmaili"/>
                     <f:selectItems value="#{zUSMailView.numery}"/>
                 </p:selectOneMenu>
-                <h:outputText value="Kopie maili przyjdą na adres:"/><h:outputText value="#{WpisView.wprowadzil.email}"/>
+                <h:outputText value="Kopie maili przyjdą na adres:"/><h:outputText value="#{WpisView.uzer.email}"/>
             </p:panelGrid>
         </p:panel>
     </h:form>

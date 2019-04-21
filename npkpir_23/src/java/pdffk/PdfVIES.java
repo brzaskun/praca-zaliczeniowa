@@ -36,7 +36,7 @@ public class PdfVIES {
                 file.delete();
             }
             if (wykaz != null && wykaz.size() > 0) {
-                Uz uz = wpisView.getWprowadzil();
+                Uz uz = wpisView.getUzer();
                 Document document = inicjacjaA4Portrait();
                 PdfWriter writer = inicjacjaWritera(document, nazwa);
                 naglowekStopkaP(writer);

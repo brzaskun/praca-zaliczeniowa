@@ -41,7 +41,7 @@ public class PdfSTRtabela {
             file.delete();
         }
         if (pobranesrodki != null && pobranesrodki.size() > 0) {
-            Uz uz = wpisView.getWprowadzil();
+            Uz uz = wpisView.getUzer();
             Document document = PdfMain.inicjacjaA4Landscape();
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);

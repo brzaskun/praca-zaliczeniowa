@@ -354,9 +354,9 @@ public class VatKorektaView implements Serializable {
         VAT713 vat713 = null;
         try {
             if (ObslugaPodpisuBean.moznaPodpisac(wpisView.getPodatnikObiekt().getKartacert())) {
-                vat713 = new VAT713(pozycje, schema, true, vatzd, wpisView.getWprowadzil().getNrtelefonu());
+                vat713 = new VAT713(pozycje, schema, true, vatzd, wpisView.getUzer().getNrtelefonu());
             } else {
-                vat713 = new VAT713(pozycje, schema, false, vatzd, wpisView.getWprowadzil().getNrtelefonu());
+                vat713 = new VAT713(pozycje, schema, false, vatzd, wpisView.getUzer().getNrtelefonu());
             }
             String wiersz = vat713.getWiersz();
             nowadeklaracja.setDeklaracja(wiersz);

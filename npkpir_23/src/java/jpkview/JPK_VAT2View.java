@@ -659,7 +659,7 @@ public class JPK_VAT2View implements Serializable {
         zwrot[0] = "i";
         zwrot[1] = "Rozpoczynam zachowanie UPO";
             try {
-                upo.setWprowadzil(wpisView.getWprowadzil());
+                upo.setWprowadzil(wpisView.getUzer());
                 upo.setDataupo(new Date());
                 upo.setDatajpk(new Date());
                 uPODAO.dodaj(upo);

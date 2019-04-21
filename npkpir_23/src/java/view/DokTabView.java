@@ -15,7 +15,7 @@ import dao.PodatnikDAO;
 import dao.STRDAO;
 import dao.StornoDokDAO;
 import dao.UzDAO;
-import dao.WpisDAO;
+
 import entity.Amodok;
 import entity.Dok;
 import entity.EVatwpis1;
@@ -24,7 +24,7 @@ import entity.Podatnik;
 import entity.Rodzajedok;
 import entity.StornoDok;
 import entity.Uz;
-import entity.Wpis;
+
 import entityfk.Cechazapisu;
 import error.E;
 import java.io.IOException;
@@ -93,11 +93,11 @@ public class DokTabView implements Serializable {
     @Inject private STRDAO sTRDAO;
     private boolean button;
     @Inject private Uz uzytkownik;
-    @Inject private UzDAO uzDAO;
-    @Inject private WpisDAO wpisDAO;
-    @Inject private AmoDokDAO amoDokDAO;
-    
-     private List<Inwestycje> inwestycje;
+    @Inject private 
+    UzDAO uzDAO;
+    @Inject private 
+    AmoDokDAO amoDokDAO;
+    private List<Inwestycje> inwestycje;
      @Inject private InwestycjeDAO inwestycjeDAO;
      private String wybranacechadok;
      private List<String> cechydokzlisty;
@@ -142,7 +142,7 @@ public class DokTabView implements Serializable {
         Integer rok = wpisView.getRokWpisu();
         String mc = wpisView.getMiesiacWpisu();
         Podatnik podatnik = wpisView.getPodatnikObiekt();
-        uzytkownik = wpisView.getWprowadzil();
+        uzytkownik = wpisView.getUzer();
         try {
             StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik.getNazwapelna());
             setButton(false);
@@ -363,14 +363,6 @@ public class DokTabView implements Serializable {
   
    
     private void aktualizuj(){
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
-        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
-        wpisDAO.edit(wpistmp);
         wpisView.naniesDaneDoWpis();
     }
         

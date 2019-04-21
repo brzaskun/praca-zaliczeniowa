@@ -144,7 +144,7 @@ public class PismoAdminView implements Serializable{
          try {
              pismoadmin.setMenulink(wpisView.getPodatnikObiekt().getPrintnazwa());
              pismoadmin.setDatawiadomosci(new Date());
-             pismoadmin.setNadawca(wpisView.getWprowadzil().getLogin());
+             pismoadmin.setNadawca(wpisView.getUzer().getLogin());
              pismoadmin.setStatus("wysłana");
              pismoadmin.setWaznosc(".");
              int wynik = sprawdzduplikat();

@@ -79,7 +79,7 @@ public class SprawozdanieFinansoweView implements Serializable {
     public void dodaj() {
         if (sprawozdanieFinansowe.getPodatnik()!=null) {
             sprawozdanieFinansowe.setRok(wybranyrok);
-            sprawozdanieFinansowe.setZaksiegowano(wpisView.getWprowadzil().getLogin());
+            sprawozdanieFinansowe.setZaksiegowano(wpisView.getUzer().getLogin());
             sprawozdanieFinansowe.setDatazaksiegowania(new Date());
             sprawozdaniapodatnicy.add(sprawozdanieFinansowe);
             listapodatnikow.remove(sprawozdanieFinansowe.getPodatnik());
@@ -95,44 +95,44 @@ public class SprawozdanieFinansoweView implements Serializable {
     }
     
     public void cit8dodaj(SprawozdanieFinansowe sf) {
-        sf.setCit8(wpisView.getWprowadzil().getLogin());
+        sf.setCit8(wpisView.getUzer().getLogin());
         sf.setDatacit8(new Date());
         Msg.msg("Naniesiono wysłanie CIT-8");
     }
     
     
     public void zatwierdz(SprawozdanieFinansowe sf) {
-        sf.setZatwierdzajacy(wpisView.getWprowadzil().getLogin());
+        sf.setZatwierdzajacy(wpisView.getUzer().getLogin());
         sf.setDatazatwierdzenia(new Date());
         Msg.msg("Zatwierdzono sprawozdanie");
     }
     
     public void wyslij(SprawozdanieFinansowe sf) {
-        sf.setWyslal(wpisView.getWprowadzil().getLogin());
+        sf.setWyslal(wpisView.getUzer().getLogin());
         sf.setWyslanedopodatnika(new Date());
         Msg.msg("Wysłano do podatnika");
     }
     
     public void wroc(SprawozdanieFinansowe sf) {
-        sf.setWrocil(wpisView.getWprowadzil().getLogin());
+        sf.setWrocil(wpisView.getUzer().getLogin());
         sf.setWrociloodpodatnika(new Date());
         Msg.msg("Sprawozdanie wsróciło od podatnika");
     }
     
     public void zlozone(SprawozdanieFinansowe sf) {
-        sf.setZlozyl(wpisView.getWprowadzil().getLogin());
+        sf.setZlozyl(wpisView.getUzer().getLogin());
         sf.setZlozonedokrs(new Date());
         Msg.msg("Złożone w KRS");
     }
     
      public void zatwierdzone(SprawozdanieFinansowe sf) {
-        sf.setZatwierdzil(wpisView.getWprowadzil().getLogin());
+        sf.setZatwierdzil(wpisView.getUzer().getLogin());
         sf.setZatwierdzonewkrs(new Date());
         Msg.msg("Postanowienie z KRS");
     }
      
      public void urzad(SprawozdanieFinansowe sf) {
-        sf.setZlozylurzad(wpisView.getWprowadzil().getLogin());
+        sf.setZlozylurzad(wpisView.getUzer().getLogin());
         sf.setZlozonewurzedzie(new Date());
         Msg.msg("Złożono w urzędzie");
     }

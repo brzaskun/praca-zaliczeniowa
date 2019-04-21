@@ -52,7 +52,7 @@ public class PdfZaksiegowaneView implements Serializable {
                 if (file.isFile()) {
                     file.delete();
                 }
-                Uz uz = wpisView.getWprowadzil();
+                Uz uz = wpisView.getUzer();
                 PdfDokfk.drukujtrescpojedynczegodok(nazwa, p, uz);
                 String f = "pokazwydruk('"+nazwa+"');";
                 RequestContext.getCurrentInstance().execute(f);
@@ -64,7 +64,7 @@ public class PdfZaksiegowaneView implements Serializable {
     
     private void wydrukujzestawieniedok(String nazwa, List<Dokfk> wiersze) {
         try {
-            Uz uz = wpisView.getWprowadzil();
+            Uz uz = wpisView.getUzer();
             Document document = inicjacjaA4Portrait();
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);

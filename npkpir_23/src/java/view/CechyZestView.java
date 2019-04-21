@@ -4,13 +4,9 @@
  */
 package view;
 
-import dao.DokDAO;
 import daoFK.CechazapisuDAOfk;
-import entity.Dok;
-import entity.KwotaKolumna1;
 import entityfk.Cechazapisu;
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -33,8 +29,6 @@ public class CechyZestView  implements Serializable {
     private List<Cechazapisu> pobranecechypodatnik;
     @Inject
     private CechazapisuDAOfk cechazapisuDAOfk;
-    @Inject
-    private DokDAO dokDAO;
     private boolean rozwinwszystkie;
 
     public CechyZestView() {
@@ -48,32 +42,7 @@ public class CechyZestView  implements Serializable {
         }
         if (mc!=null) {
             pobranecechypodatnik = cechazapisuDAOfk.findPodatnikOnlyStatystyczne(wpisView.getPodatnikObiekt());
-            for (Cechazapisu p  : pobranecechypodatnik) {
-                if (!p.getDokLista().isEmpty()) {
-                    for (Iterator<Dok> it=p.getDokLista().iterator(); it.hasNext();) {
-                        Dok dok = it.next();
-                        if (!dok.getPkpirR().equals(wpisView.getRokWpisuSt())) {
-                            it.remove();
-                        } else if (!dok.getPkpirM().equals(mc)) {
-                            it.remove();
-                        } else {
-                            for (KwotaKolumna1 x  : dok.getListakwot1()) {
-                                 switch (x.getNazwakolumny()) {
-                                    case "przych. sprz":
-                                    case "pozost. przych.":
-                                        p.setSumaprzychodow(x.getNetto());
-                                        break;
-                                    default:
-                                        p.setSumakosztow(x.getNetto());
-                                        break;
-                                 }
-                            }
-
-                        }
-                    }
-                }
-
-            }
+            beansDok.CechaBean.sumujcechy(pobranecechypodatnik, wpisView.getRokWpisuSt(), mc);
         }
         System.out.println("");
     }

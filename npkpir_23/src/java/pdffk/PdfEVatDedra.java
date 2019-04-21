@@ -37,7 +37,7 @@ public class PdfEVatDedra {
             file.delete();
         }
         if (wykazkont != null && wykazkont.size() > 0) {
-            Uz uz = wpisView.getWprowadzil();
+            Uz uz = wpisView.getUzer();
             Document document = inicjacjaA4Portrait();
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);

@@ -84,11 +84,11 @@ public class ZamkniecieRokuRozliczenieView  implements Serializable {
     
     public void nanies(ZamkniecieRokuRozliczenie p) {
         try {
-            if (wpisView.getWprowadzil().getLogin().equals("szef")) {
+            if (wpisView.getUzer().getLogin().equals("szef")) {
                 p.setZatwierdzono(new Date());
             }
             p.setData(new Date());
-            p.setWprowadzil(wpisView.getWprowadzil());
+            p.setWprowadzil(wpisView.getUzer());
             zamkniecieRokuRozliczenieDAO.edit(p);
             msg.Msg.dP();
         } catch (Exception e) {

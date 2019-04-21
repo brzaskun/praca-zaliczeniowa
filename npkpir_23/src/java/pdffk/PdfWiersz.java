@@ -35,7 +35,7 @@ public class PdfWiersz {
             file.delete();
         }
         if (wiersze != null && wiersze.size() > 0) {
-            Uz uz = wpisView.getWprowadzil();
+            Uz uz = wpisView.getUzer();
             Document document = PdfMain.inicjacjaA4Landscape();
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);

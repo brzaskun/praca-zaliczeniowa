@@ -6,11 +6,11 @@
 package viewfk;
 
 import dao.EvewidencjaDAO;
-import dao.WpisDAO;
+
 import daoFK.EVatwpisDedraDAO;
 import dedra.Dedraparser;
 import entity.Evewidencja;
-import entity.Wpis;
+
 import entityfk.EVatwpisDedra;
 import error.E;
 import java.io.File;
@@ -47,8 +47,6 @@ public class EVatDedraView  implements Serializable {
     private EvewidencjaDAO evewidencjaDAO;
     @Inject
     private EVatwpisDedraDAO eVatwpisDedraDAO;
-    @Inject 
-    private WpisDAO wpisDAO;
     private List<EVatwpisDedra> wiersze;
 
     public EVatDedraView() {
@@ -135,13 +133,6 @@ public class EVatDedraView  implements Serializable {
     }
      
     private void aktualizuj(){
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
-        wpisDAO.edit(wpistmp);
         wpisView.naniesDaneDoWpis();
     }
     

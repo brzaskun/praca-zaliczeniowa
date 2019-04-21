@@ -7,11 +7,11 @@ package view;
 import comparator.Dokcomparator;
 import dao.DokDAO;
 import dao.SMTPSettingsDAO;
-import dao.WpisDAO;
+
 import embeddable.Mce;
 import entity.Dok;
 import entity.Klienci;
-import entity.Wpis;
+
 import error.E;
 import java.io.Serializable;
 import java.security.Principal;
@@ -57,7 +57,6 @@ public class ObrotyView implements Serializable{
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject  private DokDAO dokDAO;
-    @Inject private WpisDAO wpisDAO;
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
     private Double podsumowaniewybranych;
@@ -178,24 +177,10 @@ public class ObrotyView implements Serializable{
         RequestContext.getCurrentInstance().update("westKsiegowa:westKsiegowaWidok");
     }
     private void aktualizuj(){
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
-        wpistmp.setMiesiacOd(wpisView.getMiesiacOd());
-        wpistmp.setMiesiacDo(wpisView.getMiesiacDo());
-        wpisDAO.edit(wpistmp);
         wpisView.naniesDaneDoWpis();
     }
-       private void aktualizujGuest(){
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpisDAO.edit(wpistmp);
+    private void aktualizujGuest(){
+        wpisView.naniesDaneDoWpis();
     }
 
            

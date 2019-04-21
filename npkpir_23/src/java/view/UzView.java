@@ -7,10 +7,10 @@ package view;
 import dao.PodatnikDAO;
 import dao.SMTPSettingsDAO;
 import dao.UzDAO;
-import dao.WpisDAO;
+
 import entity.Podatnik;
 import entity.Uz;
-import entity.Wpis;
+
 import error.E;
 import java.io.Serializable;
 import java.security.MessageDigest;
@@ -51,8 +51,6 @@ public class UzView implements Serializable {
     @Inject
     private UzDAO uzDAO;
     @Inject
-    private WpisDAO wpisDAO;
-    @Inject
     private PodatnikDAO podatnikDAO;
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
@@ -82,7 +80,7 @@ public class UzView implements Serializable {
     public void init() {
         pokazprzyciskrejestracja = true;
         listaUzytkownikow = uzDAO.findAll();
-        selUzytkownik = wpisView.getWprowadzil();
+        selUzytkownik = wpisView.getUzer();
         nowymail = selUzytkownik.getEmail();
         //potrzebne jako demo przy zmianie kolorków
         polademo.add(new DemoWiersz("1", "pozycja1", "pozycja1a", "pozycja1b"));
@@ -223,10 +221,6 @@ public class UzView implements Serializable {
     public void zachowajzmiany() {
         try {
             uzDAO.edit(selUzytkownik);
-            Wpis w  = wpisDAO.find(selUzytkownik.getLogin());
-            Podatnik p = podatnikDAO.findPodatnikByNIP(selUzytkownik.getFirma());
-            w.setPodatnikWpisu(p.getNazwapelna());
-            wpisDAO.edit(w);
             Msg.msg("Udana edycja danych użytkownika "+selUzytkownik.getLogin());
         } catch (Exception e) {
             E.e(e);

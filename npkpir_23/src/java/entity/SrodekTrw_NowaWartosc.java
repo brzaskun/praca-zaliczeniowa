@@ -72,7 +72,7 @@ public class SrodekTrw_NowaWartosc implements Serializable {
         this.mc = datazmiany.split("-")[1];
         this.rok = datazmiany.split("-")[0];
         this.srodekTrw = wybranysrodektrwalyPosiadane;
-        this.wprowadzil = wpisView.getWprowadzil();
+        this.wprowadzil = wpisView.getUzer();
     }
 
     public Integer getId() {

@@ -30,7 +30,7 @@ public class PdfDokfkView implements Serializable {
     
     public void drukujzaksiegowanydokument(Dokfk selected) {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokument";
-        Uz uz = wpisView.getWprowadzil();
+        Uz uz = wpisView.getUzer();
         PdfDokfk.drukujtrescpojedynczegodok(nazwa, selected, uz);
     }
 

@@ -179,7 +179,7 @@ public class PdfVATsuma {
             document.add(Chunk.NEWLINE);
             document.add(tableZakup);
             document.add(Chunk.NEWLINE);
-            Uz uz = wpisView.getWprowadzil();
+            Uz uz = wpisView.getUzer();
             document.add(new Paragraph(String.valueOf(uz.getImie()+" "+uz.getNazw()),fontM));
             document.add(new Paragraph("___________________________",fontM));
             document.add(new Paragraph("sporządził",fontM));

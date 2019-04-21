@@ -11,11 +11,11 @@ import dao.AmoDokDAO;
 import dao.DokDAO;
 import dao.PodatnikDAO;
 import dao.UzDAO;
-import dao.WpisDAO;
+
 import entity.Dok;
 import entity.Podatnik;
 import entity.Rodzajedok;
-import entity.Wpis;
+
 import entityfk.Cechazapisu;
 import error.E;
 import java.io.IOException;
@@ -53,8 +53,6 @@ public class DokTabGuestView implements Serializable {
     private DokDAO dokDAO;
     @Inject
     private PodatnikDAO podatnikDAO;
-    @Inject
-    private WpisDAO wpisDAO;
     @Inject
     private UzDAO uzDAO;
     @Inject
@@ -121,24 +119,9 @@ public class DokTabGuestView implements Serializable {
     }
     
      private void aktualizujGuest(){
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpisDAO.edit(wpistmp);
+       wpisView.naniesDaneDoWpis();
     }
      private void aktualizuj(){
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
-        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
-        wpisDAO.edit(wpistmp);
         wpisView.naniesDaneDoWpis();
     }
     

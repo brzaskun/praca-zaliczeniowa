@@ -46,7 +46,7 @@ public class StatisticView implements Serializable {
 
     @PostConstruct
     private void init() {
-        sesje = sesjaDAO.findUser(wpisView.getWprowadzil().getLogin());
+        sesje = sesjaDAO.findUser(wpisView.getUzer().getLogin());
         iloscsesji = sesje.size();
         long milis = 0;
         for (Sesja p : sesje) {

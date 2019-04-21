@@ -55,7 +55,6 @@ import entity.UPO;
 import entity.UmorzenieN;
 import entity.Uz;
 import entity.WniosekVATZDEntity;
-import entity.Wpis;
 import entity.ZamkniecieRokuEtap;
 import entity.ZamkniecieRokuRozliczenie;
 import entity.Zamknietemiesiace;
@@ -95,7 +94,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import org.eclipse.persistence.config.CascadePolicy;
 import org.eclipse.persistence.config.HintValues;
@@ -454,18 +452,7 @@ public class SessionFacade<T> implements Serializable {
         return (Zamknietemiesiace) em.createNamedQuery("Zamknietemiesiace.findByPodatnik").setParameter("podatnik", podatnik).getSingleResult();
     }
 
-    public Wpis findWpis(String login) {
-        try {
-            return (Wpis) em.createNamedQuery("Wpis.findByWprowadzil").setParameter("wprowadzil", login).getSingleResult();
-        } catch (Exception e) {
-            E.e(e);
-            Wpis wpis = new Wpis();
-            wpis.setWprowadzil(login);
-            getEntityManager().persist(wpis);
-            return wpis;
-        }
-    }
-
+  
     public List<Dok> findDokPod(Podatnik pod) {
         return Collections.synchronizedList(em.createNamedQuery("Dok.findByPodatnik").setParameter("podatnik", pod).getResultList());
     }

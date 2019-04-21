@@ -6,9 +6,9 @@
 package view;
 
 import dao.FakturaDAO;
-import dao.WpisDAO;
+
 import entity.Faktura;
-import entity.Wpis;
+
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
@@ -37,8 +37,6 @@ public class FakturyPlatnosciView  implements Serializable {
     @Inject
     private FakturaDAO fakturaDAO;
     @Inject
-    private WpisDAO wpisDAO;
-    @Inject
     private Faktura selected;
     private String datazaplaty;
     @ManagedProperty(value="#{WpisView}")
@@ -65,16 +63,7 @@ public class FakturyPlatnosciView  implements Serializable {
     }
     
     private void aktualizuj() {
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
         wpisView.naniesDaneDoWpis();
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
-        wpisView.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
-        wpisDAO.edit(wpistmp);
     }
     
     public void skopiujfakture(Faktura faktura) {

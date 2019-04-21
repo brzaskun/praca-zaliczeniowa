@@ -113,7 +113,7 @@ public class PdfVatUE {
                     document.add(Chunk.NEWLINE);
                 }
             }
-            Uz uz = wpisView.getWprowadzil();
+            Uz uz = wpisView.getUzer();
             document.add(new Paragraph(String.valueOf(uz.getImie() + " " + uz.getNazw()), fontS));
             document.add(new Paragraph("___________________________", fontS));
             document.add(new Paragraph("sporządził", fontS));

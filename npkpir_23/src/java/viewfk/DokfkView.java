@@ -371,7 +371,7 @@ public class DokfkView implements Serializable {
             selected.setDatadokumentu(datadokumentu);
             selected.setDataoperacji(dataoperacji);
         }
-        selected.setWprowadzil(wpisView.getWprowadzil().getLogin());
+        selected.setWprowadzil(wpisView.getUzer().getLogin());
         selected.setwTrakcieEdycji(false);
         //po co to na dziendobry?
         //kontoRozrachunkowe = DokFKVATBean.pobierzKontoRozrachunkowe(kliencifkDAO, selected, wpisView, kontoDAOfk);
@@ -3173,7 +3173,7 @@ public class DokfkView implements Serializable {
                 if (file.isFile()) {
                     file.delete();
                 }
-                Uz uz = wpisView.getWprowadzil();
+                Uz uz = wpisView.getUzer();
                 PdfDokfk.drukujtrescpojedynczegodok(nazwa, p, uz);
                 String f = "pokazwydruk('" + nazwa + "');";
                 RequestContext.getCurrentInstance().execute(f);
@@ -3184,7 +3184,7 @@ public class DokfkView implements Serializable {
     }
 
     private void wydrukujzestawieniedok(String nazwa, List<Dokfk> wiersze) {
-        Uz uz = wpisView.getWprowadzil();
+        Uz uz = wpisView.getUzer();
         Document document = inicjacjaA4Portrait();
         PdfWriter writer = inicjacjaWritera(document, nazwa);
         naglowekStopkaP(writer);

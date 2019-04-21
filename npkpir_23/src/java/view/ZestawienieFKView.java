@@ -12,7 +12,7 @@ import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.StrataDAO;
-import dao.WpisDAO;
+
 import dao.ZobowiazanieDAO;
 import daoFK.WynikFKRokMcDAO;
 import embeddable.Kwartaly;
@@ -24,7 +24,7 @@ import entity.PodatnikUdzialy;
 import entity.Podstawki;
 import entity.Strata;
 import entity.StrataWykorzystanie;
-import entity.Wpis;
+
 import entity.Zobowiazanie;
 import entity.Zusstawki;
 import entityfk.WynikFKRokMc;
@@ -94,8 +94,6 @@ public class ZestawienieFKView implements Serializable {
     //z reki
     private boolean zus51zreki;
     private boolean zus52zreki;
-    @Inject
-    private WpisDAO wpisDAO;
     private boolean pierwszypitwroku;
     private boolean pierwszypitwrokuzaznacz;
     @Inject
@@ -473,25 +471,10 @@ public class ZestawienieFKView implements Serializable {
     }
 
     private void aktualizujGuest() {
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpisDAO.edit(wpistmp);
+        wpisView.naniesDaneDoWpis();
     }
 
     private void aktualizuj() {
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
-        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
-        wpisDAO.edit(wpistmp);
         wpisView.naniesDaneDoWpis();
     }
 

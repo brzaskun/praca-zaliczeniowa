@@ -392,7 +392,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
             s.setPodatnikObj(wpisView.getPodatnikObiekt());
             s.setRok(wpisView.getRokWpisuSt());
             s.setMc(wpisView.getMiesiacWpisu());
-            s.setWprowadzil(wpisView.getWprowadzil().getLogin());
+            s.setWprowadzil(wpisView.getUzer().getLogin());
             s.setData(new Date());
             SymulacjaWynikuView.PozycjeSymulacji pobrane = pozycjeObliczeniaPodatkuPoprzedniemiesiace.get(i++);
             s.setUdzialowiec(pobrane.getNazwa().split("#")[0].trim());

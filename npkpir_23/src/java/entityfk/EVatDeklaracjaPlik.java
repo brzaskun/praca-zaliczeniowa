@@ -72,7 +72,7 @@ public class EVatDeklaracjaPlik implements Serializable {
         this.rokEw = wpisView.getRokWpisuSt();
         this.nazwapliku = nazwakrotka;
         this.podatnikObj = wpisView.getPodatnikObiekt();
-        this.wprowadzil = wpisView.getWprowadzil();
+        this.wprowadzil = wpisView.getUzer();
     }
 
    

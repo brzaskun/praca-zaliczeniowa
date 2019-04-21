@@ -536,7 +536,7 @@ private DokDAO dokDAO;
             wybranyPodatnikOpodatkowanie.setRokOd(Data.getRok(wybranyPodatnikOpodatkowanie.getDatarozpoczecia()));
             wybranyPodatnikOpodatkowanie.setRokDo(Data.getRok(wybranyPodatnikOpodatkowanie.getDatazakonczenia()));
             wybranyPodatnikOpodatkowanie.setDatawprowadzenia(new Date());
-            wybranyPodatnikOpodatkowanie.setKsiegowa(wpisView.getWprowadzil());
+            wybranyPodatnikOpodatkowanie.setKsiegowa(wpisView.getUzer());
             podatnikOpodatkowanie.add(wybranyPodatnikOpodatkowanie);
             podatnikOpodatkowanieDDAO.dodaj(wybranyPodatnikOpodatkowanie);
             wybranyPodatnikOpodatkowanie = new PodatnikOpodatkowanieD();
@@ -1281,12 +1281,12 @@ private DokDAO dokDAO;
     }
     
     private void zachowajZmianyParam(Podatnik p) {
-        p.setWprowadzil(wpisView.getWprowadzil());
+        p.setWprowadzil(wpisView.getUzer());
         p.setDatawprowadzenia(new Date());
     }
     
     private void zachowajZmiany(Podatnik p) {
-        p.setWprowadzil(wpisView.getWprowadzil());
+        p.setWprowadzil(wpisView.getUzer());
         p.setDatawprowadzenia(new Date());
         podatnikDAO.edit(selected);
     }
@@ -1314,7 +1314,7 @@ private DokDAO dokDAO;
             Msg.msg("Zamknięto rok i zaksięgowano dokumenty");
         }
         p.setDatawprowadzenia(new Date());
-        p.setKsiegowa(wpisView.getWprowadzil());
+        p.setKsiegowa(wpisView.getUzer());
         podatnikOpodatkowanieDDAO.edit(p);
         wpisView.initpublic();
     }

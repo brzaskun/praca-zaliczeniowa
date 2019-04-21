@@ -111,7 +111,7 @@ public class DokumentFKBean implements Serializable {
         ustawnumerwlasny(nd, wpisView, symbokdok);
         ustawopis(nd, wpisView, opisdok);
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
-        nd.setWprowadzil(wpisView.getWprowadzil().getLogin());
+        nd.setWprowadzil(wpisView.getUzer().getLogin());
         ustawrodzajedok(nd, symbokdok, rodzajedokDAO, wpisView);
         ustawtabelenbp(nd, tabelanbpDAO);
         return nd;
@@ -128,7 +128,7 @@ public class DokumentFKBean implements Serializable {
         nd.setNumerwlasnydokfk(oblicznumerwlasnykolejny(dokDAOfk, wpisView, symbokdok));
         ustawopis(nd, wpisView, opisdok);
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
-        nd.setWprowadzil(wpisView.getWprowadzil().getLogin());
+        nd.setWprowadzil(wpisView.getUzer().getLogin());
         ustawrodzajedok(nd, symbokdok, rodzajedokDAO, wpisView);
         ustawtabelenbp(nd, tabelanbpDAO);
         return nd;

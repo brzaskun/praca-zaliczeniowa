@@ -9,13 +9,12 @@ import comparator.FakturaRozrachunkicomparator;
 import comparator.Kliencicomparator;
 import dao.FakturaDAO;
 import dao.FakturaRozrachunkiDAO;
-import dao.WpisDAO;
+
 import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.Mce;
 import entity.FakturaRozrachunki;
 import entity.Klienci;
-import entity.Wpis;
-import entityfk.Konto;
+
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,10 +22,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -62,8 +59,6 @@ public class FakturaRozrachunkiView  implements Serializable {
     private FakturaDAO fakturaDAO;
     @Inject
     private FakturaRozrachunkiDAO fakturaRozrachunkiDAO;
-    @Inject 
-    private WpisDAO wpisDAO;
     private String west;
     private double suma;
 
@@ -165,7 +160,7 @@ public class FakturaRozrachunkiView  implements Serializable {
             selected.setRok(wpisView.getRokWpisuSt());
             selected.setMc(wpisView.getMiesiacWpisu());
             selected.setWystawca(wpisView.getPodatnikObiekt());
-            selected.setWprowadzil(wpisView.getWprowadzil());
+            selected.setWprowadzil(wpisView.getUzer());
             fakturaRozrachunkiDAO.dodaj(selected);
             wprowadzoneplatnosci.add(selected);
             boolean zaplata0korekta1 = selected.isZaplata0korekta1();
@@ -226,14 +221,6 @@ public class FakturaRozrachunkiView  implements Serializable {
     }
     
     public void aktualizuj(){
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
-        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
-        wpisDAO.edit(wpistmp);
         wpisView.naniesDaneDoWpis();
         init();
         fakturaRozrachunkiRozlView.init();

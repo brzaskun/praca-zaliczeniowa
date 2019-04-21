@@ -10,6 +10,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -21,7 +22,7 @@ import javax.inject.Inject;
  * @author Osito
  */
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class UzConv implements javax.faces.convert.Converter{
     @Inject
     private UzDAO uzDAO;

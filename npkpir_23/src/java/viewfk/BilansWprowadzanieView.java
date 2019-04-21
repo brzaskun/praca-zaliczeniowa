@@ -379,7 +379,7 @@ public class BilansWprowadzanieView implements Serializable {
             Msg.msg("e", "Występują salda po dwóch stronach konta. Nie można zapisać");
         } else {
             if (listaBO.contains(selected)) {
-                selected.setWprowadzil(wpisView.getWprowadzil());
+                selected.setWprowadzil(wpisView.getUzer());
                 if (selected.getNowy0edycja1usun2Int()!= 0) {
                     selected.setNowy0edycja1usun2(1);
                 }
@@ -393,7 +393,7 @@ public class BilansWprowadzanieView implements Serializable {
                 if (listaBO.size() == 1 && listaBO.get(0).getKonto() == null) {
                     listaBO.remove(listaBO.get(0));
                 }
-                selected.setWprowadzil(wpisView.getWprowadzil());
+                selected.setWprowadzil(wpisView.getUzer());
                 listaBO.add(selected);
                 selected.setNowy0edycja1usun2(0);
                 wierszBODAO.dodaj(selected);
@@ -851,7 +851,7 @@ public class BilansWprowadzanieView implements Serializable {
             nd.setOpisdokfk("obroty rozpoczęcia na koniec: " + wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu());
         }
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
-        nd.setWprowadzil(wpisView.getWprowadzil().getLogin());
+        nd.setWprowadzil(wpisView.getUzer().getLogin());
         ustawrodzajedok(nd);
         ustawtabelenbp(nd);
         ustawwiersze(nd, zachowaneWiersze);

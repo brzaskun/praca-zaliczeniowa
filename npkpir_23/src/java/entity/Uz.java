@@ -93,7 +93,21 @@ public class Uz implements Serializable {
     private double procent;
     @Column(name = "wynagrodzenieprocentowe")
     private double wynagrodzenieprocentowe;
-
+    @ManyToOne
+    @JoinColumn(name = "podid", referencedColumnName = "id")
+    private Podatnik podatnik;
+    @Column(name = "rokWpisu")
+    private Integer rokWpisu;
+    @Size(max = 2)
+    @Column(name = "miesiacWpisu")
+    private String miesiacWpisu;
+    @Size(max = 2)
+    @Column(name = "miesiacOd")
+    private String miesiacOd;
+    @Size(max = 2)
+    @Column(name = "miesiacDo")
+    private String miesiacDo;
+    
     public Uz() {
     }
 
@@ -239,6 +253,46 @@ public class Uz implements Serializable {
 
     public void setWynagrodzenieprocentowe(double wynagrodzenieprocentowe) {
         this.wynagrodzenieprocentowe = wynagrodzenieprocentowe;
+    }
+
+    public Podatnik getPodatnik() {
+        return podatnik;
+    }
+
+    public void setPodatnik(Podatnik podatnik) {
+        this.podatnik = podatnik;
+    }
+
+    public Integer getRokWpisu() {
+        return rokWpisu;
+    }
+
+    public void setRokWpisu(Integer rokWpisu) {
+        this.rokWpisu = rokWpisu;
+    }
+
+    public String getMiesiacWpisu() {
+        return miesiacWpisu;
+    }
+
+    public void setMiesiacWpisu(String miesiacWpisu) {
+        this.miesiacWpisu = miesiacWpisu;
+    }
+
+    public String getMiesiacOd() {
+        return miesiacOd;
+    }
+
+    public void setMiesiacOd(String miesiacOd) {
+        this.miesiacOd = miesiacOd;
+    }
+
+    public String getMiesiacDo() {
+        return miesiacDo;
+    }
+
+    public void setMiesiacDo(String miesiacDo) {
+        this.miesiacDo = miesiacDo;
     }
 
     public int getLiczbapodatnikow() {

@@ -8,13 +8,13 @@ import beansDok.EwidencjaPrzychBean;
 import dao.DokDAO;
 import dao.SMTPSettingsDAO;
 import dao.SumypkpirDAO;
-import dao.WpisDAO;
+
 import embeddable.DokEwidPrzych;
 import embeddable.Mce;
 import entity.Dok;
 import entity.KwotaKolumna1;
 import entity.Podatnik;
-import entity.Wpis;
+
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
@@ -54,7 +54,6 @@ public class EwidencjaPrzychodowView implements Serializable {
     private SumypkpirDAO sumypkpirDAO;
     @Inject
     private DokDAO dokDAO;
-    @Inject private WpisDAO wpisDAO;
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
     private Map<String, List<DokEwidPrzych>> ksiegimiesieczne;
@@ -78,13 +77,6 @@ public class EwidencjaPrzychodowView implements Serializable {
     }
      
        private void aktualizuj(){
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
-        wpisDAO.edit(wpistmp);
         wpisView.naniesDaneDoWpis();
     }
     
@@ -97,13 +89,7 @@ public class EwidencjaPrzychodowView implements Serializable {
     }
        
       private void aktualizujGuest(){
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpisDAO.edit(wpistmp);
+        wpisView.naniesDaneDoWpis();
     }
 
     public void mailpkpir() {

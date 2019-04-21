@@ -50,7 +50,7 @@ public class PdfCechyZapisow {
                 List<CechyzapisuPrzegladView.CechaStronaWiersza> wk = wierszeseparacja(wiersze, 0);
                 List<CechyzapisuPrzegladView.CechaStronaWiersza> wp = wierszeseparacja(wiersze, 1);
                 List<CechyzapisuPrzegladView.CechaStronaWiersza> ws = wierszeseparacja(wiersze, 2);
-                Uz uz = wpisView.getWprowadzil();
+                Uz uz = wpisView.getUzer();
                 Document document = inicjacjaA4Portrait();
                 PdfWriter writer = inicjacjaWritera(document, nazwa);
                 naglowekStopkaP(writer);
@@ -131,7 +131,7 @@ public class PdfCechyZapisow {
             file.delete();
         }
         if (wiersze != null && wiersze.size() > 0) {
-            Uz uz = wpisView.getWprowadzil();
+            Uz uz = wpisView.getUzer();
             Document document = inicjacjaA4Portrait();
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
@@ -153,7 +153,7 @@ public class PdfCechyZapisow {
             file.delete();
         }
         if (wiersze != null && wiersze.size() > 0) {
-            Uz uz = wpisView.getWprowadzil();
+            Uz uz = wpisView.getUzer();
             Document document = inicjacjaA4Portrait();
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);

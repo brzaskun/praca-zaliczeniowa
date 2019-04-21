@@ -282,7 +282,7 @@ public class BilansGenerowanieView implements Serializable {
             for (RoznicaSaldBO p : kontainnesaldo) {
                 if (Math.abs(p.getKwotaroznicy()) < 1) {
                     SaldoKonto sk = new SaldoKonto(p, walpln);
-                    wierszeBO.add(new WierszBO(wpisView.getPodatnikObiekt(), sk, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), p.getKonto(), walpln, wpisView.getWprowadzil()));
+                    wierszeBO.add(new WierszBO(wpisView.getPodatnikObiekt(), sk, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), p.getKonto(), walpln, wpisView.getUzer()));
                 }
             }
             wierszBODAO.dodaj(wierszeBO);
@@ -296,7 +296,7 @@ public class BilansGenerowanieView implements Serializable {
     public void drukuj() {
         try {
             String nazwa = "bogenerr"+wpisView.getPodatnikObiekt().getNip();
-            PdfBilansGen.drukujbilansgen(nazwa, komunikatyerror, komunikatyerror2, komunikatyerror3, wpisView.getWprowadzil());
+            PdfBilansGen.drukujbilansgen(nazwa, komunikatyerror, komunikatyerror2, komunikatyerror3, wpisView.getUzer());
             Msg.dP();
         } catch (Exception e){
             Msg.dPe();
@@ -410,7 +410,7 @@ public class BilansGenerowanieView implements Serializable {
                         if (k.isMapotomkow()) {
                             kontazdziecmi.add(k);
                         }
-                        wierszeBO.add(new WierszBO(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), k, p.getWalutadlabo(), wpisView.getWprowadzil()));
+                        wierszeBO.add(new WierszBO(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), k, p.getWalutadlabo(), wpisView.getUzer()));
                     } else {
                         brakujacekontanowyrok.add(p.getKonto());
                     }

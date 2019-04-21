@@ -215,7 +215,7 @@ public class VAT27DeklaracjaView implements Serializable {
         deklaracjavat27.setNrkwartalu(Kwartaly.getMapamckw().get(wpisView.getMiesiacWpisu()));
         deklaracjavat27.setJestcertyfikat(true);
         deklaracjavat27.setKodurzedu(tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy()));
-        deklaracjavat27.setSporzadzil(wpisView.getWprowadzil().getLogin());
+        deklaracjavat27.setSporzadzil(wpisView.getUzer().getLogin());
         deklaracjavat27.setWzorschemy("http://crd.gov.pl/wzor/2017/01/11/3844/");
         return deklaracjavat27;
     }

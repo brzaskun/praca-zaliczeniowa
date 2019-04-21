@@ -340,7 +340,7 @@ public class VatUeFKView implements Serializable {
     public void sprawdzVIES() {
        try {
         boolean zwrot = true;
-        zwrot = VIESCheckBean.sprawdz(klienciWDTWNT, viesDAO, wpisView.getPodatnikObiekt(), wpisView.getWprowadzil());
+        zwrot = VIESCheckBean.sprawdz(klienciWDTWNT, viesDAO, wpisView.getPodatnikObiekt(), wpisView.getUzer());
         if (zwrot) {
             Msg.msg("Sprawdzono VIES");
         } else {
@@ -576,7 +576,7 @@ public class VatUeFKView implements Serializable {
         deklaracjavatUE.setNrkwartalu(Kwartaly.getMapamckw().get(wpisView.getMiesiacWpisu()));
         deklaracjavatUE.setJestcertyfikat(true);
         deklaracjavatUE.setKodurzedu(tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy()));
-        String sporzadzil = wpisView.getWprowadzil().getImie()+" "+wpisView.getWprowadzil().getNazw();
+        String sporzadzil = wpisView.getUzer().getImie()+" "+wpisView.getUzer().getNazw();
         deklaracjavatUE.setSporzadzil(sporzadzil);
         deklaracjavatUE.setWzorschemy("http://crd.gov.pl/wzor/2017/01/11/3846/");
         return deklaracjavatUE;

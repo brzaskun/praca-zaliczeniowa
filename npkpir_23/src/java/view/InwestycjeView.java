@@ -130,7 +130,7 @@ public class InwestycjeView implements Serializable {
         try {
                 Dok selDokument = new Dok();
                 selDokument.setEwidencjaVAT1(null);
-                selDokument.setWprowadzil(wpisView.getWprowadzil().getLogin());
+                selDokument.setWprowadzil(wpisView.getUzer().getLogin());
                 selDokument.setPkpirM(wpisView.getMiesiacWpisu());
                 selDokument.setPkpirR(wpisView.getRokWpisu().toString());
                 selDokument.setVatM(wpisView.getMiesiacWpisu());

@@ -9,14 +9,14 @@ import beansDok.KsiegaBean;
 import dao.DokDAO;
 import dao.SMTPSettingsDAO;
 import dao.SumypkpirDAO;
-import dao.WpisDAO;
+
 import embeddable.DokKsiega;
 import embeddable.Mce;
 import entity.Dok;
 import entity.KwotaKolumna1;
 import entity.Podatnik;
 import entity.Sumypkpir;
-import entity.Wpis;
+
 import entityfk.Cechazapisu;
 import error.E;
 import interceptor.WydrukInterceptor;
@@ -59,8 +59,6 @@ private static final long serialVersionUID = 1L;
     private SumypkpirDAO sumypkpirDAO;
     @Inject
     private DokDAO dokDAO;
-    @Inject 
-    private WpisDAO wpisDAO;
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
     private Map<String, List<DokKsiega>> ksiegimiesieczne;
@@ -183,13 +181,6 @@ private static final long serialVersionUID = 1L;
     }
      
     private void aktualizuj(){
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
-        wpisDAO.edit(wpistmp);
         wpisView.naniesDaneDoWpis();
     }
     
@@ -202,13 +193,7 @@ private static final long serialVersionUID = 1L;
     }
        
       private void aktualizujGuest(){
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpisDAO.edit(wpistmp);
+        wpisView.naniesDaneDoWpis();
     }
 
     public void mailpkpir() {

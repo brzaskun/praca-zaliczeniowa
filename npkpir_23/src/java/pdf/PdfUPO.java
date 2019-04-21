@@ -44,7 +44,7 @@ public class PdfUPO extends Pdf implements Serializable {
             file.delete();
         }
         if (upo != null) {
-            Uz uz = wpisView.getWprowadzil();
+            Uz uz = wpisView.getUzer();
             Document document = inicjacjaA4Portrait();
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
@@ -118,7 +118,7 @@ public class PdfUPO extends Pdf implements Serializable {
             file.delete();
         }
         if (upo != null) {
-            Uz uz = wpisView.getWprowadzil();
+            Uz uz = wpisView.getUzer();
             Document document = inicjacjaA4Portrait();
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
@@ -188,7 +188,7 @@ public class PdfUPO extends Pdf implements Serializable {
    public static void drukujJPK2(JPKSuper jpk, WpisView wpisView, Podatnik podatnik) {
         String nazwa = podatnik.getNip()+"JPK";
         if (jpk != null) {
-            Uz uz = wpisView.getWprowadzil();
+            Uz uz = wpisView.getUzer();
             Document document = inicjacjaA4Portrait();
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
@@ -225,7 +225,7 @@ public class PdfUPO extends Pdf implements Serializable {
    public static void drukujJPK3(JPKSuper jpk, WpisView wpisView, Podatnik podatnik) {
         String nazwa = podatnik.getNip()+"JPK";
         if (jpk != null) {
-            Uz uz = wpisView.getWprowadzil();
+            Uz uz = wpisView.getUzer();
             Document document = inicjacjaA4Portrait();
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);

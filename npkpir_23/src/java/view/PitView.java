@@ -7,9 +7,9 @@ package view;
 import dao.PitDAO;
 import dao.PodatnikDAO;
 import dao.SMTPSettingsDAO;
-import dao.WpisDAO;
+
 import entity.Pitpoz;
-import entity.Wpis;
+
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
@@ -43,8 +43,6 @@ public class PitView implements Serializable {
     @Inject private PodatnikDAO podatnikDAO;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
-    @Inject
-    private WpisDAO wpisDAO;
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
    
@@ -93,24 +91,9 @@ public class PitView implements Serializable {
      }
      
      private void aktualizujGuest(){
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpisDAO.edit(wpistmp);
+        wpisView.naniesDaneDoWpis();
     }
      private void aktualizuj(){
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
-        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
-        wpisDAO.edit(wpistmp);
         wpisView.naniesDaneDoWpis();
     }
     

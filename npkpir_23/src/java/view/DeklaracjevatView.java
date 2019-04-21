@@ -13,13 +13,13 @@ import dao.DeklaracjevatDAO;
 import dao.PodatnikDAO;
 import dao.SMTPSettingsDAO;
 import dao.SchemaEwidencjaDAO;
-import dao.WpisDAO;
+
 import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Deklaracjevat;
-import entity.Wpis;
+
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import error.E;
@@ -65,9 +65,6 @@ public class DeklaracjevatView implements Serializable {
     private WpisView wpisView;
     @ManagedProperty(value="#{saldoAnalitykaView}")
     private SaldoAnalitykaView saldoAnalitykaView;
-   
-    @Inject
-    private WpisDAO wpisDAO;
     @Inject
     private PodatnikDAO podatnikDAO;
     @Inject
@@ -341,24 +338,9 @@ public class DeklaracjevatView implements Serializable {
     }
     
     private void aktualizujGuest(){
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpisDAO.edit(wpistmp);
+        wpisView.naniesDaneDoWpis();
     }
      private void aktualizuj(){
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
-        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
-        wpisDAO.edit(wpistmp);
         wpisView.naniesDaneDoWpis();
     }
     

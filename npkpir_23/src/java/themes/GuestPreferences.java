@@ -60,7 +60,7 @@ public class GuestPreferences implements Serializable {
 
         public void setTheme(String theme) {
                 this.theme = theme;
-                Uz tmp = wpisView.getWprowadzil();
+                Uz tmp = wpisView.getUzer();
                 tmp.setTheme(theme);
                 uzDAO.edit(tmp);
         }

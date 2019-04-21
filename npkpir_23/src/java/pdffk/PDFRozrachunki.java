@@ -85,11 +85,11 @@ public class PDFRozrachunki {
             dodajLinieOpisuBezOdstepu(document, transakcja1);
             dodajLinieOpisuBezOdstepu(document, transakcja2+F.curr(wartosc,symbolwaluty));
             dodajLinieOpisu(document, "Słownie: "+Slownie.slownie(String.valueOf(wartosc), skrótsymbolu));
-            String sp = wpisView.getWprowadzil().getImie()+" "+wpisView.getWprowadzil().getNazw();
+            String sp = wpisView.getUzer().getImie()+" "+wpisView.getUzer().getNazw();
             dodajLinieOpisu(document, " ");
             dodajLinieOpisuBezOdstepu(document, "..................... ");
-            dodajLinieOpisuBezOdstepu(document, "sporządzający "+wpisView.getWprowadzil().getImieNazwisko()+" dnia "+Data.aktualnaData());
-            dodajLinieOpisu(document, "telefon: "+wpisView.getWprowadzil().getNrtelefonu());
+            dodajLinieOpisuBezOdstepu(document, "sporządzający "+wpisView.getUzer().getImieNazwisko()+" dnia "+Data.aktualnaData());
+            dodajLinieOpisu(document, "telefon: "+wpisView.getUzer().getNrtelefonu());
             dodajLinieOpisu(document, " ");
             dodajLinieOpisuBezOdstepu(document, "..................... ");
             dodajLinieOpisu(document, "salda zgodnie potwierdzam");

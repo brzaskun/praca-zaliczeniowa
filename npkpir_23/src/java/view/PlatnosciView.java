@@ -9,7 +9,7 @@ import dao.OdsetkiDAO;
 import dao.PitDAO;
 import dao.PlatnosciDAO;
 import dao.PodatnikDAO;
-import dao.WpisDAO;
+
 import dao.ZobowiazanieDAO;
 import entity.Deklaracjevat;
 import entity.Odsetki;
@@ -17,7 +17,7 @@ import entity.Pitpoz;
 import entity.Platnosci;
 import entity.PlatnosciPK;
 import entity.Podatnik;
-import entity.Wpis;
+
 import entity.Zobowiazanie;
 import entity.Zusstawki;
 import error.E;
@@ -69,9 +69,6 @@ public class PlatnosciView implements Serializable {
     private DeklaracjevatDAO deklaracjevatDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-    @Inject
-    private WpisDAO wpisDAO;
-
     private boolean edytujplatnosc;
 
     public PlatnosciView() {
@@ -404,24 +401,9 @@ public class PlatnosciView implements Serializable {
     }
     
      private void aktualizujGuest(){
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpisDAO.edit(wpistmp);
+        wpisView.naniesDaneDoWpis();
     }
      private void aktualizuj(){
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
-        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
-        wpisDAO.edit(wpistmp);
         wpisView.naniesDaneDoWpis();
     }
     

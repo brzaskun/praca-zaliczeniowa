@@ -62,7 +62,7 @@ private static final long serialVersionUID = 1L;
             mcdzisiejszy = Mce.getNumberToMiesiac().get(c.get(c.MONTH));
         }
         try {
-            String sporzadzil = wpisView.getWprowadzil().getImie()+" "+wpisView.getWprowadzil().getNazw();
+            String sporzadzil = wpisView.getUzer().getImie()+" "+wpisView.getUzer().getNazw();
             List<Deklaracjevat> deklaracje = deklaracjevatDAO.findDeklaracjewysylka(rokdzisiejszy, mcdzisiejszy);
             for (Deklaracjevat p : deklaracje) {
                 if(p.getIdentyfikator().isEmpty() && p.getSporzadzil()!= null && p.getSporzadzil().equals(sporzadzil)){

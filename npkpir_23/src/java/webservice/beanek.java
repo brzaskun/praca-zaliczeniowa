@@ -224,7 +224,7 @@ public class beanek  implements Serializable {
             deklaracja.setStatus(String.valueOf(stat.value));
             deklaracja.setOpis(opisMB);
             deklaracja.setDatazlozenia(new Date());
-            deklaracja.setSporzadzil(wpisView.getWprowadzil().getImie() + " " + wpisView.getWprowadzil().getNazw());
+            deklaracja.setSporzadzil(wpisView.getUzer().getImie() + " " + wpisView.getUzer().getNazw());
             deklaracja.setTestowa(false);
             for (Iterator<Vat27> it  = deklaracja.getPozycje().iterator(); it.hasNext();) {
                 if (it.next().getKontrahent()==null) {
@@ -259,7 +259,7 @@ public class beanek  implements Serializable {
             wysylanaDeklaracja.setStatus(statMB.toString());
             wysylanaDeklaracja.setOpis(opisMB);
             wysylanaDeklaracja.setDatazlozenia(new Date());
-            wysylanaDeklaracja.setSporzadzil(wpisView.getWprowadzil().getImie() + " " + wpisView.getWprowadzil().getNazw());
+            wysylanaDeklaracja.setSporzadzil(wpisView.getUzer().getImie() + " " + wpisView.getUzer().getNazw());
             wysylanaDeklaracja.setTestowa(false);
             deklaracjavatUEDAO.dodaj(wysylanaDeklaracja);
             edytujdok(listadok, listadokfk);
@@ -323,7 +323,7 @@ public class beanek  implements Serializable {
             wysylanaDeklaracja.setStatus(statMB.toString());
             wysylanaDeklaracja.setOpis(opisMB);
             wysylanaDeklaracja.setDatazlozenia(new Date());
-            wysylanaDeklaracja.setSporzadzil(wpisView.getWprowadzil().getImie() + " " + wpisView.getWprowadzil().getNazw());
+            wysylanaDeklaracja.setSporzadzil(wpisView.getUzer().getImie() + " " + wpisView.getUzer().getNazw());
             deklaracjevatDAO.edit(wysylanaDeklaracja);
             Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
             try {
@@ -527,7 +527,7 @@ public class beanek  implements Serializable {
             temp.setStatus(String.valueOf(stat.value));
             temp.setOpis(opisMBT);
             temp.setDatazlozenia(new Date());
-            temp.setSporzadzil(wpisView.getWprowadzil().getImie() + " " + wpisView.getWprowadzil().getNazw());
+            temp.setSporzadzil(wpisView.getUzer().getImie() + " " + wpisView.getUzer().getNazw());
             temp.setTestowa(true);
             deklaracjevatDAO.edit(temp);
             Msg.msg("i", "Wypuszczono testowego gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
@@ -556,7 +556,7 @@ public class beanek  implements Serializable {
             deklaracja.setStatus(String.valueOf(stat.value));
             deklaracja.setOpis(opisMBT);
             deklaracja.setDatazlozenia(new Date());
-            deklaracja.setSporzadzil(wpisView.getWprowadzil().getImie() + " " + wpisView.getWprowadzil().getNazw());
+            deklaracja.setSporzadzil(wpisView.getUzer().getImie() + " " + wpisView.getUzer().getNazw());
             deklaracja.setTestowa(true);
             deklaracjavatUEDAO.edit(deklaracja);
             Msg.msg("i", "Wypuszczono testowego gołębia z deklaracja podatnika " + wpisView.getPodatnikWpisu() + " za " + wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu());
@@ -585,7 +585,7 @@ public class beanek  implements Serializable {
             deklaracja.setStatus(String.valueOf(stat.value));
             deklaracja.setOpis(opisMBT);
             deklaracja.setDatazlozenia(new Date());
-            deklaracja.setSporzadzil(wpisView.getWprowadzil().getImie() + " " + wpisView.getWprowadzil().getNazw());
+            deklaracja.setSporzadzil(wpisView.getUzer().getImie() + " " + wpisView.getUzer().getNazw());
             deklaracja.setTestowa(true);
             deklaracjavat27DAO.edit(deklaracja);
             Msg.msg("i", "Wypuszczono testowego gołębia z deklaracja podatnika " + wpisView.getPodatnikWpisu() + " za " + wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu());
@@ -609,7 +609,7 @@ public class beanek  implements Serializable {
 //            return;
 //        }
         try {
-            wysylanaDeklaracja.setIdentyfikator(wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+wpisView.getPrintNazwa()+wpisView.getWprowadzil().getLogin());
+            wysylanaDeklaracja.setIdentyfikator(wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+wpisView.getPrintNazwa()+wpisView.getUzer().getLogin());
             wysylanaDeklaracja.setIdentyfikator(idpobierzT);
             wysylanaDeklaracja.setStatus("200");
             statMBT = wysylanaDeklaracja.getStatus();
@@ -618,7 +618,7 @@ public class beanek  implements Serializable {
             wysylanaDeklaracja.setUpo("Deklaracja wysłana poza systemem. Zarejestrowana elektronicznie ze względu na ciągłość");
             upoMBT = wysylanaDeklaracja.getUpo();
             wysylanaDeklaracja.setDatazlozenia(new Date());
-            wysylanaDeklaracja.setSporzadzil(wpisView.getWprowadzil().getImie() + " " + wpisView.getWprowadzil().getNazw());
+            wysylanaDeklaracja.setSporzadzil(wpisView.getUzer().getImie() + " " + wpisView.getUzer().getNazw());
             wysylanaDeklaracja.setTestowa(false);
             deklaracjevatDAO.edit(wysylanaDeklaracja);
             Msg.msg("i", "Rejestracja ręczna deklaracji podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");

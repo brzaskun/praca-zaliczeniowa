@@ -47,9 +47,9 @@ public class MailSetUp implements Serializable{
         } catch (MessagingException ex) {
             E.e(ex);
         }
-        if (!wpisView.getWprowadzil().getUprawnienia().equals("Guest")) {
+        if (!wpisView.getUzer().getUprawnienia().equals("Guest")) {
             try {
-                message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(wpisView.getWprowadzil().getEmail()));
+                message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(wpisView.getUzer().getEmail()));
             } catch (Exception e) {
                 E.e(e);
             }
@@ -73,9 +73,9 @@ public class MailSetUp implements Serializable{
         } catch (MessagingException ex) {
             Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (!wpisView.getWprowadzil().getUprawnienia().equals("Guest")){
+        if (!wpisView.getUzer().getUprawnienia().equals("Guest")){
         try {
-            message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wpisView.getWprowadzil().getEmail()));
+            message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wpisView.getUzer().getEmail()));
         } catch (Exception e){
             E.e(e);
             Msg.msg("e", "Nie masz ma wprowadzonego adresu mail. Wysyłka nieudana");

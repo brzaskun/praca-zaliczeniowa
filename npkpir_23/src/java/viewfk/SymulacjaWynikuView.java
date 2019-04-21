@@ -411,7 +411,7 @@ public class SymulacjaWynikuView implements Serializable {
 //            wynikFKRokMc.setPodatek(pozycje.get(6).getWartosc());
 //            wynikFKRokMc.setWynikfinansowynetto(pozycje.get(7).getWartosc());
 //        }
-        wynikFKRokMc.setWprowadzil(wpisView.getWprowadzil().getLogin());
+        wynikFKRokMc.setWprowadzil(wpisView.getUzer().getLogin());
         wynikFKRokMc.setData(new Date());
         //wywalilem bo ozajmuje za duzo miejsca
 //        wynikFKRokMc.setListaprzychody(listakontaprzychody);

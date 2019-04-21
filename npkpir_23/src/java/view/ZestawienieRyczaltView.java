@@ -10,7 +10,7 @@ import dao.PodatnikDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.RyczDAO;
 import dao.StrataDAO;
-import dao.WpisDAO;
+
 import dao.ZobowiazanieDAO;
 import embeddable.Mce;
 import embeddable.RyczaltPodatek;
@@ -23,7 +23,7 @@ import entity.PodatnikUdzialy;
 import entity.Ryczpoz;
 import entity.Strata;
 import entity.StrataWykorzystanie;
-import entity.Wpis;
+
 import entity.Zobowiazanie;
 import entity.Zusstawki;
 import error.E;
@@ -105,7 +105,6 @@ public class ZestawienieRyczaltView implements Serializable {
      //z reki
     private boolean zus51zreki;
     private boolean zus52zreki;
-    @Inject private WpisDAO wpisDAO;
     @Inject
     private PodatnikUdzialyDAO podatnikUdzialyDAO;
 
@@ -643,13 +642,6 @@ public class ZestawienieRyczaltView implements Serializable {
     }
     
     private void aktualizuj(){
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
-        wpisDAO.edit(wpistmp);
         wpisView.naniesDaneDoWpis();
     }
 

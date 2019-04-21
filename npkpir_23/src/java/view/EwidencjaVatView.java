@@ -11,7 +11,7 @@ import dao.EvewidencjaDAO;
 import dao.RodzajedokDAO;
 import dao.SMTPSettingsDAO;
 import dao.WniosekVATZDEntityDAO;
-import dao.WpisDAO;
+
 import daoFK.EVatwpisDedraDAO;
 import daoFK.EVatwpisFKDAO;
 import data.Data;
@@ -26,7 +26,7 @@ import entity.EVatwpisSuper;
 import entity.Evewidencja;
 import entity.Podatnik;
 import entity.WniosekVATZDEntity;
-import entity.Wpis;
+
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
 import error.E;
@@ -107,8 +107,6 @@ public class EwidencjaVatView implements Serializable {
     private Double suma1;
     private Double suma2;
     private Double suma3;
-    @Inject 
-    private WpisDAO wpisDAO;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
     private String nazwaewidencjiMail;
@@ -158,14 +156,7 @@ public class EwidencjaVatView implements Serializable {
     }
     
     private void aktualizuj(){
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
-        wpisDAO.edit(wpistmp);
-        wpisView.naniesDaneDoWpis();
+         wpisView.naniesDaneDoWpis();
     }
     
     public void wybranewierszeewidencjiczysc() {

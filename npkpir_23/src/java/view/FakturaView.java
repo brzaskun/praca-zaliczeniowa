@@ -25,7 +25,7 @@ import dao.LogofakturaDAO;
 import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
 import dao.SMTPSettingsDAO;
-import dao.WpisDAO;
+
 import daoFK.DokDAOfk;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
@@ -50,7 +50,7 @@ import entity.KwotaKolumna1;
 import entity.Logofaktura;
 import entity.Podatnik;
 import entity.Rodzajedok;
-import entity.Wpis;
+
 import entityfk.Dokfk;
 import entityfk.Tabelanbp;
 import error.E;
@@ -173,8 +173,6 @@ public class FakturaView implements Serializable {
     private double kwotaprzedwaloryzacja;
     //wlasna data dla faktur
     private String datawystawienia;
-    @Inject
-    private WpisDAO wpisDAO;
     @Inject
     private TabelanbpDAO tabelanbpDAO;
     @Inject
@@ -379,7 +377,7 @@ public class FakturaView implements Serializable {
         selected.setNrkontabankowego(FakturaBean.pobierznumerkonta(podatnikobiekt));
         wielekont();
         selected.setPodpis(FakturaBean.pobierzpodpis(wpisView));
-        selected.setAutor(wpisView.getWprowadzil().getLogin());
+        selected.setAutor(wpisView.getUzer().getLogin());
         setPokazfakture(true);
         selected.setWystawca(podatnikobiekt);
         selected.setRok(String.valueOf(wpisView.getRokWpisu()));
@@ -1260,7 +1258,7 @@ public class FakturaView implements Serializable {
                 nowa.setZaksiegowana(false);
                 nowa.setZatwierdzona(false);
                 nowa.setTylkodlaokresowej(false);
-                nowa.setAutor(wpisView.getWprowadzil().getLogin());
+                nowa.setAutor(wpisView.getUzer().getLogin());
                 int fakturanowyrok = 0;
                 boolean istnieje = true;
                 FakturaOkresowaGenNum.wygenerujnumerfaktury(fakturaDAO, nowa, wpisView);
@@ -1602,23 +1600,14 @@ public class FakturaView implements Serializable {
 
    
     private void aktualizuj() {
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
         wpisView.naniesDaneDoWpis();
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
-        wpisView.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
-        wpisDAO.edit(wpistmp);
     }
     
     public void mailfaktura(List<Faktura> wybrane) {
         try {
             pdfFaktura.drukujmail(wybrane, wpisView);
             Fakturadodelementy stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
-            MailOther.faktura(wybrane, wpisView, fakturaDAO, wiadomoscdodatkowa, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getWprowadzil()), sMTPSettingsDAO.findSprawaByDef());
+            MailOther.faktura(wybrane, wpisView, fakturaDAO, wiadomoscdodatkowa, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getUzer()), sMTPSettingsDAO.findSprawaByDef());
         } catch (Exception e) { E.e(e); 
             Msg.msg("e","Błąd podczas wysyłki faktury "+e.getMessage());
         }

@@ -11,12 +11,10 @@ import dao.RejestrlogowanDAO;
 import dao.SMTPSettingsDAO;
 import dao.SesjaDAO;
 import dao.UzDAO;
-import dao.WpisDAO;
 import entity.Podatnik;
 import entity.SMTPSettings;
 import entity.Sesja;
 import entity.Uz;
-import entity.Wpis;
 import error.E;
 import java.io.Serializable;
 import java.security.Principal;
@@ -54,8 +52,6 @@ public class Logowanie implements Serializable {
     private Sesja sesja;
     @Inject
     private SesjaDAO sesjaDAO;
-    @Inject
-    private WpisDAO wpisDAO;
     @Inject
     private RejestrlogowanDAO rejestrlogowanDAO;
     @Inject
@@ -142,14 +138,9 @@ public class Logowanie implements Serializable {
                 } else if (request.isUserInRole("Noobie")) {
                     navto = "Noobie";
                 }
-
-                Wpis wpisX = wpisDAO.find(uzytkownik);
-                try {
-                    wpisX.setBiezacasesja(dodajInfoDoSesji());
-                    wpisDAO.edit(wpisX);
-                } catch (Exception e) {
-                    //to kiedys trzeba usunac :)
-                }
+                Uz uz = uzDAO.findUzByLogin(uzytkownik);
+                uz.setBiezacasesja(dodajInfoDoSesji());
+                uzDAO.edit(uz);
                 if (liczniklogowan < 5) {
                     Liczniklogowan.resetujLogowanie(ipusera, rejestrlogowanDAO);
                 }

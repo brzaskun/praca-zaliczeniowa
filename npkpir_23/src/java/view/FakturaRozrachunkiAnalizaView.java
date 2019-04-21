@@ -345,7 +345,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         f.setRok(wpisView.getRokNastepnySt());
         f.setMc("01");
         f.setWystawca(wpisView.getPodatnikObiekt());
-        f.setWprowadzil(wpisView.getWprowadzil());
+        f.setWprowadzil(wpisView.getUzer());
         f.setZaplata0korekta1(true);
         f.setRodzajdokumentu("ka");
         String nr = "bo/"+wpisView.getPodatnikWpisu().substring(0,1)+"/"+wpisView.getMiesiacWpisu();
@@ -371,7 +371,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         f.setRok(wpisView.getRokWpisuSt());
         f.setMc(wpisView.getMiesiacWpisu());
         f.setWystawca(wpisView.getPodatnikObiekt());
-        f.setWprowadzil(wpisView.getWprowadzil());
+        f.setWprowadzil(wpisView.getUzer());
         f.setZaplata0korekta1(true);
         f.setRodzajdokumentu("ka");
         String nr = "ka/"+wpisView.getPodatnikWpisu().substring(0,1)+"/"+wpisView.getMiesiacWpisu();
@@ -401,7 +401,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 obetnijliste(p);
                 PdfFaktRozrach.drukujKlienciSilent(szukanyklient, nowepozycje, archiwum, wpisView);
                 Fakturadodelementy stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
-                MailFaktRozrach.rozrachunek(szukanyklient, wpisView, fakturaDAO, saldo, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getWprowadzil()), sMTPSettingsDAO.findSprawaByDef());
+                MailFaktRozrach.rozrachunek(szukanyklient, wpisView, fakturaDAO, saldo, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getUzer()), sMTPSettingsDAO.findSprawaByDef());
                 if (r != null) {
                     r.setDataupomnienia(new Date());
                     p.setDataupomnienia(new Date());

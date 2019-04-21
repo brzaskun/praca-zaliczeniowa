@@ -62,7 +62,7 @@ public class SprawaView  implements Serializable{
     
     @PostConstruct
     private void init() {
-        Uz login = wpisView.getWprowadzil().getLoginglowny() != null ? wpisView.getWprowadzil().getLoginglowny() : wpisView.getWprowadzil();
+        Uz login = wpisView.getUzer().getLoginglowny() != null ? wpisView.getUzer().getLoginglowny() : wpisView.getUzer();
         sprawyOdebrane = sprawaDAO.findSprawaByOdbiorca(login);
         for (Iterator<Sprawa> it = sprawyOdebrane.iterator();it.hasNext();) {
             Sprawa p = it.next();
@@ -93,7 +93,7 @@ public class SprawaView  implements Serializable{
     
     public void dodaj() {
         try {
-            Uz login = wpisView.getWprowadzil().getLoginglowny() != null ? wpisView.getWprowadzil().getLoginglowny() : wpisView.getWprowadzil();
+            Uz login = wpisView.getUzer().getLoginglowny() != null ? wpisView.getUzer().getLoginglowny() : wpisView.getUzer();
             nowa.setDatasporzadzenia(new Date());
             nowa.setNadawca(login);
             nowa.setStatus("wysłana");

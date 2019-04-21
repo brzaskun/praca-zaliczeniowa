@@ -45,7 +45,7 @@ public class PdfVAT27dekl {
         if (file.isFile()) {
             file.delete();
         }
-        Uz uz = wpisView.getWprowadzil();
+        Uz uz = wpisView.getUzer();
         Document document = PdfMain.inicjacjaA4Portrait();
         try {
             PdfWriter writer = inicjacjaWritera(document, nazwa);

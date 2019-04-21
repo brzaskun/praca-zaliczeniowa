@@ -25,7 +25,6 @@ import dao.RodzajedokDAO;
 import dao.SrodkikstDAO;
 import dao.StornoDokDAO;
 import dao.UzDAO;
-import dao.WpisDAO;
 import daoFK.CechazapisuDAOfk;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
@@ -111,15 +110,9 @@ public class DokView implements Serializable {
     @Inject
     private OstatnidokumentDAO ostatnidokumentDAO;
     @Inject
-    private WpisDAO wpisDAO;
-    @Inject
     private DokDAO dokDAO;
     @Inject
-    private EvewidencjaDAO evewidencjaDAO;
-    @Inject
     private KlienciDAO klDAO;
-    @Inject
-    private UzDAO uzDAO;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
     @Inject
@@ -182,8 +175,6 @@ public class DokView implements Serializable {
     private boolean ukryjEwiencjeVAT;//ukrywa ewidencje VAT
     @Inject
     private Evewidencja nazwaEwidencjiwPoprzednimDok;
-    @Inject
-    private PodatnikOpodatkowanieDDAO podatnikOpodatkowanieDDAO;
     @Inject
     private CechazapisuDAOfk cechazapisuDAOfk;
     private String symbolwalutydowiersza;
@@ -277,7 +268,7 @@ public class DokView implements Serializable {
         //pobranie ostatniego dokumentu
         try {
             //czasami dokument ostatni jest zle zapisany, w przypadku bleduy nalezy go usunac
-            wysDokument = ostatnidokumentDAO.pobierz(wpisView.getWprowadzil().getLogin());
+            wysDokument = ostatnidokumentDAO.pobierz(wpisView.getUzer().getLogin());
             if (wysDokument.getEwidencjaVAT1() != null && !wysDokument.getEwidencjaVAT1().isEmpty()) {
                 Iterator it = wysDokument.getEwidencjaVAT1().iterator();
                 while (it.hasNext()) {
@@ -313,8 +304,7 @@ public class DokView implements Serializable {
         } catch (Exception e) {
             E.e(e);
         }
-        Klienci klient = klDAO.findKlientByNip(podX.getNip());
-        selDokument.setKontr1(klient);
+        selDokument.setKontr1(biezacyklientdodok);
         podepnijEwidencjeVat();
         domyslatabela = DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selDokument);
         selDokument.setTabelanbp(domyslatabela);
@@ -371,7 +361,7 @@ public class DokView implements Serializable {
     //edytuje ostatni dokument celem wykorzystania przy wpisie
     public void edytujdokument() {
         try {
-            selDokument = ostatnidokumentDAO.pobierz(wpisView.getWprowadzil().getLogin());
+            selDokument = ostatnidokumentDAO.pobierz(wpisView.getUzer().getLogin());
             typdokumentu = selDokument.getRodzajedok().getSkrot();
             dokDAO.destroy(selDokument);
         } catch (Exception e) {
@@ -466,43 +456,24 @@ public class DokView implements Serializable {
                         String ne = nazwaEwidencjiwPoprzednimDok.getNazwa();
                         switch (ne) {
                             case "sprzedaż 23%":
-                                ewidencjaAddwiad.get(0).setNetto(sumanetto);
-                                ewidencjaAddwiad.get(0).setVat(Z.z(ewidencjaAddwiad.get(0).getNetto() * 0.23));
-                                ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + ewidencjaAddwiad.get(0).getVat());
-                                sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
+                                sumbrutto = naniesdanedoewidencji(ewidencjaAddwiad, 0, sumanetto, 0.23);
                                 break;
                             case "sprzedaż 8%":
-                                ewidencjaAddwiad.get(0).setNetto(0.0);
-                                ewidencjaAddwiad.get(1).setNetto(sumanetto);
-                                ewidencjaAddwiad.get(1).setVat(Z.z(ewidencjaAddwiad.get(1).getNetto() * 0.08));
-                                ewidencjaAddwiad.get(1).setBrutto(ewidencjaAddwiad.get(1).getNetto() + ewidencjaAddwiad.get(1).getVat());
-                                sumbrutto = ewidencjaAddwiad.get(1).getBrutto();
+                                sumbrutto = naniesdanedoewidencji(ewidencjaAddwiad, 1, sumanetto, 0.08);
                                 break;
                             case "sprzedaż 5%":
-                                ewidencjaAddwiad.get(0).setNetto(0.0);
-                                ewidencjaAddwiad.get(2).setNetto(sumanetto);
-                                ewidencjaAddwiad.get(2).setVat(Z.z(ewidencjaAddwiad.get(2).getNetto() * 0.05));
-                                ewidencjaAddwiad.get(2).setBrutto(ewidencjaAddwiad.get(2).getNetto() + ewidencjaAddwiad.get(2).getVat());
-                                sumbrutto = ewidencjaAddwiad.get(2).getBrutto();
+                                sumbrutto = naniesdanedoewidencji(ewidencjaAddwiad, 2, sumanetto, 0.05);
                                 break;
                             case "sprzedaż 0%":
-                                ewidencjaAddwiad.get(0).setNetto(0.0);
-                                ewidencjaAddwiad.get(3).setNetto(sumanetto);
-                                ewidencjaAddwiad.get(3).setVat(0.0);
-                                sumbrutto = ewidencjaAddwiad.get(3).getBrutto();
+                                sumbrutto = naniesdanedoewidencji(ewidencjaAddwiad, 3, sumanetto, 0.0);
                                 break;
                             case "sprzedaż zw":
-                                ewidencjaAddwiad.get(0).setNetto(0.0);
-                                ewidencjaAddwiad.get(4).setNetto(sumanetto);
-                                ewidencjaAddwiad.get(4).setVat(0.0);
-                                sumbrutto = ewidencjaAddwiad.get(4).getBrutto();
+                                sumbrutto = naniesdanedoewidencji(ewidencjaAddwiad, 4, sumanetto, 0.0);
                                 break;
                         }
                     } catch (Exception e) {
                         E.e(e);
-                        ewidencjaAddwiad.get(0).setVat(Z.z(ewidencjaAddwiad.get(0).getNetto() * 0.23));
-                        ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + ewidencjaAddwiad.get(0).getVat());
-                        sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
+                        sumbrutto = naniesdanedoewidencji(ewidencjaAddwiad, 0, sumanetto, 0.23);
                     }
                 } else {
                     if (stawkaVATwPoprzednimDok > 0.0 && selDokument.getRodzajedok().getSkrot().equals(typpoprzedniegodokumentu)) {
@@ -516,6 +487,16 @@ public class DokView implements Serializable {
                 nazwaEwidencjiwPoprzednimDok = new Evewidencja();
             }
         }
+    }
+    
+    
+    private double naniesdanedoewidencji(List<EwidencjaAddwiad> e, int rzad, double netto, double procent) {
+        e.get(0).setNetto(0.0);
+        e.get(rzad).setNetto(netto);
+        e.get(rzad).setVat(Z.z(netto * procent));
+        double zwrot = Z.z(netto + e.get(rzad).getVat());
+        e.get(rzad).setBrutto(zwrot);
+        return zwrot;
     }
 
     private double sumujnetto() {
@@ -706,7 +687,7 @@ public class DokView implements Serializable {
         } catch (Exception e) {
             E.e(e);
         }
-        selDokument.setWprowadzil(wpisView.getWprowadzil().getLogin());
+        selDokument.setWprowadzil(wpisView.getUzer().getLogin());
         selDokument.setPkpirM(wpisView.getMiesiacWpisu());
         selDokument.setPkpirR(wpisView.getRokWpisu().toString());
         selDokument.setPodatnik(wpisView.getPodatnikObiekt());
@@ -806,7 +787,7 @@ public class DokView implements Serializable {
                 dokDAO.dodaj(selDokument);
                 //wpisywanie do bazy ostatniego dokumentu
                 Ostatnidokument temp = new Ostatnidokument();
-                temp.setUzytkownik(wpisView.getWprowadzil().getLogin());
+                temp.setUzytkownik(wpisView.getUzer().getLogin());
                 temp.setDokument(selDokument);
                 ostatnidokumentDAO.edit(temp);
                 pobranecechypodatnik = cechazapisuDAOfk.findPodatnikOnly(wpisView.getPodatnikObiekt());
@@ -1323,7 +1304,7 @@ public class DokView implements Serializable {
     //kopiuje ostatni dokument celem wykorzystania przy wpisie
     public void skopiujdokument() {
         try {
-            selDokument = ostatnidokumentDAO.pobierz(wpisView.getWprowadzil().getLogin());
+            selDokument = ostatnidokumentDAO.pobierz(wpisView.getUzer().getLogin());
             liczbawierszy = selDokument.getListakwot1().size();
             Rodzajedok rodzajdok = selDokument.getRodzajedok();
             typdokumentu = rodzajdok.getSkrot();

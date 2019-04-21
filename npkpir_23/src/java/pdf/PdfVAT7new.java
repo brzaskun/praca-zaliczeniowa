@@ -63,7 +63,7 @@ public class PdfVAT7new {
         if (file.isFile()) {
             file.delete();
         }
-        Uz uz = wpisView.getWprowadzil();
+        Uz uz = wpisView.getUzer();
         Document document = PdfMain.inicjacjaA4Portrait();
         PdfWriter writer = inicjacjaWritera(document, nazwa);
         naglowekStopkaP(writer);
