@@ -27,7 +27,6 @@ import javax.xml.bind.Unmarshaller;
 import jpk.initupload.PrzygotujInitUploadXML;
 import static jpkview.UnzipUtility.unzip;
 import view.WpisView;
-
 /**
  *
  * @author Osito

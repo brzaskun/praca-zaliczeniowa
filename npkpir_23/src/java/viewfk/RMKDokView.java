@@ -13,7 +13,6 @@ import embeddable.Mce;
 import embeddablefk.SaldoKonto;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,8 +21,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import org.primefaces.context.RequestContext;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -47,7 +45,7 @@ public class RMKDokView implements Serializable {
          //E.m(this);
        List<Konto> kontaklienta = kontoDAOfk.findKontaRMK(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
        kontarmk = przygotowanalistasald(kontaklienta);
-       RequestContext.getCurrentInstance().update("formrmk");
+       PrimeFaces.current().ajax().update("formrmk");
     }
     
     

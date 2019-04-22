@@ -29,7 +29,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.primefaces.context.RequestContext;
 import pdffk.PdfMain;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
@@ -39,7 +38,7 @@ import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
 import testobjects.testobjects;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -81,7 +80,7 @@ public class PdfVAT7new {
         uzupelnijDlaVAT7(document, d, wpisView);
         finalizacjaDokumentuQR(document,nazwa);
         String f = "pokazwydruk('"+nazwa+"');";
-        RequestContext.getCurrentInstance().execute(f);
+        PrimeFaces.current().executeScript(f);
     }
 
     private static void uzupelnijDlaVAT7(Document document, Deklaracjevat d, WpisView wpisView) {

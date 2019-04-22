@@ -12,7 +12,6 @@ import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.StrataDAO;
-
 import dao.ZobowiazanieDAO;
 import daoFK.WynikFKRokMcDAO;
 import embeddable.Kwartaly;
@@ -24,7 +23,6 @@ import entity.PodatnikUdzialy;
 import entity.Podstawki;
 import entity.Strata;
 import entity.StrataWykorzystanie;
-
 import entity.Zobowiazanie;
 import entity.Zusstawki;
 import entityfk.WynikFKRokMc;
@@ -32,7 +30,6 @@ import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,12 +40,9 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
+import msg.Msg; import org.primefaces.PrimeFaces;
 import pdf.PdfPIT5;
 import waluty.Z;
 
@@ -207,7 +201,7 @@ public class ZestawienieFKView implements Serializable {
                     wybranyudzialowiec = "wybierz osobe";
                     pierwszypitwroku = false;
                     pierwszypitwrokuzaznacz = false;
-                    RequestContext.getCurrentInstance().update("formpit:");
+                    PrimeFaces.current().ajax().update("formpit:");
                     return;
                 }
                 Podstawki skalaPodatkowaZaDanyRok;
@@ -465,7 +459,7 @@ public class ZestawienieFKView implements Serializable {
 
     public void aktualizujPIT(AjaxBehaviorEvent e) {
         wybranyudzialowiec = "wybierz osobe";
-        RequestContext.getCurrentInstance().update("formpit");
+        PrimeFaces.current().ajax().update("formpit");
         aktualizuj();
         Msg.msg("i", "Zmieniono miesiąc obrachunkowy.");
     }

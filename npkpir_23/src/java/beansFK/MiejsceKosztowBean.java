@@ -17,8 +17,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import javax.inject.Named;
-import view.WpisView;
-import viewfk.MiejsceKosztowView;
+import view.WpisView;import viewfk.MiejsceKosztowView;
 
 /**
  *

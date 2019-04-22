@@ -18,8 +18,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import org.primefaces.event.TransferEvent;
+import msg.Msg;import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 
 /**

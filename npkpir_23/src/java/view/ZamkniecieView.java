@@ -24,8 +24,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
+import msg.Msg; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -128,7 +127,7 @@ public class ZamkniecieView implements Serializable {
                     moznaksiegowac = p.isZamkniety();
                 }
             }
-        RequestContext.getCurrentInstance().update("form:dataTable");
+        PrimeFaces.current().ajax().update("form:dataTable");
     }
     
      public void zapisokresyedit(AjaxBehaviorEvent e){
@@ -145,7 +144,7 @@ public class ZamkniecieView implements Serializable {
             for(Okresrozliczeniowy p : mapaokresowPobrane){
                 p.setEdytuj(false);
             }
-            //RequestContext.getCurrentInstance().update(e.getSource().toString());
+            //PrimeFaces.current().ajax().update(e.getSource().toString());
         } else {
             zDAO.edit(zamknietemiesiace);
             Msg.msg("i", "Edycja miesiąca", "form:messages");

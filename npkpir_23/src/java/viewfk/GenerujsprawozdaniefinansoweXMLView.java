@@ -23,20 +23,18 @@ import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import pdffk.PdfZaksiegowaneView;
+import msg.Msg;import pdffk.PdfZaksiegowaneView;
 import sprawozdania.rok2018.JednostkaInna;
 import sprawozdania.rok2018.JednostkaOp;
 import sprawozdania.rok2018.SprawozdanieFin2018Bean;
-import sprawozdania.rok2018.SprawozdanieFinOP2018Bean;
 import sprawozdania.rok2018.SprawozdanieFin2018BilansBean;
-import sprawozdania.rok2018.SprawozdanieFinOP2018BilansBean;
 import sprawozdania.rok2018.SprawozdanieFin2018DodInfoBean;
 import sprawozdania.rok2018.SprawozdanieFin2018RZiSBean;
+import sprawozdania.rok2018.SprawozdanieFinOP2018Bean;
+import sprawozdania.rok2018.SprawozdanieFinOP2018BilansBean;
 import sprawozdania.rok2018.SprawozdanieFinOP2018DodInfoBean;
 import sprawozdania.rok2018.SprawozdanieFinOP2018RZiSBean;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -148,7 +146,7 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
             sprawozdanie.setDodatkoweInformacjeIObjasnieniaJednstkaInna(SprawozdanieFin2018DodInfoBean.generuj(sprFinKwotyInfDod));
             String sciezka = marszajuldoplikuxml(wpisView.getPodatnikObiekt().getNip(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt(), sprawozdanie);
             String polecenie = "wydrukXML(\""+sciezka+"\")";
-            RequestContext.getCurrentInstance().execute(polecenie);
+            PrimeFaces.current().executeScript(polecenie);
             Msg.msg("Wygenerowano sprawozdanie finansowe");
             //System.out.println("Wygenerowano sprawozdanie finansowe");
         } catch (Exception e) {
@@ -168,7 +166,7 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
             sprawozdanie.setDodatkoweInformacjeIObjasnieniaJednostkaInna(SprawozdanieFinOP2018DodInfoBean.generuj(sprFinKwotyInfDod));
             String sciezka = marszajuldoplikuxml(wpisView.getPodatnikObiekt().getNip(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt(), sprawozdanie);
             String polecenie = "wydrukXML(\""+sciezka+"\")";
-            RequestContext.getCurrentInstance().execute(polecenie);
+            PrimeFaces.current().executeScript(polecenie);
             Msg.msg("Wygenerowano sprawozdanie finansowe");
             //System.out.println("Wygenerowano sprawozdanie finansowe");
         } catch (Exception e) {

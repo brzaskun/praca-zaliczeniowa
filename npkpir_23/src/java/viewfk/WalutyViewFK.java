@@ -13,7 +13,6 @@ import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import entityfk.Wiersz;
 import error.E;
-import java.io.IOException;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -27,12 +26,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import javax.xml.parsers.ParserConfigurationException;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import org.primefaces.event.RowEditEvent;
-import org.xml.sax.SAXException;
-import view.WpisView;
+import msg.Msg;import org.primefaces.event.RowEditEvent;
+import view.WpisView; import org.primefaces.PrimeFaces;
 import waluty.WalutyNBP;
 import waluty.Z;
 
@@ -228,9 +223,9 @@ public class WalutyViewFK implements Serializable {
             kurswprowadzonyrecznie = new Tabelanbp();
             kurswprowadzonyrecznie.setNrtabeli(generujNumerTabeli(tabelanbp.getNrtabeli().split("/")[2], wprowadzonekursyRok));
             Msg.msg("Dodałem tabelę NBP");
-            RequestContext.getCurrentInstance().update(":formkursrecznie :formwpisdokument:panelTabelaNBP :wprowadzonekursyrecznie");
-            RequestContext.getCurrentInstance().execute("PF('dialogkursrecznie').hide()");
-            RequestContext.getCurrentInstance().execute("powrotpozmianietabeli()");
+            PrimeFaces.current().ajax().update(":formkursrecznie :formwpisdokument:panelTabelaNBP :wprowadzonekursyrecznie");
+            PrimeFaces.current().executeScript("PF('dialogkursrecznie').hide()");
+            PrimeFaces.current().executeScript("powrotpozmianietabeli()");
         } catch (Exception e) {  
             E.e(e);
             List<Tabelanbp> kursypokrewne = Collections.synchronizedList(new ArrayList<>());
@@ -255,7 +250,7 @@ public class WalutyViewFK implements Serializable {
                 numerstring = String.valueOf(max);
             }
             Msg.msg("e","Ostatni numer zapisany w bazie to "+numerstring+". Nie można wprowadzić kursu.");
-            RequestContext.getCurrentInstance().execute("r('formkursrecznie:dataKursReczny:0:numertabeli').focus();");
+            PrimeFaces.current().executeScript("r('formkursrecznie:dataKursReczny:0:numertabeli').focus();");
         }
     }
     

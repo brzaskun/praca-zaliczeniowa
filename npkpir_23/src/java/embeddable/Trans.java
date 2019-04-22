@@ -14,7 +14,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import view.WpisView;
-
 /**
  *
  * @author Osito

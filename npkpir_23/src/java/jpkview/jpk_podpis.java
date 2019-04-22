@@ -6,7 +6,6 @@
 package jpkview;
 
 import beansPodpis.*;
-import static beansPodpis.Xad.inneHaslo;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;

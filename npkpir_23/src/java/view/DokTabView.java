@@ -15,7 +15,6 @@ import dao.PodatnikDAO;
 import dao.STRDAO;
 import dao.StornoDokDAO;
 import dao.UzDAO;
-
 import entity.Amodok;
 import entity.Dok;
 import entity.EVatwpis1;
@@ -24,7 +23,6 @@ import entity.Podatnik;
 import entity.Rodzajedok;
 import entity.StornoDok;
 import entity.Uz;
-
 import entityfk.Cechazapisu;
 import error.E;
 import java.io.IOException;
@@ -46,10 +44,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import pdf.PDFDirectPrint;
+import msg.Msg; import org.primefaces.PrimeFaces;
 import pdf.PdfDok;
 import pdf.PdfPK;
 
@@ -393,7 +388,7 @@ public class DokTabView implements Serializable {
             }
         }
         String p = "form:dokumentyLista:"+rowek+":polespr";
-        RequestContext.getCurrentInstance().update(p);
+        PrimeFaces.current().ajax().update(p);
         dokDAO.edit(w);
     }
     
@@ -410,7 +405,7 @@ public class DokTabView implements Serializable {
              }
              dokDAO.edit(p);
          }
-         RequestContext.getCurrentInstance().update("form:dokumentyLista");
+         PrimeFaces.current().ajax().update("form:dokumentyLista");
       }
       //sprawdzic
        private void usunDokInwestycje(Dok dok) {

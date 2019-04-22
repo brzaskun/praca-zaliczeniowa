@@ -18,7 +18,6 @@ import embeddablefk.SaldoKonto;
 import embeddablefk.Sprawozdanie_0;
 import entityfk.Cechazapisu;
 import entityfk.Konto;
-import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
 import entityfk.Waluty;
 import error.E;
@@ -33,12 +32,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import pdf.PdfKonta;
+import msg.Msg;import pdf.PdfKonta;
 import pdf.PdfKontaPorownanie;
 import sortfunction.KontoSortBean;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 import waluty.Z;
 
 /**
@@ -147,7 +144,7 @@ public class SaldoAnalitykaView implements Serializable {
                 }
             }
         } else {
-            RequestContext.getCurrentInstance().execute("PF('tablicasaldaanalityczne').clearFilters();PF('tablicasaldaanalityczne').unselectAllRows();");
+            PrimeFaces.current().executeScript("PF('tablicasaldaanalityczne').clearFilters();PF('tablicasaldaanalityczne').unselectAllRows();");
             init();
         }
     }
@@ -354,7 +351,7 @@ public class SaldoAnalitykaView implements Serializable {
         } else {
             sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(listaSaldoKonto));
         }
-        RequestContext.getCurrentInstance().update("tabelazsumamianalityka:sumy");
+        PrimeFaces.current().ajax().update("tabelazsumamianalityka:sumy");
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">

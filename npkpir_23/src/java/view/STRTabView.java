@@ -9,7 +9,6 @@ import com.itextpdf.text.DocumentException;
 import comparator.SrodekTrwNowaWartoscComparator;
 import comparator.SrodekTrwcomparator;
 import dao.STRDAO;
-import dao.SrodkikstDAO;
 import data.Data;
 import entity.SrodekTrw;
 import entity.SrodekTrw_NowaWartosc;
@@ -31,8 +30,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
+import msg.Msg; import org.primefaces.PrimeFaces;
 import pdf.PdfSTRtabela;
 import pdf.PdfSrodekTrwKarta;
 import waluty.Z;
@@ -200,7 +198,7 @@ public class STRTabView implements Serializable {
             /**
              * to co bylo w amodok
              */
-            //RequestContext.getCurrentInstance().update("formSTR");
+            //PrimeFaces.current().ajax().update("formSTR");
         } catch (Exception e) {
             E.e(e);
         }
@@ -615,7 +613,7 @@ public class STRTabView implements Serializable {
             selectedSTR.setKst(srodekkategoria.getSymbol());
             selectedSTR.setUmorzeniepoczatkowe(0.0);
             selectedSTR.setStawka(Double.parseDouble(srodekkategoria.getStawka()));
-            RequestContext.getCurrentInstance().update("formdialogsrodki:tabelasrodkitrwaleOT");
+            PrimeFaces.current().ajax().update("formdialogsrodki:tabelasrodkitrwaleOT");
         } catch (Exception e) {
             E.e(e); 
         }
@@ -654,7 +652,7 @@ public class STRTabView implements Serializable {
             dodawanysrodektrwaly.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(dodawanysrodektrwaly));
             dodawanysrodektrwaly.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(dodawanysrodektrwaly, wpisView));
             sTRDAO.dodaj(dodawanysrodektrwaly);
-//            RequestContext.getCurrentInstance().update("srodki:panelekXA");
+//            PrimeFaces.current().ajax().update("srodki:panelekXA");
             Msg.msg("i", "Środek trwały "+dodawanysrodektrwaly.getNazwa()+" dodany", "formSTR:messages");
         } catch (Exception e) { 
             E.e(e); 

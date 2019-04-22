@@ -8,13 +8,11 @@ package beansFK;
 
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
 import embeddablefk.SaldoKonto;
 import entity.Podatnik;
 import entity.Rodzajedok;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
-import entityfk.UkladBR;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,8 +22,7 @@ import java.util.concurrent.atomic.DoubleAccumulator;
 import javax.inject.Named;
 import javax.persistence.PersistenceException;
 import msg.Msg;
-import view.WpisView;
-import waluty.Z;
+import view.WpisView;import waluty.Z;
 
 /**
  *

@@ -8,7 +8,7 @@
     <p:tab title="Edycja danych podatnika">
         <h:form id="form">
             <p:outputPanel id="wrapper" rendered="#{podatnikView.selected.firmafk == 0 or podatnikView.selected.firmafk == 3}">
-                <p:growl life="3600"  id="msg" autoUpdate="true"/>
+                <p:growl life="3600"  id="msg" ><p:autoUpdate/></p:growl>
                 
                 <p:focus for="wprowadzaniepodatnika"/>
                 <p:panelGrid id="wprowadzaniepodatnika" columns="4">
@@ -133,7 +133,7 @@
         </h:form>
         <h:form id="formwprowadzaniefirmy">
             <p:outputPanel id="wrapper" rendered="#{podatnikView.selected.firmafk == 1}" style="height: 600px;">
-                <p:growl life="3600"  id="msg" autoUpdate="true"/>
+                <p:growl life="3600"  id="msg" ><p:autoUpdate/></p:growl>
             <!--        wpisywanie firmy-->
                 
                 <p:panel id="panelwpisywanianowejfirmy" header="Edycja danych firmy w programie" style="width: 1150px;">

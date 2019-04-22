@@ -49,9 +49,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
-import msg.Msg;
+import msg.Msg; import org.primefaces.PrimeFaces;
 import org.joda.time.DateTime;
-import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -172,7 +171,7 @@ public class Vat7DKView implements Serializable {
 //                        pobierz47zpoprzedniej(deklaracjawyslana);
 //                    }
 //                } else {
-//                    RequestContext.getCurrentInstance().execute("varzmienkolorpola47deklvat();");
+//                    PrimeFaces.current().executeScript("varzmienkolorpola47deklvat();");
 //                    Msg.msg("i", "Pobrałem kwotę do przeniesienia wpisaną ręcznie");
 //                }
 //            } catch (Exception e) {
@@ -200,7 +199,7 @@ public class Vat7DKView implements Serializable {
 //                Msg.msg("i", podatnik + " - zachowano nową deklaracje VAT za " + rok + "-" + mc,"form:messages");
 //            }
 //            //pobieranie potwierdzenia
-//            RequestContext.getCurrentInstance().update("vat7:");
+//            PrimeFaces.current().ajax().update("vat7:");
 //            zachowaj = false;
 //        }
 //    }
@@ -539,7 +538,7 @@ public class Vat7DKView implements Serializable {
     }
 
     public void odswiezprzycisk(ValueChangeEvent e) {
-        RequestContext.getCurrentInstance().update("form:przyciskivat");
+        PrimeFaces.current().ajax().update("form:przyciskivat");
     }
 
     private String sprawdzjakiokresvat() {

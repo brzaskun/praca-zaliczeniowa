@@ -8,7 +8,6 @@ package viewfk;
 import comparator.Kontocomparator;
 import daoFK.KontoDAOfk;
 import entityfk.Konto;
-import error.E;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
@@ -19,7 +18,6 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import pdffk.PdfPlanKont;
 import view.WpisView;
-
 /**
  *
  * @author Osito

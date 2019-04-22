@@ -30,10 +30,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import msg.B;
-import msg.Msg;
-import plik.Plik;
-import view.WpisView;
-import viewfk.SymulacjaWynikuView;
+import msg.Msg;import plik.Plik;
+import view.WpisView;import viewfk.SymulacjaWynikuView;
 
 /**
  *

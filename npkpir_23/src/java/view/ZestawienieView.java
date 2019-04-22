@@ -13,7 +13,6 @@ import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.StrataDAO;
-
 import dao.ZobowiazanieDAO;
 import embeddable.Kwartaly;
 import embeddable.Mce;
@@ -26,7 +25,6 @@ import entity.PodatnikUdzialy;
 import entity.Podstawki;
 import entity.Strata;
 import entity.StrataWykorzystanie;
-
 import entity.Zobowiazanie;
 import entity.Zusstawki;
 import error.E;
@@ -45,12 +43,9 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
+import msg.Msg; import org.primefaces.PrimeFaces;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.CategoryAxis;
@@ -953,7 +948,7 @@ public class ZestawienieView implements Serializable {
                     wybranyudzialowiec = "wybierz osobe";
                     pierwszypitwroku = false;
                     pierwszypitwrokuzaznacz = false;
-                    RequestContext.getCurrentInstance().update("formpit:");
+                    PrimeFaces.current().ajax().update("formpit:");
                     return;
                 }
                 Podstawki skalaPodatkowaZaDanyRok;
@@ -1231,7 +1226,7 @@ public class ZestawienieView implements Serializable {
 
     public void aktualizujPIT(AjaxBehaviorEvent e) {
         wybranyudzialowiec = "wybierz osobe";
-        RequestContext.getCurrentInstance().update("formpit");
+        PrimeFaces.current().ajax().update("formpit");
         aktualizuj();
         Msg.msg("i", "Zmieniono miesiąc obrachunkowy.");
     }

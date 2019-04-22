@@ -36,7 +36,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
-
 @ManagedBean
 @ViewScoped
 public class AmodokView implements Serializable {

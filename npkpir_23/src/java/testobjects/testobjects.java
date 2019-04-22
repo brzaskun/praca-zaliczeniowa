@@ -41,8 +41,7 @@ import java.util.List;
 import javax.inject.Named;
 import msg.B;
 import vies.Vies;
-import view.WpisView;
-import viewfk.CechyzapisuPrzegladView.CechaStronaWiersza;
+import view.WpisView;import viewfk.CechyzapisuPrzegladView.CechaStronaWiersza;
 import viewfk.StowRozrachCzlonkView;
 import viewfk.StowRozrachCzlonkZbiorczeView;
 

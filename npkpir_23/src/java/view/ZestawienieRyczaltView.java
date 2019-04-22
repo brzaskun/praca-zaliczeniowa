@@ -10,7 +10,6 @@ import dao.PodatnikDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.RyczDAO;
 import dao.StrataDAO;
-
 import dao.ZobowiazanieDAO;
 import embeddable.Mce;
 import embeddable.RyczaltPodatek;
@@ -23,7 +22,6 @@ import entity.PodatnikUdzialy;
 import entity.Ryczpoz;
 import entity.Strata;
 import entity.StrataWykorzystanie;
-
 import entity.Zobowiazanie;
 import entity.Zusstawki;
 import error.E;
@@ -46,9 +44,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
+import msg.Msg; import org.primefaces.PrimeFaces;
 import pdf.PdfPIT28;
 import pdf.PdfZestRok;
 import waluty.Z;
@@ -636,7 +632,7 @@ public class ZestawienieRyczaltView implements Serializable {
      
       public void aktualizujPIT(AjaxBehaviorEvent e) {
         aktualizuj();
-        RequestContext.getCurrentInstance().update("formpit1");
+        PrimeFaces.current().ajax().update("formpit1");
         wybranyudzialowiec = "wybierz osobe";
         Msg.msg("i", "Zmieniono miesiąc obrachunkowy.");
     }

@@ -34,7 +34,6 @@ import msg.Msg;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.TreeNode;
 import view.WpisView;
-
 /**
  *
  * @author Osito

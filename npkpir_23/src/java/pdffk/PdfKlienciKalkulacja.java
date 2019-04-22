@@ -12,7 +12,6 @@ import entity.Statystyka;
 import java.io.File;
 import java.util.List;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.dodajLinieOpisu;
 import static pdffk.PdfMain.dodajTabele;
 import static pdffk.PdfMain.finalizacjaDokumentuQR;
@@ -21,6 +20,7 @@ import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
 import plik.Plik;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -43,7 +43,7 @@ public class PdfKlienciKalkulacja {
             dodajTabele(document, testobjects.testobjects.getTabelaStatystyka(wykaz),95,0);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Błąd podczas wydruku");
         }

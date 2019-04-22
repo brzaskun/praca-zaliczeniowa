@@ -9,7 +9,6 @@ import embeddable.Parametr;
 import entity.Podatnik;
 import java.util.List;
 import view.WpisView;
-
 /**
  *
  * @author Osito

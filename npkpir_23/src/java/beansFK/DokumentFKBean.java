@@ -35,7 +35,6 @@ import java.util.Map;
 import javax.inject.Named;
 import msg.Msg;
 import view.WpisView;
-
 /**
  *
  * @author Osito

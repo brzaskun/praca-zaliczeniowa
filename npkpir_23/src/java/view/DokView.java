@@ -15,16 +15,13 @@ import beansSrodkiTrwale.SrodkiTrwBean;
 import comparator.Rodzajedokcomparator;
 import dao.AmoDokDAO;
 import dao.DokDAO;
-import dao.EvewidencjaDAO;
 import dao.InwestycjeDAO;
 import dao.KlienciDAO;
 import dao.OstatnidokumentDAO;
 import dao.PodatnikDAO;
-import dao.PodatnikOpodatkowanieDDAO;
 import dao.RodzajedokDAO;
 import dao.SrodkikstDAO;
 import dao.StornoDokDAO;
-import dao.UzDAO;
 import daoFK.CechazapisuDAOfk;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
@@ -78,9 +75,8 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import msg.Msg;
+import msg.Msg; import org.primefaces.PrimeFaces;
 import org.joda.time.DateTime;
-import org.primefaces.context.RequestContext;
 import params.Params;
 import waluty.Z;
 
@@ -216,7 +212,7 @@ public class DokView implements Serializable {
                     pobranecechypodatnik.remove(c);
                 }
             }
-            RequestContext.getCurrentInstance().update("formCH");
+            PrimeFaces.current().ajax().update("formCH");
         }
     }
 
@@ -308,7 +304,7 @@ public class DokView implements Serializable {
         podepnijEwidencjeVat();
         domyslatabela = DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selDokument);
         selDokument.setTabelanbp(domyslatabela);
-        RequestContext.getCurrentInstance().update("dodWiad");
+        PrimeFaces.current().ajax().update("dodWiad");
         //ukrocmiesiace();
 
     }
@@ -351,7 +347,7 @@ public class DokView implements Serializable {
                 if (!dodany.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
                     klDAO.dodaj(dodany);
                 }
-                RequestContext.getCurrentInstance().update("dodWiad:acForce");
+                PrimeFaces.current().ajax().update("dodWiad:acForce");
             }
         } catch (Exception e) {
             
@@ -367,7 +363,7 @@ public class DokView implements Serializable {
         } catch (Exception e) {
             E.e(e);
         }
-        RequestContext.getCurrentInstance().update("dodWiad:wprowadzanie");
+        PrimeFaces.current().ajax().update("dodWiad:wprowadzanie");
     }
 
        
@@ -380,10 +376,10 @@ public class DokView implements Serializable {
         }
         if (transakcjiRodzaj.equals("srodek trw sprzedaz")){
             setPokazEST(true);
-            RequestContext.getCurrentInstance().update("dodWiad:panelewidencji");
+            PrimeFaces.current().ajax().update("dodWiad:panelewidencji");
         } else {
             setPokazEST(false);
-            RequestContext.getCurrentInstance().update("dodWiad:panelewidencji");
+            PrimeFaces.current().ajax().update("dodWiad:panelewidencji");
         }
            
     }
@@ -524,13 +520,13 @@ public class DokView implements Serializable {
         e.setBrutto(e.getNetto() + e.getVat());
         sumbruttoAddwiad();
         String update = "dodWiad:tablicavat:" + lp + ":vat";
-        RequestContext.getCurrentInstance().update(update);
+        PrimeFaces.current().ajax().update(update);
         update = "dodWiad:tablicavat:" + lp + ":brutto";
-        RequestContext.getCurrentInstance().update(update);
+        PrimeFaces.current().ajax().update(update);
         update = "dodWiad:sumbrutto";
-        RequestContext.getCurrentInstance().update(update);
+        PrimeFaces.current().ajax().update(update);
         String activate = "document.getElementById('dodWiad:tablicavat:" + lp + ":vat_input').select();";
-        RequestContext.getCurrentInstance().execute(activate);
+        PrimeFaces.current().executeScript(activate);
         Msg.msg("Przeliczono vat");
     }
 
@@ -566,11 +562,11 @@ public class DokView implements Serializable {
                 e.setBrutto(0.0);
                 Msg.msg("e", "VAT jest za duży od wyliczonej kwoty");
                 String update = "dodWiad:tablicavat:" + lp + ":vat";
-                RequestContext.getCurrentInstance().update(update);
+                PrimeFaces.current().ajax().update(update);
                 update = "dodWiad:tablicavat:" + lp + ":brutto";
-                RequestContext.getCurrentInstance().update(update);
+                PrimeFaces.current().ajax().update(update);
                 update = "dodWiad:sumbrutto";
-                RequestContext.getCurrentInstance().update(update);
+                PrimeFaces.current().ajax().update(update);
             } else {
                 ewidencjaAddwiad.get(lp).setBrutto(e.getNetto() + e.getVat());
                 String skrotRT = (String) Params.params("dodWiad:rodzajTrans");
@@ -581,9 +577,9 @@ public class DokView implements Serializable {
                     sumbruttoAddwiad();
                 }
                 String update = "dodWiad:tablicavat:" + lp + ":brutto";
-                RequestContext.getCurrentInstance().update(update);
+                PrimeFaces.current().ajax().update(update);
                 update = "dodWiad:sumbrutto";
-                RequestContext.getCurrentInstance().update(update);
+                PrimeFaces.current().ajax().update(update);
                 Msg.msg("Przeliczono brutto");
             }
         } catch (Exception ex) {
@@ -610,7 +606,7 @@ public class DokView implements Serializable {
 //            Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
 //            selDokument.setKontr1(klient);
 //        }
-//        RequestContext.getCurrentInstance().update("dodWiad:acForce");
+//        PrimeFaces.current().ajax().update("dodWiad:acForce");
 //    }
 
     public void wygenerujnumerkolejnyonblur() {
@@ -619,7 +615,7 @@ public class DokView implements Serializable {
         }
         if (selDokument.getRodzajedok()!=null && selDokument.getRodzajedok().getSkrotNazwyDok().equals("IN")) {
             String f = "dodWiad:rowinwestycja";
-            RequestContext.getCurrentInstance().update(f);
+            PrimeFaces.current().ajax().update(f);
         }
     }
     
@@ -636,7 +632,7 @@ public class DokView implements Serializable {
         renderujwyszukiwarke(selDokument.getRodzajedok());
         renderujtabele(selDokument.getRodzajedok());
         selDokument.setNrWlDk(nowynumer);
-        RequestContext.getCurrentInstance().update("dodWiad:numerwlasny");
+        PrimeFaces.current().ajax().update("dodWiad:numerwlasny");
     }
 
     private void renderujwyszukiwarke(Rodzajedok rodzajdok) {
@@ -645,8 +641,8 @@ public class DokView implements Serializable {
         } else {
             setRenderujwysz(false);
         }
-        RequestContext.getCurrentInstance().update("dodWiad:panelwyszukiwarki");
-        RequestContext.getCurrentInstance().update("dodWiad:nowypanelsrodki");
+        PrimeFaces.current().ajax().update("dodWiad:panelwyszukiwarki");
+        PrimeFaces.current().ajax().update("dodWiad:nowypanelsrodki");
     }
 
     private void renderujtabele(Rodzajedok rodzajdok) {
@@ -656,7 +652,7 @@ public class DokView implements Serializable {
         } else {
             setPokazEST(false);
         }
-        RequestContext.getCurrentInstance().update("dodWiad:panelewidencji");
+        PrimeFaces.current().ajax().update("dodWiad:panelewidencji");
     }
 
     /**
@@ -804,7 +800,7 @@ public class DokView implements Serializable {
                 }
                 wysDokument = ostatnidokumentDAO.pobierz(selDokument.getWprowadzil());
                 liczbawierszy = 1;
-                RequestContext.getCurrentInstance().update("zobWiad:ostatniUzytkownik");
+                PrimeFaces.current().ajax().update("zobWiad:ostatniUzytkownik");
                 Msg.msg("i", "Nowy dokument zachowany" + selDokument.toString2());
                 /**
                  * resetowanie pola do wpisywania kwoty netto
@@ -833,7 +829,7 @@ public class DokView implements Serializable {
                     selDokument.setDokumentProsty(true);
                     ewidencjaAddwiad.clear();
                     ukryjEwiencjeVAT = true;
-                    RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
+                    PrimeFaces.current().ajax().update("dodWiad:tablicavat");
                 } else {
                     podepnijEwidencjeVat();
                 }
@@ -856,7 +852,7 @@ public class DokView implements Serializable {
             } else {
                 selectedSTR = new SrodekTrw();
                 ewidencjaAddwiad.clear();
-                RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
+                PrimeFaces.current().ajax().update("dodWiad:tablicavat");
                 setRenderujwysz(false);
                 setPokazEST(false);
             }
@@ -1149,7 +1145,7 @@ public class DokView implements Serializable {
             if (selD instanceof Dok) {
                 String wiadomosc = "Dokument typu " + selD.getRodzajedok().getSkrot() + " dla tego klienta, o numerze " + selD.getNrWlDk() + " i kwocie netto " + selD.getNetto() + " jest juz zaksiegowany u podatnika: " + selD.getPodatnik() + " w miesiącu " + selD.getPkpirM();
                 Msg.msg("e", wiadomosc);
-                RequestContext.getCurrentInstance().execute("$('#dodWiad\\\\:numerwlasny').select();");
+                PrimeFaces.current().executeScript("$('#dodWiad\\\\:numerwlasny').select();");
             } else {
             }
         } catch (Exception e) {
@@ -1169,10 +1165,10 @@ public class DokView implements Serializable {
 //        AutoComplete anAutoComplete = (AutoComplete) e.getComponent();
 //        przekazKontr = (Klienci) anAutoComplete.getValue();
 //        selDokument.setKontr(przekazKontr);
-//        RequestContext.getCurrentInstance().update("dodWiad:acForce");
+//        PrimeFaces.current().ajax().update("dodWiad:acForce");
 //        if (podX.getPodatekdochodowy().get(podX.getPodatekdochodowy().size() - 1).getParametr().contains("VAT")) {
 //            selDokument.setDokumentProsty(true);
-//            RequestContext.getCurrentInstance().update("dodWiad:dokumentprosty");
+//            PrimeFaces.current().ajax().update("dodWiad:dokumentprosty");
 //        }
 //    }
     public void zmienokresVAT() {
@@ -1191,8 +1187,8 @@ public class DokView implements Serializable {
             }
             selDokument.setVatR(rok);
             selDokument.setVatM(mc);
-            RequestContext.getCurrentInstance().update("dodWiad:vatm");
-            RequestContext.getCurrentInstance().update("dodWiad:rokm");
+            PrimeFaces.current().ajax().update("dodWiad:vatm");
+            PrimeFaces.current().ajax().update("dodWiad:rokm");
         }
     }
 
@@ -1200,7 +1196,7 @@ public class DokView implements Serializable {
         String podatnik = wpisView.getPodatnikWpisu();
         selectedSTR.setPodatnik(podatnik);
         sTRView.dodajSrodekTrwaly(selectedSTR);
-        RequestContext.getCurrentInstance().update("srodki:panelekXA");
+        PrimeFaces.current().ajax().update("srodki:panelekXA");
     }
 
     public void skopiujSTR() {
@@ -1213,7 +1209,7 @@ public class DokView implements Serializable {
                 selectedSTR.setKst(srodekkategoriawynik.getSymbol());
                 selectedSTR.setUmorzeniepoczatkowe(0.0);
                 selectedSTR.setStawka(Double.parseDouble(srodekkategoriawynik.getStawka()));
-                RequestContext.getCurrentInstance().update("dodWiad:nowypanelsrodki");
+                PrimeFaces.current().ajax().update("dodWiad:nowypanelsrodki");
             } catch (Exception e) {
                 E.e(e);
             }
@@ -1315,8 +1311,8 @@ public class DokView implements Serializable {
         } catch (Exception e) {
             E.e(e);
         }
-        RequestContext.getCurrentInstance().update("dodWiad:wprowadzanie");
-        RequestContext.getCurrentInstance().execute("$(document.getElementById('dodWiad:dataPole')).select();");
+        PrimeFaces.current().ajax().update("dodWiad:wprowadzanie");
+        PrimeFaces.current().executeScript("$(document.getElementById('dodWiad:dataPole')).select();");
     }
 
     public void skopiujdoedycji() {
@@ -1358,9 +1354,9 @@ public class DokView implements Serializable {
         renderujtabele(selDokument.getRodzajedok());
         if (ewidencjaAddwiad.isEmpty()) {
             ukryjEwiencjeVAT = false;
-            RequestContext.getCurrentInstance().update("dodWiad:panelewidencjivat");
+            PrimeFaces.current().ajax().update("dodWiad:panelewidencjivat");
         }
-        RequestContext.getCurrentInstance().update("dialogEdycja");
+        PrimeFaces.current().ajax().update("dialogEdycja");
     }
 
     public void sprawdzczywybranodokumentdoedycji() {
@@ -1368,14 +1364,14 @@ public class DokView implements Serializable {
         obsluzcechydokumentu();
         if (selDokument.getRodzajedok().getSkrot().equals("OT")) {
             Msg.msg("e", "Nie można edytować dokumnetu zakupu środków trwałych!");
-            RequestContext.getCurrentInstance().execute("PF('dialogEdycjaZaksiegowanychDokumentow').hide();");
+            PrimeFaces.current().executeScript("PF('dialogEdycjaZaksiegowanychDokumentow').hide();");
             return;
         }
         if (selDokument.getNetto() != null) {
-            RequestContext.getCurrentInstance().execute("PF('dialogEdycjaZaksiegowanychDokumentow').show();");
+            PrimeFaces.current().executeScript("PF('dialogEdycjaZaksiegowanychDokumentow').show();");
         } else {
             Msg.msg("e", "Nie wybrano dokumentu do edycji!");
-            RequestContext.getCurrentInstance().execute("PF('dialogEdycjaZaksiegowanychDokumentow').hide();");
+            PrimeFaces.current().executeScript("PF('dialogEdycjaZaksiegowanychDokumentow').hide();");
         }
     }
 
@@ -1408,9 +1404,9 @@ public class DokView implements Serializable {
             klDAO.dodaj(selectedKlient);
             selDokument.setKontr(selectedKlient);
             selectedKlient = new Klienci();
-            RequestContext.getCurrentInstance().update("dodWiad:acForce");
-            RequestContext.getCurrentInstance().update("formX");
-            RequestContext.getCurrentInstance().update("formY:tabelaKontr");
+            PrimeFaces.current().ajax().update("dodWiad:acForce");
+            PrimeFaces.current().ajax().update("formX");
+            PrimeFaces.current().ajax().update("formY:tabelaKontr");
             Msg.msg("i", "Dodano nowego klienta" + selectedKlient.getNpelna(), "formX:mess_add");
         } catch (Exception e) {
             E.e(e);
@@ -1538,8 +1534,8 @@ public class DokView implements Serializable {
             }
             String up1 = "formdialog_add_wiad_kolumna1rozbicie:rozbicietabeladane:"+id+":rozbicietabela";
             String up2 = "formdialog_add_wiad_kolumna1rozbicie:rozbicietabeladane:"+id+":rozbiciekurs";
-            RequestContext.getCurrentInstance().update(up1);
-            RequestContext.getCurrentInstance().update(up2);
+            PrimeFaces.current().ajax().update(up1);
+            PrimeFaces.current().ajax().update(up2);
             }
     }
     
@@ -1558,8 +1554,8 @@ public class DokView implements Serializable {
         }
         String up3 = "formdialog_add_wiad_kolumna1rozbicie:rozbicietabeladane:"+id+":rozbiciekwotawpln";
         String up4 = "formdialog_add_wiad_kolumna1rozbicie:podsumowanierozbicia";
-        RequestContext.getCurrentInstance().update(up3);
-        RequestContext.getCurrentInstance().update(up4);
+        PrimeFaces.current().ajax().update(up3);
+        PrimeFaces.current().ajax().update(up4);
     }
     
     public void przygotujrozbicie() {
@@ -1594,7 +1590,7 @@ public class DokView implements Serializable {
         p.setNettowaluta(sumarozbicie.getNettowaluta());
         symbolWalutyNettoVat = "zł";
         String up4 = "dodWiad:tabelapkpir";
-        RequestContext.getCurrentInstance().update(up4);
+        PrimeFaces.current().ajax().update(up4);
     }
     
 
@@ -1609,7 +1605,7 @@ public class DokView implements Serializable {
                 selDokument.setTabelanbp(TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty));
 //                if (staranazwa != null && selDokument.getListawierszy().get(0).getStronaWn().getKwota()) {
 //                    DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
-//                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+//                    PrimeFaces.current().ajax().update("formwpisdokument:dataList");
 //                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
 //                } else {
 //                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
@@ -1622,7 +1618,7 @@ public class DokView implements Serializable {
                 //najpierw trzeba przewalutowac ze starym kursem, a potem wlepis polska tabele
 //                if (staranazwa != null && selDokument.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
 //                    DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
-//                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+//                    PrimeFaces.current().ajax().update("formwpisdokument:dataList");
 //                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
 //                } else {
 //                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
@@ -1633,8 +1629,8 @@ public class DokView implements Serializable {
                 //ukryjEwiencjeVAT = false;
                 //selDokument.setDokumentProsty(false);
             }
-            RequestContext.getCurrentInstance().update("dodWiad:panelewidencjivat");
-            RequestContext.getCurrentInstance().execute("r('dodWiad:acForce').select();");
+            PrimeFaces.current().ajax().update("dodWiad:panelewidencjivat");
+            PrimeFaces.current().executeScript("r('dodWiad:acForce').select();");
         } catch (Exception e) {
 
         }
@@ -1644,7 +1640,7 @@ public class DokView implements Serializable {
         KwotaKolumna1 wiersz = selDokument.getListakwot1().get(lp);
         wiersz.setNettowaluta(wiersz.getNetto());
         String s = "dodWiad:tabelapkpir:" + lp + ":kwotaPkpir1";
-        RequestContext.getCurrentInstance().update(s);
+        PrimeFaces.current().ajax().update(s);
     }
 
     public void przewalutuj(int lp) {
@@ -1657,7 +1653,7 @@ public class DokView implements Serializable {
                 symbolWalutyNettoVat = " zł";
                 sumujnetto();
                 String s = "dodWiad:tabelapkpir:" + lp + ":kwotaPkpir";
-                RequestContext.getCurrentInstance().update(s);
+                PrimeFaces.current().ajax().update(s);
             }
         }
 

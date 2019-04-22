@@ -6,9 +6,7 @@
 package view;
 
 import dao.FakturaDAO;
-
 import entity.Faktura;
-
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
@@ -17,12 +15,9 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
 import msg.Msg;
-
 /**
  *
  * @author Osito

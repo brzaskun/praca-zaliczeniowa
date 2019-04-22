@@ -25,7 +25,6 @@ import dao.LogofakturaDAO;
 import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
 import dao.SMTPSettingsDAO;
-
 import daoFK.DokDAOfk;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
@@ -43,14 +42,12 @@ import entity.FakturaStopkaNiemiecka;
 import entity.FakturaWalutaKonto;
 import entity.Fakturadodelementy;
 import entity.Fakturaelementygraficzne;
-import entity.Fakturyokresowe;
 import entity.Fakturywystokresowe;
 import entity.Klienci;
 import entity.KwotaKolumna1;
 import entity.Logofaktura;
 import entity.Podatnik;
 import entity.Rodzajedok;
-
 import entityfk.Dokfk;
 import entityfk.Tabelanbp;
 import error.E;
@@ -68,23 +65,19 @@ import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import mail.MailOther;
-import msg.Msg;
+import msg.Msg; import org.primefaces.PrimeFaces;
 import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.MutableDateTime;
 import org.primefaces.component.autocomplete.AutoComplete;
-import org.primefaces.context.RequestContext;
 import params.Params;
 import pdf.PdfFaktura;
 import pdf.PdfFakturyOkresowe;
@@ -237,9 +230,9 @@ public class FakturaView implements Serializable {
         }
         sumawartosciwybranych(faktury);
         domyslatabela = DokFKBean.pobierzWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO);
-//        RequestContext.getCurrentInstance().update("akordeon:formsporzadzone");
-//        RequestContext.getCurrentInstance().update("akordeon:proforma");
-//        RequestContext.getCurrentInstance().update("akordeon:formarchiwum");
+//        PrimeFaces.current().ajax().update("akordeon:formsporzadzone");
+//        PrimeFaces.current().ajax().update("akordeon:proforma");
+//        PrimeFaces.current().ajax().update("akordeon:formarchiwum");
     }
     
     private void sprawdzczyniezniknalplik(String nazwa) {
@@ -419,7 +412,7 @@ public class FakturaView implements Serializable {
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Błąd. Faktura o takim numerze i dla takiego kontrahenta już istnieje");
         }
-//        RequestContext.getCurrentInstance().execute("PF('dokTableFaktury').sort();");
+//        PrimeFaces.current().executeScript("PF('dokTableFaktury').sort();");
     }
     
     public void edytuj() {
@@ -482,7 +475,7 @@ public class FakturaView implements Serializable {
                 if (!dodany.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
                     klienciDAO.dodaj(dodany);
                 }
-                RequestContext.getCurrentInstance().update("akordeon:formstworz:acForce");
+                PrimeFaces.current().ajax().update("akordeon:formstworz:acForce");
             }
         } catch (Exception e) {
             E.e(e);
@@ -537,9 +530,9 @@ public class FakturaView implements Serializable {
         zapis0edycja1 = true;
         kontrahentstworz.findComponent(faktura.getKontrahent().getNpelna());
 //        String funkcja = "PF('tworzenieklientapolenazwy').search('"+faktura.getKontrahent_nip()+"');";
-//        RequestContext.getCurrentInstance().execute(funkcja);
+//        PrimeFaces.current().executeScript(funkcja);
 //        funkcja = "PF('tworzenieklientapolenazwy').activate();";
-//        RequestContext.getCurrentInstance().execute(funkcja);
+//        PrimeFaces.current().executeScript(funkcja);
        }
     
     public void skierujfakturedoedycji(Fakturywystokresowe fakturaokresowa) {
@@ -568,9 +561,9 @@ public class FakturaView implements Serializable {
         zapis0edycja1 = true;
         kontrahentstworz.findComponent(faktura.getKontrahent().getNpelna());
 //        String funkcja = "PF('tworzenieklientapolenazwy').search('"+faktura.getKontrahent_nip()+"');";
-//        RequestContext.getCurrentInstance().execute(funkcja);
+//        PrimeFaces.current().executeScript(funkcja);
 //        funkcja = "PF('tworzenieklientapolenazwy').activate();";
-//        RequestContext.getCurrentInstance().execute(funkcja);
+//        PrimeFaces.current().executeScript(funkcja);
        }
     
     public void skierujfakturedokorekty(Faktura faktura) {
@@ -590,9 +583,9 @@ public class FakturaView implements Serializable {
         selected.setNumerkolejny(selected.getNumerkolejny()+"/KOR");
         selected.setPozycjepokorekcie(SerialClone.clone(faktura.getPozycjenafakturze()));
 //        String funkcja = "PF('tworzenieklientapolenazwy').search('"+faktura.getKontrahent_nip()+"');";
-//        RequestContext.getCurrentInstance().execute(funkcja);
+//        PrimeFaces.current().executeScript(funkcja);
 //        funkcja = "PF('tworzenieklientapolenazwy').activate();";
-//        RequestContext.getCurrentInstance().execute(funkcja);
+//        PrimeFaces.current().executeScript(funkcja);
        }
 
     private void waloryzacjakwoty(Faktura faktura, double proc) throws Exception {
@@ -838,7 +831,7 @@ public class FakturaView implements Serializable {
         fakturywystokresoweDAO.edit(fakturaokresowa);
         fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         Msg.msg("i", "Zaktualizowano okresowa");
-        RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
+        PrimeFaces.current().ajax().update("akordeon:formokresowe:dokumentyOkresowe");
     }
 
     //taki wiersz do wykorzystania przy robieniu faktur
@@ -867,9 +860,9 @@ public class FakturaView implements Serializable {
     public void usunwiersz() {
         if (!selected.getPozycjenafakturze().isEmpty()) {
             selected.getPozycjenafakturze().remove(selected.getPozycjenafakturze().size() - 1);
-            RequestContext.getCurrentInstance().update("akordeon:formstworz:panel");
+            PrimeFaces.current().ajax().update("akordeon:formstworz:panel");
             String nazwafunkcji = "wybierzrzadfaktury()";
-            RequestContext.getCurrentInstance().execute(nazwafunkcji);
+            PrimeFaces.current().executeScript(nazwafunkcji);
         }
     }
     
@@ -881,7 +874,7 @@ public class FakturaView implements Serializable {
                 p.setLp(i++);
             }
             String nazwafunkcji = "wybierzrzadfaktury()";
-            RequestContext.getCurrentInstance().execute(nazwafunkcji);
+            PrimeFaces.current().executeScript(nazwafunkcji);
         }
     }
     
@@ -893,16 +886,16 @@ public class FakturaView implements Serializable {
                 p.setLp(i++);
             }
             String nazwafunkcji = "wybierzrzadfakturykorekta()";
-            RequestContext.getCurrentInstance().execute(nazwafunkcji);
+            PrimeFaces.current().executeScript(nazwafunkcji);
         }
     }
     
     public void usunwierszk() {
         if (!selected.getPozycjepokorekcie().isEmpty()) {
             selected.getPozycjepokorekcie().remove(selected.getPozycjepokorekcie().size() - 1);
-            RequestContext.getCurrentInstance().update("akordeon:formstworz:panelkorekty");
+            PrimeFaces.current().ajax().update("akordeon:formstworz:panelkorekty");
             String nazwafunkcji = "wybierzrzadfakturykorekta()";
-            RequestContext.getCurrentInstance().execute(nazwafunkcji);
+            PrimeFaces.current().executeScript(nazwafunkcji);
         }
     }
     
@@ -1033,7 +1026,7 @@ public class FakturaView implements Serializable {
                 E.e(e); 
                 Msg.msg("e","Są zaksięgowane dokumenty o tych samych numerach");
             }
-            RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
+            PrimeFaces.current().ajax().update("akordeon:formsporzadzone:dokumentyLista");
     }
 
     public void sprawdzCzyNieDuplikat(Dok selD) throws Exception {
@@ -1051,8 +1044,8 @@ public class FakturaView implements Serializable {
             if (!nazwaklienta.equals("nowy klient")) {
                 if (selected.getKontrahent().getNskrocona() == null) {
                     Msg.msg("e", "Brak nazwy skróconej kontrahenta " + selected.getKontrahent().getNpelna() + ", nie mogę poprawnie wygenerować numeru faktury. Uzupełnij dane odbiorcy faktury.");
-                    RequestContext.getCurrentInstance().execute("PF('nazwaskroconafaktura').show();");
-                    RequestContext.getCurrentInstance().execute("$(document.getElementById(\"formkontowybor:wybormenu\")).focus();");
+                    PrimeFaces.current().executeScript("PF('nazwaskroconafaktura').show();");
+                    PrimeFaces.current().executeScript("$(document.getElementById(\"formkontowybor:wybormenu\")).focus();");
                 } else {
                     FakturaOkresowaGenNum.wygenerujnumerfaktury(fakturaDAO, selected, wpisView);
                 }
@@ -1085,7 +1078,7 @@ public class FakturaView implements Serializable {
                     Msg.msg("e", "Błąd podczas zachowania faktury w bazie danych " + e.getMessage());
                 }
             }
-            RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
+            PrimeFaces.current().ajax().update("akordeon:formokresowe:dokumentyOkresowe");
         }
     }
     
@@ -1169,7 +1162,7 @@ public class FakturaView implements Serializable {
             fakturywystokresoweDAO.dodaj(fakturyokr);
             Msg.msg("i", "Dodano fakturę okresową");
         }
-        RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
+        PrimeFaces.current().ajax().update("akordeon:formokresowe:dokumentyOkresowe");
     }
 
     public void usunfaktureokresowa() {
@@ -1182,15 +1175,15 @@ public class FakturaView implements Serializable {
             }
             Msg.msg("i", "Usunięto fakturę okresową");
         }
-        RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
+        PrimeFaces.current().ajax().update("akordeon:formokresowe:dokumentyOkresowe");
     }
 
     public void wygenerujzokresowychwaloryzacja() {
         wygenerujzokresowych();
         waloryzajca = 0.0;
-        RequestContext.getCurrentInstance().update("akordeon:formokresowe:kwotawaloryzacji");
-        RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
-        RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
+        PrimeFaces.current().ajax().update("akordeon:formokresowe:kwotawaloryzacji");
+        PrimeFaces.current().ajax().update("akordeon:formsporzadzone:dokumentyLista");
+        PrimeFaces.current().ajax().update("akordeon:formokresowe:dokumentyOkresowe");
 
     }
     
@@ -1327,8 +1320,8 @@ public class FakturaView implements Serializable {
                 }
             }
         }
-        RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
-        RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
+        PrimeFaces.current().ajax().update("akordeon:formsporzadzone:dokumentyLista");
+        PrimeFaces.current().ajax().update("akordeon:formokresowe:dokumentyOkresowe");
 
     }
 
@@ -1702,14 +1695,14 @@ public class FakturaView implements Serializable {
         String data = (String) e.getNewValue();
         if (data.matches("\\d{4}-\\d{2}-\\d{2}")) {
             selected.setTerminzaplaty(FakturaBean.obliczterminzaplaty(wpisView.getPodatnikObiekt(), data, selected.getDnizaplaty()));
-            RequestContext.getCurrentInstance().update("akordeon:formstworz:terminzaplaty");
+            PrimeFaces.current().ajax().update("akordeon:formstworz:terminzaplaty");
         }
     }
     
      public void dopasujterminplatnoscidni(ValueChangeEvent e) {
         int dnizaplaty = (int) e.getNewValue();
         selected.setTerminzaplaty(FakturaBean.obliczterminzaplaty(wpisView.getPodatnikObiekt(), selected.getDatawystawienia(), dnizaplaty));
-        RequestContext.getCurrentInstance().update("akordeon:formstworz:terminzaplaty");
+        PrimeFaces.current().ajax().update("akordeon:formstworz:terminzaplaty");
     }
      
     public int sortZaksiegowaneFaktury(Object o1, Object o2) {
@@ -1883,7 +1876,7 @@ public class FakturaView implements Serializable {
         } else {
             Msg.msg("e","Nie można oznaczyć faktury jako proforma. Brak wprowadzonego numeru faktury");
             selected.setProforma(false);
-            RequestContext.getCurrentInstance().update("akordeon:formstworz:proformacheck");
+            PrimeFaces.current().ajax().update("akordeon:formstworz:proformacheck");
         }
     }
     

@@ -16,7 +16,6 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 
-
 @ManagedBean
 @ViewScoped
 public class FakturaStopkaNiemieckaView implements Serializable {

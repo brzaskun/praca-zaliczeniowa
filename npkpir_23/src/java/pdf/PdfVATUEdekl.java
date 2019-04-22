@@ -30,13 +30,12 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.primefaces.context.RequestContext;
 import static pdf.PdfVAT7.absText;
 import pdffk.PdfMain;
 import static pdffk.PdfMain.finalizacjaDokumentuQR;
 import static pdffk.PdfMain.ft;
 import plik.Plik;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -64,7 +63,7 @@ public class PdfVATUEdekl {
 //            uzupelnijDlaVAT7(document, d, wpisView);
 //            finalizacjaDokumentuQR(document,nazwa);
 //            String f = "pokazwydruk('"+nazwa+"');";
-//            RequestContext.getCurrentInstance().execute(f);
+//            PrimeFaces.current().executeScript(f);
 //        } catch(Exception e) {
 //            document.close();
 //        }
@@ -138,7 +137,7 @@ public class PdfVATUEdekl {
             document.close();
             E.e(e);
         }
-        RequestContext.getCurrentInstance().execute("wydrukvatue('" + podatnik.getNip() + "');");
+        PrimeFaces.current().executeScript("wydrukvatue('" + podatnik.getNip() + "');");
     }
 
     private static void uzupelnijDlaVAT7(Document document, DeklaracjavatUE d, WpisView wpisView) {

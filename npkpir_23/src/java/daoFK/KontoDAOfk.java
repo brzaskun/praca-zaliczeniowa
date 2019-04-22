@@ -10,14 +10,12 @@ import entityfk.Kliencifk;
 import entityfk.Konto;
 import error.E;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
 import view.WpisView;
-
 /**
  *
  * @author Osito

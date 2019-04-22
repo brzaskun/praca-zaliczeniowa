@@ -15,7 +15,6 @@ import java.io.File;
 import java.util.List;
 import msg.B;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajOpisWstepnySF;
 import static pdffk.PdfMain.dodajOpisWstepnySFRZIS;
@@ -27,7 +26,7 @@ import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
 import plik.Plik;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -57,7 +56,7 @@ public class PdfRZiS {
             PdfMain.dodajpodpis(document, wpisView.getFormaprawna().toString());
             finalizacjaDokumentuQR(document,nazwa);
             String f = "wydrukRZiS('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Nie wybrano RZiS do wydruku");
         }
@@ -80,7 +79,7 @@ public class PdfRZiS {
             PdfMain.dodajpodpis(document, wpisView.getFormaprawna().toString());
             finalizacjaDokumentuQR(document,nazwa);
             String f = "wydrukRZiS('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Nie wybrano RZiS do wydruku");
         }
@@ -102,7 +101,7 @@ public class PdfRZiS {
             dodajTabele(document, testobjects.testobjects.getTabelaRZiSKonta(rootProjektRZiS),95,1);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "wydrukRZiS('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Nie wybrano RZiS do wydruku");
         }
@@ -124,7 +123,7 @@ public class PdfRZiS {
             dodajTabele(document, testobjects.testobjects.getTabelaRZiSKontaPrzyporządkowane(rootProjektRZiS),75,2);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "wydrukRZiS('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Nie wybrano RZiS do wydruku");
         }
@@ -148,7 +147,7 @@ public class PdfRZiS {
             dodajTabeleNar(document, testobjects.testobjects.getTabelaRZiSNar(rootProjektRZiS, mce),wielkosctabeli,4,mce);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "wydrukRZiS('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Nie wybrano RZiS do wydruku");
         }
@@ -172,7 +171,7 @@ public class PdfRZiS {
             dodajTabeleNar(document, testobjects.testobjects.getTabelaRZiSPorMcy(rootProjektRZiS, mce, wpisView),wielkosctabeli,4,mce);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "wydrukRZiS('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Nie wybrano RZiS do wydruku");
         }
@@ -192,7 +191,7 @@ public class PdfRZiS {
         dodajTabele(document, testobjects.testobjects.getTabelaRZiS(new TreeNodeExtended("root", null)),75,0);
         finalizacjaDokumentuQR(document,nazwa);
         //String f = "wydrukRZiS('"+nazwa+"');";
-        //RequestContext.getCurrentInstance().execute(f);
+        //PrimeFaces.current().executeScript(f);
     }
 
     private static int obliczszerokosctabeli(int size) {

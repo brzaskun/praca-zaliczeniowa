@@ -100,11 +100,9 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.ArrayDataModel;
 import javax.faces.model.DataModel;
 import javax.inject.Inject;
-import msg.Msg;
-import org.joda.time.DateTime;
+import msg.Msg;import org.joda.time.DateTime;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.inputnumber.InputNumber;
-import org.primefaces.context.RequestContext;
 import params.Params;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
@@ -116,7 +114,7 @@ import static pdffk.PdfMain.otwarcieDokumentu;
 import plik.Plik;
 import view.KlienciConverterView;
 import view.ParametrView;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.UzupelnijWierszeoDane;
 import waluty.Z;
@@ -293,7 +291,7 @@ public class DokfkView implements Serializable {
                 //resetujDokument(); //to jest chyba niepotrzebne bo ta funkcja jest wywolywana jak otwieram okienko wpisu i potem po kazdym zachowaniu
                 //obsluzcechydokumentu();
                 stworzlisteewidencjiRK();
-                //RequestContext.getCurrentInstance().update("ewidencjavatRK");
+                //PrimeFaces.current().ajax().update("ewidencjavatRK");
                 dokumentypodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                 //wykazZaksiegowanychDokumentowSrodkiTrw = dokDAOfk.findDokfkPodatnikRokSrodkiTrwale(wpisView);
                 //wykazZaksiegowanychDokumentowRMK = dokDAOfk.findDokfkPodatnikRokRMK(wpisView);
@@ -332,7 +330,7 @@ public class DokfkView implements Serializable {
             resetujDokument();
         } else if (selected.getRodzajedok().getSkrotNazwyDok().equals("BO")) {
             sumadokbo = ObslugaWiersza.sumujwierszeBO(selected);
-            RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
+            PrimeFaces.current().ajax().update("formwpisdokument:panelwpisbutton");
         }
     }
     public void resetujDokument() {
@@ -351,8 +349,8 @@ public class DokfkView implements Serializable {
                 datadokumentu = selected.getDatadokumentu();
                 dataoperacji = selected.getDataoperacji();
             }
-            //RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
-            //RequestContext.getCurrentInstance().update("zestawieniedokumentowimport:dataListImport");
+            //PrimeFaces.current().ajax().update("zestawieniedokumentow:dataList");
+            //PrimeFaces.current().ajax().update("zestawieniedokumentowimport:dataListImport");
         } else {
             rodzajDokPoprzedni = rodzajedokDAO.find("ZZ", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             symbolPoprzedniegoDokumentu = "ZZ";
@@ -386,9 +384,9 @@ public class DokfkView implements Serializable {
         obsluzcechydokumentu();
         pobierzopiszpoprzedniegodokItemSelect();
         rodzajBiezacegoDokumentu = 1;
-        RequestContext.getCurrentInstance().update("formwpisdokument");
-        RequestContext.getCurrentInstance().update("wpisywaniefooter");
-        RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:data2DialogWpisywanie')).select();");
+        PrimeFaces.current().ajax().update("formwpisdokument");
+        PrimeFaces.current().ajax().update("wpisywaniefooter");
+        PrimeFaces.current().executeScript("$(document.getElementById('formwpisdokument:data2DialogWpisywanie')).select();");
     }
     
     public String charakterdokumentu (Dokfk d) {
@@ -471,7 +469,7 @@ public class DokfkView implements Serializable {
         int indexwTabeli = wiersz.getIdporzadkowy() - 1;
         if (wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().size() == 0) {
             ObslugaWiersza.dolaczNowyWierszPiatka(indexwTabeli, true, selected, kontoDAOfk, wpisView);
-            //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+            //PrimeFaces.current().ajax().update("formwpisdokument:dataList");
             return;
         }
         if (wiersz.getTypWiersza() != 0) {
@@ -564,7 +562,7 @@ public class DokfkView implements Serializable {
     public void dodajPustyWierszNaKoncu() {
         int wynik = DialogWpisywanie.dodajPustyWierszNaKoncu(selected);
         //selected.przeliczKwotyWierszaDoSumyDokumentu();
-        RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
+        PrimeFaces.current().ajax().update("formwpisdokument:panelwpisbutton");
         if (wynik == 1) {
             Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");
         }
@@ -576,7 +574,7 @@ public class DokfkView implements Serializable {
             int koncowyindex = selected.getListawierszy().size();
             for (int i = indexwTabeli; i < koncowyindex; i++) {
                 DialogWpisywanie.rozliczPojedynczeSaldoWBRK(selected, i, kontorozrachunkowe);
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + i + ":saldo");
+                PrimeFaces.current().ajax().update("formwpisdokument:dataList:" + i + ":saldo");
             }
         }
     }
@@ -650,7 +648,7 @@ public class DokfkView implements Serializable {
                         }
                     }
                     //niepotrzebne renderuje 15 razy
-                    //RequestContext.getCurrentInstance().update("formwpisdokument:panelzewidencjavat");
+                    //PrimeFaces.current().ajax().update("formwpisdokument:panelzewidencjavat");
             } else {
                 this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
             }
@@ -753,8 +751,8 @@ public class DokfkView implements Serializable {
                         //oblicza polowe vat dla faktur samochody osobowe
                         evatwpis.setVat(Z.z(wartosciVAT.getVatPlndodoliczenia()));
                         evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
-                        RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":vat");
-                        RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":brutto");
+                        PrimeFaces.current().ajax().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":vat");
+                        PrimeFaces.current().ajax().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":brutto");
                     }
                     rozliczVatKoszt(evatwpis, wartosciVAT, selected, kontadlaewidencji, wpisView, poprzedniDokument, kontoRozrachunkowe, nkup);
                 } else if (selected.getListawierszy().get(0).getStronaWn().getKonto() == null && rodzajdok.getKategoriadokumentu() == 2) {
@@ -766,8 +764,8 @@ public class DokfkView implements Serializable {
                 rozliczVatPrzychodEdycja(evatwpis, wartosciVAT, selected, wpisView);
             }
             selected.setZablokujzmianewaluty(true);
-            RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowywybor");
-            RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
+            PrimeFaces.current().ajax().update("formwpisdokument:panelwalutowywybor");
+            PrimeFaces.current().ajax().update("formwpisdokument:panelwpisbutton");
         } else {
             Msg.msg("w", "Dokument w trybie edycji. Automatyczne dodawanie wierszy wyłączone");
         }
@@ -792,10 +790,10 @@ public class DokfkView implements Serializable {
             przepiszWaluty(p);
         }
         String update = "formwpisdokument:dataList";
-        RequestContext.getCurrentInstance().update(update);
+        PrimeFaces.current().ajax().update(update);
         ewidencjaVatRK = new EVatwpisFK();
         selected.przeliczKwotyWierszaDoSumyDokumentu();
-        RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
+        PrimeFaces.current().ajax().update("formwpisdokument:panelwpisbutton");
         Msg.msg("Zachowano zapis w ewidencji VAT");
     }
 
@@ -820,7 +818,7 @@ public class DokfkView implements Serializable {
             }
             ObslugaWiersza.przenumerujSelected(selected);
             String update = "formwpisdokument:dataList";
-            RequestContext.getCurrentInstance().update(update);
+            PrimeFaces.current().ajax().update(update);
             ewidencjaVatRK = new EVatwpisFK();
             Msg.msg("Zachowano zapis w ewidencji VAT");
         }
@@ -833,13 +831,13 @@ public class DokfkView implements Serializable {
         evatwpis.setSprawdzony(0);
         symbolWalutyNettoVat = " zł";
         String update = form + ":tablicavat:" + lp + ":netto";
-        RequestContext.getCurrentInstance().update(update);
+        PrimeFaces.current().ajax().update(update);
         update = form + ":tablicavat:" + lp + ":vat";
-        RequestContext.getCurrentInstance().update(update);
+        PrimeFaces.current().ajax().update(update);
         update = form + ":tablicavat:" + lp + ":brutto";
-        RequestContext.getCurrentInstance().update(update);
+        PrimeFaces.current().ajax().update(update);
         String activate = "document.getElementById('" + form + ":tablicavat:" + lp + ":vat_input').select();";
-        RequestContext.getCurrentInstance().execute(activate);
+        PrimeFaces.current().executeScript(activate);
     }
 
     public void updatevat(EVatwpisFK evatwpis, String form) {
@@ -852,9 +850,9 @@ public class DokfkView implements Serializable {
         evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
         evatwpis.setSprawdzony(0);
         String update = form + ":tablicavat:" + lp + ":brutto";
-        RequestContext.getCurrentInstance().update(update);
+        PrimeFaces.current().ajax().update(update);
         String activate = "document.getElementById('" + form + ":tablicavat:" + lp + ":brutto_input').select();";
-        RequestContext.getCurrentInstance().execute(activate);
+        PrimeFaces.current().executeScript(activate);
     }
 
     public void updatenettoRK() {
@@ -863,13 +861,13 @@ public class DokfkView implements Serializable {
         ustawvat(evatwpis, selected, stawkavat);
         evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
         String update = "ewidencjavatRK:netto";
-        RequestContext.getCurrentInstance().update(update);
+        PrimeFaces.current().ajax().update(update);
         update = "ewidencjavatRK:vat";
-        RequestContext.getCurrentInstance().update(update);
+        PrimeFaces.current().ajax().update(update);
         update = "ewidencjavatRK:brutto";
-        RequestContext.getCurrentInstance().update(update);
+        PrimeFaces.current().ajax().update(update);
         String activate = "document.getElementById('ewidencjavatRK:vat_input').select();";
-        RequestContext.getCurrentInstance().execute(activate);
+        PrimeFaces.current().executeScript(activate);
     }
 
     public void updatevatRK() {
@@ -881,26 +879,26 @@ public class DokfkView implements Serializable {
         }
         e.setBrutto(Z.z(e.getNetto() + e.getVat()));
         String update = "ewidencjavatRK:brutto";
-        RequestContext.getCurrentInstance().update(update);
+        PrimeFaces.current().ajax().update(update);
         String activate = "document.getElementById('ewidencjavatRK:brutto_input').select();";
-        RequestContext.getCurrentInstance().execute(activate);
+        PrimeFaces.current().executeScript(activate);
     }
 
 //////////////////////////////EWIDENCJE VAT
     public void dodaj() {
         if (selected.getListawierszy().get(selected.getListawierszy().size() - 1).getOpisWiersza().equals("")) {
             komunikatywpisdok = "Probujesz zapisać pusty dokument";
-            RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
+            PrimeFaces.current().ajax().update("formwpisdokument:komunikatywpisdok");
             return;
         }
         if (selected.getNumerwlasnydokfk() == null || selected.getNumerwlasnydokfk().isEmpty()) {
             komunikatywpisdok = "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.";
-            RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
+            PrimeFaces.current().ajax().update("formwpisdokument:komunikatywpisdok");
         } else if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
             if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
                 int index = selected.getListawierszy().size() - 1;
                 rozliczsaldoWBRK(index);
-                //RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + index + ":saldo");
+                //PrimeFaces.current().ajax().update("formwpisdokument:dataList:" + index + ":saldo");
                 selected.setSaldokoncowe(selected.getListawierszy().get(selected.getListawierszy().size() - 1).getSaldoWBRK());
 
             }
@@ -918,7 +916,7 @@ public class DokfkView implements Serializable {
                 //mialo sprawdzac czy sa rozrachunki, ale jak ich nie ma to wywala komunikat, ktory i tak nie jest wyswietlany...
 //                if (selected.sprawdzczynaniesionorozrachunki() == 1) {
 //                    komunikatywpisdok = "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.";
-//                    RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
+//                    PrimeFaces.current().ajax().update("formwpisdokument:komunikatywpisdok");
 //                }
                 if (!selected.getRodzajedok().isTylkojpk()) {
                     for (Wiersz p : selected.getListawierszy()) {
@@ -941,20 +939,20 @@ public class DokfkView implements Serializable {
                 wykazZaksiegowanychDokumentow.add(selected);
                 resetujDokument();
                 Msg.msg("i", "Dokument dodany");
-                RequestContext.getCurrentInstance().update("wpisywaniefooter");
-                RequestContext.getCurrentInstance().update("rozrachunki");
-                RequestContext.getCurrentInstance().update("formwpisdokument");
-                RequestContext.getCurrentInstance().execute("r('formwpisdokument:data2DialogWpisywanie').select();");
+                PrimeFaces.current().ajax().update("wpisywaniefooter");
+                PrimeFaces.current().ajax().update("rozrachunki");
+                PrimeFaces.current().ajax().update("formwpisdokument");
+                PrimeFaces.current().executeScript("r('formwpisdokument:data2DialogWpisywanie').select();");
             } catch (Exception e) {
                 E.e(e);
                 komunikatywpisdok = "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.";
-                RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
+                PrimeFaces.current().ajax().update("formwpisdokument:komunikatywpisdok");
                 Msg.msg("e", "Nie udało się dodac dokumentu " + e.getMessage());
-                RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
+                PrimeFaces.current().executeScript("powrotdopolaPoNaniesieniuRozrachunkow();");
             }
         } else {
             komunikatywpisdok = "Uzupełnij wiersze o kwoty/konto. Sprawdź numery kont";
-            RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
+            PrimeFaces.current().ajax().update("formwpisdokument:komunikatywpisdok");
             Msg.msg("w", "Uzupełnij wiersze o kwoty/konto. Sprawdź numery kont");
         }
 
@@ -1071,7 +1069,7 @@ public class DokfkView implements Serializable {
             if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
                 int index = selected.getListawierszy().size() - 1;
                 rozliczsaldoWBRK(index);
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + index + ":saldo");
+                PrimeFaces.current().ajax().update("formwpisdokument:dataList:" + index + ":saldo");
                 selected.setSaldokoncowe(selected.getListawierszy().get(selected.getListawierszy().size() - 1).getSaldoWBRK());
 
             }
@@ -1115,39 +1113,39 @@ public class DokfkView implements Serializable {
                     SaldoAnalitykaView saldoAnalitykaView = (SaldoAnalitykaView) facesContext.getELContext().getELResolver().getValue(facesContext.getELContext(), null,"saldoAnalitykaView"); 
                     saldoAnalitykaView.przeliczSaldoKonto(duzyidwierszedycjaodswiezenie);
                     totylkoedycjaanalityczne = false;
-                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol1");
-                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol2");
-                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol3");
-                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol4");
-                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol5");
-                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol6");
-                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol7");
-                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol8");
-                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol9");
-                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol10");
-                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol11");
-                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol12");
-                    RequestContext.getCurrentInstance().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":zapisynasaldokonto");
+                    PrimeFaces.current().ajax().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol1");
+                    PrimeFaces.current().ajax().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol2");
+                    PrimeFaces.current().ajax().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol3");
+                    PrimeFaces.current().ajax().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol4");
+                    PrimeFaces.current().ajax().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol5");
+                    PrimeFaces.current().ajax().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol6");
+                    PrimeFaces.current().ajax().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol7");
+                    PrimeFaces.current().ajax().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol8");
+                    PrimeFaces.current().ajax().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol9");
+                    PrimeFaces.current().ajax().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol10");
+                    PrimeFaces.current().ajax().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol11");
+                    PrimeFaces.current().ajax().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":pol12");
+                    PrimeFaces.current().ajax().update("formtablicaanalityczne:tablicasaldaanalityczne:"+duzyidwierszedycjaodswiezenie+":zapisynasaldokonto");
                 }
-                RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList:"+idwierszedycjaodswiezenie+":wartoscdokumentuzest");
-                RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList:"+idwierszedycjaodswiezenie+":wartoscdokumentuzest");
-                RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList:"+idwierszedycjaodswiezenie+":walutadokumentuzest");
-                RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList:"+idwierszedycjaodswiezenie+":vatdokumentuzest");
+                PrimeFaces.current().ajax().update("zestawieniedokumentow:dataList:"+idwierszedycjaodswiezenie+":wartoscdokumentuzest");
+                PrimeFaces.current().ajax().update("zestawieniedokumentow:dataList:"+idwierszedycjaodswiezenie+":wartoscdokumentuzest");
+                PrimeFaces.current().ajax().update("zestawieniedokumentow:dataList:"+idwierszedycjaodswiezenie+":walutadokumentuzest");
+                PrimeFaces.current().ajax().update("zestawieniedokumentow:dataList:"+idwierszedycjaodswiezenie+":vatdokumentuzest");
                 if (linijkaewidencjiupdate != null) {
-                    RequestContext.getCurrentInstance().update(linijkaewidencjiupdate);
+                    PrimeFaces.current().ajax().update(linijkaewidencjiupdate);
                     linijkaewidencjiupdate = null;
                 }
                 Msg.msg("i", "Pomyślnie zaktualizowano dokument");
-                RequestContext.getCurrentInstance().execute("PF('wpisywanie').hide();");
+                PrimeFaces.current().executeScript("PF('wpisywanie').hide();");
             } catch (Exception e) {
                 E.e(e);
                 komunikatywpisdok = "Nie udało się zmienic dokumentu ";
-                RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
+                PrimeFaces.current().ajax().update("formwpisdokument:komunikatywpisdok");
                 Msg.msg("e", "Nie udało się zmienić dokumentu " + e.toString());
             }
         } else {
             komunikatywpisdok = "Uzupełnij wiersze o kwoty/konto!";
-            RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
+            PrimeFaces.current().ajax().update("formwpisdokument:komunikatywpisdok");
         }
     }
 
@@ -1251,7 +1249,7 @@ public class DokfkView implements Serializable {
                 }
                 if (dokument != null) {
                     wlaczZapiszButon = false;
-                    //RequestContext.getCurrentInstance().execute("znalezionoduplikat();");
+                    //PrimeFaces.current().executeScript("znalezionoduplikat();");
                     //Msg.msg("e", "Blad dokument o takim numerze juz istnieje");
                 } else {
                     wlaczZapiszButon = true;
@@ -1268,7 +1266,7 @@ public class DokfkView implements Serializable {
             boolean kopiowac1 = w.getStronyWiersza().size() == 2;
             if (kopiowac || kopiowac1) {
                 w.setOpisWiersza(selected.getOpisdokfk());
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                PrimeFaces.current().ajax().update("formwpisdokument:dataList");
             }
         } catch (Exception e) {
             E.e(e);
@@ -1312,10 +1310,10 @@ public class DokfkView implements Serializable {
                 if (!dodany.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
                     klienciDAO.dodaj(dodany);
                 }
-                RequestContext.getCurrentInstance().update("ewidencjavatRK:klientRK");
+                PrimeFaces.current().ajax().update("ewidencjavatRK:klientRK");
             } else {
                 ewidencjaVatRK.setOpisvat(pobierzopis(ewidencjaVatRK.getKlient()));
-                RequestContext.getCurrentInstance().update("ewidencjavatRK:opisvat");
+                PrimeFaces.current().ajax().update("ewidencjavatRK:opisvat");
             }
         } catch (Exception e) {
             
@@ -1346,13 +1344,13 @@ public class DokfkView implements Serializable {
                         poprzedniDokument = null;
                     }
                 }
-                RequestContext.getCurrentInstance().update("formwpisdokument:acForce");
+                PrimeFaces.current().ajax().update("formwpisdokument:acForce");
             } else {
                 if (selected.getKontr() != null) {
                     poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
                     if (poprzedniDokument != null) {
                             selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
-                            RequestContext.getCurrentInstance().update("formwpisdokument:opisdokumentu");
+                            PrimeFaces.current().ajax().update("formwpisdokument:opisdokumentu");
                             Wiersz w = selected.getListawierszy().get(0);
                             if (w.getOpisWiersza() == null || w.getOpisWiersza().equals("")) {
                                 w.setOpisWiersza(selected.getOpisdokfk());
@@ -1372,7 +1370,7 @@ public class DokfkView implements Serializable {
 
     public void wygenerujokreswpisudokumentu(AjaxBehaviorEvent event) {
         komunikatywpisdok = "";
-        RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
+        PrimeFaces.current().ajax().update("formwpisdokument:komunikatywpisdok");
         //generuje okres wpisu tylko jezeli jest w trybie wpisu, a wiec zapisz0edytuj1 jest false
         if (zapisz0edytuj1 == false) {
             String data = selected.getDataoperacji();
@@ -1381,7 +1379,7 @@ public class DokfkView implements Serializable {
                 if (rok.equals(wpisView.getRokUprzedniSt())) {
                     Msg.msg("e", "Probujesz zaksiegować dokument do poprzedniego roku!");
                     wlaczZapiszButon = false;
-                    RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
+                    PrimeFaces.current().ajax().update("formwpisdokument:panelwpisbutton");
                 } else {
                     generujokresy(rok, data);
                 }
@@ -1392,20 +1390,20 @@ public class DokfkView implements Serializable {
     private void generujokresy(String rok, String data) {
         if (wlaczZapiszButon == false) {
             wlaczZapiszButon = true;
-            RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
+            PrimeFaces.current().ajax().update("formwpisdokument:panelwpisbutton");
         }
         if (!rok.equals(selected.getRok())) {
             selected.setRok(rok);
             selected.setVatR(rok);
-            RequestContext.getCurrentInstance().update("formwpisdokument:rok");
-            RequestContext.getCurrentInstance().update("formwpisdokument:rokVAT");
+            PrimeFaces.current().ajax().update("formwpisdokument:rok");
+            PrimeFaces.current().ajax().update("formwpisdokument:rokVAT");
         }
         String mc = data.split("-")[1];
         if (!mc.equals(selected.getMiesiac())) {
             selected.setMiesiac(mc);
             selected.setVatM(mc);
-            RequestContext.getCurrentInstance().update("formwpisdokument:miesiac");
-            RequestContext.getCurrentInstance().update("formwpisdokument:miesiacVAT");
+            PrimeFaces.current().ajax().update("formwpisdokument:miesiac");
+            PrimeFaces.current().ajax().update("formwpisdokument:miesiacVAT");
         }
     }
 
@@ -1452,8 +1450,8 @@ public class DokfkView implements Serializable {
         try {
             selected.setwTrakcieEdycji(true);
             obsluzcechydokumentu();
-            RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
-            RequestContext.getCurrentInstance().update("wpisywaniefooter");
+            PrimeFaces.current().ajax().update("zestawieniedokumentow:dataList");
+            PrimeFaces.current().ajax().update("wpisywaniefooter");
             Msg.msg("i", "Wybrano dokument do edycji " + selected.toString());
             setZapisz0edytuj1(true);
             if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
@@ -1668,7 +1666,7 @@ public class DokfkView implements Serializable {
                 } else {
                     selected.setZablokujzmianewaluty(false);
                 }
-                RequestContext.getCurrentInstance().update("formwpisdokument");
+                PrimeFaces.current().ajax().update("formwpisdokument");
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");
@@ -1703,7 +1701,7 @@ public class DokfkView implements Serializable {
                     selected.setZablokujzmianewaluty(false);
                 }
                 edycjaanalityczne();
-                RequestContext.getCurrentInstance().update("formwpisdokument");
+                PrimeFaces.current().ajax().update("formwpisdokument");
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");
@@ -1728,7 +1726,7 @@ public class DokfkView implements Serializable {
             tabelenbp = Collections.synchronizedList(new ArrayList<>());
             tabelenbp.add(wybranaTabelanbp);
             obsluzcechydokumentu();
-            RequestContext.getCurrentInstance().update(wierszedytowany);
+            PrimeFaces.current().ajax().update(wierszedytowany);
             Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.toString());
             zapisz0edytuj1 = true;
             if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
@@ -1762,11 +1760,11 @@ public class DokfkView implements Serializable {
             setZapisz0edytuj1(true);
             totylkoedycjazapis = true;
             Msg.msg("Wybrano dokument do edycji: "+selected.getDokfkSN());
-//            RequestContext.getCurrentInstance().update("formwpisdokument");
-//            RequestContext.getCurrentInstance().update("zestawieniezapisownakontachpola1");
+//            PrimeFaces.current().ajax().update("formwpisdokument");
+//            PrimeFaces.current().ajax().update("zestawieniezapisownakontachpola1");
 //            String nazwa = "formwpisdokument:dataList:"+numer+":opisdokwpis";
 //            String wierszf = "$(document.getElementById('"+nazwa+"')).select()";
-//            RequestContext.getCurrentInstance().execute(wierszf);
+//            PrimeFaces.current().executeScript(wierszf);
         }
     }
 
@@ -1778,11 +1776,11 @@ public class DokfkView implements Serializable {
             setZapisz0edytuj1(true);
             totylkoedycjazapis = true;
             Msg.msg("Wybrano dokument do edycji: "+selected.getDokfkSN());
-//            RequestContext.getCurrentInstance().update("formwpisdokument");
-//            RequestContext.getCurrentInstance().update("zestawieniezapisownakontachpola1");
+//            PrimeFaces.current().ajax().update("formwpisdokument");
+//            PrimeFaces.current().ajax().update("zestawieniezapisownakontachpola1");
 //            String nazwa = "formwpisdokument:dataList:"+numer+":opisdokwpis";
 //            String wierszf = "$(document.getElementById('"+nazwa+"')).select()";
-//            RequestContext.getCurrentInstance().execute(wierszf);
+//            PrimeFaces.current().executeScript(wierszf);
         }
     }
 
@@ -1792,7 +1790,7 @@ public class DokfkView implements Serializable {
     public void przywrocwpisbutton() {
         setZapisz0edytuj1(false);
         selected.setwTrakcieEdycji(false);
-        RequestContext.getCurrentInstance().execute("PF('wpisywanie').hide();");
+        PrimeFaces.current().executeScript("PF('wpisywanie').hide();");
     }
 
 //    //</editor-fold>
@@ -1987,7 +1985,7 @@ public class DokfkView implements Serializable {
                 p.remove();
             }
         }
-        RequestContext.getCurrentInstance().update("zestawieniedokumentowimport");
+        PrimeFaces.current().ajax().update("zestawieniedokumentowimport");
     }
 
     //************************
@@ -2012,13 +2010,13 @@ public class DokfkView implements Serializable {
         }
         if (aktualnyWierszDlaRozrachunkow.isNowatransakcja()== false) {
             String f = "PF('rozrachunki').hide();";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         }
-        RequestContext.getCurrentInstance().update("formcheckbox");
-        RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowywybor");
-        RequestContext.getCurrentInstance().update("wpisywaniefooter");
-        RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontown");
-        RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontoma");
+        PrimeFaces.current().ajax().update("formcheckbox");
+        PrimeFaces.current().ajax().update("formwpisdokument:panelwalutowywybor");
+        PrimeFaces.current().ajax().update("wpisywaniefooter");
+        PrimeFaces.current().ajax().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontown");
+        PrimeFaces.current().ajax().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontoma");
     }
 
     public void pobranieWiersza(Wiersz wybranywiersz) {
@@ -2077,20 +2075,20 @@ public class DokfkView implements Serializable {
                             rachunek = true;
                         }
                         rachunekCzyPlatnosc = rachunek == true ? "rachunek" : "płatność";
-                        RequestContext.getCurrentInstance().update("formtransakcjawybor:transakcjawybormenu");
+                        PrimeFaces.current().ajax().update("formtransakcjawybor:transakcjawybormenu");
                     }
                     //to juz jest jak wciakam art-r no i zostawienie tego powoduje ze przy edycji dokumentu kreuja sie puste transakcje, ktore potem sa zachowywane  bazie
 //                    if (wybranastronawiersza.getTypStronaWiersza() == 1) {
 //                        biezacetransakcje = tworzenieTransakcjiRachunek(wnma, wybranastronawiersza);
-//                        RequestContext.getCurrentInstance().update("rozrachunki");
-//                        RequestContext.getCurrentInstance().update("dialogdrugi");
-//                        RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
+//                        PrimeFaces.current().ajax().update("rozrachunki");
+//                        PrimeFaces.current().ajax().update("dialogdrugi");
+//                        PrimeFaces.current().ajax().update("formcheckbox:znaczniktransakcji");
 //                        //platnosc
 //                    } else if (wybranastronawiersza.getTypStronaWiersza() == 2) {
 //                        biezacetransakcje = tworzenieTransakcjiPlatnosc(wnma, wybranastronawiersza);
-//                        RequestContext.getCurrentInstance().update("rozrachunki");
-//                        RequestContext.getCurrentInstance().update("dialogdrugi");
-//                        RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
+//                        PrimeFaces.current().ajax().update("rozrachunki");
+//                        PrimeFaces.current().ajax().update("dialogdrugi");
+//                        PrimeFaces.current().ajax().update("formcheckbox:znaczniktransakcji");
 //                    } else {
 //                    }
 
@@ -2129,7 +2127,7 @@ public class DokfkView implements Serializable {
                 for (Cechazapisu c : cechyuzyte) {
                     pobranecechypodatnik.remove(c);
                 }
-                //RequestContext.getCurrentInstance().update("formCHW");
+                //PrimeFaces.current().ajax().update("formCHW");
             }
         }
     }
@@ -2156,10 +2154,10 @@ public class DokfkView implements Serializable {
 
     public void oznaczjakonowatransakcja() {
         oznaczJakoRachunek();
-        RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowywybor");
-        RequestContext.getCurrentInstance().update("parametry");
-        RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontown");
-        RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontoma");
+        PrimeFaces.current().ajax().update("formwpisdokument:panelwalutowywybor");
+        PrimeFaces.current().ajax().update("parametry");
+        PrimeFaces.current().ajax().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontown");
+        PrimeFaces.current().ajax().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontoma");
     }
     
     //to sie pojawia jak wciscnie alt-r i wiesz juz jest okreslony
@@ -2171,22 +2169,22 @@ public class DokfkView implements Serializable {
         }
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
             oznaczJakoPlatnosc();
-            RequestContext.getCurrentInstance().update("parametry");
-            //RequestContext.getCurrentInstance().update("formcheckbox");
+            PrimeFaces.current().ajax().update("parametry");
+            //PrimeFaces.current().ajax().update("formcheckbox");
         }
         //nowa transakcja
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 1) {
             biezacetransakcje = tworzenieTransakcjiRachunek(wnmadoprzeniesienia, aktualnyWierszDlaRozrachunkow);
-            //RequestContext.getCurrentInstance().update("formcheckbox");
-            //RequestContext.getCurrentInstance().update("rozrachunki");
-            RequestContext.getCurrentInstance().update("dialogdrugi");
-            //RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
+            //PrimeFaces.current().ajax().update("formcheckbox");
+            //PrimeFaces.current().ajax().update("rozrachunki");
+            PrimeFaces.current().ajax().update("dialogdrugi");
+            //PrimeFaces.current().ajax().update("formcheckbox:znaczniktransakcji");
             //platnosc
         } else if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 2) {
             biezacetransakcje = tworzenieTransakcjiPlatnosc(wnmadoprzeniesienia, aktualnyWierszDlaRozrachunkow);
-            //RequestContext.getCurrentInstance().update("rozrachunki");
-            //RequestContext.getCurrentInstance().update("dialogdrugi");
-            //RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
+            //PrimeFaces.current().ajax().update("rozrachunki");
+            //PrimeFaces.current().ajax().update("dialogdrugi");
+            //PrimeFaces.current().ajax().update("formcheckbox:znaczniktransakcji");
         } else {
         }
     }
@@ -2195,8 +2193,8 @@ public class DokfkView implements Serializable {
         aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(2);
         selected.setZablokujzmianewaluty(true);
         rodzaj = 2;
-        RequestContext.getCurrentInstance().update("rozrachunki");
-        RequestContext.getCurrentInstance().update("formcheckbox");
+        PrimeFaces.current().ajax().update("rozrachunki");
+        PrimeFaces.current().ajax().update("formcheckbox");
     }
 
     public void oznaczJakoRachunek() {
@@ -2253,25 +2251,25 @@ public class DokfkView implements Serializable {
                 } else {
                     funkcja = "zablokujcheckbox('false','platnosc');";
                 }
-                RequestContext.getCurrentInstance().execute(funkcja);
+                PrimeFaces.current().executeScript(funkcja);
                 //usunalem aby bylo szybciej
                 //zerujemy rzeczy w dialogu
                 if (transakcje.size() == 0) {
                     rodzaj = -2;
                     wybranastronawiersza.setTypStronaWiersza(0);
-                    RequestContext.getCurrentInstance().update("parametry");
-                    RequestContext.getCurrentInstance().execute("PF('rozrachunki').hide();");
+                    PrimeFaces.current().ajax().update("parametry");
+                    PrimeFaces.current().executeScript("PF('rozrachunki').hide();");
                 }
             } else {
                 Msg.msg("e", "Wybierz najpierw konto rozrachunkowe");
                 //zerujemy rzeczy w dialogu
-                RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
+                PrimeFaces.current().executeScript("powrotdopolaPoNaniesieniuRozrachunkow();");
             }
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Wybierz pole zawierające numer konta");
             //zerujemy rzeczy w dialogu
-            RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
+            PrimeFaces.current().executeScript("powrotdopolaPoNaniesieniuRozrachunkow();");
         }
         return transakcje;
     }
@@ -2296,23 +2294,23 @@ public class DokfkView implements Serializable {
                     }
                     zablokujprzyciskzapisz = true;
                 }
-                RequestContext.getCurrentInstance().execute(funkcja);
-                RequestContext.getCurrentInstance().update("rozrachunki");
-                RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
+                PrimeFaces.current().executeScript(funkcja);
+                PrimeFaces.current().ajax().update("rozrachunki");
+                PrimeFaces.current().ajax().update("formcheckbox:znaczniktransakcji");
                 //chyba nadmiarowe, jest juz w javascript onShow
 //                String znajdz = "znadzpasujacepolerozrachunku(" + wybranastronawiersza.getPozostalo() + ")";
-//                RequestContext.getCurrentInstance().execute(znajdz);
+//                PrimeFaces.current().executeScript(znajdz);
 
             } else {
                 Msg.msg("e", "Wybierz najpierw konto rozrachunkowe");
                 //zerujemy rzeczy w dialogu
-                RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
+                PrimeFaces.current().executeScript("powrotdopolaPoNaniesieniuRozrachunkow();");
             }
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Wybierz pole zawierające numer konta");
             //zerujemy rzeczy w dialogu
-            RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
+            PrimeFaces.current().executeScript("powrotdopolaPoNaniesieniuRozrachunkow();");
         }
         return transakcje;
     }
@@ -2340,10 +2338,10 @@ public class DokfkView implements Serializable {
             aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(0);
             if (aktualnyWierszDlaRozrachunkow.getWiersz().getTypWiersza()==0 && !aktualnyWierszDlaRozrachunkow.getWiersz().getStronaWn().getSaRozrachunki() && aktualnyWierszDlaRozrachunkow.getWiersz().getStronaMa().getKonto()==null) {
                 aktualnyWierszDlaRozrachunkow.getWiersz().setOpisWiersza("wyzerowano rozrachunki");
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":opisdokwpis");
+                PrimeFaces.current().ajax().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":opisdokwpis");
             } else  if (aktualnyWierszDlaRozrachunkow.getWiersz().getTypWiersza()==0 && !aktualnyWierszDlaRozrachunkow.getWiersz().getStronaWn().getSaRozrachunki() && !aktualnyWierszDlaRozrachunkow.getWiersz().getStronaMa().getSaRozrachunki()) {
                 aktualnyWierszDlaRozrachunkow.getWiersz().setOpisWiersza("wyzerowano rozrachunki");
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":opisdokwpis");
+                PrimeFaces.current().ajax().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":opisdokwpis");
             }
         } else {
             aktualnyWierszDlaRozrachunkow.setOpis(new HashSet<>());
@@ -2366,7 +2364,7 @@ public class DokfkView implements Serializable {
                 } else {
                     aktualnyWierszDlaRozrachunkow.getWiersz().setOpisWiersza(opislinia);
                 }
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":opisdokwpis");
+                PrimeFaces.current().ajax().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":opisdokwpis");
             }
         }
         selected.setLiczbarozliczonych(DokFKTransakcjeBean.sprawdzrozliczoneWiersze(selected.getListawierszy()));
@@ -2375,13 +2373,13 @@ public class DokfkView implements Serializable {
         } else {
             selected.setZablokujzmianewaluty(false);
         }
-        RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
-        RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontown");
-        RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":wn");
-        RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontoma");
-        RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":ma");
+        PrimeFaces.current().ajax().update("formwpisdokument:panelwalutowy");
+        PrimeFaces.current().ajax().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontown");
+        PrimeFaces.current().ajax().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":wn");
+        PrimeFaces.current().ajax().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontoma");
+        PrimeFaces.current().ajax().update("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":ma");
         
-        //RequestContext.getCurrentInstance().execute("wybierzWierszPoZmianieWaluty();");
+        //PrimeFaces.current().executeScript("wybierzWierszPoZmianieWaluty();");
     }
 
     
@@ -2422,7 +2420,7 @@ public class DokfkView implements Serializable {
                 }
                 if (staranazwa != null && selected.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
                     DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
-                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                    PrimeFaces.current().ajax().update("formwpisdokument:dataList");
                     selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
                 } else {
                     Waluty waluta = walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty);
@@ -2439,7 +2437,7 @@ public class DokfkView implements Serializable {
                 //najpierw trzeba przewalutowac ze starym kursem, a potem wlepis polska tabele
                 if (staranazwa != null && selected.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
                     DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
-                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                    PrimeFaces.current().ajax().update("formwpisdokument:dataList");
                     selected.setWalutadokumentu(domyslnaTabelanbp.getWaluta());
                 } else {
                     selected.setWalutadokumentu(domyslnaTabelanbp.getWaluta());
@@ -2458,10 +2456,10 @@ public class DokfkView implements Serializable {
                     symbolWalutyNettoVat = " zł";
                 }
             }
-            RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat");
-            RequestContext.getCurrentInstance().update("formwpisdokument:panelTabelaNBP");
-            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-            RequestContext.getCurrentInstance().execute("r('formwpisdokument:tablicavat:0:netto_input').select();");
+            PrimeFaces.current().ajax().update("formwpisdokument:tablicavat");
+            PrimeFaces.current().ajax().update("formwpisdokument:panelTabelaNBP");
+            PrimeFaces.current().ajax().update("formwpisdokument:dataList");
+            PrimeFaces.current().executeScript("r('formwpisdokument:tablicavat:0:netto_input').select();");
         }
     }
 
@@ -2511,9 +2509,9 @@ public class DokfkView implements Serializable {
     public void sprawdzlimity(Transakcja loop, int row) {
         if (aktualnyWierszDlaRozrachunkow.getPozostalo() < 0.0) {
                 Msg.msg("e","Rozliczono ponad kwotę płatności. Nie można zapisać rozliczeń");
-                RequestContext.getCurrentInstance().execute("r(\"rozrachunki:zapiszrozrachunekButton\").hide();");
+                PrimeFaces.current().executeScript("r(\"rozrachunki:zapiszrozrachunekButton\").hide();");
             } else {
-                RequestContext.getCurrentInstance().execute("r(\"rozrachunki:zapiszrozrachunekButton\").show();");
+                PrimeFaces.current().executeScript("r(\"rozrachunki:zapiszrozrachunekButton\").show();");
             }
     }
 
@@ -2536,7 +2534,7 @@ public class DokfkView implements Serializable {
         przepiszWaluty(wierszbiezacy);
         int lpwtabeli = wierszbiezacy.getIdporzadkowy() - 1;
         String update = "formwpisdokument:dataList:" + lpwtabeli + ":kurswiersza";
-        RequestContext.getCurrentInstance().update(update);
+        PrimeFaces.current().ajax().update(update);
     }
 
     private void skopiujDateZWierszaWyzej(Wiersz wierszbiezacy) {
@@ -2592,13 +2590,13 @@ public class DokfkView implements Serializable {
                 if (wiersz.getStronaMa().getKwota() == 0.0) {
                     wiersz.getStronaMa().setKwota(wiersz.getStronaWn().getKwota());
                     przepiszWaluty(wiersz);
-                    RequestContext.getCurrentInstance().update(coupdate);
+                    PrimeFaces.current().ajax().update(coupdate);
                 }
             } else if (wiersz.getTypWiersza() == 5) {
                 if (wiersz.getStronaMa().getKwota() == 0.0) {
                     wiersz.getStronaMa().setKwota(wiersz.getStronaWn().getKwota());
                     przepiszWaluty(wiersz);
-                    RequestContext.getCurrentInstance().update(coupdate);
+                    PrimeFaces.current().ajax().update(coupdate);
                 }
             }
 
@@ -2643,7 +2641,7 @@ public class DokfkView implements Serializable {
         String nowynumer = DokFKBean.wygenerujnumerkolejny(selected, wpisView, dokDAOfk, klientdlaPK, wierszBODAO);
         if (zapisz0edytuj1 == false && nowynumer!=null && !nowynumer.equals("") && selected.getNumerwlasnydokfk() == null) {
             selected.setNumerwlasnydokfk(nowynumer);
-            RequestContext.getCurrentInstance().update("formwpisdokument:numerwlasny");
+            PrimeFaces.current().ajax().update("formwpisdokument:numerwlasny");
         }
         if (selected.getRodzajedok()!=null && (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5)) {
             pobierzopiszpoprzedniegodokItemSelect();
@@ -2671,16 +2669,16 @@ public class DokfkView implements Serializable {
 //            wierszRK.getStronaMa().setKwota(ewidencjaVatRK.getNetto());
 //        }
 //        String update = "formwpisdokument:dataList:"+wierszRKindex+":dataWiersza";
-//        RequestContext.getCurrentInstance().update(update);
+//        PrimeFaces.current().ajax().update(update);
 //        update = "formwpisdokument:dataList:"+wierszRKindex+":wn";
-//        RequestContext.getCurrentInstance().update(update);
+//        PrimeFaces.current().ajax().update(update);
 //        update = "formwpisdokument:dataList:"+wierszRKindex+":ma";
-//        RequestContext.getCurrentInstance().update(update);
+//        PrimeFaces.current().ajax().update(update);
 //        update = "formwpisdokument:dataList:"+wierszRKindex+":kontown";
-//        RequestContext.getCurrentInstance().update(update);
+//        PrimeFaces.current().ajax().update(update);
 //        update = "formwpisdokument:dataList:"+wierszRKindex+":kontoma";
-//        RequestContext.getCurrentInstance().update(update);
-//        RequestContext.getCurrentInstance().execute("odtworzwierszVATRK();");
+//        PrimeFaces.current().ajax().update(update);
+//        PrimeFaces.current().executeScript("odtworzwierszVATRK();");
 //        ewidencjaVatRK = null;
 //        Msg.msg("Zachowano zapis w ewidencji VAT");
     }
@@ -2724,7 +2722,7 @@ public class DokfkView implements Serializable {
                         ewidencjaVatRK.setEwidencja(ewidencjadlaRKDEL);
                         ewidencjaVATRKzapis0edycja1 = false;
                     }
-                    RequestContext.getCurrentInstance().update("dialogewidencjavatRK");
+                    PrimeFaces.current().ajax().update("dialogewidencjavatRK");
                 } catch (Exception e) {
                     E.e(e);
                 }
@@ -2925,10 +2923,10 @@ public class DokfkView implements Serializable {
                         Wiersz wierszponizej = selected.nastepnyWiersz(wierszzmieniony);
                         if (wierszponizej != null) {
                             ObslugaWiersza.wygenerujWierszRoznicowy(wierszzmieniony, true, nrgr, selected);
-                            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                            PrimeFaces.current().ajax().update("formwpisdokument:dataList");
                         } else {
                             ObslugaWiersza.wygenerujWierszRoznicowy(wierszzmieniony, false, nrgr, selected);
-                            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                            PrimeFaces.current().ajax().update("formwpisdokument:dataList");
                         }
                         selected.przeliczKwotyWierszaDoSumyDokumentu();
                     }
@@ -2942,7 +2940,7 @@ public class DokfkView implements Serializable {
 
     public void przelicznaklawiszu() {
         selected.przeliczKwotyWierszaDoSumyDokumentu();
-        RequestContext.getCurrentInstance().update("formwpisdokument:wartoscdokumentu");
+        PrimeFaces.current().ajax().update("formwpisdokument:wartoscdokumentu");
     }
 
 //    public void resetujzaksiegowane() {
@@ -3057,9 +3055,9 @@ public class DokfkView implements Serializable {
                 wiersz.setDataWalutyWiersza(null);
                 przepiszWaluty(wiersz);
                 String update = "formwpisdokument:dataList:" + wierszid + ":kurswiersza";
-                RequestContext.getCurrentInstance().update(update);
+                PrimeFaces.current().ajax().update(update);
                 update = "formwpisdokument:dataList:" + wierszid + ":dataWiersza";
-                RequestContext.getCurrentInstance().update(update);
+                PrimeFaces.current().ajax().update(update);
                 poledlawaluty = "";
             }
         } catch (Exception e) {
@@ -3077,7 +3075,7 @@ public class DokfkView implements Serializable {
                 wiersz.setTabelanbp(tabelanbprecznie);
                 przepiszWaluty(wiersz);
                 String update = "formwpisdokument:dataList:" + wierszid + ":kurswiersza";
-                RequestContext.getCurrentInstance().update(update);
+                PrimeFaces.current().ajax().update(update);
                 poledlawaluty = "";
             }
         } catch (Exception e) {
@@ -3176,7 +3174,7 @@ public class DokfkView implements Serializable {
                 Uz uz = wpisView.getUzer();
                 PdfDokfk.drukujtrescpojedynczegodok(nazwa, p, uz);
                 String f = "pokazwydruk('" + nazwa + "');";
-                RequestContext.getCurrentInstance().execute(f);
+                PrimeFaces.current().executeScript(f);
             }
         } else {
             Msg.msg("w", "Nie wybrano wierszy do wydruku");
@@ -3193,7 +3191,7 @@ public class DokfkView implements Serializable {
         dodajTabele(document, testobjects.testobjects.getTabelaZaksiegowane(wiersze), 100, 0);
         finalizacjaDokumentuQR(document,nazwa);
         String f = "wydrukZaksiegowaneLista('" + wpisView.getPodatnikObiekt().getNip() + "');";
-        RequestContext.getCurrentInstance().execute(f);
+        PrimeFaces.current().executeScript(f);
     }
 
     public void usunzaznaczone() {

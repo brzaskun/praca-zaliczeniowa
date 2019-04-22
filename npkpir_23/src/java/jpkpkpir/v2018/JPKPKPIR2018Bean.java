@@ -19,8 +19,7 @@ import java.util.List;
 import java.util.Map;
 import msg.Msg;
 import view.ParametrView;
-import view.WpisView;
-import waluty.Z;
+import view.WpisView;import waluty.Z;
 
 /**
  *

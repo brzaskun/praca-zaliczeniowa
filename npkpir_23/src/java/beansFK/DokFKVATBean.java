@@ -5,7 +5,6 @@
  */
 package beansFK;
 
-import daoFK.CechazapisuDAOfk;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
 import entityfk.Cechazapisu;
@@ -19,14 +18,12 @@ import entityfk.Wiersz;
 import error.E;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.inject.Named;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 import viewfk.subroutines.ObslugaWiersza;
 import waluty.Z;
 
@@ -249,9 +246,9 @@ public class DokFKVATBean {
                }
                 pobierzkontaZpoprzedniegoDokumentu(poprzedniDokument, selected);
                 int index = wierszvatdoc.getLp()-1 < 0 ? 0 : wierszvatdoc.getLp()-1;
-                RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+index+":netto");
-                RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+index+":brutto");
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                PrimeFaces.current().ajax().update("formwpisdokument:tablicavat:"+index+":netto");
+                PrimeFaces.current().ajax().update("formwpisdokument:tablicavat:"+index+":brutto");
+                PrimeFaces.current().ajax().update("formwpisdokument:dataList");
             } catch (Exception e1) {
                 Msg.msg("w", "Brak zdefiniowanych kont przyporządkowanych do dokumentu. Nie można wygenerować wierszy.");
             }
@@ -412,9 +409,9 @@ public class DokFKVATBean {
             if (selected.getRodzajedok().getProcentkup()!=0.0) {
                 rozliczobcieciekosztow(selected, nkup);
             }
-            RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:0:netto");
-            RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:0:brutto");
-            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+            PrimeFaces.current().ajax().update("formwpisdokument:tablicavat:0:netto");
+            PrimeFaces.current().ajax().update("formwpisdokument:tablicavat:0:brutto");
+            PrimeFaces.current().ajax().update("formwpisdokument:dataList");
 
         } catch (Exception e1) {
             Msg.msg("w", "Brak zdefiniowanych kont przyporządkowanych do dokumentu. Nie można wygenerować wierszy.");
@@ -630,9 +627,9 @@ public class DokFKVATBean {
                     }
                     rozliczobcieciekosztow(selected, nkup);
                 }
-                RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+lp+":netto");
-                RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+lp+":brutto");
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                PrimeFaces.current().ajax().update("formwpisdokument:tablicavat:"+lp+":netto");
+                PrimeFaces.current().ajax().update("formwpisdokument:tablicavat:"+lp+":brutto");
+                PrimeFaces.current().ajax().update("formwpisdokument:dataList");
             
         } catch (Exception e1) {
             Msg.msg("w", "Brak zdefiniowanych kont przyporządkowanych do dokumentu. Nie można wygenerować wierszy.");
@@ -1032,9 +1029,9 @@ public class DokFKVATBean {
                     }
                }
                 int index = ewidencjaVatRK.getLp()-1 < 0 ? 0 : ewidencjaVatRK.getLp()-1;
-                RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+index+":netto");
-                RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+index+":brutto");
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                PrimeFaces.current().ajax().update("formwpisdokument:tablicavat:"+index+":netto");
+                PrimeFaces.current().ajax().update("formwpisdokument:tablicavat:"+index+":brutto");
+                PrimeFaces.current().ajax().update("formwpisdokument:dataList");
             } catch (Exception e1) {
                 Msg.msg("w", "Brak zdefiniowanych kont przyporządkowanych do dokumentu. Nie można wygenerować wierszy.");
             }

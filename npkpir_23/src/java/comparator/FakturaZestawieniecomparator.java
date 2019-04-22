@@ -5,13 +5,7 @@
 package comparator;
 
 import embeddable.FakturaZestawienie;
-import entity.Dok;
-import error.E;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Comparator;
-import java.util.Date;
 import javax.inject.Named;
 
 /**

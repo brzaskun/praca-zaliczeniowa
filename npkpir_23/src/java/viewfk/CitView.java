@@ -13,7 +13,6 @@ import daoFK.KontoDAOfk;
 import daoFK.PozycjaRZiSDAO;
 import embeddable.CitBiezacyPozycja;
 import embeddablefk.TreeNodeExtended;
-import entityfk.Konto;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
@@ -27,10 +26,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import org.primefaces.model.TreeNode;
-import view.WpisView;
-import waluty.Z;
+import msg.Msg;import org.primefaces.model.TreeNode;
+import view.WpisView;import waluty.Z;
 
 /**
  *

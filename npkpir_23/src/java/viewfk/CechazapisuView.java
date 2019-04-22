@@ -11,7 +11,6 @@ import daoFK.CechazapisuDAOfk;
 import entity.Dok;
 import entityfk.Cechazapisu;
 import entityfk.CharakterCechy;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +21,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
-
 /**
  *
  * @author Osito

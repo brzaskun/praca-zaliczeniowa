@@ -26,10 +26,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import plik.Plik;
-import view.WpisView;
+import msg.Msg;import plik.Plik;
+import view.WpisView; import org.primefaces.PrimeFaces;
 import waluty.Z;
 
 
@@ -160,7 +158,7 @@ public class PdfFakturySporzadzone {
             document.add(table);
             document.close();
             String funkcja = "wydrukfakturysporzadzone('" + wpisView.getPodatnikWpisu() + "');";
-            RequestContext.getCurrentInstance().execute(funkcja);
+            PrimeFaces.current().executeScript(funkcja);
             Msg.msg("i", "Wydrukowano zestawienie wybranych faktur");
         } catch (Exception e) {
             E.e(e);

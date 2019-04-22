@@ -22,11 +22,9 @@ import java.util.Collections;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import static pdffk.PdfMain.*;
+import msg.Msg;import static pdffk.PdfMain.*;
 import plik.Plik;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 
 /**
@@ -105,7 +103,7 @@ public class PdfUPO extends Pdf implements Serializable {
             dodajLinieOpisuBezOdstepu(document, opis);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Pusty plik JPK");
         }
@@ -179,7 +177,7 @@ public class PdfUPO extends Pdf implements Serializable {
             dodajLinieOpisuBezOdstepu(document, opis);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Pusty plik JPK");
         }
@@ -216,7 +214,7 @@ public class PdfUPO extends Pdf implements Serializable {
             }
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Pusty plik JPK");
         }
@@ -253,7 +251,7 @@ public class PdfUPO extends Pdf implements Serializable {
             }
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Pusty plik JPK");
         }

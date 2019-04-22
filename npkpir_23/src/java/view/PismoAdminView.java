@@ -27,7 +27,6 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import mail.MailAdmin;
 import msg.Msg;
-
 /**
  *
  * @author Osito

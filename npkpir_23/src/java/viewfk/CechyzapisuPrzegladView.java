@@ -10,7 +10,6 @@ import daoFK.DokDAOfk;
 import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.StronaWiersza;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,9 +21,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import org.primefaces.context.RequestContext;
 import pdffk.PdfCechyZapisow;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -104,7 +102,7 @@ public class CechyzapisuPrzegladView implements Serializable{
                 }
             }
         }
-        RequestContext.getCurrentInstance().update("formcechyzapisow");
+        PrimeFaces.current().ajax().update("formcechyzapisow");
     }
 
     

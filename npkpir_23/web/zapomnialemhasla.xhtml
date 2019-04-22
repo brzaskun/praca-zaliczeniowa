@@ -22,7 +22,7 @@
             <h:form id="formlog0">
                 <p:panelGrid columns="3" style="margin-top: 5px; margin-left: auto; margin-right: auto; width: 400px; border-style: hidden !important;">
                     <div style="height: 200px;">
-                        <p:messages id="logowanie"  autoUpdate="true"/>
+                        <p:messages id="logowanie"  ><p:autoUpdate/></p:growl>
                     </div>
                    <p:column >
                         <p:commandButton value="#{mgs.zaloguj}" action="failure" style="width: 140px;"/>

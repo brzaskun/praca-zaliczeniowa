@@ -24,10 +24,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import msg.B;
-import msg.Msg;
-import plik.Plik;
-import view.WpisView;
-import waluty.Z;
+import msg.Msg;import plik.Plik;
+import view.WpisView;import waluty.Z;
 
 /**
  *

@@ -7,7 +7,6 @@ package beanDialog;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -20,6 +19,6 @@ public class OD {
         options.put("draggable", false);
         options.put("resizable", false);
         options.put("contentHeight", wysokosc);
-        RequestContext.getCurrentInstance().openDialog(nazwa, options, null);
+        //RequestContext.getCurrentInstance().openDialog(nazwa, options, null);
     }
 }

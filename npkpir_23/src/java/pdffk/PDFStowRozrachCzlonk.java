@@ -16,10 +16,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.*;
 import plik.Plik;
 import viewfk.StowRozrachCzlonkView;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -41,7 +41,7 @@ public class PDFStowRozrachCzlonk {
             dodajTabele(document, testobjects.testobjects.getStowRozrachCzlonk(wykaz),95,0,8);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Błąd podczas wydruku");
         }
@@ -69,7 +69,7 @@ public class PDFStowRozrachCzlonk {
             };
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Błąd podczas wydruku");
         }

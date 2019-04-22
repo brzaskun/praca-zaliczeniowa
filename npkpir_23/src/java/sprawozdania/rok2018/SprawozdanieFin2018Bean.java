@@ -9,13 +9,11 @@ import data.Data;
 import entity.Podatnik;
 import entityfk.PozycjaRZiSBilans;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.XMLGregorianCalendar;
 import waluty.Z;
 
 /**

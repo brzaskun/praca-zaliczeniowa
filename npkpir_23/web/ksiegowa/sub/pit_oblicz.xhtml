@@ -11,7 +11,7 @@
         <p:tab id="tab2" title="Oblicz PIT" rendered="#{WpisView.ksiegaryczalt}" >
             <h:outputText value="Uwaga podatnik rozlicza się kwartalnie!" style="font-weight: 900; color: red;" rendered="#{WpisView.mc0kw1}"/>
             <h:form id="formpit">
-                <p:growl life="3600"  id="messages" autoUpdate="true" />
+                <p:growl life="3600"  id="messages" ><p:autoUpdate/></p:growl>
                 <h:outputText value="#{ZestawienieView.komunikatblad}" style="color: red;"/>
                 <p:panelGrid id="danedopit" columns="3">
                     <p:panelGrid  columns="1" >
@@ -151,7 +151,7 @@
         <p:tab id="tab4" title="Oblicz Ryczałt" rendered="#{!WpisView.ksiegaryczalt}">
             <h:outputText value="Uwaga podatnik rozlicza się kwartalnie!" style="font-weight: 900; color: red;" rendered="#{WpisView.mc0kw1}"/>
             <h:form id="formpit1">
-                <p:growl life="3600"  id="messages" autoUpdate="true" />
+                <p:growl life="3600"  id="messages" ><p:autoUpdate/></p:growl>
                 <p:panelGrid  columns="3" >
                     <p:panelGrid  columns="1" >
                         <p:panel header="wybierz osobę: " style="width: 250px;"/>

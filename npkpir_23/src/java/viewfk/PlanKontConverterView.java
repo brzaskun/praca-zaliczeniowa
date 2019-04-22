@@ -8,7 +8,6 @@ package viewfk;
 
 import daoFK.KontoDAOfk;
 import entityfk.Konto;
-import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -17,7 +16,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import view.WpisView;
-
 /**
  *
  * @author Osito

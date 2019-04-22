@@ -27,9 +27,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import static pdf.PdfVAT7.absText;
+import msg.Msg;import static pdf.PdfVAT7.absText;
 import pdffk.PdfMain;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
@@ -38,7 +36,7 @@ import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
 import plik.Plik;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 import viewfk.MiejscePrzychodowView;
 
 /**
@@ -178,7 +176,7 @@ public class PdfMiejscePrzychodow {
             dodajTabele(document, testobjects.testobjects.getCzlonkowie(tabela),100,0);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } catch (Exception e) {
             E.e(e);
         } finally {

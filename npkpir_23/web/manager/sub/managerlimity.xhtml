@@ -10,7 +10,7 @@
     <p:accordionPanel id="akordeon">
         <p:tab title="limit do VAT">  
             <h:form id="form_limitdovat">
-                <p:growl life="3600"  autoUpdate="true"/>
+                <p:growl life="3600"  ><p:autoUpdate/></p:growl>
                 <p:dataTable value="#{granicaView.granicevat}" var="item" style="width: 480px;" rowIndexVar="index"
                              emptyMessage="nie ma zdefiniowanych limitów do vat" id="wykazschem" rowKey="#{item.id}"
                              selection="#{granicaView.selected}" selectionMode="single" sortBy="#{item.rok}" sortOrder="descending">
@@ -61,7 +61,7 @@
         </p:tab>
         <p:tab title="limit do pkpir">  
             <h:form id="form_limitdopkpir">
-                <p:growl life="3600"  autoUpdate="true"/>
+                <p:growl life="3600"  ><p:autoUpdate/></p:growl>
                 <p:dataTable value="#{granicaView.granicepkpir}" var="item" style="width: 480px;" rowIndexVar="index"
                              emptyMessage="nie ma zdefiniowanych limitów do pkpir" id="wykazschem" rowKey="#{item.id}"
                              selection="#{granicaView.selected}" selectionMode="single" sortBy="#{item.rok}" sortOrder="descending">
@@ -112,7 +112,7 @@
         </p:tab>
         <p:tab title="limit do księgi">  
             <h:form id="form_limitdoksiegi">
-                <p:growl life="3600"  autoUpdate="true"/>
+                <p:growl life="3600"  ><p:autoUpdate/></p:growl>
                 <p:dataTable value="#{granicaView.graniceksiegi}" var="item" style="width: 480px;" rowIndexVar="index"
                              emptyMessage="nie ma zdefiniowanych limitów do księgi" id="wykazschem" rowKey="#{item.id}"
                              selection="#{granicaView.selected}" selectionMode="single" sortBy="#{item.rok}" sortOrder="descending">
@@ -163,7 +163,7 @@
         </p:tab>
         <p:tab title="limit do kasa">  
             <h:form id="form_limitdokasa">
-                <p:growl life="3600"  autoUpdate="true"/>
+                <p:growl life="3600"  ><p:autoUpdate/></p:growl>
                 <p:dataTable value="#{granicaView.granicekasa}" var="item" style="width: 480px;" rowIndexVar="index"
                              emptyMessage="nie ma zdefiniowanych limitów do kasa" id="wykazschem" rowKey="#{item.id}"
                              selection="#{granicaView.selected}" selectionMode="single" sortBy="#{item.rok}" sortOrder="descending">

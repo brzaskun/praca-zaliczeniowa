@@ -14,7 +14,7 @@
                 <p:commandButton action="{zUSstawkiView.dodajzus()}" value="dodaj parametr" update="@form"  type="submit" />
             </p:panelGrid>
         </h:form>-->
-    <p:growl life="3600"  id="msgzus" autoUpdate="true"/>
+    <p:growl life="3600"  id="msgzus" ><p:autoUpdate/></p:growl>
 <!--    <h:form>
         <p:selectBooleanCheckbox value="#{zUSStawkiZbiorczeView.wszystkielata}" itemLabel="pokaż wszystkie lata" style="margin-left: 10px;">
             <p:ajax event="change" partialSubmit="true" update="akordeon"/>

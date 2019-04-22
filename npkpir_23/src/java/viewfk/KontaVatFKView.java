@@ -40,11 +40,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import view.EwidencjaVatView;
+import msg.Msg;import view.EwidencjaVatView;
 import view.ParametrView;
-import view.WpisView;
-import waluty.Z;
+import view.WpisView;import waluty.Z;
 
 /**
  *
@@ -96,7 +94,7 @@ public class KontaVatFKView implements Serializable {
 //    public void dodajBOdoKont() {
 //        //dodajBO = true;
 //        init();
-//        RequestContext.getCurrentInstance().update("form:akorderonbis:saldokontvat");
+//        PrimeFaces.current().ajax().update("form:akorderonbis:saldokontvat");
 //        Msg.msg("Dodano zapisy z BO");
 //    }
     

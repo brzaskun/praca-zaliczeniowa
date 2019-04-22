@@ -36,10 +36,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import plik.Plik;
-import view.WpisView;
+import msg.Msg;import plik.Plik;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -126,7 +124,7 @@ public class PdfVATKorektaReczna {
             document.add(new Paragraph("___________________________",fontM));
             document.add(new Paragraph("sporządził",fontM));
             document.close();
-            RequestContext.getCurrentInstance().execute("wydrukvatListaVATKorekta('"+selected.getDeklaracjaKorekta().getPodatnik()+"');");
+            PrimeFaces.current().executeScript("wydrukvatListaVATKorekta('"+selected.getDeklaracjaKorekta().getPodatnik()+"');");
             Msg.msg("i", "Wydrukowano liste dokumentow");
             
 

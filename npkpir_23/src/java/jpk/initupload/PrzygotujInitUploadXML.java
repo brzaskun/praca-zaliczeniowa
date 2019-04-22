@@ -13,7 +13,6 @@ import java.io.OutputStreamWriter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import view.WpisView;
-
 /**
  *
  * @author Osito

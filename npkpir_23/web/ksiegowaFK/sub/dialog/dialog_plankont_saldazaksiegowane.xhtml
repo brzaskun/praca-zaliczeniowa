@@ -33,13 +33,13 @@
                       <p:menuitem global="false" value="grupa 8" action="#{sesjaView.dodajwydruk()}" actionListener="#{planKontSaldaView.drukujPlanKont('grupa8')}" icon="fa fa-print"/>  
                   </p:splitButton>
                   <p:selectBooleanCheckbox id="bezslownikowych" itemLabel="bez słownikowych" value="#{planKontSaldaView.bezslownikowych}">
-                      <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontSaldaView.planBezSlownikowychSyntetyczne()}" update="form_dialog_plankont_saldazaksiegowane:dataList"/>
+                      <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontSaldaView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt)}" update="form_dialog_plankont_saldazaksiegowane:dataList"/>
                   </p:selectBooleanCheckbox>
                   <p:selectBooleanCheckbox itemLabel="tylko syntetyka" value="#{planKontSaldaView.tylkosyntetyka}">
-                      <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontSaldaView.planBezSlownikowychSyntetyczne()}" update="form_dialog_plankont_saldazaksiegowane:dataList"/>
+                      <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontSaldaView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt)}" update="form_dialog_plankont_saldazaksiegowane:dataList"/>
                   </p:selectBooleanCheckbox>
                   <p:selectOneMenu id="bilansowewynikowe" value="#{planKontSaldaView.kontadowyswietlenia}" required="true" requiredMessage="The Bilansowewynikowe field is required." style="width: 170px;">
-                        <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontSaldaView.planBezSlownikowychSyntetyczne()}" update="form_dialog_plankont_saldazaksiegowane:dataList"/>
+                        <p:ajax event="change" global="false" partialSubmit="true" listener="#{planKontSaldaView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt)}" update="form_dialog_plankont_saldazaksiegowane:dataList"/>
                         <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
                         <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
                         <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>

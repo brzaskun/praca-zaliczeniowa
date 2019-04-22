@@ -11,7 +11,6 @@ import comparator.Kliencicomparator;
 import dao.FakturaDAO;
 import dao.FakturaRozrachunkiDAO;
 import dao.FakturadodelementyDAO;
-import dao.KlienciDAO;
 import dao.SMTPSettingsDAO;
 import data.Data;
 import embeddable.FakturaPodatnikRozliczenie;
@@ -37,8 +36,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.component.UISelectOne;
 import javax.inject.Inject;
 import mail.MailFaktRozrach;
-import msg.Msg;
-import pdf.PdfFaktRozrach;
+import msg.Msg;import pdf.PdfFaktRozrach;
 import waluty.Z;
 
 /**

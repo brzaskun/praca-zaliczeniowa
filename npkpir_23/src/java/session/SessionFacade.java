@@ -101,7 +101,6 @@ import org.eclipse.persistence.config.QueryHints;
 import org.eclipse.persistence.queries.LoadGroup;
 import view.WpisView;
 
-
 /**
  *
  * @author Osito

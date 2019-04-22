@@ -15,11 +15,11 @@
                     <script>
                         $(document).on("keydown", TabKeyDown);
                     </script>
-                    <p:growl life="3600"  autoUpdate="true"/>
+                    <p:growl life="3600"  ><p:autoUpdate/></p:growl>
                     <div id="ramki">
                     </div>
                     <h:form>
-                        <p:growl life="3600"  autoUpdate="true"/>
+                        <p:growl life="3600"  ><p:autoUpdate/></p:growl>
                     </h:form>
                     <p:confirmDialog id="confirmDialog" message="Usunąć dany układ? Operacja jest nieodwracalna!"  
                                          header="Usuwanie układu" severity="alert" widgetVar="confirm" width="500" appendTo="@(body)"

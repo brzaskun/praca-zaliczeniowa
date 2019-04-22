@@ -17,16 +17,12 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
-import msg.Msg;
-import static msg.Msg.msg;
-import org.primefaces.context.RequestContext;
+import msg.Msg; import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
 import params.Params;
 import viewfk.KliencifkView;
@@ -90,8 +86,8 @@ public class KlView implements Serializable {
             selected.setNpelna("");
             selected.setNskrocona("");
             Msg.msg("e", "Klient o takiej nazwie jest już w bazie");
-            RequestContext.getCurrentInstance().update("formnkfaktura");
-            RequestContext.getCurrentInstance().execute("fakturaduplikatklienta()");
+            PrimeFaces.current().ajax().update("formnkfaktura");
+            PrimeFaces.current().executeScript("fakturaduplikatklienta()");
         }
 
     }
@@ -110,7 +106,7 @@ public class KlView implements Serializable {
             } else {
                 selected = new Klienci();
                 Msg.msg("e", "Klient o takiej nazwie jest już w bazie");
-                RequestContext.getCurrentInstance().execute("fakturaduplikatklientakontrahent()");
+                PrimeFaces.current().executeScript("fakturaduplikatklientakontrahent()");
             }
         }
 
@@ -185,26 +181,26 @@ public class KlView implements Serializable {
         }
         if (evfk != null) {
             evfk.setKlient(selected);
-            RequestContext.getCurrentInstance().update("ewidencjavatRK:klientRK");
+            PrimeFaces.current().ajax().update("ewidencjavatRK:klientRK");
         }
         //jeżeli funkcja jest wywolana z wpisywania dokumnetu to zerujemy pola
         if (dokfk != null) {
             dokfk.setKontr(selected);
-            RequestContext.getCurrentInstance().update("formwpisdokument:acForce");
-            RequestContext.getCurrentInstance().update("formXNowyKlient:polawprowadzania");
-            RequestContext.getCurrentInstance().update("formXNowyKlient:polawprowadzania1");
+            PrimeFaces.current().ajax().update("formwpisdokument:acForce");
+            PrimeFaces.current().ajax().update("formXNowyKlient:polawprowadzania");
+            PrimeFaces.current().ajax().update("formXNowyKlient:polawprowadzania1");
         }
         try {
             kliencifkView.setWybranyklient(serialclone.SerialClone.clone(selected));
             kliencifkView.setWybranyklient1(serialclone.SerialClone.clone(selected));
             kliencifkView.pobieraniekontaFK();
-            RequestContext.getCurrentInstance().update("kliencifk");
-            RequestContext.getCurrentInstance().update("kontoformV");
-            RequestContext.getCurrentInstance().update("kontoformE");
+            PrimeFaces.current().ajax().update("kliencifk");
+            PrimeFaces.current().ajax().update("kontoformV");
+            PrimeFaces.current().ajax().update("kontoformE");
         } catch (Exception e) {}
-        RequestContext.getCurrentInstance().update("form_dialog_wpisywanie_znajdzkontrahenta");
+        PrimeFaces.current().ajax().update("form_dialog_wpisywanie_znajdzkontrahenta");
         selected = new Klienci();
-        RequestContext.getCurrentInstance().update("formXNowyKlient");
+        PrimeFaces.current().ajax().update("formXNowyKlient");
     }
 
 //    public void pobierzklientazPliku() throws IOException {
@@ -364,7 +360,7 @@ public class KlView implements Serializable {
             klDAO.destroy(doUsuniecia);
             kl1.remove(doUsuniecia);
             klienciFiltered.remove(doUsuniecia);
-            RequestContext.getCurrentInstance().update("formY:");
+            PrimeFaces.current().ajax().update("formY:");
             Msg.msg("i", "Usunięto wskazanego klienta", "formX:mess_add");
         } catch (Exception e) {
             E.e(e);
@@ -375,7 +371,7 @@ public class KlView implements Serializable {
 
     public void dodajpustegomaila() {
         ((Klienci) selected).setEmail("niema@maila.pl");
-        RequestContext.getCurrentInstance().update("formX:emailpole");
+        PrimeFaces.current().ajax().update("formX:emailpole");
     }
 
     private void poszukajDuplikatNip() throws Exception {
@@ -400,7 +396,7 @@ public class KlView implements Serializable {
                         if (edycja) {
                             Msg.msg("w", "Klient o takim numerze NIP juz istnieje!");
                         } else {
-                            RequestContext.getCurrentInstance().execute("rj('formX:nipPole').value = 'taki nip jest już w bazie';");
+                            PrimeFaces.current().executeScript("rj('formX:nipPole').value = 'taki nip jest już w bazie';");
                             Msg.msg("e", "Klient o takim numerze NIP juz istnieje!");
                         }
                     }

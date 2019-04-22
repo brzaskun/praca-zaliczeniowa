@@ -10,7 +10,7 @@
         </ui:define>
         <ui:define name="body">
                 <f:view contentType="text/html">
-                    <p:growl life="3600"  id="messages"  autoUpdate="true"/>
+                    <p:growl life="3600"  id="messages"  ><p:autoUpdate/></p:growl>
                     <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
                         <ui:include src="sub/layoutPismoAdmin/north.xhtml"/>  <!-- panel polnocny-->
                         <ui:include src="sub/layoutPismoAdmin/south.xhtml"/>   <!-- panel poludniowy-->

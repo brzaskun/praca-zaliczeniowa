@@ -6,7 +6,6 @@
 package dao;
 
 import embeddable.Kwartaly;
-import entity.EVatwpis1;
 import entity.Podatnik;
 import entityfk.EVatwpisFK;
 import error.E;

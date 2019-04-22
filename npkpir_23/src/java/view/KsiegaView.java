@@ -9,14 +9,12 @@ import beansDok.KsiegaBean;
 import dao.DokDAO;
 import dao.SMTPSettingsDAO;
 import dao.SumypkpirDAO;
-
 import embeddable.DokKsiega;
 import embeddable.Mce;
 import entity.Dok;
 import entity.KwotaKolumna1;
 import entity.Podatnik;
 import entity.Sumypkpir;
-
 import entityfk.Cechazapisu;
 import error.E;
 import interceptor.WydrukInterceptor;
@@ -31,14 +29,11 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
-import javax.servlet.http.HttpSession;
 import mail.MailOther;
-import msg.Msg;
-import pdf.PdfPkpir;
+import msg.Msg;import pdf.PdfPkpir;
 
 /**
  *

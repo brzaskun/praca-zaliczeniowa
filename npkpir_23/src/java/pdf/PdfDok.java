@@ -19,7 +19,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.primefaces.context.RequestContext;
 import pdffk.PdfMain;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
@@ -29,7 +28,7 @@ import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
 import plik.Plik;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 import waluty.Z;
 
 /**
@@ -67,7 +66,7 @@ public class PdfDok extends Pdf implements Serializable {
             PdfMain.dodajLinieOpisu(document, opis);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } catch (Exception e) {
             E.e(e);
         } finally {
@@ -107,7 +106,7 @@ public class PdfDok extends Pdf implements Serializable {
             PdfMain.dodajLinieOpisu(document, opis);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } catch (Exception e) {
             E.e(e);
         } finally {
@@ -157,7 +156,7 @@ public class PdfDok extends Pdf implements Serializable {
             }
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } catch (Exception e) {
             E.e(e);
         } finally {
@@ -285,7 +284,7 @@ public class PdfDok extends Pdf implements Serializable {
             }
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } catch (Exception e) {
             E.e(e);
         } finally {

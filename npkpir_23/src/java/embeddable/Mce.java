@@ -15,7 +15,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import msg.Msg;
 import view.WpisView;
-
 /**
  *
  * @author Osito

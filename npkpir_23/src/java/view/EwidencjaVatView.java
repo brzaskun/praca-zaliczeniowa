@@ -11,11 +11,9 @@ import dao.EvewidencjaDAO;
 import dao.RodzajedokDAO;
 import dao.SMTPSettingsDAO;
 import dao.WniosekVATZDEntityDAO;
-
 import daoFK.EVatwpisDedraDAO;
 import daoFK.EVatwpisFKDAO;
 import data.Data;
-import embeddable.EVatwpis;
 import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
 import embeddable.Mce;
@@ -26,7 +24,6 @@ import entity.EVatwpisSuper;
 import entity.Evewidencja;
 import entity.Podatnik;
 import entity.WniosekVATZDEntity;
-
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
 import error.E;
@@ -52,13 +49,10 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
 import mail.MailOther;
-import msg.Msg;
+import msg.Msg; import org.primefaces.PrimeFaces;
 import org.primefaces.component.tabview.TabView;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.UnselectEvent;
-import params.Params;
 import pdf.PdfVAT;
 import pdf.PdfVATsuma;
 import waluty.Z;
@@ -211,7 +205,7 @@ public class EwidencjaVatView implements Serializable {
                 rowek++;
             }
             String p = "form:akordeon:akordeon2:"+iTabPanel.getActiveIndex()+":tabela:"+rowek+":polespr";
-            RequestContext.getCurrentInstance().update(p);
+            PrimeFaces.current().ajax().update(p);
         }
     }
 
@@ -236,7 +230,7 @@ public class EwidencjaVatView implements Serializable {
                 ewidencje.add(p);
             }
             pobierzmiesiacdlajpk = false;
-            //RequestContext.getCurrentInstance().update("formVatZestKsiegowa");
+            //PrimeFaces.current().ajax().update("formVatZestKsiegowa");
             //Msg.msg("Sporządzono ewidencje");
         } catch (Exception e) { 
             Msg.dPe();
@@ -263,7 +257,7 @@ public class EwidencjaVatView implements Serializable {
                 ewidencje.add(p);
             }
             pobierzmiesiacdlajpk = false;
-            RequestContext.getCurrentInstance().update("formVatZestKsiegowa");
+            PrimeFaces.current().ajax().update("formVatZestKsiegowa");
             Msg.msg("Sporządzono ewidencje");
         } catch (Exception e) { 
             Msg.dPe();
@@ -311,9 +305,9 @@ public class EwidencjaVatView implements Serializable {
                 ewidencjeFK.add(p);
             }
             pobierzmiesiacdlajpk = false;
-            RequestContext.getCurrentInstance().update("form");
-            RequestContext.getCurrentInstance().update("formEwidencjeGuest");
-            RequestContext.getCurrentInstance().update("form_dialog_ewidencjevat_sprawdzanie");
+            PrimeFaces.current().ajax().update("form");
+            PrimeFaces.current().ajax().update("formEwidencjeGuest");
+            PrimeFaces.current().ajax().update("form_dialog_ewidencjevat_sprawdzanie");
         } catch (Exception e) { 
             E.e(e); 
         }
@@ -926,7 +920,7 @@ public class EwidencjaVatView implements Serializable {
                     String plik = nazwa+ ".pdf";
                     PdfVAT.drukujewidencjenajednejkartce(plik, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), mc, listaewidencji, false);
                     String co = "pokazwydruk('"+nazwa+"')";
-                    RequestContext.getCurrentInstance().execute(co);
+                    PrimeFaces.current().executeScript(co);
                 } else {
                     break;
                 }

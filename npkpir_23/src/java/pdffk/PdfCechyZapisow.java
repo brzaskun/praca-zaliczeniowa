@@ -24,10 +24,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.*;
 import plik.Plik;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 import viewfk.CechyzapisuPrzegladView;
 import viewfk.CechyzapisuPrzegladView.CechaStronaWiersza;
 
@@ -89,7 +88,7 @@ public class PdfCechyZapisow {
                 }
                 finalizacjaDokumentuQR(document,nazwa);
                 String f = "wydrukCechyzapisu('"+wpisView.getPodatnikObiekt().getNip()+"');";
-                RequestContext.getCurrentInstance().execute(f);
+                PrimeFaces.current().executeScript(f);
                 Msg.msg("Wydrukowano zestawienie");
             } catch (Exception e) {
                 String el = E.e(e);
@@ -140,7 +139,7 @@ public class PdfCechyZapisow {
             dodajTabele(document, testobjects.testobjects.getTabelaCechyZapisowZest(wiersze),100,0);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Nie wybrano wierszy do wydruku");
         }
@@ -167,7 +166,7 @@ public class PdfCechyZapisow {
             }
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Nie wybrano wierszy do wydruku");
         }

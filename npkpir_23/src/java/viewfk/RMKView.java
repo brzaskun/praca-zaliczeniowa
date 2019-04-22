@@ -39,9 +39,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import view.WpisView;
+import msg.Msg;import view.WpisView; import org.primefaces.PrimeFaces;
 import waluty.Z;
 
 /**
@@ -107,7 +105,7 @@ public class RMKView  implements Serializable {
         Collections.sort(listakontrmk, new Kontocomparator());
         listarmk = rmkdao.findRMKByPodatnikRok(wpisView);
         this.sumarmk = podsumujrmk(listarmk);
-        RequestContext.getCurrentInstance().update("formrmk");
+        PrimeFaces.current().ajax().update("formrmk");
     }
     
     public void dodajNoweRMKDokfk(List<Dokfk> wybranydok) {

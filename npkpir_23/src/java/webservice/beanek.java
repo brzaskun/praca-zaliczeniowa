@@ -57,12 +57,11 @@ import javax.xml.ws.Holder;
 import javax.xml.ws.WebServiceRef;
 import jpkview.JPK_VAT2View;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import service.GateService;
 import view.DeklaracjevatView;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -685,7 +684,7 @@ public class beanek  implements Serializable {
         sprawdzanadeklaracja.setStatus(String.valueOf(stat.value));
         sprawdzanadeklaracja.setOpis(opisMBT);
         deklaracjevatDAO.edit(sprawdzanadeklaracja);
-        RequestContext.getCurrentInstance().update("formX:dokumentyLista");
+        PrimeFaces.current().ajax().update("formX:dokumentyLista");
     }
     
     public void pobierzwyslanetestUE(DeklaracjavatUE sprawdzanadeklaracja) {

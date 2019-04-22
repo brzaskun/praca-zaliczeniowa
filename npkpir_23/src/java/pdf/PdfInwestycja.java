@@ -26,10 +26,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import plik.Plik;
-import view.WpisView;
+import msg.Msg;import plik.Plik;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -140,7 +138,7 @@ public class PdfInwestycja {
         pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());
         pdf.add(table);
         pdf.close();
-        RequestContext.getCurrentInstance().execute("wydrukinwestycja('"+wpisView.getPodatnikWpisu()+"');");
+        PrimeFaces.current().executeScript("wydrukinwestycja('"+wpisView.getPodatnikWpisu()+"');");
         Msg.msg("i", "Wydrukowano wybraną inwestycję", "form:messages");
     }
 }

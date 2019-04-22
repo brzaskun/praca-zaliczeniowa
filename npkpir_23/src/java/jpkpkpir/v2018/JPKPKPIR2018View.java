@@ -5,7 +5,6 @@
  */
 package jpkpkpir.v2018;
 
-import jpkpkpir.v2018.JPKPKPIR2018Bean;
 import embeddable.DokKsiega;
 import embeddable.TKodUS;
 import entity.JPKSuper;
@@ -26,11 +25,8 @@ import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
-import view.WpisView;
-import jpkpkpir.v2018.JPKPKPIR2018Bean.*;
-import jpkpkpir.v2018.JPK;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -67,7 +63,7 @@ public class JPKPKPIR2018View implements Serializable {
                     jpk.setPKPIRCtrl(JPKPKPIR2018Bean.kontrola(listawierszy));
                     String sciezka = marszajuldoplikuxml(wpisView.getPodatnikObiekt(), jpk);
                     String polecenie = "wydrukXML(\""+sciezka+"\")";
-                    RequestContext.getCurrentInstance().execute(polecenie);
+                    PrimeFaces.current().executeScript(polecenie);
                     Msg.msg("Wygenerowano JPK_PKPIR");
                 }
             } catch (Exception e) {

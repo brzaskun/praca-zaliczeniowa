@@ -16,8 +16,7 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import javax.inject.Named;
-import view.WpisView;
-import viewfk.MiejscePrzychodowView;
+import view.WpisView;import viewfk.MiejscePrzychodowView;
 
 /**
  *

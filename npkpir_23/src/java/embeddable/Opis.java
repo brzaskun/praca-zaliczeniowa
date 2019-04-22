@@ -17,8 +17,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -57,7 +56,7 @@ public class Opis implements Serializable{
                 podatnik.setOpisypkpir(opisy);
                 podatnikDAO.edit(podatnik);
                 Msg.msg("i", "Dodano opis: "+ns);
-                RequestContext.getCurrentInstance().update("dodWiad:mess_add");
+                PrimeFaces.current().ajax().update("dodWiad:mess_add");
             }
         }
     }

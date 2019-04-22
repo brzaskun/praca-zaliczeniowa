@@ -21,7 +21,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import msg.Msg;
-
 /**
  *
  * @author Osito

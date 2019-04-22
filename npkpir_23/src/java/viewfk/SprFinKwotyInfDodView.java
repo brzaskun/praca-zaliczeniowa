@@ -20,17 +20,12 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.servlet.ServletContext;
-import static jdk.nashorn.internal.objects.ArrayBufferView.buffer;
-import msg.Msg;
-import org.apache.commons.io.IOUtils;
-import org.primefaces.context.RequestContext;
+import msg.Msg;import org.apache.commons.io.IOUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import plik.Plik;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -105,7 +100,7 @@ public class SprFinKwotyInfDodView  implements Serializable{
             outStream = new FileOutputStream(targetFile);
             outStream.write(sprFinKwotyInfDod.getPlik());
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -128,7 +123,7 @@ public class SprFinKwotyInfDodView  implements Serializable{
             outStream.write(sprFinKwotyInfDod.getPlikxml());
             nazwa = nazwa+".xml";
             String f = "pokazwydrukpdf('"+nazwa+"');";//jest pdf ale to pokazuje bez dodawanai rozszerzenia
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

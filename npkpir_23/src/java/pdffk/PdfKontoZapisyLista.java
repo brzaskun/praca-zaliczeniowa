@@ -36,8 +36,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import pdf.*;
 import plik.Plik;
-import view.WpisView;
-import waluty.Z;
+import view.WpisView;import waluty.Z;
 
 /**
  *

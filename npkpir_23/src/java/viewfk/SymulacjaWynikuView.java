@@ -21,7 +21,6 @@ import entity.PodatnikUdzialy;
 import entityfk.Cechazapisu;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
-import entityfk.Waluty;
 import entityfk.WynikFKRokMc;
 import error.E;
 import java.io.Serializable;
@@ -36,10 +35,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.B;
-import msg.Msg;
-import pdf.PdfSymulacjaWyniku;
-import view.WpisView;
-import waluty.Z;
+import msg.Msg;import pdf.PdfSymulacjaWyniku;
+import view.WpisView;import waluty.Z;
 
 /**
  *

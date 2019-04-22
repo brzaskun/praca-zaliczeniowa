@@ -35,9 +35,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Named;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import pdffk.PdfMain;
+import msg.Msg;import pdffk.PdfMain;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
 import static pdffk.PdfMain.finalizacjaDokumentuQR;
@@ -46,7 +44,7 @@ import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
 import plik.Plik;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -347,7 +345,7 @@ public class PdfKontoZapisy {
             dodajTabele(document, testobjects.testobjects.getKontoZapisy(nowalista),95,2);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Nie wybrano Planu kont do wydruku");
         }

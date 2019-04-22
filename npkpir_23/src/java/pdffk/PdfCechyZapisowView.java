@@ -17,10 +17,9 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.*;
 import plik.Plik;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 import viewfk.CechyzapisuPrzegladView;
 
 /**
@@ -50,7 +49,7 @@ public class PdfCechyZapisowView implements Serializable {
             dodajTabele(document, testobjects.testobjects.getTabelaCechyZapisow(wiersze),100,0);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "wydrukCechyzapisu('"+wpisView.getPodatnikObiekt().getNip()+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Nie wybrano wierszy do wydruku");
         }

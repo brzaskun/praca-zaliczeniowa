@@ -29,8 +29,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import plik.Plik;
-import view.WpisView;
-import viewfk.KontoObrotyFKView;
+import view.WpisView;import viewfk.KontoObrotyFKView;
 
 /**
  *

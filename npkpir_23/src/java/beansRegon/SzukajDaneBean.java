@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -57,14 +57,14 @@ public class SzukajDaneBean {
                     }
                 }
             }
-            RequestContext.getCurrentInstance().update(formularz+":nazwaPole");
-            RequestContext.getCurrentInstance().update(formularz+":symbolPole");
-            RequestContext.getCurrentInstance().update(formularz+":kodPole");
-            RequestContext.getCurrentInstance().update(formularz+":miejscowoscPole");
-            RequestContext.getCurrentInstance().update(formularz+":ulicaPole");
-            RequestContext.getCurrentInstance().update(formularz+":domPole");
-            RequestContext.getCurrentInstance().update(formularz+":lokalPole");
-            RequestContext.getCurrentInstance().update(formularz+":krajPole");
+            PrimeFaces.current().ajax().update(formularz+":nazwaPole");
+            PrimeFaces.current().ajax().update(formularz+":symbolPole");
+            PrimeFaces.current().ajax().update(formularz+":kodPole");
+            PrimeFaces.current().ajax().update(formularz+":miejscowoscPole");
+            PrimeFaces.current().ajax().update(formularz+":ulicaPole");
+            PrimeFaces.current().ajax().update(formularz+":domPole");
+            PrimeFaces.current().ajax().update(formularz+":lokalPole");
+            PrimeFaces.current().ajax().update(formularz+":krajPole");
         }
     }
      
@@ -147,17 +147,17 @@ public class SzukajDaneBean {
                     }
                 }
             }
-            RequestContext.getCurrentInstance().update(formularz+":nazwapelna");
-            RequestContext.getCurrentInstance().update(formularz+":regon");
-            RequestContext.getCurrentInstance().update(formularz+":powiat");
-            RequestContext.getCurrentInstance().update(formularz+":kod");
-            RequestContext.getCurrentInstance().update(formularz+":wojewodztwo");
-            RequestContext.getCurrentInstance().update(formularz+":miejscowosc");
-            RequestContext.getCurrentInstance().update(formularz+":gmina");
-            RequestContext.getCurrentInstance().update(formularz+":poczta");
-            RequestContext.getCurrentInstance().update(formularz+":ulica");
-            RequestContext.getCurrentInstance().update(formularz+":nrdomu");
-            RequestContext.getCurrentInstance().update(formularz+":nrlokalu");
+            PrimeFaces.current().ajax().update(formularz+":nazwapelna");
+            PrimeFaces.current().ajax().update(formularz+":regon");
+            PrimeFaces.current().ajax().update(formularz+":powiat");
+            PrimeFaces.current().ajax().update(formularz+":kod");
+            PrimeFaces.current().ajax().update(formularz+":wojewodztwo");
+            PrimeFaces.current().ajax().update(formularz+":miejscowosc");
+            PrimeFaces.current().ajax().update(formularz+":gmina");
+            PrimeFaces.current().ajax().update(formularz+":poczta");
+            PrimeFaces.current().ajax().update(formularz+":ulica");
+            PrimeFaces.current().ajax().update(formularz+":nrdomu");
+            PrimeFaces.current().ajax().update(formularz+":nrlokalu");
         }
     }
      

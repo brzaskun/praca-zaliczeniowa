@@ -9,7 +9,7 @@
     
     xmlns:bcf="http://brzaskun.com/facelets">
     <h:form>
-    <p:growl life="3600"  id="messages" autoUpdate="true"/>
+    <p:growl life="3600"  id="messages" ><p:autoUpdate/></p:growl>
     <p:panelGrid id="dodrukupit" columns="1" style="width: 1200px" rendered="#{WpisView.ksiegaryczalt}" >
                 <p:panel header="zachowane PIT-y: " /><br/>
                 <p:dataTable id="tablicapit" value="#{pit36View.lista}" var="loop" selectionMode="single"  rowKey="#{loop.id}" sortBy="#{loop.pkpirM}" style="width: 100%;"

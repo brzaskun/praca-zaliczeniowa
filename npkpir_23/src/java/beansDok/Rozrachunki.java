@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.List;
 import javax.inject.Named;
 import view.WpisView;
-
 /**
  *
  * @author Osito

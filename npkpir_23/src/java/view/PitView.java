@@ -7,9 +7,7 @@ package view;
 import dao.PitDAO;
 import dao.PodatnikDAO;
 import dao.SMTPSettingsDAO;
-
 import entity.Pitpoz;
-
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
@@ -20,12 +18,9 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
 import mail.MailOther;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
+import msg.Msg; import org.primefaces.PrimeFaces;
 import pdf.PdfPIT5;
 
 /**
@@ -70,7 +65,7 @@ public class PitView implements Serializable {
         Pitpoz selected = lista.get(index);
         pitDAO.destroy(selected);
         lista.remove(selected);
-        RequestContext.getCurrentInstance().update("formpi:tablicapit");
+        PrimeFaces.current().ajax().update("formpi:tablicapit");
         Msg.msg("i", "Usunieto ostatni PIT dla podatnika "+selected.getUdzialowiec()+" za m-c: "+selected.getPkpirM(),"formpi:messages");
     }
      

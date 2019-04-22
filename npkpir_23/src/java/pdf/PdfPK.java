@@ -33,11 +33,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import msg.Msg;
-import static pdf.PdfVAT7.absText;
+import msg.Msg;import static pdf.PdfVAT7.absText;
 import plik.Plik;
 import view.WpisView;
-
 /**
  *
  * @author Osito

@@ -18,12 +18,10 @@ import entity.SumypkpirPK;
 import error.E;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import javax.inject.Named;
 import view.ParametrView;
 import view.WpisView;
-
 /**
  *
  * @author Osito

@@ -18,7 +18,6 @@ import java.util.List;
 import javax.inject.Inject;
 import session.SessionFacade;
 import view.WpisView;
-
 /**
  *
  * @author Osito

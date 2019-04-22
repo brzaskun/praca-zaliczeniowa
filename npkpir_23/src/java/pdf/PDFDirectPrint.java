@@ -6,9 +6,6 @@
 
 package pdf;
 
-import java.lang.reflect.Executable;
-import msg.Msg;
-
 /**
  *
  * @author Osito

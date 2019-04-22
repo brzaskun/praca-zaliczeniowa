@@ -8,7 +8,6 @@ package sortfunction;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import view.WpisView;
-
 /**
  *
  * @author Osito

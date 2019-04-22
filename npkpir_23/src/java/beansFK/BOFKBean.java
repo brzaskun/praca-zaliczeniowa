@@ -17,7 +17,6 @@ import java.util.Collections;
 import java.util.List;
 import javax.inject.Named;
 import view.WpisView;
-
 /**
  *
  * @author Osito

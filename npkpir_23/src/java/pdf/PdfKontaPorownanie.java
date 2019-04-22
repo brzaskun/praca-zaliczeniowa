@@ -38,11 +38,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import msg.B;
-import msg.Msg;
-import static pdffk.PdfMain.inicjacjaA4Portrait;
+import msg.Msg;import static pdffk.PdfMain.inicjacjaA4Portrait;
 import plik.Plik;
-import view.WpisView;
-import waluty.Z;
+import view.WpisView;import waluty.Z;
 
 /**
  *

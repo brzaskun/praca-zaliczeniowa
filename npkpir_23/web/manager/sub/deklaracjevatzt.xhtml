@@ -10,7 +10,7 @@
     <p:accordionPanel id="akordeon">
         <p:tab title="Schemy załącznika VAT-ZT">  
             <h:form id="form_deklVATZalSchemaView">
-                <p:growl life="3600"  autoUpdate="true"/>
+                <p:growl life="3600"  ><p:autoUpdate/></p:growl>
                 <p:dataTable value="#{deklVATZalSchemaView.schemyDeklaracjiVatZT}" var="item" style="width: 680px;"
                              emptyMessage="nie ma zdefiniowanych schem ZT" id="wykazschem" rowKey="#{item.id}"
                              selection="#{deklVATZalSchemaView.wybranaschemaZT}" selectionMode="single" sortBy="#{item.nazwaschemy}" sortOrder="descending">

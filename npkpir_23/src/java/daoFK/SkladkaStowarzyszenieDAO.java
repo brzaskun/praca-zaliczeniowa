@@ -11,7 +11,6 @@ import java.io.Serializable;
 import java.util.List;
 import javax.inject.Named;
 import view.WpisView;
-
 /**
  *
  * @author Osito

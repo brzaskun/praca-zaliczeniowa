@@ -5,7 +5,6 @@
  */
 package view;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import dao.FakturaDAO;
 import dao.KlienciDAO;
 import entity.Faktura;
@@ -20,7 +19,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
-
 /**
  *
  * @author Osito

@@ -10,7 +10,6 @@ import dao.PlatnosciDAO;
 import dao.PodatnikDAO;
 import dao.RyczDAO;
 import dao.UzDAO;
-
 import embeddable.Mce;
 import entity.Deklaracjevat;
 import entity.Pitpoz;
@@ -18,7 +17,6 @@ import entity.Platnosci;
 import entity.PlatnosciPK;
 import entity.Podatnik;
 import entity.Ryczpoz;
-
 import entity.Zusstawki;
 import error.E;
 import java.io.IOException;
@@ -31,9 +29,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
 
 /**
  *

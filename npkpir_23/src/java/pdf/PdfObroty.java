@@ -28,10 +28,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import plik.Plik;
-import view.WpisView;
+import msg.Msg;import plik.Plik;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -120,7 +118,7 @@ public class PdfObroty  {
         pdf.addAuthor("Biuro Rachunkowe Taxman");
         pdf.close();
         pdffk.PdfMain.dodajQR(nazwapliku);
-        RequestContext.getCurrentInstance().execute("wydrukobroty('"+wpisView.getPodatnikWpisu()+"');");
+        PrimeFaces.current().executeScript("wydrukobroty('"+wpisView.getPodatnikWpisu()+"');");
         Msg.msg("i", "Wydrukowano obroty", "form:messages");
     }
 

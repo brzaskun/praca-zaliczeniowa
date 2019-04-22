@@ -12,7 +12,6 @@ import entityfk.Transakcja;
 import java.io.File;
 import java.util.List;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
 import static pdffk.PdfMain.finalizacjaDokumentuQR;
@@ -21,7 +20,7 @@ import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
 import plik.Plik;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -46,7 +45,7 @@ public class PdfRRK {
             dodajTabele(document, testobjects.testobjects.getTabelaRRK(pobranetransakcje),97,0);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Nie wybrano Zestawienia RRK do wydruku");
         }

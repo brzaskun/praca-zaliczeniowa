@@ -26,7 +26,6 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -34,14 +33,12 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import msg.Msg;
-import org.apache.commons.lang3.StringUtils;
+import msg.Msg;import org.apache.commons.lang3.StringUtils;
 import org.primefaces.component.treetable.TreeTable;
-import org.primefaces.context.RequestContext;
 import org.primefaces.model.TreeNode;
 import pdffk.PdfBilans;
 import pdffk.PdfRZiS;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -211,8 +208,8 @@ public class PozycjaBRKontaView implements Serializable {
             boxNaKonto = konto;
             if (konto.getZwyklerozrachszczegolne().equals("szczególne")) {
                 if (konto.getPozycjaWn() == null && konto.getPozycjaMa()==null) {
-                    RequestContext.getCurrentInstance().update("kontownmawyborRZiS");
-                    RequestContext.getCurrentInstance().execute("PF('kontownmawyborRZiS').show();");
+                    PrimeFaces.current().ajax().update("kontownmawyborRZiS");
+                    PrimeFaces.current().executeScript("PF('kontownmawyborRZiS').show();");
                     Msg.msg("Konto niezwykle");
                 } else {
                     if (konto.getPozycjaWn() != null) {
@@ -232,7 +229,7 @@ public class PozycjaBRKontaView implements Serializable {
                 kontabezprzydzialu.remove(konto);
                 uzupelnijpozycjeOKontaR(pozycje);   
             }
-            RequestContext.getCurrentInstance().update(wybranapozycja_wiersz);
+            PrimeFaces.current().ajax().update(wybranapozycja_wiersz);
         }
     }
 
@@ -245,8 +242,8 @@ public class PozycjaBRKontaView implements Serializable {
             boxNaKonto = konto;
             if (konto.getZwyklerozrachszczegolne().equals("rozrachunkowe") || konto.getZwyklerozrachszczegolne().equals("szczególne") || konto.getZwyklerozrachszczegolne().equals("vat")) {
                 if (konto.getPozycjaWn() == null && konto.getPozycjaMa()==null) {
-                    RequestContext.getCurrentInstance().update("kontownmawybor");
-                    RequestContext.getCurrentInstance().execute("PF('kontownmawybor').show();");
+                    PrimeFaces.current().ajax().update("kontownmawybor");
+                    PrimeFaces.current().executeScript("PF('kontownmawybor').show();");
                     Msg.msg("Konto niezwykle");
                 } else {
                     if (konto.getPozycjaWn() != null) {
@@ -268,8 +265,8 @@ public class PozycjaBRKontaView implements Serializable {
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
                 uzupelnijpozycjeOKonta(pozycje);
             }
-            RequestContext.getCurrentInstance().update(wybranapozycja_wiersz);
-            RequestContext.getCurrentInstance().update(".ui-state-highlight");
+            PrimeFaces.current().ajax().update(wybranapozycja_wiersz);
+            PrimeFaces.current().ajax().update(".ui-state-highlight");
         }
 
     }
@@ -297,7 +294,7 @@ public class PozycjaBRKontaView implements Serializable {
                 //czesc nanoszaca informacje na potomku
             }
             uzupelnijpozycjeOKontaR(pozycje);
-            RequestContext.getCurrentInstance().update(wybranapozycja_wiersz);
+            PrimeFaces.current().ajax().update(wybranapozycja_wiersz);
         }
     }
 
@@ -329,8 +326,8 @@ public class PozycjaBRKontaView implements Serializable {
                 //czesc nanoszaca informacje na potomku
             }
             uzupelnijpozycjeOKonta(pozycje);
-            RequestContext.getCurrentInstance().update(wybranapozycja_wiersz);
-            RequestContext.getCurrentInstance().update("formbilansuklad:dostepnekonta");
+            PrimeFaces.current().ajax().update(wybranapozycja_wiersz);
+            PrimeFaces.current().ajax().update("formbilansuklad:dostepnekonta");
         }
     }
 
@@ -411,7 +408,7 @@ public class PozycjaBRKontaView implements Serializable {
             Collections.sort(kontabezprzydzialu, new Kontocomparator());
         }
         uzupelnijpozycjeOKonta(pozycje);
-        RequestContext.getCurrentInstance().update(wybranapozycja_wiersz);
+        PrimeFaces.current().ajax().update(wybranapozycja_wiersz);
     }
 
     public void onKontoRemoveR(Konto konto, String br) {
@@ -468,7 +465,7 @@ public class PozycjaBRKontaView implements Serializable {
             Collections.sort(kontabezprzydzialu, new Kontocomparator());
         }
         uzupelnijpozycjeOKontaR(pozycje);
-        RequestContext.getCurrentInstance().update(wybranapozycja_wiersz);
+        PrimeFaces.current().ajax().update(wybranapozycja_wiersz);
     }
 
     public void wybranopozycjeRZiS() {

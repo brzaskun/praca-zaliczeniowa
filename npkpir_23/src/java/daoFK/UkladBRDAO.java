@@ -13,7 +13,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
-import view.WpisView;
 
 /**
  *

@@ -55,10 +55,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.event.ValueChangeListener;
 import javax.inject.Inject;
-import msg.Msg;
-import org.joda.time.DateTime;
+import msg.Msg;import org.joda.time.DateTime;
 import org.primefaces.component.panelgrid.PanelGrid;
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -300,8 +299,8 @@ private DokDAO dokDAO;
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd. Niedodano nowego podatnika-firmę FK: " + selectedDod.getNazwapelna());
         }
-        RequestContext.getCurrentInstance().reset("formwprowadzaniefirmy:panelwpisywanianowejfirmy");
-        RequestContext.getCurrentInstance().update("formwprowadzaniefirmy:panelwpisywanianowejfirmy");
+        PrimeFaces.current().resetInputs("formwprowadzaniefirmy:panelwpisywanianowejfirmy");
+        PrimeFaces.current().ajax().update("formwprowadzaniefirmy:panelwpisywanianowejfirmy");
     }
 
     public void edytuj() {
@@ -429,7 +428,7 @@ private DokDAO dokDAO;
 //        System.out.println("Rodzic: "
 //                + (wywolaneprzez = wywolaneprzez.getParent()));
 //        System.out.println("Klientid: " + wywolaneprzez.getClientId());
-//        RequestContext.getCurrentInstance().update(wywolaneprzez.getClientId());
+//        PrimeFaces.current().ajax().update(wywolaneprzez.getClientId());
 //        UIComponent output = new HtmlOutputText();
 //        UIComponent nowyinput = new HtmlInputText();
 //        UIComponent nowyinput1 = new HtmlInputText();
@@ -467,7 +466,7 @@ private DokDAO dokDAO;
 //        grid.getChildren().add(nowyinput1);
 //        grid.getChildren().add(button);
 //
-//        RequestContext.getCurrentInstance().update(wywolaneprzez.getClientId());
+//        PrimeFaces.current().ajax().update(wywolaneprzez.getClientId());
 //        listkakopia = Arrays.asList(listka);
 //        List<String> nowalista = new ArrayList();
 //        for (String c : listkakopia) {
@@ -482,7 +481,7 @@ private DokDAO dokDAO;
 //        UIComponent wywolaneprzez = getGrid();
 //
 //        //wywolaneprzez.setRendered(false);
-//        RequestContext.getCurrentInstance().update(wywolaneprzez.getClientId());
+//        PrimeFaces.current().ajax().update(wywolaneprzez.getClientId());
 //        HtmlOutputText output = new HtmlOutputText();
 //        UIComponent nowyinput = new HtmlInputText();
 //        UIComponent nowyinput1 = new HtmlInputText();
@@ -517,7 +516,7 @@ private DokDAO dokDAO;
 //        grid.getChildren().add(nowyinput1);
 //        grid.getChildren().add(button);
 //
-//        RequestContext.getCurrentInstance().update(wywolaneprzez.getClientId());
+//        PrimeFaces.current().ajax().update(wywolaneprzez.getClientId());
 //        listkakopia = Arrays.asList(listka);
 //        List<String> nowalista = new ArrayList();
 //        for (String c : listkakopia) {
@@ -868,7 +867,7 @@ private DokDAO dokDAO;
     public String przejdzdoStrony() {
         selected = wpisView.getPodatnikObiekt();
         //sprawdazic
-        RequestContext.getCurrentInstance().execute("openwindow()");
+        PrimeFaces.current().executeScript("openwindow()");
         return "/manager/managerPodUstaw.xhtml?faces-redirect=true";
     }
 
@@ -1202,7 +1201,7 @@ private DokDAO dokDAO;
     }
 
     public void updateDokKsi(ValueChangeListener ex) {
-        RequestContext.getCurrentInstance().update("akordeon:form6:parametryDokKsi");
+        PrimeFaces.current().ajax().update("akordeon:form6:parametryDokKsi");
     }
 
     public void znajdzdaneregon(String formularz) {
@@ -1226,10 +1225,10 @@ private DokDAO dokDAO;
 //                rodzajedokDAO.dodaj(p);
 //            }
 //            rodzajeDokumentowLista.addAll(rodzajedokDAO.findListaPodatnik(selected));
-//            RequestContext.getCurrentInstance().update("akordeon:form6:parametryDokKsi");
+//            PrimeFaces.current().ajax().update("akordeon:form6:parametryDokKsi");
 //        } else {
 //            rodzajeDokumentowLista.addAll(listaRodzajeDokPodatnika);
-//            RequestContext.getCurrentInstance().update("akordeon:form6:parametryDokKsi");
+//            PrimeFaces.current().ajax().update("akordeon:form6:parametryDokKsi");
 //        }
     }
     

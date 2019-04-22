@@ -11,12 +11,10 @@ import entity.Podatnik;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 /**
@@ -66,6 +64,7 @@ public class PodatnikWyborView implements Serializable {
         }
     }
 
+    
    
 
     //<editor-fold defaultstate="collapsed" desc="comment">

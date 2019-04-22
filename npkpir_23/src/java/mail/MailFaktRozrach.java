@@ -24,7 +24,6 @@ import javax.servlet.ServletContext;
 import msg.Msg;
 import plik.Plik;
 import view.WpisView;
-
 /**
  *
  * @author Osito

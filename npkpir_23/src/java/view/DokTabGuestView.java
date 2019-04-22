@@ -11,11 +11,9 @@ import dao.AmoDokDAO;
 import dao.DokDAO;
 import dao.PodatnikDAO;
 import dao.UzDAO;
-
 import entity.Dok;
 import entity.Podatnik;
 import entity.Rodzajedok;
-
 import entityfk.Cechazapisu;
 import error.E;
 import java.io.IOException;
@@ -29,9 +27,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
 import pdf.PdfDok;
 import pdf.PdfPK;
 import waluty.Z;

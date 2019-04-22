@@ -6,14 +6,12 @@
 package sprawozdania.rok2018;
 
 import entityfk.PozycjaRZiSBilans;
-import java.math.BigDecimal;
 import java.util.List;
 import static sprawozdania.rok2018.SprawozdanieFinOP2018Bean.naniesKwotyAB;
 import static sprawozdania.rok2018.SprawozdanieFinOP2018Bean.zrobTPoztchaSprawozdania;
 import static sprawozdania.rok2018.SprawozdanieFinOP2018Bean.zrobsuma;
-import static sprawozdania.rok2018.SprawozdanieFinOP2018Bean.zrobsumaminus;
-import static sprawozdania.rok2018.SprawozdanieFinOP2018Bean.zrobsumaplusplusminus;
 import static sprawozdania.rok2018.SprawozdanieFinOP2018Bean.zrobsumaplusminusplusminus;
+import static sprawozdania.rok2018.SprawozdanieFinOP2018Bean.zrobsumaplusplusminus;
 
 /**
  *

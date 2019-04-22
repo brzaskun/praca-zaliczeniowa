@@ -39,9 +39,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
-import msg.Msg;
+import msg.Msg; import org.primefaces.PrimeFaces;
 import org.joda.time.DateTime;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import pdf.PdfDok;
@@ -113,7 +112,7 @@ public class ImportFakturyView  implements Serializable {
             E.e(ex);
             Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");
         }
-        RequestContext.getCurrentInstance().execute("PF('dialogAjaxCzekaj').hide()");
+        PrimeFaces.current().executeScript("PF('dialogAjaxCzekaj').hide()");
     }
     
     private deklaracje.jpkfa.JPK pobierzJPK(InputStream is) {

@@ -12,7 +12,7 @@
             background-color: red;
         }
     </style>
-    <p:growl life="3600"  id="msgzus" autoUpdate="true"/>
+    <p:growl life="3600"  id="msgzus" ><p:autoUpdate/></p:growl>
     <h:form>
         <p:commandButton value="drukuj" actionListener="#{podatnicyView.drukujwszystkich}" style="width: 120px; margin: 10px;"/>
     <p:dataTable value="#{podatnicyView.podatnicy}" var="podatnik" sortBy="#{podatnik.printnazwa}" rowIndexVar="index" style="width: 1200px;"

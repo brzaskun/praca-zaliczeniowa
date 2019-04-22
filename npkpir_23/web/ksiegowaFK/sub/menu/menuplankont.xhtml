@@ -12,7 +12,7 @@
                     <p:menuitem value="Plan kont bieżącej firmy " onclick="PF('dialogplankont').show();" actionListener="#{planKontView.init}" oncomplete="ponumerujwiersze('form_dialog_plankont:dataList_data');"
                                 update="form_dialog_plankont"></p:menuitem>
                     <p:menuitem value="Plan kont inne ustawienia" onclick="PF('dialogplankont1').show();" 
-                                actionListener="#{planKontView.planBezSlownikowychSyntetyczne}"  update="form_dialog_plankont1:dataList"
+                                actionListener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt)}"  update="form_dialog_plankont1:dataList"
                                 ></p:menuitem>
                     <p:menuitem value="Nazwy kont - edycja" onclick="PF('dialog_plankont_nazwy_pl').show();" global="false"></p:menuitem>
                     <p:menuitem value="Nazwy kont - internacjonalizacja" onclick="PF('dialog_plankont_nazwy').show();" global="false"></p:menuitem>

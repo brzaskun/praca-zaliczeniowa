@@ -10,7 +10,6 @@ import dao.PodatnikDAO;
 import daoFK.SprawozdanieFinansoweDAO;
 import entity.Podatnik;
 import entityfk.SprawozdanieFinansowe;
-import error.E;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -23,9 +22,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import view.WpisView;
-
+import msg.Msg;import view.WpisView;
 /**
  *
  * @author Osito

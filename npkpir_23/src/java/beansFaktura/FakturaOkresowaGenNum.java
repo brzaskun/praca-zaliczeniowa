@@ -13,8 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.inject.Named;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -66,8 +65,8 @@ public class FakturaOkresowaGenNum {
                 selected.setLp(ostatnidokument.getLp() + 1);
                 Msg.msg("i", "Generuje kolejny numer faktury");
             }
-            RequestContext.getCurrentInstance().update("akordeon:formstworz:nrfaktury");
-            RequestContext.getCurrentInstance().execute("przeskoczdoceny();");
+            PrimeFaces.current().ajax().update("akordeon:formstworz:nrfaktury");
+            PrimeFaces.current().executeScript("przeskoczdoceny();");
         } else {
             if (istniejafakturykontrahenta == 0) {
                 String nazwaddo = selected.getKontrahent().getNskrocona().replace("\"", "");
@@ -90,8 +89,8 @@ public class FakturaOkresowaGenNum {
                 } while (czynumerjestnaliscie(nowynumer, numerypobranych));
                 Msg.msg("i", "Generuje kolejny numer faktury");
             }
-            RequestContext.getCurrentInstance().update("akordeon:formstworz:nrfaktury");
-            RequestContext.getCurrentInstance().execute("przeskoczdoceny();");
+            PrimeFaces.current().ajax().update("akordeon:formstworz:nrfaktury");
+            PrimeFaces.current().executeScript("przeskoczdoceny();");
         }
     }
 

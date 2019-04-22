@@ -16,7 +16,6 @@ import dao.VATDeklaracjaKorektaDokDAO;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import java.lang.reflect.Executable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -27,7 +26,6 @@ import javax.naming.NamingException;
 import view.KsiegaView;
 import view.ObrotyView;
 import view.WpisView;
-
 /**
  *
  * @author Osito

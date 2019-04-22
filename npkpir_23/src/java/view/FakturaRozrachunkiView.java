@@ -9,12 +9,10 @@ import comparator.FakturaRozrachunkicomparator;
 import comparator.Kliencicomparator;
 import dao.FakturaDAO;
 import dao.FakturaRozrachunkiDAO;
-
 import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.Mce;
 import entity.FakturaRozrachunki;
 import entity.Klienci;
-
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,9 +29,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import msg.Msg;
-import org.primefaces.event.RowEditEvent;
+import msg.Msg;import org.primefaces.event.RowEditEvent;
 
 /**
  *

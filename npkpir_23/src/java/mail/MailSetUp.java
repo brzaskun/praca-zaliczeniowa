@@ -22,7 +22,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import msg.Msg;
 import view.WpisView;
-
 /**
  *
  * @author Osito

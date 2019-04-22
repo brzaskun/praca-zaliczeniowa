@@ -10,11 +10,9 @@ import com.itextpdf.text.pdf.PdfWriter;
 import entity.Podatnik;
 import java.io.File;
 import java.util.List;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import static pdffk.PdfMain.*;
+import msg.Msg;import static pdffk.PdfMain.*;
 import plik.Plik;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -36,7 +34,7 @@ public class PdfPodatnicy {
             dodajTabele(document, testobjects.testobjects.getPodatnicy(podatnicy),95,2);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Nie wybrano Planu kont do wydruku");
         }

@@ -6,14 +6,13 @@ package converter;
 
 import dao.PodatnikDAO;
 import entity.Podatnik;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.ConverterException;
 import javax.inject.Inject;
 
 /**
@@ -22,7 +21,8 @@ import javax.inject.Inject;
  */
 @ManagedBean
 @ViewScoped
-public class PodatConv implements javax.faces.convert.Converter {
+public class PodatConv implements javax.faces.convert.Converter, Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Inject
     private PodatnikDAO podatnikDAO;

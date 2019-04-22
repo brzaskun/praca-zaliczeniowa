@@ -6,7 +6,6 @@
 package sprawozdania.rok2018;
 
 import entityfk.PozycjaRZiSBilans;
-import java.math.BigDecimal;
 import java.util.List;
 import static sprawozdania.rok2018.SprawozdanieFin2018Bean.naniesKwotyAB;
 import static sprawozdania.rok2018.SprawozdanieFin2018Bean.zrobTPoztchaSprawozdania;

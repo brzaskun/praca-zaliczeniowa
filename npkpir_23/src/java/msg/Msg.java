@@ -8,7 +8,7 @@ import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -36,7 +36,7 @@ public class Msg implements Serializable {
           }
           FacesMessage msg = new FacesMessage(sl,messagetext, null);
           FacesContext.getCurrentInstance().addMessage(null, msg);
-          RequestContext.getCurrentInstance().update(updateelement);
+          PrimeFaces.current().ajax().update(updateelement);
     }
     
     public static void msg(String severitylevel,String summary, String details, String updateelement){
@@ -53,7 +53,7 @@ public class Msg implements Serializable {
           }
           FacesMessage msg = new FacesMessage(sl,summary, details);
           FacesContext.getCurrentInstance().addMessage(null, msg);
-          RequestContext.getCurrentInstance().update(updateelement);
+          PrimeFaces.current().ajax().update(updateelement);
     }
     
 //    public static void msg(String severitylevel,String summary, String details, String updateelement, String formelement){
@@ -70,7 +70,7 @@ public class Msg implements Serializable {
 //          }
 //          FacesMessage msg = new FacesMessage(sl,summary, details);
 //          FacesContext.getCurrentInstance().addMessage(formelement, msg);
-//          RequestContext.getCurrentInstance().update(updateelement);
+//          PrimeFaces.current().ajax().update(updateelement);
 //    }
     
     public static void msg(String severitylevel,String messagetext){

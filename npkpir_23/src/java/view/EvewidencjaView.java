@@ -17,8 +17,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
+import msg.Msg; import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -105,7 +104,7 @@ public class EvewidencjaView implements  Serializable {
         evwidencjaDAO.destroy(selected);
         lista.remove(selected);
         Msg.msg("i", "Usunięto ewidencję VAT"+selected.getNazwa());
-        RequestContext.getCurrentInstance().update("akordeon:form0");
+        PrimeFaces.current().ajax().update("akordeon:form0");
     }
 
     public Evewidencja getSelected() {

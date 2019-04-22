@@ -24,8 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.inject.Named;
-import org.primefaces.context.RequestContext;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 import waluty.Z;
 
 /**
@@ -337,9 +336,9 @@ public class DokFKBean {
             if (kontorozrachunkowe != null && wybranastronawiersza.getDrugaStrona() != null) {
                 wybranastronawiersza.getDrugaStrona().setKonto(kontorozrachunkowe);
                 if (wybranastronawiersza.isWn()) {
-                    RequestContext.getCurrentInstance().update(ma);
+                    PrimeFaces.current().ajax().update(ma);
                 } else {
-                    RequestContext.getCurrentInstance().update(wn);
+                    PrimeFaces.current().ajax().update(wn);
                 }
             }
         }

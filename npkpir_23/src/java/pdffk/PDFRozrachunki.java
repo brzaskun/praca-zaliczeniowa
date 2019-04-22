@@ -20,11 +20,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import msg.B;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.*;
 import plik.Plik;
 import slownie.Slownie;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -96,7 +95,7 @@ public class PDFRozrachunki {
             dodajLinieOpisu(document, kontrahent);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Nie wybrano Planu kont do wydruku");
         }
@@ -117,7 +116,7 @@ public class PDFRozrachunki {
 //            dodajTabele(document, testobjects.testobjects.getTabelaRozrachunki(stronyWiersza),95,1);
 //            finalizacjaDokumentuQR(document,nazwa);
 //            String f = "pokazwydruk('"+nazwa+"');";
-//            RequestContext.getCurrentInstance().execute(f);
+//            PrimeFaces.current().executeScript(f);
 //        } else {
 //            Msg.msg("w", "Nie wybrano Planu kont do wydruku");
 //        }

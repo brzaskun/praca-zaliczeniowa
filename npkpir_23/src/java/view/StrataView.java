@@ -21,8 +21,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
+import msg.Msg; import org.primefaces.PrimeFaces;
 import waluty.Z;
 
 /**
@@ -80,7 +79,7 @@ public class StrataView  implements Serializable{
             selected = new Strata();
             selected.setRok(wpisView.getRokUprzedni());
             Msg.msg("i", "Dodano stratę za rok " + selected.getRok(), "akordeon:form2:messages");
-            RequestContext.getCurrentInstance().update("akordeon:form1");
+            PrimeFaces.current().ajax().update("akordeon:form1");
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Wystąpił błąd poczdas dodawania straty za rok " + selected.getRok(), "akordeon:form2:messages");

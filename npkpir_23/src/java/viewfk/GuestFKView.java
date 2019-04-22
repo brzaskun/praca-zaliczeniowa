@@ -8,17 +8,13 @@ package viewfk;
 
 
 
-import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
 import view.WpisView;
-
 /**
  *
  * @author Osito

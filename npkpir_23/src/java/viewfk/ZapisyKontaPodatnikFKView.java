@@ -25,10 +25,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import pdffk.PdfKontoZapisyLista;
-import view.WpisView;
+import msg.Msg;import pdffk.PdfKontoZapisyLista;
+import view.WpisView; import org.primefaces.PrimeFaces;
 import waluty.Z;
 
 /**
@@ -343,7 +341,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
                 PdfKontoZapisyLista.pobierzlistekont(kontozapisy, wpisView);
             }
             String wydruk = "wydrukzapisynakoncie('"+wpisView.getPodatnikWpisu()+"')";
-            RequestContext.getCurrentInstance().execute(wydruk);
+            PrimeFaces.current().executeScript(wydruk);
         } catch (Exception e) {  E.e(e);
 
         }
@@ -381,8 +379,8 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
 //                    }
 //                }
 //            }
-//            RequestContext.getCurrentInstance().update("zapisydopodswietlenia");
-//            RequestContext.getCurrentInstance().execute("podswietlrozrachunki();");
+//            PrimeFaces.current().ajax().update("zapisydopodswietlenia");
+//            PrimeFaces.current().executeScript("podswietlrozrachunki();");
 //        } catch (Exception e) {  E.e(e);
 //            
 //        }
@@ -506,8 +504,8 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
 //                zapisydopodswietlenia.add(r.getId());
 //            }
 //        }
-//        RequestContext.getCurrentInstance().update("zapisydopodswietlenia");
-//        RequestContext.getCurrentInstance().execute("podswietlrozrachunki();");
+//        PrimeFaces.current().ajax().update("zapisydopodswietlenia");
+//        PrimeFaces.current().executeScript("podswietlrozrachunki();");
 //    }
     
     public List<ListaSum> getListasum() {

@@ -32,7 +32,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import jpk201701.JPK;
 import view.WpisView;
-
 /**
  *
  * @author Osito

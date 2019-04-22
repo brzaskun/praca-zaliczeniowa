@@ -16,8 +16,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
+import msg.Msg; import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -81,7 +80,7 @@ public class EvopisView  implements Serializable {
     public void usun(Evopis evopis) {
         eopisDAO.destroy(evopis);
         lista.remove(evopis);
-        RequestContext.getCurrentInstance().update("akordeon:form1");
+        PrimeFaces.current().ajax().update("akordeon:form1");
     }
 
     public Evopis getSelected() {

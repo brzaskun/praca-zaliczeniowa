@@ -26,8 +26,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import pdf.PdfKonta;
 import sortfunction.KontoSortBean;
-import view.WpisView;
-import waluty.Z;
+import view.WpisView;import waluty.Z;
 
 /**
  *

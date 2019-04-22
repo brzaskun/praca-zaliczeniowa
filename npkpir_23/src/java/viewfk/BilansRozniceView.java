@@ -11,7 +11,6 @@ import entityfk.Dokfk;
 import entityfk.StronaWiersza;
 import entityfk.Wiersz;
 import entityfk.WierszBO;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +21,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import view.WpisView;
-
 /**
  *
  * @author Osito

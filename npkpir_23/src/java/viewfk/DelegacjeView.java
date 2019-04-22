@@ -27,9 +27,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import view.WpisView;
+import msg.Msg;import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -116,8 +114,8 @@ public class DelegacjeView  implements Serializable{
             }
             selected = new Delegacja();
             Msg.msg("Dodaje delegację");
-            RequestContext.getCurrentInstance().update(":form_dialog_delegacje_stworz");
-            RequestContext.getCurrentInstance().update(":parametrydel");
+            PrimeFaces.current().ajax().update(":form_dialog_delegacje_stworz");
+            PrimeFaces.current().ajax().update(":parametrydel");
         } else {
             Msg.msg("e", "Delegacja o takich parametrach już istnieje. Nie mogę dodać");
         }
@@ -185,7 +183,7 @@ public class DelegacjeView  implements Serializable{
                 }
                 if (kontoRozrachunkowe != null) {
                     dokfk.getRodzajedok().setKontorozrachunkowe(kontoRozrachunkowe);
-                    RequestContext.getCurrentInstance().update("formwpisdokument:przypkonto");
+                    PrimeFaces.current().ajax().update("formwpisdokument:przypkonto");
                 }
             }
         } catch (Exception e) {
@@ -203,7 +201,7 @@ public class DelegacjeView  implements Serializable{
             }
             if (kontoRozrachunkowe != null) {
                 dokfk.getRodzajedok().setKontorozrachunkowe(kontoRozrachunkowe);
-                RequestContext.getCurrentInstance().update("formwpisdokument:przypkonto");
+                PrimeFaces.current().ajax().update("formwpisdokument:przypkonto");
             }
         }
     }

@@ -13,13 +13,11 @@ import dao.DeklaracjevatDAO;
 import dao.PodatnikDAO;
 import dao.SMTPSettingsDAO;
 import dao.SchemaEwidencjaDAO;
-
 import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Deklaracjevat;
-
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import error.E;
@@ -36,11 +34,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
-import jpkview.JPK_VAT2View;
 import mail.MailOther;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
+import msg.Msg; import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
 import pdf.PdfVAT7;
 import pdf.PdfVAT7new;
@@ -282,11 +277,11 @@ public class DeklaracjevatView implements Serializable {
             if (rok <= 2015 && mc <= 7) {
                 PdfVAT7.drukujwys(podatnikDAO, dkl);
                 String f = "wydrukvat7wysylka('"+dkl.getPodatnik()+"');";
-                RequestContext.getCurrentInstance().execute(f);
+                PrimeFaces.current().executeScript(f);
             } else {
                 PdfVAT7new.drukujNowaVAT7(podatnikDAO, dkl, pasujacaSchema, schemaEwidencjaDAO, wpisView);
                 String f = "wydrukvat7wysylkaN('"+dkl.getPodatnik()+"');";
-                RequestContext.getCurrentInstance().execute(f);
+                PrimeFaces.current().executeScript(f);
             }
         } catch (Exception e) { 
             E.e(e); 
@@ -308,11 +303,11 @@ public class DeklaracjevatView implements Serializable {
             if (rok <= 2015 && mc <= 7) {
                 PdfVAT7.drukuj(dkl, wiersz, podatnikDAO);
                 String f = "document.getElementById('formwyslane:akordeon:dataList:"+wiersz+":mailbutton').style.display='inline';";
-                RequestContext.getCurrentInstance().execute(f);
+                PrimeFaces.current().executeScript(f);
             } else {
                 PdfVAT7new.drukujNowaVAT7(podatnikDAO, dkl, pasujacaSchema, schemaEwidencjaDAO, wpisView);
                 String f = "document.getElementById('formwyslane:akordeon:dataList:"+wiersz+":mailbuttonN').style.display='inline';";
-                RequestContext.getCurrentInstance().execute(f);
+                PrimeFaces.current().executeScript(f);
             }
         } catch (Exception e) { 
             E.e(e); 

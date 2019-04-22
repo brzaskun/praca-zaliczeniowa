@@ -24,7 +24,6 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 import javax.mail.util.ByteArrayDataSource;
 import view.WpisView;
-
 /**
  *
  * @author Osito

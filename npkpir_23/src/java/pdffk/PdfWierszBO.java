@@ -16,10 +16,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.*;
 import plik.Plik;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -48,7 +47,7 @@ public class PdfWierszBO {
             }
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Nie wybrano wierszy BO do wydruku");
         }
@@ -75,7 +74,7 @@ public class PdfWierszBO {
             }
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Nie wybrano wierszy obrotów do wydruku");
         }
@@ -102,7 +101,7 @@ public class PdfWierszBO {
             }
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Nie wybrano wierszy BO do wydruku");
         }

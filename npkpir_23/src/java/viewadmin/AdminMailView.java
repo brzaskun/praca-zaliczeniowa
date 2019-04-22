@@ -36,11 +36,10 @@ import msg.Msg;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTime;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import view.ParametrView;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -244,7 +243,7 @@ public class AdminMailView implements Serializable {
             adminmail.setPodatnicy(nazwy);
             adminmailDAO.dodaj(adminmail);
             wyslanemaile.add(adminmail);
-            RequestContext.getCurrentInstance().update("akordeon:formmaile:wyslenemaile");
+            PrimeFaces.current().ajax().update("akordeon:formmaile:wyslenemaile");
             Msg.msg("i", "Zachowano maila");
         } catch (Exception e) {
             E.e(e);

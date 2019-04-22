@@ -12,7 +12,6 @@ import daoFK.TransakcjaDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,7 +27,6 @@ import javax.inject.Inject;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.NodeUnselectEvent;
 import view.WpisView;
-
 /**
  *
  * @author Osito

@@ -9,7 +9,7 @@
 
       
     <h:form id="formX" >
-        <p:growl life="3600"  id="msg" autoUpdate="true"/>
+        <p:growl life="3600"  id="msg" ><p:autoUpdate/></p:growl>
         <p:panel header="Wykaz wysłanych deklaracji VAT ze szczegółowymi informacjami na jej temat. Każdą deklarację można wydrukować w formacie PDF a następnie wysłać na firmowy adres mail po wciśnięciu przycisku `Mail`. "/>
         <p:tabView id="akordeon">
             <ui:include src="vatwyslane_udane.xhtml"/>

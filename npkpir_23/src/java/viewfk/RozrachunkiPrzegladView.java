@@ -18,7 +18,6 @@ import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,11 +29,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import org.primefaces.event.NodeUnselectEvent;
+import msg.Msg;import org.primefaces.event.NodeUnselectEvent;
 import pdffk.PDFRozrachunki;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -233,11 +230,11 @@ public class RozrachunkiPrzegladView implements Serializable{
         sumawaluta = 0.0;
         sumapl = 0.0;
         sumujwszystkie();
-        RequestContext.getCurrentInstance().update("paseknorth");
-        RequestContext.getCurrentInstance().update("tabelazzapisami");
-        RequestContext.getCurrentInstance().update("form:dataList");
-        RequestContext.getCurrentInstance().update("form:kontenertabeli");
-        RequestContext.getCurrentInstance().update("tabelazsumamirozrach");
+        PrimeFaces.current().ajax().update("paseknorth");
+        PrimeFaces.current().ajax().update("tabelazzapisami");
+        PrimeFaces.current().ajax().update("form:dataList");
+        PrimeFaces.current().ajax().update("form:kontenertabeli");
+        PrimeFaces.current().ajax().update("tabelazsumamirozrach");
     }
     
     private void filtrrozrachunkow() {

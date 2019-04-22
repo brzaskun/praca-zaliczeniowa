@@ -16,14 +16,12 @@ import entity.Vat27;
 import error.E;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import waluty.Z;
+import msg.Msg;import waluty.Z;
 
 /**
  *

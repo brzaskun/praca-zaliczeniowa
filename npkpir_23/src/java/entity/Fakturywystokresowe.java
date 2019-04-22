@@ -14,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -131,6 +130,8 @@ public class Fakturywystokresowe implements Serializable {
     private boolean biezaca0archiwalna1;
     @Column(name = "zawieszona")
     private boolean zawieszona;
+    @Column(name = "wystawwiele")
+    private boolean wystawwiele;
 
     public Fakturywystokresowe() {
     }
@@ -333,6 +334,16 @@ public class Fakturywystokresowe implements Serializable {
     public void setDatawystawienia(String datawystawienia) {
         this.datawystawienia = datawystawienia;
     }
+
+    public boolean isWystawwiele() {
+        return wystawwiele;
+    }
+
+    public void setWystawwiele(boolean wystawwiele) {
+        this.wystawwiele = wystawwiele;
+    }
+    
+    
 
     public String getDatawystawieniaOld() {
         try {

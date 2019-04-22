@@ -5,14 +5,11 @@
  */
 package view;
 
-import beansFaktura.FakturaOkresowaGenNum;
 import comparator.Podatnikcomparator;
 import comparator.Uzcomparator;
-import dao.FakturyokresoweDAO;
 import dao.FakturywystokresoweDAO;
 import dao.PodatnikDAO;
 import dao.UzDAO;
-import entity.Fakturyokresowe;
 import entity.Fakturywystokresowe;
 import entity.Podatnik;
 import entity.Uz;
@@ -23,12 +20,10 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import waluty.Z;
+import msg.Msg;import waluty.Z;
 
 /**
  *

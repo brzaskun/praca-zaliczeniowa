@@ -15,8 +15,8 @@
                 <h:outputLabel value="#{mgs.rok}"/>
                 <h:outputLabel value="#{mgs.mc}"/>
                 <h:outputLabel value=""/>
-                <h:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 350px; height: 250px;" >
-                    <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p.nazwapelna}"/>
+                <h:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="width: 350px; height: 250px;" converter="#{podatConv}">
+                    <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p}"/>
                     <p:ajax event="change"  listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, form:panellimity" global="fasle"/>
                 </h:selectOneListbox>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
@@ -34,7 +34,9 @@
             <h:outputText value="nie wprowadzono danych tego podatnika na nowy rok podatkowy - program nie będzie działał poprawnie" rendered="#{WpisView.czegosbrakuje}" style="font-weight: 800; color: red;"/>
             <h:outputText value="miesiąc zamknięty, możliwe jedynie przeglądanie danych i sporządzanie deklaracji" rendered="#{zamkniecieView.sprawdzMiesiacRok()}" style="font-weight: 800; color: blue;"/>
         </p:panel>
-        <p:messages autoUpdate="true" style="width: 500px; margin-left: 2%;"/>
+        <p:messages style="width: 700px; margin-left: 2%;">
+            <p:autoUpdate/>
+        </p:messages>
         <p:panel id="panellimity" header="limity" style="width: 200px;">
             <h:outputText value="kwota obrotu od pocz.roku"/>
             <bcf:outputpl value="#{granicaObliczView.obrot}"/>

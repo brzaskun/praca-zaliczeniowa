@@ -24,9 +24,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.primefaces.context.RequestContext;
 import static pdf.PdfVAT7.absText;
 import plik.Plik;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -112,7 +112,7 @@ public class PdfVAT7K {
         } catch (Exception e) {
             kombinuj(v.getPodatnik(), "nic");
         }
-        RequestContext.getCurrentInstance().execute("wydrukvat7('" + dkl.getPodatnik() + "', " + wiersz + ");");
+        PrimeFaces.current().executeScript("wydrukvat7('" + dkl.getPodatnik() + "', " + wiersz + ");");
     }
 
     public static void drukujwysVAT7K(Deklaracjevat dkl, Podatnik p) throws DocumentException, FileNotFoundException, IOException {

@@ -21,10 +21,9 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.*;
 import plik.Plik;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -60,7 +59,7 @@ public class PdfWNTWDTView implements Serializable {
             dodajTabele(document, testobjects.testobjects.getTabelaWDTWNT(wiersze),98,0);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "wydrukWNTWDT('"+wpisView.getPodatnikObiekt().getNip()+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Nie wybrano wierszy do wydruku");
         }

@@ -10,7 +10,7 @@
     <p:tabView id="akordeon">
         <p:tab title="Wpisy">
             <h:form id="formX">
-                <p:growl life="3600"  id="msg" autoUpdate="true"/>
+                <p:growl life="3600"  id="msg" ><p:autoUpdate/></p:growl>
                 <p:panel header="Wykaz wysłanych deklaracji"/>
                 <p:dataTable value="#{vatKorektaView.deklaracjeWyslane}" var="item" sortBy="#{item.miesiac}" rowIndexVar="row"
                              id="dokumentyLista" emptyMessage="brak deklaracji do wyslania" selection="#{vatKorektaView.deklaracjaVAT}"

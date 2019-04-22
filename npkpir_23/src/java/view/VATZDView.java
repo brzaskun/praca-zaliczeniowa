@@ -29,8 +29,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
-import msg.Msg;
-import waluty.Z;
+import msg.Msg;import waluty.Z;
 
 /**
  *

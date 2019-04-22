@@ -29,9 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import msg.B;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import pdffk.PdfMain;
+import msg.Msg;import pdffk.PdfMain;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
 import static pdffk.PdfMain.finalizacjaDokumentuQR;
@@ -40,7 +38,7 @@ import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
 import plik.Plik;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 import view.ZestawienieView;
 
 /**
@@ -195,7 +193,7 @@ public class PdfZestRok{
         pdf.add(table);
         pdf.addAuthor("Biuro Rachunkowe Taxman");
         pdf.close();
-        RequestContext.getCurrentInstance().execute("wydrukzbiorcze('"+wpisView.getPodatnikWpisu()+"');");
+        PrimeFaces.current().executeScript("wydrukzbiorcze('"+wpisView.getPodatnikWpisu()+"');");
         Msg.msg("i", "Wydrukowano zestawienie obrotów", "form:messages");
     }
     
@@ -215,8 +213,8 @@ public class PdfZestRok{
             dodajTabele(document, testobjects.testobjects.getZestawienieRyczalt(pobranetransakcje),97,0);
             finalizacjaDokumentuQR(document,nazwa);
             //String f = "pokazwydruk('"+nazwa+"');";
-            //RequestContext.getCurrentInstance().execute(f);
-            RequestContext.getCurrentInstance().execute("wydrukzbiorczeryczalt('"+wpisView.getPodatnikWpisu().trim()+"');");
+            //PrimeFaces.current().executeScript(f);
+            PrimeFaces.current().executeScript("wydrukzbiorczeryczalt('"+wpisView.getPodatnikWpisu().trim()+"');");
             Msg.msg("i", "Wydrukowano zestawienie obrotów ryczałt", "form:messages");
         } else {
             Msg.msg("w", "Nie wybrano Zestawienia Ryczałtu do wydruku");

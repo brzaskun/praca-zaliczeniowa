@@ -20,10 +20,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.xml.parsers.ParserConfigurationException;
-import msg.Msg;
-import org.xml.sax.SAXException;
-import view.WpisView;
-import waluty.WalutyNBP;
+import msg.Msg;import org.xml.sax.SAXException;
+import view.WpisView;import waluty.WalutyNBP;
 
 /**
  *

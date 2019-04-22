@@ -6,7 +6,6 @@
 package viewfk;
 
 import beansFK.DokFKBean;
-import error.E;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;

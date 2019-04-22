@@ -19,8 +19,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.inject.Named;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 import waluty.Z;
 
 /**
@@ -55,37 +54,37 @@ public class ObslugaWiersza {
                 kontoWn = ostatniwiersz.getStronaWn().getKonto();
                 kontoMa = ostatniwiersz.getStronaMa().getKonto();
                 if (stronalewa == 0 || stronaprawa == 0) {
-                    RequestContext.getCurrentInstance().execute(f);
+                    PrimeFaces.current().executeScript(f);
                     return false;
                 }
                 if (!(kontoWn instanceof Konto) || !(kontoMa instanceof Konto)) {
-                    RequestContext.getCurrentInstance().execute(f);
+                    PrimeFaces.current().executeScript(f);
                     return false;
                 }
                 if (kontoWn instanceof Konto && kontoMa instanceof Konto && kontoWn.getPelnynumer().equals(kontoMa.getPelnynumer())) {
-                    RequestContext.getCurrentInstance().execute(f);
+                    PrimeFaces.current().executeScript(f);
                     return false;
                 }
             } else if (ostatniwiersz.getTypWiersza()== 1 || ostatniwiersz.getTypWiersza() == 6) {
                 stronalewa += ostatniwiersz.getStronaWn().getKwota();
                 kontoWn = ostatniwiersz.getStronaWn().getKonto();
                 if (stronalewa == 0) {
-                    RequestContext.getCurrentInstance().execute(f);
+                    PrimeFaces.current().executeScript(f);
                     return false;
                 }
                 if (!(kontoWn instanceof Konto)) {
-                    RequestContext.getCurrentInstance().execute(f);
+                    PrimeFaces.current().executeScript(f);
                     return false;
                 }
             } else if (ostatniwiersz.getTypWiersza()== 2 || ostatniwiersz.getTypWiersza() == 7) {
                 stronaprawa += ostatniwiersz.getStronaMa().getKwota();
                 kontoMa = ostatniwiersz.getStronaMa().getKonto();
                 if (stronaprawa == 0) {
-                    RequestContext.getCurrentInstance().execute(f);
+                    PrimeFaces.current().executeScript(f);
                     return false;
                 }
                 if (!(kontoMa instanceof Konto)) {
-                    RequestContext.getCurrentInstance().execute(f);
+                    PrimeFaces.current().executeScript(f);
                     return false;
                 }
             }
@@ -107,7 +106,7 @@ public class ObslugaWiersza {
             if (numergrupybiezacej != numergrupypoprzedniej || czynowyzero) {
                 numergrupypoprzedniej = numergrupybiezacej;
                 if (Z.z(stronalewa) != Z.z(stronaprawa)) {
-                    RequestContext.getCurrentInstance().execute(f);
+                    PrimeFaces.current().executeScript(f);
                     return false;
                 } else {
                     stronalewa = 0.0;
@@ -130,17 +129,17 @@ public class ObslugaWiersza {
             f = "podswietlznalezionywierszzbrakiem("+numerwiersza+")";
             if (p.getTypWiersza() == 0 || p.getTypWiersza() == 5) {
                 if (p.getStronaWn().getKonto() == null || p.getStronaMa().getKonto() == null ) {
-                    RequestContext.getCurrentInstance().execute(f);
+                    PrimeFaces.current().executeScript(f);
                     return false;
                 }
             } else if (p.getTypWiersza()== 1 || p.getTypWiersza() == 6) {
                 if (p.getStronaWn().getKonto() == null) {
-                    RequestContext.getCurrentInstance().execute(f);
+                    PrimeFaces.current().executeScript(f);
                     return false;
                 }
             } else if (p.getTypWiersza()== 2 || p.getTypWiersza() == 7) {
                 if (p.getStronaMa().getKonto() == null ) {
-                    RequestContext.getCurrentInstance().execute(f);
+                    PrimeFaces.current().executeScript(f);
                     return false;
                 }
             }

@@ -166,7 +166,7 @@
                                                      id="delete" icon="ui-icon ui-icon-trash" update="importtabela:dokumentyLista"/>
                                 </p:column>
                             </p:dataTable> 
-                            <p:growl life="3600"  id="messages2" autoUpdate="true"/>
+                            <p:growl life="3600"  id="messages2" ><p:autoUpdate/></p:growl>
                             <p:panelGrid columns="2">
                                 <p:commandButton value="zaksięguj" actionListener="#{importFakturyView.zaksieguj}" id="ksiegujbutton"
                                                  style="margin-top: 20px; width: 120px;" update="@form" rendered="#{importFakturyView.dokumenty.size() gt 0 and !importFakturyView.wybierzosobyfizyczne and !importFakturyView.deklaracjaniemiecka}"/>

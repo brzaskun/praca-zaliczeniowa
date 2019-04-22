@@ -19,7 +19,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import view.WpisView;
-
 /**
  *
  * @author Osito

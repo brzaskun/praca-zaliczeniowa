@@ -25,9 +25,8 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.servlet.ServletContext;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 import plik.Plik;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -124,7 +123,7 @@ public class MailOther implements Serializable{
                     Msg.msg("i","Wysłano maila do klienta "+klientf.getNpelna());
                     faktura.setWyslana(true);
                     faktura.setDatawysylki(new Date());
-                    RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
+                    PrimeFaces.current().ajax().update("akordeon:formsporzadzone:dokumentyLista");
                     try {
                        File file = Plik.plik("fakturaNr" + String.valueOf(i) + "firma"+ wpisView.getPodatnikObiekt().getNip() + ".pdf", true);
                        file.delete();
@@ -181,7 +180,7 @@ public class MailOther implements Serializable{
                  Transport.send(message);
                  Msg.msg("i","Wysłano maila do klienta "+klientf.getNpelna());
                  faktura.setWyslana(true);
-                 RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
+                 PrimeFaces.current().ajax().update("akordeon:formsporzadzone:dokumentyLista");
                  try {
                     File file = Plik.plik("faktura"+String.valueOf(i) + wpisView.getPodatnikWpisu() + ".pdf", true);
                     file.delete();
@@ -371,7 +370,7 @@ public class MailOther implements Serializable{
                 Msg.msg("i", "Wyslano maila z deklaracją VAT-7 do klienta "+klient+". Na adres mail: "+pod.getEmail());
                 File f  = Plik.plik("vat7-13" + wpisView.getPodatnikWpisu() + ".pdf", true);
                 f.delete();
-                RequestContext.getCurrentInstance().execute("schowajmailbutton("+row+");");
+                PrimeFaces.current().executeScript("schowajmailbutton("+row+");");
             } else if (stara0nowa1 == 1 && Plik.plik(wpisView.getPodatnikObiekt().getNip()+"vat7" + ".pdf", true).isFile()) {
                 ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
                  String realPath = ctx.getRealPath("/");
@@ -389,7 +388,7 @@ public class MailOther implements Serializable{
                 Msg.msg("i", "Wyslano maila z deklaracją VAT-7 do klienta "+klient+". Na adres mail: "+pod.getEmail());
                 File f  = Plik.plik("vat7" + wpisView.getPodatnikWpisu() + ".pdf", true);
                 f.delete();
-                RequestContext.getCurrentInstance().execute("schowajmailbutton("+row+");");
+                PrimeFaces.current().executeScript("schowajmailbutton("+row+");");
             } else {
                 Msg.msg("e", "Brak wygenerowanej wcześniej deklaracji VAT. Nie wysłano maila do klienta. Kliknij najpierw na przycisk Pdf właściwej deklaracji VAT.");
             }

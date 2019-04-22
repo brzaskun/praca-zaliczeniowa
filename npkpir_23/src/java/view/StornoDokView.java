@@ -31,7 +31,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -144,7 +144,7 @@ public class StornoDokView implements Serializable {
         StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik);
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Dokumenty za okres wystornowane. Wygenerowano dokument storno. Usuń go wpierw.", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
-        RequestContext.getCurrentInstance().update("form:messages");
+        PrimeFaces.current().ajax().update("form:messages");
         } catch (Exception x){
         stornonadzien = ustaldzienmiesiaca();
         String termin;
@@ -265,7 +265,7 @@ public class StornoDokView implements Serializable {
         listawew.add(dokument);
         stornoDok.setDokument(listawew);
         stornoDokDAO.edit(stornoDok);
-        RequestContext.getCurrentInstance().update("form:dokumentyLista");
+        PrimeFaces.current().ajax().update("form:dokumentyLista");
     }
     
     public void usunstornodokumentow(ActionEvent xf) throws Exception {
@@ -278,7 +278,7 @@ public class StornoDokView implements Serializable {
             StornoDok tmp = stornoDokDAO.find(rok, mcn, podatnik);
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Istnieje dokument późniejszy. Usuń go wpierw.", tmp.getMc());
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            RequestContext.getCurrentInstance().update("super:super");
+            PrimeFaces.current().ajax().update("super:super");
         } catch (Exception x){
         StornoDok stornodok = stornoDokDAO.find(rok, mc, podatnik);
         List<Dok> dokumentystorno = (ArrayList<Dok>) stornodok.getDokument();
@@ -298,13 +298,13 @@ public class StornoDokView implements Serializable {
                     } else {
                          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Istnieje dokument późniejszy. Usuń go wpierw.", stornodok.getMc());
         FacesContext.getCurrentInstance().addMessage(null, msg);
-        RequestContext.getCurrentInstance().update("form:niezaplaconech");
+        PrimeFaces.current().ajax().update("form:niezaplaconech");
                 }
             }
         }
         stornoDokDAO.destroy(stornodok);
         dokDAO.destroyStornoDok(rok.toString(), mc, wpisView.getPodatnikObiekt());
-        RequestContext.getCurrentInstance().update("form:dokumentyLista");
+        PrimeFaces.current().ajax().update("form:dokumentyLista");
         }
     }
 

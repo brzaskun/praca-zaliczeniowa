@@ -19,12 +19,10 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
+import msg.Msg; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -137,7 +135,7 @@ public class RodzajedokView implements Serializable {
         try {
             rodzajedokDAO.destroy(doUsuniecia);
             listaWspolnych.remove(doUsuniecia);
-            RequestContext.getCurrentInstance().update("form:dokLista");
+            PrimeFaces.current().ajax().update("form:dokLista");
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Wzorzec usunięty", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
 
@@ -150,7 +148,7 @@ public class RodzajedokView implements Serializable {
     
     public void skopiujwierszdoedycji() {
         wprowadzany = selected;
-        RequestContext.getCurrentInstance().update("form1:parametrydokument");
+        PrimeFaces.current().ajax().update("form1:parametrydokument");
     }
 
 //<editor-fold defaultstate="collapsed" desc="comment">

@@ -40,9 +40,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import view.WpisView;
+import msg.Msg;import view.WpisView; import org.primefaces.PrimeFaces;
 import waluty.Z;
 
 /**
@@ -84,7 +82,7 @@ public class SrodkiTrwaleAMOView implements Serializable {
     public void init() {
        List<Konto> kontaklienta = kontoDAOfk.findKontaSrodkiTrw(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
        kontasrodkitrw = przygotowanalistasald(kontaklienta);
-        RequestContext.getCurrentInstance().update("srodkiamo");
+        PrimeFaces.current().ajax().update("srodkiamo");
     }
     
     

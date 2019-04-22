@@ -9,7 +9,6 @@ import beansFK.KontoPozycjaBean;
 import beansFK.PlanKontFKBean;
 import beansFK.PozycjaRZiSFKBean;
 import beansFK.UkladBRBean;
-import beansPdf.PdfFP;
 import comparator.Kontocomparator;
 import converter.KontoConv;
 import dao.PodatnikDAO;
@@ -58,11 +57,9 @@ import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import javax.persistence.RollbackException;
 import lazyDataModel.LazyKontoDataModel;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import org.primefaces.model.LazyDataModel;
+import msg.Msg;import org.primefaces.model.LazyDataModel;
 import pdffk.PdfPlanKont;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -155,10 +152,10 @@ public class PlanKontView implements Serializable {
 //        int czysaslownikowe = sprawdzkonta();
 //        if (czysaslownikowe == 0) {
 //            infozebrakslownikowych = " Brak podłączonych słowników do kont rozrachunkowych! Nie można księgować kontrahentów.";
-//            //RequestContext.getCurrentInstance().update("dialogpierwszy");
+//            //PrimeFaces.current().ajax().update("dialogpierwszy");
 //        } else if (czysaslownikowe == 1) {
 //            infozebrakslownikowych = " Brak planu kont na dany rok";
-//            //RequestContext.getCurrentInstance().update("dialogpierwszy");
+//            //PrimeFaces.current().ajax().update("dialogpierwszy");
 //        } else {
 //            infozebrakslownikowych = "";
 //        }
@@ -362,6 +359,7 @@ public class PlanKontView implements Serializable {
         Collections.sort(wykazkont, new Kontocomparator());
         //wykazkontlazy = new LazyKontoDataModel(wykazkont);
         styltabeliplankont = opracujstylwierszatabeli();
+        this.wykazkont = wykazkont;
         return wykazkont;
     }
     
@@ -771,7 +769,7 @@ public class PlanKontView implements Serializable {
             }
             porzadkowanieKontPodatnika(wpisView.getPodatnikObiekt());
             wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            RequestContext.getCurrentInstance().update("form:dataList");
+            PrimeFaces.current().ajax().update("form:dataList");
             Msg.msg("Zakonczono z sukcesem implementacje kont wzorcowych u bieżącego podatnika");
         } else {
             Msg.msg("w", "Coś poszło nie tak. Lista kont wzorcowych jest pusta.");
@@ -940,7 +938,7 @@ public class PlanKontView implements Serializable {
                     return;
                 }
             }
-            RequestContext.getCurrentInstance().update("form_dialog_plankont");
+            PrimeFaces.current().ajax().update("form_dialog_plankont");
             Msg.msg("Zakonczono z sukcesem usuwanie kont u bieżącego podatnika");
         } else {
             Msg.msg("w", "Coś poszło nie tak. Lista kont do usuniecia jest pusta.");
@@ -993,7 +991,7 @@ public class PlanKontView implements Serializable {
                 }
             }
             wykazkontwzor = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
-            RequestContext.getCurrentInstance().update("formwzorcowy");
+            PrimeFaces.current().ajax().update("formwzorcowy");
             Msg.msg("Zakonczono z sukcesem usuwanie kont wzorocwych");
         } else {
             Msg.msg("w", "Coś poszło nie tak. Lista kont do usuniecia jest pusta.");

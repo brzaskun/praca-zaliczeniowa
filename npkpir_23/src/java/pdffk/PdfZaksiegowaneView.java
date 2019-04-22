@@ -20,10 +20,9 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.B;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.*;
 import plik.Plik;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -55,7 +54,7 @@ public class PdfZaksiegowaneView implements Serializable {
                 Uz uz = wpisView.getUzer();
                 PdfDokfk.drukujtrescpojedynczegodok(nazwa, p, uz);
                 String f = "pokazwydruk('"+nazwa+"');";
-                RequestContext.getCurrentInstance().execute(f);
+                PrimeFaces.current().executeScript(f);
             }
         } else {
             Msg.msg("w", "Nie wybrano wierszy do wydruku");
@@ -73,7 +72,7 @@ public class PdfZaksiegowaneView implements Serializable {
             dodajTabele(document, testobjects.testobjects.getTabelaZaksiegowane(wiersze), 100,0);
             finalizacjaDokumentuQR(document, Plik.getKatalog()+nazwa+".pdf");
             String f = "wydrukZaksiegowaneLista('"+wpisView.getPodatnikObiekt().getNip()+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } catch (Exception e) {}
     }
 

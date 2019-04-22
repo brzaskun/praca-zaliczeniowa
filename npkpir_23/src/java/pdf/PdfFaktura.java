@@ -53,11 +53,9 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import static pdf.PdfVAT7.absText;
+import msg.Msg;import static pdf.PdfVAT7.absText;
 import plik.Plik;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 
 /**
@@ -188,7 +186,7 @@ public class PdfFaktura extends Pdf implements Serializable {
         String nazwapliku = realPath + "wydruki/fakturaNr" + String.valueOf(999) + "firma" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
         mergeFiles(stockArr, nazwapliku);
         String funkcja = "wydrukfaktura('" + String.valueOf(999) + "firma" + wpisView.getPodatnikObiekt().getNip() + "');";
-        RequestContext.getCurrentInstance().execute(funkcja);
+        PrimeFaces.current().executeScript(funkcja);
     }
     
     public void mergeFiles(String[] files, String result) throws IOException, DocumentException {
@@ -377,7 +375,7 @@ public class PdfFaktura extends Pdf implements Serializable {
             }
             if (przeznaczenie.equals("druk")) {
                 String funkcja = "wydrukfaktura('" + String.valueOf(nrfakt) + "firma" + wpisView.getPodatnikObiekt().getNip() + "');";
-                RequestContext.getCurrentInstance().execute(funkcja);
+                PrimeFaces.current().executeScript(funkcja);
             }
         }
         return nazwapliku;

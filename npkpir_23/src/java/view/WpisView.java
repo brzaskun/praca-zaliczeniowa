@@ -7,7 +7,6 @@ package view;
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDDAO;
 import dao.UzDAO;
-
 import data.Data;
 import embeddable.Mce;
 import embeddable.Parametr;
@@ -16,7 +15,6 @@ import entity.ParamCzworkiPiatki;
 import entity.ParamVatUE;
 import entity.Podatnik;
 import entity.Uz;
-
 import error.E;
 import java.io.Serializable;
 import java.security.Principal;
@@ -27,9 +25,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import msg.Msg;
-
 /**
  *
  * @author Osito
@@ -137,12 +133,18 @@ public class WpisView implements Serializable {
         }
         return zwrot;
     }
+    
+    public String wrocupr() {
+        String zwrot = "/ksiegowa/ksiegowaZmianapodatnika.xhtml?faces-redirect=true";
+        return zwrot;
+    }
     //swiezowpisany uzer nie ma ustawionych parametrow
     private void inicjacjaUz() {
         miesiacWpisu = Data.aktualnyMc();
         uzer.setMiesiacWpisu(Data.aktualnyMc());
         uzer.setMiesiacOd(Data.aktualnyMc());
         uzer.setMiesiacDo(Data.aktualnyMc());
+        uzer.setRokWpisu(Integer.parseInt(Data.aktualnyRok()));
         miesiacWpisuArchiwum = Data.aktualnyMc();
         uzer.setRokWpisu(Roki.getRokiListS().get(Roki.getRokiListS().size() - 1));
         String nipfirmy;
@@ -157,7 +159,6 @@ public class WpisView implements Serializable {
             podatnik = podatnikDAO.findPodatnikByNIP(nipfirmy);
         }
         uzer.setPodatnik(podatnik);
-        uzer.setMiesiacWpisu(miesiacWpisu);
         uzDAO.edit(uzer);
         podatnikObiekt = podatnik;
     }
@@ -168,7 +169,7 @@ public class WpisView implements Serializable {
         uzer.setMiesiacOd(Data.aktualnyMc());
         uzer.setMiesiacDo(Data.aktualnyMc());
         miesiacWpisuArchiwum = Data.aktualnyMc();
-        uzer.setRokWpisu(Roki.getRokiListS().get(Roki.getRokiListS().size() - 1));
+        uzer.setRokWpisu(Integer.parseInt(Data.aktualnyRok()));
         uzDAO.edit(uzer);
     }
     private Uz pobierzWpisBD() {
@@ -304,11 +305,14 @@ public class WpisView implements Serializable {
     }
 
     private void obsluzPiatki() {
-        List<ParamCzworkiPiatki> piatki = podatnikObiekt.getParamCzworkiPiatki();
-        if (piatki != null && (!piatki.isEmpty())) {
-            for (ParamCzworkiPiatki p : piatki) {
-                if (p.getRokOd().equals(rokWpisuSt)) {
-                    paramCzworkiPiatki = (p.getParametr().equals("tak") ? true : false);
+        paramCzworkiPiatki = false;
+        if (podatnikObiekt!=null && podatnikObiekt.getParamCzworkiPiatki()!=null) {
+            List<ParamCzworkiPiatki> piatki = podatnikObiekt.getParamCzworkiPiatki();
+            if (piatki != null && (!piatki.isEmpty())) {
+                for (ParamCzworkiPiatki p : piatki) {
+                    if (p.getRokOd().equals(rokWpisuSt)) {
+                        paramCzworkiPiatki = (p.getParametr().equals("tak") ? true : false);
+                    }
                 }
             }
         }

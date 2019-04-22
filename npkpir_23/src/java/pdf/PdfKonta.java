@@ -38,11 +38,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import msg.B;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import static pdffk.PdfMain.inicjacjaA4Landscape;
+import msg.Msg;import static pdffk.PdfMain.inicjacjaA4Landscape;
 import plik.Plik;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 import waluty.Z;
 
 /**
@@ -83,7 +81,7 @@ public class PdfKonta {
                 drukujcd(listaSaldoKonto, wpisView, rodzajdruku, analit0synt1, mc, sumaSaldoKonto, nazwapliku);
             }
             pdffk.PdfMain.dodajQR(nazwapliku);
-            RequestContext.getCurrentInstance().execute("pokazwydrukpdf('"+nazwapliku+"')");
+            PrimeFaces.current().executeScript("pokazwydrukpdf('"+nazwapliku+"')");
             Msg.msg("Wydruk zestawienia obrotów sald");
         } catch (Exception e) {
             E.e(e);

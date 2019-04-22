@@ -22,11 +22,9 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import pdffk.PdfStowRozrachunki;
 import view.WpisView;
-
 /**
  *
  * @author Osito

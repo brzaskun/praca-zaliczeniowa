@@ -6,13 +6,10 @@
 package view;
 
 import beansFK.BOFKBean;
-import beansFK.CechazapisuBean;
-import beansFK.KontaFKBean;
 import dao.STRDAO;
 import dao.StronaWierszaDAO;
 import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
-import daoFK.WalutyDAOfk;
 import data.Data;
 import embeddable.Mce;
 import embeddablefk.SaldoKonto;
@@ -33,8 +30,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import waluty.Z;
+import msg.Msg;import waluty.Z;
 
 /**
  *

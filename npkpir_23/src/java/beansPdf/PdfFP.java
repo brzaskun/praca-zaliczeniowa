@@ -55,8 +55,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import pdf.PdfFaktura;
 import slownie.Slownie;
 import slownie.SlownieDE;
-import view.WpisView;
-import waluty.Z;
+import view.WpisView;import waluty.Z;
 
 /**
  *

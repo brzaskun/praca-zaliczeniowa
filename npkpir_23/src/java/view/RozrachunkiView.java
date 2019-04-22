@@ -27,8 +27,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
+import msg.Msg; import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -101,7 +100,7 @@ public class RozrachunkiView implements Serializable {
             stornoDok = stornoDokDAO.find(r, m, podatnik);
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Istnieje dokument storno. Za późno wprowadzasz te płatność", stornoDok.getMc());
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            RequestContext.getCurrentInstance().update("form:messages");
+            PrimeFaces.current().ajax().update("form:messages");
         } catch (Exception ec) {
             List<Rozrachunek1> lista = Collections.synchronizedList(new ArrayList<>());
             double zostalo = 0;
@@ -171,7 +170,7 @@ public class RozrachunkiView implements Serializable {
             dokDAO.edit(tmp);
             zaplacone.remove(tmp);
             niezaplacone.add(tmp);
-            RequestContext.getCurrentInstance().update("form:dokumentyLista");
+            PrimeFaces.current().ajax().update("form:dokumentyLista");
             Msg.msg("i", "Dokument z nowymi datami zaksięgowany: " + tmp.getOpis(), "form:messages");
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Nie udało się usunąć rozliczeń: " + tmp.getOpis() + "Sprawdź obecność storno.", "form:messages");

@@ -16,7 +16,6 @@ import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +24,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import view.WpisView;
-
+import msg.Msg;import view.WpisView;
 /**
  *
  * @author Osito

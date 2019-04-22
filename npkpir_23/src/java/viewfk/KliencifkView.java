@@ -29,9 +29,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import view.WpisView;
+import msg.Msg;import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -113,7 +111,7 @@ public class KliencifkView implements Serializable {
 
     public void resetujmakontoniemakonta() {
         makonto0niemakonta1 = false;
-        RequestContext.getCurrentInstance().update("formwpisdokument:wybranawaluta");
+        PrimeFaces.current().ajax().update("formwpisdokument:wybranawaluta");
     }
 
     public void pobieraniekontaFKWpisCD() {

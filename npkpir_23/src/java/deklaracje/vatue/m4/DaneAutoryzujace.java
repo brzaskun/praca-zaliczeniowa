@@ -10,7 +10,6 @@ import error.E;
 import java.util.List;
 import org.joda.time.DateTime;
 import view.WpisView;
-
 /**
  *
  * @author Osito

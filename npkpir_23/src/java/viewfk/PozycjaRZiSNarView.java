@@ -15,7 +15,6 @@ import daoFK.PozycjaRZiSDAO;
 import daoFK.UkladBRDAO;
 import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
-import entityfk.Konto;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
 import entityfk.UkladBR;
@@ -26,10 +25,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import pdffk.PdfRZiS;
+import msg.Msg;import pdffk.PdfRZiS;
 import view.WpisView;
-
 /**
  *
  * @author Osito

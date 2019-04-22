@@ -17,7 +17,7 @@
                         <ui:include src="sub/layoutVat/west.xhtml"/>   <!-- panel zachodni-->
                         <ui:include src="sub/layoutTablica/east.xhtml"/>   <!-- panel wchodni-->
                          <h:form>
-                             <p:growl life="3600"  id="fifi" autoUpdate="true"/>
+                             <p:growl life="3600"  id="fifi" ><p:autoUpdate/></p:growl>
                             <p:confirmDialog id="confirmDialog" message="Usunąć wybrany JPK?"  
                                              header="Usuwanie wybranego JPK" severity="alert" widgetVar="confirmation">  
 

@@ -6,8 +6,6 @@
 package viewfk;
 
 import beansFK.PlanKontFKKopiujBean;
-import comparator.Kontocomparator;
-import comparator.UkladBRcomparator;
 import daoFK.KontoDAOfk;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
@@ -17,16 +15,13 @@ import entityfk.Konto;
 import entityfk.UkladBR;
 import error.E;
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import view.WpisView;
-
+import msg.Msg;import view.WpisView;
 /**
  *
  * @author Osito

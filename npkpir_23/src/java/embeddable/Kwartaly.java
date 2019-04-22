@@ -13,7 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import view.WpisView;
-
 /**
  *
  * @author Osito

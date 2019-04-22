@@ -85,7 +85,7 @@
                     </p:column>
                 </p:rowExpansion>
             </p:dataTable>
-            <p:messages id="mesydzue" autoUpdate="true" styleClass="upd3"/>
+            <p:messages id="mesydzue" styleClass="upd3"> <p:autoUpdate/></p:messages>
                 <p:separator/>
                 <p:dataTable value="#{vat27View.deklaracjevat27}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1410px;" styleClass="upd3"
                              selection="#{vat27View.dekl27selected}" selectionMode="single" rowKey="#{row.hashCode()}">

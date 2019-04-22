@@ -17,8 +17,7 @@ import java.util.ListIterator;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import msg.Msg;
-import waluty.Z;
+import msg.Msg;import waluty.Z;
 
 /**
  *

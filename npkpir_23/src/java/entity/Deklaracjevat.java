@@ -5,7 +5,6 @@
 package entity;
 
 import embeddable.EVatwpisSuma;
-import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.Vatpoz;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;

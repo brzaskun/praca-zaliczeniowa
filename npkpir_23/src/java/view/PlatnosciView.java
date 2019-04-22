@@ -9,7 +9,6 @@ import dao.OdsetkiDAO;
 import dao.PitDAO;
 import dao.PlatnosciDAO;
 import dao.PodatnikDAO;
-
 import dao.ZobowiazanieDAO;
 import entity.Deklaracjevat;
 import entity.Odsetki;
@@ -17,7 +16,6 @@ import entity.Pitpoz;
 import entity.Platnosci;
 import entity.PlatnosciPK;
 import entity.Podatnik;
-
 import entity.Zobowiazanie;
 import entity.Zusstawki;
 import error.E;
@@ -41,8 +39,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -96,12 +93,12 @@ public class PlatnosciView implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Platnosci były już raz zachowane. Pobrano je z archiwum", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             edytujplatnosc = true;
-            RequestContext.getCurrentInstance().update("form:formZob");
+            PrimeFaces.current().ajax().update("form:formZob");
         } catch (Exception e) { E.e(e); 
             nowezobowiazanie();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Wprowadź nowe daty przelewów.", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            RequestContext.getCurrentInstance().update("form:formZob");
+            PrimeFaces.current().ajax().update("form:formZob");
         }
     }
 
@@ -221,17 +218,17 @@ public class PlatnosciView implements Serializable {
                 platnosciDAO.dodaj(selectedZob);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci zachowane - PodatekView", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-                RequestContext.getCurrentInstance().update("akordeon:formZob:wiad");
+                PrimeFaces.current().ajax().update("akordeon:formZob:wiad");
             } else {
                 platnosciDAO.edit(selectedZob);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci ponownie zachowane - PodatekView", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-                RequestContext.getCurrentInstance().update("akordeon:formZob:wiad");
+                PrimeFaces.current().ajax().update("akordeon:formZob:wiad");
             }
         } catch (Exception e) { E.e(e); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Platnosci nie zachowane - PodatekView", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            RequestContext.getCurrentInstance().update("akordeon:formZob:wiad");
+            PrimeFaces.current().ajax().update("akordeon:formZob:wiad");
         }
     }
 
@@ -253,17 +250,17 @@ public class PlatnosciView implements Serializable {
                 platnosciDAO.dodaj(selectedZob);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci zachowane - PodatekView", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-                RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
+                PrimeFaces.current().ajax().update("akordeon:formZob1:wiad1");
             } else {
                 platnosciDAO.edit(selectedZob);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci ponownie zachowane - PodatekView", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-                RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
+                PrimeFaces.current().ajax().update("akordeon:formZob1:wiad1");
             }
         } catch (Exception e) { E.e(e); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Platnosci nie zachowane - PodatekView", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
+            PrimeFaces.current().ajax().update("akordeon:formZob1:wiad1");
         }
     }
 
@@ -285,17 +282,17 @@ public class PlatnosciView implements Serializable {
                 platnosciDAO.dodaj(selectedZob);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci zachowane - PodatekView", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-                RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
+                PrimeFaces.current().ajax().update("akordeon:formZob1:wiad1");
             } else {
                 platnosciDAO.edit(selectedZob);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci ponownie zachowane - PodatekView", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-                RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
+                PrimeFaces.current().ajax().update("akordeon:formZob1:wiad1");
             }
         } catch (Exception e) { E.e(e); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Platnosci nie zachowane - PodatekView", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
+            PrimeFaces.current().ajax().update("akordeon:formZob1:wiad1");
         }
     }
     
@@ -317,17 +314,17 @@ public class PlatnosciView implements Serializable {
                 platnosciDAO.dodaj(selectedZob);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci zachowane - PodatekView", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-                RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
+                PrimeFaces.current().ajax().update("akordeon:formZob1:wiad1");
             } else {
                 platnosciDAO.edit(selectedZob);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci ponownie zachowane - PodatekView", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-                RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
+                PrimeFaces.current().ajax().update("akordeon:formZob1:wiad1");
             }
         } catch (Exception e) { E.e(e); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Platnosci nie zachowane - PodatekView", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
+            PrimeFaces.current().ajax().update("akordeon:formZob1:wiad1");
         }
     }
     

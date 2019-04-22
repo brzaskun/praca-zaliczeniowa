@@ -50,13 +50,13 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
+import jpk201701.JPK;
 import static jpkview.JPK_VAT2_Bean.dodajWierszeSprzedazy;
 import static jpkview.JPK_VAT2_Bean.dodajWierszeZakupy;
 import static jpkview.JPK_VAT2_Bean.naglowek;
 import static jpkview.JPK_VAT2_Bean.obliczsprzedazCtrl;
 import static jpkview.JPK_VAT2_Bean.obliczzakupCtrl;
 import static jpkview.JPK_VAT2_Bean.podmiot1;
-import jpk201701.JPK;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**

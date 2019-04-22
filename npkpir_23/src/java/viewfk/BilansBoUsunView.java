@@ -14,9 +14,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import view.WpisView;
+import msg.Msg;import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -34,12 +32,12 @@ public class BilansBoUsunView  implements Serializable {
     
     public void ustawbilanslikwidacja() {
         tojestbilanslikwidacyjny = true;
-        RequestContext.getCurrentInstance().update("formdialog_dialog_bilans_usun");
+        PrimeFaces.current().ajax().update("formdialog_dialog_bilans_usun");
     }
     
     public void zestawbilanslikwidacja() {
         tojestbilanslikwidacyjny = false;
-        RequestContext.getCurrentInstance().update("formdialog_dialog_bilans_usun");
+        PrimeFaces.current().ajax().update("formdialog_dialog_bilans_usun");
     }
     
     public void usunBO(WpisView wpisView) {

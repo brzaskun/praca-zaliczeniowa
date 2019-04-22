@@ -25,7 +25,6 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import mail.Mail;
 import msg.Msg;
-
 /**
  *
  * @author Osito

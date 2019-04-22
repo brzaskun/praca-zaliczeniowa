@@ -38,7 +38,7 @@
         <h:outputText value="nie wprowadzono danych tego podatnika na nowy rok podatkowy - zablokowano możliwość księgowania dokumentów" rendered="#{WpisView.czegosbrakuje}" style="font-weight: 800; color: red; padding: 20px;"/>
         <p:panel menuTitle="Wprowadzanie dokumentów klient" header="Wprowadzanie dokumentów klient: #{WpisView.podatnikObiekt.nazwapelnaPDF} okres: #{WpisView.rokWpisu}/#{WpisView.miesiacWpisu}" rendered="#{!WpisView.czegosbrakuje}"
                  style="width: 900px; box-shadow: 10px 10px 5px #888; padding: 2%; margin-top: -2%; min-height: 450px;" id="wprowadzanie">
-            <p:growl life="3600"  id="mess_add" autoUpdate="true"/>
+            <p:growl life="3600"  id="mess_add" ><p:autoUpdate/></p:growl>
             <p:focus for="polawprowadzania1"/>
             <p:panelGrid  columns="3" >
                 <p:panelGrid id="polawprowadzania1" style="width: 300px;">

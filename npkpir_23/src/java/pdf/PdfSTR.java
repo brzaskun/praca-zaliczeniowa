@@ -26,10 +26,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import msg.Msg;
-import plik.Plik;
+import msg.Msg;import plik.Plik;
 import view.WpisView;
-
 /**
  *
  * @author Osito

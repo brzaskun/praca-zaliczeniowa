@@ -47,7 +47,7 @@
         <p:ajax event="open" listener="#{dokfkView.odswiezzaksiegowaneInit}"
                 update=":zestawieniedokumentow:dataList zestawieniedokumentow:kategoriadokumentu zestawieniedokumentow:miesiacWpisu"/>
         <h:form id="zestawieniedokumentow">
-            <p:growl life="6000" autoUpdate="true" id="wiadomoscisprawdzanie" sticky="true"/>
+            <p:growl life="6000" id="wiadomoscisprawdzanie" sticky="true" ><p:autoUpdate/></p:growl>
             <p:panelGrid id="sumawybranych" columns="2" style="padding: 5px;">
                 <h:outputText value="   suma wartości netto wybranych dokumentów: "/>
                 <bcf:outputpl id="podsumowaniewybr" value="#{dokfkView.podsumowaniewybranych}"/>

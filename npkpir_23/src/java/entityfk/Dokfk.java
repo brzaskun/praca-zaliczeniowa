@@ -16,7 +16,6 @@ import entity.VatUe;
 import entity.WniosekVATZDEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -47,8 +46,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.primefaces.context.RequestContext;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 import viewfk.subroutines.ObslugaWiersza;
 import waluty.Z;
 
@@ -790,7 +788,7 @@ public class Dokfk extends DokSuper implements Serializable {
         for (Wiersz p : this.listawierszy) {
             dodajKwotyWierszaDoSumyDokumentu(p);
         }
-        RequestContext.getCurrentInstance().update("formwpisdokument:panelzkwotamidok");
+        PrimeFaces.current().ajax().update("formwpisdokument:panelzkwotamidok");
     }
 
 //    public void uzupelnijwierszeodane() {

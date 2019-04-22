@@ -15,9 +15,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import view.WpisView;
-import xls.ReadXLSFile;
+import msg.Msg;import view.WpisView;import xls.ReadXLSFile;
 
 /**
  *

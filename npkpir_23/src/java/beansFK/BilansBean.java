@@ -23,7 +23,6 @@ import java.util.Iterator;
 import java.util.List;
 import msg.Msg;
 import view.WpisView;
-
 /**
  *
  * @author Osito

@@ -6,7 +6,6 @@
 package viewfk;
 
 import beansFK.PlanKontFKBean;
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import comparator.Kontocomparator;
 import comparator.RoznicaSaldBOcomparator;
 import comparator.StronaWierszacomparatorBO;
@@ -38,14 +37,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import pdffk.PdfBilansGen;
+import msg.Msg;import pdffk.PdfBilansGen;
 import testobjects.WierszBO_T;
 import static testobjects.testobjects.getKlienci;
 import static testobjects.testobjects.getPodatnik;
 import static testobjects.testobjects.getRodzajedok;
-import view.WpisView;
-import waluty.Z;
+import view.WpisView;import waluty.Z;
 
 /**
  *

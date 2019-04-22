@@ -14,11 +14,9 @@ import entity.Uz;
 import format.F;
 import java.io.File;
 import java.util.List;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import static pdffk.PdfMain.*;
+import msg.Msg;import static pdffk.PdfMain.*;
 import plik.Plik;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -49,7 +47,7 @@ public class PdfFaktRozrach {
             }
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Błąd wydruku rozrachunków z klientem");
         }
@@ -103,7 +101,7 @@ public class PdfFaktRozrach {
             dodajTabele(document, testobjects.testobjects.getFakturaRozrachunki(zbiorcze, 1),90,1);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } else {
             Msg.msg("w", "Błąd wydruku zestawienia rozrachunków zbiorczych");
         }

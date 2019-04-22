@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.inject.Named;
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -39,7 +39,7 @@ public class VAT {
             }
             selDokument.setVatR(rok);
             selDokument.setVatM(mc);
-            RequestContext.getCurrentInstance().update("dodWiad:ostatnipanel");
+            PrimeFaces.current().ajax().update("dodWiad:ostatnipanel");
         }
     }
     

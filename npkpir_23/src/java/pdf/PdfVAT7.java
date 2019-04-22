@@ -27,8 +27,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.primefaces.context.RequestContext;
 import plik.Plik;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -294,7 +294,7 @@ public class PdfVAT7 extends Pdf implements Serializable {
             } catch (Exception e) {
                 kombinuj(v.getPodatnik(), "nic");
             }
-            RequestContext.getCurrentInstance().execute("wydrukvat7('" + dkl.getPodatnik() + "', " + index + ");");
+            PrimeFaces.current().executeScript("wydrukvat7('" + dkl.getPodatnik() + "', " + index + ");");
         }
     }
 

@@ -6,11 +6,9 @@
 package viewfk;
 
 import dao.EvewidencjaDAO;
-
 import daoFK.EVatwpisDedraDAO;
 import dedra.Dedraparser;
 import entity.Evewidencja;
-
 import entityfk.EVatwpisDedra;
 import error.E;
 import java.io.File;
@@ -25,15 +23,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
-import msg.Msg;
-import org.apache.commons.io.FileUtils;
+import msg.Msg;import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import pdffk.PdfEVatDedra;
 import view.WpisView;
-
 /**
  *
  * @author Osito

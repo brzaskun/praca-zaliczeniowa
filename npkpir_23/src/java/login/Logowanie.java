@@ -138,9 +138,7 @@ public class Logowanie implements Serializable {
                 } else if (request.isUserInRole("Noobie")) {
                     navto = "Noobie";
                 }
-                Uz uz = uzDAO.findUzByLogin(uzytkownik);
-                uz.setBiezacasesja(dodajInfoDoSesji());
-                uzDAO.edit(uz);
+                dodajInfoDoSesji();
                 if (liczniklogowan < 5) {
                     Liczniklogowan.resetujLogowanie(ipusera, rejestrlogowanDAO);
                 }
@@ -255,7 +253,7 @@ public class Logowanie implements Serializable {
 //                    haslo = o[1];
 //                }
 //            }
-//            RequestContext.getCurrentInstance().update("formlog1:logowaniepanel");
+//            PrimeFaces.current().ajax().update("formlog1:logowaniepanel");
 //            invalidatesession();
 //        } catch (Exception e){
 //            E.e(e);

@@ -5,9 +5,6 @@
  */
 package treasures;
 
-import entity.Faktura;
-import entity.FakturaDuplikat;
-import entity.Fakturywystokresowe;
 import entity.Podatnik;
 import entity.Rodzajedok;
 import entityfk.Dokfk;

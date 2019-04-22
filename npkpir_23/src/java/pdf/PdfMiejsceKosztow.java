@@ -25,12 +25,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import msg.Msg;
-import static pdf.PdfVAT7.absText;
+import msg.Msg;import static pdf.PdfVAT7.absText;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import plik.Plik;
-import view.WpisView;
-import viewfk.MiejsceKosztowView;
+import view.WpisView;import viewfk.MiejsceKosztowView;
 
 /**
  *

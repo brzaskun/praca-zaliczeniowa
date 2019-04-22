@@ -17,7 +17,6 @@ import entity.JPKSuper;
 import entity.Klienci;
 import entity.KwotaKolumna1;
 import entity.Rodzajedok;
-import entityfk.Tabelanbp;
 import error.E;
 import gus.GUSView;
 import java.io.InputStream;
@@ -36,8 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import jpkabstract.SprzedazWierszA;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
+import msg.Msg; import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import pdf.PdfDok;
@@ -106,7 +104,7 @@ public class ImportSprzedazyView  implements Serializable {
             E.e(ex);
             Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");
         }
-        RequestContext.getCurrentInstance().execute("PF('dialogAjaxCzekaj').hide()");
+        PrimeFaces.current().executeScript("PF('dialogAjaxCzekaj').hide()");
     }
     
     private JPKSuper pobierzJPK(UploadedFile uploadedFile) {

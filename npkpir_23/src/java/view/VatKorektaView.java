@@ -48,9 +48,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
+import msg.Msg; import org.primefaces.PrimeFaces;
 import org.joda.time.DateTime;
-import org.primefaces.context.RequestContext;
 import params.Params;
 import pdf.PdfVATKorektaReczna;
 import serialclone.SerialClone;
@@ -168,9 +167,9 @@ public class VatKorektaView implements Serializable {
         int lp = e.getLp();
         vatKorektaDok.getEwidencjaVAT().get(lp).setBrutto(e.getNetto() + e.getVat());
         String update = "akordeon:wprowadzDokument:tablicavat:" + lp + ":brutto";
-        RequestContext.getCurrentInstance().update(update);
+        PrimeFaces.current().ajax().update(update);
         String activate = "document.getElementById('akordeon:wprowadzDokument:tablicavat:" + lp + ":brutto_input').select();";
-        RequestContext.getCurrentInstance().execute(activate);
+        PrimeFaces.current().executeScript(activate);
     }
     
     public void wybranoDeklaracje(){

@@ -11,7 +11,6 @@ import daoFK.SkladkaStowarzyszenieDAO;
 import entityfk.MiejscePrzychodow;
 import entityfk.SkladkaCzlonek;
 import entityfk.SkladkaStowarzyszenie;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,11 +21,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import view.WpisView;
-
+import msg.Msg;import view.WpisView;
 /**
  *
  * @author Osito

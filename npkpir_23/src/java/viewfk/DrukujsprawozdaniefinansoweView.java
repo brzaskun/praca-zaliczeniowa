@@ -11,17 +11,14 @@ import error.E;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import msg.Msg;
-import pdf.PdfKonta;
+import msg.Msg;import pdf.PdfKonta;
 import pdffk.PdfBilans;
 import pdffk.PdfPlanKont;
 import pdffk.PdfZaksiegowaneView;
 import view.WpisView;
-
 /**
  *
  * @author Osito

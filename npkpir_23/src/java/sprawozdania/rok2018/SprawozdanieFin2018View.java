@@ -17,7 +17,6 @@ import javax.faces.bean.ViewScoped;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import view.WpisView;
-
 /**
  *
  * @author Osito
@@ -40,7 +39,7 @@ public class SprawozdanieFin2018View  implements Serializable {
             //sprawozdanie.dodatkoweInformacjeIObjasnieniaJednstkaInna = SprawozdanieFin2018DodInfoBean.generuj();
             String sciezka = marszajuldoplikuxml("8511005008", "01", "2019", sprawozdanie);
             //String polecenie = "wydrukXML(\""+sciezka+"\")";
-            //RequestContext.getCurrentInstance().execute(polecenie);
+            //PrimeFaces.current().executeScript(polecenie);
             //Msg.msg("Wygenerowano sprawozdanie finansowe");
             System.out.println("Wygenerowano sprawozdanie finansowe");
         } catch (Exception e) {

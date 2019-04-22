@@ -42,11 +42,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import org.primefaces.component.datatable.DataTable;
-import org.primefaces.context.RequestContext;
+import msg.Msg;import org.primefaces.component.datatable.DataTable;
 import pdffk.PdfWierszBO;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 import waluty.Z;
 
 /**
@@ -288,8 +286,8 @@ public class BilansWprowadzanieView implements Serializable {
             nraktualnejlisty = nrlisty;
             if (listaBOFiltered != null) {
                 listaBOFiltered = null;
-                RequestContext.getCurrentInstance().execute("try{PF('tab0prosta').clearFilters()}catch(e){}");
-                RequestContext.getCurrentInstance().execute("try{PF('tab0zlozona').clearFilters()}catch(e){}");
+                PrimeFaces.current().executeScript("try{PF('tab0prosta').clearFilters()}catch(e){}");
+                PrimeFaces.current().executeScript("try{PF('tab0zlozona').clearFilters()}catch(e){}");
             }
         } catch (Exception e) {}
     }
@@ -338,8 +336,8 @@ public class BilansWprowadzanieView implements Serializable {
         nraktualnejlisty = 9;
         if (listaBOFiltered != null) {
             listaBOFiltered = null;
-            RequestContext.getCurrentInstance().execute("try{PF('tab0prosta').clearFilters()}catch(e){}");
-            RequestContext.getCurrentInstance().execute("try{PF('tab0zlozona').clearFilters()}catch(e){}");
+            PrimeFaces.current().executeScript("try{PF('tab0prosta').clearFilters()}catch(e){}");
+            PrimeFaces.current().executeScript("try{PF('tab0zlozona').clearFilters()}catch(e){}");
         }
     }
 
@@ -386,7 +384,7 @@ public class BilansWprowadzanieView implements Serializable {
                 wierszBODAO.edit(selected);
                 if (listaBOFiltered != null) {
                     podsumujWnMa(listaBOFiltered, listaBOsumy);
-                    RequestContext.getCurrentInstance().update("formbilanswprowadzanie2:sum0");
+                    PrimeFaces.current().ajax().update("formbilanswprowadzanie2:sum0");
                 }
                 Msg.msg("Wyedytowano pozycję");
             } else {
@@ -400,7 +398,7 @@ public class BilansWprowadzanieView implements Serializable {
                 if (listaBOFiltered != null) {
                     listaBOFiltered.add(selected);
                     podsumujWnMa(listaBOFiltered, listaBOsumy);
-                    RequestContext.getCurrentInstance().update("formbilanswprowadzanie2:sum0");
+                    PrimeFaces.current().ajax().update("formbilanswprowadzanie2:sum0");
                 }
                 Msg.msg("Zachowano pozycję");
             }
@@ -622,7 +620,7 @@ public class BilansWprowadzanieView implements Serializable {
 //                    if (licznik > 0) {
 //                        Msg.msg("e", "Taki opis już istnieje na koncie: " + konto.getPelnynumer() + " opis: " + opis);
 //                        selected.setOpis("zmień opis");
-//                        RequestContext.getCurrentInstance().update(pole);
+//                        PrimeFaces.current().ajax().update(pole);
 //                        return 1;
 //                    }
 //                }
@@ -657,7 +655,7 @@ public class BilansWprowadzanieView implements Serializable {
                 wiersz.setKwotaMaPLN(kwotawPLN);
             }
 
-            RequestContext.getCurrentInstance().update(w);
+            PrimeFaces.current().ajax().update(w);
         } else if (wiersz.getWaluta().getSymbolwaluty().equals("PLN")) {
             if (strona.equals("Wn")) {
                 w = "formbilanswprowadzanie:tabviewbilans:" + tab + ":" + idx + ":Wnpln";
@@ -666,7 +664,7 @@ public class BilansWprowadzanieView implements Serializable {
                 w = "formbilanswprowadzanie:tabviewbilans:" + tab + ":" + idx + ":Mapln";
                 wiersz.setKwotaMaPLN(kwotaWwalucie);
             }
-            RequestContext.getCurrentInstance().update(w);
+            PrimeFaces.current().ajax().update(w);
         }
     }
 
@@ -682,7 +680,7 @@ public class BilansWprowadzanieView implements Serializable {
                 w = "formbilanswprowadzanie2_wiersz:Mapln";
                 selected.setKwotaMaPLN(kwotawPLN);
             }
-            RequestContext.getCurrentInstance().update(w);
+            PrimeFaces.current().ajax().update(w);
         } else if (selected.getWaluta().getSymbolwaluty().equals("PLN")) {
             if (strona.equals("Wn")) {
                 w = "formbilanswprowadzanie2_wiersz:Wnpln";
@@ -691,7 +689,7 @@ public class BilansWprowadzanieView implements Serializable {
                 w = "formbilanswprowadzanie2_wiersz:Mapln";
                 selected.setKwotaMaPLN(kwotaWwalucie);
             }
-            RequestContext.getCurrentInstance().update(w);
+            PrimeFaces.current().ajax().update(w);
         }
     }
 
@@ -705,7 +703,7 @@ public class BilansWprowadzanieView implements Serializable {
                 selected.setKurs(0.0);
             }
             w = "formbilanswprowadzanie2_wiersz:polekurs";
-            RequestContext.getCurrentInstance().update(w);
+            PrimeFaces.current().ajax().update(w);
         } else if (kurs != 0.0 && !selected.getWaluta().getSymbolwaluty().equals("PLN") && kwotaWwalucie == 0.0) {
             double kwotaWwaluciewyliczona = Z.z(kwotaWPLN / kurs);
             if (WnMa.equals("Wn")) {
@@ -715,7 +713,7 @@ public class BilansWprowadzanieView implements Serializable {
                 w = "formbilanswprowadzanie2_wiersz:Mawal";
                 selected.setKwotaMa(kwotaWwaluciewyliczona);
             }
-            RequestContext.getCurrentInstance().update(w);
+            PrimeFaces.current().ajax().update(w);
         }
     }
 
@@ -1121,7 +1119,7 @@ public class BilansWprowadzanieView implements Serializable {
         stronaWn = Z.z(stronaWn);
         stronaMa = Z.z(stronaMa);
         stronaWn_stronaMa = Z.z(stronaWn-stronaMa);
-        //RequestContext.getCurrentInstance().update("formbilanswprowadzanie3:kwotysum");
+        //PrimeFaces.current().ajax().update("formbilanswprowadzanie3:kwotysum");
     }
 
     public void podsumujWnMa(List<WierszBO> lista, List listasum) {

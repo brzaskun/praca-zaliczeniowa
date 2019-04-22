@@ -158,7 +158,7 @@
                                                      id="delete" icon="ui-icon ui-icon-trash" update="importtabela:dokumentyLista"/>
                                 </p:column>
                             </p:dataTable> 
-                            <p:growl life="3600"  id="messages2" autoUpdate="true"/>
+                            <p:growl life="3600"  id="messages2" ><p:autoUpdate/></p:growl>
                             <p:commandButton  icon="fa fa-print" style="margin-top: 20px; width: 120px;" actionListener="#{importCSVView.drukuj()}"  rendered="#{importCSVView.dokumenty.size() gt 0}"/>
                         </h:form>
                     </p:layoutUnit>

@@ -8,7 +8,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
 
     <h:form id="westIndex">
-        <p:messages id="messages" autoUpdate="true"/>
+        <p:messages id="messages"/>
         <p:focus id="focus" context="panelwyboru"/>
         <p:panel id="panelwyboru" menuTitle="Dane" header="Parametry" style="width: 600px; margin-left: auto; margin-right: auto;">
             <f:facet name="header">
@@ -39,7 +39,7 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton  action="#{WpisView.skierujmultisuera()}"
+                    <p:commandButton  action="#{WpisView.skierujmultisuera()}" ajax="false"
                                       style="width: 150px;"
                                       actionListener="#{WpisView.wpisAktualizuj()}" value="#{mgs.wybierzmcrok}" accesskey="s"/>
                 </p:column>

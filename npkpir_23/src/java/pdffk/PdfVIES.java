@@ -12,7 +12,6 @@ import error.E;
 import java.io.File;
 import java.util.List;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.finalizacjaDokumentuQR;
 import static pdffk.PdfMain.inicjacjaA4Portrait;
@@ -21,7 +20,7 @@ import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
 import plik.Plik;
 import vies.Vies;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -45,7 +44,7 @@ public class PdfVIES {
                 PdfMain.dodajTabeleVies(document, testobjects.testobjects.getVies(wykaz),95,0);
                 finalizacjaDokumentuQR(document,nazwa);
                 String f = "pokazwydruk('"+nazwa+"');";
-                RequestContext.getCurrentInstance().execute(f);
+                PrimeFaces.current().executeScript(f);
             } else {
                 Msg.msg("w", "Nie ma VIES do wydruku");
             }

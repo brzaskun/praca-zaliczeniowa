@@ -10,7 +10,6 @@ import entityfk.SprawozdanieFinansowe;
 import java.io.Serializable;
 import java.util.List;
 import view.WpisView;
-
 /**
  *
  * @author Osito

@@ -26,10 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import plik.Plik;
-import view.WpisView;
+import msg.Msg;import plik.Plik;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -65,7 +63,7 @@ public class PdfEwidencjaPrzychodow {
         pdf.add(table);
         pdf.addAuthor("Biuro Rachunkowe Taxman");
         pdf.close();
-        RequestContext.getCurrentInstance().execute("wydrukpkpir('"+wpisView.getPodatnikWpisu().trim()+"');");
+        PrimeFaces.current().executeScript("wydrukpkpir('"+wpisView.getPodatnikWpisu().trim()+"');");
         Msg.msg("i", "Wydrukowano ewidencję przychodów", "form:messages");
         
         
@@ -98,7 +96,7 @@ public class PdfEwidencjaPrzychodow {
         }
         pdf.addAuthor("Biuro Rachunkowe Taxman");
         pdf.close();
-        RequestContext.getCurrentInstance().execute("wydrukpkpir('"+wpisView.getPodatnikWpisu().trim()+"');");
+        PrimeFaces.current().executeScript("wydrukpkpir('"+wpisView.getPodatnikWpisu().trim()+"');");
         Msg.msg("i", "Wydrukowano księgę", "form:messages");
     }
     

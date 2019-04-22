@@ -47,12 +47,11 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.ws.Holder;
 import javax.xml.ws.WebServiceRef;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import service.GateService;
 import view.DeklaracjevatView;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -265,9 +264,9 @@ public class beanektest  implements Serializable {
             deklaracjevatView.getWyslanezbledem().add(sprawdzanadeklaracja);
         }
         deklaracjevatDAO.edit(sprawdzanadeklaracja);
-        RequestContext.getCurrentInstance().update("formX:akordeon:dataList");
-        RequestContext.getCurrentInstance().update("formX:akordeon:dataLista");
-        RequestContext.getCurrentInstance().update("formX:akordeon:dataList1");
+        PrimeFaces.current().ajax().update("formX:akordeon:dataList");
+        PrimeFaces.current().ajax().update("formX:akordeon:dataLista");
+        PrimeFaces.current().ajax().update("formX:akordeon:dataList1");
     }
 
     private void requestUPO_Test(java.lang.String refId, java.lang.String language, javax.xml.ws.Holder<java.lang.String> upo, javax.xml.ws.Holder<Integer> status, javax.xml.ws.Holder<java.lang.String> statusOpis) {
@@ -374,7 +373,7 @@ public class beanektest  implements Serializable {
         deklaracjevatView.getWyslanetestowe().remove(sprawdzanadeklaracja);
         deklaracjevatView.getWyslanetestowe().add(sprawdzanadeklaracja);
         deklaracjevatDAO.edit(sprawdzanadeklaracja);
-        RequestContext.getCurrentInstance().update("formX:dokumentyLista");
+        PrimeFaces.current().ajax().update("formX:dokumentyLista");
     }
 
     public void przerzucdowysylki(String identyfikator) {

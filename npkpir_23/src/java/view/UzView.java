@@ -7,10 +7,7 @@ package view;
 import dao.PodatnikDAO;
 import dao.SMTPSettingsDAO;
 import dao.UzDAO;
-
-import entity.Podatnik;
 import entity.Uz;
-
 import error.E;
 import java.io.Serializable;
 import java.security.MessageDigest;
@@ -19,8 +16,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -32,8 +27,7 @@ import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import mail.Mail;
 import msg.B;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
+import msg.Msg; import org.primefaces.PrimeFaces;
 import params.Params;
 
 /**
@@ -155,11 +149,11 @@ public class UzView implements Serializable {
     public void porownajHaslaWTrakcie() {
         if (nowedrugiehaslo.length() >= 6) {
             if (!nowehaslo.equals(nowedrugiehaslo)) {
-                RequestContext.getCurrentInstance().execute("$(document.getElementById('form:przycisk')).hide();");
+                PrimeFaces.current().executeScript("$(document.getElementById('form:przycisk')).hide();");
                 Msg.msg("e", "Hasła nie są identyczne. Wprowadź je ponownie!");
 
             } else {
-                RequestContext.getCurrentInstance().execute("$(document.getElementById('form:przycisk')).show();");
+                PrimeFaces.current().executeScript("$(document.getElementById('form:przycisk')).show();");
             }
         }
     }
@@ -310,6 +304,12 @@ public class UzView implements Serializable {
         }
     }
 
+    public void naniesfirme() {
+        if (selUzytkownik.getPodatnik()!=null) {
+            selUzytkownik.setFirma(selUzytkownik.getPodatnik().getNip());
+        }
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="comment">
    
     public List<DemoWiersz> getPolademo() {

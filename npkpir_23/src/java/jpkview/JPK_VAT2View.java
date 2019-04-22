@@ -37,11 +37,9 @@ import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 import pdf.PdfUPO;
 import view.EwidencjaVatView;
-import view.WpisView;
-import jpkview.JPK_VAT3_Bean;
+import view.WpisView; import org.primefaces.PrimeFaces;
 import waluty.Z;
 
 /**
@@ -128,7 +126,7 @@ public class JPK_VAT2View implements Serializable {
         if (bledy.size()==0) {
             String sciezka = generujXML(lista, wpisView.getPodatnikObiekt(), nowa0korekta1);
             String polecenie = "wydrukXML(\""+sciezka+"\")";
-            RequestContext.getCurrentInstance().execute(polecenie);
+            PrimeFaces.current().executeScript(polecenie);
         } else {
             Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
         }
@@ -162,7 +160,7 @@ public class JPK_VAT2View implements Serializable {
         if (bledy.size()==0) {
             String sciezka = generujXML(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
             String polecenie = "wydrukXML(\""+sciezka+"\")";
-            RequestContext.getCurrentInstance().execute(polecenie);
+            PrimeFaces.current().executeScript(polecenie);
         } else {
             Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
         }
@@ -254,7 +252,7 @@ public class JPK_VAT2View implements Serializable {
         if (bledy.size()==0) {
             String sciezka = generujXML(wiersze,wpisView.getPodatnikObiekt(), nowa0korekta1);
             String polecenie = "wydrukXML(\""+sciezka+"\")";
-            RequestContext.getCurrentInstance().execute(polecenie);
+            PrimeFaces.current().executeScript(polecenie);
         } else {
             Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
         }
@@ -390,7 +388,7 @@ public class JPK_VAT2View implements Serializable {
                 nazwa = mainfilename;
                 Msg.msg("Zachowano JPK");
                 String exec = "wydrukJPK('"+mainfilename+"')";
-                RequestContext.getCurrentInstance().execute(exec);
+                PrimeFaces.current().executeScript(exec);
             }
         } catch (Exception e) {
             E.e(e);

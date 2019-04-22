@@ -33,7 +33,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import view.WpisView;
-
 @ManagedBean
 @RequestScoped
 public class GuestPreferences implements Serializable {

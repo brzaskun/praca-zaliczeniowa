@@ -37,7 +37,7 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton  action="/ksiegowa/ksiegowaZmianapodatnika.xhtml?faces-redirect=true" 
+                    <p:commandButton  action="#{WpisView.wrocupr()}"  ajax="false"
                                       style="width: 150px;" id="okbutton"
                                       actionListener="#{WpisView.wpisAktualizuj()}" value="#{mgs.wybierzmcrok}"/>
                 </p:column>

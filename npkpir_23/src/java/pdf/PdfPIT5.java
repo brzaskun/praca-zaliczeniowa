@@ -27,10 +27,8 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import msg.Msg;
-import plik.Plik;
+import msg.Msg;import plik.Plik;
 import view.WpisView;
-
 /**
  *
  * @author Osito

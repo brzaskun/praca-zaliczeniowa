@@ -13,8 +13,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
+import msg.Msg; import org.primefaces.PrimeFaces;
 import pdf.PdfPIT28;
 
 /**
@@ -50,7 +49,7 @@ public class RyczView implements Serializable {
         Ryczpoz selected = lista.get(index);
         ryczDAO.destroy(selected);
         lista.remove(selected);
-        RequestContext.getCurrentInstance().update("formpi1:tablicapit");
+        PrimeFaces.current().ajax().update("formpi1:tablicapit");
         Msg.msg("i", "Usunieto ostatni PIT ryczałt"+selected.getUdzialowiec()+" za m-c: "+selected.getPkpirM(),"formpi:messages");
     }
      

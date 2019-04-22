@@ -29,10 +29,9 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
-import msg.Msg;
+import msg.Msg; import org.primefaces.PrimeFaces;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -114,8 +113,8 @@ public class FakturaelementygraficzneView implements Serializable {
             uzycieloga(true);
             zachowajpliknadysku(uploadedFile.getInputstream(), dt, extension);
             fakturaelementygraficzneDAO.dodaj(new Fakturaelementygraficzne(wpisView.getPodatnikWpisu(),nazwakrotka));
-            RequestContext.getCurrentInstance().update("akordeon:formelementy");
-            RequestContext.getCurrentInstance().update("akordeon:formelementygraficzne:panellogo");
+            PrimeFaces.current().ajax().update("akordeon:formelementy");
+            PrimeFaces.current().ajax().update("akordeon:formelementygraficzne:panellogo");
             Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
         } catch (Exception ex) {
             E.e(ex);
@@ -143,7 +142,7 @@ public class FakturaelementygraficzneView implements Serializable {
             }
             logofakturaDAO.usun(wpisView.getPodatnikObiekt());
         }
-        RequestContext.getCurrentInstance().update("akordeon:formelementygraficzne:panellogo");
+        PrimeFaces.current().ajax().update("akordeon:formelementygraficzne:panellogo");
     }
     
     public void uzycieloga(boolean zaznacz1odznacz0) {
@@ -164,7 +163,7 @@ public class FakturaelementygraficzneView implements Serializable {
                     p.setAktywny(zaznacz1odznacz0);
                 }
             }
-            RequestContext.getCurrentInstance().update("akordeon:formelementy");
+            PrimeFaces.current().ajax().update("akordeon:formelementy");
         } catch (Exception e) { E.e(e); 
         }
     }

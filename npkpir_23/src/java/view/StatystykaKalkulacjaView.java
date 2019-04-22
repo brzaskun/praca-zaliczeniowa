@@ -21,14 +21,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import org.apache.commons.math3.stat.descriptive.rank.Median;
+import msg.Msg;import org.apache.commons.math3.stat.descriptive.rank.Median;
 import pdffk.PdfKlienciKalkulacja;
 
 /**

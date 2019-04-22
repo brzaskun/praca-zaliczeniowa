@@ -41,8 +41,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.DoubleAccumulator;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 import javax.faces.bean.ManagedBean;
@@ -52,12 +50,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
-import msg.Msg;
-import org.primefaces.component.datatable.DataTable;
-import org.primefaces.context.RequestContext;
+import msg.Msg;import org.primefaces.component.datatable.DataTable;
 import org.primefaces.model.TreeNode;
 import pdf.PdfKontoZapisy;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 import waluty.Z;
 
 /**
@@ -1088,8 +1084,8 @@ public class KontoZapisFKView implements Serializable{
                         }
                     }
                 }
-                RequestContext.getCurrentInstance().update("zapisydopodswietlenia");
-                RequestContext.getCurrentInstance().execute("podswietlrozrachunki();");
+                PrimeFaces.current().ajax().update("zapisydopodswietlenia");
+                PrimeFaces.current().executeScript("podswietlrozrachunki();");
             }
         } catch (Exception e) {  E.e(e);
             

@@ -23,10 +23,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import pdffk.PdfRRK;
-import view.WpisView;
+import msg.Msg;import pdffk.PdfRRK;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -72,7 +70,7 @@ public class RozniceKursoweFKView implements Serializable {
         for (Transakcja p : pobranetransakcje) {
             sumatransakcji += p.getRoznicekursowe();
         }
-        RequestContext.getCurrentInstance().update("transakcje");
+        PrimeFaces.current().ajax().update("transakcje");
     }
     
     

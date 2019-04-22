@@ -17,8 +17,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
+import msg.Msg; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -50,7 +49,7 @@ public class SrodkiTrwaleView implements Serializable {
     public void dodajSTR() {
         String podatnik = wpisView.getPodatnikWpisu();
         selectedSTR.setPodatnik(podatnik);
-        RequestContext.getCurrentInstance().execute("PF('dialogwpissrodkitrwale').hide();");
+        PrimeFaces.current().executeScript("PF('dialogwpissrodkitrwale').hide();");
         dodajSrodekTrwaly(selectedSTR);
         Msg.msg("Dodaje srodek");
     }
@@ -64,7 +63,7 @@ public class SrodkiTrwaleView implements Serializable {
                 } else {
                     selectedSTR.setDatazak(dokfk.getDatawystawienia());
                     selectedSTR.setDataprzek(dokfk.getDatawystawienia());
-                    RequestContext.getCurrentInstance().execute("PF('dialogwpissrodkitrwale').show()");
+                    PrimeFaces.current().executeScript("PF('dialogwpissrodkitrwale').show()");
                 }
             } else {
                 Msg.msg("e", "Nie wybrano dokumentu źródłowego");
@@ -136,7 +135,7 @@ public class SrodkiTrwaleView implements Serializable {
 //            dodawanysrodektrwaly.setUmorzPlan(listaplanum);
 //            dodawanysrodektrwaly.setUmorzWyk(SrodkiTrwBean.generujumorzeniadlasrodka(dodawanysrodektrwaly, wpisView));
 //            sTRDAO.dodaj(dodawanysrodektrwaly);
-//            RequestContext.getCurrentInstance().update("srodki:panelekXA");
+//            PrimeFaces.current().ajax().update("srodki:panelekXA");
 //            Msg.msg("i", "Środek trwały "+dodawanysrodektrwaly.getNazwa()+" dodany", "formSTR:messages");
 //        } catch (Exception e) { E.e(e); 
 //            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nowy srodek nie zachowany", dodawanysrodektrwaly.getNazwa());
@@ -153,7 +152,7 @@ public class SrodkiTrwaleView implements Serializable {
             dodawanysrodektrwaly.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(dodawanysrodektrwaly));
             dodawanysrodektrwaly.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(dodawanysrodektrwaly, wpisView));
             sTRDAO.dodaj(dodawanysrodektrwaly);
-//            RequestContext.getCurrentInstance().update("srodki:panelekXA");
+//            PrimeFaces.current().ajax().update("srodki:panelekXA");
             Msg.msg("i", "Środek trwały "+dodawanysrodektrwaly.getNazwa()+" dodany");
         } catch (Exception e) { 
             E.e(e); 
@@ -190,13 +189,13 @@ public class SrodkiTrwaleView implements Serializable {
     
 
     public void aktualizujTabele(AjaxBehaviorEvent e) {
-        RequestContext.getCurrentInstance().update("formSTR");
-        RequestContext.getCurrentInstance().update("westSrodki:westSrodkiWidok");
+        PrimeFaces.current().ajax().update("formSTR");
+        PrimeFaces.current().ajax().update("westSrodki:westSrodkiWidok");
     }
 
     public void aktualizujTabele2(AjaxBehaviorEvent e) {
-        RequestContext.getCurrentInstance().update("formSTR");
-        RequestContext.getCurrentInstance().update("westSrodki:westSrodkiWidok");
+        PrimeFaces.current().ajax().update("formSTR");
+        PrimeFaces.current().ajax().update("westSrodki:westSrodkiWidok");
     }
 
     public int ile() {
@@ -208,7 +207,7 @@ public class SrodkiTrwaleView implements Serializable {
             selectedSTR.setKst(srodekkategoria.getSymbol());
             selectedSTR.setUmorzeniepoczatkowe(0.0);
             selectedSTR.setStawka(Double.parseDouble(srodekkategoria.getStawka()));
-            RequestContext.getCurrentInstance().update("srodkiwpis:nowypanelsrodki");
+            PrimeFaces.current().ajax().update("srodkiwpis:nowypanelsrodki");
         } catch (Exception e1) {
         }
     }

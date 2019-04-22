@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.List;
-import org.primefaces.context.RequestContext;
 import static pdf.PdfVAT7.absText;
 import pdffk.PdfMain;
 import static pdffk.PdfMain.dodajOpisWstepny;
@@ -40,7 +39,7 @@ import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
 import plik.Plik;
-import view.WpisView;
+import view.WpisView; import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -123,7 +122,7 @@ public class PdfVat27 {
             document.close();
             E.e(e);
         }
-        RequestContext.getCurrentInstance().execute("wydrukvatue('" + wpisView.getPodatnikObiekt().getNip() + "');");
+        PrimeFaces.current().executeScript("wydrukvatue('" + wpisView.getPodatnikObiekt().getNip() + "');");
     }
     
 
@@ -353,7 +352,7 @@ public class PdfVat27 {
             dodajTabele(document, testobjects.testobjects.getEwidencjaVAT27(listawybranych), 100, 0);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('" + nazwa + "');";
-            RequestContext.getCurrentInstance().execute(f);
+            PrimeFaces.current().executeScript(f);
         } catch (Exception e) {
             E.e(e);
             document.close();

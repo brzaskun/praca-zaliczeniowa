@@ -9,7 +9,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 import entity.Fakturywystokresowe;
 import java.util.List;
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 import static pdffk.PdfMain.dodajLinieOpisu;
 import static pdffk.PdfMain.dodajTabele;
 import static pdffk.PdfMain.finalizacjaDokumentuQR;
@@ -33,6 +33,6 @@ public class PdfFakturyOkresowe {
         dodajTabele(document, testobjects.testobjects.getFakturyOkresowe(fakturyokresowe),100,0);
         finalizacjaDokumentuQR(document,nazwa);
         String f = "pokazwydruk('"+nazwa+"');";
-        RequestContext.getCurrentInstance().execute(f);
+        PrimeFaces.current().executeScript(f);
     }
 }

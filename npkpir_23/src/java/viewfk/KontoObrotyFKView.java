@@ -23,10 +23,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import pdf.PdfKontoObroty;
-import view.WpisView;
+import msg.Msg;import pdf.PdfKontoObroty;
+import view.WpisView; import org.primefaces.PrimeFaces;
 import waluty.Z;
 
 /**
@@ -291,7 +289,7 @@ public class KontoObrotyFKView implements Serializable{
         try {
             PdfKontoObroty.drukujobroty(wpisView, lista, wybranekonto, listasum);
             String wydruk = "wydrukzapisynakoncie('"+wpisView.getPodatnikWpisu()+"')";
-            RequestContext.getCurrentInstance().execute(wydruk);
+            PrimeFaces.current().executeScript(wydruk);
         } catch (Exception e) {  E.e(e);
 
         }

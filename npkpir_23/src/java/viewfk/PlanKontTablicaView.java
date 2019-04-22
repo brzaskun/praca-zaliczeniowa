@@ -8,7 +8,6 @@ package viewfk;
 import beansFK.PlanKontTablicaBean;
 import daoFK.KontoDAOfk;
 import entityfk.Konto;
-import error.E;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,7 +15,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
 import view.WpisView;
-
 /**
  *
  * @author Osito

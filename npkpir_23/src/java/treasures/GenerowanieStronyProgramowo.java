@@ -17,7 +17,7 @@ public class GenerowanieStronyProgramowo {
 //        ELContext elContext = facesCtx.getELContext();
 //        grid3 = getGrid3();
 //        grid3.getChildren().clear();
-//        RequestContext.getCurrentInstance().update("dodWiad:grid3");
+//        PrimeFaces.current().ajax().update("dodWiad:grid3");
 //        ExpressionFactory ef = ExpressionFactory.newInstance();
 //        HtmlOutputText ot = new HtmlOutputText();
 //        ot.setValue("nazwa Srodka");
@@ -117,6 +117,6 @@ public class GenerowanieStronyProgramowo {
 //        htmlSelectOneMenuX.getChildren().add(ulistaX);
 //        grid3.getChildren().add(htmlSelectOneMenuX);
 //
-//        RequestContext.getCurrentInstance().update("dodWiad:grid3");
+//        PrimeFaces.current().ajax().update("dodWiad:grid3");
 //    }
 }

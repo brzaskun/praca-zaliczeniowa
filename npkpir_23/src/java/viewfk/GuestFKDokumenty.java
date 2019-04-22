@@ -9,7 +9,6 @@ import dao.KlienciDAO;
 import daoFK.DokDAOfk;
 import entity.Klienci;
 import entityfk.Dokfk;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,7 +18,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import view.WpisView;
-
 /**
  *
  * @author Osito
