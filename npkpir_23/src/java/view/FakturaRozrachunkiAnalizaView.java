@@ -11,6 +11,7 @@ import comparator.Kliencicomparator;
 import dao.FakturaDAO;
 import dao.FakturaRozrachunkiDAO;
 import dao.FakturadodelementyDAO;
+import dao.KlienciDAO;
 import dao.SMTPSettingsDAO;
 import data.Data;
 import embeddable.FakturaPodatnikRozliczenie;
@@ -69,6 +70,8 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private FakturaRozrachunkiDAO fakturaRozrachunkiDAO;
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
+    @Inject
+    private KlienciDAO klienciDAO;
     private int aktywnytab;
     private UISelectOne selectOneUI;
     private boolean pokaznadplaty;
@@ -593,6 +596,13 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         }
     }
 
-   
+   public void zmienmailkontrahenta() {
+       try {
+           klienciDAO.edit(szukanyklient);
+           Msg.msg("Zmieniono adres mail klienta");
+       } catch (Exception e) {
+           Msg.msg("e","Wytstąpił błąd, nie zmieniono adres mail klienta");
+       }
+   }
     
 }

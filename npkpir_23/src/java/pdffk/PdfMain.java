@@ -1524,7 +1524,15 @@ public class PdfMain {
                 if (modyfikator == 0) {
                     FakturaPodatnikRozliczenie p = (FakturaPodatnikRozliczenie) it.next();
                     table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8));
-                    table.addCell(ustawfrazeAlign(p.getRodzajDok(), "left", 8));
+                    if (p.getRodzajDok().equals("faktura")) {
+                        table.addCell(ustawfrazeAlign(p.getRodzajDok(), "left", 8));
+                    } else if (p.getRodzajDok().startsWith("ka ")) {
+                        table.addCell(ustawfrazeAlign("korekta", "left", 8));
+                    } else if (p.getRodzajDok().startsWith("bo/")) {
+                        table.addCell(ustawfrazeAlign("stan na pocz.roku", "left", 8));
+                    } else {
+                        table.addCell(ustawfrazeAlign("płatność", "left", 8));
+                    }
                     table.addCell(ustawfrazeAlign(p.getNrDok(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getData(), "center", 8));
                     if (p.isFaktura0rozliczenie1()) {

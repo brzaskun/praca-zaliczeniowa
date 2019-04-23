@@ -66,12 +66,14 @@ public class PdfFaktRozrach {
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepnyFaktury(document, "Rozrachunki  z ",wpisView.getPodatnikObiekt().getNazwadlafaktury(), wpisView.getPodatnikObiekt().getNip(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
-            dodajLinieOpisuBezOdstepu(document, "dłużnik: "+szukanyklient.getNpelna());
+            dodajLinieOpisuBezOdstepu(document, "klient: "+szukanyklient.getNpelna());
             dodajLinieOpisu(document, "NIP: "+szukanyklient.getNip());
             dodajTabele(document, testobjects.testobjects.getFakturaRozrachunki(nowepozycje, 0),90,0);
             FakturaPodatnikRozliczenie n = nowepozycje.get(nowepozycje.size()-1);
             if (n.getSaldo() > 0) {
-                dodajLinieOpisu(document, "kwota do zapłaty na dzień sporządzenia faktur w Euro : "+F.curr(n.getSaldo(),"EUR"));
+                if (n.getSaldo()!=0) {
+                    dodajLinieOpisu(document, "kwota do zapłaty na dzień sporządzenia faktur w Euro : "+F.curr(n.getSaldo(),"EUR"));
+                }
                 dodajLinieOpisu(document, "kwota do zapłaty na dzień sporządzenia w przeliczeniu na pln: "+F.curr(n.getSaldopln()));
                 dodajLinieOpisu(document, "proszę sprawdzić saldo i przelać je niezwłocznie na nr konta podany na fakturze");
                 dodajLinieOpisu(document, "dziękuję");
