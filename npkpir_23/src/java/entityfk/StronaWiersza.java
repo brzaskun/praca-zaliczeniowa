@@ -45,7 +45,7 @@ import view.WpisView;import waluty.Z;
 @NamedEntityGraph(name = "graph.Order.items", 
       attributeNodes = @NamedAttributeNode("items"))
 @Table(name = "stronawiersza", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id", "wierszbo_id"})
+    @UniqueConstraint(columnNames = {"idwiersza", "strona_key"})
 })
 
 @NamedQueries({
@@ -824,20 +824,20 @@ public class StronaWiersza implements Serializable {
     public String getRokMc() {
         return this.getDokfk().getMcRok();
     }
-    
-        
-    
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 71 * hash + Objects.hashCode(this.id);
-        hash = 71 * hash + Objects.hashCode(this.wiersz);
-        hash = 71 * hash + (int) (Double.doubleToLongBits(this.kwota) ^ (Double.doubleToLongBits(this.kwota) >>> 32));
+        hash = 83 * hash + Objects.hashCode(this.wiersz);
+        hash = 83 * hash + Objects.hashCode(this.wnma);
         return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (obj == null) {
             return false;
         }
@@ -845,18 +845,47 @@ public class StronaWiersza implements Serializable {
             return false;
         }
         final StronaWiersza other = (StronaWiersza) obj;
-        if (!Objects.equals(this.id, other.id)) {
+        if (!Objects.equals(this.wnma, other.wnma)) {
             return false;
         }
         if (!Objects.equals(this.wiersz, other.wiersz)) {
             return false;
         }
-        if (Double.doubleToLongBits(this.kwota) != Double.doubleToLongBits(other.kwota)) {
-            return false;
-        }
         return true;
     }
     
+        
+    
+//    @Override
+//    public int hashCode() {
+//        int hash = 7;
+//        hash = 71 * hash + Objects.hashCode(this.id);
+//        hash = 71 * hash + Objects.hashCode(this.wiersz);
+//        hash = 71 * hash + (int) (Double.doubleToLongBits(this.kwota) ^ (Double.doubleToLongBits(this.kwota) >>> 32));
+//        return hash;
+//    }
+//
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (obj == null) {
+//            return false;
+//        }
+//        if (getClass() != obj.getClass()) {
+//            return false;
+//        }
+//        final StronaWiersza other = (StronaWiersza) obj;
+//        if (!Objects.equals(this.id, other.id)) {
+//            return false;
+//        }
+//        if (!Objects.equals(this.wiersz, other.wiersz)) {
+//            return false;
+//        }
+//        if (Double.doubleToLongBits(this.kwota) != Double.doubleToLongBits(other.kwota)) {
+//            return false;
+//        }
+//        return true;
+//    }
+//    
     
    
 
