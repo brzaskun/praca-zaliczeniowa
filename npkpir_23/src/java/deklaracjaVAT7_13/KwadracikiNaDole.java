@@ -55,6 +55,10 @@ public class KwadracikiNaDole {
             case "K-12":
                 this.schemaM18K12(pozycjelista, today, vatzd, nrtelefonu);
                 break;
+            case "M-19":
+            case "K-13":
+                this.schemaM19K13(pozycjelista, today, vatzd, nrtelefonu);
+                break;
         }
     }
     
@@ -130,6 +134,15 @@ public class KwadracikiNaDole {
         kwadracikiNaDole = kwadracikiNaDole.concat("</PozycjeSzczegolowe>");
     }
     
+    private void schemaM19K13(PozycjeSzczegoloweVAT pozycjelista, String today, boolean vatzd, String nrtelefonu){
+        //inne kwadraciki 60 sa robione w PozycjeSzczegolowe bo ktos odwrocil kolejnosc kwadracikow
+        if(vatzd) {
+            kwadracikiNaDole = kwadracikiNaDole.concat("<P_69>1</P_69>");
+        }
+        kwadracikiNaDole = kwadracikiNaDole.concat("<P_73>"+nrtelefonu+"</P_73>");
+        kwadracikiNaDole = kwadracikiNaDole.concat("<P_74>"+today+"</P_74>");
+        kwadracikiNaDole = kwadracikiNaDole.concat("</PozycjeSzczegolowe>");
+    }
     
     
     public String getKwadracikiNaDole() {
