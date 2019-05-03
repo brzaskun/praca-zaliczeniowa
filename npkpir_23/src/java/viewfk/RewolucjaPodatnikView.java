@@ -7,7 +7,12 @@ package viewfk;
 
 import dao.DAO;
 import dao.PodatnikDAO;
+import daoFK.DokDAOfk;
+import daoFK.WierszDAO;
+import entityfk.Dokfk;
+import entityfk.Wiersz;
 import java.io.Serializable;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -736,4 +741,81 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
 //        return zwrot;
 //    }
    
+//    @Inject
+//    private WierszDAO wierszDAO;
+//    
+//    public void przebudowawiersze() {
+//        System.out.println("start wiersze");
+//        try {
+//            List<Wiersz> wiersze = wierszDAO.findAll();
+//            System.out.println("pobrano wiersze");
+//            int i = 0;
+//            int lim = 1000;
+//            for (Wiersz p : wiersze) {
+//                if (!p.getStrona().isEmpty()) {
+//                    if (p.getStronaWn()!=null) {
+//                        p.setStrWn(p.getStronaWn());
+//                    }
+//                    if (p.getStronaMa()!=null) {
+//                        p.setStrMa(p.getStronaMa());
+//                    }
+//                    i++;
+//                }
+//                if (i>lim) {
+//                    System.out.println("i "+i);
+//                    lim = lim+1000;
+//                }
+//            }
+//            wierszDAO.editListLateFlush(wiersze);
+//            System.out.println("stop wiersze");
+//            msg.Msg.dP();
+//        } catch (Exception e) {
+//            System.out.println("blad wiersze");
+//            msg.Msg.dPe();
+//        }
+//        
+//    }
+    
+    @Inject
+    private DokDAOfk dokDAOfk;
+    public void przebudowawiersze() {
+        System.out.println("start wiersze");
+        try {
+            List<Dokfk> lista = dokDAOfk.findAll();
+            if (!lista.isEmpty()) {
+                System.out.println("pobrano wiersze "+lista.size());
+                int i = 0;
+                int lim = 2000;
+                for (Dokfk p : lista) {
+                    if (p.getRodzajedok().getSkrotNazwyDok().equals("RRK") || p.getRodzajedok().getSkrotNazwyDok().equals("ZZS75")) {
+                        zrobwiersze(p);
+                        i++;
+                        if (i>lim) {
+                            System.out.println("i "+i);
+                            lim = lim+2000;
+                         }
+                    }
+                }
+                dokDAOfk.editListLateFlush(lista);
+                System.out.println("stop wiersze");
+            } else {
+                System.out.println("pusty rok");
+            }
+        }catch (Exception e) {
+            System.out.println("blad wiersze");
+            msg.Msg.dPe();
+        }
+    }
+
+    private void zrobwiersze(Dokfk p) {
+        int i = 1;
+        for (Wiersz w : p.getListawierszy()) {
+            if (w.getIdporzadkowy()!=i) {
+                w.setIdporzadkowy(i);
+                i++;
+            } else {
+                i++;
+            }
+        }
+    }
 }   
