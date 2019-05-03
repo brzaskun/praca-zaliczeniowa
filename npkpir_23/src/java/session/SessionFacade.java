@@ -129,6 +129,8 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList(getEntityManager().createQuery(cq).getResultList());
     }
     
+    
+    
     public List<T> findAllReadOnly(Class<T> entityClass) {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
@@ -194,6 +196,17 @@ public class SessionFacade<T> implements Serializable {
                 E.e(e);
             }
         }
+    }
+    
+    public void editLateflush(List<T> entityList) {
+        for (T p : entityList) {
+            try {
+                getEntityManager().merge(p);
+            } catch (Exception e) {
+                E.e(e);
+            }
+        }
+        getEntityManager().flush();
     }
 
     //to jest po to, ze jk juz jest cos w np. planie kont to 
@@ -2464,8 +2477,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         try {
             LoadGroup lg = new LoadGroup();
             lg.addAttribute("listawierszy");
-            lg.addAttribute("listawierszy.strona.nowetransakcje");
-            lg.addAttribute("listawierszy.strona.platnosci"); 
+            lg.addAttribute("listawierszy.strWn.nowetransakcje");
+            lg.addAttribute("listawierszy.strMa.nowetransakcje");
+            lg.addAttribute("listawierszy.strWn.platnosci"); 
+            lg.addAttribute("listawierszy.strMa.platnosci"); 
             return (Dokfk) em.createNamedQuery("Dokfk.findById")
                     .setParameter("id", wybranyDokfk.getId())
                     .setHint(QueryHints.REFRESH, HintValues.TRUE)
