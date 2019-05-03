@@ -121,6 +121,19 @@ public abstract class DAO<T> {
         }
     }
     
+    public void editListLateFlush(List<T> selected) {
+        try {
+            sessionFacade.editLateflush(selected);
+        } catch (EJBException e) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
+            throw new EJBException(e.getCause().getMessage(), e);
+        } catch (Exception e) {
+            E.e(e);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
+            throw new PersistenceException(e.getCause().getMessage(), e);
+        }
+    }
+    
 //    public void refresh(List<T> selected) {
 //        try {
 //            sessionFacade.refresh(selected);
