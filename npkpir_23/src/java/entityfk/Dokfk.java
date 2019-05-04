@@ -70,6 +70,7 @@ import waluty.Z;
     @NamedQuery(name = "Dokfk.findByPodatnikRokMcVAT", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.vatR = :rok AND d.vatM = :mc"),
     @NamedQuery(name = "Dokfk.findByPodatnikRokKw", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.rok = :rok AND (d.miesiac = :mc1 OR d.miesiac = :mc2 OR d.miesiac = :mc3)"),
     @NamedQuery(name = "Dokfk.findByPodatnikRok", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.rok = :rok"),
+    @NamedQuery(name = "Dokfk.findByRok", query = "SELECT d FROM Dokfk d WHERE d.rok = :rok"),
     @NamedQuery(name = "Dokfk.findByPodatnik", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik"),
     @NamedQuery(name = "Dokfk.findByPodatnikRokSrodkiTrwale", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.rok = :rok AND d.zawierasrodkitrw = 1"),
     @NamedQuery(name = "Dokfk.findByPodatnikRokRMK", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.rok = :rok AND d.zawierarmk = 1"),
@@ -953,10 +954,10 @@ public class Dokfk extends DokSuper implements Serializable {
                 }
                 if (p.getStronaWn().getKonto() != null) {
                     p.setTypWiersza(1);
-                    p.getStrona().remove("Ma");
+                    p.setStronaMa(null);
                 } else {
                     p.setTypWiersza(2);
-                    p.getStrona().remove("Wn");
+                    p.setStronaWn(null);
                 }
             }
         }

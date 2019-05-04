@@ -90,9 +90,15 @@ public class Wiersz implements Serializable {
     @JoinColumn(name = "TABELANBP_idtabelanbp", referencedColumnName = "idtabelanbp")
     @ManyToOne(fetch = FetchType.LAZY)
     private Tabelanbp tabelanbp;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.LAZY)
-    @MapKeyColumn(name = "strona_key", nullable = false)
-    private Map<String, StronaWiersza> strona;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.EAGER)
+//    @MapKeyColumn(name = "strona_key", nullable = false)
+//    private Map<String, StronaWiersza> strona;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "strWn", referencedColumnName = "id")
+    private StronaWiersza strWn;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "strMa", referencedColumnName = "id")
+    private StronaWiersza strMa;
     @Column(name = "lpmacierzystego")
     private Integer lpmacierzystego;
     @JoinColumn(name = "CZWORKA_idwiersza", referencedColumnName = "idwiersza")
@@ -116,13 +122,13 @@ public class Wiersz implements Serializable {
     
 
     public Wiersz() {
-        this.strona = new HashMap<>();
+        //this.strona = new HashMap<>();
         this.piatki = new HashSet<>();
     }
 
     //trzeba wstawiac numer porzadkowy dla celow funkcji javascript ktore odpowiednio obrabiaja wiersze w trakcie wprowadzania
     public Wiersz(int idporzadkowy, int typwiersza) {
-        this.strona = new HashMap<>();
+        //this.strona = new HashMap<>();
         this.idporzadkowy = idporzadkowy;
         this.typWiersza = typwiersza;
         this.piatki = new HashSet<>();
@@ -135,6 +141,22 @@ public class Wiersz implements Serializable {
 
     public void seteVatwpisFK(EVatwpisFK eVatwpisFK) {
         this.eVatwpisFK = eVatwpisFK;
+    }
+
+    public StronaWiersza getStronaWn() {
+        return strWn;
+    }
+
+    public void setStronaWn(StronaWiersza strWn) {
+        this.strWn = strWn;
+    }
+
+    public StronaWiersza getStronaMa() {
+        return strMa;
+    }
+
+    public void setStronaMa(StronaWiersza strMa) {
+        this.strMa = strMa;
     }
 
    
@@ -219,19 +241,19 @@ public class Wiersz implements Serializable {
         this.dataWalutyWiersza = dataWalutyWiersza;
     }
 
-    public void setStronaWn(StronaWiersza stronaWiersza) {
-        this.strona.put("Wn", stronaWiersza);
-    }
-
-    public void setStronaMa(StronaWiersza stronaWiersza) {
-        this.strona.put("Ma", stronaWiersza);
-    }
+//    public void setStronaWn(StronaWiersza stronaWiersza) {
+//        this.strona.put("Wn", stronaWiersza);
+//    }
+//
+//    public void setStronaMa(StronaWiersza stronaWiersza) {
+//        this.strona.put("Ma", stronaWiersza);
+//    }
     
      public void removeStrona(String WnMa) {
         if (WnMa.equals("Wn")) {
-            this.strona.remove("Wn");
+            this.strWn=null;
         } else {
-            this.strona.remove("Ma"); 
+            this.strMa=null; 
         }
                     
     }
@@ -279,40 +301,40 @@ public class Wiersz implements Serializable {
         return zwrot;
     }
 
-    public StronaWiersza getStronaWn() {
-        try {
-            return this.strona.get("Wn");
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public StronaWiersza getStronaMa() {
-        try {
-            return this.strona.get("Ma");
-        } catch (Exception e) {
-            return null;
-        }
-    }
+//    public StronaWiersza getStronaWn() {
+//        try {
+//            return this.strona.get("Wn");
+//        } catch (Exception e) {
+//            return null;
+//        }
+//    }
+//
+//    public StronaWiersza getStronaMa() {
+//        try {
+//            return this.strona.get("Ma");
+//        } catch (Exception e) {
+//            return null;
+//        }
+//    }
 
     public List<StronaWiersza> getStronyWiersza() {
         List<StronaWiersza> strony = new ArrayList<>();
-        if (this.strona.get("Wn") != null) {
-            strony.add(this.strona.get("Wn"));
+        if (this.strWn != null) {
+            strony.add(this.strWn);
         }
-        if (this.strona.get("Ma") != null) {
-            strony.add(this.strona.get("Ma"));
+        if (this.strMa != null) {
+            strony.add(this.strMa);
         }
         return strony;
     }
 
     public List<StronaWiersza> getStronyWierszaKonto() {
         List<StronaWiersza> strony = new ArrayList<>();
-        if (this.strona.get("Wn") != null && this.strona.get("Wn").getKonto() != null) {
-            strony.add(this.strona.get("Wn"));
+        if (this.strWn != null && this.strWn.getKonto() != null) {
+            strony.add(this.strWn);
         }
-        if (this.strona.get("Ma") != null && this.strona.get("Ma").getKonto() != null) {
-            strony.add(this.strona.get("Ma"));
+        if (this.strMa != null && this.strMa.getKonto() != null) {
+            strony.add(this.strMa);
         }
         return strony;
     }
@@ -335,9 +357,9 @@ public class Wiersz implements Serializable {
         return this.dokfk.getDatadokumentu();
     }
 
-    public Map<String, StronaWiersza> getStrona() {
-        return strona;
-    }
+//    public Map<String, StronaWiersza> getStrona() {
+//        return strona;
+//    }
 
     public String getDataksiegowania() {
         return dataksiegowania;

@@ -667,8 +667,12 @@ public class WpisView implements Serializable {
     }
 
     private void pobierzformaprawna() {
-        if (podatnikObiekt.getFormaPrawna() != null) {
-            formaprawna = podatnikObiekt.getFormaPrawna().toString();
+        try {
+            if (podatnikObiekt.getFormaPrawna() != null) {
+                formaprawna = podatnikObiekt.getFormaPrawna().toString();
+            }
+        } catch (Exception e){
+            System.out.println("blad WpisView pobierzformaprawna");
         }
     }
 

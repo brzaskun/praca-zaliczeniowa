@@ -50,7 +50,8 @@ public class DokDAOfk extends DAO implements Serializable {
     public List<Dokfk> findAll(){
         return dokFacade.findAll(Dokfk.class);
     }
-
+    
+  
     public void usun(Dokfk selected) {
         dokFacade.remove(selected);
     }
@@ -110,7 +111,15 @@ public class DokDAOfk extends DAO implements Serializable {
        }
     }
     
-    public List<Dokfk> findDokfkPodatnikRok(Podatnik p, String rok) {
+    public List<Dokfk> findDokfkAllRok(String rok) {
+        try {
+           return sessionFacade.getEntityManager().createNamedQuery("Dokfk.findByRok").setParameter("rok", rok).getResultList();
+       } catch (Exception e ){
+           return null;
+       }
+    }
+    
+     public List<Dokfk> findDokfkPodatnikRok(Podatnik p, String rok) {
         try {
            return sessionFacade.getEntityManager().createNamedQuery("Dokfk.findByPodatnikRok").setParameter("podatnik", p).setParameter("rok", rok).getResultList();
        } catch (Exception e ){
