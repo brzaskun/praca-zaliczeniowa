@@ -344,6 +344,11 @@ public class DokfkView implements Serializable {
         if (selected != null) {
             symbolPoprzedniegoDokumentu = selected.pobierzSymbolPoprzedniegoDokfk();
             rodzajDokPoprzedni = selected.getRodzajedok();
+            if (rodzajDokPoprzedni==null) {
+                rodzajDokPoprzedni = rodzajedokDAO.find("ZZ", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                symbolPoprzedniegoDokumentu = "ZZ";
+                selected.setRodzajedok(rodzajDokPoprzedni);
+            }
             ostatniklient = selected.getKontr();
             if (selected.getDatadokumentu()!=null) {
                 datadokumentu = selected.getDatadokumentu();
@@ -584,7 +589,11 @@ public class DokfkView implements Serializable {
     
     public void podepnijEwidencjeVatDok(int rodzaj) {
         if (zapisz0edytuj1 == false && selected.getEwidencjaVAT() != null) {
-            podepnijEwidencjeVat(rodzaj);
+            if (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) {
+                selected.setEwidencjaVAT(null);
+            } else {
+                podepnijEwidencjeVat(rodzaj);
+            }
         } else {
             if (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) {
                 selected.setEwidencjaVAT(null);

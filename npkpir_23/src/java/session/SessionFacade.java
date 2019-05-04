@@ -427,6 +427,7 @@ public class SessionFacade<T> implements Serializable {
         Rodzajedok wynik = null;
         try {
             wynik = (Rodzajedok) em.createNamedQuery("Rodzajedok.findBySkrotPodatnikRok").setParameter("skrot", skrot).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
+            
         } catch (Exception e) {
             E.e(e);
 

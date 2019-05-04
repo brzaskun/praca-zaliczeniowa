@@ -246,6 +246,9 @@ public class WpisView implements Serializable {
         } else if (miesiacWpisu.equals("CR")){
             uzer.setMiesiacWpisu(Data.aktualnyMc());
         }
+        if (!uzer.getPodatnik().equals(podatnikObiekt)) {
+            uzer.setPodatnik(podatnikObiekt);
+        }
         uzer.setRokWpisu(rokWpisu);
         uzer.setMiesiacOd(miesiacOd);
         uzer.setMiesiacDo(miesiacDo);
