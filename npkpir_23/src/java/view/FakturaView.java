@@ -59,6 +59,7 @@ import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
@@ -1200,7 +1201,86 @@ public class FakturaView implements Serializable {
         }
     }
 
+    public void wygenerujzokresowychreczne() {
+        for (Iterator<Fakturywystokresowe> it = gosciwybralokres.iterator(); it.hasNext();) {
+            Fakturywystokresowe p = it.next();
+            if (p.isRecznaedycja()==false || sprawdzmiesiac(p)) {
+                it.remove();
+            }
+        }
+        if (gosciwybralokres.isEmpty()) {
+            Msg.msg("e", "Nie wybrano faktury ręcznych lub wybrano tylko faktury jednorazowe");
+        } else {
+            wygenerujzokresowychcd();
+        }
+    }
+    
     public void wygenerujzokresowych() {
+        for (Iterator<Fakturywystokresowe> it = gosciwybralokres.iterator(); it.hasNext();) {
+            Fakturywystokresowe p = it.next();
+            if (p.isRecznaedycja()==true || sprawdzmiesiac(p)) {
+                it.remove();
+            }
+        }
+        if (gosciwybralokres.isEmpty()) {
+            Msg.msg("e", "Nie wybrano faktur okresowych lub wybrano tylko faktury jednorazowe");
+        } else {
+            wygenerujzokresowychcd();
+        }
+    }
+    
+    private boolean sprawdzmiesiac(Fakturywystokresowe p) {
+        boolean zwrot = false;
+        if (p.isWystawtylkoraz()==true) {
+            String mc = wpisView.getMiesiacWpisu();
+            int liczbafaktur = 0;
+            switch (mc) {
+                case "01":
+                    liczbafaktur = p.getM1();
+                    break;
+                case "02":
+                    liczbafaktur = p.getM2();
+                    break;
+                case "03":
+                    liczbafaktur = p.getM3();
+                    break;
+                case "04":
+                    liczbafaktur = p.getM4();
+                    break;
+                case "05":
+                    liczbafaktur = p.getM5();
+                    break;
+                case "06":
+                    liczbafaktur = p.getM6();
+                    break;
+                case "07":
+                    liczbafaktur = p.getM7();
+                    break;
+                case "08":
+                    liczbafaktur = p.getM8();
+                    break;
+                case "09":
+                    liczbafaktur = p.getM9();
+                    break;
+                case "10":
+                    liczbafaktur = p.getM10();
+                    break;
+                case "11":
+                    liczbafaktur = p.getM11();
+                    break;
+                case "12":
+                    liczbafaktur = p.getM12();
+                    break;
+            }
+            if (liczbafaktur>0) {
+                zwrot = true;
+            }
+        }
+        return zwrot;
+    }
+    
+    
+    public void wygenerujzokresowychcd() {
         for (Fakturywystokresowe p : gosciwybralokres) {
             if (!p.isZawieszona()) {
                 Faktura nowa = SerialClone.clone(p.getDokument());
@@ -1389,6 +1469,38 @@ public class FakturaView implements Serializable {
         }
         fakturywystokresoweDAO.editList(gosciwybralokres);
         Msg.msg("Naniesiono zawieszenie dla wybranych faktur");
+    }
+    
+    public void oznaczwielorazowa() {
+        if (gosciwybralokres.isEmpty()) {
+            Msg.msg("e", "Nie wybrano faktury do oznaczenia");
+            return;
+        }
+        for (Fakturywystokresowe p : gosciwybralokres) {
+            if (p.isWystawtylkoraz()) {
+                p.setWystawtylkoraz(false);
+            } else {
+                p.setWystawtylkoraz(true);
+            }
+        }
+        fakturywystokresoweDAO.editList(gosciwybralokres);
+        Msg.msg("Naniesiono oznaczenie - wielorazowa dla wybranych faktur");
+    }
+    
+    public void oznaczrecznaedycja() {
+        if (gosciwybralokres.isEmpty()) {
+            Msg.msg("e", "Nie wybrano faktury do oznaczenia");
+            return;
+        }
+        for (Fakturywystokresowe p : gosciwybralokres) {
+            if (p.isRecznaedycja()) {
+                p.setRecznaedycja(false);
+            } else {
+                p.setRecznaedycja(true);
+            }
+        }
+        fakturywystokresoweDAO.editList(gosciwybralokres);
+        Msg.msg("Naniesiono oznaczenie - ręczna edycja dla wybranych faktur");
     }
 
     public void oznaczbiezacymiesiac() {

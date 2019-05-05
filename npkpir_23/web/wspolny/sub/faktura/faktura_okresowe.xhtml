@@ -82,8 +82,9 @@
                 </p:column>
                 <p:column headerText="#{mgs.opis}" sortBy="#{wpis.dokument.opisFaktury}" filterBy="#{wpis.dokument.opisFaktury}" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.dokument.opisFaktury}"  style="#{wpis.getStyldaty(WpisView.miesiacWpisu)}"/>
-                    <h:outputText value=" zawieszona" style="color: red" rendered="#{wpis.zawieszona}"/>
-                    <h:outputText value=" wielorazowa" style="color: red" rendered="#{wpis.wystawwiele}"/>
+                    <h:outputText value=" zawieszona" style="color: red; font-size: smaller;" rendered="#{wpis.zawieszona}"/>
+                    <h:outputText value=" wielorazowa" style="color: blue; font-size: smaller;" rendered="#{!wpis.wystawtylkoraz}"/>
+                    <h:outputText value=" do edycji" style="color: blue; font-size: smaller;" rendered="#{wpis.recznaedycja}"/>
                 </p:column>
                 <p:column headerText="netto" sortBy="#{wpis.dokument.nettoFakturaView}" filterBy="#{wpis.dokument.nettoFakturaView}" filterMatchMode="contains" filterStyle="display : none;" width="70">
                     <bcf:outputpl value="#{wpis.dokument.nettoFakturaView}"/>
@@ -156,6 +157,7 @@
              <p:contextMenu for=":akordeon:formokresowe:dokumentyOkresowe" style="width: 250px;">
                 <p:menuitem value="#{mgs.drukuj}" update=":form1:messages" actionListener="#{fakturaView.drukujokresowa()}" icon="ui-icon-print" />
                 <p:menuitem value="Wygeneruj" update=":form1:messages, :akordeon:formzestawienie:dokumentyZestawienie" global="false" onclick="PF('confirmationFakturaOkresowe').show()" icon="ui-icon-lightbulb" />
+                <p:menuitem value="Wygeneruj do edycji" update=":form1:messages, :akordeon:formzestawienie:dokumentyZestawienie" global="false" onclick="PF('confirmationFakturaOkresowe2').show()" icon="ui-icon-lightbulb" />
                 <p:menuitem value="Wygeneruj z waloryzacją" update=":form1:messages" actionListener="#{fakturaView.wygenerujzokresowychwaloryzacja()}" icon="ui-icon-lightbulb" />
                 <p:menuitem value="Usuń wybrane" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.usunfaktureokresowa()}" icon="ui-icon-trash" />
                 <p:separator/>
@@ -163,7 +165,8 @@
                 <p:menuitem value="Resetuj bieżący m-c" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.resetujbiezacymiesiac()}" icon="ui-icon-cancel" />
                 <p:menuitem value="Oznacz bieżący m-c" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.oznaczbiezacymiesiac()}" icon="ui-icon-plus" />
                 <p:menuitem value="Zawieś/odwieś fakturę" update="akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.zawiesfakture()}" icon="ui-icon-arrowthickstop-1-n" />
-                <p:menuitem value="Oznacz wielorazowa" update="akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.zawiesfakture()}" icon="ui-icon-arrowthickstop-1-n" />
+                <p:menuitem value="Oznacz wielorazowa" update="akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.oznaczwielorazowa()}" icon="ui-icon-arrowthickstop-1-n" />
+                <p:menuitem value="Oznacz ręczna edycja" update="akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.oznaczrecznaedycja()}" icon="ui-icon-arrowthickstop-1-n" />
                 <p:separator/>
                 <p:menuitem value="Skopiuj do nowego roku" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.skopiujdoNowegoroku()}" icon="ui-icon-star" />
             </p:contextMenu>

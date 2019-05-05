@@ -26,6 +26,13 @@
                          oncomplete="PF('confirmationFakturaOkresowe').hide()"  
                          actionListener="#{fakturaView.wygenerujzokresowych()}" style="margin-left: 70px; width: 120px;"/>  
     </p:confirmDialog>  
+    <p:confirmDialog id="confirmDialog2" message="Wygenerować #{fakturaView.gosciwybralokres.size()} ręczne faktury w miesiącu #{WpisView.miesiacWpisu}?"  appendTo="@(body)"
+                     header="Generowanie nowych faktur" severity="alert" widgetVar="confirmationFakturaOkresowe2" >  
+        <p:commandButton value="Nie" onclick="PF('confirmationFakturaOkresowe2').hide()" type="button" style="margin-left: 15px;; width: 120px;"/>   
+        <p:commandButton value="Tak" update="akordeon:formsporzadzone:dokumentyLista akordeon:formzestawienie:dokumentyZestawienie akordeon:formokresowe:dokumentyOkresowe" 
+                         oncomplete="PF('confirmationFakturaOkresowe2').hide()"  
+                         actionListener="#{fakturaView.wygenerujzokresowychreczne()}" style="margin-left: 70px; width: 120px;"/>  
+    </p:confirmDialog>  
     <ui:include src="faktura/dialog_nowyklient_faktura.xhtml"/>
     <ui:include src="faktura/dialog_nazwaskroconafaktura.xhtml"/>
     <p:tabView id="akordeon" style="max-width: 1500px; min-width: 900px;" activeIndex="#{fakturaView.aktywnytab}" >

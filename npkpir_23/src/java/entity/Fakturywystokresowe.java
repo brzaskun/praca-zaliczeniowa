@@ -130,8 +130,10 @@ public class Fakturywystokresowe implements Serializable {
     private boolean biezaca0archiwalna1;
     @Column(name = "zawieszona")
     private boolean zawieszona;
-    @Column(name = "wystawwiele")
-    private boolean wystawwiele;
+    @Column(name = "wystawtylkoraz")
+    private boolean wystawtylkoraz;
+    @Column(name = "recznaedycja")
+    private boolean recznaedycja;
 
     public Fakturywystokresowe() {
     }
@@ -335,12 +337,20 @@ public class Fakturywystokresowe implements Serializable {
         this.datawystawienia = datawystawienia;
     }
 
-    public boolean isWystawwiele() {
-        return wystawwiele;
+    public boolean isWystawtylkoraz() {
+        return wystawtylkoraz;
     }
 
-    public void setWystawwiele(boolean wystawwiele) {
-        this.wystawwiele = wystawwiele;
+    public void setWystawtylkoraz(boolean wystawtylkoraz) {
+        this.wystawtylkoraz = wystawtylkoraz;
+    }
+
+    public boolean isRecznaedycja() {
+        return recznaedycja;
+    }
+
+    public void setRecznaedycja(boolean recznaedycja) {
+        this.recznaedycja = recznaedycja;
     }
     
     
