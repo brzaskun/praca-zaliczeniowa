@@ -10,13 +10,13 @@
         <h:form id="form6" >
             <h:outputText value="Rodzaje dokumentów księgowych" style="font-size: 15px"/>
             <p:growl life="3600"  id="messages" />
-            <p:panelGrid columns="1" style="width: 1150px">
+            <p:panelGrid columns="1" style="width: 1250px">
                 <p:dataTable id="pDokKsi" value="#{podatnikView.rodzajeDokumentowLista}"  var="loop" selection="#{podatnikView.wybranyRodzajDokumentu}"
                              style="height: 300px; overflow-y: scroll" selectionMode="single" rowKey="#{loop.skrotNazwyDok}"
                              sortBy="#{loop.skrotNazwyDok}"
                              >
                     <p:ajax event="rowSelect" update=":akordeon:form7" listener="#{podatnikView.przygotujdoedycjiDokKsi}" />
-                    <p:column headerText="skrót" style="text-align: center;" width="40">
+                    <p:column headerText="skrót" style="text-align: center;" width="90">
                         <h:outputText value="#{loop.skrotNazwyDok}" />
                     </p:column>
                     <p:column headerText="nazwa pelna" width="180">
@@ -80,21 +80,25 @@
                     <p:inputText value="#{podatnikView.selectedDokKsi.nazwa}" />
                     <h:outputText value=" rodzaj transakcji: " />
                     <p:selectOneMenu value="#{podatnikView.selectedDokKsi.rodzajtransakcji}" >
+                        <f:selectItem itemLabel="wybierz" itemValue="-1" noSelectionOption="true"/>
                         <f:selectItems value="#{Trans.transListView}"/>
                     </p:selectOneMenu>
                     <h:outputText value=" wzorzec:* " />
                     <p:inputText value="#{podatnikView.selectedDokKsi.wzorzec}" />
                     <h:outputText value=" kategoria dokumentu: " />
                     <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kategoriadokumentu}"  rendered="#{WpisView.ksiegirachunkowe}">
+                        <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true" />
+                        <f:selectItem itemLabel="płatność" itemValue="0"/>
                         <f:selectItem itemLabel="koszt z VAT" itemValue="1"/>
                         <f:selectItem itemLabel="przychód z VAT" itemValue="2"/>
                         <f:selectItem itemLabel="koszt bez VAT" itemValue="3"/>
                         <f:selectItem itemLabel="przychód bez VAT" itemValue="4"/>
                         <f:selectItem itemLabel="dokument prosty" itemValue="5"/>
-                        <f:selectItem itemLabel="płatność" itemValue="0"/>
+                        
                         <p:ajax event="change" global="false" partialSubmit="true" update   =":akordeon:form7:parametryDokKsi1"/>
                     </p:selectOneMenu>
                     <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kategoriadokumentu}"  rendered="#{!WpisView.ksiegirachunkowe}">
+                        <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                         <f:selectItem itemLabel="koszt z VAT" itemValue="1"/>
                         <f:selectItem itemLabel="przychód z VAT" itemValue="2"/>
                         <f:selectItem itemLabel="koszt bez VAT" itemValue="3"/>

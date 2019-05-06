@@ -75,7 +75,11 @@ public class UzView implements Serializable {
         pokazprzyciskrejestracja = true;
         listaUzytkownikow = uzDAO.findAll();
         selUzytkownik = wpisView.getUzer();
-        nowymail = selUzytkownik.getEmail();
+        if (selUzytkownik==null) {
+            selUzytkownik = new Uz();
+        } else {
+            nowymail = selUzytkownik.getEmail();
+        }
         //potrzebne jako demo przy zmianie kolorków
         polademo.add(new DemoWiersz("1", "pozycja1", "pozycja1a", "pozycja1b"));
         polademo.add(new DemoWiersz("2", "pozycja2", "pozycja2a", "pozycja2b"));

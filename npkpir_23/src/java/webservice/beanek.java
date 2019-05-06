@@ -491,10 +491,10 @@ public class beanek  implements Serializable {
                 return;
             }
         }
-        if (temp.getSelected().getCelzlozenia().equals("2") && !temp.getDeklaracja().contains("Zalacznik_ORD-ZU")) {
-            Msg.msg("e", "Jest to deklaracja korygująca, a nie wypełniłeś załacznika ORD-ZU z wyjaśnieniem. Deklaracja nie może być wysłana!", "formX:msg");
-            return;
-        }
+//        if (temp.getSelected().getCelzlozenia().equals("2") && !temp.getDeklaracja().contains("Zalacznik_ORD-ZU")) {
+//            Msg.msg("e", "Jest to deklaracja korygująca, a nie wypełniłeś załacznika ORD-ZU z wyjaśnieniem. Deklaracja nie może być wysłana!", "formX:msg");
+//            return;
+//        }
         String strFileContent = temp.getDeklaracja();
         if (strFileContent != null) {
             String tmp = DatatypeConverter.printBase64Binary(strFileContent.getBytes("UTF-8"));

@@ -892,6 +892,9 @@ public class Vat7DKView implements Serializable {
         if (schema.getNazwaschemy().equals("M-18") || schema.getNazwaschemy().equals("K-12")) {
             korektaM18K12(pozycje);
         }
+        if (schema.getNazwaschemy().equals("M-19") || schema.getNazwaschemy().equals("K-13")) {
+            korektaM18K12(pozycje);
+        }
         Deklaracjevat nowadekl = new Deklaracjevat();
         String wiersz = null;
         byte[] deklaracjapodpisana = null;

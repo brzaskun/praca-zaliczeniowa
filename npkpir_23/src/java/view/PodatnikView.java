@@ -1107,6 +1107,7 @@ private DokDAO dokDAO;
                 selectedDokKsi.setSkrot(selectedDokKsi.getSkrotNazwyDok().toUpperCase(new Locale("pl")));
                 selectedDokKsi.setSkrotNazwyDok(selectedDokKsi.getSkrot().toUpperCase(new Locale("pl")));
                 selectedDokKsi.setNazwa(selectedDokKsi.getNazwa().toLowerCase(new Locale("pl")));
+                selectedDokKsi.setRok(wpisView.getRokWpisuSt());
                 rodzajedokDAO.dodaj(selectedDokKsi);
                 rodzajeDokumentowLista.add(selectedDokKsi);
                 selectedDokKsi = new Rodzajedok();
