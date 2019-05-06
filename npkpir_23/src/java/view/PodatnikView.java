@@ -13,6 +13,7 @@ import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.RodzajedokDAO;
+import dao.UzDAO;
 import dao.ZUSDAO;
 import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
@@ -29,6 +30,7 @@ import entity.Podatnik;
 import entity.PodatnikOpodatkowanieD;
 import entity.PodatnikUdzialy;
 import entity.Rodzajedok;
+import entity.Uz;
 import entity.Zusstawki;
 import entity.ZusstawkiPK;
 import entityfk.Dokfk;
@@ -55,6 +57,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.event.ValueChangeListener;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import msg.Msg;import org.joda.time.DateTime;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.PrimeFaces;
@@ -157,14 +160,23 @@ public class PodatnikView implements Serializable {
         formyprawne = Collections.synchronizedList(new ArrayList<>());
         
     }
-
+ @Inject
+    private UzDAO uzDAO;
    
     @PostConstruct
     public void init() {
-        selectedDod.setFax("000000000");
-        nazwaWybranegoPodatnika = wpisView.getPodatnikWpisu();
+        Uz uz = null;
         try {
-            selected = wpisView.getPodatnikObiekt();
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            String wprowadzilX = request.getUserPrincipal().getName();
+            uz = uzDAO.findUzByLogin(wprowadzilX);
+        } catch (Exception e) {
+            E.e(e); 
+        } 
+        selectedDod.setFax("000000000");
+        nazwaWybranegoPodatnika = uz.getPodatnik().getPrintnazwa();
+        try {
+            selected = uz.getPodatnik();
             //zrobdokumenty();
             weryfikujlisteDokumentowPodatnika();
             zweryfikujBazeBiezacegoPodatnika();

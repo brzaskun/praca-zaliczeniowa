@@ -11,6 +11,7 @@ import daoFK.DokDAOfk;
 import daoFK.WierszDAO;
 import entityfk.Dokfk;
 import entityfk.Wiersz;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
@@ -779,7 +780,7 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
     @Inject
     private DokDAOfk dokDAOfk;
     public void przebudowawiersze() {
-        System.out.println("start wiersze");
+        System.out.println("start dokfk");
         try {
             List<Dokfk> lista = dokDAOfk.findAll();
             if (!lista.isEmpty()) {
@@ -802,6 +803,7 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
                 System.out.println("pusty rok");
             }
         }catch (Exception e) {
+            E.e(e);
             System.out.println("blad wiersze");
             msg.Msg.dPe();
         }

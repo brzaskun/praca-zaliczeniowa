@@ -17,7 +17,7 @@
                 <h:outputLabel value=""/>
                 <h:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="width: 350px; height: 250px;" converter="#{podatConv}">
                     <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p}"/>
-                    <p:ajax event="change"  listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, form:panellimity" global="fasle"/>
+                    <p:ajax event="change" partialSubmit="true"  listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, form:panellimity" global="fasle"/>
                 </h:selectOneListbox>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                     <f:selectItems value="#{Roki.rokiList}"/>

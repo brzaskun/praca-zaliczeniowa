@@ -248,6 +248,7 @@ public class WpisView implements Serializable {
         }
         if (!uzer.getPodatnik().equals(podatnikObiekt)) {
             uzer.setPodatnik(podatnikObiekt);
+            System.out.println("zmiana podatnika na "+podatnikObiekt.getPrintnazwa());
         }
         uzer.setRokWpisu(rokWpisu);
         uzer.setMiesiacOd(miesiacOd);
