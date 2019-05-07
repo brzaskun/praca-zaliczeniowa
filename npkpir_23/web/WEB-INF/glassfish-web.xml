@@ -12,6 +12,11 @@
     <group-name>Manager</group-name>
   </security-role-mapping>
   <security-role-mapping>
+    <role-name>ZUS</role-name>
+    <principal-name>ZUS</principal-name>
+    <group-name>ZUS</group-name>
+  </security-role-mapping>
+  <security-role-mapping>
     <role-name>Bookkeeper</role-name>
     <principal-name>Bookkeeper</principal-name>
     <group-name>Bookkeeper</group-name>

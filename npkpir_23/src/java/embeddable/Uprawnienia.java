@@ -31,6 +31,7 @@ public class Uprawnienia implements Serializable{
         listaUprawnien.add("Manager");
         listaUprawnien.add("Multiuser");
         listaUprawnien.add("Stowarzyszenie");
+        listaUprawnien.add("ZUS");
     }
 
     public List<String> getListaUprawnien() {

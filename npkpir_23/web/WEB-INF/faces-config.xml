@@ -632,6 +632,11 @@
             <to-view-id>/ksiegowa/klienci.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>ZUS</from-outcome>
+            <to-view-id>/zus/zusIndex.xhtml?faces-redirect=true</to-view-id>
+            <redirect></redirect>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>Administrator</from-outcome>
             <to-view-id>/admin/adminPismoadmin.xhtml?faces-redirect=true</to-view-id>
             <redirect></redirect>

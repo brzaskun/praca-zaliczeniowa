@@ -424,7 +424,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             FakturaPodatnikRozliczenie p = nowepozycje.get(nowepozycje.size()-1);
             FakturaRozrachunki r = p.getRozliczenie();
             Faktura f = p.getFaktura();
-            double saldo = p.getSaldo();
+            double saldo = p.getSaldopln();
             if (saldo > 0) {
                 if (r != null) {
                     r.setDatatelefon(new Date());

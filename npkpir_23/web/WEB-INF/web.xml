@@ -110,6 +110,9 @@
     <security-role>
         <role-name>Administrator</role-name>
     </security-role>
+     <security-role>
+        <role-name>ZUS</role-name>
+    </security-role>
     <security-role>
         <role-name>Manager</role-name>
     </security-role>
@@ -167,6 +170,7 @@
         </web-resource-collection>
         <auth-constraint>
             <role-name>Manager</role-name>
+            <role-name>ZUS</role-name>
             <role-name>Administrator</role-name>
         </auth-constraint>
     </security-constraint>
@@ -201,6 +205,17 @@
             <role-name>Manager</role-name>
             <role-name>Administrator</role-name>
             <role-name>BookkeeperFK</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>ZUS Area</web-resource-name>
+            <url-pattern>/zus/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Manager</role-name>
+            <role-name>Administrator</role-name>
+            <role-name>ZUS</role-name>
         </auth-constraint>
     </security-constraint>
     <security-constraint>

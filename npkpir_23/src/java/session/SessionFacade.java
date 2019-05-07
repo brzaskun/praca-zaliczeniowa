@@ -2484,7 +2484,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
             lg.addAttribute("listawierszy.strMa.platnosci"); 
             return (Dokfk) em.createNamedQuery("Dokfk.findById")
                     .setParameter("id", wybranyDokfk.getId())
-                    .setHint(QueryHints.REFRESH, HintValues.TRUE)
+                    //.setHint(QueryHints.REFRESH, HintValues.TRUE)
                     .setHint(QueryHints.LOAD_GROUP, lg)
                     .getSingleResult();
         } catch (Exception e) {

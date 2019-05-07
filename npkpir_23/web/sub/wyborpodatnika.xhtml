@@ -22,7 +22,7 @@
                 <p:column >
                     <h:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="width: 572px; height: 230px;"  converter="#{podatConv}">
                         <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p}"/>
-                        <p:ajax event="change" partialSubmit="true"/>
+                        <p:ajax event="change" partialSubmit="true" global="false"/>
                     </h:selectOneListbox>
                 </p:column>
             </p:panelGrid>
