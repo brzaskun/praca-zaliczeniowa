@@ -392,11 +392,11 @@ public class DokView implements Serializable {
 //            sumujnetto();
 //            ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
 //        } else 
-        if (!wpisView.isVatowiec() || (selDokument.getRodzajedok() !=null && !selDokument.getRodzajedok().getSkrot().equals("IU") && selDokument.getRodzajedok().isDokProsty())) {
+        if ((!wpisView.isVatowiecue() && !wpisView.isVatowiec()) || (selDokument.getRodzajedok() !=null && !selDokument.getRodzajedok().getSkrot().equals("IU") && selDokument.getRodzajedok().isDokProsty())) {
             selDokument.setDokumentProsty(true);
             ukryjEwiencjeVAT = true;
             sumujnetto();
-            ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
+            ewidencjaAddwiad = null;
         } else {
             ukryjEwiencjeVAT = false;
             String typdok = selDokument.getRodzajedok().getSkrot();
@@ -481,6 +481,11 @@ public class DokView implements Serializable {
                     sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
                 }
                 nazwaEwidencjiwPoprzednimDok = new Evewidencja();
+            } else {
+                selDokument.setDokumentProsty(true);
+                ukryjEwiencjeVAT = true;
+                sumujnetto();
+                ewidencjaAddwiad = null;
             }
         }
     }

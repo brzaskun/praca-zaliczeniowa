@@ -283,7 +283,8 @@ public class beanek  implements Serializable {
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
         Deklaracjevat wysylanaDeklaracja = deklaracje.get(deklaracje.size() - 1);
-        if (!wysylanaDeklaracja.getSchemaobj().getNazwaschemy().equals("M-18") && !wysylanaDeklaracja.getSchemaobj().getNazwaschemy().equals("K-12")) {
+        boolean deklaracjaprzed17i12 = czydeklaracjaprzed18i12(wysylanaDeklaracja.getSchemaobj().getNazwaschemy());
+        if (deklaracjaprzed17i12) {
             if (wysylanaDeklaracja.getSelected().getPozycjeszczegolowe().getPoleI62() > 0 && !wysylanaDeklaracja.getDeklaracja().contains("Wniosek_VAT-ZT")) {
                 Msg.msg("e", "Jest to deklaracja z wnioskiem o zwrot VAT, a nie wypełniłeś załacznika VAT-ZT. Deklaracja nie może być wysłana!", "formX:msg");
                 return;
@@ -485,7 +486,8 @@ public class beanek  implements Serializable {
         String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
         Deklaracjevat temp = deklaracje.get(deklaracje.size() - 1);
-        if (!temp.getSchemaobj().getNazwaschemy().equals("M-18") && !temp.getSchemaobj().getNazwaschemy().equals("K-12")) {
+        boolean deklaracjaprzed17i12 = czydeklaracjaprzed18i12(temp.getSchemaobj().getNazwaschemy());
+        if (deklaracjaprzed17i12) {
             if (temp.getSelected().getPozycjeszczegolowe().getPoleI62() > 0 && !temp.getDeklaracja().contains("Wniosek_VAT-ZT")) {
                 Msg.msg("e", "Jest to deklaracja z wnioskiem o zwrot VAT, a nie wypełniłeś załacznika VAT-ZT. Deklaracja nie może być wysłana!", "formX:msg");
                 return;
@@ -853,6 +855,22 @@ public class beanek  implements Serializable {
 
     public void setDeklaracjevatView(DeklaracjevatView deklaracjevatView) {
         this.deklaracjevatView = deklaracjevatView;
+    }
+
+    private boolean czydeklaracjaprzed18i12(String nazwaschemy) {
+        boolean zwrot = true;
+        if (nazwaschemy!=null) {
+            String[] tab = nazwaschemy.split("-");
+            int numer = Integer.parseInt(tab[1]);
+            String symbol = tab[0];
+            if (symbol.equals("M") && numer>17) {
+                zwrot = false;
+            }
+            if (symbol.equals("K") && numer>11) {
+                zwrot = false;
+            }
+        }
+        return zwrot;
     }
     
     

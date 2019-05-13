@@ -55,6 +55,7 @@ public class WpisView implements Serializable {
     private boolean mc0kw1;
     private boolean ksiegirachunkowe;
     private boolean vatowiec;
+    private boolean vatowiecue;
     private int vatokres;
     private boolean paramCzworkiPiatki;
     @Inject
@@ -359,6 +360,7 @@ public class WpisView implements Serializable {
                         vatokres = 1;
                     }
                 }
+                vatowiecue = sprawdzczyue();
                 if (rodzajopodatkowania.contains("ryczałt")) {
                     ksiegaryczalt = false;
                 } else {
@@ -487,6 +489,14 @@ public class WpisView implements Serializable {
 
     public void setZmianaokresuMc(String zmianaokresuMc) {
         this.zmianaokresuMc = zmianaokresuMc;
+    }
+
+    public boolean isVatowiecue() {
+        return vatowiecue;
+    }
+
+    public void setVatowiecue(boolean vatowiecue) {
+        this.vatowiecue = vatowiecue;
     }
 
     public String getFormaprawna() {
