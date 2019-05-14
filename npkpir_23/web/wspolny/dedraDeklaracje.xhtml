@@ -9,7 +9,7 @@
         <p:panel header="#{mgs.wczytajplikzdeklaracja}" style="width: 1250px;"/>
         <p:fileUpload fileUploadListener="#{eVatDeklaracjaPlikView.zachowajZaladowanyPlik}" update="form_dialog_ewvat_dedra:tabela"
                       mode="advanced" dragDropSupport="true" fileLimit="3"
-                      sizeLimit="2000000"  allowTypes="/(\.|\/)(pdf)$/" 
+                      sizeLimit="2000000"   
                       validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
                       fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
                       uploadLabel="#{mgs.wczytaj}" label="#{mgs.wybierz}" cancelLabel="#{mgs.rezygnuj}" 
