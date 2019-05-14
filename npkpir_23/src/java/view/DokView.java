@@ -396,7 +396,7 @@ public class DokView implements Serializable {
             selDokument.setDokumentProsty(true);
             ukryjEwiencjeVAT = true;
             sumujnetto();
-            ewidencjaAddwiad = null;
+            ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
         } else {
             ukryjEwiencjeVAT = false;
             String typdok = selDokument.getRodzajedok().getSkrot();
@@ -485,7 +485,7 @@ public class DokView implements Serializable {
                 selDokument.setDokumentProsty(true);
                 ukryjEwiencjeVAT = true;
                 sumujnetto();
-                ewidencjaAddwiad = null;
+                ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
             }
         }
     }
