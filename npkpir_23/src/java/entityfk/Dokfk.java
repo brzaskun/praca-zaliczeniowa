@@ -908,7 +908,7 @@ public class Dokfk extends DokSuper implements Serializable {
     }
 
     public void oznaczVATdokument(String sprawdzjakiokresvat) {
-        if (!sprawdzjakiokresvat.equals("blad") && !this.ewidencjaVAT.isEmpty()) {
+        if (!sprawdzjakiokresvat.equals("blad") && this.ewidencjaVAT !=null && !this.ewidencjaVAT.isEmpty()) {
             for (EVatwpisFK p : this.ewidencjaVAT) {
                 if (!p.isNieduplikuj()) {
                     if (p.getNetto() != 0.0 || p.getVat() != 0.0) {

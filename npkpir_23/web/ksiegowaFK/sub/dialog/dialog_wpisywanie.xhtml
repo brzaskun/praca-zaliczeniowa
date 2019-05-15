@@ -691,7 +691,7 @@
                         <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz} (w)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.dodaj}" 
                                          accesskey="w" onsuccess="powrocNaPoczatekDokfk();" rendered="#{(dokfkView.zapisz0edytuj1 == false) and dokfkView.wlaczZapiszButon}"
                                          onfocus="focusNaNowoDodanymEnter();sprawdzgrupeprzykliknieciuwzapisz();" global="false"
-                                         widgetVar="buttonzachowaj">
+                                         widgetVar="buttonzachowaj" update="wpisywaniefooter">
                             <p:ajax event="click" listener="#{sesjaView.dodajdokument()}" global="false"/>
                         </p:commandButton>
                         </p:column>

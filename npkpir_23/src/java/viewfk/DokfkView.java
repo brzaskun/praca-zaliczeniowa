@@ -390,7 +390,7 @@ public class DokfkView implements Serializable {
         pobierzopiszpoprzedniegodokItemSelect();
         rodzajBiezacegoDokumentu = 1;
         PrimeFaces.current().ajax().update("formwpisdokument");
-        PrimeFaces.current().ajax().update("wpisywaniefooter");
+        //PrimeFaces.current().ajax().update("wpisywaniefooter");
         PrimeFaces.current().executeScript("$(document.getElementById('formwpisdokument:data2DialogWpisywanie')).select();");
     }
     
@@ -2542,8 +2542,11 @@ public class DokfkView implements Serializable {
         pobierzkursNBPwiersz(wierszbiezacy.getDataWalutyWiersza(), wierszbiezacy);
         przepiszWaluty(wierszbiezacy);
         int lpwtabeli = wierszbiezacy.getIdporzadkowy() - 1;
-        String update = "formwpisdokument:dataList:" + lpwtabeli + ":kurswiersza";
-        PrimeFaces.current().ajax().update(update);
+        String symbolwaluty = selected.getWalutadokumentu().getSymbolwaluty();
+        if (!symbolwaluty.equals("PLN")) {
+            String update = "formwpisdokument:dataList:" + lpwtabeli + ":kurswiersza";
+            PrimeFaces.current().ajax().update(update);
+        }
     }
 
     private void skopiujDateZWierszaWyzej(Wiersz wierszbiezacy) {
