@@ -389,9 +389,11 @@ public class DokfkView implements Serializable {
         obsluzcechydokumentu();
         pobierzopiszpoprzedniegodokItemSelect();
         rodzajBiezacegoDokumentu = 1;
-        PrimeFaces.current().ajax().update("formwpisdokument");
-        //PrimeFaces.current().ajax().update("wpisywaniefooter");
-        PrimeFaces.current().executeScript("$(document.getElementById('formwpisdokument:data2DialogWpisywanie')).select();");
+        try {
+            PrimeFaces.current().ajax().update("formwpisdokument");
+            PrimeFaces.current().ajax().update("wpisywaniefooter");
+            PrimeFaces.current().executeScript("$(document.getElementById('formwpisdokument:data2DialogWpisywanie')).select();");
+        } catch (Exception e) {}
     }
     
     public String charakterdokumentu (Dokfk d) {
