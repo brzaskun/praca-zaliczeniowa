@@ -167,7 +167,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="kwota rozlicz. - bieżący dok." />
                                 </f:facet>
-                                <p:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" 
+                                <p:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" 
                                                 style="text-align: right; margin-left: 5px; width: 60px; "
                                                 decimalPlaces="2" minValue="-10000000" emptyValue="sign" onfocus="this.oldvalue = this.value"
                                                 rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" styleClass="kwotarozrachunku">
