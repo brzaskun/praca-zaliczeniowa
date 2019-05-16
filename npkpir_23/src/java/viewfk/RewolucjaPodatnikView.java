@@ -788,7 +788,7 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
                 int i = 0;
                 int lim = 2000;
                 for (Dokfk p : lista) {
-                    if (p.getRodzajedok().getSkrotNazwyDok().equals("RRK") || p.getRodzajedok().getSkrotNazwyDok().equals("ZZS75")) {
+                    if (p.getRodzajedok().getSkrotNazwyDok().equals("BO")) {
                         zrobwiersze(p);
                         i++;
                         if (i>lim) {
