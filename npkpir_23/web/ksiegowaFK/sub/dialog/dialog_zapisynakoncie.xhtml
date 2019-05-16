@@ -200,7 +200,7 @@
 
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.id}"
                                  filteredValue="#{kontoZapisFKView.kontozapisyfiltered}"
-                                 selection="#{kontoZapisFKView.wybranezapisydosumowania}" sortBy="#{loop}" style="height: 525px; overflow-y: scroll; width: 1230px;"
+                                 selection="#{kontoZapisFKView.wybranezapisydosumowania}" sortBy="#{loop}" style="height: 525px; overflow-y: scroll; width: 1230px; overflow-x: scroll;"
                                  sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" emptyMessage="Nie ma zapisów na koncie"
                                  rowIndexVar="rowindex" styleClass="walkingtable" rowSelectMode="add"
                                  >
@@ -287,7 +287,8 @@
                             </h:outputText>
 
                         </p:column>
-                        <p:column width="10" style="text-align: center;">
+                        <p:column width="20" style="text-align: center;">
+                            <h:outputText value="#{loop.id}" />
                             <h:outputText value="r" style="#{loop.saRozrachunki ? 'color: blue': null}" rendered="#{loop.saRozrachunki  and !kontoZapisFKView.pokaztransakcje}"/>
                             <h:outputText value="nowa tr." style="#{loop.saRozrachunki ? 'color: green': null}" rendered="#{loop.isNowatransakcja() and kontoZapisFKView.pokaztransakcje}"/>
                         </p:column>

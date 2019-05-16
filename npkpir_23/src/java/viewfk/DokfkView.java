@@ -1542,11 +1542,9 @@ public class DokfkView implements Serializable {
                 case "00":
                     if (wybranyWiersz.getTypWiersza() == 0) {
                         selected.getListawierszy().remove(wybranyWiersz);
-                        ObslugaWiersza.przenumerujSelected(selected);
                         break;
                     } else {
                         selected.getListawierszy().remove(wybranyWiersz);
-                        ObslugaWiersza.przenumerujSelected(selected);
 //                        ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz, wierszeSasiednie);
                         break;
                     }
@@ -1569,12 +1567,10 @@ public class DokfkView implements Serializable {
                     }
                     //usunrozrachunki(wybranyWiersz);
                     selected.getListawierszy().remove(wybranyWiersz);
-                    ObslugaWiersza.przenumerujSelected(selected);
                     break;
                 default:
                     //usunrozrachunki(wybranyWiersz);
                     selected.getListawierszy().remove(wybranyWiersz);
-                    ObslugaWiersza.przenumerujSelected(selected);
                     break;
             }
             for (Iterator<EVatwpisFK> it = selected.getEwidencjaVAT().iterator(); it.hasNext();) {
@@ -1588,6 +1584,8 @@ public class DokfkView implements Serializable {
                 selected.getListawierszy().add(ObslugaWiersza.ustawPierwszyWiersz(selected));
                 liczbawierszyWDokumencie = 1;
             }
+            dokDAOfk.edit(selected);
+            ObslugaWiersza.przenumerujSelected(selected);
             dokDAOfk.edit(selected);
             Msg.msg("Usunieto wiersz");
         }
