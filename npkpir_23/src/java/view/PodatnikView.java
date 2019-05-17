@@ -173,9 +173,9 @@ public class PodatnikView implements Serializable {
         } catch (Exception e) {
             E.e(e); 
         } 
-        selectedDod.setFax("000000000");
-        nazwaWybranegoPodatnika = uz.getPodatnik().getPrintnazwa();
         try {
+            selectedDod.setFax("000000000");
+            nazwaWybranegoPodatnika = uz.getPodatnik().getPrintnazwa();
             selected = uz.getPodatnik();
             //zrobdokumenty();
             weryfikujlisteDokumentowPodatnika();
