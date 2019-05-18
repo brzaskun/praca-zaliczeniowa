@@ -499,7 +499,7 @@
                                 <p:ajax global="false" event="focus" oncomplete="zachowajwierszVATRK(#{index+1})" listener="#{dokfkView.setLpwierszaRK(index+1)}"/>
                                 <p:ajax global="false" event="blur" partialSubmit="true"/>
                                 <p:ajax global="false" event="focus" oncomplete="skopiujopis(#{wploop.idporzadkowy});" listener="#{dokfkView.skopiujopis(wploop.idporzadkowy)}"/>
-<!--                                <p:ajax global="false" event="focus" listener="#{dokfkView.sprawdzwartoscigrupy(wploop)}"/>-->
+                                <p:ajax global="false" event="focus" listener="#{dokfkView.sprawdzwartoscigrupy()}"/>
                             </p:inputText>
                             <p:tooltip value="#{wploop.opisWiersza}" for="formwpisdokument:dataList:#{index}:opisdokwpis" trackMouse="true"/>
                         </p:column>

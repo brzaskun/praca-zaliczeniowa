@@ -263,7 +263,7 @@ public class DokfkView implements Serializable {
     private Cechazapisu cechazapisudododania;
     private String linijkaewidencjiupdate;
     private Cechazapisu nkup;
-    
+    private Wiersz wierszzmieniony;
 
     public DokfkView() {
          //E.m(this);
@@ -341,6 +341,7 @@ public class DokfkView implements Serializable {
         String datadokumentu = null;
         String dataoperacji = null;
         komunikatywpisdok = null;
+        wierszzmieniony = null;
         if (selected != null) {
             symbolPoprzedniegoDokumentu = selected.pobierzSymbolPoprzedniegoDokfk();
             rodzajDokPoprzedni = selected.getRodzajedok();
@@ -423,7 +424,7 @@ public class DokfkView implements Serializable {
     
     public String[] getNaglowekWpisDokumentu() {
         String[] zwrot = new String[2];
-        String text = "Wprowadzanie dokumentu. Podatnik: "+wpisView.getPodatnikWpisu();
+        String text = "Wprowadzanie dokumentu. Podatnik: "+wpisView.getPodatnikObiekt().getPrintnazwa();
         String css = "";
 //        FacesContext context = FacesContext.getCurrentInstance();
 //        PlanKontView bean = context.getApplication().evaluateExpressionGet(context, "#{kontoConv}", PlanKontView.class);
@@ -511,20 +512,23 @@ public class DokfkView implements Serializable {
     public void zdarzeniaOnBlurStronaKwotaWn(ValueChangeEvent e) {
         double kwotastara = (double) e.getOldValue();
         double kwotanowa = (double) e.getNewValue();
-        if (Z.z(kwotastara) != Z.z(kwotanowa)) {
+        boolean jestroznica = Z.z(kwotastara) != Z.z(kwotanowa);
+        if (jestroznica) {
             String clientID = ((InputNumber) e.getSource()).getClientId();
             String indexwiersza = clientID.split(":")[2];
             try {
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
-                wiersz.getStronaWn().setKwota(kwotanowa);
-                przepiszWaluty(wiersz);
-                if (kwotastara!=0.0) {
-                    sprawdzwartoscigrupy(wiersz);
+                if (this.wierszzmieniony==null) {
+                    wiersz.getStronaWn().setKwota(kwotanowa);
+                    przepiszWaluty(wiersz);
+                    if (kwotastara!=0.0) {
+                        this.wierszzmieniony = wiersz;
+                    }
                 }
             } catch (Exception e1) {
                 E.e(e1);
             }
-            if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+            if (selected.getRodzajedok().getKategoriadokumentu() == 0 && jestroznica) {
                 rozliczsaldoWBRK(Integer.parseInt(indexwiersza));
             }
         }
@@ -533,20 +537,23 @@ public class DokfkView implements Serializable {
     public void zdarzeniaOnBlurStronaKwotaMa(ValueChangeEvent e) {
         double kwotastara = (double) e.getOldValue();
         double kwotanowa = (double) e.getNewValue();
-        if (Z.z(kwotastara) != Z.z(kwotanowa)) {
+        boolean jestroznica = Z.z(kwotastara) != Z.z(kwotanowa);
+        if (jestroznica) {
             String clientID = ((InputNumber) e.getSource()).getClientId();
             String indexwiersza = clientID.split(":")[2];
             try {
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
-                wiersz.getStronaMa().setKwota(kwotanowa);
-                przepiszWaluty(wiersz);
-                if (kwotastara!=0.0) {
-                    sprawdzwartoscigrupy(wiersz);
+                if (this.wierszzmieniony==null) {
+                    wiersz.getStronaMa().setKwota(kwotanowa);
+                    przepiszWaluty(wiersz);
+                    if (kwotastara!=0.0) {
+                        this.wierszzmieniony = wiersz;
+                    }
                 }
             } catch (Exception e1) {
                 E.e(e1);
             }
-            if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+            if (selected.getRodzajedok().getKategoriadokumentu() == 0 && jestroznica) {
                 rozliczsaldoWBRK(Integer.parseInt(indexwiersza));
             }
         }
@@ -1584,7 +1591,6 @@ public class DokfkView implements Serializable {
                 selected.getListawierszy().add(ObslugaWiersza.ustawPierwszyWiersz(selected));
                 liczbawierszyWDokumencie = 1;
             }
-            dokDAOfk.edit(selected);
             ObslugaWiersza.przenumerujSelected(selected);
             dokDAOfk.edit(selected);
             Msg.msg("Usunieto wiersz");
@@ -2886,63 +2892,66 @@ public class DokfkView implements Serializable {
         Msg.msg("Zmieniono ewidencje");
     }
 
-    public void sprawdzwartoscigrupy(Wiersz wierszzmieniony) {
+    public void sprawdzwartoscigrupy() {
         try {
-            if (wierszzmieniony.getDokfk().getSeriadokfk().equals("BO")) {
-                return;
-            }
-            Wiersz wiersdolnysprawdz = selected.nastepnyWiersz(wierszzmieniony);
-            if (wiersdolnysprawdz!=null) {
-                Wiersz wierszpodstawowy = wierszzmieniony;
-                if (wierszzmieniony.getLpmacierzystego()!=0) {
-                    wierszpodstawowy = selected.poprzedniWiersz(wierszzmieniony);
-                    do {
-                        if (wierszpodstawowy!= null && wierszpodstawowy.getLpmacierzystego() != 0) {
-                            wierszpodstawowy = selected.poprzedniWiersz(wierszpodstawowy);
-                        } else if (wierszpodstawowy == null){
-                            wierszpodstawowy = wierszzmieniony;
-                            break;
-                        } else {
-                            break;
-                        }
-                    } while (true);
+            if (wierszzmieniony!=null) {
+                if (wierszzmieniony.getDokfk().getSeriadokfk().equals("BO")) {
+                    return;
                 }
-                boolean wypelniony = wierszzmieniony.isWypelniony();
-                if (wypelniony) {
-                    int nrgr = wierszpodstawowy.getIdporzadkowy();
-                    double sumaWn = wierszpodstawowy.getStronaWn().getKwota();
-                    double sumaMa = wierszpodstawowy.getStronaMa().getKwota();
-                    Wiersz wierszsumowany = selected.nastepnyWiersz(wierszpodstawowy);
-                    do {
-                        if (wierszsumowany != null && wierszsumowany.getTypWiersza() == 0) {
-                            break;
-                        }
-                        if (wierszsumowany != null) {
-                            if (wierszsumowany.getTypWiersza() == 1) {
-                                sumaWn += wierszsumowany.getStronaWn().getKwota();
-                                typwiersza = 1;
-                            } else if (wierszsumowany.getTypWiersza() == 2) {
-                                sumaMa += wierszsumowany.getStronaMa().getKwota();
-                                typwiersza = 2;
+                Wiersz wiersdolnysprawdz = selected.nastepnyWiersz(wierszzmieniony);
+                if (wiersdolnysprawdz!=null) {
+                    Wiersz wierszpodstawowy = wierszzmieniony;
+                    if (wierszzmieniony.getLpmacierzystego()!=0) {
+                        wierszpodstawowy = selected.poprzedniWiersz(wierszzmieniony);
+                        do {
+                            if (wierszpodstawowy!= null && wierszpodstawowy.getLpmacierzystego() != 0) {
+                                wierszpodstawowy = selected.poprzedniWiersz(wierszpodstawowy);
+                            } else if (wierszpodstawowy == null){
+                                wierszpodstawowy = wierszzmieniony;
+                                break;
+                            } else {
+                                break;
                             }
-                            wierszsumowany = selected.nastepnyWiersz(wierszsumowany);
-                        } else {
-                            wierszsumowany = wierszpodstawowy;
-                            break;
-                        }
-                    } while (true);
-                    if (Z.z(sumaWn) != Z.z(sumaMa)) {
-                        Wiersz wierszponizej = selected.nastepnyWiersz(wierszzmieniony);
-                        if (wierszponizej != null) {
-                            ObslugaWiersza.wygenerujWierszRoznicowy(wierszzmieniony, true, nrgr, selected);
-                            PrimeFaces.current().ajax().update("formwpisdokument:dataList");
-                        } else {
-                            ObslugaWiersza.wygenerujWierszRoznicowy(wierszzmieniony, false, nrgr, selected);
-                            PrimeFaces.current().ajax().update("formwpisdokument:dataList");
-                        }
-                        selected.przeliczKwotyWierszaDoSumyDokumentu();
+                        } while (true);
                     }
-                    rozliczsaldoWBRK(wierszpodstawowy.getIdporzadkowy() - 1);
+                    boolean wypelniony = wierszzmieniony.isWypelniony();
+                    if (wypelniony) {
+                        int nrgr = wierszpodstawowy.getIdporzadkowy();
+                        double sumaWn = wierszpodstawowy.getStronaWn().getKwota();
+                        double sumaMa = wierszpodstawowy.getStronaMa().getKwota();
+                        Wiersz wierszsumowany = selected.nastepnyWiersz(wierszpodstawowy);
+                        do {
+                            if (wierszsumowany != null && wierszsumowany.getTypWiersza() == 0) {
+                                break;
+                            }
+                            if (wierszsumowany != null) {
+                                if (wierszsumowany.getTypWiersza() == 1) {
+                                    sumaWn += wierszsumowany.getStronaWn().getKwota();
+                                    typwiersza = 1;
+                                } else if (wierszsumowany.getTypWiersza() == 2) {
+                                    sumaMa += wierszsumowany.getStronaMa().getKwota();
+                                    typwiersza = 2;
+                                }
+                                wierszsumowany = selected.nastepnyWiersz(wierszsumowany);
+                            } else {
+                                wierszsumowany = wierszpodstawowy;
+                                break;
+                            }
+                        } while (true);
+                        if (Z.z(sumaWn) != Z.z(sumaMa)) {
+                            Wiersz wierszponizej = selected.nastepnyWiersz(wierszzmieniony);
+                            if (wierszponizej != null) {
+                                ObslugaWiersza.wygenerujWierszRoznicowy(wierszzmieniony, true, nrgr, selected);
+                                PrimeFaces.current().ajax().update("formwpisdokument:dataList");
+                            } else {
+                                ObslugaWiersza.wygenerujWierszRoznicowy(wierszzmieniony, false, nrgr, selected);
+                                PrimeFaces.current().ajax().update("formwpisdokument:dataList");
+                            }
+                            selected.przeliczKwotyWierszaDoSumyDokumentu();
+                        }
+                        rozliczsaldoWBRK(wierszpodstawowy.getIdporzadkowy() - 1);
+                        wierszzmieniony=null;
+                    }
                 }
             }
         } catch (Exception e) {
