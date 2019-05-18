@@ -7,7 +7,7 @@
     
     >
     <p:dialog id="dialogkursrecznie" header="Pobranie/Wprowadzenie kursu ręcznie" widgetVar="dialogkursrecznie"  
-              resizable="false"  onShow="ustawdialog('dialogkursrecznie','menukartoteki',800,350);" closeOnEscape="true" onHide="resetujdialog('dialogkursrecznie');" >
+              resizable="false"  onShow="ustawdialog('dialogkursrecznie','menukartoteki',850,350);" closeOnEscape="true" onHide="resetujdialog('dialogkursrecznie');" >
         <h:form id="formkursreczniepobierz">
             <p:outputPanel style="padding: 10px; margin-bottom: 10px;">
                 <h:outputText value="pobieranie jednej tabeli z internetu" style="font-weight: 900"/>
@@ -21,7 +21,7 @@
             </p:outputPanel>
         </h:form>
         <h:form id="formkursrecznie">
-            <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 780px;">
+            <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 830px;">
                 <p:column headerText="nr tabeli" width="100" style="text-align: center; height: 25px;">
                     <p:inputMask id="kodPole" value="#{wpis.nrtabeli}" onblur="weryfikujnumertabeli()" mask="999/a/aaa/9999" slotChar="###/A/NBP/rrrr"/>
                 </p:column>
@@ -34,8 +34,8 @@
                         <p:ajax event="change" partialSubmit="true" update="formkursrecznie:uwagaoprzeliczniku"/>
                     </p:selectOneMenu>
                 </p:column>
-                <p:column headerText="wartość w pln" width="100" style="text-align: center;">
-                    <p:inputNumber value="#{wpis.kurssredni}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                <p:column headerText="wartość w pln" width="150" style="text-align: center;">
+                    <p:inputNumber value="#{wpis.kurssredni}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" size="16"
                                             style="text-align: right;" symbolPosition="s" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="5" minValue="-1000000" styleClass="wiersznetto"> 
                     </p:inputNumber>
                 </p:column>

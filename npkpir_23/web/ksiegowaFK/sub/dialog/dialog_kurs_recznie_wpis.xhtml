@@ -7,12 +7,12 @@
     
     >
     <p:dialog id="dialogkursrecznie" header="Wprowadzenie kursu ręcznie" widgetVar="dialogkursrecznie"  appendTo="@(body)"
-              resizable="false"  onShow="ustawdialog('dialogkursrecznie','dialogpierwszy',800,550);" closeOnEscape="true" modal="true"
+              resizable="false"  onShow="ustawdialog('dialogkursrecznie','dialogpierwszy',850,550);" closeOnEscape="true" modal="true"
               onHide="resetujdialog('dialogkursrecznie');" >
 <!--        <p:ajax event="open" listener="#{walutyViewFK.init()}" global="false"/>-->
         <h:form id="formkursrecznie">
             <p:focus for="formkursrecznie:dataKursReczny"/>
-            <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 760px;">
+            <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 830px;">
                  <p:column headerText="tabela" width="100" style="text-align: center;">
                      <p:selectOneMenu value="#{walutyViewFK.symbolRecznie}" id="polewyboruwaluty" maxlength="3"
                                       editable="true" >
@@ -44,8 +44,8 @@
                     <h:outputText id="przelicznik" value="#{wpis.waluta.przelicznik}" style="width: 40px;" />
                     <h:outputText value=" x"/>
                 </p:column>
-                <p:column headerText="wartość w pln" width="100" style="text-align: center;">
-                    <p:inputNumber value="#{wpis.kurssredni}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                <p:column headerText="wartość w pln" width="150" style="text-align: center;">
+                    <p:inputNumber value="#{wpis.kurssredni}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" size="16"
                                             style="text-align: right;" symbolPosition="s" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="5" minValue="-1000000" styleClass="wiersznetto"> 
                     </p:inputNumber>
                 </p:column>
@@ -58,7 +58,7 @@
       <h:form id="wprowadzonekursyrecznie">
       
             <p:dataTable id="dataTablekursy" var="wpis" value="#{walutyViewFK.wprowadzonekursyRok}" editable="true" emptyMessage="Nie ma wprowadzonych ręcznie kursow" 
-                         scrollable="true" style="width: 600px; padding: 10px;" scrollHeight="330" widgetVar="dataTablekursy" rowKey="#{wpis.nrtabeli}" selection="#{dokfkView.tabelanbprecznie}"
+                         style="width: 600px; padding: 10px; height: 330px; overflow-y: scroll;"  widgetVar="dataTablekursy" rowKey="#{wpis.nrtabeli}" selection="#{dokfkView.tabelanbprecznie}"
                          sortBy="#{wpis.datatabeli}" sortOrder="descending">
                 
                 <p:ajax event="filter" global="false"/>
@@ -69,7 +69,7 @@
                     <p:inputText id="globalFilter" onkeyup="PF('dataTablekursy').filter();" style="width:150px" />  
                 </f:facet>
                 <p:column selectionMode="single" style="width: 16px; text-align: center;"/>
-                <p:column headerText="nr tabeli" width="100" style="text-align: center;" sortBy="#{wpis.nrtabeli}" filterBy="#{wpis.nrtabeli}" filterStyle="display : none;" filterMatchMode="contains">
+                <p:column headerText="nr tabeli" width="120" style="text-align: center;" sortBy="#{wpis.nrtabeli}" filterBy="#{wpis.nrtabeli}" filterStyle="display : none;" filterMatchMode="contains">
                     <h:outputText value="#{wpis.nrtabeli}" />
                 </p:column>
                 <p:column headerText="data tabeli" width="100" style="text-align: center;" sortBy="#{wpis.datatabeli}" filterBy="#{wpis.datatabeli}" filterStyle="display : none;" filterMatchMode="contains">
