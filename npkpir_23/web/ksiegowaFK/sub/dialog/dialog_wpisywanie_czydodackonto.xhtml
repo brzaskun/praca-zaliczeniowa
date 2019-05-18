@@ -15,7 +15,9 @@
                 <p:focus >
                     <p:commandButton id="czydodackontookbutton" value="tak" type="submit" style="width: 120px;" actionListener="#{kliencifkView.pobieraniekontaFKWpisCD}" 
                                      oncomplete="PF('czydodackonto').hide();$(document.getElementById('formwpisdokument:wybranawaluta')).focus();" global="false"
-                                     update=":formwpisdokument:dataList"/>
+                                     update=":formwpisdokument:dataList">
+                        <p:ajax event="click" listener="#{dokfkView.zerujkontorozrachunkowe()}" global="false"/>
+                    </p:commandButton>
                     <p:commandButton id="niedodawackonta" value="nie" type="submit" oncomplete="PF('czydodackonto').hide();$(document.getElementById('formwpisdokument:wybranawaluta')).focus();"
                                      actionListener="#{dokfkView.niedodawajkonta}" global="false"
                                      style="margin-left: 25px; width: 120px;">

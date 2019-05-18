@@ -422,6 +422,10 @@ public class DokfkView implements Serializable {
         niedodawajkontapole = false;
     }
     
+    public void zerujkontorozrachunkowe() {
+        kontoRozrachunkowe = null;
+    }
+    
     public String[] getNaglowekWpisDokumentu() {
         String[] zwrot = new String[2];
         String text = "Wprowadzanie dokumentu. Podatnik: "+wpisView.getPodatnikObiekt().getPrintnazwa();
