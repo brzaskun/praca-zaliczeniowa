@@ -41,6 +41,7 @@ import session.SessionFacade;
     @NamedQuery(name = "Konto.findAll", query = "SELECT k FROM Konto k"),
     @NamedQuery(name = "Konto.findById", query = "SELECT k FROM Konto k WHERE k.id = :id"),
     @NamedQuery(name = "Konto.findByPodatnikRok", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findByPodatnikRokBezPrzyporzadkowania", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok AND (k.pozycjaWn IS NULL OR k.pozycjaMa IS NULL)"),
     @NamedQuery(name = "Konto.findByPodatnikKsiegi", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok AND k.zaksiegowane = '1'"),
     @NamedQuery(name = "Konto.findByPodatnikBezSlownik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok AND k.slownikowe = '0'"),
     @NamedQuery(name = "Konto.findByPodatnikBezSlownikKsiegi", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok AND k.slownikowe = '0' AND k.zaksiegowane = '1'"),

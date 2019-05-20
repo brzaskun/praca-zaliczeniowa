@@ -76,6 +76,9 @@
                   <p:selectBooleanCheckbox itemLabel="tylko syntetyka" value="#{planKontView.tylkosyntetyka}">
                       <p:ajax event="change"  partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt)}" update="form_dialog_plankont:dataList"/>
                   </p:selectBooleanCheckbox>
+                  <p:selectBooleanCheckbox itemLabel="bez przyporządk." value="#{planKontView.bezprzyporzadkowania}">
+                      <p:ajax event="change"  partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt)}" update="form_dialog_plankont:dataList"/>
+                  </p:selectBooleanCheckbox>
                   <p:selectOneMenu id="bilansowewynikowe" value="#{planKontView.kontadowyswietlenia}" required="true" requiredMessage="The Bilansowewynikowe field is required." style="width: 170px;">
                         <p:ajax event="change" partialSubmit="true" listener="#{planKontView.planBezSlownikowychSyntetyczne(WpisView.podatnikObiekt)}" update="form_dialog_plankont:dataList"/>
                         <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>

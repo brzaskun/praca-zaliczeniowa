@@ -130,6 +130,7 @@ public class PlanKontView implements Serializable {
     private UkladBR wybranyukladwzorcowy;
     private String wybranapozycja_wiersz;
     private int wybranaseriakont;
+    private boolean bezprzyporzadkowania;
     
 
     public PlanKontView() {
@@ -331,6 +332,8 @@ public class PlanKontView implements Serializable {
         List<Konto> wykazkont = new ArrayList<>();
         if (wybranaseriakont!=9) {
             pobierzlista(wybranaseriakont);
+        } else if (bezprzyporzadkowania==true) {
+            wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezPrzyporzadkowania(podatnik, wpisView.getRokWpisuSt());
         } else if (bezslownikowych == true && tylkosyntetyka == true) {
             wykazkont = kontoDAOfk.findKontazLevelu(podatnik, wpisView.getRokWpisu(), 0);
         } else if (bezslownikowych == true) {
@@ -1873,6 +1876,14 @@ public class PlanKontView implements Serializable {
 
     public void setSelectednodekonto(Konto selectednodekonto) {
         this.selectednodekonto = selectednodekonto;
+    }
+
+    public boolean isBezprzyporzadkowania() {
+        return bezprzyporzadkowania;
+    }
+
+    public void setBezprzyporzadkowania(boolean bezprzyporzadkowania) {
+        this.bezprzyporzadkowania = bezprzyporzadkowania;
     }
 
     public int getWybranaseriakont() {
