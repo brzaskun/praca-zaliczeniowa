@@ -34,6 +34,12 @@
             color: red;
         }
     </style>
+    <h:outputScript library="js_fk" name="vatoznacz.js"/>
+     <script>
+        $(document).on("keydown", TabKeyVat);
+     </script>
+     <p:remoteCommand actionListener="#{DokTabView.fakturaoznaczanie()}" name="oznaczfakturespacja" global="false"/>
+     <p:growl widgetVar="grmes"/>
     <h:form>
         <p:stack icon="/resources/images/menustack/stack.png"  >  
             <p:menuitem global="false" value="duplikaty" icon="/resources/images/menustack/mix.png"  actionListener="#{DokTabView.sprawdzCzyNieDuplikat}"  />  
@@ -88,7 +94,7 @@
          <p:commandButton id="cechadokumentu" value="CechyDok(V)" styleClass="fkbutton" style="width: 150px; margin-left: 10px; " 
                                         onclick="PF('dialogCechyDokumentuZbiorcze').show();" accesskey="v" 
                                      global="false"/>
-         <p:panelGrid id="sumawybranychpanel" style="width: 210px; text-align: center;">
+         <p:panelGrid id="sumawybranychpanel" style="width: 810px; text-align: center;">
               <f:facet name="header">
                   <p:row>
                       <p:column>
@@ -114,6 +120,9 @@
              </p:column>
                  <p:column>
                      <p:commandButton  global="false" value="sumuj" actionListener="#{DokTabView.sumujwybrane}" update=":form:dokumentyLista :form:sumawybranychpanel" style="width: 120px;"/>
+                 </p:column>
+                 <p:column width="240">
+                 <h:outputText value="spacja - oznaczanie"/>
                  </p:column>
                  </p:row>
          </p:panelGrid>

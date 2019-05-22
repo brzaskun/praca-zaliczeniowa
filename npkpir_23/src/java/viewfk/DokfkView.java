@@ -264,6 +264,7 @@ public class DokfkView implements Serializable {
     private String linijkaewidencjiupdate;
     private Cechazapisu nkup;
     private Wiersz wierszzmieniony;
+    private DataTable tabelawierszy;
 
     public DokfkView() {
          //E.m(this);
@@ -4149,6 +4150,16 @@ public class DokfkView implements Serializable {
         this.cechazapisudododania = cechazapisudododania;
     }
 
+    public DataTable getTabelawierszy() {
+        return tabelawierszy;
+    }
+
+    public void setTabelawierszy(DataTable tabelawierszy) {
+        this.tabelawierszy = tabelawierszy;
+    }
+
+    
+    
     public void wybierzcechankup() {
         if (pobranecechypodatnik != null) {
             for (Cechazapisu p : pobranecechypodatnik) {

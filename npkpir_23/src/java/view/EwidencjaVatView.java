@@ -208,6 +208,38 @@ public class EwidencjaVatView implements Serializable {
             PrimeFaces.current().ajax().update(p);
         }
     }
+    
+    
+    public void fakturavatoznaczanie() {
+        EVatwpisFK w = null;
+        if (zachowanewybranewierszeewidencji!= null && zachowanewybranewierszeewidencji.size()==1) {
+            w = (EVatwpisFK) zachowanewybranewierszeewidencji.get(0);
+        } else {
+            w = (EVatwpisFK) zachowanewybranewierszeewidencji.get(zachowanewybranewierszeewidencji.size()-1);
+        }
+        if (w!=null) {
+            int rowek = 0;
+            List<EVatwpisFK> lista = ewidencjeFK.get(iTabPanel.getActiveIndex());
+            for (EVatwpisFK s : lista) {
+                if (s.equals(w)) {
+                    s.setSprawdzony(s.getSprawdzony()==0?1:s.getSprawdzony()==1?2:0);
+                    if (s.isDuplikat()) {
+                        Msg.msg("w", "Oznaczono zapis zduplikowany. Zmiany nie zostaną zachowane w bazie", "grmes");
+                    } else {
+                        eVatwpisFKDAO.edit(s);
+                    }
+                    break;
+                }
+                rowek++;
+            }
+            String p = "form:akordeon:akordeon2:"+iTabPanel.getActiveIndex()+":tabela:"+rowek+":polespr";
+            PrimeFaces.current().ajax().update(p);
+        }
+    }
+    
+    
+    
+    
 
     public void stworzenieEwidencjiZDokumentow(Podatnik podatnik) {
         try {

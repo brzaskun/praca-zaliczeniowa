@@ -392,6 +392,22 @@ public class DokTabView implements Serializable {
         dokDAO.edit(w);
     }
     
+    public void fakturaoznaczanie() {
+        Dok w = gosciuwybral.get(0);
+        w.setSprawdzony(w.getSprawdzony()==0?1:w.getSprawdzony()==1?2:0);
+        int rowek = 0;
+        for (Dok s : dokumentylista) {
+            if (s!=w) {
+                rowek++;
+            } else {
+                break;
+            }
+        }
+        String p = "form:dokumentyLista:"+rowek+":polespr";
+        PrimeFaces.current().ajax().update(p);
+        dokDAO.edit(w);
+    }
+    
     public void fakturasprawdzanieajax(Object i) {
     }
      

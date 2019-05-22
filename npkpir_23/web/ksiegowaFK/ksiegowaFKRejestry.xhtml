@@ -9,6 +9,10 @@
             <h:outputText value="Księgi rachunkowe"></h:outputText>
         </ui:define>
         <ui:define name="body">
+            <h:outputScript library="js_fk" name="vatoznacz.js"/>
+            <script>
+                $(document).on("keydown", TabKeyVat);
+            </script>
             <bcf:ajaxs/>
             <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
                 <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
@@ -29,7 +33,7 @@
                     <p:hotkey bind="down" global="false"  handler="idz('D');" ignoreAutoUpdate="true"/>
                     <p:hotkey bind="up" global="false" handler="idz('G');" ignoreAutoUpdate="true"/>
                     <ui:include src="sub/menu/menurejestry.xhtml"/>
-                    
+                    <p:growl widgetVar="grmes"/>
                     <ui:include src="sub/dialog/dialog_ewidencjevat.xhtml"/>
 <!--                    <ui:include src="sub/dialog/dialog_ewidencjevat_sprawdzanie.xhtml"/>chodzilo o edycje dok to juz jest w samych ewidencjach-->
                     <ui:include src="sub/dialog/dialog_ewvat_dedra.xhtml"/>

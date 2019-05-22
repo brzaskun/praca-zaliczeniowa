@@ -24,6 +24,7 @@
                                             <h:outputText value="suma vat "/>
                                             <bcf:outputpl value="#{ewidencjaVatView.podsumowanie(item,'v')}"/>-->
                 <p:separator/>
+                <p:remoteCommand actionListener="#{ewidencjaVatView.fakturavatoznaczanie()}" name="oznaczfakturespacja" global="false"/>
                 <p:contextMenu for="tabela" style="width: 200px;"  rendered="#{!WpisView.rokzamkniety}">
                     <p:menuitem global="false" value="prawidłowa" actionListener="#{ewidencjaVatView.fakturasprawdzanie(1, item)}" icon="ui-icon-check" partialSubmit="true"/>
                     <p:menuitem global="false" value="zawiera błędy" actionListener="#{ewidencjaVatView.fakturasprawdzanie(2,item)}"  icon="ui-icon-closethick" partialSubmit="true"/>

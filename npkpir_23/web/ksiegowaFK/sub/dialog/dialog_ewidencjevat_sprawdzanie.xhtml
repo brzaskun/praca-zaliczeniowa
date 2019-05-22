@@ -10,6 +10,7 @@
     <p:dialog id="dialog_ewidencjevat_sprawdzanie" header="Sprawdzanie ewidencji vat - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="dialog_ewidencjevat_sprawdzanie"  
               maximizable="true" onShow="ustawdialog('dialog_ewidencjevat_sprawdzanie','menurejestry',1250,750);" closeOnEscape="true" onHide="resetujdialog('dialog_ewidencjevat_sprawdzanie');"
               resizable="true">
+        
         <h:form id="form_dialog_ewidencjevat_sprawdzanie"> 
             <style>
                 .ui-datatable .mc .ui-column-filter {
@@ -62,6 +63,7 @@
                 <p:menuitem value="edytuj dok" global="false" icon="fa fa-edit" 
                             onsuccess="zapisywierszywybordok();"/>
             </p:contextMenu>
+            
             <p:dataTable id="tabela" value="#{ewidencjaVatView.wybranaewidencja}" var="loop7" style="width: 1150px; margin-bottom: 30px; height: 500px;"
                          rowKey="#{loop7.hashCode()}" selection="#{ewidencjaVatView.wybranewierszeewidencji}" rowSelectMode="add"
                          filteredValue="#{ewidencjaVatView.filteredwierszeewidencji}" rowStatePreserved="true" nullSortOrder="-1"
