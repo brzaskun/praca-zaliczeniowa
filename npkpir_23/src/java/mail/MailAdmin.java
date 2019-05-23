@@ -31,7 +31,7 @@ import view.WpisView;
 
 public class MailAdmin implements Serializable {
 
-    public static void mailAdmin(String adres, String temat, String tresc, SMTPSettings ogolne, InputStream zalacznik, String nazwapliku)  {
+    public static void mailAdmin(String adres, String temat, String tresc, SMTPSettings ogolne, byte[] zalacznik, String nazwapliku)  {
         try {
             MailSetUp mailSetUp = new MailSetUp();
             MimeMessage message = mailSetUp.logintoMailAdmin(adres, null, ogolne);
@@ -52,8 +52,8 @@ public class MailAdmin implements Serializable {
         }
     }
     
-    private static void dolaczplik(InputStream is, Multipart mimeMultipart, String nazwapliku) {
-        if (is != null && is instanceof InputStream) {
+    private static void dolaczplik(byte[] is, Multipart mimeMultipart, String nazwapliku) {
+        if (is != null && is instanceof byte[]) {
             try {
                 // create the second message part with the attachment from a OutputStrean
                 MimeBodyPart attachment= new MimeBodyPart();

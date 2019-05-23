@@ -16,6 +16,12 @@ import entity.Fakturywystokresowe;
 import entity.Klienci;
 import entity.Podatnik;
 import error.E;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,6 +32,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -33,6 +41,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import mail.MailAdmin;
 import msg.Msg;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTime;
@@ -70,7 +79,7 @@ public class AdminMailView implements Serializable {
     private boolean tylkofizyczne;
     private boolean tylkovat;
     private boolean tylkonievat;
-    private InputStream zalacznik;
+    private byte[] zalacznik;
     private String nazwazalacznik;
     private String jezykmaila;
 
@@ -192,6 +201,8 @@ public class AdminMailView implements Serializable {
 
     public void wyslijAdminMail() {
         int ilosc = 0;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        
         for (Klienci p : klientList) {
             try {
                 if (p.getEmail() != null && p.getJezykwysylki()!=null) {
@@ -228,7 +239,7 @@ public class AdminMailView implements Serializable {
             adminmail.setTytul(tematwiadomosci);
             adminmail.setTresc(zawartoscmaila);
             if (zalacznik != null) {
-                adminmail.setPlik(IOUtils.toByteArray(zalacznik));
+                adminmail.setPlik(zalacznik);
             }
             adminmail.setNazwazalacznika(nazwazalacznik);
             List<String> email = Collections.synchronizedList(new ArrayList<>());
@@ -257,7 +268,7 @@ public class AdminMailView implements Serializable {
             String filename = uploadedFile.getFileName();
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
             if (extension.equals("pdf")) {
-                zalacznik = uploadedFile.getInputstream();
+                zalacznik = IOUtils.toByteArray(uploadedFile.getInputstream());
                 nazwazalacznik = uploadedFile.getFileName();
                 Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
             } else {
@@ -280,6 +291,18 @@ public class AdminMailView implements Serializable {
     }
 }
 
+    public static void main(String[] args) {
+        try {
+            ByteArrayInputStream by = new ByteArrayInputStream(FileUtils.readFileToByteArray(new File("d:/aplik.pdf")));
+            byte[] array = new byte[by.available()];
+            by.read(array);
+            FileUtils.writeByteArrayToFile(new File("D:/plik1.pdf"),  array);
+            FileUtils.writeByteArrayToFile(new File("D:/plik1a.pdf"), array);
+        } catch (Exception ex) {
+            Logger.getLogger(AdminMailView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="comment">
     public String getZawartoscmaila() {
         return zawartoscmaila;
