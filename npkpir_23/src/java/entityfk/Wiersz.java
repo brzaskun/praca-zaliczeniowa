@@ -422,8 +422,9 @@ public class Wiersz implements Serializable {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 23 * hash + Objects.hashCode(this.idwiersza);
-        hash = 23 * hash + Objects.hashCode(this.idporzadkowy);
+        hash = 37 * hash + Objects.hashCode(this.idwiersza);
+        hash = 37 * hash + Objects.hashCode(this.idporzadkowy);
+        hash = 37 * hash + Objects.hashCode(this.dokfk);
         return hash;
     }
 
@@ -442,12 +443,17 @@ public class Wiersz implements Serializable {
         if (!Objects.equals(this.idwiersza, other.idwiersza)) {
             return false;
         }
+        if (!Objects.equals(this.dokfk, other.dokfk)) {
+            return false;
+        }
         if (!Objects.equals(this.idporzadkowy, other.idporzadkowy)) {
             return false;
         }
         return true;
     }
 
+    
+    
     
     
     public static void main(String[] args) {

@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:bcf="http://brzaskun.com/facelets">
-    <h:form>
+    
             <p:outputPanel id="wrapper"> 
 
                 <p:dataTable value="#{vatUeFKView.deklaracjeUE}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1350px;" styleClass="upd3"
@@ -49,7 +49,7 @@
                         <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslaneUE(row)}" update="@(.upd3)" style="width: 80px;" rendered="#{row.identyfikator ne null and (row.status.startsWith('1') or row.status.startsWith('3'))}"/>
                     </p:column>
                     <p:column style="text-align: center;" width="85">
-                        <p:commandButton value="drukuj" actionListener="#{vatUeFKView.drukuj(row)}" update="@form" style="width: 80px;"/>
+                        <p:commandButton value="drukuj" actionListener="#{vatUeFKView.drukuj(row)}" update="@form" style="width: 80px;" async=""/>
                     </p:column>
                     <p:rowExpansion>
                         <p:panelGrid columns="2" columnClasses="twenty-percent eighty-percent">
@@ -62,7 +62,4 @@
                     </p:rowExpansion>
                 </p:dataTable>
             </p:outputPanel>
-
-        
-        </h:form>
 </ui:composition>

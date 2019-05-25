@@ -9,7 +9,9 @@
     <p:dialog id="dialog_deklaracje_vatue_status" header="Status wysłanych deklaracji VAT-UE" widgetVar="dialog_deklaracje_vatue_status"  appendTo="@(body)" modal="true"
               resizable="false" onShow="ustawdialogWindow('dialog_deklaracje_vatue_status', 1450, 700);" closeOnEscape="true" onHide="resetujdialog('dialog_deklaracje_vatue_status');"  >
         <p:panel style="height: 600px;overflow-y: scroll">
-            <ui:include src="../../../wspolny/sub/vatuewyslane.xhtml"/> 
+            <h:form>
+                <ui:include src="../../../wspolny/sub/vatuewyslane.xhtml"/> 
+            </h:form>
         </p:panel>
     </p:dialog>
 </ui:composition>
