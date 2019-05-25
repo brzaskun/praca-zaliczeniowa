@@ -5,6 +5,7 @@
  */
 package xls;
 
+import embeddablefk.SaldoKonto;
 import embeddablefk.TreeNodeExtended;
 import entity.Rodzajedok;
 import entityfk.Konto;
@@ -263,6 +264,43 @@ public class WriteXLSFile {
         return workbook;
     }
     
+    public static Workbook zachowajSuSaXLS(Map<String, List> listy, WpisView wpisView){
+        List lista = listy.get("kontasalda");
+        List headersList = headersusa();
+        // Using XSSF for xlsx format, for xls use HSSF
+        Workbook workbook = new HSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Obr.Salda");
+        insertPrintHeader(sheet, wpisView);
+        int rowIndex = 0;
+        String opis = "Zestawienie obrotów i sald "+wpisView.getPrintNazwa()+" na koniec "+wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu();
+        rowIndex = drawATable(workbook, sheet, rowIndex, headersList, lista, opis, 3, "kontasalda");
+        workbook.setPrintArea(
+        0, //sheet index
+        0, //start column
+        4, //end column
+        0, //start row
+        rowIndex //end row
+        );
+      //set paper size
+        sheet.getPrintSetup().setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
+        sheet.setFitToPage(true);
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String realPath = ctx.getRealPath("/");
+        String FILE_PATH = realPath+FILE_PATH1;
+        //write this workbook in excel file.
+        try {
+            FileOutputStream fos = new FileOutputStream(FILE_PATH);
+            workbook.write(fos);
+            fos.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return workbook;
+    }
+    
     public static List listaprzychody() {
         List przychody = new ArrayList();
         przychody.add(new PozycjaPrzychodKoszt(1,"702-2-1", "Przychody", "Sprzedaż krajowa", 141196.48));
@@ -335,6 +373,25 @@ public class WriteXLSFile {
         return headers;
     }
     
+    public static List headersusa() {
+        List headers = new ArrayList();
+        headers.add("lp");
+        headers.add("nr konta");
+        headers.add("nazwa konta");
+        headers.add("saldo BO Wn");
+        headers.add("saldo BO Ma");
+        headers.add("obroty Wn");
+        headers.add("obroty Ma");
+        headers.add("obroty Wn nar");
+        headers.add("obroty Ma nar");
+        headers.add("suma BO Wn");
+        headers.add("suma BO Ma");
+        headers.add("saldo Wn");
+        headers.add("saldo Ma");
+        headers.add("nr konta");
+        return headers;
+    }
+    
     public static List headerRZiSBilansInter() {
         List headers = new ArrayList();
         headers.add("lp");
@@ -396,13 +453,6 @@ public class WriteXLSFile {
                 createFormulaCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, (String) st.getKwota());
             }
             setCellName(workbook, st.getOpis().replaceAll("\\s+",""), "C", String.valueOf(rowIndex));
-        } else if (c.getName().contains("Konto")) {
-            Konto st = (Konto) ob;
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.CENTER, VerticalAlignment.CENTER, String.valueOf(rowIndex));
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getPelnynumer());
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getNazwapelna());
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getSyntetykaanalityka()!=null?st.getSyntetykaanalityka():"");
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getDe());
         }   else if (c.getName().contains("Rodzajedok")) {
             Rodzajedok st = (Rodzajedok) ob;
             createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, String.valueOf(rowIndex));
@@ -416,7 +466,31 @@ public class WriteXLSFile {
             createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getPozycjaString());
             createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getNazwa());
             createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getDe());
+        }   else if (c.getName().contains("SaldoKonto")) {
+            SaldoKonto st = (SaldoKonto) ob;
+            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.CENTER, VerticalAlignment.CENTER, String.valueOf(rowIndex));
+            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getKonto().getPelnynumer());
+            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getKonto().getNazwapelna());
+            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, (Double) st.getBoWn());
+            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, (Double) st.getBoMa());
+            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, (Double) st.getObrotyWnMc());
+            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, (Double) st.getObrotyMaMc());
+            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, (Double) st.getObrotyWn());
+            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, (Double) st.getObrotyMa());
+            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, (Double) st.getObrotyBoWn());
+            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, (Double) st.getObrotyBoMa());
+            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, (Double) st.getSaldoWn());
+            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, (Double) st.getSaldoMa());
+            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getKonto().getPelnynumer());
+        } else if (c.getName().contains("Konto")) {
+            Konto st = (Konto) ob;
+            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.CENTER, VerticalAlignment.CENTER, String.valueOf(rowIndex));
+            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getPelnynumer());
+            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getNazwapelna());
+            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getSyntetykaanalityka()!=null?st.getSyntetykaanalityka():"");
+            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getDe());
         }
+        
     }
     
     private static int summaryRow(int startindex, int rowIndex, Workbook workbook, Sheet sheet, int typ, String nazwasumy) {
@@ -437,7 +511,31 @@ public class WriteXLSFile {
             Row row = sheet.createRow(rowIndex++);
             createCell(workbook, row, (short) 1, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, "Razem: ");
             createFormulaCell(workbook, row, (short) 2, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
-        }
+        } else if (typ == 3) {
+            String formula = "SUM(D"+startindex+":D"+rowIndex+")";
+            Row row = sheet.createRow(rowIndex);
+            createCell(workbook, row, (short) 2, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, "Razem: ");
+            createFormulaCell(workbook, row, (short) 3, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
+            formula = "SUM(E"+startindex+":E"+rowIndex+")";
+            createFormulaCell(workbook, row, (short) 4, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
+            formula = "SUM(F"+startindex+":F"+rowIndex+")";
+            createFormulaCell(workbook, row, (short) 5, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
+            formula = "SUM(G"+startindex+":G"+rowIndex+")";
+            createFormulaCell(workbook, row, (short) 6, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
+            formula = "SUM(H"+startindex+":H"+rowIndex+")";
+            createFormulaCell(workbook, row, (short) 7, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
+            formula = "SUM(I"+startindex+":I"+rowIndex+")";
+            createFormulaCell(workbook, row, (short) 8, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
+            formula = "SUM(J"+startindex+":J"+rowIndex+")";
+            createFormulaCell(workbook, row, (short) 9, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
+            formula = "SUM(K"+startindex+":K"+rowIndex+")";
+            createFormulaCell(workbook, row, (short) 10, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
+            formula = "SUM(L"+startindex+":L"+rowIndex+")";
+            createFormulaCell(workbook, row, (short) 11, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
+            formula = "SUM(M"+startindex+":M"+rowIndex+")";
+            createFormulaCell(workbook, row, (short) 12, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
+            
+        } 
         return rowIndex;
     }
     
@@ -475,7 +573,7 @@ public class WriteXLSFile {
         Cell cell = row.createCell(column);
         addFormula(cell, formula);
         CellStyle cellStyle = wb.createCellStyle();
-        cellStyle.setDataFormat((short) 7);
+        cellStyle.setDataFormat((short) 4);
         cellStyle.setAlignment(halign);
         cellStyle.setVerticalAlignment(valign);
         cellStyle.setBorderBottom(BorderStyle.THIN);
@@ -516,7 +614,7 @@ public class WriteXLSFile {
         Cell cell = row.createCell(column);
         cell.setCellValue(value);
         CellStyle cellStyle = wb.createCellStyle();
-        cellStyle.setDataFormat((short) 7);
+        cellStyle.setDataFormat((short) 4);
         cellStyle.setAlignment(halign);
         cellStyle.setVerticalAlignment(valign);
         cellStyle.setBorderBottom(BorderStyle.THIN);
@@ -525,6 +623,8 @@ public class WriteXLSFile {
         cellStyle.setBorderLeft(BorderStyle.THIN);
         cell.setCellStyle(cellStyle);
     }
+    
+    
     private static Font headerfont(Workbook wb, short size) {
      // Create a new font and alter it.
         Font font = wb.createFont();

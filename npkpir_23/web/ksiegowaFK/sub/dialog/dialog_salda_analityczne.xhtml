@@ -34,7 +34,7 @@
               >
         <p:ajax event="open" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne()}" update=":formtablicaanalityczne, :tabelazsumamianalityka:sumy"/>
         <h:form id="formtablicaanalityczne">
-            <p:panelGrid columns="8" style="margin-left: 2%;" >
+            <p:panelGrid columns="9" style="margin-left: 2%;" >
                 <!--            <p:column>
                                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                                     <f:selectItems value="#{Roki.rokiList}"/>
@@ -66,6 +66,7 @@
                     </p:selectOneMenu>
                 </p:column>
                     <p:commandButton value="zaksięguj" actionListener="#{saldoAnalitykaView.zaksiegujsaldakont()}" style="width: 120px; margin-left: 20px;"/>
+                    <p:commandButton id="xlsbutton" value="dane w formacie XLS" actionListener="#{xLSSuSaView.zachowajSuSawXLS(saldoAnalitykaView.listaSaldoKonto)}" style=" margin-left: 5px;" global="false" ajax="false"/>
                     <p:selectBooleanCheckbox id="tylkoniezerowe" itemLabel="tylko niezerowe" value="#{saldoAnalitykaView.tylkosaldaniezerowe}" style="margin-left: 5px;">
                         <p:ajax event="change" partialSubmit="true" global="false" listener="#{saldoAnalitykaView.zmienkryteriawyswietlania}" update="formtablicaanalityczne:tablicasaldaanalityczne"
                                 />
@@ -90,6 +91,7 @@
                             <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="" />
                             <f:selectItems value="#{saldoAnalitykaView.pobranecechypodatnik}" var="item1" itemLabel="#{item1.nazwacechy}" itemValue="#{item1.nazwacechy}"/>
                     </p:selectOneMenu>
+                    
             </p:panelGrid>
             <p:remoteCommand actionListener="#{saldoAnalitykaView.sumujwybranekonta}" name="przeliczfilter" update=":tabelazsumamianalityka:sumy" global="false"/>
             <p:dataTable id="tablicasaldaanalityczne" value="#{saldoAnalitykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.hashCode()}" 
