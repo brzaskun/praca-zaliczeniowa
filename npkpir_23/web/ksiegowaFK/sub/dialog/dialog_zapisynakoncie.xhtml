@@ -288,7 +288,7 @@
 
                         </p:column>
                         <p:column width="20" style="text-align: center;">
-                            <h:outputText value="#{loop.id}" />
+<!--                            <h:outputText value="#{loop.id}" />-->
                             <h:outputText value="r" style="#{loop.saRozrachunki ? 'color: blue': null}" rendered="#{loop.saRozrachunki  and !kontoZapisFKView.pokaztransakcje}"/>
                             <h:outputText value="nowa tr." style="#{loop.saRozrachunki ? 'color: green': null}" rendered="#{loop.isNowatransakcja() and kontoZapisFKView.pokaztransakcje}"/>
                         </p:column>

@@ -523,13 +523,11 @@ public class DokfkView implements Serializable {
             String indexwiersza = clientID.split(":")[2];
             try {
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
-                if (this.wierszzmieniony==null) {
-                    wiersz.getStronaWn().setKwota(kwotanowa);
-                    przepiszWaluty(wiersz);
-                    if (kwotastara!=0.0) {
-                        this.wierszzmieniony = wiersz;
-                    }
+                if (this.wierszzmieniony==null && kwotastara!=0.0) {
+                    this.wierszzmieniony = wiersz;
                 }
+                wiersz.getStronaWn().setKwota(kwotanowa);
+                    przepiszWaluty(wiersz);
             } catch (Exception e1) {
                 E.e(e1);
             }
@@ -548,13 +546,11 @@ public class DokfkView implements Serializable {
             String indexwiersza = clientID.split(":")[2];
             try {
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
-                if (this.wierszzmieniony==null) {
-                    wiersz.getStronaMa().setKwota(kwotanowa);
-                    przepiszWaluty(wiersz);
-                    if (kwotastara!=0.0) {
-                        this.wierszzmieniony = wiersz;
-                    }
+                if (this.wierszzmieniony==null && kwotastara!=0.0) {
+                    this.wierszzmieniony = wiersz;
                 }
+                wiersz.getStronaMa().setKwota(kwotanowa);
+                przepiszWaluty(wiersz);
             } catch (Exception e1) {
                 E.e(e1);
             }

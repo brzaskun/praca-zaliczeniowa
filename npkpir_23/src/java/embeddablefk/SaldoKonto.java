@@ -110,6 +110,7 @@ public class SaldoKonto implements Serializable {
         this.opisdlabo = t.getDokfkS()+" "+t.getDokfk().getNumerwlasnydokfk()+" "+t.getWiersz().getOpisWiersza()+" zapis BO";
     }
     
+        
     public SaldoKonto(SaldoKonto t, Waluty wal, double kwota, double kwotapln) {
         this.konto = t.getKonto();
         this.kursdlaBO = kwota != 0.0 ? Z.z4(kwotapln/kwota) : 0.0;
