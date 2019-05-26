@@ -697,6 +697,7 @@ public class BilansGenerowanieView implements Serializable {
         double saldo = 0.0;
         for (StronaWiersza p : zapisy) {
             if (waluta.getSymbolwaluty().equals(p.getSymbolWalutBOiSW())) {
+                //System.out.println("kwota: "+p.getKwota()+" pln "+p.getKwotaPLN());
                 if (p.isWn()) {
                     saldo += p.getKwotaPLN();
                 } else {
@@ -771,7 +772,7 @@ public class BilansGenerowanieView implements Serializable {
     }
 
     private Collection<? extends SaldoKonto> przetworzPojedyncze(SaldoKonto p) {
-        if (p.getKonto().getPelnynumer().equals("201-2-4")) {
+        if (p.getKonto().getPelnynumer().equals("203-2-1")) {
             System.out.println("");
         }
         List<SaldoKonto> nowalista_wierszy = Collections.synchronizedList(new ArrayList<>());
@@ -791,7 +792,7 @@ public class BilansGenerowanieView implements Serializable {
         //dodatnie oznacza saldo Wn ujemne saldo Ma
         double saldowal = Z.z(obliczsaldo(zapisy, wal));
         List<StronaWiersza> zerowe = Collections.synchronizedList(new ArrayList<>());
-        if (zapisy!=null && zapisy.get(0).getKonto().getPelnynumer().equals("201-2-4")){
+        if (zapisy!=null && zapisy.get(0).getKonto().getPelnynumer().equals("203-2-1")){
             System.out.println("");
         }
         for (StronaWiersza s : zapisy) {
@@ -839,10 +840,10 @@ public class BilansGenerowanieView implements Serializable {
         Collections.sort(zapisy, new StronaWierszacomparatorDesc());
         if (saldowal>0) {
             for (StronaWiersza t : zapisy) {
-                if (t.getKonto().getPelnynumer().equals("201-2-4")){
+                if (t.getKonto().getPelnynumer().equals("203-2-1")){
                     System.out.println("");
                 }
-                if (t.getSymbolWalutBOiSW().equals(wal.getSymbolwaluty())&& t.getToNieJestRRK() && t.isWn()) {
+                if (t.getSymbolWalutBOiSW().equals(wal.getSymbolwaluty()) && t.isWn()) {
                     double pozostalo = t.getKwota()> 0 ? t.getPozostalo():-t.getPozostalo();
                     double pozostalopln = t.getKwota()> 0 ? t.getPozostaloPLN(): -t.getPozostaloPLN();
                     if (Math.abs(saldowal)<pozostalo) {
@@ -861,10 +862,10 @@ public class BilansGenerowanieView implements Serializable {
             }
         } else {
             for (StronaWiersza t : zapisy) {
-                if (t.getKonto().getPelnynumer().equals("201-2-4")){
+                if (t.getKonto().getPelnynumer().equals("203-2-1")){
                     System.out.println("");
                 }
-                if (t.getSymbolWalutBOiSW().equals(wal.getSymbolwaluty()) && t.getToNieJestRRK() && !t.isWn()) {
+                if (t.getSymbolWalutBOiSW().equals(wal.getSymbolwaluty()) && !t.isWn()) {
                     double pozostalo = t.getKwota()> 0 ? t.getPozostalo():-t.getPozostalo();
                     double pozostalopln = t.getKwota()> 0 ? t.getPozostaloPLN(): -t.getPozostaloPLN();
                     if (Math.abs(saldowal)<pozostalo) {
