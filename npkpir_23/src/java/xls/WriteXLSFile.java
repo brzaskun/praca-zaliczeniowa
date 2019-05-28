@@ -388,7 +388,8 @@ public class WriteXLSFile {
         headers.add("suma BO Ma");
         headers.add("saldo Wn");
         headers.add("saldo Ma");
-        headers.add("nr konta");
+        headers.add("nr synt");
+        headers.add("nazwa synt");
         return headers;
     }
     
@@ -415,11 +416,12 @@ public class WriteXLSFile {
         int startindex = rowIndex+3;
         int columnIndex = 0;
         Row rowTH = sheet.createRow(rowIndex++);
-        createHeaderCell(workbook, rowTH, (short) 2, HorizontalAlignment.CENTER, VerticalAlignment.CENTER, (short) 11, tableheader);
+        CellStyle styleheader = styleHeader(workbook, HorizontalAlignment.CENTER, VerticalAlignment.CENTER, (short) 10);
+        createHeaderCell(styleheader, rowTH, (short) 2, tableheader);
         Row rowH = sheet.createRow(rowIndex++);
         for(Iterator it = headers.iterator(); it.hasNext();){
             String header = (String) it.next();
-            createHeaderCell(workbook, rowH, (short) columnIndex++, HorizontalAlignment.CENTER, VerticalAlignment.CENTER, (short) 10, header);
+            createHeaderCell(styleheader, rowH, (short) columnIndex++, header);
         }
         for(Iterator it = elements.iterator(); it.hasNext();){
             T st = (T) it.next();
@@ -437,103 +439,110 @@ public class WriteXLSFile {
     
     private static <T> void ustawWiersz(Workbook workbook, Row row, int columnIndex, T ob, int rowIndex) {
         Class c = ob.getClass();
+        CellStyle styletext = styleText(workbook, HorizontalAlignment.LEFT, VerticalAlignment.CENTER);
+        CellStyle styletextcenter = styleText(workbook, HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
+        CellStyle styleformula = styleFormula(workbook, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER);
+        CellStyle styledouble = styleDouble(workbook, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER);
         if (c.getName().contains("PozycjaPrzychodKoszt")) {
             PozycjaPrzychodKoszt st = (PozycjaPrzychodKoszt) ob;
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, String.valueOf(st.getLp()));
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getNrkonta());
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getKontoNazwapelna());
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, st.getKwota());
+            createTextCell(styletext, row, (short) columnIndex++, String.valueOf(st.getLp()));
+            createTextCell(styletext, row, (short) columnIndex++, st.getNrkonta());
+            createTextCell(styletext, row, (short) columnIndex++, st.getKontoNazwapelna());
+            createDoubleCell(styledouble, row, (short) columnIndex++, st.getKwota());
         } else if (c.getName().contains("PozycjaObliczenia")) {
             PozycjaObliczenia st = (PozycjaObliczenia) ob;
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, String.valueOf(st.getLp()));
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getOpis());
+            createTextCell(styletext, row, (short) columnIndex++, String.valueOf(st.getLp()));
+            createTextCell(styletext, row, (short) columnIndex++, st.getOpis());
             if (st.getKwota().getClass().getName().contains("Double")) {
-                createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, (Double) st.getKwota());
+                createDoubleCell(styledouble, row, (short) columnIndex++, (Double) st.getKwota());
             } else {
-                createFormulaCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, (String) st.getKwota());
+                createFormulaCell(styledouble, row, (short) columnIndex++, (String) st.getKwota());
             }
             setCellName(workbook, st.getOpis().replaceAll("\\s+",""), "C", String.valueOf(rowIndex));
         }   else if (c.getName().contains("Rodzajedok")) {
             Rodzajedok st = (Rodzajedok) ob;
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, String.valueOf(rowIndex));
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getSkrot());
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getNazwa());
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getDe());
+            createTextCell(styletext, row, (short) columnIndex++, String.valueOf(rowIndex));
+            createTextCell(styletext, row, (short) columnIndex++, st.getSkrot());
+            createTextCell(styletext, row, (short) columnIndex++, st.getNazwa());
+            createTextCell(styletext, row, (short) columnIndex++, st.getDe());
         }   else if (c.getName().contains("TreeNodeExtended")) {
             PozycjaRZiSBilans st = (PozycjaRZiSBilans) ((TreeNodeExtended) ob).getData();
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, String.valueOf(rowIndex));
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, String.valueOf(st.getLp()));
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getPozycjaString());
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getNazwa());
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getDe());
+            createTextCell(styletext, row, (short) columnIndex++, String.valueOf(rowIndex));
+            createTextCell(styletext, row, (short) columnIndex++, String.valueOf(st.getLp()));
+            createTextCell(styletext, row, (short) columnIndex++, st.getPozycjaString());
+            createTextCell(styletext, row, (short) columnIndex++, st.getNazwa());
+            createTextCell(styletext, row, (short) columnIndex++, st.getDe());
         }   else if (c.getName().contains("SaldoKonto")) {
             SaldoKonto st = (SaldoKonto) ob;
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.CENTER, VerticalAlignment.CENTER, String.valueOf(rowIndex));
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getKonto().getPelnynumer());
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getKonto().getNazwapelna());
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, (Double) st.getBoWn());
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, (Double) st.getBoMa());
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, (Double) st.getObrotyWnMc());
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, (Double) st.getObrotyMaMc());
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, (Double) st.getObrotyWn());
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, (Double) st.getObrotyMa());
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, (Double) st.getObrotyBoWn());
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, (Double) st.getObrotyBoMa());
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, (Double) st.getSaldoWn());
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, (Double) st.getSaldoMa());
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getKonto().getPelnynumer());
+            createTextCell(styletextcenter, row, (short) columnIndex++, String.valueOf(rowIndex));
+            createTextCell(styletext, row, (short) columnIndex++, st.getKonto().getPelnynumer());
+            createTextCell(styletext, row, (short) columnIndex++, st.getKonto().getNazwapelna());
+            createDoubleCell(styledouble, row, (short) columnIndex++, (Double) st.getBoWn());
+            createDoubleCell(styledouble, row, (short) columnIndex++, (Double) st.getBoMa());
+            createDoubleCell(styledouble, row, (short) columnIndex++, (Double) st.getObrotyWnMc());
+            createDoubleCell(styledouble, row, (short) columnIndex++, (Double) st.getObrotyMaMc());
+            createDoubleCell(styledouble, row, (short) columnIndex++, (Double) st.getObrotyWn());
+            createDoubleCell(styledouble, row, (short) columnIndex++, (Double) st.getObrotyMa());
+            createDoubleCell(styledouble, row, (short) columnIndex++, (Double) st.getObrotyBoWn());
+            createDoubleCell(styledouble, row, (short) columnIndex++, (Double) st.getObrotyBoMa());
+            createDoubleCell(styledouble, row, (short) columnIndex++, (Double) st.getSaldoWn());
+            createDoubleCell(styledouble, row, (short) columnIndex++, (Double) st.getSaldoMa());
+            createTextCell(styletext, row, (short) columnIndex++, st.getKonto().getKontomacierzyste()!=null? st.getKonto().getKontomacierzyste().getPelnynumer():"");
+            createTextCell(styletext, row, (short) columnIndex++, st.getKonto().getKontomacierzyste()!=null? st.getKonto().getKontomacierzyste().getNazwapelna():"");
         } else if (c.getName().contains("Konto")) {
             Konto st = (Konto) ob;
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.CENTER, VerticalAlignment.CENTER, String.valueOf(rowIndex));
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getPelnynumer());
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getNazwapelna());
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getSyntetykaanalityka()!=null?st.getSyntetykaanalityka():"");
-            createCell(workbook, row, (short) columnIndex++, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, st.getDe());
+            createTextCell(styletext, row, (short) columnIndex++, String.valueOf(rowIndex));
+            createTextCell(styletext, row, (short) columnIndex++, st.getPelnynumer());
+            createTextCell(styletext, row, (short) columnIndex++, st.getNazwapelna());
+            createTextCell(styletext, row, (short) columnIndex++, st.getSyntetykaanalityka()!=null?st.getSyntetykaanalityka():"");
+            createTextCell(styletext, row, (short) columnIndex++, st.getDe());
         }
         
     }
     
     private static int summaryRow(int startindex, int rowIndex, Workbook workbook, Sheet sheet, int typ, String nazwasumy) {
+        CellStyle styletext = styleText(workbook, HorizontalAlignment.LEFT, VerticalAlignment.CENTER);
+        CellStyle styleformula = styleText(workbook, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER);
          if (typ == 0) {
             String formula = "SUM(D"+startindex+":D"+rowIndex+")";
             Row row = sheet.createRow(rowIndex++);
-            createCell(workbook, row, (short) 2, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, "Dochód/strata za miesiące poprzednie: ");
-            createFormulaCell(workbook, row, (short) 3, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
+            createTextCell(styletext, row, (short) 2, "Dochód/strata za miesiące poprzednie: ");
+            createFormulaCell(styletext, row, (short) 3, formula);
             setCellName(workbook, nazwasumy, "D", String.valueOf(rowIndex));
          } else if (typ == 1) {
             String formula = "SUM(D"+startindex+":D"+rowIndex+")";
             Row row = sheet.createRow(rowIndex++);
-            createCell(workbook, row, (short) 2, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, "Razem: ");
-            createFormulaCell(workbook, row, (short) 3, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
+            createTextCell(styletext, row, (short) 2, "Razem: ");
+            createFormulaCell(styletext, row, (short) 3, formula);
             setCellName(workbook, nazwasumy, "D", String.valueOf(rowIndex));
         } else if (typ == 2){
             String formula = "SUM(C"+startindex+":C"+rowIndex+")";
             Row row = sheet.createRow(rowIndex++);
-            createCell(workbook, row, (short) 1, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, "Razem: ");
-            createFormulaCell(workbook, row, (short) 2, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
+            createTextCell(styletext, row, (short) 1, "Razem: ");
+            createFormulaCell(styletext, row, (short) 2, formula);
         } else if (typ == 3) {
             String formula = "SUM(D"+startindex+":D"+rowIndex+")";
             Row row = sheet.createRow(rowIndex);
-            createCell(workbook, row, (short) 2, HorizontalAlignment.LEFT, VerticalAlignment.CENTER, "Razem: ");
-            createFormulaCell(workbook, row, (short) 3, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
+            createTextCell(styletext, row, (short) 2, "Razem: ");
+            createFormulaCell(styleformula, row, (short) 3, formula);
             formula = "SUM(E"+startindex+":E"+rowIndex+")";
-            createFormulaCell(workbook, row, (short) 4, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
+            createFormulaCell(styleformula, row, (short) 4, formula);
             formula = "SUM(F"+startindex+":F"+rowIndex+")";
-            createFormulaCell(workbook, row, (short) 5, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
+            createFormulaCell(styleformula, row, (short) 5, formula);
             formula = "SUM(G"+startindex+":G"+rowIndex+")";
-            createFormulaCell(workbook, row, (short) 6, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
+            createFormulaCell(styleformula, row, (short) 6, formula);
             formula = "SUM(H"+startindex+":H"+rowIndex+")";
-            createFormulaCell(workbook, row, (short) 7, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
+            createFormulaCell(styleformula, row, (short) 7, formula);
             formula = "SUM(I"+startindex+":I"+rowIndex+")";
-            createFormulaCell(workbook, row, (short) 8, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
+            createFormulaCell(styleformula, row, (short) 8, formula);
             formula = "SUM(J"+startindex+":J"+rowIndex+")";
-            createFormulaCell(workbook, row, (short) 9, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
+            createFormulaCell(styleformula, row, (short) 9, formula);
             formula = "SUM(K"+startindex+":K"+rowIndex+")";
-            createFormulaCell(workbook, row, (short) 10, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
+            createFormulaCell(styleformula, row, (short) 10, formula);
             formula = "SUM(L"+startindex+":L"+rowIndex+")";
-            createFormulaCell(workbook, row, (short) 11, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
+            createFormulaCell(styleformula, row, (short) 11, formula);
             formula = "SUM(M"+startindex+":M"+rowIndex+")";
-            createFormulaCell(workbook, row, (short) 12, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER, formula);
+            createFormulaCell(styleformula, row, (short) 12, formula);
             
         } 
         return rowIndex;
@@ -555,9 +564,7 @@ public class WriteXLSFile {
         header.setLeft("Symulacja wyniku za "+wpisView.getMiesiacWpisu());
     }
     
-    private static void createHeaderCell(Workbook wb, Row row, short column, HorizontalAlignment halign, VerticalAlignment valign, short size, String value) {
-        Cell cell = row.createCell(column);
-        cell.setCellValue(new HSSFRichTextString(value));
+    private static CellStyle styleHeader(Workbook wb, HorizontalAlignment halign, VerticalAlignment valign, short size) {
         CellStyle cellStyle = wb.createCellStyle();
         cellStyle.setAlignment(halign);
         cellStyle.setVerticalAlignment(valign);
@@ -566,12 +573,65 @@ public class WriteXLSFile {
         cellStyle.setBorderTop(BorderStyle.THIN);
         cellStyle.setBorderRight(BorderStyle.THIN);
         cellStyle.setBorderLeft(BorderStyle.THIN);
+        return cellStyle;
+    }
+    
+    private static void createHeaderCell(CellStyle cellStyle, Row row, short column, String value) {
+        Cell cell = row.createCell(column);
+        cell.setCellValue(new HSSFRichTextString(value));
         cell.setCellStyle(cellStyle);
     }
     
-    private static void createFormulaCell(Workbook wb, Row row, short column, HorizontalAlignment halign, VerticalAlignment valign, String formula) {
+    private static CellStyle styleFormula(Workbook wb, HorizontalAlignment halign, VerticalAlignment valign) {
+        CellStyle cellStyle = wb.createCellStyle();
+        cellStyle.setDataFormat((short) 4);
+        cellStyle.setAlignment(halign);
+        cellStyle.setVerticalAlignment(valign);
+        cellStyle.setBorderBottom(BorderStyle.THIN);
+        cellStyle.setBorderTop(BorderStyle.THIN);
+        cellStyle.setBorderRight(BorderStyle.THIN);
+        cellStyle.setBorderLeft(BorderStyle.THIN);
+        return cellStyle;
+    }
+        
+    private static void createFormulaCell(CellStyle cellStyle, Row row, short column, String formula) {
         Cell cell = row.createCell(column);
         addFormula(cell, formula);
+        cell.setCellStyle(cellStyle);
+    }
+    
+    private static CellStyle styleText(Workbook wb, HorizontalAlignment halign, VerticalAlignment valign) {
+        CellStyle cellStyle = wb.createCellStyle();
+        cellStyle.setAlignment(halign);
+        cellStyle.setVerticalAlignment(valign);
+        cellStyle.setBorderBottom(BorderStyle.THIN);
+        cellStyle.setBorderTop(BorderStyle.THIN);
+        cellStyle.setBorderRight(BorderStyle.THIN);
+        cellStyle.setBorderLeft(BorderStyle.THIN);
+        return cellStyle;
+    }
+    
+    private static void createTextCell(CellStyle cellStyle, Row row, short column, String value) {
+        Cell cell = row.createCell(column);
+        cell.setCellValue(new HSSFRichTextString(value));
+        cell.setCellStyle(cellStyle);
+    }
+    
+//     private static void createCell(Workbook wb, Row row, short column, HorizontalAlignment halign, VerticalAlignment valign, String value, boolean locked) {
+//        Cell cell = row.createCell(column);
+//        cell.setCellValue(new HSSFRichTextString(value));
+//        CellStyle cellStyle = wb.createCellStyle();
+//        cellStyle.setAlignment(halign);
+//        cellStyle.setLocked(locked);
+//        cellStyle.setVerticalAlignment(valign);
+//        cellStyle.setBorderBottom(BorderStyle.THIN);
+//        cellStyle.setBorderTop(BorderStyle.THIN);
+//        cellStyle.setBorderRight(BorderStyle.THIN);
+//        cellStyle.setBorderLeft(BorderStyle.THIN);
+//        cell.setCellStyle(cellStyle);
+//    }
+    
+    private static CellStyle styleDouble(Workbook wb, HorizontalAlignment halign, VerticalAlignment valign) {
         CellStyle cellStyle = wb.createCellStyle();
         cellStyle.setDataFormat((short) 4);
         cellStyle.setAlignment(halign);
@@ -580,47 +640,12 @@ public class WriteXLSFile {
         cellStyle.setBorderTop(BorderStyle.THIN);
         cellStyle.setBorderRight(BorderStyle.THIN);
         cellStyle.setBorderLeft(BorderStyle.THIN);
-        cell.setCellStyle(cellStyle);
+        return cellStyle;
     }
     
-    private static void createCell(Workbook wb, Row row, short column, HorizontalAlignment halign, VerticalAlignment valign, String value) {
-        Cell cell = row.createCell(column);
-        cell.setCellValue(new HSSFRichTextString(value));
-        CellStyle cellStyle = wb.createCellStyle();
-        cellStyle.setAlignment(halign);
-        cellStyle.setVerticalAlignment(valign);
-        cellStyle.setBorderBottom(BorderStyle.THIN);
-        cellStyle.setBorderTop(BorderStyle.THIN);
-        cellStyle.setBorderRight(BorderStyle.THIN);
-        cellStyle.setBorderLeft(BorderStyle.THIN);
-        cell.setCellStyle(cellStyle);
-    }
-    
-     private static void createCell(Workbook wb, Row row, short column, HorizontalAlignment halign, VerticalAlignment valign, String value, boolean locked) {
-        Cell cell = row.createCell(column);
-        cell.setCellValue(new HSSFRichTextString(value));
-        CellStyle cellStyle = wb.createCellStyle();
-        cellStyle.setAlignment(halign);
-        cellStyle.setLocked(locked);
-        cellStyle.setVerticalAlignment(valign);
-        cellStyle.setBorderBottom(BorderStyle.THIN);
-        cellStyle.setBorderTop(BorderStyle.THIN);
-        cellStyle.setBorderRight(BorderStyle.THIN);
-        cellStyle.setBorderLeft(BorderStyle.THIN);
-        cell.setCellStyle(cellStyle);
-    }
-    
-    private static void createCell(Workbook wb, Row row, short column, HorizontalAlignment halign, VerticalAlignment valign, double value) {
+    private static void createDoubleCell(CellStyle cellStyle, Row row, short column, double value) {
         Cell cell = row.createCell(column);
         cell.setCellValue(value);
-        CellStyle cellStyle = wb.createCellStyle();
-        cellStyle.setDataFormat((short) 4);
-        cellStyle.setAlignment(halign);
-        cellStyle.setVerticalAlignment(valign);
-        cellStyle.setBorderBottom(BorderStyle.THIN);
-        cellStyle.setBorderTop(BorderStyle.THIN);
-        cellStyle.setBorderRight(BorderStyle.THIN);
-        cellStyle.setBorderLeft(BorderStyle.THIN);
         cell.setCellStyle(cellStyle);
     }
     
