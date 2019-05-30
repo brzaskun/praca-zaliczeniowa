@@ -27,7 +27,7 @@
             padding: 0px;
         }
         .ui-inputfield.ui-state-focus, .ui-widget-content .ui-inputfield.ui-state-focus, .ui-widget-header .ui-inputfield.ui-state-focus {
-            font-weight: 900;
+            font-weight: 700;
             background: #e4e3e3;
         }
 
@@ -343,6 +343,7 @@
                                                          >
                                         </h:outputText>
                                     </p:column>
+                                <p:growl widgetVar="grmes1"/>
                                 <p:column rendered="#{dokfkView.wlaczZapiszButon eq true}">
                                         <h:selectOneMenu  id="wybranawaluta" value="#{dokfkView.selected.walutadokumentu}" 
                                                          valueChangeListener="#{dokfkView.pobierzkursNBP}" 

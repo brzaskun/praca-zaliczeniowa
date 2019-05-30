@@ -599,11 +599,7 @@ public class DokfkView implements Serializable {
     
     public void podepnijEwidencjeVatDok(int rodzaj) {
         if (zapisz0edytuj1 == false && selected.getEwidencjaVAT() != null) {
-            if (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) {
-                selected.setEwidencjaVAT(null);
-            } else {
                 podepnijEwidencjeVat(rodzaj);
-            }
         } else {
             if (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) {
                 selected.setEwidencjaVAT(null);
@@ -631,7 +627,7 @@ public class DokfkView implements Serializable {
     }
     
     public void podepnijEwidencjeVat(int rodzaj) {
-            if (wpisView.isVatowiec() && selected.getRodzajedok().getKategoriadokumentu() != 0 && selected.getRodzajedok().getKategoriadokumentu() != 5) {
+            if (wpisView.isVatowiec() && !selected.getRodzajedok().getRodzajtransakcji().equals("PK")) {
                     //0 jest przay wpisie
                     int k = 0;
                     if (rodzaj == 0) {
@@ -1269,7 +1265,7 @@ public class DokfkView implements Serializable {
                 if (dokument != null) {
                     wlaczZapiszButon = false;
                     //PrimeFaces.current().executeScript("znalezionoduplikat();");
-                    //Msg.msg("e", "Blad dokument o takim numerze juz istnieje");
+                    Msg.msg("e", "Blad dokument o takim numerze juz istnieje");
                 } else {
                     wlaczZapiszButon = true;
                 }
@@ -2710,7 +2706,6 @@ public class DokfkView implements Serializable {
     public void ewidencjaVatRKInit() {
         if (lpwierszaRK != null) {
             lpWierszaWpisywanie = lpwierszaRK;
-            if (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) {
                 try {
                     //                DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("formwpisdokument:dataList");
                     //                Object o = d.getLocalSelection();
@@ -2721,7 +2716,7 @@ public class DokfkView implements Serializable {
                     //                Object o = d.getLocalSelection();
                     //                wierszRKindex = d.getRowIndex();
                     //                wierszRK = (Wiersz) d.getRowData();
-                                        wierszRKindex = lpWierszaWpisywanie - 1;
+                    wierszRKindex = lpWierszaWpisywanie - 1;
                     wierszRK = selected.getListawierszy().get(wierszRKindex);
                     ewidencjaVatRK = null;
                     for (EVatwpisFK p : selected.getEwidencjaVAT()) {
@@ -2745,7 +2740,6 @@ public class DokfkView implements Serializable {
                 } catch (Exception e) {
                     E.e(e);
                 }
-            }
         } else {
             ewidencjaVatRK = null;
         }
