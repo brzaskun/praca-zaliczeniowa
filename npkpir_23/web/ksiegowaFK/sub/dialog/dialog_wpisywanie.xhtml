@@ -755,6 +755,10 @@
                 <h:inputText id="lpwierszaWpisywanie" value="#{dokfkView.lpWierszaWpisywanie}"  style="display: none;"/>
                 
             </h:form>
+            <h:form id="oznaczjakonkup">
+                <p:commandButton id="oznaczjakonkup" value="oznacz jako nkup" actionListener="#{dokfkView.oznaczjakonkup()}" accesskey="b"
+                                 global="false" style="display: none;" />
+            </h:form>
             <h:form id="wpisywaniegrupa">
                 <p:commandButton id="sprawdzwartoscigrupy" value="sprawdzwartoscigrupy" actionListener="#{dokfkView.sprawdzwartoscigrupy(dokfkView.selected.listawierszy.get(dokfkView.selected.listawierszy.size()))}" 
                                  global="false" style="display: none;" />

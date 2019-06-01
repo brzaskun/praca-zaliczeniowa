@@ -1,0 +1,36 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:tab title="Rejestry sprzedaży">  
+        <h:form>
+            <p:panel header="wybrane ewidencje sprzedaży" style="width: 450px;"></p:panel>
+            <p:dataTable value="#{podatnikEwidencjaDokView.lista}" var="item" style="width: 450px;" rowIndexVar="index" 
+                         emptyMessage="wystąpił błąd przy pobieraniu ewidencji" >
+                <p:column width="20">
+                    <f:facet name="header">
+                        <h:outputText value="lp"/>
+                    </f:facet>
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column width="300">
+                    <f:facet name="header">
+                        <h:outputText value="Ewidencja"/>
+                    </f:facet>
+                    <h:outputText value="#{item.ewidencja.nazwa}"/>
+                </p:column>
+                <p:column width="30">
+                    <f:facet name="header">
+                        <h:outputText value="kol."/>
+                    </f:facet>
+                    <p:inputNumber value="#{item.kolejnosc}" maxValue="6" minValue="0" size="1" decimalPlaces="0">
+                        <p:ajax event="change" partialSubmit="true" listener="#{podatnikEwidencjaDokView.check(item)}"/>
+                    </p:inputNumber>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:tab>
+</ui:composition> 

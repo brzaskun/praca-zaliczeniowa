@@ -7,7 +7,7 @@ package viewadmin;
 import dao.AdminmailDAO;
 import dao.FakturywystokresoweDAO;
 import dao.PodatnikDAO;
-import dao.PodatnikOpodatkowanieDDAO;
+import dao.PodatnikOpodatkowanieDAO;
 import dao.SMTPSettingsDAO;
 import embeddable.Mce;
 import embeddable.Parametr;
@@ -63,7 +63,7 @@ public class AdminMailView implements Serializable {
     @Inject
     private FakturywystokresoweDAO fakturywystokresoweDAO;
     @Inject
-    private PodatnikOpodatkowanieDDAO podatnikOpodatkowanieDDAO;
+    private PodatnikOpodatkowanieDAO podatnikOpodatkowanieDDAO;
     @Inject
     private AdminmailDAO adminmailDAO;
     @Inject

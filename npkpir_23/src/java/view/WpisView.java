@@ -5,7 +5,7 @@
 package view;
 
 import dao.PodatnikDAO;
-import dao.PodatnikOpodatkowanieDDAO;
+import dao.PodatnikOpodatkowanieDAO;
 import dao.UzDAO;
 import data.Data;
 import embeddable.Mce;
@@ -65,7 +65,7 @@ public class WpisView implements Serializable {
     @Inject
     private PodatnikDAO podatnikDAO;
     @Inject
-    private PodatnikOpodatkowanieDDAO podatnikOpodatkowanieDDAO;
+    private PodatnikOpodatkowanieDAO podatnikOpodatkowanieDDAO;
     private boolean czegosbrakuje;
     private String formaprawna;
     private boolean niegosc;

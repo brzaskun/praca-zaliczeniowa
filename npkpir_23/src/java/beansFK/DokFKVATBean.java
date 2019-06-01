@@ -973,11 +973,11 @@ public class DokFKVATBean {
         List<Wiersz> nowewiersze = Collections.synchronizedList(new ArrayList<>());
         if (wartosciVAT.netto != 0 || wartosciVAT.nettowWalucie != 0) {
             String wierszpierwszyopis = ewidencjaVatRK.getNumerwlasnydokfk()+", "+ewidencjaVatRK.getOpisvat()+", ";
-            String kontrnazwa = ewidencjaVatRK.getKlient().getNskrocona();
-            if (kontrnazwa == null) {
-                kontrnazwa = ewidencjaVatRK.getKlient().getNpelna();
+            String kontrnazwa = "";
+            if (ewidencjaVatRK.getKlient()!=null) {
+                kontrnazwa = ewidencjaVatRK.getKlient().getNskrocona()!=null?ewidencjaVatRK.getKlient().getNskrocona():ewidencjaVatRK.getKlient().getNpelna();
+                kontrnazwa = kontrnazwa.length() < 18 ? kontrnazwa : kontrnazwa.substring(0, 17);
             }
-            kontrnazwa = kontrnazwa.length() < 18 ? kontrnazwa : kontrnazwa.substring(0, 17);
             wierszpierwszyopis = wierszpierwszyopis+kontrnazwa;
             Wiersz wierszpierwszy = selected.getListawierszy().get(0);
             Waluty w = selected.getWalutadokumentu();

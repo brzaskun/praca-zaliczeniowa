@@ -36,6 +36,7 @@ import entity.PlatnoscWaluta;
 import entity.Platnosci;
 import entity.PlatnosciPK;
 import entity.Podatnik;
+import entity.PodatnikEwidencjaDok;
 import entity.PodatnikOpodatkowanieD;
 import entity.PodatnikUdzialy;
 import entity.Podstawki;
@@ -2507,6 +2508,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public StronaWiersza findStronaWierszaById(StronaWiersza strona) {
         return (StronaWiersza) em.createNamedQuery("StronaWiersza.findById").setParameter("id", strona.getId()).getSingleResult();
+    }
+
+    public List<PodatnikEwidencjaDok> findPodatnikEwidencjaByPodatnik(Podatnik podatnik) {
+        return em.createNamedQuery("PodatnikEwidencjaDok.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
 
     

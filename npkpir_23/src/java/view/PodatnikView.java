@@ -10,7 +10,7 @@ import comparator.Kontocomparator;
 import comparator.Podatnikcomparator;
 import dao.DokDAO;
 import dao.PodatnikDAO;
-import dao.PodatnikOpodatkowanieDDAO;
+import dao.PodatnikOpodatkowanieDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.RodzajedokDAO;
 import dao.UzDAO;
@@ -119,7 +119,7 @@ public class PodatnikView implements Serializable {
     @Inject
     private PodatnikUdzialyDAO podatnikUdzialyDAO;
     @Inject
-    private PodatnikOpodatkowanieDDAO podatnikOpodatkowanieDDAO;
+    private PodatnikOpodatkowanieDAO podatnikOpodatkowanieDDAO;
     private String biezacadata;
     private List<Konto> listaKontKasaBank;
     private List<Konto> listaKontRozrachunkowych;

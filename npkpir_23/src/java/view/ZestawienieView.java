@@ -10,7 +10,7 @@ import dao.DokDAO;
 import dao.PitDAO;
 import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
-import dao.PodatnikOpodatkowanieDDAO;
+import dao.PodatnikOpodatkowanieDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.StrataDAO;
 import dao.ZobowiazanieDAO;
@@ -119,7 +119,7 @@ public class ZestawienieView implements Serializable {
     @Inject
     private PodatnikUdzialyDAO podatnikUdzialyDAO;
     @Inject
-    private PodatnikOpodatkowanieDDAO podatnikOpodatkowanieDDAO;
+    private PodatnikOpodatkowanieDAO podatnikOpodatkowanieDDAO;
     private String komunikatblad;
 
     private int flaga = 0;

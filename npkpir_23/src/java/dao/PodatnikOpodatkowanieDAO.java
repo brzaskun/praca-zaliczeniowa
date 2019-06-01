@@ -18,11 +18,11 @@ import view.WpisView;
  * @author Osito
  */
 @Named
-public class PodatnikOpodatkowanieDDAO extends DAO implements Serializable{
+public class PodatnikOpodatkowanieDAO extends DAO implements Serializable{
     @Inject
     private SessionFacade sessionFacade;
 
-    public PodatnikOpodatkowanieDDAO() {
+    public PodatnikOpodatkowanieDAO() {
         super(PodatnikOpodatkowanieD.class);
     }
 

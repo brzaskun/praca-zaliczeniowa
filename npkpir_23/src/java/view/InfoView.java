@@ -7,7 +7,7 @@ package view;
 import dao.DeklaracjevatDAO;
 import dao.DokDAO;
 import dao.PitDAO;
-import dao.PodatnikOpodatkowanieDDAO;
+import dao.PodatnikOpodatkowanieDAO;
 import dao.PodatnikUdzialyDAO;
 import embeddable.Parametr;
 import entity.Deklaracjevat;
@@ -70,7 +70,7 @@ public class InfoView implements Serializable{
     private String liczbavatdopotw;
     private String ryczaltnieryczalt;
     @Inject
-    private PodatnikOpodatkowanieDDAO podatnikOpodatkowanieDDAO;
+    private PodatnikOpodatkowanieDAO podatnikOpodatkowanieDDAO;
 
     
     
