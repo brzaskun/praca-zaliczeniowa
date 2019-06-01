@@ -32,7 +32,7 @@ public class PodatnikEwidencjaDokView  implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private List<PodatnikEwidencjaDok> lista;
-        @Inject
+    @Inject
     private PodatnikEwidencjaDokDAO podatnikEwidencjaDokDAO;
     @Inject
     private EvewidencjaDAO evewidencjaDAO;
@@ -59,16 +59,30 @@ public class PodatnikEwidencjaDokView  implements Serializable {
         try {
             boolean czyjuzjest = false;
             for (PodatnikEwidencjaDok p : lista) {
-                if (p.getKolejnosc()==pa.getKolejnosc()) {
-                    czyjuzjest = true;
-                    break;
+                if (pa.getKolejnosc()>0) {
+                    if (p.getKolejnosc()==pa.getKolejnosc() && p.getEwidencja()!=pa.getEwidencja()) {
+                        czyjuzjest = true;
+                        break;
+                    }
                 }
             }
             if (czyjuzjest) {
                 Msg.msg("e", "Błąd. Pozycja o takim numerze kolejnym już istnieje!");
             } else {
-                podatnikEwidencjaDokDAO.editList(lista);
-                Msg.msg("Przetworzono pozycje "+pa.getEwidencja().getNazwa());
+                boolean samezerowe = true;
+                for (PodatnikEwidencjaDok ps : lista) {
+                    if (ps.getKolejnosc()>0) {
+                        samezerowe=false;
+                        break;
+                    }
+                }
+                if (samezerowe) {
+                    podatnikEwidencjaDokDAO.destroy(lista);
+                    Msg.msg("Usunięto listę");
+                } else {
+                    podatnikEwidencjaDokDAO.editList(lista);
+                    Msg.msg("Przetworzono pozycje");
+                }
             }
         } catch (Exception e) {
             Msg.msg("e", "Błąd. Nie dodano pozycje");

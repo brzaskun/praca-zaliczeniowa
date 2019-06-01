@@ -12,6 +12,7 @@ import beansFK.TabelaNBPBean;
 import beansFaktura.FakturaBean;
 import beansRegon.SzukajDaneBean;
 import beansSrodkiTrwale.SrodkiTrwBean;
+import comparator.PodatnikEwidencjaDokcomparator;
 import comparator.Rodzajedokcomparator;
 import dao.AmoDokDAO;
 import dao.DokDAO;
@@ -19,6 +20,7 @@ import dao.InwestycjeDAO;
 import dao.KlienciDAO;
 import dao.OstatnidokumentDAO;
 import dao.PodatnikDAO;
+import dao.PodatnikEwidencjaDokDAO;
 import dao.RodzajedokDAO;
 import dao.SrodkikstDAO;
 import dao.StornoDokDAO;
@@ -41,6 +43,7 @@ import entity.Kolumna1Rozbicie;
 import entity.KwotaKolumna1;
 import entity.Ostatnidokument;
 import entity.Podatnik;
+import entity.PodatnikEwidencjaDok;
 import entity.Rodzajedok;
 import entity.SrodekTrw;
 import entity.Srodkikst;
@@ -184,6 +187,9 @@ public class DokView implements Serializable {
     private Kolumna1Rozbicie sumarozbicie;
     private double stawkaVATwPoprzednimDok;
     private Tabelanbp domyslatabela;
+    private List<PodatnikEwidencjaDok> listaewidencjipodatnika;
+    @Inject
+    private PodatnikEwidencjaDokDAO podatnikEwidencjaDokDAO;
     
 
     public DokView() {
@@ -248,6 +254,7 @@ public class DokView implements Serializable {
         Podatnik podX = wpisView.getPodatnikObiekt();
         symbolWalutyNettoVat = " zł";
         biezacyklientdodok = klDAO.findKlientByNip(podX.getNip());
+        listaewidencjipodatnika = podatnikEwidencjaDokDAO.findOpodatkowaniePodatnik(wpisView.getPodatnikObiekt());
         pobranecechypodatnik = cechazapisuDAOfk.findPodatnikOnly(wpisView.getPodatnikObiekt());
         if (pobranecechypodatnik != null && pobranecechypodatnik.size() ==1) {
             cechadomyslna = pobranecechypodatnik.get(0);
@@ -406,6 +413,9 @@ public class DokView implements Serializable {
                 List<Evewidencja> opisewidencji = Collections.synchronizedList(new ArrayList<>());
                 selDokument.setDokumentProsty(false);
                 opisewidencji.addAll(listaEwidencjiVat.pobierzEvewidencje(transakcjiRodzaj));
+                if (selDokument.getRodzajedok().getRodzajtransakcji().equals("sprzedaz")&&listaewidencjipodatnika!=null && listaewidencjipodatnika.size()>0){
+                        opisewidencji = reorganizujewidencje(opisewidencji, listaewidencjipodatnika);
+                }
                 if (typdok.equals("UPTK")) {
                     for (Iterator<Evewidencja> it = opisewidencji.iterator(); it.hasNext();) {
                         Evewidencja p = it.next();
@@ -490,6 +500,16 @@ public class DokView implements Serializable {
         }
     }
     
+    private List<Evewidencja> reorganizujewidencje(List<Evewidencja> ewidencjepobrane, List<PodatnikEwidencjaDok> listaewidencjipodatnika) {
+        List<Evewidencja> zwrot = new ArrayList<>();
+        Collections.sort(listaewidencjipodatnika, new PodatnikEwidencjaDokcomparator());
+        for (PodatnikEwidencjaDok p : listaewidencjipodatnika) {
+            if (p.getKolejnosc()>0) {
+                zwrot.add(p.getEwidencja());
+            }
+        }
+        return zwrot;
+    }
     
     private double naniesdanedoewidencji(List<EwidencjaAddwiad> e, int rzad, double netto, double procent) {
         e.get(0).setNetto(0.0);

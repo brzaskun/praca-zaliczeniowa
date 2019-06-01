@@ -32,11 +32,13 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 import comparator.DokfkLPcomparator;
 import comparator.Dokfkcomparator;
+import comparator.PodatnikEwidencjaDokcomparator;
 import comparator.Rodzajedokcomparator;
 import comparator.Transakcjacomparator;
 import comparator.TransakcjacomparatorKwota;
 import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
+import dao.PodatnikEwidencjaDokDAO;
 import dao.RodzajedokDAO;
 import dao.STRDAO;
 import dao.StronaWierszaDAO;
@@ -58,6 +60,7 @@ import embeddable.Roki;
 import entity.EVatwpisSuper;
 import entity.Evewidencja;
 import entity.Klienci;
+import entity.PodatnikEwidencjaDok;
 import entity.Rodzajedok;
 import entity.SrodekTrw;
 import entity.Uz;
@@ -266,6 +269,9 @@ public class DokfkView implements Serializable {
     private Cechazapisu nkup;
     private Wiersz wierszzmieniony;
     private DataTable tabelawierszy;
+    private List<PodatnikEwidencjaDok> listaewidencjipodatnika;
+    @Inject
+    private PodatnikEwidencjaDokDAO podatnikEwidencjaDokDAO;
 
     public DokfkView() {
          //E.m(this);
@@ -311,6 +317,7 @@ public class DokfkView implements Serializable {
                 //kontadlaewidencji.put("490", kontoDAOfk.findKonto("490", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
                 nkup = cechazapisuDAOfk.findPodatniknkup();
                 klientdlaPK = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+                listaewidencjipodatnika = podatnikEwidencjaDokDAO.findOpodatkowaniePodatnik(wpisView.getPodatnikObiekt());
                 if (klientdlaPK == null) {
                     klientdlaPK = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
                 } 
@@ -643,6 +650,9 @@ public class DokfkView implements Serializable {
                     }
                     Evewidencja ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");;
                     List<Evewidencja> opisewidencji = pobierzewidencje();
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("sprzedaz")&&listaewidencjipodatnika!=null && listaewidencjipodatnika.size()>0){
+                        opisewidencji = reorganizujewidencje(opisewidencji, listaewidencjipodatnika);
+                    }
                     for (Evewidencja p : opisewidencji) {
                         if(selected.isDwarejestry() && czyrozjechalysiemce()) {
                             EVatwpisFK pierwszaewid = new EVatwpisFK(k++, p, selected);
@@ -668,6 +678,17 @@ public class DokfkView implements Serializable {
             } else {
                 this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
             }
+    }
+    
+    private List<Evewidencja> reorganizujewidencje(List<Evewidencja> ewidencjepobrane, List<PodatnikEwidencjaDok> listaewidencjipodatnika) {
+        List<Evewidencja> zwrot = new ArrayList<>();
+        Collections.sort(listaewidencjipodatnika, new PodatnikEwidencjaDokcomparator());
+        for (PodatnikEwidencjaDok p : listaewidencjipodatnika) {
+            if (p.getKolejnosc()>0) {
+                zwrot.add(p.getEwidencja());
+            }
+        }
+        return zwrot;
     }
     
     private boolean czyrozjechalysiemce() {
@@ -4269,6 +4290,8 @@ public void oznaczjakonkup() {
     public void setKlienciConverterView(KlienciConverterView klienciConverterView) {
         this.klienciConverterView = klienciConverterView;
     }
+
+
 
     
     

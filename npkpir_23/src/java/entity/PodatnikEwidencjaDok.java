@@ -17,12 +17,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Osito
  */
 @Entity
+@Table(uniqueConstraints = {
+    @UniqueConstraint(columnNames={"podatnik, ewidencja"})
+})
 @NamedQueries({
     @NamedQuery(name = "PodatnikEwidencjaDok.findAll", query = "SELECT f FROM PodatnikEwidencjaDok f"),
     @NamedQuery(name = "PodatnikEwidencjaDok.findByPodatnik", query = "SELECT f FROM PodatnikEwidencjaDok f WHERE f.podatnik = :podatnik")

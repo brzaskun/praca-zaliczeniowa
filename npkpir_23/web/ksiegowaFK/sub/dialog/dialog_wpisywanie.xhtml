@@ -401,7 +401,7 @@
                         <h:outputText value="tylko ewidencja vat z podatkiem należnym" style="color: blue;" rendered="#{dokfkView.selected.rodzajedok.tylkovatnalezny}"/>
                         <p:dataTable id="tablicavat" value="#{dokfkView.selected.ewidencjaVAT}" var="item" emptyMessage="nie ma zapisów w ewidencji vat"
                                      style="margin-top: 0px;" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 || dokfkView.selected.rodzajedok.kategoriadokumentu == 2}"
-                                     sortBy="#{item.lp}" styleClass="gridvat">
+                                     styleClass="gridvat">
 <!--                            <p:column headerText="" width="5">
                                 <h:outputText value="#{item.lp+1}" styleClass="lpwierszavat"/>
                             </p:column>-->
