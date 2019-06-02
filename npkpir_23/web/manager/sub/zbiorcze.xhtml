@@ -25,11 +25,11 @@
             overflow: hidden;
         }
     </style>
-    <p:accordionPanel id="akordeon" value="#{zUSStawkiZbiorczeView.listapodatnikow}" var="podatnik" style="max-width: 700px;" >
+    <p:accordionPanel id="akordeon" value="#{zUSStawkiZbiorczeView.listapodatnikow}" var="podatnik" style="max-width: 850px;" >
 
         <p:tab title="#{podatnik.nazwisko} #{podatnik.imie}" rendered="#{podatnik.podmiotaktywny}">
             <h:form id="formzus">
-                <p:panelGrid columns="4" style="width: 100%; max-width: 750px;">
+                <p:panelGrid columns="4" style="width: 100%; max-width: 840px;">
                     <p:dataTable value="#{podatnik.zusparametr}"  var="loop" paginatorAlwaysVisible="true" paginator="true" paginatorPosition="top" pageLinks="12" rows="12"
                                  sortFunction="#{zUSStawkiZbiorczeView.sortujZUSstawki}"  sortBy="#{loop.zusstawkiPK}" sortOrder="descending" 
                                  selection="#{zUSStawkiZbiorczeView.zusstawki}" selectionMode="single" rowKey="#{loop.zusstawkiPK}"
@@ -79,6 +79,14 @@
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
+                        <p:column headerText="prac." style="text-align: center;">
+                            <h:outputText value="#{loop.pracownicy}"  style="#{loop.zusstawkiPK.rok eq zUSStawkiZbiorczeView.biezacyRok ? 'color: green; font-weight: 900;' : null}; float: right;">
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="zlec." style="text-align: center;">
+                            <h:outputText value="#{loop.zlecenia}"  style="#{loop.zusstawkiPK.rok eq zUSStawkiZbiorczeView.biezacyRok ? 'color: green; font-weight: 900;' : null}; float: right;">
+                            </h:outputText>
+                        </p:column>
                         <br/>
                     </p:dataTable>
                 </p:panelGrid>
@@ -117,6 +125,12 @@
                         </p:inputNumber>
                         <h:outputText value="kwota PIT8: "/>
                         <p:inputNumber value="#{zUSStawkiZbiorczeView.obrabianeparametryzus.pit8}" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="," inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" >
+                        </p:inputNumber>
+                        <h:outputText value="liczba prac: " style="color: green;"/>
+                        <p:inputNumber value="#{zUSStawkiZbiorczeView.obrabianeparametryzus.pracownicy}" style="width: 80px; text-align: right;" symbolPosition="s" decimalSeparator="," inputStyle="text-align: right;" decimalPlaces="0" minValue="0" styleClass="wiersznetto" >
+                        </p:inputNumber>
+                        <h:outputText value="liczba zlec: " style="color: green;"/>
+                        <p:inputNumber value="#{zUSStawkiZbiorczeView.obrabianeparametryzus.zlecenia}" style="width: 80px; text-align: right;" symbolPosition="s" decimalSeparator="," inputStyle="text-align: right;" decimalPlaces="0" minValue="0" styleClass="wiersznetto" >
                         </p:inputNumber>
                         
                     </f:ajax>

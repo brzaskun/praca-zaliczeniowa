@@ -49,6 +49,10 @@ public class Zusstawki implements Serializable {
     private Double pit4;
     @Column(name = "pit8")
     private Double pit8;
+    @Column(name = "pracownicy")
+    private int pracownicy;
+    @Column(name = "zlecenia")
+    private int zlecenia;
    
 
     public Zusstawki() {
@@ -144,6 +148,24 @@ public class Zusstawki implements Serializable {
     public void setPit8(Double pit8) {
         this.pit8 = pit8;
     }
+
+    public int getPracownicy() {
+        return pracownicy;
+    }
+
+    public void setPracownicy(int pracownicy) {
+        this.pracownicy = pracownicy;
+    }
+
+    public int getZlecenia() {
+        return zlecenia;
+    }
+
+    public void setZlecenia(int zlecenia) {
+        this.zlecenia = zlecenia;
+    }
+
+    
 
     
        
