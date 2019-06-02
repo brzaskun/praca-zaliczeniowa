@@ -5,6 +5,7 @@
 package viewadmin;
 
 import dao.AdminmailDAO;
+import dao.DodatkoweMaileDAO;
 import dao.FakturywystokresoweDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDAO;
@@ -12,6 +13,7 @@ import dao.SMTPSettingsDAO;
 import embeddable.Mce;
 import embeddable.Parametr;
 import entity.Adminmail;
+import entity.DodatkoweMaile;
 import entity.Fakturywystokresowe;
 import entity.Klienci;
 import entity.Podatnik;
@@ -79,9 +81,13 @@ public class AdminMailView implements Serializable {
     private boolean tylkofizyczne;
     private boolean tylkovat;
     private boolean tylkonievat;
+    private boolean tylkododatkowe;
     private byte[] zalacznik;
     private String nazwazalacznik;
     private String jezykmaila;
+    @Inject
+    private DodatkoweMaileDAO dodatkoweMaileDAO;
+    private List<DodatkoweMaile> lista;
 
     public AdminMailView() {
     }
@@ -131,6 +137,7 @@ public class AdminMailView implements Serializable {
                     }
                 }
             }
+            lista = dodatkoweMaileDAO.findAll();
             if (tylkozus) {
                 for (Iterator<Klienci> it = klientListtemp.iterator();it.hasNext();) {
                     Klienci p = it.next();
@@ -202,18 +209,33 @@ public class AdminMailView implements Serializable {
     public void wyslijAdminMail() {
         int ilosc = 0;
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        
-        for (Klienci p : klientList) {
-            try {
-                if (p.getEmail() != null && p.getJezykwysylki()!=null) {
-                    MailAdmin.mailAdmin(p.getEmail(), tematwiadomosci, zawartoscmaila, sMTPSettingsDAO.findSprawaByDef(), zalacznik, nazwazalacznik);
-                    ilosc++;
-                } else {
-                    Msg.msg("w", "Brak maila/zakaz wysyłki dla " + p.getNpelna());
+        if (tylkododatkowe) {
+            for (DodatkoweMaile p : lista) {
+                try {
+                    if (p != null) {
+                        MailAdmin.mailAdmin(p.getMail(), tematwiadomosci, zawartoscmaila, sMTPSettingsDAO.findSprawaByDef(), zalacznik, nazwazalacznik);
+                        ilosc++;
+                    } else {
+                        Msg.msg("w", "Brak maila/zakaz wysyłki dla " + p);
+                    }
+                } catch (Exception e) {
+                    E.e(e);
+                    Msg.msg("e", "Blad nie wyslano wiadomosci dla " + p);
                 }
-            } catch (Exception e) {
-                E.e(e);
-                Msg.msg("e", "Blad nie wyslano wiadomosci dla " + p.getNpelna());
+            }
+        } else {
+            for (Klienci p : klientList) {
+                try {
+                    if (p.getEmail() != null && p.getJezykwysylki()!=null) {
+                        MailAdmin.mailAdmin(p.getEmail(), tematwiadomosci, zawartoscmaila, sMTPSettingsDAO.findSprawaByDef(), zalacznik, nazwazalacznik);
+                        ilosc++;
+                    } else {
+                        Msg.msg("w", "Brak maila/zakaz wysyłki dla " + p.getNpelna());
+                    }
+                } catch (Exception e) {
+                    E.e(e);
+                    Msg.msg("e", "Blad nie wyslano wiadomosci dla " + p.getNpelna());
+                }
             }
         }
         String wiadomosc = "Wyslano "+ilosc+" wiadomości";
@@ -312,6 +334,14 @@ public class AdminMailView implements Serializable {
         this.zawartoscmaila = zawartoscmaila;
     }
 
+    public boolean isTylkododatkowe() {
+        return tylkododatkowe;
+    }
+
+    public void setTylkododatkowe(boolean tylkododatkowe) {
+        this.tylkododatkowe = tylkododatkowe;
+    }
+
     public String getJezykmaila() {
         return jezykmaila;
     }
@@ -367,6 +397,14 @@ public class AdminMailView implements Serializable {
 
     public void setTylkospolki(boolean tylkospolki) {
         this.tylkospolki = tylkospolki;
+    }
+
+    public List<DodatkoweMaile> getLista() {
+        return lista;
+    }
+
+    public void setLista(List<DodatkoweMaile> lista) {
+        this.lista = lista;
     }
 
     public boolean isTylkovat() {

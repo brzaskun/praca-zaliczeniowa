@@ -1284,6 +1284,7 @@ public class FakturaView implements Serializable {
         for (Fakturywystokresowe p : gosciwybralokres) {
             if (!p.isZawieszona()) {
                 Faktura nowa = SerialClone.clone(p.getDokument());
+                nowa.setId(null);
                 nowa.setDatawysylki(null);
                 if (waloryzajca > 0) {
                     try {
@@ -1615,6 +1616,7 @@ public class FakturaView implements Serializable {
     public void skopiujdoNowegoroku() {
         for (Fakturywystokresowe stara : gosciwybralokres) {
             Fakturywystokresowe p = SerialClone.clone(stara);
+            p.setId(null);
             p.setRok(wpisView.getRokNastepnySt());
             p.setM1(0);
             p.setM2(0);
