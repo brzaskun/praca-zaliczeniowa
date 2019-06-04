@@ -13,6 +13,7 @@ import entityfk.PozycjaRZiSBilans;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,8 +21,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
@@ -35,6 +34,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFPrintSetup;
+import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import view.WpisView;
 
@@ -43,7 +43,8 @@ import view.WpisView;
  * @author Osito
  */
 public class WriteXLSFile {
-    private static final String FILE_PATH1 = "wydruki/xlsfile.xlsx";
+    private static final String FILE_PATH1 = "wydruki/axlsfile.xls";
+    private static final String FILE_PATH2 = "d:/axlsfile.xls";
     //We are making use of a single instance to prevent multiple write access to same file.
     private static final WriteXLSFile INSTANCE = new WriteXLSFile();
 
@@ -53,15 +54,15 @@ public class WriteXLSFile {
 
     private WriteXLSFile() {
     }
-
-    public static void main(String args[]){
-        Map<String, List> l = new ConcurrentHashMap<>();
-        l.put("p", listaprzychody());
-        l.put("k", listakoszty());
-        l.put("w", listawynik());
-        l.put("o", listapodatek());
-        //zachowajXLS(l, WpisView);
-    }
+//
+//    public static void main(String args[]){
+//        Map<String, List> l = new ConcurrentHashMap<>();
+//        l.put("p", listaprzychody());
+//        l.put("k", listakoszty());
+//        l.put("w", listawynik());
+//        l.put("o", listapodatek());
+//        //zachowajXLS(l, WpisView);
+//    }
     
     public static Workbook zachowajXLS(Map<String, List> listy, WpisView wpisView){
         List wynikpopmc = listy.get("b");
@@ -89,13 +90,13 @@ public class WriteXLSFile {
         rowIndex = drawATable(workbook, sheet, rowIndex, headersListWyliczenia, podatek, "Obliczenie podatku dochodowego", 2, "");
         sheet.createRow(rowIndex++);
         rowIndex = drawATable(workbook, sheet, rowIndex, headersListWyliczenia, dywidenda, "Obliczenie kwot do wypłaty", 2, "");
-        workbook.setPrintArea(
-        0, //sheet index
-        0, //start column
-        3, //end column
-        0, //start row
-        rowIndex //end row
-        );
+//        workbook.setPrintArea(
+//        0, //sheet index
+//        0, //start column
+//        3, //end column
+//        0, //start row
+//        rowIndex //end row
+        //);
       //set paper size
         sheet.getPrintSetup().setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
         sheet.setFitToPage(true);
@@ -268,7 +269,7 @@ public class WriteXLSFile {
         List lista = listy.get("kontasalda");
         List headersList = headersusa();
         // Using XSSF for xlsx format, for xls use HSSF
-        Workbook workbook = new HSSFWorkbook();
+        Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Obr.Salda");
         insertPrintHeader(sheet, wpisView);
         int rowIndex = 0;
@@ -289,7 +290,7 @@ public class WriteXLSFile {
         String FILE_PATH = realPath+FILE_PATH1;
         //write this workbook in excel file.
         try {
-            FileOutputStream fos = new FileOutputStream(FILE_PATH);
+            OutputStream fos = new FileOutputStream(FILE_PATH);
             workbook.write(fos);
             fos.close();
 
@@ -418,6 +419,10 @@ public class WriteXLSFile {
         Row rowTH = sheet.createRow(rowIndex++);
         CellStyle styleheader = styleHeader(workbook, HorizontalAlignment.CENTER, VerticalAlignment.CENTER, (short) 10);
         createHeaderCell(styleheader, rowTH, (short) 2, tableheader);
+        CellStyle styletext = styleText(workbook, HorizontalAlignment.LEFT, VerticalAlignment.CENTER);
+        CellStyle styletextcenter = styleText(workbook, HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
+        CellStyle styleformula = styleFormula(workbook, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER);
+        CellStyle styledouble = styleDouble(workbook, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER);
         Row rowH = sheet.createRow(rowIndex++);
         for(Iterator it = headers.iterator(); it.hasNext();){
             String header = (String) it.next();
@@ -427,22 +432,18 @@ public class WriteXLSFile {
             T st = (T) it.next();
             Row row = sheet.createRow(rowIndex++);
             columnIndex = 0;
-            ustawWiersz(workbook, row, columnIndex, st, rowIndex);
+            ustawWiersz(workbook, row, columnIndex, st, rowIndex, styletext, styletextcenter, styledouble);
         }
 //        sheet.createRow(rowIndex++);//pusty row
         if (headers.size()> 3) {
-            rowIndex = summaryRow(startindex, rowIndex, workbook, sheet, typ, nazwasumy);
+            rowIndex = summaryRow(startindex, rowIndex, workbook, sheet, typ, nazwasumy, styletext, styleformula);
         }
         autoAlign(sheet);
         return rowIndex;
     }
     
-    private static <T> void ustawWiersz(Workbook workbook, Row row, int columnIndex, T ob, int rowIndex) {
+    private static <T> void ustawWiersz(Workbook workbook, Row row, int columnIndex, T ob, int rowIndex, CellStyle styletext, CellStyle styletextcenter, CellStyle styledouble) {
         Class c = ob.getClass();
-        CellStyle styletext = styleText(workbook, HorizontalAlignment.LEFT, VerticalAlignment.CENTER);
-        CellStyle styletextcenter = styleText(workbook, HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
-        CellStyle styleformula = styleFormula(workbook, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER);
-        CellStyle styledouble = styleDouble(workbook, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER);
         if (c.getName().contains("PozycjaPrzychodKoszt")) {
             PozycjaPrzychodKoszt st = (PozycjaPrzychodKoszt) ob;
             createTextCell(styletext, row, (short) columnIndex++, String.valueOf(st.getLp()));
@@ -477,16 +478,16 @@ public class WriteXLSFile {
             createTextCell(styletextcenter, row, (short) columnIndex++, String.valueOf(rowIndex));
             createTextCell(styletext, row, (short) columnIndex++, st.getKonto().getPelnynumer());
             createTextCell(styletext, row, (short) columnIndex++, st.getKonto().getNazwapelna());
-            createDoubleCell(styledouble, row, (short) columnIndex++, (Double) st.getBoWn());
-            createDoubleCell(styledouble, row, (short) columnIndex++, (Double) st.getBoMa());
-            createDoubleCell(styledouble, row, (short) columnIndex++, (Double) st.getObrotyWnMc());
-            createDoubleCell(styledouble, row, (short) columnIndex++, (Double) st.getObrotyMaMc());
-            createDoubleCell(styledouble, row, (short) columnIndex++, (Double) st.getObrotyWn());
-            createDoubleCell(styledouble, row, (short) columnIndex++, (Double) st.getObrotyMa());
-            createDoubleCell(styledouble, row, (short) columnIndex++, (Double) st.getObrotyBoWn());
-            createDoubleCell(styledouble, row, (short) columnIndex++, (Double) st.getObrotyBoMa());
-            createDoubleCell(styledouble, row, (short) columnIndex++, (Double) st.getSaldoWn());
-            createDoubleCell(styledouble, row, (short) columnIndex++, (Double) st.getSaldoMa());
+            createDoubleCell(styledouble, row, (short) columnIndex++, st.getBoWn());
+            createDoubleCell(styledouble, row, (short) columnIndex++, st.getBoMa());
+            createDoubleCell(styledouble, row, (short) columnIndex++, st.getObrotyWnMc());
+            createDoubleCell(styledouble, row, (short) columnIndex++, st.getObrotyMaMc());
+            createDoubleCell(styledouble, row, (short) columnIndex++, st.getObrotyWn());
+            createDoubleCell(styledouble, row, (short) columnIndex++, st.getObrotyMa());
+            createDoubleCell(styledouble, row, (short) columnIndex++, st.getObrotyBoWn());
+            createDoubleCell(styledouble, row, (short) columnIndex++, st.getObrotyBoMa());
+            createDoubleCell(styledouble, row, (short) columnIndex++, st.getSaldoWn());
+            createDoubleCell(styledouble, row, (short) columnIndex++, st.getSaldoMa());
             createTextCell(styletext, row, (short) columnIndex++, st.getKonto().getKontomacierzyste()!=null? st.getKonto().getKontomacierzyste().getPelnynumer():"");
             createTextCell(styletext, row, (short) columnIndex++, st.getKonto().getKontomacierzyste()!=null? st.getKonto().getKontomacierzyste().getNazwapelna():"");
         } else if (c.getName().contains("Konto")) {
@@ -500,9 +501,7 @@ public class WriteXLSFile {
         
     }
     
-    private static int summaryRow(int startindex, int rowIndex, Workbook workbook, Sheet sheet, int typ, String nazwasumy) {
-        CellStyle styletext = styleText(workbook, HorizontalAlignment.LEFT, VerticalAlignment.CENTER);
-        CellStyle styleformula = styleText(workbook, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER);
+    private static int summaryRow(int startindex, int rowIndex, Workbook workbook, Sheet sheet, int typ, String nazwasumy, CellStyle styletext, CellStyle styleformula) {
          if (typ == 0) {
             String formula = "SUM(D"+startindex+":D"+rowIndex+")";
             Row row = sheet.createRow(rowIndex++);
@@ -578,7 +577,7 @@ public class WriteXLSFile {
     
     private static void createHeaderCell(CellStyle cellStyle, Row row, short column, String value) {
         Cell cell = row.createCell(column);
-        cell.setCellValue(new HSSFRichTextString(value));
+        cell.setCellValue(new XSSFRichTextString(value));
         cell.setCellStyle(cellStyle);
     }
     
@@ -613,7 +612,7 @@ public class WriteXLSFile {
     
     private static void createTextCell(CellStyle cellStyle, Row row, short column, String value) {
         Cell cell = row.createCell(column);
-        cell.setCellValue(new HSSFRichTextString(value));
+        cell.setCellValue(new XSSFRichTextString(value));
         cell.setCellStyle(cellStyle);
     }
     
@@ -659,15 +658,50 @@ public class WriteXLSFile {
         return font;
     }
     private static void addFormula(Cell cell, String formula) {
-        cell.setCellType(HSSFCell.CELL_TYPE_FORMULA);
+        //cell.setCellType(HSSFCell.CELL_TYPE_FORMULA);
         cell.setCellFormula(formula);
     }
     
     private static void autoAlign(Sheet sheet) {
-        sheet.autoSizeColumn((short) 0);
-        sheet.autoSizeColumn((short) 1);
-        sheet.autoSizeColumn((short) 2);
-        sheet.autoSizeColumn((short) 3);
-        sheet.autoSizeColumn((short) 4);
+        for (int i=0;i<15;i++) {
+            sheet.autoSizeColumn((short) i);
+        }
     }
+    
+    public static void main (String[] args){
+        //List lista = listy.get("kontasalda");
+        List headersList = headersusa();
+        // Using XSSF for xlsx format, for xls use HSSF
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Obr.Saldaa");
+        Header header = sheet.getHeader();
+        header.setCenter("Podatnik");
+        header.setLeft("Symulacja wyniku za 05/2019");
+        int rowIndex = 0;
+        String opis = "Zestawienie obrotów i sald  na koniec 12/85";
+        //rowIndex = drawATable(workbook, sheet, rowIndex, headersList, lista, opis, 3, "kontasalda");
+//        workbook.setPrintArea(
+//        0, //sheet index
+//        0, //start column
+//        4, //end column
+//        0, //start row
+//        rowIndex //end row
+//        );
+      //set paper size
+//        sheet.getPrintSetup().setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
+//        sheet.setFitToPage(true);
+        //ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        //String realPath = ctx.getRealPath("/");
+        String FILE_PATH = FILE_PATH2;
+        //write this workbook in excel file.
+        try {
+            OutputStream fos = new FileOutputStream(FILE_PATH);
+            workbook.write(fos);
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+     }
 }

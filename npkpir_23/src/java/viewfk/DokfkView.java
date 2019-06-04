@@ -1430,14 +1430,14 @@ public class DokfkView implements Serializable {
             PrimeFaces.current().ajax().update("formwpisdokument:panelwpisbutton");
         }
         if (!rok.equals(selected.getRok())) {
-            selected.setRok(rok);
+            selected.setRok(wpisView.getRokWpisuSt());
             selected.setVatR(rok);
             PrimeFaces.current().ajax().update("formwpisdokument:rok");
             PrimeFaces.current().ajax().update("formwpisdokument:rokVAT");
         }
         String mc = data.split("-")[1];
         if (!mc.equals(selected.getMiesiac())) {
-            selected.setMiesiac(mc);
+            selected.setMiesiac(wpisView.getMiesiacWpisu());
             selected.setVatM(mc);
             PrimeFaces.current().ajax().update("formwpisdokument:miesiac");
             PrimeFaces.current().ajax().update("formwpisdokument:miesiacVAT");

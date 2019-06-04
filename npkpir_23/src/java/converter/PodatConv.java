@@ -37,6 +37,9 @@ public class PodatConv implements javax.faces.convert.Converter, Serializable {
     public Object getAsObject(FacesContext facesContext, UIComponent component, String sub) {
             try {
                 int submittedValue = Integer.parseInt(sub);
+                if (lista==null) {
+                    lista = podatnikDAO.findAll();
+                }
                 for (Podatnik p : lista) {
                     if (p.getId()==submittedValue) {
                         return p;
