@@ -40,18 +40,18 @@
             <p:panelGrid columns="3" >
                 <p:column>
                     <p:treeTable id="dataList" value="#{pozycjaBRKontaView.rootProjektKontaBilans}" var="loop" selectionMode="single" selection="#{pozycjaBRKontaView.wybranynodekonta}" 
-                                 styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; width: 420px; overflow-y: scroll;"
+                                 styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; width: 400px; overflow-y: scroll;"
                                  emptyMessage="Brak pozycji Bilansu" >
                         <p:ajax event="select" global="false" listener="#{pozycjaBRKontaView.wybranopozycjeBilans()}" update=":formbilansuklad:selected"/>
                         <f:facet name="header">
                             <h:outputText value="uklad #{pozycjaBRKontaView.wybranyuklad.uklad}, strona #{pozycjaBRKontaView.aktywa0pasywa1 == false ? 'aktywa' : 'pasywa'}"/>
                         </f:facet>
-                        <p:column style="width: 370px;">
+                        <p:column style="width: 325px;">
                             <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
                             <p:spacer width="20"/>
                             <h:outputText value="#{loop.nazwa}"/> 
                         </p:column>
-                        <p:column width="20">
+                        <p:column width="15" style="text-align: center">
                             <h:outputText id="liczba" value="#{loop.przyporzadkowanekonta.size() > 0 ? loop.przyporzadkowanekonta.size() : null}" /> 
                         </p:column>
                     </p:treeTable>
@@ -72,6 +72,7 @@
                                 <p:menuitem value="analityka" actionListener="#{pozycjaBRKontaView.rozwinrzadanalityki(konto)}"  update=":formbilansuklad:dostepnekonta :formbilansuklad:selected" icon="ui-icon-arrowrefresh-1-w" 
                                             rendered="#{konto.mapotomkow}"/>  
                                 <p:menuitem value="syntetyka" actionListener="#{pozycjaBRKontaView.zwinrzadanalityki(konto)}"  update=":formbilansuklad:dostepnekonta :formbilansuklad:selected" icon="ui-icon-arrowrefresh-1-w"/>  
+                                <p:menuitem value="syntetyka - wymuś" actionListener="#{pozycjaBRKontaView.zwinrzadanalitykiwymus(konto)}"  update=":formbilansuklad:dostepnekonta :formbilansuklad:selected" icon="ui-icon-arrowrefresh-1-w"/>  
                                 
                             </p:splitButton>
                              <p:commandButton id="pn2" value="#{konto.pelnynumer} #{konto.nazwapelna}" 

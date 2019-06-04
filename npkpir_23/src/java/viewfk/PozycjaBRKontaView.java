@@ -554,12 +554,48 @@ public class PozycjaBRKontaView implements Serializable {
             Msg.msg("e", "Nie można zwinąć analityk. Istnieją analityki przypisane do kont: " + result);
         } else {
             Konto macierzyste = kontoDAO.findKonto(konto.getKontomacierzyste().getPelnynumer(), podatnik, wpisView.getRokWpisu());
+            macierzyste.setPozycjaWn(null);
+            macierzyste.setPozycjaMa(null);
+            macierzyste.setStronaWn(null);
+            macierzyste.setStronaMa(null);
+            kontoDAO.edit(macierzyste);
             for (Konto p : listaSiostrzane) {
+                p.setPozycjaWn(null);
+                p.setPozycjaMa(null);
+                p.setStronaWn(null);
+                p.setStronaMa(null);
                 kontabezprzydzialu.remove(p);
             }
+            kontoDAO.editList(listaSiostrzane);
             kontabezprzydzialu.add(macierzyste);
             Collections.sort(kontabezprzydzialu, new Kontocomparator());
         }
+    }
+    
+    public void zwinrzadanalitykiwymus(Konto konto) {
+        Podatnik podatnik = wybranyuklad.getPodatnik();
+        List<Konto> listaSiostrzane = kontoDAO.findKontaSiostrzanePodatnik(podatnik, wpisView.getRokWpisu(), konto.getKontomacierzyste());
+        List<Konto> listaPotomne = Collections.synchronizedList(new ArrayList<>());
+        for (Konto t : listaSiostrzane) {
+            listaPotomne.addAll(kontoDAO.findKontaWszystkiePotomnePodatnik(new ArrayList<Konto>(), podatnik, wpisView.getRokWpisu(), t));
+        }
+        listaSiostrzane.addAll(listaPotomne);
+        for (Konto p : listaSiostrzane) {
+            p.setPozycjaWn(null);
+            p.setPozycjaMa(null);
+            p.setStronaWn(null);
+            p.setStronaMa(null);
+            kontabezprzydzialu.remove(p);
+        }
+        Konto macierzyste = kontoDAO.findKonto(konto.getKontomacierzyste().getPelnynumer(), podatnik, wpisView.getRokWpisu());
+        macierzyste.setPozycjaWn(null);
+        macierzyste.setPozycjaMa(null);
+        macierzyste.setStronaWn(null);
+        macierzyste.setStronaMa(null);
+        kontoDAO.edit(macierzyste);
+        kontoDAO.editList(listaSiostrzane);
+        kontabezprzydzialu.add(macierzyste);
+        Collections.sort(kontabezprzydzialu, new Kontocomparator());
     }
 
     public void zaksiegujzmianypozycji(String rb, UkladBR ukladdocelowy) {
