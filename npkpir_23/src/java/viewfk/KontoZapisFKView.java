@@ -1331,6 +1331,7 @@ public class KontoZapisFKView implements Serializable{
                 if (p.getNowetransakcje().isEmpty() && p.getPlatnosci().isEmpty()) {
                     p.setKonto(kontodoprzeksiegowania);
                     stronaWierszaDAO.edit(p);
+                    kontozapisy.remove(p);
                 } else {
                     rozrachunkowe++;
                 }
@@ -1345,9 +1346,9 @@ public class KontoZapisFKView implements Serializable{
             Msg.msg("w", "Nie przeksiegowano pozycji z zapisami BO w liczbie " + bo);
         }
         kontodoprzeksiegowania = null;
-        pobierzzapisy(wpisView.getRokWpisuSt());
-        publicinit();
-        pobierzZapisyNaKoncieNode(wybranekonto);
+        //pobierzzapisy(wpisView.getRokWpisuSt());
+        //publicinit();
+        //pobierzZapisyNaKoncieNode(wybranekonto);
         Msg.dP();
     }
     
