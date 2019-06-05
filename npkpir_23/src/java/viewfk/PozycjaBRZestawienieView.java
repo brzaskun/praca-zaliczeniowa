@@ -211,7 +211,7 @@ public class PozycjaBRZestawienieView implements Serializable {
         List<PozycjaRZiSBilans> pozycje = Collections.synchronizedList(new ArrayList<>());
         pobierzPozycje(pozycje);
         wyczyscKonta("wynikowe", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaZapisDAO, uklad, wpisView, false, "wynikowe");
+        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaZapisDAO, uklad, wpisView, "wynikowe");
         pobierzukladprzegladRZiSWybierz();
         bilansnadzien = Data.ostatniDzien(wpisView);
     }
@@ -221,7 +221,7 @@ public class PozycjaBRZestawienieView implements Serializable {
         List<PozycjaRZiSBilans> pozycje = Collections.synchronizedList(new ArrayList<>());
         pobierzPozycje(pozycje);
         wyczyscKonta("wynikowe", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaZapisDAO, uklad, wpisView, false, "wynikowe");
+        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaZapisDAO, uklad, wpisView, "wynikowe");
         obliczRZiSOtwarciaRZiSData();
         bilansnadzien = Data.ostatniDzien(wpisView);
     }
@@ -232,7 +232,7 @@ public class PozycjaBRZestawienieView implements Serializable {
         List<PozycjaRZiSBilans> pozycje = Collections.synchronizedList(new ArrayList<>());
         pobierzPozycje(pozycje);
         wyczyscKonta("bilansowe", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaZapisDAO, uklad, wpisView, false, "bilansowe");
+        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaZapisDAO, uklad, wpisView, "bilansowe");
         pobierzukladprzegladBilans();
         bilansnadzien = Data.ostatniDzien(wpisView);
     }

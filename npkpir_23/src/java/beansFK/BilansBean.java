@@ -33,7 +33,7 @@ public class BilansBean {
     public static void zmianaukladprzegladRZiSBO(UkladBR uklad, UkladBRDAO ukladBRDAO, WpisView wpisView, KontoDAOfk kontoDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, PozycjaRZiSDAO pozycjaRZiSDAO) {
         UkladBRBean.ustawAktywny(uklad, ukladBRDAO);
         wyczyscKonta("wynikowe", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), kontoDAO);
-        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO,kontopozycjaZapisDAO, uklad, wpisView, false, "wynikowe");
+        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO,kontopozycjaZapisDAO, uklad, wpisView, "wynikowe");
     }
     
     public static List<PozycjaRZiSBilans> pobierzPoszerzPozycje(UkladBR ukladBR, PozycjaRZiSDAO pozycjaRZiSDAO, String granica) {
