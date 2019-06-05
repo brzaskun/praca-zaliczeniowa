@@ -169,7 +169,7 @@ public class PozycjaRZiSFKBean {
         return rt.ustaldepthDT(pozycjeL) - 1;
     }
     
-    public static void naniesZachowanePozycjeNaKonta(KontoDAOfk kontoDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR uklad, WpisView wpisView, boolean wzorcowy, String bilansowewynikowe) {
+    public static void naniesZachowanePozycjeNaKonta(KontoDAOfk kontoDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR uklad, WpisView wpisView, String bilansowewynikowe) {
         try {
             List<KontopozycjaZapis> kontopozycja = Collections.synchronizedList(new ArrayList<>());
             if (bilansowewynikowe.equals("wynikowe")) {
@@ -505,7 +505,7 @@ public class PozycjaRZiSFKBean {
             ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();
             PozycjaRZiSFKBean.pobierzPozycje(pozycje, pozycjaRZiSDAO, uklad);
             PozycjaRZiSFKBean.wyczyscKonta(bilansowewynikowe, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), kontoDAO);
-            PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaZapisDAO, uklad, wpisView, false, bilansowewynikowe);
+            PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaZapisDAO, uklad, wpisView, bilansowewynikowe);
         } catch (Exception e) {
             E.e(e);
         }
@@ -517,7 +517,7 @@ public class PozycjaRZiSFKBean {
             ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();
             PozycjaRZiSFKBean.pobierzPozycje(pozycje, pozycjaRZiSDAO, uklad);
             PozycjaRZiSFKBean.wyczyscKonta(bilansowewynikowe, wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt(), kontoDAO);
-            PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaZapisDAO, uklad, wpisView, false, bilansowewynikowe);
+            PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaZapisDAO, uklad, wpisView, bilansowewynikowe);
         } catch (Exception e) {
             E.e(e);
         }

@@ -111,7 +111,7 @@ public class PozycjaBRKontaView implements Serializable {
             wybranyuklad.oznaczUkladBR(ukladBRDAO);
             przyporzadkowanekonta = Collections.synchronizedList(new ArrayList<>());
             PozycjaRZiSFKBean.wyczyscKonta("wynikowe", podatnik, wpisView.getRokWpisuSt(), kontoDAO);
-            PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaZapisDAO, wybranyuklad, wpisView, false, "wynikowe");
+            PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaZapisDAO, wybranyuklad, wpisView, "wynikowe");
             pozycje = Collections.synchronizedList(new ArrayList<>());
             pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(wybranyuklad));
             if (pozycje.isEmpty()) {
@@ -136,7 +136,7 @@ public class PozycjaBRKontaView implements Serializable {
             wybranyuklad.oznaczUkladBR(ukladBRDAO);
             przyporzadkowanekonta = Collections.synchronizedList(new ArrayList<>());
             PozycjaRZiSFKBean.wyczyscKonta("bilansowe", podatnik, wpisView.getRokWpisuSt(), kontoDAO);
-            PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaZapisDAO, wybranyuklad, wpisView, false, "bilansowe");
+            PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaZapisDAO, wybranyuklad, wpisView, "bilansowe");
             pozycje = Collections.synchronizedList(new ArrayList<>());
             if (aktywapasywa.equals("aktywa")) {
                 aktywa0pasywa1 = false;
@@ -565,6 +565,8 @@ public class PozycjaBRKontaView implements Serializable {
                 p.setStronaWn(null);
                 p.setStronaMa(null);
                 kontabezprzydzialu.remove(p);
+                KontopozycjaZapis poz = kontopozycjaZapisDAO.findByKonto(p, wybranyuklad);
+                kontopozycjaZapisDAO.destroy(poz);
             }
             kontoDAO.editList(listaSiostrzane);
             kontabezprzydzialu.add(macierzyste);
@@ -586,6 +588,9 @@ public class PozycjaBRKontaView implements Serializable {
             p.setStronaWn(null);
             p.setStronaMa(null);
             kontabezprzydzialu.remove(p);
+            KontopozycjaZapis poz = kontopozycjaZapisDAO.findByKonto(p, wybranyuklad);
+            kontopozycjaZapisDAO.destroy(poz);
+            
         }
         Konto macierzyste = kontoDAO.findKonto(konto.getKontomacierzyste().getPelnynumer(), podatnik, wpisView.getRokWpisu());
         macierzyste.setPozycjaWn(null);
