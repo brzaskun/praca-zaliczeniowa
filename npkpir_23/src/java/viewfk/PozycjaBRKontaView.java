@@ -566,7 +566,9 @@ public class PozycjaBRKontaView implements Serializable {
                 p.setStronaMa(null);
                 kontabezprzydzialu.remove(p);
                 KontopozycjaZapis poz = kontopozycjaZapisDAO.findByKonto(p, wybranyuklad);
-                kontopozycjaZapisDAO.destroy(poz);
+                if (poz!=null) {
+                    kontopozycjaZapisDAO.destroy(poz);
+                }
             }
             kontoDAO.editList(listaSiostrzane);
             kontabezprzydzialu.add(macierzyste);
@@ -589,7 +591,9 @@ public class PozycjaBRKontaView implements Serializable {
             p.setStronaMa(null);
             kontabezprzydzialu.remove(p);
             KontopozycjaZapis poz = kontopozycjaZapisDAO.findByKonto(p, wybranyuklad);
-            kontopozycjaZapisDAO.destroy(poz);
+            if (poz!=null) {
+                kontopozycjaZapisDAO.destroy(poz);
+            }
             
         }
         Konto macierzyste = kontoDAO.findKonto(konto.getKontomacierzyste().getPelnynumer(), podatnik, wpisView.getRokWpisu());
