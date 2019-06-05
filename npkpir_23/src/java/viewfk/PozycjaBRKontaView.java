@@ -558,12 +558,14 @@ public class PozycjaBRKontaView implements Serializable {
             macierzyste.setPozycjaMa(null);
             macierzyste.setStronaWn(null);
             macierzyste.setStronaMa(null);
+            macierzyste.setSyntetykaanalityka(null);
             kontoDAO.edit(macierzyste);
             for (Konto p : listaSiostrzane) {
                 p.setPozycjaWn(null);
                 p.setPozycjaMa(null);
                 p.setStronaWn(null);
                 p.setStronaMa(null);
+                p.setSyntetykaanalityka(null);
                 kontabezprzydzialu.remove(p);
                 KontopozycjaZapis poz = kontopozycjaZapisDAO.findByKonto(p, wybranyuklad);
                 if (poz!=null) {
@@ -589,6 +591,7 @@ public class PozycjaBRKontaView implements Serializable {
             p.setPozycjaMa(null);
             p.setStronaWn(null);
             p.setStronaMa(null);
+            p.setSyntetykaanalityka(null);
             kontabezprzydzialu.remove(p);
             KontopozycjaZapis poz = kontopozycjaZapisDAO.findByKonto(p, wybranyuklad);
             if (poz!=null) {
@@ -601,6 +604,7 @@ public class PozycjaBRKontaView implements Serializable {
         macierzyste.setPozycjaMa(null);
         macierzyste.setStronaWn(null);
         macierzyste.setStronaMa(null);
+        macierzyste.setSyntetykaanalityka(null);
         kontoDAO.edit(macierzyste);
         kontoDAO.editList(listaSiostrzane);
         kontabezprzydzialu.add(macierzyste);
