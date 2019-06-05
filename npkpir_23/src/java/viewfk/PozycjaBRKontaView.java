@@ -614,7 +614,7 @@ public class PozycjaBRKontaView implements Serializable {
                     E.e(e);
                 }
             }
-            kontopozycjaZapisDAO.editList(nowezapispozycje);
+            kontopozycjaZapisDAO.dodaj(nowezapispozycje);
         }
         if (rb.equals("b")) {
             List<Konto> kontapodatnikarok = kontoDAO.findWszystkieKontaBilansowePodatnika(podatnik, wpisView.getRokWpisuSt());
@@ -630,7 +630,7 @@ public class PozycjaBRKontaView implements Serializable {
                     E.e(e);
                 }
             }
-            kontopozycjaZapisDAO.editList(nowezapispozycje);
+            kontopozycjaZapisDAO.dodaj(nowezapispozycje);
         }
         Msg.msg("Zapamiętano przyporządkowane pozycje");
     }
