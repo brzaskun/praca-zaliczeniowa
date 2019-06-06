@@ -26,6 +26,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import mail.MailOther;
 import pdf.PdfSTR;
+import waluty.Z;
 
 /**
  *
@@ -127,6 +128,9 @@ public class STREwidencja implements Serializable {
             int i = 1;
             for (SrodekTrw str : lista) {
                 STRtabela strdocelowy = new STRtabela(i, str);
+                if (strdocelowy.getNazwa().equals("Ciągnik rolniczy URSUS C360 -3")) {
+                    System.out.println("");
+                }
                 try {
                     Iterator<UmorzenieN> itX = str.getPlanumorzen().iterator();
                     double umorzenianarastajaco = 0.0;
@@ -135,7 +139,7 @@ public class STREwidencja implements Serializable {
                         if (um.getRokUmorzenia() == rokdzisiejszyI) {
                             String mc = Mce.getNumberToMiesiac().get(um.getMcUmorzenia());
                             strdocelowy.getM().put(mc, um.getKwota());
-                            strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getM().get(mc));
+                            strdocelowy.setOdpisrok(Z.z(strdocelowy.getOdpisrok() + strdocelowy.getM().get(mc)));
                         } else if (um.getRokUmorzenia() < wpisView.getRokWpisu()) {
                             umorzenianarastajaco += um.getKwota();
                         }
@@ -146,7 +150,7 @@ public class STREwidencja implements Serializable {
                     E.e(e); 
                     strdocelowy.setUmorzeniaDo(0.0);
                 }
-                strdocelowy.setPozostaloDoUmorzenia(strdocelowy.getNetto() - strdocelowy.getUmorzeniaDo() + strdocelowy.getOdpisrok());
+                strdocelowy.setPozostaloDoUmorzenia(Z.z(strdocelowy.getNetto() - strdocelowy.getUmorzeniaDo() + strdocelowy.getOdpisrok()));
                 tabela.add(strdocelowy);
                 i++;
             }

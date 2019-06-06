@@ -4,9 +4,12 @@
  */
 package pdf;
 
+import static beansPdf.PdfFont.emptyCell;
+import static beansPdf.PdfFont.formatujLiczba;
 import static beansPdf.PdfFont.formatujWaluta;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import beansPdf.PdfHeaderFooter;
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -20,6 +23,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import embeddable.Mce;
 import embeddable.STRtabela;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -36,7 +40,7 @@ import view.WpisView;
 public class PdfSTR {
 
     public static void drukuj(WpisView wpisView, List<STRtabela> wykaz) throws DocumentException, FileNotFoundException, IOException {
-        Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
+        Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 20, 25);
         PdfWriter writer = PdfWriter.getInstance(pdf, Plik.plikR("srodki" + wpisView.getPodatnikWpisu() + ".pdf"));
         int liczydlo = 1;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
@@ -62,7 +66,7 @@ public class PdfSTR {
         PdfPCell cell = new PdfPCell();
         table.addCell(ustawfrazeAlign("nr", "center",9));
         table.addCell(ustawfrazeAlign("nazwa środka", "center",9));
-        table.addCell(ustawfrazeAlign("data przyj.", "center",9));
+        table.addCell(ustawfrazeAlign("data przyj./sprzed.", "center",9));
         table.addCell(ustawfrazeAlign("KST", "center",9));
         table.addCell(ustawfrazeAlign("cena zakupu", "center",9));
         table.addCell(ustawfrazeAlign("odpis roczny", "center",9));
@@ -89,23 +93,23 @@ public class PdfSTR {
                 table.addCell(ustawfrazeAlign("", "center",7));
             }
             table.addCell(ustawfrazeAlign(rs.getNazwa(), "left",7, 23f));
-            table.addCell(ustawfrazeAlign(rs.getDataprzek(), "left",7));
+            if (rs.getDatasprzedazy()!=null&&!rs.getDatasprzedazy().equals("")) {
+                String daty = rs.getDataprzek()+" / "+rs.getDatasprzedazy();
+                table.addCell(ustawfrazeAlign(daty, "left",7, BaseColor.GREEN));
+            } else {
+                table.addCell(ustawfrazeAlign(rs.getDataprzek(), "left",7));
+            }
             table.addCell(ustawfrazeAlign(rs.getKst(), "left",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto()), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getOdpisrok()), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getUmorzeniaDo()), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getM().get("01")), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getM().get("02")), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getM().get("03")), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getM().get("04")), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getM().get("05")), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getM().get("06")), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getM().get("07")), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getM().get("08")), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getM().get("09")), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getM().get("10")), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getM().get("11")), "right",7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getM().get("12")), "right",7));
+            table.addCell(ustawfrazeAlign(formatujLiczba(rs.getNetto()), "right",7));
+            table.addCell(ustawfrazeAlign(formatujLiczba(rs.getOdpisrok()), "right",7));
+            table.addCell(ustawfrazeAlign(formatujLiczba(rs.getUmorzeniaDo()), "right",7));
+            for (String mc : Mce.getMceListS()) {
+                if (rs.getM().get(mc)!=0.0) {
+                    table.addCell(ustawfrazeAlign(formatujLiczba(rs.getM().get(mc)), "right",7));
+                } else {
+                    table.addCell(emptyCell());
+                }
+            }
         }
         pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());
         pdf.add(new Chunk());

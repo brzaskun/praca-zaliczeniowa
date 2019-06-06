@@ -5,6 +5,8 @@
  */
 package xls;
 
+import embeddable.Mce;
+import embeddable.STRtabela;
 import embeddablefk.SaldoKonto;
 import embeddablefk.TreeNodeExtended;
 import entity.Rodzajedok;
@@ -33,6 +35,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFPrintSetup;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -302,6 +305,43 @@ public class WriteXLSFile {
         return workbook;
     }
     
+    public static Workbook zachowajSrodkiXLS(Map<String, List> listy, WpisView wpisView){
+        List lista = listy.get("srodkitrwale");
+        List headersList = headersrodki();
+        // Using XSSF for xlsx format, for xls use HSSF
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Śr.trwale");
+        insertPrintHeader(sheet, wpisView);
+        int rowIndex = 0;
+        String opis = "Ewidencja środków trwałych "+wpisView.getPrintNazwa()+" na koniec "+wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu();
+        rowIndex = drawATable(workbook, sheet, rowIndex, headersList, lista, opis, 4, "srodkitrwale");
+        workbook.setPrintArea(
+        0, //sheet index
+        0, //start column
+        4, //end column
+        0, //start row
+        rowIndex //end row
+        );
+      //set paper size
+        sheet.getPrintSetup().setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
+        sheet.setFitToPage(true);
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String realPath = ctx.getRealPath("/");
+        String FILE_PATH = realPath+FILE_PATH1;
+        //write this workbook in excel file.
+        try {
+            OutputStream fos = new FileOutputStream(FILE_PATH);
+            workbook.write(fos);
+            fos.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return workbook;
+    }
+    
     public static List listaprzychody() {
         List przychody = new ArrayList();
         przychody.add(new PozycjaPrzychodKoszt(1,"702-2-1", "Przychody", "Sprzedaż krajowa", 141196.48));
@@ -394,6 +434,31 @@ public class WriteXLSFile {
         return headers;
     }
     
+    public static List headersrodki() {
+        List headers = new ArrayList();
+        headers.add("lp");
+        headers.add("nazwa środka");
+        headers.add("data przyj.");
+        headers.add("data sprzed.");
+        headers.add("KST");
+        headers.add("cena zakupu");
+        headers.add("odpis roczny");
+        headers.add("umorz. dot.");
+        headers.add(Mce.getNumberToNazwamiesiaca().get(1));
+        headers.add(Mce.getNumberToNazwamiesiaca().get(2));
+        headers.add(Mce.getNumberToNazwamiesiaca().get(3));
+        headers.add(Mce.getNumberToNazwamiesiaca().get(4));
+        headers.add(Mce.getNumberToNazwamiesiaca().get(5));
+        headers.add(Mce.getNumberToNazwamiesiaca().get(6));
+        headers.add(Mce.getNumberToNazwamiesiaca().get(7));
+        headers.add(Mce.getNumberToNazwamiesiaca().get(8));
+        headers.add(Mce.getNumberToNazwamiesiaca().get(9));
+        headers.add(Mce.getNumberToNazwamiesiaca().get(10));
+        headers.add(Mce.getNumberToNazwamiesiaca().get(11));
+        headers.add(Mce.getNumberToNazwamiesiaca().get(12));
+        return headers;
+    }
+    
     public static List headerRZiSBilansInter() {
         List headers = new ArrayList();
         headers.add("lp");
@@ -419,6 +484,8 @@ public class WriteXLSFile {
         Row rowTH = sheet.createRow(rowIndex++);
         CellStyle styleheader = styleHeader(workbook, HorizontalAlignment.CENTER, VerticalAlignment.CENTER, (short) 10);
         createHeaderCell(styleheader, rowTH, (short) 2, tableheader);
+        CellRangeAddress region = new CellRangeAddress( rowIndex-1, rowIndex-1, (short) 2, (short)12);
+        sheet.addMergedRegion(region);
         CellStyle styletext = styleText(workbook, HorizontalAlignment.LEFT, VerticalAlignment.CENTER);
         CellStyle styletextcenter = styleText(workbook, HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
         CellStyle styleformula = styleFormula(workbook, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER);
@@ -490,6 +557,25 @@ public class WriteXLSFile {
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getSaldoMa());
             createTextCell(styletext, row, (short) columnIndex++, st.getKonto().getKontomacierzyste()!=null? st.getKonto().getKontomacierzyste().getPelnynumer():"");
             createTextCell(styletext, row, (short) columnIndex++, st.getKonto().getKontomacierzyste()!=null? st.getKonto().getKontomacierzyste().getNazwapelna():"");
+        } else if (c.getName().contains("STRtabela")) {
+            STRtabela st = (STRtabela) ob;
+            if (!st.getDataprzek().equals("razem")) {
+                createTextCell(styletextcenter, row, (short) columnIndex++, String.valueOf(st.getId()));
+                createTextCell(styletext, row, (short) columnIndex++, st.getNazwa());
+                createTextCell(styletext, row, (short) columnIndex++, st.getDataprzek());
+                createTextCell(styletext, row, (short) columnIndex++, st.getDatasprzedazy());
+                createTextCell(styletext, row, (short) columnIndex++, st.getKst());
+                createDoubleCell(styledouble, row, (short) columnIndex++, st.getNetto());
+                createDoubleCell(styledouble, row, (short) columnIndex++, st.getOdpisrok());
+                createDoubleCell(styledouble, row, (short) columnIndex++, st.getUmorzeniaDo());
+                for (String mc : Mce.getMceListS()) {
+                    if (st.getM().get(mc)!=0.0) {
+                        createDoubleCell(styledouble, row, (short) columnIndex++, st.getM().get(mc));
+                    } else {
+                        createTextCell(styletext, row, (short) columnIndex++, "");
+                    }
+                }
+            }
         } else if (c.getName().contains("Konto")) {
             Konto st = (Konto) ob;
             createTextCell(styletext, row, (short) columnIndex++, String.valueOf(rowIndex));
@@ -543,6 +629,40 @@ public class WriteXLSFile {
             formula = "SUM(M"+startindex+":M"+rowIndex+")";
             createFormulaCell(styleformula, row, (short) 12, formula);
             
+        } else if (typ == 4) {
+            Row row = sheet.createRow(rowIndex);
+            createTextCell(styletext, row, (short) 3, "Razem: ");
+            createTextCell(styletext, row, (short) 4, "");
+            String formula = "SUM(F"+startindex+":F"+rowIndex+")";
+            createFormulaCell(styleformula, row, (short) 5, formula);
+            formula = "SUM(G"+startindex+":G"+rowIndex+")";
+            createFormulaCell(styleformula, row, (short) 6, formula);
+            formula = "SUM(H"+startindex+":H"+rowIndex+")";
+            createFormulaCell(styleformula, row, (short) 7, formula);
+            formula = "SUM(I"+startindex+":I"+rowIndex+")";
+            createFormulaCell(styleformula, row, (short) 8, formula);
+            formula = "SUM(J"+startindex+":J"+rowIndex+")";
+            createFormulaCell(styleformula, row, (short) 9, formula);
+            formula = "SUM(K"+startindex+":K"+rowIndex+")";
+            createFormulaCell(styleformula, row, (short) 10, formula);
+            formula = "SUM(L"+startindex+":L"+rowIndex+")";
+            createFormulaCell(styleformula, row, (short) 11, formula);
+            formula = "SUM(M"+startindex+":M"+rowIndex+")";
+            createFormulaCell(styleformula, row, (short) 12, formula);
+            formula = "SUM(N"+startindex+":N"+rowIndex+")";
+            createFormulaCell(styleformula, row, (short) 13, formula);
+            formula = "SUM(O"+startindex+":O"+rowIndex+")";
+            createFormulaCell(styleformula, row, (short) 14, formula);
+            formula = "SUM(P"+startindex+":P"+rowIndex+")";
+            createFormulaCell(styleformula, row, (short) 15, formula);
+            formula = "SUM(Q"+startindex+":Q"+rowIndex+")";
+            createFormulaCell(styleformula, row, (short) 16, formula);
+            formula = "SUM(R"+startindex+":R"+rowIndex+")";
+            createFormulaCell(styleformula, row, (short) 17, formula);
+            formula = "SUM(S"+startindex+":S"+rowIndex+")";
+            createFormulaCell(styleformula, row, (short) 18, formula);
+            formula = "SUM(T"+startindex+":T"+rowIndex+")";
+            createFormulaCell(styleformula, row, (short) 19, formula);
         } 
         return rowIndex;
     }

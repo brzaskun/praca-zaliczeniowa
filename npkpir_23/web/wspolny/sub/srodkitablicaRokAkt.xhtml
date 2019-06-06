@@ -16,6 +16,8 @@
         <p:growl life="3600"  id="mess_add" />
         <p:commandButton  value="Zachowaj w pdf" global="false" actionListener="#{sesjaView.dodajwydruk()}" action="#{STREwidencja.drukewidencjaSTR()}" onsuccess="wydrukstr('#{WpisView.podatnikWpisu}');">
         </p:commandButton>  
+        <p:commandButton  value="Zachowaj w xls" global="false" action="#{xLSSrodkiEwidView.zachowajwXLS(STREwidencja.strtabela)}" onsuccess="wydrukstr('#{WpisView.podatnikWpisu}');"  ajax="false">
+        </p:commandButton>  
         <p:commandButton id="ewwysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show()" style="display: none;" >
         </p:commandButton>
         <p:separator/>
@@ -27,7 +29,7 @@
                 <h:outputText value="Ewidencja środków trwałych za rok #{WpisView.rokWpisuSt}"  styleClass="ewidencjavat"/>  
             </f:facet>
 
-            <p:column id="Column0" headerText="#{mgs.nr}" width="10" style="text-align: center;" >  
+            <p:column id="Column0" headerText="#{mgs.nr}" width="15" style="text-align: center;" >  
                 <h:outputText value="#{wpis.id}"  rendered="#{wpis.id != 0}"  style="#{wpis.dataprzek.substring(0,4) eq WpisView.rokWpisuSt ? 'color: green; font-weight: 900;' : null}"/>
             </p:column>
 

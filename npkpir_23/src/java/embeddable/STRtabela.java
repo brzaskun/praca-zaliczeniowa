@@ -21,6 +21,7 @@ public class STRtabela {
     private String datawy;
     private String dataprzek;
     private String datazak;
+    private String datasprzedazy;
     private String kst;
     private Double odpisrok;
     private Double netto;
@@ -44,6 +45,7 @@ public class STRtabela {
         this.setDatawy("");
         this.setNetto(str.getNetto());
         this.setPodatnik(str.getPodatnik());
+        this.setDatasprzedazy(str.getDatasprzedazy());
         this.m = mapaMce();
         
     }
@@ -164,6 +166,14 @@ public class STRtabela {
 
     public void setUmorzeniaDo(double umorzeniaDo) {
         this.umorzeniaDo = umorzeniaDo;
+    }
+
+    public String getDatasprzedazy() {
+        return datasprzedazy;
+    }
+
+    public void setDatasprzedazy(String datasprzedazy) {
+        this.datasprzedazy = datasprzedazy;
     }
 
     public double getPozostaloDoUmorzenia() {
