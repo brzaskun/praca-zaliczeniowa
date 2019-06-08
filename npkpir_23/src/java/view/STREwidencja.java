@@ -4,9 +4,13 @@
  */
 package view;
 
+import beansSrodkiTrwale.SrodkiTrwBean;
 import comparator.SrodekTrwcomparatorData;
+import comparator.UmorzenieNcomparator;
 import dao.SMTPSettingsDAO;
 import dao.STRDAO;
+import dao.UmorzenieDAO;
+import data.Data;
 import embeddable.Mce;
 import embeddable.STRtabela;
 import entity.SrodekTrw;
@@ -25,6 +29,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import mail.MailOther;
+import msg.Msg;
 import pdf.PdfSTR;
 import waluty.Z;
 
@@ -50,6 +55,7 @@ public class STREwidencja implements Serializable {
     //srodki trwale wykaz rok biezacy
     private List<STRtabela> strtabela;
     private List<STRtabela> wniptabela;
+    private STRtabela selected;
     /**
      * Dane informacyjne gora strony srodkitablica.xhtml
      */
@@ -106,7 +112,9 @@ public class STREwidencja implements Serializable {
                         if (przegladanySrodek.getDatazak().substring(0, 4).equals(rokdzisiejszyS)) {
                             zakupionewbiezacyrok++;
                         }
-                        listaSrodkiTrwale.add(przegladanySrodek);
+                        if (Integer.parseInt(przegladanySrodek.getDatazak().substring(0, 4))<=rokdzisiejszyI) {
+                            listaSrodkiTrwale.add(przegladanySrodek);
+                        }
                     }
                 }
                 iloscsrodkow = listaSrodkiTrwale.size();
@@ -183,6 +191,50 @@ public class STREwidencja implements Serializable {
         }
         tabela.add(podsumowanie);
     }
+    
+    public void przekalkulujponownie() {
+        SrodekTrw p = selected.getSrodekTrw();
+        try {
+            p.setUmorzPlan(null);
+            p.setPlanumorzen(null);
+            sTRDAO.edit(p);
+            p.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(p));
+            p.setZlikwidowany(0);
+            p.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(p, wpisView));
+            sTRDAO.edit(p);
+        } catch (Exception e) { 
+            E.e(e); 
+        }
+        p = sTRDAO.findStrId(p);
+        int rok = Integer.parseInt(Data.getRok(p.getDatasprzedazy()));
+        int mc = Mce.getMiesiacToNumber().get(Data.getMc(p.getDatasprzedazy()));
+        Double suma = 0.0;
+        Double umorzeniesprzedaz = 0.0;
+        Collections.sort(p.getPlanumorzen(), new UmorzenieNcomparator());
+        for (Iterator<UmorzenieN> it = p.getPlanumorzen().iterator(); it.hasNext(); ) {
+            UmorzenieN x = it.next();
+            if (x.getRokUmorzenia() < rok) {
+                suma += x.getKwota();
+            } else if (x.getRokUmorzenia() == rok && x.getMcUmorzenia() < mc) {
+                suma += x.getKwota();
+            } else if (x.getRokUmorzenia() == rok && x.getMcUmorzenia() == mc) {
+                umorzeniesprzedaz = Z.z(p.getNetto() - p.getUmorzeniepoczatkowe() - suma);
+                x.setKwota(umorzeniesprzedaz);
+                p.setKwotaodpislikwidacja(umorzeniesprzedaz);
+            } else {
+                it.remove();
+            }
+        }
+        try {
+            p.setZlikwidowany(1);
+            sTRDAO.edit(p);
+            init();
+            Msg.msg("i", "Nowa kalkulacja dla środka: " + p.getNazwa() + ". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!");
+        } catch (Exception e) { E.e(e); 
+            Msg.msg("e", "Wystapił błąd - nie przekalkulowano środka: " + p.getNazwa());
+        }
+    }
+
     
     public void mailewidencjaSTR() {
         try {
@@ -262,6 +314,14 @@ public class STREwidencja implements Serializable {
 
     public void setWest(String west) {
         this.west = west;
+    }
+
+    public STRtabela getSelected() {
+        return selected;
+    }
+
+    public void setSelected(STRtabela selected) {
+        this.selected = selected;
     }
 
     public List<STRtabela> getWniptabela() {

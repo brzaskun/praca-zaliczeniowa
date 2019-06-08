@@ -28,6 +28,7 @@ public class STRtabela {
     private Map<String, Double> m;
     private double umorzeniaDo;
     private double pozostaloDoUmorzenia;
+    private SrodekTrw srodekTrw;
 
     public STRtabela() {
        this.m = mapaMce();
@@ -47,6 +48,7 @@ public class STRtabela {
         this.setPodatnik(str.getPodatnik());
         this.setDatasprzedazy(str.getDatasprzedazy());
         this.m = mapaMce();
+        this.srodekTrw = str;
         
     }
     
@@ -110,6 +112,14 @@ public class STRtabela {
         String zwrot = dataprzek;
         if (zwrot.length() == 10) {
             zwrot = dataprzek.substring(2, 10);
+        }
+        return zwrot;
+    }
+    
+    public String getDatasprzedazysub() {
+        String zwrot = datasprzedazy;
+        if (zwrot !=null && zwrot.length() == 10) {
+            zwrot = datasprzedazy.substring(2, 10);
         }
         return zwrot;
     }
@@ -187,5 +197,13 @@ public class STRtabela {
     
     
     //</editor-fold>
+
+    public SrodekTrw getSrodekTrw() {
+        return srodekTrw;
+    }
+
+    public void setSrodekTrw(SrodekTrw srodekTrw) {
+        this.srodekTrw = srodekTrw;
+    }
     
 }

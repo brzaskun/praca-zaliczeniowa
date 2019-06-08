@@ -8,6 +8,7 @@ import beansSrodkiTrwale.SrodkiTrwBean;
 import com.itextpdf.text.DocumentException;
 import comparator.SrodekTrwNowaWartoscComparator;
 import comparator.SrodekTrwcomparator;
+import comparator.UmorzenieNcomparator;
 import dao.STRDAO;
 import data.Data;
 import entity.SrodekTrw;
@@ -273,15 +274,19 @@ public class STRTabView implements Serializable {
         int mc = Integer.parseInt(wpisView.getMiesiacWpisu());
         Double suma = 0.0;
         Double umorzeniesprzedaz = 0.0;
-        for (UmorzenieN x : p.getPlanumorzen()) {
-            if (x.getRokUmorzenia() <= rok && x.getMcUmorzenia() < mc) {
+        Collections.sort(p.getPlanumorzen(), new UmorzenieNcomparator());
+        for (Iterator<UmorzenieN> it = p.getPlanumorzen().iterator(); it.hasNext(); ) {
+            UmorzenieN x = it.next();
+            if (x.getRokUmorzenia() < rok) {
+                suma += x.getKwota();
+            } else if (x.getRokUmorzenia() == rok && x.getMcUmorzenia() < mc) {
                 suma += x.getKwota();
             } else if (x.getRokUmorzenia() == rok && x.getMcUmorzenia() == mc) {
                 umorzeniesprzedaz = p.getNetto() - p.getUmorzeniepoczatkowe() - suma;
                 x.setKwota(0.0);
-                p.setKwotaodpislikwidacja(0.0);
+                p.setKwotaodpislikwidacja(umorzeniesprzedaz);
             } else {
-                x.setKwota(0.0);
+                it.remove();
             }
         }
         try {
@@ -317,7 +322,8 @@ public class STRTabView implements Serializable {
             Msg.msg("e", "Wystapił błąd - nie cofnięto sprzedaży/wycofania: " + p.getNazwa());
         }
     }
-
+    
+    
     //<editor-fold defaultstate="collapsed" desc="comment">
     
     public List<SrodekTrw> getFilteredValues() {
@@ -617,6 +623,7 @@ public class STRTabView implements Serializable {
         } catch (Exception e) {
             E.e(e); 
         }
+        
     }
 
     public void dodajSrodekTrwaly() {

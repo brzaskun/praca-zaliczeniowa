@@ -5,6 +5,7 @@
  */
 package view;
 
+import comparator.UmorzenieNcomparator;
 import data.Data;
 import entity.SrodekTrw;
 import entity.UmorzenieN;
@@ -12,6 +13,7 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import javax.faces.bean.ManagedBean;
@@ -106,17 +108,19 @@ public class STRSprzedazView extends STRTabView implements Serializable {
         sprzedawanySrodekTrw.setKwotaodpislikwidacja(0.0);
         Double suma = 0.0;
         Double umorzeniesprzedaz = 0.0;
-        for(UmorzenieN x : sprzedawanySrodekTrw.getPlanumorzen()){
-            if (x.getRokUmorzenia()<rok){
+        Collections.sort(sprzedawanySrodekTrw.getPlanumorzen(), new UmorzenieNcomparator());
+        for (Iterator<UmorzenieN> it = sprzedawanySrodekTrw.getPlanumorzen().iterator(); it.hasNext(); ) {
+            UmorzenieN x = it.next();
+            if (x.getRokUmorzenia() < rok) {
                 suma += x.getKwota();
-            } else if (x.getRokUmorzenia()==rok&&x.getMcUmorzenia()<mc) {
+            } else if (x.getRokUmorzenia() == rok && x.getMcUmorzenia() < mc) {
                 suma += x.getKwota();
-            } else if (x.getRokUmorzenia()==rok&&x.getMcUmorzenia()==mc){
-                umorzeniesprzedaz = sprzedawanySrodekTrw.getNetto()-sprzedawanySrodekTrw.getUmorzeniepoczatkowe()-suma+sprzedawanySrodekTrw.getNiepodlegaamortyzacji();
-                x.setKwota(Z.z(umorzeniesprzedaz));
-                sprzedawanySrodekTrw.setKwotaodpislikwidacja(Z.z(x.getKwota()));
-            } else {
+            } else if (x.getRokUmorzenia() == rok && x.getMcUmorzenia() == mc) {
+                umorzeniesprzedaz = sprzedawanySrodekTrw.getNetto() - sprzedawanySrodekTrw.getUmorzeniepoczatkowe() - suma;
                 x.setKwota(0.0);
+                sprzedawanySrodekTrw.setKwotaodpislikwidacja(umorzeniesprzedaz);
+            } else {
+                it.remove();
             }
         }
     }

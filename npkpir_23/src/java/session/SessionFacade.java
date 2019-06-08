@@ -2514,6 +2514,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return em.createNamedQuery("PodatnikEwidencjaDok.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
 
+    public SrodekTrw findStrId(Integer id) {
+        return (SrodekTrw) em.createNamedQuery("SrodekTrw.findById").setParameter("id", id).getSingleResult();
+    }
+
     
     
 

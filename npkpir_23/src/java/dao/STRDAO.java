@@ -55,6 +55,14 @@ public class STRDAO extends DAO implements Serializable{
         }
    }
    
+   public  SrodekTrw findStrId(SrodekTrw p ){
+        try {
+            return strFacade.findStrId(p.getId());
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+   }
+   
    public  List<SrodekTrw> findStrPodDokfk(String pod, Dokfk dokfk){
         try {
             return strFacade.findStrPodDokfk(pod, dokfk);
