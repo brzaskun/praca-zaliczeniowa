@@ -612,4 +612,20 @@ public class Wiersz implements Serializable {
         }
         return zwrot;
     }
+    
+    public Wiersz getWiersznastepny() {
+        Wiersz zwrot = null;
+        List<Wiersz> wiersze = this.dokfk.getListawierszy();
+        boolean pobrac = false;
+        for (Wiersz w : wiersze) {
+            if (pobrac) {
+                zwrot = w;
+                break;
+            }
+            if (w==this) {
+                pobrac = true;
+            }
+        }
+        return zwrot;
+    }
 }

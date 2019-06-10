@@ -4210,6 +4210,49 @@ public void oznaczjakonkup() {
             }
         }
     }
+    
+    public void usunzapisy(Konto konto, List<StronaWiersza> kontozapisy) {
+        List<Konto> konta = new ArrayList();
+        if (konto.isMapotomkow()) {
+            List<Konto> kontatmp = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), konto);
+            if (kontatmp!=null) {
+                for (Konto r : kontatmp) {
+                    if (!r.isMapotomkow()) {
+                        konta.add(r);
+                    } else {
+                        konta = new ArrayList();
+                        break;
+                    }
+                }
+            }
+        } else {
+            konta.add(konto);
+        }
+        if (konta.size()==0) {
+            Msg.msg("e", "Wybrano konto za wysokiego rzędu");
+        } else {
+            Msg.msg("i", "Rozpoczynam usuwanie zapisów z kont");
+            for (StronaWiersza s : kontozapisy) {
+                if (konta.contains(s.getKonto())) {
+                    boolean usun = false;
+                    if (s.getWiersz().getTypWiersza()==0 && s.getWiersz().getWiersznastepny()==null) {
+                        usun = true;
+                    } else if (s.getWiersz().getTypWiersza()==0 && s.getWiersz().getWiersznastepny()!=null && s.getWiersz().getWiersznastepny().getTypWiersza()==0) {
+                        usun = true;
+                    }
+                    if (usun && s.getWierszbo()==null) {
+                        try {
+                            Dokfk dok = s.getDokfk();
+                            dok.getListawierszy().remove(s.getWiersz());
+                            ObslugaWiersza.przenumerujSelected(dok);
+                            dokDAOfk.edit(dok);
+                        } catch (Exception e){}
+                    }
+                }
+            }
+            Msg.msg("i", "Usunąłem zapisy z kont");
+        }
+    }
 //nie wiem czy to nie jest zbedne
 //    private void usunrozrachunki(int liczbawierszyWDokumencie) {
 //        List<StronaWiersza> strony = Collections.synchronizedList(new ArrayList<>());

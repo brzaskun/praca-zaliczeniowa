@@ -177,6 +177,8 @@
                     <p:contextMenu for="dataList" style="width: 200px;" >
                         <p:menuitem icon="fa fa-check-square" value="sprawdzono" actionListener="#{kontoZapisFKView.oznaczjakosprawdzone(1)}" oncomplete="zmienkolor()" global="false"/>
                         <p:menuitem icon="fa fa-ban" value="odsprawdź" actionListener="#{kontoZapisFKView.oznaczjakosprawdzone(0)}"  oncomplete="zmienkolor1()" global="false"/>
+                        <p:separator/>
+                        <p:menuitem icon="fa fa-trash" value="usuń zapisy" actionListener="#{dokfkView.usunzapisy(kontoZapisFKView.wybranekonto, kontoZapisFKView.kontozapisy)}"   global="false" rendered="#{facesContext.externalContext.remoteUser eq '4'}/>
                     </p:contextMenu>
                     </p:outputPanel>
                 </h:form>

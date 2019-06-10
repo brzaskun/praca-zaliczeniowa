@@ -1825,6 +1825,8 @@ public class KontoZapisFKView implements Serializable{
     }
     
     
+    
+    
 
 }
 
