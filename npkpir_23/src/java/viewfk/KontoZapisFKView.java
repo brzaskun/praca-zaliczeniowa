@@ -1336,7 +1336,15 @@ public class KontoZapisFKView implements Serializable{
                     rozrachunkowe++;
                 }
             } else {
-              bo++;  
+              if (p.getNowetransakcje().isEmpty() && p.getPlatnosci().isEmpty()) {
+                    p.getWierszbo().setKonto(kontodoprzeksiegowania);
+                    wierszBODAO.edit(p.getWierszbo());
+                    p.setKonto(kontodoprzeksiegowania);
+                    stronaWierszaDAO.edit(p);
+                    kontozapisy.remove(p);
+                } else {
+                    rozrachunkowe++;
+                }
             }
         }
         if (rozrachunkowe > 0) {
