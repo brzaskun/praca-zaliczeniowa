@@ -7,73 +7,80 @@
     >
     <p:dialog id="dialogdanedosprawozdania" header="Wzorcowy Układ Rachunku Zysków i Strat - przypisywanie kont" widgetVar="danedosprawozdania" dynamic="true"
               resizable="false" onShow="ustawdialog('dialogdanedosprawozdania','menubilanse', 1050, 710);" closeOnEscape="true" onHide="resetujdialog('dialogdanedosprawozdania');"  >
-        <h:form id="form_dialogdanedosprawozdania">
-            <p:panelGrid columns="3">
-                <h:outputText value="nazwa pozycji wyliczenia" style="font-weight: 900"/>
-                <h:outputText value="kwota rok pop." style="font-weight: 900"/>
-                <h:outputText value="kwota rok bież." style="font-weight: 900"/>
-                <h:outputText value="A. Zysk (strata) brutto za dany rok"/>
-                <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid1A}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
-                <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid1B}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
-                <h:outputText value="B. Przychody zwolnione z opodatkowania (trwałe różnice pomiędzy zyskiem/stratą dla celów rachunkowych a dochodem/stratą dla celów podatkowych)"/>
-                <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid2A}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
-                <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid2B}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
-                <h:outputText value="C. Przychody niepodlegające opodatkowania w roku bieżącym"/>
-                <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid3A}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
-                <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid3B}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
-                <h:outputText value="D. Przychody podlegające opodatkowania w roku bieżącym, ujęte w księgach rachunkowych lat ubiegłych"/>
-                <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid4A}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
-                <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid4B}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
-                <h:outputText value="E. Koszty niestanowiące kosztów uzyskania przychodów (trwałe różnice pomiędzy zyskiem/stratą dla celów rachunkowych a dochodem/stratą dla celów podatkowych)"/>
-                <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid5A}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
-                <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid5B}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
-                <h:outputText value="F. Koszty nieuznawane za koszty uzyskania przychodów w bieżącym roku"/>
-                <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid6A}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
-                <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid6B}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
-                <h:outputText value="G. Koszty uznawane za koszty uzyskania przychodów w roku bieżącym ujęte w księgach lat ubiegłych"/>
-                <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid7A}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
-                <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid7B}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
-                <h:outputText value="H. Strata z lat ubiegłych"/>
-                <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid8A}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
-                <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid8B}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
-                <h:outputText value="I. Inne zmiany podstawy opodatkowania"/>
-                <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid9A}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
-                <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid9B}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
-                <h:outputText value="J. Podstawa opodatkowania podatkiem dochodowy"/>
-                <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid10A}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
-                <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid10B}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
-                <h:outputText value="K. Podatek dochodowy"/>
-                <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid11A}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
-                <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid11B}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
-            </p:panelGrid>
-            <p:panelGrid columns="6" style="margin-top: 10px;">
-                <h:outputText value="data sporządzenia" style="font-weight: bold;"/>
-                <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.datasporzadzenia}" size="14" maxlength="10" placeholder="____-__-__"/>
-                <h:outputText value="data OD" style="font-weight: bold;"/>
-                <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.dataod}" size="14" maxlength="10"  placeholder="____-__-__"/>
-                <h:outputText value="data DO" style="font-weight: bold;"/>
-                <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.datado}" size="14" maxlength="10"  placeholder="____-__-__"/>
-            </p:panelGrid>
-            <p:panelGrid columns="2" style="margin-top: 10px;">
-                <p:commandButton value="zapisz" actionListener="#{sprFinKwotyInfDodView.zapisz}" style="width: 120px;" update="@form"/>
-            </p:panelGrid>
-        </h:form>
-        <h:form>
-            <p:panelGrid columns="1" style="margin-top: 20px;">
-               <h:outputText value="plik z informacją dodatkową (nazwa bez spacji i polskich znaków!!)" style="font-weight: bold;"/>
-               <p:fileUpload fileUploadListener="#{sprFinKwotyInfDodView.zachowajplik}" 
-                                mode="advanced" dragDropSupport="true" fileLimit="3"
-                                update="messages1" sizeLimit="600000"   
-                                validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
-                                fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
-                                uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
-                                style="height: 100px;">
-                </p:fileUpload>
-               <p:growl life="3600"  id="messages1" showDetail="true"/>
-               <h:outputText value="uprzednio wprowadzono plik: #{sprFinKwotyInfDodView.sprFinKwotyInfDod.nazwapliku}" rendered="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.plik ne null}" style="font-weight: bold; color: green;"/>
-               <p:commandButton value="pokaż" style="width: 120px;" actionListener="#{sprFinKwotyInfDodView.pokazplik}"/>
-            </p:panelGrid>
-        </h:form>
+        <p:tabView id="akordeon">
+            <p:tab title="dane fin.">
+                <h:form id="form_dialogdanedosprawozdania">
+                    <p:panelGrid columns="3">
+                        <h:outputText value="nazwa pozycji wyliczenia" style="font-weight: 900"/>
+                        <h:outputText value="kwota rok pop." style="font-weight: 900"/>
+                        <h:outputText value="kwota rok bież." style="font-weight: 900"/>
+                        <h:outputText value="A. Zysk (strata) brutto za dany rok"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid1A}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid1B}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
+                        <h:outputText value="B. Przychody zwolnione z opodatkowania (trwałe różnice pomiędzy zyskiem/stratą dla celów rachunkowych a dochodem/stratą dla celów podatkowych)"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid2A}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid2B}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
+                        <h:outputText value="C. Przychody niepodlegające opodatkowania w roku bieżącym"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid3A}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid3B}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
+                        <h:outputText value="D. Przychody podlegające opodatkowania w roku bieżącym, ujęte w księgach rachunkowych lat ubiegłych"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid4A}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid4B}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
+                        <h:outputText value="E. Koszty niestanowiące kosztów uzyskania przychodów (trwałe różnice pomiędzy zyskiem/stratą dla celów rachunkowych a dochodem/stratą dla celów podatkowych)"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid5A}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid5B}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
+                        <h:outputText value="F. Koszty nieuznawane za koszty uzyskania przychodów w bieżącym roku"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid6A}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid6B}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
+                        <h:outputText value="G. Koszty uznawane za koszty uzyskania przychodów w roku bieżącym ujęte w księgach lat ubiegłych"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid7A}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid7B}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
+                        <h:outputText value="H. Strata z lat ubiegłych"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid8A}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid8B}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
+                        <h:outputText value="I. Inne zmiany podstawy opodatkowania"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid9A}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid9B}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
+                        <h:outputText value="J. Podstawa opodatkowania podatkiem dochodowy"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid10A}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid10B}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
+                        <h:outputText value="K. Podatek dochodowy"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid11A}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid11B}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s"/>
+                    </p:panelGrid>
+                    <p:panelGrid columns="6" style="margin-top: 10px;">
+                        <h:outputText value="data sporządzenia" style="font-weight: bold;"/>
+                        <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.datasporzadzenia}" size="14" maxlength="10" placeholder="____-__-__"/>
+                        <h:outputText value="data OD" style="font-weight: bold;"/>
+                        <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.dataod}" size="14" maxlength="10"  placeholder="____-__-__"/>
+                        <h:outputText value="data DO" style="font-weight: bold;"/>
+                        <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.datado}" size="14" maxlength="10"  placeholder="____-__-__"/>
+                    </p:panelGrid>
+                    <p:panelGrid columns="2" style="margin-top: 10px;">
+                        <p:commandButton value="zapisz" actionListener="#{sprFinKwotyInfDodView.zapisz}" style="width: 120px;" update="@form"/>
+                    </p:panelGrid>
+                </h:form>
+                <h:form>
+                    <p:panelGrid columns="1" style="margin-top: 20px;">
+                        <h:outputText value="plik z informacją dodatkową (nazwa bez spacji i polskich znaków!!)" style="font-weight: bold;"/>
+                        <p:fileUpload fileUploadListener="#{sprFinKwotyInfDodView.zachowajplik}" 
+                                      mode="advanced" dragDropSupport="true" fileLimit="3"
+                                      update="messages1 @form" sizeLimit="600000"   
+                                      validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
+                                      fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
+                                      uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
+                                      style="height: 100px;">
+                        </p:fileUpload>
+                        <p:growl life="3600"  id="messages1" showDetail="true"/>
+                        <h:outputText value="uprzednio wprowadzono plik: #{sprFinKwotyInfDodView.sprFinKwotyInfDod.nazwapliku}" rendered="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.plik ne null}" style="font-weight: bold; color: green;"/>
+                        <p:commandButton value="pokaż" style="width: 120px;margin-top: 20px;" actionListener="#{sprFinKwotyInfDodView.pokazplik}"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:tab>
+            <p:tab title="inf.dodatkowa">
+                
+            </p:tab>
+        </p:tabView>
     </p:dialog>
 </ui:composition>
 
