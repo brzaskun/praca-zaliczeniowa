@@ -99,22 +99,28 @@ public class STREwidencja implements Serializable {
                 int i = 1;
                 int j = 1;
                 for (SrodekTrw przegladanySrodek : c) {
-                    if (przegladanySrodek.getTyp() != null && przegladanySrodek.getTyp().equals("wyposazenie")) {
-                        przegladanySrodek.setNrsrodka(i++);
-                        listaWyposazenia.add(przegladanySrodek);
+                    try {
+                        if (przegladanySrodek.getTyp() != null && przegladanySrodek.getTyp().equals("wyposazenie")) {
+                            przegladanySrodek.setNrsrodka(i++);
+                            listaWyposazenia.add(przegladanySrodek);
 
-                    } else if (przegladanySrodek.getTyp() != null && przegladanySrodek.getTyp().equals("wnip")) {
-                        przegladanySrodek.setNrsrodka(i++);
-                        listaWnip.add(przegladanySrodek);
+                        } else if (przegladanySrodek.getTyp() != null && przegladanySrodek.getTyp().equals("wnip")) {
+                            przegladanySrodek.setNrsrodka(i++);
+                            listaWnip.add(przegladanySrodek);
 
-                    } else {
-                        przegladanySrodek.setNrsrodka(j++);
-                        if (przegladanySrodek.getDatazak().substring(0, 4).equals(rokdzisiejszyS)) {
-                            zakupionewbiezacyrok++;
+                        } else {
+                            przegladanySrodek.setNrsrodka(j++);
+                            if (przegladanySrodek.getDatazak().substring(0, 4).equals(rokdzisiejszyS)) {
+                                zakupionewbiezacyrok++;
+                            }
+                            if (Integer.parseInt(przegladanySrodek.getDatazak().substring(0, 4))<=rokdzisiejszyI) {
+                                listaSrodkiTrwale.add(przegladanySrodek);
+                            }
                         }
-                        if (Integer.parseInt(przegladanySrodek.getDatazak().substring(0, 4))<=rokdzisiejszyI) {
-                            listaSrodkiTrwale.add(przegladanySrodek);
-                        }
+                    } catch (Exception e) {
+                        E.e(e);
+                    } finally {
+                        listaSrodkiTrwale.add(przegladanySrodek);
                     }
                 }
                 iloscsrodkow = listaSrodkiTrwale.size();

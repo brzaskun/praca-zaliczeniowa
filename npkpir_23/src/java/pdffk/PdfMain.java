@@ -130,6 +130,10 @@ public class PdfMain {
         return new Document(PageSize.A4, 20, 20, 40, 20);
     }
     
+    public static Document inicjacjaA4Portrait(float left, float right) {
+        return new Document(PageSize.A4,left, right, 40, 20);
+    }
+    
     public static Document inicjacjaA4Landscape() {
         return new Document(PageSize.A4_LANDSCAPE.rotate(), 20, 20, 40, 20);
     }
@@ -167,6 +171,23 @@ public class PdfMain {
                 file.delete();
             }
             PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR(nazwa));
+            writer.setInitialLeading(16);
+            writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
+            return writer;
+        } catch (DocumentException ex) {
+            E.e(ex);
+            return null;
+        }
+    }
+    
+    public static PdfWriter inicjacjaWriteraTmp(Document document, String nazwapliku) {
+        try {
+            String nazwa = "D://"+nazwapliku + ".pdf";
+            File file = Plik.plikTmp(nazwa, true);
+            if (file.isFile()) {
+                file.delete();
+            }
+            PdfWriter writer = PdfWriter.getInstance(document, Plik.plikRTmp(nazwa));
             writer.setInitialLeading(16);
             writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
             return writer;
@@ -551,10 +572,30 @@ public class PdfMain {
             E.e(ex);
         }
     }
+    public static void dodajLinieOpisu(Document document, String opis, int al) {
+        try {
+            Paragraph opiswstepny = new Paragraph(new Phrase(opis, ft[1]));
+            opiswstepny.setAlignment(al);
+            document.add(opiswstepny);
+            document.add(Chunk.NEWLINE);
+        } catch (DocumentException ex) {
+            E.e(ex);
+        }
+    }
     public static void dodajLinieOpisuBezOdstepu(Document document, String opis) {
         try {
             Paragraph opiswstepny = new Paragraph(new Phrase(opis, ft[1]));
             opiswstepny.setAlignment(Element.ALIGN_LEFT);
+            document.add(opiswstepny);
+        } catch (DocumentException ex) {
+            E.e(ex);
+        }
+    }
+    
+    public static void dodajLinieOpisuBezOdstepu(Document document, String opis, int al) {
+        try {
+            Paragraph opiswstepny = new Paragraph(new Phrase(opis, ft[1]));
+            opiswstepny.setAlignment(al);
             document.add(opiswstepny);
         } catch (DocumentException ex) {
             E.e(ex);
@@ -1376,7 +1417,7 @@ public class PdfMain {
         return null;
     }
     
-    private static PdfPTable przygotujtabele(int size, int[] col, int perc, float a, float b) {
+    public static PdfPTable przygotujtabele(int size, int[] col, int perc, float a, float b) {
         try {
             PdfPTable p = new PdfPTable(size);
             p.setWidths(col);
@@ -1489,7 +1530,7 @@ public class PdfMain {
         }
     }
 
-    private static void ustawnaglowki(PdfPTable table, List naglowki) {
+    public static void ustawnaglowki(PdfPTable table, List naglowki) {
         for (int i = 0; i < naglowki.size(); i++) {
             table.addCell(ustawfrazeAlign((String) naglowki.get(i), "left", 9));
         }

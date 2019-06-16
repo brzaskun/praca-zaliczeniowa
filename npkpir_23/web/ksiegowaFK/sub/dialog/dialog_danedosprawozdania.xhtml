@@ -78,7 +78,49 @@
                 </h:form>
             </p:tab>
             <p:tab title="inf.dodatkowa">
-                
+                <h:form>
+                    <p:panelGrid columns="2">
+                        <h:outputText value="sąd rejestrowy"/>
+                        <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.sad}" size="120">
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputText>
+                        <h:outputText value="podstawowy rodz. dział"/>
+                        <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.ppdzialalnosci}" size="120">
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputText>
+                        <h:outputText value="kolejny rodz. dział"/>
+                        <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pozpdzialalnosci}" size="120">
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputText>
+                        <h:outputText value="kwota wyniku do podziału"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.dopodzialu}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s">
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputNumber>
+                        <h:outputText value="kapitał wyniku na zapasowy"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.kapitalrezerwowy}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s">
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputNumber>
+                        <h:outputText value="wynik niepodzielony"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.wynikniepodzielony}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s">
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputNumber>
+                        <h:outputText value="średnia liczba pracowników"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pracownicy}" decimalPlaces="1" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;">
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputNumber>
+                        <h:outputText value="średnia liczba zleceniobiorców"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.zleceniobiorcy}" decimalPlaces="1" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;">
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputNumber>
+                        <h:outputText value="średnia liczba urlipy wych., mac., bezpłatne"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.inni}" decimalPlaces="1" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" >
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputNumber>
+                    </p:panelGrid>
+                </h:form>
+                <h:form>
+                    <p:commandButton value="generuj inf.dod." style="width: 120px;margin-top: 30px;" actionListener="#{sprFinKwotyInfDodView.generujInfdod}"/>
+                </h:form>
             </p:tab>
         </p:tabView>
     </p:dialog>

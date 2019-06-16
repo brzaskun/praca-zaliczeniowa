@@ -5,8 +5,18 @@
  */
 package viewfk;
 
+import beansFK.BOFKBean;
+import beansFK.SaldoAnalitykaBean;
+import beansFK.SprFinInfDodBean;
+import static beansFK.SprFinInfDodBean.drukujBilansAP;
+import dao.StronaWierszaDAO;
+import daoFK.DokDAOfk;
+import daoFK.KontoDAOfk;
 import daoFK.SprFinKwotyInfDodDAO;
+import embeddablefk.SaldoKonto;
+import entityfk.Konto;
 import entityfk.SprFinKwotyInfDod;
+import entityfk.StronaWiersza;
 import error.E;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -38,6 +49,12 @@ public class SprFinKwotyInfDodView  implements Serializable{
     private SprFinKwotyInfDod sprFinKwotyInfDod;
     @Inject
     private SprFinKwotyInfDodDAO sprFinKwotyInfDodDAO;
+    @Inject
+    private KontoDAOfk kontoDAOfk;
+    @Inject
+    private DokDAOfk dokDAOfk;
+    @Inject
+    private StronaWierszaDAO stronaWierszaDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     
@@ -135,6 +152,15 @@ public class SprFinKwotyInfDodView  implements Serializable{
                 Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+    
+    public void generujInfdod() {
+        List<Konto> kontaklienta = kontoDAOfk.findWszystkieKontaPodatnikaRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView);
+        List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView);
+        List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlitykaRokPop(wpisView);
+        List<SaldoKonto> listaSaldoKonto = SaldoAnalitykaBean.przygotowanalistasaldbo(kontaklienta, kontaklientarokpop, zapisyBO, zapisyObrotyRozp, stronaWierszaDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        SprFinInfDodBean.drukujBilansAP(wpisView, sprFinKwotyInfDod, listaSaldoKonto);
     }
 
     public SprFinKwotyInfDod getSprFinKwotyInfDod() {

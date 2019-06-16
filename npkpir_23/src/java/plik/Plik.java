@@ -69,5 +69,26 @@ public class Plik {
         }
     }
     
+    public static File plikTmp(String nazwa, boolean temp) {
+        File file = null;
+        String pelnanazwa = "d://"+nazwa+".pdf";
+        if (temp == true) {
+            file = new File(pelnanazwa);
+            file.deleteOnExit();
+        } else {
+            file = new File(pelnanazwa);
+        }
+        return file;
+    }
     
+    public static BufferedOutputStream plikRTmp(String nazwa) {
+        BufferedOutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = new BufferedOutputStream(new FileOutputStream(nazwa));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Plik.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            return fileOutputStream;
+        }
+    }
 }

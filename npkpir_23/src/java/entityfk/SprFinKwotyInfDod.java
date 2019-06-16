@@ -105,6 +105,24 @@ public class SprFinKwotyInfDod implements Serializable{
     private byte[] plikxml;
     @Column(name = "nazwaplikuxml")
     private String nazwaplikuxml;
+    @Column(name = "ppdzialalnosci")
+    private String ppdzialalnosci;
+    @Column(name = "pozpdzialalnosci")
+    private String pozpdzialalnosci;
+    @Column(name = "sad")
+    private String sad;
+    @Column(name = "dopodzialu")
+    private double dopodzialu;
+    @Column(name = "kapitalrezerwowy")
+    private double kapitalrezerwowy;
+    @Column(name = "wynikniepodzielony")
+    private double wynikniepodzielony;
+    @Column(name = "pracownicy")
+    private double pracownicy;
+    @Column(name = "zleceniobiorcy")
+    private double zleceniobiorcy;
+    @Column(name = "inni")
+    private double inni;
     
 
     public SprFinKwotyInfDod() {
@@ -451,7 +469,79 @@ public class SprFinKwotyInfDod implements Serializable{
     public void setNazwaplikuxml(String nazwaplikuxml) {
         this.nazwaplikuxml = nazwaplikuxml;
     }
-    
+
+    public String getPpdzialalnosci() {
+        return ppdzialalnosci;
+    }
+
+    public void setPpdzialalnosci(String ppdzialalnosci) {
+        this.ppdzialalnosci = ppdzialalnosci;
+    }
+
+    public String getPozpdzialalnosci() {
+        return pozpdzialalnosci;
+    }
+
+    public void setPozpdzialalnosci(String pozpdzialalnosci) {
+        this.pozpdzialalnosci = pozpdzialalnosci;
+    }
+
+    public String getSad() {
+        return sad;
+    }
+
+    public void setSad(String sad) {
+        this.sad = sad;
+    }
+
+    public double getDopodzialu() {
+        return dopodzialu;
+    }
+
+    public void setDopodzialu(double dopodzialu) {
+        this.dopodzialu = dopodzialu;
+    }
+
+    public double getKapitalrezerwowy() {
+        return kapitalrezerwowy;
+    }
+
+    public void setKapitalrezerwowy(double kapitalrezerwowy) {
+        this.kapitalrezerwowy = kapitalrezerwowy;
+    }
+
+    public double getWynikniepodzielony() {
+        return wynikniepodzielony;
+    }
+
+    public void setWynikniepodzielony(double wynikniepodzielony) {
+        this.wynikniepodzielony = wynikniepodzielony;
+    }
+
+    public double getPracownicy() {
+        return pracownicy;
+    }
+
+    public void setPracownicy(double pracownicy) {
+        this.pracownicy = pracownicy;
+    }
+
+    public double getZleceniobiorcy() {
+        return zleceniobiorcy;
+    }
+
+    public void setZleceniobiorcy(double zleceniobiorcy) {
+        this.zleceniobiorcy = zleceniobiorcy;
+    }
+
+    public double getInni() {
+        return inni;
+    }
+
+    public void setInni(double inni) {
+        this.inni = inni;
+    }
+
     
     
     
