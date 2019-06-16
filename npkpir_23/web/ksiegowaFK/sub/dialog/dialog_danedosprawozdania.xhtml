@@ -84,6 +84,8 @@
                         <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.sad}" size="120">
                             <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
                         </p:inputText>
+                        <h:outputText value=""/>
+                        <h:outputText value="Sąd Rejonowy Szczecin-Centrum w Szczecinie XIII Wydział Gospodarczy Krajowego Rejestru Sądowego"/>
                         <h:outputText value="podstawowy rodz. dział"/>
                         <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.ppdzialalnosci}" size="120">
                             <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
@@ -117,12 +119,13 @@
                             <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
                         </p:inputNumber>
                         <h:outputText value="średnia liczba urlipy wych., mac., bezpłatne"/>
-                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.inni}" decimalPlaces="1" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" >
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.inni}"  decimalPlaces="1" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" >
                             <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
                         </p:inputNumber>
                     </p:panelGrid>
                 </h:form>
                 <h:form>
+                    <h:outputText value="Ważne! Aby informacja poprawnie się wygenerowała, salda z poprzedniego roku muszą być zaksięgowane!"
                     <p:commandButton value="generuj inf.dod." style="width: 120px;margin-top: 30px;" actionListener="#{sprFinKwotyInfDodView.generujInfdod}"/>
                 </h:form>
             </p:tab>

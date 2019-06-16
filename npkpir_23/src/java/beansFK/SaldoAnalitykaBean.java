@@ -160,7 +160,7 @@ public class SaldoAnalitykaBean  {
                     for (SaldoKonto r : lista2) {
                         if (r.getKonto().getLevel()==level-1) {
                             Konto macierzyste = p.getKonto().getKontomacierzyste();
-                            if (r.getKonto().equals(macierzyste)) {
+                            if (r.getKonto().getPelnynumer().equals(macierzyste.getPelnynumer())) {
                                 sumuj(p,r);
                             }
                         }

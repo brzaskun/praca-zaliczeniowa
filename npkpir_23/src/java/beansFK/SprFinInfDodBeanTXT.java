@@ -404,7 +404,7 @@ public class SprFinInfDodBeanTXT {
         }
         double kwota = 0.0;
         if (saldoKonto!=null) {
-            if (modyfikatorrok==0) {
+            if (modyfikatorrok==1) {
                 if (modyfikatorstrona==0) {
                     kwota = saldoKonto.getBoWn()-saldoKonto.getBoMa();
                 } else {
@@ -468,7 +468,7 @@ public class SprFinInfDodBeanTXT {
         }
         double kwota1 = 0.0;
         if (saldoKonto!=null) {
-            if (modyfikatorrok==0) {
+            if (modyfikatorrok==1) {
                     kwota1 = Z.z(saldoKonto.getBoWn()-saldoKonto.getBoMa());
             } else {
                     kwota1 = Z.z(saldoKonto.getSaldoWn()-saldoKonto.getSaldoMa());
@@ -476,7 +476,7 @@ public class SprFinInfDodBeanTXT {
         }
         double kwota2 = 0.0;
         if (saldoKonto1!=null) {
-            if (modyfikatorrok==0) {
+            if (modyfikatorrok==1) {
                     kwota2 = Z.z(saldoKonto1.getBoMa()-saldoKonto1.getBoWn());
             } else {
                     kwota2 = Z.z(saldoKonto1.getSaldoMa()-saldoKonto1.getSaldoWn());
