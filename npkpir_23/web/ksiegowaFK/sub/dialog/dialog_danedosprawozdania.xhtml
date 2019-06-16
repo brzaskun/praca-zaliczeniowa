@@ -125,8 +125,10 @@
                     </p:panelGrid>
                 </h:form>
                 <h:form>
+                    <p:panelGrid columns="1">
                     <h:outputText value="Ważne! Aby informacja poprawnie się wygenerowała, salda z poprzedniego roku muszą być zaksięgowane!"/>
                     <p:commandButton value="generuj inf.dod." style="width: 120px;margin-top: 30px;" actionListener="#{sprFinKwotyInfDodView.generujInfdod}"/>
+                    </p:panelGrid>
                 </h:form>
             </p:tab>
         </p:tabView>
