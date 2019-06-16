@@ -100,6 +100,10 @@
                         <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.kapitalrezerwowy}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s">
                             <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
                         </p:inputNumber>
+                        <h:outputText value="pokrycie strat z lat ubiegłych"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.stratazlatubieglych}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s">
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputNumber>
                         <h:outputText value="wynik niepodzielony"/>
                         <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.wynikniepodzielony}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s">
                             <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>

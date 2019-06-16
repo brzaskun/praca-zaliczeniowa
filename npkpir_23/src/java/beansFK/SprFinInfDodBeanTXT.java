@@ -239,6 +239,8 @@ public class SprFinInfDodBeanTXT {
         wiersze.add("");
         wiersze.add("Utworzenie kapitału zapasowego");
         wiersze.add(format.F.curr(sprFinKwotyInfDod.getKapitalrezerwowy()));
+        wiersze.add("Pokrycie straty z lat ubiegłych");
+        wiersze.add(format.F.curr(sprFinKwotyInfDod.getStratazlatubieglych()));
         wiersze.add("Wypłata wspólnikom");
         wiersze.add(format.F.curr(sprFinKwotyInfDod.getDopodzialu()));
         wiersze.add("3 Wynik finansowy niepodzielony");

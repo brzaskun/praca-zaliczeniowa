@@ -115,6 +115,8 @@ public class SprFinKwotyInfDod implements Serializable{
     private double dopodzialu;
     @Column(name = "kapitalrezerwowy")
     private double kapitalrezerwowy;
+    @Column(name = "stratazlatubieglych")
+    private double stratazlatubieglych;
     @Column(name = "wynikniepodzielony")
     private double wynikniepodzielony;
     @Column(name = "pracownicy")
@@ -540,6 +542,14 @@ public class SprFinKwotyInfDod implements Serializable{
 
     public void setInni(double inni) {
         this.inni = inni;
+    }
+
+    public double getStratazlatubieglych() {
+        return stratazlatubieglych;
+    }
+
+    public void setStratazlatubieglych(double stratazlatubieglych) {
+        this.stratazlatubieglych = stratazlatubieglych;
     }
 
     
