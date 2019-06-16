@@ -143,45 +143,45 @@ public class SprFinInfDodBeanTXT {
         wiersze.add("Zmniejszenia");
         wiersze.add("Stan na koniec roku obrotoweg");
         wiersze.add("Grunty i prawa użytkowania wieczystego gruntów");
-        wiersze.add(pobierz("010-1", listaSaldoKonto, 0, 0));
+        wiersze.add(pobierz("010-1", listaSaldoKonto, 0, 1));
         wiersze.add(pobierzobroty("010-1", listaSaldoKonto, 0));
         wiersze.add(pobierzobroty("010-1", listaSaldoKonto, 1));
-        wiersze.add(pobierz("010-1", listaSaldoKonto, 0, 1));
+        wiersze.add(pobierz("010-1", listaSaldoKonto, 0, 0));
         wiersze.add("Budynki, lokale i obiekty inżynierii lądowej i wodnej");
-        wiersze.add(pobierz("010-2", listaSaldoKonto, 0, 0));
+        wiersze.add(pobierz("010-2", listaSaldoKonto, 0, 1));
         wiersze.add(pobierzobroty("010-2", listaSaldoKonto, 0));
         wiersze.add(pobierzobroty("010-2", listaSaldoKonto, 1));
-        wiersze.add(pobierz("010-2", listaSaldoKonto, 0, 1));
+        wiersze.add(pobierz("010-2", listaSaldoKonto, 0, 0));
         wiersze.add("Urządzenia techniczne i maszyny");
-        wiersze.add(pobierz("010-3", listaSaldoKonto, 0, 0));
+        wiersze.add(pobierz("010-3", listaSaldoKonto, 0, 1));
         wiersze.add(pobierzobroty("010-3", listaSaldoKonto, 0));
         wiersze.add(pobierzobroty("010-3", listaSaldoKonto, 1));
-        wiersze.add(pobierz("010-3", listaSaldoKonto, 0, 1));
+        wiersze.add(pobierz("010-3", listaSaldoKonto, 0, 0));
         wiersze.add("Środki transportu");
-        wiersze.add(pobierz("010-4", listaSaldoKonto, 0, 0));
+        wiersze.add(pobierz("010-4", listaSaldoKonto, 0, 1));
         wiersze.add(pobierzobroty("010-4", listaSaldoKonto, 0));
         wiersze.add(pobierzobroty("010-4", listaSaldoKonto, 1));
-        wiersze.add(pobierz("010-4", listaSaldoKonto, 0, 1));
+        wiersze.add(pobierz("010-4", listaSaldoKonto, 0, 0));
         wiersze.add("Inne środki trwałe");
-        wiersze.add(pobierz("010-5", listaSaldoKonto, 0, 0));
+        wiersze.add(pobierz("010-5", listaSaldoKonto, 0, 1));
         wiersze.add(pobierzobroty("010-5", listaSaldoKonto, 0));
         wiersze.add(pobierzobroty("010-5", listaSaldoKonto, 1));
-        wiersze.add(pobierz("010-5", listaSaldoKonto, 0, 1));
+        wiersze.add(pobierz("010-5", listaSaldoKonto, 0, 0));
         return wiersze;
     }
     
      static List<String> wierszeTab3(List<SaldoKonto> listaSaldoKonto) {
         List<String> wiersze =  new ArrayList();
         wiersze.add("Wartość środków w cenach zak.");
-        wiersze.add(pobierz("010", listaSaldoKonto, 0, 1));
+        wiersze.add(pobierz("010", listaSaldoKonto, 0, 0));
         wiersze.add("Amortyzacja za rok");
-        wiersze.add(pobierz("401", listaSaldoKonto, 0, 1));
+        wiersze.add(pobierz("401", listaSaldoKonto, 0, 0));
         wiersze.add("Umorzenie narastająco");
-        wiersze.add(pobierz("070", listaSaldoKonto, 1, 1));
+        wiersze.add(pobierz("070", listaSaldoKonto, 1, 0));
         wiersze.add("Wartośc netto pocz. roku");
-        wiersze.add(pobierzroznica("010", "070", listaSaldoKonto, 0));
-        wiersze.add("Wartośc netto koniec roku");
         wiersze.add(pobierzroznica("010", "070", listaSaldoKonto, 1));
+        wiersze.add("Wartośc netto koniec roku");
+        wiersze.add(pobierzroznica("010", "070", listaSaldoKonto, 0));
         return wiersze;
     }
 
@@ -232,19 +232,24 @@ public class SprFinInfDodBeanTXT {
         wiersze.add("Wyszczególnienie");
         wiersze.add("Kwota");
         wiersze.add("1. Wynik finansowy netto");
-        wiersze.add(pobierz("860", listaSaldoKonto, 0, 1));
+        wiersze.add(format.F.curr(sprFinKwotyInfDod.getDopodzialu()));
         wiersze.add("- w tym rozliczenie wyniku finansowego z lat ub");
         wiersze.add(pobierz("821", listaSaldoKonto, 0, 1));
-        wiersze.add("2. Proponowany sposób podziału dochodu");
-        wiersze.add("");
-        wiersze.add("Utworzenie kapitału zapasowego");
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getKapitalrezerwowy()));
-        wiersze.add("Pokrycie straty z lat ubiegłych");
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getStratazlatubieglych()));
-        wiersze.add("Wypłata wspólnikom");
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getDopodzialu()));
-        wiersze.add("3 Wynik finansowy niepodzielony");
-        wiersze.add(format.F.curr(Z.z(sprFinKwotyInfDod.getWynikniepodzielony())));
+        if (sprFinKwotyInfDod.getDopodzialu()>0.0) {
+            wiersze.add("2. Proponowany sposób podziału dochodu");
+            wiersze.add("");
+            wiersze.add("Utworzenie kapitału zapasowego");
+            wiersze.add(format.F.curr(sprFinKwotyInfDod.getKapitalrezerwowy()));
+            wiersze.add("Pokrycie straty z lat ubiegłych");
+            wiersze.add(format.F.curr(sprFinKwotyInfDod.getStratazlatubieglych()));
+            wiersze.add("Wypłata wspólnikom");
+            wiersze.add(format.F.curr(sprFinKwotyInfDod.getDopodzialu()));
+            wiersze.add("3 Wynik finansowy niepodzielony");
+            wiersze.add(format.F.curr(Z.z(sprFinKwotyInfDod.getWynikniepodzielony())));
+        } else if (sprFinKwotyInfDod.getDopodzialu()<0.0) {
+            wiersze.add("2. Proponowany sposób pokrycia straty");
+            wiersze.add("Z zysków lat następnych");
+        }
         return wiersze;
     }
     
@@ -510,7 +515,7 @@ public class SprFinInfDodBeanTXT {
                     kwota2 = Z.z(saldoKonto.getSaldoMa()-saldoKonto.getSaldoWn());
             }
         }
-        double roznica = Z.z(kwota1-kwota2);
+        double roznica = Z.z(kwota2-kwota1);
         return format.F.curr(roznica);
     }
 }

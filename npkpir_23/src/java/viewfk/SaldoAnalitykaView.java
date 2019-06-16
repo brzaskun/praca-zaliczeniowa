@@ -792,6 +792,7 @@ public class SaldoAnalitykaView implements Serializable {
         for (StronaWiersza t : wierszenieuzupelnione) {
             Msg.msg("e", "W tym dokumencie nie ma uzupełnionych kont: " + t.getDokfkS());
         }
+        listaSaldoKonto = new ArrayList<>();
         listaSaldoKonto.addAll(przygotowanalista.values());
         for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();) {
             SaldoKonto skn = it.next();
