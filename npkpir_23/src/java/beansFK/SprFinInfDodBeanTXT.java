@@ -235,7 +235,8 @@ public class SprFinInfDodBeanTXT {
         wiersze.add(format.F.curr(sprFinKwotyInfDod.getDopodzialu()));
         wiersze.add("- w tym rozliczenie wyniku finansowego z lat ub");
         wiersze.add(pobierz("821", listaSaldoKonto, 0, 1));
-        if (sprFinKwotyInfDod.getDopodzialu()>0.0) {
+        double wynik = Z.z(sprFinKwotyInfDod.getPid1A().doubleValue()+sprFinKwotyInfDod.getPid11A().doubleValue()+pobierzNum("821", listaSaldoKonto, 0, 1));
+        if (wynik>0.0) {
             wiersze.add("2. Proponowany sposób podziału dochodu");
             wiersze.add("");
             wiersze.add("Utworzenie kapitału zapasowego");
@@ -246,7 +247,7 @@ public class SprFinInfDodBeanTXT {
             wiersze.add(format.F.curr(sprFinKwotyInfDod.getDopodzialu()));
             wiersze.add("3 Wynik finansowy niepodzielony");
             wiersze.add(format.F.curr(Z.z(sprFinKwotyInfDod.getWynikniepodzielony())));
-        } else if (sprFinKwotyInfDod.getDopodzialu()<0.0) {
+        } else if (wynik<0.0) {
             wiersze.add("2. Proponowany sposób pokrycia straty");
             wiersze.add("Z zysków lat następnych");
         }
@@ -424,6 +425,33 @@ public class SprFinInfDodBeanTXT {
             }
         }
         return format.F.curr(Z.z(kwota));
+    }
+    
+    private static double pobierzNum(String szukane, List<SaldoKonto> listaSaldoKonto, int modyfikatorstrona, int modyfikatorrok) {
+        SaldoKonto saldoKonto = null;
+        for (SaldoKonto p : listaSaldoKonto) {
+            if (p.getKonto().getPelnynumer().equals(szukane)) {
+                saldoKonto = p;
+                break;
+            }
+        }
+        double kwota = 0.0;
+        if (saldoKonto!=null) {
+            if (modyfikatorrok==1) {
+                if (modyfikatorstrona==0) {
+                    kwota = saldoKonto.getBoWn()-saldoKonto.getBoMa();
+                } else {
+                    kwota = saldoKonto.getBoMa()-saldoKonto.getBoWn();
+                }
+            } else {
+                if (modyfikatorstrona==0) {
+                    kwota = saldoKonto.getSaldoWn()-saldoKonto.getSaldoMa();
+                } else {
+                    kwota = saldoKonto.getSaldoMa()-saldoKonto.getSaldoWn();
+                }
+            }
+        }
+        return Z.z(kwota);
     }
     
     private static String pobierzobroty(String szukane, List<SaldoKonto> listaSaldoKonto, int modyfikatorstrona) {

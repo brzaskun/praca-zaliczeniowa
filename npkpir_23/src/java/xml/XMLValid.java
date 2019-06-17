@@ -8,6 +8,7 @@ import error.E;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
@@ -93,6 +94,51 @@ public class XMLValid {
         return zwrot;
     }
     
+
+    public static Object[] walidujsprawozdanieView(InputStream inputStream, int coweryfikowac) {
+            Object[] zwrot = new Object[2];
+            zwrot[0] = Boolean.FALSE;
+            System.out.println("start walidacji");
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/")+"resources\\xml\\schematsf.xsd";
+            if (coweryfikowac==1) {
+                realPath = ctx.getRealPath("/")+"resources\\xml\\schematoop.xsd";
+            }
+            try {
+            File schemaFile = null;
+            try {
+                schemaFile = new File(realPath);
+            } catch (Exception ex) {
+                Logger.getLogger(XMLValid.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Source xmlFile = new StreamSource(inputStream);
+            SchemaFactory schemaFactory = SchemaFactory
+                    .newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            try {
+                Schema schema = schemaFactory.newSchema(schemaFile);
+                Validator validator = schema.newValidator();
+                validator.validate(xmlFile);
+                zwrot[0] = Boolean.TRUE;
+                zwrot[1] = "Plik prawidłowy";
+                System.out.println("Plik jest prawidłowy");
+                System.out.println("Koniec walidacji bezbledna");
+            } catch (SAXException e) {
+                zwrot[0] = Boolean.FALSE;
+                zwrot[1] = obsluzblad(e);
+                System.out.println(obsluzblad(e));
+                zwrot[1] = "Błąd walidacji pliku. Brak info o szczegolach";
+            } catch (Exception e) {
+                zwrot[0] = Boolean.FALSE;
+                zwrot[1] = "Błąd walidacji pliku. Sprawdzanie przerwane";
+            }
+        } catch (Exception ex) {
+            E.e(ex);
+            System.out.println("Błąd ładowania plików do walidacji. Sprawdzanie przerwane");
+        }
+        return zwrot;
+    }
+            
+            
     public static Object[] walidujsprawozdanie() {
         Object[] zwrot = new Object[2];
         zwrot[0] = Boolean.FALSE;
@@ -149,7 +195,7 @@ public class XMLValid {
         } finally {
             try {
                 stream.close();
-                System.out.println("byly inne bledy zamykam stream");
+                System.out.println("Zamykam stream");
             } catch (IOException ex) {
                 Logger.getLogger(XMLValid.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -213,7 +259,7 @@ public class XMLValid {
         } finally {
             try {
                 stream.close();
-                System.out.println("byly inne bledy zamykam stream");
+                System.out.println("Zamykam stream");
             } catch (IOException ex) {
                 Logger.getLogger(XMLValid.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -251,7 +297,7 @@ public class XMLValid {
 
     
     public static void main(String[] args) {
-        walidujVAT7();
+        walidujsprawozdanie();
     }
 
     

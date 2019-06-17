@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog id="dialogdanedosprawozdania" header="Wzorcowy Układ Rachunku Zysków i Strat - przypisywanie kont" widgetVar="danedosprawozdania" dynamic="true"
+    <p:dialog id="dialogdanedosprawozdania" header="Nanieś dane do infomracji dodatkowej i sprawozdania" widgetVar="danedosprawozdania" dynamic="true"
               resizable="false" onShow="ustawdialog('dialogdanedosprawozdania','menubilanse', 1050, 710);" closeOnEscape="true" onHide="resetujdialog('dialogdanedosprawozdania');"  >
         <p:tabView id="akordeon">
             <p:tab title="dane fin.">
@@ -71,7 +71,7 @@
                                       uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
                                       style="height: 100px;">
                         </p:fileUpload>
-                        <p:growl life="3600"  id="messages1" showDetail="true"/>
+                        <p:growl life="3600"  id="messages1" showDetail="false"/>
                         <h:outputText value="uprzednio wprowadzono plik: #{sprFinKwotyInfDodView.sprFinKwotyInfDod.nazwapliku}" rendered="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.plik ne null}" style="font-weight: bold; color: green;"/>
                         <p:commandButton value="pokaż" style="width: 120px;margin-top: 20px;" actionListener="#{sprFinKwotyInfDodView.pokazplik}"/>
                     </p:panelGrid>
