@@ -1828,6 +1828,17 @@ public class PdfMain {
                         table.addCell(ustawfrazeAlignLevel(p.getDe(), "left", 8, lev));
                     }
                 }
+                if (p.getKwota() != 0.0) {
+                    if (p.getLevel() == 0) {
+                        table.addCell(ustawfrazeAlignLevel(String.valueOf(number.format(p.getKwota())), "right", 9, lev));
+                    } else if (p.getLevel() == 1) {
+                        table.addCell(ustawfrazeAlignLevel(String.valueOf(number.format(p.getKwota())), "right", 8, lev));
+                    } else {
+                        table.addCell(ustawfrazeAlignLevel(String.valueOf(number.format(p.getKwota())), "right", 7, lev));
+                    }
+                } else {
+                    table.addCell(ustawfrazeAlignLevel("", "right", 7, lev));
+                }
                 if (modyfikator == 5) {
                     if (p.getKwotabo() != 0.0) {
                        if (p.getLevel() == 0) {
@@ -1841,17 +1852,7 @@ public class PdfMain {
                        table.addCell(ustawfrazeAlignLevel("", "right", 7, lev));
                    }   
                 }
-                if (p.getKwota() != 0.0) {
-                    if (p.getLevel() == 0) {
-                        table.addCell(ustawfrazeAlignLevel(String.valueOf(number.format(p.getKwota())), "right", 9, lev));
-                    } else if (p.getLevel() == 1) {
-                        table.addCell(ustawfrazeAlignLevel(String.valueOf(number.format(p.getKwota())), "right", 8, lev));
-                    } else {
-                        table.addCell(ustawfrazeAlignLevel(String.valueOf(number.format(p.getKwota())), "right", 7, lev));
-                    }
-                } else {
-                    table.addCell(ustawfrazeAlignLevel("", "right", 7, lev));
-                }
+                
                 if (modyfikator == 1 || modyfikator == 2) {
                     if (modyfikator != 0) {
                     if (p.getPrzyporzadkowanekonta() != null && p.getPrzyporzadkowanekonta().size() > 0) {

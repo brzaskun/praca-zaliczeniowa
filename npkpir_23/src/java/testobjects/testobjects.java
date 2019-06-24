@@ -873,8 +873,8 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
        List n = new ArrayList();
        n.add("");
        n.add(B.b("nazwapozycjiBilansu"));
-       n.add(B.b("bilansotwarcia"));
        n.add(B.b("bilanszamkniecia"));
+       n.add(B.b("bilansotwarcia"));
        List t = getWierszeRZiS(rootProjekt, level);
        List[] tabela = new List[2];
        tabela[0] = n;

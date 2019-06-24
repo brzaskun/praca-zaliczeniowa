@@ -109,7 +109,7 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
             SprFinKwotyInfDod sprFinKwotyInfDod = sprFinKwotyInfDodDAO.findsprfinkwoty(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             if (wpisView.getPodatnikObiekt().getNazwaRejestr()==null || wpisView.getPodatnikObiekt().getNazwaRejestr().equals("")) {
                 Msg.msg("e","Brak w danych podatnika nazwy z rejestru KRS. Nie można generować sprawozdania");
-            } else if (wpisView.getPodatnikObiekt().getImie() == null || wpisView.getPodatnikObiekt().getImie().length()!=10) {
+            } else if (wpisView.getPodatnikObiekt().getNip() == null || wpisView.getPodatnikObiekt().getNip().length()!=10) {
                 Msg.msg("e","Brak lub nieprawidłowy nr KRS. Nie można generować sprawozdania");
             } else if (sprFinKwotyInfDod==null) {
                 Msg.msg("e","Brak danych dodatkowych do sprawozdania. Nie można generować sprawozdania");

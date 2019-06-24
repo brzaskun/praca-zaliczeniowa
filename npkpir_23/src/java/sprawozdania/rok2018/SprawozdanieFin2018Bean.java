@@ -172,8 +172,8 @@ public class SprawozdanieFin2018Bean {
             poz = poz.replace(")", "");
             poz = poz.toLowerCase();
             if (poz.equals(pozycjaString)) {
-                kwotaA = new BigDecimal(Z.z(p.getKwotabo())).setScale(2, BigDecimal.ROUND_HALF_UP);
-                kwotaB = new BigDecimal(Z.z(p.getKwota())).setScale(2, BigDecimal.ROUND_HALF_UP);
+                kwotaA = new BigDecimal(Z.z(p.getKwota())).setScale(2, BigDecimal.ROUND_HALF_UP);
+                kwotaB = new BigDecimal(Z.z(p.getKwotabo())).setScale(2, BigDecimal.ROUND_HALF_UP);
                 it.remove();
                 break;
             }
