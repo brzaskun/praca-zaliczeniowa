@@ -126,7 +126,6 @@ public class XMLValid {
                 zwrot[0] = Boolean.FALSE;
                 zwrot[1] = obsluzblad(e);
                 System.out.println(obsluzblad(e));
-                zwrot[1] = "Błąd walidacji pliku. Brak info o szczegolach";
             } catch (Exception e) {
                 zwrot[0] = Boolean.FALSE;
                 zwrot[1] = "Błąd walidacji pliku. Sprawdzanie przerwane";
@@ -184,7 +183,6 @@ public class XMLValid {
                 zwrot[0] = Boolean.FALSE;
                 zwrot[1] = obsluzblad(e);
                 System.out.println(obsluzblad(e));
-                zwrot[1] = "Błąd walidacji pliku. Brak info o szczegolach";
             } catch (Exception e) {
                 zwrot[0] = Boolean.FALSE;
                 zwrot[1] = "Błąd walidacji pliku. Sprawdzanie przerwane";
@@ -248,7 +246,6 @@ public class XMLValid {
                 zwrot[0] = Boolean.FALSE;
                 zwrot[1] = obsluzblad(e);
                 System.out.println(obsluzblad(e));
-                zwrot[1] = "Błąd walidacji pliku. Brak info o szczegolach";
             } catch (Exception e) {
                 zwrot[0] = Boolean.FALSE;
                 zwrot[1] = "Błąd walidacji pliku. Sprawdzanie przerwane";
@@ -274,7 +271,7 @@ public class XMLValid {
     }
     
     private static String rodzajbledu(String message) {
-        String zwrot = "nie znany rodzaj błędu";
+        String zwrot = message;
         String polenip = "";
         try {
             polenip = message.substring(message.indexOf("Value")+6, message.indexOf(" is not facet-valid"));
