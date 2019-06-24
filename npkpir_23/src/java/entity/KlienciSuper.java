@@ -43,7 +43,7 @@ public class KlienciSuper implements Serializable {
     @Column(name = "miejscowosc")
     protected String miejscowosc;
     @Size(max = 255)
-    @Column(name = "npelna")
+    @Column(name = "npelna", nullable = false)
     protected String npelna;
     @Size(max = 255)
     @Column(name = "ulica")

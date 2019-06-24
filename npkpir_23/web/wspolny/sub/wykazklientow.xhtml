@@ -12,7 +12,7 @@
             <p:growl life="3600"  id="mess_add" ><p:autoUpdate/></p:growl>
             <p:focus id="focus" context="polawprowadzania" />
             <p:panelGrid id="polawprowadzania" columns="5" >
-                <h:outputLabel value="nip" style="font-weight: 700"/>
+                <h:outputLabel value="nip/przy osobie fizycznej zostawić puste" style="font-weight: 700"/>
                 <h:outputLabel value="nazwa pełna" style="font-weight: 700"/>
                 <h:outputLabel value="nazwa skrocona" style="font-weight: 700"/>
                 <h:outputLabel value="kod pocztowy" style="font-weight: 700"/>
@@ -92,7 +92,7 @@
             <h:outputText value="Wykaz klientów" />  
         </f:facet>
             <p:column selectionMode="single" width="30" style="text-align: center;"/>
-            <p:column id="Column1" headerText="nip" sortBy="#{wpis.nip}"  filterBy="#{wpis.nip}" filterMatchMode="startsWith" filterMaxLength="10" width="100">  
+            <p:column id="Column1" headerText="nip" sortBy="#{wpis.nip}"  filterBy="#{wpis.nip}" filterMatchMode="startsWith" filterMaxLength="12" width="100">  
             <h:outputText value="#{wpis.nip}" />
         </p:column>
             <p:column id="Column2" headerText="nazwa pełna" sortBy="#{wpis.npelna}" filterBy="#{wpis.npelna}" filterMatchMode="contains" width="200">  

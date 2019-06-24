@@ -114,38 +114,41 @@ public class KlView implements Serializable {
 
     public void dodajKlienta() {
         try {
+            boolean wygenerowanonip = false;
             if (selected.getNip().isEmpty()) {
-                wygenerujnip();
+                wygenerowanonip = wygenerujnip();
+            } else {
+                wygenerowanonip = true;
             }
-            //Usunalem formatowanie pelnej nazwy klienta bo przeciez imie i nazwiko pisze sie wielkimi a ten zmniejszal wszystko
-//        String formatka = selected.getNpelna().substring(0, 1).toUpperCase();
-//        formatka = formatka.concat(selected.getNpelna().substring(1).toLowerCase());
-//        selected.setNpelna(formatka);
-            String formatka = selected.getNskrocona().toUpperCase();
-            selected.setNskrocona(formatka);
-            formatka = selected.getUlica().substring(0, 1).toUpperCase();
-            formatka = formatka.concat(selected.getUlica().substring(1));
-            selected.setUlica(formatka);
-            try {
-                selected.getKrajnazwa();
-            } catch (Exception e) {
-                E.e(e);
+            if (wygenerowanonip) {
+                String formatka = selected.getNskrocona().toUpperCase();
+                selected.setNskrocona(formatka);
+                formatka = selected.getUlica().substring(0, 1).toUpperCase();
+                formatka = formatka.concat(selected.getUlica().substring(1));
+                selected.setUlica(formatka);
+                try {
+                    selected.getKrajnazwa();
+                } catch (Exception e) {
+                    E.e(e);
+                    selected.setKrajnazwa("Polska");
+                }
+                String kraj = selected.getKrajnazwa();
+                String symbol = ps1.getWykazPanstwSX().get(kraj);
+                selected.setKrajkod(symbol);
+                if (selected.getLokal() == null || selected.getLokal().equals("")) {
+                    selected.setLokal("-");
+                }
+                poszukajDuplikatNip();
+                poszukajDuplikatNazwa();
+                klDAO.dodaj(selected);
+                kl1.add(selected);
+                Msg.msg("i", "Dodano nowego klienta" + selected.getNpelna());
+                selected = new Klienci();
                 selected.setKrajnazwa("Polska");
+                selected.setKrajkod(panstwaMapa.getWykazPanstwSX().get("Polska"));
+            } else {
+                Msg.msg("e", "Błąd przy genrowaniu nr NIP. Nie dodano klienta");
             }
-            String kraj = selected.getKrajnazwa();
-            String symbol = ps1.getWykazPanstwSX().get(kraj);
-            selected.setKrajkod(symbol);
-            if (selected.getLokal() == null || selected.getLokal().equals("")) {
-                selected.setLokal("-");
-            }
-            poszukajDuplikatNip();
-            poszukajDuplikatNazwa();
-            klDAO.dodaj(selected);
-            kl1.add(selected);
-            Msg.msg("i", "Dodano nowego klienta" + selected.getNpelna());
-            selected = new Klienci();
-            selected.setKrajnazwa("Polska");
-            selected.setKrajkod(panstwaMapa.getWykazPanstwSX().get("Polska"));
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Nie dodano nowego klienta. Klient o takim Nip/Nazwie pełnej juz istnieje");
@@ -389,7 +392,10 @@ public class KlView implements Serializable {
     public void poszukajDuplikatNipWTrakcie() throws Exception {
         if (selected.getId()==null) {
             String nippoczatkowy = selected.getNip();
-            if (nippoczatkowy !=null && !nippoczatkowy.equals("0000000000") && !nippoczatkowy.equals("")) {
+            if (nippoczatkowy !=null && nippoczatkowy.startsWith("XX")) {
+                PrimeFaces.current().executeScript("rj('formX:nipPole').value = 'Nieprawidłowy numer NIP';");
+                Msg.msg("e", "Numer NIP nie może zaczynać się od XX");
+            } else  if (nippoczatkowy !=null && !nippoczatkowy.equals("0000000000") && !nippoczatkowy.equals("")) {
                 List<String> kliencitmp = klDAO.findNIP();
                 if (!kliencitmp.isEmpty()) {
                     if (kliencitmp.contains(nippoczatkowy)) {
@@ -421,23 +427,30 @@ public class KlView implements Serializable {
         }
     }
 
-    private void wygenerujnip() {
-        List<String> nipy = klDAO.findKlientByNipXX();
-        Collections.sort(nipy);
-        Integer max;
-        if (nipy.size() > 0) {
-            max = Integer.parseInt(nipy.get(nipy.size() - 1).substring(2));
-            max++;
-        } else {
-            max = 0;
+    private boolean wygenerujnip() {
+        boolean zwrot = false;
+        try {
+            List<String> nipy = klDAO.findKlientByNipXX();
+            Collections.sort(nipy);
+            Integer max;
+            if (nipy.size() > 0) {
+                max = Integer.parseInt(nipy.get(nipy.size() - 1).substring(2));
+                max++;
+            } else {
+                max = 0;
+            }
+            //uzupelnia o zera i robi stringa;
+            String wygenerowanynip = max.toString();
+            while (wygenerowanynip.length() < 10) {
+                wygenerowanynip = "0" + wygenerowanynip;
+            }
+            wygenerowanynip = "XX" + wygenerowanynip;
+            selected.setNip(wygenerowanynip);
+            zwrot = true;
+        } catch (Exception e) {
+            E.e(e);
         }
-        //uzupelnia o zera i robi stringa;
-        String wygenerowanynip = max.toString();
-        while (wygenerowanynip.length() < 10) {
-            wygenerowanynip = "0" + wygenerowanynip;
-        }
-        wygenerowanynip = "XX" + wygenerowanynip;
-        selected.setNip(wygenerowanynip);
+        return zwrot;
     }
     
     public void znajdzdaneregon(String formularz) {

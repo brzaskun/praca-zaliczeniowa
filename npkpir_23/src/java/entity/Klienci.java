@@ -48,7 +48,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Klienci extends KlienciSuper implements Serializable {
     private static final long serialVersionUID = 1L;
     @Size(max = 20)
-    @Column(name = "NIP")
+    @Column(name = "NIP", nullable = false)
     private String nip;
     @Transient
     private String pesel;
