@@ -50,11 +50,17 @@
                     </p:panelGrid>
                     <p:panelGrid columns="6" style="margin-top: 10px;">
                         <h:outputText value="data sporządzenia" style="font-weight: bold;"/>
-                        <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.datasporzadzenia}" size="14" maxlength="10" placeholder="____-__-__"/>
+                        <p:inputMask value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.datasporzadzenia}" size="10" maxlength="10" mask="9999-99-99">
+                            <f:validateRegex pattern="^(\d{4})-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$"/>
+                        </p:inputMask>
                         <h:outputText value="data OD" style="font-weight: bold;"/>
-                        <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.dataod}" size="14" maxlength="10"  placeholder="____-__-__"/>
+                        <p:inputMask value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.dataod}" size="10" maxlength="10"  mask="9999-99-99"  validatorMessage="Błędnie wpisana data. Sprawdź. rrrr-mm-dd">
+                            <f:validateRegex pattern="^(\d{4})-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$"/>
+                        </p:inputMask>
                         <h:outputText value="data DO" style="font-weight: bold;"/>
-                        <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.datado}" size="14" maxlength="10"  placeholder="____-__-__"/>
+                        <p:inputMask value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.datado}" size="10" maxlength="10"  mask="9999-99-99" validatorMessage="Błędnie wpisana data. Sprawdź. rrrr-mm-dd">
+                            <f:validateRegex pattern="^(\d{4})-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$"/>
+                        </p:inputMask>
                     </p:panelGrid>
                     <p:panelGrid columns="2" style="margin-top: 10px;">
                         <p:commandButton value="zapisz" actionListener="#{sprFinKwotyInfDodView.zapisz}" style="width: 120px;" update="@form"/>
