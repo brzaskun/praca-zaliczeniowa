@@ -87,7 +87,7 @@ public class PodatnikRokObrachukowyView implements Serializable {
                     macierzyste = PlanKontFKKopiujBean.skopiujlevel(kontoDAOfk,podatnikzrodlowy, podatnikdocelowy, plankontzrodlowy, macierzyste, biezacylevel, rokdocelowy, true);
                 }
                 planKontView.init();
-                planKontView.porzadkowanieKontPodatnika(podatnikdocelowy);
+                planKontView.porzadkowanieKontPodatnika(podatnikdocelowy, rokdocelowy);
                 Msg.msg("Skopiowano plan kont z firmy do firmy");
                 zwrot = 0;
             }

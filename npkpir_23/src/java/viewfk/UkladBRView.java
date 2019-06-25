@@ -11,6 +11,7 @@ import daoFK.KontopozycjaZapisDAO;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
 import daoFK.UkladBRDAO;
+import entity.Podatnik;
 import entityfk.Konto;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
@@ -39,8 +40,10 @@ public class UkladBRView implements Serializable {
     private List<UkladBR> lista;
     private List<UkladBR> listawszyscyrokbiezacy;
     private List<UkladBR> listarokbiezacy;
+    private List<UkladBR> listarokuprzedni;
     private List<UkladBR> listaWzorcowy;
     private List<UkladBR> listaWzorcowyBiezacy;
+    private List<UkladBR> listaWzorcowyUprzedni;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @ManagedProperty(value = "#{pozycjaBRKontaView}")
@@ -74,8 +77,10 @@ public class UkladBRView implements Serializable {
         try {
             lista = ukladBRDAO.findPodatnik(wpisView.getPodatnikObiekt());
             listarokbiezacy = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            listarokuprzedni = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
             listaWzorcowy = ukladBRDAO.findPodatnik(wpisView.getPodatnikwzorcowy());
             listawszyscyrokbiezacy = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            listaWzorcowyUprzedni = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikwzorcowy(), wpisView.getRokUprzedniSt());
             listaWzorcowyBiezacy = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
             Collections.sort(listaWzorcowy, new UkladBRcomparator());
             ukladdocelowyrok = wpisView.getRokWpisuSt();
@@ -162,8 +167,24 @@ public class UkladBRView implements Serializable {
             pozycjaBRKontaView.init();
             pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie("r");
             pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie("b");
-            planKontView.porzadkowanieKontPodatnika(wpisView.getPodatnikObiekt());
+            planKontView.porzadkowanieKontPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             Msg.msg("i", "Skopiowano przyporządkowanie kont z układu wzorcowego");
+        } catch (Exception e) {
+            Msg.msg("e", "Nieudana próba dodania implementacji układu wzorcowego. " + e.getMessage());
+        }
+    }
+    
+    public void implementujWzorcowySF(Podatnik podatnik, String rok) {
+        try {
+            UkladBR ukladBR = new UkladBR();
+            ukladBR.setUklad("Podstawowy");
+            ukladBR.setPodatnik(podatnik);
+            ukladBR.setRok(rok);
+            ukladBR.setImportowany(true);
+            ukladBRDAO.dodaj(ukladBR);
+            PlanKontFKKopiujBean.implementujRZiS(pozycjaRZiSDAO, wybranyukladwzorcowy, podatnik.getNazwapelna(), rok, wybranyukladwzorcowy.getUklad());
+            PlanKontFKKopiujBean.implementujBilans(pozycjaBilansDAO, wybranyukladwzorcowy, podatnik.getNazwapelna(), rok, wybranyukladwzorcowy.getUklad());
+            Msg.msg("i", "Zaimplementowano układ wzorcowy jako nowy układ podatnika");
         } catch (Exception e) {
             Msg.msg("e", "Nieudana próba dodania implementacji układu wzorcowego. " + e.getMessage());
         }
@@ -204,6 +225,14 @@ public class UkladBRView implements Serializable {
 
     public void setSelected(UkladBR selected) {
         this.selected = selected;
+    }
+
+    public List<UkladBR> getListarokuprzedni() {
+        return listarokuprzedni;
+    }
+
+    public void setListarokuprzedni(List<UkladBR> listarokuprzedni) {
+        this.listarokuprzedni = listarokuprzedni;
     }
 
     public PlanKontView getPlanKontView() {
@@ -483,6 +512,25 @@ public class UkladBRView implements Serializable {
         }
         pozycjaRZiSDAO.editList(wynikowe);
         Msg.msg("Wynikowe");
+    }
+
+    void ustawukladwzorcowySF(String rok) {
+        UkladBR zwrot = null;
+        List<UkladBR> uklady = new ArrayList<>();
+        uklady.addAll(listaWzorcowyBiezacy);
+        uklady.addAll(listaWzorcowyUprzedni);
+        for (UkladBR p : uklady) {
+            if (p.getUklad().equals("Podstawowy") && p.getRok().equals(rok)) {
+                zwrot = p;
+                this.setWybranyukladwzorcowy(p);
+                Msg.msg("Wybrano układ wzorcowy");
+                break;
+            }
+        }
+        if (zwrot==null) {
+            Msg.msg("Nie znaleziono odpowiedniego ukłądu wzorcowego");
+            return;
+        }
     }
     
     

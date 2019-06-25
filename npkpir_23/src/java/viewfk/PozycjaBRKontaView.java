@@ -111,7 +111,7 @@ public class PozycjaBRKontaView implements Serializable {
             wybranyuklad.oznaczUkladBR(ukladBRDAO);
             przyporzadkowanekonta = Collections.synchronizedList(new ArrayList<>());
             PozycjaRZiSFKBean.wyczyscKonta("wynikowe", podatnik, wpisView.getRokWpisuSt(), kontoDAO);
-            PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaZapisDAO, wybranyuklad, wpisView, "wynikowe");
+            PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaZapisDAO, wybranyuklad, "wynikowe");
             pozycje = Collections.synchronizedList(new ArrayList<>());
             pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(wybranyuklad));
             if (pozycje.isEmpty()) {
@@ -136,7 +136,7 @@ public class PozycjaBRKontaView implements Serializable {
             wybranyuklad.oznaczUkladBR(ukladBRDAO);
             przyporzadkowanekonta = Collections.synchronizedList(new ArrayList<>());
             PozycjaRZiSFKBean.wyczyscKonta("bilansowe", podatnik, wpisView.getRokWpisuSt(), kontoDAO);
-            PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaZapisDAO, wybranyuklad, wpisView, "bilansowe");
+            PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaZapisDAO, wybranyuklad,"bilansowe");
             pozycje = Collections.synchronizedList(new ArrayList<>());
             if (aktywapasywa.equals("aktywa")) {
                 aktywa0pasywa1 = false;

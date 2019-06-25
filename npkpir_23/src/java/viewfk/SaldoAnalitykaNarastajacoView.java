@@ -72,8 +72,8 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
              }
          }
         listaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
-        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView);
-        List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView);
+        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         przygotowanalistasald(kontaklienta, zapisyBO, zapisyObrotyRozp);
        } catch (Exception e) {
            E.e(e);

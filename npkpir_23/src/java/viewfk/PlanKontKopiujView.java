@@ -76,7 +76,7 @@ public class PlanKontKopiujView implements Serializable {
                 macierzyste = PlanKontFKKopiujBean.skopiujlevel(kontoDAOfk,podatnikzrodlowy, podatnikdocelowy, wykazkont, macierzyste, biezacylevel, rokdocelowy, kopiujSlownikowe);
             }
             planKontView.init();
-            planKontView.porzadkowanieKontPodatnika(wpisView.getPodatnikObiekt());
+            planKontView.porzadkowanieKontPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             kopiujSlownikowe = false;
             Msg.msg("Skopiowano plan kont z firmy do firmy");
         }

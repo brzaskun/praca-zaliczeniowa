@@ -8,6 +8,7 @@ package beansFK;
 import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
+import entity.Podatnik;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -25,18 +26,18 @@ import view.WpisView;
 
 public class BOFKBean {
     
-    public static List<StronaWiersza> pobierzZapisyBO(DokDAOfk dokDAOfk, WpisView wpisView) {
+    public static List<StronaWiersza> pobierzZapisyBO(DokDAOfk dokDAOfk, Podatnik podatnik, String rok) {
         List<StronaWiersza> zapisy = Collections.synchronizedList(new ArrayList<>());
-        List<Dokfk> dokfk = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, "BO");
+        List<Dokfk> dokfk = dokDAOfk.findDokfkPodatnikRokKategoria(podatnik, rok, "BO");
         dokfk.stream().filter((p) -> (p.getOpisdokfk().contains("bilans otwarcia roku:"))).forEachOrdered((p) -> {
             zapisy.addAll(p.getStronyWierszy());
         });
         return zapisy;
     }
     
-    public static List<StronaWiersza> pobierzZapisyObrotyRozp(DokDAOfk dokDAOfk, WpisView wpisView) {
+    public static List<StronaWiersza> pobierzZapisyObrotyRozp(DokDAOfk dokDAOfk, Podatnik podatnik, String rok) {
         List<StronaWiersza> zapisy = Collections.synchronizedList(new ArrayList<>());
-        List<Dokfk> dokfk = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, "BO");
+        List<Dokfk> dokfk = dokDAOfk.findDokfkPodatnikRokKategoria(podatnik, rok, "BO");
         dokfk.stream().filter((p) -> (!p.getOpisdokfk().contains("bilans otwarcia roku:"))).forEachOrdered((p) -> {
             zapisy.addAll(p.getStronyWierszy());
         });

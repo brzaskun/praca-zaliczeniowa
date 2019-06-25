@@ -187,6 +187,21 @@ public class PozycjaBRView implements Serializable {
             Msg.msg("e", "Wystąpił błąd, nie pobrano układu");
         }
     }
+    
+    public void pobierzProjektUkladuZamykanieKsiag(String br, String aktywapasywa) {
+        try {
+            pozycje = Collections.synchronizedList(new ArrayList<>());
+            pozycje = UkladBRBean.pobierzpozycje(pozycjaRZiSDAO, pozycjaBilansDAO, uklad, aktywapasywa, br);
+            if (pozycje != null) {
+                Msg.msg("Pobrano pozycje układu");
+            } else {
+                Msg.msg("e", "Błąd! Pozycje układu sa puste");
+            }
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd, nie pobrano pozycji układu");
+        }
+    }
+    
     //gdy sa obroty rozpoczecia
     public void pobierzukladprzegladRZiSBO() {
         if (uklad.getUklad() == null) {
@@ -575,21 +590,21 @@ public class PozycjaBRView implements Serializable {
 //    
     public void zmianaukladprzegladBilansBO() {
         bilansnadzien = Data.ostatniDzien(wpisView);
-        PozycjaRZiSFKBean.zmianaukladu("bilansowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
+        PozycjaRZiSFKBean.zmianaukladu("bilansowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         obliczBilansOtwarciaBilansDataWybierz();
         bilansnadzien = Data.ostatniDzien(wpisView);
     }
     
      public void zmianaukladprzegladRZiS() {
         bilansnadzien = Data.ostatniDzien(wpisView);
-        PozycjaRZiSFKBean.zmianaukladu("wynikowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
+        PozycjaRZiSFKBean.zmianaukladu("wynikowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         pobierzukladprzegladRZiS();
         bilansnadzien = Data.ostatniDzien(wpisView);
     }
     
     public void zmianaukladprzegladBilans() {
         bilansnadzien = Data.ostatniDzien(wpisView);
-        PozycjaRZiSFKBean.zmianaukladu("bilansowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
+        PozycjaRZiSFKBean.zmianaukladu("bilansowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         pobierzukladprzegladBilans("aktywa");
         bilansnadzien = Data.ostatniDzien(wpisView);
     }
@@ -984,6 +999,14 @@ public class PozycjaBRView implements Serializable {
 
     public void setOpisdodatkowy(String opisdodatkowy) {
         this.opisdodatkowy = opisdodatkowy;
+    }
+
+    public List<PozycjaRZiSBilans> getPozycje() {
+        return pozycje;
+    }
+
+    public void setPozycje(List<PozycjaRZiSBilans> pozycje) {
+        this.pozycje = pozycje;
     }
     
     

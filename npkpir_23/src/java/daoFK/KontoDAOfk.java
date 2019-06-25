@@ -265,7 +265,7 @@ public class KontoDAOfk extends DAO implements Serializable {
     
     public List<Konto> findWszystkieKontaPodatnikaRO(Podatnik podatnik, String rok) {
         try {
-            return Collections.synchronizedList(kontoFacade.findKontoPodatnikRO(podatnik, rok));
+            return kontoFacade.findKontoPodatnikRO(podatnik, rok);
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -411,6 +411,15 @@ public class KontoDAOfk extends DAO implements Serializable {
         }
     }
     
+    public List<Konto> findKontaOstAlityka(Podatnik podatnik, Integer rok) {
+        try {
+            return Collections.synchronizedList(kontoFacade.findKontaOstAlityka(podatnik, rok));
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
+    
     public List<Konto> findKontaOstAlitykaRO(WpisView wpisView) {
         try {
             return Collections.synchronizedList(kontoFacade.findKontaOstAlitykaRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
@@ -423,6 +432,15 @@ public class KontoDAOfk extends DAO implements Serializable {
     public List<Konto> findKontaOstAlitykaRokPop(WpisView wpisView) {
         try {
             return Collections.synchronizedList(kontoFacade.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedni()));
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
+    
+    public List<Konto> findKontaOstAlitykaRokPop(Podatnik podatnik, Integer rokuprzedni) {
+        try {
+            return Collections.synchronizedList(kontoFacade.findKontaOstAlityka(podatnik, rokuprzedni));
         } catch (Exception e) {
             E.e(e);
             return null;

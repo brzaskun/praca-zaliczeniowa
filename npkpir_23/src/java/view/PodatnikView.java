@@ -1331,6 +1331,20 @@ private DokDAO dokDAO;
         wpisView.initpublic();
     }
     
+    public void zamknijrokSF(PodatnikOpodatkowanieD p) {
+        if (p.isZamkniety()) {
+
+        } else {
+            p.setZamkniety(true);
+            zaksiegujdokumenty();
+            Msg.msg("Zamknięto rok i zaksięgowano dokumenty");
+        }
+        p.setDatawprowadzenia(new Date());
+        p.setKsiegowa(wpisView.getUzer());
+        podatnikOpodatkowanieDDAO.edit(p);
+        wpisView.initpublic();
+    }
+    
     private void zaksiegujdokumenty() {
         List<Dokfk> selectedlist = dokDAOfk.findDokfkPodatnikRok(wpisView);
             try {

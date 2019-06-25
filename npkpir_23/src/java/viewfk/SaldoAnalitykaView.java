@@ -16,6 +16,7 @@ import daoFK.WalutyDAOfk;
 import embeddable.Mce;
 import embeddablefk.SaldoKonto;
 import embeddablefk.Sprawozdanie_0;
+import entity.Podatnik;
 import entityfk.Cechazapisu;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -97,8 +98,8 @@ public class SaldoAnalitykaView implements Serializable {
             }
         }
         pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
-        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView);
-        List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView);
+        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         przygotowanalistasald(kontaklienta, zapisyBO, zapisyObrotyRozp, wybranyRodzajKonta);
     }
     
@@ -120,10 +121,19 @@ public class SaldoAnalitykaView implements Serializable {
             }
         }
         pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
-        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView);
-        List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView);
+        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlitykaRokPop(wpisView);
-        przygotowanalistasaldbo(kontaklienta, kontaklientarokpop, zapisyBO, zapisyObrotyRozp, wybranyRodzajKonta);
+        przygotowanalistasaldbo(kontaklienta, kontaklientarokpop, zapisyBO, zapisyObrotyRozp, wybranyRodzajKonta, wpisView.getRokWpisuSt());
+    }
+     
+     
+    public void initzamknijksiegi(Podatnik podatnik, String rok, String rokuprzedni) {
+        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(podatnik, Integer.parseInt(rok));
+        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, podatnik, rok);
+        List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, podatnik, rok);
+        List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlitykaRokPop(podatnik, Integer.parseInt(rokuprzedni));
+        przygotowanalistasaldbo(kontaklienta, kontaklientarokpop, zapisyBO, zapisyObrotyRozp, "wszystkie", rok);
     }
 
     public void zmienkryteriawyswietlania() {
@@ -172,7 +182,7 @@ public class SaldoAnalitykaView implements Serializable {
         wpisView.setMiesiacWpisu("12");
         List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
         listaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
-        List<StronaWiersza> zapisyRok = pobierzzapisy("wszystkie");
+        List<StronaWiersza> zapisyRok = pobierzzapisy("wszystkie", wpisView.getRokWpisuSt());
 //        for (StronaWiersza p : zapisyRok) {
 //            if (p.getKonto().getPelnynumer().equals("201-2-19") && p.getKwota() == 123.0) {
 //                System.out.println("");
@@ -624,14 +634,14 @@ public class SaldoAnalitykaView implements Serializable {
 
     }
 
-    private List<StronaWiersza> pobierzzapisy(String rodzajkont) {
+    private List<StronaWiersza> pobierzzapisy(String rodzajkont, String rok) {
         List<StronaWiersza> zapisyRok = null;
         if (rodzajkont.equals("wszystkie")) {
-            zapisyRok = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            zapisyRok = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), rok);
         } else if (rodzajkont.equals("bilansowe")) {
-            zapisyRok = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            zapisyRok = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), rok);
         } else if (rodzajkont.equals("wynikowe")) {
-            zapisyRok = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            zapisyRok = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), rok);
         }
         return zapisyRok;
     }
@@ -750,9 +760,8 @@ public class SaldoAnalitykaView implements Serializable {
 //    }
 //
 
-    private void przygotowanalistasaldbo(List<Konto> kontaklienta, List<Konto> kontaklientarokpop, List<StronaWiersza> zapisyBO, List<StronaWiersza> zapisyObrotyRozp, String wybranyRodzajKonta) {
-
-        List<StronaWiersza> zapisyRok = pobierzzapisy(wybranyRodzajKonta);
+    private void przygotowanalistasaldbo(List<Konto> kontaklienta, List<Konto> kontaklientarokpop, List<StronaWiersza> zapisyBO, List<StronaWiersza> zapisyObrotyRozp, String wybranyRodzajKonta, String rok) {
+        List<StronaWiersza> zapisyRok = pobierzzapisy(wybranyRodzajKonta, rok);
         CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyRok);
         CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyBO);
         Map<String, SaldoKonto> przygotowanalista = new ConcurrentHashMap<>();

@@ -156,8 +156,8 @@ public class SprFinKwotyInfDodView  implements Serializable{
     
     public void generujInfdod() {
         List<Konto> kontaklienta = kontoDAOfk.findWszystkieKontaPodatnikaRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView);
-        List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView);
+        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlitykaRokPop(wpisView);
         List<SaldoKonto> listaSaldoKonto = SaldoAnalitykaBean.przygotowanalistasaldbo(kontaklienta, kontaklientarokpop, zapisyBO, zapisyObrotyRozp, stronaWierszaDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         SprFinInfDodBean.drukujBilansAP(wpisView, sprFinKwotyInfDod, listaSaldoKonto);

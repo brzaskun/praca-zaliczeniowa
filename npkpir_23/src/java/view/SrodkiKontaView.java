@@ -59,11 +59,11 @@ public class SrodkiKontaView implements Serializable {
         List<SrodekTrw> srodkizBazy = pobierzsrodkizbazy();
         List<Konto> kontaklienta = pobierzkonta();
         List<SaldoKonto> listaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
-        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView);
+        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         if (zapisyBO.isEmpty()) {
             brakbo = true;
         }
-        List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView);
+        List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         listaSaldoKonto = przygotowanalistasald(kontaklienta, zapisyBO, zapisyObrotyRozp, null);
         lista = stworzliste(kontaklienta,listaSaldoKonto, srodkizBazy);
         System.out.println("");

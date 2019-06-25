@@ -98,8 +98,8 @@ public class DeklaracjevatView implements Serializable {
         wyslanetestowe = Collections.synchronizedList(new ArrayList<>());
         wyslanezbledem = Collections.synchronizedList(new ArrayList<>());
         wyslaneniepotwierdzone = Collections.synchronizedList(new ArrayList<>());
-        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView);
-        List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView);
+        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         try {
             oczekujace = deklaracjevatDAO.findDeklaracjeDowyslaniaList(wpisView.getPodatnikWpisu());
             if (oczekujace != null && oczekujace.size() == 1) {
