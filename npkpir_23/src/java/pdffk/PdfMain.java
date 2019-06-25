@@ -1765,14 +1765,14 @@ public class PdfMain {
                 }
                 if (modyfikator == 3) {
                     if (p.getKwotabo()!= 0.0) {
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotabo())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
                     } else {
                         table.addCell(ustawfrazeAlign("", "right", 8));
                     }
                 }
                 if (modyfikator != 2) {
                     if (p.getKwota() != 0.0) {
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotabo())), "right", 8));
                     } else {
                         table.addCell(ustawfrazeAlign("", "right", 8));
                     }

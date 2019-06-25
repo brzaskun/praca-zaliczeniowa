@@ -76,16 +76,17 @@
                             <h:outputText value=" " /> 
                             <h:outputText value="#{loop.nazwa}" /> 
                         </p:column>
-                        <p:column headerText="rok uprzedni">
-                            <h:outputText value="#{loop.kwotabo}" style="float: right; padding-right: 15%" rendered="#{loop.kwotabo != 0.0}">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
-                        </p:column>
                         <p:column headerText="rok bieżący">
                             <h:outputText value="#{loop.kwota}" style="float: right; padding-right: 15%" rendered="#{loop.kwota!= 0.0}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
+                        <p:column headerText="rok uprzedni">
+                            <h:outputText value="#{loop.kwotabo}" style="float: right; padding-right: 15%" rendered="#{loop.kwotabo != 0.0}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        
                     </p:treeTable>
                 </p:column>
                 

@@ -815,8 +815,8 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
         n.add("");
        }
        n.add(B.b("nazwapozycjiRZiS"));
-       n.add(B.b("rokpoprzedni"));
        n.add(B.b("rokbiezacy"));
+       n.add(B.b("rokpoprzedni"));
        List t = getWierszeRZiS(rootProjektRZiS, level);
        List[] tabela = new List[2];
        tabela[0] = n;
