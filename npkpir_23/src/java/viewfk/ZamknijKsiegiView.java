@@ -85,16 +85,32 @@ public class ZamknijKsiegiView  implements Serializable {
         }
     }
     public void weryfikujuklad() {
-        weryfikujukladSF(rokpop);
-        weryfikujukladSF(rok);
-    }
-    
-    public void weryfikujukladSF(String rok) {
-        Msg.msg(" ");
-        Msg.msg("Rozpoczynam weryfikowanie układu za "+rok);
+        wpisView.setRokWpisu(Integer.valueOf(rokpop));
+        wpisView.aktualizuj();
         FacesContext facesContext = FacesContext.getCurrentInstance();
         UkladBRView ukladBRView = (UkladBRView) facesContext.getELContext().getELResolver().getValue(facesContext.getELContext(), null, "ukladBRView");
-        List<UkladBR> listarokuprzedni = ukladBRView.getListarokuprzedni();
+        ukladBRView.init();
+        List<UkladBR> listarokuprzedni = ukladBRView.getListarokbiezacy();
+        weryfikujukladSF(facesContext, rokpop, listarokuprzedni, ukladBRView);
+        ukladBRView = (UkladBRView) facesContext.getELContext().getELResolver().getValue(facesContext.getELContext(), null, "ukladBRView");
+        ukladBRView.init();
+        listarokuprzedni = ukladBRView.getListarokbiezacy();
+        porzadkujkonta(facesContext, rokpop, listarokuprzedni, ukladBRView);
+        wpisView.setRokWpisu(Integer.valueOf(rok));
+        wpisView.aktualizuj();
+        ukladBRView = (UkladBRView) facesContext.getELContext().getELResolver().getValue(facesContext.getELContext(), null, "ukladBRView");
+        ukladBRView.init();
+        List<UkladBR> listarokbiezacy = ukladBRView.getListarokbiezacy();
+        weryfikujukladSF(facesContext, rok, listarokbiezacy, ukladBRView);
+        ukladBRView = (UkladBRView) facesContext.getELContext().getELResolver().getValue(facesContext.getELContext(), null, "ukladBRView");
+        ukladBRView.init();
+        listarokbiezacy = ukladBRView.getListarokbiezacy();
+        porzadkujkonta(facesContext, rok, listarokbiezacy, ukladBRView);
+    }
+    
+    public void weryfikujukladSF(FacesContext facesContext, String rok, List<UkladBR> listarokuprzedni, UkladBRView ukladBRView) {
+        Msg.msg(" ");
+        Msg.msg("Rozpoczynam weryfikowanie układu za "+rok);
         UkladBR podstawowy = pobierzpodstawowy(listarokuprzedni);
         List<PozycjaRZiSBilans> pozycje = null;
         if (podstawowy!=null) {
@@ -115,13 +131,16 @@ public class ZamknijKsiegiView  implements Serializable {
         ukladBRView.usun();
         ukladBRView.ustawukladwzorcowySF("2018");
         ukladBRView.implementujWzorcowySF(wpisView.getPodatnikObiekt(), rok);
+    }
+    
+    public void porzadkujkonta(FacesContext facesContext, String rok, List<UkladBR> listarokuprzedni, UkladBRView ukladBRView) {
+        UkladBR podstawowy = pobierzpodstawowy(listarokuprzedni);
         PozycjaBRKontaView pozycjaBRKontaView = (PozycjaBRKontaView) facesContext.getELContext().getELResolver().getValue(facesContext.getELContext(), null, "pozycjaBRKontaView");
         pozycjaBRKontaView.init();
+        pozycjaBRKontaView.setWybranyuklad(podstawowy);
         pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie("r");
         pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie("b");
         PlanKontView planKontView = (PlanKontView) facesContext.getELContext().getELResolver().getValue(facesContext.getELContext(), null, "planKontView");
-        ukladBRView = (UkladBRView) facesContext.getELContext().getELResolver().getValue(facesContext.getELContext(), null, "ukladBRView");
-        listarokuprzedni = ukladBRView.getListarokuprzedni();
         podstawowy = pobierzpodstawowy(listarokuprzedni);
         planKontView.setWybranyuklad(podstawowy);
         planKontView.porzadkowanieKontPodatnika(wpisView.getPodatnikObiekt(), rok);

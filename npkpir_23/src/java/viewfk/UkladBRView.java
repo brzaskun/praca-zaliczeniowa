@@ -516,10 +516,7 @@ public class UkladBRView implements Serializable {
 
     void ustawukladwzorcowySF(String rok) {
         UkladBR zwrot = null;
-        List<UkladBR> uklady = new ArrayList<>();
-        uklady.addAll(listaWzorcowyBiezacy);
-        uklady.addAll(listaWzorcowyUprzedni);
-        for (UkladBR p : uklady) {
+        for (UkladBR p : listaWzorcowy) {
             if (p.getUklad().equals("Podstawowy") && p.getRok().equals(rok)) {
                 zwrot = p;
                 this.setWybranyukladwzorcowy(p);
