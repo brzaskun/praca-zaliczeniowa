@@ -23,9 +23,10 @@
             <h:form id="formprojektuklad">
                 <p:panelGrid columns="1" style="width: 550px;">
                     <p:dataTable id="dataList" value="#{ukladBRView.lista}" var="loop" selectionMode="single" selection="#{ukladBRView.selected}" 
-                                 styleClass="tablicaplankont" style="width: 650px; margin-top: 0%; margin-bottom: 50px;" rowKey="#{loop.uklad}" scrollable="true" scrollHeight="500"
+                                 styleClass="tablicaplankont" style="width: 650px; margin-top: 0%; margin-bottom: 50px;" rowKey="#{loop.lp}" scrollable="true" scrollHeight="500"
                                  emptyMessage="Brak układów RZiS">
                         <p:ajax event="rowSelect" listener="#{ukladBRView.wybranouklad}" global="false"/>
+                        
                         <p:column headerText="nazwa ukladu" width="150"  style="text-align: center;">
                             <h:outputText value="#{loop.uklad}" style="font-weight: bolder; width: 200px;" /> 
                         </p:column>
