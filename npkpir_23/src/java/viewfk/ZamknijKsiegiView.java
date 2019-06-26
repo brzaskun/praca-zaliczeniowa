@@ -8,9 +8,11 @@ package viewfk;
 import embeddablefk.SaldoKonto;
 import entity.Podatnik;
 import entity.PodatnikOpodatkowanieD;
+import entityfk.Konto;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.UkladBR;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -144,6 +146,7 @@ public class ZamknijKsiegiView  implements Serializable {
         podstawowy = pobierzpodstawowy(listarokuprzedni);
         planKontView.setWybranyuklad(podstawowy);
         planKontView.porzadkowanieKontPodatnika(wpisView.getPodatnikObiekt(), rok);
+        sprawdzczysanieprzyporzadkowane(planKontView.getWykazkont());
         Msg.msg("Udane aktualizowanie/tworzenie układu za "+rok);
     }
     
@@ -186,6 +189,18 @@ public class ZamknijKsiegiView  implements Serializable {
             }
         }
         return zwrot;
+    }
+
+    private void sprawdzczysanieprzyporzadkowane(List<Konto> wykazkont) {
+        List<Konto> wykazkontbezpozycji = new ArrayList<>();
+        for (Konto p : wykazkont) {
+            if (p.getPozycjaWn()==null || p.getPozycjaMa()==null) {
+                wykazkontbezpozycji.add(p);
+            }
+        }
+        if (wykazkontbezpozycji.size()>0) {
+            Msg.msg("e", "Są konta bez przyporządkowania");
+        }
     }
 
     
