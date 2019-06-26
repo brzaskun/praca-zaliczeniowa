@@ -232,7 +232,7 @@ public class SprFinInfDodBeanTXT {
         wiersze.add("Wyszczególnienie");
         wiersze.add("Kwota");
         wiersze.add("1. Wynik finansowy netto");
-        wiersze.add(format.F.curr(sprFinKwotyInfDod.getDopodzialu()));
+        wiersze.add(format.F.curr(sprFinKwotyInfDod.getZyskstratanetto()));
         wiersze.add("- w tym rozliczenie wyniku finansowego z lat ub");
         wiersze.add(pobierz("821", listaSaldoKonto, 0, 1));
         double wynik = Z.z(sprFinKwotyInfDod.getPid1A().doubleValue()+sprFinKwotyInfDod.getPid11A().doubleValue()+pobierzNum("821", listaSaldoKonto, 0, 1));

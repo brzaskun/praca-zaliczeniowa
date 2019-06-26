@@ -105,8 +105,10 @@ public class SprFinKwotyInfDod implements Serializable{
     private byte[] plikxml;
     @Column(name = "nazwaplikuxml")
     private String nazwaplikuxml;
+    //podstawowy rodzaj działalności
     @Column(name = "ppdzialalnosci")
     private String ppdzialalnosci;
+    //pozostały rodzaj działalności
     @Column(name = "pozpdzialalnosci")
     private String pozpdzialalnosci;
     @Column(name = "sad")
@@ -125,6 +127,10 @@ public class SprFinKwotyInfDod implements Serializable{
     private double zleceniobiorcy;
     @Column(name = "inni")
     private double inni;
+    @Column(name = "sumabilansowa")
+    private double sumabilansowa;
+    @Column(name = "zyskstratanetto")
+    private double zyskstratanetto;
     
 
     public SprFinKwotyInfDod() {
@@ -550,6 +556,22 @@ public class SprFinKwotyInfDod implements Serializable{
 
     public void setStratazlatubieglych(double stratazlatubieglych) {
         this.stratazlatubieglych = stratazlatubieglych;
+    }
+
+    public double getSumabilansowa() {
+        return sumabilansowa;
+    }
+
+    public void setSumabilansowa(double sumabilansowa) {
+        this.sumabilansowa = sumabilansowa;
+    }
+
+    public double getZyskstratanetto() {
+        return zyskstratanetto;
+    }
+
+    public void setZyskstratanetto(double zyskstratanetto) {
+        this.zyskstratanetto = zyskstratanetto;
     }
 
     

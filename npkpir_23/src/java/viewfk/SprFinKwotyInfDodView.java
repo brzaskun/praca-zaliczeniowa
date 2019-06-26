@@ -8,7 +8,6 @@ package viewfk;
 import beansFK.BOFKBean;
 import beansFK.SaldoAnalitykaBean;
 import beansFK.SprFinInfDodBean;
-import static beansFK.SprFinInfDodBean.drukujBilansAP;
 import dao.StronaWierszaDAO;
 import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
@@ -37,6 +36,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import plik.Plik;
 import view.WpisView; import org.primefaces.PrimeFaces;
+import static beansFK.SprFinInfDodBean.drukujInformacjeDodatkowa;
 
 /**
  *
@@ -160,7 +160,11 @@ public class SprFinKwotyInfDodView  implements Serializable{
         List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlitykaRokPop(wpisView);
         List<SaldoKonto> listaSaldoKonto = SaldoAnalitykaBean.przygotowanalistasaldbo(kontaklienta, kontaklientarokpop, zapisyBO, zapisyObrotyRozp, stronaWierszaDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        SprFinInfDodBean.drukujBilansAP(wpisView, sprFinKwotyInfDod, listaSaldoKonto);
+        SprFinInfDodBean.drukujInformacjeDodatkowa(wpisView, sprFinKwotyInfDod, listaSaldoKonto);
+    }
+    
+    public void generujSprawozdanieZarzadu() {
+        SprFinInfDodBean.drukujSprawozdanieZarzadu(wpisView, sprFinKwotyInfDod);
     }
 
     public SprFinKwotyInfDod getSprFinKwotyInfDod() {

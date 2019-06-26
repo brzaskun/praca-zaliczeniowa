@@ -100,6 +100,10 @@
                         <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pozpdzialalnosci}" size="120">
                             <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
                         </p:inputText>
+                        <h:outputText value="zysk strata netto"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.zyskstratanetto}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s">
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputNumber>
                         <h:outputText value="kwota wyniku do podziału"/>
                         <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.dopodzialu}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" symbol=" zł" symbolPosition="s">
                             <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
@@ -134,6 +138,21 @@
                     <p:panelGrid columns="1">
                     <h:outputText value="Ważne! Aby informacja poprawnie się wygenerowała, salda z poprzedniego roku muszą być zaksięgowane!"/>
                     <p:commandButton value="generuj inf.dod." style="width: 120px;margin-top: 30px;" actionListener="#{sprFinKwotyInfDodView.generujInfdod}"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:tab>
+            <p:tab title="spr. zarządu">
+                <h:form>
+                    <p:panelGrid columns="2">
+                        <h:outputText value="suma bilansowa za rok bieżący"/>
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.sumabilansowa}" decimalPlaces="1" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;">
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputNumber>
+                    </p:panelGrid>
+                </h:form>
+                <h:form>
+                    <p:panelGrid columns="1">
+                    <p:commandButton value="generuj spraw." style="width: 120px;margin-top: 30px;" actionListener="#{sprFinKwotyInfDodView.generujSprawozdanieZarzadu}"/>
                     </p:panelGrid>
                 </h:form>
             </p:tab>

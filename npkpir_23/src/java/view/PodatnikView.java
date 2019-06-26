@@ -424,6 +424,9 @@ private DokDAO dokDAO;
         try {
             String formatka = null;
             s.setWojewodztwo(s.getWojewodztwo().substring(0, 1).toUpperCase() + s.getWojewodztwo().substring(1).toLowerCase());
+            if (s.getKodPKD()!=null) {
+                s.setKodPKD(s.getKodPKD().toUpperCase());
+            }
         } catch (Exception r) {
             Msg.msg("e", "Wystąpił błąd podczas formatowania wprowadzonych danych");
             throw new Exception();

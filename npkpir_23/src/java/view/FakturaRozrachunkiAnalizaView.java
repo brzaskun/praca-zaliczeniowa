@@ -92,6 +92,9 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     
     public void pobierzwszystkoKlienta() {
         String mc = wpisView.getMiesiacWpisu();
+        if (szukanyklient.getEmail()==null ||szukanyklient.getEmail().equals("")) {
+            szukanyklient.setEmail("brakmaila!@taxman.biz.pl");
+        }
         nowepozycje = pobierzelementy(mc, false, szukanyklient);
         archiwum = pobierzelementy(mc, true, szukanyklient);
         sortujsumuj(nowepozycje);
@@ -359,28 +362,32 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     }
     
     public void korygujsaldo(FakturaPodatnikRozliczenie p) {
-        double saldo = p.getSaldo();
-        FakturaRozrachunki f = new FakturaRozrachunki();
-        f.setData(Data.aktualnaData());
-        if (p.getRozliczenie()!= null) {
-            szukanyklient = p.getRozliczenie().getKontrahent();
+        double saldo = p.getSaldopln();
+        if (saldo != 0.0) {
+            FakturaRozrachunki f = new FakturaRozrachunki();
+            f.setData(Data.aktualnaData());
+            if (p.getRozliczenie()!= null) {
+                szukanyklient = p.getRozliczenie().getKontrahent();
+            } else {
+                szukanyklient = p.getFaktura().getKontrahent();
+            }
+            f.setKontrahent(szukanyklient);
+            f.setKwota(-saldo);
+            f.setRok(wpisView.getRokWpisuSt());
+            f.setMc(wpisView.getMiesiacWpisu());
+            f.setWystawca(wpisView.getPodatnikObiekt());
+            f.setWprowadzil(wpisView.getUzer());
+            f.setZaplata0korekta1(true);
+            f.setRodzajdokumentu("ka");
+            String nr = "ka/"+wpisView.getPodatnikWpisu().substring(0,1)+"/"+wpisView.getMiesiacWpisu();
+            f.setNrdokumentu(nr);
+            selectOneUI.setValue(szukanyklient);
+            fakturaRozrachunkiDAO.dodaj(f);
+            saldanierozliczone.remove(p);
+            aktywnytab = 3;
         } else {
-            szukanyklient = p.getFaktura().getKontrahent();
+            Msg.msg("w", "Saldo zerowe, nie ma czego korygować");
         }
-        f.setKontrahent(szukanyklient);
-        f.setKwota(-saldo);
-        f.setRok(wpisView.getRokWpisuSt());
-        f.setMc(wpisView.getMiesiacWpisu());
-        f.setWystawca(wpisView.getPodatnikObiekt());
-        f.setWprowadzil(wpisView.getUzer());
-        f.setZaplata0korekta1(true);
-        f.setRodzajdokumentu("ka");
-        String nr = "ka/"+wpisView.getPodatnikWpisu().substring(0,1)+"/"+wpisView.getMiesiacWpisu();
-        f.setNrdokumentu(nr);
-        selectOneUI.setValue(szukanyklient);
-        fakturaRozrachunkiDAO.dodaj(f);
-        saldanierozliczone.remove(p);
-        aktywnytab = 3;
     }
     
     public void drukujKlienci() {

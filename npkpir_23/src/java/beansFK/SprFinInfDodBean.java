@@ -32,7 +32,7 @@ import plik.Plik;
  */
 public class SprFinInfDodBean {
     
-    public static void drukujBilansAP(WpisView wpisView, SprFinKwotyInfDod sprFinKwotyInfDod, List<SaldoKonto> listaSaldoKonto) {
+    public static void drukujInformacjeDodatkowa(WpisView wpisView, SprFinKwotyInfDod sprFinKwotyInfDod, List<SaldoKonto> listaSaldoKonto) {
         String nazwa = null;
         nazwa = wpisView.getPodatnikObiekt().getNip()+"InfDod"+wpisView.getRokWpisuSt();
         File file = Plik.plik(nazwa, true);
@@ -165,5 +165,32 @@ public class SprFinInfDodBean {
         } catch (DocumentException ex) {
             Logger.getLogger(SprFinInfDodBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public static void drukujSprawozdanieZarzadu(WpisView wpisView, SprFinKwotyInfDod sprFinKwotyInfDod) {
+        String nazwa = null;
+        nazwa = wpisView.getPodatnikObiekt().getNip()+"SprawZarzadu"+wpisView.getRokWpisuSt();
+        File file = Plik.plik(nazwa, true);
+        if (file.isFile()) {
+            file.delete();
+        }
+        Document document = inicjacjaA4Portrait(60,40);
+        PdfWriter writer = inicjacjaWritera(document, nazwa);
+        naglowekStopkaP(writer);
+        otwarcieDokumentu(document, nazwa);
+        SprFinSprawZarzaduBeanTXT.naglowekglowny(document, wpisView.getRokWpisuSt());
+        dodajSzczegolySprZarz(document, sprFinKwotyInfDod);;
+        PdfMain.dodajpodpis(document, wpisView.getFormaprawna().toString());
+        finalizacjaDokumentuQR(document,nazwa);
+        String f = null;
+        f = "pokazwydruk('"+nazwa+"');";
+        PrimeFaces.current().executeScript(f);
+    }
+    
+    private static void dodajSzczegolySprZarz(Document document, SprFinKwotyInfDod sprFinKwotyInfDod) {
+        SprFinSprawZarzaduBeanTXT.podnaglowek1(document);
+        //ustawtabela2k1(2, 10, document, SprFinSprawZarzaduBeanTXT.wierszeTab1(sprFinKwotyInfDod));
+        SprFinSprawZarzaduBeanTXT.podnaglowek1(document);
+        
     }
 }
