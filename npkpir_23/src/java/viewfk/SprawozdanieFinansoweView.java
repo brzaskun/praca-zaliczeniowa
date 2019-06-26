@@ -54,7 +54,7 @@ public class SprawozdanieFinansoweView implements Serializable {
         Collections.sort(listapodatnikow, new Podatnikcomparator());
         sprawozdaniapodatnicy = Collections.synchronizedList(new ArrayList<>());
         if (wybranyrok == null) {
-            wybranyrok = wpisView.getRokWpisuSt();
+            wybranyrok = String.valueOf(wpisView.getRokWpisu()+1);
         }
         sprawozdaniapodatnicy = sprawozdanieFinansoweDAO.findSprawozdanieRok(wybranyrok);
         for (Iterator<Podatnik> it = listapodatnikow.iterator(); it.hasNext();) {
