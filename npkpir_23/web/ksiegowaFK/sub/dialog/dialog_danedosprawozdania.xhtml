@@ -156,6 +156,42 @@
                     </p:panelGrid>
                 </h:form>
             </p:tab>
+            <p:tab title="uchwały">
+                <h:form>
+                    <p:panelGrid columns="4" style="width: 950px; padding: 5px;">
+                <p:dataTable value="#{sprFinKwotyInfDodView.podatnikUdzialy}"  var="loop" rowKey="#{loop.id}" selection="#{podatnikView.wybranyPodatnikUdzialy}" id="form9tablica"
+                              >
+                    <p:column headerText="data od">
+                        <h:outputText value="#{loop.datarozpoczecia}" />
+                    </p:column>
+                    <p:column headerText="data do">
+                        <h:outputText value="#{loop.datazakonczenia}"/>
+                    </p:column>
+                    <p:column headerText="nazwisko i imie" width="200">
+                        <h:outputText value="#{loop.nazwiskoimie}" />
+                    </p:column>
+                    <p:column headerText="nip/pesel" width="100">
+                        <h:outputText value="#{loop.nip}" />
+                        <h:outputText value="#{loop.pesel}" />
+                    </p:column>
+                    <p:column headerText="udział" style="text-align: center;">
+                        <h:outputText value="#{loop.udzial}" />
+                    </p:column>
+                    <p:column headerText="liczba udz." style="text-align: center;">
+                        <h:outputText value="#{loop.liczbaudzialow}" />
+                    </p:column>
+                    <p:column headerText="wartość nom." style="text-align: center;">
+                        <h:outputText value="#{loop.wartoscnominalna}" />
+                    </p:column>
+                </p:dataTable>
+            </p:panelGrid>
+                </h:form>
+                <h:form>
+                    <p:panelGrid columns="1">
+                    <p:commandButton value="generuj uchwały" style="width: 120px;margin-top: 30px;" actionListener="#{sprFinKwotyInfDodView.generujUchwaly}"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:tab>
         </p:tabView>
     </p:dialog>
 </ui:composition>

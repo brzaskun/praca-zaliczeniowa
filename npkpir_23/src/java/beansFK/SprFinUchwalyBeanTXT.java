@@ -31,7 +31,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-public class SprFinSprawZarzaduBeanTXT {
+public class SprFinUchwalyBeanTXT {
 
     static void naglowekglowny(Document document, String rok, String nazwa, String siedziba, String dataod, String datado) {
         PdfMain.dodajLinieOpisu(document, "SPRAWOZDANIE ZARZĄDU", Element.ALIGN_CENTER,2);

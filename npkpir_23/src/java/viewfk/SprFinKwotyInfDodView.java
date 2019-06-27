@@ -37,6 +37,10 @@ import org.primefaces.model.UploadedFile;
 import plik.Plik;
 import view.WpisView; import org.primefaces.PrimeFaces;
 import static beansFK.SprFinInfDodBean.drukujInformacjeDodatkowa;
+import dao.PodatnikUdzialyDAO;
+import embeddable.Mce;
+import entity.PodatnikUdzialy;
+import java.util.Iterator;
 
 /**
  *
@@ -54,7 +58,10 @@ public class SprFinKwotyInfDodView  implements Serializable{
     @Inject
     private DokDAOfk dokDAOfk;
     @Inject
+    private PodatnikUdzialyDAO podatnikUdzialyDAO;
+    @Inject
     private StronaWierszaDAO stronaWierszaDAO;
+    private List<PodatnikUdzialy> podatnikUdzialy;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     
@@ -64,6 +71,7 @@ public class SprFinKwotyInfDodView  implements Serializable{
         if (sprFinKwotyInfDod==null) {
             sprFinKwotyInfDod = new SprFinKwotyInfDod(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         }
+        pobierzudzialy();
     }
     
     public void zapisz() {
@@ -166,6 +174,10 @@ public class SprFinKwotyInfDodView  implements Serializable{
     public void generujSprawozdanieZarzadu() {
         SprFinInfDodBean.drukujSprawozdanieZarzadu(wpisView, sprFinKwotyInfDod);
     }
+    
+    public void generujUchwaly() {
+        SprFinInfDodBean.drukujSprawozdanieZarzadu(wpisView, sprFinKwotyInfDod);
+    }
 
     public SprFinKwotyInfDod getSprFinKwotyInfDod() {
         return sprFinKwotyInfDod;
@@ -180,6 +192,28 @@ public class SprFinKwotyInfDodView  implements Serializable{
 
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
+    }
+
+    public List<PodatnikUdzialy> getPodatnikUdzialy() {
+        return podatnikUdzialy;
+    }
+
+    public void setPodatnikUdzialy(List<PodatnikUdzialy> podatnikUdzialy) {
+        this.podatnikUdzialy = podatnikUdzialy;
+    }
+
+    private void pobierzudzialy() {
+        podatnikUdzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+        for (Iterator<PodatnikUdzialy> it = podatnikUdzialy.iterator();it.hasNext();) {
+            PodatnikUdzialy p = it.next();
+            if (p.getDatazakonczenia()!=null && !p.getDatazakonczenia().equals("")) {
+                String[] mc = Mce.zwiekszmiesiac(data.Data.getRok(sprFinKwotyInfDod.getDatasporzadzenia()), data.Data.getMc(sprFinKwotyInfDod.getDatasporzadzenia()));
+                if (data.Data.czyjestprzed(p.getDatazakonczenia(), mc[0], mc[1])) {
+                    it.remove();
+                }
+            }
+            
+        }
     }
     
     

@@ -178,7 +178,7 @@ public class SprFinInfDodBean {
         PdfWriter writer = inicjacjaWritera(document, nazwa);
         naglowekStopkaP(writer);
         otwarcieDokumentu(document, nazwa);
-        SprFinSprawZarzaduBeanTXT.naglowekglowny(document, wpisView.getRokWpisuSt());
+        SprFinSprawZarzaduBeanTXT.naglowekglowny(document, sprFinKwotyInfDod.getRok(), wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getMiejscowosc(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado());
         dodajSzczegolySprZarz(document, sprFinKwotyInfDod);;
         PdfMain.dodajpodpis(document, wpisView.getFormaprawna().toString());
         finalizacjaDokumentuQR(document,nazwa);
@@ -189,8 +189,11 @@ public class SprFinInfDodBean {
     
     private static void dodajSzczegolySprZarz(Document document, SprFinKwotyInfDod sprFinKwotyInfDod) {
         SprFinSprawZarzaduBeanTXT.podnaglowek1(document);
-        //ustawtabela2k1(2, 10, document, SprFinSprawZarzaduBeanTXT.wierszeTab1(sprFinKwotyInfDod));
-        SprFinSprawZarzaduBeanTXT.podnaglowek1(document);
+        SprFinSprawZarzaduBeanTXT.podnaglowek2(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getZyskstratanetto(), sprFinKwotyInfDod.getSumabilansowa(), sprFinKwotyInfDod.getDatado());
+        SprFinSprawZarzaduBeanTXT.podnaglowek3(document);
+        SprFinSprawZarzaduBeanTXT.podnaglowek4(document);
+        SprFinSprawZarzaduBeanTXT.podnaglowek5(document);
+        SprFinSprawZarzaduBeanTXT.podnaglowek6(document);
         
     }
 }

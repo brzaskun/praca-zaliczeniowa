@@ -52,6 +52,10 @@ public class PodatnikUdzialy implements Serializable{
     private String pesel;
     @Column(name = "udzial")
     private String udzial;
+    @Column(name = "liczbaudzialow")
+    private int liczbaudzialow;
+    @Column(name = "wartoscnominalna")
+    private double wartoscnominalna;
     @JoinColumn(name = "podid", referencedColumnName = "id")
     @ManyToOne
     private Podatnik podatnikObj;
@@ -229,6 +233,22 @@ public class PodatnikUdzialy implements Serializable{
 
     public void setOpodatkowanie(String opodatkowanie) {
         this.opodatkowanie = opodatkowanie;
+    }
+
+    public int getLiczbaudzialow() {
+        return liczbaudzialow;
+    }
+
+    public void setLiczbaudzialow(int liczbaudzialow) {
+        this.liczbaudzialow = liczbaudzialow;
+    }
+
+    public double getWartoscnominalna() {
+        return wartoscnominalna;
+    }
+
+    public void setWartoscnominalna(double wartoscnominalna) {
+        this.wartoscnominalna = wartoscnominalna;
     }
 
    

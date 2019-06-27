@@ -15,7 +15,7 @@
             </p:panelGrid>
             <p:growl life="3600"  id="messages"/>
             <p:focus for="parametryp9"/>
-            <p:panelGrid columns="4" style="width: 1000px; padding: 5px;">
+            <p:panelGrid columns="4" style="width: 1200px; padding: 5px;">
                 <p:dataTable value="#{podatnikView.podatnikUdzialy}"  var="loop" rowKey="#{loop.id}" selection="#{podatnikView.wybranyPodatnikUdzialy}" id="form9tablica"
                               editable="true">
                     <p:ajax event="rowEdit" update=":akordeon:form9:messages" listener="#{podatnikView.editUdzialy}" />
@@ -38,6 +38,12 @@
                     </p:column>
                     <p:column headerText="udział" style="text-align: center;">
                         <h:outputText value="#{loop.udzial}" />
+                    </p:column>
+                    <p:column headerText="liczba udz." style="text-align: center;">
+                        <h:outputText value="#{loop.liczbaudzialow}" />
+                    </p:column>
+                    <p:column headerText="wartość nom." style="text-align: center;">
+                        <h:outputText value="#{loop.wartoscnominalna}" />
                     </p:column>
                     <p:column headerText="opodatkowanie" style="text-align: center;" width="100">
                         <h:outputText value="#{loop.opodatkowanie}" rendered="#{loop.opodatkowanie ne null}"/>
@@ -65,6 +71,9 @@
                 <h:outputText value="nazwisko i imie"/><h:inputText value="#{podatnikView.udzialy.nazwiskoimie}" required="true"/>
                 <h:outputText value="nip"/><h:inputText value="#{podatnikView.udzialy.nip}"/>
                 <h:outputText value="pesel"/><h:inputText value="#{podatnikView.udzialy.pesel}"/>
+                <h:outputText value="udział - 100=100%"/><h:inputText value="#{podatnikView.udzialy.udzial}" required="true"/>
+                <h:outputText value="ilość udziałów"/><p:inputNumber value="#{podatnikView.udzialy.liczbaudzialow}" required="true" decimalPlaces="0"/>
+                <h:outputText value="wartość nominalna"/><p:inputNumber value="#{podatnikView.udzialy.wartoscnominalna}" required="true" decimalPlaces="2" decimalSeparator="."/>
                 <h:outputText value="udział - 100=100%"/><h:inputText value="#{podatnikView.udzialy.udzial}" required="true"/>
                 <h:outputText value="rodzaj opod: "/>
                 <p:selectOneMenu value="#{podatnikView.udzialy.opodatkowanie}">

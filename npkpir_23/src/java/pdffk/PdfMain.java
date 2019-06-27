@@ -582,6 +582,19 @@ public class PdfMain {
             E.e(ex);
         }
     }
+    
+    public static void dodajLinieOpisu(Document document, String opis, int al, int fontsize) {
+        try {
+            Paragraph opiswstepny = new Paragraph(new Phrase(opis, ft[fontsize]));
+            opiswstepny.setAlignment(al);
+            opiswstepny.setLeading(20, 0);
+            document.add(opiswstepny);
+            document.add(Chunk.NEWLINE);
+        } catch (DocumentException ex) {
+            E.e(ex);
+        }
+    }
+    
     public static void dodajLinieOpisuBezOdstepu(Document document, String opis) {
         try {
             Paragraph opiswstepny = new Paragraph(new Phrase(opis, ft[1]));
