@@ -631,7 +631,7 @@ public class PozycjaBRKontaView implements Serializable {
         }
         if (rb.equals("b")) {
             List<Konto> kontapodatnikarok = kontoDAO.findWszystkieKontaBilansowePodatnika(podatnik, wpisView.getRokWpisuSt());
-            kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowy, "bilansowe");
+            kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowy, "bilansowe", aktywa0pasywa1);
             List<KontopozycjaZapis> nowezapispozycje = Collections.synchronizedList(new ArrayList<>());
             for (Konto p : kontapodatnikarok) {
                 try {

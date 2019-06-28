@@ -540,11 +540,10 @@ public class PozycjaRZiSFKBean {
 //                        }
 //                    }
 //                }
-                List<KontopozycjaZapis> nowalista = new ArrayList<>();
                 for (KontopozycjaZapis p : zapisanePOzycjezUkladuWzorcowego) {
                     if (czypozycjazawiera(pozycjedoprzejrzenia, p) && p.getKontoID().getRok()==ukladzrodlowy.getRokInt() && p.getKontoID().getPodatnik().equals(ukladzrodlowy.getPodatnik())) {
                         Konto nowekonto = pobierzkontozlisty(kontarokudocelowego, p);
-                        if (nowekonto != null) {
+                        if (nowekonto != null && p.getPozycjaWn()!=null && p.getPozycjaMa()!=null) {
                             KontopozycjaZapis kp = new KontopozycjaZapis();
                             kp.setKontoID(nowekonto);
                             kp.setPozycjaWn(p.getPozycjaWn());
@@ -554,11 +553,10 @@ public class PozycjaRZiSFKBean {
                             kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
                             kp.setUkladBR(ukladdocelowy);
                             kp.setWynik0bilans1(false);
-                            nowalista.add(kp);
+                            kontopozycjaZapisDAO.dodaj(kp);
                         }
                     }
                 }
-                kontopozycjaZapisDAO.dodaj(nowalista);
                Msg.msg("Zapamiętano przyporządkowane pozycje RZiS");
             }
         }
@@ -581,7 +579,6 @@ public class PozycjaRZiSFKBean {
 //                        }
 //                    }
 //                }
-                List<KontopozycjaZapis> nowalista = new ArrayList<>();
                 for (KontopozycjaZapis p : zapisanePOzycjezUkladuWzorcowego) {
                     if (p.getKontoID()!=null) {
                         if (czypozycjazawieraBilans(pozycjedoprzejrzenia, p) && p.getKontoID().getRok()==ukladzrodlowy.getRokInt() && p.getKontoID().getPodatnik().equals(ukladzrodlowy.getPodatnik())) {
@@ -596,12 +593,12 @@ public class PozycjaRZiSFKBean {
                                 kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
                                 kp.setUkladBR(ukladdocelowy);
                                 kp.setWynik0bilans1(true);
-                                nowalista.add(kp);
+                                kontopozycjaZapisDAO.dodaj(kp);
                             }
                         }
                     }
                 }
-                kontopozycjaZapisDAO.dodaj(nowalista);
+                
                 Msg.msg("Zapamiętano przyporządkowane pozycje bilansu");
             }
         }
