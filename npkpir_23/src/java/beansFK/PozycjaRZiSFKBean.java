@@ -178,18 +178,15 @@ public class PozycjaRZiSFKBean {
                 kontopozycja.addAll(kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(uklad,"bilansowe"));
             }
             List<Konto> l = Collections.synchronizedList(new ArrayList<>());
-            for (KontopozycjaZapis p : kontopozycja) {
+            kontopozycja.parallelStream().forEach((p) -> {
                 try {
-                    if (p.getKontoID().getPelnynumer().equals("010")) {
-                        System.out.println("d");
-                    }
                     Konto konto = p.getKontoID();
                     konto.naniesPozycje(p);
                     l.add(konto);
                 } catch (Exception e) {
                     E.e(e);
                 }
-            }
+            });
             kontoDAO.editList(l);
         } catch (Exception e) {
             E.e(e);
@@ -543,6 +540,7 @@ public class PozycjaRZiSFKBean {
 //                        }
 //                    }
 //                }
+                List<KontopozycjaZapis> nowalista = new ArrayList<>();
                 for (KontopozycjaZapis p : zapisanePOzycjezUkladuWzorcowego) {
                     if (czypozycjazawiera(pozycjedoprzejrzenia, p) && p.getKontoID().getRok()==ukladzrodlowy.getRokInt() && p.getKontoID().getPodatnik().equals(ukladzrodlowy.getPodatnik())) {
                         Konto nowekonto = pobierzkontozlisty(kontarokudocelowego, p);
@@ -556,13 +554,12 @@ public class PozycjaRZiSFKBean {
                             kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
                             kp.setUkladBR(ukladdocelowy);
                             kp.setWynik0bilans1(false);
-                            System.out.println("kp "+kp.toString());
-                            kontopozycjaZapisDAO.dodaj(kp);
+                            nowalista.add(kp);
                         }
                     }
                 }
-
-                Msg.msg("Zapamiętano przyporządkowane pozycje RZiS");
+                kontopozycjaZapisDAO.dodaj(nowalista);
+               Msg.msg("Zapamiętano przyporządkowane pozycje RZiS");
             }
         }
         if (rb.equals("b")) {
@@ -584,6 +581,7 @@ public class PozycjaRZiSFKBean {
 //                        }
 //                    }
 //                }
+                List<KontopozycjaZapis> nowalista = new ArrayList<>();
                 for (KontopozycjaZapis p : zapisanePOzycjezUkladuWzorcowego) {
                     if (p.getKontoID()!=null) {
                         if (czypozycjazawieraBilans(pozycjedoprzejrzenia, p) && p.getKontoID().getRok()==ukladzrodlowy.getRokInt() && p.getKontoID().getPodatnik().equals(ukladzrodlowy.getPodatnik())) {
@@ -598,12 +596,12 @@ public class PozycjaRZiSFKBean {
                                 kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
                                 kp.setUkladBR(ukladdocelowy);
                                 kp.setWynik0bilans1(true);
-
-                                kontopozycjaZapisDAO.dodaj(kp);
+                                nowalista.add(kp);
                             }
                         }
                     }
                 }
+                kontopozycjaZapisDAO.dodaj(nowalista);
                 Msg.msg("Zapamiętano przyporządkowane pozycje bilansu");
             }
         }
