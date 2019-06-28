@@ -140,14 +140,14 @@ public class SessionFacade<T> implements Serializable {
 
     public void create(T entity) {
         getEntityManager().persist(entity);
-        getEntityManager().flush();
+        
     }
     
     public void create(List<T> entityList) {
         for (T p : entityList) {
             getEntityManager().persist(p);
         }
-        getEntityManager().flush();
+        
     }
     
 //    public void refresh(List<T> entityList) {
@@ -184,7 +184,7 @@ public class SessionFacade<T> implements Serializable {
 
     public void edit(T entity) {
         getEntityManager().merge(entity);
-        getEntityManager().flush();
+        
         
     }
 
@@ -196,7 +196,7 @@ public class SessionFacade<T> implements Serializable {
                 E.e(e);
             }
         }
-        getEntityManager().flush();
+        
     }
     
     public void editLateflush(List<T> entityList) {
@@ -207,7 +207,7 @@ public class SessionFacade<T> implements Serializable {
                 E.e(e);
             }
         }
-        getEntityManager().flush();
+        
     }
 
     //to jest po to, ze jk juz jest cos w np. planie kont to 
@@ -220,7 +220,7 @@ public class SessionFacade<T> implements Serializable {
                 E.e(e);
             }
         }
-        getEntityManager().flush();
+        
     }
 
     public List<T> findXLast(Class<T> entityClass, int ile) {
