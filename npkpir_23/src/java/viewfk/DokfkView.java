@@ -3886,7 +3886,7 @@ public void oznaczjakonkup() {
     private List znajdzcechy(List<Dokfk> wykazZaksiegowanychDokumentow) {
         if (wybranacechadok == null || wybranacechadok.equals("")) {
             List<String> lista =  Collections.synchronizedList(new ArrayList<>());
-            wykazZaksiegowanychDokumentow.stream().filter((p) -> (p.getCechadokumentuLista() != null && p.getCechadokumentuLista().size() > 0)).forEachOrdered((p) -> {
+            wykazZaksiegowanychDokumentow.parallelStream().filter((p) -> (p.getCechadokumentuLista() != null && p.getCechadokumentuLista().size() > 0)).forEachOrdered((p) -> {
                 for (Cechazapisu r : p.getCechadokumentuLista()) {
                     lista.add(r.getNazwacechy());
                 }

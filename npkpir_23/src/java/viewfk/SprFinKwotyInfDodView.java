@@ -176,7 +176,8 @@ public class SprFinKwotyInfDodView  implements Serializable{
     }
     
     public void generujUchwaly() {
-        SprFinInfDodBean.drukujSprawozdanieZarzadu(wpisView, sprFinKwotyInfDod);
+        SprFinInfDodBean.drukujUchwaly1(wpisView, sprFinKwotyInfDod, podatnikUdzialy);
+        SprFinInfDodBean.drukujUchwaly2(wpisView, sprFinKwotyInfDod, podatnikUdzialy);
     }
 
     public SprFinKwotyInfDod getSprFinKwotyInfDod() {

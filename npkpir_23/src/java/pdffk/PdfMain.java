@@ -577,6 +577,7 @@ public class PdfMain {
             Paragraph opiswstepny = new Paragraph(new Phrase(opis, ft[1]));
             opiswstepny.setAlignment(al);
             document.add(opiswstepny);
+            opiswstepny.setLeading(20, 0);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
             E.e(ex);
@@ -599,6 +600,7 @@ public class PdfMain {
         try {
             Paragraph opiswstepny = new Paragraph(new Phrase(opis, ft[1]));
             opiswstepny.setAlignment(Element.ALIGN_LEFT);
+            opiswstepny.setLeading(20, 0);
             document.add(opiswstepny);
         } catch (DocumentException ex) {
             E.e(ex);
@@ -608,6 +610,16 @@ public class PdfMain {
     public static void dodajLinieOpisuBezOdstepu(Document document, String opis, int al) {
         try {
             Paragraph opiswstepny = new Paragraph(new Phrase(opis, ft[1]));
+            opiswstepny.setAlignment(al);
+            document.add(opiswstepny);
+        } catch (DocumentException ex) {
+            E.e(ex);
+        }
+    }
+    
+     public static void dodajLinieOpisuBezOdstepu(Document document, String opis, int al, int fontsize) {
+        try {
+            Paragraph opiswstepny = new Paragraph(new Phrase(opis, ft[fontsize]));
             opiswstepny.setAlignment(al);
             document.add(opiswstepny);
         } catch (DocumentException ex) {

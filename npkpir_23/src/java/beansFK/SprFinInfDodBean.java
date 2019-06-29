@@ -19,6 +19,7 @@ import pdffk.PdfMain;
 import static pdffk.PdfMain.*;
 import com.itextpdf.text.pdf.PdfPTable;
 import embeddablefk.SaldoKonto;
+import entity.PodatnikUdzialy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -180,7 +181,6 @@ public class SprFinInfDodBean {
         otwarcieDokumentu(document, nazwa);
         SprFinSprawZarzaduBeanTXT.naglowekglowny(document, sprFinKwotyInfDod.getRok(), wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getMiejscowosc(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado());
         dodajSzczegolySprZarz(document, sprFinKwotyInfDod);;
-        PdfMain.dodajpodpis(document, wpisView.getFormaprawna().toString());
         finalizacjaDokumentuQR(document,nazwa);
         String f = null;
         f = "pokazwydruk('"+nazwa+"');";
@@ -195,5 +195,56 @@ public class SprFinInfDodBean {
         SprFinSprawZarzaduBeanTXT.podnaglowek5(document);
         SprFinSprawZarzaduBeanTXT.podnaglowek6(document);
         
+    }
+    
+    public static void drukujUchwaly1(WpisView wpisView, SprFinKwotyInfDod sprFinKwotyInfDod, List<PodatnikUdzialy> podatnikUdzialy) {
+        String nazwa = null;
+        nazwa = wpisView.getPodatnikObiekt().getNip()+"Uchwaly1"+wpisView.getRokWpisuSt();
+        File file = Plik.plik(nazwa, true);
+        if (file.isFile()) {
+            file.delete();
+        }
+        Document document = inicjacjaA4Portrait(60,40);
+        PdfWriter writer = inicjacjaWritera(document, nazwa);
+        naglowekStopkaP(writer);
+        otwarcieDokumentu(document, nazwa);
+        SprFinUchwalyBeanTXT.naglowekglowny(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getDatauchwal(), wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getMiejscowosc(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado());
+        dodajSzczegolyUchwaly(document, sprFinKwotyInfDod, podatnikUdzialy);;
+        finalizacjaDokumentuQR(document,nazwa);
+        String f = null;
+        f = "pokazwydruk('"+nazwa+"');";
+        PrimeFaces.current().executeScript(f);
+    }
+    
+    private static void dodajSzczegolyUchwaly(Document document, SprFinKwotyInfDod sprFinKwotyInfDod, List<PodatnikUdzialy> podatnikUdzialy) {
+        SprFinUchwalyBeanTXT.podnaglowek1(document, sprFinKwotyInfDod.getDatauchwal(), podatnikUdzialy);
+        SprFinUchwalyBeanTXT.podnaglowek2(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getZyskstratanetto(), sprFinKwotyInfDod.getSumabilansowa());
+        SprFinUchwalyBeanTXT.podnaglowek3(document);
+        SprFinUchwalyBeanTXT.podnaglowek7(document);
+    }
+    
+    public static void drukujUchwaly2(WpisView wpisView, SprFinKwotyInfDod sprFinKwotyInfDod, List<PodatnikUdzialy> podatnikUdzialy) {
+        String nazwa = null;
+        nazwa = wpisView.getPodatnikObiekt().getNip()+"Uchwaly2"+wpisView.getRokWpisuSt();
+        File file = Plik.plik(nazwa, true);
+        if (file.isFile()) {
+            file.delete();
+        }
+        Document document = inicjacjaA4Portrait(60,40);
+        PdfWriter writer = inicjacjaWritera(document, nazwa);
+        naglowekStopkaP(writer);
+        otwarcieDokumentu(document, nazwa);
+        SprFinUchwalyBeanTXT.naglowekglowny1(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getDatauchwal(), wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getMiejscowosc(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado(), sprFinKwotyInfDod.getZyskstratanetto());
+        dodajSzczegolyUchwaly1(document, sprFinKwotyInfDod, podatnikUdzialy);;
+        finalizacjaDokumentuQR(document,nazwa);
+        String f = null;
+        f = "pokazwydruk('"+nazwa+"');";
+        PrimeFaces.current().executeScript(f);
+    }
+    
+    private static void dodajSzczegolyUchwaly1(Document document, SprFinKwotyInfDod sprFinKwotyInfDod, List<PodatnikUdzialy> podatnikUdzialy) {
+        SprFinUchwalyBeanTXT.podnaglowek11(document, sprFinKwotyInfDod.getDatauchwal(), podatnikUdzialy);
+        SprFinUchwalyBeanTXT.podnaglowek21(document, sprFinKwotyInfDod,  sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getZyskstratanetto(), sprFinKwotyInfDod.getSumabilansowa());
+        SprFinUchwalyBeanTXT.podnaglowek7(document);
     }
 }

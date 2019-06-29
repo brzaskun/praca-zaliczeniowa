@@ -131,6 +131,8 @@ public class SprFinKwotyInfDod implements Serializable{
     private double sumabilansowa;
     @Column(name = "zyskstratanetto")
     private double zyskstratanetto;
+    @Column(name = "datauchwal")
+    private String datauchwal;
     
 
     public SprFinKwotyInfDod() {
@@ -572,6 +574,14 @@ public class SprFinKwotyInfDod implements Serializable{
 
     public void setZyskstratanetto(double zyskstratanetto) {
         this.zyskstratanetto = zyskstratanetto;
+    }
+
+    public String getDatauchwal() {
+        return datauchwal;
+    }
+
+    public void setDatauchwal(String datauchwal) {
+        this.datauchwal = datauchwal;
     }
 
     

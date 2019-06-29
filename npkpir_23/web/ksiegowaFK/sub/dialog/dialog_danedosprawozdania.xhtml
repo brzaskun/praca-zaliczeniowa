@@ -187,6 +187,13 @@
             </p:panelGrid>
                 </h:form>
                 <h:form>
+                    <p:panelGrid columns="2">
+                    <h:outputText value="data uchwał" style="font-weight: bold;"/>
+                        <p:inputMask value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.datauchwal}" size="10" maxlength="10"  mask="9999-99-99"  validatorMessage="Błędnie wpisana data. Sprawdź. rrrr-mm-dd">
+                            <f:validateRegex pattern="^(\d{4})-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$"/>
+                            <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
+                        </p:inputMask>
+                    </p:panelGrid>
                     <p:panelGrid columns="1">
                     <p:commandButton value="generuj uchwały" style="width: 120px;margin-top: 30px;" actionListener="#{sprFinKwotyInfDodView.generujUchwaly}"/>
                     </p:panelGrid>

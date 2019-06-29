@@ -74,7 +74,7 @@ public class StatisticAdminView implements Serializable {
             stat.ksiegowa = r;
             stat.iloscsesji = sesje.size();
             long[] milis = {0};
-            sesje.stream().forEach((p)->{
+            sesje.parallelStream().forEach((p)->{
                 stat.iloscdokumentow += p.getIloscdokumentow();
                 stat.iloscwydrukow += p.getIloscwydrukow();
                 if (p.getWylogowanie() instanceof Date && p.getZalogowanie() instanceof Date) {
@@ -127,7 +127,7 @@ public class StatisticAdminView implements Serializable {
     
     private void obliczkontrahentow(List<String> pracownicy) {
         Map<String, String> klienci = new ConcurrentHashMap<>();
-        pracownicy.stream().forEach((s)->{
+        pracownicy.parallelStream().forEach((s)->{
             Obrabiani obrab = new Obrabiani();
             if (s!=null) {
                 obrab.wprowadzajacy = s;
