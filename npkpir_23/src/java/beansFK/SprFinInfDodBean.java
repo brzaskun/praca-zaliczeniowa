@@ -219,7 +219,6 @@ public class SprFinInfDodBean {
     private static void dodajSzczegolyUchwaly(Document document, SprFinKwotyInfDod sprFinKwotyInfDod, List<PodatnikUdzialy> podatnikUdzialy) {
         SprFinUchwalyBeanTXT.podnaglowek1(document, sprFinKwotyInfDod.getDatauchwal(), podatnikUdzialy);
         SprFinUchwalyBeanTXT.podnaglowek2(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getZyskstratanetto(), sprFinKwotyInfDod.getSumabilansowa());
-        SprFinUchwalyBeanTXT.podnaglowek3(document);
         SprFinUchwalyBeanTXT.podnaglowek7(document);
     }
     

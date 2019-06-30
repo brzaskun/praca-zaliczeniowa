@@ -21,10 +21,10 @@
             <br/>
             <p:panelGrid columns="1"  >
                 <p:column >
-                    <h:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="width: 572px; height: 230px;" converter="#{podatConv}" >
+                    <p:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="width: 572px;" scrollHeight="300" converter="#{podatConv}" filter="true">
                         <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p}"/>
                         <p:ajax event="change" partialSubmit="true" global="false"/>
-                    </h:selectOneListbox>
+                    </p:selectOneListbox>
                 </p:column>
             </p:panelGrid>
             <p:panelGrid columns="3" style="float: right;">
