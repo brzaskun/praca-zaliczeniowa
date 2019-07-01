@@ -33,9 +33,10 @@ import waluty.Z;
  */
 public class SprFinSprawZarzaduBeanTXT {
 
-    static void naglowekglowny(Document document, String rok, String nazwa, String siedziba, String dataod, String datado) {
+    static void naglowekglowny(Document document, String rok, String nazwa, String siedziba, String dataod, String datado, String nrkrs) {
         PdfMain.dodajLinieOpisu(document, "SPRAWOZDANIE ZARZĄDU", Element.ALIGN_CENTER,2);
-        PdfMain.dodajLinieOpisu(document, nazwa, Element.ALIGN_CENTER);
+        PdfMain.dodajLinieOpisuBezOdstepu(document, nazwa, Element.ALIGN_CENTER,2);
+        PdfMain.dodajLinieOpisu(document, "nr KRS "+nrkrs, Element.ALIGN_CENTER);
         PdfMain.dodajLinieOpisu(document, "z siedzibą w "+siedziba, Element.ALIGN_CENTER);
         PdfMain.dodajLinieOpisu(document, "za okres od "+dataod+" do "+datado, Element.ALIGN_CENTER);
     }

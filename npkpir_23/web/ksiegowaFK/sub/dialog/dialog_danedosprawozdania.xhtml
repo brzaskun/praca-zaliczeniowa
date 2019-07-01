@@ -145,7 +145,7 @@
                 <h:form>
                     <p:panelGrid columns="2">
                         <h:outputText value="suma bilansowa za rok bieżący"/>
-                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.sumabilansowa}" decimalPlaces="1" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;">
+                        <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.sumabilansowa}" decimalPlaces="2" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;">
                             <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
                         </p:inputNumber>
                     </p:panelGrid>

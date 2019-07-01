@@ -179,7 +179,7 @@ public class SprFinInfDodBean {
         PdfWriter writer = inicjacjaWritera(document, nazwa);
         naglowekStopkaP(writer);
         otwarcieDokumentu(document, nazwa);
-        SprFinSprawZarzaduBeanTXT.naglowekglowny(document, sprFinKwotyInfDod.getRok(), wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getMiejscowosc(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado());
+        SprFinSprawZarzaduBeanTXT.naglowekglowny(document, sprFinKwotyInfDod.getRok(), wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getMiejscowosc(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado(), wpisView.getPodatnikObiekt().getImie());
         dodajSzczegolySprZarz(document, sprFinKwotyInfDod);;
         finalizacjaDokumentuQR(document,nazwa);
         String f = null;
@@ -194,6 +194,7 @@ public class SprFinInfDodBean {
         SprFinSprawZarzaduBeanTXT.podnaglowek4(document);
         SprFinSprawZarzaduBeanTXT.podnaglowek5(document);
         SprFinSprawZarzaduBeanTXT.podnaglowek6(document);
+        SprFinSprawZarzaduBeanTXT.podnaglowek7(document);
         
     }
     
@@ -208,7 +209,7 @@ public class SprFinInfDodBean {
         PdfWriter writer = inicjacjaWritera(document, nazwa);
         naglowekStopkaP(writer);
         otwarcieDokumentu(document, nazwa);
-        SprFinUchwalyBeanTXT.naglowekglowny(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getDatauchwal(), wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getMiejscowosc(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado());
+        SprFinUchwalyBeanTXT.naglowekglowny(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getDatauchwal(), wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getMiejscowosc(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado(), wpisView.getPodatnikObiekt().getImie());
         dodajSzczegolyUchwaly(document, sprFinKwotyInfDod, podatnikUdzialy);;
         finalizacjaDokumentuQR(document,nazwa);
         String f = null;
@@ -233,7 +234,7 @@ public class SprFinInfDodBean {
         PdfWriter writer = inicjacjaWritera(document, nazwa);
         naglowekStopkaP(writer);
         otwarcieDokumentu(document, nazwa);
-        SprFinUchwalyBeanTXT.naglowekglowny1(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getDatauchwal(), wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getMiejscowosc(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado(), sprFinKwotyInfDod.getZyskstratanetto());
+        SprFinUchwalyBeanTXT.naglowekglowny1(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getDatauchwal(), wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getMiejscowosc(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado(), sprFinKwotyInfDod.getZyskstratanetto(), wpisView.getPodatnikObiekt().getImie());
         dodajSzczegolyUchwaly1(document, sprFinKwotyInfDod, podatnikUdzialy);;
         finalizacjaDokumentuQR(document,nazwa);
         String f = null;

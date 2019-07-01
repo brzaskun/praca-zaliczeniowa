@@ -18,11 +18,11 @@ import pdffk.PdfMain;
  */
 public class SprFinUchwalyBeanTXT {
 
-    static void naglowekglowny(Document document, String rok, String datasporzadzenia, String nazwa, String siedziba, String dataod, String datado) {
+    static void naglowekglowny(Document document, String rok, String datasporzadzenia, String nazwa, String siedziba, String dataod, String datado, String nrkrs) {
         PdfMain.dodajLinieOpisuBezOdstepu(document, "Uchwała nr 1/"+data.Data.getMc(datasporzadzenia)+"/"+data.Data.getRok(datasporzadzenia), Element.ALIGN_CENTER,2);
         PdfMain.dodajLinieOpisuBezOdstepu(document, "powzięta za Zebraniu Wspólników", Element.ALIGN_CENTER,2);
-        PdfMain.dodajLinieOpisuBezOdstepu(document, "Spółki", Element.ALIGN_CENTER,2);
-        PdfMain.dodajLinieOpisuBezOdstepu(document, nazwa, Element.ALIGN_CENTER,2);
+        PdfMain.dodajLinieOpisuBezOdstepu(document, "Spółki "+nazwa, Element.ALIGN_CENTER,2);
+        PdfMain.dodajLinieOpisu(document, "nr KRS "+nrkrs, Element.ALIGN_CENTER,2);
         PdfMain.dodajLinieOpisuBezOdstepu(document, "z siedzibą w "+siedziba, Element.ALIGN_CENTER);
         PdfMain.dodajLinieOpisu(document, "w sprawie zatwierdzenia sprawozdania finansowego za rok "+rok, Element.ALIGN_CENTER);
     }
@@ -33,7 +33,7 @@ public class SprFinUchwalyBeanTXT {
         double sumawartoscudzialow = 0.0;
         for (PodatnikUdzialy p : podatnikUdzialy) {
             sumaliczbaudzialow += p.getLiczbaudzialow();
-            sumawartoscudzialow += p.getWartoscnominalna()*p.getLiczbaudzialow();
+            sumawartoscudzialow += p.getWartoscnominalna();
         }
         int i =1;
         for (PodatnikUdzialy p : podatnikUdzialy) {
@@ -55,11 +55,11 @@ public class SprFinUchwalyBeanTXT {
     }
 
         
-    static void naglowekglowny1(Document document, String rok, String datasporzadzenia, String nazwa, String siedziba, String dataod, String datado, double zyskstrata) {
+    static void naglowekglowny1(Document document, String rok, String datasporzadzenia, String nazwa, String siedziba, String dataod, String datado, double zyskstrata, String nrkrs) {
         PdfMain.dodajLinieOpisuBezOdstepu(document, "Uchwała nr 2/"+data.Data.getMc(datasporzadzenia)+"/"+data.Data.getRok(datasporzadzenia), Element.ALIGN_CENTER,2);
-        PdfMain.dodajLinieOpisuBezOdstepu(document, "powzięta za Zebraniu Wspólników", Element.ALIGN_CENTER,2);
-        PdfMain.dodajLinieOpisuBezOdstepu(document, "Spółki", Element.ALIGN_CENTER,2);
+        PdfMain.dodajLinieOpisuBezOdstepu(document, "powzięta za Zebraniu Wspólników Spółki", Element.ALIGN_CENTER,2);
         PdfMain.dodajLinieOpisuBezOdstepu(document, nazwa, Element.ALIGN_CENTER,2);
+        PdfMain.dodajLinieOpisu(document, "nr KRS "+nrkrs, Element.ALIGN_CENTER,2);
         PdfMain.dodajLinieOpisuBezOdstepu(document, "z siedzibą w "+siedziba, Element.ALIGN_CENTER);
         if (zyskstrata>0.0) {
             PdfMain.dodajLinieOpisu(document, "w sprawie przeznaczenia zysku za rok  "+rok, Element.ALIGN_CENTER);
@@ -74,7 +74,7 @@ public class SprFinUchwalyBeanTXT {
         double sumawartoscudzialow = 0.0;
         for (PodatnikUdzialy p : podatnikUdzialy) {
             sumaliczbaudzialow += p.getLiczbaudzialow();
-            sumawartoscudzialow += p.getWartoscnominalna()*p.getLiczbaudzialow();
+            sumawartoscudzialow += p.getWartoscnominalna();
         }
         int i =1;
         for (PodatnikUdzialy p : podatnikUdzialy) {
