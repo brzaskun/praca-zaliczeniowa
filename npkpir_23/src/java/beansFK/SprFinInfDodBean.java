@@ -210,15 +210,15 @@ public class SprFinInfDodBean {
         naglowekStopkaP(writer);
         otwarcieDokumentu(document, nazwa);
         SprFinUchwalyBeanTXT.naglowekglowny(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getDatauchwal(), wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getMiejscowosc(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado(), wpisView.getPodatnikObiekt().getImie());
-        dodajSzczegolyUchwaly(document, sprFinKwotyInfDod, podatnikUdzialy);;
+        dodajSzczegolyUchwaly(wpisView.getFormaprawna(), document, sprFinKwotyInfDod, podatnikUdzialy);;
         finalizacjaDokumentuQR(document,nazwa);
         String f = null;
         f = "pokazwydruk('"+nazwa+"');";
         PrimeFaces.current().executeScript(f);
     }
     
-    private static void dodajSzczegolyUchwaly(Document document, SprFinKwotyInfDod sprFinKwotyInfDod, List<PodatnikUdzialy> podatnikUdzialy) {
-        SprFinUchwalyBeanTXT.podnaglowek1(document, sprFinKwotyInfDod.getDatauchwal(), podatnikUdzialy);
+    private static void dodajSzczegolyUchwaly(String formaprawna, Document document, SprFinKwotyInfDod sprFinKwotyInfDod, List<PodatnikUdzialy> podatnikUdzialy) {
+        SprFinUchwalyBeanTXT.podnaglowek1(formaprawna, document, sprFinKwotyInfDod.getDatauchwal(), podatnikUdzialy);
         SprFinUchwalyBeanTXT.podnaglowek2(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getZyskstratanetto(), sprFinKwotyInfDod.getSumabilansowa());
         SprFinUchwalyBeanTXT.podnaglowek7(document);
     }
@@ -235,15 +235,15 @@ public class SprFinInfDodBean {
         naglowekStopkaP(writer);
         otwarcieDokumentu(document, nazwa);
         SprFinUchwalyBeanTXT.naglowekglowny1(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getDatauchwal(), wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getMiejscowosc(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado(), sprFinKwotyInfDod.getZyskstratanetto(), wpisView.getPodatnikObiekt().getImie());
-        dodajSzczegolyUchwaly1(document, sprFinKwotyInfDod, podatnikUdzialy);;
+        dodajSzczegolyUchwaly1(wpisView.getFormaprawna(), document, sprFinKwotyInfDod, podatnikUdzialy);;
         finalizacjaDokumentuQR(document,nazwa);
         String f = null;
         f = "pokazwydruk('"+nazwa+"');";
         PrimeFaces.current().executeScript(f);
     }
     
-    private static void dodajSzczegolyUchwaly1(Document document, SprFinKwotyInfDod sprFinKwotyInfDod, List<PodatnikUdzialy> podatnikUdzialy) {
-        SprFinUchwalyBeanTXT.podnaglowek11(document, sprFinKwotyInfDod.getDatauchwal(), podatnikUdzialy);
+    private static void dodajSzczegolyUchwaly1(String formaprawna, Document document, SprFinKwotyInfDod sprFinKwotyInfDod, List<PodatnikUdzialy> podatnikUdzialy) {
+        SprFinUchwalyBeanTXT.podnaglowek11(formaprawna, document, sprFinKwotyInfDod.getDatauchwal(), podatnikUdzialy);
         SprFinUchwalyBeanTXT.podnaglowek21(document, sprFinKwotyInfDod,  sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getZyskstratanetto(), sprFinKwotyInfDod.getSumabilansowa());
         SprFinUchwalyBeanTXT.podnaglowek7(document);
     }

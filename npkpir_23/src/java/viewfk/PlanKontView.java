@@ -145,10 +145,10 @@ public class PlanKontView implements Serializable {
 //        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         listaukladow = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         wybranyuklad = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladow);
-//        if (wybranyuklad != null) {
-//            PozycjaRZiSFKBean.zmianaukladu("bilansowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
-//            PozycjaRZiSFKBean.zmianaukladu("wynikowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
-//        }
+        if (wybranyuklad != null) {
+            PozycjaRZiSFKBean.zmianaukladu("bilansowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            PozycjaRZiSFKBean.zmianaukladu("wynikowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        }
 //<editor-fold defaultstate="collapsed" desc="comment">
 //        int czysaslownikowe = sprawdzkonta();
 //        if (czysaslownikowe == 0) {
@@ -166,11 +166,11 @@ public class PlanKontView implements Serializable {
         wykazkontlazy = new LazyKontoDataModel(wykazkont);
         //root = rootInit(wykazkont);
         listaukladowwzorcowy = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
-        wybranyukladwzorcowy = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladowwzorcowy);
-//        if (wybranyukladwzorcowy != null) {
-//            PozycjaRZiSFKBean.zmianaukladuwzorcowy("bilansowe", wybranyukladwzorcowy, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
-//            PozycjaRZiSFKBean.zmianaukladuwzorcowy("wynikowe", wybranyukladwzorcowy, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, wpisView);
-//        }
+      wybranyukladwzorcowy = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladowwzorcowy);
+        if (wybranyukladwzorcowy != null) {
+            PozycjaRZiSFKBean.zmianaukladuwzorcowy("bilansowe", wybranyukladwzorcowy, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO,  wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
+            PozycjaRZiSFKBean.zmianaukladuwzorcowy("wynikowe", wybranyukladwzorcowy, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO,   wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
+        }
         wykazkontwzor = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
         styltabeliplankont = opracujstylwierszatabeli();
         //rootwzorcowy = rootInit(wykazkontwzor);

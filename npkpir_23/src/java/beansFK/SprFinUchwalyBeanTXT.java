@@ -27,7 +27,7 @@ public class SprFinUchwalyBeanTXT {
         PdfMain.dodajLinieOpisu(document, "w sprawie zatwierdzenia sprawozdania finansowego za rok "+rok, Element.ALIGN_CENTER);
     }
 
-    static void podnaglowek1(Document document, String datasporzadzenia,  List<PodatnikUdzialy> podatnikUdzialy) {
+    static void podnaglowek1(String formaprawna, Document document, String datasporzadzenia,  List<PodatnikUdzialy> podatnikUdzialy) {
         PdfMain.dodajLinieOpisu(document, "Dnia "+datasporzadzenia+" wspólnicy Spółki w osobach:", Element.ALIGN_LEFT);
         double sumaliczbaudzialow = 0.0;
         double sumawartoscudzialow = 0.0;
@@ -36,12 +36,22 @@ public class SprFinUchwalyBeanTXT {
             sumawartoscudzialow += p.getWartoscnominalna();
         }
         int i =1;
-        for (PodatnikUdzialy p : podatnikUdzialy) {
-            String tresc = i+". "+p.getNazwiskoimie()+" - "+p.getLiczbaudzialow()+" udziałów o wartości nominalnej "+p.getWartoscnominalna();
-            PdfMain.dodajLinieOpisu(document, tresc, Element.ALIGN_LEFT);
-            i++;
+        if (formaprawna.equals("SPOLKA_KOMANDYTOWA")) {
+            for (PodatnikUdzialy p : podatnikUdzialy) {
+                String tresc = i+". "+p.getNazwiskoimie();
+                PdfMain.dodajLinieOpisu(document, tresc, Element.ALIGN_LEFT);
+                i++;
+            }
+            PdfMain.dodajLinieOpisu(document, "Obecni na zebraniu reprezentują 100% udziałów spółki.", Element.ALIGN_LEFT);
+        } else {
+            for (PodatnikUdzialy p : podatnikUdzialy) {
+                String tresc = i+". "+p.getNazwiskoimie()+" - "+p.getLiczbaudzialow()+" udziałów o wartości nominalnej "+p.getWartoscnominalna();
+                PdfMain.dodajLinieOpisu(document, tresc, Element.ALIGN_LEFT);
+                i++;
+            }
+            PdfMain.dodajLinieOpisu(document, "Razem reprezentowane udziały "+sumaliczbaudzialow+" z ogólnej liczby "+sumaliczbaudzialow+" o łącznej wartości nominalnej "+sumawartoscudzialow, Element.ALIGN_LEFT);
         }
-        PdfMain.dodajLinieOpisu(document, "Razem reprezentowane udziały "+sumaliczbaudzialow+" z ogólnej liczby "+sumaliczbaudzialow+" o łącznej wartości nominalnej "+sumawartoscudzialow, Element.ALIGN_LEFT);
+        
         PdfMain.dodajLinieOpisu(document, "Podjęli jednogłośnie następującą uchwałę ", Element.ALIGN_LEFT);
     }
     
@@ -68,7 +78,7 @@ public class SprFinUchwalyBeanTXT {
         }
     }
     
-    static void podnaglowek11(Document document, String datasporzadzenia,  List<PodatnikUdzialy> podatnikUdzialy) {
+    static void podnaglowek11(String formaprawna, Document document, String datasporzadzenia,  List<PodatnikUdzialy> podatnikUdzialy) {
         PdfMain.dodajLinieOpisu(document, "Dnia "+datasporzadzenia+" wspólnicy Spółki w osobach:", Element.ALIGN_LEFT);
         double sumaliczbaudzialow = 0.0;
         double sumawartoscudzialow = 0.0;
@@ -77,12 +87,21 @@ public class SprFinUchwalyBeanTXT {
             sumawartoscudzialow += p.getWartoscnominalna();
         }
         int i =1;
-        for (PodatnikUdzialy p : podatnikUdzialy) {
-            String tresc = i+". "+p.getNazwiskoimie()+" - "+p.getLiczbaudzialow()+" udziałów o wartości nominalnej "+p.getWartoscnominalna();
-            PdfMain.dodajLinieOpisu(document, tresc, Element.ALIGN_LEFT);
-            i++;
+        if (formaprawna.equals("SPOLKA_KOMANDYTOWA")) {
+            for (PodatnikUdzialy p : podatnikUdzialy) {
+                String tresc = i+". "+p.getNazwiskoimie();
+                PdfMain.dodajLinieOpisu(document, tresc, Element.ALIGN_LEFT);
+                i++;
+            }
+            PdfMain.dodajLinieOpisu(document, "Obecni na zebraniu reprezentują 100% udziałów spółki.", Element.ALIGN_LEFT);
+        } else {
+            for (PodatnikUdzialy p : podatnikUdzialy) {
+                String tresc = i+". "+p.getNazwiskoimie()+" - "+p.getLiczbaudzialow()+" udziałów o wartości nominalnej "+p.getWartoscnominalna();
+                PdfMain.dodajLinieOpisu(document, tresc, Element.ALIGN_LEFT);
+                i++;
+            }
+            PdfMain.dodajLinieOpisu(document, "Razem reprezentowane udziały "+sumaliczbaudzialow+" z ogólnej liczby "+sumaliczbaudzialow+" o łącznej wartości nominalnej "+sumawartoscudzialow, Element.ALIGN_LEFT);
         }
-        PdfMain.dodajLinieOpisu(document, "Razem reprezentowane udziały "+sumaliczbaudzialow+" z ogólnej liczby "+sumaliczbaudzialow+" o łącznej wartości nominalnej "+sumawartoscudzialow, Element.ALIGN_LEFT);
         PdfMain.dodajLinieOpisu(document, "Podjęli jednogłośnie następującą uchwałę ", Element.ALIGN_LEFT);
     }
     
