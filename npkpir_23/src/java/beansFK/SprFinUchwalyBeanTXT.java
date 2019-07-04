@@ -11,6 +11,7 @@ import entity.PodatnikUdzialy;
 import entityfk.SprFinKwotyInfDod;
 import java.util.List;
 import pdffk.PdfMain;
+import waluty.Z;
 
 /**
  *
@@ -57,7 +58,9 @@ public class SprFinUchwalyBeanTXT {
     
     static void podnaglowek2(Document document, String rok, double zyskstrata, double sumabilansowa) {
         PdfMain.dodajLinieOpisu(document, "§ 1", Element.ALIGN_CENTER);
-        if (zyskstrata>0) {
+        if (Z.z(zyskstrata)==0.0) {
+            PdfMain.dodajLinieOpisu(document, "Wspólnicy jednogłośnie zatwierdzają przedłożone sprawozdanie finansowe za rok  "+rok+" z sumą bilansową "+format.F.curr(sumabilansowa)+" i wynikiem "+format.F.curr(zyskstrata), Element.ALIGN_JUSTIFIED);
+        } else if (zyskstrata>0) {
             PdfMain.dodajLinieOpisu(document, "Wspólnicy jednogłośnie zatwierdzają przedłożone sprawozdanie finansowe za rok  "+rok+" z sumą bilansową "+format.F.curr(sumabilansowa)+" i zyskiem "+format.F.curr(zyskstrata), Element.ALIGN_JUSTIFIED);
         } else {
             PdfMain.dodajLinieOpisu(document, "Wspólnicy jednogłośnie zatwierdzają przedłożone sprawozdanie finansowe za rok  "+rok+" z sumą bilansową "+format.F.curr(sumabilansowa)+" i stratą "+format.F.curr(zyskstrata), Element.ALIGN_JUSTIFIED);
