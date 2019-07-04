@@ -278,7 +278,16 @@ public class PozycjaBilans extends PozycjaRZiSBilans implements Serializable {
         this.macierzysta = macierzysta;
     }
 
-    
+    public String getNumeryKont() {
+        String zwrot = "";
+        if (this.przyporzadkowanekonta!=null && !this.przyporzadkowanekonta.isEmpty()) {
+            for (Konto p : this.przyporzadkowanekonta) {
+                zwrot += p.getPelnynumer();
+                zwrot +=", ";
+            }
+        }
+        return zwrot;
+    }
     
 
    

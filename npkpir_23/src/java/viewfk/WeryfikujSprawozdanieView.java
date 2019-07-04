@@ -42,13 +42,17 @@ public class WeryfikujSprawozdanieView  implements Serializable {
     }
     
     public void weryfikuj(int coweryfikowac) {
-        Object[] zwrot = XMLValid.walidujsprawozdanieView(inputstream, coweryfikowac);
-        boolean wynik = (boolean) zwrot[0];
-        String wyniktext = (String) zwrot[1];
-        if (wynik==true) {
-            Msg.msg("Nie ma błędów. Plik prawidłowy");
+        if (inputstream!=null) {
+            Object[] zwrot = XMLValid.walidujsprawozdanieView(inputstream, coweryfikowac);
+            boolean wynik = (boolean) zwrot[0];
+            String wyniktext = (String) zwrot[1];
+            if (wynik==true) {
+                Msg.msg("Nie ma błędów. Plik prawidłowy");
+            } else {
+                Msg.msg("e", "Plik nieprawidłowy."+wyniktext);  
+            }
         } else {
-            Msg.msg("e", "Plik nieprawidłowy."+wyniktext);  
+            Msg.msg("e", "Nie załadowano pliku");  
         }
     }
     

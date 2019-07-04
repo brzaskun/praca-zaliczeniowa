@@ -94,14 +94,16 @@
                         <h:outputText value="#{loop.nazwa}" /> 
                     </p:column>
                     <p:column headerText="bz">
-                        <h:outputText value="#{loop.kwota}" style="float: right; padding-right: 15%" rendered="#{loop.kwota != 0.0}">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
+                        <h:outputText id="kww1" value="#{loop.kwota}" style="float: right; padding-right: 15%; color: #{loop.kwota lt 0.0 ? 'red':'initial'}" rendered="#{loop.kwota != 0.0}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                        <p:tooltip for="kww1" value="#{loop.getNumeryKont()}"/>
                     </p:column>
                     <p:column headerText="bo">
-                        <h:outputText value="#{loop.kwotabo}" style="float: right; padding-right: 15%" rendered="#{loop.kwotabo != 0.0}">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
+                        <h:outputText id="kww2" value="#{loop.kwotabo}" style="float: right; padding-right: 15%; color: #{loop.kwotabo lt 0.0 ? 'red':'initial'}" rendered="#{loop.kwotabo != 0.0}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                        <p:tooltip  for="kww2" value="#{loop.getNumeryKont()}"/>
                     </p:column>
                     
                 </p:treeTable>
@@ -128,14 +130,18 @@
                         <h:outputText value="#{loop.nazwa}" /> 
                     </p:column>
                     <p:column headerText="bz">
-                         <h:outputText value="#{loop.kwota}" style="float: right; padding-right: 15%" rendered="#{loop.kwota!= 0.0}">
+                         <h:outputText id="kww3" value="#{loop.kwota}" style="float: right; padding-right: 15%; color: #{loop.kwota lt 0.0 ? 'red':'initial'}" rendered="#{loop.kwota!= 0.0}">
+                             <p:tooltip value="#{loop.przyporzadkowanekonta.size()}"/>
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
+                        <p:tooltip for="kww3" value="#{loop.getNumeryKont()}"/>
                     </p:column>
                     <p:column headerText="bo">
-                        <h:outputText value="#{loop.kwotabo}" style="float: right; padding-right: 15%" rendered="#{loop.kwotabo != 0.0}">
+                        <h:outputText id="kww4" value="#{loop.kwotabo}" style="float: right; padding-right: 15%; color: #{loop.kwotabo lt 0.0 ? 'red':'initial'}" rendered="#{loop.kwotabo != 0.0}" >
+                            <p:tooltip value="#{loop.przyporzadkowanekonta.size()}"/>
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
+                        <p:tooltip for="kww4" value="#{loop.getNumeryKont()}"/>
                     </p:column>
                     
                 </p:treeTable>

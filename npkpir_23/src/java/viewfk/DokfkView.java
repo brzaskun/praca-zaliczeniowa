@@ -433,6 +433,7 @@ public class DokfkView implements Serializable {
     
     public void zerujkontorozrachunkowe() {
         kontoRozrachunkowe = null;
+        poprzedniDokument = null;
     }
     
     public String[] getNaglowekWpisDokumentu() {

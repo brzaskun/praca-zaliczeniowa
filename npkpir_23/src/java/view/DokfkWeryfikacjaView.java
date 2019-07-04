@@ -9,6 +9,7 @@ import dao.KlienciDAO;
 import daoFK.DokDAOfk;
 import data.Data;
 import embeddable.Mce;
+import entity.Dok;
 import entity.Klienci;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
@@ -48,23 +49,66 @@ public class DokfkWeryfikacjaView implements Serializable {
     public void sprawdzNIPVAT(List<Dokfk> wykazZaksiegowanychDokumentow) {
         for (Iterator<Dokfk> it =  wykazZaksiegowanychDokumentow.iterator(); it.hasNext();) {
             Dokfk dok = it.next();
-            if (dok.getEwidencjaVAT()!=null && !dok.getEwidencjaVAT().isEmpty()) {
-                if (dok.getKontr().getKrajkod()!=null && dok.getKontr().getKrajkod().equals("PL")) {
-                    pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01.TWynikWeryfikacjiVAT wynik = NIPVATcheck.sprawdzNIP(dok.getKontr().getNip());
-                    try {
-                        Thread.sleep(300);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(DokfkWeryfikacjaView.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    if (wynik.getKod().value().equals("C")) {
+            try {
+                if (dok.getEwidencjaVAT()!=null && !dok.getEwidencjaVAT().isEmpty()) {
+                    if (dok.getKontr().getKrajkod()!=null && dok.getKontr().getKrajkod().equals("PL")) {
+                        pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01.TWynikWeryfikacjiVAT wynik = NIPVATcheck.sprawdzNIP(dok.getKontr().getNip());
+                        try {
+                            Thread.sleep(300);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(DokfkWeryfikacjaView.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        if (wynik.getKod().value().equals("C")) {
+                            it.remove();
+                        }
+                        System.out.println("nip "+dok.getKontr().getNip()+" wynik "+wynik.getKomunikat());
+                        if (wynik.getKomunikat().contains("nie jest zarejestrowany jako podatnik VAT")) {
+                            Msg.msg("e","nip "+dok.getKontr().getNip()+" jest nieaktywny");
+                        }
+                    } else {
                         it.remove();
                     }
-                    System.out.println("nip "+dok.getKontr().getNip()+" wynik "+wynik.getKomunikat());
                 } else {
                     it.remove();
                 }
-            } else {
-                it.remove();
+            } catch (Exception e) {
+                Msg.msg("e","Wystapił błąd przy dok "+dok.getDokfkSN());
+            }
+        }
+        Msg.msg("Zakończyłem sprawdzanie czy kontrahent jest czynnym VAT-owcem");
+    }
+    
+    public void sprawdzNIPVATPKPiR(List<Dok> wykazZaksiegowanychDokumentow) {
+        for (Iterator<Dok> it =  wykazZaksiegowanychDokumentow.iterator(); it.hasNext();) {
+            Dok dok = it.next();
+            try {
+                if (dok.getRodzajedok().getKategoriadokumentu()==1) {
+                    if (dok.getEwidencjaVAT1()!=null && !dok.getEwidencjaVAT1().isEmpty()) {
+                        if (dok.getKontr().getKrajkod()!=null && dok.getKontr().getKrajkod().equals("PL")) {
+                            pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01.TWynikWeryfikacjiVAT wynik = NIPVATcheck.sprawdzNIP(dok.getKontr().getNip());
+                            try {
+                                Thread.sleep(300);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(DokfkWeryfikacjaView.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            if (wynik.getKod().value().equals("C")) {
+                                it.remove();
+                            }
+                            System.out.println("nip "+dok.getKontr().getNip()+" wynik "+wynik.getKomunikat());
+                            if (wynik.getKomunikat().contains("nie jest zarejestrowany jako podatnik VAT")) {
+                                Msg.msg("e","nip "+dok.getKontr().getNip()+" jest nieaktywny");
+                            }
+                        } else {
+                            it.remove();
+                        }
+                    } else {
+                        it.remove();
+                    }
+                } else {
+                    it.remove();
+                }
+            } catch (Exception e) {
+                Msg.msg("e","Wystapił błąd przy dok "+dok.getNrWlDk());
             }
         }
         Msg.msg("Zakończyłem sprawdzanie czy kontrahent jest czynnym VAT-owcem");

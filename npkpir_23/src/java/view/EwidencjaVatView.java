@@ -227,6 +227,7 @@ public class EwidencjaVatView implements Serializable {
                         Msg.msg("w", "Oznaczono zapis zduplikowany. Zmiany nie zostaną zachowane w bazie", "grmes");
                     } else {
                         eVatwpisFKDAO.edit(s);
+                        Msg.msg("Oznaczono wiersz");
                     }
                     break;
                 }

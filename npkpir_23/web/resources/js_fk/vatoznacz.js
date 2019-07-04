@@ -14,7 +14,7 @@ var TabKeyVat;
         var zawartoscpola = r(taregetId).val();
         try {
             if (isSpaceKey(event)) {
-                PF('grmes').renderMessage({summary:'Oznaczono wiersz', detail: '', severity: 'info'})
+                //PF('grmes').renderMessage({summary:'Oznaczono wiersz', detail: '', severity: 'info'})
                 oznaczfakturespacja();
                 event.preventDefault();
                 event.stopPropagation();
