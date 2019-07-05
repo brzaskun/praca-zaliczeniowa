@@ -192,6 +192,7 @@ public class FakturaView implements Serializable {
     @Inject
     private LogofakturaDAO logofakturaDAO;
     private Tabelanbp domyslatabela;
+    private int jakapobrac;
         
 
     public FakturaView() {
@@ -2410,4 +2411,29 @@ public class FakturaView implements Serializable {
             wiadomoscdodatkowa = "";
         }
     }
+    
+    public void filtrujfaktury() {
+        fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        for (Iterator<Fakturywystokresowe> it =fakturyokresowe.iterator(); it.hasNext();) {
+            Fakturywystokresowe p = it.next();
+            if (jakapobrac==1 && !p.isRecznaedycja()) {
+                it.remove();
+            } else if (jakapobrac==2 && !p.isZawieszona()) {
+                it.remove();
+            } else if (jakapobrac==4 && p.isWystawtylkoraz()) {
+                it.remove();
+            }
+        }
+        Msg.msg("Przefiltrowano faktury");
+    }
+
+    public int getJakapobrac() {
+        return jakapobrac;
+    }
+
+    public void setJakapobrac(int jakapobrac) {
+        this.jakapobrac = jakapobrac;
+    }
+    
+    
 }

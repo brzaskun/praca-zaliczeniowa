@@ -71,7 +71,7 @@ public class PdfPIT28 {
             miziu1 = new Paragraph(new Phrase("okres rozliczeniowy "+selected.getPkpirM()+"/"+selected.getPkpirR(),fontM));
             document.add(miziu1);
             document.add(Chunk.NEWLINE);
-            miziu1 = new Paragraph(new Phrase("Firma: "+selected.getPodatnik(),fontM));
+            miziu1 = new Paragraph(new Phrase("Firma: "+wpisView.getPrintNazwa(),fontM));
             document.add(miziu1);
             Podatnik pod = podatnikDAO.find(selected.getPodatnik());
             miziu1 = new Paragraph(new Phrase("adres: "+pod.getMiejscowosc()+" "+pod.getUlica()+" "+pod.getNrdomu(),fontM));
