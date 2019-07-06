@@ -325,8 +325,10 @@ public class KlView implements Serializable {
         try {
             //sformatuj();
             String kraj = selected.getKrajnazwa();
-            String symbol = ps1.getWykazPanstwSX().get(kraj);
-            selected.setKrajkod(symbol);
+            if (kraj !=null) {
+                String symbol = ps1.getWykazPanstwSX().get(kraj);
+                selected.setKrajkod(symbol);
+            }
             klDAO.edit(selected);
             edycja = false;
             //refresh();
@@ -336,7 +338,7 @@ public class KlView implements Serializable {
             selected = new Klienci();
         } catch (Exception e) {
             E.e(e);
-            Msg.msg("e","Wystąpił błąd. Nie zapisano zmienionych danych klienta", e.getStackTrace().toString());
+            Msg.msg("e","Wystąpił błąd. Nie zapisano zmienionych danych klienta", E.e(e));
         }
     }
 
@@ -372,10 +374,10 @@ public class KlView implements Serializable {
 
     }
 
-    public void dodajpustegomaila() {
-        ((Klienci) selected).setEmail("niema@maila.pl");
-        PrimeFaces.current().ajax().update("formX:emailpole");
-    }
+//    public void dodajpustegomaila() {
+//        (selected).setEmail("niema@maila.pl");
+//        PrimeFaces.current().ajax().update("formX:emailpole");
+//    }
 
     private void poszukajDuplikatNip() throws Exception {
         String nippoczatkowy = ((Klienci) selected).getNip();

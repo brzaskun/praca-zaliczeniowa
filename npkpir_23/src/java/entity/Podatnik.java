@@ -85,7 +85,7 @@ public class Podatnik implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "nip")
+    @Column(name = "nip", unique = true)
     @Pattern(regexp="\\d+",message="NIP składa się wyłącznie z cyfr")
     private String nip;
     @Size(max = 255)

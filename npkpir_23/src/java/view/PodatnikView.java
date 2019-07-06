@@ -9,6 +9,7 @@ import beansRegon.SzukajDaneBean;
 import comparator.Kontocomparator;
 import comparator.Podatnikcomparator;
 import dao.DokDAO;
+import dao.KlienciDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDAO;
 import dao.PodatnikUdzialyDAO;
@@ -21,6 +22,7 @@ import data.Data;
 import embeddable.Parametr;
 import embeddable.Udzialy;
 import entity.Dok;
+import entity.Klienci;
 import entity.ParamCzworkiPiatki;
 import entity.ParamDeklVatNadwyzka;
 import entity.ParamProcentVat;
@@ -142,6 +144,8 @@ public class PodatnikView implements Serializable {
     @Inject
     private DokDAOfk dokDAOfk;
     private double sumaudzialow;
+    @Inject
+    private KlienciDAO klDAO;
     
 
     public PodatnikView() {
@@ -250,11 +254,28 @@ private DokDAO dokDAO;
             podatnikWyborView.init();
             Msg.msg("i", "Dodano nowego podatnika: " + selectedDod.getPrintnazwa());
             selectedDod = new Podatnik();
+            znajdzdaneregonAutomat(selectedDod.getNip(), selectedDod.getEmail());
         } catch (Exception e) { 
             E.e(e); 
             Msg.msg("e", "Wystąpił błąd. Nie dodano nowego podatnika-firmę: " + selectedDod.getNazwapelna());
         }
     }
+    
+    public void znajdzdaneregonAutomat(String nip, String email) {
+        try {
+            Klienci aktualizuj = SzukajDaneBean.znajdzdaneregonAutomat(nip, gUSView);
+            aktualizuj.setKrajnazwa("polska");
+            aktualizuj.setKrajkod("PL");
+            aktualizuj.setEmail(email);
+            klDAO.edit(aktualizuj);
+            Msg.msg("Dodano podatnika jako klienta ");
+        } catch (Exception e) {
+            Msg.msg("e","Błąd, nie dodano firmy jako klienta");
+            E.e(e);
+        }
+    }
+    
+  
     
     public void edytujfiz() {
         if (selectedDod.getPesel() == null) {
@@ -308,6 +329,7 @@ private DokDAO dokDAO;
             podatnikDAO.dodaj(selectedDod);
             Msg.msg("i", "Dodano nowego podatnika-firmę FK: " + selectedDod.getNazwapelna());
             selectedDod =  new Podatnik();
+            znajdzdaneregonAutomat(selectedDod.getNip(), selectedDod.getEmail());
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd. Niedodano nowego podatnika-firmę FK: " + selectedDod.getNazwapelna());
         }
