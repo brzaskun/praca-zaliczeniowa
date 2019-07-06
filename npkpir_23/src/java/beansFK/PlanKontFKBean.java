@@ -677,7 +677,11 @@ public class PlanKontFKBean {
   
    public static boolean sprawdzczymacierzystymapotomne(Podatnik podatnik, Integer rok, Konto doUsuniecia, KontoDAOfk kontoDAO) {
         List<Konto> kontapotomne = Collections.synchronizedList(new ArrayList<>());
-        kontapotomne.addAll(kontoDAO.findKontaPotomnePodatnik(podatnik, rok, doUsuniecia.getKontomacierzyste()));
+        Konto kontomacierzyste = doUsuniecia.getKontomacierzyste();
+        if (kontomacierzyste==null && doUsuniecia.getLevel()>0) {
+            kontomacierzyste = kontoDAO.findKonto(doUsuniecia.getMacierzysty());
+        }
+        kontapotomne.addAll(kontoDAO.findKontaPotomnePodatnik(podatnik, rok, kontomacierzyste));
         kontapotomne.remove(doUsuniecia);
         return !kontapotomne.isEmpty();
     }

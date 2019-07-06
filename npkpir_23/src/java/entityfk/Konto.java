@@ -21,6 +21,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -28,6 +29,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import language.LocaleInfo;
+import org.eclipse.persistence.annotations.FetchAttribute;
 import session.SessionFacade;
 
 /**
@@ -170,6 +172,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @NotNull
     @Column(name = "macierzysty")
     private int macierzysty;
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "kontomacierzyste",referencedColumnName = "id")
     private Konto kontomacierzyste;
     @Basic(optional = false)

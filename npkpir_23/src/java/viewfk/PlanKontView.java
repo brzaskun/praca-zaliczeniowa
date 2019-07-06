@@ -161,7 +161,7 @@ public class PlanKontView implements Serializable {
 //            infozebrakslownikowych = "";
 //        }
 //</editor-fold>
-        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownikEdycja(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Collections.sort(wykazkont, new Kontocomparator());
         wykazkontlazy = new LazyKontoDataModel(wykazkont);
         //root = rootInit(wykazkont);
@@ -1266,6 +1266,9 @@ public class PlanKontView implements Serializable {
 
     private void oznaczbraksiostr(boolean sadzieci, Konto kontoDoUsuniecia, String klientWzor) {
         Konto kontomacierzyste = kontoDoUsuniecia.getKontomacierzyste();
+        if (kontomacierzyste==null && kontoDoUsuniecia.getLevel()>0) {
+            kontomacierzyste = kontoDAO.findKonto(kontoDoUsuniecia.getMacierzysty());
+        }
         List<Konto> siostry = sprawdzczysasiostry(klientWzor, kontomacierzyste);
         if (siostry.size() < 1) {
             //jak nie ma wiecej dzieci podpietych pod konto macierzyse usuwanego to zaznaczamy to na koncie macierzystym;
@@ -1298,7 +1301,7 @@ public class PlanKontView implements Serializable {
                 try {
                     usunpozycje(kontoDoUsuniecia);
                     usunkontozbazy(kontoDoUsuniecia, klientWzor);
-                    if (kontoDoUsuniecia.getNrkonta().equals("0")) {
+                     if (kontoDoUsuniecia.getNrkonta().equals("0")) {
                         usunslownikowe(kontoDoUsuniecia);
                     } else {
                         boolean sadzieci = PlanKontFKBean.sprawdzczymacierzystymapotomne(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), kontoDoUsuniecia, kontoDAOfk);
@@ -1324,7 +1327,7 @@ public class PlanKontView implements Serializable {
     }
 
     private void odznaczmacierzyste(boolean sadzieci, Konto kontomacierzyste, Konto kontoDoUsuniecia) {
-        if (sadzieci == false && kontoDoUsuniecia.getKontomacierzyste()!=null) {
+        if (sadzieci == false && kontomacierzyste!=null) {
             kontomacierzyste.setBlokada(false);
             kontomacierzyste.setMapotomkow(false);
             kontoDAOfk.edit(kontomacierzyste);
