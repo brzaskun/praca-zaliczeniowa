@@ -142,8 +142,10 @@
                                         widgetVar="dialogklient" cache="true" forceSelection="true" queryDelay="10" 
                                         valueChangeListener="#{DokumentView.pobierzdaneZpoprzedniegoDokumentu}" 
                                         required="true" requiredMessage="Pole klienta nie może być puste"
-                                        onkeyup="sprawdzczykopiowacklienta();" onblur="sprawdzczybrakklienta();">
-                            <f:ajax event="blur"  listener="#{DokumentView.wygenerujnumerkolejnyonblur()}"/>
+                                         onblur="sprawdzczybrakklienta();">
+                            <!-- usunalem z gory    onkeyup="sprawdzczykopiowacklienta();"-->
+                            <f:ajax event="blur"  listener="#{DokumentView.dodajklientaautomat()}"/>
+                            <p:ajax event="query" global="false"/>
                             <p:ajax event="itemSelect" partialSubmit="true"  global="false"
                                     update="dodWiad:rodzajTrans,dodWiad:opis"  />
                             <f:facet name="itemtip">  

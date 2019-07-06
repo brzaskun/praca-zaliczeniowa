@@ -1735,8 +1735,11 @@ public class DokfkView implements Serializable {
                 } else {
                     selected.setZablokujzmianewaluty(false);
                 }
+                int numer = strona.getWiersz().getIdporzadkowy() - 1;
+                wierszDoPodswietlenia = numer;
                 edycjaanalityczne();
                 PrimeFaces.current().ajax().update("formwpisdokument");
+                PrimeFaces.current().ajax().update("zestawieniezapisownakontachpola");
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");

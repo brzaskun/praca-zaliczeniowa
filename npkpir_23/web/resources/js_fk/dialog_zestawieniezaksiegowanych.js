@@ -49,7 +49,7 @@ var pokazwierszoznaczony = function() {
 //            r("formwpisdokument:data2DialogWpisywanie").select();
 //        } else {
             var lp = document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value;
-            var jest = rj("formwpiskonta:wyborkonta_input").value;
+            //var jest = rj("formwpiskonta:wyborkonta_input").value;
             if (lp !== "-1") {
                 var nazwa = "formwpisdokument:dataList:"+lp+":opisdokwpis";
                 //r(nazwa).closest("td")[0].click();

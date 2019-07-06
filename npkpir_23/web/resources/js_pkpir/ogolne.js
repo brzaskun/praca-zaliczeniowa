@@ -249,20 +249,20 @@ var sprawdzczybrakklienta = function() {
     }
 };
 
-var sprawdzczykopiowacklienta = function() {
-    var zawartosc = $('#dodWiad\\:acForce_input').val();
-    if (zawartosc === "+") {
-        var text = $('#zobWiad\\:nazwa').html();
-        $('#dodWiad\\:acForce_input').val($('#zobWiad\\:nazwa').html());
-        $('#dodWiad\\:acForce_hinput').val($('#zobWiad\\:nazwa').html());
-        $('#dodWiad\\:acForce_input').focus();
-        $('#dodWiad\\:acForce_input').select();
-        PF('dialogklient').search(text);
-        event.cancelBubble = true;
-        event.stopPropagation();
-        event.stopImmediatePropagation();
-    }
-};
+//var sprawdzczykopiowacklienta = function() {
+//    var zawartosc = $('#dodWiad\\:acForce_input').val();
+//    if (zawartosc === "+") {
+//        var text = $('#zobWiad\\:nazwa').html();
+//        $('#dodWiad\\:acForce_input').val($('#zobWiad\\:nazwa').html());
+//        $('#dodWiad\\:acForce_hinput').val($('#zobWiad\\:nazwa').html());
+//        $('#dodWiad\\:acForce_input').focus();
+//        $('#dodWiad\\:acForce_input').select();
+//        PF('dialogklient').search(text);
+//        event.cancelBubble = true;
+//        event.stopPropagation();
+//        event.stopImmediatePropagation();
+//    }
+//};
 
 var sprawdzczykopiowacklientaarch = function() {
     var zawartosc = $('#dodWiad\\:acForce_input').val();

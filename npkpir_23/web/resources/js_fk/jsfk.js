@@ -127,7 +127,9 @@ var zamykanieDialogow = function() {
     try {
         PF('wpisywanie').hide();
         PF('wiersze').hide();
-        PF('tablicadokumenty').unselectAllRows();
+        if ($("zestawieniedokumentow:dataList").length) {
+            PF('tablicadokumenty').unselectAllRows();
+        }
     } catch (e) {
         
     }
