@@ -734,6 +734,9 @@
                 <p:commandButton id="cechazapisu" value="CechyZap(C)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" update="formCHW"
                                  actionListener="#{dokfkView.wybranoStronaWierszaCecha()}" accesskey="c" oncomplete="PF('dialogCechyStronaWiersza').show();"
                                  global="false"/>
+                <p:commandButton id="cechazapisudef" value="CechyZap(A)" styleClass="fkbutton" style="display: none;" 
+                                 actionListener="#{dokfkView.wybranoStronaWierszaCechaDef()}" accesskey="z" 
+                                 global="false"/>
                 <p:commandButton id="kwotywpl" value="zmiana waluty" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" global="false"
                                  actionListener="#{dokfkView.zmienwalutezapisow()}" update=":formwpisdokument:dataList"/>
                 <p:commandButton id="pokazvat" value="pokaż vat" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" global="false"
@@ -753,7 +756,9 @@
                 <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/>
                 <h:inputText id="lpwierszaRK" value="#{dokfkView.lpwierszaRK}" style="display: none;"/>
                 <h:inputText id="lpwierszaWpisywanie" value="#{dokfkView.lpWierszaWpisywanie}"  style="display: none;"/>
-                
+                <p:outputPanel style="margin-top: 20px;">
+                    <h:outputText value="domyślna cecha NKUP - Alt-A" style="width: 250px; color: green;" />
+                </p:outputPanel>
             </h:form>
             <h:form id="oznaczjakonkup">
                 <p:commandButton id="oznaczjakonkup" value="oznacz jako nkup" actionListener="#{dokfkView.oznaczjakonkup()}" accesskey="b"

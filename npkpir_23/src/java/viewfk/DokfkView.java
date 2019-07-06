@@ -2169,6 +2169,39 @@ public class DokfkView implements Serializable {
             }
         }
     }
+    
+    public void wybranoStronaWierszaCechaDef() {
+        if (pobranecechypodatnikzapas != null) {
+            int idwiersza = Integer.parseInt((String) Params.params("wpisywaniefooter:lpwierszaWpisywanie"));
+            String wnma = "wn";
+            if (idwiersza > -1) {
+                Wiersz wiersz = selected.getListawierszy().get(idwiersza);
+                if (wnmadoprzeniesienia.equals("Wn")) {
+                    stronaWierszaCechy = wiersz.getStronaWn();
+                } else {
+                    stronaWierszaCechy = wiersz.getStronaMa();
+                    wnma = "ma";
+                }
+                pobranecechypodatnik = new ArrayList<>(pobranecechypodatnikzapas);
+                List<Cechazapisu> cechyuzyte = stronaWierszaCechy.getCechazapisuLista();
+                for (Cechazapisu c : cechyuzyte) {
+                    pobranecechypodatnik.remove(c);
+                }
+                for (Cechazapisu c : pobranecechypodatnik) {
+                    if (c.getNazwacechy().equals("NKUP")) {
+                        stronaWierszaCechy.getCechazapisuLista().add(c);
+                        if (wnma.equals("wn")) {
+                            PrimeFaces.current().ajax().update("formwpisdokument:dataList:" + idwiersza + ":kontown");
+                        } else {
+                            PrimeFaces.current().ajax().update("formwpisdokument:dataList:" + idwiersza + ":kontoma");
+                        }
+                        break;
+                    }
+                }
+                //PrimeFaces.current().ajax().update("formCHW");
+            }
+        }
+    }
 
     public void dodajcechedostronawiersza() {
        if (cechazapisudododania != null) {
