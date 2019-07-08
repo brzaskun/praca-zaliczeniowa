@@ -460,7 +460,7 @@ public class PdfMain {
         }
     }
     
-    public static void dodajOpisWstepnySF(Document document, String opis, Podatnik podatnik, String bilansnadzien, String bilansoddnia) {
+    public static void dodajOpisWstepnySF(Document document, String opis, Podatnik podatnik, String bilansnadzien, String bilansoddnia, String rok) {
         try {
             StringBuilder s = new StringBuilder();
             s.append("Firma ");
@@ -472,6 +472,8 @@ public class PdfMain {
             document.add(opiswstepny);
             s = new StringBuilder();
             s.append(opis);
+            s.append(" za rok ");
+            s.append(rok);
             opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
@@ -489,7 +491,7 @@ public class PdfMain {
         }
     }
     
-     public static void dodajOpisWstepnySFRZIS(Document document, String opis, Podatnik podatnik, String bilansnadzien, String bilansoddnia) {
+     public static void dodajOpisWstepnySFRZIS(Document document, String opis, Podatnik podatnik, String bilansnadzien, String bilansoddnia, String rok) {
         try {
             StringBuilder s = new StringBuilder();
             s.append("Firma ");
@@ -501,6 +503,8 @@ public class PdfMain {
             document.add(opiswstepny);
             s = new StringBuilder();
             s.append(opis);
+            s.append(" za rok ");
+            s.append(rok);
             opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);

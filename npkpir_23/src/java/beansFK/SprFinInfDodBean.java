@@ -26,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.primefaces.PrimeFaces;
 import plik.Plik;
+import waluty.Z;
 
 /**
  *
@@ -234,8 +235,13 @@ public class SprFinInfDodBean {
         PdfWriter writer = inicjacjaWritera(document, nazwa);
         naglowekStopkaP(writer);
         otwarcieDokumentu(document, nazwa);
-        SprFinUchwalyBeanTXT.naglowekglowny1(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getDatauchwal(), wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getMiejscowosc(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado(), sprFinKwotyInfDod.getZyskstratanetto(), wpisView.getPodatnikObiekt().getImie());
-        dodajSzczegolyUchwaly1(wpisView.getFormaprawna(), document, sprFinKwotyInfDod, podatnikUdzialy);;
+        if (Z.z(sprFinKwotyInfDod.getZyskstratanetto())==0.0) {
+            SprFinUchwalyBeanTXT.naglowekglowny1a(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getDatauchwal(), wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getMiejscowosc(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado(), sprFinKwotyInfDod.getZyskstratanetto(), wpisView.getPodatnikObiekt().getImie());
+            SprFinUchwalyBeanTXT.podnaglowek7(document);
+        } else {
+            SprFinUchwalyBeanTXT.naglowekglowny1(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getDatauchwal(), wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getMiejscowosc(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado(), sprFinKwotyInfDod.getZyskstratanetto(), wpisView.getPodatnikObiekt().getImie());
+            dodajSzczegolyUchwaly1(wpisView.getFormaprawna(), document, sprFinKwotyInfDod, podatnikUdzialy);;
+        }
         finalizacjaDokumentuQR(document,nazwa);
         String f = null;
         f = "pokazwydruk('"+nazwa+"');";

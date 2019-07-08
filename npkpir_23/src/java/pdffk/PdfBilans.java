@@ -45,7 +45,7 @@ public class PdfBilans {
             otwarcieDokumentu(document, nazwa);
             dodajsuma(rootProjektA, "a", sumabilansowaA);
             dodajsuma(rootProjektP, "p", sumabilansowaP);
-            dodajOpisWstepnySF(document, B.b("Bilans"),wpisView.getPodatnikObiekt(), bilansnadzien, bilansoddnia);
+            dodajOpisWstepnySF(document, B.b("Bilans"),wpisView.getPodatnikObiekt(), bilansnadzien, bilansoddnia, wpisView.getRokWpisuSt());
             PdfMain.dodajLinieOpisu(document, "Strona aktywów");
             dodajTabele(document, testobjects.testobjects.getTabelaBilans(rootProjektA),75,0);
             document.newPage();
@@ -114,9 +114,9 @@ public class PdfBilans {
             dodajsuma(rootProjektA, "a", sumabilansowaBO, sumabilansowaA);
             dodajsuma(rootProjektP, "p", sumabilansowaBO, sumabilansowaP);
             if (laczlata) {
-                dodajOpisWstepnySF(document, B.b("Bilans")+" - wydłużony rok obrotowy "+opisdodatkowy,wpisView.getPodatnikObiekt(), bilansnadzien, bilansoddnia);
+                dodajOpisWstepnySF(document, B.b("Bilans")+" - wydłużony rok obrotowy "+opisdodatkowy,wpisView.getPodatnikObiekt(), bilansnadzien, bilansoddnia, wpisView.getRokWpisuSt());
             } else {
-                dodajOpisWstepnySF(document, B.b("Bilans")+opisdodatkowy,wpisView.getPodatnikObiekt(), bilansnadzien, bilansoddnia);
+                dodajOpisWstepnySF(document, B.b("Bilans")+opisdodatkowy,wpisView.getPodatnikObiekt(), bilansnadzien, bilansoddnia, wpisView.getRokWpisuSt());
             }
             PdfMain.dodajLinieOpisu(document, "Strona aktywów");
             dodajTabele(document, testobjects.testobjects.getTabelaBilansBOData(rootProjektA),75,5);

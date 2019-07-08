@@ -48,9 +48,9 @@ public class PdfRZiS {
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
              if (laczlata) {
-                dodajOpisWstepnySF(document, "Rachunek Zysków i Strat firmy - wydłużony rok obrotowy ",wpisView.getPodatnikObiekt(), bilansoddnia, bilansnadzien);
+                dodajOpisWstepnySF(document, "Rachunek Zysków i Strat firmy - wydłużony rok obrotowy ",wpisView.getPodatnikObiekt(), bilansoddnia, bilansnadzien, wpisView.getRokWpisuSt());
             } else {
-                dodajOpisWstepnySF(document, "Rachunek Zysków i Strat ",wpisView.getPodatnikObiekt(), bilansoddnia, bilansnadzien);
+                dodajOpisWstepnySF(document, "Rachunek Zysków i Strat ",wpisView.getPodatnikObiekt(), bilansoddnia, bilansnadzien, wpisView.getRokWpisuSt());
             }
             dodajTabele(document, testobjects.testobjects.getTabelaRZiS(rootProjektRZiS),75,0);
             PdfMain.dodajpodpis(document, wpisView.getFormaprawna().toString());
@@ -74,7 +74,7 @@ public class PdfRZiS {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepnySFRZIS(document, "Rachunek Zysków i Strat", wpisView.getPodatnikObiekt(), bilansnadzien, bilansoddnia);
+            dodajOpisWstepnySFRZIS(document, "Rachunek Zysków i Strat", wpisView.getPodatnikObiekt(), bilansnadzien, bilansoddnia, wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaRZiSBO(rootProjektRZiS),75,3);
             PdfMain.dodajpodpis(document, wpisView.getFormaprawna().toString());
             finalizacjaDokumentuQR(document,nazwa);

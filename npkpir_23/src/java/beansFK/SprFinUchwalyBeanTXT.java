@@ -131,4 +131,14 @@ public class SprFinUchwalyBeanTXT {
         PdfMain.dodajLinieOpisu(document, ".............................", Element.ALIGN_LEFT);
         PdfMain.dodajLinieOpisu(document, "Za zarząd", Element.ALIGN_LEFT);
     }
+     
+     static void naglowekglowny1a(Document document, String rok, String datasporzadzenia, String nazwa, String siedziba, String dataod, String datado, double zyskstrata, String nrkrs) {
+        PdfMain.dodajLinieOpisuBezOdstepu(document, "Postanowienie nr 1/"+data.Data.getMc(datasporzadzenia)+"/"+data.Data.getRok(datasporzadzenia), Element.ALIGN_CENTER,2);
+        PdfMain.dodajLinieOpisuBezOdstepu(document, "powzięta za Zebraniu Wspólników Spółki", Element.ALIGN_CENTER,2);
+        PdfMain.dodajLinieOpisuBezOdstepu(document, nazwa, Element.ALIGN_CENTER,2);
+        PdfMain.dodajLinieOpisu(document, "nr KRS "+nrkrs, Element.ALIGN_CENTER,2);
+        PdfMain.dodajLinieOpisu(document, "z siedzibą w "+siedziba, Element.ALIGN_CENTER);
+        PdfMain.dodajLinieOpisu(document, "Wobec tego, że wynik finansowy za rok  "+rok+" wyniósł 0.00pln współnicy spółki odstępują od powzięcia uchwały w sprawie przeznaczenia zysku/pokrycia straty za rok obrotowy.", Element.ALIGN_CENTER);
+        
+    }
 }
