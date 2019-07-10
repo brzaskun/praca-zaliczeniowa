@@ -40,6 +40,7 @@ import static beansFK.SprFinInfDodBean.drukujInformacjeDodatkowa;
 import dao.PodatnikUdzialyDAO;
 import embeddable.Mce;
 import entity.PodatnikUdzialy;
+import java.util.Base64;
 import java.util.Iterator;
 
 /**
@@ -83,7 +84,7 @@ public class SprFinKwotyInfDodView  implements Serializable{
             Msg.msg("e","Wystąpił błąd, niezachowano zmian");
         }
     }
-    
+    //NIE ROBIC BAZE64 BO NIE BEDZIE DZIALAC
     public void zachowajplik(FileUploadEvent event) {
         try {
             UploadedFile uploadedFile = event.getFile();
@@ -91,7 +92,7 @@ public class SprFinKwotyInfDodView  implements Serializable{
             //String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
             //String dt = String.valueOf((new Date()).getTime());
             //String nazwakrotka = wpisView.getPodatnikObiekt().getNip()+"_"+dt+"_"+"logo."+extension;
-            sprFinKwotyInfDod.setPlik(IOUtils.toByteArray(uploadedFile.getInputstream()));
+            sprFinKwotyInfDod.setPlik(uploadedFile.getContents());
             sprFinKwotyInfDod.setNazwapliku(filename);
             sprFinKwotyInfDodDAO.edit(sprFinKwotyInfDod);
             Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");

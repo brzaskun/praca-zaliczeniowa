@@ -37,9 +37,8 @@ public class SprawozdanieFin2018DodInfoBean {
     private static TZalacznik zrobstream(SprFinKwotyInfDod sprFinKwotyInfDod) {
         TZalacznik p = new TZalacznik();
         try {
-            byte[] data = sprFinKwotyInfDod.getPlik();
             p.nazwa = sprFinKwotyInfDod.getNazwapliku();
-            p.zawartosc = Base64.encode(data).getBytes();
+            p.zawartosc = sprFinKwotyInfDod.getPlik();
         } catch (Exception ex) {}
         return p;
     }

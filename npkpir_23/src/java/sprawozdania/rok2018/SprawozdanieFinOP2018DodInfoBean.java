@@ -8,8 +8,9 @@ package sprawozdania.rok2018;
 import entityfk.SprFinKwotyInfDod;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
-import org.apache.xml.security.utils.Base64;
+
 
 /**
  *
@@ -39,7 +40,7 @@ public class SprawozdanieFinOP2018DodInfoBean {
         try {
             byte[] data = sprFinKwotyInfDod.getPlik();
             p.nazwa = sprFinKwotyInfDod.getNazwapliku();
-            p.zawartosc = Base64.encode(data).getBytes();
+            p.zawartosc = data;
         } catch (Exception ex) {}
         return p;
     }
