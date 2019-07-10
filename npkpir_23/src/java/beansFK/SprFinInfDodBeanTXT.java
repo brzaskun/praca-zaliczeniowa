@@ -198,7 +198,7 @@ public class SprFinInfDodBeanTXT {
         wiersze.add("PIT");
         wiersze.add(pobierz("220-2", listaSaldoKonto, 1, 0));
         wiersze.add(pobierz("220-2", listaSaldoKonto, 1, 1));
-        wiersze.add(pobierzprzyrost("220-3", listaSaldoKonto, 1));
+        wiersze.add(pobierzprzyrost("220-2", listaSaldoKonto, 1));
         wiersze.add("CIT");
         wiersze.add(pobierz("220-1", listaSaldoKonto, 1, 0));
         wiersze.add(pobierz("220-1", listaSaldoKonto, 1, 1));
@@ -234,8 +234,8 @@ public class SprFinInfDodBeanTXT {
         wiersze.add("1. Wynik finansowy netto");
         wiersze.add(format.F.curr(sprFinKwotyInfDod.getZyskstratanetto()));
         wiersze.add("- w tym rozliczenie wyniku finansowego z lat ub");
-        wiersze.add(pobierz("821", listaSaldoKonto, 0, 1));
-        double wynik = Z.z(sprFinKwotyInfDod.getPid1A().doubleValue()+sprFinKwotyInfDod.getPid11A().doubleValue()+pobierzNum("821", listaSaldoKonto, 0, 1));
+        wiersze.add(pobierz("821", listaSaldoKonto, 0, 0));
+        double wynik = Z.z(sprFinKwotyInfDod.getPid1A().doubleValue()+sprFinKwotyInfDod.getPid11A().doubleValue()+pobierzNum("821", listaSaldoKonto, 0, 0));
         if (wynik>0.0) {
             wiersze.add("2. Proponowany sposób podziału dochodu");
             wiersze.add("");
