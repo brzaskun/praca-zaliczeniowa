@@ -7,6 +7,7 @@ package format;
 
 import java.text.NumberFormat;
 import java.util.Currency;
+import waluty.Z;
 
 /**
  *
@@ -56,5 +57,12 @@ public class F {
         formatter.setMinimumFractionDigits(4);
         formatter.setGroupingUsed(true);
         return formatter.format(n);
+    }
+    
+    public static double kwota(String f) {
+        String f1 = f.trim();
+        f1 = f1.replace(",", ".");
+        f1 = f1.replace(" ", "");
+        return Z.z(Double.valueOf(f1).doubleValue());
     }
 }

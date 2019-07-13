@@ -3073,7 +3073,7 @@ public class DokfkView implements Serializable {
         for (Dokfk p : wykazZaksiegowanychDokumentowimport) {
             dokDAOfk.destroy(p);
         }
-        wykazZaksiegowanychDokumentow = Collections.synchronizedList(new ArrayList<>());
+        wykazZaksiegowanychDokumentowimport = Collections.synchronizedList(new ArrayList<>());
         Msg.msg("Usunięto wszystkie zaimportowane dokumenty");
     }
 

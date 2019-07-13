@@ -42,6 +42,9 @@
                     <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="wszystkie"/>
                     <f:selectItems value="#{dokfkView.dokumentypodatnika}" var="item" itemLabel="#{item.skrot}" itemValue="#{item.skrot}"/>
              </p:selectOneMenu>
+                 <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkWeryfikacjaView.sprawdzWnMawDokfk(dokfkView.wykazZaksiegowanychDokumentowimport)}" style="width: 120px; margin-left: 40px;" 
+                                         update="zestawieniedokumentowimport:dataListImport" 
+                                         />
             </p:panelGrid>
             
 <!--            <script>
@@ -62,7 +65,7 @@
                 /* ]]> */
             </script>-->
             <p:contextMenu for="dataListImport" style="width: 200px;">
-                <p:menuitem value="usuń wszystkie" icon="ui-icon-trash" actionListener="#{dokfkView.usunwszytskieimportowane()}" update=":zestawieniedokumentowimport"/>
+                <p:menuitem value="usuń wszystkie" icon="ui-icon-trash" actionListener="#{dokfkView.usunwszytskieimportowane()}" update="zestawieniedokumentowimport"/>
             </p:contextMenu>
 
             <p:dataTable id="dataListImport" value="#{dokfkView.wykazZaksiegowanychDokumentowimport}" var="item" rowIndexVar="row" widgetVar="tablicadokumentyimport" 
@@ -107,7 +110,7 @@
                 <p:column width="80" style="text-align: center;" >
                     <p:commandButton value="edytuj" actionListener="#{dokfkView.przygotujDokumentEdycjaImport(item, row)}"  styleClass="fkbutton" icon="ui-icon-document"
                                      update=":formwpisdokument, :zestawieniedokumentowimport"  onsuccess="PF('wpisywanie').show();"
-                                     rendered="#{!item.wTrakcieEdycji}" style="width: 70px;"/>
+                                     style="width: 70px;"/>
                 </p:column>
                 <p:column width="80" style="text-align: center;">
                     <p:commandButton value="usuń" actionListener="#{dokfkView.przygotujdousuniecia(item)}" styleClass="fkbutton" icon="ui-icon-trash" oncomplete="PF('confirm3').show();" global="false"  style="width: 70px;" update=":potwierdzeniazestawieniedok"/>

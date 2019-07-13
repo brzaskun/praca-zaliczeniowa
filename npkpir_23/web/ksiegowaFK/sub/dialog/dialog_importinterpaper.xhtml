@@ -1,0 +1,134 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .waluta input {
+            width: 40px !important;
+        }
+        
+        .zaksiegowanewaski input {
+            width: 75px !important;
+        }
+    </style>
+   
+    <p:dialog id="importinterpaper" header="Zestawienie zaimportowanych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="importinterpaper" 
+              resizable="false"  onShow="ustawdialog('importinterpaper','menudokumenty');" closeOnEscape="true" onHide="resetujdialog('importinterpaper');" >
+        <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" update=":form_importinterpaper"/>
+        <!--        <h:form>
+                    <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
+                </h:form>-->
+        <h:form>
+            <p:panelGrid columns="2">
+                    <p:panelGrid columns="1" style="margin-top: 20px;margin-bottom: 10px;">
+                        <h:outputText value="plik CSV z dokumentami źródłowymi " style="font-weight: bold;"/>
+                        <p:fileUpload fileUploadListener="#{interpaperImportView.zachowajplik}" 
+                                      mode="advanced" dragDropSupport="true" fileLimit="3"
+                                      update="messages1 @form" sizeLimit="600000"   
+                                      validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
+                                      fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
+                                      uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
+                                      style="height: 90px;">
+                        </p:fileUpload>
+                        <p:growl life="3600"  id="messages1" showDetail="false"/>
+                    </p:panelGrid>
+                <p:panelGrid columns="2" style="margin-top: 20px;margin-bottom: 10px;">
+                    <h:outputText value="rodzaj rachunków" style="margin-left: 40px;"/>
+                        <p:selectOneMenu id="symbol" value="#{interpaperImportView.rodzajdok}" 
+                                         style="width: 200px; margin-left: 20px;" >
+                            <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="zakup" itemValue="zakup" />
+                            <f:selectItem itemLabel="sprzedaż" itemValue="sprzedaż" />
+                            <p:ajax global="false" event="blur"  partialSubmit="true"/>
+                        </p:selectOneMenu>
+                </p:panelGrid>
+            </p:panelGrid>
+        </h:form>
+        <h:outputText value="#{interpaperImportView.wiadomoscnieprzypkonta}" style="color: red; margin-bottom: 10px;"/>
+         <h:form>
+             <p:commandButton value="pobierz dane" actionListener="#{interpaperImportView.importujdok()}" update="form_importinterpaper" style="width: 120px;"/>
+             <p:commandButton value="generuj dok" actionListener="#{interpaperImportView.generuj()}" update="form_importinterpaper" style="width: 120px;margin-left: 30px;"/>
+         </h:form>  
+        <h:form id="form_importinterpaper">
+ 
+            
+<!--            <script>
+                /* <![CDATA[ */
+                //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+                $(document).on("click", '.gridZaksiegowane tr', function(e) {
+                    var pierwszywiersz = $("#form_importinterpaper\\:dataListImport_data").children("tr");
+                    var numerpierwszegowiersza = $.trim($(pierwszywiersz[0]).find(".lpwierszaZaksiegowane").text());
+                    try {
+                        e.stopPropagation(); // will prevent double click events from link being clicked within row
+                        var numerkliknietegowiersza = $.trim($(this).closest("tr").find(".lpwierszaZaksiegowane").text()); // trim to remove end space, closest gets closest parent of selected type
+                        var liczbadokalkulacji = numerkliknietegowiersza - numerpierwszegowiersza;
+                        zachowajnumerwiersza("zmiennazaksiegowaneimport", liczbadokalkulacji);
+                    } catch (e) {
+                        //alert('error');
+                    }
+                });
+                /* ]]> */
+            </script>-->
+<!--            <p:contextMenu for="dataListImport" style="width: 200px;">
+                <p:menuitem value="usuń wszystkie" icon="ui-icon-trash" actionListener="#{interpaperImportView.usunwszytskieimportowane()}" update=":form_importinterpaper"/>
+            </p:contextMenu>-->
+
+            <p:dataTable id="dataListImport" value="#{interpaperImportView.pobranefaktury}" var="item" rowIndexVar="row" widgetVar="tablicadokumentyimport" 
+                         selection="#{interpaperImportView.selected}" rowKey="#{item}" 
+                         style="width: 1250px; height: 580px; overflow-y: scroll; margin-top: 15px;margin-bottom: 15px;" filteredValue="#{interpaperImportView.pobranefakturyfilter}"
+                         emptyMessage="Brak importowanych dokumentów" styleClass="gridZaksiegowane"
+                         sortBy="#{item.nr}"  >
+                <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
+                <p:ajax event="filter" global="false"/>
+                <p:ajax event="rowSelectCheckbox" global="false"/>
+                <p:ajax event="rowUnselectCheckbox" global="false"/>
+                <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"></p:column>
+                <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center; height: 35px;">
+                    <h:outputText styleClass="lpwierszaZaksiegowane" value="#{item.nr}"/>
+                </p:column>
+                <p:column headerText="data wyst." styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{item.datawystawienia}"  filterBy="#{item.datawystawienia}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.datawystawienia}"/>
+                </p:column>
+                <p:column headerText="data sprzed." styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{item.datasprzedaży}" filterBy="#{item.datasprzedaży}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.datasprzedaży}"/>
+                </p:column>
+                <p:column headerText="data ob. vat" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{item.dataobvat}" filterBy="#{item.dataobvat}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.dataobvat}"/>
+                </p:column>
+                <p:column headerText="nr fakt." styleClass="zaksiegowanewaski" width="70" sortBy="#{item.nrfaktury}" filterBy="#{item.nrfaktury}">
+                    <h:outputText value="#{item.nrfaktury}"/>
+                </p:column>
+                <p:column headerText="#{mgs.kontrahent}" width="140" sortBy="#{item.kontrahent}" filterBy="#{item.kontrahent}" >
+                    <h:outputText value="#{item.kontrahent}"/>
+                </p:column>
+                <p:column headerText="nip" width="80" sortBy="#{item.kontrahent}" filterBy="#{item.nip}" >
+                    <h:outputText value="#{item.nip}"/>
+                </p:column>
+                <p:column headerText="brutto" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.bruttowaluta}" filterBy="#{item.bruttowaluta}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.bruttowaluta}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="waluta" styleClass="waluta" width="40" sortBy="#{item.walutaplatnosci}" filterBy="#{item.walutaplatnosci}" style="text-align: center;">
+                    <h:outputText value="#{item.walutaplatnosci}"/>
+                </p:column>
+                <p:column headerText="netto" styleClass="zaksiegowanewaski" width="50" sortBy="#{item.nettowaluta}" filterBy="#{item.nettowaluta}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.nettowaluta}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="vat" styleClass="zaksiegowanewaski" width="50" sortBy="#{item.vatwaluta}" filterBy="#{item.vatwaluta}" style="text-align: center;">
+                    <h:outputText value="#{item.vatwaluta}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+<!--                <p:column width="80" style="text-align: center;">
+                    <p:commandButton value="usuń" actionListener="#{dokfkView.przygotujdousuniecia(item)}" styleClass="fkbutton" icon="ui-icon-trash" oncomplete="PF('confirm3').show();" global="false"  style="width: 70px;" update=":potwierdzeniazestawieniedok"/>
+                </p:column>-->
+            </p:dataTable>
+        </h:form>
+    </p:dialog>
+</ui:composition>

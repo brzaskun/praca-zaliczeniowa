@@ -74,10 +74,10 @@ public class Klienci extends KlienciSuper implements Serializable {
     private String znacznik2;
     @Transient
     private String znacznik3;
-    @OneToMany(mappedBy = "kontr1", fetch = FetchType.LAZY)
-    private List<Dok> dokumenty;
-    @OneToMany(mappedBy = "kontr", fetch = FetchType.LAZY)
-    private List<Dokfk> dokumentyfk;
+//    @OneToMany(mappedBy = "kontr1", fetch = FetchType.LAZY)
+//    private List<Dok> dokumenty;
+//    @OneToMany(mappedBy = "kontr", fetch = FetchType.LAZY)
+//    private List<Dokfk> dokumentyfk;
     @Column(name = "aktywnydlafaktrozrachunki")
     private boolean aktywnydlafaktrozrachunki;
     @Transient
@@ -313,23 +313,23 @@ public class Klienci extends KlienciSuper implements Serializable {
         this.jezykwysylki = jezykwysylki;
     }
     
-    @XmlTransient
-    public List<Dok> getDokumenty() {
-        return dokumenty;
-    }
-
-    public void setDokumenty(List<Dok> dokumenty) {
-        this.dokumenty = dokumenty;
-    }
-
-    @XmlTransient
-    public List<Dokfk> getDokumentyfk() {
-        return dokumentyfk;
-    }
-
-    public void setDokumentyfk(List<Dokfk> dokumentyfk) {
-        this.dokumentyfk = dokumentyfk;
-    }
+//    @XmlTransient
+//    public List<Dok> getDokumenty() {
+//        return dokumenty;
+//    }
+//
+//    public void setDokumenty(List<Dok> dokumenty) {
+//        this.dokumenty = dokumenty;
+//    }
+//
+//    @XmlTransient
+//    public List<Dokfk> getDokumentyfk() {
+//        return dokumentyfk;
+//    }
+//
+//    public void setDokumentyfk(List<Dokfk> dokumentyfk) {
+//        this.dokumentyfk = dokumentyfk;
+//    }
     
     public String getAdres() {
         return this.kodpocztowy+" "+this.miejscowosc+", ul. "+this.ulica+" "+this.dom+"/"+this.lokal;

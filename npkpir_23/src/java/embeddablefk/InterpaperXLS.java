@@ -19,7 +19,9 @@ public class InterpaperXLS implements Serializable {
     private String nrfaktury;
     private Date datawystawienia;
     private Date datasprzedaży;
+    private Date dataobvat;
     private String kontrahent;
+    private String nip;
     private String walutaplatnosci;
     private double bruttowaluta;
     private double saldofaktury;
@@ -81,6 +83,14 @@ public class InterpaperXLS implements Serializable {
     
     public void setNr(int nr) {
         this.nr = nr;
+    }
+
+    public String getNip() {
+        return nip;
+    }
+
+    public void setNip(String nip) {
+        this.nip = nip;
     }
     
     public String getNrfaktury() {
@@ -209,6 +219,14 @@ public class InterpaperXLS implements Serializable {
     
     public void setVatPLN(double vatPLN) {
         this.vatPLN = vatPLN;
+    }
+
+    public Date getDataobvat() {
+        return dataobvat;
+    }
+
+    public void setDataobvat(Date dataobvat) {
+        this.dataobvat = dataobvat;
     }
     
     public double getBruttoPLN() {
