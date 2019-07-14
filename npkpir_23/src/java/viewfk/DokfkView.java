@@ -1223,6 +1223,20 @@ public class DokfkView implements Serializable {
             Msg.msg("e", "Nie udało się usunąć dokumentu "+E.e(e));
         }
     }
+    
+     public void usundokumentimport(Dokfk dok) {
+        try {
+            dokDAOfk.usun(dok);
+            wykazZaksiegowanychDokumentowimport.remove(dok);
+            if (filteredValueimport != null) {
+                filteredValueimport.remove(dok);
+            }
+            Msg.msg("i", "Dokument importowy usunięty");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Nie udało się usunąć dokumentu importowego"+E.e(e));
+        }
+    }
 
     
     //usuwa wiersze z dokumentu
@@ -4374,7 +4388,24 @@ public void oznaczjakonkup() {
 
 
     
-    
+    public void zaksiegujimport(List<Dokfk> lista) {
+        try {
+            for (Dokfk p : lista) {
+                p.setImportowany(false);
+                for (StronaWiersza s : p.getStronyWierszy()) {
+                    if (s.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")&&  s.getKonto().getPelnynumer().startsWith("20")) {
+                        s.setNowatransakcja(true);
+                        s.setTypStronaWiersza(1);
+                        p.setZablokujzmianewaluty(true);
+                    }
+                }
+                dokDAOfk.edit(p);
+            }
+            Msg.msg("Zaksięgowano dokumenty importowe");
+        } catch (Exception e) {
+            Msg.msg("e","wystąpił błąd podczas księgowania dokumentów importowych");
+        }
+    }
 
 
       

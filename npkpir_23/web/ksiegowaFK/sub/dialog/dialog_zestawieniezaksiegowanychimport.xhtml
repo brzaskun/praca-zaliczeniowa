@@ -45,6 +45,9 @@
                  <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkWeryfikacjaView.sprawdzWnMawDokfk(dokfkView.wykazZaksiegowanychDokumentowimport)}" style="width: 120px; margin-left: 40px;" 
                                          update="zestawieniedokumentowimport:dataListImport" 
                                          />
+                 <p:commandButton id="zaksieguj" value="zaksieguj" actionListener="#{dokfkView.zaksiegujimport(dokfkView.wykazZaksiegowanychDokumentowimport)}" style="width: 120px; margin-left: 80px;" 
+                                         update="zestawieniedokumentowimport:dataListImport" 
+                                         />
             </p:panelGrid>
             
 <!--            <script>
@@ -113,7 +116,7 @@
                                      style="width: 70px;"/>
                 </p:column>
                 <p:column width="80" style="text-align: center;">
-                    <p:commandButton value="usuń" actionListener="#{dokfkView.przygotujdousuniecia(item)}" styleClass="fkbutton" icon="ui-icon-trash" oncomplete="PF('confirm3').show();" global="false"  style="width: 70px;" update=":potwierdzeniazestawieniedok"/>
+                    <p:commandButton value="usuń" actionListener="#{dokfkView.usundokumentimport(item)}" styleClass="fkbutton" icon="ui-icon-trash"  global="false"  style="width: 70px;" update="zestawieniedokumentowimport:dataListImport"/>
                 </p:column>
             </p:dataTable>
         </h:form>

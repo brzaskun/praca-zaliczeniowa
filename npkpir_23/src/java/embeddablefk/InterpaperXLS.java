@@ -35,6 +35,7 @@ public class InterpaperXLS implements Serializable {
     private double nettoPLNvat;
     private double vatPLN;
     private double bruttoPLN;
+    private boolean juzzaksiegowany;
 
     @Override
     public int hashCode() {
@@ -237,8 +238,16 @@ public class InterpaperXLS implements Serializable {
         this.bruttoPLN = bruttoPLN;
     }
     
-    
+    public boolean isJuzzaksiegowany() {
+        return juzzaksiegowany;
+    }
+
+    public void setJuzzaksiegowany(boolean juzzaksiegowany) {
+        this.juzzaksiegowany = juzzaksiegowany;
+    }
 //</editor-fold>
+
+    
 
     
 }

@@ -22,7 +22,7 @@
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
                 </h:form>-->
         <h:form>
-            <p:panelGrid columns="2">
+            <p:panelGrid columns="2" columnClasses="sixty-percent forty-percent">
                     <p:panelGrid columns="1" style="margin-top: 20px;margin-bottom: 10px;">
                         <h:outputText value="plik CSV z dokumentami źródłowymi " style="font-weight: bold;"/>
                         <p:fileUpload fileUploadListener="#{interpaperImportView.zachowajplik}" 
@@ -35,7 +35,7 @@
                         </p:fileUpload>
                         <p:growl life="3600"  id="messages1" showDetail="false"/>
                     </p:panelGrid>
-                <p:panelGrid columns="2" style="margin-top: 20px;margin-bottom: 10px;">
+                <p:panelGrid columns="2" style="margin-top: 20px;margin-bottom: 10px; float: right;">
                     <h:outputText value="rodzaj rachunków" style="margin-left: 40px;"/>
                         <p:selectOneMenu id="symbol" value="#{interpaperImportView.rodzajdok}" 
                                          style="width: 200px; margin-left: 20px;" >
@@ -99,7 +99,8 @@
                     <h:outputText value="#{item.dataobvat}"/>
                 </p:column>
                 <p:column headerText="nr fakt." styleClass="zaksiegowanewaski" width="70" sortBy="#{item.nrfaktury}" filterBy="#{item.nrfaktury}">
-                    <h:outputText value="#{item.nrfaktury}"/>
+                    <h:outputText value="#{item.nrfaktury}" rendered="#{item.juzzaksiegowany eq false}"/>
+                    <h:outputText value="duplikat" rendered="#{item.juzzaksiegowany eq true}" style="color: red;"/>
                 </p:column>
                 <p:column headerText="#{mgs.kontrahent}" width="140" sortBy="#{item.kontrahent}" filterBy="#{item.kontrahent}" >
                     <h:outputText value="#{item.kontrahent}"/>

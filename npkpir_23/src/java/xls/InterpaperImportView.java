@@ -142,25 +142,33 @@ public class InterpaperImportView implements Serializable {
     public void generuj() {
         if (pobranefaktury !=null && pobranefaktury.size()>0) {
             List<Klienci> k = klienciDAO.findAll();
+            int ile = 0;
             for (InterpaperXLS p : pobranefaktury) {
-               generowanieDokumentu(p, k);
+               ile += generowanieDokumentu(p, k);
             }
-            Msg.msg("Wygenerowano dokumenty księgowe");
+            Msg.msg("Zaksięgowano "+ile+" dokumentów");
         } else {
             Msg.msg("e", "Błąd! Lista danych źrdółowych jest pusta");
         }
     }
     
-     public void generowanieDokumentu(InterpaperXLS interpaperXLS, List<Klienci> k) {
-        String rodzajdok = interpaperXLS.getVatwaluta() > 0 ? "SZ" : "UPTK";
-        Dokfk dokument = stworznowydokument(oblicznumerkolejny(rodzajdok),interpaperXLS, rodzajdok, k);
+     public int generowanieDokumentu(InterpaperXLS interpaperXLS, List<Klienci> k) {
+        int ile = 0;
+        String rodzajdk = "ZZ";
+        if (rodzajdok.equals("sprzedaż")) {
+            rodzajdk = interpaperXLS.getVatwaluta() > 0 ? "SZ" : "UPTK";
+        }
+        Dokfk dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k);
         try {
-            dokument.setImportowany(true);
-            dokDAOfk.dodaj(dokument);
-            Msg.msg("Zaksięgowano dokument "+rodzajdok+" o nr własnym"+dokument.getNumerwlasnydokfk());
+            if (dokument!=null) {
+                dokument.setImportowany(true);
+                dokDAOfk.dodaj(dokument);
+                ile++;
+            }
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu "+rodzajdok);
         }
+        return ile;
     }
      
       private Dokfk stworznowydokument(int numerkolejny, InterpaperXLS interpaperXLS, String rodzajdok, List<Klienci> k) {
@@ -173,8 +181,16 @@ public class InterpaperImportView implements Serializable {
         ustawrodzajedok(nd, rodzajdok);
         ustawtabelenbp(nd, interpaperXLS);
         podepnijEwidencjeVat(nd, interpaperXLS);
-        ustawwiersze(nd, interpaperXLS);
-        nd.setImportowany(true);
+        Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
+        if (juzjest!=null) {
+            nd = null;
+            interpaperXLS.setJuzzaksiegowany(true);
+        } else {
+            ustawwiersze(nd, interpaperXLS);
+            nd.setImportowany(true);
+            nd.setWprowadzil(wpisView.getUzer().getLogin());
+            nd.przeliczKwotyWierszaDoSumyDokumentu();
+        }
         return nd;
     }
       
@@ -275,9 +291,16 @@ public class InterpaperImportView implements Serializable {
     
     private void ustawwiersze(Dokfk nd, InterpaperXLS interpaperXLS) {
         nd.setListawierszy(new ArrayList<Wiersz>());
-        nd.getListawierszy().add(przygotujwierszNetto(interpaperXLS, nd));
-        if (interpaperXLS.getVatwaluta() != 0) {
-            nd.getListawierszy().add(przygotujwierszVat(interpaperXLS, nd));
+        if (rodzajdok.equals("sprzedaż")) {
+            nd.getListawierszy().add(przygotujwierszNetto(interpaperXLS, nd));
+            if (interpaperXLS.getVatwaluta() != 0) {
+                nd.getListawierszy().add(przygotujwierszVat(interpaperXLS, nd));
+            }
+        } else {
+            nd.getListawierszy().add(przygotujwierszNettoK(interpaperXLS, nd));
+            if (interpaperXLS.getVatwaluta() != 0) {
+                nd.getListawierszy().add(przygotujwierszVatK(interpaperXLS, nd));
+            }
         }
     }
 
@@ -290,7 +313,7 @@ public class InterpaperImportView implements Serializable {
         StronaWiersza strma = new StronaWiersza(w, "Ma", interpaperXLS.getNettowaluta(), null);
         Konto kontonetto = kontoDAO.findKonto("702-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         strwn.setKwotaPLN(interpaperXLS.getBruttoPLN());
-        strma.setKwotaPLN(interpaperXLS.getNettoPLN());
+        strma.setKwotaPLN(interpaperXLS.getNettoPLNvat());
         strma.setKonto(kontonetto);
         strwn.setKonto(pobierzkontoWn(nd, interpaperXLS, nd.getKontr()));
         w.setStronaWn(strwn);
@@ -308,6 +331,36 @@ public class InterpaperImportView implements Serializable {
         Konto kontovat = kontoDAO.findKonto("221-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         strma.setKonto(kontovat);
         w.setStronaMa(strma);
+        return w;
+    }
+    
+    private Wiersz przygotujwierszNettoK(InterpaperXLS interpaperXLS, Dokfk nd) {
+        Wiersz w = new Wiersz(0, 0);
+        uzupelnijwiersz(w, nd);
+        String opiswiersza = "usługa transportowa"; 
+        w.setOpisWiersza(opiswiersza);
+        StronaWiersza strma = new StronaWiersza(w, "Ma", interpaperXLS.getBruttowaluta(), null);
+        StronaWiersza strwn = new StronaWiersza(w, "Wn", interpaperXLS.getNettowaluta(), null);
+        Konto kontonetto = kontoDAO.findKonto("403", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        strma.setKwotaPLN(interpaperXLS.getBruttoPLN());
+        strwn.setKwotaPLN(interpaperXLS.getNettoPLNvat());
+        strwn.setKonto(kontonetto);
+        strma.setKonto(pobierzkontoMa(nd, interpaperXLS, nd.getKontr()));
+        w.setStronaMa(strma);
+        w.setStronaWn(strwn);
+        return w;
+    }
+    
+    private Wiersz przygotujwierszVatK(InterpaperXLS interpaperXLS, Dokfk nd) {
+        Wiersz w = new Wiersz(1, 2);
+        uzupelnijwiersz(w, nd);
+        String opiswiersza = "usługa transportowa - VAT"; 
+        w.setOpisWiersza(opiswiersza);
+        StronaWiersza strwn = new StronaWiersza(w, "Wn", interpaperXLS.getVatwaluta(), null);
+        strwn.setKwotaPLN(interpaperXLS.getVatPLN());
+        Konto kontovat = kontoDAO.findKonto("221-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        strwn.setKonto(kontovat);
+        w.setStronaWn(strwn);
         return w;
     }
     
@@ -334,10 +387,10 @@ public class InterpaperImportView implements Serializable {
                             EVatwpisFK eVatwpisFK = new EVatwpisFK();
                             eVatwpisFK.setLp(k++);
                             eVatwpisFK.setEwidencja(p);
-                            if (p.getNazwa().equals("sprzedaż 23%")||p.getNazwa().equals("usługi świad. poza ter.kraju")) {
-                                eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLN()));
+                            if (p.getNazwa().equals("sprzedaż 23%")||p.getNazwa().equals("usługi świad. poza ter.kraju")||p.getNazwa().equals("zakup")) {
+                                eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
                                 eVatwpisFK.setVat(Z.z(interpaperXLS.getVatPLN()));
-                                eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLN()+interpaperXLS.getVatPLN()));
+                                eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()+interpaperXLS.getVatPLN()));
                                 eVatwpisFK.setDokfk(nd);
                                 eVatwpisFK.setEstawka("op");
                                 nd.getEwidencjaVAT().add(eVatwpisFK);
@@ -377,6 +430,34 @@ public class InterpaperImportView implements Serializable {
         }
         return kontoRozrachunkowe;
     }
+     
+     private Konto pobierzkontoMa(Dokfk nd, InterpaperXLS interpaperXLS, Klienci klient) {
+        Konto kontoRozrachunkowe = null;
+        Kliencifk klientMaKonto = kliencifkDAO.znajdzkontofk(klient.getNip(), wpisView.getPodatnikObiekt().getNip());
+        if (klientMaKonto == null) {
+            klientMaKonto = new Kliencifk();
+            klientMaKonto.setNazwa(klient.getNpelna());
+            klientMaKonto.setNip(klient.getNip());
+            klientMaKonto.setPodatniknazwa(wpisView.getPodatnikWpisu());
+            klientMaKonto.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
+            klientMaKonto.setNrkonta(pobierznastepnynumer());
+            kliencifkDAO.dodaj(klientMaKonto);
+            List<Konto> wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            PlanKontFKBean.aktualizujslownikKontrahenci(wykazkont, kliencifkDAO, klientMaKonto, kontoDAO, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
+            String numerkonta = "202-2-"+klientMaKonto.getNrkonta();
+            if (!klient.getKrajkod().equals("PL")) {
+                numerkonta = "204-2-"+klientMaKonto.getNrkonta();
+            }
+            kontoRozrachunkowe = kontoDAO.findKonto(numerkonta, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        } else {
+            String numerkonta = "202-2-"+klientMaKonto.getNrkonta();
+            if (klient.getKrajkod()!=null && !klient.getKrajkod().equals("PL")) {
+                numerkonta = "204-2-"+klientMaKonto.getNrkonta();
+            }
+            kontoRozrachunkowe = kontoDAO.findKonto(numerkonta, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        }
+        return kontoRozrachunkowe;
+    }
     
      private String pobierznastepnynumer() {
         try {
@@ -388,6 +469,7 @@ public class InterpaperImportView implements Serializable {
             return "1";
         }
     }
+     
     
     public WpisView getWpisView() {
         return wpisView;
@@ -454,6 +536,8 @@ public class InterpaperImportView implements Serializable {
     public void setRodzajdok(String rodzajdok) {
         this.rodzajdok = rodzajdok;
     }
+
+    
 
    
     
