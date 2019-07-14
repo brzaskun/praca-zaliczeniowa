@@ -12,7 +12,9 @@
             <p:focus for="parametrypodatnika"/><br/>
             <h:outputText value="dane historyczne"/><br/>
             <p:dataTable value="#{podatnikView.podatnikOpodatkowanie}"  var="loop" style="width: 980px;" 
-                         rowKey="#{loop.id}" selection="#{podatnikView.podatnikOpodatkowanieSelected}" selectionMode="single">
+                         rowKey="#{loop.id}" selection="#{podatnikView.podatnikOpodatkowanieSelected}" >
+                <p:ajax event="rowSelectRadio" global="false" listener="#{podatnikView.przygotujedycjeopodatkowanie}" update="akordeon:form1"/>
+                <p:column selectionMode="single" styleClass="checkwiersza" width="30" style="text-align: center;"></p:column>
                 <p:column headerText="od" width="80">
                     <h:outputText value="#{loop.datarozpoczecia}" />
                     </p:column>
@@ -34,29 +36,29 @@
                         </h:outputText>
                     </p:column>
                     <p:column headerText="dołączony do roku">
-                        <p:inplace  editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">
+<!--                        <p:inplace  editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">-->
                             <h:outputText value="#{loop.dolaczonydoroku eq null ? 'opcjonalne'  : loop.dolaczonydoroku}" />
-                            <p:inputText value="#{loop.dolaczonydoroku}"
+<!--                            <p:inputText value="#{loop.dolaczonydoroku}"
                                               label="text" />  
                                 <p:ajax event="save" global="false" listener="#{podatnikView.edycjaopodatkowanie(loop)}" 
                                         partialSubmit="true"/>
                         
-                        </p:inplace>
+                        </p:inplace>-->
                     </p:column>
                     <p:column headerText="zamkniety" width="60" style="text-align: center;">
                         <h:outputText value="#{loop.zamkniety ? 'tak': 'nie'}" style="#{loop.zamkniety ? 'color: red;': 'color: green;'}"/>
                     </p:column>
                 <p:column  width="60" style="text-align: center;" headerText="zamk.">
                         <p:commandButton icon="fa fa-lock" actionListener="#{podatnikView.zamknijrok(loop)}" global="true" update="@parent:@parent"
-                                         style="#{loop.zamkniety ? 'color: green;': 'color: red;'}"/>
+                                         style="#{loop.zamkniety ? 'color: green;': 'color: red;'}" />
                     </p:column>
                 <p:column  width="60" style="text-align: center;" headerText="odksięg.">
                         <p:commandButton icon="fa fa-book" actionListener="#{podatnikView.odksiegujdokumenty}" global="true" update="@parent:@parent"
-                                         rendered="#{loop.zamkniety eq false and loop.symbolroku eq WpisView.rokWpisuSt}"/>
+                                         rendered="#{loop.zamkniety eq false and loop.symbolroku eq WpisView.rokWpisuSt}" />
                     </p:column>
             </p:dataTable>
             <h:outputText value="wybierz parametry aktualne"/><br/>
-            <p:panelGrid id="parametrypodatnika" columns="6" >
+            <p:panelGrid id="parametrypodatnika" columns="8" >
                 <h:outputText value="data od: "/>
                 <p:inputText id="dataod" value="#{podatnikView.wybranyPodatnikOpodatkowanie.datarozpoczecia}" maxlength="10" placeholder="rrrr-mm-dd" size="10">
                     <p:ajax event="blur" onstart="weryfikujdateauto('akordeon:form1:dataod')"/>
@@ -66,7 +68,13 @@
                     <p:ajax event="blur" onstart="weryfikujdateauto('akordeon:form1:datado')"/>
                 </p:inputText>
                 <h:outputText value="symbol roku: "/>
-                <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.symbolroku}"><f:selectItems value="#{Roki.rokiListString}"/>
+                <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.symbolroku}">
+                    <f:selectItems value="#{Roki.rokiListString}"/>
+                </p:selectOneMenu>
+                 <h:outputText value="dołączony do: "/>
+                 <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.dolaczonydoroku}"  rendered="#{WpisView.podatnikObiekt.firmafk eq 1}">
+                    <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/> 
+                    <f:selectItems value="#{Roki.rokiListString}"/>
                 </p:selectOneMenu>
                 <h:outputText value="rodzaj opod: "/>
                 <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.formaopodatkowania}"  rendered="#{WpisView.podatnikObiekt.firmafk eq 0}">
@@ -95,9 +103,13 @@
                 <p:inputNumber value="#{podatnikView.wybranyPodatnikOpodatkowanie.stawkapodatkuospr}" decimalPlaces="2" maxValue="1"  rendered="#{WpisView.formaprawna eq 'SPOLKA_Z_O_O'}"/>
             </p:panelGrid>
             <br/>
-            <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
-                <p:commandButton action="#{podatnikView.usundoch()}" value="usun parametr" update="@form" type="submit"/>
-                <p:commandButton action="#{podatnikView.dodajdoch()}" value="dodaj parametr" update="@form" type="submit"/>
+            <p:panelGrid columns="3" style="column-width: 350px; width: 500px">
+                <p:commandButton actionListener="#{podatnikView.usundoch()}" value="usun parametr" update="@form" type="submit"/>
+                <p:commandButton actionListener="#{podatnikView.dodajdoch()}" value="dodaj parametr" update="@form" type="submit" binding="#{podatnikView.but1}"/>
+                <p:commandButton actionListener="#{podatnikView.edytujparametrdoch()}" value="edytuj parametr" update="@form" type="submit"  binding="#{podatnikView.but2}" rendered="false"/>
+                <p:commandButton value="reset input" update="@form" type="submit" actionListener="#{podatnikView.resetujparamdoch()}">
+                    <p:resetInput target="parametrypodatnika"/>
+                </p:commandButton>
             </p:panelGrid>
         </h:form>
         <h:form>

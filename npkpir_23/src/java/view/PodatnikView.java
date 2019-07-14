@@ -56,6 +56,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.event.ValueChangeListener;
 import javax.inject.Inject;
@@ -63,6 +64,7 @@ import javax.servlet.http.HttpServletRequest;
 import msg.Msg;import org.joda.time.DateTime;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.PrimeFaces;
+import org.primefaces.component.commandbutton.CommandButton;
 
 /**
  *
@@ -146,6 +148,9 @@ public class PodatnikView implements Serializable {
     private double sumaudzialow;
     @Inject
     private KlienciDAO klDAO;
+    private CommandButton but1;
+    private CommandButton but2;
+    
     
 
     public PodatnikView() {
@@ -305,18 +310,18 @@ private DokDAO dokDAO;
         }
     }
     
-    public void edycjaopodatkowanie(PodatnikOpodatkowanieD item) {
-        try {
-            if (item.getDolaczonydoroku().equals("")) {
-                item.setDolaczonydoroku(null);
-            }
-            podatnikOpodatkowanieDDAO.edit(item);
-            Msg.msg("i", "Edycja roku obrotowego udana.");
-        } catch (Exception e) { 
-            E.e(e); 
-            Msg.msg("e", "Wystąpił błąd podczas edycji roku obrotowego");
-        }
-    }
+//    public void edycjaopodatkowanie(PodatnikOpodatkowanieD item) {
+//        try {
+//            if (item.getDolaczonydoroku().equals("")) {
+//                item.setDolaczonydoroku(null);
+//            }
+//            podatnikOpodatkowanieDDAO.edit(item);
+//            Msg.msg("i", "Edycja roku obrotowego udana.");
+//        } catch (Exception e) { 
+//            E.e(e); 
+//            Msg.msg("e", "Wystąpił błąd podczas edycji roku obrotowego");
+//        }
+//    }
 
     public void dodajfk() {
         if (selectedDod.getPesel() == null) {
@@ -581,6 +586,24 @@ private DokDAO dokDAO;
             Msg.msg("e", "Niedodatno parametru pod.doch. Niedopasowane okresy. Podatnik "+selected.getPrintnazwa());
         }
     }
+    
+    public void edytujparametrdoch() {
+         if (sprawdzrok(wybranyPodatnikOpodatkowanie, podatnikOpodatkowanie) == 0) {
+             podatnikOpodatkowanieDDAO.edit(wybranyPodatnikOpodatkowanie);
+             Msg.msg("Zmieniono parametr pod.dochodowy do podatnika "+selected.getNazwapelna());
+         } else {
+            Msg.msg("e", "Niezmieniono parametru pod.doch. Niedopasowane okresy. Podatnik "+selected.getPrintnazwa());
+        }
+    }
+    
+    public void resetujparamdoch() {
+             wybranyPodatnikOpodatkowanie=new PodatnikOpodatkowanieD();
+             but1.setRendered(true);
+            but2.setRendered(false);
+             Msg.msg("Reset parametr pod.dochodowy do podatnika "+selected.getNazwapelna());
+    }
+    
+    
     
     public void dodajzawieszenie() {
         selected = wpisView.getPodatnikObiekt();
@@ -1842,5 +1865,31 @@ public void naniesjezykmaila() {
         Msg.msg("e","Wystąpił błąd nie zmieniono języka maila");
     }
 }
-    
+
+public void przygotujedycjeopodatkowanie() {
+    if (podatnikOpodatkowanieSelected==null) {
+        Msg.msg("e","Nie wybrano roku");
+    } else {
+        wybranyPodatnikOpodatkowanie = podatnikOpodatkowanieSelected;
+        but1.setRendered(false);
+        but2.setRendered(true);
+    }
+}
+
+    public CommandButton getBut1() {
+        return but1;
+    }
+
+    public void setBut1(CommandButton but1) {
+        this.but1 = but1;
+    }
+
+    public CommandButton getBut2() {
+        return but2;
+    }
+
+    public void setBut2(CommandButton but2) {
+        this.but2 = but2;
+    }
+
 }
