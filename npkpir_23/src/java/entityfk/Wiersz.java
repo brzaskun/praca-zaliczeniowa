@@ -79,6 +79,9 @@ public class Wiersz implements Serializable {
     private double ilosc_kg;
     @Column(name = "ilosc_szt")
     private double ilosc_szt;
+    //WnMa 0
+    //Wn 1
+    //Ma 2
     @Column(name = "typWiersza")
     private Integer typWiersza;
     @ManyToOne(fetch = FetchType.LAZY)

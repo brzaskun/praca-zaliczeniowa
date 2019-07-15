@@ -119,6 +119,7 @@ import plik.Plik;
 import view.KlienciConverterView;
 import view.ParametrView;
 import view.WpisView; import org.primefaces.PrimeFaces;
+import org.primefaces.component.commandbutton.CommandButton;
 import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.UzupelnijWierszeoDane;
 import waluty.Z;
@@ -272,6 +273,8 @@ public class DokfkView implements Serializable {
     private List<PodatnikEwidencjaDok> listaewidencjipodatnika;
     @Inject
     private PodatnikEwidencjaDokDAO podatnikEwidencjaDokDAO;
+    
+
 
     public DokfkView() {
          //E.m(this);
@@ -4406,9 +4409,6 @@ public void oznaczjakonkup() {
             Msg.msg("e","wystąpił błąd podczas księgowania dokumentów importowych");
         }
     }
-
-
-      
 
     
 

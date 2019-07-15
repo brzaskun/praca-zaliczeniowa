@@ -5,13 +5,17 @@
  */
 package xls;
 
+import beansRegon.SzukajDaneBean;
+import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import daoFK.KontoDAOfk;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
 import embeddablefk.InterpaperXLS;
+import entity.Klienci;
 import entity.Podatnik;
 import entity.Rodzajedok;
+import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
@@ -28,6 +32,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import msg.Msg;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -93,7 +98,7 @@ public class ReadXLSFile {
         return listafaktur;
     }
     
-     public static List<InterpaperXLS> getListafakturCSV(byte[] plikinterpaper) {
+     public static List<InterpaperXLS> getListafakturCSV(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO) {
         List<InterpaperXLS> listafaktur = Collections.synchronizedList(new ArrayList<>());
          try {
             InputStream file = new ByteArrayInputStream(plikinterpaper);
@@ -105,7 +110,7 @@ public class ReadXLSFile {
                     records.add(Arrays.asList(values));
                 }
             }
-            int i =1;
+            int i =0;
             for (Iterator<List<String>> it = records.iterator(); it.hasNext();) {
                     List<String> baza = it.next();
                     List<String> row = new ArrayList<>();
@@ -121,12 +126,13 @@ public class ReadXLSFile {
                         interpaperXLS.setDataobvat(Date.valueOf(row.get(4)));
                         interpaperXLS.setKontrahent(row.get(5));
                         interpaperXLS.setNip(row.get(6));
+                        interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO));
                         interpaperXLS.setWalutaplatnosci(row.get(7));
                         interpaperXLS.setBruttowaluta(format.F.kwota(row.get(8)));
                         interpaperXLS.setSaldofaktury(format.F.kwota(row.get(9)));
                         interpaperXLS.setTerminplatnosci(Date.valueOf(row.get(10)));
                         interpaperXLS.setPrzekroczenieterminu(Integer.valueOf(row.get(11)));
-                        if (row.get(11) != null) {
+                        if (row.get(12) != null && !row.get(12).equals("")) {
                             interpaperXLS.setOstatniawplata(Date.valueOf(row.get(12)));
                         } else {
                             interpaperXLS.setOstatniawplata(null);
@@ -140,7 +146,7 @@ public class ReadXLSFile {
                         interpaperXLS.setBruttoPLN(format.F.kwota(row.get(19)));
                         listafaktur.add(interpaperXLS);
                     } catch (Exception e){
-                        System.out.println("");
+                        E.e(e);
                     }
             }
             file.close();
@@ -151,7 +157,40 @@ public class ReadXLSFile {
         return listafaktur;
     }
     
+   private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienci> k, KlienciDAO klienciDAO) {
+       Klienci klient = null;
+        try {
+            for (Klienci p : k) {
+                if (p.getNip().contains(interpaperXLS.getNip().trim())) {
+                    klient = p;
+                    break;
+                }
+            }
+            if (klient==null) {
+                for (Klienci p : k) {
+                    if (p.getNpelna().contains(interpaperXLS.getKontrahent().trim()) || p.getNskrocona().contains(interpaperXLS.getKontrahent().trim())) {
+                        klient = p;
+                        break;
+                    }
+                }
+            }
+            if (klient.getKrajnazwa()==null) {
+                String nip = klient.getNip();
+                String kod = klient.getKodpocztowy();
+                if (nip.length()==10 && Character.isDigit(nip.charAt(0)) && kod.contains("-")) {
+                    klient.setKrajnazwa("Polska");
+                    klient.setKrajkod("PL");
+                }
+                klienciDAO.edit(klient);
+            }
+            k.add(klient);
+        } catch (Exception e) {
+            
+        }
+        return klient;
+    }
    
+    
     
     public static void updateRZiSInter(PozycjaRZiSDAO pozycjaRZiSDAO, WpisView wpisView, String filename) {
          try {

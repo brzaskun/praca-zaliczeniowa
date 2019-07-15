@@ -5,6 +5,7 @@
  */
 package embeddablefk;
 
+import entity.Klienci;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -21,6 +22,7 @@ public class InterpaperXLS implements Serializable {
     private Date datasprzedaży;
     private Date dataobvat;
     private String kontrahent;
+    private Klienci klient;
     private String nip;
     private String walutaplatnosci;
     private double bruttowaluta;
@@ -120,6 +122,14 @@ public class InterpaperXLS implements Serializable {
     
     public String getKontrahent() {
         return kontrahent;
+    }
+
+    public Klienci getKlient() {
+        return klient;
+    }
+
+    public void setKlient(Klienci klient) {
+        this.klient = klient;
     }
     
     public void setKontrahent(String kontrahent) {

@@ -9,6 +9,7 @@ import beansDok.ListaEwidencjiVat;
 import static beansFK.DokFKVATBean.pobierzKontoRozrachunkowe;
 import beansFK.PlanKontFKBean;
 import beansRegon.SzukajDaneBean;
+import com.sun.xml.ws.client.RequestContext;
 import comparator.Kliencifkcomparator;
 import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
@@ -48,8 +49,11 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import org.apache.commons.io.FilenameUtils;
 import org.joda.time.DateTime;
+import org.primefaces.PrimeFaces;
 import org.primefaces.component.commandbutton.CommandButton;
+import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import view.WpisView;import waluty.Z;
@@ -95,6 +99,10 @@ public class InterpaperImportView implements Serializable {
     private List<Rodzajedok> rodzajedokKlienta;
     private String wiadomoscnieprzypkonta;
     private String rodzajdok;
+    private PanelGrid grid1;
+    private PanelGrid grid2;
+    private PanelGrid grid3;
+    private CommandButton generujbutton;
 
     
     
@@ -117,9 +125,16 @@ public class InterpaperImportView implements Serializable {
     public void zachowajplik(FileUploadEvent event) {
         try {
             UploadedFile uploadedFile = event.getFile();
-            String filename = uploadedFile.getFileName();
-            plikinterpaper = uploadedFile.getContents();
-            Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
+            String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
+            if (extension.equals("csv")) {
+                String filename = uploadedFile.getFileName();
+                plikinterpaper = uploadedFile.getContents();
+                PrimeFaces.current().ajax().update("panelplik");
+                grid1.setRendered(true);
+                Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
+            } else {
+                Msg.msg("e","Niewłaściwy typ pliku");
+            }
         } catch (Exception ex) {
             E.e(ex);
             Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");
@@ -129,7 +144,15 @@ public class InterpaperImportView implements Serializable {
     
     public void importujdok() {
         try {
-            pobranefaktury = ReadXLSFile.getListafakturCSV(plikinterpaper);
+            List<Klienci> k = klienciDAO.findAll();
+            pobranefaktury = ReadXLSFile.getListafakturCSV(plikinterpaper, k, klienciDAO);
+            for (InterpaperXLS p : pobranefaktury) {
+                if (p.getKlient()==null) {
+                    p.setKlient(SzukajDaneBean.znajdzdaneregonAutomat(p.getNip(), gUSView));
+                }
+            }
+            grid3.setRendered(true);
+            generujbutton.setRendered(true);
             Msg.msg("Pobrano wszystkie dane");
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd przy pobieraniu danych");
@@ -143,10 +166,17 @@ public class InterpaperImportView implements Serializable {
         if (pobranefaktury !=null && pobranefaktury.size()>0) {
             List<Klienci> k = klienciDAO.findAll();
             int ile = 0;
-            for (InterpaperXLS p : pobranefaktury) {
-               ile += generowanieDokumentu(p, k);
+            if (selected !=null && selected.size()>0) {
+                for (InterpaperXLS p : selected) {
+                   ile += generowanieDokumentu(p, k);
+                }
+                Msg.msg("Zaksięgowano "+ile+" z wybranych dokumentów");
+            } else {
+                for (InterpaperXLS p : pobranefaktury) {
+                   ile += generowanieDokumentu(p, k);
+                }
+                Msg.msg("Zaksięgowano "+ile+" dokumentów");
             }
-            Msg.msg("Zaksięgowano "+ile+" dokumentów");
         } else {
             Msg.msg("e", "Błąd! Lista danych źrdółowych jest pusta");
         }
@@ -154,19 +184,29 @@ public class InterpaperImportView implements Serializable {
     
      public int generowanieDokumentu(InterpaperXLS interpaperXLS, List<Klienci> k) {
         int ile = 0;
-        String rodzajdk = "ZZ";
-        if (rodzajdok.equals("sprzedaż")) {
-            rodzajdk = interpaperXLS.getVatwaluta() > 0 ? "SZ" : "UPTK";
-        }
-        Dokfk dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k);
         try {
-            if (dokument!=null) {
-                dokument.setImportowany(true);
-                dokDAOfk.dodaj(dokument);
-                ile++;
+            boolean polska0zagraniczna1 = interpaperXLS.getKlient().getKrajnazwa()==null || interpaperXLS.getKlient().getKrajnazwa().equals("Polska") ? false: true;
+            String rodzajdk = "ZZ";
+            if (rodzajdok.equals("sprzedaż")) {
+                rodzajdk = polska0zagraniczna1==false ? "SZ" : "UPTK";
+            } else {
+                rodzajdk = polska0zagraniczna1==false ? "ZZ" : "IU";
+            }
+            if (interpaperXLS.getKlient().getNip().equals("6681971913")) {
+                System.out.println("");
+            }
+            Dokfk dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k);
+            try {
+                if (dokument!=null) {
+                    dokument.setImportowany(true);
+                    dokDAOfk.dodaj(dokument);
+                    ile++;
+                }
+            } catch (Exception e) {
+                Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu "+rodzajdok);
             }
         } catch (Exception e) {
-            Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu "+rodzajdok);
+            E.e(e);
         }
         return ile;
     }
@@ -305,7 +345,7 @@ public class InterpaperImportView implements Serializable {
     }
 
     private Wiersz przygotujwierszNetto(InterpaperXLS interpaperXLS, Dokfk nd) {
-        Wiersz w = new Wiersz(0, 0);
+        Wiersz w = new Wiersz(1, 0);
         uzupelnijwiersz(w, nd);
         String opiswiersza = "usługa transportowa"; 
         w.setOpisWiersza(opiswiersza);
@@ -322,7 +362,7 @@ public class InterpaperImportView implements Serializable {
     }
     
     private Wiersz przygotujwierszVat(InterpaperXLS interpaperXLS, Dokfk nd) {
-        Wiersz w = new Wiersz(1, 2);
+        Wiersz w = new Wiersz(2, 2);
         uzupelnijwiersz(w, nd);
         String opiswiersza = "usługa transportowa - VAT"; 
         w.setOpisWiersza(opiswiersza);
@@ -335,7 +375,7 @@ public class InterpaperImportView implements Serializable {
     }
     
     private Wiersz przygotujwierszNettoK(InterpaperXLS interpaperXLS, Dokfk nd) {
-        Wiersz w = new Wiersz(0, 0);
+        Wiersz w = new Wiersz(1, 0);
         uzupelnijwiersz(w, nd);
         String opiswiersza = "usługa transportowa"; 
         w.setOpisWiersza(opiswiersza);
@@ -352,7 +392,7 @@ public class InterpaperImportView implements Serializable {
     }
     
     private Wiersz przygotujwierszVatK(InterpaperXLS interpaperXLS, Dokfk nd) {
-        Wiersz w = new Wiersz(1, 2);
+        Wiersz w = new Wiersz(2, 1);
         uzupelnijwiersz(w, nd);
         String opiswiersza = "usługa transportowa - VAT"; 
         w.setOpisWiersza(opiswiersza);
@@ -387,7 +427,7 @@ public class InterpaperImportView implements Serializable {
                             EVatwpisFK eVatwpisFK = new EVatwpisFK();
                             eVatwpisFK.setLp(k++);
                             eVatwpisFK.setEwidencja(p);
-                            if (p.getNazwa().equals("sprzedaż 23%")||p.getNazwa().equals("usługi świad. poza ter.kraju")||p.getNazwa().equals("zakup")) {
+                            if (p.getNazwa().equals("sprzedaż 23%")||p.getNazwa().equals("usługi świad. poza ter.kraju")||p.getNazwa().equals("zakup")||p.getNazwa().equals("import usług")) {
                                 eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
                                 eVatwpisFK.setVat(Z.z(interpaperXLS.getVatPLN()));
                                 eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()+interpaperXLS.getVatPLN()));
@@ -470,7 +510,10 @@ public class InterpaperImportView implements Serializable {
         }
     }
      
-    
+    public void grid2pokaz() {
+        grid2.setRendered(true);
+    }
+     
     public WpisView getWpisView() {
         return wpisView;
     }
@@ -537,6 +580,39 @@ public class InterpaperImportView implements Serializable {
         this.rodzajdok = rodzajdok;
     }
 
+    public PanelGrid getGrid1() {
+        return grid1;
+    }
+
+    public void setGrid1(PanelGrid grid1) {
+        this.grid1 = grid1;
+    }
+
+    public PanelGrid getGrid2() {
+        return grid2;
+    }
+
+    public void setGrid2(PanelGrid grid2) {
+        this.grid2 = grid2;
+    }
+
+    public PanelGrid getGrid3() {
+        return grid3;
+    }
+
+    public void setGrid3(PanelGrid grid3) {
+        this.grid3 = grid3;
+    }
+
+    public CommandButton getGenerujbutton() {
+        return generujbutton;
+    }
+
+    public void setGenerujbutton(CommandButton generujbutton) {
+        this.generujbutton = generujbutton;
+    }
+
+  
     
 
    

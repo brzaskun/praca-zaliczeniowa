@@ -27,7 +27,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import waluty.Z;
+import msg.Msg;import org.primefaces.component.commandbutton.CommandButton;
+import waluty.Z;
 import webservice.NIPVATcheck;
 
 /**
@@ -45,6 +46,7 @@ public class DokfkWeryfikacjaView implements Serializable {
     private KlienciDAO klDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    private CommandButton ksiegujbutton;
 
     public void sprawdzNIPVAT(List<Dokfk> wykazZaksiegowanychDokumentow) {
         for (Iterator<Dokfk> it =  wykazZaksiegowanychDokumentow.iterator(); it.hasNext();) {
@@ -221,6 +223,7 @@ public class DokfkWeryfikacjaView implements Serializable {
         if (czysto) {
             Msg.msg("i", "Nie stwierdzono błędów w dokumentach z listy", "zestawieniedokumentow:wiadomoscsprawdzenie");
         }
+        ksiegujbutton.setRendered(true);
     }
     
     private StringBuilder pobierzbledy(List<Dokfk> l, String main) {
@@ -612,6 +615,14 @@ public class DokfkWeryfikacjaView implements Serializable {
             listabrakidaty.add(p);
         }
         return zwrot;
+    }
+
+    public CommandButton getKsiegujbutton() {
+        return ksiegujbutton;
+    }
+
+    public void setKsiegujbutton(CommandButton ksiegujbutton) {
+        this.ksiegujbutton = ksiegujbutton;
     }
 
     
