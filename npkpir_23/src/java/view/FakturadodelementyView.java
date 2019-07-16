@@ -56,6 +56,7 @@ public class FakturadodelementyView implements Serializable {
                 + "Dokument nie wymaga podpisu. Odbiorca dokumentu wyraził zgode na otrzymanie go w formie elektronicznej.");
         elementy.put("mailstopka", Mail.getStopka());
         elementy.put("stopka niemiecka","Nie wpisywać. Dane pobierane z zakładki 'Stopka niemiecka'");
+        elementy.put("Dane Odbiorcy","Nie wpisywać. Dane pobierane każdorazowo z odpowiedniego formularza");
     }
     
 

@@ -121,6 +121,9 @@ public class Faktura implements Serializable {
     @JoinColumn(name = "kontrahent", referencedColumnName = "id")
     @ManyToOne
     private Klienci kontrahent;
+    @JoinColumn(name = "odbiorca", referencedColumnName = "id")
+    @ManyToOne
+    private Klienci odbiorca;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
@@ -400,6 +403,14 @@ public class Faktura implements Serializable {
 
     public void setWystawcanazwa(String wystawcanazwa) {
         this.wystawcanazwa = wystawcanazwa;
+    }
+
+    public Klienci getOdbiorca() {
+        return odbiorca;
+    }
+
+    public void setOdbiorca(Klienci odbiorca) {
+        this.odbiorca = odbiorca;
     }
 
     public String getNumerkolejny() {

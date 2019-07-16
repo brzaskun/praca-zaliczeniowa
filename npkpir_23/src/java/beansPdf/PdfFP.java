@@ -241,27 +241,52 @@ public class PdfFP {
                     }
                     break;
                 case "akordeon:formwzor:odbiorca":
+                    if (selected.getOdbiorca()!=null) {
+                        //Dane do modulu odbiorca
+                        pozycja = zwrocPolozenieElementu(skladnikifaktury, "odbiorca");
+                        prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:odbiorca") - 65, 250, 80);
+                        absText(writer, B.b("odbiorca")+": ", (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca"), 10);
+                        if (selected.getOdbiorca().getNpelna().length() < 50) {
+                             absText(writer, selected.getOdbiorca().getNpelna(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca") - 20, 8);
+                        } else {
+                            PdfFP.absColumn(writer, selected.getOdbiorca().getNpelna(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca") - 25, 8);
+                        }
+                        if (selected.getOdbiorca().getLokal() != null && !selected.getOdbiorca().getLokal().equals("-") && !selected.getOdbiorca().getLokal().equals("")) {
+                            adres = selected.getOdbiorca().getKodpocztowy() + " " + selected.getOdbiorca().getMiejscowosc() + " " + selected.getOdbiorca().getUlica() + " " + selected.getOdbiorca().getDom() + "/" + selected.getOdbiorca().getLokal();
+                        } else {
+                            adres = selected.getOdbiorca().getKodpocztowy() + " " + selected.getOdbiorca().getMiejscowosc() + " " + selected.getOdbiorca().getUlica() + " " + selected.getOdbiorca().getDom();
+                        }
+                        absText(writer, adres, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca") - 40, 8);
+                        if (selected.getOdbiorca().getNip() != null && selected.getOdbiorca().getNip().startsWith("XX")) {
+                            text = B.b("numerklienta")+": " + selected.getOdbiorca().getNip();
+                        } else {
+                            text = B.b("NIP")+": " + selected.getOdbiorca().getNip();
+                        }
+                        absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca") - 60, 8);
+                    }
+                    break;
+                case "akordeon:formwzor:nabywca":
                     //Dane do modulu odbiorca
-                    pozycja = zwrocPolozenieElementu(skladnikifaktury, "odbiorca");
-                    prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:odbiorca") - 65, 250, 80);
-                    absText(writer, B.b("nabywca")+": ", (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca"), 10);
+                    pozycja = zwrocPolozenieElementu(skladnikifaktury, "nabywca");
+                    prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:nabywca") - 65, 250, 80);
+                    absText(writer, B.b("nabywca")+": ", (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:nabywca"), 10);
                     if (selected.getKontrahent().getNpelna().length() < 50) {
-                         absText(writer, selected.getKontrahent().getNpelna(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca") - 20, 8);
+                         absText(writer, selected.getKontrahent().getNpelna(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:nabywca") - 20, 8);
                     } else {
-                        PdfFP.absColumn(writer, selected.getKontrahent().getNpelna(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca") - 25, 8);
+                        PdfFP.absColumn(writer, selected.getKontrahent().getNpelna(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:nabywca") - 25, 8);
                     }
                     if (selected.getKontrahent().getLokal() != null && !selected.getKontrahent().getLokal().equals("-") && !selected.getKontrahent().getLokal().equals("")) {
                         adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom() + "/" + selected.getKontrahent().getLokal();
                     } else {
                         adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom();
                     }
-                    absText(writer, adres, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca") - 40, 8);
+                    absText(writer, adres, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:nabywca") - 40, 8);
                     if (selected.getKontrahent().getNip() != null && selected.getKontrahent().getNip().startsWith("XX")) {
                         text = B.b("numerklienta")+": " + selected.getKontrahent().getNip();
                     } else {
                         text = B.b("NIP")+": " + selected.getKontrahent().getNip();
                     }
-                    absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca") - 60, 8);
+                    absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:nabywca") - 60, 8);
                     break;
                 case "akordeon:formwzor:towary":
                     //Dane do tablicy z wierszami

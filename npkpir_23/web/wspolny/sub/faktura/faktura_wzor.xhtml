@@ -26,7 +26,7 @@
                     var gora = $("#formXY\\:goraTablica").val().split(",");
                     var co = $("#formXY\\:coTablica").val().split(",");
                     petlawywolujaca(lewy, gora, co);
-                    var moduly = ['odbiorca','wystawca','data','fakturanumer','platnosc','datasprzedazy','towary','dozaplaty','podpis','przewłaszczenie','warunkidostawy','wezwaniedozapłaty','nrzamowienia','logo'];
+                    var moduly = ['odbiorca','nabywca','wystawca','data','fakturanumer','platnosc','datasprzedazy','towary','dozaplaty','podpis','przewłaszczenie','warunkidostawy','wezwaniedozapłaty','nrzamowienia','logo'];
                     for(var modul in moduly){
                         var nazwa = moduly[modul];
                         var nazwaakordeon = "#akordeon\\:formwzor\\:"+nazwa;
@@ -38,7 +38,18 @@
                 });
             </script>
               <p:outputPanel style="background-color: #6374AB; height: 1672px; width: 1168px;">
-                <p:panel id="odbiorca" style="width: 480px; height: 160px;"  >  
+                <p:panel id="nabywca" style="width: 480px; height: 160px;"  rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('Dane Odbiorcy')}">  
+                    <p:panelGrid columns="2">
+                        <h:outputText value="Nabywca: " style="font-size: larger;"/><br/>
+                        <h:outputText value="Marian Kowalski " /><br/>
+                        <h:outputText value="Adres:" /> 
+                        <h:outputText value="70-100 Szczecin ul. Zielona 15" />
+                        <h:outputText value="Nip:" />  
+                        <h:outputText value="851-100-50-08" />
+                    </p:panelGrid>
+                </p:panel>
+                  <p:draggable for="nabywca" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
+                  <p:panel id="odbiorca" style="width: 480px; height: 160px;"  >  
                     <p:panelGrid columns="2">
                         <h:outputText value="Odbiorca: " style="font-size: larger;"/><br/>
                         <h:outputText value="Jan Kowalski " /><br/>

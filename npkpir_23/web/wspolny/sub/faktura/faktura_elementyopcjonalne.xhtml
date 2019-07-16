@@ -20,7 +20,7 @@
                     </p:selectBooleanCheckbox>
                 </p:column>
                 <p:column headerText="nazwa elementu" width="200">
-                    <h:outputText value="#{wpis.fakturadodelementyPK.nazwaelementu}"/>
+                    <h:outputText value="#{wpis.fakturadodelementyPK.nazwaelementu}" style="#{wpis.fakturadodelementyPK.nazwaelementu eq 'Dane Odbiorcy'?'color:blue':null}"/>
                 </p:column>
                 <p:column headerText="tresc elementu" style="height: 60px;">
                     <p:inputTextarea value="#{wpis.trescelementu}" cols="80" rendered="#{wpis.fakturadodelementyPK.nazwaelementu ne 'logo'}">

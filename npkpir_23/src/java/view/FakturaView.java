@@ -183,6 +183,7 @@ public class FakturaView implements Serializable {
     private boolean rachunek;
     private boolean podazedytorvar;
     private AutoComplete kontrahentstworz;
+    private AutoComplete odbiorcastworz;
     @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
     @Inject
@@ -483,6 +484,21 @@ public class FakturaView implements Serializable {
             E.e(e);
         }
     }
+    
+    public void faktObiorcaSelect() {
+        try {
+            if (selected.getOdbiorca().getNpelna().equals("dodaj klienta automatycznie")) {
+                Klienci dodany = SzukajDaneBean.znajdzdaneregonAutomat(selected.getOdbiorca().getNip(), gUSView);
+                selected.setOdbiorca(dodany);
+                if (!dodany.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
+                    klienciDAO.dodaj(dodany);
+                }
+                PrimeFaces.current().ajax().update("akordeon:formstworz:acForce");
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
 
     public void wielekont() {
         String waluta = selected.getWalutafaktury();
@@ -531,6 +547,7 @@ public class FakturaView implements Serializable {
         pokazfakture = true;
         zapis0edycja1 = true;
         kontrahentstworz.findComponent(faktura.getKontrahent().getNpelna());
+        odbiorcastworz.findComponent(faktura.getOdbiorca().getNpelna());
 //        String funkcja = "PF('tworzenieklientapolenazwy').search('"+faktura.getKontrahent_nip()+"');";
 //        PrimeFaces.current().executeScript(funkcja);
 //        funkcja = "PF('tworzenieklientapolenazwy').activate();";
@@ -562,6 +579,7 @@ public class FakturaView implements Serializable {
         pokazfakture = true;
         zapis0edycja1 = true;
         kontrahentstworz.findComponent(faktura.getKontrahent().getNpelna());
+        odbiorcastworz.findComponent(faktura.getOdbiorca().getNpelna());
 //        String funkcja = "PF('tworzenieklientapolenazwy').search('"+faktura.getKontrahent_nip()+"');";
 //        PrimeFaces.current().executeScript(funkcja);
 //        funkcja = "PF('tworzenieklientapolenazwy').activate();";
@@ -2433,6 +2451,14 @@ public class FakturaView implements Serializable {
 
     public void setJakapobrac(int jakapobrac) {
         this.jakapobrac = jakapobrac;
+    }
+
+    public AutoComplete getOdbiorcastworz() {
+        return odbiorcastworz;
+    }
+
+    public void setOdbiorcastworz(AutoComplete odbiorcastworz) {
+        this.odbiorcastworz = odbiorcastworz;
     }
     
     

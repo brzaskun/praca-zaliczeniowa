@@ -25,18 +25,18 @@
                                  style="margin-bottom: 5px; margin-top: 5px; width: 140px;" />
                 <p:commandButton value="faktura niemiecka" actionListener="#{fakturaView.przygotujfaktureniemiecka()}" 
                                  oncomplete="aktywujpolewyboruklientanafakturze();" update=":akordeon:formstworz"
-                                 style="margin-bottom: 5px; margin-top: 5px; width: 140px; margin-left: 5px;" />
+                                 style="margin-bottom: 5px; margin-top: 5px; width: 140px; margin-left: 10px;" />
                 <p:commandButton value="faktura VAT marża" actionListener="#{fakturaView.przygotujfakturevatmarza()}" 
                                  oncomplete="aktywujpolewyboruklientanafakturze();" update=":akordeon:formstworz"
-                                 style="margin-bottom: 5px; margin-top: 5px; width: 140px; margin-left: 5px;" />
+                                 style="margin-bottom: 5px; margin-top: 5px; width: 140px; margin-left: 10px;" />
                 <p:commandButton value="faktura korekta" actionListener="#{fakturaView.przygotujfakturekorekte()}" 
-                                 style="margin-bottom: 5px; width: 140px; margin-left: 5px;" oncomplete="aktywujpolewyboruklientanafakturze();" 
+                                 style="margin-bottom: 5px; width: 140px; margin-left: 10px;" oncomplete="aktywujpolewyboruklientanafakturze();" 
                                  update="akordeon:formstworz"/>
                 <p:commandButton value="faktura xxl" actionListener="#{fakturaView.przygotujfakturexxl()}" 
-                                 style="margin-bottom: 5px; width: 140px; margin-left: 5px;" oncomplete="aktywujpolewyboruklientanafakturze();" 
+                                 style="margin-bottom: 5px; width: 140px; margin-left: 10px;" oncomplete="aktywujpolewyboruklientanafakturze();" 
                                  update="akordeon:formstworz"/>
                 <p:commandButton value="faktura xxl korekta" actionListener="#{fakturaView.przygotujfakturekorektexxl()}" 
-                                 style="margin-bottom: 5px; width: 140px; margin-left: 5px;" oncomplete="aktywujpolewyboruklientanafakturze();" 
+                                 style="margin-bottom: 5px; width: 140px; margin-left: 10px;" oncomplete="aktywujpolewyboruklientanafakturze();" 
                                  update="akordeon:formstworz"/>
             </p:outputPanel> 
             <p:outputPanel style="padding: 5px;" rendered="#{!WpisView.vatowiec}">
@@ -47,7 +47,7 @@
         </h:form>
         <h:form id="formstworz">
             <p:outputPanel id="panelfaktury"  rendered="#{fakturaView.pokazfakture ? true : false}">
-                <div class="ui-grid ui-grid-responsive" style="height: 300px; width: 1100px;">
+                <div class="ui-grid ui-grid-responsive" style="height: 340px; width: 1100px;">
                     <div class="ui-grid-row" style="height: 40px;">
                         <div class="ui-grid-col-2">
                             <h:outputLabel value="#{fakturaView.fakturakorekta ? 'miejsce wystawienjia korekty:' : 'miejsce wystawienia faktury: '}" />
@@ -173,14 +173,14 @@
                     </div>
                     <div class="ui-grid-row" style="height: 40px;">
                         <div class="ui-grid-col-2">
-                            <h:outputLabel id="danekontrahentaout" value="dane kontrahenta: " />
+                            <h:outputLabel id="danekontrahentaout" value="dane nabywcy: " />
                         </div>
                         <div class="ui-grid-col-2">
                             <p:autoComplete id="acForce" value="#{fakturaView.selected.kontrahent}" completeMethod="#{klienciConverterView.completeKL}"
-                                            var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
+                                            var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub NIP nabywcy"
                                             minQueryLength="3" maxResults="10" cache="true" converterMessage="Nieudana konwersja Klient"
                                             autocomplete="true" widgetVar="tworzenieklientapolenazwy" binding="#{fakturaView.kontrahentstworz}"
-                                            requiredMessage="Nie wybrany odbiorca faktury" queryDelay="10" styleClass="wpisywaniekontrfk" 
+                                            requiredMessage="Nie wybrany nabywca faktury" queryDelay="10" styleClass="wpisywaniekontrfk" 
                                             >
                                 <p:ajax event="blur" listener="#{fakturaView.wgenerujnumerfaktury}" partialSubmit="true" oncomplete="sprawdzczybrakklientafaktura();"  global="false"/>
                                 <p:ajax event="itemSelect" listener="#{fakturaView.faktItemSelect}" partialSubmit="true" global="false"/>
@@ -188,7 +188,7 @@
                                 <f:facet name="itemtip">  
                                     <h:panelGrid  columns="2" cellpadding="5" width="400">  
                                         <f:facet name="header">  
-                                            <h:outputText value="Dane kontrahenta"/>
+                                            <h:outputText value="Dane nabywcy"/>
                                         </f:facet>  
                                         <h:outputText value="Nazwa: " />  
                                         <h:outputText id="npelna" value="#{p.npelna}" />  
@@ -204,10 +204,47 @@
                             </p:autoComplete>
                         </div>
                         <div class="ui-grid-col-2">
-                            <p:commandButton value="aktualizuj z GUS" actionListener="#{KlView.znajdzdaneregonAutomat(fakturaView.selected.kontrahent)}" style="width: 140px; margin-left: 100px;" update="akordeon:formstworz:acForce"/>
+                            <p:commandButton value="aktualizuj z GUS" id="buton1taki" actionListener="#{KlView.znajdzdaneregonAutomat(fakturaView.selected.kontrahent)}" style="width: 140px; margin-left: 100px;" update="akordeon:formstworz:acForce"/>
                         </div>
                     </div>
-                    <div class="ui-grid-row" style="height: 40px;">
+                    <p:outputPanel rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('Dane Odbiorcy')}">
+                        <div class="ui-grid-row" style="height: 40px;">
+                        <div class="ui-grid-col-2">
+                            <h:outputLabel id="daneodbiorcyout" value="dane odbiorcy: " />
+                        </div>
+                        <div class="ui-grid-col-2" >
+                            <p:autoComplete id="acForce2" value="#{fakturaView.selected.odbiorca}" completeMethod="#{klienciConverterView.completeKL}"
+                                            var="pa" itemLabel="#{pa.npelna}" itemValue="#{pa}" converter="KlientConv" title="wpisz nazwę lub NIP odbiorcy"
+                                            minQueryLength="3" maxResults="10" cache="true" converterMessage="Nieudana konwersja Klient"
+                                            autocomplete="true" widgetVar="tworzenieklientapolenazwy1" binding="#{fakturaView.odbiorcastworz}"
+                                            requiredMessage="Nie wybrany odbiorca faktury" queryDelay="10" styleClass="wpisywaniekontrfk"  
+                                            >
+                                <p:ajax event="itemSelect" listener="#{fakturaView.faktObiorcaSelect}" partialSubmit="true" global="false"/>
+                                <p:ajax event="query"  global="false"/>
+                                <f:facet name="itemtip1">  
+                                    <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                                        <f:facet name="header">  
+                                            <h:outputText value="Dane nabywcy"/>
+                                        </f:facet>  
+                                        <h:outputText value="Nazwa: " />  
+                                        <h:outputText  value="#{pa.npelna}" />  
+                                        <h:outputText value="NIP: " />  
+                                        <h:outputText  value="#{pa.nip}" />  
+                                        <h:outputText value="Adres " />  
+                                        <h:outputText  value="#{pa.miejscowosc} #{pa.ulica} #{pa.dom} #{pa.lokal}" />
+                                        <h:outputText value="Email " />  
+                                        <h:outputText  value="#{pa.email}" /> 
+                                    </h:panelGrid>
+                                </f:facet>
+                                <f:param name="passedValue1" value="#{pa}" />
+                            </p:autoComplete>
+                        </div>
+                        <div class="ui-grid-col-2">
+                            <p:commandButton value="aktualizuj z GUS" id="szukanybuttom" actionListener="#{KlView.znajdzdaneregonAutomat(fakturaView.selected.odbiorca)}" style="width: 140px; margin-left: 100px;" update="akordeon:formstworz:acForce2" />
+                        </div>
+                        </div>
+                    </p:outputPanel>
+                    <div class="ui-grid-row" style="height: 80px;">
                         <div class="ui-grid-col-2">
                             <h:outputText value="#{fakturaView.fakturakorekta ? 'fakultatywny opis korekty' : 'fakultatywny opis faktury'}"/>
                         </div>

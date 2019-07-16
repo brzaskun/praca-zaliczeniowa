@@ -95,6 +95,7 @@
                 <p:column headerText="#{mgs.kontrahent}" width="120" sortBy="#{wpis.kontrahent.npelna}" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" 
                           >
                     <h:outputText value="#{wpis.kontrahent.npelna}" style="#{wpis.pozycjepokorekcie.size() > 0 ? 'color:red;' : null}; line-break: loose;word-break: break-all;word-wrap: break-word !important;"/>
+                    <h:outputText value=" - inny odbiorca " style="color: blue;" rendered="#{wpis.odbiorca eq null}"/>
                 </p:column>
                 <p:column styleClass="opis" headerText="#{mgs.opis}" filterBy="#{wpis.opisFaktury}" filterMatchMode="contains"  width="250" 
                           >
@@ -148,14 +149,14 @@
                                       icon="ui-icon-pencil" oncomplete="aktywujpolewyboruklientanafakturze();" rendered="#{!wpis.fakturaniemiecka13b}"/>
                 </p:column>
                 <p:rowExpansion>
-                    <p:panelGrid  columns="3"  style="width: 1100px" columnClasses="forty-percent, twenty-percent, forty-percent">
+                    <p:panelGrid  columns="4"   columnClasses="thirty-percent twenty-percent thirty-percent twenty-percent">
                         <p:column>
                         <p:panelGrid  columns="2"  columnClasses="forty-percent, sixty-percent">
                             <h:outputText value="email kontrahenta"/>
                             <p:inplace editor="true" effect="slide" effectSpeed="fast" saveLabel="zachowaj" cancelLabel="rezygnuj">
                                 <p:ajax event="save" listener="#{fakturaView.edytujemail(wpis.kontrahent)}" global="false"/>
                                 <f:facet name="output">
-                                    <h:outputText value="#{wpis.kontrahent.email ne '' ? wpis.kontrahent.email : 'brak email'}"/>
+                                    <h:outputText value="#{wpis.kontrahent.email ne null and wpis.kontrahent.email ne '' ? wpis.kontrahent.email : 'brak email'}"/>
                                 </f:facet>
                                 <f:facet name="input">
                                     <p:inputText value="#{wpis.kontrahent.email}"  style="width: 180px;"/>
@@ -199,6 +200,13 @@
                                     <p:commandButton  update=":form1:messages @(.tabduplikaty)" actionListener="#{fakturaDuplikatView.usunDuplikat(wpis, loopdupl)}" icon="ui-icon-trash"/>
                                 </p:column>
                             </p:dataTable>
+                        </p:panelGrid>
+                        </p:column>
+                        <p:column>
+                            <p:panelGrid  columns="1" rendered="#{wpis.odbiorca ne null}">
+                            <h:outputText value="odbiorca"/>
+                            <h:outputText value="#{wpis.odbiorca.npelna}"/>
+                            <h:outputText value="#{wpis.odbiorca.adres}"/>
                         </p:panelGrid>
                         </p:column>
                     </p:panelGrid>
