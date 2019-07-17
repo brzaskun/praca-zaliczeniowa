@@ -33,17 +33,17 @@ import waluty.Z;
  */
 public class SprFinSprawZarzaduBeanTXT {
 
-    static void naglowekglowny(Document document, String rok, String nazwa, String siedziba, String dataod, String datado, String nrkrs) {
+    static void naglowekglowny(Document document, SprFinKwotyInfDod sprFinKwotyInfDod, String nazwa, String siedziba, String nrkrs) {
         PdfMain.dodajLinieOpisu(document, "SPRAWOZDANIE ZARZĄDU", Element.ALIGN_CENTER,2);
         PdfMain.dodajLinieOpisuBezOdstepu(document, nazwa, Element.ALIGN_CENTER,2);
         PdfMain.dodajLinieOpisu(document, "nr KRS "+nrkrs, Element.ALIGN_CENTER);
         PdfMain.dodajLinieOpisu(document, "z siedzibą w "+siedziba, Element.ALIGN_CENTER);
-        PdfMain.dodajLinieOpisu(document, "za okres od "+dataod+" do "+datado, Element.ALIGN_CENTER);
+        PdfMain.dodajLinieOpisu(document, "za okres od "+sprFinKwotyInfDod.getDataod()+" do "+sprFinKwotyInfDod.getDatado(), Element.ALIGN_CENTER);
     }
 
-    static void podnaglowek1(Document document) {
+    static void podnaglowek1(Document document, String opispkd) {
         PdfMain.dodajLinieOpisu(document, "I. WPROWADZENIE", Element.ALIGN_LEFT,2);
-        PdfMain.dodajLinieOpisu(document, "Spółka prowadzi działalność  gospodarczą w zakresie pozostałej działalności wspomagającej działalność finansową. Rok 2018 był w kolejnym rokiem działalności spółki w tym zakresie.", Element.ALIGN_JUSTIFIED);
+        PdfMain.dodajLinieOpisu(document, "Spółka prowadzi działalność  gospodarczą w zakresie "+opispkd+". Rok 2018 był w kolejnym rokiem działalności spółki w tym zakresie.", Element.ALIGN_JUSTIFIED);
     }
     
     static void podnaglowek2(Document document, String rok, double zyskstrata, double sumabilansowa, String datado) {

@@ -180,7 +180,7 @@ public class SprFinInfDodBean {
         PdfWriter writer = inicjacjaWritera(document, nazwa);
         naglowekStopkaP(writer);
         otwarcieDokumentu(document, nazwa);
-        SprFinSprawZarzaduBeanTXT.naglowekglowny(document, sprFinKwotyInfDod.getRok(), wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getMiejscowosc(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado(), wpisView.getPodatnikObiekt().getImie());
+        SprFinSprawZarzaduBeanTXT.naglowekglowny(document, sprFinKwotyInfDod, wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getMiejscowosc(), wpisView.getPodatnikObiekt().getImie());
         dodajSzczegolySprZarz(document, sprFinKwotyInfDod);;
         finalizacjaDokumentuQR(document,nazwa);
         String f = null;
@@ -189,7 +189,7 @@ public class SprFinInfDodBean {
     }
     
     private static void dodajSzczegolySprZarz(Document document, SprFinKwotyInfDod sprFinKwotyInfDod) {
-        SprFinSprawZarzaduBeanTXT.podnaglowek1(document);
+        SprFinSprawZarzaduBeanTXT.podnaglowek1(document, sprFinKwotyInfDod.getPpdzialalnosci());
         SprFinSprawZarzaduBeanTXT.podnaglowek2(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getZyskstratanetto(), sprFinKwotyInfDod.getSumabilansowa(), sprFinKwotyInfDod.getDatado());
         SprFinSprawZarzaduBeanTXT.podnaglowek3(document);
         SprFinSprawZarzaduBeanTXT.podnaglowek4(document);
