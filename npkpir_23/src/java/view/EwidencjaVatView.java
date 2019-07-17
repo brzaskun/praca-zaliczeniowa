@@ -119,7 +119,7 @@ public class EwidencjaVatView implements Serializable {
     public EwidencjaVatView() {
         nazwyewidencji = Collections.synchronizedList(new ArrayList<>());
         ewidencje = Collections.synchronizedList(new ArrayList<>());
-        ewidencjeFK = Collections.synchronizedList(new ArrayList<>());
+        ewidencjeFK = new ArrayList<>();
         listadokvatprzetworzona = Collections.synchronizedList(new ArrayList<>());
         sumaewidencji = new HashMap<>();
         goscwybral = Collections.synchronizedList(new ArrayList<>());
@@ -160,7 +160,7 @@ public class EwidencjaVatView implements Serializable {
     
     private void zerujListy() {
         ewidencje = Collections.synchronizedList(new ArrayList<>());
-        ewidencjeFK = Collections.synchronizedList(new ArrayList<>());
+        ewidencjeFK = new ArrayList<>();
         goscwybral = Collections.synchronizedList(new ArrayList<>());
         nazwyewidencji = Collections.synchronizedList(new ArrayList<>());
         listaewidencji = new HashMap<>();

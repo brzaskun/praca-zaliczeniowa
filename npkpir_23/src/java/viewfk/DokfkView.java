@@ -1103,7 +1103,7 @@ public class DokfkView implements Serializable {
     }
 
     public void edycja() {
-        if (selected.getListawierszy().get(selected.getListawierszy().size() - 1).getOpisWiersza().equals("")) {
+        if (selected.getListawierszy().size()>0 && selected.getListawierszy().get(selected.getListawierszy().size() - 1).getOpisWiersza().equals("")) {
             return;
         }
         if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
@@ -1135,7 +1135,9 @@ public class DokfkView implements Serializable {
                     //nanieswierszeRRK(selected);
                     selected.przeliczKwotyWierszaDoSumyDokumentu();
                 } else {
-                    selected.getListawierszy().remove(0);
+                    if (selected.getListawierszy().size()==1) {
+                        selected.getListawierszy().remove(0);
+                    }
                 }
                 selected.setDataujecia(new Date());
                 dokDAOfk.edit(selected);

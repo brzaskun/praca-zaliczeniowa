@@ -38,7 +38,6 @@ import javax.persistence.UniqueConstraint;
     @NamedQuery(name = "EVatwpisFK.findByRokKW", query = "SELECT k FROM EVatwpisFK k WHERE k.rokEw = :pkpirR AND k.dokfk.podatnikObj = :podatnik AND (k.mcEw = :mc1 OR k.mcEw = :mc2 OR k.mcEw = :mc3)"),
     @NamedQuery(name = "EVatwpisFK.findByRokMc", query = "SELECT k FROM EVatwpisFK k WHERE k.rokEw = :pkpirR AND k.dokfk.podatnikObj = :podatnik AND k.mcEw = :mc"),
 })
-@Cacheable
 public class EVatwpisFK extends EVatwpisSuper implements Serializable {
     private static final long serialVersionUID = 1L;
     private int lp;
