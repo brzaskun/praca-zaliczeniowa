@@ -26,7 +26,7 @@
                     var gora = $("#formXY\\:goraTablica").val().split(",");
                     var co = $("#formXY\\:coTablica").val().split(",");
                     petlawywolujaca(lewy, gora, co);
-                    var moduly = ['odbiorca','nabywca','wystawca','data','fakturanumer','platnosc','datasprzedazy','towary','dozaplaty','podpis','przewłaszczenie','warunkidostawy','wezwaniedozapłaty','nrzamowienia','logo'];
+                    var moduly = ['odbiorcan','nabywca','wystawca','data','fakturanumer','platnosc','datasprzedazy','towary','dozaplaty','podpis','przewłaszczenie','warunkidostawy','wezwaniedozapłaty','nrzamowienia','logo'];
                     for(var modul in moduly){
                         var nazwa = moduly[modul];
                         var nazwaakordeon = "#akordeon\\:formwzor\\:"+nazwa;
@@ -49,7 +49,7 @@
                     </p:panelGrid>
                 </p:panel>
                   <p:draggable for="nabywca" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
-                  <p:panel id="odbiorca" style="width: 480px; height: 160px;"  >  
+                <p:panel id="odbiorcan" style="width: 480px; height: 160px;"  >  
                     <p:panelGrid columns="2">
                         <h:outputText value="Odbiorca: " style="font-size: larger;"/><br/>
                         <h:outputText value="Jan Kowalski " /><br/>
@@ -59,7 +59,7 @@
                         <h:outputText value="851-100-50-08" />
                     </p:panelGrid>
                 </p:panel>  
-                <p:draggable for="odbiorca" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
+                <p:draggable for="odbiorcan" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
                 <p:panel id="wystawca" style="width: 480px; height: 160px;"  rendered="#{!fakturadodelementyView.czydodatkowyelementjestAktywny('stopka niemiecka')}" >  
                     <p:panelGrid columns="2">
                         <h:outputText value="Wystawca: " style="font-size: larger"/><br/>

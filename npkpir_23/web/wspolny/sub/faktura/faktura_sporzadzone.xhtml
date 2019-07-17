@@ -95,7 +95,7 @@
                 <p:column headerText="#{mgs.kontrahent}" width="120" sortBy="#{wpis.kontrahent.npelna}" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" 
                           >
                     <h:outputText value="#{wpis.kontrahent.npelna}" style="#{wpis.pozycjepokorekcie.size() > 0 ? 'color:red;' : null}; line-break: loose;word-break: break-all;word-wrap: break-word !important;"/>
-                    <h:outputText value=" - inny odbiorca " style="color: blue;" rendered="#{wpis.odbiorca eq null}"/>
+                    <h:outputText value=" - inny odbiorca " style="color: blue;" rendered="#{wpis.odbiorca ne null}"/>
                 </p:column>
                 <p:column styleClass="opis" headerText="#{mgs.opis}" filterBy="#{wpis.opisFaktury}" filterMatchMode="contains"  width="250" 
                           >
