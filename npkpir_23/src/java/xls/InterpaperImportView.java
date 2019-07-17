@@ -21,6 +21,8 @@ import daoFK.KontopozycjaZapisDAO;
 import daoFK.TabelanbpDAO;
 import daoFK.UkladBRDAO;
 import daoFK.WalutyDAOfk;
+import embeddable.PanstwaEUSymb;
+import embeddable.PanstwaEUSymb_;
 import embeddablefk.InterpaperXLS;
 import entity.Evewidencja;
 import entity.Klienci;
@@ -185,15 +187,21 @@ public class InterpaperImportView implements Serializable {
      public int generowanieDokumentu(InterpaperXLS interpaperXLS, List<Klienci> k) {
         int ile = 0;
         try {
-            boolean polska0zagraniczna1 = interpaperXLS.getKlient().getKrajnazwa()==null || interpaperXLS.getKlient().getKrajnazwa().equals("Polska") ? false: true;
+            int polska0unia1zagranica2 = 0;
+            if (interpaperXLS.getKlient().getKrajnazwa()!=null && !interpaperXLS.getKlient().getKrajkod().equals("PL")) {
+                polska0unia1zagranica2 = 2;
+                if (PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod())) {
+                    polska0unia1zagranica2 = 1;
+                }
+            }
+             if (interpaperXLS.getNrfaktury().equals("191009413")) {
+                System.out.println("");
+            }
             String rodzajdk = "ZZ";
             if (rodzajdok.equals("sprzedaż")) {
-                rodzajdk = polska0zagraniczna1==false ? "SZ" : "UPTK";
+                rodzajdk = polska0unia1zagranica2==0 ? "SZ" : polska0unia1zagranica2==1 ? "UPTK100" : "UPTK";
             } else {
-                rodzajdk = polska0zagraniczna1==false ? "ZZ" : "IU";
-            }
-            if (interpaperXLS.getKlient().getNip().equals("6681971913")) {
-                System.out.println("");
+                rodzajdk = polska0unia1zagranica2==0 ? "ZZ" : "IU";
             }
             Dokfk dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k);
             try {
@@ -424,16 +432,45 @@ public class InterpaperImportView implements Serializable {
                         opisewidencji.addAll(listaEwidencjiVat.pobierzEvewidencje(nd.getRodzajedok().getRodzajtransakcji()));
                         int k = 0;
                         for (Evewidencja p : opisewidencji) {
-                            EVatwpisFK eVatwpisFK = new EVatwpisFK();
+                            EVatwpisFK eVatwpisFK = new EVatwpisFK(); 
                             eVatwpisFK.setLp(k++);
                             eVatwpisFK.setEwidencja(p);
-                            if (p.getNazwa().equals("sprzedaż 23%")||p.getNazwa().equals("usługi świad. poza ter.kraju")||p.getNazwa().equals("zakup")||p.getNazwa().equals("import usług")) {
-                                eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
-                                eVatwpisFK.setVat(Z.z(interpaperXLS.getVatPLN()));
-                                eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()+interpaperXLS.getVatPLN()));
-                                eVatwpisFK.setDokfk(nd);
-                                eVatwpisFK.setEstawka("op");
-                                nd.getEwidencjaVAT().add(eVatwpisFK);
+                            if (Z.z(interpaperXLS.getVatPLN())!=0.0) {
+                                if (p.getNazwa().equals("sprzedaż 23%")||p.getNazwa().equals("zakup")) {
+                                    eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
+                                    eVatwpisFK.setVat(Z.z(interpaperXLS.getVatPLN()));
+                                    eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()+interpaperXLS.getVatPLN()));
+                                    eVatwpisFK.setDokfk(nd);
+                                    eVatwpisFK.setEstawka("op");
+                                    nd.getEwidencjaVAT().add(eVatwpisFK);
+                                    break;
+                                }
+                            } else {
+                                if (PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("import usług art. 28b")) {
+                                    eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
+                                    eVatwpisFK.setVat(Z.z(interpaperXLS.getVatPLN()));
+                                    eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()+interpaperXLS.getVatPLN()));
+                                    eVatwpisFK.setDokfk(nd);
+                                    eVatwpisFK.setEstawka("op");
+                                    nd.getEwidencjaVAT().add(eVatwpisFK);
+                                    break;
+                                } else if (!PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("import usług")) {
+                                    eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
+                                    eVatwpisFK.setVat(Z.z(interpaperXLS.getVatPLN()));
+                                    eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()+interpaperXLS.getVatPLN()));
+                                    eVatwpisFK.setDokfk(nd);
+                                    eVatwpisFK.setEstawka("op");
+                                    nd.getEwidencjaVAT().add(eVatwpisFK);
+                                    break;
+                                } else if (p.getNazwa().equals("sprzedaż 0%")||p.getNazwa().equals("usługi świad. poza ter.kraju")||p.getNazwa().equals("usługi świad. poza ter.kraju art. 100 ust.1 pkt 4")||p.getNazwa().equals("zakup")) {
+                                    eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
+                                    eVatwpisFK.setVat(0.0);
+                                    eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()));
+                                    eVatwpisFK.setDokfk(nd);
+                                    eVatwpisFK.setEstawka("op");
+                                    nd.getEwidencjaVAT().add(eVatwpisFK);
+                                    break;
+                                }
                             }
                         }
                 } else {
