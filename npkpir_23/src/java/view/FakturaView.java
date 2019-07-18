@@ -547,7 +547,9 @@ public class FakturaView implements Serializable {
         pokazfakture = true;
         zapis0edycja1 = true;
         kontrahentstworz.findComponent(faktura.getKontrahent().getNpelna());
-        odbiorcastworz.findComponent(faktura.getOdbiorca().getNpelna());
+        if (faktura.getOdbiorca()!=null) {
+            odbiorcastworz.findComponent(faktura.getOdbiorca().getNpelna());
+        }
 //        String funkcja = "PF('tworzenieklientapolenazwy').search('"+faktura.getKontrahent_nip()+"');";
 //        PrimeFaces.current().executeScript(funkcja);
 //        funkcja = "PF('tworzenieklientapolenazwy').activate();";
@@ -579,7 +581,9 @@ public class FakturaView implements Serializable {
         pokazfakture = true;
         zapis0edycja1 = true;
         kontrahentstworz.findComponent(faktura.getKontrahent().getNpelna());
-        odbiorcastworz.findComponent(faktura.getOdbiorca().getNpelna());
+        if (faktura.getOdbiorca()!=null) {
+            odbiorcastworz.findComponent(faktura.getOdbiorca().getNpelna());
+        }
 //        String funkcja = "PF('tworzenieklientapolenazwy').search('"+faktura.getKontrahent_nip()+"');";
 //        PrimeFaces.current().executeScript(funkcja);
 //        funkcja = "PF('tworzenieklientapolenazwy').activate();";
