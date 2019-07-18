@@ -462,7 +462,23 @@ public class InterpaperImportView implements Serializable {
                                     eVatwpisFK.setEstawka("op");
                                     nd.getEwidencjaVAT().add(eVatwpisFK);
                                     break;
-                                } else if (p.getNazwa().equals("sprzedaż 0%")||p.getNazwa().equals("usługi świad. poza ter.kraju")||p.getNazwa().equals("usługi świad. poza ter.kraju art. 100 ust.1 pkt 4")||p.getNazwa().equals("zakup")) {
+                                } else if (PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("usługi świad. poza ter.kraju art. 100 ust.1 pkt 4")) {
+                                    eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
+                                    eVatwpisFK.setVat(0.0);
+                                    eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()));
+                                    eVatwpisFK.setDokfk(nd);
+                                    eVatwpisFK.setEstawka("op");
+                                    nd.getEwidencjaVAT().add(eVatwpisFK);
+                                    break;
+                                } else if (!PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("usługi świad. poza ter.kraju")) {
+                                    eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
+                                    eVatwpisFK.setVat(0.0);
+                                    eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()));
+                                    eVatwpisFK.setDokfk(nd);
+                                    eVatwpisFK.setEstawka("op");
+                                    nd.getEwidencjaVAT().add(eVatwpisFK);
+                                    break;
+                                } else if (p.getNazwa().equals("sprzedaż 0%")||p.getNazwa().equals("zakup")) {
                                     eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
                                     eVatwpisFK.setVat(0.0);
                                     eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()));
