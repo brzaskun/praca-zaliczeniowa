@@ -21,9 +21,11 @@ import daoFK.KontopozycjaZapisDAO;
 import daoFK.TabelanbpDAO;
 import daoFK.UkladBRDAO;
 import daoFK.WalutyDAOfk;
+import dedra.Dedraparser;
 import embeddable.PanstwaEUSymb;
 import embeddable.PanstwaEUSymb_;
 import embeddablefk.InterpaperXLS;
+import entity.EVatwpisSuper;
 import entity.Evewidencja;
 import entity.Klienci;
 import entity.Rodzajedok;
@@ -37,6 +39,8 @@ import entityfk.Waluty;
 import entityfk.Wiersz;
 import error.E;
 import gus.GUSView;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -45,11 +49,16 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import msg.Msg;
 import org.apache.commons.io.FilenameUtils;
 import org.joda.time.DateTime;
@@ -58,6 +67,11 @@ import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 import view.WpisView;import waluty.Z;
 
 /**
@@ -66,7 +80,7 @@ import view.WpisView;import waluty.Z;
  */
 @ManagedBean
 @ViewScoped
-public class InterpaperImportView implements Serializable {
+public class InterpaperBankImportView implements Serializable {
     private static final long serialVersionUID = 1L;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -86,6 +100,8 @@ public class InterpaperImportView implements Serializable {
     private DokDAOfk dokDAOfk;
     @Inject
     private KontoDAOfk kontoDAO;
+    @Inject
+    private EvewidencjaDAO evewidencjaDAO;
     @Inject
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     @Inject
@@ -145,7 +161,7 @@ public class InterpaperImportView implements Serializable {
     public void importujdok() {
         try {
             List<Klienci> k = klienciDAO.findAll();
-            pobranefaktury = ReadXLSFile.getListafakturCSV(plikinterpaper, k, klienciDAO, rodzajdok);
+            pobranefaktury = ReadXLSFile.getListafakturCSV(plikinterpaper, k, klienciDAO);
             for (InterpaperXLS p : pobranefaktury) {
                 if (p.getKlient()==null) {
                     p.setKlient(SzukajDaneBean.znajdzdaneregonAutomat(p.getNip(), gUSView));
@@ -249,9 +265,6 @@ public class InterpaperImportView implements Serializable {
         Format formatterX = new SimpleDateFormat("yyyy-MM-dd");
         String datadokumentu = formatterX.format(interpaperXLS.getDatawystawienia());
         String datasprzedazy = formatterX.format(interpaperXLS.getDatasprzedaży());
-        if (interpaperXLS.getDataobvat()!=null) {
-            datasprzedazy = formatterX.format(interpaperXLS.getDataobvat());
-        }
         nd.setDatadokumentu(datadokumentu);
         nd.setDataoperacji(datasprzedazy);
         nd.setDatawplywu(datadokumentu);
@@ -668,7 +681,36 @@ public class InterpaperImportView implements Serializable {
 
   
     
-
+public static void main(String[] args) throws SAXException, IOException {
+        try {
+            File fXmlFile = new File("D:\\bank.xml");
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(fXmlFile);
+            doc.getDocumentElement().normalize();
+            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+            NodeList nList1 = doc.getElementsByTagName("Ntry");
+            System.out.println("----------------------------");
+            int len = nList1.getLength();
+                for (int temp = 0; temp < len; temp++) {
+                    Node nNode1 = nList1.item(temp);
+                    if (nNode1.getNodeType() == Node.ELEMENT_NODE) {
+                        try {
+                            Element eElement = (Element) nNode1;
+                            String elt = eElement.getElementsByTagName("Id").item(0) == null ? "brak" : eElement.getElementsByTagName("Id").item(0).getFirstChild().getNextSibling().getTextContent();
+                            System.out.println("IBAN : " + elt);
+                            String elt1 = eElement.getElementsByTagName("Amt").item(0).getTextContent();
+                            System.out.println("amount : " + elt1+" "+eElement.getAttribute("Ccy"))
+                                    ;
+                        } catch (Exception e) {
+                            E.e(e);
+                        }
+                    }
+                }
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
    
     
    
