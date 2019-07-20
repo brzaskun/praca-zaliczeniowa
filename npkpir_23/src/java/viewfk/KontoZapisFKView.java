@@ -261,6 +261,7 @@ public class KontoZapisFKView implements Serializable{
         } catch (Exception e) {
             E.e(e);
         }
+        PrimeFaces.current().executeScript("PF('dialogAjaxCzekaj').hide()");
     }
     
     public void pobierzZapisyNaKoncieRokPop() {

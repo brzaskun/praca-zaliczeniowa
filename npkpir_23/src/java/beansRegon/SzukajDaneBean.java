@@ -69,6 +69,9 @@ public class SzukajDaneBean {
     }
      
      public static Klienci znajdzdaneregonAutomat(String nip, GUSView gUSView) {
+        if (nip.equals("9930282842")) {
+            System.out.println("");
+        }
         Klienci selected = new Klienci();
         try {
             Pattern p = Pattern.compile("^[a-zA-Z]+$");//<-- compile( not Compile(

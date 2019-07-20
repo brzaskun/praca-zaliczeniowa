@@ -6,11 +6,7 @@
 package xls;
 
 import beansDok.ListaEwidencjiVat;
-import static beansFK.DokFKVATBean.pobierzKontoRozrachunkowe;
-import beansFK.PlanKontFKBean;
 import beansRegon.SzukajDaneBean;
-import com.sun.xml.ws.client.RequestContext;
-import comparator.Kliencifkcomparator;
 import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
@@ -23,15 +19,12 @@ import daoFK.UkladBRDAO;
 import daoFK.WalutyDAOfk;
 import dedra.Dedraparser;
 import embeddable.PanstwaEUSymb;
-import embeddable.PanstwaEUSymb_;
 import embeddablefk.InterpaperXLS;
-import entity.EVatwpisSuper;
 import entity.Evewidencja;
 import entity.Klienci;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
-import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
@@ -161,7 +154,7 @@ public class InterpaperBankImportView implements Serializable {
     public void importujdok() {
         try {
             List<Klienci> k = klienciDAO.findAll();
-            pobranefaktury = ReadXLSFile.getListafakturCSV(plikinterpaper, k, klienciDAO);
+            pobranefaktury = ReadXLSFile.getListafakturCSV(plikinterpaper, k, klienciDAO, rodzajdok);
             for (InterpaperXLS p : pobranefaktury) {
                 if (p.getKlient()==null) {
                     p.setKlient(SzukajDaneBean.znajdzdaneregonAutomat(p.getNip(), gUSView));
@@ -208,16 +201,13 @@ public class InterpaperBankImportView implements Serializable {
                     polska0unia1zagranica2 = 1;
                 }
             }
-             if (interpaperXLS.getNrfaktury().equals("191009413")) {
-                System.out.println("");
-            }
             String rodzajdk = "ZZ";
             if (rodzajdok.equals("sprzedaż")) {
                 rodzajdk = polska0unia1zagranica2==0 ? "SZ" : polska0unia1zagranica2==1 ? "UPTK100" : "UPTK";
             } else {
                 rodzajdk = polska0unia1zagranica2==0 ? "ZZ" : "IU";
             }
-            Dokfk dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k);
+            Dokfk dokument = stworznowydokument(interpaperXLS, rodzajdk, k);
             try {
                 if (dokument!=null) {
                     dokument.setImportowany(true);
@@ -233,14 +223,15 @@ public class InterpaperBankImportView implements Serializable {
         return ile;
     }
      
-      private Dokfk stworznowydokument(int numerkolejny, InterpaperXLS interpaperXLS, String rodzajdok, List<Klienci> k) {
+      private Dokfk stworznowydokument(InterpaperXLS interpaperXLS, String rodzajdok, List<Klienci> klienci) {
+        int numerkolejny = ImportBean.oblicznumerkolejny(rodzajdok, dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Dokfk nd = new Dokfk(numerkolejny, wpisView.getRokWpisuSt());
         ustawdaty(nd, interpaperXLS);
-        ustawkontrahenta(nd,interpaperXLS, k);
-        ustawnumerwlasny(nd, interpaperXLS);
+        nd.setKontr(ImportBean.ustawkontrahenta(interpaperXLS.getNip(), interpaperXLS.getKontrahent(), klienci, gUSView, klienciDAO));
+        ImportBean.ustawnumerwlasny(nd, interpaperXLS.getNrfaktury());
         nd.setOpisdokfk("usługa transportowa");
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
-        ustawrodzajedok(nd, rodzajdok);
+        ImportBean.ustawrodzajedok(nd, rodzajdok, rodzajedokDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         ustawtabelenbp(nd, interpaperXLS);
         podepnijEwidencjeVat(nd, interpaperXLS);
         Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
@@ -256,10 +247,7 @@ public class InterpaperBankImportView implements Serializable {
         return nd;
     }
       
-    private int oblicznumerkolejny(String rodzajdok) {
-        Dokfk poprzednidokumentvat = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), rodzajdok, wpisView.getRokWpisuSt());
-        return poprzednidokumentvat == null ? 1 : poprzednidokumentvat.getNrkolejnywserii() + 1;
-    }
+    
     
     private void ustawdaty(Dokfk nd, InterpaperXLS interpaperXLS) {
         Format formatterX = new SimpleDateFormat("yyyy-MM-dd");
@@ -275,60 +263,7 @@ public class InterpaperBankImportView implements Serializable {
         nd.setVatR(datasprzedazy.split("-")[0]);
     }
     
-    private void ustawkontrahenta(Dokfk nd, InterpaperXLS interpaperXLS, List<Klienci> k) {
-        try {
-            Klienci klient = null;
-            for (Klienci p : k) {
-                if (p.getNip().contains(interpaperXLS.getNip().trim())) {
-                    klient = p;
-                    break;
-                }
-            }
-            if (klient==null) {
-                for (Klienci p : k) {
-                    if (p.getNpelna().contains(interpaperXLS.getKontrahent().trim()) || p.getNskrocona().contains(interpaperXLS.getKontrahent().trim())) {
-                        klient = p;
-                        break;
-                    }
-                }
-            }
-            if (klient==null) {
-                klient = znajdzdaneregonAutomat(interpaperXLS.getNip().trim());
-            }
-            nd.setKontr(klient);
-            k.add(klient);
-        } catch (Exception e) {
-            
-        }
-    }
     
-    public Klienci znajdzdaneregonAutomat(String nip) {
-        Klienci zwrot = null;
-        try {
-            zwrot = SzukajDaneBean.znajdzdaneregonAutomat(nip, gUSView);
-            klienciDAO.dodaj(zwrot);
-            Msg.msg("Zaktualizowano dane klienta pobranymi z GUS");
-        } catch (Exception e) {
-            Msg.msg("e","Błąd, niezaktualizowano dane klienta pobranymi z GUS");
-            E.e(e);
-        }
-        return zwrot;
-    }
-    
-    private void ustawnumerwlasny(Dokfk nd, InterpaperXLS interpaperXLS) {
-        String numer = interpaperXLS.getNrfaktury();
-        nd.setNumerwlasnydokfk(numer);
-    }
-    
-    private void ustawrodzajedok(Dokfk nd, String rodzajdok) {
-        Rodzajedok rodzajedok = rodzajedokDAO.find(rodzajdok, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        if (rodzajedok != null) {
-            nd.setSeriadokfk(rodzajedok.getSkrot());
-            nd.setRodzajedok(rodzajedok);
-        } else {
-            Msg.msg("e", "Brak zdefiniowanego dokumentu "+rodzajdok);
-        }
-    }
     
     private void ustawtabelenbp(Dokfk nd, InterpaperXLS interpaperXLS) {
         Format formatterX = new SimpleDateFormat("yyyy-MM-dd");
@@ -377,7 +312,7 @@ public class InterpaperBankImportView implements Serializable {
         strwn.setKwotaPLN(interpaperXLS.getBruttoPLN());
         strma.setKwotaPLN(interpaperXLS.getNettoPLNvat());
         strma.setKonto(kontonetto);
-        strwn.setKonto(pobierzkontoWn(nd, interpaperXLS, nd.getKontr()));
+        strwn.setKonto(ImportBean.pobierzkontoWn(interpaperXLS.getKlient(), kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO));
         w.setStronaWn(strwn);
         w.setStronaMa(strma);
         return w;
@@ -407,7 +342,7 @@ public class InterpaperBankImportView implements Serializable {
         strma.setKwotaPLN(interpaperXLS.getBruttoPLN());
         strwn.setKwotaPLN(interpaperXLS.getNettoPLNvat());
         strwn.setKonto(kontonetto);
-        strma.setKonto(pobierzkontoMa(nd, interpaperXLS, nd.getKontr()));
+        strma.setKonto(ImportBean.pobierzkontoMa(interpaperXLS.getKlient(), kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO));
         w.setStronaMa(strma);
         w.setStronaWn(strwn);
         return w;
@@ -510,72 +445,9 @@ public class InterpaperBankImportView implements Serializable {
         }
     }
 
-     private Konto pobierzkontoWn(Dokfk nd, InterpaperXLS interpaperXLS, Klienci klient) {
-        Konto kontoRozrachunkowe = null;
-        Kliencifk klientMaKonto = kliencifkDAO.znajdzkontofk(klient.getNip(), wpisView.getPodatnikObiekt().getNip());
-        if (klientMaKonto == null) {
-            klientMaKonto = new Kliencifk();
-            klientMaKonto.setNazwa(klient.getNpelna());
-            klientMaKonto.setNip(klient.getNip());
-            klientMaKonto.setPodatniknazwa(wpisView.getPodatnikWpisu());
-            klientMaKonto.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
-            klientMaKonto.setNrkonta(pobierznastepnynumer());
-            kliencifkDAO.dodaj(klientMaKonto);
-            List<Konto> wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            PlanKontFKBean.aktualizujslownikKontrahenci(wykazkont, kliencifkDAO, klientMaKonto, kontoDAO, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
-            String numerkonta = "201-2-"+klientMaKonto.getNrkonta();
-            if (!klient.getKrajkod().equals("PL")) {
-                numerkonta = "203-2-"+klientMaKonto.getNrkonta();
-            }
-            kontoRozrachunkowe = kontoDAO.findKonto(numerkonta, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-        } else {
-            String numerkonta = "201-2-"+klientMaKonto.getNrkonta();
-            if (klient.getKrajkod()!=null && !klient.getKrajkod().equals("PL")) {
-                numerkonta = "203-2-"+klientMaKonto.getNrkonta();
-            }
-            kontoRozrachunkowe = kontoDAO.findKonto(numerkonta, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-        }
-        return kontoRozrachunkowe;
-    }
      
-     private Konto pobierzkontoMa(Dokfk nd, InterpaperXLS interpaperXLS, Klienci klient) {
-        Konto kontoRozrachunkowe = null;
-        Kliencifk klientMaKonto = kliencifkDAO.znajdzkontofk(klient.getNip(), wpisView.getPodatnikObiekt().getNip());
-        if (klientMaKonto == null) {
-            klientMaKonto = new Kliencifk();
-            klientMaKonto.setNazwa(klient.getNpelna());
-            klientMaKonto.setNip(klient.getNip());
-            klientMaKonto.setPodatniknazwa(wpisView.getPodatnikWpisu());
-            klientMaKonto.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
-            klientMaKonto.setNrkonta(pobierznastepnynumer());
-            kliencifkDAO.dodaj(klientMaKonto);
-            List<Konto> wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            PlanKontFKBean.aktualizujslownikKontrahenci(wykazkont, kliencifkDAO, klientMaKonto, kontoDAO, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
-            String numerkonta = "202-2-"+klientMaKonto.getNrkonta();
-            if (!klient.getKrajkod().equals("PL")) {
-                numerkonta = "204-2-"+klientMaKonto.getNrkonta();
-            }
-            kontoRozrachunkowe = kontoDAO.findKonto(numerkonta, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-        } else {
-            String numerkonta = "202-2-"+klientMaKonto.getNrkonta();
-            if (klient.getKrajkod()!=null && !klient.getKrajkod().equals("PL")) {
-                numerkonta = "204-2-"+klientMaKonto.getNrkonta();
-            }
-            kontoRozrachunkowe = kontoDAO.findKonto(numerkonta, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-        }
-        return kontoRozrachunkowe;
-    }
     
-     private String pobierznastepnynumer() {
-        try {
-            List<Kliencifk> przyporzadkowani = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
-            Collections.sort(przyporzadkowani, new Kliencifkcomparator());
-            return String.valueOf(Integer.parseInt(przyporzadkowani.get(przyporzadkowani.size() - 1).getNrkonta()) + 1);
-        } catch (Exception e) {
-            E.e(e);
-            return "1";
-        }
-    }
+   
      
     public void grid2pokaz() {
         grid2.setRendered(true);

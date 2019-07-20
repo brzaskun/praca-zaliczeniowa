@@ -7,6 +7,7 @@ package entityfk;
 import data.Data;
 import embeddable.Kwartaly;
 import embeddable.Mce;
+import embeddablefk.ImportJPKSprzedaz;
 import entity.DokSuper;
 import entity.Klienci;
 import entity.Podatnik;
@@ -293,6 +294,15 @@ public class Dokfk extends DokSuper implements Serializable {
         this.rok = rokWpisuSt;
     }
 
+    public Dokfk(ImportJPKSprzedaz s, WpisView wpisView, String seria) {
+        this.numerwlasnydokfk = s.getSprzedazWiersz().getDowodSprzedazy();
+        this.rok = wpisView.getRokWpisuSt();
+        this.seriadokfk = seria;
+        this.kontr = s.getKlient();
+        this.podatnikObj = wpisView.getPodatnikObiekt();
+    }
+
+   
     
   
     //<editor-fold defaultstate="collapsed" desc="comment">
