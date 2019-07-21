@@ -226,24 +226,24 @@ public class StronaWierszaDAO extends DAO implements Serializable {
         return Collections.synchronizedList(sessionFacade.findStronaByPodatnikKontoRokWalutyWszystkie(podatnikObiekt, konto, rokWpisuSt));
     }
     
-    public List<StronaWiersza> findStronaByPodatnikKontoStartRokWszystkie(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt) {
+    public List<StronaWiersza> findStronaByPodatnikKontoStartRokWszystkie(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt, String mcod, String mcdo) {
         String like = "";
         if (konto.isMapotomkow()) {
             like = konto.getPelnynumer()+"%";
         } else {
             like = konto.getPelnynumer();
         }
-        return Collections.synchronizedList(sessionFacade.findStronaByPodatnikKontoStartRokWalutyWszystkie(podatnikObiekt, like, rokWpisuSt));
+        return Collections.synchronizedList(sessionFacade.findStronaByPodatnikKontoStartRokWalutyWszystkie(podatnikObiekt, like, rokWpisuSt, mcod, mcdo));
     }
     
-    public List<StronaWiersza> findStronaByPodatnikKontoStartRokWalutyWszystkieOdswiez(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt) {
+    public List<StronaWiersza> findStronaByPodatnikKontoStartRokWalutyWszystkieOdswiez(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt, String mcod, String mcdo) {
         String like = "";
         if (konto.isMapotomkow()) {
             like = konto.getPelnynumer()+"%";
         } else {
             like = konto.getPelnynumer();
         }
-        return Collections.synchronizedList(sessionFacade.findStronaByPodatnikKontoStartRokWalutyWszystkieOdswiez(podatnikObiekt, like, rokWpisuSt));
+        return Collections.synchronizedList(sessionFacade.findStronaByPodatnikKontoStartRokWalutyWszystkieOdswiez(podatnikObiekt, like, rokWpisuSt, mcod, mcdo));
     }
     
     public List<StronaWiersza> findStronaByPodatnikKontoRokMcWszystkie(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt, String mc) {

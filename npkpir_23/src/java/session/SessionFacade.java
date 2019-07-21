@@ -1880,7 +1880,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkie").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).getResultList());
     }
     
-    public List<StronaWiersza> findStronaByPodatnikKontoStartRokWalutyWszystkie(Podatnik podatnikObiekt, String konto, String rokWpisuSt) {
+    public List<StronaWiersza> findStronaByPodatnikKontoStartRokWalutyWszystkie(Podatnik podatnikObiekt, String konto, String rokWpisuSt, String mcod, String mcdo) {
         //t.platnosci t.wiersz.dokfk t.wiersz.tabelanbp
         LoadGroup lg = new LoadGroup();
         lg.addAttribute("platnosci");
@@ -1891,10 +1891,12 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
                 .setParameter("podatnikObj", podatnikObiekt)
                 .setParameter("konto", konto)
                 .setParameter("rok", rokWpisuSt)
+                .setParameter("mcod", mcod)
+                .setParameter("mcdo", mcdo)
                 .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
     }
     
-    public List<StronaWiersza> findStronaByPodatnikKontoStartRokWalutyWszystkieOdswiez(Podatnik podatnikObiekt, String konto, String rokWpisuSt) {
+    public List<StronaWiersza> findStronaByPodatnikKontoStartRokWalutyWszystkieOdswiez(Podatnik podatnikObiekt, String konto, String rokWpisuSt, String mcod, String mcdo) {
         //t.platnosci t.wiersz.dokfk t.wiersz.tabelanbp
         LoadGroup lg = new LoadGroup();
         lg.addAttribute("platnosci");
@@ -1905,7 +1907,8 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
                 .setParameter("podatnikObj", podatnikObiekt)
                 .setParameter("konto", konto)
                 .setParameter("rok", rokWpisuSt)
-                .setHint(QueryHints.REFRESH, HintValues.TRUE)
+                .setParameter("mcod", mcod)
+                .setParameter("mcdo", mcdo)
                 .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
     }
 

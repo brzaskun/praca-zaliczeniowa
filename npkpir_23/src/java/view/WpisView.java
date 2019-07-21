@@ -187,8 +187,8 @@ public class WpisView implements Serializable {
     private void obsluzMce() {
         try {
             if (miesiacOd == null) {
-                miesiacOd = uzer.getMiesiacOd();
-                miesiacDo = uzer.getMiesiacDo();
+                miesiacOd = miesiacWpisu;
+                miesiacDo = miesiacWpisu;
             }
         } catch (Exception e) {
             E.e(e);

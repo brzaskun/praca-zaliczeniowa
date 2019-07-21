@@ -125,6 +125,8 @@ public class KontoZapisFKView implements Serializable{
         ostatniaanalityka = kontoDAOfk.findKontaOstAlityka(wpisView);
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         wszystkiekonta = new ArrayList<>(wykazkont);
+        wpisView.setMiesiacOd(wpisView.getMiesiacWpisu());
+        wpisView.setMiesiacDo(wpisView.getMiesiacWpisu());
         pobierzzapisy(wpisView.getRokWpisuSt());
         usunkontabezsald();
         wybierzgrupekont();
@@ -223,30 +225,22 @@ public class KontoZapisFKView implements Serializable{
             kontozapisy = Collections.synchronizedList(new ArrayList<>());
             String rok = pobierzrokpoprzedni ? wpisView.getRokUprzedniSt() : wpisView.getRokWpisuSt();
             List<StronaWiersza> zapisyshort = null;
-            zapisyshort = stronaWierszaDAO.findStronaByPodatnikKontoStartRokWalutyWszystkieOdswiez(wpisView.getPodatnikObiekt(), wybranekonto, rok);
+            zapisyshort = stronaWierszaDAO.findStronaByPodatnikKontoStartRokWalutyWszystkieOdswiez(wpisView.getPodatnikObiekt(), wybranekonto, rok, wpisView.getMiesiacOd(), wpisView.getMiesiacDo());
             if (zapisyshort!=null) {
                 List<Konto> kontapotomnetmp = Collections.synchronizedList(new ArrayList<>());
                 List<Konto> kontapotomneListaOstateczna = Collections.synchronizedList(new ArrayList<>());
                 kontapotomnetmp.add(wybranekonto);
                 KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, new ArrayList<>(wykazkont));
-                int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
-                int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
-                List<StronaWiersza> zapisyshortfilter = zapisyshort.stream().filter((r) -> (kontapotomneListaOstateczna.contains(r.getKonto()))).collect(collectingAndThen(toList(), Collections::synchronizedList));
-                 zapisyshortfilter.stream().forEach((r) -> {
-                    if (wybranaWalutaDlaKont.equals("wszystkie")) {
-                        int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
-                        if (mc >= granicaDolna && mc <= granicaGorna) {
-                            kontozapisy.add(r);
-                        }
-                    } else {
+                List<StronaWiersza> zapisyshortfilter = zapisyshort.parallelStream().filter((r) -> (kontapotomneListaOstateczna.contains(r.getKonto()))).collect(collectingAndThen(toList(), Collections::synchronizedList));
+                if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                    kontozapisy.addAll(zapisyshortfilter);
+                } else {
+                    zapisyshortfilter.parallelStream().forEach((r) -> {
                         if (r.getSymbolWalutBOiSW().equals(wybranaWalutaDlaKont)) {
-                            int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
-                            if (mc >= granicaDolna && mc <= granicaGorna) {
                                 kontozapisy.add(r);
-                            }
                         }
-                    }
-                });
+                    });
+                }
                 for (StronaWiersza p : kontozapisy) {
                     if (!p.getSymbolWalutBOiSW().equals("PLN")) {
                         nierenderujkolumnnywalut = false;
