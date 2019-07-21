@@ -4215,6 +4215,42 @@ public void oznaczjakonkup() {
         }
     }
     
+    public void przesun(int i) {
+        Dokfk poprzedni = null;
+        Dokfk nastepny = null;
+        boolean konczymy = false;
+        int rowek = idwierszedycjaodswiezenie;
+        for (Dokfk d : wykazZaksiegowanychDokumentow) {
+            if (konczymy==false && !d.equals(selected)) {
+                poprzedni = d;
+            }
+            if (d.equals(selected)) {
+                konczymy = true;
+            } else if (konczymy) {
+                nastepny = d;
+                break;
+            }
+        }
+        if (i==1) {
+            if (nastepny!=null) {
+                selected = nastepny;
+                selected.setwTrakcieEdycji(true);
+                idwierszedycjaodswiezenie = rowek+1;
+            } else {
+                Msg.msg("Koniec listy");
+            }
+        } else {
+            if (poprzedni!=null) {
+                selected = poprzedni;
+                selected.setwTrakcieEdycji(true);
+                idwierszedycjaodswiezenie = rowek-1;
+            } else {
+                Msg.msg("Początek listy");
+            }    
+        }
+        PrimeFaces.current().ajax().update("formwpisdokument");
+    }
+    
     public void resetrmk() {
         this.pokazrmk = false;
     }

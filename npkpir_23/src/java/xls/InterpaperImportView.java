@@ -103,6 +103,13 @@ public class InterpaperImportView implements Serializable {
     private PanelGrid grid2;
     private PanelGrid grid3;
     private CommandButton generujbutton;
+    private Konto kontonetto;
+    private Konto kontonettokoszt;
+    private Konto kontovat;
+    private Konto kontovatnaliczony;
+    private Tabelanbp tabelanbppl;
+    private Waluty walutapln;
+    
 
     
     
@@ -119,6 +126,12 @@ public class InterpaperImportView implements Serializable {
                 }
             }
         }
+        kontonetto = kontoDAO.findKonto("702-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        kontovat = kontoDAO.findKonto("221-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        kontonettokoszt = kontoDAO.findKonto("403", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        kontovatnaliczony = kontoDAO.findKonto("221-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        tabelanbppl = tabelanbpDAO.findByTabelaPLN();
+        walutapln = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
     }
     
     
@@ -318,24 +331,29 @@ public class InterpaperImportView implements Serializable {
     }
     
     private void ustawtabelenbp(Dokfk nd, InterpaperXLS interpaperXLS) {
-        Format formatterX = new SimpleDateFormat("yyyy-MM-dd");
-        String datadokumentu = formatterX.format(interpaperXLS.getDatasprzedaży());
-        DateTime dzienposzukiwany = new DateTime(datadokumentu);
-        boolean znaleziono = false;
-        int zabezpieczenie = 0;
-        while (!znaleziono && (zabezpieczenie < 365)) {
-            dzienposzukiwany = dzienposzukiwany.minusDays(1);
-            String doprzekazania = dzienposzukiwany.toString("yyyy-MM-dd");
-            Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania, interpaperXLS.getWalutaplatnosci());
-            if (tabelanbppobrana instanceof Tabelanbp) {
-                znaleziono = true;
-                nd.setTabelanbp(tabelanbppobrana);
-                break;
+         if (interpaperXLS.getWalutaplatnosci().equals("PLN")) {
+            nd.setTabelanbp(tabelanbppl);
+            nd.setWalutadokumentu(walutapln);
+        } else {
+            Format formatterX = new SimpleDateFormat("yyyy-MM-dd");
+            String datadokumentu = formatterX.format(interpaperXLS.getDatasprzedaży());
+            DateTime dzienposzukiwany = new DateTime(datadokumentu);
+            boolean znaleziono = false;
+            int zabezpieczenie = 0;
+            while (!znaleziono && (zabezpieczenie < 365)) {
+                dzienposzukiwany = dzienposzukiwany.minusDays(1);
+                String doprzekazania = dzienposzukiwany.toString("yyyy-MM-dd");
+                Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania, interpaperXLS.getWalutaplatnosci());
+                if (tabelanbppobrana instanceof Tabelanbp) {
+                    znaleziono = true;
+                    nd.setTabelanbp(tabelanbppobrana);
+                    break;
+                }
+                zabezpieczenie++;
             }
-            zabezpieczenie++;
-        }
-        Waluty w = walutyDAOfk.findWalutaBySymbolWaluty(interpaperXLS.getWalutaplatnosci());
-        nd.setWalutadokumentu(w);
+            Waluty w = walutyDAOfk.findWalutaBySymbolWaluty(interpaperXLS.getWalutaplatnosci());
+            nd.setWalutadokumentu(w);
+         }
     }
     
     private void ustawwiersze(Dokfk nd, InterpaperXLS interpaperXLS) {
@@ -360,7 +378,6 @@ public class InterpaperImportView implements Serializable {
         w.setOpisWiersza(opiswiersza);
         StronaWiersza strwn = new StronaWiersza(w, "Wn", interpaperXLS.getBruttowaluta(), null);
         StronaWiersza strma = new StronaWiersza(w, "Ma", interpaperXLS.getNettowaluta(), null);
-        Konto kontonetto = kontoDAO.findKonto("702-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         strwn.setKwotaPLN(interpaperXLS.getBruttoPLN());
         strma.setKwotaPLN(interpaperXLS.getNettoPLNvat());
         strma.setKonto(kontonetto);
@@ -377,7 +394,6 @@ public class InterpaperImportView implements Serializable {
         w.setOpisWiersza(opiswiersza);
         StronaWiersza strma = new StronaWiersza(w, "Ma", interpaperXLS.getVatwaluta(), null);
         strma.setKwotaPLN(interpaperXLS.getVatPLN());
-        Konto kontovat = kontoDAO.findKonto("221-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         strma.setKonto(kontovat);
         w.setStronaMa(strma);
         return w;
@@ -390,10 +406,9 @@ public class InterpaperImportView implements Serializable {
         w.setOpisWiersza(opiswiersza);
         StronaWiersza strma = new StronaWiersza(w, "Ma", interpaperXLS.getBruttowaluta(), null);
         StronaWiersza strwn = new StronaWiersza(w, "Wn", interpaperXLS.getNettowaluta(), null);
-        Konto kontonetto = kontoDAO.findKonto("403", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         strma.setKwotaPLN(interpaperXLS.getBruttoPLN());
         strwn.setKwotaPLN(interpaperXLS.getNettoPLNvat());
-        strwn.setKonto(kontonetto);
+        strwn.setKonto(kontonettokoszt);
         strma.setKonto(pobierzkontoMa(nd, interpaperXLS, nd.getKontr()));
         w.setStronaMa(strma);
         w.setStronaWn(strwn);
@@ -407,8 +422,7 @@ public class InterpaperImportView implements Serializable {
         w.setOpisWiersza(opiswiersza);
         StronaWiersza strwn = new StronaWiersza(w, "Wn", interpaperXLS.getVatwaluta(), null);
         strwn.setKwotaPLN(interpaperXLS.getVatPLN());
-        Konto kontovat = kontoDAO.findKonto("221-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-        strwn.setKonto(kontovat);
+        strwn.setKonto(kontovatnaliczony);
         w.setStronaWn(strwn);
         return w;
     }

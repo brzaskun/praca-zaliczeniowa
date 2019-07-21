@@ -24,7 +24,7 @@
         <h:form id="panelplikbank">
             <p:panelGrid columns="2" columnClasses="sixty-percent forty-percent" >
                     <p:panelGrid columns="1" style="margin-top: 20px;margin-bottom: 10px;">
-                        <h:outputText value="plik CSV z dokumentami źródłowymi " style="font-weight: bold;"/>
+                        <h:outputText value="plik XML z dokumentami źródłowymi " style="font-weight: bold;"/>
                         <p:fileUpload fileUploadListener="#{interpaperBankImportView.zachowajplik}" 
                                       mode="advanced" dragDropSupport="true" fileLimit="3"
                                       update="messages1 @form" sizeLimit="600000"   
@@ -36,12 +36,12 @@
                         <p:growl life="3600"  id="messages1" showDetail="false"/>
                     </p:panelGrid>
                 <p:panelGrid columns="2" style="margin-top: 20px;margin-bottom: 10px; float: right;" rendered="false" binding="#{interpaperBankImportView.grid1}">
-                    <h:outputText value="rodzaj rachunków" style="margin-left: 40px;"/>
+                    <h:outputText value="rodzaj wyciągu" style="margin-left: 40px;"/>
                         <p:selectOneMenu id="symbol" value="#{interpaperBankImportView.rodzajdok}" 
                                          style="width: 200px; margin-left: 20px;" >
                             <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
-                            <f:selectItem itemLabel="zakup" itemValue="zakup" />
-                            <f:selectItem itemLabel="sprzedaż" itemValue="sprzedaż" />
+                            <f:selectItem itemLabel="WB" itemValue="WB" />
+                            <f:selectItem itemLabel="WBR" itemValue="WBR" />
                             <p:ajax global="false" event="blur"  partialSubmit="true"/>
                             <p:ajax global="false" event="change"  partialSubmit="true" listener="#{interpaperBankImportView.grid2pokaz}" update="panelprzyciskowbank"/>
                         </p:selectOneMenu>
@@ -50,6 +50,16 @@
         </h:form>
         <h:form id="panelprzyciskowbank">
         <p:panelGrid columns="2" rendered="false" binding="#{interpaperBankImportView.grid2}">
+            <p:panelGrid columns="8" style="width: 1000px;">
+                <h:outputText value="nr wyciągu"/><h:outputText value="#{interpaperBankImportView.wyciagnr}"/>
+                <h:outputText value="data od"/><h:outputText value="#{interpaperBankImportView.wyciagdataod}"/>
+                <h:outputText value="data do"/><h:outputText value="#{interpaperBankImportView.wyciagdatado}"/>
+                <h:outputText value="waluta"/><h:outputText value="#{interpaperBankImportView.wyciagwaluta}"/>
+                <h:outputText value="konto"/><h:outputText value="#{interpaperBankImportView.wyciagkonto}"/>
+                <h:outputText value="saldo początkowe"/><bcf:outputpl value="#{interpaperBankImportView.wyciagbo}"/>
+                <h:outputText value="saldo końcowe"/><bcf:outputpl value="#{interpaperBankImportView.wyciagbz}"/>
+            </p:panelGrid>
+            <h:outputText value=" "/>
         <h:outputText value="#{interpaperBankImportView.wiadomoscnieprzypkonta}" style="color: red; margin-bottom: 10px;"/>
         <h:outputText value=" "/>
                 <p:commandButton value="pobierz dane" actionListener="#{interpaperBankImportView.importujdok()}" update="panelprzyciskowbank form_importinterpaperbank" style="width: 120px;" />
@@ -92,56 +102,43 @@
                 <p:ajax event="rowSelectCheckbox" global="false"/>
                 <p:ajax event="rowUnselectCheckbox" global="false"/>
                 <p:column selectionMode="multiple" styleClass="checkwiersza" width="30" style="text-align: center;"></p:column>
-                <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center; height: 35px;">
+                <p:column headerText="#{mgs.numerkolejny}" width="15" style="text-align: center; height: 35px;">
                     <h:outputText styleClass="lpwierszaZaksiegowane" value="#{itemimp.nr}"/>
                 </p:column>
-                <p:column headerText="data wyst." styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{itemimp.datawystawienia}"  filterBy="#{itemimp.datawystawienia}" filterMatchMode="contains" >
-                    <h:outputText value="#{itemimp.datawystawienia}"/>
+                <p:column headerText="data trans." styleClass="zaksiegowanewaski" width="65" style="text-align: center;"  sortBy="#{itemimp.datatransakcji}"  filterBy="#{itemimp.datatransakcji}" filterMatchMode="contains" >
+                    <h:outputText value="#{itemimp.datatransakcji}"/>
                 </p:column>
-                <p:column headerText="data sprzed." styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{itemimp.datasprzedaży}" filterBy="#{itemimp.datasprzedaży}" filterMatchMode="contains" >
-                    <h:outputText value="#{itemimp.datasprzedaży}"/>
+                <p:column headerText="data wal." styleClass="zaksiegowanewaski" width="56" style="text-align: center;"  sortBy="#{itemimp.datawaluty}" filterBy="#{itemimp.datawaluty}" filterMatchMode="contains" >
+                    <h:outputText value="#{itemimp.datawaluty}"/>
                 </p:column>
-                <p:column headerText="data ob. vat" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{itemimp.dataobvat}" filterBy="#{itemimp.dataobvat}" filterMatchMode="contains" >
-                    <h:outputText value="#{itemimp.dataobvat}"/>
+                <p:column headerText="Wn" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{itemimp.kwota}" filterBy="#{itemimp.kwota}" filterMatchMode="contains" >
+                    <bcf:outputpl value="#{itemimp.kwota}" rendered="#{itemimp.wnma eq 'Wn'}"/>
                 </p:column>
-                <p:column headerText="nr fakt." styleClass="zaksiegowanewaski" width="70" sortBy="#{itemimp.nrfaktury}" filterBy="#{itemimp.nrfaktury}">
-                    <h:outputText value="#{itemimp.nrfaktury}" rendered="#{itemimp.juzzaksiegowany eq false}"/>
-                    <h:outputText value="duplikat" rendered="#{itemimp.juzzaksiegowany eq true}" style="color: red;"/>
+                <p:column headerText="Ma" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{itemimp.kwota}" filterBy="#{itemimp.kwota}" filterMatchMode="contains" >
+                    <bcf:outputpl value="#{itemimp.kwota}" rendered="#{itemimp.wnma eq 'Ma'}"/>
+                </p:column>
+                <p:column headerText="waluta" styleClass="zaksiegowanewaski" width="40" style="text-align: center;"  sortBy="#{itemimp.waluta}" filterBy="#{itemimp.waluta}" filterMatchMode="contains" >
+                    <h:outputText value="#{itemimp.waluta}"/>
+                </p:column>
+                <p:column headerText="typ" width="30" sortBy="#{itemimp.kontrahentakraj}" filterBy="#{itemimp.typtransakcji}" >
+                    <h:outputText value="#{itemimp.typtransakcji}"/>
+                </p:column>
+                <p:column headerText="opis" styleClass="zaksiegowanewaski" width="150" sortBy="#{itemimp.opistransakcji}" filterBy="#{itemimp.opistransakcji}" filterMatchMode="contains" >
+                    <h:outputText value="#{itemimp.opistransakcji}"/>
                 </p:column>
                 <p:column headerText="#{mgs.kontrahent}" width="140" sortBy="#{itemimp.kontrahent}" filterBy="#{itemimp.kontrahent}" >
-                    <h:outputText value="#{itemimp.kontrahent}"/>
+                    <h:outputText value="#{itemimp.kontrahent}" rendered="#{itemimp.kontrahent ne 'NOTPROVIDED'}"/>
+                    <h:outputText value="prowizja" rendered="#{itemimp.kontrahent eq 'NOTPROVIDED'}"/>
                 </p:column>
-                <p:column headerText="kraj" width="40" sortBy="#{itemimp.klient.krajkod}" filterBy="#{itemimp.klient.krajkod}" filterMaxLength="3">
-                    <h:outputText value="#{itemimp.klient.krajkod}"/>
+                <p:column headerText="adres" width="140" sortBy="#{itemimp.kontrahentaadres}" filterBy="#{itemimp.kontrahentaadres}" filterMaxLength="3">
+                    <h:outputText value="#{itemimp.kontrahentaadres}" rendered="#{itemimp.kontrahent ne 'NOTPROVIDED'}"/>
                 </p:column>
-                <p:column headerText="nip" width="80" sortBy="#{itemimp.nip}" filterBy="#{itemimp.nip}" >
-                    <h:outputText value="#{itemimp.nip}"/>
+                <p:column headerText="kraj" width="30" sortBy="#{itemimp.kontrahentakraj}" filterBy="#{itemimp.kontrahentakraj}" >
+                    <h:outputText value="#{itemimp.kontrahentakraj}" rendered="#{itemimp.kontrahent ne 'NOTPROVIDED'}"/>
                 </p:column>
-                <p:column headerText="nazwa fk" width="140" sortBy="#{itemimp.klient.npelna}" filterBy="#{itemimp.klient.npelna}" >
-                    <h:outputText value="#{itemimp.klient.npelna}" rendered="#{itemimp.klient ne null}"/>
-                    <h:outputText value="nowy" rendered="#{itemimp.klient eq null}" style="color: green;"/>
+                <p:column headerText="nr trans" width="90" sortBy="#{itemimp.nrtransakji}" filterBy="#{itemimp.nrtransakji}" >
+                    <h:outputText value="#{itemimp.nrtransakji}"/>
                 </p:column>
-                <p:column headerText="brutto" styleClass="zaksiegowanewaski" width="70" sortBy="#{itemimp.bruttowaluta}" filterBy="#{itemimp.bruttowaluta}" filterMatchMode="contains" >
-                    <h:outputText value="#{itemimp.bruttowaluta}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="waluta" styleClass="waluta" width="40" sortBy="#{itemimp.walutaplatnosci}" filterBy="#{itemimp.walutaplatnosci}" style="text-align: center;">
-                    <h:outputText value="#{itemimp.walutaplatnosci}"/>
-                </p:column>
-                <p:column headerText="netto" styleClass="zaksiegowanewaski" width="50" sortBy="#{itemimp.nettowaluta}" filterBy="#{itemimp.nettowaluta}" filterMatchMode="contains" >
-                    <h:outputText value="#{itemimp.nettowaluta}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="vat" styleClass="zaksiegowanewaski" width="50" sortBy="#{itemimp.vatwaluta}" filterBy="#{itemimp.vatwaluta}" style="text-align: center;">
-                    <h:outputText value="#{itemimp.vatwaluta}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
-                </p:column>
-<!--                <p:column width="80" style="text-align: center;">
-                    <p:commandButton value="usuń" actionListener="#{dokfkView.przygotujdousuniecia(item)}" styleClass="fkbutton" icon="ui-icon-trash" oncomplete="PF('confirm3').show();" global="false"  style="width: 70px;" update=":potwierdzeniazestawieniedok"/>
-                </p:column>-->
             </p:dataTable>
                     </p:panelGrid>
         </h:form>
