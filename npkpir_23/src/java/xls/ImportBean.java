@@ -113,7 +113,7 @@ public class ImportBean {
             List<Konto> wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             PlanKontFKBean.aktualizujslownikKontrahenci(wykazkont, kliencifkDAO, klientMaKonto, kontoDAO, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
             String numerkonta = "201-2-"+klientMaKonto.getNrkonta();
-            if (!klient.getKrajkod().equals("PL")) {
+            if (klient.getKrajkod()!=null && !klient.getKrajkod().equals("PL")) {
                 numerkonta = "203-2-"+klientMaKonto.getNrkonta();
             }
             kontoRozrachunkowe = kontoDAO.findKonto(numerkonta, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
@@ -141,7 +141,7 @@ public class ImportBean {
             List<Konto> wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             PlanKontFKBean.aktualizujslownikKontrahenci(wykazkont, kliencifkDAO, klientMaKonto, kontoDAO, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
             String numerkonta = "202-2-"+klientMaKonto.getNrkonta();
-            if (!klient.getKrajkod().equals("PL")) {
+            if (klient.getKrajkod()!=null &&!klient.getKrajkod().equals("PL")) {
                 numerkonta = "204-2-"+klientMaKonto.getNrkonta();
             }
             kontoRozrachunkowe = kontoDAO.findKonto(numerkonta, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());

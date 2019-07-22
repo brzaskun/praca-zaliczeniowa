@@ -182,14 +182,18 @@ public class InterpaperBankImportView implements Serializable {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(file);
             doc.getDocumentElement().normalize();
-            NodeList nList1 = doc.getElementsByTagName("Stmt");
-            wyciagnr = pT(nList1.item(0), "Id");;
-            wyciagdataod = pT(nList1.item(0), "FrDtTm");
-            wyciagdatado = pT(nList1.item(0), "ToDtTm");
-            wyciagkonto = pT(nList1.item(0), "IBAN");
-            wyciagwaluta = pT(nList1.item(0), "Ccy");
-            wyciagbo = Double.valueOf(pT(nList1.item(0), "Amt", 0));
-            wyciagbz = Double.valueOf(pT(nList1.item(0), "Amt", 1));
+            try {
+                NodeList nList1 = doc.getElementsByTagName("Stmt");
+                wyciagnr = pT(nList1.item(0), "Id");;
+                wyciagdataod = pT(nList1.item(0), "FrDtTm");
+                wyciagdatado = pT(nList1.item(0), "ToDtTm");
+                wyciagkonto = pT(nList1.item(0), "IBAN");
+                wyciagwaluta = pT(nList1.item(0), "Ccy");
+                wyciagbo = Double.valueOf(pT(nList1.item(0), "Amt", 0));
+                wyciagbz = Double.valueOf(pT(nList1.item(0), "Amt", 1));
+            } catch (Exception e){
+                wyciagkonto = "11111";
+            }
             NodeList nList = doc.getElementsByTagName("Ntry");
             pobranefaktury = new ArrayList<>();
             System.out.println("----------------------------");

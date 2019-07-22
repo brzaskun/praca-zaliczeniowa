@@ -55,7 +55,8 @@
                 <h:outputText value="data od"/><h:outputText value="#{interpaperBankImportView.wyciagdataod}"/>
                 <h:outputText value="data do"/><h:outputText value="#{interpaperBankImportView.wyciagdatado}"/>
                 <h:outputText value="waluta"/><h:outputText value="#{interpaperBankImportView.wyciagwaluta}"/>
-                <h:outputText value="konto"/><h:outputText value="#{interpaperBankImportView.wyciagkonto}"/>
+                <h:outputText value="konto"/><h:outputText value="#{interpaperBankImportView.wyciagkonto}" rendered="#{interpaperBankImportView.wyciagkonto ne '11111'}"/>
+                <h:outputText value="Wyciąg w innym formacie brak nagłówka z saldami" rendered="#{interpaperBankImportView.wyciagkonto eq '11111'}" style="color:red;font-weight: bold;"/>
                 <h:outputText value="saldo początkowe"/><bcf:outputpl value="#{interpaperBankImportView.wyciagbo}"/>
                 <h:outputText value="saldo końcowe"/><bcf:outputpl value="#{interpaperBankImportView.wyciagbz}"/>
             </p:panelGrid>

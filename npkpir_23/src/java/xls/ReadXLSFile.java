@@ -178,7 +178,7 @@ public class ReadXLSFile {
         interpaperXLS.setSaldofaktury(format.F.kwota(row.get(8)));
         interpaperXLS.setTerminplatnosci(Date.valueOf(row.get(9)));
         interpaperXLS.setPrzekroczenieterminu(Integer.valueOf(row.get(10)));
-        if (row.get(11) != null && !row.get(12).equals("")) {
+        if (row.get(11) != null && !row.get(11).equals("")) {
             interpaperXLS.setOstatniawplata(Date.valueOf(row.get(11)));
         } else {
             interpaperXLS.setOstatniawplata(null);
