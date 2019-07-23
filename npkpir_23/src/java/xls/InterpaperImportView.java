@@ -271,8 +271,14 @@ public class InterpaperImportView implements Serializable {
         nd.setDatawystawienia(datadokumentu);
         nd.setDataujecia(new Date());
         nd.setMiesiac(wpisView.getMiesiacWpisu());
-        nd.setVatM(datasprzedazy.split("-")[1]);
-        nd.setVatR(datasprzedazy.split("-")[0]);
+        if (rodzajdok.equals("sprzedaż")) {
+            nd.setVatM(datasprzedazy.split("-")[1]);
+            nd.setVatR(datasprzedazy.split("-")[0]);
+        } else {
+            String dataotrzymania = formatterX.format(interpaperXLS.getDataotrzymania());
+            nd.setVatM(dataotrzymania.split("-")[1]);
+            nd.setVatR(dataotrzymania.split("-")[0]);
+        }
     }
     
     private void ustawkontrahenta(Dokfk nd, InterpaperXLS interpaperXLS, List<Klienci> k) {

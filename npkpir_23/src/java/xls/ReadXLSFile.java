@@ -142,6 +142,7 @@ public class ReadXLSFile {
      
    private static void uzupelnijzakup(InterpaperXLS interpaperXLS, List<String> row) {
        interpaperXLS.setNrfaktury(row.get(0));
+       interpaperXLS.setDataotrzymania(Date.valueOf(row.get(1)));
         interpaperXLS.setDatawystawienia(Date.valueOf(row.get(2)));
         interpaperXLS.setDatasprzedaży(Date.valueOf(row.get(3)));
         interpaperXLS.setDataobvat(Date.valueOf(row.get(4)));

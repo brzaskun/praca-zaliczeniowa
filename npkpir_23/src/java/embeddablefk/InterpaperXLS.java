@@ -18,6 +18,7 @@ public class InterpaperXLS implements Serializable {
     private static final long serialVersionUID = 1L;
     private int nr;
     private String nrfaktury;
+    private Date dataotrzymania;
     private Date datawystawienia;
     private Date datasprzedaży;
     private Date dataobvat;
@@ -106,6 +107,14 @@ public class InterpaperXLS implements Serializable {
     
     public Date getDatawystawienia() {
         return datawystawienia;
+    }
+
+    public Date getDataotrzymania() {
+        return dataotrzymania;
+    }
+
+    public void setDataotrzymania(Date dataotrzymania) {
+        this.dataotrzymania = dataotrzymania;
     }
     
     public void setDatawystawienia(Date datawystawienia) {
