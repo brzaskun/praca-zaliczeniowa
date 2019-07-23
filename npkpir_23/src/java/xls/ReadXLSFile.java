@@ -121,7 +121,7 @@ public class ReadXLSFile {
                         InterpaperXLS interpaperXLS = new InterpaperXLS();
                         interpaperXLS.setNr(i++);
                         interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO));
-                        if (rodzajdok.equals("zakupy")) {
+                        if (rodzajdok.equals("zakup")) {
                             uzupelnijzakup(interpaperXLS, row);
                         } else {
                             uzupelnijsprzedaz(interpaperXLS, row);
