@@ -203,7 +203,7 @@ public class PodatnikView implements Serializable {
         formyprawne.add(FormaPrawna.FEDERACJA);
         formyprawne.add(FormaPrawna.FUNDACJA);
         wybranyPodatnikOpodatkowanie.setDatarozpoczecia(wpisView.getRokWpisuSt()+"-01-01");
-        wybranyPodatnikOpodatkowanie.setDatazakonczenia(wpisView.getRokWpisuSt()+"-12-01");
+        wybranyPodatnikOpodatkowanie.setDatazakonczenia(wpisView.getRokWpisuSt()+"-12-31");
         udzialy.setDatarozpoczecia(wpisView.getRokWpisuSt()+"-01-01");
         wybranyPodatnikOpodatkowanie.setStawkapodatkuospr(0.19);
         sumaudzialow = sumujudzialy(podatnikUdzialy);
@@ -570,7 +570,6 @@ private DokDAO dokDAO;
 //    }
 //
     public void dodajdoch() {
-        if (sprawdzrok(wybranyPodatnikOpodatkowanie, podatnikOpodatkowanie) == 0) {
             wybranyPodatnikOpodatkowanie.setMcOd(Data.getMc(wybranyPodatnikOpodatkowanie.getDatarozpoczecia()));
             wybranyPodatnikOpodatkowanie.setMcDo(Data.getMc(wybranyPodatnikOpodatkowanie.getDatazakonczenia()));
             wybranyPodatnikOpodatkowanie.setPodatnikObj(wpisView.getPodatnikObiekt());
@@ -578,6 +577,7 @@ private DokDAO dokDAO;
             wybranyPodatnikOpodatkowanie.setRokDo(Data.getRok(wybranyPodatnikOpodatkowanie.getDatazakonczenia()));
             wybranyPodatnikOpodatkowanie.setDatawprowadzenia(new Date());
             wybranyPodatnikOpodatkowanie.setKsiegowa(wpisView.getUzer());
+        if (sprawdzrok(wybranyPodatnikOpodatkowanie, podatnikOpodatkowanie) == 0) {
             podatnikOpodatkowanie.add(wybranyPodatnikOpodatkowanie);
             podatnikOpodatkowanieDDAO.dodaj(wybranyPodatnikOpodatkowanie);
             wybranyPodatnikOpodatkowanie = new PodatnikOpodatkowanieD();
@@ -589,18 +589,24 @@ private DokDAO dokDAO;
     
     public void edytujparametrdoch() {
          if (sprawdzrok(wybranyPodatnikOpodatkowanie, podatnikOpodatkowanie) == 0) {
+            wybranyPodatnikOpodatkowanie.setMcOd(Data.getMc(wybranyPodatnikOpodatkowanie.getDatarozpoczecia()));
+            wybranyPodatnikOpodatkowanie.setMcDo(Data.getMc(wybranyPodatnikOpodatkowanie.getDatazakonczenia()));
+            wybranyPodatnikOpodatkowanie.setRokOd(Data.getRok(wybranyPodatnikOpodatkowanie.getDatarozpoczecia()));
+            wybranyPodatnikOpodatkowanie.setRokDo(Data.getRok(wybranyPodatnikOpodatkowanie.getDatazakonczenia()));
+            wybranyPodatnikOpodatkowanie.setDatawprowadzenia(new Date());
              podatnikOpodatkowanieDDAO.edit(wybranyPodatnikOpodatkowanie);
-             Msg.msg("Zmieniono parametr pod.dochodowy do podatnika "+selected.getNazwapelna());
+             Msg.msg("Zmieniono parametr pod.dochodowy do podatnika "+selected.getPrintnazwa());
          } else {
             Msg.msg("e", "Niezmieniono parametru pod.doch. Niedopasowane okresy. Podatnik "+selected.getPrintnazwa());
         }
     }
     
     public void resetujparamdoch() {
-             wybranyPodatnikOpodatkowanie=new PodatnikOpodatkowanieD();
-             but1.setRendered(true);
-            but2.setRendered(false);
-             Msg.msg("Reset parametr pod.dochodowy do podatnika "+selected.getNazwapelna());
+        wybranyPodatnikOpodatkowanie=new PodatnikOpodatkowanieD();
+        podatnikOpodatkowanieSelected = null;
+        but1.setRendered(true);
+        but2.setRendered(false);
+         Msg.msg("Reset parametr pod.dochodowy do podatnika "+selected.getPrintnazwa());
     }
     
     
@@ -656,9 +662,8 @@ private DokDAO dokDAO;
             return 0;
         } else {
             PodatnikOpodatkowanieD ostatniparametr = stare.get(stare.size() - 1);
-            Integer old_rokDo = Integer.parseInt(ostatniparametr.getRokDo());
-            Integer new_rokOd = Integer.parseInt(Data.getRok(nowe.getDatarozpoczecia()));
-            if (old_rokDo == new_rokOd - 1) {
+            int wynik = Data.compare(nowe.getRokOd(), nowe.getMcOd(),ostatniparametr.getRokDo(), ostatniparametr.getMcDo());
+            if (ostatniparametr.getId()==nowe.getId() || wynik==1) {
                 return 0;
             } else {
                 return 1;

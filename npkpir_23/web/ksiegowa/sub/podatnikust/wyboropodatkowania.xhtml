@@ -104,10 +104,10 @@
             </p:panelGrid>
             <br/>
             <p:panelGrid columns="3" style="column-width: 350px; width: 500px">
-                <p:commandButton actionListener="#{podatnikView.usundoch()}" value="usun parametr" update="@form" type="submit"/>
-                <p:commandButton actionListener="#{podatnikView.dodajdoch()}" value="dodaj parametr" update="@form" type="submit" binding="#{podatnikView.but1}"/>
-                <p:commandButton actionListener="#{podatnikView.edytujparametrdoch()}" value="edytuj parametr" update="@form" type="submit"  binding="#{podatnikView.but2}" rendered="false"/>
-                <p:commandButton value="reset input" update="@form" type="submit" actionListener="#{podatnikView.resetujparamdoch()}">
+                <p:commandButton actionListener="#{podatnikView.usundoch()}" value="usun parametr" update="form1" />
+                <p:commandButton actionListener="#{podatnikView.dodajdoch()}" value="dodaj parametr" update="form1" binding="#{podatnikView.but1}"/>
+                <p:commandButton actionListener="#{podatnikView.edytujparametrdoch()}" value="edytuj parametr" update="form1"  binding="#{podatnikView.but2}" rendered="false"/>
+                <p:commandButton value="reset input" update="form1" type="submit" actionListener="#{podatnikView.resetujparamdoch()}">
                     <p:resetInput target="parametrypodatnika"/>
                 </p:commandButton>
             </p:panelGrid>

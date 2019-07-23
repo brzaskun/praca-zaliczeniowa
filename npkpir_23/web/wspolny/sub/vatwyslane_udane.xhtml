@@ -66,6 +66,7 @@
                 <p:commandButton id="mailbuttonN" value="MailN" actionListener="#{deklaracjevatView.mailvat7N(row)}"
                                  update="formwyslane:akordeon" style="width: 100px; display: none;"  />
                 </p:panelGrid>
+                <p:commandButton actionListener="#{deklaracjevatView.destroywyslane(item)}" id="delete" icon="ui-icon ui-icon-trash" type="submit"  style="width: 80px;" rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
             </p:column>
             <p:rowExpansion>
                 <p:column id="ewidencjavat" headerText="treść wysyłki" width="300" resizable="true">

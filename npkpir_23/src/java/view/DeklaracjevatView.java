@@ -143,7 +143,7 @@ public class DeklaracjevatView implements Serializable {
             E.e(e);
         }
         try {
-            wyslane = deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString());
+            wyslane = deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             for (Deklaracjevat p : wyslane) {
                 try {
                     if (p.isTestowa()) {
@@ -206,6 +206,17 @@ public class DeklaracjevatView implements Serializable {
         selected = selDok;
         try {
                oczekujace.remove(selected);
+               deklaracjevatDAO.destroy(selected);
+                Msg.msg("i","Deklaracja usunięta");
+            } catch (Exception e) { E.e(e); 
+                Msg.msg("e","Deklaracja nie usunięta");
+            }
+    }
+   
+   public void destroywyslane(Deklaracjevat selDok) {
+        selected = selDok;
+        try {
+               wyslanenormalne.remove(selected);
                deklaracjevatDAO.destroy(selected);
                 Msg.msg("i","Deklaracja usunięta");
             } catch (Exception e) { E.e(e); 
