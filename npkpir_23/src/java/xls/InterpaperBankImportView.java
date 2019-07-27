@@ -6,6 +6,7 @@
 package xls;
 
 import beansDok.ListaEwidencjiVat;
+import beansFK.DialogWpisywanie;
 import beansRegon.SzukajDaneBean;
 import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
@@ -46,6 +47,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -103,23 +105,17 @@ public class InterpaperBankImportView implements Serializable {
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     @Inject
     private UkladBRDAO ukladBRDAO;
-    @Inject
-    private ListaEwidencjiVat listaEwidencjiVat;
     private byte[] plikinterpaper;
     public  List<ImportBankXML> pobranefaktury;
     public  List<ImportBankXML> pobranefakturyfilter;
     public  List<ImportBankXML> selected;
     private List<Rodzajedok> rodzajedokKlienta;
     private String wiadomoscnieprzypkonta;
-    private String rodzajdok;
+    private Rodzajedok rodzajdok;
     private PanelGrid grid1;
     private PanelGrid grid2;
     private PanelGrid grid3;
     private CommandButton generujbutton; 
-    private Konto kontonetto;
-    private Konto kontonettokoszt;
-    private Konto kontovat;
-    private Konto kontovatnaliczony;
     private Tabelanbp tabelanbppl;
     private Waluty walutapln;
     private String wyciagdataod;
@@ -129,7 +125,26 @@ public class InterpaperBankImportView implements Serializable {
     private String wyciagwaluta;
     private double wyciagbo;
     private double wyciagbz;
-
+    private Konto wplyw;
+    private Konto zaplata;
+    private Konto prowizja;
+    private Konto wyplatakarta;
+    private Konto platnosckarta;
+    private Konto przelewUS;
+    private Konto przelewZUS;
+    private Konto przelewGmina;
+    private Konto przelewBankBank;
+    private Konto konto213;
+ //typ transakcji
+        //1 wpływ faktura 201,203
+        //2 zapłata faktura 202,204
+        //3 prowizja - 404-3
+        //4 wypłata karta - 149-1
+        //5 płatnośc karta - 149-3
+        //6 US - 222
+        //7 ZUS - 231
+        //8 Gmina - 226
+        //9 bank-bank - 149-2
     
     
     @PostConstruct
@@ -137,7 +152,7 @@ public class InterpaperBankImportView implements Serializable {
         rodzajedokKlienta = rodzajedokDAO.findListaPodatnikRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         for (Iterator<Rodzajedok> it = rodzajedokKlienta.iterator(); it.hasNext();) {
             Rodzajedok p = it.next();
-            if (!p.getSkrot().equals("SZ") && p.getSkrot().equals("UPTK") && p.getSkrot().equals("ZZ")) {
+            if (!p.getSkrot().startsWith("WB")) {
                 it.remove();
             } else {
                 if (p.getKontorozrachunkowe()==null && p.getKontoRZiS()==null) {
@@ -145,12 +160,19 @@ public class InterpaperBankImportView implements Serializable {
                 }
             }
         } 
-        kontonetto = kontoDAO.findKonto("702-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-        kontovat = kontoDAO.findKonto("221-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-        kontonettokoszt = kontoDAO.findKonto("403", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-        kontovatnaliczony = kontoDAO.findKonto("221-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        wyciagwaluta="PLN";
         tabelanbppl = tabelanbpDAO.findByTabelaPLN();
         walutapln = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
+        wplyw = kontoDAO.findKonto("213", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        zaplata = kontoDAO.findKonto("213", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        prowizja = kontoDAO.findKonto("404-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        wyplatakarta = kontoDAO.findKonto("149-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        platnosckarta = kontoDAO.findKonto("149-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        przelewUS = kontoDAO.findKonto("222", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        przelewZUS = kontoDAO.findKonto("231", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        przelewGmina = kontoDAO.findKonto("226", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        przelewBankBank = kontoDAO.findKonto("149-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        konto213 = kontoDAO.findKonto("213", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
     }
     
     
@@ -173,6 +195,23 @@ public class InterpaperBankImportView implements Serializable {
         }
     }
     
+    public void resetuj() {
+        rodzajdok = null;
+        pobranefaktury = null;
+        wyciagnr = null;
+        wyciagdataod = null;
+        wyciagdatado = null;
+        wyciagkonto = null;
+        wyciagwaluta = null;
+        wyciagbo = 0.0;
+        wyciagbz = 0.0;
+        plikinterpaper = null;
+        grid1.setRendered(false);
+        grid2.setRendered(false);
+        grid3.setRendered(false);
+    }
+    
+    
     
     public void importujdok() {
         try {
@@ -187,6 +226,9 @@ public class InterpaperBankImportView implements Serializable {
                 wyciagnr = pT(nList1.item(0), "Id");;
                 wyciagdataod = pT(nList1.item(0), "FrDtTm");
                 wyciagdatado = pT(nList1.item(0), "ToDtTm");
+                if (wyciagdatado!=null) {
+                    wyciagdatado = wyciagdatado.substring(0, 10);
+                }
                 wyciagkonto = pT(nList1.item(0), "IBAN");
                 wyciagwaluta = pT(nList1.item(0), "Ccy");
                 wyciagbo = Double.valueOf(pT(nList1.item(0), "Amt", 0));
@@ -244,17 +286,26 @@ public class InterpaperBankImportView implements Serializable {
 //        }
     }
     
-    //typ transakcji
-        //1 wpływ faktura
-        //2 zapłata faktura
-        //3 prowizja
-        //4 wypłata karta
-        //5 płatnośc karta
-        //6 podatki
+     //typ transakcji
+        //1 wpływ faktura 201,203
+        //2 zapłata faktura 202,204
+        //3 prowizja - 404-3
+        //4 wypłata karta - 149-1
+        //5 płatnośc karta - 149-3
+        //6 US - 222
+        //7 ZUS - 231
+        //8 Gmina - 226
+        //9 bank-bank - 149-2
     private int oblicztyptransakcji(ImportBankXML p) {
         int zwrot = 0;
         if (p.getKontrahent().equals("NOTPROVIDED")) {
             zwrot = 3;
+        } else if (p.getKontrahent().toLowerCase().contains("INTERPAPER SP Z O O SK")) {
+            zwrot = 8;
+        } else if (p.getKontrahent().toLowerCase().contains("Gmina")) {
+            zwrot = 8;
+        } else if (p.getKontrahent().toLowerCase().contains("Zakład Ubezpieczeń Społecznych")) {
+            zwrot = 7;
         } else if (p.getKontrahent().toLowerCase().contains("urząd")) {
             zwrot = 6;
         } else if (p.getOpistransakcji().equals("WYPŁATA KARTĄ")) {
@@ -269,47 +320,24 @@ public class InterpaperBankImportView implements Serializable {
         return zwrot;
     }
     public void generuj() {
-//        if (pobranefaktury !=null && pobranefaktury.size()>0) {
-//            List<Klienci> k = klienciDAO.findAll();
-//            int ile = 0;
-//            if (selected !=null && selected.size()>0) {
-//                for (ImportBankXML p : selected) {
-//                   ile += generowanieDokumentu(p, k);
-//                }
-//                Msg.msg("Zaksięgowano "+ile+" z wybranych dokumentów");
-//            } else {
-//                for (ImportBankXML p : pobranefaktury) {
-//                   ile += generowanieDokumentu(p, k);
-//                }
-//                Msg.msg("Zaksięgowano "+ile+" dokumentów");
-//            }
-//        } else {
-//            Msg.msg("e", "Błąd! Lista danych źrdółowych jest pusta");
-//        }
+        if (pobranefaktury !=null && pobranefaktury.size()>0) {
+            List<Klienci> k = klienciDAO.findAll();
+            generowanieDokumentu(k);
+        } else {
+            Msg.msg("e", "Błąd! Lista danych źrdółowych jest pusta");
+        }
     }
     
-     public int generowanieDokumentu(InterpaperXLS interpaperXLS, List<Klienci> k) {
-        int ile = 0;
+     public void generowanieDokumentu(List<Klienci> k) {
         try {
-            int polska0unia1zagranica2 = 0;
-            if (interpaperXLS.getKlient().getKrajnazwa()!=null && !interpaperXLS.getKlient().getKrajkod().equals("PL")) {
-                polska0unia1zagranica2 = 2;
-                if (PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod())) {
-                    polska0unia1zagranica2 = 1;
-                }
-            }
-            String rodzajdk = "ZZ";
-            if (rodzajdok.equals("sprzedaż")) {
-                rodzajdk = polska0unia1zagranica2==0 ? "SZ" : polska0unia1zagranica2==1 ? "UPTK100" : "UPTK";
-            } else {
-                rodzajdk = polska0unia1zagranica2==0 ? "ZZ" : "IU";
-            }
-            Dokfk dokument = stworznowydokument(interpaperXLS, rodzajdk, k);
+            Dokfk dokument = stworznowydokument(k);
             try {
                 if (dokument!=null) {
                     dokument.setImportowany(true);
                     dokDAOfk.dodaj(dokument);
-                    ile++;
+                    Msg.msg("Wygenerowano wyciąg bankowy");
+                } else {
+                    Msg.msg("e", "Wyciąg o takim numerze już istnienie. Nie zaksięgowano dokumentu "+rodzajdok.getSkrotNazwyDok());
                 }
             } catch (Exception e) {
                 Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu "+rodzajdok);
@@ -317,233 +345,171 @@ public class InterpaperBankImportView implements Serializable {
         } catch (Exception e) {
             E.e(e);
         }
-        return ile;
     }
      
-      private Dokfk stworznowydokument(InterpaperXLS interpaperXLS, String rodzajdok, List<Klienci> klienci) {
-        int numerkolejny = ImportBean.oblicznumerkolejny(rodzajdok, dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+      private Dokfk stworznowydokument(List<Klienci> klienci) {
+        int numerkolejny = ImportBean.oblicznumerkolejny(rodzajdok.getSkrotNazwyDok(), dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Dokfk nd = new Dokfk(numerkolejny, wpisView.getRokWpisuSt());
-        ustawdaty(nd, interpaperXLS);
-        nd.setKontr(ImportBean.ustawkontrahenta(interpaperXLS.getNip(), interpaperXLS.getKontrahent(), klienci, gUSView, klienciDAO));
-        ImportBean.ustawnumerwlasny(nd, interpaperXLS.getNrfaktury());
-        nd.setOpisdokfk("usługa transportowa");
+        ustawdaty(nd);
+        nd.setKontr(ImportBean.ustawkontrahenta(wpisView.getPodatnikObiekt().getNip(), wpisView.getPodatnikWpisu(), klienci, gUSView, klienciDAO));
+        ImportBean.ustawnumerwlasny(nd, "wyciag nr "+wyciagnr);
+        nd.setOpisdokfk("rozliczenie wyciągu za "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt());
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
-        ImportBean.ustawrodzajedok(nd, rodzajdok, rodzajedokDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        ustawtabelenbp(nd, interpaperXLS);
-        podepnijEwidencjeVat(nd, interpaperXLS);
+        nd.setSeriadokfk(rodzajdok.getSkrot());
+        nd.setRodzajedok(rodzajdok);
+        nd.setEwidencjaVAT(null);
+        nd.setSaldopoczatkowe(wyciagbo);
+        if (wyciagwaluta.equals("PLN")) {
+            nd.setTabelanbp(tabelanbppl);
+            nd.setWalutadokumentu(walutapln);
+        }
         Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
         if (juzjest!=null) {
             nd = null;
-            interpaperXLS.setJuzzaksiegowany(true);
         } else {
-            ustawwiersze(nd, interpaperXLS);
+            ustawwiersze(nd);
             nd.setImportowany(true);
             nd.setWprowadzil(wpisView.getUzer().getLogin());
             nd.przeliczKwotyWierszaDoSumyDokumentu();
+            rozliczsaldoWBRK(nd);
         }
         return nd;
     }
       
     
     
-    private void ustawdaty(Dokfk nd, InterpaperXLS interpaperXLS) {
-        Format formatterX = new SimpleDateFormat("yyyy-MM-dd");
-        String datadokumentu = formatterX.format(interpaperXLS.getDatawystawienia());
-        String datasprzedazy = formatterX.format(interpaperXLS.getDatasprzedaży());
-        nd.setDatadokumentu(datadokumentu);
-        nd.setDataoperacji(datasprzedazy);
-        nd.setDatawplywu(datadokumentu);
-        nd.setDatawystawienia(datadokumentu);
+    private void ustawdaty(Dokfk nd) {
+        nd.setDatadokumentu(wyciagdatado);
+        nd.setDataoperacji(wyciagdatado);
+        nd.setDatawplywu(wyciagdatado);
+        nd.setDatawystawienia(wyciagdatado);
         nd.setDataujecia(new Date());
         nd.setMiesiac(wpisView.getMiesiacWpisu());
-        nd.setVatM(datasprzedazy.split("-")[1]);
-        nd.setVatR(datasprzedazy.split("-")[0]);
+        nd.setRok(wpisView.getRokWpisuSt());
+        nd.setVatM(wyciagdatado.split("-")[1]);
+        nd.setVatR(wyciagdatado.split("-")[0]);
     }
     
     
-    
-    private void ustawtabelenbp(Dokfk nd, InterpaperXLS interpaperXLS) {
-        if (interpaperXLS.getWalutaplatnosci().equals("PLN")) {
-            nd.setTabelanbp(tabelanbppl);
-            nd.setWalutadokumentu(walutapln);
+      
+    private void ustawwiersze(Dokfk nd) {
+        nd.setListawierszy(new ArrayList<Wiersz>());
+        int lpwiersza = 1;
+        for (ImportBankXML p : pobranefaktury) {
+            Konto kontown = p.getWnma().equals("Wn") ? rodzajdok.getKontorozrachunkowe() : ustawkonto(p);
+            Konto kontoma = p.getWnma().equals("Ma") ? rodzajdok.getKontorozrachunkowe() :ustawkonto(p);
+            nd.getListawierszy().add(przygotujwierszNetto(lpwiersza, nd, p, kontown, kontoma));
+            lpwiersza++;
+            if (lpwiersza>100) {
+                break;
+            }
+        }
+
+    }
+
+    private Wiersz przygotujwierszNetto(int lpwiersza,Dokfk nd, ImportBankXML importBankXML, Konto kontown, Konto kontoma) {
+        Wiersz w = new Wiersz(lpwiersza, 0);
+        w.setDataWalutyWiersza(Data.getDzien(importBankXML.getDatatransakcji()));
+        uzupelnijwiersz(w, nd, importBankXML);
+        w.setOpisWiersza(zrobopiswiersza(importBankXML));
+        StronaWiersza strwn = new StronaWiersza(w, "Wn", importBankXML.getKwota(), kontown);
+        StronaWiersza strma = new StronaWiersza(w, "Ma", importBankXML.getKwota(), kontoma);
+        strwn.setKwotaPLN(zrobpln(w,importBankXML));
+        strma.setKwotaPLN(zrobpln(w,importBankXML));
+        w.setStronaWn(strwn);
+        w.setStronaMa(strma);
+        return w;
+    }
+    //typ transakcji
+        //1 wpływ faktura
+        //2 zapłata faktura
+        //3 prowizja
+        //4 wypłata karta - 149-1
+        //5 płatnośc karta - 149-3
+        //6 US
+        //7 ZUS
+        //8 Gmina
+        //9 bank-bank
+    private Konto ustawkonto(ImportBankXML p) {
+        Konto zwrot = null;
+        int numer = p.getTyptransakcji();
+        switch (numer) {
+            case 1:
+                zwrot = konto213;
+                break;
+            case 2:
+                zwrot = konto213;
+                break;
+            case 3:
+                zwrot = prowizja;
+                break;
+            case 4:
+                zwrot = wyplatakarta;
+                break;
+            case 5:
+                zwrot = platnosckarta;
+                break;
+            case 6:
+                zwrot = przelewUS;
+                break;
+            case 7:
+                zwrot = przelewZUS;
+                break;
+            case 8:
+                zwrot = przelewGmina;
+                break;
+            case 9:
+                zwrot = przelewBankBank;
+                break;
+        }
+        return zwrot;
+    }    
+        
+    private void uzupelnijwiersz(Wiersz w, Dokfk nd, ImportBankXML importBankXML) {
+        if (importBankXML.getWaluta().equals("PLN")) {
+            w.setTabelanbp(tabelanbppl);
+            w.setDokfk(nd);
+            w.setLpmacierzystego(0);
+            w.setTabelanbp(w.getTabelanbp());
+            w.setDataksiegowania(nd.getDatawplywu());
         } else {
             Format formatterX = new SimpleDateFormat("yyyy-MM-dd");
-            String datadokumentu = formatterX.format(interpaperXLS.getDatasprzedaży());
+            String datadokumentu = formatterX.format(importBankXML.getDatawaluty());
             DateTime dzienposzukiwany = new DateTime(datadokumentu);
             boolean znaleziono = false;
             int zabezpieczenie = 0;
             while (!znaleziono && (zabezpieczenie < 365)) {
                 dzienposzukiwany = dzienposzukiwany.minusDays(1);
                 String doprzekazania = dzienposzukiwany.toString("yyyy-MM-dd");
-                Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania, interpaperXLS.getWalutaplatnosci());
+                Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania, importBankXML.getWaluta());
                 if (tabelanbppobrana instanceof Tabelanbp) {
                     znaleziono = true;
-                    nd.setTabelanbp(tabelanbppobrana);
+                    w.setTabelanbp(tabelanbppobrana);
                     break;
                 }
                 zabezpieczenie++;
             }
-            Waluty w = walutyDAOfk.findWalutaBySymbolWaluty(interpaperXLS.getWalutaplatnosci());
-            nd.setWalutadokumentu(w);
         }
     }
     
-    private void ustawwiersze(Dokfk nd, InterpaperXLS interpaperXLS) {
-        nd.setListawierszy(new ArrayList<Wiersz>());
-        if (rodzajdok.equals("sprzedaż")) {
-            nd.getListawierszy().add(przygotujwierszNetto(interpaperXLS, nd));
-            if (interpaperXLS.getVatwaluta() != 0) {
-                nd.getListawierszy().add(przygotujwierszVat(interpaperXLS, nd));
-            }
-        } else {
-            nd.getListawierszy().add(przygotujwierszNettoK(interpaperXLS, nd));
-            if (interpaperXLS.getVatwaluta() != 0) {
-                nd.getListawierszy().add(przygotujwierszVatK(interpaperXLS, nd));
-            }
+     private double zrobpln(Wiersz w, ImportBankXML importBankXML) {
+        double zwrot = importBankXML.getKwota();
+        if (!w.getWalutaWiersz().equals("PLN")) {
+            zwrot = Z.z(importBankXML.getKwota()*w.getTabelanbp().getKurssredniPrzelicznik());
         }
+        return zwrot;
     }
 
-    private Wiersz przygotujwierszNetto(InterpaperXLS interpaperXLS, Dokfk nd) {
-        Wiersz w = new Wiersz(1, 0);
-        uzupelnijwiersz(w, nd);
-        String opiswiersza = "usługa transportowa"; 
-        w.setOpisWiersza(opiswiersza);
-        StronaWiersza strwn = new StronaWiersza(w, "Wn", interpaperXLS.getBruttowaluta(), null);
-        StronaWiersza strma = new StronaWiersza(w, "Ma", interpaperXLS.getNettowaluta(), null);
-        strwn.setKwotaPLN(interpaperXLS.getBruttoPLN());
-        strma.setKwotaPLN(interpaperXLS.getNettoPLNvat());
-        strma.setKonto(kontonetto);
-        strwn.setKonto(ImportBean.pobierzkontoWn(interpaperXLS.getKlient(), kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO));
-        w.setStronaWn(strwn);
-        w.setStronaMa(strma);
-        return w;
-    }
-    
-    private Wiersz przygotujwierszVat(InterpaperXLS interpaperXLS, Dokfk nd) {
-        Wiersz w = new Wiersz(2, 2);
-        uzupelnijwiersz(w, nd);
-        String opiswiersza = "usługa transportowa - VAT"; 
-        w.setOpisWiersza(opiswiersza);
-        StronaWiersza strma = new StronaWiersza(w, "Ma", interpaperXLS.getVatwaluta(), null);
-        strma.setKwotaPLN(interpaperXLS.getVatPLN());
-        strma.setKonto(kontovat);
-        w.setStronaMa(strma);
-        return w;
-    }
-    
-    private Wiersz przygotujwierszNettoK(InterpaperXLS interpaperXLS, Dokfk nd) {
-        Wiersz w = new Wiersz(1, 0);
-        uzupelnijwiersz(w, nd);
-        String opiswiersza = "usługa transportowa"; 
-        w.setOpisWiersza(opiswiersza);
-        StronaWiersza strma = new StronaWiersza(w, "Ma", interpaperXLS.getBruttowaluta(), null);
-        StronaWiersza strwn = new StronaWiersza(w, "Wn", interpaperXLS.getNettowaluta(), null);
-        strma.setKwotaPLN(interpaperXLS.getBruttoPLN());
-        strwn.setKwotaPLN(interpaperXLS.getNettoPLNvat());
-        strwn.setKonto(kontonettokoszt);
-        strma.setKonto(ImportBean.pobierzkontoMa(interpaperXLS.getKlient(), kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO));
-        w.setStronaMa(strma);
-        w.setStronaWn(strwn);
-        return w;
-    }
-    
-    private Wiersz przygotujwierszVatK(InterpaperXLS interpaperXLS, Dokfk nd) {
-        Wiersz w = new Wiersz(2, 1);
-        uzupelnijwiersz(w, nd);
-        String opiswiersza = "usługa transportowa - VAT"; 
-        w.setOpisWiersza(opiswiersza);
-        StronaWiersza strwn = new StronaWiersza(w, "Wn", interpaperXLS.getVatwaluta(), null);
-        strwn.setKwotaPLN(interpaperXLS.getVatPLN());
-        strwn.setKonto(kontovatnaliczony);
-        w.setStronaWn(strwn);
-        return w;
-    }
-    
-    private void uzupelnijwiersz(Wiersz w, Dokfk nd) {
-        Tabelanbp t = tabelanbpDAO.findByTabelaPLN();
-        w.setTabelanbp(t);
-        w.setDokfk(nd);
-        w.setLpmacierzystego(0);
-        w.setTabelanbp(w.getTabelanbp());
-        w.setDataksiegowania(nd.getDatawplywu());
-    }
-    
-    private void podepnijEwidencjeVat(Dokfk nd, InterpaperXLS interpaperXLS) {
-        if (nd.getRodzajedok().getKategoriadokumentu() != 0 && nd.getRodzajedok().getKategoriadokumentu() != 5) {
-            if (nd.iswTrakcieEdycji() == false) {
-                nd.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
-                    boolean vatowiec = wpisView.isVatowiec();
-                    if (vatowiec) {
-                        /*wyswietlamy ewidencje VAT*/
-                        List<Evewidencja> opisewidencji = Collections.synchronizedList(new ArrayList<>());
-                        opisewidencji.addAll(listaEwidencjiVat.pobierzEvewidencje(nd.getRodzajedok().getRodzajtransakcji()));
-                        int k = 0;
-                        for (Evewidencja p : opisewidencji) {
-                            EVatwpisFK eVatwpisFK = new EVatwpisFK(); 
-                            eVatwpisFK.setLp(k++);
-                            eVatwpisFK.setEwidencja(p);
-                            if (Z.z(interpaperXLS.getVatPLN())!=0.0) {
-                                if (p.getNazwa().equals("sprzedaż 23%")||p.getNazwa().equals("zakup")) {
-                                    eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
-                                    eVatwpisFK.setVat(Z.z(interpaperXLS.getVatPLN()));
-                                    eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()+interpaperXLS.getVatPLN()));
-                                    eVatwpisFK.setDokfk(nd);
-                                    eVatwpisFK.setEstawka("op");
-                                    nd.getEwidencjaVAT().add(eVatwpisFK);
-                                    break;
-                                }
-                            } else {
-                                if (PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("import usług art. 28b")) {
-                                    eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
-                                    eVatwpisFK.setVat(Z.z(interpaperXLS.getVatPLN()));
-                                    eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()+interpaperXLS.getVatPLN()));
-                                    eVatwpisFK.setDokfk(nd);
-                                    eVatwpisFK.setEstawka("op");
-                                    nd.getEwidencjaVAT().add(eVatwpisFK);
-                                    break;
-                                } else if (!PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("import usług")) {
-                                    eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
-                                    eVatwpisFK.setVat(Z.z(interpaperXLS.getVatPLN()));
-                                    eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()+interpaperXLS.getVatPLN()));
-                                    eVatwpisFK.setDokfk(nd);
-                                    eVatwpisFK.setEstawka("op");
-                                    nd.getEwidencjaVAT().add(eVatwpisFK);
-                                    break;
-                                } else if (PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("usługi świad. poza ter.kraju art. 100 ust.1 pkt 4")) {
-                                    eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
-                                    eVatwpisFK.setVat(0.0);
-                                    eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()));
-                                    eVatwpisFK.setDokfk(nd);
-                                    eVatwpisFK.setEstawka("op");
-                                    nd.getEwidencjaVAT().add(eVatwpisFK);
-                                    break;
-                                } else if (!PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("usługi świad. poza ter.kraju")) {
-                                    eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
-                                    eVatwpisFK.setVat(0.0);
-                                    eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()));
-                                    eVatwpisFK.setDokfk(nd);
-                                    eVatwpisFK.setEstawka("op");
-                                    nd.getEwidencjaVAT().add(eVatwpisFK);
-                                    break;
-                                } else if (p.getNazwa().equals("sprzedaż 0%")||p.getNazwa().equals("zakup")) {
-                                    eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
-                                    eVatwpisFK.setVat(0.0);
-                                    eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()));
-                                    eVatwpisFK.setDokfk(nd);
-                                    eVatwpisFK.setEstawka("op");
-                                    nd.getEwidencjaVAT().add(eVatwpisFK);
-                                    break;
-                                }
-                            }
-                        }
-                } else {
-                    Msg.msg("e", "Brak podstawowych ustawień dla podatnika dotyczących opodatkowania. Nie można wpisywać dokumentów! podepnijEwidencjeVat()");
-                }
+      public void rozliczsaldoWBRK(Dokfk selected) {
+        Konto kontorozrachunkowe = selected.getRodzajedok().getKontorozrachunkowe();
+        if (selected.getRodzajedok().getKategoriadokumentu() == 0 && kontorozrachunkowe != null) {
+            int koncowyindex = selected.getListawierszy().size();
+            for (int i = 0; i < koncowyindex; i++) {
+                DialogWpisywanie.rozliczPojedynczeSaldoWBRK(selected, i, kontorozrachunkowe);
             }
         }
+        selected.setSaldokoncowe(selected.getListawierszy().get(selected.getListawierszy().size() - 1).getSaldoWBRK());
     }
-
-     
     
    
      
@@ -609,13 +575,14 @@ public class InterpaperBankImportView implements Serializable {
         this.wiadomoscnieprzypkonta = wiadomoscnieprzypkonta;
     }
 
-    public String getRodzajdok() {
+    public Rodzajedok getRodzajdok() {
         return rodzajdok;
     }
 
-    public void setRodzajdok(String rodzajdok) {
+    public void setRodzajdok(Rodzajedok rodzajdok) {
         this.rodzajdok = rodzajdok;
     }
+
 
     public PanelGrid getGrid1() {
         return grid1;
@@ -776,6 +743,26 @@ public static void main(String[] args) throws SAXException, IOException {
             Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    private String zrobopiswiersza(ImportBankXML importBankXML) {
+        String opis = importBankXML.getOpistransakcji().toLowerCase(new Locale("pl"));
+        String kontr = importBankXML.getKontrahent();
+        if (kontr.equals("NOTPROVIDED")) {
+            kontr="";
+        }
+        if (opis.contains("TRANSAKCJA KARTĄ PŁATNICZĄ")) {
+            opis = opis.replace("TRANSAKCJA KARTĄ PŁATNICZĄ", "transakcja kartą");
+        }
+        if (opis.contains("WYPŁATA KARTĄ")) {
+            opis = opis.replace("WYPŁATA KARTĄ", "wypłatya kartą");
+        }
+        
+        opis = opis.replaceAll("\\s{2,}", " ").trim();
+        return kontr+" "+opis;
+    }
+
+   
+    
 
     
    

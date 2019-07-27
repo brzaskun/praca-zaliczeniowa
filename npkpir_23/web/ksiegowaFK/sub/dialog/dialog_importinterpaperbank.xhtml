@@ -38,10 +38,9 @@
                 <p:panelGrid columns="2" style="margin-top: 20px;margin-bottom: 10px; float: right;" rendered="false" binding="#{interpaperBankImportView.grid1}">
                     <h:outputText value="rodzaj wyciągu" style="margin-left: 40px;"/>
                         <p:selectOneMenu id="symbol" value="#{interpaperBankImportView.rodzajdok}" 
-                                         style="width: 200px; margin-left: 20px;" >
+                                         style="width: 200px; margin-left: 20px;"  converter="#{rodzajedokConv}">
                             <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
-                            <f:selectItem itemLabel="WB" itemValue="WB" />
-                            <f:selectItem itemLabel="WBR" itemValue="WBR" />
+                            <f:selectItems value="#{interpaperBankImportView.rodzajedokKlienta}"  var="wploop" itemLabel="#{wploop.skrotNazwyDok} - #{wploop.nazwa}"/>
                             <p:ajax global="false" event="blur"  partialSubmit="true"/>
                             <p:ajax global="false" event="change"  partialSubmit="true" listener="#{interpaperBankImportView.grid2pokaz}" update="panelprzyciskowbank"/>
                         </p:selectOneMenu>
@@ -56,16 +55,16 @@
                 <h:outputText value="data do"/><h:outputText value="#{interpaperBankImportView.wyciagdatado}"/>
                 <h:outputText value="waluta"/><h:outputText value="#{interpaperBankImportView.wyciagwaluta}"/>
                 <h:outputText value="konto"/><h:outputText value="#{interpaperBankImportView.wyciagkonto}" rendered="#{interpaperBankImportView.wyciagkonto ne '11111'}"/>
-                <h:outputText value="Wyciąg w innym formacie brak nagłówka z saldami" rendered="#{interpaperBankImportView.wyciagkonto eq '11111'}" style="color:red;font-weight: bold;"/>
+                <h:outputText value="Pobrano historię zapisów a nie wyciąg. Informacja o saldach niedostępna" rendered="#{interpaperBankImportView.wyciagkonto eq '11111'}" style="color:red;font-weight: bold;"/>
                 <h:outputText value="saldo początkowe"/><bcf:outputpl value="#{interpaperBankImportView.wyciagbo}"/>
                 <h:outputText value="saldo końcowe"/><bcf:outputpl value="#{interpaperBankImportView.wyciagbz}"/>
             </p:panelGrid>
-            <h:outputText value=" "/>
         <h:outputText value="#{interpaperBankImportView.wiadomoscnieprzypkonta}" style="color: red; margin-bottom: 10px;"/>
-        <h:outputText value=" "/>
+        <p:panelGrid columns="3" style="width: 500px;">
                 <p:commandButton value="pobierz dane" actionListener="#{interpaperBankImportView.importujdok()}" update="panelprzyciskowbank form_importinterpaperbank" style="width: 120px;" />
-                <p:commandButton value="generuj dok" actionListener="#{interpaperBankImportView.generuj()}" update="form_importinterpaperbank" style="width: 120px;margin-left: 30px;" rendered="false" binding="#{interpaperBankImportView.generujbutton}"/>
-            
+                <p:commandButton value="resetuj" actionListener="#{interpaperBankImportView.resetuj()}" update="panelplikbank panelprzyciskowbank form_importinterpaperbank" style="width: 120px; margin-left: 20px;" resetValues="true"/>
+                <p:commandButton value="generuj dok" actionListener="#{interpaperBankImportView.generuj()}" update="form_importinterpaperbank" style="width: 120px;margin-left: 60px;" rendered="false" binding="#{interpaperBankImportView.generujbutton}"/>
+            </p:panelGrid>
         </p:panelGrid>
         </h:form>  
  

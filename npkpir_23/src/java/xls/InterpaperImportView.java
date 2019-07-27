@@ -434,8 +434,7 @@ public class InterpaperImportView implements Serializable {
     }
     
     private void uzupelnijwiersz(Wiersz w, Dokfk nd) {
-        Tabelanbp t = tabelanbpDAO.findByTabelaPLN();
-        w.setTabelanbp(t);
+        w.setTabelanbp(nd.getTabelanbp());
         w.setDokfk(nd);
         w.setLpmacierzystego(0);
         w.setTabelanbp(w.getTabelanbp());

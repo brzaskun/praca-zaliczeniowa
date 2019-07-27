@@ -73,7 +73,7 @@ public class PlanKontView implements Serializable {
 
     private int levelBiezacy = 0;
     private List<Konto> wykazkont;
-    private LazyDataModel wykazkontlazy;
+//    private LazyDataModel wykazkontlazy;
     private List<Konto> wykazkontwzor;
     @Inject
     private Konto selected;
@@ -163,7 +163,7 @@ public class PlanKontView implements Serializable {
 //</editor-fold>
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownikEdycja(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Collections.sort(wykazkont, new Kontocomparator());
-        wykazkontlazy = new LazyKontoDataModel(wykazkont);
+        //wykazkontlazy = new LazyKontoDataModel(wykazkont);
         //root = rootInit(wykazkont);
         listaukladowwzorcowy = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
       wybranyukladwzorcowy = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladowwzorcowy);
@@ -282,14 +282,14 @@ public class PlanKontView implements Serializable {
         Collections.sort(wykazkont, new Kontocomparator());
         bezslownikowych = false;
         tylkosyntetyka = false;
-        wykazkontlazy = new LazyKontoDataModel(wykazkont);
+        //wykazkontlazy = new LazyKontoDataModel(wykazkont);
     }
     
     public void pobierzwszystkie() {
         wybranaseriakont = 9;
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Collections.sort(wykazkont, new Kontocomparator());
-        wykazkontlazy = new LazyKontoDataModel(wykazkont);
+        //wykazkontlazy = new LazyKontoDataModel(wykazkont);
     }
     
     
@@ -1054,7 +1054,7 @@ public class PlanKontView implements Serializable {
             PozycjaRZiSFKBean.zmianaukladu("bilansowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, podatnik, wpisView.getRokWpisuSt());
             PozycjaRZiSFKBean.zmianaukladu("wynikowe", wybranyuklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, podatnik, wpisView.getRokWpisuSt());
             Collections.sort(wykazkont, new Kontocomparator());
-            wykazkontlazy = new LazyKontoDataModel(wykazkontf);
+            //wykazkontlazy = new LazyKontoDataModel(wykazkontf);
             Msg.msg("Zakończono porządkowanie kont");
         } else {
             Msg.msg("e","Nie wybrano konta");
@@ -1114,7 +1114,7 @@ public class PlanKontView implements Serializable {
             PozycjaRZiSFKBean.zmianaukladu("wynikowe", uklad, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAO, podatnik, rok);
             wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaPobierzRelacje(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             Collections.sort(wykazkont, new Kontocomparator());
-            wykazkontlazy = new LazyKontoDataModel(wykazkont);
+            //wykazkontlazy = new LazyKontoDataModel(wykazkont);
         } else {
             listaukladowwzorcowy = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikwzorcowy(), rok);
             wybranyukladwzorcowy = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladowwzorcowy);
@@ -2055,13 +2055,13 @@ public class PlanKontView implements Serializable {
 
     //</editor-fold>
 
-    public LazyDataModel<Konto> getWykazkontlazy() {
-        return wykazkontlazy;
-    }
-
-    public void setWykazkontlazy(LazyDataModel<Konto> wykazkontlazy) {
-        this.wykazkontlazy = wykazkontlazy;
-    }
+//    public LazyDataModel<Konto> getWykazkontlazy() {
+//        return wykazkontlazy;
+//    }
+//
+//    public void setWykazkontlazy(LazyDataModel<Konto> wykazkontlazy) {
+//        this.wykazkontlazy = wykazkontlazy;
+//    }
 
 
     
