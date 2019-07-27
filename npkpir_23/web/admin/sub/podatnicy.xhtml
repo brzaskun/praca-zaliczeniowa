@@ -72,7 +72,7 @@
             </p:column>
             <p:column headerText="księgowa" rendered="#{podatnikKsiegowaView.edycja}">
                 <p:selectOneMenu value="#{item.ksiegowa}" style="width: 100px;" converter="#{uzConv}">
-                    <f:selectItems value="#{podatnikKsiegowaView.listaksiegowych}" var="loop" itemLabel="#{loop.login}" itemValue="#{loop}"/>
+                    <f:selectItems value="#{podatnikKsiegowaView.listaksiegowychwybor}" var="loop" itemLabel="#{loop.login}" itemValue="#{loop}"/>
                 </p:selectOneMenu>
             </p:column>
             <p:column headerText="cena" width="100">

@@ -16,7 +16,7 @@
     </style>
    
         <p:dialog id="importinterpaperbank" header="Zestawienie pobranych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="importinterpaperbank" height="900" width="1450"
-              resizable="false"  onShow="ustawdialog('importinterpaperbank','menudokumenty');" closeOnEscape="true" onHide="resetujdialog('importinterpaperbank');" >
+              resizable="false"  onShow="ustawdialog('importinterpaperbank','menudokumenty', 1450,900);" closeOnEscape="true" onHide="resetujdialog('importinterpaperbank');" >
         <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" update=":form_importinterpaperbank"/>
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
@@ -124,7 +124,8 @@
                     <h:outputText value="#{itemimp.typtransakcji}"/>
                 </p:column>
                 <p:column headerText="opis" styleClass="zaksiegowanewaski" width="150" sortBy="#{itemimp.opistransakcji}" filterBy="#{itemimp.opistransakcji}" filterMatchMode="contains" >
-                    <h:outputText value="#{itemimp.opistransakcji}"/>
+                    <h:outputText value="#{itemimp.opistransakcji}" rendered="#{itemimp.juzzaksiegowany eq false}"/>
+                    <h:outputText value="duplikat" rendered="#{itemimp.juzzaksiegowany eq true}" style="color: red;"/>
                 </p:column>
                 <p:column headerText="#{mgs.kontrahent}" width="140" sortBy="#{itemimp.kontrahent}" filterBy="#{itemimp.kontrahent}" >
                     <h:outputText value="#{itemimp.kontrahent}" rendered="#{itemimp.kontrahent ne 'NOTPROVIDED'}"/>

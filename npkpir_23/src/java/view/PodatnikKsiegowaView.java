@@ -35,6 +35,7 @@ public class PodatnikKsiegowaView implements Serializable{
     private static final long serialVersionUID = 1L;
     private List<Podatnik> listapodatnikow;
     private List<Uz> listaksiegowych;
+    private List<Uz> listaksiegowychwybor;
     @Inject
     private PodatnikDAO podatnikDAO;
     @Inject
@@ -51,6 +52,7 @@ public class PodatnikKsiegowaView implements Serializable{
         Collections.sort(listapodatnikow, new Podatnikcomparator());
         listaksiegowych = uzDAO.findByUprawnienia("Bookkeeper");
         listaksiegowych.addAll(uzDAO.findByUprawnienia("BookkeeperFK"));
+        listaksiegowychwybor = new ArrayList<>(listaksiegowych);
         Collections.sort(listaksiegowych, new Uzcomparator());
         List<Fakturywystokresowe> okresowe = fakturywystokresoweDAO.findPodatnikBiezace("GRZELCZYK", rok);
         for (Podatnik p : listapodatnikow) {
@@ -166,6 +168,14 @@ public class PodatnikKsiegowaView implements Serializable{
 
     public void setListaksiegowych(List<Uz> listaksiegowych) {
         this.listaksiegowych = listaksiegowych;
+    }
+
+    public List<Uz> getListaksiegowychwybor() {
+        return listaksiegowychwybor;
+    }
+
+    public void setListaksiegowychwybor(List<Uz> listaksiegowychwybor) {
+        this.listaksiegowychwybor = listaksiegowychwybor;
     }
 
     public String getRok() {

@@ -5,29 +5,21 @@
  */
 package xls;
 
-import beansDok.ListaEwidencjiVat;
 import beansFK.DialogWpisywanie;
-import beansRegon.SzukajDaneBean;
-import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import daoFK.DokDAOfk;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
 import daoFK.TabelanbpDAO;
-import daoFK.UkladBRDAO;
 import daoFK.WalutyDAOfk;
+import daoFK.WierszDAO;
 import data.Data;
 import dedra.Dedraparser;
-import embeddable.PanstwaEUSymb;
 import embeddablefk.ImportBankXML;
-import embeddablefk.InterpaperXLS;
-import entity.Evewidencja;
 import entity.Klienci;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
-import entityfk.EVatwpisFK;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
@@ -40,10 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -100,11 +89,7 @@ public class InterpaperBankImportView implements Serializable {
     @Inject
     private KontoDAOfk kontoDAO;
     @Inject
-    private EvewidencjaDAO evewidencjaDAO;
-    @Inject
-    private KontopozycjaZapisDAO kontopozycjaZapisDAO;
-    @Inject
-    private UkladBRDAO ukladBRDAO;
+    private WierszDAO wierszDAO;
     private byte[] plikinterpaper;
     public  List<ImportBankXML> pobranefaktury;
     public  List<ImportBankXML> pobranefakturyfilter;
@@ -136,6 +121,7 @@ public class InterpaperBankImportView implements Serializable {
     private Konto przelewBankBank;
     private Konto konto213;
     private String datakontrol;
+    private List<Wiersz> wierszezmiesiaca;
  //typ transakcji
         //1 wpływ faktura 201,203
         //2 zapłata faktura 202,204
@@ -283,7 +269,16 @@ public class InterpaperBankImportView implements Serializable {
                 } else {
                     generujbutton.setRendered(true);
                 }
+                wierszezmiesiaca = wierszDAO.pobierzWierszeMcDok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), rodzajdok.getSkrotNazwyDok());
+                if (wierszezmiesiaca!=null && wierszezmiesiaca.size()>0) {
+                    for (ImportBankXML p : pobranefaktury) {
+                        if (sprawdzduplikat(p,wierszezmiesiaca)) {
+                            p.setJuzzaksiegowany(true);
+                        }
+                    }
+                }
             }
+            
             grid3.setRendered(true);
             Msg.msg("Pobrano wszystkie dane");
         } catch (Exception e) {
@@ -329,19 +324,31 @@ public class InterpaperBankImportView implements Serializable {
     }
     public void generuj() {
         if (pobranefaktury !=null && pobranefaktury.size()>0) {
+            datakontrol = null;
             List<Klienci> k = klienciDAO.findAll();
             int ile = 1;
+            int duplikaty = 0;
             while (pobranefaktury!=null && pobranefaktury.size() >0) {
-                generowanieDokumentu(k, ile);
-                ile++;
+                int czyduplikat = generowanieDokumentu(k, ile);
+                if (czyduplikat==1) {
+                    duplikaty++;
+                    ile++;
+                } else {
+                    ile++;
+                }
             }
-            Msg.msg("Wygenerowano "+ile+" wyciągów bankowych");
+            int iloscdok = ile-duplikaty-1;
+            Msg.msg("Wygenerowano "+iloscdok+" wyciągów bankowych");
+            if (duplikaty>0) {
+                Msg.msg("e", "Ilość duplikatów "+duplikaty);
+            }
         } else {
             Msg.msg("e", "Błąd! Lista danych źrdółowych jest pusta");
         }
     }
     
-     public void generowanieDokumentu(List<Klienci> k, int i) {
+     public int generowanieDokumentu(List<Klienci> k, int i) {
+        int zwrot = 0;
         try {
             Dokfk dokument = stworznowydokument(k, i);
             try {
@@ -349,7 +356,7 @@ public class InterpaperBankImportView implements Serializable {
                     dokument.setImportowany(true);
                     dokDAOfk.dodaj(dokument);
                 } else {
-                    Msg.msg("e", "Wyciąg o takim numerze już istnienie. Nie zaksięgowano dokumentu "+rodzajdok.getSkrotNazwyDok());
+                    zwrot++;
                 }
             } catch (Exception e) {
                 Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu "+rodzajdok);
@@ -357,6 +364,7 @@ public class InterpaperBankImportView implements Serializable {
         } catch (Exception e) {
             E.e(e);
         }
+        return zwrot;
     }
      
       private Dokfk stworznowydokument(List<Klienci> klienci, int i) {
@@ -379,13 +387,18 @@ public class InterpaperBankImportView implements Serializable {
         Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
         if (juzjest!=null) {
             nd = null;
+            usunduplikat(juzjest);
         } else {
             ustawwiersze(nd);
-            ustawdaty(nd);
-            nd.setImportowany(true);
-            nd.setWprowadzil(wpisView.getUzer().getLogin());
-            nd.przeliczKwotyWierszaDoSumyDokumentu();
-            rozliczsaldoWBRK(nd);
+            if (nd.getListawierszy()!=null && nd.getListawierszy().size()>0) {
+                ustawdaty(nd);
+                nd.setImportowany(true);
+                nd.setWprowadzil(wpisView.getUzer().getLogin());
+                nd.przeliczKwotyWierszaDoSumyDokumentu();
+                rozliczsaldoWBRK(nd);
+            } else {
+                nd=null;
+            }
         }
         return nd;
     }
@@ -419,12 +432,16 @@ public class InterpaperBankImportView implements Serializable {
                     break;
                 }
             }
-            wyciagdatado = p.getDatatransakcji();
-            Konto kontown = p.getWnma().equals("Wn") ? rodzajdok.getKontorozrachunkowe() : ustawkonto(p);
-            Konto kontoma = p.getWnma().equals("Ma") ? rodzajdok.getKontorozrachunkowe() :ustawkonto(p);
-            nd.getListawierszy().add(przygotujwierszNetto(lpwiersza, nd, p, kontown, kontoma));
-            lpwiersza++;
-            it.remove();
+            if (p.isJuzzaksiegowany()==false) {
+                wyciagdatado = p.getDatatransakcji();
+                Konto kontown = p.getWnma().equals("Wn") ? rodzajdok.getKontorozrachunkowe() : ustawkonto(p);
+                Konto kontoma = p.getWnma().equals("Ma") ? rodzajdok.getKontorozrachunkowe() :ustawkonto(p);
+                nd.getListawierszy().add(przygotujwierszNetto(lpwiersza, nd, p, kontown, kontoma));
+                lpwiersza++;
+                it.remove();
+            } else {
+                it.remove();
+            }
         }
 
     }
@@ -553,7 +570,36 @@ public class InterpaperBankImportView implements Serializable {
         opis = opis.replaceAll("\\s{2,}", " ").trim();
         return kontr+" "+opis;
     }
-     
+    
+    private boolean sprawdzduplikat(ImportBankXML p, List<Wiersz> wierszezmiesiaca) {
+        boolean zwrot = false;
+        for (Wiersz r : wierszezmiesiaca) {
+            if (r.getIban()!=null && r.getIban().equals(p.getIBAN())) {
+                if (r.getDataWalutyWiersza().equals(Data.getDzien(p.getDatatransakcji()))){
+                    if (r.getKwotaWn()==p.getKwota() || r.getKwotaMa()==p.getKwota()) {
+                        zwrot = true;
+                    }
+                }
+            }
+        }
+        return zwrot;
+    }
+   
+     private void usunduplikat(Dokfk juzjest) {
+        for (Wiersz p : juzjest.getListawierszy()) {
+            for (Iterator<ImportBankXML> it = pobranefaktury.iterator(); it.hasNext();) {
+                ImportBankXML s = it.next();
+                if (p.getIban()!=null && p.getIban().equals(s.getIBAN())) {
+                    if (p.getDataWalutyWiersza().equals(Data.getDzien(s.getDatatransakcji()))){
+                        if (p.getKwotaWn()==s.getKwota() || p.getKwotaMa()==s.getKwota()) {
+                            it.remove();
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     public void grid2pokaz() {
         grid2.setRendered(true);
     }
@@ -784,6 +830,10 @@ public static void main(String[] args) throws SAXException, IOException {
             Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+   
+
+    
 
     
 
