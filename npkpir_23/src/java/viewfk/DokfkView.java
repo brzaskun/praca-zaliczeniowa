@@ -4433,11 +4433,13 @@ public void oznaczjakonkup() {
         try {
             for (Dokfk p : lista) {
                 p.setImportowany(false);
-                for (StronaWiersza s : p.getStronyWierszy()) {
-                    if (s.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")&&  s.getKonto().getPelnynumer().startsWith("20")) {
-                        s.setNowatransakcja(true);
-                        s.setTypStronaWiersza(1);
-                        p.setZablokujzmianewaluty(true);
+                if (p.getRodzajedok().getKategoriadokumentu()==1 || p.getRodzajedok().getKategoriadokumentu()==2) {
+                    for (StronaWiersza s : p.getStronyWierszy()) {
+                        if (s.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")&&  s.getKonto().getPelnynumer().startsWith("20")) {
+                            s.setNowatransakcja(true);
+                            s.setTypStronaWiersza(1);
+                            p.setZablokujzmianewaluty(true);
+                        }
                     }
                 }
                 dokDAOfk.edit(p);

@@ -135,6 +135,7 @@ public class InterpaperBankImportView implements Serializable {
     private Konto przelewGmina;
     private Konto przelewBankBank;
     private Konto konto213;
+    private String datakontrol;
  //typ transakcji
         //1 wpływ faktura 201,203
         //2 zapłata faktura 202,204
@@ -275,8 +276,15 @@ public class InterpaperBankImportView implements Serializable {
                         }
                     }
                 }
+            if (pobranefaktury!=null && !pobranefaktury.isEmpty()) {
+                String mc = Data.getMc(pobranefaktury.get(0).getDatatransakcji());
+                if (!mc.equals(wpisView.getMiesiacWpisu())) {
+                    Msg.msg("e","Importowany wyciąg nalezy do innego miesiąca. Proszę zmienić miesiąc.");
+                } else {
+                    generujbutton.setRendered(true);
+                }
+            }
             grid3.setRendered(true);
-            generujbutton.setRendered(true);
             Msg.msg("Pobrano wszystkie dane");
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd przy pobieraniu danych");
@@ -322,20 +330,24 @@ public class InterpaperBankImportView implements Serializable {
     public void generuj() {
         if (pobranefaktury !=null && pobranefaktury.size()>0) {
             List<Klienci> k = klienciDAO.findAll();
-            generowanieDokumentu(k);
+            int ile = 1;
+            while (pobranefaktury!=null && pobranefaktury.size() >0) {
+                generowanieDokumentu(k, ile);
+                ile++;
+            }
+            Msg.msg("Wygenerowano "+ile+" wyciągów bankowych");
         } else {
             Msg.msg("e", "Błąd! Lista danych źrdółowych jest pusta");
         }
     }
     
-     public void generowanieDokumentu(List<Klienci> k) {
+     public void generowanieDokumentu(List<Klienci> k, int i) {
         try {
-            Dokfk dokument = stworznowydokument(k);
+            Dokfk dokument = stworznowydokument(k, i);
             try {
                 if (dokument!=null) {
                     dokument.setImportowany(true);
                     dokDAOfk.dodaj(dokument);
-                    Msg.msg("Wygenerowano wyciąg bankowy");
                 } else {
                     Msg.msg("e", "Wyciąg o takim numerze już istnienie. Nie zaksięgowano dokumentu "+rodzajdok.getSkrotNazwyDok());
                 }
@@ -347,12 +359,11 @@ public class InterpaperBankImportView implements Serializable {
         }
     }
      
-      private Dokfk stworznowydokument(List<Klienci> klienci) {
+      private Dokfk stworznowydokument(List<Klienci> klienci, int i) {
         int numerkolejny = ImportBean.oblicznumerkolejny(rodzajdok.getSkrotNazwyDok(), dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Dokfk nd = new Dokfk(numerkolejny, wpisView.getRokWpisuSt());
-        ustawdaty(nd);
         nd.setKontr(ImportBean.ustawkontrahenta(wpisView.getPodatnikObiekt().getNip(), wpisView.getPodatnikWpisu(), klienci, gUSView, klienciDAO));
-        ImportBean.ustawnumerwlasny(nd, "wyciag nr "+wyciagnr);
+        ImportBean.ustawnumerwlasny(nd, "wyciag nr "+wyciagnr+"/"+i);
         nd.setOpisdokfk("rozliczenie wyciągu za "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt());
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
         nd.setSeriadokfk(rodzajdok.getSkrot());
@@ -362,12 +373,15 @@ public class InterpaperBankImportView implements Serializable {
         if (wyciagwaluta.equals("PLN")) {
             nd.setTabelanbp(tabelanbppl);
             nd.setWalutadokumentu(walutapln);
+        } else {
+            nd.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(wyciagwaluta));
         }
         Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
         if (juzjest!=null) {
             nd = null;
         } else {
             ustawwiersze(nd);
+            ustawdaty(nd);
             nd.setImportowany(true);
             nd.setWprowadzil(wpisView.getUzer().getLogin());
             nd.przeliczKwotyWierszaDoSumyDokumentu();
@@ -395,14 +409,22 @@ public class InterpaperBankImportView implements Serializable {
     private void ustawwiersze(Dokfk nd) {
         nd.setListawierszy(new ArrayList<Wiersz>());
         int lpwiersza = 1;
-        for (ImportBankXML p : pobranefaktury) {
+        for (Iterator<ImportBankXML> it = pobranefaktury.iterator(); it.hasNext();) {
+            ImportBankXML p = it.next();
+            if (datakontrol==null) {
+                datakontrol = p.getDatatransakcji();
+            } else {
+                if (!datakontrol.equals(p.getDatatransakcji())) {
+                    datakontrol = p.getDatatransakcji();
+                    break;
+                }
+            }
+            wyciagdatado = p.getDatatransakcji();
             Konto kontown = p.getWnma().equals("Wn") ? rodzajdok.getKontorozrachunkowe() : ustawkonto(p);
             Konto kontoma = p.getWnma().equals("Ma") ? rodzajdok.getKontorozrachunkowe() :ustawkonto(p);
             nd.getListawierszy().add(przygotujwierszNetto(lpwiersza, nd, p, kontown, kontoma));
             lpwiersza++;
-            if (lpwiersza>100) {
-                break;
-            }
+            it.remove();
         }
 
     }
@@ -468,14 +490,8 @@ public class InterpaperBankImportView implements Serializable {
     private void uzupelnijwiersz(Wiersz w, Dokfk nd, ImportBankXML importBankXML) {
         if (importBankXML.getWaluta().equals("PLN")) {
             w.setTabelanbp(tabelanbppl);
-            w.setDokfk(nd);
-            w.setLpmacierzystego(0);
-            w.setTabelanbp(w.getTabelanbp());
-            w.setDataksiegowania(nd.getDatawplywu());
         } else {
-            Format formatterX = new SimpleDateFormat("yyyy-MM-dd");
-            String datadokumentu = formatterX.format(importBankXML.getDatawaluty());
-            DateTime dzienposzukiwany = new DateTime(datadokumentu);
+            DateTime dzienposzukiwany = new DateTime(importBankXML.getDatawaluty());
             boolean znaleziono = false;
             int zabezpieczenie = 0;
             while (!znaleziono && (zabezpieczenie < 365)) {
@@ -490,6 +506,11 @@ public class InterpaperBankImportView implements Serializable {
                 zabezpieczenie++;
             }
         }
+        nd.setWalutadokumentu(w.getTabelanbp().getWaluta());
+        w.setIban(importBankXML.getIBAN());
+        w.setDokfk(nd);
+        w.setLpmacierzystego(0);
+        w.setDataksiegowania(nd.getDatawplywu());
     }
     
      private double zrobpln(Wiersz w, ImportBankXML importBankXML) {
@@ -509,9 +530,29 @@ public class InterpaperBankImportView implements Serializable {
             }
         }
         selected.setSaldokoncowe(selected.getListawierszy().get(selected.getListawierszy().size() - 1).getSaldoWBRK());
+        wyciagbo = selected.getSaldokoncowe();
     }
     
-   
+   private String zrobopiswiersza(ImportBankXML importBankXML) {
+        String opis = importBankXML.getOpistransakcji().toLowerCase(new Locale("pl"));
+        String kontr = importBankXML.getKontrahent();
+        if (kontr.equals("NOTPROVIDED")) {
+            kontr="";
+        } else {
+            kontr = kontr.replaceAll("\\s{2,}", " ").trim();
+        }
+        if (opis.contains("TRANSAKCJA KARTĄ PŁATNICZĄ")) {
+            kontr="";
+            opis = opis.replace("TRANSAKCJA KARTĄ PŁATNICZĄ", "transakcja kartą");
+        }
+        if (opis.contains("WYPŁATA KARTĄ")) {
+            kontr="";
+            opis = opis.replace("WYPŁATA KARTĄ", "wypłatya kartą");
+        }
+        
+        opis = opis.replaceAll("\\s{2,}", " ").trim();
+        return kontr+" "+opis;
+    }
      
     public void grid2pokaz() {
         grid2.setRendered(true);
@@ -744,22 +785,7 @@ public static void main(String[] args) throws SAXException, IOException {
         }
     }
 
-    private String zrobopiswiersza(ImportBankXML importBankXML) {
-        String opis = importBankXML.getOpistransakcji().toLowerCase(new Locale("pl"));
-        String kontr = importBankXML.getKontrahent();
-        if (kontr.equals("NOTPROVIDED")) {
-            kontr="";
-        }
-        if (opis.contains("TRANSAKCJA KARTĄ PŁATNICZĄ")) {
-            opis = opis.replace("TRANSAKCJA KARTĄ PŁATNICZĄ", "transakcja kartą");
-        }
-        if (opis.contains("WYPŁATA KARTĄ")) {
-            opis = opis.replace("WYPŁATA KARTĄ", "wypłatya kartą");
-        }
-        
-        opis = opis.replaceAll("\\s{2,}", " ").trim();
-        return kontr+" "+opis;
-    }
+    
 
    
     

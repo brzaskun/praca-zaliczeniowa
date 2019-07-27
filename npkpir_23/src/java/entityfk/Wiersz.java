@@ -121,6 +121,7 @@ public class Wiersz implements Serializable {
     @JoinColumn(name = "stronarozliczajacy", referencedColumnName = "id", updatable = true, nullable = true)
     @OneToOne
     private StronaWiersza stronarozliczajacy;
+    private String iban;
  
     
 
@@ -410,6 +411,14 @@ public class Wiersz implements Serializable {
 
     public void setDokfk(Dokfk dokfk) {
         this.dokfk = dokfk;
+    }
+
+    public String getIban() {
+        return iban;
+    }
+
+    public void setIban(String iban) {
+        this.iban = iban;
     }
 
     public Tabelanbp getTabelanbp() {

@@ -15,7 +15,7 @@
         }
     </style>
    
-        <p:dialog id="importjpkfa" header="Zestawienie zaimportowanych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="importjpkfa" height="900" width="1450"
+        <p:dialog id="importjpkfa" header="Zestawienie pobranych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="importjpkfa" height="900" width="1450"
               resizable="false"  onShow="ustawdialog('importjpkfa','menudokumenty');" closeOnEscape="true" onHide="resetujdialog('importjpkfa');" >
         <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" update=":form_importjpkfa"/>
         <!--        <h:form>

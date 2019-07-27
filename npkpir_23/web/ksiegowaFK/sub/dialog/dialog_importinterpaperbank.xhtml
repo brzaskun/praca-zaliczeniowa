@@ -15,7 +15,7 @@
         }
     </style>
    
-        <p:dialog id="importinterpaperbank" header="Zestawienie zaimportowanych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="importinterpaperbank" height="900" width="1450"
+        <p:dialog id="importinterpaperbank" header="Zestawienie pobranych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="importinterpaperbank" height="900" width="1450"
               resizable="false"  onShow="ustawdialog('importinterpaperbank','menudokumenty');" closeOnEscape="true" onHide="resetujdialog('importinterpaperbank');" >
         <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" update=":form_importinterpaperbank"/>
         <!--        <h:form>
