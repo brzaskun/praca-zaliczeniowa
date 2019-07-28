@@ -6,14 +6,19 @@
 package viewfk;
 
 import comparator.SaldoKontocomparator;
+import dao.PodatnikOpodatkowanieDAO;
 import embeddablefk.SaldoKonto;
+import entity.PodatnikOpodatkowanieD;
+import entityfk.PozycjaRZiSBilans;
 import error.E;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 import msg.Msg;import pdf.PdfKonta;
 import pdffk.PdfBilans;
 import pdffk.PdfPlanKont;
@@ -44,6 +49,8 @@ public class DrukujsprawozdaniefinansoweView  implements Serializable {
     private PdfZaksiegowaneView pdfZaksiegowaneView;
     @ManagedProperty(value = "#{planKontView}")
     private PlanKontView planKontView;
+    @Inject
+    PodatnikOpodatkowanieDAO podatnikOpodatkowanieDAO;
     
     
     
@@ -54,10 +61,25 @@ public class DrukujsprawozdaniefinansoweView  implements Serializable {
             saldoAnalitykaView.init();
             saldoSyntetykaView.init();
             planKontView.init();
-            pozycjaBRView.obliczBilansOtwarciaBilansDataWybierz();
-            PdfBilans.drukujBilansBODataAP(pozycjaBRView.getRootBilansAktywa(),pozycjaBRView.getRootBilansPasywa(), wpisView, " do sprawozdania finansowego", pozycjaBRView.getSumabilansowapasywaBO(), pozycjaBRView.getSumabilansowaaktywa(), pozycjaBRView.getSumabilansowapasywa(), pozycjaBRView.getBilansnadzien(), pozycjaBRView.getBilansoddnia(), false);
-            pozycjaBRZestawienieView.obliczRZiSOtwarciaRZiSData();
-            pozycjaBRZestawienieView.drukujRZiSBO();
+            PodatnikOpodatkowanieD rokbiezacy = podatnikOpodatkowanieDAO.findOpodatkowaniePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            PodatnikOpodatkowanieD rokuprzedni = podatnikOpodatkowanieDAO.findOpodatkowaniePodatnikRok(wpisView. getPodatnikObiekt(), wpisView.getRokUprzedniSt());
+            if (rokbiezacy.getDolaczonydoroku()==null) {
+                pozycjaBRView.obliczBilansOtwarciaBilansDataWybierz();
+                pozycjaBRZestawienieView.obliczRZiSOtwarciaRZiSData();
+                PdfBilans.drukujBilansBODataAP(pozycjaBRView.getRootBilansAktywa(),pozycjaBRView.getRootBilansPasywa(), wpisView, " do sprawozdania finansowego", pozycjaBRView.getSumabilansowapasywaBO(), pozycjaBRView.getSumabilansowaaktywa(), pozycjaBRView.getSumabilansowapasywa(), pozycjaBRView.getBilansnadzien(), pozycjaBRView.getBilansoddnia(), false);
+                pozycjaBRZestawienieView.drukujRZiSBO();
+            } else {
+                    if (rokuprzedni!=null && rokbiezacy.getDolaczonydoroku().equals(wpisView.getRokUprzedniSt())) {
+                        pozycjaBRView.setLaczlata(true);
+                        pozycjaBRView.setBilansoddnia(rokuprzedni.getDatarozpoczecia());
+                        pozycjaBRView.obliczBilansOtwarciaBilansDataXML();
+                        pozycjaBRZestawienieView.setLaczlata(true);
+                        pozycjaBRZestawienieView.setBilansoddnia(rokuprzedni.getDatarozpoczecia());
+                        pozycjaBRZestawienieView.pobierzukladprzegladRZiSWybierz();
+                        PdfBilans.drukujBilansBODataAP(pozycjaBRView.getRootBilansAktywa(),pozycjaBRView.getRootBilansPasywa(), wpisView, " do sprawozdania finansowego", pozycjaBRView.getSumabilansowapasywaBO(), pozycjaBRView.getSumabilansowaaktywa(), pozycjaBRView.getSumabilansowapasywa(), pozycjaBRView.getBilansnadzien(), pozycjaBRView.getBilansoddnia(), true);
+                        pozycjaBRZestawienieView.drukujRZiS();
+                    }
+            }
             saldoAnalitykaView.odswiezsaldoanalityczne();
             List<SaldoKonto> saldokontolist = saldoAnalitykaView.getListaSaldoKonto();
             Collections.sort(saldokontolist, new SaldoKontocomparator());

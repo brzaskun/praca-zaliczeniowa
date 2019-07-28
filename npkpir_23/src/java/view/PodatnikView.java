@@ -588,7 +588,7 @@ private DokDAO dokDAO;
     }
     
     public void edytujparametrdoch() {
-         if (sprawdzrok(wybranyPodatnikOpodatkowanie, podatnikOpodatkowanie) == 0) {
+         if (1==1) {
             wybranyPodatnikOpodatkowanie.setMcOd(Data.getMc(wybranyPodatnikOpodatkowanie.getDatarozpoczecia()));
             wybranyPodatnikOpodatkowanie.setMcDo(Data.getMc(wybranyPodatnikOpodatkowanie.getDatazakonczenia()));
             wybranyPodatnikOpodatkowanie.setRokOd(Data.getRok(wybranyPodatnikOpodatkowanie.getDatarozpoczecia()));
@@ -597,7 +597,7 @@ private DokDAO dokDAO;
              podatnikOpodatkowanieDDAO.edit(wybranyPodatnikOpodatkowanie);
              Msg.msg("Zmieniono parametr pod.dochodowy do podatnika "+selected.getPrintnazwa());
          } else {
-            Msg.msg("e", "Niezmieniono parametru pod.doch. Niedopasowane okresy. Podatnik "+selected.getPrintnazwa());
+            Msg.msg("e", "Nie zmieniono parametru pod.doch. Niedopasowane okresy. Podatnik "+selected.getPrintnazwa());
         }
     }
     

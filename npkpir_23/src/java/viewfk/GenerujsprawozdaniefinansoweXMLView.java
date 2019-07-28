@@ -5,7 +5,9 @@
  */
 package viewfk;
 
+import dao.PodatnikOpodatkowanieDAO;
 import daoFK.SprFinKwotyInfDodDAO;
+import entity.PodatnikOpodatkowanieD;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.SprFinKwotyInfDod;
 import error.E;
@@ -59,6 +61,8 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
     private PlanKontView planKontView;
     @Inject
     private SprFinKwotyInfDodDAO sprFinKwotyInfDodDAO;
+    @Inject
+    PodatnikOpodatkowanieDAO podatnikOpodatkowanieDAO;
     
     
     
@@ -92,9 +96,24 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
                 pozycjaBRZestawienieView.init();
                 saldoAnalitykaView.init();
                 planKontView.init();
-                Map<String, List<PozycjaRZiSBilans>> bilans = pozycjaBRView.obliczBilansOtwarciaBilansDataXML();
-                List<PozycjaRZiSBilans> rzis = pozycjaBRZestawienieView.obliczRZiSOtwarciaRZiSDataXML();
-                generuj(bilans, rzis);
+                PodatnikOpodatkowanieD rokbiezacy = podatnikOpodatkowanieDAO.findOpodatkowaniePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                PodatnikOpodatkowanieD rokuprzedni = podatnikOpodatkowanieDAO.findOpodatkowaniePodatnikRok(wpisView. getPodatnikObiekt(), wpisView.getRokUprzedniSt());
+                if (rokbiezacy.getDolaczonydoroku()==null) {
+                    Map<String, List<PozycjaRZiSBilans>> bilans = pozycjaBRView.obliczBilansOtwarciaBilansDataXML();
+                    List<PozycjaRZiSBilans> rzis = pozycjaBRZestawienieView.obliczRZiSOtwarciaRZiSDataXML();
+                    generuj(bilans, rzis);
+                } else {
+                    if (rokuprzedni!=null && rokbiezacy.getDolaczonydoroku().equals(wpisView.getRokUprzedniSt())) {
+                        pozycjaBRView.setLaczlata(true);
+                        pozycjaBRView.setBilansoddnia(rokuprzedni.getDatarozpoczecia());
+                        Map<String, List<PozycjaRZiSBilans>> bilans = pozycjaBRView.obliczBilansOtwarciaBilansDataXML();
+                        pozycjaBRZestawienieView.setLaczlata(true);
+                        pozycjaBRZestawienieView.setBilansoddnia(rokuprzedni.getDatarozpoczecia());
+                        List<PozycjaRZiSBilans> rzis = pozycjaBRZestawienieView.pobierzukladprzegladRZiSWybierz();
+                        generuj(bilans, rzis);
+                    }
+                }
+                
             }
         } catch (Exception e) {
             Msg.msg("e","Wystąpił błąd podczas generowania sprawozdania finansowego "+E.e(e));

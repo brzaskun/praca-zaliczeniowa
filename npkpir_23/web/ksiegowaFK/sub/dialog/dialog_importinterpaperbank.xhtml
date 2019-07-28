@@ -55,9 +55,13 @@
                 <h:outputText value="data do"/><h:outputText value="#{interpaperBankImportView.wyciagdatado}"/>
                 <h:outputText value="waluta"/><h:outputText value="#{interpaperBankImportView.wyciagwaluta}"/>
                 <h:outputText value="konto"/><h:outputText value="#{interpaperBankImportView.wyciagkonto}" rendered="#{interpaperBankImportView.wyciagkonto ne '11111'}"/>
-                <h:outputText value="Pobrano historię zapisów a nie wyciąg. Informacja o saldach niedostępna" rendered="#{interpaperBankImportView.wyciagkonto eq '11111'}" style="color:red;font-weight: bold;"/>
-                <h:outputText value="saldo początkowe"/><bcf:outputpl value="#{interpaperBankImportView.wyciagbo}"/>
-                <h:outputText value="saldo końcowe"/><bcf:outputpl value="#{interpaperBankImportView.wyciagbz}"/>
+                <h:outputText value="Pobrano historię zapisów a nie wyciąg. Informacja o saldach jest niedostępna" rendered="#{interpaperBankImportView.wyciagkonto eq '11111'}" style="color:red;font-weight: bold;"/>
+                <h:outputText value="wprowadź saldo początkowe" rendered="#{interpaperBankImportView.wyciagkonto eq '11111'}" style="font-weight: bold"/><p:inputNumber value="#{interpaperBankImportView.wyciagbo}" rendered="#{interpaperBankImportView.wyciagkonto eq '11111'}" decimalPlaces="2"
+                                                                                                                                                                        inputStyle="text-align: right;" symbolPosition="s" decimalSeparator=".">
+                    <p:ajax event="blur" partialSubmit="true"/>
+                </p:inputNumber>
+                <h:outputText value="saldo początkowe" rendered="#{interpaperBankImportView.wyciagkonto ne '11111'}"/><bcf:outputpl value="#{interpaperBankImportView.wyciagbo}" rendered="#{interpaperBankImportView.wyciagkonto ne '11111'}"/>
+                <h:outputText value="saldo końcowe" rendered="#{interpaperBankImportView.wyciagkonto ne '11111'}"/><bcf:outputpl value="#{interpaperBankImportView.wyciagbz}" rendered="#{interpaperBankImportView.wyciagkonto ne '11111'}"/>
             </p:panelGrid>
         <h:outputText value="#{interpaperBankImportView.wiadomoscnieprzypkonta}" style="color: red; margin-bottom: 10px;"/>
         <p:panelGrid columns="3" style="width: 500px;">

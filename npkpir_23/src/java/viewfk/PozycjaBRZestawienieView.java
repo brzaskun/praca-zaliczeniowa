@@ -237,12 +237,15 @@ public class PozycjaBRZestawienieView implements Serializable {
         bilansnadzien = Data.ostatniDzien(wpisView);
     }
     
-    public void pobierzukladprzegladRZiSWybierz() {
+    public List<PozycjaRZiSBilans> pobierzukladprzegladRZiSWybierz() {
         if (laczlata) {
             pobierzukladprzegladRZiSDwaLata();
         } else {
             pobierzukladprzegladRZiS();
         }
+        List<PozycjaRZiSBilans> poz =  new ArrayList<>();
+        rootProjektRZiS.getChildrenTree( new ArrayList(), poz);
+        return poz;
     }
     
     public void pobierzukladprzegladRZiSDwaLata() {
