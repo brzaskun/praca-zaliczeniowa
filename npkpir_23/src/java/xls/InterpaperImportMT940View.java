@@ -33,10 +33,18 @@ import entityfk.Waluty;
 import entityfk.Wiersz;
 import error.E;
 import gus.GUSView;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.nio.charset.Charset;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
@@ -48,6 +56,11 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.joda.time.DateTime;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.commandbutton.CommandButton;
@@ -62,7 +75,7 @@ import view.WpisView;import waluty.Z;
  */
 @ManagedBean
 @ViewScoped
-public class InterpaperImportView implements Serializable {
+public class InterpaperImportMT940View implements Serializable {
     private static final long serialVersionUID = 1L;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -682,9 +695,153 @@ public class InterpaperImportView implements Serializable {
     }
 
   
-    
+     public static void main(String[] args) {
+        try {
+            FileInputStream file = new FileInputStream(new File("d:\\mat.sta"));
+            //InputStream file = new ByteArrayInputStream(file);
+            List<String> records = new ArrayList<>();
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(file, Charset.forName("UTF-8")))) {
+                String line;
+                ArrayList<String> opis = new ArrayList();
+                while ((line = br.readLine()) != null) {
+                    //String[] values = line.split(":");
+                    //records.add(Arrays.asList(values));
+                    records.add(line);
+                    //System.out.println(line);
+                    String nrkonta = pobierzdane(opis,line);
+                    if (nrkonta!=null && nrkonta.startsWith("konto")) {
+                        System.out.println(opis.toString());
+                        opis = new ArrayList();
+                    }
+                }
+            }
+            file.close();
+//            PDDocument document = PDDocument.load(new File("d:\\pdf.pdf"));
+//            if (!document.isEncrypted()) {
+//                PDFTextStripper stripper = new PDFTextStripper();
+//                String text = stripper.getText(document);
+//                System.out.println("Text:" + text);
+//            }
+//            document.close();
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
 
-   
+   public static String pobierzdane(ArrayList<String> opis, String linia) {
+       String zwrot = null;
+       if (linia != null) {
+           try {
+               if (linia.startsWith(":25:/")) {
+                    String konto = linia.substring(5);
+                    zwrot = konto;
+                    System.out.println(zwrot);
+               }
+               if (linia.startsWith(":28C:")) {
+                    String nrwyciagu = linia.substring(5);
+                    zwrot = nrwyciagu;
+                    System.out.println(zwrot);
+               }
+               if (linia.startsWith(":60F:C")) {
+                    String data = linia.substring(6,12);
+                    zwrot = data;
+                    System.out.println(zwrot);
+                    String waluta = linia.substring(12,15);
+                    zwrot = waluta;
+                    System.out.println(zwrot);
+                    String saldo = linia.substring(15);
+                    zwrot = saldo;
+                    System.out.println(saldo);
+               }
+               if (linia.startsWith(":61:")) {
+                    System.out.println("-----------------------------------");
+                    String data = linia.substring(4,10);
+                    zwrot = data;
+                    System.out.println(zwrot);
+                    int indexofD = linia.indexOf("D")+1;
+                    int indexofS = linia.indexOf("S");
+                    int indexofC = linia.indexOf("C")+1;
+                    if (indexofD>0) {
+                        String kwotaD = linia.substring(indexofD, indexofS);
+                        kwotaD = kwotaD.replace(",", ".");
+                        zwrot = kwotaD;
+                        System.out.println(zwrot);
+                    } else if (indexofC>0) {
+                        String kwotaC = linia.substring(indexofC, indexofS);
+                        kwotaC = kwotaC.replace(",", ".");
+                        zwrot = kwotaC;
+                        System.out.println("-"+zwrot);
+                    }
+                    
+                    
+               }
+               if (linia.startsWith(":86:020~")) {
+                   String rodzaj = "przelew obcy przychodzący i wychodzący";
+                   zwrot = rodzaj;
+                   System.out.println(zwrot);
+               } else if (linia.startsWith(":86:034~")) {
+                   String rodzaj = "przelew międzybankowy :konto własne przychodzący";
+                   zwrot = rodzaj;
+                   System.out.println(zwrot);
+               } else if (linia.startsWith(":86:076~")) {
+                   String rodzaj = "przelew międzybankowy :konto własne wychodzący";
+                   zwrot = rodzaj;
+                   System.out.println(zwrot);
+               } else if (linia.startsWith(":86:094~")) {
+                   String rodzaj = "prowizja bankowa";
+                   zwrot = rodzaj;
+                   System.out.println(zwrot);
+               } else if (linia.startsWith(":86:099~")) {
+                   String rodzaj = "prowizja międzybankowy na prowizje konto własne";
+                   zwrot = rodzaj;
+                   System.out.println(zwrot);
+               } else if (linia.startsWith(":86:020~")) {
+                   String rodzaj = "przelew wychodzący";
+                   zwrot = rodzaj;
+                   System.out.println(zwrot);
+               } 
+               
+               if (linia.startsWith("~20")||linia.startsWith("~21")) {
+                   opis.add(linia.substring(3,linia.indexOf("~22")));
+               }
+               if (linia.contains("~22") && linia.length()>6) {
+                   opis.add(linia.substring(linia.indexOf("~22")+3));
+               }
+               if (linia.startsWith("~23") && linia.length()>3) {
+                   opis.add(linia.substring(3,linia.indexOf("~24")));
+               }
+               if (linia.contains("~24") && linia.length()>6) {
+                   opis.add(linia.substring(linia.indexOf("~24")+3));
+               }
+               if (linia.startsWith("~25") && linia.length()>3) {
+                   opis.add(linia.substring(3));
+               }
+               if (linia.startsWith("~26") && linia.length()>3) {
+                   opis.add(linia.substring(3));
+                   
+               }
+               if (linia.contains("~32") && linia.length()>6) {
+                   zwrot = linia.substring(linia.indexOf("~32")+3);
+                   System.out.println(zwrot);
+               }
+               if (linia.startsWith("~33") && linia.length()>6) {
+                   zwrot = linia.substring(3);
+                   System.out.println(zwrot);
+               }
+               if (linia.startsWith("~34") && linia.length()>6) {
+                   zwrot = linia.substring(3);
+                   System.out.println(zwrot);
+               }
+               if (linia.startsWith("~38")) {
+                   zwrot = "konto: "+linia.substring(2,28);
+                   System.out.println("konto: "+zwrot);
+               }
+               
+               
+           } catch (Exception e) {}
+       }
+       return zwrot;
+   }
     
    
     

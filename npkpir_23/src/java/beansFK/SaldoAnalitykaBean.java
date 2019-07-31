@@ -33,7 +33,7 @@ public class SaldoAnalitykaBean  {
         List<StronaWiersza> zapisyRok = pobierzzapisy(stronaWierszaDAO, podatnik, rok);
         Map<String, SaldoKonto> przygotowanalista = new ConcurrentHashMap<>();
         List<StronaWiersza> wierszenieuzupelnione = Collections.synchronizedList(new ArrayList<>());
-        kontaklienta.stream().map((p) -> {
+        kontaklienta.parallelStream().map((p) -> {
             if (p.getPelnynumer().equals("202-1-5")) {
             }
             return p;
@@ -45,7 +45,7 @@ public class SaldoAnalitykaBean  {
         naniesBOnaKonto(przygotowanalista, zapisyBO);
         naniesZapisyNaKonto(przygotowanalista, zapisyObrotyRozp, wierszenieuzupelnione, false, mc);
         naniesZapisyNaKonto(przygotowanalista, zapisyRok, wierszenieuzupelnione, true, mc);
-        przygotowanalista.values().stream().map((s) -> {
+        przygotowanalista.values().parallelStream().map((s) -> {
             s.sumujBOZapisy();
             return s;
         }).forEachOrdered((s) -> {
@@ -80,7 +80,7 @@ public class SaldoAnalitykaBean  {
     }
 
     private static void naniesBOnaKonto(Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyBO) {
-        zapisyBO.stream().forEach((r) -> {
+        zapisyBO.parallelStream().forEach((r) -> {
             SaldoKonto p = przygotowanalista.get(r.getKonto().getPelnynumer());
             if (p != null) {
                 if (r.getWnma().equals("Wn")) {
@@ -95,7 +95,7 @@ public class SaldoAnalitykaBean  {
     
     private static void naniesZapisyNaKonto(Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyRok, List<StronaWiersza> wierszenieuzupelnione, boolean obroty0zapisy1, String mc) {
         int granicamca = Mce.getMiesiacToNumber().get(mc);
-        zapisyRok.stream().forEach(r-> {
+        zapisyRok.parallelStream().forEach(r-> {
             if (obroty0zapisy1 == true && !r.getDokfk().getSeriadokfk().equals("BO")) {
                 if (Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
                     nanieskonkretnyzapis(r, przygotowanalista, wierszenieuzupelnione, mc);
