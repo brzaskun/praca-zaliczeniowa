@@ -63,7 +63,7 @@ public class DrukujsprawozdaniefinansoweView  implements Serializable {
             planKontView.init();
             PodatnikOpodatkowanieD rokbiezacy = podatnikOpodatkowanieDAO.findOpodatkowaniePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             PodatnikOpodatkowanieD rokuprzedni = podatnikOpodatkowanieDAO.findOpodatkowaniePodatnikRok(wpisView. getPodatnikObiekt(), wpisView.getRokUprzedniSt());
-            if (rokbiezacy.getDolaczonydoroku()==null) {
+            if (rokuprzedni==null || rokbiezacy.getDolaczonydoroku()==null || rokbiezacy.getDolaczonydoroku().equals("")) {
                 pozycjaBRView.obliczBilansOtwarciaBilansDataWybierz();
                 pozycjaBRZestawienieView.obliczRZiSOtwarciaRZiSData();
                 PdfBilans.drukujBilansBODataAP(pozycjaBRView.getRootBilansAktywa(),pozycjaBRView.getRootBilansPasywa(), wpisView, " do sprawozdania finansowego", pozycjaBRView.getSumabilansowapasywaBO(), pozycjaBRView.getSumabilansowaaktywa(), pozycjaBRView.getSumabilansowapasywa(), pozycjaBRView.getBilansnadzien(), pozycjaBRView.getBilansoddnia(), false);
