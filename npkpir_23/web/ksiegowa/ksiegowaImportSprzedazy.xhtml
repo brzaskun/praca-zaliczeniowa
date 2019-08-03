@@ -23,7 +23,7 @@
                             <p:panelGrid columns="3">
                             <p:fileUpload fileUploadListener="#{importSprzedazyView.importujsprzedaz}"
                                           mode="advanced" dragDropSupport="true" fileLimit="1" 
-                                          update="messages1 importtabela" sizeLimit="2000000"  
+                                          update="messages1 importtabela @form" sizeLimit="2000000"  
                                           validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
                                           fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
                                           uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj"  onstart="PF('dialogAjaxCzekaj').show();"
@@ -76,10 +76,12 @@
                                 </p:column>
                                 <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontr.npelna}" width="220"
                                           filterStyle="width:180px;" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}">  
-                                    <h:outputText  value="#{wpis.kontr.npelna}"  rendered="#{wpis.kontr.nip ne null}"/>
-                                    <h:outputText style="color:red;" value="#{wpis.kontr.npelna}"  rendered="#{wpis.kontr.nip eq null}"/>
-                                    <h:outputText value=" #{wpis.kontr.miejscowosc} - NIP #{wpis.kontr.nip}"  rendered="#{!(wpis.kontr.nip eq '0000000000')}"/>
+                                    <h:outputText  value="#{wpis.kontr.npelna}"  rendered="#{wpis.kontr.npelna ne 'nie znaleziono firmy w bazie Regon'}"/>
+                                    <h:outputText style="color:red;" value="#{wpis.kontr.nskrocona}"  rendered="#{wpis.kontr.npelna eq 'nie znaleziono firmy w bazie Regon'}"/>
+                                    <h:outputText style="color:red;" value=" - #{wpis.kontr.npelna}"  rendered="#{wpis.kontr.npelna eq 'nie znaleziono firmy w bazie Regon'}"/>
+                                    <h:outputText value=" #{wpis.kontr.miejscowosc} - NIP #{wpis.kontr.nip}"  rendered="#{!(wpis.kontr.nip ne '0000000000')}"/>
                                     <h:outputText value=" #{wpis.kontr.miejscowosc}"  rendered="#{wpis.kontr.nip eq '0000000000'}"/>
+                                    <h:outputText value=" NIP - #{wpis.kontr.nip}"  rendered="#{wpis.kontr.npelna eq 'nie znaleziono firmy w bazie Regon'}"/>
                                 </p:column>
                                 <p:column id="rodzTrColumn"  filterBy="#{wpis.rodzajedok}" filterStyle="display : none;" filterMatchMode="contains" 
                                           sortBy="#{wpis.rodzajedok}"  style="width: 5%;text-align: center;">

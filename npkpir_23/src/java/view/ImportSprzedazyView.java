@@ -104,7 +104,9 @@ public class ImportSprzedazyView  implements Serializable {
             E.e(ex);
             Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");
         }
-        PrimeFaces.current().executeScript("PF('dialogAjaxCzekaj').hide()");
+        try {
+            PrimeFaces.current().executeScript("PF('dialogAjaxCzekaj').hide()");
+        } catch (Exception e){}
     }
     
     private JPKSuper pobierzJPK(UploadedFile uploadedFile) {
@@ -236,7 +238,7 @@ public class ImportSprzedazyView  implements Serializable {
     }
     
     private Klienci pobierzkontrahenta(jpk201801.JPK.SprzedazWiersz wiersz, String nrKontrahenta) {
-        if (nrKontrahenta.equals("9720927876")) {
+        if (nrKontrahenta.equals("9551014391")) {
             System.out.println("");
         }
         if (wybierzosobyfizyczne || wybierzfirmyzagraniczne) {
@@ -249,7 +251,7 @@ public class ImportSprzedazyView  implements Serializable {
             Klienci klientznaleziony = klDAO.findKlientByNipImport(nrKontrahenta);
             if (klientznaleziony==null) {
                 klientznaleziony = SzukajDaneBean.znajdzdaneregonAutomat(nrKontrahenta, gUSView);
-                if (klientznaleziony!=null && klientznaleziony.getNip()!=null) {
+                if (klientznaleziony!=null && klientznaleziony.getNpelna()!=null) {
                     boolean juzjest = false;
                     for (Klienci p : klienci) {
                         if (p.getNip().equals(klientznaleziony.getNip())) {
@@ -257,11 +259,14 @@ public class ImportSprzedazyView  implements Serializable {
                             break;
                         }
                     }
-                    if (juzjest==false && !klientznaleziony.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
+                    if (juzjest==false) {
                         klienci.add(klientznaleziony);
                     }
+                } else {
+                     klientznaleziony.setNskrocona(klientznaleziony.getNpelna());
+                     klientznaleziony.setNpelna("nie znaleziono firmy w bazie Regon");
                 }
-            } else if (klientznaleziony.getNpelna()==null) {
+            } else if (klientznaleziony==null||klientznaleziony.getNpelna()==null) {
                 klientznaleziony.setNpelna("istnieje wielu kontrahentów o tym samym numerze NIP! "+nrKontrahenta);
             }
             return klientznaleziony;
@@ -306,7 +311,7 @@ public class ImportSprzedazyView  implements Serializable {
         if (klienci!=null && klienci.size()>0) {
             for (Klienci p: klienci) {
                 try {
-                    if (p.getNip()!=null) {
+                    if (!p.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
                         klDAO.dodaj(p);
                     }
                 } catch(Exception e){
@@ -318,8 +323,10 @@ public class ImportSprzedazyView  implements Serializable {
         if (dokumenty!=null && dokumenty.size()>0) {
             for (Dok p: dokumenty) {
                 try {
-                    if (p.getKontr().getNip()!=null) {
+                    if (!p.getKontr().getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
                         dokDAO.dodaj(p);
+                    } else {
+                        Msg.msg("e","Bład kontrahenta. Nie zaksięgowano dokumentu!");
                     }
                 } catch(Exception e){
                 }

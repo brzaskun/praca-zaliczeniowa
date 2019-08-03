@@ -817,6 +817,13 @@ public class JPK extends JPKSuper implements Serializable {
             SPRZEDAZWIERSZEVAT.add("getK39");
         };
 
+        @Override
+        public String toString() {
+            return "SprzedazWiersz{" + "lpSprzedazy=" + lpSprzedazy + ", nrKontrahenta=" + nrKontrahenta + ", nazwaKontrahenta=" + nazwaKontrahenta + ", adresKontrahenta=" + adresKontrahenta + ", dowodSprzedazy=" + dowodSprzedazy + ", dataWystawienia=" + dataWystawienia + ", dataSprzedazy=" + dataSprzedazy + '}';
+        }
+
+        
+        
         /**
          * Gets the value of the lpSprzedazy property.
          * 
