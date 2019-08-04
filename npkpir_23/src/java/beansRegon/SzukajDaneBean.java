@@ -29,7 +29,9 @@ public class SzukajDaneBean {
         Matcher m = p.matcher(nip.substring(0,1));  //<-- matcher( not Matcher
         if (selected.getNip() != null && !m.find() && selected.getNip().length()==10) {
             Map<String, String> dane = gUSView.pobierzDane(selected.getNip());
-            if (dane.size()==1) {
+            if (dane.size()==0) {
+                selected.setNpelna("wystąpił błąd logowania do serwera GUS");
+            } else if (dane.size()==1) {
                 selected.setNpelna("nie znaleziono firmy w bazie Regon");
             } else {
                 selected.setNpelna(dane.get("Nazwa"));
@@ -78,7 +80,9 @@ public class SzukajDaneBean {
             Matcher m = p.matcher(nip.substring(0,1));  //<-- matcher( not Matcher
             if (nip != null && !m.find() && nip.length()==10) {
                 Map<String, String> dane = gUSView.pobierzDane(nip);
-                if (dane.size()==1) {
+                if (dane.size()==0) {
+                    selected.setNpelna("wystąpił błąd logowania do serwera GUS");
+                } else if (dane.size()==1) {
                     selected.setNpelna("nie znaleziono firmy w bazie Regon");
                 } else {
                     selected.setNip(nip);
@@ -120,7 +124,9 @@ public class SzukajDaneBean {
         Matcher m = p.matcher(nip.substring(0,1));  //<-- matcher( not Matcher
         if (selected.getNip() != null && !m.find() && selected.getNip().length()==10) {
             Map<String, String> dane = gUSView.pobierzDane(selected.getNip());
-            if (dane.size()==1) {
+            if (dane.size()==0) {
+                selected.setPrintnazwa("wystąpił błąd logowania do serwera GUS");
+            } else if (dane.size()==1) {
                 selected.setPrintnazwa("nie znaleziono firmy w bazie Regon");
             } else {
                 selected.setPrintnazwa(dane.get("Nazwa"));

@@ -23,6 +23,7 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.WebServiceRef;
 import javax.xml.ws.handler.MessageContext;
+import javax.xml.ws.soap.AddressingFeature;
 import org.apache.commons.lang3.StringUtils;
 import org.tempuri.IUslugaBIRzewnPubl;
 import org.tempuri.UslugaBIRzewnPubl;
@@ -46,7 +47,7 @@ public class GUSView implements Serializable {
         Map<String, String> zwrot = new ConcurrentHashMap<>();
         try {
             service = new UslugaBIRzewnPubl();
-            IUslugaBIRzewnPubl e3 = service.getE3();
+            IUslugaBIRzewnPubl e3 = service.getE3(new AddressingFeature());
             String login = e3.zaloguj("e19dbcf03de941479bad");
             WSBindingProvider bp = (WSBindingProvider) e3;
             Map<String, Object> req_ctx = ((BindingProvider)e3).getRequestContext();
@@ -78,6 +79,7 @@ public class GUSView implements Serializable {
                         zwrot.putAll(wyslijdanefirmy(pozycje2fiz, rapszcz));
                     }
                 }
+                e3.wyloguj("e19dbcf03de941479bad");
             }
         } catch (Exception e) {
             E.e(e);
@@ -134,11 +136,13 @@ public class GUSView implements Serializable {
                 //String ko = service.getE3().getValue();
     //            QName q = new QName("Regon");
                 String s = service.getE3().pobierzCaptcha();
+                
                 //ko = service.getE3().daneKomunikat();
     //            JAXBElement el = new JAXBElement(q, String.class, "320890902");
             } else {
                 danefirmy = "Nie znaleziono firmy";
             }
+            e3.wyloguj("e19dbcf03de941479bad");
         } catch (Exception e) {
             E.e(e);
         }

@@ -323,7 +323,7 @@ public class DokfkView implements Serializable {
                 listaewidencjipodatnika = podatnikEwidencjaDokDAO.findOpodatkowaniePodatnik(wpisView.getPodatnikObiekt());
                 if (klientdlaPK == null) {
                     klientdlaPK = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
-                } 
+                }
                 resetujDokumentOpen();
             }
         } catch (Exception e) {
@@ -354,6 +354,7 @@ public class DokfkView implements Serializable {
         String dataoperacji = null;
         komunikatywpisdok = null;
         wierszzmieniony = null;
+        wierszDoPodswietlenia = -1;
         if (selected != null) {
             symbolPoprzedniegoDokumentu = selected.pobierzSymbolPoprzedniegoDokfk();
             rodzajDokPoprzedni = selected.getRodzajedok();
