@@ -258,8 +258,8 @@ private DokDAO dokDAO;
             podatnikDAO.dodaj(selectedDod);
             podatnikWyborView.init();
             Msg.msg("i", "Dodano nowego podatnika: " + selectedDod.getPrintnazwa());
-            selectedDod = new Podatnik();
             znajdzdaneregonAutomat(selectedDod.getNip(), selectedDod.getEmail());
+            selectedDod = new Podatnik();
         } catch (Exception e) { 
             E.e(e); 
             Msg.msg("e", "Wystąpił błąd. Nie dodano nowego podatnika-firmę: " + selectedDod.getNazwapelna());
@@ -272,13 +272,14 @@ private DokDAO dokDAO;
             aktualizuj.setKrajnazwa("polska");
             aktualizuj.setKrajkod("PL");
             aktualizuj.setEmail(email);
-            klDAO.edit(aktualizuj);
+            klDAO.dodaj(aktualizuj);
             Msg.msg("Dodano podatnika jako klienta ");
         } catch (Exception e) {
-            Msg.msg("e","Błąd, nie dodano firmy jako klienta");
+            Msg.msg("e","Błąd, nie dodano firmy jako klienta, lub taki klient już istnieje");
             E.e(e);
         }
     }
+    
     
   
     
