@@ -11,6 +11,7 @@ import comparator.RoznicaSaldBOcomparator;
 import comparator.SaldoKontocomparator;
 import comparator.StronaWierszacomparatorBO;
 import comparator.StronaWierszacomparatorDesc;
+import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.UkladBRDAO;
 import daoFK.WalutyDAOfk;
@@ -68,6 +69,8 @@ public class BilansGenerowanieView implements Serializable {
     private WierszBODAO wierszBODAO;
     @Inject
     private WalutyDAOfk walutyDAOfk;
+    @Inject
+    private DokDAOfk dokDAOfk;
     private Map<String, Waluty> listawalut;
     private List<String> komunikatyok;
     private List<String> komunikatyerror;
@@ -213,6 +216,12 @@ public class BilansGenerowanieView implements Serializable {
             if (stop == true) {
                 sabledy = true;
             } else {
+                Dokfk dokbo = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+                if (dokbo != null) {
+                    dokDAOfk.destroy(dokbo);
+                } else {
+                    Msg.msg("w","Nie znaleziono dokumentu BO. Albo go nie ma, albo jesteś w niewłaściwym miesiącu");
+                }
                 wierszBODAO.deletePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                 Waluty walpln = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
                 saldoAnalitykaView.initGenerowanieBO();
