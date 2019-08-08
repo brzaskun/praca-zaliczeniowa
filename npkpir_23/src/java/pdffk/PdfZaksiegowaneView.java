@@ -36,15 +36,8 @@ public class PdfZaksiegowaneView implements Serializable {
     @Inject
     private UzDAO uzDAO;
     
-    public void drukujzaksiegowanydokument(List<Dokfk> wiersze,List<Dokfk> selecteddokfk) {
-        if ((wiersze != null && wiersze.size() > 0) && (selecteddokfk == null || selecteddokfk.isEmpty())) {
-            String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokumentzaksiegowane";
-            File file = Plik.plik(nazwa, true);
-            if (file.isFile()) {
-                file.delete();
-            }
-            wydrukujzestawieniedok(nazwa, wiersze);
-        } else if ((wiersze == null || wiersze.isEmpty()) && (selecteddokfk != null && selecteddokfk.size() > 0)) {
+    public void drukujzaksiegowanydokument(List<Dokfk> wiersze,List<Dokfk> selecteddokfk,List<Dokfk> filterfk) {
+        if (selecteddokfk != null && selecteddokfk.size() > 0) {
             for (Dokfk p : selecteddokfk) {
                 String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokumentzaksiegowane"+p.getNrkolejnywserii();
                 File file = Plik.plik(nazwa, true);
@@ -56,6 +49,20 @@ public class PdfZaksiegowaneView implements Serializable {
                 String f = "pokazwydruk('"+nazwa+"');";
                 PrimeFaces.current().executeScript(f);
             }
+        } else if (filterfk != null && filterfk.size() > 0) {
+            String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokumentzaksiegowane";
+            File file = Plik.plik(nazwa, true);
+            if (file.isFile()) {
+                file.delete();
+            }
+            wydrukujzestawieniedok(nazwa, filterfk);
+        } else if (wiersze != null && wiersze.size() >04) {
+            String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokumentzaksiegowane";
+            File file = Plik.plik(nazwa, true);
+            if (file.isFile()) {
+                file.delete();
+            }
+            wydrukujzestawieniedok(nazwa, wiersze);
         } else {
             Msg.msg("w", "Nie wybrano wierszy do wydruku");
         }
