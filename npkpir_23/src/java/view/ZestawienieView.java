@@ -964,7 +964,7 @@ public class ZestawienieView implements Serializable {
                     Msg.msg("e", "Brak wprowadzonej skali opodatkowania dla wszystkich podatników na obecny rok. Przerywam wyliczanie PIT-u");
                     return;
                 }
-                String opodatkowanie = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(wpisView).getFormaopodatkowania();
+                String opodatkowanie = wpisView.zwrocFormaOpodatkowania(wpisView.getRokWpisuSt()).getFormaopodatkowania();
                 String rodzajop = opodatkowanie;
                 Double stawka = 0.0;
                 BigDecimal podatek = BigDecimal.ZERO;

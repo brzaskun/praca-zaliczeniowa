@@ -80,6 +80,7 @@ import waluty.Z;
     @NamedQuery(name = "Dok.findByfindByLastofaTypeKontrahent", query = "SELECT d FROM Dok d WHERE d.podatnik = :podatnik AND d.kontr1 = :kontr AND d.pkpirR = :pkpirR  ORDER BY d.idDok DESC"),
     @NamedQuery(name = "Dok.findByFakturaWystawiona", query = "SELECT d FROM Dok d WHERE d.podatnik = :podatnik AND d.kontr1 = :kontr AND d.nrWlDk = :nrWlDk AND d.brutto = :brutto"),
     @NamedQuery(name = "Dok.findByBK", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.podatnik = :podatnik"),
+    @NamedQuery(name = "Dok.findByBKodMca", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM>=:mc AND d.podatnik = :podatnik"),
     @NamedQuery(name = "Dok.findByInwestycje", query = "SELECT d FROM Dok d WHERE d.symbolinwestycji IS NOT NULL AND d.symbolinwestycji != '' AND d.symbolinwestycji != 'wybierz'"),
     @NamedQuery(name = "Dok.findByBKPrzychody", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.podatnik = :podatnik AND (d.rodzajedok.skrot = 'SPRY' OR d.rodzajedok.skrot = 'UPTK100' OR d.rodzajedok.skrot = 'RVCS')"),
     @NamedQuery(name = "Dok.findByBKMCPrzychody", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM AND d.podatnik = :podatnik AND (d.rodzajedok.skrot = 'SPRY' OR d.rodzajedok.skrot = 'UPTK100' OR d.rodzajedok.skrot = 'RVCS')"),

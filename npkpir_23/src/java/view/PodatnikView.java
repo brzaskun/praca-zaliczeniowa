@@ -204,6 +204,7 @@ public class PodatnikView implements Serializable {
         formyprawne.add(FormaPrawna.FUNDACJA);
         wybranyPodatnikOpodatkowanie.setDatarozpoczecia(wpisView.getRokWpisuSt()+"-01-01");
         wybranyPodatnikOpodatkowanie.setDatazakonczenia(wpisView.getRokWpisuSt()+"-12-31");
+        wybranyPodatnikOpodatkowanie.setSymbolroku(wpisView.getRokWpisuSt());
         udzialy.setDatarozpoczecia(wpisView.getRokWpisuSt()+"-01-01");
         wybranyPodatnikOpodatkowanie.setStawkapodatkuospr(0.19);
         sumaudzialow = sumujudzialy(podatnikUdzialy);
@@ -571,20 +572,22 @@ private DokDAO dokDAO;
 //    }
 //
     public void dodajdoch() {
-            wybranyPodatnikOpodatkowanie.setMcOd(Data.getMc(wybranyPodatnikOpodatkowanie.getDatarozpoczecia()));
-            wybranyPodatnikOpodatkowanie.setMcDo(Data.getMc(wybranyPodatnikOpodatkowanie.getDatazakonczenia()));
-            wybranyPodatnikOpodatkowanie.setPodatnikObj(wpisView.getPodatnikObiekt());
-            wybranyPodatnikOpodatkowanie.setRokOd(Data.getRok(wybranyPodatnikOpodatkowanie.getDatarozpoczecia()));
-            wybranyPodatnikOpodatkowanie.setRokDo(Data.getRok(wybranyPodatnikOpodatkowanie.getDatazakonczenia()));
-            wybranyPodatnikOpodatkowanie.setDatawprowadzenia(new Date());
-            wybranyPodatnikOpodatkowanie.setKsiegowa(wpisView.getUzer());
-        if (sprawdzrok(wybranyPodatnikOpodatkowanie, podatnikOpodatkowanie) == 0) {
-            podatnikOpodatkowanie.add(wybranyPodatnikOpodatkowanie);
-            podatnikOpodatkowanieDDAO.dodaj(wybranyPodatnikOpodatkowanie);
-            wybranyPodatnikOpodatkowanie = new PodatnikOpodatkowanieD();
-            Msg.msg("Dodatno parametr pod.dochodowy do podatnika "+selected.getNazwapelna());
-        } else {
-            Msg.msg("e", "Niedodatno parametru pod.doch. Niedopasowane okresy. Podatnik "+selected.getPrintnazwa());
+        if(wybranyPodatnikOpodatkowanie.getDatarozpoczecia()!=null && wybranyPodatnikOpodatkowanie.getDatazakonczenia()!=null) {
+                wybranyPodatnikOpodatkowanie.setMcOd(Data.getMc(wybranyPodatnikOpodatkowanie.getDatarozpoczecia()));
+                wybranyPodatnikOpodatkowanie.setMcDo(Data.getMc(wybranyPodatnikOpodatkowanie.getDatazakonczenia()));
+                wybranyPodatnikOpodatkowanie.setPodatnikObj(wpisView.getPodatnikObiekt());
+                wybranyPodatnikOpodatkowanie.setRokOd(Data.getRok(wybranyPodatnikOpodatkowanie.getDatarozpoczecia()));
+                wybranyPodatnikOpodatkowanie.setRokDo(Data.getRok(wybranyPodatnikOpodatkowanie.getDatazakonczenia()));
+                wybranyPodatnikOpodatkowanie.setDatawprowadzenia(new Date());
+                wybranyPodatnikOpodatkowanie.setKsiegowa(wpisView.getUzer());
+            if (sprawdzrok(wybranyPodatnikOpodatkowanie, podatnikOpodatkowanie) == 0) {
+                podatnikOpodatkowanie.add(wybranyPodatnikOpodatkowanie);
+                podatnikOpodatkowanieDDAO.dodaj(wybranyPodatnikOpodatkowanie);
+                wybranyPodatnikOpodatkowanie = new PodatnikOpodatkowanieD();
+                Msg.msg("Dodatno parametr pod.dochodowy do podatnika "+selected.getNazwapelna());
+            } else {
+                Msg.msg("e", "Niedodatno parametru pod.doch. Niedopasowane okresy. Podatnik "+selected.getPrintnazwa());
+            }
         }
     }
     

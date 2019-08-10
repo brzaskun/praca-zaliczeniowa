@@ -10,9 +10,9 @@
        <ui:composition>
            <f:view >
                 <p:growl widgetVar="ajaxm"/>
-                 <p:ajaxStatus onstart="startajaxm();" onsuccess="stopajaxm();" >
+                 <p:ajaxStatus onstart="startajaxm();" onsuccess="stopajaxm();"  >
                      <f:facet name="error">
-                         <h:outputText value="Wystąpił nieoczekiewany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie"
+                         <h:outputText value="Wystąpił nieoczekiwany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie"
                                        style="color: red; font-weight: 900;"/>
                      </f:facet>
                 </p:ajaxStatus>

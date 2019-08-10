@@ -28,7 +28,7 @@
         </script>
         <p:growl life="3600"  id="messages" ><p:autoUpdate/></p:growl>
         
-        <p:outputPanel id="wrapper"  >
+        <p:outputPanel id="wrapper" >
              <p:panel id="panelpkpir">
                 <p:commandButton  value="Zachowaj w pdf" actionListener="#{ksiegaView.drukujPKPIR()}" >
                 </p:commandButton>
@@ -52,7 +52,7 @@
             
              <p:hotkey bind="down"  onstart="przejdzwierszK();"/>
             <p:hotkey bind="up"   onstart="wrocwierszK();"/>
-            <p:dataTable  var="wpis" value="#{ksiegaView.lista}" id="dokumentyKsiega" 
+            <p:dataTable  var="wpis" value="#{ksiegaView.lista}" id="dokumentyKsiega"  rendered="#{WpisView.rodzajopodatkowania ne 'ryczałt'}"
                           rowKey="#{wpis.idDok}" selection="#{ksiegaView.selDokument}" selectionMode="single" filteredValue="#{ksiegaView.listaFiltered}"
                           emptyMessage="W danym miesiącu nie było żadnych zapisów"
                           style="width: 100%; height: 700px; overflow-y: scroll;" widgetVar="dokKsiega"  styleClass="grid" 

@@ -11,10 +11,12 @@
                 <h:outputText value="Algorytm rozliczania naswyżki VAT w deklaracji VAT" style="font-size: 15px"/>
                 <p:growl life="3600"  showDetail="true"/>
                 <p:focus for="parametryp1"/><br/>
-                <h:outputText value="dane historyczne"/><br/>
                 <p:panelGrid columns="4" style="width: 500px">
                     <p:dataTable value="#{podatnikView.selected.paramDeklVatNadwyzka}"  var="loop" emptyMessage="nie wprowadzono parametrów"
                                  sortBy="#{loop}" sortFunction="#{podatnikView.sortparamsuper}">
+                        <f:facet name="header">
+                    <h:outputText value="Dane historyczne"/>
+                </f:facet>
                         <p:column headerText="od">
                             <h:outputText value="#{loop.mcOd}-" />
                             <h:outputText value="#{loop.rokOd}" />
@@ -28,7 +30,7 @@
                         </p:column>
                     </p:dataTable>
                 </p:panelGrid>
-                <h:outputText value="wybierz parametry aktualne"/><br/>
+                <p:panel header="wybierz parametry aktualne" style="width: 990px;"/>
                 <p:panelGrid id="parametryp1" columns="5" >
                     <h:outputText value="rok podatkowy: "/><p:selectOneMenu value="#{podatnikView.paramDeklVatNadwyzka.rokOd}"><f:selectItems value="#{Roki.rokiListString}"/></p:selectOneMenu>
                     <h:outputText value="miesiąc od: "/><p:selectOneMenu value="#{podatnikView.paramDeklVatNadwyzka.mcOd}"><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>

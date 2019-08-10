@@ -343,7 +343,7 @@ public class DokTabView implements Serializable {
     //usun jak wciaz dziala bez nich
     public void aktualizujTabele(AjaxBehaviorEvent e) throws IOException {
         aktualizuj();
-        Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu());
+        Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPrintNazwa()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu()+" opodatkowanie: "+wpisView.getRodzajopodatkowania());
     }
     
     //usun jak wciaz dziala bez nich
@@ -353,7 +353,7 @@ public class DokTabView implements Serializable {
         gosciuwybral = null;
         aktualizuj();
         init();
-        Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu());
+        Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPrintNazwa()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu()+" opodatkowanie: "+wpisView.getRodzajopodatkowania());
     }
   
    

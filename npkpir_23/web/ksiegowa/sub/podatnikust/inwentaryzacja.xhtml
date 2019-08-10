@@ -12,9 +12,11 @@
             <h:outputText value="Wartości inwentaryzacji na koniec roku podatkowego" style="font-size: 15px"/>
             <p:growl life="3600"  showDetail="true"/>
             <p:focus for="parametrypodatnika3"/><br/>
-            <h:outputText value="dane historyczne"/><br/>
             <p:panelGrid columns="4" style="width: 500px">
                 <p:dataTable value="#{podatnikView.selected.remanent}"  var="loop" >
+                    <f:facet name="header">
+                    <h:outputText value="Dane historyczne"/>
+                </f:facet>
                     <p:column headerText="od">
                         <h:outputText value="#{loop.mcOd}-" />
                         <h:outputText value="#{loop.rokOd}" />
@@ -28,7 +30,7 @@
                     </p:column>
                 </p:dataTable>
             </p:panelGrid>
-            <h:outputText value="wybierz parametry aktualne"/><br/>
+            <p:panel header="wybierz parametry aktualne" style="width: 990px;"/>
             <p:panelGrid id="parametrypodatnika3" columns="4" >
                 <h:outputText value="rok podatkowy: "/>
                 <p:selectOneMenu value="#{podatnikView.parametr.rokOd}">

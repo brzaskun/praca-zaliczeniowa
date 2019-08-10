@@ -537,6 +537,10 @@ public class SessionFacade<T> implements Serializable {
     public List<Dok> findDokBK(Podatnik pod, String rok) {
         return Collections.synchronizedList(em.createNamedQuery("Dok.findByBK").setParameter("podatnik", pod).setParameter("pkpirR", rok).getResultList());
     }
+    
+    public List<Dok> findDokBKodMca(Podatnik pod, String rok, String mc) {
+        return Collections.synchronizedList(em.createNamedQuery("Dok.findByBKodMca").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("mc", mc).getResultList());
+    }
 
     public List<Dok> findDokBKPrzychody(Podatnik pod, String rok) {
         return Collections.synchronizedList(em.createNamedQuery("Dok.findByBKPrzychody").setParameter("podatnik", pod).setParameter("pkpirR", rok).getResultList());
@@ -2185,6 +2189,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public PodatnikOpodatkowanieD findOpodatkowaniePodatnikRok(WpisView wpisView) {
         return (PodatnikOpodatkowanieD) em.createNamedQuery("PodatnikOpodatkowanieD.findBypodatnikRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getSingleResult();
+    }
+    
+    public List<PodatnikOpodatkowanieD> findOpodatkowaniePodatnikRokWiele(Podatnik p, String rok) {
+        return em.createNamedQuery("PodatnikOpodatkowanieD.findBypodatnikRok").setParameter("podatnik", p).setParameter("rok", rok).getResultList();
     }
     
     public PodatnikOpodatkowanieD findOpodatkowaniePodatnikRok(Podatnik p, String rok) {

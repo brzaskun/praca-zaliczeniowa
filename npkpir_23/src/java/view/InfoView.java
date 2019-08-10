@@ -125,7 +125,7 @@ public class InfoView implements Serializable{
 
     private void sprawdzopodatkowanie(){
         try{
-        String opodatkowanie = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(wpisView).getFormaopodatkowania();
+        String opodatkowanie = wpisView.zwrocFormaOpodatkowania(wpisView.getRokWpisuSt()).getFormaopodatkowania();
         if(opodatkowanie == null){
             rodzajopodatkowania = "Nie wprowadzono rodzaju opodatkowania! Program nie będzie funkcjonował poprawnie";
         } else {
@@ -150,7 +150,7 @@ public class InfoView implements Serializable{
     
      private void sprawdzryczalt(){
         try{
-        String opodatkowanie = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(wpisView).getFormaopodatkowania();
+        String opodatkowanie = wpisView.zwrocFormaOpodatkowania(wpisView.getRokWpisuSt()).getFormaopodatkowania();
         if(opodatkowanie == null){
             ryczaltnieryczalt = "Nie wprowadzono rodzaju opodatkowania! Program nie będzie funkcjonował poprawnie";
         } else {

@@ -44,11 +44,11 @@ public class KsiegaBean {
         return numerkolejny;
     }
 
-    public static List<Dok> pobierzdokumenty(DokDAO dokDAO, Podatnik podatnik, Integer rok, String mc, int numerkolejny) {
+    public static List<Dok> pobierzdokumenty(DokDAO dokDAO, Podatnik podatnik, Integer rok, String mc, int numerkolejny, String odjakiego) {
         List<Dok> dokumentyZaRok = null;
         List<Dok> dokumentyZaMc = Collections.synchronizedList(new ArrayList<>());
         try {
-            dokumentyZaRok = dokDAO.zwrocBiezacegoKlientaRok(podatnik, rok.toString());
+            dokumentyZaRok = dokDAO.zwrocBiezacegoKlientaRokOdMc(podatnik, rok.toString(), odjakiego);
             dokumentyZaMc = dokDAO.zwrocBiezacegoKlientaRokMC(podatnik, rok.toString(), mc);
             int iloscdo = 0;
             iloscdo = (int) dokumentyZaRok.stream().filter((p)->(Integer.parseInt(p.getPkpirM()) < Integer.parseInt(mc))).count();

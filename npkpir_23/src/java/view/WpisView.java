@@ -14,6 +14,7 @@ import embeddable.Roki;
 import entity.ParamCzworkiPiatki;
 import entity.ParamVatUE;
 import entity.Podatnik;
+import entity.PodatnikOpodatkowanieD;
 import entity.Uz;
 import error.E;
 import java.io.Serializable;
@@ -76,6 +77,7 @@ public class WpisView implements Serializable {
     private boolean rokzamkniety;
     private boolean rokpoprzednizamkniety;
     private Podatnik podatnikwzorcowy;
+    private String odjakiegomcdok;
 
     public WpisView() {
         czegosbrakuje = false;
@@ -86,6 +88,7 @@ public class WpisView implements Serializable {
     private void init() {
         ustawMceOdDo();
         uzer = pobierzWpisBD();
+        odjakiegomcdok = "01";
         if (uzer != null) {
             podatnikObiekt = uzer.getPodatnik();
             if (podatnikObiekt == null) {
@@ -340,10 +343,11 @@ public class WpisView implements Serializable {
     
     private void pobierzOpodatkowanie() {
         try {
-            mc0kw1 = zwrocmc0kw1();
-            rodzajopodatkowania = zwrocindexparametrzarok();
-            rokzamkniety = zwrocrokzamkniety();
+            PodatnikOpodatkowanieD opodatkowanie = zwrocFormaOpodatkowania(rokWpisuSt);
+            mc0kw1 = opodatkowanie.isMc0kw1();
+            rokzamkniety = opodatkowanie.isZamkniety();
             rokpoprzednizamkniety = zwrocrokpoprzednizamkniety();
+            rodzajopodatkowania = opodatkowanie.getFormaopodatkowania();
             if (rodzajopodatkowania != null) {
                 if (this.podatnikObiekt.getFormaPrawna() != null && this.podatnikObiekt.getFormaPrawna().toString().equals("SPOLKA_Z_O_O")) {
                     stawkapodatkuospr = stawkapodatkuospr();
@@ -389,32 +393,54 @@ public class WpisView implements Serializable {
         }
     }
     
+    private boolean ilerodzajowopodatkowania() {
+        boolean jedno = true;
+        List lista = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRokWiele(podatnikObiekt, rokWpisuSt);
+        if (lista!=null && lista.size()>1) {
+            jedno = false;
+        }
+        return jedno;
+    }
+    
     private double stawkapodatkuospr() {
-        return podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(this).getStawkapodatkuospr();
+        return podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(podatnikObiekt, rokWpisuSt).getStawkapodatkuospr();
     }
     
-    private String zwrocindexparametrzarok() {
-         return podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(this).getFormaopodatkowania();
+    public PodatnikOpodatkowanieD zwrocFormaOpodatkowania(String rok) {
+        PodatnikOpodatkowanieD zwrot = null;
+        boolean jedno = ilerodzajowopodatkowania();
+        if (jedno) {
+            zwrot = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(podatnikObiekt, rok);
+            odjakiegomcdok = "01";
+        } else {
+            List<PodatnikOpodatkowanieD> lista = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRokWiele(podatnikObiekt, rok);
+            for (PodatnikOpodatkowanieD p : lista) {
+                boolean jestmiedzy = Data.czyjestpomiedzy(p.getDatarozpoczecia(), p.getDatazakonczenia(), rok, miesiacWpisu);
+                if (jestmiedzy) {
+                    if (p.getSymbolroku().equals(rokWpisuSt)) {
+                        odjakiegomcdok = p.getMcOd();
+                    }
+                    zwrot=p;
+                    break;
+                }
+            }
+        }
+        return zwrot;
     }
     
-    private boolean zwrocrokzamkniety() {
-        return podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(this).isZamkniety();
-    }
+
     private boolean zwrocrokpoprzednizamkniety() {
         boolean zwrot = false;
         try {
-            zwrot = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRokPoprzedni(this).isZamkniety();
+            zwrot = zwrocFormaOpodatkowania(rokUprzedniSt).isZamkniety();
         } catch (Exception e) {
         }
         return zwrot;
     }
     
-    
-    private boolean zwrocmc0kw1() {
-        return podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(this).isMc0kw1();
-    }
+
     public String skierujmultisuera() {
-        rodzajopodatkowania = zwrocindexparametrzarok();
+        rodzajopodatkowania = zwrocFormaOpodatkowania(rokWpisuSt).getFormaopodatkowania();
         if (rodzajopodatkowania.contains("księgi rachunkowe")) {
             return "/guestFK/guestFKTablica.xhtml?faces-redirect=true";
         } else {
@@ -725,7 +751,17 @@ public class WpisView implements Serializable {
     public void setPodatnikwzorcowy(Podatnik podatnikwzorcowy) {
         this.podatnikwzorcowy = podatnikwzorcowy;
     }
+    
+    
 //</editor-fold>
+
+    public String getOdjakiegomcdok() {
+        return odjakiegomcdok;
+    }
+
+    public void setOdjakiegomcdok(String odjakiegomcdok) {
+        this.odjakiegomcdok = odjakiegomcdok;
+    }
   
 
   }

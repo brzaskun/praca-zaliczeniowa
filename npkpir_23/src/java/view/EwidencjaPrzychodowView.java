@@ -67,8 +67,12 @@ public class EwidencjaPrzychodowView implements Serializable {
      public void aktualizujTabeleTabela(AjaxBehaviorEvent e) throws IOException {
         lista.clear();
         aktualizuj();
-        init();
-        Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu(),"form:messages");
+         if (wpisView.getRodzajopodatkowania().equals("ryczałt")) {
+            init();
+            Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPrintNazwa()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu());
+        } else {
+            Msg.msg("e","Zmiana opodatkowania. Nie można wygenerować ewidencji przychodów");
+        }
     }
      
        private void aktualizuj(){
@@ -117,12 +121,15 @@ public class EwidencjaPrzychodowView implements Serializable {
     public void generujksiegirok() {
         ksiegimiesieczne = new ConcurrentHashMap<>();
         int mcint = Integer.parseInt(wpisView.getMiesiacWpisu());
+        int mcgranica = Mce.getMiesiacToNumber().get(wpisView.getOdjakiegomcdok());
         for (int i = 1; i <= mcint; i++) {
-            lista = Collections.synchronizedList(new ArrayList<>());
-            String mc = Mce.getNumberToMiesiac().get(i);
-            generujksiege(mc);
-            if (lista.size() > 0) {
-                ksiegimiesieczne.put(mc, lista);
+            if (i>=mcgranica) {
+                lista = Collections.synchronizedList(new ArrayList<>());
+                String mc = Mce.getNumberToMiesiac().get(i);
+                generujksiege(mc);
+                if (lista.size() > 0) {
+                    ksiegimiesieczne.put(mc, lista);
+                }
             }
         }
     }

@@ -17,15 +17,15 @@
                 <h:outputLabel value=""/>
                 <h:selectOneListbox id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="width: 350px; height: 250px;" converter="#{podatConv}">
                     <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelnaPDF}" itemValue="#{p}"/>
-                    <p:ajax event="change" partialSubmit="true"  listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, form:panellimity" global="fasle"/>
+                    <p:ajax event="change" partialSubmit="true"  listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa form:panellimity form:wiadnr1" global="fasle"/>
                 </h:selectOneListbox>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                     <f:selectItems value="#{Roki.rokiList}"/>
-                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, form:panellimity"  global="fasle"/>
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa form:panellimity form:wiadnr1"  global="fasle"/>
                 </p:selectOneMenu>
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                     <f:selectItems value="#{Mce.mceList}"/>
-                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa,  form:panellimity" global="fasle"/>
+                    <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa form:panellimity form:wiadnr1" global="fasle"/>
                 </p:selectOneMenu>
                 
             </p:panelGrid>
@@ -34,7 +34,7 @@
             <h:outputText value="nie wprowadzono danych tego podatnika na nowy rok podatkowy - program nie będzie działał poprawnie" rendered="#{WpisView.czegosbrakuje}" style="font-weight: 800; color: red;"/>
             <h:outputText value="miesiąc zamknięty, możliwe jedynie przeglądanie danych i sporządzanie deklaracji" rendered="#{zamkniecieView.sprawdzMiesiacRok()}" style="font-weight: 800; color: blue;"/>
         </p:panel>
-        <p:messages style="width: 700px; margin-left: 2%;">
+        <p:messages id="wiadnr1" style="width: 700px; margin-left: 2%;">
             <p:autoUpdate/>
         </p:messages>
         <p:panel id="panellimity" header="limity" style="width: 200px;">

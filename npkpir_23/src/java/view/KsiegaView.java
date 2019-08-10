@@ -78,13 +78,16 @@ private static final long serialVersionUID = 1L;
     public void generujksiegirok() {
         ksiegimiesieczne = new ConcurrentHashMap<>();
         int mcint = Integer.parseInt(wpisView.getMiesiacWpisu());
+        int mcgranica = Mce.getMiesiacToNumber().get(wpisView.getOdjakiegomcdok());
         for (int i = 1; i <= mcint; i++) {
-            lista = Collections.synchronizedList(new ArrayList<>());
-            String mc = Mce.getNumberToMiesiac().get(i);
-            generujksiege(mc);
-            podsumowaniepopmc();
-            if (lista.size() > 3) {
-                ksiegimiesieczne.put(mc, lista);
+            if (i>=mcgranica) {
+                lista = Collections.synchronizedList(new ArrayList<>());
+                String mc = Mce.getNumberToMiesiac().get(i);
+                generujksiege(mc);
+                podsumowaniepopmc();
+                if (lista.size() > 1) {
+                    ksiegimiesieczne.put(mc, lista);
+                }
             }
         }
     }
@@ -107,8 +110,8 @@ private static final long serialVersionUID = 1L;
         Podatnik pod = wpisView.getPodatnikObiekt();
         int numerkolejny = KsiegaBean.pobierznumerrecznie(pod,rok,mc);
         //dlatego jest caly rok bo nadajemy numery za kazdym razem
-        List<Dok> dokumentyzaMc = KsiegaBean.pobierzdokumenty(dokDAO, pod, rok, mc, numerkolejny);
-        if (lista != null) {
+        List<Dok> dokumentyzaMc = KsiegaBean.pobierzdokumenty(dokDAO, pod, rok, mc, numerkolejny, wpisView.getOdjakiegomcdok());
+        if (dokumentyzaMc != null && dokumentyzaMc.size()>0) {
             cechydokzlisty = CechaBean.znajdzcechy(dokumentyzaMc);
         }
         podsumowanie = KsiegaBean.ustawpodsumowanie();
@@ -168,11 +171,15 @@ private static final long serialVersionUID = 1L;
         }
     }
     
-     public void aktualizujTabeleTabela(AjaxBehaviorEvent e) throws IOException {
-        lista.clear();
+     public void aktualizujTabeleTabela(AjaxBehaviorEvent e) {
+        lista = new ArrayList<>();
         aktualizuj();
-        init();
-        Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu());
+        if (!wpisView.getRodzajopodatkowania().equals("ryczałt")) {
+            init();
+            Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPrintNazwa()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu());
+        } else {
+            Msg.msg("e","Zmiana opodatkowania. Nie można wygenerować księgi");
+        }
     }
      
     private void aktualizuj(){

@@ -77,7 +77,7 @@ public class PdfPkpir {
         Collections.sort(mce);
         for (String p : mce) {
             PdfPTable table = generujTabele(wpisView,p);
-            if (ksiegimiesieczne.get(p).size()>3) {
+            if (ksiegimiesieczne.get(p).size()>1) {
                 dodajwiersze(ksiegimiesieczne.get(p), table);
                 pdf.add(table);
                 pdf.newPage();

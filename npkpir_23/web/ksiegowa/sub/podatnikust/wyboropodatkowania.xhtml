@@ -10,9 +10,11 @@
         <h:form id="form1" >
             <h:outputText value="Wybór opodatkowania podatkiem dochodowym" style="font-size: 15px"/>
             <p:focus for="parametrypodatnika"/><br/>
-            <h:outputText value="dane historyczne"/><br/>
-            <p:dataTable value="#{podatnikView.podatnikOpodatkowanie}"  var="loop" style="width: 980px;" 
+            <p:dataTable value="#{podatnikView.podatnikOpodatkowanie}"  var="loop" style="width: 980px; padding: 10px;" 
                          rowKey="#{loop.id}" selection="#{podatnikView.podatnikOpodatkowanieSelected}" >
+                <f:facet name="header">
+                    <h:outputText value="Dane historyczne"/>
+                </f:facet>
                 <p:ajax event="rowSelectRadio" global="false" listener="#{podatnikView.przygotujedycjeopodatkowanie}" update="akordeon:form1"/>
                 <p:column selectionMode="single" styleClass="checkwiersza" width="30" style="text-align: center;"></p:column>
                 <p:column headerText="od" width="80">
@@ -57,8 +59,8 @@
                                          rendered="#{loop.zamkniety eq false and loop.symbolroku eq WpisView.rokWpisuSt}" />
                     </p:column>
             </p:dataTable>
-            <h:outputText value="wybierz parametry aktualne"/><br/>
-            <p:panelGrid id="parametrypodatnika" columns="8" >
+            <p:panel header="wybierz parametry aktualne" style="width: 990px;"/>
+            <p:panelGrid id="parametrypodatnika" columns="8" style="padding: 10px;" >
                 <h:outputText value="data od: "/>
                 <p:inputText id="dataod" value="#{podatnikView.wybranyPodatnikOpodatkowanie.datarozpoczecia}" maxlength="10" placeholder="rrrr-mm-dd" size="10">
                     <p:ajax event="blur" onstart="weryfikujdateauto('akordeon:form1:dataod')"/>
@@ -69,6 +71,7 @@
                 </p:inputText>
                 <h:outputText value="symbol roku: "/>
                 <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.symbolroku}">
+                    <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/> 
                     <f:selectItems value="#{Roki.rokiListString}"/>
                 </p:selectOneMenu>
                  <h:outputText value="dołączony do: "/>

@@ -12,10 +12,12 @@
             <h:outputText value="Numer pierwszego dokumentu w programie" style="font-size: 15px"/>
             <p:growl life="3600"  showDetail="true"/>
             <p:focus for="parametrypodatnika4a"/><br/>
-            <h:outputText value="dane historyczne"/><br/>
             <p:panelGrid columns="4" style="width: 500px">
                 <p:dataTable value="#{podatnikView.selected.numerpkpir}"  var="loop" 
                             paginator="true" pageLinks="12" rows="12" emptyMessage="Nie wprowadzono" >
+                    <f:facet name="header">
+                    <h:outputText value="Dane historyczne"/>
+                </f:facet>
                     <p:column headerText="od">
                         <h:outputText value="#{loop.mcOd}-" />
                         <h:outputText value="#{loop.rokOd}" />
@@ -29,7 +31,7 @@
                     </p:column>
                 </p:dataTable>
             </p:panelGrid>
-            <h:outputText value="wybierz parametr aktualny"/><br/>
+            <p:panel header="wybierz parametry aktualne" style="width: 990px;"/>
             <p:panelGrid id="parametrypodatnika4a" columns="4" >
                 <h:outputText value="rok podatkowy: "/>
                 <p:selectOneMenu value="#{podatnikView.parametr.rokOd}"><f:selectItems value="#{Roki.rokiListString}"/></p:selectOneMenu>
