@@ -1865,6 +1865,8 @@ public class PdfMain {
                     } else {
                         table.addCell(ustawfrazeAlignLevel(String.valueOf(number.format(p.getKwota())), "right", 7, lev));
                     }
+                } else if (p.getNazwa().contains("suma")){
+                    table.addCell(ustawfrazeAlignLevel(String.valueOf(number.format(p.getKwota())), "right", 9, lev));
                 } else {
                     table.addCell(ustawfrazeAlignLevel("", "right", 7, lev));
                 }
@@ -1877,7 +1879,9 @@ public class PdfMain {
                        } else {
                            table.addCell(ustawfrazeAlignLevel(String.valueOf(number.format(p.getKwotabo())), "right", 7, lev));
                        }
-                   } else {
+                   } else if (p.getNazwa().contains("suma")){
+                        table.addCell(ustawfrazeAlignLevel(String.valueOf(number.format(p.getKwotabo())), "right", 9, lev));
+                    } else {
                        table.addCell(ustawfrazeAlignLevel("", "right", 7, lev));
                    }   
                 }

@@ -116,7 +116,7 @@ public class PdfBilans {
             if (laczlata) {
                 dodajOpisWstepnySF(document, B.b("Bilans")+" - wydłużony rok obrotowy "+opisdodatkowy,wpisView.getPodatnikObiekt(), bilansnadzien, bilansoddnia, wpisView.getRokWpisuSt());
             } else {
-                dodajOpisWstepnySF(document, B.b("Bilans")+opisdodatkowy,wpisView.getPodatnikObiekt(), bilansnadzien, bilansoddnia, wpisView.getRokWpisuSt());
+                dodajOpisWstepnySF(document, B.b("Bilans")+" "+opisdodatkowy,wpisView.getPodatnikObiekt(), bilansnadzien, bilansoddnia, wpisView.getRokWpisuSt());
             }
             PdfMain.dodajLinieOpisu(document, "Strona aktywów");
             dodajTabele(document, testobjects.testobjects.getTabelaBilansBOData(rootProjektA),75,5);

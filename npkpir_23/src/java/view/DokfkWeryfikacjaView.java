@@ -48,8 +48,9 @@ public class DokfkWeryfikacjaView implements Serializable {
     private WpisView wpisView;
     private CommandButton ksiegujbutton;
 
-    public void sprawdzNIPVAT(List<Dokfk> wykazZaksiegowanychDokumentow) {
-        for (Iterator<Dokfk> it =  wykazZaksiegowanychDokumentow.iterator(); it.hasNext();) {
+    public void sprawdzNIPVAT(List<Dokfk> wykazZaksiegowanychDokumentow, List<Dokfk> filtered) {
+        List<Dokfk> lista = filtered !=null && filtered.size()>0 ? filtered : wykazZaksiegowanychDokumentow;
+        for (Iterator<Dokfk> it =  lista.iterator(); it.hasNext();) {
             Dokfk dok = it.next();
             try {
                 if (dok.getEwidencjaVAT()!=null && !dok.getEwidencjaVAT().isEmpty()) {

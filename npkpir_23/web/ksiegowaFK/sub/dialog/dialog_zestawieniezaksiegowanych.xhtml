@@ -116,7 +116,7 @@
                                          />
                     </p:column>
  <p:column>
-                    <p:commandButton id="sprawdzVAT" value="VAT" actionListener="#{dokfkWeryfikacjaView.sprawdzNIPVAT(dokfkView.wykazZaksiegowanychDokumentow)}" style="width: 120px; margin-left: 10px;" 
+                    <p:commandButton id="sprawdzVAT" value="VAT" actionListener="#{dokfkWeryfikacjaView.sprawdzNIPVAT(dokfkView.wykazZaksiegowanychDokumentow, dokfkView.filteredValue)}" style="width: 120px; margin-left: 10px;" 
                                          update=":zestawieniedokumentow" rendered="#{dokfkView.rodzajedokumentowPodatnika.size() ne 0 and !WpisView.rokzamkniety}"
                                          />
                     </p:column>
