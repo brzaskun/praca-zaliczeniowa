@@ -106,7 +106,7 @@ public class KontoZapisFKView implements Serializable{
     private boolean nierenderujkolumnnywalut;
     private boolean pokaztransakcje;
     private List<Konto> ostatniaanalityka;
-    private boolean pobierzrokpoprzedni;
+    private String rokdopobrania;
 
     
 
@@ -223,7 +223,7 @@ public class KontoZapisFKView implements Serializable{
             kontozapisyfiltered = null;
             wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
             kontozapisy = Collections.synchronizedList(new ArrayList<>());
-            String rok = pobierzrokpoprzedni ? wpisView.getRokUprzedniSt() : wpisView.getRokWpisuSt();
+            String rok = rokdopobrania !=null ? rokdopobrania : wpisView.getRokWpisuSt();
             List<StronaWiersza> zapisyshort = null;
             zapisyshort = stronaWierszaDAO.findStronaByPodatnikKontoStartRokWalutyWszystkieOdswiez(wpisView.getPodatnikObiekt(), wybranekonto, rok, wpisView.getMiesiacOd(), wpisView.getMiesiacDo());
             if (zapisyshort!=null) {
@@ -231,11 +231,11 @@ public class KontoZapisFKView implements Serializable{
                 List<Konto> kontapotomneListaOstateczna = Collections.synchronizedList(new ArrayList<>());
                 kontapotomnetmp.add(wybranekonto);
                 KontaFKBean.pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, new ArrayList<>(wykazkont));
-                List<StronaWiersza> zapisyshortfilter = zapisyshort.parallelStream().filter((r) -> (kontapotomneListaOstateczna.contains(r.getKonto()))).collect(collectingAndThen(toList(), Collections::synchronizedList));
+                List<StronaWiersza> zapisyshortfilter = zapisyshort.stream().filter((r) -> (kontapotomneListaOstateczna.contains(r.getKonto()))).collect(collectingAndThen(toList(), Collections::synchronizedList));
                 if (wybranaWalutaDlaKont.equals("wszystkie")) {
                     kontozapisy.addAll(zapisyshortfilter);
                 } else {
-                    zapisyshortfilter.parallelStream().forEach((r) -> {
+                    zapisyshortfilter.stream().forEach((r) -> {
                         if (r.getSymbolWalutBOiSW().equals(wybranaWalutaDlaKont)) {
                                 kontozapisy.add(r);
                         }
@@ -260,11 +260,10 @@ public class KontoZapisFKView implements Serializable{
     
     public void pobierzZapisyNaKoncieRokPop() {
         if (wybranekonto instanceof Konto) {
-            if (pobierzrokpoprzedni) {
-                pobierzzapisy(wpisView.getRokUprzedniSt());
+            if (rokdopobrania!=null) {
+                pobierzzapisy(rokdopobrania);
                 pobierzZapisyNaKoncieNode(wybranekonto);
-                pobierzzapisy(wpisView.getRokWpisuSt());
-                Msg.msg("Rok "+wpisView.getRokUprzedniSt());
+                Msg.msg("Rok "+rokdopobrania);
             } else {
                 pobierzZapisyNaKoncieNode(wybranekonto);
                 Msg.msg("Rok "+wpisView.getRokWpisuSt());
@@ -1421,13 +1420,7 @@ public class KontoZapisFKView implements Serializable{
     }
 
 
-    public boolean isPobierzrokpoprzedni() {
-        return pobierzrokpoprzedni;
-    }
-
-    public void setPobierzrokpoprzedni(boolean pobierzrokpoprzedni) {
-        this.pobierzrokpoprzedni = pobierzrokpoprzedni;
-    }
+    
 
     public boolean isPokaztransakcje() {
         return pokaztransakcje;
@@ -1825,6 +1818,14 @@ public class KontoZapisFKView implements Serializable{
             }
             kontoDAOfk.edit(wybranekonto);
         }
+    }
+
+    public String getRokdopobrania() {
+        return rokdopobrania;
+    }
+
+    public void setRokdopobrania(String rokdopobrania) {
+        this.rokdopobrania = rokdopobrania;
     }
     
     

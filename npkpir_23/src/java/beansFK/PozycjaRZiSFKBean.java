@@ -425,22 +425,21 @@ public class PozycjaRZiSFKBean {
 
     public static void sumujObrotyNaKontach(List<StronaWiersza> zapisy, List<Konto> plankont) {
         for (StronaWiersza p : zapisy) {
-             //pobiermay dane z poszczegolnego konta
+            //pobiermay dane z poszczegolnego konta
             double kwotaWn = p.getWnma().equals("Wn") ? p.getKwotaPLN(): 0.0;
             double kwotaMa = p.getWnma().equals("Ma") ? p.getKwotaPLN(): 0.0;
             try {
-//                System.out.println(p.getKonto().getPelnynumer());
-//                if (p.getKonto().getPelnynumer().equals("220-2")) {
-//                    System.out.println("PozycjaRZiSFKBean.sumujObrotyNaKontach");
-//                }
-                Konto k = plankont.get(plankont.indexOf(p.getKonto()));
-                k.setObrotyWn(k.getObrotyWn()+kwotaWn);
-                k.setObrotyMa(k.getObrotyMa()+kwotaMa);
+                    //                System.out.println(p.getKonto().getPelnynumer());
+                    //                if (p.getKonto().getPelnynumer().equals("220-2")) {
+                    //                    System.out.println("PozycjaRZiSFKBean.sumujObrotyNaKontach");
+                    //                }
+                    Konto k = plankont.get(plankont.indexOf(p.getKonto()));
+                    k.setObrotyWn(k.getObrotyWn()+kwotaWn);
+                    k.setObrotyMa(k.getObrotyMa()+kwotaMa); 
             } catch (Exception e) {
                 E.e(e);
             }
-            
-        }
+        };
         //a teraz trzeba podsumowac konta bez obrotow ale z bo no i z obrotami (wyjalem to z gory)
         for (Konto r : plankont) {
             if (r.getBilansowewynikowe().equals("bilansowe")) {

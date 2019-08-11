@@ -52,11 +52,16 @@
                         <h:outputText id="nazwawybranegokonta" value=" #{kontoZapisFKView.wybranekonto.nazwapelna}" style="font-weight: 900;" />-->
                     </h:form>
                     <h:form>
-                        <h:outputText value="poprzedni rok"/>
-                        <p:selectBooleanCheckbox value="#{kontoZapisFKView.pobierzrokpoprzedni}"  style="margin-left: 5px;">
-                            <p:ajax event="change" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieRokPop}" update=":tabelazzapisami :tabelazsumami" />
-                        </p:selectBooleanCheckbox>
-                    </h:form>
+                        <p:panelGrid columns="2" style="width: 150px;">
+                        <h:outputText value="rok"/>
+                            <p:selectOneMenu id="rokWpisu" value="#{kontoZapisFKView.rokdopobrania}" style="width: 60px;">
+                                        <p:ajax event="change" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieRokPop}" partialSubmit="true"
+                                            update=":tabelazzapisami :tabelazsumami" />
+                                        <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
+                                        <f:selectItems value="#{Roki.rokiList}"/>
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                     </h:form>
                     <h:form id="walutazapisynakoncie">
                         <p:selectOneMenu id="wybranawaluta" value="#{kontoZapisFKView.wybranaWalutaDlaKont}" style="width: 100px; margin-left: 5px;" label="#{mgs.walutadokumentu}">
                             <p:ajax event="change" listener="#{kontoZapisFKView.pobierzZapisyZmianaWaluty}" update=":tabelazzapisami, :tabelazsumami" />
@@ -174,7 +179,7 @@
                                 <h:outputText value="#{loop1.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                             </p:column>
                         </p:dataTable>
-                    <p:contextMenu for="dataList" style="width: 200px;" >
+                    <p:contextMenu for="dataList" style="width: 200px;"  rendered="#{!WpisView.rokzamkniety}">
                         <p:menuitem icon="fa fa-check-square" value="sprawdzono" actionListener="#{kontoZapisFKView.oznaczjakosprawdzone(1)}" oncomplete="zmienkolor()" global="false"/>
                         <p:menuitem icon="fa fa-ban" value="odsprawdź" actionListener="#{kontoZapisFKView.oznaczjakosprawdzone(0)}"  oncomplete="zmienkolor1()" global="false"/>
                         <p:separator/>
@@ -335,21 +340,23 @@
                         </p:panelGrid>
                     </h:form>
                     <h:form>
-                        <p:panelGrid columns="3">
-                        <h:outputText value="#{mgs.wybierzkonto}: "/>
-                        <p:autoComplete id="wyborkonta" value="#{kontoZapisFKView.kontodoprzeksiegowania}" completeMethod="#{kontoZapisFKView.completeWszystkieKonta}" 
-                                        var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" cache="true" forceSelection="true"
-                                        minQueryLength="1" maxResults="15" maxlength="10" converter="#{kontoConv}"
-                                        converterMessage="Nieudana konwersja Klient" queryDelay="1" 
-                                        styleClass="kontoinput, autoCompleteBig" onfocus="usunspacje(this)"
-                                        >
-                            <p:ajax event="query" global="false"/>
-                            <p:ajax event="itemSelect" global="false"/>
-                        </p:autoComplete>
-                        <p:splitButton value="przeksięguj" actionListener="#{kontoZapisFKView.przeksieguj}" 
-                                         update="tabelazzapisami:tabela">
-                            <p:menuitem global="false" value="zaksięguj PK" actionListener="#{kontoZapisFKView.zaksiegujpk}" icon="ui-icon-arrow"/>  
-                        </p:splitButton>
+                        <p:panelGrid columns="3" rendered="#{!WpisView.rokzamkniety}">
+                            <h:outputText value="#{mgs.wybierzkonto}: "/>
+                            <p:autoComplete id="wyborkonta" value="#{kontoZapisFKView.kontodoprzeksiegowania}" completeMethod="#{kontoZapisFKView.completeWszystkieKonta}" 
+                                            var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" cache="true" forceSelection="true"
+                                            minQueryLength="1" maxResults="15" maxlength="10" converter="#{kontoConv}"
+                                            converterMessage="Nieudana konwersja Klient" queryDelay="1" 
+                                            styleClass="kontoinput, autoCompleteBig" onfocus="usunspacje(this)"
+                                            >
+                                <p:ajax event="query" global="false"/>
+                                <p:ajax event="itemSelect" global="false"/>
+                            </p:autoComplete>
+                            <p:splitButton value="przeksięguj" actionListener="#{kontoZapisFKView.przeksieguj}" 
+                                             update="tabelazzapisami:tabela">
+                                <p:menuitem global="false" value="zaksięguj PK" actionListener="#{kontoZapisFKView.zaksiegujpk}" icon="ui-icon-arrow"/>  
+                            </p:splitButton>
+                        </p:panelGrid>
+                        <p:panelGrid columns="3" rendered="#{WpisView.rokzamkniety}" style="width: 500px;">
                         </p:panelGrid>
                     </h:form>
                     <h:form id="tabelazsumami">
