@@ -237,6 +237,23 @@ public class JPK_VAT3_Bean {
         return w;
     }
     
+    public static JPK.ZakupWiersz dodajwierszzakupu(EVatwpisDedra ev, BigInteger lp, JPK.ZakupCtrl zakupCtrl) {
+        JPK.ZakupWiersz w = new JPK.ZakupWiersz();
+        try {
+            w.setLpZakupu(lp);
+            w.setDataZakupu(Data.dataoddo(ev.getDataoperacji()));
+            w.setDataWplywu(Data.dataoddo(ev.getDatadokumentu()));
+            w.setNazwaDostawcy(ev.getKlient().getNpelna());
+            w.setNrDostawcy(ev.getKlient().getNip());
+            w.setAdresDostawcy(ev.getKlient().getAdres());
+            w.setDowodZakupu(ev.getFaktura());
+            dodajkwotydowierszaZakupu(w,ev, zakupCtrl);
+        } catch (Exception ex) {
+            
+        }
+        return w;
+    }
+    
     public static JPK.ZakupWiersz dodajwierszzakupu(EVatwpisFK ev, BigInteger lp, JPK.ZakupCtrl zakupCtrl) {
         JPK.ZakupWiersz w = new JPK.ZakupWiersz();
         try {

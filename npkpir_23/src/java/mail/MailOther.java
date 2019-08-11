@@ -17,6 +17,7 @@ import java.util.List;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.faces.context.FacesContext;
+import javax.mail.AuthenticationFailedException;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Transport;
@@ -131,6 +132,9 @@ public class MailOther implements Serializable{
                         Msg.msg("e", "Nieudane usunięcie pliku faktury");
                     }
                  }
+             } catch (AuthenticationFailedException e1) {
+                 Msg.msg("e", "Błąd logowania do konta pocztowego. Sprawdź login i hasło!");
+                 throw new RuntimeException(e1);
              } catch (MessagingException e) {
                  throw new RuntimeException(e);
              }

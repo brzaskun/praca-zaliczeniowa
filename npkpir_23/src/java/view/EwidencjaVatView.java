@@ -613,7 +613,7 @@ public class EwidencjaVatView implements Serializable {
         for (EVatwpisSuper wierszogolny : listadokvatprzetworzona) {
             if (wierszogolny.getNetto() != 0.0 || wierszogolny.getVat() != 0.0) {
                 //sprawdza nazwe ewidencji zawarta w wierszu ogolnym i dodaje do listy
-                String nazwaewidencji = ewidencje.get("sprzedaż 23%").getNazwa();
+                String nazwaewidencji = wierszogolny.getEwidencja().getNazwa();
                 if (!listaewidencji.containsKey(nazwaewidencji)) {
                     listaewidencji.put(nazwaewidencji, new ArrayList<EVatwpisSuper>());
                     Evewidencja nowaEv = ewidencje.get(nazwaewidencji);

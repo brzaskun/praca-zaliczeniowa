@@ -9,11 +9,13 @@ import dao.EvewidencjaDAO;
 import daoFK.EVatwpisDedraDAO;
 import dedra.Dedraparser;
 import entity.Evewidencja;
+import entity.Klienci;
 import entityfk.EVatwpisDedra;
 import error.E;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -43,16 +45,22 @@ public class EVatDedraView  implements Serializable {
     @Inject
     private EVatwpisDedraDAO eVatwpisDedraDAO;
     private List<EVatwpisDedra> wiersze;
+    private List<EVatwpisDedra> zakupy;
+    private Evewidencja zakup;
+    @Inject
+    private EVatwpisDedra selected;
 
     public EVatDedraView() {
     }
     
     @PostConstruct
     private void init() {
-        wiersze = eVatwpisDedraDAO.findWierszePodatnikMc(wpisView);
+        wiersze = eVatwpisDedraDAO.findWierszePodatnikMcZakupSprzedaz(wpisView, true);
+        zakup = evewidencjaDAO.znajdzponazwie("zakup");
         if (!wiersze.isEmpty()) {
             wiersze.add(sumuj());
         }
+        zakupy = eVatwpisDedraDAO.findWierszePodatnikMcZakupSprzedaz(wpisView, false);
     }
     
     
@@ -127,6 +135,29 @@ public class EVatDedraView  implements Serializable {
         Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu(),"form:messages");
     }
      
+    public void dodajwierszzakupu(){
+        try {
+            EVatwpisDedra p = Dedraparser.dodajwierszzakupu(selected, wpisView, wpisView.getPodatnikObiekt(), zakup, eVatwpisDedraDAO);
+            if (zakupy==null) {
+                zakupy = new ArrayList<>();
+            }
+            zakupy.add(p);
+            Msg.msg("Dodano wieresz zakupu");
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd. Nie dodano wiersza");
+        }
+    }
+    
+    public void usun(EVatwpisDedra item) {
+         try {
+            eVatwpisDedraDAO.destroy(item);
+            zakupy.remove(item);
+            Msg.msg("Usunięto wieresz zakupu");
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd. Nie usunięto wiersza");
+        }
+    }
+    
     private void aktualizuj(){
         wpisView.naniesDaneDoWpis();
     }
@@ -134,6 +165,12 @@ public class EVatDedraView  implements Serializable {
     public void drukujewidencje() {
         if (wiersze != null && wiersze.size() > 0) {
             PdfEVatDedra.drukuj(wiersze, wpisView);
+        }
+    }
+    
+    public void drukujewidencjezakupy() {
+        if (zakupy != null && zakupy.size() > 0) {
+            PdfEVatDedra.drukuj(zakupy, wpisView);
         }
     }
     
@@ -152,6 +189,23 @@ public class EVatDedraView  implements Serializable {
     public void setWiersze(List<EVatwpisDedra> wiersze) {
         this.wiersze = wiersze;
     }
+
+    public List<EVatwpisDedra> getZakupy() {
+        return zakupy;
+    }
+
+    public void setZakupy(List<EVatwpisDedra> zakupy) {
+        this.zakupy = zakupy;
+    }
+
+    public EVatwpisDedra getSelected() {
+        return selected;
+    }
+
+    public void setSelected(EVatwpisDedra selected) {
+        this.selected = selected;
+    }
+
     
     
     

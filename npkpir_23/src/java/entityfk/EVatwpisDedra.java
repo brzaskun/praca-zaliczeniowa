@@ -11,6 +11,7 @@ import javax.inject.Named;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
@@ -24,6 +25,8 @@ import javax.persistence.NamedQuery;
     @NamedQuery(name = "EVatwpisDedra.findByPodatnik", query = "SELECT k FROM EVatwpisDedra k WHERE k.podatnikObj = :podatnik"),
     @NamedQuery(name = "EVatwpisDedra.findByPodatnikRok", query = "SELECT k FROM EVatwpisDedra k WHERE k.podatnikObj = :podatnik AND k.rokEw = :rok"),
     @NamedQuery(name = "EVatwpisDedra.findByPodatnikRokMc", query = "SELECT k FROM EVatwpisDedra k WHERE k.podatnikObj = :podatnik AND k.rokEw = :rok AND k.mcEw = :mc"),
+    @NamedQuery(name = "EVatwpisDedra.findByPodatnikRokMcSprzedaz", query = "SELECT k FROM EVatwpisDedra k WHERE k.podatnikObj = :podatnik AND k.rokEw = :rok AND k.mcEw = :mc AND k.ewidencja.nazwa!=:nazwa"),
+    @NamedQuery(name = "EVatwpisDedra.findByPodatnikRokMcZakup", query = "SELECT k FROM EVatwpisDedra k WHERE k.podatnikObj = :podatnik AND k.rokEw = :rok AND k.mcEw = :mc AND k.ewidencja.nazwa=:nazwa"),
     @NamedQuery(name = "EVatwpisDedra.findByPodatnikRokInnyOkres", query = "SELECT k FROM EVatwpisDedra k WHERE k.podatnikObj = :podatnik AND k.rokEw = :rok AND k.innyokres != 0")
 })
 public class EVatwpisDedra extends EVatwpisSuper implements Serializable {
@@ -51,7 +54,9 @@ public class EVatwpisDedra extends EVatwpisSuper implements Serializable {
     private String dataoperacji;
     @Column(name = "innyokres")
     private int innyokres;
-    
+    @JoinColumn(name = "klient", referencedColumnName = "id")
+    @ManyToOne
+    private Klienci klient;
 
 
     public EVatwpisDedra(double netto, double vat) {
@@ -110,31 +115,17 @@ public class EVatwpisDedra extends EVatwpisSuper implements Serializable {
         this.lp = lp;
     }
     
+    @Override
     public Evewidencja getEwidencja() {
         return ewidencja;
     }
     
+    @Override
     public void setEwidencja(Evewidencja ewidencja) {
         this.ewidencja = ewidencja;
     }
     
-    
-    public double getNetto() {
-        return netto;
-    }
-    
-    public void setNetto(double netto) {
-        this.netto = netto;
-    }
-    
-    public double getVat() {
-        return vat;
-    }
-    
-    public void setVat(double vat) {
-        this.vat = vat;
-    }
-    
+    @Override
     public String getEstawka() {
         return estawka;
     }
@@ -144,12 +135,31 @@ public class EVatwpisDedra extends EVatwpisSuper implements Serializable {
     }
     
       
+    @Override
     public long getId() {
         return id;
     }
     
     public void setId(long id) {
         this.id = id;
+    }
+
+    @Override
+    public double getNetto() {
+        return netto;
+    }
+    
+    @Override
+    public void setNetto(double netto) {
+        this.netto = netto;
+    }
+    @Override
+    public double getVat() {
+        return vat;
+    }
+    @Override
+    public void setVat(double vat) {
+        this.vat = vat;
     }
     
     
@@ -169,7 +179,13 @@ public class EVatwpisDedra extends EVatwpisSuper implements Serializable {
         this.innyokres = innyokres;
     }
 
-    
+    public Klienci getKlient() {
+        return klient;
+    }
+
+    public void setKlient(Klienci klient) {
+        this.klient = klient;
+    }
 
     public String getMcEw() {
         return mcEw;

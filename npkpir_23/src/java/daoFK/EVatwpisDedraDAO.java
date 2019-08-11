@@ -27,6 +27,14 @@ public class EVatwpisDedraDAO   extends DAO implements Serializable{
     public List<EVatwpisDedra> findWierszePodatnikMc(WpisView wpisView) {
         return sessionFacade.getEntityManager().createNamedQuery("EVatwpisDedra.findByPodatnikRokMc").setParameter("podatnik",wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList();
     }
+    
+    public List<EVatwpisDedra> findWierszePodatnikMcZakupSprzedaz(WpisView wpisView, boolean zakup0sprzedaz1) {
+        if (zakup0sprzedaz1) {
+            return sessionFacade.getEntityManager().createNamedQuery("EVatwpisDedra.findByPodatnikRokMcSprzedaz").setParameter("podatnik",wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).setParameter("nazwa", "zakup").getResultList();
+        } else {
+            return sessionFacade.getEntityManager().createNamedQuery("EVatwpisDedra.findByPodatnikRokMcZakup").setParameter("podatnik",wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).setParameter("nazwa", "zakup").getResultList();
+        }
+    }
     public List<EVatwpisDedra> findAll() {
         return sessionFacade.findAll(EVatwpisDedra.class);
     }

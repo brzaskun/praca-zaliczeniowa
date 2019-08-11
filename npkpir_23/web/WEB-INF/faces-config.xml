@@ -32,6 +32,10 @@
             <from-outcome>dedradeklaracje</from-outcome>
             <to-view-id>/dedra/dedraDeklaracje.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>dedrazakupy</from-outcome>
+            <to-view-id>/dedra/dedraZakupy.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>dedrajpk</from-outcome>
             <to-view-id>/dedra/dedraJPK.xhtml?faces-redirect=true</to-view-id>

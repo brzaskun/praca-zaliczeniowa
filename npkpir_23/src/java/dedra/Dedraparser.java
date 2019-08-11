@@ -6,6 +6,7 @@
 package dedra;
 
 
+import daoFK.EVatwpisDedraDAO;
 import entity.EVatwpisSuper;
 import entity.Evewidencja;
 import entity.Podatnik;
@@ -111,6 +112,21 @@ public class Dedraparser {
                     wierszeewidencji.add(p);
                 }
             }
+    }
+    
+    public static EVatwpisDedra dodajwierszzakupu(EVatwpisDedra p, WpisView wpisView, Podatnik podatnik, Evewidencja ewidencja, EVatwpisDedraDAO eVatwpisDedraDAO) {
+            p.setNettowwalucie(p.getNetto());
+            p.setVatwwalucie(p.getVat());
+            p.setBrutto(Z.z(p.getNetto()+p.getVat()));
+            p.setImienazwisko(p.getKlient().getNpelna());
+            p.setUlica(p.getKlient().getUlica());
+            p.setMiasto(p.getKlient().getMiejscowosc());
+            p.setMcEw(wpisView.getMiesiacWpisu());
+            p.setRokEw(wpisView.getRokWpisuSt());
+            p.setEwidencja(ewidencja);
+            p.setPodatnikObj(podatnik);
+            eVatwpisDedraDAO.dodaj(p);
+            return p;
     }
     
     public static void main(String[] args) throws SAXException, IOException {

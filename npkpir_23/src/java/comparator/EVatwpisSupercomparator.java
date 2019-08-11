@@ -8,6 +8,7 @@ package comparator;
 
 import entity.EVatwpis1;
 import entity.EVatwpisSuper;
+import entityfk.EVatwpisDedra;
 import entityfk.EVatwpisFK;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -32,10 +33,13 @@ public class EVatwpisSupercomparator implements Comparator<EVatwpisSuper> {
        if (o1 instanceof EVatwpis1) {
             datao1 = ((EVatwpis1) o1).getDataoperacji();
             datao2 = ((EVatwpis1) o2).getDataoperacji();
-       } else {
+       } else if (o1 instanceof EVatwpisDedra) {
+            datao1 = ((EVatwpisDedra) o1).getDataoperacji();
+            datao2 = ((EVatwpisDedra) o2).getDataoperacji();
+        } else {
             datao1 = ((EVatwpisFK) o1).getDataoperacji();
             datao2 = ((EVatwpisFK) o2).getDataoperacji();
-      }
+        }
         DateFormat formatter;
         formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date datao1date = null;

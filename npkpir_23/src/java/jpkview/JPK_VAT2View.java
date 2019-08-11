@@ -636,7 +636,13 @@ public class JPK_VAT2View implements Serializable {
                     }
                 }
             } else if (c.getName().equals("entityfk.EVatwpisDedra")) {
-
+                int lp = 1;
+                for (Object p : wiersze) {
+                    EVatwpisDedra wiersz = (EVatwpisDedra) p;
+                    if (!wiersz.getEwidencja().getTypewidencji().equals("s") && !wiersz.getEwidencja().getTypewidencji().equals("sz") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
+                        lista.add(JPK_VAT3_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl));
+                    }
+                }
             } else {
                 int lp = 1;
                 for (Object p : wiersze) {
