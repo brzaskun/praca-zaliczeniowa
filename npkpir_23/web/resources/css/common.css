@@ -15,6 +15,11 @@ and open the template in the editor.
     width: 20px !important;
 }
 
+.filter30 input {
+    width: 30px !important;
+}
+
+
 .filter40 input {
     width: 40px !important;
 }

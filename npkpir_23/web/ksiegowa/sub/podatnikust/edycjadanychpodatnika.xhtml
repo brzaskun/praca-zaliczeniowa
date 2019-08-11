@@ -81,6 +81,14 @@
                         <f:selectItem itemValue="nie"/>
                         <f:selectItem itemValue="tak"/>
                     </h:selectOneMenu>
+                     <h:outputLabel value="forma prawna"/>
+                    <h:selectOneMenu value="#{podatnikView.selected.formaPrawna}"
+                                     styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                                 onfocus="$(this).addClass('ui-state-focus');" 
+                                 onblur="$(this).removeClass('ui-state-focus');" >
+                        <f:selectItem itemLabel="wybierz forme prawna" itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{podatnikView.formyprawne}"/>
+                    </h:selectOneMenu>
                     <h:outputLabel value="urząd skarbowy"/>
                     <p:autoComplete completeMethod="#{tKodUS.complete}" value="#{podatnikView.selected.urzadskarbowy}"
                                     forceSelection="true" maxResults="15" size="50" minQueryLength="3" effect="clip" var="p"
