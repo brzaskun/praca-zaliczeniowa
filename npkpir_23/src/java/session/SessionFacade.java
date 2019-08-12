@@ -575,6 +575,10 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList(em.createNamedQuery("Dok.findByBKM").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getResultList());
     }
     
+    public List<Dok> findDokBKVAT(Podatnik pod, String rok, String mc) {
+        return Collections.synchronizedList(em.createNamedQuery("Dok.findByBKMVAT").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("vatM", mc).getResultList());
+    }
+    
     public List<Dok> findDokBKWaluta(Podatnik pod, String rok, String mc) {
         return Collections.synchronizedList(em.createNamedQuery("Dok.findByBKMWaluta").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getResultList());
     }
@@ -582,6 +586,7 @@ public class SessionFacade<T> implements Serializable {
     public List<Dok> findDokRokKW(Podatnik pod, String rok, List<String> mce) {
         return Collections.synchronizedList(em.createNamedQuery("Dok.findByRokKW").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("mc1", mce.get(0)).setParameter("mc2", mce.get(1)).setParameter("mc3", mce.get(2)).getResultList());
     }
+    
 
     public Object findDokBKCount(Podatnik pod, String rok, String mc) {
         return em.createNamedQuery("Dok.findByPkpirRMCount").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getSingleResult();

@@ -87,6 +87,7 @@ import waluty.Z;
     @NamedQuery(name = "Dok.findByBKVAT", query = "SELECT d FROM Dok d WHERE d.vatR = :vatR AND d.podatnik = :podatnik"),
     @NamedQuery(name = "Dok.findByTPR", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.podatnik = :podatnik AND d.rodzajedok.skrot = :typdokumentu"),
     @NamedQuery(name = "Dok.findByBKM", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM AND d.podatnik = :podatnik"),
+    @NamedQuery(name = "Dok.findByBKMVAT", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.vatM = :vatM AND d.podatnik = :podatnik"),
     @NamedQuery(name = "Dok.findByBKMWaluta", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM AND d.podatnik = :podatnik AND d.tabelanbp.waluta.symbolwaluty != 'PLN' "),
     @NamedQuery(name = "Dok.findByRokKW", query = "SELECT d FROM Dok d WHERE d.vatR = :pkpirR AND d.podatnik = :podatnik AND (d.vatM = :mc1 OR d.vatM = :mc2 OR d.vatM = :mc3)"),
     @NamedQuery(name = "Dok.findByDuplikat", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.podatnik = :podatnik"),

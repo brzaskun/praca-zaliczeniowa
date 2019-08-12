@@ -105,7 +105,7 @@ public class VatUeFKView implements Serializable {
                 if (wpisView.isKsiegirachunkowe()) {
                     listadokumentowUE = dokDAOfk.findDokfkPodatnikRokMcVAT(wpisView);
                 } else {
-                    listadokumentowUE = dokDAO.zwrocBiezacegoKlientaRokMC(wpisView);
+                    listadokumentowUE = dokDAO.zwrocBiezacegoKlientaRokMCVAT(wpisView);
                 }
                 opisvatuepkpir = wpisView.getPodatnikWpisu()+" Miesięczne zestawienie dokumentów do deklaracji VAT-UE na koniec "+ rok+"/"+m;
             } else {
