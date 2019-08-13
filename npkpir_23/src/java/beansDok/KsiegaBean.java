@@ -67,6 +67,17 @@ public class KsiegaBean {
         }
         return dokumentyZaMc;
     }
+    
+    public static List<Dok> pobierzdokumentyRok(DokDAO dokDAO, Podatnik podatnik, Integer rok, String mcdo, String mcod) {
+        List<Dok> dokumentyZaRok = null;
+        try {
+            dokumentyZaRok = dokDAO.zwrocBiezacegoKlientaRokOdMcaDoMca(podatnik, rok.toString(), mcdo, mcod);
+            Collections.sort(dokumentyZaRok, new Dokcomparator());
+        } catch (Exception e) { 
+            E.e(e); 
+        }
+        return dokumentyZaRok;
+    }
 
     public static DokKsiega ustawpodsumowanie() {
         DokKsiega podsumowanie = new DokKsiega();

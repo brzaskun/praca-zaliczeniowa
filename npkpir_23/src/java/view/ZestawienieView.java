@@ -4,6 +4,7 @@
  */
 package view;
 
+import beansDok.KsiegaBean;
 import beansPIT.WyliczPodatekZasadyOgolne;
 import dao.AmoDokDAO;
 import dao.DokDAO;
@@ -176,13 +177,12 @@ public class ZestawienieView implements Serializable {
                 E.e(e);
                 Msg.msg("e", "Nie uzupełnione parametry podatnika", "formpit:messages");
             }
-            Collection c = null;
             try {
-                c = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu().toString());
+               lista= KsiegaBean.pobierzdokumentyRok(dokDAO, pod, wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getOdjakiegomcdok());
             } catch (Exception e) {
                 E.e(e);
             }
-            if (c != null) {
+            if (lista != null) {
                 for (int i = 0; i < 10; i++) {
                     styczen.set(i, 0.0);
                     luty.set(i, 0.0);
@@ -197,8 +197,6 @@ public class ZestawienieView implements Serializable {
                     listopad.set(i, 0.0);
                     grudzien.set(i, 0.0);
                 }
-                lista = Collections.synchronizedList(new ArrayList<>());
-                lista.addAll(c);
                 for (Dok dokument : lista) {
                     try {
                         if (dokument.getUsunpozornie() == false) {
