@@ -154,12 +154,7 @@ public class InterpaperImportView implements Serializable {
     public void importujdok() {
         try {
             List<Klienci> k = klienciDAO.findAll();
-            pobranefaktury = ReadXLSFile.getListafakturCSV(plikinterpaper, k, klienciDAO, rodzajdok);
-            for (InterpaperXLS p : pobranefaktury) {
-                if (p.getKlient()==null) {
-                    p.setKlient(SzukajDaneBean.znajdzdaneregonAutomat(p.getNip(), gUSView));
-                }
-            }
+            pobranefaktury = ReadXLSFile.getListafakturCSV(plikinterpaper, k, klienciDAO, rodzajdok, gUSView);
             grid3.setRendered(true);
             generujbutton.setRendered(true);
             Msg.msg("Pobrano wszystkie dane");
@@ -229,7 +224,7 @@ public class InterpaperImportView implements Serializable {
       private Dokfk stworznowydokument(int numerkolejny, InterpaperXLS interpaperXLS, String rodzajdok, List<Klienci> k) {
         Dokfk nd = new Dokfk(numerkolejny, wpisView.getRokWpisuSt());
         ustawdaty(nd, interpaperXLS);
-        ustawkontrahenta(nd,interpaperXLS, k);
+        nd.setKontr(interpaperXLS.getKlient());
         ustawnumerwlasny(nd, interpaperXLS);
         nd.setOpisdokfk("usługa transportowa");
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
@@ -237,7 +232,7 @@ public class InterpaperImportView implements Serializable {
         ustawtabelenbp(nd, interpaperXLS);
         podepnijEwidencjeVat(nd, interpaperXLS);
         Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
-        if (juzjest!=null) {
+        if (juzjest!=null || nd.getKontr()==null) {
             nd = null;
             interpaperXLS.setJuzzaksiegowany(true);
         } else {
@@ -277,32 +272,32 @@ public class InterpaperImportView implements Serializable {
         }
     }
     
-    private void ustawkontrahenta(Dokfk nd, InterpaperXLS interpaperXLS, List<Klienci> k) {
-        try {
-            Klienci klient = null;
-            for (Klienci p : k) {
-                if (p.getNip().contains(interpaperXLS.getNip().trim())) {
-                    klient = p;
-                    break;
-                }
-            }
-            if (klient==null) {
-                for (Klienci p : k) {
-                    if (p.getNpelna().contains(interpaperXLS.getKontrahent().trim()) || p.getNskrocona().contains(interpaperXLS.getKontrahent().trim())) {
-                        klient = p;
-                        break;
-                    }
-                }
-            }
-            if (klient==null) {
-                klient = znajdzdaneregonAutomat(interpaperXLS.getNip().trim());
-            }
-            nd.setKontr(klient);
-            k.add(klient);
-        } catch (Exception e) {
-            
-        }
-    }
+//    private void ustawkontrahenta(Dokfk nd, InterpaperXLS interpaperXLS, List<Klienci> k) {
+//        try {
+//            Klienci klient = null;
+//            for (Klienci p : k) {
+//                if (p.getNip().contains(interpaperXLS.getNip().trim())) {
+//                    klient = p;
+//                    break;
+//                }
+//            }
+//            if (klient==null) {
+//                for (Klienci p : k) {
+//                    if (p.getNpelna().contains(interpaperXLS.getKontrahent().trim()) || p.getNskrocona().contains(interpaperXLS.getKontrahent().trim())) {
+//                        klient = p;
+//                        break;
+//                    }
+//                }
+//            }
+//            if (klient==null) {
+//                klient = znajdzdaneregonAutomat(interpaperXLS.getNip().trim());
+//            }
+//            nd.setKontr(klient);
+//            k.add(klient);
+//        } catch (Exception e) {
+//            
+//        }
+//    }
     
     public Klienci znajdzdaneregonAutomat(String nip) {
         Klienci zwrot = null;
