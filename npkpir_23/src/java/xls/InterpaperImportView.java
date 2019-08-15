@@ -19,6 +19,7 @@ import daoFK.TabelanbpDAO;
 import daoFK.UkladBRDAO;
 import daoFK.WalutyDAOfk;
 import embeddable.PanstwaEUSymb;
+import embeddable.PanstwaMap;
 import embeddablefk.InterpaperXLS;
 import entity.Evewidencja;
 import entity.Klienci;
@@ -106,6 +107,13 @@ public class InterpaperImportView implements Serializable {
     private Tabelanbp tabelanbppl;
     private Waluty walutapln;
     
+    private Klienci selectedimport1;
+    private String selectedimport1text;
+    @Inject
+    private Klienci selectedimport;
+    @Inject
+    private PanstwaMap panstwaMapa;
+
 
     
     
@@ -574,6 +582,61 @@ public class InterpaperImportView implements Serializable {
         }
     }
      
+    public void przeniesklienta() {
+        if (selected!=null && selected.size()==1) {
+            selectedimport1text = selected.get(0).getKontrahent();
+            selectedimport1 = selected.get(0).getKlient();
+            PrimeFaces.current().ajax().update("form_dialog_nowyklientimport_wybor");
+            Msg.msg("Pobrano klienta");
+        } else {
+            Msg.msg("e","Proszę wybrać tylko jeden wiersz");
+        }
+    }
+    
+    public void dodajKlienta() {
+        try {
+            String formatka = selectedimport.getNskrocona().toUpperCase();
+            selectedimport.setNskrocona(formatka);
+            formatka = selectedimport.getUlica().substring(0, 1).toUpperCase();
+            formatka = formatka.concat(selectedimport.getUlica().substring(1));
+            selectedimport.setUlica(formatka);
+            try {
+                selectedimport.getKrajnazwa();
+            } catch (Exception e) {
+                E.e(e);
+                selectedimport.setKrajnazwa("Polska");
+            }
+            String kraj = selectedimport.getKrajnazwa();
+            String symbol = panstwaMapa.getWykazPanstwSX().get(kraj);
+            selectedimport.setKrajkod(symbol);
+            if (selectedimport.getLokal() == null || selectedimport.getLokal().equals("")) {
+                selectedimport.setLokal("-");
+            }
+            klienciDAO.dodaj(selectedimport);
+            for (InterpaperXLS p : pobranefaktury) {
+                if (p.getKontrahent().equals(selectedimport1text)) {
+                    p.setKlient(selectedimport);
+                }
+            }
+            Msg.msg("i", "Dodano nowego klienta" + selectedimport.getNpelna());
+            selectedimport = new Klienci();
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Nie dodano nowego klienta. Klient o takim Nip/Nazwie pełnej juz istnieje");
+        }
+
+    }
+    
+    public void nanieszmianytabela() {
+        if (selectedimport1!=null) {
+            for (InterpaperXLS p : pobranefaktury) {
+                if (p.getKontrahent().equals(selectedimport1text)) {
+                    p.setKlient(selectedimport1);
+                }
+            }
+        }
+    }
+     
     public void grid2pokaz() {
         grid2.setRendered(true);
     }
@@ -674,6 +737,22 @@ public class InterpaperImportView implements Serializable {
 
     public void setGenerujbutton(CommandButton generujbutton) {
         this.generujbutton = generujbutton;
+    }
+
+    public Klienci getSelectedimport1() {
+        return selectedimport1;
+    }
+
+    public void setSelectedimport1(Klienci selectedimport1) {
+        this.selectedimport1 = selectedimport1;
+    }
+
+    public Klienci getSelectedimport() {
+        return selectedimport;
+    }
+
+    public void setSelectedimport(Klienci selectedimport) {
+        this.selectedimport = selectedimport;
     }
 
   

@@ -143,6 +143,9 @@
                     <p:commandButton value="usuń" actionListener="#{dokfkView.przygotujdousuniecia(item)}" styleClass="fkbutton" icon="ui-icon-trash" oncomplete="PF('confirm3').show();" global="false"  style="width: 70px;" update=":potwierdzeniazestawieniedok"/>
                 </p:column>-->
             </p:dataTable>
+            <p:contextMenu for="form_importinterpaper:dataListImport" style="width: 200px;">
+                <p:menuitem value="Zmień klienta" icon="ui-icon-gear"  onclick="PF('dlgwprowadzanieklientaimport').show();" actionListener="#{interpaperImportView.przeniesklienta()}"/>
+            </p:contextMenu>
                     </p:panelGrid>
         </h:form>
         

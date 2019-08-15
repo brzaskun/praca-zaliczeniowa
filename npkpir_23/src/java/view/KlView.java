@@ -3,6 +3,7 @@ package view;
 import beansRegon.SzukajDaneBean;
 import dao.KlienciDAO;
 import embeddable.PanstwaMap;
+import embeddablefk.InterpaperXLS;
 import entity.Klienci;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
@@ -42,6 +43,7 @@ public class KlView implements Serializable {
     private List<Klienci> kl1;
     private List<Klienci> klienciFiltered;
     private Klienci doUsuniecia;
+   
     private boolean edycja;
     @ManagedProperty(value = "#{kliencifkView}")
     private KliencifkView kliencifkView;
@@ -499,6 +501,8 @@ public class KlView implements Serializable {
         }
     }
     
+ 
+    
 
     public Klienci getSelected() {
         return selected;
@@ -586,6 +590,7 @@ public class KlView implements Serializable {
     public void setgUSView(GUSView gUSView) {
         this.gUSView = gUSView;
     }
+
 
     public static void main(String[] args) {
         Pattern p = Pattern.compile("^[a-zA-Z]+$");//<-- compile( not Compile(
