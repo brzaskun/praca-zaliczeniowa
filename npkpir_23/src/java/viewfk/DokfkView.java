@@ -3090,10 +3090,17 @@ public class DokfkView implements Serializable {
     }
 
     public void usunwszytskieimportowane() {
-        for (Dokfk p : wykazZaksiegowanychDokumentowimport) {
-            dokDAOfk.destroy(p);
+        if (filteredValueimport!=null && filteredValueimport.size()>0) {
+            for (Dokfk p : filteredValueimport) {
+                dokDAOfk.destroy(p);
+            }
+            filteredValueimport = Collections.synchronizedList(new ArrayList<>());
+        } else {
+            for (Dokfk p : wykazZaksiegowanychDokumentowimport) {
+                dokDAOfk.destroy(p);
+            }
+            wykazZaksiegowanychDokumentowimport = Collections.synchronizedList(new ArrayList<>());
         }
-        wykazZaksiegowanychDokumentowimport = Collections.synchronizedList(new ArrayList<>());
         Msg.msg("Usunięto wszystkie zaimportowane dokumenty");
     }
 

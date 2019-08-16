@@ -41,7 +41,7 @@
             <p:panel header="Dodaj nowego klienta. Uwaga, ten formularz nie wyszukuje w basie GUS">
                 <p:focus id="focus" for="polawprowadzania"  />
                 <p:panelGrid id="polawprowadzania" columns="5" >
-                    <h:outputLabel value="nip/przy osobie fizycznej zostawić puste" style="font-weight: 700"/>
+                    <h:outputLabel value="nip/zagraniczny w formacie DE0000000000" style="font-weight: 700"/>
                     <h:outputLabel value="nazwa pełna" style="font-weight: 700"/>
                     <h:outputLabel value="nazwa skrocona" style="font-weight: 700"/>
                     <h:outputLabel value="kod pocztowy" style="font-weight: 700"/>
@@ -91,10 +91,9 @@
                         <p:ajax event="query" global="false"/>
                     </p:autoComplete>
                     <p:inputText id="emailPole" value="#{interpaperImportView.selectedimport.email}" style="width: 200px" >
-                        <p:ajax event="focus" listener="#{interpaperImportView.dodajpustegomaila}"/>
                     </p:inputText>
                     <p:commandButton value="dodaj" action="#{interpaperImportView.dodajKlienta()}" update="form_importinterpaper" oncomplete="PF('dlgwprowadzanieklientaimport').hide();"
-                                      style="width: 120px;"/>
+                                      style="width: 120px;margin-top: 8px;"/>
                 </p:panelGrid>
             </p:panel>
         </h:form>
