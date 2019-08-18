@@ -37,6 +37,13 @@ public class Menu_plankont implements Serializable{
     private final String ADRES = "/ksiegowaFK/ksiegowaFKPlanKont.xhtml?faces-redirect=true";
     private final String ALERT = "color: red;font-weight: 900;";
 
+    public Menu_plankont() {
+        file1 = true;
+        file1style = ALERT;
+    }
+    
+    
+
     public String ufile1(boolean war) {
         reset();
         file1 = war;

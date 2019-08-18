@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "KontopozycjaZapis.findByKontoId", query = "SELECT k FROM KontopozycjaZapis k WHERE k.kontoID = :kontoId AND k.ukladBR = :ukladBR"),
     @NamedQuery(name = "KontopozycjaZapis.findByKontoOnly", query = "SELECT k FROM KontopozycjaZapis k WHERE k.kontoID = :konto"),
     @NamedQuery(name = "KontopozycjaZapis.findByRok", query = "SELECT k FROM KontopozycjaZapis k WHERE k.ukladBR.rok = :rok")})
-@Cacheable
+@Cacheable(false)
 public class KontopozycjaZapis extends KontopozycjaSuper implements Serializable {
     private static final long serialVersionUID = 1L;
 
