@@ -85,7 +85,7 @@ public class Wiersz implements Serializable {
     //Ma 2
     @Column(name = "typWiersza")
     private Integer typWiersza;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dokid", referencedColumnName = "id")
     private Dokfk dokfk;
     //NIE USUWAĆ!!! to jest potrzebne do rapotow walutowych i wyciagow walutowych, chodzi o wprowadzenie daty przez użytkownika

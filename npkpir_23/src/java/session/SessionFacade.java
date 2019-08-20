@@ -1699,11 +1699,14 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     
     public List<StronaWiersza> findStronaByPodatnikRokRO(Podatnik podatnik, String rok) {
         //return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikRok").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList());
+        LoadGroup lg = new LoadGroup();
+        lg.addAttribute("wiersz");
+        lg.addAttribute("wiersz.dokfk");
         return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikRok").setParameter("podatnikObj", podatnik).setParameter("rok", rok)
                 .setHint(QueryHints.READ_ONLY, HintValues.TRUE)
                 .setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE)
                 .setHint(QueryHints.REFRESH, HintValues.TRUE)
-                .getResultList());
+                .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
     }
 
     public List<StronaWiersza> findStronaByPodatnikRokWalutaBilans(Podatnik podatnik, String rok, String skrotWaluty) {

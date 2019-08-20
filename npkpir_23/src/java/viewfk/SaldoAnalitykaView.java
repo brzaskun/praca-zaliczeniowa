@@ -310,7 +310,9 @@ public class SaldoAnalitykaView implements Serializable {
                     }
                 }
             }
-        } catch (Exception e){}
+        } catch (Exception e){
+            E.e(e);
+        }
     }
 
     private void przygotowanalistasaldBO(List<Konto> kontaklienta, List<StronaWiersza> zapisyRok) {
