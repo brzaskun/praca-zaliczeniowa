@@ -12,8 +12,10 @@
             <f:facet name="error">Wystąpił nieoczekiewany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie</f:facet>
         </p:ajaxStatus>
     </h:form>
+    
     <p:tab id="archiwum" title="Dane zbiorcze">
-    <p:panelGrid id="zestawienieroczne" columns="8"  rendered="#{WpisView.ksiegaryczalt}" style="max-width: 900px;">
+        <h:form>
+    <p:panelGrid id="zestawienieroczne" columns="9"  rendered="#{WpisView.ksiegaryczalt}" style="max-width: 1100px;">
         <p:dataTable  var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista" > 
             <p:column headerText="kolumny" id="przychsprz">  
                 <h:outputText value="#{wpis}" style="#{wpis eq 'razem przych.' ? 'color: red' : wpis eq 'razem koszty' ? 'color: blue' : null }"/>
@@ -97,6 +99,12 @@
                 </h:outputText>
             </p:column>
         </p:dataTable>
+        <p:selectOneMenu id="podatnikWpisu" value="#{ZestawienieView.wybranacechadok}" style="width: 180px;" converter="#{cechaConv}">
+            <f:selectItem itemLabel="wybierz cechę" itemValue="" noSelectionOption="true"/>
+            <f:selectItems value="#{ZestawienieView.pobranecechypodatnik}"  var="pc" itemValue="#{pc}" itemDescription="#{pc.nazwacechy}" itemLabel="#{pc.nazwacechy}"/>
+            <p:ajax event="change" listener="#{ZestawienieView.init()}" update="@form"/>
+        </p:selectOneMenu>
+        
            <p:dataTable  var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista1" > 
             <p:column headerText="kolumny" id="przychsprz">  
                 <h:outputText value="#{wpis}" style="#{wpis eq 'razem przych.' ? 'color: red' : wpis eq 'razem koszty' ? 'color: blue' : null }"/>
@@ -181,6 +189,7 @@
                 </h:outputText>
             </p:column>
         </p:dataTable>
+        <h:outputText value=""/>
           <p:dataTable  var="wpis" value="#{kolmn.kolumnZest}" id="dokumentyLista2" > 
             <p:column headerText="kolumny" id="przychsprz">  
                 <h:outputText value="#{wpis}" style="#{wpis eq 'razem przych.' ? 'color: red' : wpis eq 'razem koszty' ? 'color: blue' : null }"/>
@@ -200,6 +209,7 @@
          
         
     </p:panelGrid>
+            </h:form>
         <div style="margin-top: 15px;">
         <h:form id="formwysylka" rendered="#{WpisView.ksiegaryczalt}">
             <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{ZestawienieView.drukujPodsumowanieRoczne()}" >

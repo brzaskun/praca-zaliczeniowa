@@ -2372,6 +2372,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return Collections.synchronizedList(em.createNamedQuery("Cechazapisu.findByPodatnikOnly").setParameter("podatnik", podatnikObiekt).getResultList());
     }
     
+    public List<Cechazapisu> findCechaZapisuByPodatnikOnlyAktywne(Podatnik podatnikObiekt) {
+        return Collections.synchronizedList(em.createNamedQuery("Cechazapisu.findByPodatnikOnlyAktywne").setParameter("podatnik", podatnikObiekt).getResultList());
+    }
+    
     public List<Cechazapisu> findCechaZapisuByPodatnikOnlyStatystyczne(Podatnik podatnikObiekt) {
         return Collections.synchronizedList(em.createNamedQuery("Cechazapisu.findByPodatnikOnlyStatystyczne").setParameter("podatnik", podatnikObiekt).getResultList());
     }

@@ -8,7 +8,7 @@
     >
     <p:tab title="Cechy dokumentow" id="tab_cechydokumentow">  
         <h:form id="formCH" >
-            <p:dataTable id="dataList" value="#{cechazapisuView.pobranecechy}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" 
+            <p:dataTable id="dataList" value="#{cechazapisuView.pobranecechypodatnik}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" 
                         rowKey="#{item.nazwacechy}" style="overflow-y: scroll; height: 400px;"
                         filteredValue="#{cechazapisuView.pobranecechyfiltered}">
                 <p:column filterBy="#{item.nazwacechy}">
@@ -35,13 +35,13 @@
                     </f:facet>
                     <h:outputText value="#{cechazapisuView.przesuniecie(item.przesuniecie)}"/>
                 </p:column>
-                <p:column width="200" filterBy="#{item.podatnik.nazwapelna}">
+                <p:column>
                     <f:facet name="header">
-                        <h:outputText value="podatnik"/>
+                        <h:outputText value="nieaktywna"/>
                     </f:facet>
-                    <h:outputText value="#{item.podatnik.nazwapelna}"/>
+                    <h:outputText value="nieaktywna" rendered="#{item.nieaktywna eq true}"/>
                 </p:column>
-                <p:column width="40" style="text-align: center;">
+                 <p:column width="40" style="text-align: center;">
                     <p:commandButton icon="fa fa-edit"  actionListener="#{cechazapisuView.edit(item)}"
                              update="akordeon:formCH:dataList akordeon:formCH1:nowacecha"/>
                 </p:column>
@@ -68,7 +68,7 @@
                             <h:outputText value="przesunięcie"/>
                         </p:column>
                         <p:column width="280">
-                            <h:outputText value="podatnik"/>
+                            <h:outputText value="nieaktywna"/>
                         </p:column>
                     </p:row>
                 </f:facet>
@@ -99,9 +99,10 @@
                         <p:inputText value="#{cechazapisuView.selected.przesuniecie}" style="width: 100px;"/>
                     </p:column>
                      <p:column>
-                         <p:selectOneMenu id="podatnikWpisu" value="#{cechazapisuView.selected.podatnik}" style="width: 280px;" converter="#{podatConv}">
-                             <f:selectItem itemLabel="wszyscy" itemValue=""/>
-                            <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p}"/>
+                         <p:selectOneMenu id="podatnikWpisu" value="#{cechazapisuView.selected.nieaktywna}" style="width: 280px;">
+                             <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="aktywna" itemValue="false"/>
+                            <f:selectItem itemLabel="nieaktywna" itemValue="true"/>
                          </p:selectOneMenu>
                     </p:column>
                 </p:row>

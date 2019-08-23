@@ -378,7 +378,7 @@ public class InterpaperImportView implements Serializable {
 
     private Wiersz przygotujwierszNetto(InterpaperXLS interpaperXLS, Dokfk nd) {
         Wiersz w = new Wiersz(1, 0);
-        uzupelnijwiersz(w, nd);
+        uzupelnijwiersz(w, nd, 0);
         String opiswiersza = "usługa transportowa"; 
         w.setOpisWiersza(opiswiersza);
         StronaWiersza strwn = new StronaWiersza(w, "Wn", interpaperXLS.getBruttowaluta(), null);
@@ -394,7 +394,7 @@ public class InterpaperImportView implements Serializable {
     
     private Wiersz przygotujwierszVat(InterpaperXLS interpaperXLS, Dokfk nd) {
         Wiersz w = new Wiersz(2, 2);
-        uzupelnijwiersz(w, nd);
+        uzupelnijwiersz(w, nd, 1);
         String opiswiersza = "usługa transportowa - VAT"; 
         w.setOpisWiersza(opiswiersza);
         StronaWiersza strma = new StronaWiersza(w, "Ma", interpaperXLS.getVatwaluta(), null);
@@ -406,7 +406,7 @@ public class InterpaperImportView implements Serializable {
     
     private Wiersz przygotujwierszNettoK(InterpaperXLS interpaperXLS, Dokfk nd) {
         Wiersz w = new Wiersz(1, 0);
-        uzupelnijwiersz(w, nd);
+        uzupelnijwiersz(w, nd, 0);
         String opiswiersza = "usługa transportowa"; 
         w.setOpisWiersza(opiswiersza);
         StronaWiersza strma = new StronaWiersza(w, "Ma", interpaperXLS.getBruttowaluta(), null);
@@ -422,7 +422,7 @@ public class InterpaperImportView implements Serializable {
     
     private Wiersz przygotujwierszVatK(InterpaperXLS interpaperXLS, Dokfk nd) {
         Wiersz w = new Wiersz(2, 1);
-        uzupelnijwiersz(w, nd);
+        uzupelnijwiersz(w, nd, 1);
         String opiswiersza = "usługa transportowa - VAT"; 
         w.setOpisWiersza(opiswiersza);
         StronaWiersza strwn = new StronaWiersza(w, "Wn", interpaperXLS.getVatwaluta(), null);
@@ -432,10 +432,10 @@ public class InterpaperImportView implements Serializable {
         return w;
     }
     
-    private void uzupelnijwiersz(Wiersz w, Dokfk nd) {
+    private void uzupelnijwiersz(Wiersz w, Dokfk nd, int lpmacierzystego) {
         w.setTabelanbp(nd.getTabelanbp());
         w.setDokfk(nd);
-        w.setLpmacierzystego(0);
+        w.setLpmacierzystego(lpmacierzystego);
         w.setTabelanbp(w.getTabelanbp());
         w.setDataksiegowania(nd.getDatawplywu());
     }

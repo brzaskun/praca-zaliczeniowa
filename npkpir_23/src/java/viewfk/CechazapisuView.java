@@ -18,9 +18,11 @@ import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import view.WpisView;
 /**
  *
  * @author Osito
@@ -31,28 +33,37 @@ public class CechazapisuView implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject private CechazapisuDAOfk cechazapisuDAOfk;
     private List<Cechazapisu> pobranecechy;
+    private List<Cechazapisu> pobranecechypodatnik;
     private List<Cechazapisu> pobranecechyfiltered;
     @Inject
     private Cechazapisu selected;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
 
     public CechazapisuView() {
         //E.m(this);
         this.pobranecechy = Collections.synchronizedList(new ArrayList<>());
+        this.pobranecechypodatnik = Collections.synchronizedList(new ArrayList<>());
     }
     
     @PostConstruct
     public void init() {
         pobranecechy = cechazapisuDAOfk.findAll();
+        pobranecechypodatnik = cechazapisuDAOfk.findPodatnikOnly(wpisView.getPodatnikObiekt());
     }
     
     public void dodajnowacecha() {
         try {
+            selected.setPodatnik(wpisView.getPodatnikObiekt());
             cechazapisuDAOfk.edit(selected);
             if (!pobranecechy.contains(selected)) {
                 pobranecechy.add(selected);
                 Msg.msg("Dodano nową cechę");
             } else {
                 Msg.msg("Wyedytowano wskazaną cechę");
+            }
+            if (!pobranecechypodatnik.contains(selected)) {
+                pobranecechypodatnik.add(selected);
             }
             selected = new Cechazapisu();
         } catch (Exception e) {
@@ -68,6 +79,7 @@ public class CechazapisuView implements Serializable {
             } else {
                 cechazapisuDAOfk.destroy(c);
                 pobranecechy.remove(c);
+                pobranecechypodatnik.remove(c);
                 Msg.msg("Usunięto cechę");
             }
         } catch (Exception e) {
@@ -115,6 +127,14 @@ public class CechazapisuView implements Serializable {
     public String przesuniecie(int num) {
         return CharakterCechy.przesuniecie(num);
     }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
     
 
     public Cechazapisu getSelected() {
@@ -131,6 +151,14 @@ public class CechazapisuView implements Serializable {
 
     public void setPobranecechyfiltered(List<Cechazapisu> pobranecechyfiltered) {
         this.pobranecechyfiltered = pobranecechyfiltered;
+    }
+
+    public List<Cechazapisu> getPobranecechypodatnik() {
+        return pobranecechypodatnik;
+    }
+
+    public void setPobranecechypodatnik(List<Cechazapisu> pobranecechypodatnik) {
+        this.pobranecechypodatnik = pobranecechypodatnik;
     }
    
        

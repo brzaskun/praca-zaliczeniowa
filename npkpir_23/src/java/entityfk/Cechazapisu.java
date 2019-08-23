@@ -44,6 +44,7 @@ import waluty.Z;
 @NamedQueries({
     @NamedQuery(name = "Cechazapisu.findAll", query = "SELECT c FROM Cechazapisu c"),
     @NamedQuery(name = "Cechazapisu.findByPodatnikOnly", query = "SELECT c FROM Cechazapisu c WHERE c.podatnik = :podatnik"),
+    @NamedQuery(name = "Cechazapisu.findByPodatnikOnlyAktywne", query = "SELECT c FROM Cechazapisu c WHERE c.podatnik = :podatnik AND c.nieaktywna=0"),
     @NamedQuery(name = "Cechazapisu.findByPodatnikOnlyStatystyczne", query = "SELECT c FROM Cechazapisu c WHERE c.podatnik = :podatnik AND c.charaktercechy='1'"),
     @NamedQuery(name = "Cechazapisu.findByPodatnik", query = "SELECT c FROM Cechazapisu c WHERE c.podatnik IS NULL OR c.podatnik = :podatnik"),
     @NamedQuery(name = "Cechazapisu.findByPodatnikNKUP", query = "SELECT c FROM Cechazapisu c WHERE c.podatnik IS NULL AND c.nazwacechy = :nazwacechy"),
@@ -80,6 +81,8 @@ public class Cechazapisu implements Serializable {
     @JoinColumn(name = "podid", referencedColumnName = "id")
     @ManyToOne
     private Podatnik podatnik;
+    @Column(name = "nieaktywna")
+    private boolean nieaktywna;
     @Transient
     private double sumaprzychodow;
     @Transient
@@ -118,6 +121,14 @@ public class Cechazapisu implements Serializable {
 
     public void setDokLista(List<Dok> dokLista) {
         this.dokLista = dokLista;
+    }
+
+    public boolean isNieaktywna() {
+        return nieaktywna;
+    }
+
+    public void setNieaktywna(boolean nieaktywna) {
+        this.nieaktywna = nieaktywna;
     }
 
     public double getSumaprzychodow() {

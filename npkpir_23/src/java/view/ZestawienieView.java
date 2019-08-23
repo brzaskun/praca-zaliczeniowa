@@ -15,6 +15,7 @@ import dao.PodatnikOpodatkowanieDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.StrataDAO;
 import dao.ZobowiazanieDAO;
+import daoFK.CechazapisuDAOfk;
 import embeddable.Kwartaly;
 import embeddable.Mce;
 import entity.Amodok;
@@ -28,6 +29,7 @@ import entity.Strata;
 import entity.StrataWykorzystanie;
 import entity.Zobowiazanie;
 import entity.Zusstawki;
+import entityfk.Cechazapisu;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
@@ -86,6 +88,8 @@ public class ZestawienieView implements Serializable {
     @Inject
     private PitDAO pitDAO;
     @Inject
+    private CechazapisuDAOfk cechazapisuDAOfk;
+    @Inject
     private PodatnikDAO podatnikDAO;
     @Inject
     private AmoDokDAO amoDokDAO;
@@ -122,6 +126,8 @@ public class ZestawienieView implements Serializable {
     @Inject
     private PodatnikOpodatkowanieDAO podatnikOpodatkowanieDDAO;
     private String komunikatblad;
+    private List<Cechazapisu> pobranecechypodatnik;
+    private Cechazapisu wybranacechadok;
 
     private int flaga = 0;
 
@@ -167,6 +173,7 @@ public class ZestawienieView implements Serializable {
             zebranieMcy = Collections.synchronizedList(new ArrayList<>());
             listapit = Collections.synchronizedList(new ArrayList<>());
             listawybranychudzialowcow = Collections.synchronizedList(new ArrayList<>());
+            pobranecechypodatnik = cechazapisuDAOfk.findPodatnikOnlyAktywne(wpisView.getPodatnikObiekt());
             Podatnik pod = podatnikDAO.find(wpisView.getPodatnikWpisu());
             try {
                 List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
@@ -179,9 +186,20 @@ public class ZestawienieView implements Serializable {
             }
             try {
                lista= KsiegaBean.pobierzdokumentyRok(dokDAO, pod, wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getOdjakiegomcdok());
+               if (wybranacechadok!=null) {
+                    for (Iterator<Dok> it = lista.iterator(); it.hasNext();) {
+                        Dok p = it.next();
+                        if (p.getListaCech()!=null && !p.getListaCech().contains(wybranacechadok.getNazwacechy())) {
+                            it.remove();
+                        }
+                    }
+               }
             } catch (Exception e) {
                 E.e(e);
             }
+            Ipolrocze = Collections.synchronizedList(new ArrayList<>());
+            IIpolrocze = Collections.synchronizedList(new ArrayList<>());
+            rok = Collections.synchronizedList(new ArrayList<>());
             if (lista != null) {
                 for (int i = 0; i < 10; i++) {
                     styczen.set(i, 0.0);
@@ -196,6 +214,9 @@ public class ZestawienieView implements Serializable {
                     pazdziernik.set(i, 0.0);
                     listopad.set(i, 0.0);
                     grudzien.set(i, 0.0);
+                    Ipolrocze.add(styczen.get(i) + luty.get(i) + marzec.get(i) + kwiecien.get(i) + maj.get(i) + czerwiec.get(i));
+                    IIpolrocze.add(lipiec.get(i) + sierpien.get(i) + wrzesien.get(i) + pazdziernik.get(i) + listopad.get(i) + grudzien.get(i));
+                    rok.add(Ipolrocze.get(i) + IIpolrocze.get(i));
                 }
                 for (Dok dokument : lista) {
                     try {
@@ -1853,4 +1874,29 @@ public class ZestawienieView implements Serializable {
         this.komunikatblad = komunikatblad;
     }
 
+    public CechazapisuDAOfk getCechazapisuDAOfk() {
+        return cechazapisuDAOfk;
+    }
+
+    public void setCechazapisuDAOfk(CechazapisuDAOfk cechazapisuDAOfk) {
+        this.cechazapisuDAOfk = cechazapisuDAOfk;
+    }
+
+    public List<Cechazapisu> getPobranecechypodatnik() {
+        return pobranecechypodatnik;
+    }
+
+    public void setPobranecechypodatnik(List<Cechazapisu> pobranecechypodatnik) {
+        this.pobranecechypodatnik = pobranecechypodatnik;
+    }
+
+    public Cechazapisu getWybranacechadok() {
+        return wybranacechadok;
+    }
+
+    public void setWybranacechadok(Cechazapisu wybranacechadok) {
+        this.wybranacechadok = wybranacechadok;
+    }
+
+    
 }

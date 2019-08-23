@@ -42,6 +42,12 @@
                         <h:selectBooleanCheckbox id="pole2" value="#{ZestawienieView.pierwszypitwroku}"  rendered="#{ZestawienieView.pierwszypitwrokuzaznacz}">
                             <p:ajax event="change" partialSubmit="true"  global="false"/>
                         </h:selectBooleanCheckbox>
+                        <p:panel header="wybierz rozliczenie wg cech: " style="width: 250px;" rendered="#{ZestawienieView.pobranecechypodatnik ne null and ZestawienieView.pobranecechypodatnik.size() gt 1}"/>
+                        <p:selectOneMenu value="#{ZestawienieView.wybranacechadok}" style="width: 250px;"  rendered="#{ZestawienieView.pobranecechypodatnik ne null and ZestawienieView.pobranecechypodatnik.size() gt 1}" converter="#{cechaConv}">
+                            <f:selectItem itemLabel="wybierz cechę" itemValue="wybierz cechę" noSelectionOption="true"/>
+                            <f:selectItems value="#{ZestawienieView.pobranecechypodatnik}"  var="p" itemValue="#{p}" itemDescription="#{p.nazwacechy}" itemLabel="#{p.nazwacechy}"/>
+                            <p:ajax event="change" update=":akordeon:formpit" listener="#{ZestawienieView.obliczPit()}" partialSubmit="true"/>
+                        </p:selectOneMenu>
                     </p:panelGrid>
                     <p:panelGrid  columns="1" >
                         <p:panel header="dane nowego PIT-u: #{ZestawienieView.wybranyudzialowiec} #{ZestawienieView.wybranyprocent}%" style="width: 450px;"/>

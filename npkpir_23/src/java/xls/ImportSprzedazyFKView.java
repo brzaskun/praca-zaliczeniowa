@@ -16,6 +16,7 @@ import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.KontopozycjaZapisDAO;
 import daoFK.UkladBRDAO;
+import embeddable.PanstwaEUSymb;
 import embeddablefk.ImportJPKSprzedaz;
 import entity.Evewidencja;
 import entity.JPKSuper;
@@ -171,7 +172,17 @@ public class ImportSprzedazyFKView  implements Serializable {
             ImportJPKSprzedaz s = new ImportJPKSprzedaz(p);
             s.setKlient(ImportBean.ustawkontrahenta(p.getNrKontrahenta(), p.getNazwaKontrahenta(), k, gUSView, klDAO));
             s.setId(i++);
-            Dokfk nd = new Dokfk(s, wpisView, "SZ");
+            String rodzajdk = "SZ";
+            int polska0unia1zagranica2 = 0;
+            if (s.getKlient().getKrajnazwa()!=null && !s.getKlient().getKrajkod().equals("PL")) {
+                polska0unia1zagranica2 = 2;
+                rodzajdk = "EXP";
+                if (PanstwaEUSymb.getWykazPanstwUE().contains(s.getKlient().getKrajkod())) {
+                    polska0unia1zagranica2 = 1;
+                    rodzajdk = "WDT";
+                }
+            }
+            Dokfk nd = new Dokfk(s, wpisView, rodzajdk);
             Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
             if (juzjest!=null) {
                 s.setJuzzaksiegowany(true);
@@ -213,7 +224,7 @@ public class ImportSprzedazyFKView  implements Serializable {
         if (listasprzedaz != null) {
             listasprzedaz.forEach((wiersz) -> {
                 if (wiersz.getSprzedazWiersz().getNrKontrahenta() != null && wiersz.getSprzedazWiersz().getNrKontrahenta().length()==10) {
-                    Dokfk dok = stworznowydokument(wiersz, rodzajdok,k);
+                    Dokfk dok = stworznowydokument(wiersz,k);
                     if (dok!=null) {
                         dokumenty.add(dok);
                         dokDAOfk.dodaj(dok);
@@ -224,27 +235,42 @@ public class ImportSprzedazyFKView  implements Serializable {
         return dokumenty;
     }
     
-    private Dokfk stworznowydokument(ImportJPKSprzedaz wiersz, String rodzajdok, List<Klienci> klienci) {
+    private Dokfk stworznowydokument(ImportJPKSprzedaz wiersz,List<Klienci> klienci) {
         int numerkolejny = ImportBean.oblicznumerkolejny("SZ", dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Dokfk nd = new Dokfk(numerkolejny, wpisView.getRokWpisuSt());
         ustawdaty(nd, wiersz.getSprzedazWiersz());
-        nd.setKontr(ImportBean.ustawkontrahenta(wiersz.getSprzedazWiersz().getNrKontrahenta(), wiersz.getSprzedazWiersz().getNazwaKontrahenta(), klienci, gUSView, klienciDAO));
-        ImportBean.ustawnumerwlasny(nd, wiersz.getSprzedazWiersz().getDowodSprzedazy());
-        nd.setOpisdokfk("sprzedaż towaru");
-        nd.setPodatnikObj(wpisView.getPodatnikObiekt());
-        ImportBean.ustawrodzajedok(nd, "SZ", rodzajedokDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        nd.setTabelanbp(tabelanbppl);
-        nd.setWalutadokumentu(walutapln);
-        podepnijEwidencjeVat(nd, wiersz);
-        Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
-        if (juzjest!=null) {
-            nd = null;
-            wiersz.setJuzzaksiegowany(true);
+        Klienci kontrahent = ImportBean.ustawkontrahenta(wiersz.getSprzedazWiersz().getNrKontrahenta(), wiersz.getSprzedazWiersz().getNazwaKontrahenta(), klienci, gUSView, klienciDAO);
+        if (kontrahent==null) {
+            nd=null;   
         } else {
-            ustawwiersze(nd, wiersz);
-            nd.setImportowany(true);
-            nd.setWprowadzil(wpisView.getUzer().getLogin());
-            nd.przeliczKwotyWierszaDoSumyDokumentu();
+            nd.setKontr(kontrahent);
+            ImportBean.ustawnumerwlasny(nd, wiersz.getSprzedazWiersz().getDowodSprzedazy());
+            nd.setOpisdokfk("sprzedaż towaru");
+            nd.setPodatnikObj(wpisView.getPodatnikObiekt());
+            String rodzajdk = "SZ";
+            int polska0unia1zagranica2 = 0;
+            if (nd.getKontr().getKrajnazwa()!=null && !nd.getKontr().getKrajkod().equals("PL")) {
+                polska0unia1zagranica2 = 2;
+                rodzajdk = "EXP";
+                if (PanstwaEUSymb.getWykazPanstwUE().contains(nd.getKontr().getKrajkod())) {
+                    polska0unia1zagranica2 = 1;
+                    rodzajdk = "WDT";
+                }
+            }
+            ImportBean.ustawrodzajedok(nd, rodzajdk, rodzajedokDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            nd.setTabelanbp(tabelanbppl);
+            nd.setWalutadokumentu(walutapln);
+            podepnijEwidencjeVat(nd, wiersz);
+            Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
+            if (juzjest!=null) {
+                nd = null;
+                wiersz.setJuzzaksiegowany(true);
+            } else {
+                ustawwiersze(nd, wiersz);
+                nd.setImportowany(true);
+                nd.setWprowadzil(wpisView.getUzer().getLogin());
+                nd.przeliczKwotyWierszaDoSumyDokumentu();
+            }
         }
         return nd;
     }
@@ -292,7 +318,26 @@ public class ImportSprzedazyFKView  implements Serializable {
                                     nd.getEwidencjaVAT().add(eVatwpisFK);
                                     break;
                                 }
-                            } 
+                            } else {
+                                if (nd.getSeriadokfk().equals("WDT") && p.getNazwa().equals("rejestr WDT")) {
+                                    eVatwpisFK.setNetto(Z.z(wiersz.getSprzedazWiersz().getNetto()));
+                                    eVatwpisFK.setVat(0.0);
+                                    eVatwpisFK.setBrutto(Z.z(wiersz.getSprzedazWiersz().getNetto()));
+                                    eVatwpisFK.setDokfk(nd);
+                                    eVatwpisFK.setEstawka("op");
+                                    nd.getEwidencjaVAT().add(eVatwpisFK);
+                                    break;
+                                }
+                                if (nd.getSeriadokfk().equals("EXP") && p.getNazwa().equals("eksport towarów")) {
+                                    eVatwpisFK.setNetto(Z.z(wiersz.getSprzedazWiersz().getNetto()));
+                                    eVatwpisFK.setVat(0.0);
+                                    eVatwpisFK.setBrutto(Z.z(wiersz.getSprzedazWiersz().getNetto()));
+                                    eVatwpisFK.setDokfk(nd);
+                                    eVatwpisFK.setEstawka("op");
+                                    nd.getEwidencjaVAT().add(eVatwpisFK);
+                                    break;
+                                }
+                            }
                         }
                 } else {
                     Msg.msg("e", "Brak podstawowych ustawień dla podatnika dotyczących opodatkowania. Nie można wpisywać dokumentów! podepnijEwidencjeVat()");
@@ -316,7 +361,7 @@ public class ImportSprzedazyFKView  implements Serializable {
     }
    private Wiersz przygotujwierszNetto(Klienci klient, SprzedazWiersz wiersz, Dokfk nd) {
         Wiersz w = new Wiersz(1, 0);
-        uzupelnijwiersz(w, nd);
+        uzupelnijwiersz(w, nd, 0);
         String opiswiersza = "sprzedaż towarów"; 
         w.setOpisWiersza(opiswiersza);
         StronaWiersza strwn = new StronaWiersza(w, "Wn", Z.z(wiersz.getNetto()+wiersz.getVat()), null);
@@ -332,7 +377,7 @@ public class ImportSprzedazyFKView  implements Serializable {
     
     private Wiersz przygotujwierszVat(SprzedazWiersz wiersz, Dokfk nd) {
         Wiersz w = new Wiersz(2, 2);
-        uzupelnijwiersz(w, nd);
+        uzupelnijwiersz(w, nd, 1);
         String opiswiersza = "sprzedaż towarów - VAT"; 
         w.setOpisWiersza(opiswiersza);
         StronaWiersza strma = new StronaWiersza(w, "Ma", wiersz.getVat(), null);
@@ -344,7 +389,7 @@ public class ImportSprzedazyFKView  implements Serializable {
     
     private Wiersz przygotujwierszNettoK(Klienci klient, SprzedazWiersz wiersz, Dokfk nd) {
         Wiersz w = new Wiersz(1, 0);
-        uzupelnijwiersz(w, nd);
+        uzupelnijwiersz(w, nd, 0);
         String opiswiersza = "usługa transportowa"; 
         w.setOpisWiersza(opiswiersza);
         StronaWiersza strma = new StronaWiersza(w, "Ma", Z.z(wiersz.getNetto()+wiersz.getVat()), null);
@@ -360,7 +405,7 @@ public class ImportSprzedazyFKView  implements Serializable {
     
     private Wiersz przygotujwierszVatK(SprzedazWiersz wiersz, Dokfk nd) {
         Wiersz w = new Wiersz(2, 1);
-        uzupelnijwiersz(w, nd);
+        uzupelnijwiersz(w, nd, 1);
         String opiswiersza = "usługa transportowa - VAT"; 
         w.setOpisWiersza(opiswiersza);
         StronaWiersza strwn = new StronaWiersza(w, "Wn", wiersz.getVat(), null);
@@ -370,11 +415,11 @@ public class ImportSprzedazyFKView  implements Serializable {
         return w;
     }
     
-    private void uzupelnijwiersz(Wiersz w, Dokfk nd) {
+    private void uzupelnijwiersz(Wiersz w, Dokfk nd, int lpmacierzystego) {
         Tabelanbp t = tabelanbpDAO.findByTabelaPLN();
         w.setTabelanbp(t);
         w.setDokfk(nd);
-        w.setLpmacierzystego(0);
+        w.setLpmacierzystego(lpmacierzystego);
         w.setTabelanbp(w.getTabelanbp());
         w.setDataksiegowania(nd.getDatawplywu());
     }
