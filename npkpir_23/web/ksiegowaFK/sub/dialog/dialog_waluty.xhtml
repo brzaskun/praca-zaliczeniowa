@@ -22,7 +22,7 @@
                 </p:column>
                 <p:column headerText="nazwa waluty" style="width: 180px;">
                     <p:inplace editor="true" effect="slide" effectSpeed="fast" saveLabel="zachowaj" cancelLabel="rezygnuj">
-                        <p:ajax event="save" listener="#{walutyViewFK.handleSave(wpis)}" />
+                        <p:ajax event="save" listener="#{walutyViewFK.handleSave(wpis)}"  update="@parent"/>
                         <f:facet name="output">
                             <h:outputText value="#{wpis.nazwawaluty}" style="width: 200px;"/>
                         </f:facet>
@@ -33,7 +33,7 @@
                 </p:column>
                 <p:column headerText="symbol waluty" style="text-align: center;">
                     <p:inplace editor="true" effect="slide" effectSpeed="fast" saveLabel="zachowaj" cancelLabel="rezygnuj">
-                        <p:ajax event="save" listener="#{walutyViewFK.handleSave(wpis)}" />
+                        <p:ajax event="save" listener="#{walutyViewFK.handleSave(wpis)}"  update="@parent"/>
                         <f:facet name="output">
                             <h:outputText value="#{wpis.skrotsymbolu}" />
                         </f:facet>
@@ -44,7 +44,7 @@
                 </p:column>
                 <p:column headerText="przelicznik" style="text-align: center;">
                     <p:inplace editor="true" effect="slide" effectSpeed="fast" saveLabel="zachowaj" cancelLabel="rezygnuj">
-                        <p:ajax event="save" listener="#{walutyViewFK.handleSave(wpis)}" />
+                        <p:ajax event="save" listener="#{walutyViewFK.handleSave(wpis)}"  update="@parent"/>
                         <f:facet name="output">
                             <h:outputText value="#{wpis.przelicznik}" />
                         </f:facet>

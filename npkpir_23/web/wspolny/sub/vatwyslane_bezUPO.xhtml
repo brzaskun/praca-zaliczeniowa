@@ -65,10 +65,7 @@
             </p:column>
             <p:rowExpansion>
                 <p:column id="ewidencjavat" headerText="treść wysyłki" width="300" resizable="true">
-                    <p:inplace id="ajax" editor="true">
-                        <p:inputTextarea autoResize="true" value="#{item.deklaracja}" cols="190"/>
-                        <p:ajax event="save" listener="#{deklaracjevatView.handleSave}" />
-                    </p:inplace>
+                        <h:outputText value="#{item.deklaracja}" />
                 </p:column>
             </p:rowExpansion>
         </p:dataTable>

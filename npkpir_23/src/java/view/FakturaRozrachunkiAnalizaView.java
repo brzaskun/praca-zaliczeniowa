@@ -35,6 +35,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UISelectOne;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import mail.MailFaktRozrach;
 import msg.Msg;import pdf.PdfFaktRozrach;
@@ -603,8 +604,9 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         }
     }
 
-   public void zmienmailkontrahenta() {
+   public void zmienmailkontrahenta(ValueChangeEvent ex) {
        try {
+           szukanyklient.setEmail((String)ex.getNewValue());
            klienciDAO.edit(szukanyklient);
            Msg.msg("Zmieniono adres mail klienta");
        } catch (Exception e) {

@@ -457,6 +457,25 @@ public class Data implements Serializable {
         DateFormat format = new SimpleDateFormat(f);
         return DatatypeFactory.newInstance().newXMLGregorianCalendar(f.format(data));
     }
+    
+    public static String zmienkolejnosc(String zladata) {
+        String dobradata = "";
+        if (zladata.length()==10) {
+            zladata = zladata.replace("/", "-");
+            zladata = zladata.replace(".", "-");
+            String rok = pobierzokres(zladata, 2);
+            String mc = pobierzokres(zladata, 1);
+            String dzien = pobierzokres(zladata, 0);
+            StringBuilder sb = new StringBuilder();
+            sb.append(rok);
+            sb.append("-");
+            sb.append(mc);
+            sb.append("-");
+            sb.append(dzien);
+            dobradata = sb.toString();
+        }
+        return dobradata;
+    }
    
     public static void main(String[] args) {
         try {

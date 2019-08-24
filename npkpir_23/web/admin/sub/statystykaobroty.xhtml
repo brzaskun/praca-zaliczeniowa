@@ -92,7 +92,7 @@
                 <h:outputText value="prac."/>
             </f:facet>
             <p:inplace editor="true">
-                <p:ajax event="save" listener="#{statystykaObrotyView.zachowajliczbaprac(item)}" partialSubmit="true" global="false"/>
+                <p:ajax event="save" listener="#{statystykaObrotyView.zachowajliczbaprac(item)}" partialSubmit="true" global="false" update="@parent"/>
                 <h:inputText value="#{item.liczbapracownikow}" size="5"/>
             </p:inplace>
         </p:column>

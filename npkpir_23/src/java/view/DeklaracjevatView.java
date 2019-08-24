@@ -33,6 +33,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import mail.MailOther;
 import msg.Msg; import org.primefaces.PrimeFaces;
@@ -361,7 +362,8 @@ public class DeklaracjevatView implements Serializable {
         //FacesContext.getCurrentInstance().getExternalContext().redirect(strona);
     }
     
-    public void handleSave(AjaxBehaviorEvent e) {
+    public void handleSave(ValueChangeEvent e) {
+        oczekujace.get(0).setDeklaracja((String)e.getNewValue());
         deklaracjevatDAO.edit(oczekujace.get(0));
         Msg.msg("Zmieniono treść deklaracji");
     }

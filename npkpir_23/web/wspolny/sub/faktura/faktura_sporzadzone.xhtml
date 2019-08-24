@@ -154,12 +154,12 @@
                         <p:panelGrid  columns="2"  columnClasses="forty-percent, sixty-percent">
                             <h:outputText value="email kontrahenta"/>
                             <p:inplace editor="true" effect="slide" effectSpeed="fast" saveLabel="zachowaj" cancelLabel="rezygnuj">
-                                <p:ajax event="save" listener="#{fakturaView.edytujemail(wpis.kontrahent)}" global="false"/>
+                                <p:ajax event="save" listener="#{fakturaView.edytujemail(wpis.kontrahent)}" global="false" update="@parent"/>
                                 <f:facet name="output">
                                     <h:outputText value="#{wpis.kontrahent.email ne null and wpis.kontrahent.email ne '' ? wpis.kontrahent.email : 'brak email'}"/>
                                 </f:facet>
                                 <f:facet name="input">
-                                    <p:inputText value="#{wpis.kontrahent.email}"  style="width: 180px;"/>
+                                    <p:inputText value="#{wpis.kontrahent.email}"  style="width: 180px;" />
                                 </f:facet>
                             </p:inplace>
                             <h:outputText value="konto bankowe"/>
