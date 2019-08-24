@@ -7,7 +7,9 @@ package view;
 import dao.PitDAO;
 import dao.PodatnikDAO;
 import dao.SMTPSettingsDAO;
+import daoFK.CechazapisuDAOfk;
 import entity.Pitpoz;
+import entityfk.Cechazapisu;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
@@ -40,6 +42,10 @@ public class PitView implements Serializable {
     private WpisView wpisView;
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
+    private List<Cechazapisu> pobranecechypodatnik;
+    private Cechazapisu wybranacechadok;
+    @Inject
+    private CechazapisuDAOfk cechazapisuDAOfk;
    
 
     public PitView() {
@@ -56,7 +62,8 @@ public class PitView implements Serializable {
     private void init(){
         lista = Collections.synchronizedList(new ArrayList<>());
         biezacyPit = new Pitpoz();
-        lista = pitDAO.findPitPod(wpisView.getRokWpisu().toString(), wpisView.getPodatnikWpisu());
+        lista = pitDAO.findPitPod(wpisView.getRokWpisu().toString(), wpisView.getPodatnikWpisu(), wybranacechadok);
+        pobranecechypodatnik = cechazapisuDAOfk.findPodatnikOnlyAktywne(wpisView.getPodatnikObiekt());
        
     }
     
@@ -82,6 +89,15 @@ public class PitView implements Serializable {
              MailOther.pit5(wpisView, sMTPSettingsDAO.findSprawaByDef());
          } catch (Exception e) { E.e(e); 
              
+         }
+     }
+     
+     public void obliczPitCecha() {
+         init();
+         if (wybranacechadok!=null) {
+            Msg.msg("Pobrano PIT z uwzględnieniem cechy");
+         } else {
+            Msg.msg("Pobrano PIT z uwzględnieniem cechy");
          }
      }
      
@@ -129,6 +145,22 @@ public class PitView implements Serializable {
 
     public void setBiezacyPit(Pitpoz biezacyPit) {
         this.biezacyPit = biezacyPit;
+    }
+
+    public List<Cechazapisu> getPobranecechypodatnik() {
+        return pobranecechypodatnik;
+    }
+
+    public void setPobranecechypodatnik(List<Cechazapisu> pobranecechypodatnik) {
+        this.pobranecechypodatnik = pobranecechypodatnik;
+    }
+
+    public Cechazapisu getWybranacechadok() {
+        return wybranacechadok;
+    }
+
+    public void setWybranacechadok(Cechazapisu wybranacechadok) {
+        this.wybranacechadok = wybranacechadok;
     }
 
     

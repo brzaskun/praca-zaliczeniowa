@@ -266,16 +266,12 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList(lista);
     }
 
-    public Pitpoz findPitpoz(String rok, String mc, String pod, String udzialowiec) {
-        Pitpoz tmp = (Pitpoz) em.createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik AND p.udzialowiec = :udzialowiec").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).setParameter("udzialowiec", udzialowiec).getSingleResult();
+    public Pitpoz findPitpoz(String rok, String mc, String pod, String udzialowiec, Cechazapisu cecha) {
+        Pitpoz tmp = (Pitpoz) em.createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik AND p.udzialowiec = :udzialowiec AND p.cechazapisu = :cecha").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).setParameter("udzialowiec", udzialowiec).setParameter("cecha", cecha).getSingleResult();
         return tmp;
     }
 
-    public List<Pitpoz> findPitpodatnik(String rok, String pod) {
-        List<Pitpoz> tmp = em.createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("podatnik", pod).getResultList();
-        return Collections.synchronizedList(tmp);
-    }
-
+    
     public List<Ryczpoz> findRyczAll() {
         List<Ryczpoz> lista = em.createNamedQuery("Ryczpoz.findAll").getResultList();
         return Collections.synchronizedList(lista);

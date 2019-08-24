@@ -44,9 +44,9 @@
                         </h:selectBooleanCheckbox>
                         <p:panel header="wybierz rozliczenie wg cech: " style="width: 250px;" rendered="#{ZestawienieView.pobranecechypodatnik ne null and ZestawienieView.pobranecechypodatnik.size() gt 1}"/>
                         <p:selectOneMenu value="#{ZestawienieView.wybranacechadok}" style="width: 250px;"  rendered="#{ZestawienieView.pobranecechypodatnik ne null and ZestawienieView.pobranecechypodatnik.size() gt 1}" converter="#{cechaConv}">
-                            <f:selectItem itemLabel="wybierz cechę" itemValue="wybierz cechę" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="wybierz cechę" itemValue="" noSelectionOption="true"/>
                             <f:selectItems value="#{ZestawienieView.pobranecechypodatnik}"  var="p" itemValue="#{p}" itemDescription="#{p.nazwacechy}" itemLabel="#{p.nazwacechy}"/>
-                            <p:ajax event="change" update=":akordeon:formpit" listener="#{ZestawienieView.obliczPit()}" partialSubmit="true"/>
+                            <p:ajax event="change" update=":akordeon:formpit" listener="#{ZestawienieView.obliczPitCecha()}" partialSubmit="true"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:panelGrid  columns="1" >
