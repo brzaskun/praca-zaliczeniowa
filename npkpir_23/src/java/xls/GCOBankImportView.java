@@ -17,6 +17,7 @@ import daoFK.WierszDAO;
 import data.Data;
 import dedra.Dedraparser;
 import embeddablefk.ImportBankXML;
+import embeddablefk.InterpaperXLS;
 import entity.Klienci;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
@@ -27,16 +28,24 @@ import entityfk.Waluty;
 import entityfk.Wiersz;
 import error.E;
 import gus.GUSView;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -68,7 +77,7 @@ import view.WpisView;import waluty.Z;
  */
 @ManagedBean
 @ViewScoped
-public class InterpaperBankImportView implements Serializable {
+public class GCOBankImportView implements Serializable {
     private static final long serialVersionUID = 1L;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -108,6 +117,8 @@ public class InterpaperBankImportView implements Serializable {
     private String wyciagnr;
     private String wyciagkonto;
     private String wyciagwaluta;
+    private double wyciagobrotywn;
+    private double wyciagobrotyma;
     private double wyciagbo;
     private double wyciagbz;
     private Konto wplyw;
@@ -157,7 +168,7 @@ public class InterpaperBankImportView implements Serializable {
         platnosckarta = kontoDAO.findKonto("149-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         przelewUS = kontoDAO.findKonto("222", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         przelewZUS = kontoDAO.findKonto("231", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-        przelewGmina = kontoDAO.findKonto("205", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        przelewGmina = kontoDAO.findKonto("226", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         przelewBankBank = kontoDAO.findKonto("149-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         konto213 = kontoDAO.findKonto("213", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
     }
@@ -167,7 +178,7 @@ public class InterpaperBankImportView implements Serializable {
         try {
             UploadedFile uploadedFile = event.getFile();
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
-            if (extension.equals("xml")) {
+            if (extension.equals("csv")) {
                 String filename = uploadedFile.getFileName();
                 plikinterpaper = uploadedFile.getContents();
                 PrimeFaces.current().ajax().update("panelplik");
@@ -204,64 +215,59 @@ public class InterpaperBankImportView implements Serializable {
         try {
             List<Klienci> k = klienciDAO.findAll();
             InputStream file = new ByteArrayInputStream(plikinterpaper);
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(file);
-            doc.getDocumentElement().normalize();
-            try {
-                NodeList nList1 = doc.getElementsByTagName("Stmt");
-                wyciagnr = pT(nList1.item(0), "Id");;
-                wyciagdataod = pT(nList1.item(0), "FrDtTm");
-                wyciagdatado = pT(nList1.item(0), "ToDtTm");
-                if (wyciagdatado!=null) {
-                    wyciagdatado = wyciagdatado.substring(0, 10);
+            Path pathToFile = Paths.get("D:\\gcocsv.csv");
+            List<List<String>> records = new ArrayList<>();
+            try (BufferedReader br =  Files.newBufferedReader(pathToFile)) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split(";");
+                    records.add(Arrays.asList(values));
                 }
-                wyciagkonto = pT(nList1.item(0), "IBAN");
-                wyciagwaluta = pT(nList1.item(0), "Ccy");
-                wyciagbo = Double.valueOf(pT(nList1.item(0), "Amt", 0));
-                wyciagbz = Double.valueOf(pT(nList1.item(0), "Amt", 1));
-            } catch (Exception e){
-                wyciagkonto = "11111";
+            } catch (Exception e) {
             }
-            NodeList nList = doc.getElementsByTagName("Ntry");
+            int i = 0;
+            int j = 1;
             pobranefaktury = new ArrayList<>();
-            System.out.println("----------------------------");
-            int len = nList.getLength();
-                for (int temp = 0; temp < len; temp++) {
-                    Node nNode = nList.item(temp);
-                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                        try {
-                            ImportBankXML p = new ImportBankXML();
-                            p.setNr(temp+1);
-                            String iban = pE(nNode, "Id") == null ? "brak" : pTFC(nNode, "Id");
-                            p.setIBAN(iban);
-                            String elt1 = pT(nNode, "Amt");
-                            p.setKwota(Double.valueOf(elt1));
-                            elt1 = pE(nNode, "Amt").getAttribute("Ccy");
-                            p.setWaluta(elt1);
-                            elt1 = pT(nNode, "CdtDbtInd");
-                            p.setWnma(elt1.equals("DBIT")?"Ma":"Wn");
-                            elt1 = pTFC(nNode, "BookgDt");
-                            p.setDatatransakcji(elt1.substring(0,10));
-                            elt1 = pTFC(nNode, "ValDt");
-                            p.setDatawaluty(elt1.substring(0,10));
-                            elt1 = pT(nNode, "Ustrd");
-                            p.setOpistransakcji(elt1);
-                            elt1 = pE(nNode, "Nm") == null ? "brak" : pT(nNode, "Nm");
-                            p.setKontrahent(elt1);
-                            elt1 = pE(nNode, "Ctry") == null ? "brak" : pT(nNode, "Ctry");
-                            p.setKontrahentakraj(elt1);
-                            elt1 = pE(nNode, "AdrLine") == null ? "brak" : pT(nNode, "AdrLine");
-                            p.setKontrahentaadres(elt1);
-                            elt1 = pT(nNode, "TxId");
-                            p.setNrtransakji(elt1);
-                            p.setTyptransakcji(oblicztyptransakcji(p));
-                            pobranefaktury.add(p);
-                        } catch (Exception e) {
-                            E.e(e);
-                        }
+            for (Iterator<List<String>> it = records.iterator(); it.hasNext();) {
+                List<String> baza = it.next();
+                List<String> row = new ArrayList<>();
+//                for (String r : baza) {
+//                    row.add(r.replace("\"", ""));
+//                }
+                if (i==0) {
+                    wyciagnr = baza.get(0);
+                    wyciagdataod = Data.zmienkolejnosc(baza.get(2));
+                    wyciagdatado = Data.zmienkolejnosc(baza.get(1));
+                    wyciagkonto = baza.get(5);;
+                    wyciagwaluta = baza.get(6);
+                    wyciagbz = Double.parseDouble(baza.get(12).replace(",","."));
+                    wyciagobrotywn = !baza.get(9).equals("") ? Double.parseDouble(baza.get(9).replace(",",".")) : 0.0;
+                    wyciagobrotyma = !baza.get(10).equals("") ? Double.parseDouble(baza.get(10).replace(",",".")) : 0.0;
+                    System.out.println("");
+                } else if (i==1) {
+                    wyciagbo = Double.parseDouble(baza.get(12).replace(",","."));
+                } else {
+                    ImportBankXML x = new ImportBankXML();
+                    x.setNr(j++);
+                    x.setDatatransakcji(Data.zmienkolejnosc(baza.get(1)));
+                    x.setDatawaluty(Data.zmienkolejnosc(baza.get(2)));
+                    x.setIBAN(baza.get(5));//??
+                    x.setKontrahent(baza.get(4));//??
+                    if (!baza.get(10).equals("")) {
+                        x.setKwota(Double.parseDouble(baza.get(10).replace(",",".")));
+                        x.setWnma("Ma");
+                    } else if (!baza.get(11).equals("")) {
+                        x.setKwota(Double.parseDouble(baza.get(11).replace(",",".")));
+                        x.setWnma("Wn");
                     }
+                    x.setWaluta(wyciagwaluta);
+                    x.setNrtransakji(baza.get(8));
+                    x.setOpistransakcji(baza.get(3));
+                    x.setTyptransakcji(oblicztyptransakcji(x));
+                    pobranefaktury.add(x);
                 }
+                i++;
+            }
             if (pobranefaktury!=null && !pobranefaktury.isEmpty()) {
                 String mc = Data.getMc(pobranefaktury.get(0).getDatatransakcji());
                 if (!mc.equals(wpisView.getMiesiacWpisu())) {
@@ -278,7 +284,6 @@ public class InterpaperBankImportView implements Serializable {
                     }
                 }
             }
-            
             grid3.setRendered(true);
             Msg.msg("Pobrano wszystkie dane");
         } catch (Exception e) {
@@ -299,7 +304,7 @@ public class InterpaperBankImportView implements Serializable {
         //7 ZUS - 231
         //8 Gmina - 226
         //9 bank-bank - 149-2
-    private int oblicztyptransakcji(ImportBankXML p) {
+    private static int oblicztyptransakcji(ImportBankXML p) {
         int zwrot = 0;
         if (p.getKontrahent().equals("NOTPROVIDED")) {
             zwrot = 3;
@@ -313,7 +318,7 @@ public class InterpaperBankImportView implements Serializable {
             zwrot = 6;
         } else if (p.getOpistransakcji().equals("WYPŁATA KARTĄ")) {
             zwrot = 4;
-        } else if (p.getOpistransakcji().equals("TRANSAKCJA KARTĄ PŁATNICZĄ")) {
+        } else if (p.getOpistransakcji().contains("PŁATNOŚĆ KARTĄ ")) {
             zwrot = 5;
         } else if (p.getWnma().equals("Wn")) {
             zwrot = 1;
@@ -371,7 +376,7 @@ public class InterpaperBankImportView implements Serializable {
         int numerkolejny = ImportBean.oblicznumerkolejny(rodzajdok.getSkrotNazwyDok(), dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Dokfk nd = new Dokfk(numerkolejny, wpisView.getRokWpisuSt());
         nd.setKontr(ImportBean.ustawkontrahenta(wpisView.getPodatnikObiekt().getNip(), wpisView.getPodatnikWpisu(), klienci, gUSView, klienciDAO));
-        ImportBean.ustawnumerwlasny(nd, "wyciag nr "+wyciagnr+"/"+i);
+        ImportBean.ustawnumerwlasny(nd, "wyciag nr "+wyciagnr);
         nd.setOpisdokfk("rozliczenie wyciągu za "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt());
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
         nd.setSeriadokfk(rodzajdok.getSkrot());
@@ -434,8 +439,10 @@ public class InterpaperBankImportView implements Serializable {
             }
             if (p.isJuzzaksiegowany()==false) {
                 wyciagdatado = p.getDatatransakcji();
-                Konto kontown = p.getWnma().equals("Wn") ? rodzajdok.getKontorozrachunkowe() : ustawkonto(p);
-                Konto kontoma = p.getWnma().equals("Ma") ? rodzajdok.getKontorozrachunkowe() :ustawkonto(p);
+                //Konto kontoklienta = ustawkonto(p);
+                Konto kontoklienta = null;
+                Konto kontown = p.getWnma().equals("Wn") ? rodzajdok.getKontorozrachunkowe() : kontoklienta!=null? kontoklienta : konto213;
+                Konto kontoma = p.getWnma().equals("Ma") ? rodzajdok.getKontorozrachunkowe() : kontoklienta!=null? kontoklienta : konto213;
                 nd.getListawierszy().add(przygotujwierszNetto(lpwiersza, nd, p, kontown, kontoma));
                 lpwiersza++;
                 it.remove();
@@ -778,55 +785,59 @@ public class InterpaperBankImportView implements Serializable {
      return ((Element) eElement.getElementsByTagName(nazwa).item(0)).getFirstChild().getNextSibling().getTextContent();
  }
     
-public static void main(String[] args) throws SAXException, IOException {
+    public static void main(String[] args) throws SAXException, IOException {
         try {
-            File fXmlFile = new File("D:\\bank1.xml");
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(fXmlFile);
-            doc.getDocumentElement().normalize();
-            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-            NodeList nList1 = doc.getElementsByTagName("Stmt");
-            String nrwyciagu = pT(nList1.item(0), "Id");;
-            String dataod = pT(nList1.item(0), "FrDtTm");
-            String datado = pT(nList1.item(0), "ToDtTm");
-            String iban = pT(nList1.item(0), "IBAN");
-            String waluta = pT(nList1.item(0), "Ccy");
-            String bo = pT(nList1.item(0), "Amt", 0);
-            String bz = pT(nList1.item(0), "Amt", 1);
-            String currency = pE(nList1.item(0), "Amt").getAttribute("Ccy");
-            System.out.println("----------------------------");
-//            NodeList nList1 = doc.getElementsByTagName("Ntry");
-//            System.out.println("----------------------------");
-//            int len = nList1.getLength();
-//                for (int temp = 0; temp < len; temp++) {
-//                    Node nNode1 = nList1.item(temp);
-//                    if (nNode1.getNodeType() == Node.ELEMENT_NODE) {
-//                        try {
-//                            Element eElement = (Element) nNode1;
-//                            String elt = pE(nNode1, "Id") == null ? "brak" : pTFC(nNode1, "Id");
-//                            System.out.println("IBAN : " + elt);
-//                            String elt1 = pT(nNode1, "Amt");
-//                            System.out.println("amount : " + elt1);
-//                            System.out.println("waluta "+pE(nNode1, "Amt").getAttribute("Ccy"));
-//                            String elt2 = pT(nNode1, "CdtDbtInd");
-//                            System.out.println("WnMa : " + elt2);
-//                            System.out.println("data : " + pTFC(nNode1, "BookgDt"));
-//                            System.out.println("data waluty : " + pTFC(nNode1, "ValDt"));
-//                            System.out.println("opis : " + pT(nNode1, "Ustrd"));
-//                            String elt3 = pE(nNode1, "Nm") == null ? "brak" : pT(nNode1, "Nm");
-//                            System.out.println("odbiorca : " + elt3);
-//                            String elt4 = pE(nNode1, "Ctry") == null ? "brak" : pT(nNode1, "Ctry");
-//                            System.out.println("kraj : " + elt4);
-//                            String elt5 = pE(nNode1, "AdrLine") == null ? "brak" : pT(nNode1, "AdrLine");
-//                            System.out.println("adres : " + elt5);
-//                            System.out.println("lp : " + pT(nNode1, "TxId"));
-//                        } catch (Exception e) {
-//                            E.e(e);
-//                        }
-//                    }
+            Path pathToFile = Paths.get("D:\\gcocsv.csv");
+            List<List<String>> records = new ArrayList<>();
+            try (BufferedReader br =  Files.newBufferedReader(pathToFile)) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split(";");
+                    records.add(Arrays.asList(values));
+                }
+            } catch (Exception e) {
+            }
+            int i = 0;
+            List<ImportBankXML> listaswierszy = new ArrayList<>();
+            for (Iterator<List<String>> it = records.iterator(); it.hasNext();) {
+                List<String> baza = it.next();
+                List<String> row = new ArrayList<>();
+//                for (String r : baza) {
+//                    row.add(r.replace("\"", ""));
 //                }
-        } catch (ParserConfigurationException ex) {
+                if (i==0) {
+                    String wyciagnr = baza.get(0);
+                    String wyciagdataod = baza.get(2);
+                    String wyciagdatado = baza.get(1);
+                    String wyciagkonto = baza.get(5);;
+                    String wyciagwaluta = baza.get(6);
+                    String wyciagbz = baza.get(12);
+                    String wyciagobrotywn = baza.get(10);
+                    String wyciagobrotyma = baza.get(11);
+                    System.out.println("");
+                } else if (i==1) {
+                    String wyciagbo = baza.get(12);
+                } else {
+                    ImportBankXML x = new ImportBankXML();
+                    x.setDatatransakcji(baza.get(1));
+                    x.setDatawaluty(baza.get(2));
+                    x.setIBAN(baza.get(5));//??
+                    x.setKontrahent(baza.get(4));//??
+                    x.setKwota(Double.parseDouble(baza.get(10).replace(",",".")));
+                    x.setWnma("Wn");
+                    if (!baza.get(11).equals("")) {
+                        x.setKwota(-Double.parseDouble(baza.get(11).replace(",",".")));
+                        x.setWnma("Ma");
+                    }
+                    x.setNrtransakji(baza.get(8));
+                    x.setOpistransakcji(baza.get(3));
+                    x.setTyptransakcji(oblicztyptransakcji(x));
+                    listaswierszy.add(x);
+                }
+                i++;
+            }
+            System.out.println("");
+        } catch (Exception ex) {
             Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

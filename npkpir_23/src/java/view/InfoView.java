@@ -251,7 +251,7 @@ public class InfoView implements Serializable{
      
      private void sprawdziloscdekl(){
         try{
-        List<Pitpoz> listapit = pitDAO.findPitPod(rok, podatnik);
+        List<Pitpoz> listapit = pitDAO.findPitPod(rok, podatnik, null);
         if(listapit.isEmpty()){
             liczbapit = "Nie sporządzono żadnej deklaracji PIT w roku "+rok;
         } else {

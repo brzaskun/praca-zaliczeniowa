@@ -322,6 +322,14 @@ public class Pitpoz implements Serializable {
         this.kosztyudzial = kosztyudzial;
     }
 
+    public Cechazapisu getCechazapisu() {
+        return cechazapisu;
+    }
+
+    public void setCechazapisu(Cechazapisu cechazapisu) {
+        this.cechazapisu = cechazapisu;
+    }
+
     
     
     

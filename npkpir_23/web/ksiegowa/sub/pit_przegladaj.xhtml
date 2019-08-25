@@ -8,10 +8,15 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core">
     <p:panelGrid columns="4" style="width: 700px" rendered="#{WpisView.ksiegaryczalt}" >
             <h:form id="formpi" style="width: 500px" >
-
+            <p:panel header="wybierz rozliczenie wg cech: " style="width: 250px;" rendered="#{pitView.pobranecechypodatnik ne null and pitView.pobranecechypodatnik.size() gt 1}"/>
+                        <p:selectOneMenu value="#{pitView.wybranacechadok}" style="width: 250px;"  rendered="#{pitView.pobranecechypodatnik ne null and pitView.pobranecechypodatnik.size() gt 1}" converter="#{cechaConv}">
+                            <f:selectItem itemLabel="wybierz cechę" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{ZestawienieView.pobranecechypodatnik}"  var="p" itemValue="#{p}" itemDescription="#{p.nazwacechy}" itemLabel="#{p.nazwacechy}"/>
+                            <p:ajax event="change" update="formpi" listener="#{pitView.obliczPitCecha()}" partialSubmit="true"/>
+                        </p:selectOneMenu>
                 <p:growl life="3600"  id="messages" ><p:autoUpdate/></p:growl>
 
-                <p:panel header="wprowadzone PIT-y: " /><br/>
+                <p:panel header="wprowadzone PIT-y: " style="margin-top: 15px;"/><br/>
 
                 <p:dataTable id="tablicapit" value="#{pitView.lista}" var="loop" selectionMode="single" selection="#{pitView.biezacyPit}" rowKey="#{loop.id}" sortBy="#{loop.pkpirM}" 
                              emptyMessage="Brak sporządzonych pitów w danym roku" rowStyleClass="#{loop.wynik lt 0 ? 'korekta' : null}">

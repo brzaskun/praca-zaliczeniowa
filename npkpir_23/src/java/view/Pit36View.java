@@ -45,7 +45,7 @@ public class Pit36View implements Serializable {
 
     @PostConstruct
     private void init() {
-        lista = pitDAO.findPitPod(wpisView.getRokWpisu().toString(), wpisView.getPodatnikWpisu());
+        lista = pitDAO.findPitPod(wpisView.getRokWpisu().toString(), wpisView.getPodatnikWpisu(), null);
         listaryczalt =  ryczDAO.findRyczPod(wpisView.getRokWpisu().toString(), wpisView.getPodatnikWpisu());
         sumujryczalt();
     }

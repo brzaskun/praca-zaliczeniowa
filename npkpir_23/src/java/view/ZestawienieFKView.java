@@ -429,7 +429,7 @@ public class ZestawienieFKView implements Serializable {
     public void zachowajPit() {
         if (biezacyPit.getWynik() != null) {
             try {
-                Pitpoz find = pitDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM(), biezacyPit.getPodatnik(), biezacyPit.getUdzialowiec());
+                Pitpoz find = pitDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM(), biezacyPit.getPodatnik(), biezacyPit.getUdzialowiec(), null);
                 pitDAO.destroy(find);
                 pitDAO.dodaj(biezacyPit);
                 String wiad = String.format("Edytowano PIT %s za m-c:%s", biezacyPit.getUdzialowiec(), biezacyPit.getPkpirM());
@@ -482,7 +482,7 @@ public class ZestawienieFKView implements Serializable {
     public Pitpoz skumulujpity(String mcDo, String udzialowiec) {
         Pitpoz tmp = new Pitpoz("zus");
         try {
-            Collection c = pitDAO.findPitPod(wpisView.getRokWpisu().toString(), wpisView.getPodatnikWpisu());
+            Collection c = pitDAO.findPitPod(wpisView.getRokWpisu().toString(), wpisView.getPodatnikWpisu(), null);
             Iterator it = c.iterator();
             int poprzednimc = Mce.getMiesiacToNumber().get(mcDo);
             if (wpisView.isMc0kw1()) {
@@ -570,7 +570,7 @@ public class ZestawienieFKView implements Serializable {
                 int numermiesiaca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
                 String numermiesiacaS = Mce.getNumberToMiesiac().get(numermiesiaca - 3);
                 try {
-                    Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), numermiesiacaS, wpisView.getPodatnikWpisu(), wybranyudzialowiec);
+                    Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), numermiesiacaS, wpisView.getPodatnikWpisu(), wybranyudzialowiec, null);
                     if (poprzednipit == null) {
                         throw new Exception();
                     }
@@ -585,7 +585,7 @@ public class ZestawienieFKView implements Serializable {
         } else {
             if (!wpisView.getMiesiacWpisu().equals("01") || wybranyudzialowiec.equals("wybierz osobe")) {
                 try {
-                    Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), wpisView.getMiesiacUprzedni(), wpisView.getPodatnikWpisu(), wybranyudzialowiec);
+                    Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), wpisView.getMiesiacUprzedni(), wpisView.getPodatnikWpisu(), wybranyudzialowiec, null);
                 } catch (Exception e) {
                     E.e(e);
                     Msg.msg("w", "Brak PIT-u w miesiącu poprzednim. Nie można wyliczyć bieżącego miesiąca");

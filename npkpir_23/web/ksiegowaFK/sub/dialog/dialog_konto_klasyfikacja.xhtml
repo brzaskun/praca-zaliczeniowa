@@ -36,7 +36,7 @@
                     </p:column>
                     <p:column  style="width: 300px;">
                         <p:inplace editor="true" effect="slide" effectSpeed="fast" saveLabel="zachowaj" cancelLabel="rezygnuj">
-                            <p:ajax event="save" listener="#{kontokategoriaView.edytuj(loop)}" global="false"/>
+                            <p:ajax event="save" listener="#{kontokategoriaView.edytuj(loop)}" global="false" update="@parent"/>
                             <f:facet name="output">
                                 <h:outputText value="#{loop.opispelny}" style="width: 600px;"/>
                             </f:facet>
@@ -47,7 +47,7 @@
                     </p:column>
                     <p:column  style="width: 280px;">
                         <p:inplace editor="true" effect="slide" effectSpeed="fast" saveLabel="zachowaj" cancelLabel="rezygnuj">
-                            <p:ajax event="save" listener="#{kontokategoriaView.edytuj(loop)}" global="false"/>
+                            <p:ajax event="save" listener="#{kontokategoriaView.edytuj(loop)}" global="false" update="@parent"/>
                             <f:facet name="output">
                                 <h:outputText value="#{loop.opisskrocony}" style="width: 280px;"/>
                             </f:facet>

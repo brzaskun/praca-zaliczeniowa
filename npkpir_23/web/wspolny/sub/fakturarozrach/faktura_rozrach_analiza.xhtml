@@ -38,15 +38,14 @@
                     <p:panelGrid columns="1" style="width: 250px;margin-top: 10px;" id="mailklientapanel">
                     <p:column width="250">
                         <h:outputText value="mail: "/>
-                        <p:inplace id="nrfaktury" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany" emptyLabel="brak maila">
+                        <p:inplace id="nrfaktury" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany" emptyLabel="brak maila" >
                             <f:facet name="output">
                                 <h:outputText value="#{fakturaRozrachunkiAnalizaView.szukanyklient.email}" rendered="#{fakturaRozrachunkiAnalizaView.szukanyklient.email ne null}"/>
                                 <h:outputText value="brak maila" rendered="#{fakturaRozrachunkiAnalizaView.szukanyklient.email eq null}"/>
                             </f:facet>
                             <f:facet name="input">
                                 <p:inputText value="#{fakturaRozrachunkiAnalizaView.szukanyklient.email}" requiredMessage="Brak emaila"
-                                                required="true" label="text" style="font-weight: bolder;"/>  
-                                <p:ajax event="save"  partialSubmit="true"  listener="#{fakturaRozrachunkiAnalizaView.zmienmailkontrahenta}"/>
+                                             required="true" label="text" style="font-weight: bolder;" valueChangeListener="#{fakturaRozrachunkiAnalizaView.zmienmailkontrahenta}"/>  
                             </f:facet>
                         </p:inplace>
                     </p:column>
