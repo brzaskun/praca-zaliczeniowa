@@ -257,22 +257,26 @@ public class InterpaperImportView implements Serializable {
     
     private void ustawdaty(Dokfk nd, InterpaperXLS interpaperXLS) {
         Format formatterX = new SimpleDateFormat("yyyy-MM-dd");
-        String datadokumentu = formatterX.format(interpaperXLS.getDatawystawienia());
+        String dataotrzymania = formatterX.format(interpaperXLS.getDataotrzymania());
+        String datawystawienia = formatterX.format(interpaperXLS.getDatawystawienia());
         String datasprzedazy = formatterX.format(interpaperXLS.getDatasprzedaży());
-        if (interpaperXLS.getDataobvat()!=null) {
-            datasprzedazy = formatterX.format(interpaperXLS.getDataobvat());
+        if (interpaperXLS.getDataotrzymania()!=null) {
+            dataotrzymania = formatterX.format(interpaperXLS.getDataotrzymania());
+            nd.setDatadokumentu(datawystawienia);
+            nd.setDatawplywu(dataotrzymania);
+        } else {
+            nd.setDatadokumentu(datawystawienia);
+            nd.setDatawplywu(datawystawienia);
         }
-        nd.setDatadokumentu(datadokumentu);
         nd.setDataoperacji(datasprzedazy);
-        nd.setDatawplywu(datadokumentu);
-        nd.setDatawystawienia(datadokumentu);
+        nd.setDatawystawienia(datawystawienia);
         nd.setDataujecia(new Date());
         nd.setMiesiac(wpisView.getMiesiacWpisu());
         if (rodzajdok.equals("sprzedaż")) {
             nd.setVatM(datasprzedazy.split("-")[1]);
             nd.setVatR(datasprzedazy.split("-")[0]);
         } else {
-            String dataotrzymania = formatterX.format(interpaperXLS.getDataotrzymania());
+            dataotrzymania = formatterX.format(interpaperXLS.getDataotrzymania());
             nd.setVatM(dataotrzymania.split("-")[1]);
             nd.setVatR(dataotrzymania.split("-")[0]);
         }
