@@ -201,7 +201,7 @@ public class FakturaView implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         fakturyokresowe = Collections.synchronizedList(new ArrayList<>());
         gosciwybral = Collections.synchronizedList(new ArrayList<>());
         gosciwybralokres = Collections.synchronizedList(new ArrayList<>());

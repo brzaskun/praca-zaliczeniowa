@@ -6,6 +6,7 @@ package embeddable;
 
 import dao.PodatnikDAO;
 import entity.Podatnik;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class Opis implements Serializable{
     }
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         podatnik = podatnikDAO.find(wpisView.getPodatnikWpisu());
         try{
             opisy.addAll(podatnik.getOpisypkpir());

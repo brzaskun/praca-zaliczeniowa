@@ -6,6 +6,7 @@ package converter;
 
 import daoFK.UkladBRDAO;
 import entityfk.UkladBR;
+import error.E;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -28,7 +29,7 @@ public class UkladBRConv  implements javax.faces.convert.Converter{
     private List<UkladBR> ukladBRall;
     
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         ukladBRall = ukladBRDAO.findWszystkie();
     }
      

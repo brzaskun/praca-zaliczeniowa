@@ -11,6 +11,7 @@ import dao.PodatnikDAO;
 import dao.StatystykaDAO;
 import entity.Podatnik;
 import entity.Statystyka;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,7 +41,7 @@ public class StatystykaObrotyView implements Serializable {
     private double oczekiwanywspolczynnik;
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         podatnicy = podatnikDAO.findAll();
         Collections.sort(podatnicy, new Podatnikcomparator());
     }

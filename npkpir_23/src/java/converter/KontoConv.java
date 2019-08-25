@@ -6,6 +6,7 @@ package converter;
 
 import daoFK.KontoDAOfk;
 import entityfk.Konto;
+import error.E;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -29,7 +30,7 @@ public class KontoConv implements javax.faces.convert.Converter{
     private WpisView wpisView;
     
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         konta = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
     }
      

@@ -41,7 +41,7 @@ public class EvpozycjaView  implements Serializable {
     
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         try {
             lista = epozycjaDAO.findAll();
             listamacierzyste = pobierzMacierzyste(lista);

@@ -67,7 +67,7 @@ public class AmodokView implements Serializable {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         nowalistadokamo();
     }
 

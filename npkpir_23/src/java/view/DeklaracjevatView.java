@@ -90,7 +90,7 @@ public class DeklaracjevatView implements Serializable {
     
     
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         pokazZT = false;
         pokazZZ = false;
         wyslane = Collections.synchronizedList(new ArrayList<>());

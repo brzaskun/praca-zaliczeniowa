@@ -121,7 +121,7 @@ public class STRTabView implements Serializable {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         umplan_zakupnetto = 0.0;
         umplan_umpocz = 0.0;
         umplan_narast = 0.0;

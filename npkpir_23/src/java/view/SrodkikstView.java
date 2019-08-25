@@ -35,7 +35,7 @@ public class SrodkikstView implements Serializable {
     }
     
     @PostConstruct
-    private void init(){
+    private void init() { //E.m(this);
         lista = srodkikstDAO.findAll();
     }
     

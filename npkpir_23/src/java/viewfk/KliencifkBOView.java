@@ -76,13 +76,13 @@ public class KliencifkBOView implements Serializable {
     private boolean zapisz0edytuj1;
 
     public KliencifkBOView() {
-         //E.m(this);
+         ////E.m(this);
         listawszystkichklientow = Collections.synchronizedList(new ArrayList<>());
         listawszystkichklientowFk = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         if (wpisView.isKsiegirachunkowe()) {
             listawszystkichklientow = klienciDAO.findAll();
             listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());

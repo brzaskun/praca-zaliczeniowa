@@ -93,7 +93,7 @@ public class VatUeFKView implements Serializable {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         listaDok = Collections.synchronizedList(new ArrayList<>());
         listaDokfk = Collections.synchronizedList(new ArrayList<>());
         //List<Dokfk> dokvatmc = Collections.synchronizedList(new ArrayList<>());

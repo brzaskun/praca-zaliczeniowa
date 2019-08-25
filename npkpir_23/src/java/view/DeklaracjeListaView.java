@@ -12,6 +12,7 @@ import entity.DeklSuper;
 import entity.Deklaracjavat27;
 import entity.DeklaracjavatUE;
 import entity.Deklaracjevat;
+import error.E;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
@@ -42,7 +43,7 @@ public class DeklaracjeListaView  implements Serializable {
     private List<Deklaracjavat27> oczekujaceVAT27;
     
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         oczekujaceVAT7 = deklaracjevatDAO.findDeklaracjewysylka(wpisView);
         usunzbedne(oczekujaceVAT7);
         oczekujaceVATUE = deklaracjavatUEDAO.findDeklaracjewysylka(wpisView);

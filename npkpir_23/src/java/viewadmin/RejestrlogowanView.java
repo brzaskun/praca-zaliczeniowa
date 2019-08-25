@@ -9,6 +9,7 @@ package viewadmin;
 import beansLogowanie.Liczniklogowan;
 import dao.RejestrlogowanDAO;
 import entity.Rejestrlogowan;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +37,7 @@ public class RejestrlogowanView implements Serializable{
     }
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         rejestrlogowan = rejestrlogowanDAO.findByLiczbalogowan0();
     }
 

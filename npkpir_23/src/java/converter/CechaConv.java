@@ -6,6 +6,7 @@ package converter;
 
 import daoFK.CechazapisuDAOfk;
 import entityfk.Cechazapisu;
+import error.E;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -30,7 +31,7 @@ public class CechaConv implements javax.faces.convert.Converter {
     private List<Cechazapisu> lista;
     
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
          lista = cechazapisuDAOfk.findPodatnikOnly(wpisView.getPodatnikObiekt());
     }
 

@@ -16,6 +16,7 @@ import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +52,7 @@ public class DokATRView  implements Serializable{
     
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         lista= dokDAOfk.findDokfkPodatnikRokKategoria(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt(), "ATR");
     }
     

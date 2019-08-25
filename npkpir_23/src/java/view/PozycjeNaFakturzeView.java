@@ -49,7 +49,7 @@ public class PozycjeNaFakturzeView implements Serializable {
     private String co;
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         if (request.isUserInRole("Guest")) {
             west = "sub/layoutFaktura/west.xhtml";

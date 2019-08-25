@@ -11,6 +11,7 @@ import entity.PodatnikOpodatkowanieD;
 import entityfk.Konto;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.UkladBR;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ public class ZamknijKsiegiView  implements Serializable {
     private Podatnik podatnik;
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         rok = wpisView.getRokWpisuSt();
         rokpop = wpisView.getRokUprzedniSt();
         rokpoppop = String.valueOf(wpisView.getRokUprzedni()-1);

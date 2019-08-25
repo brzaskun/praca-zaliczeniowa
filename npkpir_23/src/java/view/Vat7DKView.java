@@ -125,7 +125,7 @@ public class Vat7DKView implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         rok = wpisView.getRokWpisu().toString();
         mc = wpisView.getMiesiacWpisu();
         podatnik = wpisView.getPodatnikWpisu();

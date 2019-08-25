@@ -70,7 +70,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
     
 
     public ZapisyKontaPodatnikFKView() {
-         //E.m(this);
+         ////E.m(this);
         kontozapisy = Collections.synchronizedList(new ArrayList<>());
         wybranekontadosumowania = Collections.synchronizedList(new ArrayList<>());
         grupykont = Collections.synchronizedList(new ArrayList<>());
@@ -91,7 +91,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
     }
     
     
-    private void init(){
+    private void init() { //E.m(this);
         List<Konto> wykazkont = kontoDAOfk.findKontaOstAlityka(wpisView);
         wybranaWalutaDlaKont = "wszystkie";
         kontozapisy = Collections.synchronizedList(new ArrayList<>());

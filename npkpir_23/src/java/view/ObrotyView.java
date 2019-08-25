@@ -81,7 +81,7 @@ public class ObrotyView implements Serializable{
         }
     }
     
-    public void init() {
+    public void init() { //E.m(this);
         //dokumenty podatnika za okres od-do
         obiektDOKmrjsfSelX = Collections.synchronizedList(new ArrayList<>());
         //dokumenty podatnika z roku

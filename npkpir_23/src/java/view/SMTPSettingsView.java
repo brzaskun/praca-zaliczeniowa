@@ -32,7 +32,7 @@ public class SMTPSettingsView implements Serializable {
     private SMTPSettings selected;
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         try {
             selected = sMTPSettingsDAO.findSprawaByUzytkownik(wpisView.getUzer());
         } catch (Exception e) {

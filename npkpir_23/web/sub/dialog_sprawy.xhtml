@@ -11,7 +11,7 @@
             height: 20px;
         }
     </style>
-    <p:dialog id="dialog_sprawy" header="Sprawy do załatwienia/przejrzenia" widgetVar="dialog_sprawy" dynamic="true"
+    <p:dialog id="dialog_sprawy" header="Sprawy do załatwienia/przejrzenia" widgetVar="dialog_sprawy" 
               resizable="false" onShow="ustawdialogWindow('dialog_sprawy', 1260, 520);" closeOnEscape="true" onHide="resetujdialog('dialog_sprawy');"  >
         <h:form id="form_dialog_sprawy">
             <p:dataTable value="#{sprawaView.sprawyOdebrane}" var="item3" style="width: 1240px; overflow-y: scroll; height: 240px;"

@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -5,6 +6,7 @@
  */
 package embeddablefk;
 
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,7 +28,7 @@ public class StowNaliczenieKategorie implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         this.lista.add("składka");
         this.lista.add("energia");
         this.lista.add("hangar");

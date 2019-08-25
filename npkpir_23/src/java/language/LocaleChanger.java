@@ -37,7 +37,7 @@ public class LocaleChanger implements Serializable{
     
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String uzytkownik = request.getRemoteUser();
         if (uzytkownik == null) {

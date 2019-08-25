@@ -11,6 +11,7 @@ import daoFK.CechazapisuDAOfk;
 import entity.Dok;
 import entityfk.Cechazapisu;
 import entityfk.CharakterCechy;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,13 +42,13 @@ public class CechazapisuView implements Serializable {
     private WpisView wpisView;
 
     public CechazapisuView() {
-        //E.m(this);
+        ////E.m(this);
         this.pobranecechy = Collections.synchronizedList(new ArrayList<>());
         this.pobranecechypodatnik = Collections.synchronizedList(new ArrayList<>());
     }
     
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         pobranecechy = cechazapisuDAOfk.findAll();
         pobranecechypodatnik = cechazapisuDAOfk.findPodatnikOnly(wpisView.getPodatnikObiekt());
     }

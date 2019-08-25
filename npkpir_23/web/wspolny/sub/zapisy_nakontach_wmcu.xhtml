@@ -31,7 +31,7 @@
                         <h:selectOneMenu id="wybranawaluta" value="#{kontoZapisFKView.wybranaWalutaDlaKont}" style="width: 100px;">
                             <p:ajax event="change" listener="#{kontoZapisFKView.pobierzZapisyZmianaWaluty}" update=":tabelazzapisami, :tabelazsumami" />
                             <f:selectItem itemValue="wszystkie" itemLabel="#{mgs.wszystkie}"/>
-                            <f:selectItems value="#{walutyViewFK.symboleWalut}"/>
+                            <f:selectItems value="#{walutyViewSimple.symboleWalut}"/>
                         </h:selectOneMenu>
                     </h:form>
                     <h:form>

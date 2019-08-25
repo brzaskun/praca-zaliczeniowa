@@ -18,6 +18,7 @@ import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,7 +65,7 @@ public class RozrachunkiPrzegladView implements Serializable{
     private KliencifkDAO kliencifkDAO;
 
     public RozrachunkiPrzegladView() {
-         //E.m(this);
+         ////E.m(this);
         wykazkont = Collections.synchronizedList(new ArrayList<>());
         //listaRozrachunkow = Collections.synchronizedList(new ArrayList<>());
         stronyWiersza = Collections.synchronizedList(new ArrayList<>());
@@ -74,7 +75,7 @@ public class RozrachunkiPrzegladView implements Serializable{
     }
     
     
-    public void init() {
+    public void init() { //E.m(this);
         wykazkont = Collections.synchronizedList(new ArrayList<>());
         //listaRozrachunkow = Collections.synchronizedList(new ArrayList<>());
         stronyWiersza = Collections.synchronizedList(new ArrayList<>());

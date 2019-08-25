@@ -39,7 +39,7 @@ public class RemanentView implements Serializable {
     
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         try {
             Podatnik pod = wpisView.getPodatnikObiekt();
             Integer rok = wpisView.getRokWpisu();

@@ -46,7 +46,7 @@ public class StrataView  implements Serializable{
     }
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         stratypodatnika = strataDAO.findPodatnik(wpisView.getPodatnikObiekt());
         selected.setRok(wpisView.getRokUprzedni());
     }

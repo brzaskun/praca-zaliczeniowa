@@ -100,7 +100,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     
 
     public PozycjaBRZestawienieView() {
-         //E.m(this);
+         ////E.m(this);
         this.wykazkont = Collections.synchronizedList(new ArrayList<>());
         this.nowyelementRZiS = new PozycjaRZiS();
         this.nowyelementBilans = new PozycjaBilans();
@@ -116,7 +116,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         try {
             uklad = ukladBRDAO.findukladBRPodatnikRokAktywny(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             //(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota)

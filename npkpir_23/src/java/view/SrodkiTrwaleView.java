@@ -41,7 +41,7 @@ public class SrodkiTrwaleView implements Serializable {
     private WpisView wpisView;
 
     public SrodkiTrwaleView() {
-        //E.m(this);
+        ////E.m(this);
     }
     
     

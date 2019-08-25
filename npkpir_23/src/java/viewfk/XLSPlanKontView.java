@@ -32,7 +32,7 @@ public class XLSPlanKontView implements Serializable{
     private WpisView wpisView;
 
     public XLSPlanKontView() {
-         //E.m(this);
+         ////E.m(this);
     }
     
     

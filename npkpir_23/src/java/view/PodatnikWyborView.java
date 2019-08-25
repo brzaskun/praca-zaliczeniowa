@@ -8,6 +8,7 @@ package view;
 import comparator.Podatnikcomparator;
 import dao.PodatnikDAO;
 import entity.Podatnik;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,7 +41,7 @@ public class PodatnikWyborView implements Serializable {
     
     
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         listaPodatnikow = podatnikDAO.findAllRO();
         Collections.sort(listaPodatnikow, new Podatnikcomparator());
         for (Podatnik p : listaPodatnikow) {

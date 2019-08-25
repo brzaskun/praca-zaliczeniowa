@@ -81,7 +81,7 @@ public class PozycjaBRKontaView implements Serializable {
     private List<UkladBR> listaukladow;
 
     public PozycjaBRKontaView() {
-         //E.m(this);
+         ////E.m(this);
         this.kontabezprzydzialu = Collections.synchronizedList(new ArrayList<>());
         this.rootProjektKontaRZiS = new TreeNodeExtended("root", null);
         this.rootProjektKontaBilans = new TreeNodeExtended("root", null);
@@ -90,7 +90,7 @@ public class PozycjaBRKontaView implements Serializable {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         listaukladow = ukladBRDAO.findPodatnik(wpisView.getPodatnikObiekt());
         wybranyuklad = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladow);
         if (listaukladow != null && wybranyuklad != null) {

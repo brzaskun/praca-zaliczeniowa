@@ -35,7 +35,7 @@ public class GuestFKDokumenty implements Serializable{
     private List<Dokfk> dokumenty;
 
     public GuestFKDokumenty() {
-         //E.m(this);
+         ////E.m(this);
         this.dokumenty = Collections.synchronizedList(new ArrayList<>());
     }
 

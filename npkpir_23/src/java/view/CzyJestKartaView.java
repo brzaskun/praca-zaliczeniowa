@@ -6,6 +6,7 @@
 package view;
 
 import beansPodpis.ObslugaPodpisuBean;
+import error.E;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -25,7 +26,7 @@ public class CzyJestKartaView   implements Serializable {
     private String innehaslo;
     
     
-    public void init() {
+    public void init() { //E.m(this);
          moznapodpisywac = ObslugaPodpisuBean.moznapodpisacjpk(innehaslo);
     }
 

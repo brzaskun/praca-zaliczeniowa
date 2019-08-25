@@ -49,7 +49,7 @@ public class GranicaObliczView  implements Serializable {
     private double obrot;
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         try {
         List<Granica> l = granicaDAO.findByRok(wpisView.getRokWpisuSt());
         for (Granica p : l) {

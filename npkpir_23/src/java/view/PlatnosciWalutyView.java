@@ -69,7 +69,7 @@ public class PlatnosciWalutyView  implements Serializable {
     private double sumakosztminus;
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         ukryjrozliczone = true;
         kontrahentypodatnika = Collections.synchronizedList(new ArrayList<>());
         skrotwalutywdokum = Collections.synchronizedList(new ArrayList<>());

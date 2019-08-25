@@ -12,6 +12,7 @@ import daoFK.TransakcjaDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,7 +55,7 @@ public class RozrachunkiPrzegladKontrahenciView implements Serializable{
     private String coWyswietlacRozrachunkiPrzeglad;
 
     public RozrachunkiPrzegladKontrahenciView() {
-         //E.m(this);
+         ////E.m(this);
         listaKontRozrachunkowych = Collections.synchronizedList(new ArrayList<>());
         //listaRozrachunkow = Collections.synchronizedList(new ArrayList<>());
         stronyWiersza = Collections.synchronizedList(new ArrayList<>());
@@ -62,7 +63,7 @@ public class RozrachunkiPrzegladKontrahenciView implements Serializable{
     }
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         listaKontRozrachunkowych.addAll(kontoDAOfk.findKontaRozrachunkoweWszystkie(wpisView));
         zweryfikujobecnosczapisow();
         if (listaKontRozrachunkowych != null && listaKontRozrachunkowych.isEmpty()==false) {

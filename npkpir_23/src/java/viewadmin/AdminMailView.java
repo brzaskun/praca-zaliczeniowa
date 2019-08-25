@@ -93,7 +93,7 @@ public class AdminMailView implements Serializable {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         try {
             klientList = Collections.synchronizedList(new ArrayList<>());
             wyslanemaile = Collections.synchronizedList(new ArrayList<>());

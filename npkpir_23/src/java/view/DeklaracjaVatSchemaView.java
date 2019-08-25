@@ -20,6 +20,7 @@ import entity.DeklaracjaVatSchemaWierszSum;
 import entity.DeklaracjaVatWierszSumaryczny;
 import entity.Evewidencja;
 import entity.SchemaEwidencja;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,7 +63,7 @@ public class DeklaracjaVatSchemaView implements Serializable {
     private List<DeklaracjaVatSchemaPozKoncowe> schemapozycjekoncowe;
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         schemyDeklaracjiVat = deklaracjaVatSchemaDAO.findAll();
         wybranaschema = schemyDeklaracjiVat.get(schemyDeklaracjiVat.size()-1);
         ewidencjevat = evewidencjaDAO.findAll();

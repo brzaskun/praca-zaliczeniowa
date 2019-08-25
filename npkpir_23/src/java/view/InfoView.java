@@ -83,7 +83,7 @@ public class InfoView implements Serializable{
     
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         pod = wpisView.getPodatnikObiekt();
         podatnik = wpisView.getPodatnikWpisu();
         rok = wpisView.getRokWpisu().toString();

@@ -41,11 +41,11 @@ public class KontokategoriaPrzypView  implements Serializable {
     private WpisView wpisView;
 
     public KontokategoriaPrzypView() {
-         //E.m(this);
+         ////E.m(this);
     }
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         this.lista = kontokategoriaDAOfk.findAll();
         this.wykazkont = kontoDAOfk.findKontazLevelu(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), 0);
         this.wykazkontwzor = kontoDAOfk.findKontazLevelu(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisu(), 0);

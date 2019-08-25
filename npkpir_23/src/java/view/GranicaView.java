@@ -58,7 +58,7 @@ public class GranicaView implements Serializable {
     }
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         List<Granica> granice = granicaDAO.findAll();
         for (Granica p : granice) {
             switch (p.getNazwalimitu()) {

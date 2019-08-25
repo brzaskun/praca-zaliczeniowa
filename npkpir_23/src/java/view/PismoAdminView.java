@@ -124,7 +124,7 @@ public class PismoAdminView implements Serializable{
     }
     
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         listapism = pismoadminDAO.findNowe();
         if (razemzarchiwalnymi==true) {
             listapismwszytskie = pismoadminDAO.findAll();

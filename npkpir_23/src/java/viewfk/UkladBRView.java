@@ -68,12 +68,12 @@ public class UkladBRView implements Serializable {
     private String nazwanowegoukladu;
 
     public UkladBRView() {
-         //E.m(this);
+         ////E.m(this);
         lista = Collections.synchronizedList(new ArrayList<>());
     }
 
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         try {
             lista = ukladBRDAO.findPodatnik(wpisView.getPodatnikObiekt());
             listarokbiezacy = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());

@@ -9,6 +9,7 @@ import comparator.Kliencicomparator;
 import dao.FakturaDAO;
 import dao.KlienciDAO;
 import entity.Klienci;
+import error.E;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
@@ -41,7 +42,7 @@ public class FakturaAktywniKlienci  implements Serializable {
     private KlienciDAO klienciDAO;
     
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         klienciaktywowanie = (List<Klienci>) pobierzkontrahentowaktywowanie();
         Collections.sort(klienciaktywowanie, new Kliencicomparator());
     }

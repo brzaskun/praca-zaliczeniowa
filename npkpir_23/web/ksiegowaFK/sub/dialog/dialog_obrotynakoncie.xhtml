@@ -5,10 +5,19 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-
-    <p:dialog id="obroty" header="Obroty na kontach - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="obrotynakoncie"   dynamic="true"
+    <style>
+        #panelzachodni {
+            width: 350px;
+        }
+        .ui-layout-pane-west { 
+            width: 350px;
+        }
+    </style>
+    <p:dialog id="obroty" header="Obroty na kontach - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="obrotynakoncie"   
               resizable="false" onShow="ustawdialog('obroty','menudokumenty',1550,750);$(document.getElementById('formobrotykonta:wyborkontaobroty_input')).select();" onHide="resetujdialog('obroty');"  closeOnEscape="true"  
               >
+        
+        <p:ajax event="open" listener="#{kontoObrotyFKView.init()}" update="formobrotykonta formobroty:dataListObroty"/>
         <p:layout fullPage="false" style="width: 550px; height: 700px;">  
             <p:layoutUnit position="north" >
                 <p:panelGrid columns="2" columnClasses="kontaGrid1, kontaGrid2">
@@ -42,11 +51,7 @@
                 </p:panelGrid>
             </p:layoutUnit>  
 
-            <p:layoutUnit position="west" size="350">
-                <p:panelGrid columns="2" >
-                    <p:commandButton id="rozwinwszobroty" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie(planKontView.root)}" update=":formobroty:dataListObroty" style="float: left;" />
-                    <p:commandButton id="zwinwszobroty" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.root)}" update=":formobroty:dataListObroty" style="float: left;" />
-                </p:panelGrid>
+            <p:layoutUnit id="panelzachodni" position="west" style="width: 450px;">
                 <h:form id="formobroty">
 
                     <script>
@@ -72,11 +77,12 @@
                             height : 30px !important;
                             
                         }
+                        
                     </style>
                     <p:dataTable id="dataListObroty" value="#{kontoObrotyFKView.wykazkont}" var="loop" selectionMode="single" 
                                  selection="#{kontoObrotyFKView.wybranekonto}"
                                  sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop}" 
-                                 styleClass="grid" style="width: 100%; height: 480px; overflow-y: scroll;" rowKey="#{loop.id}">
+                                 styleClass="grid" style="width: 100%; height: 510px; overflow-y: scroll;" rowKey="#{loop.id}">
                         <p:ajax event="rowSelect" update=":tabelazobrotami:tabelaobroty :tabelazsumamiobrotow:sumy :formobrotykonta:nazwawybranegokonta" 
                                 listener="#{kontoObrotyFKView.pobierzZapisyNaKoncieNode}" />
                         <p:ajax event="rowUnselect" update=":tabelazobrotami:tabelaobroty :tabelazsumamiobrotow:sumy :formobrotykonta:nazwawybranegokonta" 

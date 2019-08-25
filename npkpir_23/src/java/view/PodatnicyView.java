@@ -7,6 +7,7 @@ package view;
 
 import dao.PodatnikDAO;
 import entity.Podatnik;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -32,7 +33,7 @@ public class PodatnicyView  implements Serializable {
     private WpisView wpisView;
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         podatnicy = podatnikDAO.findAll();
     }
     

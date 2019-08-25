@@ -249,7 +249,7 @@ public class DokView implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         rodzajedokKlienta = Collections.synchronizedList(new ArrayList<>());
         Podatnik podX = wpisView.getPodatnikObiekt();
         symbolWalutyNettoVat = " zł";

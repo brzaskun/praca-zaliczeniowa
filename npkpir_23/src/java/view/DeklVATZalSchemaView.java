@@ -49,7 +49,7 @@ public class DeklVATZalSchemaView  implements Serializable {
     private DeklaracjaVatZT nowaschemaZT;
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         schemyDeklaracjiVatZZ = deklaracjaVatZZDAO.findAll();
         schemyDeklaracjiVatZT = deklaracjaVatZTDAO.findAll();
         schemyDeklaracjiVat = deklaracjaVatSchemaDAO.findAll();

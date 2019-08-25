@@ -69,7 +69,7 @@ public class JPK_VAT2View implements Serializable {
     List<EVatwpisSuper> bledy;
     private int werjsajpkrecznie;
     
-    public void init() {
+    public void init() { //E.m(this);
         try {
             lista = uPODAO.findPodatnikRok(wpisView);
             if (lista == null) {

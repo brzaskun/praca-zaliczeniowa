@@ -29,7 +29,7 @@ public class DeklaracjaVatZZPowodView  implements Serializable {
     private DeklaracjaVatZZPowod nowypowod;
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         deklracjaVatZZpowody = deklaracjaVatZZPowodDAO.findAll();
     }
     

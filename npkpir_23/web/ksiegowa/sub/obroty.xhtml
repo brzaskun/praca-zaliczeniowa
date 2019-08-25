@@ -106,7 +106,7 @@
                 <f:facet name="filter">
                      <p:selectOneMenu onchange="PF('dokTable').filter()" >
                         <f:selectItem itemLabel="wal" itemValue="#{null}" />
-                        <f:selectItems value="#{walutyViewFK.symboleWalut}" />
+                        <f:selectItems value="#{walutyViewSimple.symboleWalut}" />
                         <p:ajax event="change" listener="#{obrotyView.czyscwybrane}" update=":formX:podsumowaniewybr :formX:podsumowaniewybrnetto :formX:dokumentyLista"/>
                     </p:selectOneMenu>
                 </f:facet>

@@ -36,7 +36,7 @@ public class StatusProgramuView  implements Serializable{
     }
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         wprowadzanestatusy = statusprogramuDAO.findAll();
         if (wprowadzanestatusy != null) {
             for (Statusprogramu p : wprowadzanestatusy) {

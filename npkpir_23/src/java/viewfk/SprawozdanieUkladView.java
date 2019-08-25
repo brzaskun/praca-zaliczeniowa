@@ -37,12 +37,12 @@ public class SprawozdanieUkladView  implements Serializable {
     private WpisView wpisView;
 
     public SprawozdanieUkladView() {
-         //E.m(this);
+         ////E.m(this);
         this.zachowaneuklady = Collections.synchronizedList(new ArrayList<>());
     }
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         zachowaneuklady = sprawozdanieUkladDAO.findAll();
     }
     

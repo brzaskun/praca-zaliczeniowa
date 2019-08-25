@@ -9,7 +9,7 @@
     <p:dialog id="dialogkursrecznie" header="Wprowadzenie kursu ręcznie" widgetVar="dialogkursrecznie"  appendTo="@(body)"
               resizable="false"  onShow="ustawdialog('dialogkursrecznie','dialogpierwszy',850,550);" closeOnEscape="true" modal="true"
               onHide="resetujdialog('dialogkursrecznie');" >
-<!--        <p:ajax event="open" listener="#{walutyViewFK.init()}" global="false"/>-->
+        <p:ajax event="open" listener="#{walutyViewFK.init()}" global="false" update="@parent"/>
         <h:form id="formkursrecznie">
             <p:focus for="formkursrecznie:dataKursReczny"/>
             <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 830px;">

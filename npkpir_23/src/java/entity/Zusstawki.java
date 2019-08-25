@@ -4,6 +4,7 @@
  */
 package entity;
 
+import error.E;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.annotation.PostConstruct;
@@ -78,7 +79,7 @@ public class Zusstawki implements Serializable {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         zusstawkiPK = new ZusstawkiPK();
     }
 

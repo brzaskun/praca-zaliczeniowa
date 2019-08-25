@@ -55,7 +55,7 @@ public class SrodkiKontaView implements Serializable {
     private boolean brakbo;
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         List<SrodekTrw> srodkizBazy = pobierzsrodkizbazy();
         List<Konto> kontaklienta = pobierzkonta();
         List<SaldoKonto> listaSaldoKonto = Collections.synchronizedList(new ArrayList<>());

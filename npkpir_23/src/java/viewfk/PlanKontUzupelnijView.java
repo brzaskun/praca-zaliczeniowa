@@ -48,13 +48,13 @@ public class PlanKontUzupelnijView implements Serializable {
     private UkladBRDAO ukladBRDAO;
 
     public PlanKontUzupelnijView() {
-         //E.m(this);
+         ////E.m(this);
     }
     
     
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         rokzrodlowy = Roki.rokPoprzedni(wpisView.getRokWpisuSt());
         rokdocelowy = wpisView.getRokWpisuSt();
         podatnikzrodlowy = wpisView.getPodatnikObiekt();

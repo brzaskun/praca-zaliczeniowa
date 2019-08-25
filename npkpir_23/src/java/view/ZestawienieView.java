@@ -155,7 +155,7 @@ public class ZestawienieView implements Serializable {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         if (wpisView.getPodatnikWpisu() != null && wpisView.isKsiegaryczalt()) {
             styczen = Arrays.asList(new Double[10]);
             luty = Arrays.asList(new Double[10]);

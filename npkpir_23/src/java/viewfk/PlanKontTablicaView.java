@@ -8,6 +8,7 @@ package viewfk;
 import beansFK.PlanKontTablicaBean;
 import daoFK.KontoDAOfk;
 import entityfk.Konto;
+import error.E;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -30,14 +31,14 @@ public class PlanKontTablicaView {
     private List<Konto> tablica;
 
     public PlanKontTablicaView() {
-         //E.m(this);
+         ////E.m(this);
         leveleKonta = new ConcurrentHashMap<>();
     }
     
     
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         int maxlevel = kontoDAOfk.findMaxLevelPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         for (int i = 0; i <= maxlevel; i++) {
             List<Konto> pobranekontazlevelu = kontoDAOfk.findKontazLevelu(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), i);

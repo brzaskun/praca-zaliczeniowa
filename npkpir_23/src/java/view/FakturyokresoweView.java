@@ -46,7 +46,7 @@ public class FakturyokresoweView implements Serializable{
     }
     
     @PostConstruct
-    private void init(){
+    private void init() { //E.m(this);
         faktury.addAll(fakturyokresoweDAO.findPodatnik(wpisView.getPodatnikWpisu()));
         przeliczfaktury();
     }

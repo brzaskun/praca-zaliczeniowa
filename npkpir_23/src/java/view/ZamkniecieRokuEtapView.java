@@ -30,7 +30,7 @@ public class ZamkniecieRokuEtapView  implements Serializable {
     private ZamkniecieRokuEtap nowy;
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         lista = zamkniecieRokuEtapDAO.findAll();
     }
     

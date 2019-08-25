@@ -68,7 +68,7 @@ public class Vat27FKView implements Serializable {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         List<Dokfk> listadokumentow = Collections.synchronizedList(new ArrayList<>());
         //List<Dokfk> dokvatmc = Collections.synchronizedList(new ArrayList<>());
         Integer rok = wpisView.getRokWpisu();

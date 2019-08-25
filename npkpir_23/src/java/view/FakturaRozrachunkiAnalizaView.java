@@ -82,7 +82,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         klienci = Collections.synchronizedList(new ArrayList<>());
         nowepozycje = Collections.synchronizedList(new ArrayList<>());
         archiwum = Collections.synchronizedList(new ArrayList<>());

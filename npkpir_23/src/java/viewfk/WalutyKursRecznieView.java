@@ -43,7 +43,7 @@ public class WalutyKursRecznieView implements Serializable{
     
       public void pobierzkursyNowaWaluta(Waluty w) {
         try {
-            //E.m(this);
+            ////E.m(this);
             String datawstepna;
             Integer numertabeli;
     //        datawstepna = "2013-12-30";

@@ -114,11 +114,9 @@ public class InterpaperImportView implements Serializable {
     @Inject
     private PanstwaMap panstwaMapa;
 
+    
 
-    
-    
-    @PostConstruct
-    private void init() {
+    public void init() { //E.m(this);
         rodzajedokKlienta = rodzajedokDAO.findListaPodatnikRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         for (Iterator<Rodzajedok> it = rodzajedokKlienta.iterator(); it.hasNext();) {
             Rodzajedok p = it.next();

@@ -64,7 +64,7 @@ public class DokTabGuestView implements Serializable {
     
 
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         selected = Collections.synchronizedList(new ArrayList<>());
         pobranedokumenty = Collections.synchronizedList(new ArrayList<>());
         dokumentypodatnika = Collections.synchronizedList(new ArrayList<>());

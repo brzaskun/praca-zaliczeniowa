@@ -76,13 +76,13 @@ public class KontaVatFKView implements Serializable {
 //    boolean dodajBO;
 
     public KontaVatFKView() {
-         //E.m(this);
+         ////E.m(this);
     }
     
     
     
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
        if (wpisView.getMiesiacWpisu().equals("CR")) {
            wpisView.setMiesiacWpisu(Data.aktualnyMc());
            wpisView.wpisAktualizuj();

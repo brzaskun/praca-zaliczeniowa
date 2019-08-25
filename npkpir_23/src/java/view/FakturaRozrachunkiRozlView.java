@@ -50,7 +50,7 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         klienci = Collections.synchronizedList(new ArrayList<>());
         wprowadzoneplatnosci = Collections.synchronizedList(new ArrayList<>());
         klienci.addAll(pobierzkontrahentow());

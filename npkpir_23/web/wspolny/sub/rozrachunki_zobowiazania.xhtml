@@ -43,7 +43,7 @@
                     <h:selectOneMenu id="wybranawaluta" value="#{rozrachunkiPrzegladView.wybranaWalutaDlaKont}">
                         <p:ajax event="change" listener="#{rozrachunkiPrzegladView.pobierzZapisyZmianaWaluty}" update=":tabelanowerozrachunki:tabela" />
                         <f:selectItem itemValue="wszystkie" itemLabel="#{mgs.wszystkie}"/>
-                        <f:selectItems value="#{walutyViewFK.symboleWalut}"/>
+                        <f:selectItems value="#{walutyViewSimple.symboleWalut}"/>
                     </h:selectOneMenu>
                     <p:commandButton value="#{mgs.drukuj}" actionListener="#{rozrachunkiPrzegladView.drukuj()}" style="margin-right: 50xp; float: left;"/>
                 </h:form>

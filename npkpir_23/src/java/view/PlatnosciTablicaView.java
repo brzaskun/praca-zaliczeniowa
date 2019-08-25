@@ -63,7 +63,7 @@ public class PlatnosciTablicaView implements Serializable {
     
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         try {
             for (String mc : Mce.getNumberToMiesiac().values()) {
                 lista.add(nowezobowiazanie(wpisView.getRokWpisuSt(), mc, wpisView.getPodatnikObiekt()));

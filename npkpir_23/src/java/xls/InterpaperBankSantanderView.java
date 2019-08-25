@@ -135,7 +135,7 @@ public class InterpaperBankSantanderView implements Serializable {
     
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         rodzajedokKlienta = rodzajedokDAO.findListaPodatnikRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         for (Iterator<Rodzajedok> it = rodzajedokKlienta.iterator(); it.hasNext();) {
             Rodzajedok p = it.next();

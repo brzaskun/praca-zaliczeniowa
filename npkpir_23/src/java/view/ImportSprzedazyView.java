@@ -72,7 +72,7 @@ public class ImportSprzedazyView  implements Serializable {
     public double brutto;
         
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         rodzajedok = rodzajedokDAO.find("SZ", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         evewidencje = evewidencjaDAO.znajdzpotransakcji("sprzedaz");
     }

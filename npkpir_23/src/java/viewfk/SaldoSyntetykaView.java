@@ -51,12 +51,12 @@ public class SaldoSyntetykaView implements Serializable {
     private String wybranyRodzajKonta;
 
     public SaldoSyntetykaView() {
-         //E.m(this);
+         ////E.m(this);
         sumaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
     }
     
     
-    public void init() {
+    public void init() { //E.m(this);
         try {
             List<Konto> kontaklienta = kontoDAOfk.findKontazLevelu(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), 0);
             if (wybranyRodzajKonta != null) {

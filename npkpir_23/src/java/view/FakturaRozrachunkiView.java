@@ -62,7 +62,7 @@ public class FakturaRozrachunkiView  implements Serializable {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         if (request.isUserInRole("Guest")) {
             west = "sub/layoutFakturaRozrachunki/west.xhtml";

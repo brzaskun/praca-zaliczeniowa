@@ -72,7 +72,7 @@ public class PlatnosciView implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         try {
             biezacyPodanik = wpisView.getPodatnikObiekt();
             pokazzobowiazania();

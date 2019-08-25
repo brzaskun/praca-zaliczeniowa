@@ -4,6 +4,7 @@
  */
 package embeddable;
 
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
 import javax.persistence.Embeddable;
@@ -22,7 +24,7 @@ import javax.persistence.Embeddable;
  */
 @Named
 @Embeddable
-@SessionScoped
+@ApplicationScoped
 public class PanstwaMap implements Serializable {
 
 private static Map<String,String> wykazPanstwSX;
@@ -53,7 +55,7 @@ public PanstwaMap(){
 
 
 @PostConstruct
-    public void init(){
+    public void init() { //E.m(this);
         List<String> panstwa = Collections.synchronizedList(new ArrayList<>());
         List<String> symbole = Collections.synchronizedList(new ArrayList<>());
         panstwa.addAll(Panstwa.getWykazPanstw());

@@ -64,7 +64,7 @@ public class FakturadodelementyView implements Serializable {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         try {
             fakturadodelementy = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
             mailfakturastopka = Mail.getStopka();

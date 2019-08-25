@@ -35,7 +35,7 @@ public class XLSBilansView implements Serializable{
     private WpisView wpisView;
 
     public XLSBilansView() {
-         //E.m(this);
+         ////E.m(this);
     }
     
     

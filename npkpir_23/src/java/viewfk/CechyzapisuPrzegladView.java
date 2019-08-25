@@ -10,6 +10,7 @@ import daoFK.DokDAOfk;
 import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.StronaWiersza;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,14 +47,14 @@ public class CechyzapisuPrzegladView implements Serializable{
     private boolean cit8;
 
     public CechyzapisuPrzegladView() {
-         //E.m(this);
+         ////E.m(this);
         this.wykazZaksiegowanychDokumentow = Collections.synchronizedList(new ArrayList<>());
         this.zapisyZCecha = Collections.synchronizedList(new ArrayList<>());
         this.wykazcech = new HashSet<>();
     }
     
     
-    public void init() {
+    public void init() { //E.m(this);
         wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
         zapisyZCecha = Collections.synchronizedList(new ArrayList<>());
         zapisyZCecha = CechazapisuBean.pobierzstrony(wykazZaksiegowanychDokumentow);

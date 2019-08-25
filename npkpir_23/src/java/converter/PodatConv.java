@@ -6,6 +6,7 @@ package converter;
 
 import dao.PodatnikDAO;
 import entity.Podatnik;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -29,7 +30,7 @@ public class PodatConv implements javax.faces.convert.Converter, Serializable {
     private List<Podatnik> lista;
     
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         lista = podatnikDAO.findAll();
     }
 

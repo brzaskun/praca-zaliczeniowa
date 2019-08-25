@@ -8,6 +8,7 @@ package converter;
 
 import daoFK.WalutyDAOfk;
 import entityfk.Waluty;
+import error.E;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -31,7 +32,7 @@ public class WalutyConv implements javax.faces.convert.Converter{
     private List<Waluty> listaWalut;
     
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         listaWalut = walutyDAOfk.findAll();
     }
     

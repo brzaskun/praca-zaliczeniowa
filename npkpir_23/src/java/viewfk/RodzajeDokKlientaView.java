@@ -34,14 +34,14 @@ public class RodzajeDokKlientaView implements Serializable {
     private WpisView wpisView;
 
     public RodzajeDokKlientaView() {
-          //E.m(this);
+          ////E.m(this);
     }
 
     
     
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         try {
             rodzajedokKlienta = rodzajedokDAO.findListaPodatnikRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             boolean niepodatnikVAT = !wpisView.isVatowiec();

@@ -14,6 +14,7 @@ import embeddable.Parametr;
 import entity.Deklaracjevat;
 import entity.Podatnik;
 import entity.UPO;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,7 +52,7 @@ public class JPKListaView  implements Serializable {
     
     
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         jpkmoznarobic = Collections.synchronizedList(new ArrayList<>());
         jpkzrobione = Collections.synchronizedList(new ArrayList<>());
         List<Podatnik> podatnicy = podatnikDAO.findAll();

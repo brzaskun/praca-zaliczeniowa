@@ -9,6 +9,7 @@ import dao.DokDAO;
 import dao.PodatnikDAO;
 import embeddable.Mce;
 import entity.Deklaracjevat;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,6 +23,7 @@ import javax.inject.Inject;
 /**
  *
  * @author Osito
+ * Informacja na dzien dorby co zostalo niewyslane z deklaracji, moze zostac ini
  */
 @ManagedBean
 @ViewScoped
@@ -50,7 +52,7 @@ private static final long serialVersionUID = 1L;
     }
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         Calendar c = Calendar.getInstance();
         String rokdzisiejszy = null;
         String mcdzisiejszy = null;

@@ -5,6 +5,7 @@
  */
 package serverreset;
 
+import error.E;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -22,7 +23,7 @@ public class Servereset {
     private boolean pokazbutton;
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         pokazbutton = true;
     }
     

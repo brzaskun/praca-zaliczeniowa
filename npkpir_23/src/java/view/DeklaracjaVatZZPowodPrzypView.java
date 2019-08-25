@@ -43,7 +43,7 @@ public class DeklaracjaVatZZPowodPrzypView  implements Serializable {
     private DeklaracjaVatZZ wybranyzalacznik;
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         deklracjaVatZZpowody = deklaracjaVatZZPowodDAO.findAll();
         zalaczniki = deklaracjaVatZZDAO.findAll();
         powodysource = deklaracjaVatZZPowodDAO.findAll();

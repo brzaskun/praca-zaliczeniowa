@@ -5,6 +5,7 @@
 package view;
 
 import entity.Adminnews;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,7 +36,7 @@ public class AdminNews  implements Serializable {
     }
 
     @PostConstruct
-    private void init(){
+    private void init() { //E.m(this);
         newslist = sessionFacade.findXLast(Adminnews.class, 6);
         //newslist = sessionFacade.findAll(Adminnews.class);
         int wielkosc = newslist.size();

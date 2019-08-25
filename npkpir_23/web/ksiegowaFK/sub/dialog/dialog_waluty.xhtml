@@ -7,6 +7,7 @@
     >
     <p:dialog id="dialogwaluty" header="Zestawienie używanych w programie walut" widgetVar="waluty"  
               resizable="false"  onShow="ustawdialog('dialogwaluty','menukartoteki',650,480);" closeOnEscape="true" onHide="resetujdialog('dialogwaluty');" >
+        <p:ajax event="open" listener="#{walutyViewFK.init()}" global="false" update="@parent"/>
         <h:form id="wprowadzonewaluty">
             <p:growl life="3600"  ><p:autoUpdate/></p:growl>
             <style>

@@ -6,6 +6,7 @@ package converter;
 
 import dao.UzDAO;
 import entity.Uz;
+import error.E;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -28,7 +29,7 @@ public class UzConv implements javax.faces.convert.Converter{
     private List<Uz> uzytkownicy;
     
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         uzytkownicy = uzDAO.findAll();
     }
     

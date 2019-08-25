@@ -90,7 +90,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
     
 
     public PozycjaBRWzorcowyView() {
-         //E.m(this);
+         ////E.m(this);
         this.wykazkont = Collections.synchronizedList(new ArrayList<>());
         this.nowyelementRZiS = new PozycjaRZiS();
         this.nowyelementBilans = new PozycjaBilans();
@@ -106,7 +106,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
 
         //(int lp, String pozycjaString, String pozycjaSymbol, int macierzysty, int level, String nazwa, boolean przychod0koszt1, double kwota)
 //        pozycje_old.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Przychody netto ze sprzedaży i zrównane z nimi, w tym:", false));

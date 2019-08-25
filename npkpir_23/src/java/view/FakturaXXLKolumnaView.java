@@ -31,7 +31,7 @@ public class FakturaXXLKolumnaView implements Serializable {
     private FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO;
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         try {
             selected = fakturaXXLKolumnaDAO.findXXLByPodatnik(wpisView.getPodatnikObiekt());
         } catch (Exception e) { E.e(e); 

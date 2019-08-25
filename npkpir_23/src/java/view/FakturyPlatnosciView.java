@@ -39,7 +39,7 @@ public class FakturyPlatnosciView  implements Serializable {
     private double sumaniezaplaconych;
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         fakturyniezaplacone = fakturaDAO.findbyPodatnikRokMcPlatnosci(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), false);
         fakturyzaplacone = fakturaDAO.findbyPodatnikRokMcPlatnosci(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), true);
         if (fakturyniezaplacone!=null && fakturyniezaplacone.size()>0) {

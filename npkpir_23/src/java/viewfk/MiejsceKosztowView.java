@@ -61,11 +61,11 @@ public class MiejsceKosztowView  implements Serializable{
     private boolean rozwinwszystkie;
 
     public MiejsceKosztowView() {
-         //E.m(this);
+         ////E.m(this);
         
     }
 
-    public void init() {
+    public void init() { //E.m(this);
         try {
             miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnikWszystkie(wpisView.getPodatnikObiekt());
         } catch (Exception e) { 

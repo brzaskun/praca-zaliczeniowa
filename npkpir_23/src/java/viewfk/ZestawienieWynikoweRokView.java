@@ -12,6 +12,7 @@ import embeddablefk.KontoSumyRok;
 import embeddablefk.SaldoKonto;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,10 +47,10 @@ public class ZestawienieWynikoweRokView implements Serializable {
  
 
     public ZestawienieWynikoweRokView() {
-         //E.m(this);
+         ////E.m(this);
     }
 
-    public void init() {
+    public void init() { //E.m(this);
         List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlitykaWynikowe(wpisView);
         List<Konto> kontaklientaprzychody = Collections.synchronizedList(new ArrayList<>());
         List<Konto> kontaklientakoszty = Collections.synchronizedList(new ArrayList<>());

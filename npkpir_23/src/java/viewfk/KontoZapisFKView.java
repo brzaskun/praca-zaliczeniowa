@@ -111,7 +111,7 @@ public class KontoZapisFKView implements Serializable{
     
 
     public KontoZapisFKView() {
-        //E.m(this);
+        ////E.m(this);
         kontozapisy = Collections.synchronizedList(new ArrayList<>());
         wybranezapisydosumowania = Collections.synchronizedList(new ArrayList<>());
         wybranaWalutaDlaKont = "wszystkie";
@@ -121,7 +121,7 @@ public class KontoZapisFKView implements Serializable{
     }
     
 
-    public void init() {
+    public void init() { //E.m(this);
         ostatniaanalityka = kontoDAOfk.findKontaOstAlityka(wpisView);
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         wszystkiekonta = new ArrayList<>(wykazkont);

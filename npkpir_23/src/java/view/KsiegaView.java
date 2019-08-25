@@ -66,7 +66,7 @@ private static final long serialVersionUID = 1L;
     }
 
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         generujksiege(wpisView.getMiesiacWpisu());
         zachowajsumy();
         if (wybranacechadok == null) {

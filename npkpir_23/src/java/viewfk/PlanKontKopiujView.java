@@ -45,13 +45,13 @@ public class PlanKontKopiujView implements Serializable {
     private KontoDAOfk kontoDAOfk;
 
     public PlanKontKopiujView() {
-         //E.m(this);
+         ////E.m(this);
     }
     
     
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         rokzrodlowy = Roki.rokPoprzedni(wpisView.getRokWpisuSt());
         rokzrodlowy_wzorzec = wpisView.getRokWpisuSt();
         rokdocelowy = wpisView.getRokWpisuSt();

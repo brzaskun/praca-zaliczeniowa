@@ -40,7 +40,7 @@ public class SesjaView implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
        pobierzsesjeZalogowani();
     }
 

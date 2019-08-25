@@ -8,6 +8,7 @@ package viewfk;
 
 import daoFK.KontoDAOfk;
 import entityfk.Konto;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -31,12 +32,12 @@ public class PlanKontConverterView implements Serializable{
     private WpisView wpisView;
 
     public PlanKontConverterView() {
-         //E.m(this);
+         ////E.m(this);
     }
 
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
     }
     

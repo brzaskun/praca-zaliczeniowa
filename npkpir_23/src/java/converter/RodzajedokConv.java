@@ -6,6 +6,7 @@ package converter;
 
 import dao.RodzajedokDAO;
 import entity.Rodzajedok;
+import error.E;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -30,7 +31,7 @@ public class RodzajedokConv implements javax.faces.convert.Converter{
     private WpisView wpisView;
     
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         lista = rodzajedokDAO.findListaPodatnikRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
     }
     @Override

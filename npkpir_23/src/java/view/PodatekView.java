@@ -65,7 +65,7 @@ public class PodatekView implements Serializable{
     }
     
     @PostConstruct
-    private void init(){
+    private void init() { //E.m(this);
         selected = wpisView.getPodatnikObiekt();
         przychodyRyczalt.put("17%", BigDecimal.ZERO);
         przychodyRyczalt.put("8.5%", BigDecimal.ZERO);

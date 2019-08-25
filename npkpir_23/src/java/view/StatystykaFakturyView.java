@@ -9,6 +9,7 @@ import dao.StatystykaDAO;
 import embeddable.Roki;
 import embeddable.StatystykaFaktury;
 import entity.Statystyka;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,7 +36,7 @@ public class StatystykaFakturyView  implements Serializable {
     }
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         pobierz();
     }
        

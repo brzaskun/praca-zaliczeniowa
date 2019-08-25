@@ -7,6 +7,7 @@ package view;
 
 import dao.DodatkoweMaileDAO;
 import entity.DodatkoweMaile;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class DodatkoweMaileView implements Serializable {
     private DodatkoweMaile selected;
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         lista = dodatkoweMaileDAO.findAll();
         if (lista==null) {
             lista = new ArrayList<>();

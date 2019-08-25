@@ -33,7 +33,7 @@ public class XLSSrodkiEwidView implements Serializable{
     private WpisView wpisView;
 
     public XLSSrodkiEwidView() {
-         //E.m(this);
+         ////E.m(this);
     }
     
     

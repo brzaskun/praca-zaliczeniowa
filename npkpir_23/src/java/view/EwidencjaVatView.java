@@ -130,7 +130,7 @@ public class EwidencjaVatView implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         try {
             if (wpisView.getMiesiacWpisu().equals("CR")) {
                 wpisView.setMiesiacWpisu(Data.aktualnyMc());

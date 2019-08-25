@@ -9,6 +9,7 @@ import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Wiersz;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +50,7 @@ public class WierszeView implements Serializable {
     
     
     
-    public void init(){
+    public void init() { //E.m(this);
         sumawn = 0.0;
         sumama = 0.0;
         if (wpisView.getMiesiacWpisu().equals("CR")) {

@@ -54,7 +54,7 @@ public class EVatDedraView  implements Serializable {
     }
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         wiersze = eVatwpisDedraDAO.findWierszePodatnikMcZakupSprzedaz(wpisView, true);
         zakup = evewidencjaDAO.znajdzponazwie("zakup");
         if (!wiersze.isEmpty()) {

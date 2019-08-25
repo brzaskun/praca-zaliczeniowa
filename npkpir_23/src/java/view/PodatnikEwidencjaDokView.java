@@ -10,6 +10,7 @@ import dao.PodatnikEwidencjaDokDAO;
 import entity.Evewidencja;
 import entity.Podatnik;
 import entity.PodatnikEwidencjaDok;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,7 +41,7 @@ public class PodatnikEwidencjaDokView  implements Serializable {
     private WpisView wpisView;
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         List<Evewidencja> ewidencje = evewidencjaDAO.findAll();
         for (Iterator<Evewidencja> it = ewidencje.iterator(); it.hasNext();) {
             Evewidencja dopor = it.next();

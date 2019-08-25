@@ -5,8 +5,9 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog id="dialogdanedosprawozdania" header="Nanieś dane do infomracji dodatkowej i sprawozdania" widgetVar="danedosprawozdania" dynamic="true"
+    <p:dialog id="dialogdanedosprawozdania" header="Nanieś dane do infomracji dodatkowej i sprawozdania" widgetVar="danedosprawozdania" 
               resizable="false" onShow="ustawdialog('dialogdanedosprawozdania','menubilanse', 1050, 710);" closeOnEscape="true" onHide="resetujdialog('dialogdanedosprawozdania');"  >
+        <p:ajax event="open" listener="#{sprFinKwotyInfDodView.init()}" update="akordeon"/>
         <p:tabView id="akordeon">
             <p:tab title="dane fin.">
                 <h:form id="form_dialogdanedosprawozdania">

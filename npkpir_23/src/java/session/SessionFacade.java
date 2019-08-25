@@ -673,7 +673,11 @@ public class SessionFacade<T> implements Serializable {
     }
 
     public Konto findKonto(String numer, Podatnik podatnik, Integer rok) {
-        return (Konto) em.createNamedQuery("Konto.findByPelnynumerPodatnik").setParameter("pelnynumer", numer).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
+        try {
+            return (Konto) em.createNamedQuery("Konto.findByPelnynumerPodatnik").setParameter("pelnynumer", numer).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public Konto findKontoNazwaPelnaPodatnik(String nazwapelna, WpisView wpisView) {
@@ -2530,9 +2534,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return em.createNamedQuery("Wiersz.findByRok").setParameter("rok", rok).getResultList();
     }
 
-    public SprFinKwotyInfDod findsprfinkwoty(Podatnik podatnikObiekt, String rokWpisuSt) {
-        return (SprFinKwotyInfDod) em.createNamedQuery("SprFinKwotyInfDod.findsprfinkwoty").setParameter("podatnik", podatnikObiekt).setParameter("rok", rokWpisuSt).getSingleResult();
-    }
+
 
     public StronaWiersza findStronaWierszaById(StronaWiersza strona) {
         return (StronaWiersza) em.createNamedQuery("StronaWiersza.findById").setParameter("id", strona.getId()).getSingleResult();

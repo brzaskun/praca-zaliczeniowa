@@ -7,6 +7,7 @@ package viewfk;
 
 import daoFK.DokDAOfk;
 import entityfk.Dokfk;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -32,7 +33,7 @@ public class ZestawienieBrakiView  implements Serializable {
     private boolean jestAMO;
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         List<Dokfk> dokmc = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
         for (Dokfk p : dokmc) {
             if (p.getSeriadokfk().equals("ARS")) {

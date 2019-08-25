@@ -57,12 +57,12 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
     private List<Konto> konta;
 
     public PlanKontCompleteView() {
-         //E.m(this);
+         ////E.m(this);
     }
     
     
   @PostConstruct
-  public void init() {
+  public void init() { //E.m(this);
       listakontOstatniaAnalitykaklienta = kontoDAOfk.findKontaOstAlitykaRO(wpisView);
       Collections.sort(listakontOstatniaAnalitykaklienta, new Kontocomparator());
       konta = kontoDAOfk.findWszystkieKontaPodatnikaRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());

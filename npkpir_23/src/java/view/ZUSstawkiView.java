@@ -41,7 +41,7 @@ public class ZUSstawkiView implements Serializable {
     private String biezacadata;
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         try {
             listapobranychstawek = zusDAO.findZUS(false);
             listapobranychstawekMalyZUS = zusDAO.findZUS(true);

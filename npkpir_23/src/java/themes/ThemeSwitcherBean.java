@@ -1,5 +1,6 @@
 package themes;
 
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,7 +46,7 @@ public class ThemeSwitcherBean implements Serializable {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         theme = gp.getTheme();
         
         advancedThemes = Collections.synchronizedList(new ArrayList<>());

@@ -59,7 +59,7 @@ public class PitView implements Serializable {
     
     
     @PostConstruct
-    private void init(){
+    private void init() { //E.m(this);
         lista = Collections.synchronizedList(new ArrayList<>());
         biezacyPit = new Pitpoz();
         lista = pitDAO.findPitPod(wpisView.getRokWpisu().toString(), wpisView.getPodatnikWpisu(), wybranacechadok);

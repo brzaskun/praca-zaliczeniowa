@@ -14,6 +14,7 @@ import embeddable.Mce;
 import entity.Podatnik;
 import entity.Zusmail;
 import entity.Zusstawki;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -68,7 +69,7 @@ public class ZUSMailView implements Serializable {
     }
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         rok = String.valueOf((new DateTime()).getYear());
         mc = Mce.getNumberToMiesiac().get((new DateTime()).getMonthOfYear());
         mcuprzedni = Mce.zmniejszmiesiac(rok, mc)[1];

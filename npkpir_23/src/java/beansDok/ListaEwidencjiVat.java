@@ -7,6 +7,7 @@ package beansDok;
 import comparator.Evewidencjacomparator;
 import dao.EvewidencjaDAO;
 import entity.Evewidencja;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,7 +67,7 @@ public class ListaEwidencjiVat implements Serializable{
     
     //po pobraniu ewidencji z EVDAO podkleja je pod trzy kategorie ewidencji w celu ich wygenerowania programowego
     @PostConstruct
-    public void init(){
+    public void init() { //E.m(this);
         List<Evewidencja> tmp = eVDAO.findAll();
         if (tmp != null) {
             Collections.sort(tmp, new Evewidencjacomparator());

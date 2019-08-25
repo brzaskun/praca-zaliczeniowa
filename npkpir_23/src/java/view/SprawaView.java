@@ -60,7 +60,7 @@ public class SprawaView  implements Serializable{
     
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         Uz login = wpisView.getUzer().getLoginglowny() != null ? wpisView.getUzer().getLoginglowny() : wpisView.getUzer();
         sprawyOdebrane = sprawaDAO.findSprawaByOdbiorca(login);
         for (Iterator<Sprawa> it = sprawyOdebrane.iterator();it.hasNext();) {

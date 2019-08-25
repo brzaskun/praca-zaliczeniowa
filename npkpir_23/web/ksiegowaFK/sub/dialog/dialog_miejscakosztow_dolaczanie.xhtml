@@ -13,7 +13,7 @@
     <p:dialog id="dialog_miejscakosztow_dolaczanie" header="Definiowanie miejsca powstawania kosztu" widgetVar="dialog_miejscakosztow_dolaczanie" 
               resizable="false"  onShow="ustawdialog('dialog_miejscakosztow_dolaczanie','menukartoteki',950,650);" 
               closeOnEscape="true" onHide="resetujdialog('dialog_miejscakosztow_dolaczanie');" 
-              dynamic="true">
+              >
         <p:ajax event="open" listener="#{miejsceKosztowView.init()}" update="miejscakosztow miejscakosztowlista"/>
         <h:form id="miejscakosztow">
             <p:panelGrid columns="2" >

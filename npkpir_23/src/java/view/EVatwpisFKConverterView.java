@@ -8,6 +8,7 @@ package view;
 
 import dao.EvewidencjaDAO;
 import entity.Evewidencja;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -29,7 +30,7 @@ public class EVatwpisFKConverterView implements Serializable{
     private EvewidencjaDAO evewidencjaDAO;
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         listaEwidencji= evewidencjaDAO.findAll();
     }
 

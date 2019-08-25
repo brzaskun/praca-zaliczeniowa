@@ -70,7 +70,7 @@ public class KlView implements Serializable {
     private Integer ilesrodkow;
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         kl1 = klDAO.findAll();
         selected.setKrajnazwa("Polska");
         selected.setKrajkod(panstwaMapa.getWykazPanstwSX().get("Polska"));

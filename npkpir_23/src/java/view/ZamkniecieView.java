@@ -13,6 +13,7 @@ import embeddable.Roki;
 import entity.Dok;
 import entity.Podatnik;
 import entity.Zamknietemiesiace;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,7 +57,7 @@ public class ZamkniecieView implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         //Wrzucalistemiesiecy
         List<Integer> lata = roki.getRokiList();
         Collections.sort(lata);

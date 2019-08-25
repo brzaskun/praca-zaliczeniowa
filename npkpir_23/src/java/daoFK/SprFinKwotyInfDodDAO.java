@@ -28,7 +28,7 @@ public class SprFinKwotyInfDodDAO extends DAO implements Serializable{
     public SprFinKwotyInfDod findsprfinkwoty(Podatnik podatnikObiekt, String rokWpisuSt) {
         SprFinKwotyInfDod zwrot = null;
         try {
-            zwrot = sessionFacade.findsprfinkwoty(podatnikObiekt, rokWpisuSt);
+            zwrot = (SprFinKwotyInfDod)sessionFacade.getEntityManager().createNamedQuery("SprFinKwotyInfDod.findsprfinkwoty").setParameter("podatnik", podatnikObiekt).setParameter("rok", rokWpisuSt).getSingleResult();
         } catch (Exception e){
             E.e(e);
         }

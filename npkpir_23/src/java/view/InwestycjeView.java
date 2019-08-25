@@ -62,7 +62,7 @@ public class InwestycjeView implements Serializable {
     private Srodkikst srodekkategoria;
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         inwestycjerozpoczete = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu(), false);
         inwestycjezakonczone = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu(), true);
         try {

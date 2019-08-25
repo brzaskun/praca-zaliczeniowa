@@ -71,7 +71,7 @@ public class UzView implements Serializable {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         pokazprzyciskrejestracja = true;
         listaUzytkownikow = uzDAO.findAll();
         selUzytkownik = wpisView.getUzer();

@@ -39,12 +39,12 @@ public class PlanKontBOView implements Serializable {
     private List<Konto> wykazkont;
 
     public PlanKontBOView() {
-         //E.m(this);
+         ////E.m(this);
         this.wykazkontGrupa = new ConcurrentHashMap<>();
     }
 
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         if (wpisView instanceof WpisView) {
             this.wykazkontGrupa = new ConcurrentHashMap<>();
             List<Konto> wykazkont0 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "0%");

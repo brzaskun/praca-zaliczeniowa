@@ -81,7 +81,7 @@ public class ImportFakturyView  implements Serializable {
     private Tabelanbp tabeladomyslna;
         
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         rodzajedok = rodzajedokDAO.find("SZ", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         evewidencje = evewidencjaDAO.znajdzpotransakcji("sprzedaz");
         tabeladomyslna = tabelanbpDAO.findByTabelaPLN();

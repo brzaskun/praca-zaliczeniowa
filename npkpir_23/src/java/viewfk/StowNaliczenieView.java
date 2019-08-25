@@ -75,10 +75,10 @@ public class StowNaliczenieView  implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         try {
             if (wpisView.getFormaprawna().equals("STOWARZYSZENIE")) {
-                //E.m(this);
+                ////E.m(this);
                 //przychody
                 konta = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), 7);
                 Konto kontoprzychodypo = kontoDAOfk.findKonto("251", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());

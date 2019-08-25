@@ -56,7 +56,7 @@ public class FakturaZestView implements Serializable {
     }
     
     
-    public void init() {
+    public void init() { //E.m(this);
         fakturyZestawienie = Collections.synchronizedList(new ArrayList<>());
         fakturyWystawione = fakturaDAO.findFakturyByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikWpisu());
         //List<Podatnik> podatnicy = podatnikDAO.findAll();

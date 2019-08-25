@@ -46,12 +46,12 @@ public class BilansPodgladView  implements Serializable{
     private boolean sortujwgwartosci;
 
     public BilansPodgladView() {
-         //E.m(this);
+         ////E.m(this);
         this.root = new TreeNodeExtended("root", null);
     }
 
     
-    public void init(){
+    public void init() { //E.m(this);
         rozwinwszystkie();
     }
     

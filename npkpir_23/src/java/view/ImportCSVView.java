@@ -79,7 +79,7 @@ public class ImportCSVView  implements Serializable {
     private Waluty walutapln;
         
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         dokSZ = rodzajedokDAO.find("SZ", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         dokWDT = rodzajedokDAO.find("WDT", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         evewidencje = evewidencjaDAO.znajdzpotransakcji("sprzedaz");

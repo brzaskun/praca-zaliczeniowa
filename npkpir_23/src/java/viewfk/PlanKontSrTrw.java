@@ -6,6 +6,7 @@ package viewfk;
 
 import daoFK.KontoDAOfk;
 import entityfk.Konto;
+import error.E;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
@@ -33,11 +34,11 @@ public class PlanKontSrTrw implements Serializable {
     private List<Konto> listakontSrodkiTrwaleUmorzenia;
 
     public PlanKontSrTrw() {
-         //E.m(this);
+         ////E.m(this);
     }
 
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         if (wpisView instanceof WpisView) {
             listakontSrodkiTrwale = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "0%");
             if (listakontSrodkiTrwale != null) {

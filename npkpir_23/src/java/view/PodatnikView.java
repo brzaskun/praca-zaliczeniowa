@@ -173,7 +173,7 @@ public class PodatnikView implements Serializable {
     private UzDAO uzDAO;
    
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         Uz uz = null;
         try {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();

@@ -6,6 +6,7 @@ package view;
 
 import dao.SesjaDAO;
 import entity.Sesja;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,7 +46,7 @@ public class StatisticView implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         sesje = sesjaDAO.findUser(wpisView.getUzer().getLogin());
         iloscsesji = sesje.size();
         long milis = 0;

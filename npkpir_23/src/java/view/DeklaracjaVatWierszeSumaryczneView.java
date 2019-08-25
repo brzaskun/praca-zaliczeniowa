@@ -32,7 +32,7 @@ public class DeklaracjaVatWierszeSumaryczneView implements Serializable {
     }
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         wierszesumarycznelista = deklaracjaVatWierszSumarycznyDAO.findAll();
     }
     

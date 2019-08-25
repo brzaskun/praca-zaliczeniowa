@@ -85,7 +85,7 @@ public class WpisView implements Serializable {
     
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         ustawMceOdDo();
         uzer = pobierzWpisBD();
         odjakiegomcdok = "01";

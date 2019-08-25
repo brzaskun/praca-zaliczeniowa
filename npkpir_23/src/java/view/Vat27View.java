@@ -64,7 +64,7 @@ public class Vat27View implements Serializable {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         List<Dok> dokvatmc = Collections.synchronizedList(new ArrayList<>());
         String rok = wpisView.getRokWpisuSt();
         String podatnik = wpisView.getPodatnikWpisu();

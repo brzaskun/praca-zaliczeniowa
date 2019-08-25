@@ -73,13 +73,13 @@ public class SrodkiTrwaleAMOView implements Serializable {
     private double roznicasald;
 
     public SrodkiTrwaleAMOView() {
-         //E.m(this);
+         ////E.m(this);
     }
     
     
     
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
        List<Konto> kontaklienta = kontoDAOfk.findKontaSrodkiTrw(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
        kontasrodkitrw = przygotowanalistasald(kontaklienta);
         PrimeFaces.current().ajax().update("srodkiamo");

@@ -114,7 +114,7 @@ public class ImportSprzedazyFKView  implements Serializable {
     private Waluty walutapln;
         
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         rodzajedok = rodzajedokDAO.find("SZ", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         evewidencje = evewidencjaDAO.znajdzpotransakcji("sprzedaz");
         kontonetto = kontoDAO.findKonto("702-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());

@@ -59,7 +59,7 @@ public class KontoObrotyFKView implements Serializable{
     
 
     public KontoObrotyFKView() {
-         //E.m(this);
+         ////E.m(this);
         this.lista = Collections.synchronizedList(new ArrayList<>());
         this.kontozapisy = Collections.synchronizedList(new ArrayList<>());
         this.wybranekontadosumowania = Collections.synchronizedList(new ArrayList<>());
@@ -70,7 +70,7 @@ public class KontoObrotyFKView implements Serializable{
     }
     
     
-    public void init(){
+    public void init() { //E.m(this);
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());;
         usunkontabezsald();
     }

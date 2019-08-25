@@ -54,7 +54,7 @@ public class RodzajedokView implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
        // to samo jest w PodatnikViev
 //        try {
             rok = Data.aktualnyRok();

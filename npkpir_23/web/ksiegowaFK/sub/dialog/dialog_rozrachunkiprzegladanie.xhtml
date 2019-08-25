@@ -50,7 +50,7 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                         <h:selectOneMenu id="wybranawaluta" value="#{rozrachunkiPrzegladView.wybranaWalutaDlaKont}">
                             <p:ajax event="change" listener="#{rozrachunkiPrzegladView.pobierzZapisyZmianaWaluty}" update=":tabelanowerozrachunki:tabela, sumy" />
                             <f:selectItem itemValue="wszystkie" itemLabel="#{mgs.wszystkie}"/>
-                            <f:selectItems value="#{walutyViewFK.symboleWalut}"/>
+                            <f:selectItems value="#{walutyViewSimple.symboleWalut}"/>
                         </h:selectOneMenu>
                     </h:form>
                     <h:form id="typrozrachunki">

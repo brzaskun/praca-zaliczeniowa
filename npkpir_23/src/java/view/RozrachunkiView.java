@@ -65,7 +65,7 @@ public class RozrachunkiView implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         int numerkolejny = 1;
         if (wpisView.getPodatnikObiekt().getNumerpkpir() != null) {
             try {

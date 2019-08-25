@@ -111,7 +111,7 @@ public class VatKorektaView implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         try {
             deklaracjeWyslane = deklaracjevatDAO.findDeklaracjeWyslane200(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             Podatnik podatnik = wpisView.getPodatnikObiekt();

@@ -75,12 +75,12 @@ public class SaldoAnalitykaView implements Serializable {
     private CechazapisuDAOfk cechazapisuDAOfk;
 
     public SaldoAnalitykaView() {
-        //E.m(this);
+        ////E.m(this);
         sumaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
         wybranyRodzajKonta = "wszystkie";
     }
 
-    public void init() {
+    public void init() { //E.m(this);
         List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
         if (wybranyRodzajKonta != null) {
             if (wybranyRodzajKonta.equals("bilansowe")) {
@@ -728,7 +728,7 @@ public class SaldoAnalitykaView implements Serializable {
     }
     
     private void obsluzmacierzyste(Konto p, double saldoWnksiegi, double saldoMaksiegi) {
-        Konto mac = p.getKontomacierzyste();
+        Konto mac = kontoDAOfk.findKonto(p.getKontomacierzyste().getId());
         if (mac != null) {
             mac.setSaldoWnksiegi(Z.z(mac.getSaldoWnksiegi()+saldoWnksiegi));
             mac.setSaldoMaksiegi(Z.z(mac.getSaldoMaksiegi()+saldoMaksiegi));

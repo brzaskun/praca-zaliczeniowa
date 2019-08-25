@@ -66,8 +66,8 @@ public class SprFinKwotyInfDodView  implements Serializable{
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     
-    @PostConstruct
-    private void init() {
+    
+    public void init() { //E.m(this);
         sprFinKwotyInfDod = sprFinKwotyInfDodDAO.findsprfinkwoty(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         if (sprFinKwotyInfDod==null) {
             sprFinKwotyInfDod = new SprFinKwotyInfDod(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());

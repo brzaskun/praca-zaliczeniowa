@@ -12,6 +12,7 @@ import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
 import entity.Dok;
 import entity.Rozrachunek1;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,7 +47,7 @@ public class TransformacjaView implements Serializable{
     
   
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
     }
     
 //    public void transformuj() {

@@ -38,7 +38,7 @@ public class ZamkniecieRokuRozliczenieView  implements Serializable {
     private WpisView wpisView;
     
     @PostConstruct
-    private void init() {
+    private void init() { //E.m(this);
         lista = zamkniecieRokuRozliczenieDAO.findByRokPodatnik(wpisView);
         List<ZamkniecieRokuEtap> elementywszyscy = zamkniecieRokuEtapDAO.findByRok(wpisView.getRokWpisuSt());
         utworzliste(elementywszyscy);

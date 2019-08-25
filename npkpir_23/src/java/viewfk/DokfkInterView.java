@@ -32,13 +32,13 @@ public class DokfkInterView implements Serializable {
     private RodzajedokDAO rodzajedokDAO;
 
     public DokfkInterView() {
-         //E.m(this);
+         ////E.m(this);
     }
     
     
     
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         rodzajedoklista = rodzajedokDAO.findListaPodatnikRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
     }
     

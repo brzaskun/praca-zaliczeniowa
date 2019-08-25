@@ -70,7 +70,7 @@ public class WalutyViewFK implements Serializable {
     private WalutyNBP walutyNBP;
 
     public WalutyViewFK() {
-         //E.m(this);
+         ////E.m(this);
         pobraneRodzajeWalut = Collections.synchronizedList(new ArrayList<>());
         walutywuzyciu = Collections.synchronizedList(new ArrayList<>());
         symboleWalut = Collections.synchronizedList(new ArrayList<>());
@@ -79,7 +79,7 @@ public class WalutyViewFK implements Serializable {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         pobraneRodzajeWalut = walutyDAOfk.findAll();
         pobranekursyRok = tabelanbpDAO.findKursyRokNBP(wpisView.getRokWpisuSt());
         wprowadzonekursyRok = tabelanbpDAO.findKursyRokNieNBP(wpisView.getRokWpisuSt());
@@ -108,7 +108,7 @@ public class WalutyViewFK implements Serializable {
     
     public void pobierzkursyWalutaRecznie() {
         try {
-            //E.m(this);
+            ////E.m(this);
             Integer numertabeli = Integer.valueOf(nrtabeli);
             List<Tabelanbp> wierszepobranezNBP = Collections.synchronizedList(new ArrayList<>());
             try {

@@ -127,7 +127,7 @@ public class DokTabView implements Serializable {
    
     
     @PostConstruct
-    public void init() {
+    public void init() { //E.m(this);
         inicjalizacjalist();
         try {
             inwestycje = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu(), false);

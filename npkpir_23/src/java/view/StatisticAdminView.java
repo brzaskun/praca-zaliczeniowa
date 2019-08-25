@@ -12,6 +12,7 @@ import daoFK.WierszDAO;
 import entity.Dok;
 import entity.Sesja;
 import entityfk.Wiersz;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,7 +57,7 @@ public class StatisticAdminView implements Serializable {
     }
 
     
-    public void init() {
+    public void init() { //E.m(this);
        List<String> pracownicy = uzDAO.findUzByUprawnienia("Bookkeeper");
        pracownicy.addAll(uzDAO.findUzByUprawnienia("BookkeeperFK"));
        obliczstatystyki(pracownicy);

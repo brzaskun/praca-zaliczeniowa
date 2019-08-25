@@ -145,8 +145,8 @@ public class GCOBankImportView implements Serializable {
         //9 bank-bank - 149-2
     
     
-    @PostConstruct
-    private void init() {
+    
+    public void init() { //E.m(this);
         rodzajedokKlienta = rodzajedokDAO.findListaPodatnikRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         for (Iterator<Rodzajedok> it = rodzajedokKlienta.iterator(); it.hasNext();) {
             Rodzajedok p = it.next();

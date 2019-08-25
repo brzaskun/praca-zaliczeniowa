@@ -9,6 +9,7 @@
     <p:dialog id="dialogkursyrecznie" header="Zestawienie kursów walut wprowadzonych ręcznie" widgetVar="wykazkursowrecznie"  
               resizable="false"  onShow="ustawdialog('dialogkursyrecznie','menukartoteki',900,700);" closeOnEscape="true" onHide="resetujdialog('dialogkursyrecznie');" >
         <bcf:ajaxs/>
+        <p:ajax event="open" listener="#{walutyViewFK.init()}" global="false" update="@parent"/>
         <h:form id="wprowadzonekursyrecznie">
             <p:dataTable id="dataTablekursy" var="wpis" value="#{walutyViewFK.wprowadzonekursyRok}" editable="true" emptyMessage="Nie ma wprowadzonych ręcznie kursow" 
                           rowKey="#{wpis.idtabelanbp}" widgetVar="dataTablekursy"
