@@ -353,6 +353,20 @@ public class JPK_VAT2View implements Serializable {
         return zwrot;
     }
     
+    public void pobierzwszystkie(List<UPO> jpkzrobione) {
+        if (jpkzrobione==null || jpkzrobione.isEmpty()) {
+            for (UPO p : jpkzrobione) {
+                if (p.getCode().equals("120")) {
+                    pobierzUPO(p);
+                }
+            }
+            Msg.msg("e","Lista jest pusta, nie ma czego pobierać");
+        } else {
+            Msg.msg("Pobrano potwierdzenia");
+        }
+    }
+    
+    
     public void pobierzUPO(UPO selected) {
         try {
             if (selected.getCode()!=200) {

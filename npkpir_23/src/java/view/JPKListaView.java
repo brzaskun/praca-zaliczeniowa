@@ -45,6 +45,7 @@ public class JPKListaView  implements Serializable {
     @Inject
     private UPODAO upodao;
     private List<UPO> jpkzrobione;
+    private List<UPO> jpkzrobionefiltered;
     @Inject
     private EVatwpis1DAO eVatwpis1DAO;
     @Inject
@@ -145,6 +146,14 @@ public class JPKListaView  implements Serializable {
 
     public void setJpkzrobione(List<UPO> jpkzrobione) {
         this.jpkzrobione = jpkzrobione;
+    }
+
+    public List<UPO> getJpkzrobionefiltered() {
+        return jpkzrobionefiltered;
+    }
+
+    public void setJpkzrobionefiltered(List<UPO> jpkzrobionefiltered) {
+        this.jpkzrobionefiltered = jpkzrobionefiltered;
     }
 
     

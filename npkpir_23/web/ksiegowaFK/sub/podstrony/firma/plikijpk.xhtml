@@ -26,10 +26,12 @@
                     <p:commandButton value="wyślij jpk" actionListener="#{jPK_VAT2View.przygotujXMLAll(item1, jPKListaView.jpkmoznarobic, jPKListaView.jpkzrobione)}" update="@form" style="width: 120px;"/>
                 </p:column>
             </p:dataTable>
+            <p:commandButton value="pobierz 120" actionListener="#{jPKListaView.pobierzwszystkie(jPKListaView.jpkzrobione)}" style="padding: 10px;margin: 10px; width: 120px;" update="@form"/>
             <p:dataTable value="#{jPKListaView.jpkzrobione}" var="item" rowIndexVar="index" id="tabela" style="width: 1450px; margin-top: 10px;"
-                         sortBy="#{item.podatnik.printnazwa}"
+                         sortBy="#{item.podatnik.printnazwa}" filteredValue="#{jPKListaView.jpkzrobionefiltered}"
                      selectionMode="single" rowKey="#{item.id}"
                      emptyMessage="nie wysłano jeszcze plików jpk">
+              <p:ajax event="filter" global="false"/>
             <p:ajax event="rowToggle" global="false"/>
                 <p:column style="width: 20px; text-align: center;">
                     <p:rowToggler/>
@@ -37,7 +39,7 @@
             <f:facet name="header">
                 <h:outputText value="Wysłane jpk"/>
             </f:facet>
-            <p:column style="width: 20px; text-align: center;">
+            <p:column style="width: 20px; text-align: center;" >
                 <f:facet name="header">
                     <h:outputText value="lp"/>
                 </f:facet>
@@ -51,7 +53,7 @@
             </p:column>
              <p:column style="width: 20px; text-align: center;">
                 <f:facet name="header">
-                    <h:outputText value="v"/>
+                    <h:outputText value="wer."/>
                 </f:facet>
                  <h:outputText value="#{item.getJpkWersja()}" />
             </p:column>
@@ -61,7 +63,7 @@
                 </f:facet>
                 <h:outputText value="#{item.miesiac}"/>
             </p:column>
-            <p:column style="width: 40px; text-align: center;">
+            <p:column style="width: 40px; text-align: center;" styleClass="filter60" filterBy="#{item.code}" filterMatchMode="startsWith">
                 <f:facet name="header">
                     <h:outputText value="wynik"/>
                 </f:facet>
