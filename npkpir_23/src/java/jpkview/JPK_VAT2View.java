@@ -355,13 +355,13 @@ public class JPK_VAT2View implements Serializable {
     
     public void pobierzwszystkie(List<UPO> jpkzrobione) {
         if (jpkzrobione==null || jpkzrobione.isEmpty()) {
+            Msg.msg("e","Lista jest pusta, nie ma czego pobierać");
+        } else {
             for (UPO p : jpkzrobione) {
-                if (p.getCode().equals("120")) {
+                if (p.getCode()== 120) {
                     pobierzUPO(p);
                 }
             }
-            Msg.msg("e","Lista jest pusta, nie ma czego pobierać");
-        } else {
             Msg.msg("Pobrano potwierdzenia");
         }
     }

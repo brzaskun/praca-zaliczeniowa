@@ -26,7 +26,7 @@
                     <p:commandButton value="wyślij jpk" actionListener="#{jPK_VAT2View.przygotujXMLAll(item1, jPKListaView.jpkmoznarobic, jPKListaView.jpkzrobione)}" update="@form" style="width: 120px;"/>
                 </p:column>
             </p:dataTable>
-            <p:commandButton value="pobierz 120" actionListener="#{jPKListaView.pobierzwszystkie(jPKListaView.jpkzrobione)}" style="padding: 10px;margin: 10px; width: 120px;" update="@form"/>
+            <p:commandButton value="pobierz 120" actionListener="#{jPK_VAT2View.pobierzwszystkie(jPKListaView.jpkzrobione)}" style="padding: 10px;margin: 10px; width: 120px;" update="@form"/>
             <p:dataTable value="#{jPKListaView.jpkzrobione}" var="item" rowIndexVar="index" id="tabela" style="width: 1450px; margin-top: 10px;"
                          sortBy="#{item.podatnik.printnazwa}" filteredValue="#{jPKListaView.jpkzrobionefiltered}"
                      selectionMode="single" rowKey="#{item.id}"

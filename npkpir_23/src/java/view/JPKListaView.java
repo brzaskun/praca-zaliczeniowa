@@ -23,6 +23,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
@@ -31,7 +32,7 @@ import javax.inject.Inject;
  * @author Osito
  */
 @ManagedBean
-@ViewScoped
+@RequestScoped
 public class JPKListaView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @ManagedProperty(value="#{WpisView}")
