@@ -238,7 +238,7 @@ public class WysylkaSub {
 
     public static void main(String[] args) {
          try {
-             PublicKey p1 = getPublicKey("3af5843ae11db6d94edf0ea502b5cd1a.cer");
+             PublicKey p1 = getPublicKey("e_dokumenty.mf.gov.pl.cer");
 //             PublicKey p2 = publicKeyReader();
              //System.out.println(""+p1.equals(p2));
          } catch (Exception ex) {

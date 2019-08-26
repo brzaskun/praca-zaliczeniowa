@@ -123,7 +123,7 @@
                             <p:inplace id="nrfaktury" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
                                 <p:inputText value="#{fakturaView.selected.numerkolejny}"
                                              required="true" label="text" style="font-weight: bolder;"/>  
-                                <p:ajax event="save" global="false" listener="#{fakturaView.skorygujnumer}" update="akordeon:formstworz:nrfaktury" partialSubmit="true" update="@parent"/>
+                                <p:ajax event="save" global="false" listener="#{fakturaView.skorygujnumer}" partialSubmit="true" update="@parent akordeon:formstworz:nrfaktury"/>
                             </p:inplace>
                         </div>
                         <div class="ui-grid-col-2">

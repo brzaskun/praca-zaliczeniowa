@@ -44,7 +44,7 @@ var zapisywierszywybordok = function() {
 
 var pokazwierszoznaczony = function() {
     try {
-        if (document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value !== "-1") {
+        if (document.getElementById('formwpisdokument:numerwlasny').value !== "") {
 //            r("formwpisdokument:data2DialogWpisywanie").focus();
 //            r("formwpisdokument:data2DialogWpisywanie").select();
 //        } else {

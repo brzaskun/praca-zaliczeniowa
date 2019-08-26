@@ -63,6 +63,7 @@ public class VIESCheckBean {
                          zwrot = false;
                          E.e(se);
                      } catch (Exception e) {
+                         E.e(e);
                          zwrot = false;
                      }
                      if (v != null) {

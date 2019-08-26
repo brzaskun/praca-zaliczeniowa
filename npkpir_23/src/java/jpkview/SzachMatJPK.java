@@ -34,7 +34,7 @@ import view.WpisView;
 public class SzachMatJPK {
 
     
-    private static String publiccertyffile = "3af5843ae11db6d94edf0ea502b5cd1a.cer";
+    private static String publiccertyffile = "e_dokumenty.mf.gov.pl.cer";
     
     public static void main(String[] args) {
         //wysylka();
@@ -69,7 +69,7 @@ public class SzachMatJPK {
                 String diraesfilename = dir+aesfilename;
                 WysylkaSub.zipfile(dir+mainfilename,mainfilename,dirzipfilename);
                 SecretKey secretKey = WysylkaSub.encryptAESStart(dirzipfilename, diraesfilename);
-                PublicKey publickey = WysylkaSub.getPublicKey(dir+"3af5843ae11db6d94edf0ea502b5cd1a.cer");
+                PublicKey publickey = WysylkaSub.getPublicKey(dir+"e_dokumenty.mf.gov.pl.cer");
                 String encryptionkeystring = WysylkaSub.wrapKey(publickey, secretKey);
                 byte[] ivBytes = WysylkaSub.encryptKoniec(dirzipfilename, diraesfilename, secretKey);
                 //decrypt2(secretKey, diraesfilename, dir, ivBytes);
@@ -148,7 +148,7 @@ public class SzachMatJPK {
             unzip(zipfilename, "unzipfolder");
             //Wysylka.encryptAES("james2.xml.zip", "james2.xml.zip.aes");
             SecretKey secretKey = WysylkaSub.encryptAESStart(zipfilename, partfilename);
-            PublicKey publickey = WysylkaSub.getPublicKey("3af5843ae11db6d94edf0ea502b5cd1a.cer");
+            PublicKey publickey = WysylkaSub.getPublicKey("e_dokumenty.mf.gov.pl.cer");
             String encryptionkeystring = WysylkaSub.wrapKey(publickey, secretKey);
             byte[] ivBytes = WysylkaSub.encryptKoniec(zipfilename, partfilename, secretKey);
             decrypt(secretKey, partfilename, ivBytes);
