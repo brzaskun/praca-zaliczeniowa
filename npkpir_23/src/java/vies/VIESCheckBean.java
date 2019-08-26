@@ -45,14 +45,14 @@ public class VIESCheckBean {
              for (Iterator it = klienciWDTWNT.iterator(); it.hasNext();) {
                  VatUe p = (VatUe) it.next();
                  if (p.getKontrahent() != null && p.getVies() == null) {
-                     String kraj = p.getKontrahent().getKrajkod();
-                     String nip = p.getKontrahent().getNip();
+                     String kraj = p.getKontrahent().getKrajkod().trim();
+                     String nip = p.getKontrahent().getNip().trim();
                      if (nip.equals("ESB65448870")) {
                          System.out.println("ESB65448870");
                      }
                      boolean jestprefix = sprawdznip(p.getKontrahent().getNip());
                      if (jestprefix) {
-                         nip = p.getKontrahent().getNip().substring(2);
+                         nip = p.getKontrahent().getNip().substring(2).trim();
                      }
                      Vies v = null;
                      try {
@@ -96,12 +96,12 @@ public class VIESCheckBean {
             Connection.Response res = null;
             if (kraj.equals("ES")) {
             res = Jsoup.connect("http://ec.europa.eu/taxation_customs/vies/vatResponse.html")
-                .data("memberStateCode", kraj, "number", nip, "traderName",k.getNpelna(),"traderCompanyType","","traderStreet",k.getUlica(),"traderPostalCode",k.getKodpocztowy(),"traderCity",k.getMiejscowosc(),"requesterMemberStateCode", "PL", "requesterNumber", "8511005008")
+                .data("memberStateCode", kraj, "number", nip, "traderName",k.getNpelna(),"traderCompanyType","","traderStreet",k.getUlica(),"traderPostalCode",k.getKodpocztowy(),"traderCity",k.getMiejscowosc())
                 .method(Method.POST)
                 .execute();
             } else {
             res = Jsoup.connect("http://ec.europa.eu/taxation_customs/vies/vatResponse.html")
-                    .data("memberStateCode", kraj, "number", nip, "requesterMemberStateCode", "PL", "requesterNumber", podatnik.getNip())
+                    .data("memberStateCode", kraj, "number", nip)
                     .method(Method.POST)
                     .execute();
             }

@@ -195,8 +195,8 @@ public class ImportSprzedazyFKView  implements Serializable {
     
      public void generujsprzedaz() {
         try {
-            stworzdokumenty(jpk);
-            Msg.msg("Wygenerowano dokumenty");
+            List<Dokfk> lista = stworzdokumenty(jpk);
+            Msg.msg("Wygenerowano dokumenty w liczbie "+lista.size());
         } catch (Exception ex) {
             E.e(ex);
             Msg.msg("e","Wystąpił błąd. Nie udało się wygenerować dokumentów");
@@ -236,27 +236,23 @@ public class ImportSprzedazyFKView  implements Serializable {
     }
     
     private Dokfk stworznowydokument(ImportJPKSprzedaz wiersz,List<Klienci> klienci) {
-        int numerkolejny = ImportBean.oblicznumerkolejny("SZ", dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        Dokfk nd = new Dokfk(numerkolejny, wpisView.getRokWpisuSt());
-        ustawdaty(nd, wiersz.getSprzedazWiersz());
+        Dokfk nd = null;
         Klienci kontrahent = ImportBean.ustawkontrahenta(wiersz.getSprzedazWiersz().getNrKontrahenta(), wiersz.getSprzedazWiersz().getNazwaKontrahenta(), klienci, gUSView, klienciDAO);
-        if (kontrahent==null) {
-            nd=null;   
-        } else {
+        if (kontrahent!=null) {
+            String rodzajdk = "SZ";
+            if (nd.getKontr().getKrajnazwa()!=null && !nd.getKontr().getKrajkod().equals("PL")) {
+                rodzajdk = "EXP";
+                if (PanstwaEUSymb.getWykazPanstwUE().contains(nd.getKontr().getKrajkod())) {
+                    rodzajdk = "WDT";
+                }
+            }
+            int numerkolejny = ImportBean.oblicznumerkolejny(rodzajdk, dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            nd = new Dokfk(numerkolejny, wpisView.getRokWpisuSt());
+            ustawdaty(nd, wiersz.getSprzedazWiersz());
             nd.setKontr(kontrahent);
             ImportBean.ustawnumerwlasny(nd, wiersz.getSprzedazWiersz().getDowodSprzedazy());
             nd.setOpisdokfk("sprzedaż towaru");
             nd.setPodatnikObj(wpisView.getPodatnikObiekt());
-            String rodzajdk = "SZ";
-            int polska0unia1zagranica2 = 0;
-            if (nd.getKontr().getKrajnazwa()!=null && !nd.getKontr().getKrajkod().equals("PL")) {
-                polska0unia1zagranica2 = 2;
-                rodzajdk = "EXP";
-                if (PanstwaEUSymb.getWykazPanstwUE().contains(nd.getKontr().getKrajkod())) {
-                    polska0unia1zagranica2 = 1;
-                    rodzajdk = "WDT";
-                }
-            }
             ImportBean.ustawrodzajedok(nd, rodzajdk, rodzajedokDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             nd.setTabelanbp(tabelanbppl);
             nd.setWalutadokumentu(walutapln);

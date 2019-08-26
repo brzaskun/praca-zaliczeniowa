@@ -276,7 +276,7 @@ public class XMLValid {
             polenip = message.substring(message.indexOf("Value")+6, message.indexOf(" is not facet-valid"));
         } catch (Exception e){}
         if (message.contains("TNrVatUE")) {
-            zwrot = "Błędny numer VAT kontrahenta "+polenip; 
+            zwrot = "Błędny numer VAT kontrahenta "+polenip+" Sprawdź czy nie ma spacji!"; 
         } else if (message.contains("TKodKrajuUE")) {
             zwrot = "Błąd w symbolu kraju kontrahenta";
         } else if (message.contains("TNazwisko")) {
