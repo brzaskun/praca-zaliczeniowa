@@ -257,11 +257,10 @@ public class InterpaperImportView implements Serializable {
     
     private void ustawdaty(Dokfk nd, InterpaperXLS interpaperXLS) {
         Format formatterX = new SimpleDateFormat("yyyy-MM-dd");
-        String dataotrzymania = formatterX.format(interpaperXLS.getDataotrzymania());
         String datawystawienia = formatterX.format(interpaperXLS.getDatawystawienia());
         String datasprzedazy = formatterX.format(interpaperXLS.getDatasprzedaży());
         if (interpaperXLS.getDataotrzymania()!=null) {
-            dataotrzymania = formatterX.format(interpaperXLS.getDataotrzymania());
+            String dataotrzymania = formatterX.format(interpaperXLS.getDataotrzymania());
             nd.setDatadokumentu(datawystawienia);
             nd.setDatawplywu(dataotrzymania);
         } else {
@@ -276,7 +275,7 @@ public class InterpaperImportView implements Serializable {
             nd.setVatM(datasprzedazy.split("-")[1]);
             nd.setVatR(datasprzedazy.split("-")[0]);
         } else {
-            dataotrzymania = formatterX.format(interpaperXLS.getDataotrzymania());
+            String dataotrzymania = formatterX.format(interpaperXLS.getDataotrzymania());
             nd.setVatM(dataotrzymania.split("-")[1]);
             nd.setVatR(dataotrzymania.split("-")[0]);
         }
