@@ -306,6 +306,8 @@ public class ImportSprzedazyFKView  implements Serializable {
                             eVatwpisFK.setEwidencja(p);
                             if (Z.z(wiersz.getSprzedazWiersz().getVat())!=0.0) {
                                 if (p.getNazwa().equals("sprzedaż 23%")||p.getNazwa().equals("zakup")) {
+                                    eVatwpisFK.setNettowwalucie(Z.z(wiersz.getSprzedazWiersz().getNetto()));
+                                    eVatwpisFK.setVatwwalucie(Z.z(wiersz.getSprzedazWiersz().getVat()));
                                     eVatwpisFK.setNetto(Z.z(wiersz.getSprzedazWiersz().getNetto()));
                                     eVatwpisFK.setVat(Z.z(wiersz.getSprzedazWiersz().getVat()));
                                     eVatwpisFK.setBrutto(Z.z(wiersz.getSprzedazWiersz().getNetto()+wiersz.getSprzedazWiersz().getVat()));
@@ -316,6 +318,8 @@ public class ImportSprzedazyFKView  implements Serializable {
                                 }
                             } else {
                                 if (nd.getSeriadokfk().equals("WDT") && p.getNazwa().equals("rejestr WDT")) {
+                                    eVatwpisFK.setNettowwalucie(Z.z(wiersz.getSprzedazWiersz().getNetto()));
+                                    eVatwpisFK.setVatwwalucie(Z.z(wiersz.getSprzedazWiersz().getVat()));
                                     eVatwpisFK.setNetto(Z.z(wiersz.getSprzedazWiersz().getNetto()));
                                     eVatwpisFK.setVat(0.0);
                                     eVatwpisFK.setBrutto(Z.z(wiersz.getSprzedazWiersz().getNetto()));
@@ -325,6 +329,8 @@ public class ImportSprzedazyFKView  implements Serializable {
                                     break;
                                 }
                                 if (nd.getSeriadokfk().equals("EXP") && p.getNazwa().equals("eksport towarów")) {
+                                    eVatwpisFK.setNettowwalucie(Z.z(wiersz.getSprzedazWiersz().getNetto()));
+                                    eVatwpisFK.setVatwwalucie(Z.z(wiersz.getSprzedazWiersz().getVat()));
                                     eVatwpisFK.setNetto(Z.z(wiersz.getSprzedazWiersz().getNetto()));
                                     eVatwpisFK.setVat(0.0);
                                     eVatwpisFK.setBrutto(Z.z(wiersz.getSprzedazWiersz().getNetto()));

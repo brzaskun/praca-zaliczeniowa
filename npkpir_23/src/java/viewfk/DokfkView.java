@@ -92,12 +92,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
@@ -119,7 +117,6 @@ import plik.Plik;
 import view.KlienciConverterView;
 import view.ParametrView;
 import view.WpisView; import org.primefaces.PrimeFaces;
-import org.primefaces.component.commandbutton.CommandButton;
 import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.UzupelnijWierszeoDane;
 import waluty.Z;
@@ -1123,7 +1120,6 @@ public class DokfkView implements Serializable {
                     selected.przepiszWierszeBO();
                 }
                 selected.setwTrakcieEdycji(false);
-                selected.setImportowany(false);
                 selected.oznaczVATdokument(sprawdzjakiokresvat());
                 if (!selected.getRodzajedok().isTylkojpk()) {
                     for (Wiersz p : selected.getListawierszy()) {
@@ -1141,6 +1137,7 @@ public class DokfkView implements Serializable {
                         selected.getListawierszy().remove(0);
                     }
                 }
+                zapisz0edytuj1 = false;
                 selected.setDataujecia(new Date());
                 dokDAOfk.edit(selected);
                 wykazZaksiegowanychDokumentow.remove(selected);
@@ -1776,16 +1773,13 @@ public class DokfkView implements Serializable {
 
     public void przygotujDokumentEdycjaImport(Dokfk wybranyDokfk, Integer row) {
         try {
-            Dokfk odnalezionywbazie = dokDAOfk.findDokfkObj(wybranyDokfk);
             wierszedytowany = "zestawieniedokumentowimport:dataListImport:" + String.valueOf(row) + ":";
-            wybranyDokfk.setwTrakcieEdycji(true);
             selected = wybranyDokfk;
             selected.setwTrakcieEdycji(true);
             wybranaTabelanbp = selected.getTabelanbp();
             tabelenbp = Collections.synchronizedList(new ArrayList<>());
             tabelenbp.add(wybranaTabelanbp);
             obsluzcechydokumentu();
-            PrimeFaces.current().ajax().update(wierszedytowany);
             Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.toString());
             zapisz0edytuj1 = true;
             if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
@@ -4229,33 +4223,38 @@ public void oznaczjakonkup() {
         Dokfk nastepny = null;
         boolean konczymy = false;
         int rowek = idwierszedycjaodswiezenie;
-        for (Dokfk d : wykazZaksiegowanychDokumentow) {
-            if (konczymy==false && !d.equals(selected)) {
-                poprzedni = d;
-            }
-            if (d.equals(selected)) {
-                konczymy = true;
-            } else if (konczymy) {
-                nastepny = d;
-                break;
-            }
-        }
-        if (i==1) {
-            if (nastepny!=null) {
-                selected = nastepny;
-                selected.setwTrakcieEdycji(true);
-                idwierszedycjaodswiezenie = rowek+1;
-            } else {
-                Msg.msg("Koniec listy");
-            }
+        List<Dokfk> lista = wykazZaksiegowanychDokumentow!=null && !wykazZaksiegowanychDokumentow.isEmpty() ? wykazZaksiegowanychDokumentow : wykazZaksiegowanychDokumentowimport;
+        if (lista!=null) {
+                for (Dokfk d : lista) {
+                    if (konczymy==false && !d.equals(selected)) {
+                        poprzedni = d;
+                    }
+                    if (d.equals(selected)) {
+                        konczymy = true;
+                    } else if (konczymy) {
+                        nastepny = d;
+                        break;
+                    }
+                }
+                if (i==1) {
+                    if (nastepny!=null) {
+                        selected = nastepny;
+                        selected.setwTrakcieEdycji(true);
+                        idwierszedycjaodswiezenie = rowek+1;
+                    } else {
+                        Msg.msg("Koniec listy");
+                    }
+                } else {
+                    if (poprzedni!=null) {
+                        selected = poprzedni;
+                        selected.setwTrakcieEdycji(true);
+                        idwierszedycjaodswiezenie = rowek-1;
+                    } else {
+                        Msg.msg("Początek listy");
+                    }    
+                }
         } else {
-            if (poprzedni!=null) {
-                selected = poprzedni;
-                selected.setwTrakcieEdycji(true);
-                idwierszedycjaodswiezenie = rowek-1;
-            } else {
-                Msg.msg("Początek listy");
-            }    
+            Msg.msg("e","Lista pusta");
         }
         PrimeFaces.current().ajax().update("formwpisdokument");
     }

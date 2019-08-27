@@ -32,7 +32,7 @@
               resizable="false" onShow="ustawdialog('zapisy','menudokumenty',1650,780);doczeplistnerydopol();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
               onHide="resetujdialog('zapisy');"  closeOnEscape="true" minimizable="true" dynamic="true"
               >
-        <p:ajax event="open" listener="#{kontoZapisFKView.init()}" update="formwpiskonta form tabelazzapisami tabelazsumami"/>
+        <p:ajax event="open" listener="#{kontoZapisFKView.init()}" update="formwpiskonta form tabelazzapisami tabelazsumami miesiacezapisykonta"/>
         <p:layout fullPage="false" style="height: 720px;width: 700px;" >  
             <p:layoutUnit position="north">
                 <p:panelGrid columns="4" id="paseknorth" columnClasses="kontaGrid1, kontaGrid2">
@@ -69,19 +69,19 @@
                             <f:selectItems value="#{walutyViewFK.symboleWalut}"/>
                         </p:selectOneMenu>
                     </h:form>
-                    <h:form>
+                    <h:form id="miesiacezapisykonta">
                         <p:panelGrid columns="8" style="margin-left: 15px; width: 800px;">
                             <h:outputText value="od"/>
                             <p:column>
                                 <p:selectOneMenu id="miesiacWpisuOd" value="#{WpisView.miesiacOd}">
-                                    <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}"  partialSubmit="true" update=":tabelazzapisami :tabelazsumami"/>
+                                    <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}"  partialSubmit="true" update=":tabelazzapisami :tabelazsumami"  oncomplete="przeliczfilterzapisy()"/>
                                     <f:selectItems value="#{Mce.mceList}"/>
                                 </p:selectOneMenu>
                             </p:column>
                             <h:outputText value="do"/>
                             <p:column>
                                 <p:selectOneMenu id="miesiacWpisuDo" value="#{WpisView.miesiacDo}">
-                                    <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}" partialSubmit="true" update=":tabelazzapisami :tabelazsumami"/>
+                                    <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}" partialSubmit="true" update=":tabelazzapisami :tabelazsumami"  oncomplete="przeliczfilterzapisy()"/>
                                     <f:selectItems value="#{Mce.mceList}"/>
                                 </p:selectOneMenu>
                             </p:column>

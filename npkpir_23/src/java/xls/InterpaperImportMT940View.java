@@ -466,6 +466,8 @@ public class InterpaperImportMT940View implements Serializable {
                             eVatwpisFK.setEwidencja(p);
                             if (Z.z(interpaperXLS.getVatPLN())!=0.0) {
                                 if (p.getNazwa().equals("sprzedaż 23%")||p.getNazwa().equals("zakup")) {
+                                    eVatwpisFK.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
+                                    eVatwpisFK.setVatwwalucie(Z.z(interpaperXLS.getVatwaluta()));
                                     eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
                                     eVatwpisFK.setVat(Z.z(interpaperXLS.getVatPLN()));
                                     eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()+interpaperXLS.getVatPLN()));
@@ -476,6 +478,8 @@ public class InterpaperImportMT940View implements Serializable {
                                 }
                             } else {
                                 if (PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("import usług art. 28b")) {
+                                    eVatwpisFK.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
+                                    eVatwpisFK.setVatwwalucie(Z.z(interpaperXLS.getVatwaluta()));
                                     eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
                                     eVatwpisFK.setVat(Z.z(interpaperXLS.getVatPLN()));
                                     eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()+interpaperXLS.getVatPLN()));
@@ -484,6 +488,8 @@ public class InterpaperImportMT940View implements Serializable {
                                     nd.getEwidencjaVAT().add(eVatwpisFK);
                                     break;
                                 } else if (!PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("import usług")) {
+                                    eVatwpisFK.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
+                                    eVatwpisFK.setVatwwalucie(Z.z(interpaperXLS.getVatwaluta()));
                                     eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
                                     eVatwpisFK.setVat(Z.z(interpaperXLS.getVatPLN()));
                                     eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()+interpaperXLS.getVatPLN()));
@@ -492,6 +498,8 @@ public class InterpaperImportMT940View implements Serializable {
                                     nd.getEwidencjaVAT().add(eVatwpisFK);
                                     break;
                                 } else if (PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("usługi świad. poza ter.kraju art. 100 ust.1 pkt 4")) {
+                                    eVatwpisFK.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
+                                    eVatwpisFK.setVatwwalucie(0.0);
                                     eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
                                     eVatwpisFK.setVat(0.0);
                                     eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()));
@@ -500,6 +508,8 @@ public class InterpaperImportMT940View implements Serializable {
                                     nd.getEwidencjaVAT().add(eVatwpisFK);
                                     break;
                                 } else if (!PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("usługi świad. poza ter.kraju")) {
+                                    eVatwpisFK.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
+                                    eVatwpisFK.setVatwwalucie(0.0);
                                     eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
                                     eVatwpisFK.setVat(0.0);
                                     eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()));
@@ -508,6 +518,8 @@ public class InterpaperImportMT940View implements Serializable {
                                     nd.getEwidencjaVAT().add(eVatwpisFK);
                                     break;
                                 } else if (p.getNazwa().equals("sprzedaż 0%")||p.getNazwa().equals("zakup")) {
+                                    eVatwpisFK.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
+                                    eVatwpisFK.setVatwwalucie(0.0);
                                     eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
                                     eVatwpisFK.setVat(0.0);
                                     eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()));
