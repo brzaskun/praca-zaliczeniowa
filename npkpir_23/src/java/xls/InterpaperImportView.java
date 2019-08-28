@@ -452,7 +452,8 @@ public class InterpaperImportView implements Serializable {
                         opisewidencji.addAll(listaEwidencjiVat.pobierzEvewidencje(nd.getRodzajedok().getRodzajtransakcji()));
                         int k = 0;
                         for (Evewidencja p : opisewidencji) {
-                            EVatwpisFK eVatwpisFK = new EVatwpisFK(); 
+                            EVatwpisFK eVatwpisFK = new EVatwpisFK();
+                            przesuniecie(nd,eVatwpisFK);
                             eVatwpisFK.setLp(k++);
                             eVatwpisFK.setEwidencja(p);
                             if (Z.z(interpaperXLS.getVatPLN())!=0.0) {
@@ -650,6 +651,15 @@ public class InterpaperImportView implements Serializable {
             }
         }
     }
+    
+    private void przesuniecie(Dokfk nd, EVatwpisFK eVatwpisFK) {
+        if (!nd.getMiesiac().equals(nd.getVatM())) {
+            int mcdok = Integer.parseInt(nd.getMiesiac());
+            int mdotrzymania =  Integer.parseInt(nd.getVatM());
+            int innyokres = mdotrzymania-mcdok;
+            eVatwpisFK.setInnyokres(innyokres);
+        }
+    }
      
     public void grid2pokaz() {
         grid2.setRendered(true);
@@ -768,6 +778,8 @@ public class InterpaperImportView implements Serializable {
     public void setSelectedimport(Klienci selectedimport) {
         this.selectedimport = selectedimport;
     }
+
+    
 
   
     

@@ -304,6 +304,7 @@ public class ImportSprzedazyFKView  implements Serializable {
                             EVatwpisFK eVatwpisFK = new EVatwpisFK(); 
                             eVatwpisFK.setLp(k++);
                             eVatwpisFK.setEwidencja(p);
+                            przesuniecie(nd,eVatwpisFK);
                             if (Z.z(wiersz.getSprzedazWiersz().getVat())!=0.0) {
                                 if (p.getNazwa().equals("sprzedaż 23%")||p.getNazwa().equals("zakup")) {
                                     eVatwpisFK.setNettowwalucie(Z.z(wiersz.getSprzedazWiersz().getNetto()));
@@ -345,6 +346,15 @@ public class ImportSprzedazyFKView  implements Serializable {
                     Msg.msg("e", "Brak podstawowych ustawień dla podatnika dotyczących opodatkowania. Nie można wpisywać dokumentów! podepnijEwidencjeVat()");
                 }
             }
+        }
+    }
+     
+     private void przesuniecie(Dokfk nd, EVatwpisFK eVatwpisFK) {
+        if (!nd.getMiesiac().equals(nd.getVatM())) {
+            int mcdok = Integer.parseInt(nd.getMiesiac());
+            int mdotrzymania =  Integer.parseInt(nd.getVatM());
+            int innyokres = mdotrzymania-mcdok;
+            eVatwpisFK.setInnyokres(innyokres);
         }
     }
      private void ustawwiersze(Dokfk nd, ImportJPKSprzedaz wiersz) {

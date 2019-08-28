@@ -464,6 +464,7 @@ public class InterpaperImportMT940View implements Serializable {
                             EVatwpisFK eVatwpisFK = new EVatwpisFK(); 
                             eVatwpisFK.setLp(k++);
                             eVatwpisFK.setEwidencja(p);
+                            przesuniecie(nd,eVatwpisFK);
                             if (Z.z(interpaperXLS.getVatPLN())!=0.0) {
                                 if (p.getNazwa().equals("sprzedaż 23%")||p.getNazwa().equals("zakup")) {
                                     eVatwpisFK.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
@@ -536,7 +537,14 @@ public class InterpaperImportMT940View implements Serializable {
             }
         }
     }
-
+private void przesuniecie(Dokfk nd, EVatwpisFK eVatwpisFK) {
+        if (!nd.getMiesiac().equals(nd.getVatM())) {
+            int mcdok = Integer.parseInt(nd.getMiesiac());
+            int mdotrzymania =  Integer.parseInt(nd.getVatM());
+            int innyokres = mdotrzymania-mcdok;
+            eVatwpisFK.setInnyokres(innyokres);
+        }
+    }
      private Konto pobierzkontoWn(Dokfk nd, InterpaperXLS interpaperXLS, Klienci klient) {
         Konto kontoRozrachunkowe = null;
         Kliencifk klientMaKonto = kliencifkDAO.znajdzkontofk(klient.getNip(), wpisView.getPodatnikObiekt().getNip());
