@@ -104,6 +104,7 @@ public class InterpaperImportView implements Serializable {
     private Konto kontonettokoszt;
     private Konto kontovat;
     private Konto kontovatnaliczony;
+    private Konto kontovatnaliczonyprzesuniecie;
     private Tabelanbp tabelanbppl;
     private Waluty walutapln;
     
@@ -132,6 +133,7 @@ public class InterpaperImportView implements Serializable {
         kontovat = kontoDAO.findKonto("221-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         kontonettokoszt = kontoDAO.findKonto("403", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         kontovatnaliczony = kontoDAO.findKonto("221-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        kontovatnaliczonyprzesuniecie = kontoDAO.findKonto("221-4", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         tabelanbppl = tabelanbpDAO.findByTabelaPLN();
         walutapln = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
     }
@@ -428,7 +430,11 @@ public class InterpaperImportView implements Serializable {
         w.setOpisWiersza(opiswiersza);
         StronaWiersza strwn = new StronaWiersza(w, "Wn", interpaperXLS.getVatwaluta(), null);
         strwn.setKwotaPLN(interpaperXLS.getVatPLN());
-        strwn.setKonto(kontovatnaliczony);
+        if (nd.getMiesiac().equals(nd.getVatM())) {
+            strwn.setKonto(kontovatnaliczony);
+        } else {
+            strwn.setKonto(kontovatnaliczonyprzesuniecie);
+        }
         w.setStronaWn(strwn);
         return w;
     }
