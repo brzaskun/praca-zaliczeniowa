@@ -270,7 +270,7 @@ public class GCOBankImportView implements Serializable {
                                 x.setWnma("Wn");
                             }
                             x.setWaluta(wyciagwaluta);
-                            x.setNrtransakji(baza.get(9));
+                            x.setNrtransakji(baza.get(8));
                             x.setOpistransakcji(baza.get(3));
                             x.setTyptransakcji(oblicztyptransakcji(x));
                             pobranefaktury.add(x);
@@ -454,8 +454,8 @@ public class GCOBankImportView implements Serializable {
                 wyciagdatado = p.getDatatransakcji();
                 //Konto kontoklienta = ustawkonto(p);
                 Konto kontoklienta = null;
-                Konto kontown = p.getWnma().equals("Wn") ? rodzajdok.getKontorozrachunkowe() : kontoklienta!=null? kontoklienta : konto213;
-                Konto kontoma = p.getWnma().equals("Ma") ? rodzajdok.getKontorozrachunkowe() : kontoklienta!=null? kontoklienta : konto213;
+                Konto kontown = p.getWnma().equals("Wn") ? rodzajdok.getKontorozrachunkowe() : kontoklienta!=null? kontoklienta : ustawkonto(p);
+                Konto kontoma = p.getWnma().equals("Ma") ? rodzajdok.getKontorozrachunkowe() : kontoklienta!=null? kontoklienta : ustawkonto(p);
                 nd.getListawierszy().add(przygotujwierszNetto(lpwiersza, nd, p, kontown, kontoma));
                 lpwiersza++;
                 it.remove();
