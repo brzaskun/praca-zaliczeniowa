@@ -270,7 +270,7 @@ public class GCOBankImportView implements Serializable {
                                 x.setWnma("Wn");
                             }
                             x.setWaluta(wyciagwaluta);
-                            x.setNrtransakji(baza.get(8));
+                            x.setNrtransakji(baza.get(9));
                             x.setOpistransakcji(baza.get(3));
                             x.setTyptransakcji(oblicztyptransakcji(x));
                             pobranefaktury.add(x);
@@ -318,7 +318,7 @@ public class GCOBankImportView implements Serializable {
         //9 bank-bank - 149-2
     private static int oblicztyptransakcji(ImportBankXML p) {
         int zwrot = 0;
-        if (p.getOpistransakcji().equals("OPŁATA/PROWIZJA")) {
+        if (p.getNrtransakji().equals("OPŁATA/PROWIZJA")) {
             zwrot = 3;
         } else if (p.getKontrahent().toLowerCase().contains("INTERPAPER SP Z O O SK")) {
             zwrot = 8;
@@ -328,9 +328,9 @@ public class GCOBankImportView implements Serializable {
             zwrot = 7;
         } else if (p.getKontrahent().toLowerCase().contains("urząd")) {
             zwrot = 6;
-        } else if (p.getOpistransakcji().equals("WYPŁATA KARTĄ")) {
+        } else if (p.getNrtransakji().equals("WYPŁATA KARTĄ")) {
             zwrot = 4;
-        } else if (p.getOpistransakcji().contains("PŁATNOŚĆ KARTĄ ")) {
+        } else if (p.getNrtransakji().contains("PŁATNOŚĆ KARTĄ ")) {
             zwrot = 5;
         } else if (p.getWnma().equals("Wn")) {
             zwrot = 1;
