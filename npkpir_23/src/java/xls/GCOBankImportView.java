@@ -320,17 +320,21 @@ public class GCOBankImportView implements Serializable {
         int zwrot = 0;
         if (p.getNrtransakji().equals("OPŁATA/PROWIZJA")) {
             zwrot = 3;
+        } else if (p.getNrtransakji().equals("PRZELEW ELIXIR - ONLINE") || p.getNrtransakji().equals("PRZELEW NA RACHUNEK W SAN PL - ONLINE")) {
+            zwrot = 1;
+        } else if (p.getNrtransakji().equals("UZNANIE") || p.getNrtransakji().equals("UZNANIE - PŁATNOŚĆ PODZIELONA")) {
+            zwrot = 2;
         } else if (p.getKontrahent().toLowerCase().contains("INTERPAPER SP Z O O SK")) {
             zwrot = 8;
         } else if (p.getKontrahent().toLowerCase().contains("Gmina")) {
             zwrot = 8;
-        } else if (p.getKontrahent().toLowerCase().contains("Zakład Ubezpieczeń Społecznych")) {
+        } else if (p.getKontrahent().toLowerCase().contains("PRZELEW ELIXIR NA RACHUNEK ZUS - ONLINE")) {
             zwrot = 7;
-        } else if (p.getKontrahent().toLowerCase().contains("urząd")) {
+        } else if (p.getKontrahent().toLowerCase().contains("PRZELEW ELIXIR NA RACH. ORGANU PODATK. - ONLINE")) {
             zwrot = 6;
         } else if (p.getNrtransakji().equals("WYPŁATA KARTĄ")) {
             zwrot = 4;
-        } else if (p.getNrtransakji().contains("PŁATNOŚĆ KARTĄ ")) {
+        } else if (p.getNrtransakji().contains("TRANSAKCJA KARTĄ ")) {
             zwrot = 5;
         } else if (p.getWnma().equals("Wn")) {
             zwrot = 1;
