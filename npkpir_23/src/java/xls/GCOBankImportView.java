@@ -259,6 +259,7 @@ public class GCOBankImportView implements Serializable {
                             x.setNr(j++);
                             x.setDatatransakcji(Data.zmienkolejnosc(baza.get(1)));
                             x.setDatawaluty(Data.zmienkolejnosc(baza.get(2)));
+                            x.setNrwyciagu(baza.get(0));
                             x.setIBAN(baza.get(5));//??
                             x.setKontrahent(baza.get(4));//??
                             if (!baza.get(10).equals("")) {
@@ -387,7 +388,7 @@ public class GCOBankImportView implements Serializable {
         int numerkolejny = ImportBean.oblicznumerkolejny(rodzajdok.getSkrotNazwyDok(), dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Dokfk nd = new Dokfk(numerkolejny, wpisView.getRokWpisuSt());
         nd.setKontr(ImportBean.ustawkontrahenta(wpisView.getPodatnikObiekt().getNip(), wpisView.getPodatnikWpisu(), klienci, gUSView, klienciDAO));
-        ImportBean.ustawnumerwlasny(nd, "wyciag nr "+wyciagnrod);
+        ImportBean.ustawnumerwlasny(nd, "wyciag nr "+pobranefaktury.get(0).getNrwyciagu());
         nd.setOpisdokfk("rozliczenie wyciągu za "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt());
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
         nd.setSeriadokfk(rodzajdok.getSkrot());
@@ -402,6 +403,7 @@ public class GCOBankImportView implements Serializable {
         }
         Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
         if (juzjest!=null) {
+            ustawwiersze(nd);
             nd = null;
             usunduplikat(juzjest);
         } else {

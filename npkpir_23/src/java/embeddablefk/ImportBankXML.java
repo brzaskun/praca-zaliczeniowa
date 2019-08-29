@@ -27,6 +27,7 @@ public class ImportBankXML implements Serializable {
         private String kontrahentaadres;
         private String nrtransakji;
         private boolean juzzaksiegowany;
+        private String nrwyciagu;
         //typ transakcji
         //1 wpływ faktura
         //2 zapłata faktura
@@ -149,6 +150,14 @@ public class ImportBankXML implements Serializable {
 
     public void setJuzzaksiegowany(boolean juzzaksiegowany) {
         this.juzzaksiegowany = juzzaksiegowany;
+    }
+
+    public String getNrwyciagu() {
+        return nrwyciagu;
+    }
+
+    public void setNrwyciagu(String nrwyciagu) {
+        this.nrwyciagu = nrwyciagu;
     }
 
         
