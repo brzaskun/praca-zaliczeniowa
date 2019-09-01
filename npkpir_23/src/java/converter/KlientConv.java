@@ -26,16 +26,16 @@ public class KlientConv implements javax.faces.convert.Converter{
         if (submittedValue==-2){  
             listaKlientow.add(klienciConverterView.getKlientautomat());
         } 
-        try {  
-            for (Klienci p : listaKlientow) {  
-                if (p.getId()==submittedValue) {  
-                    return p;  
-                }  
-            }  
+        try {
+            return listaKlientow.parallelStream().filter(p -> p.getId().equals(submittedValue)).findAny().orElse(null);
+//            for (Klienci p : listaKlientow) {  
+//                if (p.getId()==submittedValue) {  
+//                    return p;  
+//                }  
+//            }  
         } catch(NumberFormatException exception) {  
             return null;
         }  
-        return null;  
     }  
   
     @Override

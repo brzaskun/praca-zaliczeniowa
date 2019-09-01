@@ -69,6 +69,7 @@ public class KliencifkView implements Serializable {
     @Inject
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     private boolean zapisz0edytuj1;
+    private boolean listawszystkichklientowFkaktualna0nieaktualna1;
 
     public KliencifkView() {
          ////E.m(this);
@@ -133,7 +134,8 @@ public class KliencifkView implements Serializable {
     public int pobieraniekontaFK() {
         if (wybranyklient instanceof Klienci && !wybranyklient.getNpelna().equals("nowy klient") && !wybranyklient.getNpelna().equals("dodaj klienta automatycznie")) {
             try {
-                klientMaKonto = kliencifkDAO.znajdzkontofk(wybranyklient.getNip(), wpisView.getPodatnikObiekt().getNip());
+                klientMaKonto = pobierzklientafk(wybranyklient.getNip());
+                //klientMaKonto = kliencifkDAO.znajdzkontofk(wybranyklient.getNip(), wpisView.getPodatnikObiekt().getNip());
                 if (klientMaKonto != null) {
                     return 0;
                 } else {
@@ -152,6 +154,17 @@ public class KliencifkView implements Serializable {
             klientBezKonta = new Kliencifk();
         }
         return -1;
+    }
+    
+    private Kliencifk pobierzklientafk(String nip) {
+        Kliencifk zwrot = null;
+        for (Kliencifk p : listawszystkichklientowFk) {
+            if (p.getNip().equals(nip)) {
+                zwrot = p;
+                break;
+            }
+        }
+        return zwrot;
     }
 
     public void przyporzadkujdokonta() {
@@ -336,4 +349,6 @@ public class KliencifkView implements Serializable {
     }
 
 //</editor-fold>
+
+    
 }

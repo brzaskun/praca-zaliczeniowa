@@ -42,19 +42,18 @@ public class WalutyConv implements javax.faces.convert.Converter{
             return null;  
         } else {  
             try {  
-                String number = submittedValue;  
-                for (Waluty p : listaWalut) {  
-                    if (p.getSymbolwaluty().equals(number)) {  
-                        return p;  
-                    }  
-                }  
+                String number = submittedValue;
+                return listaWalut.parallelStream().filter(p -> p.getSymbolwaluty().equals(submittedValue)).findAny().orElse(null);
+//                for (Waluty p : listaWalut) {  
+//                    if (p.getSymbolwaluty().equals(number)) {  
+//                        return p;  
+//                    }  
+//                }  
   
             } catch(NumberFormatException exception) {  
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid waluta"));  
             }  
         }  
-  
-        return null;  
     }  
   
     @Override

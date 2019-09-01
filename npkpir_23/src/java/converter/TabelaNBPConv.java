@@ -27,17 +27,17 @@ public class TabelaNBPConv implements javax.faces.convert.Converter{
         FacesContext context = FacesContext.getCurrentInstance();
         TabelaNBPView tabelaNBPView = (TabelaNBPView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"tabelaNBPView");
         List<Tabelanbp> listanpb = tabelaNBPView.getListanpb();
-        try {  
-            for (Tabelanbp p : listanpb) {  
-                if (String.valueOf(p.getIdtabelanbp()).equals(submittedValue)) {  
-                    return p;  
-                }  
-            }  
+        try {
+            return listanpb.parallelStream().filter(p -> p.getIdtabelanbp().equals(submittedValue)).findAny().orElse(null);
+//            for (Tabelanbp p : listanpb) {  
+//                if (String.valueOf(p.getIdtabelanbp()).equals(submittedValue)) {  
+//                    return p;  
+//                }  
+//            }  
 
         } catch(NumberFormatException exception) {  
             throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid tabelanbp"));  
         }  
-        return null;  
     }  
   
     @Override

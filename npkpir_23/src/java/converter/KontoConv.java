@@ -38,11 +38,7 @@ public class KontoConv implements javax.faces.convert.Converter{
     public Object getAsObject(FacesContext facesContext, UIComponent component, String sub) {
             try {//robie to bo jak edytuje dokument to PlanKontView nie jest zainicjowany i WykazkontS jest pusty
                 int submittedValue = Integer.parseInt(sub);
-                for (Konto p : konta) {
-                    if (p.getId()==submittedValue) {
-                        return p;
-                    }
-                }
+                return konta.parallelStream().filter(p -> p.getId().equals(submittedValue)).findAny().orElse(null);
             } catch (Exception e) {
             }
             return null;
