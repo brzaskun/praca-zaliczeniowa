@@ -66,7 +66,7 @@ public class PdfFaktRozrach {
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepnyFaktury(document, "Rozrachunki  z ",wpisView.getPodatnikObiekt().getNazwadlafaktury(), wpisView.getPodatnikObiekt().getNip(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
-            dodajLinieOpisuBezOdstepu(document, "klient: "+szukanyklient.getNpelna());
+            dodajLinieOpisuBezOdstepu(document, "firma: "+szukanyklient.getNpelna());
             dodajLinieOpisu(document, "NIP: "+szukanyklient.getNip());
             dodajTabele(document, testobjects.testobjects.getFakturaRozrachunki(nowepozycje, 0),90,0);
             FakturaPodatnikRozliczenie n = nowepozycje.get(nowepozycje.size()-1);

@@ -104,7 +104,17 @@
                     <f:facet name="header">
                         <h:outputText value="faktura"/>
                     </f:facet>
-                    <bcf:outputpl value="#{item.kwota}" rendered="#{item.faktura0rozliczenie1 eq false}"/>
+                    <p:cellEditor>
+                        <f:facet name="output">  
+                            <bcf:outputpl value="#{item.kwota}" rendered="#{item.faktura0rozliczenie1 eq false}"/><bcf:outputpl value="#{item.kwota}" rendered="#{item.faktura0rozliczenie1 eq false}"/>
+                        </f:facet>
+                        <f:facet name="input">  
+                            <p:inputNumber value="#{item.kwota}" required="true" styleClass="kwotarozrachunku" size="9"
+                                    symbolPosition="s" decimalSeparator="."
+                                    thousandSeparator="&#160;" inputStyle="text-align: right;" decimalPlaces="2" minValue="-1000000"/> 
+                        </f:facet>
+                    </p:cellEditor>
+                    
                 </p:column>
                 <p:column width="30" style="text-align: center;">
                     <f:facet name="header">
