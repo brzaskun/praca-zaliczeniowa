@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.DoubleAccumulator;
+import java.util.stream.Collectors;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 import javax.faces.bean.ManagedBean;
@@ -101,7 +102,7 @@ public class KontoZapisFKView implements Serializable{
     private List<ListaSum> listasum;
     private List<Konto> wykazkont;
     private List<Konto> wszystkiekonta;
-    private List<StronaWiersza> zapisyRok;
+//    private List<StronaWiersza> zapisyRok;
     private String wybranyRodzajKonta;
     private boolean nierenderujkolumnnywalut;
     private boolean pokaztransakcje;
@@ -127,7 +128,7 @@ public class KontoZapisFKView implements Serializable{
         wszystkiekonta = new ArrayList<>(wykazkont);
         wpisView.setMiesiacOd(wpisView.getMiesiacWpisu());
         wpisView.setMiesiacDo(wpisView.getMiesiacWpisu());
-        pobierzzapisy(wpisView.getRokWpisuSt());
+//        pobierzzapisy(wpisView.getRokWpisuSt());
         usunkontabezsald();
         wybierzgrupekont();
 //        if (wykazkont != null) {
@@ -199,7 +200,7 @@ public class KontoZapisFKView implements Serializable{
         } catch (Exception e) {
             E.e(e);
         }
-        zapisyRok = zapisy;
+        //zapisyRok = zapisy;
     }
     
      public List<Konto> pobierzkontazsaldem(String rok) {
@@ -261,7 +262,7 @@ public class KontoZapisFKView implements Serializable{
     public void pobierzZapisyNaKoncieRokPop() {
         if (wybranekonto instanceof Konto) {
             if (rokdopobrania!=null) {
-                pobierzzapisy(rokdopobrania);
+//                pobierzzapisy(rokdopobrania);
                 pobierzZapisyNaKoncieNode(wybranekonto);
                 Msg.msg("Rok "+rokdopobrania);
             } else {
@@ -1040,7 +1041,7 @@ public class KontoZapisFKView implements Serializable{
        for (StronaWiersza p : nowydok.getStronyWierszy())
            if (p.getKonto() == konto) {
                kontozapisy.add(p);
-               zapisyRok.add(p);
+               //zapisyRok.add(p);
            }
    }
     
@@ -1229,7 +1230,7 @@ public class KontoZapisFKView implements Serializable{
                 StronaWiersza p = it.next();
                 if (p.getDokfk().getSeriadokfk().equals(symbol)) {
                     dokDAOfk.destroy(p.getDokfk());
-                    zapisyRok.remove(p);
+                    //zapisyRok.remove(p);
                     it.remove();
                 }
             } catch (Exception e){}
@@ -1391,7 +1392,7 @@ public class KontoZapisFKView implements Serializable{
             Msg.msg("w", "Nie przeksiegowano pozycji z zapisami BO w liczbie " + bo);
         }
         kontodoprzeksiegowania = null;
-        pobierzzapisy(wpisView.getRokWpisuSt());
+//        pobierzzapisy(wpisView.getRokWpisuSt());
         publicinit();
         pobierzZapisyNaKoncieNode(wybranekonto);
         Msg.dP();
@@ -1582,13 +1583,13 @@ public class KontoZapisFKView implements Serializable{
         this.kontodoprzeksiegowania = kontodoprzeksiegowania;
     }
     
-    public List<StronaWiersza> getZapisyRok() {
-        return zapisyRok;
-    }
-    
-    public void setZapisyRok(List<StronaWiersza> zapisyRok) {
-        this.zapisyRok = zapisyRok;
-    }
+//    public List<StronaWiersza> getZapisyRok() {
+//        return zapisyRok;
+//    }
+//    
+//    public void setZapisyRok(List<StronaWiersza> zapisyRok) {
+//        this.zapisyRok = zapisyRok;
+//    }
     
     public String getWybranyRodzajKonta() {
         return wybranyRodzajKonta;
@@ -1637,11 +1638,12 @@ public class KontoZapisFKView implements Serializable{
                         query = query.substring(0, 3) + "-" + query.substring(3, 4);
                     }
                     String[] qlist = {query};
-                    wykazkont.stream().forEach((p)->{
-                        if (p.getPelnynumer().startsWith(qlist[0])) {
-                            results.add(p);
-                        }
-                    });
+                    results.addAll(wykazkont.parallelStream().filter(p -> p.getPelnynumer().startsWith(qlist[0])).collect(Collectors.toList()));
+//                    wykazkont.stream().forEach((p)->{
+//                        if (p.getPelnynumer().startsWith(qlist[0])) {
+//                            results.add(p);
+//                        }
+//                    });
                     //rozwiazanie dla rozrachunkow szukanie po nazwie kontrahenta
                     if (nazwa != null && nazwa.length() > 2) {
                         for (Iterator<Konto> it = results.iterator(); it.hasNext();) {
@@ -1653,11 +1655,12 @@ public class KontoZapisFKView implements Serializable{
                     }
                 } catch (NumberFormatException e) {
                     String[] qlist = {query.toLowerCase()};
-                    wykazkont.stream().forEach((p)->{
-                        if (p.getNazwapelna().toLowerCase().contains(qlist[0])) {
-                            results.add(p);
-                        }
-                    });
+                    results.addAll(wykazkont.parallelStream().filter(p -> p.getNazwapelna().toLowerCase().contains(qlist[0])).collect(Collectors.toList()));
+//                    wykazkont.stream().forEach((p)->{
+//                        if (p.getNazwapelna().toLowerCase().contains(qlist[0])) {
+//                            results.add(p);
+//                        }
+//                    });
                 } catch (Exception e) {
                     E.e(e);
                 }
@@ -1693,11 +1696,12 @@ public class KontoZapisFKView implements Serializable{
                         query = query.substring(0, 3) + "-" + query.substring(3, 4);
                     }
                     String[] qlist = {query};
-                    wszystkiekonta.stream().forEach((p)->{
-                        if (p.getPelnynumer().startsWith(qlist[0])) {
-                            results.add(p);
-                        }
-                    });
+                    results.addAll(wykazkont.parallelStream().filter(p -> p.getPelnynumer().startsWith(qlist[0])).collect(Collectors.toList()));
+//                    wszystkiekonta.stream().forEach((p)->{
+//                        if (p.getPelnynumer().startsWith(qlist[0])) {
+//                            results.add(p);
+//                        }
+//                    });
                     //rozwiazanie dla rozrachunkow szukanie po nazwie kontrahenta
                     if (nazwa != null && nazwa.length() > 2) {
                         for (Iterator<Konto> it = results.iterator(); it.hasNext();) {
@@ -1709,11 +1713,12 @@ public class KontoZapisFKView implements Serializable{
                     }
                 } catch (NumberFormatException e) {
                     String[] qlist = {query.toLowerCase()};
-                    wszystkiekonta.stream().forEach((p)->{
-                        if (p.getNazwapelna().toLowerCase().contains(qlist[0])) {
-                            results.add(p);
-                        }
-                    });
+                    results.addAll(wykazkont.parallelStream().filter(p -> p.getNazwapelna().toLowerCase().contains(qlist[0])).collect(Collectors.toList()));
+//                    wszystkiekonta.stream().forEach((p)->{
+//                        if (p.getNazwapelna().toLowerCase().contains(qlist[0])) {
+//                            results.add(p);
+//                        }
+//                    });
                 } catch (Exception e) {
                     E.e(e);
                 }
