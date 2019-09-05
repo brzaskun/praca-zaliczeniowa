@@ -318,7 +318,7 @@ public class DokfkView implements Serializable {
                 kontadlaewidencji.put("221-1", kontoDAOfk.findKonto("221-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
                 kontadlaewidencji.put("149-3", kontoDAOfk.findKonto("149-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
                 kontadlaewidencji.put("404-2", kontoDAOfk.findKonto("404-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
-                ostatniedokumenty = dokDAOfk.findDokfkPodatnikRok(wpisView);
+                ostatniedokumenty = dokDAOfk.findDokfkPodatnikRokUnique(wpisView);
                 //kontadlaewidencji.put("490", kontoDAOfk.findKonto("490", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
                 nkup = cechazapisuDAOfk.findPodatniknkup();
                 klientdlaPK = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
@@ -351,7 +351,7 @@ public class DokfkView implements Serializable {
     public void resetujDokument() {
         //pobieram dane ze starego dokumentu, jeżeli jest
             if (ostatniedokumentyaktualna0nieaktualna1) {
-            ostatniedokumenty = dokDAOfk.findDokfkPodatnikRok(wpisView);
+            ostatniedokumenty = dokDAOfk.findDokfkPodatnikRokUnique(wpisView);
             ostatniedokumentyaktualna0nieaktualna1 = false;
         }
         String symbolPoprzedniegoDokumentu = null;

@@ -789,8 +789,36 @@ public class BilansGenerowanieView implements Serializable {
         for (StronaWiersza t : p.getZapisy()) {
             waluty.add(listawalut.get(t.getSymbolWalutBOiSW()));
         }
-        for (Waluty wal : waluty) {
-            nowalista_wierszy.addAll(sumujdlawaluty(wal, p.getZapisy()));
+        if (waluty.size()>1) {
+            double saldoPLN = 0.0;
+            for (StronaWiersza r : p.getZapisy()) {
+                if (r.isWn()) {
+                    saldoPLN += r.getKwotaPLN();
+                } else {
+                    saldoPLN -= r.getKwotaPLN();
+                }
+            }
+            saldoPLN = Z.z(saldoPLN);
+            for (Waluty wal : waluty) {
+                if (!wal.getSymbolwaluty().equals("PLN")) {
+                    nowalista_wierszy.addAll(sumujdlawaluty(wal, p.getZapisy()));
+                }
+            }
+            double saldowalutawpln = 0.0;
+            for (SaldoKonto s: nowalista_wierszy) {
+                if (s.getSaldoWnPLN()!=0.0) {
+                    saldowalutawpln += s.getSaldoWnPLN();
+                } else {
+                    saldowalutawpln -= s.getSaldoMaPLN();
+                }
+            }
+            saldowalutawpln = Z.z(saldowalutawpln);
+            double roznica = saldoPLN-saldowalutawpln;
+            nowalista_wierszy.add(new SaldoKonto(p.getKonto(), listawalut.get("PLN"), roznica, roznica));
+        } else {
+            for (Waluty wal : waluty) {
+                nowalista_wierszy.addAll(sumujdlawaluty(wal, p.getZapisy()));
+            }
         }
         return nowalista_wierszy;
     }
