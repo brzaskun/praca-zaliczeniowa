@@ -40,12 +40,12 @@
                             <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                             <f:selectItems value="#{mbankImportView.rodzajedokKlienta}"  var="wploop" itemLabel="#{wploop.skrotNazwyDok} - #{wploop.nazwa}"/>
                             <p:ajax global="false" event="blur"  partialSubmit="true"/>
-                            <p:ajax global="false" event="change"  partialSubmit="true" listener="#{mbankImportView.grid2pokaz}" update="panelprzyciskowbankgco"/>
+                            <p:ajax global="false" event="change"  partialSubmit="true" listener="#{mbankImportView.grid2pokaz}" update="panelprzyciskowbankMBANK"/>
                         </p:selectOneMenu>
                 </p:panelGrid>
             </p:panelGrid>
         </h:form>
-        <h:form id="panelprzyciskowbankgco">
+        <h:form id="panelprzyciskowbankMBANK">
         <p:panelGrid columns="2" rendered="false" binding="#{mbankImportView.grid2}">
             <p:panelGrid columns="8" style="width: 1000px;">
                 <h:outputText value="nr wyciągu od"/><h:outputText value="#{mbankImportView.wyciagnrod}"/>
@@ -64,8 +64,8 @@
             </p:panelGrid>
         <h:outputText value="#{mbankImportView.wiadomoscnieprzypkonta}" style="color: red; margin-bottom: 10px;"/>
         <p:panelGrid columns="3" style="width: 500px;">
-                <p:commandButton value="pobierz dane" actionListener="#{mbankImportView.importujdok()}" update="panelprzyciskowbankgco form_importmbankbank" style="width: 120px;" />
-                <p:commandButton value="resetuj" actionListener="#{mbankImportView.resetuj()}" update="panelplikbankmbank panelprzyciskowbankgco form_importmbankbank" style="width: 120px; margin-left: 20px;" resetValues="true"/>
+                <p:commandButton value="pobierz dane" actionListener="#{mbankImportView.importujdok()}" update="panelprzyciskowbankMBANK form_importmbankbank" style="width: 120px;" />
+                <p:commandButton value="resetuj" actionListener="#{mbankImportView.resetuj()}" update="panelplikbankmbank panelprzyciskowbankMBANK form_importmbankbank" style="width: 120px; margin-left: 20px;" resetValues="true"/>
                 <p:commandButton value="generuj dok" actionListener="#{mbankImportView.generuj()}" update="form_importmbankbank" style="width: 120px;margin-left: 60px;" rendered="false" binding="#{mbankImportView.generujbutton}"/>
             </p:panelGrid>
         </p:panelGrid>
