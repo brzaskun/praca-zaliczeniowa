@@ -160,6 +160,12 @@ public class ImportBankXML implements Serializable {
         this.nrwyciagu = nrwyciagu;
     }
 
-        
+    @Override
+    public String toString() {
+        return "ImportBankXML{" + "IBAN=" + IBAN + ", kwota=" + kwota + ", waluta=" + waluta + ", wnma=" + wnma + ", datatransakcji=" + datatransakcji + ", datawaluty=" + datawaluty + ", opistransakcji=" + opistransakcji + ", kontrahent=" + kontrahent + ", nrtransakji=" + nrtransakji + ", juzzaksiegowany=" + juzzaksiegowany + ", nrwyciagu=" + nrwyciagu + ", typtransakcji=" + typtransakcji + '}';
+    }
+
+
+    
         
 }

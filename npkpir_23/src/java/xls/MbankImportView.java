@@ -588,7 +588,7 @@ public class MbankImportView implements Serializable {
         }
         if (opis.contains("WYPŁATA KARTĄ")) {
             kontr="";
-            opis = opis.replace("WYPŁATA KARTĄ", "wypłatya kartą");
+            opis = opis.replace("WYPŁATA KARTĄ", "wypłata kartą");
         }
         
         opis = opis.replaceAll("\\s{2,}", " ").trim();
@@ -812,7 +812,7 @@ public class MbankImportView implements Serializable {
     
     public static void main(String[] args) throws SAXException, IOException {
         try {
-            Path pathToFile = Paths.get("D:\\mbank.csv");
+            Path pathToFile = Paths.get("D:\\ba.txt");
             List<List<String>> records = new ArrayList<>();
             try (BufferedReader br =  Files.newBufferedReader(pathToFile)) {
                 String line;
@@ -821,44 +821,62 @@ public class MbankImportView implements Serializable {
                     records.add(Arrays.asList(values));
                 }
             } catch (Exception e) {
+                E.e(e);
             }
-            int i = 0;
+            int i = 1;
             List<ImportBankXML> listaswierszy = new ArrayList<>();
             for (Iterator<List<String>> it = records.iterator(); it.hasNext();) {
                 List<String> baza = it.next();
                 List<String> row = new ArrayList<>();
-//                for (String r : baza) {
-//                    row.add(r.replace("\"", ""));
-//                }
-//                if (i==0) {
-//                    String wyciagnr = baza.get(0);
-//                    String wyciagdataod = baza.get(2);
-//                    String wyciagdatado = baza.get(1);
-//                    String wyciagkonto = baza.get(5);;
-//                    String wyciagwaluta = baza.get(6);
-//                    String wyciagbz = baza.get(12);
-//                    String wyciagobrotywn = baza.get(10);
-//                    String wyciagobrotyma = baza.get(11);
-//                    System.out.println("");
-//                } else if (i==1) {
-//                    String wyciagbo = baza.get(12);
-//                } else {
-//                    ImportBankXML x = new ImportBankXML();
-//                    x.setDatatransakcji(baza.get(1));
-//                    x.setDatawaluty(baza.get(2));
-//                    x.setIBAN(baza.get(5));//??
-//                    x.setKontrahent(baza.get(4));//??
-//                    x.setKwota(Double.parseDouble(baza.get(10).replace(",",".")));
-//                    x.setWnma("Wn");
-//                    if (!baza.get(11).equals("")) {
-//                        x.setKwota(-Double.parseDouble(baza.get(11).replace(",",".")));
-//                        x.setWnma("Ma");
-//                    }
-//                    x.setNrtransakji(baza.get(8));
-//                    x.setOpistransakcji(baza.get(3));
-//                    x.setTyptransakcji(oblicztyptransakcji(x));
-//                    listaswierszy.add(x);
-//                }
+                for (String r : baza) {
+                    row.add(r.replace("\"", ""));
+                }
+                if (baza.size()==8 && baza.get(6).equals("#Saldo końcowe")) {
+                    String wyciagbz = baza.get(7);
+                    System.out.println("");
+                } else if (i==15) {
+                    String wyciagnr = "brak";
+                    String wyciagdataod = baza.get(0);
+                    String wyciagdatado = baza.get(1);
+                    System.out.println("");
+                } else if (i==19) {
+                    String wyciagwaluta = baza.get(0);
+                    System.out.println("");
+                }  else if (i==21) {
+                    String wyciagkonto = baza.get(0);
+                    System.out.println("");
+                } else if (i==32) {
+                    String wyciagobrotywn = baza.get(2);
+                    System.out.println("");
+                } else if (i==33) {
+                    String wyciagobrotyma = baza.get(2);
+                    System.out.println("");
+                    //String wyciagbz = baza.get(12);
+                } else if (i==36) {
+                    String wyciagbo = baza.get(1); 
+                    System.out.println("");
+                } else {
+                    if (baza.size()==8 && !baza.get(0).equals("#Data operacji")) {
+                        ImportBankXML x = new ImportBankXML();
+                        x.setDatatransakcji(baza.get(0));
+                        x.setDatawaluty(baza.get(1));
+                        x.setIBAN(baza.get(5));//??
+                        x.setKontrahent(baza.get(4));//??
+                        double kwota = Double.parseDouble(baza.get(6).replace(",",".").replace(" ",""));
+                        x.setKwota(kwota);
+                        if (kwota>0) {
+                            x.setWnma("Wn");
+                        } else {
+                            x.setWnma("Ma");
+                        }
+                        x.setWaluta("PLN");
+                        x.setNrtransakji(baza.get(2));
+                        x.setOpistransakcji(baza.get(3));
+                        x.setTyptransakcji(oblicztyptransakcji(x));
+                        x.setOpistransakcji(baza.get(3));
+                        listaswierszy.add(x);
+                }
+                }
                 i++;
             }
             System.out.println("");
