@@ -1,0 +1,112 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:bcf="http://brzaskun.com/facelets">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <f:view>
+                <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                    <ui:include src="sub/layoutIndex/north.xhtml"/>  <!-- panel polnocny-->
+                    <ui:include src="sub/layoutInfo/south.xhtml"/>   <!-- panel poludniowy-->
+                    <ui:include src="sub/layoutIndex/west.xhtml"/>   <!-- panel zachodni-->
+                    <ui:include src="sub/layoutTablica/east.xhtml"/>   <!-- panel wchodni-->
+                    <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
+                        <bcf:ajaxs/>
+                        <h:form>
+                            <p:growl life="3600"  id="messages1"/>
+                            <p:fileUpload fileUploadListener="#{importCisView.importujsprzedaz}" 
+                                          mode="advanced" dragDropSupport="true" fileLimit="1"
+                                          update="messages1 importtabela" sizeLimit="2000000"  
+                                          validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
+                                          fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"  onstart="PF('dialogAjaxCzekaj').show();"
+                                          uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
+                                          style="height: 100px;">
+                            </p:fileUpload>
+                        </h:form>
+                        <h:form id="importtabela">
+                            <p:panelGrid columns="6" id="sumysumy">
+                                <h:outputText value="Razem netto: "/>
+                                <bcf:outputpl value="#{importCisView.netto}"/>
+                                <h:outputText value=" | vat: "/>
+                                <bcf:outputpl value="#{importCisView.vat}"/>
+                                <p:separator/>
+                                <p:commandButton value="Print" type="button" icon="pi pi-print" style="display:inline;margin-left 20px; width: 120px;">
+                                    <p:printer target="importtabela:dokumentyLista" />
+                                </p:commandButton>
+
+                            </p:panelGrid>
+                            <p:remoteCommand name="przeliczfilter" actionListener="#{importCisView.sumuj}" update="importtabela:sumysumy" global="false"/>
+                            <p:dataTable  var="wpis" value="#{importCisView.faktury}" id="dokumentyLista"
+                                          filteredValue="#{importCisView.fakturyfiltered}"
+                                          rowIndexVar="index" 
+                                          style="width: 1200px; margin-top: 10px;" 
+                                          paginator="true" paginatorAlwaysVisible="true" rows="24"
+                                          paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                                          rowsPerPageTemplate="24,48,96,182,364, 728, 1456" 
+                                          widgetVar="dokTable" 
+                                          emptyMessage="Nie pobrano jeszcze żadnych danych z pliku json"
+                                          styleClass="grid" sortBy="#{wpis.data_wystawienia}"
+                                          >
+                                <p:ajax event="filter" global="false" oncomplete="przeliczfilter()"/>
+
+                                <f:facet name="header">  
+                                    <h:outputText value="Zestawienie #{importCisView.faktury.size()} zaimportowanych dokumentów z pliku json" />  
+                                    <h:outputText value="- wyszukiwanie: " />  
+                                    <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:250px" placeholder="wyszukiwane wyrażenie" />  
+                                    <!--                    <p:commandButton id="toggler" type="button" value="Kolumny" style="float:right" icon="ui-icon-calculator" />
+                                                        <p:columnToggler datasource="dokumentyLista" trigger="toggler"/>-->
+                                </f:facet>
+                                <p:column id="idColumn" headerText="#{mgs.numerkolejny}" style="width: 20px; text-align: center;">  
+                                    <h:outputText styleClass="lpwiersza" value="#{index+1}" />
+                                </p:column>
+                                <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.data_wystawienia}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.data_wystawienia}"  style="width: 60px; min-width: 70px;">  
+                                    <h:outputText value="#{wpis.data_wystawienia}"/>
+                                </p:column>
+                                <p:column id="kontrColumn" headerText="klient" filterBy="#{wpis.buyer_name}" width="120"
+                                          filterStyle="width:180px;" filterMatchMode="contains" sortBy="#{wpis.buyer_name}">  
+                                    <h:outputText  value="#{wpis.buyer_name}"/>
+                                </p:column>
+                                <p:column id="rodzTrColumn" headerText="kraj"  filterBy="#{wpis.buyer_country}" filterStyle="width:50px;" filterMatchMode="contains" 
+                                          sortBy="#{wpis.buyer_country}"  style="width: 50px;;text-align: center;">
+                                    <h:outputText value="#{wpis.buyer_country}" style="#{wpis.buyer_country eq 'Polska' ? 'color: green':''}"/>
+                                </p:column>
+                                <p:column  headerText="stawka" filterBy="#{wpis.stawka_vat}" filterStyle="width: 40px;" filterMatchMode="contains" sortBy="#{wpis.stawka_vat}"  width="40" >   
+                                    <h:outputText value="#{wpis.stawka_vat}" />
+                                </p:column>
+                                <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpis.numer_faktury}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.numer_faktury}"  style="width: 10%;" >   
+                                    <h:outputText value="#{wpis.numer_faktury}" />
+                                </p:column>
+                                <p:column id="opisColumn" headerText="waluta" filterBy="#{wpis.waluta}" filterStyle="width: 40px;" filterMatchMode="contains" sortBy="#{wpis.waluta}" width="40" >  
+                                    <h:outputText value="#{wpis.waluta}" style="#{wpis.waluta eq 'PLN' ? 'color: green':''}"/>
+                                </p:column>
+                                <p:column id="nettoColumn" headerText="#{mgs.netto}" 
+                                          filterBy="#{wpis.cena_total_netto_waluta}" filterMatchMode="contains"  sortBy="#{wpis.cena_total_netto_waluta}"  style="width: 60px;">  
+                                    <bcf:outputpl value="#{wpis.cena_total_netto_waluta}"/>
+                               </p:column>
+                                <p:column id="nettoColumn1" headerText="#{mgs.vat}" styleClass="filter60" 
+                                          filterBy="#{wpis.podatek_vat_waluta}" filterMatchMode="contains"  sortBy="#{wpis.podatek_vat_waluta}"  style="width: 60px;">  
+                                    <bcf:outputpl value="#{wpis.podatek_vat_waluta}" />
+                                    <br/>
+                                </p:column>
+                                 <p:column  headerText="kontrola" styleClass="filter60" 
+                                          filterBy="#{wpis.podatek_vat_waluta}" filterMatchMode="contains"  sortBy="#{wpis.podatek_vat_waluta}"  style="width: 60px;">  
+                                    <bcf:outputpl value="#{wpis.podatek_vat_waluta}" />
+                                    <br/>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:layoutUnit>
+                </p:layout>
+            </f:view>
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+
+
