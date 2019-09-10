@@ -43,7 +43,7 @@ public class JPKCheck {
     @Inject
     private PodatnikDAO podatnikDAO;
     
-    @Schedule(dayOfWeek="1-5", hour = "10", persistent = false)
+    @Schedule(dayOfWeek="1", hour = "10", persistent = false)
     public void test() {
         try {
             InetAddress ip = InetAddress.getLocalHost();

@@ -2225,21 +2225,22 @@ public class DokfkView implements Serializable {
                     stronaWierszaCechy = wiersz.getStronaMa();
                     wnma = "ma";
                 }
-                pobranecechypodatnik = new ArrayList<>(pobranecechypodatnikzapas);
-                List<Cechazapisu> cechyuzyte = stronaWierszaCechy.getCechazapisuLista();
-                for (Cechazapisu c : cechyuzyte) {
-                    pobranecechypodatnik.remove(c);
-                }
+                Cechazapisu cechankup = null;
                 for (Cechazapisu c : pobranecechypodatnik) {
                     if (c.getNazwacechy().equals("NKUP")) {
-                        stronaWierszaCechy.getCechazapisuLista().add(c);
-                        if (wnma.equals("wn")) {
-                            PrimeFaces.current().ajax().update("formwpisdokument:dataList:" + idwiersza + ":kontown");
-                        } else {
-                            PrimeFaces.current().ajax().update("formwpisdokument:dataList:" + idwiersza + ":kontoma");
-                        }
+                        cechankup = c;
                         break;
                     }
+                }
+                if (stronaWierszaCechy.getCechazapisuLista().contains(cechankup)) {
+                    stronaWierszaCechy.getCechazapisuLista().remove(cechankup);
+                } else {
+                    stronaWierszaCechy.getCechazapisuLista().add(cechankup);
+                }
+                if (wnma.equals("wn")) {
+                    PrimeFaces.current().ajax().update("formwpisdokument:dataList:" + idwiersza + ":kontown");
+                } else {
+                    PrimeFaces.current().ajax().update("formwpisdokument:dataList:" + idwiersza + ":kontoma");
                 }
                 //PrimeFaces.current().ajax().update("formCHW");
             }

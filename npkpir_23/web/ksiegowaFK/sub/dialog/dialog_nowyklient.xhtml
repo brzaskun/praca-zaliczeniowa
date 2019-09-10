@@ -25,7 +25,7 @@
                         <p:watermark for="nipPole" value="bez -" /> 
                         <p:ajax event="keyup" listener="#{KlView.znajdzdaneregon('formXNowyKlient')}" partialSubmit="true" global="false"/>
                     </p:inputText>
-                    <p:inputText id="nazwaPole" value="#{KlView.selected.npelna}"  accesskey="a" title="pełna nazwa kontrahenta" maxlength="55" 
+                    <p:inputText id="nazwaPole" value="#{KlView.selected.npelna}"  title="pełna nazwa kontrahenta" maxlength="55" 
                                  style="width: 200px" required="true" requiredMessage="Pole nazwy pełnej nie może byc puste"
                                   onblur="kopiujnazwepelna();">
                         <p:watermark for="nazwaPole" value="pełna nazwa kontrahenta 55znakow" /> 
