@@ -111,6 +111,14 @@ public class DokDAOfk extends DAO implements Serializable {
        }
     }
     
+    public List<Dokfk> findDokfkPodatnikRokUnique2(WpisView w) {
+        try {
+           return Collections.synchronizedList(dokFacade.getEntityManager().createNamedQuery("Dokfk.findByPodatnikRokUnique2").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).getResultList());
+       } catch (Exception e ){
+           return null;
+       }
+    }
+    
     public List<Dokfk> findDokfkPodatnik(WpisView wpisView) {
         try {
            return Collections.synchronizedList(dokFacade.findDokfkPodatnik(wpisView));
