@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -103,21 +104,23 @@ public class DokDAOfk extends DAO implements Serializable {
        }
     }
     
-    public List<Dokfk> findDokfkPodatnikRokUnique(WpisView w) {
-        try {
-           return Collections.synchronizedList(dokFacade.getEntityManager().createNamedQuery("Dokfk.findByPodatnikRokUnique").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).getResultList());
-       } catch (Exception e ){
-           return null;
-       }
-    }
+//    public List<Dokfk> findDokfkPodatnikRokUnique(WpisView w) {
+//        List<Dokfk> zwrot = new ArrayList<>();
+//        try {
+//           List<Dokfk> zwrot1 = Collections.synchronizedList(dokFacade.getEntityManager().createNamedQuery("Dokfk.findByPodatnikRokUnique").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).getResultList());
+//           List<Dokfk> zwrot2 = Collections.synchronizedList(dokFacade.getEntityManager().createNamedQuery("Dokfk.findByPodatnikRokUnique2").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).getResultList());
+//           if (zwrot1!=null) {
+//               zwrot.addAll(zwrot1);
+//           }
+//           if (zwrot2!=null) {
+//               zwrot.addAll(zwrot2);
+//           }
+//       } catch (Exception e ){
+//           
+//       }
+//        return zwrot;
+//    }
     
-    public List<Dokfk> findDokfkPodatnikRokUnique2(WpisView w) {
-        try {
-           return Collections.synchronizedList(dokFacade.getEntityManager().createNamedQuery("Dokfk.findByPodatnikRokUnique2").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).getResultList());
-       } catch (Exception e ){
-           return null;
-       }
-    }
     
     public List<Dokfk> findDokfkPodatnik(WpisView wpisView) {
         try {
@@ -233,12 +236,24 @@ public class DokDAOfk extends DAO implements Serializable {
        }
     }
     
-    public Dokfk findDokfkLastofaTypeKontrahent(Podatnik podatnik, String seriadokfk, Klienci kontr, String rok) {
-       try {
-           return dokFacade.findDokfkLastofaTypeKontrahent(podatnik,seriadokfk, kontr,rok);
-       } catch (Exception e ){
-           return null;
-       }
+    public Dokfk findDokfkLastofaTypeKontrahent(Podatnik podatnik, String seriadokfk, Klienci kontr, String rok, Set<Dokfk> listaostatnich) {
+        Dokfk zwrot = null;
+        try {
+            if (listaostatnich != null) {
+                for (Dokfk p : listaostatnich) {
+                    if (p.getSeriadokfk().equals(seriadokfk) && p.getKontr().equals(kontr)) {
+                        zwrot = p;
+                        break;
+                    }
+                }
+            }
+            if (zwrot == null) {
+                zwrot = dokFacade.findDokfkLastofaTypeKontrahent(podatnik, seriadokfk, kontr, rok);
+            }
+        } catch (Exception e) {
+
+        }
+        return zwrot;
     }
 
     public Collection<? extends Dokfk> findDokByTypeYear(String BO, String rok) {

@@ -270,11 +270,9 @@ public class DokfkView implements Serializable {
     private List<PodatnikEwidencjaDok> listaewidencjipodatnika;
     @Inject
     private PodatnikEwidencjaDokDAO podatnikEwidencjaDokDAO;
-    private List<Dokfk> ostatniedokumenty;
-    private boolean ostatniedokumentyaktualna0nieaktualna1;
-   
+    private Set<Dokfk> ostatniedokumenty;
+     
     
-
 
     public DokfkView() {
          ////E.m(this);
@@ -291,7 +289,7 @@ public class DokfkView implements Serializable {
         this.dokumentypodatnika = Collections.synchronizedList(new ArrayList<>());
         this.cechydokzlisty = Collections.synchronizedList(new ArrayList<>());
         this.kontadlaewidencji = new ConcurrentHashMap<>();
-        this.ostatniedokumenty = new ArrayList<>();
+        this.ostatniedokumenty = new HashSet<>();
     }
 
     //to zostaje bo tu i tak nie pobiera dokumentow
@@ -318,14 +316,6 @@ public class DokfkView implements Serializable {
                 kontadlaewidencji.put("221-1", kontoDAOfk.findKonto("221-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
                 kontadlaewidencji.put("149-3", kontoDAOfk.findKonto("149-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
                 kontadlaewidencji.put("404-2", kontoDAOfk.findKonto("404-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
-                ostatniedokumenty = dokDAOfk.findDokfkPodatnikRokUnique(wpisView);
-                if (ostatniedokumenty==null) {
-                    ostatniedokumenty = new ArrayList<>();
-                }
-                List<Dokfk> innedok = dokDAOfk.findDokfkPodatnikRokUnique(wpisView);
-                if (innedok!=null) {
-                    ostatniedokumenty.addAll(innedok);
-                }
                 //kontadlaewidencji.put("490", kontoDAOfk.findKonto("490", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
                 nkup = cechazapisuDAOfk.findPodatniknkup();
                 klientdlaPK = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
@@ -357,17 +347,6 @@ public class DokfkView implements Serializable {
     }
     public void resetujDokument() {
         //pobieram dane ze starego dokumentu, jeżeli jest
-            if (ostatniedokumentyaktualna0nieaktualna1) {
-            ostatniedokumenty = dokDAOfk.findDokfkPodatnikRokUnique(wpisView);
-            if (ostatniedokumenty==null) {
-                    ostatniedokumenty = new ArrayList<>();
-                }
-                List<Dokfk> innedok = dokDAOfk.findDokfkPodatnikRokUnique(wpisView);
-                if (innedok!=null) {
-                    ostatniedokumenty.addAll(innedok);
-            }
-            ostatniedokumentyaktualna0nieaktualna1 = false;
-        }
         String symbolPoprzedniegoDokumentu = null;
         Rodzajedok rodzajDokPoprzedni = null;
         Klienci ostatniklient = null;
@@ -997,6 +976,7 @@ public class DokfkView implements Serializable {
                 }
                 selected.setDataujecia(new Date());
                 dokDAOfk.dodaj(selected);
+                dodajdolistyostatnich(selected);
                 biezacetransakcje = null;
                 //Dokfk dodany = dokDAOfk.findDokfkObj(selected);
                 wykazZaksiegowanychDokumentow.add(selected);
@@ -1122,6 +1102,13 @@ public class DokfkView implements Serializable {
             E.e(e);
             Msg.msg("Blad DokfkView przepisz waluty");
         }
+    }
+    
+    public void edycjaimport() {
+        selected.setImportowany(false);
+        edycja();
+        wykazZaksiegowanychDokumentowimport.remove(selected);
+        PrimeFaces.current().ajax().update("zestawieniedokumentowimport:dataListImport");
     }
 
     public void edycja() {
@@ -1369,17 +1356,17 @@ public class DokfkView implements Serializable {
         }
     }
 
-//    public void pobierzopiszpoprzedniegodok() {
-//        Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
-//        if (poprzedniDokument != null && selected.getOpisdokfk() == null) {
-//            selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
-//            Wiersz w = selected.getListawierszy().get(0);
-//            if (w.getOpisWiersza() == null || w.getOpisWiersza().equals("")) {
-//                w.setOpisWiersza(selected.getOpisdokfk());
-//            }
-//        }
-//        kontoRozrachunkowe = pobierzKontoRozrachunkowe(kliencifkDAO, selected, wpisView, kontoDAOfk);
-//    }
+    public void pobierzopiszpoprzedniegodok() {
+        Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt(), ostatniedokumenty);
+        if (poprzedniDokument != null && selected.getOpisdokfk() == null) {
+            selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
+            Wiersz w = selected.getListawierszy().get(0);
+            if (w.getOpisWiersza() == null || w.getOpisWiersza().equals("")) {
+                w.setOpisWiersza(selected.getOpisdokfk());
+            }
+        }
+        kontoRozrachunkowe = pobierzKontoRozrachunkowe(kliencifkDAO, selected, wpisView, kontoDAOfk);
+    }
 
     public void dodajklientaautomatRK() {
         try {
@@ -1410,28 +1397,6 @@ public class DokfkView implements Serializable {
     }
     
     
-    public void pobierzopiszpoprzedniegodok() {
-            poprzedniDokument = pobierzzlistyRodzaj(ostatniedokumenty, selected.getRodzajedok());
-        if (poprzedniDokument==null) {
-            poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
-            if (poprzedniDokument!=null) {
-                ostatniedokumenty.add(poprzedniDokument);
-            }
-        }
-        if (poprzedniDokument != null) {
-                selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
-                PrimeFaces.current().ajax().update("formwpisdokument:opisdokumentu");
-                Wiersz w = selected.getListawierszy().get(0);
-                w.setOpisWiersza(selected.getOpisdokfk());
-            if(wpisView.getVatokres()==0) {
-                DokFKVATBean.pobierzkontaZpoprzedniegoDokumentu(poprzedniDokument, selected);
-            }
-            kontoRozrachunkowe = pobierzKontoRozrachunkowe(kliencifkDAO, selected, wpisView, kontoDAOfk);
-        } else {
-            kontoRozrachunkowe = null;
-        }
-    }
-    
     public void pobierzopiszpoprzedniegodokItemSelect() {
         try {
             if (selected.getKontr().getNpelna().equals("dodaj klienta automatycznie")) {
@@ -1444,23 +1409,18 @@ public class DokfkView implements Serializable {
                         kontoRozrachunkowe = null;
                         poprzedniDokument = null;
                     }
-                    ostatniedokumentyaktualna0nieaktualna1 = true;
                 }
                 PrimeFaces.current().ajax().update("formwpisdokument:acForce");
             } else {
                 if (selected.getKontr() != null) {
-                    poprzedniDokument = pobierzzlisty(ostatniedokumenty, selected.getKontr(), selected.getRodzajedok());
-                    if (poprzedniDokument==null) {
-                        poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
-                        if (poprzedniDokument!=null) {
-                            ostatniedokumenty.add(poprzedniDokument);
-                        }
-                    }
+                        poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt(), ostatniedokumenty);
                     if (poprzedniDokument != null) {
                         selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
                         PrimeFaces.current().ajax().update("formwpisdokument:opisdokumentu");
                         Wiersz w = selected.getListawierszy().get(0);
+                            if (w.getOpisWiersza() == null || w.getOpisWiersza().equals("")) {
                         w.setOpisWiersza(selected.getOpisdokfk());
+                            }
                         if(wpisView.getVatokres()==0) {
                             DokFKVATBean.pobierzkontaZpoprzedniegoDokumentu(poprzedniDokument, selected);
                         }
@@ -1474,38 +1434,6 @@ public class DokfkView implements Serializable {
         }
     }
 
-    private Dokfk pobierzzlisty(List<Dokfk> ostatniedokumenty, Klienci kontr, Rodzajedok rodzaj) {
-        Dokfk zwrot = null;
-        if (kontr.getNip().equals(wpisView.getPodatnikObiekt().getNip())) {
-            for (Dokfk p : ostatniedokumenty) {
-                if (p.getRodzajedok().equals(rodzaj)) {
-                    zwrot = p;
-                    break;
-                }
-            }
-        } else {
-            for (Dokfk p : ostatniedokumenty) {
-                if (p.getKontr().equals(kontr)) {
-                    zwrot = p;
-                    break;
-                }
-            }
-        }
-        return zwrot;
-    }
-    
-    private Dokfk pobierzzlistyRodzaj(List<Dokfk> ostatniedokumenty, Rodzajedok rodzaj) {
-        Dokfk zwrot = null;
-        for (Dokfk p : ostatniedokumenty) {
-            if (p.getRodzajedok().equals(rodzaj)) {
-                zwrot = p;
-                break;
-            }
-        }
-        return zwrot;
-    }
-
-    
     public void wygenerujokreswpisudokumentu(AjaxBehaviorEvent event) {
         komunikatywpisdok = "";
         PrimeFaces.current().ajax().update("formwpisdokument:komunikatywpisdok");
@@ -1986,6 +1914,14 @@ public class DokfkView implements Serializable {
         }
         //wpisView.setMiesiacWpisu(komunikatywpisdok); nie wiem po co to bylo
         wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
+        if (wykazZaksiegowanychDokumentow != null && wykazZaksiegowanychDokumentow.size() > 0) {
+            for (Iterator<Dokfk> it = wykazZaksiegowanychDokumentow.iterator(); it.hasNext();) {
+                Dokfk r = (Dokfk) it.next();
+                if (r.isImportowany() == true) {
+                    it.remove();
+                }
+            }
+         }
         rodzajedokumentowPodatnika = znajdzrodzajedokaktualne(wykazZaksiegowanychDokumentow);
         //cechydokzlisty = znajdzcechy(wykazZaksiegowanychDokumentow);
         pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
@@ -4539,6 +4475,20 @@ public void oznaczjakonkup() {
         } catch (Exception e) {
             Msg.msg("e","wystąpił błąd podczas księgowania dokumentów importowych");
         }
+    }
+
+    private void dodajdolistyostatnich(Dokfk selected) {
+        Dokfk jestcos = null;
+        for (Dokfk p : ostatniedokumenty) {
+            if (p.getSeriadokfk().equals(selected.getSeriadokfk())&&p.getKontr().equals(selected.getKontr())) {
+                jestcos = p;
+                break;
+            }
+        }
+        if (jestcos!=null) {
+            ostatniedokumenty.remove(jestcos);
+        }
+        ostatniedokumenty.add(selected);
     }
 
     
