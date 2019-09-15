@@ -80,6 +80,8 @@ public class ImportCisView  implements Serializable {
 //    private boolean deklaracjaniemiecka;
     private double netto;
     private double vat;
+    private double nettopln;
+    private double vatpln;
     private Tabelanbp tabeladomyslna;
         
     @PostConstruct
@@ -92,35 +94,34 @@ public class ImportCisView  implements Serializable {
     }
     
     public void sumuj() {
-        if (fakturyfiltered!=null) {
+        List<FakturaCis> fakt = fakturyfiltered!=null? fakturyfiltered : faktury;
+        if (fakt!=null) {
             netto = 0.0;
             vat= 0.0;
-            for (FakturaCis p : fakturyfiltered) {
+            nettopln = 0.0;
+            vatpln= 0.0;
+            for (FakturaCis p : fakt) {
                 netto += p.getCena_total_netto_waluta();
+                nettopln += p.getCena_total_netto_pln();
                 vat += p.getPodatek_vat_waluta();
+                vatpln += p.getPodatek_vat_pln();
                 p.setPodatek_vat_waluta_kontrola(Z.z(p.getCena_total_netto_waluta()*p.getStawka_vat()/100));
             }
             netto = Z.z(netto);
             vat = Z.z(vat);
-            Msg.msg("Podsumowano filtrowane wartości");
+            nettopln = Z.z(nettopln);
+            vatpln = Z.z(vatpln);
+            Msg.msg("Podsumowano wartości");
         }
     }
     
     public void importujsprzedaz(FileUploadEvent event) {
         try {
-            faktury = Collections.synchronizedList(new ArrayList<>());
-            netto = 0.0;
-            vat= 0.0;
             UploadedFile uploadedFile = event.getFile();
             String filename = uploadedFile.getFileName();
             InputStream is = uploadedFile.getInputstream();
             faktury = ImportJsonCislowski.pobierz(is);
-            for (FakturaCis p : faktury) {
-                netto += p.getCena_total_netto_waluta();
-                vat += p.getPodatek_vat_waluta();
-            }
-            netto = Z.z(netto);
-            vat = Z.z(vat);
+            sumuj();
             Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
             if (faktury.size()==0) {
                 Msg.msg("e", "Brak dokumentów w pliku json wg zadanych kruteriów");
@@ -524,6 +525,22 @@ public class ImportCisView  implements Serializable {
 
     public void setFakturyfiltered(List<FakturaCis> fakturyfiltered) {
         this.fakturyfiltered = fakturyfiltered;
+    }
+
+    public double getNettopln() {
+        return nettopln;
+    }
+
+    public void setNettopln(double nettopln) {
+        this.nettopln = nettopln;
+    }
+
+    public double getVatpln() {
+        return vatpln;
+    }
+
+    public void setVatpln(double vatpln) {
+        this.vatpln = vatpln;
     }
 
     
