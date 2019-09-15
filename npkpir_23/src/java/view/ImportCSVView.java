@@ -240,6 +240,7 @@ public class ImportCSVView  implements Serializable {
         Klienci inc = new Klienci();
         inc.setNip(wiersz.getBuyerTaxRegistration()!=null && !wiersz.getBuyerTaxRegistration().equals("") ? wiersz.getBuyerTaxRegistration():null);
         inc.setNpelna(wiersz.getOrderID()!=null ? wiersz.getOrderID(): "brak nazwy indycentalnego");
+        inc.setNskrocona(wiersz.getOrderID()!=null ? wiersz.getOrderID(): "brak nazwy indycentalnego");
         inc.setAdresincydentalny(wiersz.getAdress()!=null ? wiersz.getAdress(): "brak adresu indycentalnego");
         return inc;
     }

@@ -430,7 +430,7 @@ public class ImportFakturyView  implements Serializable {
     
     private Double przeliczpln(double vat, Tabelanbp innatabela) {
         if (innatabela!=null) {
-            return Z.z4((vat*innatabela.getKurssredniPrzelicznik()));
+            return Z.z((vat*innatabela.getKurssredniPrzelicznik()));
         } else {
             return vat;
         }

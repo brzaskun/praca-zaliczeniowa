@@ -5,6 +5,7 @@
 package entity;
 
 import embeddable.AmazonCSV;
+import embeddable.FakturaCis;
 import embeddable.Stornodoch;
 import entityfk.Cechazapisu;
 import entityfk.Tabelanbp;
@@ -248,6 +249,8 @@ public class Dok extends DokSuper implements Serializable {
     private WniosekVATZDEntity wniosekVATZDEntity;
     @Transient
     private AmazonCSV amazonCSV;
+    @Transient
+    private FakturaCis fakturaCis;
     
     public Dok() {
         this.listakwot1 = Collections.synchronizedList(new ArrayList<>());
@@ -680,6 +683,14 @@ public class Dok extends DokSuper implements Serializable {
 
     public void setSprawdzony(int sprawdzony) {
         this.sprawdzony = sprawdzony;
+    }
+
+    public FakturaCis getFakturaCis() {
+        return fakturaCis;
+    }
+
+    public void setFakturaCis(FakturaCis fakturaCis) {
+        this.fakturaCis = fakturaCis;
     }
     
     public double getVat() {

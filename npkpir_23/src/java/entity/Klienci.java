@@ -373,7 +373,7 @@ public class Klienci extends KlienciSuper implements Serializable {
         if (this.nip!=null) {
             return getNpelna()+" "+getMiejscowosc()+" "+getNip();
         } else {
-            return this.adresincydentalny;
+            return this.nskrocona+" "+this.adresincydentalny;
         }
     }
     

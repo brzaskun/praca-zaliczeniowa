@@ -271,7 +271,7 @@
                 </p:column>
                 <p:column id="deleteColumn" headerText="usuń" style="width: 4%; text-align: center;">
                     <p:commandButton actionListener="#{DokTabView.destroy(wpis)}" onclick="PF('confirmation').show()" style="width: 30px;"
-                                     id="delete" icon="ui-icon ui-icon-trash" type="submit" rendered="#{wpis.status eq 'bufor' ? true : false}" />
+                                     id="delete" icon="ui-icon ui-icon-trash"  rendered="#{wpis.status eq 'bufor' ? true : false}" />
                 </p:column>
                 <p:column id="usunpozornieColumn" headerText="mod" sortBy="#{wpis.usunpozornie}"  style="width: 5%; text-align: center;" rendered="#{facesContext.externalContext.remoteUser eq 'szef'}">  
                     <h:outputText value="#{wpis.usunpozornie}" />
