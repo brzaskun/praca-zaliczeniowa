@@ -347,7 +347,7 @@ public class ImportCisView  implements Serializable {
             if (innykraj.size()>0) {
                 try {
                     dokDAO.dodaj(wygenerujdokumentsumaryczny(innykraj));
-                    PdfDok.drukujDok(innykraj, wpisView,0, null);
+                    PdfDok.drukujDok(innykraj, wpisView,0, null, "de");
                     Msg.msg("Zaksięgowano dokument sumaryczny DE");
                 } catch (Exception e) {
                     Msg.msg("e", "Błąd podczas księgowania dokumentu sumarycznego DE. Prawdopodobnie duplikat.");
@@ -356,7 +356,7 @@ public class ImportCisView  implements Serializable {
             if (polskaprywatne.size()>0) {
                 try {
                     dokDAO.dodaj(wygenerujdokumentsumarycznyPL(polskaprywatne));
-                    PdfDok.drukujDok(polskaprywatne, wpisView,0, null);
+                    PdfDok.drukujDok(polskaprywatne, wpisView,0, null, "pl");
                     Msg.msg("Zaksięgowano dokument sumaryczny PL");
                 } catch (Exception e) {
                     Msg.msg("e", "Błąd podczas księgowania dokumentu sumarycznego PL. Prawdopodobnie duplikat.");

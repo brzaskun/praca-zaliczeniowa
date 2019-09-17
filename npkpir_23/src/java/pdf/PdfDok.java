@@ -37,8 +37,8 @@ import waluty.Z;
  */
 public class PdfDok extends Pdf implements Serializable {
     
-    public static void drukujDok(List<Dok> lista, WpisView wpisView, int modyfikator, String wybranacechadok) {
-        String nazwa = wpisView.getPodatnikObiekt().getNip()+"listadok";
+    public static void drukujDok(List<Dok> lista, WpisView wpisView, int modyfikator, String wybranacechadok, String apendix) {
+        String nazwa = wpisView.getPodatnikObiekt().getNip()+"listadok"+apendix;
         File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
             file.delete();
