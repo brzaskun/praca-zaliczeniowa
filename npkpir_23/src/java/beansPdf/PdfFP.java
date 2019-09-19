@@ -118,15 +118,38 @@ public class PdfFP {
 
     private static void absText(PdfWriter writer, String text, int x, int y, int font) {
         try {
-            PdfContentByte cb = writer.getDirectContent();
-            BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
-            cb.saveState();
-            cb.beginText();
-            cb.moveText(x, y);
-            cb.setFontAndSize(bf, font);
-            cb.showText(text);
-            cb.endText();
-            cb.restoreState();
+            if (text.length()<120) {
+                PdfContentByte cb = writer.getDirectContent();
+                BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
+                cb.saveState();
+                cb.beginText();
+                cb.moveText(x, y);
+                cb.setFontAndSize(bf, font);
+                cb.showText(text);
+                cb.endText();
+                cb.restoreState();
+            } else {
+                String pierw = text.substring(0,119);
+                String druga = text.substring(119,text.length()-1);
+                PdfContentByte cb = writer.getDirectContent();
+                BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
+                cb.saveState();
+                cb.beginText();
+                cb.moveText(x, y);
+                cb.setFontAndSize(bf, font);
+                cb.showText(pierw);
+                cb.endText();
+                cb.restoreState();
+                cb = writer.getDirectContent();
+                bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
+                cb.saveState();
+                cb.beginText();
+                cb.moveText(x, y-20);
+                cb.setFontAndSize(bf, font);
+                cb.showText(druga);
+                cb.endText();
+                cb.restoreState();
+            }
         } catch (DocumentException | IOException e) {
         }
     }

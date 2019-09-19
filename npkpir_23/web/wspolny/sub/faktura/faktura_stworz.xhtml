@@ -175,10 +175,10 @@
                         <div class="ui-grid-col-2">
                             <h:outputLabel id="danekontrahentaout" value="dane nabywcy: " />
                         </div>
-                        <div class="ui-grid-col-2">
-                            <p:autoComplete id="acForce" value="#{fakturaView.selected.kontrahent}" completeMethod="#{klienciConverterView.completeKL}"
+                        <div class="ui-grid-col-4">
+                            <p:autoComplete id="acForce" value="#{fakturaView.selected.kontrahent}" completeMethod="#{klienciConverterView.completeKL}" inputStyle="width:400px;"
                                             var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub NIP nabywcy"
-                                            minQueryLength="3" maxResults="10" cache="true" converterMessage="Nieudana konwersja Klient"
+                                            minQueryLength="3" maxResults="10" cache="true" converterMessage="Nieudana konwersja Klient" 
                                             autocomplete="true" widgetVar="tworzenieklientapolenazwy" binding="#{fakturaView.kontrahentstworz}"
                                             requiredMessage="Nie wybrany nabywca faktury" queryDelay="10" styleClass="wpisywaniekontrfk" 
                                             >
@@ -212,8 +212,8 @@
                         <div class="ui-grid-col-2">
                             <h:outputLabel id="daneodbiorcyout" value="dane odbiorcy: " />
                         </div>
-                        <div class="ui-grid-col-2" >
-                            <p:autoComplete id="acForce2" value="#{fakturaView.selected.odbiorca}" completeMethod="#{klienciConverterView.completeKL}"
+                        <div class="ui-grid-col-4" >
+                            <p:autoComplete id="acForce2" value="#{fakturaView.selected.odbiorca}" completeMethod="#{klienciConverterView.completeKL}"  inputStyle="width:400px;"
                                             var="pa" itemLabel="#{pa.npelna}" itemValue="#{pa}" converter="KlientConv" title="wpisz nazwę lub NIP odbiorcy"
                                             minQueryLength="3" maxResults="10" cache="true" converterMessage="Nieudana konwersja Klient"
                                             autocomplete="true" widgetVar="tworzenieklientapolenazwy1" binding="#{fakturaView.odbiorcastworz}"

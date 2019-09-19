@@ -9,15 +9,20 @@ import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import enumy.Fonty;
 import error.E;
+import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Named;
 
 /**
@@ -341,20 +346,23 @@ public class PdfFont {
 //            for (int i = 0; i < fonts.length; i++) {
 //                System.out.println(fonts[i]);
 //            }
+//            java.awt.Font[] fontsa = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
+//            Integer name = fontsa["Calibri"];
+//            System.out.println("");
 //        } catch (DocumentException ex) {
 //            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
 //        } catch (IOException ex) {
 //            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        try {
-            NumberFormat formatter = NumberFormat.getNumberInstance();
-            formatter.setMinimumFractionDigits(2);
-            formatter.setMaximumFractionDigits(2);
-            Locale l = Locale.GERMAN;
-            String moneyString = formatter.format(10000);
-        } catch (Exception e) {
-            E.e(e);
-        }
+//        try {
+//            NumberFormat formatter = NumberFormat.getNumberInstance();
+//            formatter.setMinimumFractionDigits(2);
+//            formatter.setMaximumFractionDigits(2);
+//            Locale l = Locale.GERMAN;
+//            String moneyString = formatter.format(10000);
+//        } catch (Exception e) {
+//            E.e(e);
+//        }
     }
 
 }

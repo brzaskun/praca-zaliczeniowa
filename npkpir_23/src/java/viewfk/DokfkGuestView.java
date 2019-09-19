@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -40,6 +41,24 @@ public class DokfkGuestView implements Serializable {
     private WpisView wpisView;
     @Inject
     private DokDAOfk dokDAOfk;
+    
+    @PostConstruct
+    public void init() {
+        wybranakategoriadok = "wszystkie";
+        wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
+        if (wykazZaksiegowanychDokumentow != null && wykazZaksiegowanychDokumentow.size() > 0) {
+            for (Iterator<Dokfk> it = wykazZaksiegowanychDokumentow.iterator(); it.hasNext();) {
+                Dokfk r = (Dokfk) it.next();
+                if (r.isImportowany() == true) {
+                    it.remove();
+                }
+            }
+        }
+        dokumentypodatnikazestawienie = znajdzrodzajedokaktualne(wykazZaksiegowanychDokumentow);
+        Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
+        filteredValue = null;
+    }
+    
     
      public void odswiezzaksiegowane() {
         if (wybranakategoriadok == null) {
@@ -66,7 +85,6 @@ public class DokfkGuestView implements Serializable {
                 }
             }
         }
-        dokumentypodatnikazestawienie = znajdzrodzajedokaktualne(wykazZaksiegowanychDokumentow);
         Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
         filteredValue = null;
     }

@@ -8,6 +8,12 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     >
     <p:outputPanel rendered="#{fakturaView.rachunek}">
+         <p:panelGrid columns="2">
+            <h:outputText value="faktura PROFORMA " style="margin-left: 10px; color: #{fakturaView.selected.proforma ? 'blue':'initial'}" />
+            <p:selectBooleanCheckbox value="#{fakturaView.selected.proforma}" id="proformacheck1">
+                <p:ajax event="change" update="akordeon:formstworz:nrfaktury @parent" listener="#{fakturaView.oznaczproforma}"/>
+            </p:selectBooleanCheckbox>
+        </p:panelGrid>
         <p:outputPanel style="margin-top: 15px;">
             <p:dataTable id="rzadrach" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat"
                          style="width: 790px;"
