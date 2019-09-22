@@ -337,23 +337,23 @@ public class PdfFont {
     
     //wykrywanie fontow z systemu
     public static void main(String[] args) {
-//        try {
-//            FontFactory.register("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/fonts/Calibri.ttf", "my_font");
-//            Font myBoldFont = FontFactory.getFont("my_font");
-//            BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-//            Font font = new Font(helvetica, 5);
-//            String fonts[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-//            for (int i = 0; i < fonts.length; i++) {
-//                System.out.println(fonts[i]);
-//            }
-//            java.awt.Font[] fontsa = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
-//            Integer name = fontsa["Calibri"];
-//            System.out.println("");
-//        } catch (DocumentException ex) {
-//            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (IOException ex) {
-//            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            FontFactory.register("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/fonts/Calibri.ttf", "my_font");
+            Font myBoldFont = FontFactory.getFont("my_font");
+            BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+            Font font = new Font(helvetica, 5);
+            String fonts[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+            for (int i = 0; i < fonts.length; i++) {
+                System.out.println(fonts[i]);
+            }
+            java.awt.Font[] fontsa = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
+            //java.awt.Font name = fontsa["Calibri"];
+            System.out.println("");
+        } catch (DocumentException ex) {
+            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
+        }
 //        try {
 //            NumberFormat formatter = NumberFormat.getNumberInstance();
 //            formatter.setMinimumFractionDigits(2);

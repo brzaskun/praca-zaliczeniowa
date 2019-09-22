@@ -24,6 +24,7 @@
             
                 <p:commandButton value="pobierz" actionListener="#{fakturaRozrachunkiAnalizaView.zestawieniezbiorcze()}" style="width: 120px;" update="fakturaanalizazbiorcza akordeon:fakturaanaliza:wyborklienta"/>
                 <p:commandButton icon="fa fa-print" actionListener="#{fakturaRozrachunkiAnalizaView.drukujKlienciZbiorcze()}" global="false" style="width: 120px; margin-left: 20px;"/>
+                <p:commandButton value="druk wybrane" actionListener="#{fakturaRozrachunkiAnalizaView.drukujszczegolyzbiorcze()}" global="false" style="width: 120px; margin-left: 20px;"/>
                 <h:outputText value="pokaż nadpłaty" style="margin-left: 20px;"/>
                 <p:selectBooleanCheckbox value="#{fakturaRozrachunkiAnalizaView.pokaznadplaty}" style="margin-left: 10px;">
                     <p:ajax event="change" partialSubmit="true"  listener="#{fakturaRozrachunkiAnalizaView.zestawieniezbiorcze()}" update="fakturaanalizazbiorcza akordeon:fakturaanaliza:wyborklienta"/>

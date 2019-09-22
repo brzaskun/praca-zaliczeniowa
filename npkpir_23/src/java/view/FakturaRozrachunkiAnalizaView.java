@@ -26,8 +26,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
@@ -468,6 +470,30 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd. Wydruk nieudany");
             E.e(e);
+        }
+    }
+    
+    public void drukujszczegolyzbiorcze() {
+        if (saldanierozliczoneselected != null && saldanierozliczoneselected.size() > 0) {
+            Map<Klienci, List<FakturaPodatnikRozliczenie>> klista = new HashMap<>();
+            for (FakturaPodatnikRozliczenie p : saldanierozliczoneselected) {
+                try {
+                    if (p.isFaktura0rozliczenie1()) {
+                        szukanyklient = p.getRozliczenie().getKontrahent();
+                    } else {
+                        szukanyklient = p.getFaktura().getKontrahent();
+                    }
+                    pobierzwszystko(wpisView.getMiesiacWpisu(), szukanyklient);
+                    klista.put(szukanyklient, nowepozycje);
+                } catch (Exception e) {
+                    Msg.msg("e", "Bład przy jednej pozycji");
+                }
+            }
+            if (klista.size() > 0) {
+                PdfFaktRozrach.drukujKliencihurt(klista, wpisView);
+            }
+        } else {
+            Msg.msg("e", "Nie wybrano pozycji");
         }
     }
     

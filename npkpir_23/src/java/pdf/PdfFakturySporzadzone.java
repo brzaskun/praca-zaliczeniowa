@@ -20,6 +20,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import entity.Faktura;
 import error.E;
+import java.awt.GraphicsEnvironment;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -165,82 +166,84 @@ public class PdfFakturySporzadzone {
         }
     }
 
-    public static void main(String[] args) {
-        try {
-            Document document = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 5);
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/zapiskonto.pdf"));
-            document.addTitle("Zapisy na koncie");
-            document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
-            document.addSubject("Wydruk zapisów na koncie");
-            document.addKeywords("VAT, PDF");
-            document.addCreator("Grzegorz Grzelczyk");
-            document.open();
-            BaseFont helvetica = null;
-            Font font = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
-            font = new Font(helvetica, 8);
-            document.setPageSize(PageSize.A4);
-            PdfPTable table = new PdfPTable(13);
-            table.setWidths(new int[]{1, 2, 2, 1, 4, 2, 2, 2, 2, 2, 2, 1, 2});
-            table.setWidthPercentage(98);
-            try {
-                table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 3, 0));
-                table.addCell(ustawfraze("wydruk zapisów na koncie ", 3, 0));
-                table.addCell(ustawfraze("firma: nazwafirmy", 5, 0));
-                table.addCell(ustawfraze("za okres: 12/2015", 2, 0));
-
-                table.addCell(ustawfraze("lp", 0, 1));
-                table.addCell(ustawfraze("Data zdarzenia gosp.", 0, 1));
-                table.addCell(ustawfraze("Nr dowodu księgowego", 0, 1));
-                table.addCell(ustawfraze("Wiersz", 0, 1));
-                table.addCell(ustawfraze("Opis zdarzenia gospodarcz", 0, 1));
-                table.addCell(ustawfraze("Kurs", 0, 1));
-                table.addCell(ustawfraze("Tabela", 0, 1));
-                table.addCell(ustawfraze("Wn", 0, 1));
-                table.addCell(ustawfraze("Wn PLN", 0, 1));
-                table.addCell(ustawfraze("Ma", 0, 1));
-                table.addCell(ustawfraze("Ma PLN", 0, 1));
-                table.addCell(ustawfraze("Waluta", 0, 1));
-                table.addCell(ustawfraze("Konto przec.", 0, 1));
-
-                table.addCell(ustawfrazeAlign("1", "center", 6));
-                table.addCell(ustawfrazeAlign("2", "center", 6));
-                table.addCell(ustawfrazeAlign("3", "center", 6));
-                table.addCell(ustawfrazeAlign("4", "center", 6));
-                table.addCell(ustawfrazeAlign("5", "center", 6));
-                table.addCell(ustawfrazeAlign("6", "center", 6));
-                table.addCell(ustawfrazeAlign("7", "center", 6));
-                table.addCell(ustawfrazeAlign("8", "center", 6));
-                table.addCell(ustawfrazeAlign("9", "center", 6));
-                table.addCell(ustawfrazeAlign("10", "center", 6));
-                table.addCell(ustawfrazeAlign("11", "center", 6));
-                table.addCell(ustawfrazeAlign("12", "center", 6));
-                table.addCell(ustawfrazeAlign("13", "center", 6));
-
-                table.addCell(ustawfrazeAlign("1", "center", 6));
-                table.addCell(ustawfrazeAlign("2", "center", 6));
-                table.addCell(ustawfrazeAlign("3", "center", 6));
-                table.addCell(ustawfrazeAlign("4", "center", 6));
-                table.addCell(ustawfrazeAlign("5", "center", 6));
-                table.addCell(ustawfrazeAlign("6", "center", 6));
-                table.addCell(ustawfrazeAlign("7", "center", 6));
-                table.addCell(ustawfrazeAlign("8", "center", 6));
-                table.addCell(ustawfrazeAlign("9", "center", 6));
-                table.addCell(ustawfrazeAlign("10", "center", 6));
-                table.addCell(ustawfrazeAlign("11", "center", 6));
-                table.addCell(ustawfrazeAlign("12", "center", 6));
-                table.addCell(ustawfrazeAlign("13", "center", 6));
-
-                table.setHeaderRows(3);
-                table.setFooterRows(1);
-            } catch (Exception e) {
-
-            }
-            document.setPageSize(PageSize.A4_LANDSCAPE.rotate());
-            document.add(table);
-            document.close();
-        } catch (Exception e) {
-
-        }
-    }
+//    public static void main(String[] args) {
+//        try {
+//            Document document = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 5);
+//            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("d:/zapiskonto.pdf"));
+//            document.addTitle("Zapisy na koncie");
+//            document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
+//            document.addSubject("Wydruk zapisów na koncie");
+//            document.addKeywords("VAT, PDF");
+//            document.addCreator("Grzegorz Grzelczyk");
+//            document.open();
+//            BaseFont helvetica = null;
+//            Font font = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.BOLD, BaseColor.WHITE);
+//            java.awt.Font[] fontsa = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
+//            //Integer name = fontsa["Calibri"];
+//            font = new Font(helvetica, 8);
+//            document.setPageSize(PageSize.A4);
+//            PdfPTable table = new PdfPTable(13);
+//            table.setWidths(new int[]{1, 2, 2, 1, 4, 2, 2, 2, 2, 2, 2, 1, 2});
+//            table.setWidthPercentage(98);
+//            try {
+//                table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 3, 0, fontsa));
+//                table.addCell(ustawfraze("wydruk zapisów na koncie ", 3, 0));
+//                table.addCell(ustawfraze("firma: nazwafirmy", 5, 0));
+//                table.addCell(ustawfraze("za okres: 12/2015", 2, 0));
+//
+//                table.addCell(ustawfraze("lp", 0, 1));
+//                table.addCell(ustawfraze("Data zdarzenia gosp.", 0, 1));
+//                table.addCell(ustawfraze("Nr dowodu księgowego", 0, 1));
+//                table.addCell(ustawfraze("Wiersz", 0, 1));
+//                table.addCell(ustawfraze("Opis zdarzenia gospodarcz", 0, 1));
+//                table.addCell(ustawfraze("Kurs", 0, 1));
+//                table.addCell(ustawfraze("Tabela", 0, 1));
+//                table.addCell(ustawfraze("Wn", 0, 1));
+//                table.addCell(ustawfraze("Wn PLN", 0, 1));
+//                table.addCell(ustawfraze("Ma", 0, 1));
+//                table.addCell(ustawfraze("Ma PLN", 0, 1));
+//                table.addCell(ustawfraze("Waluta", 0, 1));
+//                table.addCell(ustawfraze("Konto przec.", 0, 1));
+//
+//                table.addCell(ustawfrazeAlign("1", "center", 6));
+//                table.addCell(ustawfrazeAlign("2", "center", 6));
+//                table.addCell(ustawfrazeAlign("3", "center", 6));
+//                table.addCell(ustawfrazeAlign("4", "center", 6));
+//                table.addCell(ustawfrazeAlign("5", "center", 6));
+//                table.addCell(ustawfrazeAlign("6", "center", 6));
+//                table.addCell(ustawfrazeAlign("7", "center", 6));
+//                table.addCell(ustawfrazeAlign("8", "center", 6));
+//                table.addCell(ustawfrazeAlign("9", "center", 6));
+//                table.addCell(ustawfrazeAlign("10", "center", 6));
+//                table.addCell(ustawfrazeAlign("11", "center", 6));
+//                table.addCell(ustawfrazeAlign("12", "center", 6));
+//                table.addCell(ustawfrazeAlign("13", "center", 6));
+//
+//                table.addCell(ustawfrazeAlign("1", "center", 6));
+//                table.addCell(ustawfrazeAlign("2", "center", 6));
+//                table.addCell(ustawfrazeAlign("3", "center", 6));
+//                table.addCell(ustawfrazeAlign("4", "center", 6));
+//                table.addCell(ustawfrazeAlign("5", "center", 6));
+//                table.addCell(ustawfrazeAlign("6", "center", 6));
+//                table.addCell(ustawfrazeAlign("7", "center", 6));
+//                table.addCell(ustawfrazeAlign("8", "center", 6));
+//                table.addCell(ustawfrazeAlign("9", "center", 6));
+//                table.addCell(ustawfrazeAlign("10", "center", 6));
+//                table.addCell(ustawfrazeAlign("11", "center", 6));
+//                table.addCell(ustawfrazeAlign("12", "center", 6));
+//                table.addCell(ustawfrazeAlign("13", "center", 6));
+//
+//                table.setHeaderRows(3);
+//                table.setFooterRows(1);
+//            } catch (Exception e) {
+//
+//            }
+//            document.setPageSize(PageSize.A4_LANDSCAPE.rotate());
+//            document.add(table);
+//            document.close();
+//        } catch (Exception e) {
+//
+//        }
+//    }
 
 }

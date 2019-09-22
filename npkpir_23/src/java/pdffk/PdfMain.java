@@ -72,6 +72,7 @@ import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import msg.B;
+import org.apache.commons.lang3.RandomStringUtils;
 import plik.Plik;
 import testobjects.WierszCecha;
 import testobjects.WierszDokfk;
@@ -2884,4 +2885,12 @@ public class PdfMain {
 			System.out.print("  formatted:" + numberFormat.format(num));
 		}
 	}
+        
+        public static String losowanazwa() {
+            int length = 10;
+            boolean useLetters = true;
+            boolean useNumbers = false;
+            String generatedString = RandomStringUtils.random(length, useLetters, useNumbers);
+            return generatedString;
+        }
 }
