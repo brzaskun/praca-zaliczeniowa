@@ -103,7 +103,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
         int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
         int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
         if (granicaDolna <= granicaGorna) {
-            List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
             for (Konto p : listakont) {
                 KontoZapisy kz = new KontoZapisy(p);
                 for (StronaWiersza r : stronywiersza) {

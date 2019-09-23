@@ -166,7 +166,7 @@ public class ZestawienieWynikoweRokView implements Serializable {
     }
 
     private List<StronaWiersza> pobierzzapisyRok() {
-        List<StronaWiersza> zapisywynikrokmc = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<StronaWiersza> zapisywynikrokmc = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(),"12");
         return zapisywynikrokmc;
     }
    

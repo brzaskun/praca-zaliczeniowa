@@ -433,6 +433,9 @@ public class PozycjaRZiSFKBean {
                     //                if (p.getKonto().getPelnynumer().equals("220-2")) {
                     //                    System.out.println("PozycjaRZiSFKBean.sumujObrotyNaKontach");
                     //                }
+                    if (p.getDokfk().getRodzajedok().getSkrot().equals("BO")) {
+                        System.out.println("");
+                    }
                     Konto k = plankont.get(plankont.indexOf(p.getKonto()));
                     k.setObrotyWn(k.getObrotyWn()+kwotaWn);
                     k.setObrotyMa(k.getObrotyMa()+kwotaMa); 

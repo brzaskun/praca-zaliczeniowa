@@ -193,8 +193,8 @@ public class PozycjaBRZestawienieView implements Serializable {
         List<PozycjaRZiSBilans> pozycje = Collections.synchronizedList(new ArrayList<>());
         pobierzPozycje(pozycje);
         rootProjektRZiS.getChildren().clear();
-        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
-        List<StronaWiersza> zapisyRokPop = StronaWierszaBean.pobraniezapisowwynikoweRokPop(stronaWierszaDAO, wpisView);
+        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        List<StronaWiersza> zapisyRokPop = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt(), "12");
         try {
             PozycjaRZiSFKBean.ustawRootaRokPop(rootProjektRZiS, pozycje, zapisy, zapisyRokPop);
             level = PozycjaRZiSFKBean.ustawLevel(rootProjektRZiS, pozycje);
@@ -256,7 +256,7 @@ public class PozycjaBRZestawienieView implements Serializable {
         pobierzPozycje(pozycje);
         rootProjektRZiS.getChildren().clear();
         List<StronaWiersza> zapisyrokpoprzedni = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, "12", wpisView.getRokUprzedniSt(), wpisView.getPodatnikObiekt());
-        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
+        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt());
         if (zapisyrokpoprzedni != null) {
             zapisy.addAll(zapisyrokpoprzedni);
         }
@@ -280,7 +280,7 @@ public class PozycjaBRZestawienieView implements Serializable {
         List<PozycjaRZiSBilans> pozycje = Collections.synchronizedList(new ArrayList<>());
         pobierzPozycje(pozycje);
         rootProjektRZiS.getChildren().clear();
-        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
+        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt());
         try {
             PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy);
             //to niepotrzebne bo usunalem przyciski zwijania, rozwijania
@@ -764,14 +764,8 @@ public class PozycjaBRZestawienieView implements Serializable {
                     }
                 }
             }
-            List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
             int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacNastepny()) == 1 ? 13 : Mce.getMiesiacToNumber().get(wpisView.getMiesiacNastepny());
-            for (Iterator<StronaWiersza> it = stronywiersza.iterator(); it.hasNext(); ) {   
-                    StronaWiersza r = (StronaWiersza) it.next();
-                    if (Mce.getMiesiacToNumber().get(r.getDokfk().getMiesiac()) >= granicagorna) {
-                        it.remove();
-                    }
-                }
             for (Konto p : sumaPodpietychKont) {
                 for (Iterator<StronaWiersza> it = stronywiersza.iterator(); it.hasNext(); ) {   
                     StronaWiersza r = (StronaWiersza) it.next();

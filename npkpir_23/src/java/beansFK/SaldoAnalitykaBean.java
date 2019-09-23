@@ -30,7 +30,7 @@ public class SaldoAnalitykaBean  {
 
    public static List<SaldoKonto> przygotowanalistasaldbo(List<Konto> kontaklienta, List<Konto> kontaklientarokpop, List<StronaWiersza> zapisyBO, List<StronaWiersza> zapisyObrotyRozp, StronaWierszaDAO stronaWierszaDAO, Podatnik podatnik, String rok, String mc) {
         List<SaldoKonto> listaSaldoKonto = new ArrayList<>();
-        List<StronaWiersza> zapisyRok = pobierzzapisy(stronaWierszaDAO, podatnik, rok);
+        List<StronaWiersza> zapisyRok = pobierzzapisy(stronaWierszaDAO, podatnik, rok,"12");
         Map<String, SaldoKonto> przygotowanalista = new ConcurrentHashMap<>();
         List<StronaWiersza> wierszenieuzupelnione = Collections.synchronizedList(new ArrayList<>());
         kontaklienta.parallelStream().map((p) -> {
@@ -74,8 +74,8 @@ public class SaldoAnalitykaBean  {
         return listaSaldoKonto;
     }
    
-   private static List<StronaWiersza> pobierzzapisy(StronaWierszaDAO stronaWierszaDAO, Podatnik podatnik, String rok) {
-        List<StronaWiersza> zapisyRok = stronaWierszaDAO.findStronaByPodatnikRok(podatnik, rok);
+   private static List<StronaWiersza> pobierzzapisy(StronaWierszaDAO stronaWierszaDAO, Podatnik podatnik, String rok, String mc) {
+        List<StronaWiersza> zapisyRok = stronaWierszaDAO.findStronaByPodatnikRok(podatnik, rok, mc);
         return zapisyRok;
     }
 

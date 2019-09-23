@@ -77,7 +77,7 @@ public class KontoObrotyFKView implements Serializable{
  
     
     private void usunkontabezsald() {
-        kontozapisy = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        kontozapisy = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         Set<Konto> listakont = new HashSet<>();
         for (StronaWiersza p : kontozapisy) {
             listakont.add(p.getKonto());

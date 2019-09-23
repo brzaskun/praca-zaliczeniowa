@@ -142,13 +142,10 @@ public class StronaWierszaDAO extends DAO implements Serializable {
     public List<StronaWiersza> findStronaByPodatnikRokWalutaWynik(Podatnik podatnik, String rok, String skrotWaluty) {
         return Collections.synchronizedList(sessionFacade.findStronaByPodatnikRokWalutaWynik(podatnik, rok, skrotWaluty));
     }
-    public List<StronaWiersza> findStronaByPodatnikRokWynik(Podatnik podatnik, String rok) {
-        return Collections.synchronizedList(sessionFacade.findStronaByPodatnikRokWynik(podatnik, rok));
+    public List<StronaWiersza> findStronaByPodatnikRokWynik(Podatnik podatnik, String rok, String mc) {
+        return Collections.synchronizedList(sessionFacade.findStronaByPodatnikRokWynik(podatnik, rok, mc));
     }
     
-    public List<StronaWiersza> findStronaByPodatnikRokWynikRO(Podatnik podatnik, String rok) {
-        return Collections.synchronizedList(sessionFacade.findStronaByPodatnikRokWynikRO(podatnik, rok));
-    }
     
     public List<StronaWiersza> findStronaByPodatnikRokWynikBO(Podatnik podatnik, String rok) {
         return Collections.synchronizedList(sessionFacade.findStronaByPodatnikRokWynikBO(podatnik, rok));
@@ -175,8 +172,8 @@ public class StronaWierszaDAO extends DAO implements Serializable {
         return Collections.synchronizedList(sessionFacade.getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokWynikSlownik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList());
     }
     
-     public List<StronaWiersza> findStronaByPodatnikRok(Podatnik podatnik, String rok) {
-        return Collections.synchronizedList(sessionFacade.findStronaByPodatnikRok(podatnik, rok));
+     public List<StronaWiersza> findStronaByPodatnikRok(Podatnik podatnik, String rok, String mc) {
+        return Collections.synchronizedList(sessionFacade.findStronaByPodatnikRok(podatnik, rok, mc));
     }
      
     
@@ -193,8 +190,8 @@ public class StronaWierszaDAO extends DAO implements Serializable {
     }
     
     
-    public List<StronaWiersza> findStronaByPodatnikRokBilans(Podatnik podatnik, String rok) {
-        return Collections.synchronizedList(sessionFacade.findStronaByPodatnikRokBilans(podatnik, rok));
+    public List<StronaWiersza> findStronaByPodatnikRokBilans(Podatnik podatnik, String rok, String mc) {
+        return Collections.synchronizedList(sessionFacade.findStronaByPodatnikRokBilans(podatnik, rok, mc));
     }
     
     public List<StronaWiersza> findStronaByPodatnikRokBilansRO(Podatnik podatnik, String rok) {

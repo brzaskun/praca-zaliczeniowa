@@ -73,11 +73,11 @@ public class PozycjaRZiSPorMcyView  implements Serializable {
         try {
             List<StronaWiersza> zapisymc = StronaWierszaBean.pobraniezapisowwynikoweMCRok(stronaWierszaDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
             PozycjaRZiSFKBean.ustawRootaSlot(rootProjektRZiS, pozycje, zapisymc, "01");
-            zapisymc = StronaWierszaBean.pobraniezapisowwynikoweMCRok(stronaWierszaDAO, wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt(), wpisView.getMiesiacWpisu());
+            zapisymc = StronaWierszaBean.pobraniezapisowwynikoweMCRok(stronaWierszaDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
             PozycjaRZiSFKBean.ustawRootaSlot(rootProjektRZiS, pozycje, zapisymc, "02");
             zapisymc = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt());
             PozycjaRZiSFKBean.ustawRootaSlot(rootProjektRZiS, pozycje, zapisymc, "03");
-            zapisymc = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView.getMiesiacWpisu(), wpisView.getRokUprzedniSt(), wpisView.getPodatnikObiekt());
+            zapisymc = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt());
             PozycjaRZiSFKBean.ustawRootaSlot(rootProjektRZiS, pozycje, zapisymc, "04");
             Msg.msg("i", "Pobrano układ ");
         } catch (Exception e) {

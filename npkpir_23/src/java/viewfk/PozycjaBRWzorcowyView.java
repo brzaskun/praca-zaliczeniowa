@@ -176,7 +176,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
         } catch (Exception e) {  E.e(e);
         }
         rootProjektRZiS.getChildren().clear();
-        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
+        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         try {
             for (Iterator<PozycjaRZiSBilans> it = pozycje.iterator(); it.hasNext();) {
                 PozycjaRZiS p = (PozycjaRZiS) it.next();
@@ -225,7 +225,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
         rootBilansAktywa.getChildren().clear();
         rootBilansPasywa.getChildren().clear();
         List<StronaWiersza> zapisy = Collections.synchronizedList(new ArrayList<>());
-        zapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt()));
+        zapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
         try {
             List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaBezPotomkow(wpisView);
             Konto kontowyniku = null;

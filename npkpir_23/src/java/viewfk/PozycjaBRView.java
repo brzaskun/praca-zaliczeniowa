@@ -229,7 +229,7 @@ public class PozycjaBRView implements Serializable {
         List<PozycjaRZiSBilans> pozycje = UkladBRBean.pobierzpozycje(pozycjaRZiSDAO, pozycjaBilansDAO, uklad, "", "r");
         //UkladBRBean.czyscPozycje(pozycje);
         rootProjektRZiS.getChildren().clear();
-        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
+        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         try {
             PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy);
             level = PozycjaRZiSFKBean.ustawLevel(rootProjektRZiS, pozycje);
@@ -898,13 +898,13 @@ public class PozycjaBRView implements Serializable {
                     }
                 }
             }
-            List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacNastepny()) == 1 ? 13 : Mce.getMiesiacToNumber().get(wpisView.getMiesiacNastepny());
-            StronaWierszaBean.pobraniegranica(stronywiersza, wpisView.getMiesiacNastepny());
+            List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+//            int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacNastepny()) == 1 ? 13 : Mce.getMiesiacToNumber().get(wpisView.getMiesiacNastepny());
+//            StronaWierszaBean.pobraniegranica(stronywiersza, wpisView.getMiesiacNastepny());
             for (Konto p : sumaPodpietychKont) {
                 for (Iterator<StronaWiersza> it = stronywiersza.iterator(); it.hasNext(); ) {   
                     StronaWiersza r = (StronaWiersza) it.next();
-                    if (Mce.getMiesiacToNumber().get(r.getDokfk().getMiesiac()) < granicagorna && r.getKonto().equals(p)) {
+                    if (r.getKonto().equals(p)) {
                         podpieteStronyWiersza.add(r);
                     }
                 }

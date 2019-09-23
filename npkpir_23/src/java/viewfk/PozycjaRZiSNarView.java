@@ -68,7 +68,7 @@ public class PozycjaRZiSNarView  implements Serializable {
         }
         List<PozycjaRZiSBilans> pozycje = BilansBean.pobierzPoszerzPozycje(uklad, pozycjaRZiSDAO, wpisView.getMiesiacWpisu());
         rootProjektRZiS.getChildren().clear();
-        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
+        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         try {
             PozycjaRZiSFKBean.ustawRootaNar(rootProjektRZiS, pozycje, zapisy, wpisView.getMiesiacWpisu());
             Msg.msg("i", "Pobrano układ ");

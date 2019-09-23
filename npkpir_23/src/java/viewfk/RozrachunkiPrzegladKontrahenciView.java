@@ -74,7 +74,7 @@ public class RozrachunkiPrzegladKontrahenciView implements Serializable{
     }
 
     private void zweryfikujobecnosczapisow() {
-        List<StronaWiersza> wierszezzapisami = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<StronaWiersza> wierszezzapisami = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         Set<Konto> zawartekontawzapisach = new HashSet<>();
         for (StronaWiersza p : wierszezzapisami) {
             if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
