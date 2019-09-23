@@ -72,7 +72,7 @@ public class DokfkGuestView implements Serializable {
                 wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
             }
         } else if (wpisView.getMiesiacWpisu().equals("CR")) {
-            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, wybranakategoriadok);
+            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wybranakategoriadok);
         } else {
             wpisView.wpisAktualizuj();
             wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMcKategoria(wpisView, wybranakategoriadok);

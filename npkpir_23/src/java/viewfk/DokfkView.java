@@ -1973,7 +1973,7 @@ public class DokfkView implements Serializable {
                         }
                     }
                 } else if (miesiacWpisuPokaz.equals("CR")) {
-                    wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, wybranakategoriadok);
+                    wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wybranakategoriadok);
                 } else {
                     wpisView.setMiesiacWpisu(miesiacWpisuPokaz);
                     wpisView.wpisAktualizuj();
@@ -2045,7 +2045,7 @@ public class DokfkView implements Serializable {
                 wykazZaksiegowanychDokumentowimport = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
             }
         } else if (wpisView.getMiesiacWpisu().equals("CR")) {
-            wykazZaksiegowanychDokumentowimport = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, wybranakategoriadokimport);
+            wykazZaksiegowanychDokumentowimport = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wybranakategoriadokimport);
         } else {
             wpisView.wpisAktualizuj();
             wykazZaksiegowanychDokumentowimport = dokDAOfk.findDokfkPodatnikRokMcKategoria(wpisView, wybranakategoriadokimport);
@@ -3073,7 +3073,7 @@ public class DokfkView implements Serializable {
             } else {
                 serie = Collections.synchronizedList(new ArrayList<>());
                 serie.add(wybranakategoriadok);
-                dokumenty = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, wybranakategoriadok);
+                dokumenty = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wybranakategoriadok);
             }
             nadajnowenumery(serie, dokumenty);
             Msg.dP();

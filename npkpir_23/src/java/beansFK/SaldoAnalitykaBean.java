@@ -28,9 +28,9 @@ import waluty.Z;
  */
 public class SaldoAnalitykaBean  {
 
-   public static List<SaldoKonto> przygotowanalistasaldbo(List<Konto> kontaklienta, List<Konto> kontaklientarokpop, List<StronaWiersza> zapisyBO, List<StronaWiersza> zapisyObrotyRozp, StronaWierszaDAO stronaWierszaDAO, Podatnik podatnik, String rok, String mc) {
+   public static List<SaldoKonto> przygotowanalistasaldbo(List<Konto> kontaklienta, List<Konto> kontaklientarokpop, List<StronaWiersza> zapisyBO, List<StronaWiersza> zapisyObrotyRozp, List<StronaWiersza> zapisyRok, Podatnik podatnik) {
         List<SaldoKonto> listaSaldoKonto = new ArrayList<>();
-        List<StronaWiersza> zapisyRok = pobierzzapisy(stronaWierszaDAO, podatnik, rok,"12");
+        
         Map<String, SaldoKonto> przygotowanalista = new ConcurrentHashMap<>();
         List<StronaWiersza> wierszenieuzupelnione = Collections.synchronizedList(new ArrayList<>());
         kontaklienta.parallelStream().map((p) -> {
@@ -43,8 +43,8 @@ public class SaldoAnalitykaBean  {
             przygotowanalista.put(p.getPelnynumer(), saldoKonto);
         });
         naniesBOnaKonto(przygotowanalista, zapisyBO);
-        naniesZapisyNaKonto(przygotowanalista, zapisyObrotyRozp, wierszenieuzupelnione, false, mc);
-        naniesZapisyNaKonto(przygotowanalista, zapisyRok, wierszenieuzupelnione, true, mc);
+        naniesZapisyNaKonto(przygotowanalista, zapisyObrotyRozp, wierszenieuzupelnione, false);
+        naniesZapisyNaKonto(przygotowanalista, zapisyRok, wierszenieuzupelnione, true);
         przygotowanalista.values().parallelStream().map((s) -> {
             s.sumujBOZapisy();
             return s;
@@ -74,10 +74,6 @@ public class SaldoAnalitykaBean  {
         return listaSaldoKonto;
     }
    
-   private static List<StronaWiersza> pobierzzapisy(StronaWierszaDAO stronaWierszaDAO, Podatnik podatnik, String rok, String mc) {
-        List<StronaWiersza> zapisyRok = stronaWierszaDAO.findStronaByPodatnikRok(podatnik, rok, mc);
-        return zapisyRok;
-    }
 
     private static void naniesBOnaKonto(Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyBO) {
         zapisyBO.parallelStream().forEach((r) -> {
@@ -93,17 +89,12 @@ public class SaldoAnalitykaBean  {
         });
     }
     
-    private static void naniesZapisyNaKonto(Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyRok, List<StronaWiersza> wierszenieuzupelnione, boolean obroty0zapisy1, String mc) {
-        int granicamca = Mce.getMiesiacToNumber().get(mc);
+    private static void naniesZapisyNaKonto(Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyRok, List<StronaWiersza> wierszenieuzupelnione, boolean obroty0zapisy1) {
         zapisyRok.parallelStream().forEach(r-> {
             if (obroty0zapisy1 == true && !r.getDokfk().getSeriadokfk().equals("BO")) {
-                if (Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
-                    nanieskonkretnyzapis(r, przygotowanalista, wierszenieuzupelnione, mc);
-                }
+                nanieskonkretnyzapis(r, przygotowanalista, wierszenieuzupelnione, "12");
             } else if (obroty0zapisy1 == false && r.getDokfk().getSeriadokfk().equals("BO")) {
-                if (Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
-                    nanieskonkretnyzapis(r, przygotowanalista, wierszenieuzupelnione, mc);
-                }
+                nanieskonkretnyzapis(r, przygotowanalista, wierszenieuzupelnione, "12");
             }
         });
     }

@@ -85,7 +85,7 @@ public class BOFKBean {
     
     public static List<StronaWiersza> pobierzZapisyBOSyntetyka(KontoDAOfk kontoDAOfk, Konto konto, DokDAOfk dokDAOfk, WpisView wpisView) {
         List<StronaWiersza> zapisy = Collections.synchronizedList(new ArrayList<>());
-        List<Dokfk> dokfk = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, "BO");
+        List<Dokfk> dokfk = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "BO");
         dokfk.stream().filter((p) -> (p.getNrkolejnywserii()==1)).forEachOrdered((p) -> {
             for (StronaWiersza r : p.getStronyWierszy()) {
                 if (r.getKonto().equals(konto)) {
