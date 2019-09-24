@@ -107,14 +107,14 @@ public class VatUeFKView implements Serializable {
                 } else {
                     listadokumentowUE = dokDAO.zwrocBiezacegoKlientaRokMCVAT(wpisView);
                 }
-                opisvatuepkpir = wpisView.getPodatnikWpisu()+" Miesięczne zestawienie dokumentów do deklaracji VAT-UE na koniec "+ rok+"/"+m;
+                opisvatuepkpir = wpisView.getPrintNazwa()+" Miesięczne zestawienie dokumentów do deklaracji VAT-UE na koniec "+ rok+"/"+m;
             } else {
                 if (wpisView.isKsiegirachunkowe()) {
                     listadokumentowUE = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
                 } else {
                     listadokumentowUE = dokDAO.zwrocBiezacegoKlientaRokKW(wpisView);
                 }
-                opisvatuepkpir = wpisView.getPodatnikWpisu()+" Kwartalne zestawienie dokumentów do deklaracji VAT-UE na koniec "+ rok+"/"+m;
+                opisvatuepkpir = wpisView.getPrintNazwa()+" Kwartalne zestawienie dokumentów do deklaracji VAT-UE na koniec "+ rok+"/"+m;
             }            
         } catch (Exception e) { 
             E.e(e); 

@@ -52,7 +52,7 @@
         <h:form id="panelprzyciskowjpk">
         <p:panelGrid columns="2" rendered="false" binding="#{importSprzedazyFKView.grid2}">
         <h:outputText value="#{interpaperBankImportView.wiadomoscnieprzypkonta}" style="color: red; margin-bottom: 10px;"/>
-        <h:outputText value=" "/>
+        <h:outputText value="Uwaga, nie potrafię jeszcze generować dokfk dla sprzedaży zagranicznej!" style="color: green;"/>
                 <p:commandButton value="pobierz dane" actionListener="#{importSprzedazyFKView.importujsprzedaz()}" update="panelprzyciskowjpk form_importjpkfa" style="width: 120px;" />
                 <p:commandButton value="generuj dok" actionListener="#{importSprzedazyFKView.generujsprzedaz()}" update="form_importjpkfa" style="width: 120px;margin-left: 30px;" rendered="false" binding="#{importSprzedazyFKView.generujbutton}"/>
             

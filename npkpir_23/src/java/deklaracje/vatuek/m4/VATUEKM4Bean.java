@@ -224,11 +224,11 @@ public class VATUEKM4Bean {
     }
     
     private static String przetworznip(String nip) {
-        String dobrynip = null;
+        String dobrynip = nip;
         boolean jestprefix = sprawdznip(nip);
             if (jestprefix) {
                 dobrynip = nip.substring(2);
-        }
+            }
         return dobrynip;
     }
     

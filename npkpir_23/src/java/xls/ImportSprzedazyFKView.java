@@ -195,8 +195,12 @@ public class ImportSprzedazyFKView  implements Serializable {
     
      public void generujsprzedaz() {
         try {
-            List<Dokfk> lista = stworzdokumenty(jpk);
-            Msg.msg("Wygenerowano dokumenty w liczbie "+lista.size());
+            List<Dokfk> lista = stworzdokumenty();
+            if (lista.isEmpty()) {
+                Msg.msg("w", "Nie wygenerowano żadnych dokumentów");
+            } else {
+                Msg.msg("Wygenerowano dokumenty w liczbie "+lista.size());
+            }
         } catch (Exception ex) {
             E.e(ex);
             Msg.msg("e","Wystąpił błąd. Nie udało się wygenerować dokumentów");
@@ -218,16 +222,19 @@ public class ImportSprzedazyFKView  implements Serializable {
         grid2.setRendered(true);
     }
      
-    private List<Dokfk> stworzdokumenty(JPKSuper jpk) {
+    private List<Dokfk> stworzdokumenty() {
         List<Dokfk> dokumenty = Collections.synchronizedList(new ArrayList<>());
         List<Klienci> k = klDAO.findAll();
-        if (listasprzedaz != null) {
-            listasprzedaz.forEach((wiersz) -> {
+        List<ImportJPKSprzedaz> lista = listasprzedazselected!=null ? listasprzedazselected : listasprzedaz;
+        if (lista != null) {
+            lista.forEach((wiersz) -> {
                 if (wiersz.getSprzedazWiersz().getNrKontrahenta() != null && wiersz.getSprzedazWiersz().getNrKontrahenta().length()==10) {
-                    Dokfk dok = stworznowydokument(wiersz,k);
-                    if (dok!=null) {
-                        dokumenty.add(dok);
-                        dokDAOfk.dodaj(dok);
+                    Zwrotgenerowania dok = stworznowydokument(wiersz,k);
+                    if (dok.getDokfk()!=null) {
+                        dokumenty.add(dok.getDokfk());
+                        dokDAOfk.dodaj(dok.getDokfk());
+                    } else {
+                        Msg.msg("e", dok.getWiadomosc());
                     }
                 }
             });
@@ -235,40 +242,79 @@ public class ImportSprzedazyFKView  implements Serializable {
         return dokumenty;
     }
     
-    private Dokfk stworznowydokument(ImportJPKSprzedaz wiersz,List<Klienci> klienci) {
+    private Zwrotgenerowania stworznowydokument(ImportJPKSprzedaz wiersz,List<Klienci> klienci) {
+        Zwrotgenerowania zw = new Zwrotgenerowania();
         Dokfk nd = null;
+        String msg = zw.getWiadomosc();
         Klienci kontrahent = ImportBean.ustawkontrahenta(wiersz.getSprzedazWiersz().getNrKontrahenta(), wiersz.getSprzedazWiersz().getNazwaKontrahenta(), klienci, gUSView, klienciDAO);
         if (kontrahent!=null) {
-            String rodzajdk = "SZ";
-            if (nd.getKontr().getKrajnazwa()!=null && !nd.getKontr().getKrajkod().equals("PL")) {
-                rodzajdk = "EXP";
-                if (PanstwaEUSymb.getWykazPanstwUE().contains(nd.getKontr().getKrajkod())) {
-                    rodzajdk = "WDT";
+            try {
+                String rodzajdk = "SZ";
+                if (kontrahent.getKrajnazwa()!=null && !kontrahent.getKrajkod().equals("PL")) {
+                    rodzajdk = "EXP";
+                    if (PanstwaEUSymb.getWykazPanstwUE().contains(kontrahent.getKrajkod())) {
+                        rodzajdk = "WDT";
+                    }
                 }
+                msg = "Problem z generowaniem numeru kolejnego dokumentu dla poz.:"+wiersz.getId();
+                int numerkolejny = ImportBean.oblicznumerkolejny(rodzajdk, dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                nd = new Dokfk(numerkolejny, wpisView.getRokWpisuSt());
+                nd.setKontr(kontrahent);
+                ustawdaty(nd, wiersz.getSprzedazWiersz());
+                msg = "Problem z generowaniem numeru własnego dokumentu dla poz.:"+wiersz.getId();
+                ImportBean.ustawnumerwlasny(nd, wiersz.getSprzedazWiersz().getDowodSprzedazy());
+                nd.setOpisdokfk("sprzedaż towaru");
+                nd.setPodatnikObj(wpisView.getPodatnikObiekt());
+                msg = "Problem z ustawieniem rodzaju dok. dla poz.:"+wiersz.getId();
+                ImportBean.ustawrodzajedok(nd, rodzajdk, rodzajedokDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                nd.setTabelanbp(tabelanbppl);
+                nd.setWalutadokumentu(walutapln);
+                msg = "Problem z generowaniem ewidencji vat dla poz.:"+wiersz.getId();
+                podepnijEwidencjeVat(nd, wiersz);
+                Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
+                if (juzjest!=null) {
+                    nd = null;
+                    wiersz.setJuzzaksiegowany(true);
+                    msg = "Duplikat dla poz.:"+wiersz.getId();
+                } else {
+                    ustawwiersze(nd, wiersz);
+                    nd.setImportowany(true);
+                    nd.setWprowadzil(wpisView.getUzer().getLogin());
+                    nd.przeliczKwotyWierszaDoSumyDokumentu();
+                }
+                zw.setDokfk(nd);
+                zw.setWiadomosc(null);
+            } catch (Exception e) {
+                zw.setWiadomosc(msg);
             }
-            int numerkolejny = ImportBean.oblicznumerkolejny(rodzajdk, dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            nd = new Dokfk(numerkolejny, wpisView.getRokWpisuSt());
-            ustawdaty(nd, wiersz.getSprzedazWiersz());
-            nd.setKontr(kontrahent);
-            ImportBean.ustawnumerwlasny(nd, wiersz.getSprzedazWiersz().getDowodSprzedazy());
-            nd.setOpisdokfk("sprzedaż towaru");
-            nd.setPodatnikObj(wpisView.getPodatnikObiekt());
-            ImportBean.ustawrodzajedok(nd, rodzajdk, rodzajedokDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            nd.setTabelanbp(tabelanbppl);
-            nd.setWalutadokumentu(walutapln);
-            podepnijEwidencjeVat(nd, wiersz);
-            Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
-            if (juzjest!=null) {
-                nd = null;
-                wiersz.setJuzzaksiegowany(true);
-            } else {
-                ustawwiersze(nd, wiersz);
-                nd.setImportowany(true);
-                nd.setWprowadzil(wpisView.getUzer().getLogin());
-                nd.przeliczKwotyWierszaDoSumyDokumentu();
-            }
+        } else {
+            msg = "Problem z generowaniem kontrahenta dla poz.:"+wiersz.getId();
+            zw.setWiadomosc(msg);
         }
-        return nd;
+        return zw;
+    }
+    
+    class Zwrotgenerowania {
+        private String wiadomosc;
+        private Dokfk dokfk;
+
+        public String getWiadomosc() {
+            return wiadomosc;
+        }
+
+        public void setWiadomosc(String wiadomosc) {
+            this.wiadomosc = wiadomosc;
+        }
+
+        public Dokfk getDokfk() {
+            return dokfk;
+        }
+
+        public void setDokfk(Dokfk dokfk) {
+            this.dokfk = dokfk;
+        }
+        
+        
     }
     
     private void ustawdaty(Dokfk nd, SprzedazWiersz wiersz) {
