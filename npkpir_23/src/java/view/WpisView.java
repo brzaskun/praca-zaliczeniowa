@@ -89,6 +89,7 @@ public class WpisView implements Serializable {
         ustawMceOdDo();
         uzer = pobierzWpisBD();
         odjakiegomcdok = "01";
+        formaprawna = null;
         if (uzer != null) {
             podatnikObiekt = uzer.getPodatnik();
             if (podatnikObiekt == null) {
@@ -710,6 +711,8 @@ public class WpisView implements Serializable {
         try {
             if (podatnikObiekt.getFormaPrawna() != null) {
                 formaprawna = podatnikObiekt.getFormaPrawna().toString();
+            } else {
+                formaprawna = null;
             }
         } catch (Exception e){
             System.out.println("blad WpisView pobierzformaprawna");

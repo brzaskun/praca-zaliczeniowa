@@ -52,7 +52,7 @@
                     <p:panelGrid  columns="1" >
                         <p:panel header="dane nowego PIT-u: #{ZestawienieView.wybranyudzialowiec} #{ZestawienieView.wybranyprocent}%" style="width: 450px;"/>
                         <p:panelGrid id="zestawieniepit1" columns="4" style="width: 450px;">
-                            <h:outputText value="firma:"/><h:outputText value="#{ZestawienieView.biezacyPit.podatnik}"/>
+                            <h:outputText value="firma:"/><h:outputText value="#{WpisView.printNazwa}"/>
                             <h:outputText value="podatnik:"/><h:outputText value="#{ZestawienieView.biezacyPit.udzialowiec}"/>
                             <h:outputText value="rok"/><h:outputText value="#{ZestawienieView.biezacyPit.pkpirR}"/>
                             <h:outputText value="#{mgs.miesiąc}"/><h:outputText value="#{ZestawienieView.biezacyPit.pkpirM}"/>

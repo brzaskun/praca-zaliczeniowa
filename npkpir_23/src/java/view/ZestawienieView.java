@@ -1222,15 +1222,16 @@ public class ZestawienieView implements Serializable {
         if (biezacyPit.getWynik() != null) {
             try {
                 Pitpoz find = pitDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM(), biezacyPit.getPodatnik(), biezacyPit.getUdzialowiec(), wybranacechadok);
-                pitDAO.destroy(find);
+                if (find!=null) {
+                    pitDAO.destroy(find);
+                }
                 pitDAO.dodaj(biezacyPit);
                 String wiad = String.format("Edytowano PIT %s za m-c:%s", biezacyPit.getUdzialowiec(), biezacyPit.getPkpirM());
                 Msg.msg("i", wiad);
             } catch (Exception e) {
                 E.e(e);
-                pitDAO.dodaj(biezacyPit);
-                String wiad = String.format("Zachowano PIT %s za m-c:%s", biezacyPit.getUdzialowiec(), biezacyPit.getPkpirM());
-                Msg.msg("i", wiad);
+                String wiad = String.format("Błąd podczas zachowywania PIT %s za m-c:%s", biezacyPit.getUdzialowiec(), biezacyPit.getPkpirM());
+                Msg.msg("e", wiad);
             }
 
         } else {
