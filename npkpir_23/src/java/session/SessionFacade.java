@@ -2118,8 +2118,8 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return Collections.synchronizedList(em.createNamedQuery("EVatwpisFK.findByPodatnik").setParameter("podatnik", podatnik).setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).getResultList());
     }
 
-    public List<EVatwpisFK> findEVatwpisFKByPodatnikRok(Podatnik podatnik, String rok) {
-        return Collections.synchronizedList(em.createNamedQuery("EVatwpisFK.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).getResultList());
+    public List<EVatwpisFK> findEVatwpisFKByPodatnikRokMcodMcdo(Podatnik podatnik, String rok, String mcod, String mcdo) {
+        return Collections.synchronizedList(em.createNamedQuery("EVatwpisFK.findByPodatnikRokMcodMcdo").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mcod", mcod).setParameter("mcdo", mcdo).setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).getResultList());
     }
 
     public List<EVatwpisFK> findEVatwpisFKByPodatnikRokInnyOkres(Podatnik podatnik, String rok) {

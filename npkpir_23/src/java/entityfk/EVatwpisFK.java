@@ -33,6 +33,7 @@ import javax.persistence.UniqueConstraint;
     @NamedQuery(name = "EVatwpisFK.findByWiersz", query = "SELECT k FROM EVatwpisFK k WHERE k.wiersz = :wiersz"),
     @NamedQuery(name = "EVatwpisFK.findByPodatnik", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik"),
     @NamedQuery(name = "EVatwpisFK.findByPodatnikRok", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik AND k.rokEw = :rok"),
+    @NamedQuery(name = "EVatwpisFK.findByPodatnikRokMcodMcdo", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik AND k.rokEw = :rok AND k.mcEw >= :mcod AND k.mcEw <= :mcdo"),
     @NamedQuery(name = "EVatwpisFK.findByPodatnikRokInnyOkres", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik AND k.rokEw = :rok AND k.innyokres != 0"),
     @NamedQuery(name = "EVatwpisFK.findEVatwpisFKPodatnikKlient", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik AND k.klient = :klient AND k.dokfk.rok = :rok ORDER BY k.dokfk.nrkolejnywserii DESC"),
     @NamedQuery(name = "EVatwpisFK.findByRokKW", query = "SELECT k FROM EVatwpisFK k WHERE k.rokEw = :pkpirR AND k.dokfk.podatnikObj = :podatnik AND (k.mcEw = :mc1 OR k.mcEw = :mc2 OR k.mcEw = :mc3)"),

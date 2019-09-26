@@ -7,6 +7,7 @@
 package daoFK;
 
 import dao.DAO;
+import embeddable.Mce;
 import entity.Klienci;
 import entity.Podatnik;
 import entityfk.EVatwpisFK;
@@ -45,15 +46,12 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
     
     public List<EVatwpisFK> findPodatnikMc(Podatnik podatnik, String rok, String mcod, String mcdo) {
         List<EVatwpisFK> l = Collections.synchronizedList(new ArrayList<>());
-        List<EVatwpisFK> input = sessionFacade.findEVatwpisFKByPodatnikRok(podatnik, String.valueOf(rok));
+        List<EVatwpisFK> input = sessionFacade.findEVatwpisFKByPodatnikRokMcodMcdo(podatnik, String.valueOf(rok), mcod, mcdo);
         if (input != null && !input.isEmpty()) {
-            int dg = Integer.parseInt(mcod)-1;
-            int gg = Integer.parseInt(mcdo)+1;
             for (EVatwpisFK p : input) {
                 try {
                     //System.out.println("ew "+p);
-                    int p_mc = Integer.parseInt(p.getMcEw());
-                    if (p_mc > dg && p_mc < gg && !"VAT".equals(p.getDokfk().getRodzajedok().getSkrot())) {
+                    if (!"VAT".equals(p.getDokfk().getRodzajedok().getSkrot())) {
                         l.add(p);
                     }
                 } catch (Exception e) {
@@ -90,32 +88,32 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
         return l;
     }
     
-    public List<EVatwpisFK> findPodatnikMcOdDo(Podatnik podatnik, String rok, String mcod, String mcdo) {
-        //pobieramy ewidencje z tego roku i mca i badamy ich dokumenty, jezeli sa rozne to pobieramy
-        List<EVatwpisFK> l = Collections.synchronizedList(new ArrayList<>());
-        List<EVatwpisFK> input = sessionFacade.findEVatwpisFKByPodatnikRok(podatnik, rok);
-        if (input != null && !input.isEmpty()) {
-            int dg = Integer.parseInt(mcod)-1;
-            int gg = Integer.parseInt(mcdo)+1;
-            for (EVatwpisFK p : input) {
-                try {
-                    int mcdok = Integer.parseInt(p.getDokfk().getMiesiac());
-                    if (mcod.equals("01")) {
-                        mcdok = 12 - mcdok;
-                    }
-                    if (mcdok <= dg && p.getVat() != 0.0) {
-                        int p_mc = Integer.parseInt(p.getMcEw());
-                        if (p_mc > dg && p_mc < gg) {
-                            l.add(p);
-                        }
-                    }
-                } catch (Exception e) {
-                    E.e(e);
-                }
-            }
-        }
-        return l;
-    }
+//    public List<EVatwpisFK> findPodatnikMcOdDo(Podatnik podatnik, String rok, String mcod, String mcdo) {
+//        //pobieramy ewidencje z tego roku i mca i badamy ich dokumenty, jezeli sa rozne to pobieramy
+//        List<EVatwpisFK> l = Collections.synchronizedList(new ArrayList<>());
+//        List<EVatwpisFK> input = sessionFacade.findEVatwpisFKByPodatnikRokMcodMcdo(podatnik, rok);
+//        if (input != null && !input.isEmpty()) {
+//            int dg = Integer.parseInt(mcod)-1;
+//            int gg = Integer.parseInt(mcdo)+1;
+//            for (EVatwpisFK p : input) {
+//                try {
+//                    int mcdok = Integer.parseInt(p.getDokfk().getMiesiac());
+//                    if (mcod.equals("01")) {
+//                        mcdok = 12 - mcdok;
+//                    }
+//                    if (mcdok <= dg && p.getVat() != 0.0) {
+//                        int p_mc = Integer.parseInt(p.getMcEw());
+//                        if (p_mc > dg && p_mc < gg) {
+//                            l.add(p);
+//                        }
+//                    }
+//                } catch (Exception e) {
+//                    E.e(e);
+//                }
+//            }
+//        }
+//        return l;
+//    }
     
     public List<EVatwpisFK> findPodatnikDalszeMce(Podatnik podatnik, Integer rok, String mcod, String mcdo) {
         List<EVatwpisFK> l = Collections.synchronizedList(new ArrayList<>());
