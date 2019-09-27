@@ -25,7 +25,7 @@
                               rowKey="#{wpis27.hashCode()}" selection="#{vat27FKView.listawybranych}"
                               emptyMessage="W danym miesiącu nie było żadnych zapisów"
                               sortBy="#{wpis27.kontrahent.npelna}"  styleClass="upd27"
-                              style="max-width: 95%;height: 450px;overflow-y: scroll;" widgetVar="dokTable27" 
+                              style="max-width: 95%;height: 400px;overflow-y: scroll;" widgetVar="dokTable27" 
                               > 
                     <f:facet name="header">  
                         <h:outputText value="#{vat27FKView.opisvatuepkpir}" /> 
@@ -114,10 +114,12 @@
                         </p:column>
                     </p:rowExpansion>
                 </p:dataTable>
-                <p:separator/>
-               <p:dataTable value="#{vat27FKView.deklaracjevat27}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1410px;" styleClass="upd327"
+        </p:outputPanel>
+    </p:tab><p:tab title="wysłane">
+                <p:outputPanel> 
+               <p:dataTable value="#{vat27FKView.deklaracjevat27}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1310px;height: 450px;" styleClass="upd327"
                              selection="#{vat27FKView.dekl27selected}" selectionMode="single" rowKey="#{row.hashCode()}">
-                    <p:column style="width: 3%;">
+                    <p:column style="width: 20px;">
                         <p:rowToggler/>
                     </p:column>
                     <p:column headerText="data złożenia" style="text-align: center;" width="80">
@@ -138,7 +140,7 @@
                     <p:column headerText="sporządził" style="text-align: center;" width="90">
                         <h:outputText value="#{row.sporzadzil}"/>
                     </p:column>
-                    <p:column headerText="status" width="250">
+                    <p:column headerText="status" width="100">
                         <h:outputText value="#{row.status}" />
                     </p:column>
                     <p:column headerText="opis/id" width="300">
@@ -163,6 +165,6 @@
                         </p:column>
                     </p:rowExpansion>
                 </p:dataTable>
-            </p:outputPanel>
+            </p:outputPanel>        
     </p:tab>
 </ui:composition>

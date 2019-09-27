@@ -7,10 +7,10 @@
     >
 
     <p:dialog id="dialog_deklaracje_vatue_status" header="Status wysłanych deklaracji VAT-UE" widgetVar="dialog_deklaracje_vatue_status"  appendTo="@(body)" modal="true"
-              resizable="false" onShow="ustawdialogWindow('dialog_deklaracje_vatue_status', 1450, 700);" closeOnEscape="true" onHide="resetujdialog('dialog_deklaracje_vatue_status');"  >
-        <p:panel style="height: 600px;overflow-y: scroll">
+              resizable="false" onShow="ustawdialog('dialog_deklaracje_vatue_status','menurejestry', 1450, 700);" closeOnEscape="true" onHide="resetujdialog('dialog_deklaracje_vatue_status');"  >
+        <p:panel style="height: 600px;">
             
-            <p:tabView id="akordeon2" style="height: 720px;overflow-y: scroll;">
+            <p:tabView id="akordeon2" style="height: 720px;">
                     <ui:include src="ewidencjavat/vat_ue.xhtml"/>
                 <p:tab title="wysłane">
                     <h:form>
