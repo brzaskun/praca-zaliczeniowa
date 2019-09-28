@@ -39,7 +39,7 @@
             </p:panelGrid>
                 <h:outputText value="saldo w kolorze niebieskim oznacza telefon lub wysłane upomnienie"/>
             <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.saldanierozliczone}" var="item" style="width: 1200px; margin-top: 20px;"
-                         emptyMessage="nie znaleziono żadnych księgowań" rowKey="#{item.lp}"
+                         emptyMessage="nie znaleziono żadnych księgowań" rowKey="#{item.lp}" sortBy="#{item.saldopln}" sortMode="descending"
                          selection="#{fakturaRozrachunkiAnalizaView.saldanierozliczoneselected}" rowSelectMode="add"
                          >
                 <p:ajax event="toggleSelect" global="false" listener="#{fakturaRozrachunkiAnalizaView.sumujwybrane()}" update="akordeon:fakturaanalizazbiorcza:suma"/>
