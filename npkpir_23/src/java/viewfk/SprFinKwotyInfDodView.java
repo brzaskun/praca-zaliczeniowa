@@ -167,7 +167,7 @@ public class SprFinKwotyInfDodView  implements Serializable{
         List<Konto> kontaklienta = kontoDAOfk.findWszystkieKontaPodatnikaRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        List<StronaWiersza> zapisyRok = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(),"12");
+        List<StronaWiersza> zapisyRok = stronaWierszaDAO.findStronaByPodatnikRokMcodMcdo(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "01","12");
         List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlitykaRokPop(wpisView);
         List<SaldoKonto> listaSaldoKonto = SaldoAnalitykaBean.przygotowanalistasaldbo(kontaklienta, kontaklientarokpop, zapisyBO, zapisyObrotyRozp, zapisyRok, wpisView.getPodatnikObiekt());
         SprFinInfDodBean.drukujInformacjeDodatkowa(wpisView, sprFinKwotyInfDod, listaSaldoKonto);

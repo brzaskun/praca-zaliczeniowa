@@ -1691,11 +1691,11 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     public List<Konto> findStronaByPodatnikRokKontoDist(Podatnik podatnik, String rok) {
         return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findStronaByPodatnikRokKontoDist").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList());
     }
-    public List<StronaWiersza> findStronaByPodatnikRok(Podatnik podatnik, String rok, String mc) {
+    public List<StronaWiersza> findStronaByPodatnikRokMcodMcdo(Podatnik podatnik, String rok, String mcod, String mcdo) {
         //return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikRok").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList());
         LoadGroup lg = new LoadGroup();
         lg.addAttribute("wiersz.dokfk");
-        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikRokMc").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mc", mc)
+        return Collections.synchronizedList(em.createNamedQuery("StronaWiersza.findByPodatnikRokMcodMcdo").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mcod", mcod).setParameter("mcdo", mcdo)
                 .setHint(QueryHints.READ_ONLY, HintValues.TRUE)
                 .setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE)
                 .setHint(QueryHints.REFRESH, HintValues.TRUE)

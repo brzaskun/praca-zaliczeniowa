@@ -639,7 +639,7 @@ public class SaldoAnalitykaView implements Serializable {
     private List<StronaWiersza> pobierzzapisy(String rodzajkont, String rok, String mc) {
         List<StronaWiersza> zapisyRok = null;
         if (rodzajkont.equals("wszystkie")) {
-            zapisyRok = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), rok, mc);
+            zapisyRok = stronaWierszaDAO.findStronaByPodatnikRokMcodMcdo(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "01",mc);;
         } else if (rodzajkont.equals("bilansowe")) {
             zapisyRok = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), rok, mc);
         } else if (rodzajkont.equals("wynikowe")) {

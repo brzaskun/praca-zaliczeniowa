@@ -193,15 +193,15 @@ public class KontoZapisFKView implements Serializable{
         return listamacierzyste;
     }
     
-    public void pobierzzapisy(String rok) {
-        List<StronaWiersza> zapisy = Collections.synchronizedList(new ArrayList<>());
-        try {
-            zapisy = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), rok, "12");
-        } catch (Exception e) {
-            E.e(e);
-        }
-        //zapisyRok = zapisy;
-    }
+//    public void pobierzzapisy(String rok) {
+//        List<StronaWiersza> zapisy = Collections.synchronizedList(new ArrayList<>());
+//        try {
+//            zapisy = stronaWierszaDAO.findStronaByPodatnikRokMcodMcdo(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "01",wpisView.getMiesiacWpisu());
+//        } catch (Exception e) {
+//            E.e(e);
+//        }
+//        //zapisyRok = zapisy;
+//    }
     
      public List<Konto> pobierzkontazsaldem(String rok) {
         List<Konto> zapisy = Collections.synchronizedList(new ArrayList<>());

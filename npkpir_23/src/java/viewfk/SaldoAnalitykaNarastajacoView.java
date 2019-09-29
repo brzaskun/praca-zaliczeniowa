@@ -86,7 +86,7 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     }
     
      private void przygotowanalistasald(List<Konto> kontaklienta, List<StronaWiersza> zapisyBO, List<StronaWiersza> zapisyObrotyRozp) {
-        List<StronaWiersza> zapisyRok = pobierzzapisy();
+        List<StronaWiersza> zapisyRok = stronaWierszaDAO.findStronaByPodatnikRokMcodMcdo(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "01",wpisView.getMiesiacWpisu());
         Map<String,SaldoKontoNarastajaco> przygotowanalista = new ConcurrentHashMap<>();
         int licznik = 0;
         for (Konto p : kontaklienta) {
@@ -225,10 +225,7 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
         return zwrot;
     }
 
-    private List<StronaWiersza> pobierzzapisy() {
-        List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        return zapisy;
-    }
+   
    
      public boolean czywyswietlic(String kolumna) {
         String mcWP = wpisView.getMiesiacWpisu().equals("CR") ? "06" : wpisView.getMiesiacWpisu();

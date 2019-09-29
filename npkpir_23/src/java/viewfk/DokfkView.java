@@ -1156,7 +1156,7 @@ public class DokfkView implements Serializable {
                 resetujDokument();
                 if (totylkoedycjazapis) {
                     //to jest potrzebne w sumie do edycji dokumenty z zapisow konta, tylko ze wywolujemy inita KOmntoZapisy FKView
-                    kontoZapisFKView.pobierzzapisy(wpisView.getRokWpisuSt());
+                    //kontoZapisFKView.pobierzzapisy(wpisView.getRokWpisuSt());
                     totylkoedycjazapis = false;
                 }
                  if (totylkoedycjaanalityczne) {

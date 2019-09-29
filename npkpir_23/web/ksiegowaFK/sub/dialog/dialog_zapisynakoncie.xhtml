@@ -189,10 +189,10 @@
                 </h:form>
             </p:layoutUnit>  
 
-            <p:layoutUnit id="centertree" position="center" >
+            <p:layoutUnit id="centertree" position="center" style="height: 200px;">
                 <style>
                     .grid1 td {
-                        height: 40px !important;
+                        height: 35px !important;
                     }
                     #centertree {
                         width: 1250px !important;
@@ -207,7 +207,7 @@
 
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.id}"
                                  filteredValue="#{kontoZapisFKView.kontozapisyfiltered}"
-                                 selection="#{kontoZapisFKView.wybranezapisydosumowania}" sortBy="#{loop}" style="height: 525px; overflow-y: scroll; width: 1230px; overflow-x: scroll;"
+                                 selection="#{kontoZapisFKView.wybranezapisydosumowania}" sortBy="#{loop}" style="width: 1230px;"
                                  sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" emptyMessage="Nie ma zapisów na koncie"
                                  rowIndexVar="rowindex" styleClass="walkingtable" rowSelectMode="add"
                                  >
@@ -306,9 +306,9 @@
                     
                     <p:contextMenu for="tabela" style="width: 200px;"  rendered="#{!WpisView.rokzamkniety}">
                         <p:menuitem value="edytuj dok" global="false" icon="fa fa-edit" 
-                                    update="formwpisdokument zestawieniezapisownakontachpola1"
+                                    update="formwpisdokument zestawieniezapisownakontachpola1 wpisywaniefooter"
                                     actionListener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(kontoZapisFKView.wybranezapisydosumowania.get(0))}"
-                                    oncomplete="PF('wpisywanie').show();"/>
+                                    oncomplete="PF('wpisywanie').show();" />
                         <p:menuitem value="rozlicz transakcje" icon="fa fa-tasks" actionListener="#{kontoZapisFKView.rozliczzaznaczone()}" update=":tabelazzapisami:tabela"/>
                         <p:menuitem value="usuń różnice kursowe" icon="fa fa-minus" actionListener="#{kontoZapisFKView.usunroznicekursowe()}" update=":tabelazzapisami:tabela"/>
                         <p:menuitem value="rozlicz różnice statyst. (bilans)" icon="fa fa-book" actionListener="#{kontoZapisFKView.rozliczsaldostatystycznie()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
