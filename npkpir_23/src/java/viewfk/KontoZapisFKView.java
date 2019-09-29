@@ -126,8 +126,8 @@ public class KontoZapisFKView implements Serializable{
         ostatniaanalityka = kontoDAOfk.findKontaOstAlityka(wpisView);
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         wszystkiekonta = new ArrayList<>(wykazkont);
-        wpisView.setMiesiacOd(wpisView.getMiesiacWpisu());
-        wpisView.setMiesiacDo(wpisView.getMiesiacWpisu());
+        wpisView.setMiesiacOd(wpisView.getMiesiacOd());
+        wpisView.setMiesiacDo(wpisView.getMiesiacDo());
 //        pobierzzapisy(wpisView.getRokWpisuSt());
         usunkontabezsald();
         wybierzgrupekont();
@@ -1816,12 +1816,20 @@ public class KontoZapisFKView implements Serializable{
         } else {
             if (sprawdz==1) {
                 wybranekonto.setSprawdzono(Data.aktualnaData());
+                kontoDAOfk.edit(wybranekonto);
                 Msg.msg("Oznaczono konto jako sprawdzone");
-            } else {
+            } else if (sprawdz==1){
                 wybranekonto.setSprawdzono(null);
-                Msg.msg("Odznaczono konto jako sprawdzone");
+                kontoDAOfk.edit(wybranekonto);
+                Msg.msg("Oznaczono konto jako niesprawdzone");
+            }  else if (sprawdz==3){
+                wykazkont.parallelStream().forEach((p) -> {
+                    p.setSprawdzono(null);
+                });
+                kontoDAOfk.editList(wykazkont);
+                Msg.msg("Odznaczono wszystkie konta");
             }
-            kontoDAOfk.edit(wybranekonto);
+            
         }
     }
 

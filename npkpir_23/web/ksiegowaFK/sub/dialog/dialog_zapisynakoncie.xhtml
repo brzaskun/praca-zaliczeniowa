@@ -182,6 +182,7 @@
                     <p:contextMenu for="dataList" style="width: 200px;"  rendered="#{!WpisView.rokzamkniety}">
                         <p:menuitem icon="fa fa-check-square" value="sprawdzono" actionListener="#{kontoZapisFKView.oznaczjakosprawdzone(1)}" oncomplete="zmienkolor()" global="false"/>
                         <p:menuitem icon="fa fa-ban" value="odsprawdź" actionListener="#{kontoZapisFKView.oznaczjakosprawdzone(0)}"  oncomplete="zmienkolor1()" global="false"/>
+                        <p:menuitem icon="fa fa-ban" value="odsprawdź wszystkie" actionListener="#{kontoZapisFKView.oznaczjakosprawdzone(3)}"  global="false" update="form:dataList"/>
                         <p:separator/>
                         <p:menuitem icon="fa fa-trash" value="usuń zapisy" actionListener="#{dokfkView.usunzapisy(kontoZapisFKView.wybranekonto, kontoZapisFKView.kontozapisy)}"   global="false" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                     </p:contextMenu>
@@ -210,11 +211,12 @@
                                  selection="#{kontoZapisFKView.wybranezapisydosumowania}" sortBy="#{loop}" style="width: 1230px;"
                                  sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" emptyMessage="Nie ma zapisów na koncie"
                                  rowIndexVar="rowindex" styleClass="walkingtable" rowSelectMode="add"
+                                 rowsPerPageTemplate="150,300,600,900,1200" paginatorPosition="top" paginator="#{kontoZapisFKView.kontozapisy.size() gt 150 ? 'true':'false'}" rows="150"
                                  >
                         <p:ajax event="rowSelectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false" />
                         <p:ajax event="rowUnselectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false" oncomplete="odswietlrozrachunki()"/>
                         <p:ajax event="toggleSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false"/>
-<!--                        <p:ajax event="rowSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}" global="false"/>-->
+                        <p:ajax event="rowSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}" global="false"/>
                         <p:ajax event="rowSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal2}" global="false"/>
                         <p:ajax event="filter" global="false" oncomplete="przeliczfilterzapisy()"/>
                         <p:column selectionMode="multiple" styleClass="checkwiersza" width="20" style="text-align: center;"></p:column>
