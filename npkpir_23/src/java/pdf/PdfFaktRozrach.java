@@ -65,7 +65,7 @@ public class PdfFaktRozrach {
         }
     }
     
-    public static void drukujKlienciSilent(Klienci szukanyklient, List<FakturaPodatnikRozliczenie> nowepozycje, List<FakturaPodatnikRozliczenie> archiwum, WpisView wpisView) {
+    public static String drukujKlienciSilent(Klienci szukanyklient, List<FakturaPodatnikRozliczenie> nowepozycje, List<FakturaPodatnikRozliczenie> archiwum, WpisView wpisView) {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"faktrozrach"+PdfMain.losowanazwa();
         File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
@@ -99,6 +99,7 @@ public class PdfFaktRozrach {
         } else {
             Msg.msg("w", "Błąd wydruku rozrachunków z klientem");
         }
+        return nazwa;
     }
     
     public static void drukujKlienciZbiorcze(List<FakturaPodatnikRozliczenie> zbiorcze, WpisView wpisView) {

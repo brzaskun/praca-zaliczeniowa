@@ -120,7 +120,9 @@ public class STREwidencja implements Serializable {
                     } catch (Exception e) {
                         E.e(e);
                     } finally {
-                        listaSrodkiTrwale.add(przegladanySrodek);
+                        if (!listaSrodkiTrwale.contains(przegladanySrodek)) {
+                            listaSrodkiTrwale.add(przegladanySrodek);
+                        }
                     }
                 }
                 iloscsrodkow = listaSrodkiTrwale.size();

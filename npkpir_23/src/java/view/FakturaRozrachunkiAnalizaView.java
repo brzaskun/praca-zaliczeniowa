@@ -410,19 +410,21 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             double saldo = Z.z(p.getSaldopln());
             if (saldo > 0) {
                 obetnijliste(p);
-                PdfFaktRozrach.drukujKlienciSilent(szukanyklient, nowepozycje, archiwum, wpisView);
-                Fakturadodelementy stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
-                MailFaktRozrach.rozrachunek(szukanyklient, wpisView, fakturaDAO, saldo, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getUzer()), sMTPSettingsDAO.findSprawaByDef());
-                if (r != null) {
-                    r.setDataupomnienia(new Date());
-                    p.setDataupomnienia(new Date());
-                    fakturaRozrachunkiDAO.edit(r);
-                } else {
-                    f.setDataupomnienia(new Date());
-                    p.setDataupomnienia(new Date());
-                    fakturaDAO.edit(f);
-                }
-                Msg.msg("Wysłano upomnienie do klienta");
+                try {
+                    String nazwa = PdfFaktRozrach.drukujKlienciSilent(szukanyklient, nowepozycje, archiwum, wpisView);
+                    Fakturadodelementy stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
+                    MailFaktRozrach.rozrachunek(szukanyklient, wpisView, fakturaDAO, saldo, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getUzer()), sMTPSettingsDAO.findSprawaByDef(), nazwa);
+                    if (r != null) {
+                        r.setDataupomnienia(new Date());
+                        p.setDataupomnienia(new Date());
+                        fakturaRozrachunkiDAO.edit(r);
+                    } else {
+                        f.setDataupomnienia(new Date());
+                        p.setDataupomnienia(new Date());
+                        fakturaDAO.edit(f);
+                    }
+                    Msg.msg("Wysłano upomnienie do klienta");
+                } catch (Exception e){}
             } else {
                 Msg.msg("e", "Saldo zerowe, nie ma po co wysyłac maila");
             }
@@ -473,7 +475,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         }
     }
     
-    public void drukujszczegolyzbiorcze() {
+    public void mailwezwaniezbiorcze() {
         if (saldanierozliczoneselected != null && saldanierozliczoneselected.size() > 0) {
             Map<Klienci, List<FakturaPodatnikRozliczenie>> klista = new HashMap<>();
             for (FakturaPodatnikRozliczenie p : saldanierozliczoneselected) {
@@ -484,13 +486,10 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                         szukanyklient = p.getFaktura().getKontrahent();
                     }
                     pobierzwszystko(wpisView.getMiesiacWpisu(), szukanyklient);
-                    klista.put(szukanyklient, nowepozycje);
+                    mailKlienci();
                 } catch (Exception e) {
                     Msg.msg("e", "Bład przy jednej pozycji");
                 }
-            }
-            if (klista.size() > 0) {
-                PdfFaktRozrach.drukujKliencihurt(klista, wpisView);
             }
         } else {
             Msg.msg("e", "Nie wybrano pozycji");

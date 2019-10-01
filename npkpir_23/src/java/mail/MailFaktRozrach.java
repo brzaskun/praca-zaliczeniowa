@@ -30,7 +30,7 @@ import view.WpisView;
  */
 public class MailFaktRozrach implements Serializable{
     
-    public static void rozrachunek(Klienci szukanyklient, WpisView wpisView, FakturaDAO fakturaDAO, double saldo, String stopka, SMTPSettings settings, SMTPSettings ogolne) {
+    public static void rozrachunek(Klienci szukanyklient, WpisView wpisView, FakturaDAO fakturaDAO, double saldo, String stopka, SMTPSettings settings, SMTPSettings ogolne, String nazwa) {
         Msg.msg("Rozpoczynam wysylanie maila z rozrachunkami. Czekaj na wiadomość końcową");
         int i = 0;
         try {
@@ -50,7 +50,6 @@ public class MailFaktRozrach implements Serializable{
             MimeBodyPart mbp2 = new MimeBodyPart();
             mbp2.setHeader("Content-Type", "application/pdf;charset=UTF-8");
             // attach the file to the message
-           String nazwa = wpisView.getPodatnikObiekt().getNip()+"faktrozrach";
            File file = Plik.plik(nazwa+".pdf", true);
            if (file.isFile() == false) {
                Msg.msg("e", "Nie odnaleziono pliku załącznika");
@@ -78,6 +77,7 @@ public class MailFaktRozrach implements Serializable{
                 Msg.msg("e", "Nieudane usunięcie pliku rozrachunku");
             }
         } catch (MessagingException e) {
+            Msg.msg("e","Bład wysyłki. Sprawdź ustawienia serwera, połączenie z internetem");
             throw new RuntimeException(e);
         }
         i++;
