@@ -207,6 +207,7 @@ public class KontoZapisFKView implements Serializable{
         List<Konto> zapisy = Collections.synchronizedList(new ArrayList<>());
         try {
             zapisy = stronaWierszaDAO.findStronaByPodatnikRokKontoDist(wpisView.getPodatnikObiekt(), rok);
+            Collections.sort(zapisy, new Kontocomparator());
         } catch (Exception e) {
             E.e(e);
         }
