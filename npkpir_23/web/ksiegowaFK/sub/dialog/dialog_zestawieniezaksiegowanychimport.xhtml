@@ -16,7 +16,7 @@
     </style>
    
     <p:dialog id="zestawieniezaksiegowanychimport" header="Zestawienie zaimportowanych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zestawieniezaksiegowanychimport" 
-              resizable="false"  onShow="ustawdialog('zestawieniezaksiegowanychimport','menudokumenty');" closeOnEscape="true" onHide="resetujdialog('zestawieniezaksiegowanychimport');" >
+              resizable="false"  onShow="ustawdialog('zestawieniezaksiegowanychimport','menudokumenty');doczeplistnerydopol();" closeOnEscape="true" onHide="resetujdialog('zestawieniezaksiegowanychimport');" >
         <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" update=":zestawieniedokumentowimport"/>
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
@@ -74,12 +74,12 @@
             <p:dataTable id="dataListImport" value="#{dokfkView.wykazZaksiegowanychDokumentowimport}" var="item" rowIndexVar="row" widgetVar="tablicadokumentyimport" 
                          selection="#{dokfkView.selectedimport}" rowKey="#{item.id}" selectionMode="single" 
                          style="width: 1250px; height: 580px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValueimport}"
-                         emptyMessage="Brak importowanych dokumentów" styleClass="gridZaksiegowane"
+                         emptyMessage="Brak importowanych dokumentów" styleClass="gridZaksiegowane walkingtable"
                          sortBy="#{item.id}" >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
                 <p:ajax event="filter" global="false"/>
                 <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center; height: 35px;">
-                    <h:outputText styleClass="lpwierszaZaksiegowane" value="#{row+1}"/>
+                    <h:outputText styleClass="lpwierszaZaksiegowane lpwiersza niecheckwiersza" value="#{row+1}"/>
                 </p:column>
                 <p:column headerText="#{mgs.datadok}" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{item.datadokumentu}" filterBy="#{item.datadokumentu}" filterMatchMode="contains" >
                     <h:outputText value="#{item.datadokumentu}"/>

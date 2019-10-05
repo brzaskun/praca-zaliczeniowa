@@ -749,9 +749,9 @@
 <!--                <p:commandButton id="pokazvat" value="pokaż vat" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" global="false"
                                  onclick="jQuery('.ui-row-toggler').click()" />-->
                 <p:commandButton icon="fa fa-arrow-left" styleClass="fkbutton" style="width: 60px; margin-left: 85px;" 
-                                 global="false" actionListener="#{dokfkView.przesun(-1)}" rendered="#{dokfkView.wierszDoPodswietlenia eq -1}"
+                                 global="false" actionListener="#{dokfkView.przesun(-1)}" 
                                  />
-                <p:commandButton icon="fa fa-arrow-right" styleClass="fkbutton" style="width: 60px; "  rendered="#{dokfkView.wierszDoPodswietlenia eq -1}"
+                <p:commandButton icon="fa fa-arrow-right" styleClass="fkbutton" style="width: 60px; "  
                                  global="false" actionListener="#{dokfkView.przesun(1)}"
                                  />
                 <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="width: 130px; float: right;" type="button" 

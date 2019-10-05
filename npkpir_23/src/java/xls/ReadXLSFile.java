@@ -201,9 +201,9 @@ public class ReadXLSFile {
    }
     
    private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni, GUSView gUSView) {
-       if (interpaperXLS.getNip().equals("6112576814")) {
-           System.out.println("");
-       }
+//       if (interpaperXLS.getKontrahent().equals("HST")) {
+//           System.out.println("");
+//       }
        Klienci klient = null;
         try {
             if (!znalezieni.isEmpty()) {
@@ -223,7 +223,7 @@ public class ReadXLSFile {
                     }
                 }
             }
-            if (klient==null) {
+            if (klient==null && interpaperXLS.getKontrahent().toLowerCase().trim().length()>3) {
                 for (Klienci p : k) {
                     if (p.getNpelna().toLowerCase().contains(interpaperXLS.getKontrahent().toLowerCase().trim()) || (p.getNskrocona()!=null && p.getNskrocona().toLowerCase().contains(interpaperXLS.getKontrahent().toLowerCase().trim()))) {
                         klient = p;
