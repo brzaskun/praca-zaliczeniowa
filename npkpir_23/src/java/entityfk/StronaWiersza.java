@@ -35,6 +35,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+import org.eclipse.persistence.annotations.Cache;
+import org.eclipse.persistence.annotations.CacheType;
 import view.WpisView;import waluty.Z;
 
 /**
@@ -93,6 +95,7 @@ import view.WpisView;import waluty.Z;
     @NamedQuery(name = "StronaWiersza.findByPodatnikRokBilansBO", query = "SELECT t FROM StronaWiersza t WHERE t.konto.bilansowewynikowe = 'bilansowe' AND t.wiersz.dokfk.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.typStronaWiersza = 9")
 })
 @Cacheable
+@Cache(size = 40000, refreshOnlyIfNewer = true, type = CacheType.FULL)
 public class StronaWiersza implements Serializable {
     private static final long serialVersionUID = 1L;
 

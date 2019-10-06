@@ -648,6 +648,8 @@ public class InterpaperImportView implements Serializable {
     }
     
     
+    
+    
     public void nanieszmianytabela() {
         if (selectedimport1!=null) {
             for (InterpaperXLS p : pobranefaktury) {

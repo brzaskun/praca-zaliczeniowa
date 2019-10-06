@@ -29,6 +29,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import language.LocaleInfo;
+import org.eclipse.persistence.annotations.Cache;
+import org.eclipse.persistence.annotations.CacheType;
 import org.eclipse.persistence.annotations.FetchAttribute;
 import session.SessionFacade;
 
@@ -124,6 +126,7 @@ import session.SessionFacade;
     @NamedQuery(name = "Konto.findBySlownikoweMacierzyste", query = "SELECT k FROM Konto k WHERE k.kontomacierzyste = :kontomacierzyste AND k.nrkonta = :nrkonta  AND k.podatnik = :podatnik AND k.rok = :rok")
 })
 @Cacheable
+@Cache(size = 40000, refreshOnlyIfNewer = true, type = CacheType.FULL)
 public class Konto extends ToBeATreeNodeObject implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

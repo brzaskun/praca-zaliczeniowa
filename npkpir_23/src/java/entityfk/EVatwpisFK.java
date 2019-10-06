@@ -19,6 +19,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import org.eclipse.persistence.annotations.Cache;
+import org.eclipse.persistence.annotations.CacheType;
 
 /**
  *
@@ -39,6 +41,8 @@ import javax.persistence.UniqueConstraint;
     @NamedQuery(name = "EVatwpisFK.findByRokKW", query = "SELECT k FROM EVatwpisFK k WHERE k.rokEw = :pkpirR AND k.dokfk.podatnikObj = :podatnik AND (k.mcEw = :mc1 OR k.mcEw = :mc2 OR k.mcEw = :mc3)"),
     @NamedQuery(name = "EVatwpisFK.findByRokMc", query = "SELECT k FROM EVatwpisFK k WHERE k.rokEw = :pkpirR AND k.dokfk.podatnikObj = :podatnik AND k.mcEw = :mc"),
 })
+@Cacheable
+@Cache(size = 40000, refreshOnlyIfNewer = true, type = CacheType.FULL)
 public class EVatwpisFK extends EVatwpisSuper implements Serializable {
     private static final long serialVersionUID = 1L;
     private int lp;
