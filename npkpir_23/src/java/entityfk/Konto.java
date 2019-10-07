@@ -459,6 +459,13 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         return zwrot;
     }
     
+    public boolean brakprzyporzadkowania() {
+        boolean zwrot = false;
+        if (this.pozycjaWn==null || this.pozycjaMa==null) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
 
     @Override
     public int getLevel() {
