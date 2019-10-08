@@ -38,7 +38,7 @@
                 });
             </script>
               <p:outputPanel style="background-color: #6374AB; height: 1672px; width: 1168px;">
-                <p:panel id="nabywca" style="width: 480px; height: 160px;"  rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('Dane Odbiorcy')}">  
+                <p:panel id="nabywca" style="width: 480px; height: 160px;" >  
                     <p:panelGrid columns="2">
                         <h:outputText value="Nabywca: " style="font-size: larger;"/><br/>
                         <h:outputText value="Marian Kowalski " /><br/>
@@ -49,7 +49,7 @@
                     </p:panelGrid>
                 </p:panel>
                   <p:draggable for="nabywca" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
-                <p:panel id="odbiorcan" style="width: 480px; height: 160px;"  >  
+                <p:panel id="odbiorcan" style="width: 480px; height: 160px;"  rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('Dane Odbiorcy')}" >  
                     <p:panelGrid columns="2">
                         <h:outputText value="Odbiorca: " style="font-size: larger;"/><br/>
                         <h:outputText value="Jan Kowalski " /><br/>

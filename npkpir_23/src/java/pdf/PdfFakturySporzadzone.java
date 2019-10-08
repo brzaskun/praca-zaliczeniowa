@@ -144,9 +144,9 @@ public class PdfFakturySporzadzone {
                     double vat = rs.getVat();
                     double brutto = rs.getBrutto();
                     if (rs.getPozycjepokorekcie() != null) {
-                        netto = Z.z(rs.getNetto() - rs.getNettopk());
-                        vat = Z.z(rs.getVat() - rs.getVatpk());
-                        brutto = Z.z(rs.getBrutto() - rs.getBruttopk());
+                        netto = Z.z(rs.getNettopk() - rs.getNetto());
+                        vat = Z.z(rs.getVatpk() - rs.getVat());
+                        brutto = Z.z(rs.getBruttopk() - rs.getBrutto());
                     }
                     table.addCell(ustawfrazeAlign(formatujWaluta(netto), "right", 7));
                     table.addCell(ustawfrazeAlign(formatujWaluta(vat), "right", 7));

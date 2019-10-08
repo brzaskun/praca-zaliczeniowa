@@ -1658,6 +1658,14 @@ public class FakturaView implements Serializable {
         Msg.msg("Skopiowano okresowe do nowego roku");
     }
 
+    
+    public void sumawartoscifiltered() {
+        boolean filtrowane = fakturyFiltered!=null && fakturyFiltered.size()>0 ? true: false;
+        boolean wybrane = gosciwybral!=null && gosciwybral.size()>0 ? true: false;
+        List<Faktura> lista = filtrowane && wybrane ? gosciwybral : filtrowane ? fakturyFiltered : gosciwybral;
+        sumawartosciwybranych(lista);
+    }
+    
     public void sumawartosciwybranych(List<Faktura> gosciwybral) {
         podsumowaniewybranychbrutto = 0.0;
         podsumowaniewybranychnetto = 0.0;

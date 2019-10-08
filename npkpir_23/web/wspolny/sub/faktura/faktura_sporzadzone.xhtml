@@ -71,6 +71,7 @@
                 <p:commandButton value="drukuj zestawienie" actionListener="#{fakturaView.drukujfakturysporzadzone}" style="width: 150px; margin-left: 30px;"/>
                 </p:panelGrid>
             </p:panel>
+            <p:remoteCommand name="przeliczfiltersporzadzone" actionListener="#{fakturaView.sumawartoscifiltered()}" update=":akordeon:formsporzadzone:panelsum"/>
             <p:dataTable id="dokumentyLista" value="#{fakturaView.faktury}" var="wpis" rowIndexVar="row" filteredValue="#{fakturaView.fakturyFiltered}" 
                          selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.numerkolejny}" widgetVar="dokTableFaktury" rowSelectMode="add" style="max-width: 1400px;"
                          sortBy="#{wpis.numerkolejny}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}" emptyMessage="Nie sporządzono faktur w tym miesiącu">
@@ -80,7 +81,7 @@
                                         <p:inputText id="globalFilter" onkeyup="PF('dokTableFaktury').filter();" style="width:180px" placeholder="wyszukiwane wyrażenie"
                                                      onfocus="PF('dokTableFaktury').clearFilters();PF('dokTableFaktury').unselectAllRows();"></p:inputText>-->
                 </f:facet>
-                <p:ajax event="filter" global="false" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybral)}" update=":akordeon:formsporzadzone:panelsum" />
+                <p:ajax event="filter" global="false"  oncomplete="przeliczfiltersporzadzone()"/>
                 <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybral)}" update=":akordeon:formsporzadzone:panelsum" global="false"/>
                 <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybral)}" update=":akordeon:formsporzadzone:panelsum" global="false"/>
                 <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybral)}" update=":akordeon:formsporzadzone:panelsum" global="false"/>      
