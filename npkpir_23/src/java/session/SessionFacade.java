@@ -642,7 +642,9 @@ public class SessionFacade<T> implements Serializable {
     }
 
     public List<Inwestycje> findInwestycje(String podatnik, boolean zakonczona) {
-        return Collections.synchronizedList(em.createNamedQuery("Inwestycje.findByPodatnikZakonczona").setParameter("podatnik", podatnik).setParameter("zakonczona", zakonczona).getResultList());
+        LoadGroup lg = new LoadGroup();
+        lg.addAttribute("doklist");
+        return Collections.synchronizedList(em.createNamedQuery("Inwestycje.findByPodatnikZakonczona").setParameter("podatnik", podatnik).setParameter("zakonczona", zakonczona).setHint(QueryHints.LOAD_GROUP, lg).getResultList());
     }
 
     public List<Amodok> findPod(String podatnik) {

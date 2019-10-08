@@ -148,7 +148,7 @@ public class STRTabView implements Serializable {
                             it.remove();
                         } else {
                             srodkiTrwaleWyposazenie.add(srodek);
-                            if (srodek.getPodatnik().equals(wpisView.getPodatnikWpisu())) {
+                            if (srodek.getPodatnik().trim().equals(wpisView.getPodatnikWpisu().trim())) {
                                 if (srodek.getTyp() != null && srodek.getTyp().equals("wyposazenie")) {
                                     srodek.setNrsrodka(i++);
                                     wyposazenie.add(srodek);
