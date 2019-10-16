@@ -15,6 +15,7 @@ import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.WierszBODAO;
+import daoFK.WierszDAO;
 import data.Data;
 import entity.Klienci;
 import entity.Podatnik;
@@ -57,6 +58,8 @@ public class BilansWprowadzanieView implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private WierszBODAO wierszBODAO;
+    @Inject
+    private WierszDAO wierszDAO;
     @Inject
     private WalutyDAOfk walutyDAOfk;
     @Inject
@@ -456,6 +459,19 @@ public class BilansWprowadzanieView implements Serializable {
     public void usunwielebezBO(List<WierszBO> wierszBOlista) {
         try {
             for (WierszBO p : wierszBOlista) {
+                try {
+                    StronaWiersza s = stronaWierszaDAO.findStronaByWierszBO(p);
+                    if (s!=null) {
+                        s.setWierszbo(null);
+                        wierszDAO.destroy(s.getWiersz());
+                        s.setWiersz(null);
+                        stronaWierszaDAO.edit(s);
+                        stronaWierszaDAO.destroy(s);
+                    }
+                } catch (Exception ex) {
+                  E.e(ex);
+                  Msg.("e", "Problem ze stroną wiersza");
+                }
                  wierszBODAO.destroy(p);
                  listaBO.remove(p);
             }

@@ -12,6 +12,8 @@ import entityfk.Konto;
 import entityfk.MiejsceKosztow;
 import entityfk.Pojazdy;
 import entityfk.StronaWiersza;
+import entityfk.WierszBO;
+import error.E;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
@@ -45,6 +47,15 @@ public class StronaWierszaDAO extends DAO implements Serializable {
     
     public List<StronaWiersza> findStronaByKontoOnly(Konto konto) {
         return Collections.synchronizedList(sessionFacade.findStronaWierszaByKontoOnly(konto));
+    }
+    
+    public StronaWiersza findStronaByWierszBO(WierszBO w) {
+        try {
+            return (StronaWiersza) sessionFacade.getEntityManager().createNamedQuery("StronaWiersza.findByStronaWierszaWierszBO").setParameter("wierszbo", w).getSingleResult();
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
     }
 
     public List<StronaWiersza> findStronaByKontoWnMa(Konto konto, String wnma) {
