@@ -470,7 +470,7 @@ public class BilansWprowadzanieView implements Serializable {
                     }
                 } catch (Exception ex) {
                   E.e(ex);
-                  Msg.("e", "Problem ze stroną wiersza");
+                  Msg.msg("e", "Problem ze stroną wiersza");
                 }
                  wierszBODAO.destroy(p);
                  listaBO.remove(p);
