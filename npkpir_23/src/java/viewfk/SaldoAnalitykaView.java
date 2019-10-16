@@ -277,7 +277,7 @@ public class SaldoAnalitykaView implements Serializable {
         try {
             if (kontaklienta!=null) {
                 listaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
-                List<StronaWiersza> zapisyRok = pobierzzapisyRO(rodzajkonta);
+                List<StronaWiersza> zapisyRok = pobierzzapisy(rodzajkonta, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
                 CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyRok);
                 CechazapisuBean.luskaniezapisowZCechami(wybranacechadok, zapisyBO);
                 Map<String, SaldoKonto> przygotowanalista = new ConcurrentHashMap<>();
@@ -648,17 +648,17 @@ public class SaldoAnalitykaView implements Serializable {
         return zapisyRok;
     }
     
-    private List<StronaWiersza> pobierzzapisyRO(String rodzajkont) {
-        List<StronaWiersza> zapisyRok = null;
-        if (rodzajkont.equals("wszystkie")) {
-            zapisyRok = stronaWierszaDAO.findStronaByPodatnikRokRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        } else if (rodzajkont.equals("bilansowe")) {
-            zapisyRok = stronaWierszaDAO.findStronaByPodatnikRokBilansRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        } else if (rodzajkont.equals("wynikowe")) {
-            zapisyRok = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(),"12");
-        }
-        return zapisyRok;
-    }
+//    private List<StronaWiersza> pobierzzapisyRO(String rodzajkont) {
+//        List<StronaWiersza> zapisyRok = null;
+//        if (rodzajkont.equals("wszystkie")) {
+//            zapisyRok = stronaWierszaDAO.findStronaByPodatnikRokRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+//        } else if (rodzajkont.equals("bilansowe")) {
+//            zapisyRok = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+//        } else if (rodzajkont.equals("wynikowe")) {
+//            zapisyRok = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(),"12");
+//        }
+//        return zapisyRok;
+//    }
 
     public void drukuj(int i) {
         if (listaSaldoKontofilter == null && listaSaldoKontowybrane.size() == 0) {
