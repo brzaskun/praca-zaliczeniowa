@@ -56,6 +56,8 @@ public class BilansBoUsunView  implements Serializable {
             Msg.msg("Wystąpił błąd, nie usunięto bilansu otwarcia/obrotów rozpoczęcia");
         }
     }
+    
+    
 
     public boolean isTojestbilanslikwidacyjny() {
         return tojestbilanslikwidacyjny;

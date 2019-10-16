@@ -463,10 +463,14 @@ public class BilansWprowadzanieView implements Serializable {
                     StronaWiersza s = stronaWierszaDAO.findStronaByWierszBO(p);
                     if (s!=null) {
                         s.setWierszbo(null);
-                        wierszDAO.destroy(s.getWiersz());
+                        Wiersz w = s.getWiersz();
                         s.setWiersz(null);
                         stronaWierszaDAO.edit(s);
+                        s = stronaWierszaDAO.findStronaByWierszBO(p);
                         stronaWierszaDAO.destroy(s);
+                        if (w!=null) {
+                            wierszDAO.destroy(w);
+                        }
                     }
                 } catch (Exception ex) {
                   E.e(ex);

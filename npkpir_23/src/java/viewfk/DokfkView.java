@@ -3374,6 +3374,8 @@ public void oznaczjakonkup() {
                         try {
                             StronaWiersza s = stronaWierszaDAO.findStronaById(sa);
                             //System.out.println("DELETE FROM `pkpir`.`stronawiersza` WHERE `id`='"+sa.getId()+"';");
+                            s.setWiersz(null);
+                            stronaWierszaDAO.edit(s);
                             stronaWierszaDAO.destroy(s);
                             //System.out.println("DELETE FROM `pkpir`.`stronawiersza` WHERE `id`='"+sa.getId()+"';");
                         } catch (Exception e){
