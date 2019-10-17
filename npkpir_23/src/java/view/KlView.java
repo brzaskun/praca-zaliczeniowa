@@ -433,15 +433,28 @@ public class KlView implements Serializable {
 
     private boolean wygenerujnip() {
         boolean zwrot = false;
+        Pattern pattern = Pattern.compile("X{2}\\d{10}");
         try {
             List<String> nipy = klDAO.findKlientByNipXX();
             Collections.sort(nipy);
-            Integer max;
-            if (nipy.size() > 0) {
-                max = Integer.parseInt(nipy.get(nipy.size() - 1).substring(2));
-                max++;
-            } else {
-                max = 0;
+            Integer max = 0;
+            boolean szukaj = true;
+            int licznik = 1;
+            int nipysize = nipy.size();
+            while (szukaj && licznik<nipysize) {
+                if (nipysize > 0) {
+                    String pozycja = nipy.get(nipysize - licznik);
+                    Matcher m = pattern.matcher(pozycja.toUpperCase());
+                    boolean czypasuje = m.matches();
+                    if (czypasuje) {
+                        max = Integer.parseInt(pozycja.substring(2));
+                        max++;
+                        szukaj = false;
+                        break;
+                    } else {
+                        licznik++;
+                    }
+                }
             }
             //uzupelnia o zera i robi stringa;
             String wygenerowanynip = max.toString();
