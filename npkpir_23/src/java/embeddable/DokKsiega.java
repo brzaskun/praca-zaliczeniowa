@@ -7,6 +7,7 @@ package embeddable;
 import entity.Dok;
 import entity.EVatwpis1;
 import entity.Klienci;
+import entityfk.Cechazapisu;
 import entityfk.Tabelanbp;
 import java.io.Serializable;
 import java.util.List;
@@ -63,7 +64,18 @@ public class DokKsiega implements Serializable {
         this.setPodatnik(tmp.getPodatnik().getNazwapelna());
         this.setDataWyst(tmp.getDataWyst());
         this.setOpis(tmp.getOpis());
-        this.setUwagi(tmp.getUwagi());
+        if (tmp.getCechadokumentuLista()!=null && tmp.getCechadokumentuLista().size()>0) {
+            String s = "";
+            for (Cechazapisu p : tmp.getCechadokumentuLista()) {
+                s = s+p.getNazwacechy()+"; ";
+            }
+            if (tmp.getUwagi()!=null && !tmp.getUwagi().equals("")) {
+                s = s+tmp.getUwagi();
+            }
+            this.setUwagi(s.trim());
+        } else {
+            this.setUwagi(tmp.getUwagi());
+        }
         this.setPkpirM(tmp.getPkpirM());
         this.setPkpirR(tmp.getPkpirR());
         this.setVatM(tmp.getVatM());
