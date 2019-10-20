@@ -248,40 +248,16 @@ public class PlanKontView implements Serializable {
         Collections.sort(wykazkont, new Kontocomparator());
     }
     
-        public void pobierzlista(int numkont) {
+    public List<Konto> pobierzlista(int numkont) {
+        List<Konto> zwrot = new ArrayList<>();
         wybranaseriakont = numkont;
-        switch(numkont) {
-            case 0:
-                wykazkont = kontoDAOfk.findKontaGrupa0(wpisView);
-                break;
-            case 1:
-                wykazkont = kontoDAOfk.findKontaGrupa1(wpisView);
-                break;
-            case 2:
-                wykazkont = kontoDAOfk.findKontaGrupa2(wpisView);
-                break;
-            case 3:
-                wykazkont = kontoDAOfk.findKontaGrupa3(wpisView);
-                break;
-            case 4:
-                wykazkont = kontoDAOfk.findKontaGrupa4(wpisView);
-                break;
-            case 5:
-                wykazkont = kontoDAOfk.findKontaGrupa5(wpisView);
-                break;
-            case 6:
-                wykazkont = kontoDAOfk.findKontaGrupa6(wpisView);
-                break;
-            case 7:
-                wykazkont = kontoDAOfk.findKontaGrupa7(wpisView);
-                break;
-            case 8:
-                wykazkont = kontoDAOfk.findKontaGrupa8(wpisView);
-                break;
-        }
-        Collections.sort(wykazkont, new Kontocomparator());
+        String numkonts = numkont+"%";
+        zwrot = kontoDAOfk.findKontaGrupa(wpisView, numkonts);
+        Collections.sort(zwrot, new Kontocomparator());
         bezslownikowych = false;
         tylkosyntetyka = false;
+        this.wykazkont = zwrot;
+        return zwrot;
         //wykazkontlazy = new LazyKontoDataModel(wykazkont);
     }
     
@@ -328,10 +304,33 @@ public class PlanKontView implements Serializable {
         return zwrot;
     }
     
+    public void planBezSlownikowychSyntetyczne(Podatnik podatnik, int lista) {
+        wybranaseriakont = lista;
+        planBezSlownikowychSyntetyczne(podatnik);
+    }
+    
     public List<Konto> planBezSlownikowychSyntetyczne(Podatnik podatnik) {
         List<Konto> wykazkont = new ArrayList<>();
         if (wybranaseriakont!=9) {
-            pobierzlista(wybranaseriakont);
+            String numkonts = wybranaseriakont+"%";
+            wykazkont = kontoDAOfk.findKontaGrupa(wpisView, numkonts);
+            Collections.sort(wykazkont, new Kontocomparator());
+            if (tylkosyntetyka == true) {
+                for (Iterator<Konto> it = wykazkont.iterator(); it.hasNext();) {
+                    Konto p = it.next();
+                    if (p.getLevel()>0) {
+                        it.remove();
+                    }
+                }
+            } 
+            if (bezslownikowych == true) {
+                for (Iterator<Konto> it = wykazkont.iterator(); it.hasNext();) {
+                    Konto p = it.next();
+                    if (p.isSlownikowe()) {
+                        it.remove();
+                    }
+                }
+            }
         } else if (bezprzyporzadkowania==true) {
             wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezPrzyporzadkowania(podatnik, wpisView.getRokWpisuSt());
         } else if (bezslownikowych == true && tylkosyntetyka == true) {
@@ -1650,55 +1649,17 @@ public class PlanKontView implements Serializable {
                 usunslownikowe();
                 PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
                 break;
-            case "grupa0":
-                wykazkont = kontoDAOfk.findKontaGrupa0(wpisView);
-                usunslownikowe();
-                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
-                break;
-            case "grupa1":
-                wykazkont = kontoDAOfk.findKontaGrupa1(wpisView);
-                usunslownikowe();
-                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
-                break;
-            case "grupa2":
-                wykazkont = kontoDAOfk.findKontaGrupa2(wpisView);
-                usunslownikowe();
-                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
-                break;
-            case "grupa3":
-                wykazkont = kontoDAOfk.findKontaGrupa3(wpisView);
-                usunslownikowe();
-                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
-                break;
-            case "grupa4":
-                wykazkont = kontoDAOfk.findKontaGrupa4(wpisView);
-                usunslownikowe();
-                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
-                break;
-            case "grupa5":
-                wykazkont = kontoDAOfk.findKontaGrupa5(wpisView);
-                usunslownikowe();
-                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
-                break;
-            case "grupa6":
-                wykazkont = kontoDAOfk.findKontaGrupa6(wpisView);
-                usunslownikowe();
-                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
-                break;
-            case "grupa7":
-                wykazkont = kontoDAOfk.findKontaGrupa7(wpisView);
-                usunslownikowe();
-                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
-                break;
-            case "grupa8":
-                wykazkont = kontoDAOfk.findKontaGrupa8(wpisView);
-                usunslownikowe();
-                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
-                break;
             case "tłumaczenie":
                 usunslownikowe();
                 PdfPlanKont.drukujPlanKontTłumaczenie(wykazkont, wpisView);
                 break;
+            default:
+                String numerkontas = parametr+"%";
+                wykazkont = kontoDAOfk.findKontaGrupa(wpisView, numerkontas);
+                usunslownikowe();
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+
         }
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Collections.sort(wykazkont, new Kontocomparator());

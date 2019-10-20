@@ -1822,45 +1822,45 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontKasaBank").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
     }
 
-    public List<Konto> findlistaKontGrupa0(WpisView wpisView) {
-        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa0").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
+    public List<Konto> findlistaKontGrupa(WpisView wpisView, String grupa) {
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("grupa", grupa).getResultList());
     }
 
-    public List<Konto> findlistaKontGrupa0Analityka(WpisView wpisView) {
-        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa0Analityka").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
+    public List<Konto> findlistaKontGrupaAnalityka(WpisView wpisView, String grupa) {
+        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupaAnalityka").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("grupa", grupa).getResultList());
     }
 
-    public List<Konto> findlistaKontGrupa1(WpisView wpisView) {
-        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa1").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
-    }
-
-    public List<Konto> findlistaKontGrupa2(WpisView wpisView) {
-        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa2").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
-    }
-
-    public List<Konto> findlistaKontGrupa3(WpisView wpisView) {
-        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa3").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
-    }
-//moga
-    public List<Konto> findlistaKontGrupa4(WpisView wpisView) {
-        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa4").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
-    }
-
-    public List<Konto> findlistaKontGrupa5(WpisView wpisView) {
-        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa5").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
-    }
-
-    public List<Konto> findlistaKontGrupa6(WpisView wpisView) {
-        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa6").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
-    }
-
-    public List<Konto> findlistaKontGrupa7(WpisView wpisView) {
-        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa7").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
-    }
-
-    public List<Konto> findlistaKontGrupa8(WpisView wpisView) {
-        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa8").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
-    }
+//    public List<Konto> findlistaKontGrupa1(WpisView wpisView) {
+//        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa1").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
+//    }
+//
+//    public List<Konto> findlistaKontGrupa2(WpisView wpisView) {
+//        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa2").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
+//    }
+//
+//    public List<Konto> findlistaKontGrupa3(WpisView wpisView) {
+//        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa3").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
+//    }
+////moga
+//    public List<Konto> findlistaKontGrupa4(WpisView wpisView) {
+//        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa4").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
+//    }
+//
+//    public List<Konto> findlistaKontGrupa5(WpisView wpisView) {
+//        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa5").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
+//    }
+//
+//    public List<Konto> findlistaKontGrupa6(WpisView wpisView) {
+//        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa6").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
+//    }
+//
+//    public List<Konto> findlistaKontGrupa7(WpisView wpisView) {
+//        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa7").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
+//    }
+//
+//    public List<Konto> findlistaKontGrupa8(WpisView wpisView) {
+//        return Collections.synchronizedList(em.createNamedQuery("Konto.findlistaKontGrupa8").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
+//    }
 
     public List<Transakcja> findByKonto(Konto wybraneKontoNode) {
         return Collections.synchronizedList(em.createNamedQuery(("Transakcja.findByKonto")).setParameter("konto", wybraneKontoNode).getResultList());

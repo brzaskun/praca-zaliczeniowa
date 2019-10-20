@@ -116,7 +116,7 @@ public class UkladBRView implements Serializable {
     
     public void kopiujuklad() {
         try {
-            List<Konto> kontagrupa1 = kontoDAOfk.findKontaGrupa1(wpisView);
+            List<Konto> kontagrupa1 = kontoDAOfk.findKontaGrupa(wpisView,"1%");
             if (kontagrupa1 == null || kontagrupa1.isEmpty()) {
                 Msg.msg("e", "Brak planu kont w bieżacym roku. Nie można kopiować układu");
             } else if (!ukladdocelowyrok.equals(wpisView.getRokWpisuSt())) {

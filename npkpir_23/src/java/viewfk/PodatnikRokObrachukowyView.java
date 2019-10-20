@@ -103,7 +103,7 @@ public class PodatnikRokObrachukowyView implements Serializable {
             if (listaukladow.isEmpty()) {
                 Msg.msg("e", "Brak uładu w poprzednim roku. Nie można skopiować układu");
             } else {
-                List<Konto> kontagrupa0 = kontoDAOfk.findKontaGrupa0(wpisView);
+                List<Konto> kontagrupa0 = kontoDAOfk.findKontaGrupa(wpisView, "0%");
                 if (kontagrupa0 == null || kontagrupa0.isEmpty()) {
                     Msg.msg("e", "Brak planu kont w bieżacym roku. Nie można kopiować układu");
                 } else if (!ukladdocelowyrok.equals(wpisView.getRokWpisuSt())) {

@@ -109,95 +109,95 @@ public class KontoDAOfk extends DAO implements Serializable {
         }
     }
 
-    public List<Konto> findKontaGrupa0(WpisView wpisView) {
+    public List<Konto> findKontaGrupa(WpisView wpisView, String grupa) {
         try {
-            return Collections.synchronizedList(kontoFacade.findlistaKontGrupa0(wpisView));
+            return Collections.synchronizedList(kontoFacade.findlistaKontGrupa(wpisView, grupa));
         } catch (Exception e) {
             E.e(e);
             return null;
         }
     }
 
-    public List<Konto> findKontaGrupa0Analityka(WpisView wpisView) {
+    public List<Konto> findKontaGrupaAnalityka(WpisView wpisView, String grupa) {
         try {
-            return Collections.synchronizedList(kontoFacade.findlistaKontGrupa0Analityka(wpisView));
+            return Collections.synchronizedList(kontoFacade.findlistaKontGrupaAnalityka(wpisView, grupa));
         } catch (Exception e) {
             E.e(e);
             return null;
         }
     }
 
-    public List<Konto> findKontaGrupa1(WpisView wpisView) {
-        try {
-            return Collections.synchronizedList(kontoFacade.findlistaKontGrupa1(wpisView));
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-
-    public List<Konto> findKontaGrupa2(WpisView wpisView) {
-        try {
-            return Collections.synchronizedList(kontoFacade.findlistaKontGrupa2(wpisView));
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-
-    public List<Konto> findKontaGrupa3(WpisView wpisView) {
-        try {
-            return Collections.synchronizedList(kontoFacade.findlistaKontGrupa3(wpisView));
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-
-    public List<Konto> findKontaGrupa4(WpisView wpisView) {
-        try {
-            return Collections.synchronizedList(kontoFacade.findlistaKontGrupa4(wpisView));
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-
-    public List<Konto> findKontaGrupa5(WpisView wpisView) {
-        try {
-            return Collections.synchronizedList(kontoFacade.findlistaKontGrupa5(wpisView));
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-
-    public List<Konto> findKontaGrupa6(WpisView wpisView) {
-        try {
-            return Collections.synchronizedList(kontoFacade.findlistaKontGrupa6(wpisView));
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-
-    public List<Konto> findKontaGrupa7(WpisView wpisView) {
-        try {
-            return Collections.synchronizedList(kontoFacade.findlistaKontGrupa7(wpisView));
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-
-    public List<Konto> findKontaGrupa8(WpisView wpisView) {
-        try {
-            return Collections.synchronizedList(kontoFacade.findlistaKontGrupa8(wpisView));
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
+//    public List<Konto> findKontaGrupa1(WpisView wpisView) {
+//        try {
+//            return Collections.synchronizedList(kontoFacade.findlistaKontGrupa1(wpisView));
+//        } catch (Exception e) {
+//            E.e(e);
+//            return null;
+//        }
+//    }
+//
+//    public List<Konto> findKontaGrupa2(WpisView wpisView) {
+//        try {
+//            return Collections.synchronizedList(kontoFacade.findlistaKontGrupa2(wpisView));
+//        } catch (Exception e) {
+//            E.e(e);
+//            return null;
+//        }
+//    }
+//
+//    public List<Konto> findKontaGrupa3(WpisView wpisView) {
+//        try {
+//            return Collections.synchronizedList(kontoFacade.findlistaKontGrupa3(wpisView));
+//        } catch (Exception e) {
+//            E.e(e);
+//            return null;
+//        }
+//    }
+//
+//    public List<Konto> findKontaGrupa4(WpisView wpisView) {
+//        try {
+//            return Collections.synchronizedList(kontoFacade.findlistaKontGrupa4(wpisView));
+//        } catch (Exception e) {
+//            E.e(e);
+//            return null;
+//        }
+//    }
+//
+//    public List<Konto> findKontaGrupa5(WpisView wpisView) {
+//        try {
+//            return Collections.synchronizedList(kontoFacade.findlistaKontGrupa5(wpisView));
+//        } catch (Exception e) {
+//            E.e(e);
+//            return null;
+//        }
+//    }
+//
+//    public List<Konto> findKontaGrupa6(WpisView wpisView) {
+//        try {
+//            return Collections.synchronizedList(kontoFacade.findlistaKontGrupa6(wpisView));
+//        } catch (Exception e) {
+//            E.e(e);
+//            return null;
+//        }
+//    }
+//
+//    public List<Konto> findKontaGrupa7(WpisView wpisView) {
+//        try {
+//            return Collections.synchronizedList(kontoFacade.findlistaKontGrupa7(wpisView));
+//        } catch (Exception e) {
+//            E.e(e);
+//            return null;
+//        }
+//    }
+//
+//    public List<Konto> findKontaGrupa8(WpisView wpisView) {
+//        try {
+//            return Collections.synchronizedList(kontoFacade.findlistaKontGrupa8(wpisView));
+//        } catch (Exception e) {
+//            E.e(e);
+//            return null;
+//        }
+//    }
 
     public Konto findKonto(String numer, Podatnik podatnik, Integer rok) {
         Konto zwrot = null;

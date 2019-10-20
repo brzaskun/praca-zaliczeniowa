@@ -1306,7 +1306,7 @@ private DokDAO dokDAO;
         listaKontRozrachunkowych = kontoDAOfk.findKontaRozrachunkoweZpotomkami(wpisView);
         listaKontVAT = kontoDAOfk.findKontaVAT(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         listakontoRZiS = kontoDAOfk.findKontaRZiS(wpisView);
-        listakontoRZiS.addAll(kontoDAOfk.findKontaGrupa3(wpisView));
+        listakontoRZiS.addAll(kontoDAOfk.findKontaGrupa(wpisView,"3%"));
         listaKontKasaBank = kontoDAOfk.findlistaKontKasaBank(wpisView);
         Collections.sort(listaKontRozrachunkowych, new Kontocomparator());
         Collections.sort(listaKontVAT, new Kontocomparator());

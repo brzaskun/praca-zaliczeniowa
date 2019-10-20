@@ -115,7 +115,7 @@ public class SrodkiKontaView implements Serializable {
     }
 
     private List<Konto> pobierzkonta() {
-        List<Konto> lista = kontoDAOfk.findKontaGrupa0Analityka(wpisView);
+        List<Konto> lista = kontoDAOfk.findKontaGrupaAnalityka(wpisView,"0%");
         for (Iterator<Konto> it= lista.iterator(); it.hasNext();) {
             Konto k = it.next();
             if (k.isMapotomkow() || k.getPelnynumer().startsWith("016") || k.getPelnynumer().startsWith("03") || k.getPelnynumer().startsWith("075")) {

@@ -89,14 +89,14 @@ public class RMKView  implements Serializable {
     
     
     public void init() { //E.m(this);
-        listakontkosztowych = kontoDAO.findKontaGrupa4(wpisView);
+        listakontkosztowych = kontoDAO.findKontaGrupa(wpisView,"4%");
         for (Iterator<Konto> p = listakontkosztowych.iterator(); p.hasNext();) {
             if (p.next().isMapotomkow() == true) {
                 p.remove();
             }
         }
         Collections.sort(listakontkosztowych, new Kontocomparator());
-        listakontrmk = kontoDAO.findKontaGrupa6(wpisView);
+        listakontrmk = kontoDAO.findKontaGrupa(wpisView,"6%");
         for (Iterator<Konto> p = listakontrmk.iterator(); p.hasNext();) {
             if (!p.next().getPelnynumer().startsWith("641-")) {
                 p.remove();
@@ -110,14 +110,14 @@ public class RMKView  implements Serializable {
     
     public void dodajNoweRMKDokfk(List<Dokfk> wybranydok) {
         try {
-            listakontkosztowych = kontoDAO.findKontaGrupa4(wpisView);
+            listakontkosztowych = kontoDAO.findKontaGrupa(wpisView,"4%");
             for (Iterator<Konto> p = listakontkosztowych.iterator(); p.hasNext();) {
                 if (p.next().isMapotomkow() == true) {
                     p.remove();
                 }
             }
             Collections.sort(listakontkosztowych, new Kontocomparator());
-            listakontrmk = kontoDAO.findKontaGrupa6(wpisView);
+            listakontrmk = kontoDAO.findKontaGrupa(wpisView,"6%");
             for (Iterator<Konto> p = listakontrmk.iterator(); p.hasNext();) {
                 if (!p.next().getPelnynumer().startsWith("641-")) {
                     p.remove();
