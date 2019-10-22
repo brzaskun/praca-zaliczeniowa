@@ -307,7 +307,7 @@ public class Data implements Serializable {
     
     private static String pobierzokres(String data, int pole) {
         String zwrot = null;
-        if (data.length()==10) {
+        if (data.length()==10 | data.length()==8) {
             zwrot = data.split("-")[pole];
         }
         return zwrot;
@@ -464,6 +464,26 @@ public class Data implements Serializable {
             zladata = zladata.replace("/", "-");
             zladata = zladata.replace(".", "-");
             String rok = pobierzokres(zladata, 2);
+            String mc = pobierzokres(zladata, 1);
+            String dzien = pobierzokres(zladata, 0);
+            StringBuilder sb = new StringBuilder();
+            sb.append(rok);
+            sb.append("-");
+            sb.append(mc);
+            sb.append("-");
+            sb.append(dzien);
+            dobradata = sb.toString();
+        }
+        return dobradata;
+    }
+    
+    public static String zmienkolejnosc8(String zladata) {
+        String dobradata = "";
+        if (zladata.length()==8) {
+            zladata = zladata.replace("/", "-");
+            zladata = zladata.replace(".", "-");
+            String rok = pobierzokres(zladata, 2);
+            rok = "20"+rok;
             String mc = pobierzokres(zladata, 1);
             String dzien = pobierzokres(zladata, 0);
             StringBuilder sb = new StringBuilder();
