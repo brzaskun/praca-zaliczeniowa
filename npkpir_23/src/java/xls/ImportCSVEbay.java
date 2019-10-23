@@ -87,7 +87,9 @@ public class ImportCSVEbay {
                             } else {
                                 licznikwierszy = 0;
                                 tmpzwrot = zrobjednafakture(wierszefaktury);
-                                zwrot.add(tmpzwrot);
+                                if (tmpzwrot!=null) {
+                                    zwrot.add(tmpzwrot);
+                                }
                                 wierszefaktury = new ArrayList<>();
                                 tmpzwrot = new FakturaEbay(tmpline,0);
                                 wierszefaktury.add(tmpzwrot);
@@ -113,11 +115,15 @@ public class ImportCSVEbay {
 
     private static FakturaEbay zrobjednafakture(List<FakturaEbay> wierszefaktury) {
         FakturaEbay zwrot = wierszefaktury.get(0);
-        int wielkosc = wierszefaktury.size();
-        if (wielkosc>1) {
-            zwrot.setInklusiveMehrwertsteuersatz(wierszefaktury.get(1).getInklusiveMehrwertsteuersatz());
-            zwrot.setArtikelnummer(wierszefaktury.get(1).getArtikelnummer());
-            zwrot.setArtikelbezeichnung(wierszefaktury.get(1).getArtikelbezeichnung());
+        if (zwrot.getPayPalTransaktionsID()!=null&& zwrot.getPayPalTransaktionsID().length()>0 && !zwrot.getGesamtpreis().equals("0")) {
+            int wielkosc = wierszefaktury.size();
+            if (wielkosc>1) {
+                zwrot.setInklusiveMehrwertsteuersatz(wierszefaktury.get(1).getInklusiveMehrwertsteuersatz());
+                zwrot.setArtikelnummer(wierszefaktury.get(1).getArtikelnummer());
+                zwrot.setArtikelbezeichnung(wierszefaktury.get(1).getArtikelbezeichnung());
+            }
+        } else {
+            zwrot = null;
         }
         return zwrot;       
     }

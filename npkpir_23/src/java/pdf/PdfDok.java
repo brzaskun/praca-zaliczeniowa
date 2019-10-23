@@ -55,14 +55,21 @@ public class PdfDok extends Pdf implements Serializable {
             dodajTabele(document, testobjects.testobjects.getListaDok(lista),100,modyfikator);
             double netto = 0.0;
             double vat = 0.0;
+            double nettowal = 0.0;
+            double vatwal = 0.0;
             for (Dok p : lista) {
                 netto = netto+p.getNetto();
                 vat = vat+p.getVat();
+                nettowal = nettowal+p.getNettoWaluta();
+                vatwal = vatwal+p.getVatWalutaCSV();
             }
             double brutto = Z.z(netto+vat);
+            double bruttowal = Z.z(nettowal+vatwal);
             String opis = "Razem wartość wybranych dokumentów";
             PdfMain.dodajLinieOpisu(document, opis);
             opis = "netto: "+F.curr(netto)+" vat: "+F.curr(vat)+" brutto: "+F.curr(brutto);
+            PdfMain.dodajLinieOpisu(document, opis);
+            opis = "netto waluta: "+F.curr(nettowal,"EUR")+" vat waluta: "+F.curr(vatwal,"EUR")+" brutto: "+F.curr(brutto,"EUR");
             PdfMain.dodajLinieOpisu(document, opis);
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";

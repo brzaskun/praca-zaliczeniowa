@@ -158,7 +158,7 @@
                                           sortBy="#{wpis.rodzajedok.skrot}"  style="width: 5%;text-align: center;">
                                     <h:outputText value="#{wpis.rodzajedok.skrot}"/>
                                 </p:column>
-                                <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpis.nrWlDk}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}"  style="width: 10%;" >   
+                                <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpis.nrWlDk}" filterStyle="filter40" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}"  style="width: 40px;" >   
                                     <h:outputText value="#{wpis.nrWlDk}" />
                                 </p:column>
                                 <p:column id="opisColumn" headerText="#{mgs.opis}" filterBy="#{wpis.opis}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.opis}" style="width: 10%;">  
@@ -176,12 +176,12 @@
                                     <bcf:outputpl value="#{wpis.vat}" rendered="#{wpis.ewidencjaVAT1.size() gt 0}"/>
                                 </p:column>
                                 <p:column headerText="stawka vat" styleClass="filter40"
-                                          filterBy="#{wpis.fakturaCis.stawka_vat}" filterMatchMode="contains"  sortBy="#{wpis.fakturaCis.stawka_vat}"  style="width: 60px;">  
-                                    <bcf:outputpl value="#{wpis.fakturaCis.stawka_vat}"/>
+                                          filterBy="#{wpis.fakturaEbay.getStawka()}" filterMatchMode="contains"  sortBy="#{wpis.fakturaEbay.getStawka()}"  style="width: 60px;">  
+                                    <bcf:outputpl value="#{wpis.fakturaEbay.getStawka()}"/>
                                 </p:column>
                                  <p:column headerText="kraj odbiorcy" styleClass="filter40"
-                                           filterBy="#{wpis.fakturaCis.buyer_country}" filterMatchMode="contains"  sortBy="#{wpis.fakturaCis.buyer_country}"  style="width: 60px;">  
-                                    <h:outputText  value="#{wpis.fakturaCis.buyer_country}"/>
+                                           filterBy="#{wpis.fakturaEbay.landdesKäufers}" filterMatchMode="contains"  sortBy="#{wpis.fakturaEbay.landdesKäufers}"  style="width: 60px;">  
+                                    <h:outputText  value="#{wpis.fakturaEbay.landdesKäufers}"/>
                                 </p:column>
 <!--                                <p:column id="pkpirKolColumn" headerText="zapis w pkpir" style="width: 14%;" resizable="true" >
                                     <ui:repeat value="#{wpis.listakwot1}" var="item" varStatus="nr">

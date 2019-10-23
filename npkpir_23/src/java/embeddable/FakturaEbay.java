@@ -42,6 +42,8 @@ public class FakturaEbay {
     private String Bezahltam;
     private String Verschicktam;
     private String Versandservice;
+    private String NIP;
+    private Double VAT_recznie;
 
     public FakturaEbay() {
     }
@@ -274,7 +276,7 @@ public class FakturaEbay {
     }
 
     public String getRechnungsdatum() {
-        return Rechnungsdatum;
+        return data.Data.zmienkolejnosc8(Rechnungsdatum);
     }
 
     public void setRechnungsdatum(String Rechnungsdatum) {
@@ -282,7 +284,7 @@ public class FakturaEbay {
     }
 
     public String getVerkaufsdatum() {
-        return Verkaufsdatum;
+        return data.Data.zmienkolejnosc8(Verkaufsdatum);
     }
 
     public void setVerkaufsdatum(String Verkaufsdatum) {
@@ -330,12 +332,24 @@ public class FakturaEbay {
     }
     
     public double getVAT() {
-        double brutto = this.getBrutto();
-        return Z.z(brutto*this.getStawka()/100);
+        if (this.VAT_recznie!=null) {
+            return this.VAT_recznie.doubleValue();
+        } else {
+            double brutto = this.getBrutto();
+            return Z.z(brutto*this.getStawka()/(100+this.getStawka()));
+        }
     }
     
     public double getBrutto() {
         return Double.parseDouble(this.Gesamtpreis);
+    }
+
+    public String getNIP() {
+        return NIP;
+    }
+
+    public void setNIP(String NIP) {
+        this.NIP = NIP;
     }
     
     public double getStawka() {
@@ -351,4 +365,17 @@ public class FakturaEbay {
         return zwrot;
     }
 
+    public Double getVAT_recznie() {
+        return VAT_recznie;
+    }
+
+    public void setVAT_recznie(Double VAT_recznie) {
+        this.VAT_recznie = VAT_recznie;
+    }
+
+    
+
+   
+    
+    
 }

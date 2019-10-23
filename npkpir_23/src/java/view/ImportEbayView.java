@@ -134,295 +134,307 @@ public class ImportEbayView  implements Serializable {
     
     
   
-//    public void stworzdokumenty() {
-//        List<FakturaEbay> pobrane = fakturyfiltered !=null ? fakturyfiltered: faktury;
-//        dokumenty = Collections.synchronizedList(new ArrayList<>());
-//        klienci = Collections.synchronizedList(new ArrayList<>());
-//        if (pobrane != null) {
-//            pobrane.forEach((p) -> {
-//                Dok dok = generujdok(p);
-//                dok.setFakturaEbay(p);
-//                if (dok!=null) {
-//                    dokumenty.add(dok);
-//                }
-//            });
-//        }
-//    }
-//
-//    private Dok generujdok(FakturaEbay wiersz) {
-//        Dok selDokument = new Dok();
-//        try {
-//            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-//            Principal principal = request.getUserPrincipal();
-//            selDokument.setWprowadzil(principal.getName());
-//            String datawystawienia = wiersz.getData_wystawienia();
-//            String miesiac = datawystawienia.substring(5, 7);
-//            String rok = datawystawienia.substring(0, 4);
-//            selDokument.setPkpirM(miesiac);
-//            selDokument.setPkpirR(rok);
-//            selDokument.setVatM(miesiac);
-//            selDokument.setVatR(rok);
-//            selDokument.setPodatnik(wpisView.getPodatnikObiekt());
-//            selDokument.setStatus("bufor");
-//            selDokument.setUsunpozornie(false);
-//            selDokument.setDataWyst(datawystawienia);
-//            selDokument.setDataSprz(datawystawienia);
-//            selDokument.setKontr(pobierzkontrahenta(wiersz, pobierzNIPkontrahenta(wiersz)));
-//            selDokument.setRodzajedok(ustalrodzajdok(wiersz));
-//            selDokument.setNrWlDk(wiersz.getNumer_faktury());
-//            String waldok = wiersz.getWaluta();
-//            Tabelanbp innatabela = pobierztabele(waldok, selDokument.getDataWyst());
-//            if (waldok.equals("PLN")) {
-//                selDokument.setTabelanbp(tabeladomyslna);
-//                selDokument.setWalutadokumentu(tabeladomyslna.getWaluta());
-//            } else {
-//                selDokument.setTabelanbp(innatabela);
-//                selDokument.setWalutadokumentu(innatabela.getWaluta());
-//            }
-//            selDokument.setOpis("przychód ze sprzedaży");
-//            List<KwotaKolumna1> listaX = Collections.synchronizedList(new ArrayList<>());
-//            KwotaKolumna1 tmpX = new KwotaKolumna1();
-//            if (waldok.equals("PLN")) {
-//                tmpX.setNetto(wiersz.getCena_total_netto_pln());
-//                netto += wiersz.getCena_total_netto_pln();
-//                tmpX.setVat(wiersz.getPodatek_vat_pln());
-//                vat += wiersz.getPodatek_vat_pln();
-//                tmpX.setNazwakolumny("przych. sprz");
-//                tmpX.setDok(selDokument);
-//                tmpX.setBrutto(Z.z(Z.z(wiersz.getCena_total_netto_pln()+wiersz.getPodatek_vat_pln())));
-//            } else {
-//                tmpX.setNettowaluta(wiersz.getCena_total_netto_waluta());
-//                tmpX.setVatwaluta(wiersz.getPodatek_vat_waluta());
-//                netto += wiersz.getCena_total_netto_waluta();
-//                vat += wiersz.getPodatek_vat_waluta();
-//                tmpX.setVat(przeliczpln(wiersz.getPodatek_vat_waluta(), innatabela));
-//                tmpX.setNetto(przeliczpln(wiersz.getCena_total_netto_waluta(), innatabela));
-//                tmpX.setNazwakolumny("przych. sprz");
-//                tmpX.setDok(selDokument);
-//                tmpX.setBrutto(Z.z(Z.z(przeliczpln(wiersz.getPodatek_vat_waluta(), innatabela)+przeliczpln(wiersz.getCena_total_netto_waluta(), innatabela))));
-//            }
-//            listaX.add(tmpX);
-//            selDokument.setListakwot1(listaX);
-//            selDokument.setNetto(Z.z(tmpX.getNetto()));
-//            selDokument.setBrutto(Z.z(tmpX.getBrutto()));
-//            selDokument.setRozliczony(true);
-//            selDokument.setEwidencjaVAT1(dodajewidencje(selDokument, wiersz, innatabela, miesiac, rok));
-//            if (selDokument.getKontr()!=null && sprawdzCzyNieDuplikat(selDokument)!=null) {
-//                selDokument = null;
-//            }
-//        } catch (Exception e) {
-//            E.e(e);
-//        }
-//        return selDokument;
-//    }
-//
-//    private Klienci pobierzkontrahenta(FakturaEbay wiersz, String nrKontrahenta) {
-//        if (nrKontrahenta.equals("")) {
-//           Klienci inc = new Klienci();
-//           inc.setNpelna(wiersz.getBuyer_name());
-//           inc.setNskrocona(wiersz.getBuyer_name());
-//           inc.setAdresincydentalny(pobierzadres(wiersz));
-//           return inc;
-//        } else {
-//            Klienci klientznaleziony = klDAO.findKlientByNipImport(nrKontrahenta);
-//            if (klientznaleziony==null) {
-//                klientznaleziony = SzukajDaneBean.znajdzdaneregonAutomat(nrKontrahenta, gUSView);
-//                if (klientznaleziony!=null && klientznaleziony.getNip()!=null) {
-//                    boolean juzjest = false;
-//                    for (Klienci p : klienci) {
-//                        if (p.getNip().equals(klientznaleziony.getNip())) {
-//                            juzjest = true;
-//                            break;
-//                        }
-//                    }
-//                    if (juzjest==false && !klientznaleziony.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
-//                        klienci.add(klientznaleziony);
-//                    }
-//                }
-//            } else if (klientznaleziony.getNpelna()==null) {
-//                klientznaleziony.setNpelna("istnieje wielu kontrahentów o tym samym numerze NIP! "+nrKontrahenta);
-//            }
-//            return klientznaleziony;
-//        }
-//    }
-//    
-//    private String pobierzadres(FakturaEbay wiersz) {
-//        String adres = "";
-//        adres = adres+wiersz.getBuyer_zip()+" ";
-//        adres = adres+wiersz.getBuyer_city()+" ";
-//        adres = adres+wiersz.getBuyer_addr1();
-//        return adres;
-//    }
-//    
-//    private String pobierzNIPkontrahenta(FakturaEbay wiersz) {
-//        String nip = "";
-//        if (wiersz.getBuyer_nip()!=null) {
-//            nip = nip+wiersz.getBuyer_nip();
-//        }
-//        return nip;
-//    }
-//    
-//    private Rodzajedok ustalrodzajdok(FakturaEbay wiersz) {
-//        double stawka = wiersz.getStawka_vat();
-//        Rodzajedok zwrot = rodzajedok.get("SZ");
-//        if (stawka==19.0) {
-//            zwrot = rodzajedok.get("RACHSP");
-//        }
-//        return zwrot;
-//    }
-//    
-//    private Evewidencja pobierzewidencje(FakturaEbay wiersz, List<Evewidencja> evewidencje) {
-//        Evewidencja zwrot = null;
-//        double stawka = wiersz.getStawka_vat();
-//        for (Evewidencja p : evewidencje) {
-//            if (p.getStawkavat()==stawka) {
-//                zwrot = p;
-//                break;
-//            }
-//        }
-//        return zwrot;
-//    }
-//    public Dok sprawdzCzyNieDuplikat(Dok selD) {
-//        Dok tmp = null;
-//        tmp = dokDAO.znajdzDuplikatwtrakcie(selD, wpisView.getPodatnikObiekt(), selD.getRodzajedok().getSkrot());
-//        return tmp;
-//    }
-//    
-//    public List<EVatwpis1> dodajewidencje(Dok dok, FakturaEbay wiersz, Tabelanbp innatabela, String miesiac, String rok) {
-//        List<EVatwpis1> ewidencjaTransformowana = null;
-//        dok.setDokumentProsty(true);
-//        if (wiersz.getStawka_vat()!=19.00) {
-//            ewidencjaTransformowana = Collections.synchronizedList(new ArrayList<>());
-//            EVatwpis1 eVatwpis1 = new EVatwpis1(pobierzewidencje(wiersz,evewidencje), przeliczpln(wiersz.getCena_total_netto_waluta(), innatabela), przeliczpln(wiersz.getPodatek_vat_waluta(), innatabela), "sprz.op", miesiac, rok);
-//            eVatwpis1.setDok(dok);
-//            ewidencjaTransformowana.add(eVatwpis1);
-//            dok.setDokumentProsty(false);
-//        }
-//        return ewidencjaTransformowana;
-//    }
-//  
-//    public void usun(Dok dok) {
-//        dokumenty.remove(dok);
-//        Msg.msg("Usunięto dokument z listy");
-//    }
-//    
-//    public void zaksieguj() {
-//        if (klienci!=null && klienci.size()>0) {
-//            for (Klienci p: klienci) {
-//                try {
-//                    if (p.getNip()!=null) {
-//                        klDAO.dodaj(p);
-//                    }
-//                } catch(Exception e){
-//                }
-//            }
-//            klienci = Collections.synchronizedList(new ArrayList<>());
-//            Msg.msg("Dodano nowych klientw z importowanych dokumentów");
-//        }
-//        if (dokumenty!=null && dokumenty.size()>0) {
-//            List<Dok> innykraj = new ArrayList<>();
-//            List<Dok> polskaprywatne = new ArrayList<>();
-//            int i = 0;
-//            int j = 1;
-//            int k = 1;
-//            for (Dok p: dokumenty) {
-//                try {
-//                    if (p.getKontr().getNip()!=null) {
-//                        dokDAO.dodaj(p);
-//                        i++;
-//                    } else {
-//                        if (p.getVat()!=0) {
-//                            p.setNrWpkpir(j++);
-//                            polskaprywatne.add(p);
-//                        } else {
-//                            p.setNrWpkpir(k++);
-//                            innykraj.add(p);
-//                        }
-//                        
-//                    }
-//                } catch(Exception e){
-//                }
-//            }
-//            if (innykraj.size()>0) {
-//                try {
-//                    dokDAO.dodaj(wygenerujdokumentsumaryczny(innykraj));
-//                    PdfDok.drukujDok(innykraj, wpisView,0, null, "de");
-//                    Msg.msg("Zaksięgowano dokument sumaryczny DE");
-//                } catch (Exception e) {
-//                    Msg.msg("e", "Błąd podczas księgowania dokumentu sumarycznego DE. Prawdopodobnie duplikat.");
-//                }
-//            }
-//            if (polskaprywatne.size()>0) {
-//                try {
-//                    dokDAO.dodaj(wygenerujdokumentsumarycznyPL(polskaprywatne));
-//                    PdfDok.drukujDok(polskaprywatne, wpisView,0, null, "pl");
-//                    Msg.msg("Zaksięgowano dokument sumaryczny PL");
-//                } catch (Exception e) {
-//                    Msg.msg("e", "Błąd podczas księgowania dokumentu sumarycznego PL. Prawdopodobnie duplikat.");
-//                }
-//            }
-//            dokumenty = Collections.synchronizedList(new ArrayList<>());
-//            if (i>0) {
-//                Msg.msg("Zaksięgowano zaimportowane dokumenty");
-//            } else {
-//                Msg.msg("w", "Nie zaksięgowano dokumentów Polska");
-//            }
-//        }
-//    }
-//    
-//    private Dok wygenerujdokumentsumaryczny(List<Dok> lista) {
-//        FakturaEbay sumaryczna = new FakturaEbay();
-//        sumaryczna.setData_wystawienia(data.Data.ostatniDzien(wpisView));
-//        sumaryczna.setBuyer_nip(wpisView.getPodatnikObiekt().getNip());
-//        sumaryczna.setNumer_faktury("1/"+wpisView.getMiesiacWpisu()+"/sum");
-//        sumaryczna.setStawka_vat(19.0);
-//        double nettopln = 0.0;
-//        for (Dok p : lista) {
-//            nettopln += p.getNetto();
-//        }
-//        sumaryczna.setCena_total_netto_pln(nettopln);
-//        sumaryczna.setPodatek_vat_pln(0.0);
-//        sumaryczna.setWaluta("PLN");
-//        Dok doksuma = generujdok(sumaryczna);
-//        doksuma.setOpis("zestawienie sumaryczne dokumenty DE przewalutowane");
-//        return doksuma;
-//    }
-//    
-//    private Dok wygenerujdokumentsumarycznyPL(List<Dok> lista) {
-//        FakturaEbay sumaryczna = new FakturaEbay();
-//        sumaryczna.setData_wystawienia(data.Data.ostatniDzien(wpisView));
-//        sumaryczna.setBuyer_nip(wpisView.getPodatnikObiekt().getNip());
-//        sumaryczna.setNumer_faktury("1/"+wpisView.getMiesiacWpisu()+"/sumPLN");
-//        sumaryczna.setStawka_vat(23.0);
-//        double nettopln = 0.0;
-//        double vatpln = 0.0;
-//        for (Dok p : lista) {
-//            nettopln += p.getNetto();
-//            vatpln += p.getVat();
-//        }
-//        sumaryczna.setCena_total_netto_pln(nettopln);
-//        sumaryczna.setCena_total_netto_waluta(nettopln);
-//        sumaryczna.setPodatek_vat_pln(vatpln);
-//        sumaryczna.setPodatek_vat_waluta(vatpln);
-//        sumaryczna.setWaluta("PLN");
-//        Dok doksuma = generujdok(sumaryczna);
-//        doksuma.setOpis("zestawienie sumaryczne dokumenty PL");
-//        return doksuma;
-//    }
-//    
-//    private Tabelanbp pobierztabele(String waldok, String dataWyst) {
-//        DateTime dzienposzukiwany = new DateTime(dataWyst);
-//        return TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, waldok);
-//    }
-//    
-//    private Double przeliczpln(double vat, Tabelanbp innatabela) {
-//        if (innatabela!=null) {
-//            return Z.z((vat*innatabela.getKurssredniPrzelicznik()));
-//        } else {
-//            return vat;
-//        }
-//    }
+    public void stworzdokumenty() {
+        List<FakturaEbay> pobrane = fakturyfiltered !=null ? fakturyfiltered: faktury;
+        dokumenty = Collections.synchronizedList(new ArrayList<>());
+        klienci = Collections.synchronizedList(new ArrayList<>());
+        if (pobrane != null) {
+            pobrane.forEach((p) -> {
+                Dok dok = generujdok(p);
+                dok.setFakturaEbay(p);
+                if (dok!=null) {
+                    dokumenty.add(dok);
+                }
+            });
+        }
+    }
+
+    private Dok generujdok(FakturaEbay wiersz) {
+        Dok selDokument = new Dok();
+        try {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            Principal principal = request.getUserPrincipal();
+            selDokument.setWprowadzil(principal.getName());
+            String datawystawienia = wiersz.getRechnungsdatum();
+            String miesiac = datawystawienia.substring(5, 7);
+            String rok = datawystawienia.substring(0, 4);
+            selDokument.setPkpirM(miesiac);
+            selDokument.setPkpirR(rok);
+            selDokument.setVatM(miesiac);
+            selDokument.setVatR(rok);
+            selDokument.setPodatnik(wpisView.getPodatnikObiekt());
+            selDokument.setStatus("bufor");
+            selDokument.setUsunpozornie(false);
+            selDokument.setDataWyst(datawystawienia);
+            selDokument.setDataSprz(datawystawienia);
+            selDokument.setKontr(pobierzkontrahenta(wiersz, pobierzNIPkontrahenta(wiersz)));
+            selDokument.setRodzajedok(ustalrodzajdok(wiersz));
+            selDokument.setNrWlDk(wiersz.getRechnungsnummer());
+            String waldok = wiersz.getWaluta();
+            Tabelanbp innatabela = pobierztabele(waldok, selDokument.getDataWyst());
+            if (waldok.equals("PLN")) {
+                selDokument.setTabelanbp(tabeladomyslna);
+                selDokument.setWalutadokumentu(tabeladomyslna.getWaluta());
+            } else {
+                selDokument.setTabelanbp(innatabela);
+                selDokument.setWalutadokumentu(innatabela.getWaluta());
+            }
+            selDokument.setOpis("przychód ze sprzedaży");
+            List<KwotaKolumna1> listaX = Collections.synchronizedList(new ArrayList<>());
+            KwotaKolumna1 tmpX = new KwotaKolumna1();
+            if (waldok.equals("PLN")) {
+                tmpX.setNetto(wiersz.getNetto());
+                netto += wiersz.getNetto();
+                tmpX.setVat(wiersz.getVAT());
+                vat += wiersz.getVAT();
+                tmpX.setNazwakolumny("przych. sprz");
+                tmpX.setDok(selDokument);
+                tmpX.setBrutto(Z.z(Z.z(wiersz.getNetto()+wiersz.getVAT())));
+            } else {
+                tmpX.setNettowaluta(wiersz.getNetto());
+                tmpX.setVatwaluta(wiersz.getVAT());
+                netto += wiersz.getNetto();
+                vat += wiersz.getVAT();
+                tmpX.setVat(przeliczpln(wiersz.getVAT(), innatabela));
+                tmpX.setNetto(przeliczpln(wiersz.getNetto(), innatabela));
+                tmpX.setNazwakolumny("przych. sprz");
+                tmpX.setDok(selDokument);
+                tmpX.setBrutto(Z.z(Z.z(przeliczpln(wiersz.getVAT(), innatabela)+przeliczpln(wiersz.getNetto(), innatabela))));
+            }
+            listaX.add(tmpX);
+            selDokument.setListakwot1(listaX);
+            selDokument.setNetto(Z.z(tmpX.getNetto()));
+            selDokument.setBrutto(Z.z(tmpX.getBrutto()));
+            selDokument.setRozliczony(true);
+            selDokument.setEwidencjaVAT1(dodajewidencje(selDokument, wiersz, innatabela, miesiac, rok));
+            if (selDokument.getKontr()!=null && sprawdzCzyNieDuplikat(selDokument)!=null) {
+                selDokument = null;
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return selDokument;
+    }
+
+    private Klienci pobierzkontrahenta(FakturaEbay wiersz, String nrKontrahenta) {
+        if (nrKontrahenta.equals("")) {
+           Klienci inc = new Klienci();
+           inc.setNpelna(wiersz.getNamedesKäufers());
+           inc.setNskrocona(wiersz.getNamedesKäufers());
+           inc.setAdresincydentalny(pobierzadres(wiersz));
+           return inc;
+        } else {
+            Klienci klientznaleziony = klDAO.findKlientByNipImport(nrKontrahenta);
+            if (klientznaleziony==null) {
+                klientznaleziony = SzukajDaneBean.znajdzdaneregonAutomat(nrKontrahenta, gUSView);
+                if (klientznaleziony!=null && klientznaleziony.getNip()!=null) {
+                    boolean juzjest = false;
+                    for (Klienci p : klienci) {
+                        if (p.getNip().equals(klientznaleziony.getNip())) {
+                            juzjest = true;
+                            break;
+                        }
+                    }
+                    if (juzjest==false && !klientznaleziony.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
+                        klienci.add(klientznaleziony);
+                    }
+                }
+            } else if (klientznaleziony.getNpelna()==null) {
+                klientznaleziony.setNpelna("istnieje wielu kontrahentów o tym samym numerze NIP! "+nrKontrahenta);
+            }
+            return klientznaleziony;
+        }
+    }
     
+    private String pobierzadres(FakturaEbay wiersz) {
+        String adres = "";
+        adres = adres+wiersz.getPLZ()+" ";
+        adres = adres+wiersz.getOrtdesKäufers()+" ";
+        adres = adres+wiersz.getKäuferadresse1();
+        return adres;
+    }
+    
+    private String pobierzNIPkontrahenta(FakturaEbay wiersz) {
+        String nip = "";
+        if (wiersz.getNIP()!=null) {
+            nip = nip+wiersz.getNIP();
+        }
+        return nip;
+    }
+    
+    private Rodzajedok ustalrodzajdok(FakturaEbay wiersz) {
+        double stawka = wiersz.getStawka();
+        Rodzajedok zwrot = rodzajedok.get("SZ");
+        if (stawka==19.0) {
+            zwrot = rodzajedok.get("RACHSP");
+        }
+        return zwrot;
+    }
+    
+    private Evewidencja pobierzewidencje(FakturaEbay wiersz, List<Evewidencja> evewidencje) {
+        Evewidencja zwrot = null;
+        double stawka = wiersz.getStawka();
+        for (Evewidencja p : evewidencje) {
+            if (p.getStawkavat()==stawka) {
+                zwrot = p;
+                break;
+            }
+        }
+        return zwrot;
+    }
+    public Dok sprawdzCzyNieDuplikat(Dok selD) {
+        Dok tmp = null;
+        tmp = dokDAO.znajdzDuplikatwtrakcie(selD, wpisView.getPodatnikObiekt(), selD.getRodzajedok().getSkrot());
+        return tmp;
+    }
+    
+    public List<EVatwpis1> dodajewidencje(Dok dok, FakturaEbay wiersz, Tabelanbp innatabela, String miesiac, String rok) {
+        List<EVatwpis1> ewidencjaTransformowana = null;
+        dok.setDokumentProsty(true);
+        if (wiersz.getStawka()!=19.00) {
+            ewidencjaTransformowana = Collections.synchronizedList(new ArrayList<>());
+            EVatwpis1 eVatwpis1 = new EVatwpis1(pobierzewidencje(wiersz,evewidencje), przeliczpln(wiersz.getNetto(), innatabela), przeliczpln(wiersz.getVAT(), innatabela), "sprz.op", miesiac, rok);
+            eVatwpis1.setDok(dok);
+            ewidencjaTransformowana.add(eVatwpis1);
+            dok.setDokumentProsty(false);
+        }
+        return ewidencjaTransformowana;
+    }
+  
+    public void usun(Dok dok) {
+        dokumenty.remove(dok);
+        Msg.msg("Usunięto dokument z listy");
+    }
+    
+    public void zaksieguj() {
+        if (klienci!=null && klienci.size()>0) {
+            for (Klienci p: klienci) {
+                try {
+                    if (p.getNip()!=null) {
+                        klDAO.dodaj(p);
+                    }
+                } catch(Exception e){
+                }
+            }
+            klienci = Collections.synchronizedList(new ArrayList<>());
+            Msg.msg("Dodano nowych klientw z importowanych dokumentów");
+        }
+        if (dokumenty!=null && dokumenty.size()>0) {
+            List<Dok> innykraj = new ArrayList<>();
+            List<Dok> innykrajzero = new ArrayList<>();
+            List<Dok> polskaprywatne = new ArrayList<>();
+            int i = 0;
+            int j = 1;
+            int k = 1;
+            int l = 1;
+            for (Dok p: dokumenty) {
+                try {
+                    if (p.getKontr().getNip()!=null) {
+                        dokDAO.dodaj(p);
+                        i++;
+                    } else {
+                        if (p.getVat()!=0) {
+                            p.setNrWpkpir(j++);
+                            polskaprywatne.add(p);
+                        } else if (p.getVatWalutaCSV()!=0) {
+                            p.setNrWpkpir(k++);
+                            innykraj.add(p);
+                        } else {
+                            p.setNrWpkpir(l++);
+                            innykrajzero.add(p);
+                        }
+                        
+                    }
+                } catch(Exception e){
+                }
+            }
+            if (innykraj.size()>0) {
+                try {
+                    dokDAO.dodaj(wygenerujdokumentsumaryczny(innykraj));
+                    PdfDok.drukujDok(innykraj, wpisView,0, null, "de");
+                    Msg.msg("Zaksięgowano dokument sumaryczny DE");
+                } catch (Exception e) {
+                    Msg.msg("e", "Błąd podczas księgowania dokumentu sumarycznego DE. Prawdopodobnie duplikat.");
+                }
+            }
+            if (innykrajzero.size()>0) {
+                try {
+                    dokDAO.dodaj(wygenerujdokumentsumaryczny(innykraj));
+                    PdfDok.drukujDok(innykrajzero, wpisView,0, null, "zero");
+                    Msg.msg("Zaksięgowano dokument sumaryczny ze stawką 0%");
+                } catch (Exception e) {
+                    Msg.msg("e", "Błąd podczas księgowania dokumentu sumarycznego stawka 0%. Prawdopodobnie duplikat.");
+                }
+            }
+            if (polskaprywatne.size()>0) {
+                try {
+                    dokDAO.dodaj(wygenerujdokumentsumarycznyPL(polskaprywatne));
+                    PdfDok.drukujDok(polskaprywatne, wpisView,0, null, "pl");
+                    Msg.msg("Zaksięgowano dokument sumaryczny PL");
+                } catch (Exception e) {
+                    Msg.msg("e", "Błąd podczas księgowania dokumentu sumarycznego PL. Prawdopodobnie duplikat.");
+                }
+            }
+            dokumenty = Collections.synchronizedList(new ArrayList<>());
+            if (i>0) {
+                Msg.msg("Zaksięgowano zaimportowane dokumenty");
+            } else {
+                Msg.msg("w", "Nie zaksięgowano dokumentów Polska");
+            }
+        }
+    }
+    
+    private Dok wygenerujdokumentsumaryczny(List<Dok> lista) {
+        FakturaEbay sumaryczna = new FakturaEbay();
+        sumaryczna.setRechnungsdatum(data.Data.ostatniDzien(wpisView));
+        sumaryczna.setNIP(wpisView.getPodatnikObiekt().getNip());
+        sumaryczna.setRechnungsnummer("1/"+wpisView.getMiesiacWpisu()+"/sum");
+        sumaryczna.setInklusiveMehrwertsteuersatz("19%");
+        double nettopln = 0.0;
+        for (Dok p : lista) {
+            nettopln += p.getNetto();
+        }
+        sumaryczna.setGesamtpreis(String.valueOf(nettopln));
+        sumaryczna.setVAT_recznie(0.0);
+        sumaryczna.setVerpackungundVersand("PLN");
+        Dok doksuma = generujdok(sumaryczna);
+        doksuma.setOpis("zestawienie sumaryczne dokumenty DE przewalutowane");
+        return doksuma;
+    }
+    
+    private Dok wygenerujdokumentsumarycznyPL(List<Dok> lista) {
+        FakturaEbay sumaryczna = new FakturaEbay();
+        sumaryczna.setRechnungsdatum(data.Data.ostatniDzien(wpisView));
+        sumaryczna.setNIP(wpisView.getPodatnikObiekt().getNip());
+        sumaryczna.setRechnungsnummer("1/"+wpisView.getMiesiacWpisu()+"/sumPLN");
+        sumaryczna.setInklusiveMehrwertsteuersatz("23%");
+        double nettopln = 0.0;
+        double vatpln = 0.0;
+        for (Dok p : lista) {
+            nettopln += p.getNetto();
+            vatpln += p.getVat();
+        }
+        sumaryczna.setGesamtpreis(String.valueOf(nettopln));
+        sumaryczna.setVAT_recznie(vatpln);
+        sumaryczna.setVerpackungundVersand("PLN");
+        Dok doksuma = generujdok(sumaryczna);
+        doksuma.setOpis("zestawienie sumaryczne dokumenty PL");
+        return doksuma;
+    }
+    
+    private Tabelanbp pobierztabele(String waldok, String dataWyst) {
+        DateTime dzienposzukiwany = new DateTime(dataWyst);
+        return TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, waldok);
+    }
+    
+    private Double przeliczpln(double vat, Tabelanbp innatabela) {
+        if (innatabela!=null) {
+            return Z.z((vat*innatabela.getKurssredniPrzelicznik()));
+        } else {
+            return vat;
+        }
+    }
+//    
 //    public void drukuj() {
 //        try {
 //            PdfDok.drukujJPK_FA(dokumenty, wpisView, 1, deklaracjaniemiecka);

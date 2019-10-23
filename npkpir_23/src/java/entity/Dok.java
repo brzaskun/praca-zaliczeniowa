@@ -6,6 +6,7 @@ package entity;
 
 import embeddable.AmazonCSV;
 import embeddable.FakturaCis;
+import embeddable.FakturaEbay;
 import embeddable.Stornodoch;
 import entityfk.Cechazapisu;
 import entityfk.Tabelanbp;
@@ -251,6 +252,8 @@ public class Dok extends DokSuper implements Serializable {
     private AmazonCSV amazonCSV;
     @Transient
     private FakturaCis fakturaCis;
+    @Transient
+    private FakturaEbay fakturaEbay;
     
     public Dok() {
         this.listakwot1 = Collections.synchronizedList(new ArrayList<>());
@@ -631,6 +634,14 @@ public class Dok extends DokSuper implements Serializable {
 
     public void setWniosekVATZDEntity(WniosekVATZDEntity wniosekVATZDEntity) {
         this.wniosekVATZDEntity = wniosekVATZDEntity;
+    }
+
+    public FakturaEbay getFakturaEbay() {
+        return fakturaEbay;
+    }
+
+    public void setFakturaEbay(FakturaEbay fakturaEbay) {
+        this.fakturaEbay = fakturaEbay;
     }
 
     
