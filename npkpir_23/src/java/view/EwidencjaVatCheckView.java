@@ -6,7 +6,9 @@ package view;
 
 
 import embeddablefk.SaldoKonto;
+import entity.EVatwpis1;
 import entity.EVatwpisSuper;
+import entityfk.EVatwpisFK;
 import entityfk.StronaWiersza;
 import implement.ListExt;
 import java.io.Serializable;
@@ -31,12 +33,15 @@ public class EwidencjaVatCheckView implements Serializable {
     private List<EwidencjaKonto> ewkonto;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @ManagedProperty(value = "#{ewidencjaVatView}")
+    private EwidencjaVatView ewidencjaVatView;
     
-   public void wykryjbledy(List<List<EVatwpisSuper>> ewidencje, List<SaldoKonto> kontavat) {
-       List<EVatwpisSuper> ewidencjezawartosc = pobierzdane(ewidencje);
+   public void wykryjbledy(List<SaldoKonto> kontavat) {
+       List<List<EVatwpisFK>> ewidencje = ewidencjaVatView.getEwidencjeFK();
+       List<EVatwpisFK> ewidencjezawartosc = pobierzdane(ewidencje);
        List<StronaWiersza> zakupy = pobierzzakupy(kontavat);
        List<StronaWiersza> sprzedaz = pobierzsprzedaz(kontavat);
-       List<EVatwpisSuper> brakinakoncie = sprawdzbrakinakoncie(ewidencjezawartosc, zakupy, sprzedaz);
+       List<EVatwpisFK> brakinakoncie = sprawdzbrakinakoncie(ewidencjezawartosc, zakupy, sprzedaz);
        if (brakinakoncie.size() > 0) {
            double suma = 0.0;
            for (EVatwpisSuper p : brakinakoncie) {
@@ -57,13 +62,13 @@ public class EwidencjaVatCheckView implements Serializable {
        
    }
 
-   private List<EVatwpisSuper> pobierzdane(List<List<EVatwpisSuper>> ewidencje) {
-       List<EVatwpisSuper> ewidencjezawartosc = Collections.synchronizedList(new ArrayList<>());
-       for (List<EVatwpisSuper> p : ewidencje) {
+   private List<EVatwpisFK> pobierzdane(List<List<EVatwpisFK>> ewidencje) {
+       List<EVatwpisFK> ewidencjezawartosc = Collections.synchronizedList(new ArrayList<>());
+       for (List<EVatwpisFK> p : ewidencje) {
            ewidencjezawartosc.addAll(p);
        }
        int l = 1;
-       for (Iterator<EVatwpisSuper> it = ewidencjezawartosc.iterator(); it.hasNext();) {
+       for (Iterator<EVatwpisFK> it = ewidencjezawartosc.iterator(); it.hasNext();) {
            l++;
            EVatwpisSuper wiersz = it.next();
            if (wiersz.getNazwaewidencji() == null) {
@@ -86,7 +91,7 @@ public class EwidencjaVatCheckView implements Serializable {
                 p_vat = Z.zAbs(p.getVat());
             }
             if (Z.z(p_vat) == Z.z(r.getKwotaPLN())) {
-                if (p.equals(r.getDokfk())) {
+                if (p.getDokfk().equals(r.getDokfk())) {
                     if (p.getNrWlDk().equals(r.getDokfk().getNumerwlasnydokfk())) {
                         jest = true;
                         it.remove();
@@ -118,11 +123,11 @@ public class EwidencjaVatCheckView implements Serializable {
         return l;
     }
 
-    private List<EVatwpisSuper> sprawdzbrakinakoncie(List<EVatwpisSuper> ewidencjezawartosc, List<StronaWiersza> zakupy, List<StronaWiersza> sprzedaz) {
+    private List<EVatwpisFK> sprawdzbrakinakoncie(List<EVatwpisFK> ewidencjezawartosc, List<StronaWiersza> zakupy, List<StronaWiersza> sprzedaz) {
        List<StronaWiersza> zakupysz = new ArrayList<>(zakupy);
        List<StronaWiersza> sprzedazsz  = new ArrayList<>(sprzedaz);
-       List<EVatwpisSuper> brakinakoncie = Collections.synchronizedList(new ArrayList<>());
-       for (EVatwpisSuper p : ewidencjezawartosc) {
+       List<EVatwpisFK> brakinakoncie = Collections.synchronizedList(new ArrayList<>());
+       for (EVatwpisFK p : ewidencjezawartosc) {
            boolean nk = false;
            if (p.getNazwaewidencji() != null) {
                 if (p.getNazwaewidencji().getTypewidencji().equals("z")) {
@@ -143,7 +148,7 @@ public class EwidencjaVatCheckView implements Serializable {
        return brakinakoncie;
     }
 
-    private List<StronaWiersza> sprawdzbrakiwewidencji(List<EVatwpisSuper> ewidencjezawartosc, List<StronaWiersza> zakupy, List<StronaWiersza> sprzedaz) {
+    private List<StronaWiersza> sprawdzbrakiwewidencji(List<EVatwpisFK> ewidencjezawartosc, List<StronaWiersza> zakupy, List<StronaWiersza> sprzedaz) {
        List<StronaWiersza> brakiwewidencji = Collections.synchronizedList(new ArrayList<>());
        for (StronaWiersza p : zakupy) {
            if (p.getDokfk().getVatM().equals(wpisView.getMiesiacWpisu()) && p.getDokfk().getVatR().equals(wpisView.getRokWpisuSt())
@@ -166,11 +171,11 @@ public class EwidencjaVatCheckView implements Serializable {
        return brakiwewidencji;
     }
 
-    private boolean czyjestwewidencji(StronaWiersza r, List<EVatwpisSuper> ewidencjezawartosc) {
+    private boolean czyjestwewidencji(StronaWiersza r, List<EVatwpisFK> ewidencjezawartosc) {
         boolean jest = false;
-        for (EVatwpisSuper p : ewidencjezawartosc) {
+        for (EVatwpisFK p : ewidencjezawartosc) {
              if (Z.z(p.getVat()) == Z.z(r.getKwotaPLN())) {
-                if (p.equals(r.getDokfk())) {
+                if (p.getDokfk().equals(r.getDokfk())) {
                     if (p.getNrWlDk().equals(r.getDokfk().getNumerwlasnydokfk())) {
                         jest = true;
                         break;
@@ -181,9 +186,9 @@ public class EwidencjaVatCheckView implements Serializable {
         return jest;
     }
 
-    private List<EwidencjaKonto> stworzzestawienie(List<EVatwpisSuper> brakiwewidencji, List<StronaWiersza> brakinakoncie) {
+    private List<EwidencjaKonto> stworzzestawienie(List<EVatwpisFK> brakiwewidencji, List<StronaWiersza> brakinakoncie) {
         ListExt<EwidencjaKonto> l = new ListExt<EwidencjaKonto>();
-        for (EVatwpisSuper p : brakiwewidencji) {
+        for (EVatwpisFK p : brakiwewidencji) {
             l.add(new EwidencjaKonto(p, null, p.getVat(), 0.0));
         }
         for (StronaWiersza p : brakinakoncie) {
@@ -213,6 +218,14 @@ public class EwidencjaVatCheckView implements Serializable {
 
     public void setEwkonto(List<EwidencjaKonto> ewkonto) {
         this.ewkonto = ewkonto;
+    }
+
+    public EwidencjaVatView getEwidencjaVatView() {
+        return ewidencjaVatView;
+    }
+
+    public void setEwidencjaVatView(EwidencjaVatView ewidencjaVatView) {
+        this.ewidencjaVatView = ewidencjaVatView;
     }
     
     

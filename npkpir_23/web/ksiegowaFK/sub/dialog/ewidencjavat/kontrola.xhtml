@@ -9,17 +9,17 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:tab title="kontrola">
         <p:commandButton value="Sprawdź" icon="ui-icon-check" update="form:akordeon:tabelasprawdzania"
-                         actionListener="#{ewidencjaVatCheckView.wykryjbledy(ewidencjaVatView.ewidencje, kontaVatFKView.kontavat)}" 
+                         actionListener="#{ewidencjaVatCheckView.wykryjbledy(kontaVatFKView.kontavat)}" 
                          style="width: 150px; margin-left: 10px;"/>
         <p:dataTable id="tabelasprawdzania" value="#{ewidencjaVatCheckView.ewkonto}" var="wpis" emptyMessage="nie sprawdzono jeszcze ewidencji i kont / nie wykryto błędów"
-                     scrollable="true" scrollHeight="400" style="width: 1000px; padding: 10px;">
+                     style="width: 1200px; padding: 10px; overflow-y: scroll; height: 400px;">
             <p:column headerText="wpis w ewidencji" width="200">
                 <h:outputText value="#{wpis.zapisEwidencja}"/>
             </p:column>
             <p:column headerText="nr dok" width="100">
                 <h:outputText value="#{wpis.ewidencja.dokfk.toString2()}"/>
             </p:column>
-            <p:column headerText="data">
+            <p:column headerText="data" width="60">
                 <h:outputText value="#{wpis.dataewidencja}"/>
             </p:column>
             <p:column headerText="okres">
@@ -31,7 +31,7 @@
             <p:column headerText="zapis na koncie" width="200">
                 <bcf:outputpl value="#{wpis.zapisKonto}"/>
             </p:column>
-            <p:column headerText="data">
+            <p:column headerText="data" width="60">
                 <h:outputText value="#{wpis.datakonto}"/>
             </p:column>
             <p:column headerText="okres">
