@@ -31,12 +31,14 @@ public class PodatnikWyborView implements Serializable {
     private List<Podatnik> listaPodatnikowNoFKmanager;
     private List<Podatnik> listaPodatnikowNoFK;
     private List<Podatnik> listaPodatnikowFK;
+    private List<Podatnik> listaPodatnikowFKmanager;
     private List<Podatnik> listaPodatnikow;
 
     public PodatnikWyborView() {
         this.listaPodatnikowNoFKmanager = new ArrayList<>();
         this.listaPodatnikowNoFK = new ArrayList<>();
         this.listaPodatnikowFK = new ArrayList<>();
+        this.listaPodatnikowFKmanager = new ArrayList<>();
     }
     
     
@@ -49,7 +51,6 @@ public class PodatnikWyborView implements Serializable {
                 switch (p.getFirmafk()) {
                     case 0:
                         listaPodatnikowNoFK.add(p);
-                        listaPodatnikowNoFKmanager.add(p);
                         break;
                     case 1:
                         listaPodatnikowFK.add(p);
@@ -57,11 +58,23 @@ public class PodatnikWyborView implements Serializable {
                     case 3:
                         listaPodatnikowFK.add(p);
                         listaPodatnikowNoFK.add(p);
-                        listaPodatnikowNoFKmanager.add(p);
                         break;
                 }
             }
-            listaPodatnikowNoFKmanager = new ArrayList<>(listaPodatnikowNoFK);
+        }
+        for (Podatnik p : listaPodatnikow) {
+            switch (p.getFirmafk()) {
+                case 0:
+                    listaPodatnikowNoFKmanager.add(p);
+                    break;
+                case 1:
+                    listaPodatnikowFKmanager.add(p);
+                    break;
+                case 3:
+                    listaPodatnikowNoFKmanager.add(p);
+                    listaPodatnikowFKmanager.add(p);
+                    break;
+            }
         }
     }
 
@@ -92,6 +105,14 @@ public class PodatnikWyborView implements Serializable {
 
     public void setListaPodatnikow(List<Podatnik> listaPodatnikow) {
         this.listaPodatnikow = listaPodatnikow;
+    }
+
+    public List<Podatnik> getListaPodatnikowFKmanager() {
+        return listaPodatnikowFKmanager;
+    }
+
+    public void setListaPodatnikowFKmanager(List<Podatnik> listaPodatnikowFKmanager) {
+        this.listaPodatnikowFKmanager = listaPodatnikowFKmanager;
     }
     
     public List<Podatnik> getListaPodatnikowFK() {

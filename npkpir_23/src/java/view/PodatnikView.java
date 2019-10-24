@@ -289,7 +289,6 @@ private DokDAO dokDAO;
             selectedDod.setPesel("00000000000");
         }
         try {
-            generujIndex(selectedDod);
             sformatuj(selectedDod);
             podatnikDAO.edit(selectedDod);
             Msg.msg("i", "Wyedytowano podatnika: " + selectedDod.getPrintnazwa());
