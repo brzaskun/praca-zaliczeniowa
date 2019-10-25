@@ -5,6 +5,7 @@
 package viewfk;
 
 import beansFK.PlanKontFKKopiujBean;
+import comparator.UkladBRNamecomparator;
 import comparator.UkladBRcomparator;
 import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaZapisDAO;
@@ -79,7 +80,8 @@ public class UkladBRView implements Serializable {
             listarokbiezacy = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             listarokuprzedni = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
             listaWzorcowy = ukladBRDAO.findPodatnik(wpisView.getPodatnikwzorcowy());
-            listawszyscyrokbiezacy = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            listawszyscyrokbiezacy = ukladBRDAO.findUkladByRok(wpisView.getRokWpisuSt());
+            Collections.sort(listawszyscyrokbiezacy, new UkladBRNamecomparator());
             listaWzorcowyUprzedni = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikwzorcowy(), wpisView.getRokUprzedniSt());
             listaWzorcowyBiezacy = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikwzorcowy(), wpisView.getRokWpisuSt());
             Collections.sort(listaWzorcowy, new UkladBRcomparator());

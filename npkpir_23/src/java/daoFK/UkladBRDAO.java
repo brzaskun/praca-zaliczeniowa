@@ -62,6 +62,14 @@ public class UkladBRDAO extends DAO implements Serializable{
         }
     }
     
+    public List<UkladBR> findUkladByRok(String rok) {
+        try {
+            return sessionFacade.getEntityManager().createNamedQuery("UkladBR.findByRok").setParameter("rok", rok).getResultList();
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
+    
      
     public List<UkladBR> findRokUkladnazwa(String rok, String ukladnazwa) {
         try {
