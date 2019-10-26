@@ -120,6 +120,7 @@ public class BilansWprowadzanieView implements Serializable {
     private boolean tojestgenerowanieobrotow;
     private boolean tojestbilanslikwidacyjny;
     private boolean pokazstarekonta;
+    private List<Waluty> wprowadzonesymbolewalut;
 
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -170,6 +171,7 @@ public class BilansWprowadzanieView implements Serializable {
         listaSumList.put(8, new ArrayList());
         this.pokazstarekonta = false;
         tworzListeZbiorcza();
+        wprowadzonesymbolewalut = walutyDAOfk.findAll();
         Podatnik p = wpisView.getPodatnikObiekt();
         String r = wpisView.getRokWpisuSt();
         String mc = wpisView.getMiesiacWpisu();
@@ -979,6 +981,9 @@ public class BilansWprowadzanieView implements Serializable {
         int idporzadkowy = wiersze.size() + 1;
         for (Iterator<WierszBO> it = zachowaneWiersze.iterator(); it.hasNext();) {
             WierszBO p = it.next();
+            if (p.getKonto().getPelnynumer().equals("132-2")) {
+                System.out.println("");
+            }
             if (p.getNowy0edycja1usun2Int()!=3) {
                 Wiersz wierszwdokumencie = niezawierategokonta(wiersze, p);
                 if (wierszwdokumencie == null && (Z.z(p.getKwotaWn()) != 0.0 || Z.z(p.getKwotaWnPLN()) != 0.0 || Z.z(p.getKwotaMa()) != 0.0 || Z.z(p.getKwotaMaPLN()) != 0.0)) {
@@ -1208,6 +1213,14 @@ public class BilansWprowadzanieView implements Serializable {
 
     public void setLista0(List<WierszBO> lista0) {
         this.lista0 = lista0;
+    }
+
+    public List<Waluty> getWprowadzonesymbolewalut() {
+        return wprowadzonesymbolewalut;
+    }
+
+    public void setWprowadzonesymbolewalut(List<Waluty> wprowadzonesymbolewalut) {
+        this.wprowadzonesymbolewalut = wprowadzonesymbolewalut;
     }
 
     public boolean isTojestbilanslikwidacyjny() {

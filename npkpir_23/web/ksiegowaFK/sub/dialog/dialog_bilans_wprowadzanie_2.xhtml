@@ -193,7 +193,7 @@
                         </p:inputNumber>
                     </p:column>
                     <p:column>
-                        <h:selectOneMenu id="wybranawaluta" value="#{bilansWprowadzanieView.selected.waluta}"
+                        <h:selectOneMenu id="wybranawaluta" value="#{bilansWprowadzanieView.selected.waluta}" required="true" requiredMessage="Nie wprowadzono waluty"
                                          styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="#{walutyConv}"
                                          onfocus="$(this).removeClass('ui-state-default');
                                                  $(this).addClass('ui-state-focus');"
@@ -203,7 +203,7 @@
                             <f:ajax />
                             <p:ajax event="change" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.przeliczkursN()}"
                                     update="formbilanswprowadzanie2_wiersz:Wnwal formbilanswprowadzanie2_wiersz:Wnpln formbilanswprowadzanie2_wiersz:Mapln formbilanswprowadzanie2_wiersz:Mawal"/>
-                            <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
+                            <f:selectItems value="#{bilansWprowadzanieView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                         </h:selectOneMenu>
                     </p:column>
                     <p:column style="text-align: center;">
@@ -380,7 +380,7 @@
                     </f:facet>
                     <h:outputText value="#{item.opis}"/>
                 </p:column>
-                <p:column width="40">
+                <p:column width="45">
                     <f:facet name="header">
                         <h:outputText value="kurs"/>
                     </f:facet>
