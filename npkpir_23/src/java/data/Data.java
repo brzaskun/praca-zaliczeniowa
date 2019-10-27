@@ -493,6 +493,8 @@ public class Data implements Serializable {
             sb.append("-");
             sb.append(dzien);
             dobradata = sb.toString();
+        } else if (zladata.length()==10) {
+            dobradata = zladata;
         }
         return dobradata;
     }

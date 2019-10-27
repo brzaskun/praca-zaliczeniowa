@@ -350,7 +350,7 @@ public class ImportEbayView  implements Serializable {
             }
             if (innykraj.size()>0) {
                 try {
-                    dokDAO.dodaj(wygenerujdokumentsumaryczny(innykraj));
+                    dokDAO.dodaj(wygenerujdokumentsumaryczny(innykraj, "1"));
                     PdfDok.drukujDok(innykraj, wpisView,0, null, "de");
                     Msg.msg("Zaksięgowano dokument sumaryczny DE");
                 } catch (Exception e) {
@@ -359,7 +359,7 @@ public class ImportEbayView  implements Serializable {
             }
             if (innykrajzero.size()>0) {
                 try {
-                    dokDAO.dodaj(wygenerujdokumentsumaryczny(innykraj));
+                    dokDAO.dodaj(wygenerujdokumentsumaryczny(innykraj, "2"));
                     PdfDok.drukujDok(innykrajzero, wpisView,0, null, "zero");
                     Msg.msg("Zaksięgowano dokument sumaryczny ze stawką 0%");
                 } catch (Exception e) {
@@ -384,11 +384,11 @@ public class ImportEbayView  implements Serializable {
         }
     }
     
-    private Dok wygenerujdokumentsumaryczny(List<Dok> lista) {
+    private Dok wygenerujdokumentsumaryczny(List<Dok> lista, String nrkolejny) {
         FakturaEbay sumaryczna = new FakturaEbay();
         sumaryczna.setRechnungsdatum(data.Data.ostatniDzien(wpisView));
         sumaryczna.setNIP(wpisView.getPodatnikObiekt().getNip());
-        sumaryczna.setRechnungsnummer("1/"+wpisView.getMiesiacWpisu()+"/sum");
+        sumaryczna.setRechnungsnummer(nrkolejny+"/"+wpisView.getMiesiacWpisu()+"/sum");
         sumaryczna.setInklusiveMehrwertsteuersatz("19%");
         double nettopln = 0.0;
         for (Dok p : lista) {

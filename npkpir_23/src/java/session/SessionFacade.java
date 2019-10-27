@@ -1480,7 +1480,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
             if (!wynik.isEmpty() && wynik.size()==1) {
                 return wynik.get(0);
             } else if (!wynik.isEmpty() && wynik.size()>1){
-                return new Klienci();
+                return wynik.get(0);
             } else {
                 return null;
             }
