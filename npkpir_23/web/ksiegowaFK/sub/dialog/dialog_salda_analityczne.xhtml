@@ -46,6 +46,11 @@
                         <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" update="formtablicaanalityczne tablicasaldaanalityczne tabelazsumamianalityka:sumy"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
+
+                    <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 40px;">
+                    <f:selectItems value="#{Roki.rokiList}"/>
+                    <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" update="formtablicaanalityczne tablicasaldaanalityczne tabelazsumamianalityka:sumy"/>
+                </p:selectOneMenu>
                 </p:column>
                 <p:column>
                     <p:commandButton value="#{mgs.pobierz}" actionListener="#{saldoAnalitykaView.odswiezsaldoanalityczne()}" style="width: 120px; margin-left: 20px;" update="formtablicaanalityczne tabelazsumamianalityka:sumy"/>
