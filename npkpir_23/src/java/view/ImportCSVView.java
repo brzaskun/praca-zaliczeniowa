@@ -12,6 +12,7 @@ import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
+import deklaracje.vatue.m4.VATUEM4Bean;
 import embeddable.AmazonCSV;
 import entity.Dok;
 import entity.EVatwpis1;
@@ -24,6 +25,7 @@ import entityfk.Waluty;
 import error.E;
 import gus.GUSView;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -44,6 +46,7 @@ import org.joda.time.DateTime;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import pdf.PdfDok;
+import plik.Plik;
 import waluty.Z;
 
 /**
@@ -77,6 +80,7 @@ public class ImportCSVView  implements Serializable {
     private WalutyDAOfk walutyDAOfk;
     private List<Waluty> listaWalut;
     private Waluty walutapln;
+    private double kursumst;
         
     @PostConstruct
     private void init() { //E.m(this);
@@ -301,6 +305,106 @@ public class ImportCSVView  implements Serializable {
             
         }
     }
+    
+    
+    public void robcsv() {
+        try {
+            if (kursumst!=0.0) {
+                String nazwa = wpisView.getPodatnikObiekt().getNip()+"CSVWDT";
+                List<PozycjeCSV> pozycje = new ArrayList<>();
+                for (Dok p : dokumenty) {
+                    if (p.getRodzajedok().getSkrotNazwyDok().equals("WDT") && p.getAmazonCSV().getJurisdictionName().equals("GERMANY") && !p.getAmazonCSV().getBuyerTaxRegistration().equals("")) {
+                        PozycjeCSV pozycja = zrobpozycje(pozycje,p);
+                        if (pozycja!=null) {
+                            pozycje.add(pozycja);
+                        }
+                    }
+                }
+                String header = "Laenderkennzeichen (der USt-IdNr.) *,USt-IdNr. (ohne Laenderkennzeichen) *,Betrag (Euro) *,Art der Leistung *,Importmeldung"+"\n";
+                List<String> zwrot = new ArrayList<>();
+                zwrot.add(header);
+                for (PozycjeCSV p : pozycje) {
+                    String zw = p.getKraj()+",";
+                    zw = zw + p.getNip()+",";
+                    zw = zw + String.valueOf(Z.zUD(p.getKwota()))+",";
+                    zw = zw + "L,";
+                    zw = zw + "";
+                    zw = zw + "\n";
+                    zwrot.add(zw);
+                }
+                StringBuffer sb = new StringBuffer();
+                for (String s : zwrot) {
+                   sb.append(s);
+                }
+                String tresc = sb.toString();
+                String name = Plik.zapiszplik(nazwa, "csv", tresc);
+                String f = "wydrukCSV('"+name+"');";
+                PrimeFaces.current().executeScript(f);
+                Msg.msg("Wygenerowano pliki CSV WDT");
+            } else {
+                Msg.msg("e", "Brak kursu UMSt, nie można wygenerować plików CSV WDT");
+            }
+        } catch (Exception e) {
+            
+        }
+    }
+
+    private PozycjeCSV zrobpozycje(List<PozycjeCSV> pozycje, Dok p) {
+        PozycjeCSV zwrot = new PozycjeCSV();
+        for (PozycjeCSV r : pozycje) {
+            String nip = VATUEM4Bean.przetworznip(p.getAmazonCSV().getBuyerTaxRegistration());
+            if (r.getNip().equals(nip)) {
+                r.setKwota(r.getKwota()+p.getNettoWaluta());
+                zwrot = null;
+                break;
+            }
+        }
+        if (zwrot!=null) {
+            zwrot.setKraj(p.getAmazonCSV().getBuyerTaxRegistrationJurisdiction());
+            zwrot.setNip(VATUEM4Bean.przetworznip(p.getAmazonCSV().getBuyerTaxRegistration()));
+            zwrot.setKwota(p.getNettoWaluta());
+        }
+        return zwrot;
+    }
+    
+    class PozycjeCSV {
+        private String kraj;
+        private String nip;
+        private double kwota;
+        private final String niptransakcja = "L";
+
+        public String getKraj() {
+            return kraj;
+        }
+
+        public void setKraj(String kraj) {
+            this.kraj = kraj;
+        }
+
+        public String getNip() {
+            return nip;
+        }
+
+        public void setNip(String nip) {
+            this.nip = nip;
+        }
+
+        public double getKwota() {
+            return kwota;
+        }
+
+        public void setKwota(double kwota) {
+            this.kwota = kwota;
+        }
+
+        public String getNiptransakcja() {
+            return niptransakcja;
+        }
+
+           
+    }
+    
+    
     public List<Dok> getDokumenty() {
         return dokumenty;
     }
@@ -323,6 +427,14 @@ public class ImportCSVView  implements Serializable {
 
     public void setgUSView(GUSView gUSView) {
         this.gUSView = gUSView;
+    }
+
+    public double getKursumst() {
+        return kursumst;
+    }
+
+    public void setKursumst(double kursumst) {
+        this.kursumst = kursumst;
     }
 
     

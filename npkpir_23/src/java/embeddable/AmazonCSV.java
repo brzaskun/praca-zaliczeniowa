@@ -80,11 +80,11 @@ public class AmazonCSV {
         this.InvoiceLevelCurrencyCode = tmpline[43];
         this.InvoiceLevelExchangeRate = tmpline[44].equals("") ? 0.0 :Double.valueOf(tmpline[44].replace(",", "."));
         this.InvoiceLevelExchangeRateDate = tmpline[45];
-        this.ConvertedTaxAmount = tmpline[46].equals("") ? 0.0 : Double.valueOf(tmpline[46].replace(",", "."));
-        this.VATInvoiceNumber = tmpline[47];
-        this.ShipToCity = tmpline[55];
-        this.ShipToCountry = tmpline[56];
-        this.ShipToPostalCode = tmpline[57];
+        this.ConvertedTaxAmount = tmpline[47].equals("") ? 0.0 : Double.valueOf(tmpline[47].replace(",", "."));
+        this.VATInvoiceNumber = tmpline[48];
+        this.ShipToCity = tmpline[56];
+        this.ShipToCountry = tmpline[53];
+        this.ShipToPostalCode = tmpline[59];
     }
     
     public String getData() {

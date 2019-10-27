@@ -95,7 +95,8 @@ public class Z implements Serializable {
         //kurswyliczony /= 10000;
         String va= "0,19".replace(",", ".");
         double dab = Double.valueOf(va);
-         System.out.println(dab);
+         //System.out.println(dab);
+         System.out.println(zUD(12.51));
 
     }
 

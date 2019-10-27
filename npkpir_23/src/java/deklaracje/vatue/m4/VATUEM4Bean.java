@@ -162,7 +162,7 @@ public class VATUEM4Bean {
         return g;
     }
     
-    private static String przetworznip(String nip) {
+    public static String przetworznip(String nip) {
         String dobrynip = nip;
         boolean jestprefix = sprawdznip(nip);
             if (jestprefix) {
