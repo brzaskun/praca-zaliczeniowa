@@ -142,8 +142,8 @@ public class ImportCisView  implements Serializable {
         if (pobrane != null) {
             pobrane.forEach((p) -> {
                 Dok dok = generujdok(p);
-                dok.setFakturaCis(p);
                 if (dok!=null) {
+                    dok.setFakturaCis(p);
                     dokumenty.add(dok);
                 }
             });
