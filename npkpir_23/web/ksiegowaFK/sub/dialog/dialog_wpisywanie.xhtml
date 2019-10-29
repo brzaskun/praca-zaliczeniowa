@@ -242,8 +242,8 @@
                                                      onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');" 
                                                      style="width: 200px; height: 19px;" converter="#{rodzajedokConv}">
                                         <f:selectItems value="#{rodzajeDokKlientaView.rodzajedokKlienta}"  var="wploop" itemLabel="#{wploop.skrotNazwyDok} - #{wploop.nazwa}"/>
-                                        <p:ajax global="false" event="change" listener="#{dokfkView.wygenerujnumerkolejny}" update="formwpisdokument:numer formwpisdokument:numerwlasny formwpisdokument:przypkontotxt formwpisdokument:przypkonto" partialSubmit="true"/>
-                                        <p:ajax global="false" event="change" listener="#{dokfkView.podepnijEwidencjeVatDok(0)}" update=":formwpisdokument:panelzewidencjavat"/>
+                                        <p:ajax global="false" event="blur" listener="#{dokfkView.wygenerujnumerkolejny}" update="formwpisdokument:numer formwpisdokument:numerwlasny formwpisdokument:przypkontotxt formwpisdokument:przypkonto" partialSubmit="true"/>
+<!--                                        <p:ajax global="false" event="change" listener="#{dokfkView.podepnijEwidencjeVatDok(0)}" update=":formwpisdokument:panelzewidencjavat"/>-->
                                         <p:ajax global="false" event="blur" listener="#{dokfkView.podepnijEwidencjeVatDokBlur(0)}" update=":formwpisdokument:panelzewidencjavat"/>
                                         <p:ajax global="false" event="change" listener="#{dokfkView.przygotujDokumentWpisywanie()}" 
                                                 update=":formwpisdokument:panelwalutowy :formwpisdokument:panelzkwotamidok :formwpisdokument:dataList"/>
@@ -251,7 +251,7 @@
                                 </p:column>
                                 <p:column>
                                     <p:inputText id="numer" value="#{dokfkView.selected.nrkolejnywserii}" 
-                                                 style="width: 40px; font-weight: 900; margin-left: 15%;" disabled="true">
+                                                 style="width: 40px; font-weight: 900; margin-left: 15%;" readonly="true">
                                     </p:inputText>
                                 </p:column>
                                 <p:column>
