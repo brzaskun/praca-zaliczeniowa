@@ -271,6 +271,7 @@ public class DokfkView implements Serializable {
     @Inject
     private PodatnikEwidencjaDokDAO podatnikEwidencjaDokDAO;
     private Set<Dokfk> ostatniedokumenty;
+    private boolean nietrzebapodczepiac;
      
     
 
@@ -393,7 +394,9 @@ public class DokfkView implements Serializable {
         //po co to na dziendobry?
         //kontoRozrachunkowe = DokFKVATBean.pobierzKontoRozrachunkowe(kliencifkDAO, selected, wpisView, kontoDAOfk);
         wygenerujnumerkolejny();
+        nietrzebapodczepiac = false;
         podepnijEwidencjeVat(0);
+        nietrzebapodczepiac = true;
         try {
             DokFKBean.dodajWaluteDomyslnaDoDokumentu(domyslnaTabelanbp, selected);
             resetprzyciskow();
@@ -611,36 +614,54 @@ public class DokfkView implements Serializable {
 //////////////////////EWIDENCJE VAT
     
     public void podepnijEwidencjeVatDok(int rodzaj) {
-        if (zapisz0edytuj1 == false && selected.getEwidencjaVAT() != null) {
-                podepnijEwidencjeVat(rodzaj);
-        } else {
-            if (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) {
+        if (zapisz0edytuj1 == false) {
+            if (selected.getRodzajedok().getKategoriadokumentu() != 1 && selected.getRodzajedok().getKategoriadokumentu() != 2) {
                 selected.setEwidencjaVAT(null);
+                nietrzebapodczepiac = true;
             } else {
                 podepnijEwidencjeVat(rodzaj);
+                nietrzebapodczepiac = true;
             }
         }
     }
     
     public void podepnijEwidencjeVatDokBlur(int rodzaj) {
-        if (zapisz0edytuj1 == false && selected.getEwidencjaVAT() != null 
-                && selected.isDwarejestry() && czyrozjechalysiemce() && 
-                (selected.getRodzajedok().getSkrot().equals("WNT") && selected.getEwidencjaVAT().size() != 2 ||
-                selected.getRodzajedok().getSkrot().equals("RVC") && selected.getEwidencjaVAT().size() != 2 ||
-                selected.getRodzajedok().getSkrot().equals("IU") && selected.getEwidencjaVAT().size() != 4)) {
-            podepnijEwidencjeVat(rodzaj);
-        }
-        if (zapisz0edytuj1 == false && selected.getEwidencjaVAT() != null 
-                && selected.isDwarejestry() && !czyrozjechalysiemce() && 
-                (selected.getRodzajedok().getSkrot().equals("WNT") && selected.getEwidencjaVAT().size() == 2 ||
-                selected.getRodzajedok().getSkrot().equals("RVC") && selected.getEwidencjaVAT().size() == 2 ||
-                selected.getRodzajedok().getSkrot().equals("IU") && selected.getEwidencjaVAT().size() == 4)) {
-            podepnijEwidencjeVat(rodzaj);
-        }
+        if (nietrzebapodczepiac==false) {
+            if (zapisz0edytuj1 == false && selected.getEwidencjaVAT() != null 
+                    && selected.isDwarejestry() && czyrozjechalysiemce() && 
+                    (selected.getRodzajedok().getSkrot().equals("WNT") && selected.getEwidencjaVAT().size() != 2 ||
+                    selected.getRodzajedok().getSkrot().equals("RVC") && selected.getEwidencjaVAT().size() != 2 ||
+                    selected.getRodzajedok().getSkrot().equals("IU") && selected.getEwidencjaVAT().size() != 4)) {
+                podepnijEwidencjeVat(rodzaj);
+            }
+            if (zapisz0edytuj1 == false && selected.getEwidencjaVAT() != null 
+                    && selected.isDwarejestry() && !czyrozjechalysiemce() && 
+                    (selected.getRodzajedok().getSkrot().equals("WNT") && selected.getEwidencjaVAT().size() == 2 ||
+                    selected.getRodzajedok().getSkrot().equals("RVC") && selected.getEwidencjaVAT().size() == 2 ||
+                    selected.getRodzajedok().getSkrot().equals("IU") && selected.getEwidencjaVAT().size() == 4)) {
+                podepnijEwidencjeVat(rodzaj);
+            }
+            }
     }
     
+    public void ewidencjazmianadok(ValueChangeEvent ex) {
+        Rodzajedok old = (Rodzajedok) ex.getOldValue();
+        Rodzajedok newy = (Rodzajedok) ex.getNewValue();
+        selected.setRodzajedok(newy);
+        if (!wpisView.isVatowiec() || (selected.getRodzajedok().getKategoriadokumentu()!=1 && selected.getRodzajedok().getKategoriadokumentu()!=2)) {
+            selected.setEwidencjaVAT(null);
+        } else if (old.equals(newy)) {
+            nietrzebapodczepiac = true;
+        } else {
+            nietrzebapodczepiac = false;
+            podepnijEwidencjeVatDok(0);
+        }
+        }
+    
+    
+    
     public void podepnijEwidencjeVat(int rodzaj) {
-            if (wpisView.isVatowiec() && !selected.getRodzajedok().getRodzajtransakcji().equals("PK")) {
+            if (wpisView.isVatowiec() && (selected.getRodzajedok().getKategoriadokumentu()==1 || selected.getRodzajedok().getKategoriadokumentu()==2)) {
                     //0 jest przay wpisie
                     int k = 0;
                     if (rodzaj == 0) {
@@ -681,7 +702,7 @@ public class DokfkView implements Serializable {
                     //niepotrzebne renderuje 15 razy
                     //PrimeFaces.current().ajax().update("formwpisdokument:panelzewidencjavat");
             } else {
-                this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
+                this.selected.setEwidencjaVAT(null);
             }
     }
     
