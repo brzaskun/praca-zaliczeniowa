@@ -584,15 +584,15 @@ public class SaldoAnalitykaView implements Serializable {
         }
     }
 
-    private boolean czynieBOnieObroty(StronaWiersza r) {
-        boolean zwrot = true;
-        if (r.getDokfk().getSeriadokfk().equals("BO")) {
-            zwrot = false;
-        } else if (r.getDokfk().getSeriadokfk().equals("BO") && r.getDokfk().getNrkolejnywserii() != 1) {
-            zwrot = false;
-        }
-        return zwrot;
-    }
+//    private boolean czynieBOnieObroty(StronaWiersza r) {
+//        boolean zwrot = true;
+//        if (r.getDokfk().getSeriadokfk().equals("BO")) {
+//            zwrot = false;
+//        } else if (r.getDokfk().getSeriadokfk().equals("BO") && r.getDokfk().getNrkolejnywserii() != 1) {
+//            zwrot = false;
+//        }
+//        return zwrot;
+//    }
 
     //sumuje tylko zapisy w bo
     private void naniesZapisyNaKontoBO(Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyRok, List<StronaWiersza> wierszenieuzupelnione) {

@@ -112,6 +112,8 @@ public class BilansWprowadzanieView implements Serializable {
     private double stronaWn_stronaMa;
     private Dokfk dokumentBO;
     private boolean isteniejeDokBO;
+    private Dokfk dokumentBOR;
+    private boolean isteniejeDokBOR;
     private List<WierszBO> wierszedousuniecia;
     private Waluty walutadomyslna;
     private boolean sortujwgwartosci;
@@ -265,6 +267,12 @@ public class BilansWprowadzanieView implements Serializable {
             isteniejeDokBO = true;
         } else {
             isteniejeDokBO = false;
+        }
+        dokumentBOR = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "BOR", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        if (dokumentBOR != null) {
+            isteniejeDokBOR = true;
+        } else {
+            isteniejeDokBOR = false;
         }
         wierszedousuniecia = Collections.synchronizedList(new ArrayList<>());
     }
@@ -782,13 +790,13 @@ public class BilansWprowadzanieView implements Serializable {
         }
     }
 
-    public void generowanieDokumentuBO() {
+    public void generowanieDokumentuBO(String typ) {
         List<WierszBO> zachowaneWiersze = zapiszBilansBOdoBazy();
-        int nrkolejny = oblicznumerkolejny();
-        if (nrkolejny > 1) {
-            usundokumentztegosamegomiesiaca(nrkolejny);
-        }
-        Dokfk dok = stworznowydokument(nrkolejny, zachowaneWiersze);
+//        int nrkolejny = oblicznumerkolejny();
+//        if (nrkolejny > 1) {
+        usundokumentztegosamegomiesiaca(typ);
+//        }
+        Dokfk dok = stworznowydokument(1, zachowaneWiersze, typ);
         dok.przeliczKwotyWierszaDoSumyDokumentu();
         try {
             dokDAOfk.dodaj(dok);
@@ -796,18 +804,24 @@ public class BilansWprowadzanieView implements Serializable {
                 p.setNowy0edycja1usun2(3);
             }
             wierszBODAO.editList(zachowaneWiersze);
-            isteniejeDokBO = true;
-            dokumentBO = dok;
             wierszedousuniecia = Collections.synchronizedList(new ArrayList<>());
-            Msg.msg("Zaksięgowano dokument BO");
+            if (typ.equals("BO")) {
+                isteniejeDokBO = true;
+                dokumentBO = dok;
+                Msg.msg("Zaksięgowano dokument BO");
+            } else {
+                isteniejeDokBOR = true;
+                dokumentBOR = dok;
+                Msg.msg("Zaksięgowano dokument BOR");
+            }
         } catch (Exception e) {
-            Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu BO");
+            Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu BO/BOR");
         }
     }
 
-    public void edytowanieDokumentuBO() {
+    public void edytowanieDokumentuBO(String typ) {
         List<WierszBO> zachowaneWiersze = zapiszBilansBOdoBazy();
-        dokumentBO = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        dokumentBO = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), typ, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         edytujwiersze(dokumentBO, zachowaneWiersze);
         usunwiersze(dokumentBO, zachowaneWiersze);
         dokumentBO.przeliczKwotyWierszaDoSumyDokumentu();
@@ -824,12 +838,17 @@ public class BilansWprowadzanieView implements Serializable {
                 }
             }
             wierszBODAO.editList(zachowaneWiersze);
-            dokumentBO = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            if (typ.equals("BO")) {
+                dokumentBO = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+                Msg.msg("Naniesiono zmiany w dokumencie BO");
+            } else {
+                dokumentBOR = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "BOR", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+                Msg.msg("Naniesiono zmiany w dokumencie BOR");
+            }
             wierszedousuniecia = Collections.synchronizedList(new ArrayList<>());
             init();
-            Msg.msg("Naniesiono zmiany w dokumencie BO");
         } catch (Exception e) {
-            Msg.msg("e", "Wystąpił błąd - nie zmieniono dokumentu BO");
+            Msg.msg("e", "Wystąpił błąd - nie zmieniono dokumentu BO/BOR");
         }
     }
 
@@ -848,31 +867,31 @@ public class BilansWprowadzanieView implements Serializable {
         }
    }
     
-    private int oblicznumerkolejny() {
-        Dokfk poprzednidokumentvat = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt());
-        return poprzednidokumentvat == null ? 1 : poprzednidokumentvat.getNrkolejnywserii() + 1;
-    }
-
-    private void usundokumentztegosamegomiesiaca(int numerkolejny) {
-        Dokfk popDokfk = dokDAOfk.findDokfofaType(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+//    private int oblicznumerkolejny() {
+//        Dokfk poprzednidokumentvat = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt());
+//        return poprzednidokumentvat == null ? 1 : poprzednidokumentvat.getNrkolejnywserii() + 1;
+//    }
+//
+    private void usundokumentztegosamegomiesiaca(String typ) {
+        Dokfk popDokfk = dokDAOfk.findDokfofaType(wpisView.getPodatnikObiekt(), typ, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         if (popDokfk != null) {
             dokDAOfk.destroy(popDokfk);
         }
     }
 
-    private Dokfk stworznowydokument(int nrkolejny, List<WierszBO> zachowaneWiersze) {
+    private Dokfk stworznowydokument(int nrkolejny, List<WierszBO> zachowaneWiersze, String typ) {
         Dokfk nd = new Dokfk(nrkolejny, wpisView.getRokWpisuSt());
         ustawdaty(nd);
         ustawkontrahenta(nd);
         ustawnumerwlasny(nd, nrkolejny);
-        if (wpisView.getMiesiacWpisu().equals("01")) {
+        if (typ.equals("BO")) {
             nd.setOpisdokfk("bilans otwarcia roku: " + wpisView.getRokWpisuSt());
         } else {
             nd.setOpisdokfk("obroty rozpoczęcia na koniec: " + wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu());
         }
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
         nd.setWprowadzil(wpisView.getUzer().getLogin());
-        ustawrodzajedok(nd);
+        ustawrodzajedok(nd, typ);
         ustawtabelenbp(nd);
         ustawwiersze(nd, zachowaneWiersze);
         return nd;
@@ -904,13 +923,13 @@ public class BilansWprowadzanieView implements Serializable {
         nd.setNumerwlasnydokfk(numer);
     }
 
-    private void ustawrodzajedok(Dokfk nd) {
-        Rodzajedok rodzajedok = rodzajedokDAO.find("BO", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+    private void ustawrodzajedok(Dokfk nd, String typ) {
+        Rodzajedok rodzajedok = rodzajedokDAO.find(typ, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         if (rodzajedok != null) {
             nd.setSeriadokfk(rodzajedok.getSkrot());
             nd.setRodzajedok(rodzajedok);
         } else {
-            Msg.msg("e", "Brak zdefiniowanego dokumentu BO");
+            Msg.msg("e", "Brak zdefiniowanego dokumentu BO/BOR");
         }
     }
 
@@ -1668,6 +1687,14 @@ public class BilansWprowadzanieView implements Serializable {
         String pierwszy = "Śmigieł";
         String drugi = "śmig";
         boolean s = pierwszy.toLowerCase().contains(drugi.toLowerCase());
+    }
+
+    public boolean isIsteniejeDokBOR() {
+        return isteniejeDokBOR;
+    }
+
+    public void setIsteniejeDokBOR(boolean isteniejeDokBOR) {
+        this.isteniejeDokBOR = isteniejeDokBOR;
     }
 
     

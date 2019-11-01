@@ -133,7 +133,7 @@ public class DokFKBean {
         Konto kontoMa;
         boolean czyWszystkoWprowadzono = false;
         int typ = wierszbiezacy.getTypWiersza();
-        if (!wierszbiezacy.getDokfk().getSeriadokfk().equals("BO")) {
+        if (!wierszbiezacy.getDokfk().getRodzajedok().isJednostronny()) {
             if ((typ == 0 || typ == 5)) {
                 kontoWn = wierszbiezacy.getStronaWn().getKonto();
                 kontoMa = wierszbiezacy.getStronaMa().getKonto();

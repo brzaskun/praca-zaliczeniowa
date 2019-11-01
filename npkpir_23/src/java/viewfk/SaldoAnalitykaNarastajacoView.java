@@ -215,15 +215,15 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
         }
     }
 
-    private boolean czynieBO(StronaWiersza r) {
-        boolean zwrot = false;
-        if (!r.getDokfk().getSeriadokfk().equals("BO")) {
-            zwrot = true;
-        } else if (r.getDokfk().getSeriadokfk().equals("BO") && r.getDokfk().getNrkolejnywserii() != 1) {
-            zwrot = true;
-        }
-        return zwrot;
-    }
+//    private boolean czynieBO(StronaWiersza r) {
+//        boolean zwrot = false;
+//        if (!r.getDokfk().getSeriadokfk().equals("BO")) {
+//            zwrot = true;
+//        } else if (r.getDokfk().getSeriadokfk().equals("BO") && r.getDokfk().getNrkolejnywserii() != 1) {
+//            zwrot = true;
+//        }
+//        return zwrot;
+//    }
 
    
    

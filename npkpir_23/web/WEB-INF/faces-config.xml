@@ -230,6 +230,10 @@
             <to-view-id>/ksiegowa/ksiegowaIndex.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>importy</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaImporty.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>importsprzedazy</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaImportSprzedazy.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

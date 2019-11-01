@@ -109,6 +109,8 @@ public class Rodzajedok implements Serializable {
     private double procentkup;
     @Column(name = "tylkojpk")
     private boolean tylkojpk;
+    @Column(name = "jednostronny")
+    private boolean jednostronny;
     @Column(name = "rok")
     private String rok;
 
@@ -319,6 +321,14 @@ public class Rodzajedok implements Serializable {
 
     public void setTylkovatnalezny(boolean tylkovatnalezny) {
         this.tylkovatnalezny = tylkovatnalezny;
+    }
+
+    public boolean isJednostronny() {
+        return jednostronny;
+    }
+
+    public void setJednostronny(boolean jednostronny) {
+        this.jednostronny = jednostronny;
     }
 
     public String getRok() {
