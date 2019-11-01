@@ -24,13 +24,13 @@
         </p:panelGrid>
         <p:outputPanel style="margin-top: 15px;">
             <p:dataTable id="rzadn" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat"
-                         style="width: 790px;"
+                         style="width: 950px;"
                          >
                 <f:facet name="header" >
                     <h:outputText value="przed korektą"  rendered="#{fakturaView.fakturakorekta}"/>
                 </f:facet>
-                <p:column headerText="nazwa" width="230" style="text-align: center;">
-                    <p:inputText id="nazwa" value="#{row.nazwa}" style="width: 220px;"
+                <p:column headerText="nazwa" width="330" style="text-align: center;">
+                    <p:inputText id="nazwa" value="#{row.nazwa}" style="width: 320px;"
                                  styleClass="komorka"  label="text" title="nazwa towaru lub usługi" >
                         <p:watermark for="nazwa" value="nazwa towaru lub usługi" />
                         <p:ajax global="false" event="focus" onstart="sprawdzczynazwaskroconafakturaniejestshown();"/>
@@ -61,7 +61,7 @@
                 <p:column headerText="ilość" width="60" style="text-align: center;">
                     <p:inputText id="ilosc" value="#{row.ilosc}" label="text" title="ilość" style="text-align:  right; width: 50px;"><p:watermark for="ilosc" value="ilość" /></p:inputText>
                 </p:column>
-                <p:column headerText="#{fakturaView.selected.liczodwartoscibrutto ? 'cena jedn.brutto' : 'cena jedn.netto'}" width="90" style="text-align: center;">
+                <p:column headerText="#{fakturaView.selected.liczodwartoscibrutto ? 'cena jedn.brutto' : 'cena jedn.netto'}" width="140" style="text-align: center;">
                     <p:inputNumber id="cena" value="#{row.cena}" required="true" styleClass="kwotarozrachunku" size="13"
                                     requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" 
                                     thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000"/> 
@@ -98,13 +98,13 @@
         <p:outputPanel id="panelkorekty" style="margin-top: 15px;" rendered="#{fakturaView.fakturakorekta}">
             <p:dataTable id="rzadkorektyn" value="#{fakturaView.selected.pozycjepokorekcie}" 
                          var="row" rowIndexVar="rowStat" 
-                         style="width: 790px;"
+                         style="width: 950px;"
                          >
                 <f:facet name="header">
                     <h:outputText value="po korekcie"/>
                 </f:facet>
-                <p:column headerText="nazwa" width="230">
-                    <p:inputText id="nazwak" value="#{row.nazwa}" style="width: 220px; text-align: left;"
+                <p:column headerText="nazwa" width="330">
+                    <p:inputText id="nazwak" value="#{row.nazwa}" style="width: 320px; text-align: left;"
                                  styleClass="komorkak"  label="text" title="nazwa towaru lub usługi" ><p:watermark for="nazwak" value="nazwa towaru lub usługi" />
                         <p:ajax global="false" event="focus" />
                     </p:inputText>   
@@ -133,8 +133,8 @@
                 <p:column headerText="ilość" width="60" style="text-align: center;">
                     <p:inputText id="ilosck" value="#{row.ilosc}" label="text" title="ilość" style="text-align:  right; width: 50px;"><p:watermark for="ilosck" value="ilość" /></p:inputText>
                 </p:column>
-                <p:column headerText="#{fakturaView.selected.liczodwartoscibrutto ? 'cena jedn.brutto' : 'cena jedn.netto'}" width="90" style="text-align: center;">
-                    <p:inputNumber id="cenak" value="#{row.cena}" required="true" styleClass="kwotarozrachunku" size="13"
+                <p:column headerText="#{fakturaView.selected.liczodwartoscibrutto ? 'cena jedn.brutto' : 'cena jedn.netto'}" width="140" style="text-align: center;">
+                    <p:inputNumber id="cenak" value="#{row.cena}" required="true" styleClass="kwotarozrachunku" size="13" 
                                     requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="."
                                     thousandSeparator="&#160;" inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>

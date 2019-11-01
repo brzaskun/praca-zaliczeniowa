@@ -46,7 +46,7 @@ public class FakturaWeryfikujView implements Serializable {
             }
         }
         List<Faktura> faktury = new ArrayList<>();
-        List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu());
+        List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu());
         for (Faktura fakt : fakturytmp) {
             if (!fakt.isTylkodlaokresowej()) {
                 faktury.add(fakt);

@@ -44,7 +44,7 @@ public class FakturaDAO extends DAO implements Serializable {
         fakturaFacade.create(faktura);
    }
 
-    public List<Faktura> findbyKontrahent_nip(String kontrahent_nip, String podatnik) {
+    public List<Faktura> findbyKontrahent_nip(String kontrahent_nip, Podatnik podatnik) {
          try {
             return fakturaFacade.findByKontrahent_nip(kontrahent_nip, podatnik);
         } catch (Exception e) { E.e(e); 
@@ -52,7 +52,7 @@ public class FakturaDAO extends DAO implements Serializable {
         }
     }
     
-    public List<Faktura> findbyKontrahentNipRok(String kontrahentnip, String podatnik, String rok) {
+    public List<Faktura> findbyKontrahentNipRok(String kontrahentnip, Podatnik podatnik, String rok) {
          try {
             return fakturaFacade.findByKontrahentNipRok(kontrahentnip, podatnik, rok);
         } catch (Exception e) { E.e(e); 
@@ -60,7 +60,7 @@ public class FakturaDAO extends DAO implements Serializable {
         }
     }
     
-    public List<Faktura> findbyKontrahentNipPo2015(String kontrahentnip, String podatnik) {
+    public List<Faktura> findbyKontrahentNipPo2015(String kontrahentnip, Podatnik podatnik) {
          try {
             return fakturaFacade.findByKontrahentNipPo2015(kontrahentnip, podatnik);
         } catch (Exception e) { E.e(e); 
@@ -77,7 +77,7 @@ public class FakturaDAO extends DAO implements Serializable {
     }
     
        
-    public List<Faktura> findFakturyByRokPodatnik(String rok, String wystawcanazwa) {
+    public List<Faktura> findFakturyByRokPodatnik(String rok, Podatnik wystawcanazwa) {
          try {
             return fakturaFacade.findFakturyByRokPodatnik(rok, wystawcanazwa);
         } catch (Exception e) { E.e(e); 
@@ -85,7 +85,7 @@ public class FakturaDAO extends DAO implements Serializable {
         }
     }
     
-    public Long liczFakturyByRokPodatnik(String rok, String wystawcanazwa) {
+    public Long liczFakturyByRokPodatnik(String rok, Podatnik wystawcanazwa) {
          try {
             return fakturaFacade.liczFakturyByRokPodatnik(rok, wystawcanazwa);
         } catch (Exception e) { E.e(e); 
@@ -93,7 +93,7 @@ public class FakturaDAO extends DAO implements Serializable {
         }
     }
     
-    public Faktura findOstatniaFakturaByRokPodatnik(String rok, String wystawcanazwa) {
+    public Faktura findOstatniaFakturaByRokPodatnik(String rok, Podatnik wystawcanazwa) {
          try {
             return fakturaFacade.findOstatniaFakturaByRokPodatnik(rok, wystawcanazwa);
         } catch (Exception e) { E.e(e); 
@@ -101,14 +101,14 @@ public class FakturaDAO extends DAO implements Serializable {
         }
     }
     
-    public List<Faktura> findbyPodatnik(String podatnik) {
+    public List<Faktura> findbyPodatnik(Podatnik podatnik) {
          try {
             return fakturaFacade.findByPodatnik(podatnik);
         } catch (Exception e) { E.e(e); 
             return null;
         }
     }
-    public Faktura findbyNumerPodatnik(String numerkolejny, String podatnik) {
+    public Faktura findbyNumerPodatnik(String numerkolejny, Podatnik podatnik) {
         Faktura zwrot = null;
         try {
             zwrot = fakturaFacade.findByNumerPodatnik(numerkolejny, podatnik);
@@ -116,7 +116,7 @@ public class FakturaDAO extends DAO implements Serializable {
         }
         return zwrot;
     }
-    public Faktura findbyNumerPodatnikDlaOkresowej(String numerkolejny, String podatnik) {
+    public Faktura findbyNumerPodatnikDlaOkresowej(String numerkolejny, Podatnik podatnik) {
         Faktura zwrot = null;
         try {
             zwrot = fakturaFacade.findByNumerPodatnikDlaOkresowej(numerkolejny, podatnik);
@@ -125,7 +125,7 @@ public class FakturaDAO extends DAO implements Serializable {
         return zwrot;
     }
      
-      public List<Faktura> findbyPodatnikRok(String podatnik, String rok) {
+      public List<Faktura> findbyPodatnikRok(Podatnik podatnik, String rok) {
          try {
             return fakturaFacade.findByPodatnikRok(podatnik, rok);
         } catch (Exception e) { E.e(e); 
@@ -133,7 +133,7 @@ public class FakturaDAO extends DAO implements Serializable {
         }
     }
     
-    public List<Faktura> findbyPodatnikRokMc(String podatnik, String rok, String mc) {
+    public List<Faktura> findbyPodatnikRokMc(Podatnik podatnik, String rok, String mc) {
          try {
             return fakturaFacade.findByPodatnikRokMc(podatnik, rok, mc);
         } catch (Exception e) { E.e(e); 
@@ -141,7 +141,7 @@ public class FakturaDAO extends DAO implements Serializable {
         }
     }
     
-    public List<Faktura> findbyPodatnikRokMcPlatnosci(String podatnik, String rok, String mc, boolean niezaplacone0zaplacone1) {
+    public List<Faktura> findbyPodatnikRokMcPlatnosci(Podatnik podatnik, String rok, String mc, boolean niezaplacone0zaplacone1) {
          try {
             return fakturaFacade.findByPodatnikRokMcPlatnosci(podatnik, rok, mc, niezaplacone0zaplacone1);
         } catch (Exception e) { E.e(e); 

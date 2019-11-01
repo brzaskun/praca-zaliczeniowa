@@ -26,6 +26,10 @@
                         <p:inputText id="nazwadlafaktury" value="#{WpisView.podatnikObiekt.nazwadlafaktury}" maxlength="512" style="width: 400px;">
                             
                         </p:inputText>
+                        <h:outputLabel value="alternatywna nazwa firmy umieszczana na fakturach sprzedaży"/>
+                        <p:inputText id="nazwadlafaktury2" value="#{WpisView.podatnikObiekt.nazwadlafaktury2}" maxlength="512" style="width: 400px;" rendered="#{WpisView.podatnikObiekt.nazwadlafaktury ne null}">
+                            
+                        </p:inputText>
                         <h:outputLabel value="adres firmy umieszczana na fakturach sprzedaży"/>
                         <p:inputText id="adresdlafaktury" value="#{WpisView.podatnikObiekt.adresdlafaktury}" maxlength="512" style="width: 400px;">
                             
@@ -44,7 +48,7 @@
                         <h:outputText value="jako separatora elem. składowych należy użyć symbolu /"/>
                     </p:panelGrid>   
                     <p:panelGrid columns="1">
-                        <p:commandButton actionListener="#{fakturaView.edytujdanepodatnika()}" value="edytuj podatnika" update=":akordeon" type="submit"/>
+                        <p:commandButton actionListener="#{fakturaView.edytujdanepodatnika()}" value="edytuj podatnika" update="@form" type="submit"/>
                     </p:panelGrid>
                 </p:outputPanel>
             </h:form>

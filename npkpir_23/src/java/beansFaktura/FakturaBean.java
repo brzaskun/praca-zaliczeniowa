@@ -53,7 +53,7 @@ public class FakturaBean {
     
     public static String uzyjwzorcagenerujnumerFaktura(String wzorzec, WpisView wpisView, FakturaDAO faktDAO) {
         String separator = znajdzseparator(wzorzec);
-        Faktura ostatnidokument = faktDAO.findOstatniaFakturaByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikWpisu());
+        Faktura ostatnidokument = faktDAO.findOstatniaFakturaByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt());
         String mcostatniejfaktury = ostatnidokument.getMc();
         String[] elementypoprzedniafakt = elementydokumentu(ostatnidokument, separator);
         String numerwstepny;
@@ -64,7 +64,7 @@ public class FakturaBean {
             } else {
                 numerwstepny = generowanie(wzorzec, separator, elementypoprzedniafakt, wpisView, 1);
             }
-            istnieje = faktDAO.findbyNumerPodatnik(numerwstepny, wpisView.getPodatnikWpisu());
+            istnieje = faktDAO.findbyNumerPodatnik(numerwstepny, wpisView.getPodatnikObiekt());
             if (istnieje != null) {
                 elementypoprzedniafakt = elementydokumentu(istnieje, separator);
                 mcostatniejfaktury = istnieje.getMc();

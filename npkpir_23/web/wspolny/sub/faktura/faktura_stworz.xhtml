@@ -48,6 +48,23 @@
         <h:form id="formstworz">
             <p:outputPanel id="panelfaktury"  rendered="#{fakturaView.pokazfakture ? true : false}">
                 <div class="ui-grid ui-grid-responsive" style="height: 340px; width: 1100px;">
+                    <p:outputPanel rendered="#{WpisView.podatnikObiekt.sadwienazwydlafaktury()}">
+                    <div class="ui-grid-row" style="height: 40px;">
+                        <div class="ui-grid-col-2">
+                            <h:outputLabel value="nazwa firmy wystawcy" style="color: green;font-weight: bold;"/>
+                            <h:selectOneMenu value="#{fakturaView.selected.wystawcanazwa}" style="width: 200px;" required="true" requiredMessage="Wybierz nazwę wystawcy"
+                                             styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                     onfocus="$(this).removeClass('ui-state-default');
+                                             $(this).addClass('ui-state-focus');"
+                                     onblur="$(this).removeClass('ui-state-focus');
+                                             $(this).addClass('ui-state-default');">
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="#{WpisView.podatnikObiekt.nazwadlafaktury}" itemValue="#{WpisView.podatnikObiekt.nazwadlafaktury}"/>
+                                <f:selectItem itemLabel="#{WpisView.podatnikObiekt.nazwadlafaktury2}" itemValue="#{WpisView.podatnikObiekt.nazwadlafaktury2}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+                    </p:outputPanel>
                     <div class="ui-grid-row" style="height: 40px;">
                         <div class="ui-grid-col-2">
                             <h:outputLabel value="#{fakturaView.fakturakorekta ? 'miejsce wystawienjia korekty:' : 'miejsce wystawienia faktury: '}" />

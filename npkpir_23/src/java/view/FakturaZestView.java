@@ -58,7 +58,7 @@ public class FakturaZestView implements Serializable {
     
     public void init() { //E.m(this);
         fakturyZestawienie = Collections.synchronizedList(new ArrayList<>());
-        fakturyWystawione = fakturaDAO.findFakturyByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikWpisu());
+        fakturyWystawione = fakturaDAO.findFakturyByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt());
         //List<Podatnik> podatnicy = podatnikDAO.findAll();
         Map<String,FakturaZestawienie> odnalezione = new ConcurrentHashMap<>();
         if (fakturyWystawione != null) {

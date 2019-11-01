@@ -779,17 +779,17 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return (Evewidencja) em.createNamedQuery("Evewidencja.findByPole").setParameter("pole", macierzysty).getSingleResult();
     }
 
-    public List<Faktura> findByKontrahent_nip(String kontrahent_nip, String wystawca) {
+    public List<Faktura> findByKontrahent_nip(String kontrahent_nip, Podatnik wystawca) {
         return Collections.synchronizedList(em.createNamedQuery("Faktura.findByKontrahent").setParameter("kontrahent_nip", kontrahent_nip).setParameter("wystawcanazwa", wystawca).getResultList());
     }
 
-    public List<Faktura> findByKontrahentNipRok(String kontrahent_nip, String wystawca, String rok) {
+    public List<Faktura> findByKontrahentNipRok(String kontrahent_nip, Podatnik wystawca, String rok) {
         if (kontrahent_nip.equals("9552379284")) {
         }
         return Collections.synchronizedList(em.createNamedQuery("Faktura.findByKontrahentRok").setParameter("kontrahent_nip", kontrahent_nip).setParameter("wystawcanazwa", wystawca).setParameter("rok", rok).getResultList());
     }
     
-    public List<Faktura> findByKontrahentNipPo2015(String kontrahent_nip, String wystawca) {
+    public List<Faktura> findByKontrahentNipPo2015(String kontrahent_nip, Podatnik wystawca) {
         return Collections.synchronizedList(em.createNamedQuery("Faktura.findByKontrahentRokPo2015").setParameter("kontrahent_nip", kontrahent_nip).setParameter("wystawcanazwa", wystawca).getResultList());
     }
 
@@ -797,15 +797,15 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return Collections.synchronizedList(em.createNamedQuery("Faktura.findByRok").setParameter("rok", rok).getResultList());
     }
 
-    public List<Faktura> findFakturyByRokPodatnik(String rok, String wystawcanazwa) {
+    public List<Faktura> findFakturyByRokPodatnik(String rok, Podatnik wystawcanazwa) {
         return Collections.synchronizedList(em.createNamedQuery("Faktura.findByRokPodatnik").setParameter("rok", rok).setParameter("wystawcanazwa", wystawcanazwa).getResultList());
     }
 
-    public Long liczFakturyByRokPodatnik(String rok, String wystawcanazwa) {
+    public Long liczFakturyByRokPodatnik(String rok, Podatnik wystawcanazwa) {
         return (Long) em.createNamedQuery("Faktura.liczByRokPodatnik").setParameter("rok", rok).setParameter("wystawcanazwa", wystawcanazwa).getSingleResult();
     }
 
-    public Faktura findOstatniaFakturaByRokPodatnik(String rok, String wystawcanazwa) {
+    public Faktura findOstatniaFakturaByRokPodatnik(String rok, Podatnik wystawcanazwa) {
         return (Faktura) em.createNamedQuery("Faktura.findOstatniaFakturaByRokPodatnik").setParameter("rok", rok).setParameter("wystawcanazwa", wystawcanazwa).setMaxResults(1).getSingleResult();
     }
 
@@ -817,27 +817,27 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return (Fakturadodelementy) em.createNamedQuery("Fakturadodelementy.findByNazwaelementuPodatnik").setParameter("podatnik", podatnik).setParameter("nazwaelementu", "mailstopka").getSingleResult();
     }
 
-    public List<Faktura> findByPodatnik(String podatnik) {
+    public List<Faktura> findByPodatnik(Podatnik podatnik) {
         return Collections.synchronizedList(em.createNamedQuery("Faktura.findByWystawcanazwa").setParameter("wystawcanazwa", podatnik).getResultList());
     }
 
-    public Faktura findByNumerPodatnik(String numerkolejny, String podatnik) {
+    public Faktura findByNumerPodatnik(String numerkolejny, Podatnik podatnik) {
         return (Faktura) em.createNamedQuery("Faktura.findByNumerkolejnyWystawcanazwa").setParameter("wystawcanazwa", podatnik).setParameter("numerkolejny", numerkolejny).getSingleResult();
     }
 
-    public Faktura findByNumerPodatnikDlaOkresowej(String numerkolejny, String podatnik) {
+    public Faktura findByNumerPodatnikDlaOkresowej(String numerkolejny, Podatnik podatnik) {
         return (Faktura) em.createNamedQuery("Faktura.findByNumerkolejnyWystawcanazwaDlaOkresowej").setParameter("wystawcanazwa", podatnik).setParameter("numerkolejny", numerkolejny).getSingleResult();
     }
     
-    public List<Faktura> findByPodatnikRok(String podatnik, String rok) {
+    public List<Faktura> findByPodatnikRok(Podatnik podatnik, String rok) {
         return Collections.synchronizedList(em.createNamedQuery("Faktura.findByWystawcanazwaRok").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).getResultList());
     }
 
-    public List<Faktura> findByPodatnikRokMc(String podatnik, String rok, String mc) {
+    public List<Faktura> findByPodatnikRokMc(Podatnik podatnik, String rok, String mc) {
         return Collections.synchronizedList(em.createNamedQuery("Faktura.findByWystawcanazwaRokMc").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList());
     }
 
-    public List<Faktura> findByPodatnikRokMcPlatnosci(String podatnik, String rok, String mc, boolean niezaplacone0zaplacone1) {
+    public List<Faktura> findByPodatnikRokMcPlatnosci(Podatnik podatnik, String rok, String mc, boolean niezaplacone0zaplacone1) {
         if (niezaplacone0zaplacone1 == false) {
             return Collections.synchronizedList(em.createNamedQuery("Faktura.findByWystawcanazwaRokMcNiezaplacone").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList());
         } else {

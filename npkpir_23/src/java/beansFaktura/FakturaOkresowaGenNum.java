@@ -25,7 +25,7 @@ public class FakturaOkresowaGenNum {
 
     public static void wygenerujnumerfaktury(FakturaDAO fakturaDAO, Faktura selected, WpisView wpisView) {
         List<String> numerypobranych = Collections.synchronizedList(new ArrayList<>());
-        List<Faktura> wykazfaktur = fakturaDAO.findbyKontrahentNipRok(selected.getKontrahent().getNip(), wpisView.getPodatnikWpisu(), String.valueOf(wpisView.getRokWpisu()));
+        List<Faktura> wykazfaktur = fakturaDAO.findbyKontrahentNipRok(selected.getKontrahent().getNip(), wpisView.getPodatnikObiekt(), String.valueOf(wpisView.getRokWpisu()));
         if (selected.isProforma()) {
             for (Iterator<Faktura> it = wykazfaktur.iterator(); it.hasNext(); ) {
                 Faktura fa = it.next();
@@ -51,7 +51,7 @@ public class FakturaOkresowaGenNum {
             }
         } catch (Exception er) {
         }
-        Integer istniejafakturyrok = fakturaDAO.liczFakturyByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikWpisu()).intValue();
+        Integer istniejafakturyrok = fakturaDAO.liczFakturyByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt()).intValue();
         if (wpisView.getPodatnikObiekt().getSchematnumeracji() != null && !wpisView.getPodatnikObiekt().getSchematnumeracji().equals("")) {
             if (istniejafakturyrok == 0) {
                 String numer = FakturaBean.uzyjwzorcagenerujpierwszynumerFaktura(wpisView.getPodatnikObiekt().getSchematnumeracji(), wpisView);
@@ -61,7 +61,7 @@ public class FakturaOkresowaGenNum {
             } else {
                 String numer = FakturaBean.uzyjwzorcagenerujnumerFaktura(wpisView.getPodatnikObiekt().getSchematnumeracji(), wpisView, fakturaDAO);
                 selected.setNumerkolejny(numer);
-                Faktura ostatnidokument = fakturaDAO.findOstatniaFakturaByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikWpisu());
+                Faktura ostatnidokument = fakturaDAO.findOstatniaFakturaByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt());
                 selected.setLp(ostatnidokument.getLp() + 1);
                 Msg.msg("i", "Generuje kolejny numer faktury");
             }
@@ -114,7 +114,7 @@ public class FakturaOkresowaGenNum {
 
     private static String sprawdzserie(String nf, String numer, FakturaDAO fakturaDAO, WpisView wpisView, String nazwaskrocona) {
         String nowynumer = numer;
-        List<Faktura> fakturyutworzone = fakturaDAO.findFakturyByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikWpisu());
+        List<Faktura> fakturyutworzone = fakturaDAO.findFakturyByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt());
         boolean oblicznowa = false;
         for (Faktura p : fakturyutworzone) {
             if (p.getNumerkolejny().toLowerCase().equals(numer.toLowerCase())) {

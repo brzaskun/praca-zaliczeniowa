@@ -7,6 +7,7 @@ package beanStatystyka;
 
 import dao.DokDAO;
 import dao.FakturaDAO;
+import dao.PodatnikDAO;
 import entity.Dok;
 import entity.Faktura;
 import entity.Podatnik;
@@ -17,6 +18,7 @@ import java.util.Collections;
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.inject.Inject;
 
 /**
  *
@@ -28,7 +30,11 @@ public class StatystykaBean implements Runnable {
     private Podatnik p;
     private int lp;
     private String rok;
+    @Inject
     private DokDAO dokDAO;
+    @Inject
+    private PodatnikDAO podatnikDAO;
+    @Inject
     private FakturaDAO fakturaDAO;
 
     public StatystykaBean(List<Statystyka> zwrot, Podatnik p, int lp, String rok, DokDAO dokDAO, FakturaDAO fakturaDAO) {
@@ -45,7 +51,8 @@ public class StatystykaBean implements Runnable {
     @Override
     public void run() {
         List<Dok> dokumenty = dokDAO.zwrocBiezacegoKlientaRok(p, rok);
-        List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(p.getNip(), "GRZELCZYK", rok);
+        Podatnik podatnik = podatnikDAO.find("8511005008");
+        List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(p.getNip(), podatnik, rok);
         Statystyka sb = new Statystyka(lp++, p, rok, iloscdok(dokumenty), obroty(dokumenty), iloscfaktur(faktury), kwotafaktur(faktury));
         if (sb.getIloscdokumentow() > 0 && sb.getIloscfaktur() > 0) {
             zwrot.add(sb);

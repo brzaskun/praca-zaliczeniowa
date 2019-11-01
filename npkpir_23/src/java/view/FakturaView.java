@@ -215,7 +215,7 @@ public class FakturaView implements Serializable {
         aktywnytab = 1;
         fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         Collections.sort(fakturyokresowe, new Fakturyokresowecomparator());
-        List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu());
+        List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu());
         for (Faktura fakt : fakturytmp) {
             if (!fakt.isTylkodlaokresowej()) {
                 if (fakt.isProforma()) {
@@ -366,7 +366,7 @@ public class FakturaView implements Serializable {
         selected.setDatawystawienia(pelnadata);
         selected.setDatasprzedazy(pelnadata);
         selected.setNumerkolejny("wpisz numer");
-        selected.setWystawcanazwa(wpisView.getPodatnikWpisu());
+        selected.setWystawcanazwa(null);
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setMiejscewystawienia(FakturaBean.pobierzmiejscewyst(podatnikobiekt));
         selected.setTerminzaplaty(FakturaBean.obliczterminzaplaty(podatnikobiekt, pelnadata));
@@ -690,7 +690,7 @@ public class FakturaView implements Serializable {
                 Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getNumerkolejny());
             } catch (Exception e) {
                 try {
-                    Faktura jestjuzjednausunieta = fakturaDAO.findbyNumerPodatnikDlaOkresowej(p.getNumerkolejny(), p.getWystawcanazwa());
+                    Faktura jestjuzjednausunieta = fakturaDAO.findbyNumerPodatnikDlaOkresowej(p.getNumerkolejny(), p.getWystawca());
                     if (jestjuzjednausunieta != null) {
                         fakturaDAO.destroy(p);
                         faktury.remove(p);
@@ -1419,8 +1419,8 @@ public class FakturaView implements Serializable {
                     }
                 } catch (Exception e) { 
                     E.e(e); 
-                    Faktura nibyduplikat = fakturaDAO.findbyNumerPodatnik(nowa.getNumerkolejny(), nowa.getWystawcanazwa());
-                    Msg.msg("e", "Faktura o takim numerze istnieje juz w bazie danych: data-" + nibyduplikat.getDatawystawienia()+" numer-"+nibyduplikat.getNumerkolejny()+" wystawca-"+nibyduplikat.getWystawcanazwa());
+                    Faktura nibyduplikat = fakturaDAO.findbyNumerPodatnik(nowa.getNumerkolejny(), nowa.getWystawca());
+                    Msg.msg("e", "Faktura o takim numerze istnieje juz w bazie danych: data-" + nibyduplikat.getDatawystawienia()+" numer-"+nibyduplikat.getNumerkolejny()+" wystawca-"+nibyduplikat.getWystawca().getNazwapelna());
                 }
             }
         }

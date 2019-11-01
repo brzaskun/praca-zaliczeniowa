@@ -117,7 +117,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         if (klient != null) {
             List<FakturaRozrachunki> platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahentRok(wpisView, klient);
             //problem jest zeby nie brac wczesniejszych niz 2016 wiec BO sie robi
-            List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(klient.getNip(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             pozycje = stworztabele(platnosci, faktury, nowe0archiwum);
             usuninnemiesiace(wpisView.getRokWpisuSt(), mc, pozycje);
             int i = 1;

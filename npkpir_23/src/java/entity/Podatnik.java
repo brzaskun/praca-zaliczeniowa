@@ -193,6 +193,9 @@ public class Podatnik implements Serializable {
     @Size (max = 512)
     @Column(name = "nazwadlafaktury")
     private String nazwadlafaktury;
+    @Size (max = 512)
+    @Column(name = "nazwadlafaktury2")
+    private String nazwadlafaktury2;
     @Column(name = "adresdlafaktury")
     private String adresdlafaktury;
     @Column(name = "nipdlafaktury")
@@ -325,6 +328,13 @@ public class Podatnik implements Serializable {
         return s.toString();
     }
     
+    public boolean sadwienazwydlafaktury() {
+        boolean zwrot = false;
+        if (nazwadlafaktury2!=null && !nazwadlafaktury2.equals("")) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
     public String getAdres() {
@@ -928,6 +938,14 @@ public class Podatnik implements Serializable {
 
     public void setMiejsceKosztowList(List<MiejsceKosztow> miejsceKosztowList) {
         this.miejsceKosztowList = miejsceKosztowList;
+    }
+
+    public String getNazwadlafaktury2() {
+        return nazwadlafaktury2;
+    }
+
+    public void setNazwadlafaktury2(String nazwadlafaktury2) {
+        this.nazwadlafaktury2 = nazwadlafaktury2;
     }
 
     
