@@ -279,14 +279,11 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     
     public void zestawieniezbiorcze() {
         saldanierozliczone = Collections.synchronizedList(new ArrayList<>());
-        int i = 1;
-        sumasaldnierozliczonych = 0.0;
-        for (Iterator<Klienci> it =  klienci.iterator(); it.hasNext();) {
-            szukanyklient = it.next();
-            if (szukanyklient.getNpelna().equals("\"KONSBUD\" PROJEKTOWANIE I REALIZACJA KONSTRUKCJI BUDOWLANYCH Przemysław Żurowski")) {
-                System.out.println("");
-            }
-            pobierzwszystko(wpisView.getMiesiacWpisu(), szukanyklient);
+        klienci.stream().forEach(p -> {
+//            if (szukanyklient.getNpelna().equals("\"KONSBUD\" PROJEKTOWANIE I REALIZACJA KONSTRUKCJI BUDOWLANYCH Przemysław Żurowski")) {
+//                System.out.println("");
+//            }
+            pobierzwszystko(wpisView.getMiesiacWpisu(), p);
             if (nowepozycje.size() > 0) {
                 FakturaPodatnikRozliczenie r = nowepozycje.get(nowepozycje.size()-1);
                 if (r.getSaldopln() != 0.0) {
@@ -297,17 +294,25 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                             r.setColor("initial");
                         }
                     }
-                    r.setLp(i++);
+                    //r.setLp(i++);
                     if (pokaznadplaty == true) {
                         saldanierozliczone.add(r);
-                        sumasaldnierozliczonych += r.getSaldopln();
+                        
                     } else if (r.getSaldopln() > 0.0) {
                         saldanierozliczone.add(r);
-                        sumasaldnierozliczonych += r.getSaldopln();
                     }
                 }
-            } else {
+            }
+        });
+        sumasaldnierozliczonych = 0.0;
+        int i = 1;
+        for (Iterator<FakturaPodatnikRozliczenie> it =  saldanierozliczone.iterator(); it.hasNext();) {
+            FakturaPodatnikRozliczenie r = it.next();
+            if (r.getSaldopln()==0.0) {
                 it.remove();
+            } else {
+                r.setLp(i++);
+                sumasaldnierozliczonych += r.getSaldopln();
             }
         }
     }
