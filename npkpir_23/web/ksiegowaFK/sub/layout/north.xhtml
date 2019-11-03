@@ -36,9 +36,9 @@
                 <p:menuitem id="menuopis" value="#{WpisView.rokWpisuSt}/#{WpisView.miesiacWpisu}" style="font-weight: 900; font-size: large;">
                 </p:menuitem>
                 <p:menuitem>
-                    <p:commandButton styleClass="languagebutton" value="pl" actionListener="#{localeChanger.polishAction}" type="submit" update="@all"/>
-                    <p:commandButton styleClass="languagebutton" value="en" actionListener="#{localeChanger.englishAction}" type="submit" update="@all"/>
-                    <p:commandButton styleClass="languagebutton" value="de" actionListener="#{localeChanger.deutschAction}" type="submit" update="@all"/>
+                    <p:commandButton styleClass="languagebutton" value="pl" actionListener="#{localeChanger.polishAction}"  update="@(form)"/>
+                    <p:commandButton styleClass="languagebutton" value="en" actionListener="#{localeChanger.englishAction}" update="@(form)"/>
+                    <p:commandButton styleClass="languagebutton" value="de" actionListener="#{localeChanger.deutschAction}" update="@(form)"/>
                 </p:menuitem>
             </p:menubar>
         </h:form>

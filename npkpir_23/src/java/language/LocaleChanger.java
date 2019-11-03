@@ -79,60 +79,60 @@ public class LocaleChanger implements Serializable{
 
     
     //mozna zaaplikowac do zmiany jezyka - piesn przyszlosci
-    public String polishAction(ActionEvent e){
+    public void polishAction(ActionEvent e){
         FacesContext context = FacesContext.getCurrentInstance();
         context.getViewRoot().setLocale(new Locale("pl"));
         this.locale = new Locale("pl");
-        return null;
+        
     }
     
-    public String polishAction(){
+    public void polishAction(){
         FacesContext context = FacesContext.getCurrentInstance();
         context.getViewRoot().setLocale(new Locale("pl"));
         this.locale = new Locale("pl");
-        return null;
+        
     }
     
-    public String englishAction(ActionEvent e){
+    public void englishAction(ActionEvent e){
         FacesContext context = FacesContext.getCurrentInstance();
         context.getViewRoot().setLocale(Locale.ENGLISH);
         this.locale = Locale.ENGLISH;
-        return null;
+        
     }
     
-    public String englishAction(){
+    public void englishAction(){
         FacesContext context = FacesContext.getCurrentInstance();
         context.getViewRoot().setLocale(Locale.ENGLISH);
         this.locale = Locale.ENGLISH;
-        return null;
+        
     }
    
-     public String czechAction(ActionEvent e){
+     public void czechAction(ActionEvent e){
         FacesContext context = FacesContext.getCurrentInstance();
         context.getViewRoot().setLocale(new Locale("cs"));
         this.locale = new Locale("cs");
-        return null;
+        
     }
     
-    public String czechAction(){
+    public void czechAction(){
         FacesContext context = FacesContext.getCurrentInstance();
         context.getViewRoot().setLocale(new Locale("cs"));
         this.locale = new Locale("cs");
-        return null;
+        
     }
     
-    public String deutschAction(ActionEvent e){
+    public void deutschAction(ActionEvent e){
         FacesContext context = FacesContext.getCurrentInstance();
         context.getViewRoot().setLocale(Locale.GERMAN);
         this.locale = Locale.GERMAN;
-        return null;
+        
     }
     
-     public String deutschAction(){
+     public void deutschAction(){
         FacesContext context = FacesContext.getCurrentInstance();
         context.getViewRoot().setLocale(Locale.GERMAN);
         this.locale = Locale.GERMAN;
-        return null;
+        
     }
      
      
