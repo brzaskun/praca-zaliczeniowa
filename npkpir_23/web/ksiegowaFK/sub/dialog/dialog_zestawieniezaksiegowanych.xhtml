@@ -37,8 +37,8 @@
         };
         /* ]]> */
     </script>
-    <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zestawieniezaksiegowanych" 
-              maximizable="true"  
+    <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zestawieniezaksiegowanych" style="overflow-y: hidden;"
+              
               resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1500, 580);doczeplistnerydopol();" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
@@ -175,7 +175,7 @@
                          style="width: 1460px; height: 450px; overflow-y: scroll;" filteredValue="#{dokfkView.filteredValue}" 
                          rowsPerPageTemplate="50,100,300,500" paginatorPosition="top"
                          emptyMessage="Brak zaksięgowanych dokumentów" styleClass="walkingtable" rowSelectMode="add"
-                         rows="200" paginator="true"
+                         rows="50" paginator="true"
                          >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
                 <p:ajax event="filter" global="false"/>

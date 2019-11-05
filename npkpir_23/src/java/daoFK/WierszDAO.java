@@ -53,4 +53,14 @@ public class WierszDAO extends DAO implements Serializable {
         return zwrot;
     }
     
+    public List<Wiersz> pobierzWierszeMcDokImport(Podatnik podatnik, String rok) {
+        List<Wiersz> zwrot = null;
+        try {
+            zwrot = sessionFacade.getEntityManager().createNamedQuery("Wiersz.findByPodatnikRokMcImport").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return zwrot;
+    }
+    
 }

@@ -34,9 +34,13 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -122,6 +126,8 @@ public class InterpaperBankImportView implements Serializable {
     private Konto konto213;
     private String datakontrol;
     private List<Wiersz> wierszezmiesiaca;
+    private List<Wiersz> wierszezmiesiacapop;
+    private Map<String,Konto> wierszezmiesiacapopset;
  //typ transakcji
         //1 wpływ faktura 201,203
         //2 zapłata faktura 202,204
@@ -160,6 +166,11 @@ public class InterpaperBankImportView implements Serializable {
         przelewGmina = kontoDAO.findKonto("205", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         przelewBankBank = kontoDAO.findKonto("149-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         konto213 = kontoDAO.findKonto("213", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        String[] poprzedniOkres = Data.poprzedniOkres(wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+        wierszezmiesiacapop = wierszDAO.pobierzWierszeMcDokImport(wpisView.getPodatnikObiekt(), poprzedniOkres[1]);
+        wierszezmiesiacapopset = new HashMap<>();
+        naniespary(wierszezmiesiacapopset,wierszezmiesiacapop);
+        System.out.println("");
     }
     
     
@@ -435,7 +446,7 @@ public class InterpaperBankImportView implements Serializable {
             if (p.isJuzzaksiegowany()==false) {
                 wyciagdatado = p.getDatatransakcji();
                 Konto kontown = p.getWnma().equals("Wn") ? rodzajdok.getKontorozrachunkowe() : ustawkonto(p);
-                Konto kontoma = p.getWnma().equals("Ma") ? rodzajdok.getKontorozrachunkowe() :ustawkonto(p);
+                Konto kontoma = p.getWnma().equals("Ma") ? rodzajdok.getKontorozrachunkowe() : ustawkonto(p);
                 nd.getListawierszy().add(przygotujwierszNetto(lpwiersza, nd, p, kontown, kontoma));
                 lpwiersza++;
                 it.remove();
@@ -477,7 +488,7 @@ public class InterpaperBankImportView implements Serializable {
                 zwrot = konto213;
                 break;
             case 2:
-                zwrot = konto213;
+                zwrot = ustawkontoroz(p);
                 break;
             case 3:
                 zwrot = prowizja;
@@ -502,7 +513,15 @@ public class InterpaperBankImportView implements Serializable {
                 break;
         }
         return zwrot;
-    }    
+    }
+    
+    private Konto ustawkontoroz(ImportBankXML p) {
+        Konto k = konto213;
+        if (p.getIBAN()!=null && wierszezmiesiacapopset.containsKey(p.getIBAN())) {
+            k = wierszezmiesiacapopset.get(p.getIBAN());
+        }
+        return k;
+    }
         
     private void uzupelnijwiersz(Wiersz w, Dokfk nd, ImportBankXML importBankXML) {
         if (importBankXML.getWaluta().equals("PLN")) {
@@ -830,6 +849,19 @@ public static void main(String[] args) throws SAXException, IOException {
             Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    private void naniespary(Map<String, Konto> wierszezmiesiacapopset, List<Wiersz> wierszezmiesiacapop) {
+        for (Iterator<Wiersz> it = wierszezmiesiacapop.iterator(); it.hasNext();) {
+            Wiersz p = it.next();
+            if (p.getIban()!=null && (p.getKontoWn().getPelnynumer().startsWith("2")||p.getKontoMa().getPelnynumer().startsWith("2"))) {
+                Konto k = p.getKontoWn().getPelnynumer().startsWith("2") ? p.getKontoWn() : p.getKontoMa();
+                wierszezmiesiacapopset.put(p.getIban(), k);
+                it.remove();
+            }
+        }
+    }
+
+    
 
    
 
