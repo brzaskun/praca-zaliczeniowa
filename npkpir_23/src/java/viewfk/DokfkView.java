@@ -615,7 +615,7 @@ public class DokfkView implements Serializable {
     
     public void podepnijEwidencjeVatDok(int rodzaj) {
         if (zapisz0edytuj1 == false) {
-            if (selected.getRodzajedok().getKategoriadokumentu() != 1 && selected.getRodzajedok().getKategoriadokumentu() != 2) {
+            if (selected.getRodzajedok().getKategoriadokumentu() != 0 && selected.getRodzajedok().getKategoriadokumentu() != 1 && selected.getRodzajedok().getKategoriadokumentu() != 2) {
                 selected.setEwidencjaVAT(null);
                 nietrzebapodczepiac = true;
             } else {
@@ -648,7 +648,7 @@ public class DokfkView implements Serializable {
         Rodzajedok old = (Rodzajedok) ex.getOldValue();
         Rodzajedok newy = (Rodzajedok) ex.getNewValue();
         selected.setRodzajedok(newy);
-        if (!wpisView.isVatowiec() || (selected.getRodzajedok().getKategoriadokumentu()!=1 && selected.getRodzajedok().getKategoriadokumentu()!=2)) {
+        if (!wpisView.isVatowiec() || (selected.getRodzajedok().getKategoriadokumentu()!=0 && selected.getRodzajedok().getKategoriadokumentu()!=1 && selected.getRodzajedok().getKategoriadokumentu()!=2)) {
             selected.setEwidencjaVAT(null);
         } else if (old.equals(newy)) {
             nietrzebapodczepiac = true;
@@ -701,6 +701,8 @@ public class DokfkView implements Serializable {
                     }
                     //niepotrzebne renderuje 15 razy
                     //PrimeFaces.current().ajax().update("formwpisdokument:panelzewidencjavat");
+            } else if (selected.getRodzajedok().getKategoriadokumentu()==0) {
+                this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
             } else {
                 this.selected.setEwidencjaVAT(null);
             }
