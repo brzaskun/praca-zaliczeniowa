@@ -47,9 +47,9 @@
                         <h:outputText value="#{loop.nazwapelna}" /> 
                     </p:column>
                     <p:column  width="300">
-                        <p:selectOneMenu value="#{loop.kontokategoria}" converter="KontokategoriaConv" style="width: 600px;">
+                        <p:selectOneMenu value="#{loop.kontokategoria}" converter="KontokategoriaConv" style="width: 600px;" >
                             <f:selectItem itemLabel="wybierz kategorie" />
-                            <f:selectItems value="#{kontokategoriaView.lista}" itemLabel="#{item.opispelny}" itemValue="#{item}" var="item"/>
+                            <f:selectItems value="#{kontokategoriaView.lista}" itemLabel="#{item.opispelny}" itemValue="#{item}" var="item" />
                         </p:selectOneMenu>
                     </p:column>
                     <p:column  style="width: 20px; text-align: center;">
