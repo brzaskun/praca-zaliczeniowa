@@ -70,12 +70,12 @@
             <p:column headerText="księgowa" sortBy="#{item.ksiegowa.login}" filterBy="#{item.ksiegowa.login}"  rendered="#{!podatnikKsiegowaView.edycja}">
                  <h:outputText value="#{item.ksiegowa.login}"/>
             </p:column>
-            <p:column headerText="księgowa" rendered="#{podatnikKsiegowaView.edycja}">
+            <p:column headerText="księgowa" rendered="#{podatnikKsiegowaView.edycja}" >
                 <p:selectOneMenu value="#{item.ksiegowa}" style="width: 100px;" converter="#{uzConv}">
                     <f:selectItems value="#{podatnikKsiegowaView.listaksiegowychwybor}" var="loop" itemLabel="#{loop.login}" itemValue="#{loop}"/>
                 </p:selectOneMenu>
             </p:column>
-            <p:column headerText="cena" width="100">
+            <p:column headerText="cena" width="100" rendered="#{facesContext.externalContext.remoteUser eq '2'}">
                 <bcf:outputpl value="#{item.cena}"/>
             </p:column>
         </p:dataTable>
