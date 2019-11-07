@@ -15,8 +15,11 @@ import error.E;
 import format.F;
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import pdffk.PdfMain;
@@ -55,22 +58,37 @@ public class PdfDok extends Pdf implements Serializable {
             dodajTabele(document, testobjects.testobjects.getListaDok(lista),100,modyfikator);
             double netto = 0.0;
             double vat = 0.0;
-            double nettowal = 0.0;
-            double vatwal = 0.0;
+            Set<String> waluty = new HashSet<>();
             for (Dok p : lista) {
+                String sw = p.getSymbolWaluty();
+                if (!sw.equals("PLN")) {
+                    waluty.add(sw);
+                }
                 netto = netto+p.getNetto();
                 vat = vat+p.getVat();
-                nettowal = nettowal+p.getNettoWaluta();
-                vatwal = vatwal+p.getVatWalutaCSV();
+            }
+            Map<String,Sumawwalucie> lisatwal = new HashMap<>();
+            for (String r : waluty) {
+                lisatwal.put(r, new Sumawwalucie(r));
+                for (Dok p : lista) {
+                    String sw = p.getSymbolWaluty();
+                    if (sw.equals(r)) {
+                       lisatwal.get(r).netto = Z.z(lisatwal.get(r).netto+p.getNettoWaluta());
+                        lisatwal.get(r).vat = Z.z(lisatwal.get(r).vat+p.getVatWalutaCSV());
+                        lisatwal.get(r).brutto = Z.z(lisatwal.get(r).netto+p.getNettoWaluta()+lisatwal.get(r).vat+p.getVatWalutaCSV());
+                    }
+                }
             }
             double brutto = Z.z(netto+vat);
-            double bruttowal = Z.z(nettowal+vatwal);
             String opis = "Razem wartość wybranych dokumentów";
             PdfMain.dodajLinieOpisu(document, opis);
             opis = "netto: "+F.curr(netto)+" vat: "+F.curr(vat)+" brutto: "+F.curr(brutto);
-            PdfMain.dodajLinieOpisu(document, opis);
-            opis = "netto waluta: "+F.curr(nettowal,"EUR")+" vat waluta: "+F.curr(vatwal,"EUR")+" brutto: "+F.curr(brutto,"EUR");
-            PdfMain.dodajLinieOpisu(document, opis);
+            for (String x : lisatwal.keySet()) {
+                Sumawwalucie xx = lisatwal.get(x);
+                PdfMain.dodajLinieOpisu(document, opis);
+                opis = "netto waluta: "+F.curr(xx.netto,x)+" vat waluta: "+F.curr(xx.vat,x)+" brutto: "+F.curr(xx.brutto,x);
+                PdfMain.dodajLinieOpisu(document, opis);
+            }
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
             PrimeFaces.current().executeScript(f);
@@ -79,6 +97,52 @@ public class PdfDok extends Pdf implements Serializable {
         } finally {
             finalizacjaDokumentuQR(document,nazwa);
         }
+    }
+    
+    static class Sumawwalucie {
+        String wal;
+        double netto;
+        double vat;
+        double brutto;
+
+        private Sumawwalucie(String r) {
+            this.wal = r;
+        }
+
+//<editor-fold defaultstate="collapsed" desc="comment">
+        public String getWal() {
+            return wal;
+        }
+        
+        public void setWal(String wal) {
+            this.wal = wal;
+        }
+        
+        public double getNetto() {
+            return netto;
+        }
+        
+        public void setNetto(double netto) {
+            this.netto = netto;
+        }
+        
+        public double getVat() {
+            return vat;
+        }
+        
+        public void setVat(double vat) {
+            this.vat = vat;
+        }
+        
+        public double getBrutto() {
+            return brutto;
+        }
+        
+        public void setBrutto(double brutto) {
+            this.brutto = brutto;
+        }
+//</editor-fold>
+        
     }
     
     public static void drukujDokGuest(List<Dok> lista, WpisView wpisView, int modyfikator, String cecha) {
