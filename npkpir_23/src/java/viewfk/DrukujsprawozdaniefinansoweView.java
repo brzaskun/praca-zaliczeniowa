@@ -55,14 +55,37 @@ public class DrukujsprawozdaniefinansoweView  implements Serializable {
     
     
     public void drukuj() {
+        String etap = "start";
+        String etap2 = "start";
         try {
             pozycjaBRView.init();
+            etap = "udało się zainicjować pozycje";
+            etap2 = "nie udało się zainicjować pozycje zestawienie";
+            Msg.msg(etap);
             pozycjaBRZestawienieView.init();
+            etap = "udało się zainicjować pozycje zestawienie";
+            etap2 = "nie udało się zrobić analitykę kont";
+            Msg.msg(etap);
             saldoAnalitykaView.init();
+            etap = "udało się zrobić analitykę kont";
+            etap2 = "nie udało się zrobić syntetykę kont";
+            Msg.msg(etap);
             saldoSyntetykaView.init();
+            etap = "udało się zrobić syntetykę kont";
+            etap2 = "nie udało się zainicjować plan kont";
+            Msg.msg(etap);
             planKontView.init();
+            etap = "udało się zainicjować plan kont";
+            etap2 = "nie pobrano etap rok bieżący";
+            Msg.msg(etap);
             PodatnikOpodatkowanieD rokbiezacy = podatnikOpodatkowanieDAO.findOpodatkowaniePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            etap = "pobrano opodatkowanie rok bieżący";
+            etap2 = "nie pobrano opodatkowania rok uprzedni";
+            Msg.msg(etap);
             PodatnikOpodatkowanieD rokuprzedni = podatnikOpodatkowanieDAO.findOpodatkowaniePodatnikRok(wpisView. getPodatnikObiekt(), wpisView.getRokUprzedniSt());
+            etap = "pobrano opodatkowanie rok uprzedni";
+            etap2 = "nie udane generowanie bilansu";
+            Msg.msg(etap);
             if (rokuprzedni==null || rokbiezacy.getDolaczonydoroku()==null || rokbiezacy.getDolaczonydoroku().equals("")) {
                 pozycjaBRView.obliczBilansOtwarciaBilansDataWybierz();
                 pozycjaBRZestawienieView.obliczRZiSOtwarciaRZiSData();
@@ -80,6 +103,9 @@ public class DrukujsprawozdaniefinansoweView  implements Serializable {
                         pozycjaBRZestawienieView.drukujRZiS();
                     }
             }
+            etap = "wygenerowano bilanse";
+            etap2 = "nie udane wydruki";
+            Msg.msg(etap);
             saldoAnalitykaView.odswiezsaldoanalityczne();
             List<SaldoKonto> saldokontolist = saldoAnalitykaView.getListaSaldoKonto();
             Collections.sort(saldokontolist, new SaldoKontocomparator());
@@ -99,6 +125,7 @@ public class DrukujsprawozdaniefinansoweView  implements Serializable {
             Msg.msg("Wydrukowano sprawozdanie finansowe");
         } catch (Exception e) {
             Msg.msg("e","Wystąpił błąd podczas drukowania sprawozdanie finansowego "+E.e(e));
+            Msg.msg("e",etap2);
         }
     }
 
