@@ -25,10 +25,10 @@
     <p:outputPanel style="padding: 10px;">
         <p:panelGrid columns="2">
             <p:commandButton value="przeliczaj" actionListener="#{podatnikKsiegowaView.init()}" update="@form" style="width: 120px;"/>
-            <p:commandButton value="zachowaj" actionListener="#{podatnikKsiegowaView.zachowaj}" update="@form" style="margin-left: 50px;width: 120px;"/>
+            <p:commandButton value="zachowaj" actionListener="#{podatnikKsiegowaView.zachowaj}" update="@form" style="margin-left: 50px;width: 120px;" rendered="#{facesContext.externalContext.remoteUser eq '2'}"/>
         </p:panelGrid>
     </p:outputPanel>
-    <p:outputPanel style="padding: 10px;">
+    <p:outputPanel style="padding: 10px;" rendered="#{facesContext.externalContext.remoteUser eq '2'}">
         <p:dataTable value="#{podatnikKsiegowaView.listaksiegowych}" var="it" style="width: 900px" rowIndexVar="indx">
             <p:column  width="30">
                 <h:outputText value="#{indx+1}"/>
@@ -59,7 +59,7 @@
     </p:outputPanel>
     <p:outputPanel>
         <p:commandButton value="zapisz podatnicy" style="width: 200px; margin: 10px;" actionListener="#{podatnikKsiegowaView.zapisz}"/>
-        <p:dataTable value="#{podatnikKsiegowaView.listapodatnikow}" var="item" style="width: 800px;" rowIndexVar="index" rowStyleClass="#{item.ksiegowa.login.startsWith('wda') ? 'rwioletta' : item.ksiegowa.login.startsWith('go') ? 'rmalgosia' : 'rrenata'}">
+        <p:dataTable value="#{podatnikKsiegowaView.listapodatnikow}" var="item" style="width: 800px;" rowIndexVar="index" rowStyleClass="#{item.ksiegowa.login.startsWith('mar') ? 'rmarta' : item.ksiegowa.login.startsWith('wda') ? 'rwioletta' : item.ksiegowa.login.startsWith('go') ? 'rmalgosia' : 'rrenata'}">
             <p:ajax event="filter" global="false"/>
             <p:column headerText="podatnik" width="30">
                 <h:outputText value="#{index+1}"/>

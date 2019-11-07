@@ -398,7 +398,7 @@ public class Fakturywystokresowe implements Serializable {
 
     @Override
     public String toString() {
-        return "Fakturywystokresowe{" + "id=" + id + ", podatnik=" + podatnik + ", rok=" + rok + ", nipodbiorcy=" + nipodbiorcy + ", brutto=" + brutto + '}';
+        return "Fakturywystokresowe{" + "id=" + id + ", kontr=" + dokument.getKontrahent().getNskrocona() + ", rok=" + rok + ", nipodbiorcy=" + nipodbiorcy + ", brutto=" + brutto + '}';
     }
 
    
