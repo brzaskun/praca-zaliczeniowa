@@ -105,7 +105,7 @@
                     <f:selectItem itemLabel="sprzed.op.izw." itemValue="sprzed.op.izw."/>
                 </h:selectOneMenu>
                 <p:selectBooleanCheckbox label="Paliwo" value="#{dokfkView.ewidencjaVatRK.paliwo}"/>
-                <p:selectBooleanCheckbox label="Koszty 75%" value="#{dokfkView.ewidencjaVatRK.koszty75}"/>
+                <p:selectBooleanCheckbox label="Koszty 75%" value="#{dokfkView.ewidencjaVatRK.koszty75}" />
             </p:panelGrid>
             <p:commandButton value="Zapisz" style="margin-left: 30%; margin-top: 15px; width: 120px;" actionListener="#{dokfkView.dolaczWierszZKwotamiRK}" 
                              oncomplete="odtworzwierszVATRK(#{dokfkView.lpWierszaWpisywanie});PF('dialogewidencjavatRK').hide();" global="false" rendered="#{!dokfkView.ewidencjaVATRKzapis0edycja1}"/>

@@ -361,7 +361,7 @@ public class ObslugaWiersza {
     }
         
     
-    public static Wiersz WierszFaktory(Dokfk selected, int typwiersza, double roznica, int lpmacierzystego) {
+    public static Wiersz WierszFaktory(Dokfk selected, int typwiersza, double kwota, int lpmacierzystego) {
         int liczbawierszyWDokumencie = 0;
         try {
             liczbawierszyWDokumencie = selected.getListawierszy().size()+1;
@@ -372,15 +372,15 @@ public class ObslugaWiersza {
             case 0:
                 return utworzNowyWiersz(selected, liczbawierszyWDokumencie);
             case 1:
-                return utworzNowyWierszWn(selected, liczbawierszyWDokumencie, roznica, lpmacierzystego);
+                return utworzNowyWierszWn(selected, liczbawierszyWDokumencie, kwota, lpmacierzystego);
             case 2:
-                return utworzNowyWierszMa(selected, liczbawierszyWDokumencie, roznica, lpmacierzystego);
+                return utworzNowyWierszMa(selected, liczbawierszyWDokumencie, kwota, lpmacierzystego);
             case 5:
-                return utworzNowyWiersz5(selected, liczbawierszyWDokumencie, roznica, lpmacierzystego);
+                return utworzNowyWiersz5(selected, liczbawierszyWDokumencie, kwota, lpmacierzystego);
             case 6:
-                return utworzNowyWierszWn5(selected, liczbawierszyWDokumencie, roznica, lpmacierzystego);
+                return utworzNowyWierszWn5(selected, liczbawierszyWDokumencie, kwota, lpmacierzystego);
             case 7:
-                return utworzNowyWierszMa5(selected, liczbawierszyWDokumencie, roznica, lpmacierzystego);
+                return utworzNowyWierszMa5(selected, liczbawierszyWDokumencie, kwota, lpmacierzystego);
             default:
                 return utworzNowyWiersz(selected, liczbawierszyWDokumencie);
         }
@@ -518,9 +518,9 @@ public class ObslugaWiersza {
         }
     }
      
-    public static Wiersz wygenerujiDodajWierszRK(Dokfk selected, int wierszbiezacyIndex, boolean przenumeruj, double roznica, int typwiersza) {
+    public static Wiersz wygenerujiDodajWierszRK(Dokfk selected, int wierszbiezacyIndex, boolean przenumeruj, double kwota, int typwiersza) {
         int lpmacierzystego = znajdzmacierzysty(selected.getListawierszy(), wierszbiezacyIndex);
-        Wiersz wiersz = WierszFaktory(selected, typwiersza, roznica, lpmacierzystego);
+        Wiersz wiersz = WierszFaktory(selected, typwiersza, kwota, lpmacierzystego);
         if (wierszbiezacyIndex == selected.getListawierszy().size()-1) {
             selected.getListawierszy().add(wiersz);
         } else {

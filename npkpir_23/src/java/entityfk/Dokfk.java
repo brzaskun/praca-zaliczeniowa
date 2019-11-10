@@ -856,7 +856,9 @@ public class Dokfk extends DokSuper implements Serializable {
         Wiersz zwrot = null;
         int index = this.listawierszy.indexOf(wiersz);
         try {
-            zwrot = this.listawierszy.get(index + 1);
+            if (index!=-1) {
+                zwrot = this.listawierszy.get(index + 1);
+            }
         } catch (Exception e) {
         }
         if (wiersz==zwrot) {

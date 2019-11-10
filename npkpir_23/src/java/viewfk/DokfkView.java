@@ -11,8 +11,6 @@ import beansFK.DokFKTransakcjeBean;
 import beansFK.DokFKVATBean;
 import static beansFK.DokFKVATBean.pobierzKontoRozrachunkowe;
 import static beansFK.DokFKVATBean.podsumujwartosciVAT;
-import static beansFK.DokFKVATBean.podsumujwartosciVATRK;
-import static beansFK.DokFKVATBean.rozliczEdytujVatKosztRK;
 import static beansFK.DokFKVATBean.rozliczEdytujVatPrzychodRK;
 import static beansFK.DokFKVATBean.rozliczVatKoszt;
 import static beansFK.DokFKVATBean.rozliczVatKosztEdycja;
@@ -837,29 +835,31 @@ public class DokfkView implements Serializable {
     }
 
     public void dolaczWierszZKwotamiRK() {
-        if (!selected.getEwidencjaVAT().contains(ewidencjaVatRK)) {
-            selected.getEwidencjaVAT().add(ewidencjaVatRK);
+        try {
+            if (!selected.getEwidencjaVAT().contains(ewidencjaVatRK)) {
+                selected.getEwidencjaVAT().add(ewidencjaVatRK);
+            }
+            String dzien = ewidencjaVatRK.getDatadokumentu().split("-")[2];
+            wierszRK.setDataWalutyWiersza(dzien);
+            List<Wiersz> dodanewiersze = null;
+            Konto kontorozrach = pobierzkontorozrach();
+            if (ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
+                dodanewiersze = rozliczVatKosztRK(ewidencjaVatRK, selected, wpisView, wierszRKindex, kontadlaewidencji, nkup, kontorozrach);
+            } else if (!ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
+                dodanewiersze = rozliczVatPrzychodRK(ewidencjaVatRK, selected, wpisView, wierszRKindex, kontoDAOfk, kontadlaewidencji);
+            }
+            for (Wiersz p : dodanewiersze) {
+                przepiszWaluty(p);
+            }
+            String update = "formwpisdokument:dataList";
+            PrimeFaces.current().ajax().update(update);
+            ewidencjaVatRK = new EVatwpisFK();
+            selected.przeliczKwotyWierszaDoSumyDokumentu();
+            PrimeFaces.current().ajax().update("formwpisdokument:panelwpisbutton");
+            Msg.msg("Zachowano zapis w ewidencji VAT");
+        } catch (Exception e) {
+             Msg.msg("e", "Brak zdefiniowanych kont dla dokumentu. Błąd generowania wierszy");
         }
-        String dzien = ewidencjaVatRK.getDatadokumentu().split("-")[2];
-        wierszRK.setDataWalutyWiersza(dzien);
-        EVatwpisFK evatwpis = ewidencjaVatRK;
-        Wiersz w = evatwpis.getWiersz();
-        double[] wartosciVAT = podsumujwartosciVATRK(ewidencjaVatRK);
-        List<Wiersz> dodanewiersze = null;
-        if (ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-            dodanewiersze = rozliczVatKosztRK(evatwpis, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk, kontadlaewidencji, nkup);
-        } else if (!ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-            dodanewiersze = rozliczVatPrzychodRK(evatwpis, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk, kontadlaewidencji);
-        }
-        for (Wiersz p : dodanewiersze) {
-            przepiszWaluty(p);
-        }
-        String update = "formwpisdokument:dataList";
-        PrimeFaces.current().ajax().update(update);
-        ewidencjaVatRK = new EVatwpisFK();
-        selected.przeliczKwotyWierszaDoSumyDokumentu();
-        PrimeFaces.current().ajax().update("formwpisdokument:panelwpisbutton");
-        Msg.msg("Zachowano zapis w ewidencji VAT");
     }
 
     public void edytujWierszZKwotamiRK() {
@@ -871,12 +871,12 @@ public class DokfkView implements Serializable {
             wierszRK.setDataWalutyWiersza(dzien);
             EVatwpisFK e = ewidencjaVatRK;
             Wiersz w = e.getWiersz();
-            double[] wartosciVAT = podsumujwartosciVATRK(ewidencjaVatRK);
             List<Wiersz> dodanewiersze = null;
+            Konto kontorozrach = pobierzkontorozrach();
             if (ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-                dodanewiersze = rozliczEdytujVatKosztRK(e, wartosciVAT, selected, wierszRKindex, kontadlaewidencji, nkup);
+               dodanewiersze = rozliczVatKosztRK(ewidencjaVatRK, selected, wpisView, wierszRKindex, kontadlaewidencji, nkup, kontorozrach);
             } else if (!ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-                dodanewiersze = rozliczEdytujVatPrzychodRK(e, wartosciVAT, selected, wierszRKindex);
+                dodanewiersze = rozliczEdytujVatPrzychodRK(e, selected, wierszRKindex);
             }
             for (Wiersz p : dodanewiersze) {
                 przepiszWaluty(p);
@@ -887,6 +887,20 @@ public class DokfkView implements Serializable {
             ewidencjaVatRK = new EVatwpisFK();
             Msg.msg("Zachowano zapis w ewidencji VAT");
         }
+    }
+    
+    public Konto pobierzkontorozrach() {
+        Konto kontorozrach = null;
+        if (selected.getRodzajedok().getSkrotNazwyDok().equals("DEL")) {
+        try {
+                kontorozrach = kontoDAOfk.findKontoNazwaPelnaPodatnik(selected.getNumerwlasnydokfk(), wpisView);
+            } catch (Exception e) {
+
+            }
+        } else {
+             kontorozrach = selected.getRodzajedok().getKontorozrachunkowe();
+        }
+        return kontorozrach;
     }
 
     public void updatenetto(EVatwpisFK evatwpis, String form) {
