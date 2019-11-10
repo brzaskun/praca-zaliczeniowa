@@ -843,8 +843,9 @@ public class DokfkView implements Serializable {
             wierszRK.setDataWalutyWiersza(dzien);
             List<Wiersz> dodanewiersze = null;
             Konto kontorozrach = pobierzkontorozrach();
+            Konto kontonetto = pobierzkontonetto();
             if (ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-                dodanewiersze = rozliczVatKosztRK(ewidencjaVatRK, selected, wpisView, wierszRKindex, kontadlaewidencji, nkup, kontorozrach);
+                dodanewiersze = rozliczVatKosztRK(ewidencjaVatRK, selected, wpisView, wierszRKindex, kontadlaewidencji, nkup, kontorozrach, kontonetto);
             } else if (!ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
                 dodanewiersze = rozliczVatPrzychodRK(ewidencjaVatRK, selected, wpisView, wierszRKindex, kontoDAOfk, kontadlaewidencji);
             }
@@ -858,7 +859,8 @@ public class DokfkView implements Serializable {
             PrimeFaces.current().ajax().update("formwpisdokument:panelwpisbutton");
             Msg.msg("Zachowano zapis w ewidencji VAT");
         } catch (Exception e) {
-             Msg.msg("e", "Brak zdefiniowanych kont dla dokumentu. Błąd generowania wierszy");
+            E.e(e);
+            Msg.msg("e", "Brak zdefiniowanych kont dla dokumentu. Błąd generowania wierszy");
         }
     }
 
@@ -873,8 +875,9 @@ public class DokfkView implements Serializable {
             Wiersz w = e.getWiersz();
             List<Wiersz> dodanewiersze = null;
             Konto kontorozrach = pobierzkontorozrach();
+            Konto kontonetto = pobierzkontonetto();
             if (ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-               dodanewiersze = rozliczVatKosztRK(ewidencjaVatRK, selected, wpisView, wierszRKindex, kontadlaewidencji, nkup, kontorozrach);
+               dodanewiersze = rozliczVatKosztRK(ewidencjaVatRK, selected, wpisView, wierszRKindex, kontadlaewidencji, nkup, kontorozrach, kontonetto);
             } else if (!ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
                 dodanewiersze = rozliczEdytujVatPrzychodRK(e, selected, wierszRKindex);
             }
@@ -901,6 +904,14 @@ public class DokfkView implements Serializable {
              kontorozrach = selected.getRodzajedok().getKontorozrachunkowe();
         }
         return kontorozrach;
+    }
+    
+    public Konto pobierzkontonetto() { 
+        Konto kontonetto = null;
+        if (selected.getRodzajedok() != null) {
+            kontonetto = selected.getRodzajedok().getKontoRZiS();
+        }
+        return kontonetto;
     }
 
     public void updatenetto(EVatwpisFK evatwpis, String form) {
