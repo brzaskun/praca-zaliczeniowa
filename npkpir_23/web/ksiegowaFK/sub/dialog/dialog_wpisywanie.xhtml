@@ -244,7 +244,7 @@
                                         <f:selectItems value="#{rodzajeDokKlientaView.rodzajedokKlienta}"  var="wploop" itemLabel="#{wploop.skrotNazwyDok} - #{wploop.nazwa}"/>
                                         <p:ajax global="false" event="blur" listener="#{dokfkView.wygenerujnumerkolejny}" update="formwpisdokument:numer formwpisdokument:numerwlasny formwpisdokument:przypkontotxt formwpisdokument:przypkonto" partialSubmit="true"/>
 <!--                                        <p:ajax global="false" event="change" listener="#{dokfkView.podepnijEwidencjeVatDok(0)}" update=":formwpisdokument:panelzewidencjavat"/>-->
-                                        <p:ajax global="false" event="blur" listener="#{dokfkView.podepnijEwidencjeVatDokBlur(0)}" update=":formwpisdokument:panelzewidencjavat"/>
+                                        <p:ajax global="false" event="blur" listener="#{dokfkView.podepnijEwidencjeVatDok(0)}" update=":formwpisdokument:panelzewidencjavat"/>
                                         <p:ajax global="false" event="change" listener="#{dokfkView.przygotujDokumentWpisywanie()}" 
                                                 update=":formwpisdokument:panelwalutowy :formwpisdokument:panelzkwotamidok :formwpisdokument:dataList"/>
                                     </h:selectOneMenu>

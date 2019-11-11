@@ -623,24 +623,26 @@ public class DokfkView implements Serializable {
         }
     }
     
-    public void podepnijEwidencjeVatDokBlur(int rodzaj) {
-        if (nietrzebapodczepiac==false) {
-            if (zapisz0edytuj1 == false && selected.getEwidencjaVAT() != null 
-                    && selected.isDwarejestry() && czyrozjechalysiemce() && 
-                    (selected.getRodzajedok().getSkrot().equals("WNT") && selected.getEwidencjaVAT().size() != 2 ||
-                    selected.getRodzajedok().getSkrot().equals("RVC") && selected.getEwidencjaVAT().size() != 2 ||
-                    selected.getRodzajedok().getSkrot().equals("IU") && selected.getEwidencjaVAT().size() != 4)) {
-                podepnijEwidencjeVat(rodzaj);
-            }
-            if (zapisz0edytuj1 == false && selected.getEwidencjaVAT() != null 
-                    && selected.isDwarejestry() && !czyrozjechalysiemce() && 
-                    (selected.getRodzajedok().getSkrot().equals("WNT") && selected.getEwidencjaVAT().size() == 2 ||
-                    selected.getRodzajedok().getSkrot().equals("RVC") && selected.getEwidencjaVAT().size() == 2 ||
-                    selected.getRodzajedok().getSkrot().equals("IU") && selected.getEwidencjaVAT().size() == 4)) {
-                podepnijEwidencjeVat(rodzaj);
-            }
-            }
-    }
+//    public void podepnijEwidencjeVatDokBlur(int rodzaj) {
+//        if (nietrzebapodczepiac==false) {
+//            if (zapisz0edytuj1 == false && selected.getEwidencjaVAT() != null 
+//                    && selected.isDwarejestry() && czyrozjechalysiemce() && 
+//                    (selected.getRodzajedok().getSkrot().equals("WNT") && selected.getEwidencjaVAT().size() != 2 ||
+//                    selected.getRodzajedok().getSkrot().equals("RVC") && selected.getEwidencjaVAT().size() != 2 ||
+//                    selected.getRodzajedok().getSkrot().equals("IU") && selected.getEwidencjaVAT().size() != 4)) {
+//                podepnijEwidencjeVat(rodzaj);
+//                nietrzebapodczepiac = true;
+//            }
+//            if (zapisz0edytuj1 == false && selected.getEwidencjaVAT() != null 
+//                    && selected.isDwarejestry() && !czyrozjechalysiemce() && 
+//                    (selected.getRodzajedok().getSkrot().equals("WNT") && selected.getEwidencjaVAT().size() == 2 ||
+//                    selected.getRodzajedok().getSkrot().equals("RVC") && selected.getEwidencjaVAT().size() == 2 ||
+//                    selected.getRodzajedok().getSkrot().equals("IU") && selected.getEwidencjaVAT().size() == 4)) {
+//                podepnijEwidencjeVat(rodzaj);
+//                nietrzebapodczepiac = true;
+//            }
+//            }
+//    }
     
     public void ewidencjazmianadok(ValueChangeEvent ex) {
         Rodzajedok old = (Rodzajedok) ex.getOldValue();
@@ -653,7 +655,7 @@ public class DokfkView implements Serializable {
             nietrzebapodczepiac = true;
         } else {
             nietrzebapodczepiac = false;
-            podepnijEwidencjeVatDok(0);
+            //podepnijEwidencjeVatDok(0);
         }
         }
     
