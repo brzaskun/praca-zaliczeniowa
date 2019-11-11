@@ -646,6 +646,7 @@ public class DokfkView implements Serializable {
         Rodzajedok old = (Rodzajedok) ex.getOldValue();
         Rodzajedok newy = (Rodzajedok) ex.getNewValue();
         selected.setRodzajedok(newy);
+        selected.setSeriadokfk(newy.getSkrotNazwyDok());
         if (!wpisView.isVatowiec() || (selected.getRodzajedok().getKategoriadokumentu()!=0 && selected.getRodzajedok().getKategoriadokumentu()!=1 && selected.getRodzajedok().getKategoriadokumentu()!=2)) {
             selected.setEwidencjaVAT(null);
         } else if (old.equals(newy)) {
@@ -673,7 +674,7 @@ public class DokfkView implements Serializable {
                         symbolWalutyNettoVat = " " + selected.getTabelanbp().getWaluta().getSkrotsymbolu();
                     }
                     Evewidencja ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");;
-                    List<Evewidencja> opisewidencji = pobierzewidencje();
+                    List<Evewidencja> opisewidencji = pobierzewidencje(selected.getRodzajedok());
                     if (selected.getRodzajedok().getRodzajtransakcji().equals("sprzedaz")&&listaewidencjipodatnika!=null && listaewidencjipodatnika.size()>0){
                         opisewidencji = reorganizujewidencje(opisewidencji, listaewidencjipodatnika);
                     }
@@ -752,17 +753,17 @@ public class DokfkView implements Serializable {
         return zwrot;
     }
     
-    private List<Evewidencja> pobierzewidencje() {
+    private List<Evewidencja> pobierzewidencje(Rodzajedok rodzajedok) {
         List<Evewidencja> l = Collections.synchronizedList(new ArrayList<>());
-        l.addAll(listaEwidencjiVat.pobierzEvewidencje(selected.getRodzajedok().getRodzajtransakcji()));
-        if (selected.getSeriadokfk().equals("UPTK")) {
+        l.addAll(listaEwidencjiVat.pobierzEvewidencje(rodzajedok.getRodzajtransakcji()));
+        if (rodzajedok.getSkrotNazwyDok().equals("UPTK")) {
             for (Iterator<Evewidencja> it = l.iterator();it.hasNext();) {
                 Evewidencja p = it.next();
                 if (p.getNazwa().equals("usługi świad. poza ter.kraju art. 100 ust.1 pkt 4")) {
                     it.remove();
                 }
             }
-        } else if (selected.getSeriadokfk().equals("UPTK100")) {
+        } else if (rodzajedok.getSkrotNazwyDok().equals("UPTK100")) {
             for (Iterator<Evewidencja> it = l.iterator();it.hasNext();) {
                 Evewidencja p = it.next();
                 if (p.getNazwa().equals("usługi świad. poza ter.kraju")) {
