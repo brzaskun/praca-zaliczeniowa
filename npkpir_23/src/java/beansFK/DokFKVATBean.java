@@ -691,7 +691,7 @@ public class DokFKVATBean {
             if (ewidencjaVatRK.isPaliwo()) {
                 zrob50(wiersze, ewidencjaVatRK, kontorozrach, wierszRKindex, kontadlaewidencji.get("221-3"), kontadlaewidencji.get("404-2"), kontonetto, sumyrk);;
             } else if (ewidencjaVatRK.isKoszty75()) {
-                zrob75(wiersze, ewidencjaVatRK, kontorozrach, wierszRKindex, kontadlaewidencji.get("221-3"), kontadlaewidencji.get("404-2"), kontonetto, sumyrk);;
+                zrob75(wiersze, ewidencjaVatRK, kontorozrach, wierszRKindex, kontadlaewidencji.get("221-3"), kontadlaewidencji.get("404-2"), kontonetto, sumyrk, nkup);;
             } else {
                 zrob100(wiersze, ewidencjaVatRK, kontorozrach, wierszRKindex, kontadlaewidencji.get("221-3"), kontonetto, sumyrk);
             }
@@ -703,7 +703,7 @@ public class DokFKVATBean {
             edit50(wiersze, ewidencjaVatRK, kontorozrach, kontadlaewidencji.get("221-3"), kontadlaewidencji.get("404-2"), kontonetto, sumyrk);;
         }
         if (rozmiar==5) {
-            edit75(wiersze, ewidencjaVatRK, kontorozrach, kontadlaewidencji.get("221-3"), kontadlaewidencji.get("404-2"), kontonetto, sumyrk);;
+            edit75(wiersze, ewidencjaVatRK, kontorozrach, kontadlaewidencji.get("221-3"), kontadlaewidencji.get("404-2"), kontonetto, sumyrk, nkup);;
         }
         sprawdzsumyobciecie(wiersze);
         return wiersze;
@@ -781,7 +781,7 @@ public class DokFKVATBean {
         }
     }
     
-    private static void zrob75(List<Wiersz> wiersze, EVatwpisFK ewidencjaVatRK, Konto kontorozrach, int wierszRKindex, Konto kontovat, Konto kontovatnkup, Konto kontonetto, SumyRK sumyrk) {
+    private static void zrob75(List<Wiersz> wiersze, EVatwpisFK ewidencjaVatRK, Konto kontorozrach, int wierszRKindex, Konto kontovat, Konto kontovatnkup, Konto kontonetto, SumyRK sumyrk,  Cechazapisu nkup) {
         redukujewidencje(ewidencjaVatRK, sumyrk);
         zrobpierwszywiersz(wiersze.get(0), ewidencjaVatRK, kontorozrach, kontonetto, sumyrk.getNetto75(), sumyrk.getBrutto());
         if (ewidencjaVatRK.getVat() != 0.0) {
@@ -796,15 +796,17 @@ public class DokFKVATBean {
             Wiersz wierszczwarty = ObslugaWiersza.wygenerujiDodajWierszRK(wiersze.get(0).getDokfk(), wierszRKindex, true, sumyrk.getNetto25nkup(), 1);
             opis = wiersze.get(0).getOpisWiersza() + " - netto nkup";
             zrobkolejnywiersz(wiersze, wierszczwarty, kontonetto, sumyrk.getNetto25nkup(), opis);
+            wierszczwarty.getStronaWn().getCechazapisuLista().add(nkup);
             wiersze.add(wierszczwarty);
             Wiersz wierszpiaty = ObslugaWiersza.wygenerujiDodajWierszRK(wiersze.get(0).getDokfk(), wierszRKindex, true, sumyrk.getVat25nkup(), 1);
             opis = wiersze.get(0).getOpisWiersza() + " - pod. vat nie podl.odlicz. nkup";
             zrobkolejnywiersz(wiersze, wierszpiaty, kontovatnkup, sumyrk.getNetto25nkup(), opis);
+            wierszpiaty.getStronaWn().getCechazapisuLista().add(nkup);
             wiersze.add(wierszpiaty);
         }
     }
     
-    private static void edit75(List<Wiersz> wiersze, EVatwpisFK ewidencjaVatRK, Konto kontorozrach, Konto kontovat, Konto kontovatnkup, Konto kontonetto, SumyRK sumyrk) {
+    private static void edit75(List<Wiersz> wiersze, EVatwpisFK ewidencjaVatRK, Konto kontorozrach, Konto kontovat, Konto kontovatnkup, Konto kontonetto, SumyRK sumyrk,  Cechazapisu nkup) {
         redukujewidencje(ewidencjaVatRK, sumyrk);
         zrobpierwszywiersz(wiersze.get(0), ewidencjaVatRK, kontorozrach, kontonetto, sumyrk.getNetto75(), sumyrk.getBrutto());
         if (ewidencjaVatRK.getVat() != 0.0) {
@@ -817,9 +819,11 @@ public class DokFKVATBean {
             Wiersz wierszczwarty = wiersze.get(3);
             opis = wiersze.get(0).getOpisWiersza() + " - netto nkup";
             zrobkolejnywiersz(wiersze, wierszczwarty, kontonetto, sumyrk.getNetto25nkup(), opis);
+            wierszczwarty.getStronaWn().getCechazapisuLista().add(nkup);
             Wiersz wierszpiaty = wiersze.get(4);
             opis = wiersze.get(0).getOpisWiersza() + " - pod. vat nie podl.odlicz. nkup";
             zrobkolejnywiersz(wiersze, wierszpiaty, kontovatnkup, sumyrk.getNetto25nkup(), opis);
+            wierszpiaty.getStronaWn().getCechazapisuLista().add(nkup);
         }
     }
 
