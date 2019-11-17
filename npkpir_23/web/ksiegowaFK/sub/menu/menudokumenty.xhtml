@@ -30,8 +30,11 @@
         <p:tab title="dokumenty">
             <h:form id="dialog1menu2">
                 <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                    <p:menuitem value="wpisywanie" rendered="#{!WpisView.rokzamkniety}"
+                    <p:menuitem value="wpisywanie" rendered="#{!WpisView.rokzamkniety and planKontCompleteView.listakontOstatniaAnalitykaklienta.size() gt 0}"
                                 oncomplete="PF('wpisywanie').show();"  global="false"></p:menuitem>
+                    <p:menuitem value="brak planu kont - nie można księgować" rendered="#{!WpisView.rokzamkniety and planKontCompleteView.listakontOstatniaAnalitykaklienta.size() eq 0}"
+                                oncomplete="alert('Wygeneruj najpierw plan kont!')" style="color: red;" global="false"
+                                ></p:menuitem>
                     <p:menuitem value="przeglądanie zakięgowanych" oncomplete="PF('zestawieniezaksiegowanych').show();" 
                                 ></p:menuitem>
                     <p:menuitem value="zapisy na koncie" onclick="PF('zapisynakoncie').show();" 

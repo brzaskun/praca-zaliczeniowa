@@ -1390,22 +1390,7 @@ public class DokfkView implements Serializable {
         }
     }
 
-    public void znajdzduplicatdokumentuKontrahent() {
-        wlaczZapiszButon = true;
-        if (zapisz0edytuj1 == false && selected.getKontr() != null && !selected.getKontr().getNpelna().equals("nowy kontrahent")) {
-            Dokfk dokument = null;
-            try {
-                dokument = dokDAOfk.findDokfkObjKontrahent(selected);
-            } catch (Exception e) {
-                E.e(e);
-            }
-            if (dokument != null) {
-                wlaczZapiszButon = false;
-            } else {
-                wlaczZapiszButon = true;
-            }
-        }
-    }
+    
 
     public void pobierzopiszpoprzedniegodok() {
         Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt(), ostatniedokumenty);
@@ -1447,7 +1432,29 @@ public class DokfkView implements Serializable {
         return zwrot;
     }
     
+    public void obrobKontrahenta() {
+        znajdzduplicatdokumentuKontrahent();
+        if (wlaczZapiszButon) {
+            pobierzopiszpoprzedniegodokItemSelect();
+        }
+    }
     
+    public void znajdzduplicatdokumentuKontrahent() {
+        wlaczZapiszButon = true;
+        if (zapisz0edytuj1 == false && selected.getKontr() != null && !selected.getKontr().getNpelna().equals("nowy kontrahent")) {
+            Dokfk dokument = null;
+            try {
+                dokument = dokDAOfk.findDokfkObjKontrahent(selected);
+            } catch (Exception e) {
+                E.e(e);
+            }
+            if (dokument != null) {
+                wlaczZapiszButon = false;
+            } else {
+                wlaczZapiszButon = true;
+            }
+        }
+    }
     public void pobierzopiszpoprzedniegodokItemSelect() {
         try {
             if (selected.getKontr().getNpelna().equals("dodaj klienta automatycznie")) {

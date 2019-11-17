@@ -5,6 +5,7 @@
 package viewfk;
 
 import beansFK.PlanKontFKKopiujBean;
+import beansFK.PozycjaRZiSFKBean;
 import comparator.UkladBRNamecomparator;
 import comparator.UkladBRcomparator;
 import daoFK.KontoDAOfk;
@@ -170,6 +171,8 @@ public class UkladBRView implements Serializable {
             pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie("r");
             pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie("b");
             planKontView.porzadkowanieKontPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            PozycjaRZiSFKBean.zmianaukladu("bilansowe", ukladBR, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            PozycjaRZiSFKBean.zmianaukladu("wynikowe", ukladBR, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             Msg.msg("i", "Skopiowano przyporządkowanie kont z układu wzorcowego");
         } catch (Exception e) {
             Msg.msg("e", "Nieudana próba dodania implementacji układu wzorcowego. " + e.getMessage());
@@ -186,6 +189,9 @@ public class UkladBRView implements Serializable {
             ukladBRDAO.dodaj(ukladBR);
             PlanKontFKKopiujBean.implementujRZiS(pozycjaRZiSDAO, wybranyukladwzorcowy, podatnik.getNazwapelna(), rok, wybranyukladwzorcowy.getUklad());
             PlanKontFKKopiujBean.implementujBilans(pozycjaBilansDAO, wybranyukladwzorcowy, podatnik.getNazwapelna(), rok, wybranyukladwzorcowy.getUklad());
+            planKontView.porzadkowanieKontPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            PozycjaRZiSFKBean.zmianaukladu("bilansowe", ukladBR, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            PozycjaRZiSFKBean.zmianaukladu("wynikowe", ukladBR, ukladBRDAO, pozycjaRZiSDAO, kontopozycjaZapisDAO, kontoDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             Msg.msg("i", "Zaimplementowano układ wzorcowy jako nowy układ podatnika");
         } catch (Exception e) {
             Msg.msg("e", "Nieudana próba dodania implementacji układu wzorcowego. " + e.getMessage());
