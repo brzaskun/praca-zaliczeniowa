@@ -27,7 +27,11 @@
         };
         /* ]]> */
     </script>
-
+    <style>
+        .menuzapisy {
+            width: 250px !important;
+        }
+    </style>
     <p:dialog id="zapisy" header="Zapisy na pojedynczym koncie firma - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zapisynakoncie" appendTo="@(body)"
               resizable="false" onShow="ustawdialog('zapisy','menudokumenty',1650,780);doczeplistnerydopol();$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
               onHide="resetujdialog('zapisy');"  closeOnEscape="true" minimizable="true" dynamic="true"
@@ -89,8 +93,11 @@
                                 <p:menuitem global="false" value="druk poziomy" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncie}" action="#{sesjaView.dodajwydruk()}"   icon="fa fa-print" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"/>  
                                 <p:menuitem global="false" value="druk poziomy duży" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncieDuzy}" action="#{sesjaView.dodajwydruk()}"   icon="fa fa-print" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"/>  
                             </p:splitButton>
+                            <p:selectBooleanCheckbox value="#{kontoZapisFKView.kolumnaopis}" itemLabel="pokaż opis" label="pokaż opis"  style="width: 120px;margin-left: 200px;" >
+                                <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}" partialSubmit="true" global="false"  update=":tabelazzapisami :tabelazsumami" />
+                            </p:selectBooleanCheckbox>
                             <p:commandButton value="nierozliczone" icon="fa fa-money" actionListener="#{kontoZapisFKView.usunPozycjeRozliczone}" 
-                                             style="width: 120px; margin-left: 60px;"
+                                             style="width: 120px; margin-left: 20px;"
                                              update="tabelazzapisami, :tabelazsumami:sumy" />
                             <p:commandButton value="wszystkie" icon="fa fa-file-text" actionListener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode(kontoZapisFKView.wybranekonto)}" 
                                              style="width: 120px; margin-left: 5px;"
@@ -231,19 +238,21 @@
                             <h:outputText value="#{loop.wiersz.dokfk.datadokumentu.substring(5,10)}"/>
                         </p:column>
                         <p:column headerText="dok." width="50" style="font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.wiersz.dokfk.seriadokfk}" filterBy="#{loop.dokfkS}" filterMatchMode="contains">
-                            <h:outputText value="#{loop.dokfkS}-#{loop.wiersz.idporzadkowy}"/>
+                            <h:outputText value="#{loop.dokfkS}-#{loop.wiersz.idporzadkowy}" rendered="#{kontoZapisFKView.pokaztransakcje eq false}"/>
+                            <h:outputText value="#{loop.dokfkS}-#{loop.wiersz.idporzadkowy}" rendered="#{kontoZapisFKView.pokaztransakcje eq true}" 
+                                          style="#{loop.dokfkS.startsWith('WB') or loop.dokfkS.startsWith('RK') ? 'color: blue': 'color: initial'}"/>
                         </p:column>
                         <p:column headerText="nr wl" width="70" styleClass="filter60"  style="text-align: center; font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.dokfk.numerwlasnydokfk}"
                                   filterBy="#{loop.dokfk.numerwlasnydokfk}" filterMatchMode="contains">
-                            <h:outputText value="#{loop.dokfk.numerwlasnydokfk}"/>
+                            <h:outputText value="#{loop.dokfk.numerwlasnydokfk}" />
                         </p:column>
                         <p:column headerText="#{mgs.kontrahent}" width="100" sortBy="##{loop.getKontrahetZapisy(WpisView.podatnikObiekt.nip)}" 
                                   rendered="#{!kontoZapisFKView.wybranekonto.pelnynumer.startsWith('20')}">
                             <h:outputText value="#{loop.getKontrahetZapisy(WpisView.podatnikObiekt.nip)}" />
                         </p:column>
-                        <p:column headerText="#{mgs.opis}" width="150" sortBy="#{loop.wiersz.opisWiersza}" filterBy="#{loop.wiersz.opisWiersza}" filterMatchMode="contains"
+                        <p:column headerText="#{mgs.opis}" width="150" sortBy="#{loop.wiersz.opisWiersza}" filterBy="#{loop.wiersz.opisWiersza}" filterMatchMode="contains" rendered="#{kontoZapisFKView.kolumnaopis}"
                                   style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;">
-                            <h:outputText value="#{loop.wiersz.opisWiersza}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
+                            <h:outputText value="#{loop.wiersz.opisWiersza}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;" />
                         </p:column>
                         <p:column headerText="kurs" width="30" sortBy="#{loop.getKursWalutyBOSW()}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN' and kontoZapisFKView.nierenderujkolumnnywalut eq false}">
                             <h:outputText id="kurswierszazapisy" value="#{loop.getKursWalutyBOSW()}" rendered="#{loop.getKursWalutyBOSW() > 1.0}" style="float: right;">
@@ -307,7 +316,7 @@
                                                 </p:column>-->
                     </p:dataTable>
                     
-                    <p:contextMenu for="tabela" style="width: 200px;"  rendered="#{!WpisView.rokzamkniety}">
+                    <p:contextMenu for="tabela" style="width: 200px;"  rendered="#{!WpisView.rokzamkniety}" class="menuzapisy">
                         <p:menuitem value="edytuj dok" global="false" icon="fa fa-edit" 
                                     update="formwpisdokument zestawieniezapisownakontachpola1 wpisywaniefooter"
                                     actionListener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(kontoZapisFKView.wybranezapisydosumowania.get(0))}"

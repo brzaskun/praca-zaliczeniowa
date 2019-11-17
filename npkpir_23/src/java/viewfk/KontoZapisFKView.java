@@ -108,6 +108,7 @@ public class KontoZapisFKView implements Serializable{
     private boolean pokaztransakcje;
     private List<Konto> ostatniaanalityka;
     private String rokdopobrania;
+    private boolean kolumnaopis;
 
     
 
@@ -131,6 +132,7 @@ public class KontoZapisFKView implements Serializable{
 //        pobierzzapisy(wpisView.getRokWpisuSt());
         usunkontabezsald();
         wybierzgrupekont();
+        kolumnaopis = true;
 //        if (wykazkont != null) {
 //            wybranekonto = wykazkont.get(0);
 //        }
@@ -144,6 +146,7 @@ public class KontoZapisFKView implements Serializable{
             usunkontabezsald();
         }
         wybierzgrupekont();
+        kolumnaopis = true;
     }
     
     private void wybierzgrupekont() {
@@ -1840,6 +1843,14 @@ public class KontoZapisFKView implements Serializable{
 
     public void setRokdopobrania(String rokdopobrania) {
         this.rokdopobrania = rokdopobrania;
+    }
+
+    public boolean isKolumnaopis() {
+        return kolumnaopis;
+    }
+
+    public void setKolumnaopis(boolean kolumnaopis) {
+        this.kolumnaopis = kolumnaopis;
     }
     
     
