@@ -83,9 +83,9 @@ public class PdfDok extends Pdf implements Serializable {
             String opis = "Razem wartość wybranych dokumentów";
             PdfMain.dodajLinieOpisu(document, opis);
             opis = "netto: "+F.curr(netto)+" vat: "+F.curr(vat)+" brutto: "+F.curr(brutto);
+            PdfMain.dodajLinieOpisu(document, opis);
             for (String x : lisatwal.keySet()) {
                 Sumawwalucie xx = lisatwal.get(x);
-                PdfMain.dodajLinieOpisu(document, opis);
                 opis = "netto waluta: "+F.curr(xx.netto,x)+" vat waluta: "+F.curr(xx.vat,x)+" brutto: "+F.curr(xx.brutto,x);
                 PdfMain.dodajLinieOpisu(document, opis);
             }
