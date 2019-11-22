@@ -244,7 +244,13 @@ public class FakturaEbay {
     }
 
     public String getGesamtpreis() {
-        return Gesamtpreis;
+        String zwrot = this.Gesamtpreis;
+        if (zwrot!=null) {
+            zwrot = zwrot.replace("EUR ", "");
+            zwrot = zwrot.replace(",", ".");
+            zwrot = zwrot.replace("\"","");
+        }
+        return zwrot;
     }
 
     public void setGesamtpreis(String Gesamtpreis) {
@@ -341,9 +347,11 @@ public class FakturaEbay {
     }
     
     public double getBrutto() {
-        return Double.parseDouble(this.Gesamtpreis);
+        return Double.parseDouble(getGesamtpreis());
     }
-
+    
+        
+        
     public String getNIP() {
         return NIP;
     }
@@ -354,6 +362,10 @@ public class FakturaEbay {
     
     public double getStawka() {
         String zwrot = this.InklusiveMehrwertsteuersatz.replace("%", "");
+        if (zwrot.contains("EUR")) {
+            System.out.println("");
+            zwrot = "0.9";
+        }
         return Double.parseDouble(zwrot);
     }
     
