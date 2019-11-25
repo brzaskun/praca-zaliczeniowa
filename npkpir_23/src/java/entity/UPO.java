@@ -257,8 +257,11 @@ public class UPO  implements Serializable {
     }
     
     public String getTimestampData() {
-        String zwrot = timestamp.substring(0,16);
-        zwrot = zwrot.replace("T", " ");
+        String zwrot = timestamp;
+        if (zwrot!=null) {
+            zwrot = timestamp.substring(0,16);
+            zwrot = zwrot.replace("T", " ");
+        }
         return zwrot;
     }
 
