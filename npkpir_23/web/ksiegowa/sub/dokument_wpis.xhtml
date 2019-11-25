@@ -201,7 +201,7 @@
                     <p:column>
                         <p:autoComplete id="opis" value="#{DokumentView.selDokument.opis}" completeMethod="#{Opis.complete}"
                                         var="p" itemLabel="#{p}" itemValue="#{p}"  title="wpisz opis faktury"
-                                        minQueryLength="2" maxResults="10" maxlength="40"
+                                        minQueryLength="2" maxResults="10" maxlength="40" required="true" requiredMessage="brak opisu dokumentu"
                                         effect="clip" autocomplete="true"  queryDelay="0" style="width: 200px;">
                             <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
                         </p:autoComplete>
