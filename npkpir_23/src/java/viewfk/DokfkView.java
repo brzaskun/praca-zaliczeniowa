@@ -2804,12 +2804,14 @@ public class DokfkView implements Serializable {
     }
 
     public void wygenerujnumerkolejny() {
-        String nowynumer = DokFKBean.wygenerujnumerkolejny(selected, wpisView, dokDAOfk, klientdlaPK, wierszBODAO);
-        if (zapisz0edytuj1 == false && nowynumer!=null && !nowynumer.equals("") && selected.getNumerwlasnydokfk() == null) {
-            selected.setNumerwlasnydokfk(nowynumer);
-            PrimeFaces.current().ajax().update("formwpisdokument:numerwlasny");
+        if (zapisz0edytuj1 == false) {
+            String nowynumer = DokFKBean.wygenerujnumerkolejny(selected, wpisView, dokDAOfk, klientdlaPK, wierszBODAO);
+            if (nowynumer != null && !nowynumer.equals("") && selected.getNumerwlasnydokfk() == null) {
+                selected.setNumerwlasnydokfk(nowynumer);
+                PrimeFaces.current().ajax().update("formwpisdokument:numerwlasny");
+            }
         }
-    if (selected.getRodzajedok()!=null && (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5)) {
+        if (selected.getRodzajedok() != null && (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5)) {
             pobierzopiszpoprzedniegodok();
         }
     }
