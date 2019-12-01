@@ -25,11 +25,9 @@
                     <p:spinner id="spinnerBasic" value="#{podatnikView.selected.platnoscwdni}" max="365" min="0" size="3" />  
                     <h:outputLabel value="nazwa firmy umieszczana na fakturach sprzedaży"/>
                     <h:inputText id="nazwadlafaktury" value="#{podatnikView.selected.nazwadlafaktury}" maxlength="512" style="width: 400px;">
-                        <f:validateLength minimum="10"/>
                     </h:inputText>
                     <h:outputLabel value="adres firmy umieszczana na fakturach sprzedaży"/>
                     <h:inputText id="adresdlafaktury" value="#{podatnikView.selected.adresdlafaktury}" maxlength="512" style="width: 400px;">
-                        <f:validateLength minimum="10"/>
                     </h:inputText>
                 </p:panelGrid>   
                 <p:panelGrid columns="1">

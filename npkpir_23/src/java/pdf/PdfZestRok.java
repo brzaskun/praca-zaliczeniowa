@@ -74,11 +74,12 @@ public class PdfZestRok{
         //tu sie ustawia szerokosci kolumn
         table.setWidths(new int[]{1, 4, 4, 4, 4, 4, 3, 2, 3, 3, 3, 3, 3, 3, 4});
         PdfPCell cell = new PdfPCell();
-        table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 4, 0));
+        table.addCell(ustawfraze("NIP firmy: "+wpisView.getPodatnikObiekt().getNip(), 4, 0));
         table.addCell(ustawfraze(B.b("wydrukpkpir"), 4, 0));
-        if (wpisView.getPodatnikObiekt().getNazwadlafaktury() != null && !wpisView.getPodatnikObiekt().getNazwadlafaktury().equals("")) {
-            table.addCell(ustawfraze(wpisView.getPodatnikObiekt().getNazwadlafaktury(), 4, 0));
-        } else if (wpisView.getPodatnikObiekt().getPrintnazwa()!=null) {
+//        if (wpisView.getPodatnikObiekt().getNazwadlafaktury() != null && !wpisView.getPodatnikObiekt().getNazwadlafaktury().equals("")) {
+//            table.addCell(ustawfraze(wpisView.getPodatnikObiekt().getNazwadlafaktury(), 4, 0));
+//        } else 
+        if (wpisView.getPodatnikObiekt().getPrintnazwa()!=null) {
             table.addCell(ustawfraze(wpisView.getPodatnikObiekt().getPrintnazwa(), 4, 0));
         } else {
             table.addCell(ustawfraze(wpisView.getPodatnikWpisu(), 4, 0));
