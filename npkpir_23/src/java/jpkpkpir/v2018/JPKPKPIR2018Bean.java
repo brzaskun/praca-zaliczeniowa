@@ -151,17 +151,18 @@ public class JPKPKPIR2018Bean {
 
     static Map<String, Object> zrobwierszeinfo(List<DokKsiega> wierszeksiegi, WpisView wpisView) {
         Map<String, Object> infolista = new HashMap<>();
-        infolista.put("p1", spisznaturynapoczatek(wpisView));
-        infolista.put("p2", spisznaturynakoniec(wpisView));
+        infolista.put("p1", spisznaturyna(wpisView,1));
+        infolista.put("p2", spisznaturyna(wpisView,12));
         infolista.put("p3", kosztyuzyskanianar(wierszeksiegi));
         infolista.put("p4", dochodnar(wierszeksiegi));
         return infolista;
     }
 
-    private static BigDecimal spisznaturynapoczatek(WpisView wpisView) {
+    private static BigDecimal spisznaturyna(WpisView wpisView, int mc) {
         BigDecimal zwrot = BigDecimal.ZERO;
-        String wartosc = ParametrView.zwrocParametr(wpisView.getPodatnikObiekt().getRemanent(), wpisView.getRokWpisu(), 1);
-        if (!wartosc.equals("blad")) {
+        String wartosc = ParametrView.zwrocParametr(wpisView.getPodatnikObiekt().getRemanent(), wpisView.getRokWpisu(), mc);
+        if (wartosc!=null && !wartosc.equals("blad")) {
+            wartosc = wartosc.replace(",", ".");
             zwrot = new BigDecimal(wartosc);
         } else {
             zwrot = null;
@@ -169,17 +170,7 @@ public class JPKPKPIR2018Bean {
         return zwrot;
     }
 
-    private static BigDecimal spisznaturynakoniec(WpisView wpisView) {
-        BigDecimal zwrot = BigDecimal.ZERO;
-        String wartosc = ParametrView.zwrocParametr(wpisView.getPodatnikObiekt().getRemanent(), wpisView.getRokWpisu(), 12);
-        if (!wartosc.equals("blad")) {
-            zwrot = new BigDecimal(wartosc);
-        } else {
-            zwrot = null;
-        }
-        return zwrot;
-    }
-
+  
     private static BigDecimal kosztyuzyskanianar(List<DokKsiega> wierszeksiegi) {
         BigDecimal zwrot = BigDecimal.ZERO;
         DokKsiega ostatnialinijka = wierszeksiegi.get(wierszeksiegi.size()-1);

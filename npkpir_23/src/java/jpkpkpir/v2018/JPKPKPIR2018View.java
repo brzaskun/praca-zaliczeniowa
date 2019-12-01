@@ -67,7 +67,10 @@ public class JPKPKPIR2018View implements Serializable {
                     Msg.msg("Wygenerowano JPK_PKPIR");
                 }
             } catch (Exception e) {
-                Msg.msg("e","Wystąpił błąd. Nie wygenerowano jpkpkpir");
+                String wiad = "Wystąpił błąd. Nie wygenerowano jpkpkpir ";
+                Msg.msg("e",wiad);
+                wiad = "Sprawdź czy wprowadzono remanent pocztąkowy";
+                Msg.msg("e",wiad);
             }
         }
         return jpk;
