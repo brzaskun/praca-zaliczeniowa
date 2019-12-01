@@ -23,7 +23,7 @@
                 </h:form>-->
 
         <h:form id="zestawieniedokumentowimport">
-            <p:panelGrid columns="6" style="margin-left: 2%;" >
+            <p:panelGrid columns="7" style="margin-left: 2%;" >
                 <p:column>
                     <h:outputText value="miesiąc: "/>
                 </p:column>
@@ -42,7 +42,8 @@
                     <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="wszystkie"/>
                     <f:selectItems value="#{dokfkView.dokumentypodatnika}" var="item" itemLabel="#{item.skrot}" itemValue="#{item.skrot}"/>
              </p:selectOneMenu>
-                 <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkWeryfikacjaView.sprawdzWnMawDokfk(dokfkView.wykazZaksiegowanychDokumentowimport)}" style="width: 120px; margin-left: 40px;" 
+                <h:outputText value="sprawdź, aby zaksięgować wszystkie" style="width: 120px; margin-left: 40px;"/>
+                 <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkWeryfikacjaView.sprawdzWnMawDokfk(dokfkView.wykazZaksiegowanychDokumentowimport)}" style="width: 120px; margin-left: 20px;" 
                                          update="zestawieniedokumentowimport" 
                                          />
                  <p:commandButton id="zaksieguj" value="zaksieguj" actionListener="#{dokfkView.zaksiegujimport(dokfkView.wykazZaksiegowanychDokumentowimport)}" style="width: 120px; margin-left: 80px; float: right;" 

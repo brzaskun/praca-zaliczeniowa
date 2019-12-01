@@ -195,7 +195,7 @@ public class PdfZestRok{
         pdf.addAuthor("Biuro Rachunkowe Taxman");
         pdf.close();
         PrimeFaces.current().executeScript("wydrukzbiorcze('"+wpisView.getPodatnikWpisu()+"');");
-        Msg.msg("i", "Wydrukowano zestawienie obrotów", "form:messages");
+        Msg.msg("i", "Wydrukowano zestawienie obrotów");
     }
     
     public static void drukujRyczalt(WpisView wpisView, List<ZestawienieRyczalt> pobranetransakcje) throws DocumentException, FileNotFoundException, IOException {
@@ -216,7 +216,7 @@ public class PdfZestRok{
             //String f = "pokazwydruk('"+nazwa+"');";
             //PrimeFaces.current().executeScript(f);
             PrimeFaces.current().executeScript("wydrukzbiorczeryczalt('"+wpisView.getPodatnikWpisu().trim()+"');");
-            Msg.msg("i", "Wydrukowano zestawienie obrotów ryczałt", "form:messages");
+            Msg.msg("i", "Wydrukowano zestawienie obrotów ryczałt");
         } else {
             Msg.msg("w", "Nie wybrano Zestawienia Ryczałtu do wydruku");
         }

@@ -296,6 +296,18 @@ public class Data implements Serializable {
         } catch (Exception e) {}
         return wynikporównania > -1;
     }
+    
+     public static boolean czydatajestwmcu(String data, String rok, String mc) {
+        boolean zwrot = false;
+        try {
+            String rokdaty = pobierzrok(data);
+            String mcdaty = pobierzmc(data);
+            if (rok.equals(rokdaty) && mc.equals(mcdaty)) {
+                zwrot = true;
+            }
+        } catch (Exception e) {}
+        return zwrot;
+     }
 
     private static String pobierzrok(String dataOd) {
         return pobierzokres(dataOd, 0);

@@ -613,7 +613,10 @@ public class DokfkView implements Serializable {
     
     public void podepnijEwidencjeVatDok(int rodzaj) {
         if (zapisz0edytuj1 == false) {
-            if (selected.getRodzajedok().getKategoriadokumentu() != 0 && selected.getRodzajedok().getKategoriadokumentu() != 1 && selected.getRodzajedok().getKategoriadokumentu() != 2) {
+            if (selected.getRodzajedok().getSkrot().equals("DEL")) {
+                podepnijEwidencjeVat(rodzaj);
+                nietrzebapodczepiac = true;
+            } else if (selected.getRodzajedok().getKategoriadokumentu() != 0 && selected.getRodzajedok().getKategoriadokumentu() != 1 && selected.getRodzajedok().getKategoriadokumentu() != 2) {
                 selected.setEwidencjaVAT(null);
                 nietrzebapodczepiac = true;
             } else {
@@ -649,20 +652,23 @@ public class DokfkView implements Serializable {
         Rodzajedok newy = (Rodzajedok) ex.getNewValue();
         selected.setRodzajedok(newy);
         selected.setSeriadokfk(newy.getSkrotNazwyDok());
-        if (!wpisView.isVatowiec() || (selected.getRodzajedok().getKategoriadokumentu()!=0 && selected.getRodzajedok().getKategoriadokumentu()!=1 && selected.getRodzajedok().getKategoriadokumentu()!=2)) {
-            selected.setEwidencjaVAT(null);
-        } else if (old.equals(newy)) {
+        if (old.equals(newy)) {
             nietrzebapodczepiac = true;
         } else {
+            if (selected.getRodzajedok().getSkrot().equals("DEL")) {
+                selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
+            } else if (!wpisView.isVatowiec() || (selected.getRodzajedok().getKategoriadokumentu()!=0 && selected.getRodzajedok().getKategoriadokumentu()!=1 && selected.getRodzajedok().getKategoriadokumentu()!=2)) {
+                selected.setEwidencjaVAT(null);
+            } 
             nietrzebapodczepiac = false;
             //podepnijEwidencjeVatDok(0);
         }
-        }
+    }
     
     
     
     public void podepnijEwidencjeVat(int rodzaj) {
-            if (wpisView.isVatowiec() && (selected.getRodzajedok().getKategoriadokumentu()==1 || selected.getRodzajedok().getKategoriadokumentu()==2)) {
+        if (wpisView.isVatowiec() && (selected.getRodzajedok().getKategoriadokumentu()==1 || selected.getRodzajedok().getKategoriadokumentu()==2)) {
                     //0 jest przay wpisie
                     int k = 0;
                     if (rodzaj == 0) {
@@ -702,6 +708,8 @@ public class DokfkView implements Serializable {
                     }
                     //niepotrzebne renderuje 15 razy
                     //PrimeFaces.current().ajax().update("formwpisdokument:panelzewidencjavat");
+            } else if (selected.getRodzajedok().getSkrot().equals("DEL")) {
+                this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
             } else if (selected.getRodzajedok().getKategoriadokumentu()==0) {
                 this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
             } else {
@@ -1157,8 +1165,8 @@ public class DokfkView implements Serializable {
     
     public void edycjaimport() {
         selected.setImportowany(false);
-        edycja();
         wykazZaksiegowanychDokumentowimport.remove(selected);
+        edycja();
         PrimeFaces.current().ajax().update("zestawieniedokumentowimport:dataListImport");
     }
 
@@ -3176,6 +3184,21 @@ public class DokfkView implements Serializable {
             wykazZaksiegowanychDokumentowimport = Collections.synchronizedList(new ArrayList<>());
         }
         Msg.msg("Usunięto wszystkie zaimportowane dokumenty");
+    }
+    
+    public void ksiegujwszytskieimportowane() {
+        if (filteredValueimport!=null && filteredValueimport.size()>0) {
+            for (Dokfk p : filteredValueimport) {
+                dokDAOfk.destroy(p);
+            }
+            filteredValueimport = Collections.synchronizedList(new ArrayList<>());
+        } else {
+            for (Dokfk p : wykazZaksiegowanychDokumentowimport) {
+                dokDAOfk.destroy(p);
+            }
+            wykazZaksiegowanychDokumentowimport = Collections.synchronizedList(new ArrayList<>());
+        }
+        Msg.msg("Zaksięgowano wszystkie zaimportowane dokumenty");
     }
 
     private String poledlawaluty;

@@ -170,24 +170,31 @@ public class ImportSprzedazyFKView  implements Serializable {
         int i = 1;
         for (SprzedazWiersz p : wiersze) {
             ImportJPKSprzedaz s = new ImportJPKSprzedaz(p);
-            s.setKlient(ImportBean.ustawkontrahenta(p.getNrKontrahenta(), p.getNazwaKontrahenta(), k, gUSView, klDAO));
-            s.setId(i++);
-            String rodzajdk = "SZ";
-            int polska0unia1zagranica2 = 0;
-            if (s.getKlient().getKrajnazwa()!=null && !s.getKlient().getKrajkod().equals("PL")) {
-                polska0unia1zagranica2 = 2;
-                rodzajdk = "EXP";
-                if (PanstwaEUSymb.getWykazPanstwUE().contains(s.getKlient().getKrajkod())) {
-                    polska0unia1zagranica2 = 1;
-                    rodzajdk = "WDT";
+            String pobranadata = p.getDataSprzedazy()!=null ? p.getDataSprzedazy().toString() : p.getDataWystawienia().toString();
+            boolean czydobradata = data.Data.czydatajestwmcu(pobranadata, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            if (czydobradata) {
+                s.setKlient(ImportBean.ustawkontrahenta(p.getNrKontrahenta(), p.getNazwaKontrahenta(), k, gUSView, klDAO));
+                s.setId(i++);
+                String rodzajdk = "SZ";
+                //int polska0unia1zagranica2 = 0;
+                if (!wpisView.isVatowiec()) {
+                    rodzajdk = "RACHSP";
                 }
+                if (s.getKlient().getKrajnazwa()!=null && !s.getKlient().getKrajkod().equals("PL")) {
+                    //polska0unia1zagranica2 = 2;
+                    rodzajdk = "EXP";
+                    if (PanstwaEUSymb.getWykazPanstwUE().contains(s.getKlient().getKrajkod())) {
+                        //polska0unia1zagranica2 = 1;
+                        rodzajdk = "WDT";
+                    }
+                }
+                Dokfk nd = new Dokfk(s, wpisView, rodzajdk);
+                Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
+                if (juzjest!=null) {
+                    s.setJuzzaksiegowany(true);
+                } 
+                zwrot.add(s);
             }
-            Dokfk nd = new Dokfk(s, wpisView, rodzajdk);
-            Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
-            if (juzjest!=null) {
-                s.setJuzzaksiegowany(true);
-            } 
-            zwrot.add(s);
         }
         return zwrot;
     }
@@ -250,6 +257,9 @@ public class ImportSprzedazyFKView  implements Serializable {
         if (kontrahent!=null) {
             try {
                 String rodzajdk = "SZ";
+                if (!wpisView.isVatowiec()) {
+                    rodzajdk = "RACHSP";
+                }
                 if (kontrahent.getKrajnazwa()!=null && !kontrahent.getKrajkod().equals("PL")) {
                     rodzajdk = "EXP";
                     if (PanstwaEUSymb.getWykazPanstwUE().contains(kontrahent.getKrajkod())) {
@@ -270,7 +280,11 @@ public class ImportSprzedazyFKView  implements Serializable {
                 nd.setTabelanbp(tabelanbppl);
                 nd.setWalutadokumentu(walutapln);
                 msg = "Problem z generowaniem ewidencji vat dla poz.:"+wiersz.getId();
-                podepnijEwidencjeVat(nd, wiersz);
+                if (rodzajdk.equals("RACHSP")) {
+                    nd.setEwidencjaVAT(null);
+                } else {
+                    podepnijEwidencjeVat(nd, wiersz);
+                }
                 Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
                 if (juzjest!=null) {
                     nd = null;
