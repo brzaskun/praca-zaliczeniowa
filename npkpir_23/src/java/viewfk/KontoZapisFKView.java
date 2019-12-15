@@ -555,7 +555,7 @@ public class KontoZapisFKView implements Serializable{
     
     private void sumawiersz(DoubleAccumulator  wn, StronaWiersza p) {
         if (pokaztransakcje) {
-            wn.accumulate(p.getPozostalo());
+            wn.accumulate(p.getPozostaloZapisynakoncie());
         } else {
             wn.accumulate(p.getKwota());
         }
@@ -569,7 +569,7 @@ public class KontoZapisFKView implements Serializable{
         DoubleAccumulator  ma = new DoubleAccumulator(Double::sum,0.d);
         if (wybranezapisydosumowania != null && wybranezapisydosumowania.size() > 0) {
             wybranezapisydosumowania.stream().forEach((p) -> {
-                double kwotadlasumy = pokaztransakcje ? p.getPozostalo() : p.getKwotaPLN();
+                double kwotadlasumy = pokaztransakcje ? p.getPozostaloZapisynakoncie() : p.getKwotaPLN();
                 if (p.getWnma().equals("Wn")) {
                     wn.accumulate(kwotadlasumy);
                 } else if (p.getWnma().equals("Ma")){
@@ -578,7 +578,7 @@ public class KontoZapisFKView implements Serializable{
             });
         } else if (kontozapisyfiltered != null && kontozapisyfiltered.size() > 0) {
             kontozapisyfiltered.stream().forEach((p) -> {
-                double kwotadlasumy = pokaztransakcje ? p.getPozostaloPLN() : p.getKwotaPLN();
+                double kwotadlasumy = pokaztransakcje ? p.getPozostaloPLNZapisynakoncie() : p.getKwotaPLN();
                 if (p.getWnma().equals("Wn")) {
                     wn.accumulate(kwotadlasumy);
                 } else if (p.getWnma().equals("Ma")){
@@ -587,7 +587,7 @@ public class KontoZapisFKView implements Serializable{
             });
         }  else {
             kontozapisy.stream().forEach((p) -> {
-                double kwotadlasumy = pokaztransakcje ? p.getPozostaloPLN() : p.getKwotaPLN();
+                double kwotadlasumy = pokaztransakcje ? p.getPozostaloPLNZapisynakoncie() : p.getKwotaPLN();
                 if (p.getWnma().equals("Wn")) {
                     wn.accumulate(kwotadlasumy);
                 } else if (p.getWnma().equals("Ma")){

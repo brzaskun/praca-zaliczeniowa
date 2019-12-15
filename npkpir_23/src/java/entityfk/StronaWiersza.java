@@ -518,6 +518,35 @@ public class StronaWiersza implements Serializable {
         }
         return Z.z(this.pozostalo);
     }
+    
+    public double getPozostaloZapisynakoncie() {
+        this.rozliczono = 0.0;
+        if (this.platnosci != null) {
+            for (Transakcja p : this.platnosci) {
+                if (p.getKwotawwalucierachunku() != 0.0) {
+                    this.rozliczono = Z.z(this.rozliczono+p.getKwotawwalucierachunku());
+                } else {
+                    this.rozliczono = Z.z(this.rozliczono+p.getKwotatransakcji());
+                }
+            }
+            if (this.kwota >= 0.0) {
+                this.pozostalo = Z.z(this.kwota - this.rozliczono);
+            } else {
+                this.pozostalo = Z.z(this.kwota + this.rozliczono);
+            }
+        }
+        if (this.nowetransakcje != null) {
+            for (Transakcja p : this.nowetransakcje) {
+                    this.rozliczono = Z.z(this.rozliczono+p.getKwotatransakcji());
+            }
+            if (this.kwota >= 0.0) {
+                this.pozostalo = Z.z(this.kwota - this.rozliczono);
+            } else {
+                this.pozostalo = Z.z(this.kwota + this.rozliczono);
+            }
+        }
+        return Z.z(this.pozostalo);
+    }
 
     public double getPozostalo(WpisView wpisView) {
         this.rozliczono = 0.0;
@@ -561,6 +590,16 @@ public class StronaWiersza implements Serializable {
             kwotaprzeliczenia = Z.z(this.pozostalo * this.getWiersz().getTabelanbp().getKurssredniPrzelicznik());
         } else if (this.getKursBO() != 0.0) {
             kwotaprzeliczenia = Z.z(this.pozostalo * kursBO);
+        }
+        return Z.z(kwotaprzeliczenia);
+    }
+    
+    public double getPozostaloPLNZapisynakoncie() {
+        double kwotaprzeliczenia = getPozostaloZapisynakoncie();
+        if (this.getWiersz().getTabelanbp() != null) {
+            kwotaprzeliczenia = Z.z(getPozostaloZapisynakoncie() * this.getWiersz().getTabelanbp().getKurssredniPrzelicznik());
+        } else if (this.getKursBO() != 0.0) {
+            kwotaprzeliczenia = Z.z(getPozostaloZapisynakoncie() * kursBO);
         }
         return Z.z(kwotaprzeliczenia);
     }
