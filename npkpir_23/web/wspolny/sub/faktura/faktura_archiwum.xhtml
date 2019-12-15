@@ -109,10 +109,10 @@
                     <h:outputText value=" korekta" rendered="#{wpis.pozycjepokorekcie.size() gt 0}" style="color: red;"/>
                     <h:outputText value=" +duplikaty" rendered="#{wpis.duplikaty.size() gt 0}" style="color: green;"/>
                 </p:column>
-<!--                <p:column  headerText="edytuj" style="text-align: center;"  width="40" >
-                    <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedoedycji(wpis)}" 
+               <p:column  headerText="edytuj" style="text-align: center;"  width="40" rendered="#{facesContext.externalContext.remoteUser eq 'szef'}">
+                    <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedoedycjiZwykla(wpis)}" 
                                       icon="ui-icon-script" oncomplete="aktywujpolewyboruklientanafakturze();" />
-                </p:column>-->
+                </p:column>
                 <p:column  headerText="PDF" style="text-align: center;"  width="40">
                     <p:commandButton  update=":form1:messages" actionListener="#{pdfFaktura.drukuj(wpis, row, WpisView)}" icon="ui-icon-print" />
                 </p:column>

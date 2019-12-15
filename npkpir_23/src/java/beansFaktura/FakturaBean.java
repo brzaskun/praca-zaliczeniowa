@@ -9,6 +9,7 @@ import beansFK.TabelaNBPBean;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.FakturaDAO;
+import dao.FakturaStopkaNiemieckaDAO;
 import daoFK.TabelanbpDAO;
 import data.Data;
 import embeddable.EVatwpis;
@@ -16,6 +17,8 @@ import embeddable.Pozycjenafakturzebazadanych;
 import entity.Dok;
 import entity.Evewidencja;
 import entity.Faktura;
+import entity.FakturaStopkaNiemiecka;
+import entity.FakturaWalutaKonto;
 import entity.Podatnik;
 import entityfk.Tabelanbp;
 import java.util.ArrayList;
@@ -253,6 +256,31 @@ public class FakturaBean {
         }
     }
     
+    
+    public static void wielekont(Faktura selected, List<FakturaWalutaKonto> konta, FakturaStopkaNiemieckaDAO fakturaStopkaNiemieckaDAO, Podatnik podatnik) {
+        String waluta = selected.getWalutafaktury();
+        if (konta != null) {
+            for (FakturaWalutaKonto p : konta) {
+                if (p.getWaluta().getSymbolwaluty().equals(waluta)) {
+                   selected.setNrkontabankowego(p.getNrkonta());
+                   selected.setSwift(p.getSwift());
+                   try {
+                        FakturaStopkaNiemiecka fakturaStopkaNiemiecka = fakturaStopkaNiemieckaDAO.findByPodatnik(podatnik);
+                        if (fakturaStopkaNiemiecka != null) {
+                            fakturaStopkaNiemiecka.setBank(p.getNazwabanku());
+                            fakturaStopkaNiemiecka.setBlz(p.getBlz());
+                            fakturaStopkaNiemiecka.setBic(p.getSwift());
+                            fakturaStopkaNiemiecka.setKtonr(p.getNrkonta());
+                            fakturaStopkaNiemiecka.setIban(p.getIban());
+                            fakturaStopkaNiemieckaDAO.edit(fakturaStopkaNiemiecka);
+                        }
+                    } catch (Exception e) {
+                    }
+                   break;
+                }
+            }
+        }
+    }
     
 
     public static String pobierzpodpis(WpisView wpisView) {

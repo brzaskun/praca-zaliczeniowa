@@ -371,7 +371,7 @@ public class FakturaView implements Serializable {
         selected.setMiejscewystawienia(FakturaBean.pobierzmiejscewyst(podatnikobiekt));
         selected.setTerminzaplaty(FakturaBean.obliczterminzaplaty(podatnikobiekt, pelnadata));
         selected.setNrkontabankowego(FakturaBean.pobierznumerkonta(podatnikobiekt));
-        wielekont();
+        FakturaBean.wielekont(selected, fakturaWalutaKontoView.getListakontaktywne(), fakturaStopkaNiemieckaDAO, wpisView.getPodatnikObiekt());
         selected.setPodpis(FakturaBean.pobierzpodpis(wpisView));
         selected.setAutor(wpisView.getUzer().getLogin());
         setPokazfakture(true);
@@ -500,31 +500,7 @@ public class FakturaView implements Serializable {
         }
     }
 
-    public void wielekont() {
-        String waluta = selected.getWalutafaktury();
-        List<FakturaWalutaKonto> konta = fakturaWalutaKontoView.getListakontaktywne();
-        if (konta != null) {
-            for (FakturaWalutaKonto p : konta) {
-                if (p.getWaluta().getSymbolwaluty().equals(waluta)) {
-                   selected.setNrkontabankowego(p.getNrkonta());
-                   selected.setSwift(p.getSwift());
-                   try {
-                        FakturaStopkaNiemiecka fakturaStopkaNiemiecka = fakturaStopkaNiemieckaDAO.findByPodatnik(wpisView.getPodatnikObiekt());
-                        if (fakturaStopkaNiemiecka != null) {
-                            fakturaStopkaNiemiecka.setBank(p.getNazwabanku());
-                            fakturaStopkaNiemiecka.setBlz(p.getBlz());
-                            fakturaStopkaNiemiecka.setBic(p.getSwift());
-                            fakturaStopkaNiemiecka.setKtonr(p.getNrkonta());
-                            fakturaStopkaNiemiecka.setIban(p.getIban());
-                            fakturaStopkaNiemieckaDAO.edit(fakturaStopkaNiemiecka);
-                        }
-                    } catch (Exception e) {
-                    }
-                   break;
-                }
-            }
-        }
-    }
+    
     
     public void skierujfakturedoedycjiZwykla(Faktura faktura) {
         selected = serialclone.SerialClone.clone(faktura);
@@ -1365,6 +1341,8 @@ public class FakturaView implements Serializable {
                 nowa.setRok(roksprzedazy);
                 nowa.setMc(miesiacsprzedazy);
                 FakturaBean.dodajtabelenbp(nowa, tabelanbpDAO);
+                nowa.setNrkontabankowego(FakturaBean.pobierznumerkonta(wpisView.getPodatnikObiekt()));
+                FakturaBean.wielekont(nowa, fakturaWalutaKontoView.getListakontaktywne(), fakturaStopkaNiemieckaDAO, wpisView.getPodatnikObiekt());
                 try {
                     fakturaDAO.dodaj(nowa);
                     faktury.add(nowa);

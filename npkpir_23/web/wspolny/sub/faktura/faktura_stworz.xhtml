@@ -294,7 +294,7 @@
                                      update="akordeon:formprzygotuj akordeon:formstworz akordeon:formsporzadzone akordeon:formproforma" style="margin-bottom: 25px; width: 140px; height: 45px;" 
                                      rendered="#{fakturaView.zapis0edycja1 eq false}"/>
                     <p:commandButton id="edytujfakt" value="#{fakturaView.fakturakorekta ? 'edytuj korektę' : 'edytuj fakture'}" actionListener="#{fakturaView.edytuj()}" title="zapisz fakturę w bazie danych"
-                                     update="akordeon:formprzygotuj akordeon:formstworz akordeon:formsporzadzone akordeon:formokresowe akordeon:formproforma" style="margin-bottom: 25px; width: 120px; height: 45px;"
+                                     update="akordeon:formprzygotuj akordeon:formstworz akordeon:formsporzadzone akordeon:formokresowe akordeon:formproforma akordeon:formarchiwum:dokumentyArchiwum" style="margin-bottom: 25px; width: 120px; height: 45px;"
                                      rendered="#{fakturaView.zapis0edycja1 eq true}"/>
                     <p:commandButton style="margin-left: 25px; width: 140px; height: 45px;" id="dodajwzorcowywiersz" value="wzorcowy wiersz" 
                                      title="zachowaj pierwszy wiersz jako wzorcowy" actionListener="#{fakturaView.zachowajwierszwzorcowy()}"/>
