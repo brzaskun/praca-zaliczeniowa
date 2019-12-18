@@ -451,7 +451,7 @@ public class PdfKonta {
          if (rs.getKonto().getKontomacierzyste() != null) {
             if (l.equals("pl")) {
                 table.addCell(ustawfrazeAlign(rs.getKonto().getKontomacierzyste().getNazwapelna(), "left", 8));
-            } else if (rs.getKonto().getDe() == null || rs.getKonto().getDe().equals("")) {
+            } else if (rs.getKonto().getKontomacierzyste().getDe() == null || rs.getKonto().getKontomacierzyste().getDe().equals("")) {
                 table.addCell(ustawfrazeAlign(rs.getKonto().getKontomacierzyste().getNazwapelna(), "left", 8));
             } else {
                 table.addCell(ustawfrazeAlign(rs.getKonto().getKontomacierzyste().getDe(), "left", 8));
@@ -487,7 +487,7 @@ public class PdfKonta {
             if (rs.getKonto().getKontomacierzyste() != null) {
                 if (l.equals("pl")) {
                     table.addCell(ustawfrazeAlign(rs.getKonto().getKontomacierzyste().getNazwapelna(), "left", 8));
-                } else if (rs.getKonto().getDe() == null || rs.getKonto().getDe().equals("")) {
+                } else if (rs.getKonto().getKontomacierzyste().getDe() == null || rs.getKonto().getKontomacierzyste().getDe().equals("")) {
                     table.addCell(ustawfrazeAlign(rs.getKonto().getKontomacierzyste().getNazwapelna(), "left", 8));
                 } else {
                     table.addCell(ustawfrazeAlign(rs.getKonto().getKontomacierzyste().getDe(), "left", 8));
