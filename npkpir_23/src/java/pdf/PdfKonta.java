@@ -320,7 +320,7 @@ public class PdfKonta {
     }
     private static PdfPTable tablicabezdok(WpisView wpisView, List<SaldoKonto> listaSaldoKonto, int rodzajdruku, int analit0synt1) throws DocumentException, IOException {
         PdfPTable table = new PdfPTable(14);
-        table.setWidths(new int[]{1, 2, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2});
+        table.setWidths(new int[]{1, 2, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4});
         table.setWidthPercentage(98);
         try {
             table.addCell(ustawfraze(wpisView.getPodatnikObiekt().getNazwapelnaPDF(), 5, 0));
@@ -342,7 +342,7 @@ public class PdfKonta {
             table.addCell(ustawfraze(B.b("sumaBOMa"), 0, 1));
             table.addCell(ustawfraze(B.b("saldoWn"), 0, 1));
             table.addCell(ustawfraze(B.b("saldoMa"), 0, 1));
-            table.addCell(ustawfraze(B.b("numerkonta"), 0, 1));
+            table.addCell(ustawfraze(B.b("kontosyntetyczne"), 0, 1));
             if (analit0synt1==1) {
                 table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - zestawienie obrotów sald syntetycznych", 14, 0, 5));
             } else {
@@ -448,7 +448,18 @@ public class PdfKonta {
          String kolor = pobierzkolor(rs.getKonto(), rs.getSaldoWn(), rs.getSaldoMa());
          table.addCell(ustawfrazeAlignColor(rs.getSaldoWn() != 0 ? formatujLiczba(rs.getSaldoWn()) : "", "right", 9, kolor));
          table.addCell(ustawfrazeAlignColor(rs.getSaldoMa() != 0 ? formatujLiczba(rs.getSaldoMa()) : "", "right", 9, kolor));
-         table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 9, 20f));
+         if (rs.getKonto().getKontomacierzyste() != null) {
+            if (l.equals("pl")) {
+                table.addCell(ustawfrazeAlign(rs.getKonto().getKontomacierzyste().getNazwapelna(), "left", 8));
+            } else if (rs.getKonto().getDe() == null || rs.getKonto().getDe().equals("")) {
+                table.addCell(ustawfrazeAlign(rs.getKonto().getKontomacierzyste().getNazwapelna(), "left", 8));
+            } else {
+                table.addCell(ustawfrazeAlign(rs.getKonto().getKontomacierzyste().getDe(), "left", 8));
+            }
+         } else {
+                table.addCell(ustawfrazeAlign("", "left", 9));
+        }
+         
     }
     
     private static void dodajwiersztabeliWal(SaldoKonto rs, PdfPTable table, Integer i, String l) {
@@ -475,11 +486,11 @@ public class PdfKonta {
             table.addCell(ustawfrazeAlign(rs.getSaldoMa() != 0 ? formatujLiczba(rs.getSaldoMa()) : "", "right", 9));
             if (rs.getKonto().getKontomacierzyste() != null) {
                 if (l.equals("pl")) {
-                    table.addCell(ustawfrazeAlign(rs.getKonto().getKontomacierzyste().getNazwapelna(), "left", 9));
+                    table.addCell(ustawfrazeAlign(rs.getKonto().getKontomacierzyste().getNazwapelna(), "left", 8));
                 } else if (rs.getKonto().getDe() == null || rs.getKonto().getDe().equals("")) {
-                    table.addCell(ustawfrazeAlign(rs.getKonto().getKontomacierzyste().getNazwapelna(), "left", 9));
+                    table.addCell(ustawfrazeAlign(rs.getKonto().getKontomacierzyste().getNazwapelna(), "left", 8));
                 } else {
-                    table.addCell(ustawfrazeAlign(rs.getKonto().getKontomacierzyste().getDe(), "left", 9));
+                    table.addCell(ustawfrazeAlign(rs.getKonto().getKontomacierzyste().getDe(), "left", 8));
                 }
             } else {
                 table.addCell(ustawfrazeAlign("", "left", 9));
