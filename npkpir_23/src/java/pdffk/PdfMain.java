@@ -464,7 +464,7 @@ public class PdfMain {
     public static void dodajOpisWstepnySF(Document document, String opis, Podatnik podatnik, String bilansnadzien, String bilansoddnia, String rok) {
         try {
             StringBuilder s = new StringBuilder();
-            s.append("Firma ");
+            s.append(B.b("firma")+" ");
             s.append(podatnik.getNazwapelnaPDF());
             s.append(" NIP ");
             s.append(podatnik.getNip());
@@ -473,17 +473,17 @@ public class PdfMain {
             document.add(opiswstepny);
             s = new StringBuilder();
             s.append(opis);
-            s.append(" za rok ");
+            s.append(" "+B.b("rok")+" ");
             s.append(rok);
             opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
             if (bilansoddnia != null) {
-               opiswstepny = new Paragraph(new Phrase("bilans otwarcia na dzień "+bilansoddnia, ft[1]));
+               opiswstepny = new Paragraph(new Phrase(B.b("bilansotwarcianadzień")+" "+bilansoddnia, ft[1]));
             }
             document.add(opiswstepny);
             if (bilansnadzien != null) {
-               opiswstepny = new Paragraph(new Phrase("bilans zamknięcia na dzień "+bilansnadzien, ft[1]));
+               opiswstepny = new Paragraph(new Phrase(B.b("bilanszamknięcianadzień")+" "+bilansnadzien, ft[1]));
             }
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
@@ -495,7 +495,7 @@ public class PdfMain {
      public static void dodajOpisWstepnySFRZIS(Document document, String opis, Podatnik podatnik, String bilansnadzien, String bilansoddnia, String rok) {
         try {
             StringBuilder s = new StringBuilder();
-            s.append("Firma ");
+            s.append(B.b("firma")+" ");
             s.append(podatnik.getNazwapelnaPDF());
             s.append(" NIP ");
             s.append(podatnik.getNip());
@@ -504,17 +504,17 @@ public class PdfMain {
             document.add(opiswstepny);
             s = new StringBuilder();
             s.append(opis);
-            s.append(" za rok ");
+            s.append(" "+B.b("rok")+" ");
             s.append(rok);
             opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
             if (bilansoddnia != null) {
-               opiswstepny = new Paragraph(new Phrase("stan na koniec roku poprzedniego - "+bilansoddnia, ft[1]));
+               opiswstepny = new Paragraph(new Phrase(B.b("koniecrokupoprzedniego")+" - "+bilansoddnia, ft[1]));
             }
             document.add(opiswstepny);
             if (bilansnadzien != null) {
-               opiswstepny = new Paragraph(new Phrase("stan na koniec roku bieżącego - "+bilansnadzien, ft[1]));
+               opiswstepny = new Paragraph(new Phrase(B.b("koniecrokubieżącego")+" - "+bilansnadzien, ft[1]));
             }
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);

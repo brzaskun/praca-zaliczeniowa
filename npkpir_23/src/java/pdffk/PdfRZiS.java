@@ -74,7 +74,7 @@ public class PdfRZiS {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepnySFRZIS(document, "Rachunek Zysków i Strat", wpisView.getPodatnikObiekt(), bilansnadzien, bilansoddnia, wpisView.getRokWpisuSt());
+            dodajOpisWstepnySFRZIS(document, B.b("rachunekzyskówistrat"), wpisView.getPodatnikObiekt(), bilansnadzien, bilansoddnia, wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaRZiSBO(rootProjektRZiS),75,3);
             PdfMain.dodajpodpis(document, wpisView.getFormaprawna().toString());
             finalizacjaDokumentuQR(document,nazwa);

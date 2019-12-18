@@ -118,10 +118,10 @@ public class PdfBilans {
             } else {
                 dodajOpisWstepnySF(document, B.b("Bilans")+" "+opisdodatkowy,wpisView.getPodatnikObiekt(), bilansnadzien, bilansoddnia, wpisView.getRokWpisuSt());
             }
-            PdfMain.dodajLinieOpisu(document, "Strona aktywów");
+            PdfMain.dodajLinieOpisu(document, B.b("Stronaaktywów"));
             dodajTabele(document, testobjects.testobjects.getTabelaBilansBOData(rootProjektA),75,5);
             document.newPage();
-            PdfMain.dodajLinieOpisu(document, "Strona pasywów");
+            PdfMain.dodajLinieOpisu(document, B.b("Strona pasywów"));
             dodajTabele(document, testobjects.testobjects.getTabelaBilansBOData(rootProjektP),75,5);
             PdfMain.dodajpodpis(document, wpisView.getFormaprawna().toString());
             finalizacjaDokumentuQR(document,nazwa);
