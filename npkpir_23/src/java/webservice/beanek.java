@@ -196,14 +196,30 @@ public class beanek  implements Serializable {
 
     }
 
-    private void sendUnsignDocument(byte[] document, java.lang.String language, java.lang.String signT, javax.xml.ws.Holder<java.lang.String> id, javax.xml.ws.Holder<Integer> stat, javax.xml.ws.Holder<java.lang.String> opis) {
-        service.GateServicePortType port = service.getGateServiceSOAP12Port();
-        port.sendUnsignDocument(document, language, signT, id, stat, opis);
+    private int sendUnsignDocument(byte[] document, java.lang.String language, java.lang.String signT, javax.xml.ws.Holder<java.lang.String> id, javax.xml.ws.Holder<Integer> stat, javax.xml.ws.Holder<java.lang.String> opis) {
+        int zwrot = 0;
+        try {
+            service.GateServicePortType port = service.getGateServiceSOAP12Port();
+            port.sendUnsignDocument(document, language, signT, id, stat, opis);
+        } catch (Exception e) {
+            E.e(e);
+            zwrot = 1;
+        } finally {
+            return zwrot;
+        }
     }
     
-    private void sendSignDocument(byte[] dok, javax.xml.ws.Holder<java.lang.String> id, javax.xml.ws.Holder<Integer> stat, javax.xml.ws.Holder<java.lang.String> opis) {
-        service.GateServicePortType port2 = service.getGateServiceSOAP12Port();
-        port2.sendDocument(dok, id, stat, opis);
+    private int sendSignDocument(byte[] dok, javax.xml.ws.Holder<java.lang.String> id, javax.xml.ws.Holder<Integer> stat, javax.xml.ws.Holder<java.lang.String> opis) {
+        int zwrot = 0;
+        try {
+            service.GateServicePortType port2 = service.getGateServiceSOAP12Port();
+            port2.sendDocument(dok, id, stat, opis);
+        } catch (Exception e) {
+            E.e(e);
+            zwrot = 1;
+        } finally {
+            return zwrot;
+        }
     }
 
     public void rob27(Deklaracjavat27 deklaracja, List<Dok> listadok, List<Dokfk> listadokfk) throws JAXBException, FileNotFoundException, ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
@@ -304,40 +320,45 @@ public class beanek  implements Serializable {
             
         }
         try {
+            int zwrot = 0;
             if (wysylanaDeklaracja.isJestcertyfikat()) {
                 dok = wysylanaDeklaracja.getDeklaracjapodpisana();
-                sendSignDocument(dok, id, stat, opis);
+                zwrot = sendSignDocument(dok, id, stat, opis);
             } else {
-                sendUnsignDocument(dok, lang, signT, id, stat, opis);
+                zwrot = sendUnsignDocument(dok, lang, signT, id, stat, opis);
             }
-            idMB = id.value;
-            idpobierz = id.value;
-            List<String> komunikat = null;
-            opisMB = opis.value;
-            komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
-            if (komunikat.size() > 1) {
-                    Msg.msg(komunikat.get(0), komunikat.get(1));
-                    opisMB = komunikat.get(1);
-            }
-            upoMB = upo.value;
-            statMB = stat.value + " "+opis.value;
-            wysylanaDeklaracja.setIdentyfikator(idMB);
-            wysylanaDeklaracja.setStatus(statMB.toString());
-            wysylanaDeklaracja.setOpis(opisMB);
-            wysylanaDeklaracja.setDatazlozenia(new Date());
-            wysylanaDeklaracja.setSporzadzil(wpisView.getUzer().getImie() + " " + wpisView.getUzer().getNazw());
-            deklaracjevatDAO.edit(wysylanaDeklaracja);
-            Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
-            try {
-                if (wyslijtezjpk) {
-                    if (jPK_VAT2View.isPkpir0ksiegi1()) {
-                        jPK_VAT2View.przygotujXMLFK();
-                    } else {
-                        jPK_VAT2View.przygotujXML();
-                    }
+            if (zwrot==0) {
+                idMB = id.value;
+                idpobierz = id.value;
+                List<String> komunikat = null;
+                opisMB = opis.value;
+                komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
+                if (komunikat.size() > 1) {
+                        Msg.msg(komunikat.get(0), komunikat.get(1));
+                        opisMB = komunikat.get(1);
                 }
-            } catch (Exception e1) {
-                Msg.msg("e","Nieudane łączne wysyłanie jpk z deklaracją");
+                upoMB = upo.value;
+                statMB = stat.value + " "+opis.value;
+                wysylanaDeklaracja.setIdentyfikator(idMB);
+                wysylanaDeklaracja.setStatus(statMB.toString());
+                wysylanaDeklaracja.setOpis(opisMB);
+                wysylanaDeklaracja.setDatazlozenia(new Date());
+                wysylanaDeklaracja.setSporzadzil(wpisView.getUzer().getImie() + " " + wpisView.getUzer().getNazw());
+                deklaracjevatDAO.edit(wysylanaDeklaracja);
+                Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
+                try {
+                    if (wyslijtezjpk) {
+                        if (jPK_VAT2View.isPkpir0ksiegi1()) {
+                            jPK_VAT2View.przygotujXMLFK();
+                        } else {
+                            jPK_VAT2View.przygotujXML();
+                        }
+                    }
+                } catch (Exception e1) {
+                    Msg.msg("e","Nieudane łączne wysyłanie jpk z deklaracją");
+                }
+            } else {
+                Msg.msg("e","Problem z serwerem ministerstwa. Spróbuj znów za kilka godzin.");
             }
         } catch (ClientTransportException ex1) {
             Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas wysyłania deklaracji podatnika " + podatnik + " za " + rok + "-" + mc, "formX:msg");
