@@ -8,7 +8,7 @@
 
     xmlns:bcf="http://brzaskun.com/facelets">
 
-    <p:dialog id="dialogbilansprzegladzapisy" header="Bilans za okres rozliczeniowy zapisy wyliczenie - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="bilansprzegladukladzapisy" 
+    <p:dialog id="dialogbilansprzegladzapisy" header="Bilans za okres rozliczeniowy z saldami kont - #{WpisView.podatnikObiekt.printnazwa}" widgetVar="bilansprzegladukladzapisy" 
               resizable="false" onShow="ustawdialog('dialogbilansprzegladzapisy','menubilanse', 1300, 780);" closeOnEscape="true" onHide="resetujdialog('dialogbilansprzegladzapisy');"  >
         <h:form id="formprzegladbilanszapisy">
             <!--            <p:contextMenu for="dataList">
@@ -29,8 +29,7 @@
                     }
                 }
             </script>
-            <p:panelGrid columns="6">
-                <p:panelGrid columns="5">
+                <p:panelGrid columns="7">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="#{ukladBRConv}">
                         <f:selectItems value="#{ukladBRView.listarokbiezacy}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
@@ -39,13 +38,11 @@
                     <p:commandButton value="oblicz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzegladBilans('aktywa')}" update=":formprzegladbilanszapisy"/>
                     <p:commandButton value="pokaż aktywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pokazukladprzegladBilans('aktywa')}" update=":formprzegladbilanszapisy"/>
                     <p:commandButton value="pokaż pasywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pokazukladprzegladBilans('pasywa')}" update=":formprzegladbilanszapisy"/>
-                </p:panelGrid>
-                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{pozycjaBRView.odswiezbilans()}" update="formprzegladbilanszapisy" />
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
-                </p:column>
+                    <h:outputText value="wydruki z nr kont są dostępne w okienku 'przeglądaj Bilans'"/>
 <!--                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie()}" update=":formprzegladbilanszapisy:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin()}" update=":formprzegladbilanszapisy:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie()}" update=":formprzegladbilanszapisy:dataList" style="float: left;" />

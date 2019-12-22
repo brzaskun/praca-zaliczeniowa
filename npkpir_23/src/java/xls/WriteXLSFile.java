@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
+import msg.B;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
@@ -276,7 +277,7 @@ public class WriteXLSFile {
         Sheet sheet = workbook.createSheet("Obr.Salda");
         insertPrintHeader(sheet, wpisView);
         int rowIndex = 0;
-        String opis = "Zestawienie obrotów i sald "+wpisView.getPrintNazwa()+" na koniec "+wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu();
+        String opis = B.b("firma")+" "+wpisView.getPrintNazwa()+" "+B.b("zestawienieobrotówkontanalitycznych")+wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu();
         rowIndex = drawATable(workbook, sheet, rowIndex, headersList, lista, opis, 3, "kontasalda");
         workbook.setPrintArea(
         0, //sheet index
@@ -416,23 +417,24 @@ public class WriteXLSFile {
     
     public static List headersusa() {
         List headers = new ArrayList();
-        headers.add("lp");
-        headers.add("nr konta");
-        headers.add("nazwa konta");
-        headers.add("saldo BO Wn");
-        headers.add("saldo BO Ma");
-        headers.add("obroty Wn");
-        headers.add("obroty Ma");
-        headers.add("obroty Wn nar");
-        headers.add("obroty Ma nar");
-        headers.add("suma BO Wn");
-        headers.add("suma BO Ma");
-        headers.add("saldo Wn");
-        headers.add("saldo Ma");
-        headers.add("nr synt");
-        headers.add("nazwa synt");
+        headers.add(B.b("lp"));
+        headers.add(B.b("numerkonta"));
+        headers.add(B.b("nazwakonta"));
+        headers.add(B.b("saldoBOWn"));
+        headers.add(B.b("saldoBOMa"));
+        headers.add(B.b("obrotyWn"));
+        headers.add(B.b("obrotyMa"));
+        headers.add(B.b("obrotyWnNar"));
+        headers.add(B.b("obrotyMaNar"));
+        headers.add(B.b("sumaBOWn"));
+        headers.add(B.b("sumaBOMa"));
+        headers.add(B.b("saldoWn"));
+        headers.add(B.b("saldoMa"));
+        headers.add(B.b("kontosyntetyczne"));
+        headers.add(B.b("nazwakonta"));
         return headers;
     }
+    
     
     public static List headersrodki() {
         List headers = new ArrayList();
@@ -544,7 +546,11 @@ public class WriteXLSFile {
             SaldoKonto st = (SaldoKonto) ob;
             createTextCell(styletextcenter, row, (short) columnIndex++, String.valueOf(rowIndex));
             createTextCell(styletext, row, (short) columnIndex++, st.getKonto().getPelnynumer());
-            createTextCell(styletext, row, (short) columnIndex++, st.getKonto().getNazwapelna());
+            if (czyjezykniemiecki()) {
+                createTextCell(styletext, row, (short) columnIndex++, st.getKonto().getNazwapelna());
+            } else {
+                createTextCell(styletext, row, (short) columnIndex++, st.getKonto().getDe());
+            }
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getBoWn());
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getBoMa());
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getObrotyWnMc());
@@ -556,7 +562,11 @@ public class WriteXLSFile {
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getSaldoWn());
             createDoubleCell(styledouble, row, (short) columnIndex++, st.getSaldoMa());
             createTextCell(styletext, row, (short) columnIndex++, st.getKonto().getKontomacierzyste()!=null? st.getKonto().getKontomacierzyste().getPelnynumer():"");
-            createTextCell(styletext, row, (short) columnIndex++, st.getKonto().getKontomacierzyste()!=null? st.getKonto().getKontomacierzyste().getNazwapelna():"");
+            if (czyjezykniemiecki()) {
+                createTextCell(styletext, row, (short) columnIndex++, st.getKonto().getKontomacierzyste()!=null? st.getKonto().getKontomacierzyste().getNazwapelna():"");
+            } else {
+                createTextCell(styletext, row, (short) columnIndex++, st.getKonto().getKontomacierzyste()!=null? st.getKonto().getKontomacierzyste().getDe():"");
+            }
         } else if (c.getName().contains("STRtabela")) {
             STRtabela st = (STRtabela) ob;
             if (!st.getDataprzek().equals("razem")) {
@@ -587,6 +597,14 @@ public class WriteXLSFile {
         
     }
     
+    private static boolean czyjezykniemiecki() {
+        boolean zwrot = false;
+        if (FacesContext.getCurrentInstance().getViewRoot().getLocale().getLanguage().equals("pl_pl") || FacesContext.getCurrentInstance().getViewRoot().getLocale().getLanguage().equals("pl")) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
+    
     private static int summaryRow(int startindex, int rowIndex, Workbook workbook, Sheet sheet, int typ, String nazwasumy, CellStyle styletext, CellStyle styleformula) {
          if (typ == 0) {
             String formula = "SUM(D"+startindex+":D"+rowIndex+")";
@@ -597,18 +615,18 @@ public class WriteXLSFile {
          } else if (typ == 1) {
             String formula = "SUM(D"+startindex+":D"+rowIndex+")";
             Row row = sheet.createRow(rowIndex++);
-            createTextCell(styletext, row, (short) 2, "Razem: ");
+            createTextCell(styletext, row, (short) 2, B.b("razem")+": ");
             createFormulaCell(styletext, row, (short) 3, formula);
             setCellName(workbook, nazwasumy, "D", String.valueOf(rowIndex));
         } else if (typ == 2){
             String formula = "SUM(C"+startindex+":C"+rowIndex+")";
             Row row = sheet.createRow(rowIndex++);
-            createTextCell(styletext, row, (short) 1, "Razem: ");
+            createTextCell(styletext, row, (short) 1, B.b("razem")+": ");
             createFormulaCell(styletext, row, (short) 2, formula);
         } else if (typ == 3) {
             String formula = "SUM(D"+startindex+":D"+rowIndex+")";
             Row row = sheet.createRow(rowIndex);
-            createTextCell(styletext, row, (short) 2, "Razem: ");
+            createTextCell(styletext, row, (short) 2, B.b("razem")+": ");
             createFormulaCell(styleformula, row, (short) 3, formula);
             formula = "SUM(E"+startindex+":E"+rowIndex+")";
             createFormulaCell(styleformula, row, (short) 4, formula);
@@ -631,7 +649,7 @@ public class WriteXLSFile {
             
         } else if (typ == 4) {
             Row row = sheet.createRow(rowIndex);
-            createTextCell(styletext, row, (short) 3, "Razem: ");
+            createTextCell(styletext, row, (short) 3, B.b("razem")+": ");
             createTextCell(styletext, row, (short) 4, "");
             String formula = "SUM(F"+startindex+":F"+rowIndex+")";
             createFormulaCell(styleformula, row, (short) 5, formula);
