@@ -244,8 +244,8 @@
                  <h:outputLabel value="data otwarcia likwidacji"/>
                  <p:inputMask value="#{podatnikView.selected.dataotwarcialikwidacji}" mask="9999-99-99" 
                     onblur="weryfikujsporzadzfakture(this);"/>
-                 <h:outputLabel value="wysyłanie deklaracji tylko z podpisem kwalifikowanym"/>
-                 <p:selectBooleanCheckbox value="#{podatnikView.selected.podpiscertyfikowany}"/>
+                 <h:outputLabel value="wysyłanie deklaracji tylko z podpisem kwalifikowanym" rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
+                 <p:selectBooleanCheckbox value="#{podatnikView.selected.podpiscertyfikowany}" rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
                  
                  <h:outputLabel value="podatnik tylko dla ZUS"/>
             <p:selectBooleanCheckbox value="#{podatnikView.selected.tylkodlaZUS}"/>

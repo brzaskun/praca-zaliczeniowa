@@ -72,12 +72,12 @@ public class VATUEM4Bean {
     
     public static Podmiot1 podmiot1(WpisView wv) {
         Podmiot1 p = new Podmiot1();
-        if (wv.getFormaprawna() != null && !wv.getFormaprawna().equals("")) {
-            p.setRola("Podatnik");
-            p.setOsobaNiefizyczna(pobierzidentyfikatorspolka(wv));
-        } else {
+        if (wv.getFormaprawna() == null) {
             p.setRola("Podatnik");
             p.setOsobaFizyczna(pobierzindetyfikator(wv));
+        } else {
+            p.setRola("Podatnik");
+            p.setOsobaNiefizyczna(pobierzidentyfikatorspolka(wv));
         }
         return p;
     }
