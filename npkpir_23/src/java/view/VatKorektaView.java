@@ -281,7 +281,8 @@ public class VatKorektaView implements Serializable {
         List<DeklaracjaVatSchema> schemyLista = deklaracjaVatSchemaDAO.findAll();
         DeklaracjaVatSchema pasujacaSchema = VATDeklaracja.odnajdzscheme(vatokres, wpisView.getRokWpisuSt(), mckw, schemyLista);
         boolean vatzd = wniosekVATZDEntity!=null;
-        stworzdeklaracje(pozycjeDeklaracjiVAT, deklaracjaVATPoKorekcie, pasujacaSchema, vatzd);
+        boolean splitpayment = false;
+        stworzdeklaracje(pozycjeDeklaracjiVAT, deklaracjaVATPoKorekcie, pasujacaSchema, vatzd, splitpayment);
         int czyjestcosdowysylki = czynieczekajuzcosdowyslania();
         if (czyjestcosdowysylki == 0) {
             if (vatzd) {
@@ -349,13 +350,13 @@ public class VatKorektaView implements Serializable {
         return 0;
     }
     
-    private void stworzdeklaracje(Vatpoz pozycje, Deklaracjevat nowadeklaracja, DeklaracjaVatSchema schema, boolean vatzd) {
+    private void stworzdeklaracje(Vatpoz pozycje, Deklaracjevat nowadeklaracja, DeklaracjaVatSchema schema, boolean vatzd, boolean splitpayment) {
         VAT713 vat713 = null;
         try {
             if (ObslugaPodpisuBean.moznaPodpisac(wpisView.getPodatnikObiekt().getKartacert())) {
-                vat713 = new VAT713(pozycje, schema, true, vatzd, wpisView.getUzer().getNrtelefonu());
+                vat713 = new VAT713(pozycje, schema, true, vatzd, wpisView.getUzer().getNrtelefonu(), splitpayment);
             } else {
-                vat713 = new VAT713(pozycje, schema, false, vatzd, wpisView.getUzer().getNrtelefonu());
+                vat713 = new VAT713(pozycje, schema, false, vatzd, wpisView.getUzer().getNrtelefonu(), splitpayment);
             }
             String wiersz = vat713.getWiersz();
             nowadeklaracja.setDeklaracja(wiersz);

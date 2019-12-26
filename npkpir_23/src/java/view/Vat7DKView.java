@@ -392,10 +392,11 @@ public class Vat7DKView implements Serializable {
             Msg.msg("i", "Podatnik: "+wpisView.getPrintNazwa() + " - usunięto poprzednią niewysłaną deklarację VAT za " + rok + "-" + mc);
         }
         boolean vatzd = wniosekVATZDEntity!=null;
+        boolean splitpayment = false;
         if (flaga != 1) {
             pozycjeDeklaracjiVAT.setFirma1osobafiz0(wpisView.isKsiegirachunkowe());
             uzupelnijPozycjeDeklaracji(pozycjeDeklaracjiVAT, vatokres, kwotaautoryzujaca);
-            nowadeklaracja = stworzdeklaracje(pozycjeDeklaracjiVAT, vatokres, pasujacaSchema, vatzd);
+            nowadeklaracja = stworzdeklaracje(pozycjeDeklaracjiVAT, vatokres, pasujacaSchema, vatzd, splitpayment);
             nowadeklaracja.setSchemawierszsumarycznylista(schemawierszsumarycznylista);
             nowadeklaracja.setPodsumowanieewidencji(mapaewidencji);
             DeklaracjaVatSchemaWierszSum doprzeniesienia = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do przeniesienia na następny okres rozliczeniowy");
@@ -888,7 +889,7 @@ public class Vat7DKView implements Serializable {
         return uzupelnionewiersze;
     }
     
-    private Deklaracjevat stworzdeklaracje(Vatpoz pozycje, String vatokres, DeklaracjaVatSchema schema, boolean vatzd) {
+    private Deklaracjevat stworzdeklaracje(Vatpoz pozycje, String vatokres, DeklaracjaVatSchema schema, boolean vatzd, boolean splitpayment) {
         if (schema.getNazwaschemy().equals("M-18") || schema.getNazwaschemy().equals("K-12")) {
             korektaM18K12(pozycje);
         }
@@ -901,11 +902,11 @@ public class Vat7DKView implements Serializable {
         try {
             String nrtelefonu = wpisView.getUzer().getNrtelefonu() == null ? "605586176" : wpisView.getUzer().getNrtelefonu();
             if (wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
-                VAT713 vat713 = new VAT713(pozycje, schema, true, vatzd, nrtelefonu);
+                VAT713 vat713 = new VAT713(pozycje, schema, true, vatzd, nrtelefonu, splitpayment);
                 wiersz = vat713.getWiersz();
                 nowadekl.setJestcertyfikat(true);
             } else {
-                VAT713 vat713 = new VAT713(pozycje, schema, false, vatzd, nrtelefonu);
+                VAT713 vat713 = new VAT713(pozycje, schema, false, vatzd, nrtelefonu, splitpayment);
                 //to jest wygenerowana dekalracjia w xml
                 wiersz = vat713.getWiersz();
                 nowadekl.setJestcertyfikat(false);

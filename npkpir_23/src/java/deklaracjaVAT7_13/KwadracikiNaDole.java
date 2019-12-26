@@ -24,7 +24,7 @@ public class KwadracikiNaDole {
     public KwadracikiNaDole() {
     }
 
-    public KwadracikiNaDole(Vatpoz selected, DeklaracjaVatSchema schema, boolean vatzd, String nrtelefonu) {
+    public KwadracikiNaDole(Vatpoz selected, DeklaracjaVatSchema schema, boolean vatzd, String nrtelefonu, boolean splitpayment) {
         PozycjeSzczegoloweVAT pozycjelista = selected.getPozycjeszczegolowe();
         String nazwaschemy = schema.getNazwaschemy();
         Date date = Calendar.getInstance().getTime();
@@ -58,6 +58,10 @@ public class KwadracikiNaDole {
             case "M-19":
             case "K-13":
                 this.schemaM19K13(pozycjelista, today, vatzd, nrtelefonu);
+                break;
+            case "M-20":
+            case "K-14":
+                this.schemaM20K14(pozycjelista, today, vatzd, nrtelefonu, splitpayment);
                 break;
         }
     }
@@ -141,6 +145,19 @@ public class KwadracikiNaDole {
         }
         kwadracikiNaDole = kwadracikiNaDole.concat("<P_73>"+nrtelefonu+"</P_73>");
         kwadracikiNaDole = kwadracikiNaDole.concat("<P_74>"+today+"</P_74>");
+        kwadracikiNaDole = kwadracikiNaDole.concat("</PozycjeSzczegolowe>");
+    }
+    
+    private void schemaM20K14(PozycjeSzczegoloweVAT pozycjelista, String today, boolean vatzd, String nrtelefonu, boolean splitpayment){
+        //inne kwadraciki 60 sa robione w PozycjeSzczegolowe bo ktos odwrocil kolejnosc kwadracikow
+        if(splitpayment) {
+            kwadracikiNaDole = kwadracikiNaDole.concat("<P_69>1</P_69>");
+        }
+        if(vatzd) {
+            kwadracikiNaDole = kwadracikiNaDole.concat("<P_70>1</P_70>");
+        }
+        kwadracikiNaDole = kwadracikiNaDole.concat("<P_74>"+nrtelefonu+"</P_74>");
+        kwadracikiNaDole = kwadracikiNaDole.concat("<P_75>"+today+"</P_75>");
         kwadracikiNaDole = kwadracikiNaDole.concat("</PozycjeSzczegolowe>");
     }
     
