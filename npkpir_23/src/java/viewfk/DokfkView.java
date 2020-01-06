@@ -613,7 +613,7 @@ public class DokfkView implements Serializable {
     
     public void podepnijEwidencjeVatDok(int rodzaj) {
         if (zapisz0edytuj1 == false) {
-            if (selected.getRodzajedok().getSkrot().equals("DEL")) {
+            if (selected.getRodzajedok().getSkrot().startsWith("DEL")) {
                 podepnijEwidencjeVat(rodzaj);
                 nietrzebapodczepiac = true;
             } else if (selected.getRodzajedok().getKategoriadokumentu() != 0 && selected.getRodzajedok().getKategoriadokumentu() != 1 && selected.getRodzajedok().getKategoriadokumentu() != 2) {
@@ -655,7 +655,7 @@ public class DokfkView implements Serializable {
         if (old.equals(newy)) {
             nietrzebapodczepiac = true;
         } else {
-            if (selected.getRodzajedok().getSkrot().equals("DEL")) {
+            if (selected.getRodzajedok().getSkrot().startsWith("DEL")) {
                 selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
             } else if (!wpisView.isVatowiec() || (selected.getRodzajedok().getKategoriadokumentu()!=0 && selected.getRodzajedok().getKategoriadokumentu()!=1 && selected.getRodzajedok().getKategoriadokumentu()!=2)) {
                 selected.setEwidencjaVAT(null);
@@ -708,7 +708,7 @@ public class DokfkView implements Serializable {
                     }
                     //niepotrzebne renderuje 15 razy
                     //PrimeFaces.current().ajax().update("formwpisdokument:panelzewidencjavat");
-            } else if (selected.getRodzajedok().getSkrot().equals("DEL")) {
+            } else if (selected.getRodzajedok().getSkrot().startsWith("DEL")) {
                 this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
             } else if (selected.getRodzajedok().getKategoriadokumentu()==0) {
                 this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
@@ -905,7 +905,7 @@ public class DokfkView implements Serializable {
     
     public Konto pobierzkontorozrach() {
         Konto kontorozrach = null;
-        if (selected.getRodzajedok().getSkrotNazwyDok().equals("DEL")) {
+        if (selected.getRodzajedok().getSkrotNazwyDok().startsWith("DEL")) {
         try {
                 kontorozrach = kontoDAOfk.findKontoNazwaPelnaPodatnik(selected.getNumerwlasnydokfk(), wpisView);
             } catch (Exception e) {

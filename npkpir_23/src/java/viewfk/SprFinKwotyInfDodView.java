@@ -71,12 +71,34 @@ public class SprFinKwotyInfDodView  implements Serializable{
         sprFinKwotyInfDod = sprFinKwotyInfDodDAO.findsprfinkwoty(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         if (sprFinKwotyInfDod==null) {
             sprFinKwotyInfDod = new SprFinKwotyInfDod(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            SprFinKwotyInfDod rokpop = sprFinKwotyInfDodDAO.findsprfinkwoty(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
+            if (rokpop!=null) {
+                skopiujdane(rokpop);
+            }
         }
         pobierzudzialy();
     }
     
+    private void skopiujdane(SprFinKwotyInfDod rokpop) {
+        sprFinKwotyInfDod.setSad(rokpop.getSad());
+        sprFinKwotyInfDod.setPpdzialalnosci(rokpop.getPpdzialalnosci());
+        sprFinKwotyInfDod.setPozpdzialalnosci(rokpop.getPozpdzialalnosci());
+        sprFinKwotyInfDod.setPid1B(rokpop.getPid1A());
+        sprFinKwotyInfDod.setPid2B(rokpop.getPid2A());
+        sprFinKwotyInfDod.setPid3B(rokpop.getPid3A());
+        sprFinKwotyInfDod.setPid4B(rokpop.getPid4A());
+        sprFinKwotyInfDod.setPid5B(rokpop.getPid5A());
+        sprFinKwotyInfDod.setPid6B(rokpop.getPid6A());
+        sprFinKwotyInfDod.setPid7B(rokpop.getPid7A());
+        sprFinKwotyInfDod.setPid8B(rokpop.getPid8A());
+        sprFinKwotyInfDod.setPid9B(rokpop.getPid9A());
+        sprFinKwotyInfDod.setPid10B(rokpop.getPid10A());
+        sprFinKwotyInfDod.setPid11B(rokpop.getPid11A());
+    }
+    
     public void zapisz() {
         try {
+            ustawscheme();
             sprFinKwotyInfDodDAO.edit(sprFinKwotyInfDod);
             init();
             Msg.msg("Zachowano zmiany");
@@ -84,6 +106,15 @@ public class SprFinKwotyInfDodView  implements Serializable{
             Msg.msg("e","Wystąpił błąd, niezachowano zmian");
         }
     }
+    
+    private void ustawscheme() {
+        String datasporzadzenia = sprFinKwotyInfDod.getDatasporzadzenia();
+        sprFinKwotyInfDod.setNrschemy("1-0");
+        if (data.Data.czyjestpo("2019-09-01",datasporzadzenia)) {
+            sprFinKwotyInfDod.setNrschemy("1-2");
+        }
+    }
+    
     //NIE ROBIC BAZE64 BO NIE BEDZIE DZIALAC
     public void zachowajplik(FileUploadEvent event) {
         try {
@@ -218,6 +249,9 @@ public class SprFinKwotyInfDodView  implements Serializable{
             
         }
     }
+
     
+
+       
     
 }

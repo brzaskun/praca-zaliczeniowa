@@ -81,6 +81,7 @@
                         <p:growl life="3600"  id="messages1" showDetail="false"/>
                         <h:outputText value="uprzednio wprowadzono plik: #{sprFinKwotyInfDodView.sprFinKwotyInfDod.nazwapliku}" rendered="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.plik ne null}" style="font-weight: bold; color: green;"/>
                         <p:commandButton value="pokaż" style="width: 120px;margin-top: 20px;" actionListener="#{sprFinKwotyInfDodView.pokazplik}"/>
+                        <h:outputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.nrschemy}" style="color: green;float:right"/>
                     </p:panelGrid>
                 </h:form>
             </p:tab>
@@ -94,11 +95,11 @@
                         <h:outputText value=""/>
                         <h:outputText value="Sąd Rejonowy Szczecin-Centrum w Szczecinie XIII Wydział Gospodarczy Krajowego Rejestru Sądowego"/>
                         <h:outputText value="podstawowy rodz. dział"/>
-                        <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.ppdzialalnosci}" size="120">
+                        <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.ppdzialalnosci}" size="100">
                             <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
                         </p:inputText>
                         <h:outputText value="kolejny rodz. dział"/>
-                        <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pozpdzialalnosci}" size="120">
+                        <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pozpdzialalnosci}" size="100">
                             <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
                         </p:inputText>
                         <h:outputText value="zysk strata netto"/>

@@ -94,14 +94,22 @@ public class XMLValid {
     }
     
 
-    public static Object[] walidujsprawozdanieView(InputStream inputStream, int coweryfikowac) {
+    public static Object[] walidujsprawozdanieView(InputStream inputStream, int coweryfikowac, String wersjaschemy) {
             Object[] zwrot = new Object[2];
             zwrot[0] = Boolean.FALSE;
             System.out.println("start walidacji");
             ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
             String realPath = ctx.getRealPath("/")+"resources\\xml\\schematsf.xsd";
-            if (coweryfikowac==1) {
-                realPath = ctx.getRealPath("/")+"resources\\xml\\schematoop.xsd";
+            if (wersjaschemy.equals("1-0")) {
+                realPath = ctx.getRealPath("/")+"resources\\xml\\schematsf.xsd";
+                if (coweryfikowac==1) {
+                    realPath = ctx.getRealPath("/")+"resources\\xml\\schematoop.xsd";
+                }
+            } else if (wersjaschemy.equals("1-2")) {
+                realPath = ctx.getRealPath("/")+"resources\\xml\\schematsf_12.xsd";
+                if (coweryfikowac==1) {
+                    realPath = ctx.getRealPath("/")+"resources\\xml\\schematoop_12.xsd";
+                }
             }
             try {
             File schemaFile = null;

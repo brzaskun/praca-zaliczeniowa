@@ -133,6 +133,8 @@ public class SprFinKwotyInfDod implements Serializable{
     private double zyskstratanetto;
     @Column(name = "datauchwal")
     private String datauchwal;
+    @Column(name = "nrschemy")
+    private String nrschemy;
     
 
     public SprFinKwotyInfDod() {
@@ -582,6 +584,14 @@ public class SprFinKwotyInfDod implements Serializable{
 
     public void setDatauchwal(String datauchwal) {
         this.datauchwal = datauchwal;
+    }
+
+    public String getNrschemy() {
+        return nrschemy;
+    }
+
+    public void setNrschemy(String nrschemy) {
+        this.nrschemy = nrschemy;
     }
 
     

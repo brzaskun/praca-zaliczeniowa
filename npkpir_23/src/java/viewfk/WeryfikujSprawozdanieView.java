@@ -25,6 +25,7 @@ import xml.XMLValid;
 public class WeryfikujSprawozdanieView  implements Serializable {
     private static final long serialVersionUID = 1L;
     private InputStream inputstream;
+    private String wersjaschemy;
     
     public void zachowajplik(FileUploadEvent event) {
         try {
@@ -42,8 +43,10 @@ public class WeryfikujSprawozdanieView  implements Serializable {
     }
     
     public void weryfikuj(int coweryfikowac) {
-        if (inputstream!=null) {
-            Object[] zwrot = XMLValid.walidujsprawozdanieView(inputstream, coweryfikowac);
+        if (wersjaschemy==null) {
+            Msg.msg("e","Nie wybrano wersji schemy. Nie można walidować");
+        } else if (inputstream!=null) {
+            Object[] zwrot = XMLValid.walidujsprawozdanieView(inputstream, coweryfikowac, wersjaschemy);
             boolean wynik = (boolean) zwrot[0];
             String wyniktext = (String) zwrot[1];
             if (wynik==true) {
@@ -54,6 +57,15 @@ public class WeryfikujSprawozdanieView  implements Serializable {
         } else {
             Msg.msg("e", "Nie załadowano pliku");  
         }
+    }
+
+
+    public String getWersjaschemy() {
+        return wersjaschemy;
+    }
+
+    public void setWersjaschemy(String wersjaschemy) {
+        this.wersjaschemy = wersjaschemy;
     }
     
 }

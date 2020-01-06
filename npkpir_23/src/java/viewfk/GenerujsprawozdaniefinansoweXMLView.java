@@ -155,8 +155,21 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
     }
     
     public void generuj(Map<String, List<PozycjaRZiSBilans>> bilans, List<PozycjaRZiSBilans> rzis) {
+        SprFinKwotyInfDod sprFinKwotyInfDod = sprFinKwotyInfDodDAO.findsprfinkwoty(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        if (sprFinKwotyInfDod.getNrschemy()==null) {
+            Msg.msg("e","Brak numeru schemy, nie można wygenerować sprawozdania.");
+        } else if (sprFinKwotyInfDod.getNrschemy().equals("1-0")) {
+            generuj10(bilans, rzis, sprFinKwotyInfDod);
+        } else if (sprFinKwotyInfDod.getNrschemy().equals("1-2")) {
+            generuj12(bilans, rzis, sprFinKwotyInfDod);
+        } else {
+            Msg.msg("e","Nieznany numer schemy, nie można wygenerować sprawozdania.");
+        }
+    }
+    
+    
+    public void generuj10(Map<String, List<PozycjaRZiSBilans>> bilans, List<PozycjaRZiSBilans> rzis, SprFinKwotyInfDod sprFinKwotyInfDod) {
         try {
-            SprFinKwotyInfDod sprFinKwotyInfDod = sprFinKwotyInfDodDAO.findsprfinkwoty(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             JednostkaInna sprawozdanie = new JednostkaInna();
             sprawozdanie.setNaglowek(SprawozdanieFin2018Bean.naglowek(sprFinKwotyInfDod.getDatasporzadzenia(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado()));
             sprawozdanie.setWprowadzenieDoSprawozdaniaFinansowego(SprawozdanieFin2018Bean.wprowadzenieDoSprawozdaniaFinansowego(wpisView.getPodatnikObiekt(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado()));
@@ -174,15 +187,54 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
         }
     }
     
+    public void generuj12(Map<String, List<PozycjaRZiSBilans>> bilans, List<PozycjaRZiSBilans> rzis, SprFinKwotyInfDod sprFinKwotyInfDod) {
+        try {
+            sprawozdania.v12.JednostkaInna sprawozdanie = new sprawozdania.v12.JednostkaInna();
+            sprawozdanie.setNaglowek(sprawozdania.v12.SprawozdanieFin2018Bean.naglowek(sprFinKwotyInfDod.getDatasporzadzenia(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado()));
+            sprawozdanie.setWprowadzenieDoSprawozdaniaFinansowego(sprawozdania.v12.SprawozdanieFin2018Bean.wprowadzenieDoSprawozdaniaFinansowego(wpisView.getPodatnikObiekt(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado()));
+            sprawozdanie.setBilans(sprawozdania.v12.SprawozdanieFin2018BilansBean.generujbilans(bilans.get("aktywa"), bilans.get("pasywa")));
+            sprawozdanie.setRZiS(sprawozdania.v12.SprawozdanieFin2018RZiSBean.generujrzis(rzis));
+            sprawozdanie.setDodatkoweInformacjeIObjasnieniaJednostkaInna(sprawozdania.v12.SprawozdanieFin2018DodInfoBean.generuj(sprFinKwotyInfDod));
+            String sciezka = marszajuldoplikuxml(wpisView.getPodatnikObiekt().getNip(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt(), sprawozdanie);
+            String polecenie = "wydrukXML(\""+sciezka+"\")";
+            PrimeFaces.current().executeScript(polecenie);
+            Msg.msg("Wygenerowano sprawozdanie finansowe");
+            //System.out.println("Wygenerowano sprawozdanie finansowe");
+        } catch (Exception e) {
+            Msg.msg("e","Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
+            //System.out.println("Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
+        }
+    }
+    
     public void generujOP(Map<String, List<PozycjaRZiSBilans>> bilans, List<PozycjaRZiSBilans> rzis) {
         try {
             SprFinKwotyInfDod sprFinKwotyInfDod = sprFinKwotyInfDodDAO.findsprfinkwoty(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            JednostkaOp sprawozdanie = new JednostkaOp();
+            sprawozdania.rok2018.JednostkaOp sprawozdanie = new sprawozdania.rok2018.JednostkaOp();
             sprawozdanie.setNaglowek(SprawozdanieFinOP2018Bean.naglowek(sprFinKwotyInfDod.getDatasporzadzenia(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado()));
             sprawozdanie.setWprowadzenieDoSprawozdaniaFinansowegoJednostkaOp(SprawozdanieFinOP2018Bean.wprowadzenieDoSprawozdaniaFinansowego(wpisView.getPodatnikObiekt(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado()));
             sprawozdanie.setBilansJednostkaOp(SprawozdanieFinOP2018BilansBean.generujbilans(bilans.get("aktywa"), bilans.get("pasywa")));
             sprawozdanie.setRZiSJednostkaOp(SprawozdanieFinOP2018RZiSBean.generujrzis(rzis));
             sprawozdanie.setDodatkoweInformacjeIObjasnieniaJednostkaInna(SprawozdanieFinOP2018DodInfoBean.generuj(sprFinKwotyInfDod));
+            String sciezka = marszajuldoplikuxml(wpisView.getPodatnikObiekt().getNip(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt(), sprawozdanie);
+            String polecenie = "wydrukXML(\""+sciezka+"\")";
+            PrimeFaces.current().executeScript(polecenie);
+            Msg.msg("Wygenerowano sprawozdanie finansowe");
+            //System.out.println("Wygenerowano sprawozdanie finansowe");
+        } catch (Exception e) {
+            Msg.msg("e","Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
+            //System.out.println("Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
+        }
+    }
+    
+    public void generujOP_12(Map<String, List<PozycjaRZiSBilans>> bilans, List<PozycjaRZiSBilans> rzis) {
+        try {
+            SprFinKwotyInfDod sprFinKwotyInfDod = sprFinKwotyInfDodDAO.findsprfinkwoty(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            sprawozdania.v12.JednostkaOp sprawozdanie = new sprawozdania.v12.JednostkaOp();
+            sprawozdanie.setNaglowek(sprawozdania.v12.SprawozdanieFinOP2018Bean.naglowek(sprFinKwotyInfDod.getDatasporzadzenia(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado()));
+            sprawozdanie.setWprowadzenieDoSprawozdaniaFinansowegoJednostkaOp(sprawozdania.v12.SprawozdanieFinOP2018Bean.wprowadzenieDoSprawozdaniaFinansowego(wpisView.getPodatnikObiekt(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado()));
+            sprawozdanie.setBilansJednostkaOp(sprawozdania.v12.SprawozdanieFinOP2018BilansBean.generujbilans(bilans.get("aktywa"), bilans.get("pasywa")));
+            sprawozdanie.setRZiSJednostkaOp(sprawozdania.v12.SprawozdanieFinOP2018RZiSBean.generujrzis(rzis));
+            sprawozdanie.setDodatkoweInformacjeIObjasnieniaJednostkaInna(sprawozdania.v12.SprawozdanieFinOP2018DodInfoBean.generuj(sprFinKwotyInfDod));
             String sciezka = marszajuldoplikuxml(wpisView.getPodatnikObiekt().getNip(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt(), sprawozdanie);
             String polecenie = "wydrukXML(\""+sciezka+"\")";
             PrimeFaces.current().executeScript(polecenie);

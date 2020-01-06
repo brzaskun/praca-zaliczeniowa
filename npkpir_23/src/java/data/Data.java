@@ -93,6 +93,42 @@ public class Data implements Serializable {
         return 0;
     }
     
+    /**
+     * Porównywanie dwóch rokow i mce. Przyjmuje integer
+     * 
+     * @param rokP rok późniejszy
+     * @param mcP miesiąc poźniejszy
+     * @param dcP dzień poźniejszy
+     * @param rokW rok wcześniejszy
+     * @param mcW miesiąc wcześniejszy
+     * @param dcW dzień wcześniejszy
+     * @return    <code>1</code> jeżeli data póżniejsza jest późniejsza jest wcześniejszej <br/>
+     *            <code>0</code> jeżeli lata i mce są równe<br/>
+     *            <code>-1</code> jeżeli wcześniejsza jest jednak późniejsza
+     */
+    private static int doCompare(int rokP, int mcP, int dcP, int rokW, int mcW, int dcW) {
+         if (rokP < rokW) {
+            return -1;
+        } else if (rokP > rokW) {
+            return 1;
+        } else if (rokP == rokW) {
+            if (mcP < mcW) {
+                return -1;
+            } else if (mcP > mcW){
+                return 1;
+            } if (mcP == mcW) {
+                if (dcP < dcW) {
+                    return -1;
+                } else if (dcP > dcW){
+                    return 1;
+                } if (dcP == dcW) {
+                   return 0;
+                }
+            } 
+        }
+        return 0;
+    }
+    
    
     
     public static int compare(int rokP, int mcP, int rokW, int mcW) {
@@ -131,9 +167,11 @@ public class Data implements Serializable {
     public static int compare(String datapozniejsza, String datawczesniejsza) {
         int rokP = Integer.parseInt(datapozniejsza.substring(0,4));
         int mcP = Integer.parseInt(datapozniejsza.substring(5, 7));
+        int dcP = Integer.parseInt(datapozniejsza.substring(8, 10));
         int rokW = Integer.parseInt(datawczesniejsza.substring(0, 4));
         int mcW = Integer.parseInt(datawczesniejsza.substring(5, 7));
-        return doCompare(rokP, mcP, rokW, mcW);
+        int dcW = Integer.parseInt(datawczesniejsza.substring(8, 10));
+        return doCompare(rokP, mcP, dcP, rokW, mcW, dcW);
     }
     
     public static int compare(UmorzenieN um, WpisView wpisView) {
@@ -261,13 +299,24 @@ public class Data implements Serializable {
         return czyjestpo(dataOd, rok, mc) && czyjestprzed(dataDo, rok, mc);
     }
     
-     
-    public static boolean czyjestpo(String dataOd, String rok, String mc) {
+    //chodzi o to czy okres data jest po jakiesc dacie
+    public static boolean czyjestpo(String termingraniczny, String badanadata) {
         boolean zwrot = false;
-        if (dataOd == null || dataOd.equals("")) {
+        if (termingraniczny == null || termingraniczny.equals("")) {
             zwrot = false;
         } else {
-            zwrot = czydatasiezawiera(dataOd, rok, mc, true);
+            zwrot = czydatasiezawiera(termingraniczny, badanadata, true);
+        }
+        return zwrot;
+    }
+    
+    //chodzi o to czy okres MC, ROK jest po jakiesc dacie
+    public static boolean czyjestpo(String termingraniczny, String rokbadanegookresu, String mcbadanegookresu) {
+        boolean zwrot = false;
+        if (termingraniczny == null || termingraniczny.equals("")) {
+            zwrot = false;
+        } else {
+            zwrot = czydatasiezawiera(termingraniczny, rokbadanegookresu, mcbadanegookresu, true);
         }
         return zwrot;
     }
@@ -292,6 +341,18 @@ public class Data implements Serializable {
                 wynikporównania  = compare(rok, mc, rokdaty, mcdaty);
             } else {
                 wynikporównania  = compare(rokdaty, mcdaty, rok, mc);
+            }
+        } catch (Exception e) {}
+        return wynikporównania > -1;
+    }
+    
+    private static boolean czydatasiezawiera(String termingraniczny, String badanadata, boolean przed0po1) {
+        int wynikporównania = -1;
+        try {
+            if (przed0po1) {
+                wynikporównania  = compare(badanadata, termingraniczny);
+            } else {
+                wynikporównania  = compare(termingraniczny, badanadata);
             }
         } catch (Exception e) {}
         return wynikporównania > -1;
@@ -510,23 +571,39 @@ public class Data implements Serializable {
         }
         return dobradata;
     }
-   
+//   
+//    public static void main(String[] args) {
+//        try {
+//            String termin = "10-05-2012";
+//            String dzis = "11-05-2012";
+//            
+//            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+//            
+//            Date date1 = format.parse(termin);
+//            Date date2 = format.parse(dzis);
+//            
+//            if (date1.compareTo(date2) <0) {
+//                System.out.println("red");
+//            }   } catch (ParseException ex) {
+//            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//}
+    
     public static void main(String[] args) {
         try {
-            String termin = "10-05-2012";
-            String dzis = "11-05-2012";
-            
-            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-            
-            Date date1 = format.parse(termin);
-            Date date2 = format.parse(dzis);
-            
-            if (date1.compareTo(date2) <0) {
-                System.out.println("red");
-            }   } catch (ParseException ex) {
+            String termin = "2019-12-29";
+            String dzis = "2019-12-28";
+            boolean zwrot = czyjestpo(termin, dzis);
+            if (zwrot) {
+                System.out.println("TRUE");
+            } else {
+                System.out.println("FALSE");
+            }
+        } catch (Exception ex) {
             Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
         }
 }
+    
 //   public static void main(String[] args) {
 //        String dzien = null;
 //        String mc = "05";

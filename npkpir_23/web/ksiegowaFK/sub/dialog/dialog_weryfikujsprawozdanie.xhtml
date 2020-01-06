@@ -23,6 +23,12 @@
             </p:panelGrid>
         </h:form>
         <h:form id="form_dialogweryfikujsprawozdanie">
+            <h:outputText value="wersja sprawozdania"/>
+            <p:selectOneListbox value="#{weryfikujSprawozdanieView.wersjaschemy}">
+                <f:selectItem itemLabel="wybierz" noSelectionOption="true"></f:selectItem>
+                <f:selectItem itemLabel="1-0" itemValue="1-0"></f:selectItem>
+                <f:selectItem itemLabel="1-2" itemValue="1-2"></f:selectItem>
+            </p:selectOneListbox>
             <p:panelGrid columns="2" style="margin-top: 100px;">
             <p:commandButton value="weryfikuj SF" actionListener="#{weryfikujSprawozdanieView.weryfikuj(0)}" update="@form" style="width: 120px;"/>
             <p:commandButton value="weryfikuj OOP" actionListener="#{weryfikujSprawozdanieView.weryfikuj(1)}" update="@form" style="width: 120px;margin-left: 50px;"/>
