@@ -7,7 +7,7 @@
     
 
     xmlns:bcf="http://brzaskun.com/facelets">
-    <p:tabView id="akordeon" >
+    <p:tabView id="akordeon"  rendered="#{WpisView.biuroiszef eq true}">
         <p:tab id="tab2" title="Oblicz PIT" rendered="#{WpisView.ksiegaryczalt}" >
             <h:outputText value="Uwaga podatnik rozlicza się kwartalnie!" style="font-weight: 900; color: red;" rendered="#{WpisView.mc0kw1}"/>
             <h:form id="formpit">

@@ -8,7 +8,7 @@
 
     <p:tab id="zestawienie" title="Faktury wystawione wg kontrahentow">
         <h:form id="formzestawienie">
-            <p><p:commandButton value="#{mgs.pobierz}" actionListener="#{fakturaZestView.init()}" update="@form, :form1:messages" style="width: 120px;"/></p>
+            <p><p:commandButton value="#{mgs.pobierz}" actionListener="#{fakturaZestView.init()}" update="@form, :form1:messages" style="width: 120px;"  rendered="#{WpisView.biuroiszef eq true}"/></p>
             <p:dataTable id="dokumentyZestawienie" value="#{fakturaZestView.fakturyZestawienie}" var="item"  rowIndexVar="row" 
                          rowKey="#{item.kontrahent.npelna}" style="width: 900px;height: 800px; overflow-y: scroll;" widgetVar="zestTable" sortBy="#{item.kontrahent.npelna}" sortOrder="DESCENDING"
                          rowSelectMode="add"  emptyMessage="nie pobrano wierszy" >

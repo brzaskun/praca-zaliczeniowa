@@ -48,6 +48,7 @@ import entity.KwotaKolumna1;
 import entity.Logofaktura;
 import entity.Podatnik;
 import entity.Rodzajedok;
+import entity.Uz;
 import entityfk.Dokfk;
 import entityfk.Tabelanbp;
 import error.E;
@@ -61,6 +62,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
@@ -216,17 +219,57 @@ public class FakturaView implements Serializable {
         fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         Collections.sort(fakturyokresowe, new Fakturyokresowecomparator());
         List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu());
-        for (Faktura fakt : fakturytmp) {
-            if (!fakt.isTylkodlaokresowej()) {
-                if (fakt.isProforma()) {
-                    fakturypro.add(fakt);
-                } else if (fakt.getWyslana() == true && fakt.getZaksiegowana() == true) {
-                    fakturyarchiwum.add(fakt);
-                } else {
-                    faktury.add(fakt);
+        boolean czybiuro = wpisView.getPodatnikObiekt().getNip().equals("8511005008");
+        if (czybiuro) {
+            boolean czyszef = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser().equals("szef");
+            if (czyszef) {
+                for (Faktura fakt : fakturytmp) {
+                    if (!fakt.isTylkodlaokresowej()) {
+                        if (fakt.isProforma()) {
+                            fakturypro.add(fakt);
+                        } else if (fakt.getWyslana() == true && fakt.getZaksiegowana() == true) {
+                            fakturyarchiwum.add(fakt);
+                        } else {
+                            faktury.add(fakt);
+                        }
+                    }
+                } 
+            } else {
+                 Map<String, Uz> podatnicylista = podatnikDAO.findAllPrzyporzadkowany().stream().collect(Collectors.toMap(Podatnik::getNip, Podatnik::getKsiegowa));
+                 for (Faktura fakt : fakturytmp) {
+                     try {
+                        Uz uzer = podatnicylista.entrySet().stream().filter(e -> e.getKey().equals(fakt.getKontrahent().getNip())).findFirst().get().getValue();
+                        if (uzer!=null) {
+                        String login = uzer.getLogin().substring(0,3);
+                           if (wpisView.getUzer().getLogin().startsWith(login)) {
+                               if (!fakt.isTylkodlaokresowej()) {
+                                   if (fakt.isProforma()) {
+                                       fakturypro.add(fakt);
+                                   } else if (fakt.getWyslana() == true && fakt.getZaksiegowana() == true) {
+                                       fakturyarchiwum.add(fakt);
+                                   } else {
+                                       faktury.add(fakt);
+                                   }
+                               }
+                           }
+                        }
+                     } catch (Exception ex) {}
                 }
             }
+        } else {
+            for (Faktura fakt : fakturytmp) {
+                if (!fakt.isTylkodlaokresowej()) {
+                        if (fakt.isProforma()) {
+                            fakturypro.add(fakt);
+                        } else if (fakt.getWyslana() == true && fakt.getZaksiegowana() == true) {
+                            fakturyarchiwum.add(fakt);
+                        } else {
+                            faktury.add(fakt);
+                        }
+                    }
+            }
         }
+        
         Fakturaelementygraficzne elementgraficzny = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
         if (elementgraficzny != null) {
             sprawdzczyniezniknalplik(elementgraficzny.getFakturaelementygraficznePK().getNazwaelementu());

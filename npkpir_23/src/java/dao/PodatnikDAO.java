@@ -32,6 +32,14 @@ public class PodatnikDAO extends DAO implements Serializable{
         }
     }
     
+    public  List<Podatnik> findAllPrzyporzadkowany(){
+        try {
+            return podatnikFacade.getEntityManager().createNamedQuery("Podatnik.findByPodmiotaktywnyPrzyporzadkowany").setParameter("podmiotaktywny", true).getResultList();
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
+    
     public  List<Podatnik> findAllRO(){
         try {
             return podatnikFacade.findAktywnyPodatnikRO(true);

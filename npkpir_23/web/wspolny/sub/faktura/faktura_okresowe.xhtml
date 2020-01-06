@@ -59,7 +59,7 @@
                 </p:selectOneMenu>
             </p:panelGrid>
             
-            <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}"
+            <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}"  rendered="#{WpisView.biuroiszef eq true}"
                          selection="#{fakturaView.gosciwybralokres}" rowKey="#{wpis.hashCode()}" style="max-width: 1400px;" widgetVar="okresTable" sortBy="#{wpis.dokument.kontrahent.nskrocona}" sortOrder="ascending"
                          rowSelectMode="add">
                 

@@ -25,8 +25,11 @@
                     <ui:include src="sub/layoutKsiega/south.xhtml"/>   <!-- panel poludniowy-->
                     <ui:include src="sub/layoutKsiega/west.xhtml"/>   <!-- panel zachodni-->
                     <ui:include src="sub/layoutKsiega/east.xhtml"/>   <!-- panel wchodni-->
-                    <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
+                    <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;"  rendered="#{WpisView.biuroiszef eq true}">
                         <ui:include src="sub/ksiega.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                    </p:layoutUnit>
+                    <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;"  rendered="#{WpisView.biuroiszef eq false}">
+                        
                     </p:layoutUnit>
                 </p:layout>
             </f:view>

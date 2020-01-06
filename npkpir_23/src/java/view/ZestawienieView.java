@@ -774,118 +774,122 @@ public class ZestawienieView implements Serializable {
 
     private double wyliczmaksymalna() {
         double maxliczbadowykresu = 0;
-        List<Double> lista = Collections.synchronizedList(new ArrayList<>());
-        lista.add(styczen.get(7));
-        lista.add(luty.get(7));
-        lista.add(marzec.get(7));
-        lista.add(kwiecien.get(7));
-        lista.add(maj.get(7));
-        lista.add(czerwiec.get(7));
-        lista.add(lipiec.get(7));
-        lista.add(sierpien.get(7));
-        lista.add(wrzesien.get(7));
-        lista.add(pazdziernik.get(7));
-        lista.add(listopad.get(7));
-        lista.add(grudzien.get(7));
-        lista.add(styczen.get(8));
-        lista.add(luty.get(8));
-        lista.add(marzec.get(8));
-        lista.add(kwiecien.get(8));
-        lista.add(maj.get(8));
-        lista.add(czerwiec.get(8));
-        lista.add(lipiec.get(8));
-        lista.add(sierpien.get(8));
-        lista.add(wrzesien.get(8));
-        lista.add(pazdziernik.get(8));
-        lista.add(listopad.get(8));
-        lista.add(grudzien.get(8));
-        lista.add(styczen.get(9));
-        lista.add(luty.get(9));
-        lista.add(marzec.get(9));
-        lista.add(kwiecien.get(9));
-        lista.add(maj.get(9));
-        lista.add(czerwiec.get(9));
-        lista.add(lipiec.get(9));
-        lista.add(sierpien.get(9));
-        lista.add(wrzesien.get(9));
-        lista.add(pazdziernik.get(9));
-        lista.add(listopad.get(9));
-        lista.add(grudzien.get(9));
-        for (Double p : lista) {
-            if (maxliczbadowykresu < p) {
-                maxliczbadowykresu = p;
+        try {
+            List<Double> lista = Collections.synchronizedList(new ArrayList<>());
+            lista.add(styczen.get(7));
+            lista.add(luty.get(7));
+            lista.add(marzec.get(7));
+            lista.add(kwiecien.get(7));
+            lista.add(maj.get(7));
+            lista.add(czerwiec.get(7));
+            lista.add(lipiec.get(7));
+            lista.add(sierpien.get(7));
+            lista.add(wrzesien.get(7));
+            lista.add(pazdziernik.get(7));
+            lista.add(listopad.get(7));
+            lista.add(grudzien.get(7));
+            lista.add(styczen.get(8));
+            lista.add(luty.get(8));
+            lista.add(marzec.get(8));
+            lista.add(kwiecien.get(8));
+            lista.add(maj.get(8));
+            lista.add(czerwiec.get(8));
+            lista.add(lipiec.get(8));
+            lista.add(sierpien.get(8));
+            lista.add(wrzesien.get(8));
+            lista.add(pazdziernik.get(8));
+            lista.add(listopad.get(8));
+            lista.add(grudzien.get(8));
+            lista.add(styczen.get(9));
+            lista.add(luty.get(9));
+            lista.add(marzec.get(9));
+            lista.add(kwiecien.get(9));
+            lista.add(maj.get(9));
+            lista.add(czerwiec.get(9));
+            lista.add(lipiec.get(9));
+            lista.add(sierpien.get(9));
+            lista.add(wrzesien.get(9));
+            lista.add(pazdziernik.get(9));
+            lista.add(listopad.get(9));
+            lista.add(grudzien.get(9));
+            for (Double p : lista) {
+                if (maxliczbadowykresu < p) {
+                    maxliczbadowykresu = p;
+                }
             }
-        }
-        if (maxliczbadowykresu < 10000) {
-            maxliczbadowykresu = maxliczbadowykresu + maxliczbadowykresu * 0.05;
-            maxliczbadowykresu = maxliczbadowykresu / 1000;
-            maxliczbadowykresu = Math.round(maxliczbadowykresu);
-            maxliczbadowykresu = maxliczbadowykresu * 1000;
-        } else {
-            maxliczbadowykresu = maxliczbadowykresu + maxliczbadowykresu * 0.02;
-            maxliczbadowykresu = maxliczbadowykresu / 10000;
-            maxliczbadowykresu = Math.round(maxliczbadowykresu);
-            maxliczbadowykresu = maxliczbadowykresu * 10000;
-        }
+            if (maxliczbadowykresu < 10000) {
+                maxliczbadowykresu = maxliczbadowykresu + maxliczbadowykresu * 0.05;
+                maxliczbadowykresu = maxliczbadowykresu / 1000;
+                maxliczbadowykresu = Math.round(maxliczbadowykresu);
+                maxliczbadowykresu = maxliczbadowykresu * 1000;
+            } else {
+                maxliczbadowykresu = maxliczbadowykresu + maxliczbadowykresu * 0.02;
+                maxliczbadowykresu = maxliczbadowykresu / 10000;
+                maxliczbadowykresu = Math.round(maxliczbadowykresu);
+                maxliczbadowykresu = maxliczbadowykresu * 10000;
+            }
+        } catch (Exception ex){}
 
         return maxliczbadowykresu;
     }
 
     private double wyliczminimalna() {
         double minliczbadowykresu = 0;
-        List<Double> lista = Collections.synchronizedList(new ArrayList<>());
-        lista.add(styczen.get(7));
-        lista.add(luty.get(7));
-        lista.add(marzec.get(7));
-        lista.add(kwiecien.get(7));
-        lista.add(maj.get(7));
-        lista.add(czerwiec.get(7));
-        lista.add(lipiec.get(7));
-        lista.add(sierpien.get(7));
-        lista.add(wrzesien.get(7));
-        lista.add(pazdziernik.get(7));
-        lista.add(listopad.get(7));
-        lista.add(grudzien.get(7));
-        lista.add(styczen.get(8));
-        lista.add(luty.get(8));
-        lista.add(marzec.get(8));
-        lista.add(kwiecien.get(8));
-        lista.add(maj.get(8));
-        lista.add(czerwiec.get(8));
-        lista.add(lipiec.get(8));
-        lista.add(sierpien.get(8));
-        lista.add(wrzesien.get(8));
-        lista.add(pazdziernik.get(8));
-        lista.add(listopad.get(8));
-        lista.add(grudzien.get(8));
-        lista.add(styczen.get(9));
-        lista.add(luty.get(9));
-        lista.add(marzec.get(9));
-        lista.add(kwiecien.get(9));
-        lista.add(maj.get(9));
-        lista.add(czerwiec.get(9));
-        lista.add(lipiec.get(9));
-        lista.add(sierpien.get(9));
-        lista.add(wrzesien.get(9));
-        lista.add(pazdziernik.get(9));
-        lista.add(listopad.get(9));
-        lista.add(grudzien.get(9));
-        for (double p : lista) {
-            if (minliczbadowykresu > p) {
-                minliczbadowykresu = p;
+        try {
+            List<Double> lista = Collections.synchronizedList(new ArrayList<>());
+            lista.add(styczen.get(7));
+            lista.add(luty.get(7));
+            lista.add(marzec.get(7));
+            lista.add(kwiecien.get(7));
+            lista.add(maj.get(7));
+            lista.add(czerwiec.get(7));
+            lista.add(lipiec.get(7));
+            lista.add(sierpien.get(7));
+            lista.add(wrzesien.get(7));
+            lista.add(pazdziernik.get(7));
+            lista.add(listopad.get(7));
+            lista.add(grudzien.get(7));
+            lista.add(styczen.get(8));
+            lista.add(luty.get(8));
+            lista.add(marzec.get(8));
+            lista.add(kwiecien.get(8));
+            lista.add(maj.get(8));
+            lista.add(czerwiec.get(8));
+            lista.add(lipiec.get(8));
+            lista.add(sierpien.get(8));
+            lista.add(wrzesien.get(8));
+            lista.add(pazdziernik.get(8));
+            lista.add(listopad.get(8));
+            lista.add(grudzien.get(8));
+            lista.add(styczen.get(9));
+            lista.add(luty.get(9));
+            lista.add(marzec.get(9));
+            lista.add(kwiecien.get(9));
+            lista.add(maj.get(9));
+            lista.add(czerwiec.get(9));
+            lista.add(lipiec.get(9));
+            lista.add(sierpien.get(9));
+            lista.add(wrzesien.get(9));
+            lista.add(pazdziernik.get(9));
+            lista.add(listopad.get(9));
+            lista.add(grudzien.get(9));
+            for (double p : lista) {
+                if (minliczbadowykresu > p) {
+                    minliczbadowykresu = p;
+                }
             }
-        }
-        if (minliczbadowykresu < -10000) {
-            minliczbadowykresu = minliczbadowykresu + minliczbadowykresu * 0.05;
-            minliczbadowykresu = minliczbadowykresu / 1000;
-            minliczbadowykresu = Math.round(minliczbadowykresu);
-            minliczbadowykresu = minliczbadowykresu * 1000;
-        } else {
-            minliczbadowykresu = minliczbadowykresu + minliczbadowykresu * 0.02;
-            minliczbadowykresu = minliczbadowykresu / 10000;
-            minliczbadowykresu = Math.round(minliczbadowykresu);
-            minliczbadowykresu = minliczbadowykresu * 10000;
-        }
+            if (minliczbadowykresu < -10000) {
+                minliczbadowykresu = minliczbadowykresu + minliczbadowykresu * 0.05;
+                minliczbadowykresu = minliczbadowykresu / 1000;
+                minliczbadowykresu = Math.round(minliczbadowykresu);
+                minliczbadowykresu = minliczbadowykresu * 1000;
+            } else {
+                minliczbadowykresu = minliczbadowykresu + minliczbadowykresu * 0.02;
+                minliczbadowykresu = minliczbadowykresu / 10000;
+                minliczbadowykresu = Math.round(minliczbadowykresu);
+                minliczbadowykresu = minliczbadowykresu * 10000;
+            }
+        } catch (Exception ex){}
         return minliczbadowykresu;
     }
 

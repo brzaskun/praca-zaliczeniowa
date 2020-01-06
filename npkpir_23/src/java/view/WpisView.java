@@ -78,6 +78,7 @@ public class WpisView implements Serializable {
     private boolean rokpoprzednizamkniety;
     private Podatnik podatnikwzorcowy;
     private String odjakiegomcdok;
+    private boolean biuroiszef;
 
     public WpisView() {
         czegosbrakuje = false;
@@ -94,27 +95,27 @@ public class WpisView implements Serializable {
             podatnikObiekt = uzer.getPodatnik();
             if (podatnikObiekt == null) {
                 inicjacjaUz();
-            } else if (uzer.getMiesiacWpisu()==null || uzer.getRokWpisu()==null) {
+            } else if (uzer.getMiesiacWpisu() == null || uzer.getRokWpisu() == null) {
                 miesiacWpisu = Data.aktualnyMc();
-                zmianaokresuMc =  Data.aktualnyMc();
+                zmianaokresuMc = Data.aktualnyMc();
                 miesiacWpisuArchiwum = Data.aktualnyMc();
                 rokWpisu = Integer.parseInt(Data.aktualnyRok());
-                zmianaokresuRok =  Integer.parseInt(Data.aktualnyRok());
+                zmianaokresuRok = Integer.parseInt(Data.aktualnyRok());
                 inicjacjaUzDaty();
             } else {
                 miesiacWpisu = uzer.getMiesiacWpisu();
-                zmianaokresuMc =  uzer.getMiesiacWpisu();
+                zmianaokresuMc = uzer.getMiesiacWpisu();
                 miesiacWpisuArchiwum = uzer.getMiesiacWpisu();
                 rokWpisu = uzer.getRokWpisu();
-                zmianaokresuRok =  uzer.getRokWpisu();
+                zmianaokresuRok = uzer.getRokWpisu();
             }
-           obsluzMce();
-           uzupelnijdanepodatnika();
-           czyniegosc();
-           podatnikwzorcowy = podatnikDAO.find("Wzorcowy");
+            obsluzMce();
+            uzupelnijdanepodatnika();
+            czyniegosc();
+            podatnikwzorcowy = podatnikDAO.find("Wzorcowy");
+            czytojetsbiuroiszef();
         }
-     
-        }
+    }
     
     public void initpublic() {
         init();
@@ -261,7 +262,20 @@ public class WpisView implements Serializable {
         uzDAO.edit(uzer);
         uzupelnijdanepodatnika();
         czyniegosc();
-       
+       czytojetsbiuroiszef();
+    }
+    
+    private void czytojetsbiuroiszef() {
+        biuroiszef = true;
+        boolean czybiuro = getPodatnikObiekt().getNip().equals("8511005008");
+        if (czybiuro) {
+            biuroiszef = false;
+            boolean czyszef = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser().equals("szef");
+            boolean czyrenata = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser().equals("renata");
+            if (czyszef || czyrenata) {
+                biuroiszef = true;
+            }
+        }
     }
     
      public void aktualizuj(){
@@ -764,6 +778,14 @@ public class WpisView implements Serializable {
 
     public void setOdjakiegomcdok(String odjakiegomcdok) {
         this.odjakiegomcdok = odjakiegomcdok;
+    }
+
+    public boolean isBiuroiszef() {
+        return biuroiszef;
+    }
+
+    public void setBiuroiszef(boolean biuroiszef) {
+        this.biuroiszef = biuroiszef;
     }
   
 
