@@ -60,6 +60,7 @@ import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -632,6 +633,8 @@ public class FakturaView implements Serializable {
        }
 
     private void waloryzacjakwoty(Faktura faktura, double proc) throws Exception {
+        faktura.setDatawaloryzacji(Data.ostatniDzien(wpisView));
+        faktura.setProcentwaloryzacji(proc);
         double procent = proc/100;
         kwotaprzedwaloryzacja = faktura.getBrutto();
         List<Pozycjenafakturzebazadanych> pozycje = faktura.getPozycjenafakturze();
@@ -1332,6 +1335,7 @@ public class FakturaView implements Serializable {
                     try {
                         waloryzacjakwoty(nowa, waloryzajca);
                         Faktura stara = p.getDokument();
+                        //to jest po to zeby potem juz generowac z okresowych ze zwaloryzowana kwota
                         waloryzacjakwoty(stara, waloryzajca);
                         fakturaDAO.edit(stara);
                     } catch (Exception e) { E.e(e); 

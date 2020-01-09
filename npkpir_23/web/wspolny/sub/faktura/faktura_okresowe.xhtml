@@ -42,7 +42,7 @@
                 </p:row>
             </p:panelGrid>
             <p:panelGrid columns="7">
-                <h:outputText value="Procent waloryzacji 1=100%"/>
+                <h:outputText value="Procent waloryzacji 100=100%"/>
                 <p:inputNumber  id="kwotawaloryzacji" value="#{fakturaView.waloryzajca}"  decimalPlaces="2" decimalSeparator="." inputStyle="text-align: right;" symbol=" %" symbolPosition="s" maxValue="100">
                     <p:ajax event="blur" partialSubmit="true" global="false"/>
                 </p:inputNumber>
@@ -94,7 +94,7 @@
                     <h:outputText value=" do edycji" style="color: blue; font-size: smaller;" rendered="#{wpis.recznaedycja}"/>
                 </p:column>
                 <p:column headerText="netto" sortBy="#{wpis.dokument.nettoFakturaView}" filterBy="#{wpis.dokument.nettoFakturaView}" filterMatchMode="contains" filterStyle="display : none;" width="70">
-                    <bcf:outputpl value="#{wpis.dokument.nettoFakturaView}"/>
+                    <bcf:outputpl value="#{wpis.dokument.nettoFakturaView}" stylePlus="color: #{wpis.dokument.kolor(WpisView.rokWpisu, WpisView.miesiacWpisu)}"/>
                     <h:outputText value=" #{wpis.dokument.walutafaktury}" rendered="#{wpis.dokument.walutafaktury ne 'PLN'}"/>
                 </p:column>
                 <p:column headerText="brutto" sortBy="#{wpis.dokument.bruttoFakturaView}" filterBy="#{wpis.dokument.bruttoFakturaView}" filterMatchMode="contains" filterStyle="display : none;" width="70">
@@ -147,7 +147,7 @@
                                       icon="ui-icon-script" oncomplete="aktywujpolewyboruklientanafakturze();" />
                 </p:column>
                 <p:rowExpansion>
-                     <p:panelGrid  columns="2"  style="width:300px">
+                     <p:panelGrid  columns="4"  style="width:800px">
                         <h:outputText value="NIP kontrahenta"/>
                         <h:outputText value="#{wpis.dokument.kontrahent_nip}"/>
                         <h:outputText value="email kontrahenta"/>
@@ -158,6 +158,13 @@
                         <bcf:outputpl value="#{wpis.dokument.vat}"/>
                         <h:outputText value="kwota brutto"/>
                         <bcf:outputpl value="#{wpis.dokument.brutto}"/>
+                        <h:outputText value=""/><h:outputText value=""/>
+                        <h:outputText value="data waloryzacji"/>
+                        <h:outputText value="#{wpis.dokument.datawaloryzacji}">
+                            <f:convertDateTime pattern="yyyy-MM-dd" />
+                        </h:outputText>
+                        <h:outputText value="procent waloryzacji %" />
+                        <bcf:outputpl value="#{wpis.dokument.procentwaloryzacji}" />
                      </p:panelGrid>
                 </p:rowExpansion>
             </p:dataTable>

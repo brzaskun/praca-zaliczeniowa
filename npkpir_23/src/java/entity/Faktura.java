@@ -302,6 +302,10 @@ public class Faktura implements Serializable {
     private Tabelanbp tabelanbp;
     @Column(name = "reversecharge")
     private boolean reversecharge;
+    @Column(name = "datawaloryzacji")
+    private String datawaloryzacji;
+    @Column (name = "procentwaloryzacji")
+    private double procentwaloryzacji;
     
   
 
@@ -596,6 +600,17 @@ public class Faktura implements Serializable {
             fakturaNormalna = false;
         }
         return fakturaNormalna;
+    }
+    
+    public String kolor(String rok, String mc) {
+        String zwrot = "initial";
+        if (this.datawaloryzacji!=null) {
+            String data = this.datawaloryzacji;
+            if (rok.equals(Data.getRok(data))&&mc.equals(Data.getMc(data))) {
+                zwrot = "violet";
+            }
+        }
+        return zwrot;
     }
     
     public Date getDatatelefon() {
@@ -1087,12 +1102,28 @@ public class Faktura implements Serializable {
     public void setBruttopkpln(double bruttopkpln) {
         this.bruttopkpln = bruttopkpln;
     }
+
+    public String getDatawaloryzacji() {
+        return datawaloryzacji;
+    }
+
+    public void setDatawaloryzacji(String datawaloryzacji) {
+        this.datawaloryzacji = datawaloryzacji;
+    }
+    
+
+
+    public double getProcentwaloryzacji() {
+        return procentwaloryzacji;
+    }
+
+    public void setProcentwaloryzacji(double procentwaloryzacji) {
+        this.procentwaloryzacji = procentwaloryzacji;
+    }
     
     
     
 //</editor-fold>
-    
-    
 
    
 
