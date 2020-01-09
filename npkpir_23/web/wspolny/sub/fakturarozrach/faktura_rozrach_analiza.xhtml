@@ -17,16 +17,14 @@
         </style>
         <h:form id="fakturaanaliza">
             <p:panelGrid columns="2">
-                <h:selectOneListbox id="wyborklienta" value="#{fakturaRozrachunkiAnalizaView.szukanyklient}" required="true" style="width: 300px;"  size="10" converter="KlientConv"
+                <p:selectOneListbox id="wyborklienta" value="#{fakturaRozrachunkiAnalizaView.szukanyklient}" required="true" style="width: 300px;"  converter="KlientConv"
                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" binding="#{fakturaRozrachunkiAnalizaView.selectOneUI}"
-                                    onfocus="$(this).removeClass('ui-state-default');
-                                                    $(this).addClass('ui-state-focus');"
-                                    onblur="$(this).removeClass('ui-state-focus');
-                                                    $(this).addClass('ui-state-default');">
+                                    filter="true" filterMatchMode="contains"
+                                    >
                     <f:selectItems value="#{fakturaRozrachunkiAnalizaView.klienci}"/>
                     <p:ajax event="change" global="false" listener="#{fakturaRozrachunkiAnalizaView.pobierzwszystkoKlienta()}" 
                             update=":akordeon:fakturaanaliza:tablicaanaliza :akordeon:fakturaanaliza:mailklientapanel"/>
-                </h:selectOneListbox>
+                </p:selectOneListbox>
                 <p:commandButton icon="fa fa-print" actionListener="#{fakturaRozrachunkiAnalizaView.drukujKlienci()}" style="width: 120px;"/>
             </p:panelGrid>
             <style>
