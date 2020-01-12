@@ -15,7 +15,7 @@
         }
     </style>
    
-        <p:dialog id="importgcobank" header="Pobieranie wyciągów bankowych z plików GCO csv" widgetVar="importgcobank" height="900" width="1450" 
+        <p:dialog id="importgcobank" header="Pobieranie wyciągów bankowych z banku Santander w formacie csv" widgetVar="importgcobank" height="900" width="1450" 
               resizable="false"  onShow="ustawdialog('importgcobank','menudokumenty', 1450,900);" closeOnEscape="true" onHide="resetujdialog('importgcobank');" >
             <p:ajax event="open" listener="#{gCOBankImportView.init()}" update="panelplikbankgco"/>
         <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" update=":form_importgcobank"/>

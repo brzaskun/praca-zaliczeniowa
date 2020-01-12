@@ -89,10 +89,6 @@ public class ImportSprzedazyFKView  implements Serializable {
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     @Inject
     private UkladBRDAO ukladBRDAO;
-    private Rodzajedok rodzajedok;
-    private List<Evewidencja> evewidencje;
-    @Inject
-    private EvewidencjaDAO evewidencjaDAO;
     @Inject
     private KlienciDAO klDAO;
     @Inject
@@ -115,8 +111,6 @@ public class ImportSprzedazyFKView  implements Serializable {
         
     
     public void init() { //E.m(this);
-        rodzajedok = rodzajedokDAO.find("SZ", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        evewidencje = evewidencjaDAO.znajdzpotransakcji("sprzedaz");
         kontonetto = kontoDAO.findKonto("702-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         kontovat = kontoDAO.findKonto("221-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         kontonettokoszt = kontoDAO.findKonto("403", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
@@ -283,7 +277,7 @@ public class ImportSprzedazyFKView  implements Serializable {
                 if (rodzajdk.equals("RACHSP")) {
                     nd.setEwidencjaVAT(null);
                 } else {
-                    podepnijEwidencjeVat(nd, wiersz);
+                    ImportBean.podepnijEwidencjeVat(nd, wiersz.getSprzedazWiersz().getNetto(), wiersz.getSprzedazWiersz().getVat(), listaEwidencjiVat);
                 }
                 Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
                 if (juzjest!=null) {
@@ -350,73 +344,8 @@ public class ImportSprzedazyFKView  implements Serializable {
     
      
      
-     private void podepnijEwidencjeVat(Dokfk nd, ImportJPKSprzedaz wiersz) {
-        if (nd.getRodzajedok().getKategoriadokumentu() != 0 && nd.getRodzajedok().getKategoriadokumentu() != 5) {
-            if (nd.iswTrakcieEdycji() == false) {
-                nd.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
-                    boolean vatowiec = wpisView.isVatowiec();
-                    if (vatowiec) {
-                        /*wyswietlamy ewidencje VAT*/
-                        List<Evewidencja> opisewidencji = Collections.synchronizedList(new ArrayList<>());
-                        opisewidencji.addAll(listaEwidencjiVat.pobierzEvewidencje(nd.getRodzajedok().getRodzajtransakcji()));
-                        int k = 0;
-                        for (Evewidencja p : opisewidencji) {
-                            EVatwpisFK eVatwpisFK = new EVatwpisFK(); 
-                            eVatwpisFK.setLp(k++);
-                            eVatwpisFK.setEwidencja(p);
-                            przesuniecie(nd,eVatwpisFK);
-                            if (Z.z(wiersz.getSprzedazWiersz().getVat())!=0.0) {
-                                if (p.getNazwa().equals("sprzedaż 23%")||p.getNazwa().equals("zakup")) {
-                                    eVatwpisFK.setNettowwalucie(Z.z(wiersz.getSprzedazWiersz().getNetto()));
-                                    eVatwpisFK.setVatwwalucie(Z.z(wiersz.getSprzedazWiersz().getVat()));
-                                    eVatwpisFK.setNetto(Z.z(wiersz.getSprzedazWiersz().getNetto()));
-                                    eVatwpisFK.setVat(Z.z(wiersz.getSprzedazWiersz().getVat()));
-                                    eVatwpisFK.setBrutto(Z.z(wiersz.getSprzedazWiersz().getNetto()+wiersz.getSprzedazWiersz().getVat()));
-                                    eVatwpisFK.setDokfk(nd);
-                                    eVatwpisFK.setEstawka("op");
-                                    nd.getEwidencjaVAT().add(eVatwpisFK);
-                                    break;
-                                }
-                            } else {
-                                if (nd.getSeriadokfk().equals("WDT") && p.getNazwa().equals("rejestr WDT")) {
-                                    eVatwpisFK.setNettowwalucie(Z.z(wiersz.getSprzedazWiersz().getNetto()));
-                                    eVatwpisFK.setVatwwalucie(Z.z(wiersz.getSprzedazWiersz().getVat()));
-                                    eVatwpisFK.setNetto(Z.z(wiersz.getSprzedazWiersz().getNetto()));
-                                    eVatwpisFK.setVat(0.0);
-                                    eVatwpisFK.setBrutto(Z.z(wiersz.getSprzedazWiersz().getNetto()));
-                                    eVatwpisFK.setDokfk(nd);
-                                    eVatwpisFK.setEstawka("op");
-                                    nd.getEwidencjaVAT().add(eVatwpisFK);
-                                    break;
-                                }
-                                if (nd.getSeriadokfk().equals("EXP") && p.getNazwa().equals("eksport towarów")) {
-                                    eVatwpisFK.setNettowwalucie(Z.z(wiersz.getSprzedazWiersz().getNetto()));
-                                    eVatwpisFK.setVatwwalucie(Z.z(wiersz.getSprzedazWiersz().getVat()));
-                                    eVatwpisFK.setNetto(Z.z(wiersz.getSprzedazWiersz().getNetto()));
-                                    eVatwpisFK.setVat(0.0);
-                                    eVatwpisFK.setBrutto(Z.z(wiersz.getSprzedazWiersz().getNetto()));
-                                    eVatwpisFK.setDokfk(nd);
-                                    eVatwpisFK.setEstawka("op");
-                                    nd.getEwidencjaVAT().add(eVatwpisFK);
-                                    break;
-                                }
-                            }
-                        }
-                } else {
-                    Msg.msg("e", "Brak podstawowych ustawień dla podatnika dotyczących opodatkowania. Nie można wpisywać dokumentów! podepnijEwidencjeVat()");
-                }
-            }
-        }
-    }
      
-     private void przesuniecie(Dokfk nd, EVatwpisFK eVatwpisFK) {
-        if (!nd.getMiesiac().equals(nd.getVatM())) {
-            int mcdok = Integer.parseInt(nd.getMiesiac());
-            int mdotrzymania =  Integer.parseInt(nd.getVatM());
-            int innyokres = mdotrzymania-mcdok;
-            eVatwpisFK.setInnyokres(innyokres);
-        }
-    }
+   
      private void ustawwiersze(Dokfk nd, ImportJPKSprzedaz wiersz) {
         nd.setListawierszy(new ArrayList<Wiersz>());
         if (rodzajdok.equals("sprzedaż")) {

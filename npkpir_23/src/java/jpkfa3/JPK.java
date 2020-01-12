@@ -872,6 +872,10 @@ public class JPK {
             SPRZEDAZNIEMCYVAT.add("getP144");
         };
         
+        public double getBrutto() {
+            return Z.z(this.getNetto()+this.getVat());
+        }
+        
         public double getNetto() {
             double zwrot = 0.0;
             if (this != null) {

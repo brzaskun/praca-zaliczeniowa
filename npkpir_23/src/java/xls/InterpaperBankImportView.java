@@ -128,6 +128,7 @@ public class InterpaperBankImportView implements Serializable {
     private List<Wiersz> wierszezmiesiaca;
     private List<Wiersz> wierszezmiesiacapop;
     private Map<String,Konto> wierszezmiesiacapopset;
+    private String nrwyciagupoprzedni;
  //typ transakcji
         //1 wpływ faktura 201,203
         //2 zapłata faktura 202,204
@@ -336,11 +337,11 @@ public class InterpaperBankImportView implements Serializable {
     public void generuj() {
         if (pobranefaktury !=null && pobranefaktury.size()>0) {
             datakontrol = null;
-            List<Klienci> k = klienciDAO.findAll();
+            Klienci klientpk = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
             int ile = 1;
             int duplikaty = 0;
             while (pobranefaktury!=null && pobranefaktury.size() >0) {
-                int czyduplikat = generowanieDokumentu(k, ile);
+                int czyduplikat = generowanieDokumentu(klientpk, ile);
                 if (czyduplikat==1) {
                     duplikaty++;
                     ile++;
@@ -358,10 +359,10 @@ public class InterpaperBankImportView implements Serializable {
         }
     }
     
-     public int generowanieDokumentu(List<Klienci> k, int i) {
+     public int generowanieDokumentu(Klienci klientpk, int i) {
         int zwrot = 0;
         try {
-            Dokfk dokument = stworznowydokument(k, i);
+            Dokfk dokument = stworznowydokument(klientpk, i);
             try {
                 if (dokument!=null) {
                     dokument.setImportowany(true);
@@ -378,11 +379,19 @@ public class InterpaperBankImportView implements Serializable {
         return zwrot;
     }
      
-      private Dokfk stworznowydokument(List<Klienci> klienci, int i) {
+      private Dokfk stworznowydokument(Klienci klientpk, int i) {
         int numerkolejny = ImportBean.oblicznumerkolejny(rodzajdok.getSkrotNazwyDok(), dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Dokfk nd = new Dokfk(numerkolejny, wpisView.getRokWpisuSt());
-        nd.setKontr(ImportBean.ustawkontrahenta(wpisView.getPodatnikObiekt().getNip(), wpisView.getPodatnikWpisu(), klienci, gUSView, klienciDAO));
-        ImportBean.ustawnumerwlasny(nd, "wyciag nr "+wyciagnr+"/"+i);
+        nd.setKontr(klientpk);
+        if (nrwyciagupoprzedni==null) {
+            ImportBean.ustawnumerwlasny(nd, pobranefaktury.get(0).getNrwyciagu());
+            nrwyciagupoprzedni = pobranefaktury.get(0).getNrwyciagu();
+        } else if (nrwyciagupoprzedni.equals(pobranefaktury.get(0).getNrwyciagu())){
+            ImportBean.ustawnumerwlasny(nd, pobranefaktury.get(0).getNrwyciagu()+"/"+i);
+            nrwyciagupoprzedni = pobranefaktury.get(0).getNrwyciagu();
+        } else {
+            ImportBean.ustawnumerwlasny(nd, pobranefaktury.get(0).getNrwyciagu());
+        }
         nd.setOpisdokfk("rozliczenie wyciągu za "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt());
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
         nd.setSeriadokfk(rodzajdok.getSkrot());

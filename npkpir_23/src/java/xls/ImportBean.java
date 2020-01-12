@@ -5,6 +5,7 @@
  */
 package xls;
 
+import beansDok.ListaEwidencjiVat;
 import beansFK.PlanKontFKBean;
 import beansRegon.SzukajDaneBean;
 import comparator.Kliencifkcomparator;
@@ -15,18 +16,23 @@ import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaZapisDAO;
 import daoFK.UkladBRDAO;
+import embeddablefk.ImportJPKSprzedaz;
+import entity.Evewidencja;
 import entity.Klienci;
 import entity.Podatnik;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
+import entityfk.EVatwpisFK;
 import entityfk.Kliencifk;
 import entityfk.Konto;
 import error.E;
 import gus.GUSView;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import msg.Msg;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -165,4 +171,69 @@ public class ImportBean {
             return "1";
         }
     }
+       
+     public static void podepnijEwidencjeVat(Dokfk nd, double netto, double vat, ListaEwidencjiVat listaEwidencjiVat) {
+        if (nd.getRodzajedok().getKategoriadokumentu() != 0 && nd.getRodzajedok().getKategoriadokumentu() != 5) {
+            if (nd.iswTrakcieEdycji() == false) {
+                nd.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
+                /*wyswietlamy ewidencje VAT*/
+                List<Evewidencja> opisewidencji = Collections.synchronizedList(new ArrayList<>());
+                opisewidencji.addAll(listaEwidencjiVat.pobierzEvewidencje(nd.getRodzajedok().getRodzajtransakcji()));
+                int k = 0;
+                for (Evewidencja p : opisewidencji) {
+                    EVatwpisFK eVatwpisFK = new EVatwpisFK();
+                    eVatwpisFK.setLp(k++);
+                    eVatwpisFK.setEwidencja(p);
+                    przesuniecie(nd, eVatwpisFK);
+                    if (Z.z(Z.z(vat)) != 0.0) {
+                        if (p.getNazwa().equals("sprzedaż 23%") || p.getNazwa().equals("zakup")) {
+                            eVatwpisFK.setNettowwalucie(Z.z(Z.z(netto)));
+                            eVatwpisFK.setVatwwalucie(Z.z(Z.z(vat)));
+                            eVatwpisFK.setNetto(Z.z(Z.z(netto)));
+                            eVatwpisFK.setVat(Z.z(Z.z(vat)));
+                            eVatwpisFK.setBrutto(Z.z(Z.z(netto) + Z.z(vat)));
+                            eVatwpisFK.setDokfk(nd);
+                            eVatwpisFK.setEstawka("op");
+                            nd.getEwidencjaVAT().add(eVatwpisFK);
+                            break;
+                        }
+                    } else {
+                        if (nd.getSeriadokfk().equals("WDT") && p.getNazwa().equals("rejestr WDT")) {
+                            eVatwpisFK.setNettowwalucie(Z.z(Z.z(netto)));
+                            eVatwpisFK.setVatwwalucie(Z.z(Z.z(vat)));
+                            eVatwpisFK.setNetto(Z.z(Z.z(netto)));
+                            eVatwpisFK.setVat(0.0);
+                            eVatwpisFK.setBrutto(Z.z(Z.z(netto)));
+                            eVatwpisFK.setDokfk(nd);
+                            eVatwpisFK.setEstawka("op");
+                            nd.getEwidencjaVAT().add(eVatwpisFK);
+                            break;
+                        }
+                        if (nd.getSeriadokfk().equals("EXP") && p.getNazwa().equals("eksport towarów")) {
+                            eVatwpisFK.setNettowwalucie(Z.z(Z.z(netto)));
+                            eVatwpisFK.setVatwwalucie(Z.z(Z.z(vat)));
+                            eVatwpisFK.setNetto(Z.z(Z.z(netto)));
+                            eVatwpisFK.setVat(0.0);
+                            eVatwpisFK.setBrutto(Z.z(Z.z(netto)));
+                            eVatwpisFK.setDokfk(nd);
+                            eVatwpisFK.setEstawka("op");
+                            nd.getEwidencjaVAT().add(eVatwpisFK);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+     
+     private static void przesuniecie(Dokfk nd, EVatwpisFK eVatwpisFK) {
+        if (!nd.getMiesiac().equals(nd.getVatM())) {
+            int mcdok = Integer.parseInt(nd.getMiesiac());
+            int mdotrzymania =  Integer.parseInt(nd.getVatM());
+            int innyokres = mdotrzymania-mcdok;
+            eVatwpisFK.setInnyokres(innyokres);
+        }
+    }
+
+   
 }

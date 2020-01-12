@@ -5,12 +5,16 @@
  */
 package jpkfa3;
 
-import jpkfa3.*;
-import beansFK.TabelaNBPBean;
+import beansDok.ListaEwidencjiVat;
 import beansRegon.SzukajDaneBean;
 import dao.DokDAO;
 import dao.KlienciDAO;
+import daoFK.DokDAOfk;
+import daoFK.KliencifkDAO;
+import daoFK.KontoDAOfk;
+import daoFK.KontopozycjaZapisDAO;
 import daoFK.TabelanbpDAO;
+import daoFK.UkladBRDAO;
 import entity.Dok;
 import entity.EVatwpis1;
 import entity.Evewidencja;
@@ -18,17 +22,24 @@ import entity.Klienci;
 import entity.KwotaKolumna1;
 import entity.Podatnik;
 import entity.Rodzajedok;
+import entityfk.Dokfk;
+import entityfk.Konto;
+import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
+import entityfk.Wiersz;
 import error.E;
 import gus.GUSView;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import org.joda.time.DateTime;
+import view.WpisView;
 import waluty.Z;
+import xls.ImportBean;
 
 /**
  *
@@ -115,6 +126,131 @@ public class Beanjpk {
         return selDokument;
     }
     
+    public static Dokfk generujdokfk(Object p, String waldok, List<Evewidencja> evewidencje, TabelanbpDAO tabelanbpDAO, Tabelanbp tabeladomyslna, List<Klienci> klienci, boolean wybierzosobyfizyczne,
+            boolean deklaracjaniemiecka, KlienciDAO klDAO, GUSView gUSView, Podatnik podatnik, DokDAOfk dokDAOfk, Rodzajedok rodzajedok, boolean pol0de1,ListaEwidencjiVat listaEwidencjiVat,
+            KliencifkDAO kliencifkDAO, WpisView wpisView, KontoDAOfk kontoDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+        jpkfa3.JPK.Faktura faktura = (jpkfa3.JPK.Faktura) p;
+        Dokfk nd = null;
+        try {
+            HttpServletRequest request;
+            request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            Principal principal = request.getUserPrincipal();
+            String datawystawienia = faktura.getP1().toString();
+            String miesiac = datawystawienia.substring(5, 7);
+            String rok = datawystawienia.substring(0, 4);
+            int numerkolejny = ImportBean.oblicznumerkolejny(rodzajedok.getSkrotNazwyDok(), dokDAOfk, podatnik, rok);
+            nd = new Dokfk(numerkolejny, rok);
+            nd.setWprowadzil(principal.getName());
+            nd.setKontr(pobierzkontrahenta(faktura, pobierzNIPkontrahenta(faktura), klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, gUSView));
+            ImportBean.ustawnumerwlasny(nd, faktura.getP2A());
+            nd.setOpisdokfk("przychód ze sprzedaży");
+            nd.setPodatnikObj(podatnik);
+            nd.setSeriadokfk(rodzajedok.getSkrot());
+            nd.setRodzajedok(rodzajedok);
+            nd.setEwidencjaVAT(null);
+            nd.setImportowany(true);
+            Tabelanbp innatabela = beansDok.BeansJPK.pobierztabele(waldok, nd.getDatawystawienia(), tabelanbpDAO);
+            if (waldok.equals("PLN")) {
+                nd.setTabelanbp(tabeladomyslna);
+                nd.setWalutadokumentu(tabeladomyslna.getWaluta());
+            } else {
+                nd.setTabelanbp(innatabela);
+                nd.setWalutadokumentu(innatabela.getWaluta());
+            }
+            Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
+            if (juzjest != null) {
+                nd = null;
+            } else {
+                ustawwiersze(nd, rodzajedok, faktura, tabeladomyslna, tabelanbpDAO, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+                if (nd.getListawierszy() != null && nd.getListawierszy().size() > 0) {
+                    nd.setDatadokumentu(datawystawienia);
+                    nd.setDataoperacji(datawystawienia);
+                    nd.setDatawplywu(datawystawienia);
+                    nd.setDatawystawienia(datawystawienia);
+                    nd.setDataujecia(new Date());
+                    nd.setMiesiac(miesiac);
+                    nd.setRok(rok);
+                    nd.setVatM(miesiac);
+                    nd.setVatR(rok);
+                    nd.setImportowany(true);
+                    nd.setWprowadzil(principal.getName());
+                    nd.przeliczKwotyWierszaDoSumyDokumentu();
+                    ImportBean.podepnijEwidencjeVat(nd, faktura.getNetto(), faktura.getVat(), listaEwidencjiVat);
+                } else {
+                    nd = null;
+                }
+            }
+            } catch (Exception ex) {}
+        return nd;
+    }
+    
+    private static void ustawwiersze(Dokfk nd, Rodzajedok rodzajedok,jpkfa3.JPK.Faktura faktura, Tabelanbp tabelanbppl, TabelanbpDAO tabelanbpDAO, KliencifkDAO kliencifkDAO, WpisView wpisView, KontoDAOfk kontoDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+        nd.setListawierszy(new ArrayList<Wiersz>());
+        int lpwiersza = 1;
+        Konto kontown = rodzajedok.getKontoRZiS();
+        Konto kontoma = ImportBean.pobierzkontoWn(nd.getKontr(), kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+        nd.getListawierszy().add(przygotujwierszNetto(lpwiersza, nd, faktura, kontown, kontoma, tabelanbppl, tabelanbpDAO));
+        lpwiersza++;
+        kontown = rodzajedok.getKontovat();
+        nd.getListawierszy().add(przygotujwierszVAT(lpwiersza, nd, faktura, kontown, kontoma, tabelanbppl, tabelanbpDAO));
+    }
+     private static Wiersz przygotujwierszNetto(int lpwiersza,Dokfk nd, jpkfa3.JPK.Faktura faktura, Konto kontown, Konto kontoma, Tabelanbp tabelanbppl, TabelanbpDAO tabelanbpDAO) {
+        Wiersz w = new Wiersz(lpwiersza, 0);
+        uzupelnijwiersz(w, nd, faktura, tabelanbppl, tabelanbpDAO);
+        w.setOpisWiersza("przychody ze sprzedaży");
+        StronaWiersza strwn = new StronaWiersza(w, "Wn", faktura.getNetto(), kontown);
+        StronaWiersza strma = new StronaWiersza(w, "Ma", faktura.getBrutto(), kontoma);
+        strwn.setKwotaPLN(zrobpln(w,faktura.getNetto()));
+        strma.setKwotaPLN(zrobpln(w,faktura.getBrutto()));
+        strma.setNowatransakcja(true);
+        strma.setTypStronaWiersza(1);
+        w.setStronaWn(strwn);
+        w.setStronaMa(strma);
+        return w;
+    }
+     private static Wiersz przygotujwierszVAT(int lpwiersza,Dokfk nd, jpkfa3.JPK.Faktura faktura, Konto kontown, Konto kontoma, Tabelanbp tabelanbppl, TabelanbpDAO tabelanbpDAO) {
+        Wiersz w = new Wiersz(lpwiersza, 1);
+        uzupelnijwiersz(w, nd, faktura, tabelanbppl, tabelanbpDAO);
+        w.setOpisWiersza("przychody ze sprzedaży - VAT");
+        StronaWiersza strwn = new StronaWiersza(w, "Wn", faktura.getVat(), kontown);
+        strwn.setKwotaPLN(zrobpln(w,faktura.getVat()));
+        w.setStronaWn(strwn);
+        return w;
+    }
+     
+     private static void uzupelnijwiersz(Wiersz w, Dokfk nd, jpkfa3.JPK.Faktura faktura, Tabelanbp tabelanbppl, TabelanbpDAO tabelanbpDAO) {
+        if (faktura.getKodWaluty().value().equals("PLN")) {
+            w.setTabelanbp(tabelanbppl);
+        } else {
+            DateTime dzienposzukiwany = new DateTime(nd.getDatadokumentu());
+            boolean znaleziono = false;
+            int zabezpieczenie = 0;
+            while (!znaleziono && (zabezpieczenie < 365)) {
+                dzienposzukiwany = dzienposzukiwany.minusDays(1);
+                String doprzekazania = dzienposzukiwany.toString("yyyy-MM-dd");
+                Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania, faktura.getKodWaluty().value());
+                if (tabelanbppobrana instanceof Tabelanbp) {
+                    znaleziono = true;
+                    w.setTabelanbp(tabelanbppobrana);
+                    break;
+                }
+                zabezpieczenie++;
+            }
+        }
+        nd.setWalutadokumentu(w.getTabelanbp().getWaluta());
+        w.setDokfk(nd);
+        w.setLpmacierzystego(0);
+        w.setDataksiegowania(nd.getDatawplywu());
+    }
+     
+    private static double zrobpln(Wiersz w, double kwota) {
+        double zwrot = kwota;
+        if (!w.getWalutaWiersz().equals("PLN")) {
+            zwrot = Z.z(kwota*w.getTabelanbp().getKurssredniPrzelicznik());
+        }
+        return zwrot;
+    }
+
         
     private static Klienci pobierzkontrahenta(jpkfa3.JPK.Faktura faktura, String nrKontrahenta, List<Klienci> klienci, boolean wybierzosobyfizyczne, boolean deklaracjaniemiecka, KlienciDAO klDAO, GUSView gUSView) {
         if (wybierzosobyfizyczne||deklaracjaniemiecka) {
