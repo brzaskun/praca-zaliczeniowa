@@ -41,7 +41,7 @@
                     </p:column>
                 </p:row>
             </p:panelGrid>
-            <p:panelGrid columns="7">
+            <p:panelGrid columns="9">
                 <h:outputText value="Procent waloryzacji 100=100%"/>
                 <p:inputNumber  id="kwotawaloryzacji" value="#{fakturaView.waloryzajca}"  decimalPlaces="2" decimalSeparator="." inputStyle="text-align: right;" symbol=" %" symbolPosition="s" maxValue="100">
                     <p:ajax event="blur" partialSubmit="true" global="false"/>
@@ -55,8 +55,18 @@
                     <f:selectItem itemLabel="edycja" itemValue="1"/>
                     <f:selectItem itemLabel="zawieszona" itemValue="2"/>
                     <f:selectItem itemLabel="wielorazowa" itemValue="3"/>
+                    <f:selectItem itemLabel="waloryzowana" itemValue="4"/>
+                    <f:selectItem itemLabel="niewaloryzowana" itemValue="5"/>
                     <p:ajax event="change" partialSubmit="true" global="false" listener="#{fakturaView.filtrujfaktury}" update="akordeon:formokresowe:dokumentyOkresowe"/>
                 </p:selectOneMenu>
+                <p:inputNumber  value="#{fakturaView.dolnylimit}" symbol=" zł" 
+                                style="width: 70px;" symbolPosition="s" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto">
+                    <p:ajax event ="blur" partialSubmit="true"/>
+                </p:inputNumber>
+                <p:inputNumber  value="#{fakturaView.gornylimit}" symbol=" zł" 
+                                         style="width: 70px;" symbolPosition="s" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto">
+                    <p:ajax event ="blur" listener="#{fakturaView.filtrujfaktury2}" update="akordeon:formokresowe:dokumentyOkresowe"  partialSubmit="true"/>
+                </p:inputNumber>
             </p:panelGrid>
             
             <p:dataTable id="dokumentyOkresowe" value="#{fakturaView.fakturyokresowe}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyokresoweFiltered}"  rendered="#{WpisView.biuroiszef eq true}"

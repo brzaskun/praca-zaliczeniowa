@@ -35,12 +35,13 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import waluty.Z;
 
 /**
  *
  * @author Osito
  */
-@Entity
+@Entity 
 @Table(catalog = "pkpir",uniqueConstraints = {
     @UniqueConstraint(
             columnNames={"wystawcanazwa, numerkolejny, tylkodlaokresowej"})
@@ -584,6 +585,14 @@ public class Faktura implements Serializable {
         double zwrot = this.brutto;
         if (this.pozycjepokorekcie != null && this.pozycjepokorekcie.size() > 0) {
             zwrot = this.bruttopk-this.brutto;
+        }
+        return zwrot;
+    }
+    
+    public double getBruttoFakturaOkresowe() {
+        double zwrot = this.bruttopln;
+        if (Z.z(zwrot) == 0.0) {
+            zwrot = this.brutto;
         }
         return zwrot;
     }
