@@ -636,7 +636,7 @@ public class FakturaView implements Serializable {
        }
 
     private void waloryzacjakwoty(Faktura faktura, double proc) throws Exception {
-        faktura.setDatawaloryzacji(Data.ostatniDzien(wpisView));
+        faktura.setDatawaloryzacji(Data.data_yyyyMMdd(new Date()));
         faktura.setProcentwaloryzacji(proc);
         double procent = proc/100;
         kwotaprzedwaloryzacja = faktura.getBrutto();
@@ -1537,6 +1537,22 @@ public class FakturaView implements Serializable {
         }
         fakturywystokresoweDAO.editList(gosciwybralokres);
         Msg.msg("Naniesiono oznaczenie - wielorazowa dla wybranych faktur");
+    }
+    
+    public void oznaczwaloryzacja() {
+        if (gosciwybralokres.isEmpty()) {
+            Msg.msg("e", "Nie wybrano faktury do oznaczenia");
+            return;
+        }
+        for (Fakturywystokresowe p : gosciwybralokres) {
+            if (p.getDokument().getDatawaloryzacji()==null) {
+                p.getDokument().setDatawaloryzacji(Data.data_yyyyMMdd(new Date()));
+            } else {
+                p.getDokument().setDatawaloryzacji(null);
+            }
+        }
+        fakturywystokresoweDAO.editList(gosciwybralokres);
+        Msg.msg("Naniesiono oznaczenie - traktuj jako waloryzaowane dla wybranych faktur");
     }
     
     public void oznaczrecznaedycja() {
