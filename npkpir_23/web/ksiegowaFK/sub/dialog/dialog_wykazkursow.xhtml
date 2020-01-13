@@ -8,7 +8,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:dialog id="dialogkursy" header="Zestawienie kursów walut NBP" widgetVar="wykazkursow"  
               resizable="false"  onShow="ustawdialog('dialogkursy','menukartoteki',900,700);" closeOnEscape="true" onHide="resetujdialog('dialogkursy');" >
-        <p:ajax event="open" listener="#{walutyViewFK.init()}" global="false" update="@parent"/>
+        <p:ajax event="open" listener="#{walutyViewFK.init()}" global="false" />
         <h:form id="wprowadzonekursy">
             <p:dataTable id="dataTablekursy" var="wpisT" value="#{walutyViewFK.pobranekursyRok}"  emptyMessage="Nie ma wprowadzonych kursow" 
                          widgetVar="dataTablekursyT"  rowKey="#{wpisT.idtabelanbp}" sortBy="#{wpisT.datatabeli}"
