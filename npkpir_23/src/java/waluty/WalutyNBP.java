@@ -165,8 +165,8 @@ public class WalutyNBP implements Serializable {
     }
 
     public static void main(String[] args) throws MalformedURLException, IOException, ParserConfigurationException, SAXException {
-        Integer numer = 252;
-        String data = "2018-12-31";
+        Integer numer = 244;
+        String data = "2019-12-18";
         List<Tabelanbp> wynik = Collections.synchronizedList(new ArrayList<>());
         while (czydataPrzedDniemDzisiejszym(data)) {
             InputStream inputStream = null;

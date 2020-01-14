@@ -39,6 +39,8 @@ public class WalutyKursRecznieView implements Serializable{
     private WpisView wpisView;
     @ManagedProperty(value = "#{walutyViewFK}")
     private WalutyViewFK walutyViewFK;
+    private String dataodtabela;
+    private String nrodtabela;
     
     
       public void pobierzkursyNowaWaluta(Waluty w) {
@@ -46,16 +48,21 @@ public class WalutyKursRecznieView implements Serializable{
             ////E.m(this);
             String datawstepna;
             Integer numertabeli;
-    //        datawstepna = "2013-12-30";
-    //        numertabeli = 250;
+            datawstepna = "2019-12-18";
+            numertabeli = 244;
             datawstepna = wpisView.getRokUprzedniSt()+"-12-31";
             numertabeli = 252;
             List<Tabelanbp> wierszepobranezNBP = Collections.synchronizedList(new ArrayList<>());
             try {
-                Tabelanbp ostatniatabela = tabelanbpDAO.findOstatniaTabela(w.getSymbolwaluty());
-                if (ostatniatabela != null) {
-                    datawstepna = ostatniatabela.getDatatabeli();
-                    numertabeli = Integer.parseInt(ostatniatabela.getNrtabeli().substring(0, 3));
+                if (dataodtabela!=null && nrodtabela!=null) {
+                    datawstepna = dataodtabela;
+                    numertabeli = Integer.parseInt(nrodtabela);
+                } else {
+                    Tabelanbp ostatniatabela = tabelanbpDAO.findOstatniaTabela(w.getSymbolwaluty());
+                    if (ostatniatabela != null) {
+                        datawstepna = ostatniatabela.getDatatabeli();
+                        numertabeli = Integer.parseInt(ostatniatabela.getNrtabeli().substring(0, 3));
+                    }
                 }
                 wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty()));
             } catch (IOException | ParserConfigurationException | SAXException | ParseException e) {
@@ -71,10 +78,12 @@ public class WalutyKursRecznieView implements Serializable{
     }
     
     private void zachowajwiersze (List<Tabelanbp> wierszepobranezNBP) {
-        try {
-            tabelanbpDAO.dodaj(wierszepobranezNBP);
-        } catch (Exception e) { 
-            E.e(e);
+        for (Tabelanbp p : wierszepobranezNBP) {
+            try {
+                tabelanbpDAO.dodaj(p);
+            } catch (Exception e) { 
+                E.e(e);
+            }
         }
     }
 
@@ -94,6 +103,20 @@ public class WalutyKursRecznieView implements Serializable{
         this.walutyViewFK = walutyViewFK;
     }
 
-    
+     public String getDataodtabela() {
+        return dataodtabela;
+    }
+
+    public void setDataodtabela(String dataodtabela) {
+        this.dataodtabela = dataodtabela;
+    }
+
+    public String getNrodtabela() {
+        return nrodtabela;
+    }
+
+    public void setNrodtabela(String nrodtabela) {
+        this.nrodtabela = nrodtabela;
+    }
     
 }

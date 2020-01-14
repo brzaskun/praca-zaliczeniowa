@@ -66,6 +66,7 @@ public class WalutyViewFK implements Serializable {
     private String datawstepna;
     private String nrtabeli;
     
+    
     @Inject
     private WalutyNBP walutyNBP;
 
@@ -304,6 +305,8 @@ public class WalutyViewFK implements Serializable {
     public void setWalutywuzyciu(List<Waluty> walutywuzyciu) {
         this.walutywuzyciu = walutywuzyciu;
     }
+
+   
 
     public String getDatawstepna() {
         return datawstepna;
