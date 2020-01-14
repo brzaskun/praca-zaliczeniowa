@@ -66,7 +66,7 @@
                 <p:commandButton value="+" actionListener="#{fakturaView.pokazedytor(1)}" update="@parent" rendered="#{!fakturaView.podazedytorvar}"/>
                 <p:commandButton value="-" actionListener="#{fakturaView.pokazedytor(0)}" update="@parent" rendered="#{fakturaView.podazedytorvar}"/>
                 <p:editor id="editor"  widgetVar="editorWidget" value="#{fakturaView.wiadomoscdodatkowa}" width="800" height="300" rendered="#{fakturaView.podazedytorvar}">
-                    <p:ajax event="blur" partialSubmit="true"/>
+                    
                 </p:editor>
                 <p:commandButton value="drukuj zestawienie" actionListener="#{fakturaView.drukujfakturysporzadzone}" style="width: 150px; margin-left: 30px;"/>
                 </p:panelGrid>

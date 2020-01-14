@@ -2488,44 +2488,80 @@ public class FakturaView implements Serializable {
     
     public void filtrujfaktury() {
         if (jakapobrac>0) {
-            fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-            for (Iterator<Fakturywystokresowe> it =fakturyokresowe.iterator(); it.hasNext();) {
-                Fakturywystokresowe p = it.next();
-                if (jakapobrac==1 && !p.isRecznaedycja()) {
-                    it.remove();
-                } else if (jakapobrac==2 && !p.isZawieszona()) {
-                    it.remove();
-                } else if (jakapobrac==3 && p.isWystawtylkoraz()) {
-                    it.remove();
-                } else if (jakapobrac==4 && p.getDokument().getDatawaloryzacji()==null) {
-                    it.remove();
-                } else if (jakapobrac==5 && p.getDokument().getDatawaloryzacji()!=null) {
-                    it.remove();
+            if (fakturyokresoweFiltered!=null) {
+                for (Iterator<Fakturywystokresowe> it =fakturyokresoweFiltered.iterator(); it.hasNext();) {
+                    Fakturywystokresowe p = it.next();
+                    if (jakapobrac==1 && !p.isRecznaedycja()) {
+                        it.remove();
+                    } else if (jakapobrac==2 && !p.isZawieszona()) {
+                        it.remove();
+                    } else if (jakapobrac==3 && p.isWystawtylkoraz()) {
+                        it.remove();
+                    } else if (jakapobrac==4 && p.getDokument().getDatawaloryzacji()==null) {
+                        it.remove();
+                    } else if (jakapobrac==5 && p.getDokument().getDatawaloryzacji()!=null) {
+                        it.remove();
+                    }
                 }
+            } else {
+                fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                for (Iterator<Fakturywystokresowe> it =fakturyokresowe.iterator(); it.hasNext();) {
+                    Fakturywystokresowe p = it.next();
+                    if (jakapobrac==1 && !p.isRecznaedycja()) {
+                        it.remove();
+                    } else if (jakapobrac==2 && !p.isZawieszona()) {
+                        it.remove();
+                    } else if (jakapobrac==3 && p.isWystawtylkoraz()) {
+                        it.remove();
+                    } else if (jakapobrac==4 && p.getDokument().getDatawaloryzacji()==null) {
+                        it.remove();
+                    } else if (jakapobrac==5 && p.getDokument().getDatawaloryzacji()!=null) {
+                        it.remove();
+                    }
+                }
+                Msg.msg("Przefiltrowano faktury");
             }
-            Msg.msg("Przefiltrowano faktury");
         }
         
     }
     
     public void filtrujfaktury2() {
         if (dolnylimit>0.0 || gornylimit>0.0) {
-            fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-            for (Iterator<Fakturywystokresowe> it =fakturyokresowe.iterator(); it.hasNext();) {
-                Fakturywystokresowe p = it.next();
-                if (dolnylimit==0.0 && gornylimit>0.0) {
-                    if (p.getDokument().getBruttoFakturaOkresowe()>gornylimit) {
-                        it.remove();
-                    }
-                } else if (dolnylimit>0.0 && gornylimit>0.0) {
-                    if (p.getDokument().getBruttoFakturaOkresowe()<dolnylimit || p.getDokument().getBruttoFakturaOkresowe()>gornylimit) {
-                        it.remove();
-                    }
-                } else if (dolnylimit>0.0 && gornylimit==0.0) {
-                    if (p.getDokument().getBruttoFakturaOkresowe()<dolnylimit) {
-                        it.remove();
-                    }
-                } 
+            if (fakturyokresoweFiltered!=null) {
+                 for (Iterator<Fakturywystokresowe> it =fakturyokresoweFiltered.iterator(); it.hasNext();) {
+                    Fakturywystokresowe p = it.next();
+                    if (dolnylimit==0.0 && gornylimit>0.0) {
+                        if (p.getDokument().getBruttoFakturaOkresowe()>gornylimit) {
+                            it.remove();
+                        }
+                    } else if (dolnylimit>0.0 && gornylimit>0.0) {
+                        if (p.getDokument().getBruttoFakturaOkresowe()<dolnylimit || p.getDokument().getBruttoFakturaOkresowe()>gornylimit) {
+                            it.remove();
+                        }
+                    } else if (dolnylimit>0.0 && gornylimit==0.0) {
+                        if (p.getDokument().getBruttoFakturaOkresowe()<dolnylimit) {
+                            it.remove();
+                        }
+                    } 
+                }
+            } else {
+                fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                for (Iterator<Fakturywystokresowe> it =fakturyokresowe.iterator(); it.hasNext();) {
+                    Fakturywystokresowe p = it.next();
+                    if (dolnylimit==0.0 && gornylimit>0.0) {
+                        if (p.getDokument().getBruttoFakturaOkresowe()>gornylimit) {
+                            it.remove();
+                        }
+                    } else if (dolnylimit>0.0 && gornylimit>0.0) {
+                        if (p.getDokument().getBruttoFakturaOkresowe()<dolnylimit || p.getDokument().getBruttoFakturaOkresowe()>gornylimit) {
+                            it.remove();
+                        }
+                    } else if (dolnylimit>0.0 && gornylimit==0.0) {
+                        if (p.getDokument().getBruttoFakturaOkresowe()<dolnylimit) {
+                            it.remove();
+                        }
+                    } 
+                }
             }
             Msg.msg("Przefiltrowano faktury");
         } else {
