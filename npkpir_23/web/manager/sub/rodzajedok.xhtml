@@ -19,8 +19,10 @@
             </p:selectOneMenu>
         </p:panelGrid>
         <p:panelGrid columns="1" style="max-width: 1240px">
+            <h:outputText value="brak listy dokumentów domyślnych na ten rok" rendered="#{rodzajedokView.listaWspolnych.size() eq 0}" style="color: green;"/>
+            <p:commandButton value="generuj" actionListener="#{rodzajedokView.generujliste}" rendered="#{rodzajedokView.listaWspolnych.size() eq 0}" style="width: 120px;" update="@form"/>
             <p:dataTable id="dokLista" value="#{rodzajedokView.listaWspolnych}"  var="loop"  paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
-                         selection="#{rodzajedokView.selected}" rowKey="#{loop.skrotNazwyDok}" selectionMode="single" >
+                         selection="#{rodzajedokView.selected}" rowKey="#{loop.skrotNazwyDok}" selectionMode="single" rendered="#{rodzajedokView.listaWspolnych.size() gt 0}">
                 <p:ajax event="rowSelect" listener="#{rodzajedokView.skopiujwierszdoedycji}"/>
                 <f:facet name="header">
                     <h:outputText value="Lista utworzonych dokumentów"/>

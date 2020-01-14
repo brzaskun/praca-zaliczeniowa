@@ -86,6 +86,24 @@ public class RodzajedokView implements Serializable {
 
     }
     
+    public void generujliste() {
+        if (listaWspolnych.size() == 0) {
+            Podatnik podatnikwspolny = podatnikDAO.findPodatnikByNIP("0001005008");
+            String rokpop = String.valueOf(Integer.parseInt(rok)-1);
+            List<Rodzajedok> listaWspolnychrokpop = rodzajedokDAO.findListaPodatnik(podatnikwspolny, rokpop);
+            for (Rodzajedok p : listaWspolnychrokpop) {
+                Rodzajedok nowy = serialclone.SerialClone.clone(p);
+                nowy.setRok("2020");
+                rodzajedokDAO.dodaj(nowy);
+            }
+            listaWspolnych = rodzajedokDAO.findListaPodatnik(podatnikwspolny, rok);
+            Collections.sort(listaWspolnych, new Rodzajedokcomparator());
+            Msg.msg("Wygenerowano listę na nowy rok");
+        } else {
+            Msg.msg("e", "Lista na ten rok nie jest pusta nie można generować");
+        }
+    }
+    
     public void zmianaroku() {
         Podatnik podatnikwspolny = podatnikDAO.findPodatnikByNIP("0001005008");
         listaWspolnych = rodzajedokDAO.findListaPodatnik(podatnikwspolny, rok);
