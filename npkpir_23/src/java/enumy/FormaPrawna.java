@@ -11,16 +11,17 @@ package enumy;
  */
 
 public enum FormaPrawna {
-    SPÓŁKA_CYWILNA,
+    SPOLKA_CYWILNA,
     SPOLKA_Z_O_O,
     SPOLKA_KOMANDYTOWA,
     STOWARZYSZENIE,
     FEDERACJA,
     FUNDACJA;
 
-    public static FormaPrawna getSPÓŁKA_CYWILNA() {
-        return SPÓŁKA_CYWILNA;
+    public static FormaPrawna getSPOLKA_CYWILNA() {
+        return SPOLKA_CYWILNA;
     }
+
 
     
     public static FormaPrawna getSPOLKA_Z_O_O() {
