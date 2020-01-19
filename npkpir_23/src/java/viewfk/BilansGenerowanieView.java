@@ -25,11 +25,13 @@ import entityfk.UkladBR;
 import entityfk.Waluty;
 import entityfk.WierszBO;
 import error.E;
+import extclass.ReverseIterator;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -691,7 +693,7 @@ public class BilansGenerowanieView implements Serializable {
     private double obliczsaldo(List<StronaWiersza> zapisy, Waluty waluta) {
         double saldo = 0.0;
         for (StronaWiersza p : zapisy) {
-            if (waluta.getSymbolwaluty().equals(p.getSymbolWalutBOiSW())) {
+            if (waluta.getSymbolwaluty().equals(p.getSymbolWalutBOiSW()) && !p.getWiersz().getDokfk().getSeriadokfk().equals("RRK")) {
                 if (p.isWn()) {
                     saldo += p.getKwota();
                 } else {
@@ -705,7 +707,7 @@ public class BilansGenerowanieView implements Serializable {
     private double obliczsaldoPLN(List<StronaWiersza> zapisy, Waluty waluta) {
         double saldo = 0.0;
         for (StronaWiersza p : zapisy) {
-            if (waluta.getSymbolwaluty().equals(p.getSymbolWalutBOiSW())) {
+            if (waluta.getSymbolwaluty().equals(p.getSymbolWalutBOiSW()) && !p.getWiersz().getDokfk().getSeriadokfk().equals("RRK")) {
                 //System.out.println("kwota: "+p.getKwota()+" pln "+p.getKwotaPLN());
                 if (p.isWn()) {
                     saldo += p.getKwotaPLN();
@@ -781,7 +783,7 @@ public class BilansGenerowanieView implements Serializable {
     }
 
     private Collection<? extends SaldoKonto> przetworzPojedyncze(SaldoKonto p) {
-        if (p.getKonto().getPelnynumer().equals("203-2-1")) {
+        if (p.getKonto().getPelnynumer().equals("203-2-6")) {
             System.out.println("");
         }
         List<SaldoKonto> nowalista_wierszy = Collections.synchronizedList(new ArrayList<>());
@@ -800,10 +802,9 @@ public class BilansGenerowanieView implements Serializable {
             }
             saldoPLN = Z.z(saldoPLN);
             for (Waluty wal : waluty) {
-                if (!wal.getSymbolwaluty().equals("PLN")) {
-                    nowalista_wierszy.addAll(sumujdlawaluty(wal, p.getZapisy()));
-                }
+                nowalista_wierszy.addAll(sumujdlawaluty(wal, p.getZapisy()));
             }
+
             double saldowalutawpln = 0.0;
             for (SaldoKonto s: nowalista_wierszy) {
                 if (s.getSaldoWnPLN()!=0.0) {
@@ -814,7 +815,9 @@ public class BilansGenerowanieView implements Serializable {
             }
             saldowalutawpln = Z.z(saldowalutawpln);
             double roznica = saldoPLN-saldowalutawpln;
-            nowalista_wierszy.add(new SaldoKonto(p.getKonto(), listawalut.get("PLN"), roznica, roznica));
+            if (roznica!=0.0) {
+                nowalista_wierszy.add(new SaldoKonto(p.getKonto(), listawalut.get("PLN"), roznica, roznica));
+            }
         } else {
             for (Waluty wal : waluty) {
                 nowalista_wierszy.addAll(sumujdlawaluty(wal, p.getZapisy()));
@@ -829,19 +832,15 @@ public class BilansGenerowanieView implements Serializable {
         //dodatnie oznacza saldo Wn ujemne saldo Ma
         double saldowal = Z.z(obliczsaldo(zapisy, wal));
         List<StronaWiersza> zerowe = Collections.synchronizedList(new ArrayList<>());
-        if (zapisy!=null && zapisy.get(0).getKonto().getPelnynumer().equals("203-2-1")){
+        if (zapisy!=null && zapisy.get(0).getKonto().getPelnynumer().equals("201-2-2")){
             System.out.println("");
         }
+        List<StronaWiersza> zapisydopor = Collections.synchronizedList(new ArrayList<>());
         for (StronaWiersza s : zapisy) {
-            if (Z.z(s.getPozostalo())==0.0) {
-                zerowe.add(s);
+            if (s.getSymbolWalutBOiSW().equals(wal.getSymbolwaluty())&&Z.z(s.getPozostalo())!=0.0 && !s.getWiersz().getDokfk().getSeriadokfk().equals("RRK")) {
+                zapisydopor.add(s);
             }
         }
-        for (StronaWiersza w : zerowe) {
-            zapisy.remove(zapisy.indexOf(w));
-        }
-        List<StronaWiersza> zapisydopor = Collections.synchronizedList(new ArrayList<>());
-        zapisydopor.addAll(zapisy);
         List<SaldoKonto> zapisykonta = Collections.synchronizedList(new ArrayList<>());
 //        for (ListIterator<StronaWiersza> it = zapisy.listIterator(); it.hasNext();) {
 //            StronaWiersza w = it.next();
@@ -874,53 +873,97 @@ public class BilansGenerowanieView implements Serializable {
 //                zapisykonta.add(new SaldoKonto(w.getKonto(), 0.0, roznicakursowaMa, listawalut.get("PLN")));
 //            }
 //        }
-        Collections.sort(zapisy, new StronaWierszacomparatorDesc());
-        if (saldowal>0) {
-            for (StronaWiersza t : zapisy) {
-                if (t.getKonto().getPelnynumer().equals("203-2-1")){
+        Collections.sort(zapisydopor, new StronaWierszacomparatorDesc());
+        //to musi byc bo na koncie moga byz zapisy w walucie i nie
+        if (saldowal!=0) {
+            for (Iterator<StronaWiersza> it = new ReverseIterator<>(zapisydopor).iterator(); it.hasNext();) {
+                StronaWiersza t = it.next();
+                if (t.getKonto().getPelnynumer().equals("201-2-2")){
                     System.out.println("");
                 }
-                if (t.getSymbolWalutBOiSW().equals(wal.getSymbolwaluty()) && t.isWn()) {
-                    double pozostalo = t.getKwota()> 0 ? t.getPozostalo():-t.getPozostalo();
-                    double pozostalopln = t.getKwota()> 0 ? t.getPozostaloPLN(): -t.getPozostaloPLN();
-                    if (Math.abs(saldowal)<pozostalo) {
-                        pozostalopln = Z.z((Math.abs(saldowal)/pozostalo)*pozostalopln);
-                        pozostalo = Math.abs(saldowal);
-                        saldowal = saldowal-pozostalo;
-                        zapisykonta.add(new SaldoKonto(t, wal, pozostalo, pozostalopln));
-                    } else if (pozostalo > 0.0 ) { 
-                        zapisykonta.add(new SaldoKonto(t, wal));
-                        saldowal = saldowal-pozostalo;
+                if (saldowal>0.0) {
+                    if (t.getSymbolWalutBOiSW().equals(wal.getSymbolwaluty()) && t.isWn() && t.getKwota()>0.0) {
+                        double pozostalo = t.getPozostalo();
+                        double pozostalopln = t.getPozostaloPLN();
+                        if (Math.abs(saldowal)<pozostalo) {
+                            pozostalopln = Z.z((Math.abs(saldowal)/pozostalo)*pozostalopln);
+                            pozostalo = Math.abs(saldowal);
+                            saldowal = saldowal-pozostalo;
+                            zapisykonta.add(new SaldoKonto(t, wal, pozostalo, pozostalopln));
+                        } else if (pozostalo > 0.0 ) { 
+                            zapisykonta.add(new SaldoKonto(t, wal));
+                            saldowal = saldowal-pozostalo;
+                        }
+                        if (saldowal <=0.0) {
+                            break;
+                        }
                     }
-                    if (saldowal <=0.0) {
-                        break;
-                    }
-                }
-            }
-        } else {
-            for (StronaWiersza t : zapisy) {
-                if (t.getKonto().getPelnynumer().equals("203-2-1")){
-                    System.out.println("");
-                }
-                if (t.getSymbolWalutBOiSW().equals(wal.getSymbolwaluty()) && !t.isWn()) {
-                    double pozostalo = t.getKwota()> 0 ? t.getPozostalo():-t.getPozostalo();
-                    double pozostalopln = t.getKwota()> 0 ? t.getPozostaloPLN(): -t.getPozostaloPLN();
-                    if (Math.abs(saldowal)<pozostalo) {
-                        pozostalopln = Z.z((Math.abs(saldowal)/pozostalo)*pozostalopln);
-                        pozostalo = Math.abs(saldowal);
-                        saldowal = saldowal+pozostalo;
-                        zapisykonta.add(new SaldoKonto(t, wal, pozostalo, pozostalopln));
-                    } else if (pozostalo > 0.0) { 
-                        zapisykonta.add(new SaldoKonto(t, wal));
-                        saldowal = saldowal+pozostalo;
-                    }
-                    if (saldowal >= 0.0) {
-                        break;
+                } else {
+                    if (t.getSymbolWalutBOiSW().equals(wal.getSymbolwaluty()) && t.isWn()==false && t.getKwota()>0.0) {
+                        double pozostalo = t.getPozostalo();
+                        double pozostalopln = t.getPozostaloPLN();
+                        if (Math.abs(saldowal)<pozostalo) {
+                            pozostalopln = Z.z((Math.abs(saldowal)/pozostalo)*pozostalopln);
+                            pozostalo = Math.abs(saldowal);
+                            saldowal = saldowal+pozostalo;
+                            zapisykonta.add(new SaldoKonto(t, wal, pozostalo, pozostalopln));
+                        } else if (pozostalo > 0.0 ) { 
+                            zapisykonta.add(new SaldoKonto(t, wal));
+                            saldowal = saldowal+pozostalo;
+                        }
+                        if (saldowal >=0.0) {
+                            break;
+                        }
                     }
                 }
+                    
             }
         }
-        
+//        } else {
+//            for (Iterator<StronaWiersza> it = new ReverseIterator<>(zapisy).iterator(); it.hasNext();) {
+//                StronaWiersza t = it.next();
+//                if (t.getKonto().getPelnynumer().equals("201-2-2")){
+//                    System.out.println("");
+//                }
+//                if (saldopln>0.0) {
+//                    if (t.getSymbolWalutBOiSW().equals("PLN") && t.isWn() && t.getKwota()>0.0) {
+//                        double pozostalo = t.getPozostalo();
+//                        double pozostalopln = t.getPozostaloPLN();
+//                        if (Math.abs(saldopln)<pozostalo) {
+//                            pozostalopln = Z.z((Math.abs(saldopln)/pozostalo)*pozostalopln);
+//                            pozostalo = Math.abs(saldopln);
+//                            saldopln = saldopln-pozostalo;
+//                            zapisykonta.add(new SaldoKonto(t, wal, pozostalo, pozostalopln));
+//                        } else if (pozostalo > 0.0 ) { 
+//                            zapisykonta.add(new SaldoKonto(t, wal));
+//                            saldopln = saldopln-pozostalo;
+//                        }
+//                        if (saldopln <=0.0) {
+//                            break;
+//                        }
+//                    }
+//                } else {
+//                    if (t.getSymbolWalutBOiSW().equals("PLN") && t.isWn()==false && t.getKwota()>0.0) {
+//                        double pozostalo = t.getPozostalo();
+//                        double pozostalopln = t.getPozostaloPLN();
+//                        if (Math.abs(saldopln)<pozostalo) {
+//                            pozostalopln = Z.z((Math.abs(saldopln)/pozostalo)*pozostalopln);
+//                            pozostalo = Math.abs(saldopln);
+//                            saldopln = saldopln+pozostalo;
+//                            zapisykonta.add(new SaldoKonto(t, wal, pozostalo, pozostalopln));
+//                        } else if (pozostalo > 0.0 ) { 
+//                            zapisykonta.add(new SaldoKonto(t, wal));
+//                            saldopln = saldopln+pozostalo;
+//                        }
+//                        if (saldopln >=0.0) {
+//                            break;
+//                        }
+//                    }
+//                }
+//                    
+//            }
+//        }
+      
         return zapisykonta;
     }
 
