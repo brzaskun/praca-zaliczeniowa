@@ -1106,6 +1106,12 @@ public class BilansWprowadzanieView implements Serializable {
             for (WierszBO p : zachowaneWiersze) {
                 Wiersz w = zawieratokonto(wiersze, p);
                 if (w != null && p.getNowy0edycja1usun2Int() == 2) {
+                    if (w.getStronaWn()!=null) {
+                        w.getStronaWn().setWiersz(null);
+                    }
+                    if (w.getStronaMa()!=null) {
+                        w.getStronaMa().setWiersz(null);
+                    }
                     wiersze.remove(w);
                     czyedytowac = true;
                 }

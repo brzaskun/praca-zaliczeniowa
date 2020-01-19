@@ -822,7 +822,7 @@ public class DokFKVATBean {
             wierszczwarty.getStronaWn().getCechazapisuLista().add(nkup);
             Wiersz wierszpiaty = wiersze.get(4);
             opis = wiersze.get(0).getOpisWiersza() + " - pod. vat nie podl.odlicz. nkup";
-            zrobkolejnywiersz(wiersze, wierszpiaty, kontovatnkup, sumyrk.getNetto25nkup(), opis);
+            zrobkolejnywiersz(wiersze, wierszpiaty, kontovatnkup, sumyrk.getVat25nkup(), opis);
             wierszpiaty.getStronaWn().getCechazapisuLista().add(nkup);
         }
     }
