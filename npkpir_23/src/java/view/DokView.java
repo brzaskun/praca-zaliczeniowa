@@ -1618,6 +1618,21 @@ public class DokView implements Serializable {
         PrimeFaces.current().ajax().update(up4);
     }
     
+    
+    public void edytujkursNBP() {
+        if (selDokument.getWalutadokumentu()!=null && !selDokument.getWalutadokumentu().getSymbolwaluty().equals("PLN")) {
+            String datadokumentu = selDokument.getDataWyst();
+            DateTime dzienposzukiwany = new DateTime(datadokumentu);
+            selDokument.setTabelanbp(TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, selDokument.getWalutadokumentu().getSymbolwaluty()));
+            symbolWalutyNettoVat = " " + selDokument.getTabelanbp().getWaluta().getSkrotsymbolu();
+            int i = 0;
+            for (KwotaKolumna1 p : selDokument.getListakwot1()) {
+                przewalutuj(i);
+                i++;
+            }
+            podepnijEwidencjeVat();
+        }
+    }
 
     public void pobierzkursNBP(ValueChangeEvent el) {
         try {

@@ -63,6 +63,7 @@
                                          immediate="false"  onblur="ustawDate(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});" title="wpisz numer dnia, lub miesiąc i dzień"  >
                                 <!--     archeo     <p:ajax event="blur" listener="{DokumentView.podlaczPierwszaKolumne()}" update=":dodWiad:tabelapkpir"  />-->
                                 <p:ajax event="blur" partialSubmit="true" global="false"/>
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{DokumentView.edytujkursNBP}" update="dodWiad:panelTabelaNBP, dodWiad:dokumentprosty dodWiad:panelewidencjivat, dodWiad:sumbrutto"/>
                             </p:inputText>
                         </p:column>
                         <p:column width="60">
@@ -232,6 +233,8 @@
                                         styleClass="wiersznetto" thousandSeparator="&#160;" >
                             <p:ajax event="blur" listener="#{DokumentView.przewalutuj(index)}" global="false" partialSubmit="true"
                                     update="dodWiad:sumbrutto"/>
+                            <p:ajax event="change" listener="#{DokumentView.podepnijEwidencjeVat}" global="false"
+                                    update="dodWiad:panelewidencjivat dodWiad:sumbrutto dodWiad:dokumentprosty"/>
                         </p:inputNumber>
                     </p:column>
                     <p:column headerText="kolumna pkpir" style="text-align: center;" width="170">

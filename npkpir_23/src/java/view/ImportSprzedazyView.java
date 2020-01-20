@@ -254,7 +254,7 @@ public class ImportSprzedazyView  implements Serializable {
                 if (klientznaleziony!=null && klientznaleziony.getNpelna()!=null) {
                     boolean juzjest = false;
                     for (Klienci p : klienci) {
-                        if (p.getNip().equals(klientznaleziony.getNip())) {
+                        if (p.getNip()!=null && p.getNip().equals(klientznaleziony.getNip())) {
                             juzjest = true;
                             break;
                         }
