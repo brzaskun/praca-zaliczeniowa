@@ -331,6 +331,7 @@ private DokDAO dokDAO;
         }
         try {
             selectedDod.setFirmafk(1);
+            selectedDod.setPodpiscertyfikowany(true);
             generujIndex(selectedDod);
             sformatuj(selectedDod);
             podatnikDAO.dodaj(selectedDod);
