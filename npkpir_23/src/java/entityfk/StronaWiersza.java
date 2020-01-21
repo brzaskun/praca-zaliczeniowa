@@ -105,7 +105,7 @@ public class StronaWiersza implements Serializable {
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
     private Integer id;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "idwiersza", referencedColumnName = "idwiersza")
     private Wiersz wiersz;
     @Column(name = "kwota")
@@ -150,7 +150,7 @@ public class StronaWiersza implements Serializable {
     private double kursBO;
     private String opisBO;
     @JoinColumn(name = "wierszbo_id", referencedColumnName = "id")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private WierszBO wierszbo;
     @Transient
     private Set<String> opis;

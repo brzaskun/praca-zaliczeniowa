@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -57,10 +58,10 @@ public class Transakcja  implements Serializable {
     //to jest id generowany przez serwer
     private Integer id;
     @JoinColumn(name="rozliczajacy_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private StronaWiersza rozliczajacy;
     @JoinColumn(name="nowaTransakcja_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private StronaWiersza nowaTransakcja;
     @Basic(optional = false)
     @NotNull
