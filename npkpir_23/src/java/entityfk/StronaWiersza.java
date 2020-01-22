@@ -32,6 +32,7 @@ import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -105,7 +106,7 @@ public class StronaWiersza implements Serializable {
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
     private Integer id;
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idwiersza", referencedColumnName = "idwiersza")
     private Wiersz wiersz;
     @Column(name = "kwota")
