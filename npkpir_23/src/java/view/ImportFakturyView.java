@@ -42,6 +42,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import pdf.PdfDok;
 import waluty.Z;
+import xls.ImportBean;
 
 /**
  *
@@ -230,19 +231,20 @@ public class ImportFakturyView  implements Serializable {
     private List<Dokfk> stworzdokumentyfk(jpkfa3.JPK jpk) {
         List<Dokfk> dokumenty = Collections.synchronizedList(new ArrayList<>());
         if (jpk != null) {
-            jpk.getFaktura().forEach((p) -> {
-                jpkfa3.JPK.Faktura wiersz = (jpkfa3.JPK.Faktura) p;
+            int numerkolejny = ImportBean.oblicznumerkolejny(rodzajedok.getSkrotNazwyDok(), dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            for (jpkfa3.JPK.Faktura wiersz : jpk.getFaktura()) {
                 jpkfa3.CurrCodeType walutapliku = wiersz.getKodWaluty();
                 String waldok = walutapliku.toString();
                 if (wiersz.getP5B() != null && wiersz.getP5B().length()>=10) {
-                    Dokfk dok = jpkfa3.Beanjpk.generujdokfk(p, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, gUSView, wpisView.getPodatnikObiekt(), dokDAOfk, rodzajedok, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+                    Dokfk dok = jpkfa3.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, gUSView, wpisView.getPodatnikObiekt(), dokDAOfk, rodzajedok, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny);
                     if (dok!=null) {
                         netto += dok.getNettoVAT();
                         vat += dok.getVATVAT();
                         dokumenty.add(dok);
+                        numerkolejny++;
                     }
                 }
-            });
+            };
         }
         return dokumenty;
     }
@@ -290,19 +292,19 @@ public class ImportFakturyView  implements Serializable {
     private List<Dokfk> stworzdokumentyfizfk(jpkfa3.JPK jpk) {
         List<Dokfk> dokumenty = Collections.synchronizedList(new ArrayList<>());
         if (jpk != null) {
-            jpk.getFaktura().forEach((p) -> {
-                jpkfa3.JPK.Faktura wiersz = (jpkfa3.JPK.Faktura) p;
+            int numerkolejny = ImportBean.oblicznumerkolejny(rodzajedok.getSkrotNazwyDok(), dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            for (jpkfa3.JPK.Faktura wiersz : jpk.getFaktura()) {
                 jpkfa3.CurrCodeType walutapliku = wiersz.getKodWaluty();
                 String waldok = walutapliku.toString();
                 if (wiersz.getP5B() == null || wiersz.getP5B().length()!=10) {
-                    Dokfk dok = jpkfa3.Beanjpk.generujdokfk(p, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, gUSView, wpisView.getPodatnikObiekt(), dokDAOfk, rodzajedok, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+                    Dokfk dok = jpkfa3.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, gUSView, wpisView.getPodatnikObiekt(), dokDAOfk, rodzajedok, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny);
                     if (dok!=null) {
                         netto += dok.getNettoVAT();
                         vat += dok.getVATVAT();
                         dokumenty.add(dok);
                     }
                 }
-            });
+            };
         }
         return dokumenty;
     }
@@ -350,19 +352,19 @@ public class ImportFakturyView  implements Serializable {
     private List<Dokfk> stworzdokumentydefk(jpkfa3.JPK jpk) {
         List<Dokfk> dokumenty = Collections.synchronizedList(new ArrayList<>());
         if (jpk != null) {
-            jpk.getFaktura().forEach((p) -> {
-                jpkfa3.JPK.Faktura wiersz = (jpkfa3.JPK.Faktura) p;
+            int numerkolejny = ImportBean.oblicznumerkolejny(rodzajedok.getSkrotNazwyDok(), dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            for (jpkfa3.JPK.Faktura wiersz : jpk.getFaktura()) {
                 jpkfa3.CurrCodeType walutapliku = wiersz.getKodWaluty();
                 String waldok = walutapliku.toString();
                 if (wiersz.getP5B() == null || wiersz.getP5B().length()!=10) {
-                    Dokfk dok =  jpkfa3.Beanjpk.generujdokfk(p, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, gUSView, wpisView.getPodatnikObiekt(), dokDAOfk, rodzajedok, true, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+                    Dokfk dok =  jpkfa3.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, gUSView, wpisView.getPodatnikObiekt(), dokDAOfk, rodzajedok, true, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny);
                     if (dok!=null) {
                         netto += dok.getNettoVAT();
                         vat += dok.getVATVAT();
                         dokumenty.add(dok);
                     }
                 }
-            });
+            };
         }
         return dokumenty;
     }

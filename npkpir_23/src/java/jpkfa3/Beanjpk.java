@@ -128,7 +128,7 @@ public class Beanjpk {
     
     public static Dokfk generujdokfk(Object p, String waldok, List<Evewidencja> evewidencje, TabelanbpDAO tabelanbpDAO, Tabelanbp tabeladomyslna, List<Klienci> klienci, boolean wybierzosobyfizyczne,
             boolean deklaracjaniemiecka, KlienciDAO klDAO, GUSView gUSView, Podatnik podatnik, DokDAOfk dokDAOfk, Rodzajedok rodzajedok, boolean pol0de1,ListaEwidencjiVat listaEwidencjiVat,
-            KliencifkDAO kliencifkDAO, WpisView wpisView, KontoDAOfk kontoDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
+            KliencifkDAO kliencifkDAO, WpisView wpisView, KontoDAOfk kontoDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO, int numerkolejny) {
         jpkfa3.JPK.Faktura faktura = (jpkfa3.JPK.Faktura) p;
         Dokfk nd = null;
         try {
@@ -138,7 +138,6 @@ public class Beanjpk {
             String datawystawienia = faktura.getP1().toString();
             String miesiac = datawystawienia.substring(5, 7);
             String rok = datawystawienia.substring(0, 4);
-            int numerkolejny = ImportBean.oblicznumerkolejny(rodzajedok.getSkrotNazwyDok(), dokDAOfk, podatnik, rok);
             nd = new Dokfk(numerkolejny, rok);
             nd.setWprowadzil(principal.getName());
             nd.setKontr(pobierzkontrahenta(faktura, pobierzNIPkontrahenta(faktura), klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, gUSView));
@@ -175,12 +174,14 @@ public class Beanjpk {
                     nd.setImportowany(true);
                     nd.setWprowadzil(principal.getName());
                     nd.przeliczKwotyWierszaDoSumyDokumentu();
-                    ImportBean.podepnijEwidencjeVat(nd, faktura.getNetto(), faktura.getVat(), listaEwidencjiVat);
+                    ImportBean.podepnijEwidencjeVat(nd, faktura, listaEwidencjiVat);
                 } else {
                     nd = null;
                 }
             }
-            } catch (Exception ex) {}
+            } catch (Exception ex) {
+                E.e(ex);
+            }
         return nd;
     }
     

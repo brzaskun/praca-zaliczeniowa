@@ -784,8 +784,7 @@ public class JPK {
                     if (SPRZEDAZWIERSZENETTO.contains(p.getName())) {
                             BigDecimal pole = (BigDecimal) p.invoke(this);
                             if(pole != null) {
-                                zwrot = pole.doubleValue();
-                                break;
+                                zwrot += pole.doubleValue();
                             }
                         }
                     }
@@ -804,8 +803,7 @@ public class JPK {
                         if (SPRZEDAZNIEMCY.contains(p.getName())) {
                             BigDecimal pole = (BigDecimal) p.invoke(this);
                             if(pole != null) {
-                                zwrot = Z.z(pole.doubleValue());
-                                break;
+                                zwrot += Z.z(pole.doubleValue());
                             }
                         }
                     }
@@ -824,7 +822,7 @@ public class JPK {
                     if (SPRZEDAZWIERSZEVAT.contains(p.getName())) {
                             BigDecimal pole = (BigDecimal) p.invoke(this);
                             if(pole != null) {
-                                zwrot = pole.doubleValue();
+                                zwrot += pole.doubleValue();
                                 break;
                             }
                         }
@@ -843,7 +841,7 @@ public class JPK {
                         if (SPRZEDAZNIEMCYVAT.contains(p.getName())) {
                             BigDecimal pole = (BigDecimal) p.invoke(this);
                             if(pole != null) {
-                                zwrot = pole.doubleValue();
+                                zwrot += pole.doubleValue();
                                 break;
                             }
                         }

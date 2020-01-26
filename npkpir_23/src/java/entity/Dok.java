@@ -778,7 +778,7 @@ public class Dok extends DokSuper implements Serializable {
 
     @Override
     public String toString() {
-        return ". Info dok: nrWlDk=" + nrWlDk + ", kontrahent=" + kontr1.getNpelna() + ", podatnik=" + podatnik.getPrintnazwa() + ", nrwlasny=" + nrWlDk + ", dataWyst=" + dataWyst;
+        return ". Info dok: nrWlDk=" + nrWlDk + ", kontrahent=" + kontr1.getNpelna() + ", podatnik=" + podatnik.getPrintnazwa() + ", seria=" + rodzajedok.getSkrotNazwyDok() + ", dataWyst=" + dataWyst;
     }
 
     public String toString2() {

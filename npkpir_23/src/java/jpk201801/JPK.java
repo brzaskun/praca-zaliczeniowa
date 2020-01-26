@@ -1727,7 +1727,7 @@ public class JPK extends JPKSuper implements Serializable {
                         if (p.getName().startsWith("getK") && SPRZEDAZWIERSZENETTO.contains(p.getName())) {
                             BigDecimal pole = (BigDecimal) p.invoke(this);
                             if(pole != null && pole.doubleValue() != 0.0) {
-                                zwrot = pole.doubleValue();
+                                zwrot += pole.doubleValue();
                                 break;
                             }
                         }
@@ -1747,7 +1747,7 @@ public class JPK extends JPKSuper implements Serializable {
                         if (p.getName().startsWith("getK") && SPRZEDAZWIERSZEVAT.contains(p.getName())) {
                             BigDecimal pole = (BigDecimal) p.invoke(this);
                             if(pole != null && pole.doubleValue() != 0.0) {
-                                zwrot = pole.doubleValue();
+                                zwrot += pole.doubleValue();
                                 break;
                             }
                         }
