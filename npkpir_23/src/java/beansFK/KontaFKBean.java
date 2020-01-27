@@ -253,10 +253,8 @@ public class KontaFKBean implements Serializable{
 
     public static void nanieskonta(Rodzajedok nowy, KontoDAOfk kontoDAOfk) {
         if (nowy.getKontoRZiS()!=null || nowy.getKontorozrachunkowe()!=null || nowy.getKontovat()!=null) {
-            if ((nowy.getKontoRZiS()!=null && !nowy.getKontoRZiS().getRokSt().equals(nowy.getRok())) || 
-                    (nowy.getKontorozrachunkowe()!=null && !nowy.getKontorozrachunkowe().getRokSt().equals(nowy.getRok())) || 
-                    (nowy.getKontovat()!=null && !nowy.getKontovat().getRokSt().equals(nowy.getRok()))) {
-                List<Konto> konta = kontoDAOfk.findWszystkieKontaPodatnika(nowy.getPodatnikObj(), nowy.getRok());
+            List<Konto> konta = kontoDAOfk.findWszystkieKontaPodatnika(nowy.getPodatnikObj(), nowy.getRok());
+            if (konta!=null) {
                 for (Konto p : konta) {
                     if (nowy.getKontoRZiS()!=null && nowy.getKontoRZiS().getPelnynumer().equals(p.getPelnynumer())) {
                         nowy.setKontoRZiS(p);

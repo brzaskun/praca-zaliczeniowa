@@ -14,6 +14,7 @@
                 <p:dataTable id="pDokKsi" value="#{podatnikView.rodzajeDokumentowLista}"  var="loop" selection="#{podatnikView.wybranyRodzajDokumentu}"
                              style="height: 300px; overflow-y: scroll" selectionMode="single" rowKey="#{loop.skrotNazwyDok}"
                              sortBy="#{loop.skrotNazwyDok}"
+                             emptyMessage="nie wygenerowano dokumentów/brak planu kont na bieżacy rok"
                              >
                     <p:ajax event="rowSelect" update=":akordeon:form7" listener="#{podatnikView.przygotujdoedycjiDokKsi}" />
                     <p:column headerText="skrót" style="text-align: center;" width="90">

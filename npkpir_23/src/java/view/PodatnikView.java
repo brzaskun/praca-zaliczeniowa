@@ -1211,9 +1211,28 @@ private DokDAO dokDAO;
             dokumentyBiezacegoPodatnikaRokPoprzedni = dokumentyBiezacegoPodatnikaOgolnie;
         }
         List<Rodzajedok> ogolnaListaDokumentow = rodzajedokView.getListaWspolnych();
+        List<Konto> konta = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         try {
-            if (dokumentyBiezacegoPodatnikaRokPoprzedni!=null && !dokumentyBiezacegoPodatnikaRokPoprzedni.isEmpty()) {
-                for (Rodzajedok tmp : dokumentyBiezacegoPodatnikaRokPoprzedni) {
+            if (konta!=null && konta.size()>0) {
+                if (dokumentyBiezacegoPodatnikaRokPoprzedni!=null && !dokumentyBiezacegoPodatnikaRokPoprzedni.isEmpty()) {
+                    for (Rodzajedok tmp : dokumentyBiezacegoPodatnikaRokPoprzedni) {
+                        boolean odnaleziono = false;
+                        for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
+                            if (r.getSkrot().equals(tmp.getSkrot())) {
+                                odnaleziono = true;
+                            }
+                        }
+                        if (odnaleziono == false) {
+                            Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
+                            nowy.setRok(wpisView.getRokWpisuSt());
+                            nowy.setPodatnikObj(selected);
+                            KontaFKBean.nanieskonta(nowy, kontoDAOfk);
+                            rodzajedokDAO.dodaj(nowy);
+                            dokumentyBiezacegoPodatnika.add(nowy);
+                        }
+                    }
+                }
+                for (Rodzajedok tmp : ogolnaListaDokumentow) {
                     boolean odnaleziono = false;
                     for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
                         if (r.getSkrot().equals(tmp.getSkrot())) {
@@ -1222,30 +1241,14 @@ private DokDAO dokDAO;
                     }
                     if (odnaleziono == false) {
                         Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
-                        nowy.setRok(wpisView.getRokWpisuSt());
                         nowy.setPodatnikObj(selected);
-                        KontaFKBean.nanieskonta(nowy, kontoDAOfk);
+                        nowy.setRok(wpisView.getRokWpisuSt());
+                        nowy.setKontoRZiS(null);
+                        nowy.setKontorozrachunkowe(null);
+                        nowy.setKontovat(null);
                         rodzajedokDAO.dodaj(nowy);
                         dokumentyBiezacegoPodatnika.add(nowy);
                     }
-                }
-            }
-            for (Rodzajedok tmp : ogolnaListaDokumentow) {
-                boolean odnaleziono = false;
-                for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
-                    if (r.getSkrot().equals(tmp.getSkrot())) {
-                        odnaleziono = true;
-                    }
-                }
-                if (odnaleziono == false) {
-                    Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
-                    nowy.setPodatnikObj(selected);
-                    nowy.setRok(wpisView.getRokWpisuSt());
-                    nowy.setKontoRZiS(null);
-                    nowy.setKontorozrachunkowe(null);
-                    nowy.setKontovat(null);
-                    rodzajedokDAO.dodaj(nowy);
-                    dokumentyBiezacegoPodatnika.add(nowy);
                 }
             }
         } catch (Exception ex) {
