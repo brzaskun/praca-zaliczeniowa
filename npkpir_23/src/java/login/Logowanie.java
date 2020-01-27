@@ -82,7 +82,11 @@ public class Logowanie implements Serializable {
             if (haslo.equals("haslo")) {
                 navto = "nowehaslo";
             } else {
-                request.login(uzytkownik, haslo);
+                try {
+                    request.login(uzytkownik, haslo);
+                } catch (ServletException e) {
+                    E.e(e);
+                }
                 request.setAttribute("user", uzytkownik);
                 String lo = request.getRemoteUser();
                 if (request.isUserInRole("Administrator")) {
@@ -147,8 +151,8 @@ public class Logowanie implements Serializable {
             }
             ustawLocale(uzytkownik);
             return navto;
-        } catch (ServletException e) {
-            E.e(e);
+        } catch (Exception exp) {
+            E.e(exp);
             Msg.msg("e", "Podałeś nieprawidłowy login lub hasło. Nie możesz rozpocząć pracy z programem");
             SMTPSettings settings = sMTPSettingsDAO.findSprawaByDef();
             Liczniklogowan.odejmijLogowanie(ipusera, rejestrlogowanDAO, settings);

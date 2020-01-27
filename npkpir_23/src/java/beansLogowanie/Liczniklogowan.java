@@ -9,6 +9,7 @@ package beansLogowanie;
 import dao.RejestrlogowanDAO;
 import entity.Rejestrlogowan;
 import entity.SMTPSettings;
+import error.E;
 import java.util.Date;
 import javax.inject.Named;
 import mail.MailAdmin;
@@ -23,14 +24,19 @@ public class Liczniklogowan {
     
     
     public static int pobierzIloscLogowan(String ip, RejestrlogowanDAO rejestrlogowanDAO) {
+        int zwrot = 5;
         try {
             Rejestrlogowan biezacelogowanie = rejestrlogowanDAO.findByIP(ip);
-            return biezacelogowanie.getIlosclogowan();
+            if (biezacelogowanie!=null) {
+                zwrot = biezacelogowanie.getIlosclogowan();
+            } else {
+                Rejestrlogowan rejestrlogowan = new Rejestrlogowan(ip,new Date(),5,false);
+                rejestrlogowanDAO.dodaj(rejestrlogowan);
+            }
         } catch (Exception e) {
-            Rejestrlogowan rejestrlogowan = new Rejestrlogowan(ip,new Date(),5,false);
-            rejestrlogowanDAO.dodaj(rejestrlogowan);
-            return 5;
+            E.e(e);
         }
+        return zwrot;
     }
     
     public static int odejmijLogowanie (String ip, RejestrlogowanDAO rejestrlogowanDAO, SMTPSettings ogolne) {
