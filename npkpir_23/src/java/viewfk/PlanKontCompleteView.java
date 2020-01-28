@@ -64,9 +64,13 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
   @PostConstruct
   public void init() { //E.m(this);
       listakontOstatniaAnalitykaklienta = kontoDAOfk.findKontaOstAlitykaRO(wpisView);
-      Collections.sort(listakontOstatniaAnalitykaklienta, new Kontocomparator());
+      if (listakontOstatniaAnalitykaklienta!=null) {
+        Collections.sort(listakontOstatniaAnalitykaklienta, new Kontocomparator());
+      }
       konta = kontoDAOfk.findWszystkieKontaPodatnikaRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-      Collections.sort(konta, new Kontocomparator());
+      if (konta!=null) {
+        Collections.sort(konta, new Kontocomparator());
+      }
   }
     
     public List<Konto> complete(String qr) {

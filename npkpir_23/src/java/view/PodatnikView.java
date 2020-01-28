@@ -1289,6 +1289,12 @@ private DokDAO dokDAO;
     }
     
     private void zweryfikujBazeBiezacegoPodatnika() {
+        //dodalem to bo byly konta ze starego roku
+        List<Rodzajedok> dokumentyBiezacegoPodatnika = rodzajedokDAO.findListaPodatnik(selected, wpisView.getRokWpisuSt());
+        for (Rodzajedok nowy : dokumentyBiezacegoPodatnika) {
+            KontaFKBean.nanieskonta(nowy, kontoDAOfk);
+            rodzajedokDAO.edit(nowy);
+        }
         // to bylo nam potrzebne do transformacji teraz jest juz zbedne bo klineci maja przeniesione dokumenty
 //        List<Rodzajedok> listaRodzajeDokPodatnika = rodzajedokDAO.findListaPodatnik(selected);
 //        if (listaRodzajeDokPodatnika == null || listaRodzajeDokPodatnika.size() == 0) {
