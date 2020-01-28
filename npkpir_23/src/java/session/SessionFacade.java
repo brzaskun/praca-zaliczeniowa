@@ -215,7 +215,9 @@ public class SessionFacade<T> implements Serializable {
     public void createRefresh(List<T> entityList) {
         for (T p : entityList) {
             try {
-                getEntityManager().persist(p);
+                if (p!=null) {
+                    getEntityManager().persist(p);
+                }
             } catch (Exception e) {
                 E.e(e);
             }

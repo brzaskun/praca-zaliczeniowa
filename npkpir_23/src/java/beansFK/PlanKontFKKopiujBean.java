@@ -61,9 +61,15 @@ public class PlanKontFKKopiujBean {
         List<Konto> nowemacierzyste = new ArrayList<>();
         for (Iterator<Konto> it= wykazkont.iterator(); it.hasNext();) {
             Konto p = it.next();
+            if (biezacylevel==2) {
+                System.out.println("");
+            }
             if (p.getLevel() == biezacylevel) {
                 try {
                     if (p.getPelnynumer().equals("201-2")) {
+                        System.out.println("");
+                    } 
+                    if (p.getPelnynumer().equals("201-2-0")) {
                         System.out.println("");
                     } 
                     if (!podatnikzrodlowy.equals(podatnikDocelowy) && p.isSlownikowe()) {
