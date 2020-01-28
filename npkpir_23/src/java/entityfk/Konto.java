@@ -785,7 +785,6 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         int hash = 3;
         hash = 97 * hash + Objects.hashCode(this.podatnik);
         hash = 97 * hash + Objects.hashCode(this.pelnynumer);
-        hash = 97 * hash + Objects.hashCode(this.rok);
         return hash;
     }
     
@@ -800,7 +799,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
             return false;
         }
         final Konto other = (Konto) obj;
-        if (Objects.equals(this.podatnik, other.podatnik) && !Objects.equals(this.pelnynumer, other.pelnynumer) && !Objects.equals(this.rok, other.rok)) {
+        if (Objects.equals(this.podatnik, other.podatnik) && !Objects.equals(this.pelnynumer, other.pelnynumer)) {
             return false;
         }
         return true;
