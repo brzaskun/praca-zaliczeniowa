@@ -2212,7 +2212,7 @@ public class DokfkView implements Serializable {
                             rachunek = true;
                         }
                         rachunekCzyPlatnosc = rachunek == true ? "rachunek" : "płatność";
-                        PrimeFaces.current().ajax().update("formtransakcjawybor:transakcjawybormenu");
+                        //PrimeFaces.current().ajax().update("formtransakcjawybor:transakcjawybormenu"); dialog jest nieaktywny
                     }
                     //to juz jest jak wciakam art-r no i zostawienie tego powoduje ze przy edycji dokumentu kreuja sie puste transakcje, ktore potem sa zachowywane  bazie
 //                    if (wybranastronawiersza.getTypStronaWiersza() == 1) {

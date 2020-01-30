@@ -43,9 +43,8 @@ public class XLSBilansView implements Serializable{
     public void zachowajBilanswXLS(TreeNodeExtended rootProjektRZiS) {
         try {
             List<PozycjaRZiS> pozycje = Collections.synchronizedList(new ArrayList<>());
-            rootProjektRZiS.getFinallChildren(pozycje);
-            Map<String, List> listy = new ConcurrentHashMap<>();
-            listy.put("bilansinter", pozycje);
+            List<PozycjaRZiS> listy = new ArrayList<>();
+            rootProjektRZiS.getChildrenTree(pozycje, listy);
             Workbook workbook = WriteXLSFile.zachowajBilansInterXLS(listy, wpisView);
             // Prepare response.
             FacesContext facesContext = FacesContext.getCurrentInstance();

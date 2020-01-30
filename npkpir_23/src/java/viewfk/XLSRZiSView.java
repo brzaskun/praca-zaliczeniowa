@@ -42,9 +42,8 @@ public class XLSRZiSView implements Serializable{
     public void zachowajRZiSwXLS(TreeNodeExtended rootProjektRZiS) {
         try {
             List<PozycjaRZiS> pozycje = Collections.synchronizedList(new ArrayList<>());
-            rootProjektRZiS.getFinallChildren(pozycje);
-            Map<String, List> listy = new ConcurrentHashMap<>();
-            listy.put("rzisinter", pozycje);
+            List<PozycjaRZiS> listy = new ArrayList<>();
+            rootProjektRZiS.getChildrenTree(pozycje, listy);
             Workbook workbook = WriteXLSFile.zachowajRZiSInterXLS(listy, wpisView);
             // Prepare response.
             FacesContext facesContext = FacesContext.getCurrentInstance();

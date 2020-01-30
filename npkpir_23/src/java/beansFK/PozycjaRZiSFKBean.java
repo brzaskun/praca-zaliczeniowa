@@ -178,7 +178,7 @@ public class PozycjaRZiSFKBean {
                 kontopozycja.addAll(kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(uklad,"bilansowe"));
             }
             List<Konto> l = Collections.synchronizedList(new ArrayList<>());
-            kontopozycja.parallelStream().forEach((p) -> {
+            kontopozycja.stream().forEach((p) -> {
                 try {
                     Konto konto = p.getKontoID();
                     konto.naniesPozycje(p);

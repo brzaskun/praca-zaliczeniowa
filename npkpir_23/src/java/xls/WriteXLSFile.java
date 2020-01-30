@@ -158,8 +158,7 @@ public class WriteXLSFile {
     }
     
     
-    public static Workbook zachowajRZiSInterXLS(Map<String, List> listy, WpisView wpisView){
-        List listapozycji = listy.get("rzisinter");
+    public static Workbook zachowajRZiSInterXLS(List listapozycji, WpisView wpisView){
         List headersList = headerRZiSBilansInter();
         // Using XSSF for xlsx format, for xls use HSSF
         Workbook workbook = new XSSFWorkbook();
@@ -195,8 +194,7 @@ public class WriteXLSFile {
         return workbook;
     }
     
-    public static Workbook zachowajBilansInterXLS(Map<String, List> listy, WpisView wpisView){
-        List listapozycji = listy.get("bilansinter");
+    public static Workbook zachowajBilansInterXLS(List listapozycji, WpisView wpisView){
         List headersList = headerRZiSBilansInter();
         // Using XSSF for xlsx format, for xls use HSSF
         Workbook workbook = new XSSFWorkbook();
@@ -535,8 +533,8 @@ public class WriteXLSFile {
             createTextCell(styletext, row, (short) columnIndex++, st.getSkrot());
             createTextCell(styletext, row, (short) columnIndex++, st.getNazwa());
             createTextCell(styletext, row, (short) columnIndex++, st.getDe());
-        }   else if (c.getName().contains("TreeNodeExtended")) {
-            PozycjaRZiSBilans st = (PozycjaRZiSBilans) ((TreeNodeExtended) ob).getData();
+        }   else if (c.getName().equals("entityfk.PozycjaBilans")||c.getName().equals("entityfk.PozycjaRZiS")) {
+            PozycjaRZiSBilans st = (PozycjaRZiSBilans) ob;
             createTextCell(styletext, row, (short) columnIndex++, String.valueOf(rowIndex));
             createTextCell(styletext, row, (short) columnIndex++, String.valueOf(st.getLp()));
             createTextCell(styletext, row, (short) columnIndex++, st.getPozycjaString());

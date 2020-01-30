@@ -261,11 +261,11 @@ public class ReadXLSFile {
    
     
     
-    public static void updateRZiSInter(PozycjaRZiSDAO pozycjaRZiSDAO, WpisView wpisView, String filename) {
+    public static void updateRZiSInter(PozycjaRZiSDAO pozycjaRZiSDAO, WpisView wpisView, byte[] contents) {
          try {
-            FileInputStream file = new FileInputStream(new File(filename));
+            InputStream targetStream = new ByteArrayInputStream(contents);
              //Create Workbook instance holding reference to .xlsx file
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
+            XSSFWorkbook workbook = new XSSFWorkbook(targetStream);
              //Get first/desired sheet from the workbook
             XSSFSheet sheet = workbook.getSheetAt(0);
              //Iterate through each rows one by one
@@ -287,17 +287,17 @@ public class ReadXLSFile {
                     E.e(e);
                 }
             }
-            file.close();
+            targetStream.close();
         } catch (Exception e) {
             E.e(e);
         }
     }
     
-    public static void updateBilansInter(PozycjaBilansDAO pozycjaBilansDAO, WpisView wpisView, String filename) {
+    public static void updateBilansInter(PozycjaBilansDAO pozycjaBilansDAO, WpisView wpisView, byte[] contents) {
          try {
-            FileInputStream file = new FileInputStream(new File(filename));
+            InputStream targetStream = new ByteArrayInputStream(contents);
              //Create Workbook instance holding reference to .xlsx file
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
+            XSSFWorkbook workbook = new XSSFWorkbook(targetStream);
              //Get first/desired sheet from the workbook
             XSSFSheet sheet = workbook.getSheetAt(0);
              //Iterate through each rows one by one
@@ -319,7 +319,7 @@ public class ReadXLSFile {
                     E.e(e);
                 }
             }
-            file.close();
+            targetStream.close();
         } catch (Exception e) {
             E.e(e);
         }

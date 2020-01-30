@@ -8,7 +8,7 @@
     >
     <p:dialog id="dialogkursrecznie" header="Pobranie/Wprowadzenie kursu ręcznie" widgetVar="dialogkursrecznie"  
               resizable="false"  onShow="ustawdialog('dialogkursrecznie','menukartoteki',850,350);" closeOnEscape="true" onHide="resetujdialog('dialogkursrecznie');" >
-        <p:ajax event="open" listener="#{walutyViewFK.init()}" global="false" update="@parent"/>
+        <p:ajax event="open" listener="#{walutyViewFK.init()}" global="false" update="formkursreczniepobierz"/>
         <h:form id="formkursreczniepobierz">
             <p:outputPanel style="padding: 10px; margin-bottom: 10px;">
                 <h:outputText value="pobieranie jednej tabeli z internetu" style="font-weight: 900"/>

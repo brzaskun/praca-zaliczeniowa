@@ -1237,24 +1237,25 @@ private DokDAO dokDAO;
                         }
                     }
                 }
-                for (Rodzajedok tmp : ogolnaListaDokumentow) {
-                    boolean odnaleziono = false;
-                    for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
-                        if (r.getSkrot().equals(tmp.getSkrot())) {
-                            odnaleziono = true;
+            } else {
+                    for (Rodzajedok tmp : ogolnaListaDokumentow) {
+                        boolean odnaleziono = false;
+                        for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
+                            if (r.getSkrot().equals(tmp.getSkrot())) {
+                                odnaleziono = true;
+                            }
+                        }
+                        if (odnaleziono == false) {
+                            Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
+                            nowy.setPodatnikObj(selected);
+                            nowy.setRok(wpisView.getRokWpisuSt());
+                            nowy.setKontoRZiS(null);
+                            nowy.setKontorozrachunkowe(null);
+                            nowy.setKontovat(null);
+                            rodzajedokDAO.dodaj(nowy);
+                            dokumentyBiezacegoPodatnika.add(nowy);
                         }
                     }
-                    if (odnaleziono == false) {
-                        Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
-                        nowy.setPodatnikObj(selected);
-                        nowy.setRok(wpisView.getRokWpisuSt());
-                        nowy.setKontoRZiS(null);
-                        nowy.setKontorozrachunkowe(null);
-                        nowy.setKontovat(null);
-                        rodzajedokDAO.dodaj(nowy);
-                        dokumentyBiezacegoPodatnika.add(nowy);
-                    }
-                }
             }
         } catch (Exception ex) {
         }

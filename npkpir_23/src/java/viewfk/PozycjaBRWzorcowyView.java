@@ -33,7 +33,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import org.primefaces.model.TreeNode;
+import msg.Msg;import org.apache.commons.io.FilenameUtils;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.TreeNode;
+import org.primefaces.model.UploadedFile;
 import view.WpisView;import xls.ReadXLSFile;
 
 /**
@@ -266,55 +269,37 @@ public class PozycjaBRWzorcowyView implements Serializable {
         }
     }
 
-    
-    
-   
    
 
-    public void rozwinwszystkie() {
-        root.createTreeNodesForElement(pozycje);
-        level = root.ustaldepthDT(pozycje) - 1;
-        root.expandAll();
-    }
-
-    public void rozwin() {
-        int maxpoziom = root.ustaldepthDT(pozycje);
-        if (level < --maxpoziom) {
-            root.expandLevel(level++);
+    public void pobierzdanezplikur(FileUploadEvent event) {
+        try {
+            UploadedFile uploadedFile = event.getFile();
+            String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
+            if (extension.equals("xlsx")) {
+                byte[] contents = uploadedFile.getContents();
+                ReadXLSFile.updateRZiSInter(pozycjaRZiSDAO, wpisView, contents);
+                pobierzuklad("r", rootProjektRZiS, "");
+            }
+        }catch (Exception ex) {
+            E.e(ex);
+            Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");
         }
-    }
-
-    
-    
-    public void zwinwszystkie(TreeNodeExtended root) {
-        root.foldAll();
-        level = 0;
-    }
-
-    public void zwin(TreeNodeExtended root) {
-        root.foldLevel(--level);
+        
     }
     
-    public void rozwinwszystkie(TreeNodeExtended root) {
-        level = root.ustaldepthDT(pozycje) - 1;
-        root.expandAll();
-    }
-
-    public void rozwin(TreeNodeExtended root) {
-        int maxpoziom = root.ustaldepthDT(pozycje);
-        if (level < --maxpoziom) {
-            root.expandLevel(level++);
+    public void pobierzdanezpliku(FileUploadEvent event) {
+        try {
+            UploadedFile uploadedFile = event.getFile();
+            String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
+            if (extension.equals("xlsx")) {
+                byte[] contents = uploadedFile.getContents();
+                ReadXLSFile.updateBilansInter(pozycjaBilansDAO, wpisView, contents);
+                pobierzuklad("b", rootProjektRZiS, "aktywa");
+            }
+        }catch (Exception ex) {
+            E.e(ex);
+            Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");
         }
-    }
-
-    public void pobierzdanezpliku() {
-        ReadXLSFile.updateRZiSInter(pozycjaRZiSDAO, wpisView, "c://temp//rzisinter.xlsx");
-        pobierzuklad("r", rootProjektRZiS, "");
-    }
-    
-    public void pobierzdanezplikuBilans() {
-        ReadXLSFile.updateBilansInter(pozycjaBilansDAO, wpisView, "c://temp//bilansinter.xlsx");
-        pobierzuklad("b", rootProjektRZiS, "aktywa");
     }
     
     public void edytujpozycje(String bilansrzis) {
