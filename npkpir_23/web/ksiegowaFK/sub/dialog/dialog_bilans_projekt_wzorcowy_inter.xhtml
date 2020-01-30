@@ -30,13 +30,16 @@
                          <h:outputText value="uklad #{pozycjaBRWzorcowyView.uklad.uklad} - #{pozycjaBRWzorcowyView.uklad.rok}"/>
                     </f:facet>
                     <p:ajax event="select" global="false" listener="#{pozycjaBRWzorcowyView.wybranopozycjeBilans()}"/>
+                    <p:column headerText="id" style="width: 50px;">
+                        <h:outputText value="#{loop.lp}"/> 
+                    </p:column>
                     <p:column headerText="symbol i nazwa pozycji">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
-                        <p:spacer width="20"/>
+                        <p:spacer width="40"/>
                         <h:outputText value="#{loop.nazwa}"/> 
                     </p:column>
                     <p:column headerText="de" width="400">
-                        <h:inputText value="#{loop.de}" style="width: 400px;"/>
+                        <h:inputText value="#{loop.de}" style="width: 350px;"/>
                     </p:column>
                 </p:treeTable>
                 <p:panel id="wyborbilans" header="pobierz układ" style="margin-top: -50px;">
