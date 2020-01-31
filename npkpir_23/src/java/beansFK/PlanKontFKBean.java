@@ -799,7 +799,7 @@ public class PlanKontFKBean {
         return nrmacierzystego;
     }
     
-    public static void przyporzadkujBilans_kontoszczegolne(String wybranapozycja, Konto konto, KontoDAOfk kontoDAO, WpisView wpisView, String wnmaPrzypisywanieKont, boolean aktywa0pasywa1, String rodzajkonta, Podatnik podatnik) {
+    public static void przyporzadkujBilans_kontoszczegolne(String wybranapozycja, Konto konto, KontoDAOfk kontoDAO, WpisView wpisView, String wnmaPrzypisywanieKont, boolean aktywa0pasywa1, String rodzajkonta, Podatnik podatnik, UkladBR ukladBR, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
         try {
             if (wnmaPrzypisywanieKont.equals("wn")) {
                 if (aktywa0pasywa1 == false) {//jest informacja w jaqkim miejscu winiec byc czy po aktywach czy po pasywach
@@ -816,6 +816,7 @@ public class PlanKontFKBean {
             }
             konto.setWynik0bilans1(true);
             kontoDAO.edit(konto);
+            kontopozycjazapisZapisz(konto, ukladBR, true, kontopozycjaZapisDAO);
             //czesc nanoszaca informacje na potomku
             if (konto.isMapotomkow() == true) {
                 PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(konto, kontoDAO, podatnik, wnmaPrzypisywanieKont);
@@ -830,7 +831,7 @@ public class PlanKontFKBean {
     }
     
     
-    public static void przyporzadkujBilans_kontozwykle(String wybranapozycja, Konto konto, KontoDAOfk kontoDAO, Podatnik podatnik, String wnmaPrzypisywanieKont, boolean aktywa0pasywa1) {
+    public static void przyporzadkujBilans_kontozwykle(String wybranapozycja, Konto konto, KontoDAOfk kontoDAO, Podatnik podatnik, String wnmaPrzypisywanieKont, boolean aktywa0pasywa1, UkladBR ukladBR, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
         try {
             if (aktywa0pasywa1 == false) {//jest informacja w jaqkim miejscu winiec byc czy po aktywach czy po pasywach
                 konto.kontopozycjaBiezacaWn(wybranapozycja, "0", "zwykłe");
@@ -841,6 +842,7 @@ public class PlanKontFKBean {
             }
             konto.setWynik0bilans1(true);
             kontoDAO.edit(konto);
+            kontopozycjazapisZapisz(konto, ukladBR, true, kontopozycjaZapisDAO);
             //czesc nanoszaca informacje na potomku
             if (konto.isMapotomkow() == true) {
                 PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto, kontoDAO, podatnik, "bilans");
@@ -854,12 +856,29 @@ public class PlanKontFKBean {
         }
     }
     
+    public static void kontopozycjazapisZapisz(Konto nowe, UkladBR ukladBR, boolean wynik0bilans1, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
+        KontopozycjaZapis kpstare = kontopozycjaZapisDAO.findByKonto(nowe, ukladBR);
+        if (kpstare!=null) {
+            kontopozycjaZapisDAO.destroy(kpstare);
+        }
+        KontopozycjaZapis kp = new KontopozycjaZapis();
+        kp.setKontoID(nowe);
+        kp.setPozycjaWn(nowe.getPozycjaWn());
+        kp.setPozycjaMa(nowe.getPozycjaMa());
+        kp.setStronaWn(nowe.getStronaWn());
+        kp.setStronaMa(nowe.getStronaMa());
+        kp.setSyntetykaanalityka(nowe.getSyntetykaanalityka());
+        kp.setUkladBR(ukladBR);
+        kp.setWynik0bilans1(wynik0bilans1);
+        kontopozycjaZapisDAO.dodaj(kp);
+    }
 
-    public static void przyporzadkujRZiS_kontozwykle(String wybranapozycja, Konto konto, KontoDAOfk kontoDAO, Podatnik podatnik, String wnmaPrzypisywanieKont) {
+    public static void przyporzadkujRZiS_kontozwykle(String wybranapozycja, Konto konto, KontoDAOfk kontoDAO, Podatnik podatnik, String wnmaPrzypisywanieKont, UkladBR ukladBR, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
         try {
             konto.kontopozycjaBiezacaWn(wybranapozycja, "99", "wynikowe");
             konto.kontopozycjaBiezacaMa(wybranapozycja, "99", "wynikowe");
             kontoDAO.edit(konto);
+            kontopozycjazapisZapisz(konto, ukladBR, false, kontopozycjaZapisDAO);
             //czesc nanoszaca informacje na potomku
             if (konto.isMapotomkow() == true) {
                 PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto, kontoDAO, podatnik, "wynik");
@@ -874,7 +893,7 @@ public class PlanKontFKBean {
     }
     
     
-    public static void przyporzadkujRZiS_kontoszczegolne(String wybranapozycja, Konto konto, KontoDAOfk kontoDAO, Podatnik podatnik, String wnmaPrzypisywanieKont) {
+    public static void przyporzadkujRZiS_kontoszczegolne(String wybranapozycja, Konto konto, KontoDAOfk kontoDAO, Podatnik podatnik, String wnmaPrzypisywanieKont, UkladBR ukladBR, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
         try {
             //to jest niezbedne dla kont specjalnych
             if (wnmaPrzypisywanieKont.equals("wn")) {
@@ -883,6 +902,7 @@ public class PlanKontFKBean {
                 konto.kontopozycjaBiezacaMa(wybranapozycja, "88", "szczególne");
             }
             kontoDAO.edit(konto);
+            kontopozycjazapisZapisz(konto, ukladBR, false, kontopozycjaZapisDAO);
              if (konto.isMapotomkow() == true) {
                 PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(konto, kontoDAO, podatnik, wnmaPrzypisywanieKont);
             }

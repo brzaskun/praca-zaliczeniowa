@@ -22,8 +22,8 @@
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRKontaView.rozwin(rootProjektKonta)}" update=":formrzisuklad:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRKontaView.zwinwszystkie(rootProjektKonta)}" update=":formrzisuklad:dataList" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRKontaView.zwin(rootProjektKonta)}" update=":formrzisuklad:dataList" style="float: left;" />-->
-                <p:spacer width="40"/>
-                <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaView.zaksiegujzmianypozycji('r',pozycjaBRKontaView.wybranyuklad)}" icon="fa fa-lock" update=":formrzisuklad" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}"/>
+<!--                <p:spacer width="40"/>
+                <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaView.zaksiegujzmianypozycji('r',pozycjaBRKontaView.wybranyuklad)}" icon="fa fa-lock" update=":formrzisuklad" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}"/>-->
                 <p:spacer width="40"/>
                 <p:commandButton value="importuj" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('r')}" update=":formrzisuklad:" icon="fa fa-sign-in" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}"/>
                 <p:column>

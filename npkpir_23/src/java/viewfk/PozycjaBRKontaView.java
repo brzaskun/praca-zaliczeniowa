@@ -223,7 +223,7 @@ public class PozycjaBRKontaView implements Serializable {
                 }
                 //to duperele porzadkujace sytuacje w okienkach
             } else if (konto.getZwyklerozrachszczegolne().equals("zwykłe")) {
-                PlanKontFKBean.przyporzadkujRZiS_kontozwykle(wybranapozycja, konto, kontoDAO, podatnik, null);
+                PlanKontFKBean.przyporzadkujRZiS_kontozwykle(wybranapozycja, konto, kontoDAO, podatnik, null, wybranyuklad, kontopozycjaZapisDAO);
                 przyporzadkowanekonta.add(konto);
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
                 kontabezprzydzialu.remove(konto);
@@ -258,7 +258,7 @@ public class PozycjaBRKontaView implements Serializable {
                     }
                 }
             } else if (konto.getZwyklerozrachszczegolne().equals("zwykłe")) {
-                PlanKontFKBean.przyporzadkujBilans_kontozwykle(wybranapozycja, konto, kontoDAO, podatnik, null, aktywa0pasywa1);
+                PlanKontFKBean.przyporzadkujBilans_kontozwykle(wybranapozycja, konto, kontoDAO, podatnik, null, aktywa0pasywa1, wybranyuklad, kontopozycjaZapisDAO);
                 przyporzadkowanekonta.add(konto);
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
                 kontabezprzydzialu.remove(konto);
@@ -284,7 +284,7 @@ public class PozycjaBRKontaView implements Serializable {
                     przyporzadkowanekonta.remove(konto);
                 }
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
-                PlanKontFKBean.przyporzadkujRZiS_kontoszczegolne(wybranapozycja,konto, kontoDAO, podatnik, wnmaPrzypisywanieKont);
+                PlanKontFKBean.przyporzadkujRZiS_kontoszczegolne(wybranapozycja,konto, kontoDAO, podatnik, wnmaPrzypisywanieKont, wybranyuklad, kontopozycjaZapisDAO);
                 przyporzadkowanekonta.add(konto);
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
                 //wywalamy tylko obustronnnie przyporzadkowane konta
@@ -313,14 +313,14 @@ public class PozycjaBRKontaView implements Serializable {
             }
             //to duperele porzadkujace sytuacje w okienkach
             if (konto.getZwyklerozrachszczegolne().equals("rozrachunkowe") || konto.getZwyklerozrachszczegolne().equals("vat")) {
-                PlanKontFKBean.przyporzadkujBilans_kontoszczegolne(wybranapozycja,konto, kontoDAO, wpisView, wnmaPrzypisywanieKont, aktywa0pasywa1,"rozrachunkowe/vat", podatnik);
+                PlanKontFKBean.przyporzadkujBilans_kontoszczegolne(wybranapozycja,konto, kontoDAO, wpisView, wnmaPrzypisywanieKont, aktywa0pasywa1,"rozrachunkowe/vat", podatnik, wybranyuklad, kontopozycjaZapisDAO);
                 przyporzadkowanekonta.add(konto);
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
                 kontabezprzydzialu.remove(konto);
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
             } else if (konto.getZwyklerozrachszczegolne().equals("szczególne")) {
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
-                PlanKontFKBean.przyporzadkujBilans_kontoszczegolne(wybranapozycja,konto, kontoDAO, wpisView, wnmaPrzypisywanieKont, aktywa0pasywa1,"szczególne", podatnik);
+                PlanKontFKBean.przyporzadkujBilans_kontoszczegolne(wybranapozycja,konto, kontoDAO, wpisView, wnmaPrzypisywanieKont, aktywa0pasywa1,"szczególne", podatnik, wybranyuklad, kontopozycjaZapisDAO);
                 przyporzadkowanekonta.add(konto);
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
                 //czesc nanoszaca informacje na potomku
@@ -823,42 +823,42 @@ public class PozycjaBRKontaView implements Serializable {
 //        Msg.msg("Zapamiętano przyporządkowane pozycje");
 //    }
     
-    public void onKontoDropRAutoSzczegolne(Konto konto, String pozycja, UkladBR ukladpodatnika, boolean wzorcowy) {
-        if (konto.getPozycjaWn() == null && konto.getPozycjaMa()==null) {
-                onKontoDropKontaSpecjalneRZiS(ukladpodatnika);
-        } else {
-            if (konto.getPozycjaWn() != null) {
-                wnmaPrzypisywanieKont = "ma";
-                onKontoDropKontaSpecjalneRZiS(ukladpodatnika);
-            } else {
-                wnmaPrzypisywanieKont = "wn";
-                onKontoDropKontaSpecjalneRZiS(ukladpodatnika);
-            }
-        }
-    }
-    
-    public void onKontoDropRAutoZwykle(Konto konto, String pozycja, UkladBR ukladpodatnika, boolean wzorcowy, Podatnik podatnik) {
-        PlanKontFKBean.przyporzadkujRZiS_kontozwykle(pozycja, konto, kontoDAO, podatnik, null);
-    }
-    
-    public void onKontoDropBAutoSzczegolne(Konto konto, String pozycja, UkladBR ukladpodatnika, boolean wzorcowy) {
-        if (konto.getPozycjaWn() == null && konto.getPozycjaMa()==null) {
-                onKontoDropKontaSpecjalne(wzorcowy, ukladpodatnika);
-        } else {
-            if (konto.getPozycjaWn() != null) {
-                wnmaPrzypisywanieKont = "ma";
-                onKontoDropKontaSpecjalne(wzorcowy, ukladpodatnika);
-            } else {
-                wnmaPrzypisywanieKont = "wn";
-                onKontoDropKontaSpecjalne(wzorcowy, ukladpodatnika);
-            }
-        }
-    }
-    
-    public void onKontoDropBAutoZwykle(Konto konto, String pozycja, UkladBR ukladpodatnika, boolean ap, boolean wzorcowy) {
-        Podatnik podatnik = wybranyuklad.getPodatnik();
-        PlanKontFKBean.przyporzadkujBilans_kontozwykle(pozycja, konto, kontoDAO, podatnik, null, ap);
-    }
+//    public void onKontoDropRAutoSzczegolne(Konto konto, String pozycja, UkladBR ukladpodatnika, boolean wzorcowy) {
+//        if (konto.getPozycjaWn() == null && konto.getPozycjaMa()==null) {
+//                onKontoDropKontaSpecjalneRZiS(ukladpodatnika);
+//        } else {
+//            if (konto.getPozycjaWn() != null) {
+//                wnmaPrzypisywanieKont = "ma";
+//                onKontoDropKontaSpecjalneRZiS(ukladpodatnika);
+//            } else {
+//                wnmaPrzypisywanieKont = "wn";
+//                onKontoDropKontaSpecjalneRZiS(ukladpodatnika);
+//            }
+//        }
+//    }
+//    
+//    public void onKontoDropRAutoZwykle(Konto konto, String pozycja, UkladBR ukladpodatnika, boolean wzorcowy, Podatnik podatnik) {
+//        PlanKontFKBean.przyporzadkujRZiS_kontozwykle(pozycja, konto, kontoDAO, podatnik, null);
+//    }
+//    
+//    public void onKontoDropBAutoSzczegolne(Konto konto, String pozycja, UkladBR ukladpodatnika, boolean wzorcowy) {
+//        if (konto.getPozycjaWn() == null && konto.getPozycjaMa()==null) {
+//                onKontoDropKontaSpecjalne(wzorcowy, ukladpodatnika);
+//        } else {
+//            if (konto.getPozycjaWn() != null) {
+//                wnmaPrzypisywanieKont = "ma";
+//                onKontoDropKontaSpecjalne(wzorcowy, ukladpodatnika);
+//            } else {
+//                wnmaPrzypisywanieKont = "wn";
+//                onKontoDropKontaSpecjalne(wzorcowy, ukladpodatnika);
+//            }
+//        }
+//    }
+//    
+//    public void onKontoDropBAutoZwykle(Konto konto, String pozycja, UkladBR ukladpodatnika, boolean ap, boolean wzorcowy) {
+//        Podatnik podatnik = wybranyuklad.getPodatnik();
+//        PlanKontFKBean.przyporzadkujBilans_kontozwykle(pozycja, konto, kontoDAO, podatnik, null, ap);
+//    }
     
    
 
