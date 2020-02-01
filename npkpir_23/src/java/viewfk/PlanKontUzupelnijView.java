@@ -147,7 +147,7 @@ public class PlanKontUzupelnijView implements Serializable {
                 macierzyste.add(r);
             }
         }
-        kontoDAOfk.createListRefresh(macierzyste);
+        kontoDAOfk.dodaj(macierzyste);
         return macierzyste;
     }
 
@@ -161,7 +161,7 @@ public class PlanKontUzupelnijView implements Serializable {
             }
         }
         if (!nowekontalevel1.isEmpty()) {
-            kontoDAOfk.createListRefresh(nowekontalevel1);
+            kontoDAOfk.dodaj(nowekontalevel1);
         }
         return nowekontalevel1;
     }

@@ -30,7 +30,7 @@
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRKontaView.zwinwszystkie(rootProjektKonta)}" update=":formbilansuklad:dataList" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRKontaView.zwin(rootProjektKonta)}" update=":formbilansuklad:dataList" style="float: left;" />
                 <p:spacer width="40"/>-->
-                <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaView.zaksiegujzmianypozycji('b', pozycjaBRKontaView.wybranyuklad)}" icon="ui-icon-locked" update=":formbilansuklad, :formwzorcowy"/>
+<!--                <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaView.zaksiegujzmianypozycji('b', pozycjaBRKontaView.wybranyuklad)}" icon="ui-icon-locked" update=":formbilansuklad, :formwzorcowy"/>-->
                 <p:commandButton value="resetuj" actionListener="#{pozycjaBRKontaView.resetujprzyporzadkowanie('b')}" icon="ui-icon-locked" update=":formbilansuklad :formwzorcowy" style="margin-left: 10px;"/>
                 <p:column>
                     <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-left: 10px;" type="submit" action="#{sesjaView.dodajwydruk()}" actionListener="#{pozycjaBRKontaView.drukujBilansKonta()}"/>

@@ -540,21 +540,25 @@ public class PozycjaRZiSFKBean {
 //                    }
 //                }
                 for (KontopozycjaZapis p : zapisanePOzycjezUkladuWzorcowego) {
-                    if (czypozycjazawiera(pozycjedoprzejrzenia, p) && p.getKontoID().getRok()==ukladzrodlowy.getRokInt() && p.getKontoID().getPodatnik().equals(ukladzrodlowy.getPodatnik())) {
-                        Konto nowekonto = pobierzkontozlisty(kontarokudocelowego, p);
-                        if (nowekonto != null && p.getPozycjaWn()!=null && p.getPozycjaMa()!=null) {
-                            KontopozycjaZapis kp = new KontopozycjaZapis();
-                            kp.setKontoID(nowekonto);
-                            kp.setPozycjaWn(p.getPozycjaWn());
-                            kp.setPozycjaMa(p.getPozycjaMa());
-                            kp.setStronaWn(p.getStronaWn());
-                            kp.setStronaMa(p.getStronaMa());
-                            kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
-                            kp.setUkladBR(ukladdocelowy);
-                            kp.setWynik0bilans1(false);
-                            kontopozycjaZapisDAO.dodaj(kp);
+                    try {
+                        if (p.getKontoID()!=null) {
+                            if (czypozycjazawiera(pozycjedoprzejrzenia, p) && p.getKontoID().getRok()==ukladzrodlowy.getRokInt() && p.getKontoID().getPodatnik().equals(ukladzrodlowy.getPodatnik())) {
+                                Konto nowekonto = pobierzkontozlisty(kontarokudocelowego, p);
+                                if (nowekonto != null && p.getPozycjaWn()!=null && p.getPozycjaMa()!=null) {
+                                    KontopozycjaZapis kp = new KontopozycjaZapis();
+                                    kp.setKontoID(nowekonto);
+                                    kp.setPozycjaWn(p.getPozycjaWn());
+                                    kp.setPozycjaMa(p.getPozycjaMa());
+                                    kp.setStronaWn(p.getStronaWn());
+                                    kp.setStronaMa(p.getStronaMa());
+                                    kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
+                                    kp.setUkladBR(ukladdocelowy);
+                                    kp.setWynik0bilans1(false);
+                                    kontopozycjaZapisDAO.dodaj(kp);
+                                }
+                            }
                         }
-                    }
+                    } catch (Exception ex) {}
                 }
                Msg.msg("Zapamiętano przyporządkowane pozycje RZiS");
             }
@@ -579,23 +583,25 @@ public class PozycjaRZiSFKBean {
 //                    }
 //                }
                 for (KontopozycjaZapis p : zapisanePOzycjezUkladuWzorcowego) {
-                    if (p.getKontoID()!=null) {
-                        if (czypozycjazawieraBilans(pozycjedoprzejrzenia, p) && p.getKontoID().getRok()==ukladzrodlowy.getRokInt() && p.getKontoID().getPodatnik().equals(ukladzrodlowy.getPodatnik())) {
-                            Konto nowekonto = pobierzkontozlisty(kontarokudocelowego, p);
-                            if (nowekonto != null) {
-                                KontopozycjaZapis kp = new KontopozycjaZapis();
-                                kp.setKontoID(nowekonto);
-                                kp.setPozycjaWn(p.getPozycjaWn());
-                                kp.setPozycjaMa(p.getPozycjaMa());
-                                kp.setStronaWn(p.getStronaWn());
-                                kp.setStronaMa(p.getStronaMa());
-                                kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
-                                kp.setUkladBR(ukladdocelowy);
-                                kp.setWynik0bilans1(true);
-                                kontopozycjaZapisDAO.dodaj(kp);
+                    try {
+                        if (p.getKontoID()!=null) {
+                            if (czypozycjazawieraBilans(pozycjedoprzejrzenia, p) && p.getKontoID().getRok()==ukladzrodlowy.getRokInt() && p.getKontoID().getPodatnik().equals(ukladzrodlowy.getPodatnik())) {
+                                Konto nowekonto = pobierzkontozlisty(kontarokudocelowego, p);
+                                if (nowekonto != null) {
+                                    KontopozycjaZapis kp = new KontopozycjaZapis();
+                                    kp.setKontoID(nowekonto);
+                                    kp.setPozycjaWn(p.getPozycjaWn());
+                                    kp.setPozycjaMa(p.getPozycjaMa());
+                                    kp.setStronaWn(p.getStronaWn());
+                                    kp.setStronaMa(p.getStronaMa());
+                                    kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
+                                    kp.setUkladBR(ukladdocelowy);
+                                    kp.setWynik0bilans1(true);
+                                    kontopozycjaZapisDAO.dodaj(kp);
+                                }
                             }
                         }
-                    }
+                    } catch (Exception ex) {}
                 }
                 
                 Msg.msg("Zapamiętano przyporządkowane pozycje bilansu");

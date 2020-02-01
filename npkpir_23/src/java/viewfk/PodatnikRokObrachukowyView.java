@@ -50,13 +50,14 @@ public class PodatnikRokObrachukowyView implements Serializable {
             int zwrot = 1;
             zwrot = kopiujplankont();
             if (zwrot==1) {
-                throw new Exception();
-            }
-            zwrot = kopiujuklad();
-            if (zwrot==0) {
-                Msg.msg("Otwarto rok "+wpisView.getRokWpisuSt());
+                Msg.msg("e", "Wystąpił błąd podczas kopiowanai planu kont");
             } else {
-                Msg.msg("w","Nie dokończono otwierania roku");
+                zwrot = kopiujuklad();
+                if (zwrot==0) {
+                    Msg.msg("Otwarto rok "+wpisView.getRokWpisuSt());
+                } else {
+                    Msg.msg("w","Nie dokończono otwierania roku");
+                }
             }
         } catch (Exception e) {
             E.e(e);

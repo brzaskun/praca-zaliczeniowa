@@ -27,8 +27,8 @@
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRKontaView.rozwin(rootProjektKonta)}" update=":formrzisuklad:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRKontaView.zwinwszystkie(rootProjektKonta)}" update=":formrzisuklad:dataList" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRKontaView.zwin(rootProjektKonta)}" update=":formrzisuklad:dataList" style="float: left;" />
-                <p:spacer width="40"/>
-                <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaView.zaksiegujzmianypozycji('r',pozycjaBRKontaView.wybranyuklad)}" icon="ui-icon-locked" update=":formrzisuklad"/>
+<!--                <p:spacer width="40"/>
+                <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaView.zaksiegujzmianypozycji('r',pozycjaBRKontaView.wybranyuklad)}" icon="ui-icon-locked" update=":formrzisuklad"/>-->
                 <p:commandButton value="resetuj" actionListener="#{pozycjaBRKontaView.resetujprzyporzadkowanie('r')}" icon="ui-icon-locked" update=":formrzisuklad" style="margin-left: 10px;"/>
                 <p:column>
                     <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRKontaView.drukujWynikKonta()}"/>

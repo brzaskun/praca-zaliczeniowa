@@ -50,7 +50,7 @@ public abstract class DAO<T> {
     
     public void dodaj(List<T> selected) {
         try {
-            sessionFacade.create(selected);
+            sessionFacade.createList(selected);
         } catch (EJBException e) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
             throw new EJBException(e.getCause().getMessage(), e);
@@ -147,18 +147,18 @@ public abstract class DAO<T> {
 //        }
 //    }
 
-    public void createListRefresh(List<T> selected) {
-        try {
-            sessionFacade.createRefresh(selected);
-        } catch (EJBException e) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
-            throw new EJBException(e.getCause().getMessage(), e);
-        } catch (Exception e) {
-            E.e(e);
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
-            throw new PersistenceException(e.getCause().getMessage(), e);
-        }
-    }
+//    public void createListRefresh(List<T> selected) {
+//        try {
+//            sessionFacade.createList(selected);
+//        } catch (EJBException e) {
+//            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
+//            throw new EJBException(e.getCause().getMessage(), e);
+//        } catch (Exception e) {
+//            E.e(e);
+//            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
+//            throw new PersistenceException(e.getCause().getMessage(), e);
+//        }
+//    }
 
        
     

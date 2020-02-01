@@ -39,7 +39,7 @@ public class PlanKontFKKopiujBean {
                 it.remove();
             }
         }
-        kontoDAOfk.createListRefresh(macierzyste);
+        kontoDAOfk.dodaj(macierzyste);
         return macierzyste;
     }
     
@@ -90,7 +90,7 @@ public class PlanKontFKKopiujBean {
             }
         }
         if (!nowemacierzyste.isEmpty()) {
-            kontoDAOfk.createListRefresh(nowemacierzyste);
+            kontoDAOfk.dodaj(nowemacierzyste);
         }
         return nowemacierzyste;
     }

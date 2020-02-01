@@ -143,9 +143,13 @@ public class SessionFacade<T> implements Serializable {
         
     }
     
-    public void create(List<T> entityList) {
+    public void createList(List<T> entityList) {
         for (T p : entityList) {
-            getEntityManager().persist(p);
+            try {
+                getEntityManager().persist(p);
+            } catch (Exception e) {
+                E.e(e);
+            }
         }
         
     }
@@ -210,20 +214,20 @@ public class SessionFacade<T> implements Serializable {
         
     }
 
-    //to jest po to, ze jk juz jest cos w np. planie kont to 
-    //wywali blad w jednym, ele reszte zasejwuje w bazie :)
-    public void createRefresh(List<T> entityList) {
-        for (T p : entityList) {
-            try {
-                if (p!=null) {
-                    getEntityManager().persist(p);
-                }
-            } catch (Exception e) {
-                E.e(e);
-            }
-        }
-        
-    }
+//    //to jest po to, ze jk juz jest cos w np. planie kont to 
+//    //wywali blad w jednym, ele reszte zasejwuje w bazie :)
+//    public void createRefresh(List<T> entityList) {
+//        for (T p : entityList) {
+//            try {
+//                if (p!=null) {
+//                    getEntityManager().persist(p);
+//                }
+//            } catch (Exception e) {
+//                E.e(e);
+//            }
+//        }
+//        
+//    }
 
     public List<T> findXLast(Class<T> entityClass, int ile) {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
@@ -1242,7 +1246,6 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         lg.addAttribute("kontomacierzyste");
         lg.setIsConcurrent(Boolean.TRUE);
         return em.createNamedQuery("Konto.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok))
-                
                 .setHint(QueryHints.REFRESH_CASCADE, CascadePolicy.CascadeAllParts)
                 .setHint(QueryHints.LOAD_GROUP, lg).getResultList();
     }

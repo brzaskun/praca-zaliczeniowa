@@ -57,7 +57,7 @@ public class TransakcjaDAO  extends DAO implements Serializable {
 //            transakcja.setId(poszukiwanaTransakcja.getId());
 //            sessionFacade.edit(transakcja);
 //        } else {
-//            sessionFacade.create(transakcja);
+//            sessionFacade.createList(transakcja);
 //        }
     }
 
