@@ -78,6 +78,22 @@ public class DokFKVATBean {
             evatwpis.setVatwwalucie(Z.z(evatwpis.getVat()/kurs*przelicznik));
         }
     }
+    
+    public static void ustawvatodbrutto(EVatwpisFK evatwpis,  Dokfk selected) {
+        Waluty w = selected.getWalutadokumentu();
+        double kurs = selected.getTabelanbp().getKurssredni();
+        double przelicznik = selected.getTabelanbp().getWaluta().getPrzelicznik();
+        //obliczamy VAT/NETTO w PLN i zachowujemy NETTO w walucie
+        if (!w.getSymbolwaluty().equals("PLN")) {
+            evatwpis.setNettowwalucie(evatwpis.getNetto());
+            evatwpis.setVatwwalucie(evatwpis.getVat());
+            //ten vat tu musi byc bo inaczej bylby onblur przy vat i cykliczne odswiezanie
+            evatwpis.setNetto(Z.z(evatwpis.getNettowwalucie()*kurs/przelicznik));
+            evatwpis.setVat(Z.z(evatwpis.getVatwwalucie()*kurs/przelicznik));
+            evatwpis.setBrutto(Z.z(evatwpis.getNetto()+evatwpis.getVat()));
+        }
+    }
+    
     public static void ustawvat(EVatwpisFK evatwpis, Dokfk selected, double stawkavat) {
         String skrotRT = selected.getSeriadokfk();
         int lp = evatwpis.getLp();

@@ -9,16 +9,7 @@ import beansFK.DialogWpisywanie;
 import beansFK.DokFKBean;
 import beansFK.DokFKTransakcjeBean;
 import beansFK.DokFKVATBean;
-import static beansFK.DokFKVATBean.pobierzKontoRozrachunkowe;
-import static beansFK.DokFKVATBean.podsumujwartosciVAT;
-import static beansFK.DokFKVATBean.rozliczEdytujVatPrzychodRK;
-import static beansFK.DokFKVATBean.rozliczVatKoszt;
-import static beansFK.DokFKVATBean.rozliczVatKosztEdycja;
-import static beansFK.DokFKVATBean.rozliczVatKosztRK;
-import static beansFK.DokFKVATBean.rozliczVatPrzychod;
-import static beansFK.DokFKVATBean.rozliczVatPrzychodEdycja;
-import static beansFK.DokFKVATBean.rozliczVatPrzychodRK;
-import static beansFK.DokFKVATBean.ustawvat;
+import static beansFK.DokFKVATBean.*;
 import beansFK.DokFKWalutyBean;
 import beansFK.DokumentFKBean;
 import beansFK.StronaWierszaBean;
@@ -954,6 +945,42 @@ public class DokfkView implements Serializable {
         PrimeFaces.current().ajax().update(update);
         String activate = "document.getElementById('" + form + ":tablicavat:" + lp + ":brutto_input').select();";
         PrimeFaces.current().executeScript(activate);
+    }
+    
+    
+    public void updatebrutto(EVatwpisFK evatwpis, String form) {
+        if (evatwpis.getNetto()==0.0) {
+            evatwpis.setNetto(Z.z(evatwpis.getBrutto() - evatwpis.getVat()));
+            ustawvatodbrutto(evatwpis, selected);
+            int lp = evatwpis.getLp();
+            evatwpis.setSprawdzony(0);
+            symbolWalutyNettoVat = " zł";
+            String update = form + ":tablicavat:" + lp + ":netto";
+            PrimeFaces.current().ajax().update(update);
+            update = form + ":tablicavat:" + lp + ":vat";
+            PrimeFaces.current().ajax().update(update);
+            update = form + ":tablicavat:" + lp + ":brutto";
+            PrimeFaces.current().ajax().update(update);
+            String activate = "document.getElementById('" + form + ":tablicavat:" + lp + ":vat_input').select();";
+            PrimeFaces.current().executeScript(activate);
+        }
+    }
+    
+    public void updatebruttoRK() {
+        EVatwpisFK evatwpis = ewidencjaVatRK;
+        if (evatwpis.getNetto()==0.0) {
+            evatwpis.setNetto(Z.z(evatwpis.getBrutto() - evatwpis.getVat()));
+            ustawvatodbrutto(evatwpis, selected);
+            evatwpis.setSprawdzony(0);
+            String update = "ewidencjavatRK:netto";
+            PrimeFaces.current().ajax().update(update);
+            update = "ewidencjavatRK:vat";
+            PrimeFaces.current().ajax().update(update);
+            update = "ewidencjavatRK:brutto";
+            PrimeFaces.current().ajax().update(update);
+            String activate = "document.getElementById('ewidencjavatRK:opzwpole').select();";
+            PrimeFaces.current().executeScript(activate);
+        }
     }
 
     public void updatenettoRK() {

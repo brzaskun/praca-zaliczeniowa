@@ -426,7 +426,8 @@
                             <p:column headerText="brutto" width="80">
                                 <p:inputNumber   id="brutto" value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
                                                 symbolPosition="s" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" size="13" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" 
-                                                > 
+                                                >
+                                    <p:ajax global="false" event="change" listener="#{dokfkView.updatebrutto(item,'formwpisdokument')}" partialSubmit="true"/>
                                 </p:inputNumber>
                             </p:column>
                             <p:column headerText="op/zw" style="width: 45px; text-align: center;">

@@ -96,9 +96,10 @@
                 </p:inputNumber>
                 <p:inputNumber id="brutto" value="#{dokfkView.ewidencjaVatRK.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"  size="12"
                                 style="text-align: right;" symbolPosition="s" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto" 
-                                readonly="true"> 
+                                >
+                    <p:ajax global="false" event="change" listener="#{dokfkView.updatebruttoRK()}"  partialSubmit="true" />
                 </p:inputNumber>
-                <h:selectOneMenu value="#{dokfkView.ewidencjaVatRK.estawka}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                <h:selectOneMenu id="opzwpole" value="#{dokfkView.ewidencjaVatRK.estawka}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                  onfocus="$(this).addClass('ui-state-focus');" style="text-align: right; width: 95%;"
                                  onblur="$(this).removeClass('ui-state-focus');">
                     <f:selectItem itemLabel="sprz.op" itemValue="sprz.op"/>

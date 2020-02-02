@@ -655,8 +655,10 @@ public class ZestawienieRyczaltView implements Serializable {
     private RyczaltPodatek pobranieprzychodu(String opis, double stawka, int miesiac, int pozycja){
         BigDecimal suma = new BigDecimal(0);
         BigDecimal podatek = new BigDecimal(0);
-        suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(miesiac).get(pozycja).toString())));
-        suma = suma.setScale(2, RoundingMode.HALF_EVEN);
+        if (zebranieMcy!=null && zebranieMcy.size()>0) {
+            suma = suma.add(BigDecimal.valueOf(Double.valueOf(zebranieMcy.get(miesiac).get(pozycja).toString())));
+            suma = suma.setScale(2, RoundingMode.HALF_EVEN);
+        }
         RyczaltPodatek podtk = new RyczaltPodatek();
         podtk.setOpis(opis);
         podtk.setStawka(stawka);

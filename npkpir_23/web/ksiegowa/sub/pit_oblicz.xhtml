@@ -173,7 +173,7 @@
                     <p:panelGrid  columns="1" >
                         <p:panel header="dane do ryczałtu: #{ZestawienieRyczaltView.wybranyudzialowiec} #{ZestawienieRyczaltView.wybranyprocent}%" style="width: 450px;"/>
                         <p:panelGrid id="zestawieniepit1" columns="4" style="width: 450px;">
-                            <h:outputText value="firma"/><h:inputText value="#{ZestawienieRyczaltView.biezacyPit.podatnik}"/>
+                            <h:outputText value="firma"/><h:inputText value="#{WpisView.podatnikObiekt.printnazwa}"/>
                             <h:outputText value="podatnik"/><h:inputText value="#{ZestawienieRyczaltView.biezacyPit.udzialowiec}"/>
                             <h:outputText value="rok"/><h:inputText value="#{ZestawienieRyczaltView.biezacyPit.pkpirR}"/>
                             <h:outputText value="#{mgs.miesiąc}"/><h:inputText value="#{ZestawienieRyczaltView.biezacyPit.pkpirM}"/>
