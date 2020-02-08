@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package embeddablefk;
+package xls;
 
 import java.io.Serializable;
 
@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author Osito
  */
-public class ImportBankXML implements Serializable {
+public class ImportBankWiersz implements Serializable {
     private static final long serialVersionUID = 1L;
 
         private int nr;
@@ -162,7 +162,7 @@ public class ImportBankXML implements Serializable {
 
     @Override
     public String toString() {
-        return "ImportBankXML{" + "IBAN=" + IBAN + ", kwota=" + kwota + ", waluta=" + waluta + ", wnma=" + wnma + ", datatransakcji=" + datatransakcji + ", datawaluty=" + datawaluty + ", opistransakcji=" + opistransakcji + ", kontrahent=" + kontrahent + ", nrtransakji=" + nrtransakji + ", juzzaksiegowany=" + juzzaksiegowany + ", nrwyciagu=" + nrwyciagu + ", typtransakcji=" + typtransakcji + '}';
+        return "ImportBankWiersz{" + "IBAN=" + IBAN + ", kwota=" + kwota + ", waluta=" + waluta + ", wnma=" + wnma + ", datatransakcji=" + datatransakcji + ", datawaluty=" + datawaluty + ", opistransakcji=" + opistransakcji + ", kontrahent=" + kontrahent + ", nrtransakji=" + nrtransakji + ", juzzaksiegowany=" + juzzaksiegowany + ", nrwyciagu=" + nrwyciagu + ", typtransakcji=" + typtransakcji + '}';
     }
 
 

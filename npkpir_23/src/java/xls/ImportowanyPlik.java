@@ -16,17 +16,20 @@ public class ImportowanyPlik {
     private String opis;
     private String rozszerzenie;
     private String dzielnik;
+    private int lp;
 
-    public ImportowanyPlik(String opis, String rozszerzenie, String dzielnik) {
+    public ImportowanyPlik(String opis, String rozszerzenie, String dzielnik, int lp) {
         this.opis = opis;
         this.rozszerzenie = rozszerzenie;
         this.dzielnik = dzielnik;
+        this.lp = lp;
     }
 
-    public ImportowanyPlik(String opis, String rozszerzenie) {
+    public ImportowanyPlik(String opis, String rozszerzenie, int lp) {
         this.opis = opis;
         this.rozszerzenie = rozszerzenie;
         this.dzielnik = "";
+        this.lp = lp;
     }
 
     public String getOpis() {
@@ -53,6 +56,14 @@ public class ImportowanyPlik {
         this.dzielnik = dzielnik;
     }
 
+    public int getLp() {
+        return lp;
+    }
+
+    public void setLp(int lp) {
+        this.lp = lp;
+    }
+
     @Override
     public String toString() {
         return "ImportowanyPlik{" + "opis=" + opis + ", rozszerzenie=" + rozszerzenie + ", dzielnik=" + dzielnik + '}';
@@ -60,8 +71,8 @@ public class ImportowanyPlik {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 23 * hash + Objects.hashCode(this.opis);
+        int hash = 7;
+        hash = 67 * hash + this.lp;
         return hash;
     }
 
@@ -77,10 +88,12 @@ public class ImportowanyPlik {
             return false;
         }
         final ImportowanyPlik other = (ImportowanyPlik) obj;
-        if (!Objects.equals(this.opis, other.opis)) {
+        if (this.lp != other.lp) {
             return false;
         }
         return true;
     }
+
+    
 
 }

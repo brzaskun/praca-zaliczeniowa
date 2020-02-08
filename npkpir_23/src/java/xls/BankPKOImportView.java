@@ -16,7 +16,6 @@ import daoFK.WalutyDAOfk;
 import daoFK.WierszDAO;
 import data.Data;
 import dedra.Dedraparser;
-import embeddablefk.ImportBankXML;
 import entity.Klienci;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
@@ -96,9 +95,9 @@ public class BankPKOImportView implements Serializable {
     @Inject
     private WierszDAO wierszDAO;
     private byte[] plikinterpaper;
-    public  List<ImportBankXML> pobranefaktury;
-    public  List<ImportBankXML> pobranefakturyfilter;
-    public  List<ImportBankXML> selected;
+    public  List<ImportBankWiersz> pobranefaktury;
+    public  List<ImportBankWiersz> pobranefakturyfilter;
+    public  List<ImportBankWiersz> selected;
     private List<Rodzajedok> rodzajedokKlienta;
     private String wiadomoscnieprzypkonta;
     private Rodzajedok rodzajdok;
@@ -236,7 +235,7 @@ public class BankPKOImportView implements Serializable {
                     Node nNode = nList.item(temp);
                     if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                         try {
-                            ImportBankXML p = new ImportBankXML();
+                            ImportBankWiersz p = new ImportBankWiersz();
                             p.setNr(temp+1);
                             String iban = pE(nNode, "Id") == null ? "brak" : pTFC(nNode, "Id");
                             p.setIBAN(iban);
@@ -276,7 +275,7 @@ public class BankPKOImportView implements Serializable {
                 }
                 wierszezmiesiaca = wierszDAO.pobierzWierszeMcDok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), rodzajdok.getSkrotNazwyDok());
                 if (wierszezmiesiaca!=null && wierszezmiesiaca.size()>0) {
-                    for (ImportBankXML p : pobranefaktury) {
+                    for (ImportBankWiersz p : pobranefaktury) {
                         if (sprawdzduplikat(p,wierszezmiesiaca)) {
                             p.setJuzzaksiegowany(true);
                         }
@@ -304,7 +303,7 @@ public class BankPKOImportView implements Serializable {
         //7 ZUS - 231
         //8 Gmina - 226
         //9 bank-bank - 149-2
-    private int oblicztyptransakcji(ImportBankXML p) {
+    private int oblicztyptransakcji(ImportBankWiersz p) {
         int zwrot = 0;
         if (p.getKontrahent().equals("NOTPROVIDED")) {
             zwrot = 3;
@@ -427,8 +426,8 @@ public class BankPKOImportView implements Serializable {
     private void ustawwiersze(Dokfk nd) {
         nd.setListawierszy(new ArrayList<Wiersz>());
         int lpwiersza = 1;
-        for (Iterator<ImportBankXML> it = pobranefaktury.iterator(); it.hasNext();) {
-            ImportBankXML p = it.next();
+        for (Iterator<ImportBankWiersz> it = pobranefaktury.iterator(); it.hasNext();) {
+            ImportBankWiersz p = it.next();
             if (datakontrol==null) {
                 datakontrol = p.getDatatransakcji();
             } else {
@@ -451,15 +450,15 @@ public class BankPKOImportView implements Serializable {
 
     }
 
-    private Wiersz przygotujwierszNetto(int lpwiersza,Dokfk nd, ImportBankXML importBankXML, Konto kontown, Konto kontoma) {
+    private Wiersz przygotujwierszNetto(int lpwiersza,Dokfk nd, ImportBankWiersz ImportBankWiersz, Konto kontown, Konto kontoma) {
         Wiersz w = new Wiersz(lpwiersza, 0);
-        w.setDataWalutyWiersza(Data.getDzien(importBankXML.getDatatransakcji()));
-        uzupelnijwiersz(w, nd, importBankXML);
-        w.setOpisWiersza(zrobopiswiersza(importBankXML));
-        StronaWiersza strwn = new StronaWiersza(w, "Wn", importBankXML.getKwota(), kontown);
-        StronaWiersza strma = new StronaWiersza(w, "Ma", importBankXML.getKwota(), kontoma);
-        strwn.setKwotaPLN(zrobpln(w,importBankXML));
-        strma.setKwotaPLN(zrobpln(w,importBankXML));
+        w.setDataWalutyWiersza(Data.getDzien(ImportBankWiersz.getDatatransakcji()));
+        uzupelnijwiersz(w, nd, ImportBankWiersz);
+        w.setOpisWiersza(zrobopiswiersza(ImportBankWiersz));
+        StronaWiersza strwn = new StronaWiersza(w, "Wn", ImportBankWiersz.getKwota(), kontown);
+        StronaWiersza strma = new StronaWiersza(w, "Ma", ImportBankWiersz.getKwota(), kontoma);
+        strwn.setKwotaPLN(zrobpln(w,ImportBankWiersz));
+        strma.setKwotaPLN(zrobpln(w,ImportBankWiersz));
         w.setStronaWn(strwn);
         w.setStronaMa(strma);
         return w;
@@ -474,7 +473,7 @@ public class BankPKOImportView implements Serializable {
         //7 ZUS
         //8 Gmina
         //9 bank-bank
-    private Konto ustawkonto(ImportBankXML p) {
+    private Konto ustawkonto(ImportBankWiersz p) {
         Konto zwrot = null;
         int numer = p.getTyptransakcji();
         switch (numer) {
@@ -509,17 +508,17 @@ public class BankPKOImportView implements Serializable {
         return zwrot;
     }    
         
-    private void uzupelnijwiersz(Wiersz w, Dokfk nd, ImportBankXML importBankXML) {
-        if (importBankXML.getWaluta().equals("PLN")) {
+    private void uzupelnijwiersz(Wiersz w, Dokfk nd, ImportBankWiersz ImportBankWiersz) {
+        if (ImportBankWiersz.getWaluta().equals("PLN")) {
             w.setTabelanbp(tabelanbppl);
         } else {
-            DateTime dzienposzukiwany = new DateTime(importBankXML.getDatawaluty());
+            DateTime dzienposzukiwany = new DateTime(ImportBankWiersz.getDatawaluty());
             boolean znaleziono = false;
             int zabezpieczenie = 0;
             while (!znaleziono && (zabezpieczenie < 365)) {
                 dzienposzukiwany = dzienposzukiwany.minusDays(1);
                 String doprzekazania = dzienposzukiwany.toString("yyyy-MM-dd");
-                Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania, importBankXML.getWaluta());
+                Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania, ImportBankWiersz.getWaluta());
                 if (tabelanbppobrana instanceof Tabelanbp) {
                     znaleziono = true;
                     w.setTabelanbp(tabelanbppobrana);
@@ -529,16 +528,16 @@ public class BankPKOImportView implements Serializable {
             }
         }
         nd.setWalutadokumentu(w.getTabelanbp().getWaluta());
-        w.setIban(importBankXML.getIBAN());
+        w.setIban(ImportBankWiersz.getIBAN());
         w.setDokfk(nd);
         w.setLpmacierzystego(0);
         w.setDataksiegowania(nd.getDatawplywu());
     }
     
-     private double zrobpln(Wiersz w, ImportBankXML importBankXML) {
-        double zwrot = importBankXML.getKwota();
+     private double zrobpln(Wiersz w, ImportBankWiersz ImportBankWiersz) {
+        double zwrot = ImportBankWiersz.getKwota();
         if (!w.getWalutaWiersz().equals("PLN")) {
-            zwrot = Z.z(importBankXML.getKwota()*w.getTabelanbp().getKurssredniPrzelicznik());
+            zwrot = Z.z(ImportBankWiersz.getKwota()*w.getTabelanbp().getKurssredniPrzelicznik());
         }
         return zwrot;
     }
@@ -555,9 +554,9 @@ public class BankPKOImportView implements Serializable {
         wyciagbo = selected.getSaldokoncowe();
     }
     
-   private String zrobopiswiersza(ImportBankXML importBankXML) {
-        String opis = importBankXML.getOpistransakcji().toLowerCase(new Locale("pl"));
-        String kontr = importBankXML.getKontrahent();
+   private String zrobopiswiersza(ImportBankWiersz ImportBankWiersz) {
+        String opis = ImportBankWiersz.getOpistransakcji().toLowerCase(new Locale("pl"));
+        String kontr = ImportBankWiersz.getKontrahent();
         if (kontr.equals("NOTPROVIDED")) {
             kontr="";
         } else {
@@ -576,7 +575,7 @@ public class BankPKOImportView implements Serializable {
         return kontr+" "+opis;
     }
     
-    private boolean sprawdzduplikat(ImportBankXML p, List<Wiersz> wierszezmiesiaca) {
+    private boolean sprawdzduplikat(ImportBankWiersz p, List<Wiersz> wierszezmiesiaca) {
         boolean zwrot = false;
         for (Wiersz r : wierszezmiesiaca) {
             if (r.getIban()!=null && r.getIban().equals(p.getIBAN())) {
@@ -592,8 +591,8 @@ public class BankPKOImportView implements Serializable {
    
      private void usunduplikat(Dokfk juzjest) {
         for (Wiersz p : juzjest.getListawierszy()) {
-            for (Iterator<ImportBankXML> it = pobranefaktury.iterator(); it.hasNext();) {
-                ImportBankXML s = it.next();
+            for (Iterator<ImportBankWiersz> it = pobranefaktury.iterator(); it.hasNext();) {
+                ImportBankWiersz s = it.next();
                 if (p.getIban()!=null && p.getIban().equals(s.getIBAN())) {
                     if (p.getDataWalutyWiersza().equals(Data.getDzien(s.getDatatransakcji()))){
                         if (p.getKwotaWn()==s.getKwota() || p.getKwotaMa()==s.getKwota()) {
@@ -617,29 +616,29 @@ public class BankPKOImportView implements Serializable {
         this.wpisView = wpisView;
     }
 
-    public List<ImportBankXML> getPobranefaktury() {
+    public List<ImportBankWiersz> getPobranefaktury() {
         return pobranefaktury;
     }
 
-    public void setPobranefaktury(List<ImportBankXML> pobranefaktury) {
+    public void setPobranefaktury(List<ImportBankWiersz> pobranefaktury) {
         this.pobranefaktury = pobranefaktury;
     }
 
-    public List<ImportBankXML> getSelected() {
+    public List<ImportBankWiersz> getSelected() {
         return selected;
     }
 
-    public void setSelected(List<ImportBankXML> selected) {
+    public void setSelected(List<ImportBankWiersz> selected) {
         this.selected = selected;
     }
 
   
 
-    public List<ImportBankXML> getPobranefakturyfilter() {
+    public List<ImportBankWiersz> getPobranefakturyfilter() {
         return pobranefakturyfilter;
     }
 
-    public void setPobranefakturyfilter(List<ImportBankXML> pobranefakturyfilter) {
+    public void setPobranefakturyfilter(List<ImportBankWiersz> pobranefakturyfilter) {
         this.pobranefakturyfilter = pobranefakturyfilter;
     }
 
@@ -840,11 +839,11 @@ public class BankPKOImportView implements Serializable {
                 }
             } catch (Exception e) {
             }
-            List<ImportBankXML> listaswierszy = new ArrayList<>();
+            List<ImportBankWiersz> listaswierszy = new ArrayList<>();
             for (Iterator<List<String>> it = records.iterator(); it.hasNext();) {
                 List<String> baza = it.next();
                 List<String> row = new ArrayList<>();
-                ImportBankXML x = new ImportBankXML();
+                ImportBankWiersz x = new ImportBankWiersz();
                 x.setDatatransakcji(baza.get(1));
                 x.setDatawaluty(baza.get(2));
                 x.setIBAN(baza.get(5));//??

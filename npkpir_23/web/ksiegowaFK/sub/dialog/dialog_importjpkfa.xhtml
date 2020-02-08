@@ -51,7 +51,7 @@
         </h:form>
         <h:form id="panelprzyciskowjpk">
         <p:panelGrid columns="2" rendered="false" binding="#{importSprzedazyFKView.grid2}">
-        <h:outputText value="#{interpaperBankImportView.wiadomoscnieprzypkonta}" style="color: red; margin-bottom: 10px;"/>
+        <h:outputText value="#{InterpaperBankImport.wiadomoscnieprzypkonta}" style="color: red; margin-bottom: 10px;"/>
         <p:panelGrid columns="2">
             <h:outputText value="Uwaga, nie potrafię jeszcze generować dokfk dla sprzedaży zagranicznej!" style="color: green;"/>
             <h:outputText value="Pobieram tylko dokumenty z bieżącego miesiąca!" style="color: green;"/>
@@ -81,14 +81,14 @@
                 /* ]]> */
             </script>-->
 <!--            <p:contextMenu for="dataListJPKImport" style="width: 200px;">
-                <p:menuitem value="usuń wszystkie" icon="ui-icon-trash" actionListener="#{interpaperBankImportView.usunwszytskieimportowane()}" update=":form_importjpkfa"/>
+                <p:menuitem value="usuń wszystkie" icon="ui-icon-trash" actionListener="#{InterpaperBankImport.usunwszytskieimportowane()}" update=":form_importjpkfa"/>
             </p:contextMenu>-->
         
             <h:form id="form_importjpkfa">
                 <p:panelGrid columns="1" rendered="false" binding="#{importSprzedazyFKView.grid3}">
                     <p:dataTable id="dataListJPKImport" value="#{importSprzedazyFKView.listasprzedaz}" var="itemimp" rowIndexVar="row" widgetVar="tablicadokumentyjpkimport" 
                          selection="#{importSprzedazyFKView.listasprzedazselected}" rowKey="#{itemimp.id}"  
-                         style="width: 1420px; height: 580px; overflow-y: scroll; margin-top: 15px;margin-bottom: 15px;" filteredValue="#{interpaperBankImportView.pobranefakturyfilter}"
+                         style="width: 1420px; height: 580px; overflow-y: scroll; margin-top: 15px;margin-bottom: 15px;" filteredValue="#{InterpaperBankImport.pobranefakturyfilter}"
                          emptyMessage="Brak importowanych dokumentów" styleClass="gridZaksiegowane"
                          sortBy="#{itemimp.id}"  >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
