@@ -202,7 +202,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         double saldopln = 0.0;
         for (FakturaPodatnikRozliczenie p : nowepozycje) {
             try {
-                if (p.isFaktura0rozliczenie1()) {
+                if (p.getRozliczenie()!=null) {
                     if (p.getRozliczenie().getKurs() != 0.0) {
                         saldo -= p.getKwota();
                     }
@@ -327,7 +327,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     }
 
     public void pobierzszczegoly(FakturaPodatnikRozliczenie p) {
-        if (p.isFaktura0rozliczenie1()) {
+        if (p.getRozliczenie()!=null) {
             szukanyklient = p.getRozliczenie().getKontrahent();
         } else {
             szukanyklient = p.getFaktura().getKontrahent();
@@ -380,7 +380,10 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 szukanyklient = p.getFaktura().getKontrahent();
             }
             f.setKontrahent(szukanyklient);
-            f.setKwota(-saldo);
+            f.setKwota(-p.getSaldo());
+            if (p.getSaldo()!=0.0 && p.getSaldopln()!=0.0 && Z.z(p.getSaldo())!=Z.z(p.getSaldopln())) {
+                f.setKurs(p.getSaldopln()/p.getSaldo());
+            }
             f.setRok(wpisView.getRokWpisuSt());
             f.setMc(wpisView.getMiesiacWpisu());
             f.setWystawca(wpisView.getPodatnikObiekt());
