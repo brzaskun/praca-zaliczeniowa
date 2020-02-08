@@ -202,12 +202,14 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         double saldopln = 0.0;
         for (FakturaPodatnikRozliczenie p : nowepozycje) {
             try {
-                if (p.getRozliczenie()!=null) {
+                if (p.isFaktura0rozliczenie1()) {
                     if (p.getRozliczenie().getKurs() != 0.0) {
                         saldo -= p.getKwota();
-                    }
-                    saldopln -= p.getKwotapln();
-                } else {
+                        }
+                    } 
+                    if (p.getKwotapln()>=0.0) {
+                        saldopln -= p.getKwotapln();
+                    } else {
                     if (p.getRozliczenie() != null && p.getRozliczenie().getKurs() != 0.0) {
                         saldo -= p.getKwota();
                     } else if (p.getFaktura()!=null && p.getFaktura().getWalutafaktury() != null && !p.getFaktura().getWalutafaktury().equals("PLN")) {
@@ -370,8 +372,8 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     }
     
     public void korygujsaldo(FakturaPodatnikRozliczenie p) {
-        double saldo = p.getSaldopln();
-        if (saldo != 0.0) {
+        double saldopln = p.getSaldopln();
+        if (saldopln != 0.0) {
             FakturaRozrachunki f = new FakturaRozrachunki();
             f.setData(Data.aktualnaData());
             if (p.getRozliczenie()!= null) {
