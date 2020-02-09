@@ -129,7 +129,7 @@ public class PdfFakturySporzadzone {
                 table.addCell(ustawfrazeAlign("", "center", 7));
             } else {
                 for (Faktura rs : wybranefaktury) {
-                    table.addCell(ustawfrazeAlign(i.toString(), "center", 7));
+                    table.addCell(ustawfrazeAlign(i.toString(), "center", 7, 20f));
                     table.addCell(ustawfrazeAlign(rs.getNumerkolejny(), "center", 7));
                     table.addCell(ustawfrazeAlign(rs.getKontrahent().getNpelna(), "left", 7));
                     table.addCell(ustawfrazeAlign(rs.getKontrahent().getAdres(), "left", 7));

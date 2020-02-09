@@ -223,8 +223,10 @@ public class BankImportView implements Serializable {
                            numerwyciagu = (int) zwrot.get(2);
                            break;
                         case 2 :
+                           zwrot = ImportMbank_CSV.importujdok(partia, wyciagdataod, numerwyciagu);
                            naglowek = (ImportowanyPlikNaglowek) zwrot.get(0);
                            pobranefaktury = (List<ImportBankWiersz>) zwrot.get(1);
+                           numerwyciagu = (int) zwrot.get(2);
                            break;
                         case 3 :
                            naglowek = (ImportowanyPlikNaglowek) zwrot.get(0);

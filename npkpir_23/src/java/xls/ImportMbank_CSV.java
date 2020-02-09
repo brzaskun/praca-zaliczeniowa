@@ -33,7 +33,7 @@ import org.xml.sax.SAXException;
  * @author Osito
  */
 
-public class GCOBankImportView implements Serializable {
+public class ImportMbank_CSV implements Serializable {
     private static final long serialVersionUID = 1L;
     
     
@@ -57,7 +57,6 @@ public class GCOBankImportView implements Serializable {
                     int i = 0;
                     for (Iterator<List<String>> it = records.iterator(); it.hasNext();) {
                         List<String> baza = it.next();
-                        List<String> row = new ArrayList<>();
                         if (i==0) {
                             pn.setWyciagnrod(baza.get(0));
                             pn.setWyciagnrdo(baza.get(0));
@@ -68,7 +67,9 @@ public class GCOBankImportView implements Serializable {
                             pn.setWyciagbz(Double.parseDouble(baza.get(12).replace(",",".")));
                             pn.setWyciagobrotywn(!baza.get(9).equals("") ? Double.parseDouble(baza.get(9).replace(",",".")) : 0.0);
                             pn.setWyciagobrotyma(!baza.get(10).equals("") ? Double.parseDouble(baza.get(10).replace(",",".")) : 0.0);
-                        } else {
+                        } else if (i==1) {
+                            pn.setWyciagbo(Double.parseDouble(baza.get(12).replace(",",".")));
+                        }  else {
                             ImportBankWiersz x = new ImportBankWiersz();
                             x.setNr(j++);
                             x.setDatatransakcji(Data.zmienkolejnosc(baza.get(1)));

@@ -1907,11 +1907,13 @@ public class FakturaView implements Serializable {
             }
             if (gosciwybral != null && gosciwybral.size() > 0) {
                 PdfFakturySporzadzone.drukujzapisy(wpisView, gosciwybral);
+            } else if (fakturyFiltered != null && fakturyFiltered.size() > 0) {
+                PdfFakturySporzadzone.drukujzapisy(wpisView, fakturyFiltered);
             } else {
                 PdfFakturySporzadzone.drukujzapisy(wpisView, faktury);
             }
-        } catch (Exception e) { E.e(e); 
-            
+        } catch (Exception e) { 
+            E.e(e); 
         }
     }
     

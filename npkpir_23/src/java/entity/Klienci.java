@@ -330,7 +330,11 @@ public class Klienci extends KlienciSuper implements Serializable {
 //    }
     
     public String getAdres() {
-        return this.kodpocztowy+" "+this.miejscowosc+", ul. "+this.ulica+" "+this.dom+"/"+this.lokal;
+        String zwrot = this.kodpocztowy+" "+this.miejscowosc+", ul. "+this.ulica+" "+this.dom;
+        if (this.lokal!=null && !this.lokal.equals("")) {
+            zwrot = this.kodpocztowy+" "+this.miejscowosc+", ul. "+this.ulica+" "+this.dom+"/"+this.lokal;
+        }
+        return zwrot;
     }
 
     public String getAdresincydentalny() {
