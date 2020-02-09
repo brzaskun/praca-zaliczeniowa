@@ -205,14 +205,12 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 if (p.isFaktura0rozliczenie1()) {
                     if (p.getRozliczenie().getKurs() != 0.0) {
                         saldo -= p.getKwota();
-                        }
-                    } 
-                    if (p.getKwotapln()>=0.0) {
-                        saldopln -= p.getKwotapln();
-                    } else {
+                    }
+                    saldopln -= p.getKwotapln();
+                } else {
                     if (p.getRozliczenie() != null && p.getRozliczenie().getKurs() != 0.0) {
                         saldo -= p.getKwota();
-                    } else if (p.getFaktura()!=null && p.getFaktura().getWalutafaktury() != null && !p.getFaktura().getWalutafaktury().equals("PLN")) {
+                    } else if (p.getFaktura() != null && p.getFaktura().getWalutafaktury() != null && !p.getFaktura().getWalutafaktury().equals("PLN")) {
                         saldo += p.getKwota();
                     }
                     saldopln += p.getKwotapln();
@@ -339,6 +337,17 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         aktywnytab = 2;
     }
     
+    public void zaksiegujjakoBOselected() {
+        if (saldanierozliczoneselected!=null && !saldanierozliczoneselected.isEmpty()) {
+            for (FakturaPodatnikRozliczenie p : saldanierozliczoneselected) {
+                zaksiegujjakoBO(p);
+            }
+            Msg.msg("Przeniesiono salda do BO");
+        } else {
+            Msg.msg("e","Nie wybrano faktur do BO");
+        }
+    }
+    
     public void zaksiegujjakoBO (FakturaPodatnikRozliczenie p) {
         double saldo = p.getSaldo();
         FakturaRozrachunki f = new FakturaRozrachunki();
@@ -356,6 +365,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         }
         f.setKontrahent(szukanyklient);
         f.setKwota(p.getSaldopln());
+        f.setKwotawwalucie(p.getSaldo());
         f.setRok(wpisView.getRokNastepnySt());
         f.setMc("01");
         f.setWystawca(wpisView.getPodatnikObiekt());

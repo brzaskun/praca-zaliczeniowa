@@ -30,6 +30,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import msg.Msg;import org.primefaces.event.RowEditEvent;
+import waluty.Z;
 
 /**
  *
@@ -157,6 +158,10 @@ public class FakturaRozrachunkiView  implements Serializable {
             selected.setMc(wpisView.getMiesiacWpisu());
             selected.setWystawca(wpisView.getPodatnikObiekt());
             selected.setWprowadzil(wpisView.getUzer());
+            if (selected.getKurs()!=0.0) {
+                selected.setKwotawwalucie(selected.getKwota());
+                selected.setKwota(Z.z(selected.getKwota()*selected.getKurs()));
+            }
             fakturaRozrachunkiDAO.dodaj(selected);
             wprowadzoneplatnosci.add(selected);
             boolean zaplata0korekta1 = selected.isZaplata0korekta1();

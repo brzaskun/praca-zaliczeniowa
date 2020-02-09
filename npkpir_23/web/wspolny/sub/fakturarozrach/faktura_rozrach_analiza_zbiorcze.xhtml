@@ -90,13 +90,13 @@
                     <f:facet name="header">
                         <h:outputText value="saldo"/>
                     </f:facet>
-                    <bcf:outputpl value="#{item.saldo}" stylePlus="color: #{item.color};" rendered="#{item.saldo ne 0}"/>
+                    <bcf:outputpl value="#{item.saldo}" stylePlus="color: #{item.color};" rendered="#{item.saldo ne 0.0}"/>
                 </p:column>
                 <p:column width="80" sortBy="#{item.saldopln}" sortable="true">
                     <f:facet name="header">
                         <h:outputText value="saldo pln"/>
                     </f:facet>
-                    <bcf:outputpl value="#{item.saldopln}" stylePlus="color: #{item.color};"/>
+                    <bcf:outputpl value="#{item.saldopln}" stylePlus="color: #{item.color};" rendered="#{item.saldopln ne 0.0}"/>
                 </p:column>
 <!--                <p:column width="80" sortBy="#{item.ostatniaplatnoscdata}" style="text-align: center;" sortable="true">
                     <f:facet name="header">
@@ -130,6 +130,9 @@
                 </p:column>
 
             </p:dataTable>
+                 <p:contextMenu for="akordeon:fakturaanalizazbiorcza:tablicaanaliza" style="width: 250px;">
+                    <p:menuitem value="zaksięguj BO"  actionListener="#{fakturaRozrachunkiAnalizaView.zaksiegujjakoBOselected()}" icon="ui-icon-print" />
+                 </p:contextMenu>
         </h:form>
     </p:tab>  
 </ui:composition> 

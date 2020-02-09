@@ -62,10 +62,14 @@ public class FakturaRozrachunki implements Serializable {
     @Column(name = "data")
 //    @Temporal(TemporalType.DATE)
     private String data;
+    //robimy tylko kwote w walucie
     @Column(name = "kwota")
     private double kwota;
     @Column(name = "kurs")
     private double kurs;
+    //tu powedruje kwota w walucie jak dodam platnosc w euro
+    @Column(name = "kwotawwalucie")
+    private double kwotawwalucie;
     @Column(name = "rodzajdokumentu")
     private String rodzajdokumentu;
     @Column(name = "nrdokumentu")
@@ -186,6 +190,14 @@ public class FakturaRozrachunki implements Serializable {
     
     public void setKwota(double kwota) {
         this.kwota = kwota;
+    }
+
+    public double getKwotawwalucie() {
+        return kwotawwalucie;
+    }
+
+    public void setKwotawwalucie(double kwotawwalucie) {
+        this.kwotawwalucie = kwotawwalucie;
     }
     
     public String getRok() {
