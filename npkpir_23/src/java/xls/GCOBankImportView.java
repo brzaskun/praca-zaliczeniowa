@@ -5,10 +5,15 @@
  */
 package xls;
 
+import data.Data;
 import dedra.Dedraparser;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -18,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import msg.Msg;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -31,77 +37,69 @@ public class GCOBankImportView implements Serializable {
     private static final long serialVersionUID = 1L;
     
     
-//    public static void importujdok(byte[] pobrane, String mcwpisu) {
-//        try {
-//            InputStream file = new ByteArrayInputStream(pobrane);
-//            List<Klienci> k = klienciDAO.findAll();
-//            if (pobrane!=null && !pobrane.isEmpty()) {
-//                int nrwyciagu = 0;
-//                int j = 1;
-//                for (byte[] plik : pobrane) {
-//                    InputStream file = new ByteArrayInputStream(plik);
-//                    List<List<String>> records = new ArrayList<>();
-//                    try (BufferedReader br =  new BufferedReader(new InputStreamReader(file, Charset.forName("UTF-8")))) {
-//                        String line;
-//                        while ((line = br.readLine()) != null) {
-//                            String[] values = line.split(";");
-//                            records.add(Arrays.asList(values));
-//                        }
-//                    } catch (Exception e) {
-//                    }
-//                    int i = 0;
-//                    for (Iterator<List<String>> it = records.iterator(); it.hasNext();) {
-//                        List<String> baza = it.next();
-//                        List<String> row = new ArrayList<>();
-//                        if (i==0) {
-//                            if (nrwyciagu==0) {
-//                                wyciagnrod = baza.get(0);
-//                                wyciagdataod = Data.zmienkolejnosc(baza.get(2));
-//                            }
-//                            wyciagdatado = Data.zmienkolejnosc(baza.get(1));
-//                            wyciagkonto = baza.get(5);;
-//                            wyciagwaluta = baza.get(6);
-//                            wyciagbz = Double.parseDouble(baza.get(12).replace(",","."));
-//                            wyciagobrotywn += !baza.get(9).equals("") ? Double.parseDouble(baza.get(9).replace(",",".")) : 0.0;
-//                            wyciagobrotyma += !baza.get(10).equals("") ? Double.parseDouble(baza.get(10).replace(",",".")) : 0.0;
-//                            wyciagnrdo = baza.get(0);
-//                        } else if (i==1) {
-//                            if (nrwyciagu==0) {
-//                                wyciagbo = Double.parseDouble(baza.get(12).replace(",","."));
-//                            }
-//                        } else {
-//                            ImportBankWiersz x = new ImportBankWiersz();
-//                            x.setNr(j++);
-//                            x.setDatatransakcji(Data.zmienkolejnosc(baza.get(1)));
-//                            x.setDatawaluty(Data.zmienkolejnosc(baza.get(2)));
-//                            x.setNrwyciagu(baza.get(0));
-//                            x.setIBAN(baza.get(5));//??
-//                            x.setKontrahent(baza.get(4));//??
-//                            if (!baza.get(10).equals("")) {
-//                                x.setKwota(Double.parseDouble(baza.get(10).replace(",",".")));
-//                                x.setWnma("Ma");
-//                            } else if (!baza.get(11).equals("")) {
-//                                x.setKwota(Double.parseDouble(baza.get(11).replace(",",".")));
-//                                x.setWnma("Wn");
-//                            }
-//                            x.setWaluta(wyciagwaluta);
-//                            x.setNrtransakji(baza.get(8));
-//                            x.setOpistransakcji(baza.get(3));
-//                            x.setTyptransakcji(oblicztyptransakcji(x));
-//                            pobranefaktury.add(x);
-//                        }
-//                        i++;
-//                    }
-//                    nrwyciagu++;
-//                }
-//            }
-//        } catch (Exception e) {
-//            Msg.msg("e", "Wystąpił błąd przy pobieraniu danych");
-//        }
-////        for (InterpaperXLS p : pobranefaktury) {
-////           generowanieDokumentu(p);
-////        }
-//    }
+    public static List importujdok(byte[] pobrane, String mcwpisu, int nrwyciagu) {
+        List zwrot = new ArrayList<Object>();
+        List<ImportBankWiersz> pobranefaktury = new ArrayList<>();
+        ImportowanyPlikNaglowek pn = new ImportowanyPlikNaglowek();
+        try {
+            InputStream file = new ByteArrayInputStream(pobrane);
+            if (pobrane!=null) {
+                int j = 1;
+                    List<List<String>> records = new ArrayList<>();
+                    try (BufferedReader br =  new BufferedReader(new InputStreamReader(file, Charset.forName("UTF-8")))) {
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            String[] values = line.split(";");
+                            records.add(Arrays.asList(values));
+                        }
+                    } catch (Exception e) {
+                    }
+                    int i = 0;
+                    for (Iterator<List<String>> it = records.iterator(); it.hasNext();) {
+                        List<String> baza = it.next();
+                        List<String> row = new ArrayList<>();
+                        if (i==0) {
+                            pn.setWyciagnrod(baza.get(0));
+                            pn.setWyciagnrdo(baza.get(0));
+                            pn.setWyciagdataod(Data.zmienkolejnosc(baza.get(2)));
+                            pn.setWyciagdatado(Data.zmienkolejnosc(baza.get(1)));
+                            pn.setWyciagkonto(baza.get(5));
+                            pn.setWyciagwaluta(baza.get(6));
+                            pn.setWyciagbz(Double.parseDouble(baza.get(12).replace(",",".")));
+                            pn.setWyciagobrotywn(!baza.get(9).equals("") ? Double.parseDouble(baza.get(9).replace(",",".")) : 0.0);
+                            pn.setWyciagobrotyma(!baza.get(10).equals("") ? Double.parseDouble(baza.get(10).replace(",",".")) : 0.0);
+                        } else {
+                            ImportBankWiersz x = new ImportBankWiersz();
+                            x.setNr(j++);
+                            x.setDatatransakcji(Data.zmienkolejnosc(baza.get(1)));
+                            x.setDatawaluty(Data.zmienkolejnosc(baza.get(2)));
+                            x.setNrwyciagu(baza.get(0));
+                            x.setIBAN(baza.get(5));//??
+                            x.setKontrahent(baza.get(4));//??
+                            if (!baza.get(10).equals("")) {
+                                x.setKwota(Double.parseDouble(baza.get(10).replace(",",".")));
+                                x.setWnma("Ma");
+                            } else if (!baza.get(11).equals("")) {
+                                x.setKwota(Double.parseDouble(baza.get(11).replace(",",".")));
+                                x.setWnma("Wn");
+                            }
+                            x.setWaluta(pn.getWyciagwaluta());
+                            x.setNrtransakji(baza.get(8));
+                            x.setOpistransakcji(baza.get(3));
+                            x.setTyptransakcji(oblicztyptransakcji(x));
+                            pobranefaktury.add(x);
+                        }
+                        i++;
+                }
+            }
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd przy pobieraniu danych");
+        }
+        zwrot.add(pn);
+        zwrot.add(pobranefaktury);
+        zwrot.add(nrwyciagu);
+        return zwrot;
+    }
     
      //typ transakcji
         //1 wpływ faktura 201,203

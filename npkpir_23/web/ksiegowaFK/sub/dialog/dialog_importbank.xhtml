@@ -13,15 +13,18 @@
         .zaksiegowanewaski input {
             width: 75px !important;
         }
+        .ui-dialog .ui-dialog-content {
+            overflow-y: hidden;
+        }
     </style>
    
-        <p:dialog id="importbank" header="Pobieranie wyciągów bankowych z banków" widgetVar="importbank" height="900" width="1450" 
+        <p:dialog id="importbank" header="Pobieranie wyciągów bankowych z banków" widgetVar="importbank" height="900" width="1450" style="overflow-y: no-display"
               resizable="false"  onShow="ustawdialog('importbank','menudokumenty', 1450,900);" closeOnEscape="true" onHide="resetujdialog('importbank');" >
             <p:ajax event="open" listener="#{bankImportView.init()}" update="panelplikbankall"/>
         <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" rendered="false" update=":form_importbankall"/>
         <h:form id="panelplikbankall">
             <p:panelGrid  columns="2" columnClasses="sixty-percent forty-percent" >
-                <p:selectOneMenu  value="#{bankImportView.wybranyrodzajimportu}" 
+                <p:selectOneMenu  value="#{bankImportView.wybranyrodzajimportu}"  converter="#{importowanyPlikConv}"
                                          style="width: 200px; margin-left: 20px;" >
                             <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                             <f:selectItems value="#{bankImportView.rodzajeimportu}"  var="wploopa" itemLabel="#{wploopa.opis}" itemValue="#{wploopa}"/>
@@ -31,11 +34,10 @@
             </p:panelGrid>
             <p:panelGrid  columns="2" columnClasses="sixty-percent forty-percent" rendered="false" binding="#{bankImportView.grid0}">
                     <p:panelGrid columns="1" style="margin-top: 20px;margin-bottom: 10px;">
-                        <h:outputText value="plik/pliki CSV z dokumentami źródłowymi " style="font-weight: bold;"/>
+                        <h:outputText value="plik/pliki CSV/XML z dokumentami źródłowymi " style="font-weight: bold;"/>
                         <p:fileUpload fileUploadListener="#{bankImportView.zachowajplik}" 
                                       mode="advanced" dragDropSupport="true" multiple="true"
                                       update="messages1" sizeLimit="1000000"   
-                                      validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
                                       fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
                                       uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
                                       style="height: 90px;" sequential="true">
@@ -57,19 +59,19 @@
         <h:form id="panelprzyciskowbankall">
         <p:panelGrid columns="2" rendered="false" binding="#{bankImportView.grid2}">
             <p:panelGrid columns="8" style="width: 1000px;">
-                <h:outputText value="nr wyciągu od"/><h:outputText value="#{bankImportView.wyciagnrod}"/>
-                <h:outputText value="nr wyciągu do"/><h:outputText value="#{bankImportView.wyciagnrdo}"/>
-                <h:outputText value="data od"/><h:outputText value="#{bankImportView.wyciagdataod}"/>
-                <h:outputText value="data do"/><h:outputText value="#{bankImportView.wyciagdatado}"/>
-                <h:outputText value="waluta"/><h:outputText value="#{bankImportView.wyciagwaluta}"/>
-                <h:outputText value="konto"/><h:outputText value="#{bankImportView.wyciagkonto}" rendered="#{bankImportView.wyciagkonto ne '11111'}"/>
-                <h:outputText value="Pobrano historię zapisów a nie wyciąg. Informacja o saldach jest niedostępna" rendered="#{bankImportView.wyciagkonto eq '11111'}" style="color:red;font-weight: bold;"/>
-                <h:outputText value="wprowadź saldo początkowe" rendered="#{bankImportView.wyciagkonto eq '11111'}" style="font-weight: bold"/><p:inputNumber value="#{bankImportView.wyciagbo}" rendered="#{bankImportView.wyciagkonto eq '11111'}" decimalPlaces="2"
+                <h:outputText value="nr wyciągu od"/><h:outputText value="#{bankImportView.naglowek.wyciagnrod}"/>
+                <h:outputText value="nr wyciągu do"/><h:outputText value="#{bankImportView.naglowek.wyciagnrdo}"/>
+                <h:outputText value="data od"/><h:outputText value="#{bankImportView.naglowek.wyciagdataod}"/>
+                <h:outputText value="data do"/><h:outputText value="#{bankImportView.naglowek.wyciagdatado}"/>
+                <h:outputText value="waluta"/><h:outputText value="#{bankImportView.naglowek.wyciagwaluta}"/>
+                <h:outputText value="konto"/><h:outputText value="#{bankImportView.naglowek.wyciagkonto}" rendered="#{bankImportView.naglowek.wyciagkonto ne '11111'}"/>
+                <h:outputText value="Pobrano historię zapisów a nie wyciąg. Informacja o saldach jest niedostępna" rendered="#{bankImportView.naglowek.wyciagkonto eq '11111'}" style="color:red;font-weight: bold;"/>
+                <h:outputText value="wprowadź saldo początkowe" rendered="#{bankImportView.naglowek.wyciagkonto eq '11111'}" style="font-weight: bold"/><p:inputNumber value="#{bankImportView.naglowek.wyciagbo}" rendered="#{bankImportView.naglowek.wyciagkonto eq '11111'}" decimalPlaces="2"
                                                                                                                                                                         inputStyle="text-align: right;" symbolPosition="s" decimalSeparator=".">
                     <p:ajax event="blur" partialSubmit="true"/>
                 </p:inputNumber>
-                <h:outputText value="saldo początkowe" rendered="#{bankImportView.wyciagkonto ne '11111'}"/><bcf:outputpl value="#{bankImportView.wyciagbo}" rendered="#{bankImportView.wyciagkonto ne '11111'}"/>
-                <h:outputText value="saldo końcowe" rendered="#{bankImportView.wyciagkonto ne '11111'}"/><bcf:outputpl value="#{bankImportView.wyciagbz}" rendered="#{bankImportView.wyciagkonto ne '11111'}"/>
+                <h:outputText value="saldo początkowe" rendered="#{bankImportView.naglowek.wyciagkonto ne '11111'}"/><bcf:outputpl value="#{bankImportView.naglowek.wyciagbo}" rendered="#{bankImportView.naglowek.wyciagkonto ne '11111'}"/>
+                <h:outputText value="saldo końcowe" rendered="#{bankImportView.naglowek.wyciagkonto ne '11111'}"/><bcf:outputpl value="#{bankImportView.naglowek.wyciagbz}" rendered="#{bankImportView.naglowek.wyciagkonto ne '11111'}"/>
             </p:panelGrid>
         <h:outputText value="#{bankImportView.wiadomoscnieprzypkonta}" style="color: red; margin-bottom: 10px;"/>
         <p:panelGrid columns="3" style="width: 500px;">
@@ -103,10 +105,10 @@
             </p:contextMenu>-->
         
             <h:form id="form_importbankall">
-                <p:panelGrid columns="1" rendered="false" binding="#{bankImportView.grid3}">
+                <p:panelGrid columns="1" rendered="false" binding="#{bankImportView.grid3}" style="height: 580px;">
             <p:dataTable id="dataListImportall" value="#{bankImportView.pobranefaktury}" var="itemimp" rowIndexVar="row" widgetVar="tablicadokumentyimportall" 
                          selection="#{bankImportView.selected}" rowKey="#{itemimp.nr}"  
-                         style="width: 1420px; height: 580px; overflow-y: scroll; margin-top: 15px;margin-bottom: 15px;" filteredValue="#{bankImportView.pobranefakturyfilter}"
+                         style="width: 1420px; height: 540px; overflow-y: scroll; margin-top: 15px;margin-bottom: 5px;" filteredValue="#{bankImportView.pobranefakturyfilter}"
                          emptyMessage="Brak importowanych dokumentów" styleClass="gridZaksiegowane"
                          sortBy="#{itemimp.nr}"  >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->

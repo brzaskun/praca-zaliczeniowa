@@ -177,7 +177,7 @@ public class BankImportView implements Serializable {
         try {
             UploadedFile uploadedFile = event.getFile();
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
-            if (extension.equals("csv")) {
+            if (extension.equals("csv")||extension.equals("xml")) {
                 String filename = uploadedFile.getFileName();
                 pobraneplikibytes.add(uploadedFile.getContents());
                 //plikinterpaper = uploadedFile.getContents();
@@ -212,16 +212,26 @@ public class BankImportView implements Serializable {
     public void importujdok() {
         try {
             List zwrot = null;
-            switch (wybranyrodzajimportu.getLp()) {
-                case 1 :
-                   naglowek = (ImportowanyPlikNaglowek) zwrot.get(0);
-                   pobranefaktury = (List<ImportBankWiersz>) zwrot.get(1);
-                case 2 :
-                   naglowek = (ImportowanyPlikNaglowek) zwrot.get(0);
-                   pobranefaktury = (List<ImportBankWiersz>) zwrot.get(1);
-                case 3 :
-                   naglowek = (ImportowanyPlikNaglowek) zwrot.get(0);
-                   pobranefaktury = (List<ImportBankWiersz>) zwrot.get(1);
+            if (pobraneplikibytes!=null && pobraneplikibytes.size()>0) {
+                int numerwyciagu = -1;
+                for (byte[] partia : pobraneplikibytes) {
+                    switch (wybranyrodzajimportu.getLp()) {
+                        case 1 :
+                           zwrot = ImportPKO_XML.importujdok(partia, wyciagdataod, numerwyciagu);
+                           naglowek = (ImportowanyPlikNaglowek) zwrot.get(0);
+                           pobranefaktury = (List<ImportBankWiersz>) zwrot.get(1);
+                           numerwyciagu = (int) zwrot.get(2);
+                           break;
+                        case 2 :
+                           naglowek = (ImportowanyPlikNaglowek) zwrot.get(0);
+                           pobranefaktury = (List<ImportBankWiersz>) zwrot.get(1);
+                           break;
+                        case 3 :
+                           naglowek = (ImportowanyPlikNaglowek) zwrot.get(0);
+                           pobranefaktury = (List<ImportBankWiersz>) zwrot.get(1);
+                           break;
+                    }
+                }
             }
             if (pobranefaktury!=null && !pobranefaktury.isEmpty()) {
                 String mc = Data.getMc(pobranefaktury.get(0).getDatatransakcji());
@@ -658,6 +668,14 @@ public class BankImportView implements Serializable {
 
     public void setGenerujbutton(CommandButton generujbutton) {
         this.generujbutton = generujbutton;
+    }
+
+    public ImportowanyPlikNaglowek getNaglowek() {
+        return naglowek;
+    }
+
+    public void setNaglowek(ImportowanyPlikNaglowek naglowek) {
+        this.naglowek = naglowek;
     }
 
    

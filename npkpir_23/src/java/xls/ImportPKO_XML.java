@@ -68,25 +68,35 @@ import static xls.InterpaperBankSantander.pT;
  * @author Osito
  */
 
-public class InterpaperBankImport implements Serializable {
+public class ImportPKO_XML implements Serializable {
     private static final long serialVersionUID = 1L;
    
     
-    public static void importujdok(byte[] pobrane, String mcwpisu) {
+    public static List importujdok(byte[] pobrane, String mcwpisu, int nrwyciagu) {
+        List zwrot = new ArrayList<Object>();
+        List<ImportBankWiersz> pobranefaktury = new ArrayList<>();
+        ImportowanyPlikNaglowek pn = new ImportowanyPlikNaglowek();
         try {
             InputStream file = new ByteArrayInputStream(pobrane);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(file);
             doc.getDocumentElement().normalize();
-            ImportowanyPlikNaglowek pn = new ImportowanyPlikNaglowek();
             try {
                 NodeList nList1 = doc.getElementsByTagName("Stmt");
-                pn.setWyciagnr(pT(nList1.item(0), "Id"));
-                pn.setWyciagdataod(pT(nList1.item(0), "FrDtTm"));
+                if (nrwyciagu==-1) {
+                    pn.setWyciagnr(pT(nList1.item(0), "Id"));
+                } else {
+                    nrwyciagu = nrwyciagu+1;
+                    pn.setWyciagnr(String.valueOf(nrwyciagu));
+                }
+                String wyciagdataod = pT(nList1.item(0), "FrDtTm");
+                if (wyciagdataod!=null) {
+                    pn.setWyciagdataod(wyciagdataod.substring(0, 10));
+                }
                 String wyciagdatado = pT(nList1.item(0), "ToDtTm");
                 if (wyciagdatado!=null) {
-                    pn.setWyciagnrdo(wyciagdatado.substring(0, 10));
+                    pn.setWyciagdatado(wyciagdatado.substring(0, 10));
                 }
                 pn.setWyciagkonto(pT(nList1.item(0), "IBAN"));
                 pn.setWyciagwaluta(pT(nList1.item(0), "Ccy"));
@@ -96,8 +106,6 @@ public class InterpaperBankImport implements Serializable {
                 E.e(e);
             }
             NodeList nList = doc.getElementsByTagName("Ntry");
-             List<ImportBankWiersz> pobranefaktury = new ArrayList<>();
-            System.out.println("----------------------------");
             int len = nList.getLength();
                 for (int temp = 0; temp < len; temp++) {
                     Node nNode = nList.item(temp);
@@ -137,6 +145,10 @@ public class InterpaperBankImport implements Serializable {
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd przy pobieraniu danych");
         }
+        zwrot.add(pn);
+        zwrot.add(pobranefaktury);
+        zwrot.add(nrwyciagu);
+        return zwrot;
 //        for (InterpaperXLS p : pobranefaktury) {
 //           generowanieDokumentu(p);
 //        }
