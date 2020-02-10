@@ -68,7 +68,7 @@ public class WalutyFKBean {
         WalutyNBP walutyNBP = (WalutyNBP) context.getApplication().evaluateExpressionGet(context, "#{walutyNBP}", WalutyNBP.class);
         for (Waluty w : pobranewaluty) {
             try {
-                wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty()));
+                wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty(), true));
             } catch (IOException | ParserConfigurationException | SAXException | ParseException e) {
                 //Msg.msg("e", "nie udalo sie pobrac kursow walut z internetu");
             }
@@ -112,7 +112,7 @@ public class WalutyFKBean {
             }
             List<Tabelanbp> wierszepobranezNBP = Collections.synchronizedList(new ArrayList<>());
             try {
-                wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty()));
+                wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty(), true));
             } catch (IOException | ParserConfigurationException | SAXException | ParseException e) {
                 //mail.Mail.nadajMailWystapilBlad(E.e(e), null, sMTPSettingsDAO.findSprawaByDef());
                 

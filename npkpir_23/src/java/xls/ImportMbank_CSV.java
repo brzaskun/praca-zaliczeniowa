@@ -27,6 +27,7 @@ import msg.Msg;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
+import static xls.ImportPKO_XML.pT;
 
 /**
  *
@@ -58,6 +59,12 @@ public class ImportMbank_CSV implements Serializable {
                     for (Iterator<List<String>> it = records.iterator(); it.hasNext();) {
                         List<String> baza = it.next();
                         if (i==0) {
+                           if (nrwyciagu==-1) {
+                                pn.setWyciagnr(baza.get(0));
+                            } else {
+                                nrwyciagu = nrwyciagu+1;
+                                pn.setWyciagnr(String.valueOf(nrwyciagu));
+                            }
                             pn.setWyciagnrod(baza.get(0));
                             pn.setWyciagnrdo(baza.get(0));
                             pn.setWyciagdataod(Data.zmienkolejnosc(baza.get(2)));

@@ -53,6 +53,7 @@ public class WalutyKursRecznieView implements Serializable{
             datawstepna = wpisView.getRokUprzedniSt()+"-12-31";
             numertabeli = 252;
             List<Tabelanbp> wierszepobranezNBP = Collections.synchronizedList(new ArrayList<>());
+            boolean korygujdate = false;
             try {
                 if (dataodtabela!=null && nrodtabela!=null) {
                     datawstepna = dataodtabela;
@@ -63,8 +64,9 @@ public class WalutyKursRecznieView implements Serializable{
                         datawstepna = ostatniatabela.getDatatabeli();
                         numertabeli = Integer.parseInt(ostatniatabela.getNrtabeli().substring(0, 3));
                     }
+                    korygujdate = true;
                 }
-                wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty()));
+                wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty(), korygujdate));
             } catch (IOException | ParserConfigurationException | SAXException | ParseException e) {
                 //Msg.msg("e", "nie udalo sie pobrac kursow walut z internetu");
             }

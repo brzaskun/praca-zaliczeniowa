@@ -188,34 +188,34 @@ public class Beanjpk {
     private static void ustawwiersze(Dokfk nd, Rodzajedok rodzajedok,jpkfa3.JPK.Faktura faktura, Tabelanbp tabelanbppl, TabelanbpDAO tabelanbpDAO, KliencifkDAO kliencifkDAO, WpisView wpisView, KontoDAOfk kontoDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
         nd.setListawierszy(new ArrayList<Wiersz>());
         int lpwiersza = 1;
-        Konto kontown = rodzajedok.getKontoRZiS();
-        Konto kontoma = ImportBean.pobierzkontoWn(nd.getKontr(), kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
-        nd.getListawierszy().add(przygotujwierszNetto(lpwiersza, nd, faktura, kontown, kontoma, tabelanbppl, tabelanbpDAO));
+        Konto kontown = ImportBean.pobierzkontoWn(nd.getKontr(), kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO);
+        Konto kontoma = rodzajedok.getKontoRZiS();
+        nd.getListawierszy().add(przygotujwierszNettoSprzedaz(lpwiersza, nd, faktura, kontown, kontoma, tabelanbppl, tabelanbpDAO));
         lpwiersza++;
-        kontown = rodzajedok.getKontovat();
-        nd.getListawierszy().add(przygotujwierszVAT(lpwiersza, nd, faktura, kontown, kontoma, tabelanbppl, tabelanbpDAO));
+        kontoma = rodzajedok.getKontovat();
+        nd.getListawierszy().add(przygotujwierszVATNalezny(lpwiersza, nd, faktura, kontown, kontoma, tabelanbppl, tabelanbpDAO));
     }
-     private static Wiersz przygotujwierszNetto(int lpwiersza,Dokfk nd, jpkfa3.JPK.Faktura faktura, Konto kontown, Konto kontoma, Tabelanbp tabelanbppl, TabelanbpDAO tabelanbpDAO) {
+     private static Wiersz przygotujwierszNettoSprzedaz(int lpwiersza,Dokfk nd, jpkfa3.JPK.Faktura faktura, Konto kontown, Konto kontoma, Tabelanbp tabelanbppl, TabelanbpDAO tabelanbpDAO) {
         Wiersz w = new Wiersz(lpwiersza, 0);
         uzupelnijwiersz(w, nd, faktura, tabelanbppl, tabelanbpDAO);
         w.setOpisWiersza("przychody ze sprzedaży");
-        StronaWiersza strwn = new StronaWiersza(w, "Wn", faktura.getNetto(), kontown);
-        StronaWiersza strma = new StronaWiersza(w, "Ma", faktura.getBrutto(), kontoma);
-        strwn.setKwotaPLN(zrobpln(w,faktura.getNetto()));
-        strma.setKwotaPLN(zrobpln(w,faktura.getBrutto()));
-        strma.setNowatransakcja(true);
-        strma.setTypStronaWiersza(1);
+        StronaWiersza strwn = new StronaWiersza(w, "Wn", faktura.getBrutto(), kontown);
+        StronaWiersza strma = new StronaWiersza(w, "Ma", faktura.getNetto(), kontoma);
+        strwn.setKwotaPLN(zrobpln(w,faktura.getBrutto()));
+        strma.setKwotaPLN(zrobpln(w,faktura.getNetto()));
+        strwn.setNowatransakcja(true);
+        strwn.setTypStronaWiersza(1);
         w.setStronaWn(strwn);
         w.setStronaMa(strma);
         return w;
     }
-     private static Wiersz przygotujwierszVAT(int lpwiersza,Dokfk nd, jpkfa3.JPK.Faktura faktura, Konto kontown, Konto kontoma, Tabelanbp tabelanbppl, TabelanbpDAO tabelanbpDAO) {
-        Wiersz w = new Wiersz(lpwiersza, 1);
+     private static Wiersz przygotujwierszVATNalezny(int lpwiersza,Dokfk nd, jpkfa3.JPK.Faktura faktura, Konto kontown, Konto kontoma, Tabelanbp tabelanbppl, TabelanbpDAO tabelanbpDAO) {
+        Wiersz w = new Wiersz(lpwiersza, 2);
         uzupelnijwiersz(w, nd, faktura, tabelanbppl, tabelanbpDAO);
         w.setOpisWiersza("przychody ze sprzedaży - VAT");
-        StronaWiersza strwn = new StronaWiersza(w, "Wn", faktura.getVat(), kontown);
-        strwn.setKwotaPLN(zrobpln(w,faktura.getVat()));
-        w.setStronaWn(strwn);
+        StronaWiersza strma = new StronaWiersza(w, "Wn", faktura.getVat(), kontoma);
+        strma.setKwotaPLN(zrobpln(w,faktura.getVat()));
+        w.setStronaMa(strma);
         return w;
     }
      

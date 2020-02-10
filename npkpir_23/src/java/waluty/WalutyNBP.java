@@ -127,10 +127,12 @@ public class WalutyNBP implements Serializable {
         return wynik;
     }
 
-    public List<Tabelanbp> pobierzpliknbp(String data, int numerTabeliNBP, String waluta) throws MalformedURLException, IOException, ParserConfigurationException, SAXException, ParseException {
+    public List<Tabelanbp> pobierzpliknbp(String data, int numerTabeliNBP, String waluta, boolean korygujdate) throws MalformedURLException, IOException, ParserConfigurationException, SAXException, ParseException {
         List<Tabelanbp> wynik = Collections.synchronizedList(new ArrayList<>());
         while (czydataPrzedDniemDzisiejszym(data)) {
-            numerTabeliNBP = skorygujNumerTabeliZmianaRoku(data, numerTabeliNBP);
+            if (korygujdate) {
+                numerTabeliNBP = skorygujNumerTabeliZmianaRoku(data, numerTabeliNBP);
+            }
             InputStream inputStream = null;
             while (inputStream == null && czydataPrzedDniemDzisiejszym(data)) {
                 try {
