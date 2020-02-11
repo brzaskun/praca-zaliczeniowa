@@ -79,6 +79,8 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private UISelectOne selectOneUI;
     private boolean pokaznadplaty;
     private boolean tylkoprzeterminowane;
+    private String tekstwiadomosci;
+    
     public FakturaRozrachunkiAnalizaView() {
         
     }
@@ -433,7 +435,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 try {
                     String nazwa = PdfFaktRozrach.drukujKlienciSilent(szukanyklient, nowepozycje, archiwum, wpisView);
                     Fakturadodelementy stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
-                    MailFaktRozrach.rozrachunek(szukanyklient, wpisView, fakturaDAO, saldo, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getUzer()), sMTPSettingsDAO.findSprawaByDef(), nazwa);
+                    MailFaktRozrach.rozrachunek(szukanyklient, wpisView, fakturaDAO, saldo, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getUzer()), sMTPSettingsDAO.findSprawaByDef(), nazwa, tekstwiadomosci);
                     if (r != null) {
                         r.setDataupomnienia(new Date());
                         p.setDataupomnienia(new Date());
@@ -524,6 +526,14 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     
     public void setKlienci(List<Klienci> klienci) {
         this.klienci = klienci;
+    }
+
+    public String getTekstwiadomosci() {
+        return tekstwiadomosci;
+    }
+
+    public void setTekstwiadomosci(String tekstwiadomosci) {
+        this.tekstwiadomosci = tekstwiadomosci;
     }
 
 

@@ -16,7 +16,7 @@
             }
         </style>
         <h:form id="fakturaanaliza">
-            <p:panelGrid columns="2">
+            <p:panelGrid columns="3">
                 <p:selectOneListbox id="wyborklienta" value="#{fakturaRozrachunkiAnalizaView.szukanyklient}" required="true" style="width: 300px;"  converter="KlientConv"
                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" binding="#{fakturaRozrachunkiAnalizaView.selectOneUI}"
                                     filter="true" filterMatchMode="contains"
@@ -25,7 +25,13 @@
                     <p:ajax event="change" global="false" listener="#{fakturaRozrachunkiAnalizaView.pobierzwszystkoKlienta()}" 
                             update=":akordeon:fakturaanaliza:tablicaanaliza :akordeon:fakturaanaliza:mailklientapanel"/>
                 </p:selectOneListbox>
-                <p:commandButton icon="fa fa-print" actionListener="#{fakturaRozrachunkiAnalizaView.drukujKlienci()}" style="width: 120px;"/>
+                <p:commandButton icon="fa fa-print" actionListener="#{fakturaRozrachunkiAnalizaView.drukujKlienci()}" style="width: 120px;margin-left: 15px;"/>
+                <p:panelGrid columns="1" style="margin-left: 15px;">
+                <h:outputText value="dodatkowa wiadomość do maila z wezwaniem"/>
+                <p:inputTextarea cols="90" rows="7" value="#{fakturaRozrachunkiAnalizaView.tekstwiadomosci}">
+                    <p:ajax event="blur" partialSubmit="true" global="false"/>
+                </p:inputTextarea>
+                </p:panelGrid>
             </p:panelGrid>
             <style>
                 th {
@@ -61,7 +67,8 @@
             </p:panelGrid>
             <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 1200px; margin-top: 20px;"
                          emptyMessage="niczego nie zaksięgowano dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" selection="#{fakturaRozrachunkiAnalizaView.selectedrozliczenia}" rowKey="#{item.lp}"
-                         rowIndexVar="row" editable="true" 
+                         rowIndexVar="row" editable="true"
+                         rowStyleClass="#{item.mc mod 2 eq 0 ? 'parzyste':null}"
                          >
                 <p:ajax event="rowEdit" listener="#{fakturaRozrachunkiView.onRowEditAnaliza}" />
                 <f:facet name="header">

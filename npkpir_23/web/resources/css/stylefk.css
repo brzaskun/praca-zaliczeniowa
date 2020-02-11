@@ -191,7 +191,9 @@ body {
 .kontoinput ui-autocomplete input {
     width: 200px;
 }
-
+.parzyste {
+    background: #e4e3e3 !important;
+}
 .row1 {
     background: aquamarine !important;
 }

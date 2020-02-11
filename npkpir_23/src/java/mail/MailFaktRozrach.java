@@ -30,7 +30,8 @@ import view.WpisView;
  */
 public class MailFaktRozrach implements Serializable{
     
-    public static void rozrachunek(Klienci szukanyklient, WpisView wpisView, FakturaDAO fakturaDAO, double saldo, String stopka, SMTPSettings settings, SMTPSettings ogolne, String nazwa) {
+    public static void rozrachunek(Klienci szukanyklient, WpisView wpisView, FakturaDAO fakturaDAO, double saldo, String stopka, SMTPSettings settings, SMTPSettings ogolne, String nazwa, String tekstwiadomosci) {
+        tekstwiadomosci = tekstwiadomosci==null ? "": tekstwiadomosci;
         Msg.msg("Rozpoczynam wysylanie maila z rozrachunkami. Czekaj na wiadomość końcową");
         int i = 0;
         try {
@@ -44,6 +45,7 @@ public class MailFaktRozrach implements Serializable{
                      + "<p>Firma "+szukanyklient.getNpelna()+"</p>"
                      + "<p>Rozliczenia obejmują okres okres "+wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu()+"</p>"
                      + "<p>Zaległa kwota do zapłaty w pln "+F.curr(saldo)+"</p>"
+                     + "<p style='color:red'>"+tekstwiadomosci+"</p>"
                      + Mail.reklama
                      + stopka,  "text/html; charset=utf-8");
             // create the second message part
