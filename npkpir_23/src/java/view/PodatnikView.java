@@ -1220,9 +1220,15 @@ private DokDAO dokDAO;
                         for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
                             if (r.getSkrot().equals(tmp.getSkrot())) {
                                 odnaleziono = true;
-                                r.setKontoRZiS(tmp.getKontoRZiS());
-                                r.setKontorozrachunkowe(tmp.getKontorozrachunkowe());
-                                r.setKontovat(tmp.getKontovat());
+                                if (tmp.getKontoRZiS()!=null) {
+                                    r.setKontoRZiS(tmp.getKontoRZiS());
+                                }
+                                if (tmp.getKontorozrachunkowe()!=null) {
+                                    r.setKontorozrachunkowe(tmp.getKontorozrachunkowe());
+                                }
+                                if (tmp.getKontovat()!=null) {
+                                    r.setKontovat(tmp.getKontovat());
+                                }
                                 KontaFKBean.nanieskonta(r, kontoDAOfk);
                                 rodzajedokDAO.edit(r);
                             }
