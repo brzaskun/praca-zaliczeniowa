@@ -144,6 +144,11 @@ public class WpisView implements Serializable {
         String zwrot = "/ksiegowa/ksiegowaZmianapodatnika.xhtml?faces-redirect=true";
         return zwrot;
     }
+    
+    public String wrocGuestfk() {
+        String zwrot = "/guestFaktura/guestFakturaTablica.xhtml?faces-redirect=true";
+        return zwrot;
+    }
     //swiezowpisany uzer nie ma ustawionych parametrow
     private void inicjacjaUz() {
         miesiacWpisu = Data.aktualnyMc();

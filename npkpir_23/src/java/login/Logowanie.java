@@ -88,7 +88,7 @@ public class Logowanie implements Serializable {
                     E.e(e);
                 }
                 request.setAttribute("user", uzytkownik);
-                String lo = request.getRemoteUser();
+                String lo = request.getRemoteUser(); 
                 if (request.isUserInRole("Administrator")) {
                     navto = "Administrator";
                 } else if (request.isUserInRole("Manager")) {

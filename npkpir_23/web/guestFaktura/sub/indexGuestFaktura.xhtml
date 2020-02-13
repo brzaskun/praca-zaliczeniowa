@@ -11,14 +11,15 @@
         <p:focus id="focus" context="panelwyboru"/>
         <p:panel id="panelwyboru" menuTitle="Dane" header="Parametry" style="width: 600px; margin: auto; margin-top: 3%; text-align: center;">
             <f:facet name="header">
-                <h:outputText value="W celu rozpoczęcia przeglądania zestawień i dokumentów proszę wybrac rok i miesiąc" style="display: block; text-align: center"/>
+                <h:outputText value="W celu rozpoczęcia przeglądania zestawień i dokumentów proszę wybrac rok i miesiącaa" style="display: block; text-align: center"/>
             </f:facet>
             <p:graphicImage url="/resources/images/ksiegi.jpg"/>
             <p></p>
             <p:panelGrid columns="4">
                 <p:column >
-                    <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 280px;">
-                        <f:selectItems value="#{multiuserView.listawyboru}" var="p" itemLabel="#{p.printnazwa}" itemValue="#{p.nazwapelna}"/>
+                    <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikObiekt}" style="width: 280px;" converter="#{podatConv}">
+                        <f:selectItems value="#{multiuserView.listawyboru}" var="p" itemLabel="#{p.printnazwa}" itemValue="#{p}"/>
+                        <p:ajax event="change" partialSubmit="true" global="false"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 100px;">
@@ -27,7 +28,7 @@
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}"  style="width: 100px;">
                     <f:selectItems value="#{Mce.mceList}"/>
                 </p:selectOneMenu>
-                <p:commandButton action="/guestFaktura/guestFakturaTablica.xhtml?faces-redirect=true" value="#{mgs.wybierzmcrok}" actionListener="#{WpisView.wpisAktualizuj()}" accesskey="s" style="height: 40px"/>
+                <p:commandButton action="#{WpisView.wrocGuestfk()}" value="#{mgs.wybierzmcrok}" actionListener="#{WpisView.wpisAktualizuj()}" accesskey="s" style="height: 40px" ajax="false"/>
             </p:panelGrid>
             <f:facet name="footer" >
                 <h:outputText style="display: block; text-align: center" value="Po wybraniu roku i miesiąca zostaniesz przekierowany do zapisów księgowych z tego okresu."/>
