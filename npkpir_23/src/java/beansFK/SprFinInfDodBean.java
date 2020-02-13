@@ -180,22 +180,39 @@ public class SprFinInfDodBean {
         PdfWriter writer = inicjacjaWritera(document, nazwa);
         naglowekStopkaP(writer);
         otwarcieDokumentu(document, nazwa);
-        SprFinSprawZarzaduBeanTXT.naglowekglowny(document, sprFinKwotyInfDod, wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getMiejscowosc(), wpisView.getPodatnikObiekt().getImie());
-        dodajSzczegolySprZarz(document, sprFinKwotyInfDod);;
+        if (wpisView.getPodatnikObiekt().isJestwlikiwdacji()) {
+            SprFinSprawZarzaduBeanTXT.naglowekglownyL(document, sprFinKwotyInfDod, wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getMiejscowosc(), wpisView.getPodatnikObiekt().getImie());
+            dodajSzczegolySprZarzL(document, sprFinKwotyInfDod, wpisView.getRokWpisuSt());
+        } else {
+            SprFinSprawZarzaduBeanTXT.naglowekglowny(document, sprFinKwotyInfDod, wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getMiejscowosc(), wpisView.getPodatnikObiekt().getImie());
+            dodajSzczegolySprZarz(document, sprFinKwotyInfDod, wpisView.getRokWpisuSt());
+        }
+        
         finalizacjaDokumentuQR(document,nazwa);
         String f = null;
         f = "pokazwydruk('"+nazwa+"');";
         PrimeFaces.current().executeScript(f);
     }
     
-    private static void dodajSzczegolySprZarz(Document document, SprFinKwotyInfDod sprFinKwotyInfDod) {
-        SprFinSprawZarzaduBeanTXT.podnaglowek1(document, sprFinKwotyInfDod.getPpdzialalnosci());
+    private static void dodajSzczegolySprZarz(Document document, SprFinKwotyInfDod sprFinKwotyInfDod, String rok) {
+        SprFinSprawZarzaduBeanTXT.podnaglowek1(document, sprFinKwotyInfDod.getPpdzialalnosci(), rok);
         SprFinSprawZarzaduBeanTXT.podnaglowek2(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getZyskstratanetto(), sprFinKwotyInfDod.getSumabilansowa(), sprFinKwotyInfDod.getDatado());
         SprFinSprawZarzaduBeanTXT.podnaglowek3(document);
         SprFinSprawZarzaduBeanTXT.podnaglowek4(document);
         SprFinSprawZarzaduBeanTXT.podnaglowek5(document);
         SprFinSprawZarzaduBeanTXT.podnaglowek6(document);
         SprFinSprawZarzaduBeanTXT.podnaglowek7(document);
+        
+    }
+    
+    private static void dodajSzczegolySprZarzL(Document document, SprFinKwotyInfDod sprFinKwotyInfDod, String rok) {
+        SprFinSprawZarzaduBeanTXT.podnaglowek1L(document, sprFinKwotyInfDod.getPpdzialalnosci(), rok);
+        SprFinSprawZarzaduBeanTXT.podnaglowek2(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getZyskstratanetto(), sprFinKwotyInfDod.getSumabilansowa(), sprFinKwotyInfDod.getDatado());
+        SprFinSprawZarzaduBeanTXT.podnaglowek3L(document);
+        SprFinSprawZarzaduBeanTXT.podnaglowek4L(document);
+        SprFinSprawZarzaduBeanTXT.podnaglowek5L(document);
+        SprFinSprawZarzaduBeanTXT.podnaglowek6L(document);
+        SprFinSprawZarzaduBeanTXT.podnaglowek7L(document);
         
     }
     

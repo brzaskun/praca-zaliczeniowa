@@ -127,9 +127,9 @@ public class SprFinUchwalyBeanTXT {
     }
      
      static void podnaglowek7(Document document) {
-         PdfMain.dodajLinieOpisu(document, "", Element.ALIGN_LEFT);
+        PdfMain.dodajLinieOpisu(document, "", Element.ALIGN_LEFT);
         PdfMain.dodajLinieOpisu(document, ".............................", Element.ALIGN_LEFT);
-        PdfMain.dodajLinieOpisu(document, "Za zarząd", Element.ALIGN_LEFT);
+        PdfMain.dodajLinieOpisu(document, "Za zarząd/likwidatora", Element.ALIGN_LEFT);
     }
      
      static void naglowekglowny1a(Document document, String rok, String datasporzadzenia, String nazwa, String siedziba, String dataod, String datado, double zyskstrata, String nrkrs) {

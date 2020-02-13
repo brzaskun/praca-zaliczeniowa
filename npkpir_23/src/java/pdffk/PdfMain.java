@@ -218,7 +218,7 @@ public class PdfMain {
     public static void otwarcieDokumentu(Document document, String tytul) {
         document.addTitle(tytul);
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
-        document.addSubject("Wydruk danych z programu księgowego");
+        document.addSubject("sprawozdanie zarządu spółki klienta");
         document.addKeywords("PKPiR, PDF");
         document.addCreator("Grzegorz Grzelczyk");
         document.open();
