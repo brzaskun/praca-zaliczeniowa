@@ -48,16 +48,8 @@ public class TabelanbpDAO extends DAO implements Serializable {
    }
     public  List<Tabelanbp> findKursyRokNBP(String rok){
         try {
-            List<Tabelanbp> kursyrok = tabelanbpFacade.findAll(Tabelanbp.class);
-            List<Tabelanbp> nowalista = Collections.synchronizedList(new ArrayList<>());
-            Iterator it = kursyrok.iterator();
-            while (it.hasNext()) {
-                Tabelanbp p = (Tabelanbp) it.next();
-                String rokp = p.getDatatabeli().substring(0,4);
-                if (rokp.equals(rok)&&p.isRecznie()==false) {
-                    nowalista.add(p);
-                }
-            }
+            String rok1 = rok+"%";
+            List<Tabelanbp> nowalista = tabelanbpFacade.getEntityManager().createNamedQuery("Tabelanbp.findAllRok").setParameter("rok", rok1).getResultList();
             return nowalista;
         } catch (Exception e) { E.e(e); 
             return null;
@@ -66,16 +58,8 @@ public class TabelanbpDAO extends DAO implements Serializable {
     
     public  List<Tabelanbp> findKursyRokNieNBP(String rok){
         try {
-            List<Tabelanbp> kursyrok = tabelanbpFacade.findAll(Tabelanbp.class);
-            List<Tabelanbp> nowalista = Collections.synchronizedList(new ArrayList<>());
-            Iterator it = kursyrok.iterator();
-            while (it.hasNext()) {
-                Tabelanbp p = (Tabelanbp) it.next();
-                String rokp = p.getDatatabeli().substring(0,4);
-                if (rokp.equals(rok)&&p.isRecznie()==true) {
-                    nowalista.add(p);
-                }
-            }
+            String rok1 = rok+"%";
+            List<Tabelanbp> nowalista = tabelanbpFacade.getEntityManager().createNamedQuery("Tabelanbp.findAllRokRecznie").setParameter("rok", rok1).getResultList();
             return nowalista;
         } catch (Exception e) { E.e(e); 
             return null;

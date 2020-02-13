@@ -50,7 +50,7 @@
                     </p:inputNumber>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-disk" actionListener="#{walutyViewFK.dodajkurs(wpis)}" global="false" id="zapiswalutarecznie"  update=":formwpisdokument:dataList">
+                    <p:commandButton icon="ui-icon-disk" actionListener="#{walutyViewFK.dodajkurs(wpis, WpisView.podatnikObiekt)}" global="false" id="zapiswalutarecznie"  update=":formwpisdokument:dataList">
                     </p:commandButton>
                 </p:column>
             </p:dataTable>

@@ -11,7 +11,7 @@
         <p:ajax event="open" listener="#{walutyViewFK.init()}" global="false" update="formkursreczniepobierz"/>
         <h:form id="formkursreczniepobierz">
             <p:outputPanel style="padding: 10px; margin-bottom: 10px;">
-                <h:outputText value="pobieranie jednej tabeli z internetu" style="font-weight: 900"/>
+                <h:outputText value="pobieranie jednej tabeli z internetu" style="font-weight: 900; color: green;"/>
             <p:panelGrid columns="2">
                 <h:outputText value="data tabeli"/>
                 <p:inputText value="#{walutyViewFK.datawstepna}" placeholder="rrrr-mm-dd" maxlength="10" size="10"/>
@@ -22,12 +22,13 @@
             </p:outputPanel>
         </h:form>
         <h:form id="formkursrecznie">
+            <h:outputText value="dodawanie pojedyńczej tabeli ręcznie - kurs własny" style="font-weight: 900; color: green;"/>
             <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 830px;">
                 <p:column headerText="nr tabeli" width="100" style="text-align: center; height: 25px;">
-                    <p:inputMask id="kodPole" value="#{wpis.nrtabeli}" onblur="weryfikujnumertabeli()" mask="999/a/aaa/9999" slotChar="###/A/NBP/rrrr"/>
+                    <p:inputMask id="kodPole" value="#{wpis.nrtabeli}" onblur="weryfikujnumertabeli()" mask="999/a/aaa/9999" slotChar="###/A/NBP/rrrr" size="16"/>
                 </p:column>
                 <p:column headerText="data tabeli" width="100" style="text-align: center;">
-                    <p:inputText id="datakurs" value="#{wpis.datatabeli}" style="width: 100px;" onblur="weryfikujdatekursreczny()" placeholder="rrrr-mm-dd" maxlength="10"/>
+                    <p:inputText id="datakurs" value="#{wpis.datatabeli}" style="width: 100px;" onblur="weryfikujdatekursreczny(#{WpisView.rokWpisuSt})" placeholder="rrrr-mm-dd" maxlength="10"/>
                 </p:column>
                 <p:column headerText="symbol waluty" width="100" style="text-align: center;">
                     <p:selectOneMenu value="#{wpis.waluta}" converter="#{walutyConv}">
@@ -41,7 +42,7 @@
                     </p:inputNumber>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-disk" actionListener="#{walutyViewFK.dodajkurs(wpis)}" update="formkursrecznie :wprowadzonekursy :wprowadzonekursyrecznie"
+                    <p:commandButton icon="ui-icon-disk" actionListener="#{walutyViewFK.dodajkurs(wpis, WpisView.podatnikObiekt)}" update="formkursrecznie :wprowadzonekursy :wprowadzonekursyrecznie"
                 />
                 </p:column>
             </p:dataTable>

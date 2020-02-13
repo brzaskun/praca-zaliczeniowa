@@ -4,6 +4,7 @@
  */
 package entityfk;
 
+import entity.Podatnik;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -36,6 +37,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Tabelanbp.findAll", query = "SELECT t FROM Tabelanbp t"),
+    @NamedQuery(name = "Tabelanbp.findAllRok", query = "SELECT t FROM Tabelanbp t WHERE t.datatabeli LIKE :rok"),
+    @NamedQuery(name = "Tabelanbp.findAllRokRecznie", query = "SELECT t FROM Tabelanbp t WHERE t.datatabeli LIKE :rok AND t.recznie = 1"),
     @NamedQuery(name = "Tabelanbp.findByIdtabelanbp", query = "SELECT t FROM Tabelanbp t WHERE t.idtabelanbp = :idtabelanbp"),
     @NamedQuery(name = "Tabelanbp.findByDatatabeli", query = "SELECT t FROM Tabelanbp t WHERE t.datatabeli = :datatabeli"),
     @NamedQuery(name = "Tabelanbp.findByKurssredni", query = "SELECT t FROM Tabelanbp t WHERE t.kurssredni = :kurssredni"),
@@ -81,6 +84,8 @@ public class Tabelanbp implements Serializable {
     //natomiast dla wyciagow bankowych jest inaczej tam liczy sie kazdy wiersz
     @OneToMany(mappedBy = "tabelanbp", fetch = FetchType.LAZY)
     private List<Wiersz> Wiersze;
+    @JoinColumn(name = "podid", referencedColumnName = "id")
+    private Podatnik podatnik;
 
     public Tabelanbp() {
     }
@@ -167,6 +172,14 @@ public class Tabelanbp implements Serializable {
 
     public void setRecznie(boolean recznie) {
         this.recznie = recznie;
+    }
+
+    public Podatnik getPodatnik() {
+        return podatnik;
+    }
+
+    public void setPodatnik(Podatnik podatnik) {
+        this.podatnik = podatnik;
     }
     
     

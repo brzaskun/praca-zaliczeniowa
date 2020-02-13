@@ -9,6 +9,7 @@ import comparator.Tabelanbpcomparator;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.WierszDAO;
+import entity.Podatnik;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import entityfk.Wiersz;
@@ -214,10 +215,11 @@ public class WalutyViewFK implements Serializable {
         }
     }
     
-    public void dodajkurs(Tabelanbp tabelanbp) {
+    public void dodajkurs(Tabelanbp tabelanbp, Podatnik podatnik) {
         try {
             tabelanbp.setNrtabeli(tabelanbp.getNrtabeli().toUpperCase(new Locale("PL")));
             tabelanbp.setRecznie(true);
+            tabelanbp.setPodatnik(podatnik);
             tabelanbpDAO.dodaj(tabelanbp);
             wprowadzonekursyRok.add(tabelanbp);
             dokfkView.zamienkursnareczny(tabelanbp);

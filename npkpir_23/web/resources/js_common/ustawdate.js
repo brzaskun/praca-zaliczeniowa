@@ -229,7 +229,7 @@ function ustawDateFK(rok,mc, koncowkaadresu, zapisz0edytuj1){
         if (!testw.match(re)){
             dataWyst.value = "b\u0142ędna data";
             r("formkursrecznie:dataKursReczny:0:zapiswalutarecznie").hide();
-        } else if (testw.split("-")[0] !== rokwpisu) {
+        } else if (testw.split("-")[0] != rokwpisu) {
             dataWyst.value = "b\u0142ędny rok";
             r("formkursrecznie:dataKursReczny:0:zapiswalutarecznie").hide();
         } else {
