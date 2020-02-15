@@ -8,7 +8,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
 
     <p:dialog id="dialog_vatzd" header="Ulga na złe długi - rozliczenie dla firmy #{WpisView.podatnikObiekt.printnazwa} za okres #{WpisView.rokWpisuSt}/#{WpisView.miesiacWpisu}" widgetVar="dialog_vatzd" resizable="false" 
-              onShow="ustawdialog('dialog_vatzd','menurejestry',1300,700);"  modal="true" appendTo="@(body)"
+              onShow="ustawdialog('dialog_vatzd','menurejestry',1300,700);"  modal="true" appendTo="@(body)" style="overflow-y: hidden;"
               closeOnEscape="true">
         <p:ajax event="open" listener="#{jPK_VAT2View.init()}" update="form_dialog_vatzd"/>
         <ui:include src="../../../wspolny/wspolnyVATZD.xhtml"/>
