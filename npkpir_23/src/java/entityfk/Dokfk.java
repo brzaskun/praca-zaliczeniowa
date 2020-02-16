@@ -745,9 +745,10 @@ public class Dokfk extends DokSuper implements Serializable {
         for (StronaWiersza p : this.getStronyWierszy()) {
             if (p.isNowatransakcja()) {
                 suma = Z.z(p.getPozostalo());
+                break;
             }
         }
-        return suma;
+        return Z.z(suma);
     }
     
     public String getOpisDokfkUsun() {

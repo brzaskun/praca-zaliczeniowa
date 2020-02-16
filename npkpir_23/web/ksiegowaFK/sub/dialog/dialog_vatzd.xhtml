@@ -6,11 +6,16 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:bcf="http://brzaskun.com/facelets">
-
+    <style>
+        .ui-dialog-content .ui-widget-content {
+            overflow-y: hidden;
+        }
+    </style>
     <p:dialog id="dialog_vatzd" header="Ulga na złe długi - rozliczenie dla firmy #{WpisView.podatnikObiekt.printnazwa} za okres #{WpisView.rokWpisuSt}/#{WpisView.miesiacWpisu}" widgetVar="dialog_vatzd" resizable="false" 
-              onShow="ustawdialog('dialog_vatzd','menurejestry',1300,700);"  modal="true" appendTo="@(body)" style="overflow-y: hidden;"
+              onShow="ustawdialog('dialog_vatzd','menurejestry',1300,700);"  modal="true" appendTo="@(body)"
               closeOnEscape="true">
         <p:ajax event="open" listener="#{jPK_VAT2View.init()}" update="form_dialog_vatzd"/>
+        <p:ajax event="open" listener="#{vATZDView.init()}"/>
         <ui:include src="../../../wspolny/wspolnyVATZD.xhtml"/>
     </p:dialog>
 </ui:composition> 

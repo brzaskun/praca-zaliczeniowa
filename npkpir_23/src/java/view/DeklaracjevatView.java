@@ -13,11 +13,13 @@ import dao.DeklaracjevatDAO;
 import dao.PodatnikDAO;
 import dao.SMTPSettingsDAO;
 import dao.SchemaEwidencjaDAO;
+import dao.WniosekVATZDEntityDAO;
 import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Deklaracjevat;
+import entity.WniosekVATZDEntity;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import error.E;
@@ -73,6 +75,8 @@ public class DeklaracjevatView implements Serializable {
     private SMTPSettingsDAO sMTPSettingsDAO;
     @Inject
     private KontoDAOfk kontoDAOfk;
+    @Inject
+    private WniosekVATZDEntityDAO wniosekVATZDEntityDAO;
     private boolean pokazZT;
     private boolean pokazZZ;
     private boolean pokazprzyciskpodpis;

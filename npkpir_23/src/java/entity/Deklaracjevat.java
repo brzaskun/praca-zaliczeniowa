@@ -79,7 +79,7 @@ public class Deklaracjevat extends DeklSuper implements Serializable {
     @Lob
     @Column(name = "schemawierszsumarycznylista")
     private List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista;
-    @OneToOne
+    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "wniosekVATZDEntity", referencedColumnName = "id")
     private WniosekVATZDEntity wniosekVATZDEntity;
     @Transient

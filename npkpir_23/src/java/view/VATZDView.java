@@ -63,7 +63,6 @@ public class VATZDView implements Serializable {
 
 
     
-    @PostConstruct
     public void init() { //E.m(this);
         pozycje.addAll(vatzddao.findByPodatnikRokMcFK(wpisView));
         dokumentyfksprzedaz = dokDAOfk.findDokfkPodatnikRokMcVAT(wpisView);
