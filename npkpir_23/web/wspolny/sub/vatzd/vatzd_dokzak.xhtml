@@ -7,42 +7,42 @@
     xmlns:bcf="http://brzaskun.com/facelets">
 
     
-    <p:tab title="sprzedaż">
+    <p:tab title="zakup">
         <p:panelGrid columns="5">
             <p:column>
-                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 60px;">
+                <p:selectOneMenu id="rokWpisuz" value="#{WpisView.rokWpisu}" style="width: 60px;">
                             <p:ajax event="change" listener="#{vATZDView.rokinit}" partialSubmit="true"
                                     onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
-                                    update="form_dialog_vatzd:akordeon:dataList" />
+                                    update="form_dialog_vatzd:akordeon:dataListzak" />
                             <f:selectItems value="#{Roki.rokiList}"/>
                         </p:selectOneMenu>
             </p:column>
             <p:column>
-                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 60px;">
+                <p:selectOneMenu id="miesiacWpisuz" value="#{WpisView.miesiacWpisu}" style="width: 60px;">
                             <p:ajax event="change" listener="#{vATZDView.init}" partialSubmit="true"
                                     onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
-                                    update="form_dialog_vatzd:akordeon:dataList" />
+                                    update="form_dialog_vatzd:akordeon:dataListzak" />
                             <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR" />
                             <f:selectItems value="#{Mce.mceList}"/>
                         </p:selectOneMenu>
                     </p:column>
-                <p:commandButton id="wybierzdok" value="wybierz" actionListener="#{vATZDView.wybierzdokumentyfk()}" 
+                <p:commandButton id="wybierzdokz" value="wybierz" actionListener="#{vATZDView.wybierzdokumentyfk()}" 
                                  style="width: 120px; margin-left: 10px;"
-                                 update="form_dialog_vatzd:akordeon:dataList form_dialog_vatzd:akordeon:dataListzak  form_dialog_vatzd:akordeon:tabelawybrane"
+                                 update="form_dialog_vatzd:akordeon:dataListzak form_dialog_vatzd:akordeon:dataList form_dialog_vatzd:akordeon:tabelawybrane"
                                  />
                 <h:outputText value="tylko wybrane"/>
                               <p:selectBooleanCheckbox  valueChangeListener="#{vATZDView.wybierzwybrane}" 
                                                        style="width: 120px; margin-left: 10px;" value="#{vATZDView.tylkowybrane}"
                                  >
-                                  <p:ajax event="change" partialSubmit="true" update="form_dialog_vatzd:akordeon:dataList"/>
+                                  <p:ajax event="change" partialSubmit="true" update="form_dialog_vatzd:akordeon:dataListzak"/>
                     </p:selectBooleanCheckbox>
         </p:panelGrid>
-         <p:dataTable id="dataList" value="#{vATZDView.dokumentyfksprzedaz}" var="itemzd" rowIndexVar="row" widgetVar="tablicadokumenty" 
-                         selection="#{vATZDView.dokumentyfksprzedazselected}" rowKey="#{itemzd.dokfkSN}"
-                         style="width: 1240px; height: 550px; overflow-y: scroll;" filteredValue="#{vATZDView.dokumentyfksprzedazfiltered}" 
-                         rowsPerPageTemplate="50,100,300,500" paginatorPosition="top" 
+        <p:dataTable id="dataListzak" value="#{vATZDView.dokumentyfkzakup}" var="itemzdzak" rowIndexVar="row" widgetVar="tablicadokumenty" 
+                     selection="#{vATZDView.dokumentyfkzakupselected}" rowKey="#{itemzdzak.dokfkSN}"
+                     style="width: 1240px; height: 550px; overflow-y: scroll;" filteredValue="#{vATZDView.dokumentyfkzakupfiltered}" 
+                         rowsPerPageTemplate="50,100,300,500" paginatorPosition="top"
                          emptyMessage="Brak dokumentów z niezerową ewidencją vat" styleClass="walkingtable" rowSelectMode="add"
-                         rows="500" paginator="true"
+                         rows="50" paginator="true"
                          >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
                 <p:ajax event="filter" global="false"/>
@@ -57,63 +57,63 @@
                     
                 </p:column>
                 <p:column styleClass="kolwi" width="10" style="height: 40px; text-align: center;" >
-                    <p:rowToggler rendered="#{itemzd.ewidencjaVAT.size() gt 0}" id="roe"/>
+                    <p:rowToggler rendered="#{itemzdzak.ewidencjaVAT.size() gt 0}" id="roe"/>
                 </p:column>
-                <p:column headerText="#{mgs.datadok}" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{itemzd.datadokumentu}" filterBy="#{itemzd.datadokumentu}" filterMatchMode="contains" >
-                    <h:outputText value="#{itemzd.datadokumentu}"  style="#{itemzd.datadokumentu.split('-')[1] ne WpisView.miesiacWpisu ? 'color: red;': null}"/>
+                <p:column headerText="#{mgs.datadok}" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{itemzdzak.datadokumentu}" filterBy="#{itemzdzak.datadokumentu}" filterMatchMode="contains" >
+                    <h:outputText value="#{itemzdzak.datadokumentu}"  style="#{itemzdzak.datadokumentu.split('-')[1] ne WpisView.miesiacWpisu ? 'color: red;': null}"/>
                 </p:column>
-<!--                <p:column headerText="nowy nr" styleClass="zaksiegowanewaski" width="70" sortBy="#{itemzd.dokfkLP}" filterBy="#{itemzd.dokfkLP}">
-                    <h:outputText value="#{itemzd.dokfkLP}"/>
+<!--                <p:column headerText="nowy nr" styleClass="zaksiegowanewaski" width="70" sortBy="#{itemzdzak.dokfkLP}" filterBy="#{itemzdzak.dokfkLP}">
+                    <h:outputText value="#{itemzdzak.dokfkLP}"/>
                 </p:column>-->
-                <p:column headerText="#{mgs.symbol}" styleClass="zaksiegowanewaski" width="70" sortBy="#{itemzd.dokfkSN}" 
+                <p:column headerText="#{mgs.symbol}" styleClass="zaksiegowanewaski" width="70" sortBy="#{itemzdzak.dokfkSN}" 
                           sortFunction="#{vATZDView.sortujzaksiegowane}"
-                          filterBy="#{itemzd.dokfkSN}" filterMatchMode="contains">
-                    <h:outputText value="#{itemzd.dokfkSN}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;" rendered="#{itemzd.wniosekVATZDEntity eq null}"/>
-                    <h:outputText value="dokument ujęty w VATZD" rendered="#{itemzd.wniosekVATZDEntity ne null}" style="color:red;"/>
+                          filterBy="#{itemzdzak.dokfkSN}" filterMatchMode="contains">
+                    <h:outputText value="#{itemzdzak.dokfkSN}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;" rendered="#{itemzdzak.wniosekVATZDEntity eq null}"/>
+                    <h:outputText value="dokument ujęty w VATZD" rendered="#{itemzdzak.wniosekVATZDEntity ne null}" style="color:red;"/>
                 </p:column>
-                <p:column headerText="#{mgs.kontrahent}" styleClass="zaksiegowanekontr" width="140" sortBy="#{itemzd.kontr.npelna}" filterBy="#{itemzd.kontr.npelna}" >
-                    <h:outputText value="#{itemzd.kontr.npelna}"/>
+                <p:column headerText="#{mgs.kontrahent}" styleClass="zaksiegowanekontr" width="140" sortBy="#{itemzdzak.kontr.npelna}" filterBy="#{itemzdzak.kontr.npelna}" >
+                    <h:outputText value="#{itemzdzak.kontr.npelna}"/>
                 </p:column>
-                <p:column headerText="termin płat." styleClass="zaksiegowanewaski" width="80" sortBy="#{itemzd.terminPlatnosci}" filterBy="#{itemzd.terminPlatnosci}">
-                    <p:inputText value="#{itemzd.terminPlatnosci}" size="10" placeholder="rrrr-dd-mm" rendered="#{itemzd.niezaplacone gt 0.0}" maxlength="10">
-                        <p:ajax event="blur" partialSubmit="true" listener="#{vATZDView.edytujtermin(itemzd)}"/>
+                <p:column headerText="termin płat." styleClass="zaksiegowanewaski" width="80" sortBy="#{itemzdzak.terminPlatnosci}" filterBy="#{itemzdzak.terminPlatnosci}">
+                    <p:inputText value="#{itemzdzak.terminPlatnosci}" size="10" placeholder="rrrr-dd-mm" rendered="#{itemzdzak.niezaplacone gt 0.0}" maxlength="10">
+                        <p:ajax event="blur" partialSubmit="true" listener="#{vATZDView.edytujtermin(itemzdzak)}"/>
                     </p:inputText>
                 </p:column>
                 <p:column headerText="#{mgs.numer}" 
-                          styleClass="zaksiegowanewaski" width="100" sortBy="#{itemzd.numerwlasnydokfk}" filterBy="#{itemzd.numerwlasnydokfk}" filterMatchMode="contains" >
-                    <h:outputText value="#{itemzd.numerwlasnydokfk}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
+                          styleClass="zaksiegowanewaski" width="100" sortBy="#{itemzdzak.numerwlasnydokfk}" filterBy="#{itemzdzak.numerwlasnydokfk}" filterMatchMode="contains" >
+                    <h:outputText value="#{itemzdzak.numerwlasnydokfk}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
                 </p:column>
-                <p:column headerText="#{mgs.opis}" width="120" sortBy="#{itemzd.opisdokfk}" filterBy="#{itemzd.opisdokfk}" filterMatchMode="contains" >
-                    <h:outputText value="#{itemzd.opisdokfk.length() gt 40 ? itemzd.opisdokfk.substring(0,39) : itemzd.opisdokfk}" 
-                                  styleClass="#{itemzd.czyCecha() ? 'zapisZcecha' : null}"/>
+                <p:column headerText="#{mgs.opis}" width="120" sortBy="#{itemzdzak.opisdokfk}" filterBy="#{itemzdzak.opisdokfk}" filterMatchMode="contains" >
+                    <h:outputText value="#{itemzdzak.opisdokfk.length() gt 40 ? itemzdzak.opisdokfk.substring(0,39) : itemzdzak.opisdokfk}" 
+                                  styleClass="#{itemzdzak.czyCecha() ? 'zapisZcecha' : null}"/>
                 </p:column>
                 <p:column headerText="#{mgs.wartość}" 
-                          styleClass="zaksiegowanewaski" width="70" sortBy="#{itemzd.wartoscdokumentu}" filterBy="#{itemzd.wartoscdokumentu}" filterMatchMode="contains" >
-                    <h:outputText value="#{itemzd.wartoscdokumentu}" style="float: right; " id="wartoscdokumentuzest">
+                          styleClass="zaksiegowanewaski" width="70" sortBy="#{itemzdzak.wartoscdokumentu}" filterBy="#{itemzdzak.wartoscdokumentu}" filterMatchMode="contains" >
+                    <h:outputText value="#{itemzdzak.wartoscdokumentu}" style="float: right; " id="wartoscdokumentuzest">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="nierozlicz." 
-                          styleClass="zaksiegowanewaski" width="70" sortBy="#{itemzd.niezaplacone}" filterBy="#{itemzd.niezaplacone}" filterMatchMode="contains" >
-                    <h:outputText value="#{itemzd.niezaplacone}" style="float: right; " rendered="#{itemzd.niezaplacone ne 0.0}">
+                          styleClass="zaksiegowanewaski" width="70" sortBy="#{itemzdzak.niezaplacone}" filterBy="#{itemzdzak.niezaplacone}" filterMatchMode="contains" >
+                    <h:outputText value="#{itemzdzak.niezaplacone}" style="float: right; " rendered="#{itemzdzak.niezaplacone ne 0.0}">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
-                    <h:outputText value="zapłacone w 100%" style="float: right; " rendered="#{itemzd.niezaplacone eq 0.0}">
+                    <h:outputText value="zapłacone w 100%" style="float: right; " rendered="#{itemzdzak.niezaplacone eq 0.0}">
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.waluta}" styleClass="waluta" width="40" sortBy="#{itemzd.walutadokumentu.symbolwaluty}" style="text-align: center;">
-                    <h:outputText value="#{itemzd.walutadokumentu.symbolwaluty ne 'PLN' ? itemzd.walutadokumentu.symbolwaluty : null}" id="walutadokumentuzest"/>
+                <p:column headerText="#{mgs.waluta}" styleClass="waluta" width="40" sortBy="#{itemzdzak.walutadokumentu.symbolwaluty}" style="text-align: center;">
+                    <h:outputText value="#{itemzdzak.walutadokumentu.symbolwaluty ne 'PLN' ? itemzdzak.walutadokumentu.symbolwaluty : null}" id="walutadokumentuzest"/>
                 </p:column>
-                <p:column headerText="#{mgs.VAT}" styleClass="vatzak" width="30" sortBy="#{itemzd.vatM}" style="text-align: center;">
-                    <h:outputText value="#{itemzd.ewidencjaVAT.size() gt 0 ? itemzd.vatM : null}" style="color: #{itemzd.vatM ne itemzd.miesiac ? 'red' : null}" id="vatdokumentuzest"/>
+                <p:column headerText="#{mgs.VAT}" styleClass="vatzak" width="30" sortBy="#{itemzdzak.vatM}" style="text-align: center;">
+                    <h:outputText value="#{itemzdzak.ewidencjaVAT.size() gt 0 ? itemzdzak.vatM : null}" style="color: #{itemzdzak.vatM ne itemzdzak.miesiac ? 'red' : null}" id="vatdokumentuzest"/>
                 </p:column>
                 <p:column width="25" style="text-align: center;" >
-                    <p:commandButton id="drukujbutton" icon="fa fa-print" action="#{sesjaView.dodajwydruk()}" actionListener="#{pdfDokfkView.drukujzaksiegowanydokument(itemzd)}" styleClass="fkbutton"
+                    <p:commandButton id="drukujbutton" icon="fa fa-print" action="#{sesjaView.dodajwydruk()}" actionListener="#{pdfDokfkView.drukujzaksiegowanydokument(itemzdzak)}" styleClass="fkbutton"
                                      update=":formwpisdokument" style="width: 30px;" oncomplete="wydrukzaksiegowane('#{WpisView.podatnikObiekt.nip}');"/>
                 </p:column>
                 <p:rowExpansion>
                     <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" resizable="true">  
-                        <p:dataTable var="subwpis" value="#{itemzd.ewidencjaVAT}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 700px;">
+                        <p:dataTable var="subwpis" value="#{itemzdzak.ewidencjaVAT}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 700px;">
                             <p:column id="SubColumn1" headerText="ewidencja" width="250">  
                                 <h:outputText value="#{subwpis.ewidencja.nazwa}" style="width: 300px;"
                                               rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}" />

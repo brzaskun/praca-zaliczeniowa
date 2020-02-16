@@ -9,7 +9,10 @@
     <p:panelGrid columns="2" styleClass="panelvazd">
         <p:commandButton id="vatzd" value="vatzd" actionListener="#{vATZDView.vatzd()}"
                       style="width: 120px; margin-left: 10px;" rendered="#{vATZDView.wniosekVATZDEntity eq null}"
-                                 update="form_dialog_vatzd:akordeon:dataList @(.panelvazd)"/>
+                                 update="form_dialog_vatzd:akordeon:dataList form_dialog_vatzd:akordeon:dataListzak @(.panelvazd)"/>
+        <p:commandButton  value="odznacz" actionListener="#{vATZDView.vatzdback()}"
+                      style="width: 120px; margin-left: 10px;" rendered="#{vATZDView.wniosekVATZDEntity eq null}"
+                                 update="form_dialog_vatzd:akordeon:dataList form_dialog_vatzd:akordeon:dataListzak @(.panelvazd) form_dialog_vatzd:akordeon:tabelawybrane"/>
      </p:panelGrid>
                 <p:dataTable value="#{vATZDView.pozycje}" var="itemwybr" rowIndexVar="indexw" id="tabelawybrane"
                              style="width: 1240px; height: 550px; overflow-y: scroll;" >

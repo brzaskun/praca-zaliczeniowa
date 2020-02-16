@@ -36,6 +36,7 @@ public class DokSuper  implements Serializable {
     @Transient
     private String terminPlatnosci;
     
+    
 
     public String getTypdokumentu() {
         return typdokumentu;

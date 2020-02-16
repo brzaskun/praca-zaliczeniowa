@@ -56,6 +56,10 @@ public class WniosekVATZDEntity implements Serializable {
     @Size(max = 2)
     @Column(name = "mc")
     private String mc;
+    @Column(name = "naliczonyzmniejszenie")
+    private double naliczonyzmniejszenie;
+    @Column(name = "naliczonyzwiekszenie")
+    private double naliczonyzwiekszenie;
     @ManyToOne
     @JoinColumn(name = "podid", referencedColumnName = "id")
     private Podatnik podatnik;
@@ -140,6 +144,22 @@ public class WniosekVATZDEntity implements Serializable {
 
     public void setDeklaracjevat(List<Deklaracjevat> deklaracjevat) {
         this.deklaracjevat = deklaracjevat;
+    }
+
+    public double getNaliczonyzmniejszenie() {
+        return naliczonyzmniejszenie;
+    }
+
+    public void setNaliczonyzmniejszenie(double naliczonyzmniejszenie) {
+        this.naliczonyzmniejszenie = naliczonyzmniejszenie;
+    }
+
+    public double getNaliczonyzwiekszenie() {
+        return naliczonyzwiekszenie;
+    }
+
+    public void setNaliczonyzwiekszenie(double naliczonyzwiekszenie) {
+        this.naliczonyzwiekszenie = naliczonyzwiekszenie;
     }
 
     

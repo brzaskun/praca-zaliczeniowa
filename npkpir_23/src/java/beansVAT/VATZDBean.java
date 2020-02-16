@@ -91,7 +91,8 @@ public class VATZDBean {
         } catch (Exception ex) {
             E.e(ex);
         }
-        return sw.toString().replaceAll("\n|\r", "").substring(sw.toString().replaceAll("\n|\r", "").indexOf(">")+1);
+        String zwrot = sw.toString().replaceAll("\n|\r", "").substring(sw.toString().replaceAll("\n|\r", "").indexOf(">")+1);
+        return zwrot;
     }
     
     public static void marszajuldoplikuxml(WniosekVATZD dekl) {
