@@ -153,10 +153,16 @@ public class VATZDView implements Serializable {
             String zalacznik = null;
             if (!pozycje.isEmpty()) {
                 List pozycjesprzedaz = przetworzpozycje(pozycje);
-                wniosekVATZDsprzedaz = VATZDBean.createVATZD(pozycjesprzedaz);
-                zalacznik = VATZDBean.marszajuldoStringu(wniosekVATZDsprzedaz);
+                if (!pozycjesprzedaz.isEmpty()) {
+                    wniosekVATZDsprzedaz = VATZDBean.createVATZD(pozycjesprzedaz);
+                    zalacznik = VATZDBean.marszajuldoStringu(wniosekVATZDsprzedaz);
+                } else {
+                    wniosekVATZDsprzedaz = null;
+                    zalacznik = null;
+                }
             } else {
                 wniosekVATZDsprzedaz = null;
+                zalacznik = null;
             }
             wniosekVATZDEntity = new WniosekVATZDEntity();
             wniosekVATZDEntity.setZawierafk(new ArrayList<>());

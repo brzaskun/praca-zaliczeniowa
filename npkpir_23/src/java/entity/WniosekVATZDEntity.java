@@ -217,7 +217,7 @@ public class WniosekVATZDEntity implements Serializable {
     
     public int getNetto() {
         int zwrot = 0;
-        if (this.wniosek.getClass().equals(deklaracje.vatzd.WniosekVATZD.class)) {
+        if (this.wniosek!=null && this.wniosek.getClass().equals(deklaracje.vatzd.WniosekVATZD.class)) {
             zwrot = ((deklaracje.vatzd.WniosekVATZD)this.wniosek).getPozycjeSzczegolowe().getP10().intValue();
         }
         return zwrot;
@@ -225,7 +225,7 @@ public class WniosekVATZDEntity implements Serializable {
     
     public int getVat() {
         int zwrot = 0;
-        if (this.wniosek.getClass().equals(deklaracje.vatzd.WniosekVATZD.class)) {
+        if (this.wniosek!=null && this.wniosek.getClass().equals(deklaracje.vatzd.WniosekVATZD.class)) {
             zwrot = ((deklaracje.vatzd.WniosekVATZD)this.wniosek).getPozycjeSzczegolowe().getP11().intValue();
         }
         return zwrot;

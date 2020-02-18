@@ -64,12 +64,23 @@ public class VATDeklaracja implements Serializable {
         }
     }
     
-    public static void przyporzadkujPozycjeSzczegoloweNowe(List<SchemaEwidencja> schemaewidencjalista, List<EVatwpisSuma> wyciagnieteewidencje, PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT, Integer nowaWartoscVatZPrzeniesienia) {
+    public static void przyporzadkujPozycjeSzczegoloweNowe(List<SchemaEwidencja> schemaewidencjalista, List<EVatwpisSuma> wyciagnieteewidencje, PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT, Integer nowaWartoscVatZPrzeniesienia,
+            int korektanaliczonyzmniejszajaca, int korektanaliczonyzwiekszajaca) {
         List<EwidPoz> pozycje = Collections.synchronizedList(new ArrayList<>());
         for (EVatwpisSuma ew : wyciagnieteewidencje) {
             SchemaEwidencja se = szukaniewieszaSchemy(schemaewidencjalista, ew.getEwidencja());
             SchemaEwidencja sm = se.getSchemamacierzysta();
             pozycje.add(new EwidPoz(se, sm, ew.getNetto(), ew.getVat(), ew.getEwidencja().isTylkoNetto()));
+        }
+        if (korektanaliczonyzmniejszajaca!=0.0) {
+            SchemaEwidencja se = szukaniewieszaSchemyByOpis(schemaewidencjalista, "ulga na złe długi naliczony art. 89b ust.1");
+            SchemaEwidencja sm = se.getSchemamacierzysta();
+            pozycje.add(new EwidPoz(se, sm, BigDecimal.ZERO , new BigDecimal(korektanaliczonyzmniejszajaca), false));
+        }
+        if (korektanaliczonyzwiekszajaca!=0.0) {
+            SchemaEwidencja se = szukaniewieszaSchemyByOpis(schemaewidencjalista, "ulga na złe długi naliczony art. 89b ust.4");
+            SchemaEwidencja sm = se.getSchemamacierzysta();
+            pozycje.add(new EwidPoz(se, sm, BigDecimal.ZERO, new BigDecimal(korektanaliczonyzwiekszajaca), false));
         }
         for (EwidPoz ew : pozycje) {
             try {
@@ -179,6 +190,15 @@ public class VATDeklaracja implements Serializable {
         }
     }
     
+    private static SchemaEwidencja szukaniewieszaSchemyByOpis(List<SchemaEwidencja> schemaewidencjalista, String nazwa) {
+        SchemaEwidencja s = null;
+        for (SchemaEwidencja p : schemaewidencjalista) {
+            if (p.getEvewidencja().getNazwa().equals(nazwa)) {
+                s = p;
+            }
+        }
+        return s;
+    }
     
         
     private static SchemaEwidencja szukaniewieszaSchemy(List<SchemaEwidencja> schemaewidencjalista, Evewidencja evewidencja) {

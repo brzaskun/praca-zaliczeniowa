@@ -324,7 +324,8 @@ public class EwidencjaVatView implements Serializable {
             wyluskajzlisty(listaprzesunietychBardziejPrzychody, "przychody");
             sumaprzesunietychBardziejPrzychody = sumujprzesuniete(listaprzesunietychBardziejPrzychody);
             przejrzyjEVatwpis1Lista();
-            dodajwierszeVATZDsprzedaz(wniosekVATZDEntity);
+            dodajwierszeVATZD(wniosekVATZDEntity);
+            
             stworzenieEwidencjiCzescWspolnaFK();
             for (String k : listaewidencji.keySet()) {
                 nazwyewidencji.add(k);
@@ -423,18 +424,20 @@ public class EwidencjaVatView implements Serializable {
         //drukuj ewidencje
     }
 
-    private void dodajwierszeVATZDsprzedaz(WniosekVATZDEntity wniosekVATZDEntity) {
+    private void dodajwierszeVATZD(WniosekVATZDEntity wniosekVATZDEntity) {
         List<EVatwpisSuper> nowa = Collections.synchronizedList(new ArrayList<>());
         if (wniosekVATZDEntity != null) {
             for (Dokfk d : wniosekVATZDEntity.getZawierafk()) {
-                List<EVatwpisFK> poz = d.getEwidencjaVAT();
-                for (EVatwpisFK e : poz) {
-                    e.setNetto(-e.getNetto());
-                    e.setVat(-e.getVat());
-                    e.setBrutto(-e.getBrutto());
-                    e.setMcEw(wpisView.getMiesiacWpisu());
-                    e.setRokEw(wpisView.getRokWpisuSt());
-                    nowa.add(e);
+                if (d.getRodzajedok().getKategoriadokumentu()==2) {
+                    List<EVatwpisFK> poz = d.getEwidencjaVAT();
+                    for (EVatwpisFK e : poz) {
+                        e.setNetto(-e.getNetto());
+                        e.setVat(-e.getVat());
+                        e.setBrutto(-e.getBrutto());
+                        e.setMcEw(wpisView.getMiesiacWpisu());
+                        e.setRokEw(wpisView.getRokWpisuSt());
+                        nowa.add(e);
+                    }
                 }
             }
         }
@@ -912,7 +915,7 @@ public class EwidencjaVatView implements Serializable {
         przejrzyjEVatwpis1Lista();
         List<WniosekVATZDEntity> wniosekVATZDEntity = wniosekVATZDEntityDAO.findByPodatnikRokMcFK(podatnik, rok, mc);
         if (wniosekVATZDEntity!=null && wniosekVATZDEntity.size()>0) {
-            dodajwierszeVATZDsprzedaz(wniosekVATZDEntity.get(0));
+            dodajwierszeVATZD(wniosekVATZDEntity.get(0));
         }
         stworzenieEwidencjiCzescWspolnaFK();
         

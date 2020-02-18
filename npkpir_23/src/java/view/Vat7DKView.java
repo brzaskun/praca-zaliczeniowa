@@ -102,6 +102,8 @@ public class Vat7DKView implements Serializable {
     private boolean pierwotnazamiastkorekty;
     private List<SchemaEwidencjaSuma> sumaschemewidencjilista;
     private List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista;
+    private Integer korektanaliczonyzmniejszajaca;
+    private Integer korektanaliczonyzwiekszajaca;
     private Integer przeniesieniezpoprzedniejdeklaracji;
     private Integer zwrot25dni;
     private Integer zwrot60dni;
@@ -238,8 +240,10 @@ public class Vat7DKView implements Serializable {
         pozycjeDeklaracjiVAT.setCelzlozenia("1");
         //tutaj przeklejamy z ewidencji vat do odpowiednich pol deklaracji
         List<SchemaEwidencja> schemaewidencjalista = schemaEwidencjaDAO.findEwidencjeSchemy(pasujacaSchema);
+        korektanaliczonyzmniejszajaca = (int) wniosekVATZDEntity.getNaliczonyzmniejszenie();
+        korektanaliczonyzwiekszajaca = (int) wniosekVATZDEntity.getNaliczonyzwiekszenie();
         wygenerujwierszesumaryczne(schemaewidencjalista, pobraneewidencje, schemawierszsumarycznylista);
-        VATDeklaracja.przyporzadkujPozycjeSzczegoloweNowe(schemaewidencjalista, pobraneewidencje, pozycjeSzczegoloweVAT, null);
+        VATDeklaracja.przyporzadkujPozycjeSzczegoloweNowe(schemaewidencjalista, pobraneewidencje, pozycjeSzczegoloweVAT, null, korektanaliczonyzmniejszajaca, korektanaliczonyzwiekszajaca);
         sumaschemewidencjilista = VATDeklaracja.wyluskajiPrzyporzadkujSprzedaz(schemaewidencjalista, pobraneewidencje);
         deklaracjakorygowana = czynieczekajuzcosdowyslania();
         flaga = zbadajpobranadeklarajce(deklaracjakorygowana);
@@ -272,22 +276,22 @@ public class Vat7DKView implements Serializable {
                         if (przeniesieniezpoprzedniejdeklaracji == null) {
                             Integer kwotazprzeniesienia = pobierz47zpoprzedniejN(deklaracjaPopMc);
                             przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(kwotazprzeniesienia);
-                            naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+kwotazprzeniesienia);
+                            naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+kwotazprzeniesienia+korektanaliczonyzmniejszajaca+korektanaliczonyzwiekszajaca);
                         } else {
                             przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(przeniesieniezpoprzedniejdeklaracji);
-                            naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+przeniesieniezpoprzedniejdeklaracji);
+                            naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+przeniesieniezpoprzedniejdeklaracji+korektanaliczonyzmniejszajaca+korektanaliczonyzwiekszajaca);
                         }
                     } else {
                         if (!wpisView.getPodatnikObiekt().getNip().equals("5263158333")) {
                             if (przeniesieniezpoprzedniejdeklaracji == null) {
                                 Integer kwotazprzeniesienia = pobierz47zustawienN();
                                 przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(kwotazprzeniesienia);
-                                naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+kwotazprzeniesienia);
+                                naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+kwotazprzeniesienia+korektanaliczonyzmniejszajaca+korektanaliczonyzwiekszajaca);
                                 //najpierwszadeklaracja(); nie wiem po co to
                                 Msg.msg("i", "Pobrałem kwotę do przeniesienia z ustawień");
                             } else {
                                 przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(przeniesieniezpoprzedniejdeklaracji);
-                                naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+przeniesieniezpoprzedniejdeklaracji);
+                                naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+przeniesieniezpoprzedniejdeklaracji+korektanaliczonyzmniejszajaca+korektanaliczonyzwiekszajaca);
                                 Msg.msg("i", "Pobrałem kwotę do przeniesienia wpisaną ręcznie");
                             }
                         }
@@ -345,6 +349,8 @@ public class Vat7DKView implements Serializable {
            VATDeklaracja.przyporzadkujPozycjeSzczegoloweSumaryczne(schemawierszsumarycznylista, pozycjeSzczegoloweVAT, null);
         }
     }
+    
+    
     
     private void ustawflagazt(int nż) {
         if (nż == 0) {
@@ -1262,6 +1268,24 @@ public class Vat7DKView implements Serializable {
     public void setNiesprawdzajpoprzednichdeklaracji(boolean niesprawdzajpoprzednichdeklaracji) {
         this.niesprawdzajpoprzednichdeklaracji = niesprawdzajpoprzednichdeklaracji;
     }
+
+    public Integer getKorektanaliczonyzmniejszajaca() {
+        return korektanaliczonyzmniejszajaca;
+    }
+
+    public void setKorektanaliczonyzmniejszajaca(Integer korektanaliczonyzmniejszajaca) {
+        this.korektanaliczonyzmniejszajaca = korektanaliczonyzmniejszajaca;
+    }
+
+    public Integer getKorektanaliczonyzwiekszajaca() {
+        return korektanaliczonyzwiekszajaca;
+    }
+
+    public void setKorektanaliczonyzwiekszajaca(Integer korektanaliczonyzwiekszajaca) {
+        this.korektanaliczonyzwiekszajaca = korektanaliczonyzwiekszajaca;
+    }
+
+    
 
     
     
