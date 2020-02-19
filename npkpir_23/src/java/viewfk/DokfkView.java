@@ -677,6 +677,12 @@ public class DokfkView implements Serializable {
                     if (selected.getRodzajedok().getRodzajtransakcji().equals("sprzedaz")&&listaewidencjipodatnika!=null && listaewidencjipodatnika.size()>0){
                         opisewidencji = reorganizujewidencje(opisewidencji, listaewidencjipodatnika);
                     }
+                   for (Iterator<Evewidencja> it = opisewidencji.iterator(); it.hasNext();) {
+                        Evewidencja p = it.next();
+                        if (p.getNazwa().contains("ulga na złe długi")) {
+                            it.remove();;
+                        }
+                    }
                     for (Evewidencja p : opisewidencji) {
                         if(selected.isDwarejestry() && czyrozjechalysiemce()) {
                             EVatwpisFK pierwszaewid = new EVatwpisFK(k++, p, selected);

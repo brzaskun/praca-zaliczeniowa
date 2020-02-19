@@ -240,8 +240,10 @@ public class Vat7DKView implements Serializable {
         pozycjeDeklaracjiVAT.setCelzlozenia("1");
         //tutaj przeklejamy z ewidencji vat do odpowiednich pol deklaracji
         List<SchemaEwidencja> schemaewidencjalista = schemaEwidencjaDAO.findEwidencjeSchemy(pasujacaSchema);
-        korektanaliczonyzmniejszajaca = (int) wniosekVATZDEntity.getNaliczonyzmniejszenie();
-        korektanaliczonyzwiekszajaca = (int) wniosekVATZDEntity.getNaliczonyzwiekszenie();
+        if (wniosekVATZDEntity!=null) {
+            korektanaliczonyzmniejszajaca = (int) wniosekVATZDEntity.getNaliczonyzmniejszenie();
+            korektanaliczonyzwiekszajaca = (int) wniosekVATZDEntity.getNaliczonyzwiekszenie();
+        }
         wygenerujwierszesumaryczne(schemaewidencjalista, pobraneewidencje, schemawierszsumarycznylista);
         VATDeklaracja.przyporzadkujPozycjeSzczegoloweNowe(schemaewidencjalista, pobraneewidencje, pozycjeSzczegoloweVAT, null, korektanaliczonyzmniejszajaca, korektanaliczonyzwiekszajaca);
         sumaschemewidencjilista = VATDeklaracja.wyluskajiPrzyporzadkujSprzedaz(schemaewidencjalista, pobraneewidencje);

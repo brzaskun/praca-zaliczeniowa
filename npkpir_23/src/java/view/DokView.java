@@ -413,6 +413,12 @@ public class DokView implements Serializable {
                 List<Evewidencja> opisewidencji = Collections.synchronizedList(new ArrayList<>());
                 selDokument.setDokumentProsty(false);
                 opisewidencji.addAll(listaEwidencjiVat.pobierzEvewidencje(transakcjiRodzaj));
+                for (Iterator<Evewidencja> it = opisewidencji.iterator(); it.hasNext();) {
+                    Evewidencja p = it.next();
+                    if (p.getNazwa().contains("ulga na złe długi")) {
+                        it.remove();;
+                    }
+                }
                 if (selDokument.getRodzajedok().getRodzajtransakcji().equals("sprzedaz")&&listaewidencjipodatnika!=null && listaewidencjipodatnika.size()>0){
                         opisewidencji = reorganizujewidencje(opisewidencji, listaewidencjipodatnika);
                 }

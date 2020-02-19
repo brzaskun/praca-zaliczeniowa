@@ -65,19 +65,19 @@ public class VATDeklaracja implements Serializable {
     }
     
     public static void przyporzadkujPozycjeSzczegoloweNowe(List<SchemaEwidencja> schemaewidencjalista, List<EVatwpisSuma> wyciagnieteewidencje, PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT, Integer nowaWartoscVatZPrzeniesienia,
-            int korektanaliczonyzmniejszajaca, int korektanaliczonyzwiekszajaca) {
+            Integer korektanaliczonyzmniejszajaca, Integer korektanaliczonyzwiekszajaca) {
         List<EwidPoz> pozycje = Collections.synchronizedList(new ArrayList<>());
         for (EVatwpisSuma ew : wyciagnieteewidencje) {
             SchemaEwidencja se = szukaniewieszaSchemy(schemaewidencjalista, ew.getEwidencja());
             SchemaEwidencja sm = se.getSchemamacierzysta();
             pozycje.add(new EwidPoz(se, sm, ew.getNetto(), ew.getVat(), ew.getEwidencja().isTylkoNetto()));
         }
-        if (korektanaliczonyzmniejszajaca!=0.0) {
+        if (korektanaliczonyzmniejszajaca!=null && korektanaliczonyzmniejszajaca!=0.0) {
             SchemaEwidencja se = szukaniewieszaSchemyByOpis(schemaewidencjalista, "ulga na złe długi naliczony art. 89b ust.1");
             SchemaEwidencja sm = se.getSchemamacierzysta();
             pozycje.add(new EwidPoz(se, sm, BigDecimal.ZERO , new BigDecimal(korektanaliczonyzmniejszajaca), false));
         }
-        if (korektanaliczonyzwiekszajaca!=0.0) {
+        if (korektanaliczonyzwiekszajaca!=null && korektanaliczonyzwiekszajaca!=0.0) {
             SchemaEwidencja se = szukaniewieszaSchemyByOpis(schemaewidencjalista, "ulga na złe długi naliczony art. 89b ust.4");
             SchemaEwidencja sm = se.getSchemamacierzysta();
             pozycje.add(new EwidPoz(se, sm, BigDecimal.ZERO, new BigDecimal(korektanaliczonyzwiekszajaca), false));
