@@ -102,8 +102,8 @@ public class Vat7DKView implements Serializable {
     private boolean pierwotnazamiastkorekty;
     private List<SchemaEwidencjaSuma> sumaschemewidencjilista;
     private List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista;
-    private Integer korektanaliczonyzmniejszajaca;
-    private Integer korektanaliczonyzwiekszajaca;
+    private int korektanaliczonyzmniejszajaca;
+    private int korektanaliczonyzwiekszajaca;
     private Integer przeniesieniezpoprzedniejdeklaracji;
     private Integer zwrot25dni;
     private Integer zwrot60dni;
@@ -1271,19 +1271,19 @@ public class Vat7DKView implements Serializable {
         this.niesprawdzajpoprzednichdeklaracji = niesprawdzajpoprzednichdeklaracji;
     }
 
-    public Integer getKorektanaliczonyzmniejszajaca() {
+    public int getKorektanaliczonyzmniejszajaca() {
         return korektanaliczonyzmniejszajaca;
     }
 
-    public void setKorektanaliczonyzmniejszajaca(Integer korektanaliczonyzmniejszajaca) {
+    public void setKorektanaliczonyzmniejszajaca(int korektanaliczonyzmniejszajaca) {
         this.korektanaliczonyzmniejszajaca = korektanaliczonyzmniejszajaca;
     }
 
-    public Integer getKorektanaliczonyzwiekszajaca() {
+    public int getKorektanaliczonyzwiekszajaca() {
         return korektanaliczonyzwiekszajaca;
     }
 
-    public void setKorektanaliczonyzwiekszajaca(Integer korektanaliczonyzwiekszajaca) {
+    public void setKorektanaliczonyzwiekszajaca(int korektanaliczonyzwiekszajaca) {
         this.korektanaliczonyzwiekszajaca = korektanaliczonyzwiekszajaca;
     }
 
