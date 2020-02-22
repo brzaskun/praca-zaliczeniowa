@@ -5,14 +5,27 @@
  */
 package view;
 
+import static beansFK.DokFKVATBean.pobierzKontoRozrachunkowe;
+import static beansFK.DokFKVATBean.podsumujwartosciVAT;
+import static beansFK.DokFKVATBean.rozliczVatKosztEdycja;
+import static beansFK.DokFKVATBean.rozliczVatKosztNapraw;
+import static beansFK.DokFKVATBean.rozliczVatKosztNaprawRachunek;
+import static beansFK.DokFKVATBean.rozliczVatKosztNaprawWB;
+import static beansFK.DokFKVATBean.rozliczVatPrzychodEdycja;
+import static beansFK.DokFKVATBean.rozliczVatPrzychodNapraw;
+import beansFK.WartosciVAT;
 import dao.KlienciDAO;
 import daoFK.DokDAOfk;
+import daoFK.KliencifkDAO;
+import daoFK.KontoDAOfk;
 import data.Data;
 import embeddable.Mce;
 import entity.Dok;
 import entity.Klienci;
+import entity.Rodzajedok;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
+import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Wiersz;
 import error.E;
@@ -28,6 +41,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import org.primefaces.component.commandbutton.CommandButton;
+import viewfk.DokfkView;
 import waluty.Z;
 import webservice.NIPVATcheck;
 
@@ -44,6 +58,10 @@ public class DokfkWeryfikacjaView implements Serializable {
     private DokDAOfk dokDAOfk;
     @Inject
     private KlienciDAO klDAO;
+    @Inject
+    private KliencifkDAO kliencifkDAO;
+    @Inject
+    private KontoDAOfk kontoDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private CommandButton ksiegujbutton;
@@ -117,7 +135,7 @@ public class DokfkWeryfikacjaView implements Serializable {
         Msg.msg("Zakończyłem sprawdzanie czy kontrahent jest czynnym VAT-owcem");
     }
     
-    public void sprawdzWnMawDokfk(List<Dokfk> wykazZaksiegowanychDokumentow) {
+    public void sprawdzWnMawDokfk(List<Dokfk> wykazZaksiegowanychDokumentow, DokfkView dokfkView) {
         List<Dokfk> listaRozniceWnMa = Collections.synchronizedList(new ArrayList<>());
         List<Dokfk> listabrakiKontaAnalityczne = Collections.synchronizedList(new ArrayList<>());
         List<Integer> listabrakiKontaAnalityczne_nr = Collections.synchronizedList(new ArrayList<>());
@@ -139,6 +157,7 @@ public class DokfkWeryfikacjaView implements Serializable {
             boolean pozostaletrzybraki = sprawdzpozostaletrzybraki(p, listabraki, listabrakiPozycji, listabrakiKontaAnalityczne, listabrakiKontaAnalityczne_nr, listaRozniceWnMa, listabrakiKonto);
             boolean porownanoewidencjakonto = porownajewidencjakonto(p,listaniezgodnoscvatkonto);
         }
+        wykazZaksiegowanychDokumentow = new ArrayList<>();
         boolean czysto = true;
         String main = "Występują księgowania na sytnetykach w " + listabrakiKontaAnalityczne.size() + " dokumentach: ";
         StringBuilder b = new StringBuilder();
@@ -149,6 +168,7 @@ public class DokfkWeryfikacjaView implements Serializable {
             b.append(" w.");
             b.append(listabrakiKontaAnalityczne_nr.get(i));
             b.append(", ");
+            wykazZaksiegowanychDokumentow.add(p);
         }
         if (listabrakiKontaAnalityczne.size() > 0) {
             czysto = false;
@@ -156,7 +176,7 @@ public class DokfkWeryfikacjaView implements Serializable {
         }
         if (listaRozniceWnMa.size() > 0) {
             main = "Występują różnice w stronach Wn i Ma w PLN w " + listaRozniceWnMa.size() + " dokumentach: ";
-            b = pobierzbledy(listaRozniceWnMa, main);
+            b = pobierzbledy(listaRozniceWnMa, main, wykazZaksiegowanychDokumentow);
             czysto = false;
             dokDAOfk.editList(listaRozniceWnMa);
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
@@ -174,6 +194,7 @@ public class DokfkWeryfikacjaView implements Serializable {
                 }
                 b.append(p.toString2());
                 b.append(", ");
+                wykazZaksiegowanychDokumentow.add(p);
             }
             czysto = false;
             dokDAOfk.editList(listabraki);
@@ -181,43 +202,43 @@ public class DokfkWeryfikacjaView implements Serializable {
         }
         if (listabrakiPozycji.size() > 0) {
             main = "Konta w dokumencie nie maja przyporzadkowania do Pozycji w " + listaRozniceWnMa.size() + " dokumentach: ";
-            b = pobierzbledy(listabrakiPozycji, main);
+            b = pobierzbledy(listabrakiPozycji, main, wykazZaksiegowanychDokumentow);
             czysto = false;
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
         if (listabrakkontrahenta.size() > 0) {
             main = "Brakuje kontrahenta w " + listabrakkontrahenta.size() + " dokumentach: ";
-            b = pobierzbledy(listabrakkontrahenta, main);
+            b = pobierzbledy(listabrakkontrahenta, main, wykazZaksiegowanychDokumentow);
             czysto = false;
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
         if (listabrakiKonto.size() > 0) {
             main = "Brakuje numeru konta w " + listabrakiKonto.size() + " dokumentach: ";
-            b = pobierzbledy(listabrakiKonto, main);
+            b = pobierzbledy(listabrakiKonto, main, wykazZaksiegowanychDokumentow);
             czysto = false;
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
         if (listabrakivat.size() > 0) {
             main = "Niezgodność między miesiącem ewidencji vat a typem konta vat w " + listabrakivat.size() + " dokumentach: ";
-            b = pobierzbledy(listabrakivat, main);
+            b = pobierzbledy(listabrakivat, main, wykazZaksiegowanychDokumentow);
             czysto = false;
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
         if (listabrakidaty.size() > 0) {
             main = "Złe daty w następujących w " + listabrakivat.size() + " dokumentach: ";
-            b = pobierzbledy(listabrakidaty, main);
+            b = pobierzbledy(listabrakidaty, main, wykazZaksiegowanychDokumentow);
             czysto = false;
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
         if (listapustaewidencja.size() > 0) {
             main = "Puste ewidencje vat w " + listapustaewidencja.size() + " dokumentach: ";
-            b = pobierzbledy(listapustaewidencja, main);
+            b = pobierzbledy(listapustaewidencja, main, wykazZaksiegowanychDokumentow);
             czysto = false;
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
          if (listaniezgodnoscvatkonto.size() > 0) {
             main = "VAT z ewidencji vat niezgodny z kontem w " + listaniezgodnoscvatkonto.size() + " dokumentach: ";
-            b = pobierzbledy(listaniezgodnoscvatkonto, main);
+            b = pobierzbledy(listaniezgodnoscvatkonto, main, wykazZaksiegowanychDokumentow);
             czysto = false;
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
@@ -225,14 +246,16 @@ public class DokfkWeryfikacjaView implements Serializable {
             Msg.msg("i", "Nie stwierdzono błędów w dokumentach z listy", "zestawieniedokumentow:wiadomoscsprawdzenie");
         }
         ksiegujbutton.setRendered(true);
+        dokfkView.setWykazZaksiegowanychDokumentow(wykazZaksiegowanychDokumentow);
     }
     
-    private StringBuilder pobierzbledy(List<Dokfk> l, String main) {
+    private StringBuilder pobierzbledy(List<Dokfk> l, String main, List<Dokfk> wykazZaksiegowanychDokumentow) {
         StringBuilder b = new StringBuilder();
         b.append(main);
         for (Dokfk p : l) {
             b.append(p.toString2());
             b.append(", ");
+            wykazZaksiegowanychDokumentow.add(p);
         }
         return b;
     }
@@ -446,6 +469,29 @@ public class DokfkWeryfikacjaView implements Serializable {
                             swWn.setKwotaPLN(swWn.getKwotaPLN() - roznica);
                         }
                     }
+                    Rodzajedok rodzajdok = p.getRodzajedok();
+                    if (rodzajdok.getKategoriadokumentu() == 0) {
+                        for (Wiersz w : p.getListawierszy()) {
+                            rozliczVatKosztNaprawWB(w, p);
+                        }
+                    }
+                } else if (liczbawierszy==1) {
+                    Konto kontoRozrachunkowe = pobierzKontoRozrachunkowe(kliencifkDAO, p, wpisView, kontoDAO);
+                    StronaWiersza swWn = p.getListawierszy().get(0).getStronaWn();
+                    StronaWiersza swMa = p.getListawierszy().get(0).getStronaMa();
+                    List<EVatwpisFK> ewidencjaVAT = p.getEwidencjaVAT();
+                    if ((swWn==null || swMa==null) && ewidencjaVAT!=null) {
+                        Rodzajedok rodzajdok = p.getRodzajedok();
+                        WartosciVAT wartosciVAT = podsumujwartosciVAT(p.getEwidencjaVAT());
+                        if (p.getListawierszy().size() == 1 && rodzajdok.getKategoriadokumentu() == 1) {
+                            rozliczVatKosztNapraw(p.getEwidencjaVAT().get(0), wartosciVAT, p, wpisView, null, kontoRozrachunkowe);
+                        } else if (p.getListawierszy().size() == 1 && rodzajdok.getKategoriadokumentu() == 2) {
+                            rozliczVatPrzychodNapraw(p.getEwidencjaVAT().get(0), wartosciVAT, p, wpisView, kontoRozrachunkowe);
+                        } else if (p.getListawierszy().size() == 1 && rodzajdok.getKategoriadokumentu() == 3) {
+                            rozliczVatKosztNaprawRachunek(p, wpisView, kontoRozrachunkowe);
+                        }
+                    }
+                    dokDAOfk.edit(p);
                 }
             }
             if (brakkonto == true) {

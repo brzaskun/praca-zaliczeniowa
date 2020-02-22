@@ -22,6 +22,9 @@
         .zapisZcecha {
             color: red;
         }
+         .ui-dialog .ui-dialog-content {
+            overflow-y: hidden;
+        }
     </style>
     <script>
         var doczeplistnerydopol = function() {
@@ -111,8 +114,8 @@
                                          style="margin-left: 10px; width: 120px;" update="formwpisdokument wpisywaniefooter"/>
                     </p:column>
                     <p:column>
-                        <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkWeryfikacjaView.sprawdzWnMawDokfk(dokfkView.wykazZaksiegowanychDokumentow)}" style="width: 120px; margin-left: 10px;" 
-                                         update=":zestawieniedokumentow:dataList" rendered="#{dokfkView.rodzajedokumentowPodatnika.size() ne 0 and !WpisView.rokzamkniety}"
+                        <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkWeryfikacjaView.sprawdzWnMawDokfk(dokfkView.wykazZaksiegowanychDokumentow, dokfkView)}" style="width: 120px; margin-left: 10px;" 
+                                         update="zestawieniedokumentow:dataList" rendered="#{dokfkView.rodzajedokumentowPodatnika.size() ne 0 and !WpisView.rokzamkniety}"
                                          />
                     </p:column>
  <p:column>

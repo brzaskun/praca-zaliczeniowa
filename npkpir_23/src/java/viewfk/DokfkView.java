@@ -1832,6 +1832,7 @@ public class DokfkView implements Serializable {
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");
+            PrimeFaces.current().ajax().update("formwpisdokument");
         }
     }
     
