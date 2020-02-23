@@ -34,6 +34,7 @@ import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.Mce;
 import embeddable.SchemaEwidencjaSuma;
 import embeddable.ZestawienieRyczalt;
+import embeddablefk.ImportJPKSprzedaz;
 import embeddablefk.KontoBO;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Dok;
@@ -892,6 +893,20 @@ public class PdfMain {
                 col[4] = 4;
                 col[5] = 4;
                 return col;
+            case "embeddablefk.ImportJPKSprzedaz":
+                col = new int[size];
+                col[0] = 2;
+                col[1] = 4;
+                col[2] = 4;
+                col[3] = 5;
+                col[4] = 7;
+                col[5] = 2;
+                col[6] = 4;
+                col[7] = 2;
+                col[8] = 3;
+                col[9] = 3;
+                col[10] = 3;
+                return col;
             case "jpk201701.JPK$SprzedazWiersz":
             case "jpk201801.JPK$SprzedazWiersz":
                 col = new int[size];
@@ -1628,6 +1643,20 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(p.getOstatniaplatnoscdata(), "center", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOstatniaplatnosckwota())), "right", 8));
                 }
+            }
+            if (nazwaklasy.equals("embeddablefk.ImportJPKSprzedaz")) {
+                ImportJPKSprzedaz p =  (ImportJPKSprzedaz) it.next();
+                table.addCell(ustawfrazeAlign(i++, "center", 7));
+                table.addCell(ustawfrazeAlign(p.getSprzedazWiersz().getDataWystawienia(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getSprzedazWiersz().getDataSprzedazy(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getSprzedazWiersz().getDowodSprzedazy(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getSprzedazWiersz().getNazwaKontrahenta(), "left", 7, 22f));
+                table.addCell(ustawfrazeAlign(p.getKlient().getKrajkod(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getSprzedazWiersz().getNrKontrahenta(), "left", 7, 22f));
+                table.addCell(ustawfrazeAlign(p.getKlient().getId(), "left", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSprzedazWiersz().getNetto())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSprzedazWiersz().getVat())), "right", 8));
+                table.addCell(ustawfrazeAlign(p.getSprzedazWiersz().getStawka(), "right", 8));
             }
             if (nazwaklasy.equals("jpk201701.JPK$ZakupWiersz") || nazwaklasy.equals("jpk201801.JPK$ZakupWiersz")) {
                 jpkabstract.ZakupWierszA p =  (jpkabstract.ZakupWierszA) it.next();

@@ -216,6 +216,10 @@ public class Klienci extends KlienciSuper implements Serializable {
     }
 
     public String getKrajkod() {
+        String zwrot = this.krajkod;
+        if (zwrot==null) {
+            zwrot = "";
+        }
         return krajkod;
     }
 

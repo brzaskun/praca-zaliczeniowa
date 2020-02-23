@@ -24,6 +24,7 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.datatype.XMLGregorianCalendar;
+import waluty.Z;
 
 
 /**
@@ -1759,6 +1760,14 @@ public class JPK extends JPKSuper implements Serializable {
             return zwrot;
         }
 
+        public String getStawka() {
+            double stawka = 0;
+            if (getNetto()!=0.0) {
+                stawka = Z.z(getVat()/getNetto())*100;
+            }
+            return stawka+"%";
+        }
+        
         public String getNettoPole() {
             String zwrot = "";
             if (this != null) {

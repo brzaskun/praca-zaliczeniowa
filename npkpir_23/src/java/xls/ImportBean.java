@@ -16,6 +16,8 @@ import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaZapisDAO;
 import daoFK.UkladBRDAO;
+import embeddable.Panstwa;
+import embeddable.PanstwaMap;
 import embeddablefk.ImportJPKSprzedaz;
 import entity.Evewidencja;
 import entity.Klienci;
@@ -31,6 +33,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import msg.Msg;
 import view.WpisView;
 import waluty.Z;
@@ -41,6 +45,7 @@ import waluty.Z;
  */
 public class ImportBean {
     public static Klienci ustawkontrahenta(String nip, String nazwa, List<Klienci> k, GUSView gUSView, KlienciDAO klienciDAO) {
+        //Uwaga zawraca nie null jak nie znajdzie ale new Klieci() (Szukanie po regonie)
         Klienci klient = null;
         try {
             for (Klienci p : k) {
@@ -63,6 +68,7 @@ public class ImportBean {
             if (klient!=null && klient.getNpelna()!=null && klient.getNip()!=null) {
                 k.add(klient);
             }
+            naprawkkrajklienta(klient, klienciDAO);
         } catch (Exception e) {
             E.e(e);
         }
@@ -70,6 +76,49 @@ public class ImportBean {
             System.out.println("");
         }
         return klient;
+    }
+    
+    public static Klienci ustawkontrahentaImportJPK(String nip, String nazwa, List<Klienci> k, GUSView gUSView, KlienciDAO klienciDAO) {
+        //Uwaga zawraca nie null jak nie znajdzie ale new Klieci() (Szukanie po regonie)
+        Klienci klient = null;
+        try {
+            for (Klienci p : k) {
+                if (p.getNip().contains(nip.trim())) {
+                    klient = p;
+                    break;
+                }
+            }
+            if (klient==null) {
+                klient = znajdzdaneregonAutomat(nip.trim(), klienciDAO, gUSView);
+            }
+            if (klient!=null && klient.getNpelna()!=null && klient.getNip()!=null) {
+                k.add(klient);
+            }
+            naprawkkrajklienta(klient, klienciDAO);
+        } catch (Exception e) {
+            E.e(e);
+        }
+        if (klient==null) {
+            System.out.println("");
+        }
+        return klient;
+    }
+    
+     private static void naprawkkrajklienta(Klienci klient, KlienciDAO klienciDAO) {
+        String poczatek = klient.getNip();
+        String kraj = null;
+        if (poczatek!=null&&poczatek.length()==10) {
+            poczatek = poczatek.substring(0,2);
+            String regex = "^[a-zA-Z]+$";
+            Pattern p = Pattern.compile(regex);
+            Matcher m = p.matcher(poczatek);
+            if (m.matches()) {
+                kraj = PanstwaMap.getWykazPanstwXS().get(poczatek);
+                klient.setKrajnazwa(kraj);
+                klient.setKrajkod(poczatek);
+                klienciDAO.edit(klient);
+            }
+        }
     }
     
      public static Klienci znajdzdaneregonAutomat(String nip, KlienciDAO klienciDAO, GUSView gUSView) {
@@ -337,6 +386,8 @@ public class ImportBean {
             eVatwpisFK.setInnyokres(innyokres);
         }
     }
+
+   
 
    
 }

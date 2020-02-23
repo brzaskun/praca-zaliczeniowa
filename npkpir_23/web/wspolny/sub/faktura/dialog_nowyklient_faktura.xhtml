@@ -55,7 +55,7 @@
                                  onblur="wykresllokal_wykazklientow_dialog('formnkfaktura:lokalPole');"
                                  />
                     <p:autoComplete id="krajPole" value="#{KlView.selected.krajnazwa}" completeMethod="#{panstwa.complete}"
-                                    var="p" itemLabel="#{p}" itemValue="#{p}" 
+                                    var="p" itemLabel="#{p}" itemValue="#{p}" required="true" requiredMessage="Wybierz nazwę kraju"
                                     minQueryLength="1" maxResults="10" maxlength="25"  forceSelection="true" 
                                     effect="clip" autocomplete="true" queryDelay="100" 
                                     style="width: 200px" >

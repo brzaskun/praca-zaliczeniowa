@@ -72,8 +72,8 @@ public class KlView implements Serializable {
     @PostConstruct
     private void init() { //E.m(this);
         kl1 = klDAO.findAll();
-        selected.setKrajnazwa("Polska");
-        selected.setKrajkod(panstwaMapa.getWykazPanstwSX().get("Polska"));
+        //selected.setKrajnazwa("Polska");
+        //selected.setKrajkod(panstwaMapa.getWykazPanstwSX().get("Polska"));
     }
 
     public void wyszukajduplikat(ValueChangeEvent e) {
@@ -146,8 +146,8 @@ public class KlView implements Serializable {
                 kl1.add(selected);
                 Msg.msg("i", "Dodano nowego klienta" + selected.getNpelna());
                 selected = new Klienci();
-                selected.setKrajnazwa("Polska");
-                selected.setKrajkod(panstwaMapa.getWykazPanstwSX().get("Polska"));
+                //selected.setKrajnazwa("Polska");
+                //selected.setKrajkod(panstwaMapa.getWykazPanstwSX().get("Polska"));
             } else {
                 Msg.msg("e", "Błąd przy genrowaniu nr NIP. Nie dodano klienta");
             }
@@ -166,20 +166,19 @@ public class KlView implements Serializable {
             String formatka = selected.getNskrocona().toUpperCase();
             selected.setNskrocona(formatka);
             if (selected.getKrajnazwa() == null) {
-                selected.setKrajnazwa("Polska");
-                selected.setKrajkod("PL");
+                Msg.msg("e", "Nie dodano nowego klienta. Nie wprowadzono kraju");
+                return;
             } else {
                 String kraj = selected.getKrajnazwa();
                 String symbol = ps1.getWykazPanstwSX().get(kraj);
                 selected.setKrajkod(symbol);
+                poszukajDuplikatNip();
+                poszukajDuplikatNazwa();
+                klDAO.dodaj(selected);
+                kl1.add(selected);
+                //planKontCompleteView.init(); to jest zbedne, po co pobierac konta jeszcze raz skoro dodano tylko pozycje do kartoteki klientow a nie kont.
+                Msg.msg("i", "Dodano nowego klienta" + selected.getNpelna());
             }
-            poszukajDuplikatNip();
-            poszukajDuplikatNazwa();
-            klDAO.dodaj(selected);
-            kl1.add(selected);
-            //planKontCompleteView.init(); to jest zbedne, po co pobierac konta jeszcze raz skoro dodano tylko pozycje do kartoteki klientow a nie kont.
-            Msg.msg("i", "Dodano nowego klienta" + selected.getNpelna());
-
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Nie dodano nowego klienta. Klient o takim Nip/Nazwie pełnej juz istnieje");

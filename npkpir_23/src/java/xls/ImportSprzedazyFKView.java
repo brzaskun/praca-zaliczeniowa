@@ -30,6 +30,8 @@ import gus.GUSView;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,6 +52,7 @@ import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
+import pdffk.PdfJPKSprzedaz;
 import view.WpisView;
 import waluty.Z;
 
@@ -89,13 +92,16 @@ public class ImportSprzedazyFKView  implements Serializable {
     private ListaEwidencjiVat listaEwidencjiVat;
     private JPKSuper jpk;
     private String rodzajdok;
+    private int jpk1inne2;
     private PanelGrid grid1;
     private PanelGrid grid2;
     private PanelGrid grid3;
     private byte[] plikinterpaper;
     private CommandButton generujbutton;
+    private CommandButton drukujbutton;
     private List<ImportJPKSprzedaz> listasprzedaz;
     private List<ImportJPKSprzedaz> listasprzedazselected;
+            private List<ImportJPKSprzedaz> listasprzedazfilter;
     private Konto kontonetto;
     private Konto kontonettokoszt;
     private Konto kontovat;
@@ -139,10 +145,11 @@ public class ImportSprzedazyFKView  implements Serializable {
         try {
                 jpk = pobierzJPK();
                 if (rodzajdok.equals("sprzedaż")) {
-                    listasprzedaz = stworzlistesprzedaz(jpk);
+                    listasprzedaz = stworzlistesprzedaz(jpk, jpk1inne2);
                 }
                 grid3.setRendered(true);
                 generujbutton.setRendered(true);
+                drukujbutton.setRendered(true);
                 Msg.msg("Sukces. Dane z pliu  zostały skutecznie załadowane");
         } catch (Exception ex) {
             E.e(ex);
@@ -151,37 +158,68 @@ public class ImportSprzedazyFKView  implements Serializable {
         PrimeFaces.current().executeScript("PF('dialogAjaxCzekaj').hide()");
     }
     
-    private List<ImportJPKSprzedaz> stworzlistesprzedaz(JPKSuper jpk) {
+    private List<ImportJPKSprzedaz> stworzlistesprzedaz(JPKSuper jpk, int jpk1inne2) {
         List<Klienci> k = klDAO.findAll();
         List<ImportJPKSprzedaz> zwrot = new ArrayList<>();
         List<SprzedazWiersz> wiersze = jpk.getSprzedazWiersz();
         int i = 1;
         for (SprzedazWiersz p : wiersze) {
-            ImportJPKSprzedaz s = new ImportJPKSprzedaz(p);
-            String pobranadata = p.getDataSprzedazy()!=null ? p.getDataSprzedazy().toString() : p.getDataWystawienia().toString();
-            boolean czydobradata = data.Data.czydatajestwmcu(pobranadata, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-            if (czydobradata) {
-                s.setKlient(ImportBean.ustawkontrahenta(p.getNrKontrahenta(), p.getNazwaKontrahenta(), k, gUSView, klDAO));
-                s.setId(i++);
-                String rodzajdk = "SZ";
-                //int polska0unia1zagranica2 = 0;
-                if (!wpisView.isVatowiec()) {
-                    rodzajdk = "RACHSP";
+                ImportJPKSprzedaz s = new ImportJPKSprzedaz(p);
+                if (s.getSprzedazWiersz().getLpSprzedazy().equals(new BigInteger("567"))) {
+                    System.out.println("");
                 }
-                if (s.getKlient().getKrajnazwa()!=null && !s.getKlient().getKrajkod().equals("PL")) {
-                    //polska0unia1zagranica2 = 2;
-                    rodzajdk = "EXP";
-                    if (PanstwaEUSymb.getWykazPanstwUE().contains(s.getKlient().getKrajkod())) {
-                        //polska0unia1zagranica2 = 1;
-                        rodzajdk = "WDT";
+            try {
+                String pobranadata = p.getDataSprzedazy()!=null ? p.getDataSprzedazy().toString() : p.getDataWystawienia().toString();
+                boolean czydobradata = data.Data.czydatajestwmcu(pobranadata, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+                if (czydobradata) {
+                    Klienci klient = ImportBean.ustawkontrahentaImportJPK(p.getNrKontrahenta(), p.getNazwaKontrahenta(), k, gUSView, klDAO);
+                    if (jpk1inne2==1) {
+                        if (klient.getNip()!=null && klient.getKrajkod()!=null && klient.getKrajkod().equals("PL")) {
+                           s.setKlient(klient);
+                           s.setId(i++);
+                           String rodzajdk = "SZ";
+                           //int polska0unia1zagranica2 = 0;
+                           if (!wpisView.isVatowiec()) {
+                               rodzajdk = "RACHSP";
+                           }
+                           Dokfk nd = new Dokfk(s, wpisView, rodzajdk);
+                           Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
+                           if (juzjest!=null) {
+                               s.setJuzzaksiegowany(true);
+                           } 
+                           zwrot.add(s);
+                       }
+                    } else {
+                        s.setKlient(klient);
+                        s.setId(i++);
+                        String rodzajdk = "SZ";
+                        //int polska0unia1zagranica2 = 0;
+                        if (!wpisView.isVatowiec()) {
+                            rodzajdk = "RACHSP";
+                        }
+                        if (s.getKlient().getKrajnazwa()!=null && !s.getKlient().getKrajkod().equals("PL")) {
+                            //polska0unia1zagranica2 = 2;
+                            rodzajdk = "EXP";
+                            if (PanstwaEUSymb.getWykazPanstwUE().contains(s.getKlient().getKrajkod())) {
+                                //polska0unia1zagranica2 = 1;
+                                rodzajdk = "WDT";
+                            }
+                        }
+                        Dokfk nd = new Dokfk(s, wpisView, rodzajdk);
+                        Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
+                        if (juzjest!=null) {
+                            s.setJuzzaksiegowany(true);
+                        }
+                        if (jpk1inne2==3 && (s.getSprzedazWiersz().getNetto()!=0.0 || s.getSprzedazWiersz().getVat()!=0.0)) {
+                            zwrot.add(s);
+                        } else if (jpk1inne2!=3){
+                            zwrot.add(s);
+                        }
+                        
                     }
                 }
-                Dokfk nd = new Dokfk(s, wpisView, rodzajdk);
-                Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
-                if (juzjest!=null) {
-                    s.setJuzzaksiegowany(true);
-                } 
-                zwrot.add(s);
+            } catch (Exception e) {
+              E.e(e);
             }
         }
         return zwrot;
@@ -436,7 +474,22 @@ public class ImportSprzedazyFKView  implements Serializable {
         return stawka;
     }
     
-   
+   public void drukuj() {
+       List<ImportJPKSprzedaz> lista = listasprzedazfilter!=null? listasprzedazfilter : listasprzedazselected!=null? listasprzedazselected : listasprzedaz;
+       double netto = 0.0;
+       double vat = 0.0;
+       for (ImportJPKSprzedaz p : lista) {
+           netto += p.getSprzedazWiersz().getNetto();
+           vat += p.getSprzedazWiersz().getVat();
+       }
+       ImportJPKSprzedaz suma = new ImportJPKSprzedaz();
+       suma.setSprzedazWiersz(new SprzedazWiersz());
+       suma.setKlient(new Klienci());
+       suma.getSprzedazWiersz().setK10(new BigDecimal(netto));
+       suma.getSprzedazWiersz().setK16(new BigDecimal(vat));
+       lista.add(suma);
+       PdfJPKSprzedaz.drukuj(lista, wpisView);
+   }
     
    
     public WpisView getWpisView() {
@@ -510,6 +563,30 @@ public class ImportSprzedazyFKView  implements Serializable {
 
     public void setListasprzedazselected(List<ImportJPKSprzedaz> listasprzedazselected) {
         this.listasprzedazselected = listasprzedazselected;
+    }
+
+    public int getJpk1inne2() {
+        return jpk1inne2;
+    }
+
+    public void setJpk1inne2(int jpk1inne2) {
+        this.jpk1inne2 = jpk1inne2;
+    }
+
+    public List<ImportJPKSprzedaz> getListasprzedazfilter() {
+        return listasprzedazfilter;
+    }
+
+    public void setListasprzedazfilter(List<ImportJPKSprzedaz> listasprzedazfilter) {
+        this.listasprzedazfilter = listasprzedazfilter;
+    }
+
+    public CommandButton getDrukujbutton() {
+        return drukujbutton;
+    }
+
+    public void setDrukujbutton(CommandButton drukujbutton) {
+        this.drukujbutton = drukujbutton;
     }
 
   

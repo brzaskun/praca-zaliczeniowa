@@ -9,6 +9,7 @@ import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.Mce;
 import embeddable.SchemaEwidencjaSuma;
 import embeddable.ZestawienieRyczalt;
+import embeddablefk.ImportJPKSprzedaz;
 import embeddablefk.KontoBO;
 import embeddablefk.TreeNodeExtended;
 import entity.DeklaracjaVatSchemaWierszSum;
@@ -336,6 +337,25 @@ public class testobjects {
        n.add("pozycja Wn");
        n.add("pozycja Ma");  
        n.add("przychód/koszt");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+    
+    public static List[] getTabelaImportJPKSprzedaz(List<ImportJPKSprzedaz> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("data wyst.");
+       n.add("data sprzedaży");
+       n.add("nr fakt");
+       n.add("kontrahent");
+       n.add("kraj");
+       n.add("nip");  
+       n.add("jest w fk");
+       n.add("netto");
+       n.add("vat");
+       n.add("stawka");
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;

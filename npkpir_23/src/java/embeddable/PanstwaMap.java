@@ -27,7 +27,10 @@ import javax.persistence.Embeddable;
 @ApplicationScoped
 public class PanstwaMap implements Serializable {
 
+//szukanie po nazwie
 private static Map<String,String> wykazPanstwSX;
+//szukanie po symbolu
+private static Map<String,String> wykazPanstwXS;
 
 //    public static void main(String[] args) {
 //        Map<String,String> wykazPanstwS = new ConcurrentHashMap<>();
@@ -51,6 +54,7 @@ private static Map<String,String> wykazPanstwSX;
 
 public PanstwaMap(){
     wykazPanstwSX = new ConcurrentHashMap<>();
+    wykazPanstwXS = new ConcurrentHashMap<>();
 }
 
 
@@ -65,7 +69,10 @@ public PanstwaMap(){
         Iterator itX;
         itX = symbole.iterator();
         while(it.hasNext()&&itX.hasNext()){
-            wykazPanstwSX.put(it.next().toString(),itX.next().toString());
+            String panstwo = it.next().toString();
+            String symbol = itX.next().toString();
+            wykazPanstwSX.put(panstwo,symbol);
+            wykazPanstwXS.put(symbol, panstwo);
         }
 
     }
@@ -76,6 +83,14 @@ public PanstwaMap(){
 
     public  void setWykazPanstwS(Map<String, String> wykazPanstwSX) {
         PanstwaMap.wykazPanstwSX = wykazPanstwSX;
+    }
+
+    public static Map<String, String> getWykazPanstwXS() {
+        return wykazPanstwXS;
+    }
+
+    public static void setWykazPanstwXS(Map<String, String> wykazPanstwXS) {
+        PanstwaMap.wykazPanstwXS = wykazPanstwXS;
     }
 
     
