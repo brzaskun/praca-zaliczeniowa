@@ -50,6 +50,9 @@
                             <p:column>
                                 <h:outputLabel value="data powst.ob." style="font-weight: 500"/>
                             </p:column>
+                            <p:column  rendered="#{WpisView.podatnikObiekt.metodakasowa eq 'tak'}">
+                                <h:outputLabel value="termin płatności" style="font-weight: 500"/>
+                            </p:column>
                             <p:column>
                                 <h:outputLabel value="waluta" style="font-weight: 500"/>
                             </p:column>
@@ -70,6 +73,12 @@
                             <p:inputText id="dataSPole" value="#{DokumentView.selDokument.dataSprz}" size="10"
                                          onblur="ustawDateSprzedazy(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu});" 
                                          required="true" requiredMessage="Pole daty sprzedaży nie może byc puste" >
+                            </p:inputText>
+                        </p:column>
+                        <p:column width="60" rendered="#{WpisView.podatnikObiekt.metodakasowa eq 'tak'}">
+                             <p:inputText id="dataTrPole" value="#{DokumentView.selDokument.terminPlatnosci}" size="10"
+                                         onblur="ustawDateGen(#{WpisView.rokWpisu},#{WpisView.miesiacWpisu},'dodWiad:dataTrPole');" 
+                                         required="true" requiredMessage="Pole termin zapłaty nie może byc puste" >
                             </p:inputText>
                         </p:column>
                         <p:column>

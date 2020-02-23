@@ -51,7 +51,7 @@
                     </p:selectBooleanCheckbox>
                 </p:outputPanel>
                 <p:dataTable  var="wpis" value="#{platnosciWalutyView.dokumenty}" id="dokumentyLista"  filteredValue="#{platnosciWalutyView.dokumentyFiltered}" rowIndexVar="index"
-                              style="width: 1200px; margin-top: 10px; overflow-y: scroll; height: 400px;" rowKey="#{wpis.idDok}" selection="#{platnosciWalutyView.selected}" widgetVar="dokTable"
+                              style="width: 1300px; margin-top: 10px; overflow-y: scroll; height: 400px;" rowKey="#{wpis.idDok}" selection="#{platnosciWalutyView.selected}" widgetVar="dokTable"
                               emptyMessage="W danym miesiącu nie było żadnych zapisów"
                               selectionMode="single" styleClass="grid" 
                               >
@@ -108,6 +108,15 @@
                               filterBy="#{wpis.netto}" filterMatchMode="contains"  sortBy="#{wpis.netto}"  style="width: 60px;">  
                         <bcf:outputpl value="#{wpis.netto}" stylePlus="#{platnosciWalutyView.obliczsume(wpis) eq 0 ? 'color: blue':null}"/> 
                         <h:outputText value="PLN" style="#{platnosciWalutyView.obliczsume(wpis) eq 0 ? 'color: blue':null}"/>
+                    </p:column>
+                    <p:column id="vatColumn1" headerText="vat pln" styleClass="filter40"
+                              filterBy="#{wpis.vat}" filterMatchMode="contains"  sortBy="#{wpis.vat}"  style="width: 60px;">  
+                        <bcf:outputpl value="#{wpis.vat}" stylePlus="#{platnosciWalutyView.obliczsume(wpis) eq 0 ? 'color: blue':null}"/> 
+                        <h:outputText value="PLN" style="#{platnosciWalutyView.obliczsume(wpis) eq 0 ? 'color: blue':null}"/>
+                    </p:column>
+                    <p:column id="saplat" headerText="są płat." styleClass="filter40"
+                              filterBy="#{wpis.isSaPlatnosci()}" filterMatchMode="contains"  sortBy="#{wpis.isSaPlatnosci()}"  style="width: 60px;text-align: center;">  
+                        <h:outputText value="#{wpis.isSaPlatnosci()?'tak':null}" style="#{wpis.isSaPlatnosci() ? 'color: green':null}" rendered="#{wpis.isSaPlatnosci()}"/>
                     </p:column>
                     <p:column id="status" headerText="tab"  style="width: 7%; text-align: center;">
                         <h:outputText value="#{wpis.tabelanbp.nrtabeli} " rendered="#{wpis.tabelanbp ne null and wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}" style="width: 50px;"/>

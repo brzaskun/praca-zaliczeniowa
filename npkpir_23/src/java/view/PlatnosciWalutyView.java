@@ -136,10 +136,14 @@ public class PlatnosciWalutyView  implements Serializable {
                     Msg.msg("w", "Ograniczono kwotę rozliczenia do makimum");
                 }
                 nowa.setKwota(kwota);
-                double kwotapln = Z.z(kwota * nowa.getTabelanbp().getKurssredni());
+                double kwotapln = nowa.getTabelanbp()!=null?Z.z(kwota * nowa.getTabelanbp().getKurssredni()):kwota;
                 nowa.setKwotapln(kwotapln);
-                double roznice = Z.z(kwota * selected.getTabelanbp().getKurssredni()) - kwotapln;
-                nowa.setRoznice(-roznice);
+                double roznice = nowa.getTabelanbp()!=null?Z.z(kwota * selected.getTabelanbp().getKurssredni()) - kwotapln:0.0;
+                if (roznice!=0.0) {
+                    nowa.setRoznice(-roznice);
+                } else {
+                    nowa.setRoznice(0.0);
+                }
             } else {
                 Msg.msg("e", "Wszystko już rozliczono");
             }
@@ -184,7 +188,11 @@ public class PlatnosciWalutyView  implements Serializable {
     }
     
     public void zmienliste() {
-        dokumenty = dokDAO.zwrocBiezacegoKlientaRokMCWaluta(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        if (wpisView.getPodatnikObiekt().getMetodakasowa().equals("tak")) {
+            dokumenty = dokDAO.zwrocBiezacegoKlientaRokMC(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        } else {
+            dokumenty = dokDAO.zwrocBiezacegoKlientaRokMCWaluta(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        }
         if (ukryjrozliczone) {
             for (Iterator<Dok> it = dokumenty.iterator(); it.hasNext();) {
                 double suma = obliczsume(it.next());

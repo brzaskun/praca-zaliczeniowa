@@ -521,10 +521,10 @@
                             </p:inputNumber>
                         </p:column>
                         <p:column headerText="#{mgs.data}" style="text-align: center; width: 20px;"  rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}" >
-                            <p:inputText id="dataWiersza" value="#{wploop.dataWalutyWiersza}" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}" onblur="kopiujdatedialogwpis();"
+                            <p:inputText id="dataWiersza" value="#{wploop.dataWalutyWiersza}" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}" onblur="kopiujdatedialogwpis();" 
                                          style="width: 20px;" maxlength="2" >
                                 
-                                <p:ajax global="false" event="change" partialSubmit="true" onstart="obsluzDateWiersza(#{wploop.idporzadkowy-1});" listener="#{dokfkView.obsluzDataWiersza(wploop)}"/>
+                                <p:ajax global="false" event="change" partialSubmit="true"  onstart="obsluzDateWiersza(#{wploop.idporzadkowy-1});" listener="#{dokfkView.obsluzDataWiersza(wploop)}"/>
                             </p:inputText>
                         </p:column>
                         <p:column headerText="BO" style="text-align: center; width: 40px;"  

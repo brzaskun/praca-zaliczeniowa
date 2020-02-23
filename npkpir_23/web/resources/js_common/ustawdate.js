@@ -33,10 +33,13 @@ function ustawDate(rok,mc){
      } else {
          var dataplatnosc = document.getElementById("dodWiad:dataTPole");
          var datasprzedazy = document.getElementById("dodWiad:dataSPole");
+         var terminplatnosci = document.getElementById("dodWiad:dataTrPole");
          var rozliczony = document.getElementById("dodWiad:rozliczony");
          dataplatnosc.value = dataWyst.value;
          datasprzedazy.value = dataWyst.value;
-         $(rozliczony).attr('checked', true);
+         if (terminplatnosci === null) {
+            $(rozliczony).attr('checked', true);
+        }
      }
    };
    

@@ -729,6 +729,14 @@ public class Dok extends DokSuper implements Serializable {
         zwrot = StringUtils.removeEnd(zwrot, ",");
         return zwrot;
     }
+    
+     public boolean isSaPlatnosci() {
+        boolean zwrot = false;
+        if (!this.platnosciwaluta.isEmpty()) {
+            zwrot = true;
+        }
+        return zwrot;
+    }
 
     @Override
     public int hashCode() {
