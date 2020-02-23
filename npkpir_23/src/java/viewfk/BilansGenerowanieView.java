@@ -447,10 +447,7 @@ public class BilansGenerowanieView implements Serializable {
     private List<SaldoKonto> przetwarzajSaldoKonto(List<SaldoKonto> listaSaldoKonto) {
         List<SaldoKonto> nowalista = Collections.synchronizedList(new ArrayList<>());
         for (SaldoKonto p : listaSaldoKonto) {
-            if (p.getKonto().getPelnynumer().equals("101-3")) {
-                System.out.println("");
-            }
-            if (p.getKonto().getPelnynumer().startsWith("149")) {
+             if (p.getKonto().getPelnynumer().startsWith("149")) {
                 nowalista.addAll(przetworzPojedyncze(p));
             } else if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe") && p.getKonto().getPelnynumer().startsWith("20") && przeniestylkosalda==false) {
                 nowalista.addAll(przetworzPojedyncze(p));
@@ -578,9 +575,6 @@ public class BilansGenerowanieView implements Serializable {
     }
 
     private Collection<? extends SaldoKonto> przetworzWBRK(SaldoKonto p, Waluty waluta) {
-        if (p.getKonto().getPelnynumer().equals("132")) {
-            System.out.println("s");
-        }
         List<SaldoKonto> nowalista_wierszy = Collections.synchronizedList(new ArrayList<>());
         Waluty walutapln = listawalut.get("PLN");
         //dodatnie oznacza saldo Wn ujemne saldo Ma
@@ -708,7 +702,6 @@ public class BilansGenerowanieView implements Serializable {
         double saldo = 0.0;
         for (StronaWiersza p : zapisy) {
             if (waluta.getSymbolwaluty().equals(p.getSymbolWalutBOiSW()) && !p.getWiersz().getDokfk().getSeriadokfk().equals("RRK")) {
-                //System.out.println("kwota: "+p.getKwota()+" pln "+p.getKwotaPLN());
                 if (p.isWn()) {
                     saldo += p.getKwotaPLN();
                 } else {
@@ -783,9 +776,6 @@ public class BilansGenerowanieView implements Serializable {
     }
 
     private Collection<? extends SaldoKonto> przetworzPojedyncze(SaldoKonto p) {
-        if (p.getKonto().getPelnynumer().equals("203-2-6")) {
-            System.out.println("");
-        }
         List<SaldoKonto> nowalista_wierszy = Collections.synchronizedList(new ArrayList<>());
         Set<Waluty> waluty = new HashSet<>();
         for (StronaWiersza t : p.getZapisy()) {
@@ -832,9 +822,6 @@ public class BilansGenerowanieView implements Serializable {
         //dodatnie oznacza saldo Wn ujemne saldo Ma
         double saldowal = Z.z(obliczsaldo(zapisy, wal));
         List<StronaWiersza> zerowe = Collections.synchronizedList(new ArrayList<>());
-        if (zapisy!=null && zapisy.get(0).getKonto().getPelnynumer().equals("201-2-2")){
-            System.out.println("");
-        }
         List<StronaWiersza> zapisydopor = Collections.synchronizedList(new ArrayList<>());
         for (StronaWiersza s : zapisy) {
             if (s.getSymbolWalutBOiSW().equals(wal.getSymbolwaluty())&&Z.z(s.getPozostalo())!=0.0 && !s.getWiersz().getDokfk().getSeriadokfk().equals("RRK")) {
@@ -878,9 +865,6 @@ public class BilansGenerowanieView implements Serializable {
         if (saldowal!=0) {
             for (Iterator<StronaWiersza> it = new ReverseIterator<>(zapisydopor).iterator(); it.hasNext();) {
                 StronaWiersza t = it.next();
-                if (t.getKonto().getPelnynumer().equals("201-2-2")){
-                    System.out.println("");
-                }
                 if (saldowal>0.0) {
                     if (t.getSymbolWalutBOiSW().equals(wal.getSymbolwaluty()) && t.isWn() && t.getKwota()>0.0) {
                         double pozostalo = t.getPozostalo();

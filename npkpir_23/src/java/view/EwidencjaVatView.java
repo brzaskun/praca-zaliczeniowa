@@ -1009,6 +1009,29 @@ public class EwidencjaVatView implements Serializable {
          eVatwpis1DAO.editList(lista);
      }
 
+     
+     public int sortujzaksiegowane(Object obP, Object obW) {
+        int ret = 0;
+        String dok1 = ((String) obP).split("/")[0];
+        String dok2 = ((String) obW).split("/")[0];
+        ret = dok1.compareTo(dok2);
+        if (ret == 0) {
+            ret = porownajdalej((String) obP, (String) obW);
+        }
+        return ret;
+    }
+
+    private int porownajdalej(String obP, String obW) {
+        int ret = 0;
+        Integer dok1 = Integer.parseInt(obP.split("/")[1]);
+        Integer dok2 = Integer.parseInt(obW.split("/")[1]);
+        if (dok1 < dok2) {
+            ret = -1;
+        } else if (dok1 > dok2) {
+            ret = 1;
+        }
+        return ret;
+    }
     
     public String getNazwaewidencjiMail() {
         return nazwaewidencjiMail;

@@ -152,15 +152,15 @@ public class SaldoKonto implements Serializable {
         this.kursdlaBO = 1.0;
         boolean mniejszeodzera = kwota < 0.0;
         if (mniejszeodzera) {
-            this.saldoWn = -kwota;
-            this.saldoWnPLN = -kwotapln;
-            this.saldoMa = 0.0;
-            this.saldoMaPLN = 0.0;
-        } else {
             this.saldoWn = kwota;
             this.saldoWnPLN = kwotapln;
             this.saldoMa = 0.0;
             this.saldoMaPLN = 0.0;
+        } else {
+            this.saldoWn = 0.0;
+            this.saldoWnPLN = 0.0;
+            this.saldoMa = kwota;
+            this.saldoMaPLN = kwotapln;
         }
         this.zapisy = Collections.synchronizedList(new ArrayList<>());
         this.walutadlabo = wal;

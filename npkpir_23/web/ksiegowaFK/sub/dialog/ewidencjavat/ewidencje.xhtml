@@ -67,7 +67,9 @@
                     <p:column styleClass="mc" headerText="m" style="width: 30px; text-align: center;" sortBy="#{itemik.innymc}" filterMatchMode="contains" filterBy="#{itemik.innymc}">
                         <h:outputText value="#{itemik.innymc}"/>
                     </p:column>
-                    <p:column styleClass="nrkolejny" headerText="nr kolejny" style="width: 100px; font-size: 93%" sortBy="#{itemik.nrKolejny}" filterBy="#{itemik.nrKolejny}" filterMatchMode="contains">
+                    <p:column styleClass="nrkolejny" headerText="nr kolejny" style="width: 100px; font-size: 93%" sortBy="#{itemik.nrKolejny}" filterBy="#{itemik.nrKolejny}" 
+                              sortFunction="#{ewidencjaVatView.sortujzaksiegowane}"
+                              filterMatchMode="contains">
                         <h:outputText value="#{itemik.nrKolejny}"/>
                     </p:column>
                     <p:column styleClass="nrwlasny" headerText="nr własny" style="width: 120px;" sortBy="#{itemik.nrWlDk}" filterBy="#{itemik.nrWlDk}" filterMatchMode="contains">
