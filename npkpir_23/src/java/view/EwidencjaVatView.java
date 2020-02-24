@@ -155,7 +155,9 @@ public class EwidencjaVatView implements Serializable {
     
     public void wybranewierszeewidencjiczysc() {
         wybranewierszeewidencji = null;
+        filteredwierszeewidencji = null;
         zachowanewybranewierszeewidencji = null;
+        PrimeFaces.current().ajax().update("form:akordeon:akordeon2");
     }
     
     private void zerujListy() {
