@@ -59,13 +59,13 @@
                                     minQueryLength="1" maxResults="10" maxlength="25"  forceSelection="true" 
                                     effect="clip" autocomplete="true" queryDelay="100" 
                                     style="width: 200px" >
-                        <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
+                        <p:ajax event="itemSelect" partialSubmit="true" global="false"  oncomplete="$('.uibuttonmui').show()"/>
                         <p:ajax event="query" global="false"/>
                     </p:autoComplete>
                     <p:inputText id="emailPole" value="#{KlView.selected.email}" style="width: 200px" >
-                        <p:ajax event="focus" listener="#{KlView.dodajpustegomaila}"/>
+<!--                        <p:ajax event="focus" listener="#{KlView.dodajpustegomaila}"/>-->
                     </p:inputText>
-                    <p:commandButton value="dodaj" action="#{KlView.dodajKlienta}" update="akordeon:formstworz" oncomplete="skopiujdanenowegoklientanowafaktura();" style="width: 120px;"/>
+                    <p:commandButton value="dodaj" action="#{KlView.dodajKlienta}" update="akordeon:formstworz" oncomplete="skopiujdanenowegoklientanowafaktura();" style="width: 120px;display: none;"  styleClass="uibuttonmui"/>
                 </p:panelGrid>
             </p:panel>
         </h:form>

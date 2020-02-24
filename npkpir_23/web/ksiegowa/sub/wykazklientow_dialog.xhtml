@@ -105,16 +105,17 @@
                         </p:column>
                         <p:column>   
                             <p:autoComplete id="krajPole" value="#{DokumentView.selectedKlient.krajnazwa}" completeMethod="#{panstwa.complete}"
-                                            var="p" itemLabel="#{p}" itemValue="#{p}" 
+                                            var="p" itemLabel="#{p}" itemValue="#{p}"  required="true" requiredMessage="Wybierz nazwę kraju"
                                             minQueryLength="1" maxResults="10" maxlength="25"  forceSelection="true" 
                                             effect="clip" autocomplete="true" queryDelay="100" 
                                             style="width: 200px" >
-                                <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
+                                <p:ajax event="itemSelect" partialSubmit="true" global="false" oncomplete="$('.uibuttonmui').show()"/>
+                                <p:ajax event="query" global="false"/>
                             </p:autoComplete>
                         </p:column>
                         <p:column>
                             <p:inputText id="emailPole" value="#{DokumentView.selectedKlient.email}" style="width: 200px" >
-                                <p:ajax event="focus" listener="#{KlView.dodajpustegomaila}"/>
+<!--                                <p:ajax event="focus" listener="#{KlView.dodajpustegomaila}"/>-->
                             </p:inputText>
                         </p:column>
                         
@@ -122,7 +123,7 @@
                 </p:panelGrid>
                 <p:panelGrid >
                     <p:column>
-                            <p:commandButton value="dodaj" action="#{DokumentView.dodajKlienta()}" oncomplete="skopiujdanenowegoklienta();" update="formX" style="width: 120px;"/>
+                        <p:commandButton value="dodaj" action="#{DokumentView.dodajKlienta()}" oncomplete="skopiujdanenowegoklienta();" update="formX" style="width: 120px;display: none;" styleClass="uibuttonmui"/>
                     </p:column>
                 </p:panelGrid>
             </p:panel>

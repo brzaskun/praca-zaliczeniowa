@@ -59,18 +59,18 @@
                                  >
                     </p:inputText>
                     <p:autoComplete id="krajPole" value="#{KlView.selected.krajnazwa}" completeMethod="#{panstwa.complete}"
-                                    var="p" itemLabel="#{p}" itemValue="#{p}"
+                                    var="p" itemLabel="#{p}" itemValue="#{p}"  required="true" requiredMessage="Wybierz nazwę kraju"
                                     minQueryLength="1" maxResults="10" maxlength="25"  forceSelection="true" 
                                     effect="clip" autocomplete="true" queryDelay="100" styleClass="wpisywanieklienta"
                                     style="width: 200px" >
-                        <p:ajax event="change" partialSubmit="true" global="false"/>
+                        <p:ajax event="itemSelect" partialSubmit="true" global="false"  oncomplete="$('.uibuttonmui').show()"/>
                         <p:ajax event="query" global="false"/>
                     </p:autoComplete>
                     <p:inputText id="emailPole" value="#{KlView.selected.email}" style="width: 200px" >
-                        <p:ajax event="focus" listener="#{KlView.dodajpustegomaila}"/>
+<!--                        <p:ajax event="focus" listener="#{KlView.dodajpustegomaila}"/>-->
                     </p:inputText>
                     <p:commandButton value="dodaj" action="#{KlView.dodajKlientafk(dokfkView.selected, dokfkView.ewidencjaVatRK)}"
-                                     oncomplete="skopiujdanenowegoklientafk();" style="width: 120px;"/>
+                                     oncomplete="skopiujdanenowegoklientafk();" style="width: 120px;display: none;" styleClass="uibuttonmui"/>
                 </p:panelGrid>
             </p:panel>
         </h:form>

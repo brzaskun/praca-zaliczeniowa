@@ -1460,35 +1460,43 @@ public class DokView implements Serializable {
         }
     }
 
-    private void wygenerujnip() {
-        List<Klienci> kliencitmp = klDAO.findAll();
-        List<Klienci> kliencinip = Collections.synchronizedList(new ArrayList<>());
-        //odnajduje klientow jednorazowych
-        for (Klienci p : kliencitmp) {
-            if (p.getNip().startsWith("XX")) {
-                kliencinip.add(p);
+    private boolean wygenerujnip() {
+        boolean zwrot = false;
+        Pattern pattern = Pattern.compile("X{2}\\d{10}");
+        try {
+            List<String> nipy = klDAO.findKlientByNipXX();
+            Collections.sort(nipy);
+            Integer max = 0;
+            boolean szukaj = true;
+            int licznik = 1;
+            int nipysize = nipy.size();
+            while (szukaj && licznik<nipysize) {
+                if (nipysize > 0) {
+                    String pozycja = nipy.get(nipysize - licznik);
+                    Matcher m = pattern.matcher(pozycja.toUpperCase());
+                    boolean czypasuje = m.matches();
+                    if (czypasuje) {
+                        max = Integer.parseInt(pozycja.substring(2));
+                        max++;
+                        szukaj = false;
+                        break;
+                    } else {
+                        licznik++;
+                    }
+                }
             }
+            //uzupelnia o zera i robi stringa;
+            String wygenerowanynip = max.toString();
+            while (wygenerowanynip.length() < 10) {
+                wygenerowanynip = "0" + wygenerowanynip;
+            }
+            wygenerowanynip = "XX" + wygenerowanynip;
+            selectedKlient.setNip(wygenerowanynip);
+            zwrot = true;
+        } catch (Exception e) {
+            E.e(e);
         }
-        //wyciaga nipy
-        List<Integer> nipy = Collections.synchronizedList(new ArrayList<>());
-        for (Klienci p : kliencinip) {
-            nipy.add(Integer.parseInt(p.getNip().substring(2)));
-        }
-        Collections.sort(nipy);
-        Integer max;
-        if (nipy.size() > 0) {
-            max = nipy.get(nipy.size() - 1);
-            max++;
-        } else {
-            max = 0;
-        }
-        //uzupelnia o zera i robi stringa;
-        String wygenerowanynip = max.toString();
-        while (wygenerowanynip.length() < 10) {
-            wygenerowanynip = "0" + wygenerowanynip;
-        }
-        wygenerowanynip = "XX" + wygenerowanynip;
-        selectedKlient.setNip(wygenerowanynip);
+        return zwrot;
     }
 
     public void pobierzdaneZpoprzedniegoDokumentu(ValueChangeEvent e1) {
