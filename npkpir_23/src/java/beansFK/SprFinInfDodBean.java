@@ -227,7 +227,7 @@ public class SprFinInfDodBean {
         PdfWriter writer = inicjacjaWritera(document, nazwa);
         naglowekStopkaP(writer);
         otwarcieDokumentu(document, nazwa);
-        SprFinUchwalyBeanTXT.naglowekglowny(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getDatauchwal(), wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getMiejscowosc(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado(), wpisView.getPodatnikObiekt().getImie());
+        SprFinUchwalyBeanTXT.naglowekglowny(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getDatauchwal(), wpisView.getPodatnikObiekt().getNazwaRejestr(), wpisView.getPodatnikObiekt().getMiejscowosc(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado(), wpisView.getPodatnikObiekt().getImie());
         dodajSzczegolyUchwaly(wpisView.getFormaprawna(), document, sprFinKwotyInfDod, podatnikUdzialy);;
         finalizacjaDokumentuQR(document,nazwa);
         String f = null;
@@ -253,10 +253,10 @@ public class SprFinInfDodBean {
         naglowekStopkaP(writer);
         otwarcieDokumentu(document, nazwa);
         if (Z.z(sprFinKwotyInfDod.getZyskstratanetto())==0.0) {
-            SprFinUchwalyBeanTXT.naglowekglowny1a(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getDatauchwal(), wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getMiejscowosc(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado(), sprFinKwotyInfDod.getZyskstratanetto(), wpisView.getPodatnikObiekt().getImie());
+            SprFinUchwalyBeanTXT.naglowekglowny1a(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getDatauchwal(), wpisView.getPodatnikObiekt().getNazwaRejestr(), wpisView.getPodatnikObiekt().getMiejscowosc(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado(), sprFinKwotyInfDod.getZyskstratanetto(), wpisView.getPodatnikObiekt().getImie());
             SprFinUchwalyBeanTXT.podnaglowek7(document);
         } else {
-            SprFinUchwalyBeanTXT.naglowekglowny1(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getDatauchwal(), wpisView.getPodatnikObiekt().getPrintnazwa(), wpisView.getPodatnikObiekt().getMiejscowosc(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado(), sprFinKwotyInfDod.getZyskstratanetto(), wpisView.getPodatnikObiekt().getImie());
+            SprFinUchwalyBeanTXT.naglowekglowny1(document, sprFinKwotyInfDod.getRok(), sprFinKwotyInfDod.getDatauchwal(), wpisView.getPodatnikObiekt().getNazwaRejestr(), wpisView.getPodatnikObiekt().getMiejscowosc(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado(), sprFinKwotyInfDod.getZyskstratanetto(), wpisView.getPodatnikObiekt().getImie());
             dodajSzczegolyUchwaly1(wpisView.getFormaprawna(), document, sprFinKwotyInfDod, podatnikUdzialy);;
         }
         finalizacjaDokumentuQR(document,nazwa);

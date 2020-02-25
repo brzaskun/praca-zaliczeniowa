@@ -162,6 +162,7 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
             generuj10(bilans, rzis, sprFinKwotyInfDod);
         } else if (sprFinKwotyInfDod.getNrschemy().equals("1-2")) {
             generuj12(bilans, rzis, sprFinKwotyInfDod);
+            System.out.println("generuje 1-2");
         } else {
             Msg.msg("e","Nieznany numer schemy, nie można wygenerować sprawozdania.");
         }

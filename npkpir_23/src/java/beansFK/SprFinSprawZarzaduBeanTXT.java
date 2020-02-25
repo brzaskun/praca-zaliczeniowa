@@ -43,6 +43,7 @@ public class SprFinSprawZarzaduBeanTXT {
     
     static void naglowekglownyL(Document document, SprFinKwotyInfDod sprFinKwotyInfDod, String nazwa, String siedziba, String nrkrs) {
         PdfMain.dodajLinieOpisu(document, "SPRAWOZDANIE LIKWIDATORA/ÓW", Element.ALIGN_CENTER,2);
+        nazwa = nazwa +" "+" W LIKWIDACJI";
         PdfMain.dodajLinieOpisuBezOdstepu(document, nazwa, Element.ALIGN_CENTER,2);
         PdfMain.dodajLinieOpisu(document, "nr KRS "+nrkrs, Element.ALIGN_CENTER);
         PdfMain.dodajLinieOpisu(document, "z siedzibą w "+siedziba, Element.ALIGN_CENTER);

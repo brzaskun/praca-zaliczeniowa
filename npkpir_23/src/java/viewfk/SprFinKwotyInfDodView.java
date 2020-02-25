@@ -109,10 +109,12 @@ public class SprFinKwotyInfDodView  implements Serializable{
     
     private void ustawscheme() {
         String datasporzadzenia = sprFinKwotyInfDod.getDatasporzadzenia();
+        //System.out.println(""+datasporzadzenia);
         sprFinKwotyInfDod.setNrschemy("1-0");
         if (data.Data.czyjestpo("2019-09-01",datasporzadzenia)) {
             sprFinKwotyInfDod.setNrschemy("1-2");
         }
+        //System.out.println(sprFinKwotyInfDod.getNrschemy());
     }
     
     //NIE ROBIC BAZE64 BO NIE BEDZIE DZIALAC
