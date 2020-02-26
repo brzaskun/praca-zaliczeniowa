@@ -143,6 +143,7 @@ public class PlanKontUzupelnijView implements Serializable {
                 Konto r = serialclone.SerialClone.clone(p);
                 r.setPodatnik(podatnikDocelowy);
                 r.setRok(Integer.parseInt(rokDocelowy));
+                r.setSprawdzono(null);
                 zeruDanekontaBO(r);
                 macierzyste.add(r);
             }
@@ -180,6 +181,7 @@ public class PlanKontUzupelnijView implements Serializable {
         r.setPodatnik(podatnikDocelowy);
         r.setRok(Integer.parseInt(rokdocelowy));
         r.setSlownikowe(slownikowe);
+        r.setSprawdzono(null);
         Konto macierzyste = wyszukajmacierzyste(r.getKontomacierzyste().getPelnynumer(), macierzystelista);
         r.setMacierzysty(macierzyste.getId());
         r.setKontomacierzyste(macierzyste);

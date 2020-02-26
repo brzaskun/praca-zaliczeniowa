@@ -34,6 +34,7 @@ public class PlanKontFKKopiujBean {
                 Konto r = serialclone.SerialClone.clone(p);
                 r.setPodatnik(podatnikDocelowy);
                 r.setRok(Integer.parseInt(rokDocelowy));
+                r.setSprawdzono(null);
                 zeruDanekontaBO(r);
                 macierzyste.add(r);
                 it.remove();
@@ -66,14 +67,8 @@ public class PlanKontFKKopiujBean {
             }
             if (p.getLevel() == biezacylevel) {
                 try {
-                    if (p.getPelnynumer().equals("201-2")) {
-                        System.out.println("");
-                    } 
-                    if (p.getPelnynumer().equals("201-2-0")) {
-                        System.out.println("");
-                    } 
                     if (!podatnikzrodlowy.equals(podatnikDocelowy) && p.isSlownikowe()) {
-                        System.out.println("a teraa");
+                        //??
                     } else if (p.isSlownikowe() == true && kopiujSlownikowe) {
                         Konto noweslownikowe = kopiujKonto(p, macierzystelista, podatnikDocelowy, true, rokdocelowy);
                         if (noweslownikowe!=null) {
@@ -105,6 +100,7 @@ public class PlanKontFKKopiujBean {
             r.setSlownikowe(slownikowe);
             r.setMacierzysty(macierzyste.getId());
             r.setKontomacierzyste(macierzyste);
+            r.setSprawdzono(null);
         } else {
             r=null;
         }

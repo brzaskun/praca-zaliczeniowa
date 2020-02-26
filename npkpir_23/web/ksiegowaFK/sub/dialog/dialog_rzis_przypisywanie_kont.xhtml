@@ -12,6 +12,7 @@
                 <p:panelGrid columns="3">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaBRKontaView.wybranyuklad}" converter="#{ukladBRConv}" rendered="#{!ukladBRView.listarokbiezacy.isEmpty()}">
+                        <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                         <f:selectItems value="#{ukladBRView.listarokbiezacy}" var="loop"  itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
                         <p:ajax event="change" listener="#{pozycjaBRKontaView.pobierzukladkontoR()}" update=":formrzisuklad"/>
                     </p:selectOneMenu>
