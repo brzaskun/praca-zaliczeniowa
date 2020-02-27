@@ -117,6 +117,7 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
             }
         } catch (Exception e) {
             Msg.msg("e","Wystąpił błąd podczas generowania sprawozdania finansowego "+E.e(e));
+            Msg.msg("e","Czy jestWystąpił błąd podczas generowania sprawozdania finansowego "+E.e(e));
         }
     }
     
