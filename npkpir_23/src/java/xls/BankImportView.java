@@ -6,6 +6,7 @@
 package xls;
 
 import beansFK.DialogWpisywanie;
+import com.sun.faces.taglib.html_basic.OutputTextTag;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import daoFK.DokDAOfk;
@@ -43,6 +44,7 @@ import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.html.HtmlOutputText;
 import javax.inject.Inject;
 import msg.Msg;
 import org.apache.commons.io.FilenameUtils;
@@ -99,6 +101,7 @@ public class BankImportView implements Serializable {
     private PanelGrid grid2;
     private PanelGrid grid3;
     private CommandButton generujbutton; 
+    private HtmlOutputText alert1;
     private boolean sabraki;
     private Tabelanbp tabelanbppl;
     private Waluty walutapln;
@@ -168,7 +171,7 @@ public class BankImportView implements Serializable {
     private List<ImportowanyPlik> zrobrodzajeimportu() {
         List<ImportowanyPlik> zwrot = new ArrayList<>();
         zwrot.add(new ImportowanyPlik("Bank PeKaO SA xml","xml",1));
-        zwrot.add(new ImportowanyPlik("GCO csv ;","csv",";",2));
+        zwrot.add(new ImportowanyPlik("Mbank csv ;","csv",";",2));
         zwrot.add(new ImportowanyPlik("MT940 csv ;","csv",";",3));
         return zwrot;
     }
@@ -204,6 +207,7 @@ public class BankImportView implements Serializable {
         grid1.setRendered(false);
         grid2.setRendered(false);
         grid3.setRendered(false);
+        alert1.setRendered(false);
         wybranyrodzajimportu = null;
     }
     
@@ -212,26 +216,34 @@ public class BankImportView implements Serializable {
     public void importujdok() {
         try {
             List zwrot = null;
+            pobranefaktury = new ArrayList<>();
             if (pobraneplikibytes!=null && pobraneplikibytes.size()>0) {
                 int numerwyciagu = -1;
+                int lpwiersza = 1;
                 for (byte[] partia : pobraneplikibytes) {
                     switch (wybranyrodzajimportu.getLp()) {
                         case 1 :
                            zwrot = ImportPKO_XML.importujdok(partia, wyciagdataod, numerwyciagu);
-                           naglowek = (ImportowanyPlikNaglowek) zwrot.get(0);
-                           pobranefaktury = (List<ImportBankWiersz>) zwrot.get(1);
-                           numerwyciagu = (int) zwrot.get(2);
                            break;
                         case 2 :
-                           zwrot = ImportMbank_CSV.importujdok(partia, wyciagdataod, numerwyciagu);
-                           naglowek = (ImportowanyPlikNaglowek) zwrot.get(0);
-                           pobranefaktury = (List<ImportBankWiersz>) zwrot.get(1);
-                           numerwyciagu = (int) zwrot.get(2);
+                           zwrot = ImportMbank_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
                            break;
                         case 3 :
-                           naglowek = (ImportowanyPlikNaglowek) zwrot.get(0);
-                           pobranefaktury = (List<ImportBankWiersz>) zwrot.get(1);
                            break;
+                    }
+                    if (zwrot.size()==5) {
+                        pobranefaktury=null;
+                    } else {
+                        if (naglowek==null) {
+                            naglowek = (ImportowanyPlikNaglowek) zwrot.get(0);
+                        } else {
+                            naglowek.setWyciagnrdo(((ImportowanyPlikNaglowek)zwrot.get(0)).getWyciagnrdo());
+                            naglowek.setWyciagdatado(((ImportowanyPlikNaglowek)zwrot.get(0)).getWyciagdatado());
+                            naglowek.setWyciagbz(((ImportowanyPlikNaglowek)zwrot.get(0)).getWyciagbz());
+                        }
+                         pobranefaktury.addAll((List<ImportBankWiersz>) zwrot.get(1));
+                         numerwyciagu = (int) zwrot.get(2);
+                         lpwiersza = (int) zwrot.get(3);
                     }
                 }
             }
@@ -250,10 +262,17 @@ public class BankImportView implements Serializable {
                         }
                     }
                 }
+                grid3.setRendered(true);
+                alert1.setRendered(false);
+                generujbutton.setRendered(true);
+                Msg.msg("Pobrano wszystkie dane");
+            } else {
+                grid2.setRendered(false);
+                grid2.setRendered(false);
+                alert1.setRendered(true);
+                Msg.msg("e","Zaciągnięto wyciągi z innego miesiąca");
             }
-            grid3.setRendered(true);
-            generujbutton.setRendered(true);
-            Msg.msg("Pobrano wszystkie dane");
+            
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd przy pobieraniu danych");
         }
@@ -308,15 +327,16 @@ public class BankImportView implements Serializable {
     }
      
       public Dokfk stworznowydokument(int i, Klienci kontr, int numerkolejny, WpisView wpisView, Waluty walutadokumentu) {
+        ImportowanyPlikNaglowek pn = pobranefaktury.get(0).getNaglowek();
         Dokfk nd = new Dokfk(numerkolejny, wpisView.getRokWpisuSt());
         nd.setKontr(kontr);
-        nd.setNumerwlasnydokfk("wyciag nr "+naglowek.getWyciagnr()+"/"+i);
+        nd.setNumerwlasnydokfk("wyciag nr "+pn.getWyciagnr()+" "+wpisView.getMiesiacWpisu()+"/"+i);
         nd.setOpisdokfk("rozliczenie wyciągu za "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt());
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
         nd.setSeriadokfk(rodzajdok.getSkrot());
         nd.setRodzajedok(rodzajdok);
         nd.setEwidencjaVAT(null);
-        nd.setSaldopoczatkowe(naglowek.getWyciagbo());
+        nd.setSaldopoczatkowe(pn.getWyciagbo());
         if (naglowek.getWyciagwaluta().equals("PLN")) {
             nd.setTabelanbp(tabelanbppl);
             nd.setWalutadokumentu(walutapln);
@@ -327,31 +347,30 @@ public class BankImportView implements Serializable {
         if (juzjest!=null) {
             nd = null;
             usunduplikat(juzjest);
+        }
+        ustawwiersze(nd);
+        if (nd.getListawierszy()!=null && nd.getListawierszy().size()>0) {
+            ustawdaty(nd, pn);
+            nd.setImportowany(true);
+            nd.setWprowadzil(wpisView.getUzer().getLogin());
+            nd.przeliczKwotyWierszaDoSumyDokumentu();
+            rozliczsaldoWBRK(nd);
         } else {
-            ustawwiersze(nd);
-            if (nd.getListawierszy()!=null && nd.getListawierszy().size()>0) {
-                ustawdaty(nd);
-                nd.setImportowany(true);
-                nd.setWprowadzil(wpisView.getUzer().getLogin());
-                nd.przeliczKwotyWierszaDoSumyDokumentu();
-                rozliczsaldoWBRK(nd);
-            } else {
-                nd=null;
-            }
+            nd=null;
         }
         return nd;
     }
       
-    private void ustawdaty(Dokfk nd) {
-        nd.setDatadokumentu(naglowek.getWyciagdatado());
-        nd.setDataoperacji(naglowek.getWyciagdatado());
-        nd.setDatawplywu(naglowek.getWyciagdatado());
-        nd.setDatawystawienia(naglowek.getWyciagdatado());
+    private void ustawdaty(Dokfk nd, ImportowanyPlikNaglowek pn) {
+        nd.setDatadokumentu(pn.getWyciagdatado());
+        nd.setDataoperacji(pn.getWyciagdatado());
+        nd.setDatawplywu(pn.getWyciagdatado());
+        nd.setDatawystawienia(pn.getWyciagdatado());
         nd.setDataujecia(new Date());
         nd.setMiesiac(wpisView.getMiesiacWpisu());
         nd.setRok(wpisView.getRokWpisuSt());
-        nd.setVatM(naglowek.getWyciagdatado().split("-")[1]);
-        nd.setVatR(naglowek.getWyciagdatado().split("-")[0]);
+        nd.setVatM(pn.getWyciagdatado().split("-")[1]);
+        nd.setVatR(pn.getWyciagdatado().split("-")[0]);
     }
     
     public void rozliczsaldoWBRK(Dokfk selected) {
@@ -539,7 +558,7 @@ public class BankImportView implements Serializable {
     public void grid0pokaz() {
         if (sabraki==false) {
             grid0.setRendered(true);
-            Msg.msg("e","Wybranonastępujący format importu "+wybranyrodzajimportu);
+            Msg.msg("i","Wybranonastępujący format importu "+wybranyrodzajimportu);
         } else {
             Msg.msg("e", "Są braki. Nie można wszytać pliku");
         }
@@ -678,6 +697,14 @@ public class BankImportView implements Serializable {
 
     public void setNaglowek(ImportowanyPlikNaglowek naglowek) {
         this.naglowek = naglowek;
+    }
+
+    public HtmlOutputText getAlert1() {
+        return alert1;
+    }
+
+    public void setAlert1(HtmlOutputText alert1) {
+        this.alert1 = alert1;
     }
 
    

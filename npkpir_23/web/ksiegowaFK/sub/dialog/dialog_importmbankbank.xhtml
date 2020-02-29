@@ -15,7 +15,7 @@
         }
     </style>
    
-        <p:dialog id="importmbankbank" header="Pobieranie wyciągów bankowych z plików GCO csv" widgetVar="importmbankbank" height="900" width="1450" 
+        <p:dialog id="importmbankbank" header="Pobieranie wyciągów bankowych z plików Mbank csv" widgetVar="importmbankbank" height="900" width="1450" 
               resizable="false"  onShow="ustawdialog('importmbankbank','menudokumenty', 1450,900);" closeOnEscape="true" onHide="resetujdialog('importmbankbank');" >
             <p:ajax event="open" listener="#{mbankImportView.init()}" update="panelplikbankmbank"/>
         <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" update=":form_importmbankbank"/>

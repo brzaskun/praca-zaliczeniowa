@@ -38,14 +38,14 @@ public class ImportMbank_CSV implements Serializable {
     private static final long serialVersionUID = 1L;
     
     
-    public static List importujdok(byte[] pobrane, String mcwpisu, int nrwyciagu) {
+    public static List importujdok(byte[] pobrane, String mcwpisu, int nrwyciagu, int lpwiersza, String mc) {
         List zwrot = new ArrayList<Object>();
         List<ImportBankWiersz> pobranefaktury = new ArrayList<>();
         ImportowanyPlikNaglowek pn = new ImportowanyPlikNaglowek();
+        String mcod = null;
         try {
             InputStream file = new ByteArrayInputStream(pobrane);
             if (pobrane!=null) {
-                int j = 1;
                     List<List<String>> records = new ArrayList<>();
                     try (BufferedReader br =  new BufferedReader(new InputStreamReader(file, Charset.forName("UTF-8")))) {
                         String line;
@@ -68,6 +68,9 @@ public class ImportMbank_CSV implements Serializable {
                             pn.setWyciagnrod(baza.get(0));
                             pn.setWyciagnrdo(baza.get(0));
                             pn.setWyciagdataod(Data.zmienkolejnosc(baza.get(2)));
+                            if (pn.getWyciagnrod()!=null) {
+                                mcod = pn.getWyciagdataod().split("-")[1];
+                            }
                             pn.setWyciagdatado(Data.zmienkolejnosc(baza.get(1)));
                             pn.setWyciagkonto(baza.get(5));
                             pn.setWyciagwaluta(baza.get(6));
@@ -78,7 +81,7 @@ public class ImportMbank_CSV implements Serializable {
                             pn.setWyciagbo(Double.parseDouble(baza.get(12).replace(",",".")));
                         }  else {
                             ImportBankWiersz x = new ImportBankWiersz();
-                            x.setNr(j++);
+                            x.setNr(lpwiersza++);
                             x.setDatatransakcji(Data.zmienkolejnosc(baza.get(1)));
                             x.setDatawaluty(Data.zmienkolejnosc(baza.get(2)));
                             x.setNrwyciagu(baza.get(0));
@@ -95,7 +98,11 @@ public class ImportMbank_CSV implements Serializable {
                             x.setNrtransakji(baza.get(8));
                             x.setOpistransakcji(baza.get(3));
                             x.setTyptransakcji(oblicztyptransakcji(x));
+                            x.setNaglowek(pn);
                             pobranefaktury.add(x);
+                        }
+                        if (!mcod.equals(mc)) {
+                            break;
                         }
                         i++;
                 }
@@ -106,6 +113,10 @@ public class ImportMbank_CSV implements Serializable {
         zwrot.add(pn);
         zwrot.add(pobranefaktury);
         zwrot.add(nrwyciagu);
+        zwrot.add(lpwiersza);
+        if (!mcod.equals(mc)) {
+           zwrot.add("dataerror");
+        }
         return zwrot;
     }
     

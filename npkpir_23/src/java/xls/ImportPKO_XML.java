@@ -136,6 +136,7 @@ public class ImportPKO_XML implements Serializable {
                             elt1 = pT(nNode, "TxId");
                             p.setNrtransakji(elt1);
                             p.setTyptransakcji(oblicztyptransakcji(p));
+                            p.setNaglowek(pn);
                             pobranefaktury.add(p);
                         } catch (Exception e) {
                             E.e(e);

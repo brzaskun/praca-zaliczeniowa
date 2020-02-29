@@ -672,6 +672,17 @@ public class DokfkWeryfikacjaView implements Serializable {
         this.ksiegujbutton = ksiegujbutton;
     }
 
+
+public static void main(String[] args)     {
+    System.out.println("dd");
+    String classname = "com.mysql.cj.jdbc.Driver";
+        try {
+            Class.forName(classname);
+            System.out.println("udało sie");
+        } catch (ClassNotFoundException ex) {
+            System.out.println("NIE udało sie");
+        }
     
+}
 
 }

@@ -18,7 +18,7 @@
         }
     </style>
    
-        <p:dialog id="importbank" header="Pobieranie wyciągów bankowych z banków" widgetVar="importbank" height="900" width="1450" style="overflow-y: no-display"
+        <p:dialog id="importbank" header="Pobieranie wyciągów bankowych z banków\" widgetVar="importbank" height="900" width="1450" style="overflow-y: no-display"
               resizable="false"  onShow="ustawdialog('importbank','menudokumenty', 1450,900);" closeOnEscape="true" onHide="resetujdialog('importbank');" >
             <p:ajax event="open" listener="#{bankImportView.init()}" update="panelplikbankall"/>
         <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" rendered="false" update=":form_importbankall"/>
@@ -57,6 +57,7 @@
             </p:panelGrid>
         </h:form>
         <h:form id="panelprzyciskowbankall">
+            <h:outputText value="Wyciąg nie jest z bieżącego miesiąca" style="color: red;" rendered="false" binding="#{bankImportView.alert1}"/>
         <p:panelGrid columns="2" rendered="false" binding="#{bankImportView.grid2}">
             <p:panelGrid columns="8" style="width: 1000px;">
                 <h:outputText value="nr wyciągu od"/><h:outputText value="#{bankImportView.naglowek.wyciagnrod}"/>
@@ -75,6 +76,7 @@
             </p:panelGrid>
         <h:outputText value="#{bankImportView.wiadomoscnieprzypkonta}" style="color: red; margin-bottom: 10px;"/>
         <p:panelGrid columns="3" style="width: 500px;">
+            
                 <p:commandButton value="pobierz dane" actionListener="#{bankImportView.importujdok()}" update="panelprzyciskowbankall form_importbankall" style="width: 120px;" />
                 <p:commandButton value="resetuj" actionListener="#{bankImportView.resetuj()}" update="panelplikbankall panelprzyciskowbankall form_importbankall" style="width: 120px; margin-left: 20px;" resetValues="true"/>
                 <p:commandButton value="generuj dok" actionListener="#{bankImportView.generuj()}" update="form_importbankall" style="width: 120px;margin-left: 60px;" rendered="false" binding="#{bankImportView.generujbutton}"/>

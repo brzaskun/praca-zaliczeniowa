@@ -28,6 +28,7 @@ public class ImportBankWiersz implements Serializable {
         private String nrtransakji;
         private boolean juzzaksiegowany;
         private String nrwyciagu;
+        private ImportowanyPlikNaglowek naglowek;
         //typ transakcji
         //1 wpływ faktura
         //2 zapłata faktura
@@ -159,6 +160,15 @@ public class ImportBankWiersz implements Serializable {
     public void setNrwyciagu(String nrwyciagu) {
         this.nrwyciagu = nrwyciagu;
     }
+
+    public ImportowanyPlikNaglowek getNaglowek() {
+        return naglowek;
+    }
+
+    public void setNaglowek(ImportowanyPlikNaglowek naglowek) {
+        this.naglowek = naglowek;
+    }
+    
 
     @Override
     public String toString() {

@@ -101,6 +101,7 @@ public class MbankImportView implements Serializable {
     private PanelGrid grid2;
     private PanelGrid grid3;
     private CommandButton generujbutton; 
+    
     private Tabelanbp tabelanbppl;
     private Waluty walutapln;
     private String wyciagdataod;
@@ -396,20 +397,17 @@ public class MbankImportView implements Serializable {
         }
         Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
         if (juzjest!=null) {
-            ustawwiersze(nd);
-            nd = null;
             usunduplikat(juzjest);
+        }
+        ustawwiersze(nd);
+        if (nd.getListawierszy()!=null && nd.getListawierszy().size()>0) {
+            ustawdaty(nd);
+            nd.setImportowany(true);
+            nd.setWprowadzil(wpisView.getUzer().getLogin());
+            nd.przeliczKwotyWierszaDoSumyDokumentu();
+            rozliczsaldoWBRK(nd);
         } else {
-            ustawwiersze(nd);
-            if (nd.getListawierszy()!=null && nd.getListawierszy().size()>0) {
-                ustawdaty(nd);
-                nd.setImportowany(true);
-                nd.setWprowadzil(wpisView.getUzer().getLogin());
-                nd.przeliczKwotyWierszaDoSumyDokumentu();
-                rozliczsaldoWBRK(nd);
-            } else {
-                nd=null;
-            }
+            nd=null;
         }
         return nd;
     }
