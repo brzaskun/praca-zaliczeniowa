@@ -36,7 +36,13 @@ public class PodatnikOpodatkowanieDAO extends DAO implements Serializable{
     
     
     public PodatnikOpodatkowanieD findOpodatkowaniePodatnikRok(Podatnik p, String rok) {
-        return sessionFacade.findOpodatkowaniePodatnikRok(p, rok);
+        PodatnikOpodatkowanieD zwrot = null;
+        try {
+            zwrot = sessionFacade.findOpodatkowaniePodatnikRok(p, rok);
+        } catch(Exception e) {
+            
+        }
+        return zwrot;
     }
     
 
