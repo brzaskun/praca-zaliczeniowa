@@ -171,8 +171,9 @@ public class BankImportView implements Serializable {
     private List<ImportowanyPlik> zrobrodzajeimportu() {
         List<ImportowanyPlik> zwrot = new ArrayList<>();
         zwrot.add(new ImportowanyPlik("Bank PeKaO SA xml","xml",1));
-        zwrot.add(new ImportowanyPlik("Mbank csv ;","csv",";",2));
-        zwrot.add(new ImportowanyPlik("MT940 csv ;","csv",";",3));
+        zwrot.add(new ImportowanyPlik("Mbank GCO csv ;","csv",";",2));
+        zwrot.add(new ImportowanyPlik("Mbank hist csv ;","csv",";",3));
+        zwrot.add(new ImportowanyPlik("MT940 csv ;","csv",";",4));
         return zwrot;
     }
     
@@ -229,6 +230,9 @@ public class BankImportView implements Serializable {
                            zwrot = ImportMbank_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
                            break;
                         case 3 :
+                           zwrot = ImportMbankHist_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
+                           break;
+                        case 4 :
                            break;
                     }
                     if (zwrot.size()==5) {

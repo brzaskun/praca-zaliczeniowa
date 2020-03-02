@@ -117,6 +117,10 @@ public class ImportSprzedazyFKView  implements Serializable {
         kontovatnaliczony = kontoDAO.findKonto("221-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         tabelanbppl = tabelanbpDAO.findByTabelaPLN();
         walutapln = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
+        listasprzedaz = null;
+        grid1.setRendered(false);
+        grid2.setRendered(false);
+        grid3.setRendered(false);
     }
     
     
@@ -174,7 +178,7 @@ public class ImportSprzedazyFKView  implements Serializable {
                 if (czydobradata) {
                     Klienci klient = ImportBean.ustawkontrahentaImportJPK(p.getNrKontrahenta(), p.getNazwaKontrahenta(), k, gUSView, klDAO);
                     if (jpk1inne2==1) {
-                        if (klient.getNip()!=null && klient.getKrajkod()!=null && klient.getKrajkod().equals("PL")) {
+                        if (klient.getNip()!=null && klient.getKrajkod()!=null && s.getKlient().getKrajkod().equals("PL")) {
                            s.setKlient(klient);
                            s.setId(i++);
                            String rodzajdk = "SZ";
@@ -198,12 +202,12 @@ public class ImportSprzedazyFKView  implements Serializable {
                             rodzajdk = "RACHSP";
                         }
                         if (s.getKlient().getKrajnazwa()!=null && !s.getKlient().getKrajkod().equals("PL")) {
-                            //polska0unia1zagranica2 = 2;
-                            rodzajdk = "EXP";
-                            if (PanstwaEUSymb.getWykazPanstwUE().contains(s.getKlient().getKrajkod())) {
-                                //polska0unia1zagranica2 = 1;
-                                rodzajdk = "WDT";
-                            }
+                                //polska0unia1zagranica2 = 2;
+                                rodzajdk = "EXP";
+                                if (PanstwaEUSymb.getWykazPanstwUE().contains(s.getKlient().getKrajkod())) {
+                                    //polska0unia1zagranica2 = 1;
+                                    rodzajdk = "WDT";
+                                }
                         }
                         Dokfk nd = new Dokfk(s, wpisView, rodzajdk);
                         Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
@@ -234,6 +238,7 @@ public class ImportSprzedazyFKView  implements Serializable {
             } else {
                 Msg.msg("Wygenerowano dokumenty w liczbie "+lista.size());
             }
+            listasprzedaz = null;
         } catch (Exception ex) {
             E.e(ex);
             Msg.msg("e","Wystąpił błąd. Nie udało się wygenerować dokumentów");

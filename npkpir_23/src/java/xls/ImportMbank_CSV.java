@@ -68,7 +68,7 @@ public class ImportMbank_CSV implements Serializable {
                             pn.setWyciagnrod(baza.get(0));
                             pn.setWyciagnrdo(baza.get(0));
                             pn.setWyciagdataod(Data.zmienkolejnosc(baza.get(2)));
-                            if (pn.getWyciagnrod()!=null) {
+                            if (pn.getWyciagdataod()!=null) {
                                 mcod = pn.getWyciagdataod().split("-")[1];
                             }
                             pn.setWyciagdatado(Data.zmienkolejnosc(baza.get(1)));

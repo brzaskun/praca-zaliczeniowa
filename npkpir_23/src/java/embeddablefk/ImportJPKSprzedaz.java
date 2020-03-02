@@ -62,7 +62,7 @@ public class ImportJPKSprzedaz implements Serializable {
     public void setSprzedazWiersz(SprzedazWiersz sprzedazWiersz) {
         this.sprzedazWiersz = sprzedazWiersz;
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 5;
