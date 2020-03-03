@@ -227,7 +227,7 @@ public class BankImportView implements Serializable {
                            zwrot = ImportPKO_XML.importujdok(partia, wyciagdataod, numerwyciagu);
                            break;
                         case 2 :
-                           zwrot = ImportMbank_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
+                           zwrot = ImportSantander_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
                            break;
                         case 3 :
                            zwrot = ImportMbankHist_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
@@ -236,7 +236,8 @@ public class BankImportView implements Serializable {
                            break;
                     }
                     if (zwrot.size()==5) {
-                        pobranefaktury=null;
+                        Msg.msg("e", "Nie pobrano wszystkich plików. Wystąpił błąd");
+                        break;
                     } else {
                         if (naglowek==null) {
                             naglowek = (ImportowanyPlikNaglowek) zwrot.get(0);
@@ -269,16 +270,17 @@ public class BankImportView implements Serializable {
                 grid3.setRendered(true);
                 alert1.setRendered(false);
                 generujbutton.setRendered(true);
-                Msg.msg("Pobrano wszystkie dane");
+                Msg.msg("Pobrano dane");
             } else {
                 grid2.setRendered(false);
                 grid2.setRendered(false);
                 alert1.setRendered(true);
-                Msg.msg("e","Zaciągnięto wyciągi z innego miesiąca");
+                Msg.msg("e","Zaciągnięto wyciągi z błędem");
             }
             
         } catch (Exception e) {
-            Msg.msg("e", "Wystąpił błąd przy pobieraniu danych");
+            Msg.msg("e", "Wystąpił błąd przy pobieraniu danych ");
+            System.out.println(E.e(e));
         }
     }
 

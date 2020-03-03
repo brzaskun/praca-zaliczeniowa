@@ -251,15 +251,15 @@ public class WpisView implements Serializable {
     
     public void naniesDaneDoWpis() {
         czegosbrakuje = false;
+        if (uzer.getPodatnik()==null || !uzer.getPodatnik().equals(podatnikObiekt)) {
+            uzer.setPodatnik(podatnikObiekt);
+            //System.out.println("zmiana podatnika na "+podatnikObiekt.getPrintnazwa());
+        }
         if (!miesiacWpisu.equals("CR")) {
             uzer.setMiesiacWpisu(miesiacWpisu);
             miesiacWpisuArchiwum = miesiacWpisu;
         } else if (miesiacWpisu.equals("CR")){
             uzer.setMiesiacWpisu(Data.aktualnyMc());
-        }
-        if (uzer.getPodatnik()==null || !uzer.getPodatnik().equals(podatnikObiekt)) {
-            uzer.setPodatnik(podatnikObiekt);
-            //System.out.println("zmiana podatnika na "+podatnikObiekt.getPrintnazwa());
         }
         uzer.setRokWpisu(rokWpisu);
         uzer.setMiesiacOd(miesiacOd);

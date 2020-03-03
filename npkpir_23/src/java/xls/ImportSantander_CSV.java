@@ -7,6 +7,7 @@ package xls;
 
 import data.Data;
 import dedra.Dedraparser;
+import error.E;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -34,7 +35,7 @@ import static xls.ImportPKO_XML.pT;
  * @author Osito
  */
 
-public class ImportMbank_CSV implements Serializable {
+public class ImportSantander_CSV implements Serializable {
     private static final long serialVersionUID = 1L;
     
     
@@ -43,6 +44,7 @@ public class ImportMbank_CSV implements Serializable {
         List<ImportBankWiersz> pobranefaktury = new ArrayList<>();
         ImportowanyPlikNaglowek pn = new ImportowanyPlikNaglowek();
         String mcod = null;
+        String ostatnidobrzeprzetworzony = "żaden";
         try {
             InputStream file = new ByteArrayInputStream(pobrane);
             if (pobrane!=null) {
@@ -51,9 +53,12 @@ public class ImportMbank_CSV implements Serializable {
                         String line;
                         while ((line = br.readLine()) != null) {
                             String[] values = line.split(";");
-                            records.add(Arrays.asList(values));
+                            List<String> wiersze = Arrays.asList(values);
+                            ostatnidobrzeprzetworzony = wiersze.toString();
+                            records.add(wiersze);
                         }
                     } catch (Exception e) {
+                        E.e(e);
                     }
                     int i = 0;
                     for (Iterator<List<String>> it = records.iterator(); it.hasNext();) {
@@ -67,7 +72,7 @@ public class ImportMbank_CSV implements Serializable {
                             }
                             pn.setWyciagnrod(baza.get(0));
                             pn.setWyciagnrdo(baza.get(0));
-                            pn.setWyciagdataod(Data.zmienkolejnosc(baza.get(2)));
+                            pn.setWyciagdataod(Data.zmienkolejnosc(baza.get(1)));
                             if (pn.getWyciagdataod()!=null) {
                                 mcod = pn.getWyciagdataod().split("-")[1];
                             }
@@ -108,7 +113,7 @@ public class ImportMbank_CSV implements Serializable {
                 }
             }
         } catch (Exception e) {
-            Msg.msg("e", "Wystąpił błąd przy pobieraniu danych");
+            E.e(e);
         }
         zwrot.add(pn);
         zwrot.add(pobranefaktury);
