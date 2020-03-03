@@ -63,8 +63,8 @@ public class ImportowanyPlikConv implements javax.faces.convert.Converter{
     private List<ImportowanyPlik> zrobrodzajeimportu() {
         List<ImportowanyPlik> zwrot = new ArrayList<>();
         zwrot.add(new ImportowanyPlik("Bank PeKaO SA xml","xml", 1));
-        zwrot.add(new ImportowanyPlik("Mbank GCO csv ;","csv",";",2));
-        zwrot.add(new ImportowanyPlik("Mbank hist csv ;","csv",";",3));
+        zwrot.add(new ImportowanyPlik("Santander csv ;","csv",";",2));
+        zwrot.add(new ImportowanyPlik("Mbank csv ;","csv",";",3));
         zwrot.add(new ImportowanyPlik("MT940 csv ;","csv",";",4));
         return zwrot;
     }
