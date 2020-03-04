@@ -43,7 +43,7 @@
                     <f:selectItems value="#{dokfkView.dokumentypodatnika}" var="item" itemLabel="#{item.skrot}" itemValue="#{item.skrot}"/>
              </p:selectOneMenu>
                 <h:outputText value="sprawdź, aby zaksięgować wszystkie" style="width: 120px; margin-left: 40px;"/>
-                 <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkWeryfikacjaView.sprawdzWnMawDokfk(dokfkView.wykazZaksiegowanychDokumentowimport)}" style="width: 120px; margin-left: 20px;" 
+                 <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkWeryfikacjaView.sprawdzWnMawDokfk(dokfkView.wykazZaksiegowanychDokumentowimport, dokfkView)}" style="width: 120px; margin-left: 20px;" 
                                          update="zestawieniedokumentowimport" 
                                          />
                  <p:commandButton id="zaksieguj" value="zaksieguj" actionListener="#{dokfkView.zaksiegujimport(dokfkView.wykazZaksiegowanychDokumentowimport)}" style="width: 120px; margin-left: 80px; float: right;" 
