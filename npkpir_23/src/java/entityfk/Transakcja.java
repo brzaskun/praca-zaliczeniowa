@@ -58,10 +58,10 @@ public class Transakcja  implements Serializable {
     //to jest id generowany przez serwer
     private Integer id;
     @JoinColumn(name="rozliczajacy_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @ManyToOne(fetch = FetchType.LAZY)
     private StronaWiersza rozliczajacy;
     @JoinColumn(name="nowaTransakcja_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @ManyToOne(fetch = FetchType.LAZY)
     private StronaWiersza nowaTransakcja;
     @Basic(optional = false)
     @NotNull

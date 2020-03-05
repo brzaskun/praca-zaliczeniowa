@@ -151,7 +151,7 @@ public class StronaWiersza implements Serializable {
     private double kursBO;
     private String opisBO;
     @JoinColumn(name = "wierszbo_id", referencedColumnName = "id")
-    @ManyToOne(cascade = CascadeType.REFRESH)
+    @ManyToOne
     private WierszBO wierszbo;
     @Transient
     private Set<String> opis;
