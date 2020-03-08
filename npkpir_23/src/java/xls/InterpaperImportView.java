@@ -161,6 +161,9 @@ public class InterpaperImportView implements Serializable {
                 plikinterpaper = uploadedFile.getContents();
                 PrimeFaces.current().ajax().update("panelplik");
                 grid1.setRendered(true);
+                grid2.setRendered(false);
+                grid3.setRendered(false);
+                pobranefaktury = null;
                 Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
             } else {
                 Msg.msg("e","Niewłaściwy typ pliku");

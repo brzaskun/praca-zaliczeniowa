@@ -536,27 +536,27 @@ public class SaldoAnalitykaView implements Serializable {
                     if (tylkozapisywalutowe && !r.getSymbolWalutBOiSW().equals("PLN")) {
                         if (r.getWnma().equals("Wn")) {
                             if (r.getDokfk().getMiesiac().equals(mc)) {
-                                p.setObrotyWnMc(Z.z(p.getObrotyWnMc() + r.getKwota()));
+                                p.setObrotyWnMc(Z.z(p.getObrotyWnMc() + Z.z(r.getKwota())));
                             }
-                            p.setObrotyWn(Z.z(p.getObrotyWn() + r.getKwota()));
+                            p.setObrotyWn(Z.z(p.getObrotyWn() + Z.z(r.getKwota())));
                         } else {
                             if (r.getDokfk().getMiesiac().equals(mc)) {
-                                p.setObrotyMaMc(Z.z(p.getObrotyMaMc() + r.getKwota()));
+                                p.setObrotyMaMc(Z.z(p.getObrotyMaMc() + Z.z(r.getKwota())));
                             }
-                            p.setObrotyMa(Z.z(p.getObrotyMa() + r.getKwota()));
+                            p.setObrotyMa(Z.z(p.getObrotyMa() + Z.z(r.getKwota())));
                         }
                         p.getZapisy().add(r);
                     } else if (!tylkozapisywalutowe) {
                         if (r.getWnma().equals("Wn")) {
                             if (r.getDokfk().getMiesiac().equals(mc)) {
-                                p.setObrotyWnMc(Z.z(p.getObrotyWnMc() + r.getKwotaPLN()));
+                                p.setObrotyWnMc(Z.z(p.getObrotyWnMc() + Z.z(r.getKwotaPLN())));
                             }
-                            p.setObrotyWn(Z.z(p.getObrotyWn() + r.getKwotaPLN()));
+                            p.setObrotyWn(Z.z(p.getObrotyWn() + Z.z(r.getKwotaPLN())));
                         } else {
                             if (r.getDokfk().getMiesiac().equals(mc)) {
-                                p.setObrotyMaMc(Z.z(p.getObrotyMaMc() + r.getKwotaPLN()));
+                                p.setObrotyMaMc(Z.z(p.getObrotyMaMc() + Z.z(r.getKwotaPLN())));
                             }
-                            p.setObrotyMa(Z.z(p.getObrotyMa() + r.getKwotaPLN()));
+                            p.setObrotyMa(Z.z(p.getObrotyMa() + Z.z(r.getKwotaPLN())));
                         }
                         p.getZapisy().add(r);
                     }

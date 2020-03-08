@@ -685,18 +685,24 @@ public class DokFKVATBean {
         try {
             Waluty w = selected.getWalutadokumentu();
             StronaWiersza wn = wierszpierwszy.getStronaWn()!=null?wierszpierwszy.getStronaWn():new StronaWiersza(wierszpierwszy, "Wn");
-            if (wierszpierwszy.getStronaWn()==null){
+            if (wierszpierwszy.getTypWiersza()==0 && wierszpierwszy.getStronaWn()==null){
                 wierszpierwszy.setStronaWn(wn);
-            };
+            }
             StronaWiersza ma = wierszpierwszy.getStronaMa()!=null?wierszpierwszy.getStronaMa():new StronaWiersza(wierszpierwszy, "Ma");
-            if (wierszpierwszy.getStronaMa()==null){
+            if (wierszpierwszy.getTypWiersza()==0 && wierszpierwszy.getStronaMa()==null){
                 wierszpierwszy.setStronaMa(ma);
             };
-            if (wn.getKwota()==0.0) {
+            if (wierszpierwszy.getTypWiersza()!=0 && wierszpierwszy.getStronaWn()!=null && wierszpierwszy.getStronaWn().getKonto()==null){
+                wierszpierwszy.setStronaWn(null);
+            }
+            if (wierszpierwszy.getTypWiersza()!=0 && wierszpierwszy.getStronaMa()!=null && wierszpierwszy.getStronaMa().getKonto()==null){
+                wierszpierwszy.setStronaMa(null);
+            }
+            if (wierszpierwszy.getTypWiersza()==0 && wn.getKwota()==0.0) {
                 wn.setKwota(ma.getKwota());
                 wn.setKwotaPLN(ma.getKwotaPLN());
             }
-            if (ma.getKwota()==0.0) {
+            if (wierszpierwszy.getTypWiersza()==0 && ma.getKwota()==0.0) {
                 ma.setKwota(wn.getKwota());
                 ma.setKwotaPLN(wn.getKwotaPLN());
             }

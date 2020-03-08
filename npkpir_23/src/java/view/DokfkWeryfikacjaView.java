@@ -399,6 +399,8 @@ public class DokfkWeryfikacjaView implements Serializable {
         try {
             double sumawn = 0.0;
             double sumama = 0.0;
+            double sumawnpln = 0.0;
+            double sumamapln = 0.0;
             boolean jestkontonieostatnieWn = false;
             boolean jestkontonieostatnieMa = false;
             boolean brakkonto = false;
@@ -426,7 +428,8 @@ public class DokfkWeryfikacjaView implements Serializable {
                                 brakwpln = true;
                             }
                         }
-                        sumawn += wn.getKwotaPLN();
+                        sumawn += wn.getKwota();
+                        sumawnpln += wn.getKwotaPLN();
                     }
                     if (ma != null) {
                         if (ma.getKonto() == null) {
@@ -445,7 +448,8 @@ public class DokfkWeryfikacjaView implements Serializable {
                                 brakwpln = true;
                             }
                         }
-                        sumama += ma.getKwotaPLN();
+                        sumama += ma.getKwota();
+                        sumamapln += ma.getKwotaPLN();
                     }
                     if (jestkontonieostatnieWn == true || jestkontonieostatnieMa == true) {
                         if (!listabrakiKontaAnalityczne.contains(p)) {
@@ -457,6 +461,26 @@ public class DokfkWeryfikacjaView implements Serializable {
             }
             if (Z.z(sumawn) != Z.z(sumama)) {
                 double roznica = Z.z(Z.z(sumawn) - Z.z(sumama));
+                listaRozniceWnMa.add(p);
+                if (liczbawierszy > 1) {
+                    StronaWiersza swWn = p.getListawierszy().get(0).getStronaWn();
+                    StronaWiersza swMa = p.getListawierszy().get(0).getStronaMa();
+                    String symbol = swWn.getSymbolWaluty() != null ? swWn.getSymbolWaluty() : swWn.getSymbolWalutyBO();
+                    if (roznica > 0) {
+                        swMa.setKwota(swMa.getKwota() + roznica);
+                    } else {
+                        swWn.setKwota(swWn.getKwota() - roznica);
+                    }
+                    Rodzajedok rodzajdok = p.getRodzajedok();
+                    if (rodzajdok.getKategoriadokumentu() == 0) {
+                        for (Wiersz w : p.getListawierszy()) {
+                            rozliczVatKosztNaprawWB(w, p);
+                        }
+                    }
+                }
+            }
+            if (Z.z(sumawnpln) != Z.z(sumamapln)) {
+                double roznica = Z.z(Z.z(sumawnpln) - Z.z(sumamapln));
                 listaRozniceWnMa.add(p);
                 if (liczbawierszy > 1) {
                     StronaWiersza swWn = p.getListawierszy().get(0).getStronaWn();

@@ -37,7 +37,7 @@
                         <h:outputText value="plik z dokumentami źródłowymi " style="font-weight: bold;"/>
                         <p:fileUpload fileUploadListener="#{interpaperImportView.zachowajplik}" 
                                       mode="advanced" dragDropSupport="true" fileLimit="3"
-                                      update="messages1 @form" sizeLimit="10000000"   
+                                      update="messages1 panelprzyciskow form_importinterpaper" sizeLimit="10000000"   
                                       invalidSizeMessage="Plik za duży"
                                       fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
                                       uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
@@ -60,9 +60,9 @@
             </p:panelGrid>
         </h:form>
         <h:form id="panelprzyciskow">
-        <p:panelGrid columns="2" rendered="false" binding="#{interpaperImportView.grid2}">
+        <p:panelGrid columns="3" rendered="false" binding="#{interpaperImportView.grid2}">
         <h:outputText value="#{interpaperImportView.wiadomoscnieprzypkonta}" style="color: red; margin-bottom: 10px;"/>
-        <h:outputText value=" "/>
+        <h:outputText value=" "/><h:outputText value=" "/>
                 <p:commandButton value="pobierz dane" actionListener="#{interpaperImportView.importujdok()}" update="panelprzyciskow form_importinterpaper" style="width: 120px;" />
                 <p:commandButton value="generuj dok" actionListener="#{interpaperImportView.generuj()}" update="form_importinterpaper" style="width: 120px;margin-left: 30px;" rendered="false" binding="#{interpaperImportView.generujbutton}"/>
                 <p:commandButton value="drukuj sprzedaż" actionListener="#{interpaperImportView.drukuj()}" update="form_importinterpaper" style="width: 120px;margin-left: 30px;" rendered="false" binding="#{interpaperImportView.drkujfizbutton}"/>
