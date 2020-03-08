@@ -77,11 +77,11 @@ public PanstwaMap(){
 
     }
 
-    public  Map<String, String> getWykazPanstwSX() {
+    public static  Map<String, String> getWykazPanstwSX() {
         return wykazPanstwSX;
     }
 
-    public  void setWykazPanstwS(Map<String, String> wykazPanstwSX) {
+    public static  void setWykazPanstwS(Map<String, String> wykazPanstwSX) {
         PanstwaMap.wykazPanstwSX = wykazPanstwSX;
     }
 

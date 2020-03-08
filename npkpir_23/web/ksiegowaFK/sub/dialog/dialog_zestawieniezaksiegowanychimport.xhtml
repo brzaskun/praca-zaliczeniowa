@@ -76,7 +76,8 @@
                          selection="#{dokfkView.selectedimport}" rowKey="#{item.id}" selectionMode="single" 
                          style="width: 1250px; height: 580px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValueimport}"
                          emptyMessage="Brak importowanych dokumentów" styleClass="gridZaksiegowane walkingtable"
-                         sortBy="#{item.id}" >
+                         sortBy="#{item.id}"
+                         rowsPerPageTemplate="150,300,600,900,1200" paginatorPosition="top" paginator="#{dokfkView.wykazZaksiegowanychDokumentowimport.size() gt 150 ? 'true':'false'}" rows="150">
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
                 <p:ajax event="filter" global="false"/>
                 <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center; height: 35px;">

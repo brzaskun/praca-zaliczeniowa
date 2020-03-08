@@ -18,7 +18,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import view.WpisView;import xls.ReadXLSFile;
+import msg.Msg;import view.WpisView;import xls.ReadCSVInterpaperFile;
 
 /**
  *
@@ -91,7 +91,7 @@ public class PlanKontInterView implements Serializable {
      }
      
     public void pobierzdanezpliku(Podatnik podatnik, String rok) {
-        ReadXLSFile.updateKonta(kontoDAOfk, podatnik, Integer.parseInt(rok), "c://temp//plankont.xlsx");
+        ReadCSVInterpaperFile.updateKonta(kontoDAOfk, podatnik, Integer.parseInt(rok), "c://temp//plankont.xlsx");
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(podatnik, rok);
     }
 

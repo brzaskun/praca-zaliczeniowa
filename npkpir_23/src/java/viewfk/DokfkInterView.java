@@ -15,7 +15,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import view.WpisView;import xls.ReadXLSFile;
+import msg.Msg;import view.WpisView;import xls.ReadCSVInterpaperFile;
 
 /**
  *
@@ -53,7 +53,7 @@ public class DokfkInterView implements Serializable {
     }
     
     public void pobierzdanezpliku() {
-        ReadXLSFile.updateRodzajedok(rodzajedokDAO, wpisView, "c://temp//rodzajedok.xlsx");
+        ReadCSVInterpaperFile.updateRodzajedok(rodzajedokDAO, wpisView, "c://temp//rodzajedok.xlsx");
         rodzajedoklista = rodzajedokDAO.findListaPodatnikRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
     }
 

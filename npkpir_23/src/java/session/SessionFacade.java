@@ -91,6 +91,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -112,6 +113,11 @@ public class SessionFacade<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @PreDestroy
+    private void end() {
+        em.clear();
+        em.close();
+    }
 
     @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;

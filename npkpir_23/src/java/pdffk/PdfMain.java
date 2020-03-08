@@ -35,6 +35,7 @@ import embeddable.Mce;
 import embeddable.SchemaEwidencjaSuma;
 import embeddable.ZestawienieRyczalt;
 import embeddablefk.ImportJPKSprzedaz;
+import embeddablefk.InterpaperXLS;
 import embeddablefk.KontoBO;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Dok;
@@ -65,6 +66,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -761,6 +763,21 @@ public class PdfMain {
         }
     }
     
+    public static void dodajTabele2(Document document, String[] nag, int[] col, List wiersze, int perc, int modyfikator, String nazwaklasy) {
+        try {
+            List nag1 = Arrays.asList(nag);
+            if (wiersze != null && wiersze.size() > 0) {
+                String nazwaklasy1 = nazwaklasy==null? wiersze.get(0).getClass().getName():nazwaklasy;
+                PdfPTable table = przygotujtabele(nag1.size(), col, perc, 2f, 3f);
+                ustawnaglowki(table, nag1);
+                ustawwiersze(table, wiersze, nazwaklasy1, modyfikator);
+                document.add(table);
+            }
+        } catch (DocumentException ex) {
+            E.e(ex);
+        }
+    }
+    
      public static void dodajTabeleVies(Document document, List[] tabela, int perc, int modyfikator) {
         try {
             List naglowki = tabela[0];
@@ -957,6 +974,22 @@ public class PdfMain {
                 col[8] = 3;
                 col[9] = 3;
                 col[10] = 3;
+                return col;
+            case "embeddablefk.InterpaperXLS":
+                col = new int[size];
+                col[0] = 2;
+                col[1] = 3;
+                col[2] = 3;
+                col[3] = 3;
+                col[4] = 3;
+                col[5] = 5;
+                col[6] = 2;
+                col[7] = 4;
+                col[8] = 3;
+                col[9] = 3;
+                col[10] = 3;
+                col[11] = 3;
+                col[12] = 2;
                 return col;
             case "entity.Podatnik":
                 col = new int[size];
@@ -1644,6 +1677,20 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOstatniaplatnosckwota())), "right", 8));
                 }
             }
+            if (nazwaklasy.equals("tabelazorint")) {
+                //Object[] a = new Object[]{kraj, waluta, nettowaluta, vatwaluta, bruttowal, nettopl, vatpl, bruttopln};
+                List pa =  (List) it.next();
+                Object[] p = pa.toArray();
+                table.addCell(ustawfrazeAlign(i++, "center", 7));
+                table.addCell(ustawfrazeAlign((String)p[0], "left", 7));
+                table.addCell(ustawfrazeAlign((String)p[1], "left", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[2])), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[3])), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[4])), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[5])), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[6])), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[7])), "right", 8));
+            }
             if (nazwaklasy.equals("embeddablefk.ImportJPKSprzedaz")) {
                 ImportJPKSprzedaz p =  (ImportJPKSprzedaz) it.next();
                 table.addCell(ustawfrazeAlign(i++, "center", 7));
@@ -2231,6 +2278,36 @@ public class PdfMain {
                     table.addCell(emptyCell());
                     table.addCell(emptyCell());
                 }
+            }
+            if (nazwaklasy.equals("embeddable.SchemaEwidencjaSuma")) {
+                SchemaEwidencjaSuma p = (SchemaEwidencjaSuma) it.next();
+                table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getSchemaEwidencja().getEvewidencja().getNazwa(), "left", 8));
+                table.addCell(ustawfrazeAlign(p.getSchemaEwidencja().getPolenetto(), "center", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getEVatwpisSuma().getNetto())), "right", 8));
+                if (p.getEVatwpisSuma().getVat().doubleValue() != 0.0) {
+                    table.addCell(ustawfrazeAlign(p.getSchemaEwidencja().getPolevat(), "center", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getEVatwpisSuma().getVat())), "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "center", 8));
+                    table.addCell(ustawfrazeAlign("", "center", 8));
+                }
+            }
+            if (nazwaklasy.equals("embeddablefk.InterpaperXLS")) {
+                InterpaperXLS p = (InterpaperXLS) it.next();
+                table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7, 24f));
+                table.addCell(ustawfrazeAlign(Data.data_yyyyMMdd(p.getDatawystawienia()), "center", 8));
+                table.addCell(ustawfrazeAlign(Data.data_yyyyMMdd(p.getDatasprzedaży()), "center", 8));
+                table.addCell(ustawfrazeAlign(Data.data_yyyyMMdd(p.getDataobvat()), "left", 8));
+                table.addCell(ustawfrazeAlign(p.getNrfaktury(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getKlientnazwa(), "left", 8));
+                table.addCell(ustawfrazeAlign(p.getKlientpaństwo(), "left", 8));
+                table.addCell(ustawfrazeAlign(p.getAdres(), "left", 8));
+                table.addCell(ustawfrazeAlign(number.format(p.getNettoPLN()), "right", 8));
+                table.addCell(ustawfrazeAlign(number.format(p.getVatPLN()), "right", 8));
+                table.addCell(ustawfrazeAlign(number.format(p.getNettowaluta()), "right", 8));
+                table.addCell(ustawfrazeAlign(number.format(p.getVatwaluta()), "right", 8));
+                table.addCell(ustawfrazeAlign(p.getVatstawka(), "center", 8));
             }
             if (nazwaklasy.equals("embeddable.SchemaEwidencjaSuma")) {
                 SchemaEwidencjaSuma p = (SchemaEwidencjaSuma) it.next();

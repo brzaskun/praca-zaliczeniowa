@@ -10,6 +10,7 @@ import embeddable.Mce;
 import embeddable.SchemaEwidencjaSuma;
 import embeddable.ZestawienieRyczalt;
 import embeddablefk.ImportJPKSprzedaz;
+import embeddablefk.InterpaperXLS;
 import embeddablefk.KontoBO;
 import embeddablefk.TreeNodeExtended;
 import entity.DeklaracjaVatSchemaWierszSum;
@@ -302,6 +303,27 @@ public class testobjects {
        n.add("vat stawka");
        n.add("vat kraj");
        n.add("tab/kurs");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+    
+    public static List[] getListaXLSImport(List<InterpaperXLS> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("data wystawienia");
+       n.add("data sprzedaży");
+       n.add("data ob.vat");
+       n.add("nr własny");
+       n.add("kontrahent");
+       n.add("kraj");
+       n.add("adres");
+       n.add("netto");
+       n.add("vat");  
+       n.add("netto wal.");
+       n.add("vat wal.");
+       n.add("vat stawka");
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;

@@ -47,62 +47,11 @@ import view.WpisView;
  * @author Osito
  */
 
-public class ReadXLSFile {
+public class ReadCSVInterpaperFile {
     
     private static String filename = "c://temp//faktury2.xlsx";
     
-    public static List<InterpaperXLS> getListafaktur(byte[] plikinterpaper) {
-        List<InterpaperXLS> listafaktur = Collections.synchronizedList(new ArrayList<>());
-         try {
-            InputStream file = new ByteArrayInputStream(plikinterpaper);
-             //Create Workbook instance holding reference to .xlsx file
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
-             //Get first/desired sheet from the workbook
-            XSSFSheet sheet = workbook.getSheetAt(0);
-             //Iterate through each rows one by one
-            Iterator<Row> rowIterator = sheet.iterator();
-            int i =1;
-            while (rowIterator.hasNext()) {
-                Row row = rowIterator.next();
-                try {
-                    InterpaperXLS interpaperXLS = new InterpaperXLS();
-                    interpaperXLS.setNr(i++);
-                    interpaperXLS.setNrfaktury(row.getCell(0).getStringCellValue());
-                    interpaperXLS.setDatawystawienia(row.getCell(2).getDateCellValue());
-                    interpaperXLS.setDatasprzedaży(row.getCell(3).getDateCellValue());
-                    interpaperXLS.setDataobvat(row.getCell(4).getDateCellValue());
-                    interpaperXLS.setKontrahent(row.getCell(5).getStringCellValue());
-                    interpaperXLS.setNip(row.getCell(6).getStringCellValue());
-                    interpaperXLS.setWalutaplatnosci(row.getCell(7).getStringCellValue());
-                    interpaperXLS.setBruttowaluta(row.getCell(8).getNumericCellValue());
-                    interpaperXLS.setSaldofaktury(row.getCell(9).getNumericCellValue());
-                    interpaperXLS.setTerminplatnosci(row.getCell(10).getDateCellValue());
-                    interpaperXLS.setPrzekroczenieterminu((int) row.getCell(11).getNumericCellValue());
-                    if (row.getCell(11) != null) {
-                        interpaperXLS.setOstatniawplata(row.getCell(12).getDateCellValue());
-                    } else {
-                        interpaperXLS.setOstatniawplata(null);
-                    }
-                    interpaperXLS.setSposobzaplaty(row.getCell(13).getStringCellValue());
-                    interpaperXLS.setNettowaluta(row.getCell(14).getNumericCellValue());
-                    interpaperXLS.setVatwaluta(row.getCell(15).getNumericCellValue());
-                    interpaperXLS.setNettoPLN(row.getCell(16).getNumericCellValue());
-                    interpaperXLS.setNettoPLNvat(row.getCell(17).getNumericCellValue());
-                    interpaperXLS.setVatPLN(row.getCell(18).getNumericCellValue());
-                    interpaperXLS.setBruttoPLN(row.getCell(19).getNumericCellValue());
-                    listafaktur.add(interpaperXLS);
-                } catch (Exception e){
-                    System.out.println("");
-                }
-            }
-            file.close();
-        }
-        catch (Exception e) {
-            E.e(e);
-        }
-        return listafaktur;
-    }
-    
+        
      public static List<InterpaperXLS> getListafakturCSV(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, GUSView gUSView) {
         List<InterpaperXLS> listafaktur = Collections.synchronizedList(new ArrayList<>());
          try {
@@ -244,6 +193,7 @@ public class ReadXLSFile {
                     znalezieni.put(interpaperXLS.getKontrahent(), klient);
                 }
             }
+           
             if (klient.getKrajnazwa()==null) {
                 String nip = klient.getNip();
                 String kod = klient.getKodpocztowy();

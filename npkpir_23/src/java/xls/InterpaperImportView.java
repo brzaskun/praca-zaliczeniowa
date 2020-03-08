@@ -55,6 +55,7 @@ import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
+import pdf.PdfXLSImport;
 import view.WpisView;import waluty.Z;
 
 /**
@@ -96,10 +97,13 @@ public class InterpaperImportView implements Serializable {
     private List<Rodzajedok> rodzajedokKlienta;
     private String wiadomoscnieprzypkonta;
     private String rodzajdok;
+    private PanelGrid grid0;
     private PanelGrid grid1;
     private PanelGrid grid2;
     private PanelGrid grid3;
+    private boolean sabraki;
     private CommandButton generujbutton;
+    private CommandButton drkujfizbutton;
     private Konto kontonetto;
     private Konto kontonettokoszt;
     private Konto kontovat;
@@ -107,6 +111,8 @@ public class InterpaperImportView implements Serializable {
     private Konto kontovatnaliczonyprzesuniecie;
     private Tabelanbp tabelanbppl;
     private Waluty walutapln;
+    private List<ImportowanyPlik> rodzajeimportu;
+    private ImportowanyPlik wybranyrodzajimportu;
     
     private Klienci selectedimport1;
     private String selectedimport1text;
@@ -129,6 +135,7 @@ public class InterpaperImportView implements Serializable {
                 }
             }
         }
+        rodzajeimportu = zrobrodzajeimportu();
         kontonetto = kontoDAO.findKonto("702-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         kontovat = kontoDAO.findKonto("221-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         kontonettokoszt = kontoDAO.findKonto("403", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
@@ -138,12 +145,18 @@ public class InterpaperImportView implements Serializable {
         walutapln = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
     }
     
+     private List<ImportowanyPlik> zrobrodzajeimportu() {
+        List<ImportowanyPlik> zwrot = new ArrayList<>();
+        zwrot.add(new ImportowanyPlik("Interpaper csv ;","csv",1));
+        zwrot.add(new ImportowanyPlik("Zorint xlsx","xls","",2));
+        return zwrot;
+    }
     
     public void zachowajplik(FileUploadEvent event) {
         try {
             UploadedFile uploadedFile = event.getFile();
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
-            if (extension.equals("csv")) {
+            if (extension.equals("csv")||extension.equals("xls")) {
                 String filename = uploadedFile.getFileName();
                 plikinterpaper = uploadedFile.getContents();
                 PrimeFaces.current().ajax().update("panelplik");
@@ -162,9 +175,22 @@ public class InterpaperImportView implements Serializable {
     public void importujdok() {
         try {
             List<Klienci> k = klienciDAO.findAll();
-            pobranefaktury = ReadXLSFile.getListafakturCSV(plikinterpaper, k, klienciDAO, rodzajdok, gUSView);
+            switch (wybranyrodzajimportu.getLp()) {
+                case 1:
+                    pobranefaktury = ReadCSVInterpaperFile.getListafakturCSV(plikinterpaper, k, klienciDAO, rodzajdok, gUSView);
+                    break;
+                case 2:
+                    pobranefaktury = ReadXLSFirmaoFile.getListafakturXLS(plikinterpaper, k, klienciDAO, rodzajdok, gUSView);
+                    break;
+            }
             grid3.setRendered(true);
-            generujbutton.setRendered(true);
+            if (rodzajdok.equals("sprzedaż NIP") || rodzajdok.equals("zakup")) {
+                generujbutton.setRendered(true);
+                drkujfizbutton.setRendered(true);
+            } else {
+                drkujfizbutton.setRendered(true);
+                generujbutton.setRendered(false);
+            }
             Msg.msg("Pobrano wszystkie dane");
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd przy pobieraniu danych");
@@ -174,18 +200,31 @@ public class InterpaperImportView implements Serializable {
 //        }
     }
     
+    public void grid0pokaz() {
+        if (sabraki==false) {
+            grid0.setRendered(true);
+            Msg.msg("i","Wybranonastępujący format importu "+wybranyrodzajimportu);
+        } else {
+            Msg.msg("e", "Są braki. Nie można wszytać pliku");
+        }
+    }
+    
     public void generuj() {
         if (pobranefaktury !=null && pobranefaktury.size()>0) {
             List<Klienci> k = klienciDAO.findAll();
             int ile = 0;
             if (selected !=null && selected.size()>0) {
                 for (InterpaperXLS p : selected) {
-                   ile += generowanieDokumentu(p, k);
+                    if (p.getKlient().getNip()!=null) {
+                        ile += generowanieDokumentu(p, k);
+                    }
                 }
                 Msg.msg("Zaksięgowano "+ile+" z wybranych dokumentów");
             } else {
                 for (InterpaperXLS p : pobranefaktury) {
-                   ile += generowanieDokumentu(p, k);
+                   if (p.getNip()!=null) {
+                        ile += generowanieDokumentu(p, k);
+                   }
                 }
                 Msg.msg("Zaksięgowano "+ile+" dokumentów");
             }
@@ -195,7 +234,7 @@ public class InterpaperImportView implements Serializable {
     }
     
      public int generowanieDokumentu(InterpaperXLS interpaperXLS, List<Klienci> k) {
-        int ile = 0;
+        int ile = 1;
         try {
             int polska0unia1zagranica2 = 0;
             if (interpaperXLS.getKlient().getKrajnazwa()!=null && !interpaperXLS.getKlient().getKrajkod().equals("PL")) {
@@ -208,8 +247,12 @@ public class InterpaperImportView implements Serializable {
                 System.out.println("");
             }
             String rodzajdk = "ZZ";
-            if (rodzajdok.equals("sprzedaż")) {
-                rodzajdk = polska0unia1zagranica2==0 ? "SZ" : polska0unia1zagranica2==1 ? "UPTK100" : "UPTK";
+            if (this.rodzajdok.contains("sprzedaż")) {
+                if (wybranyrodzajimportu.getLp()==1) {
+                    rodzajdk = polska0unia1zagranica2==0 ? "SZ" : polska0unia1zagranica2==1 ? "UPTK100" : "UPTK";
+                } else {
+                    rodzajdk = polska0unia1zagranica2==0 ? "SZ" : polska0unia1zagranica2==1 ? "WDT" : "EXP";
+                }
             } else {
                 rodzajdk = polska0unia1zagranica2==0 ? "ZZ" : "IU";
             }
@@ -234,10 +277,11 @@ public class InterpaperImportView implements Serializable {
         ustawdaty(nd, interpaperXLS);
         nd.setKontr(interpaperXLS.getKlient());
         ustawnumerwlasny(nd, interpaperXLS);
-        nd.setOpisdokfk("usługa transportowa");
+        nd.setOpisdokfk("sprzedaż towarów");
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
         ustawrodzajedok(nd, rodzajdok);
         ustawtabelenbp(nd, interpaperXLS);
+        przewalutuj(nd, interpaperXLS);
         podepnijEwidencjeVat(nd, interpaperXLS);
         Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
         if (juzjest!=null || nd.getKontr()==null) {
@@ -250,6 +294,19 @@ public class InterpaperImportView implements Serializable {
             nd.przeliczKwotyWierszaDoSumyDokumentu();
         }
         return nd;
+    }
+      
+    private void przewalutuj(Dokfk nd, InterpaperXLS interpaperXLS) {
+        Tabelanbp t = nd.getTabelanbp();
+        if (t!=null && !t.getWaluta().getSymbolwaluty().equals("PLN")) {
+            interpaperXLS.setNettoPLN(Z.z(interpaperXLS.getNettowaluta()*t.getKurssredni()*t.getKurssredniPrzelicznik()));
+            interpaperXLS.setVatPLN(Z.z(interpaperXLS.getVatPLN()*t.getKurssredni()*t.getKurssredniPrzelicznik()));
+        } else {
+            interpaperXLS.setNettoPLN(interpaperXLS.getNettowaluta());
+            interpaperXLS.setVatPLN(interpaperXLS.getVatPLN());
+        }
+        interpaperXLS.setBruttowaluta(Z.z(interpaperXLS.getNettowaluta()+interpaperXLS.getVatwaluta()));
+        interpaperXLS.setBruttoPLN(Z.z(interpaperXLS.getNettoPLN()+interpaperXLS.getVatPLN()));
     }
       
     private int oblicznumerkolejny(String rodzajdok) {
@@ -273,7 +330,7 @@ public class InterpaperImportView implements Serializable {
         nd.setDatawystawienia(datawystawienia);
         nd.setDataujecia(new Date());
         nd.setMiesiac(wpisView.getMiesiacWpisu());
-        if (rodzajdok.equals("sprzedaż")) {
+        if (rodzajdok.contains("sprzedaż")) {
             nd.setVatM(datasprzedazy.split("-")[1]);
             nd.setVatR(datasprzedazy.split("-")[0]);
         } else {
@@ -382,7 +439,7 @@ public class InterpaperImportView implements Serializable {
     private Wiersz przygotujwierszNetto(InterpaperXLS interpaperXLS, Dokfk nd) {
         Wiersz w = new Wiersz(1, 0);
         uzupelnijwiersz(w, nd, 0);
-        String opiswiersza = "usługa transportowa"; 
+        String opiswiersza = nd.getOpisdokfk(); 
         w.setOpisWiersza(opiswiersza);
         StronaWiersza strwn = new StronaWiersza(w, "Wn", interpaperXLS.getBruttowaluta(), null);
         StronaWiersza strma = new StronaWiersza(w, "Ma", interpaperXLS.getNettowaluta(), null);
@@ -398,7 +455,7 @@ public class InterpaperImportView implements Serializable {
     private Wiersz przygotujwierszVat(InterpaperXLS interpaperXLS, Dokfk nd) {
         Wiersz w = new Wiersz(2, 2);
         uzupelnijwiersz(w, nd, 1);
-        String opiswiersza = "usługa transportowa - VAT"; 
+        String opiswiersza = nd.getOpisdokfk()+" - VAT"; 
         w.setOpisWiersza(opiswiersza);
         StronaWiersza strma = new StronaWiersza(w, "Ma", interpaperXLS.getVatwaluta(), null);
         strma.setKwotaPLN(interpaperXLS.getVatPLN());
@@ -410,7 +467,7 @@ public class InterpaperImportView implements Serializable {
     private Wiersz przygotujwierszNettoK(InterpaperXLS interpaperXLS, Dokfk nd) {
         Wiersz w = new Wiersz(1, 0);
         uzupelnijwiersz(w, nd, 0);
-        String opiswiersza = "usługa transportowa"; 
+        String opiswiersza = nd.getOpisdokfk(); 
         w.setOpisWiersza(opiswiersza);
         StronaWiersza strma = new StronaWiersza(w, "Ma", interpaperXLS.getBruttowaluta(), null);
         StronaWiersza strwn = new StronaWiersza(w, "Wn", interpaperXLS.getNettowaluta(), null);
@@ -426,7 +483,7 @@ public class InterpaperImportView implements Serializable {
     private Wiersz przygotujwierszVatK(InterpaperXLS interpaperXLS, Dokfk nd) {
         Wiersz w = new Wiersz(2, 1);
         uzupelnijwiersz(w, nd, 1);
-        String opiswiersza = "usługa transportowa - VAT"; 
+        String opiswiersza = nd.getOpisdokfk()+" - VAT"; 
         w.setOpisWiersza(opiswiersza);
         StronaWiersza strwn = new StronaWiersza(w, "Wn", interpaperXLS.getVatwaluta(), null);
         strwn.setKwotaPLN(interpaperXLS.getVatPLN());
@@ -475,7 +532,27 @@ public class InterpaperImportView implements Serializable {
                                     break;
                                 }
                             } else {
-                                if (PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("import usług art. 28b")) {
+                                if (PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("rejestr WDT")) {
+                                    eVatwpisFK.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
+                                    eVatwpisFK.setVatwwalucie(0.0);
+                                    eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
+                                    eVatwpisFK.setVat(0.0);
+                                    eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()));
+                                    eVatwpisFK.setDokfk(nd);
+                                    eVatwpisFK.setEstawka("op");
+                                    nd.getEwidencjaVAT().add(eVatwpisFK);
+                                    break;
+                                } else if (!PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("eksport towarów")) {
+                                    eVatwpisFK.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
+                                    eVatwpisFK.setVatwwalucie(0.0);
+                                    eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
+                                    eVatwpisFK.setVat(0.0);
+                                    eVatwpisFK.setBrutto(Z.z(interpaperXLS.getNettoPLNvat()));
+                                    eVatwpisFK.setDokfk(nd);
+                                    eVatwpisFK.setEstawka("op");
+                                    nd.getEwidencjaVAT().add(eVatwpisFK);
+                                    break;
+                                } else if (PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("import usług art. 28b")) {
                                     eVatwpisFK.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
                                     eVatwpisFK.setVatwwalucie(Z.z(interpaperXLS.getVatwaluta()));
                                     eVatwpisFK.setNetto(Z.z(interpaperXLS.getNettoPLNvat()));
@@ -672,6 +749,10 @@ public class InterpaperImportView implements Serializable {
     public void grid2pokaz() {
         grid2.setRendered(true);
     }
+    
+    public void drukuj() {
+        PdfXLSImport.drukuj(pobranefaktury, wpisView, 0);
+    }
      
     public WpisView getWpisView() {
         return wpisView;
@@ -786,6 +867,40 @@ public class InterpaperImportView implements Serializable {
     public void setSelectedimport(Klienci selectedimport) {
         this.selectedimport = selectedimport;
     }
+
+    public List<ImportowanyPlik> getRodzajeimportu() {
+        return rodzajeimportu;
+    }
+
+    public void setRodzajeimportu(List<ImportowanyPlik> rodzajeimportu) {
+        this.rodzajeimportu = rodzajeimportu;
+    }
+
+    public ImportowanyPlik getWybranyrodzajimportu() {
+        return wybranyrodzajimportu;
+    }
+
+    public void setWybranyrodzajimportu(ImportowanyPlik wybranyrodzajimportu) {
+        this.wybranyrodzajimportu = wybranyrodzajimportu;
+    }
+
+    public PanelGrid getGrid0() {
+        return grid0;
+    }
+
+    public void setGrid0(PanelGrid grid0) {
+        this.grid0 = grid0;
+    }
+
+    public CommandButton getDrkujfizbutton() {
+        return drkujfizbutton;
+    }
+
+    public void setDrkujfizbutton(CommandButton drkujfizbutton) {
+        this.drkujfizbutton = drkujfizbutton;
+    }
+
+    
 
     
 

@@ -9,6 +9,7 @@ import entity.Klienci;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import waluty.Z;
 
 /**
  *
@@ -24,6 +25,13 @@ public class InterpaperXLS implements Serializable {
     private Date dataobvat;
     private String kontrahent;
     private Klienci klient;
+    private String klientnazwa;
+    private String klientpaństwo;
+    private String klientkod;
+    private String klientmiasto;
+    private String klientulica;
+    private String klientdom;
+    private String klientlokal;
     private String nip;
     private String walutaplatnosci;
     private double bruttowaluta;
@@ -78,6 +86,16 @@ public class InterpaperXLS implements Serializable {
         return "InterpaperXLS{" + "nrfaktury=" + nrfaktury + ", datawystawienia=" + datawystawienia + ", datasprzeda\u017cy=" + datasprzedaży + ", kontrahent=" + kontrahent + ", walutaplatnosci=" + walutaplatnosci + ", bruttowaluta=" + bruttowaluta + ", nettowaluta=" + nettowaluta + ", vatwaluta=" + vatwaluta + '}';
     }
 
+    
+    public String getAdres() {
+        return this.klientkod+" "+this.klientmiasto+" "+this.klientulica+" "+this.klientdom;
+    }
+    
+    public String getVatstawka() {
+        double stawka = this.vatwaluta/this.nettowaluta;
+        stawka = Z.z(stawka)*100;
+        return stawka+"%";
+    }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
     
@@ -264,7 +282,64 @@ public class InterpaperXLS implements Serializable {
     public void setJuzzaksiegowany(boolean juzzaksiegowany) {
         this.juzzaksiegowany = juzzaksiegowany;
     }
+    
 //</editor-fold>
+
+    public String getKlientnazwa() {
+        return klientnazwa;
+    }
+
+    public void setKlientnazwa(String klientnazwa) {
+        this.klientnazwa = klientnazwa;
+    }
+
+    public String getKlientpaństwo() {
+        return klientpaństwo;
+    }
+
+    public void setKlientpaństwo(String klientpaństwo) {
+        this.klientpaństwo = klientpaństwo;
+    }
+
+    public String getKlientkod() {
+        return klientkod;
+    }
+
+    public void setKlientkod(String klientkod) {
+        this.klientkod = klientkod;
+    }
+
+    public String getKlientmiasto() {
+        return klientmiasto;
+    }
+
+    public void setKlientmiasto(String klientmiasto) {
+        this.klientmiasto = klientmiasto;
+    }
+
+    public String getKlientulica() {
+        return klientulica;
+    }
+
+    public void setKlientulica(String klientulica) {
+        this.klientulica = klientulica;
+    }
+
+    public String getKlientdom() {
+        return klientdom;
+    }
+
+    public void setKlientdom(String klientdom) {
+        this.klientdom = klientdom;
+    }
+
+    public String getKlientlokal() {
+        return klientlokal;
+    }
+
+    public void setKlientlokal(String klientlokal) {
+        this.klientlokal = klientlokal;
+    }
 
     
 

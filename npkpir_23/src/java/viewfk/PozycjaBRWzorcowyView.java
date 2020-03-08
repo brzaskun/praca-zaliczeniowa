@@ -37,7 +37,7 @@ import msg.Msg;import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.TreeNode;
 import org.primefaces.model.UploadedFile;
-import view.WpisView;import xls.ReadXLSFile;
+import view.WpisView;import xls.ReadCSVInterpaperFile;
 
 /**
  *
@@ -277,7 +277,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
             if (extension.equals("xlsx")) {
                 byte[] contents = uploadedFile.getContents();
-                ReadXLSFile.updateRZiSInter(pozycjaRZiSDAO, wpisView, contents);
+                ReadCSVInterpaperFile.updateRZiSInter(pozycjaRZiSDAO, wpisView, contents);
                 pobierzuklad("r", rootProjektRZiS, "");
             }
         }catch (Exception ex) {
@@ -293,7 +293,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
             if (extension.equals("xlsx")) {
                 byte[] contents = uploadedFile.getContents();
-                ReadXLSFile.updateBilansInter(pozycjaBilansDAO, wpisView, contents);
+                ReadCSVInterpaperFile.updateBilansInter(pozycjaBilansDAO, wpisView, contents);
                 pobierzuklad("b", rootProjektRZiS, "aktywa");
             }
         }catch (Exception ex) {

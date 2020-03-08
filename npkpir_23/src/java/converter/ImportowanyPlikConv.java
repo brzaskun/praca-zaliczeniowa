@@ -66,6 +66,9 @@ public class ImportowanyPlikConv implements javax.faces.convert.Converter{
         zwrot.add(new ImportowanyPlik("Santander csv ;","csv",";",2));
         zwrot.add(new ImportowanyPlik("Mbank csv ;","csv",";",3));
         zwrot.add(new ImportowanyPlik("MT940 csv ;","csv",";",4));
+        //to dotyczy importowanych faktur
+        zwrot.add(new ImportowanyPlik("Interpaper csv ;","csv",1));
+        zwrot.add(new ImportowanyPlik("Zorint xlsx","xls","",2));
         return zwrot;
     }
 }
