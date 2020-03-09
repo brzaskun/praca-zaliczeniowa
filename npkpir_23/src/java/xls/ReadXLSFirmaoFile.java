@@ -175,15 +175,9 @@ public class ReadXLSFirmaoFile {
             interpaperXLS.setBruttowaluta(row.getCell(15).getNumericCellValue());
             interpaperXLS.setSaldofaktury(row.getCell(15).getNumericCellValue());
             interpaperXLS.setTerminplatnosci(row.getCell(10).getDateCellValue());
-            //interpaperXLS.setPrzekroczenieterminu((int) row.getCell(11).getNumericCellValue());
-            //if (row.getCell(11) != null) {
-            //    interpaperXLS.setOstatniawplata(row.getCell(12).getDateCellValue());
-            //} else {
-            //    interpaperXLS.setOstatniawplata(null);
-            //}
-            //interpaperXLS.setSposobzaplaty(row.getCell(13).getStringCellValue());
-            interpaperXLS.setNettowaluta(row.getCell(14).getNumericCellValue());
-            interpaperXLS.setVatwaluta(row.getCell(16).getNumericCellValue());
+            interpaperXLS.setNettowaluta(row.getCell(17).getNumericCellValue());
+            interpaperXLS.setVatwaluta(row.getCell(18).getNumericCellValue());
+            interpaperXLS.setBruttowaluta(row.getCell(17).getNumericCellValue()+row.getCell(18).getNumericCellValue());
             interpaperXLS.setNettoPLN(row.getCell(14).getNumericCellValue());
             interpaperXLS.setNettoPLNvat(row.getCell(14).getNumericCellValue());
             interpaperXLS.setVatPLN(row.getCell(16).getNumericCellValue());
@@ -208,18 +202,11 @@ public class ReadXLSFirmaoFile {
             interpaperXLS.setNip(row.getCell(3).getStringCellValue().replace("-", "").trim());
             interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni, gUSView));
             interpaperXLS.setWalutaplatnosci(row.getCell(13).getStringCellValue());
-            interpaperXLS.setBruttowaluta(row.getCell(15).getNumericCellValue());
             interpaperXLS.setSaldofaktury(row.getCell(15).getNumericCellValue());
             interpaperXLS.setTerminplatnosci(row.getCell(10).getDateCellValue());
-            //interpaperXLS.setPrzekroczenieterminu((int) row.getCell(11).getNumericCellValue());
-            //if (row.getCell(11) != null) {
-            //    interpaperXLS.setOstatniawplata(row.getCell(12).getDateCellValue());
-            //} else {
-            //    interpaperXLS.setOstatniawplata(null);
-            //}
-            //interpaperXLS.setSposobzaplaty(row.getCell(13).getStringCellValue());
-            interpaperXLS.setNettowaluta(row.getCell(14).getNumericCellValue());
-            interpaperXLS.setVatwaluta(row.getCell(16).getNumericCellValue());
+            interpaperXLS.setNettowaluta(row.getCell(17).getNumericCellValue());
+            interpaperXLS.setVatwaluta(row.getCell(18).getNumericCellValue());
+            interpaperXLS.setBruttowaluta(row.getCell(17).getNumericCellValue()+row.getCell(18).getNumericCellValue());
             interpaperXLS.setNettoPLN(row.getCell(14).getNumericCellValue());
             interpaperXLS.setNettoPLNvat(row.getCell(14).getNumericCellValue());
             interpaperXLS.setVatPLN(row.getCell(16).getNumericCellValue());
