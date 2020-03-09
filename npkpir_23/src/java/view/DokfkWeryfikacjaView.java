@@ -178,6 +178,20 @@ public class DokfkWeryfikacjaView implements Serializable {
             main = "Występują różnice w stronach Wn i Ma w PLN w " + listaRozniceWnMa.size() + " dokumentach: ";
             b = pobierzbledy(listaRozniceWnMa, main, wykazZaksiegowanychDokumentow);
             czysto = false;
+            for (Dokfk p : listaRozniceWnMa) {
+                for (Wiersz x : p.getListawierszy()) {
+                    if (x.getStronaWn()!=null) {
+                        x.getStronaWn().setKwota(Z.z(x.getStronaWn().getKwota()));
+                        x.getStronaWn().setKwotaPLN(Z.z(x.getStronaWn().getKwotaPLN()));
+                        x.getStronaWn().setKwotaWaluta(Z.z(x.getStronaWn().getKwotaWaluta()));
+                    }
+                    if (x.getStronaMa()!=null) {
+                        x.getStronaMa().setKwota(Z.z(x.getStronaMa().getKwota()));
+                        x.getStronaMa().setKwotaPLN(Z.z(x.getStronaMa().getKwotaPLN()));
+                        x.getStronaMa().setKwotaWaluta(Z.z(x.getStronaMa().getKwotaWaluta()));
+                    }
+                }
+            }
             dokDAOfk.editList(listaRozniceWnMa);
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
@@ -246,7 +260,7 @@ public class DokfkWeryfikacjaView implements Serializable {
             Msg.msg("i", "Nie stwierdzono błędów w dokumentach z listy", "zestawieniedokumentow:wiadomoscsprawdzenie");
         }
         ksiegujbutton.setRendered(true);
-        dokfkView.setWykazZaksiegowanychDokumentow(wykazZaksiegowanychDokumentow);
+        //dokfkView.setWykazZaksiegowanychDokumentow(wykazZaksiegowanychDokumentow);
     }
     
     private StringBuilder pobierzbledy(List<Dokfk> l, String main, List<Dokfk> wykazZaksiegowanychDokumentow) {
@@ -420,11 +434,11 @@ public class DokfkWeryfikacjaView implements Serializable {
                         if (wn.getKonto() != null) {
                             jestkontonieostatnieWn = wn.getKonto().isMapotomkow();
                         }
-                        if (wn.getKwota() > 0 && wn.getKwotaPLN() == 0) {
+                        if (wn.getKwota() > 0.0 && wn.getKwotaPLN() == 0.0) {
                             brakwpln = true;
                         }
                         if (r.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
-                            if (Z.z(wn.getKwota()) != Z.z(wn.getKwotaPLN())) {
+                            if (wn.getKwota() != wn.getKwotaPLN()) {
                                 brakwpln = true;
                             }
                         }
@@ -440,11 +454,11 @@ public class DokfkWeryfikacjaView implements Serializable {
                         if (ma.getKonto() != null) {
                             jestkontonieostatnieMa = ma.getKonto().isMapotomkow();
                         }
-                        if (ma.getKwota() > 0 && ma.getKwotaPLN() == 0) {
+                        if (ma.getKwota() > 0.0 && ma.getKwotaPLN() == 0.0) {
                             brakwpln = true;
                         }
                         if (r.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
-                            if (Z.z(ma.getKwota()) != Z.z(ma.getKwotaPLN())) {
+                            if (ma.getKwota() != ma.getKwotaPLN()) {
                                 brakwpln = true;
                             }
                         }
@@ -460,34 +474,29 @@ public class DokfkWeryfikacjaView implements Serializable {
                 }
             }
             if (Z.z(sumawn) != Z.z(sumama)) {
-                double roznica = Z.z(Z.z(sumawn) - Z.z(sumama));
+                double roznica = sumawn - sumama;
                 listaRozniceWnMa.add(p);
                 if (liczbawierszy > 1) {
                     StronaWiersza swWn = p.getListawierszy().get(0).getStronaWn();
                     StronaWiersza swMa = p.getListawierszy().get(0).getStronaMa();
                     String symbol = swWn.getSymbolWaluty() != null ? swWn.getSymbolWaluty() : swWn.getSymbolWalutyBO();
-                    if (roznica > 0) {
+                    if (roznica > 0.0) {
                         swMa.setKwota(swMa.getKwota() + roznica);
                     } else {
                         swWn.setKwota(swWn.getKwota() - roznica);
                     }
                     Rodzajedok rodzajdok = p.getRodzajedok();
-                    if (rodzajdok.getKategoriadokumentu() == 0) {
-                        for (Wiersz w : p.getListawierszy()) {
-                            rozliczVatKosztNaprawWB(w, p);
-                        }
-                    }
                 }
             }
             if (Z.z(sumawnpln) != Z.z(sumamapln)) {
-                double roznica = Z.z(Z.z(sumawnpln) - Z.z(sumamapln));
+                double roznica = sumawnpln - sumamapln;
                 listaRozniceWnMa.add(p);
                 if (liczbawierszy > 1) {
                     StronaWiersza swWn = p.getListawierszy().get(0).getStronaWn();
                     StronaWiersza swMa = p.getListawierszy().get(0).getStronaMa();
                     String symbol = swWn.getSymbolWaluty() != null ? swWn.getSymbolWaluty() : swWn.getSymbolWalutyBO();
                     if (!symbol.equals("PLN")) {
-                        if (roznica > 0) {
+                        if (roznica > 0.0) {
                             swMa.setKwotaPLN(swMa.getKwotaPLN() + roznica);
                         } else {
                             swWn.setKwotaPLN(swWn.getKwotaPLN() - roznica);

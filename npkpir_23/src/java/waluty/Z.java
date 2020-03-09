@@ -15,7 +15,7 @@ import java.math.RoundingMode;
  * @author Osito
  */
 public class Z implements Serializable {
-    public static double z(double l) {
+    public static double z_old(double l) {
         double m = Math.round(l * 100);
         m /= 100;
         return m;
@@ -73,6 +73,11 @@ public class Z implements Serializable {
     
      public static BigDecimal zBD2(double l) {
          return new BigDecimal(l).setScale(2, RoundingMode.HALF_EVEN);
+     }
+     
+     public static double z(double l) {
+        BigDecimal nowa = new BigDecimal(l).setScale(2, RoundingMode.HALF_EVEN);
+        return nowa.doubleValue();
      }
      
     
