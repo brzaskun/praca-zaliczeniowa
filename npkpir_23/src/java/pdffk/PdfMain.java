@@ -1690,6 +1690,7 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[5])), "right", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[6])), "right", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[7])), "right", 8));
+                table.addCell(ustawfrazeAlign((String)p[8], "left", 7));
             }
             if (nazwaklasy.equals("embeddablefk.ImportJPKSprzedaz")) {
                 ImportJPKSprzedaz p =  (ImportJPKSprzedaz) it.next();

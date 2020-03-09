@@ -64,8 +64,8 @@ public class PdfXLSImport {
                 }
             }
             document.newPage();
-            String[] nag1 = new String[]{"lp","kraj","waluta","netto","vat","brutto","nettopln","vatpln","bruttopln"};
-            int[] nag2 = new int[]{2,3,3,3,3,3,3,3,3};
+            String[] nag1 = new String[]{"lp","kraj","waluta","netto","vat","brutto","nettopln","vatpln","bruttopln", "stawka vat"};
+            int[] nag2 = new int[]{2,3,3,3,3,3,3,3,3,3};
             dodajTabele2(document, nag1, nag2, tabelazbiorcza, 70, modyfikator,"tabelazorint");
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
@@ -90,11 +90,13 @@ public class PdfXLSImport {
         double vatwaluta = 0.0;
         double nettopl = 0.0;
         double vatpl = 0.0;
+        String vatstawka = null;
         for (InterpaperXLS p : lista) {
             nettopl = Z.z(nettopl+p.getNettoPLN());
             vatpl = Z.z(vatpl+p.getVatPLN());
             nettowaluta = Z.z(nettowaluta+p.getNettowaluta());
             vatwaluta = Z.z(vatwaluta+p.getVatwaluta());
+            vatstawka = p.getVatstawka();
         }
         double bruttopln = Z.z(nettopl+vatpl);
         double bruttowal = Z.z(nettowaluta+vatwaluta);
@@ -108,7 +110,7 @@ public class PdfXLSImport {
             opis = "netto wal: "+F.curr(nettowaluta, waluta)+" vat wal: "+F.curr(vatwaluta, waluta)+" brutto: "+F.curr(bruttowal, waluta);
             PdfMain.dodajLinieOpisu(document, opis);
         } catch(Exception e) {}
-        Object[] a = new Object[]{kraj, waluta, nettowaluta, vatwaluta, bruttowal, nettopl, vatpl, bruttopln};
+        Object[] a = new Object[]{kraj, waluta, nettowaluta, vatwaluta, bruttowal, nettopl, vatpl, bruttopln, vatstawka};
         tabelazbiorcza.add(Arrays.asList(a));
         
     }

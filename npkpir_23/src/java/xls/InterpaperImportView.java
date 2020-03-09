@@ -426,7 +426,7 @@ public class InterpaperImportView implements Serializable {
     
     private void ustawwiersze(Dokfk nd, InterpaperXLS interpaperXLS) {
         nd.setListawierszy(new ArrayList<Wiersz>());
-        if (rodzajdok.equals("sprzedaż")) {
+        if (rodzajdok.contains("sprzedaż")) {
             nd.getListawierszy().add(przygotujwierszNetto(interpaperXLS, nd));
             if (interpaperXLS.getVatwaluta() != 0) {
                 nd.getListawierszy().add(przygotujwierszVat(interpaperXLS, nd));
