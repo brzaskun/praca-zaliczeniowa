@@ -35,7 +35,7 @@ public class SprFinInfDodBeanTXT {
 
     static void naglowekglowny(Document document, String rok) {
         PdfMain.dodajLinieOpisuBezOdstepu(document, "INFORMACJA DODATKOWA", Element.ALIGN_CENTER);
-        PdfMain.dodajLinieOpisuBezOdstepu(document, "Za rok podatkowy "+rok, Element.ALIGN_CENTER);
+        PdfMain.dodajLinieOpisuBezOdstepu(document, "Za rok obrotowy "+rok, Element.ALIGN_CENTER);
         PdfMain.dodajLinieOpisu(document, "WG ZAŁĄCZNIKA NR 1 DO USTAWY O RACHUNKOWOŚCI", Element.ALIGN_CENTER);
     }
 
@@ -92,11 +92,11 @@ public class SprFinInfDodBeanTXT {
 
     static void zasadyrachunkowosci(Document document) {
         PdfMain.dodajLinieOpisuBezOdstepu(document,"Sprawozdanie finansowe zostało przygotowane zgodnie z wymogami ustawy z dnia 29 września 1994 roku o rachunkowości obowiązującymi jednostki.", Element.ALIGN_JUSTIFIED);
-        PdfMain.dodajLinieOpisuBezOdstepu(document,"Jednostka sporządza rachunek zysków i strat w układzie jednostronnym ", Element.ALIGN_JUSTIFIED);
+        PdfMain.dodajLinieOpisuBezOdstepu(document,"Jednostka sporządza rachunek zysków i strat w układzie porównawczym ", Element.ALIGN_JUSTIFIED);
         PdfMain.dodajLinieOpisuBezOdstepu(document,"W sprawozdaniu finansowym Jednostka wykazuje zdarzenia gospodarcze zgodnie z ich treścią ekonomiczną.", Element.ALIGN_JUSTIFIED);
         PdfMain.dodajLinieOpisuBezOdstepu(document,"Wynik finansowy jednostki za dany rok obrotowy obejmuje wszystkie osiągnięte i przypadające na jej rzecz przychody oraz związane z tymi przychodami koszty zgodnie z zasadami memoriału, współmierności przychodów i kosztów oraz ostrożnej wyceny.", Element.ALIGN_JUSTIFIED);
         PdfMain.dodajLinieOpisuBezOdstepu(document,"Wartości niematerialne i prawne wycenia się według cen nabycia lub kosztów wytworzenia dla kosztów prac rozwojowych, pomniejszonych o skumulowane odpisy umorzeniowe oraz o odpisy z tytułu trwałej utraty wartości.", Element.ALIGN_JUSTIFIED);
-        PdfMain.dodajLinieOpisuBezOdstepu(document,"W 2018 roku wśród wartości niematerialnych i prawnych jednostka nie posiadała.", Element.ALIGN_JUSTIFIED);
+        PdfMain.dodajLinieOpisuBezOdstepu(document,"W roku obrotowym wartości niematerialnych i prawnych jednostka nie posiadała.", Element.ALIGN_JUSTIFIED);
         PdfMain.dodajLinieOpisuBezOdstepu(document,"Środki trwałe są wycenianie w cenie nabycia lub koszcie wytworzenia po aktualizacji wyceny składników majątku pomniejszonych o skumulowane umorzenie oraz dokonane odpisy aktualizujące ich wartość.", Element.ALIGN_JUSTIFIED);
         PdfMain.dodajLinieOpisuBezOdstepu(document,"Dla celów podatkowych przyjmowane były stawki amortyzacyjne wynikające z ustawy z dnia 15 lutego 1992 roku o podatku dochodowym od osób prawnych określającej wysokość amortyzacji stanowiącej koszty uzyskania przychodów. Określa ono wysokość amortyzacji stanowiącej koszty uzyskania przychodu.", Element.ALIGN_JUSTIFIED);
         PdfMain.dodajLinieOpisuBezOdstepu(document,"Składniki majątku o przewidywanym okresie użytkowania nieprzekraczającym jednego roku oraz wartości początkowej nieprzekraczającej 3,5 tysiąca złotych są jednorazowo odpisywane w ciężar kosztów w momencie przekazania do użytkowania. ", Element.ALIGN_JUSTIFIED);
