@@ -46,8 +46,8 @@ public class PdfCechyZapisow {
         }
         if (wiersze != null && wiersze.size() > 0) {
             try {
-                List<CechyzapisuPrzegladView.CechaStronaWiersza> wk = wierszeseparacja(wiersze, 0);
-                List<CechyzapisuPrzegladView.CechaStronaWiersza> wp = wierszeseparacja(wiersze, 1);
+                List<CechyzapisuPrzegladView.CechaStronaWiersza> wp = wierszeseparacja(wiersze, 0);
+                List<CechyzapisuPrzegladView.CechaStronaWiersza> wk = wierszeseparacja(wiersze, 1);
                 List<CechyzapisuPrzegladView.CechaStronaWiersza> ws = wierszeseparacja(wiersze, 2);
                 Uz uz = wpisView.getUzer();
                 Document document = inicjacjaA4Portrait();
@@ -59,7 +59,15 @@ public class PdfCechyZapisow {
                     dodajTabele(document, testobjects.testobjects.getTabelaCechyZapisow(wk),100,0);
                     double razem = 0.0;
                     for (CechaStronaWiersza p : wk) {
-                        razem += p.getStronaWiersza().getKwotaPLN();
+                        if (p.getCechazapisu().getNazwacechy().equals("KUPMN")) {
+                            if (p.getStronaWiersza().getMc().equals("12") && p.getStronaWiersza().getRok().equals(wpisView.getRokUprzedniSt())) {
+                                razem -= p.getStronaWiersza().getKwotaPLN();
+                            } else {
+                                razem += p.getStronaWiersza().getKwotaPLN();
+                            }
+                        } else {
+                            razem += p.getStronaWiersza().getKwotaPLN();
+                        }
                     }
                     NumberFormat format = getNumberFormater();
                     dodajLinieOpisu(document, "razem: "+format.format(razem));

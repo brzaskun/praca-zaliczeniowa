@@ -78,7 +78,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         this.listamiesiecypoprzednich = Collections.synchronizedList(new ArrayList<>());
         this.dozaplaty = Collections.synchronizedList(new ArrayList<>());
         List<WynikFKRokMc> listapobrana = wynikFKRokMcDAO.findWynikFKPodatnikRok(wpisView);
-        int biezacymc = Integer.parseInt(wpisView.getMiesiacWpisu());
+        int biezacymc = Integer.parseInt(wpisView.getMiesiacWpisu().equals("CR")?Data.aktualnyMc():wpisView.getMiesiacWpisu());
         for (Iterator<WynikFKRokMc> p = listapobrana.iterator(); p.hasNext(); ) {
             WynikFKRokMc r = (WynikFKRokMc) p.next();
             if (r.getUdzialowiec() == null || r.getUdzialowiec().equals("firma")) {

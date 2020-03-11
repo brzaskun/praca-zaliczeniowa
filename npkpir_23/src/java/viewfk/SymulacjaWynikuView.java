@@ -719,6 +719,22 @@ public class SymulacjaWynikuView implements Serializable {
         return zwrot;
     }
 
+    public double getKupmn_mc_pop() {
+        return kupmn_mc_pop;
+    }
+
+    public void setKupmn_mc_pop(double kupmn_mc_pop) {
+        this.kupmn_mc_pop = kupmn_mc_pop;
+    }
+
+    public double getPmn_mc_pop() {
+        return pmn_mc_pop;
+    }
+
+    public void setPmn_mc_pop(double pmn_mc_pop) {
+        this.pmn_mc_pop = pmn_mc_pop;
+    }
+
     
     
     

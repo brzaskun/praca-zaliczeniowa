@@ -2310,20 +2310,6 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(number.format(p.getVatwaluta()), "right", 8));
                 table.addCell(ustawfrazeAlign(p.getVatstawka(), "center", 8));
             }
-            if (nazwaklasy.equals("embeddable.SchemaEwidencjaSuma")) {
-                SchemaEwidencjaSuma p = (SchemaEwidencjaSuma) it.next();
-                table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
-                table.addCell(ustawfrazeAlign(p.getSchemaEwidencja().getEvewidencja().getNazwa(), "left", 8));
-                table.addCell(ustawfrazeAlign(p.getSchemaEwidencja().getPolenetto(), "center", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getEVatwpisSuma().getNetto())), "right", 8));
-                if (p.getEVatwpisSuma().getVat().doubleValue() != 0.0) {
-                    table.addCell(ustawfrazeAlign(p.getSchemaEwidencja().getPolevat(), "center", 8));
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getEVatwpisSuma().getVat())), "right", 8));
-                } else {
-                    table.addCell(ustawfrazeAlign("", "center", 8));
-                    table.addCell(ustawfrazeAlign("", "center", 8));
-                }
-            }
             if (nazwaklasy.equals("entityfk.EVatwpisDedra")) {
                 EVatwpisDedra p = (EVatwpisDedra) it.next();
                 table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7, 24f));

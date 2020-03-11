@@ -69,7 +69,7 @@ public class CechazapisuBean {
                         suma -= p.getKwotaPLN();
                     }
                 } else {
-                    if (p.getWnma().equals("Wn")) {
+                    if (p.getWnma().equals("Ma")) {
                         suma -= p.getKwotaPLN();
                     } else {
                         suma += p.getKwotaPLN();

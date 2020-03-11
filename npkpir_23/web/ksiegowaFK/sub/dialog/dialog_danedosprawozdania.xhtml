@@ -89,7 +89,7 @@
                 <h:form>
                     <p:panelGrid columns="2">
                         <h:outputText value="sąd rejestrowy"/>
-                        <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.sad}" size="120">
+                        <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.sad}" size="100">
                             <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
                         </p:inputText>
                         <h:outputText value=""/>
@@ -138,7 +138,7 @@
                 </h:form>
                 <h:form>
                     <p:panelGrid columns="1">
-                    <h:outputText value="Ważne! Aby informacja poprawnie się wygenerowała, salda z poprzedniego roku muszą być zaksięgowane!"/>
+                        <h:outputText value="Ważne! Aby informacja poprawnie się wygenerowała, salda z bieżącego i poprzedniego roku muszą być zaksięgowane!" style="color: red;"/>
                     <p:commandButton value="generuj inf.dod." style="width: 120px;margin-top: 30px;" actionListener="#{sprFinKwotyInfDodView.generujInfdod}"/>
                     </p:panelGrid>
                 </h:form>

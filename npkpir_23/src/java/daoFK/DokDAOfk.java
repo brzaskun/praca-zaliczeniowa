@@ -59,11 +59,20 @@ public class DokDAOfk extends DAO implements Serializable {
 
     public List findDokfkPodatnikRokMc(WpisView wpisView) {
         try {
-           return Collections.synchronizedList(dokFacade.findDokfkPodatnikRokMc(wpisView));
+           return Collections.synchronizedList(dokFacade.findDokfkPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
        } catch (Exception e ){
            return null;
        }
     }
+    
+    public List findDokfkPodatnikRokMc(Podatnik podatnik, String rok, String mc) {
+        try {
+           return Collections.synchronizedList(dokFacade.findDokfkPodatnikRokMc(podatnik, rok, mc));
+       } catch (Exception e ){
+           return null;
+       }
+    }
+  
     
     public List findDokfkPodatnikRokMcVAT(WpisView wpisView) {
         try {

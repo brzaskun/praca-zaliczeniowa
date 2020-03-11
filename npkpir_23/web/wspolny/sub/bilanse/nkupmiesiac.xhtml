@@ -64,11 +64,13 @@
                     <bcf:outputpl value="#{wpis1.stronaWiersza.kwotaPLN}"/>
                 </p:column>
             </p:dataTable>
-            <p:panelGrid columns="4" style="padding: 10xp;">
+            <p:panelGrid columns="6" style="padding: 10xp;">
                 <h:outputText value="Razem NKUP"/>
                 <bcf:outputpl value="#{symulacjaWynikuView.nkup}"/>
                 <h:outputText value="Razem KUPMN"/>
                 <bcf:outputpl value="#{symulacjaWynikuView.kupmn_mc}"/>
+                <h:outputText value="Razem KUPMN mc pop"/>
+                <bcf:outputpl value="#{symulacjaWynikuView.kupmn_mc_pop}"/>
             </p:panelGrid>
             <p:dataTable id="tabelacechyzapisow1" var="wpis" value="#{symulacjaWynikuView.zapisyZCechaP}" rowKey="#{wpis.id}"
                          filteredValue="#{symulacjaWynikuView.zapisyZCechafilteredP}"
@@ -107,11 +109,13 @@
                     <bcf:outputpl value="#{wpis.stronaWiersza.kwotaPLN}"/>
                 </p:column>
             </p:dataTable>
-            <p:panelGrid columns="4" style="padding: 10xp;">
+            <p:panelGrid columns="6" style="padding: 10xp;">
                 <h:outputText value="Razem NPUP"/>
                 <bcf:outputpl value="#{symulacjaWynikuView.npup}"/>
                 <h:outputText value="Razem PMN"/>
                 <bcf:outputpl value="#{symulacjaWynikuView.pmn_mc}"/>
+                <h:outputText value="Razem PMN mc poprzedni"/>
+                <bcf:outputpl value="#{symulacjaWynikuView.pmn_mc_pop}"/>
             </p:panelGrid>
         </h:form>
     </p:tab>  

@@ -6,6 +6,7 @@
 package viewfk;
 
 import beansFK.CechazapisuBean;
+import comparator.CechaStronaWierszacomparator;
 import daoFK.DokDAOfk;
 import entityfk.Cechazapisu;
 import entityfk.Dokfk;
@@ -33,7 +34,6 @@ import view.WpisView; import org.primefaces.PrimeFaces;
 @ViewScoped
 public class CechyzapisuPrzegladView implements Serializable{
     private static final long serialVersionUID = 1L;
-    private List<Dokfk> wykazZaksiegowanychDokumentow;
     private List<CechaStronaWiersza> zapisyZCecha;
     private List<CechaStronaWiersza> zapisyZCechafilter;
     private List<CechaStronaWiersza> wybraneZapisyZCecha;
@@ -48,14 +48,13 @@ public class CechyzapisuPrzegladView implements Serializable{
 
     public CechyzapisuPrzegladView() {
          ////E.m(this);
-        this.wykazZaksiegowanychDokumentow = Collections.synchronizedList(new ArrayList<>());
         this.zapisyZCecha = Collections.synchronizedList(new ArrayList<>());
         this.wykazcech = new HashSet<>();
     }
     
     
     public void init() { //E.m(this);
-        wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
+        List<Dokfk> wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
         zapisyZCecha = Collections.synchronizedList(new ArrayList<>());
         zapisyZCecha = CechazapisuBean.pobierzstrony(wykazZaksiegowanychDokumentow);
         wykazcech = new HashSet<>();
@@ -72,13 +71,14 @@ public class CechyzapisuPrzegladView implements Serializable{
                 }
             }
         }
+        Collections.sort(zapisyZCecha, new CechaStronaWierszacomparator());
     }
     
     public void initCIT8() {
         zapisyZCecha = Collections.synchronizedList(new ArrayList<>());
         wykazcech = new HashSet<>();
         zapisyZCecha = Collections.synchronizedList(new ArrayList<>());
-        wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRok(wpisView);
+        List<Dokfk> wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRok(wpisView);
         this.zapisyZCecha = CechazapisuBean.pobierzstrony(wykazZaksiegowanychDokumentow);
         if (cit8) {
             for (Iterator<CechaStronaWiersza> it = zapisyZCecha.iterator(); it.hasNext();) {
@@ -89,6 +89,17 @@ public class CechyzapisuPrzegladView implements Serializable{
                     }
                 }
             }
+        }
+        wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt(), "12");
+        List<CechaStronaWiersza> zapisyZCecharokpop = CechazapisuBean.pobierzstrony(wykazZaksiegowanychDokumentow);
+        for (Iterator<CechaStronaWiersza> it = zapisyZCecharokpop.iterator(); it.hasNext();) {
+                CechaStronaWiersza p = it.next();
+                if (!p.cechazapisu.getNazwacechy().equals("KUPMN")&& !p.cechazapisu.getNazwacechy().equals("PMN")) {
+                    it.remove();
+                }
+        }
+        if (!zapisyZCecharokpop.isEmpty()) {
+            zapisyZCecha.addAll(zapisyZCecharokpop);
         }
         int i = 1;
         for (CechaStronaWiersza p : zapisyZCecha) {
@@ -103,7 +114,7 @@ public class CechyzapisuPrzegladView implements Serializable{
                 }
             }
         }
-        PrimeFaces.current().ajax().update("formcechyzapisow");
+        Collections.sort(zapisyZCecha, new CechaStronaWierszacomparator());
     }
 
     
@@ -123,7 +134,15 @@ public class CechyzapisuPrzegladView implements Serializable{
         razem = 0.0;
         if (zapisyZCecha!=null) {
             for (CechaStronaWiersza p : zapisyZCecha) {
-                razem += p.getStronaWiersza().getKwotaPLN();
+                if (p.getCechazapisu().getNazwacechy().equals("KUPMN")) {
+                    if (p.getStronaWiersza().getMc().equals("12") && p.getStronaWiersza().getRok().equals(wpisView.getRokUprzedniSt())) {
+                        razem -= p.getStronaWiersza().getKwotaPLN();
+                    } else {
+                        razem += p.getStronaWiersza().getKwotaPLN();
+                    }
+                } else {
+                    razem += p.getStronaWiersza().getKwotaPLN();
+                }
             }
         }
     }
@@ -131,7 +150,7 @@ public class CechyzapisuPrzegladView implements Serializable{
     public void sumujwybrane() {
         razem = 0.0;
         if (wybraneZapisyZCecha!=null) {
-            for (CechaStronaWiersza p : wybraneZapisyZCecha) {
+             for (CechaStronaWiersza p : wybraneZapisyZCecha) {
                 razem += p.getStronaWiersza().getKwotaPLN();
             }
         }

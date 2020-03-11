@@ -771,8 +771,11 @@ public class Dokfk extends DokSuper implements Serializable {
         return this.miesiac + "/" + this.getRok();
     }
     
+    public String getMc() {
+        return this.miesiac;
+    }
+    
    
-
     public void dodajKwotyWierszaDoSumyDokumentu(Wiersz biezacywiersz) {
         try {//robimy to bo sa nowy wiersz jest tez podsumowywany, ale moze byc przeciez pusty wiec wyrzuca blad
             int typwiersza = biezacywiersz.getTypWiersza();

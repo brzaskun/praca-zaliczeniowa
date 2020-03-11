@@ -11,7 +11,7 @@
         <h:form id="form_dialogzamknijksiegi">
             <p:panelGrid columns="2" style="margin-top: 10px;">
             <p:commandButton value="zamknij księgi" actionListener="#{zamknijKsiegiView.zamknijrokpoprzedni}" update="@form" style="width: 220px;"/>
-            <p:commandButton value="weryfikuj układ" actionListener="#{zamknijKsiegiView.weryfikujuklad}" update="@form" style="width: 220px;"/>
+            <p:commandButton value="weryfikuj układ" actionListener="#{zamknijKsiegiView.weryfikujuklad}" update="@form" style="width: 220px;" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
             </p:panelGrid>
             <p:messages showDetail="false" style="margin-top: 30px;"/>
         </h:form>

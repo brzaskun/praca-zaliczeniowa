@@ -869,6 +869,14 @@ public class StronaWiersza implements Serializable {
     public String getRokMc() {
         return this.getDokfk().getMcRok();
     }
+    
+    public String getMc() {
+        return this.getDokfk().getMc();
+    }
+    
+    public String getRok() {
+        return this.getDokfk().getRok();
+    }
 
     @Override
     public int hashCode() {
