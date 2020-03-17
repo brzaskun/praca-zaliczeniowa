@@ -467,20 +467,12 @@ public class SprFinInfDodBeanTXT {
         double kwota = 0.0;
         if (saldoKonto!=null) {
             if (modyfikatorstrona==0) {
-                if (saldoKonto.getObrotyWn()==0.0) {
-                    kwota = 0.0;
-                } else if (saldoKonto.getObrotyWn()!=0.0) {
-                    kwota = saldoKonto.getObrotyWn();
-                } else {
-                    kwota = -saldoKonto.getObrotyMa();
+                if (saldoKonto.getSaldoWn()>saldoKonto.getBoWn()) {
+                    kwota = Z.zAbs(Z.z(saldoKonto.getSaldoWn()-saldoKonto.getBoWn()));
                 }
             } else {
-                if (saldoKonto.getObrotyMa()==0.0) {
-                    kwota = 0.0;
-                } else if (saldoKonto.getObrotyMa()!=0.0) {
-                    kwota = saldoKonto.getObrotyMa();
-                } else {
-                    kwota = -saldoKonto.getObrotyWn();
+                if (saldoKonto.getSaldoWn()<saldoKonto.getBoWn()) {
+                    kwota = Z.zAbs(Z.z(saldoKonto.getBoWn()-saldoKonto.getSaldoWn()));
                 }
             }
         }
