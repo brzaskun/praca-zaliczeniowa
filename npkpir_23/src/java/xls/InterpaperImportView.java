@@ -164,6 +164,7 @@ public class InterpaperImportView implements Serializable {
                 grid2.setRendered(false);
                 grid3.setRendered(false);
                 pobranefaktury = null;
+                rodzajdok = null;
                 Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
             } else {
                 Msg.msg("e","Niewłaściwy typ pliku");
