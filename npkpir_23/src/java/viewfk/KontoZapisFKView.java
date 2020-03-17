@@ -17,6 +17,7 @@ import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
 import daoFK.TransakcjaDAO;
 import daoFK.WierszBODAO;
+import daoFK.WierszDAO;
 import data.Data;
 import embeddable.Mce;
 import embeddablefk.ListaSum;
@@ -26,6 +27,7 @@ import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
 import entityfk.Transakcja;
+import entityfk.Wiersz;
 import error.E;
 import extclass.ReverseIterator;
 import java.io.Serializable;
@@ -75,6 +77,8 @@ public class KontoZapisFKView implements Serializable{
     @Inject private TransakcjaDAO transakcjaDAO;
     @Inject
     private WierszBODAO wierszBODAO;
+    @Inject
+    private WierszDAO wierszDAO;
     @Inject
     private TabelanbpDAO tabelanbpDAO;
     @Inject
@@ -1834,6 +1838,27 @@ public class KontoZapisFKView implements Serializable{
                 Msg.msg("Odznaczono wszystkie konta");
             }
             
+        }
+    }
+    
+    public void usunwielokrotneSW() {
+        try {
+            for (Iterator<StronaWiersza> it=kontozapisy.iterator();it.hasNext();) {
+                StronaWiersza p = it.next();
+                Wiersz wiersz = p.getWiersz();
+                boolean brak = true;
+                if (wiersz.getStronaWn().getId()==p.getId()||wiersz.getStronaMa().getId()==p.getId()) {
+                    brak = false;
+                }
+                if (brak) {
+                    stronaWierszaDAO.destroy(p);
+                    it.remove();
+                }
+
+            }
+            Msg.msg("Ukończono korektę stron");
+        } catch (Exception e) {
+            Msg.msg("e","Wystąpił błąd nie ukończono korekty stron");
         }
     }
 

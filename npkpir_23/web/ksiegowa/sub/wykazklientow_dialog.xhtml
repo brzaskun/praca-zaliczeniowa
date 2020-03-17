@@ -42,7 +42,7 @@
                             </p:inputText>
                         </p:column>
                         <p:column>
-                            <p:inputText id="nazwaPole" value="#{DokumentView.selectedKlient.npelna}"  accesskey="a" title="pełna nazwa kontrahenta" maxlength="55"
+                            <p:inputText id="nazwaPole" value="#{DokumentView.selectedKlient.npelna}"  title="pełna nazwa kontrahenta" maxlength="80"
                                          onblur="kopiujnazwepelnakontrahenci();"
                                          style="width: 200px" required="true" requiredMessage="Pole nazwy pełnej nie może byc puste">
                                 <p:watermark for="nazwaPole" value="pełna nazwa kontrahenta 55znakow" />
@@ -50,12 +50,12 @@
                             </p:inputText>
                         </p:column>
                         <p:column>      
-                            <p:inputText id="symbolPole" value="#{DokumentView.selectedKlient.nskrocona}" maxlength="20" style="width: 200px" required="true" requiredMessage="Pole nazwa skrocona nie może byc puste">
+                            <p:inputText id="symbolPole" value="#{DokumentView.selectedKlient.nskrocona}" maxlength="55" style="width: 200px" required="true" requiredMessage="Pole nazwa skrocona nie może byc puste">
                                 <p:watermark for="symbolPole" value="hasłowo, np:FORTEX" /> 
                             </p:inputText>
                         </p:column>
                         <p:column>
-                            <p:inputMask id="kodPole" value="#{DokumentView.selectedKlient.kodpocztowy}" maxlength="6" style="width: 200px" required="true" requiredMessage="Pole kod pocztowy nie może byc puste" mask="99-999"/>
+                            <p:inputText id="kodPole" value="#{DokumentView.selectedKlient.kodpocztowy}" maxlength="6" style="width: 200px" required="true" requiredMessage="Pole kod pocztowy nie może byc puste"/>
                         </p:column>
                         <p:column>
                             <p:autoComplete id="miejscowoscPole" value="#{DokumentView.selectedKlient.miejscowosc}" completeMethod="#{miasta.complete}"
@@ -64,7 +64,7 @@
                                             effect="clip" autocomplete="true" queryDelay="100" 
                                             required="true" requiredMessage="Pole miejscowosc nie może byc puste" style="width: 200px" >
                                 <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
-                                <p:ajax event="select" partialSubmit="true" global="false"/>
+                                <p:ajax event="query" global="false"/>
                             </p:autoComplete>
                         </p:column>
                     </p:row>
@@ -105,11 +105,11 @@
                         </p:column>
                         <p:column>   
                             <p:autoComplete id="krajPole" value="#{DokumentView.selectedKlient.krajnazwa}" completeMethod="#{panstwa.complete}"
-                                            var="p" itemLabel="#{p}" itemValue="#{p}"  required="true" requiredMessage="Wybierz nazwę kraju"
-                                            minQueryLength="1" maxResults="10" maxlength="25"  forceSelection="true" 
+                                            var="pa" itemLabel="#{pa}" itemValue="#{pa}"  required="true" requiredMessage="Wybierz nazwę kraju"
+                                            minQueryLength="1" maxResults="10" maxlength="25"  forceSelection="false" 
                                             effect="clip" autocomplete="true" queryDelay="100" 
                                             style="width: 200px" >
-                                <p:ajax event="itemSelect" partialSubmit="true" global="false" oncomplete="$('.uibuttonmui').show()"/>
+                                <p:ajax event="itemSelect" partialSubmit="true" global="false"  oncomplete="$('.uibuttonmui').show()"/>
                                 <p:ajax event="query" global="false"/>
                             </p:autoComplete>
                         </p:column>

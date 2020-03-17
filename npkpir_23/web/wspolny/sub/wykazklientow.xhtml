@@ -8,7 +8,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
     <h:form id="formX">
     <p:panel id="panelDodawaniaDokumentu">
-        <p:panel menuTitle="Wprowadzanie/edytowanie danych nowych klientów" header="Wprowadzanie danych nowych klientów (* - dane fakultatywne)" style="width: 1200px;" >
+        <p:panel menuTitle="1Wprowadzanie/edytowanie danych nowych klientów" header="1Wprowadzanie danych nowych klientów (* - dane fakultatywne)" style="width: 1200px;" >
             <p:growl life="3600"  id="mess_add" ><p:autoUpdate/></p:growl>
             <p:focus id="focus" context="polawprowadzania" />
             <p:panelGrid id="polawprowadzania" columns="5" >
@@ -33,8 +33,8 @@
                 </p:inputText>
                 <p:inputText id="kodPole" value="#{KlView.selected.kodpocztowy}" maxlength="9" style="width: 200px" required="true" requiredMessage="Pole kod pocztowy nie może byc puste" />
                 <p:autoComplete id="miejscowoscPole" value="#{KlView.selected.miejscowosc}" completeMethod="#{miasta.complete}"
-                                var="p" itemLabel="#{p}" itemValue="#{p}" 
-                                minQueryLength="1" maxResults="10" maxlength="20"  forceSelection="false" 
+                                var="pin" itemLabel="#{pin}" itemValue="#{pin}" 
+                                minQueryLength="1" maxResults="10" maxlength="20"  forceSelection="true" 
                                 effect="clip" autocomplete="true" queryDelay="100" autoHighlight="true" 
                                 required="true" requiredMessage="Pole miejscowosc nie może byc puste" style="width: 200px">
                     <p:ajax event="query" global="false"/>
@@ -58,16 +58,17 @@
                 </p:inputText>
                 
                 <p:autoComplete id="krajPole" value="#{KlView.selected.krajnazwa}" completeMethod="#{panstwa.complete}"
-                                var="p" itemLabel="#{p}" itemValue="#{p}" required="true" requiredMessage="Wybierz nazwę kraju"
-                                minQueryLength="1" maxResults="10" maxlength="25"  forceSelection="true" 
-                                effect="clip" autocomplete="true" queryDelay="100" 
+                                var="pa" itemLabel="#{pa}" itemValue="#{pa}" required="true" requiredMessage="Wybierz nazwę kraju"
+                               minQueryLength="1" maxResults="10" maxlength="20"  forceSelection="false" 
+                                effect="clip" autocomplete="true" queryDelay="100" autoHighlight="true" 
                                 style="width: 200px" >
-                    <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
+                    <p:ajax event="itemSelect" partialSubmit="true" global="false"  oncomplete="$('.uibuttonmui').show()"/>
+                    <p:ajax event="query" global="false"/>
                 </p:autoComplete>
                 <p:inputText id="emailPole" value="#{KlView.selected.email}" style="width: 200px" >
                 </p:inputText>
                 <p:commandButton value="Dodaj" actionListener="#{KlView.dodajKlienta()}" update=":formX :formY" icon="ui-icon-disk"
-                                 rendered="#{KlView.selected.id eq null}" style="width: 120px; margin-top: 5px;"/>
+                                 rendered="#{KlView.selected.id eq null}" style="width: 120px; margin-top: 5px;display: none;"/>
                 <p:commandButton value="Edytuj" actionListener="#{KlView.edit()}" update=":formX :formY" icon="ui-icon-arrowrefresh-1-w" rendered="#{KlView.selected.id ne null}" style="width: 120px; margin-top: 5px;"/>
                 <h:outputText value=""/><h:outputText value=""/><h:outputText value=""/>
                 <p:commandButton value="aktualizuj GUS" actionListener="#{KlView.znajdzdaneregonAutomat(KlView.selected)}" style="width: 120px;margin-top: 5px;float: right;" update="@form" rendered="#{KlView.selected.id ne null}"/>

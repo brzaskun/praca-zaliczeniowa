@@ -331,6 +331,8 @@
                         <p:menuitem value="zeruj saldo pln" icon="fa fa-bullseye" actionListener="#{kontoZapisFKView.rozliczsaldopln()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
                         <p:menuitem value="usuń dok ARS (róż. zrealiz.)" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListyDok('ARS')}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
                         <p:menuitem value="usuń dok ATR (róż. statyst.)" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListyDok('ATR')}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"/>
+                        <p:separator/>
+                        <p:menuitem value="usuń duplikaty" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunwielokrotneSW()}" update=":tabelazzapisami:tabela :tabelazsumami:sumy"  rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                     </p:contextMenu>
                      <p:contextMenu for="tabela" style="width: 200px;"  rendered="#{WpisView.rokzamkniety}">
                         <p:menuitem value="rok zamknięty nie można nanosić zmian" />

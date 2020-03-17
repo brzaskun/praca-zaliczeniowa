@@ -60,10 +60,10 @@
                     </p:inputText>
                     <p:autoComplete id="krajPole" value="#{KlView.selected.krajnazwa}" completeMethod="#{panstwa.complete}"
                                     var="p" itemLabel="#{p}" itemValue="#{p}"  required="true" requiredMessage="Wybierz nazwę kraju"
-                                    minQueryLength="1" maxResults="10" maxlength="25"  forceSelection="true" 
+                                    minQueryLength="1" maxResults="10" maxlength="25"  forceSelection="false" 
                                     effect="clip" autocomplete="true" queryDelay="100" styleClass="wpisywanieklienta"
                                     style="width: 200px" >
-                        <p:ajax event="itemSelect" partialSubmit="true" global="false"  oncomplete="$('.uibuttonmui').show()"/>
+                            <p:ajax event="itemSelect" partialSubmit="true" global="false"  oncomplete="$('.uibuttonmui').show()"/>
                         <p:ajax event="query" global="false"/>
                     </p:autoComplete>
                     <p:inputText id="emailPole" value="#{KlView.selected.email}" style="width: 200px" >

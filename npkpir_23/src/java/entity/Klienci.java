@@ -228,7 +228,7 @@ public class Klienci extends KlienciSuper implements Serializable {
     }
 
     public String getKrajnazwa() {
-        return krajnazwa;
+        return super.krajnazwa;
     }
 
     public void setKrajnazwa(String krajnazwa) {
