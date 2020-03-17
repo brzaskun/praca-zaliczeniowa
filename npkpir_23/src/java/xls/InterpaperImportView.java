@@ -302,8 +302,8 @@ public class InterpaperImportView implements Serializable {
     private void przewalutuj(Dokfk nd, InterpaperXLS interpaperXLS) {
         Tabelanbp t = nd.getTabelanbp();
         if (t!=null && !t.getWaluta().getSymbolwaluty().equals("PLN")) {
-            interpaperXLS.setNettoPLN(Z.z(interpaperXLS.getNettowaluta()*t.getKurssredni()*t.getKurssredniPrzelicznik()));
-            interpaperXLS.setVatPLN(Z.z(interpaperXLS.getVatPLN()*t.getKurssredni()*t.getKurssredniPrzelicznik()));
+            interpaperXLS.setNettoPLN(Z.z(interpaperXLS.getNettowaluta()*t.getKurssredniPrzelicznik()));
+            interpaperXLS.setVatPLN(Z.z(interpaperXLS.getVatwaluta()*t.getKurssredniPrzelicznik()));
         } else {
             interpaperXLS.setNettoPLN(interpaperXLS.getNettowaluta());
             interpaperXLS.setVatPLN(interpaperXLS.getVatPLN());
