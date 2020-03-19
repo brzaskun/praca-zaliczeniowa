@@ -78,7 +78,7 @@ public class PdfXLSImport {
     }
     
     private static void dodajtabelekraj(String kraj, String waluta, Document document, List<InterpaperXLS> lista, int modyfikator, List tabelazbiorcza) {
-        PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "SPRZEDAŻ OPODATKOWANA "+kraj.toUpperCase()+" WALUTA "+waluta, BaseColor.BLUE);
+        PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "Kraj "+kraj.toUpperCase()+" Waluta "+waluta, BaseColor.BLUE);
         dodajTabele(document, testobjects.testobjects.getListaXLSImport(lista),100,modyfikator);
         dodajsumy(lista, document, waluta, tabelazbiorcza, kraj);
     }

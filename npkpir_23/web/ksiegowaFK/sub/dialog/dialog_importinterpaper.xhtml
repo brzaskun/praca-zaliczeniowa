@@ -50,11 +50,12 @@
                         <p:selectOneMenu id="symbol" value="#{interpaperImportView.rodzajdok}" 
                                          style="width: 200px; margin-left: 20px;" >
                             <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
-                            <f:selectItem itemLabel="zakup" itemValue="zakup" />
+                            <f:selectItem itemLabel="zakup/WDT" itemValue="zakup/WDT" />
+                            <f:selectItem itemLabel="zakup/IU" itemValue="zakup/IU" />
                             <f:selectItem itemLabel="sprzedaż NIP" itemValue="sprzedaż NIP" />
                             <f:selectItem itemLabel="sprzedaż os.fiz" itemValue="sprzedaż os.fiz" />
                             <p:ajax global="false" event="blur"  partialSubmit="true"/>
-                            <p:ajax global="false" event="change"  partialSubmit="true" listener="#{interpaperImportView.grid2pokaz}" update="panelprzyciskow"/>
+                            <p:ajax global="false" event="change"  partialSubmit="true" listener="#{interpaperImportView.grid2pokaz}" update="panelprzyciskow form_importinterpaper"/>
                         </p:selectOneMenu>
                 </p:panelGrid>
             </p:panelGrid>
@@ -65,7 +66,7 @@
         <h:outputText value=" "/><h:outputText value=" "/>
                 <p:commandButton value="pobierz dane" actionListener="#{interpaperImportView.importujdok()}" update="panelprzyciskow form_importinterpaper" style="width: 120px;" />
                 <p:commandButton value="generuj dok" actionListener="#{interpaperImportView.generuj()}" update="form_importinterpaper" style="width: 120px;margin-left: 30px;" rendered="false" binding="#{interpaperImportView.generujbutton}"/>
-                <p:commandButton value="drukuj sprzedaż" actionListener="#{interpaperImportView.drukuj()}" update="form_importinterpaper" style="width: 120px;margin-left: 30px;" rendered="false" binding="#{interpaperImportView.drkujfizbutton}"/>
+                <p:commandButton value="drukuj " actionListener="#{interpaperImportView.drukuj()}" update="form_importinterpaper" style="width: 120px;margin-left: 30px;" rendered="false" binding="#{interpaperImportView.drkujfizbutton}"/>
             
         </p:panelGrid>
         </h:form>  

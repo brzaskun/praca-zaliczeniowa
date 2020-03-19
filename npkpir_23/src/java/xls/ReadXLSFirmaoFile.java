@@ -114,8 +114,8 @@ public class ReadXLSFirmaoFile {
                  Row row = rowIterator.next();
                     try {
                         InterpaperXLS interpaperXLS = new InterpaperXLS();
-                        String nip = row.getCell(3).getStringCellValue().replace("-", "").trim();
-                        if (rodzajdok.equals("zakup")) {
+                        String nip = row.getCell(2).getStringCellValue().replace("-", "").trim();
+                        if (rodzajdok.contains("zakup")) {
                             uzupelnijzakup(interpaperXLS, row, k, klienciDAO, znalezieni, gUSView);
                             if (interpaperXLS.getKontrahent()!=null) {
                                 interpaperXLS.setNr(i++);

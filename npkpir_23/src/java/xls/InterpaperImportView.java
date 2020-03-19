@@ -188,7 +188,7 @@ public class InterpaperImportView implements Serializable {
                     break;
             }
             grid3.setRendered(true);
-            if (rodzajdok.equals("sprzedaż NIP") || rodzajdok.equals("zakup")) {
+            if (rodzajdok.equals("sprzedaż NIP") || rodzajdok.contains("zakup")) {
                 generujbutton.setRendered(true);
                 drkujfizbutton.setRendered(true);
             } else {
@@ -219,7 +219,7 @@ public class InterpaperImportView implements Serializable {
             int ile = 0;
             if (selected !=null && selected.size()>0) {
                 for (InterpaperXLS p : selected) {
-                    if (p.getKlient().getNip()!=null) {
+                    if (p.getNip()!=null) {
                         ile += generowanieDokumentu(p, k);
                     }
                 }
@@ -251,37 +251,51 @@ public class InterpaperImportView implements Serializable {
                 System.out.println("");
             }
             String rodzajdk = "ZZ";
+            Dokfk dokument = null;
             if (this.rodzajdok.contains("sprzedaż")) {
                 if (wybranyrodzajimportu.getLp()==1) {
                     rodzajdk = polska0unia1zagranica2==0 ? "SZ" : polska0unia1zagranica2==1 ? "UPTK100" : "UPTK";
                 } else {
                     rodzajdk = polska0unia1zagranica2==0 ? "SZ" : polska0unia1zagranica2==1 ? "WDT" : "EXP";
                 }
+                dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, "przychody ze sprzedaży");
             } else {
-                rodzajdk = polska0unia1zagranica2==0 ? "ZZ" : "IU";
+                if (this.rodzajdok.equals("zakup/WDT")) {
+                    rodzajdk = polska0unia1zagranica2==0 ? "ZZ" : "WDT";
+                    if (interpaperXLS.getVatPLN()!=0.0 && !interpaperXLS.getKlientpaństwo().equals("Polska")) {
+                        rodzajdk = "RACH";
+                    }
+                } else {
+                    rodzajdk = polska0unia1zagranica2==0 ? "ZZ" : "IU";
+                    if (interpaperXLS.getVatPLN()!=0.0 && !interpaperXLS.getKlientpaństwo().equals("Polska")) {
+                        rodzajdk = "RACH";
+                    }
+                }
+                dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, "zakup towarów/koszty");
             }
-            Dokfk dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k);
+            
             try {
                 if (dokument!=null) {
                     dokument.setImportowany(true);
                     dokDAOfk.dodaj(dokument);
-                    ile++;
                 }
             } catch (Exception e) {
+                ile = 0;
                 Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu "+rodzajdok);
             }
         } catch (Exception e) {
+            ile = 0;
             E.e(e);
         }
         return ile;
     }
      
-      private Dokfk stworznowydokument(int numerkolejny, InterpaperXLS interpaperXLS, String rodzajdok, List<Klienci> k) {
+      private Dokfk stworznowydokument(int numerkolejny, InterpaperXLS interpaperXLS, String rodzajdok, List<Klienci> k, String opis) {
         Dokfk nd = new Dokfk(numerkolejny, wpisView.getRokWpisuSt());
         ustawdaty(nd, interpaperXLS);
         nd.setKontr(interpaperXLS.getKlient());
         ustawnumerwlasny(nd, interpaperXLS);
-        nd.setOpisdokfk("sprzedaż towarów");
+        nd.setOpisdokfk(opis);
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
         ustawrodzajedok(nd, rodzajdok);
         ustawtabelenbp(nd, interpaperXLS);
@@ -338,7 +352,7 @@ public class InterpaperImportView implements Serializable {
             nd.setVatM(datasprzedazy.split("-")[1]);
             nd.setVatR(datasprzedazy.split("-")[0]);
         } else {
-            String dataotrzymania = formatterX.format(interpaperXLS.getDataotrzymania());
+            String dataotrzymania = formatterX.format(interpaperXLS.getDataotrzymania()!=null?interpaperXLS.getDataotrzymania():interpaperXLS.getDatawystawienia());
             nd.setVatM(dataotrzymania.split("-")[1]);
             nd.setVatR(dataotrzymania.split("-")[0]);
         }
@@ -751,7 +765,15 @@ public class InterpaperImportView implements Serializable {
     }
      
     public void grid2pokaz() {
-        grid2.setRendered(true);
+        if (rodzajdok!=null) {
+            grid2.setRendered(true);
+            pobranefaktury = null;
+            grid3.setRendered(false);
+        } else {
+            grid2.setRendered(false);
+            pobranefaktury = null;
+            grid3.setRendered(false);
+        }
     }
     
     public void drukuj() {

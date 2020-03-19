@@ -38,7 +38,7 @@ public class PodatnikOpodatkowanieDAO extends DAO implements Serializable{
     public PodatnikOpodatkowanieD findOpodatkowaniePodatnikRok(Podatnik p, String rok) {
         PodatnikOpodatkowanieD zwrot = null;
         try {
-            zwrot = sessionFacade.findOpodatkowaniePodatnikRok(p, rok);
+            zwrot = (PodatnikOpodatkowanieD) sessionFacade.getEntityManager().createNamedQuery("PodatnikOpodatkowanieD.findBypodatnikRok").setParameter("podatnik", p).setParameter("rok", rok).getSingleResult();
         } catch(Exception e) {
             
         }
