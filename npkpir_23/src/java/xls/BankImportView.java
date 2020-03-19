@@ -248,7 +248,7 @@ public class BankImportView implements Serializable {
                         }
                          pobranefaktury.addAll((List<ImportBankWiersz>) zwrot.get(1));
                          numerwyciagu = (int) zwrot.get(2);
-                         lpwiersza = (int) zwrot.get(3);
+                         lpwiersza = zwrot.size()==4 ? (int) zwrot.get(3):1;
                     }
                 }
             }

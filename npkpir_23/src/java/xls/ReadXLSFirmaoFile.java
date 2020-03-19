@@ -16,33 +16,24 @@ import embeddablefk.InterpaperXLS;
 import entity.Klienci;
 import entity.Podatnik;
 import entity.Rodzajedok;
-import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import error.E;
 import gus.GUSView;
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import msg.Msg;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import view.WpisView;
@@ -154,60 +145,60 @@ public class ReadXLSFirmaoFile {
     }
      
    private static void uzupelnijzakup(InterpaperXLS interpaperXLS, Row row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni, GUSView gUSView) {
-        if (row.getCell(17).getStringCellValue().equals("Zakup")) {
+        if (row.getCell(16).getStringCellValue().equals("Zakup")) {
             interpaperXLS.setNrfaktury(row.getCell(0).getStringCellValue());
-            interpaperXLS.setDatawystawienia(row.getCell(9).getDateCellValue());
-            interpaperXLS.setDatasprzedaży(row.getCell(7).getDateCellValue());
-            interpaperXLS.setDataobvat(row.getCell(9).getDateCellValue());
-            interpaperXLS.setKlientnazwa(row.getCell(2).getStringCellValue());
-            interpaperXLS.setKlientpaństwo(row.getCell(3).getStringCellValue());
-            interpaperXLS.setKlientkod(row.getCell(4).getStringCellValue());
-            interpaperXLS.setKlientmiasto(row.getCell(5).getStringCellValue());
-            interpaperXLS.setKlientulica(row.getCell(6).getStringCellValue());
+            interpaperXLS.setDatawystawienia(row.getCell(10).getDateCellValue());
+            interpaperXLS.setDatasprzedaży(row.getCell(8).getDateCellValue());
+            interpaperXLS.setDataobvat(row.getCell(8).getDateCellValue());
+            interpaperXLS.setKlientnazwa(row.getCell(3).getStringCellValue());
+            interpaperXLS.setKlientpaństwo(row.getCell(4).getStringCellValue());
+            interpaperXLS.setKlientkod(row.getCell(5).getStringCellValue());
+            interpaperXLS.setKlientmiasto(row.getCell(6).getStringCellValue());
+            interpaperXLS.setKlientulica(row.getCell(7).getStringCellValue());
             interpaperXLS.setKlientdom("");
             interpaperXLS.setKlientlokal("");
-            String kontr = row.getCell(2).getStringCellValue()+" "+row.getCell(6).getStringCellValue()+" "+row.getCell(4).getStringCellValue()+" "+row.getCell(5).getStringCellValue();
+            String kontr = row.getCell(3).getStringCellValue()+" "+row.getCell(3).getStringCellValue()+" "+row.getCell(5).getStringCellValue()+" "+row.getCell(6).getStringCellValue();
             interpaperXLS.setKontrahent(kontr);
-            interpaperXLS.setNip(row.getCell(1).getStringCellValue().replace("-", "").trim());
+            interpaperXLS.setNip(row.getCell(2).getStringCellValue().replace("-", "").trim());
             interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni, gUSView));
-            interpaperXLS.setWalutaplatnosci(row.getCell(11).getStringCellValue());
-            interpaperXLS.setSaldofaktury(row.getCell(14).getNumericCellValue()+row.getCell(15).getNumericCellValue());
-            interpaperXLS.setTerminplatnosci(row.getCell(8).getDateCellValue());
-            interpaperXLS.setNettowaluta(row.getCell(12).getNumericCellValue());
-            interpaperXLS.setVatwaluta(row.getCell(13).getNumericCellValue());
-            interpaperXLS.setBruttowaluta(row.getCell(14).getNumericCellValue());
-            interpaperXLS.setNettoPLN(row.getCell(15).getNumericCellValue());
-            interpaperXLS.setNettoPLNvat(row.getCell(15).getNumericCellValue());
-            interpaperXLS.setVatPLN(row.getCell(16).getNumericCellValue());
+            interpaperXLS.setWalutaplatnosci(row.getCell(12).getStringCellValue());
+            interpaperXLS.setSaldofaktury(row.getCell(17).getNumericCellValue()+row.getCell(18).getNumericCellValue());
+            interpaperXLS.setTerminplatnosci(row.getCell(9).getDateCellValue());
+            interpaperXLS.setNettowaluta(row.getCell(17).getNumericCellValue());
+            interpaperXLS.setVatwaluta(row.getCell(18).getNumericCellValue());
+            interpaperXLS.setBruttowaluta(row.getCell(17).getNumericCellValue()+row.getCell(18).getNumericCellValue());
+            interpaperXLS.setNettoPLN(row.getCell(13).getNumericCellValue());
+            interpaperXLS.setNettoPLNvat(row.getCell(13).getNumericCellValue());
+            interpaperXLS.setVatPLN(row.getCell(14).getNumericCellValue());
         }
    }
    
     private static void uzupelnijsprzedaz(InterpaperXLS interpaperXLS, Row row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni, GUSView gUSView) {
-        if (row.getCell(17).getStringCellValue().equals("Sprzedaż")) {
+        if (row.getCell(16).getStringCellValue().equals("Sprzedaż")&& !row.getCell(1).getStringCellValue().equals("Paragon")) {
             interpaperXLS.setNrfaktury(row.getCell(0).getStringCellValue());
-            interpaperXLS.setDatawystawienia(row.getCell(9).getDateCellValue());
-            interpaperXLS.setDatasprzedaży(row.getCell(7).getDateCellValue());
-            interpaperXLS.setDataobvat(row.getCell(9).getDateCellValue());
-            interpaperXLS.setKlientnazwa(row.getCell(2).getStringCellValue());
-            interpaperXLS.setKlientpaństwo(row.getCell(3).getStringCellValue());
-            interpaperXLS.setKlientkod(row.getCell(4).getStringCellValue());
-            interpaperXLS.setKlientmiasto(row.getCell(5).getStringCellValue());
-            interpaperXLS.setKlientulica(row.getCell(6).getStringCellValue());
+            interpaperXLS.setDatawystawienia(row.getCell(10).getDateCellValue());
+            interpaperXLS.setDatasprzedaży(row.getCell(8).getDateCellValue());
+            interpaperXLS.setDataobvat(row.getCell(8).getDateCellValue());
+            interpaperXLS.setKlientnazwa(row.getCell(3).getStringCellValue());
+            interpaperXLS.setKlientpaństwo(row.getCell(4).getStringCellValue());
+            interpaperXLS.setKlientkod(row.getCell(5).getStringCellValue());
+            interpaperXLS.setKlientmiasto(row.getCell(6).getStringCellValue());
+            interpaperXLS.setKlientulica(row.getCell(7).getStringCellValue());
             interpaperXLS.setKlientdom("");
             interpaperXLS.setKlientlokal("");
-            String kontr = row.getCell(2).getStringCellValue()+" "+row.getCell(6).getStringCellValue()+" "+row.getCell(4).getStringCellValue()+" "+row.getCell(5).getStringCellValue();
+            String kontr = row.getCell(3).getStringCellValue()+" "+row.getCell(3).getStringCellValue()+" "+row.getCell(5).getStringCellValue()+" "+row.getCell(6).getStringCellValue();
             interpaperXLS.setKontrahent(kontr);
-            interpaperXLS.setNip(row.getCell(1).getStringCellValue().replace("-", "").trim());
+            interpaperXLS.setNip(row.getCell(2).getStringCellValue().replace("-", "").trim());
             interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni, gUSView));
-            interpaperXLS.setWalutaplatnosci(row.getCell(11).getStringCellValue());
-            interpaperXLS.setSaldofaktury(row.getCell(14).getNumericCellValue()+row.getCell(15).getNumericCellValue());
-            interpaperXLS.setTerminplatnosci(row.getCell(8).getDateCellValue());
-            interpaperXLS.setNettowaluta(row.getCell(12).getNumericCellValue());
-            interpaperXLS.setVatwaluta(row.getCell(13).getNumericCellValue());
-            interpaperXLS.setBruttowaluta(row.getCell(14).getNumericCellValue());
-            interpaperXLS.setNettoPLN(row.getCell(15).getNumericCellValue());
-            interpaperXLS.setNettoPLNvat(row.getCell(15).getNumericCellValue());
-            interpaperXLS.setVatPLN(row.getCell(16).getNumericCellValue());
+            interpaperXLS.setWalutaplatnosci(row.getCell(12).getStringCellValue());
+            interpaperXLS.setSaldofaktury(row.getCell(17).getNumericCellValue()+row.getCell(18).getNumericCellValue());
+            interpaperXLS.setTerminplatnosci(row.getCell(9).getDateCellValue());
+            interpaperXLS.setNettowaluta(row.getCell(17).getNumericCellValue());
+            interpaperXLS.setVatwaluta(row.getCell(18).getNumericCellValue());
+            interpaperXLS.setBruttowaluta(row.getCell(17).getNumericCellValue()+row.getCell(18).getNumericCellValue());
+            interpaperXLS.setNettoPLN(row.getCell(13).getNumericCellValue());
+            interpaperXLS.setNettoPLNvat(row.getCell(13).getNumericCellValue());
+            interpaperXLS.setVatPLN(row.getCell(14).getNumericCellValue());
         }
     }
 
