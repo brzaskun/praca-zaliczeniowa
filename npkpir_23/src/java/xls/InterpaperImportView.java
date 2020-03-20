@@ -199,6 +199,7 @@ public class InterpaperImportView implements Serializable {
             }
             Msg.msg("Pobrano wszystkie dane");
         } catch (Exception e) {
+            E.e(e);
             Msg.msg("e", "Wystąpił błąd przy pobieraniu danych");
         }
 //        for (InterpaperXLS p : pobranefaktury) {

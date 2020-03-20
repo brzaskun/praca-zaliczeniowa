@@ -74,11 +74,12 @@
                                             onblur="$(this).removeClass('ui-state-focus');
                                                     $(this).addClass('ui-state-default');">
                                 <p:ajax event="change" global="false" partialSubmit="true" listener="#{fakturaRozrachunkiView.pobierzostatninumer}" update="akordeon:fakturarozrachunki:numerdok"/>
+                                <f:selectItem itemLabel="all" itemValue="" noSelectionOption="true"/>
                             <f:selectItem itemLabel="rk" itemValue="rk"/>
                             <f:selectItem itemLabel="wb" itemValue="wb"/>
-                            <f:selectItem itemLabel="wbe" itemValue="wb"/>
+                            <f:selectItem itemLabel="wbe" itemValue="wbe"/>
                             <f:selectItem itemLabel="wbm" itemValue="wbm"/>
-                            <f:selectItem itemLabel="wbme" itemValue="wbm"/>
+                            <f:selectItem itemLabel="wbme" itemValue="wbme"/>
                             <f:selectItem itemLabel="fa" itemValue="fa"/>
                             <f:selectItem itemLabel="bo" itemValue="bo"/>
                         </h:selectOneListbox>
@@ -185,11 +186,14 @@
                         </f:facet>
                          <f:facet name="filter">
                             <p:selectOneMenu onchange="PF('form_wprowadzoneplatnosci').filter()" style="width: 60px;">
-                                <f:selectItem itemLabel="dok" itemValue="#{null}" />
-                                <f:selectItem itemLabel="rk" itemValue="rk" />
-                                <f:selectItem itemLabel="wb" itemValue="wb" />
-                                <f:selectItem itemLabel="wbh" itemValue="wbh" />
-                                <f:selectItem itemLabel="wbm" itemValue="wbm" />
+                                <f:selectItem itemLabel="all" itemValue="" noSelectionOption="true"/>
+                             <f:selectItem itemLabel="rk" itemValue="rk"/>
+                            <f:selectItem itemLabel="wb" itemValue="wb"/>
+                            <f:selectItem itemLabel="wbe" itemValue="wbe"/>
+                            <f:selectItem itemLabel="wbm" itemValue="wbm"/>
+                            <f:selectItem itemLabel="wbme" itemValue="wbme"/>
+                            <f:selectItem itemLabel="fa" itemValue="fa"/>
+                            <f:selectItem itemLabel="bo" itemValue="bo"/>
                             </p:selectOneMenu>
                          </f:facet>
                         <p:cellEditor>

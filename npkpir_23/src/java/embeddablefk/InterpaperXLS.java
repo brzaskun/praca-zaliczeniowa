@@ -92,9 +92,13 @@ public class InterpaperXLS implements Serializable {
     }
     
     public String getVatstawka() {
-        double stawka = this.vatwaluta/this.nettowaluta;
-        stawka = Z.z(stawka)*100;
-        return stawka+"%";
+        String zwrot = "błąd!";
+        if (this.nettowaluta!=0.0) {
+            double stawka = this.vatwaluta/this.nettowaluta;
+            stawka = Z.z(stawka)*100;
+            zwrot = stawka+"%";
+        }
+        return zwrot;
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">

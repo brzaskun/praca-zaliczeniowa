@@ -30,7 +30,8 @@
             <p:dataTable value="#{fakturaRozrachunkiRozlView.wprowadzoneplatnosci}" var="item" style="width: 1150px; margin-top: 20px;" filteredValue="#{fakturaRozrachunkiRozlView.wprowadzoneplatnoscifiltered}"
                          sortBy="#{item.nrdokumentu}" sortFunction="#{fakturaRozrachunkiRozlView.sortujfaktrozrach}" sortOrder="descending" 
                          emptyMessage="niczego nie zaksięgowano w miesiącu #{WpisView.miesiacWpisu}" id="wprowadzonetabela"
-                         widgetVar="fakturarozliczenia_tablica" editable="true">
+                         widgetVar="fakturarozliczenia_tablica" editable="true" paginator="true" rows="10" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                         rowsPerPageTemplate="10,20,50,100">
                 <p:ajax event="rowEdit" listener="#{fakturaRozrachunkiView.onRowEdit}"/>
                 <p:ajax event="filter" global="false" oncomplete="przeliczfilter1();"/>
                 <p:column width="30" sortBy="#{item.lp}" sortable="true">
@@ -80,13 +81,14 @@
                     </f:facet>
                     <f:facet name="filter">
                         <p:selectOneMenu onchange="PF('fakturarozliczenia_tablica').filter()" styleClass="dokfaktrozliczenia">
-                            <f:selectItem itemLabel="dok" itemValue="#{null}" />
-                            <f:selectItem itemLabel="rk" itemValue="rk" />
-                            <f:selectItem itemLabel="wb" itemValue="wb" />
-                            <f:selectItem itemLabel="wbh" itemValue="wbh" />
-                            <f:selectItem itemLabel="wbm" itemValue="wbm" />
-                            <f:selectItem itemLabel="ka" itemValue="ka" />
-                            <f:selectItem itemLabel="fa" itemValue="fa" />
+                            <f:selectItem itemLabel="all" itemValue="" noSelectionOption="true"/>
+                             <f:selectItem itemLabel="rk" itemValue="rk"/>
+                            <f:selectItem itemLabel="wb" itemValue="wb"/>
+                            <f:selectItem itemLabel="wbe" itemValue="wbe"/>
+                            <f:selectItem itemLabel="wbm" itemValue="wbm"/>
+                            <f:selectItem itemLabel="wbme" itemValue="wbme"/>
+                            <f:selectItem itemLabel="fa" itemValue="fa"/>
+                            <f:selectItem itemLabel="bo" itemValue="bo"/>
                         </p:selectOneMenu>
                     </f:facet>
                     <p:cellEditor>

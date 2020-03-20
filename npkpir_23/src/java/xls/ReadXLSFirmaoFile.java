@@ -117,7 +117,7 @@ public class ReadXLSFirmaoFile {
                         String nip = row.getCell(2).getStringCellValue().replace("-", "").trim();
                         if (rodzajdok.contains("zakup")) {
                             uzupelnijzakup(interpaperXLS, row, k, klienciDAO, znalezieni, gUSView);
-                            if (interpaperXLS.getKontrahent()!=null) {
+                            if (interpaperXLS.getKontrahent()!=null && (interpaperXLS.getNettowaluta()!=0.0 || interpaperXLS.getVatwaluta()!=0.0)) {
                                 interpaperXLS.setNr(i++);
                                 listafaktur.add(interpaperXLS);
                             }
@@ -127,7 +127,7 @@ public class ReadXLSFirmaoFile {
                             } else if (rodzajdok.equals("sprzedaż os.fiz") && (nip==null || nip.equals(""))) {
                                 uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni, gUSView);
                             }
-                            if (interpaperXLS.getKontrahent()!=null) {
+                            if (interpaperXLS.getKontrahent()!=null && (interpaperXLS.getNettowaluta()!=0.0 || interpaperXLS.getVatwaluta()!=0.0)) {
                                 interpaperXLS.setNr(i++);
                                 listafaktur.add(interpaperXLS);
                             }
