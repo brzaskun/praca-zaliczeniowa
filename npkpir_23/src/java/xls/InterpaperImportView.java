@@ -121,7 +121,7 @@ public class InterpaperImportView implements Serializable {
     private Klienci selectedimport;
     @Inject
     private PanstwaMap panstwaMapa;
-
+    private List<String> rodzajedokimportu;
     
 
     public void init() { //E.m(this);
@@ -151,6 +151,7 @@ public class InterpaperImportView implements Serializable {
         List<ImportowanyPlik> zwrot = new ArrayList<>();
         zwrot.add(new ImportowanyPlik("Interpaper csv ;","csv",1));
         zwrot.add(new ImportowanyPlik("Zorint xlsx","xls","",2));
+        zwrot.add(new ImportowanyPlik("Tomtech xlsx","xls","",3));
         return zwrot;
     }
     
@@ -158,7 +159,7 @@ public class InterpaperImportView implements Serializable {
         try {
             UploadedFile uploadedFile = event.getFile();
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
-            if (extension.equals("csv")||extension.equals("xls")) {
+            if (extension.equals("csv")||extension.equals("xls")||extension.equals("xlsx")) {
                 String filename = uploadedFile.getFileName();
                 plikinterpaper = uploadedFile.getContents();
                 PrimeFaces.current().ajax().update("panelplik");
@@ -168,6 +169,20 @@ public class InterpaperImportView implements Serializable {
                 pobranefaktury = null;
                 rodzajdok = null;
                 Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
+                switch (wybranyrodzajimportu.getLp()) {
+                    case 1:
+                       rodzajedokimportu = pobierzrodzajeimportu(1);
+                       break;
+                    case 2:
+                       rodzajedokimportu = pobierzrodzajeimportu(2);
+                       break;
+                    case 3:
+                       rodzajedokimportu = pobierzrodzajeimportu(3);
+                       break;
+                    default:
+                        rodzajedokimportu = new ArrayList<>();
+                        break;
+                }
             } else {
                 Msg.msg("e","Niewłaściwy typ pliku");
             }
@@ -188,14 +203,23 @@ public class InterpaperImportView implements Serializable {
                 case 2:
                     pobranefaktury = ReadXLSFirmaoFile.getListafakturXLS(plikinterpaper, k, klienciDAO, rodzajdok, gUSView);
                     break;
+                case 3:
+                    pobranefaktury = ReadXLSTomTechFile.getListafakturXLS(plikinterpaper, k, klienciDAO, rodzajdok, gUSView);
+                    break;
             }
             grid3.setRendered(true);
-            if (rodzajdok.equals("sprzedaż NIP") || rodzajdok.contains("zakup")) {
+            if (wybranyrodzajimportu.getLp()==2 && (rodzajdok.equals("sprzedaż NIP") || rodzajdok.contains("zakup"))) {
                 generujbutton.setRendered(true);
                 drkujfizbutton.setRendered(true);
-            } else {
+            } else if (wybranyrodzajimportu.getLp()==1 && (rodzajdok.equals("sprzedaż os.fiz"))) {
+                generujbutton.setRendered(true);
                 drkujfizbutton.setRendered(true);
-                generujbutton.setRendered(false);
+            } else if (wybranyrodzajimportu.getLp()==1 && (rodzajdok.equals("sprzedaż") || rodzajdok.contains("zakup"))){
+                drkujfizbutton.setRendered(true);
+                generujbutton.setRendered(true);
+            } else if (wybranyrodzajimportu.getLp()==3 && (rodzajdok.equals("sprzedaż") || rodzajdok.equals("zakup"))){
+                drkujfizbutton.setRendered(true);
+                generujbutton.setRendered(true);
             }
             Msg.msg("Pobrano wszystkie dane");
         } catch (Exception e) {
@@ -211,6 +235,7 @@ public class InterpaperImportView implements Serializable {
         if (sabraki==false) {
             grid0.setRendered(true);
             Msg.msg("i","Wybranonastępujący format importu "+wybranyrodzajimportu);
+            
         } else {
             Msg.msg("e", "Są braki. Nie można wszytać pliku");
         }
@@ -747,6 +772,25 @@ public class InterpaperImportView implements Serializable {
 
     }
     
+    private List<String> pobierzrodzajeimportu(int i) {
+        List<String> zwrot = new ArrayList<>();
+        switch (i) {
+            case 1:
+                zwrot.add("zakup/IU");
+                zwrot.add("sprzedaż");
+                break;
+            case 2:
+                zwrot.add("zakup/WDT");
+                zwrot.add("sprzedaż NIP");
+                zwrot.add("sprzedaż os.fiz");
+                break;
+            case 3: 
+                zwrot.add("zakup");
+                zwrot.add("sprzedaż");
+                break;
+        }
+        return zwrot;
+    }
     
     
     
@@ -929,6 +973,14 @@ public class InterpaperImportView implements Serializable {
 
     public void setDrkujfizbutton(CommandButton drkujfizbutton) {
         this.drkujfizbutton = drkujfizbutton;
+    }
+
+    public List<String> getRodzajedokimportu() {
+        return rodzajedokimportu;
+    }
+
+    public void setRodzajedokimportu(List<String> rodzajedokimportu) {
+        this.rodzajedokimportu = rodzajedokimportu;
     }
 
     

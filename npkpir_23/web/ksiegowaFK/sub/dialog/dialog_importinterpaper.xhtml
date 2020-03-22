@@ -50,10 +50,7 @@
                         <p:selectOneMenu id="symbol" value="#{interpaperImportView.rodzajdok}" 
                                          style="width: 200px; margin-left: 20px;" >
                             <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
-                            <f:selectItem itemLabel="zakup/WDT" itemValue="zakup/WDT" />
-                            <f:selectItem itemLabel="zakup/IU" itemValue="zakup/IU" />
-                            <f:selectItem itemLabel="sprzedaż NIP" itemValue="sprzedaż NIP" />
-                            <f:selectItem itemLabel="sprzedaż os.fiz" itemValue="sprzedaż os.fiz" />
+                            <f:selectItems value="#{interpaperImportView.rodzajedokimportu}" var="pz" itemLabel="#{pz}" itemValue="#{pz}"/>
                             <p:ajax global="false" event="blur"  partialSubmit="true"/>
                             <p:ajax global="false" event="change"  partialSubmit="true" listener="#{interpaperImportView.grid2pokaz}" update="panelprzyciskow form_importinterpaper"/>
                         </p:selectOneMenu>

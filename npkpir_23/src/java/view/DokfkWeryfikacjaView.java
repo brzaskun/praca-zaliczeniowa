@@ -32,8 +32,10 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
@@ -135,7 +137,7 @@ public class DokfkWeryfikacjaView implements Serializable {
         Msg.msg("Zakończyłem sprawdzanie czy kontrahent jest czynnym VAT-owcem");
     }
     
-    public void sprawdzWnMawDokfk(List<Dokfk> wykazZaksiegowanychDokumentow, DokfkView dokfkView) {
+    public void sprawdzWnMawDokfk(List<Dokfk> listaZaksiegowanych, DokfkView dokfkView) {
         List<Dokfk> listaRozniceWnMa = Collections.synchronizedList(new ArrayList<>());
         List<Dokfk> listabrakiKontaAnalityczne = Collections.synchronizedList(new ArrayList<>());
         List<Integer> listabrakiKontaAnalityczne_nr = Collections.synchronizedList(new ArrayList<>());
@@ -147,7 +149,7 @@ public class DokfkWeryfikacjaView implements Serializable {
         List<Dokfk> listabrakidaty = Collections.synchronizedList(new ArrayList<>());
         List<Dokfk> listapustaewidencja = Collections.synchronizedList(new ArrayList<>());
         List<Dokfk> listaniezgodnoscvatkonto = Collections.synchronizedList(new ArrayList<>());
-        for (Dokfk p : wykazZaksiegowanychDokumentow) {
+        for (Dokfk p : listaZaksiegowanych) {
             boolean jestbrakkontrahenta = brakkontrahenta(p, listabrakkontrahenta);
             boolean skorygowanokontrahenta = korekcjakontrahenta(p);
             boolean usunietopusteewidencje = usunpusteewidencje(p, listapustaewidencja);
@@ -157,7 +159,7 @@ public class DokfkWeryfikacjaView implements Serializable {
             boolean pozostaletrzybraki = sprawdzpozostaletrzybraki(p, listabraki, listabrakiPozycji, listabrakiKontaAnalityczne, listabrakiKontaAnalityczne_nr, listaRozniceWnMa, listabrakiKonto);
             boolean porownanoewidencjakonto = porownajewidencjakonto(p,listaniezgodnoscvatkonto);
         }
-        wykazZaksiegowanychDokumentow = new ArrayList<>();
+        Set<Dokfk> listaZaksiegowanychDokumentow = new HashSet<>();
         boolean czysto = true;
         String main = "Występują księgowania na sytnetykach w " + listabrakiKontaAnalityczne.size() + " dokumentach: ";
         StringBuilder b = new StringBuilder();
@@ -168,7 +170,7 @@ public class DokfkWeryfikacjaView implements Serializable {
             b.append(" w.");
             b.append(listabrakiKontaAnalityczne_nr.get(i));
             b.append(", ");
-            wykazZaksiegowanychDokumentow.add(p);
+            listaZaksiegowanychDokumentow.add(p);
         }
         if (listabrakiKontaAnalityczne.size() > 0) {
             czysto = false;
@@ -176,7 +178,7 @@ public class DokfkWeryfikacjaView implements Serializable {
         }
         if (listaRozniceWnMa.size() > 0) {
             main = "Występują różnice w stronach Wn i Ma w PLN w " + listaRozniceWnMa.size() + " dokumentach: ";
-            b = pobierzbledy(listaRozniceWnMa, main, wykazZaksiegowanychDokumentow);
+            b = pobierzbledy(listaRozniceWnMa, main, listaZaksiegowanychDokumentow);
             czysto = false;
             for (Dokfk p : listaRozniceWnMa) {
                 for (Wiersz x : p.getListawierszy()) {
@@ -208,7 +210,7 @@ public class DokfkWeryfikacjaView implements Serializable {
                 }
                 b.append(p.toString2());
                 b.append(", ");
-                wykazZaksiegowanychDokumentow.add(p);
+                listaZaksiegowanychDokumentow.add(p);
             }
             czysto = false;
             dokDAOfk.editList(listabraki);
@@ -216,43 +218,43 @@ public class DokfkWeryfikacjaView implements Serializable {
         }
         if (listabrakiPozycji.size() > 0) {
             main = "Konta w dokumencie nie maja przyporzadkowania do Pozycji w " + listaRozniceWnMa.size() + " dokumentach: ";
-            b = pobierzbledy(listabrakiPozycji, main, wykazZaksiegowanychDokumentow);
+            b = pobierzbledy(listabrakiPozycji, main, listaZaksiegowanychDokumentow);
             czysto = false;
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
         if (listabrakkontrahenta.size() > 0) {
             main = "Brakuje kontrahenta w " + listabrakkontrahenta.size() + " dokumentach: ";
-            b = pobierzbledy(listabrakkontrahenta, main, wykazZaksiegowanychDokumentow);
+            b = pobierzbledy(listabrakkontrahenta, main, listaZaksiegowanychDokumentow);
             czysto = false;
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
         if (listabrakiKonto.size() > 0) {
             main = "Brakuje numeru konta w " + listabrakiKonto.size() + " dokumentach: ";
-            b = pobierzbledy(listabrakiKonto, main, wykazZaksiegowanychDokumentow);
+            b = pobierzbledy(listabrakiKonto, main, listaZaksiegowanychDokumentow);
             czysto = false;
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
         if (listabrakivat.size() > 0) {
             main = "Niezgodność między miesiącem ewidencji vat a typem konta vat w " + listabrakivat.size() + " dokumentach: ";
-            b = pobierzbledy(listabrakivat, main, wykazZaksiegowanychDokumentow);
+            b = pobierzbledy(listabrakivat, main, listaZaksiegowanychDokumentow);
             czysto = false;
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
         if (listabrakidaty.size() > 0) {
             main = "Złe daty w następujących w " + listabrakivat.size() + " dokumentach: ";
-            b = pobierzbledy(listabrakidaty, main, wykazZaksiegowanychDokumentow);
+            b = pobierzbledy(listabrakidaty, main, listaZaksiegowanychDokumentow);
             czysto = false;
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
         if (listapustaewidencja.size() > 0) {
             main = "Puste ewidencje vat w " + listapustaewidencja.size() + " dokumentach: ";
-            b = pobierzbledy(listapustaewidencja, main, wykazZaksiegowanychDokumentow);
+            b = pobierzbledy(listapustaewidencja, main, listaZaksiegowanychDokumentow);
             czysto = false;
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
          if (listaniezgodnoscvatkonto.size() > 0) {
             main = "VAT z ewidencji vat niezgodny z kontem w " + listaniezgodnoscvatkonto.size() + " dokumentach: ";
-            b = pobierzbledy(listaniezgodnoscvatkonto, main, wykazZaksiegowanychDokumentow);
+            b = pobierzbledy(listaniezgodnoscvatkonto, main, listaZaksiegowanychDokumentow);
             czysto = false;
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
@@ -260,10 +262,11 @@ public class DokfkWeryfikacjaView implements Serializable {
             Msg.msg("i", "Nie stwierdzono błędów w dokumentach z listy", "zestawieniedokumentow:wiadomoscsprawdzenie");
         }
         ksiegujbutton.setRendered(true);
-        //dokfkView.setWykazZaksiegowanychDokumentow(wykazZaksiegowanychDokumentow);
+        dokfkView.setWykazZaksiegowanychDokumentow(new ArrayList<Dokfk>(listaZaksiegowanychDokumentow));
+        dokfkView.setWykazZaksiegowanychDokumentowimport(new ArrayList<Dokfk>(listaZaksiegowanychDokumentow));
     }
     
-    private StringBuilder pobierzbledy(List<Dokfk> l, String main, List<Dokfk> wykazZaksiegowanychDokumentow) {
+    private StringBuilder pobierzbledy(List<Dokfk> l, String main, Set<Dokfk> wykazZaksiegowanychDokumentow) {
         StringBuilder b = new StringBuilder();
         b.append(main);
         for (Dokfk p : l) {

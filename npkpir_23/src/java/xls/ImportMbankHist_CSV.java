@@ -88,16 +88,16 @@ public class ImportMbankHist_CSV implements Serializable {
                     }  else if (i>37&& i<rozmiar-5){
                         ImportBankWiersz x = new ImportBankWiersz();
                         x.setNr(lpwiersza++);
-                        x.setDatatransakcji(Data.zmienkolejnosc(baza.get(0)));
-                        x.setDatawaluty(Data.zmienkolejnosc(baza.get(1)));
-                        x.setOpistransakcji(baza.get(3));
+                        x.setDatatransakcji(baza.get(0));
+                        x.setDatawaluty(baza.get(1));
+                        x.setOpistransakcji(baza.get(2));
                         x.setNrwyciagu(pn.getWyciagnr());
                         x.setIBAN(baza.get(5));//??
                         x.setKontrahent(baza.get(4));//??
                         x.setKwota(Double.parseDouble(baza.get(6).replaceAll("\\s+","").replace(",",".")));
                         x.setWnma(x.getKwota()>0.0?"Wn":"Ma");
                         x.setWaluta(pn.getWyciagwaluta());
-                        x.setNrtransakji(baza.get(2));
+                        x.setNrtransakji("");
                         x.setTyptransakcji(oblicztyptransakcji(x));
                         x.setNaglowek(pn);
                         pobranefaktury.add(x);

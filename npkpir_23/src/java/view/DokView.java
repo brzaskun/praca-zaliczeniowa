@@ -807,36 +807,38 @@ public class DokView implements Serializable {
                 }
             }
             if (rodzajdodawania == 1) {
-                sprawdzCzyNieDuplikat(selDokument);
-                if (cechastala != null) {
-                    dodajcechedodokumentu(cechastala);
-                }
-                dokDAO.dodaj(selDokument);
-                //wpisywanie do bazy ostatniego dokumentu
-                Ostatnidokument temp = new Ostatnidokument();
-                temp.setUzytkownik(wpisView.getUzer().getLogin());
-                temp.setDokument(selDokument);
-                ostatnidokumentDAO.edit(temp);
-                pobranecechypodatnik = cechazapisuDAOfk.findPodatnikOnly(wpisView.getPodatnikObiekt());
-                if (pobranecechypodatnik != null && pobranecechypodatnik.size() ==1) {
-                    cechadomyslna = pobranecechypodatnik.get(0);
-                }
-                try {
-                    String probsymbolu = selDokument.getSymbolinwestycji();
-                    if (probsymbolu != null && !probsymbolu.equals("wybierz")) {
-                        aktualizujInwestycje(selDokument);
+                Dok duplikat = sprawdzCzyNieDuplikat(selDokument);
+                if (duplikat==null) {
+                    if (cechastala != null) {
+                        dodajcechedodokumentu(cechastala);
                     }
-                } catch (Exception e) {
-                    E.e(e);
+                    dokDAO.dodaj(selDokument);
+                    //wpisywanie do bazy ostatniego dokumentu
+                    Ostatnidokument temp = new Ostatnidokument();
+                    temp.setUzytkownik(wpisView.getUzer().getLogin());
+                    temp.setDokument(selDokument);
+                    ostatnidokumentDAO.edit(temp);
+                    pobranecechypodatnik = cechazapisuDAOfk.findPodatnikOnly(wpisView.getPodatnikObiekt());
+                    if (pobranecechypodatnik != null && pobranecechypodatnik.size() ==1) {
+                        cechadomyslna = pobranecechypodatnik.get(0);
+                    }
+                    try {
+                        String probsymbolu = selDokument.getSymbolinwestycji();
+                        if (probsymbolu != null && !probsymbolu.equals("wybierz")) {
+                            aktualizujInwestycje(selDokument);
+                        }
+                    } catch (Exception e) {
+                        E.e(e);
+                    }
+                    wysDokument = ostatnidokumentDAO.pobierz(selDokument.getWprowadzil());
+                    liczbawierszy = 1;
+                    PrimeFaces.current().ajax().update("zobWiad:ostatniUzytkownik");
+                    Msg.msg("i", "Nowy dokument zachowany" + selDokument.toString2());
+                    /**
+                     * resetowanie pola do wpisywania kwoty netto
+                     */
+                    //selDokument.getListakwot1().clear(); to jest niepoczebne
                 }
-                wysDokument = ostatnidokumentDAO.pobierz(selDokument.getWprowadzil());
-                liczbawierszy = 1;
-                PrimeFaces.current().ajax().update("zobWiad:ostatniUzytkownik");
-                Msg.msg("i", "Nowy dokument zachowany" + selDokument.toString2());
-                /**
-                 * resetowanie pola do wpisywania kwoty netto
-                 */
-                //selDokument.getListakwot1().clear(); to jest niepoczebne
             } else {
                 selDokument.setSprawdzony(0);
                 dokDAO.edit(selDokument);
@@ -1159,14 +1161,14 @@ public class DokView implements Serializable {
         }
     }
 
-    public void sprawdzCzyNieDuplikat(Dok selD) throws Exception {
+    public Dok sprawdzCzyNieDuplikat(Dok selD) throws Exception {
         Dok tmp = null;
         tmp = dokDAO.znajdzDuplikatwtrakcie(selD, wpisView.getPodatnikObiekt(), selD.getRodzajedok().getSkrot());
         if (tmp instanceof Dok) {
             String wiadomosc = "Dokument " + selD.getRodzajedok().getSkrot() + " dla tego klienta, o nr " + selD.getNrWlDk() + " i kwocie netto " + selD.getNetto() + " jest zaksiegowany u pod: " + tmp.getPodatnik() + " rok/mc: " + tmp.getPkpirR() + "/" + tmp.getPkpirM() + " dnia: " + Data.data_ddMMMMyyyy(tmp.getDataK());
             Msg.msg("e", wiadomosc);
-            throw new Exception();
         }
+        return tmp;
     }
 
     public void sprawdzCzyNieDuplikatwtrakcie(AjaxBehaviorEvent ex) {

@@ -47,6 +47,8 @@ public class InterpaperXLS implements Serializable {
     private double vatPLN;
     private double bruttoPLN;
     private boolean juzzaksiegowany;
+    private boolean koszt0material1;
+    private String opis;
 
     @Override
     public int hashCode() {
@@ -343,6 +345,22 @@ public class InterpaperXLS implements Serializable {
 
     public void setKlientlokal(String klientlokal) {
         this.klientlokal = klientlokal;
+    }
+
+    public boolean isKoszt0material1() {
+        return koszt0material1;
+    }
+
+    public void setKoszt0material1(boolean koszt0material1) {
+        this.koszt0material1 = koszt0material1;
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
     }
 
     

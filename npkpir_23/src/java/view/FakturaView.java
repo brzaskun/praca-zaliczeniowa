@@ -547,7 +547,10 @@ public class FakturaView implements Serializable {
         }
     }
 
-    
+    public void wielekont() {
+        FakturaBean.wielekont(selected, fakturaWalutaKontoView.getListakontaktywne(), fakturaStopkaNiemieckaDAO, wpisView.getPodatnikObiekt());
+        Msg.msg("Zmieniono konto");
+    }
     
     public void skierujfakturedoedycjiZwykla(Faktura faktura) {
         selected = serialclone.SerialClone.clone(faktura);
