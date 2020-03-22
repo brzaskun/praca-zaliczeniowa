@@ -41,8 +41,8 @@
                                 <h:outputText value=" | vat pln: "/>
                                 <bcf:outputpl value="#{importEbayView.vatpln}"/>
                                 <p:separator/>
-                                <p:commandButton value="Print" type="button" icon="pi pi-print" style="margin-left: 20px; width: 120px;">
-                                    <p:printer target="importtabela:dokumentyLista" />
+                                <p:commandButton value="drukuj" icon="pi pi-print" style="margin-left: 20px; width: 120px;" actionListener="#{importEbayView.drukuj}" >
+                                    
                                 </p:commandButton>
                                 <p:commandButton value="generuj" actionListener="#{importEbayView.stworzdokumenty}" style="margin-left: 100px;width: 120px;" update="importtabeladok"/>
                                 <p:commandButton value="księguj" actionListener="#{importEbayView.zaksieguj}" style="margin-left: 70px;width: 120px;" update="importtabeladok"/>

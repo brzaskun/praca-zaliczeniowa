@@ -43,6 +43,7 @@ import msg.Msg;import org.joda.time.DateTime;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import pdf.PdfDok;
+import pdf.PdfEbay;
 import waluty.Z;
 import xls.ImportCSVEbay;
 import xls.ImportJsonCislowski;
@@ -132,7 +133,10 @@ public class ImportEbayView  implements Serializable {
     }
     
     
-    
+    public void drukuj() {
+        List<FakturaEbay> pobrane = fakturyfiltered !=null ? fakturyfiltered: faktury;
+        PdfEbay.drukuj(pobrane, wpisView, 0);
+    }
   
     public void stworzdokumenty() {
         List<FakturaEbay> pobrane = fakturyfiltered !=null ? fakturyfiltered: faktury;

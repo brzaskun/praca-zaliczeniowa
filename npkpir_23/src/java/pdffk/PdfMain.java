@@ -30,6 +30,7 @@ import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
 import data.Data;
+import embeddable.FakturaEbay;
 import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.Mce;
 import embeddable.SchemaEwidencjaSuma;
@@ -1823,7 +1824,7 @@ public class PdfMain {
             }
             if (nazwaklasy.equals("entity.Statystyka")) {
                 Statystyka p = (Statystyka) it.next();
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8, 18f));
                 table.addCell(ustawfrazeAlign(p.getPodatnik() != null ? p.getPodatnik().getNazwapelnaPDF() : "", "left", 8));
                 table.addCell(ustawfrazeAlign(p.getPodatnik() != null ? p.getPodatnik().getNip() : "", "left", 8));
                 table.addCell(ustawfrazeAlign(p.getRok(), "left", 8));
@@ -1834,6 +1835,21 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getFakturaNaObroty())), "right", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getFakturaNaDokumenty())), "right", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getRanking())), "right", 8));
+            }
+            if (nazwaklasy.equals("tabelaebay")) {
+                FakturaEbay p = (FakturaEbay) it.next();
+                table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getDataTransakcji(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getNamedesKäufers(), "left", 8));
+                table.addCell(ustawfrazeAlign(p.getLanddesKäufers(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getInklusiveMehrwertsteuersatz(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getRechnungsnummer(), "left", 8));
+                table.addCell(ustawfrazeAlign(p.getWaluta(), "center", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVAT())), "right", 8));
+                table.addCell(ustawfrazeAlign(p.getPayPalTransaktionsID(), "left", 8));
+                table.addCell(ustawfrazeAlign(p.getBezahltam(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getArtikelbezeichnung(), "left", 8));
             }
             if (nazwaklasy.equals("entityfk.PozycjaRZiS")) {
                 if (maxlevel == 0) {

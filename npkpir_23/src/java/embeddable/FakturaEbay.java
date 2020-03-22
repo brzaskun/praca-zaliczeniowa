@@ -330,7 +330,7 @@ public class FakturaEbay {
     }
     
     public String getWaluta() {
-        return this.getVerpackungundVersand().substring(0,3);
+        return this.getVerpackungundVersand().substring(1,4);
     }
     
     public double getNetto() {
