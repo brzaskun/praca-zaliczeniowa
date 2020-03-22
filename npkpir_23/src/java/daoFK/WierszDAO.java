@@ -13,12 +13,14 @@ import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
+import javax.inject.Named;
 import session.SessionFacade;
 
 /**
  *
  * @author Osito
  */
+@Named
 public class WierszDAO extends DAO implements Serializable {
     private static final long serialVersionUID = 1L;
     
@@ -30,7 +32,7 @@ public class WierszDAO extends DAO implements Serializable {
     }
     
     public List<Wiersz> findWierszeRok(String rok){
-        return sessionFacade.findWierszeRok(rok);
+        return sessionFacade.getEntityManager().createNamedQuery("Wiersz.findByRok").setParameter("rok", rok).getResultList();
     }
     
     public List<Wiersz> pobierzWiersze(Tabelanbp tabelanbp, Podatnik podatnik, String rok) {

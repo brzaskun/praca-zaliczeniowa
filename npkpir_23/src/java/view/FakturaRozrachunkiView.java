@@ -89,7 +89,7 @@ public class FakturaRozrachunkiView  implements Serializable {
             }
         }
         wprowadzoneplatnosci = fakturaRozrachunkiDAO.rozrachunkiZDnia(wpisView);
-        suma = wprowadzoneplatnosci.stream().mapToDouble(FakturaRozrachunki::getKwota).sum();
+        suma = wprowadzoneplatnosci.stream().mapToDouble(FakturaRozrachunki::getKwotapln).sum();
         selected.setRodzajdokumentu("rk");
         pobierzostatninumer();
         Collections.sort(klienci, new Kliencicomparator());
@@ -97,9 +97,9 @@ public class FakturaRozrachunkiView  implements Serializable {
    
     public void sumuj() {
         if (wprowadzoneplatnoscifiltered!=null) {
-            suma = wprowadzoneplatnoscifiltered.stream().mapToDouble(FakturaRozrachunki::getKwota).sum();
+            suma = wprowadzoneplatnoscifiltered.stream().mapToDouble(FakturaRozrachunki::getKwotapln).sum();
         } else {
-            suma = wprowadzoneplatnosci.stream().mapToDouble(FakturaRozrachunki::getKwota).sum();
+            suma = wprowadzoneplatnosci.stream().mapToDouble(FakturaRozrachunki::getKwotapln).sum();
         }
     }
     
@@ -159,8 +159,10 @@ public class FakturaRozrachunkiView  implements Serializable {
             selected.setWystawca(wpisView.getPodatnikObiekt());
             selected.setWprowadzil(wpisView.getUzer());
             if (selected.getKurs()!=0.0) {
-                selected.setKwotawwalucie(selected.getKwota());
-                selected.setKwota(Z.z(selected.getKwota()*selected.getKurs()));
+                selected.setKwotawwalucie(selected.getKwotapln());
+                selected.setKwotapln(Z.z(selected.getKwotapln()*selected.getKurs()));
+            } else {
+                selected.setKwotawwalucie(selected.getKwotapln());
             }
             fakturaRozrachunkiDAO.dodaj(selected);
             wprowadzoneplatnosci.add(selected);
@@ -209,7 +211,7 @@ public class FakturaRozrachunkiView  implements Serializable {
     public void onRowEditAnaliza(RowEditEvent event) {
         FakturaPodatnikRozliczenie fr = (FakturaPodatnikRozliczenie) event.getObject();
         if (fr !=null && fr.getRozliczenie()!=null) {
-            fr.getRozliczenie().setKwota(fr.getKwota());
+            fr.getRozliczenie().setKwotapln(fr.getKwota());
             fakturaRozrachunkiDAO.edit(fr.getRozliczenie());
             Msg.msg("Naniesiono zmiany");
         } else {

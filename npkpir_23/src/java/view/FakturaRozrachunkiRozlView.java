@@ -145,9 +145,9 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
     }
     public void sumuj() {
         if (wprowadzoneplatnoscifiltered!=null) {
-            suma = wprowadzoneplatnoscifiltered.stream().mapToDouble(FakturaRozrachunki::getKwota).sum();
+            suma = wprowadzoneplatnoscifiltered.stream().mapToDouble(FakturaRozrachunki::getKwotapln).sum();
         } else {
-            suma = wprowadzoneplatnosci.stream().mapToDouble(FakturaRozrachunki::getKwota).sum();
+            suma = wprowadzoneplatnosci.stream().mapToDouble(FakturaRozrachunki::getKwotapln).sum();
         }
     }
     

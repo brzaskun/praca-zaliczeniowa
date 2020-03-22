@@ -89,7 +89,7 @@
                                      />
                     </p:column>
                     <p:column>
-                        <p:inputNumber value="#{fakturaRozrachunkiView.selected.kwota}" symbol=" zł" required="true" 
+                        <p:inputNumber value="#{fakturaRozrachunkiView.selected.kwotapln}" symbol=" zł" required="true" 
                                         requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" 
                                         decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
                     </p:column>
@@ -206,20 +206,20 @@
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
-                    <p:column width="90" style="text-align: center;" sortBy="#{item.kwota}" sortable="true">
+                    <p:column width="90" style="text-align: center;" sortBy="#{item.kwotapln}" sortable="true">
                         <f:facet name="header">
                             <h:outputText value="zapłata/korekta"/>
                         </f:facet>
                         <p:cellEditor>
                             <f:facet name="output">
-                                <bcf:outputpl value="#{item.kwota}" />
+                                <bcf:outputpl value="#{item.kwotapln}" />
                             </f:facet>
                             <f:facet name="input">
-                                <p:inputText value="#{item.kwota}" style="width: 90px;"/>
+                                <p:inputText value="#{item.kwotapln}" style="width: 90px;"/>
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
-                     <p:column width="90" style="text-align: center;" sortBy="#{item.kwota}" sortable="true">
+                     <p:column width="90" style="text-align: center;" sortBy="#{item.kwotapln}" sortable="true">
                         <f:facet name="header">
                             <h:outputText value="kwota w wal"/>
                         </f:facet>

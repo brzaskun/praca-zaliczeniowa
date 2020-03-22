@@ -11,12 +11,14 @@ import entityfk.WynikFKRokMc;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
+import javax.inject.Named;
 import session.SessionFacade;
 import view.WpisView;
 /**
  *
  * @author Osito
  */
+@Named
 public class WynikFKRokMcDAO extends DAO implements Serializable {
 
     private static final long serialVersionUID = 1L;

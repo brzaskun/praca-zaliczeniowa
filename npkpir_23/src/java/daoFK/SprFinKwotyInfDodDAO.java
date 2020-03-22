@@ -10,11 +10,13 @@ import entity.Podatnik;
 import entityfk.SprFinKwotyInfDod;
 import error.E;
 import java.io.Serializable;
+import javax.inject.Named;
 
 /**
  *
  * @author Osito
  */
+@Named
 public class SprFinKwotyInfDodDAO extends DAO implements Serializable{
     private static final long serialVersionUID = 1L;
 

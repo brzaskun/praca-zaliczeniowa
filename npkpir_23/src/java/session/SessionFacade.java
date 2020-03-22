@@ -2249,9 +2249,6 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return Collections.synchronizedList(em.createNamedQuery("Dokfk.znajdzDokumentPodatnikWpr").setParameter("wprowadzil", wpr).getResultList());
     }
 
-    public List<String> findUzByUprawnienia(String uprawnienia) {
-        return Collections.synchronizedList(em.createNamedQuery("Uz.findByUzUprawnienia").setParameter("uprawnienia", uprawnienia).getResultList());
-    }
 
     public List<String> findZnajdzSeriePodatnik(WpisView wpisView) {
         return Collections.synchronizedList((List<String>) em.createNamedQuery("Dokfk.znajdzSeriePodatnik").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList());
@@ -2550,11 +2547,6 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
             return null;
         }
     }
-
-    public List<Wiersz> findWierszeRok(String rok) {
-        return em.createNamedQuery("Wiersz.findByRok").setParameter("rok", rok).getResultList();
-    }
-
 
 
     public StronaWiersza findStronaWierszaById(StronaWiersza strona) {

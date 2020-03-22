@@ -366,7 +366,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             fakturaDAO.edit(fa);
         }
         f.setKontrahent(szukanyklient);
-        f.setKwota(p.getSaldopln());
+        f.setKwotapln(p.getSaldopln());
         f.setKwotawwalucie(p.getSaldo());
         f.setRok(wpisView.getRokNastepnySt());
         f.setMc("01");
@@ -394,7 +394,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 szukanyklient = p.getFaktura().getKontrahent();
             }
             f.setKontrahent(szukanyklient);
-            f.setKwota(-p.getSaldo());
+            f.setKwotapln(-p.getSaldo());
             if (p.getSaldo()!=0.0 && p.getSaldopln()!=0.0 && Z.z(p.getSaldo())!=Z.z(p.getSaldopln())) {
                 f.setKurs(p.getSaldopln()/p.getSaldo());
             }

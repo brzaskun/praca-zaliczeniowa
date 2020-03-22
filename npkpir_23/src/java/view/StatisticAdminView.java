@@ -53,7 +53,7 @@ public class StatisticAdminView implements Serializable {
         this.sesje = Collections.synchronizedList(new ArrayList<>());
         this.statystyka = Collections.synchronizedList(new ArrayList<>());
         this.obrabiani = Collections.synchronizedList(new ArrayList<>());
-        this.rok = "2018";
+        this.rok = "2020";
     }
 
     
@@ -75,7 +75,7 @@ public class StatisticAdminView implements Serializable {
             stat.ksiegowa = r;
             stat.iloscsesji = sesje.size();
             long[] milis = {0};
-            sesje.parallelStream().forEach((p)->{
+            sesje.stream().forEach((p)->{
                 stat.iloscdokumentow += p.getIloscdokumentow();
                 stat.iloscwydrukow += p.getIloscwydrukow();
                 if (p.getWylogowanie() instanceof Date && p.getZalogowanie() instanceof Date) {
@@ -92,11 +92,11 @@ public class StatisticAdminView implements Serializable {
     }
     
     private void statystykiinaczej(List<String> pracownicy) {
-        List<Wiersz> wiersze = wierszDAO.findWierszeRok(wpisView.getRokWpisuSt());
-        List<Dok> dok = dokDAO.zwrocRok(wpisView.getRokWpisuSt());
+        List<Wiersz> wiersze = wierszDAO.findWierszeRok(rok);
+        List<Dok> dok = dokDAO.zwrocRok(rok);
         System.out.println("pobrano dane");
         for (String r : pracownicy){
-            double ilosc = 0;
+            double ilosc = 0.0;
             for (Iterator<Wiersz> it = wiersze.iterator(); it.hasNext();) {
                 Wiersz w = it.next();
                 if (w.getDokfk()!=null && w.getDokfk().getWprowadzil()!=null && w.getDokfk().getWprowadzil().equals(r)) {
@@ -105,14 +105,14 @@ public class StatisticAdminView implements Serializable {
                     } else {
                         ilosc= ilosc+0.2;
                     }
-                    it.remove();
+                    //it.remove();
                 }
             }
             for (Iterator<Dok> it = dok.iterator(); it.hasNext();) {
                 Dok d = it.next();
                 if (d.getWprowadzil()!=null && d.getWprowadzil().equals(r)) {
-                    ilosc++;
-                    it.remove();
+                    ilosc = ilosc+1.0;
+                    //it.remove();
                 }
             }
             for (Statystyka s : statystyka) {
@@ -128,7 +128,7 @@ public class StatisticAdminView implements Serializable {
     
     private void obliczkontrahentow(List<String> pracownicy) {
         Map<String, String> klienci = new ConcurrentHashMap<>();
-        pracownicy.parallelStream().forEach((s)->{
+        pracownicy.stream().forEach((s)->{
             Obrabiani obrab = new Obrabiani();
             if (s!=null) {
                 obrab.wprowadzajacy = s;

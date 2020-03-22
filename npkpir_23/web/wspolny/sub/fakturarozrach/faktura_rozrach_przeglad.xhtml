@@ -113,29 +113,29 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                <p:column width="70" style="text-align: center;" sortBy="#{item.kwota}" sortable="true">
+                <p:column width="70" style="text-align: center;" sortBy="#{item.kwotapln}" sortable="true">
                     <f:facet name="header">
                         <h:outputText value="zapłata"/>
                     </f:facet>
                     <p:cellEditor>
                         <f:facet name="output">
-                            <bcf:outputpl value="#{item.kwota}" rendered="#{!item.zaplata0korekta1}"/>
+                            <bcf:outputpl value="#{itkwotaplnota}" rendered="#{!item.zaplata0korekta1}"/>
                         </f:facet>
                         <f:facet name="input">
-                            <p:inputText value="#{item.kwota}" style="width: 90px;"/>
+                            <p:inputText value="#kwotapln.kwota}" style="width: 90px;"/>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                <p:column width="70" style="text-align: center;" sortBy="#{item.kwota}" sortable="true">
+                <p:column width="70" style="text-align: center;" sortBy="#{kwotaplntem.kwotapln}" sortable="true">
                     <f:facet name="header">
                         <h:outputText value="korekta"/>
                     </f:facet>
                     <p:cellEditor>
                         <f:facet name="output">
-                            <bcf:outputpl value="#{item.kwota}" rendered="#{item.zaplata0korekta1}"/>
+                            <bcf:outputpl value="#{item.kwotapln}" rendered="#{item.zaplata0korekta1}"/>
                         </f:facet>
                         <f:facet name="input">
-                            <p:inputText value="#{item.kwota}" style="width: 90px;"/>
+                            <p:inputText value="#{item.kwotapln}" style="width: 90px;"/>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>

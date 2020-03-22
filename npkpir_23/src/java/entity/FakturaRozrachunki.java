@@ -64,10 +64,10 @@ public class FakturaRozrachunki implements Serializable {
     private String data;
     //robimy tylko kwote w walucie
     @Column(name = "kwota")
-    private double kwota;
+    private double kwotapln;
     @Column(name = "kurs")
     private double kurs;
-    //tu powedruje kwota w walucie jak dodam platnosc w euro
+    //tu powedruje kwotapln w walucie jak dodam platnosc w euro
     @Column(name = "kwotawwalucie")
     private double kwotawwalucie;
     @Column(name = "rodzajdokumentu")
@@ -123,7 +123,7 @@ public class FakturaRozrachunki implements Serializable {
 
     @Override
     public String toString() {
-        return "FakturaRozrachunki{" + "lp=" + lp + ", wystawca=" + wystawca.getNazwapelna() + ", kontrahent=" + kontrahent.getNpelna() + ", wprowadzil=" + wprowadzil + ", dataksiegowania=" + dataksiegowania + ", data=" + data + ", kwota=" + kwota + ", zaplata0korekta1=" + zaplata0korekta1 + '}';
+        return "FakturaRozrachunki{" + "lp=" + lp + ", wystawca=" + wystawca.getNazwapelna() + ", kontrahent=" + kontrahent.getNpelna() + ", wprowadzil=" + wprowadzil + ", dataksiegowania=" + dataksiegowania + ", data=" + data + ", kwota=" + kwotapln + ", zaplata0korekta1=" + zaplata0korekta1 + '}';
     }
 //<editor-fold defaultstate="collapsed" desc="comment">
     
@@ -184,12 +184,12 @@ public class FakturaRozrachunki implements Serializable {
         this.data = data;
     }
     
-    public double getKwota() {
-        return kwota;
+    public double getKwotapln() {
+        return kwotapln;
     }
     
-    public void setKwota(double kwota) {
-        this.kwota = kwota;
+    public void setKwotapln(double kwotapln) {
+        this.kwotapln = kwotapln;
     }
 
     public double getKwotawwalucie() {

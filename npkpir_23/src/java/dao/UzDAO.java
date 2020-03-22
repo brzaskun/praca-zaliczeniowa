@@ -9,6 +9,7 @@ import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
+import javax.inject.Named;
 import session.SessionFacade;
 
 
@@ -16,7 +17,7 @@ import session.SessionFacade;
  *
  * @author Osito
  */
-
+@Named
 public class UzDAO extends DAO implements Serializable{
     @Inject
     private SessionFacade uzFacade;
@@ -42,7 +43,7 @@ public class UzDAO extends DAO implements Serializable{
    }
     
     public List<String> findUzByUprawnienia(String uprawnienia){
-         return uzFacade.findUzByUprawnienia(uprawnienia);
+         return uzFacade.getEntityManager().createNamedQuery("Uz.findByUzUprawnienia").setParameter("uprawnienia", uprawnienia).getResultList();
      }
     
 }
