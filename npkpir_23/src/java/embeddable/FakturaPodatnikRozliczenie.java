@@ -46,7 +46,7 @@ import waluty.Z;
         this.rok = p.getRok();
         this.mc = p.getMc();
         this.data = p.getData();
-        this.kwota = p.getKwotawwalucie();
+        this.kwota = p.getKurs()!=0.0 ? p.getKwotawwalucie(): p.getKwotapln();
         this.kwotapln = p.getKwotapln();
         this.mail = "";
         this.dataupomnienia = p.getDataupomnienia();
