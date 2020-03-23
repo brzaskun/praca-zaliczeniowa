@@ -484,6 +484,22 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         }
     }
     
+    public void drukujszczegolyzbiorcze() {
+        List<FakturaPodatnikRozliczenie> lista = saldanierozliczoneselected != null && saldanierozliczoneselected.size()>0 ? saldanierozliczoneselected : saldanierozliczone;
+        Map<Klienci, List<FakturaPodatnikRozliczenie>> klista = new HashMap<>();
+        for (FakturaPodatnikRozliczenie p : lista) {
+            if (p.getRozliczenie()!=null) {
+                szukanyklient = p.getRozliczenie().getKontrahent();
+            } else {
+                szukanyklient = p.getFaktura().getKontrahent();
+            }
+            pobierzwszystko(wpisView.getMiesiacWpisu(), szukanyklient);
+            klista.put(szukanyklient,nowepozycje);
+        }
+        PdfFaktRozrach.drukujKliencihurt(klista, wpisView);
+        Msg.msg("Wydrukowano listę");
+    }
+    
     public void drukujKlienciZbiorcze() {
         try {
             if (saldanierozliczoneselected != null && saldanierozliczoneselected.size() > 0){
