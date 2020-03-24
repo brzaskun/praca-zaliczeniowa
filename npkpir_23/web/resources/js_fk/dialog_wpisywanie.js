@@ -359,8 +359,8 @@ var dodajnowegoklientakonto = function () {
     }
 };
 
-var sprawdzczymakonto = function (niemakonta0makonto1) {
-        if (niemakonta0makonto1) {
+var sprawdzczymakonto = function (niemakonta0makonto1, dodacdoslownikow) {
+        if (niemakonta0makonto1 && dodacdoslownikow) {
             PF('czydodackonto').show();
             //$(document.getElementById("formczydodackonto:czydodackontookbutton")).focus();
         }

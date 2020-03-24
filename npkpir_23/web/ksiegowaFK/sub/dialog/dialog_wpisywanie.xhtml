@@ -356,7 +356,7 @@
                                                          >
                                             <p:ajax global="false" event="change" update="formwpisdokument:dataList"/>
                                             <p:ajax global="false" event="focus" listener="#{delegacjeView.pobierzkontodladelegacji(dokfkView.selected)}"/>
-                                            <p:ajax global="false" event="focus" onstart="sprawdzczymakonto(#{kliencifkView.makonto0niemakonta1});" />
+                                            <p:ajax global="false" event="focus" onstart="sprawdzczymakonto(#{kliencifkView.makonto0niemakonta1},#{dokfkView.dodacdoslownikow});" />
                                             <p:ajax global="false" event="blur" listener="#{dokfkView.znajdzduplicatdokumentu}" update=":formwpisdokument:panelwpisbutton" oncomplete="znalezionoduplikat();" />
                                             <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                                         </h:selectOneMenu>

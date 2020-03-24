@@ -7,12 +7,15 @@
 package beansFK;
 
 import daoFK.WalutyDAOfk;
+import embeddable.EVatwpis_;
 import entityfk.Dokfk;
+import entityfk.EVatwpisFK;
 import entityfk.Waluty;
 import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Named;
+import waluty.Z;
 
 /**
  *
@@ -88,20 +91,21 @@ public class DokFKWalutyBean implements Serializable{
         for (Wiersz p : wiersze) {
             if (p.getTypWiersza() == 0 || p.getTypWiersza() == 1) {
                 if (p.getStronaWn().getKwota() != 0.0) {
-                    double kwota = p.getStronaWn().getKwota();
-                    double kwotaPLN = Math.round(kwota * kurs * 100);
-                    kwotaPLN /= 100;
+                    double kwotaPLN = Z.z(p.getStronaWn().getKwota()*kurs);
                     p.getStronaWn().setKwotaPLN(kwotaPLN);
                 }
             }
             if (p.getTypWiersza() == 0 || p.getTypWiersza() == 2) {
                 if (p.getStronaMa().getKwota() != 0.0) {
-                    double kwota = p.getStronaMa().getKwota();
-                    double kwotaPLN = Math.round(kwota * kurs * 100);
-                    kwotaPLN /= 100;
+                    double kwotaPLN = Z.z(p.getStronaMa().getKwota()*kurs);
                     p.getStronaMa().setKwotaPLN(kwotaPLN);
                 }
             }
+        }
+        for (EVatwpisFK r : selected.getEwidencjaVAT()) {
+            r.setNetto(Z.z(r.getNettowwalucie()*kurs));
+            r.setVat(Z.z(r.getVatwwalucie()*kurs));
+            r.setBrutto(Z.z(r.getNetto()+r.getVat()));
         }
     }
     
@@ -110,17 +114,13 @@ public class DokFKWalutyBean implements Serializable{
         double kurs = p.getTabelanbp().getKurssredniPrzelicznik();
         if (p.getTypWiersza() == 0 || p.getTypWiersza() == 1) {
             if (p.getStronaWn().getKwota() != 0.0) {
-                double kwota = p.getStronaWn().getKwota();
-                double kwotaPLN = Math.round(kwota * kurs * 100);
-                kwotaPLN /= 100;
+                double kwotaPLN = Z.z(p.getStronaWn().getKwota()*kurs);
                 p.getStronaWn().setKwotaPLN(kwotaPLN);
             }
         }
         if (p.getTypWiersza() == 0 || p.getTypWiersza() == 2) {
             if (p.getStronaMa().getKwota() != 0.0) {
-                double kwota = p.getStronaMa().getKwota();
-                double kwotaPLN = Math.round(kwota * kurs * 100);
-                kwotaPLN /= 100;
+                double kwotaPLN = Z.z(p.getStronaMa().getKwota()*kurs);
                 p.getStronaMa().setKwotaPLN(kwotaPLN);
             }
         }

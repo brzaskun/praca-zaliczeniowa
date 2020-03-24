@@ -261,6 +261,7 @@ public class DokfkView implements Serializable {
     private PodatnikEwidencjaDokDAO podatnikEwidencjaDokDAO;
     private Set<Dokfk> ostatniedokumenty;
     private boolean nietrzebapodczepiac;
+    private boolean dodacdoslownikow;
      
     
 
@@ -814,7 +815,7 @@ public class DokfkView implements Serializable {
             Rodzajedok rodzajdok = selected.getRodzajedok();
             WartosciVAT wartosciVAT = podsumujwartosciVAT(selected.getEwidencjaVAT());
             if (selected.getListawierszy().size() == 1 && selected.isImportowany() == false) {
-                if (kontoRozrachunkowe == null) {
+                if (kontoRozrachunkowe == null && dodacdoslownikow) {
                     kontoRozrachunkowe = pobierzKontoRozrachunkowe(kliencifkDAO, selected, wpisView, kontoDAOfk);
                 }
                 if (rodzajdok.getKategoriadokumentu() == 1) {
@@ -1477,7 +1478,30 @@ public class DokfkView implements Serializable {
         znajdzduplicatdokumentuKontrahent();
         if (wlaczZapiszButon) {
             pobierzopiszpoprzedniegodokItemSelect();
+            dodacdoslownikow = czydodacdoslownika();
         }
+    }
+    
+    private boolean czydodacdoslownika() {
+        boolean zwrot = false;
+        if (poprzedniDokument!=null) {
+            if (poprzedniDokument.getRodzajedok().getKategoriadokumentu()==1 || poprzedniDokument.getRodzajedok().getKategoriadokumentu()==3) {
+                if (poprzedniDokument.getListawierszy().get(0)!=null && poprzedniDokument.getListawierszy().get(0).getStronaMa()!=null) {
+                    if (poprzedniDokument.getListawierszy().get(0).getStronaMa().getKonto().getPelnynumer().startsWith("2")) {
+                        zwrot = true;
+                    }
+                }
+            } else if (poprzedniDokument.getRodzajedok().getKategoriadokumentu()==2 || poprzedniDokument.getRodzajedok().getKategoriadokumentu()==4) {
+                if (poprzedniDokument.getListawierszy().get(0)!=null && poprzedniDokument.getListawierszy().get(0).getStronaWn()!=null) {
+                    if (poprzedniDokument.getListawierszy().get(0).getStronaWn().getKonto().getPelnynumer().startsWith("2")) {
+                        zwrot = true;
+                    }
+                }
+            }
+        } else {
+            zwrot = true;
+        }
+        return zwrot;
     }
     
     public void znajdzduplicatdokumentuKontrahent() {
@@ -1496,6 +1520,8 @@ public class DokfkView implements Serializable {
             }
         }
     }
+    
+    
     public void pobierzopiszpoprzedniegodokItemSelect() {
         try {
             if (selected.getKontr().getNpelna().equals("dodaj klienta automatycznie")) {
@@ -1537,18 +1563,19 @@ public class DokfkView implements Serializable {
         komunikatywpisdok = "";
         PrimeFaces.current().ajax().update("formwpisdokument:komunikatywpisdok");
         //generuje okres wpisu tylko jezeli jest w trybie wpisu, a wiec zapisz0edytuj1 jest false
-        if (zapisz0edytuj1 == false) {
-            String data = selected.getDataoperacji();
-            if (data.length() == 10) {
-                String rok = data.split("-")[0];
-                if (rok.equals(wpisView.getRokUprzedniSt())) {
-                    Msg.msg("e", "Probujesz zaksiegować dokument do poprzedniego roku!");
-                    wlaczZapiszButon = false;
-                    PrimeFaces.current().ajax().update("formwpisdokument:panelwpisbutton");
-                } else {
-                    generujokresy(rok, data);
-                }
+        String data = selected.getDataoperacji();
+        if (data.length() == 10) {
+            String rok = data.split("-")[0];
+            if (rok.equals(wpisView.getRokUprzedniSt())) {
+                Msg.msg("e", "Probujesz zaksiegować dokument do poprzedniego roku!");
+                wlaczZapiszButon = false;
+                PrimeFaces.current().ajax().update("formwpisdokument:panelwpisbutton");
+            } else {
+                generujokresy(rok, data);
             }
+        }
+        if (zapisz0edytuj1 == true && !selected.getWalutadokumentu().getSymbolwaluty().equals("PLN")) {
+            zmienkursNBP();
         }
     }
 
@@ -2666,6 +2693,30 @@ public class DokfkView implements Serializable {
             PrimeFaces.current().ajax().update("formwpisdokument:dataList");
             PrimeFaces.current().executeScript("r('formwpisdokument:tablicavat:0:netto_input').select();");
         }
+    }
+    
+    public void zmienkursNBP() {
+        tabelenbp = Collections.synchronizedList(new ArrayList<>());
+        symbolwalutydowiersza = selected.getTabelanbp().getWaluta().getNazwawaluty();
+        String nazwawaluty = selected.getTabelanbp().getWaluta().getSymbolwaluty();
+        String datadokumentu = selected.getDataoperacji();
+        DateTime dzienposzukiwany = new DateTime(datadokumentu);
+        //tu sie dodaje tabele do dokumentu :)
+        Tabelanbp pobierzTabeleNBP = TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty, selected);
+        tabelenbp.add(pobierzTabeleNBP);
+        tabelenbp.addAll(TabelaNBPBean.pobierzTabeleNieNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty));
+        if (rodzajBiezacegoDokumentu != 0) {
+            pokazRzadWalutowy = true;
+        }
+        selected.dodajTabeleWalut(pobierzTabeleNBP);
+        DokFKWalutyBean.zmienkurswaluty(selected);
+        PrimeFaces.current().ajax().update("formwpisdokument:dataList");
+        wybranawaluta = selected.getTabelanbp().getWaluta().getSymbolwaluty();
+        PrimeFaces.current().ajax().update("formwpisdokument:tablicavat");
+        PrimeFaces.current().ajax().update("formwpisdokument:panelTabelaNBP");
+        PrimeFaces.current().ajax().update("formwpisdokument:dataList");
+        PrimeFaces.current().executeScript("r('formwpisdokument:tablicavat:0:netto_input').select();");
+
     }
 
 //    public void zmienbiezacatabele() {
@@ -4575,6 +4626,14 @@ public void oznaczjakonkup() {
 
     public void setKlienciConverterView(KlienciConverterView klienciConverterView) {
         this.klienciConverterView = klienciConverterView;
+    }
+
+    public boolean isDodacdoslownikow() {
+        return dodacdoslownikow;
+    }
+
+    public void setDodacdoslownikow(boolean dodacdoslownikow) {
+        this.dodacdoslownikow = dodacdoslownikow;
     }
 
 
