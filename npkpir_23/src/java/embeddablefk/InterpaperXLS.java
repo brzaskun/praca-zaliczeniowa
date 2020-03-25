@@ -245,12 +245,20 @@ public class InterpaperXLS implements Serializable {
         return nettoPLN;
     }
     
+     public double getNettoPLN(double kurs) {
+        return Z.z(nettowaluta*kurs);
+    }
+    
     public void setNettoPLN(double nettoPLN) {
         this.nettoPLN = nettoPLN;
     }
 
     public double getNettoPLNvat() {
         return nettoPLNvat;
+    }
+    
+    public double getNettoPLNvat(double kurs) {
+        return Z.z(nettowaluta*kurs);
     }
 
     public void setNettoPLNvat(double nettoPLNvat) {
@@ -259,6 +267,10 @@ public class InterpaperXLS implements Serializable {
     
     public double getVatPLN() {
         return vatPLN;
+    }
+    
+    public double getVatPLN(double kurs) {
+        return Z.z(vatwaluta*kurs);
     }
     
     public void setVatPLN(double vatPLN) {
@@ -275,6 +287,10 @@ public class InterpaperXLS implements Serializable {
     
     public double getBruttoPLN() {
         return bruttoPLN;
+    }
+    
+    public double getBruttoPLN(double kurs) {
+        return Z.z(bruttowaluta*kurs);
     }
     
     public void setBruttoPLN(double bruttoPLN) {

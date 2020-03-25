@@ -68,8 +68,9 @@ public class ImportowanyPlikConv implements javax.faces.convert.Converter{
         zwrot.add(new ImportowanyPlik("MT940 csv ;","csv",";",4));
         //to dotyczy importowanych faktur
         zwrot.add(new ImportowanyPlik("Interpaper csv ;","csv",1));
-        zwrot.add(new ImportowanyPlik("Zorint xlsx","xls","",2));
-        zwrot.add(new ImportowanyPlik("Tomtech xlsx","xls","",3));
+        zwrot.add(new ImportowanyPlik("Zorint xls","xls","",2));
+        zwrot.add(new ImportowanyPlik("Tomtech xls","xls","",3));
+        zwrot.add(new ImportowanyPlik("Exolight xls","xls","",4));
         return zwrot;
     }
 }
