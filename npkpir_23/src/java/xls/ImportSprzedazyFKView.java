@@ -152,7 +152,9 @@ public class ImportSprzedazyFKView  implements Serializable {
                     listasprzedaz = stworzlistesprzedaz(jpk, jpk1inne2);
                 }
                 grid3.setRendered(true);
-                generujbutton.setRendered(true);
+                if (jpk1inne2==1) {
+                    generujbutton.setRendered(true);
+                }
                 drukujbutton.setRendered(true);
                 Msg.msg("Sukces. Dane z pliu  zostały skutecznie załadowane");
         } catch (Exception ex) {
@@ -169,16 +171,13 @@ public class ImportSprzedazyFKView  implements Serializable {
         int i = 1;
         for (SprzedazWiersz p : wiersze) {
                 ImportJPKSprzedaz s = new ImportJPKSprzedaz(p);
-                if (s.getSprzedazWiersz().getLpSprzedazy().equals(new BigInteger("567"))) {
-                    System.out.println("");
-                }
             try {
                 String pobranadata = p.getDataSprzedazy()!=null ? p.getDataSprzedazy().toString() : p.getDataWystawienia().toString();
                 boolean czydobradata = data.Data.czydatajestwmcu(pobranadata, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
                 if (czydobradata) {
                     Klienci klient = ImportBean.ustawkontrahentaImportJPK(p.getNrKontrahenta(), p.getNazwaKontrahenta(), k, gUSView, klDAO);
                     if (jpk1inne2==1) {
-                        if (klient.getNip()!=null && klient.getKrajkod()!=null && s.getKlient().getKrajkod().equals("PL")) {
+                        if (klient.getNip()!=null && klient.getNip().length()>8) {
                            s.setKlient(klient);
                            s.setId(i++);
                            String rodzajdk = "SZ";
@@ -186,6 +185,14 @@ public class ImportSprzedazyFKView  implements Serializable {
                            if (!wpisView.isVatowiec()) {
                                rodzajdk = "RACHSP";
                            }
+                            if (s.getKlient().getKrajnazwa()!=null && !s.getKlient().getKrajkod().equals("PL")) {
+                                //polska0unia1zagranica2 = 2;
+                                rodzajdk = "EXP";
+                                if (PanstwaEUSymb.getWykazPanstwUE().contains(s.getKlient().getKrajkod())) {
+                                    //polska0unia1zagranica2 = 1;
+                                    rodzajdk = "WDT";
+                                }
+                            }
                            Dokfk nd = new Dokfk(s, wpisView, rodzajdk);
                            Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
                            if (juzjest!=null) {
@@ -194,32 +201,33 @@ public class ImportSprzedazyFKView  implements Serializable {
                            zwrot.add(s);
                        }
                     } else {
-                        s.setKlient(klient);
-                        s.setId(i++);
-                        String rodzajdk = "SZ";
-                        //int polska0unia1zagranica2 = 0;
-                        if (!wpisView.isVatowiec()) {
-                            rodzajdk = "RACHSP";
-                        }
-                        if (s.getKlient().getKrajnazwa()!=null && !s.getKlient().getKrajkod().equals("PL")) {
-                                //polska0unia1zagranica2 = 2;
-                                rodzajdk = "EXP";
-                                if (PanstwaEUSymb.getWykazPanstwUE().contains(s.getKlient().getKrajkod())) {
-                                    //polska0unia1zagranica2 = 1;
-                                    rodzajdk = "WDT";
-                                }
-                        }
-                        Dokfk nd = new Dokfk(s, wpisView, rodzajdk);
-                        Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
-                        if (juzjest!=null) {
-                            s.setJuzzaksiegowany(true);
-                        }
-                        if (jpk1inne2==3 && (s.getSprzedazWiersz().getNetto()!=0.0 || s.getSprzedazWiersz().getVat()!=0.0)) {
-                            zwrot.add(s);
-                        } else if (jpk1inne2!=3){
-                            zwrot.add(s);
-                        }
-                        
+                         if (klient.getNip()==null || klient.getNip().length()<8) {
+                            s.setKlient(klient);
+                            s.setId(i++);
+                            String rodzajdk = "SZ";
+                            //int polska0unia1zagranica2 = 0;
+                            if (!wpisView.isVatowiec()) {
+                                rodzajdk = "RACHSP";
+                            }
+                            if (s.getKlient().getKrajnazwa()!=null && !s.getKlient().getKrajkod().equals("PL")) {
+                                    //polska0unia1zagranica2 = 2;
+                                    rodzajdk = "EXP";
+                                    if (PanstwaEUSymb.getWykazPanstwUE().contains(s.getKlient().getKrajkod())) {
+                                        //polska0unia1zagranica2 = 1;
+                                        rodzajdk = "WDT";
+                                    }
+                            }
+                            Dokfk nd = new Dokfk(s, wpisView, rodzajdk);
+                            Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
+                            if (juzjest!=null) {
+                                s.setJuzzaksiegowany(true);
+                            }
+                            if (jpk1inne2==3 && (s.getSprzedazWiersz().getNetto()!=0.0 || s.getSprzedazWiersz().getVat()!=0.0)) {
+                                zwrot.add(s);
+                            } else if (jpk1inne2!=3){
+                                zwrot.add(s);
+                            }
+                         }
                     }
                 }
             } catch (Exception e) {
