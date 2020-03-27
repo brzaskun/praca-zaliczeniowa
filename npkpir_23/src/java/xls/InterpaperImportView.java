@@ -142,7 +142,7 @@ public class InterpaperImportView implements Serializable {
         kontovat = kontoDAO.findKonto("221-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         kontovatzagranica = kontoDAO.findKonto("223", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         kontonettokoszt = kontoDAO.findKonto("403", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-        kontonettotowary = kontoDAO.findKonto("741-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        kontonettotowary = kontoDAO.findKonto("330-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         kontovatnaliczony = kontoDAO.findKonto("221-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         kontovatnaliczonyprzesuniecie = kontoDAO.findKonto("221-4", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         tabelanbppl = tabelanbpDAO.findByTabelaPLN();
@@ -300,8 +300,8 @@ public class InterpaperImportView implements Serializable {
                 }
                 dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, "przychody ze sprzedaży");
             } else {
-                if (this.rodzajdok.equals("zakup/WDT")) {
-                    rodzajdk = polska0unia1zagranica2==0 ? "ZZ" : "WDT";
+                if (this.rodzajdok.equals("zakup/WNT")) {
+                    rodzajdk = polska0unia1zagranica2==0 ? "ZZ" : "WNT";
                     if (interpaperXLS.getVatPLN()!=0.0 && !interpaperXLS.getKlientpaństwo().equals("Polska")) {
                         rodzajdk = "RACH";
                     }
@@ -539,7 +539,7 @@ public class InterpaperImportView implements Serializable {
         double vatpln = interpaperXLS.getVatPLN()!=0.0 ? interpaperXLS.getVatPLN():interpaperXLS.getVatPLN(kurs);
         strma.setKwotaPLN(Z.z(nettopln+vatpln));
         strwn.setKwotaPLN(Z.z(nettopln));
-        if (nd.getRodzajedok().getSkrotNazwyDok().equals("WDT")) {
+        if (nd.getRodzajedok().getSkrotNazwyDok().equals("WNT")) {
             strwn.setKonto(kontonettotowary);
         } else {
             strwn.setKonto(kontonettokoszt);
@@ -610,6 +610,16 @@ public class InterpaperImportView implements Serializable {
                                 }
                             } else {
                                 if (PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("rejestr WDT")) {
+                                    eVatwpisFK.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
+                                    eVatwpisFK.setVatwwalucie(0.0);
+                                    eVatwpisFK.setNetto(Z.z(nettopln));
+                                    eVatwpisFK.setVat(0.0);
+                                    eVatwpisFK.setBrutto(Z.z(nettopln));
+                                    eVatwpisFK.setDokfk(nd);
+                                    eVatwpisFK.setEstawka("op");
+                                    nd.getEwidencjaVAT().add(eVatwpisFK);
+                                    break;
+                                } else if (PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("rejestr WNT")) {
                                     eVatwpisFK.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
                                     eVatwpisFK.setVatwwalucie(0.0);
                                     eVatwpisFK.setNetto(Z.z(nettopln));
@@ -809,7 +819,7 @@ public class InterpaperImportView implements Serializable {
                 zwrot.add("sprzedaż");
                 break;
             case 2:
-                zwrot.add("zakup/WDT");
+                zwrot.add("zakup/WNT");
                 zwrot.add("sprzedaż NIP");
                 zwrot.add("sprzedaż os.fiz");
                 break;
@@ -818,7 +828,7 @@ public class InterpaperImportView implements Serializable {
                 zwrot.add("sprzedaż");
                 break;
             case 4: 
-                zwrot.add("zakup/WDT");
+                zwrot.add("zakup/WNT");
                 zwrot.add("sprzedaż");
                 break;
         }
