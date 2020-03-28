@@ -188,7 +188,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         double nkup = sumamiesiecy.getNkup();
         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("nkup"), nkup));
          pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji("koszt podatkowy", Z.z(kosztynarastajaco-nkup)));
-        wynikpodatkowy = Z.z(wynikfinansowy + npup + nkup);
+        wynikpodatkowy = Z.z(wynikfinansowy - npup + nkup);
         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wynikpodatkowy"), wynikpodatkowy));
         wynikfinansowynetto = wynikpodatkowy;
         boolean formaprawna = true;
