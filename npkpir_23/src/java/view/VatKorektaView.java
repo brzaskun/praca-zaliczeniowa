@@ -353,7 +353,7 @@ public class VatKorektaView implements Serializable {
     private void stworzdeklaracje(Vatpoz pozycje, Deklaracjevat nowadeklaracja, DeklaracjaVatSchema schema, boolean vatzd, boolean splitpayment) {
         VAT713 vat713 = null;
         try {
-            if (ObslugaPodpisuBean.moznaPodpisac(wpisView.getPodatnikObiekt().getKartacert())) {
+            if (ObslugaPodpisuBean.moznaPodpisac(wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel())) {
                 vat713 = new VAT713(pozycje, schema, true, vatzd, wpisView.getUzer().getNrtelefonu(), splitpayment);
             } else {
                 vat713 = new VAT713(pozycje, schema, false, vatzd, wpisView.getUzer().getNrtelefonu(), splitpayment);

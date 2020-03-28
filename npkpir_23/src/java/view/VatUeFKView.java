@@ -558,7 +558,7 @@ public class VatUeFKView implements Serializable {
     private Object[] podpiszDeklaracje(String xml) {
         Object[] deklaracjapodpisana = null;
         try {
-            deklaracjapodpisana = Xad.podpisz(xml, wpisView.getPodatnikObiekt().getKartacert());
+            deklaracjapodpisana = Xad.podpisz(xml, wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
         } catch (Exception e) {
             E.e(e);
         }

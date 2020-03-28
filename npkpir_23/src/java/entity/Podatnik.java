@@ -289,6 +289,8 @@ public class Podatnik implements Serializable {
     @Size(min = 5)
     @Column(name = "kodPKD", nullable = true)
     private String kodPKD;
+//    @Column(name = "kartapesel")
+//    private String kartapesel;
     
     @Transient
     private double cena;
@@ -343,6 +345,14 @@ public class Podatnik implements Serializable {
     }
     public String getSchematnumeracji() {
         return schematnumeracji;
+    }
+
+    public String getKartapesel() {
+        return null;
+    }
+
+    public void setKartapesel(String kartapesel) {
+        //this.kartapesel = kartapesel;
     }
 
     public String getKodPKD() {

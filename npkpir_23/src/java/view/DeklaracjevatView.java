@@ -278,7 +278,7 @@ public class DeklaracjevatView implements Serializable {
         if (oczekujace != null && wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
             for (Deklaracjevat d : oczekujace) {
                 if (d.getDeklaracjapodpisana()==null) {
-                    pokazprzyciskpodpis = ObslugaPodpisuBean.moznaPodpisac(wpisView.getPodatnikObiekt().getKartacert());
+                    pokazprzyciskpodpis = ObslugaPodpisuBean.moznaPodpisac(wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
                 }
             }
         }

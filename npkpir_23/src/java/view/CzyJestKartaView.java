@@ -24,10 +24,21 @@ public class CzyJestKartaView   implements Serializable {
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private String innehaslo;
+    private String innypesel;
+    private String czyjestczytnik;
+    private String czyjestkarta;
+    private String czyjestcertyfikat;
+    private String czydobrehaslo;
+    private String certyfikatdo;
     
     
     public void init() { //E.m(this);
-         moznapodpisywac = ObslugaPodpisuBean.moznapodpisacjpk(innehaslo);
+         moznapodpisywac = ObslugaPodpisuBean.moznapodpisacjpk(innehaslo, innypesel);
+         czyjestczytnik = ObslugaPodpisuBean.getOdpowiedz().get(0);
+         czyjestkarta = ObslugaPodpisuBean.getOdpowiedz().get(1);
+         czyjestcertyfikat =  ObslugaPodpisuBean.getOdpowiedz().get(2);
+         czydobrehaslo = ObslugaPodpisuBean.getOdpowiedz().get(3);
+         certyfikatdo = ObslugaPodpisuBean.getOdpowiedz().get(4);
     }
 
     public boolean isMoznapodpisywac() {
@@ -52,6 +63,54 @@ public class CzyJestKartaView   implements Serializable {
 
     public void setInnehaslo(String haslo) {
         this.innehaslo = haslo;
+    }
+
+    public String getInnypesel() {
+        return innypesel;
+    }
+
+    public void setInnypesel(String innypesel) {
+        this.innypesel = innypesel;
+    }
+
+    public String getCzyjestczytnik() {
+        return czyjestczytnik;
+    }
+
+    public void setCzyjestczytnik(String czyjestczytnik) {
+        this.czyjestczytnik = czyjestczytnik;
+    }
+
+    public String getCzyjestkarta() {
+        return czyjestkarta;
+    }
+
+    public void setCzyjestkarta(String czyjestkarta) {
+        this.czyjestkarta = czyjestkarta;
+    }
+
+    public String getCzyjestcertyfikat() {
+        return czyjestcertyfikat;
+    }
+
+    public void setCzyjestcertyfikat(String czyjestcertyfikat) {
+        this.czyjestcertyfikat = czyjestcertyfikat;
+    }
+
+    public String getCzydobrehaslo() {
+        return czydobrehaslo;
+    }
+
+    public void setCzydobrehaslo(String czydobrehaslo) {
+        this.czydobrehaslo = czydobrehaslo;
+    }
+
+    public String getCertyfikatdo() {
+        return certyfikatdo;
+    }
+
+    public void setCertyfikatdo(String certyfikatdo) {
+        this.certyfikatdo = certyfikatdo;
     }
     
     

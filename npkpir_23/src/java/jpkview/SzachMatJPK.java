@@ -85,7 +85,7 @@ public class SzachMatJPK {
                 String plikxmlnazwapodpis = "wysylkapodpis"+mainfilename;
                 String dirplikxmlnazwapodpis = dir+plikxmlnazwapodpis;
                 JPKSuper jpk = pobierzJPK(dirmainfilename, wpisView);
-                beansPodpis.Xad.podpiszjpk(content, dirplikxmlnazwapodpis, wpisView.getPodatnikObiekt().getKartacert());
+                beansPodpis.Xad.podpiszjpk(content, dirplikxmlnazwapodpis, wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
                 upo.uzupelnij(podatnik, wpisView, jpk);
                 Object[] zwrot = beanJPKwysylka.wysylkadoMF(diraesfilename, dirplikxmlnazwapodpis, upo);
                 if ((int) zwrot[4] == 3) {
@@ -161,7 +161,7 @@ public class SzachMatJPK {
             String plikxmlnazwapodpis = "wysylkapodpis.xml";
             PrzygotujInitUploadXML.robDokument(wpisView, encryptionkeystring, mainfilename, mainfilesize, mainfilehash, new String(ivBytes), partfilename, partfilesize, partfilehash, plikxmlnazwa);
             String content = new String(Files.readAllBytes(Paths.get("wysylka.xml")));
-            beansPodpis.Xad.podpiszjpk(content, plikxmlnazwapodpis, wpisView.getPodatnikObiekt().getKartacert());
+            beansPodpis.Xad.podpiszjpk(content, plikxmlnazwapodpis, wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
             UPO upo = new UPO();
             beanJPKwysylka.wysylkadoMF(partfilename, plikxmlnazwapodpis, upo);
         } catch (Exception ex) {

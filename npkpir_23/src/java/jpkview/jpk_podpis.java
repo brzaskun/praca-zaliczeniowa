@@ -6,6 +6,7 @@
 package jpkview;
 
 import beansPodpis.*;
+import static beansPodpis.ObslugaPodpisuBean.innyPesel;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -83,7 +84,7 @@ public class jpk_podpis {
         try {
             JPK jpk = WysylkaSub.makedummyJPK();
             String content = new String(Files.readAllBytes(Paths.get("james2.xml")));
-            podpisz(content, null);
+            podpisz(content, null, null);
         } catch (IOException ex) {
             Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -98,13 +99,14 @@ public class jpk_podpis {
     }
     
     
-    public static Object[] podpisz(String deklaracja, String innehaslo) {
+    public static Object[] podpisz(String deklaracja, String innehaslo, String innypesel) {
         String haslo = inneHaslo(innehaslo);
+        String pesel = innyPesel(innypesel);
         Object[] podpisana = null;
         try {
             deklaracja = deklaracja.substring(56);
-            Provider provider = ObslugaPodpisuBean.jestDriver();
-            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(haslo, provider);
+            Provider provider = ObslugaPodpisuBean.jestCzytnikDriver();
+            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(haslo, pesel, provider);
             String alias = ObslugaPodpisuBean.aktualnyAlias(keyStore);
             X509Certificate signingCertificate = (X509Certificate) ObslugaPodpisuBean.certyfikat(alias, keyStore);
             String X509IssuerName = signingCertificate.getIssuerX500Principal().getName();

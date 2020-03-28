@@ -80,7 +80,7 @@ public class Xad {
     public static void main(String[] args) {
         try {
             String content = new String(Files.readAllBytes(Paths.get(FILE)));
-            podpisz(content, null);
+            podpisz(content, null, null);
         } catch (IOException ex) {
             Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -94,13 +94,13 @@ public class Xad {
         return zwrot;
     }
     
-    public static Object[] podpisz(String deklaracja, String innehaslo) {
+    public static Object[] podpisz(String deklaracja, String innehaslo, String pesel) {
         String haslo = inneHaslo(innehaslo);
         Object[] podpisana = null;
         try {
             //deklaracja = deklaracja.substring(38);
-            Provider provider = ObslugaPodpisuBean.jestDriver();
-            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(haslo, provider);
+            Provider provider = ObslugaPodpisuBean.jestCzytnikDriver();
+            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(haslo, pesel, provider);
             String alias = ObslugaPodpisuBean.aktualnyAlias(keyStore);
             X509Certificate signingCertificate = (X509Certificate) ObslugaPodpisuBean.certyfikat(alias, keyStore);
             String X509IssuerName = signingCertificate.getIssuerX500Principal().getName();
@@ -160,13 +160,13 @@ public class Xad {
         return podpisana;
     }
     
-    public static Object[] podpiszjpk(String deklaracja, String plikxmlnazwapodpis, String innehaslo) {
+    public static Object[] podpiszjpk(String deklaracja, String plikxmlnazwapodpis, String innehaslo, String innypesel) {
         String haslo = inneHaslo(innehaslo);
         Object[] podpisana = null;
         try {
             //deklaracja = deklaracja.substring(38);
-            Provider provider = ObslugaPodpisuBean.jestDriver();
-            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(haslo ,provider);
+            Provider provider = ObslugaPodpisuBean.jestCzytnikDriver();
+            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(haslo ,innypesel,provider);
             String alias = ObslugaPodpisuBean.aktualnyAlias(keyStore);
             X509Certificate signingCertificate = (X509Certificate) ObslugaPodpisuBean.certyfikat(alias, keyStore);
             String X509IssuerName = signingCertificate.getIssuerX500Principal().getName();

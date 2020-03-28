@@ -349,8 +349,13 @@ private DokDAO dokDAO;
         try {
             sformatuj(selected);
             edytujhaslo(selected);
-            zachowajZmiany(selected);
-            Msg.msg("i", "Edytowano dane podatnika-klienta " + selected.getPrintnazwa(), "akordeon:form:msg");
+            edytujPesel(selected);
+            if ((selected.getKartacert()==null && selected.getKartapesel()==null) || (selected.getKartacert()!=null && selected.getKartapesel()!=null)) {
+                zachowajZmiany(selected);
+                Msg.msg("i", "Edytowano dane podatnika-klienta " + selected.getPrintnazwa(), "akordeon:form:msg");
+            } else {
+                Msg.msg("e", "Brak pinu lub Peselu do karty. Nie może być wpisane tylko jedno z nich");
+            }    
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd - dane niezedytowane", "akordeon:form:msg");
         }
@@ -359,6 +364,11 @@ private DokDAO dokDAO;
     private void edytujhaslo(Podatnik selected) {
         if (selected.getKartacert()!=null && selected.getKartacert().equals("")) {
             selected.setKartacert(null);
+        }
+    }
+    private void edytujPesel(Podatnik selected) {
+        if (selected.getKartapesel()!=null && selected.getKartapesel().equals("")) {
+            selected.setKartapesel(null);
         }
     }
     

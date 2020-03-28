@@ -25,7 +25,7 @@ public class PodpisView  implements Serializable {
 
     public void sprawdzczymozna(WpisView wpisView) {
         if (wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
-            jestkarta  = ObslugaPodpisuBean.moznaPodpisac(wpisView.getPodatnikObiekt().getKartacert());
+            jestkarta  = ObslugaPodpisuBean.moznaPodpisac(wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
         } else {
             jestkarta = false;
         }
@@ -34,7 +34,7 @@ public class PodpisView  implements Serializable {
     public Object[] podpiszDeklaracje(String xml, WpisView wpisView) {
         Object[] deklaracjapodpisana = null;
         try {
-            deklaracjapodpisana = Xad.podpisz(xml,wpisView.getPodatnikObiekt().getKartacert());
+            deklaracjapodpisana = Xad.podpisz(xml,wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
         } catch (Exception e) {
             E.e(e);
         }

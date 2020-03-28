@@ -24,6 +24,12 @@
                 <p:ajax event="blur" partialSubmit="true" listener="#{podatnikView.edytuj()}"/>
             </p:inputText>
         </h:form>
+            <h:form >
+            <h:outputText value="Pesel do karty z certyfikatem "/>
+            <p:inputText value="#{podatnikView.selected.kartapesel}">
+                <p:ajax event="blur" partialSubmit="true" listener="#{podatnikView.edytuj()}"/>
+            </p:inputText>
+        </h:form>
         </p:panelGrid>
         <p:panelGrid columns="1">
         <h:form >
