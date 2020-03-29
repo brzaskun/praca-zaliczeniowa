@@ -19,12 +19,12 @@ import daoFK.KontoDAOfk;
 import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Deklaracjevat;
-import entity.WniosekVATZDEntity;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
+import java.security.KeyStoreException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +34,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import mail.MailOther;
@@ -275,14 +274,22 @@ public class DeklaracjevatView implements Serializable {
     public boolean pokazprzyciskpodpisfunkcja() {
         boolean zwrot = false;
         pokazprzyciskpodpis = false;
-        if (oczekujace != null && wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
-            for (Deklaracjevat d : oczekujace) {
-                if (d.getDeklaracjapodpisana()==null) {
-                    pokazprzyciskpodpis = ObslugaPodpisuBean.moznaPodpisac(wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
+        try {
+            if (oczekujace != null && wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
+                for (Deklaracjevat d : oczekujace) {
+                    if (d.getDeklaracjapodpisana()==null) {
+                        pokazprzyciskpodpis = ObslugaPodpisuBean.moznapodpisacError(wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
+                    }
                 }
             }
+            zwrot = pokazprzyciskpodpis;
+        } catch (KeyStoreException ex) {
+            Msg.msg("e", "Brak karty w czytniku");
+        } catch (IOException ex) {
+            Msg.msg("e", "UWAGA! Błędne hasło!");
+        } catch (Exception ex) {
+            E.e(ex);
         }
-        zwrot = pokazprzyciskpodpis;
         return zwrot;
     }
     

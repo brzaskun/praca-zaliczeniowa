@@ -38,7 +38,9 @@ import entity.Rodzajedok;
 import entity.VATDeklaracjaKorektaDok;
 import entity.WniosekVATZDEntity;
 import error.E;
+import java.io.IOException;
 import java.io.Serializable;
+import java.security.KeyStoreException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -353,7 +355,7 @@ public class VatKorektaView implements Serializable {
     private void stworzdeklaracje(Vatpoz pozycje, Deklaracjevat nowadeklaracja, DeklaracjaVatSchema schema, boolean vatzd, boolean splitpayment) {
         VAT713 vat713 = null;
         try {
-            if (ObslugaPodpisuBean.moznaPodpisac(wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel())) {
+            if (ObslugaPodpisuBean.moznapodpisacError(wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel())) {
                 vat713 = new VAT713(pozycje, schema, true, vatzd, wpisView.getUzer().getNrtelefonu(), splitpayment);
             } else {
                 vat713 = new VAT713(pozycje, schema, false, vatzd, wpisView.getUzer().getNrtelefonu(), splitpayment);
@@ -361,6 +363,10 @@ public class VatKorektaView implements Serializable {
             String wiersz = vat713.getWiersz();
             nowadeklaracja.setDeklaracja(wiersz);
             Msg.msg("Stworzono deklaracje korekte");
+        } catch (KeyStoreException ex) {
+            Msg.msg("e", "Brak karty w czytniku");
+        } catch (IOException ex) {
+            Msg.msg("e", "UWAGA! Błędne hasło!");
         } catch (Exception ex) {
             Msg.msg("Wystąpił błąd podczas tworzenia deklaracji korekty.");
         }

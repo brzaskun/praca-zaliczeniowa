@@ -35,7 +35,9 @@ import entity.Podatnik;
 import entity.SchemaEwidencja;
 import entity.WniosekVATZDEntity;
 import error.E;
+import java.io.IOException;
 import java.io.Serializable;
+import java.security.KeyStoreException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -997,11 +999,19 @@ public class Vat7DKView implements Serializable {
     }
 
      public boolean sprawdzczymozna() {
-        if (wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
-            return ObslugaPodpisuBean.moznaPodpisac(wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
-        } else {
-            return false;
+        boolean zwrot = false;
+        try {
+            if (wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
+                zwrot = ObslugaPodpisuBean.moznapodpisacError(wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
+            }
+        } catch (KeyStoreException ex) {
+            Msg.msg("e", "Brak karty w czytniku");
+        } catch (IOException ex) {
+            Msg.msg("e", "UWAGA! Błędne hasło!");
+        } catch (Exception ex) {
+            E.e(ex);
         }
+        return zwrot;
     }
 
     

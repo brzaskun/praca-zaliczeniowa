@@ -33,7 +33,7 @@ public class CzyJestKartaView   implements Serializable {
     
     
     public void init() { //E.m(this);
-         moznapodpisywac = ObslugaPodpisuBean.moznapodpisacjpk(innehaslo, innypesel);
+         moznapodpisywac = ObslugaPodpisuBean.moznaPodpisacMute(innehaslo, innypesel);
          czyjestczytnik = ObslugaPodpisuBean.getOdpowiedz().get(0);
          czyjestkarta = ObslugaPodpisuBean.getOdpowiedz().get(1);
          czyjestcertyfikat =  ObslugaPodpisuBean.getOdpowiedz().get(2);

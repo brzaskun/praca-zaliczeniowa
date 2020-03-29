@@ -20,10 +20,13 @@ import entityfk.EVatwpisFK;
 import error.E;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.security.KeyStoreException;
+import java.security.Security;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -283,17 +286,25 @@ public class JPK_VAT2View implements Serializable {
     
     private UPO wysylkaJPK(Podatnik podatnik) {
         UPO upo = new UPO();
-        boolean moznapodpisac = ObslugaPodpisuBean.moznapodpisacjpk(wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
-        if (moznapodpisac) {
-            String[] wiadomosc = SzachMatJPK.wysylka(podatnik, wpisView, upo);
-            if (!wiadomosc[0].equals("e")) {
-                wiadomosc = zachowajUPO(upo);
-                Msg.msg(wiadomosc[0], wiadomosc[1]);
+        try {
+            boolean moznapodpisac = ObslugaPodpisuBean.moznapodpisacError(wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
+            if (moznapodpisac) {
+                String[] wiadomosc = SzachMatJPK.wysylka(podatnik, wpisView, upo);
+                if (!wiadomosc[0].equals("e")) {
+                    wiadomosc = zachowajUPO(upo);
+                    Msg.msg(wiadomosc[0], wiadomosc[1]);
+                } else {
+                    Msg.msg(wiadomosc[0], wiadomosc[1]);
+                }
             } else {
-                Msg.msg(wiadomosc[0], wiadomosc[1]);
+                Msg.msg("e", "Brak karty w czytniku. Nie można wysłać JPK");
             }
-        } else {
-            Msg.msg("e", "Brak karty w czytniku. Nie można wysłać JPK");
+        } catch (KeyStoreException ex) {
+            Msg.msg("e", "Brak karty w czytniku");
+        } catch (IOException ex) {
+            Msg.msg("e", "UWAGA! Błędne hasło!");
+        } catch (Exception ex) {
+            E.e(ex);
         }
         return upo;
     }

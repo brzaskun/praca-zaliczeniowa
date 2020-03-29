@@ -8,9 +8,12 @@ package view;
 import beansPodpis.ObslugaPodpisuBean;
 import beansPodpis.Xad;
 import error.E;
+import java.io.IOException;
 import java.io.Serializable;
+import java.security.KeyStoreException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import msg.Msg;
 
 /**
  *
@@ -24,10 +27,17 @@ public class PodpisView  implements Serializable {
     private boolean jestkarta;
 
     public void sprawdzczymozna(WpisView wpisView) {
-        if (wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
-            jestkarta  = ObslugaPodpisuBean.moznaPodpisac(wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
-        } else {
-            jestkarta = false;
+        jestkarta = false;
+        try {
+            if (wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
+                jestkarta  = ObslugaPodpisuBean.moznapodpisacError(wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
+            }
+        } catch (KeyStoreException ex) {
+            Msg.msg("e", "Brak karty w czytniku");
+        } catch (IOException ex) {
+            Msg.msg("e", "UWAGA! Błędne hasło!");
+        } catch (Exception ex) {
+            E.e(ex);
         }
     }
     

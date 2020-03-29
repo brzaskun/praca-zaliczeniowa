@@ -36,14 +36,14 @@ public class ObslugaPodpisuBean {
     static String DRIVER = "resources\\\\podpis\\\\cryptoCertum3PKCS.dll";
     static Map<Integer, String> odpowiedz;
 //  
-    public static boolean moznapodpisacjpk(String innehaslo, String innypesel) {
+    public static boolean moznapodpisacError(String innehaslo, String innypesel) throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException {
         resetujodpowiedz();
         String haslo = inneHaslo(innehaslo);
         String pesel = innyPesel(innypesel);
         boolean zwrot = false;
         Provider provider = ObslugaPodpisuBean.jestCzytnikDriver();
         if (provider!=null) {
-            KeyStore keyStore = ObslugaPodpisuBean.jestKarta(haslo, pesel, provider);
+            KeyStore keyStore = ObslugaPodpisuBean.jestKartaPodpisy(haslo, pesel, provider);
             if (provider != null && keyStore != null) {
                 zwrot = true;
             }
@@ -119,6 +119,24 @@ public class ObslugaPodpisuBean {
         }
         return keyStore;
     }
+    
+    public static KeyStore jestKartaPodpisy(String haslo, String pesel, Provider provider) throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException {
+        KeyStore keyStore = null;
+        char [] pin = haslo.toCharArray();
+        keyStore = KeyStore.getInstance("PKCS11", provider);
+        odpowiedz.put(1, "tak");
+        if (keyStore!=null) {
+            int proba = 0;
+            do {
+                keyStore.load(null, pin);
+                proba++;
+            } while (proba < 2 && keyStore==null); 
+        }
+        odpowiedz.put(3, "tak");
+        String czyjestcertyfikat = sprawdzcertyfikat(keyStore, pesel);
+        return keyStore;
+    }
+    
     
     private static String sprawdzcertyfikat(KeyStore keyStore, String pesel) throws KeyStoreException {
         String zwrot = "tak";
@@ -342,8 +360,9 @@ public class ObslugaPodpisuBean {
             System.out.println("nie ma "+opis);
         }
     }
-//    
-    public static boolean moznaPodpisac(String innehaslo, String innypesel) {
+    
+    public static boolean moznaPodpisacMute(String innehaslo, String innypesel) {
+        resetujodpowiedz();
         String haslo = inneHaslo(innehaslo);
         String pesel = innyPesel(innypesel);
         boolean zwrot = false;
