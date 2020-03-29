@@ -394,7 +394,8 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 szukanyklient = p.getFaktura().getKontrahent();
             }
             f.setKontrahent(szukanyklient);
-            f.setKwotapln(-p.getSaldo());
+            f.setKwotawwalucie(-p.getSaldo());
+            f.setKwotapln(-p.getSaldopln());
             if (p.getSaldo()!=0.0 && p.getSaldopln()!=0.0 && Z.z(p.getSaldo())!=Z.z(p.getSaldopln())) {
                 f.setKurs(p.getSaldopln()/p.getSaldo());
             }

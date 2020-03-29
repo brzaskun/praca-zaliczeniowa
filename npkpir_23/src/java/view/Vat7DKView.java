@@ -208,19 +208,31 @@ public class Vat7DKView implements Serializable {
 //        }
 //    }
     public void obliczNowaDedra() {
-        ewidencjaVatView.stworzenieEwidencjiZDokumentowDedra(wpisView.getPodatnikObiekt());
-        mapaewidencji =  ewidencjaVatView.getSumaewidencji();
-        obliczNowa();
+        if (wpisView.getUzer().getNrtelefonu()==null) {
+            Msg.msg("e","Brak numeru telefonu sporządzającego deklarację. Nie można jej zapisać");
+        } else {
+            ewidencjaVatView.stworzenieEwidencjiZDokumentowDedra(wpisView.getPodatnikObiekt());
+            mapaewidencji =  ewidencjaVatView.getSumaewidencji();
+            obliczNowa();
+        }
     }
     public void obliczNowaPkpir() {
-        ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
-        mapaewidencji =  ewidencjaVatView.getSumaewidencji();
-        obliczNowa();
+        if (wpisView.getUzer().getNrtelefonu()==null) {
+            Msg.msg("e","Brak numeru telefonu sporządzającego deklarację. Nie można jej zapisać");
+        } else {
+            ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
+            mapaewidencji =  ewidencjaVatView.getSumaewidencji();
+            obliczNowa();
+        }
     }
     public void obliczNowaFK() {
-        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt(), wniosekVATZDEntity);
-        mapaewidencji =  ewidencjaVatView.getSumaewidencji();
-        obliczNowa();
+        if (wpisView.getUzer().getNrtelefonu()==null) {
+            Msg.msg("e","Brak numeru telefonu sporządzającego deklarację. Nie można jej zapisać");
+        } else {
+            ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt(), wniosekVATZDEntity);
+            mapaewidencji =  ewidencjaVatView.getSumaewidencji();
+            obliczNowa();
+        }
     }
     
     
