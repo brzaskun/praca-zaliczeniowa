@@ -90,7 +90,14 @@ public class InterpaperXLS implements Serializable {
 
     
     public String getAdres() {
-        return this.klientkod+" "+this.klientmiasto+" "+this.klientulica+" "+this.klientdom;
+        if (this.klientkod!=null) {
+            return this.klientkod+" "+this.klientmiasto+" "+this.klientulica+" "+this.klientdom;
+        } else if (this.klientmiasto!=null) {
+            return this.klientmiasto+" "+this.klientulica+" "+this.klientdom;
+        } else {
+            return "";
+        }
+        
     }
     
     public String getVatstawka() {

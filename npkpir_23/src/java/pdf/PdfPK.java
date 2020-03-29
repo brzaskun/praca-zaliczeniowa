@@ -115,7 +115,7 @@ public class PdfPK {
         miziu1 = new Paragraph(new Phrase("okres rozliczeniowy " + selected.getPkpirM() + "/" + selected.getPkpirR(), fontM));
         document.add(miziu1);
         document.add(Chunk.NEWLINE);
-        miziu1 = new Paragraph(new Phrase("Firma: " + selected.getPodatnik(), fontM));
+        miziu1 = new Paragraph(new Phrase("Firma: " + selected.getPodatnik().getPrintnazwa(), fontM));
         document.add(miziu1);
         Podatnik pod = selected.getPodatnik();
         miziu1 = new Paragraph(new Phrase("adres: " + pod.getMiejscowosc() + " " + pod.getUlica() + " " + pod.getNrdomu(), fontM));

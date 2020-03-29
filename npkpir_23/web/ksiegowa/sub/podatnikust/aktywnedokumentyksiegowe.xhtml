@@ -141,19 +141,19 @@
                         <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kontorozrachunkowe}" style="width: 250px;" converter="#{kontoConv}"  
                                          rendered="#{podatnikView.selectedDokKsi.kategoriadokumentu != 0}">
                             <f:selectItem itemLabel="wybierz konto rozrachunkowe" itemValue="" />
-                            <f:selectItems value="#{podatnikView.listaKontRozrachunkowych}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}"/>
+                            <f:selectItems value="#{podatnikView.listaKontRozrachunkowych}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}" itemDescription="#{item.kontomacierzyste.pelnynumer} #{item.kontomacierzyste.nazwapelna}"/>
                         </p:selectOneMenu>
                     </p:column>
                     <p:column headerText="konto VAT" style="text-align: center;" rendered="#{WpisView.ksiegirachunkowe}">
                         <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kontovat}" style="width: 250px;" converter="#{kontoConv}">
                             <f:selectItem itemLabel="wybierz konto dla vat" itemValue="" />
-                            <f:selectItems value="#{podatnikView.listaKontVAT}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}"/>
+                            <f:selectItems value="#{podatnikView.listaKontVAT}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}" itemDescription="#{item.kontomacierzyste.pelnynumer} #{item.kontomacierzyste.nazwapelna}"/>
                         </p:selectOneMenu>
                     </p:column>
                     <p:column headerText="konto RZiS" style="text-align: center;" rendered="#{WpisView.ksiegirachunkowe}">
                         <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kontoRZiS}" style="width: 250px;" converter="#{kontoConv}">
                             <f:selectItem itemLabel="wybierz konto dla netto" itemValue="" />
-                            <f:selectItems value="#{podatnikView.listakontoRZiS}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}"/>
+                            <f:selectItems value="#{podatnikView.listakontoRZiS}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}" itemDescription="#{item.kontomacierzyste.pelnynumer} #{item.kontomacierzyste.nazwapelna}"/>
                         </p:selectOneMenu>
                     </p:column>
                     <p:column>

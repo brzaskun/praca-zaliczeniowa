@@ -54,14 +54,23 @@ public class PdfXLSImport {
             Set<String> waluty = pobierzwaluty(lista);
             Set<String> kraje = pobierzkraje(lista);
             List tabelazbiorcza = new ArrayList<>();
-            for (String kraj : kraje) {
-                List<InterpaperXLS> sprzedazkraj = lista.stream().filter((p)->p.getKlientpaństwo().equals(kraj)).collect(Collectors.toList());
-                for (String waluta : waluty) {
-                    List<InterpaperXLS> sprzedazwaluty = sprzedazkraj.stream().filter((p)->p.getWalutaplatnosci().equals(waluta)).collect(Collectors.toList());
-                    if (!sprzedazwaluty.isEmpty()) {
-                        dodajtabelekraj(kraj, waluta, document, sprzedazwaluty, modyfikator, tabelazbiorcza);
+            if (kraje!=null&&kraje.size()>1) {
+                for (String kraj : kraje) {
+                    List<InterpaperXLS> sprzedazkraj = lista.stream().filter((p)->p.getKlientpaństwo().equals(kraj)).collect(Collectors.toList());
+                    for (String waluta : waluty) {
+                        List<InterpaperXLS> sprzedazwaluty = sprzedazkraj.stream().filter((p)->p.getWalutaplatnosci().equals(waluta)).collect(Collectors.toList());
+                        if (!sprzedazwaluty.isEmpty()) {
+                            dodajtabelekraj(kraj, waluta, document, sprzedazwaluty, modyfikator, tabelazbiorcza);
+                        }
                     }
                 }
+            } else {
+                for (String waluta : waluty) {
+                        List<InterpaperXLS> sprzedazwaluty = lista.stream().filter((p)->p.getWalutaplatnosci().equals(waluta)).collect(Collectors.toList());
+                        if (!sprzedazwaluty.isEmpty()) {
+                            dodajtabelekraj("PL", waluta, document, sprzedazwaluty, modyfikator, tabelazbiorcza);
+                        }
+                    }
             }
             document.newPage();
             String[] nag1 = new String[]{"lp","kraj","waluta","netto","vat","brutto","nettopln","vatpln","bruttopln", "stawka vat"};
