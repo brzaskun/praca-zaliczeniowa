@@ -262,8 +262,10 @@ public class DokfkWeryfikacjaView implements Serializable {
             Msg.msg("i", "Nie stwierdzono błędów w dokumentach z listy", "zestawieniedokumentow:wiadomoscsprawdzenie");
         }
         ksiegujbutton.setRendered(true);
-        dokfkView.setWykazZaksiegowanychDokumentow(new ArrayList<Dokfk>(listaZaksiegowanychDokumentow));
-        dokfkView.setWykazZaksiegowanychDokumentowimport(new ArrayList<Dokfk>(listaZaksiegowanychDokumentow));
+        if (listaZaksiegowanychDokumentow.size()>0) {
+            dokfkView.setWykazZaksiegowanychDokumentow(new ArrayList<Dokfk>(listaZaksiegowanychDokumentow));
+            dokfkView.setWykazZaksiegowanychDokumentowimport(new ArrayList<Dokfk>(listaZaksiegowanychDokumentow));
+        }
     }
     
     private StringBuilder pobierzbledy(List<Dokfk> l, String main, Set<Dokfk> wykazZaksiegowanychDokumentow) {

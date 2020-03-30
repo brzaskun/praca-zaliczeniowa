@@ -368,10 +368,10 @@ public class BankImportView implements Serializable {
     }
       
     private void ustawdaty(Dokfk nd, ImportowanyPlikNaglowek pn) {
-        nd.setDatadokumentu(pn.getWyciagdatado());
-        nd.setDataoperacji(pn.getWyciagdatado());
+        nd.setDatadokumentu(wyciagdatado);
+        nd.setDataoperacji(wyciagdatado);
         nd.setDatawplywu(pn.getWyciagdatado());
-        nd.setDatawystawienia(pn.getWyciagdatado());
+        nd.setDatawystawienia(wyciagdatado);
         nd.setDataujecia(new Date());
         nd.setMiesiac(wpisView.getMiesiacWpisu());
         nd.setRok(wpisView.getRokWpisuSt());
