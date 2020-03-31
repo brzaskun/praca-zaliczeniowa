@@ -13,7 +13,7 @@
     </style>
     <p:dialog id="dialogcechyzapisowpodsumowanie" header="Zestawienie cech zapisów w dokumentach - #{WpisView.podatnikObiekt.nazwapelnaPDF}" 
               widgetVar="dialogcechyzapisowpodsumowanie" 
-              resizable="false"  onShow="ustawdialog('dialogcechyzapisowpodsumowanie','menurmk',1250,700);" 
+              resizable="false"  onShow="ustawdialog('dialogcechyzapisowpodsumowanie','menurmk',1350,700);" 
               closeOnEscape="true" onHide="resetujdialog('dialogcechyzapisowpodsumowanie');" >
         
         <h:form id="formcechyzapisow">
@@ -80,7 +80,7 @@
                          selection="#{cechyzapisuPrzegladView.wybraneZapisyZCecha}" 
                          filteredValue="#{cechyzapisuPrzegladView.zapisyZCechafilter}" rowSelectMode="add"
                          emptyMessage="Nie ma cech zapisów w danym miesiącu rozliczeniowym" styleClass="gridtablicasyntetyczne"
-                         style="width: 1200px; height: 550px; overflow-y: scroll;"  widgetVar="tabelacechyzapisow" rowIndexVar="index"
+                         style="width: 1300px; height: 550px; overflow-y: scroll;"  widgetVar="tabelacechyzapisow" rowIndexVar="index"
                          rowsPerPageTemplate="150,300,600,900,1200" paginatorPosition="top" paginator="#{cechyzapisuPrzegladView.zapisyZCecha.size() gt 150 ? 'true':'false'}" rows="150">
                 <p:ajax event="rowSelect" listener="#{cechyzapisuPrzegladView.sumujwybrane}" update=":formcechyzapisow:podsumowanie" global="false"/>
                 <p:ajax event="rowSelectCheckbox" listener="#{cechyzapisuPrzegladView.sumujwybrane}" update=":formcechyzapisow:podsumowanie" global="false"/>
@@ -129,6 +129,14 @@
                 </p:column>
                 <p:column headerText="#{mgs.kwota}" width="90" styleClass="filter60" sortBy="#{wpiscechy.stronaWiersza.kwotaPLN}" filterBy="#{wpiscechy.stronaWiersza.kwotaPLN}" filterMatchMode="contains">
                     <bcf:outputpl value="#{wpiscechy.stronaWiersza.kwotaPLN}"/>
+                </p:column>
+                <p:column headerText="cecha dok" width="30" style="text-align: center;" sortBy="#{item.czyCechaDok()}">
+                    <h:outputText value="!" styleClass="zapisZcecha"
+                                  rendered="#{wpiscechy.cechadok}"/>
+                </p:column>
+                <p:column headerText="cecha zap" width="30" style="text-align: center;" sortBy="#{item.czyCechaZap()}">
+                    <h:outputText value="!" styleClass="zapisZcecha" 
+                                  rendered="#{wpiscechy.cechazapis}"/>
                 </p:column>
             </p:dataTable>
         </h:form>

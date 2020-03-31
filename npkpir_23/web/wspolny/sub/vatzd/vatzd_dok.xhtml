@@ -85,7 +85,7 @@
                 </p:column>
                 <p:column headerText="#{mgs.opis}" width="120" sortBy="#{itemzd.opisdokfk}" filterBy="#{itemzd.opisdokfk}" filterMatchMode="contains" >
                     <h:outputText value="#{itemzd.opisdokfk.length() gt 40 ? itemzd.opisdokfk.substring(0,39) : itemzd.opisdokfk}" 
-                                  styleClass="#{itemzd.czyCecha() ? 'zapisZcecha' : null}"/>
+                                  styleClass="#{itemzd.czyCechaDok() ? 'zapisZcecha' : null}"/>
                 </p:column>
                 <p:column headerText="#{mgs.wartość}" 
                           styleClass="zaksiegowanewaski" width="70" sortBy="#{itemzd.wartoscdokumentu}" filterBy="#{itemzd.wartoscdokumentu}" filterMatchMode="contains" >

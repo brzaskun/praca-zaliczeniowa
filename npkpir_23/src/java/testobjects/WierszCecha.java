@@ -22,11 +22,13 @@ public class WierszCecha  implements Serializable {
     private String opisWiersza;
     private String opiskonta;
     private double kwota;
+    private boolean cd;
+    private boolean cz;
 
     public WierszCecha() {
     }
 
-    public WierszCecha(int id, String nazwacechy, String rodzajcechy, String dokfks, String datawystawienia, String dataoperacji, String opisWiersza, String opiskonta, double kwota) {
+    public WierszCecha(int id, String nazwacechy, String rodzajcechy, String dokfks, String datawystawienia, String dataoperacji, String opisWiersza, String opiskonta, double kwota, boolean cda, boolean cza) {
         this.id = id;
         this.nazwacechy = nazwacechy;
         this.rodzajcechy = rodzajcechy;
@@ -36,6 +38,8 @@ public class WierszCecha  implements Serializable {
         this.opisWiersza = opisWiersza;
         this.opiskonta = opiskonta;
         this.kwota = kwota;
+        this.cd = cda;
+        this.cz = cza;
     }
 
     public int getId() {
@@ -108,6 +112,22 @@ public class WierszCecha  implements Serializable {
 
     public void setKwota(double kwota) {
         this.kwota = kwota;
+    }
+
+    public boolean isCd() {
+        return cd;
+    }
+
+    public void setCd(boolean cd) {
+        this.cd = cd;
+    }
+
+    public boolean isCz() {
+        return cz;
+    }
+
+    public void setCz(boolean cz) {
+        this.cz = cz;
     }
 
     

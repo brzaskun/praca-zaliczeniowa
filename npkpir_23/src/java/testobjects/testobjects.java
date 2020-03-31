@@ -222,6 +222,8 @@ public class testobjects {
        n.add("opis");
        n.add("konto");
        n.add(B.b("kwota"));
+       n.add("cecha dok");
+       n.add("cecha zap");
        List t = getWierszeCechyZapisow(wiersze);
        List[] tabela = new List[2];
        tabela[0] = n;
@@ -1115,7 +1117,7 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
        List<WierszCecha> w = new ArrayList<WierszCecha>();
        for (CechaStronaWiersza p : wiersze) {
            String opiskonta = p.getStronaWiersza().getKonto().getPelnynumer()+ " " + p.getStronaWiersza().getKonto().getNazwapelna();
-           WierszCecha r = new WierszCecha(p.getId(), p.getCechazapisu().getNazwacechy(), p.getCechazapisu().getRodzajcechy(), p.getStronaWiersza().getDokfkS(), p.getStronaWiersza().getDokfk().getDatawystawienia(), p.getStronaWiersza().getDokfk().getDataoperacji(), p.getStronaWiersza().getWiersz().getOpisWiersza(), opiskonta, p.getStronaWiersza().getKwotaPLN());
+           WierszCecha r = new WierszCecha(p.getId(), p.getCechazapisu().getNazwacechy(), p.getCechazapisu().getRodzajcechy(), p.getStronaWiersza().getDokfkS(), p.getStronaWiersza().getDokfk().getDatawystawienia(), p.getStronaWiersza().getDokfk().getDataoperacji(), p.getStronaWiersza().getWiersz().getOpisWiersza(), opiskonta, p.getStronaWiersza().getKwotaPLN(), p.isCechadok(), p.isCechazapis());
            w.add(r);
        }
        return w;

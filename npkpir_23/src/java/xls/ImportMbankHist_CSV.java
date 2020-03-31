@@ -99,7 +99,7 @@ public class ImportMbankHist_CSV implements Serializable {
                         x.setKwota(Math.abs(kwotapobrana));
                         x.setWnma(kwotapobrana>0.0?"Wn":"Ma");
                         x.setWaluta(pn.getWyciagwaluta());
-                        x.setNrtransakji("");
+                        x.setNrtransakji(baza.get(2));
                         x.setTyptransakcji(oblicztyptransakcji(x));
                         x.setNaglowek(pn);
                         pobranefaktury.add(x);

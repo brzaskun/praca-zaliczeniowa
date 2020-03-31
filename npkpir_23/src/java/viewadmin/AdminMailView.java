@@ -82,6 +82,7 @@ public class AdminMailView implements Serializable {
     private boolean tylkovat;
     private boolean tylkonievat;
     private boolean tylkododatkowe;
+    private boolean tylkoaktywni;
     private byte[] zalacznik;
     private String nazwazalacznik;
     private String jezykmaila;
@@ -179,6 +180,15 @@ public class AdminMailView implements Serializable {
                     Klienci p = it.next();
                     Podatnik pod = podatnikDAO.findPodatnikByNIP(p.getNip());
                     if (pod == null || pod.isTylkodlaZUS() || sprawdzjakiokresvat(pod)) {
+                        it.remove();
+                    }
+                }
+            }
+            if (tylkoaktywni) {
+                for (Iterator<Klienci> it = klientListtemp.iterator();it.hasNext();) {
+                    Klienci p = it.next();
+                    Podatnik pod = podatnikDAO.findPodatnikByNIP(p.getNip());
+                    if (pod == null || !pod.isPodmiotaktywny()) {
                         it.remove();
                     }
                 }
@@ -438,5 +448,16 @@ public class AdminMailView implements Serializable {
     public void setTematwiadomosci(String tematwiadomosci) {
         this.tematwiadomosci = tematwiadomosci;
     }
+    
+
+    public boolean isTylkoaktywni() {
+        return tylkoaktywni;
+    }
+
+    public void setTylkoaktywni(boolean tylkoaktywni) {
+        this.tylkoaktywni = tylkoaktywni;
+    }
+        
     //</editor-fold>    
+
 }

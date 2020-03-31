@@ -52,7 +52,9 @@
 .autoCompleteBig .ui-autocomplete-input {
     width: 300px;
 }
-
+.zapisZcecha {
+    color: red;
+}
 .wierszpiatkowy, .wierszpiatkowy .ui-inputfield, .wierszpiatkowy span {
     font-style: italic !important;
     background: rgba(209, 217, 255, 0.28) !important;

@@ -102,12 +102,12 @@ public class CechazapisuBean {
         for (Wiersz p : listawierszy) {
             if (p.getStronaWn() != null) {
                 if (p.getStronaWn().getKonto().getBilansowewynikowe().equals("wynikowe")) {
-                    lista.add(new CechyzapisuPrzegladView.CechaStronaWiersza(r, p.getStronaWn()));
+                    lista.add(new CechyzapisuPrzegladView.CechaStronaWiersza(r, p.getStronaWn(), true, false));
                 }
             }
             if (p.getStronaMa() != null) {
                 if (p.getStronaMa().getKonto().getBilansowewynikowe().equals("wynikowe")) {
-                    lista.add(new CechyzapisuPrzegladView.CechaStronaWiersza(r, p.getStronaMa()));
+                    lista.add(new CechyzapisuPrzegladView.CechaStronaWiersza(r, p.getStronaMa(), true, false));
                 }
             }
         }
@@ -116,21 +116,20 @@ public class CechazapisuBean {
 
     public static Collection<? extends CechyzapisuPrzegladView.CechaStronaWiersza> pobierzpojedynczo(Wiersz r) {
         List<CechyzapisuPrzegladView.CechaStronaWiersza> lista = Collections.synchronizedList(new ArrayList<>());
+        if (r.getIdwiersza() == 662115) {
+            System.out.println("");
+        }
         if (r.getStronaWn() != null) {
-            if (r.getStronaWn().getKwota() == 48.27) {
-            }
             if (r.getStronaWn().getKonto().getBilansowewynikowe().equals("wynikowe") && r.getStronaWn().getCechazapisuLista() != null) {
                 for (Cechazapisu s : r.getStronaWn().getCechazapisuLista()) {
-                    lista.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, r.getStronaWn()));
+                    lista.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, r.getStronaWn(), false, true));
                 }
             }
         }
         if (r.getStronaMa() != null) {
-            if (r.getStronaMa().getKwota() == 48.27) {
-            }
             if (r.getStronaMa().getKonto().getBilansowewynikowe().equals("wynikowe") && r.getStronaMa().getCechazapisuLista() != null) {
                 for (Cechazapisu s : r.getStronaMa().getCechazapisuLista()) {
-                    lista.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, r.getStronaMa()));
+                    lista.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, r.getStronaMa(), false, true));
                 }
             }
         }

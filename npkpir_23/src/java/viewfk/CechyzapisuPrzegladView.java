@@ -248,13 +248,17 @@ public class CechyzapisuPrzegladView implements Serializable{
         private int id;
         private Cechazapisu cechazapisu;
         private StronaWiersza stronaWiersza;
+        private boolean cechadok;
+        private boolean cechazapis;
         
         public CechaStronaWiersza() {
         }
 
-        public CechaStronaWiersza(Cechazapisu cechazapisu, StronaWiersza stronaWiersza) {
+        public CechaStronaWiersza(Cechazapisu cechazapisu, StronaWiersza stronaWiersza, boolean cd, boolean cz) {
             this.cechazapisu = cechazapisu;
             this.stronaWiersza = stronaWiersza;
+            this.cechadok = cd;
+            this.cechazapis = cz;
         }
         
         public CechaStronaWiersza(Cechazapisu cechazapisu, StronaWiersza stronaWiersza, String popmc) {
@@ -286,6 +290,22 @@ public class CechyzapisuPrzegladView implements Serializable{
 
         public void setStronaWiersza(StronaWiersza stronaWiersza) {
             this.stronaWiersza = stronaWiersza;
+        }
+
+        public boolean isCechadok() {
+            return cechadok;
+        }
+
+        public void setCechadok(boolean cechadok) {
+            this.cechadok = cechadok;
+        }
+
+        public boolean isCechazapis() {
+            return cechazapis;
+        }
+
+        public void setCechazapis(boolean cechazapis) {
+            this.cechazapis = cechazapis;
         }
 
         

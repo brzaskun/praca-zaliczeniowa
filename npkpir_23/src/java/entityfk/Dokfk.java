@@ -990,18 +990,22 @@ public class Dokfk extends DokSuper implements Serializable {
         }
     }
 
-    public boolean czyCecha() {
+    public boolean czyCechaDok() {
         if (this.cechadokumentuLista != null && this.cechadokumentuLista.size() > 0) {
             return true;
-        } else {
-            for (StronaWiersza p : this.getStronyWierszy()) {
-                if (p.getCechazapisuLista().size() > 0) {
-                    return true;
-                }
+        }
+        return false;
+    }
+    
+    public boolean czyCechaZap() {
+        for (StronaWiersza p : this.getStronyWierszy()) {
+            if (p.getCechazapisuLista().size() > 0) {
+                return true;
             }
         }
         return false;
     }
+    
     
     public double getWartoscdokumentuPLN() {
         return Z.z(this.wartoscdokumentu*this.getTabelanbp().getKurssredniPrzelicznik());

@@ -27,7 +27,7 @@
         </p:tab>
         <p:tab title="adresaci">
             <h:form>
-                <p:panelGrid columns="13">
+                <p:panelGrid columns="15">
                     <h:outputText value="tylko dodatkowe"/>
                     <p:selectBooleanCheckbox value="#{adminMailView.tylkododatkowe}">
                         <p:ajax event="change" update="@form" listener="#{adminMailView.init}"/>
@@ -50,6 +50,10 @@
                     </p:selectBooleanCheckbox>
                     <h:outputText value="nievat-owcy"/>
                     <p:selectBooleanCheckbox value="#{adminMailView.tylkonievat}">
+                        <p:ajax event="change" update="@form" listener="#{adminMailView.init}"/>
+                    </p:selectBooleanCheckbox>
+                    <h:outputText value="tylko aktywni"/>
+                    <p:selectBooleanCheckbox value="#{adminMailView.tylkoaktywni}">
                         <p:ajax event="change" update="@form" listener="#{adminMailView.init}"/>
                     </p:selectBooleanCheckbox>
                     <p:selectOneMenu value="#{adminMailView.jezykmaila}">

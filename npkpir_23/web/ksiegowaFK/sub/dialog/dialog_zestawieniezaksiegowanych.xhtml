@@ -19,9 +19,7 @@
         .zaksiegowanekontr input {
             width: 150px !important;
         }
-        .zapisZcecha {
-            color: red;
-        }
+        
          .ui-dialog .ui-dialog-content {
             overflow-y: hidden;
         }
@@ -42,7 +40,7 @@
     </script>
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zestawieniezaksiegowanych" style="overflow-y: hidden;"
               
-              resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1500, 580);doczeplistnerydopol();" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
+              resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1600, 580);doczeplistnerydopol();" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
                 </h:form>-->
@@ -175,7 +173,7 @@
 
             <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                          selection="#{dokfkView.selectedlist}" rowKey="#{item.dokfkSN}" binding="#{dokfkView.dataTablezaksiegowane}"
-                         style="width: 1460px; height: 450px; overflow-y: scroll;" filteredValue="#{dokfkView.filteredValue}" 
+                         style="width: 1560px; height: 450px; overflow-y: scroll;" filteredValue="#{dokfkView.filteredValue}" 
                          rowsPerPageTemplate="50,100,300,500" paginatorPosition="top"
                          emptyMessage="Brak zaksięgowanych dokumentów" styleClass="walkingtable" rowSelectMode="add"
                          rows="50" paginator="true"
@@ -214,9 +212,13 @@
                           styleClass="zaksiegowanewaski" width="100" sortBy="#{item.numerwlasnydokfk}" filterBy="#{item.numerwlasnydokfk}" filterMatchMode="contains" >
                     <h:outputText value="#{item.numerwlasnydokfk}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
                 </p:column>
-                <p:column headerText="#{mgs.opis}" width="120" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
-                    <h:outputText value="#{item.opisdokfk.length() gt 40 ? item.opisdokfk.substring(0,39) : item.opisdokfk}" 
-                                  styleClass="#{item.czyCecha() ? 'zapisZcecha' : null}"/>
+                <p:column headerText="cecha dok" width="30" style="text-align: center;" sortBy="#{item.czyCechaDok()}">
+                    <h:outputText value="!" styleClass="zapisZcecha"
+                                  rendered="#{item.czyCechaDok()}"/>
+                </p:column>
+                <p:column headerText="cecha zap" width="30" style="text-align: center;" sortBy="#{item.czyCechaZap()}">
+                    <h:outputText value="!" styleClass="zapisZcecha" 
+                                  rendered="#{item.czyCechaZap()}"/>
                 </p:column>
                 <p:column headerText="#{mgs.wartość}" 
                           styleClass="zaksiegowanewaski" width="70" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
