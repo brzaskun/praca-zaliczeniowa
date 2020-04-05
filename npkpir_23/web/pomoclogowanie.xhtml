@@ -19,11 +19,11 @@
 
     <h:body style="background-color: #FFFFFF">
             <h:form id="formlog1">
-                 <p:panel style="alignment-baseline: central; alignment-adjust: central; margin: 0% 0% 0% 34%; width: 600px; border-style: none" >
-                     <div style="height: 100px;">
-                    <p:messages id="logowanie"  ><p:autoUpdate/></p:growl>
-                    </div>
+            <p:outputPanel style="text-align: center;">
+                    <p:messages id="logowanie" style="margin-top: 20px;height: 180px; width: 400px; margin-left: auto; margin-right: auto;"  ><p:autoUpdate/></p:messages>
+                </p:outputPanel>
                     <p:panelGrid columns="3" style="margin-top: 5px; margin-left: auto; margin-right: auto; width: 400px; border-style: hidden !important;">
+                  
                         <p:column style="text-align: center; margin-left: auto; margin-right: auto;">
                             <p:commandButton value="#{mgs.zaloguj}" action="failure" style="width: 140px;"/>
                         </p:column>
@@ -34,7 +34,7 @@
                         <p:commandButton value="#{mgs.rejestracja}" action="rejestruj" style="width: 140px;"/>
                     </p:column>
                     </p:panelGrid>
-                </p:panel>
+
                 <p:panel style="margin-left: auto; margin-right: auto; width: 450px; margin-top: 2%;">
                     <h:outputLabel value="Logowanie wymaga podania loginu oraz hasła. Obydwa były wybrane podczas rejestracji. Hasło ma przynajmniej 6 znaków. Wielkość wpisywanych liter ma znaczenie."/> <p:separator/>
                         <h:outputLabel value="Administrator programu nie zna twojego hasła. Jeżeli nie pamiętasz hasła wybierz opcje 'zapomniałem hasła'."/>"

@@ -34,14 +34,18 @@ public class ResetHasla implements Serializable {
             user = uzDAO.findUzByLogin(login);
         } catch (Exception e) {
             E.e(e);
-            Msg.msg("e", "Podany login: '" + login + "' nie istnieje", "formlog1:logowanie");
-            login = null;
+            
             return;
         }
-        user.setHaslo("abe31fe1a2113e7e8bf174164515802806d388cf4f394cceace7341a182271ab");//haslo :)
-        uzDAO.edit(user);
-        Mail.resetowaniehasla(user.getEmail(), user.getLogin(), null, sMTPSettingsDAO.findSprawaByDef());
-        Msg.msg("i", "Hasło zresetowane. Nowe haslo przeslane mailem", "formlog1:logowanie");
+        if (user==null) {
+            Msg.msg("e", "Podany login: '" + login + "' nie istnieje", "formlog1:logowanie");
+            login = null;
+        } else {
+            user.setHaslo("abe31fe1a2113e7e8bf174164515802806d388cf4f394cceace7341a182271ab");//haslo :)
+            uzDAO.edit(user);
+            Mail.resetowaniehasla(user.getEmail(), user.getLogin(), null, sMTPSettingsDAO.findSprawaByDef());
+            Msg.msg("i", "Hasło zresetowane. Nowe haslo przeslane mailem", "formlog1:logowanie");
+        }
     }
 
     public String getLogin() {
