@@ -4,7 +4,9 @@
  */
 package view;
 
+import dao.DokDAO;
 import daoFK.CechazapisuDAOfk;
+import entity.Dok;
 import entityfk.Cechazapisu;
 import java.io.Serializable;
 import java.util.List;
@@ -29,6 +31,7 @@ public class CechyZestView  implements Serializable {
     private List<Cechazapisu> pobranecechypodatnik;
     @Inject
     private CechazapisuDAOfk cechazapisuDAOfk;
+    @Inject DokDAO dokDAO;
     private boolean rozwinwszystkie;
 
     public CechyZestView() {
@@ -42,7 +45,8 @@ public class CechyZestView  implements Serializable {
         }
         if (mc!=null) {
             pobranecechypodatnik = cechazapisuDAOfk.findPodatnikOnlyStatystyczne(wpisView.getPodatnikObiekt());
-            beansDok.CechaBean.sumujcechy(pobranecechypodatnik, wpisView.getRokWpisuSt(), mc);
+            List<Dok> doku = dokDAO.zwrocBiezacegoKlientaRokMC(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), mc);
+            beansDok.CechaBean.sumujcechy(pobranecechypodatnik, doku, wpisView.getRokWpisuSt(), mc);
         }
         System.out.println("");
     }

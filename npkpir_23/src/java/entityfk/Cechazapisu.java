@@ -67,11 +67,11 @@ public class Cechazapisu implements Serializable {
     @Size(min = 1, max = 150)
     @Column(nullable = false, length = 150)
     private String rodzajcechy;
-    @ManyToMany(mappedBy = "cechadokumentuLista")
+    @Transient
     private List<Dokfk> dokfkLista;
-    @ManyToMany(mappedBy = "cechadokumentuLista")
+    @Transient
     private List<Dok> dokLista;
-    @ManyToMany(mappedBy = "cechazapisuLista")
+    @Transient
     private List<StronaWiersza> stronaWierszaLista;
     // 1 statystyczna 2 pzychody 3 koszty
     @Column(name = "charaktercechy")

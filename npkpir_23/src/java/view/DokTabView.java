@@ -517,7 +517,7 @@ public class DokTabView implements Serializable {
         if (gosciuwybral != null) {
             for (Dok p : gosciuwybral) {
                 p .getCechadokumentuLista().add(c);
-                c.getDokLista().add(p);
+                //c.getDokLista().add(p);
             }
             dokDAO.editList(gosciuwybral);
             if (cechydokzlisty == null) {
@@ -532,7 +532,7 @@ public class DokTabView implements Serializable {
         if (gosciuwybral != null) {
             for (Dok p : gosciuwybral) {
                 p .getCechadokumentuLista().remove(c);
-                c.getDokLista().remove(p);
+                //c.getDokLista().remove(p);
             }
             dokDAO.editList(gosciuwybral);
             cechydokzlisty.remove(c.getNazwacechy());

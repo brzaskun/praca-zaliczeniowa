@@ -319,22 +319,22 @@ public class DokView implements Serializable {
     
     public void dodajcechedodokumentu(Cechazapisu c) {
         selDokument.getCechadokumentuLista().add(c);
-        c.getDokLista().add(selDokument);
+        //c.getDokLista().add(selDokument);
     }
     public void usuncechedodokumentu(Cechazapisu c) {
         selDokument.getCechadokumentuLista().remove(c);
-        c.getDokfkLista().remove(selDokument);
+        //c.getDokfkLista().remove(selDokument);
     }
 
     public void cechadomyslnaobsluz() {
         if (cechadomyslna != null) {
             if (selDokument.getCechadokumentuLista().contains(cechadomyslna)) {
                 selDokument.getCechadokumentuLista().remove(cechadomyslna);
-                cechadomyslna.getDokfkLista().remove(selDokument);
+                //cechadomyslna.getDokfkLista().remove(selDokument);
                 Msg.msg("e","Usunięto oznaczenie dokumentu cechą");
             } else {
                 selDokument.getCechadokumentuLista().add(cechadomyslna);
-                cechadomyslna.getDokLista().add(selDokument);
+                //cechadomyslna.getDokLista().add(selDokument);
                 Msg.msg("Oznaczono dokument cechą");
             }
         }

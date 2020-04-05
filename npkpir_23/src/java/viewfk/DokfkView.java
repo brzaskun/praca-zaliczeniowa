@@ -2368,20 +2368,20 @@ public class DokfkView implements Serializable {
        if (cechazapisudododania != null) {
             pobranecechypodatnik.remove(cechazapisudododania);
             stronaWierszaCechy.getCechazapisuLista().add(cechazapisudododania);
-            cechazapisudododania.getStronaWierszaLista().add(stronaWierszaCechy);
+            //cechazapisudododania.getStronaWierszaLista().add(stronaWierszaCechy);
        }
     }
     
     public void dodajcechedostronawiersza(Cechazapisu c) {
         pobranecechypodatnik.remove(c);
         stronaWierszaCechy.getCechazapisuLista().add(c);
-        c.getStronaWierszaLista().add(stronaWierszaCechy);
+        //c.getStronaWierszaLista().add(stronaWierszaCechy);
     }
 
     public void usuncechedostronawiersza(Cechazapisu c) {
         pobranecechypodatnik.add(c);
         stronaWierszaCechy.getCechazapisuLista().remove(c);
-        c.getStronaWierszaLista().remove(stronaWierszaCechy);
+        //c.getStronaWierszaLista().remove(stronaWierszaCechy);
     }
 
     public void oznaczjakonowatransakcja() {
@@ -3044,13 +3044,13 @@ public class DokfkView implements Serializable {
     public void dodajcechedodokumentu(Cechazapisu c) {
         pobranecechypodatnik.remove(c);
         selected.getCechadokumentuLista().add(c);
-        c.getDokfkLista().add(selected);
+        //c.getDokfkLista().add(selected);
     }
 
     public void usuncechedodokumentu(Cechazapisu c) {
         pobranecechypodatnik.add(c);
         selected.getCechadokumentuLista().remove(c);
-        c.getDokfkLista().remove(selected);
+        //c.getDokfkLista().remove(selected);
     }
 
     private void obsluzcechydokumentu() {

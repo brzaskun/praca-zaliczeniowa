@@ -60,32 +60,28 @@ public class CechaBean  implements Serializable{
         return zwrot;
     }
     
-    public static void sumujcechy(List<Cechazapisu> pobranecechypodatnik, String rok, String mc) {
-        for (Cechazapisu p  : pobranecechypodatnik) {
-                if (!p.getDokLista().isEmpty()) {
-                    for (Iterator<Dok> it=p.getDokLista().iterator(); it.hasNext();) {
-                        Dok dok = it.next();
-                        if (!dok.getPkpirR().equals(rok)) {
-                            it.remove();
-                        } else if (!dok.getPkpirM().equals(mc)) {
-                            it.remove();
-                        } else {
-                            for (KwotaKolumna1 x  : dok.getListakwot1()) {
-                                 switch (x.getNazwakolumny()) {
-                                    case "przych. sprz":
-                                    case "pozost. przych.":
-                                        p.setSumaprzychodow(x.getNetto());
-                                        break;
-                                    default:
-                                        p.setSumakosztow(x.getNetto());
-                                        break;
-                                 }
+    public static void sumujcechy(List<Cechazapisu> pobranecechypodatnik, List<Dok> doku, String rok, String mc) {
+        for (Cechazapisu p : pobranecechypodatnik) {
+            if (!doku.isEmpty()) {
+                for (Iterator<Dok> it = doku.iterator(); it.hasNext();) {
+                    Dok dok = it.next();
+                    if (dok.getCechadokumentuLista()!=null && dok.getCechadokumentuLista().contains(p)) {
+                        for (KwotaKolumna1 x : dok.getListakwot1()) {
+                            switch (x.getNazwakolumny()) {
+                                case "przych. sprz":
+                                case "pozost. przych.":
+                                    p.setSumaprzychodow(x.getNetto());
+                                    break;
+                                default:
+                                    p.setSumakosztow(x.getNetto());
+                                    break;
                             }
-
                         }
+                        p.getDokLista().add(dok);
                     }
                 }
-
             }
+
+        }
     }
 }
