@@ -91,18 +91,23 @@ public class ImportMbankHist_CSV implements Serializable {
                         x.setNr(lpwiersza++);
                         x.setDatatransakcji(Data.zmienkolejnosc(baza.get(0)));
                         x.setDatawaluty(Data.zmienkolejnosc(baza.get(1)));
-                        x.setOpistransakcji(baza.get(2));
-                        x.setNrwyciagu(pn.getWyciagnr());
-                        x.setIBAN(baza.get(5));//??
-                        x.setKontrahent(baza.get(4));//??
-                        double kwotapobrana = Double.parseDouble(baza.get(6).replaceAll("\\s+","").replace(",","."));
-                        x.setKwota(Math.abs(kwotapobrana));
-                        x.setWnma(kwotapobrana>0.0?"Wn":"Ma");
-                        x.setWaluta(pn.getWyciagwaluta());
-                        x.setNrtransakji(baza.get(2));
-                        x.setTyptransakcji(oblicztyptransakcji(x));
-                        x.setNaglowek(pn);
-                        pobranefaktury.add(x);
+                        String mcwiersz = x.getDatatransakcji().split("-")[1];
+                        if (!mcwiersz.equals(mc)) {
+                            i=rozmiar-5;   
+                        } else {
+                            x.setOpistransakcji(baza.get(2));
+                            x.setNrwyciagu(pn.getWyciagnr());
+                            x.setIBAN(baza.get(5));//??
+                            x.setKontrahent(baza.get(4));//??
+                            double kwotapobrana = Double.parseDouble(baza.get(6).replaceAll("\\s+","").replace(",","."));
+                            x.setKwota(Math.abs(kwotapobrana));
+                            x.setWnma(kwotapobrana>0.0?"Wn":"Ma");
+                            x.setWaluta(pn.getWyciagwaluta());
+                            x.setNrtransakji(baza.get(2));
+                            x.setTyptransakcji(oblicztyptransakcji(x));
+                            x.setNaglowek(pn);
+                            pobranefaktury.add(x);
+                        }
                     }
                     if (i==rozmiar-3) {
                         String replaceco = pn.getWyciagwaluta();

@@ -8,6 +8,7 @@ import comparator.EVatwpisFKcomparator;
 import comparator.EVatwpisSupercomparator;
 import dao.EVatwpis1DAO;
 import dao.EvewidencjaDAO;
+import dao.PlatnoscWalutaDAO;
 import dao.RodzajedokDAO;
 import dao.SMTPSettingsDAO;
 import dao.WniosekVATZDEntityDAO;
@@ -22,6 +23,7 @@ import entity.Dok;
 import entity.EVatwpis1;
 import entity.EVatwpisSuper;
 import entity.Evewidencja;
+import entity.PlatnoscWaluta;
 import entity.Podatnik;
 import entity.WniosekVATZDEntity;
 import entityfk.Dokfk;
@@ -33,6 +35,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -87,6 +90,8 @@ public class EwidencjaVatView implements Serializable {
     private Dok selected;
     @Inject
     private EvewidencjaDAO evewidencjaDAO;
+    @Inject
+    private PlatnoscWalutaDAO platnoscWalutaDAO;
     //elementy niezbedne do generowania ewidencji vat
     private TabView akordeon;
     @Inject
@@ -491,15 +496,64 @@ public class EwidencjaVatView implements Serializable {
     private void pobierzEVATwpis1zaOkres(Podatnik podatnik, int vatokres, String rok, String mc) {
         try {
             listadokvatprzetworzona = Collections.synchronizedList(new ArrayList<>());
-            if (vatokres==1) {
-                listadokvatprzetworzona.addAll(eVatwpis1DAO.zwrocBiezacegoKlientaRokMc(podatnik, rok, mc));
+            if (wpisView.getPodatnikObiekt().getMetodakasowa().equals("tak")) {
+                if (vatokres==1) {
+                    List<PlatnoscWaluta> lista = platnoscWalutaDAO.findByPodRokMc(podatnik, rok, mc);
+                    listadokvatprzetworzona.addAll(stworzevatwpis(lista));
+                    listadokvatprzetworzona.addAll(eVatwpis1DAO.zwrocBiezacegoKlientaRokMcKasowe(podatnik, rok, mc));
+                } else {
+                    List<PlatnoscWaluta> lista = platnoscWalutaDAO.findByPodRokKw(podatnik, rok, mc);
+                    listadokvatprzetworzona.addAll(stworzevatwpis(lista));
+                    listadokvatprzetworzona.addAll(eVatwpis1DAO.zwrocBiezacegoKlientaRokKWKasowe(podatnik, rok, mc));
+                }
             } else {
-                listadokvatprzetworzona.addAll(eVatwpis1DAO.zwrocBiezacegoKlientaRokKW(podatnik, rok, mc));
+                if (vatokres==1) {
+                    listadokvatprzetworzona.addAll(eVatwpis1DAO.zwrocBiezacegoKlientaRokMc(podatnik, rok, mc));
+                } else {
+                    listadokvatprzetworzona.addAll(eVatwpis1DAO.zwrocBiezacegoKlientaRokKW(podatnik, rok, mc));
+                }
             }
             Collections.sort(listadokvatprzetworzona, new EVatwpisSupercomparator());
         } catch (Exception e) { 
             E.e(e); 
         }
+    }
+    
+    private Collection<? extends EVatwpisSuper> stworzevatwpis(List<PlatnoscWaluta> lista) {
+        List<EVatwpis1> zwrot = new ArrayList<>();
+        for (PlatnoscWaluta p : lista) {
+            if (p.getDokument().getEwidencjaVAT1()!=null&&p.getDokument().getEwidencjaVAT1().size()>0) {
+                List<EVatwpis1> zwrotw = przetworzPlatnosc(p);
+                if (zwrotw != null) {
+                    zwrot.addAll(zwrotw);
+                }
+            }
+        }
+        return zwrot;
+    }
+    
+    private List<EVatwpis1> przetworzPlatnosc(PlatnoscWaluta p) {
+        Dok dok = p.getDokument();
+            double rozliczono =0.0;
+        List<PlatnoscWaluta> platnosciwaluta = dok.getPlatnosciwaluta();
+        for (PlatnoscWaluta r : platnosciwaluta) {
+            if (!r.equals(p)) {
+                rozliczono = Z.z(p.getKwota());
+            }
+        }
+        double zostalo = Z.z(dok.getBruttoWaluta()-rozliczono);
+        List<EVatwpis1> zwrot = dok.getEwidencjaVAT1();
+        if (zostalo>=p.getKwota()) {
+            double procent = Z.z4(p.getKwota()/dok.getBrutto());
+            for (EVatwpis1 s : zwrot) {
+                s.setNetto(Z.z(s.getNetto()*procent));
+                s.setVat(Z.z(s.getVat()*procent));
+                s.setBrutto(Z.z(s.getBrutto()*procent));
+            }
+        } else {
+            zwrot = null;
+        }
+        return zwrot;
     }
     
     private void pobierzEVatwpisDedrazaOkres(Podatnik podatnik, int vatokres) {
@@ -1335,6 +1389,10 @@ public class EwidencjaVatView implements Serializable {
     public void setPobierzmiesiacdlajpk(boolean pobierzmiesiacdlajpk) {
         this.pobierzmiesiacdlajpk = pobierzmiesiacdlajpk;
     }
+
+    
+
+    
 
    
 

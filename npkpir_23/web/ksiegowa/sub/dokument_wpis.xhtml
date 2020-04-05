@@ -468,9 +468,9 @@
 
             <p:panel id="panelewidencjivat" >
                 <!--                alternatywne pola ewidencji vat-->
-                <p:dataTable id="tablicavat" value="#{DokumentView.ewidencjaAddwiad}" var="item" emptyMessage="nie ma zapisów w ewidencji vat" style="width: 80%;" rendered="#{!DokumentView.ukryjEwiencjeVAT}">
+                <p:dataTable id="tablicavat" value="#{DokumentView.selDokument.ewidencjaVAT1}" var="item" emptyMessage="nie ma zapisów w ewidencji vat" style="width: 90%;" rendered="#{!DokumentView.ukryjEwiencjeVAT}">
                     <p:column headerText="rodzaj ewidencji" style="width: 25%;">
-                        <h:outputText value="#{item.evewidencja.nazwa}"/>
+                        <h:outputText value="#{item.ewidencja.nazwa}"/>
                     </p:column>
                     <p:column headerText="#{mgs.netto}" style="width: 20%;">
                         <p:inputNumber id="netto" value="#{item.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
@@ -486,7 +486,7 @@
                         <p:inputNumber id="brutto" value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
                     </p:column>
                     <p:column headerText="op/zw" style="width: 15%;">
-                        <h:selectOneMenu value="#{item.opzw}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                        <h:selectOneMenu value="#{item.estawka}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                          onfocus="$(this).addClass('ui-state-focus');"
                                          onblur="$(this).removeClass('ui-state-focus');"
                                          style="width: 100px;">

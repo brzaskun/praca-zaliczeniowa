@@ -60,6 +60,7 @@ public class PlatnosciWalutyView  implements Serializable {
     private PlatnoscWaluta nowa;
     private double dorozliczenia;
     private boolean ukryjrozliczone;
+    private boolean odpoczrok;
     private double kwotadorozliczenia;
     private double sumadokum;
     private double sumaplatnosci;
@@ -71,6 +72,7 @@ public class PlatnosciWalutyView  implements Serializable {
     @PostConstruct
     private void init() { //E.m(this);
         ukryjrozliczone = true;
+        odpoczrok = false;
         kontrahentypodatnika = Collections.synchronizedList(new ArrayList<>());
         skrotwalutywdokum = Collections.synchronizedList(new ArrayList<>());
         dokumentypodatnika = Collections.synchronizedList(new ArrayList<>());
@@ -189,14 +191,19 @@ public class PlatnosciWalutyView  implements Serializable {
     
     public void zmienliste() {
         if (wpisView.getPodatnikObiekt().getMetodakasowa().equals("tak")) {
-            dokumenty = dokDAO.zwrocBiezacegoKlientaRokMC(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            if (odpoczrok) {
+                dokumenty = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            } else {
+                dokumenty = dokDAO.zwrocBiezacegoKlientaRokMC(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            }
         } else {
             dokumenty = dokDAO.zwrocBiezacegoKlientaRokMCWaluta(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         }
         if (ukryjrozliczone) {
             for (Iterator<Dok> it = dokumenty.iterator(); it.hasNext();) {
-                double suma = obliczsume(it.next());
-                if (suma == 0.0) {
+                Dok nast = it.next();
+                double suma = obliczsume(nast);
+                if (suma == 0.0 || nast.getRozliczony()==true) {
                     it.remove();
                 }
             }
@@ -207,7 +214,7 @@ public class PlatnosciWalutyView  implements Serializable {
         double suma = dok.getNettoWaluta();
         List<PlatnoscWaluta> p = dok.getPlatnosciwaluta();
         for (PlatnoscWaluta r : p) {
-            suma -= r.getKwota();
+            suma -= Z.z(r.getKwota());
         }
         return Z.z(suma);
     }
@@ -389,6 +396,14 @@ public class PlatnosciWalutyView  implements Serializable {
 
     public void setSumakosztminus(double sumakosztminus) {
         this.sumakosztminus = sumakosztminus;
+    }
+
+    public boolean isOdpoczrok() {
+        return odpoczrok;
+    }
+
+    public void setOdpoczrok(boolean odpoczrok) {
+        this.odpoczrok = odpoczrok;
     }
 
     

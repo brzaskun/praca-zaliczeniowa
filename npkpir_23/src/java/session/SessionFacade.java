@@ -2347,7 +2347,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public List<PlatnoscWaluta> findPlatnoscWalutaByPodRokMc(Podatnik podatnikObiekt, String rokWpisuSt, String miesiacWpisu) {
-        return Collections.synchronizedList(em.createNamedQuery("PlatnoscWaluta.findByPodRokMc").setParameter("podatnik", podatnikObiekt.getNazwapelna()).setParameter("rok", rokWpisuSt).setParameter("mc", miesiacWpisu).getResultList());
+        return Collections.synchronizedList(em.createNamedQuery("PlatnoscWaluta.findByPodRokMc").setParameter("podatnik", podatnikObiekt).setParameter("rok", rokWpisuSt).setParameter("mc", miesiacWpisu).getResultList());
     }
 
     public List<Sprawa> findSprawaByOdbiorca(Uz odbiorca) {

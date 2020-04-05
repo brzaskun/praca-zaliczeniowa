@@ -162,7 +162,7 @@ public class DokView implements Serializable {
      * Lista gdzie przechowywane są wartości ewidencji vat wprowadzone w
      * formularzy na stronie add_wiad.xhtml
      */
-    private List<EwidencjaAddwiad> ewidencjaAddwiad;
+//    private List<EwidencjaAddwiad> ewidencjaAddwiad;
     private double sumbrutto;
     private int liczbawierszy;
     private List<String> kolumny;
@@ -195,7 +195,7 @@ public class DokView implements Serializable {
     public DokView() {
         setWysDokument(null);
         wpisView = new WpisView();
-        ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
+        //ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
         liczbawierszy = 1;
         stawkaVATwPoprzednimDok = 0.0;
         this.wprowadzonesymbolewalut = Collections.synchronizedList(new ArrayList<>());
@@ -288,7 +288,8 @@ public class DokView implements Serializable {
                 if (!wpisView.isVatowiec() || (selDokument.getRodzajedok()!= null&& selDokument.getRodzajedok().isDokProsty())) {
                     selDokument.setDokumentProsty(true);
                     ukryjEwiencjeVAT = true;
-                    ewidencjaAddwiad.clear();
+                    selDokument.getEwidencjaVAT1().clear();
+                    //ewidencjaAddwiad.clear();
                 }
                 wygenerujnumerkolejny();
             } else {
@@ -403,7 +404,8 @@ public class DokView implements Serializable {
             selDokument.setDokumentProsty(true);
             ukryjEwiencjeVAT = true;
             sumujnetto();
-            ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
+            selDokument.setEwidencjaVAT1(new ArrayList<>());
+            //ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
         } else {
             ukryjEwiencjeVAT = false;
             String typdok = selDokument.getRodzajedok().getSkrot();
@@ -442,66 +444,68 @@ public class DokView implements Serializable {
                 if (t != null && !t.getWaluta().getSymbolwaluty().equals("PLN")) {
                     sumanetto = Z.z(sumanetto * t.getKurssredni());
                 }
-                ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
+                selDokument.setEwidencjaVAT1(new ArrayList<>());
+                //ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
                 int k = 0;
                 for (Evewidencja p : opisewidencji) {
-                    EwidencjaAddwiad ewidencjaAddwiad = new EwidencjaAddwiad();
+                    EVatwpis1 ewidencjaAddwiad = new EVatwpis1();
                     ewidencjaAddwiad.setLp(k++);
-                    ewidencjaAddwiad.setEvewidencja(p);
+                    ewidencjaAddwiad.setEwidencja(p);
                     ewidencjaAddwiad.setNetto(0.0);
                     ewidencjaAddwiad.setVat(0.0);
                     ewidencjaAddwiad.setBrutto(0.0);
-                    ewidencjaAddwiad.setOpzw("op");
-                    this.ewidencjaAddwiad.add(ewidencjaAddwiad);
+                    ewidencjaAddwiad.setEstawka("op");
+                    this.selDokument.getEwidencjaVAT1().add(ewidencjaAddwiad);
                 }
                 //obliczam 23% dla pierwszego
-                ewidencjaAddwiad.get(0).setNetto(sumanetto);
+                selDokument.getEwidencjaVAT1().get(0).setNetto(sumanetto);
                 if (transakcjiRodzaj.equals("WDT") || transakcjiRodzaj.equals("usługi poza ter.")
                         || transakcjiRodzaj.equals("eksport towarów") || transakcjiRodzaj.equals("odwrotne obciążenie sprzedawca")) {
-                    ewidencjaAddwiad.get(0).setVat(0.0);
+                    selDokument.getEwidencjaVAT1().get(0).setVat(0.0);
                 } else if (selDokument.getRodzajedok().getProcentvat() != 0.0) {
-                    ewidencjaAddwiad.get(0).setVat(Z.z((ewidencjaAddwiad.get(0).getNetto() * 0.23) / 2));
-                    ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + Z.z(((ewidencjaAddwiad.get(0).getNetto() * 0.23) / 2)));
-                    sumbrutto = ewidencjaAddwiad.get(0).getNetto() + Z.z(ewidencjaAddwiad.get(0).getNetto() * 0.23);
+                    selDokument.getEwidencjaVAT1().get(0).setVat(Z.z((selDokument.getEwidencjaVAT1().get(0).getNetto() * 0.23) / 2));
+                    selDokument.getEwidencjaVAT1().get(0).setBrutto(selDokument.getEwidencjaVAT1().get(0).getNetto() + Z.z(((selDokument.getEwidencjaVAT1().get(0).getNetto() * 0.23) / 2)));
+                    sumbrutto = selDokument.getEwidencjaVAT1().get(0).getNetto() + Z.z(selDokument.getEwidencjaVAT1().get(0).getNetto() * 0.23);
                 } else if (transakcjiRodzaj.equals("sprzedaz")) {
                     try {
                         String ne = nazwaEwidencjiwPoprzednimDok.getNazwa();
                         switch (ne) {
                             case "sprzedaż 23%":
-                                sumbrutto = naniesdanedoewidencji(ewidencjaAddwiad, 0, sumanetto, 0.23);
+                                sumbrutto = naniesdanedoewidencji(selDokument.getEwidencjaVAT1(), 0, sumanetto, 0.23);
                                 break;
                             case "sprzedaż 8%":
-                                sumbrutto = naniesdanedoewidencji(ewidencjaAddwiad, 1, sumanetto, 0.08);
+                                sumbrutto = naniesdanedoewidencji(selDokument.getEwidencjaVAT1(), 1, sumanetto, 0.08);
                                 break;
                             case "sprzedaż 5%":
-                                sumbrutto = naniesdanedoewidencji(ewidencjaAddwiad, 2, sumanetto, 0.05);
+                                sumbrutto = naniesdanedoewidencji(selDokument.getEwidencjaVAT1(), 2, sumanetto, 0.05);
                                 break;
                             case "sprzedaż 0%":
-                                sumbrutto = naniesdanedoewidencji(ewidencjaAddwiad, 3, sumanetto, 0.0);
+                                sumbrutto = naniesdanedoewidencji(selDokument.getEwidencjaVAT1(), 3, sumanetto, 0.0);
                                 break;
                             case "sprzedaż zw":
-                                sumbrutto = naniesdanedoewidencji(ewidencjaAddwiad, 4, sumanetto, 0.0);
+                                sumbrutto = naniesdanedoewidencji(selDokument.getEwidencjaVAT1(), 4, sumanetto, 0.0);
                                 break;
                         }
                     } catch (Exception e) {
                         E.e(e);
-                        sumbrutto = naniesdanedoewidencji(ewidencjaAddwiad, 0, sumanetto, 0.23);
+                        sumbrutto = naniesdanedoewidencji(selDokument.getEwidencjaVAT1(), 0, sumanetto, 0.23);
                     }
                 } else {
                     if (stawkaVATwPoprzednimDok > 0.0 && selDokument.getRodzajedok().getSkrot().equals(typpoprzedniegodokumentu)) {
-                        ewidencjaAddwiad.get(0).setVat((ewidencjaAddwiad.get(0).getNetto() * stawkaVATwPoprzednimDok));
+                        selDokument.getEwidencjaVAT1().get(0).setVat((selDokument.getEwidencjaVAT1().get(0).getNetto() * stawkaVATwPoprzednimDok));
                     } else {
-                        ewidencjaAddwiad.get(0).setVat(Z.z(ewidencjaAddwiad.get(0).getNetto() * 0.23));
+                        selDokument.getEwidencjaVAT1().get(0).setVat(Z.z(selDokument.getEwidencjaVAT1().get(0).getNetto() * 0.23));
                     }
-                    ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + ewidencjaAddwiad.get(0).getVat());
-                    sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
+                    selDokument.getEwidencjaVAT1().get(0).setBrutto(selDokument.getEwidencjaVAT1().get(0).getNetto() + selDokument.getEwidencjaVAT1().get(0).getVat());
+                    sumbrutto = selDokument.getEwidencjaVAT1().get(0).getBrutto();
                 }
                 nazwaEwidencjiwPoprzednimDok = new Evewidencja();
             } else {
                 selDokument.setDokumentProsty(true);
                 ukryjEwiencjeVAT = true;
                 sumujnetto();
-                ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
+                selDokument.setEwidencjaVAT1(new ArrayList<>());
+                //ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
             }
         }
     }
@@ -517,7 +521,7 @@ public class DokView implements Serializable {
         return zwrot;
     }
     
-    private double naniesdanedoewidencji(List<EwidencjaAddwiad> e, int rzad, double netto, double procent) {
+    private double naniesdanedoewidencji(List<EVatwpis1> e, int rzad, double netto, double procent) {
         e.get(0).setNetto(0.0);
         e.get(rzad).setNetto(netto);
         e.get(rzad).setVat(Z.z(netto * procent));
@@ -599,7 +603,7 @@ public class DokView implements Serializable {
                 update = "dodWiad:sumbrutto";
                 PrimeFaces.current().ajax().update(update);
             } else {
-                ewidencjaAddwiad.get(lp).setBrutto(e.getNetto() + e.getVat());
+                selDokument.getEwidencjaVAT1().get(lp).setBrutto(e.getNetto() + e.getVat());
                 String skrotRT = (String) Params.params("dodWiad:rodzajTrans");
                 Rodzajedok r = rodzajedokDAO.find(skrotRT, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                 if (r.getProcentvat() != 0.0) {
@@ -619,7 +623,7 @@ public class DokView implements Serializable {
 
     private void sumbruttoAddwiad() {
         sumbrutto = 0.0;
-        for (EwidencjaAddwiad p : ewidencjaAddwiad) {
+        for (EVatwpis1 p : selDokument.getEwidencjaVAT1()) {
             sumbrutto += p.getBrutto();
         }
     }
@@ -695,7 +699,7 @@ public class DokView implements Serializable {
             sumbrutto = 0.0;
             sumujnetto();
             selDokument.setEwidencjaVAT1(null);
-            ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
+            //ewidencjaAddwiad = Collections.synchronizedList(new ArrayList<>());
             ukryjEwiencjeVAT = true;
         } else {
             podepnijEwidencjeVat();
@@ -726,27 +730,15 @@ public class DokView implements Serializable {
         VAT.zweryfikujokresvat(selDokument);
         Double kwotavat = 0.0;
         try {
-            if (wpisView.isVatowiec() || (selDokument.isDokumentProsty() == false)) {
-                List<EVatwpis1> ewidencjeDokumentu = Collections.synchronizedList(new ArrayList<>());
-                for (EwidencjaAddwiad p : ewidencjaAddwiad) {
+            if (selDokument.getEwidencjaVAT1()!=null && wpisView.isVatowiec() || (selDokument.isDokumentProsty() == false)) {
+                for (EVatwpis1 p : selDokument.getEwidencjaVAT1()) {
                     if (p.getNetto() != 0.0 || p.getVat() != 0.0) {
-                        EVatwpis1 eVatwpis = new EVatwpis1();
-                        eVatwpis.setEwidencja(p.getEvewidencja());
-                        eVatwpis.setNetto(p.getNetto());
-                        eVatwpis.setVat(p.getVat());
-                        eVatwpis.setEstawka(p.getOpzw());
-                        eVatwpis.setDok(selDokument);
-                        eVatwpis.setMcEw(selDokument.getVatM());
-                        eVatwpis.setRokEw(selDokument.getVatR());
-                        ewidencjeDokumentu.add(eVatwpis);
+                        p.setDok(selDokument);
+                        p.setMcEw(selDokument.getVatM());
+                        p.setRokEw(selDokument.getVatR());
                         //to musi być bo inaczej nie obliczy kwoty vat;
                         kwotavat += Z.z(p.getVat());
                     }
-                }
-                if (ewidencjeDokumentu.isEmpty()) {
-                    selDokument.setEwidencjaVAT1(null);
-                } else {
-                    selDokument.setEwidencjaVAT1(ewidencjeDokumentu);
                 }
             } else {
                 selDokument.setEwidencjaVAT1(null);
@@ -860,7 +852,7 @@ public class DokView implements Serializable {
                 selectedSTR = new SrodekTrw();
                 if (!wpisView.isVatowiec() && !selDokument.getRodzajedok().getSkrot().equals("IU") && selDokument.getRodzajedok().isDokProsty()) {
                     selDokument.setDokumentProsty(true);
-                    ewidencjaAddwiad.clear();
+                    selDokument.getEwidencjaVAT1().clear();
                     ukryjEwiencjeVAT = true;
                     PrimeFaces.current().ajax().update("dodWiad:tablicavat");
                 } else {
@@ -884,7 +876,7 @@ public class DokView implements Serializable {
                 }
             } else {
                 selectedSTR = new SrodekTrw();
-                ewidencjaAddwiad.clear();
+                selDokument.getEwidencjaVAT1().clear();
                 PrimeFaces.current().ajax().update("dodWiad:tablicavat");
                 setRenderujwysz(false);
                 setPokazEST(false);
@@ -1362,20 +1354,12 @@ public class DokView implements Serializable {
             kwotaKolumna1.setNetto(selDokument.getNetto());
             selDokument.getListakwot1().add(kwotaKolumna1);
         }
-        ewidencjaAddwiad.clear();;
+        selDokument.getEwidencjaVAT1().clear();
         sumbrutto = 0.0;
         int j = 0;
         try {//trzeba ignorowac w przypadku dokumentow prostych
             for (EVatwpis1 s : selDokument.getEwidencjaVAT1()) {
-                EwidencjaAddwiad ewidencjaAddwiad = new EwidencjaAddwiad();
-                ewidencjaAddwiad.setEvewidencja(s.getEwidencja());
-                ewidencjaAddwiad.setOpzw(s.getEwidencja().getRodzajzakupu());
-                ewidencjaAddwiad.setNetto(s.getNetto());
-                ewidencjaAddwiad.setVat(s.getVat());
-                ewidencjaAddwiad.setBrutto(s.getNetto() + s.getVat());
-                ewidencjaAddwiad.setLp(j++);
                 sumbrutto += s.getNetto() + s.getVat();
-                this.ewidencjaAddwiad.add(ewidencjaAddwiad);
             }
         } catch (Exception e) {
             E.e(e);
@@ -1385,7 +1369,7 @@ public class DokView implements Serializable {
         }
         renderujwyszukiwarke(selDokument.getRodzajedok());
         renderujtabele(selDokument.getRodzajedok());
-        if (ewidencjaAddwiad.isEmpty()) {
+        if (selDokument.getEwidencjaVAT1().isEmpty()) {
             ukryjEwiencjeVAT = false;
             PrimeFaces.current().ajax().update("dodWiad:panelewidencjivat");
         }
@@ -1759,14 +1743,7 @@ public class DokView implements Serializable {
         this.ukryjEwiencjeVAT = ukryjEwiencjeVAT;
     }
 
-    public List<EwidencjaAddwiad> getEwidencjaAddwiad() {
-        return ewidencjaAddwiad;
-    }
-
-    public void setEwidencjaAddwiad(List<EwidencjaAddwiad> ewidencjaAddwiad) {
-        this.ewidencjaAddwiad = ewidencjaAddwiad;
-    }
-
+ 
 //    public KlView getKlView() {
 //        return klView;
 //    }

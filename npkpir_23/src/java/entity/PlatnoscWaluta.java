@@ -28,7 +28,9 @@ import view.WpisView;
 @NamedQueries({
     @NamedQuery(name = "PlatnoscWaluta.findAll", query = "SELECT o FROM Odsetki o"),
     @NamedQuery(name = "PlatnoscWaluta.findByDok", query = "SELECT o FROM PlatnoscWaluta o WHERE o.dokument = :dokument"),
-    @NamedQuery(name = "PlatnoscWaluta.findByPodRokMc", query = "SELECT o FROM PlatnoscWaluta o WHERE o.dokument.podatnik = :podatnik AND o.rok = :rok AND o.mc = :mc")
+    @NamedQuery(name = "PlatnoscWaluta.findByPodRokMc", query = "SELECT o FROM PlatnoscWaluta o WHERE o.dokument.podatnik = :podatnik AND o.rok = :rok AND o.mc = :mc AND o.rozliczonokasowo='0'"),
+    @NamedQuery(name = "PlatnoscWaluta.findByPodRok", query = "SELECT o FROM PlatnoscWaluta o WHERE o.dokument.podatnik = :podatnik AND o.rok = :rok AND o.mc = :mc"),
+    @NamedQuery(name = "PlatnoscWaluta.findByPodRokKw", query = "SELECT o FROM PlatnoscWaluta o WHERE o.dokument.podatnik = :podatnik AND o.rok = :rok AND (o.mc = :mc OR o.mc = :mc1 OR o.mc = :mc2) AND o.rozliczonokasowo='0'")
 })
 public class PlatnoscWaluta implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -63,6 +65,8 @@ public class PlatnoscWaluta implements Serializable {
     private String mc;
     @Column(name = "zaksiegowane")
     private boolean zaksiegowane;
+    @Column(name = "rozliczonokasowo")
+    private boolean rozliczonokasowo;
 
     public PlatnoscWaluta() {
     }
@@ -214,6 +218,14 @@ public class PlatnoscWaluta implements Serializable {
 
     public void setWalutadokumentu(Waluty walutadokumentu) {
         this.walutadokumentu = walutadokumentu;
+    }
+
+    public boolean isRozliczonokasowo() {
+        return rozliczonokasowo;
+    }
+
+    public void setRozliczonokasowo(boolean rozliczonokasowo) {
+        this.rozliczonokasowo = rozliczonokasowo;
     }
     
 

@@ -50,6 +50,10 @@ public class EVatwpisSuper implements Serializable {
     protected boolean nieduplikuj;
     @Transient
     protected boolean duplikat;
+    @Transient
+    protected int lp;
+    @Transient
+    protected double brutto;
     
 
     public EVatwpisSuper(EVatwpisSuper wiersz) {
@@ -211,6 +215,22 @@ public class EVatwpisSuper implements Serializable {
 
     public void setEwidencja(Evewidencja ewidencja) {
         this.ewidencja = ewidencja;
+    }
+
+    public int getLp() {
+        return lp;
+    }
+
+    public void setLp(int lp) {
+        this.lp = lp;
+    }
+
+    public double getBrutto() {
+        return brutto;
+    }
+
+    public void setBrutto(double brutto) {
+        this.brutto = brutto;
     }
 
 

@@ -33,6 +33,9 @@
             <name>style</name>
         </attribute>
         <attribute>
+            <name>styleClass</name>
+        </attribute>
+        <attribute>
             <name>stylePlus</name>
         </attribute>
         <attribute>
@@ -52,6 +55,9 @@
             <name>style</name>
         </attribute>
         <attribute>
+            <name>styleClass</name>
+        </attribute>
+        <attribute>
             <name>id</name>
         </attribute>
     </tag>
@@ -67,6 +73,9 @@
         <attribute>
             <name>style</name>
         </attribute>
+         <attribute>
+            <name>styleClass</name>
+        </attribute>    
         <attribute>
             <name>symbolwaluty</name>
         </attribute>

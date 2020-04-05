@@ -25,6 +25,8 @@ import javax.persistence.NamedQuery;
 @NamedQueries({
     @NamedQuery(name = "EVatwpis1.findByRokKW", query = "SELECT d FROM EVatwpis1 d WHERE d.rokEw = :pkpirR AND d.dok.podatnik = :podatnik AND (d.mcEw = :mc1 OR d.mcEw = :mc2 OR d.mcEw = :mc3)"),
     @NamedQuery(name = "EVatwpis1.findByRokMc", query = "SELECT d FROM EVatwpis1 d WHERE d.rokEw = :pkpirR AND d.dok.podatnik = :podatnik AND d.mcEw = :mc"),
+    @NamedQuery(name = "EVatwpis1.findByRokMcKasowe", query = "SELECT d FROM EVatwpis1 d WHERE d.rokEw = :pkpirR AND d.dok.podatnik = :podatnik AND d.mcEw = :mc AND d.dok.rozliczony = '1'"),
+    @NamedQuery(name = "EVatwpis1.findByRokKWKasowe", query = "SELECT d FROM EVatwpis1 d WHERE d.rokEw = :pkpirR AND d.dok.podatnik = :podatnik AND (d.mcEw = :mc1 OR d.mcEw = :mc2 OR d.mcEw = :mc3) AND d.dok.rozliczony = '1'")
 })
 public class EVatwpis1 extends EVatwpisSuper implements Serializable {
     private static final long serialVersionUID = -3274961058594456484L;

@@ -34,9 +34,8 @@ public class Z implements Serializable {
     }
     
     public static double z4(double l) {
-        double m = Math.round(l * 10000);
-        m /= 10000;
-        return m;
+        BigDecimal nowa = new BigDecimal(l).setScale(4, RoundingMode.HALF_EVEN);
+        return nowa.doubleValue();
     }
     
     //obcina kwoty po przeciku typu 1,49999 = 1
