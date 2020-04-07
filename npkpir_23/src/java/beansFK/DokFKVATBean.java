@@ -1218,7 +1218,11 @@ public class DokFKVATBean {
                 kontrnazwa = ewidencjaVatRK.getKlient().getNskrocona()!=null?ewidencjaVatRK.getKlient().getNskrocona():ewidencjaVatRK.getKlient().getNpelna();
                 kontrnazwa = kontrnazwa.length() < 18 ? kontrnazwa : kontrnazwa.substring(0, 17);
             }
-            wierszpierwszyopis = wierszpierwszyopis+kontrnazwa;
+            if (ewidencjaVatRK.getNumerwlasnydokfk()!=null&&ewidencjaVatRK.getOpisvat()!=null) {
+                wierszpierwszyopis = wierszpierwszyopis+kontrnazwa;
+            } else {
+                wierszpierwszyopis = selected.getListawierszy().get(0).getOpisWiersza();
+            }
             Wiersz wierszpierwszy = selected.getListawierszy().get(0);
             Waluty w = selected.getWalutadokumentu();
             try {
