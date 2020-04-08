@@ -49,6 +49,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.poi.poifs.filesystem.OfficeXmlFileException;
 import org.joda.time.DateTime;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.commandbutton.CommandButton;
@@ -245,6 +246,9 @@ public class InterpaperImportView implements Serializable {
                 kontobutton.setRendered(true);
             }
             Msg.msg("Pobrano wszystkie dane");
+        } catch (OfficeXmlFileException e1) {
+            E.e(e1);
+            Msg.msg("e", "Niewłaściwa wersja pliku xls");
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Wystąpił błąd przy pobieraniu danych");

@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.OfficeXmlFileException;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -98,12 +99,12 @@ public class ReadXLSTomTechFile {
         return listafaktur;
     }
     
-     public static List<InterpaperXLS> getListafakturXLS(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, GUSView gUSView) {
+     public static List<InterpaperXLS> getListafakturXLS(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, GUSView gUSView) throws Exception{
         List<InterpaperXLS> listafaktur = Collections.synchronizedList(new ArrayList<>());
-         try {
-            InputStream file = new ByteArrayInputStream(plikinterpaper);
+        InputStream file = new ByteArrayInputStream(plikinterpaper);
+         try (HSSFWorkbook workbook = new HSSFWorkbook(file)) {
+            
              //Create Workbook instance holding reference to .xlsx file  TYLKO NOWE XLSX
-            HSSFWorkbook workbook = new HSSFWorkbook(file);
             //XSSFWorkbook workbook = new XSSFWorkbook(file);
              //Get first/desired sheet from the workbook
             HSSFSheet sheet = workbook.getSheetAt(0);
@@ -135,9 +136,12 @@ public class ReadXLSTomTechFile {
                     }
             }
             file.close();
-        }
-        catch (Exception e) {
-            E.e(e);
+        } catch (OfficeXmlFileException a) {
+           throw a;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            file.close();
         }
         return listafaktur;
     }
