@@ -15,7 +15,7 @@
     <p:growl life="3600"  id="msgzus" ><p:autoUpdate/></p:growl>
     <h:form>
         <p:commandButton value="drukuj" actionListener="#{podatnicyView.drukujwszystkich}" style="width: 120px; margin: 10px;"/>
-    <p:dataTable value="#{podatnicyView.podatnicy}" var="podatnik" sortBy="#{podatnik.printnazwa}" rowIndexVar="index" style="width: 1200px;"
+    <p:dataTable value="#{podatnicyView.podatnicy}" var="podatnik" sortBy="#{podatnik.printnazwa}" rowIndexVar="index" style="width: 1350px;"
                  rowKey="#{podatnik.id}" rowSelectMode="add"
                  selection="#{podatnicyView.wybranipodatnicy}">
         <f:facet name="header">
@@ -30,26 +30,34 @@
             <h:outputText value="#{podatnik.imie} #{podatnik.nazwisko}"/>
         </p:column>
         <p:column width="200" headerText="email">
-            <h:outputText value="#{podatnik.email}"/>
+            <p:inputText value="#{podatnik.email}">
+                <p:ajax event="change" partialSubmit="true" listener="#{podatnicyView.edytuj(podatnik)}"/>
+            </p:inputText>
+        </p:column>
+        <p:column width="200" headerText="telefon">
+            <p:inputText value="#{podatnik.telefonkontaktowy}">
+                <p:ajax event="change" partialSubmit="true" listener="#{podatnicyView.edytuj(podatnik)}"/>
+            </p:inputText>
         </p:column>
          <p:column width="250" headerText="adres">
              <p:panelGrid columns="2">
                  <h:outputText value="#{podatnik.kodpocztowy}"/>
                  <h:outputText value="#{podatnik.miejscowosc}"/>
-                 <h:outputText value="#{podatnik.ulica} #{podatnik.nrdomu}/#{podatnik.nrlokalu}"/>
+                 <h:outputText value="#{podatnik.ulica} #{podatnik.nrdomu}/#{podatnik.nrlokalu}" rendered="#{podatnik.nrlokalu ne null and podatnik.nrlokalu ne '' and podatnik.nrlokalu ne '-'}"/>
+                 <h:outputText value="#{podatnik.ulica} #{podatnik.nrdomu}" rendered="#{podatnik.nrlokalu eq null or podatnik.nrlokalu eq '' or podatnik.nrlokalu eq '-'}"/>
              </p:panelGrid>
         </p:column>
-        <p:column width="35" headerText="podmiot aktywny" style="text-align: center;">
+        <p:column width="40" headerText="podmiot aktywny" style="text-align: center;">
             <p:selectBooleanCheckbox value="#{podatnik.podmiotaktywny}">
                 <p:ajax event="change" partialSubmit="true" listener="#{podatnicyView.edytuj(podatnik)}"/>
             </p:selectBooleanCheckbox>
         </p:column>
-        <p:column width="35" headerText="tylko dla ZUS" style="text-align: center;">
+        <p:column width="40" headerText="tylko dla ZUS" style="text-align: center;">
             <p:selectBooleanCheckbox value="#{podatnik.tylkodlaZUS}">
                 <p:ajax event="change" partialSubmit="true" listener="#{podatnicyView.edytuj(podatnik)}"/>
             </p:selectBooleanCheckbox>
         </p:column>
-        <p:column width="35" headerText="pracownicy" style="text-align: center;">
+        <p:column width="40" headerText="pracownicy" style="text-align: center;">
             <p:selectBooleanCheckbox value="#{podatnik.zatrudniapracownikow}">
                 <p:ajax event="change" partialSubmit="true" listener="#{podatnicyView.edytuj(podatnik)}"/>
             </p:selectBooleanCheckbox>

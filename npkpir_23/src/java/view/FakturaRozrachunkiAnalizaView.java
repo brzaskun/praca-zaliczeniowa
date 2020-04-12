@@ -12,6 +12,7 @@ import dao.FakturaDAO;
 import dao.FakturaRozrachunkiDAO;
 import dao.FakturadodelementyDAO;
 import dao.KlienciDAO;
+import dao.PodatnikDAO;
 import dao.SMTPSettingsDAO;
 import data.Data;
 import embeddable.FakturaPodatnikRozliczenie;
@@ -41,6 +42,7 @@ import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import mail.MailFaktRozrach;
 import msg.Msg;import pdf.PdfFaktRozrach;
+import sms.SmsSend;
 import waluty.Z;
 
 /**
@@ -73,6 +75,8 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private FakturaRozrachunkiDAO fakturaRozrachunkiDAO;
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
+    @Inject
+    private PodatnikDAO podatnikDAO;
     @Inject
     private KlienciDAO klienciDAO;
     private int aktywnytab;
@@ -447,6 +451,10 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                         fakturaDAO.edit(f);
                     }
                     Msg.msg("Wysłano upomnienie do klienta");
+                    Map<String, String> zwrot = SmsSend.wyslijSMSyFaktura(f, "Na adres firmy wysłano wezwanie do zapłaty.", podatnikDAO);
+                    if (zwrot.size()>0) {
+                        Msg.msg("e","Błąd podczas wysyłki wezwania do zapłaty "+zwrot.size());
+                    }
                 } catch (Exception e){}
             } else {
                 Msg.msg("e", "Saldo zerowe, nie ma po co wysyłac maila");

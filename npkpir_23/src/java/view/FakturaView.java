@@ -89,6 +89,7 @@ import pdf.PdfFakturyOkresowe;
 import pdf.PdfFakturySporzadzone;
 import plik.Plik;
 import serialclone.SerialClone;
+import sms.SmsSend;
 import sortfunction.FakturaSortBean;
 import waluty.Z;
 
@@ -1803,6 +1804,10 @@ public class FakturaView implements Serializable {
             pdfFaktura.drukujmail(wybrane, wpisView);
             Fakturadodelementy stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
             MailOther.faktura(wybrane, wpisView, fakturaDAO, wiadomoscdodatkowa, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getUzer()), sMTPSettingsDAO.findSprawaByDef());
+            Map<String, String> zwrot = SmsSend.wyslijSMSyFakturyLista(wybrane, "Na adres firmy wysłano właśnie fakturę.", podatnikDAO);
+            if (zwrot.size()>0) {
+                Msg.msg("e","Błąd podczas wysyłki faktury "+zwrot.size());
+            }
         } catch (Exception e) { E.e(e); 
             Msg.msg("e","Błąd podczas wysyłki faktury "+e.getMessage());
         }
@@ -1812,7 +1817,7 @@ public class FakturaView implements Serializable {
         try {
             if (gosciwybral != null && gosciwybral.size() >0) {
                 pdfFaktura.drukujmasa(gosciwybral, wpisView);
-            } else {
+            } else if (faktury !=null && faktury.size() > 0) {
                 pdfFaktura.drukujmasa(faktury, wpisView);
             }
         } catch (Exception e) { E.e(e); 
