@@ -197,8 +197,7 @@
                                            itemValue="#{loop}"/>
 <!--                            <p:ajax event="keyup" listener="#{DokumentView.pobierzwprowadzonynumer()}" global="false"/>-->
                             <f:ajax event="change"  listener="#{DokumentView.wygenerujnumerkolejny()}"/>
-                            <f:ajax event="blur"  listener="#{DokumentView.wygenerujnumerkolejnyonblur()}"/>
-                            <f:ajax event="blur" listener="#{DokumentView.zmienokresVAT}"/>
+                            <f:ajax event="focus" listener="#{DokumentView.zmienokresVAT}"/>
                         </h:selectOneMenu>
                     </p:column>
                     <p:column>

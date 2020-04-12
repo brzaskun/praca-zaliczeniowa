@@ -291,16 +291,18 @@ public class DokView implements Serializable {
                     selDokument.getEwidencjaVAT1().clear();
                     //ewidencjaAddwiad.clear();
                 }
-                wygenerujnumerkolejny();
+               
             } else {
                 this.typdokumentu = "ZZ";
                 selDokument.setRodzajedok(rodzajedokDAO.find("ZZ", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt()));
             }
+            
         } catch (Exception e) {
             this.typdokumentu = "ZZ";
             selDokument.setRodzajedok(rodzajedokDAO.find("ZZ", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt()));
             E.e(e);
         }
+        wygenerujnumerkolejny();
         selDokument.setKontr1(wstawKlientaDoNowegoDok());
         try {
             selDokument.setVatM(wpisView.getMiesiacWpisu());
@@ -543,14 +545,13 @@ public class DokView implements Serializable {
         return sumbrutto;
     }
 
-    public void updatenetto(EwidencjaAddwiad e) {
-        String skrotRT = (String) Params.params("dodWiad:rodzajTrans");
+    public void updatenetto(EVatwpis1 e) {
         int lp = e.getLp();
-        double stawkavat = e.getEvewidencja().getStawkavat();
+        double stawkavat = e.getEwidencja().getStawkavat();
         try {
             e.setVat(Z.z(e.getNetto() * stawkavat/100));
         } catch (Exception ex) {
-            Rodzajedok r = rodzajedokDAO.find(skrotRT, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            E.e(ex);
         }
         e.setBrutto(e.getNetto() + e.getVat());
         sumbruttoAddwiad();
@@ -565,12 +566,12 @@ public class DokView implements Serializable {
         Msg.msg("Przeliczono vat");
     }
 
-    public void updatevat(EwidencjaAddwiad e) {
+    public void updatevat(EVatwpis1 e) {
         try {
             int lp = e.getLp();
             double vat = 0.0;
             try {
-                String ne = e.getEvewidencja().getNazwa();
+                String ne = e.getEwidencja().getNazwa();
                 double n = Math.abs(e.getNetto());
                 switch (ne) {
                     case "sprzedaż 23%":
@@ -603,14 +604,12 @@ public class DokView implements Serializable {
                 update = "dodWiad:sumbrutto";
                 PrimeFaces.current().ajax().update(update);
             } else {
-                selDokument.getEwidencjaVAT1().get(lp).setBrutto(e.getNetto() + e.getVat());
-                String skrotRT = (String) Params.params("dodWiad:rodzajTrans");
-                Rodzajedok r = rodzajedokDAO.find(skrotRT, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                e.setBrutto(e.getNetto() + e.getVat());
+                Rodzajedok r = selDokument.getRodzajedok();
                 if (r.getProcentvat() != 0.0) {
-                    sumbrutto = e.getNetto() + (e.getVat() * 2);
-                } else {
-                    sumbruttoAddwiad();
+                    e.setBrutto(e.getNetto() + (e.getVat() * r.getProcentvat()));
                 }
+                sumbruttoAddwiad();
                 String update = "dodWiad:tablicavat:" + lp + ":brutto";
                 PrimeFaces.current().ajax().update(update);
                 update = "dodWiad:sumbrutto";
@@ -644,15 +643,12 @@ public class DokView implements Serializable {
 //        PrimeFaces.current().ajax().update("dodWiad:acForce");
 //    }
 
-    public void wygenerujnumerkolejnyonblur() {
-        if (selDokument.getRodzajedok()!=null && selDokument.getNrWlDk() == null || selDokument.getNrWlDk().equals("")) {
-            wygenerujnumerkolejny();
-        }
-        if (selDokument.getRodzajedok()!=null && selDokument.getRodzajedok().getSkrotNazwyDok().equals("IN")) {
-            String f = "dodWiad:rowinwestycja";
-            PrimeFaces.current().ajax().update(f);
-        }
-    }
+//    public void wygenerujnumerkolejnyonblur() {
+//        if (selDokument.getRodzajedok()!=null && selDokument.getNrWlDk() == null || selDokument.getNrWlDk().equals("")) {
+//            wygenerujnumerkolejny();
+//        }
+//       
+//    }
     
     public void wygenerujnumerkolejny() {
         String nowynumer = "";
@@ -668,6 +664,10 @@ public class DokView implements Serializable {
         renderujtabele(selDokument.getRodzajedok());
         selDokument.setNrWlDk(nowynumer);
         PrimeFaces.current().ajax().update("dodWiad:numerwlasny");
+         if (selDokument.getRodzajedok()!=null && selDokument.getRodzajedok().getSkrotNazwyDok().equals("IN")) {
+            String f = "dodWiad:rowinwestycja";
+            PrimeFaces.current().ajax().update(f);
+        }
     }
 
     private void renderujwyszukiwarke(Rodzajedok rodzajdok) {
@@ -859,6 +859,7 @@ public class DokView implements Serializable {
                     podepnijEwidencjeVat();
                 }
                 selDokument.setOpis(wysDokument.getOpis());
+                wygenerujnumerkolejny();
                 setRenderujwysz(false);
                 setPokazEST(false);
                 //wygenerujnumerkolejny();nie potrzebne jest generowane w xhtml
@@ -1532,9 +1533,10 @@ public class DokView implements Serializable {
                     } catch (Exception e) {
 
                     }
-                }else {
+                } else {
                     typdokumentu = selDokument.getRodzajedok().getSkrot();
                 }
+            wygenerujnumerkolejny();
             } catch (Exception e) {
                 E.e(e);
             }

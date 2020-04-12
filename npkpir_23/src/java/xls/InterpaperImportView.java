@@ -279,6 +279,13 @@ public class InterpaperImportView implements Serializable {
                     }
                 }
                 Msg.msg("Zaksięgowano "+ile+" z wybranych dokumentów");
+            } else  if (pobranefakturyfilter !=null && pobranefakturyfilter.size()>0) {
+                for (InterpaperXLS p : pobranefakturyfilter) {
+                    if (p.getNip()!=null) {
+                        ile += generowanieDokumentu(p, k);
+                    }
+                }
+                Msg.msg("Zaksięgowano "+ile+" z przefiltrowanych dokumentów");
             } else {
                 for (InterpaperXLS p : pobranefaktury) {
                    if (p.getNip()!=null) {
