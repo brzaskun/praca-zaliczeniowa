@@ -71,6 +71,7 @@ public class ImportowanyPlikConv implements javax.faces.convert.Converter{
         zwrot.add(new ImportowanyPlik("Zorint xls","xls","",2));
         zwrot.add(new ImportowanyPlik("Tomtech xls","xls","",3));
         zwrot.add(new ImportowanyPlik("Exolight xls","xls","",4));
+        zwrot.add(new ImportowanyPlik("Murawski xls","xls","",5));
         return zwrot;
     }
 }

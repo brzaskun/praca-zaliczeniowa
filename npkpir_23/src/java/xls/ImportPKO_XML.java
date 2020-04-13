@@ -5,63 +5,26 @@
  */
 package xls;
 
-import beansFK.DialogWpisywanie;
-import dao.KlienciDAO;
-import dao.RodzajedokDAO;
-import daoFK.DokDAOfk;
-import daoFK.KliencifkDAO;
-import daoFK.KontoDAOfk;
-import daoFK.TabelanbpDAO;
-import daoFK.WalutyDAOfk;
-import daoFK.WierszDAO;
-import data.Data;
 import dedra.Dedraparser;
-import entity.Klienci;
-import entity.Rodzajedok;
-import entityfk.Dokfk;
-import entityfk.Konto;
-import entityfk.StronaWiersza;
-import entityfk.Tabelanbp;
-import entityfk.Waluty;
-import entityfk.Wiersz;
 import error.E;
-import gus.GUSView;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import msg.Msg;
-import org.apache.commons.io.FilenameUtils;
-import org.joda.time.DateTime;
-import org.primefaces.PrimeFaces;
-import org.primefaces.component.commandbutton.CommandButton;
-import org.primefaces.component.panelgrid.PanelGrid;
-import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import view.WpisView;import waluty.Z;
-import static xls.InterpaperBankSantander.pT;
 
 /**
  *

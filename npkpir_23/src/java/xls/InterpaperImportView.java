@@ -93,7 +93,8 @@ public class InterpaperImportView implements Serializable {
     private UkladBRDAO ukladBRDAO;
     @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
-    private byte[] plikinterpaper;
+    private byte[] pobranyplik;
+    private List<byte[]> pobraneplikibytes;
     public  List<InterpaperXLS> pobranefaktury;
     public  List<InterpaperXLS> pobranefakturyfilter;
     public  List<InterpaperXLS> selected;
@@ -143,6 +144,7 @@ public class InterpaperImportView implements Serializable {
                 }
             }
         }
+        pobraneplikibytes = new ArrayList<>();
         rodzajeimportu = zrobrodzajeimportu();
         kontonetto = kontoDAO.findKonto("702-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         kontovat = kontoDAO.findKonto("221-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
@@ -162,23 +164,25 @@ public class InterpaperImportView implements Serializable {
         zwrot.add(new ImportowanyPlik("Zorint xls","xls","",2));
         zwrot.add(new ImportowanyPlik("Tomtech xls","xls","",3));
         zwrot.add(new ImportowanyPlik("Exolight xls","xls","",4));
+        zwrot.add(new ImportowanyPlik("Murawski xls","xls","",5));
         return zwrot;
     }
     
     public void zachowajplik(FileUploadEvent event) {
         try {
+            pobraneplikibytes = new ArrayList<>();
             UploadedFile uploadedFile = event.getFile();
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
             if (extension.equals("csv")||extension.equals("xls")||extension.equals("xlsx")) {
                 String filename = uploadedFile.getFileName();
-                plikinterpaper = uploadedFile.getContents();
+                pobranyplik = uploadedFile.getContents();
+                pobraneplikibytes.add(uploadedFile.getContents());
                 PrimeFaces.current().ajax().update("panelplik");
                 grid1.setRendered(true);
                 grid2.setRendered(false);
                 grid3.setRendered(false);
                 pobranefaktury = null;
                 rodzajdok = null;
-                Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
                 switch (wybranyrodzajimportu.getLp()) {
                     case 1:
                        rodzajedokimportu = pobierzrodzajeimportu(1);
@@ -192,10 +196,14 @@ public class InterpaperImportView implements Serializable {
                     case 4:
                        rodzajedokimportu = pobierzrodzajeimportu(4);
                        break;
+                    case 5:
+                       rodzajedokimportu = pobierzrodzajeimportu(5);
+                       break;
                     default:
                         rodzajedokimportu = new ArrayList<>();
                         break;
                 }
+                Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
             } else {
                 Msg.msg("e","Niewłaściwy typ pliku");
             }
@@ -211,16 +219,23 @@ public class InterpaperImportView implements Serializable {
             List<Klienci> k = klienciDAO.findAll();
             switch (wybranyrodzajimportu.getLp()) {
                 case 1:
-                    pobranefaktury = ReadCSVInterpaperFile.getListafakturCSV(plikinterpaper, k, klienciDAO, rodzajdok, gUSView);
+                    pobranefaktury = ReadCSVInterpaperFile.getListafakturCSV(pobranyplik, k, klienciDAO, rodzajdok, gUSView);
                     break;
                 case 2:
-                    pobranefaktury = ReadXLSFirmaoFile.getListafakturXLS(plikinterpaper, k, klienciDAO, rodzajdok, gUSView);
+                    pobranefaktury = ReadXLSFirmaoFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, gUSView);
                     break;
                 case 3:
-                    pobranefaktury = ReadXLSTomTechFile.getListafakturXLS(plikinterpaper, k, klienciDAO, rodzajdok, gUSView);
+                    pobranefaktury = ReadXLSTomTechFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, gUSView);
                     break;
                 case 4:
-                    pobranefaktury = ReadXLSExolightFile.getListafakturXLS(plikinterpaper, k, klienciDAO, rodzajdok, gUSView);
+                    pobranefaktury = ReadXLSExolightFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, gUSView);
+                    break;
+                case 5:
+                    if (pobraneplikibytes.size()>0) {
+                        for (byte[] p : pobraneplikibytes) {
+                            pobranefaktury.addAll(ReadXLSMurawskiFile.getListafakturXLS(p, k, klienciDAO, rodzajdok, gUSView));
+                        }
+                    }
                     break;
             }
             grid3.setRendered(true);
@@ -244,6 +259,9 @@ public class InterpaperImportView implements Serializable {
                 drkujfizbutton.setRendered(true);
                 generujbutton.setRendered(true);
                 kontobutton.setRendered(true);
+            } else if (wybranyrodzajimportu.getLp()==5){
+                drkujfizbutton.setRendered(true);
+                generujbutton.setRendered(true);
             }
             Msg.msg("Pobrano wszystkie dane");
         } catch (OfficeXmlFileException e1) {
@@ -261,7 +279,7 @@ public class InterpaperImportView implements Serializable {
     public void grid0pokaz() {
         if (sabraki==false) {
             grid0.setRendered(true);
-            Msg.msg("i","Wybranonastępujący format importu "+wybranyrodzajimportu);
+            Msg.msg("i","Wybranonastępujący format importu "+wybranyrodzajimportu.getOpis());
             
         } else {
             Msg.msg("e", "Są braki. Nie można wszytać pliku");
@@ -851,6 +869,9 @@ public class InterpaperImportView implements Serializable {
                 break;
             case 4: 
                 zwrot.add("zakup/WNT");
+                zwrot.add("sprzedaż");
+                break;
+            case 5:
                 zwrot.add("sprzedaż");
                 break;
         }

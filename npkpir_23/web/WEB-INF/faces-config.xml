@@ -249,6 +249,10 @@
             <from-outcome>importebay</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaImportEbay.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>importxls</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaImportXls.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>importfaktury</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaImportFaktury.xhtml?faces-redirect=true</to-view-id>
