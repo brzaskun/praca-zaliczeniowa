@@ -5,7 +5,9 @@
  */
 package embeddablefk;
 
+import beansFK.TabelaNBPBean;
 import entity.Klienci;
+import entityfk.Tabelanbp;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -49,6 +51,7 @@ public class InterpaperXLS implements Serializable {
     private boolean juzzaksiegowany;
     private boolean koszt0material1;
     private String opis;
+    private Tabelanbp tabelanbp;
 
     @Override
     public int hashCode() {
@@ -90,10 +93,13 @@ public class InterpaperXLS implements Serializable {
 
     
     public String getAdres() {
+        String miasto=this.klientmiasto!=null?this.klientmiasto:"";
+        String ulica=this.klientulica!=null?this.klientulica:"";
+        String dom=this.klientdom!=null?this.klientdom:"";
         if (this.klientkod!=null) {
-            return this.klientkod+" "+this.klientmiasto+" "+this.klientulica+" "+this.klientdom;
+            return this.klientkod+" "+miasto+" "+ulica+" "+dom;
         } else if (this.klientmiasto!=null) {
-            return this.klientmiasto+" "+this.klientulica+" "+this.klientdom;
+            return miasto+" "+ulica+" "+dom;
         } else {
             return "";
         }
@@ -384,6 +390,14 @@ public class InterpaperXLS implements Serializable {
 
     public void setOpis(String opis) {
         this.opis = opis;
+    }
+
+    public Tabelanbp getTabelanbp() {
+        return tabelanbp;
+    }
+
+    public void setTabelanbp(Tabelanbp tabelanbp) {
+        this.tabelanbp = tabelanbp;
     }
 
     

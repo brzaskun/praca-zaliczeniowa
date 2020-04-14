@@ -11,20 +11,26 @@ import dao.RodzajedokDAO;
 import daoFK.KontoDAOfk;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
+import daoFK.TabelanbpDAO;
 import embeddable.PanstwaMap;
 import embeddablefk.InterpaperXLS;
 import entity.Klienci;
 import entity.Podatnik;
 import entity.Rodzajedok;
+import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
+import entityfk.Tabelanbp;
+import entityfk.Waluty;
 import error.E;
 import gus.GUSView;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -36,7 +42,9 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.joda.time.DateTime;
 import view.WpisView;
+import waluty.Z;
 /**
  *
  * @author Osito
@@ -86,7 +94,7 @@ public class ReadXLSMurawskiFile {
         return listafaktur;
     }
     
-     public static List<InterpaperXLS> getListafakturXLS(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, GUSView gUSView) {
+     public static List<InterpaperXLS> getListafakturXLS(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, GUSView gUSView, TabelanbpDAO tabelanbpDAO) {
         List<InterpaperXLS> listafaktur = Collections.synchronizedList(new ArrayList<>());
          try {
             InputStream file = new ByteArrayInputStream(plikinterpaper);
@@ -94,7 +102,7 @@ public class ReadXLSMurawskiFile {
             HSSFWorkbook workbook = new HSSFWorkbook(file);
             //XSSFWorkbook workbook = new XSSFWorkbook(file);
              //Get first/desired sheet from the workbook
-            HSSFSheet sheet = workbook.getSheetAt(0);
+            HSSFSheet sheet = workbook.getSheetAt(1);
             Iterator<Row> rowIterator = sheet.iterator();
             int i =1;
             Map<String, Klienci> znalezieni = new HashMap<>();
@@ -106,7 +114,7 @@ public class ReadXLSMurawskiFile {
             try {
                 InterpaperXLS interpaperXLS = new InterpaperXLS();
                 //String nip = row.getCell(2).getStringCellValue().replace("-", "").trim();
-                uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni, gUSView);
+                uzupelnijsprzedaz(interpaperXLS, wiersze, k, klienciDAO, znalezieni, gUSView, tabelanbpDAO);
                 if (interpaperXLS.getKontrahent()!=null && (interpaperXLS.getNettowaluta()!=0.0 || interpaperXLS.getVatwaluta()!=0.0)) {
                     interpaperXLS.setNr(i++);
                     listafaktur.add(interpaperXLS);
@@ -121,25 +129,43 @@ public class ReadXLSMurawskiFile {
         }
         return listafaktur;
     }
-     
+    
+   private static void przewalutuj(InterpaperXLS interpaperXLS) {
+        Tabelanbp t = interpaperXLS.getTabelanbp();
+        if (t!=null && !t.getWaluta().getSymbolwaluty().equals("PLN")) {
+            interpaperXLS.setNettoPLN(Z.z(interpaperXLS.getNettowaluta()*t.getKurssredniPrzelicznik()));
+            interpaperXLS.setVatPLN(Z.z(interpaperXLS.getVatwaluta()*t.getKurssredniPrzelicznik()));
+        } else {
+            interpaperXLS.setNettoPLN(interpaperXLS.getNettowaluta());
+            interpaperXLS.setVatPLN(interpaperXLS.getVatPLN());
+        }
+        interpaperXLS.setBruttowaluta(Z.z(interpaperXLS.getNettowaluta()+interpaperXLS.getVatwaluta()));
+        interpaperXLS.setBruttoPLN(Z.z(interpaperXLS.getNettoPLN()+interpaperXLS.getVatPLN()));
+    }
       
-    private static void uzupelnijsprzedaz(InterpaperXLS interpaperXLS, List<Row> rows ,List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni, GUSView gUSView) {
-        if (rows.size()>0) {
-            interpaperXLS.setNrfaktury(rows.getCell(0).getStringCellValue());
-            interpaperXLS.setDatawystawienia(rows.getCell(1).getDateCellValue());
-            interpaperXLS.setDatasprzedaży(rows.getCell(2).getDateCellValue());
-            interpaperXLS.setDataobvat(rows.getCell(2).getDateCellValue());
-            String kontr = rows.getCell(3).getStringCellValue();
+    private static void uzupelnijsprzedaz(InterpaperXLS interpaperXLS, List<Row> rows ,List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni, GUSView gUSView, TabelanbpDAO tabelanbpDAO) {
+            if (rows.size()>0) {
+            interpaperXLS.setNrfaktury(rows.get(10).getCell(8).getStringCellValue().replace("Rechnungsnummer ", ""));
+            interpaperXLS.setDatawystawienia(rows.get(1).getCell(11).getDateCellValue());
+            interpaperXLS.setDatasprzedaży(rows.get(1).getCell(11).getDateCellValue());
+            interpaperXLS.setDataobvat(rows.get(1).getCell(11).getDateCellValue());
+            String kontr = rows.get(11).getCell(8).getStringCellValue().split("\n")[0];
             interpaperXLS.setKontrahent(kontr);
-            interpaperXLS.setNip(rows.getCell(3).getStringCellValue().replace("-", "").replaceAll("\\s+","").trim());
+            String[] kl = rows.get(11).getCell(8).getStringCellValue().split("\n");
+            if (kl!=null && kl.length==3) {
+                interpaperXLS.setKlientnazwa(kl[0]);
+                interpaperXLS.setKlientulica(kl[1]);
+                interpaperXLS.setKlientkod(kl[2]);
+                interpaperXLS.setKlientpaństwo("DE");
+            }
+            interpaperXLS.setNip("");
             interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni, gUSView));
-            interpaperXLS.setWalutaplatnosci("PLN");
-            interpaperXLS.setNettowaluta(rows.getCell(4).getNumericCellValue());
-            interpaperXLS.setVatwaluta(rows.getCell(6).getNumericCellValue());
-            interpaperXLS.setBruttowaluta(rows.getCell(5).getNumericCellValue());
-            interpaperXLS.setNettoPLN(rows.getCell(4).getNumericCellValue());
-            interpaperXLS.setNettoPLNvat(rows.getCell(4).getNumericCellValue());
-            interpaperXLS.setVatPLN(rows.getCell(6).getNumericCellValue());
+            interpaperXLS.setWalutaplatnosci("EUR");
+            interpaperXLS.setNettowaluta(Z.z(rows.get(21).getCell(8).getNumericCellValue()));
+            interpaperXLS.setVatwaluta(Z.z(rows.get(21).getCell(10).getNumericCellValue()));
+            interpaperXLS.setBruttowaluta(Z.z(rows.get(21).getCell(12).getNumericCellValue()));
+            ustawtabelenbp(interpaperXLS, tabelanbpDAO);
+            przewalutuj(interpaperXLS);
             }
         }
 
@@ -182,7 +208,7 @@ public class ReadXLSMurawskiFile {
                     if (klient.getNpelna()==null) {
                         klient = null;
                     } else {
-                        klienciDAO.dodaj(klient);
+                        //klienciDAO.dodaj(klient);
                     }
                     znalezieni.put(interpaperXLS.getKontrahent(), klient);
                 }
@@ -195,7 +221,7 @@ public class ReadXLSMurawskiFile {
                     klient.setKrajnazwa(interpaperXLS.getKlientpaństwo());
                     klient.setKrajkod(PanstwaMap.getWykazPanstwSX().get(klient.getKrajnazwa()));
                     if (klient.getNip()!=null && klient.getNip().length()>5) {
-                        klienciDAO.dodaj(klient);
+                        //klienciDAO.dodaj(klient);
                         znalezieni.put(interpaperXLS.getKontrahent(), klient);
                     }
                 }
@@ -214,7 +240,7 @@ public class ReadXLSMurawskiFile {
                     klient.setKrajnazwa("Polska");
                     klient.setKrajkod("PL");
                 }
-                klienciDAO.edit(klient);
+                //klienciDAO.edit(klient);
             }
         } catch (Exception e) {
             E.e(e);
@@ -224,101 +250,25 @@ public class ReadXLSMurawskiFile {
    
     
     
-    public static void updateRZiSInter(PozycjaRZiSDAO pozycjaRZiSDAO, WpisView wpisView, byte[] contents) {
-         try {
-            InputStream targetStream = new ByteArrayInputStream(contents);
-             //Create Workbook instance holding reference to .xlsx file
-            XSSFWorkbook workbook = new XSSFWorkbook(targetStream);
-             //Get first/desired sheet from the workbook
-            XSSFSheet sheet = workbook.getSheetAt(0);
-             //Iterate through each rows one by one
-            Iterator<Row> rowIterator = sheet.iterator();
-            while (rowIterator.hasNext()) {
-                Row row = rowIterator.next();
-                try {
-                    String pelnynumer = row.getCell(1).getStringCellValue();
-                    String nazwapelna = row.getCell(2).getStringCellValue();
-                    String tlumaczenie = row.getCell(4).getStringCellValue();
-                    if (!tlumaczenie.equals("")) {
-                        PozycjaRZiS k = pozycjaRZiSDAO.findRzisLP(Integer.parseInt(pelnynumer));
-                        if (k != null) {
-                            k.setDe(tlumaczenie);
-                            pozycjaRZiSDAO.edit(k);
-                        }
-                    }
-                } catch (Exception e) {
-                    E.e(e);
+    private static void ustawtabelenbp(InterpaperXLS interpaperXLS, TabelanbpDAO tabelanbpDAO) {
+         if (!interpaperXLS.getWalutaplatnosci().equals("PLN")) {
+            Format formatterX = new SimpleDateFormat("yyyy-MM-dd");
+            String datadokumentu = formatterX.format(interpaperXLS.getDatasprzedaży());
+            DateTime dzienposzukiwany = new DateTime(datadokumentu);
+            boolean znaleziono = false;
+            int zabezpieczenie = 0;
+            while (!znaleziono && (zabezpieczenie < 365)) {
+                dzienposzukiwany = dzienposzukiwany.minusDays(1);
+                String doprzekazania = dzienposzukiwany.toString("yyyy-MM-dd");
+                Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania, interpaperXLS.getWalutaplatnosci());
+                if (tabelanbppobrana instanceof Tabelanbp) {
+                    znaleziono = true;
+                    interpaperXLS.setTabelanbp(tabelanbppobrana);
+                    break;
                 }
+                zabezpieczenie++;
             }
-            targetStream.close();
-        } catch (Exception e) {
-            E.e(e);
-        }
-    }
-    
-    public static void updateBilansInter(PozycjaBilansDAO pozycjaBilansDAO, WpisView wpisView, byte[] contents) {
-         try {
-            InputStream targetStream = new ByteArrayInputStream(contents);
-             //Create Workbook instance holding reference to .xlsx file
-            XSSFWorkbook workbook = new XSSFWorkbook(targetStream);
-             //Get first/desired sheet from the workbook
-            XSSFSheet sheet = workbook.getSheetAt(0);
-             //Iterate through each rows one by one
-            Iterator<Row> rowIterator = sheet.iterator();
-            while (rowIterator.hasNext()) {
-                Row row = rowIterator.next();
-                try {
-                    String pelnynumer = row.getCell(1).getStringCellValue();
-                    String nazwapelna = row.getCell(2).getStringCellValue();
-                    String tlumaczenie = row.getCell(4).getStringCellValue();
-                    if (!tlumaczenie.equals("")) {
-                        PozycjaBilans k = pozycjaBilansDAO.findBilansLP(Integer.parseInt(pelnynumer));
-                        if (k != null) {
-                            k.setDe(tlumaczenie);
-                            pozycjaBilansDAO.edit(k);
-                        }
-                    }
-                } catch (Exception e) {
-                    E.e(e);
-                }
-            }
-            targetStream.close();
-        } catch (Exception e) {
-            E.e(e);
-        }
-    }
-    
-    
-    public static void updateRodzajedok(RodzajedokDAO rodzajedokDAO, WpisView wpisView, String filename) {
-         try {
-            FileInputStream file = new FileInputStream(new File(filename));
-             //Create Workbook instance holding reference to .xlsx file
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
-             //Get first/desired sheet from the workbook
-            XSSFSheet sheet = workbook.getSheetAt(0);
-             //Iterate through each rows one by one
-            Iterator<Row> rowIterator = sheet.iterator();
-            while (rowIterator.hasNext()) {
-                Row row = rowIterator.next();
-                try {
-                    String skrot = row.getCell(1).getStringCellValue();
-                    String nazwapelna = row.getCell(2).getStringCellValue();
-                    String tlumaczenie = row.getCell(3).getStringCellValue();
-                    if (!tlumaczenie.equals("")) {
-                        Rodzajedok k = rodzajedokDAO.find(skrot, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-                        if (k != null && k.getNazwa().equals(nazwapelna)) {
-                            k.setDe(tlumaczenie);
-                            rodzajedokDAO.edit(k);
-                        }
-                    }
-                } catch (Exception e) {
-                    E.e(e);
-                }
-            }
-            file.close();
-        } catch (Exception e) {
-            E.e(e);
-        }
+         }
     }
     
      public static void updateKonta(KontoDAOfk kontoDAOfk, Podatnik podatnik, Integer rok, String filename) {

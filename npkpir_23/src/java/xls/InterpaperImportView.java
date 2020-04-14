@@ -170,7 +170,6 @@ public class InterpaperImportView implements Serializable {
     
     public void zachowajplik(FileUploadEvent event) {
         try {
-            pobraneplikibytes = new ArrayList<>();
             UploadedFile uploadedFile = event.getFile();
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
             if (extension.equals("csv")||extension.equals("xls")||extension.equals("xlsx")) {
@@ -232,8 +231,11 @@ public class InterpaperImportView implements Serializable {
                     break;
                 case 5:
                     if (pobraneplikibytes.size()>0) {
+                        if (pobranefaktury==null) {
+                            pobranefaktury = new ArrayList<>();
+                        }
                         for (byte[] p : pobraneplikibytes) {
-                            pobranefaktury.addAll(ReadXLSMurawskiFile.getListafakturXLS(p, k, klienciDAO, rodzajdok, gUSView));
+                            pobranefaktury.addAll(ReadXLSMurawskiFile.getListafakturXLS(p, k, klienciDAO, rodzajdok, gUSView, tabelanbpDAO));
                         }
                     }
                     break;
@@ -261,7 +263,7 @@ public class InterpaperImportView implements Serializable {
                 kontobutton.setRendered(true);
             } else if (wybranyrodzajimportu.getLp()==5){
                 drkujfizbutton.setRendered(true);
-                generujbutton.setRendered(true);
+                //generujbutton.setRendered(true);
             }
             Msg.msg("Pobrano wszystkie dane");
         } catch (OfficeXmlFileException e1) {
@@ -279,6 +281,7 @@ public class InterpaperImportView implements Serializable {
     public void grid0pokaz() {
         if (sabraki==false) {
             grid0.setRendered(true);
+            pobraneplikibytes = new ArrayList<>();
             Msg.msg("i","Wybranonastępujący format importu "+wybranyrodzajimportu.getOpis());
             
         } else {

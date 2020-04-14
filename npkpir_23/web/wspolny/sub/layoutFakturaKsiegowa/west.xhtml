@@ -34,8 +34,7 @@
                     <p:menuitem value="wykaz dokumentów"  outcome="dokumentyzaksiegowane" icon="ui-icon-circle-arrow-e"/>
                     <p:menuitem value="podatkowa ksiega"  outcome="ksiega" icon="ui-icon-circle-arrow-e" />
                     <p:menuitem value="faktury miesieczne"  outcome="fakturymiesieczne" icon="ui-icon-circle-arrow-e"/> 
-                    <p:menuitem value="niezaplacone"  outcome="niezaplacone" icon="ui-icon-circle-arrow-e"/>  
-                    <p:menuitem value="zaplacone"  outcome="zaplacone" icon="ui-icon-circle-arrow-e"/>  
+                    <p:menuitem global="false" value="import sprzedaży" outcome="importy"  icon="ui-icon-circle-arrow-e" update="@form" />
                     <p:menuitem value="obroty w roku"  icon="ui-icon-circle-arrow-e" action="#{obrotyView.init()}" update="@form" />  
                     <p:menuitem value="kontrahenci fakt." outcome="klienci"  icon="ui-icon-circle-arrow-e"/>  
                     <p:menuitem value="zestaw. sumaryczne"  outcome="zestawienie" icon="ui-icon-circle-arrow-e"/>  
