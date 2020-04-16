@@ -202,7 +202,11 @@ public class InterpaperImportView implements Serializable {
                         rodzajedokimportu = new ArrayList<>();
                         break;
                 }
-                Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
+                if (pobraneplikibytes!=null&&pobraneplikibytes.size()>1) {
+                    Msg.msg("Sukces. Skutecznie załadowano "+pobraneplikibytes.size()+" plików");
+                } else {
+                    Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
+                }
             } else {
                 Msg.msg("e","Niewłaściwy typ pliku");
             }

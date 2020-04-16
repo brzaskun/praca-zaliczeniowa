@@ -145,7 +145,19 @@ public class ReadXLSMurawskiFile {
       
     private static void uzupelnijsprzedaz(InterpaperXLS interpaperXLS, List<Row> rows ,List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni, GUSView gUSView, TabelanbpDAO tabelanbpDAO) {
             if (rows.size()>0) {
-            interpaperXLS.setNrfaktury(rows.get(10).getCell(8).getStringCellValue().replace("Rechnungsnummer ", ""));
+            String numerrach = rows.get(10).getCell(8).getStringCellValue();
+            boolean korekta = false;
+            if (numerrach.contains("Korrekturrechnungsnummer")) {
+                String tmp = rows.get(10).getCell(8).getStringCellValue();
+                tmp = tmp.replace("Korrekturrechnungsnummer","").trim();
+                tmp = tmp.substring(0, tmp.indexOf("für")).trim();
+                interpaperXLS.setNrfaktury(tmp);
+                korekta = true;
+            } else {
+                String tmp = rows.get(10).getCell(8).getStringCellValue();
+                tmp = tmp.replace("Rechnungsnummer ","").trim();
+                interpaperXLS.setNrfaktury(tmp);
+            }
             interpaperXLS.setDatawystawienia(rows.get(1).getCell(11).getDateCellValue());
             interpaperXLS.setDatasprzedaży(rows.get(1).getCell(11).getDateCellValue());
             interpaperXLS.setDataobvat(rows.get(1).getCell(11).getDateCellValue());
@@ -157,13 +169,24 @@ public class ReadXLSMurawskiFile {
                 interpaperXLS.setKlientulica(kl[1]);
                 interpaperXLS.setKlientkod(kl[2]);
                 interpaperXLS.setKlientpaństwo("DE");
+            } else if (kl!=null && kl.length==4) {
+                interpaperXLS.setKlientnazwa(kl[0]);
+                interpaperXLS.setKlientulica(kl[1]+" "+kl[2]);
+                interpaperXLS.setKlientkod(kl[3]);
+                interpaperXLS.setKlientpaństwo("DE");
             }
             interpaperXLS.setNip("");
             interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni, gUSView));
             interpaperXLS.setWalutaplatnosci("EUR");
-            interpaperXLS.setNettowaluta(Z.z(rows.get(21).getCell(8).getNumericCellValue()));
-            interpaperXLS.setVatwaluta(Z.z(rows.get(21).getCell(10).getNumericCellValue()));
-            interpaperXLS.setBruttowaluta(Z.z(rows.get(21).getCell(12).getNumericCellValue()));
+            if (korekta){
+                interpaperXLS.setNettowaluta(-Z.z(rows.get(21).getCell(8).getNumericCellValue()));
+                interpaperXLS.setVatwaluta(-Z.z(rows.get(21).getCell(10).getNumericCellValue()));
+                interpaperXLS.setBruttowaluta(-Z.z(rows.get(21).getCell(12).getNumericCellValue()));
+            } else {
+                interpaperXLS.setNettowaluta(Z.z(rows.get(21).getCell(8).getNumericCellValue()));
+                interpaperXLS.setVatwaluta(Z.z(rows.get(21).getCell(10).getNumericCellValue()));
+                interpaperXLS.setBruttowaluta(Z.z(rows.get(21).getCell(12).getNumericCellValue()));
+            }
             ustawtabelenbp(interpaperXLS, tabelanbpDAO);
             przewalutuj(interpaperXLS);
             }
@@ -306,39 +329,43 @@ public class ReadXLSMurawskiFile {
       
     public static void main(String[] args) {
         try {
-            FileInputStream file = new FileInputStream(new File(filename));
-             //Create Workbook instance holding reference to .xlsx file
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
-             //Get first/desired sheet from the workbook
-            XSSFSheet sheet = workbook.getSheetAt(0);
-             //Iterate through each rows one by one
-            Iterator<Row> rowIterator = sheet.iterator();
-            while (rowIterator.hasNext()) {
-                Row row = rowIterator.next();
-                InterpaperXLS interpaperXLS = new InterpaperXLS();
-                interpaperXLS.setNr((int) row.getCell(0).getNumericCellValue());
-                interpaperXLS.setNrfaktury(row.getCell(1).getStringCellValue());
-                interpaperXLS.setDatawystawienia(row.getCell(2).getDateCellValue());
-                interpaperXLS.setDatasprzedaży(row.getCell(3).getDateCellValue());
-                interpaperXLS.setKontrahent(row.getCell(4).getStringCellValue());
-                interpaperXLS.setWalutaplatnosci(row.getCell(5).getStringCellValue());
-                interpaperXLS.setBruttowaluta(row.getCell(6).getNumericCellValue());
-                interpaperXLS.setSaldofaktury(row.getCell(7).getNumericCellValue());
-                interpaperXLS.setTerminplatnosci(row.getCell(8).getDateCellValue());
-                interpaperXLS.setPrzekroczenieterminu((int) row.getCell(9).getNumericCellValue());
-                if (row.getCell(10) != null) {
-                    interpaperXLS.setOstatniawplata(row.getCell(10).getDateCellValue());
-                } else {
-                    interpaperXLS.setOstatniawplata(null);
-                }
-                interpaperXLS.setSposobzaplaty(row.getCell(11).getStringCellValue());
-                interpaperXLS.setNettowaluta(row.getCell(12).getNumericCellValue());
-                interpaperXLS.setVatwaluta(row.getCell(13).getNumericCellValue());
-                interpaperXLS.setNettoPLN(row.getCell(14).getNumericCellValue());
-                interpaperXLS.setVatPLN(row.getCell(15).getNumericCellValue());
-                interpaperXLS.setBruttoPLN(row.getCell(16).getNumericCellValue());
-            }
-            file.close();
+            String tmp = "Korrekturrechnungsnummer 194/20 für Rechnungsnummer 148/20";
+            tmp = tmp.replace("Korrekturrechnungsnummer","").trim();
+            tmp = tmp.substring(0, tmp.indexOf("für")).trim();
+            System.out.println(tmp);
+//            FileInputStream file = new FileInputStream(new File(filename));
+//             //Create Workbook instance holding reference to .xlsx file
+//            XSSFWorkbook workbook = new XSSFWorkbook(file);
+//             //Get first/desired sheet from the workbook
+//            XSSFSheet sheet = workbook.getSheetAt(0);
+//             //Iterate through each rows one by one
+//            Iterator<Row> rowIterator = sheet.iterator();
+//            while (rowIterator.hasNext()) {
+//                Row row = rowIterator.next();
+//                InterpaperXLS interpaperXLS = new InterpaperXLS();
+//                interpaperXLS.setNr((int) row.getCell(0).getNumericCellValue());
+//                interpaperXLS.setNrfaktury(row.getCell(1).getStringCellValue());
+//                interpaperXLS.setDatawystawienia(row.getCell(2).getDateCellValue());
+//                interpaperXLS.setDatasprzedaży(row.getCell(3).getDateCellValue());
+//                interpaperXLS.setKontrahent(row.getCell(4).getStringCellValue());
+//                interpaperXLS.setWalutaplatnosci(row.getCell(5).getStringCellValue());
+//                interpaperXLS.setBruttowaluta(row.getCell(6).getNumericCellValue());
+//                interpaperXLS.setSaldofaktury(row.getCell(7).getNumericCellValue());
+//                interpaperXLS.setTerminplatnosci(row.getCell(8).getDateCellValue());
+//                interpaperXLS.setPrzekroczenieterminu((int) row.getCell(9).getNumericCellValue());
+//                if (row.getCell(10) != null) {
+//                    interpaperXLS.setOstatniawplata(row.getCell(10).getDateCellValue());
+//                } else {
+//                    interpaperXLS.setOstatniawplata(null);
+//                }
+//                interpaperXLS.setSposobzaplaty(row.getCell(11).getStringCellValue());
+//                interpaperXLS.setNettowaluta(row.getCell(12).getNumericCellValue());
+//                interpaperXLS.setVatwaluta(row.getCell(13).getNumericCellValue());
+//                interpaperXLS.setNettoPLN(row.getCell(14).getNumericCellValue());
+//                interpaperXLS.setVatPLN(row.getCell(15).getNumericCellValue());
+//                interpaperXLS.setBruttoPLN(row.getCell(16).getNumericCellValue());
+//            }
+//            file.close();
         } catch (Exception e) {
             E.e(e);
         }
