@@ -7,11 +7,13 @@
 package daoFK;
 
 import dao.DAO;
+import entity.Podatnik;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import error.E;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -93,6 +95,10 @@ public class TransakcjaDAO  extends DAO implements Serializable {
 
     public List<Transakcja> findPodatnikRok(WpisView wpisView) {
         return sessionFacade.findByPodatniRok(wpisView);
+    }
+    
+    public List<Transakcja> findPodatnikRokMcRozliczajacy(Podatnik podatnik,String rok, String mc) {
+        return Collections.synchronizedList(sessionFacade.getEntityManager().createNamedQuery("Transakcja.findByPodatnikRokMcRozl").setParameter("rok", rok).setParameter("mc", mc).setParameter("podatnikObj", podatnik).getResultList());
     }
     
     public List<Transakcja> findPodatnikBO(WpisView wpisView) {

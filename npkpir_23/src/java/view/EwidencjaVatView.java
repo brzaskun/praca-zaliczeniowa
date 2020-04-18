@@ -14,6 +14,7 @@ import dao.SMTPSettingsDAO;
 import dao.WniosekVATZDEntityDAO;
 import daoFK.EVatwpisDedraDAO;
 import daoFK.EVatwpisFKDAO;
+import daoFK.TransakcjaDAO;
 import data.Data;
 import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
@@ -28,6 +29,7 @@ import entity.Podatnik;
 import entity.WniosekVATZDEntity;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
+import entityfk.Transakcja;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
@@ -92,6 +94,8 @@ public class EwidencjaVatView implements Serializable {
     private EvewidencjaDAO evewidencjaDAO;
     @Inject
     private PlatnoscWalutaDAO platnoscWalutaDAO;
+    @Inject
+    private TransakcjaDAO transakcjaDAO;
     //elementy niezbedne do generowania ewidencji vat
     private TabView akordeon;
     @Inject
@@ -318,20 +322,24 @@ public class EwidencjaVatView implements Serializable {
             if (pobierzmiesiacdlajpk) {
                 vatokres = "miesięczne";
             }
-            listadokvatprzetworzona.addAll(pobierzEVatRokFK(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
-            Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
-            listaprzesunietychKoszty = pobierzEVatRokFKNastepnyOkres(vatokres);
-            wyluskajzlisty(listaprzesunietychKoszty, "koszty");
-            sumaprzesunietych = sumujprzesuniete(listaprzesunietychKoszty);
-            listaprzesunietychBardziej = pobierzEVatRokFKNastepnyOkresBardziej(vatokres);
-            wyluskajzlisty(listaprzesunietychBardziej, "koszty");
-            sumaprzesunietychBardziej = sumujprzesuniete(listaprzesunietychBardziej);
-            listaprzesunietychPrzychody = pobierzEVatRokFKNastepnyOkres(vatokres);
-            wyluskajzlisty(listaprzesunietychPrzychody, "przychody");
-            sumaprzesunietychprzychody = sumujprzesuniete(listaprzesunietychPrzychody);
-            listaprzesunietychBardziejPrzychody = pobierzEVatRokFKNastepnyOkresBardziej(vatokres);
-            wyluskajzlisty(listaprzesunietychBardziejPrzychody, "przychody");
-            sumaprzesunietychBardziejPrzychody = sumujprzesuniete(listaprzesunietychBardziejPrzychody);
+            if (wpisView.getPodatnikObiekt().getMetodakasowa().equals("tak")) {
+                listadokvatprzetworzona = przetworzRozliczenia(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            } else {
+                listadokvatprzetworzona.addAll(pobierzEVatRokFK(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+                Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
+                listaprzesunietychKoszty = pobierzEVatRokFKNastepnyOkres(vatokres);
+                wyluskajzlisty(listaprzesunietychKoszty, "koszty");
+                sumaprzesunietych = sumujprzesuniete(listaprzesunietychKoszty);
+                listaprzesunietychBardziej = pobierzEVatRokFKNastepnyOkresBardziej(vatokres);
+                wyluskajzlisty(listaprzesunietychBardziej, "koszty");
+                sumaprzesunietychBardziej = sumujprzesuniete(listaprzesunietychBardziej);
+                listaprzesunietychPrzychody = pobierzEVatRokFKNastepnyOkres(vatokres);
+                wyluskajzlisty(listaprzesunietychPrzychody, "przychody");
+                sumaprzesunietychprzychody = sumujprzesuniete(listaprzesunietychPrzychody);
+                listaprzesunietychBardziejPrzychody = pobierzEVatRokFKNastepnyOkresBardziej(vatokres);
+                wyluskajzlisty(listaprzesunietychBardziejPrzychody, "przychody");
+                sumaprzesunietychBardziejPrzychody = sumujprzesuniete(listaprzesunietychBardziejPrzychody);
+            }
             przejrzyjEVatwpis1Lista();
             dodajwierszeVATZD(wniosekVATZDEntity);
             
@@ -355,6 +363,46 @@ public class EwidencjaVatView implements Serializable {
             E.e(e); 
         }
         //drukuj ewidencje
+    }
+    
+    private List<EVatwpisSuper> przetworzRozliczenia(Podatnik podatnik, String vatokres, String rokWpisuSt, String miesiacWpisu) {
+        List<EVatwpisSuper> zwrot = new ArrayList<>();
+        List<Transakcja> transakcje = transakcjaDAO.findPodatnikRokMcRozliczajacy(podatnik, rokWpisuSt, miesiacWpisu);
+        zwrot.addAll(stworzevatwpisRozl(transakcje));
+        System.out.println("");
+        return zwrot;
+    }
+    
+     private Collection<? extends EVatwpisSuper> stworzevatwpisRozl(List<Transakcja> lista) {
+        List<EVatwpisFK> zwrot = new ArrayList<>();
+        for (Transakcja p : lista) {
+            if (p.getNowaTransakcja().getDokfk().getEwidencjaVAT()!=null&&p.getNowaTransakcja().getDokfk().getEwidencjaVAT().size()>0) {
+                List<EVatwpisFK> zwrotw = przetworzPlatnoscRozl(p);
+                if (zwrotw != null) {
+                    zwrot.addAll(zwrotw);
+                }
+            }
+        }
+        return zwrot;
+    }
+    
+    private List<EVatwpisFK> przetworzPlatnoscRozl(Transakcja p) {
+        Dokfk dok = p.getNowaTransakcja().getDokfk();
+        double rozliczono =0.0;
+        rozliczono = Z.z(p.getKwotatransakcji());
+        double zostalo = Z.z(dok.getWartoscdokumentu()-rozliczono);
+        List<EVatwpisFK> zwrot = dok.getEwidencjaVAT();
+        if (zostalo>=0.0) {
+            double procent = Z.z4(p.getKwotatransakcji()/dok.getWartoscdokumentu());
+            for (EVatwpisFK s : zwrot) {
+                s.setNetto(Z.z(s.getNetto()*procent));
+                s.setVat(Z.z(s.getVat()*procent));
+                s.setBrutto(Z.z(s.getBrutto()*procent));
+            }
+        } else {
+            zwrot = null;
+        }
+        return zwrot;
     }
     
     private void wyluskajzlisty(List<EVatwpisFK> listaprzesunietych, String przychodykoszty) {
@@ -1389,6 +1437,8 @@ public class EwidencjaVatView implements Serializable {
     public void setPobierzmiesiacdlajpk(boolean pobierzmiesiacdlajpk) {
         this.pobierzmiesiacdlajpk = pobierzmiesiacdlajpk;
     }
+
+    
 
     
 

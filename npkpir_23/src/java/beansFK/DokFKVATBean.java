@@ -281,7 +281,7 @@ public class DokFKVATBean {
             }
             return konto;
         } catch (Exception e) {  
-            Msg.msg("e", "Brak w konatch słownikowych danego kontrahenta. Zweryfikuj plan kont czy sa podpiete slowniki");
+            Msg.msg("e", "Brak w kontach słownikowych danego kontrahenta. Zweryfikuj plan kont czy sa podpiete slowniki");
             return null;
         }
     }
