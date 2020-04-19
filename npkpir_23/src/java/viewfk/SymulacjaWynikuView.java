@@ -12,24 +12,32 @@ import dao.PodatnikUdzialyDAO;
 import dao.StronaWierszaDAO;
 import daoFK.CechazapisuDAOfk;
 import daoFK.KontoDAOfk;
+import daoFK.TransakcjaDAO;
 import daoFK.WierszBODAO;
 import daoFK.WynikFKRokMcDAO;
 import embeddable.Mce;
 import embeddablefk.PozycjeSymulacjiNowe;
 import embeddablefk.SaldoKonto;
+import entity.EVatwpisSuper;
+import entity.Podatnik;
 import entity.PodatnikUdzialy;
 import entityfk.Cechazapisu;
+import entityfk.Dokfk;
+import entityfk.EVatwpisFK;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
+import entityfk.Transakcja;
 import entityfk.WynikFKRokMc;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -67,6 +75,8 @@ public class SymulacjaWynikuView implements Serializable {
     private StronaWierszaDAO stronaWierszaDAO;
     @Inject
     private WynikFKRokMcDAO wynikFKRokMcDAO;
+    @Inject
+    private TransakcjaDAO transakcjaDAO;
     @Inject
     private PodatnikUdzialyDAO podatnikUdzialyDAO;
     private List<SaldoKonto>wybraneprzychody;
@@ -114,7 +124,7 @@ public class SymulacjaWynikuView implements Serializable {
                 kontaklientaprzychody.add(p);
             }
         }
-        List<StronaWiersza> zapisyRok = pobierzzapisyR();
+        List<StronaWiersza> zapisyRok = pobierzzapisyRokMc();
         pobranewalutypodatnik = pobierzswaluty(zapisyRok);
         listakontaprzychody = przygotowanalistasaldR(zapisyRok, kontaklientaprzychody, 0);
         listakontakoszty = przygotowanalistasaldR(zapisyRok, kontaklientakoszty, 1);
@@ -231,9 +241,64 @@ public class SymulacjaWynikuView implements Serializable {
     }
 
    
-    private List<StronaWiersza> pobierzzapisyR() {
-        List<StronaWiersza> zapisywynikrokmc = stronaWierszaDAO.findStronaByPodatnikRokMcWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+    private List<StronaWiersza> pobierzzapisyRokMc() {
+        List<StronaWiersza> zapisywynikrokmc = new ArrayList<>();
+        if (wpisView.getPodatnikObiekt().isMetodakasowapit()) {
+            zapisywynikrokmc.addAll(przetworzRozliczenia(wpisView.getPodatnikObiekt(), "", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+            zapisywynikrokmc.addAll(stronaWierszaDAO.findStronaByPodatnikRokMcWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()).stream().filter(p->p.getDokfk().getRodzajedok().getKategoriadokumentu()==0||p.getDokfk().getRodzajedok().getKategoriadokumentu()==5).collect(Collectors.toList()));
+        } else {
+            zapisywynikrokmc = stronaWierszaDAO.findStronaByPodatnikRokMcWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        }
         return zapisywynikrokmc;
+    }
+    
+    private List<StronaWiersza> przetworzRozliczenia(Podatnik podatnik, String vatokres, String rokWpisuSt, String miesiacWpisu) {
+        List<StronaWiersza> zwrot = new ArrayList<>();
+        List<Transakcja> transakcje = transakcjaDAO.findPodatnikRokMcRozliczajacy(podatnik, rokWpisuSt, miesiacWpisu);
+        zwrot.addAll(stworzevatwpisRozl(transakcje));
+        System.out.println("");
+        return zwrot;
+    }
+    
+     private Collection<? extends StronaWiersza> stworzevatwpisRozl(List<Transakcja> lista) {
+        List<StronaWiersza> zwrot = new ArrayList<>();
+        for (Transakcja p : lista) {
+            if (p.getNowaTransakcja().getDokfk().getEwidencjaVAT()!=null&&p.getNowaTransakcja().getDokfk().getEwidencjaVAT().size()>0) {
+                List<StronaWiersza> zwrotw = naniesPlatnoscRozl(p);
+                if (zwrotw != null) {
+                    for (StronaWiersza t : zwrotw) {
+                        if (!zwrot.contains(t)) {
+                            zwrot.add(t);
+                        }
+                    }
+                }
+            }
+        }
+        for (StronaWiersza r : zwrot) {
+            rozliczPlatnoscRozl(r);
+        }
+        return zwrot;
+    }
+    
+    private List<StronaWiersza> naniesPlatnoscRozl(Transakcja p) {
+        Dokfk dok = p.getNowaTransakcja().getDokfk();
+        List<StronaWiersza> zwrot = dok.getStronyWierszy();
+        for (StronaWiersza s : zwrot) {
+            s.setSumatransakcji(Z.z(s.getSumatransakcji()+p.getKwotatransakcji()));
+        }
+        return zwrot;
+    }
+    
+    private void rozliczPlatnoscRozl(StronaWiersza p) {
+        Dokfk dok = p.getDokfk();
+        double rozliczono =0.0;
+        rozliczono = Z.z(p.getSumatransakcji());
+        double zostalo = Z.z(dok.getWartoscdokumentu()-rozliczono);
+        if (zostalo>=0.0) {
+            double procent = Z.z6(p.getSumatransakcji()/dok.getWartoscdokumentu());
+            p.setKwota(Z.z(p.getKwota()*procent));
+            p.setKwotaPLN(Z.z(p.getKwotaPLN()*procent));
+        }
     }
 
     private double sumuj(List<SaldoKonto> listakonta, String przychodykoszty) {

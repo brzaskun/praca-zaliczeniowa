@@ -38,6 +38,11 @@ public class Z implements Serializable {
         return nowa.doubleValue();
     }
     
+    public static double z6(double l) {
+        BigDecimal nowa = new BigDecimal(l).setScale(6, RoundingMode.HALF_EVEN);
+        return nowa.doubleValue();
+    }
+    
     //obcina kwoty po przeciku typu 1,49999 = 1
     public static double z0(double l) {
         double m = Math.round(l);

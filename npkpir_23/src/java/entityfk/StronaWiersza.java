@@ -157,6 +157,8 @@ public class StronaWiersza implements Serializable {
     private Set<String> opis;
     @Transient
     private String kontr;
+    @Transient
+    private double sumatransakcji;
     
    
 
@@ -877,6 +879,16 @@ public class StronaWiersza implements Serializable {
     public String getRok() {
         return this.getDokfk().getRok();
     }
+
+    public double getSumatransakcji() {
+        return sumatransakcji;
+    }
+
+    public void setSumatransakcji(double sumatransakcji) {
+        this.sumatransakcji = sumatransakcji;
+    }
+    
+    
 
     @Override
     public int hashCode() {

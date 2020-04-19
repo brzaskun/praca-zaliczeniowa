@@ -84,6 +84,15 @@
                         <f:selectItem itemValue="nie"/>
                         <f:selectItem itemValue="tak"/>
                     </h:selectOneMenu>
+                     <h:outputLabel value="podatek dochodowy metoda kasowa"/>
+                    <h:selectOneMenu value="#{podatnikView.selected.metodakasowapit}"
+                                     styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                                 onfocus="$(this).addClass('ui-state-focus');" 
+                                 onblur="$(this).removeClass('ui-state-focus');" >
+                        <f:selectItem itemValue="wybierz" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="nie" itemValue="false"/>
+                        <f:selectItem itemLabel="tak" itemValue="true"/>
+                    </h:selectOneMenu>
                     <h:outputLabel value="forma prawna"/>
                     <h:selectOneMenu value="#{podatnikView.selectedDod.formaPrawna}"
                                      styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"

@@ -119,6 +119,8 @@ public class Podatnik implements Serializable {
     @Size(max = 255)
     @Column(name = "METODAKASOWA")
     private String metodakasowa;
+    @Column(name = "metodakasowapit")
+    private boolean metodakasowapit;
     @Size(max = 255)
     @Column(name = "MIEJSCOWOSC")
     private String miejscowosc;
@@ -957,6 +959,14 @@ public class Podatnik implements Serializable {
 
     public void setNazwadlafaktury2(String nazwadlafaktury2) {
         this.nazwadlafaktury2 = nazwadlafaktury2;
+    }
+
+    public boolean isMetodakasowapit() {
+        return metodakasowapit;
+    }
+
+    public void setMetodakasowapit(boolean metodakasowapit) {
+        this.metodakasowapit = metodakasowapit;
     }
 
     

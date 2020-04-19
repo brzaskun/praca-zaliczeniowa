@@ -324,6 +324,7 @@ public class EwidencjaVatView implements Serializable {
             }
             if (wpisView.getPodatnikObiekt().getMetodakasowa().equals("tak")) {
                 listadokvatprzetworzona = przetworzRozliczenia(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+                Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
             } else {
                 listadokvatprzetworzona.addAll(pobierzEVatRokFK(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
                 Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
@@ -377,32 +378,42 @@ public class EwidencjaVatView implements Serializable {
         List<EVatwpisFK> zwrot = new ArrayList<>();
         for (Transakcja p : lista) {
             if (p.getNowaTransakcja().getDokfk().getEwidencjaVAT()!=null&&p.getNowaTransakcja().getDokfk().getEwidencjaVAT().size()>0) {
-                List<EVatwpisFK> zwrotw = przetworzPlatnoscRozl(p);
+                List<EVatwpisFK> zwrotw = naniesPlatnoscRozl(p);
                 if (zwrotw != null) {
-                    zwrot.addAll(zwrotw);
+                    for (EVatwpisFK t : zwrotw) {
+                        if (!zwrot.contains(t)) {
+                            zwrot.add(t);
+                        }
+                    }
                 }
             }
+        }
+        for (EVatwpisFK r : zwrot) {
+            rozliczPlatnoscRozl(r);
         }
         return zwrot;
     }
     
-    private List<EVatwpisFK> przetworzPlatnoscRozl(Transakcja p) {
+    private List<EVatwpisFK> naniesPlatnoscRozl(Transakcja p) {
         Dokfk dok = p.getNowaTransakcja().getDokfk();
-        double rozliczono =0.0;
-        rozliczono = Z.z(p.getKwotatransakcji());
-        double zostalo = Z.z(dok.getWartoscdokumentu()-rozliczono);
         List<EVatwpisFK> zwrot = dok.getEwidencjaVAT();
-        if (zostalo>=0.0) {
-            double procent = Z.z4(p.getKwotatransakcji()/dok.getWartoscdokumentu());
-            for (EVatwpisFK s : zwrot) {
-                s.setNetto(Z.z(s.getNetto()*procent));
-                s.setVat(Z.z(s.getVat()*procent));
-                s.setBrutto(Z.z(s.getBrutto()*procent));
-            }
-        } else {
-            zwrot = null;
+        for (EVatwpisFK s : zwrot) {
+            s.setSumatransakcji(Z.z(s.getSumatransakcji()+p.getKwotatransakcji()));
         }
         return zwrot;
+    }
+    
+    private void rozliczPlatnoscRozl(EVatwpisFK p) {
+        Dokfk dok = p.getDokfk();
+        double rozliczono =0.0;
+        rozliczono = Z.z(p.getSumatransakcji());
+        double zostalo = Z.z(dok.getWartoscdokumentu()-rozliczono);
+        if (zostalo>=0.0) {
+            double procent = Z.z6(p.getSumatransakcji()/dok.getWartoscdokumentu());
+            p.setNetto(Z.z(p.getNetto()*procent));
+            p.setVat(Z.z(p.getVat()*procent));
+            p.setBrutto(Z.z(p.getBrutto()*procent));
+        }
     }
     
     private void wyluskajzlisty(List<EVatwpisFK> listaprzesunietych, String przychodykoszty) {

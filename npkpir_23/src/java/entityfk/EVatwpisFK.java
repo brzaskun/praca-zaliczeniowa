@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import org.eclipse.persistence.annotations.Cache;
 import org.eclipse.persistence.annotations.CacheType;
@@ -75,6 +76,8 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
     private String opisvat;
     @Column(name = "sprawdzony")
     private int sprawdzony;
+    @Transient
+    private double sumatransakcji;
 
    
     
@@ -513,6 +516,14 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
     @Override
     public void setNieduplikuj(boolean nieduplikuj) {
         this.nieduplikuj = nieduplikuj;
+    }
+
+    public double getSumatransakcji() {
+        return sumatransakcji;
+    }
+
+    public void setSumatransakcji(double sumatransakcji) {
+        this.sumatransakcji = sumatransakcji;
     }
     
 }
