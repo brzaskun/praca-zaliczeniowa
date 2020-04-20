@@ -10,16 +10,16 @@
             width: 400px !important;
         }
     </style>
-    <p:dialog id="dialog_kliencifk_dolaczanie_BO" header="Przyporządkowanie klientów do kont" widgetVar="dialog_kliencifk_dolaczanie_BO" appendTo="@(body)"
+    <p:dialog id="dialog_kliencifk_dolaczanie_BO" header="Przyporządkowanie klientów do kont BO" widgetVar="dialog_kliencifk_dolaczanie_BO" appendTo="@(body)"
               resizable="false"  onShow="ustawdialog('dialog_kliencifk_dolaczanie_BO','bilanswprowadzanie2',900,600);" closeOnEscape="true" onHide="resetujdialog('dialog_kliencifk_dolaczanie_BO');" >
        
         <h:form id="kliencifk">
-            <p:autoComplete id="wyborkontrahenta" value="#{kliencifkView.wybranyklient}" completeMethod="#{KlView.complete}"
+            <p:autoComplete id="wyborkontrahenta" value="#{kliencifkBOView.wybranyklient}" completeMethod="#{KlView.complete}"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="30" converterMessage="Nieudana konwersja Klient"
                                 widgetVar="dialogklient" style="width: 500px;" onblur="sprawdzczybrakklienta();" styleClass="wyborkontrahenta"
                                 required="true" requiredMessage="Pole klienta nie może być puste" >
-                <p:ajax event="itemSelect" listener="#{kliencifkView.pobieraniekontaFK}" update=":kontoformV, :kontoformE" global="false"/>
+                <p:ajax event="itemSelect" listener="#{kliencifkBOView.pobieraniekontaFK}" update=":kontoformV, :kontoformE" global="false"/>
                 <p:ajax event="query" global="false"/>
                     <f:facet name="itemtip">  
                         <h:panelGrid  columns="2" cellpadding="5" width="400">  
@@ -37,7 +37,7 @@
                 </p:autoComplete>
         </h:form>
         <h:form id="kontoformV">
-            <p:dataTable id="infokonta" value="#{kliencifkView.klientMaKonto}" var="wpis"  rendered="#{kliencifkView.klientMaKonto.nrkonta eq null ? false : true}"
+            <p:dataTable id="infokonta" value="#{kliencifkBOView.klientMaKonto}" var="wpis"  rendered="#{kliencifkBOView.klientMaKonto.nrkonta eq null ? false : true}"
                          style="margin-top: 2%;">
                 <f:facet name="header">
                     <h:outputText value="Klient ma już przyporządkowane konto"/>
@@ -54,7 +54,7 @@
         </p:dataTable>
          </h:form>
         <h:form id="kontoformE">
-            <p:dataTable id="infokonta" value="#{kliencifkView.klientBezKonta}" var="wpis"  rendered="#{kliencifkView.klientBezKonta.nrkonta eq null ? false : true}"
+            <p:dataTable id="infokonta" value="#{kliencifkBOView.klientBezKonta}" var="wpis"  rendered="#{kliencifkBOView.klientBezKonta.nrkonta eq null ? false : true}"
                          style="margin-top: 2%;">
                 <f:facet name="header">
                     <h:outputText value="Przyporządkuj kontrahenta do konta"/>
@@ -70,7 +70,7 @@
                 <h:inputText value="#{wpis.nrkonta}" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
             </p:column>
         </p:dataTable>
-            <p:commandButton value="Przyporządkuj" actionListener="#{kliencifkBOView.przyporzadkujdokontaBO()}" style="margin: 2%;" rendered="#{kliencifkView.klientBezKonta.nrkonta eq null ? false : true}" 
+            <p:commandButton value="Przyporządkuj" actionListener="#{kliencifkBOView.przyporzadkujdokontaBO()}" style="margin: 2%;" rendered="#{kliencifkBOView.klientBezKonta.nrkonta eq null ? false : true}" 
                              update=":kliencifk :kontoformV :kontoformE :formbilanswprowadzanie2_wiersz" 
                              oncomplete="PF('dialog_kliencifk_dolaczanie_BO').hide();r('formbilanswprowadzanie2:buttondwojek').click();"/>
          </h:form>

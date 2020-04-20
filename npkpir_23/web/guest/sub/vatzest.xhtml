@@ -12,9 +12,9 @@
         <p:tab id="ewid1" title="ewidencje">
             <p:tabView value="#{ewidencjaVatView.ewidencje}"  var="item"  >
                 <p:tab id="ewid2" title="#{item[0].nazwaewidencji.nazwa}">
-                <p:commandButton value="Drukuj data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencje(item[0].nazwaewidencji.nazwa)}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}', this)"  style="width: 120px;"/>
-                <p:commandButton value="Drukuj wart." icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencjeWartosc(item[0].nazwaewidencji.nazwa)}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}', this)"  style="width: 120px;"/>
-                <p:commandButton value="Wyślij" id="wyslijvatbutton" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" actionListener="#{sesjaView.dodajmail()}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px; margin-left: 2%; display: none;">
+                <p:commandButton value="Drukuj data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencje(item[0].nazwaewidencji.nazwa)}" onsuccess="wydrukewidencje('#{WpisView.getPodatnikObiekt().getNip()}','#{item[0].nazwaewidencji.nazwa}', this)"  style="width: 120px;"/>
+                <p:commandButton value="Drukuj wart." icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencjeWartosc(item[0].nazwaewidencji.nazwa)}" onsuccess="wydrukewidencje('#{WpisView.getPodatnikObiekt().getNip()}','#{item[0].nazwaewidencji.nazwa}', this)"  style="width: 120px;"/>
+                <p:commandButton value="Wyślij" id="wyslijvatbutton" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" actionListener="#{sesjaView.dodajmail()}" onsuccess="wydrukewidencje('#{WpisView.getPodatnikObiekt().getNip()}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px; margin-left: 2%; display: none;">
                     <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji))}"/>
                 </p:commandButton>
                 <p:separator/>
@@ -61,9 +61,9 @@
             <h:outputText value="Wynik za okres rozliczeniowy: #{ewidencjaVatView.wynikOkresu gt 0 ? 'do zapłaty ' : 'do zwrotu '}"/> <h:outputText value="#{ewidencjaVatView.wynikOkresu}" style="#{ewidencjaVatView.wynikOkresu gt 0 ? 'font-weight: 900; color: red;' : 'font-weight: 900; color: black;'} padding: 2%;" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
                 <f:convertNumber minFractionDigits="0" locale="PL" />
             </h:outputText>
-            <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfSuma()}" onsuccess="wydruksumavat('#{WpisView.podatnikWpisu}');" style="width: 120px;"/>
-            <p:commandButton value="Drukuj wszyst. data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkie()}" onsuccess="wydrukewidencjewszystkie('#{WpisView.podatnikWpisu}')"  style="width: 150px; margin-left: 100px;"/>
-                    <p:commandButton value="Drukuj wszyst. wartosc" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieWartosc()}" onsuccess="wydrukewidencjewszystkiewartosc('#{WpisView.podatnikWpisu}')"  style="width: 150px; margin-left: 10px;"/>
+            <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfSuma()}" onsuccess="wydruksumavat('#{WpisView.getPodatnikObiekt().getNip()}');" style="width: 120px;"/>
+            <p:commandButton value="Drukuj wszyst. data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkie()}" onsuccess="wydrukewidencjewszystkie('#{WpisView.getPodatnikObiekt().getNip()}')"  style="width: 150px; margin-left: 100px;"/>
+                    <p:commandButton value="Drukuj wszyst. wartosc" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieWartosc()}" onsuccess="wydrukewidencjewszystkiewartosc('#{WpisView.getPodatnikObiekt().getNip()}')"  style="width: 150px; margin-left: 10px;"/>
                 <p:separator/>
             <p:separator/>
             <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniasprzedaz}" var="itemik" 
