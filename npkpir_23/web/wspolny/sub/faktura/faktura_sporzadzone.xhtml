@@ -62,13 +62,16 @@
                 <h:outputText value="Nie skonfigurowano maila firmy. Faktury będą wysyłane z domyślnego maila programu: info@taxman.biz.pl" style="font-weight: 800; color: red;"/>
             </p:panelGrid>
             <p:panel header="dołącz krótką wiadomość do wysyłanego maila" id="panelwiadomosc" >
-                <p:panelGrid columns="3">
+                <p:panelGrid columns="4">
                 <p:commandButton value="+" actionListener="#{fakturaView.pokazedytor(1)}" update="@parent" rendered="#{!fakturaView.podazedytorvar}"/>
                 <p:commandButton value="-" actionListener="#{fakturaView.pokazedytor(0)}" update="@parent" rendered="#{fakturaView.podazedytorvar}"/>
                 <p:editor id="editor"  widgetVar="editorWidget" value="#{fakturaView.wiadomoscdodatkowa}" width="800" height="300" rendered="#{fakturaView.podazedytorvar}">
                     
                 </p:editor>
                 <p:commandButton value="drukuj zestawienie" actionListener="#{fakturaView.drukujfakturysporzadzone}" style="width: 150px; margin-left: 30px;"/>
+                <p:selectBooleanCheckbox value="#{fakturaView.pokaztylkoniewyslane}" itemLabel="tylko niewysłane" style="margin-left: 100px;">
+                    <p:ajax event="change" listener="#{fakturaView.init()}" partialSubmit="true" update=":akordeon:formsporzadzone akordeon:formsporzadzone:dokumentyLista"/>
+                </p:selectBooleanCheckbox>
                 </p:panelGrid>
             </p:panel>
             <p:remoteCommand name="przeliczfiltersporzadzone" actionListener="#{fakturaView.sumawartoscifiltered()}" update=":akordeon:formsporzadzone:panelsum"/>

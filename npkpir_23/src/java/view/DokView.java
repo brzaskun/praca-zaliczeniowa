@@ -752,7 +752,7 @@ public class DokView implements Serializable {
                     it.remove();
                 } else {
                     p.setDok(selDokument);
-                    kwotanetto += p.getNetto();
+                    kwotanetto += Z.z(p.getNetto());
                 }
             }
             selDokument.setNetto(Z.z(kwotanetto));
@@ -852,7 +852,9 @@ public class DokView implements Serializable {
                 selectedSTR = new SrodekTrw();
                 if (!wpisView.isVatowiec() && !selDokument.getRodzajedok().getSkrot().equals("IU") && selDokument.getRodzajedok().isDokProsty()) {
                     selDokument.setDokumentProsty(true);
-                    selDokument.getEwidencjaVAT1().clear();
+                    if (selDokument.getEwidencjaVAT1()!=null) {
+                        selDokument.getEwidencjaVAT1().clear();
+                    }
                     ukryjEwiencjeVAT = true;
                     PrimeFaces.current().ajax().update("dodWiad:tablicavat");
                 } else {

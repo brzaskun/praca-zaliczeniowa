@@ -201,6 +201,7 @@ public class FakturaView implements Serializable {
     private int jakapobrac;
     private double dolnylimit;
     private double gornylimit;
+    private boolean pokaztylkoniewyslane;
         
 
     public FakturaView() {
@@ -208,7 +209,7 @@ public class FakturaView implements Serializable {
     }
 
     @PostConstruct
-    private void init() { //E.m(this);
+    public void init() { //E.m(this);
         fakturyokresowe = Collections.synchronizedList(new ArrayList<>());
         gosciwybral = Collections.synchronizedList(new ArrayList<>());
         gosciwybralokres = Collections.synchronizedList(new ArrayList<>());
@@ -279,7 +280,9 @@ public class FakturaView implements Serializable {
                             fakturypro.add(fakt);
                         } else if (fakt.getWyslana() == true && fakt.getZaksiegowana() == true) {
                             fakturyarchiwum.add(fakt);
-                        } else {
+                        } else if (pokaztylkoniewyslane && fakt.getDatawysylki()==null) {
+                            faktury.add(fakt);
+                        } else if (!pokaztylkoniewyslane) {
                             faktury.add(fakt);
                         }
                     }
@@ -2620,6 +2623,14 @@ public class FakturaView implements Serializable {
 
     public void setGornylimit(double gornylimit) {
         this.gornylimit = gornylimit;
+    }
+
+    public boolean isPokaztylkoniewyslane() {
+        return pokaztylkoniewyslane;
+    }
+
+    public void setPokaztylkoniewyslane(boolean pokaztylkoniewyslane) {
+        this.pokaztylkoniewyslane = pokaztylkoniewyslane;
     }
     
     
