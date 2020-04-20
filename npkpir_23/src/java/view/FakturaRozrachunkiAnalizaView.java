@@ -454,6 +454,9 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                     Map<String, String> zwrot = SmsSend.wyslijSMSyFaktura(f, "Na adres firmy wysłano wezwanie do zapłaty.", podatnikDAO);
                     if (zwrot.size()>0) {
                         Msg.msg("e","Błąd podczas wysyłki wezwania do zapłaty "+zwrot.size());
+                        for (String t : zwrot.keySet()) {
+                            System.out.println("nr "+t+" treść: "+zwrot.get(t));
+                        }
                     }
                 } catch (Exception e){}
             } else {

@@ -472,6 +472,7 @@ public class KlView implements Serializable {
     public void znajdzdaneregon(String formularz) {
         try {
             SzukajDaneBean.znajdzdaneregon(formularz, (Klienci) selected, gUSView);
+            PrimeFaces.current().executeScript("$(\".uibuttonmui\").show()");
         } catch (Exception e) {
             E.e(e);
         }

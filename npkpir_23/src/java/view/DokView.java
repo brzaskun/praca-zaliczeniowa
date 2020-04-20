@@ -1720,6 +1720,7 @@ public class DokView implements Serializable {
     public void znajdzdaneregon(String formularz) {
         try {
             SzukajDaneBean.znajdzdaneregon(formularz, selectedKlient, gUSView);
+            PrimeFaces.current().executeScript("$(\".uibuttonmui\").show()");
         } catch (Exception e) {
             E.e(e);
         }

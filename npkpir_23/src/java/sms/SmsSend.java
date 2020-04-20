@@ -71,7 +71,7 @@ public class SmsSend {
                     zwrot.put(p, "Zły numer");
                 } catch (SmsapiException e) {
                     E.e(e);
-                    zwrot.put(p, "Błąd wysyłki");
+                    zwrot.put(p, "Błąd wysyłki "+E.e(e));
                 }
             }
         } else {
@@ -88,8 +88,9 @@ public class SmsSend {
             if (faktura.getKontrahent().getNip()!=null) {
                 Podatnik podatnik = podatnikDAO.findPodatnikByNIP(faktura.getKontrahent().getNip());
                 if (podatnik!=null) {
-                    if (podatnik.getTelefonkontaktowy()!=null && podatnik.getTelefonkontaktowy().length()==9) {
-                        telefony.put(podatnik.getTelefonkontaktowy(), text+" "+faktura.getKontrahent().getEmail());
+                    if (podatnik.getTelefonkontaktowy()!=null && podatnik.getTelefonkontaktowy().length()==11) {
+                        String var = faktura.getKontrahent().getEmail();
+                        telefony.put("+48"+podatnik.getTelefonkontaktowy().replace("-", ""), text+" "+var.replace("@", "").replace(".", ","));
                     }
                 }
             }
@@ -110,8 +111,9 @@ public class SmsSend {
                 if (p.getKontrahent().getNip()!=null) {
                     Podatnik podatnik = podatnikDAO.findPodatnikByNIP(p.getKontrahent().getNip());
                     if (podatnik!=null) {
-                        if (podatnik.getTelefonkontaktowy()!=null && podatnik.getTelefonkontaktowy().length()==9) {
-                            telefony.put(podatnik.getTelefonkontaktowy(), text+" "+p.getKontrahent().getEmail());
+                        if (podatnik.getTelefonkontaktowy()!=null && podatnik.getTelefonkontaktowy().length()==11) {
+                            String var = p.getKontrahent().getEmail();
+                            telefony.put("+48"+podatnik.getTelefonkontaktowy().replace("-", ""), text+" "+var.replace("@", "").replace(".", ","));
                         }
                     }
                 }
@@ -127,34 +129,37 @@ public class SmsSend {
     
     
     public static void main(String args[]) {
-        try {
-            String oauthToken = token;
-            OAuthClient client = new OAuthClient(oauthToken);
-	    ProxyNative proxyToPlOrComSmsapi = new ProxyNative(urlForPlSmsapi);
-
-            SmsFactory smsApi = new SmsFactory(client, proxyToPlOrComSmsapi);
-            String phoneNumber = numer;
-            SMSSend action = smsApi.actionSend()
-                    .setText("Pierwszy sms-esałść")
-                    .setTo(phoneNumber)
-                    .setFlash(true)
-                    .setNormalize(true);
-
-            StatusResponse result = action.execute();
-
-            for (MessageResponse status : result.getList() ) {
-                System.out.println(status.getNumber() + " " + status.getStatus());
-                System.out.println(status.getError());
-                System.out.println(status.getId());
-                System.out.println(status.getIdx());
-                System.out.println(status.getPoints());
-                System.out.println(status.getStatus());
-            }
-        } catch (ClientException e) {
-            E.e(e);
-        } catch (SmsapiException e) {
-            E.e(e);
-        }
+//        try {
+//            String oauthToken = token;
+//            OAuthClient client = new OAuthClient(oauthToken);
+//	    ProxyNative proxyToPlOrComSmsapi = new ProxyNative(urlForPlSmsapi);
+//
+//            SmsFactory smsApi = new SmsFactory(client, proxyToPlOrComSmsapi);
+//            String phoneNumber = numer;
+//            SMSSend action = smsApi.actionSend()
+//                    .setText("Pierwszy sms-esałść lolo(a)taxman,biz,pl")
+//                    .setTo(phoneNumber)
+//                    .setFlash(true)
+//                    .setNormalize(true);
+//
+//            StatusResponse result = action.execute();
+//
+//            for (MessageResponse status : result.getList() ) {
+//                System.out.println(status.getNumber() + " " + status.getStatus());
+//                System.out.println(status.getError());
+//                System.out.println(status.getId());
+//                System.out.println(status.getIdx());
+//                System.out.println(status.getPoints());
+//                System.out.println(status.getStatus());
+//            }
+//        } catch (ClientException e) {
+//            E.e(e);
+//        } catch (SmsapiException e) {
+//            E.e(e);
+//        }
+        String var = "taxman@biz.pl";
+        String sub = var.substring(0,var.indexOf("@"));
+        System.out.println(sub);
     }
     
     

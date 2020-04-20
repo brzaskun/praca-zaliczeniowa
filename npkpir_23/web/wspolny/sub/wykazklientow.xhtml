@@ -68,7 +68,7 @@
                 <p:inputText id="emailPole" value="#{KlView.selected.email}" style="width: 200px" >
                 </p:inputText>
                 <p:commandButton value="Dodaj" actionListener="#{KlView.dodajKlienta()}" update=":formX :formY" icon="ui-icon-disk"
-                                 rendered="#{KlView.selected.id eq null}" style="width: 120px; margin-top: 5px;display: none;" styleClass="buttondodaj"/>
+                                 rendered="#{KlView.selected.id eq null}" style="width: 120px; margin-top: 5px;display: none;" styleClass="buttondodaj uibuttonmui"/>
                 <p:commandButton value="Edytuj" actionListener="#{KlView.edit()}" update=":formX :formY" icon="ui-icon-arrowrefresh-1-w" rendered="#{KlView.selected.id ne null}" style="width: 120px; margin-top: 5px;"/>
                 <h:outputText value=""/><h:outputText value=""/><h:outputText value=""/>
                 <p:commandButton value="aktualizuj GUS" actionListener="#{KlView.znajdzdaneregonAutomat(KlView.selected)}" style="width: 120px;margin-top: 5px;float: right;" update="@form" rendered="#{KlView.selected.id ne null}"/>
