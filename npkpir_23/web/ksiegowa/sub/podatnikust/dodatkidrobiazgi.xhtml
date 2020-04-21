@@ -21,13 +21,13 @@
         <h:form >
             <h:outputText value="hasło do karty z certyfikatem "/>
             <p:inputText value="#{podatnikView.selected.kartacert}">
-                <p:ajax event="blur" partialSubmit="true" listener="#{podatnikView.edytuj()}"/>
+                <p:ajax event="blur" partialSubmit="true" listener="#{podatnikView.edytujhp()}"/>
             </p:inputText>
         </h:form>
             <h:form >
             <h:outputText value="Pesel do karty z certyfikatem "/>
             <p:inputText value="#{podatnikView.selected.kartapesel}">
-                <p:ajax event="blur" partialSubmit="true" listener="#{podatnikView.edytuj()}"/>
+                <p:ajax event="blur" partialSubmit="true" listener="#{podatnikView.edytujhp()}"/>
             </p:inputText>
         </h:form>
         </p:panelGrid>

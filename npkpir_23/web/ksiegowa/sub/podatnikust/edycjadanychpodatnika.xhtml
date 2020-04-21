@@ -87,8 +87,8 @@
                                  onfocus="$(this).addClass('ui-state-focus');" 
                                  onblur="$(this).removeClass('ui-state-focus');" >
                         <f:selectItem itemValue="wybierz" noSelectionOption="true"/>
-                        <f:selectItem itemLabel="nie" itemValue="0"/>
-                        <f:selectItem itemLabel="tak" itemValue="1"/>
+                        <f:selectItem itemLabel="nie" itemValue="false"/>
+                        <f:selectItem itemLabel="tak" itemValue="true"/>
                     </h:selectOneMenu>
                      <h:outputLabel value="forma prawna"/>
                     <h:selectOneMenu value="#{podatnikView.selected.formaPrawna}"
@@ -125,7 +125,7 @@
                     <h:outputLabel value="firma w likwidacji"/>
                  <p:selectBooleanCheckbox value="#{podatnikView.selected.jestwlikiwdacji}"/>
                  <h:outputLabel value="wysyłanie deklaracji tylko z podpisem kwalifikowanym"/>
-                 <p:selectBooleanCheckbox value="#{podatnikView.selected.podpiscertyfikowany}" disabled="#{facesContext.externalContext.remoteUser ne '4'}"/>
+                 <p:selectBooleanCheckbox value="#{podatnikView.selected.podpiscertyfikowany}" disabled="#{facesContext.externalContext.remoteUser ne '4' and facesContext.externalContext.remoteUser ne 'szef'}"/>
                  <h:outputLabel value="kod ubezpieczenia ZUS"/>
             <p:selectOneMenu value="#{podatnikView.selected.kodubezpieczeniaZUS}">
                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>

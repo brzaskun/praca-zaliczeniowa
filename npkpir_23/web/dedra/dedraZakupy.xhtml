@@ -96,8 +96,10 @@
                                     </p:column>
                                 </p:row>
                             </p:panelGrid>
-                            <p:commandButton value="dodaj" actionListener="#{eVatDedraView.dodajwierszzakupu}" style="width: 120px;float: right" update="@form"/>
+                            <p:commandButton value="dodaj" actionListener="#{eVatDedraView.dodajwierszzakupu}" style="width: 120px;float: right" update="@form form_dialog_ewvat_dedra2"/>
                         </p:panelGrid>
+                    </h:form>
+                        <h:form id="form_dialog_ewvat_dedra2" >
                         <p:dataTable value="#{eVatDedraView.zakupy}" var="item" rowIndexVar="index" id="tabela" style="width: 1300px;"
                                       sortBy="#{item.faktura}"
                                      emptyMessage="#{mgs.niepobranowierszy}">
