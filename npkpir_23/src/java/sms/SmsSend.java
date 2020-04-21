@@ -90,7 +90,7 @@ public class SmsSend {
                 if (podatnik!=null) {
                     if (podatnik.getTelefonkontaktowy()!=null && podatnik.getTelefonkontaktowy().length()==11) {
                         String var = faktura.getKontrahent().getEmail();
-                        telefony.put("+48"+podatnik.getTelefonkontaktowy().replace("-", ""), text+" "+var.replace("@", "").replace(".", ","));
+                        telefony.put("+48"+podatnik.getTelefonkontaktowy().replace("-", ""), text+" "+var.replace("@", "(a)").replace(".", ","));
                     }
                 }
             }
@@ -113,7 +113,7 @@ public class SmsSend {
                     if (podatnik!=null) {
                         if (podatnik.getTelefonkontaktowy()!=null && podatnik.getTelefonkontaktowy().length()==11) {
                             String var = p.getKontrahent().getEmail();
-                            telefony.put("+48"+podatnik.getTelefonkontaktowy().replace("-", ""), text+" "+var.replace("@", "").replace(".", ","));
+                            telefony.put("+48"+podatnik.getTelefonkontaktowy().replace("-", ""), text+" "+var.replace("@", "(a)").replace(".", ","));
                         }
                     }
                 }
