@@ -21,6 +21,7 @@
                 <p:separator/>
                 <p:menuitem value="Implem. konto" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowego()}" icon="ui-icon-trash" update=":formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Implem. konto z analityką" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowegoZAnalitykom()}" icon="ui-icon-tag" update=" :formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                <p:menuitem value="Implem. konto u bieżącego" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowegoBiezacy()}" icon="ui-icon-trash" update=":formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Porządkuj wybrane konto" actionListener="#{planKontView.porzadkowanieWybranegoKontaPodatnika()}" icon="ui-icon-note" update="formwzorcowy:dataListwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Porządkuj konta" actionListener="#{planKontView.porzadkowanieKontPodatnika(WpisView.podatnikwzorcowy, WpisView.rokWpisuSt)}" icon="ui-icon-note" update="formwzorcowy:dataListwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Blokada" actionListener="#{planKontView.obslugaBlokadyKontaWzorcowy()}" icon="ui-icon-locked" update=":formwzorcowy"/>

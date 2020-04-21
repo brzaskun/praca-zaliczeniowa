@@ -815,6 +815,42 @@ public class PlanKontView implements Serializable {
             Msg.msg("w", "Coś poszło nie tak. Lista kont wzorcowych jest pusta.");
         }
     }
+    
+    public void implementacjaJednegoKontaWzorcowegoBiezacy() {
+        if (selectednodekonto != null) {
+            try {
+                Podatnik p = wpisView.getPodatnikObiekt();
+                    Konto kontopodatnik = new Konto(selectednodekonto);
+                    try {
+                        kontopodatnik.setPodatnik(p);
+                        Konto macierzyste = kontoDAOfk.findKonto(kontopodatnik.getKontomacierzyste().getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+                        if (kontopodatnik.getKontomacierzyste()!=null) {
+                            kontopodatnik.setMacierzysty(macierzyste.getId());
+                            kontopodatnik.setKontomacierzyste(macierzyste);
+                            macierzyste.setMapotomkow(true);
+                            macierzyste.setBlokada(true);
+                            kontoDAOfk.edit(macierzyste);
+                        } else {
+                            kontopodatnik.setMapotomkow(false);
+                            kontopodatnik.setBlokada(false);
+                        }
+                        kontoDAOfk.dodaj(kontopodatnik);
+                        KontoPozycjaBean.duplikujpozycje(ukladBRDAO,wybranyukladwzorcowy.getUklad(), p, wpisView.getRokWpisuSt(), selectednodekonto, kontopodatnik, kontopozycjaZapisDAO);
+                    } catch (RollbackException e) {
+                        E.e(e);
+                    } catch (PersistenceException x) {
+                        Msg.msg("e", "Wystąpił błąd przy implementowaniu kont. Istnieje konto o takim numerze: " + kontopodatnik.getPelnynumer());
+                    } catch (Exception ef) {
+                        E.e(ef);
+                    }
+                Msg.msg("Zakonczono z sukcesem implementacje pojedyńczego konta wzorcowego u bieżącego podatnika FK");
+            } catch (Exception e1) {
+                Msg.msg("e", "Próbujesz zaimplementować konto analityczne. Zaimplementuj najpierw jego konto macierzyste.");
+            }
+        } else {
+            Msg.msg("w", "Coś poszło nie tak. Lista kont wzorcowych jest pusta.");
+        }
+    }
 
     public void implementacjaJednegoKontaWzorcowegoZAnalitykom() {
         if (selectednodekonto != null) {
