@@ -5,8 +5,10 @@
  */
 package viewfk;
 
+import comparator.SaldoKontocomparator;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -39,6 +41,7 @@ public class XLSSuSaView implements Serializable{
     
     public void zachowajSuSawXLS(List plankont) {
         try {
+            Collections.sort(plankont, new SaldoKontocomparator());
             Map<String, List> listy = new ConcurrentHashMap<>();
             listy.put("kontasalda", plankont);
             Workbook workbook = WriteXLSFile.zachowajSuSaXLS(listy, wpisView);

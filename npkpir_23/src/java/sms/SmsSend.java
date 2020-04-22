@@ -7,6 +7,7 @@ package sms;
 
 import dao.PodatnikDAO;
 import entity.Faktura;
+import entity.Klienci;
 import entity.Podatnik;
 import error.E;
 import java.util.ArrayList;
@@ -115,6 +116,28 @@ public class SmsSend {
                             String var = p.getKontrahent().getEmail();
                             telefony.put("+48"+podatnik.getTelefonkontaktowy().replace("-", ""), text+" "+var.replace("@", "(a)").replace(".", ","));
                         }
+                    }
+                }
+            }
+            if (!telefony.isEmpty()) {
+                zwrot = wyslijSMSy(telefony);
+            }
+        } else {
+            zwrot.put("0", "Pusta lista lub brak tekstu wiadomości");
+        }
+        return zwrot;
+    }
+    
+    public static Map<String, String> wyslijSMSyMail(Klienci p, String text, PodatnikDAO podatnikDAO) {
+        Map<String, String> zwrot = new HashMap<>();
+        if (p!=null && text!=null) {
+            Map<String, String> telefony = new HashMap<>();
+            if (p.getNip()!=null) {
+                Podatnik podatnik = podatnikDAO.findPodatnikByNIP(p.getNip());
+                if (podatnik!=null) {
+                    if (podatnik.getTelefonkontaktowy()!=null && podatnik.getTelefonkontaktowy().length()==11) {
+                        String var = p.getEmail();
+                        telefony.put("+48"+podatnik.getTelefonkontaktowy().replace("-", ""), text+" "+var.replace("@", "(a)").replace(".", ","));
                     }
                 }
             }

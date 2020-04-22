@@ -238,6 +238,7 @@ public class AdminMailView implements Serializable {
                 try {
                     if (p.getEmail() != null && p.getJezykwysylki()!=null) {
                         MailAdmin.mailAdmin(p.getEmail(), tematwiadomosci, zawartoscmaila, sMTPSettingsDAO.findSprawaByDef(), zalacznik, nazwazalacznik);
+                        sms.SmsSend.wyslijSMSyMail(p, "Wysłano ważne informacje na adres firmy", podatnikDAO);
                         ilosc++;
                     } else {
                         Msg.msg("w", "Brak maila/zakaz wysyłki dla " + p.getNpelna());

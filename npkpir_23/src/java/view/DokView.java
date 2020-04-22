@@ -879,7 +879,7 @@ public class DokView implements Serializable {
                 }
             } else {
                 selectedSTR = new SrodekTrw();
-                selDokument.getEwidencjaVAT1().clear();
+                //selDokument.getEwidencjaVAT1().clear();
                 PrimeFaces.current().ajax().update("dodWiad:tablicavat");
                 setRenderujwysz(false);
                 setPokazEST(false);
@@ -1357,7 +1357,7 @@ public class DokView implements Serializable {
             kwotaKolumna1.setNetto(selDokument.getNetto());
             selDokument.getListakwot1().add(kwotaKolumna1);
         }
-        selDokument.getEwidencjaVAT1().clear();
+        //selDokument.getEwidencjaVAT1().clear();
         sumbrutto = 0.0;
         int j = 0;
         try {//trzeba ignorowac w przypadku dokumentow prostych
