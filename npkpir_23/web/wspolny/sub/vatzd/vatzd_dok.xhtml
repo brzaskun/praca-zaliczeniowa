@@ -8,12 +8,13 @@
 
     
     <p:tab title="sprzedaż">
-        <p:panelGrid columns="5">
+        <h:form id="form1">
+        <p:panelGrid columns="6">
             <p:column>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 60px;">
                             <p:ajax event="change" listener="#{vATZDView.rokinit}" partialSubmit="true"
                                     onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
-                                    update="form_dialog_vatzd:akordeon:dataList" />
+                                    update="akordeonzd:form1:dataList" />
                             <f:selectItems value="#{Roki.rokiList}"/>
                         </p:selectOneMenu>
             </p:column>
@@ -21,24 +22,25 @@
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 60px;">
                             <p:ajax event="change" listener="#{vATZDView.init}" partialSubmit="true"
                                     onstart="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
-                                    update="form_dialog_vatzd:akordeon:dataList" />
+                                    update="akordeonzd:form1:dataList" />
                             <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR" />
                             <f:selectItems value="#{Mce.mceList}"/>
                         </p:selectOneMenu>
                     </p:column>
-                <p:commandButton id="wybierzdok" value="wybierz" actionListener="#{vATZDView.wybierzdokumentyfk()}" 
+            <p:commandButton id="wybierzdok" value="wybierz" actionListener="#{vATZDView.wybierzdokumentyfk(vATZDView.dokumentyfksprzedazselected)}" 
                                  style="width: 120px; margin-left: 10px;"
-                                 update="form_dialog_vatzd:akordeon:dataList form_dialog_vatzd:akordeon:dataListzak  form_dialog_vatzd:akordeon:tabelawybrane"
+                                 update="akordeonzd:form1:dataList akordeonzd:form3:tabelawybrane"
                                  />
                 <h:outputText value="tylko wybrane"/>
                               <p:selectBooleanCheckbox  valueChangeListener="#{vATZDView.wybierzwybrane}" 
                                                        style="width: 120px; margin-left: 10px;" value="#{vATZDView.tylkowybrane}"
                                  >
-                                  <p:ajax event="change" partialSubmit="true" update="form_dialog_vatzd:akordeon:dataList"/>
+                                  <p:ajax event="change" partialSubmit="true" update="akordeonzd:form1:dataList"/>
                     </p:selectBooleanCheckbox>
+                <h:outputText value="Uzupełnij terminy płatności wybranych faktur!" style="margin-left: 50px; color: red;"/>
         </p:panelGrid>
          <p:dataTable id="dataList" value="#{vATZDView.dokumentyfksprzedaz}" var="itemzd" rowIndexVar="row" widgetVar="tablicadokumenty" 
-                         selection="#{vATZDView.dokumentyfksprzedazselected}" rowKey="#{itemzd.dokfkSN}"
+                         selection="#{vATZDView.dokumentyfksprzedazselected}" rowKey="#{itemzd.id}"
                          style="width: 1240px; height: 550px; overflow-y: scroll;" filteredValue="#{vATZDView.dokumentyfksprzedazfiltered}" 
                          rowsPerPageTemplate="50,100,300,500" paginatorPosition="top" 
                          emptyMessage="Brak dokumentów z niezerową ewidencją vat" styleClass="walkingtable" rowSelectMode="add"
@@ -143,6 +145,7 @@
                     </p:column>
                 </p:rowExpansion>
             </p:dataTable>
+        </h:form>
     </p:tab>
 </ui:composition>   
 

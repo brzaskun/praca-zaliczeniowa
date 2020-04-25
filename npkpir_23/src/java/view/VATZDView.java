@@ -60,11 +60,13 @@ public class VATZDView implements Serializable {
     private WpisView wpisView;
     private WniosekVATZDEntity wniosekVATZDEntity;
     private boolean tylkowybrane;
+    private String rokdek;
+    private String mcdek;
 
     public VATZDView() {
-        this.pozycje  = Collections.synchronizedList(new ArrayList<>());
-        this.dokumentyfksprzedaz  = Collections.synchronizedList(new ArrayList<>());
-        this.dokumentyfkzakup  = Collections.synchronizedList(new ArrayList<>());
+        this.pozycje  = new ArrayList<>();
+        this.dokumentyfksprzedaz  = new ArrayList<>();
+        this.dokumentyfkzakup  = new ArrayList<>();
     }
 
 
@@ -88,6 +90,8 @@ public class VATZDView implements Serializable {
                 dokumentyfkzakup.add(dok);
             }
         }
+        rokdek = wpisView.getRokWpisuSt();
+        mcdek = wpisView.getMiesiacWpisu();
     }
     
     public void rokinit() {
@@ -120,8 +124,7 @@ public class VATZDView implements Serializable {
         }
     }
 
-    public void wybierzdokumentyfk() {
-        List<Dokfk> lista = !dokumentyfksprzedazselected.isEmpty() ? dokumentyfksprzedazselected : dokumentyfkzakupselected;
+    public void wybierzdokumentyfk(List<Dokfk> lista) {
         if (!lista.isEmpty()) {
             for (Dokfk dok : lista) {
                 if (Z.z(dok.getNiezaplacone()) == 0.0 ) {
@@ -135,8 +138,7 @@ public class VATZDView implements Serializable {
                     Msg.msg("w","Niektóre wybrane dokumenty są już na liście");
                 }
             }
-            dokumentyfksprzedazselected = null;
-            dokumentyfkzakupselected = null;
+            lista = null;
             if (pozycje.size()>0) {
                 Msg.msg("Zachowano wybrane dokumenty dokumenty");
             } else {
@@ -173,8 +175,8 @@ public class VATZDView implements Serializable {
             wniosekVATZDEntity.setWniosek(wniosekVATZDsprzedaz);
             wniosekVATZDEntity.setZalacznik(zalacznik);
             wniosekVATZDEntity.setPodatnik(wpisView.getPodatnikObiekt());
-            wniosekVATZDEntity.setRok(wpisView.getRokWpisuSt());
-            wniosekVATZDEntity.setMc(wpisView.getMiesiacWpisu());
+            wniosekVATZDEntity.setRok(rokdek);
+            wniosekVATZDEntity.setMc(mcdek);
             wniosekVATZDEntity.setNaliczonyzmniejszenie(przetworznaliczony(pozycje,true));
             //wniosekVATZDEntity.setNaliczonyzwiekszenie(przetworznaliczony(pozycje,false));
             this.wniosekVATZDEntityList.add(wniosekVATZDEntity);
@@ -411,6 +413,22 @@ public class VATZDView implements Serializable {
 
     public void setDokumentyfkzakupfiltered(List<Dokfk> dokumentyfkzakupfiltered) {
         this.dokumentyfkzakupfiltered = dokumentyfkzakupfiltered;
+    }
+
+    public String getRokdek() {
+        return rokdek;
+    }
+
+    public void setRokdek(String rokdek) {
+        this.rokdek = rokdek;
+    }
+
+    public String getMcdek() {
+        return mcdek;
+    }
+
+    public void setMcdek(String mcdek) {
+        this.mcdek = mcdek;
     }
 
     

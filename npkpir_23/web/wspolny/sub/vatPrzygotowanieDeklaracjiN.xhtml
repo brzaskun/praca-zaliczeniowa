@@ -12,14 +12,14 @@
 <!--     <f:event type="preRenderView" listener="#{podpisView.sprawdzczymozna(WpisView)}"/>-->
             <h:form id="formdekl">
                 <p:panelGrid columns="10" id="panelzalacznisprzedaz2" styleClass="panelvazd" rendered="#{vat7DKView.wniosekVATZDEntity ne null}" style="padding-bottom: 10px;">
-                    <h:outputText value="Jest przygotowana korekta sprzedaży VAT-ZD:" style="color: red;"/>
-                <h:outputText value=" korekta należny netto:" style="color: red;"/>
+                <h:outputText value="Jest przygotowana korekta sprzedaży VAT-ZD:" style="color: red;"/>
+                <h:outputText value=" korekta należny netto:" style="color: red;margin-left: 5px;"/>
                 <bcf:outputpl0 value="#{vat7DKView.wniosekVATZDEntity.netto}" style="color: red;"/>
-                <h:outputText value=" korekta należny vat:" style="color: red;"/>
+                <h:outputText value=" korekta należny vat:" style="color: red;margin-left: 5px;;"/>
                 <bcf:outputpl0 value="#{vat7DKView.wniosekVATZDEntity.vat}" style="color: red;"/>
-                <h:outputText value=" korekta naliczony vat -:" style="color: red;"/>
+                <h:outputText value=" korekta naliczony vat -:" style="color: red;;margin-left: 5px;"/>
                 <bcf:outputpl0 value="#{vat7DKView.wniosekVATZDEntity.naliczonyzmniejszenie}" style="color: red;"/>
-                <h:outputText value=" korekta naliczony vat+ :" style="color: red;"/>
+                <h:outputText value=" korekta naliczony vat+ :" style="color: red;;margin-left: 5px;"/>
                 <bcf:outputpl0 value="#{vat7DKView.wniosekVATZDEntity.naliczonyzwiekszenie}" style="color: red;"/>
                 
             </p:panelGrid>
