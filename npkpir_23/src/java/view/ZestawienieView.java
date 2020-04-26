@@ -45,6 +45,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
@@ -63,7 +64,7 @@ import waluty.Z;
  * @author Osito
  */
 @ManagedBean(name = "ZestawienieView")
-@ViewScoped
+@RequestScoped
 public class ZestawienieView implements Serializable {
     private static final long serialVersionUID = 1L;
     private static List<Double> styczen;
@@ -1164,7 +1165,7 @@ public class ZestawienieView implements Serializable {
             E.e(e);
         }
         if (amortyzacjawmiesiacu != null && dokumentamo == null) {
-            Msg.msg("e", "Brak zaksięgowanej amortyzacji mimo istnienia dokumentu umorzeniowego za miesiąc!", "formpit:messages");
+            Msg.msg("e", "Brak zaksięgowanej amortyzacji mimo istnienia dokumentu umorzeniowego za miesiąc!");
             flaga = 1;
         }
     }

@@ -652,21 +652,23 @@ public class DokView implements Serializable {
     
     public void wygenerujnumerkolejny() {
         String nowynumer = "";
-        String wzorzec = selDokument.getRodzajedok().getWzorzec();
-        if (wzorzec != null && !wzorzec.equals("")) {
-            try {
-                nowynumer = FakturaBean.uzyjwzorcagenerujnumerDok(wzorzec, selDokument.getRodzajedok().getSkrot(), wpisView, dokDAO);
-            } catch (Exception e) {
-                nowynumer = wzorzec;
+        if (selDokument.getRodzajedok()!=null && selDokument.getRodzajedok().getWzorzec()!=null) {
+            String wzorzec = selDokument.getRodzajedok().getWzorzec();
+            if (wzorzec != null && !wzorzec.equals("")) {
+                try {
+                    nowynumer = FakturaBean.uzyjwzorcagenerujnumerDok(wzorzec, selDokument.getRodzajedok().getSkrot(), wpisView, dokDAO);
+                } catch (Exception e) {
+                    nowynumer = wzorzec;
+                }
             }
-        }
-        renderujwyszukiwarke(selDokument.getRodzajedok());
-        renderujtabele(selDokument.getRodzajedok());
-        selDokument.setNrWlDk(nowynumer);
-        PrimeFaces.current().ajax().update("dodWiad:numerwlasny");
-         if (selDokument.getRodzajedok()!=null && selDokument.getRodzajedok().getSkrotNazwyDok().equals("IN")) {
-            String f = "dodWiad:rowinwestycja";
-            PrimeFaces.current().ajax().update(f);
+            renderujwyszukiwarke(selDokument.getRodzajedok());
+            renderujtabele(selDokument.getRodzajedok());
+            selDokument.setNrWlDk(nowynumer);
+            PrimeFaces.current().ajax().update("dodWiad:numerwlasny");
+             if (selDokument.getRodzajedok()!=null && selDokument.getRodzajedok().getSkrotNazwyDok().equals("IN")) {
+                String f = "dodWiad:rowinwestycja";
+                PrimeFaces.current().ajax().update(f);
+            }
         }
     }
 
