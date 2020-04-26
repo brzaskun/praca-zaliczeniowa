@@ -615,6 +615,10 @@ public class DokfkView implements Serializable {
                 podepnijEwidencjeVat(rodzaj);
                 nietrzebapodczepiac = true;
             }
+        } else {
+            if (nietrzebapodczepiac==false) {
+                podepnijEwidencjeVat(0);
+            }
         }
     }
     

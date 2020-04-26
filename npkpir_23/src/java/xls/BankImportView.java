@@ -36,9 +36,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
@@ -121,6 +123,7 @@ public class BankImportView implements Serializable {
    
     private String datakontrol;
     private List<Wiersz> wierszezmiesiaca;
+    private Map<String,Konto> ibankonto;
     private String nrwyciagupoprzedni;
     private ImportowanyPlikNaglowek naglowek;
  //typ transakcji
@@ -144,7 +147,7 @@ public class BankImportView implements Serializable {
                 it.remove();
             } else {
                 if (p.getKontorozrachunkowe()==null && p.getKontoRZiS()==null) {
-                    wiadomoscnieprzypkonta = "Istnieją dokumenty z VAT bez przyporządkowanych kont. Import będzie nieprawidłowy";
+                    wiadomoscnieprzypkonta = "Istnieją definicje WB bez przyporządkowanych kont. Import będzie nieprawidłowy!";
                 }
             }
         }
@@ -166,6 +169,28 @@ public class BankImportView implements Serializable {
         if (!importPlikKonta.isSawszystkiekonta()) {
             Msg.msg("e","Brakuje wszystkich dla importu wyciągu bankowego");
         }
+        ibankonto = zrobibankonto();
+    }
+    
+    private Map<String, Konto> zrobibankonto() {
+        List<Wiersz> wiersze = wierszDAO.pobierzWierszeMcDokImportIBAN(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        Map<String,Konto> lista = new HashMap<>();
+        if (wiersze!=null && wiersze.size()>0) {
+            for (Wiersz p : wiersze) {
+                Konto zwrot = null;
+                if (p.getIban()!=null) {
+                    if (p.getStronaWn()!=null && !p.getStronaWn().getKonto().getPelnynumer().startsWith("13")) {
+                        zwrot = p.getStronaWn().getKonto();
+                    } else if (p.getStronaMa()!=null && !p.getStronaMa().getKonto().getPelnynumer().startsWith("13")) {
+                        zwrot = p.getStronaMa().getKonto();
+                    }
+                }
+                if (zwrot!=null) {
+                    lista.put(p.getIban(), zwrot);
+                }
+            }
+        }
+        return lista;
     }
     
     private List<ImportowanyPlik> zrobrodzajeimportu() {
@@ -460,35 +485,40 @@ public class BankImportView implements Serializable {
         //9 bank-bank
     private Konto ustawkonto(ImportBankWiersz p) {
         Konto zwrot = null;
-        int numer = p.getTyptransakcji();
-        switch (numer) {
-            case 1:
-                zwrot = konto213;
-                break;
-            case 2:
-                zwrot = konto213;
-                break;
-            case 3:
-                zwrot = prowizja;
-                break;
-            case 4:
-                zwrot = wyplatakarta;
-                break;
-            case 5:
-                zwrot = platnosckarta;
-                break;
-            case 6:
-                zwrot = przelewUS;
-                break;
-            case 7:
-                zwrot = przelewZUS;
-                break;
-            case 8:
-                zwrot = przelewGmina;
-                break;
-            case 9:
-                zwrot = przelewBankBank;
-                break;
+        try {
+            zwrot = ibankonto.get(p.getIBAN());
+        } catch (Exception e){}
+        if (zwrot ==null) {
+            int numer = p.getTyptransakcji();
+            switch (numer) {
+                case 1:
+                    zwrot = konto213;
+                    break;
+                case 2:
+                    zwrot = konto213;
+                    break;
+                case 3:
+                    zwrot = prowizja;
+                    break;
+                case 4:
+                    zwrot = wyplatakarta;
+                    break;
+                case 5:
+                    zwrot = platnosckarta;
+                    break;
+                case 6:
+                    zwrot = przelewUS;
+                    break;
+                case 7:
+                    zwrot = przelewZUS;
+                    break;
+                case 8:
+                    zwrot = przelewGmina;
+                    break;
+                case 9:
+                    zwrot = przelewBankBank;
+                    break;
+            }
         }
         return zwrot;
     }    
@@ -771,6 +801,8 @@ public class BankImportView implements Serializable {
             Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    
 
     
 
