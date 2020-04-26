@@ -359,11 +359,12 @@ private DokDAO dokDAO;
         try {
             edytujhaslo(selected);
             edytujPesel(selected);
-            Msg.msg("i", "Edytowano dane podatnika-klienta " + selected.getPrintnazwa(), "akordeon:form:msg");
             if ((selected.getKartacert()==null || selected.getKartapesel()==null)) {
                 Msg.msg("e", "Brak pinu lub Peselu do karty. Nie może być wpisane tylko jedno z nich!!!");
-            }    
-        } catch (Exception e) { E.e(e); 
+            }
+            podatnikDAO.edit(selected);
+            Msg.msg("i", "Edytowano dane podatnika-klienta " + selected.getPrintnazwa(), "akordeon:form:msg");
+        } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd - dane niezedytowane", "akordeon:form:msg");
         }
     }
