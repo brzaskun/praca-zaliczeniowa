@@ -85,7 +85,7 @@
                  paginator="true" paginatorAlwaysVisible="true" rows="20"
                  paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                  rowsPerPageTemplate="20,28,36,50" filteredValue="#{KlView.klienciFiltered}"
-                 rowKey="#{wpis}" selection="#{KlView.selectedtabela}" 
+                 rowKey="#{wpis.id}" selection="#{KlView.selectedtabela}" 
                  emptyMessage="Nie ma klientów" style="margin-left: 2%; max-width: 1200px;">
             <p:ajax event="rowSelectRadio" listener="#{KlView.wybranodoedycji}" update=":formY :formX" global="false"/>
             <p:ajax event="filter" global="false"/>
