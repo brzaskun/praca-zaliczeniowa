@@ -11,6 +11,8 @@ import dao.EvewidencjaDAO;
 import dao.PlatnoscWalutaDAO;
 import dao.RodzajedokDAO;
 import dao.SMTPSettingsDAO;
+import dao.StronaWierszaDAO;
+import dao.WierszeDAO;
 import dao.WniosekVATZDEntityDAO;
 import daoFK.EVatwpisDedraDAO;
 import daoFK.EVatwpisFKDAO;
@@ -29,6 +31,7 @@ import entity.Podatnik;
 import entity.WniosekVATZDEntity;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
+import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import error.E;
 import java.io.IOException;
@@ -112,6 +115,8 @@ public class EwidencjaVatView implements Serializable {
     private Double suma3;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
+    @Inject
+    private StronaWierszaDAO stronaWierszaDAO;
     private String nazwaewidencjiMail;
     private List<EVatwpisSuper> wybranewierszeewidencji;
     private List<EVatwpisSuper> filteredwierszeewidencji;
@@ -370,6 +375,8 @@ public class EwidencjaVatView implements Serializable {
         List<EVatwpisSuper> zwrot = new ArrayList<>();
         List<Transakcja> transakcje = transakcjaDAO.findPodatnikRokMcRozliczajacy(podatnik, rokWpisuSt, miesiacWpisu);
         zwrot.addAll(stworzevatwpisRozl(transakcje));
+        List<StronaWiersza> wiersze = stronaWierszaDAO.findStronaByPodatnikRokMetodaKasowa(podatnik, rokWpisuSt, miesiacWpisu);
+        zwrot.addAll(stworzevatwpisMK(wiersze));
         System.out.println("");
         return zwrot;
     }
@@ -393,7 +400,19 @@ public class EwidencjaVatView implements Serializable {
         }
         return zwrot;
     }
-    
+
+    private Collection<? extends EVatwpisSuper> stworzevatwpisMK(List<StronaWiersza> wiersze) {
+        List<EVatwpisFK> zwrot = new ArrayList<>();
+        for (StronaWiersza p : wiersze) {
+            if (p.getWiersz().geteVatwpisFK()!=null) {
+                if (!zwrot.contains(p.getWiersz().geteVatwpisFK())) {
+                    zwrot.add(p.getWiersz().geteVatwpisFK());
+                }
+            }
+        }
+        return zwrot;
+    }
+     
     private List<EVatwpisFK> naniesPlatnoscRozl(Transakcja p) {
         Dokfk dok = p.getNowaTransakcja().getDokfk();
         List<EVatwpisFK> zwrot = dok.getEwidencjaVAT();
