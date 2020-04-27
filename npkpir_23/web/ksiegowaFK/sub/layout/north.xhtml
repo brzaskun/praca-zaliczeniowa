@@ -16,7 +16,7 @@
                 <p:menuitem icon="fa fa-clock-o" value="rejestry" outcome="rmkFK" rendered="#{WpisView.czegosbrakuje == false}"/>
                 <p:menuitem icon="fa fa-file-text-o" value="słowniki" outcome="kartotekiFK" rendered="#{WpisView.czegosbrakuje == false}"/>
                 <p:menuitem icon="fa fa-wrench" value="plan kont" outcome="menuplankontFK" rendered="#{WpisView.czegosbrakuje == false}"/>
-                <p:menuitem icon="fa fa-gear" value="wzorce" outcome="menuustawieniaFK" rendered="#{WpisView.czegosbrakuje == false and facesContext.externalContext.remoteUser eq '4'}"/>
+                <p:menuitem icon="fa fa-gear" value="wzorce" outcome="menuustawieniaFK" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem icon="fa fa-building-o" value="#{mgs.bilans}" outcome="bilanseFK" rendered="#{WpisView.czegosbrakuje == false}"/>
                 <p:menuitem icon="fa fa-columns" value="deklaracje"  rendered="#{WpisView.czegosbrakuje == false}"/>
                 <p:menuitem icon="fa fa-pencil" value="stow." outcome="raportyFK" rendered="#{WpisView.czegosbrakuje == false}"/>
