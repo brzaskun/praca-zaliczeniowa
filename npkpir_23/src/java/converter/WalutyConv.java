@@ -43,7 +43,7 @@ public class WalutyConv implements javax.faces.convert.Converter{
         } else {  
             try {  
                 String number = submittedValue;
-                return listaWalut.parallelStream().filter(p -> p.getSymbolwaluty().equals(submittedValue)).findAny().orElse(null);
+                return listaWalut.stream().filter(p -> p.getSymbolwaluty().equals(submittedValue)).findAny().orElse(null);
 //                for (Waluty p : listaWalut) {  
 //                    if (p.getSymbolwaluty().equals(number)) {  
 //                        return p;  

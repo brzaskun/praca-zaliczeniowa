@@ -45,16 +45,16 @@ public class KlienciConverterView implements Serializable{
             boolean czynipzagraniczny2 = m.matches();
             if (czynipzagraniczny || czynipzagraniczny2) {
                 String query2 = query.toUpperCase();
-                results = listaKlientow.parallelStream().filter((p)->(p.getNip().startsWith(query2))).collect(Collectors.toList()); 
+                results = listaKlientow.stream().filter((p)->(p.getNip().startsWith(query2))).collect(Collectors.toList()); 
             } else {
                 try {
                     //sluzydosporawdzenia czy chodzi o nip
                     String q = query.substring(0, 1);
                     int i = Integer.parseInt(q);
-                    results = listaKlientow.parallelStream().filter((p)->(p.getNip().startsWith(query))).collect(Collectors.toList()); 
+                    results = listaKlientow.stream().filter((p)->(p.getNip().startsWith(query))).collect(Collectors.toList()); 
                 } catch (NumberFormatException e) {
                     String query2 = query.toLowerCase();
-                    results = listaKlientow.parallelStream().filter((p)->(p.getNpelna().toLowerCase().contains(query2.toLowerCase()))).collect(Collectors.toList()); 
+                    results = listaKlientow.stream().filter((p)->(p.getNpelna().toLowerCase().contains(query2.toLowerCase()))).collect(Collectors.toList()); 
                 }
             }
             pattern = Pattern.compile("[0-9]{10}");

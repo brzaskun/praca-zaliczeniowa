@@ -28,7 +28,7 @@ public class TabelaNBPConv implements javax.faces.convert.Converter{
         TabelaNBPView tabelaNBPView = (TabelaNBPView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"tabelaNBPView");
         List<Tabelanbp> listanpb = tabelaNBPView.getListanpb();
         try {
-            return listanpb.parallelStream().filter(p -> p.getIdtabelanbp().equals(submittedValue)).findAny().orElse(null);
+            return listanpb.stream().filter(p -> p.getIdtabelanbp().equals(submittedValue)).findAny().orElse(null);
 //            for (Tabelanbp p : listanpb) {  
 //                if (String.valueOf(p.getIdtabelanbp()).equals(submittedValue)) {  
 //                    return p;  

@@ -27,7 +27,7 @@ public class KlientConv implements javax.faces.convert.Converter{
             listaKlientow.add(klienciConverterView.getKlientautomat());
         } 
         try {
-            return listaKlientow.parallelStream().filter(p -> p.getId().equals(submittedValue)).findAny().orElse(null);
+            return listaKlientow.stream().filter(p -> p.getId().equals(submittedValue)).findAny().orElse(null);
 //            for (Klienci p : listaKlientow) {  
 //                if (p.getId()==submittedValue) {  
 //                    return p;  

@@ -278,7 +278,7 @@ public class PozycjaRZiSFKBean {
     public static void wyszukajprzyporzadkowaneRLista(List<Konto> lista, PozycjaRZiSBilans pozycja) {
         List<Konto> kontokwotalist = Collections.synchronizedList(new ArrayList<>());
         if (lista != null) {
-            lista.parallelStream().forEach((p)->{
+            lista.stream().forEach((p)->{
                 if ((p.getPozycjaWn()!=null && p.getPozycjaWn().equals(pozycja.getPozycjaString())) || (p.getPozycjaMa()!=null && p.getPozycjaMa().equals(pozycja.getPozycjaString()))){ 
                     if (!p.getSyntetykaanalityka().equals("syntetyka") && !p.getSyntetykaanalityka().equals("analityka")) {
                         p.setKwota(0.0);
