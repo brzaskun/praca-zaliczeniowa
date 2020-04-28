@@ -264,25 +264,27 @@ public class DokFKVATBean {
     }
     
      public static Konto pobierzKontoRozrachunkowe(KliencifkDAO kliencifkDAO, Dokfk selected, WpisView wpisView, KontoDAOfk kontoDAOfk) {
+        Konto konto = null;
         try {
             //to znajdujemy polaczenie konta z klientem nazwa tego polaczenia to Kliencifk
-            Kliencifk symbolSlownikowyKonta = kliencifkDAO.znajdzkontofk(selected.getKontr().getNip(), wpisView.getPodatnikObiekt().getNip());
-            List<Konto> listakont = kontoDAOfk.findKontaNazwaPodatnik(symbolSlownikowyKonta.getNip(), wpisView);
-            if (listakont == null || listakont.size() == 0) {
-                throw new Exception();
-            }
-            Konto kontoprzyporzadkowaneDoRodzajuDok = selected.getRodzajedok().getKontorozrachunkowe();
-            Konto konto = null;
-            for (Konto p : listakont) {
-                if (kontoprzyporzadkowaneDoRodzajuDok.equals(p.getKontomacierzyste())) {
-                    konto = p;
-                    break;
+            if (!selected.getKontr().getNip().equals(wpisView.getPodatnikObiekt().getNip())) {
+                Kliencifk symbolSlownikowyKonta = kliencifkDAO.znajdzkontofk(selected.getKontr().getNip(), wpisView.getPodatnikObiekt().getNip());
+                List<Konto> listakont = kontoDAOfk.findKontaNazwaPodatnik(symbolSlownikowyKonta.getNip(), wpisView);
+                if (listakont == null || listakont.size() == 0) {
+                    throw new Exception();
+                }
+                Konto kontoprzyporzadkowaneDoRodzajuDok = selected.getRodzajedok().getKontorozrachunkowe();
+                for (Konto p : listakont) {
+                    if (kontoprzyporzadkowaneDoRodzajuDok.equals(p.getKontomacierzyste())) {
+                        konto = p;
+                        break;
+                    }
                 }
             }
-            return konto;
         } catch (Exception e) {  
             Msg.msg("e", "Brak w kontach słownikowych danego kontrahenta. Zweryfikuj plan kont czy sa podpiete slowniki");
-            return null;
+        } finally {
+            return konto;
         }
     }
      

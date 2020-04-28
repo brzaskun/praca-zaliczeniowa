@@ -31,6 +31,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -97,10 +98,10 @@ public class SrodekTrw implements Serializable {
     private String podatnik;
     @Column(name = "datawy")
     private Double datawy;
-    @Size(max = 255)
+    @Size(min = 10,max = 10)
     @Column(name = "dataprzek")
     private String dataprzek;
-    @Size(max = 255)
+    @Size(min = 10, max = 10)
     @Column(name = "datazak")
     private String datazak;
     @Size(max = 255)

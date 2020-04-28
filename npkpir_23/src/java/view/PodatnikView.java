@@ -260,7 +260,7 @@ private DokDAO dokDAO;
             podatnikDAO.dodaj(selectedDod);
             podatnikWyborView.init();
             Msg.msg("i", "Dodano nowego podatnika: " + selectedDod.getPrintnazwa());
-            znajdzdaneregonAutomat(selectedDod.getNip(), selectedDod.getEmail());
+            dodajjakoKlienci(selectedDod, selectedDod.getEmail());
             selectedDod = new Podatnik();
         } catch (Exception e) { 
             E.e(e); 
@@ -268,10 +268,18 @@ private DokDAO dokDAO;
         }
     }
     
-    public void znajdzdaneregonAutomat(String nip, String email) {
+    public void dodajjakoKlienci(Podatnik podatnik, String email) {
         try {
-            Klienci aktualizuj = SzukajDaneBean.znajdzdaneregonAutomat(nip, gUSView);
-            aktualizuj.setKrajnazwa("polska");
+            Klienci aktualizuj = new Klienci();
+            aktualizuj.setNip(podatnik.getNip());
+            aktualizuj.setNpelna(podatnik.getPrintnazwa());
+            aktualizuj.setNskrocona(podatnik.getPrintnazwa());
+            aktualizuj.setKodpocztowy(podatnik.getKodpocztowy());
+            aktualizuj.setMiejscowosc(podatnik.getMiejscowosc());
+            aktualizuj.setUlica(podatnik.getUlica());
+            aktualizuj.setDom(podatnik.getNrdomu());
+            aktualizuj.setLokal(podatnik.getNrlokalu());
+            aktualizuj.setKrajnazwa("Polska");
             aktualizuj.setKrajkod("PL");
             aktualizuj.setEmail(email);
             klDAO.dodaj(aktualizuj);
@@ -336,8 +344,8 @@ private DokDAO dokDAO;
             sformatuj(selectedDod);
             podatnikDAO.dodaj(selectedDod);
             Msg.msg("i", "Dodano nowego podatnika-firmę FK: " + selectedDod.getNazwapelna());
+            dodajjakoKlienci(selectedDod, selectedDod.getEmail());
             selectedDod =  new Podatnik();
-            znajdzdaneregonAutomat(selectedDod.getNip(), selectedDod.getEmail());
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd. Niedodano nowego podatnika-firmę FK: " + selectedDod.getNazwapelna());
         }
