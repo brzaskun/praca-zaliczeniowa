@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.inject.Named;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -533,7 +535,7 @@ public class Data implements Serializable {
     
     public static String zmienkolejnosc(String zladata) {
         String dobradata = "";
-        if (zladata.length()==10) {
+        if (zladata.length()==10 && !dataodprawejdolewej(zladata)) {
             zladata = zladata.replace("/", "-");
             zladata = zladata.replace(".", "-");
             String rok = pobierzokres(zladata, 2);
@@ -546,13 +548,15 @@ public class Data implements Serializable {
             sb.append("-");
             sb.append(dzien);
             dobradata = sb.toString();
+        } else {
+            dobradata = zladata;
         }
         return dobradata;
     }
     
     public static String zmienkolejnosc8(String zladata) {
         String dobradata = "";
-        if (zladata.length()==8) {
+        if (zladata.length()==8 && !dataodprawejdolewej(zladata)) {
             zladata = zladata.replace("/", "-");
             zladata = zladata.replace(".", "-");
             String rok = pobierzokres(zladata, 2);
@@ -571,12 +575,27 @@ public class Data implements Serializable {
         }
         return dobradata;
     }
-//   
-//    public static void main(String[] args) {
-//        try {
-//            String termin = "10-05-2012";
-//            String dzis = "11-05-2012";
-//            
+    
+    private static boolean dataodprawejdolewej(String zladata) {
+        String wzor = "([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))";
+        Pattern p = Pattern.compile(wzor);//<-- compile( not Compile(
+        Matcher m = p.matcher(zladata);
+        return m.find();
+    }
+    
+   
+    public static void main(String[] args) {
+        try {
+            String termin = "10-05-2012";
+            String dzis = "2012-05-02";
+            String wzor = "([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))";
+            Pattern p = Pattern.compile(wzor);//<-- compile( not Compile(
+            Matcher m = p.matcher(termin);
+            boolean find = m.find();
+            System.out.println(" s "+find);
+            m = p.matcher(dzis);
+            find = m.find();
+            System.out.println(" s "+find);
 //            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 //            
 //            Date date1 = format.parse(termin);
@@ -584,25 +603,26 @@ public class Data implements Serializable {
 //            
 //            if (date1.compareTo(date2) <0) {
 //                System.out.println("red");
-//            }   } catch (ParseException ex) {
-//            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//}
-    
-    public static void main(String[] args) {
-        try {
-            String termin = "2019-12-29";
-            String dzis = "2019-12-28";
-            boolean zwrot = czyjestpo(termin, dzis);
-            if (zwrot) {
-                System.out.println("TRUE");
-            } else {
-                System.out.println("FALSE");
-            }
+//            }
         } catch (Exception ex) {
             Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
         }
 }
+    
+//    public static void main(String[] args) {
+//        try {
+//            String termin = "2019-12-29";
+//            String dzis = "2019-12-28";
+//            boolean zwrot = czyjestpo(termin, dzis);
+//            if (zwrot) {
+//                System.out.println("TRUE");
+//            } else {
+//                System.out.println("FALSE");
+//            }
+//        } catch (Exception ex) {
+//            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//}
     
 //   public static void main(String[] args) {
 //        String dzien = null;
