@@ -92,6 +92,7 @@
                                               style="height: 26px;"
                                               >
                                 <p:ajax event="change" partialSubmit="true" update="dodWiad:panelTabelaNBP, dodWiad:dokumentprosty"/>
+                                <p:ajax event="blur" listener="#{DokumentView.zmienokresVAT}"/>
                                 <f:selectItems value="#{DokumentView.wprowadzonesymbolewalut}" var="wal" itemLabel="#{wal.symbolwaluty}" itemValue="#{wal}"/>
                             </h:selectOneMenu>
                         </p:column>
@@ -196,14 +197,14 @@
                             <f:selectItems value="#{DokumentView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.skrotNazwyDok} - #{loop.nazwa}" 
                                            itemValue="#{loop}"/>
 <!--                            <p:ajax event="keyup" listener="#{DokumentView.pobierzwprowadzonynumer()}" global="false"/>-->
-                            <f:ajax event="change"  listener="#{DokumentView.wygenerujnumerkolejny()}"/>
-                            <f:ajax event="focus" listener="#{DokumentView.zmienokresVAT}"/>
+                            <p:ajax event="change" partialSubmit="true"  listener="#{DokumentView.wygenerujnumerkolejny()}"/>
+                            <p:ajax event="change" listener="#{DokumentView.podepnijListe()}" 
+                                    update="dodWiad:tabelapkpir " global="false" onstart="aktywujopis(#{DokumentView.nieVatowiec});"/>
                         </h:selectOneMenu>
                     </p:column>
                     <p:column>
-                        <p:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}" title="wpisz numer własny faktury" style="width: 150px;">
-                            <p:ajax event="focus" listener="#{DokumentView.podepnijListe()}" 
-                                    update="dodWiad:tabelapkpir " global="false" onstart="aktywujopis(#{DokumentView.nieVatowiec});"/>
+                        <p:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}" title="wpisz numer własny faktury" style="width: 150px;" required="true" requiredMessage="Brak numeru faktury">
+                            
                             <p:ajax event="blur" partialSubmit="true" listener="#{DokumentView.sprawdzCzyNieDuplikatwtrakcie}"/>
                         </p:inputText>
                     </p:column>

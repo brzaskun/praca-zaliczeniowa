@@ -178,7 +178,7 @@ public class BankImportView implements Serializable {
         if (wiersze!=null && wiersze.size()>0) {
             for (Wiersz p : wiersze) {
                 Konto zwrot = null;
-                if (p.getIban()!=null) {
+                if (p.getIban()!=null && !p.getIban().equals("")) {
                     if (p.getStronaWn()!=null && !p.getStronaWn().getKonto().getPelnynumer().startsWith("13")) {
                         zwrot = p.getStronaWn().getKonto();
                     } else if (p.getStronaMa()!=null && !p.getStronaMa().getKonto().getPelnynumer().startsWith("13")) {
@@ -228,13 +228,30 @@ public class BankImportView implements Serializable {
     
     public void resetuj() {
         rodzajdok = null;
-        pobranefaktury = null;
-        pobraneplikibytes = null;
+        pobranefaktury = new ArrayList();
+        pobraneplikibytes = new ArrayList();
         grid1.setRendered(false);
         grid2.setRendered(false);
         grid3.setRendered(false);
         alert1.setRendered(false);
         wybranyrodzajimportu = null;
+    }
+    
+    public void resetuj1() {
+        rodzajdok = null;
+        pobranefaktury = new ArrayList();
+        pobraneplikibytes = new ArrayList();
+        grid1.setRendered(false);
+        grid2.setRendered(false);
+        grid3.setRendered(false);
+        alert1.setRendered(false);
+    }
+    
+    public void resetuj2() {
+        pobranefaktury = null;
+        grid2.setRendered(false);
+        grid3.setRendered(false);
+        alert1.setRendered(false);
     }
     
     
@@ -487,8 +504,10 @@ public class BankImportView implements Serializable {
         Konto zwrot = null;
         try {
             zwrot = ibankonto.get(p.getIBAN());
+            p.setZnalezionokonto(true);
         } catch (Exception e){}
         if (zwrot ==null) {
+            p.setZnalezionokonto(false);
             int numer = p.getTyptransakcji();
             switch (numer) {
                 case 1:
@@ -523,31 +542,32 @@ public class BankImportView implements Serializable {
         return zwrot;
     }    
 
-    private Wiersz przygotujwierszNetto(int lpwiersza,Dokfk nd, ImportBankWiersz ImportBankWiersz, Konto kontown, Konto kontoma) {
+    private Wiersz przygotujwierszNetto(int lpwiersza,Dokfk nd, ImportBankWiersz importBankWiersz, Konto kontown, Konto kontoma) {
         Wiersz w = new Wiersz(lpwiersza, 0);
-        w.setDataWalutyWiersza(Data.getDzien(ImportBankWiersz.getDatatransakcji()));
-        uzupelnijwiersz(w, nd, ImportBankWiersz);
-        w.setOpisWiersza(zrobopiswiersza(ImportBankWiersz));
-        StronaWiersza strwn = new StronaWiersza(w, "Wn", ImportBankWiersz.getKwota(), kontown);
-        StronaWiersza strma = new StronaWiersza(w, "Ma", ImportBankWiersz.getKwota(), kontoma);
-        strwn.setKwotaPLN(zrobpln(w,ImportBankWiersz));
-        strma.setKwotaPLN(zrobpln(w,ImportBankWiersz));
+        w.setDataWalutyWiersza(Data.getDzien(importBankWiersz.getDatatransakcji()));
+        uzupelnijwiersz(w, nd, importBankWiersz);
+        w.setOpisWiersza(zrobopiswiersza(importBankWiersz));
+        StronaWiersza strwn = new StronaWiersza(w, "Wn", importBankWiersz.getKwota(), kontown);
+        StronaWiersza strma = new StronaWiersza(w, "Ma", importBankWiersz.getKwota(), kontoma);
+        strwn.setKwotaPLN(zrobpln(w,importBankWiersz));
+        strma.setKwotaPLN(zrobpln(w,importBankWiersz));
         w.setStronaWn(strwn);
         w.setStronaMa(strma);
+        w.setZnalezionokonto(importBankWiersz.isZnalezionokonto());
         return w;
     }
     
-    private void uzupelnijwiersz(Wiersz w, Dokfk nd, ImportBankWiersz ImportBankWiersz) {
-        if (ImportBankWiersz.getWaluta().equals("PLN")) {
+    private void uzupelnijwiersz(Wiersz w, Dokfk nd, ImportBankWiersz importBankWiersz) {
+        if (importBankWiersz.getWaluta().equals("PLN")) {
             w.setTabelanbp(tabelanbppl);
         } else {
-            DateTime dzienposzukiwany = new DateTime(ImportBankWiersz.getDatawaluty());
+            DateTime dzienposzukiwany = new DateTime(importBankWiersz.getDatawaluty());
             boolean znaleziono = false;
             int zabezpieczenie = 0;
             while (!znaleziono && (zabezpieczenie < 365)) {
                 dzienposzukiwany = dzienposzukiwany.minusDays(1);
                 String doprzekazania = dzienposzukiwany.toString("yyyy-MM-dd");
-                Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania, ImportBankWiersz.getWaluta());
+                Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania, importBankWiersz.getWaluta());
                 if (tabelanbppobrana instanceof Tabelanbp) {
                     znaleziono = true;
                     w.setTabelanbp(tabelanbppobrana);
@@ -557,7 +577,7 @@ public class BankImportView implements Serializable {
             }
         }
         nd.setWalutadokumentu(w.getTabelanbp().getWaluta());
-        w.setIban(ImportBankWiersz.getIBAN());
+        w.setIban(importBankWiersz.getIBAN());
         w.setDokfk(nd);
         w.setLpmacierzystego(0);
         w.setDataksiegowania(nd.getDatawplywu());
@@ -593,6 +613,7 @@ public class BankImportView implements Serializable {
     }
     public void grid0pokaz() {
         if (sabraki==false) {
+            resetuj1();
             grid0.setRendered(true);
             Msg.msg("i","Wybranonastępujący format importu "+wybranyrodzajimportu);
         } else {
@@ -601,7 +622,9 @@ public class BankImportView implements Serializable {
     }
     
     public void grid2pokaz() {
-            grid2.setRendered(true);
+        resetuj2();
+        grid2.setRendered(true);
+        grid3.setRendered(false);
     }
      
     public WpisView getWpisView() {

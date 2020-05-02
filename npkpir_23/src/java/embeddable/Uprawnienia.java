@@ -21,6 +21,7 @@ public class Uprawnienia implements Serializable{
 
     static {
         listaUprawnien = new ArrayList<String>();
+        listaUprawnien.add("Zablokowany");
         listaUprawnien.add("Administrator");
         listaUprawnien.add("Bookkeeper");
         listaUprawnien.add("BookkeeperFK");

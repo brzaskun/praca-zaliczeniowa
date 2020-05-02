@@ -52,6 +52,7 @@
                     </f:facet>
                     <f:facet name="input">  
                         <h:selectOneMenu value="#{wpis.uprawnienia}" valueChangeListener="#{UzView.edit}">
+                            <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{uprawnienia.listaUprawnien}"/>
                         </h:selectOneMenu>
                     </f:facet>

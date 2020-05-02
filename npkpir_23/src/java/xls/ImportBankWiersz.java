@@ -21,14 +21,17 @@ public class ImportBankWiersz implements Serializable {
         private String wnma;
         private String datatransakcji;
         private String datawaluty;
+        //to jest to co wpisuje klient
         private String opistransakcji;
         private String kontrahent;
         private String kontrahentakraj;
         private String kontrahentaadres;
+        //to jest definicja bankowa typu TRANSAKCJA KARTĄ
         private String nrtransakji;
         private boolean juzzaksiegowany;
         private String nrwyciagu;
         private ImportowanyPlikNaglowek naglowek;
+        private boolean znalezionokonto;
         //typ transakcji
         //1 wpływ faktura
         //2 zapłata faktura
@@ -167,6 +170,14 @@ public class ImportBankWiersz implements Serializable {
 
     public void setNaglowek(ImportowanyPlikNaglowek naglowek) {
         this.naglowek = naglowek;
+    }
+
+    public boolean isZnalezionokonto() {
+        return znalezionokonto;
+    }
+
+    public void setZnalezionokonto(boolean znalezionokonto) {
+        this.znalezionokonto = znalezionokonto;
     }
     
 

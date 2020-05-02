@@ -365,7 +365,7 @@ public class SessionFacade<T> implements Serializable {
     public Dok dokumentDuplicat(Dok selD, String pkpirR) throws Exception {
         Dok wynik = null;
         try {
-            wynik = (Dok) em.createNamedQuery("Dok.findDuplicate").setParameter("podatnik", selD.getPodatnik()).setParameter("kontr", selD.getKontr()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("netto", selD.getNetto()).setParameter("pkpirR", pkpirR).getSingleResult();
+            wynik = (Dok) em.createNamedQuery("Dok.findDuplicate").setParameter("podatnik", selD.getPodatnik()).setParameter("nip", selD.getKontr().getNip()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("netto", selD.getNetto()).setParameter("pkpirR", pkpirR).getSingleResult();
         } catch (Exception e) {
             return null;
         }
@@ -386,7 +386,7 @@ public class SessionFacade<T> implements Serializable {
     public Dok dokumentDuplicatwtrakcie(Dok selD, Podatnik podatnik, String typdokumentu) {
         List<Dok> wynik = null;
         try {
-            wynik = em.createNamedQuery("Dok.findDuplicatewTrakcie").setParameter("kontr", selD.getKontr()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("podatnik", podatnik).setParameter("typdokumentu", typdokumentu).getResultList();
+            wynik = em.createNamedQuery("Dok.findDuplicatewTrakcie").setParameter("nip", selD.getKontr().getNip()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("podatnik", podatnik).setParameter("typdokumentu", typdokumentu).getResultList();
             if (!wynik.isEmpty()) {
                 return wynik.get(wynik.size() - 1);
             } else {

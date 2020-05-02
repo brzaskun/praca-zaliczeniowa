@@ -61,9 +61,14 @@
     color: #6374AB !important;
 }
 
-.kontorozrachunki .ui-inputfield, .wierszpiatkowy span {
+.kontorozrachunki .ui-inputfield {
     font-style: italic !important;
     color: green !important;
+}
+
+.kontonieznaleziono .ui-inputfield {
+    font-style: italic !important;
+    color: darkorchid !important;
 }
 
 .kontoplatnosci .ui-inputfield {

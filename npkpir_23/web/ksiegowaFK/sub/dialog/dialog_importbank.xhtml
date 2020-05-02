@@ -29,13 +29,13 @@
                             <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                             <f:selectItems value="#{bankImportView.rodzajeimportu}"  var="wploopa" itemLabel="#{wploopa.opis}" itemValue="#{wploopa}"/>
                             <p:ajax global="false" event="blur"  partialSubmit="true"/>
-                            <p:ajax global="false" event="change"  partialSubmit="true" listener="#{bankImportView.grid0pokaz}" update="panelplikbankall"/>
+                            <p:ajax global="false" event="change"  partialSubmit="true" listener="#{bankImportView.grid0pokaz}" update="panelplikbankall form_importbankall"/>
                     </p:selectOneMenu>
             </p:panelGrid>
             <p:panelGrid  columns="2" columnClasses="sixty-percent forty-percent" rendered="false" binding="#{bankImportView.grid0}">
                     <p:panelGrid columns="1" style="margin-top: 20px;margin-bottom: 10px;">
                         <h:outputText value="plik/pliki CSV/XML z dokumentami źródłowymi " style="font-weight: bold;"/>
-                        <p:fileUpload fileUploadListener="#{bankImportView.zachowajplik}" 
+                        <p:fileUpload fileUploadListener="#{bankImportView.zachowajplik}" auto="true"
                                       mode="advanced" dragDropSupport="true" multiple="true"
                                       update="messages1" sizeLimit="1000000"   
                                       fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
@@ -51,7 +51,7 @@
                             <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                             <f:selectItems value="#{bankImportView.rodzajedokKlienta}"  var="wploop" itemLabel="#{wploop.skrotNazwyDok} - #{wploop.nazwa}"/>
                             <p:ajax global="false" event="blur"  partialSubmit="true"/>
-                            <p:ajax global="false" event="change"  partialSubmit="true" listener="#{bankImportView.grid2pokaz}" update="panelprzyciskowbankall"/>
+                            <p:ajax global="false" event="change"  partialSubmit="true" listener="#{bankImportView.grid2pokaz}" update="panelprzyciskowbankall form_importbankall"/>
                         </p:selectOneMenu>
                 </p:panelGrid>
             </p:panelGrid>

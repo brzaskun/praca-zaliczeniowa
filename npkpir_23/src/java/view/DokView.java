@@ -312,6 +312,7 @@ public class DokView implements Serializable {
         }
         selDokument.setKontr1(biezacyklientdodok);
         podepnijEwidencjeVat();
+        podepnijListe();
         domyslatabela = DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selDokument);
         selDokument.setTabelanbp(domyslatabela);
         PrimeFaces.current().ajax().update("dodWiad");
@@ -864,6 +865,7 @@ public class DokView implements Serializable {
                 }
                 selDokument.setOpis(wysDokument.getOpis());
                 wygenerujnumerkolejny();
+                podepnijListe();
                 setRenderujwysz(false);
                 setPokazEST(false);
                 //wygenerujnumerkolejny();nie potrzebne jest generowane w xhtml
@@ -1171,9 +1173,9 @@ public class DokView implements Serializable {
     public void sprawdzCzyNieDuplikatwtrakcie(AjaxBehaviorEvent ex) {
         try {
             Dok selD = null;
-            selD = dokDAO.znajdzDuplikatwtrakcie(selDokument, wpisView.getPodatnikObiekt(), (String) Params.params("dodWiad:rodzajTrans"));
+            selD = dokDAO.znajdzDuplikatwtrakcie(selDokument, wpisView.getPodatnikObiekt(), selDokument.getRodzajedok().getSkrot());
             if (selD instanceof Dok) {
-                String wiadomosc = "Dokument typu " + selD.getRodzajedok().getSkrot() + " dla tego klienta, o numerze " + selD.getNrWlDk() + " i kwocie netto " + selD.getNetto() + " jest juz zaksiegowany u podatnika: " + selD.getPodatnik() + " w miesiącu " + selD.getPkpirM();
+                String wiadomosc = "Dokument typu " + selD.getRodzajedok().getSkrot() + " dla tego klienta, o numerze " + selD.getNrWlDk() + " i kwocie netto " + selD.getNetto() + " jest juz zaksiegowany u podatnika: " + selD.getPodatnik().getPrintnazwa() + " w miesiącu " + selD.getPkpirM();
                 Msg.msg("e", wiadomosc);
                 PrimeFaces.current().executeScript("$('#dodWiad\\\\:numerwlasny').select();");
             } else {
@@ -1533,6 +1535,7 @@ public class DokView implements Serializable {
                                     selDokument.getListakwot1().get(i++).setNazwakolumny(p.getNazwakolumny());
                                 }
                             }
+                            PrimeFaces.current().ajax().update("dodWiad:tabelapkpir");
                         }
                     } catch (Exception e) {
 

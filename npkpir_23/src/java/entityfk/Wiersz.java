@@ -26,6 +26,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -124,6 +125,8 @@ public class Wiersz implements Serializable {
     @OneToOne
     private StronaWiersza stronarozliczajacy;
     private String iban;
+    @Transient
+    private boolean znalezionokonto;
  
     
 
@@ -147,6 +150,14 @@ public class Wiersz implements Serializable {
 
     public void seteVatwpisFK(EVatwpisFK eVatwpisFK) {
         this.eVatwpisFK = eVatwpisFK;
+    }
+
+    public boolean isZnalezionokonto() {
+        return znalezionokonto;
+    }
+
+    public void setZnalezionokonto(boolean znalezionokonto) {
+        this.znalezionokonto = znalezionokonto;
     }
 
     public StronaWiersza getStronaWn() {

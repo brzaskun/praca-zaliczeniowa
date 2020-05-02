@@ -143,7 +143,7 @@ public class ImportSantander_CSV implements Serializable {
             zwrot = 1;
         } else if (p.getNrtransakji().equals("UZNANIE") || p.getNrtransakji().equals("UZNANIE - PŁATNOŚĆ PODZIELONA")) {
             zwrot = 2;
-        } else if (p.getKontrahent().toLowerCase().contains("INTERPAPER SP Z O O SK")) {
+        } else if (p.getKontrahent().toLowerCase().contains("GEOTECHNICAL CONSULTING OFFICE")) {
             zwrot = 8;
         } else if (p.getKontrahent().toLowerCase().contains("Gmina")) {
             zwrot = 8;
@@ -151,9 +151,9 @@ public class ImportSantander_CSV implements Serializable {
             zwrot = 7;
         } else if (p.getKontrahent().toLowerCase().contains("PRZELEW ELIXIR NA RACH. ORGANU PODATK. - ONLINE")) {
             zwrot = 6;
-        } else if (p.getNrtransakji().equals("WYPŁATA KARTĄ")) {
+        } else if (p.getNrtransakji().contains("WYPŁATA KARTĄ")) {
             zwrot = 4;
-        } else if (p.getNrtransakji().contains("TRANSAKCJA KARTĄ ")) {
+        } else if (p.getNrtransakji().contains("TRANSAKCJA KARTĄ")) {
             zwrot = 5;
         } else if (p.getWnma().equals("Wn")) {
             zwrot = 1;
