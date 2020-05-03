@@ -36,7 +36,7 @@ public class KlienciConverterView implements Serializable{
      public List<Klienci> completeKL(String query) {
         List<Klienci> results = Collections.synchronizedList(new ArrayList<>());
         if (query.length() > 3) {
-            List<Klienci> listaKlientow = klienciDAO.findAllReadOnly();
+            List<Klienci> listaKlientow = klienciDAO.findAllReadOnlyContains(query);
             Pattern pattern = Pattern.compile("[A-Z]{2}\\d+");
             Matcher m = pattern.matcher(query.toUpperCase());
             boolean czynipzagraniczny = m.matches();

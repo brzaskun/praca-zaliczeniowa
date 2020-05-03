@@ -7,9 +7,12 @@ package dao;
 import entity.Klienci;
 import error.E;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.eclipse.persistence.config.HintValues;
+import org.eclipse.persistence.config.QueryHints;
 import session.SessionFacade;
 
 /**
@@ -37,6 +40,16 @@ public class KlienciDAO extends DAO implements Serializable {
     public  List<Klienci> findAllReadOnly(){
         try {
             return klienciFacade.findAllReadOnly(Klienci.class);
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+   }
+    
+    public  List<Klienci> findAllReadOnlyContains(String pole){
+        String nazwa = "%"+pole+"%";
+        String nip = pole+"%";
+        try {
+            return Collections.synchronizedList(klienciFacade.getEntityManager().createNamedQuery("Klienci.findKlienciNipNazwa").setParameter("npelna", nazwa).setParameter("nip", nip).setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).setHint(QueryHints.READ_ONLY, HintValues.TRUE).getResultList());
         } catch (Exception e) { E.e(e); 
             return null;
         }

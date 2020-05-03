@@ -30,6 +30,7 @@ import org.eclipse.persistence.annotations.CacheType;
     @NamedQuery(name = "Klienci.findByNip", query = "SELECT k FROM Klienci k WHERE k.nip = :nip"),
     @NamedQuery(name = "Klienci.findByNipXX", query = "SELECT k.nip FROM Klienci k WHERE k.nip LIKE :nip"),
     @NamedQuery(name = "Klienci.findKlienciNip", query = "SELECT k.nip FROM Klienci k WHERE k.nip != '0000000000'"),
+    @NamedQuery(name = "Klienci.findKlienciNipNazwa", query = "SELECT k FROM Klienci k WHERE (k.npelna LIKE :npelna OR k.nip LIKE :nip) AND k.nip != '0000000000'"),
     @NamedQuery(name = "Klienci.findByDom", query = "SELECT k FROM Klienci k WHERE k.dom = :dom"),
     @NamedQuery(name = "Klienci.findByEmail", query = "SELECT k FROM Klienci k WHERE k.email = :email"),
     @NamedQuery(name = "Klienci.findByKodpocztowy", query = "SELECT k FROM Klienci k WHERE k.kodpocztowy = :kodpocztowy"),
