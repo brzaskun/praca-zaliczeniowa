@@ -4,28 +4,42 @@
  */
 package converter;
 
+import dao.KlienciDAO;
 import entity.Klienci;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import view.KlienciConverterView;
 
 /**
  *
  * @author Osito
  */
-public class KlientConv implements javax.faces.convert.Converter{
+@ManagedBean
+@ViewScoped
+public class KlientConv implements javax.faces.convert.Converter, Serializable {
+    private static final long serialVersionUID = 1L;
+    @Inject
+    private KlienciDAO klienciDAO;
     
        
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String sub) {
-       FacesContext context = FacesContext.getCurrentInstance();
-       KlienciConverterView klienciConverterView = (KlienciConverterView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"klienciConverterView");
-       List<Klienci> listaKlientow = klienciConverterView.getListaKlientow();
+        List<Klienci> listaKlientow = new ArrayList<>();
+        Klienci znaleziony = klienciDAO.findAllReadOnlyID(sub);
+        if (znaleziony != null) {
+            listaKlientow.add(znaleziony);
+        }
         int submittedValue = Integer.parseInt(sub);
-        if (submittedValue==-2){  
-            listaKlientow.add(klienciConverterView.getKlientautomat());
-        } 
+        if (submittedValue == -2) {
+            listaKlientow.add(new Klienci(-2, "dodaj klienta automatycznie", "", sub, "", "", "", "", ""));
+        }
         try {
             return listaKlientow.stream().filter(p -> p.getId().equals(submittedValue)).findAny().orElse(null);
 //            for (Klienci p : listaKlientow) {  
@@ -33,10 +47,10 @@ public class KlientConv implements javax.faces.convert.Converter{
 //                    return p;  
 //                }  
 //            }  
-        } catch(NumberFormatException exception) {  
+        } catch (NumberFormatException exception) {
             return null;
-        }  
-    }  
+        }
+    }
   
     @Override
     public String getAsString(FacesContext facesContext, UIComponent component, Object value) {  

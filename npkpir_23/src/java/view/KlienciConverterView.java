@@ -70,14 +70,6 @@ public class KlienciConverterView implements Serializable{
         return results;
     }
 
-    public List<Klienci> getListaKlientow() {
-        return klienciDAO.findAll();
-    }
-
-    public Klienci getKlientautomat() {
-        return klientautomat;
-    }
-
               
     public static void main(String[] args) {
         Pattern pattern = Pattern.compile("[0-9]{10}");

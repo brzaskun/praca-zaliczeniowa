@@ -15,7 +15,7 @@
        
         <h:form id="kliencifk">
             <p:autoComplete id="wyborkontrahenta" value="#{kliencifkBOView.wybranyklient}" completeMethod="#{KlView.complete}"
-                                var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
+                                var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="#{klientConv}" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="30" converterMessage="Nieudana konwersja Klient"
                                 widgetVar="dialogklient" style="width: 500px;" onblur="sprawdzczybrakklienta();" styleClass="wyborkontrahenta"
                                 required="true" requiredMessage="Pole klienta nie może być puste" >

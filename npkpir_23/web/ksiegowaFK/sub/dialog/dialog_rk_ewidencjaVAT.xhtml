@@ -38,7 +38,7 @@
                     <p:ajax global="false" event="blur" partialSubmit="true" />
                 </h:inputText>
                 <p:autoComplete id="klientRK" value="#{dokfkView.ewidencjaVatRK.klient}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefkRK"
-                                var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
+                                var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="#{klientConv}" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient" 
                                 cache="true" forceSelection="true" queryDelay="10"  styleClass="wpisywaniekontrfk" 
                                 required="true" requiredMessage="Pole klienta nie może być puste" onblur="sprawdzczybrakklientaRK();"

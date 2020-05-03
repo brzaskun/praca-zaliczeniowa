@@ -137,7 +137,7 @@
                 <p:row >
                     <p:column>
                         <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{klienciConverterView.completeKL}"
-                                        var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
+                                        var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="#{klientConv}" title="wpisz nazwę lub nip kontrahenta"
                                         minQueryLength="3" maxResults="12" maxlength="12" converterMessage="Nieudana konwersja Klient" 
                                         widgetVar="dialogklient" cache="true" forceSelection="true" queryDelay="10" 
                                         valueChangeListener="#{DokumentView.pobierzdaneZpoprzedniegoDokumentu}" 

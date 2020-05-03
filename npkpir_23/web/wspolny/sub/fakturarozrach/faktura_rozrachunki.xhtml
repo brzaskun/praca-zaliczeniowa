@@ -95,7 +95,7 @@
                     </p:column>
                     <p:column>
                         <p:autoComplete value="#{fakturaRozrachunkiView.selected.kontrahent}" completeMethod="#{fakturaRozrachunkiView.completeKL}"
-                                        var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
+                                        var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="#{klientConv}" title="wpisz nazwę lub nip kontrahenta"
                                         maxResults="20" maxlength="20" converterMessage="Nieudana konwersja Klient" 
                                         widgetVar="dialogklient" cache="true" forceSelection="true" queryDelay="10" 
                                         required="true" requiredMessage="Pole klienta nie może być puste" styleClass="wpisywaniekontrfk" style="width: 265px;" inputStyle="width: 250px;"
@@ -160,7 +160,7 @@
                                 <h:outputText value="#{item.kontrahent.npelna}"/>
 <!--                            </f:facet>
                             <f:facet name="input">-->
-<!--                                <p:selectOneListbox value="#{item.kontrahent}" converter="KlientConv" filter="true" required="true" scrollHeight="120" filterMatchMode="contains" style="width: 300px;">
+<!--                                <p:selectOneListbox value="#{item.kontrahent}" converter="#{klientConv}" filter="true" required="true" scrollHeight="120" filterMatchMode="contains" style="width: 300px;">
                                     <f:selectItems value="#{fakturaRozrachunkiView.klienci}" var="par" itemLabel="#{par.npelna}" />
                                 </p:selectOneListbox>-->
                                 

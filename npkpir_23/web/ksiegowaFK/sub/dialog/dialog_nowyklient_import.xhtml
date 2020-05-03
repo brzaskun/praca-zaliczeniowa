@@ -15,7 +15,7 @@
         <h:form id="form_dialog_nowyklientimport_wybor" >
             <p:panel style="margin-top: 15px;margin-bottom: 15px;" header="wyszukaj klienta z listy i zmień dotychczasowego">
             <p:autoComplete id="acForce" value="#{interpaperImportView.selectedimport1}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniewybor"
-                                    var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
+                                    var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="#{klientConv}" title="wpisz nazwę lub nip kontrahenta"
                                     minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient" queryDelay="5"
                                     forceSelection="true" styleClass="wpisywaniekontrfk" autocomplete="true" moreText="jest więcej pasujących pozycji"
                                      style="width: 250px;">

@@ -56,7 +56,7 @@
                                     </p:column>
                                     <p:column colspan="1">
                                         <p:autoComplete id="acForce" value="#{eVatDedraView.selected.klient}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefk"
-                                                        var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
+                                                        var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="#{klientConv}" title="wpisz nazwę lub nip kontrahenta"
                                                         minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient" queryDelay="5"
                                                         forceSelection="true" styleClass="wpisywaniekontrfk" autocomplete="true" moreText="jest więcej pasujących pozycji"
                                                         >
