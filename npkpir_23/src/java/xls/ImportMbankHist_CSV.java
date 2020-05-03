@@ -14,7 +14,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,14 +21,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import msg.Msg;
+import org.apache.commons.lang3.text.WordUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
-import waluty.Z;
-import static xls.ImportPKO_XML.pT;
 
 /**
  *
@@ -95,10 +94,13 @@ public class ImportMbankHist_CSV implements Serializable {
                         if (!mcwiersz.equals(mc)) {
                             i=rozmiar-5;   
                         } else {
-                            x.setOpistransakcji(baza.get(2));
+                            String opis = baza.get(3)!=null && !baza.get(3).equals("\"\"")? baza.get(3):baza.get(2).toLowerCase(new Locale("pl", "PL"));
+                            opis = opis.replaceAll("\\s{2,}", " ").replaceAll("\"", "").trim();
+                            x.setOpistransakcji(opis);
                             x.setNrwyciagu(pn.getWyciagnr());
                             x.setIBAN(baza.get(5));//??
-                            x.setKontrahent(baza.get(4));//??
+                            String kontr = baza.get(4).length()<5?"":baza.get(4).trim().replaceAll("\"","").replaceAll("\\s{2,}","");
+                            x.setKontrahent(kontr);
                             double kwotapobrana = Double.parseDouble(baza.get(6).replaceAll("\\s+","").replace(",","."));
                             x.setKwota(Math.abs(kwotapobrana));
                             x.setWnma(kwotapobrana>0.0?"Wn":"Ma");
@@ -192,11 +194,11 @@ public class ImportMbankHist_CSV implements Serializable {
         List<ImportBankWiersz> pobranefaktury = new ArrayList<>();
         int nrwyciagu = 1;
         int lpwiersza = 1;
-        String mc = "02";
+        String mc = "03";
         ImportowanyPlikNaglowek pn = new ImportowanyPlikNaglowek();
         String mcod = null;
         try {
-            Path pathToFile = Paths.get("D:\\bank.csv");
+            Path pathToFile = Paths.get("D:\\mbank1.csv");
             List<List<String>> records = new ArrayList<>();
             try (BufferedReader br =  Files.newBufferedReader(pathToFile,Charset.forName("windows-1250"))) {
                 String line;
@@ -241,10 +243,13 @@ public class ImportMbankHist_CSV implements Serializable {
                         x.setNr(lpwiersza++);
                         x.setDatatransakcji(Data.zmienkolejnosc(baza.get(0)));
                         x.setDatawaluty(Data.zmienkolejnosc(baza.get(1)));
-                        x.setOpistransakcji(baza.get(3));
+                        String opis = baza.get(3)!=null && !baza.get(3).equals("")? baza.get(3):baza.get(2).toLowerCase(new Locale("pl", "PL"));
+                        x.setOpistransakcji(opis);
                         x.setNrwyciagu(pn.getWyciagnr());
                         x.setIBAN(baza.get(5));//??
-                        x.setKontrahent(baza.get(4));//??
+                        String kontr = baza.get(4).length()<5?"":baza.get(4).trim().replaceAll("\"","");
+                        kontr = WordUtils.capitalizeFully(kontr);
+                        x.setKontrahent(kontr);//??
                         x.setKwota(Double.parseDouble(baza.get(6).replaceAll("\\s+","").replace(",",".")));
                         x.setWnma(x.getKwota()>0.0?"Wn":"Ma");
                         x.setWaluta(pn.getWyciagwaluta());

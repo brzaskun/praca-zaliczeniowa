@@ -184,53 +184,54 @@ public class ImportSantander_CSV implements Serializable {
     
     public static void main(String[] args) throws SAXException, IOException {
         try {
-            Path pathToFile = Paths.get("D:\\mbank.csv");
+            Path pathToFile = Paths.get("D:\\bank.csv");
             List<List<String>> records = new ArrayList<>();
-            try (BufferedReader br =  Files.newBufferedReader(pathToFile)) {
+           try (BufferedReader br =  Files.newBufferedReader(pathToFile,Charset.forName("windows-1250"))) {
                 String line;
                 while ((line = br.readLine()) != null) {
                     String[] values = line.split(";");
                     records.add(Arrays.asList(values));
                 }
             } catch (Exception e) {
+                System.out.println(E.e(e));
             }
             int i = 0;
             List<ImportBankWiersz> listaswierszy = new ArrayList<>();
             for (Iterator<List<String>> it = records.iterator(); it.hasNext();) {
                 List<String> baza = it.next();
                 List<String> row = new ArrayList<>();
-//                for (String r : baza) {
-//                    row.add(r.replace("\"", ""));
-//                }
-//                if (i==0) {
-//                    String wyciagnr = baza.get(0);
-//                    String wyciagdataod = baza.get(2);
-//                    String wyciagdatado = baza.get(1);
-//                    String wyciagkonto = baza.get(5);;
-//                    String wyciagwaluta = baza.get(6);
-//                    String wyciagbz = baza.get(12);
-//                    String wyciagobrotywn = baza.get(10);
-//                    String wyciagobrotyma = baza.get(11);
-//                    System.out.println("");
-//                } else if (i==1) {
-//                    String wyciagbo = baza.get(12);
-//                } else {
-//                    ImportBankWiersz x = new ImportBankWiersz();
-//                    x.setDatatransakcji(baza.get(1));
-//                    x.setDatawaluty(baza.get(2));
-//                    x.setIBAN(baza.get(5));//??
-//                    x.setKontrahent(baza.get(4));//??
-//                    x.setKwota(Double.parseDouble(baza.get(10).replace(",",".")));
-//                    x.setWnma("Wn");
-//                    if (!baza.get(11).equals("")) {
-//                        x.setKwota(-Double.parseDouble(baza.get(11).replace(",",".")));
-//                        x.setWnma("Ma");
-//                    }
-//                    x.setNrtransakji(baza.get(8));
-//                    x.setOpistransakcji(baza.get(3));
-//                    x.setTyptransakcji(oblicztyptransakcji(x));
-//                    listaswierszy.add(x);
-//                }
+                for (String r : baza) {
+                    row.add(r.replace("\"", ""));
+                }
+                if (i==0) {
+                    String wyciagnr = baza.get(0);
+                    String wyciagdataod = baza.get(2);
+                    String wyciagdatado = baza.get(1);
+                    String wyciagkonto = baza.get(5);;
+                    String wyciagwaluta = baza.get(6);
+                    String wyciagbz = baza.get(12);
+                    String wyciagobrotywn = baza.get(10);
+                    String wyciagobrotyma = baza.get(11);
+                    System.out.println("");
+                } else if (i==1) {
+                    String wyciagbo = baza.get(12);
+                } else {
+                    ImportBankWiersz x = new ImportBankWiersz();
+                    x.setDatatransakcji(baza.get(1));
+                    x.setDatawaluty(baza.get(2));
+                    x.setIBAN(baza.get(5));//??
+                    x.setKontrahent(baza.get(4));//??
+                    x.setKwota(Double.parseDouble(baza.get(10).replace(",",".")));
+                    x.setWnma("Wn");
+                    if (!baza.get(11).equals("")) {
+                        x.setKwota(-Double.parseDouble(baza.get(11).replace(",",".")));
+                        x.setWnma("Ma");
+                    }
+                    x.setNrtransakji(baza.get(8));
+                    x.setOpistransakcji(baza.get(3));
+                    x.setTyptransakcji(oblicztyptransakcji(x));
+                    listaswierszy.add(x);
+                }
                 i++;
             }
             System.out.println("");

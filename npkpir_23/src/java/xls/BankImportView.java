@@ -50,6 +50,7 @@ import javax.faces.component.html.HtmlOutputText;
 import javax.inject.Inject;
 import msg.Msg;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.joda.time.DateTime;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.commandbutton.CommandButton;
@@ -211,7 +212,10 @@ public class BankImportView implements Serializable {
                 pobraneplikibytes.add(uploadedFile.getContents());
                 //plikinterpaper = uploadedFile.getContents();
                 PrimeFaces.current().ajax().update("panelplikbankall");
+                resetuj2();
                 grid1.setRendered(true);
+                grid2.setRendered(false);
+                rodzajdok = null;
                 if (pobraneplikibytes!=null && pobraneplikibytes.size()==1) {
                     Msg.msg("Sukces. Wyciąg bankowy " + filename + " został skutecznie załadowany");
                 } else {
@@ -248,7 +252,7 @@ public class BankImportView implements Serializable {
     }
     
     public void resetuj2() {
-        pobranefaktury = null;
+        pobranefaktury = new ArrayList();
         grid2.setRendered(false);
         grid3.setRendered(false);
         alert1.setRendered(false);
@@ -585,9 +589,11 @@ public class BankImportView implements Serializable {
     
      private String zrobopiswiersza(ImportBankWiersz ImportBankWiersz) {
         String opis = ImportBankWiersz.getOpistransakcji().toLowerCase(new Locale("pl"));
-        String kontr = ImportBankWiersz.getKontrahent();
+        String kontr = WordUtils.capitalizeFully(ImportBankWiersz.getKontrahent().trim());
         if (kontr.equals("NOTPROVIDED")) {
-            kontr="";
+            kontr=null;
+        } else if (kontr.equals(" ") || kontr.equals("\"  \"")) {
+            kontr=null;
         } else {
             kontr = kontr.replaceAll("\\s{2,}", " ").trim();
         }
@@ -600,8 +606,12 @@ public class BankImportView implements Serializable {
             opis = opis.replace("WYPŁATA KARTĄ", "wypłatya kartą");
         }
         
-        opis = opis.replaceAll("\\s{2,}", " ").trim();
-        return kontr+" "+opis;
+        opis = opis.replaceAll("\\s{2,}", " ").replaceAll("\"", "").trim();
+        String zwrot = opis;
+        if (kontr!=null) {
+            zwrot = opis+" "+kontr.replaceAll("\"", "");
+        }
+        return zwrot;
     }
     
      private double zrobpln(Wiersz w, ImportBankWiersz ImportBankWiersz) {
