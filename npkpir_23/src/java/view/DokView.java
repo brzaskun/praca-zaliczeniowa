@@ -1544,6 +1544,7 @@ public class DokView implements Serializable {
                     typdokumentu = selDokument.getRodzajedok().getSkrot();
                 }
             wygenerujnumerkolejny();
+            podepnijListe();
             } catch (Exception e) {
                 E.e(e);
             }
