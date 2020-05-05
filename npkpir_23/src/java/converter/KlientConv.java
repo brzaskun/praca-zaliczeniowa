@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -27,7 +28,8 @@ public class KlientConv implements javax.faces.convert.Converter, Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private KlienciDAO klienciDAO;
-    
+    @ManagedProperty(value = "#{klienciConverterView}")
+    private KlienciConverterView klienciConverterView;
        
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String sub) {
@@ -37,8 +39,8 @@ public class KlientConv implements javax.faces.convert.Converter, Serializable {
             listaKlientow.add(znaleziony);
         }
         int submittedValue = Integer.parseInt(sub);
-        if (submittedValue == -2) {
-            listaKlientow.add(new Klienci(-2, "dodaj klienta automatycznie", "", sub, "", "", "", "", ""));
+        if (submittedValue==-2){  
+            listaKlientow.add(klienciConverterView.getKlientautomat());
         }
         try {
             return listaKlientow.stream().filter(p -> p.getId().equals(submittedValue)).findAny().orElse(null);
@@ -60,5 +62,14 @@ public class KlientConv implements javax.faces.convert.Converter, Serializable {
             return ((Klienci) value).getId() != null ? String.valueOf(((Klienci) value).getId()) : null;  
         }  
     }  
+
+    public KlienciConverterView getKlienciConverterView() {
+        return klienciConverterView;
+    }
+
+    public void setKlienciConverterView(KlienciConverterView klienciConverterView) {
+        this.klienciConverterView = klienciConverterView;
+    }
+    
     
 }

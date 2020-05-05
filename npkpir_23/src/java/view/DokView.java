@@ -361,7 +361,8 @@ public class DokView implements Serializable {
                 PrimeFaces.current().ajax().update("dodWiad:acForce");
             }
         } catch (Exception e) {
-            
+             E.e(e);
+            System.out.println("dd");
         }
     }
     

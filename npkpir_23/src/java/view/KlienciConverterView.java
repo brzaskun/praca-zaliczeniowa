@@ -71,6 +71,11 @@ public class KlienciConverterView implements Serializable{
     }
 
               
+    public Klienci getKlientautomat() {
+        return klientautomat;
+    }
+
+              
     public static void main(String[] args) {
         Pattern pattern = Pattern.compile("[0-9]{10}");
         Matcher  m = pattern.matcher("851100500");
