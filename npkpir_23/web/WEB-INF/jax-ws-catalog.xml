@@ -4,4 +4,5 @@
     <system systemId="file:/C:/uslugi/GateService.xsd" uri="wsdl/GateService.xsd"/>
     <system systemId="file:/C:/uslugi/test/testdok.wsdl" uri="wsdl/testdok.wsdl"/>
     <system systemId="file:/C:/uslugi/test/GateService.xsd" uri="wsdl/GateService.xsd"/>
+    <system systemId="file:/C:/Regon/UslugaBIRzewnPubl.xsd" uri="wsdl/UslugaBIRzewnPubl.xsd"/>
 </catalog>

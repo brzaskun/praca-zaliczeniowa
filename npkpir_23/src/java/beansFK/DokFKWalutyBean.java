@@ -104,7 +104,7 @@ public class DokFKWalutyBean implements Serializable{
         }
         for (EVatwpisFK r : selected.getEwidencjaVAT()) {
             r.setNetto(Z.z(r.getNettowwalucie()*kurs));
-            r.setVat(Z.z(r.getVatwwalucie()*kurs));
+            r.setVat(Z.z(r.getVatwwalucie()*kurs)); 
             r.setBrutto(Z.z(r.getNetto()+r.getVat()));
         }
     }
