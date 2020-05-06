@@ -92,7 +92,7 @@
                                                       $(this).addClass('ui-state-default');"
                                               style="height: 26px;"
                                               >
-                                <p:ajax event="change" partialSubmit="true" update="dodWiad:panelTabelaNBP, dodWiad:dokumentprosty"/>
+                                <p:ajax event="change" partialSubmit="true" update="dodWiad:panelTabelaNBP, dodWiad:dokumentprosty dodWiad:tabelapkpir" />
                                 <p:ajax event="blur" listener="#{DokumentView.zmienokresVAT}"/>
                                 <f:selectItems value="#{DokumentView.wprowadzonesymbolewalut}" var="wal" itemLabel="#{wal.symbolwaluty}" itemValue="#{wal}"/>
                             </h:selectOneMenu>
