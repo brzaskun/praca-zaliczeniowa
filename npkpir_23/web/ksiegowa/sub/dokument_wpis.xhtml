@@ -205,8 +205,7 @@
                     </p:column>
                     <p:column>
                         <p:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}" title="wpisz numer własny faktury" style="width: 150px;" required="true" requiredMessage="Brak numeru faktury">
-                            
-                            <p:ajax event="blur" partialSubmit="true" listener="#{DokumentView.sprawdzCzyNieDuplikatwtrakcie}"/>
+                            <p:ajax event="blur" partialSubmit="true" global="false"/>
                         </p:inputText>
                     </p:column>
                     <p:column>
@@ -215,6 +214,7 @@
                                         minQueryLength="2" maxResults="10" maxlength="40" required="true" requiredMessage="brak opisu dokumentu"
                                         effect="clip" autocomplete="true"  queryDelay="0" style="width: 200px;">
                             <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
+                            <p:ajax event="focus" partialSubmit="true" listener="#{DokumentView.sprawdzCzyNieDuplikatwtrakcie}"/>
                         </p:autoComplete>
                     </p:column>
                 </p:row>

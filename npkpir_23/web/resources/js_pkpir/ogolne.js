@@ -12,6 +12,11 @@
 //        $(this).css({'background-color' : '#DFD8D1'});
 //    });
 //};
+var duplikatwtrakcie = function() {
+    rj("dodWiad:numerwlasny").value = "UWAGA DUPLIKAT!";
+    r("dodWiad:numerwlasny").css("color", "red");
+ };
+
 
 var focusnanowymwierszu = function() {
     $("#formdialog_add_wiad_kolumna1rozbicie\\:rozbicietabeladane tr:last input:first").focus();

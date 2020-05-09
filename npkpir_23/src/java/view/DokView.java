@@ -310,7 +310,6 @@ public class DokView implements Serializable {
         } catch (Exception e) {
             E.e(e);
         }
-        selDokument.setKontr1(biezacyklientdodok);
         podepnijEwidencjeVat();
         podepnijListe();
         domyslatabela = DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selDokument);
@@ -1178,7 +1177,7 @@ public class DokView implements Serializable {
             if (selD instanceof Dok) {
                 String wiadomosc = "Dokument typu " + selD.getRodzajedok().getSkrot() + " dla tego klienta, o numerze " + selD.getNrWlDk() + " i kwocie netto " + selD.getNetto() + " jest juz zaksiegowany u podatnika: " + selD.getPodatnik().getPrintnazwa() + " w miesiącu " + selD.getPkpirM();
                 Msg.msg("e", wiadomosc);
-                PrimeFaces.current().executeScript("$('#dodWiad\\\\:numerwlasny').select();");
+                PrimeFaces.current().executeScript("duplikatwtrakcie();");
             } else {
             }
         } catch (Exception e) {
