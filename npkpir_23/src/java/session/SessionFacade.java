@@ -91,6 +91,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -123,7 +124,7 @@ public class SessionFacade<T> implements Serializable {
 
     @PersistenceContext(unitName = "npkpir_22PU", synchronization = SynchronizationType.SYNCHRONIZED)
     private EntityManager em;
-
+    
     public SessionFacade() {
        // System.out.println("SessionFacade init");
     }

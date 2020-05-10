@@ -382,8 +382,10 @@ public class DokView implements Serializable {
         String transakcjiRodzaj = selDokument.getRodzajedok().getRodzajtransakcji();
         if (wpisView.isKsiegaryczalt()) {
             kolumny = Kolmn.zwrockolumny(transakcjiRodzaj);
+            selDokument.setDokumentProsty(selDokument.getRodzajedok().isDokProsty());
         } else {
             kolumny = Kolmn.zwrockolumnyR(transakcjiRodzaj);
+            selDokument.setDokumentProsty(selDokument.getRodzajedok().isDokProsty());
         }
         if (transakcjiRodzaj.equals("srodek trw sprzedaz")){
             setPokazEST(true);
@@ -495,6 +497,7 @@ public class DokView implements Serializable {
                     }
                 } else {
                     if (stawkaVATwPoprzednimDok > 0.0 && selDokument.getRodzajedok().getSkrot().equals(typpoprzedniegodokumentu)) {
+                        stawkaVATwPoprzednimDok = Z.z(stawkaVATwPoprzednimDok);
                         selDokument.getEwidencjaVAT1().get(0).setVat((selDokument.getEwidencjaVAT1().get(0).getNetto() * stawkaVATwPoprzednimDok));
                     } else {
                         selDokument.getEwidencjaVAT1().get(0).setVat(Z.z(selDokument.getEwidencjaVAT1().get(0).getNetto() * 0.23));
@@ -1507,6 +1510,7 @@ public class DokView implements Serializable {
                     selDokument.setRodzajedok(poprzedniDokument.getRodzajedok());
                     typdokumentu = poprzedniDokument.getRodzajedok().getSkrot();
                     typpoprzedniegodokumentu = poprzedniDokument.getRodzajedok().getSkrot();
+                    selDokument.setDokumentProsty(poprzedniDokument.isDokumentProsty());
                     selDokument.setOpis(poprzedniDokument.getOpis());
                     if (typpoprzedniegodokumentu.startsWith("S")) {
                         List<EVatwpis1> e = poprzedniDokument.getEwidencjaVAT1();

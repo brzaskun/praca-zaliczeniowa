@@ -3,7 +3,8 @@
 <resources>
      <jdbc-resource enabled="true" jndi-name="pkpirNew" object-type="user" pool-name="mysql_pkpir_brzaskunPool" />
     <jdbc-connection-pool associate-with-thread="false" 
-                          wrap-jdbc-objects="false" connection-creation-retry-attempts="50" connection-creation-retry-interval-in-seconds="1" connection-leak-timeout-in-seconds="20" connection-leak-reclaim="true"                        statement-cache-size="100"
+                          wrap-jdbc-objects="false" connection-creation-retry-attempts="50" connection-creation-retry-interval-in-seconds="1" connection-leak-timeout-in-seconds="20" connection-leak-reclaim="true"
+                          statement-cache-size="100"
                           datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" idle-timeout-in-seconds="4000" 
                           is-isolation-level-guaranteed="true" lazy-connection-association="false" 
                           lazy-connection-enlistment="false" match-connections="false" max-connection-usage-count="0" max-pool-size="512"
