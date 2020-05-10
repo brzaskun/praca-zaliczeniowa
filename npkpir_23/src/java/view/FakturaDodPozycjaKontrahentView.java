@@ -73,6 +73,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
             }
         }
         Collections.sort(klienci,new Klienci1comparator());
+        pozycje = fakturaDodatkowaPozycjaDAO.findAll();
     }
     
     public void dodaj() {
