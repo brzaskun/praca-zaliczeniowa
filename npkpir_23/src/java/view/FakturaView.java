@@ -16,6 +16,7 @@ import comparator.Fakturyokresowecomparator;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.FakturaDAO;
+import dao.FakturaDodPozycjaKontrahentDAO;
 import dao.FakturaStopkaNiemieckaDAO;
 import dao.FakturadodelementyDAO;
 import dao.FakturaelementygraficzneDAO;
@@ -38,6 +39,7 @@ import entity.Dok;
 import entity.EVatwpis1;
 import entity.Evewidencja;
 import entity.Faktura;
+import entity.FakturaDodPozycjaKontrahent;
 import entity.FakturaStopkaNiemiecka;
 import entity.FakturaWalutaKonto;
 import entity.Fakturadodelementy;
@@ -133,6 +135,8 @@ public class FakturaView implements Serializable {
     private FakturywystokresoweDAO fakturywystokresoweDAO;
     @Inject
     private FakturadodelementyDAO fakturadodelementyDAO;
+    @Inject
+    private FakturaDodPozycjaKontrahentDAO fakturaDodPozycjaKontrahentDAO;
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
     //faktury z bazy danych
@@ -651,7 +655,66 @@ public class FakturaView implements Serializable {
 //        funkcja = "PF('tworzenieklientapolenazwy').activate();";
 //        PrimeFaces.current().executeScript(funkcja);
        }
+    
+    private void dodajwierszedodatkowe(Faktura faktura) {
+        List<Pozycjenafakturzebazadanych> pozycje = faktura.getPozycjenafakturze();
+        dodajpozycje(pozycje, faktura.getKontrahent(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        double netto = 0.0;
+        double vat = 0.0;
+        double brutto = 0.0;
+        List<Evewidencja> ew = Collections.synchronizedList(new ArrayList<>());
+        ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
+        List<EVatwpis> el = Collections.synchronizedList(new ArrayList<>());
+        for (Pozycjenafakturzebazadanych p : pozycje) {
+            netto = Z.z(netto+p.getNetto());
+            vat = Z.z(vat+p.getPodatekkwota());
+            brutto = Z.z(brutto+p.getBrutto());
+            EVatwpis eVatwpis = new EVatwpis();
+            Evewidencja ewidencja = zwrocewidencje(ew, p);
+            for (EVatwpis r : el) {
+                if (r.getEwidencja().equals(ewidencja)) {
+                    eVatwpis = r;
+                }
+            }
+            if (eVatwpis.getNetto() != 0) {
+                eVatwpis.setNetto(eVatwpis.getNetto() + p.getNetto());
+                eVatwpis.setVat(eVatwpis.getVat() + p.getPodatekkwota());
+                el.add(eVatwpis);
+            } else {
+                eVatwpis.setEwidencja(ewidencja);
+                eVatwpis.setNetto(p.getNetto());
+                eVatwpis.setVat(p.getPodatekkwota());
+                eVatwpis.setEstawka(String.valueOf(p.getPodatek()));
+                el.add(eVatwpis);
+            }
+        }
+        faktura.setEwidencjavat(el);
+        faktura.setNetto(Z.z(netto));
+        faktura.setVat(Z.z(vat));
+        faktura.setBrutto(Z.z(brutto));
+    }
 
+    private void dodajpozycje(List<Pozycjenafakturzebazadanych> pozycje, Klienci kontrahent, String rok, String mc) {
+        List<FakturaDodPozycjaKontrahent> lista =  fakturaDodPozycjaKontrahentDAO.findKontrRokMc(kontrahent, rok, mc);
+        if (lista!=null && lista.size()>0) {
+            int lp = pozycje.get(pozycje.size()-1).getLp();
+            for (FakturaDodPozycjaKontrahent p : lista) {
+                double ilosc = p.getIlosc();
+                double cena = p.getFakturaDodatkowaPozycja().getKwota();
+                double netto = Z.z(ilosc*cena);
+                double podatek = 23.0;
+                double podatekkwota = Z.z(netto*podatek/100);
+                double brutto = Z.z(netto + podatekkwota);
+                Pozycjenafakturzebazadanych nowa = new Pozycjenafakturzebazadanych(++lp, p.getFakturaDodatkowaPozycja().getNazwa(), "", "szt.", ilosc, cena, netto, podatek, podatekkwota, brutto);
+                nowa.setDodatkowapozycja(p.getId());
+                pozycje.add(nowa);
+                p.setRozliczone(true);
+                fakturaDodPozycjaKontrahentDAO.edit(p);
+            }
+        }
+    }
+   
+    
     private void waloryzacjakwoty(Faktura faktura, double proc) throws Exception {
         faktura.setDatawaloryzacji(Data.data_yyyyMMdd(new Date()));
         faktura.setProcentwaloryzacji(proc);
@@ -700,12 +763,9 @@ public class FakturaView implements Serializable {
             }
         }
         faktura.setEwidencjavat(el);
-        faktura.setNetto(netto);
-        faktura.setVat(vat);
-        double wartosc = brutto * 100;
-        wartosc = Math.round(wartosc);
-        wartosc = wartosc / 100;
-        faktura.setBrutto(wartosc);
+        faktura.setNetto(Z.z(netto));
+        faktura.setVat(Z.z(vat));
+        faktura.setBrutto(Z.z(brutto));
 
     }
 
@@ -723,6 +783,7 @@ public class FakturaView implements Serializable {
             try {
                 fakturaDAO.destroy(p);
                 faktury.remove(p);
+                usundodatkowewiersze(p);
                 if (fakturyFiltered != null) {
                     fakturyFiltered.remove(p);
                 }
@@ -1351,6 +1412,9 @@ public class FakturaView implements Serializable {
                 Faktura nowa = SerialClone.clone(p.getDokument());
                 nowa.setId(null);
                 nowa.setDatawysylki(null);
+                if (wpisView.getPodatnikObiekt().getNip().equals("8511005008")) {
+                    dodajwierszedodatkowe(nowa);
+                }
                 if (waloryzajca > 0) {
                     try {
                         waloryzacjakwoty(nowa, waloryzajca);
@@ -2451,7 +2515,27 @@ public class FakturaView implements Serializable {
         }
         return wynik;
     }
-   
+
+    private void usundodatkowewiersze(Faktura p) {
+        if (p.getPozycjenafakturze()!=null) {
+            List<Integer> numery = new ArrayList<>();
+            for (Pozycjenafakturzebazadanych r : p.getPozycjenafakturze()) {
+                if (r.getDodatkowapozycja()!=0) {
+                    numery.add(r.getDodatkowapozycja());
+                }
+            }
+            if (numery!=null && numery.size()>0) {
+                for (Integer s : numery) {
+                    FakturaDodPozycjaKontrahent findById = fakturaDodPozycjaKontrahentDAO.findById(s);
+                    findById.setRozliczone(false);
+                    fakturaDodPozycjaKontrahentDAO.edit(findById);
+                    
+                }
+            }
+        }
+    }
+
+    
 
    static public class ColumnModel implements Serializable {
  

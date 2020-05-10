@@ -334,6 +334,10 @@ public class Klienci extends KlienciSuper implements Serializable {
 //        this.dokumentyfk = dokumentyfk;
 //    }
     
+    public String getNazwabezCudzy() {
+        return this.getNpelna().replace("\"", "");
+    }
+    
     public String getAdres() {
         String zwrot = this.kodpocztowy+" "+this.miejscowosc+", ul. "+this.ulica+" "+this.dom;
         if (this.lokal!=null && !this.lokal.equals("")) {

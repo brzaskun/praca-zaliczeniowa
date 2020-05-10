@@ -33,6 +33,7 @@ public class Pozycjenafakturzebazadanych implements Serializable{
         private double podatek = 0;
         private double podatekkwota = 0;
         private double brutto = 0;
+        private int dodatkowapozycja = 0;
 
     public Pozycjenafakturzebazadanych() {
     }
@@ -186,7 +187,16 @@ public class Pozycjenafakturzebazadanych implements Serializable{
     public void setNowakolumna(String nowakolumna) {
         this.nowakolumna = nowakolumna;
     }
-        
+
+    public int getDodatkowapozycja() {
+        return dodatkowapozycja;
+    }
+
+    public void setDodatkowapozycja(int dodatkowapozycja) {
+        this.dodatkowapozycja = dodatkowapozycja;
+    }
+     
+    
     
 
 

@@ -32,6 +32,10 @@ import javax.persistence.UniqueConstraint;
 @NamedQueries({
     @NamedQuery(name = "FakturaDodPozycjaKontrahent.findAll", query = "SELECT d FROM FakturaDodPozycjaKontrahent d"),
     @NamedQuery(name = "FakturaDodPozycjaKontrahent.findByKontrahent", query = "SELECT d FROM FakturaDodPozycjaKontrahent d WHERE d.kontrahent = :kontrahent"),
+    @NamedQuery(name = "FakturaDodPozycjaKontrahent.findById", query = "SELECT d FROM FakturaDodPozycjaKontrahent d WHERE d.id = :id"),
+    @NamedQuery(name = "FakturaDodPozycjaKontrahent.findByKontrahentRokMc", query = "SELECT d FROM FakturaDodPozycjaKontrahent d WHERE d.kontrahent = :kontrahent AND d.rok = :rok AND d.mc = :mc"),
+    @NamedQuery(name = "FakturaDodPozycjaKontrahent.deleteById", query = "DELETE FROM FakturaDodPozycjaKontrahent s WHERE s.id = :id"),
+    @NamedQuery(name = "FakturaDodPozycjaKontrahent.aktualizuj", query = "UPDATE FakturaDodPozycjaKontrahent r SET r.rozliczone = '0' WHERE r.id = :id")
     })
 public class FakturaDodPozycjaKontrahent  implements Serializable{
     private static final long serialVersionUID = 1L;

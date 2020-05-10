@@ -91,10 +91,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -118,20 +118,21 @@ public class SessionFacade<T> implements Serializable {
 
     @PreDestroy
     private void end() {
-        em.clear();
-        em.close();
+        if (em != null) {
+            EntityManagerFactory emf = em.getEntityManagerFactory();
+            em.clear();
+            if (emf != null) {
+                emf.close();
+            }
+        }
+        System.out.println("koniec jpa");
     }
 
+    @PersistenceContext(unitName = "npkpir_22PU", synchronization = SynchronizationType.SYNCHRONIZED)
     private EntityManager em;
-    
-    @PostConstruct
-    private void init() {
-        em = EMF.createEntityManager();
-        System.out.println("");
-    }
 
     public SessionFacade() {
-       
+       // System.out.println("SessionFacade init");
     }
 
     public EntityManager getEntityManager() {

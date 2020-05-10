@@ -37,7 +37,9 @@ public class FakturaDodatkowaPozycjaView  implements Serializable {
     public void dodaj() {
         if (selected.getNazwa()!=null && selected.getKwota() > 0.0) {
             try {
+                selected.setAktywny(true);
                 fakturaDodatkowaPozycjaDAO.dodaj(selected);
+                lista.add(selected);
                 selected = new FakturaDodatkowaPozycja();
                 Msg.msg("Zapisano nową pozycję");
             } catch (Exception e) {
