@@ -7,8 +7,11 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -24,7 +27,7 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name = "FakturaDodPozycjaKontrahent",uniqueConstraints = {
     @UniqueConstraint(
-            columnNames={"nazwa"})
+            columnNames={"kontrahent, ilosc, rok, mc"})
 })
 @NamedQueries({
     @NamedQuery(name = "FakturaDodPozycjaKontrahent.findAll", query = "SELECT d FROM FakturaDodPozycjaKontrahent d"),
@@ -33,10 +36,10 @@ import javax.persistence.UniqueConstraint;
 public class FakturaDodPozycjaKontrahent  implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
     @Column(name = "id")
     private int id;
-    @Column(name = "nazwa")
-    private String nazwa;
     @JoinColumn(name = "kontrahent", referencedColumnName = "id")
     @ManyToOne
     private Klienci kontrahent;
@@ -52,6 +55,49 @@ public class FakturaDodPozycjaKontrahent  implements Serializable{
     @Column(name = "rozliczone")
     private boolean rozliczone;
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 47 * hash + this.id;
+        hash = 47 * hash + Objects.hashCode(this.kontrahent);
+        hash = 47 * hash + Objects.hashCode(this.fakturaDodatkowaPozycja);
+        hash = 47 * hash + Objects.hashCode(this.rok);
+        hash = 47 * hash + Objects.hashCode(this.mc);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final FakturaDodPozycjaKontrahent other = (FakturaDodPozycjaKontrahent) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (!Objects.equals(this.rok, other.rok)) {
+            return false;
+        }
+        if (!Objects.equals(this.mc, other.mc)) {
+            return false;
+        }
+        if (!Objects.equals(this.kontrahent, other.kontrahent)) {
+            return false;
+        }
+        if (!Objects.equals(this.fakturaDodatkowaPozycja, other.fakturaDodatkowaPozycja)) {
+            return false;
+        }
+        return true;
+    }
+
+    
+    
     public int getId() {
         return id;
     }
@@ -60,13 +106,6 @@ public class FakturaDodPozycjaKontrahent  implements Serializable{
         this.id = id;
     }
 
-    public String getNazwa() {
-        return nazwa;
-    }
-
-    public void setNazwa(String nazwa) {
-        this.nazwa = nazwa;
-    }
 
     public Klienci getKontrahent() {
         return kontrahent;
@@ -116,49 +155,11 @@ public class FakturaDodPozycjaKontrahent  implements Serializable{
         this.rozliczone = rozliczone;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + this.id;
-        hash = 29 * hash + Objects.hashCode(this.nazwa);
-        hash = 29 * hash + Objects.hashCode(this.kontrahent);
-        hash = 29 * hash + Objects.hashCode(this.rok);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final FakturaDodPozycjaKontrahent other = (FakturaDodPozycjaKontrahent) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        if (!Objects.equals(this.nazwa, other.nazwa)) {
-            return false;
-        }
-        if (!Objects.equals(this.rok, other.rok)) {
-            return false;
-        }
-        if (!Objects.equals(this.mc, other.mc)) {
-            return false;
-        }
-        if (!Objects.equals(this.kontrahent, other.kontrahent)) {
-            return false;
-        }
-        return true;
-    }
+    
 
     @Override
     public String toString() {
-        return "FakturaDodPozycjaKlient{" + "nazwa=" + nazwa + ", kontrahent=" + kontrahent.getNpelna() + ", fakturaDodatkowaPozycja=" + fakturaDodatkowaPozycja.getNazwa() + ", ilosc=" + ilosc + ", rok=" + rok + ", mc=" + mc + ", rozliczone=" + rozliczone + '}';
+        return "FakturaDodPozycjaKlient{" + ", kontrahent=" + kontrahent.getNpelna() + ", fakturaDodatkowaPozycja=" + fakturaDodatkowaPozycja.getNazwa() + ", ilosc=" + ilosc + ", rok=" + rok + ", mc=" + mc + ", rozliczone=" + rozliczone + '}';
     }
     
     

@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    
+    <p:tabView>
+        <p:tab title="dodatki wprowadzanie">
+            <h:form>
+            <p:growl life="3600" showDetail="true"/>
+            <p:panelGrid columns="3">
+                <h:outputText value="nazwa"/>
+                <h:outputText value="kwota"/>
+                <h:outputText value=""/>
+                <p:inputText value="#{fakturaDodatkowaPozycjaView.selected.nazwa}" size="100"/>
+                <p:inputNumber value="#{fakturaDodatkowaPozycjaView.selected.kwota}" decimalPlaces="2" decimalSeparator=" " minValue="0.0" size="9" inputStyle="text-align: right;"/>
+                <p:commandButton value="dodaj" actionListener="#{fakturaDodatkowaPozycjaView.dodaj()}" update="@(form)"/>
+            </p:panelGrid>
+            </h:form>
+            <p:separator/>
+            <h:form>
+                <p:growl life="3600" showDetail="true"/>
+                <p:dataTable  var="wpis" value="#{fakturaDodatkowaPozycjaView.lista}" id="lista" sortOrder="descending" style="width: 730px;"
+                              paginator="true" paginatorAlwaysVisible="#{fakturaDodatkowaPozycjaView.lista.size() gt 20 ? true : false}" rows="20" sortBy="#{wpis.nazwa}"
+                          paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                          rowsPerPageTemplate="20,50,100" 
+                          rowKey="#{wpis.id}"> 
+                <f:facet name="header">  
+                    <h:outputText value="Wykaz wprowadzonych wartości" />  
+                </f:facet>
+                <p:column headerText="nazwa" width="400">  
+                    <h:outputText value="#{wpis.nazwa}"/>
+                </p:column>
+                <p:column headerText="kwota" width="100">  
+                    <bcf:outputpl value="#{wpis.kwota}" />
+                </p:column>
+                    <p:column headerText="aktywny" width="80" style="text-align: center;">  
+                    <h:outputText value="#{wpis.aktywny eq true ? 'tak':'nie'}" />
+                </p:column>
+                <p:column headerText="" style="text-align: center;" width="50">  
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaDodatkowaPozycjaView.usun(wpis)}" update="@form"/>
+                </p:column>
+            </p:dataTable>
+            </h:form>
+        </p:tab>
+    </p:tabView>
+ </ui:composition>
+

@@ -298,7 +298,7 @@ public class DokTabView implements Serializable {
                 } catch (Exception e) {
                     E.e(e);
                 }
-                Msg.msg("i", "Dokument usunięty " + dokdoUsuniecia.getIdDok().toString(), "form:messages");
+                Msg.msg("i", "Dokument usunięty " + dokdoUsuniecia.getIdDok().toString());
             }
         } else {
             Msg.msg("e", "Dokument w księgach, nie można usunąć ");

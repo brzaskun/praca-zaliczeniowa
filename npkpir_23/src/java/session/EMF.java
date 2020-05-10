@@ -17,31 +17,30 @@ import org.slf4j.LoggerFactory;
  *
  * @author Osito
  */
-//@WebListener
-public class EMF {
-//public class EMF implements ServletContextListener {
-//    private static EntityManagerFactory emf;
-//    final private static String pu = "npkpir_22PU";
-//    final static org.slf4j.Logger logger = LoggerFactory.getLogger(ServletContextListener.class);
-//    
-//    @Override
-//    public void contextInitialized(ServletContextEvent event) {
-//        logger.info("+++ ServletContextListener : contextInitialized - Inititalizing EMF for PU: " + pu);
-//        emf = Persistence.createEntityManagerFactory(pu);
-//        logger.info("+++ ServletContextListener : contextInitialized - Init EMF done for PU: " + pu);
-//    }
-//
-//    @Override
-//    public void contextDestroyed(ServletContextEvent event) {
-//        logger.info("+++ ServletContextListener : contextDestroyed - Closing EMF for PU: " + pu);
-//        emf.close();
-//        logger.info("+++ ServletContextListener : contextDestroyed - Closed EMF done for PU " + pu);
-//    }
-//
-//    public static EntityManager createEntityManager() {
-//        if (emf == null) {
-//            throw new IllegalStateException("Context is not initialized yet.");
-//        }
-//        return emf.createEntityManager();
-//    //
+@WebListener
+public class EMF implements ServletContextListener {
+    private static EntityManagerFactory emf;
+    final private static String pu = "npkpir_22PU";
+    final static org.slf4j.Logger logger = LoggerFactory.getLogger(ServletContextListener.class);
+    
+    @Override
+    public void contextInitialized(ServletContextEvent event) {
+        logger.info("+++ ServletContextListener : contextInitialized - Inititalizing EMF for PU: " + pu);
+        emf = Persistence.createEntityManagerFactory(pu);
+        logger.info("+++ ServletContextListener : contextInitialized - Init EMF done for PU: " + pu);
+    }
+
+    @Override
+    public void contextDestroyed(ServletContextEvent event) {
+        logger.info("+++ ServletContextListener : contextDestroyed - Closing EMF for PU: " + pu);
+        emf.close();
+        logger.info("+++ ServletContextListener : contextDestroyed - Closed EMF done for PU " + pu);
+    }
+
+    public static EntityManager createEntityManager() {
+        if (emf == null) {
+            throw new IllegalStateException("Context is not initialized yet.");
+        }
+        return emf.createEntityManager();
+    }
 }

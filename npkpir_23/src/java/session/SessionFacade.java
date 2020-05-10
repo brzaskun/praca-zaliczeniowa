@@ -122,11 +122,16 @@ public class SessionFacade<T> implements Serializable {
         em.close();
     }
 
-    @PersistenceContext(unitName = "npkpir_22PU", synchronization = SynchronizationType.SYNCHRONIZED)
     private EntityManager em;
     
+    @PostConstruct
+    private void init() {
+        em = EMF.createEntityManager();
+        System.out.println("");
+    }
+
     public SessionFacade() {
-       // System.out.println("SessionFacade init");
+       
     }
 
     public EntityManager getEntityManager() {
