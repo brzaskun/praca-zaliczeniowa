@@ -8,14 +8,15 @@
     <shared-cache-mode>ALL</shared-cache-mode>
     <validation-mode>NONE</validation-mode>
     <properties>
-      <!--      <property name="eclipselink.ddl-generation" value="create-tables"/>-->
+      <property name="eclipselink.ddl-generation" value="create-tables"/>
       <property name="eclipselink.ddl-generation" value="none"/>
-<!--      <property name="eclipselink.query-results-cache" value="true"/>-->
-<!--      <property name="eclipselink.cache-usage" value="CheckCacheThenDatabase"/>-->
+      <!--      <property name="eclipselink.query-results-cache" value="true"/>-->
+      <!--      <property name="eclipselink.cache-usage" value="CheckCacheThenDatabase"/>-->
       <!-- configure logging -->
-<!--      <property name="eclipselink.logging.level" value="INFO"/>
+      <!--      <property name="eclipselink.logging.level" value="INFO"/>
       <property name="eclipselink.logging.level.sql" value="FINE"/>
       <property name="eclipselink.logging.parameters" value="true"/>-->
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
   <!--ABY TO DZIAŁAŁO NALEŻY ZAZNACZYC WE WLASCIWOSCIACH PROJEKTU - COMPILE ON SAVE!!!!!
