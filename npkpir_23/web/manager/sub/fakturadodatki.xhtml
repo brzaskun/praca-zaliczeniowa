@@ -55,12 +55,12 @@
                     <h:outputText value=""/>
                     <h:outputText value=""/>
                     <p:selectOneMenu id="rokWpisu" value="#{fakturaDodPozycjaKontrahentView.rok}" style="width: 60px;">
-                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.pobierzklientow()}" update="form2:kontrpole"/>
+                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.pobierzklientow()}" update="form2:kontrpole form2:kontrpole2"/>
                         <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true" />
                         <f:selectItems value="#{Roki.rokiList}"/>
                     </p:selectOneMenu>
                     <p:selectOneMenu id="miesiacWpisu" value="#{fakturaDodPozycjaKontrahentView.mc}" style="width: 60px;">
-                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.pobierzklientow()}" update="form2:kontrpole"/>
+                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.pobierzklientow()}" update="form2:kontrpole form2:kontrpole2"/>
                         <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true" />
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
@@ -74,7 +74,7 @@
                         <f:selectItem itemLabel="wybierz"  noSelectionOption="true" />
                         <f:selectItems value="#{fakturaDodPozycjaKontrahentView.klienci}" var="opipi" itemLabel="#{opipi.getNazwabezCudzy()}" itemValue="#{opipi}"/>
                     </p:selectOneMenu>
-                    <p:selectOneMenu value="#{fakturaDodPozycjaKontrahentView.selected.fakturaDodatkowaPozycja}" style="width: 600px;" converter="#{fakturaDodatkowaPozycjaConv}">
+                    <p:selectOneMenu id="kontrpole2" value="#{fakturaDodPozycjaKontrahentView.selected.fakturaDodatkowaPozycja}" style="width: 600px;" converter="#{fakturaDodatkowaPozycjaConv}">
                         <f:selectItem itemLabel="wybierz"  noSelectionOption="true" />
                         <f:selectItems value="#{fakturaDodPozycjaKontrahentView.pozycje}" var="papi" itemLabel="#{papi.nazwa}" itemValue="#{papi}"/>
                     </p:selectOneMenu>
