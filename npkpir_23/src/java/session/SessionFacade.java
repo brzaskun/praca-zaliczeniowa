@@ -121,9 +121,9 @@ public class SessionFacade<T> implements Serializable {
         if (em != null) {
             EntityManagerFactory emf = em.getEntityManagerFactory();
             em.clear();
-            if (emf != null) {
-                emf.close();
-            }
+//            if (emf != null) {
+//                emf.close();
+//            }
         }
         System.out.println("koniec jpa");
     }
