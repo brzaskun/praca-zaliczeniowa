@@ -59,25 +59,6 @@
         <delete dir="${build.generated.sources.dir}/jax-ws/testservice"/>
         <delete dir="${build.generated.dir}/jax-wsCache/testdok"/>
     </target>
-    <target name="wsimport-service-NIPVATcheck" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/service/NIPVATcheck"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/service/NIPVATcheck" destdir="${build.generated.dir}/jax-wsCache/service/NIPVATcheck" wsdl="${basedir}/${conf-dir}xml-resources/web-services/NIPVATcheck/wsdl/wsdlnipvat.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" xnocompile="true" xendorsed="true">
-            <depends file="${basedir}/${conf-dir}xml-resources/web-services/NIPVATcheck/wsdl/wsdlnipvat.wsdl"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/service/NIPVATcheck"/>
-        </wsimport>
-        <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/service/NIPVATcheck">
-                <include name="**/*.java"/>
-            </fileset>
-        </copy>
-        <copy todir="${build.web.dir}/WEB-INF/wsdl/NIPVATcheck">
-            <fileset dir="${basedir}/${conf-dir}xml-resources/web-services/NIPVATcheck/wsdl/"/>
-        </copy>
-    </target>
-    <target name="wsimport-service-clean-NIPVATcheck" depends="-init-project">
-        <delete dir="${build.generated.sources.dir}/jax-ws/pl/gov/mf/uslugibiznesowe/uslugidomenowe/ap/weryfikacjavat/_2018/_03/_01"/>
-        <delete dir="${build.generated.dir}/jax-wsCache/service/NIPVATcheck"/>
-    </target>
     <target name="wsimport-service-GUS" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/service/GUS"/>
         <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/service/GUS" destdir="${build.generated.dir}/jax-wsCache/service/GUS" wsdl="${basedir}/${conf-dir}xml-resources/web-services/GUS/wsdl/UslugaBIRzewnPubl1.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" xnocompile="true" xendorsed="true">
@@ -97,6 +78,25 @@
         <delete dir="${build.generated.sources.dir}/jax-ws/org/tempuri"/>
         <delete dir="${build.generated.dir}/jax-wsCache/service/GUS"/>
     </target>
+    <target name="wsimport-service-NIPVATcheck" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/service/NIPVATcheck"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/service/NIPVATcheck" destdir="${build.generated.dir}/jax-wsCache/service/NIPVATcheck" wsdl="${basedir}/${conf-dir}xml-resources/web-services/NIPVATcheck/wsdl/wsdlnipvat.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" xnocompile="true" xendorsed="true">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-services/NIPVATcheck/wsdl/wsdlnipvat.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/service/NIPVATcheck"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/service/NIPVATcheck">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy todir="${build.web.dir}/WEB-INF/wsdl/NIPVATcheck">
+            <fileset dir="${basedir}/${conf-dir}xml-resources/web-services/NIPVATcheck/wsdl/"/>
+        </copy>
+    </target>
+    <target name="wsimport-service-clean-NIPVATcheck" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/pl/gov/mf/uslugibiznesowe/uslugidomenowe/ap/weryfikacjavat/_2018/_03/_01"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/service/NIPVATcheck"/>
+    </target>
     <target name="wsimport-client-generate" depends="wsimport-client-dokumenty, wsimport-client-testdok"/>
-    <target name="wsimport-service-generate" depends="wsimport-service-NIPVATcheck, wsimport-service-GUS"/>
+    <target name="wsimport-service-generate" depends="wsimport-service-GUS, wsimport-service-NIPVATcheck"/>
 </project>

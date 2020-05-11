@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
   <services>
-    <service name="NIPVATcheck">
-      <implementation-class>webservice.NIPVATcheck</implementation-class>
-      <wsdl-url>file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/wsdlnipvat.wsdl</wsdl-url>
-      <local-wsdl-file>wsdlnipvat.wsdl</local-wsdl-file>
-      <service-name>WeryfikacjaVAT</service-name>
-      <port-name>BasicHttpBinding_WeryfikacjaVAT</port-name>
-      <package-name>pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01</package-name>
+    <service name="GUS">
+      <implementation-class>webservice.GUS</implementation-class>
+      <wsdl-url>file:/C:/Regon/UslugaBIRzewnPubl1.wsdl</wsdl-url>
+      <local-wsdl-file>UslugaBIRzewnPubl1.wsdl</local-wsdl-file>
+      <service-name>UslugaBIRzewnPubl</service-name>
+      <port-name>e3</port-name>
+      <package-name>org.tempuri</package-name>
       <catalog-file>catalog.xml</catalog-file>
       <use-provider>false</use-provider>
       <wsimport-options>
@@ -33,13 +33,13 @@
         </wsimport-option>
       </wsimport-options>
     </service>
-    <service name="GUS">
-      <implementation-class>webservice.GUS</implementation-class>
-      <wsdl-url>file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/src/java/gus/UslugaBIRzewnPubl1.wsdl</wsdl-url>
-      <local-wsdl-file>UslugaBIRzewnPubl1.wsdl</local-wsdl-file>
-      <service-name>UslugaBIRzewnPubl</service-name>
-      <port-name>e3</port-name>
-      <package-name>org.tempuri</package-name>
+    <service name="NIPVATcheck">
+      <implementation-class>webservice.NIPVATcheck</implementation-class>
+      <wsdl-url>file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/wsdlnipvat.wsdl</wsdl-url>
+      <local-wsdl-file>wsdlnipvat.wsdl</local-wsdl-file>
+      <service-name>WeryfikacjaVAT</service-name>
+      <port-name>BasicHttpBinding_WeryfikacjaVAT</port-name>
+      <package-name>pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01</package-name>
       <catalog-file>catalog.xml</catalog-file>
       <use-provider>false</use-provider>
       <wsimport-options>
