@@ -209,8 +209,21 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
     }
     
     public void generujOP(Map<String, List<PozycjaRZiSBilans>> bilans, List<PozycjaRZiSBilans> rzis) {
+        SprFinKwotyInfDod sprFinKwotyInfDod = sprFinKwotyInfDodDAO.findsprfinkwoty(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        if (sprFinKwotyInfDod.getNrschemy()==null) {
+            Msg.msg("e","Brak numeru schemy, nie można wygenerować sprawozdania.");
+        } else if (sprFinKwotyInfDod.getNrschemy().equals("1-0")) {
+            generujOP_10(bilans, rzis, sprFinKwotyInfDod);
+        } else if (sprFinKwotyInfDod.getNrschemy().equals("1-2")) {
+            generujOP_12(bilans, rzis, sprFinKwotyInfDod);
+            System.out.println("generuje 1-2");
+        } else {
+            Msg.msg("e","Nieznany numer schemy, nie można wygenerować sprawozdania.");
+        }
+    }
+    
+    public void generujOP_10(Map<String, List<PozycjaRZiSBilans>> bilans, List<PozycjaRZiSBilans> rzis, SprFinKwotyInfDod sprFinKwotyInfDod) {
         try {
-            SprFinKwotyInfDod sprFinKwotyInfDod = sprFinKwotyInfDodDAO.findsprfinkwoty(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             sprawozdania.rok2018.JednostkaOp sprawozdanie = new sprawozdania.rok2018.JednostkaOp();
             sprawozdanie.setNaglowek(SprawozdanieFinOP2018Bean.naglowek(sprFinKwotyInfDod.getDatasporzadzenia(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado()));
             sprawozdanie.setWprowadzenieDoSprawozdaniaFinansowegoJednostkaOp(SprawozdanieFinOP2018Bean.wprowadzenieDoSprawozdaniaFinansowego(wpisView.getPodatnikObiekt(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado()));
@@ -228,9 +241,8 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
         }
     }
     
-    public void generujOP_12(Map<String, List<PozycjaRZiSBilans>> bilans, List<PozycjaRZiSBilans> rzis) {
+    public void generujOP_12(Map<String, List<PozycjaRZiSBilans>> bilans, List<PozycjaRZiSBilans> rzis, SprFinKwotyInfDod sprFinKwotyInfDod) {
         try {
-            SprFinKwotyInfDod sprFinKwotyInfDod = sprFinKwotyInfDodDAO.findsprfinkwoty(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             sprawozdania.v12.JednostkaOp sprawozdanie = new sprawozdania.v12.JednostkaOp();
             sprawozdanie.setNaglowek(sprawozdania.v12.SprawozdanieFinOP2018Bean.naglowek(sprFinKwotyInfDod.getDatasporzadzenia(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado()));
             sprawozdanie.setWprowadzenieDoSprawozdaniaFinansowegoJednostkaOp(sprawozdania.v12.SprawozdanieFinOP2018Bean.wprowadzenieDoSprawozdaniaFinansowego(wpisView.getPodatnikObiekt(), sprFinKwotyInfDod.getDataod(), sprFinKwotyInfDod.getDatado()));
