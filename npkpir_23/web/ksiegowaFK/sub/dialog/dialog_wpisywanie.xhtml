@@ -565,7 +565,7 @@
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" forceSelection="true" 
                                             minQueryLength="1" converter="#{planKontCompleteView}" queryDelay="0"  maxResults="200" 
                                             converterMessage="Nieudana konwersja Klient" scrollHeight="220" widgetVar="complWn#{wploop.idporzadkowy}"
-                                            styleClass="kontoinput #{wploop.dokfk.importowany eq true and wploop.znalezionokonto eq false and !wploop.stronaWn.konto.pelnynumer.startsWith('13') ? 'kontonieznaleziono' : null} #{wploop.stronaWn.typStronaWiersza eq 1 ? 'kontorozrachunki' : null} #{wploop.stronaWn.typStronaWiersza eq 2 ? 'kontoplatnosci' : null} #{wploop.stronaWn.cechazapisuLista.size() gt 0 ? 'zapisZcecha' : null}"
+                                            styleClass="kontoinput #{wploop.stronaWn.typStronaWiersza eq 1 ? 'kontorozrachunki' : null} #{wploop.stronaWn.typStronaWiersza eq 2 ? 'kontoplatnosci' : null} #{wploop.stronaWn.cechazapisuLista.size() gt 0 ? 'zapisZcecha' : null}"
                                             onfocus="zachowajwiersz(#{wploop.idporzadkowy}, 'Wn', #{wploop.typWiersza}, event);
                                                     usunspacje(this);
                                                     pobierznumergrupywierszy(#{wploop.lpmacierzystego}, #{wploop.idporzadkowy}, #{wploop.stronaWn.typStronaWiersza});
@@ -609,7 +609,7 @@
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" widgetVar="complMa#{wploop.idporzadkowy}"
                                             minQueryLength="1" converter="#{planKontCompleteView}" queryDelay="0" maxResults="200"
                                             converterMessage="Nieudana konwersja Klient"   scrollHeight="220" forceSelection="true"
-                                            styleClass="kontoinput #{wploop.dokfk.importowany eq true and wploop.znalezionokonto eq false and !wploop.stronaMa.konto.pelnynumer.startsWith('13') ? 'kontonieznaleziono' : null} #{wploop.stronaMa.typStronaWiersza eq 1 ? 'kontorozrachunki' : null} #{wploop.stronaMa.typStronaWiersza eq 2 ? 'kontoplatnosci' : null} #{wploop.stronaMa.cechazapisuLista.size() gt 0 ? 'zapisZcecha' : ''}"
+                                            styleClass="kontoinput  #{wploop.stronaMa.typStronaWiersza eq 1 ? 'kontorozrachunki' : null} #{wploop.stronaMa.typStronaWiersza eq 2 ? 'kontoplatnosci' : null} #{wploop.stronaMa.cechazapisuLista.size() gt 0 ? 'zapisZcecha' : ''}"
                                             onfocus="zachowajwiersz(#{wploop.idporzadkowy}, 'Ma', #{wploop.typWiersza}, event);
                                                     usunspacje(this);
                                                     pobierznumergrupywierszy(#{wploop.lpmacierzystego}, #{wploop.idporzadkowy}, #{wploop.stronaMa.typStronaWiersza});

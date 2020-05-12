@@ -3,10 +3,8 @@ package entityfk;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -20,13 +18,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapKeyColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -125,8 +121,7 @@ public class Wiersz implements Serializable {
     @OneToOne
     private StronaWiersza stronarozliczajacy;
     private String iban;
-    @Transient
-    private boolean znalezionokonto;
+
  
     
 
@@ -152,13 +147,6 @@ public class Wiersz implements Serializable {
         this.eVatwpisFK = eVatwpisFK;
     }
 
-    public boolean isZnalezionokonto() {
-        return znalezionokonto;
-    }
-
-    public void setZnalezionokonto(boolean znalezionokonto) {
-        this.znalezionokonto = znalezionokonto;
-    }
 
     public StronaWiersza getStronaWn() {
         return strWn;

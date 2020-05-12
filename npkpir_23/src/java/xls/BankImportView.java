@@ -9,6 +9,7 @@ import beansFK.DialogWpisywanie;
 import com.sun.faces.taglib.html_basic.OutputTextTag;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
+import dao.StronaWierszaDAO;
 import daoFK.DokDAOfk;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
@@ -88,6 +89,8 @@ public class BankImportView implements Serializable {
     private KontoDAOfk kontoDAO;
     @Inject
     private WierszDAO wierszDAO;
+    @Inject
+    private StronaWierszaDAO stronaWierszaDAO;
     @Inject
     private ImportPlikKonta importPlikKonta;
     private List<byte[]> pobraneplikibytes;
@@ -557,7 +560,7 @@ public class BankImportView implements Serializable {
         strma.setKwotaPLN(zrobpln(w,importBankWiersz));
         w.setStronaWn(strwn);
         w.setStronaMa(strma);
-        w.setZnalezionokonto(importBankWiersz.isZnalezionokonto());
+        //w.setZnalezionokonto(importBankWiersz.isZnalezionokonto());
         return w;
     }
     

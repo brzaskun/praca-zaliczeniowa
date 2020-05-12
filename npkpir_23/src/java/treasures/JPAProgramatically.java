@@ -50,15 +50,18 @@ public class JPAProgramatically {
 //        }
         for (Podatnik p :podatnicy) {
             emH2.getTransaction().begin();
-            List<Dokfk> dokfk =  emH2.createQuery("SELECT o FROM Dokfk o WHERE o.podatnik =:podatnik AND o.rok =:rok").setParameter("podatnik", p).setParameter("rok", 2019).getResultList();
-            List<Rodzajedok> rodzajedok = emH2.createQuery("SELECT o FROM Rodzajedok o WHERE o.podatnikObj =:podatnik AND o.rok =:rok").setParameter("podatnik", p).setParameter("rok", 2019).getResultList();
-            if (dokfk!=null && !dokfk.isEmpty() && rodzajedok!=null && !rodzajedok.isEmpty()) {
-                for (Dokfk s : dokfk) {
-                    naniesrodzaj(s,rodzajedok);
-                    emH2.merge(s);
-                }
-                System.out.println("podatnik "+p.getPrintnazwa());
-            }
+            List<Dokfk> dokfk =  emH2.createQuery("SELECT o FROM Dokfk o WHERE o.podatnikObj =:podatnik AND o.rok =:rok").setParameter("podatnik", p).setParameter("rok", "2020").getResultList();
+//            List<Rodzajedok> rodzajedok = emH2.createQuery("SELECT o FROM Rodzajedok o WHERE o.podatnikObj =:podatnik AND o.rok =:rok").setParameter("podatnik", p).setParameter("rok", 2019).getResultList();
+//            if (dokfk!=null && !dokfk.isEmpty() && rodzajedok!=null && !rodzajedok.isEmpty()) {
+//                for (Dokfk s : dokfk) {
+//                    naniesrodzaj(s,rodzajedok);
+//                    emH2.merge(s);
+//                }
+//                System.out.println("podatnik "+p.getPrintnazwa());
+//            }
+        if (dokfk.size()>0) {
+            System.out.println("");
+        }
             emH2.getTransaction().commit();
         }
         System.out.println("koniec");

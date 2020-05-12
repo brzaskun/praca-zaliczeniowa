@@ -7,6 +7,7 @@ package xls;
 
 import data.Data;
 import dedra.Dedraparser;
+import error.E;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -55,6 +56,7 @@ public class ImportMbankHist_CSV implements Serializable {
                             records.add(Arrays.asList(values));
                         }
                     } catch (Exception e) {
+                        E.e(e);
                     }
                     int i = 0;
             int rozmiar = records.size();
@@ -85,25 +87,24 @@ public class ImportMbankHist_CSV implements Serializable {
                     } else if (i==35) {
                         String replaceco = pn.getWyciagwaluta();
                         pn.setWyciagbo(Double.parseDouble(baza.get(1).replace(replaceco,"").replaceAll("\\s+","").replace(",",".")));
-                    }  else if (i>37&& i<rozmiar-5){
+                    }  else if (i>37&& i<rozmiar-6){
                         ImportBankWiersz x = new ImportBankWiersz();
                         x.setNr(lpwiersza++);
                         x.setDatatransakcji(Data.zmienkolejnosc(baza.get(0)));
                         x.setDatawaluty(Data.zmienkolejnosc(baza.get(1)));
                         String mcwiersz = x.getDatatransakcji().split("-")[1];
                         if (!mcwiersz.equals(mc)) {
-                            i=rozmiar-5;   
+                            i=rozmiar-6;   
                         } else {
-                            String opis = baza.get(3)!=null && !baza.get(3).equals("\"\"")? baza.get(3):baza.get(2).toLowerCase(new Locale("pl", "PL"));
-                            opis = opis.replaceAll("\\s{2,}", " ").replaceAll("\"", "").trim();
+                            String opis = baza.get(3) != null && !baza.get(3).equals("\"\"") ? baza.get(3).replace("\"", "").toLowerCase(new Locale("pl", "PL")) : baza.get(2).toLowerCase(new Locale("pl", "PL"));
                             x.setOpistransakcji(opis);
                             x.setNrwyciagu(pn.getWyciagnr());
-                            x.setIBAN(baza.get(5));//??
-                            String kontr = baza.get(4).length()<5?"":baza.get(4).trim().replaceAll("\"","").replaceAll("\\s{2,}","");
-                            x.setKontrahent(kontr);
-                            double kwotapobrana = Double.parseDouble(baza.get(6).replaceAll("\\s+","").replace(",","."));
-                            x.setKwota(Math.abs(kwotapobrana));
-                            x.setWnma(kwotapobrana>0.0?"Wn":"Ma");
+                            x.setIBAN(baza.get(5).replace("\"", "").replace("'", ""));//??
+                            String kontr = baza.get(4).length() < 5 ? "" : baza.get(4).trim().replaceAll("\"", "");
+                            kontr = WordUtils.capitalizeFully(kontr);
+                            x.setKontrahent(kontr);//??
+                            x.setKwota(Double.parseDouble(baza.get(6).replaceAll("\\s+", "").replace(",", ".")));
+                            x.setWnma(x.getKwota() > 0.0 ? "Wn" : "Ma");
                             x.setWaluta(pn.getWyciagwaluta());
                             x.setNrtransakji(baza.get(2));
                             x.setTyptransakcji(oblicztyptransakcji(x));
@@ -198,7 +199,7 @@ public class ImportMbankHist_CSV implements Serializable {
         ImportowanyPlikNaglowek pn = new ImportowanyPlikNaglowek();
         String mcod = null;
         try {
-            Path pathToFile = Paths.get("D:\\mbank1.csv");
+            Path pathToFile = Paths.get("D:\\tmp.csv");
             List<List<String>> records = new ArrayList<>();
             try (BufferedReader br =  Files.newBufferedReader(pathToFile,Charset.forName("windows-1250"))) {
                 String line;
@@ -238,15 +239,15 @@ public class ImportMbankHist_CSV implements Serializable {
                     } else if (i==35) {
                         String replaceco = pn.getWyciagwaluta();
                         pn.setWyciagbo(Double.parseDouble(baza.get(1).replace(replaceco,"").replaceAll("\\s+","").replace(",",".")));
-                    }  else if (i>37&& i<rozmiar-5){
+                    }  else if (i>37&& i<rozmiar-6){
                         ImportBankWiersz x = new ImportBankWiersz();
                         x.setNr(lpwiersza++);
                         x.setDatatransakcji(Data.zmienkolejnosc(baza.get(0)));
                         x.setDatawaluty(Data.zmienkolejnosc(baza.get(1)));
-                        String opis = baza.get(3)!=null && !baza.get(3).equals("")? baza.get(3):baza.get(2).toLowerCase(new Locale("pl", "PL"));
+                        String opis = baza.get(3)!=null && !baza.get(3).equals("\"\"")? baza.get(3).replace("\"", "").toLowerCase(new Locale("pl", "PL")):baza.get(2).toLowerCase(new Locale("pl", "PL"));
                         x.setOpistransakcji(opis);
                         x.setNrwyciagu(pn.getWyciagnr());
-                        x.setIBAN(baza.get(5));//??
+                        x.setIBAN(baza.get(5).replace("\"", "").replace("'", ""));//??
                         String kontr = baza.get(4).length()<5?"":baza.get(4).trim().replaceAll("\"","");
                         kontr = WordUtils.capitalizeFully(kontr);
                         x.setKontrahent(kontr);//??

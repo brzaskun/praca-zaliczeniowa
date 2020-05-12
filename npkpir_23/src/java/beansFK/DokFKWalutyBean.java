@@ -7,7 +7,7 @@
 package beansFK;
 
 import daoFK.WalutyDAOfk;
-import embeddable.EVatwpis_;
+import embeddable.EVatwpis;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
 import entityfk.Waluty;
@@ -28,7 +28,7 @@ public class DokFKWalutyBean implements Serializable{
     public static void przewalutujzapisy(String staranazwa, String nazwawaluty, Dokfk selected, WalutyDAOfk walutyDAOfk) {
         double kurs;
         if (staranazwa.equals("PLN")) {
-            Waluty wybranawaluta = walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty);
+            Waluty wybranawaluta = walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty); 
             kurs = selected.getTabelanbp().getKurssredniPrzelicznik();
             kurs = Math.round((1 / kurs) * 100000000);
             kurs /= 100000000;

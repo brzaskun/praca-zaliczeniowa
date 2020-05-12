@@ -11,8 +11,8 @@ import javax.faces.bean.RequestScoped;
  *
  * @author Osito
  */
-@ManagedBean
-@RequestScoped
+//@ManagedBean
+//@RequestScoped
 public class MessageProducer {
 //    @Resource(mappedName = "jms/pkpirQueue")
 //    private Queue pkpirQueue;
