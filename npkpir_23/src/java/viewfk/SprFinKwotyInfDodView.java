@@ -129,6 +129,7 @@ public class SprFinKwotyInfDodView  implements Serializable{
             sprFinKwotyInfDod.setNazwapliku(filename);
             sprFinKwotyInfDodDAO.edit(sprFinKwotyInfDod);
             Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
+            zapisz();
         } catch (Exception ex) {
             E.e(ex);
             Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");

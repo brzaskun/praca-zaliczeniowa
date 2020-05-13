@@ -8,18 +8,18 @@
     <p:dialog id="dialogweryfikujsprawozdanie" header="Weryfikuj sprawozdanie finansowe" widgetVar="weryfikujsprawozdanie" 
               resizable="false" onShow="ustawdialog('dialogweryfikujsprawozdanie','menubilanse', 1050, 710);" closeOnEscape="true" onHide="resetujdialog('dialogweryfikujsprawozdanie');"  >
 
-        <h:form>
+        <h:form id="form_dialogweryfikujsprawozdaniel">
             <p:panelGrid columns="1" style="margin-top: 20px;">
                 <h:outputText value="plik ze sprawozdaniem finansowym w formacie xml" style="font-weight: bold;"/>
                 <p:fileUpload fileUploadListener="#{weryfikujSprawozdanieView.zachowajplik}" 
                               mode="advanced" dragDropSupport="true" fileLimit="3"
-                              update="@form" sizeLimit="6000000"   
+                              update="@form form_dialogweryfikujsprawozdanie" sizeLimit="6000000"   auto="true"
                               validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
                               fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
-                              uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
+                              uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj"
                               style="height: 70px;">
                 </p:fileUpload>
-                <p:messages showDetail="false"/>
+                <p:growl id="mes1" showDetail="false"/>
             </p:panelGrid>
         </h:form>
         <h:form id="form_dialogweryfikujsprawozdanie">
@@ -33,7 +33,7 @@
             <p:commandButton value="weryfikuj SF" actionListener="#{weryfikujSprawozdanieView.weryfikuj(0)}" update="@form" style="width: 120px;"/>
             <p:commandButton value="weryfikuj OOP" actionListener="#{weryfikujSprawozdanieView.weryfikuj(1)}" update="@form" style="width: 120px;margin-left: 50px;"/>
             </p:panelGrid>
-            <p:messages showDetail="false" style="margin-top: 30px;"/>
+            <p:messages id="mes2" showDetail="false"  style="margin-top: 30px;"/>
         </h:form>
     </p:dialog>
 </ui:composition>

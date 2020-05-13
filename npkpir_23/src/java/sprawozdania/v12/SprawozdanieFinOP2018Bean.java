@@ -114,7 +114,7 @@ public class SprawozdanieFinOP2018Bean {
 
 
     private static String zrobidentyfikatorpodmiotu(Podatnik podatnik) {
-        String zwrot = podatnik.getImie();
+        String zwrot = podatnik.getNip();
         //tylko jeden numer jest wymagany
         //id.nip = "8511005008";
         return zwrot;

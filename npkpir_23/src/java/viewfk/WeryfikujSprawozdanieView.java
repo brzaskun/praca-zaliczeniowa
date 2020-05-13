@@ -35,10 +35,10 @@ public class WeryfikujSprawozdanieView  implements Serializable {
             //String dt = String.valueOf((new Date()).getTime());
             //String nazwakrotka = wpisView.getPodatnikObiekt().getNip()+"_"+dt+"_"+"logo."+extension;
             inputstream = uploadedFile.getInputstream();
-            Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
+            Msg.msg("i","Sukces. Plik " + filename + " został skutecznie załadowany","form_dialogweryfikujsprawozdaniel:mes1");
         } catch (Exception ex) {
             E.e(ex);
-            Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");
+            Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku","form_dialogweryfikujsprawozdaniel:mes1");
         }
     }
     
@@ -50,12 +50,12 @@ public class WeryfikujSprawozdanieView  implements Serializable {
             boolean wynik = (boolean) zwrot[0];
             String wyniktext = (String) zwrot[1];
             if (wynik==true) {
-                Msg.msg("Nie ma błędów. Plik prawidłowy");
+                Msg.msg("i","Nie ma błędów. Plik prawidłowy","form_dialogweryfikujsprawozdanie:mes2");
             } else {
-                Msg.msg("e", "Plik nieprawidłowy."+wyniktext);  
+                Msg.msg("e", "Plik nieprawidłowy."+wyniktext,"form_dialogweryfikujsprawozdanie:mes2");  
             }
         } else {
-            Msg.msg("e", "Nie załadowano pliku");  
+            Msg.msg("e", "Nie załadowano pliku","form_dialogweryfikujsprawozdanie:mes2");  
         }
     }
 
