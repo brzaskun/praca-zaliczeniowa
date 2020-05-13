@@ -103,8 +103,10 @@ public class ImportMbankHist_CSV implements Serializable {
                             String kontr = baza.get(4).length() < 5 ? "" : baza.get(4).trim().replaceAll("\"", "");
                             kontr = WordUtils.capitalizeFully(kontr);
                             x.setKontrahent(kontr);//??
-                            x.setKwota(Double.parseDouble(baza.get(6).replaceAll("\\s+", "").replace(",", ".")));
-                            x.setWnma(x.getKwota() > 0.0 ? "Wn" : "Ma");
+                            double kwota = Double.parseDouble(baza.get(6).replaceAll("\\s+", "").replace(",", "."));
+                            x.setWnma(kwota > 0.0 ? "Wn" : "Ma");
+                            kwota = Math.abs(kwota);
+                            x.setKwota(kwota);
                             x.setWaluta(pn.getWyciagwaluta());
                             x.setNrtransakji(baza.get(2));
                             x.setTyptransakcji(oblicztyptransakcji(x));

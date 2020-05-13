@@ -44,7 +44,6 @@ public class SmsSend {
             SMSSend action = smsApi.actionSend()
                     .setText(text)
                     .setTo(phoneNumber)
-                    .setFlash(true)
                     .setNormalize(true);
 
             StatusResponse result = action.execute();
