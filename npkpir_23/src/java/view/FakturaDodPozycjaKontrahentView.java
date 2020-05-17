@@ -46,10 +46,12 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     private List<Klienci> klienci;
     private List<FakturaDodatkowaPozycja> pozycje;
     private List<FakturaDodPozycjaKontrahent> lista_2;
+    private List<FakturaDodPozycjaKontrahent> lista_2_filter;
     @Inject
     private FakturaDodPozycjaKontrahent selected;
     private String rok;
     private String mc;
+    private double sumawybranych;
     
     @PostConstruct
     private void init() {
@@ -104,6 +106,15 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
             Msg.msg("e","Nie wybrano pozycji. Nie można usunąć");
         }
     }
+    
+    public void sumujwybrane() {
+        List<FakturaDodPozycjaKontrahent> lista = lista_2_filter!=null && lista_2_filter.size()>0 ? lista_2_filter : lista_2;
+        sumawybranych = 0.0;
+        for (FakturaDodPozycjaKontrahent p : lista) {
+            sumawybranych = sumawybranych+p.getFakturaDodatkowaPozycja().getKwota();
+        }
+        Msg.msg("Podsumowano");
+    }
 
     public FakturaDodPozycjaKontrahent getSelected() {
         return selected;
@@ -151,6 +162,22 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
 
     public void setLista_2(List<FakturaDodPozycjaKontrahent> lista_2) {
         this.lista_2 = lista_2;
+    }
+
+    public List<FakturaDodPozycjaKontrahent> getLista_2_filter() {
+        return lista_2_filter;
+    }
+
+    public void setLista_2_filter(List<FakturaDodPozycjaKontrahent> lista_2_filter) {
+        this.lista_2_filter = lista_2_filter;
+    }
+
+    public double getSumawybranych() {
+        return sumawybranych;
+    }
+
+    public void setSumawybranych(double sumawybranych) {
+        this.sumawybranych = sumawybranych;
     }
     
     

@@ -86,7 +86,8 @@
              <p:separator/>
              <h:form id="listapozycji">
                 <p:growl life="3600" showDetail="true"/>
-                <p:dataTable  var="zapis" value="#{fakturaDodPozycjaKontrahentView.lista_2}" id="lista" sortOrder="ascending" style="width: 1350px;"
+                <p:dataTable  var="zapis" value="#{fakturaDodPozycjaKontrahentView.lista_2}" id="lista" sortOrder="ascending" style="width: 1350px;" widgetVar="tabelazwynikami"
+                              filteredValue="#{fakturaDodPozycjaKontrahentView.lista_2_filter}"
                               paginator="true" paginatorAlwaysVisible="#{fakturaDodPozycjaKontrahentView.lista_2.size() gt 20 ? true : false}" rows="20" sortBy="#{zapis.kontrahent.getNazwabezCudzy()}"
                           paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                           rowsPerPageTemplate="20,50,100" 
@@ -103,8 +104,15 @@
                 <p:column headerText="ilość" width="50" style="text-align: center;">  
                     <h:outputText value="#{zapis.ilosc}" />
                 </p:column>
-                <p:column headerText="rozl" width="50" style="text-align: center;">  
+                <p:column headerText="rozl" width="50" style="text-align: center;" filterBy="#{zapis.rozliczone}">  
                     <h:outputText value="#{zapis.rozliczone eq true ? 'tak':null}" />
+                    <f:facet name="filter">
+                        <p:selectOneMenu onchange="PF('tabelazwynikami').filter()" style="width: 30px;" autoWidth="false">
+                            <f:selectItem itemLabel="wyb" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItem itemValue="true" itemLabel="tak"/>
+                            <f:selectItem itemValue="false" itemLabel="nie"/>
+                        </p:selectOneMenu>
+                    </f:facet>
                 </p:column>
                 <p:column headerText="kwota" width="100">  
                     <bcf:outputpl value="#{zapis.fakturaDodatkowaPozycja.kwota}" />
@@ -114,6 +122,12 @@
                 </p:column>
             </p:dataTable>
             </h:form>
+             <h:form>
+                 <p:panelGrid columns="2">
+                     <p:commandButton value="sumuj" actionListener="#{fakturaDodPozycjaKontrahentView.sumujwybrane}" update="@form"/>
+                     <bcf:outputpl value="#{fakturaDodPozycjaKontrahentView.sumawybranych}" stylePlus="margin-left: 50px;"/>
+                 </p:panelGrid>
+             </h:form>
         </p:tab>
     </p:tabView>
  </ui:composition>
