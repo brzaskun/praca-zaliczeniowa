@@ -258,12 +258,12 @@
                 <h:outputText value="wprowadzanie i edycja kont grupy #{bilansWprowadzanieView.nraktualnejlisty}" style="margin-left: 10px;"/>
                 <p:commandButton value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansWprowadzanieView.drukujBO()}" style="width: 120px; margin-left: 300px;"
                                   rendered="#{!bilansWprowadzanieView.tojestgenerowanieobrotow}"/>
-                <p:commandButton value="druk.wszystko" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansWprowadzanieView.drukujdrukujObrotyWszystkieBO()}" style="width: 120px; margin-left: 20px;"
-                                  rendered="#{!bilansWprowadzanieView.tojestgenerowanieobrotow}"/>
+<!--                <p:commandButton value="druk.wszystko" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansWprowadzanieView.drukujdrukujObrotyWszystkieBO()}" style="width: 120px; margin-left: 20px;"
+                                  rendered="#{!bilansWprowadzanieView.tojestgenerowanieobrotow}"/>-->
                 <p:commandButton value="#{mgs.drukuj}" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansWprowadzanieView.drukujObroty()}" style="width: 120px; margin-left: 200px;"
                                   rendered="#{bilansWprowadzanieView.tojestgenerowanieobrotow}"/>
-                <p:commandButton value="druk.wszystko" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansWprowadzanieView.drukujObrotyWszystkie()}" style="width: 120px; margin-left: 20px;"
-                                  rendered="#{bilansWprowadzanieView.tojestgenerowanieobrotow}"/>
+<!--                <p:commandButton value="druk.wszystko" action="#{sesjaView.dodajwydruk()}" actionListener="#{bilansWprowadzanieView.drukujObrotyWszystkie()}" style="width: 120px; margin-left: 20px;"
+                                  rendered="#{bilansWprowadzanieView.tojestgenerowanieobrotow}"/>-->
                 <p:selectBooleanCheckbox value="#{bilansWprowadzanieView.sortujwgwartosci}" itemLabel="wg wartości" style="margin-left: 10px;">
                     <p:ajax event="change" partialSubmit="true" global="false"/>
                 </p:selectBooleanCheckbox>
