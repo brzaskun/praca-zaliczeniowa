@@ -1045,11 +1045,8 @@ public class ZestawienieView implements Serializable {
                     biezacyPit.setPodatek(BigDecimal.ZERO);
                 }
                 if (zus52zreki == false) {
-                    if (biezacyPit.getZus52() != null) {
-                        biezacyPit.setZus52(biezacyPit.getZus52().add(sumapoprzednichmcy.getZus52()));
-                    } else if (biezacyPit.getZus52() == null) {
-                        biezacyPit.setZus52(sumapoprzednichmcy.getZus52());
-                    }
+                    biezacyPit.setZus52(pobierzZUS52());
+                    biezacyPit.setZus52(biezacyPit.getZus52().add(sumapoprzednichmcy.getZus52()));
                 }
                 BigDecimal tmpX = podatek.subtract(biezacyPit.getZus52());
                 tmpX = tmpX.setScale(0, RoundingMode.HALF_EVEN);
