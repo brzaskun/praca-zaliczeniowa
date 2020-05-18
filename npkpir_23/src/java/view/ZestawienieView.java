@@ -1123,25 +1123,28 @@ public class ZestawienieView implements Serializable {
     }
 
     private BigDecimal pobierzZUS52() {
-        Podatnik p = wpisView.getPodatnikObiekt();
-        Iterator it;
-        it = p.getZusparametr().iterator();
         double suma52 = 0;
-        List<String> miesiaceWkwartale = Kwartaly.mctoMcewKw(wpisView.getMiesiacWpisu());
-        while (it.hasNext()) {
-            Zusstawki tmpX = (Zusstawki) it.next();
-            if (wpisView.isMc0kw1()) {
-                if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt())
-                        && miesiaceWkwartale.contains(tmpX.getZusstawkiPK().getMiesiac())) {
-                    suma52 += tmpX.getZus52odl();
-                }
-            } else {
-                if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt())
-                        && tmpX.getZusstawkiPK().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
-                    suma52 += tmpX.getZus52odl();
+        try {
+            Podatnik p = wpisView.getPodatnikObiekt();
+            Iterator it;
+            it = p.getZusparametr().iterator();
+
+            List<String> miesiaceWkwartale = Kwartaly.mctoMcewKw(wpisView.getMiesiacWpisu());
+            while (it.hasNext()) {
+                Zusstawki tmpX = (Zusstawki) it.next();
+                if (wpisView.isMc0kw1()) {
+                    if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt())
+                            && miesiaceWkwartale.contains(tmpX.getZusstawkiPK().getMiesiac())) {
+                        suma52 += tmpX.getZus52odl();
+                    }
+                } else {
+                    if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt())
+                            && tmpX.getZusstawkiPK().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
+                        suma52 += tmpX.getZus52odl();
+                    }
                 }
             }
-        }
+        } catch (Exception e) {}
         return BigDecimal.valueOf(suma52);
     }
 
