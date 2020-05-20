@@ -209,7 +209,7 @@ function ustawDateFK(rok,mc, koncowkaadresu, zapisz0edytuj1){
                    dataWyst1.value = dataWyst.value;
                 }
             }
-           zerujwiadomosc();
+           //zerujwiadomosc();
          } catch (e) {
              alert("Blad ustawdate.js ustawDateFK(rok,mc) "+e.toString());
          }

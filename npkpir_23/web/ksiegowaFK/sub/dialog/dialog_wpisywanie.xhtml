@@ -257,7 +257,8 @@
                                 <p:column>
                                     <p:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 160px;" valueChangeListener="#{dokfkView.skorygujokreswpisudokumentu}">
                                         <p:ajax event="blur" global="false" partialSubmit="true" listener="#{delegacjeView.sprawdzIstnienieDelegacji(dokfkView.selected)}" 
-                                                update=":parametrydel:jest1niema0" onsuccess="zerujwiadomosc()"/>
+                                                update=":parametrydel:jest1niema0"/>
+                                        <p:ajax event="change" global="false"  partialSubmit="true" update="formwpisdokument:panelwpisbutton formwpisdokument:komunikatywpisdok" listener="#{dokfkView.resetujnumer()}"/>
                                     </p:inputText>
                                 </p:column>
                                 <p:column style="width: 50px; text-align: center;">
@@ -657,8 +658,8 @@
                             </p:dataTable>
                         </p:rowExpansion>-->
                     </p:dataTable>
-                    <p:panelGrid style="text-align: left; margin-left: 10px;">
-                        <h:outputText id="komunikatywpisdok" value="#{dokfkView.komunikatywpisdok}" style="color: red;"/>
+                    <p:panelGrid id="komunikatywpisdok" style="text-align: left; margin-left: 10px;">
+                        <h:outputText  value="#{dokfkView.komunikatywpisdok}" style="color: red;"/>
                     </p:panelGrid> 
                     <p:panelGrid id="panelwpisbutton" style="text-align: right; float: right;">
                         <p:row>

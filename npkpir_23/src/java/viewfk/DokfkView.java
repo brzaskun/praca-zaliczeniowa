@@ -1413,12 +1413,19 @@ public class DokfkView implements Serializable {
                 if (dokument != null) {
                     wlaczZapiszButon = false;
                     //PrimeFaces.current().executeScript("znalezionoduplikat();");
-                    Msg.msg("e", "Blad dokument o takim numerze juz istnieje");
+                    Msg.msg("e", "Bład, dokument o takim numerze juz istnieje");
+                    komunikatywpisdok = "Bład dokument o takim numerze juz istnieje";
+                    PrimeFaces.current().ajax().update("formwpisdokument:komunikatywpisdok");
                 } else {
                     wlaczZapiszButon = true;
                 }
             }
         }
+    }
+    
+    public void resetujnumer() {
+        wlaczZapiszButon = true;
+        komunikatywpisdok = null;
     }
     
 //zastapilem to javascriptem nie do konca wiec jest hybryda. znikalo jak inne rzeczy odsiwezalem
@@ -1770,7 +1777,9 @@ public class DokfkView implements Serializable {
                 liczbawierszyWDokumencie = 1;
             }
             ObslugaWiersza.przenumerujSelected(selected);
-            dokDAOfk.edit(selected);
+            if (selected.iswTrakcieEdycji()) {
+                dokDAOfk.edit(selected);
+            }
             Msg.msg("Usunieto wiersz");
         }
     }

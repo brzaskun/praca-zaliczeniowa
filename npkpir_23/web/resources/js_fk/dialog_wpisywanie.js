@@ -824,9 +824,9 @@ var czydodacdelegacjeShow = function (){
     
 };
 
-var zerujwiadomosc = function() {
-     rj("formwpisdokument:komunikatywpisdok").innerText = "";
-};
+//var zerujwiadomosc = function() {
+//     rj("formwpisdokument:komunikatywpisdok").innerText = "";
+//};
 
 var zaznaczpoledaty = function(pole) {
     var trescpola = $(pole).val();
