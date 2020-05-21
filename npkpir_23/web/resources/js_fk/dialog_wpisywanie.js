@@ -270,7 +270,7 @@ var znalezionoduplikat = function() {
     if (rj('formwpisdokument:stanprzyciskuzapis').innerText === "false") {
         document.getElementById('formwpisdokument:numerwlasny').focus();
         document.getElementById('formwpisdokument:numerwlasny').select();
-        PF('grmes1').renderMessage({summary:'Dokument o takim numerze już istnieje', detail: 'popraw numer', severity: 'error'}); 
+        //PF('grmes1').renderMessage({summary:'Dokument o takim numerze już istnieje', detail: 'popraw numer', severity: 'error'}); 
     }
 };
 

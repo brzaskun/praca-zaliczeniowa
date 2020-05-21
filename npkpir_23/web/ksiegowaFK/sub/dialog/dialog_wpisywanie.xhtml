@@ -658,9 +658,9 @@
                             </p:dataTable>
                         </p:rowExpansion>-->
                     </p:dataTable>
-                    <p:panelGrid id="komunikatywpisdok" style="text-align: left; margin-left: 10px;">
+                    <p:outputPanel id="komunikatywpisdok" style="text-align: left; margin-left: 10px;">
                         <h:outputText  value="#{dokfkView.komunikatywpisdok}" style="color: red;"/>
-                    </p:panelGrid> 
+                    </p:outputPanel> 
                     <p:panelGrid id="panelwpisbutton" style="text-align: right; float: right;">
                         <p:row>
                         <p:column style="text-align: right;" width="100" rendered="#{dokfkView.selected.rodzajedok.skrotNazwyDok eq 'BO'}">
