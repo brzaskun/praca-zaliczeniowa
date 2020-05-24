@@ -53,9 +53,7 @@
                                 </h:outputText>
                             </p:column>
                             <p:column headerText="kwota PLN">  
-                                <h:outputText value="#{subwpis.kwotaPLN}" style="float: right;">
-                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
-                                </h:outputText>
+                                <bcf:outputpl value="#{subwpis.kwotaPLN}" style="float: right;"/>
                             </p:column>
                         </p:dataTable>
                     </p:column>
@@ -90,9 +88,7 @@
                         <f:facet name="header">
                             <h:outputText value="kwota całkowita"/>
                         </f:facet>
-                        <h:outputText value="#{item.kwotacalkowita}" style="float: right;">
-                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
-                    </h:outputText>
+                         <bcf:outputpl value="#{item.kwotacalkowita}"/>
                     </p:column>
                 <p:column  width="30" style="text-align: center;">
                         <f:facet name="header">
@@ -104,9 +100,7 @@
                         <f:facet name="header">
                             <h:outputText value="odpis miesięczny"/>
                         </f:facet>
-                        <h:outputText value="#{item.kwotamiesieczna}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
-                    </h:outputText>
+                         <bcf:outputpl value="#{item.kwotamiesieczna}" />
                     </p:column>
                     <p:column width="150">
                         <f:facet name="header">
@@ -158,9 +152,8 @@
                 </h:outputText>
             </p:panelGrid>
             <p:outputPanel style="margin-top: 10px">
-                <p:commandButton value="zaksięguj RMK" style="width: 120px; margin-bottom: 10px;" actionListener="#{rMKView.generowanieDokumentuRMK()}" 
-                                 rendered="#{rMKDokView.obrotyWn eq rMKView.sumarmk}"/>
-                <h:outputText value="Kwoty na kontach różnią się od kwot w ewidencji. Nie można zaksięgować dokumentu rozliczeń międzyokresowych" rendered="#{rMKDokView.obrotyWn ne rMKView.sumarmk}"/>
+                <p:commandButton value="zaksięguj RMK" style="width: 120px; margin-bottom: 10px;" actionListener="#{rMKView.generowanieDokumentuRMK()}" />
+                <h:outputText value="Kwoty na kontach różnią się od kwot w ewidencji. Nie można zaksięgować dokumentu rozliczeń międzyokresowych" rendered="#{rMKDokView.obrotyWn ne rMKView.sumarmk}" style="color: red;"/>
             </p:outputPanel>
         </h:form>
     </p:dialog>

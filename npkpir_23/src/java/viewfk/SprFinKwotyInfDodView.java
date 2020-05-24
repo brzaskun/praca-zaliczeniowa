@@ -125,16 +125,46 @@ public class SprFinKwotyInfDodView  implements Serializable{
             //String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
             //String dt = String.valueOf((new Date()).getTime());
             //String nazwakrotka = wpisView.getPodatnikObiekt().getNip()+"_"+dt+"_"+"logo."+extension;
-            sprFinKwotyInfDod.setPlik(uploadedFile.getContents());
-            sprFinKwotyInfDod.setNazwapliku(filename);
-            sprFinKwotyInfDodDAO.edit(sprFinKwotyInfDod);
-            Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
-            zapisz();
+            String rozszerzenie = filename.substring(filename.length()-3, filename.length());
+            if (rozszerzenie.equals("pdf")) {
+                sprFinKwotyInfDod.setPlik(uploadedFile.getContents());
+                sprFinKwotyInfDod.setNazwapliku(filename);
+                sprFinKwotyInfDodDAO.edit(sprFinKwotyInfDod);
+                Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
+                zapisz();
+            } else {
+                Msg.msg("e", "Nie właściwy typ pliku. Musi być pdf");
+            }
         } catch (Exception ex) {
             E.e(ex);
             Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku");
         }
     }
+    
+    public void zachowajplikOpcja(FileUploadEvent event) {
+        try {
+            UploadedFile uploadedFile = event.getFile();
+            String filename = uploadedFile.getFileName();
+            //String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
+            //String dt = String.valueOf((new Date()).getTime());
+            //String nazwakrotka = wpisView.getPodatnikObiekt().getNip()+"_"+dt+"_"+"logo."+extension;
+            String rozszerzenie = filename.substring(filename.length()-3, filename.length());
+            if (rozszerzenie.equals("pdf")) {
+                sprFinKwotyInfDod.setPlikOpcja(uploadedFile.getContents());
+                sprFinKwotyInfDod.setNazwaplikuOpcja(filename);
+                sprFinKwotyInfDodDAO.edit(sprFinKwotyInfDod);
+                Msg.msg("Sukces. Opcjonalny plik " + filename + " został skutecznie załadowany");
+                zapisz();
+            } else {
+                Msg.msg("e", "Nie właściwy typ pliku. Musi być pdf");
+            }
+        } catch (Exception ex) {
+            E.e(ex);
+            Msg.msg("e","Wystąpił błąd. Nie udało się załadowanać pliku opcjonalnego");
+        }
+    }
+    
+    
     public void zachowajplikxml(FileUploadEvent event) {
         try {
             UploadedFile uploadedFile = event.getFile();
@@ -159,6 +189,28 @@ public class SprFinKwotyInfDodView  implements Serializable{
             File targetFile = Plik.plik(nazwa+".pdf", true);
             outStream = new FileOutputStream(targetFile);
             outStream.write(sprFinKwotyInfDod.getPlik());
+            String f = "pokazwydruk('"+nazwa+"');";
+            PrimeFaces.current().executeScript(f);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                outStream.close();
+            } catch (IOException ex) {
+                Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    public void pokazplikOpcja() {
+        OutputStream outStream = null;
+        try {
+            String nazwa = "informacjawstepna"+wpisView.getPodatnikObiekt().getNip();
+            File targetFile = Plik.plik(nazwa+".pdf", true);
+            outStream = new FileOutputStream(targetFile);
+            outStream.write(sprFinKwotyInfDod.getPlikOpcja());
             String f = "pokazwydruk('"+nazwa+"');";
             PrimeFaces.current().executeScript(f);
         } catch (FileNotFoundException ex) {

@@ -122,15 +122,16 @@ public class SprawozdanieFinOP2018Bean {
 
     private static JednostkaOp.WprowadzenieDoSprawozdaniaFinansowegoJednostkaOp.P5 uzupelnijp5() {
         JednostkaOp.WprowadzenieDoSprawozdaniaFinansowegoJednostkaOp.P5 p5 = new JednostkaOp.WprowadzenieDoSprawozdaniaFinansowegoJednostkaOp.P5();
-        p5.getP5A().add("Szczegółowy opis polityki rachunkowości znajduje się w sekcji \"Dodatkowe informacje i objaśnienia\", w Załączniku 1 (plik polityka_rachunkowosci.pdf)");
-        p5.getP5B().add("Kompletny opis wyceny aktywów i pasywów znajduje się w Załączniku 1 (plik \"polityka_rachunkowosci.pdf). W szczególności metody wyceny: ");
-        p5.getP5B().add("Wartości niematerialnych i prawnych: por. Załącznik 1, sekcja III");
-        p5.getP5B().add("Środków trwałych:  por. Załącznik 1, sekcja IV");
-        p5.getP5B().add("Inwestycje w nieruchomości i prawa wycenia się w cenie nabycia");
-        p5.getP5B().add("Należności: po. Załącznik 1, sekcja VI");
-        p5.getP5B().add("Zapasy: por. Załącznik 1, sekcja VII");
-        p5.getP5B().add("Kosztów działalności operacyjnej: por. Załącznik 1, skecja VIII");
-        p5.getP5B().add("Aktywa i pasywa w walutach obcych: por. Załącznik 1, sekcja IX");
+        p5.getP5A().add("Organizacja sporządza sprawozdanie finansowe dla organizacji pozarządowych, określonych w art. 3 ust. 2 ustawy o działalności pożytku publicznego i o wolontariacie, zgodnie z załącznikiem 6 do ustawy o rachunkowości");
+        p5.getP5A().add("Organizacja posada środki finansowe w walucie polskiej wyceniane według wartości nominalnej. Wyposażenie i środki trwałe wyceniane są wg nominalnych cen zakupu. Amortyzacja dokonywana jest według zasad określonych w ustawie o podatku dochodowym osób prawnych. Kompletny opis wyceny aktywów i pasywów znajduje się w Załączniku 1 (plik w formacie pdf). W szczególności metody wyceny: ");
+        p5.getP5A().add("Wartości niematerialnych i prawnych: por. Załącznik 1, sekcja III");
+        p5.getP5A().add("Środków trwałych:  por. Załącznik 1, sekcja IV");
+        p5.getP5A().add("Inwestycje w nieruchomości i prawa wycenia się w cenie nabycia");
+        p5.getP5A().add("Należności: po. Załącznik 1, sekcja VI");
+        p5.getP5A().add("Zapasy: por. Załącznik 1, sekcja VII");
+        p5.getP5A().add("Kosztów działalności operacyjnej: por. Załącznik 1, skecja VIII");
+        p5.getP5A().add("Aktywa i pasywa w walutach obcych: por. Załącznik 1, sekcja IX");
+        p5.getP5B().add("Wynik finansowych ustalany jest z uwzględnieniem wyodrębnienia rodzajów działań określonych w ustawie o działalności pożytku publicznego i o wolontariacie");
         p5.getP5C().add("Zgodnie z polityką rachunkowości przedsiębiorstwa - patrz Załącznik 1.");
         return p5;
     }

@@ -96,6 +96,11 @@ public class SprFinKwotyInfDod implements Serializable{
     private byte[] plik;
     @Column(name = "nazwapliku")
     private String nazwapliku;
+    @Column(name = "plikopcja")
+    @Lob
+    private byte[] plikOpcja;
+    @Column(name = "nazwaplikuopcja")
+    private String nazwaplikuOpcja;
     @Column(name = "dataod")
     private String dataod;
     @Column(name = "datado")
@@ -592,6 +597,22 @@ public class SprFinKwotyInfDod implements Serializable{
 
     public void setNrschemy(String nrschemy) {
         this.nrschemy = nrschemy;
+    }
+
+    public byte[] getPlikOpcja() {
+        return plikOpcja;
+    }
+
+    public void setPlikOpcja(byte[] plikOpcja) {
+        this.plikOpcja = plikOpcja;
+    }
+
+    public String getNazwaplikuOpcja() {
+        return nazwaplikuOpcja;
+    }
+
+    public void setNazwaplikuOpcja(String nazwaplikuOpcja) {
+        this.nazwaplikuOpcja = nazwaplikuOpcja;
     }
 
     

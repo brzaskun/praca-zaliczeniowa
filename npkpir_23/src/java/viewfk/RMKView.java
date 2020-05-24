@@ -284,8 +284,9 @@ public class RMKView  implements Serializable {
                 w.setOpisWiersza(opiswiersza);
                 Konto kontokoszt = kontoDAO.findKonto(p.getKontokosztowe().getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
                 Konto kontoRMK = kontoDAO.findKonto(p.getKontormk().getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-                double kwota = wyliczkwotedopobrania(p);
-                double kwotankup = wyliczkwotedopobraniankup(p);
+                double[] zwrot = wyliczkwotydopobrania(p);
+                double kwota = zwrot[0];
+                double kwotankup = zwrot[1];
                 StronaWiersza kosztrmk = new StronaWiersza(w, "Wn", kwota, kontokoszt);
                 StronaWiersza emk = new StronaWiersza(w, "Ma", Z.z(kwota+kwotankup), kontoRMK);
                 w.setStronaWn(kosztrmk);
@@ -315,11 +316,11 @@ public class RMKView  implements Serializable {
         w.setDataksiegowania(nd.getDatawplywu());
     }
      
-    private double wyliczkwotedopobrania(RMK p) {
+    private double[] wyliczkwotydopobrania(RMK p) {
         int odelgloscwmcach = Mce.odlegloscMcy(p.getMckosztu(), p.getRokkosztu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
-        double kwota = 0.0;
+        double kwotaplanowana = 0.0;
         try {
-           kwota = p.getPlanowane().get(odelgloscwmcach);
+           kwotaplanowana = p.getPlanowane().get(odelgloscwmcach);
            p.setUjetewksiegach(new ArrayList<Double>());
            for (int i = 0;i < odelgloscwmcach+1;i++){
                p.getUjetewksiegach().add(p.getPlanowane().get(i));
@@ -328,30 +329,17 @@ public class RMKView  implements Serializable {
             E.e(e);
             p.setRozliczony(true);
         }
+        double[] zwrot = new double[2];
         if (p.getProcentkosztpodatkowy() != 100.0) {
-            kwota = Z.z(kwota*p.getProcentkosztpodatkowy()/100);
+            zwrot[0] = Z.z(kwotaplanowana*p.getProcentkosztpodatkowy()/100);
+            zwrot[1] = Z.z(kwotaplanowana-zwrot[0]);
+        } else {
+            zwrot[0] = Z.z(kwotaplanowana);
+            zwrot[1] = 0.0;
         }
-        return kwota;
+        return zwrot;
     }
-    
-    private double wyliczkwotedopobraniankup(RMK p) {
-        int odelgloscwmcach = Mce.odlegloscMcy(p.getMckosztu(), p.getRokkosztu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
-        double kwota = 0.0;
-        try {
-           kwota = p.getPlanowane().get(odelgloscwmcach);
-           p.setUjetewksiegach(new ArrayList<Double>());
-           for (int i = 0;i < odelgloscwmcach+1;i++){
-               p.getUjetewksiegach().add(p.getPlanowane().get(i));
-           }
-        } catch (Exception e) {  
-            E.e(e);
-            p.setRozliczony(true);
-        }
-        if (p.getProcentkosztpodatkowy() != 100.0) {
-            kwota = kwota - Z.z(kwota*p.getProcentkosztpodatkowy()/100);
-        }
-        return kwota;
-    }
+  
      
     public RMK getRmk() {
         return rmk;
