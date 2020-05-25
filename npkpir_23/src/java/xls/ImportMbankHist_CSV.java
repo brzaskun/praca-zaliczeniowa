@@ -149,6 +149,8 @@ public class ImportMbankHist_CSV implements Serializable {
         int zwrot = 0;
         if (p.getNrtransakji().equals("OPŁATA/PROWIZJA")) {
             zwrot = 3;
+        } else if (p.getNrtransakji().equals("OPŁATA PRZELEW")) {
+            zwrot = 3;
         } else if (p.getNrtransakji().equals("PRZELEW ELIXIR - ONLINE") || p.getNrtransakji().equals("PRZELEW NA RACHUNEK W SAN PL - ONLINE")) {
             zwrot = 1;
         } else if (p.getNrtransakji().equals("UZNANIE") || p.getNrtransakji().equals("UZNANIE - PŁATNOŚĆ PODZIELONA")) {
@@ -163,6 +165,8 @@ public class ImportMbankHist_CSV implements Serializable {
             zwrot = 6;
         } else if (p.getNrtransakji().equals("WYPŁATA KARTĄ")) {
             zwrot = 4;
+        } else if (p.getNrtransakji().contains("REZERWACJA")) {
+            zwrot = 10;
         } else if (p.getNrtransakji().contains("TRANSAKCJA KARTĄ ")) {
             zwrot = 5;
         } else if (p.getWnma().equals("Wn")) {

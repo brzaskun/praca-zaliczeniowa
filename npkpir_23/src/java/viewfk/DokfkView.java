@@ -2004,7 +2004,10 @@ public class DokfkView implements Serializable {
     public void sprawdzsalda(String wybranakategoriadok) {
         if (wybranakategoriadok.startsWith("RK") || wybranakategoriadok.startsWith("WB")) {
             List<Dokfk> wykaz = dokDAOfk.findDokfkPodatnikRokKategoriaOrderByNo(wpisView, wybranakategoriadok);
-            List<Konto> kontagrupa1 = kontoDAOfk.findKontaGrupa(wpisView,"%1");
+            List<Konto> kontagrupa1 = kontoDAOfk.findKontaGrupa(wpisView,"1%");
+            for (Konto pa : kontagrupa1) {
+                System.out.println(""+pa.getPelnynumer());
+            }
             List<WierszBO> wierszeBO = wierszBODAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             for (Dokfk dokfk : wykaz) {
                 int nrserii = dokfk.getNrkolejnywserii();

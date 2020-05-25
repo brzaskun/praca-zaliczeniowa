@@ -314,7 +314,7 @@ public class DokFKBean {
         double kwota = 0.0;
         if (wierszBOlista != null && !wierszBOlista.isEmpty()) {
             for (WierszBO p : wierszBOlista) {
-                if (p.getKonto().equals(kontorozrachunkowe)) {
+                if (p.getKonto().getPelnynumer().equals(kontorozrachunkowe.getPelnynumer())) {
                     if (p.getKwotaWn() != 0) {
                         kwota += p.getKwotaWn();
                     } else {
