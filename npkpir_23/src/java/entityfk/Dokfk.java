@@ -17,6 +17,7 @@ import entity.VatUe;
 import entity.WniosekVATZDEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -1231,6 +1232,20 @@ public class Dokfk extends DokSuper implements Serializable {
         Object temp = tablica[i];
         tablica[i] = tablica[j];
         tablica[j] = temp;
+    }
+    
+    public boolean memorailowo0kasowo1() {
+        boolean zwrot = false;
+        String rodzajdok = this.rodzajedok.getSkrotNazwyDok();
+        ArrayList<String> memorialy = new ArrayList<>( 
+            Arrays.asList("WDT", 
+                          "WNT", 
+                          "IU", 
+                          "UPTK",
+                          "UPTK100",
+                          "EXP"));
+        zwrot = !memorialy.contains(rodzajdok);
+        return zwrot;
     }
     
     public static void main(String[] args) {

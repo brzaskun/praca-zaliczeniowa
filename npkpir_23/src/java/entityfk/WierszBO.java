@@ -78,6 +78,9 @@ public class WierszBO implements Serializable {
     private boolean otwarcielikwidacji;
     @Column(name="roznicakursowastatystyczna")
     private boolean roznicakursowastatystyczna;
+    @JoinColumn(name = "evatwpisfk", referencedColumnName = "id")
+    private EVatwpisFK eVatwpisFK;
+    
 
     public WierszBO() {
         
@@ -375,6 +378,16 @@ public class WierszBO implements Serializable {
     public void setKontostare(Konto kontostare) {
         this.kontostare = kontostare;
     }
+
+    public EVatwpisFK geteVatwpisFK() {
+        return eVatwpisFK;
+    }
+
+    public void seteVatwpisFK(EVatwpisFK eVatwpisFK) {
+        this.eVatwpisFK = eVatwpisFK;
+    }
+    
+    
 
     public double getKwota() {
         double zwrot = 0.0;

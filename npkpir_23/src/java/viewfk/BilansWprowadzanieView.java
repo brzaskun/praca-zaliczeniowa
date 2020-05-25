@@ -5,6 +5,8 @@
  */
 package viewfk;
 
+import static beansFK.DokFKVATBean.ustawvat;
+import static beansFK.DokFKVATBean.ustawvatodbrutto;
 import comparator.WierszBOcomparator;
 import comparator.WierszBOcomparatorKwota;
 import dao.KlienciDAO;
@@ -17,10 +19,12 @@ import daoFK.WalutyDAOfk;
 import daoFK.WierszBODAO;
 import daoFK.WierszDAO;
 import data.Data;
+import entity.Evewidencja;
 import entity.Klienci;
 import entity.Podatnik;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
+import entityfk.EVatwpisFK;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
@@ -123,6 +127,10 @@ public class BilansWprowadzanieView implements Serializable {
     private boolean tojestbilanslikwidacyjny;
     private boolean pokazstarekonta;
     private List<Waluty> wprowadzonesymbolewalut;
+    private EVatwpisFK ewidencjaVatRK;
+    private WierszBO wierszBOVAT;
+    private List<Evewidencja> listaewidencjivatRK;
+    private boolean ewidencjaVATRKzapis0edycja1;
 
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -421,7 +429,55 @@ public class BilansWprowadzanieView implements Serializable {
     }
 
 
+    
+    public void dodajewidencjeVAT(WierszBO wierszBO) {
+        wierszBOVAT = wierszBO;
+        if (wierszBOVAT.geteVatwpisFK()!=null) {
+            ewidencjaVatRK = wierszBOVAT.geteVatwpisFK();
+        } else {
+            ewidencjaVatRK = new EVatwpisFK();
+        }
+        ewidencjaVatRK.setDataoperacji(wpisView.getRokWpisuSt()+"-01-01");
+        ewidencjaVatRK.setDatadokumentu(wpisView.getRokWpisuSt()+"-01-01");
+        PrimeFaces.current().ajax().update("dialogewidencjavatRK");
+        PrimeFaces.current().executeScript("PF('dialogewidencjavatRK').show()");
+            PrimeFaces.current().focus("dialogewidencjavatRK:data1DialogVAT");
+    }
+    
+    public void dolaczWierszEwidencja() {
+        try {
+            wierszBOVAT.seteVatwpisFK(ewidencjaVatRK);
+            wierszBODAO.edit(wierszBOVAT);
+            Msg.msg("Dodano ewidencję VAT do wiersza BO");
+        } catch (Exception e) {
+            Msg.msg("e","Wystąpił błąd.  Nie dodano ewidencji");
+        }
+    }
+    
+    public void edytujWierszEwidencja() {
+        try {
+            wierszBODAO.edit(wierszBOVAT);
+            Msg.msg("Wyedytowano ewidencję VAT do wiersza BO");
+        } catch (Exception e) {
+            Msg.msg("e","Wystąpił błąd.  Nie wyedytowano ewidencji");
+        }
+    }
 
+    
+
+    
+    public void updatevatRK() {
+        EVatwpisFK e = ewidencjaVatRK;
+        Waluty w = wierszBOVAT.getWaluta();
+        double kurs = wierszBOVAT.getKurs();
+        e.setBrutto(Z.z(e.getNetto() + e.getVat()));
+        String update = "ewidencjavatRK:brutto";
+        PrimeFaces.current().ajax().update(update);
+        String activate = "document.getElementById('ewidencjavatRK:brutto_input').select();";
+        PrimeFaces.current().executeScript(activate);
+    }
+    
+    
     public void usunwierszN(WierszBO wierszBO) {
         try {
             usuwaniejeden(listaBO, wierszBO);
@@ -1701,6 +1757,38 @@ public class BilansWprowadzanieView implements Serializable {
 
     public void setIsteniejeDokBOR(boolean isteniejeDokBOR) {
         this.isteniejeDokBOR = isteniejeDokBOR;
+    }
+
+    public EVatwpisFK getEwidencjaVatRK() {
+        return ewidencjaVatRK;
+    }
+
+    public void setEwidencjaVatRK(EVatwpisFK ewidencjaVatRK) {
+        this.ewidencjaVatRK = ewidencjaVatRK;
+    }
+
+    public WierszBO getWierszBOVAT() {
+        return wierszBOVAT;
+    }
+
+    public void setWierszBOVAT(WierszBO wierszBOVAT) {
+        this.wierszBOVAT = wierszBOVAT;
+    }
+
+    public List<Evewidencja> getListaewidencjivatRK() {
+        return listaewidencjivatRK;
+    }
+
+    public void setListaewidencjivatRK(List<Evewidencja> listaewidencjivatRK) {
+        this.listaewidencjivatRK = listaewidencjivatRK;
+    }
+
+    public boolean isEwidencjaVATRKzapis0edycja1() {
+        return ewidencjaVATRKzapis0edycja1;
+    }
+
+    public void setEwidencjaVATRKzapis0edycja1(boolean ewidencjaVATRKzapis0edycja1) {
+        this.ewidencjaVATRKzapis0edycja1 = ewidencjaVATRKzapis0edycja1;
     }
 
     

@@ -31,11 +31,14 @@
             height : 30px !important;
             
         }
+         .ui-dialog .ui-dialog-content {
+            overflow-y: hidden;
+        }
 
     </style>
     <p:dialog id="bilanswprowadzanie2" header="Bilans otwarcia/Obroty rozpoczęcia - wprowadzanie sald - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="bilanswprowadzanie2"
-              appendTo="@(body)"
-              resizable="false" onShow="ustawdialog('bilanswprowadzanie2','menubilanse', 1360, 680);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanie2');"
+              appendTo="@(body)" style="overflow-y: hidden;"
+              resizable="false" onShow="ustawdialog('bilanswprowadzanie2','menubilanse', 1450, 680);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanie2');"
               maximizable="true">
         <h:form id="formbilanswprowadzanie2_wiersz">
             <p:outputPanel rendered="#{bilansWprowadzanieView.tojestbilanslikwidacyjny}" id="uwaga">
@@ -268,7 +271,7 @@
                     <p:ajax event="change" partialSubmit="true" global="false"/>
                 </p:selectBooleanCheckbox>
             </p:panelGrid>
-            <p:contextMenu for="formbilanswprowadzanie2:tab0">
+            <p:contextMenu for="formbilanswprowadzanie2:tab0"  style="width: 200px;">
                 <p:menuitem value="Usuń trwale" update="formbilanswprowadzanie2:tab0" actionListener="#{bilansWprowadzanieView.usunwiele(bilansWprowadzanieView.listaBOselected)}" icon="ui-icon-disk" />
                 <p:menuitem value="Usuń z pominięciem dok. BO" update="formbilanswprowadzanie2:tab0" actionListener="#{bilansWprowadzanieView.usunwielebezBO(bilansWprowadzanieView.listaBOselected)}" icon="ui-icon-disk" />
             </p:contextMenu>
@@ -352,12 +355,12 @@
                                      />
                 </p:column>
             </p:dataTable>
-            <p:contextMenu for="formbilanswprowadzanie2:tab1">
+            <p:contextMenu for="formbilanswprowadzanie2:tab1"  style="width: 200px;">
                 <p:menuitem value="Usuń trwale" update="formbilanswprowadzanie2:tab1" 
                             actionListener="#{bilansWprowadzanieView.usunwiele(bilansWprowadzanieView.listaBOs1)}" icon="ui-icon-disk" />
             </p:contextMenu>
             <p:dataTable value="#{bilansWprowadzanieView.listaBO}" var="item"
-                         style="overflow-y: scroll; height: 400px; width: 1300px; padding: 10px; margin-top: 5px;"  widgetVar="tab0zlozona"
+                         style="overflow-y: scroll; height: 400px; width: 1400px; padding: 10px; margin-top: 5px;"  widgetVar="tab0zlozona"
                          styleClass="gridtablicasyntetyczne" rowIndexVar="idx"  emptyMessage="nie ma zapisów w tej grupie"
                          rendered="#{bilansWprowadzanieView.nraktualnejlisty eq 1 or bilansWprowadzanieView.nraktualnejlisty eq 2}"
                          id="tab1" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.listaBOs1}"
@@ -416,11 +419,22 @@
                     </f:facet>
                     <bcf:outputwal id="waluta4" value="#{item.kwotaMaPLN}" rendered="#{item.kwotaMaPLN ne 0.0}" symbolwaluty="zł"/>
                 </p:column>
-                 <p:column sortBy="#{item.nowy0edycja1usun2}" width="80" style="#{item.stylwiersza}">
+                 <p:column sortBy="#{item.nowy0edycja1usun2}" width="70" style="#{item.stylwiersza}">
                     <f:facet name="header">
                         <h:outputText value="stan"/>
                     </f:facet>
                     <h:outputText value="#{item.nowy0edycja1usun2}"/>
+                </p:column>
+                <p:column style="text-align: center;" width="40" rendered="#{bilansWprowadzanieView.nraktualnejlisty eq 2}">
+                    <f:facet name="header">
+                        <h:outputText value="VAT"/>
+                    </f:facet>
+                    <p:commandButton icon="fa fa-plus" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajewidencjeVAT(item)}"
+                                     update="formbilanswprowadzanie2 " rendered="#{item.geteVatwpisFK() eq null}" oncomplete="r('ewidencjavatRK:data1DialogVAT_input').select()"
+                                     />
+                    <p:commandButton icon="fa fa-pencil-square-o" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajewidencjeVAT(item)}"
+                                     update="formbilanswprowadzanie2 " rendered="#{item.geteVatwpisFK() ne null}" oncomplete="r('ewidencjavatRK:data1DialogVAT_input').select()"
+                                     />
                 </p:column>
                 <p:column style="text-align: center;" width="40">
                     <f:facet name="header">

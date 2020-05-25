@@ -1,0 +1,119 @@
+    <ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    
+    >
+        <p:dialog id="dialogewidencjavatRK" header="Ewidencja VAT BO wiersz #{bilansWprowadzanieView.wierszBOVAT.opis}" widgetVar="dialogewidencjavatRK"  appendTo="@(body)"
+              resizable="false"  onShow="ustawdialogrk('dialogewidencjavatRK','bilanswprowadzanie2',800,220);" 
+              closeOnEscape="true" onHide="ukryjdialogvatrk();" >
+        <h:form id="ewidencjavatRK">
+            <p:panelGrid id="paneldatydokumentu" columns="4" style="width: 600px;"  styleClass="uipanelGrid0">
+                <h:outputText value="data dokumentu"/>
+                <h:outputText value="data operacji gosp."/>
+                <h:outputText value="dane kontrahenta"/>
+                <h:outputText value="nr wł dok."/>
+                <h:inputText id="data1DialogVAT" value="#{bilansWprowadzanieView.ewidencjaVatRK.datadokumentu}"
+                             onblur="ustawDateFKRK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data1DialogVAT');
+                                             $(this).removeClass('ui-state-focus');
+                                             $(this).addClass('ui-state-default');"
+                             title="wpisz numer dnia, lub miesiąc i dzień"
+                             styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                             onfocus="$(this).removeClass('ui-state-default');
+                                             $(this).addClass('ui-state-focus');" style="height: 19px; width: 110px;"
+                             >
+                    <p:ajax global="false" event="blur" partialSubmit="true" />
+                </h:inputText>
+                <h:inputText id="data2DialogVAT" value="#{bilansWprowadzanieView.ewidencjaVatRK.dataoperacji}"
+                             onblur="ustawDateFKRK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data2DialogVAT');
+                                             $(this).removeClass('ui-state-focus');
+                                             $(this).addClass('ui-state-default');"
+                             title="wpisz numer dnia, lub miesiąc i dzień"
+                             styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                             onfocus="$(this).removeClass('ui-state-default');
+                                             $(this).addClass('ui-state-focus');" style="height: 19px; width: 110px;"
+                             >
+                    <p:ajax global="false" event="blur" partialSubmit="true" />
+                </h:inputText>
+                <p:autoComplete id="klientRK" value="#{bilansWprowadzanieView.ewidencjaVatRK.klient}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefkRK"
+                                var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="#{klientConv}" title="wpisz nazwę lub nip kontrahenta"
+                                minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient" 
+                                cache="true" forceSelection="true" queryDelay="10"  styleClass="wpisywaniekontrfk" 
+                                required="true" requiredMessage="Pole klienta nie może być puste" onblur="sprawdzczybrakklientaRK();"
+                                style="width: 300px;">
+                    <p:ajax event="query" global="false"/>
+                    <p:ajax event="itemSelect" listener="#{bilansWprowadzanieView.dodajklientaautomatRK()}" partialSubmit="true" global="false"/>
+                    <f:facet name="itemtip">  
+                        <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                            <f:facet name="header">  
+                                <h:outputText value="Dane kontrahenta"/>
+                            </f:facet>  
+                            <h:outputText value="Nazwa: " />  
+                            <h:outputText id="npelna" value="#{p.npelna}" />  
+                            <h:outputText value="NIP: " />  
+                            <h:outputText id="nip" value="#{p.nip}" />  
+                            <h:outputText value="Adres " />  
+                            <h:outputText id="klumna" value="#{p.miejscowosc} #{p.ulica} #{p.dom} #{p.lokal}" /> 
+                        </h:panelGrid>
+                    </f:facet>
+                </p:autoComplete>
+                <p:inputText value="#{bilansWprowadzanieView.ewidencjaVatRK.numerwlasnydokfk}" style="width: 170px;" required="true" requiredMessage="brak nr wlasnego dokumentu" onblur="czypuste(this)">
+                </p:inputText>
+            </p:panelGrid>
+            <p:panelGrid id="panelzewidencjavat" columns="8"  styleClass="uipanelGrid0" style="min-width: 470px; margin-top: 2%;">
+                <h:outputText value="opis transakcji" style="width: 160px;"/>
+                <h:outputText value="rodzaj ewidencji" style="width: 110px;"/>
+                <h:outputText value="#{mgs.netto}" style="width: 95px;"/>
+                <h:outputText value="#{mgs.VAT}" style="width: 95px;"/>
+                <h:outputText value="brutto" style="width: 95px;"/>
+                <h:outputText value="op/zw" style="width: 75px;"/>
+                <h:outputText value="50%" />
+                <h:outputText value="75%" />
+                <p:inputText id="opisvat" value="#{bilansWprowadzanieView.ewidencjaVatRK.opisvat}" style="width: 170px;"/>
+                <h:selectOneMenu value="#{bilansWprowadzanieView.ewidencjaVatRK.ewidencja}" converter="EVatwpisFKConv"
+                                 onblur="$(this).removeClass('ui-state-focus');
+                                        $(this).addClass('ui-state-default');"
+                                 styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                 onfocus="$(this).removeClass('ui-state-default');
+                                   $(this).addClass('ui-state-focus');" style="height: 19px;width: 120px !important;"
+                                 >
+                    <f:selectItems value="#{bilansWprowadzanieView.listaewidencjivatRK}" var="item" itemLabel="#{item.nazwa}"/>
+                    <p:ajax event="change" global="false" partialSubmit="true"/>
+                </h:selectOneMenu>
+                <p:inputNumber id="netto" value="#{bilansWprowadzanieView.ewidencjaVatRK.netto}" symbol="#{bilansWprowadzanieView.wierszBOVAT.waluta.symbolwaluty}" 
+                                required="true" requiredMessage="Brak kwoty - uzupełnij" onfocus="kalkulator_pobierzwiersz(this);"
+                                style="text-align: right; height: 19px;" symbolPosition="s" size="12"
+                                thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                    <p:ajax global="false" event="change" partialSubmit="true"/>
+                </p:inputNumber>
+                <p:inputNumber id="vat" value="#{bilansWprowadzanieView.ewidencjaVatRK.vat}" symbol=" zł" required="true" 
+                                requiredMessage="Brak kwoty - uzupełnij" onfocus="kalkulator_pobierzwiersz(this);"
+                                style="text-align: right;" symbolPosition="s" size="12"
+                                thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                    <p:ajax global="false" event="change" listener="#{bilansWprowadzanieView.updatevatRK()}"  partialSubmit="true" />
+                </p:inputNumber>
+                <p:inputNumber id="brutto" value="#{bilansWprowadzanieView.ewidencjaVatRK.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"  size="12"
+                                style="text-align: right;" symbolPosition="s" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto" 
+                                >
+                    <p:ajax global="false" event="change" partialSubmit="true" />
+                </p:inputNumber>
+                <h:selectOneMenu id="opzwpole" value="#{bilansWprowadzanieView.ewidencjaVatRK.estawka}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                                 onfocus="$(this).addClass('ui-state-focus');" style="text-align: right; width: 95%;"
+                                 onblur="$(this).removeClass('ui-state-focus');">
+                    <f:selectItem itemLabel="sprz.op" itemValue="sprz.op"/>
+                    <f:selectItem itemLabel="sprzed.op.izw." itemValue="sprzed.op.izw."/>
+                </h:selectOneMenu>
+<!--                <p:selectBooleanCheckbox label="Paliwo" value="#{bilansWprowadzanieView.ewidencjaVatRK.paliwo}"/>
+                <p:selectBooleanCheckbox label="Koszty 75%" value="#{bilansWprowadzanieView.ewidencjaVatRK.koszty75}" />-->
+            </p:panelGrid>
+            <p:commandButton value="Zapisz" style="margin-left: 30%; margin-top: 15px; width: 120px;" actionListener="#{bilansWprowadzanieView.dolaczWierszEwidencja}" 
+                             oncomplete="PF('dialogewidencjavatRK').hide();" global="false" rendered="#{!bilansWprowadzanieView.ewidencjaVATRKzapis0edycja1}"/>
+            <p:commandButton value="Edytuj" style="margin-left: 30%; margin-top: 15px; width: 120px;" actionListener="#{bilansWprowadzanieView.edytujWierszEwidencja}" 
+                             oncomplete="PF('dialogewidencjavatRK').hide();" global="false" rendered="#{bilansWprowadzanieView.ewidencjaVATRKzapis0edycja1}"/>
+            <p:commandButton value="Anuluj" style="margin-left: 10%; margin-top: 15px; width: 120px;" type="button" global="false"
+                             onclick="PF('dialogewidencjavatRK').hide();"/>
+        </h:form>
+    </p:dialog>
+</ui:composition>

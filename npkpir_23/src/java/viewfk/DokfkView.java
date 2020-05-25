@@ -4423,8 +4423,7 @@ public void oznaczjakonkup() {
             for (StronaWiersza p : selected.getStronyWierszy()) {
                 p.setKwota(0);
                 p.setKwotaPLN(0);
-                p.setTypStronaWiersza(0);
-            }
+           }
         }
     }
     
