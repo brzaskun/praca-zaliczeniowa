@@ -84,8 +84,8 @@ public class SprawozdanieFin2018DodInfoBean {
    
     private static TKwotaOkres zrobd(BigDecimal a, BigDecimal b) {
         TKwotaOkres p = new TKwotaOkres();
-        p.rp = a;
-        p.rb = b;
+        p.rb = a;
+        p.rp = b;
         return p;
     }
 
