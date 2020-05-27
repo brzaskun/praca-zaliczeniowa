@@ -192,7 +192,8 @@ public class BankImportView implements Serializable {
                     }
                 }
                 if (zwrot!=null) {
-                    lista.put(p.getIban(), zwrot);
+                    String nowyiban = p.getIban().replace("\"", "").replace("'", "").replace("'", "");
+                    lista.put(nowyiban, zwrot);
                 }
             }
         }
