@@ -206,6 +206,8 @@ public class BankImportView implements Serializable {
         zwrot.add(new ImportowanyPlik("Santander csv ;","csv",";",2));
         zwrot.add(new ImportowanyPlik("Mbank csv ;","csv",";",3));
         zwrot.add(new ImportowanyPlik("MT940 csv ;","csv",";",4));
+        zwrot.add(new ImportowanyPlik("Bank PKO BP csv ;","csv",5));
+        zwrot.add(new ImportowanyPlik("BNP Paribas BP csv ;","csv",6));
         return zwrot;
     }
     
@@ -285,7 +287,11 @@ public class BankImportView implements Serializable {
                            zwrot = ImportMbankHist_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
                            break;
                         case 4 :
-                           break;
+                           return;
+                        case 5 :
+                            zwrot = ImportPKOBP_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
+                        case 6 :
+                            zwrot = ImportBNPParibas_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
                     }
                     if (zwrot.size()==5) {
                         Msg.msg("e", "Nie pobrano wszystkich plików. Wystąpił błąd");
