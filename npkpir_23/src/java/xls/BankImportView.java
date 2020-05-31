@@ -556,7 +556,7 @@ public class BankImportView implements Serializable {
     }    
 
     private Wiersz przygotujwierszNetto(int lpwiersza,Dokfk nd, ImportBankWiersz importBankWiersz, Konto kontown, Konto kontoma) {
-        Wiersz w = new Wiersz(lpwiersza, 0);
+        Wiersz w = new Wiersz(lpwiersza, nd, 0);
         w.setDataWalutyWiersza(Data.getDzien(importBankWiersz.getDatatransakcji()));
         uzupelnijwiersz(w, nd, importBankWiersz);
         w.setOpisWiersza(zrobopiswiersza(importBankWiersz));

@@ -261,7 +261,7 @@ public class SrodkiTrwaleAMOView implements Serializable {
             nd.setListawierszy(new ArrayList<Wiersz>());
             int idporzadkowy = 1;
             for (UmorzenieN p : amodok.getPlanumorzen()) {
-                Wiersz w = new Wiersz(idporzadkowy++, 0);
+                Wiersz w = new Wiersz(idporzadkowy++, nd, 0);
                 uzupelnijwiersz(w, nd);
                 String opiswiersza = "odpis amortyzacyjny dla: "+p.getSrodekTrw().getNazwa(); 
                 w.setOpisWiersza(opiswiersza);

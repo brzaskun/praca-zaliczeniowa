@@ -278,7 +278,7 @@ public class RMKView  implements Serializable {
         int idporzadkowy = 1;
         for (RMK p : listarmk) {
             if (p.isRozliczony() == false) {
-                Wiersz w = new Wiersz(idporzadkowy++, 0);
+                Wiersz w = new Wiersz(idporzadkowy++,nd, 0);
                 uzupelnijwiersz(w, nd);
                 String opiswiersza = "odpis rmk dla: "+p.getOpiskosztu(); 
                 w.setOpisWiersza(opiswiersza);
@@ -294,7 +294,7 @@ public class RMKView  implements Serializable {
                 nd.getListawierszy().add(w);
                 if (kwotankup > 0.0) {
                     Cechazapisu nkup = cechazapisuDAOfk.findPodatniknkup();
-                    w = new Wiersz(idporzadkowy++, 1);
+                    w = new Wiersz(idporzadkowy++, nd, 1);
                     uzupelnijwiersz(w, nd);
                     opiswiersza = "odpis NKUP rmk dla: "+p.getOpiskosztu(); 
                     w.setOpisWiersza(opiswiersza);

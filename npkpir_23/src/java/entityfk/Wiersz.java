@@ -35,9 +35,7 @@ import waluty.Z;
  */
 @Entity
 //@Table(name = "wiersz")
-@Table(name = "wiersz", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"dokid, idporzadkowy"})
-})
+@Table(name = "wiersz")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Wiersz.findAll", query = "SELECT w FROM Wiersz w"),
@@ -126,15 +124,18 @@ public class Wiersz implements Serializable {
     
 
     public Wiersz() {
-        //this.strona = new HashMap<>();
+        this.idporzadkowy = 1;
+        this.typWiersza = 0;
+        this.dokfk = new Dokfk();
         this.piatki = new HashSet<>();
     }
 
     //trzeba wstawiac numer porzadkowy dla celow funkcji javascript ktore odpowiednio obrabiaja wiersze w trakcie wprowadzania
-    public Wiersz(int idporzadkowy, int typwiersza) {
+    public Wiersz(int idporzadkowy, Dokfk dokfk, int typwiersza) {
         //this.strona = new HashMap<>();
         this.idporzadkowy = idporzadkowy;
         this.typWiersza = typwiersza;
+        this.dokfk = dokfk;
         this.piatki = new HashSet<>();
     }
 
@@ -435,11 +436,13 @@ public class Wiersz implements Serializable {
     @Override
     public int hashCode() {
         int hash = 5;
-//        hash = 37 * hash + Objects.hashCode(this.idwiersza);
-        hash = 37 * hash + Objects.hashCode(this.idporzadkowy);
-        hash = 37 * hash + Objects.hashCode(this.dokfk);
+        hash = 47 * hash + Objects.hashCode(this.idwiersza);
+        hash = 47 * hash + Objects.hashCode(this.idporzadkowy);
+        hash = 47 * hash + Objects.hashCode(this.dokfk);
         return hash;
     }
+
+  
 
     @Override
     public boolean equals(Object obj) {
@@ -453,35 +456,40 @@ public class Wiersz implements Serializable {
             return false;
         }
         final Wiersz other = (Wiersz) obj;
-//        if (!Objects.equals(this.idwiersza, other.idwiersza)) {
-//            return false;
-//        }
-        if (!Objects.equals(this.dokfk, other.dokfk)) {
-            return false;
+        if (this.idwiersza==null&&other.idwiersza==null) {
+           if (this.idporzadkowy!=other.idporzadkowy) {
+               return false;
+           }   
+        } else {
+            if (!Objects.equals(this.idwiersza, other.idwiersza)) {
+                return false;
+            }
         }
-        if (!Objects.equals(this.idporzadkowy, other.idporzadkowy)) {
+        if (!Objects.equals(this.dokfk, other.dokfk)) {
             return false;
         }
         return true;
     }
 
     
+
+    
     
     
     
     public static void main(String[] args) {
-        Wiersz a = new Wiersz();
-        a.setIdporzadkowy(4);
-        Wiersz b = new Wiersz();
-        b.setIdporzadkowy(4);
-        if (a==b) {
-            System.out.println("pasuje ==");
-        } else 
-        if (a.equals(b)) {
-            System.out.println("pasuje equals");
-        } else {
-            System.out.println("rozne");
-        }
+//        Wiersz a = new Wiersz();
+//        a.setIdporzadkowy(4);
+//        Wiersz b = new Wiersz();
+//        b.setIdporzadkowy(4);
+//        if (a==b) {
+//            System.out.println("pasuje ==");
+//        } else 
+//        if (a.equals(b)) {
+//            System.out.println("pasuje equals");
+//        } else {
+//            System.out.println("rozne");
+//        }
     }
     
     

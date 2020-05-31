@@ -483,7 +483,7 @@ public class KontaVatFKView implements Serializable {
         Konto kontoRozrachunkizUS = kontoDAOfk.findKonto("222", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         for (SaldoKonto p : kontavat) {
             if (p.getSaldoWn() != 0.0 || p.getSaldoMa() != 0.0) {
-                Wiersz w = new Wiersz(idporzadkowy++, 0);
+                Wiersz w = new Wiersz(idporzadkowy++, nd, 0);
                 uzupelnijwiersz(w, nd);
                 String opiswiersza = "przeksięg. konto: "+p.getKonto().getPelnynumer();
                 w.setOpisWiersza(opiswiersza);

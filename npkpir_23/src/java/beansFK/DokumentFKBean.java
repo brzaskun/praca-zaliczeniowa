@@ -217,7 +217,7 @@ public class DokumentFKBean implements Serializable {
     }
 
     public static void naniesPojedynczaTransakcje(int idporzadkowy, Dokfk nd, Transakcja p, TabelanbpDAO tabelanbpDAO, Konto kontoRozniceKursowe, Konto przychodyfinansowe, Konto kosztyfinansowe) {
-        Wiersz w = new Wiersz(idporzadkowy++, 0);
+        Wiersz w = new Wiersz(idporzadkowy++, nd, 0);
         uzupelnijwiersz(w, nd, tabelanbpDAO);
         w.setDataWalutyWiersza(p.getDatarozrachunku().split("-")[2]);
         String rozliczajacy = p.getRozliczajacy().getWiersz().getDokfk().getSeriadokfk() + "/" + p.getRozliczajacy().getWiersz().getDokfk().getNrkolejnywserii();
@@ -270,7 +270,7 @@ public class DokumentFKBean implements Serializable {
         int idporzadkowy = 1;
         for (Iterator<UmorzenieN> it = pobranetransakcje.iterator(); it.hasNext();) {
             UmorzenieN p = it.next();
-            Wiersz w = new Wiersz(idporzadkowy++, 0);
+            Wiersz w = new Wiersz(idporzadkowy++, nd, 0);
             uzupelnijwiersz(w, nd, tabelanbpDAO);
             String opiswiersza = "umorzenie: " + p.getSrodekTrw().getNazwa() + " " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt();
             w.setOpisWiersza(opiswiersza);
@@ -294,7 +294,7 @@ public class DokumentFKBean implements Serializable {
             StronaWiersza p = it.next();
             double kwota = p.getKwota();
             if (kwota != 0.0) {
-                Wiersz w = new Wiersz(idporzadkowy++, 0);
+                Wiersz w = new Wiersz(idporzadkowy++, nd, 0);
                 uzupelnijwiersz(w, nd, tabelanbpDAO);
                 String opiswiersza = "przeksięgowanie: "+p.getOpisSW()+" " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt();
                 w.setOpisWiersza(opiswiersza);
@@ -335,7 +335,7 @@ public class DokumentFKBean implements Serializable {
             StowNaliczenie p = it.next();
             double kwota = p.getKwota();
             if (kwota != 0.0) {
-                Wiersz w = new Wiersz(idporzadkowy++, 0);
+                Wiersz w = new Wiersz(idporzadkowy++, nd, 0);
                 uzupelnijwiersz(w, nd, tabelanbpDAO);
                 String opiswiersza = ((MiejscePrzychodow) p.getMiejsce()).getOpismiejsca() + " "+opisdok+" " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt();
                 w.setOpisWiersza(opiswiersza);
@@ -374,7 +374,7 @@ public class DokumentFKBean implements Serializable {
         for (Object z : sumy) {
             ListaSum wierszsum = (ListaSum) z;
             if (wierszsum.getSaldoWn() > 0.0 || wierszsum.getSaldoMa() > 0.0) {
-                Wiersz w = new Wiersz(idporzadkowy++, 0);
+                Wiersz w = new Wiersz(idporzadkowy++, nowydok, 0);
                 Tabelanbp tabela = wierszsum.getTabelanbp() != null ? wierszsum.getTabelanbp() : nowydok.getTabelanbp();
                 uzupelnijwierszWaluta(w, nowydok, tabela);
                 String opiswiersza = "automatyczna korekta salda: " + sw.getKonto().getPelnynumer() + " na koniec " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()+" dla waluty "+wierszsum.getWaluta();
@@ -418,7 +418,7 @@ public class DokumentFKBean implements Serializable {
         double roznicawn = roznicawnroznicama[0];
         double roznicama = roznicawnroznicama[1];
         String opiswiersza2 = opiswiersza + sw.getKonto().getPelnynumer() + " na koniec " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt();
-            Wiersz w = new Wiersz(idporzadkowy++, 0);
+            Wiersz w = new Wiersz(idporzadkowy++, nowydok, 0);
             uzupelnijwierszWaluta(w, nowydok, tabelanbpDAO.findByTabelaPLN());
             w.setOpisWiersza(opiswiersza2);
             if (roznicawn > 0.0) {

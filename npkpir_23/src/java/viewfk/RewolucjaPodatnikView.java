@@ -9,6 +9,7 @@ import dao.DAO;
 import dao.PodatnikDAO;
 import daoFK.DokDAOfk;
 import daoFK.WierszDAO;
+import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.Wiersz;
 import error.E;
@@ -820,4 +821,18 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
             }
         }
     }
+      
+    
+     public void usunpustewiersze() {
+         List<Wiersz> wiersze = dokFacade.getEntityManager().createQuery("SELECT k FROM Wiersz k WHERE k.dokfk IS NULL").getResultList();
+         for (Wiersz p : wiersze) {
+             try {
+                dokFacade.remove(p);
+             } catch (Exception e) {
+                 E.e(e);
+             }
+         }
+//        List<Wiersz> wiersze1 = sessionFacade.getEntityManager().createQuery("SELECT k FROM Wiersz k GROUP BY k.idporzadkowy, k.dokfk HAVING COUNT(k) > 1").getResultList();
+         System.out.println("koniec");
+     }
 }   

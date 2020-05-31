@@ -567,17 +567,20 @@ public class DokfkView implements Serializable {
     }
     
     public void skopiujopis(int nrbiezacegowiersza) {
-        if(nrbiezacegowiersza==1){
-            return;
-        } else {
-            int nrstaregowiersza = nrbiezacegowiersza-2;
-            nrbiezacegowiersza = nrbiezacegowiersza-1;
-            String biezacywiersz = selected.getListawierszy().get(nrbiezacegowiersza).getOpisWiersza();
-            String poprzedniopisval = selected.getListawierszy().get(nrstaregowiersza).getOpisWiersza();
-            if (biezacywiersz==null || biezacywiersz.equals("")) {
-                selected.getListawierszy().get(nrbiezacegowiersza).setOpisWiersza(poprzedniopisval);
+        try {
+            if(nrbiezacegowiersza==1){
+                return;
+            } else {
+                int nrstaregowiersza = nrbiezacegowiersza-2;
+                nrbiezacegowiersza = nrbiezacegowiersza-1;
+                String biezacywiersz = selected.getListawierszy().get(nrbiezacegowiersza).getOpisWiersza();
+                String poprzedniopisval = selected.getListawierszy().get(nrstaregowiersza).getOpisWiersza();
+                if (biezacywiersz==null || biezacywiersz.equals("")) {
+                    selected.getListawierszy().get(nrbiezacegowiersza).setOpisWiersza(poprzedniopisval);
+                }
             }
-        }
+            //funkcja wyzerowana
+        } catch (Exception e) {}
     }
 
     public void dodajPustyWierszNaKoncu() {
@@ -1213,6 +1216,8 @@ public class DokfkView implements Serializable {
             return;
         }
         if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
+// funkcja wyzerowana
+        //if (true) {
             if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
                 int index = selected.getListawierszy().size() - 1;
                 rozliczsaldoWBRK(index);
@@ -1723,6 +1728,7 @@ public class DokfkView implements Serializable {
             E.e(e);
         }
         if (flag == 0) {
+            Wiersz  poprzedni = selected.poprzedniWiersz(wybranyWiersz);
             //9 nie ma wiersza
             String wierszeSasiednie = sprawdzWierszeSasiednie(wybranyWiersz);
             switch (wierszeSasiednie) {
@@ -1734,9 +1740,11 @@ public class DokfkView implements Serializable {
                 case "00":
                     if (wybranyWiersz.getTypWiersza() == 0) {
                         selected.getListawierszy().remove(wybranyWiersz);
+                        this.wierszzmieniony = poprzedni;
                         break;
                     } else {
                         selected.getListawierszy().remove(wybranyWiersz);
+                        this.wierszzmieniony = poprzedni;
 //                        ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz, wierszeSasiednie);
                         break;
                     }
@@ -1745,6 +1753,7 @@ public class DokfkView implements Serializable {
                 case "19":
                 case "29":
                     selected.getListawierszy().remove(wybranyWiersz);
+                    this.wierszzmieniony = poprzedni;
                     break;
                 case "05":
                 case "15":
@@ -1759,10 +1768,12 @@ public class DokfkView implements Serializable {
                     }
                     //usunrozrachunki(wybranyWiersz);
                     selected.getListawierszy().remove(wybranyWiersz);
+                    this.wierszzmieniony = poprzedni;
                     break;
                 default:
                     //usunrozrachunki(wybranyWiersz);
                     selected.getListawierszy().remove(wybranyWiersz);
+                    this.wierszzmieniony = poprzedni;
                     break;
             }
             for (Iterator<EVatwpisFK> it = selected.getEwidencjaVAT().iterator(); it.hasNext();) {

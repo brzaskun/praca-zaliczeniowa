@@ -542,7 +542,7 @@ public class InterpaperImportView implements Serializable {
     }
 
     private Wiersz przygotujwierszNetto(InterpaperXLS interpaperXLS, Dokfk nd) {
-        Wiersz w = new Wiersz(1, 0);
+        Wiersz w = new Wiersz(1, nd, 0);
         uzupelnijwiersz(w, nd, 0);
         String opiswiersza = nd.getOpisdokfk(); 
         w.setOpisWiersza(opiswiersza);
@@ -561,7 +561,7 @@ public class InterpaperImportView implements Serializable {
     }
     
     private Wiersz przygotujwierszVat(InterpaperXLS interpaperXLS, Dokfk nd) {
-        Wiersz w = new Wiersz(2, 2);
+        Wiersz w = new Wiersz(2, nd, 2);
         uzupelnijwiersz(w, nd, 1);
         String opiswiersza = nd.getOpisdokfk()+" - VAT"; 
         w.setOpisWiersza(opiswiersza);
@@ -575,7 +575,7 @@ public class InterpaperImportView implements Serializable {
     }
     
     private Wiersz przygotujwierszNettoK(InterpaperXLS interpaperXLS, Dokfk nd) {
-        Wiersz w = new Wiersz(1, 0);
+        Wiersz w = new Wiersz(1, nd, 0);
         uzupelnijwiersz(w, nd, 0);
         String opiswiersza = nd.getOpisdokfk(); 
         w.setOpisWiersza(opiswiersza);
@@ -598,7 +598,7 @@ public class InterpaperImportView implements Serializable {
     }
     
     private Wiersz przygotujwierszVatK(InterpaperXLS interpaperXLS, Dokfk nd) {
-        Wiersz w = new Wiersz(2, 1);
+        Wiersz w = new Wiersz(2, nd, 1);
         uzupelnijwiersz(w, nd, 1);
         String opiswiersza = nd.getOpisdokfk()+" - VAT"; 
         w.setOpisWiersza(opiswiersza);

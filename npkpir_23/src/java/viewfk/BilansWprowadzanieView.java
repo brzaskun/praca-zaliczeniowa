@@ -1003,7 +1003,7 @@ public class BilansWprowadzanieView implements Serializable {
         if (listabiezaca != null && listabiezaca.size() > 0) {
             for (WierszBO p : listabiezaca) {
                 if (p != null && (p.getKwotaWn() != 0.0 || p.getKwotaMa() != 0.0 || p.getKwotaWnPLN() != 0.0 || p.getKwotaMaPLN() != 0.0)) {
-                    Wiersz w = new Wiersz(idporzadkowy++, 0);
+                    Wiersz w = new Wiersz(idporzadkowy++, nd, 0);
                     uzupelnijwiersz(w, nd);
                     if (p.getKonto().getPelnynumer().equals("202-1-5")) {
                     }
@@ -1062,7 +1062,7 @@ public class BilansWprowadzanieView implements Serializable {
             if (p.getNowy0edycja1usun2Int()!=3) {
                 Wiersz wierszwdokumencie = niezawierategokonta(wiersze, p);
                 if (wierszwdokumencie == null && (Z.z(p.getKwotaWn()) != 0.0 || Z.z(p.getKwotaWnPLN()) != 0.0 || Z.z(p.getKwotaMa()) != 0.0 || Z.z(p.getKwotaMaPLN()) != 0.0)) {
-                    Wiersz w = new Wiersz(idporzadkowy++, 0);
+                    Wiersz w = new Wiersz(idporzadkowy++, nd, 0);
                     uzupelnijwiersz(w, nd);
                     String opiswiersza = "zapis BO: " + p.getOpis();
                     if (!wpisView.getMiesiacWpisu().equals("01")) {

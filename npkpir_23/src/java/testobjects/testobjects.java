@@ -1036,7 +1036,7 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
    
    public static List<Wiersz> getWiersze() {
        List<Wiersz> l = Collections.synchronizedList(new ArrayList<>());
-       Wiersz w = new Wiersz(1,0);
+       Wiersz w = new Wiersz(1,null, 0);
 //       (Integer id, String podatnik, String nrkonta, String syntetyczne, int analityka, String nazwapelna, String nazwaskrocona, 
 //            String bilansowewynikowe, String zwyklerozrachszczegolne, String macierzyste, String pelnynumer, boolean rozwin, int rok,
 //            String syntetycznenumer);

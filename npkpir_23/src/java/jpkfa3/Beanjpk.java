@@ -196,7 +196,7 @@ public class Beanjpk {
         nd.getListawierszy().add(przygotujwierszVATNalezny(lpwiersza, nd, faktura, kontown, kontoma, tabelanbppl, tabelanbpDAO));
     }
      private static Wiersz przygotujwierszNettoSprzedaz(int lpwiersza,Dokfk nd, jpkfa3.JPK.Faktura faktura, Konto kontown, Konto kontoma, Tabelanbp tabelanbppl, TabelanbpDAO tabelanbpDAO) {
-        Wiersz w = new Wiersz(lpwiersza, 0);
+        Wiersz w = new Wiersz(lpwiersza, nd, 0);
         uzupelnijwiersz(w, nd, faktura, tabelanbppl, tabelanbpDAO);
         w.setOpisWiersza("przychody ze sprzedaży");
         StronaWiersza strwn = new StronaWiersza(w, "Wn", faktura.getBrutto(), kontown);
@@ -210,7 +210,7 @@ public class Beanjpk {
         return w;
     }
      private static Wiersz przygotujwierszVATNalezny(int lpwiersza,Dokfk nd, jpkfa3.JPK.Faktura faktura, Konto kontown, Konto kontoma, Tabelanbp tabelanbppl, TabelanbpDAO tabelanbpDAO) {
-        Wiersz w = new Wiersz(lpwiersza, 2);
+        Wiersz w = new Wiersz(lpwiersza, nd, 2);
         uzupelnijwiersz(w, nd, faktura, tabelanbppl, tabelanbpDAO);
         w.setOpisWiersza("przychody ze sprzedaży - VAT");
         StronaWiersza strma = new StronaWiersza(w, "Wn", faktura.getVat(), kontoma);

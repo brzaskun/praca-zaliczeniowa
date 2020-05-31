@@ -161,14 +161,14 @@ public class ObslugaWiersza {
     }
     
     public static Wiersz utworzNowyWiersz(Dokfk selected, int liczbawierszyWDokumencie)  {
-        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 0);
+        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, selected, 0);
         nowywiersz.setLpmacierzystego(0);
         uzupelnijDane(nowywiersz, selected);
         return nowywiersz;
     }
     
     public static Wiersz ustawPierwszyWiersz(Dokfk dokfk) {
-        Wiersz nowywiersz =  new Wiersz(1, 0);
+        Wiersz nowywiersz =  new Wiersz(1, dokfk, 0);
         nowywiersz.setLpmacierzystego(0);
         uzupelnijDane(nowywiersz, dokfk);
         return nowywiersz;
@@ -184,7 +184,7 @@ public class ObslugaWiersza {
         nowywiersz.setStronaMa(stronaMa);
     }
      public static Wiersz utworzNowyWierszWNT (Dokfk selected, int liczbawierszyWDokumencie, double kwota, int lpmacierzystego)  {
-        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 0);
+        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, selected, 0);
         nowywiersz.setDokfk(selected);
         nowywiersz.setTabelanbp(selected.getTabelanbp());
         StronaWiersza stronaMa = new StronaWiersza(nowywiersz, "Ma", kwota);
@@ -196,7 +196,7 @@ public class ObslugaWiersza {
     }
     
     public static Wiersz utworzNowyWierszMa(Dokfk selected, int liczbawierszyWDokumencie, double kwota, int lpmacierzystego)  {
-        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 2);
+        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, selected, 2);
         nowywiersz.setDokfk(selected);
         nowywiersz.setTabelanbp(selected.getTabelanbp());
         StronaWiersza stronaMa = new StronaWiersza(nowywiersz, "Ma", kwota);
@@ -206,7 +206,7 @@ public class ObslugaWiersza {
     }
     
     public static Wiersz utworzNowyWierszMa5(Dokfk selected, int liczbawierszyWDokumencie, double kwota, int lpmacierzystego)  {
-        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 7);
+        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, selected, 7);
         nowywiersz.setDokfk(selected);
         nowywiersz.setTabelanbp(selected.getTabelanbp());
         StronaWiersza stronaMa = new StronaWiersza(nowywiersz, "Ma", kwota);
@@ -216,7 +216,7 @@ public class ObslugaWiersza {
     }
     
      public static Wiersz utworzNowyWiersz5(Dokfk selected, int liczbawierszyWDokumencie, double kwota, int lpmacierzystego)  {
-        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 5);
+        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, selected, 5);
         nowywiersz.setDokfk(selected);
         nowywiersz.setTabelanbp(selected.getTabelanbp());
         StronaWiersza stronaWn = new StronaWiersza(nowywiersz, "Wn");
@@ -228,7 +228,7 @@ public class ObslugaWiersza {
     }
     
     public static Wiersz utworzNowyWierszWn(Dokfk selected, int liczbawierszyWDokumencie, double kwota, int lpmacierzystego)  {
-        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 1);
+        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, selected, 1);
         nowywiersz.setDokfk(selected);
         nowywiersz.setTabelanbp(selected.getTabelanbp());
         StronaWiersza stronaWn = new StronaWiersza(nowywiersz, "Wn", kwota);
@@ -238,7 +238,7 @@ public class ObslugaWiersza {
     }
     
     public static Wiersz utworzNowyWierszWn6(Dokfk selected, int liczbawierszyWDokumencie, double kwota, int lpmacierzystego)  {
-        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 6);
+        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, selected, 6);
         nowywiersz.setDokfk(selected);
         nowywiersz.setTabelanbp(selected.getTabelanbp());
         StronaWiersza stronaWn = new StronaWiersza(nowywiersz, "Wn", kwota);
@@ -248,7 +248,7 @@ public class ObslugaWiersza {
     }
     
     public static Wiersz utworzNowyWierszWn5(Dokfk selected, int liczbawierszyWDokumencie, double kwota, int lpmacierzystego)  {
-        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, 6);
+        Wiersz nowywiersz = new Wiersz(liczbawierszyWDokumencie, selected, 6);
         nowywiersz.setDokfk(selected);
         nowywiersz.setTabelanbp(selected.getTabelanbp());
         StronaWiersza stronaWn = new StronaWiersza(nowywiersz, "Wn", kwota);
@@ -422,6 +422,8 @@ public class ObslugaWiersza {
             }
         }
         selected.setListawierszy(przenumerowanaLista);
+//funkcja wyzerowana
+        //selected.getListawierszy().add(wiersz);
     }
     
     public static void dodajiPrzenumerujWiersze5 (Dokfk selected, Wiersz wiersz, int lpmacierzystego) {
@@ -477,6 +479,7 @@ public class ObslugaWiersza {
             }
             lp++;
         }
+//funkcja wyzerowana
     }
 
   

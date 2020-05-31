@@ -156,7 +156,7 @@ public class FDfkBean {
     }
     
     private static Wiersz przygotujwierszNetto(Faktura faktura, Dokfk nd, KontoDAOfk kontoDAOfk, WpisView wpisView, TabelanbpDAO tabelanbpDAO, KliencifkDAO kliencifkDAO){
-        Wiersz w = new Wiersz(1, 0);
+        Wiersz w = new Wiersz(1, nd, 0);
         uzupelnijwiersz(w, nd, tabelanbpDAO);
         String opiswiersza = nd.getOpisdokfk(); 
         w.setOpisWiersza(opiswiersza);
@@ -190,7 +190,7 @@ public class FDfkBean {
     }
     
     private static Wiersz przygotujwierszVat(Faktura faktura, Dokfk nd,  KontoDAOfk kontoDAOfk, WpisView wpisView, TabelanbpDAO tabelanbpDAO) {
-        Wiersz w = new Wiersz(2, 2);
+        Wiersz w = new Wiersz(2, nd, 2);
         uzupelnijwiersz(w, nd, tabelanbpDAO);
         String opiswiersza = nd.getOpisdokfk()+"- podatek vat"; 
         w.setOpisWiersza(opiswiersza);

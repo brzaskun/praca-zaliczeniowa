@@ -984,11 +984,12 @@ public class Dokfk extends DokSuper implements Serializable {
     }
     
     public void przenumeruj() {
-        List<Wiersz> wiersze = this.getListawierszy();
-        int lp = 1;
-        for (Wiersz p : wiersze) {
-            p.setIdporzadkowy(lp++);
-        }
+//        List<Wiersz> wiersze = this.getListawierszy();
+//        int lp = 1;
+//        for (Wiersz p : wiersze) {
+//            p.setIdporzadkowy(lp++);
+//        }
+//funcja wyzerowana
     }
 
     public boolean czyCechaDok() {

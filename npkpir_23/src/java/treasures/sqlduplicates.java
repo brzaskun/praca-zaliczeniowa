@@ -43,4 +43,19 @@ public class sqlduplicates {
 //    cechazapisu
 //HAVING 
 //    COUNT(*) > 1;
+    
+//    SELECT
+//	idwiersza,
+//	idporzadkowy,
+//    dokid,
+//    COUNT(*) occurrences
+//FROM pkpir.wiersz
+//GROUP BY
+//	idporzadkowy,
+//    dokid
+//HAVING 
+//    COUNT(*) > 1;
+    
+    
+    
 }
