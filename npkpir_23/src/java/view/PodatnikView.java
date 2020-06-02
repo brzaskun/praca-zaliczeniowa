@@ -1106,15 +1106,25 @@ private DokDAO dokDAO;
         try {
             for (PodatnikUdzialy p : podatnikUdzialy) {
                 if (udzialy.getDatarozpoczecia().equals("")){
+                    Msg.msg("e","Brak daty od");
                     throw new Exception();
                 }
-                if (udzialy.getNazwiskoimie().equals("") || udzialy.getNazwiskoimie().equals(p.getNazwiskoimie())) {
+                if (udzialy.getNazwiskoimie()==null || udzialy.getNazwiskoimie().equals("")) {
+                    Msg.msg("e","Brak imienia i nazwiska");
                     throw new Exception();
                 }
-                if (!udzialy.getNip().equals("") && udzialy.getNip().equals(p.getNip())) {
+                if (udzialy.getNazwiskoimie().equals(p.getNazwiskoimie())&& (p.getDatazakonczenia()==null || p.getDatazakonczenia().equals(""))) {
                     throw new Exception();
                 }
-                if (!udzialy.getPesel().equals("") && udzialy.getPesel().equals(p.getPesel())) {
+                
+                if (udzialy.getNip().equals(p.getNip())&& (p.getDatazakonczenia()==null || p.getDatazakonczenia().equals(""))) {
+                    throw new Exception();
+                }
+                if (udzialy.getPesel().equals(p.getPesel())&& (p.getDatazakonczenia()==null || p.getDatazakonczenia().equals(""))) {
+                    throw new Exception();
+                }
+                if ((udzialy.getNip()==null && udzialy.getPesel()==null) || (udzialy.getNip()==null && udzialy.getPesel().equals("")) || (udzialy.getNip().equals("") && udzialy.getPesel()==null) || (udzialy.getNip().equals("") && udzialy.getPesel().equals(""))) {
+                    Msg.msg("e","Wpisz NIP lub Pesel");
                     throw new Exception();
                 }
             }

@@ -38,9 +38,6 @@
         <attribute>
             <name>stylePlus</name>
         </attribute>
-        <attribute>
-            <name>id</name>
-        </attribute>
     </tag>
     <tag>
         <tag-name>outputkurs</tag-name>

@@ -250,13 +250,28 @@ public class SprFinKwotyInfDodView  implements Serializable{
     }
     
     public void generujInfdod() {
-        List<Konto> kontaklienta = kontoDAOfk.findWszystkieKontaPodatnikaRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        List<StronaWiersza> zapisyRok = stronaWierszaDAO.findStronaByPodatnikRokRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlitykaRokPop(wpisView);
-        List<SaldoKonto> listaSaldoKonto = SaldoAnalitykaBean.przygotowanalistasaldbo(kontaklienta, kontaklientarokpop, zapisyBO, zapisyObrotyRozp, zapisyRok, wpisView.getPodatnikObiekt());
-        SprFinInfDodBean.drukujInformacjeDodatkowa(wpisView, sprFinKwotyInfDod, listaSaldoKonto);
+        if (sprFinKwotyInfDod.getSad()==null) {
+            Msg.msg("e","Nie wpisano sądu. Nie można wygenerować informacji");
+            return;
+        } else if (sprFinKwotyInfDod.getPpdzialalnosci()==null) {
+            Msg.msg("e","Nie wpisano głównego rodzaju działalności. Nie można wygenerować informacji");
+            return;
+        } else if (sprFinKwotyInfDod.getPozpdzialalnosci()==null) {
+            Msg.msg("e","Nie wpisano rodzaju działalności. Nie można wygenerować informacji");
+            return;
+        } else {
+            List<Konto> kontaklienta = kontoDAOfk.findWszystkieKontaPodatnikaRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            List<StronaWiersza> zapisyRok = stronaWierszaDAO.findStronaByPodatnikRokRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlitykaRokPop(wpisView);
+            List<SaldoKonto> listaSaldoKonto = SaldoAnalitykaBean.przygotowanalistasaldbo(kontaklienta, kontaklientarokpop, zapisyBO, zapisyObrotyRozp, zapisyRok, wpisView.getPodatnikObiekt());
+            try {
+                SprFinInfDodBean.drukujInformacjeDodatkowa(wpisView, sprFinKwotyInfDod, listaSaldoKonto);
+            } catch (Exception e) {
+                Msg.msg("e","Nie udało się wygenerować informacji w pdf");
+            }
+        }
     }
     
     public void generujSprawozdanieZarzadu() {
@@ -264,8 +279,12 @@ public class SprFinKwotyInfDodView  implements Serializable{
     }
     
     public void generujUchwaly() {
-        SprFinInfDodBean.drukujUchwaly1(wpisView, sprFinKwotyInfDod, podatnikUdzialy);
-        SprFinInfDodBean.drukujUchwaly2(wpisView, sprFinKwotyInfDod, podatnikUdzialy);
+        try {
+            SprFinInfDodBean.drukujUchwaly1(wpisView, sprFinKwotyInfDod, podatnikUdzialy);
+            SprFinInfDodBean.drukujUchwaly2(wpisView, sprFinKwotyInfDod, podatnikUdzialy);
+        } catch (Exception e) {
+            Msg.msg("e","Nie udało się wygenerować uchwał w pdf");
+        }
     }
 
     public SprFinKwotyInfDod getSprFinKwotyInfDod() {

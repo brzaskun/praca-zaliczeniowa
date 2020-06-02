@@ -764,11 +764,13 @@ public class DokView implements Serializable {
             selDokument.setNetto(Z.z(kwotanetto));
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
             //dodaje kolumne z dodatkowym vatem nieodliczonym z faktur za paliwo
-            if (selDokument.getRodzajedok().getProcentvat() != 0.0 && !wpisView.getRodzajopodatkowania().contains("ryczałt") && kwotanetto != 0.0) {
-                KwotaKolumna1 kwotaKolumna = new KwotaKolumna1(Z.z(kwotavat), "poz. koszty");
-                kwotaKolumna.setDok(selDokument);
-                kwotanetto = Z.z(kwotanetto + kwotaKolumna.getNetto());
-                selDokument.getListakwot1().add(kwotaKolumna);
+            if (rodzajdodawania == 1) {
+                if (selDokument.getRodzajedok().getProcentvat() != 0.0 && !wpisView.getRodzajopodatkowania().contains("ryczałt") && kwotanetto != 0.0) {
+                    KwotaKolumna1 kwotaKolumna = new KwotaKolumna1(Z.z(kwotavat), "poz. koszty");
+                    kwotaKolumna.setDok(selDokument);
+                    kwotanetto = Z.z(kwotanetto + kwotaKolumna.getNetto());
+                    selDokument.getListakwot1().add(kwotaKolumna);
+                }
             }
             //koniec obliczania netto to bylo potrzebne do 2016
             //dodajdatydlaStorno();
@@ -1373,8 +1375,13 @@ public class DokView implements Serializable {
             }
         } catch (Exception e) {
             E.e(e);
+            boolean czyjestinnawaluta = selDokument.getTabelanbp() != null && !selDokument.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN");
             for (KwotaKolumna1 p : selDokument.getListakwot1()) {
-                sumbrutto += p.getNetto();
+                if (czyjestinnawaluta) {
+                    sumbrutto += p.getNettowaluta();
+                } else {
+                    sumbrutto += p.getNetto();
+                }
             }
         }
         renderujwyszukiwarke(selDokument.getRodzajedok());
