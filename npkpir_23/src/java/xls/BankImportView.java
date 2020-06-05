@@ -208,6 +208,7 @@ public class BankImportView implements Serializable {
         zwrot.add(new ImportowanyPlik("MT940 csv ;","csv",";",4));
         zwrot.add(new ImportowanyPlik("Bank PKO BP csv ;","csv",5));
         zwrot.add(new ImportowanyPlik("BNP Paribas BP csv ;","csv",6));
+        zwrot.add(new ImportowanyPlik("ING xml","xml",7));
         return zwrot;
     }
     
@@ -292,6 +293,8 @@ public class BankImportView implements Serializable {
                             zwrot = ImportPKOBP_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
                         case 6 :
                             zwrot = ImportBNPParibas_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
+                        case 7 :
+                            zwrot = ImportING_XML.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
                     }
                     if (zwrot.size()==5) {
                         Msg.msg("e", "Nie pobrano wszystkich plików. Wystąpił błąd");

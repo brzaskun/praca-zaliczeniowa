@@ -510,6 +510,11 @@ public class Data implements Serializable {
         return newXMLGregorianCalendar;
    }
    
+   public static String calendarToString(XMLGregorianCalendar x) {
+       Date date = x.toGregorianCalendar().getTime();
+       return data_yyyyMMdd(date);
+   }
+   
    public static boolean sprawdzpoprawnoscdaty(String data) {
         boolean zwrot=true;
         try {

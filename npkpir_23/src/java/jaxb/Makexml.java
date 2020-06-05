@@ -9,9 +9,14 @@ import error.E;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.StringWriter;
+import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.datatype.XMLGregorianCalendar;
+import xls.ing.Document;
+import xls.ing.Id;
+import xls.ing.Other;
 
 /**
  *
@@ -46,7 +51,14 @@ public class Makexml {
             JAXBContext context = JAXBContext.newInstance(c);
             Marshaller marshaller = context.createMarshaller();
             Unmarshaller unmarshaller = context.createUnmarshaller();
-            Object person2 = unmarshaller.unmarshal(new File("james.xml"));
+            Object person2 = unmarshaller.unmarshal(new File(filename));
+            xls.ing.Document doc = (Document) person2;
+            XMLGregorianCalendar frDtTm = doc.getBkToCstmrAcctRpt().getRpt().getFrToDt().getFrDtTm();
+            System.out.println(data.Data.calendarToString(frDtTm));
+            Id id = doc.getBkToCstmrAcctRpt().getRpt().getNtry().get(1).getNtryDtls().getTxDtls().getRltdPties().getCdtrAcct().getId();
+            Other o = (Other) id.getContent().get(1);
+            String iban = (String) o.getId().getContent().get(0);
+            System.out.println("");
             //System.out.println(person2);
 //            System.out.println(person2.getNazwisko());
 //            System.out.println(person2.getAdres());
@@ -56,5 +68,9 @@ public class Makexml {
         } catch (Exception ex) {
             E.e(ex);
         }
+    }
+    
+    public static void main(String[] args) {
+        unmarszal("d:\\ing.xml", xls.ing.Document.class);
     }
 }

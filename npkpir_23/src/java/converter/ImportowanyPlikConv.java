@@ -74,6 +74,7 @@ public class ImportowanyPlikConv implements javax.faces.convert.Converter{
         zwrot.add(new ImportowanyPlik("Murawski xls","xls","",5));
         zwrot.add(new ImportowanyPlik("Bank PKO BP csv ;","csv",5));
         zwrot.add(new ImportowanyPlik("BNP Paribas BP csv ;","csv",6));
+        zwrot.add(new ImportowanyPlik("ING xml","xml",7));
         return zwrot;
     }
 }
