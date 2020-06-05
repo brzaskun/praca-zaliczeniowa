@@ -53,7 +53,6 @@ public class ImportING_XML implements Serializable {
         List zwrot = new ArrayList<Object>();
         List<ImportBankWiersz> pobranefaktury = new ArrayList<>();
         ImportowanyPlikNaglowek pn = new ImportowanyPlikNaglowek();
-        String mcod = null;
         try {
             InputStream file = new ByteArrayInputStream(pobrane);
             if (pobrane != null) {
@@ -131,9 +130,6 @@ public class ImportING_XML implements Serializable {
         zwrot.add(pobranefaktury);
         zwrot.add(nrwyciagu);
         zwrot.add(lpwiersza);
-        if (!mcod.equals(mc)) {
-            zwrot.add("dataerror");
-        }
         return zwrot;
     }
     
