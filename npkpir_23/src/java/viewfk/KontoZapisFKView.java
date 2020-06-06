@@ -1704,7 +1704,7 @@ public class KontoZapisFKView implements Serializable{
                         query = query.substring(0, 3) + "-" + query.substring(3, 4);
                     }
                     String[] qlist = {query};
-                    results.addAll(wykazkont.stream().filter(p -> p.getPelnynumer().startsWith(qlist[0])).collect(Collectors.toList()));
+                    results.addAll(wszystkiekonta.stream().filter(p -> p.getPelnynumer().startsWith(qlist[0])).collect(Collectors.toList()));
 //                    wszystkiekonta.stream().forEach((p)->{
 //                        if (p.getPelnynumer().startsWith(qlist[0])) {
 //                            results.add(p);
@@ -1721,7 +1721,7 @@ public class KontoZapisFKView implements Serializable{
                     }
                 } catch (NumberFormatException e) {
                     String[] qlist = {query.toLowerCase()};
-                    results.addAll(wykazkont.stream().filter(p -> p.getNazwapelna().toLowerCase().contains(qlist[0])).collect(Collectors.toList()));
+                    results.addAll(wszystkiekonta.stream().filter(p -> p.getNazwapelna().toLowerCase().contains(qlist[0])).collect(Collectors.toList()));
 //                    wszystkiekonta.stream().forEach((p)->{
 //                        if (p.getNazwapelna().toLowerCase().contains(qlist[0])) {
 //                            results.add(p);
