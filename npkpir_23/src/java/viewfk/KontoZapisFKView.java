@@ -1267,14 +1267,15 @@ public class KontoZapisFKView implements Serializable{
                     Msg.msg("e", "Konto źródłowe jest tożsame z docelowym, przerywam przeksięgowanie");
                     return;
                 }
-                if (wybranezapisydosumowania == null || wybranezapisydosumowania.isEmpty()) {
+                if ((wybranezapisydosumowania == null || wybranezapisydosumowania.isEmpty()) && (kontozapisyfiltered == null || kontozapisyfiltered.isEmpty())) {
                     Msg.msg("e", "Nie wybrano pozycji do przeksięgowania. Nie można wykonać przeksięgowania");
                     return;
                 }
                 if (!wybranekonto.equals(kontodoprzeksiegowania) && wybranekonto.isMapotomkow() == true && wybranekonto.getIdslownika() == kontodoprzeksiegowania.getIdslownika()) {
                     przeksiegujslownikowe();
                 } else {
-                    przeksiegujanalityke();
+                    List<StronaWiersza> lista = kontozapisyfiltered!=null&&kontozapisyfiltered.size()>0?kontozapisyfiltered:wybranezapisydosumowania;
+                    przeksiegujanalityke(lista);
                     Msg.msg("w", "Konto żrółowe/docelowe ma analitykę. Być może trzeba ją usunąć");
                 }
             } else {
@@ -1326,10 +1327,10 @@ public class KontoZapisFKView implements Serializable{
         }
     }
     
-    private void przeksiegujanalityke() {
+    private void przeksiegujanalityke(List<StronaWiersza> lista) {
         int rozrachunkowe = 0;
         int bo = 0;
-        for (StronaWiersza p : wybranezapisydosumowania) {
+        for (StronaWiersza p : lista) {
             if (p.getWierszbo()==null) {
                 if (p.getNowetransakcje().isEmpty() && p.getPlatnosci().isEmpty()) {
                     p.setKonto(kontodoprzeksiegowania);
