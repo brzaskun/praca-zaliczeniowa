@@ -88,6 +88,7 @@ public class ImportBNPParibas_CSV implements Serializable {
                             x.setDatatransakcji(Data.zmienkolejnosc(baza.get(0)));
                             x.setDatawaluty(Data.zmienkolejnosc(baza.get(1)));
                             String opis = baza.get(8).replace("\"", "").toLowerCase(new Locale("pl", "PL"));
+                            opis = opis.replace("nazwa operacji:", "");
                             x.setOpistransakcji(opis);
                             x.setNrwyciagu(pn.getWyciagnr());
                             x.setIBAN(baza.get(3).replace("\"", "").replace("'", "").replace("'", ""));
@@ -138,13 +139,13 @@ public class ImportBNPParibas_CSV implements Serializable {
         //9 bank-bank - 149-2
     private static int oblicztyptransakcji(ImportBankWiersz p) {
         int zwrot = 0;
-        if (p.getNrtransakji().equals("OPŁATA/PROWIZJA")) {
+        if (p.getOpistransakcji().contains("opłata miesięczna")) {
             zwrot = 3;
-        } else if (p.getNrtransakji().equals("OPŁATA PRZELEW")) {
+        } else if (p.getOpistransakcji().equals("OPŁATA PRZELEW")) {
             zwrot = 3;
-        } else if (p.getNrtransakji().equals("PRZELEW ELIXIR - ONLINE") || p.getNrtransakji().equals("PRZELEW NA RACHUNEK W SAN PL - ONLINE")) {
+        } else if (p.getOpistransakcji().equals("PRZELEW ELIXIR - ONLINE") || p.getOpistransakcji().equals("PRZELEW NA RACHUNEK W SAN PL - ONLINE")) {
             zwrot = 1;
-        } else if (p.getNrtransakji().equals("UZNANIE") || p.getNrtransakji().equals("UZNANIE - PŁATNOŚĆ PODZIELONA")) {
+        } else if (p.getOpistransakcji().equals("UZNANIE") || p.getOpistransakcji().equals("UZNANIE - PŁATNOŚĆ PODZIELONA")) {
             zwrot = 2;
         } else if (p.getKontrahent().toLowerCase().contains("INTERPAPER SP Z O O SK")) {
             zwrot = 8;
@@ -154,11 +155,11 @@ public class ImportBNPParibas_CSV implements Serializable {
             zwrot = 7;
         } else if (p.getKontrahent().toLowerCase().contains("PRZELEW ELIXIR NA RACH. ORGANU PODATK. - ONLINE")) {
             zwrot = 6;
-        } else if (p.getNrtransakji().equals("WYPŁATA KARTĄ")) {
+        } else if (p.getOpistransakcji().equals("WYPŁATA KARTĄ")) {
             zwrot = 4;
-        } else if (p.getNrtransakji().contains("REZERWACJA")) {
+        } else if (p.getOpistransakcji().contains("REZERWACJA")) {
             zwrot = 10;
-        } else if (p.getNrtransakji().contains("TRANSAKCJA KARTĄ ")) {
+        } else if (p.getOpistransakcji().contains("TRANSAKCJA KARTĄ ")) {
             zwrot = 5;
         } else if (p.getWnma().equals("Wn")) {
             zwrot = 1;

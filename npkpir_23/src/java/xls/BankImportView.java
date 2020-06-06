@@ -291,10 +291,13 @@ public class BankImportView implements Serializable {
                            return;
                         case 5 :
                             zwrot = ImportPKOBP_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
+                            break;
                         case 6 :
                             zwrot = ImportBNPParibas_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
+                            break;
                         case 7 :
                             zwrot = ImportING_XML.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
+                            break;
                     }
                     if (zwrot.size()==5) {
                         Msg.msg("e", "Nie pobrano wszystkich plików. Wystąpił błąd");
