@@ -58,19 +58,22 @@ public class Makexml {
             Id id = doc.getBkToCstmrAcctRpt().getRpt().getNtry().get(1).getNtryDtls().getTxDtls().getRltdPties().getCdtrAcct().getId();
             Other o = (Other) id.getContent().get(1);
             String iban = (String) o.getId().getContent().get(0);
-            System.out.println("");
+            System.out.println("koniec");
             //System.out.println(person2);
 //            System.out.println(person2.getNazwisko());
 //            System.out.println(person2.getAdres());
 
 //          marshaller.marshal(person, new FileWriter("edyta.xml"));
 //          marshaller.marshal(person, System.out);
+        } catch (javax.xml.bind.UnmarshalException ex1) {
+            System.out.println(E.e(ex1));
         } catch (Exception ex) {
             E.e(ex);
+            System.out.println("error");
         }
     }
     
     public static void main(String[] args) {
-        unmarszal("d:\\ing.xml", xls.ing.Document.class);
+        unmarszal("d:\\ing2.xml", xls.ing.Document.class);
     }
 }

@@ -21,6 +21,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -76,12 +77,12 @@ public class ImportING_XML implements Serializable {
                         if (Integer.parseInt(mcwiersz) < mcInt) {
 
                         } else if (Integer.parseInt(mcwiersz) > mcInt) {
-                            break;
+
                         } else {
                             ImportBankWiersz x = new ImportBankWiersz();
                             x.setNr(lpwiersza++);
-                            x.setDatatransakcji(Data.getMc(Data.calendarToString(a.getBookgDt().getDtTm())));
-                            x.setDatawaluty(Data.getMc(Data.calendarToString(a.getValDt().getDtTm())));
+                            x.setDatatransakcji(Data.calendarToString(a.getBookgDt().getDtTm()));
+                            x.setDatawaluty(Data.calendarToString(a.getValDt().getDtTm()));
                             String opis = a.getNtryDtls().getTxDtls().getRmtInf().getUstrd();
                             x.setOpistransakcji(opis);
                             x.setNrwyciagu(pn.getWyciagnr());
@@ -95,7 +96,7 @@ public class ImportING_XML implements Serializable {
                                     x.setIBAN(iban);
                                 }
                                 x.setKontrahent(a.getNtryDtls().getTxDtls().getRltdPties().getCdtr().getNm());//??
-                                double kwota = -Z.z(a.getAmt().getValue());
+                                double kwota = Z.z(a.getAmt().getValue());
                                 x.setKwota(kwota);
                                 x.setWnma("Ma");
                             } else {
@@ -122,11 +123,17 @@ public class ImportING_XML implements Serializable {
                     }
                 }
             }
+        }catch (javax.xml.bind.UnmarshalException ex1) {
+            Msg.msg("e", "Wystąpił błąd przy wczytywaniu pliku xml");
+            Msg.msg("e", "Sprawdź czy struktura jest ok");
         } catch (Exception e) {
-            Msg.msg("e", "Wystąpił błąd przy pobieraniu danych.");
-            Msg.msg("e", "Sprawdź czy w pliku nie występuję znak ; w niedozwolonych miejscach");
+            Msg.msg("e", "Wystąpił błąd przy pobieraniu danych po wczytaniu.");
         }
         zwrot.add(pn);
+        Collections.reverse(pobranefaktury);
+        for (int i = 1; i <pobranefaktury.size();i++) {
+            pobranefaktury.get(i-1).setNr(i);
+        }
         zwrot.add(pobranefaktury);
         zwrot.add(nrwyciagu);
         zwrot.add(lpwiersza);
@@ -145,9 +152,9 @@ public class ImportING_XML implements Serializable {
         //9 bank-bank - 149-2
     private static int oblicztyptransakcji(ImportBankWiersz p) {
         int zwrot = 0;
-        if (p.getNrtransakji().equals("OPŁATA/PROWIZJA")) {
+        if (p.getOpistransakcji().contains("Przelew prow. na")) {
             zwrot = 3;
-        } else if (p.getOpistransakcji().equals("OPŁATA PRZELEW")) {
+        } else if (p.getOpistransakcji().contains("OPŁATA ZA")) {
             zwrot = 3;
         } else if (p.getOpistransakcji().equals("PRZELEW ELIXIR - ONLINE") || p.getNrtransakji().equals("PRZELEW NA RACHUNEK W SAN PL - ONLINE")) {
             zwrot = 1;
@@ -163,6 +170,9 @@ public class ImportING_XML implements Serializable {
             zwrot = 6;
         } else if (p.getOpistransakcji().equals("WYPŁATA KARTĄ")) {
             zwrot = 4;
+        } else if (p.getOpistransakcji().startsWith("/VAT/")) {
+            p.setOpistransakcji(p.getOpistransakcji().substring(p.getOpistransakcji().indexOf("INV/")+4));
+            zwrot = 9;
         } else if (p.getOpistransakcji().contains("REZERWACJA")) {
             zwrot = 10;
         } else if (p.getOpistransakcji().contains("TRANSAKCJA KARTĄ ")) {
