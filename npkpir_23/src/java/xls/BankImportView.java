@@ -125,6 +125,7 @@ public class BankImportView implements Serializable {
     private Konto przelewBankBank;
     private Konto konto213;
     private Konto konto1494;
+    private Konto przychodystowarzyszenie;
    
     private String datakontrol;
     private List<Wiersz> wierszezmiesiaca;
@@ -167,6 +168,7 @@ public class BankImportView implements Serializable {
         przelewBankBank = kontoDAO.findKonto("149-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         konto213 = kontoDAO.findKonto("213", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         konto1494 =  kontoDAO.findKonto("149-4", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        przychodystowarzyszenie =  kontoDAO.findKonto("710-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         rodzajeimportu = zrobrodzajeimportu();
         tabelanbppl = tabelanbpDAO.findByTabelaPLN();
         walutapln = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
@@ -561,6 +563,9 @@ public class BankImportView implements Serializable {
                     break;
                 case 10:
                     zwrot = konto1494;
+                    break;
+                case 11:
+                    zwrot = przychodystowarzyszenie;
                     break;
             }
         }

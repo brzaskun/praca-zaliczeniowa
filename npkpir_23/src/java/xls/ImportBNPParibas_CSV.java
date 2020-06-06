@@ -45,7 +45,6 @@ public class ImportBNPParibas_CSV implements Serializable {
         List zwrot = new ArrayList<Object>();
         List<ImportBankWiersz> pobranefaktury = new ArrayList<>();
         ImportowanyPlikNaglowek pn = new ImportowanyPlikNaglowek();
-        String mcod = null;
         try {
             InputStream file = new ByteArrayInputStream(pobrane);
             if (pobrane!=null) {
@@ -69,46 +68,41 @@ public class ImportBNPParibas_CSV implements Serializable {
                         pn.setWyciagnrdo(mc);
                         pn.setWyciagnr(mc);
                         pn.setWyciagwaluta(baza.get(9));
-                        if (pn.getWyciagnrod()!=null) {
-                            mcod = pn.getWyciagdataod().split("-")[1];
-                            if (!mcod.equals(mc)) {
-                                break;
-                            }
-                        }
                     }
                     if (i>0&& i<rozmiar-1){
                         String mcwiersz = Data.zmienkolejnosc(baza.get(0)).split("-")[1];
-                        if (Integer.parseInt(mcwiersz)<mcInt) {
-                            
-                        } else if (Integer.parseInt(mcwiersz)>mcInt) {
-                            i=rozmiar-1;   
-                        } else {
-                            ImportBankWiersz x = new ImportBankWiersz();
-                            x.setNr(lpwiersza++);
-                            x.setDatatransakcji(Data.zmienkolejnosc(baza.get(0)));
-                            x.setDatawaluty(Data.zmienkolejnosc(baza.get(1)));
-                            String opis = baza.get(8).replace("\"", "").toLowerCase(new Locale("pl", "PL"));
-                            opis = opis.replace("nazwa operacji:", "");
-                            x.setOpistransakcji(opis);
-                            x.setNrwyciagu(pn.getWyciagnr());
-                            x.setIBAN(baza.get(3).replace("\"", "").replace("'", "").replace("'", ""));
-//                            String kontr = baza.get(4).length() < 5 ? "" : baza.get(4).trim().replaceAll("\"", "");
-//                            kontr = WordUtils.capitalizeFully(kontr);
-                            x.setKontrahent("");//??
-                            double kwota = Double.parseDouble(baza.get(2).replaceAll("\\s+", "").replace(",", "."));
-                            x.setWnma(kwota > 0.0 ? "Wn" : "Ma");
-                            kwota = Math.abs(kwota);
-                            x.setKwota(kwota);
-                            x.setWaluta(pn.getWyciagwaluta());
-                            x.setNrtransakji(baza.get(5));
-                            x.setTyptransakcji(oblicztyptransakcji(x));
-                            x.setNaglowek(pn);
-                            pobranefaktury.add(x);
+                        if (mcwiersz.equals(mc)) {
+                            if (Integer.parseInt(mcwiersz)<mcInt) {
+
+                            } else if (Integer.parseInt(mcwiersz)>mcInt) {
+                                i=rozmiar-1;   
+                            } else {
+                                ImportBankWiersz x = new ImportBankWiersz();
+                                x.setNr(lpwiersza++);
+                                x.setDatatransakcji(Data.zmienkolejnosc(baza.get(0)));
+                                x.setDatawaluty(Data.zmienkolejnosc(baza.get(1)));
+                                String opis = baza.get(8).replace("\"", "").toLowerCase(new Locale("pl", "PL"));
+                                opis = opis.replace("nazwa operacji:", "");
+                                x.setOpistransakcji(opis);
+                                x.setNrwyciagu(pn.getWyciagnr());
+                                x.setIBAN(baza.get(3).replace("\"", "").replace("'", "").replace("'", ""));
+    //                            String kontr = baza.get(4).length() < 5 ? "" : baza.get(4).trim().replaceAll("\"", "");
+    //                            kontr = WordUtils.capitalizeFully(kontr);
+                                x.setKontrahent("");//??
+                                double kwota = Double.parseDouble(baza.get(2).replaceAll("\\s+", "").replace(",", "."));
+                                x.setWnma(kwota > 0.0 ? "Wn" : "Ma");
+                                kwota = Math.abs(kwota);
+                                x.setKwota(kwota);
+                                x.setWaluta(pn.getWyciagwaluta());
+                                x.setNrtransakji(baza.get(5));
+                                x.setTyptransakcji(oblicztyptransakcji(x));
+                                x.setNaglowek(pn);
+                                pobranefaktury.add(x);
+                            }
                         }
                     }
                     if (i==rozmiar-1) {
                         pn.setWyciagdatado(Data.zmienkolejnosc(baza.get(1)));
-                        String replaceco = pn.getWyciagwaluta();
                     }
                     i++;
                 }
@@ -121,9 +115,6 @@ public class ImportBNPParibas_CSV implements Serializable {
         zwrot.add(pobranefaktury);
         zwrot.add(nrwyciagu);
         zwrot.add(lpwiersza);
-        if (!mcod.equals(mc)) {
-           zwrot.add("dataerror");
-        }
         return zwrot;
     }
     
@@ -159,6 +150,8 @@ public class ImportBNPParibas_CSV implements Serializable {
             zwrot = 4;
         } else if (p.getOpistransakcji().contains("REZERWACJA")) {
             zwrot = 10;
+        } else if (p.getOpistransakcji().contains("składka")) {
+            zwrot = 11;
         } else if (p.getOpistransakcji().contains("TRANSAKCJA KARTĄ ")) {
             zwrot = 5;
         } else if (p.getWnma().equals("Wn")) {
