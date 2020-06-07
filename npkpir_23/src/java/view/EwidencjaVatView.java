@@ -1199,6 +1199,10 @@ public class EwidencjaVatView implements Serializable {
         return ret;
     }
     
+    
+    
+    
+    
     public String getNazwaewidencjiMail() {
         return nazwaewidencjiMail;
     }

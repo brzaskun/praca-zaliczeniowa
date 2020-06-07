@@ -525,7 +525,7 @@
                             <p:inputText id="dataWiersza" value="#{wploop.dataWalutyWiersza}" styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}" onblur="kopiujdatedialogwpis();" 
                                          style="width: 20px;" maxlength="2" >
                                 
-                                <p:ajax global="false" event="change" partialSubmit="true"  onstart="obsluzDateWiersza(#{wploop.idporzadkowy-1});" listener="#{dokfkView.obsluzDataWiersza(wploop)}"/>
+                                <p:ajax global="false" event="change" partialSubmit="true"  onstart="obsluzDateWiersza(#{wploop.idporzadkowy-1});" listener="#{dokfkView.obsluzKursDataWiersza(wploop)}"/>
                             </p:inputText>
                         </p:column>
                         <p:column headerText="BO" style="text-align: center; width: 40px;"  
@@ -571,7 +571,6 @@
                                                     usunspacje(this);
                                                     pobierznumergrupywierszy(#{wploop.lpmacierzystego}, #{wploop.idporzadkowy}, #{wploop.stronaWn.typStronaWiersza});
                                                     focusNowyWiersz();"
-                                            cache="true" cacheTimeout="5000"
                                             >
                                 <f:facet name="itemtip">
                                     <h:outputText value="#{p.kontomacierzyste.pelnynumer} #{p.kontomacierzyste.nazwapelna}"/>
@@ -615,7 +614,6 @@
                                                     usunspacje(this);
                                                     pobierznumergrupywierszy(#{wploop.lpmacierzystego}, #{wploop.idporzadkowy}, #{wploop.stronaMa.typStronaWiersza});
                                                     focusNowyWiersz();"
-                                            cache="true" cacheTimeout="5000"
                                             >
                                 <f:facet name="itemtip">
                                     <h:outputText value="#{p.kontomacierzyste.pelnynumer} #{p.kontomacierzyste.nazwapelna}"/>

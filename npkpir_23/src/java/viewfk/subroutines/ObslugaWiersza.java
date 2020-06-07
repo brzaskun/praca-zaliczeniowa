@@ -6,6 +6,7 @@
 
 package viewfk.subroutines;
 
+import beansFK.StronaWierszaBean;
 import comparator.Wierszcomparator;
 import daoFK.KontoDAOfk;
 import entityfk.Dokfk;
@@ -361,29 +362,44 @@ public class ObslugaWiersza {
     }
         
     
-    public static Wiersz WierszFaktory(Dokfk selected, int typwiersza, double kwota, int lpmacierzystego) {
+    public static Wiersz WierszFaktory(Dokfk selected, int typwiersza, double kwota, int lpmacierzystego, Wiersz wierszpoprzedni) {
         int liczbawierszyWDokumencie = 0;
         try {
             liczbawierszyWDokumencie = selected.getListawierszy().size()+1;
         } catch (Exception e) {
             E.e(e);
         }
+        Wiersz zwrot = null;
         switch (typwiersza) {
             case 0:
-                return utworzNowyWiersz(selected, liczbawierszyWDokumencie);
+                zwrot = utworzNowyWiersz(selected, liczbawierszyWDokumencie);
+                break;
             case 1:
-                return utworzNowyWierszWn(selected, liczbawierszyWDokumencie, kwota, lpmacierzystego);
+                zwrot = utworzNowyWierszWn(selected, liczbawierszyWDokumencie, kwota, lpmacierzystego);
+                break;
             case 2:
-                return utworzNowyWierszMa(selected, liczbawierszyWDokumencie, kwota, lpmacierzystego);
+                zwrot = utworzNowyWierszMa(selected, liczbawierszyWDokumencie, kwota, lpmacierzystego);
+                break;
             case 5:
-                return utworzNowyWiersz5(selected, liczbawierszyWDokumencie, kwota, lpmacierzystego);
+                zwrot = utworzNowyWiersz5(selected, liczbawierszyWDokumencie, kwota, lpmacierzystego);
+                break;
             case 6:
-                return utworzNowyWierszWn5(selected, liczbawierszyWDokumencie, kwota, lpmacierzystego);
+                zwrot = utworzNowyWierszWn5(selected, liczbawierszyWDokumencie, kwota, lpmacierzystego);
+                break;
             case 7:
-                return utworzNowyWierszMa5(selected, liczbawierszyWDokumencie, kwota, lpmacierzystego);
+                zwrot = utworzNowyWierszMa5(selected, liczbawierszyWDokumencie, kwota, lpmacierzystego);
+                break;
             default:
-                return utworzNowyWiersz(selected, liczbawierszyWDokumencie);
+                zwrot = utworzNowyWiersz(selected, liczbawierszyWDokumencie);
+                break;
         }
+        if (zwrot !=null) {
+            zwrot.setTabelanbp(wierszpoprzedni.getTabelanbp());
+            zwrot.setDataWalutyWiersza(wierszpoprzedni.getDataWalutyWiersza());
+            // wywalam bo przeliczy na koncu punktzmiany
+            //ObslugaWiersza.przepiszWaluty(zwrot);
+        }
+        return zwrot;
     }
     
     public static void dodajiPrzenumerujWiersze (Dokfk selected, Wiersz wiersz, int lpmacierzystego) {
@@ -482,10 +498,10 @@ public class ObslugaWiersza {
 //funkcja wyzerowana
     }
 
-  
-    public static void wygenerujiDodajWierszUsun(Dokfk selected, int wierszbiezacyIndex, boolean przenumeruj, double roznica, int typwiersza) {
+  //chodzi o usuwanie piatek
+    public static void wygenerujiDodajWierszUsun(Dokfk selected, int wierszbiezacyIndex, boolean przenumeruj, double roznica, int typwiersza, Wiersz wierszpoprzedni) {
         int lpmacierzystego = znajdzmacierzystyUsun(selected.getListawierszy(), wierszbiezacyIndex);
-        Wiersz wiersz = WierszFaktory(selected, typwiersza, roznica, lpmacierzystego);
+        Wiersz wiersz = WierszFaktory(selected, typwiersza, roznica, lpmacierzystego, wierszpoprzedni);
         if (przenumeruj == false) {
             selected.getListawierszy().add(wiersz);
         } else {
@@ -495,7 +511,7 @@ public class ObslugaWiersza {
     
      public static void generujNowyWiersz0NaKoncu(Dokfk selected, Wiersz wiersz, boolean przenumeruj, double roznica, int typwiersza) {
         int lpmacierzystego = wiersz.getLpmacierzystego() > 0 ? wiersz.getLpmacierzystego() : wiersz.getIdporzadkowy();
-        Wiersz wierszNowy = WierszFaktory(selected, typwiersza, roznica, lpmacierzystego);
+        Wiersz wierszNowy = WierszFaktory(selected, typwiersza, roznica, lpmacierzystego, wiersz);
         if (przenumeruj == false) {
             if (selected.getRodzajedok().getKontorozrachunkowe() != null) {
                 if (wierszNowy.getStronaWn() != null) {
@@ -511,9 +527,9 @@ public class ObslugaWiersza {
         }
     }
      //dla niektorych fukncji generujacych piatki
-     public static void wygenerujiDodajWiersz(Dokfk selected, int wierszbiezacyIndex, boolean przenumeruj, double roznica, int typwiersza) {
+     public static void wygenerujiDodajWiersz(Dokfk selected, int wierszbiezacyIndex, boolean przenumeruj, double roznica, int typwiersza, Wiersz wierszpoprzedni) {
         int lpmacierzystego = znajdzmacierzysty(selected.getListawierszy(), wierszbiezacyIndex);
-        Wiersz wiersz = WierszFaktory(selected, typwiersza, roznica, lpmacierzystego);
+        Wiersz wiersz = WierszFaktory(selected, typwiersza, roznica, lpmacierzystego, wierszpoprzedni);
         if (przenumeruj == false) {
             selected.getListawierszy().add(wiersz);
         } else {
@@ -521,9 +537,9 @@ public class ObslugaWiersza {
         }
     }
      
-    public static Wiersz wygenerujiDodajWierszRK(Dokfk selected, int wierszbiezacyIndex, boolean przenumeruj, double kwota, int typwiersza) {
+    public static Wiersz wygenerujiDodajWierszRK(Dokfk selected, int wierszbiezacyIndex, boolean przenumeruj, double kwota, int typwiersza, Wiersz wierszpoprzedni) {
         int lpmacierzystego = znajdzmacierzysty(selected.getListawierszy(), wierszbiezacyIndex);
-        Wiersz wiersz = WierszFaktory(selected, typwiersza, kwota, lpmacierzystego);
+        Wiersz wiersz = WierszFaktory(selected, typwiersza, kwota, lpmacierzystego, wierszpoprzedni);
         if (wierszbiezacyIndex == selected.getListawierszy().size()-1) {
             selected.getListawierszy().add(wiersz);
         } else {
@@ -534,7 +550,7 @@ public class ObslugaWiersza {
      
      public static void wygenerujiDodajWierszPiatka(Dokfk selected, int wierszbiezacyIndex, boolean przenumeruj, double roznica, int typwiersza, Wiersz czworka, Konto konto490) {
         int lpmacierzystego = znajdzmacierzysty5(selected.getListawierszy(), wierszbiezacyIndex);
-        Wiersz nowywiersz = WierszFaktory(selected, typwiersza, roznica, lpmacierzystego);
+        Wiersz nowywiersz = WierszFaktory(selected, typwiersza, roznica, lpmacierzystego, czworka);
         Wiersz sprawdzonaczworka;
         if (czworka.getTypWiersza() == 0 || czworka.getTypWiersza() == 1 ||czworka.getTypWiersza() == 2) {
             nowywiersz.setCzworka(czworka);
@@ -589,15 +605,15 @@ public class ObslugaWiersza {
         double roznica = obliczkwotepozostala(selected, wybranyWiersz, nrgrupywierszy);
         if (roznica > 0.0 ) {
             if (wybranyWiersz.getTypWiersza() == 1) {
-                wygenerujiDodajWierszUsun(selected, wybranyWiersz.getIdporzadkowy(), true, roznica, 1);
+                wygenerujiDodajWierszUsun(selected, wybranyWiersz.getIdporzadkowy(), true, roznica, 1, wybranyWiersz);
             } else if (wybranyWiersz.getTypWiersza() == 2) {
-                wygenerujiDodajWierszUsun(selected, wybranyWiersz.getIdporzadkowy(), true, roznica, 2);
+                wygenerujiDodajWierszUsun(selected, wybranyWiersz.getIdporzadkowy(), true, roznica, 2, wybranyWiersz);
             }
         } if (roznica < 0.0) {
             if (wybranyWiersz.getTypWiersza() == 1) {
-                wygenerujiDodajWierszUsun(selected, wybranyWiersz.getIdporzadkowy(), true, roznica, 2);
+                wygenerujiDodajWierszUsun(selected, wybranyWiersz.getIdporzadkowy(), true, roznica, 2, wybranyWiersz);
             } else if (wybranyWiersz.getTypWiersza() == 2) {
-                wygenerujiDodajWierszUsun(selected, wybranyWiersz.getIdporzadkowy(), true, roznica, 1);
+                wygenerujiDodajWierszUsun(selected, wybranyWiersz.getIdporzadkowy(), true, roznica, 1, wybranyWiersz);
             }
         }
     }
@@ -657,9 +673,9 @@ public class ObslugaWiersza {
                                 } else if (typnastepnego == 5) {
                                     int nowyindexzpiatkami = wierszbiezacy.getIdwiersza() + wierszbiezacy.getPiatki().size();
                                     if (kwotaWn > kwotaMa) {
-                                        ObslugaWiersza.wygenerujiDodajWiersz(selected, nowyindexzpiatkami, przenumeruj, roznica, 2);
+                                        ObslugaWiersza.wygenerujiDodajWiersz(selected, nowyindexzpiatkami, przenumeruj, roznica, 2, wierszbiezacy);
                                     } else if (kwotaWn < kwotaMa) {
-                                        ObslugaWiersza.wygenerujiDodajWiersz(selected, nowyindexzpiatkami, przenumeruj, roznica, 1);
+                                        ObslugaWiersza.wygenerujiDodajWiersz(selected, nowyindexzpiatkami, przenumeruj, roznica, 1, wierszbiezacy);
                                     }
                                 }
                             }
@@ -782,6 +798,55 @@ public class ObslugaWiersza {
 //        } else {
 //            Msg.msg("e", "Brak wpisanego konta/kont. Nie można dodać nowego wiersza");
 //        }
+    }
+    
+    public static void przepiszWaluty(Wiersz wiersz) {
+        try {
+            StronaWiersza wn = wiersz.getStronaWn();
+            StronaWiersza ma = wiersz.getStronaMa();
+            if (wiersz.getTabelanbp() == null) {
+                if (wn != null && wn.getKwotaPLN() == 0.0) {
+                    if (wn.getSymbolWalutyBO().equals("PLN")) {
+                        wn.setKwotaPLN(wn.getKwota());
+                        wn.setKwotaWaluta(wn.getKwota());
+                    } else {
+                        wn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWnBO(wiersz));
+                        wn.setKwotaWaluta(wn.getKwota());
+                    }
+                }
+                if (ma != null && ma.getKwotaPLN() == 0.0) {
+                    if (ma.getSymbolWalutyBO().equals("PLN")) {
+                        ma.setKwotaPLN(ma.getKwota());
+                        ma.setKwotaWaluta(ma.getKwota());
+                    } else {
+                        ma.setKwotaPLN(StronaWierszaBean.przeliczWalutyMaBO(wiersz));
+                        ma.setKwotaWaluta(ma.getKwota());
+                    }
+
+                }
+            } else if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
+                if (wn != null) {
+                    wn.setKwotaPLN(wn.getKwota());
+                    wn.setKwotaWaluta(wn.getKwota());
+                }
+                if (ma != null) {
+                    ma.setKwotaPLN(ma.getKwota());
+                    ma.setKwotaWaluta(ma.getKwota());
+                }
+            } else {
+                if (wn != null) {
+                    wn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWn(wiersz));
+                    wn.setKwotaWaluta(wn.getKwota());
+                }
+                if (ma != null) {
+                    ma.setKwotaPLN(StronaWierszaBean.przeliczWalutyMa(wiersz));
+                    ma.setKwotaWaluta(ma.getKwota());
+                }
+            }
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("Blad DokfkView przepisz waluty");
+        }
     }
    
 }

@@ -533,7 +533,8 @@ public class DokfkView implements Serializable {
                     this.wierszzmieniony = wiersz;
                 }
                 wiersz.getStronaWn().setKwota(kwotanowa);
-                    przepiszWaluty(wiersz);
+                //usunalem bo przeciez przelicza na koncu punktzmiany
+                //ObslugaWiersza.przepiszWaluty(wiersz);
             } catch (Exception e1) {
                 E.e(e1);
             }
@@ -556,7 +557,8 @@ public class DokfkView implements Serializable {
                     this.wierszzmieniony = wiersz;
                 }
                 wiersz.getStronaMa().setKwota(kwotanowa);
-                przepiszWaluty(wiersz);
+                //usunalem bo przeciez przelicza na koncu punktzmiany
+                //ObslugaWiersza.przepiszWaluty(wiersz);
             } catch (Exception e1) {
                 E.e(e1);
             }
@@ -866,7 +868,7 @@ public class DokfkView implements Serializable {
                 dodanewiersze = rozliczVatPrzychodRK(ewidencjaVatRK, selected, wpisView, wierszRKindex, kontoDAOfk, kontadlaewidencji);
             }
             for (Wiersz p : dodanewiersze) {
-                przepiszWaluty(p);
+                ObslugaWiersza.przepiszWaluty(p);
             }
             String update = "formwpisdokument:dataList";
             PrimeFaces.current().ajax().update(update);
@@ -898,7 +900,7 @@ public class DokfkView implements Serializable {
                 dodanewiersze = rozliczEdytujVatPrzychodRK(e, selected, wierszRKindex);
             }
             for (Wiersz p : dodanewiersze) {
-                przepiszWaluty(p);
+                ObslugaWiersza.przepiszWaluty(p);
             }
             ObslugaWiersza.przenumerujSelected(selected);
             String update = "formwpisdokument:dataList";
@@ -1062,7 +1064,7 @@ public class DokfkView implements Serializable {
 //                }
                 if (!selected.getRodzajedok().isTylkojpk()) {
                     for (Wiersz p : selected.getListawierszy()) {
-                        przepiszWalutyZapisEdycja(p);
+                        ObslugaWiersza.przepiszWaluty(p);
                     }
 
                     oznaczdokumentSTRMK(selected, "0");
@@ -1101,109 +1103,7 @@ public class DokfkView implements Serializable {
 
     }
 
-    public void przepiszWaluty(Wiersz wiersz) {
-        try {
-            StronaWiersza wn = wiersz.getStronaWn();
-            StronaWiersza ma = wiersz.getStronaMa();
-            if (wiersz == null) {
-                wn.setKwotaPLN(0.0);
-                wn.setKwotaWaluta(0.0);
-                ma.setKwotaPLN(0.0);
-                ma.setKwotaWaluta(0.0);
-            } else if (wiersz.getTabelanbp() == null) {
-                if (wn != null && wn.getKwotaPLN() == 0.0) {
-                    if (wn.getSymbolWalutyBO().equals("PLN")) {
-                        wn.setKwotaPLN(wn.getKwota());
-                        wn.setKwotaWaluta(wn.getKwota());
-                    } else {
-                        wn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWnBO(wiersz));
-                        wn.setKwotaWaluta(wn.getKwota());
-                    }
-                }
-                if (ma != null && ma.getKwotaPLN() == 0.0) {
-                    if (ma.getSymbolWalutyBO().equals("PLN")) {
-                        ma.setKwotaPLN(ma.getKwota());
-                        ma.setKwotaWaluta(ma.getKwota());
-                    } else {
-                        ma.setKwotaPLN(StronaWierszaBean.przeliczWalutyMaBO(wiersz));
-                        ma.setKwotaWaluta(ma.getKwota());
-                    }
-
-                }
-            } else if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
-                if (wn != null) {
-                    wn.setKwotaPLN(wn.getKwota());
-                    wn.setKwotaWaluta(wn.getKwota());
-                }
-                if (ma != null) {
-                    ma.setKwotaPLN(ma.getKwota());
-                    ma.setKwotaWaluta(ma.getKwota());
-                }
-            } else {
-                if (wn != null) {
-                    wn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWn(wiersz));
-                    wn.setKwotaWaluta(wn.getKwota());
-                }
-                if (ma != null) {
-                    ma.setKwotaPLN(StronaWierszaBean.przeliczWalutyMa(wiersz));
-                    ma.setKwotaWaluta(ma.getKwota());
-                }
-            }
-        } catch (Exception e) {
-            E.e(e);
-            Msg.msg("Blad DokfkView przepisz waluty");
-        }
-    }
-
-    public void przepiszWalutyZapisEdycja(Wiersz wiersz) {
-        try {
-            StronaWiersza wn = wiersz.getStronaWn();
-            StronaWiersza ma = wiersz.getStronaMa();
-            if (wiersz.getTabelanbp() == null) {
-                if (wn != null && wn.getKwotaPLN() == 0.0) {
-                    if (wn.getSymbolWalutyBO().equals("PLN")) {
-                        wn.setKwotaPLN(wn.getKwota());
-                        wn.setKwotaWaluta(wn.getKwota());
-                    } else {
-                        wn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWnBO(wiersz));
-                        wn.setKwotaWaluta(wn.getKwota());
-                    }
-                }
-                if (ma != null && ma.getKwotaPLN() == 0.0) {
-                    if (ma.getSymbolWalutyBO().equals("PLN")) {
-                        ma.setKwotaPLN(ma.getKwota());
-                        ma.setKwotaWaluta(ma.getKwota());
-                    } else {
-                        ma.setKwotaPLN(StronaWierszaBean.przeliczWalutyMaBO(wiersz));
-                        ma.setKwotaWaluta(ma.getKwota());
-                    }
-
-                }
-            } else if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
-                if (wn != null && wn.getKwotaPLN() == 0.0) {
-                    wn.setKwotaPLN(wn.getKwota());
-                    wn.setKwotaWaluta(wn.getKwota());
-                }
-                if (ma != null && ma.getKwotaPLN() == 0.0) {
-                    ma.setKwotaPLN(ma.getKwota());
-                    ma.setKwotaWaluta(ma.getKwota());
-                }
-            } else {
-                if (wn != null && wn.getKwotaPLN() == 0.0) {
-                    wn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWn(wiersz));
-                    wn.setKwotaWaluta(wn.getKwota());
-                }
-                if (ma != null && ma.getKwotaPLN() == 0.0) {
-                    ma.setKwotaPLN(StronaWierszaBean.przeliczWalutyMa(wiersz));
-                    ma.setKwotaWaluta(ma.getKwota());
-                }
-            }
-        } catch (Exception e) {
-            E.e(e);
-            Msg.msg("Blad DokfkView przepisz waluty");
-        }
-    }
-    
+        
     public void edycjaimport() {
         selected.setImportowany(false);
         wykazZaksiegowanychDokumentowimport.remove(selected);
@@ -1235,7 +1135,7 @@ public class DokfkView implements Serializable {
                 selected.oznaczVATdokument(sprawdzjakiokresvat());
                 if (!selected.getRodzajedok().isTylkojpk()) {
                     for (Wiersz p : selected.getListawierszy()) {
-                        przepiszWalutyZapisEdycja(p);
+                        ObslugaWiersza.przepiszWaluty(p);
                     }
                     ObslugaWiersza.przenumerujSelected(selected);
                     oznaczdokumentSTRMK(selected, "0");
@@ -2812,9 +2712,10 @@ public class DokfkView implements Serializable {
         roznicakursowa /= 100;
     }
 
-    public void obsluzDataWiersza(Wiersz wierszbiezacy) {
+    public void obsluzKursDataWiersza(Wiersz wierszbiezacy) {
         pobierzkursNBPwiersz(wierszbiezacy.getDataWalutyWiersza(), wierszbiezacy);
-        przepiszWaluty(wierszbiezacy);
+        // wyrzucam bo przeliczy przed zapisaniem
+        //ObslugaWiersza.przepiszWaluty(wierszbiezacy); punktzmiany
         int lpwtabeli = wierszbiezacy.getIdporzadkowy() - 1;
         String symbolwaluty = selected.getWalutadokumentu().getSymbolwaluty();
         if (!symbolwaluty.equals("PLN")) {
@@ -2875,13 +2776,13 @@ public class DokfkView implements Serializable {
             if (wiersz.getTypWiersza() == 0) {
                 if (wiersz.getStronaMa().getKwota() == 0.0) {
                     wiersz.getStronaMa().setKwota(wiersz.getStronaWn().getKwota());
-                    przepiszWaluty(wiersz);
+                    ObslugaWiersza.przepiszWaluty(wiersz);
                     PrimeFaces.current().ajax().update(coupdate);
                 }
             } else if (wiersz.getTypWiersza() == 5) {
                 if (wiersz.getStronaMa().getKwota() == 0.0) {
                     wiersz.getStronaMa().setKwota(wiersz.getStronaWn().getKwota());
-                    przepiszWaluty(wiersz);
+                    ObslugaWiersza.przepiszWaluty(wiersz);
                     PrimeFaces.current().ajax().update(coupdate);
                 }
             }
@@ -3348,7 +3249,7 @@ public class DokfkView implements Serializable {
                 int wierszid = Integer.parseInt(wierszlp) - 1;
                 Wiersz wiersz = selected.getListawierszy().get(wierszid);
                 wiersz.setTabelanbp(tabelanbprecznie);
-                przepiszWaluty(wiersz);
+                ObslugaWiersza.przepiszWaluty(wiersz);
                 poledlawaluty = "";
             }
         } catch (Exception e) {
@@ -3364,7 +3265,7 @@ public class DokfkView implements Serializable {
                 Wiersz wiersz = selected.getListawierszy().get(wierszid);
                 wiersz.setTabelanbp(null);
                 wiersz.setDataWalutyWiersza(null);
-                przepiszWaluty(wiersz);
+                ObslugaWiersza.przepiszWaluty(wiersz);
                 String update = "formwpisdokument:dataList:" + wierszid + ":kurswiersza";
                 PrimeFaces.current().ajax().update(update);
                 update = "formwpisdokument:dataList:" + wierszid + ":dataWiersza";
@@ -3384,7 +3285,7 @@ public class DokfkView implements Serializable {
                 int wierszid = Integer.parseInt(wierszlp) - 1;
                 Wiersz wiersz = selected.getListawierszy().get(wierszid);
                 wiersz.setTabelanbp(tabelanbprecznie);
-                przepiszWaluty(wiersz);
+                ObslugaWiersza.przepiszWaluty(wiersz);
                 String update = "formwpisdokument:dataList:" + wierszid + ":kurswiersza";
                 PrimeFaces.current().ajax().update(update);
                 poledlawaluty = "";
