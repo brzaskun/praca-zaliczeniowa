@@ -69,7 +69,7 @@ public class ImportBNPParibas_CSV implements Serializable {
                         pn.setWyciagnr(mc);
                         pn.setWyciagwaluta(baza.get(9));
                     }
-                    if (i>0&& i<rozmiar-1){
+                    if (i>0&& i<=rozmiar-1){
                         String mcwiersz = Data.zmienkolejnosc(baza.get(0)).split("-")[1];
                         if (mcwiersz.equals(mc)) {
                             if (Integer.parseInt(mcwiersz)<mcInt) {
