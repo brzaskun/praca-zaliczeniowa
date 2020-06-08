@@ -32,7 +32,7 @@ public class RodzajedokConv implements javax.faces.convert.Converter{
     
     @PostConstruct
     public void init() { //E.m(this);
-        lista = rodzajedokDAO.findListaPodatnikRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        lista = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
     }
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String sub) {

@@ -291,6 +291,7 @@ public class DokView implements Serializable {
                     selDokument.getEwidencjaVAT1().clear();
                     //ewidencjaAddwiad.clear();
                 }
+                selDokument.getListakwot1().get(0).setNazwakolumny(wysDokument.getListakwot1().get(0).getNazwakolumny());
                
             } else {
                 this.typdokumentu = "ZZ";
