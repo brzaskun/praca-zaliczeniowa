@@ -177,6 +177,10 @@ public class ImportING_XML implements Serializable {
             zwrot = 10;
         } else if (p.getOpistransakcji().contains("TRANSAKCJA KARTĄ ")) {
             zwrot = 5;
+        } else if (p.getOpistransakcji().contains("Wynagrodzenie z tytułu rachunku")) {
+            zwrot = 12;
+        } else if (p.getOpistransakcji().contains("Wynagrodzenie za")) {
+            zwrot = 12;
         } else if (p.getWnma().equals("Wn")) {
             zwrot = 1;
         } else if (p.getWnma().equals("Ma")) {

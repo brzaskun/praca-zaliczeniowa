@@ -126,6 +126,7 @@ public class BankImportView implements Serializable {
     private Konto konto213;
     private Konto konto1494;
     private Konto przychodystowarzyszenie;
+    private Konto kontowyplatawynagrodzenia;
    
     private String datakontrol;
     private List<Wiersz> wierszezmiesiaca;
@@ -168,6 +169,7 @@ public class BankImportView implements Serializable {
         przelewBankBank = kontoDAO.findKonto("149-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         konto213 = kontoDAO.findKonto("213", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         konto1494 =  kontoDAO.findKonto("149-4", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        kontowyplatawynagrodzenia = pobierzkontowynagrodzenia();
         przychodystowarzyszenie =  kontoDAO.findKonto("710-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         rodzajeimportu = zrobrodzajeimportu();
         tabelanbppl = tabelanbpDAO.findByTabelaPLN();
@@ -510,6 +512,9 @@ public class BankImportView implements Serializable {
             } else {
                 it.remove();
             }
+            if (lpwiersza>59) {
+                break;
+            }
         }
 
     }
@@ -566,6 +571,9 @@ public class BankImportView implements Serializable {
                     break;
                 case 11:
                     zwrot = przychodystowarzyszenie;
+                    break;
+                case 12:
+                    zwrot = kontowyplatawynagrodzenia;
                     break;
             }
         }
@@ -859,6 +867,20 @@ public class BankImportView implements Serializable {
         } catch (Exception ex) {
             Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private Konto pobierzkontowynagrodzenia() {
+        Konto zwrot = kontoDAO.findKonto("230", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        if (zwrot !=null && zwrot.isMapotomkow())  {
+            try {
+                Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
+                String nazwakonta = "230-"+mc;
+                zwrot = kontoDAO.findKonto(nazwakonta, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+            } catch (Exception e) {
+                E.e(e);
+            }
+        }
+        return zwrot;
     }
 
     
