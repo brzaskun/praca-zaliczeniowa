@@ -222,16 +222,16 @@ public class InterpaperImportView implements Serializable {
             List<Klienci> k = klienciDAO.findAll();
             switch (wybranyrodzajimportu.getLp()) {
                 case 1:
-                    pobranefaktury = ReadCSVInterpaperFile.getListafakturCSV(pobranyplik, k, klienciDAO, rodzajdok, gUSView);
+                    pobranefaktury = ReadCSVInterpaperFile.getListafakturCSV(pobranyplik, k, klienciDAO, rodzajdok, gUSView, wpisView.getMiesiacWpisu());
                     break;
                 case 2:
-                    pobranefaktury = ReadXLSFirmaoFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, gUSView);
+                    pobranefaktury = ReadXLSFirmaoFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, gUSView, wpisView.getMiesiacWpisu());
                     break;
                 case 3:
-                    pobranefaktury = ReadXLSTomTechFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, gUSView);
+                    pobranefaktury = ReadXLSTomTechFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, gUSView, wpisView.getMiesiacWpisu());
                     break;
                 case 4:
-                    pobranefaktury = ReadXLSExolightFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, gUSView);
+                    pobranefaktury = ReadXLSExolightFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, gUSView, wpisView.getMiesiacWpisu());
                     break;
                 case 5:
                     if (pobraneplikibytes.size()>0) {
@@ -239,7 +239,7 @@ public class InterpaperImportView implements Serializable {
                             pobranefaktury = new ArrayList<>();
                         }
                         for (byte[] p : pobraneplikibytes) {
-                            pobranefaktury.addAll(ReadXLSMurawskiFile.getListafakturXLS(p, k, klienciDAO, rodzajdok, gUSView, tabelanbpDAO));
+                            pobranefaktury.addAll(ReadXLSMurawskiFile.getListafakturXLS(p, k, klienciDAO, rodzajdok, gUSView, tabelanbpDAO, wpisView.getMiesiacWpisu()));
                         }
                     }
                     break;

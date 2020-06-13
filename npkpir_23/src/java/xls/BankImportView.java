@@ -7,6 +7,7 @@ package xls;
 
 import beansFK.DialogWpisywanie;
 import com.sun.faces.taglib.html_basic.OutputTextTag;
+import dao.BankImportWzoryDAO;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
@@ -20,6 +21,7 @@ import data.Data;
 import dedra.Dedraparser;
 import entity.Klienci;
 import entity.Rodzajedok;
+import entityfk.BankImportWzory;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -133,6 +135,8 @@ public class BankImportView implements Serializable {
     private Map<String,Konto> ibankonto;
     private String nrwyciagupoprzedni;
     private ImportowanyPlikNaglowek naglowek;
+    @Inject
+    private BankImportWzoryDAO bankImportWzoryDAO;
  //typ transakcji
         //1 wpływ faktura 201,203
         //2 zapłata faktura 202,204
@@ -169,7 +173,7 @@ public class BankImportView implements Serializable {
         przelewBankBank = kontoDAO.findKonto("149-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         konto213 = kontoDAO.findKonto("213", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         konto1494 =  kontoDAO.findKonto("149-4", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-        kontowyplatawynagrodzenia = pobierzkontowynagrodzenia();
+        kontowyplatawynagrodzenia = pobierzwskazanekonto("230");
         przychodystowarzyszenie =  kontoDAO.findKonto("710-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         rodzajeimportu = zrobrodzajeimportu();
         tabelanbppl = tabelanbpDAO.findByTabelaPLN();
@@ -205,14 +209,7 @@ public class BankImportView implements Serializable {
     }
     
     private List<ImportowanyPlik> zrobrodzajeimportu() {
-        List<ImportowanyPlik> zwrot = new ArrayList<>();
-        zwrot.add(new ImportowanyPlik("Bank PeKaO SA xml","xml",1));
-        zwrot.add(new ImportowanyPlik("Santander csv ;","csv",";",2));
-        zwrot.add(new ImportowanyPlik("Mbank csv ;","csv",";",3));
-        zwrot.add(new ImportowanyPlik("MT940 csv ;","csv",";",4));
-        zwrot.add(new ImportowanyPlik("Bank PKO BP csv ;","csv",5));
-        zwrot.add(new ImportowanyPlik("BNP Paribas BP csv ;","csv",6));
-        zwrot.add(new ImportowanyPlik("ING xml","xml",7));
+        List<ImportowanyPlik> zwrot = BankImportWykaz.getWYKAZ();
         return zwrot;
     }
     
@@ -359,8 +356,9 @@ public class BankImportView implements Serializable {
             int duplikaty = 0;
             Klienci kontr = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
             Waluty walutadokumentu = walutyDAOfk.findWalutaBySymbolWaluty(naglowek.getWyciagwaluta());
+            List<BankImportWzory> zasady = bankImportWzoryDAO.findByBank(wybranyrodzajimportu.getOpis());
             while (pobranefaktury!=null && pobranefaktury.size() >0) {
-                int czyduplikat = generowanieDokumentu(ile, kontr, walutadokumentu);
+                int czyduplikat = generowanieDokumentu(ile, kontr, walutadokumentu, zasady);
                 if (czyduplikat==1) {
                     duplikaty++;
                     ile++;
@@ -379,11 +377,11 @@ public class BankImportView implements Serializable {
     }
     
         
-     public int generowanieDokumentu(int i, Klienci kontr, Waluty walutadokumentu) {
+     public int generowanieDokumentu(int i, Klienci kontr, Waluty walutadokumentu, List<BankImportWzory> zasady) {
         int zwrot = 0;
         try {
             int numerkolejny = ImportBean.oblicznumerkolejny(rodzajdok.getSkrotNazwyDok(), dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            Dokfk dokument = stworznowydokument(i, kontr, numerkolejny, wpisView, walutadokumentu);
+            Dokfk dokument = stworznowydokument(i, kontr, numerkolejny, wpisView, walutadokumentu, zasady);
             try {
                 if (dokument!=null) {
                     dokument.setImportowany(true);
@@ -400,7 +398,7 @@ public class BankImportView implements Serializable {
         return zwrot;
     }
      
-      public Dokfk stworznowydokument(int i, Klienci kontr, int numerkolejny, WpisView wpisView, Waluty walutadokumentu) {
+      public Dokfk stworznowydokument(int i, Klienci kontr, int numerkolejny, WpisView wpisView, Waluty walutadokumentu, List<BankImportWzory> zasady) {
         ImportowanyPlikNaglowek pn = pobranefaktury.get(0).getNaglowek();
         Dokfk nd = new Dokfk(numerkolejny, wpisView.getRokWpisuSt());
         nd.setKontr(kontr);
@@ -422,7 +420,7 @@ public class BankImportView implements Serializable {
             nd = null;
             usunduplikat(juzjest);
         }
-        ustawwiersze(nd);
+        ustawwiersze(nd, zasady);
         if (nd.getListawierszy()!=null && nd.getListawierszy().size()>0) {
             ustawdaty(nd, pn);
             nd.setImportowany(true);
@@ -489,7 +487,7 @@ public class BankImportView implements Serializable {
         }
     }
      
-    private void ustawwiersze(Dokfk nd) {
+    private void ustawwiersze(Dokfk nd, List<BankImportWzory> zasady) {
         nd.setListawierszy(new ArrayList<Wiersz>());
         int lpwiersza = 1;
         for (Iterator<ImportBankWiersz> it = pobranefaktury.iterator(); it.hasNext();) {
@@ -504,8 +502,8 @@ public class BankImportView implements Serializable {
             }
             if (p.isJuzzaksiegowany()==false) {
                 wyciagdatado = p.getDatatransakcji();
-                Konto kontown = p.getWnma().equals("Wn") ? rodzajdok.getKontorozrachunkowe() : ustawkonto(p);
-                Konto kontoma = p.getWnma().equals("Ma") ? rodzajdok.getKontorozrachunkowe() :ustawkonto(p);
+                Konto kontown = p.getWnma().equals("Wn") ? rodzajdok.getKontorozrachunkowe() : ustawkonto(p, zasady);
+                Konto kontoma = p.getWnma().equals("Ma") ? rodzajdok.getKontorozrachunkowe() :ustawkonto(p, zasady);
                 nd.getListawierszy().add(przygotujwierszNetto(lpwiersza, nd, p, kontown, kontoma));
                 lpwiersza++;
                 it.remove();
@@ -529,12 +527,13 @@ public class BankImportView implements Serializable {
         //7 ZUS
         //8 Gmina
         //9 bank-bank
-    private Konto ustawkonto(ImportBankWiersz p) {
+    private Konto ustawkonto(ImportBankWiersz p, List<BankImportWzory> zasady ) {
         Konto zwrot = null;
         try {
             zwrot = ibankonto.get(p.getIBAN());
             p.setZnalezionokonto(true);
         } catch (Exception e){}
+        
         if (zwrot ==null) {
             p.setZnalezionokonto(false);
             int numer = p.getTyptransakcji();
@@ -576,10 +575,54 @@ public class BankImportView implements Serializable {
                     zwrot = kontowyplatawynagrodzenia;
                     break;
             }
+            zwrot = mozesazasady(zwrot, p, zasady);
         }
         return zwrot;
     }    
 
+    private Konto mozesazasady(Konto pierwotne, ImportBankWiersz p, List<BankImportWzory> zasady) {
+        Map<String, Konto> kontalista = pobierzkonta(zasady);
+        Konto zwrot = null;
+        for (BankImportWzory r : zasady) {
+            if (r.getPoleopis()!=null && p.getOpistransakcji().toLowerCase().contains(r.getPoleopis().toLowerCase())) {
+                zwrot = kontalista.get(r.getNrkonta());
+                break;
+            } else if (r.getPolekontrahent()!=null && p.getKontrahent().toLowerCase().contains(r.getPolekontrahent().toLowerCase())) {
+                zwrot = kontalista.get(r.getNrkonta());
+                break;
+            } else if (r.getPolekonto()!=null && p.getIBAN().toLowerCase().equals(r.getPolekonto().toLowerCase())) {
+                zwrot = kontalista.get(r.getNrkonta());
+                break;
+            }
+        }
+        return zwrot!=null?zwrot:pierwotne;
+    }
+    
+    private Map<String, Konto> pobierzkonta(List<BankImportWzory> zasady) {
+        Map<String, Konto> zwrot = new HashMap<>();
+        for (BankImportWzory p : zasady) {
+            Konto kontopobrane = pobierzwskazanekonto(p.getNrkonta());
+            if (kontopobrane!=null) {
+                zwrot.put(p.getNrkonta(), kontopobrane);
+            }
+        }
+        return zwrot;
+    }
+    
+    private Konto pobierzwskazanekonto(String kontonumer) {
+        Konto zwrot = kontoDAO.findKonto(kontonumer, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        if (zwrot !=null && zwrot.isMapotomkow())  {
+            try {
+                Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
+                String nazwakonta = kontonumer+"-"+mc;
+                zwrot = kontoDAO.findKonto(nazwakonta, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+            } catch (Exception e) {
+                E.e(e);
+            }
+        }
+        return zwrot;
+    }
+    
     private Wiersz przygotujwierszNetto(int lpwiersza,Dokfk nd, ImportBankWiersz importBankWiersz, Konto kontown, Konto kontoma) {
         Wiersz w = new Wiersz(lpwiersza, nd, 0);
         w.setDataWalutyWiersza(Data.getDzien(importBankWiersz.getDatatransakcji()));
@@ -869,19 +912,11 @@ public class BankImportView implements Serializable {
         }
     }
 
-    private Konto pobierzkontowynagrodzenia() {
-        Konto zwrot = kontoDAO.findKonto("230", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-        if (zwrot !=null && zwrot.isMapotomkow())  {
-            try {
-                Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
-                String nazwakonta = "230-"+mc;
-                zwrot = kontoDAO.findKonto(nazwakonta, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-            } catch (Exception e) {
-                E.e(e);
-            }
-        }
-        return zwrot;
-    }
+    
+
+    
+
+    
 
     
 

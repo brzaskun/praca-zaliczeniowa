@@ -11,11 +11,11 @@ import dao.RodzajedokDAO;
 import daoFK.KontoDAOfk;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
+import data.Data;
 import embeddablefk.InterpaperXLS;
 import entity.Klienci;
 import entity.Podatnik;
 import entity.Rodzajedok;
-import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
@@ -32,12 +32,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import msg.Msg;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -52,7 +49,7 @@ public class ReadCSVInterpaperFile {
     private static String filename = "c://temp//faktury2.xlsx";
     
         
-     public static List<InterpaperXLS> getListafakturCSV(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, GUSView gUSView) {
+     public static List<InterpaperXLS> getListafakturCSV(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, GUSView gUSView, String mc) {
         List<InterpaperXLS> listafaktur = Collections.synchronizedList(new ArrayList<>());
          try {
             InputStream file = new ByteArrayInputStream(plikinterpaper);
@@ -75,12 +72,14 @@ public class ReadCSVInterpaperFile {
                     try {
                         InterpaperXLS interpaperXLS = new InterpaperXLS();
                         interpaperXLS.setNr(i++);
-                        if (rodzajdok.equals("zakup")) {
-                            uzupelnijzakup(interpaperXLS, row, k, klienciDAO, znalezieni, gUSView);
-                        } else {
-                            uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni, gUSView);
+                        String mcdok = Data.getMc(Data.data_yyyyMMdd(Date.valueOf(row.get(2))));
+                        if (mc.equals(mcdok)) {
+                            if (rodzajdok.equals("zakup")) {
+                                uzupelnijzakup(interpaperXLS, row, k, klienciDAO, znalezieni, gUSView);
+                            } else {
+                                uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni, gUSView);
+                            }
                         }
-                        
                         listafaktur.add(interpaperXLS);
                     } catch (Exception e){
                         E.e(e);

@@ -14,6 +14,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
 import javax.inject.Inject;
+import xls.BankImportWykaz;
 import xls.ImportowanyPlik;
 
 /**
@@ -62,19 +63,13 @@ public class ImportowanyPlikConv implements javax.faces.convert.Converter{
     
     private List<ImportowanyPlik> zrobrodzajeimportu() {
         List<ImportowanyPlik> zwrot = new ArrayList<>();
-        zwrot.add(new ImportowanyPlik("Bank PeKaO SA xml","xml", 1));
-        zwrot.add(new ImportowanyPlik("Santander csv ;","csv",";",2));
-        zwrot.add(new ImportowanyPlik("Mbank csv ;","csv",";",3));
-        zwrot.add(new ImportowanyPlik("MT940 csv ;","csv",";",4));
-        //to dotyczy importowanych faktur
         zwrot.add(new ImportowanyPlik("Interpaper csv ;","csv",1));
         zwrot.add(new ImportowanyPlik("Zorint xls","xls","",2));
         zwrot.add(new ImportowanyPlik("Tomtech xls","xls","",3));
         zwrot.add(new ImportowanyPlik("Exolight xls","xls","",4));
         zwrot.add(new ImportowanyPlik("Murawski xls","xls","",5));
-        zwrot.add(new ImportowanyPlik("Bank PKO BP csv ;","csv",5));
-        zwrot.add(new ImportowanyPlik("BNP Paribas BP csv ;","csv",6));
-        zwrot.add(new ImportowanyPlik("ING xml","xml",7));
+        //to dotyczy importowanych bankow
+        zwrot.addAll(BankImportWykaz.getWYKAZ());
         return zwrot;
     }
 }

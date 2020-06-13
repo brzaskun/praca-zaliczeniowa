@@ -12,6 +12,7 @@ import daoFK.KontoDAOfk;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
 import daoFK.TabelanbpDAO;
+import data.Data;
 import embeddable.PanstwaMap;
 import embeddablefk.InterpaperXLS;
 import entity.Klienci;
@@ -54,7 +55,7 @@ public class ReadXLSMurawskiFile {
     
     private static String filename = "c://temp//faktury2.xlsx";
     
-    public static List<InterpaperXLS> getListafaktur(byte[] plikinterpaper) {
+    public static List<InterpaperXLS> getListafaktur(byte[] plikinterpaper, String mc) {
         List<InterpaperXLS> listafaktur = Collections.synchronizedList(new ArrayList<>());
          try {
             InputStream file = new ByteArrayInputStream(plikinterpaper);
@@ -68,20 +69,23 @@ public class ReadXLSMurawskiFile {
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
                 try {
-                    InterpaperXLS interpaperXLS = new InterpaperXLS();
-                    interpaperXLS.setNr(i++);
-                    interpaperXLS.setNrfaktury(row.getCell(5).getStringCellValue());
-                    interpaperXLS.setDatawystawienia(row.getCell(4).getDateCellValue());
-                    interpaperXLS.setDatasprzedaży(row.getCell(4).getDateCellValue());
-                    interpaperXLS.setDataobvat(row.getCell(4).getDateCellValue());
-                    interpaperXLS.setKontrahent(row.getCell(6).getStringCellValue());
-                    interpaperXLS.setNip(row.getCell(12)!=null && row.getCell(12).getStringCellValue().length()==10?row.getCell(12).getStringCellValue():row.getCell(13).getStringCellValue());
-                    interpaperXLS.setWalutaplatnosci(row.getCell(11).getStringCellValue());
-                    interpaperXLS.setBruttowaluta(row.getCell(8).getNumericCellValue());
-                    interpaperXLS.setSaldofaktury(row.getCell(8).getNumericCellValue());
-                    interpaperXLS.setNettowaluta(row.getCell(8).getNumericCellValue());
-                    interpaperXLS.setVatwaluta(row.getCell(8).getNumericCellValue()-row.getCell(7).getNumericCellValue());
-                    listafaktur.add(interpaperXLS);
+                    String mcdok = Data.getMc(Data.data_yyyyMMdd(row.getCell(4).getDateCellValue()));
+                    if (mc.equals(mcdok)) {
+                        InterpaperXLS interpaperXLS = new InterpaperXLS();
+                        interpaperXLS.setNr(i++);
+                        interpaperXLS.setNrfaktury(row.getCell(5).getStringCellValue());
+                        interpaperXLS.setDatawystawienia(row.getCell(4).getDateCellValue());
+                        interpaperXLS.setDatasprzedaży(row.getCell(4).getDateCellValue());
+                        interpaperXLS.setDataobvat(row.getCell(4).getDateCellValue());
+                        interpaperXLS.setKontrahent(row.getCell(6).getStringCellValue());
+                        interpaperXLS.setNip(row.getCell(12)!=null && row.getCell(12).getStringCellValue().length()==10?row.getCell(12).getStringCellValue():row.getCell(13).getStringCellValue());
+                        interpaperXLS.setWalutaplatnosci(row.getCell(11).getStringCellValue());
+                        interpaperXLS.setBruttowaluta(row.getCell(8).getNumericCellValue());
+                        interpaperXLS.setSaldofaktury(row.getCell(8).getNumericCellValue());
+                        interpaperXLS.setNettowaluta(row.getCell(8).getNumericCellValue());
+                        interpaperXLS.setVatwaluta(row.getCell(8).getNumericCellValue()-row.getCell(7).getNumericCellValue());
+                        listafaktur.add(interpaperXLS);
+                    }
                 } catch (Exception e){
                     System.out.println("");
                 }
@@ -94,7 +98,7 @@ public class ReadXLSMurawskiFile {
         return listafaktur;
     }
     
-     public static List<InterpaperXLS> getListafakturXLS(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, GUSView gUSView, TabelanbpDAO tabelanbpDAO) {
+     public static List<InterpaperXLS> getListafakturXLS(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, GUSView gUSView, TabelanbpDAO tabelanbpDAO, String mc) {
         List<InterpaperXLS> listafaktur = Collections.synchronizedList(new ArrayList<>());
          try {
             InputStream file = new ByteArrayInputStream(plikinterpaper);
@@ -113,12 +117,16 @@ public class ReadXLSMurawskiFile {
             }
             try {
                 InterpaperXLS interpaperXLS = new InterpaperXLS();
-                //String nip = row.getCell(2).getStringCellValue().replace("-", "").trim();
-                uzupelnijsprzedaz(interpaperXLS, wiersze, k, klienciDAO, znalezieni, gUSView, tabelanbpDAO);
-                if (interpaperXLS.getKontrahent()!=null && (interpaperXLS.getNettowaluta()!=0.0 || interpaperXLS.getVatwaluta()!=0.0)) {
-                    interpaperXLS.setNr(i++);
-                    listafaktur.add(interpaperXLS);
+                String mcdok = Data.getMc(Data.data_yyyyMMdd(wiersze.get(1).getCell(11).getDateCellValue()));
+                if (mc.equals(mcdok)) {
+                    //String nip = row.getCell(2).getStringCellValue().replace("-", "").trim();
+                    uzupelnijsprzedaz(interpaperXLS, wiersze, k, klienciDAO, znalezieni, gUSView, tabelanbpDAO);
+                    if (interpaperXLS.getKontrahent()!=null && (interpaperXLS.getNettowaluta()!=0.0 || interpaperXLS.getVatwaluta()!=0.0)) {
+                        interpaperXLS.setNr(i++);
+                        listafaktur.add(interpaperXLS);
+                    }
                 }
+                    
             } catch (Exception e){
                 E.e(e);
             }

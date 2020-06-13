@@ -81,6 +81,8 @@
                     <p:menuitem value="importuj plik JPK_VAT" oncomplete="PF('importjpkfa').show();" actionListener="#{dokfkView.odswiezzaksiegowaneimport}" ></p:menuitem>
                     <p:menuitem value="importuj plik JPK_FA" oncomplete="PF('importjpkfafa').show();" actionListener="#{dokfkView.odswiezzaksiegowaneimport}" ></p:menuitem>
                     <p:menuitem value="dokumenty importowane" oncomplete="PF('zestawieniezaksiegowanychimport').show();" actionListener="#{dokfkView.odswiezzaksiegowaneimport}" ></p:menuitem>
+                    <p:separator/>
+                    <p:menuitem value="ustawienia importu banki" oncomplete="PF('ustawieniabanki').show();" actionListener="#{bankImportWzoryView.init()}" update="ustawieniabankiimport ustawieniabankidodaj"></p:menuitem>
                 </p:menu>
             </h:form>
                

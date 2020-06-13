@@ -1,0 +1,103 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .waluta input {
+            width: 40px !important;
+        }
+        
+        .zaksiegowanewaski input {
+            width: 240px !important;        }
+        
+    </style>
+   
+    <p:dialog id="ustawieniabanki" header="Ustawienia importu wierszy - wyciągi bankowe" widgetVar="ustawieniabanki" 
+              resizable="false"  onShow="ustawdialog('ustawieniabanki','menudokumenty');" closeOnEscape="true" onHide="resetujdialog('ustawieniabanki');" >
+
+
+        <h:form id="ustawieniabankidodaj">
+            <p:panelGrid columns="7" style="margin-left: 2%; margin-bottom: 2%;" >
+                <h:outputText value="bank"/>
+                <h:outputText value="nr konta"/>
+                <h:outputText value="wyrażenie w opisie"/>
+                <h:outputText value="wyrażenie w kontrahencie"/>
+                <h:outputText value="IBAN"/>
+                <h:outputText value="miesiące"/>
+                <h:outputText value=" "/>
+                <p:selectOneMenu value="#{bankImportWzoryView.selected.bank}" >
+                    <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="" noSelectionOption="true"/>
+                    <f:selectItems value="#{bankImportWzoryView.wykazbankow}" var="item1" itemLabel="#{item1.opis}" itemValue="#{item1.opis}"/>
+                </p:selectOneMenu>
+                <h:inputText value="#{bankImportWzoryView.selected.nrkonta}" size="8"/>
+                <h:inputText value="#{bankImportWzoryView.selected.poleopis}"/>
+                <h:inputText value="#{bankImportWzoryView.selected.polekontrahent}"/>
+                <h:inputText value="#{bankImportWzoryView.selected.polekonto}"/>
+                <h:selectBooleanCheckbox value="#{bankImportWzoryView.selected.miesiace}"/>
+                <p:commandButton value="dodaj" actionListener="#{bankImportWzoryView.dodaj}" update="ustawieniabankidodaj ustawieniabankiimport:dataListImport"/>
+            </p:panelGrid>
+        </h:form>
+            <p:separator/>
+           <h:form id="ustawieniabankiimport">
+            <p:panelGrid columns="2" style="margin-left: 2%; margin-bottom: 2%;" >
+                <p:column>
+                    <h:outputText value="pokaż ustawienia dla banku: "/>
+                </p:column>
+                <p:selectOneMenu value="#{bankImportWzoryView.wybranybankimport}" style="margin-left: 40px;" >
+                    <p:ajax event="change" listener="#{bankImportWzoryView.pobierzbank}" update="ustawieniabankiimport:dataListImport" partialSubmit="true"/>
+                    <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                    <f:selectItems value="#{bankImportWzoryView.wykazbankow}" var="item1" itemLabel="#{item1.opis}" itemValue="#{item1.opis}"/>
+                </p:selectOneMenu>
+            </p:panelGrid>
+            
+            <p:dataTable id="dataListImport" value="#{bankImportWzoryView.lista}" var="item" rowIndexVar="row" widgetVar="tablicabankiimport" 
+                         selection="#{dokfkView.selectedimport}" rowKey="#{item.id}" selectionMode="single" 
+                         style="width: 1250px; height: 580px; overflow-y: scroll" 
+                         emptyMessage="Brak reguł importu dla danego banku" styleClass="gridZaksiegowane walkingtable"
+                         sortBy="#{item.nrkonta}"
+                         rowsPerPageTemplate="150,300,600,900,1200" paginatorPosition="top" paginator="#{bankImportWzoryView.lista.size() gt 150 ? 'true':'false'}" rows="150">
+                <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
+                <p:ajax event="filter" global="false"/>
+                <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center; height: 35px;">
+                    <h:outputText styleClass="lpwierszaZaksiegowane lpwiersza niecheckwiersza" value="#{row+1}"/>
+                </p:column>
+                <p:column headerText="nr konta" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{item.nrkonta}" filterBy="#{item.nrkonta}" filterMatchMode="contains" >
+                    <p:inplace editor="true">
+                        <p:ajax event="save" listener="#{bankImportWzoryView.edytuj(item)}"/>
+                        <p:inputText value="#{item.nrkonta}"/>
+                    </p:inplace>
+                </p:column>
+                <p:column headerText="mce" styleClass="zaksiegowanewaski" width="30" style="text-align: center;">
+                    <p:inplace editor="true">
+                        <p:ajax event="save" listener="#{bankImportWzoryView.edytuj(item)}"/>
+                       <p:selectBooleanCheckbox value="#{item.miesiace}"/>
+                    </p:inplace>
+                </p:column>
+                <p:column headerText="pole opis" styleClass="zaksiegowanewaski" width="120"  sortBy="#{item.poleopis}" filterBy="#{item.poleopis}" filterMatchMode="contains" >
+                    <p:inplace editor="true" emptyLabel="-">
+                        <p:ajax event="save" listener="#{bankImportWzoryView.edytuj(item)}"/>
+                        <p:inputText value="#{item.poleopis}" styleClass="bankimport"/>
+                    </p:inplace>
+                </p:column>
+                <p:column headerText="pole kontrahent" styleClass="zaksiegowanewaski" width="120" sortBy="#{item.polekontrahent}" filterBy="#{item.polekontrahent}"  filterMatchMode="contains">
+                    <p:inplace editor="true" emptyLabel="-">
+                        <p:ajax event="save" listener="#{bankImportWzoryView.edytuj(item)}"/>
+                        <p:inputText value="#{item.polekontrahent}" styleClass="bankimport"/>
+                    </p:inplace>
+                </p:column>
+                <p:column headerText="pole konto" styleClass="zaksiegowanewaski" width="200" sortBy="#{item.polekonto}" filterBy="#{item.polekonto}"  filterMatchMode="contains">
+                    <p:inplace editor="true" emptyLabel="-">
+                        <p:ajax event="save" listener="#{bankImportWzoryView.edytuj(item)}"/>
+                        <p:inputText value="#{item.polekonto}" styleClass="bankimport"/>
+                    </p:inplace>
+                </p:column>
+                <p:column width="70" style="text-align: center;">
+                    <p:commandButton icon="fa fa-trash" actionListener="#{bankImportWzoryView.usun(item)}" update="ustawieniabankiimport:dataListImport"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:dialog>
+</ui:composition>
