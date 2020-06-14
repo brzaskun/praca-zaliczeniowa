@@ -288,7 +288,7 @@
                                                     var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="#{klientConv}" title="wpisz nazwę lub nip kontrahenta"
                                                     minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient" queryDelay="5"
                                                     forceSelection="true" styleClass="wpisywaniekontrfk" autocomplete="true" moreText="jest więcej pasujących pozycji"
-                                                    rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu != 5 and dokfkView.selected.rodzajedok.kategoriadokumentu != 0 ? true : false}" style="width: 250px;">
+                                                        rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu != 5 and dokfkView.selected.rodzajedok.kategoriadokumentu != 0 ? true : false}" style="width: 250px;">
                                         <p:ajax event="query" global="false"/>
                                         <p:ajax event="blur" listener="#{dokfkView.obrobKontrahenta()}" partialSubmit="true" global="false"  update=":formwpisdokument:panelwpisbutton" 
                                                 oncomplete="znalezionoduplikat();"/>
@@ -779,7 +779,7 @@
                                  global="false" style="display: none;" />
             </h:form>
             <h:form id="wpisywaniegrupa">
-                <p:commandButton id="sprawdzwartoscigrupy" value="sprawdzwartoscigrupy" actionListener="#{dokfkView.sprawdzwartoscigrupy(dokfkView.selected.listawierszy.get(dokfkView.selected.listawierszy.size()))}" 
+                <p:commandButton id="sprawdzwartoscigrupy" value="sprawdzwartoscigrupy" actionListener="#{dokfkView.sprawdzwartoscigrupy()}" 
                                  global="false" style="display: none;" />
                 <h:inputText id="nrgrupywierszy" value="#{dokfkView.nrgrupywierszy}" style="display: none;"/>
                 <h:inputText id="nrgrupyaktualny" value="#{dokfkView.nrgrupyaktualny}"  style="display: none;"/>

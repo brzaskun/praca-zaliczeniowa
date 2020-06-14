@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
@@ -26,7 +27,7 @@ public class LazyKontoDataModel extends LazyDataModel<Konto>{
     
     
     @Override
-    public List<Konto> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+    public List<Konto> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, FilterMeta> filters) {
         List<Konto> lista = Collections.synchronizedList(new ArrayList<>());
         if (pageSize > wykazkont.size()) {
             lista = wykazkont.subList(first, first + (wykazkont.size()-first));

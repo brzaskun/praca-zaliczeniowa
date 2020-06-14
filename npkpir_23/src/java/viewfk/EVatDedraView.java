@@ -9,7 +9,6 @@ import dao.EvewidencjaDAO;
 import daoFK.EVatwpisDedraDAO;
 import dedra.Dedraparser;
 import entity.Evewidencja;
-import entity.Klienci;
 import entityfk.EVatwpisDedra;
 import error.E;
 import java.io.File;
@@ -28,7 +27,8 @@ import javax.servlet.ServletContext;
 import msg.Msg;import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+
+import org.primefaces.model.file.UploadedFile;
 import pdffk.PdfEVatDedra;
 import view.WpisView;
 /**
@@ -77,7 +77,7 @@ public class EVatDedraView  implements Serializable {
             oldfile.delete();
         }
         try {
-           FileUtils.copyInputStreamToFile(uploadedFile.getInputstream(), newfile);
+           FileUtils.copyInputStreamToFile(uploadedFile.getInputStream(), newfile);
            Evewidencja e = evewidencjaDAO.znajdzponazwie("sprzedaż 23%");
            Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
            wiersze = Dedraparser.parsujewidencje(nazwapliku, wpisView.getPodatnikObiekt(), e, wpisView);

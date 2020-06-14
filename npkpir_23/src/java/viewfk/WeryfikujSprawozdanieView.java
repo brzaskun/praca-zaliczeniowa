@@ -13,7 +13,7 @@ import javax.faces.bean.ViewScoped;
 import msg.Msg;
 import org.apache.commons.io.IOUtils;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.file.UploadedFile;
 import xml.XMLValid;
 
 /**
@@ -34,7 +34,7 @@ public class WeryfikujSprawozdanieView  implements Serializable {
             //String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
             //String dt = String.valueOf((new Date()).getTime());
             //String nazwakrotka = wpisView.getPodatnikObiekt().getNip()+"_"+dt+"_"+"logo."+extension;
-            inputstream = uploadedFile.getInputstream();
+            inputstream = uploadedFile.getInputStream();
             Msg.msg("i","Sukces. Plik " + filename + " został skutecznie załadowany","form_dialogweryfikujsprawozdaniel:mes1");
         } catch (Exception ex) {
             E.e(ex);

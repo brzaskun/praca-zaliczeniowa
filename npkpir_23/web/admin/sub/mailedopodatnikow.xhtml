@@ -108,7 +108,7 @@
         <p:tab title="załącznik">
             <h:form>
                 <p:panel header="Wczytaj plik, który będzie umieszczony jako załącznik do maila"/>
-                <p:fileUpload fileUploadListener="#{adminMailView.zachowajZalacznik}" 
+                <p:fileUpload listener="#{adminMailView.zachowajZalacznik}" 
                               update="@form" mode="advanced" dragDropSupport="true" fileLimit="3"
                                 sizeLimit="2000000"  allowTypes="/(\.|\/)(pdf)$/" 
                                 validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"

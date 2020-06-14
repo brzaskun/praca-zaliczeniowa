@@ -39,7 +39,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import msg.Msg; import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.file.UploadedFile;
 import pdf.PdfDok;
 import waluty.Z;
 import xls.ImportBean;
@@ -104,8 +104,8 @@ public class ImportFakturyView  implements Serializable {
             vat= 0.0;
             UploadedFile uploadedFile = event.getFile();
             String filename = uploadedFile.getFileName();
-            jpkfa.JPK jpk = pobierzJPK(uploadedFile.getInputstream());
-            jpkfa3.JPK jpkfa3 = pobierzJPK3(uploadedFile.getInputstream());
+            jpkfa.JPK jpk = pobierzJPK(uploadedFile.getInputStream());
+            jpkfa3.JPK jpkfa3 = pobierzJPK3(uploadedFile.getInputStream());
             if (jpk != null) {
                 if (deklaracjaniemiecka) {
                     dokumenty = stworzdokumentyde(jpk);
@@ -148,7 +148,7 @@ public class ImportFakturyView  implements Serializable {
             vat= 0.0;
             UploadedFile uploadedFile = event.getFile();
             String filename = uploadedFile.getFileName();
-            jpkfa3.JPK jpkfa3 = pobierzJPK3(uploadedFile.getInputstream());
+            jpkfa3.JPK jpkfa3 = pobierzJPK3(uploadedFile.getInputStream());
             if (jpkfa3 != null) {
                 if (deklaracjaniemiecka) {
                     dokumentyfk = stworzdokumentydefk(jpkfa3);

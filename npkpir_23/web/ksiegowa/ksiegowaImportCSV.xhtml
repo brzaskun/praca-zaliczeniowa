@@ -21,7 +21,7 @@
                         <h:outputText value="import dokumentów z pliku CSV AMAZON"/>
                         <h:form>
                             <p:growl life="3600"  id="messages1"/>
-                            <p:fileUpload fileUploadListener="#{importCSVView.importujsprzedaz}" 
+                            <p:fileUpload listener="#{importCSVView.importujsprzedaz}" 
                                           mode="advanced" dragDropSupport="true" fileLimit="1"
                                           update="messages1 importtabela" 
                                           validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"

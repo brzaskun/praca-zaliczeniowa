@@ -33,7 +33,7 @@
                     <p:ajax event="change" partialSubmit="true" update="importtabelafafa"/>
                 </p:selectBooleanCheckbox>
             </p:panelGrid>
-            <p:fileUpload fileUploadListener="#{importFakturyView.importujsprzedazfk}" 
+            <p:fileUpload listener="#{importFakturyView.importujsprzedazfk}" 
                           mode="advanced" dragDropSupport="true" fileLimit="1"
                           update="importtabelafafa" sizeLimit="2000000"  
                           validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"

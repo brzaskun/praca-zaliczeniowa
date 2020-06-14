@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
@@ -26,7 +27,7 @@ public class LazyWierszDataModel extends LazyDataModel<Wiersz>{
     
     
     @Override
-    public List<Wiersz> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+    public List<Wiersz> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, FilterMeta> filters) {
         List<Wiersz> lista = Collections.synchronizedList(new ArrayList<>());
         if (pageSize > listawierszy.size()) {
             lista = listawierszy.subList(first, first + (listawierszy.size()-first));

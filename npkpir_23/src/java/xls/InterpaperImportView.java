@@ -42,7 +42,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -54,10 +53,10 @@ import org.joda.time.DateTime;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.panelgrid.PanelGrid;
-import org.primefaces.component.selectonelistbox.SelectOneListbox;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.file.UploadedFile;
+
 import pdf.PdfXLSImport;
 import view.WpisView;import waluty.Z;
 
@@ -174,8 +173,8 @@ public class InterpaperImportView implements Serializable {
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
             if (extension.equals("csv")||extension.equals("xls")||extension.equals("xlsx")) {
                 String filename = uploadedFile.getFileName();
-                pobranyplik = uploadedFile.getContents();
-                pobraneplikibytes.add(uploadedFile.getContents());
+                pobranyplik = uploadedFile.getContent();
+                pobraneplikibytes.add(uploadedFile.getContent());
                 PrimeFaces.current().ajax().update("panelplik");
                 grid1.setRendered(true);
                 grid2.setRendered(false);

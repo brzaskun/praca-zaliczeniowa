@@ -21,10 +21,6 @@ import error.E;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -48,9 +44,9 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTime;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
 import view.ParametrView;
 import view.WpisView; import org.primefaces.PrimeFaces;
+import org.primefaces.model.file.UploadedFile;
 
 /**
  *
@@ -301,7 +297,7 @@ public class AdminMailView implements Serializable {
             String filename = uploadedFile.getFileName();
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
             if (extension.equals("pdf")) {
-                zalacznik = IOUtils.toByteArray(uploadedFile.getInputstream());
+                zalacznik = IOUtils.toByteArray(uploadedFile.getInputStream());
                 nazwazalacznik = uploadedFile.getFileName();
                 Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
             } else {

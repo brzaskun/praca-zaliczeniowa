@@ -20,7 +20,7 @@
                          <h:outputText value="import dokumentów z pliku EBAY(w przypadku błędu ściągniety plik z Ebay otworzyć w Excel i usunąć możliwe znaki ; - potem zachować!)"/>
                         <h:form>
                             <p:growl life="3600"  id="messages1"/>
-                            <p:fileUpload fileUploadListener="#{importEbayView.importujsprzedaz}" 
+                            <p:fileUpload listener="#{importEbayView.importujsprzedaz}" 
                                           mode="advanced" dragDropSupport="true" fileLimit="1"
                                           update="messages1 importtabela" sizeLimit="2000000"  
                                           validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"

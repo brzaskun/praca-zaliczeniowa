@@ -26,7 +26,7 @@
             <p:panelGrid columns="2" columnClasses="sixty-percent forty-percent" >
                     <p:panelGrid columns="1" style="margin-top: 20px;margin-bottom: 10px;">
                         <h:outputText value="plik JPK_VAT z dokumentami źródłowymi " style="font-weight: bold;"/>
-                        <p:fileUpload fileUploadListener="#{importSprzedazyFKView.pobierzplik}" 
+                        <p:fileUpload listener="#{importSprzedazyFKView.pobierzplik}" 
                                       mode="advanced" dragDropSupport="true" fileLimit="3"
                                       update="messages1 @form" sizeLimit="50000000"   
                                       validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"

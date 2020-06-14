@@ -27,7 +27,7 @@ import msg.Msg;import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.RowEditEvent;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.file.UploadedFile;
 import view.WpisView;
 /**
  *
@@ -67,7 +67,7 @@ public class EVatDeklaracjaPlikView  implements Serializable {
             oldfile.delete();
         }
         try {
-           FileUtils.copyInputStreamToFile(uploadedFile.getInputstream(), newfile);
+           FileUtils.copyInputStreamToFile(uploadedFile.getInputStream(), newfile);
            String dzis = Data.aktualnaData();
            EVatDeklaracjaPlik e = new EVatDeklaracjaPlik(wpisView, nazwakrotka, dzis);
            eVatDeklaracjaPlikDAO.dodaj(e);
