@@ -6,6 +6,7 @@
 package view;
 
 import entity.Podatnik;
+import error.E;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -26,8 +27,12 @@ public class VatZmianaOkresuView implements Serializable {
     private KontaVatFKView kontaVatFKView;
     
     public void aktualizujpozmianiedaty(Podatnik podatnik) {
-        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(podatnik, null);
-        kontaVatFKView.init();
+        try {
+            ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(podatnik, null);
+            kontaVatFKView.init();
+        } catch (Exception e) {
+            E.e(e);
+        }
     }
 
     public EwidencjaVatView getEwidencjaVatView() {

@@ -62,6 +62,7 @@ public class VIESCheckBean {
                      } catch (SocketTimeoutException se) {
                          zwrot = false;
                          E.e(se);
+                         break;
                      } catch (Exception e) {
                          E.e(e);
                          zwrot = false;
