@@ -131,7 +131,7 @@ public class PdfFaktRozrach {
     boolean useNumbers = false;
     String generatedString = RandomStringUtils.random(length, useLetters, useNumbers);
  
-    System.out.println(generatedString);
+    error.E.s(generatedString);
     }
 
     public static void drukujKliencihurt(Map<Klienci, List<FakturaPodatnikRozliczenie>> klista, WpisView wpisView) {

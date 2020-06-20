@@ -107,19 +107,19 @@ public class StatystykaBean implements Runnable {
     
     public static void main(String[] args) {
     	  int[] array = {23,43,56,97,32};
-    	  Arrays.stream(array).reduce((x,y) -> x+y).ifPresent(s -> System.out.println(s));
-    	  Arrays.stream(array).reduce(Integer::sum).ifPresent(s -> System.out.println(s));
+    	  Arrays.stream(array).reduce((x,y) -> x+y).ifPresent(s -> error.E.s(s));
+    	  Arrays.stream(array).reduce(Integer::sum).ifPresent(s -> error.E.s(s));
     	  //Set start value. Result will be start value + sum of array. 
     	  int startValue = 100;
     	  int sum = Arrays.stream(array).reduce(startValue, (x,y) -> x+y);
-    	  System.out.println(sum);
+    	  error.E.s(sum);
     	  sum = Arrays.stream(array).reduce(startValue, Integer::sum);
-    	  System.out.println(sum);
+    	  error.E.s(sum);
           
           List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);	  
           DoubleSummaryStatistics stats = list.stream()
   			     .collect(Collectors.summarizingDouble(i -> i));
-  	  System.out.println("Sum:"+stats.getSum());
+  	  error.E.s("Sum:"+stats.getSum());
     }
     
 }

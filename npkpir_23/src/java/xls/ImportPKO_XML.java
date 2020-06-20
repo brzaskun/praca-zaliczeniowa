@@ -630,7 +630,7 @@ public static void main(String[] args) throws SAXException, IOException {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(fXmlFile);
             doc.getDocumentElement().normalize();
-            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+            error.E.s("Root element :" + doc.getDocumentElement().getNodeName());
             NodeList nList1 = doc.getElementsByTagName("Stmt");
             String nrwyciagu = pT(nList1.item(0), "Id");;
             String dataod = pT(nList1.item(0), "FrDtTm");
@@ -640,9 +640,9 @@ public static void main(String[] args) throws SAXException, IOException {
             String bo = pT(nList1.item(0), "Amt", 0);
             String bz = pT(nList1.item(0), "Amt", 1);
             String currency = pE(nList1.item(0), "Amt").getAttribute("Ccy");
-            System.out.println("----------------------------");
+            error.E.s("----------------------------");
 //            NodeList nList1 = doc.getElementsByTagName("Ntry");
-//            System.out.println("----------------------------");
+//            error.E.s("----------------------------");
 //            int len = nList1.getLength();
 //                for (int temp = 0; temp < len; temp++) {
 //                    Node nNode1 = nList1.item(temp);
@@ -650,29 +650,29 @@ public static void main(String[] args) throws SAXException, IOException {
 //                        try {
 //                            Element eElement = (Element) nNode1;
 //                            String elt = pE(nNode1, "Id") == null ? "brak" : pTFC(nNode1, "Id");
-//                            System.out.println("IBAN : " + elt);
+//                            error.E.s("IBAN : " + elt);
 //                            String elt1 = pT(nNode1, "Amt");
-//                            System.out.println("amount : " + elt1);
-//                            System.out.println("waluta "+pE(nNode1, "Amt").getAttribute("Ccy"));
+//                            error.E.s("amount : " + elt1);
+//                            error.E.s("waluta "+pE(nNode1, "Amt").getAttribute("Ccy"));
 //                            String elt2 = pT(nNode1, "CdtDbtInd");
-//                            System.out.println("WnMa : " + elt2);
-//                            System.out.println("data : " + pTFC(nNode1, "BookgDt"));
-//                            System.out.println("data waluty : " + pTFC(nNode1, "ValDt"));
-//                            System.out.println("opis : " + pT(nNode1, "Ustrd"));
+//                            error.E.s("WnMa : " + elt2);
+//                            error.E.s("data : " + pTFC(nNode1, "BookgDt"));
+//                            error.E.s("data waluty : " + pTFC(nNode1, "ValDt"));
+//                            error.E.s("opis : " + pT(nNode1, "Ustrd"));
 //                            String elt3 = pE(nNode1, "Nm") == null ? "brak" : pT(nNode1, "Nm");
-//                            System.out.println("odbiorca : " + elt3);
+//                            error.E.s("odbiorca : " + elt3);
 //                            String elt4 = pE(nNode1, "Ctry") == null ? "brak" : pT(nNode1, "Ctry");
-//                            System.out.println("kraj : " + elt4);
+//                            error.E.s("kraj : " + elt4);
 //                            String elt5 = pE(nNode1, "AdrLine") == null ? "brak" : pT(nNode1, "AdrLine");
-//                            System.out.println("adres : " + elt5);
-//                            System.out.println("lp : " + pT(nNode1, "TxId"));
+//                            error.E.s("adres : " + elt5);
+//                            error.E.s("lp : " + pT(nNode1, "TxId"));
 //                        } catch (Exception e) {
 //                            E.e(e);
 //                        }
 //                    }
 //                }
         } catch (ParserConfigurationException ex) {
-            Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

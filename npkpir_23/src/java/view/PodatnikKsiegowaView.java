@@ -57,7 +57,7 @@ public class PodatnikKsiegowaView implements Serializable{
         List<Fakturywystokresowe> okresowe = fakturywystokresoweDAO.findPodatnikBiezace("GRZELCZYK", rok);
         for (Podatnik p : listapodatnikow) {
             if (p.getNip().equals("9552524929")) {
-                System.out.println("");
+                error.E.s("");
             }
             List<Fakturywystokresowe> fakt = okresowe.stream().filter(r->r.getNipodbiorcy().equals(p.getNip())).collect(Collectors.toList());
             double suma = 0.0;

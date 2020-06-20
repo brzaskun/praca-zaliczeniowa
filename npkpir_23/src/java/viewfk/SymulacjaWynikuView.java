@@ -256,7 +256,7 @@ public class SymulacjaWynikuView implements Serializable {
         List<StronaWiersza> zwrot = new ArrayList<>();
         List<Transakcja> transakcje = transakcjaDAO.findPodatnikRokMcRozliczajacy(podatnik, rokWpisuSt, miesiacWpisu);
         zwrot.addAll(stworzevatwpisRozl(transakcje));
-        System.out.println("");
+        error.E.s("");
         return zwrot;
     }
     
@@ -845,9 +845,9 @@ public class SymulacjaWynikuView implements Serializable {
     public static void main(String[] args) {
         double wynikfinansowy = 49963.29;
         double udzial = Double.valueOf("1")/100;
-        System.out.println(udzial);
+        error.E.s(udzial);
         double podstawaopodatkowania = Z.z(udzial*wynikfinansowy);
-        System.out.println(podstawaopodatkowania);
+        error.E.s(podstawaopodatkowania);
     }
 
     public static class PozycjeSymulacjiTabela {
@@ -939,10 +939,10 @@ public class SymulacjaWynikuView implements Serializable {
         public static void main(String[] args) throws Exception  {
 //            EntityManager em = Em.getEm();
 //            Podatnik podatnik = (Podatnik) em.createNamedQuery("Podatnik.findByNip").setParameter("nip", "9552340951").getSingleResult();
-//            System.out.println(podatnik.toString());
+//            error.E.s(podatnik.toString());
 //            //List<StronaWiersza> pobranezapisy = em.createQuery("SELECT t FROM StronaWiersza t WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND (SIZE(t.cechazapisuLista) > 0 OR SIZE(t.wiersz.dokfk.cechadokumentuLista) > 0)").setParameter("podatnikObj", podatnik).getResultList();
 //            List<StronaWiersza> pobranezapisy = em.createQuery("SELECT t FROM StronaWiersza  t JOIN t.wiersz.dokfk s WHERE t.konto.bilansowewynikowe = 'wynikowe' AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND (SIZE(t.cechazapisuLista) > 0 OR SIZE(s.cechadokumentuLista) > 0)").setParameter("podatnikObj", podatnik).getResultList();
-//            System.out.println("");
+//            error.E.s("");
               double udział = Z.z4(Double.parseDouble("33.33")/100);
         }
     }

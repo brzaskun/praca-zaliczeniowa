@@ -943,7 +943,7 @@ public class PlanKontFKBean {
             nowynumer = nowynumer.substring(0, nowynumer.length()-1);
         }
 //        String[] w = str.split("\\s+");
-//        System.out.println("w "+w[0]);
+//        error.E.s("w "+w[0]);
 //        String koncowka = w[w.length-1];
 //        if (w.length ==1) {
 //            String[] pola = str.split("-");
@@ -951,7 +951,7 @@ public class PlanKontFKBean {
 //        }
 //        int indexkoncowy = str.length()-koncowka.length()-1;
 //        String nowynumer = str.substring(0, indexkoncowy);
-//        System.out.println("w "+nowynumer);
+//        error.E.s("w "+nowynumer);
     }
 }
 

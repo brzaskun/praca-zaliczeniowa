@@ -27,7 +27,7 @@ public class BankImportWykaz {
     
     public static void main (String[] args) {
         for (ImportowanyPlik p : WYKAZ) {
-            System.out.println(p.getOpis());
+            error.E.s(p.getOpis());
         }
     }
 

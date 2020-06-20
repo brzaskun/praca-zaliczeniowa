@@ -60,7 +60,7 @@ public class PdfInwestycja {
         try {
             helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
         } catch (IOException ex) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         Font font = new Font(helvetica, 8);
         Font fontL = new Font(helvetica, 10);

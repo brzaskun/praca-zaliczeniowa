@@ -85,9 +85,9 @@ public class VATUEM4Bean {
 //    public static void main(String[] args) {
 //        try {
 //            XMLGregorianCalendar s =  DatatypeFactory.newInstance().newXMLGregorianCalendar("2017");
-//            System.out.println("s "+s);
+//            error.E.s("s "+s);
 //            TKodKrajuUE k = TKodKrajuUE.fromValue("DE");
-//            System.out.println("k "+k);
+//            error.E.s("k "+k);
 //        } catch (Exception ex) {
 //            Logger.getLogger(VATUEM4Bean.class.getName()).log(Level.SEVERE, null, ex);
 //        }
@@ -109,7 +109,7 @@ public class VATUEM4Bean {
             idf.setImiePierwsze(w.getPodatnikObiekt().getImie());
             idf.setDataUrodzenia(DatatypeFactory.newInstance().newXMLGregorianCalendar(w.getPodatnikObiekt().getDataurodzenia()));
         } catch (DatatypeConfigurationException ex) {
-            Logger.getLogger(VATUEM4Bean.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(VATUEM4Bean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return idf;
     }

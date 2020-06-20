@@ -47,7 +47,7 @@ public class WalutyDAOfk extends DAO implements Serializable {
             return walutyFacade.findWalutaBySymbolWaluty(staranazwa);
         } catch (Exception e) { 
             //E.e(e); 
-            //System.out.println(" blad staranazwa "+staranazwa);
+            //error.E.s(" blad staranazwa "+staranazwa);
             return null;
         }
     }

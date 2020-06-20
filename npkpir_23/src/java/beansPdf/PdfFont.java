@@ -344,15 +344,15 @@ public class PdfFont {
             Font font = new Font(helvetica, 5);
             String fonts[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
             for (int i = 0; i < fonts.length; i++) {
-                System.out.println(fonts[i]);
+                error.E.s(fonts[i]);
             }
             java.awt.Font[] fontsa = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
             //java.awt.Font name = fontsa["Calibri"];
-            System.out.println("");
+            error.E.s("");
         } catch (DocumentException ex) {
-            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
         }
 //        try {
 //            NumberFormat formatter = NumberFormat.getNumberInstance();

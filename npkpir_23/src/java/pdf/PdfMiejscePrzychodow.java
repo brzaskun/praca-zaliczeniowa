@@ -110,7 +110,7 @@ public class PdfMiejscePrzychodow {
             table.addCell(ustawfraze("suma narast.", 0, 1));
             table.setHeaderRows(2);
         } catch (Exception ex) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         Integer i = 1;
         for (MiejsceZest rs : l.getMiejscePrzychodowZest()) {
@@ -146,7 +146,7 @@ public class PdfMiejscePrzychodow {
 
             table.setHeaderRows(1);
         } catch (IOException ex) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (StronaWiersza rs : stronywiersza) {
             table.addCell(ustawfrazeAlign("", "left", 7));

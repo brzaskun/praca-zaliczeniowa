@@ -98,7 +98,7 @@ public class beanJPKwysylka {
             try {
                 String errors = (String) jo.getJSONArray("Errors").get(0);
                 String nieudane = jo.getString("Message");
-                System.out.println("nieudana wysylka: " + nieudane);
+                error.E.s("nieudana wysylka: " + nieudane);
                 wiadomosc[0] = "e";
                 wiadomosc[1] = "Błąd połączenia z serwisem " + nieudane;
             } catch (Exception e1) {
@@ -127,7 +127,7 @@ public class beanJPKwysylka {
         JSONArray job = jo.getJSONArray("RequestToUploadFileList");
         String uri = (String) ((JSONObject) job.get(0)).get("Url");
         String blobname = (String) ((JSONObject) job.get(0)).get("BlobName");
-        System.out.println("ref: " + referenceNumber);
+        error.E.s("ref: " + referenceNumber);
         wysylkaAzure(uri, aesfilename);
         Object[] in1 = zakonczenie(referenceNumber, blobname, URL_STEP2);
         JSONTokener js = new JSONTokener((Reader) in1[0]);
@@ -138,7 +138,7 @@ public class beanJPKwysylka {
         } else {
             String message = jo.getString("Message");
             String errors = ((JSONArray) jo.get("Errors")).getString(0);
-            System.out.println("message " + message);
+            error.E.s("message " + message);
             wiadomosc[0] = "i";
             wiadomosc[1] = "Nieudane wyslanie pliku do Azure "+message;
         }
@@ -163,7 +163,7 @@ public class beanJPKwysylka {
             wiadomosc[0] = "i";
             wiadomosc[1] = "Udane połączenie z serwisem. Pobieranie UPO";
             wynik = true;
-            System.out.println("Kod 200 udany etap 3");
+            error.E.s("Kod 200 udany etap 3");
             JSONTokener js = new JSONTokener((Reader) ink[0]);
             jo = new JSONObject(js);
             Integer Code = (Integer) jo.get("Code");
@@ -177,11 +177,11 @@ public class beanJPKwysylka {
             upo.setTimestamp(Timestamp);
             upo.setUpoString(UpoString);
             upo.setReferenceNumber(referenceNumber);
-            System.out.println("Code " + Code);
-            System.out.println("Description " + Description);
-            System.out.println("Details " + Details);
-            System.out.println("Timestamp " + Timestamp);
-            System.out.println("Upo nr: " + UpoString);
+            error.E.s("Code " + Code);
+            error.E.s("Description " + Description);
+            error.E.s("Details " + Details);
+            error.E.s("Timestamp " + Timestamp);
+            error.E.s("Upo nr: " + UpoString);
             JAXBContext context;
             try {
                 context = JAXBContext.newInstance(Potwierdzenie.class);
@@ -195,7 +195,7 @@ public class beanJPKwysylka {
                     //upo.setJpk(jpk);
                 }
             } catch (JAXBException ex) {
-                Logger.getLogger(beanJPKwysylka.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(beanJPKwysylka.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (Code==200 || Code==120) {
                 wiadomosc[0] = "i";

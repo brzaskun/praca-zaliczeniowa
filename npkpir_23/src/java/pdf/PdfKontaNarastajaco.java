@@ -107,7 +107,7 @@ public class PdfKontaNarastajaco {
             i++;
         }
         } catch (IOException ex) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         return table;
     }

@@ -147,7 +147,7 @@ public class beanektest  implements Serializable {
         try {
             sc = SSLContext.getInstance("SSL");
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(beanektest.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(beanektest.class.getName()).log(Level.SEVERE, null, ex);
         }
         // Create empty HostnameVerifier
         HostnameVerifier hv = new HostnameVerifier() {
@@ -159,7 +159,7 @@ public class beanektest  implements Serializable {
         try {
             sc.init(null, trustAllCerts, new java.security.SecureRandom());
         } catch (KeyManagementException ex) {
-            Logger.getLogger(beanektest.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(beanektest.class.getName()).log(Level.SEVERE, null, ex);
         }
         HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
         HttpsURLConnection.setDefaultHostnameVerifier(hv);
@@ -193,10 +193,10 @@ public class beanektest  implements Serializable {
             idpobierz = id.value;
             statMB = stat.value;
             opisMB = opis.value;
-            System.out.println("idMB "+idMB);
-            System.out.println("status "+statMB.toString());
-            System.out.println("opis "+opisMB);
-            System.out.println("data "+new Date());
+            error.E.s("idMB "+idMB);
+            error.E.s("status "+statMB.toString());
+            error.E.s("opis "+opisMB);
+            error.E.s("data "+new Date());
         } catch (ClientTransportException ex1) {
             E.e(ex1);
         }
@@ -312,10 +312,10 @@ public class beanektest  implements Serializable {
             }
             upoMBT = upo.value;
             statMBT = stat.value + " "+opis.value;
-            System.out.println("idMB "+idMB);
-            System.out.println("status "+statMBT.toString());
-            System.out.println("opis "+opisMB);
-            System.out.println("data "+new Date());
+            error.E.s("idMB "+idMB);
+            error.E.s("status "+statMBT.toString());
+            error.E.s("opis "+opisMB);
+            error.E.s("data "+new Date());
         } catch (ClientTransportException ex1) {
             E.e(ex1);
         }
@@ -339,9 +339,9 @@ public class beanektest  implements Serializable {
         upoMBT = upo.value;
         statMBT = stat.value+ " ";
         opisMBT = komunikat.get(1);
-        System.out.println("idMB "+idMBT);
-        System.out.println("status "+statMBT.toString());
-        System.out.println("opis "+opisMBT);
+        error.E.s("idMB "+idMBT);
+        error.E.s("status "+statMBT.toString());
+        error.E.s("opis "+opisMBT);
 
     }
 

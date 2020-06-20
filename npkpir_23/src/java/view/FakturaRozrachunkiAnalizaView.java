@@ -287,7 +287,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         saldanierozliczone = Collections.synchronizedList(new ArrayList<>());
         klienci.stream().forEach(p -> {
 //            if (szukanyklient.getNpelna().equals("\"KONSBUD\" PROJEKTOWANIE I REALIZACJA KONSTRUKCJI BUDOWLANYCH Przemysław Żurowski")) {
-//                System.out.println("");
+//                error.E.s("");
 //            }
             pobierzwszystko(wpisView.getMiesiacWpisu(), p);
             if (nowepozycje.size() > 0) {
@@ -455,7 +455,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                     if (zwrot.size()>0) {
                         Msg.msg("e","Błąd podczas wysyłki wezwania do zapłaty "+zwrot.size());
                         for (String t : zwrot.keySet()) {
-                            System.out.println("nr "+t+" treść: "+zwrot.get(t));
+                            error.E.s("nr "+t+" treść: "+zwrot.get(t));
                         }
                     }
                 } catch (Exception e){}

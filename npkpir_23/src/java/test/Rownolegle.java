@@ -47,7 +47,7 @@ public class Rownolegle extends Thread {
 //        if (l != null) {
             //konta.addAll(l);
 //            licz++;
-//            System.out.println("dodane "+p.getNazwapelna());
+//            error.E.s("dodane "+p.getNazwapelna());
 //        }
     }
       private static List<Integer> zrobliste() {

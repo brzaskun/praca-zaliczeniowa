@@ -180,7 +180,7 @@ public class VATZDView implements Serializable {
             wniosekVATZDEntity.setNaliczonyzmniejszenie(przetworznaliczony(pozycje,true));
             //wniosekVATZDEntity.setNaliczonyzwiekszenie(przetworznaliczony(pozycje,false));
             this.wniosekVATZDEntityList.add(wniosekVATZDEntity);
-            System.out.println(zalacznik);
+            error.E.s(zalacznik);
             Msg.dP();
         } catch (Exception e) {
             E.e(e);

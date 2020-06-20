@@ -226,7 +226,7 @@ public class ImportING_XML implements Serializable {
                     records.add(Arrays.asList(values));
                 }
             } catch (Exception e) {
-                System.out.println(error.E.e(e));
+                error.E.s(error.E.e(e));
             }
             int i = 0;
             int rozmiar = records.size();
@@ -283,9 +283,9 @@ public class ImportING_XML implements Serializable {
                     }
                     i++;
             }
-            System.out.println("");
+            error.E.s("");
         } catch (Exception ex) {
-            Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
         }
         zwrot.add(pn);
         zwrot.add(pobranefaktury);

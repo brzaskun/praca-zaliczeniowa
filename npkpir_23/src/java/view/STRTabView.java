@@ -829,9 +829,9 @@ public class STRTabView implements Serializable {
             try {
                 PdfSrodekTrwKarta.drukujSTRkartasrodka(wpisView, wybranysrodektrwalyPosiadane);
             } catch (DocumentException ex) {
-                Logger.getLogger(STRTabView.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(STRTabView.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
-                Logger.getLogger(STRTabView.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(STRTabView.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -841,9 +841,9 @@ public class STRTabView implements Serializable {
             try {
                 PdfSrodekTrwKarta.drukujSTRkartasrodka(wpisView, wybranysrodektrwalySprzedane);
             } catch (DocumentException ex) {
-                Logger.getLogger(STRTabView.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(STRTabView.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
-                Logger.getLogger(STRTabView.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(STRTabView.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

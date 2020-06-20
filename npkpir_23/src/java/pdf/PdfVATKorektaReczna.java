@@ -129,12 +129,12 @@ public class PdfVATKorektaReczna {
             
 
         } catch (FileNotFoundException ex){
-        Logger.getLogger(PdfVATKorektaReczna.class.getName()).log(Level.SEVERE, null, ex);
+        // Logger.getLogger(PdfVATKorektaReczna.class.getName()).log(Level.SEVERE, null, ex);
 
         } catch (DocumentException ex) {
-            Logger.getLogger(PdfVATKorektaReczna.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(PdfVATKorektaReczna.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(PdfVATKorektaReczna.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(PdfVATKorektaReczna.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }

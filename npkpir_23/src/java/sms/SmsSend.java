@@ -49,7 +49,7 @@ public class SmsSend {
             StatusResponse result = action.execute();
 
             for (MessageResponse status : result.getList() ) {
-                System.out.println(status.getNumber() + " " + status.getStatus());
+                error.E.s(status.getNumber() + " " + status.getStatus());
             }
         } catch (ClientException e) {
             E.e(e);
@@ -167,12 +167,12 @@ public class SmsSend {
 //            StatusResponse result = action.execute();
 //
 //            for (MessageResponse status : result.getList() ) {
-//                System.out.println(status.getNumber() + " " + status.getStatus());
-//                System.out.println(status.getError());
-//                System.out.println(status.getId());
-//                System.out.println(status.getIdx());
-//                System.out.println(status.getPoints());
-//                System.out.println(status.getStatus());
+//                error.E.s(status.getNumber() + " " + status.getStatus());
+//                error.E.s(status.getError());
+//                error.E.s(status.getId());
+//                error.E.s(status.getIdx());
+//                error.E.s(status.getPoints());
+//                error.E.s(status.getStatus());
 //            }
 //        } catch (ClientException e) {
 //            E.e(e);
@@ -181,7 +181,7 @@ public class SmsSend {
 //        }
         String var = "taxman@biz.pl";
         String sub = var.substring(0,var.indexOf("@"));
-        System.out.println(sub);
+        error.E.s(sub);
     }
     
     

@@ -59,7 +59,7 @@ public class InterpaperBankSantander implements Serializable {
             }
             NodeList nList = doc.getElementsByTagName("Ntry");
             List<ImportBankWiersz> pobranefaktury = new ArrayList<>();
-            System.out.println("----------------------------");
+            error.E.s("----------------------------");
             int len = nList.getLength();
                 for (int temp = 0; temp < len; temp++) {
                     Node nNode = nList.item(temp);
@@ -165,7 +165,7 @@ public static void main(String[] args) throws SAXException, IOException {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(fXmlFile);
             doc.getDocumentElement().normalize();
-            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+            error.E.s("Root element :" + doc.getDocumentElement().getNodeName());
             NodeList nList1 = doc.getElementsByTagName("account");
             String iban = pT(nList1.item(0), "iban");
             String waluta = pT(nList1.item(0), "currency");
@@ -175,9 +175,9 @@ public static void main(String[] args) throws SAXException, IOException {
             String datado = pT(nList1.item(0), "end");
             String bo = pT(nList1.item(0), "begin-value");
             String bz = pT(nList1.item(0), "end-value");
-            System.out.println("----------------------------");
+            error.E.s("----------------------------");
             nList1 = doc.getElementsByTagName("trn");
-            System.out.println("----------------------------");
+            error.E.s("----------------------------");
             int len = nList1.getLength();
                 for (int temp = 0; temp < len; temp++) {
                     Node nNode1 = nList1.item(temp);
@@ -185,21 +185,21 @@ public static void main(String[] args) throws SAXException, IOException {
                         try {
                             Element eElement = (Element) nNode1;
                             String elt = pT(nNode1, "trn-code") == null ? "brak" : pT(nNode1, "trn-code");
-                            System.out.println("trn-code : " + elt);
+                            error.E.s("trn-code : " + elt);
                             String elt1 = pT(nNode1, "value");
-                            System.out.println("value : " + elt1);
-                            System.out.println("data : " + pT(nNode1, "creat-date"));
-                            System.out.println("data waluty : " + pT(nNode1, "exe-date"));
-                            System.out.println("opis : " + pT(nNode1, "desc-base"));
+                            error.E.s("value : " + elt1);
+                            error.E.s("data : " + pT(nNode1, "creat-date"));
+                            error.E.s("data waluty : " + pT(nNode1, "exe-date"));
+                            error.E.s("opis : " + pT(nNode1, "desc-base"));
                             String elt3 = pE(nNode1, "desc-opt") == null ? "brak" : pT(nNode1, "desc-opt");
-                            System.out.println("odbiorca : " + elt3);
+                            error.E.s("odbiorca : " + elt3);
                         } catch (Exception e) {
                             E.e(e);
                         }
                     }
                 }
         } catch (ParserConfigurationException ex) {
-            Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

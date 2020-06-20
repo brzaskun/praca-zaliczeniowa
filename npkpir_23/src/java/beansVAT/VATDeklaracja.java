@@ -499,7 +499,7 @@ public class VATDeklaracja implements Serializable {
    public static void main(String[] args) {
        double i = 1+0.49499;
         //double j = Z.zUD(i);
-        //System.out.println("j "+j);
+        //error.E.s("j "+j);
    }
 
 //    private static SchemaEwidencjaSuma niezawiera(List<SchemaEwidencjaSuma> lista, SchemaEwidencja s) {

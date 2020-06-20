@@ -1057,7 +1057,7 @@ public class BilansWprowadzanieView implements Serializable {
         for (Iterator<WierszBO> it = zachowaneWiersze.iterator(); it.hasNext();) {
             WierszBO p = it.next();
             if (p.getKonto().getPelnynumer().equals("132-2")) {
-                System.out.println("");
+                error.E.s("");
             }
             if (p.getNowy0edycja1usun2Int()!=3) {
                 Wiersz wierszwdokumencie = niezawierategokonta(wiersze, p);

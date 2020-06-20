@@ -117,7 +117,7 @@ public class CechazapisuBean {
     public static Collection<? extends CechyzapisuPrzegladView.CechaStronaWiersza> pobierzpojedynczo(Wiersz r) {
         List<CechyzapisuPrzegladView.CechaStronaWiersza> lista = Collections.synchronizedList(new ArrayList<>());
         if (r.getIdwiersza() == 662115) {
-            System.out.println("");
+            error.E.s("");
         }
         if (r.getStronaWn() != null) {
             if (r.getStronaWn().getKonto().getBilansowewynikowe().equals("wynikowe") && r.getStronaWn().getCechazapisuLista() != null) {
@@ -171,7 +171,7 @@ public class CechazapisuBean {
     
     public static void main(String[] args) {
         ForkJoinPool commonPool = ForkJoinPool.commonPool();
-        System.out.println(commonPool.getParallelism());
+        //error.E.s(commonPool.getParallelism());
         Arrays.asList("a1", "a2", "b1", "c2", "c1")
     .stream()
     .filter(s -> {

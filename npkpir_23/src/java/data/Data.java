@@ -483,7 +483,7 @@ public class Data implements Serializable {
             Date date2 = format.parse(dateString2);
             return date1.compareTo(date2);
          } catch (ParseException ex) {
-            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
    }
@@ -494,7 +494,7 @@ public class Data implements Serializable {
             newXMLGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar();
             newXMLGregorianCalendar.setYear(Integer.parseInt(rok));
         } catch (DatatypeConfigurationException ex) {
-            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
         }
         return newXMLGregorianCalendar;
    }
@@ -505,7 +505,7 @@ public class Data implements Serializable {
             newXMLGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar();
             newXMLGregorianCalendar.setMonth(Integer.parseInt(mc));
         } catch (DatatypeConfigurationException ex) {
-            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
         }
         return newXMLGregorianCalendar;
    }
@@ -597,20 +597,20 @@ public class Data implements Serializable {
             Pattern p = Pattern.compile(wzor);//<-- compile( not Compile(
             Matcher m = p.matcher(termin);
             boolean find = m.find();
-            System.out.println(" s "+find);
+            error.E.s(" s "+find);
             m = p.matcher(dzis);
             find = m.find();
-            System.out.println(" s "+find);
+            error.E.s(" s "+find);
 //            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 //            
 //            Date date1 = format.parse(termin);
 //            Date date2 = format.parse(dzis);
 //            
 //            if (date1.compareTo(date2) <0) {
-//                System.out.println("red");
+//                error.E.s("red");
 //            }
         } catch (Exception ex) {
-            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
         }
 }
     
@@ -620,9 +620,9 @@ public class Data implements Serializable {
 //            String dzis = "2019-12-28";
 //            boolean zwrot = czyjestpo(termin, dzis);
 //            if (zwrot) {
-//                System.out.println("TRUE");
+//                error.E.s("TRUE");
 //            } else {
-//                System.out.println("FALSE");
+//                error.E.s("FALSE");
 //            }
 //        } catch (Exception ex) {
 //            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);

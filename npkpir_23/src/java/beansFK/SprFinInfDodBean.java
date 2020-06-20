@@ -122,7 +122,7 @@ public class SprFinInfDodBean {
             document.add(table);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
-            Logger.getLogger(SprFinInfDodBean.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(SprFinInfDodBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -136,7 +136,7 @@ public class SprFinInfDodBean {
             document.add(table);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
-            Logger.getLogger(SprFinInfDodBean.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(SprFinInfDodBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -151,7 +151,7 @@ public class SprFinInfDodBean {
             document.add(table);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
-            Logger.getLogger(SprFinInfDodBean.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(SprFinInfDodBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -165,7 +165,7 @@ public class SprFinInfDodBean {
             document.add(table);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
-            Logger.getLogger(SprFinInfDodBean.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(SprFinInfDodBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

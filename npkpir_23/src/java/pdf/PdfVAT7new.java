@@ -97,7 +97,7 @@ public class PdfVAT7new {
                 document.add(new Paragraph(new Phrase("Urząd Skarbowy: "+d.getSelected().getNazwaurzedu(), ft[1])));
                 document.add(new Paragraph(new Phrase("Kwota autoryzacyjna: "+d.getSelected().getKwotaautoryzacja(), ft[1])));
             } catch (DocumentException ex) {
-                Logger.getLogger(PdfVAT7new.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(PdfVAT7new.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             try {
@@ -124,7 +124,7 @@ public class PdfVAT7new {
                 int doo = d.getUpo().indexOf("</Potwierdzenie>");
                 document.add(new Paragraph(new Phrase("UPO: "+d.getUpo().substring(odo, doo), ft[1])));
             } catch (DocumentException ex) {
-                Logger.getLogger(PdfVAT7new.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(PdfVAT7new.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

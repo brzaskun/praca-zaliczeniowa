@@ -31,7 +31,7 @@ public class SprawozdanieFin2018Bean {
             naglowek.wariantSprawozdania = "1";
             naglowek.kodSprawozdania = pobierzkodsprawozdania();
         } catch (DatatypeConfigurationException ex) {
-            Logger.getLogger(SprawozdanieFin2018Bean.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(SprawozdanieFin2018Bean.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             return naglowek;
         }
@@ -65,7 +65,7 @@ public class SprawozdanieFin2018Bean {
             JednostkaInna.WprowadzenieDoSprawozdaniaFinansowego.P7 p7 = uzupelnijp7();
             wprowadzenie.p7 = p7;
         } catch (Exception ex) {
-            Logger.getLogger(SprawozdanieFin2018Bean.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(SprawozdanieFin2018Bean.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             return wprowadzenie;
         }
@@ -149,7 +149,7 @@ public class SprawozdanieFin2018Bean {
             zakres.dataOd = Data.dataoddo(okresod);
             zakres.dataDo = Data.dataoddo(okresdo);
         } catch (DatatypeConfigurationException ex) {
-            Logger.getLogger(SprawozdanieFin2018Bean.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(SprawozdanieFin2018Bean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return zakres;
     }

@@ -35,7 +35,7 @@ public class Ciasteczko {
             response.addCookie(cookie);
             //pw.println("Cookies created");
         } catch (Exception ex) {
-            Logger.getLogger(Ciasteczko.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Ciasteczko.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
                 pw.close();
         }

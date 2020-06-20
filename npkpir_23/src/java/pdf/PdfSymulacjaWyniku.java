@@ -119,7 +119,7 @@ public class PdfSymulacjaWyniku {
             table.setHeaderRows(3);
             table.setFooterRows(1);
         } catch (IOException ex) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         int i = 1;
         for (SaldoKonto rs : listakonta) {
@@ -161,7 +161,7 @@ public class PdfSymulacjaWyniku {
             table.addCell(ustawfrazeSpanFont(B.b("kwotaMa"), 0, 1, 7));
             table.setHeaderRows(1);
         } catch (IOException ex) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (StronaWiersza rs : stronywiersza) {
             table.addCell(ustawfrazeAlign("", "left", 7));
@@ -238,7 +238,7 @@ public class PdfSymulacjaWyniku {
             table.setHeaderRows(3);
             table.setFooterRows(1);
         } catch (IOException ex) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (SymulacjaWynikuView.PozycjeSymulacji rs : pozycjeObliczeniaPodatku) {
             table.addCell(ustawfrazeAlign(rs.getNazwa(), "left", 7));
@@ -267,7 +267,7 @@ public class PdfSymulacjaWyniku {
             table.setHeaderRows(3);
             table.setFooterRows(1);
         } catch (IOException ex) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (SymulacjaWynikuView.PozycjeSymulacji rs : pozycjeDoWyplaty) {
             table.addCell(ustawfrazeAlign(rs.getNazwa(), "left", 7));

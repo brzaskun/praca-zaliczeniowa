@@ -32,7 +32,7 @@ public class SprawozdanieFinOP2018Bean {
             naglowek.wariantSprawozdania = "1";
             naglowek.kodSprawozdania = pobierzkodsprawozdania();
         } catch (DatatypeConfigurationException ex) {
-            Logger.getLogger(SprawozdanieFinOP2018Bean.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(SprawozdanieFinOP2018Bean.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             return naglowek;
         }
@@ -65,7 +65,7 @@ public class SprawozdanieFinOP2018Bean {
             JednostkaOp.WprowadzenieDoSprawozdaniaFinansowegoJednostkaOp.P5 p5 = uzupelnijp5();
             wprowadzenie.p5 = p5;
         } catch (Exception ex) {
-            Logger.getLogger(SprawozdanieFinOP2018Bean.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(SprawozdanieFinOP2018Bean.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             return wprowadzenie;
         }
@@ -141,7 +141,7 @@ public class SprawozdanieFinOP2018Bean {
             zakres.dataOd = Data.dataoddo(okresod);
             zakres.dataDo = Data.dataoddo(okresdo);
         } catch (DatatypeConfigurationException ex) {
-            Logger.getLogger(SprawozdanieFinOP2018Bean.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(SprawozdanieFinOP2018Bean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return zakres;
     }

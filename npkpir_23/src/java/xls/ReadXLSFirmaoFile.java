@@ -91,7 +91,7 @@ public class ReadXLSFirmaoFile {
                         listafaktur.add(interpaperXLS);
                     }
                 } catch (Exception e){
-                    System.out.println("");
+                    error.E.s("");
                 }
             }
             file.close();
@@ -211,7 +211,7 @@ public class ReadXLSFirmaoFile {
 
    private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni, GUSView gUSView) {
 //       if (interpaperXLS.getKontrahent().equals("HST")) {
-//           System.out.println("");
+//           error.E.s("");
 //       }
        Klienci klient = null;
         try {

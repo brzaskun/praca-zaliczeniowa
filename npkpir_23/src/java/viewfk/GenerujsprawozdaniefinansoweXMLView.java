@@ -163,7 +163,7 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
             generuj10(bilans, rzis, sprFinKwotyInfDod);
         } else if (sprFinKwotyInfDod.getNrschemy().equals("1-2")) {
             generuj12(bilans, rzis, sprFinKwotyInfDod);
-            System.out.println("generuje 1-2");
+            error.E.s("generuje 1-2");
         } else {
             Msg.msg("e","Nieznany numer schemy, nie można wygenerować sprawozdania.");
         }
@@ -182,10 +182,10 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
             String polecenie = "wydrukXML(\""+sciezka+"\")";
             PrimeFaces.current().executeScript(polecenie);
             Msg.msg("Wygenerowano sprawozdanie finansowe");
-            //System.out.println("Wygenerowano sprawozdanie finansowe");
+            //error.E.s("Wygenerowano sprawozdanie finansowe");
         } catch (Exception e) {
             Msg.msg("e","Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
-            //System.out.println("Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
+            //error.E.s("Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
         }
     }
     
@@ -201,10 +201,10 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
             String polecenie = "wydrukXML(\""+sciezka+"\")";
             PrimeFaces.current().executeScript(polecenie);
             Msg.msg("Wygenerowano sprawozdanie finansowe");
-            //System.out.println("Wygenerowano sprawozdanie finansowe");
+            //error.E.s("Wygenerowano sprawozdanie finansowe");
         } catch (Exception e) {
             Msg.msg("e","Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
-            //System.out.println("Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
+            //error.E.s("Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
         }
     }
     
@@ -216,7 +216,7 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
             generujOP_10(bilans, rzis, sprFinKwotyInfDod);
         } else if (sprFinKwotyInfDod.getNrschemy().equals("1-2")) {
             generujOP_12(bilans, rzis, sprFinKwotyInfDod);
-            System.out.println("generuje 1-2");
+            error.E.s("generuje 1-2");
         } else {
             Msg.msg("e","Nieznany numer schemy, nie można wygenerować sprawozdania.");
         }
@@ -234,10 +234,10 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
             String polecenie = "wydrukXML(\""+sciezka+"\")";
             PrimeFaces.current().executeScript(polecenie);
             Msg.msg("Wygenerowano sprawozdanie finansowe");
-            //System.out.println("Wygenerowano sprawozdanie finansowe");
+            //error.E.s("Wygenerowano sprawozdanie finansowe");
         } catch (Exception e) {
             Msg.msg("e","Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
-            //System.out.println("Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
+            //error.E.s("Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
         }
     }
     
@@ -253,10 +253,10 @@ public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
             String polecenie = "wydrukXML(\""+sciezka+"\")";
             PrimeFaces.current().executeScript(polecenie);
             Msg.msg("Wygenerowano sprawozdanie finansowe");
-            //System.out.println("Wygenerowano sprawozdanie finansowe");
+            //error.E.s("Wygenerowano sprawozdanie finansowe");
         } catch (Exception e) {
             Msg.msg("e","Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
-            //System.out.println("Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
+            //error.E.s("Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
         }
     }
     

@@ -61,9 +61,9 @@ public class JPK_VAT2_Bean {
 //            Wysylka.encryptAES("james.xml.zip");
 //            Unmarshaller unmarshaller = context.createUnmarshaller();
 //            JPK person2 = (JPK) unmarshaller.unmarshal(new File("james.xml"));
-//            //System.out.println(person2);
-////            System.out.println(person2.getNazwisko());
-////            System.out.println(person2.getAdres());
+//            //error.E.s(person2);
+////            error.E.s(person2.getNazwisko());
+////            error.E.s(person2.getAdres());
 //
 ////          marshaller.marshal(person, new FileWriter("edyta.xml"));
 ////          marshaller.marshal(person, System.out);
@@ -441,7 +441,7 @@ public class JPK_VAT2_Bean {
             Method method = JPK.SprzedazWiersz.class.getMethod("setK25",BigDecimal.class);
             method.invoke(jpk, BigDecimal.TEN);
         } catch (Exception ex) {
-            Logger.getLogger(JPK_VAT2_Bean.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(JPK_VAT2_Bean.class.getName()).log(Level.SEVERE, null, ex);
         }
    }
 

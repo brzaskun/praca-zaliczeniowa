@@ -253,7 +253,7 @@ public class WpisView implements Serializable {
         czegosbrakuje = false;
         if (uzer.getPodatnik()==null || !uzer.getPodatnik().equals(podatnikObiekt)) {
             uzer.setPodatnik(podatnikObiekt);
-            //System.out.println("zmiana podatnika na "+podatnikObiekt.getPrintnazwa());
+            //error.E.s("zmiana podatnika na "+podatnikObiekt.getPrintnazwa());
         }
         if (!miesiacWpisu.equals("CR")) {
             uzer.setMiesiacWpisu(miesiacWpisu);
@@ -734,7 +734,7 @@ public class WpisView implements Serializable {
                 formaprawna = null;
             }
         } catch (Exception e){
-            System.out.println("blad WpisView pobierzformaprawna");
+            error.E.s("blad WpisView pobierzformaprawna");
         }
     }
 

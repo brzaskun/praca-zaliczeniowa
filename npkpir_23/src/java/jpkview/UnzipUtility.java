@@ -30,7 +30,7 @@ public class UnzipUtility {
              //Wysylka.zipfile(mainfilename,zipfilename);
              unzip(zipfilename, "unzipfolder");
          } catch (IOException ex) {
-             Logger.getLogger(UnzipUtility.class.getName()).log(Level.SEVERE, null, ex);
+             // Logger.getLogger(UnzipUtility.class.getName()).log(Level.SEVERE, null, ex);
          }
      }
     /**

@@ -18,12 +18,12 @@ public class Style {
 //        for (Podatnik p : resultList) {
 //            if (p.getFKpiatki() != null) {
 //                List<ParamCzworkiPiatki> listanowa = Collections.synchronizedList(new ArrayList<>());
-//                System.out.println(p.toString());
-//                System.out.println(p.getFKpiatki().size());
+//                error.E.s(p.toString());
+//                error.E.s(p.getFKpiatki().size());
 //                for (Parametr r : p.getFKpiatki()) {
 //                    ParamCzworkiPiatki pam = new ParamCzworkiPiatki(r);
 //                    listanowa.add(pam);
-//                    System.out.println(r.toString());
+//                    error.E.s(r.toString());
 //                }
 //                p.setParamCzworkiPiatki(listanowa);
 //                emH2.getTransaction().begin();
@@ -31,6 +31,6 @@ public class Style {
 //                emH2.getTransaction().commit();
 //            }
 //        }
-//        System.out.println("e");
+//        error.E.s("e");
 //    }
 }

@@ -73,7 +73,7 @@ public class ImportBean {
             E.e(e);
         }
         if (klient==null) {
-            System.out.println("");
+            error.E.s("");
         }
         return klient;
     }
@@ -99,7 +99,7 @@ public class ImportBean {
             E.e(e);
         }
         if (klient==null) {
-            System.out.println("");
+            error.E.s("");
         }
         return klient;
     }

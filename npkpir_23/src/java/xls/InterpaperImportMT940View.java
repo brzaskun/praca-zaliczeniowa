@@ -208,7 +208,7 @@ public class InterpaperImportMT940View implements Serializable {
                 }
             }
              if (interpaperXLS.getNrfaktury().equals("191009413")) {
-                System.out.println("");
+                error.E.s("");
             }
             String rodzajdk = "ZZ";
             if (rodzajdok.equals("sprzedaż")) {
@@ -720,10 +720,10 @@ private void przesuniecie(Dokfk nd, EVatwpisFK eVatwpisFK) {
                     //String[] values = line.split(":");
                     //records.add(Arrays.asList(values));
                     records.add(line);
-                    //System.out.println(line);
+                    //error.E.s(line);
                     String nrkonta = pobierzdane(opis,line);
                     if (nrkonta!=null && nrkonta.startsWith("konto")) {
-                        System.out.println(opis.toString());
+                        error.E.s(opis.toString());
                         opis = new ArrayList();
                     }
                 }
@@ -733,7 +733,7 @@ private void przesuniecie(Dokfk nd, EVatwpisFK eVatwpisFK) {
 //            if (!document.isEncrypted()) {
 //                PDFTextStripper stripper = new PDFTextStripper();
 //                String text = stripper.getText(document);
-//                System.out.println("Text:" + text);
+//                error.E.s("Text:" + text);
 //            }
 //            document.close();
         } catch (Exception e) {
@@ -748,29 +748,29 @@ private void przesuniecie(Dokfk nd, EVatwpisFK eVatwpisFK) {
                if (linia.startsWith(":25:/")) {
                     String konto = linia.substring(5);
                     zwrot = konto;
-                    System.out.println(zwrot);
+                    error.E.s(zwrot);
                }
                if (linia.startsWith(":28C:")) {
                     String nrwyciagu = linia.substring(5);
                     zwrot = nrwyciagu;
-                    System.out.println(zwrot);
+                    error.E.s(zwrot);
                }
                if (linia.startsWith(":60F:C")) {
                     String data = linia.substring(6,12);
                     zwrot = data;
-                    System.out.println(zwrot);
+                    error.E.s(zwrot);
                     String waluta = linia.substring(12,15);
                     zwrot = waluta;
-                    System.out.println(zwrot);
+                    error.E.s(zwrot);
                     String saldo = linia.substring(15);
                     zwrot = saldo;
-                    System.out.println(saldo);
+                    error.E.s(saldo);
                }
                if (linia.startsWith(":61:")) {
-                    System.out.println("-----------------------------------");
+                    error.E.s("-----------------------------------");
                     String data = linia.substring(4,10);
                     zwrot = data;
-                    System.out.println(zwrot);
+                    error.E.s(zwrot);
                     int indexofD = linia.indexOf("D")+1;
                     int indexofS = linia.indexOf("S");
                     int indexofC = linia.indexOf("C")+1;
@@ -778,12 +778,12 @@ private void przesuniecie(Dokfk nd, EVatwpisFK eVatwpisFK) {
                         String kwotaD = linia.substring(indexofD, indexofS);
                         kwotaD = kwotaD.replace(",", ".");
                         zwrot = kwotaD;
-                        System.out.println(zwrot);
+                        error.E.s(zwrot);
                     } else if (indexofC>0) {
                         String kwotaC = linia.substring(indexofC, indexofS);
                         kwotaC = kwotaC.replace(",", ".");
                         zwrot = kwotaC;
-                        System.out.println("-"+zwrot);
+                        error.E.s("-"+zwrot);
                     }
                     
                     
@@ -791,27 +791,27 @@ private void przesuniecie(Dokfk nd, EVatwpisFK eVatwpisFK) {
                if (linia.startsWith(":86:020~")) {
                    String rodzaj = "przelew obcy przychodzący i wychodzący";
                    zwrot = rodzaj;
-                   System.out.println(zwrot);
+                   error.E.s(zwrot);
                } else if (linia.startsWith(":86:034~")) {
                    String rodzaj = "przelew międzybankowy :konto własne przychodzący";
                    zwrot = rodzaj;
-                   System.out.println(zwrot);
+                   error.E.s(zwrot);
                } else if (linia.startsWith(":86:076~")) {
                    String rodzaj = "przelew międzybankowy :konto własne wychodzący";
                    zwrot = rodzaj;
-                   System.out.println(zwrot);
+                   error.E.s(zwrot);
                } else if (linia.startsWith(":86:094~")) {
                    String rodzaj = "prowizja bankowa";
                    zwrot = rodzaj;
-                   System.out.println(zwrot);
+                   error.E.s(zwrot);
                } else if (linia.startsWith(":86:099~")) {
                    String rodzaj = "prowizja międzybankowy na prowizje konto własne";
                    zwrot = rodzaj;
-                   System.out.println(zwrot);
+                   error.E.s(zwrot);
                } else if (linia.startsWith(":86:020~")) {
                    String rodzaj = "przelew wychodzący";
                    zwrot = rodzaj;
-                   System.out.println(zwrot);
+                   error.E.s(zwrot);
                } 
                
                if (linia.startsWith("~20")||linia.startsWith("~21")) {
@@ -835,19 +835,19 @@ private void przesuniecie(Dokfk nd, EVatwpisFK eVatwpisFK) {
                }
                if (linia.contains("~32") && linia.length()>6) {
                    zwrot = linia.substring(linia.indexOf("~32")+3);
-                   System.out.println(zwrot);
+                   error.E.s(zwrot);
                }
                if (linia.startsWith("~33") && linia.length()>6) {
                    zwrot = linia.substring(3);
-                   System.out.println(zwrot);
+                   error.E.s(zwrot);
                }
                if (linia.startsWith("~34") && linia.length()>6) {
                    zwrot = linia.substring(3);
-                   System.out.println(zwrot);
+                   error.E.s(zwrot);
                }
                if (linia.startsWith("~38")) {
                    zwrot = "konto: "+linia.substring(2,28);
-                   System.out.println("konto: "+zwrot);
+                   error.E.s("konto: "+zwrot);
                }
                
                

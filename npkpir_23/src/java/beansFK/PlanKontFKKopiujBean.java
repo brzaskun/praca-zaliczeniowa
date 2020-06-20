@@ -54,7 +54,7 @@ public class PlanKontFKKopiujBean {
             p.czyscPozycje();
         } catch (Exception e) {
             E.e(e);
-            System.out.println("");
+            error.E.s("");
         }
     }
 
@@ -63,7 +63,7 @@ public class PlanKontFKKopiujBean {
         for (Iterator<Konto> it= wykazkont.iterator(); it.hasNext();) {
             Konto p = it.next();
             if (biezacylevel==2) {
-                System.out.println("");
+                error.E.s("");
             }
             if (p.getLevel() == biezacylevel) {
                 try {
@@ -219,7 +219,7 @@ public class PlanKontFKKopiujBean {
 //                try {
 //                    pozycjaRZiSDAO.dodaj(r);
 //                } catch (Exception e) {
-//                    System.out.println("Blad " + e.getStackTrace()[0].toString());
+//                    error.E.s("Blad " + e.getStackTrace()[0].toString());
 //
 //                }
                 macierzyste.add(r);

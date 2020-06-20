@@ -193,7 +193,7 @@ public class ImportSantander_CSV implements Serializable {
                     records.add(Arrays.asList(values));
                 }
             } catch (Exception e) {
-                System.out.println(E.e(e));
+                error.E.s(E.e(e));
             }
             int i = 0;
             List<ImportBankWiersz> listaswierszy = new ArrayList<>();
@@ -212,7 +212,7 @@ public class ImportSantander_CSV implements Serializable {
                     String wyciagbz = baza.get(12);
                     String wyciagobrotywn = baza.get(10);
                     String wyciagobrotyma = baza.get(11);
-                    System.out.println("");
+                    error.E.s("");
                 } else if (i==1) {
                     String wyciagbo = baza.get(12);
                 } else {
@@ -234,9 +234,9 @@ public class ImportSantander_CSV implements Serializable {
                 }
                 i++;
             }
-            System.out.println("");
+            error.E.s("");
         } catch (Exception ex) {
-            Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -2087,10 +2087,10 @@ public class PlanKontView implements Serializable {
                 }
             }
             Msg.dP();
-            System.out.println("koniec implementujwmma0mn1ma0Wszystkie");
+            error.E.s("koniec implementujwmma0mn1ma0Wszystkie");
         } catch (Exception e) {
             Msg.dPe();
-            System.out.println("BLAD implementujwmma0mn1ma0Wszystkie");
+            error.E.s("BLAD implementujwmma0mn1ma0Wszystkie");
         }
     }    
 

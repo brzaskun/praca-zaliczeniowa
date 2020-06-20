@@ -56,7 +56,7 @@ public class PozycjaRZiSFKBean {
      public static void wyluskajNieprzyporzadkowaneAnalitykiBilans(List<Konto> pobraneKontaSyntetyczne, List<Konto> wykazkont, KontoDAOfk kontoDAO, Podatnik podatnik, boolean aktywa0pasywa1, Integer rok) {
         for (Konto p : pobraneKontaSyntetyczne) {
             if (p.getPelnynumer().equals("010")) {
-                System.out.println("");
+                error.E.s("");
             }
             if (p.getPozycjaWn()!=null || p.getPozycjaMa()!=null) {
                 if (p.getZwyklerozrachszczegolne().equals("szczególne") && ((p.getPozycjaWn() != null || p.getPozycjaMa() != null))) {
@@ -249,7 +249,7 @@ public class PozycjaRZiSFKBean {
         String strona = aktywa0pasywa1 ? "1" : "0";
         List<Konto> kontokwotalist = Collections.synchronizedList(new ArrayList<>());
         if (pozycja.getPozycjaString().equals("A.I")) {
-            System.out.println("");
+            error.E.s("");
         }
         for (Konto p : lista) {
             try {
@@ -429,9 +429,9 @@ public class PozycjaRZiSFKBean {
             double kwotaWn = p.getWnma().equals("Wn") ? p.getKwotaPLN(): 0.0;
             double kwotaMa = p.getWnma().equals("Ma") ? p.getKwotaPLN(): 0.0;
             try {
-                    //                System.out.println(p.getKonto().getPelnynumer());
+                    //                error.E.s(p.getKonto().getPelnynumer());
                     //                if (p.getKonto().getPelnynumer().equals("220-2")) {
-                    //                    System.out.println("PozycjaRZiSFKBean.sumujObrotyNaKontach");
+                    //                    error.E.s("PozycjaRZiSFKBean.sumujObrotyNaKontach");
                     //                }
                     Konto k = plankont.get(plankont.indexOf(p.getKonto()));
                     k.setObrotyWn(k.getObrotyWn()+kwotaWn);
@@ -444,7 +444,7 @@ public class PozycjaRZiSFKBean {
         for (Konto r : plankont) {
             if (r.getBilansowewynikowe().equals("bilansowe")) {
 //                if (r.getPelnynumer().equals("201-2-8")) {
-//                    System.out.println("d");
+//                    error.E.s("d");
 //                }
 //                if (r.getObrotyWn() == 0 && r.getObrotyMa() == 0) {
 //                    r.setSaldoWn(r.getBoWn());

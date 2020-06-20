@@ -174,7 +174,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
 //            sumazapisow();
 //            sumazapisowpln();
 //            //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
-//            System.out.println("odnalazlem pobierzZapisyZmianaWaluty()");
+//            error.E.s("odnalazlem pobierzZapisyZmianaWaluty()");
 //    }
 //     
 //    public void pobierzZapisyNaKoncieNodeUnselect(NodeUnselectEvent event) {
@@ -235,7 +235,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
 //            sumazapisow();
 //            sumazapisowpln();
 //            //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
-//            System.out.println("odnalazlem pobierzZapisyNaKoncie()");
+//            error.E.s("odnalazlem pobierzZapisyNaKoncie()");
 //        }
 //    }
 //    public void sumazapisowtotal() {

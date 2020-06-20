@@ -46,9 +46,9 @@ public class ImportCSVEbay {
 //            Type type = new TypeToken<HashMap<String, FakturaCis>>() {}.getType();
 //            Map<String, FakturaCis> map = gson.fromJson(bufferedReader, type);
 //            for (FakturaCis data : map.values()) {
-//                System.out.println(data);
+//                error.E.s(data);
 //            }
-//            System.out.println("");
+//            error.E.s("");
 //        } catch (Exception e) {
 //            E.e(e);
 //        }

@@ -34,7 +34,7 @@ public class RSACrypto {
             
             c.init(Cipher.WRAP_MODE, keyPair.getPublic());
             byte[] result2 = c.wrap(sessionKey);
-            System.out.println("blocksize "+c.getBlockSize());
+            error.E.s("blocksize "+c.getBlockSize());
             
             c.init(Cipher.UNWRAP_MODE, keyPair.getPrivate());
             SecretKey sessionKey1 = (SecretKey) c.unwrap(result1, "AES",
@@ -43,16 +43,16 @@ public class RSACrypto {
             c.init(Cipher.DECRYPT_MODE, keyPair.getPrivate());
             SecretKey sessionKey2 = new SecretKeySpec(c.doFinal(result2), "AES");
             
-            System.out.println(Arrays.equals(sessionKey1.getEncoded(),
+            error.E.s(Arrays.equals(sessionKey1.getEncoded(),
                     sessionKey2.getEncoded()));
             // encode data on your side using BASE64
             byte[]   bytesEncoded = Base64.getEncoder().encode("kijhygtrfdcvbsge".getBytes());
-            System.out.println("ecncoded value is " + new String(bytesEncoded ));
+            error.E.s("ecncoded value is " + new String(bytesEncoded ));
 
             // Decode data on other side, by processing encoded data
             byte[] valueDecoded= Base64.getDecoder().decode("a2lqaHlndHJmZGN2YnNnZQ==".getBytes());
         } catch (Exception ex) {
-            Logger.getLogger(RSACrypto.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(RSACrypto.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

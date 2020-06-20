@@ -238,8 +238,8 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
                 }
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wynikfinansowy")+" #"+String.valueOf(i), wynikfinansowyudzial));
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("nkup")+" #"+String.valueOf(i), Z.z(roznicadlankup-wynikfinansowyudzial)));
-                System.out.println("roznicadlankup "+roznicadlankup);
-                System.out.println("podstawa "+podstawaopodatkowania);
+                error.E.s("roznicadlankup "+roznicadlankup);
+                error.E.s("podstawa "+podstawaopodatkowania);
                 podstawaopodatkowania = podstawaopodatkowania < 0.0 ? 0.0 : Z.z0(podstawaopodatkowania);
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("podstawaopodatkowania")+" #"+String.valueOf(i), podstawaopodatkowania));
                 double podatek = Z.z0(podstawaopodatkowania*0.19);
@@ -399,7 +399,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
             s.setWynikfinansowy(pobrane.getWartosc());
             //i += 1;
             pobrane = pozycjeObliczeniaPodatkuPoprzedniemiesiace.get(i++);
-            System.out.println("nazwa "+pobrane.getNazwa());
+            error.E.s("nazwa "+pobrane.getNazwa());
             s.setNkup(pobrane.getWartosc());
             pobrane = pozycjeObliczeniaPodatkuPoprzedniemiesiace.get(i++);
             s.setWynikpodatkowy(pobrane.getWartosc());

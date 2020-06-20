@@ -57,7 +57,7 @@ public class XLSBilansView implements Serializable{
             // Inform JSF that response is completed and it thus doesn't have to navigate.
             facesContext.responseComplete();
         } catch (Exception ex) {
-            Logger.getLogger(XLSBilansView.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(XLSBilansView.class.getName()).log(Level.SEVERE, null, ex);
             
         }
     }

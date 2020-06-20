@@ -51,7 +51,7 @@ public class Watek implements Serializable {
 //    public static void main(String[] args) {
 //        List lista = new ArrayList();
 //        if (lista.isEmpty()) {
-//            System.out.println("pusta lista");
+//            error.E.s("pusta lista");
 //        }
 //    }
 }

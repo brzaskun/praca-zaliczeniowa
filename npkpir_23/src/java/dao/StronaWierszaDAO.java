@@ -290,8 +290,8 @@ public class StronaWierszaDAO extends DAO implements Serializable {
     public static void main(String[] args) {
         String kopnto = "202-2-5";
         int ind = kopnto.lastIndexOf("-");
-        System.out.println(""+ind);
+        error.E.s(""+ind);
         kopnto = kopnto.substring(0,ind);
-        System.out.println(""+kopnto);
+        error.E.s(""+kopnto);
     }
 }

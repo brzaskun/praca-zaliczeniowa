@@ -57,7 +57,7 @@ public class PdfFakturySporzadzone {
             try {
                 helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
             } catch (IOException ex) {
-                Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
             }
             document.setPageSize(PageSize.A4);
             PdfPTable table = new PdfPTable(14);

@@ -89,14 +89,14 @@ public class Z implements Serializable {
 //        double kwota = 123.64;
 //        double m = Math.round(kwota);
 //        m /= 1;
-//        System.out.println(m);
+//        error.E.s(m);
 //    }
     
 //     public static void main(String[] args) {
 //         BigDecimal b = new BigDecimal(1000);
 //         Integer c = 500;
 //         int suma = Z.zUD((int) c +b.intValue());
-//         System.out.println("s "+suma);
+//         error.E.s("s "+suma);
 //    }
      
       public static void main(String[] args) {
@@ -104,8 +104,8 @@ public class Z implements Serializable {
         //kurswyliczony /= 10000;
         String va= "0,19".replace(",", ".");
         double dab = Double.valueOf(va);
-         //System.out.println(dab);
-         System.out.println(zUD(12.51));
+         //error.E.s(dab);
+         error.E.s(zUD(12.51));
 
     }
 

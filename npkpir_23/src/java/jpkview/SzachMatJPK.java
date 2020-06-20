@@ -178,7 +178,7 @@ public class SzachMatJPK {
             c.init(Cipher.DECRYPT_MODE, key, iv);
             byte[] original = c.doFinal(Base64.getDecoder().decode(ciphertext));
             Files.write(Paths.get("odkodowana.zip"), original);
-            //System.out.println("decrypt: "+new String(original));
+            //error.E.s("decrypt: "+new String(original));
         } catch (Exception ex) {
         }
     }
@@ -192,7 +192,7 @@ public class SzachMatJPK {
             c.init(Cipher.DECRYPT_MODE, key, iv);
             byte[] original = c.doFinal(ciphertext);
             Files.write(Paths.get(dir+"odkodowana.zip"), original);
-            //System.out.println("decrypt: "+new String(original));
+            //error.E.s("decrypt: "+new String(original));
         } catch (Exception ex) {
         }
     }

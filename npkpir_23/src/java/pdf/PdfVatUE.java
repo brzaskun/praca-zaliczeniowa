@@ -239,7 +239,7 @@ public class PdfVatUE {
     //    }
     //
     //    public static void main(String[] args) throws FileNotFoundException, DocumentException, IOException {
-    //        System.out.println("Drukuje Vat-UE sumowanie");
+    //        error.E.s("Drukuje Vat-UE sumowanie");
     //        Document document = new Document();
     //        PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("VATUE-kadrzyński.pdf"));
     //        writer.setInitialLeading(16);
@@ -308,7 +308,7 @@ public class PdfVatUE {
     ////            Date date = Calendar.getInstance().getTime();
     ////            DateFormat formatt = new SimpleDateFormat("dd/MM/yyyy");
     ////            String today = formatt.format(date);
-    ////            System.out.println("Today : " + today);
+    ////            error.E.s("Today : " + today);
     ////            Paragraph miziu = new Paragraph(new Phrase("Szczecin, dnia "+today,font));
     ////            miziu.setAlignment(Element.ALIGN_RIGHT);
     ////            miziu.setLeading(50);

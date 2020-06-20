@@ -46,10 +46,10 @@ public class ConnectionJDBC {
             List<String> list = Collections.synchronizedList(new ArrayList<>());
             while(result.next()){
                 list.add(result.getString("nip"));
-                System.out.println(result.getString("nip"));
+                error.E.s(result.getString("nip"));
             }
         } catch (Exception ex) {
-             System.out.println(E.e(ex));
+             error.E.s(E.e(ex));
         }
     }
 }

@@ -109,12 +109,12 @@ public class SprFinKwotyInfDodView  implements Serializable{
     
     private void ustawscheme() {
         String datasporzadzenia = sprFinKwotyInfDod.getDatasporzadzenia();
-        //System.out.println(""+datasporzadzenia);
+        //error.E.s(""+datasporzadzenia);
         sprFinKwotyInfDod.setNrschemy("1-0");
         if (data.Data.czyjestpo("2019-09-01",datasporzadzenia)) {
             sprFinKwotyInfDod.setNrschemy("1-2");
         }
-        //System.out.println(sprFinKwotyInfDod.getNrschemy());
+        //error.E.s(sprFinKwotyInfDod.getNrschemy());
     }
     
     //NIE ROBIC BAZE64 BO NIE BEDZIE DZIALAC
@@ -192,14 +192,14 @@ public class SprFinKwotyInfDodView  implements Serializable{
             String f = "pokazwydruk('"+nazwa+"');";
             PrimeFaces.current().executeScript(f);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 outStream.close();
             } catch (IOException ex) {
-                Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -214,14 +214,14 @@ public class SprFinKwotyInfDodView  implements Serializable{
             String f = "pokazwydruk('"+nazwa+"');";
             PrimeFaces.current().executeScript(f);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 outStream.close();
             } catch (IOException ex) {
-                Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -237,14 +237,14 @@ public class SprFinKwotyInfDodView  implements Serializable{
             String f = "pokazwydrukpdf('"+nazwa+"');";//jest pdf ale to pokazuje bez dodawanai rozszerzenia
             PrimeFaces.current().executeScript(f);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 outStream.close();
             } catch (IOException ex) {
-                Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(SprFinKwotyInfDodView.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

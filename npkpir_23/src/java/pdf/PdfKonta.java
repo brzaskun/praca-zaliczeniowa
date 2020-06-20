@@ -191,7 +191,7 @@ public class PdfKonta {
             table.addCell(ustawfraze(B.b("saldoMa"), 0, 1));
             table.setHeaderRows(1);
         } catch (Exception ex) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
             table.addCell(ustawfrazeAlign(B.b("suma"), "left", 8));
             table.addCell(ustawfrazeAlign(rs.getBoWn()!= 0 ? formatujLiczba(rs.getBoWn()) : "", "right", 8));
@@ -228,7 +228,7 @@ public class PdfKonta {
             table.addCell(ustawfraze(B.b("saldoMa"), 0, 1));
             table.setHeaderRows(1);
         } catch (Exception ex) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8, 20f));
             table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 8));
@@ -273,7 +273,7 @@ public class PdfKonta {
 
             table.setHeaderRows(1);
         } catch (IOException ex) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (StronaWiersza rs : stronywiersza) {
             table.addCell(ustawfrazeAlign(rs.getDokfkS(), "left", 6, 18f));
@@ -352,7 +352,7 @@ public class PdfKonta {
             table.setHeaderRows(3);
             table.setFooterRows(1);
         } catch (IOException ex) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         int i = 1;
         Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
@@ -408,7 +408,7 @@ public class PdfKonta {
             table.setHeaderRows(3);
             table.setFooterRows(1);
         } catch (IOException ex) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         int i = 1;
         Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
@@ -550,7 +550,7 @@ public class PdfKonta {
             }
             document.close();
         } catch (Exception ex) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -589,7 +589,7 @@ public class PdfKonta {
                 table.addCell(ustawfrazeSpanFont("kwota Ma PLN", 0, 1, 8));
                 table.setHeaderRows(1);
             } catch (IOException ex) {
-                Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
             }
             int limit = 2;
             for (int i = 0; i < limit; i++) {

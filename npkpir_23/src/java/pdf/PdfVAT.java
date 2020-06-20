@@ -83,7 +83,7 @@ public class PdfVAT {
                     try {
                         helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
                     } catch (IOException ex) {
-                        Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+                        // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     Font font = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
                     font = new Font(helvetica, 8);
@@ -220,7 +220,7 @@ pdffk.PdfMain.dodajQR(nazwapliku);
                     try {
                         helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
                     } catch (IOException ex) {
-                        Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+                        // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     Font font = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
                     font = new Font(helvetica, 8);
@@ -421,7 +421,7 @@ pdffk.PdfMain.dodajQR(nazwapliku);
                 try {
                     helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
                 } catch (IOException ex) {
-                    Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+                    // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 Font font = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
                 //    Chunk id = new Chunk("Wielka linijka do wklejenia. Chunk", font);

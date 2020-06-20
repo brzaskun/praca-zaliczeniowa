@@ -21,7 +21,7 @@ public class FacesContext_zamiast_ManagedProperty {
             FacesContext context = FacesContext.getCurrentInstance();
             WpisView bean = context.getApplication().evaluateExpressionGet(context, "#{WpisView}", WpisView.class);
         } catch (Exception ex) {
-            Logger.getLogger(SrodekTrw.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(SrodekTrw.class.getName()).log(Level.SEVERE, null, ex);
         }
         return zwrot;
     }

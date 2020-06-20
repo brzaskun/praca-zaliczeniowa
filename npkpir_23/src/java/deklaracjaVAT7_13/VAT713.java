@@ -76,7 +76,7 @@ public class VAT713 implements Serializable{
 //        DaneAutoryzujace daneAutoryzujace = new DaneAutoryzujace();
 //        wiersz = wstep.getWestep()+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+pouczenie.getPouczenie()
 //                +oswiadczenie.getOswiadczenie()+zalacznikVATZD.getZalacznikVATZD()+daneAutoryzujace.getDaneAutoryzujace();
-//        System.out.println(wiersz);
+//        error.E.s(wiersz);
 //        FileWriter fileWriter = null;
 //        try {
 //            File newTextFile = Plik.plik("C:/uslugi/testvat1.xml");

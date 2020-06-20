@@ -27,7 +27,7 @@ public class KontoCompare implements Serializable {
 //          List<Konto> listazbazy = findAllKontos();
 //          Collections.sort(listazbazy, new KontonumerComparator());
 //          for (Konto p : listazbazy) {
-//              System.out.println(p.getPelnynumer());
+//              error.E.s(p.getPelnynumer());
 //          }
 //      }
     

@@ -412,7 +412,7 @@ public class MiejscePrzychodowView  implements Serializable{
     public static void main(String[] args) {
          String data = "brzaskun@o2.pl";
          String regex = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
-         System.out.println(data.matches(regex));
+         error.E.s(data.matches(regex));
     }
     
 }

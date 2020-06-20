@@ -170,8 +170,8 @@ public class Kwartaly implements Serializable{
         String miesiac = "04";
         int oilezwiekszyc = 5;
         String[] nowedane = zwiekszkwartal(rok, miesiac, oilezwiekszyc);
-        System.out.println("rok "+nowedane[0]);
-        System.out.println("mc "+nowedane[1]);
+        error.E.s("rok "+nowedane[0]);
+        error.E.s("mc "+nowedane[1]);
     }
      
             

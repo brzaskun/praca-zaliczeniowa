@@ -33,12 +33,12 @@ public class SrodekTrwcomparatorData implements Comparator<STRtabela>{
         try {
              datao1date = formatter.parse(datao1);
         } catch (ParseException ex) {
-            Logger.getLogger(Dokcomparator.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Dokcomparator.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             datao2date = formatter.parse(datao2);
         } catch (ParseException ex) {
-            Logger.getLogger(Dokcomparator.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Dokcomparator.class.getName()).log(Level.SEVERE, null, ex);
         }
         return (datao1date.before(datao2date) ? 1 : (datao1date.equals(datao2date) ? 0 : -1));
     }

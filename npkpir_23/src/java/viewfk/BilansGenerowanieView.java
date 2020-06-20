@@ -907,7 +907,7 @@ public class BilansGenerowanieView implements Serializable {
 //            for (Iterator<StronaWiersza> it = new ReverseIterator<>(zapisy).iterator(); it.hasNext();) {
 //                StronaWiersza t = it.next();
 //                if (t.getKonto().getPelnynumer().equals("201-2-2")){
-//                    System.out.println("");
+//                    error.E.s("");
 //                }
 //                if (saldopln>0.0) {
 //                    if (t.getSymbolWalutBOiSW().equals("PLN") && t.isWn() && t.getKwota()>0.0) {

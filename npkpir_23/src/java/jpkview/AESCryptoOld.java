@@ -38,7 +38,7 @@ public class AESCryptoOld {
             Object[] zwrot = encryptKoniec(text, secretKey);
             decrypt(secretKey, (byte[])zwrot[0], (byte[])zwrot[1]);
         } catch (Exception ex) {
-            Logger.getLogger(AESCryptoOld.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(AESCryptoOld.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -67,7 +67,7 @@ public class AESCryptoOld {
         cipher.init(Cipher.ENCRYPT_MODE, skey);
         AlgorithmParameters params = cipher.getParameters();
         byte[] ivBytes = params.getParameterSpec(IvParameterSpec.class).getIV();
-        System.out.println("iv size "+ivBytes.length);
+        error.E.s("iv size "+ivBytes.length);
         byte[] encryptedTextBytes = Base64.getEncoder().encode(cipher.doFinal(text.getBytes("UTF-8")));
         byte[] ivencoded = Base64.getEncoder().encode(ivBytes);
         Object[] zwrot = new Object[2];

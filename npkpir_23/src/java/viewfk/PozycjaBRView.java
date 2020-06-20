@@ -343,7 +343,7 @@ public class PozycjaBRView implements Serializable {
             List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaKwotaBezPotomkow(wpisView);
 //            for (Konto p : plankont) {
 //                if (p.getPelnynumer().equals("220-2")) {
-//                    System.out.println("");
+//                    error.E.s("");
 //                }
 //            }
             Konto kontowyniku = kontoDAO.findKonto860(wpisView);

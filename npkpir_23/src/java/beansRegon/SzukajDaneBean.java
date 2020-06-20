@@ -72,7 +72,7 @@ public class SzukajDaneBean {
      
      public static Klienci znajdzdaneregonAutomat(String nip, GUSView gUSView) {
         if (nip.equals("9930282842")) {
-            System.out.println("");
+            error.E.s("");
         }
         Klienci selected = new Klienci();
         try {

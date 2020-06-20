@@ -183,7 +183,7 @@ public class SrodkiTrwaleView implements Serializable {
 //            listaplanum.add(Z.z(odp));
 //            nar = Z.z(nar + odp);
 //        }
-//        System.out.println("");
+//        error.E.s("");
 //    }
     
     

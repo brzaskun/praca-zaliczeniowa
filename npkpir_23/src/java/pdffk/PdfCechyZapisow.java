@@ -100,7 +100,7 @@ public class PdfCechyZapisow {
                 Msg.msg("Wydrukowano zestawienie");
             } catch (Exception e) {
                 String el = E.e(e);
-                System.out.println(el);
+                error.E.s(el);
                 Msg.msg("e","Wystąpił błąd podczas generowanai wydruku "+el);
             }
         } else {
@@ -209,7 +209,7 @@ public class PdfCechyZapisow {
                 table.addCell(ustawfrazeAlign(formatujWaluta(rs.getBrutto()), "right",8));
             }
         } catch (Exception ex) {
-            Logger.getLogger(PdfCechyZapisow.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(PdfCechyZapisow.class.getName()).log(Level.SEVERE, null, ex);
         }
         return table;
     }

@@ -214,7 +214,7 @@ public class FakturaBean {
             String dzien = "2015-09-31";
             DateTime dt = new DateTime(dzien);
         } catch (Exception ex) {
-            Logger.getLogger(FakturaBean.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(FakturaBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -494,7 +494,7 @@ public class FakturaBean {
 //        double stawka = 0.23;
 //        netto = Z.z(netto);
 //        double vat = Z.z(netto*stawka);
-//        System.out.println(vat);
+//        error.E.s(vat);
 //    }
 
     public static void dodajtabelenbp(Faktura selected, TabelanbpDAO tabelanbpDAO) {

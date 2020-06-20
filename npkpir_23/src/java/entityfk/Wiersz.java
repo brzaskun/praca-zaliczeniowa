@@ -483,12 +483,12 @@ public class Wiersz implements Serializable {
 //        Wiersz b = new Wiersz();
 //        b.setIdporzadkowy(4);
 //        if (a==b) {
-//            System.out.println("pasuje ==");
+//            error.E.s("pasuje ==");
 //        } else 
 //        if (a.equals(b)) {
-//            System.out.println("pasuje equals");
+//            error.E.s("pasuje equals");
 //        } else {
-//            System.out.println("rozne");
+//            error.E.s("rozne");
 //        }
     }
     

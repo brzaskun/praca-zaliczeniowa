@@ -153,7 +153,7 @@ public class PdfPkpir {
             table.setHeaderRows(5);
             table.setFooterRows(1);
         } catch (DocumentException ex) {
-            Logger.getLogger(PdfPkpir.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(PdfPkpir.class.getName()).log(Level.SEVERE, null, ex);
         }
         return table;
     }

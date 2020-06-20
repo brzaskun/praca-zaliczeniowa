@@ -61,7 +61,7 @@ public class SaldoAnalitykaBean  {
             }
         }
         for (StronaWiersza t : wierszenieuzupelnione) {
-            System.out.println("W tym dokumencie nie ma uzupełnionych kont: " + t.getDokfkS());
+            error.E.s("W tym dokumencie nie ma uzupełnionych kont: " + t.getDokfkS());
         }
         listaSaldoKonto.addAll(przygotowanalista.values());
         for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();) {

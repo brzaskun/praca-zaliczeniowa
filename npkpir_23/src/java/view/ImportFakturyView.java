@@ -176,7 +176,7 @@ public class ImportFakturyView  implements Serializable {
            Unmarshaller unmarshaller = context.createUnmarshaller();
            zwrot = (jpkfa.JPK) unmarshaller.unmarshal(is);
        } catch (Exception ex) {
-           System.out.println("");
+           error.E.s("");
        }
        return zwrot;
     }
@@ -187,7 +187,7 @@ public class ImportFakturyView  implements Serializable {
            Unmarshaller unmarshaller = context.createUnmarshaller();
            zwrot = (jpkfa3.JPK) unmarshaller.unmarshal(is);
        } catch (Exception ex) {
-           System.out.println("");
+           error.E.s("");
        }
        return zwrot;
     }

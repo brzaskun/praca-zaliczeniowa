@@ -23,7 +23,7 @@ public class PrintLine extends Thread {
     public void run() {
         try {
         } catch (Exception ex) {
-            Logger.getLogger(KreatorWatkow.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(KreatorWatkow.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

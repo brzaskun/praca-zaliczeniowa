@@ -41,10 +41,10 @@ public class SprawozdanieFin2018View  implements Serializable {
             //String polecenie = "wydrukXML(\""+sciezka+"\")";
             //PrimeFaces.current().executeScript(polecenie);
             //Msg.msg("Wygenerowano sprawozdanie finansowe");
-            System.out.println("Wygenerowano sprawozdanie finansowe");
+            error.E.s("Wygenerowano sprawozdanie finansowe");
         } catch (Exception e) {
             //Msg.msg("e","Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
-            System.out.println("Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
+            error.E.s("Wystąpił błąd. Nie wygenerowano sprawozdania finansowego");
         }
     }
     

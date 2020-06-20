@@ -5,6 +5,9 @@
  */
 package error;
 
+import embeddable.FakturaCis;
+import java.time.LocalDate;
+
 /**
  *
  * @author Osito
@@ -66,6 +69,28 @@ public class E {
             StringBuilder p = new StringBuilder();
             p.append("Init klasa ");
             p.append(e.getClass().toString());
-            System.out.println(p.toString());
+            error.E.s(p.toString());
+    }
+     
+     public static void s (String s) {
+         //System.out.println(s);
+     }
+     public static void s (Integer s) {
+         //System.out.println(s);
+     }
+     public static void s (double s) {
+         //System.out.println(s);
+     }
+     public static void s (boolean s) {
+         //System.out.println(s);
+     }
+    public static void s(Class<?> superclass) {
+        //System.out.println(s);
+    }
+    public static void s(LocalDate ld) {
+        //System.out.println(s);
+    }
+    public static void s(FakturaCis data) {
+        //System.out.println(s);
     }
 }

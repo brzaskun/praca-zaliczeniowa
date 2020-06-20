@@ -82,7 +82,7 @@ public class Xad {
             String content = new String(Files.readAllBytes(Paths.get(FILE)));
             podpisz(content, null, null);
         } catch (IOException ex) {
-            Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -155,7 +155,7 @@ public class Xad {
 //            validate(doc, xmlSigFactory);
 
         } catch (Exception ex) {
-            Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
         }
         return podpisana;
     }
@@ -221,7 +221,7 @@ public class Xad {
 //            validate(doc, xmlSigFactory);
 
         } catch (Exception ex) {
-            Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
         }
         return podpisana;
     }
@@ -267,7 +267,7 @@ public class Xad {
             DocumentBuilder builder = dbf.newDocumentBuilder();
             return builder.parse(IOUtils.toInputStream(deklaracja, "UTF-8"));
         } catch (Exception ex) {
-            Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -284,9 +284,9 @@ public class Xad {
             StreamResult streamResult = new StreamResult(outputFile);
             transformer.transform(domSource, streamResult);
         } catch (TransformerConfigurationException ex) {
-            Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
         } catch (TransformerException ex) {
-            Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -302,9 +302,9 @@ public class Xad {
             // Validate the XMLSignature.
             boolean coreValidity = signature.validate(valContext);
         } catch (MarshalException ex) {
-            Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
         } catch (XMLSignatureException ex) {
-            Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -329,7 +329,7 @@ public class Xad {
             XPathFilterParameterSpec paramsXpath = new XPathFilterParameterSpec("/Deklaracja", namespaces);
             transforms.add(xmlSigFactory.newTransform(Transform.XPATH, (TransformParameterSpec) paramsXpath));
         } catch (Exception ex) {
-            Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
         }
         return transforms;
     }
@@ -354,9 +354,9 @@ public class Xad {
             zwrot[0] = bajty;
             zwrot[1] = stryng;
         } catch (TransformerConfigurationException ex) {
-            Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
         } catch (TransformerException ex) {
-            Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Xad.class.getName()).log(Level.SEVERE, null, ex);
         }
         return zwrot;
     }

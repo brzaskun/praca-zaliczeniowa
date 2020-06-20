@@ -1178,7 +1178,7 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
 //       Dokfk p = getDokfk("PK");
 //       List[] t = getTabela();
 //       List r = getWiersze();
-//       System.out.println(p.toString());
+//       error.E.s(p.toString());
 //   }
 
    

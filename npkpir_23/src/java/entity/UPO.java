@@ -188,7 +188,7 @@ public class UPO  implements Serializable {
                     marshaller.marshal(jpkt,sw);
                     zwrot = sw.toString();
                 } catch (JAXBException ex) {
-                    Logger.getLogger(UPO.class.getName()).log(Level.SEVERE, null, ex);
+                    // Logger.getLogger(UPO.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 try {
@@ -200,7 +200,7 @@ public class UPO  implements Serializable {
                     marshaller.marshal(jpkt,sw);
                     zwrot = sw.toString();
                 } catch (JAXBException ex) {
-                    Logger.getLogger(UPO.class.getName()).log(Level.SEVERE, null, ex);
+                    // Logger.getLogger(UPO.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }

@@ -87,7 +87,7 @@ public class ReadXLSMurawskiFile {
                         listafaktur.add(interpaperXLS);
                     }
                 } catch (Exception e){
-                    System.out.println("");
+                    error.E.s("");
                 }
             }
             file.close();
@@ -202,7 +202,7 @@ public class ReadXLSMurawskiFile {
 
    private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni, GUSView gUSView) {
 //       if (interpaperXLS.getKontrahent().equals("HST")) {
-//           System.out.println("");
+//           error.E.s("");
 //       }
        Klienci klient = null;
         try {
@@ -340,7 +340,7 @@ public class ReadXLSMurawskiFile {
             String tmp = "Korrekturrechnungsnummer 194/20 für Rechnungsnummer 148/20";
             tmp = tmp.replace("Korrekturrechnungsnummer","").trim();
             tmp = tmp.substring(0, tmp.indexOf("für")).trim();
-            System.out.println(tmp);
+            error.E.s(tmp);
 //            FileInputStream file = new FileInputStream(new File(filename));
 //             //Create Workbook instance holding reference to .xlsx file
 //            XSSFWorkbook workbook = new XSSFWorkbook(file);

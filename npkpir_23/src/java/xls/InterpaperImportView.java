@@ -334,7 +334,7 @@ public class InterpaperImportView implements Serializable {
                 }
             }
              if (interpaperXLS.getNrfaktury().equals("191009413")) {
-                System.out.println("");
+                error.E.s("");
             }
             String rodzajdk = "ZZ";
             Dokfk dokument = null;

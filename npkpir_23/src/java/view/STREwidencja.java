@@ -145,7 +145,7 @@ public class STREwidencja implements Serializable {
             for (SrodekTrw str : lista) {
                 STRtabela strdocelowy = new STRtabela(i, str);
                 if (strdocelowy.getNazwa().equals("Ciągnik rolniczy URSUS C360 -3")) {
-                    System.out.println("");
+                    error.E.s("");
                 }
                 try {
                     Iterator<UmorzenieN> itX = str.getPlanumorzen().iterator();

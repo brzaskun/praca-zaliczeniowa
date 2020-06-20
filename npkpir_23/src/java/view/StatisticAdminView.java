@@ -61,9 +61,9 @@ public class StatisticAdminView implements Serializable {
        List<String> pracownicy = uzDAO.findUzByUprawnienia("Bookkeeper");
        pracownicy.addAll(uzDAO.findUzByUprawnienia("BookkeeperFK"));
        obliczstatystyki(pracownicy);
-        System.out.println("statystyka inaczej");
+        error.E.s("statystyka inaczej");
         statystykiinaczej(pracownicy);
-        System.out.println("statystyka inaczej koniec");
+        error.E.s("statystyka inaczej koniec");
        obliczkontrahentow(pracownicy);
     }
     
@@ -94,7 +94,7 @@ public class StatisticAdminView implements Serializable {
     private void statystykiinaczej(List<String> pracownicy) {
         List<Wiersz> wiersze = wierszDAO.findWierszeRok(rok);
         List<Dok> dok = dokDAO.zwrocRok(rok);
-        System.out.println("pobrano dane");
+        error.E.s("pobrano dane");
         for (String r : pracownicy){
             double ilosc = 0.0;
             for (Iterator<Wiersz> it = wiersze.iterator(); it.hasNext();) {
@@ -120,7 +120,7 @@ public class StatisticAdminView implements Serializable {
                     s.setIloscdokumentow((int)ilosc);
                 }
             }
-            System.out.println("zliczono dla "+r);
+            error.E.s("zliczono dla "+r);
             Msg.msg("Zliczono dla "+r);
         }
         

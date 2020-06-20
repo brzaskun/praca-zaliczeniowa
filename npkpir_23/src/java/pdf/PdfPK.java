@@ -80,7 +80,7 @@ public class PdfPK {
         Date date = Calendar.getInstance().getTime();
         DateFormat formatt = new SimpleDateFormat("dd/MM/yyyy");
             //String today = formatt.format(date);
-        //System.out.println("Today : " + today);
+        //error.E.s("Today : " + today);
         Paragraph miziu = new Paragraph(new Phrase("Szczecin, dnia " + selected.getDataWyst(), font));
         miziu.setAlignment(Element.ALIGN_RIGHT);
         miziu.setLeading(50);

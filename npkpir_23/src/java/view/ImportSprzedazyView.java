@@ -230,7 +230,7 @@ public class ImportSprzedazyView  implements Serializable {
     
     public Dok sprawdzCzyNieDuplikat(Dok selD) {
         if (selD.getKontr().getNpelna().equals("OPTEGRA POLSKA sp. z o.o.")) {
-            System.out.println("");
+            error.E.s("");
         }
         Dok tmp = null;
         tmp = dokDAO.znajdzDuplikatwtrakcie(selD, wpisView.getPodatnikObiekt(), selD.getRodzajedok().getSkrot());
@@ -239,7 +239,7 @@ public class ImportSprzedazyView  implements Serializable {
     
     private Klienci pobierzkontrahenta(jpk201801.JPK.SprzedazWiersz wiersz, String nrKontrahenta) {
         if (nrKontrahenta.equals("9551014391")) {
-            System.out.println("");
+            error.E.s("");
         }
         if (wybierzosobyfizyczne || wybierzfirmyzagraniczne) {
            Klienci inc = new Klienci();

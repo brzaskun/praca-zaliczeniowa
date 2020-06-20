@@ -48,7 +48,7 @@ public class VIESCheckBean {
                      String kraj = p.getKontrahent().getKrajkod().trim();
                      String nip = p.getKontrahent().getNip().trim();
                      if (nip.equals("ESB65448870")) {
-                         System.out.println("ESB65448870");
+                         error.E.s("ESB65448870");
                      }
                      boolean jestprefix = sprawdznip(p.getKontrahent().getNip());
                      if (jestprefix) {
@@ -161,10 +161,10 @@ public class VIESCheckBean {
             }
         } catch (IOException ex) {
             zwrot = null;
-            Logger.getLogger(VIESCheckBean.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(VIESCheckBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
             zwrot = null;
-            Logger.getLogger(VIESCheckBean.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(VIESCheckBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return zwrot;
     }
@@ -180,7 +180,7 @@ public class VIESCheckBean {
             Element table = doc.getElementById("vatResponseFormTable");
             Elements tds = table.getElementsByTag("td");
             boolean znalazl = false;
-            //System.out.println(new Date(tds.get(8).text()).toString());
+            //error.E.s(new Date(tds.get(8).text()).toString());
             for (Element link : tds) {
                 String linkText = link.text();
                 if (linkText.contains("Yes, valid VAT number") || znalazl == true) {
@@ -192,7 +192,7 @@ public class VIESCheckBean {
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(VIESCheckBean.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(VIESCheckBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -231,15 +231,15 @@ public class VIESCheckBean {
                     .execute();
 
 
-            System.out.println(loginActionResponse.parse().html());
-            System.out.println("");
+            error.E.s(loginActionResponse.parse().html());
+            error.E.s("");
             Document doc = res.parse();
             
             List<Element> tab = doc.getAllElements();
             Element table = doc.getElementById("source");
             Elements tds = table.getElementsByTag("td");
 //            boolean znalazl = false;
-//            //System.out.println(new Date(tds.get(8).text()).toString());
+//            //error.E.s(new Date(tds.get(8).text()).toString());
 //            for (Element link : tds) {
 //                String linkText = link.text();
 //                if (linkText.contains("Yes, valid VAT number") || znalazl == true) {
@@ -251,7 +251,7 @@ public class VIESCheckBean {
 //                }
 //            }
         } catch (IOException ex) {
-            Logger.getLogger(VIESCheckBean.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(VIESCheckBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

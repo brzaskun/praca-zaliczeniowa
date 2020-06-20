@@ -86,7 +86,7 @@ public class jpk_podpis {
             String content = new String(Files.readAllBytes(Paths.get("james2.xml")));
             podpisz(content, null, null);
         } catch (IOException ex) {
-            Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -115,7 +115,7 @@ public class jpk_podpis {
             MessageDigest digest = MessageDigest.getInstance("SHA-1");
             byte[] hash = digest.digest(signingCertificate.getEncoded());
             String hasz = DatatypeConverter.printBase64Binary(hash);
-            System.out.println(""+hasz);
+            error.E.s(""+hasz);
             PrivateKey privkey = (PrivateKey) keyStore.getKey(alias, haslo.toCharArray());
             PublicKey pubKey = signingCertificate.getPublicKey();
             XMLSignatureFactory xmlSigFactory = XMLSignatureFactory.getInstance("DOM");
@@ -162,7 +162,7 @@ public class jpk_podpis {
 //            validate(doc, xmlSigFactory);
 
         } catch (Exception ex) {
-            Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         }
         return podpisana;
     }
@@ -208,7 +208,7 @@ public class jpk_podpis {
             DocumentBuilder builder = dbf.newDocumentBuilder();
             return builder.parse(IOUtils.toInputStream(deklaracja, "UTF-8"));
         } catch (Exception ex) {
-            Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -226,9 +226,9 @@ public class jpk_podpis {
             StreamResult streamResult = new StreamResult(outputFile);
             transformer.transform(domSource, streamResult);
         } catch (TransformerConfigurationException ex) {
-            Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         } catch (TransformerException ex) {
-            Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -244,9 +244,9 @@ public class jpk_podpis {
             // Validate the XMLSignature.
             boolean coreValidity = signature.validate(valContext);
         } catch (MarshalException ex) {
-            Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         } catch (XMLSignatureException ex) {
-            Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -271,7 +271,7 @@ public class jpk_podpis {
             XPathFilterParameterSpec paramsXpath = new XPathFilterParameterSpec("/InitUploadType", namespaces);
             transforms.add(xmlSigFactory.newTransform(Transform.XPATH, (TransformParameterSpec) paramsXpath));
         } catch (Exception ex) {
-            Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         }
         return transforms;
     }
@@ -296,9 +296,9 @@ public class jpk_podpis {
             zwrot[0] = bajty;
             zwrot[1] = stryng;
         } catch (TransformerConfigurationException ex) {
-            Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         } catch (TransformerException ex) {
-            Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(jpk_podpis.class.getName()).log(Level.SEVERE, null, ex);
         }
         return zwrot;
     }

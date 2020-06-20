@@ -204,7 +204,7 @@ public class FakturaelementygraficzneView implements Serializable {
              FileUtils.writeStringToFile(targetFile, "lolo");
              //FileUtils.copyInputStreamToFile(null, targetFile);
         } catch (IOException ex) {
-            Logger.getLogger(FakturaelementygraficzneView.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(FakturaelementygraficzneView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
    

@@ -54,22 +54,22 @@ public class Makexml {
             Object person2 = unmarshaller.unmarshal(new File(filename));
             xls.ing.Document doc = (Document) person2;
             XMLGregorianCalendar frDtTm = doc.getBkToCstmrAcctRpt().getRpt().getFrToDt().getFrDtTm();
-            System.out.println(data.Data.calendarToString(frDtTm));
+            error.E.s(data.Data.calendarToString(frDtTm));
             Id id = doc.getBkToCstmrAcctRpt().getRpt().getNtry().get(1).getNtryDtls().getTxDtls().getRltdPties().getCdtrAcct().getId();
             Other o = (Other) id.getContent().get(1);
             String iban = (String) o.getId().getContent().get(0);
-            System.out.println("koniec");
-            //System.out.println(person2);
-//            System.out.println(person2.getNazwisko());
-//            System.out.println(person2.getAdres());
+            error.E.s("koniec");
+            //error.E.s(person2);
+//            error.E.s(person2.getNazwisko());
+//            error.E.s(person2.getAdres());
 
 //          marshaller.marshal(person, new FileWriter("edyta.xml"));
 //          marshaller.marshal(person, System.out);
         } catch (javax.xml.bind.UnmarshalException ex1) {
-            System.out.println(E.e(ex1));
+            error.E.s(E.e(ex1));
         } catch (Exception ex) {
             E.e(ex);
-            System.out.println("error");
+            error.E.s("error");
         }
     }
     

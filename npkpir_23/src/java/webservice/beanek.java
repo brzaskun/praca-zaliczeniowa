@@ -168,7 +168,7 @@ public class beanek  implements Serializable {
         try {
             sc = SSLContext.getInstance("SSL");
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(beanek.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(beanek.class.getName()).log(Level.SEVERE, null, ex);
         }
         // Create empty HostnameVerifier
         HostnameVerifier hv = new HostnameVerifier() {
@@ -180,7 +180,7 @@ public class beanek  implements Serializable {
         try {
             sc.init(null, trustAllCerts, new java.security.SecureRandom());
         } catch (KeyManagementException ex) {
-            Logger.getLogger(beanek.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(beanek.class.getName()).log(Level.SEVERE, null, ex);
         }
         HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
         HttpsURLConnection.setDefaultHostnameVerifier(hv);

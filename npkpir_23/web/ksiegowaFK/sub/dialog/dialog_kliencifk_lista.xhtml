@@ -21,7 +21,9 @@
             <p:dataTable id="infokonta" value="#{kliencifkView.listawszystkichklientowFk}" var="item"  emptyMessage="Klient nie posiada kont rozrachunkowych z kontrahentami"
                          style="margin-top: 1%; width: 820px;" 
                          scrollable="true" scrollHeight="400" 
-                         sortBy="#{item}"  sortFunction="#{kliencifkView.sortKliencifk}">
+                         sortBy="#{item}"  sortFunction="#{kliencifkView.sortKliencifk}"
+                         rowsPerPageTemplate="40,120,250,500" paginatorPosition="top" rows="40"
+                         paginator="#{kliencifkView.listawszystkichklientowFk.size() gt 150 ? 'true':'false'}">
                 <p:ajax event="filter" global="false"/>
                 <f:facet name="header">
                     <h:outputText value="Wykaz przyporządkowanych kont"/>

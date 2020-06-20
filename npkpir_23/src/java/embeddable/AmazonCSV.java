@@ -405,7 +405,7 @@ public static void main(String[] args) {
     String data = "21-Apr-2018 UTC";
     Date date = new Date(data);
     String d2 = Data.data_yyyyMMdd(date);
-    System.out.println("data "+d2);
+    error.E.s("data "+d2);
 //        String csvFile = "E:\\Biuro\\Firmy\\_MAŁGOSIA\\Cieślak Paweł\\amazonVAT.csv";
 //        String line = "";
 //        String cvsSplitBy = ",";
@@ -416,7 +416,7 @@ public static void main(String[] args) {
 //                    // use comma as separator
 //                    String[] tmpline = line.split(cvsSplitBy);
 //                    AmazonCSV amazonCSV = new AmazonCSV(tmpline);
-//                    System.out.println(amazonCSV.toString());
+//                    error.E.s(amazonCSV.toString());
 //                } catch (Exception ex){
 //                }
 //            }

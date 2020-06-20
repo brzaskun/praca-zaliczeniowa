@@ -74,7 +74,7 @@ public class PDFRozrachunki {
                     document.add(dodajSubTabele(testobjects.testobjects.getTabelaRozrachunki(l),95,1,8));
                     PdfMain.dodajLinieOpisu(document, " ");
                 } catch (DocumentException ex) {
-                    Logger.getLogger(PDFRozrachunki.class.getName()).log(Level.SEVERE, null, ex);
+                    // Logger.getLogger(PDFRozrachunki.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             double wartosc = Math.abs(naleznosci-zobowiazania);

@@ -94,7 +94,7 @@ public class WalutyNBP implements Serializable {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             datao2date = sdf.parse(sdf.format(new Date()));
         } catch (ParseException ex) {
-            Logger.getLogger(WalutyNBP.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(WalutyNBP.class.getName()).log(Level.SEVERE, null, ex);
         }
         return datao1date.before(datao2date);
     }

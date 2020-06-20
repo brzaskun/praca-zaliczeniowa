@@ -64,9 +64,9 @@ public class SesjaView implements Serializable {
     
     public static void main(String[] args){
         java.time.LocalDate ld = asLocalDate(new Date()).minusDays(1);
-        System.out.println(ld);
+        error.E.s(ld);
         java.time.LocalDate ld2 = asLocalDate(new Date());
-        System.out.println(ld2);
+        error.E.s(ld2);
     }
     
   public static java.time.LocalDate asLocalDate(Date date) {

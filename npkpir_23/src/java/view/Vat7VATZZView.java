@@ -37,7 +37,7 @@ public class Vat7VATZZView extends Vat7DKView implements Serializable{
             + "<podp:DataUrodzenia>1968-05-08</podp:DataUrodzenia><podp:Kwota>1</podp:Kwota></podp:DaneAutoryzujace></ns:Deklaracja>";
 
     public static void main(String[] args) {
-        System.out.println(dekl);
+        error.E.s(dekl);
         int lastIndexOf = dekl.lastIndexOf("<podp:DaneAutoryzujace");
         dekl = dekl.substring(0, lastIndexOf);
     }

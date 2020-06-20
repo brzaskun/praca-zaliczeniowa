@@ -1698,7 +1698,7 @@ public class PdfFP {
             table.getTotalHeight() + document.bottom(document.bottomMargin()-15f), 
             writer.getDirectContent());
         } catch (DocumentException ex) {
-            Logger.getLogger(PdfFaktura.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(PdfFaktura.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -1744,7 +1744,7 @@ public class PdfFP {
             table.getTotalHeight() + document.bottom(document.bottomMargin()-25f), 
             writer.getDirectContent());
         } catch (DocumentException ex) {
-            Logger.getLogger(PdfFaktura.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(PdfFaktura.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

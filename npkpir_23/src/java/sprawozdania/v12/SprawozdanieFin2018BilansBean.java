@@ -446,26 +446,26 @@ public class SprawozdanieFin2018BilansBean {
          BilansJednostkaInna.Pasywa.PasywaB.PasywaBIII.PasywaBIII3 a = new BilansJednostkaInna.Pasywa.PasywaB.PasywaBIII.PasywaBIII3();
 //         String nazwa = a.getClass().getSimpleName();
 //         nazwa = nazwa.substring(6);
-//         System.out.println("nazwa "+nazwa);
+//         error.E.s("nazwa "+nazwa);
 //         BilansJednostkaInna.Aktywa aa = new BilansJednostkaInna.Aktywa();
 //         nazwa = aa.getClass().getSimpleName();
 //         if (nazwa.length()>6) {
 //            nazwa = nazwa.substring(6);
 //         }
-//         System.out.println("nazwa "+nazwa);
+//         error.E.s("nazwa "+nazwa);
 //            Field[] fields = a.getClass().getDeclaredFields();
 //            List<Field> l = Arrays.asList(fields);
 //            l.forEach((Field la) -> {
-//                System.out.println(la.getName());
+//                error.E.s(la.getName());
 //            });
             TPozycjaSprawozdania b = new TPozycjaSprawozdania();
             a.pasywaBIII3A = b;
-            System.out.println(a.pasywaBIII3A.toString());
-            System.out.println(b.getClass().getSuperclass());
+            error.E.s(a.pasywaBIII3A.toString());
+            error.E.s(b.getClass().getSuperclass());
     }
 
     private static void oo(TPozycjaSprawozdania pasywaBIII3A) {
-        System.out.println(pasywaBIII3A.toString());
+        error.E.s(pasywaBIII3A.toString());
     }
 
     

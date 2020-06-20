@@ -84,7 +84,7 @@ public class ObslugaPodpisuBean {
                 odpowiedz.put(0, "tak");
             }
         } catch (Exception e) {
-            System.out.println("Brak wpiętego czytnika karty/pendriva");
+            error.E.s("Brak wpiętego czytnika karty/pendriva");
         } 
         return pkcs11Provider;
     }
@@ -107,11 +107,11 @@ public class ObslugaPodpisuBean {
         } catch (KeyStoreException ex) {
             Security.removeProvider(provider.getName());
             keyStore = null;
-            System.out.println("Brak karty w czytniku");
+            error.E.s("Brak karty w czytniku");
         } catch (IOException ex) {
             Security.removeProvider(provider.getName());
             keyStore = null;
-            System.out.println("Błędne hasło!");
+            error.E.s("Błędne hasło!");
         } catch (Exception ex) {
             Security.removeProvider(provider.getName());
             keyStore = null;
@@ -158,13 +158,13 @@ public class ObslugaPodpisuBean {
             } else if (name.contains("70052809810") && expiresIn<=0) {
                 zwrot = "Zainstalowany certyfikat wygasł";
                 odpowiedz.put(2, zwrot);
-                System.out.println("Zainstalowany certyfikat wygasł");
+                error.E.s("Zainstalowany certyfikat wygasł");
             } else if (!name.contains("70052809810")) {
                 zwrot = "Na serwerze nie zainstalowano certyfikatu dla podpisującego";
                 odpowiedz.put(2, zwrot);
-                System.out.println("Na serwerze nie zainstalowano certyfikatu dla podpisującego");
+                error.E.s("Na serwerze nie zainstalowano certyfikatu dla podpisującego");
             }
-            // System.out.println("Certifiate: " + alias + "\tExpires On: " + certExpiryDate + "\tFormated Date: " + ft.format(certExpiryDate) + "\tToday's Date: " + ft.format(today) + "\tExpires In: "+ expiresIn);
+            // error.E.s("Certifiate: " + alias + "\tExpires On: " + certExpiryDate + "\tFormated Date: " + ft.format(certExpiryDate) + "\tToday's Date: " + ft.format(today) + "\tExpires In: "+ expiresIn);
         }
         if (zwrot!="tak") {
             keyStore = null;
@@ -181,7 +181,7 @@ public class ObslugaPodpisuBean {
                 String alias = (String)aliasesEnum.nextElement();
                 X509Certificate cert = (X509Certificate) keyStore.getCertificate(alias);
                 //FileUtils.writeStringToFile(new File("D:\\cert"+alias+".xml"), cert.toString());
-                // System.out.println("Certificate: " + cert);
+                // error.E.s("Certificate: " + cert);
                 if (today.after(cert.getNotBefore()) && today.before(cert.getNotAfter())) {
                     aliasfinal = alias;
                     //break;
@@ -216,12 +216,12 @@ public class ObslugaPodpisuBean {
 //                String alias = (String)aliasesEnum.nextElement();
 //                X509Certificate cert = (X509Certificate) keyStore.getCertificate(alias);
 //                //FileUtils.writeStringToFile(new File("D:\\cert"+alias+".xml"), cert.toString());
-//                // System.out.println("Certificate: " + cert);
+//                // error.E.s("Certificate: " + cert);
 //                if (today.after(cert.getNotBefore()) && today.before(cert.getNotAfter())) {
 //                    aliasfinal = alias;
-//                    System.out.println(cert.toString());
-//                    System.out.println("Data od: " + cert.getNotBefore());
-//                    System.out.println("Data do: " + cert.getNotAfter());
+//                    error.E.s(cert.toString());
+//                    error.E.s("Data od: " + cert.getNotBefore());
+//                    error.E.s("Data do: " + cert.getNotAfter());
 //                    //break;
 //                }
 //            }
@@ -355,9 +355,9 @@ public class ObslugaPodpisuBean {
   
     private static void drukuj(Object o, String opis) {
         if (o != null) {
-            System.out.println("jest "+opis);
+            error.E.s("jest "+opis);
             } else {
-            System.out.println("nie ma "+opis);
+            error.E.s("nie ma "+opis);
         }
     }
     
@@ -409,7 +409,7 @@ public class ObslugaPodpisuBean {
 //        Provider provider = jestCzytnikDriver();
 //        KeyStore keyStore = jestKarta(haslo);
 //        String alias = aktualnyAlias(keyStore);
-//        System.out.println("symbol aktualnego certyfikatu "+alias);
+//        error.E.s("symbol aktualnego certyfikatu "+alias);
 //        Certificate cert = certyfikat(alias, keyStore);
 //        DSSDocument dok = dokumentzXML(xml);
 //        XAdESSignatureParameters parameters = ustawparametry(cert);
@@ -425,7 +425,7 @@ public class ObslugaPodpisuBean {
 //        Provider provider = jestCzytnikDriver();
 //        KeyStore keyStore = jestKarta(haslo);
 //        String alias = aktualnyAlias(keyStore);
-//        System.out.println("symbol aktualnego certyfikatu "+alias);
+//        error.E.s("symbol aktualnego certyfikatu "+alias);
 //        Certificate cert = certyfikat(alias, keyStore);
 //        DSSDocument dok = dokumentzXML(xml);
 //        XAdESSignatureParameters parameters = ustawparametry(cert);
@@ -446,7 +446,7 @@ public class ObslugaPodpisuBean {
 //        if (mozna) {
 //            KeyStore keyStore = jestKarta(haslo);
 //            String alias = aktualnyAlias(keyStore);
-//            System.out.println("symbol aktualnego certyfikatu "+alias);
+//            error.E.s("symbol aktualnego certyfikatu "+alias);
 //            Certificate cert = certyfikat(alias, keyStore);
 //            drukuj(cert,"certyfikat");
 //            DSSDocument dok = dokument(PLIK);
@@ -460,7 +460,7 @@ public class ObslugaPodpisuBean {
 //            String nazwapodpisana = podpisz(podpisywacz(), dok, parameters, signatureValue);
 //            drukuj(nazwapodpisana,"podpisano");
 //        } else {
-//            System.out.println("brak karty");
+//            error.E.s("brak karty");
 //        }
 //            DSSDocument dok = dokumentzXML("lolo");
 //            drukuj(dok,"dokument");
@@ -469,7 +469,7 @@ public class ObslugaPodpisuBean {
 //        String targetFileStr = IOUtils.toString(fisTargetFile, "UTF-8");
 //        String xml = podpiszDeklaracje(targetFileStr);
 //        FileUtils.writeStringToFile(new File("D:/plik.xml"), xml);
-//        System.out.println("info "+xml);
+//        error.E.s("info "+xml);
 //        } catch (IOException ex) {
 //            Logger.getLogger(ObslugaPodpisuBean.class.getName()).log(Level.SEVERE, null, ex);
 //        }
@@ -501,28 +501,28 @@ public class ObslugaPodpisuBean {
                 long expiresIn = dateDiff / (24 * 60 * 60 * 1000);
                 String name = ((X509Certificate) keyStore.getCertificate(alias)).getSubjectDN().getName();
                 if (name.contains("70052809810") && expiresIn>0) {
-                    System.out.println("Odnaleziono właściwy aktywny certyfikat użytkownika");
+                    error.E.s("Odnaleziono właściwy aktywny certyfikat użytkownika");
                 } else if (name.contains("70052809810") && expiresIn<=0) {
-                    System.out.println("Zainstalowany certyfikat wygasł");
+                    error.E.s("Zainstalowany certyfikat wygasł");
                 } else if (!name.contains("70052809810")) {
-                    System.out.println("Na serwerze nie zainstalowano certyfikatu dla podpisującego");
+                    error.E.s("Na serwerze nie zainstalowano certyfikatu dla podpisującego");
                 }
-                // System.out.println("Certifiate: " + alias + "\tExpires On: " + certExpiryDate + "\tFormated Date: " + ft.format(certExpiryDate) + "\tToday's Date: " + ft.format(today) + "\tExpires In: "+ expiresIn);
+                // error.E.s("Certifiate: " + alias + "\tExpires On: " + certExpiryDate + "\tFormated Date: " + ft.format(certExpiryDate) + "\tToday's Date: " + ft.format(today) + "\tExpires In: "+ expiresIn);
             }
-            System.out.println("Hasło poprawne, karta załadowana");
+            error.E.s("Hasło poprawne, karta załadowana");
         } catch (IOException ex) {
             Security.removeProvider(pkcs11Provider.getName());
-            System.out.println("Błędne hasło!");
+            error.E.s("Błędne hasło!");
         } catch (KeyStoreException ex) {
             Security.removeProvider(pkcs11Provider.getName());
-            System.out.println("Brak karty w czytniku");
+            error.E.s("Brak karty w czytniku");
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(ObslugaPodpisuBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (CertificateException ex) {
             Security.removeProvider(pkcs11Provider.getName());
-            System.out.println("Nie zainstalowano certyfikatu na serwerze.");
+            error.E.s("Nie zainstalowano certyfikatu na serwerze.");
         } catch (Exception e) {
-            System.out.println("Brak wpiętego czytnika karty/pendriva");
+            error.E.s("Brak wpiętego czytnika karty/pendriva");
         } finally {
             
         }

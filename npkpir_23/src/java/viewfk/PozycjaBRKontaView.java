@@ -753,12 +753,12 @@ public class PozycjaBRKontaView implements Serializable {
 //            List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(ukladzrodlowy, "wynikowe");
 //            for (KontopozycjaZapis p : zapisanePOzycjezUkladuWzorcowego) {
 //                    if (p.getSyntetykaanalityka().equals("wynikowe") || p.getSyntetykaanalityka().equals("szczególne")) {
-//                        System.out.println("Szukam konta " + p.getKontoID().toString());
+//                        error.E.s("Szukam konta " + p.getKontoID().toString());
 //                        try {
 //                            Konto kontouzytkownika = kontoDAO.findKonto(p.getKontoID().getPelnynumer(), "Wzorcowy", ukladdocelowy.getRok());
 //                            kontouzytkownika.setZwyklerozrachszczegolne(p.getKontoID().getZwyklerozrachszczegolne());
 //                            if (kontouzytkownika.getPelnynumer().equals("407")) {
-//                               System.out.println("dd");
+//                               error.E.s("dd");
 //                            }
 //                            boxNaKonto = kontouzytkownika;
 //                            if (kontouzytkownika != null && kontouzytkownika.getBilansowewynikowe().equals("wynikowe")) {
@@ -791,7 +791,7 @@ public class PozycjaBRKontaView implements Serializable {
 //            List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikUklad(ukladzrodlowy, "bilansowe");
 //            for (KontopozycjaZapis p : zapisanePOzycjezUkladuWzorcowego) {
 //                    if (!p.getSyntetykaanalityka().equals("syntetyka")) {//wykluczam potomkow podlaczanych automatycznie
-//                         System.out.println("Szukam konta "+p.getKontoID().toString());
+//                         error.E.s("Szukam konta "+p.getKontoID().toString());
 //                         try {
 //                             Konto kontouzytkownika = kontoDAO.findKonto(p.getKontoID().getPelnynumer(), "Wzorcowy", ukladdocelowy.getRok());
 //                             kontouzytkownika.setZwyklerozrachszczegolne(p.getKontoID().getZwyklerozrachszczegolne());

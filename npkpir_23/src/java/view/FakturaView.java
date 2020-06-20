@@ -2577,8 +2577,8 @@ public class FakturaView implements Serializable {
 //           p.setKontrahentID(p.getKontrahent().getId());
 //           p.setWystawcaNIP(p.getWystawca().getNip());
 //           fakturaDAO.edit(p);
-//           System.out.println(p.getKontrahentID());
-//           System.out.println(p.getWystawcaNIP());
+//           error.E.s(p.getKontrahentID());
+//           error.E.s(p.getWystawcaNIP());
 //       }
 //   }
     public static void main(String[] args) {

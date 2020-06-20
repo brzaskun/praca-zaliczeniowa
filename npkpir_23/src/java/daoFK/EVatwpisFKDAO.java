@@ -50,7 +50,7 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
         if (input != null && !input.isEmpty()) {
             for (EVatwpisFK p : input) {
                 try {
-                    //System.out.println("ew "+p);
+                    //error.E.s("ew "+p);
                     if (!"VAT".equals(p.getDokfk().getRodzajedok().getSkrot())) {
                         l.add(p);
                     }

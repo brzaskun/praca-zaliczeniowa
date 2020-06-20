@@ -66,7 +66,7 @@ public class SrodkiKontaView implements Serializable {
         List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         listaSaldoKonto = przygotowanalistasald(kontaklienta, zapisyBO, zapisyObrotyRozp, null);
         lista = stworzliste(kontaklienta,listaSaldoKonto, srodkizBazy);
-        System.out.println("");
+        error.E.s("");
     }
     
     private List<SrodekTrw> pobierzsrodkizbazy() {

@@ -111,11 +111,11 @@ public class PozycjeSzczegolowe {
         int ind = dekla.indexOf("</P_60>")+7;
         String pocz = dekla.substring(0,ind);
         String koniec = dekla.substring(ind);
-        System.out.println(ind);
-        System.out.println(pocz);
-        System.out.println(koniec);
+        error.E.s(ind);
+        error.E.s(pocz);
+        error.E.s(koniec);
         String suma = pocz+"<lalala>"+koniec;
-        System.out.println(suma);
+        error.E.s(suma);
         
     }
     

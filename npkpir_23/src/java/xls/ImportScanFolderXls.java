@@ -22,7 +22,7 @@ public class ImportScanFolderXls {
                     path -> path.toString().endsWith(".xls"))
                     .forEach(System.out::println);
         } catch (IOException ex) {
-            Logger.getLogger(ImportScanFolderXls.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(ImportScanFolderXls.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

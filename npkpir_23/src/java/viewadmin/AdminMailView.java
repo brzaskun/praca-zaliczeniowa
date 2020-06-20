@@ -105,9 +105,9 @@ public class AdminMailView implements Serializable {
                 mc = Mce.getNumberToMiesiac().get(month-1);
                 rok = String.valueOf(dt.getYear());   
             }
-            System.out.println("pobieram rok "+rok);
-            System.out.println("pobieram miesiac "+mc);
-            System.out.println("pobieram month "+month);
+            error.E.s("pobieram rok "+rok);
+            error.E.s("pobieram miesiac "+mc);
+            error.E.s("pobieram month "+month);
             List<Fakturywystokresowe> wykazfaktur = fakturywystokresoweDAO.findOkresoweOstatnie("GRZELCZYK", mc, rok);
             if (wykazfaktur == null || wykazfaktur.size() == 0) {
                 String[] nowyrokmc = Mce.zmniejszmiesiac(rok,mc);
@@ -328,7 +328,7 @@ public class AdminMailView implements Serializable {
             FileUtils.writeByteArrayToFile(new File("D:/plik1.pdf"),  array);
             FileUtils.writeByteArrayToFile(new File("D:/plik1a.pdf"), array);
         } catch (Exception ex) {
-            Logger.getLogger(AdminMailView.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(AdminMailView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

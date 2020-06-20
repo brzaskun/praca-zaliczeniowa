@@ -63,14 +63,14 @@ public class MailSetUp implements Serializable{
             message.addHeader("X-Priority", "1");
             message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
         } catch (MessagingException ex) {
-            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(klient.getEmail()));
         } catch (MessagingException ex) {
-            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (!wpisView.getUzer().getUprawnienia().equals("Guest")){
         try {
@@ -90,14 +90,14 @@ public class MailSetUp implements Serializable{
             message.addHeader("X-Priority", "1");
             message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
         } catch (MessagingException ex) {
-            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(adreskontrahenta));
         } catch (MessagingException ex) {
-            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
         }
         return message;
     }
@@ -111,9 +111,9 @@ public class MailSetUp implements Serializable{
             message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(adreskontrahenta));
             message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wysylajacy));
         } catch (MessagingException ex) {
-            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
         }
         return message;
     }

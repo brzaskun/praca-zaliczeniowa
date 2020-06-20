@@ -32,15 +32,15 @@ public class PdfTransform {
 //                    out.write(data, 0, p);
 //                }
 //                if (charset == null) {
-//                    System.out.println(out.toString());
+//                    error.E.s(out.toString());
 //                } else {
 //                    
 //                    String b = new String(out.toByteArray(), charset);
-//                    System.out.println(b);
+//                    error.E.s(b);
 //                }
 //            } catch (IOException e) {
 //                e.printStackTrace();
-//                System.out.println("");
+//                error.E.s("");
 //            } finally {
 //                if (in != null) {
 //                    try {
@@ -71,7 +71,7 @@ public class PdfTransform {
 ////            PdfDocument pdf = new PdfDocument();
 ////            pdf.loadFromFile(inputFile);
 ////            pdf.saveToFile(outputFile,FileFormat.PCL);
-////            System.out.println("koniec");
+////            error.E.s("koniec");
 //        } catch (Exception ex) {
 //        }
 

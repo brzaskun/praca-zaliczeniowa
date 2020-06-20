@@ -355,7 +355,7 @@ public class KontoZapisFKView implements Serializable{
 //            }
 //            sumazapisow();
 //            sumazapisowpln();
-//            System.out.println("odnalazlem pobierzZapisyNaKoncie() kontoZapisFKView");
+//            error.E.s("odnalazlem pobierzZapisyNaKoncie() kontoZapisFKView");
 //        }
 //    }
     

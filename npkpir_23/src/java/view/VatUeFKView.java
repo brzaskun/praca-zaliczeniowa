@@ -253,7 +253,7 @@ public class VatUeFKView implements Serializable {
     private boolean warunekkontrahenci(DokSuper p) {
 //        Dok dok = (Dok) p;
 //        if (dok.getNrWlDk().equals("6/2017/VAŠE")) {
-//            System.out.println("dok "+p.toString());
+//            error.E.s("dok "+p.toString());
 //        }
         String typdokumentu = null;
         if (p instanceof Dok) {
@@ -280,7 +280,7 @@ public class VatUeFKView implements Serializable {
 //            }
 //            if (mc.equals(wpisView.getMiesiacWpisu())) {
 //                dobry = true;
-//                System.out.println("dobry mc "+p.getDokfkSN());
+//                error.E.s("dobry mc "+p.getDokfkSN());
 //            }
 //        }
 //        return dobry;

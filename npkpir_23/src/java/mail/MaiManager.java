@@ -38,9 +38,9 @@ public class MaiManager implements Serializable {
             message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(adreskontrahenta));
             message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wysylajacy));
         } catch (MessagingException ex) {
-            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
         }
         return message;
     }
@@ -63,7 +63,7 @@ public class MaiManager implements Serializable {
             throw new RuntimeException(e);
         } catch (UnsupportedEncodingException ex) {
             E.e(ex);
-            Logger.getLogger(MaiManager.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(MaiManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -71,7 +71,7 @@ public class MaiManager implements Serializable {
         try {
             MaiManager.mailManagerZUS("info@taxman.biz.pl", "Test", "test \n test", "brzaskun@wp.pl", null, null);
         } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(MaiManager.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(MaiManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

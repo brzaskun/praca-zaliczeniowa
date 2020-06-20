@@ -185,7 +185,7 @@ public class SaldoAnalitykaView implements Serializable {
         List<StronaWiersza> zapisyRok = pobierzzapisy("wszystkie", wpisView.getRokWpisuSt(),"12");
 //        for (StronaWiersza p : zapisyRok) {
 //            if (p.getKonto().getPelnynumer().equals("201-2-19") && p.getKwota() == 123.0) {
-//                System.out.println("");
+//                error.E.s("");
 //            }
 //        }
         przygotowanalistasaldBO(kontaklienta, zapisyRok);

@@ -50,13 +50,13 @@ public class Main {
     private static X509Certificate CERT;
 
     public static void main(String[] args) throws Exception {
-        System.out.println("______________________");
-        System.out.println("\tSign");
+        error.E.s("______________________");
+        error.E.s("\tSign");
         signBes();
         
-//        System.out.println("______________________");
-//        System.out.println("\tVerify");
-//        System.out.println("______________________");
+//        error.E.s("______________________");
+//        error.E.s("\tVerify");
+//        error.E.s("______________________");
 //        verifyBes();
 
     }
@@ -144,7 +144,7 @@ public class Main {
             while (aliasesEnum.hasMoreElements()) {
                 String alias = (String)aliasesEnum.nextElement();
                 cert = (X509Certificate) keyStore.getCertificate(alias);
-                // System.out.println("Certificate: " + cert);
+                // error.E.s("Certificate: " + cert);
                 if (today.after(cert.getNotBefore()) && today.before(cert.getNotAfter())) {
                     break;
                 }

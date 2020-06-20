@@ -84,7 +84,7 @@ public class KontoSortBean {
 //        lista.add(new Kontonumer("301-1-3"));
 //        Collections.sort(lista, new KontonumerComparator());
 //        for (Kontonumer p : lista) {
-//            System.out.println(p.getNumer());
+//            error.E.s(p.getNumer());
 //        }
     }
 

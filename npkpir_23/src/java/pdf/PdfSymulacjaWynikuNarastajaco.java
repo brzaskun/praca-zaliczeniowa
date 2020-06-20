@@ -96,7 +96,7 @@ public class PdfSymulacjaWynikuNarastajaco {
             table.setHeaderRows(3);
             table.setFooterRows(1);
         } catch (IOException ex) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         int i = 1;
         for (WynikFKRokMc rs : listamiesiecy) {
@@ -129,7 +129,7 @@ public class PdfSymulacjaWynikuNarastajaco {
             table.setHeaderRows(3);
             table.setFooterRows(1);
         } catch (IOException ex) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (SymulacjaWynikuView.PozycjeSymulacji rs : listapozycjisymulacji) {
             table.addCell(ustawfrazeAlign(rs.getNazwa(), "left", 7));
@@ -158,7 +158,7 @@ public class PdfSymulacjaWynikuNarastajaco {
             table.setHeaderRows(3);
             table.setFooterRows(1);
         } catch (IOException ex) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (SymulacjaWynikuView.PozycjeSymulacji rs : pozycjeObliczeniaPodatku) {
             table.addCell(ustawfrazeAlign(rs.getNazwa(), "left", 7));
@@ -184,7 +184,7 @@ public class PdfSymulacjaWynikuNarastajaco {
             table.setHeaderRows(3);
             table.setFooterRows(1);
         } catch (IOException ex) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (SymulacjaWynikuView.PozycjeSymulacji rs : pozycjeDoWyplaty) {
             table.addCell(ustawfrazeAlign(rs.getNazwa(), "left", 7));

@@ -48,7 +48,7 @@ public class CechyZestView  implements Serializable {
             List<Dok> doku = dokDAO.zwrocBiezacegoKlientaRokMC(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), mc);
             beansDok.CechaBean.sumujcechy(pobranecechypodatnik, doku, wpisView.getRokWpisuSt(), mc);
         }
-        System.out.println("");
+        error.E.s("");
     }
     
     public void drukuj(int nr) {

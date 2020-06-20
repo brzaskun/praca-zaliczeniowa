@@ -225,7 +225,7 @@ public class PozycjeSzczegoloweVAT implements Serializable {
                 }
                 
             } catch (Exception ex) {
-                Logger.getLogger(PozycjeSzczegoloweVAT.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(PozycjeSzczegoloweVAT.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return lista;

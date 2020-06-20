@@ -131,7 +131,7 @@ public class GUSView implements Serializable {
 //                }
 //                //            PublDaneRaportDzialalnosciPrawnej
 //                //String ko1 = service.getE3().daneKomunikat();
-//                System.out.println("3");
+//                error.E.s("3");
 //    //            PublDaneRaportDzialalnosciPrawnej
 //                //String ko1 = service.getE3().daneKomunikat();
 //    //            PublDaneRaportDzialalnosciPrawnej

@@ -139,7 +139,7 @@ public class TransformacjaView implements Serializable{
 //                        }
 //                    }
 //                } else {
-//                    System.out.println("lolo");
+//                    error.E.s("lolo");
 //                }
 //                p.setKontr1(klient);
 //                try {

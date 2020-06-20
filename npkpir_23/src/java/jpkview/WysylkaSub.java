@@ -143,7 +143,7 @@ public class WysylkaSub {
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
         cipher.init(Cipher.ENCRYPT_MODE, seckey, iv);
         int block = cipher.getBlockSize();
-        System.out.println("Block size "+block);
+        error.E.s("Block size "+block);
         AlgorithmParameters params = cipher.getParameters();
         byte[] ivBytes = params.getParameterSpec(IvParameterSpec.class).getIV();
         byte[] plikdowyslania = Files.readAllBytes(Paths.get(inputfilename));
@@ -172,13 +172,13 @@ public class WysylkaSub {
 //        cipher.init(Cipher.ENCRYPT_MODE, keyPair.getPublic());
 //
 //        byte[] blowfishKeyBytes = blowfishKey.getEncoded();
-//        System.out.println(new String(blowfishKeyBytes));
+//        error.E.s(new String(blowfishKeyBytes));
 //        byte[] cipherText = cipher.doFinal(blowfishKeyBytes);
-//        System.out.println(new String(cipherText));
+//        error.E.s(new String(cipherText));
 //        cipher.init(Cipher.DECRYPT_MODE, keyPair.getPrivate());
 //
 //        byte[] decryptedKeyBytes = cipher.doFinal(cipherText);
-//        System.out.println(new String(decryptedKeyBytes));
+//        error.E.s(new String(decryptedKeyBytes));
 //        SecretKey newBlowfishKey = new SecretKeySpec(decryptedKeyBytes, "Blowfish");
 //    }
 
@@ -240,9 +240,9 @@ public class WysylkaSub {
          try {
              PublicKey p1 = getPublicKey("e_dokumenty.mf.gov.pl.cer");
 //             PublicKey p2 = publicKeyReader();
-             //System.out.println(""+p1.equals(p2));
+             //error.E.s(""+p1.equals(p2));
          } catch (Exception ex) {
-             Logger.getLogger(WysylkaSub.class.getName()).log(Level.SEVERE, null, ex);
+             // Logger.getLogger(WysylkaSub.class.getName()).log(Level.SEVERE, null, ex);
          }
     }
     
@@ -254,7 +254,7 @@ public class WysylkaSub {
 //            byte[] message = "Hello World".getBytes("UTF8");
 //            byte[] secret = encrypt(publicKey, message);
 //            byte[] recovered_message = decrypt(privateKey, secret);
-//            System.out.println(new String(recovered_message, "UTF8"));
+//            error.E.s(new String(recovered_message, "UTF8"));
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
@@ -280,15 +280,15 @@ public class WysylkaSub {
 //            print(input);
 //            print(encrypted);
 //            print(decrypted);
-////  	System.out.println(MessageDigest.isEqual(input, decrypted));
-//            System.out.println(Arrays.equals(input, decrypted));
+////  	error.E.s(MessageDigest.isEqual(input, decrypted));
+//            error.E.s(Arrays.equals(input, decrypted));
 //        } catch (Exception e) {
-//            System.out.println("Error "+e.getMessage());
+//            error.E.s("Error "+e.getMessage());
 //        }
 //    }
     public static void print(byte[] b){
-        System.out.println(new String(b));
-        System.out.println("Length: " + b.length * 8);
+        error.E.s(new String(b));
+        error.E.s("Length: " + b.length * 8);
     }
     private static String salt;
     private static int iterations = 65536  ;
@@ -301,9 +301,9 @@ public class WysylkaSub {
 //            salt = getSalt();
 //            removeCryptographyRestrictions();
 //            char[] message = "PasswordToEncrypt".toCharArray();
-//            System.out.println("Message: " + String.valueOf(message));
-//            System.out.println("Encrypted: " + encryptAES(message));
-//            System.out.println("Decrypted: " + decrypt(encryptAES(message).toCharArray()));
+//            error.E.s("Message: " + String.valueOf(message));
+//            error.E.s("Encrypted: " + encryptAES(message));
+//            error.E.s("Decrypted: " + decrypt(encryptAES(message).toCharArray()));
 //    }
 
     public static String encryptAES(char[] plaintext) throws Exception {
@@ -318,7 +318,7 @@ public class WysylkaSub {
         cipher.init(Cipher.ENCRYPT_MODE, secretSpec);
         AlgorithmParameters params = cipher.getParameters();
         ivBytes = params.getParameterSpec(IvParameterSpec.class).getIV();
-        System.out.println("iv "+ivBytes+" size "+ivBytes.length);
+        error.E.s("iv "+ivBytes+" size "+ivBytes.length);
         byte[] encryptedTextBytes = cipher.doFinal(String.valueOf(plaintext).getBytes("UTF-8"));
 
         return DatatypeConverter.printBase64Binary(encryptedTextBytes);
@@ -357,9 +357,9 @@ public class WysylkaSub {
     }
 
     public static void removeCryptographyRestrictions() {
-        Logger logger = Logger.getLogger(WysylkaSub.class.getName());
+        //Logger logger =  Logger.getLogger(WysylkaSub.class.getName());
         if (!isRestrictedCryptography()) {
-            logger.fine("Cryptography restrictions removal not needed");
+            //logger.fine("Cryptography restrictions removal not needed");
             return;
         }
         try {
@@ -393,9 +393,9 @@ public class WysylkaSub {
             instance.setAccessible(true);
             defaultPolicy.add((Permission) instance.get(null));
 
-            logger.fine("Successfully removed cryptography restrictions");
+            //logger.fine("Successfully removed cryptography restrictions");
         } catch (final Exception e) {
-            logger.log(Level.WARNING, "Failed to remove cryptography restrictions", e);
+            //logger.log(Level.WARNING, "Failed to remove cryptography restrictions", e);
         }
     }
 
@@ -412,13 +412,13 @@ public class WysylkaSub {
 //            encryptAES("james2.xml.zip", "james2.xml.zip.aes");
 ////            Unmarshaller unmarshaller = context.createUnmarshaller();
 ////            JPK person2 = (JPK) unmarshaller.unmarshal(new File("james2.xml"));
-////            System.out.println(person2);
-////            System.out.println(person2.getNazwisko());
-////            System.out.println(person2.getAdres());
+////            error.E.s(person2);
+////            error.E.s(person2.getNazwisko());
+////            error.E.s(person2.getAdres());
 //
 ////          marshaller.marshal(person, new FileWriter("edyta.xml"));
 ////          marshaller.marshal(person, System.out);
-//            System.out.println("Zakonczono generowanie plikow");
+//            error.E.s("Zakonczono generowanie plikow");
 //        } catch (Exception ex) {
 //            E.e(ex);
 //        }
@@ -463,7 +463,7 @@ public class WysylkaSub {
              OutputStreamWriter writer = new OutputStreamWriter(fileStream, "UTF-8");
              marshaller.marshal(jpk, writer);
          } catch (Exception ex) {
-             Logger.getLogger(WysylkaSub.class.getName()).log(Level.SEVERE, null, ex);
+             // Logger.getLogger(WysylkaSub.class.getName()).log(Level.SEVERE, null, ex);
          }
          return jpk;
     }

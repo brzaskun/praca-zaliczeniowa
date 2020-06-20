@@ -139,7 +139,7 @@ public static void main(String[] args) throws IOException, DocumentException{
 //            }
 //            PDFCombineUsingJava.close();
 //        } catch (Exception i) {
-//            System.out.println(i);
+//            error.E.s(i);
 //        }
 }
 }

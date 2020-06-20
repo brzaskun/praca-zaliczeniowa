@@ -48,7 +48,7 @@ public class MailAdmin implements Serializable {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(MailAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(MailAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -62,7 +62,7 @@ public class MailAdmin implements Serializable {
                 attachment.setFileName(nazwapliku);
                 mimeMultipart.addBodyPart(attachment);
             } catch (Exception ex) {
-                Logger.getLogger(MailAdmin.class.getName()).log(Level.SEVERE, null, ex);
+                // Logger.getLogger(MailAdmin.class.getName()).log(Level.SEVERE, null, ex);
             }
     }
     }

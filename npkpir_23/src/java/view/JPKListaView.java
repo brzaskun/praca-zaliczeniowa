@@ -95,7 +95,7 @@ public class JPKListaView  implements Serializable {
             p.setPodatnik(pod);
         }
         upodao.editList(lista);
-        System.out.println("koniec");
+        error.E.s("koniec");
     }
     
      private String sprawdzjakiokresvat(Podatnik p) {

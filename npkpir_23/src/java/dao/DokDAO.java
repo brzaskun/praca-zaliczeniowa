@@ -22,7 +22,7 @@ import view.WpisView;
  */
 @Named(value = "DokDAO")
 public class DokDAO extends DAO implements Serializable {
-    private static final Logger LOG = Logger.getLogger(DokDAO.class.getName());
+    //private static final Logger LOG =  Logger.getLogger(DokDAO.class.getName());
 
     @Inject private SessionFacade dokFacade;
     

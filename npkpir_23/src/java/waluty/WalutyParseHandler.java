@@ -90,7 +90,7 @@ public class WalutyParseHandler extends DefaultHandler implements Serializable {
             wiersztabeli.setKurssredni(Double.parseDouble(replace));
             startelement = "";
         }
-        //System.out.println(new String(ch, start, length));
+        //error.E.s(new String(ch, start, length));
     }
 
     @Override
@@ -102,7 +102,7 @@ public class WalutyParseHandler extends DefaultHandler implements Serializable {
                 elementy.add(wiersztabeli);
             }
         }
-        //System.out.println(" End Element :" + qName);
+        //error.E.s(" End Element :" + qName);
     }
 
 }

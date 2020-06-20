@@ -1917,7 +1917,7 @@ public class DokfkView implements Serializable {
             List<Dokfk> wykaz = dokDAOfk.findDokfkPodatnikRokKategoriaOrderByNo(wpisView, wybranakategoriadok);
             List<Konto> kontagrupa1 = kontoDAOfk.findKontaGrupa(wpisView,"1%");
             for (Konto pa : kontagrupa1) {
-                System.out.println(""+pa.getPelnynumer());
+                error.E.s(""+pa.getPelnynumer());
             }
             List<WierszBO> wierszeBO = wierszBODAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             for (Dokfk dokfk : wykaz) {
@@ -2375,7 +2375,7 @@ public class DokfkView implements Serializable {
 //            }
 //        } catch (Exception e) {
 //            E.e(e);
-//            System.out.println("błąd pobierzStronaWierszaDlaRozrachunkow DokfkView 2652");
+//            error.E.s("błąd pobierzStronaWierszaDlaRozrachunkow DokfkView 2652");
 //            return null;
 //        }
 //    }
@@ -2700,14 +2700,14 @@ public class DokfkView implements Serializable {
 
     public static void main(String[] args) {
         double kwotarozrachunku = Double.parseDouble("18370.80");
-        System.out.println(kwotarozrachunku);
+        error.E.s(kwotarozrachunku);
         double kwotaAktualnywPLN = Math.round(kwotarozrachunku * 4.2053 * 100);
         kwotaAktualnywPLN /= 100;
         double kwotaSparowanywPLN = Math.round(kwotarozrachunku * 4.1968 * 100);
         kwotaSparowanywPLN /= 100;
         double roznicakursowa = (kwotaAktualnywPLN - kwotaSparowanywPLN);
-        System.out.println("aktualny " + kwotaAktualnywPLN);
-        System.out.println("sparowany " + kwotaSparowanywPLN);
+        error.E.s("aktualny " + kwotaAktualnywPLN);
+        error.E.s("sparowany " + kwotaSparowanywPLN);
         roznicakursowa = Math.round(roznicakursowa * 100);
         roznicakursowa /= 100;
     }
@@ -2885,7 +2885,7 @@ public class DokfkView implements Serializable {
                     //                Object o = d.getLocalSelection();
                     //                wierszRKindex = d.getRowIndex();
                     //                wierszRK = (Wiersz) d.getRowData();
-                    //System.out.println("lpwiersza " + lpWierszaWpisywanie);
+                    //error.E.s("lpwiersza " + lpWierszaWpisywanie);
 //                DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("formwpisdokument:dataList");
                     //                Object o = d.getLocalSelection();
                     //                wierszRKindex = d.getRowIndex();
@@ -3447,7 +3447,7 @@ public void oznaczjakonkup() {
     
     String update = "formwpisdokument:dataList";
     PrimeFaces.current().ajax().update(update);
-    System.out.println("");
+    error.E.s("");
 }
     
     
@@ -3469,23 +3469,23 @@ public void oznaczjakonkup() {
                     for (StronaWiersza sa : strony) {
                         try {
                             StronaWiersza s = stronaWierszaDAO.findStronaById(sa);
-                            //System.out.println("DELETE FROM `pkpir`.`stronawiersza` WHERE `id`='"+sa.getId()+"';");
+                            //error.E.s("DELETE FROM `pkpir`.`stronawiersza` WHERE `id`='"+sa.getId()+"';");
                             s.setWiersz(null);
                             stronaWierszaDAO.edit(s);
                             stronaWierszaDAO.destroy(s);
-                            //System.out.println("DELETE FROM `pkpir`.`stronawiersza` WHERE `id`='"+sa.getId()+"';");
+                            //error.E.s("DELETE FROM `pkpir`.`stronawiersza` WHERE `id`='"+sa.getId()+"';");
                         } catch (Exception e){
                             E.e(e);
-                            //System.out.println("DELETE FROM `pkpir`.`stronawiersza` WHERE `id`='"+sa.getId()+"';");
+                            //error.E.s("DELETE FROM `pkpir`.`stronawiersza` WHERE `id`='"+sa.getId()+"';");
                         }
                     }
                     for (Wiersz s : wiersze) {
                         try {
                             wierszDAO.destroy(s);
-                            //System.out.println("DELETE FROM `pkpir`.`WIERSZ` WHERE `idwiersza`='"+s.getIdwiersza()+"';");
+                            //error.E.s("DELETE FROM `pkpir`.`WIERSZ` WHERE `idwiersza`='"+s.getIdwiersza()+"';");
                         } catch (Exception e){
                             E.e(e);
-                            //System.out.println("DELETE FROM `pkpir`.`WIERSZ` WHERE `idwiersza`='"+s.getIdwiersza()+"';");
+                            //error.E.s("DELETE FROM `pkpir`.`WIERSZ` WHERE `idwiersza`='"+s.getIdwiersza()+"';");
                         }
                     }
                     dokDAOfk.destroy(p);
@@ -3926,7 +3926,7 @@ public void oznaczjakonkup() {
 //        double kwota = 100000;
 //        kwota = Math.round(kwota * kurs * 10000);
 //        kwota = kwota / 10000;
-//        System.out.println(kwota);
+//        error.E.s(kwota);
 //        staranazwa = "PLN";
 //        nazwawaluty = "EUR";
 //        kurs = 4.189;
@@ -4318,7 +4318,7 @@ public void oznaczjakonkup() {
             //dokDAOfk.editList(listadokumentow);
             Msg.dP();
         } catch (Exception ex) {
-            Logger.getLogger(DokfkView.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(DokfkView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

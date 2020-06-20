@@ -109,7 +109,7 @@ public class Deklaracjevat extends DeklSuper implements Serializable {
 //            DOMSource source = new DOMSource(doc);
 //            transformer.transform(source, result);
 //            xmlString = result.getWriter().toString();
-//            System.out.println(xmlString);
+//            error.E.s(xmlString);
 //       } catch (Exception ex) {
 //           Logger.getLogger(Deklaracjevat.class.getName()).log(Level.SEVERE, null, ex);
 //       }

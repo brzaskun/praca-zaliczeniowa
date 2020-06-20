@@ -36,48 +36,48 @@ public class RewolucjaDKView implements Serializable {
     
 //    public void przenumeruj() {
 //       proc1();
-//       System.out.println("Proc 1");
+//       error.E.s("Proc 1");
 //       proc2();
-//       System.out.println("Proc 2");
+//       error.E.s("Proc 2");
 //       proc3();
-//       System.out.println("Proc 3");
+//       error.E.s("Proc 3");
 //       proc4();
-//       System.out.println("Proc 4");
+//       error.E.s("Proc 4");
 //       proc5();
-//       System.out.println("Proc 5");
+//       error.E.s("Proc 5");
 //    }
 //    
 //    private void proc1() {
 //        List<Dokfk> dok = dokDAOfk.findAll();
-//        System.out.println("Pobralem");
+//        error.E.s("Pobralem");
 //        int j = 0;
 //        for (int i = 1; i <dok.size(); i++) {
 //            dok.get(j++).setId(i);
 //        }
-//        System.out.println("Zachowuje");
+//        error.E.s("Zachowuje");
 //        dokDAOfk.editList(dok);
-//        System.out.println("Skonczylem");
+//        error.E.s("Skonczylem");
 //        Msg.msg("Przenumerowane "+dok.size());
 //    }
 //    
 //    private void proc2() {
 //        List<Wiersz> wiersze= wierszDAO.findAll();
-//        System.out.println("Pobralem");
+//        error.E.s("Pobralem");
 //        int i = 1;
 //        for (Iterator<Wiersz> it = wiersze.iterator(); it.hasNext();) {
 //            Wiersz w = it.next();
 //            w.setDokid(w.getDokfk().getId());
 //            printprogres(i);
 //        }
-//        System.out.println("Zachowuje");
+//        error.E.s("Zachowuje");
 //        wierszDAO.editList(wiersze);
-//        System.out.println("Skonczylem");
+//        error.E.s("Skonczylem");
 //        Msg.msg("Przenumerowane "+wiersze.size());
 //    }
 //    
 //     public void proc3() {
 //        List<EVatwpisFK> wiersze= vatwpisFKDAO.findAll();
-//        System.out.println("Pobralem");
+//        error.E.s("Pobralem");
 //        int i = 1;
 //        for (Iterator<EVatwpisFK> it = wiersze.iterator(); it.hasNext();) {
 //            EVatwpisFK w = it.next();
@@ -86,15 +86,15 @@ public class RewolucjaDKView implements Serializable {
 //            }
 //            printprogres(i);
 //        }
-//        System.out.println("Zachowuje");
+//        error.E.s("Zachowuje");
 //        wierszDAO.editList(wiersze);
-//        System.out.println("Skonczylem");
+//        error.E.s("Skonczylem");
 //        Msg.msg("Przenumerowane "+wiersze.size());
 //    }
 //     
 //     public void proc4() {
 //        List<SrodekTrw> wiersze= strdao.findAll();
-//        System.out.println("Pobralem");
+//        error.E.s("Pobralem");
 //        int i = 1;
 //        for (Iterator<SrodekTrw> it = wiersze.iterator(); it.hasNext();) {
 //            SrodekTrw w = it.next();
@@ -103,15 +103,15 @@ public class RewolucjaDKView implements Serializable {
 //            }
 //            printprogres(i);
 //        }
-//        System.out.println("Zachowuje");
+//        error.E.s("Zachowuje");
 //        wierszDAO.editList(wiersze);
-//        System.out.println("Skonczylem");
+//        error.E.s("Skonczylem");
 //        Msg.msg("Przenumerowane "+wiersze.size());
 //    }
 //    
 //     public void proc5() {
 //        List<RMK> wiersze= rmkdao.findAll();
-//        System.out.println("Pobralem");
+//        error.E.s("Pobralem");
 //        int i = 1;
 //        for (Iterator<RMK> it = wiersze.iterator(); it.hasNext();) {
 //            RMK w = it.next();
@@ -120,24 +120,24 @@ public class RewolucjaDKView implements Serializable {
 //            }
 //            printprogres(i);
 //        }
-//        System.out.println("Zachowuje");
+//        error.E.s("Zachowuje");
 //        wierszDAO.editList(wiersze);
-//        System.out.println("Skonczylem");
+//        error.E.s("Skonczylem");
 //        Msg.msg("Przenumerowane "+wiersze.size());
 //    }
 //     
 //     
 //    private void printprogres(int val) {
 //        if ( (val % 10000) == 0) {
-//            System.out.println("zrobiono "+val);
+//            error.E.s("zrobiono "+val);
 //        }
 //    }
 //    
 //    public static void main(String[] args) {
 //        if ( (10002 % 10000) == 0) {
-//            System.out.println("even");
+//            error.E.s("even");
 //        } else {
-//            System.out.println("not even");
+//            error.E.s("not even");
 //        }
 //    }
 }

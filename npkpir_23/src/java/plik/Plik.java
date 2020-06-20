@@ -68,7 +68,7 @@ public class Plik {
         try {
             fileOutputStream = new BufferedOutputStream(new FileOutputStream(pelnanazwa));
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Plik.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Plik.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             return fileOutputStream;
         }
@@ -111,7 +111,7 @@ public class Plik {
         try {
             fileOutputStream = new BufferedOutputStream(new FileOutputStream(nazwa));
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Plik.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Plik.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             return fileOutputStream;
         }

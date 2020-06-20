@@ -44,12 +44,12 @@ public class Dedraparser {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(fXmlFile);
             doc.getDocumentElement().normalize();
-            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+            error.E.s("Root element :" + doc.getDocumentElement().getNodeName());
             pobierzfaktury(doc, wierszeewidencji, wpisView, podatnik, ewidencja);
             pobierzkorekty(doc, wierszeewidencji, wpisView, podatnik, ewidencja);
         } catch (Exception ex) {
             Msg.msg("e", "Wystąpił błąd przy importowaniu pliku xml. Sprawdź, czy plik nie zawiera błędów.");
-            Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
         }
         return wierszeewidencji;
     }
@@ -136,25 +136,25 @@ public class Dedraparser {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(fXmlFile);
             doc.getDocumentElement().normalize();
-            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+            error.E.s("Root element :" + doc.getDocumentElement().getNodeName());
             NodeList nList = doc.getElementsByTagName("A1");
-            System.out.println("----------------------------");
+            error.E.s("----------------------------");
             for (int temp = 0; temp < nList.getLength(); temp++) {
                 EVatwpisSuper p = new EVatwpisSuper();
                 Node nNode = nList.item(temp);
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;
-                    System.out.println("id: " + eElement.getAttribute("F"));
-                    System.out.println("data: " + eElement.getAttribute("Den"));
-                    System.out.println("netto: " + eElement.getAttribute("Z"));
-                    System.out.println("vat: " + eElement.getAttribute("D"));
-                    System.out.println("imie_i_nazwisko: " + eElement.getAttribute("N"));
-                    System.out.println("ulica: " + eElement.getAttribute("A"));
-                    System.out.println("miasto: " + eElement.getAttribute("M"));
+                    error.E.s("id: " + eElement.getAttribute("F"));
+                    error.E.s("data: " + eElement.getAttribute("Den"));
+                    error.E.s("netto: " + eElement.getAttribute("Z"));
+                    error.E.s("vat: " + eElement.getAttribute("D"));
+                    error.E.s("imie_i_nazwisko: " + eElement.getAttribute("N"));
+                    error.E.s("ulica: " + eElement.getAttribute("A"));
+                    error.E.s("miasto: " + eElement.getAttribute("M"));
                 }
             }
         } catch (ParserConfigurationException ex) {
-            Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

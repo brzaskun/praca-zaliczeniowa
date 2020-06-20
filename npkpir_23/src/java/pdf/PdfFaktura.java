@@ -327,12 +327,12 @@ public class PdfFaktura extends Pdf implements Serializable {
                 stamper = new PdfStamper(reader, new FileOutputStream(nazwapliku2));
                 TextMarginFinder finder;
                 int n = reader.getNumberOfPages();
-                //System.out.println("liczba stron "+n);
+                //error.E.s("liczba stron "+n);
                 finder = parser.processContent(n, new TextMarginFinder());
-                System.out.println(finder.getLlx());
-                System.out.println(finder.getLly());
-                System.out.println(finder.getWidth());
-                System.out.println(finder.getHeight());
+                error.E.s(finder.getLlx());
+                error.E.s(finder.getLly());
+                error.E.s(finder.getWidth());
+                error.E.s(finder.getHeight());
                 if (finder.getLly() < 300) {
                     stamper.insertPage(++n, reader.getPageSize(1));
                     canvas = stamper.getOverContent(n);
@@ -551,10 +551,10 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
             //        TextMarginFinder finder;
             //        int n = reader.getNumberOfPages();
             //        finder = parser.processContent(n, new TextMarginFinder());
-            //        System.out.println(finder.getLlx());
-            //        System.out.println(finder.getLly());
-            //        System.out.println(finder.getWidth());
-            //        System.out.println(finder.getHeight());
+            //        error.E.s(finder.getLlx());
+            //        error.E.s(finder.getLly());
+            //        error.E.s(finder.getWidth());
+            //        error.E.s(finder.getHeight());
             //        //PdfContentByte canvas = stamper.getImportedPage(reader, n);
             ////        PdfContentByte canvas = stamper.getOverContent(1);
             ////        ColumnText.showTextAligned(canvas,Element.ALIGN_LEFT, new Phrase("Hello people!"), finder.getLlx()+30, finder.getLly()-20, 0);
@@ -594,7 +594,7 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
             table.getTotalHeight() + document.bottom(document.bottomMargin()-15f), 
             writer.getDirectContent());
         } catch (DocumentException ex) {
-            Logger.getLogger(PdfFaktura.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(PdfFaktura.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

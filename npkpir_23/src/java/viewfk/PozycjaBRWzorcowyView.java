@@ -1097,7 +1097,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
             //pozycjaBilansDAO.editList(pozycjepodatnikow);
             Msg.msg("Udana implementacja zmiany");
         }
-        System.out.println("");
+        error.E.s("");
     }
 
     

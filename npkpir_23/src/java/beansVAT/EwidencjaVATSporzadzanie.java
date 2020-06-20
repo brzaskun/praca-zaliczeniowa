@@ -61,7 +61,7 @@ public class EwidencjaVATSporzadzanie {
                                 wiersz.setOpizw(ewidwiersz.getOpzw());
                                 listadokvatprzetworzona.add(wiersz);
                             } catch (Exception ex) {
-                                Logger.getLogger(EwidencjaVATSporzadzanie.class.getName()).log(Level.SEVERE, null, ex);
+                                // Logger.getLogger(EwidencjaVATSporzadzanie.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }   
                     }
@@ -83,7 +83,7 @@ public class EwidencjaVATSporzadzanie {
                         Evewidencja nowaEv = evewidencjaDAO.znajdzponazwie(nazwaewidencji);
                         sumaewidencji.put(nazwaewidencji, new EVatwpisSuma(nowaEv, BigDecimal.ZERO, BigDecimal.ZERO, wierszogolny.getOpizw()));
                     } catch (Exception ex) {
-                        Logger.getLogger(EwidencjaVatView.class.getName()).log(Level.SEVERE, null, ex);
+                        // Logger.getLogger(EwidencjaVatView.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
                 listatmp.add(wierszogolny);
@@ -112,7 +112,7 @@ public class EwidencjaVATSporzadzanie {
                     Evewidencja nowaEv = evewidencjaDAO.znajdzponazwie(p);
                     sumaewidencji.put(p, new EVatwpisSuma(nowaEv, sumaewidencjikorekta.get(p).getNetto(), sumaewidencjikorekta.get(p).getVat(), sumaewidencjikorekta.get(p).getEwidencja().getRodzajzakupu()));
                 } catch (Exception ex) {
-                    Logger.getLogger(EwidencjaVATSporzadzanie.class.getName()).log(Level.SEVERE, null, ex);
+                    // Logger.getLogger(EwidencjaVATSporzadzanie.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }

@@ -194,7 +194,7 @@ public class StronaWierszaBean {
             double kwotazlotowki = 0.0;
             kwotazlotowki = Math.round(kwotawaluta * kurs * 100);
             kwotazlotowki /= 100;
-            System.out.println(kwotazlotowki);
+            error.E.s(kwotazlotowki);
             kwotawaluta = 137032.50;
             kwotazlotowki = 0.0;
             kwotazlotowki = Math.round(kwotawaluta * kurs * 100);

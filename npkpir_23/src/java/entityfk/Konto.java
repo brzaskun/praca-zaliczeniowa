@@ -880,18 +880,18 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
 //            int macnr = p.getMacierzysty();
 //            if (macnr != 0) {
 //                String macnrs = p.getMacierzyste();
-//                //System.out.println("nr mac "+macnrs+" podatnik "+p.getPodatnik());
+//                //error.E.s("nr mac "+macnrs+" podatnik "+p.getPodatnik());
 //                Konto mac = (Konto) em.createNamedQuery("Konto.findById").setParameter("id", macnr).getSingleResult();
 //                p.setKontomacierzyste(mac);
-//                //System.out.println("nr mac2 "+mac.getPelnynumer() +" podatnik "+mac.podatnik);
+//                //error.E.s("nr mac2 "+mac.getPelnynumer() +" podatnik "+mac.podatnik);
 //                if (!mac.getPelnynumer().equals(macnrs)) {
 //                    throw new Exception();
 //                }
 //            }
 //        }
-//        System.out.println("zachowanie");
+//        error.E.s("zachowanie");
 //        Em.saveList(em, konta);
-//        System.out.println("koniec");
+//        error.E.s("koniec");
 //    }
 
     public void dodajpotomkaBO(Konto k) {

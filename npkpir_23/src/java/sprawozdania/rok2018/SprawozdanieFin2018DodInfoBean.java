@@ -121,7 +121,7 @@ public class SprawozdanieFin2018DodInfoBean {
 //            java.nio.file.Files.copy(targetStream, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 //            IOUtils.closeQuietly(targetStream);
 //        } catch (IOException ex) {
-//            Logger.getLogger(SprawozdanieFin2018DodInfoBean.class.getName()).log(Level.SEVERE, null, ex);
+//            // Logger.getLogger(SprawozdanieFin2018DodInfoBean.class.getName()).log(Level.SEVERE, null, ex);
 //        }
     }
 

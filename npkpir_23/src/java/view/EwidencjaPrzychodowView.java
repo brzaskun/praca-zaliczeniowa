@@ -60,7 +60,7 @@ public class EwidencjaPrzychodowView implements Serializable {
     @PostConstruct
     private void init() { //E.m(this);
         generujksiege(wpisView.getMiesiacWpisu());
-       // System.out.println("d");
+       // error.E.s("d");
     }
 
        

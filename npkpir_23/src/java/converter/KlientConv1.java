@@ -35,7 +35,7 @@ public class KlientConv1 implements javax.faces.convert.Converter, Serializable 
         try {
             znaleziony = klienciDAO.findAllReadOnlyID(sub);
         } catch (Exception e) {
-            System.out.println("");  
+            error.E.s("");  
         }
         return znaleziony;
     }

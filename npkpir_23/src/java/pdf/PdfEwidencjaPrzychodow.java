@@ -53,7 +53,7 @@ public class PdfEwidencjaPrzychodow {
         try {
             helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
         } catch (IOException ex) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         Font font = new Font(helvetica, 8);
         pdf.setPageSize(PageSize.A4);
@@ -154,7 +154,7 @@ public class PdfEwidencjaPrzychodow {
             table.setHeaderRows(5);
             table.setFooterRows(1);
         } catch (DocumentException ex) {
-            Logger.getLogger(PdfPkpir.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(PdfPkpir.class.getName()).log(Level.SEVERE, null, ex);
         }
         return table;
     }

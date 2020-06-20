@@ -53,6 +53,6 @@ public class Rownolegle1 extends Thread {
 //                Rownolegle1 r = new Rownolegle1(p, konta);
 //            }
 //        }
-//        System.out.println("zachowanie "+licz);
+//        error.E.s("zachowanie "+licz);
 //    }
 }

@@ -99,13 +99,13 @@ public class ParametrView implements Serializable {
         lista.add(new Parametr("01","2017","12","2017","miesiecznie"));
         lista.add(new Parametr("01","2016","12","2016","kwartalnie"));
         String param = zwrocParametr(lista, 2016, "12");
-        System.out.println("param "+param);
+        error.E.s("param "+param);
         param = zwrocParametr(lista, 2017, "01");
-        System.out.println("param "+param);
+        error.E.s("param "+param);
         param = zwrocParametr(lista, 2016, 12);
-        System.out.println("param2 "+param);
+        error.E.s("param2 "+param);
         param = zwrocParametr(lista, 2016, 1);
-        System.out.println("param2 "+param);
+        error.E.s("param2 "+param);
         param = zwrocParametr(lista, 2017, 1);
     }
 }

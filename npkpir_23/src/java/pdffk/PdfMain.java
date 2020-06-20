@@ -321,7 +321,7 @@ public class PdfMain {
                 Plik.zapiszjako(plikzqr,nazwa);
             }
         } catch (Exception ex) {
-            Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
         }
    }
     
@@ -349,7 +349,7 @@ public class PdfMain {
             }
             document.add(par);
         } catch (DocumentException ex) {
-            Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -2380,7 +2380,7 @@ public class PdfMain {
                 } else {
                     Dok p = (Dok) it.next();
                     try {
-                        //System.out.println(""+p.toString());
+                        //error.E.s(""+p.toString());
                         table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8, 20f));
                         table.addCell(ustawfrazeAlign(p.getDataWyst(), "center", 8));
                         table.addCell(ustawfrazeAlign(p.getKontr1().getNpelna(), "left", 8));
@@ -2992,7 +2992,7 @@ public class PdfMain {
 //	}
 
 	public static void displayNumbers(String whichFormat, NumberFormat numberFormat) {
-		//System.out.println("Format:" + whichFormat);
+		//error.E.s("Format:" + whichFormat);
 		for (int i = 0; i <= 10; i++) {
 			double num = Math.PI * Math.pow(i, i) * i;
 			System.out.print("  formatted:" + numberFormat.format(num));

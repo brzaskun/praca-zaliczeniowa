@@ -90,7 +90,7 @@ private static final long serialVersionUID = 1L;
 //                }
 //            }
 //        }
-//        System.out.println(kliencinieruszeni);
+//        error.E.s(kliencinieruszeni);
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">

@@ -126,7 +126,7 @@ public class ImportCSVView  implements Serializable {
                         // use comma as separator
                         String[] tmpline = line.split(cvsSplitBy);
                         if (line.contains("GBP")) {
-                            System.out.println("");
+                            error.E.s("");
                         }
                         tmpzwrot = new AmazonCSV(tmpline);
                         zwrot.add(tmpzwrot);
@@ -201,7 +201,7 @@ public class ImportCSVView  implements Serializable {
             listaX.add(tmpX);
             String symbolwalt = "EUR";
             if (selDokument.getAmazonCSV()!=null) {
-                //System.out.println(selDokument.getAmazonCSV().getCurrency());
+                //error.E.s(selDokument.getAmazonCSV().getCurrency());
                 symbolwalt = selDokument.getAmazonCSV().getCurrency();
             }
             Tabelanbp innatabela = pobierztabele(symbolwalt, selDokument.getDataWyst());
@@ -233,7 +233,7 @@ public class ImportCSVView  implements Serializable {
     
     public Dok sprawdzCzyNieDuplikat(Dok selD) {
         if (selD.getKontr().getNpelna().equals("OPTEGRA POLSKA sp. z o.o.")) {
-            System.out.println("");
+            error.E.s("");
         }
         Dok tmp = null;
         tmp = dokDAO.znajdzDuplikatwtrakcie(selD, wpisView.getPodatnikObiekt(), selD.getRodzajedok().getSkrot());

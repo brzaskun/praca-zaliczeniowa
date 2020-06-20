@@ -160,7 +160,7 @@ private static final long serialVersionUID = 1L;
 
     private void podsumowaniepopmc() {
         if (lista.get(0).getNrWpkpir() != 1) {
-            System.out.println("podsumowanie");
+            error.E.s("podsumowanie");
             List<Sumypkpir> listasum = sumypkpirDAO.findS(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString());
             String biezacymiesiac = wpisView.getMiesiacWpisu();
             DokKsiega sumaposrednia = KsiegaBean.ustawsumaposrednia();

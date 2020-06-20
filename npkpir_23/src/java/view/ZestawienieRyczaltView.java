@@ -179,7 +179,7 @@ public class ZestawienieRyczaltView implements Serializable {
                             String selekcja = dokument.getPkpirM();
                             String selekcja2 = tmp.getNazwakolumny();
                             if (selekcja2==null) {
-                                System.out.println("");
+                                error.E.s("");
                             }
                             Double kwota = tmp.getNetto();
                             Double temp = 0.0;

@@ -381,7 +381,7 @@ public class EwidencjaVatView implements Serializable {
         zwrot.addAll(stworzevatwpisMK(wiersze));
         //dokumenty miedzynarodowe == zasada ogolna
         zwrot.addAll(pobierzEVatRokFKMiedzynarKasowa(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
-        System.out.println("");
+        error.E.s("");
         return zwrot;
     }
     

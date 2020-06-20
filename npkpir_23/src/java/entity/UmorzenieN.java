@@ -226,7 +226,7 @@ public class UmorzenieN implements Serializable {
 //            List<Umorzenie> umorzenia = p.getUmorzWyk();
 //            List<UmorzenieN> umorzenianowe = Collections.synchronizedList(new ArrayList<>());
 //            if (umorzenia != null && umorzenia.size() > 0) {
-//                System.out.println(p.getNazwa());
+//                error.E.s(p.getNazwa());
 //                for (Umorzenie r : umorzenia) {
 //                    UmorzenieN u = new UmorzenieN(r);
 //                    if (p.getKontonetto() != null) {
@@ -255,7 +255,7 @@ public class UmorzenieN implements Serializable {
 //                sumanowe += r2.getKwota();
 //            }
 //            if (Z.z(sumanowe) != Z.z(sumastare)) {
-//                System.out.println("Bladddddd "+p.getNazwa()+" sumastare: "+sumastare+" sumanowe: "+sumanowe);
+//                error.E.s("Bladddddd "+p.getNazwa()+" sumastare: "+sumastare+" sumanowe: "+sumanowe);
 //            }
 //        }
 //        List<SrodekTrw> srodki = em.createNamedQuery("SrodekTrw.findAll").getResultList();
@@ -264,7 +264,7 @@ public class UmorzenieN implements Serializable {
 //            List<Umorzenie> umorzenia = p.getUmorzWyk();
 //            List<UmorzenieN> umorzenianowe = Collections.synchronizedList(new ArrayList<>());
 //            if (umorzenia != null && umorzenia.size() > 0) {
-//                System.out.println(p.getNazwa());
+//                error.E.s(p.getNazwa());
 //                for (Umorzenie r : umorzenia) {
 //                    UmorzenieN u = new UmorzenieN(r);
 //                    if (p.getKontonetto() != null) {
@@ -293,10 +293,10 @@ public class UmorzenieN implements Serializable {
 //                sumanowe += r2.getKwota();
 //            }
 //            if (Z.z(sumanowe) != Z.z(sumastare)) {
-//                System.out.println("Bladddddd "+p.getNazwa()+" sumastare: "+sumastare+" sumanowe: "+sumanowe);
+//                error.E.s("Bladddddd "+p.getNazwa()+" sumastare: "+sumastare+" sumanowe: "+sumanowe);
 //            }
 //        }
-        System.out.println("start");
+        error.E.s("start");
             List<Amodok> amodoklista = em.createNamedQuery("Amodok.findAll").getResultList();
             for (Amodok p : amodoklista) {
                 p.setPlanumorzen(new ArrayList<UmorzenieN>());
@@ -312,7 +312,7 @@ public class UmorzenieN implements Serializable {
                     }
                 }
                 Em.edit(em, p);
-                //System.out.println("edycja "+p.getAmodokPK().toString());
+                //error.E.s("edycja "+p.getAmodokPK().toString());
             }
     }
       

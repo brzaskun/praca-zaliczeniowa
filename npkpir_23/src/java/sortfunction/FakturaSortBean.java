@@ -50,7 +50,7 @@ public class FakturaSortBean {
                 return wynik;
             }
         } catch (Exception e) {
-            System.out.println(""+e);
+            error.E.s(""+e);
         }
        return 0;
     }

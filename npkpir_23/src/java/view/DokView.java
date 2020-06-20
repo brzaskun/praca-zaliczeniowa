@@ -362,7 +362,7 @@ public class DokView implements Serializable {
             }
         } catch (Exception e) {
              E.e(e);
-            System.out.println("dd");
+            error.E.s("dd");
         }
     }
     
@@ -2053,7 +2053,7 @@ public class DokView implements Serializable {
     }
     //
     //    public static void addDays(String dateString) {
-    //        System.out.println("Got dateString: " + dateString);
+    //        error.E.s("Got dateString: " + dateString);
     //
     //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     //        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -2062,36 +2062,36 @@ public class DokView implements Serializable {
     //        try {
     //            calendar.setTime(sdf.parse(dateString));
     //            Date day1 = calendar.getTime();
-    //            System.out.println("  day1 = " + sdf.format(day1));
+    //            error.E.s("  day1 = " + sdf.format(day1));
     //
     //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
     //            Date day2 = calendar.getTime();
-    //            System.out.println("  day2 = " + sdf.format(day2));
+    //            error.E.s("  day2 = " + sdf.format(day2));
     //
     //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
     //            Date day3 = calendar.getTime();
-    //            System.out.println("  day3 = " + sdf.format(day3));
+    //            error.E.s("  day3 = " + sdf.format(day3));
     //
     //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
     //            Date day4 = calendar.getTime();
-    //            System.out.println("  day4 = " + sdf.format(day4));
+    //            error.E.s("  day4 = " + sdf.format(day4));
     //
     //            // Skipping a few days ahead:
     //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 235);
     //            Date day5 = calendar.getTime();
-    //            System.out.println("  day5 = " + sdf.format(day5));
+    //            error.E.s("  day5 = " + sdf.format(day5));
     //
     //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
     //            Date day6 = calendar.getTime();
-    //            System.out.println("  day6 = " + sdf.format(day6));
+    //            error.E.s("  day6 = " + sdf.format(day6));
     //
     //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
     //            Date day7 = calendar.getTime();
-    //            System.out.println("  day7 = " + sdf.format(day7));
+    //            error.E.s("  day7 = " + sdf.format(day7));
     //
     //            calendar.add(java.util.Calendar.DAY_OF_MONTH, 1);
     //            Date day8 = calendar.getTime();
-    //            System.out.println("  day8 = " + sdf.format(day8));
+    //            error.E.s("  day8 = " + sdf.format(day8));
     //
     //        } catch (Exception e) { E.e(e); 
     //        }
@@ -2125,7 +2125,7 @@ public class DokView implements Serializable {
     //                if(sel.getPodatnik().equals("EKSTRA S.C.")){
     //                    sel.setPodatnik("EKSTRA S.C. EWA CYBULSKA, HELENA JAKUBIAK");
     //                }
-    //                System.out.println("Zmienilem dokument");
+    //                error.E.s("Zmienilem dokument");
     //                dokDAO.edit(sel);
     //          }
     //      }
@@ -2156,7 +2156,7 @@ public class DokView implements Serializable {
     //              } catch (Exception e) { E.e(e); }
     //              p.setListakwot1(wiersz);
     //              dokDAO.edit(p);
-    //              System.out.println("Przearanżowano "+p.getNrWlDk()+" - "+p.getPodatnik());
+    //              error.E.s("Przearanżowano "+p.getNrWlDk()+" - "+p.getPodatnik());
     //          }
     //      }
     //

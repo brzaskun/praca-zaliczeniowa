@@ -34,7 +34,7 @@ public class Servereset {
             Process pr=rn.exec(path);
             pokazbutton = false;
         } catch (Exception ex) {
-            Logger.getLogger(Servereset.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Servereset.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

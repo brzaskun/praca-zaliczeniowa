@@ -363,7 +363,7 @@ public class FakturaEbay {
     public double getStawka() {
         String zwrot = this.InklusiveMehrwertsteuersatz.replace("%", "");
         if (zwrot.contains("EUR")) {
-            System.out.println("");
+            error.E.s("");
             zwrot = "0.9";
         }
         return Double.parseDouble(zwrot);

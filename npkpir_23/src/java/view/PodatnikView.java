@@ -222,15 +222,15 @@ private DokDAO dokDAO;
             List<Dok> dokfk =  dokDAO.zwrocBiezacegoKlientaRok(pod, wpisView.getRokWpisuSt());
             List<Rodzajedok> rodzajedok = rodzajedokDAO.findListaPodatnik(pod, wpisView.getRokWpisuSt());
             if (dokfk!=null && dokfk.size()>0 && rodzajedok!=null && rodzajedok.size()>0) {
-                System.out.println("Liczba dok "+dokfk.size());
+                error.E.s("Liczba dok "+dokfk.size());
                 for (Dok s : dokfk) {
                     naniesrodzaj(s,rodzajedok);
                 }
-                System.out.println("podatnik "+pod.getPrintnazwa());
+                error.E.s("podatnik "+pod.getPrintnazwa());
                 dokDAOfk.editList(dokfk);
             }
         }
-        System.out.println("Koniec ");
+        error.E.s("Koniec ");
     }
     
     private void naniesrodzaj(Dok s, List<Rodzajedok> rodzajedok) {
@@ -473,7 +473,7 @@ private DokDAO dokDAO;
 //        while (m.find()) {
 //        }
         String s = "WB1".toUpperCase(new Locale("pl"));
-        System.out.println("nazwa "+s);
+        error.E.s("nazwa "+s);
     }
 
     public void sformatuj(Podatnik s) throws Exception {
@@ -494,11 +494,11 @@ private DokDAO dokDAO;
 //        UIComponent wywolaneprzez = getGrid();
 //
 //        //wywolaneprzez.setRendered(false);
-//        System.out.println("Form: "
+//        error.E.s("Form: "
 //                + wywolaneprzez.getNamingContainer().getClientId());
-//        System.out.println("Rodzic: "
+//        error.E.s("Rodzic: "
 //                + (wywolaneprzez = wywolaneprzez.getParent()));
-//        System.out.println("Klientid: " + wywolaneprzez.getClientId());
+//        error.E.s("Klientid: " + wywolaneprzez.getClientId());
 //        PrimeFaces.current().ajax().update(wywolaneprzez.getClientId());
 //        UIComponent output = new HtmlOutputText();
 //        UIComponent nowyinput = new HtmlInputText();
@@ -545,7 +545,7 @@ private DokDAO dokDAO;
 //                nowalista.add(c);
 //            }
 //        }
-//        System.out.println("To jest listka: " + listkakopia.toString());
+//        error.E.s("To jest listka: " + listkakopia.toString());
 //    }
 //
 //    public void dodajrzad(ActionEvent e) {

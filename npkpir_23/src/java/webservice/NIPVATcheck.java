@@ -31,7 +31,7 @@ public class NIPVATcheck {
     
     public static void main(String[] args) {
         TWynikWeryfikacjiVAT sprawdzNIP = NIPVATcheck.sprawdzNIP("6751661857");
-        System.out.println("wynik "+sprawdzNIP.getKomunikat());
-        System.out.println("symbol "+sprawdzNIP.getKod().value());
+        error.E.s("wynik "+sprawdzNIP.getKomunikat());
+        error.E.s("symbol "+sprawdzNIP.getKod().value());
     }
 }

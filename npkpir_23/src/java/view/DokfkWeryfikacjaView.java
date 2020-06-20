@@ -79,12 +79,12 @@ public class DokfkWeryfikacjaView implements Serializable {
                         try {
                             Thread.sleep(300);
                         } catch (InterruptedException ex) {
-                            Logger.getLogger(DokfkWeryfikacjaView.class.getName()).log(Level.SEVERE, null, ex);
+                            // Logger.getLogger(DokfkWeryfikacjaView.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         if (wynik.getKod().value().equals("C")) {
                             it.remove();
                         }
-                        System.out.println("nip "+dok.getKontr().getNip()+" wynik "+wynik.getKomunikat());
+                        error.E.s("nip "+dok.getKontr().getNip()+" wynik "+wynik.getKomunikat());
                         if (wynik.getKomunikat().contains("nie jest zarejestrowany jako podatnik VAT")) {
                             Msg.msg("e","nip "+dok.getKontr().getNip()+" jest nieaktywny");
                         }
@@ -112,12 +112,12 @@ public class DokfkWeryfikacjaView implements Serializable {
                             try {
                                 Thread.sleep(300);
                             } catch (InterruptedException ex) {
-                                Logger.getLogger(DokfkWeryfikacjaView.class.getName()).log(Level.SEVERE, null, ex);
+                                // Logger.getLogger(DokfkWeryfikacjaView.class.getName()).log(Level.SEVERE, null, ex);
                             }
                             if (wynik.getKod().value().equals("C")) {
                                 it.remove();
                             }
-                            System.out.println("nip "+dok.getKontr().getNip()+" wynik "+wynik.getKomunikat());
+                            error.E.s("nip "+dok.getKontr().getNip()+" wynik "+wynik.getKomunikat());
                             if (wynik.getKomunikat().contains("nie jest zarejestrowany jako podatnik VAT")) {
                                 Msg.msg("e","nip "+dok.getKontr().getNip()+" jest nieaktywny");
                             }
@@ -712,13 +712,13 @@ public class DokfkWeryfikacjaView implements Serializable {
 
 
 public static void main(String[] args)     {
-    System.out.println("dd");
+    error.E.s("dd");
     String classname = "com.mysql.cj.jdbc.Driver";
         try {
             Class.forName(classname);
-            System.out.println("udało sie");
+            error.E.s("udało sie");
         } catch (ClassNotFoundException ex) {
-            System.out.println("NIE udało sie");
+            error.E.s("NIE udało sie");
         }
     
 }

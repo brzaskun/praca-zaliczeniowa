@@ -301,7 +301,7 @@ public class Logowanie implements Serializable {
 //                r.setMaxAge(0);
 //                r.setPath("/");
 //                response.addCookie(r);
-//                System.out.println("Skasowano ciasteczko gabiurms");
+//                error.E.s("Skasowano ciasteczko gabiurms");
 //            }
 //        }
 //        return login();

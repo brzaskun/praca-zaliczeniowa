@@ -152,7 +152,7 @@ public class DokTabView implements Serializable {
                 String wartosc = wpisView.getPodatnikObiekt().getNumerpkpir().get(index).getParametr();
                 numerkolejny = Integer.parseInt(wartosc);
             } catch (Exception e) {
-                System.out.println("Blad " + e.toString());
+                error.E.s("Blad " + e.toString());
             }
         }
         try {

@@ -88,10 +88,10 @@ public class JPKCheck {
             mail.Mail.brakiwJPK(p, "Wykaz jpk z błędami", zbledem, null, sMTPSettingsDAO.findSprawaByDef());
             mail.Mail.brakiwJPK(p, "Nie wysłano jpk dla firm", zbledem, null, sMTPSettingsDAO.findSprawaByDef());
         }
-                System.out.println("wywolanie check jpk");
+                error.E.s("wywolanie check jpk");
             }
         } catch (UnknownHostException ex) {
-            Logger.getLogger(JPKCheck.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(JPKCheck.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

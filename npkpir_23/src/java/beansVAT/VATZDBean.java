@@ -75,7 +75,7 @@ public class VATZDBean {
             newXMLGregorianCalendar.setMonth(Integer.parseInt(data[1]));
             newXMLGregorianCalendar.setDay(Integer.parseInt(data[2]));
         } catch (DatatypeConfigurationException ex) {
-            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
         }
         return newXMLGregorianCalendar;
     }
@@ -117,6 +117,6 @@ public class VATZDBean {
     public static void main(String[] args) {
         //WniosekVATZD wn = createVATZD();
         //marszajuldoplikuxml(wn);
-        //System.out.println(marszajuldoStringu(wn));
+        //error.E.s(marszajuldoStringu(wn));
     }
 }
