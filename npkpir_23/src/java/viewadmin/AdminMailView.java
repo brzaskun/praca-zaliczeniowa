@@ -259,7 +259,9 @@ public class AdminMailView implements Serializable {
             Klienci p = new Klienci();
             p.setNip("8511005008");
             p.setEmail("info@taxman.biz.pl");
-            sms.SmsSend.wyslijSMSyMail(p, "Wysłano ważne informacje na adres firmy", podatnikDAO);
+            if (bezsms==false) {
+                sms.SmsSend.wyslijSMSyMail(p, "Wysłano ważne informacje na adres firmy", podatnikDAO);
+            }
             Msg.msg("i", "Wyslano wiadomości testowa na adres info@taxman.biz.pl");
         } catch (Exception e) {
             Msg.msg("e", "Blad nie wyslano wiadomosci! " + e.toString());
