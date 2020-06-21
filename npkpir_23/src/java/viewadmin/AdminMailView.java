@@ -79,6 +79,7 @@ public class AdminMailView implements Serializable {
     private boolean tylkonievat;
     private boolean tylkododatkowe;
     private boolean tylkoaktywni;
+    private boolean bezsms;
     private byte[] zalacznik;
     private String nazwazalacznik;
     private String jezykmaila;
@@ -234,7 +235,9 @@ public class AdminMailView implements Serializable {
                 try {
                     if (p.getEmail() != null && p.getJezykwysylki()!=null) {
                         MailAdmin.mailAdmin(p.getEmail(), tematwiadomosci, zawartoscmaila, sMTPSettingsDAO.findSprawaByDef(), zalacznik, nazwazalacznik);
-                        sms.SmsSend.wyslijSMSyMail(p, "Wysłano ważne informacje na adres firmy", podatnikDAO);
+                        if (bezsms==false) {
+                            sms.SmsSend.wyslijSMSyMail(p, "Wysłano ważne informacje na adres firmy", podatnikDAO);
+                        }
                         ilosc++;
                     } else {
                         Msg.msg("w", "Brak maila/zakaz wysyłki dla " + p.getNpelna());
@@ -444,6 +447,14 @@ public class AdminMailView implements Serializable {
 
     public void setTematwiadomosci(String tematwiadomosci) {
         this.tematwiadomosci = tematwiadomosci;
+    }
+
+    public boolean isBezsms() {
+        return bezsms;
+    }
+
+    public void setBezsms(boolean bezsms) {
+        this.bezsms = bezsms;
     }
     
 

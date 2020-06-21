@@ -37,6 +37,7 @@ import msg.Msg;
 @ManagedBean
 @ViewScoped
 public class DeklaracjaVatSchemaView implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Inject
     private DeklaracjaVatSchemaDAO deklaracjaVatSchemaDAO;
     private List<DeklaracjaVatSchema> schemyDeklaracjiVat;

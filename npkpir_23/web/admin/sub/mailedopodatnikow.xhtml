@@ -27,34 +27,34 @@
         </p:tab>
         <p:tab title="adresaci">
             <h:form>
-                <p:panelGrid columns="15">
+                <p:panelGrid columns="17">
                     <h:outputText value="tylko dodatkowe"/>
                     <p:selectBooleanCheckbox value="#{adminMailView.tylkododatkowe}">
-                        <p:ajax event="change" update="@form" listener="#{adminMailView.init}"/>
+                        <p:ajax event="change" partialSubmit="true" update="@form" listener="#{adminMailView.init}"/>
                     </p:selectBooleanCheckbox>
                     <h:outputText value="tylko pracodawcy"/>
                     <p:selectBooleanCheckbox value="#{adminMailView.tylkozus}">
-                        <p:ajax event="change" update="@form" listener="#{adminMailView.init}"/>
+                        <p:ajax event="change" partialSubmit="true" update="@form" listener="#{adminMailView.init}"/>
                     </p:selectBooleanCheckbox>
                     <h:outputText value="osoby prawne"/>
                     <p:selectBooleanCheckbox value="#{adminMailView.tylkospolki}">
-                        <p:ajax event="change" update="@form" listener="#{adminMailView.init}"/>
+                        <p:ajax event="change" partialSubmit="true" update="@form" listener="#{adminMailView.init}"/>
                     </p:selectBooleanCheckbox>
                     <h:outputText value="osoby fizyczne"/>
                     <p:selectBooleanCheckbox value="#{adminMailView.tylkofizyczne}">
-                        <p:ajax event="change" update="@form" listener="#{adminMailView.init}"/>
+                        <p:ajax event="change" partialSubmit="true" update="@form" listener="#{adminMailView.init}"/>
                     </p:selectBooleanCheckbox>
                     <h:outputText value="vat-owcy"/>
                     <p:selectBooleanCheckbox value="#{adminMailView.tylkovat}">
-                        <p:ajax event="change" update="@form" listener="#{adminMailView.init}"/>
+                        <p:ajax event="change" partialSubmit="true" update="@form" listener="#{adminMailView.init}"/>
                     </p:selectBooleanCheckbox>
                     <h:outputText value="nievat-owcy"/>
                     <p:selectBooleanCheckbox value="#{adminMailView.tylkonievat}">
-                        <p:ajax event="change" update="@form" listener="#{adminMailView.init}"/>
+                        <p:ajax event="change" partialSubmit="true" update="@form" listener="#{adminMailView.init}"/>
                     </p:selectBooleanCheckbox>
                     <h:outputText value="tylko aktywni"/>
                     <p:selectBooleanCheckbox value="#{adminMailView.tylkoaktywni}">
-                        <p:ajax event="change" update="@form" listener="#{adminMailView.init}"/>
+                        <p:ajax event="change" partialSubmit="true" update="@form" listener="#{adminMailView.init}"/>
                     </p:selectBooleanCheckbox>
                     <p:selectOneMenu value="#{adminMailView.jezykmaila}">
                         <p:ajax event="change" partialSubmit="true" update="@form" listener="#{adminMailView.init}"/>
@@ -64,6 +64,10 @@
                         <f:selectItem itemLabel="angielski" itemValue="en"/>
                         <f:selectItem itemLabel="czeski" itemValue="cze"/>
                     </p:selectOneMenu>
+                    <h:outputText value="bez sms"/>
+                    <p:selectBooleanCheckbox value="#{adminMailView.bezsms}">
+                        <p:ajax event="change" partialSubmit="true" update="@form" listener="#{adminMailView.init}"/>
+                    </p:selectBooleanCheckbox>
                 </p:panelGrid>
                 <p:dataTable value="#{adminMailView.klientList}" var="loop" rowIndexVar="index" style="width: 800px;" id="adresy"  sortBy="#{loop.npelna}" rowKey="#{loop.id}" rendered="#{!adminMailView.tylkododatkowe}">
                     <f:facet name="header">

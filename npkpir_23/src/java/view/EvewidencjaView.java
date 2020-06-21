@@ -7,6 +7,7 @@ package view;
 import dao.EvewidencjaDAO;
 import dao.EvpozycjaDAO;
 import entity.Evewidencja;
+import entity.JPKVATWersja;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class EvewidencjaView implements  Serializable {
     private Evewidencja wybrany;
     @Inject private EvewidencjaDAO evwidencjaDAO;
     @Inject private EvpozycjaDAO evpozycjaDAO;
+    private JPKVATWersja jPKVATWersja;
 
     public EvewidencjaView() {
         lista = Collections.synchronizedList(new ArrayList<>());
@@ -137,6 +139,14 @@ public class EvewidencjaView implements  Serializable {
 
     public void setWybrany(Evewidencja wybrany) {
         this.wybrany = wybrany;
+    }
+
+    public JPKVATWersja getjPKVATWersja() {
+        return jPKVATWersja;
+    }
+
+    public void setjPKVATWersja(JPKVATWersja jPKVATWersja) {
+        this.jPKVATWersja = jPKVATWersja;
     }
     
     

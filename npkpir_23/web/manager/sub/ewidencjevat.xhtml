@@ -79,10 +79,74 @@
                     <p:commandButton action="#{evewidencjaView.edytuj()}" value="edytuj" update="akordeon:form0:tablica1, akordeon:parametryewidencji:parametr" type="submit" style="width: 120px; margin: 10px;"/>
             </h:form>
         </p:tab>
+        <p:tab title="Definiowanie wersji JPK">
+           <h:form id="form_JPKView">
+                <p:dataTable value="#{jPKVATWersjaView.lista}" var="item" style="width: 680px;"
+                             emptyMessage="nie ma zdefiniowanych schem" id="wykazschem" rowKey="#{item.id}" rowIndexVar="index"
+                             selection="#{jPKVATWersjaView.selected}" selectionMode="single" sortBy="#{item.nazwa}" sortOrder="descending">
+                    <p:ajax event="toggleSelect" global="false"/>
+                    <p:ajax event="rowSelect" global="false" listener="#{jPKVATWersjaView.skopiujschema()}" update="akordeon:wprowadzanieschemy"/>
+                    <f:facet name="header">
+                        <h:outputText value="lista zdefiniowanych JPK"/>
+                    </f:facet>
+                    <p:column width="30" style="text-align: center;">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="RokOd"/>
+                        </f:facet>
+                        <h:outputText value="#{item.rokOd}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="McOd"/>
+                        </f:facet>
+                        <h:outputText value="#{item.mcOd}"/>
+                    </p:column>
+                    <p:column width="300">
+                        <f:facet name="header">
+                            <h:outputText value="Nazwa schemy"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nazwa}"/>
+                    </p:column>
+                    <p:column width="70">
+                        <f:facet name="header">
+                            <h:outputText value="mc/kw"/>
+                        </f:facet>
+                        <h:outputText value="#{item.mc0kw1 eq false ? 'miesięczna' : 'kwartalna'}" style="#{item.mc0kw1 eq false ? 'color: green' : 'color:blue'}"/>
+                    </p:column>
+                    <p:column width="40">
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{jPKVATWersjaView.usun(item)}"
+                                         update="akordeon:form11 akordeon:form_JPKView:wykazschem"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <h:form id="wprowadzanieschemy">
+                <p:panelGrid id="parametrydeklaracjaschema" columns="6" style="padding: 10px;">
+                    <h:outputText value="rok od: "/><p:selectOneMenu value="#{jPKVATWersjaView.nowy.rokOd}"><f:selectItems value="#{Roki.rokiList}"/></p:selectOneMenu>
+                    <h:outputText value="miesiąc od: "/><p:selectOneMenu value="#{jPKVATWersjaView.nowy.mcOd}"><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>
+                    <h:outputText value="nazwa jpk: "/><p:inputText value="#{jPKVATWersjaView.nowy.nazwa}" style="width: 200px;"/>
+                    <h:outputText value="mc/kw: " />
+                    <p:selectOneListbox value="#{jPKVATWersjaView.nowy.mc0kw1}">
+                        <f:selectItem itemLabel="miesięczna" itemValue="false"/>
+                        <f:selectItem itemLabel="kwartalna" itemValue="true"/>
+                    </p:selectOneListbox>
+                </p:panelGrid>
+                 <p:commandButton value="dodaj" actionListener="#{jPKVATWersjaView.dodajscheme()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:form_JPKView:wykazschem akordeon:wprowadzanieschemy akordeon:form11"/>
+                <p:commandButton value="edytuj" actionListener="#{jPKVATWersjaView.edytujscheme()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:form_JPKView:wykazschem akordeon:wprowadzanieschemy akordeon:form11"/>
+            </h:form>
+        </p:tab>
         <p:tab title="Definiowanie pól JPK dla ewidencji VAT">  
             <h:form id="form11" >
-                
-                <h:outputText value="definiowanie ewidencji VAT" style="font-size: 15px"/>
+                <p:panelGrid columns="2">
+                <h:outputText value="wybór wersji JPK" />
+                <p:selectOneMenu value="#{evewidencjaView.jPKVATWersja}" converter="#{jPKVATWersjaCechaConv}">
+                    <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                    <f:selectItems value="#{jPKVATWersjaView.lista}" var="item" itemLabel="#{item.nazwa}"/>
+                    <p:ajax event="change" partialSubmit="true"/>
+                </p:selectOneMenu>
+                </p:panelGrid>
                 <p:growl life="3600"  id="msg1" showDetail="true"/>
                 <p:dataTable id="tablica1" value="#{evewidencjaView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
                              pageLinks="12" rows="10" selection="#{evewidencjaView.wybrany}" selectionMode="single" rowKey="#{loop.nazwa}"

@@ -83,6 +83,7 @@ public class Evewidencja implements Serializable {
     private String polejpk_netto_zakup;
     @Column(name = "polejpk_vat_zakup")
     private String polejpk_vat_zakup;
+   
 //    @OneToMany(mappedBy = "ewidencja", cascade = CascadeType.ALL,  orphanRemoval=true)
 //    private List<EVatwpis1> eVatwpisList;
 
