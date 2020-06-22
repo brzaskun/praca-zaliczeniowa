@@ -58,7 +58,7 @@ import org.primefaces.PrimeFaces;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.file.UploadedFile;
+import org.primefaces.model.UploadedFile;
 import org.xml.sax.SAXException;
 import view.WpisView;
 import waluty.Z;
@@ -218,8 +218,8 @@ public class BankImportView implements Serializable {
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
             if (extension.equals("csv")||extension.equals("xml")) {
                 String filename = uploadedFile.getFileName();
-                pobraneplikibytes.add(uploadedFile.getContent());
-                //plikinterpaper = uploadedFile.getContent();
+                pobraneplikibytes.add(uploadedFile.getContents());
+                //plikinterpaper = uploadedFile.getContents();
                 PrimeFaces.current().ajax().update("panelplikbankall");
                 resetuj2();
                 grid1.setRendered(true);

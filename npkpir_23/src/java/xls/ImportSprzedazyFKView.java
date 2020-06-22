@@ -51,7 +51,7 @@ import msg.Msg;import org.apache.commons.io.FilenameUtils;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.file.UploadedFile;
+import org.primefaces.model.UploadedFile;
 
 import pdffk.PdfJPKSprzedaz;
 import view.WpisView;
@@ -132,7 +132,7 @@ public class ImportSprzedazyFKView  implements Serializable {
             String filename = uploadedFile.getFileName();
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
             if (extension.equals("xml")) {
-                plikinterpaper = uploadedFile.getContent();
+                plikinterpaper = uploadedFile.getContents();
                 PrimeFaces.current().ajax().update("panelplikjpk");
                 grid1.setRendered(true);
                 Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");

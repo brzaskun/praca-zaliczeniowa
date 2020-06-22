@@ -44,7 +44,7 @@ import javax.servlet.http.HttpServletRequest;
 import msg.Msg; import org.primefaces.PrimeFaces;
 import org.joda.time.DateTime;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.file.UploadedFile;
+import org.primefaces.model.UploadedFile;
 import pdf.PdfDok;
 import plik.Plik;
 import waluty.Z;
@@ -119,7 +119,7 @@ public class ImportCSVView  implements Serializable {
         String line = "";
         String cvsSplitBy = ",";
         try {
-            InputStream is = uploadedFile.getInputStream();
+            InputStream is = uploadedFile.getInputstream();
             try (BufferedReader br = new BufferedReader(new InputStreamReader(is, "windows-1252"))) {
                 while ((line = br.readLine()) != null) {
                     try {

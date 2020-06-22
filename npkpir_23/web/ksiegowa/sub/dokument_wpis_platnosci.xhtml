@@ -205,7 +205,7 @@
                         <p:column headerText="kwota" style="width: 110px;">
                             <p:inputNumber  value="#{platnosciWalutyView.kwotadorozliczenia}" 
                                              style="float: right; margin-right: 4px;" valueChangeListener="#{platnosciWalutyView.przelicz}"
-                                             symbolPosition="s"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000">
+                                             symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000">
                                 <p:ajax event="change" partialSubmit="true" global="false"/>
                             </p:inputNumber>
                         </p:column>

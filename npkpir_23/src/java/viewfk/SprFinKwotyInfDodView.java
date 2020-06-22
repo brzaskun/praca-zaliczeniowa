@@ -41,7 +41,7 @@ import embeddable.Mce;
 import entity.PodatnikUdzialy;
 import java.util.Base64;
 import java.util.Iterator;
-import org.primefaces.model.file.UploadedFile;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -127,7 +127,7 @@ public class SprFinKwotyInfDodView  implements Serializable{
             //String nazwakrotka = wpisView.getPodatnikObiekt().getNip()+"_"+dt+"_"+"logo."+extension;
             String rozszerzenie = filename.substring(filename.length()-3, filename.length());
             if (rozszerzenie.equals("pdf")) {
-                sprFinKwotyInfDod.setPlik(uploadedFile.getContent());
+                sprFinKwotyInfDod.setPlik(uploadedFile.getContents());
                 sprFinKwotyInfDod.setNazwapliku(filename);
                 sprFinKwotyInfDodDAO.edit(sprFinKwotyInfDod);
                 Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
@@ -150,7 +150,7 @@ public class SprFinKwotyInfDodView  implements Serializable{
             //String nazwakrotka = wpisView.getPodatnikObiekt().getNip()+"_"+dt+"_"+"logo."+extension;
             String rozszerzenie = filename.substring(filename.length()-3, filename.length());
             if (rozszerzenie.equals("pdf")) {
-                sprFinKwotyInfDod.setPlikOpcja(uploadedFile.getContent());
+                sprFinKwotyInfDod.setPlikOpcja(uploadedFile.getContents());
                 sprFinKwotyInfDod.setNazwaplikuOpcja(filename);
                 sprFinKwotyInfDodDAO.edit(sprFinKwotyInfDod);
                 Msg.msg("Sukces. Opcjonalny plik " + filename + " został skutecznie załadowany");
@@ -172,7 +172,7 @@ public class SprFinKwotyInfDodView  implements Serializable{
             //String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
             //String dt = String.valueOf((new Date()).getTime());
             //String nazwakrotka = wpisView.getPodatnikObiekt().getNip()+"_"+dt+"_"+"logo."+extension;
-            sprFinKwotyInfDod.setPlikxml(IOUtils.toByteArray(uploadedFile.getInputStream()));
+            sprFinKwotyInfDod.setPlikxml(IOUtils.toByteArray(uploadedFile.getInputstream()));
             sprFinKwotyInfDod.setNazwaplikuxml(filename);
             sprFinKwotyInfDodDAO.edit(sprFinKwotyInfDod);
             Msg.msg("Sukces. Plik xml " + filename + " został skutecznie załadowany");

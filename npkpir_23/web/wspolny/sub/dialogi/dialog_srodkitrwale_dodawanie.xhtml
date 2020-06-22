@@ -70,7 +70,7 @@
                     <p:column>
                         <p:inputNumber id="cenazakupu" value="#{STRTableView.selectedSTR.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                         onblur="zweryfikujczyniebrakujesrodektrw('formdialogsrodki');"
-                                        style="text-align: right;" symbolPosition="s"  inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto"/> 
+                                        style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto"/> 
                     </p:column>
                     <h:outputText value="środek trw/wyposazenie"/>
                     <p:column>

@@ -58,7 +58,7 @@ import org.primefaces.PrimeFaces;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.file.UploadedFile;
+import org.primefaces.model.UploadedFile;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -174,7 +174,7 @@ public class BankPKOImportView implements Serializable {
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
             if (extension.equals("xml")) {
                 String filename = uploadedFile.getFileName();
-                plikinterpaper = uploadedFile.getContent();
+                plikinterpaper = uploadedFile.getContents();
                 PrimeFaces.current().ajax().update("panelplik");
                 grid1.setRendered(true);
                 Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");

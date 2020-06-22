@@ -20,7 +20,7 @@
             <p:panelGrid columns="2" columnClasses="sixty-percent forty-percent"  binding="#{interpaperImportView.grid0}">
                     <p:panelGrid columns="1" style="margin-top: 20px;margin-bottom: 10px;">
                         <h:outputText value="Akceptowana wersja pliku xls to 97-2003" style="font-weight: bold;"/>
-                        <p:fileUpload listener="#{interpaperImportView.zachowajplik}" 
+                        <p:fileUpload fileUploadListener="#{interpaperImportView.zachowajplik}" 
                                       mode="advanced" dragDropSupport="true" multiple="true" sequential="true" auto="true"
                                       update="messages2 panelprzyciskow form_importinterpaper panelplik:rodzajrach" 
                                       invalidSizeMessage="Plik za duży" allowTypes="/(\.|\/)(csv|xls|xml)$/" invalidFileMessage="Niewłaściwy format pliku: "

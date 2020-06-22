@@ -33,7 +33,7 @@ import msg.Msg; import org.primefaces.PrimeFaces;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.file.UploadedFile;
+import org.primefaces.model.UploadedFile;
 
 
 /**
@@ -109,10 +109,10 @@ public class FakturaelementygraficzneView implements Serializable {
             String dt = String.valueOf((new Date()).getTime());
             String nazwakrotka = wpisView.getPodatnikObiekt().getNip()+"_"+dt+"_"+"logo."+extension;
             logofakturaDAO.usun(wpisView.getPodatnikObiekt());
-            logofakturaDAO.edit(new Logofaktura(wpisView.getPodatnikObiekt(),nazwakrotka,extension,uploadedFile.getContent()));
+            logofakturaDAO.edit(new Logofaktura(wpisView.getPodatnikObiekt(),nazwakrotka,extension,uploadedFile.getContents()));
             usunlogo();
             uzycieloga(true);
-            zachowajpliknadysku(uploadedFile.getInputStream(), dt, extension);
+            zachowajpliknadysku(uploadedFile.getInputstream(), dt, extension);
             fakturaelementygraficzneDAO.dodaj(new Fakturaelementygraficzne(wpisView.getPodatnikWpisu(),nazwakrotka));
             PrimeFaces.current().ajax().update("akordeon:formelementy");
             PrimeFaces.current().ajax().update("akordeon:formelementygraficzne:panellogo");

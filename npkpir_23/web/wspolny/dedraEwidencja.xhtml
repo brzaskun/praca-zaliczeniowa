@@ -7,7 +7,7 @@
       xmlns:bcf="http://brzaskun.com/facelets">
     <h:form id="form_dialog_ewvat_dedra" >
         <p:panel header="Wczytaj plik XML zawierający zapisy VAT" rendered="#{eVatDedraView.wiersze.size() eq 0}" style="width: 1250px;"/>
-            <p:fileUpload listener="#{eVatDedraView.zachowajZaladowanyPlik}" update="form_dialog_ewvat_dedra:tabela"
+            <p:fileUpload fileUploadListener="#{eVatDedraView.zachowajZaladowanyPlik}" update="form_dialog_ewvat_dedra:tabela"
                           mode="advanced" dragDropSupport="true" fileLimit="3"
                           sizeLimit="200000"   
                           validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"

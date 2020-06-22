@@ -84,18 +84,18 @@
                 </h:selectOneMenu>
                 <p:inputNumber id="netto" value="#{bilansWprowadzanieView.ewidencjaVatRK.netto}" symbol="#{bilansWprowadzanieView.wierszBOVAT.waluta.symbolwaluty}" 
                                 required="true" requiredMessage="Brak kwoty - uzupełnij" onfocus="kalkulator_pobierzwiersz(this);"
-                                style="text-align: right; height: 19px;" symbolPosition="s" size="12"
+                                style="text-align: right; height: 19px;" symbolPosition="s" decimalSeparator="."  size="12"
                                 thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
                     <p:ajax global="false" event="change" partialSubmit="true"/>
                 </p:inputNumber>
                 <p:inputNumber id="vat" value="#{bilansWprowadzanieView.ewidencjaVatRK.vat}" symbol=" zł" required="true" 
                                 requiredMessage="Brak kwoty - uzupełnij" onfocus="kalkulator_pobierzwiersz(this);"
-                                style="text-align: right;" symbolPosition="s" size="12"
+                                style="text-align: right;" symbolPosition="s" decimalSeparator="."  size="12"
                                 thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
                     <p:ajax global="false" event="change" listener="#{bilansWprowadzanieView.updatevatRK()}"  partialSubmit="true" />
                 </p:inputNumber>
                 <p:inputNumber id="brutto" value="#{bilansWprowadzanieView.ewidencjaVatRK.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"  size="12"
-                                style="text-align: right;" symbolPosition="s" thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto" 
+                                style="text-align: right;" symbolPosition="s" decimalSeparator="."  thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto" 
                                 >
                     <p:ajax global="false" event="change" partialSubmit="true" />
                 </p:inputNumber>

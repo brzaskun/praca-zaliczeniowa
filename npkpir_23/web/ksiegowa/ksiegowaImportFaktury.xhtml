@@ -28,7 +28,7 @@
                                 </p:selectBooleanCheckbox>
                             </p:panelGrid>
                             <p:growl life="3600"  id="messages1"/>
-                            <p:fileUpload listener="#{importFakturyView.importujsprzedaz}" 
+                            <p:fileUpload fileUploadListener="#{importFakturyView.importujsprzedaz}" 
                                           mode="advanced" dragDropSupport="true" fileLimit="1"
                                           update="messages1 importtabela" sizeLimit="4000000"  
                                           validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
