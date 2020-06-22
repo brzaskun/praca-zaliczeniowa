@@ -2894,7 +2894,7 @@ public class DokfkView implements Serializable {
                     wierszRK = selected.getListawierszy().get(wierszRKindex);
                     ewidencjaVatRK = null;
                     for (EVatwpisFK p : selected.getEwidencjaVAT()) {
-                        if (p.getWiersz() == wierszRK) {
+                        if (p.getWiersz().equals(wierszRK)) {
                             ewidencjaVatRK = p;
                             ewidencjaVATRKzapis0edycja1 = true;
                             break;
