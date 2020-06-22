@@ -68,7 +68,7 @@
                 <h:outputText value="konto"/><h:outputText value="#{bankImportView.naglowek.wyciagkonto}" rendered="#{bankImportView.naglowek.wyciagkonto ne '11111'}"/>
                 <h:outputText value="Pobrano historię zapisów a nie wyciąg. Informacja o saldach jest niedostępna" rendered="#{bankImportView.naglowek.wyciagkonto eq '11111'}" style="color:red;font-weight: bold;"/>
                 <h:outputText value="wprowadź saldo początkowe" rendered="#{bankImportView.naglowek.wyciagkonto eq '11111'}" style="font-weight: bold"/><p:inputNumber value="#{bankImportView.naglowek.wyciagbo}" rendered="#{bankImportView.naglowek.wyciagkonto eq '11111'}" decimalPlaces="2"
-                                                                                                                                                                        inputStyle="text-align: right;" symbolPosition="s" decimalSeparator=".">
+                                                                                                                                                                        inputStyle="text-align: right;" symbolPosition="s" >
                     <p:ajax event="blur" partialSubmit="true"/>
                 </p:inputNumber>
                 <h:outputText value="saldo początkowe" rendered="#{bankImportView.naglowek.wyciagkonto ne '11111'}"/><bcf:outputpl value="#{bankImportView.naglowek.wyciagbo}" rendered="#{bankImportView.naglowek.wyciagkonto ne '11111'}"/>

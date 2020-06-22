@@ -85,17 +85,17 @@
                 <p:inputNumber id="netto" value="#{dokfkView.ewidencjaVatRK.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" 
                                 required="true" requiredMessage="Brak kwoty - uzupełnij" onfocus="kalkulator_pobierzwiersz(this);"
                                 style="text-align: right; height: 19px;" symbolPosition="s" size="12"
-                                thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
                     <p:ajax global="false" event="change" listener="#{dokfkView.updatenettoRK()}" partialSubmit="true"/>
                 </p:inputNumber>
                 <p:inputNumber id="vat" value="#{dokfkView.ewidencjaVatRK.vat}" symbol=" zł" required="true" 
                                 requiredMessage="Brak kwoty - uzupełnij" onfocus="kalkulator_pobierzwiersz(this);"
                                 style="text-align: right;" symbolPosition="s" size="12"
-                                thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
                     <p:ajax global="false" event="change" listener="#{dokfkView.updatevatRK()}"  partialSubmit="true" />
                 </p:inputNumber>
                 <p:inputNumber id="brutto" value="#{dokfkView.ewidencjaVatRK.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"  size="12"
-                                style="text-align: right;" symbolPosition="s" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto" 
+                                style="text-align: right;" symbolPosition="s" thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto" 
                                 >
                     <p:ajax global="false" event="change" listener="#{dokfkView.updatebruttoRK()}"  partialSubmit="true" />
                 </p:inputNumber>

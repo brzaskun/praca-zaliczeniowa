@@ -109,29 +109,29 @@
                         </p:inputText>
                     </p:column>
                     <p:column headerText="stawka amort" width="50" style="text-align: center;">
-                        <p:inputNumber value="#{loop.stawka}" styleClass="stawkaamort" style="text-align: center; width: 40px;" thousandSeparator="&#160;" decimalSeparator="." decimalPlaces="1" maxValue="100" maxlength="5">
+                        <p:inputNumber value="#{loop.stawka}" styleClass="stawkaamort" style="text-align: center; width: 40px;" thousandSeparator="&#160;"  decimalPlaces="1" maxValue="100" maxlength="5">
                             <p:ajax event="blur" partialSubmit="true" global="false"/>
                         </p:inputNumber>
                     </p:column>
                     <p:column headerText="cena zakupu" style="text-align: center;">
                         <p:inputNumber value="#{loop.netto}" symbol=" zł" required="true" size="12"
-                                        requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-100000" maxlength="8" styleClass="wiersznetto">
+                                        requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-100000" maxlength="8" styleClass="wiersznetto">
                             <p:ajax event="blur" partialSubmit="true" global="false"/>
                         </p:inputNumber>
                     </p:column>
                     <p:column headerText="pod.VAT" style="text-align: center;">
                         <p:inputNumber value="#{loop.vat}" symbol=" zł" required="true"  size="12"
-                                        requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-100000" maxlength="8" styleClass="wiersznetto">
+                                        requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-100000" maxlength="8" styleClass="wiersznetto">
                             <p:ajax event="blur" partialSubmit="true" global="false"/>
                         </p:inputNumber>
                     </p:column>
                     <p:column headerText="dotych. umorzenie" style="text-align: center;">
-                        <p:inputNumber value="#{loop.umorzeniepoczatkowe}" symbol=" zł"  size="12" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto">
+                        <p:inputNumber value="#{loop.umorzeniepoczatkowe}" symbol=" zł"  size="12" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto">
                             <p:ajax event="blur" partialSubmit="true" global="false"/>
                         </p:inputNumber>
                     </p:column>
                     <p:column headerText="nie podlega umorzeniu" style="text-align: center;">
-                        <p:inputNumber value="#{loop.niepodlegaamortyzacji}" symbol=" zł" required="true"  size="12" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto">
+                        <p:inputNumber value="#{loop.niepodlegaamortyzacji}" symbol=" zł" required="true"  size="12" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto">
                             <p:ajax event="blur" partialSubmit="true" global="false"/>
                         </p:inputNumber>
                     </p:column>

@@ -64,7 +64,7 @@
                 <p:column headerText="#{fakturaView.selected.liczodwartoscibrutto ? 'cena jedn.brutto' : 'cena jedn.netto'}" width="140" style="text-align: center;">
                     <p:inputNumber id="cena" value="#{row.cena}" required="true" styleClass="kwotarozrachunku" size="13"
                                     requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" 
-                                    thousandSeparator="&#160;" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000"/> 
+                                    thousandSeparator="&#160;"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column headerText="stawka VAT" width="70" style="text-align: center;">
                     <h:selectOneMenu id="podatek" value="#{row.podatek}" title="stawka podatku VAT" style="width: 60px;" 
@@ -135,7 +135,7 @@
                 </p:column>
                 <p:column headerText="#{fakturaView.selected.liczodwartoscibrutto ? 'cena jedn.brutto' : 'cena jedn.netto'}" width="140" style="text-align: center;">
                     <p:inputNumber id="cenak" value="#{row.cena}" required="true" styleClass="kwotarozrachunku" size="13" 
-                                    requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="."
+                                    requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" 
                                     thousandSeparator="&#160;" inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column headerText="stawka VAT" width="70">
