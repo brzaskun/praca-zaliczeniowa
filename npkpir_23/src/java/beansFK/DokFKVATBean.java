@@ -298,9 +298,11 @@ public class DokFKVATBean {
                     if (wierszDokumentuPoprzedniego != null && wierszDokumentuBiezacego != null) {
                         StronaWiersza wnDokumentuPoprzedniego = wierszDokumentuPoprzedniego.getStronaWn();
                         StronaWiersza wnDokumenuBiezacego = wierszDokumentuBiezacego.getStronaWn();
-                        if (wnDokumentuPoprzedniego != null && !wnDokumentuPoprzedniego.getKonto().getZwyklerozrachszczegolne().equals("vat") && !selected.getRodzajedok().isTylkovatnalezny()) {
-                            if (wnDokumentuPoprzedniego.getKonto().getRok()==selected.getRokInt()) {
-                                wnDokumenuBiezacego.setKonto(wnDokumentuPoprzedniego.getKonto());
+                        if (!wnDokumenuBiezacego.getKonto().getPelnynumer().startsWith("221")) {//nie ruszamy konta vat zakupowego
+                            if (wnDokumentuPoprzedniego != null && !wnDokumentuPoprzedniego.getKonto().getZwyklerozrachszczegolne().equals("vat") && !selected.getRodzajedok().isTylkovatnalezny()) {
+                                if (wnDokumentuPoprzedniego.getKonto().getRok()==selected.getRokInt()) {
+                                    wnDokumenuBiezacego.setKonto(wnDokumentuPoprzedniego.getKonto());
+                                }
                             }
                         }
                         StronaWiersza maDokumentuPoprzedniego = wierszDokumentuPoprzedniego.getStronaMa();
