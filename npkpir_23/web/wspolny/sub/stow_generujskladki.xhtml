@@ -16,7 +16,7 @@
                                  update="form_dialog_stowarzyszenie_generujskladki:tabela" style="width: 120px;"/>
             <p:commandButton value="kopiuj" actionListener="#{stowNaliczenieView.kopiuj}"
                                  update="form_dialog_stowarzyszenie_generujskladki:tabela" style="width: 120px;margin-left: 5px"/>
-            <p:inputNumber value="#{stowNaliczenieView.kwotadlawszystkich}"  decimalPlaces="2" decimalSeparator="."
+            <p:inputNumber value="#{stowNaliczenieView.kwotadlawszystkich}"  decimalPlaces="2" 
                             inputStyle="text-align: right;" symbol=" zł" symbolPosition="s">
                 <p:ajax event="blur" partialSubmit="true" global="false"/>
             </p:inputNumber>
@@ -60,7 +60,7 @@
                 </p:column>
                 <p:column width="90" headerText="kwota">
                     <p:inputNumber id="vat" value="#{wpisstow.kwota}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" size="10"
-                                                symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" minValue="-100000" styleClass="wiersznetto"/> 
+                                                symbolPosition="s"  inputStyle="text-align: right;" decimalPlaces="2" minValue="-100000" styleClass="wiersznetto"/> 
                 </p:column>
                 <p:column headerText="zachowane">
                     <h:outputText value="#{wpisstow.dataksiegowania}">

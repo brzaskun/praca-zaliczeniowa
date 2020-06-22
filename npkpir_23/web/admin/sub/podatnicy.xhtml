@@ -43,12 +43,12 @@
                 <bcf:outputpl0 value="#{it.liczbapodatnikow}"/>
             </p:column>
             <p:column headerText="wynagrodzenie" width="90">
-                <p:inputNumber value="#{it.wynagrodzenieobecne}" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" style="width: 120px;">
+                <p:inputNumber value="#{it.wynagrodzenieobecne}" symbolPosition="s"  inputStyle="text-align: right;" decimalPlaces="2" style="width: 120px;">
                     <p:ajax event="change" listener="#{podatnikKsiegowaView.przeliczdane(it)}" partialSubmit="true" update="@parent:@parent" global="false"/>
                 </p:inputNumber>
             </p:column>
             <p:column headerText="proc." width="40">
-                <p:inputNumber value="#{it.procent}" symbolPosition="s" decimalSeparator="." inputStyle="text-align: right;" decimalPlaces="2" maxValue="99.9" size="5" maxlength="4">
+                <p:inputNumber value="#{it.procent}" symbolPosition="s"  inputStyle="text-align: right;" decimalPlaces="2" maxValue="99.9" size="5" maxlength="4">
                     <p:ajax event="change" listener="#{podatnikKsiegowaView.przeliczdaneproc(it)}" partialSubmit="true" update="@parent:@parent" global="false"/>
                 </p:inputNumber>
             </p:column>
