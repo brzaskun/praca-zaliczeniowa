@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.inject.Named;
+import org.joda.time.DateTime;
 import view.WpisView; import org.primefaces.PrimeFaces;
 import waluty.Z;
 
@@ -344,4 +345,36 @@ public class DokFKBean {
         }
     }
 
+    
+    public static void pobierzkursNBPwiersz(String datawiersza, Wiersz wierszbiezacy ,Dokfk selected, TabelanbpDAO tabelanbpDAO) {
+        String symbolwaluty = selected.getWalutadokumentu().getSymbolwaluty();
+        boolean mozna = true;
+        if (wierszbiezacy.getTabelanbp() != null && wierszbiezacy.getTabelanbp().isRecznie()) {
+            mozna = false;
+        }
+        if (!symbolwaluty.equals("PLN") && mozna) {
+            String datadokumentu;
+            datadokumentu = selected.getDatadokumentu();
+            if (datawiersza.length() == 1) {
+                datawiersza = "0".concat(datawiersza);
+            }
+            datadokumentu = datadokumentu.substring(0, 8).concat(datawiersza);
+            DateTime dzienposzukiwany = new DateTime(datadokumentu);
+            boolean znaleziono = false;
+            int zabezpieczenie = 0;
+            Tabelanbp tabelanbp = null;
+            while (!znaleziono && (zabezpieczenie < 365)) {
+                dzienposzukiwany = dzienposzukiwany.minusDays(1);
+                String doprzekazania = dzienposzukiwany.toString("yyyy-MM-dd");
+                Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania, symbolwaluty);
+                if (tabelanbppobrana instanceof Tabelanbp) {
+                    znaleziono = true;
+                    tabelanbp = tabelanbppobrana;
+                }
+                zabezpieczenie++;
+            }
+            //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
+            wierszbiezacy.setTabelanbp(tabelanbp);
+        }
+    }
 }

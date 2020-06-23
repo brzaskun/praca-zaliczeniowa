@@ -487,7 +487,7 @@ public class DokfkView implements Serializable {
     public void dodajNowyWierszStronaWnPiatka(Wiersz wiersz) {
         int indexwTabeli = wiersz.getIdporzadkowy() - 1;
         if (wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().size() == 0) {
-            ObslugaWiersza.dolaczNowyWierszPiatka(indexwTabeli, true, selected, kontoDAOfk, wpisView);
+            ObslugaWiersza.dolaczNowyWierszPiatka(indexwTabeli, true, selected, kontoDAOfk, wpisView, tabelanbpDAO);
             //PrimeFaces.current().ajax().update("formwpisdokument:dataList");
             return;
         }
@@ -495,7 +495,7 @@ public class DokfkView implements Serializable {
             int licznbawierszy = selected.getListawierszy().size();
             if (licznbawierszy > 1) {
                 if (wiersz.getTypWiersza() == 5 || wiersz.getTypWiersza() == 6 || wiersz.getTypWiersza() == 7) {
-                    ObslugaWiersza.dolaczNowyWierszPiatka(indexwTabeli, true, selected, kontoDAOfk, wpisView);
+                    ObslugaWiersza.dolaczNowyWierszPiatka(indexwTabeli, true, selected, kontoDAOfk, wpisView, tabelanbpDAO);
                 }
             }
         }
@@ -586,7 +586,7 @@ public class DokfkView implements Serializable {
     }
 
     public void dodajPustyWierszNaKoncu() {
-        int wynik = DialogWpisywanie.dodajPustyWierszNaKoncu(selected);
+        int wynik = DialogWpisywanie.dodajPustyWierszNaKoncu(selected, tabelanbpDAO);
         //selected.przeliczKwotyWierszaDoSumyDokumentu();
         PrimeFaces.current().ajax().update("formwpisdokument:panelwpisbutton");
         if (wynik == 1) {
@@ -863,9 +863,9 @@ public class DokfkView implements Serializable {
             Konto kontorozrach = pobierzkontorozrach();
             Konto kontonetto = pobierzkontonetto();
             if (ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-                dodanewiersze = rozliczVatKosztRK(ewidencjaVatRK, selected, wpisView, wierszRKindex, kontadlaewidencji, nkup, kontorozrach, kontonetto);
+                dodanewiersze = rozliczVatKosztRK(ewidencjaVatRK, selected, wpisView, wierszRKindex, kontadlaewidencji, nkup, kontorozrach, kontonetto, tabelanbpDAO);
             } else if (!ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-                dodanewiersze = rozliczVatPrzychodRK(ewidencjaVatRK, selected, wpisView, wierszRKindex, kontoDAOfk, kontadlaewidencji);
+                dodanewiersze = rozliczVatPrzychodRK(ewidencjaVatRK, selected, wpisView, wierszRKindex, kontoDAOfk, kontadlaewidencji, tabelanbpDAO);
             }
             for (Wiersz p : dodanewiersze) {
                 ObslugaWiersza.przepiszWaluty(p);
@@ -895,7 +895,7 @@ public class DokfkView implements Serializable {
             Konto kontorozrach = pobierzkontorozrach();
             Konto kontonetto = pobierzkontonetto();
             if (ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-               dodanewiersze = rozliczVatKosztRK(ewidencjaVatRK, selected, wpisView, wierszRKindex, kontadlaewidencji, nkup, kontorozrach, kontonetto);
+               dodanewiersze = rozliczVatKosztRK(ewidencjaVatRK, selected, wpisView, wierszRKindex, kontadlaewidencji, nkup, kontorozrach, kontonetto, tabelanbpDAO);
             } else if (!ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
                 dodanewiersze = rozliczEdytujVatPrzychodRK(e, selected, wierszRKindex);
             }
@@ -1352,12 +1352,9 @@ public class DokfkView implements Serializable {
 
     public void pobierzopiszpoprzedniegodok() {
         Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt(), ostatniedokumenty);
-        if (poprzedniDokument != null && selected.getOpisdokfk() == null) {
+        if (poprzedniDokument != null) {
             selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
-            Wiersz w = selected.getListawierszy().get(0);
-            if (w.getOpisWiersza() == null || w.getOpisWiersza().equals("")) {
-                w.setOpisWiersza(selected.getOpisdokfk());
-            }
+            PrimeFaces.current().ajax().update("formwpisdokument:opisdokumentu");
         }
         kontoRozrachunkowe = pobierzKontoRozrachunkowe(kliencifkDAO, selected, wpisView, kontoDAOfk);
     }
@@ -1459,9 +1456,7 @@ public class DokfkView implements Serializable {
                         selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
                         PrimeFaces.current().ajax().update("formwpisdokument:opisdokumentu");
                         Wiersz w = selected.getListawierszy().get(0);
-                            if (w.getOpisWiersza() == null || w.getOpisWiersza().equals("")) {
                         w.setOpisWiersza(selected.getOpisdokfk());
-                            }
                         if(wpisView.getVatokres()==0) {
                             DokFKVATBean.pobierzkontaZpoprzedniegoDokumentu(poprzedniDokument, selected);
                         }
@@ -2713,7 +2708,7 @@ public class DokfkView implements Serializable {
     }
 
     public void obsluzKursDataWiersza(Wiersz wierszbiezacy) {
-        pobierzkursNBPwiersz(wierszbiezacy.getDataWalutyWiersza(), wierszbiezacy);
+        DokFKBean.pobierzkursNBPwiersz(wierszbiezacy.getDataWalutyWiersza(), wierszbiezacy, selected, tabelanbpDAO);
         // wyrzucam bo przeliczy przed zapisaniem
         //ObslugaWiersza.przepiszWaluty(wierszbiezacy); punktzmiany
         int lpwtabeli = wierszbiezacy.getIdporzadkowy() - 1;
@@ -2737,37 +2732,7 @@ public class DokfkView implements Serializable {
     }
 //    //a to jest rodzial dotyczacy walut w wierszu
 
-    private void pobierzkursNBPwiersz(String datawiersza, Wiersz wierszbiezacy) {
-        String symbolwaluty = selected.getWalutadokumentu().getSymbolwaluty();
-        boolean mozna = true;
-        if (wierszbiezacy.getTabelanbp() != null && wierszbiezacy.getTabelanbp().isRecznie()) {
-            mozna = false;
-        }
-        if (!symbolwaluty.equals("PLN") && mozna) {
-            String datadokumentu;
-            datadokumentu = selected.getDatadokumentu();
-            if (datawiersza.length() == 1) {
-                datawiersza = "0".concat(datawiersza);
-            }
-            datadokumentu = datadokumentu.substring(0, 8).concat(datawiersza);
-            DateTime dzienposzukiwany = new DateTime(datadokumentu);
-            boolean znaleziono = false;
-            int zabezpieczenie = 0;
-            Tabelanbp tabelanbp = null;
-            while (!znaleziono && (zabezpieczenie < 365)) {
-                dzienposzukiwany = dzienposzukiwany.minusDays(1);
-                String doprzekazania = dzienposzukiwany.toString("yyyy-MM-dd");
-                Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania, symbolwaluty);
-                if (tabelanbppobrana instanceof Tabelanbp) {
-                    znaleziono = true;
-                    tabelanbp = tabelanbppobrana;
-                }
-                zabezpieczenie++;
-            }
-            //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
-            wierszbiezacy.setTabelanbp(tabelanbp);
-        }
-    }
+    
 
     public void skopiujKwoteWndoMa(Wiersz wiersz) {
         try {
@@ -2827,10 +2792,9 @@ public class DokfkView implements Serializable {
     public void wygenerujnumerkolejny() {
         if (zapisz0edytuj1 == false) {
             String nowynumer = DokFKBean.wygenerujnumerkolejny(selected, wpisView, dokDAOfk, klientdlaPK, wierszBODAO);
-            if (nowynumer != null && !nowynumer.equals("") && selected.getNumerwlasnydokfk() == null) {
-                selected.setNumerwlasnydokfk(nowynumer);
-                PrimeFaces.current().ajax().update("formwpisdokument:numerwlasny");
-            }
+            selected.setNumerwlasnydokfk(nowynumer);
+            PrimeFaces.current().ajax().update("formwpisdokument:numerwlasny");
+
         }
         if (selected.getRodzajedok() != null && (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5)) {
             pobierzopiszpoprzedniegodok();
@@ -3110,10 +3074,10 @@ public class DokfkView implements Serializable {
                         if (Z.z(sumaWn) != Z.z(sumaMa)) {
                             Wiersz wierszponizej = selected.nastepnyWiersz(wierszzmieniony);
                             if (wierszponizej != null) {
-                                ObslugaWiersza.wygenerujWierszRoznicowy(wierszzmieniony, true, nrgr, selected);
+                                ObslugaWiersza.wygenerujWierszRoznicowy(wierszzmieniony, true, nrgr, selected, tabelanbpDAO);
                                 PrimeFaces.current().ajax().update("formwpisdokument:dataList");
                             } else {
-                                ObslugaWiersza.wygenerujWierszRoznicowy(wierszzmieniony, false, nrgr, selected);
+                                ObslugaWiersza.wygenerujWierszRoznicowy(wierszzmieniony, false, nrgr, selected, tabelanbpDAO);
                                 PrimeFaces.current().ajax().update("formwpisdokument:dataList");
                             }
                             selected.przeliczKwotyWierszaDoSumyDokumentu();

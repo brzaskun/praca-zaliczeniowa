@@ -5,6 +5,7 @@
  */
 package beansFK;
 
+import daoFK.TabelanbpDAO;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -23,9 +24,9 @@ import waluty.Z;
 
 public class DialogWpisywanie {
 
-    public static int dodajPustyWierszNaKoncu(Dokfk selected) {
+    public static int dodajPustyWierszNaKoncu(Dokfk selected, TabelanbpDAO tabelanbpDAO) {
         int indexwTabeli = selected.getListawierszy().size() - 1;
-        int wynik = dolaczNowyWierszPusty(selected, indexwTabeli, false);
+        int wynik = dolaczNowyWierszPusty(selected, indexwTabeli, false, tabelanbpDAO);
         return wynik;
     }
     
@@ -68,7 +69,7 @@ public class DialogWpisywanie {
         }
     }
     
-    public static int dolaczNowyWierszPusty(Dokfk selected, int wierszbiezacyIndex, boolean przenumeruj) {
+    public static int dolaczNowyWierszPusty(Dokfk selected, int wierszbiezacyIndex, boolean przenumeruj, TabelanbpDAO tabelanbpDAO) {
         Wiersz wierszbiezacy = selected.getListawierszy().get(wierszbiezacyIndex);
         Wiersz wiersznastepny = selected.nastepnyWiersz(wierszbiezacy);
         if (wiersznastepny==null) {
@@ -81,9 +82,9 @@ public class DialogWpisywanie {
                         roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy, nrgrupy);
                     }
                     if (roznica == 0) {
-                        ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 0);
+                        ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 0, tabelanbpDAO);
                     } else if (roznica != 0.0) {
-                        ObslugaWiersza.wygenerujWierszRoznicowy(wierszbiezacy, false, nrgrupy, selected);
+                        ObslugaWiersza.wygenerujWierszRoznicowy(wierszbiezacy, false, nrgrupy, selected, tabelanbpDAO);
                     }
                     //to jest tez w  DokfkView.dodajPustyWierszNaKoncu selected.przeliczKwotyWierszaDoSumyDokumentu();
                 }
