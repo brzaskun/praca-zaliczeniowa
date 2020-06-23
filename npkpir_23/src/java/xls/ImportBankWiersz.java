@@ -5,6 +5,7 @@
  */
 package xls;
 
+import entity.Klienci;
 import java.io.Serializable;
 
 /**
@@ -32,6 +33,7 @@ public class ImportBankWiersz implements Serializable {
         private String nrwyciagu;
         private ImportowanyPlikNaglowek naglowek;
         private boolean znalezionokonto;
+        private Klienci klient;
         //typ transakcji
         //1 wpływ faktura
         //2 zapłata faktura
@@ -178,6 +180,14 @@ public class ImportBankWiersz implements Serializable {
 
     public void setZnalezionokonto(boolean znalezionokonto) {
         this.znalezionokonto = znalezionokonto;
+    }
+
+    public Klienci getKlient() {
+        return klient;
+    }
+
+    public void setKlient(Klienci klient) {
+        this.klient = klient;
     }
     
 

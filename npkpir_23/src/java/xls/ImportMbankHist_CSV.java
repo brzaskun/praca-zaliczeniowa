@@ -71,7 +71,7 @@ public class ImportMbankHist_CSV implements Serializable {
                         if (pn.getWyciagnrod()!=null) {
                             mcod = pn.getWyciagdataod().split("-")[1];
                             if (!mcod.equals(mc)) {
-                                break;
+                                Msg.msg("w","Uwaga. Zawiera wiersze z innego miesiąca");
                             }
                         }
                     } else if (i==18) {
@@ -87,14 +87,14 @@ public class ImportMbankHist_CSV implements Serializable {
                     } else if (i==35) {
                         String replaceco = pn.getWyciagwaluta();
                         pn.setWyciagbo(Double.parseDouble(baza.get(1).replace(replaceco,"").replaceAll("\\s+","").replace(",",".")));
-                    }  else if (i>37&& i<rozmiar-6){
+                    }  else if (i>37&& i<rozmiar-5){
                         ImportBankWiersz x = new ImportBankWiersz();
                         x.setNr(lpwiersza++);
                         x.setDatatransakcji(Data.zmienkolejnosc(baza.get(0)));
                         x.setDatawaluty(Data.zmienkolejnosc(baza.get(1)));
                         String mcwiersz = x.getDatatransakcji().split("-")[1];
                         if (!mcwiersz.equals(mc)) {
-                            i=rozmiar-6;   
+                               
                         } else {
                             String opis = baza.get(3) != null && !baza.get(3).equals("\"\"") ? baza.get(3).replace("\"", "").toLowerCase(new Locale("pl", "PL")) : baza.get(2).toLowerCase(new Locale("pl", "PL"));
                             x.setOpistransakcji(opis);
@@ -129,9 +129,6 @@ public class ImportMbankHist_CSV implements Serializable {
         zwrot.add(pobranefaktury);
         zwrot.add(nrwyciagu);
         zwrot.add(lpwiersza);
-        if (!mcod.equals(mc)) {
-           zwrot.add("dataerror");
-        }
         return zwrot;
     }
     

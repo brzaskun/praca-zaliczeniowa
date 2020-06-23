@@ -23,6 +23,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import xls.ImportBankWiersz;
 
 /**
  *
@@ -35,6 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "FakturaRozrachunki.findAll", query = "SELECT e FROM FakturaRozrachunki e"),
     @NamedQuery(name = "FakturaRozrachunki.findByData_k", query = "SELECT e FROM FakturaRozrachunki e WHERE e.dataksiegowania = :data AND e.wystawca = :podatnik"),
     @NamedQuery(name = "FakturaRozrachunki.findByPodatnik", query = "SELECT e FROM FakturaRozrachunki e WHERE e.wystawca = :podatnik"),
+    @NamedQuery(name = "FakturaRozrachunki.findByPodatnikIBAN", query = "SELECT e FROM FakturaRozrachunki e WHERE e.wystawca = :podatnik AND e.iban IS NOT NULL"),
     @NamedQuery(name = "FakturaRozrachunki.findByPodatnikRokMc", query = "SELECT e FROM FakturaRozrachunki e WHERE e.wystawca = :podatnik AND e.rok = :rok AND e.mc = :mc"),
     @NamedQuery(name = "FakturaRozrachunki.findByPodatnikKontrahent", query = "SELECT e FROM FakturaRozrachunki e WHERE e.wystawca = :podatnik AND e.kontrahent = :kontrahent"),
     @NamedQuery(name = "FakturaRozrachunki.findByPodatnikKontrahentRok", query = "SELECT e FROM FakturaRozrachunki e WHERE e.wystawca = :podatnik AND e.kontrahent = :kontrahent AND e.rok = :rok")
@@ -90,6 +92,24 @@ public class FakturaRozrachunki implements Serializable {
     private Date datatelefon;
     @Column(name = "przeniesionosaldo")
     private boolean przeniesionosaldo;
+    @Column(name = "iban")
+    private String iban;
+
+    public FakturaRozrachunki() {
+    }
+
+    
+    public FakturaRozrachunki(ImportBankWiersz r, Podatnik podatnik, Uz wprowadzil, String rodzajdokumentu, String rok, String mc) {
+        this.data = r.getDatatransakcji();
+        this.iban = r.getIBAN();
+        this.wystawca = podatnik;
+        this.kontrahent = r.getKlient();
+        this.wprowadzil = wprowadzil;
+        this.kwotapln = r.getKwota();
+        this.rodzajdokumentu = rodzajdokumentu;
+        this.rok = rok;
+        this.mc = mc;
+    }
     
     @PrePersist
     private void prepresist() {
@@ -133,6 +153,14 @@ public class FakturaRozrachunki implements Serializable {
     
     public void setLp(Integer lp) {
         this.lp = lp;
+    }
+
+    public String getIban() {
+        return iban;
+    }
+
+    public void setIban(String iban) {
+        this.iban = iban;
     }
 
     public boolean isPrzeniesionosaldo() {

@@ -48,6 +48,16 @@ public class FakturaRozrachunkiDAO extends DAO implements Serializable {
         }
     }
     
+    public List<FakturaRozrachunki> findByPodatnikIBAN(WpisView wpisView) {
+        try {
+            return sessionFacade.getEntityManager().createNamedQuery("FakturaRozrachunki.findByPodatnikIBAN").setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
+    
+        
      public List<FakturaRozrachunki> findByPodatnikrokMc(WpisView wpisView) {
         try {
             return sessionFacade.findByPodatnikRokMc(wpisView);
