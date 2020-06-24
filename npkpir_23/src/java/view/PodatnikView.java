@@ -257,11 +257,15 @@ private DokDAO dokDAO;
         try {
             generujIndex(selectedDod);
             sformatuj(selectedDod);
-            podatnikDAO.dodaj(selectedDod);
-            podatnikWyborView.init();
-            Msg.msg("i", "Dodano nowego podatnika: " + selectedDod.getPrintnazwa());
-            dodajjakoKlienci(selectedDod, selectedDod.getEmail());
-            selectedDod = new Podatnik();
+            if (selectedDod.getPrintnazwa().equals("nie znaleziono firmy w bazie Regon")) {
+                podatnikDAO.dodaj(selectedDod);
+                podatnikWyborView.init();
+                Msg.msg("i", "Dodano nowego podatnika: " + selectedDod.getPrintnazwa());
+                dodajjakoKlienci(selectedDod, selectedDod.getEmail());
+                selectedDod = new Podatnik();
+            } else {
+                Msg.msg("e", "Błędna nazwa!");
+            }
         } catch (Exception e) { 
             E.e(e); 
             Msg.msg("e", "Wystąpił błąd. Nie dodano nowego podatnika-firmę: " + selectedDod.getNazwapelna());

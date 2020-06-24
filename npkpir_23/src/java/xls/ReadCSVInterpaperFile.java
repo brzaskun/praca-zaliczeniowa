@@ -187,7 +187,9 @@ public class ReadCSVInterpaperFile {
                     if (klient.getNpelna()==null) {
                         klient = null;
                     } else {
-                        klienciDAO.dodaj(klient);
+                        if (!klient.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
+                            klienciDAO.dodaj(klient);
+                        }
                     }
                     znalezieni.put(interpaperXLS.getKontrahent(), klient);
                 }

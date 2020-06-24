@@ -314,7 +314,9 @@ public class InterpaperImportMT940View implements Serializable {
         Klienci zwrot = null;
         try {
             zwrot = SzukajDaneBean.znajdzdaneregonAutomat(nip, gUSView);
-            klienciDAO.dodaj(zwrot);
+            if (!zwrot.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
+                klienciDAO.dodaj(zwrot);
+            }
             Msg.msg("Zaktualizowano dane klienta pobranymi z GUS");
         } catch (Exception e) {
             Msg.msg("e","Błąd, niezaktualizowano dane klienta pobranymi z GUS");

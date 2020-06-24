@@ -248,7 +248,9 @@ public class ReadXLSFirmaoFile {
                     if (klient.getNpelna()==null) {
                         klient = null;
                     } else {
-                        klienciDAO.dodaj(klient);
+                        if (!klient.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
+                            klienciDAO.dodaj(klient);
+                        }
                     }
                     znalezieni.put(interpaperXLS.getKontrahent(), klient);
                 }
@@ -261,7 +263,9 @@ public class ReadXLSFirmaoFile {
                     klient.setKrajnazwa(interpaperXLS.getKlientpaństwo());
                     klient.setKrajkod(PanstwaMap.getWykazPanstwSX().get(klient.getKrajnazwa()));
                     if (klient.getNip()!=null && klient.getNip().length()>5) {
-                        klienciDAO.dodaj(klient);
+                        if (!klient.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
+                            klienciDAO.dodaj(klient);
+                        }
                         znalezieni.put(interpaperXLS.getKontrahent(), klient);
                     }
                 }

@@ -475,8 +475,10 @@ public class InterpaperImportView implements Serializable {
         Klienci zwrot = null;
         try {
             zwrot = SzukajDaneBean.znajdzdaneregonAutomat(nip, gUSView);
-            klienciDAO.dodaj(zwrot);
-            Msg.msg("Zaktualizowano dane klienta pobranymi z GUS");
+            if (!zwrot.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
+                klienciDAO.dodaj(zwrot);
+                Msg.msg("Zaktualizowano dane klienta pobranymi z GUS");
+            }
         } catch (Exception e) {
             Msg.msg("e","Błąd, niezaktualizowano dane klienta pobranymi z GUS");
             E.e(e);
@@ -842,7 +844,9 @@ public class InterpaperImportView implements Serializable {
             if (selectedimport.getLokal() == null || selectedimport.getLokal().equals("")) {
                 selectedimport.setLokal("-");
             }
-            klienciDAO.dodaj(selectedimport);
+            if (!selectedimport.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
+                klienciDAO.dodaj(selectedimport);
+            }
             for (InterpaperXLS p : pobranefaktury) {
                 if (p.getKontrahent().equals(selectedimport1text)) {
                     p.setKlient(selectedimport);

@@ -126,8 +126,10 @@ public class ImportBean {
         try {
             zwrot = SzukajDaneBean.znajdzdaneregonAutomat(nip, gUSView);
             if (zwrot!=null && zwrot.getNip()!=null) {
-                klienciDAO.dodaj(zwrot);
-                Msg.msg("Zaktualizowano dane klienta pobranymi z GUS");
+                if (!zwrot.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
+                    klienciDAO.dodaj(zwrot);
+                    Msg.msg("Zaktualizowano dane klienta pobranymi z GUS");
+                }
             }
         } catch (Exception e) {
             Msg.msg("e","Błąd, niezaktualizowano dane klienta pobranymi z GUS");
