@@ -80,7 +80,7 @@ public class WalutyFKBean {
         return wierszepobranezNBP;
     }
     
-    @Schedule(hour = "22", persistent = false)
+    @Schedule(hour = "23", minute = "59", persistent = false)
     public void pobierzkursy() {
         String datawstepna;
         Integer numertabeli;
@@ -96,14 +96,9 @@ public class WalutyFKBean {
         //FacesContext context = FacesContext.getCurrentInstance();
         //WalutyNBP walutyNBP = (WalutyNBP) context.getApplication().evaluateExpressionGet(context, "#{walutyNBP}", WalutyNBP.class);
         for (Waluty w : pobranewaluty) {
-            List<Tabelanbp> wierszejuzzapisane = tabelanbpDAO.findByWaluta(w);
-            Tabelanbp wiersz = null;
-            if (wierszejuzzapisane!= null && wierszejuzzapisane.size() > 0) {
-                Collections.sort(wierszejuzzapisane, new Tabelanbpcomparator());
-                wiersz = wierszejuzzapisane.get(wierszejuzzapisane.size() - 1);
-            }
+            Tabelanbp wiersz = tabelanbpDAO.findOstatniaTabela(w.getSymbolwaluty());
             if (wiersz == null) {
-                datawstepna = "2013-12-30";
+                datawstepna = "2019-12-30";
                 numertabeli = 250;
             } else {
                 datawstepna = wiersz.getDatatabeli();

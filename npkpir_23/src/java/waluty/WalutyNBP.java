@@ -129,7 +129,8 @@ public class WalutyNBP implements Serializable {
 
     public List<Tabelanbp> pobierzpliknbp(String data, int numerTabeliNBP, String waluta, boolean korygujdate) throws MalformedURLException, IOException, ParserConfigurationException, SAXException, ParseException {
         List<Tabelanbp> wynik = Collections.synchronizedList(new ArrayList<>());
-        while (czydataPrzedDniemDzisiejszym(data)) {
+        int zabezpieczenie = 0;
+        while (czydataPrzedDniemDzisiejszym(data) && zabezpieczenie < 365) {
             if (korygujdate) {
                 numerTabeliNBP = skorygujNumerTabeliZmianaRoku(data, numerTabeliNBP);
             }
@@ -162,6 +163,7 @@ public class WalutyNBP implements Serializable {
                 //System.out.print(wynik.toString());
                 numerTabeliNBP++;
             }
+            zabezpieczenie++;
         }
         return wynik;
     }

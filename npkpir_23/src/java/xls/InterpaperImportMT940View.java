@@ -177,7 +177,7 @@ public class InterpaperImportMT940View implements Serializable {
 //        }
     }
     
-    public void generuj() {
+    public void generuj() { 
         if (pobranefaktury !=null && pobranefaktury.size()>0) {
             List<Klienci> k = klienciDAO.findAll();
             int ile = 0;
