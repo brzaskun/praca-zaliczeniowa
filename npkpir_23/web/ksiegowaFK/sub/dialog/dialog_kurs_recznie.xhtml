@@ -13,11 +13,11 @@
             <p:outputPanel style="padding: 10px; margin-bottom: 10px;">
                 <h:outputText value="pobieranie jednej tabeli z internetu" style="font-weight: 900; color: green;"/>
             <p:panelGrid columns="2">
-                <h:outputText value="data tabeli"/>
-                <p:inputText value="#{walutyViewFK.datawstepna}" placeholder="rrrr-mm-dd" maxlength="10" size="10"/>
-                <h:outputText value="numer tabeli"/>
-                <p:inputText value="#{walutyViewFK.nrtabeli}" size="3" maxlength="3"/>
-            </p:panelGrid>
+                <h:outputText value="data początkowa nie starsza niż 3 m-ce!!"/>
+                <p:inputText value="#{walutyViewFK.datawstepna}" placeholder="rrrr-mm-dd" maxlength="10" size="10" required="true" requiredMessage="Wpisz datę poczatkową"/>
+                <h:outputText value="data końcowa"/>
+                <p:inputText value="#{walutyViewFK.datakoncowa}" placeholder="rrrr-mm-dd" maxlength="10" size="10" required="true" requiredMessage="Wpisz datę końcową"/>
+              </p:panelGrid>
             <p:commandButton value="pobierz" style="width: 120px;" actionListener="#{walutyViewFK.pobierzkursyWalutaRecznie()}" update="wprowadzonekursy"/>
             </p:outputPanel>
         </h:form>

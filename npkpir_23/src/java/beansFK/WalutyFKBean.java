@@ -9,6 +9,7 @@ import comparator.Tabelanbpcomparator;
 import dao.SMTPSettingsDAO;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
+import data.Data;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import java.io.IOException;
@@ -23,6 +24,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.xml.parsers.ParserConfigurationException;
+import org.joda.time.DateTime;
 import org.xml.sax.SAXException;
 import waluty.WalutyNBP;
 
@@ -45,45 +47,44 @@ public class WalutyFKBean {
     
     
 
-    public List<Tabelanbp> pobierzkursy(TabelanbpDAO tabelanbpDAO, WalutyDAOfk walutyDAOfk) throws ParseException {
-        String datawstepna;
-        Integer numertabeli;
-        List<Tabelanbp> wierszejuzzapisane = tabelanbpDAO.findAll();
-        Collections.sort(wierszejuzzapisane, new Tabelanbpcomparator());
-        Tabelanbp wiersz = null;
-        if (wierszejuzzapisane.size() > 0) {
-            wiersz = wierszejuzzapisane.get(wierszejuzzapisane.size() - 1);
-        }
-        if (wiersz == null) {
-            datawstepna = "2013-12-31";
-            numertabeli = 1;
-        } else {
-            datawstepna = wiersz.getDatatabeli();
-            numertabeli = Integer.parseInt(wiersz.getNrtabeli().split("/")[0]);
-            numertabeli++;
-        }
-        List<Tabelanbp> wierszepobranezNBP = Collections.synchronizedList(new ArrayList<>());
-        List<Waluty> pobranewaluty = walutyDAOfk.findAll();
-        FacesContext context = FacesContext.getCurrentInstance();
-        WalutyNBP walutyNBP = (WalutyNBP) context.getApplication().evaluateExpressionGet(context, "#{walutyNBP}", WalutyNBP.class);
-        for (Waluty w : pobranewaluty) {
-            try {
-                wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty(), true));
-            } catch (IOException | ParserConfigurationException | SAXException | ParseException e) {
-                //Msg.msg("e", "nie udalo sie pobrac kursow walut z internetu");
-            }
-            //Msg.msg("i", "Udalo sie pobrac kursow walut z internetu");
-        }
-        for (Tabelanbp p : wierszepobranezNBP) {
-            tabelanbpDAO.dodaj(p);
-        }
-        return wierszepobranezNBP;
-    }
+//    public List<Tabelanbp> pobierzkursy(TabelanbpDAO tabelanbpDAO, WalutyDAOfk walutyDAOfk) throws ParseException {
+//        String datawstepna;
+//        Integer numertabeli;
+//        List<Tabelanbp> wierszejuzzapisane = tabelanbpDAO.findAll();
+//        Collections.sort(wierszejuzzapisane, new Tabelanbpcomparator());
+//        Tabelanbp wiersz = null;
+//        if (wierszejuzzapisane.size() > 0) {
+//            wiersz = wierszejuzzapisane.get(wierszejuzzapisane.size() - 1);
+//        }
+//        if (wiersz == null) {
+//            datawstepna = "2013-12-31";
+//            numertabeli = 1;
+//        } else {
+//            datawstepna = wiersz.getDatatabeli();
+//            numertabeli = Integer.parseInt(wiersz.getNrtabeli().split("/")[0]);
+//            numertabeli++;
+//        }
+//        List<Tabelanbp> wierszepobranezNBP = Collections.synchronizedList(new ArrayList<>());
+//        List<Waluty> pobranewaluty = walutyDAOfk.findAll();
+//        FacesContext context = FacesContext.getCurrentInstance();
+//        WalutyNBP walutyNBP = (WalutyNBP) context.getApplication().evaluateExpressionGet(context, "#{walutyNBP}", WalutyNBP.class);
+//        for (Waluty w : pobranewaluty) {
+//            try {
+//                wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty(), true));
+//            } catch (IOException | ParserConfigurationException | SAXException | ParseException e) {
+//                //Msg.msg("e", "nie udalo sie pobrac kursow walut z internetu");
+//            }
+//            //Msg.msg("i", "Udalo sie pobrac kursow walut z internetu");
+//        }
+//        for (Tabelanbp p : wierszepobranezNBP) {
+//            tabelanbpDAO.dodaj(p);
+//        }
+//        return wierszepobranezNBP;
+//    }
     
-    @Schedule(hour = "22", persistent = false)
+    @Schedule(hour = "17", persistent = false)
     public void pobierzkursy() {
         String datawstepna;
-        Integer numertabeli;
         List<Waluty> pobranewaluty = walutyDAOfk.findAll();
         Iterator<Waluty> it = pobranewaluty.iterator();
         while(it.hasNext()) {
@@ -93,21 +94,17 @@ public class WalutyFKBean {
                 break;
             }
         }
-        //FacesContext context = FacesContext.getCurrentInstance();
-        //WalutyNBP walutyNBP = (WalutyNBP) context.getApplication().evaluateExpressionGet(context, "#{walutyNBP}", WalutyNBP.class);
+        String datakoncowa = Data.calendarToString(Data.databiezaca());
         for (Waluty w : pobranewaluty) {
             Tabelanbp wiersz = tabelanbpDAO.findOstatniaTabela(w.getSymbolwaluty());
             if (wiersz == null) {
                 datawstepna = "2019-12-30";
-                numertabeli = 250;
             } else {
-                datawstepna = wiersz.getDatatabeli();
-                numertabeli = Integer.parseInt(wiersz.getNrtabeli().split("/")[0]);
-                numertabeli++;
+                datawstepna = zmiendate(wiersz.getDatatabeli());
             }
-            List<Tabelanbp> wierszepobranezNBP = Collections.synchronizedList(new ArrayList<>());
+            List<Tabelanbp> wierszepobranezNBP = new ArrayList<>();
             try {
-                wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty(), true));
+                wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, datakoncowa, w));
             } catch (IOException | ParserConfigurationException | SAXException | ParseException e) {
                 //mail.Mail.nadajMailWystapilBlad(E.e(e), null, sMTPSettingsDAO.findSprawaByDef());
                 
@@ -120,7 +117,12 @@ public class WalutyFKBean {
        
     }
     
-    
+     private static String zmiendate(String przekazanadata) {
+        DateTime staradata = new DateTime(przekazanadata);
+        DateTime nowadata = staradata.plusDays(1);
+        String nowydzienformat = nowadata.toString("yyyy-MM-dd");
+        return nowydzienformat;
+    }
    
     
 }

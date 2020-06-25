@@ -15,7 +15,6 @@ import entityfk.Waluty;
 import entityfk.Wiersz;
 import error.E;
 import java.io.Serializable;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -65,7 +64,7 @@ public class WalutyViewFK implements Serializable {
     @ManagedProperty(value = "#{dokfkView}")
     private DokfkView dokfkView;
     private String datawstepna;
-    private String nrtabeli;
+    private String datakoncowa;
     
     
     @Inject
@@ -111,11 +110,10 @@ public class WalutyViewFK implements Serializable {
     public void pobierzkursyWalutaRecznie() {
         try {
             ////E.m(this);
-            Integer numertabeli = Integer.valueOf(nrtabeli);
             List<Tabelanbp> wierszepobranezNBP = Collections.synchronizedList(new ArrayList<>());
             try {
                 for (Waluty p : pobraneRodzajeWalut) {
-                    wierszepobranezNBP.addAll(walutyNBP.pobierzjedenpliknbp(datawstepna, numertabeli, p.getSymbolwaluty()));
+                    wierszepobranezNBP.addAll(walutyNBP.pobierzjedenpliknbp(datawstepna, datakoncowa,  p, tabelanbpDAO));
                 }
                 if (wierszepobranezNBP.isEmpty()) {
                     Msg.msg("e", "Nie ma takiej tabeli. Nie udalo sie pobrac kursow walut z internetu");
@@ -196,14 +194,14 @@ public class WalutyViewFK implements Serializable {
             Msg.msg("e", "Nie dodano nowej waluty");
         }
     }
-    
-    public void pobierzkursy() throws ParseException {
-        List<Tabelanbp> wierszepobranezNBP = Collections.synchronizedList(new ArrayList<>());
-        wierszepobranezNBP.addAll(walutyFKBean.pobierzkursy(tabelanbpDAO, walutyDAOfk));
-        for (Tabelanbp p : wierszepobranezNBP) {
-            pobranekursyRok.add(p);
-        }
-    }
+//    
+//    public void pobierzkursy() throws ParseException {
+//        List<Tabelanbp> wierszepobranezNBP = Collections.synchronizedList(new ArrayList<>());
+//        wierszepobranezNBP.addAll(walutyFKBean.pobierzkursy(tabelanbpDAO, walutyDAOfk));
+//        for (Tabelanbp p : wierszepobranezNBP) {
+//            pobranekursyRok.add(p);
+//        }
+//    }
     
     public void usunwalute(Waluty waluty) {
         try {
@@ -274,7 +272,7 @@ public class WalutyViewFK implements Serializable {
             tabelanbpDAO.edit(rzad);
             przewalutujwiersze(rzad);
             Msg.msg("Zmieniono kurs waluty. Zamknij i otwórz ponownie dokument");
-        } catch (Exception e) {
+        } catch (Exception e) { 
             Msg.msg("e", "Nie udało się zmienić kursu waluty");
         }
     }
@@ -316,14 +314,6 @@ public class WalutyViewFK implements Serializable {
 
     public void setDatawstepna(String datawstepna) {
         this.datawstepna = datawstepna;
-    }
-
-    public String getNrtabeli() {
-        return nrtabeli;
-    }
-
-    public void setNrtabeli(String nrtabeli) {
-        this.nrtabeli = nrtabeli;
     }
 
     
@@ -409,6 +399,14 @@ public class WalutyViewFK implements Serializable {
 
     public void setDokfkView(DokfkView dokfkView) {
         this.dokfkView = dokfkView;
+    }
+
+    public String getDatakoncowa() {
+        return datakoncowa;
+    }
+
+    public void setDatakoncowa(String datakoncowa) {
+        this.datakoncowa = datakoncowa;
     }
 
     

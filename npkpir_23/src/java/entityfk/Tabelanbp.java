@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Tabelanbp.findAll", query = "SELECT t FROM Tabelanbp t"),
-    @NamedQuery(name = "Tabelanbp.findAllRok", query = "SELECT t FROM Tabelanbp t WHERE t.datatabeli LIKE :rok"),
+    @NamedQuery(name = "Tabelanbp.findAllRok", query = "SELECT t FROM Tabelanbp t WHERE t.datatabeli LIKE :rok AND t.recznie = 0"),
     @NamedQuery(name = "Tabelanbp.findAllRokRecznie", query = "SELECT t FROM Tabelanbp t WHERE t.datatabeli LIKE :rok AND t.recznie = 1"),
     @NamedQuery(name = "Tabelanbp.findByIdtabelanbp", query = "SELECT t FROM Tabelanbp t WHERE t.idtabelanbp = :idtabelanbp"),
     @NamedQuery(name = "Tabelanbp.findByDatatabeli", query = "SELECT t FROM Tabelanbp t WHERE t.datatabeli = :datatabeli"),

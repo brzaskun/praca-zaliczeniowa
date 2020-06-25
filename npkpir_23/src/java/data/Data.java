@@ -6,6 +6,7 @@ package data;
 
 import embeddable.Mce;
 import entity.UmorzenieN;
+import error.E;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -527,9 +528,15 @@ public class Data implements Serializable {
         return zwrot;
     }
  
-    public static XMLGregorianCalendar databiezaca() throws DatatypeConfigurationException {
+    public static XMLGregorianCalendar databiezaca() {
         GregorianCalendar gcal = new GregorianCalendar();
-        return DatatypeFactory.newInstance().newXMLGregorianCalendar(gcal).normalize();
+        XMLGregorianCalendar zwrot = null;
+        try {
+            zwrot = DatatypeFactory.newInstance().newXMLGregorianCalendar(gcal).normalize();
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+        return zwrot;
     }
 
     public static XMLGregorianCalendar dataoddo(String data) throws DatatypeConfigurationException {

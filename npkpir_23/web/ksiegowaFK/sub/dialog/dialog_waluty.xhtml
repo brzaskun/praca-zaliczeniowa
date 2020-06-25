@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:dialog id="dialogwaluty" header="Zestawienie używanych w programie walut" widgetVar="waluty"  
-              resizable="false"  onShow="ustawdialog('dialogwaluty','menukartoteki',650,520);" closeOnEscape="true" onHide="resetujdialog('dialogwaluty');" >
+              resizable="false"  onShow="ustawdialog('dialogwaluty','menukartoteki',650,550);" closeOnEscape="true" onHide="resetujdialog('dialogwaluty');" >
         <p:ajax event="open" listener="#{walutyViewFK.init()}" global="false"/>
         <h:form id="wprowadzonewaluty">
             <p:growl life="3600"  ><p:autoUpdate/></p:growl>
@@ -17,11 +17,10 @@
                 }
             </style>
             <p:panelGrid columns="5">
-                <h:outputText value="wprowadź dane opcjonalne dla pobrania danych hist.: "/>
-                <h:outputText value="data od"/>
+                <h:outputText value="data od  - nie starsza niż 3 mce!!"/>
                 <p:inputText maxlength="10" size="10" placeholder="yyyy-mm-dd" value="#{walutyKursRecznieView.dataodtabela}"/>
-                <h:outputText value="nr tabeli"/>
-                <p:inputText maxlength="3" size="3" placeholder="000" value="#{walutyKursRecznieView.nrodtabela}"/>
+                <h:outputText value="data końcowa"/>
+                <p:inputText value="#{walutyKursRecznieView.datadotabela}" placeholder="rrrr-mm-dd" maxlength="10" size="10"/>
             </p:panelGrid>
             <p:dataTable id="dataTablewaluty" var="wpis" value="#{walutyViewFK.pobraneRodzajeWalut}" editable="true" emptyMessage="Nie ma wprowadzonych walut"
                          scrollable="true" scrollHeight="300" scrollRows="10" style="width: 630px;" resizableColumns="true">

@@ -6,6 +6,7 @@
 package viewfk;
 
 import daoFK.TabelanbpDAO;
+import data.Data;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import error.E;
@@ -20,7 +21,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.xml.parsers.ParserConfigurationException;
-import msg.Msg;import org.xml.sax.SAXException;
+import msg.Msg;import org.joda.time.DateTime;
+import org.xml.sax.SAXException;
 import view.WpisView;import waluty.WalutyNBP;
 
 /**
@@ -40,45 +42,38 @@ public class WalutyKursRecznieView implements Serializable{
     @ManagedProperty(value = "#{walutyViewFK}")
     private WalutyViewFK walutyViewFK;
     private String dataodtabela;
-    private String nrodtabela;
-    
+    private String datadotabela;
+        
     
       public void pobierzkursyNowaWaluta(Waluty w) {
         try {
             ////E.m(this);
-            String datawstepna;
-            Integer numertabeli;
-            datawstepna = "2019-12-18";
-            numertabeli = 244;
-            datawstepna = wpisView.getRokUprzedniSt()+"-12-31";
-            numertabeli = 252;
             List<Tabelanbp> wierszepobranezNBP = Collections.synchronizedList(new ArrayList<>());
-            boolean korygujdate = false;
-            try {
-                if (dataodtabela!=null && nrodtabela!=null) {
-                    datawstepna = dataodtabela;
-                    numertabeli = Integer.parseInt(nrodtabela);
-                } else {
-                    Tabelanbp ostatniatabela = tabelanbpDAO.findOstatniaTabela(w.getSymbolwaluty());
-                    if (ostatniatabela != null) {
-                        datawstepna = ostatniatabela.getDatatabeli();
-                        numertabeli = Integer.parseInt(ostatniatabela.getNrtabeli().substring(0, 3));
-                    }
-                    korygujdate = true;
+            if (datadotabela==null || datadotabela==null) {
+                Msg.msg("e","Nie wpisano dat od do");
+            } else {
+                try {
+                    wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(dataodtabela, datadotabela, w));
+                } catch (IOException | ParserConfigurationException | SAXException | ParseException e) {
+                    //Msg.msg("e", "nie udalo sie pobrac kursow walut z internetu");
                 }
-                wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty(), korygujdate));
-            } catch (IOException | ParserConfigurationException | SAXException | ParseException e) {
-                //Msg.msg("e", "nie udalo sie pobrac kursow walut z internetu");
+                Msg.msg("i", "Udalo sie pobrac kursow walut z internetu");
+                zachowajwiersze(wierszepobranezNBP);
+                walutyViewFK.init();
             }
-            Msg.msg("i", "Udalo sie pobrac kursow walut z internetu");
-            zachowajwiersze(wierszepobranezNBP);
-            walutyViewFK.init();
         } catch (Exception e) {
             E.e(e);
             Msg.dPe();
         }
     }
     
+     private static String zmiendate(String przekazanadata) {
+        DateTime staradata = new DateTime(przekazanadata);
+        DateTime nowadata = staradata.plusDays(1);
+        String nowydzienformat = nowadata.toString("yyyy-MM-dd");
+        return nowydzienformat;
+    }
+     
     private void zachowajwiersze (List<Tabelanbp> wierszepobranezNBP) {
         for (Tabelanbp p : wierszepobranezNBP) {
             try {
@@ -113,12 +108,4 @@ public class WalutyKursRecznieView implements Serializable{
         this.dataodtabela = dataodtabela;
     }
 
-    public String getNrodtabela() {
-        return nrodtabela;
-    }
-
-    public void setNrodtabela(String nrodtabela) {
-        this.nrodtabela = nrodtabela;
-    }
-    
-}
+  }
