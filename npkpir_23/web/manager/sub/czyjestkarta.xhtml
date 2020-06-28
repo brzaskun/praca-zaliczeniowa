@@ -28,6 +28,7 @@
             <h:outputText value="czy wpisano dobre hasło"/><h:outputText value="#{czyJestKartaView.czydobrehaslo eq 'tak' ?'TAK':'UWAGA! Wprowadzono błędne hało. Niebezpieczęństwo zablokowania karty!'}" style="#{czyJestKartaView.czydobrehaslo eq 'tak' ?'color:green':null}" rendered="#{czyJestKartaView.czyjestkarta eq 'tak'}"/> <h:outputText value="" rendered="#{czyJestKartaView.czyjestkarta ne 'tak'}"/>
             <h:outputText value="czy jest aktualny certyfikat"/><h:outputText value="#{czyJestKartaView.czyjestcertyfikat eq 'tak' ?'TAK':'Nie znaleziono na serwerze certyfikatu dla podanego nr PESEL'}" style="#{czyJestKartaView.czyjestcertyfikat eq 'tak' ?'color:green':null}" rendered="#{czyJestKartaView.czyjestkarta eq 'tak'}"/> <h:outputText value="" rendered="#{czyJestKartaView.czyjestkarta ne 'tak'}"/>
             <h:outputText value="certyfikat wygasa za dni"/><h:outputText value="#{czyJestKartaView.czyjestcertyfikat eq 'tak' ?czyJestKartaView.certyfikatdo:''}" style="#{czyJestKartaView.czyjestcertyfikat eq 'tak' ?'color:green':null}"/>
+            <h:outputText value="nazwa certyfikatu"/><h:outputText value="#{czyJestKartaView.nazwacertyfikatu}" style="#{czyJestKartaView.czyjestcertyfikat eq 'tak' ?'color:green':null}"/>
         </p:panelGrid>
     </p:outputPanel>
         <p:commandButton value="sprawdź" update="@form" actionListener="#{czyJestKartaView.init()}" style="width: 120px;margin-left: 20px;"/>

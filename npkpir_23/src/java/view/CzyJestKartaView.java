@@ -30,6 +30,7 @@ public class CzyJestKartaView   implements Serializable {
     private String czyjestcertyfikat;
     private String czydobrehaslo;
     private String certyfikatdo;
+    private String nazwacertyfikatu;
     
     
     public void init() { //E.m(this);
@@ -39,6 +40,7 @@ public class CzyJestKartaView   implements Serializable {
          czyjestcertyfikat =  ObslugaPodpisuBean.getOdpowiedz().get(2);
          czydobrehaslo = ObslugaPodpisuBean.getOdpowiedz().get(3);
          certyfikatdo = ObslugaPodpisuBean.getOdpowiedz().get(4);
+         nazwacertyfikatu = ObslugaPodpisuBean.getOdpowiedz().get(5);
     }
 
     public boolean isMoznapodpisywac() {
@@ -111,6 +113,14 @@ public class CzyJestKartaView   implements Serializable {
 
     public void setCertyfikatdo(String certyfikatdo) {
         this.certyfikatdo = certyfikatdo;
+    }
+
+    public String getNazwacertyfikatu() {
+        return nazwacertyfikatu;
+    }
+
+    public void setNazwacertyfikatu(String nazwacertyfikatu) {
+        this.nazwacertyfikatu = nazwacertyfikatu;
     }
     
     
