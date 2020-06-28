@@ -29,6 +29,9 @@
             <h:outputText value="czy jest aktualny certyfikat"/><h:outputText value="#{czyJestKartaView.czyjestcertyfikat eq 'tak' ?'TAK':'Nie znaleziono na serwerze certyfikatu dla podanego nr PESEL'}" style="#{czyJestKartaView.czyjestcertyfikat eq 'tak' ?'color:green':null}" rendered="#{czyJestKartaView.czyjestkarta eq 'tak'}"/> <h:outputText value="" rendered="#{czyJestKartaView.czyjestkarta ne 'tak'}"/>
             <h:outputText value="certyfikat wygasa za dni"/><h:outputText value="#{czyJestKartaView.czyjestcertyfikat eq 'tak' ?czyJestKartaView.certyfikatdo:''}" style="#{czyJestKartaView.czyjestcertyfikat eq 'tak' ?'color:green':null}"/>
             <h:outputText value="nazwa certyfikatu"/><h:outputText value="#{czyJestKartaView.nazwacertyfikatu}" style="#{czyJestKartaView.czyjestcertyfikat eq 'tak' ?'color:green':null}"/>
+            <p:separator/>
+            <h:outputText value="użyłem hasla:"/><h:outputText value="#{czyJestKartaView.uzywamhasla}" />
+            <h:outputText value="użyłem Peselu:"/><h:outputText value="#{czyJestKartaView.uzywamPeselu}" />
         </p:panelGrid>
     </p:outputPanel>
         <p:commandButton value="sprawdź" update="@form" actionListener="#{czyJestKartaView.init()}" style="width: 120px;margin-left: 20px;"/>

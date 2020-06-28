@@ -61,6 +61,9 @@ public class ObslugaPodpisuBean {
         odpowiedz.put(2, null);
         odpowiedz.put(3, null);
         odpowiedz.put(4, null);
+        odpowiedz.put(5, null);
+        odpowiedz.put(6, null);
+        odpowiedz.put(7, null);
     }
     
     public static Provider jestCzytnikDriver() {
@@ -103,7 +106,7 @@ public class ObslugaPodpisuBean {
                 } while (proba < 2 && keyStore==null); 
             }
             odpowiedz.put(3, "tak");
-            String czyjestcertyfikat = sprawdzcertyfikat(keyStore, pesel);
+            sprawdzcertyfikat(keyStore, pesel);
         } catch (KeyStoreException ex) {
             Security.removeProvider(provider.getName());
             keyStore = null;
@@ -133,7 +136,7 @@ public class ObslugaPodpisuBean {
             } while (proba < 2 && keyStore==null); 
         }
         odpowiedz.put(3, "tak");
-        String czyjestcertyfikat = sprawdzcertyfikat(keyStore, pesel);
+        sprawdzcertyfikat(keyStore, pesel);
         return keyStore;
     }
     
@@ -150,6 +153,7 @@ public class ObslugaPodpisuBean {
             long dateDiff = certExpiryDate.getTime() - today.getTime();
             long expiresIn = dateDiff / (24 * 60 * 60 * 1000);
             String name = ((X509Certificate) keyStore.getCertificate(alias)).getSubjectDN().getName();
+            odpowiedz.put(5,name);
             if (name.contains("70052809810") && expiresIn>0) {
                 zwrot = "tak";
                 odpowiedz.put(2, "tak");
@@ -380,6 +384,7 @@ public class ObslugaPodpisuBean {
         if (innehaslo!=null && !innehaslo.equals("")) {
             zwrot = innehaslo;
         }
+        odpowiedz.put(6,zwrot);
         return zwrot;
     }
     
@@ -388,6 +393,7 @@ public class ObslugaPodpisuBean {
         if (innypesel!=null && !innypesel.equals("")) {
             zwrot = innypesel;
         }
+        odpowiedz.put(7,zwrot);
         return zwrot;
     }
 
