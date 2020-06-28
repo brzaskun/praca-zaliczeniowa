@@ -17,7 +17,6 @@ import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.WierszDAO;
 import data.Data;
-import dedra.Dedraparser;
 import entity.Klienci;
 import entity.Rodzajedok;
 import entityfk.BankImportWzory;
@@ -29,14 +28,11 @@ import entityfk.Waluty;
 import entityfk.Wiersz;
 import error.E;
 import gus.GUSView;
-import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -53,13 +49,16 @@ import javax.inject.Inject;
 import msg.Msg;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.text.WordUtils;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.joda.time.DateTime;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-import org.xml.sax.SAXException;
 import view.WpisView;
 import waluty.Z;
 /**
@@ -216,7 +215,7 @@ public class BankImportView implements Serializable {
         try {
             UploadedFile uploadedFile = event.getFile();
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
-            if (extension.equals("csv")||extension.equals("xml")) {
+            if (extension.equals("csv")||extension.equals("xml")||extension.equals("xls")||extension.equals("xlsx")) {
                 String filename = uploadedFile.getFileName();
                 pobraneplikibytes.add(uploadedFile.getContents());
                 //plikinterpaper = uploadedFile.getContents();
@@ -290,7 +289,7 @@ public class BankImportView implements Serializable {
                         case 4 :
                            return;
                         case 5 :
-                            zwrot = ImportPKOBP_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
+                            zwrot = ImportiPKOBP_XLS.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
                             break;
                         case 6 :
                             zwrot = ImportBNPParibas_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
@@ -854,64 +853,109 @@ public class BankImportView implements Serializable {
 
    
     
-    public static void main(String[] args) throws SAXException, IOException {
-        try {
-            Path pathToFile = Paths.get("D:\\mbank.csv");
-            List<List<String>> records = new ArrayList<>();
-            try (BufferedReader br =  Files.newBufferedReader(pathToFile)) {
-                String line;
-                while ((line = br.readLine()) != null) {
-                    String[] values = line.split(";");
-                    records.add(Arrays.asList(values));
-                }
-            } catch (Exception e) {
-            }
-            int i = 0;
-            List<ImportBankWiersz> listaswierszy = new ArrayList<>();
-            for (Iterator<List<String>> it = records.iterator(); it.hasNext();) {
-                List<String> baza = it.next();
-                List<String> row = new ArrayList<>();
-//                for (String r : baza) {
-//                    row.add(r.replace("\"", ""));
+//    public static void main(String[] args) throws SAXException, IOException {
+//        try {
+//            Path pathToFile = Paths.get("D:\\mbank.csv");
+//            List<List<String>> records = new ArrayList<>();
+//            try (BufferedReader br =  Files.newBufferedReader(pathToFile)) {
+//                String line;
+//                while ((line = br.readLine()) != null) {
+//                    String[] values = line.split(";");
+//                    records.add(Arrays.asList(values));
 //                }
-//                if (i==0) {
-//                    String wyciagnr = baza.get(0);
-//                    String wyciagdataod = baza.get(2);
-//                    String wyciagdatado = baza.get(1);
-//                    String wyciagkonto = baza.get(5);;
-//                    String wyciagwaluta = baza.get(6);
-//                    String wyciagbz = baza.get(12);
-//                    String wyciagobrotywn = baza.get(10);
-//                    String wyciagobrotyma = baza.get(11);
-//                    error.E.s("");
-//                } else if (i==1) {
-//                    String wyciagbo = baza.get(12);
-//                } else {
-//                    ImportBankWiersz x = new ImportBankWiersz();
-//                    x.setDatatransakcji(baza.get(1));
-//                    x.setDatawaluty(baza.get(2));
-//                    x.setIBAN(baza.get(5));//??
-//                    x.setKontrahent(baza.get(4));//??
-//                    x.setKwota(Double.parseDouble(baza.get(10).replace(",",".")));
-//                    x.setWnma("Wn");
-//                    if (!baza.get(11).equals("")) {
-//                        x.setKwota(-Double.parseDouble(baza.get(11).replace(",",".")));
-//                        x.setWnma("Ma");
-//                    }
-//                    x.setNrtransakji(baza.get(8));
-//                    x.setOpistransakcji(baza.get(3));
-//                    x.setTyptransakcji(oblicztyptransakcji(x));
-//                    listaswierszy.add(x);
-//                }
-                i++;
-            }
-            error.E.s("");
-        } catch (Exception ex) {
-            // Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//            } catch (Exception e) {
+//            }
+//            int i = 0;
+//            List<ImportBankWiersz> listaswierszy = new ArrayList<>();
+//            for (Iterator<List<String>> it = records.iterator(); it.hasNext();) {
+//                List<String> baza = it.next();
+//                List<String> row = new ArrayList<>();
+////                for (String r : baza) {
+////                    row.add(r.replace("\"", ""));
+////                }
+////                if (i==0) {
+////                    String wyciagnr = baza.get(0);
+////                    String wyciagdataod = baza.get(2);
+////                    String wyciagdatado = baza.get(1);
+////                    String wyciagkonto = baza.get(5);;
+////                    String wyciagwaluta = baza.get(6);
+////                    String wyciagbz = baza.get(12);
+////                    String wyciagobrotywn = baza.get(10);
+////                    String wyciagobrotyma = baza.get(11);
+////                    error.E.s("");
+////                } else if (i==1) {
+////                    String wyciagbo = baza.get(12);
+////                } else {
+////                    ImportBankWiersz x = new ImportBankWiersz();
+////                    x.setDatatransakcji(baza.get(1));
+////                    x.setDatawaluty(baza.get(2));
+////                    x.setIBAN(baza.get(5));//??
+////                    x.setKontrahent(baza.get(4));//??
+////                    x.setKwota(Double.parseDouble(baza.get(10).replace(",",".")));
+////                    x.setWnma("Wn");
+////                    if (!baza.get(11).equals("")) {
+////                        x.setKwota(-Double.parseDouble(baza.get(11).replace(",",".")));
+////                        x.setWnma("Ma");
+////                    }
+////                    x.setNrtransakji(baza.get(8));
+////                    x.setOpistransakcji(baza.get(3));
+////                    x.setTyptransakcji(oblicztyptransakcji(x));
+////                    listaswierszy.add(x);
+////                }
+//                i++;
+//            }
+//            error.E.s("");
+//        } catch (Exception ex) {
+//            // Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        
+//        
+//    }
 
     
+//    public static void main(String[] args) {
+//        try {
+//            File initialFile = new File("d:/h2.xml");
+//            InputStream inputStream = new FileInputStream(initialFile);
+//            InputStreamReader reader = new InputStreamReader(inputStream, "ISO-8859-2");
+//            JAXBContext jaxbContext = JAXBContext.newInstance(AccountHistory.class);
+//            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+//            AccountHistory tabela =  (AccountHistory) jaxbUnmarshaller.unmarshal(reader);
+//            String s = tabela.getOperations().getOperation().get(9).getDescription();
+//            String[] array = s.split("\n");
+//            System.out.println(s);
+//            
+//        } catch (Exception ex) {
+//            Logger.getLogger(WalutyNBP.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+    
+    
+    public static void main(String[] args) {
+       FileInputStream file = null;
+        try {
+            file = new FileInputStream(new File("d://hpko.xls"));
+            //Create Workbook instance holding reference to .xlsx file
+            Workbook workbook = WorkbookFactory.create(file);
+            //Get first/desired sheet from the workbook
+            Sheet sheet = workbook.getSheetAt(0);
+            //Iterate through each rows one by one
+            Iterator<Row> rowIterator = sheet.iterator();
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+            }
+            file.close();
+        } catch (Exception ex) {
+            Logger.getLogger(BankImportView.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                file.close();
+            } catch (IOException ex) {
+                Logger.getLogger(BankImportView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+        
+    }
 
     
 

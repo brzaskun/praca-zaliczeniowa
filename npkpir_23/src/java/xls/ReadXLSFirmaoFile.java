@@ -35,6 +35,9 @@ import java.util.Map;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import view.WpisView;
@@ -52,9 +55,9 @@ public class ReadXLSFirmaoFile {
          try {
             InputStream file = new ByteArrayInputStream(plikinterpaper);
              //Create Workbook instance holding reference to .xlsx file
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
+            Workbook workbook = WorkbookFactory.create(file);
              //Get first/desired sheet from the workbook
-            XSSFSheet sheet = workbook.getSheetAt(0);
+            Sheet sheet = workbook.getSheetAt(0);
              //Iterate through each rows one by one
             Iterator<Row> rowIterator = sheet.iterator();
             int i =1;
@@ -107,10 +110,10 @@ public class ReadXLSFirmaoFile {
          try {
             InputStream file = new ByteArrayInputStream(plikinterpaper);
              //Create Workbook instance holding reference to .xlsx file  TYLKO NOWE XLSX
-            HSSFWorkbook workbook = new HSSFWorkbook(file);
-            //XSSFWorkbook workbook = new XSSFWorkbook(file);
+            Workbook workbook = WorkbookFactory.create(file);
+            //Workbook workbook = WorkbookFactory.create(file);
              //Get first/desired sheet from the workbook
-            HSSFSheet sheet = workbook.getSheetAt(0);
+            Sheet sheet = workbook.getSheetAt(0);
             Iterator<Row> rowIterator = sheet.iterator();
             int i =1;
             Map<String, Klienci> znalezieni = new HashMap<>();
@@ -298,9 +301,9 @@ public class ReadXLSFirmaoFile {
          try {
             InputStream targetStream = new ByteArrayInputStream(contents);
              //Create Workbook instance holding reference to .xlsx file
-            XSSFWorkbook workbook = new XSSFWorkbook(targetStream);
+            Workbook workbook = WorkbookFactory.create(targetStream);
              //Get first/desired sheet from the workbook
-            XSSFSheet sheet = workbook.getSheetAt(0);
+            Sheet sheet = workbook.getSheetAt(0);
              //Iterate through each rows one by one
             Iterator<Row> rowIterator = sheet.iterator();
             while (rowIterator.hasNext()) {
@@ -330,9 +333,9 @@ public class ReadXLSFirmaoFile {
          try {
             InputStream targetStream = new ByteArrayInputStream(contents);
              //Create Workbook instance holding reference to .xlsx file
-            XSSFWorkbook workbook = new XSSFWorkbook(targetStream);
+            Workbook workbook = WorkbookFactory.create(targetStream);
              //Get first/desired sheet from the workbook
-            XSSFSheet sheet = workbook.getSheetAt(0);
+            Sheet sheet = workbook.getSheetAt(0);
              //Iterate through each rows one by one
             Iterator<Row> rowIterator = sheet.iterator();
             while (rowIterator.hasNext()) {
@@ -363,9 +366,9 @@ public class ReadXLSFirmaoFile {
          try {
             FileInputStream file = new FileInputStream(new File(filename));
              //Create Workbook instance holding reference to .xlsx file
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
+            Workbook workbook = WorkbookFactory.create(file);
              //Get first/desired sheet from the workbook
-            XSSFSheet sheet = workbook.getSheetAt(0);
+            Sheet sheet = workbook.getSheetAt(0);
              //Iterate through each rows one by one
             Iterator<Row> rowIterator = sheet.iterator();
             while (rowIterator.hasNext()) {
@@ -395,9 +398,9 @@ public class ReadXLSFirmaoFile {
          try {
             FileInputStream file = new FileInputStream(new File(filename));
              //Create Workbook instance holding reference to .xlsx file
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
+            Workbook workbook = WorkbookFactory.create(file);
              //Get first/desired sheet from the workbook
-            XSSFSheet sheet = workbook.getSheetAt(0);
+            Sheet sheet = workbook.getSheetAt(0);
              //Iterate through each rows one by one
             Iterator<Row> rowIterator = sheet.iterator();
             while (rowIterator.hasNext()) {
@@ -428,9 +431,9 @@ public class ReadXLSFirmaoFile {
         try {
             FileInputStream file = new FileInputStream(new File(filename));
              //Create Workbook instance holding reference to .xlsx file
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
+            Workbook workbook = WorkbookFactory.create(file);
              //Get first/desired sheet from the workbook
-            XSSFSheet sheet = workbook.getSheetAt(0);
+            Sheet sheet = workbook.getSheetAt(0);
              //Iterate through each rows one by one
             Iterator<Row> rowIterator = sheet.iterator();
             while (rowIterator.hasNext()) {

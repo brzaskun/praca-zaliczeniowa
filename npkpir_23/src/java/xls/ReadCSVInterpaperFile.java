@@ -36,8 +36,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import view.WpisView;
 /**
  *
@@ -216,9 +217,9 @@ public class ReadCSVInterpaperFile {
          try {
             InputStream targetStream = new ByteArrayInputStream(contents);
              //Create Workbook instance holding reference to .xlsx file
-            XSSFWorkbook workbook = new XSSFWorkbook(targetStream);
+            Workbook workbook = WorkbookFactory.create(targetStream);
              //Get first/desired sheet from the workbook
-            XSSFSheet sheet = workbook.getSheetAt(0);
+            Sheet sheet = workbook.getSheetAt(0);
              //Iterate through each rows one by one
             Iterator<Row> rowIterator = sheet.iterator();
             while (rowIterator.hasNext()) {
@@ -248,9 +249,9 @@ public class ReadCSVInterpaperFile {
          try {
             InputStream targetStream = new ByteArrayInputStream(contents);
              //Create Workbook instance holding reference to .xlsx file
-            XSSFWorkbook workbook = new XSSFWorkbook(targetStream);
+            Workbook workbook = WorkbookFactory.create(targetStream);
              //Get first/desired sheet from the workbook
-            XSSFSheet sheet = workbook.getSheetAt(0);
+            Sheet sheet = workbook.getSheetAt(0);
              //Iterate through each rows one by one
             Iterator<Row> rowIterator = sheet.iterator();
             while (rowIterator.hasNext()) {
@@ -281,9 +282,9 @@ public class ReadCSVInterpaperFile {
          try {
             FileInputStream file = new FileInputStream(new File(filename));
              //Create Workbook instance holding reference to .xlsx file
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
+            Workbook workbook = WorkbookFactory.create(file);
              //Get first/desired sheet from the workbook
-            XSSFSheet sheet = workbook.getSheetAt(0);
+            Sheet sheet = workbook.getSheetAt(0);
              //Iterate through each rows one by one
             Iterator<Row> rowIterator = sheet.iterator();
             while (rowIterator.hasNext()) {
@@ -313,9 +314,9 @@ public class ReadCSVInterpaperFile {
          try {
             FileInputStream file = new FileInputStream(new File(filename));
              //Create Workbook instance holding reference to .xlsx file
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
+            Workbook workbook = WorkbookFactory.create(file);
              //Get first/desired sheet from the workbook
-            XSSFSheet sheet = workbook.getSheetAt(0);
+            Sheet sheet = workbook.getSheetAt(0);
              //Iterate through each rows one by one
             Iterator<Row> rowIterator = sheet.iterator();
             while (rowIterator.hasNext()) {
@@ -346,9 +347,9 @@ public class ReadCSVInterpaperFile {
         try {
             FileInputStream file = new FileInputStream(new File(filename));
              //Create Workbook instance holding reference to .xlsx file
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
+            Workbook workbook = WorkbookFactory.create(file);
              //Get first/desired sheet from the workbook
-            XSSFSheet sheet = workbook.getSheetAt(0);
+            Sheet sheet = workbook.getSheetAt(0);
              //Iterate through each rows one by one
             Iterator<Row> rowIterator = sheet.iterator();
             while (rowIterator.hasNext()) {

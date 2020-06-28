@@ -7,6 +7,7 @@ package viewfk;
 
 import dao.BankImportWzoryDAO;
 import entityfk.BankImportWzory;
+import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +34,12 @@ public class BankImportWzoryView   implements Serializable {
     private BankImportWzory selected;
     private String wybranybankimport;
     private List<ImportowanyPlik> wykazbankow;
+    private Konto wybranekonto;
 
     
     public void init() {
         wykazbankow = BankImportWykaz.getWYKAZ();
+        lista = new ArrayList<>();
     }
     
     public void pobierzbank() {
@@ -51,16 +54,32 @@ public class BankImportWzoryView   implements Serializable {
         }
     }
     
+    public void pobierzbank2() {
+        if (selected.getBank()!=null) {
+            lista = bankImportWzoryDAO.findByBank(selected.getBank());
+            if (lista==null) {
+                lista = new ArrayList<>();
+            }
+        } else {
+            lista = new ArrayList<>();
+            Msg.msg("e","Nie wybrano banku");
+        }
+    }
+    
     public void dodaj() {
         try {
-            if (selected.getBank()!=null || selected.getNrkonta()!=null) {
+            
+            if (selected.getBank()!=null || wybranekonto!=null) {
                 if (selected.getPoleopis().equals("")) {
                     selected.setPoleopis(null);
-                } else if (selected.getPolekontrahent().equals("")) {
+                } 
+                if (selected.getPolekontrahent().equals("")) {
                     selected.setPolekontrahent(null);
-                } else if (selected.getPolekonto().equals("")) {
+                } 
+                if (selected.getPolekonto().equals("")) {
                     selected.setPolekonto(null);
                 }
+                selected.setNrkonta(wybranekonto.getPelnynumer());
                 bankImportWzoryDAO.dodaj(selected);
                 lista.add(selected);
                 selected = new BankImportWzory();
@@ -74,11 +93,13 @@ public class BankImportWzoryView   implements Serializable {
     
     public void edytuj(BankImportWzory im) {
         try {
-            if (im.getPoleopis().equals("")) {
+            if (im.getPoleopis()!=null&&im.getPoleopis().equals("")) {
                 im.setPoleopis(null);
-            } else if (im.getPolekontrahent().equals("")) {
+            } 
+            if (im.getPolekontrahent()!=null&&im.getPolekontrahent().equals("")) {
                 im.setPolekontrahent(null);
-            } else if (im.getPolekonto().equals("")) {
+            }
+            if (im.getPolekonto()!=null&&im.getPolekonto().equals("")) {
                 im.setPolekonto(null);
             }
             bankImportWzoryDAO.edit(im);
@@ -87,7 +108,7 @@ public class BankImportWzoryView   implements Serializable {
         }
     }
     
-    public void usunj(BankImportWzory im) {
+    public void usun(BankImportWzory im) {
         try {
             bankImportWzoryDAO.destroy(im);
             lista.remove(im);
@@ -127,6 +148,14 @@ public class BankImportWzoryView   implements Serializable {
 
     public void setWykazbankow(List<ImportowanyPlik> wykazbankow) {
         this.wykazbankow = wykazbankow;
+    }
+
+    public Konto getWybranekonto() {
+        return wybranekonto;
+    }
+
+    public void setWybranekonto(Konto wybranekonto) {
+        this.wybranekonto = wybranekonto;
     }
     
     

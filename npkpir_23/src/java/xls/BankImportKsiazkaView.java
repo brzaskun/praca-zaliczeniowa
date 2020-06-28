@@ -208,7 +208,7 @@ public class BankImportKsiazkaView implements Serializable {
                         case 4 :
                            return;
                         case 5 :
-                            zwrot = ImportPKOBP_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
+                            zwrot = ImportiPKOBP_XLS.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
                             break;
                         case 6 :
                             zwrot = ImportBNPParibas_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());

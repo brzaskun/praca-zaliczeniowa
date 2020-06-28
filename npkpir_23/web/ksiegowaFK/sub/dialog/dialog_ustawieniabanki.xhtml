@@ -31,8 +31,19 @@
                 <p:selectOneMenu value="#{bankImportWzoryView.selected.bank}" >
                     <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="" noSelectionOption="true"/>
                     <f:selectItems value="#{bankImportWzoryView.wykazbankow}" var="item1" itemLabel="#{item1.opis}" itemValue="#{item1.opis}"/>
+                    <p:ajax event="change" listener="#{bankImportWzoryView.pobierzbank2}" update="ustawieniabankiimport:dataListImport" partialSubmit="true"/>
                 </p:selectOneMenu>
-                <h:inputText value="#{bankImportWzoryView.selected.nrkonta}" size="8"/>
+                <p:autoComplete id="kontoma" value="#{bankImportWzoryView.wybranekonto}" completeMethod="#{planKontCompleteView.complete}" 
+                                            var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
+                                            minQueryLength="1" converter="#{planKontCompleteView}" queryDelay="0" maxResults="200"
+                                            converterMessage="Nieudana konwersja Konto"   scrollHeight="220" forceSelection="true"
+                                            onfocus="usunspacje(this);"
+                                            >
+                                <f:facet name="itemtip">
+                                    <h:outputText value="#{p.kontomacierzyste.pelnynumer} #{p.kontomacierzyste.nazwapelna}"/>
+                                </f:facet>
+                                <p:ajax event="query" global="false"/>
+                </p:autoComplete>
                 <h:inputText value="#{bankImportWzoryView.selected.poleopis}"/>
                 <h:inputText value="#{bankImportWzoryView.selected.polekontrahent}"/>
                 <h:inputText value="#{bankImportWzoryView.selected.polekonto}"/>
@@ -54,7 +65,7 @@
             </p:panelGrid>
             
             <p:dataTable id="dataListImport" value="#{bankImportWzoryView.lista}" var="item" rowIndexVar="row" widgetVar="tablicabankiimport" 
-                         selection="#{dokfkView.selectedimport}" rowKey="#{item.id}" selectionMode="single" 
+                         rowKey="#{item.id}" selectionMode="single" 
                          style="width: 1250px; height: 580px; overflow-y: scroll" 
                          emptyMessage="Brak reguł importu dla danego banku" styleClass="gridZaksiegowane walkingtable"
                          sortBy="#{item.nrkonta}"
@@ -78,19 +89,19 @@
                 </p:column>
                 <p:column headerText="pole opis" styleClass="zaksiegowanewaski" width="120"  sortBy="#{item.poleopis}" filterBy="#{item.poleopis}" filterMatchMode="contains" >
                     <p:inplace editor="true" emptyLabel="-">
-                        <p:ajax event="save" listener="#{bankImportWzoryView.edytuj(item)}"/>
+                        <p:ajax event="save" listener="#{bankImportWzoryView.edytuj(item)}" update="@parent:@parent"/>
                         <p:inputText value="#{item.poleopis}" styleClass="bankimport"/>
                     </p:inplace>
                 </p:column>
                 <p:column headerText="pole kontrahent" styleClass="zaksiegowanewaski" width="120" sortBy="#{item.polekontrahent}" filterBy="#{item.polekontrahent}"  filterMatchMode="contains">
                     <p:inplace editor="true" emptyLabel="-">
-                        <p:ajax event="save" listener="#{bankImportWzoryView.edytuj(item)}"/>
+                        <p:ajax event="save" listener="#{bankImportWzoryView.edytuj(item)}" update="@parent:@parent"/>
                         <p:inputText value="#{item.polekontrahent}" styleClass="bankimport"/>
                     </p:inplace>
                 </p:column>
                 <p:column headerText="pole konto" styleClass="zaksiegowanewaski" width="200" sortBy="#{item.polekonto}" filterBy="#{item.polekonto}"  filterMatchMode="contains">
                     <p:inplace editor="true" emptyLabel="-">
-                        <p:ajax event="save" listener="#{bankImportWzoryView.edytuj(item)}"/>
+                        <p:ajax event="save" listener="#{bankImportWzoryView.edytuj(item)}" update="@parent:@parent"/>
                         <p:inputText value="#{item.polekonto}" styleClass="bankimport"/>
                     </p:inplace>
                 </p:column>
