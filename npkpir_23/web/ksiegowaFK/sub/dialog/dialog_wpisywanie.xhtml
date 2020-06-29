@@ -626,9 +626,11 @@
                                         update=":parametry :wpisywaniefooter :parametrynowekonto" />
                             </p:autoComplete>
                         </p:column>
-                        <p:column  headerText="kurs" styleClass="mykursreczny" style="width: 23px; text-align: right;"  rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 and dokfkView.selected.walutadokumentu.symbolwaluty ne 'PLN'}" >
-                            <bcf:outputkurs id="kurswiersza" value="#{wploop.tabelanbp.kurssredni}"
-                                          style="#{wploop.tabelanbp.recznie ? 'color: red !important;float: right; margin-right: 4px;' : null}"/>
+                        <p:column  headerText="kurs"  style="width: 23px; text-align: right;"  rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 and dokfkView.selected.walutadokumentu.symbolwaluty ne 'PLN'}" >
+                            <h:outputText id="kurswiersza" value="#{wploop.tabelanbp.kurssredni}"
+                                          style="#{wploop.tabelanbp.recznie ? 'color: red !important;float: right; margin-right: 4px;' : 'float: right; margin-right: 4px;'}">
+                                <f:convertNumber minFractionDigits="5" maxFractionDigits="5" locale="PL"/>
+                            </h:outputText>
                         </p:column>
                         <p:column headerText="saldo" style="width: 40px;" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}">
                             <h:outputText id="saldo" value="#{wploop.saldoWBRK}"

@@ -54,9 +54,7 @@
         <attribute>
             <name>styleClass</name>
         </attribute>
-        <attribute>
-            <name>id</name>
-        </attribute>
+       
     </tag>
     <tag>
         <tag-name>outputwal</tag-name>
