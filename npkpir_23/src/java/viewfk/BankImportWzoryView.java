@@ -40,6 +40,7 @@ public class BankImportWzoryView   implements Serializable {
     public void init() {
         wykazbankow = BankImportWykaz.getWYKAZ();
         lista = new ArrayList<>();
+        wybranybankimport = null;
     }
     
     public void pobierzbank() {
