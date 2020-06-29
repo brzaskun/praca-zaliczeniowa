@@ -48,6 +48,8 @@ public class BankImportWzory implements Serializable {
     private String nrkonta;
     @Column(name = "miesiace")
     private boolean miesiace;
+    @Column(name = "nadpisz")
+    private boolean nadpisz;
 
     @Override
     public int hashCode() {
@@ -128,6 +130,14 @@ public class BankImportWzory implements Serializable {
 
     public void setMiesiace(boolean miesiace) {
         this.miesiace = miesiace;
+    }
+
+    public boolean isNadpisz() {
+        return nadpisz;
+    }
+
+    public void setNadpisz(boolean nadpisz) {
+        this.nadpisz = nadpisz;
     }
     
     

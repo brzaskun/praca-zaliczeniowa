@@ -20,13 +20,15 @@
 
 
         <h:form id="ustawieniabankidodaj">
-            <p:panelGrid columns="7" style="margin-left: 2%; margin-bottom: 2%;" >
+            <h:outputText value="można wpisać alternatywne wyrażenia w rubryce opis oddzielone średnikiem"/>
+            <p:panelGrid columns="8" style="margin-left: 2%; margin-bottom: 2%;" >
                 <h:outputText value="bank"/>
                 <h:outputText value="nr konta"/>
                 <h:outputText value="wyrażenie w opisie"/>
                 <h:outputText value="wyrażenie w kontrahencie"/>
                 <h:outputText value="IBAN"/>
                 <h:outputText value="miesiące"/>
+                <h:outputText value="nadpisz"/>
                 <h:outputText value=" "/>
                 <p:selectOneMenu value="#{bankImportWzoryView.selected.bank}" >
                     <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="" noSelectionOption="true"/>
@@ -48,6 +50,7 @@
                 <h:inputText value="#{bankImportWzoryView.selected.polekontrahent}"/>
                 <h:inputText value="#{bankImportWzoryView.selected.polekonto}"/>
                 <h:selectBooleanCheckbox value="#{bankImportWzoryView.selected.miesiace}"/>
+                <h:selectBooleanCheckbox value="#{bankImportWzoryView.selected.nadpisz}"/>
                 <p:commandButton value="dodaj" actionListener="#{bankImportWzoryView.dodaj}" update="ustawieniabankidodaj ustawieniabankiimport:dataListImport"/>
             </p:panelGrid>
         </h:form>
@@ -104,6 +107,12 @@
                         <p:ajax event="save" listener="#{bankImportWzoryView.edytuj(item)}" update="@parent:@parent"/>
                         <p:inputText value="#{item.polekonto}" styleClass="bankimport"/>
                     </p:inplace>
+                </p:column>
+                <p:column width="30" style="text-align: center;" headerText="mce">
+                    <h:outputText value="#{item.miesiace}"/>
+                </p:column>
+                <p:column width="30" style="text-align: center;" headerText="nadp">
+                    <h:outputText value="#{item.nadpisz}"/>
                 </p:column>
                 <p:column width="70" style="text-align: center;">
                     <p:commandButton icon="fa fa-trash" actionListener="#{bankImportWzoryView.usun(item)}" update="ustawieniabankiimport:dataListImport"/>

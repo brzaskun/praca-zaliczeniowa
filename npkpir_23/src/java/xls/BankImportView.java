@@ -33,6 +33,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -573,8 +574,8 @@ public class BankImportView implements Serializable {
                     zwrot = kontowyplatawynagrodzenia;
                     break;
             }
-            zwrot = mozesazasady(zwrot, p, zasady);
         }
+        zwrot = mozesazasady(zwrot, p, zasady);
         return zwrot;
     }    
 
@@ -582,15 +583,24 @@ public class BankImportView implements Serializable {
         Map<String, Konto> kontalista = pobierzkonta(zasady);
         Konto zwrot = null;
         for (BankImportWzory r : zasady) {
-            if (r.getPoleopis()!=null && p.getOpistransakcji().toLowerCase().contains(r.getPoleopis().toLowerCase())) {
-                zwrot = kontalista.get(r.getNrkonta());
-                break;
-            } else if (r.getPolekontrahent()!=null && p.getKontrahent().toLowerCase().contains(r.getPolekontrahent().toLowerCase())) {
-                zwrot = kontalista.get(r.getNrkonta());
-                break;
-            } else if (r.getPolekonto()!=null && p.getIBAN().toLowerCase().equals(r.getPolekonto().toLowerCase())) {
-                zwrot = kontalista.get(r.getNrkonta());
-                break;
+            if (r.isNadpisz()) {
+                if (r.getPoleopis()!=null) {
+                    String[] opiswyrazenia = r.getPoleopis().split(";");
+                    List<String> opiswyrazenailista = Arrays.asList(opiswyrazenia);
+                    for (String wyr : opiswyrazenailista) {
+                        if (p.getOpistransakcji().toLowerCase().contains(wyr.toLowerCase())) {
+                            zwrot = kontalista.get(r.getNrkonta());
+                            break;
+                        }
+                    }
+                    break;
+                } else if (r.getPolekontrahent()!=null && p.getKontrahent().toLowerCase().contains(r.getPolekontrahent().toLowerCase())) {
+                    zwrot = kontalista.get(r.getNrkonta());
+                    break;
+                } else if (r.getPolekonto()!=null && p.getIBAN().toLowerCase().equals(r.getPolekonto().toLowerCase())) {
+                    zwrot = kontalista.get(r.getNrkonta());
+                    break;
+                }
             }
         }
         return zwrot!=null?zwrot:pierwotne;

@@ -108,4 +108,12 @@ public class WalutyKursRecznieView implements Serializable{
         this.dataodtabela = dataodtabela;
     }
 
+    public String getDatadotabela() {
+        return datadotabela;
+    }
+
+    public void setDatadotabela(String datadotabela) {
+        this.datadotabela = datadotabela;
+    }
+
   }
