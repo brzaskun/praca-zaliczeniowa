@@ -75,6 +75,8 @@ public class SprFinKwotyInfDodView  implements Serializable{
             if (rokpop!=null) {
                 skopiujdane(rokpop);
             }
+        } else {
+            
         }
         pobierzudzialy();
     }
@@ -94,6 +96,19 @@ public class SprFinKwotyInfDodView  implements Serializable{
         sprFinKwotyInfDod.setPid9B(rokpop.getPid9A());
         sprFinKwotyInfDod.setPid10B(rokpop.getPid10A());
         sprFinKwotyInfDod.setPid11B(rokpop.getPid11A());
+    }
+    
+    public void kopiujsad() {
+        SprFinKwotyInfDod rokpop = sprFinKwotyInfDodDAO.findsprfinkwoty(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
+        if (rokpop!=null) {
+            sprFinKwotyInfDod.setSad(rokpop.getSad());
+            sprFinKwotyInfDod.setPpdzialalnosci(rokpop.getPpdzialalnosci());
+            sprFinKwotyInfDod.setPozpdzialalnosci(rokpop.getPozpdzialalnosci());
+            Msg.msg("Pobrano dane");
+        } else {
+            Msg.msg("Brak danych w roku poprzednim");
+        }
+        
     }
     
     public void zapisz() {

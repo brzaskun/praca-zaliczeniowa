@@ -13,8 +13,8 @@
                 <h:form id="form_dialogdanedosprawozdania">
                     <p:panelGrid columns="3">
                         <h:outputText value="nazwa pozycji wyliczenia" style="font-weight: 900"/>
-                        <h:outputText value="kwota rok bieżący" style="font-weight: 900"/>
-                        <h:outputText value="kwota rok poprzedni" style="font-weight: 900"/>
+                        <h:outputText value="kwoty za #{WpisView.rokWpisuSt}" style="font-weight: 900"/>
+                        <h:outputText value="kwota za #{WpisView.rokUprzedniSt}" style="font-weight: 900"/>
                         <h:outputText value="A. Zysk (strata) brutto za dany rok"/>
                         <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid1A}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." />
                         <p:inputNumber value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.pid1B}" decimalPlaces="2" thousandSeparator="&#160;"  inputStyle="text-align: right;" symbol=" zł" symbolPosition="s" decimalSeparator="." />
@@ -105,6 +105,8 @@
             <p:tab title="inf.dodatkowa">
                 <h:form>
                     <p:panelGrid columns="2">
+                        <h:outputText value="pobierz dane z roku poprzedniego"/>
+                        <p:commandButton value="kopuj" actionListener="#{sprFinKwotyInfDodView.kopiujsad}" update="@form"/>
                         <h:outputText value="sąd rejestrowy"/>
                         <p:inputText value="#{sprFinKwotyInfDodView.sprFinKwotyInfDod.sad}" size="100">
                             <p:ajax event="change" listener="#{sprFinKwotyInfDodView.zapisz}" global="false"/>
