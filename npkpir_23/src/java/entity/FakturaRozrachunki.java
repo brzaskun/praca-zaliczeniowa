@@ -94,6 +94,8 @@ public class FakturaRozrachunki implements Serializable {
     private boolean przeniesionosaldo;
     @Column(name = "iban")
     private String iban;
+    @Column(name = "kwotaidentyfikujaca")
+    private double kwotaidentyfikujaca;
 
     public FakturaRozrachunki() {
     }
@@ -109,6 +111,7 @@ public class FakturaRozrachunki implements Serializable {
         this.rodzajdokumentu = rodzajdokumentu;
         this.rok = rok;
         this.mc = mc;
+        this.kwotaidentyfikujaca = r.getSaldopooperacji();
     }
     
     @PrePersist
@@ -299,8 +302,16 @@ public class FakturaRozrachunki implements Serializable {
     public void setDatatelefon(Date datatelefon) {
         this.datatelefon = datatelefon;
     }
-//</editor-fold>
-   
     
+    
+    public double getKwotaidentyfikujaca() {
+        return kwotaidentyfikujaca;
+    }
+
+    public void setKwotaidentyfikujaca(double kwotaidentyfikujaca) {
+        this.kwotaidentyfikujaca = kwotaidentyfikujaca;
+    }
+   
+//</editor-fold>    
     
 }

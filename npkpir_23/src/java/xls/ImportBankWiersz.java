@@ -34,6 +34,7 @@ public class ImportBankWiersz implements Serializable {
         private ImportowanyPlikNaglowek naglowek;
         private boolean znalezionokonto;
         private Klienci klient;
+        private double saldopooperacji;
         //typ transakcji
         //1 wpływ faktura
         //2 zapłata faktura
@@ -188,6 +189,14 @@ public class ImportBankWiersz implements Serializable {
 
     public void setKlient(Klienci klient) {
         this.klient = klient;
+    }
+
+    public double getSaldopooperacji() {
+        return saldopooperacji;
+    }
+
+    public void setSaldopooperacji(double saldopooperacji) {
+        this.saldopooperacji = saldopooperacji;
     }
     
 

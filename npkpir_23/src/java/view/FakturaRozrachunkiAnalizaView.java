@@ -111,6 +111,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         Msg.msg("Pobrano dane kontrahenta");
     }
     
+    //tu zbiorczo
     public void pobierzwszystko(String mc, Klienci klient) {
         nowepozycje = pobierzelementy(mc, false, klient);
         archiwum = pobierzelementy(mc, true, klient);
@@ -340,7 +341,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         }
         pobierzwszystko(wpisView.getMiesiacWpisu(), szukanyklient);
         selectOneUI.setValue(szukanyklient);
-        aktywnytab = 2;
+        aktywnytab = 3;
     }
     
     public void zaksiegujjakoBOselected() {

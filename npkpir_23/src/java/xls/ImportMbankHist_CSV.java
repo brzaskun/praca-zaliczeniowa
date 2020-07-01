@@ -111,6 +111,8 @@ public class ImportMbankHist_CSV implements Serializable {
                             x.setNrtransakji(baza.get(2));
                             x.setTyptransakcji(oblicztyptransakcji(x));
                             x.setNaglowek(pn);
+                            double saldopooperacji = Double.parseDouble(baza.get(7).replaceAll("\\s+", "").replace(",", "."));
+                            x.setSaldopooperacji(saldopooperacji);
                             pobranefaktury.add(x);
                         }
                     }

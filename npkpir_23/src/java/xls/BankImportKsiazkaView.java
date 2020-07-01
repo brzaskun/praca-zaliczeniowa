@@ -387,7 +387,9 @@ public class BankImportKsiazkaView implements Serializable {
             if (r.getIban()!=null && r.getIban().equals(p.getIBAN())) {
                 if (r.getData().equals(p.getDatatransakcji())){
                     if (r.getKwotapln()==p.getKwota()) {
-                        zwrot = true;
+                        if (r.getKwotaidentyfikujaca()==p.getSaldopooperacji()) {
+                            zwrot = true;
+                        }
                     }
                 }
             }
