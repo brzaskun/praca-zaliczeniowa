@@ -1026,14 +1026,11 @@ public class PdfMain {
                     col = new int[size];
                     col[0] = 1;
                     col[1] = 3;
-                    col[2] = 4;
+                    col[2] = 3;
                     col[3] = 3;
                     col[4] = 3;
                     col[5] = 3;
-                    col[6] = 2;
-                    col[7] = 3;
-                    col[8] = 3;
-                    col[9] = 3;
+                    col[6] = 3;
                     return col;
                 } else {
                     col = new int[size];
@@ -1646,26 +1643,30 @@ public class PdfMain {
                 if (modyfikator == 0) {
                     FakturaPodatnikRozliczenie p = (FakturaPodatnikRozliczenie) it.next();
                     table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8));
-                    if (p.getRodzajDok().equals("faktura")) {
-                        table.addCell(ustawfrazeAlign(p.getRodzajDok(), "left", 8));
-                    } else if (p.getRodzajDok().startsWith("ka ")) {
-                        table.addCell(ustawfrazeAlign("korekta", "left", 8));
-                    } else if (p.getRodzajDok().startsWith("bo/")) {
-                        table.addCell(ustawfrazeAlign("stan na pocz.roku", "left", 8));
+//                    if (p.getRodzajDok().equals("faktura")) {
+//                        table.addCell(ustawfrazeAlign(p.getRodzajDok(), "left", 8));
+//                    } else if (p.getRodzajDok().startsWith("ka ")) {
+//                        table.addCell(ustawfrazeAlign("korekta", "left", 8));
+//                    } else if (p.getRodzajDok().startsWith("bo/")) {
+//                        table.addCell(ustawfrazeAlign("stan na pocz.roku", "left", 8));
+//                    } else {
+//                        table.addCell(ustawfrazeAlign("płatność", "left", 8));
+//                    }
+                    if (p.getRodzajDok().equals("faktura")||p.getRodzajDok().startsWith("ka ")||p.getRodzajDok().startsWith("bo/")) {
+                        table.addCell(ustawfrazeAlign(p.getNrDok(), "left", 8));
+                        table.addCell(ustawfrazeAlign(p.getData(), "center", 8));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign("płatność", "left", 8));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                        table.addCell(ustawfrazeAlign(p.getData(), "center", 8));
                     }
-                    table.addCell(ustawfrazeAlign(p.getNrDok(), "left", 8));
-                    table.addCell(ustawfrazeAlign(p.getData(), "center", 8));
+                    
                     if (p.isFaktura0rozliczenie1()) {
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
-                        table.addCell(ustawfrazeAlign("", "center", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(-p.getKwota())), "right", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign("", "center", 8));
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8, BaseColor.BLUE));
                     }
-                    table.addCell(ustawfrazeAlign(p.pokazWalute(), "center", 8));
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSaldopln())), "right", 8));
                     table.addCell(ustawfrazeAlign(Data.data_yyyyMMdd(p.getDatatelefon()), "center", 8));
                     table.addCell(ustawfrazeAlign(Data.data_yyyyMMdd(p.getDataupomnienia()), "center", 8));
                 } else {
