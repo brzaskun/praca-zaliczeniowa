@@ -76,10 +76,11 @@
                 <h:outputText value="saldo końcowe" rendered="#{bankImportKsiazkaView.naglowek.wyciagkonto ne '11111'}"/><bcf:outputpl value="#{bankImportKsiazkaView.naglowek.wyciagbz}" rendered="#{bankImportKsiazkaView.naglowek.wyciagkonto ne '11111'}"/>
             </p:panelGrid>
         <h:outputText value="#{bankImportKsiazkaView.wiadomoscnieprzypkonta}" style="color: red; margin-bottom: 10px;"/>
-        <p:panelGrid columns="3" style="width: 500px;">
+        <p:panelGrid columns="4" style="width: 500px;">
             
                 <p:commandButton value="pobierz dane" actionListener="#{bankImportKsiazkaView.importujdok()}" update="akordeon:panelprzyciskowbankall akordeon:form_importbankall" style="width: 120px;" />
                 <p:commandButton value="resetuj" actionListener="#{bankImportKsiazkaView.resetuj()}" update="akordeon:panelplikbankall akordeon:panelprzyciskowbankall akordeon:form_importbankall" style="width: 120px; margin-left: 20px;" resetValues="true"/>
+                <p:commandButton value="usuń duplikaty" actionListener="#{bankImportKsiazkaView.usunduplikaty()}" update="akordeon:form_importbankall" style="width: 120px;margin-left: 20px;"/>
                 <p:commandButton value="generuj dok" actionListener="#{bankImportKsiazkaView.generuj()}" update="akordeon:form_importbankall" style="width: 120px;margin-left: 60px;" rendered="false" binding="#{bankImportKsiazkaView.generujbutton}"/>
             </p:panelGrid>
         </p:panelGrid>
@@ -130,8 +131,8 @@
                     <p:autoComplete value="#{itemimp.klient}" completeMethod="#{fakturaRozrachunkiView.completeKL}"
                                         var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="#{klientConv}" title="wpisz nazwę lub nip kontrahenta"
                                         maxResults="20" maxlength="20" converterMessage="Nieudana konwersja Klient" 
-                                        cache="true" forceSelection="true" queryDelay="10" 
-                                        required="true" requiredMessage="Pole klienta nie może być puste" styleClass="wpisywaniekontrfk" style="width: 185px;" inputStyle="width: 170px;"
+                                        cache="true"  queryDelay="10" 
+                                        styleClass="wpisywaniekontrfk" style="width: 185px;" inputStyle="width: 170px;"
                                         >
                             <p:ajax event="query" global="false"/>
                             <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
@@ -155,6 +156,9 @@
                 </p:column>
                 <p:column headerText="nr trans" width="90" sortBy="#{itemimp.nrtransakji}" filterBy="#{itemimp.nrtransakji}" >
                     <h:outputText value="#{itemimp.nrtransakji}"/>
+                </p:column>
+                <p:column width="40" >
+                    <p:commandButton icon="fa fa-trash" actionListener="#{bankImportKsiazkaView.usun(itemimp)}" update="@form"/>
                 </p:column>
             </p:dataTable>
                     </p:panelGrid>

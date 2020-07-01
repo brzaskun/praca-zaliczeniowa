@@ -284,7 +284,7 @@ public class BankImportKsiazkaView implements Serializable {
             int ile = 0;
             Waluty walutadokumentu = walutyDAOfk.findWalutaBySymbolWaluty(naglowek.getWyciagwaluta());
             for (ImportBankWiersz r : pobranefaktury) {
-                if (!r.isJuzzaksiegowany()) {
+                if (!r.isJuzzaksiegowany() && r.getKlient()!=null) {
                     int zwrot = generowanieDokumentu(r, walutadokumentu);
                     if (zwrot==0) {
                         ile++;
@@ -300,6 +300,29 @@ public class BankImportKsiazkaView implements Serializable {
         }
     }
     
+    public void usunduplikaty() {
+            try {
+                for (Iterator<ImportBankWiersz> it = pobranefaktury.iterator();it.hasNext();) {
+                    ImportBankWiersz p = it.next();
+                    if (p.isJuzzaksiegowany()) {
+                        it.remove();
+                    }
+                }
+                Msg.msg("Usunięto duplikaty");
+            } catch (Exception e) {
+                Msg.msg("e","Wystapił błąd, nie usunięto duplikatów");
+            }
+    }
+    
+    
+    public void usun(ImportBankWiersz r) {
+            try {
+                pobranefaktury.remove(r);
+                Msg.msg("Usunięto pozycję");
+            } catch (Exception e) {
+                Msg.msg("e","Wystapił błąd, nie usunięto pozycji");
+            }
+    }
         
      public int generowanieDokumentu(ImportBankWiersz r, Waluty walutadokumentu) {
         int zwrot = 0;
