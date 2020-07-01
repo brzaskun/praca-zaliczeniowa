@@ -257,7 +257,7 @@ private DokDAO dokDAO;
         try {
             generujIndex(selectedDod);
             sformatuj(selectedDod);
-            if (selectedDod.getPrintnazwa().equals("nie znaleziono firmy w bazie Regon")) {
+            if (!selectedDod.getPrintnazwa().equals("nie znaleziono firmy w bazie Regon")) {
                 podatnikDAO.dodaj(selectedDod);
                 podatnikWyborView.init();
                 Msg.msg("i", "Dodano nowego podatnika: " + selectedDod.getPrintnazwa());
@@ -1308,10 +1308,11 @@ private DokDAO dokDAO;
     }
 
     public void peseldataurodzenia() {
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String skrot = params.get("form:pesel");
-        String tmp = "19" + skrot.substring(0, 2) + "-" + skrot.substring(2, 4) + "-" + skrot.substring(4, 6);
-        selectedDod.setDataurodzenia(tmp);
+        String skrot = selectedDod.getPesel();
+        if (skrot!=null) {
+            String tmp = "19" + skrot.substring(0, 2) + "-" + skrot.substring(2, 4) + "-" + skrot.substring(4, 6);
+            selectedDod.setDataurodzenia(tmp);
+        }
     }
 
     public void wypelnijfax() {
