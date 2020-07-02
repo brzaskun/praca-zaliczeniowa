@@ -98,6 +98,7 @@ public class ZUSMailView implements Serializable {
         }
     }
     private static final String trescmaila = "<p> Szanowny Podatniku</p> <p> W niniejszym mailu znajdziesz naliczone kwoty zobowiązań z tytułu ZUS I PIT-4</p> "
+            + "<p> dla firmy <span style=\"color:#008000;\">%s</span> NIP %s</p> "
             + "<p> do zapłaty/przelania w miesiącu <span style=\"color:#008000;\">%s/%s</span></p> "
             + " <table align=\"left\" border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\"> <caption> zestawienie zobowiązań</caption> <thead> <tr> "
             + "<th scope=\"col\"> lp</th> <th scope=\"col\"> tytuł</th> <th scope=\"col\"> kwota</th> </tr> </thead> <tbody> <tr> <td style=\"text-align: center;\"> 1</td> "
@@ -148,7 +149,7 @@ public class ZUSMailView implements Serializable {
                     pit8 = zusmail.getPit8()!= null ? zusmail.getPit8(): 0;
                     zusmail.setTytul(String.format("Taxman - zestawienie kwot ZUS/PIT4 za %s/%s", rok, mc));
                     double sumazus = Z.z(zus51+zus52+zus53);
-                    zusmail.setTresc(String.format(new Locale("pl"),trescmaila, rok, mc, zus51, zus52, zus53, sumazus, pit4, pit8));
+                    zusmail.setTresc(String.format(new Locale("pl"),trescmaila, p.getPrintnazwa(), p.getNip(),rok, mc, zus51, zus52, zus53, sumazus, pit4, pit8));
                     zusmail.setAdresmail(p.getEmail());
                     zusmail.setWysylajacy(wpisView.getUzer().getLogin());
                     if (!wykazprzygotowanychmaili.contains(zusmail)) {
