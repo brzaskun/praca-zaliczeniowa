@@ -171,7 +171,7 @@
                                         onblur="sprawdzczybrakklienta();">
                             <!-- usunalem z gory    onkeyup="sprawdzczykopiowacklienta();"-->
                             <p:ajax event="itemSelect" partialSubmit="true" listener="#{DokumentView.dodajklientaautomat()}"
-                                    update="dodWiad:rodzajTrans,dodWiad:opis"  />
+                                    update="dodWiad:rodzajTrans,dodWiad:opis dodWiad:tabelapkpir"  />
                             <f:facet name="itemtip">  
                                 <h:panelGrid  columns="2" cellpadding="5" width="400">  
                                     <f:facet name="header">  

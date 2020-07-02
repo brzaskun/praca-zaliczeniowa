@@ -1392,6 +1392,7 @@ public class DokView implements Serializable {
             PrimeFaces.current().ajax().update("dodWiad:panelewidencjivat");
         }
         PrimeFaces.current().ajax().update("dialogEdycja");
+        
     }
 
     public void sprawdzczywybranodokumentdoedycji() {
@@ -1557,6 +1558,7 @@ public class DokView implements Serializable {
                 }
             wygenerujnumerkolejny();
             podepnijListe();
+            
             } catch (Exception e) {
                 E.e(e);
             }
