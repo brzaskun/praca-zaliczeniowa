@@ -68,6 +68,7 @@ public class ImportowanyPlikConv implements javax.faces.convert.Converter{
         zwrot.add(new ImportowanyPlik("Tomtech xls","xls","",3));
         zwrot.add(new ImportowanyPlik("Exolight xls","xls","",4));
         zwrot.add(new ImportowanyPlik("Murawski xls","xls","",5));
+        zwrot.add(new ImportowanyPlik("Mucha xls","xls","",6));
         //to dotyczy importowanych bankow
         zwrot.addAll(BankImportWykaz.getWYKAZ());
         return zwrot;

@@ -595,6 +595,16 @@ public class Data implements Serializable {
         return m.find();
     }
     
+    public static Date stringToDate(String data) {
+        Date zwrot = null;
+        String dobradata = zmienkolejnosc(data);
+        try {
+            zwrot = (new SimpleDateFormat("yyyy-MM-dd")).parse(dobradata);
+        } catch (ParseException ex) {
+            E.e(ex);
+        }
+        return zwrot;
+    }
    
     public static void main(String[] args) {
         try {

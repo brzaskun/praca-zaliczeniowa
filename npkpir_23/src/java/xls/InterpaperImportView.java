@@ -164,6 +164,7 @@ public class InterpaperImportView implements Serializable {
         zwrot.add(new ImportowanyPlik("Tomtech xls","xls","",3));
         zwrot.add(new ImportowanyPlik("Exolight xls","xls","",4));
         zwrot.add(new ImportowanyPlik("Murawski xls","xls","",5));
+        zwrot.add(new ImportowanyPlik("Mucha xls","xls","",6));
         return zwrot;
     }
     
@@ -181,26 +182,7 @@ public class InterpaperImportView implements Serializable {
                 grid3.setRendered(false);
                 pobranefaktury = null;
                 rodzajdok = null;
-                switch (wybranyrodzajimportu.getLp()) {
-                    case 1:
-                       rodzajedokimportu = pobierzrodzajeimportu(1);
-                       break;
-                    case 2:
-                       rodzajedokimportu = pobierzrodzajeimportu(2);
-                       break;
-                    case 3:
-                       rodzajedokimportu = pobierzrodzajeimportu(3);
-                       break;
-                    case 4:
-                       rodzajedokimportu = pobierzrodzajeimportu(4);
-                       break;
-                    case 5:
-                       rodzajedokimportu = pobierzrodzajeimportu(5);
-                       break;
-                    default:
-                        rodzajedokimportu = new ArrayList<>();
-                        break;
-                }
+                rodzajedokimportu = pobierzrodzajeimportu(wybranyrodzajimportu.getLp());
                 if (pobraneplikibytes!=null&&pobraneplikibytes.size()>1) {
                     Msg.msg("Sukces. Skutecznie załadowano "+pobraneplikibytes.size()+" plików");
                 } else {
@@ -242,6 +224,9 @@ public class InterpaperImportView implements Serializable {
                         }
                     }
                     break;
+                case 6:
+                    pobranefaktury = ReadXLSMuchaFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, gUSView, wpisView.getMiesiacWpisu());
+                    break;
             }
             grid3.setRendered(true);
             if (wybranyrodzajimportu.getLp()==2 && (rodzajdok.equals("sprzedaż NIP") || rodzajdok.contains("zakup"))) {
@@ -264,7 +249,7 @@ public class InterpaperImportView implements Serializable {
                 drkujfizbutton.setRendered(true);
                 generujbutton.setRendered(true);
                 kontobutton.setRendered(true);
-            } else if (wybranyrodzajimportu.getLp()==5){
+            } else if (wybranyrodzajimportu.getLp()==5 || wybranyrodzajimportu.getLp()==6){
                 drkujfizbutton.setRendered(true);
                 //generujbutton.setRendered(true);
             }
@@ -882,6 +867,7 @@ public class InterpaperImportView implements Serializable {
                 zwrot.add("sprzedaż");
                 break;
             case 5:
+            case 6:
                 zwrot.add("sprzedaż");
                 break;
         }
