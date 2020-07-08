@@ -43,17 +43,18 @@ public class PdfFaktRozrach {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepnyFaktury(document, "Rozrachunki  ",wpisView.getPodatnikObiekt().getNazwadlafaktury(), wpisView.getPodatnikObiekt().getNip(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepnyFaktury(document, "Zadłużenie wobec/debt to/Schulden gegenüber  ",wpisView.getPodatnikObiekt().getNazwadlafaktury(), wpisView.getPodatnikObiekt().getNip(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajLinieOpisu(document, "kontrahent "+szukanyklient.getNpelna());
             dodajTabele(document, testobjects.testobjects.getFakturaRozrachunki(nowepozycje, 0),90,0);
             FakturaPodatnikRozliczenie n = nowepozycje.get(nowepozycje.size()-1);
             if (n.getSaldopln() > 0) {
                 dodajLinieOpisu(document, " ");
                 if (n.getSaldo()!=0) {
-                    dodajLinieOpisu(document, "kwota do zapłaty na dzień sporządzenia faktur w Euro : "+F.curr(n.getSaldo(),"EUR"));
-                    dodajLinieOpisu(document, "kwota do zapłaty na dzień sporządzenia w przeliczeniu na pln: "+F.curr(n.getSaldopln()));
+                    dodajLinieOpisu(document, "total/insgesamt/kwota do zapłaty na dzień sporządzenia faktur w Euro : "+F.curr(n.getSaldo(),"EUR"));
+                    dodajLinieOpisu(document, "total/insgesamt/kwota do zapłaty na dzień sporządzenia w przeliczeniu na PLN: "+F.curr(n.getSaldopln()));
                 }
-                dodajLinieOpisu(document, "kwota do zapłaty na dzień sporządzenia w pln: "+F.curr(n.getSaldopln()));
+                dodajLinieOpisu(document, "total/insgesamt/kwota do zapłaty na dzień sporządzenia w PLN: "+F.curr(n.getSaldopln()));
+                
                 dodajLinieOpisu(document, "");
                 dodajLinieOpisu(document, "sporządzono dnia "+Data.aktualnaData());
             }
@@ -77,7 +78,7 @@ public class PdfFaktRozrach {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepnyFaktury(document, "Rozrachunki  z ",wpisView.getPodatnikObiekt().getNazwadlafaktury(), wpisView.getPodatnikObiekt().getNip(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepnyFaktury(document, "Zadłużenie wobec/debt to/Schulden gegenüber  ",wpisView.getPodatnikObiekt().getNazwadlafaktury(), wpisView.getPodatnikObiekt().getNip(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajLinieOpisuBezOdstepu(document, "firma: "+szukanyklient.getNpelna());
             dodajLinieOpisu(document, "NIP: "+szukanyklient.getNip());
             dodajTabele(document, testobjects.testobjects.getFakturaRozrachunki(nowepozycje, 0),90,0);
@@ -85,13 +86,19 @@ public class PdfFaktRozrach {
             if (n.getSaldopln() > 0) {
                 dodajLinieOpisu(document, " ");
                 if (n.getSaldo()!=0) {
-                    dodajLinieOpisu(document, "kwota do zapłaty na dzień sporządzenia faktur w Euro : "+F.curr(n.getSaldo(),"EUR"));
-                    dodajLinieOpisu(document, "kwota do zapłaty na dzień sporządzenia w przeliczeniu na pln: "+F.curr(n.getSaldopln()));
+                    dodajLinieOpisu(document, "total/insgesamt/kwota do zapłaty na dzień sporządzenia faktur w Euro : "+F.curr(n.getSaldo(),"EUR"));
+                    dodajLinieOpisu(document, "total/insgesamt/kwota do zapłaty na dzień sporządzenia w przeliczeniu na PLN: "+F.curr(n.getSaldopln()));
                 }
-                dodajLinieOpisu(document, "kwota do zapłaty na dzień sporządzenia w pln: "+F.curr(n.getSaldopln()));
+                dodajLinieOpisu(document, "total/insgesamt/kwota do zapłaty na dzień sporządzenia w PLN: "+F.curr(n.getSaldopln()));
                 dodajLinieOpisu(document, " ");
                 dodajLinieOpisu(document, "proszę sprawdzić saldo i przelać je niezwłocznie na nr konta podany na fakturze");
                 dodajLinieOpisu(document, "dziękuję");
+                dodajLinieOpisu(document, " ");
+                dodajLinieOpisu(document, "please check the total and make the bank transfer ASAP");
+                dodajLinieOpisu(document, "thank you");
+                dodajLinieOpisu(document, " ");
+                dodajLinieOpisu(document, "bitte prüfen Sie die Summe und machen Sie die Überweisung ASAP");
+                dodajLinieOpisu(document, "danke schön");
                 dodajLinieOpisu(document, " ");
                 dodajLinieOpisu(document, "sporządzono dnia "+Data.aktualnaData());
             }
