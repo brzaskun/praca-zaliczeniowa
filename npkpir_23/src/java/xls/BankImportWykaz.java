@@ -21,7 +21,8 @@ public class BankImportWykaz {
         new ImportowanyPlik("MT940 csv ;","csv",";",4),
         new ImportowanyPlik("Bank iPKO BP xls ;","xls",5),
         new ImportowanyPlik("BNP Paribas BP csv ;","csv",6),
-        new ImportowanyPlik("ING xml","xml",7)
+        new ImportowanyPlik("ING xml","xml",7),
+        new ImportowanyPlik("Bank iPKO BP biznes xls ;","xls",8)
     ));
 
     

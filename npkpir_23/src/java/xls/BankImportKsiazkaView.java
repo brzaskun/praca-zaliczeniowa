@@ -216,6 +216,9 @@ public class BankImportKsiazkaView implements Serializable {
                         case 7 :
                             zwrot = ImportING_XML.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
                             break;
+                        case 8 :
+                            zwrot = ImportiPKOBPbiz_XLS.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
+                            break;
                     }
                     if (zwrot.size()==5) {
                         Msg.msg("e", "Nie pobrano wszystkich plików. Wystąpił błąd");
