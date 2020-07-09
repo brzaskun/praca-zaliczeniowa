@@ -1663,9 +1663,11 @@ public class PdfMain {
                     }
                     
                     if (p.isFaktura0rozliczenie1()) {
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(-p.getKwota())), "right", 8));
+                        String fraza = String.valueOf(number.format(-p.getKwota()))+" "+p.getWalutafaktury();
+                        table.addCell(ustawfrazeAlign(fraza, "right", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8, BaseColor.BLUE));
+                        String fraza = String.valueOf(number.format(p.getKwota()))+" "+p.getWalutafaktury();
+                        table.addCell(ustawfrazeAlign(fraza, "right", 8, BaseColor.BLUE));
                     }
                     table.addCell(ustawfrazeAlign(Data.data_yyyyMMdd(p.getDatatelefon()), "center", 8));
                     table.addCell(ustawfrazeAlign(Data.data_yyyyMMdd(p.getDataupomnienia()), "center", 8));

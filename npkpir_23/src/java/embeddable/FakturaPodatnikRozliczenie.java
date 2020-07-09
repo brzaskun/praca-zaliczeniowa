@@ -38,6 +38,7 @@ import waluty.Z;
     private double ostatniaplatnosckwota;
     private boolean przeniesionosaldo;
     private String color;
+    private String walutafaktury;
     
 
     public FakturaPodatnikRozliczenie(FakturaRozrachunki p) {
@@ -52,6 +53,11 @@ import waluty.Z;
         this.dataupomnienia = p.getDataupomnienia();
         this.datatelefon = p.getDatatelefon();
         this.przeniesionosaldo = p.isPrzeniesionosaldo();
+        if (p.getKurs()!=0.0) {
+            this.walutafaktury = "EUR";
+        } else {
+            this.walutafaktury = "PLN";
+        }
     }
 
     public FakturaPodatnikRozliczenie(Faktura r) {
@@ -74,6 +80,7 @@ import waluty.Z;
         this.dataupomnienia = r.getDataupomnienia();
         this.datatelefon = r.getDatatelefon();
         this.przeniesionosaldo = r.isPrzeniesionosaldo();
+        this.walutafaktury = r.getWalutafaktury();
     }
 
     @Override
@@ -120,6 +127,9 @@ import waluty.Z;
         String zwrot = "";
         if (Z.z(this.kwota) != Z.z(this.kwotapln)) {
             zwrot = "EUR";
+        }
+        if (this.walutafaktury!=null) {
+            zwrot = this.walutafaktury;
         }
         return zwrot;
     }
@@ -315,6 +325,14 @@ import waluty.Z;
 
     public void setSaldopln(double saldopln) {
         this.saldopln = saldopln;
+    }
+
+    public String getWalutafaktury() {
+        return walutafaktury;
+    }
+
+    public void setWalutafaktury(String walutafaktury) {
+        this.walutafaktury = walutafaktury;
     }
     
     

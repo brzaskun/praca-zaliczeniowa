@@ -211,16 +211,21 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             try {
                 if (p.isFaktura0rozliczenie1()) {
                     if (p.getRozliczenie().getKurs() != 0.0) {
+                        saldo -= p.getKwotapln();
+                        saldopln -= p.getKwotapln();
+                    } else {
                         saldo -= p.getKwota();
+                        saldopln -= p.getKwota();
                     }
-                    saldopln -= p.getKwotapln();
+                    
                 } else {
-                    if (p.getRozliczenie() != null && p.getRozliczenie().getKurs() != 0.0) {
-                        saldo -= p.getKwota();
-                    } else if (p.getFaktura() != null && p.getFaktura().getWalutafaktury() != null && !p.getFaktura().getWalutafaktury().equals("PLN")) {
+                    if (p.getFaktura() != null && p.getFaktura().getWalutafaktury() != null && p.getFaktura().getWalutafaktury().equals("PLN")) {
                         saldo += p.getKwota();
+                        saldopln += p.getKwota();
+                    } else if (p.getFaktura() != null && p.getFaktura().getWalutafaktury() != null && !p.getFaktura().getWalutafaktury().equals("PLN")) {
+                        saldo += p.getKwotapln();
+                        saldopln += p.getKwotapln();
                     }
-                    saldopln += p.getKwotapln();
                 }
                 p.setSaldo(saldo);
                 p.setSaldopln(saldopln);
