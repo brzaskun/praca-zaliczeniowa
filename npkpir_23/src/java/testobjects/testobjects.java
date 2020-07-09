@@ -477,10 +477,10 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
         if (modyfikator == 0) {
             List n = new ArrayList();
             n.add("lp");
-            n.add("faktura nr");
+            n.add("faktura/invoice/Rechn. nr");
             n.add("data wystawienia");
-            n.add("przelew/gotówka dnia");
-            n.add("kwota");
+            n.add("przelew/payment/Uberweisung dnia");
+            n.add("kwota/amount/Summe");
             n.add("upom. tel");
             n.add("wysłano mail");
             List[] tabela = new List[2];

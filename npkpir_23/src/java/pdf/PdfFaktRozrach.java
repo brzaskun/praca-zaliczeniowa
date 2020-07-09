@@ -44,7 +44,7 @@ public class PdfFaktRozrach {
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepnyFaktury(document, "Zadłużenie wobec/debt to/Schulden gegenüber  ",wpisView.getPodatnikObiekt().getNazwadlafaktury(), wpisView.getPodatnikObiekt().getNip(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
-            dodajLinieOpisu(document, "kontrahent "+szukanyklient.getNpelna());
+            dodajLinieOpisu(document, "kontrahent/client/Mandant "+szukanyklient.getNpelna());
             dodajTabele(document, testobjects.testobjects.getFakturaRozrachunki(nowepozycje, 0),90,0);
             FakturaPodatnikRozliczenie n = nowepozycje.get(nowepozycje.size()-1);
             if (n.getSaldopln() > 0) {
@@ -56,7 +56,7 @@ public class PdfFaktRozrach {
                 dodajLinieOpisu(document, "total/insgesamt/kwota do zapłaty na dzień sporządzenia w PLN: "+F.curr(n.getSaldopln()));
                 
                 dodajLinieOpisu(document, "");
-                dodajLinieOpisu(document, "sporządzono dnia "+Data.aktualnaData());
+                dodajLinieOpisu(document, "Szczecin "+Data.aktualnaData());
             }
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
