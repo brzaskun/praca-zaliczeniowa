@@ -1652,8 +1652,12 @@ public class PdfMain {
 //                    } else {
 //                        table.addCell(ustawfrazeAlign("płatność", "left", 8));
 //                    }
-                    if (p.getRodzajDok().equals("faktura")||p.getRodzajDok().startsWith("ka ")||p.getRodzajDok().startsWith("bo/")) {
+                    if (p.getRodzajDok().equals("faktura")||p.getRodzajDok().startsWith("ka ")) {
                         table.addCell(ustawfrazeAlign(p.getNrDok(), "left", 8));
+                        table.addCell(ustawfrazeAlign(p.getData(), "center", 8));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                    } else if (p.getRodzajDok().startsWith("bo")) {
+                        table.addCell(ustawfrazeAlign("rok.pop/last year/letztes Jahr", "left", 8));
                         table.addCell(ustawfrazeAlign(p.getData(), "center", 8));
                         table.addCell(ustawfrazeAlign("", "center", 8));
                     } else {

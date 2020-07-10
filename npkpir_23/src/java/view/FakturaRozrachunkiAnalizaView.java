@@ -225,6 +225,12 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                     } else if (p.getFaktura() != null && p.getFaktura().getWalutafaktury() != null && !p.getFaktura().getWalutafaktury().equals("PLN")) {
                         saldo += p.getKwotapln();
                         saldopln += p.getKwotapln();
+                    } else if (p.getRozliczenie() != null && p.getRozliczenie().getKurs() == 0.0) {//to jest dla dokumentu bo ktory jest traktowany jak faktura ale jest rozliczeniem
+                        saldo += p.getKwota();
+                        saldopln += p.getKwota();
+                    } else if (p.getRozliczenie() != null && p.getRozliczenie().getKurs() != 0.0) {
+                        saldo += p.getKwotapln();
+                        saldopln += p.getKwotapln();
                     }
                 }
                 p.setSaldo(saldo);
