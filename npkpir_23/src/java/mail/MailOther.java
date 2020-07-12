@@ -89,6 +89,7 @@ public class MailOther implements Serializable{
              try {
                  Klienci klientf = faktura.getKontrahent();
                  if (klientf.getEmail()!=null && !klientf.getEmail().equals("")) {
+                    String wiadomoscdowstawienia = wiadomoscdodatkowa != null? wiadomoscdodatkowa : "";
                     MimeMessage message = MailSetUp.logintoMailFakt(klientf, wpisView, settings, ogolne);
                     String nazwa = wpisView.getPodatnikObiekt().getNazwadlafaktury() != null ? wpisView.getPodatnikObiekt().getNazwadlafaktury() : wpisView.getPodatnikWpisu();
                     message.setSubject("Wydruk faktury VAT - "+SMTPBean.nazwaFirmyFrom(settings, ogolne),"UTF-8");
@@ -99,7 +100,7 @@ public class MailOther implements Serializable{
                         + "<p>W załączeniu bieżąca faktura automatycznie wygenerowana przez nasz program księgowy.</p>"
                         + "<p style=\"color: green;font-weight: bold;\">dla firmy "+klientf.getNpelna()+"</p>"
                         + "<p>za okres "+faktura.getRok()+"/"+faktura.getMc()+"</p>"
-                        + "<span>"+wiadomoscdodatkowa+"</span><br/>"
+                        + "<span>"+wiadomoscdowstawienia+"</span><br/>"
                         + Mail.reklama
                         + stopka,  "text/html; charset=utf-8");
 
@@ -150,6 +151,7 @@ public class MailOther implements Serializable{
          int i = 0;
          for (Faktura faktura : fakturydomaila){
              try {
+                 String wiadomoscdowstawienia = wiadomoscdodatkowa != null? wiadomoscdodatkowa : "";
                  Klienci klientf = faktura.getKontrahent();
                  MimeMessage message = MailSetUp.logintoMailFakt(klientf, wpisView, settings, ogolne);
                  message.setSubject("Wydruk faktury VAT - Biuro Rachunkowe Taxman","UTF-8");
@@ -160,7 +162,7 @@ public class MailOther implements Serializable{
                  String klient = pod.getImie()+" "+pod.getNazwisko();
                  mbp1.setContent("Szanowna/y "+klient
                      + "<p>W załączeniu bieżąca faktura automatycznie wygenerowana przez nasz program księgowy.</p>"
-                     + "<p>"+wiadomoscdodatkowa+"</p>"
+                     + "<p>"+wiadomoscdowstawienia+"</p>"
                      + Mail.reklama
                      + Mail.stopka,  "text/html; charset=utf-8");
              

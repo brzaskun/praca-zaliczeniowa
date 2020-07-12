@@ -262,6 +262,7 @@ public class DokfkView implements Serializable {
     private Set<Dokfk> ostatniedokumenty;
     private boolean nietrzebapodczepiac;
     private boolean dodacdoslownikow;
+
      
     
 
@@ -2840,10 +2841,14 @@ public class DokfkView implements Serializable {
         ObslugaWiersza.przenumerujSelected(selected);
     }
 
+    public void pobierzwierszfocus (Wiersz item) {
+        this.wierszRK = item;
+    }
+    
     //to służy do pobierania wiersza do dialgou ewidencji w przypadku edycji ewidencji raportu kasowego
     public void ewidencjaVatRKInit() {
-        if (lpwierszaRK != null) {
-            lpWierszaWpisywanie = lpwierszaRK;
+        if (wierszRK != null) {
+            lpWierszaWpisywanie = wierszRK.getIdporzadkowy();
                 try {
                     //                DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("formwpisdokument:dataList");
                     //                Object o = d.getLocalSelection();
@@ -2854,8 +2859,8 @@ public class DokfkView implements Serializable {
                     //                Object o = d.getLocalSelection();
                     //                wierszRKindex = d.getRowIndex();
                     //                wierszRK = (Wiersz) d.getRowData();
-                    wierszRKindex = lpWierszaWpisywanie - 1;
-                    wierszRK = selected.getListawierszy().get(wierszRKindex);
+                    wierszRKindex = wierszRK.getIdporzadkowy() - 1;
+                    //wierszRK = selected.getListawierszy().get(wierszRKindex);
                     ewidencjaVatRK = null;
                     for (EVatwpisFK p : selected.getEwidencjaVAT()) {
                         if (p.getWiersz().equals(wierszRK)) {

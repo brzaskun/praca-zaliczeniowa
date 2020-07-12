@@ -500,7 +500,7 @@
                             <p:inputText id="opisdokwpis" value="#{wploop.opisWiersza}" style="width: 260px; height: 19px;" 
                                          styleClass="#{wploop.czworka ne null ? 'wierszpiatkowy' : null}">
                                 <!--                                     onkeypress="wywolajdok('{planKontJSView.opiskonta}', '{planKontJSView.pelnynumerkonta}', '{wploop.idporzadkowy}');" -->
-                                <p:ajax global="false" event="focus" oncomplete="zachowajwierszVATRK(#{index+1})" listener="#{dokfkView.setLpwierszaRK(index+1)}"/>
+                                <p:ajax global="false" event="focus" oncomplete="zachowajwierszVATRK(#{index+1})" listener="#{dokfkView.pobierzwierszfocus(wploop)}"/>
                                 <p:ajax global="false" event="blur" partialSubmit="true"/>
                                 <p:ajax global="false" event="focus" oncomplete="skopiujopis(#{wploop.idporzadkowy});" listener="#{dokfkView.skopiujopis(wploop.idporzadkowy)}"/>
                                 <p:ajax global="false" event="focus" listener="#{dokfkView.sprawdzwartoscigrupy()}"/>
