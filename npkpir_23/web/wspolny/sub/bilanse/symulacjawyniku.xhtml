@@ -35,9 +35,17 @@
             <p:panelGrid columns="16" style="margin-left: 2%;" >
                 <h:outputText value="rok" style="margin-right: 10px;"/>
                 <h:outputText value="#{WpisView.rokWpisuSt}" style="margin-right: 10px;"/>
-                <h:outputText value="m-c" style="margin-right: 10px;"/>
+                <h:outputText value="m-c od" style="margin-right: 10px;"/>
                 <p:column>
-                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                    <p:selectOneMenu id="miesiacWpisu1" value="#{symulacjaWynikuView.mcod}">
+                        <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" 
+                                update="akordeon" oncomplete="pokazprzyciski();"/>
+                        <f:selectItems value="#{Mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <h:outputText value="m-c do" style="margin-right: 10px;"/>
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisu2" value="#{symulacjaWynikuView.mcdo}">
                         <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" 
                                 update="akordeon" oncomplete="pokazprzyciski();"/>
                         <f:selectItems value="#{Mce.mceList}"/>
@@ -74,9 +82,11 @@
                             <f:selectItems value="#{symulacjaWynikuView.pobranecechypodatnik}" var="item1" itemLabel="#{item1.nazwacechy}" itemValue="#{item1.nazwacechy}"/>
                     </p:selectOneMenu>
             </p:panelGrid>
-            
+            <p:panelGrid columns="1">
+                <h:outputText value="Uwaga. Wyliczanie podatku działa prawidłowo pod warunkiem wybrania tego samego miesiąca jako mcod i mcdo" style="color: green"/>
+            </p:panelGrid>
             <p:panelGrid columns="2">
-            <p:dataTable id="tablicasymulacjaP" value="#{symulacjaWynikuView.listakontaprzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}"
+                <p:dataTable id="tablicasymulacjaP" value="#{symulacjaWynikuView.listakontaprzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}" rowIndexVar="indexa"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" selection="#{symulacjaWynikuView.sumaSaldoKontoPrzychody}"
                          styleClass="gridtablicasyntetyczne" widgetVar="tablicasymulacjaP" style="width: 1000px; height: 400px; overflow-y: scroll;"
                          
@@ -93,7 +103,7 @@
                     <p:rowToggler/>
                 </p:column>
                 <p:column headerText="id" sortBy="#{loop.id}"  style="width: 20px; text-align: center;">
-                    <h:outputText styleClass="lpwierszaanalityka" value="#{loop.id}"/>
+                    <h:outputText styleClass="lpwierszaanalityka" value="#{indexa+1}"/>
                 </p:column>
                 <p:column headerText="#{mgs.konto}" width="70" >
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
@@ -231,7 +241,7 @@
                 </p:rowExpansion>
             </p:dataTable>
             <p:dataTable id="tabelapodsumowanienowa" value="#{symulacjaWynikuView.pozycjePodsumowaniaWynikuNowe}" var="item2"
-                         style="width: 80%;margin-top: 10px;" rowIndexVar="index2">
+                         style="width: 100%;margin-top: 20px;" rowIndexVar="index2">
                 <p:column width="30" style="text-align: center;">
                     <h:outputText value="#{index2+1}"/>
                 </p:column>

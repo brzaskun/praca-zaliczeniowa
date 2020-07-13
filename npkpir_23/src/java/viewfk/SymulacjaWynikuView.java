@@ -38,6 +38,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -101,6 +102,8 @@ public class SymulacjaWynikuView implements Serializable {
     private List<String> pobranewalutypodatnik;
     @Inject
     private CechazapisuDAOfk cechazapisuDAOfk;
+    private String mcod;
+    private String mcdo;
     
 
     public SymulacjaWynikuView() {
@@ -108,6 +111,12 @@ public class SymulacjaWynikuView implements Serializable {
         this.pozycjePodsumowaniaWynikuNowe = Collections.synchronizedList(new ArrayList<>());
     }
 
+    @PostConstruct
+    public void inita() {
+        mcod = wpisView.getMiesiacWpisu();
+        mcdo = wpisView.getMiesiacWpisu();
+    }
+    
     public void init() { //E.m(this);
         List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlitykaWynikowe(wpisView);
         List<Konto> kontaklientaprzychody = Collections.synchronizedList(new ArrayList<>());
@@ -124,7 +133,7 @@ public class SymulacjaWynikuView implements Serializable {
                 kontaklientaprzychody.add(p);
             }
         }
-        List<StronaWiersza> zapisyRok = pobierzzapisyRokMc();
+        List<StronaWiersza> zapisyRok = pobierzzapisyRokMc(mcod, mcdo);
         pobranewalutypodatnik = pobierzswaluty(zapisyRok);
         listakontaprzychody = przygotowanalistasaldR(zapisyRok, kontaklientaprzychody, 0);
         listakontakoszty = przygotowanalistasaldR(zapisyRok, kontaklientakoszty, 1);
@@ -138,8 +147,14 @@ public class SymulacjaWynikuView implements Serializable {
     }
 
     public void odswiezsymulacjewynikuanalityczne() {
-        wpisView.wpisAktualizuj();
-        init();
+        Integer mcod = Integer.parseInt(this.mcod);
+        Integer mcdo = Integer.parseInt(this.mcdo);
+        if (mcdo<mcod) {
+            Msg.msg("e","Miesiąc do jest późniejszy od miesiąca od");
+        } else {
+            wpisView.wpisAktualizuj();
+            init();
+        }
     }
 
     
@@ -241,13 +256,13 @@ public class SymulacjaWynikuView implements Serializable {
     }
 
    
-    private List<StronaWiersza> pobierzzapisyRokMc() {
+    private List<StronaWiersza> pobierzzapisyRokMc(String mcod, String mcdo) {
         List<StronaWiersza> zapisywynikrokmc = new ArrayList<>();
         if (wpisView.getPodatnikObiekt().isMetodakasowapit()) {
             zapisywynikrokmc.addAll(przetworzRozliczenia(wpisView.getPodatnikObiekt(), "", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
             zapisywynikrokmc.addAll(stronaWierszaDAO.findStronaByPodatnikRokMcWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()).stream().filter(p->p.getDokfk().getRodzajedok().getKategoriadokumentu()==0||p.getDokfk().getRodzajedok().getKategoriadokumentu()==5).collect(Collectors.toList()));
         } else {
-            zapisywynikrokmc = stronaWierszaDAO.findStronaByPodatnikRokMcWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            zapisywynikrokmc = stronaWierszaDAO.findStronaByPodatnikRokMcodMcdoWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), mcod, mcdo);
         }
         return zapisywynikrokmc;
     }
@@ -448,48 +463,52 @@ public class SymulacjaWynikuView implements Serializable {
     }
     
     public void zaksiegujwynik () {
-        double wynikfinnarastajaco = 0.0;
-        List<WynikFKRokMc> wynikpoprzedniemce = wynikFKRokMcDAO.findWynikFKPodatnikRokFirma(wpisView);
-        for (WynikFKRokMc p : wynikpoprzedniemce) {
-            if (Mce.getMiesiacToNumber().get(p.getMc()) < Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu())) {
-                wynikfinnarastajaco += p.getWynikfinansowy();
+        if (this.mcod.equals(this.mcdo)) {
+            double wynikfinnarastajaco = 0.0;
+            List<WynikFKRokMc> wynikpoprzedniemce = wynikFKRokMcDAO.findWynikFKPodatnikRokFirma(wpisView);
+            for (WynikFKRokMc p : wynikpoprzedniemce) {
+                if (Mce.getMiesiacToNumber().get(p.getMc()) < Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu())) {
+                    wynikfinnarastajaco += p.getWynikfinansowy();
+                }
             }
-        }
-        List<PozycjeSymulacji> pozycje = new ArrayList<>(pozycjePodsumowaniaWyniku);
-        WynikFKRokMc wynikFKRokMc = new WynikFKRokMc();
-        wynikFKRokMc.setPodatnikObj(wpisView.getPodatnikObiekt());
-        wynikFKRokMc.setRok(wpisView.getRokWpisuSt());
-        wynikFKRokMc.setMc(wpisView.getMiesiacWpisu());
-        wynikFKRokMc.setPrzychody(pozycje.get(0).getWartosc());
-        wynikFKRokMc.setKoszty(pozycje.get(1).getWartosc());
-        wynikFKRokMc.setWynikfinansowy(pozycje.get(2).getWartosc());
-        wynikfinnarastajaco += wynikFKRokMc.getWynikfinansowy();
-        wynikFKRokMc.setWynikfinansowynarastajaco(wynikfinnarastajaco);
-        wynikFKRokMc.setNkup(pozycje.get(3).getWartosc()+pozycje.get(4).getWartosc()+pozycje.get(5).getWartosc());
-        wynikFKRokMc.setNpup(pozycje.get(6).getWartosc()+pozycje.get(7).getWartosc()+pozycje.get(8).getWartosc());
-        wynikFKRokMc.setWynikpodatkowy(pozycje.get(9).getWartosc());
-        wynikFKRokMc.setUdzialowiec("firma");
-//        if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
-//            wynikFKRokMc.setPodatek(pozycje.get(6).getWartosc());
-//            wynikFKRokMc.setWynikfinansowynetto(pozycje.get(7).getWartosc());
-//        }
-        wynikFKRokMc.setWprowadzil(wpisView.getUzer().getLogin());
-        wynikFKRokMc.setData(new Date());
-        //wywalilem bo ozajmuje za duzo miejsca
-//        wynikFKRokMc.setListaprzychody(listakontaprzychody);
-//        wynikFKRokMc.setListakoszty(listakontakoszty);
-        try {
-            WynikFKRokMc pobrany = wynikFKRokMcDAO.findWynikFKRokMcFirma(wynikFKRokMc);
-            wynikFKRokMcDAO.destroy(pobrany);
-        } catch (Exception e) {  
-            E.e(e);
-        }
-        try {
-            wynikFKRokMcDAO.dodaj(wynikFKRokMc);
-            symulacjaWynikuNarastajacoView.init();
-            Msg.msg("Zachowano wynik");
-        } catch (Exception e) {  E.e(e);
-            Msg.msg("e", "Wystąpił błąd. Nie zachowano wyniku.");
+            List<PozycjeSymulacji> pozycje = new ArrayList<>(pozycjePodsumowaniaWyniku);
+            WynikFKRokMc wynikFKRokMc = new WynikFKRokMc();
+            wynikFKRokMc.setPodatnikObj(wpisView.getPodatnikObiekt());
+            wynikFKRokMc.setRok(wpisView.getRokWpisuSt());
+            wynikFKRokMc.setMc(wpisView.getMiesiacWpisu());
+            wynikFKRokMc.setPrzychody(pozycje.get(0).getWartosc());
+            wynikFKRokMc.setKoszty(pozycje.get(1).getWartosc());
+            wynikFKRokMc.setWynikfinansowy(pozycje.get(2).getWartosc());
+            wynikfinnarastajaco += wynikFKRokMc.getWynikfinansowy();
+            wynikFKRokMc.setWynikfinansowynarastajaco(wynikfinnarastajaco);
+            wynikFKRokMc.setNkup(pozycje.get(3).getWartosc()+pozycje.get(4).getWartosc()+pozycje.get(5).getWartosc());
+            wynikFKRokMc.setNpup(pozycje.get(6).getWartosc()+pozycje.get(7).getWartosc()+pozycje.get(8).getWartosc());
+            wynikFKRokMc.setWynikpodatkowy(pozycje.get(9).getWartosc());
+            wynikFKRokMc.setUdzialowiec("firma");
+    //        if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
+    //            wynikFKRokMc.setPodatek(pozycje.get(6).getWartosc());
+    //            wynikFKRokMc.setWynikfinansowynetto(pozycje.get(7).getWartosc());
+    //        }
+            wynikFKRokMc.setWprowadzil(wpisView.getUzer().getLogin());
+            wynikFKRokMc.setData(new Date());
+            //wywalilem bo ozajmuje za duzo miejsca
+    //        wynikFKRokMc.setListaprzychody(listakontaprzychody);
+    //        wynikFKRokMc.setListakoszty(listakontakoszty);
+            try {
+                WynikFKRokMc pobrany = wynikFKRokMcDAO.findWynikFKRokMcFirma(wynikFKRokMc);
+                wynikFKRokMcDAO.destroy(pobrany);
+            } catch (Exception e) {  
+                E.e(e);
+            }
+            try {
+                wynikFKRokMcDAO.dodaj(wynikFKRokMc);
+                symulacjaWynikuNarastajacoView.init();
+                Msg.msg("Zachowano wynik");
+            } catch (Exception e) {  E.e(e);
+                Msg.msg("e", "Wystąpił błąd. Nie zachowano wyniku.");
+            }
+        } else {
+            Msg.msg("e", "Miesiąc od jest inny o miesiąca do. Nie można zaksięgować");
         }
     }
    
@@ -560,6 +579,22 @@ public class SymulacjaWynikuView implements Serializable {
 
     public void setWybraneprzychody(List<SaldoKonto> wybraneprzychody) {
         this.wybraneprzychody = wybraneprzychody;
+    }
+
+    public String getMcod() {
+        return mcod;
+    }
+
+    public void setMcod(String mcod) {
+        this.mcod = mcod;
+    }
+
+    public String getMcdo() {
+        return mcdo;
+    }
+
+    public void setMcdo(String mcdo) {
+        this.mcdo = mcdo;
     }
 
     public String getWybranawaluta() {
