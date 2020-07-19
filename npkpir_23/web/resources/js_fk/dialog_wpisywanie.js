@@ -702,8 +702,8 @@ var skopiujKwoteZeStronaWn = function (idwiersza) {
 
 var powrotpozmianietabeli = function() {
     var id = parseInt($(document.getElementById("wpisywaniefooter:lpwierszaRK")).val())-1;
-    var wierszpowrotu = "formwpisdokument:dataList:"+id+":opisdokwpis";
-    r(wierszpowrotu).focus();
+    var wierszpowrotu = "formwpisdokument:dataList:"+id+":dataWiersza";
+    //r(wierszpowrotu).focus();
     r(wierszpowrotu).select();
 };
 

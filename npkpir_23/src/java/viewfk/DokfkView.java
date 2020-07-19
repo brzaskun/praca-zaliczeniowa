@@ -2843,6 +2843,7 @@ public class DokfkView implements Serializable {
 
     public void pobierzwierszfocus (Wiersz item) {
         this.wierszRK = item;
+        this.lpwierszaRK = item.getIdporzadkowy();
     }
     
     //to służy do pobierania wiersza do dialgou ewidencji w przypadku edycji ewidencji raportu kasowego

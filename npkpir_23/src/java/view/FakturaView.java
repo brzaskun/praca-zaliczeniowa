@@ -76,6 +76,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import mail.MailOther;
@@ -530,7 +531,11 @@ public class FakturaView implements Serializable {
             resetujoznaczeniefakur();
             selected = new Faktura();
             
-        } catch (Exception e) { E.e(e); 
+        } catch (EJBException e) { 
+            E.e(e); 
+            Msg.msg("e", "Nie można zachowac zmian. Sprawdź czy numer faktury jest unikalny");
+        } catch (Exception ex) { 
+            E.e(ex); 
             Msg.msg("e", "Błąd. Niedokonano edycji faktury.");
         }
     }
