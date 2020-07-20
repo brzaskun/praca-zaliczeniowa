@@ -46,7 +46,7 @@
             </p:panelGrid>
             <p:dataTable id="tablicasymulacjasumanar" value="#{symulacjaWynikuNarastajacoView.listamiesiecy}" var="loop_wyn" rowKey="#{loop_wyn.id}"
                          emptyMessage="#{mgs.niepobranosuma}" selectionMode="single" 
-                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1200px; padding: 10px;" widgetVar="tablicasymulacjasumanar"
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1280px; padding: 10px;" widgetVar="tablicasymulacjasumanar"
                          >
                 <f:facet name="header">
                     <h:outputText value="#{mgs.pobraniewynikow}"/>
@@ -54,31 +54,31 @@
                 <p:column headerText="#{mgs.miesiąc}" width="40" style="text-align: center;">
                     <h:outputText value="#{loop_wyn.mc}"/>
                 </p:column>
-                <p:column headerText="#{mgs.przychód}" width="60" >
+                <p:column headerText="#{mgs.przychód}" width="70" >
                     <bcf:outputpl value="#{loop_wyn.przychody}"/>
                 </p:column>
-                <p:column headerText="#{mgs.koszt}" width="60" >
+                <p:column headerText="#{mgs.koszt}" width="70" >
                     <bcf:outputpl value="#{loop_wyn.koszty}"/>
                 </p:column>
-                <p:column headerText="#{mgs.wynikfinansowy}" width="60" >
+                <p:column headerText="#{mgs.wynikfinansowy}" width="70" >
                     <bcf:outputpl value="#{loop_wyn.wynikfinansowy}"/>
                 </p:column>
-                 <p:column headerText="wyn.fin. narastająco" width="60" >
+                 <p:column headerText="wyn.fin. narastająco" width="70" >
                     <bcf:outputpl value="#{loop_wyn.wynikfinansowynarastajaco}"/>
                 </p:column>
-                <p:column headerText="#{mgs.npup}" width="60" >
+                <p:column headerText="#{mgs.npup}" width="70" >
                     <bcf:outputpl value="#{loop_wyn.npup}"/>
                 </p:column>
-                <p:column headerText="#{mgs.nkup}" width="60" >
+                <p:column headerText="#{mgs.nkup}" width="70" >
                     <bcf:outputpl value="#{loop_wyn.nkup}"/>
                 </p:column>
-                <p:column headerText="przychody podatkowe" width="60" >
+                <p:column headerText="przychody podatkowe" width="70" >
                     <bcf:outputpl value="#{loop_wyn.getPrzychodyPodatkowe()}"/>
                 </p:column>
-                <p:column headerText="koszty podatkowe" width="60" >
+                <p:column headerText="koszty podatkowe" width="70" >
                     <bcf:outputpl value="#{loop_wyn.getKosztyPodatkowe()}"/>
                 </p:column>
-                <p:column headerText="#{mgs.wynikpodatkowy}" width="60" >
+                <p:column headerText="#{mgs.wynikpodatkowy}" width="70" >
                     <bcf:outputpl value="#{loop_wyn.wynikpodatkowy}"/>
                 </p:column>
 <!--                <p:column headerText="#{mgs.pdop}" width="60">
@@ -87,10 +87,10 @@
                 <p:column headerText="#{mgs.wynikfinansowynetto}" width="60">
                     <bcf:outputpl value="#{loop_wyn.wynikfinansowynetto}"/>
                 </p:column>-->
-                <p:column headerText="#{mgs.zapisał}" width="60" style="text-align: center;" >
+                <p:column headerText="#{mgs.zapisał}" width="70" style="text-align: center;" >
                     <h:outputText value="#{loop_wyn.wprowadzil}"/>
                 </p:column>
-                <p:column headerText="#{mgs.data}" width="60" style="text-align: center;">
+                <p:column headerText="#{mgs.data}" width="70" style="text-align: center;">
                     <h:outputText value="#{loop_wyn.data}">
                         <f:convertDateTime pattern="yyyy/MM/dd" />
                     </h:outputText>
