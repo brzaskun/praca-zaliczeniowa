@@ -32,15 +32,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.util.NumberToTextConverter;
 import view.WpisView;
+import waluty.Z;
 /**
  *
  * @author Osito
@@ -48,7 +47,7 @@ import view.WpisView;
 
 public class ReadXLSExolightFile {
     
-    private static String filename = "c://temp//faktury2.xlsx";
+    private static String filename = "d://exp.xlsx";
     
     public static List<InterpaperXLS> getListafaktur(byte[] plikinterpaper, String mc) {
         List<InterpaperXLS> listafaktur = Collections.synchronizedList(new ArrayList<>());
@@ -111,7 +110,7 @@ public class ReadXLSExolightFile {
                         InterpaperXLS interpaperXLS = new InterpaperXLS();
                         //String nip = row.getCell(2).getStringCellValue().replace("-", "").trim();
                         if (rodzajdok.contains("zakup")) {
-                            String mcdok = Data.getMc(Data.data_yyyyMMdd(row.getCell(4).getDateCellValue()));
+                            String mcdok = Data.getMc(Data.data_yyyyMMdd(row.getCell(1).getDateCellValue()));
                             if (mc.equals(mcdok)) {
                                 uzupelnijzakup(interpaperXLS, row, k, klienciDAO, znalezieni, gUSView);
                                 if (interpaperXLS.getKontrahent()!=null && (interpaperXLS.getNettowaluta()!=0.0 || interpaperXLS.getVatwaluta()!=0.0)) {
@@ -120,7 +119,7 @@ public class ReadXLSExolightFile {
                                 }
                             }
                         } else {
-                            String mcdok = Data.getMc(Data.data_yyyyMMdd(row.getCell(2).getDateCellValue()));
+                            String mcdok = Data.getMc(Data.data_yyyyMMdd(row.getCell(1).getDateCellValue()));
                             if (mc.equals(mcdok)) {
                                 if (rodzajdok.equals("sprzedaż")) {
                                     uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni, gUSView);
@@ -145,42 +144,56 @@ public class ReadXLSExolightFile {
      
    private static void uzupelnijzakup(InterpaperXLS interpaperXLS, Row row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni, GUSView gUSView) {
         if (row.getCell(0).getRowIndex()>0) {
-            interpaperXLS.setNrfaktury(row.getCell(5).getStringCellValue());
-            interpaperXLS.setDatawystawienia(row.getCell(4).getDateCellValue());
-            interpaperXLS.setDatasprzedaży(row.getCell(4).getDateCellValue());
-            interpaperXLS.setDataobvat(row.getCell(4).getDateCellValue());
-            interpaperXLS.setNip(row.getCell(12)!=null && row.getCell(12).getStringCellValue().length()==10?row.getCell(12).getStringCellValue():row.getCell(13).getStringCellValue());
-            interpaperXLS.setWalutaplatnosci(row.getCell(11).getStringCellValue());
-            interpaperXLS.setBruttowaluta(row.getCell(8).getNumericCellValue());
-            interpaperXLS.setSaldofaktury(row.getCell(8).getNumericCellValue());
-            interpaperXLS.setNettowaluta(row.getCell(8).getNumericCellValue());
-            interpaperXLS.setVatwaluta(row.getCell(8).getNumericCellValue()-row.getCell(7).getNumericCellValue());
-            String kontr = row.getCell(6).getStringCellValue();
-            interpaperXLS.setKontrahent(kontr);
+            interpaperXLS.setNrfaktury(row.getCell(2).getStringCellValue());
+            interpaperXLS.setDatawystawienia(row.getCell(0).getDateCellValue());
+            interpaperXLS.setDatasprzedaży(row.getCell(1).getDateCellValue());
+            interpaperXLS.setKontrahent(pobierzkontrahenta(row.getCell(3)));
+            interpaperXLS.setKlientnazwa(pobierzkontrahenta(row.getCell(3)));
+            interpaperXLS.setKlientmiasto(pobierzkontrahenta(row.getCell(4)));
+            String n5 = row.getCell(5)!=null&&row.getCell(5).getNumericCellValue()!=0?NumberToTextConverter.toText(row.getCell(5).getNumericCellValue()):null;
+            String n6 = row.getCell(6)!=null&&!row.getCell(6).getStringCellValue().equals("")?row.getCell(6).getStringCellValue():null;
+            String nip = n5!=null?n5:n6;
+            interpaperXLS.setNip(nip);
+            String nettowaluta = row.getCell(10).getStringCellValue();
+            int nettowalutasize = nettowaluta.length();
+            String waluta = nettowaluta.substring(nettowalutasize-3, nettowalutasize);
             interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni, gUSView));
+            interpaperXLS.setWalutaplatnosci(waluta);
+            interpaperXLS.setNettowaluta(zamiennakwote(row.getCell(10).getStringCellValue()));
+            interpaperXLS.setBruttowaluta(zamiennakwote(row.getCell(11).getStringCellValue()));
+            interpaperXLS.setVatwaluta(Z.z(interpaperXLS.getBruttowaluta()-interpaperXLS.getNettowaluta()));
+            interpaperXLS.setNettoPLN(zamiennakwote(row.getCell(7).getStringCellValue()));
+            interpaperXLS.setBruttoPLN(zamiennakwote(row.getCell(9).getStringCellValue()));
+            interpaperXLS.setVatPLN(zamiennakwote(row.getCell(8).getStringCellValue()));
             interpaperXLS.setOpis("zakup towaru");
         }
    }
    
     private static void uzupelnijsprzedaz(InterpaperXLS interpaperXLS, Row row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni, GUSView gUSView) {
         if (row.getCell(0).getRowIndex()>0) {
-            interpaperXLS.setNrfaktury(row.getCell(0).getStringCellValue());
-            interpaperXLS.setDatawystawienia(row.getCell(1).getDateCellValue());
-            interpaperXLS.setDatasprzedaży(row.getCell(2).getDateCellValue());
-            interpaperXLS.setDataobvat(row.getCell(2).getDateCellValue());
-            String kontr = row.getCell(3).getStringCellValue();
-            interpaperXLS.setKontrahent(kontr);
-            interpaperXLS.setNip(row.getCell(3).getStringCellValue().replace("-", "").replaceAll("\\s+","").trim());
-            interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni, gUSView));
-            interpaperXLS.setWalutaplatnosci("PLN");
-            interpaperXLS.setNettowaluta(row.getCell(4).getNumericCellValue());
-            interpaperXLS.setVatwaluta(row.getCell(6).getNumericCellValue());
-            interpaperXLS.setBruttowaluta(row.getCell(5).getNumericCellValue());
-            interpaperXLS.setNettoPLN(row.getCell(4).getNumericCellValue());
-            interpaperXLS.setNettoPLNvat(row.getCell(4).getNumericCellValue());
-            interpaperXLS.setVatPLN(row.getCell(6).getNumericCellValue());
-            }
+                interpaperXLS.setNrfaktury(row.getCell(2).getStringCellValue());
+                interpaperXLS.setDatawystawienia(row.getCell(0).getDateCellValue());
+                interpaperXLS.setDatasprzedaży(row.getCell(1).getDateCellValue());
+                interpaperXLS.setKontrahent(pobierzkontrahenta(row.getCell(3)));
+                interpaperXLS.setKlientnazwa(pobierzkontrahenta(row.getCell(3)));
+                interpaperXLS.setKlientmiasto(pobierzkontrahenta(row.getCell(4)));
+                String n5 = row.getCell(5)!=null&&row.getCell(5).getNumericCellValue()!=0?NumberToTextConverter.toText(row.getCell(5).getNumericCellValue()):null;
+                String n6 = row.getCell(6)!=null&&!row.getCell(6).getStringCellValue().equals("")?row.getCell(6).getStringCellValue():null;
+                String nip = n5!=null?n5:n6;
+                interpaperXLS.setNip(nip);
+                String nettowaluta = row.getCell(7).getStringCellValue();
+                int nettowalutasize = nettowaluta.length();
+                String waluta = nettowaluta.substring(nettowalutasize-3, nettowalutasize);
+                interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni, gUSView));
+                interpaperXLS.setWalutaplatnosci(waluta);
+                interpaperXLS.setNettowaluta(zamiennakwote(row.getCell(7).getStringCellValue()));
+                interpaperXLS.setBruttowaluta(zamiennakwote(row.getCell(8).getStringCellValue()));
+                interpaperXLS.setVatwaluta(Z.z(interpaperXLS.getBruttowaluta()-interpaperXLS.getNettowaluta()));
+                interpaperXLS.setNettoPLN(zamiennakwote(row.getCell(9).getStringCellValue()));
+                interpaperXLS.setBruttoPLN(zamiennakwote(row.getCell(10).getStringCellValue()));
+                interpaperXLS.setVatPLN(zamiennakwote(row.getCell(11).getStringCellValue()));
         }
+    }
 
    private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni, GUSView gUSView) {
 //       if (interpaperXLS.getKontrahent().equals("HST")) {
@@ -406,35 +419,60 @@ public class ReadXLSExolightFile {
             Sheet sheet = workbook.getSheetAt(0);
              //Iterate through each rows one by one
             Iterator<Row> rowIterator = sheet.iterator();
+            int i = 1;
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
-                InterpaperXLS interpaperXLS = new InterpaperXLS();
-                interpaperXLS.setNr((int) row.getCell(0).getNumericCellValue());
-                interpaperXLS.setNrfaktury(row.getCell(1).getStringCellValue());
-                interpaperXLS.setDatawystawienia(row.getCell(2).getDateCellValue());
-                interpaperXLS.setDatasprzedaży(row.getCell(3).getDateCellValue());
-                interpaperXLS.setKontrahent(row.getCell(4).getStringCellValue());
-                interpaperXLS.setWalutaplatnosci(row.getCell(5).getStringCellValue());
-                interpaperXLS.setBruttowaluta(row.getCell(6).getNumericCellValue());
-                interpaperXLS.setSaldofaktury(row.getCell(7).getNumericCellValue());
-                interpaperXLS.setTerminplatnosci(row.getCell(8).getDateCellValue());
-                interpaperXLS.setPrzekroczenieterminu((int) row.getCell(9).getNumericCellValue());
-                if (row.getCell(10) != null) {
-                    interpaperXLS.setOstatniawplata(row.getCell(10).getDateCellValue());
-                } else {
-                    interpaperXLS.setOstatniawplata(null);
+                if (row.getCell(0).getRowIndex()>2) {
+                    InterpaperXLS interpaperXLS = new InterpaperXLS();
+                    interpaperXLS.setNrfaktury(row.getCell(2).getStringCellValue());
+                    interpaperXLS.setDatawystawienia(row.getCell(0).getDateCellValue());
+                    interpaperXLS.setDatasprzedaży(row.getCell(1).getDateCellValue());
+                    interpaperXLS.setKontrahent(pobierzkontrahenta(row.getCell(3)));
+                    String n5 = row.getCell(5)!=null&&row.getCell(5).getNumericCellValue()!=0?NumberToTextConverter.toText(row.getCell(5).getNumericCellValue()):null;
+                    String n6 = row.getCell(6)!=null&&!row.getCell(6).getStringCellValue().equals("")?row.getCell(6).getStringCellValue():null;
+                    String nip = n5!=null?n5:n6;
+                    interpaperXLS.setNip(nip);
+                    String nettowaluta = row.getCell(7).getStringCellValue();
+                    int nettowalutasize = nettowaluta.length();
+                    String waluta = nettowaluta.substring(nettowalutasize-3, nettowalutasize);
+                    System.out.println(interpaperXLS.getNrfaktury());
+                    //interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni, gUSView));
+                    interpaperXLS.setWalutaplatnosci(waluta);
+                    interpaperXLS.setNettowaluta(zamiennakwote(row.getCell(7).getStringCellValue()));
+                    interpaperXLS.setBruttowaluta(zamiennakwote(row.getCell(8).getStringCellValue()));
+                    interpaperXLS.setVatwaluta(Z.z(interpaperXLS.getBruttowaluta()-interpaperXLS.getNettowaluta()));
+                    interpaperXLS.setNettoPLN(zamiennakwote(row.getCell(9).getStringCellValue()));
+                    interpaperXLS.setBruttoPLN(zamiennakwote(row.getCell(10).getStringCellValue()));
+                    interpaperXLS.setVatPLN(zamiennakwote(row.getCell(11).getStringCellValue()));
+                    i++;
+                    if (i==384) {
+                        System.out.println("");
+                    }
                 }
-                interpaperXLS.setSposobzaplaty(row.getCell(11).getStringCellValue());
-                interpaperXLS.setNettowaluta(row.getCell(12).getNumericCellValue());
-                interpaperXLS.setVatwaluta(row.getCell(13).getNumericCellValue());
-                interpaperXLS.setNettoPLN(row.getCell(14).getNumericCellValue());
-                interpaperXLS.setVatPLN(row.getCell(15).getNumericCellValue());
-                interpaperXLS.setBruttoPLN(row.getCell(16).getNumericCellValue());
             }
             file.close();
         } catch (Exception e) {
             E.e(e);
         }
+    }
+    
+    private static double zamiennakwote(String stringCellValue) {
+        int nettowalutasize = stringCellValue.length();
+        String waluta = stringCellValue.substring(nettowalutasize-3, nettowalutasize);
+        waluta = " "+waluta;
+        String kwota = stringCellValue.replace(waluta,"");
+        kwota = kwota.replace(",", ".");
+        kwota = kwota.replace(" ", "");
+        double zwrot = Z.z(Double.parseDouble(kwota));
+        return zwrot;
+    }
+    
+    private static String pobierzkontrahenta(Cell cell) {
+        String zwrot = "Błąd w nazwie kontrahenta";
+        try {
+            zwrot = cell.getStringCellValue();
+        } catch (Exception e) {}
+        return zwrot;
     }
     
 //    switch (cell.getCellType())
@@ -451,6 +489,14 @@ public class ReadXLSExolightFile {
 //                            System.out.print(cell.getStringCellValue() + "; ");
 //                            break;
 //                    }
+
+    
+
+    
+
+    
+
+    
 
     
 }

@@ -129,6 +129,7 @@ public class InterpaperImportView implements Serializable {
     private List<String> rodzajedokimportu;
     private Konto kontodlanetto;
     private List<Konto> listakontoRZiS;
+    private String jakipobor;
     
 
     public void init() { //E.m(this);
@@ -182,6 +183,7 @@ public class InterpaperImportView implements Serializable {
                 grid3.setRendered(false);
                 pobranefaktury = null;
                 rodzajdok = null;
+                jakipobor = null;
                 rodzajedokimportu = pobierzrodzajeimportu(wybranyrodzajimportu.getLp());
                 if (pobraneplikibytes!=null&&pobraneplikibytes.size()>1) {
                     Msg.msg("Sukces. Skutecznie załadowano "+pobraneplikibytes.size()+" plików");
@@ -227,6 +229,23 @@ public class InterpaperImportView implements Serializable {
                 case 6:
                     pobranefaktury = ReadXLSMuchaFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, gUSView, wpisView.getMiesiacWpisu());
                     break;
+            }
+            if (jakipobor!=null) {
+                if (jakipobor.equals("fiz")) {
+                    for (Iterator<InterpaperXLS> it = pobranefaktury.iterator(); it.hasNext();) {
+                        InterpaperXLS f = it.next();
+                        if (f.getNip()!=null) {
+                            it.remove();
+                        }
+                    }
+                } else {
+                    for (Iterator<InterpaperXLS> it = pobranefaktury.iterator(); it.hasNext();) {
+                        InterpaperXLS f = it.next();
+                        if (f.getNip()==null) {
+                            it.remove();
+                        }
+                    }
+                }
             }
             grid3.setRendered(true);
             if (wybranyrodzajimportu.getLp()==2 && (rodzajdok.equals("sprzedaż NIP") || rodzajdok.contains("zakup"))) {
@@ -309,7 +328,7 @@ public class InterpaperImportView implements Serializable {
     }
     
      public int generowanieDokumentu(InterpaperXLS interpaperXLS, List<Klienci> k) {
-        int ile = 1;
+        int ile = 0;
         try {
             int polska0unia1zagranica2 = 0;
             if (interpaperXLS.getKlient().getKrajnazwa()!=null && !interpaperXLS.getKlient().getKrajkod().equals("PL")) {
@@ -349,6 +368,7 @@ public class InterpaperImportView implements Serializable {
                 if (dokument!=null) {
                     dokument.setImportowany(true);
                     dokDAOfk.dodaj(dokument);
+                    ile = 1;
                 }
             } catch (Exception e) {
                 ile = 0;
@@ -810,6 +830,33 @@ public class InterpaperImportView implements Serializable {
         }
     }
     
+    public void usunwybrane() {
+        if (selected!=null && selected.size()>0) {
+            for (InterpaperXLS s : selected) {
+                pobranefaktury.remove(s);
+            }
+            selected = null;
+            Msg.msg("Usunięto wybrane pozycje");
+        } else {
+            Msg.msg("e","Nie wybrano pozycji do usunięcia");
+        }
+    }
+    
+    public void usunduplikaty() {
+        if (pobranefaktury!=null && pobranefaktury.size()>0) {
+            for (Iterator<InterpaperXLS> it = pobranefaktury.iterator(); it.hasNext();) {
+                InterpaperXLS s = it.next();
+                if (s.isJuzzaksiegowany()) {
+                    it.remove();
+                }
+            }
+            selected = null;
+            Msg.msg("Usunięto duplikaty");
+        } else {
+            Msg.msg("e","Lista pusta");
+        }
+    }
+    
     public void dodajKlienta() {
         try {
             String formatka = selectedimport.getNskrocona().toUpperCase();
@@ -1097,6 +1144,15 @@ public class InterpaperImportView implements Serializable {
         this.kontobutton = kontobutton;
     }
 
+    public String getJakipobor() {
+        return jakipobor;
+    }
+
+    public void setJakipobor(String jakipobor) {
+        this.jakipobor = jakipobor;
+    }
+
+  
     
 
     

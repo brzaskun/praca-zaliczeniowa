@@ -29,15 +29,23 @@
                         </p:fileUpload>
                         <p:growl life="3600"  id="messages2" showDetail="false"/>
                     </p:panelGrid>
-                <p:panelGrid id="rodzajrach" columns="2" style="margin-top: 20px;margin-bottom: 10px; float: right;" rendered="false" binding="#{interpaperImportView.grid1}">
-                    <h:outputText value="rodzaj rachunków" style="margin-left: 40px;"/>
+                <p:panelGrid id="rodzajrach" columns="4" style="margin-top: 20px;margin-bottom: 10px; float: right;" rendered="false" binding="#{interpaperImportView.grid1}">
+                    <h:outputText value="rodzaj rachunków" style="margin-left: 20px;"/>
                         <p:selectOneMenu id="symbol" value="#{interpaperImportView.rodzajdok}" 
-                                         style="width: 200px; margin-left: 20px;" >
+                                         style="width: 200px; margin-left: 10px;" >
                             <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
                             <f:selectItems value="#{interpaperImportView.rodzajedokimportu}" var="pz" itemLabel="#{pz}" itemValue="#{pz}"/>
                             <p:ajax global="false" event="blur"  partialSubmit="true"/>
                             <p:ajax global="false" event="change"  partialSubmit="true" listener="#{interpaperImportView.grid2pokaz}" update="panelprzyciskow form_importinterpaper"/>
                         </p:selectOneMenu>
+                    <h:outputText value="filt faktur" style="margin-left: 20px;"/>
+                    <p:selectOneMenu  value="#{interpaperImportView.jakipobor}" 
+                                         style="width: 200px; margin-left: 10px;" >
+                            <f:selectItem itemLabel="wybierz" itemValue=""/>
+                            <f:selectItem itemLabel="osoby fizyczne" itemValue="fiz"/>
+                            <f:selectItem itemLabel="firmy" itemValue="firmy" />
+                            <p:ajax global="false" event="change"  partialSubmit="true"/>
+                    </p:selectOneMenu>
                 </p:panelGrid>
             </p:panelGrid>
         </h:form>
@@ -150,6 +158,8 @@
             </p:dataTable>
             <p:contextMenu for="form_importinterpaper:dataListImport" style="width: 200px;">
                 <p:menuitem value="Zmień klienta" icon="ui-icon-gear"  onclick="PF('dlgwprowadzanieklientaimport').show();" actionListener="#{interpaperImportView.przeniesklienta()}"/>
+                <p:menuitem value="Usuń wybrane" icon="ui-icon-gear" actionListener="#{interpaperImportView.usunwybrane()}" update="form_importinterpaper:dataListImport"/>
+                <p:menuitem value="Usuń duplikaty" icon="ui-icon-gear" actionListener="#{interpaperImportView.usunduplikaty()}" update="form_importinterpaper:dataListImport"/>
             </p:contextMenu>
                     </p:panelGrid>
         </h:form>
