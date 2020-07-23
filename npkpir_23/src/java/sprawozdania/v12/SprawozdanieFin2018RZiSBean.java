@@ -77,7 +77,7 @@ public class SprawozdanieFin2018RZiSBean {
     private static RZiSJednostkaInna.RZiSPor.B.BVI zrobBVI(List<PozycjaRZiSBilans> l) {
         RZiSJednostkaInna.RZiSPor.B.BVI a = new RZiSJednostkaInna.RZiSPor.B.BVI();
         naniesKwotyAB("BVI", a, l);
-        a.bvi1 = zrobTPoztchaSprawozdania("NVI1", l);
+        a.bvi1 = zrobTPoztchaSprawozdania("BVI1", l);
         return a;
     }
 
