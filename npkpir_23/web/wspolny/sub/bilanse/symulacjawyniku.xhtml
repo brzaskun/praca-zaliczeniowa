@@ -92,7 +92,10 @@
                          
                          >
                 <f:facet name="header">
-                    <h:outputText value="#{mgs.zapisyprzychodowe}: #{symulacjaWynikuView.sumaprzychody}"/>
+                    <h:outputText value="#{mgs.zapisyprzychodowe}: "/>
+                    <h:outputText value="#{symulacjaWynikuView.sumaprzychody}">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
                 </f:facet>
                 <p:ajax event="rowSelectCheckbox" update="akordeon:formsymulacja" listener="#{symulacjaWynikuView.sumazapisowPrzychody()}" global="false"/>
                 <p:ajax event="rowUnselectCheckbox" update="akordeon:formsymulacja"  listener="#{symulacjaWynikuView.sumazapisowPrzychody()}" global="false"/>
@@ -171,7 +174,10 @@
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1000px; height: 500px; overflow-y: scroll;" widgetVar="tablicasymulacjaK"
                          >
                 <f:facet name="header">
-                    <h:outputText value="#{mgs.zapisykosztowe}: #{symulacjaWynikuView.sumakoszty}"/>
+                    <h:outputText value="#{mgs.zapisykosztowe}: "/>
+                    <h:outputText value="#{symulacjaWynikuView.sumakoszty}">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
                 </f:facet>
                 <p:ajax event="rowSelectCheckbox" update="akordeon:formsymulacja" listener="#{symulacjaWynikuView.sumazapisowKoszty()}" global="false"/>
                 <p:ajax event="rowUnselectCheckbox" update="akordeon:formsymulacja"  listener="#{symulacjaWynikuView.sumazapisowKoszty()}" global="false"/>

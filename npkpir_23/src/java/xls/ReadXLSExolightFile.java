@@ -63,8 +63,8 @@ public class ReadXLSExolightFile {
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
                 try {
-                    String mcdok = Data.getMc(Data.data_yyyyMMdd(row.getCell(4).getDateCellValue()));
-                    if (mc.equals(mcdok)) {
+//                    String mcdok = Data.getMc(Data.data_yyyyMMdd(row.getCell(4).getDateCellValue()));
+//                    if (mc.equals(mcdok)) {
                         InterpaperXLS interpaperXLS = new InterpaperXLS();
                         interpaperXLS.setNr(i++);
                         interpaperXLS.setNrfaktury(row.getCell(5).getStringCellValue());
@@ -79,7 +79,7 @@ public class ReadXLSExolightFile {
                         interpaperXLS.setNettowaluta(row.getCell(8).getNumericCellValue());
                         interpaperXLS.setVatwaluta(row.getCell(8).getNumericCellValue()-row.getCell(7).getNumericCellValue());
                         listafaktur.add(interpaperXLS);
-                    }
+//                    }
                 } catch (Exception e){
                     error.E.s("");
                 }
@@ -110,17 +110,17 @@ public class ReadXLSExolightFile {
                         InterpaperXLS interpaperXLS = new InterpaperXLS();
                         //String nip = row.getCell(2).getStringCellValue().replace("-", "").trim();
                         if (rodzajdok.contains("zakup")) {
-                            String mcdok = Data.getMc(Data.data_yyyyMMdd(row.getCell(1).getDateCellValue()));
-                            if (mc.equals(mcdok)) {
+//                            String mcdok = Data.getMc(Data.data_yyyyMMdd(row.getCell(1).getDateCellValue()));
+//                            if (mc.equals(mcdok)) {
                                 uzupelnijzakup(interpaperXLS, row, k, klienciDAO, znalezieni, gUSView);
                                 if (interpaperXLS.getKontrahent()!=null && (interpaperXLS.getNettowaluta()!=0.0 || interpaperXLS.getVatwaluta()!=0.0)) {
                                     interpaperXLS.setNr(i++);
                                     listafaktur.add(interpaperXLS);
                                 }
-                            }
+//                            }
                         } else {
-                            String mcdok = Data.getMc(Data.data_yyyyMMdd(row.getCell(1).getDateCellValue()));
-                            if (mc.equals(mcdok)) {
+//                            String mcdok = Data.getMc(Data.data_yyyyMMdd(row.getCell(1).getDateCellValue()));
+//                            if (mc.equals(mcdok)) {
                                 if (rodzajdok.equals("sprzedaż")) {
                                     uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni, gUSView);
                                 }
@@ -128,7 +128,7 @@ public class ReadXLSExolightFile {
                                     interpaperXLS.setNr(i++);
                                     listafaktur.add(interpaperXLS);
                                 }
-                            }
+//                            }
                         }
                     } catch (Exception e){
                         E.e(e);

@@ -144,6 +144,8 @@ public class SymulacjaWynikuView implements Serializable {
 //        pozycjeDoWyplatyNarastajaco = symulacjaWynikuNarastajacoView.danedobiezacejsym();
 //        obliczkwotydowyplaty();
         tylkokontasyntetyczneoblicz();
+        sumazapisowPrzychody1();
+        sumazapisowKoszty1();
     }
 
     public void odswiezsymulacjewynikuanalityczne() {
@@ -152,6 +154,7 @@ public class SymulacjaWynikuView implements Serializable {
         if (mcdo<mcod) {
             Msg.msg("e","Miesiąc do jest późniejszy od miesiąca od");
         } else {
+            wpisView.setMiesiacWpisu(this.mcdo);
             wpisView.wpisAktualizuj();
             init();
         }
@@ -397,9 +400,25 @@ public class SymulacjaWynikuView implements Serializable {
         }
     }
     
+     public void sumazapisowPrzychody1() {
+        sumaprzychody = 0.0;
+        for (SaldoKonto p : listakontaprzychody) {
+            sumaprzychody += p.getSaldoMa();
+            sumaprzychody -= p.getSaldoWn();
+        }
+    }
+    
     public void sumazapisowKoszty() {
         sumakoszty = 0.0;
         for (SaldoKonto p : sumaSaldoKontoKoszty) {
+            sumakoszty += p.getSaldoWn();
+            sumakoszty -= p.getSaldoMa();
+        }
+    }
+    
+    public void sumazapisowKoszty1() {
+        sumakoszty = 0.0;
+        for (SaldoKonto p : listakontakoszty) {
             sumakoszty += p.getSaldoWn();
             sumakoszty -= p.getSaldoMa();
         }
