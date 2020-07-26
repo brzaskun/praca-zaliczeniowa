@@ -16,9 +16,10 @@
             <h:outputText value="#{ewidencjaVatView.wynikOkresu}" style="#{ewidencjaVatView.wynikOkresu gt 0 ? 'font-weight: 900; color: red;' : 'font-weight: 900; color: black;'} padding: 2%;" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
                 <f:convertNumber minFractionDigits="0" locale="PL" />
             </h:outputText>
-            <p:splitButton value="zaksięguj VAT" style="margin-left: 30px;" actionListener="#{kontaVatFKView.generowanieDokumentuVAT(false)}">
+            <p:splitButton value="zaksięguj VAT" style="margin-left: 30px;" actionListener="#{kontaVatFKView.generowanieDokumentuVAT(false)}" rendered="#{!kontaVatFKView.istniejejuzdokumentvat}">
                 <p:menuitem global="false" value="doksięguj VAT" actionListener="#{kontaVatFKView.generowanieDokumentuVAT(true)}"/>
             </p:splitButton>
+            <p:commandButton value="doksięguj VAT" style="margin-left: 30px;" actionListener="#{kontaVatFKView.generowanieDokumentuVAT(true)}" rendered="#{ kontaVatFKView.istniejejuzdokumentvat}"/>
             <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfSuma()}" onsuccess="wydruksumavat('#{WpisView.podatnikObiekt.nip}');" style="width: 120px;margin-left: 30px;"/>
             <p:commandButton value="Drukuj wszyst. data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkie()}" onsuccess="wydrukewidencjewszystkie('#{WpisView.podatnikObiekt.nip}')"  style="width: 150px; margin-left: 70px;"/>
             <p:commandButton value="Drukuj wszyst. wartosc" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieWartosc()}" onsuccess="wydrukewidencjewszystkiewartosc('#{WpisView.podatnikObiekt.nip}')"  style="width: 150px; margin-left: 5px;"/>

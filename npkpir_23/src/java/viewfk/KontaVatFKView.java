@@ -73,6 +73,7 @@ public class KontaVatFKView implements Serializable {
     private TabelanbpDAO tabelanbpDAO;
     @Inject
     private WalutyDAOfk walutyDAOfk;
+    private boolean istniejejuzdokumentvat;
 //    boolean dodajBO;
 
     public KontaVatFKView() {
@@ -89,6 +90,11 @@ public class KontaVatFKView implements Serializable {
        }
        List<Konto> kontaklienta = kontoDAOfk.findKontaVAT(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
        kontavat = przygotowanalistasald(kontaklienta);
+       istniejejuzdokumentvat = false;
+       Dokfk popDokfk = dokDAOfk.findDokfofaTypeKilka(wpisView.getPodatnikObiekt(), "VAT", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        if (popDokfk != null) {
+            istniejejuzdokumentvat = true;
+        }
     }
     
 //    public void dodajBOdoKont() {
@@ -353,8 +359,12 @@ public class KontaVatFKView implements Serializable {
             }
         }
         try {
-            dokDAOfk.dodaj(dokumentvat);
-            Msg.msg("Zaksięgowano dokument VAT");
+            if (dokumentvat.getListawierszy()!=null&&dokumentvat.getListawierszy().size()>0) {
+                dokDAOfk.dodaj(dokumentvat);
+                Msg.msg("Zaksięgowano dokument VAT");
+            } else {
+                Msg.msg("w","Nie ma sald na kontach vat. Nie generuje dokumentu");
+            }
         } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu VAT");
         }
@@ -585,6 +595,14 @@ public class KontaVatFKView implements Serializable {
 
     public void setKontavat(List<SaldoKonto> kontavat) {
         this.kontavat = kontavat;
+    }
+
+    public boolean isIstniejejuzdokumentvat() {
+        return istniejejuzdokumentvat;
+    }
+
+    public void setIstniejejuzdokumentvat(boolean istniejejuzdokumentvat) {
+        this.istniejejuzdokumentvat = istniejejuzdokumentvat;
     }
 
     public EwidencjaVatView getEwidencjaVatView() {

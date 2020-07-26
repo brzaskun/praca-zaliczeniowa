@@ -640,8 +640,10 @@ public class Wiersz implements Serializable {
             List<Wiersz> wiersze = this.dokfk.getListawierszy();
             boolean pobrac = false;
             for (Wiersz w : wiersze) {
-                if (pobrac) {
+                if (pobrac && w.getLpmacierzystego()!=0) {
                     zwrot = w;
+                    break;
+                } else if (pobrac && w.getLpmacierzystego()==0) {
                     break;
                 }
                 if (w==this) {
