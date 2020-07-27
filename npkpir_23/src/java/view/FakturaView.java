@@ -661,47 +661,69 @@ public class FakturaView implements Serializable {
 //        PrimeFaces.current().executeScript(funkcja);
        }
     
+    //to sa te automaty co mialy dodawac doatkowe wiersze z managera
     private void dodajwierszedodatkowe(Faktura faktura) {
         List<Pozycjenafakturzebazadanych> pozycje = faktura.getPozycjenafakturze();
-        dodajpozycje(pozycje, faktura.getKontrahent(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        double netto = 0.0;
-        double vat = 0.0;
-        double brutto = 0.0;
-        List<Evewidencja> ew = Collections.synchronizedList(new ArrayList<>());
-        ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
-        List<EVatwpis> el = Collections.synchronizedList(new ArrayList<>());
-        for (Pozycjenafakturzebazadanych p : pozycje) {
-            netto = Z.z(netto+p.getNetto());
-            vat = Z.z(vat+p.getPodatekkwota());
-            brutto = Z.z(brutto+p.getBrutto());
-            EVatwpis eVatwpis = new EVatwpis();
-            Evewidencja ewidencja = zwrocewidencje(ew, p);
-            for (EVatwpis r : el) {
-                if (r.getEwidencja().equals(ewidencja)) {
-                    eVatwpis = r;
+        int czyjestcosdodatkowego = dodajpozycje(pozycje, faktura.getKontrahent(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        if (czyjestcosdodatkowego==1) {
+            double netto = 0.0;
+            double vat = 0.0;
+            double brutto = 0.0;
+            List<Evewidencja> ew = Collections.synchronizedList(new ArrayList<>());
+            ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
+            List<EVatwpis> el = Collections.synchronizedList(new ArrayList<>());
+            for (Pozycjenafakturzebazadanych p : pozycje) {
+                netto = Z.z(netto+p.getNetto());
+                vat = Z.z(vat+p.getPodatekkwota());
+                brutto = Z.z(brutto+p.getBrutto());
+                EVatwpis eVatwpis = new EVatwpis();
+                Evewidencja ewidencja = zwrocewidencje(ew, p);
+                for (EVatwpis r : el) {
+                    if (r.getEwidencja().equals(ewidencja)) {
+                        eVatwpis = r;
+                    }
+                }
+                if (faktura.getWalutafaktury().equals("PLN")) {
+                    if (eVatwpis.getNetto() != 0) {
+                        eVatwpis.setNetto(eVatwpis.getNetto() + p.getNetto());
+                        eVatwpis.setVat(eVatwpis.getVat() + p.getPodatekkwota());
+                        //el.add(eVatwpis);
+                    } else {
+                        eVatwpis.setEwidencja(ewidencja);
+                        eVatwpis.setNetto(p.getNetto());
+                        eVatwpis.setVat(p.getPodatekkwota());
+                        eVatwpis.setEstawka(String.valueOf(p.getPodatek()));
+                        el.add(eVatwpis);
+                    }
+                } else {
+                     if (eVatwpis.getNetto() != 0) {
+                        eVatwpis.setEwidencja(ewidencja);
+                        eVatwpis.setNetto(Z.z(p.getNetto()));
+                        eVatwpis.setVat(Z.z(p.getPodatekkwota()));
+                        eVatwpis.setNettopln(Z.z(p.getNetto(faktura.getTabelanbp())));
+                        eVatwpis.setVatpln(Z.z(p.getPodatekkwota(faktura.getTabelanbp())));
+                        eVatwpis.setEstawka(String.valueOf(p.getPodatek()));
+                        el.add(eVatwpis);
+                    } else {
+                        eVatwpis.setNetto(Z.z(eVatwpis.getNetto() + p.getNetto()));
+                        eVatwpis.setVat(Z.z(eVatwpis.getVat() + p.getPodatekkwota()));
+                        eVatwpis.setNettopln(Z.z(eVatwpis.getNettopln()+ p.getNetto(faktura.getTabelanbp())));
+                        eVatwpis.setVatpln(Z.z(eVatwpis.getVatpln()+ p.getPodatekkwota(faktura.getTabelanbp())));
+                    }
                 }
             }
-            if (eVatwpis.getNetto() != 0) {
-                eVatwpis.setNetto(eVatwpis.getNetto() + p.getNetto());
-                eVatwpis.setVat(eVatwpis.getVat() + p.getPodatekkwota());
-                el.add(eVatwpis);
-            } else {
-                eVatwpis.setEwidencja(ewidencja);
-                eVatwpis.setNetto(p.getNetto());
-                eVatwpis.setVat(p.getPodatekkwota());
-                eVatwpis.setEstawka(String.valueOf(p.getPodatek()));
-                el.add(eVatwpis);
-            }
+            faktura.setEwidencjavat(el);
+            faktura.setNetto(Z.z(netto));
+            faktura.setVat(Z.z(vat));
+            faktura.setBrutto(Z.z(brutto));
         }
-        faktura.setEwidencjavat(el);
-        faktura.setNetto(Z.z(netto));
-        faktura.setVat(Z.z(vat));
-        faktura.setBrutto(Z.z(brutto));
     }
 
-    private void dodajpozycje(List<Pozycjenafakturzebazadanych> pozycje, Klienci kontrahent, String rok, String mc) {
+    private int dodajpozycje(List<Pozycjenafakturzebazadanych> pozycje, Klienci kontrahent, String rok, String mc) {
+        int zwrot = 0;
         List<FakturaDodPozycjaKontrahent> lista =  fakturaDodPozycjaKontrahentDAO.findKontrRokMc(kontrahent, rok, mc);
         if (lista!=null && lista.size()>0) {
+            zwrot = 1;
             int lp = pozycje.get(pozycje.size()-1).getLp();
             for (FakturaDodPozycjaKontrahent p : lista) {
                 double ilosc = p.getIlosc();
@@ -717,6 +739,7 @@ public class FakturaView implements Serializable {
                 fakturaDodPozycjaKontrahentDAO.edit(p);
             }
         }
+        return zwrot;
     }
    
     

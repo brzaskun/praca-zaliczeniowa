@@ -197,6 +197,11 @@ public class EwidencjaVatView implements Serializable {
         this.iTabPanel = iTabPanel;
     }
     
+    public void usunpozycje(List<EVatwpis1> l, EVatwpis1 p) {
+        eVatwpis1DAO.destroy(p);
+        l.remove(p);
+        Msg.dP();
+    }
     
             
     public void fakturasprawdzanie(int l, List<EVatwpisFK> lista) {

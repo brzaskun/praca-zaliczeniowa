@@ -135,12 +135,12 @@
                             </p:inplace>
                              <h:outputText value="konto bankowe"/>
                              <h:outputText value="#{wpis.nrkontabankowego}"/>
-                             <h:outputText value="kwota netto"/>
+<!--                             <h:outputText value="kwota netto"/>
                              <bcf:outputpl value="#{wpis.netto}"/>
                              <h:outputText value="kwota vat"/>
                              <bcf:outputpl value="#{wpis.vat}"/>
                              <h:outputText value="kwota brutto"/>
-                             <bcf:outputpl value="#{wpis.brutto}"/>
+                             <bcf:outputpl value="#{wpis.brutto}"/>-->
                          </p:panelGrid>
                          <p:panelGrid columns="1">
                          <p:dataTable id="tabeladuplikatow" value="#{wpis.duplikaty}" var="loopdupz" emptyMessage="nie wystawiono duplikatów" styleClass="tabduplikaty1">
@@ -162,6 +162,36 @@
                          </p:dataTable>
                          </p:panelGrid>
                      </p:panelGrid>
+                     <p:panelGrid  columns="1"  style="width:800px">
+                        <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" >  
+                            <p:dataTable var="subwpis" value="#{wpis.ewidencjavat}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 85%;">
+                            <p:column id="SubColumn1" headerText="ewidencja" >  
+                                <h:outputText value="#{subwpis.ewidencja.nazwa}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}" />
+                            </p:column>
+                            <p:column id="SubColumn1a"  headerText="#{mgs.netto}">  
+                                <h:outputText value="#{subwpis.netto}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column id="SubColumn2" headerText="#{mgs.VAT}">  
+                                <h:outputText value="#{subwpis.vat}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column id="SubColumn2a" headerText="brutto">  
+                                <h:outputText value="#{subwpis.netto + subwpis.vat}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column id="SubColumn3" headerText="op/zw" style="text-align: center">  
+                                <h:outputText value="#{subwpis.estawka}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}"/>
+                            </p:column>
+                            <p:column id="SubColumn4" headerText="okresy vat">  
+                                <h:outputText value="#{wpis.vatM}/#{wpis.vatR}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:column>
+                    </p:panelGrid>
                 </p:rowExpansion>
             </p:dataTable>
             <p:contextMenu for="dokumentyArchiwum">
