@@ -70,9 +70,9 @@
                         <p:column headerText="WNT" style="width: 40px;" sortBy="#{itemik.duplikat}" filterBy="#{itemik.duplikat}" rendered="#{item[0].nazwaewidencji.nazwa eq 'zakup'}">
                             <h:outputText value="#{itemik.duplikat eq true ? 't' : null}"/>
                         </p:column>
-                        <p:column  style="width: 40px;" >
+<!--                        <p:column  style="width: 40px;" >
                             <p:commandButton icon="fa fa-trash" actionListener="#{ewidencjaVatView.usunpozycje(item,itemik)}" update="@parent:@parent"/>
-                        </p:column>
+                        </p:column>-->
                     </p:dataTable>
                 </p:tab>
             </p:tabView>

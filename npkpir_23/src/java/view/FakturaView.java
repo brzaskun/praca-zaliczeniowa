@@ -1061,7 +1061,9 @@ public class FakturaView implements Serializable {
                 fakturaDAO.edit(p);
                 fakturyarchiwum.remove(p);
                 faktury.add(p);
-                fakturyFilteredarchiwum.remove(p);
+                if (fakturyFilteredarchiwum!=null) {
+                    fakturyFilteredarchiwum.remove(p);
+                }
             }
             Msg.msg("i", "Dokumenty odksięgowane");
         }
@@ -1168,6 +1170,8 @@ public class FakturaView implements Serializable {
                     Rodzajedok rodzajedok2 = rodzajedokDAO.find("UPTK100", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                     selDokument.setRodzajedok(rodzajedok2);
                 }
+                break;
+                //tutaj
             }
             selDokument.setEwidencjaVAT1(ewidencjaTransformowana);
             try {
