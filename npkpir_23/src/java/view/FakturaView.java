@@ -1170,7 +1170,6 @@ public class FakturaView implements Serializable {
                     Rodzajedok rodzajedok2 = rodzajedokDAO.find("UPTK100", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                     selDokument.setRodzajedok(rodzajedok2);
                 }
-                break;
                 //tutaj
             }
             selDokument.setEwidencjaVAT1(ewidencjaTransformowana);
