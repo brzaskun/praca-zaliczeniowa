@@ -56,7 +56,7 @@
                     <p:selectBooleanCheckbox id="zwaluta" itemLabel="zapisy w walucie" value="#{saldoAnalitykaView.tylkozapisywalutowe}" style="margin-left: 5px;">
                         <p:ajax event="change" partialSubmit="true" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" update="akordeon:formtablicaanalityczne:tablicasaldaanalityczne"/>
                     </p:selectBooleanCheckbox>
-                        <p:commandButton id="xlsbutton" value="dane w formacie XLS" actionListener="#{XLSSuSaView.zachowajSuSawXLS(saldoAnalitykaView.listaSaldoKonto)}" style=" margin-left: 5px;" global="false" ajax="false"/>
+                        <p:commandButton id="xlsbutton" value="dane w formacie XLS" actionListener="#{XLSSuSaView.zachowajSuSawXLS(saldoAnalitykaView.listaSaldoKonto,saldoAnalitykaView.listaSaldoKontofilter,saldoAnalitykaView.listaSaldoKontowybrane)}" style=" margin-left: 5px;" global="false" ajax="false"/>
                         </p:column>
             </p:panelGrid>
             

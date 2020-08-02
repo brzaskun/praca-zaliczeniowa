@@ -234,7 +234,7 @@ public class InterpaperImportView implements Serializable {
                 if (jakipobor.equals("fiz")) {
                     for (Iterator<InterpaperXLS> it = pobranefaktury.iterator(); it.hasNext();) {
                         InterpaperXLS f = it.next();
-                        if (f.getNip()!=null) {
+                        if (f.getNip()!=null && !f.getNip().equals("")) {
                             it.remove();
                         }
                     }

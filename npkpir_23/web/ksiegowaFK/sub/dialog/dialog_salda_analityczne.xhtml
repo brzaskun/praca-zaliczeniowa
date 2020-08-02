@@ -74,7 +74,7 @@
                     </p:selectOneMenu>
                 </p:column>
                     <p:commandButton value="zaksięguj" actionListener="#{saldoAnalitykaView.zaksiegujsaldakont()}" style="width: 120px; margin-left: 20px;"/>
-                    <p:commandButton id="xlsbutton" value="dane w formacie XLS" actionListener="#{xLSSuSaView.zachowajSuSawXLS(saldoAnalitykaView.listaSaldoKonto)}" style=" margin-left: 5px;" global="false" ajax="false"/>
+                    <p:commandButton id="xlsbutton" value="dane w formacie XLS" actionListener="#{xLSSuSaView.zachowajSuSawXLS(saldoAnalitykaView.listaSaldoKonto,saldoAnalitykaView.listaSaldoKontofilter,saldoAnalitykaView.listaSaldoKontowybrane)}" style=" margin-left: 5px;" global="false" ajax="false"/>
                     <p:selectBooleanCheckbox id="tylkoniezerowe" itemLabel="tylko niezerowe" value="#{saldoAnalitykaView.tylkosaldaniezerowe}" style="margin-left: 5px;">
                         <p:ajax event="change" partialSubmit="true" global="false" listener="#{saldoAnalitykaView.zmienkryteriawyswietlania}" update="formtablicaanalityczne:tablicasaldaanalityczne"
                                 />

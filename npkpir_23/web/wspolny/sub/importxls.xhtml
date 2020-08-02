@@ -90,7 +90,7 @@
             <p:dataTable id="dataListImport" value="#{interpaperImportView.pobranefaktury}" var="itemimp" rowIndexVar="row" widgetVar="tablicadokumentyimport" 
                          selection="#{interpaperImportView.selected}" rowKey="#{itemimp.nr}"  
                          style="width: 1420px; height: 580px; overflow-y: scroll; margin-top: 15px;margin-bottom: 15px;" filteredValue="#{interpaperImportView.pobranefakturyfilter}"
-                         emptyMessage="Brak importowanych dokumentów" styleClass="gridZaksiegowane"
+                         emptyMessage="Brak importowanych dokumentów/Sprawdź kolumny w dokumencie xls" styleClass="gridZaksiegowane"
                          sortBy="#{itemimp.nr}"  
                          rowsPerPageTemplate="150,300,600,900,1200" paginatorPosition="top" paginator="#{interpaperImportView.pobranefaktury.size() gt 150 ? 'true':'false'}" rows="150"
                          >

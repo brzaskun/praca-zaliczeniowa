@@ -255,6 +255,7 @@ public class Dok extends DokSuper implements Serializable {
     @Transient
     private FakturaEbay fakturaEbay;
     
+    
     public Dok() {
         this.listakwot1 = Collections.synchronizedList(new ArrayList<>());
         this.cechadokumentuLista = Collections.synchronizedList(new ArrayList<>());

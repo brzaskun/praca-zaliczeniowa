@@ -49,7 +49,8 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
-import msg.Msg; import org.primefaces.PrimeFaces;
+import msg.Msg;import org.apache.commons.collections4.CollectionUtils;
+ import org.primefaces.PrimeFaces;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.CategoryAxis;
@@ -686,7 +687,7 @@ public class ZestawienieView implements Serializable {
                 }
             
         }
-        if (listawybranychudzialowcow.size() == 1) {
+        if (listawybranychudzialowcow.size() == 1 && CollectionUtils.isNotEmpty(lista)) {
             wybranyudzialowiec = listawybranychudzialowcow.get(0);
             obliczPit();
         }

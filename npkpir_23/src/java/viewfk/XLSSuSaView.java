@@ -19,6 +19,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import msg.Msg;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import view.WpisView;import xls.WriteXLSFile;
 
@@ -39,22 +41,28 @@ public class XLSSuSaView implements Serializable{
     
     
     
-    public void zachowajSuSawXLS(List plankont) {
+    public void zachowajSuSawXLS(List lista,List filter, List wybrane) {
         try {
-            Collections.sort(plankont, new SaldoKontocomparator());
-            Map<String, List> listy = new ConcurrentHashMap<>();
-            listy.put("kontasalda", plankont);
-            Workbook workbook = WriteXLSFile.zachowajSuSaXLS(listy, wpisView);
-            // Prepare response.
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            ExternalContext externalContext = facesContext.getExternalContext();
-            externalContext.setResponseContentType("application/vnd.ms-excel");
-            String filename = "kontasalda"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xlsx";
-            externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
-            // Write file to response body.
-            workbook.write(externalContext.getResponseOutputStream());
-            // Inform JSF that response is completed and it thus doesn't have to navigate.
-            facesContext.responseComplete();
+            List podstawowa = f.l.l(lista, filter, wybrane);
+            if (podstawowa !=null ) {
+                Collections.sort(podstawowa, new SaldoKontocomparator());
+                Map<String, List> listy = new ConcurrentHashMap<>();
+                listy.put("kontasalda", podstawowa);
+                Workbook workbook = WriteXLSFile.zachowajSuSaXLS(listy, wpisView);
+                // Prepare response.
+                FacesContext facesContext = FacesContext.getCurrentInstance();
+                ExternalContext externalContext = facesContext.getExternalContext();
+                externalContext.setResponseContentType("application/vnd.ms-excel");
+                String filename = "kontasalda"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xlsx";
+                externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+                // Write file to response body.
+                workbook.write(externalContext.getResponseOutputStream());
+                // Inform JSF that response is completed and it thus doesn't have to navigate.
+                facesContext.responseComplete();
+                Msg.msg("Przewtorzono listę sald do xls");
+            } else {
+                Msg.msg("e","Lista pusta");
+            }
         } catch (IOException ex) {
             // Logger.getLogger(XLSSuSaView.class.getName()).log(Level.SEVERE, null, ex);
             

@@ -127,7 +127,7 @@
                             <h:outputLabel value="rodzaj dok" style="font-weight: 500"/>
                         </p:column>
                         <p:column>
-                            <h:outputLabel value="nr własny" style="font-weight: 500;"/>
+                            <h:outputLabel value="nr własnyAA" style="font-weight: 500;"/>
                         </p:column>
                         <p:column>
                             <h:outputLabel value="opis transakcji (F9)/nowa kol (+-)" style="font-weight: 500"/>
@@ -144,7 +144,7 @@
                                         required="true" requiredMessage="Pole klienta nie może być puste"
                                          onblur="sprawdzczybrakklienta();">
                             <!-- usunalem z gory    onkeyup="sprawdzczykopiowacklienta();"-->
-                            <f:ajax event="blur"  listener="#{DokumentView.dodajklientaautomat()}"/>
+                            <p:ajax event="blur" listener="#{DokumentView.dodajklientaautomat()}"  global="false"/>
                             <p:ajax event="query" global="false"/>
                             <p:ajax event="itemSelect" partialSubmit="true"  global="false"
                                     update="dodWiad:rodzajTrans,dodWiad:opis"  />
@@ -181,7 +181,7 @@
                         <p:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}" title="wpisz numer własny faktury" style="width: 150px;">
                             <p:ajax event="focus" listener="#{DokumentView.podepnijListe()}" 
                                     update="dodWiad:tabelapkpir" global="false" onstart="aktywujopis(#{DokumentView.nieVatowiec});"/>
-                            <p:ajax event="blur" partialSubmit="true" listener="#{DokumentView.sprawdzCzyNieDuplikatwtrakcie}" global="false"/>
+                            <p:ajax event="change" partialSubmit="true" listener="#{DokumentView.sprawdzCzyNieDuplikatwtrakcie}" global="false"/>
                         </p:inputText>
                     </p:column>
                     <p:column>
