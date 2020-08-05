@@ -522,6 +522,26 @@ public class BilansWprowadzanieView implements Serializable {
         }
     }
     
+    public void przywrocwiele(List<WierszBO> wierszBOlista) {
+        try {
+            for (WierszBO p : wierszBOlista) {
+                if (p.getNowy0edycja1usun2Int() == 2) {
+                    p.setNowy0edycja1usun2(0);
+                    wierszBODAO.edit(p);
+                }
+            }
+            if (listaBOFiltered != null) {
+                podsumujWnMa(listaBOFiltered, listaBOsumy);
+            } else {
+                podsumujWnMa(listaBO, listaBOsumy);
+            }
+            Msg.msg("Przywrocono zapis BO do usunięcia. Edytuj dokument BO");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Wystąpił błąd - nie przywrocono zapisu BO do usunięcia");
+        }
+    }
+    
     public void usunwielebezBO(List<WierszBO> wierszBOlista) {
         try {
             for (WierszBO p : wierszBOlista) {

@@ -25,7 +25,8 @@
         <p:dataTable  var="wpis" value="#{obrotyView.obiektDOKmrjsfSelX}" id="dokumentyLista" 
                       selection="#{obrotyView.goscwybral}"  widgetVar="dokTable" 
                       rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : null}" rowKey="#{wpis.idDok}"
-                      style="max-width: 1200px;" > 
+                      style="max-width: 1200px;" 
+                      rowsPerPageTemplate="150,300,500,1000" paginatorPosition="top" paginator="#{obrotyView.obiektDOKmrjsfSelX.size() gt 150 ? 'true':'false'}" rows="150"> 
             <p:ajax event="rowSelectCheckbox" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
             <p:ajax event="rowUnselectCheckbox" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>                <p:ajax event="toggleSelect" listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>      
             <f:facet name="header">  

@@ -35,7 +35,8 @@
                       filterDelay="1800"
                       selection="#{obrotyView.goscwybral}"  widgetVar="dokTable" 
                       rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : null}" rowKey="#{wpis.idDok}"
-                      style="max-width: 1400px;height: 600px;overflow-y: scroll;"  >
+                      style="max-width: 1400px;height: 600px;overflow-y: scroll;"  
+                      rowsPerPageTemplate="150,300,500,1000" paginatorPosition="top" paginator="#{obrotyView.obiektDOKmrjsfSelX.size() gt 150 ? 'true':'false'}" rows="150"> >
             <p:ajax event="toggleSelect" global="false"  listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
             <p:ajax event="rowSelectCheckbox" global="false"  listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>
             <p:ajax event="rowUnselectCheckbox" global="false"  listener="#{obrotyView.sumawartosciwybranych}" update=":formX:podsumowaniewybr, :formX:podsumowaniewybrnetto"/>

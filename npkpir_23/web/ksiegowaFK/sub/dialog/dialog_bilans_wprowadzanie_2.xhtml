@@ -320,7 +320,7 @@
                     </f:facet>
                     <bcf:outputpl value="#{item.kontostare.saldoWnksiegi}" rendered="#{item.kontostare ne null and item.kontostare.saldoWnksiegi ne 0.0 and bilansWprowadzanieView.nraktualnejlisty eq 9}"/>
                 </p:column>
-                <p:column sortBy="#{item.nowy0edycja1usun2}" width="80" style="#{item.stylwiersza}" rendered="#{!bilansWprowadzanieView.pokazstarekonta}">
+                <p:column sortBy="#{item.nowy0edycja1usun2}" width="80" style="#{item.stylwiersza}" rendered="#{!bilansWprowadzanieView.pokazstarekonta}"  filterBy="#{item.nowy0edycja1usun2}" filterMatchMode="contains" filterStyle="width: 40px;">
                     <f:facet name="header">
                         <h:outputText value="stan"  />
                     </f:facet>
@@ -358,6 +358,8 @@
             <p:contextMenu for="formbilanswprowadzanie2:tab1"  style="width: 200px;">
                 <p:menuitem value="Usuń trwale" update="formbilanswprowadzanie2:tab1" 
                             actionListener="#{bilansWprowadzanieView.usunwiele(bilansWprowadzanieView.listaBOs1)}" icon="ui-icon-disk" />
+                <p:menuitem value="Przywróc zapis" update="formbilanswprowadzanie2:tab1" 
+                            actionListener="#{bilansWprowadzanieView.przywrocwiele(bilansWprowadzanieView.listaBOs1)}" icon="ui-icon-disk" />
             </p:contextMenu>
             <p:dataTable value="#{bilansWprowadzanieView.listaBO}" var="item"
                          style="overflow-y: scroll; height: 400px; width: 1400px; padding: 10px; margin-top: 5px;"  widgetVar="tab0zlozona"
@@ -365,6 +367,7 @@
                          rendered="#{bilansWprowadzanieView.nraktualnejlisty eq 1 or bilansWprowadzanieView.nraktualnejlisty eq 2}"
                          id="tab1" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.listaBOs1}"
                          filteredValue="#{bilansWprowadzanieView.listaBOFiltered}"  rowSelectMode="add"
+                         rowsPerPageTemplate="100,200,300,400" paginatorPosition="top" paginator="#{bilansWprowadzanieView.listaBO.size() gt 150 ? 'true':'false'}" rows="100"
                          >
                 <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOs1, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
                 <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOs1, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
@@ -419,11 +422,11 @@
                     </f:facet>
                     <bcf:outputwal id="waluta4" value="#{item.kwotaMaPLN}" rendered="#{item.kwotaMaPLN ne 0.0}" symbolwaluty="zł"/>
                 </p:column>
-                 <p:column sortBy="#{item.nowy0edycja1usun2}" width="70" style="#{item.stylwiersza}">
+                <p:column sortBy="#{item.nowy0edycja1usun2}" width="70" style="#{item.stylwiersza}" filterBy="#{item.nowy0edycja1usun2}" filterMatchMode="contains" filterStyle="width: 40px;">
                     <f:facet name="header">
                         <h:outputText value="stan"/>
                     </f:facet>
-                    <h:outputText value="#{item.nowy0edycja1usun2}"/>
+                    <h:outputText value="#{item.nowy0edycja1usun2}" />
                 </p:column>
                 <p:column style="text-align: center;" width="40" rendered="#{bilansWprowadzanieView.nraktualnejlisty eq 2}">
                     <f:facet name="header">
