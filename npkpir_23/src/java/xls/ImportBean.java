@@ -159,28 +159,30 @@ public class ImportBean {
     
     public static Konto pobierzkontoWn(Klienci klient, KliencifkDAO kliencifkDAO, WpisView wpisView, KontoDAOfk kontoDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO) {
         Konto kontoRozrachunkowe = null;
-        Kliencifk klientMaKonto = kliencifkDAO.znajdzkontofk(klient.getNip(), wpisView.getPodatnikObiekt().getNip());
-        if (klientMaKonto == null) {
-            klientMaKonto = new Kliencifk();
-            klientMaKonto.setNazwa(klient.getNpelna());
-            klientMaKonto.setNip(klient.getNip());
-            klientMaKonto.setPodatniknazwa(wpisView.getPodatnikWpisu());
-            klientMaKonto.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
-            klientMaKonto.setNrkonta(pobierznastepnynumer(kliencifkDAO, wpisView.getPodatnikObiekt()));
-            kliencifkDAO.dodaj(klientMaKonto);
-            List<Konto> wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            PlanKontFKBean.aktualizujslownikKontrahenci(wykazkont, kliencifkDAO, klientMaKonto, kontoDAO, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
-            String numerkonta = "201-2-"+klientMaKonto.getNrkonta();
-            if (klient.getKrajkod()!=null && !klient.getKrajkod().equals("PL")) {
-                numerkonta = "203-2-"+klientMaKonto.getNrkonta();
+        if (klient.getId() != null) {
+            Kliencifk klientMaKonto = kliencifkDAO.znajdzkontofk(klient.getNip(), wpisView.getPodatnikObiekt().getNip());
+            if (klientMaKonto == null) {
+                klientMaKonto = new Kliencifk();
+                klientMaKonto.setNazwa(klient.getNpelna());
+                klientMaKonto.setNip(klient.getNip());
+                klientMaKonto.setPodatniknazwa(wpisView.getPodatnikWpisu());
+                klientMaKonto.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
+                klientMaKonto.setNrkonta(pobierznastepnynumer(kliencifkDAO, wpisView.getPodatnikObiekt()));
+                kliencifkDAO.dodaj(klientMaKonto);
+                List<Konto> wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                PlanKontFKBean.aktualizujslownikKontrahenci(wykazkont, kliencifkDAO, klientMaKonto, kontoDAO, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
+                String numerkonta = "201-2-"+klientMaKonto.getNrkonta();
+                if (klient.getKrajkod()!=null && !klient.getKrajkod().equals("PL")) {
+                    numerkonta = "203-2-"+klientMaKonto.getNrkonta();
+                }
+                kontoRozrachunkowe = kontoDAO.findKonto(numerkonta, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+            } else {
+                String numerkonta = "201-2-"+klientMaKonto.getNrkonta();
+                if (klient.getKrajkod()!=null && !klient.getKrajkod().equals("PL")) {
+                    numerkonta = "203-2-"+klientMaKonto.getNrkonta();
+                }
+                kontoRozrachunkowe = kontoDAO.findKonto(numerkonta, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
             }
-            kontoRozrachunkowe = kontoDAO.findKonto(numerkonta, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
-        } else {
-            String numerkonta = "201-2-"+klientMaKonto.getNrkonta();
-            if (klient.getKrajkod()!=null && !klient.getKrajkod().equals("PL")) {
-                numerkonta = "203-2-"+klientMaKonto.getNrkonta();
-            }
-            kontoRozrachunkowe = kontoDAO.findKonto(numerkonta, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         }
         return kontoRozrachunkowe;
     }
@@ -228,6 +230,7 @@ public class ImportBean {
         Object[] stawka23 = {faktura.getP141()!=null,faktura.getP131(),faktura.getP141(),faktura.getP141W()};
         Object[] stawka8 = {faktura.getP142()!=null,faktura.getP132(),faktura.getP142(),faktura.getP142W()};
         Object[] stawka5 = {faktura.getP143()!=null,faktura.getP133(),faktura.getP143(),faktura.getP143W()};
+        Object[] stawkaWDT = {faktura.getP136()!=null,faktura.getP136(),0.0,faktura.getP143W()};
         if (nd.getRodzajedok().getKategoriadokumentu() != 0 && nd.getRodzajedok().getKategoriadokumentu() != 5) {
             if (nd.iswTrakcieEdycji() == false) {
                 nd.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
@@ -284,6 +287,19 @@ public class ImportBean {
                                 break;
                             }
                         }
+                    } else if (nd.getSeriadokfk().equals("WDT") && p.getNazwa().equals("rejestr WDT")) {
+                            double netto = stawkaWDT[1]!=null?((BigDecimal)stawkaWDT[1]).doubleValue():0.0;
+                            double vat = 0.0;
+                            eVatwpisFK.setNettowwalucie(Z.z(netto));
+                            eVatwpisFK.setVatwwalucie(Z.z(vat));
+                            double kurs = nd.getTabelanbp().getKurssredniPrzelicznik();
+                            eVatwpisFK.setNetto(Z.z(netto*kurs));
+                            eVatwpisFK.setVat(Z.z(vat*kurs));
+                            eVatwpisFK.setBrutto(Z.z(eVatwpisFK.getNetto()+eVatwpisFK.getVat()));
+                            eVatwpisFK.setDokfk(nd);
+                            eVatwpisFK.setEstawka("op");
+                            nd.getEwidencjaVAT().add(eVatwpisFK);
+                            break;
                     } else {
                         double netto = faktura.getNetto();
                         double vat = faktura.getVat();

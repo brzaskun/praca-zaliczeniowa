@@ -35,15 +35,15 @@
             </p:panelGrid>
             <p:fileUpload fileUploadListener="#{importFakturyView.importujsprzedazfk}" 
                           mode="advanced" dragDropSupport="true" fileLimit="1"
-                          update="importtabelafafa" sizeLimit="2000000"  
+                          update="importtabelafafa" sizeLimit="2000000"  auto="true"
                           validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
                           fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"  
                           uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
-                          style="height: 100px;">
+                          style="height: 80px;">
             </p:fileUpload>
         </h:form>
         <h:form id="importtabelafafa">
-            <p:panelGrid columns="2">
+            <p:panelGrid columns="6">
                 <h:outputText value="Razem netto: "/>
                 <bcf:outputpl value="#{importFakturyView.netto}"/>
                 <h:outputText value=" | vat: "/>

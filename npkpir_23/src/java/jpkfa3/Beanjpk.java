@@ -193,7 +193,9 @@ public class Beanjpk {
         nd.getListawierszy().add(przygotujwierszNettoSprzedaz(lpwiersza, nd, faktura, kontown, kontoma, tabelanbppl, tabelanbpDAO));
         lpwiersza++;
         kontoma = rodzajedok.getKontovat();
-        nd.getListawierszy().add(przygotujwierszVATNalezny(lpwiersza, nd, faktura, kontown, kontoma, tabelanbppl, tabelanbpDAO));
+        if (faktura.getVat()!=0.0) {
+            nd.getListawierszy().add(przygotujwierszVATNalezny(lpwiersza, nd, faktura, kontown, kontoma, tabelanbppl, tabelanbpDAO));
+        }
     }
      private static Wiersz przygotujwierszNettoSprzedaz(int lpwiersza,Dokfk nd, jpkfa3.JPK.Faktura faktura, Konto kontown, Konto kontoma, Tabelanbp tabelanbppl, TabelanbpDAO tabelanbpDAO) {
         Wiersz w = new Wiersz(lpwiersza, nd, 0);
