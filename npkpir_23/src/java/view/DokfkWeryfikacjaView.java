@@ -426,110 +426,110 @@ public class DokfkWeryfikacjaView implements Serializable {
             boolean brakwpln = false;
             boolean brakPozycji = false;
             int liczbawierszy = p.getListawierszy().size();
-            if (!p.getSeriadokfk().equals("BO")) {
-                for (Wiersz r : p.getListawierszy()) {
-                    StronaWiersza wn = r.getStronaWn();
-                    StronaWiersza ma = r.getStronaMa();
-                    if (wn != null) {
-                        if (wn.getKonto() == null) {
-                            brakkonto = true;
-                        } else if (wn.getKonto().getPozycjaWn() == null && wn.getKonto().getPozycjaMa()==null) {
-                            brakPozycji = true;
-                        }
-                        if (wn.getKonto() != null) {
-                            jestkontonieostatnieWn = wn.getKonto().isMapotomkow();
-                        }
-                        if (wn.getKwota() > 0.0 && wn.getKwotaPLN() == 0.0) {
+            for (Wiersz r : p.getListawierszy()) {
+                StronaWiersza wn = r.getStronaWn();
+                StronaWiersza ma = r.getStronaMa();
+                if (wn != null) {
+                    if (wn.getKonto() == null) {
+                        brakkonto = true;
+                    } else if (wn.getKonto().getPozycjaWn() == null && wn.getKonto().getPozycjaMa()==null) {
+                        brakPozycji = true;
+                    }
+                    if (wn.getKonto() != null) {
+                        jestkontonieostatnieWn = wn.getKonto().isMapotomkow();
+                    }
+                    if (wn.getKwota() > 0.0 && wn.getKwotaPLN() == 0.0) {
+                        brakwpln = true;
+                    }
+                    if (r.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
+                        if (wn.getKwota() != wn.getKwotaPLN()) {
                             brakwpln = true;
                         }
-                        if (r.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
-                            if (wn.getKwota() != wn.getKwotaPLN()) {
-                                brakwpln = true;
-                            }
-                        }
-                        sumawn += wn.getKwota();
-                        sumawnpln += wn.getKwotaPLN();
                     }
-                    if (ma != null) {
-                        if (ma.getKonto() == null) {
-                            brakkonto = true;
-                        } else if (ma.getKonto().getPozycjaWn() == null && ma.getKonto().getPozycjaMa()==null) {
-                            brakPozycji = true;
-                        }
-                        if (ma.getKonto() != null) {
-                            jestkontonieostatnieMa = ma.getKonto().isMapotomkow();
-                        }
-                        if (ma.getKwota() > 0.0 && ma.getKwotaPLN() == 0.0) {
+                    sumawn += wn.getKwota();
+                    sumawnpln += wn.getKwotaPLN();
+                }
+                if (ma != null) {
+                    if (ma.getKonto() == null) {
+                        brakkonto = true;
+                    } else if (ma.getKonto().getPozycjaWn() == null && ma.getKonto().getPozycjaMa()==null) {
+                        brakPozycji = true;
+                    }
+                    if (ma.getKonto() != null) {
+                        jestkontonieostatnieMa = ma.getKonto().isMapotomkow();
+                    }
+                    if (ma.getKwota() > 0.0 && ma.getKwotaPLN() == 0.0) {
+                        brakwpln = true;
+                    }
+                    if (r.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
+                        if (ma.getKwota() != ma.getKwotaPLN()) {
                             brakwpln = true;
                         }
-                        if (r.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
-                            if (ma.getKwota() != ma.getKwotaPLN()) {
-                                brakwpln = true;
-                            }
-                        }
-                        sumama += ma.getKwota();
-                        sumamapln += ma.getKwotaPLN();
                     }
-                    if (jestkontonieostatnieWn == true || jestkontonieostatnieMa == true) {
-                        if (!listabrakiKontaAnalityczne.contains(p)) {
-                            listabrakiKontaAnalityczne.add(p);
-                            listabrakiKontaAnalityczne_nr.add(r.getIdporzadkowy());
-                        }
+                    sumama += ma.getKwota();
+                    sumamapln += ma.getKwotaPLN();
+                }
+                if (jestkontonieostatnieWn == true || jestkontonieostatnieMa == true) {
+                    if (!listabrakiKontaAnalityczne.contains(p)) {
+                        listabrakiKontaAnalityczne.add(p);
+                        listabrakiKontaAnalityczne_nr.add(r.getIdporzadkowy());
                     }
                 }
             }
-            if (Z.z(sumawn) != Z.z(sumama)) {
-                double roznica = sumawn - sumama;
-                listaRozniceWnMa.add(p);
-                if (liczbawierszy > 1) {
-                    StronaWiersza swWn = p.getListawierszy().get(0).getStronaWn();
-                    StronaWiersza swMa = p.getListawierszy().get(0).getStronaMa();
-                    String symbol = swWn.getSymbolWaluty() != null ? swWn.getSymbolWaluty() : swWn.getSymbolWalutyBO();
-                    if (roznica > 0.0) {
-                        swMa.setKwota(swMa.getKwota() + roznica);
-                    } else {
-                        swWn.setKwota(swWn.getKwota() - roznica);
-                    }
-                    Rodzajedok rodzajdok = p.getRodzajedok();
-                }
-            }
-            if (Z.z(sumawnpln) != Z.z(sumamapln)) {
-                double roznica = sumawnpln - sumamapln;
-                listaRozniceWnMa.add(p);
-                if (liczbawierszy > 1) {
-                    StronaWiersza swWn = p.getListawierszy().get(0).getStronaWn();
-                    StronaWiersza swMa = p.getListawierszy().get(0).getStronaMa();
-                    String symbol = swWn.getSymbolWaluty() != null ? swWn.getSymbolWaluty() : swWn.getSymbolWalutyBO();
-                    if (!symbol.equals("PLN")) {
+            if (!p.getSeriadokfk().equals("BO") && !p.getSeriadokfk().equals("BOR")) {
+                if (Z.z(sumawn) != Z.z(sumama)) {
+                    double roznica = sumawn - sumama;
+                    listaRozniceWnMa.add(p);
+                    if (liczbawierszy > 1) {
+                        StronaWiersza swWn = p.getListawierszy().get(0).getStronaWn();
+                        StronaWiersza swMa = p.getListawierszy().get(0).getStronaMa();
+                        String symbol = swWn.getSymbolWaluty() != null ? swWn.getSymbolWaluty() : swWn.getSymbolWalutyBO();
                         if (roznica > 0.0) {
-                            swMa.setKwotaPLN(swMa.getKwotaPLN() + roznica);
+                            swMa.setKwota(swMa.getKwota() + roznica);
                         } else {
-                            swWn.setKwotaPLN(swWn.getKwotaPLN() - roznica);
+                            swWn.setKwota(swWn.getKwota() - roznica);
                         }
-                    }
-                    Rodzajedok rodzajdok = p.getRodzajedok();
-                    if (rodzajdok.getKategoriadokumentu() == 0) {
-                        for (Wiersz w : p.getListawierszy()) {
-                            rozliczVatKosztNaprawWB(w, p);
-                        }
-                    }
-                } else if (liczbawierszy==1) {
-                    Konto kontoRozrachunkowe = pobierzKontoRozrachunkowe(kliencifkDAO, p, wpisView, kontoDAO);
-                    StronaWiersza swWn = p.getListawierszy().get(0).getStronaWn();
-                    StronaWiersza swMa = p.getListawierszy().get(0).getStronaMa();
-                    List<EVatwpisFK> ewidencjaVAT = p.getEwidencjaVAT();
-                    if ((swWn==null || swMa==null) && ewidencjaVAT!=null) {
                         Rodzajedok rodzajdok = p.getRodzajedok();
-                        WartosciVAT wartosciVAT = podsumujwartosciVAT(p.getEwidencjaVAT());
-                        if (p.getListawierszy().size() == 1 && rodzajdok.getKategoriadokumentu() == 1) {
-                            rozliczVatKosztNapraw(p.getEwidencjaVAT().get(0), wartosciVAT, p, wpisView, null, kontoRozrachunkowe);
-                        } else if (p.getListawierszy().size() == 1 && rodzajdok.getKategoriadokumentu() == 2) {
-                            rozliczVatPrzychodNapraw(p.getEwidencjaVAT().get(0), wartosciVAT, p, wpisView, kontoRozrachunkowe);
-                        } else if (p.getListawierszy().size() == 1 && rodzajdok.getKategoriadokumentu() == 3) {
-                            rozliczVatKosztNaprawRachunek(p, wpisView, kontoRozrachunkowe);
-                        }
                     }
-                    dokDAOfk.edit(p);
+                }
+                if (Z.z(sumawnpln) != Z.z(sumamapln)) {
+                    double roznica = sumawnpln - sumamapln;
+                    listaRozniceWnMa.add(p);
+                    if (liczbawierszy > 1) {
+                        StronaWiersza swWn = p.getListawierszy().get(0).getStronaWn();
+                        StronaWiersza swMa = p.getListawierszy().get(0).getStronaMa();
+                        String symbol = swWn.getSymbolWaluty() != null ? swWn.getSymbolWaluty() : swWn.getSymbolWalutyBO();
+                        if (!symbol.equals("PLN")) {
+                            if (roznica > 0.0) {
+                                swMa.setKwotaPLN(swMa.getKwotaPLN() + roznica);
+                            } else {
+                                swWn.setKwotaPLN(swWn.getKwotaPLN() - roznica);
+                            }
+                        }
+                        Rodzajedok rodzajdok = p.getRodzajedok();
+                        if (rodzajdok.getKategoriadokumentu() == 0) {
+                            for (Wiersz w : p.getListawierszy()) {
+                                rozliczVatKosztNaprawWB(w, p);
+                            }
+                        }
+                    } else if (liczbawierszy==1) {
+                        Konto kontoRozrachunkowe = pobierzKontoRozrachunkowe(kliencifkDAO, p, wpisView, kontoDAO);
+                        StronaWiersza swWn = p.getListawierszy().get(0).getStronaWn();
+                        StronaWiersza swMa = p.getListawierszy().get(0).getStronaMa();
+                        List<EVatwpisFK> ewidencjaVAT = p.getEwidencjaVAT();
+                        if ((swWn==null || swMa==null) && ewidencjaVAT!=null) {
+                            Rodzajedok rodzajdok = p.getRodzajedok();
+                            WartosciVAT wartosciVAT = podsumujwartosciVAT(p.getEwidencjaVAT());
+                            if (p.getListawierszy().size() == 1 && rodzajdok.getKategoriadokumentu() == 1) {
+                                rozliczVatKosztNapraw(p.getEwidencjaVAT().get(0), wartosciVAT, p, wpisView, null, kontoRozrachunkowe);
+                            } else if (p.getListawierszy().size() == 1 && rodzajdok.getKategoriadokumentu() == 2) {
+                                rozliczVatPrzychodNapraw(p.getEwidencjaVAT().get(0), wartosciVAT, p, wpisView, kontoRozrachunkowe);
+                            } else if (p.getListawierszy().size() == 1 && rodzajdok.getKategoriadokumentu() == 3) {
+                                rozliczVatKosztNaprawRachunek(p, wpisView, kontoRozrachunkowe);
+                            }
+                        }
+                        dokDAOfk.edit(p);
+                    }
                 }
             }
             if (brakkonto == true) {

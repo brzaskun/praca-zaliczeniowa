@@ -115,6 +115,7 @@ public class UzView implements Serializable {
             nowyUzytkownik.setLocale("pl");
             nowyUzytkownik.setHaslo(haszuj(nowyUzytkownik.getHaslo()));
             uzDAO.dodaj(nowyUzytkownik);
+            listaUzytkownikow.add(nowyUzytkownik);
             Msg.msg("Rejestracja udana");
         } catch (Exception e) {
             E.e(e);

@@ -5,15 +5,17 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:panel id="editDane" menuTitle="Edytowanie danych użytkownika" header="Edytowanie danych użytkownika" >
-        <p:panelGrid columns="9" >
+        <p:panelGrid columns="10" >
             <h:outputLabel value="imie"/>
             <h:outputLabel value="nazwisko"/>
             <h:outputLabel value="hasło"/>
             <h:outputLabel value="uprawnienia"/>
+            <h:outputLabel value="nr telefonu"/>
             <h:outputLabel value="locale"/>
+            <h:outputLabel value="email"/>
             <h:outputLabel value="firma"/>
             <h:outputLabel value="login główny"/>
-            <h:outputLabel value="nr telefonu"/>
+            
             <br/>
             <p:inputText  value="#{UzView.selUzytkownik.imie}"/>
             <p:inputText  value="#{UzView.selUzytkownik.nazw}"/>
@@ -21,6 +23,7 @@
             <p:selectOneMenu value="#{UzView.selUzytkownik.uprawnienia}" required="true" requiredMessage="uprawnienia - uzupełnij">
                 <f:selectItems value="#{uprawnienia.listaUprawnien}"/>
             </p:selectOneMenu>
+            <p:inputText  value="#{UzView.selUzytkownik.nrtelefonu}"/>
             <p:selectOneMenu value="#{UzView.selUzytkownik.locale}">
                 <f:selectItem itemValue="pl" itemLabel="pl"/>
                 <f:selectItem itemValue="de" itemLabel="de"/>
@@ -28,15 +31,16 @@
                 <f:selectItem itemValue="dk" itemLabel="dk"/>
                 <f:selectItem itemValue="cz" itemLabel="cz"/>
             </p:selectOneMenu>
+            <p:inputText  value="#{UzView.selUzytkownik.email}"/>
             <p:selectOneMenu value="#{UzView.selUzytkownik.podatnik}" style="width: 300px;" converter="#{podatConv}">
                 <f:selectItems value="#{podatnikWyborView.listaPodatnikow}" var="item" itemLabel="#{item.printnazwa}" itemValue="#{item}"/>
                 <p:ajax event="blur" listener="#{UzView.naniesfirme()}"/>
             </p:selectOneMenu>
             <p:selectOneMenu value="#{UzView.selUzytkownik.loginglowny}" style="width: 200px;" converter="#{uzConv}">
-                <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                <f:selectItem  itemLabel="wybierz" itemValue="" noSelectionOption="true" />
                 <f:selectItems value="#{UzView.listaUzytkownikow}" var="item" itemLabel="#{item.login}" itemValue="#{item}"/>
             </p:selectOneMenu>
-            <p:inputText  value="#{UzView.selUzytkownik.nrtelefonu}"/>
+            
             <p:commandButton action="#{UzView.zachowajzmiany()}" value="Edytuj" update=":form:uzytkownicyLista"/>
         </p:panelGrid>
     </p:panel>

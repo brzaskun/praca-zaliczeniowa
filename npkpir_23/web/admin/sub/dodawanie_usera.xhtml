@@ -8,7 +8,6 @@
     <p:panel >
         <p:panel menuTitle="Wprowadzanie nowego użytkownika" header="Wprowadzanie danych nowego użytkownika"  >
             <p:growl id="mess_add" ><p:autoUpdate/></p:growl>
-         <h:form id="tabelaform">
              
          <p:panelGrid columns="7" >
             <h:outputLabel value="login"/>
@@ -31,7 +30,6 @@
             </p:selectOneMenu>
             <p:commandButton action="#{UzView.dodajNowyWpis()}" value="Dodaj" update=":form:uzytkownicyLista"/>
         </p:panelGrid>
-         </h:form>
     </p:panel>
 <!--    <p:panel id="ostatniUzytkownik" menuTitle="Ostatnio wprowadzony użytkownik">
         <h:outputLabel value="Ostatnio wprowadzony:"/>

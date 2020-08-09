@@ -11,13 +11,13 @@
         <p:dataTable  var="wpis" value="#{UzView.listaUzytkownikow}" id="uzytkownicyLista" editable="true"
                        filteredValue="#{UzView.obiektUZjsfselected}"
                        style="width: 1600px; height: 400px; overflow-y: scroll;"
-                      rowKey="#{wpis.login}" selection="#{UzView.selUzytkownik}" selectionMode="single"> 
-            <p:ajax event="rowEdit" update=":form:messages" listener="#{UzView.zachowajzmiany()}" />
-            <p:ajax event="rowSelect" update=":form:messages, :editUzyt" listener="#{UzView.wybranoUzytkownika}" />
+                      rowKey="#{wpis.login}" selection="#{UzView.selUzytkownik}" > 
+            <p:ajax event="rowEdit" global="false" update=":form:messages" listener="#{UzView.zachowajzmiany()}" />
+            <p:ajax event="rowSelectRadio"  global="false" update=":form:messages :editUzyt" listener="#{UzView.wybranoUzytkownika}" />
             <f:facet name="header">  
                 <h:outputText value="Wykaz użytkowników" />  
             </f:facet>
-
+            <p:column selectionMode="single" styleClass="checkwiersza" width="30" style="text-align: center;"/>
             <p:column id="idColumn" headerText="id" filterBy="#{wpis.login}" filterMatchMode="contains" sortBy="#{wpis.login}">  
                 <f:facet name="header">  
                     <h:outputText value="login" />  
@@ -59,9 +59,6 @@
                 </p:cellEditor>
             </p:column>
             <p:column headerText="nr telefonu" filterBy="#{wpis.nrtelefonu}" filterMatchMode="contains" sortBy="#{wpis.nrtelefonu}">  
-                <f:facet name="header">  
-                    <h:outputText value="uprawnienia" />  
-                </f:facet> 
                  <p:cellEditor>
                     <f:facet name="output">  
                         <h:outputText value="#{wpis.nrtelefonu}" />
