@@ -334,7 +334,11 @@ public class InterpaperImportView implements Serializable {
             if (interpaperXLS.getKlient().getKrajnazwa()!=null && !interpaperXLS.getKlient().getKrajkod().equals("PL")) {
                 polska0unia1zagranica2 = 2;
                 if (PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod())) {
-                    polska0unia1zagranica2 = 1;
+                    if (interpaperXLS.getVatPLN()!=0.0) {
+                        polska0unia1zagranica2 = 0;
+                    } else {
+                        polska0unia1zagranica2 = 1;
+                    }
                 }
             }
              if (interpaperXLS.getNrfaktury().equals("191009413")) {
