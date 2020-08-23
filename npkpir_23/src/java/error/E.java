@@ -73,7 +73,7 @@ public class E {
     }
      
      public static void s (String s) {
-         //System.out.println(s);
+         System.out.println(s);
      }
      public static void s (Integer s) {
          //System.out.println(s);

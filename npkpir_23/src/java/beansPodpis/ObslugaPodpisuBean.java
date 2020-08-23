@@ -96,14 +96,21 @@ public class ObslugaPodpisuBean {
         KeyStore keyStore = null;
         try {
             char [] pin = haslo.toCharArray();
+            KeyStore.PasswordProtection pp = new KeyStore.PasswordProtection(pin);
             keyStore = KeyStore.getInstance("PKCS11", provider);
             odpowiedz.put(1, "tak");
             if (keyStore!=null) {
                 int proba = 0;
                 do {
-                    keyStore.load(null, pin);
+                    try {
+                        keyStore.load(null, pp.getPassword());
+                    } catch (IOException ee)
+                    {}
                     proba++;
-                } while (proba < 2 && keyStore==null); 
+                } while (proba < 2); 
+                if (keyStore == null) {
+                    throw new IOException();
+                }
             }
             odpowiedz.put(3, "tak");
             sprawdzcertyfikat(keyStore, pesel);
@@ -126,14 +133,21 @@ public class ObslugaPodpisuBean {
     public static KeyStore jestKartaPodpisy(String haslo, String pesel, Provider provider) throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException {
         KeyStore keyStore = null;
         char [] pin = haslo.toCharArray();
+        KeyStore.PasswordProtection pp = new KeyStore.PasswordProtection(pin);
         keyStore = KeyStore.getInstance("PKCS11", provider);
         odpowiedz.put(1, "tak");
         if (keyStore!=null) {
             int proba = 0;
             do {
-                keyStore.load(null, pin);
-                proba++;
-            } while (proba < 2 && keyStore==null); 
+                    try {
+                        keyStore.load(null, pp.getPassword());
+                    } catch (IOException ee)
+                    {}
+                    proba++;
+                } while (proba < 2); 
+                if (keyStore == null) {
+                    throw new IOException();
+                }
         }
         odpowiedz.put(3, "tak");
         sprawdzcertyfikat(keyStore, pesel);
@@ -154,12 +168,12 @@ public class ObslugaPodpisuBean {
             long expiresIn = dateDiff / (24 * 60 * 60 * 1000);
             String name = ((X509Certificate) keyStore.getCertificate(alias)).getSubjectDN().getName();
             odpowiedz.put(5,name);
-            if (name.contains("70052809810") && expiresIn>0) {
+            if (name.contains(pesel) && expiresIn>0) {
                 zwrot = "tak";
                 odpowiedz.put(2, "tak");
                 odpowiedz.put(4, String.valueOf(expiresIn));
                 break;
-            } else if (name.contains("70052809810") && expiresIn<=0) {
+            } else if (name.contains(pesel) && expiresIn<=0) {
                 zwrot = "Zainstalowany certyfikat wygasł";
                 odpowiedz.put(2, zwrot);
                 error.E.s("Zainstalowany certyfikat wygasł");
@@ -491,11 +505,15 @@ public class ObslugaPodpisuBean {
             byte[] pkcs11configBytes = pkcs11config.getBytes("UTF-8");
             ByteArrayInputStream configStream = new ByteArrayInputStream(pkcs11configBytes);
             pkcs11Provider = new sun.security.pkcs11.SunPKCS11(configStream);
-            Security.removeProvider(pkcs11Provider.getName());
-            Security.addProvider(pkcs11Provider);
+            //Security.removeProvider(pkcs11Provider.getName());
             KeyStore keyStore = KeyStore.getInstance("PKCS11", pkcs11Provider);
+            if (keyStore==null) {
+                Security.addProvider(pkcs11Provider);
+            }
             //keyStore.load(null, "5030".toCharArray());  // Load keystore
-            keyStore.load(null, "marlena1".toCharArray());  // Load keystore
+            KeyStore.PasswordProtection pp = new KeyStore.PasswordProtection("marlena1".toCharArray());
+            keyStore.load(null, pp.getPassword());
+            //keyStore.load(null, "marlena1".toCharArray());  // Load keystore
             Enumeration<String> enumeration = keyStore.aliases();
             while(enumeration.hasMoreElements()) {
                 String alias = enumeration.nextElement();
@@ -508,6 +526,8 @@ public class ObslugaPodpisuBean {
                 String name = ((X509Certificate) keyStore.getCertificate(alias)).getSubjectDN().getName();
                 if (name.contains("70052809810") && expiresIn>0) {
                     error.E.s("Odnaleziono właściwy aktywny certyfikat użytkownika");
+                    error.E.s("Hasło poprawne, karta załadowana");
+                    break;
                 } else if (name.contains("70052809810") && expiresIn<=0) {
                     error.E.s("Zainstalowany certyfikat wygasł");
                 } else if (!name.contains("70052809810")) {
@@ -515,7 +535,7 @@ public class ObslugaPodpisuBean {
                 }
                 // error.E.s("Certifiate: " + alias + "\tExpires On: " + certExpiryDate + "\tFormated Date: " + ft.format(certExpiryDate) + "\tToday's Date: " + ft.format(today) + "\tExpires In: "+ expiresIn);
             }
-            error.E.s("Hasło poprawne, karta załadowana");
+            
         } catch (IOException ex) {
             Security.removeProvider(pkcs11Provider.getName());
             error.E.s("Błędne hasło!");

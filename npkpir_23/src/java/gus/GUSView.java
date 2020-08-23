@@ -5,29 +5,10 @@
  */
 package gus;
 
-import beanDialog.OD;
-import cis.bir.publ._2014._07.datacontract.ParametryWyszukiwania;
-import com.sun.xml.ws.developer.WSBindingProvider;
-import error.E;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.jws.WebService;
-import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.WebServiceRef;
-import javax.xml.ws.handler.MessageContext;
-import javax.xml.ws.soap.AddressingFeature;
-import org.apache.commons.lang3.StringUtils;
-import org.tempuri.IUslugaBIRzewnPubl;
-import org.tempuri.UslugaBIRzewnPubl;
 import webservice.GUS;
 
 /**
