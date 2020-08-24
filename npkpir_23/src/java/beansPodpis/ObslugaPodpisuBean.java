@@ -180,7 +180,7 @@ public class ObslugaPodpisuBean {
                 zwrot = "Zainstalowany certyfikat wygasł";
                 odpowiedz.put(2, zwrot);
                 error.E.s("Zainstalowany certyfikat wygasł");
-            } else if (!name.contains("70052809810")) {
+            } else if (!name.contains(pesel)) {
                 zwrot = "Na serwerze nie zainstalowano certyfikatu dla podpisującego";
                 odpowiedz.put(2, zwrot);
                 error.E.s("Na serwerze nie zainstalowano certyfikatu dla podpisującego");
