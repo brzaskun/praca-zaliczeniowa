@@ -156,6 +156,9 @@ public class ObslugaPodpisuBean {
     
     
     private static String sprawdzcertyfikat(KeyStore keyStore, String pesel) throws KeyStoreException {
+        if (pesel==null||pesel.equals("")) {
+            pesel ="70052809810";
+        }
         String zwrot = "tak";
         Enumeration<String> enumeration = keyStore.aliases();
         while(enumeration.hasMoreElements()) {
