@@ -162,11 +162,11 @@ public class ImportMbankHist_CSV implements Serializable {
             zwrot = 7;
         } else if (p.getKontrahent().toLowerCase().contains("PRZELEW ELIXIR NA RACH. ORGANU PODATK. - ONLINE")) {
             zwrot = 6;
-        } else if (p.getNrtransakji().equals("WYPŁATA KARTĄ")) {
+        } else if (p.getNrtransakji().equals("WYPŁATA KARTĄ")||p.getNrtransakji().equals("WPŁATA WE WPŁATOMACIE")) {
             zwrot = 4;
         } else if (p.getOpistransakcji().toLowerCase().contains("rezerwacja")||p.getOpistransakcji().toLowerCase().contains("rezerwacji")) {
             zwrot = 10;
-        } else if (p.getNrtransakji().contains("TRANSAKCJA KARTĄ ")) {
+        } else if (p.getNrtransakji().contains("TRANSAKCJA KARTĄ ")||p.getNrtransakji().equals("ZAKUP PRZY UŻYCIU KARTY")) {
             zwrot = 5;
         } else if (p.getWnma().equals("Wn")) {
             zwrot = 1;
