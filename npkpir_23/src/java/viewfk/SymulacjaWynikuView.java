@@ -104,6 +104,9 @@ public class SymulacjaWynikuView implements Serializable {
     private CechazapisuDAOfk cechazapisuDAOfk;
     private String mcod;
     private String mcdo;
+    private List<Dokfk> dokumentyzodliczonymvat;
+    private double sumavatprzychody;
+    private double sumavatkoszty;
     
 
     public SymulacjaWynikuView() {
@@ -135,6 +138,9 @@ public class SymulacjaWynikuView implements Serializable {
         }
         List<StronaWiersza> zapisyRok = pobierzzapisyRokMc(mcod, mcdo);
         pobranewalutypodatnik = pobierzswaluty(zapisyRok);
+        dokumentyzodliczonymvat = new ArrayList<>();
+        sumaprzychody = 0.0;
+        sumavatkoszty = 0.0;
         listakontaprzychody = przygotowanalistasaldR(zapisyRok, kontaklientaprzychody, 0);
         listakontakoszty = przygotowanalistasaldR(zapisyRok, kontaklientakoszty, 1);
         pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
@@ -184,6 +190,7 @@ public class SymulacjaWynikuView implements Serializable {
     private void naniesZapisyNaKontoR(SaldoKonto saldoKonto, Konto p, List<StronaWiersza> zapisyRok, int przychod0koszt1) {
         double sumaWn = 0.0;
         double sumaMa = 0.0;
+        double vat = 0.0;
         for (StronaWiersza r : zapisyRok) {
             if (r.getKonto().equals(p)) {
                 if (wybranawaluta == null) {
@@ -227,8 +234,14 @@ public class SymulacjaWynikuView implements Serializable {
                         saldoKonto.getZapisy().add(r);
                     }
                 }
+                Dokfk dok = r.getDokfk();
+                if (!saldoKonto.getKonto().getPelnynumer().equals("404-2")&&!dokumentyzodliczonymvat.contains(dok)) {
+                    vat +=  dok.getVATVAT();
+                    dokumentyzodliczonymvat.add(dok);
+                }
             }
         }
+        saldoKonto.setVat(vat);
         saldoKonto.setObrotyWn(sumaWn);
         saldoKonto.setObrotyMa(sumaMa);
     }
@@ -394,38 +407,46 @@ public class SymulacjaWynikuView implements Serializable {
     
     public void sumazapisowPrzychody() {
         sumaprzychody = 0.0;
+        sumavatprzychody = 0.0;
         for (SaldoKonto p : sumaSaldoKontoPrzychody) {
             sumaprzychody += p.getSaldoMa();
             sumaprzychody -= p.getSaldoWn();
+            sumavatprzychody += p.getVat();
         }
     }
     
      public void sumazapisowPrzychody1() {
         sumaprzychody = 0.0;
+        sumavatprzychody = 0.0;
         for (SaldoKonto p : listakontaprzychody) {
             sumaprzychody += p.getSaldoMa();
             sumaprzychody -= p.getSaldoWn();
+            sumavatprzychody += p.getVat();
         }
     }
     
     public void sumazapisowKoszty() {
         sumakoszty = 0.0;
+        sumavatkoszty = 0.0;
         for (SaldoKonto p : sumaSaldoKontoKoszty) {
             sumakoszty += p.getSaldoWn();
             sumakoszty -= p.getSaldoMa();
+            sumavatkoszty += p.getVat();
         }
     }
     
     public void sumazapisowKoszty1() {
         sumakoszty = 0.0;
+        sumavatkoszty = 0.0;
         for (SaldoKonto p : listakontakoszty) {
             sumakoszty += p.getSaldoWn();
             sumakoszty -= p.getSaldoMa();
+            sumavatkoszty += p.getVat();
         }
     }
     
     public void drukuj(int i) {
-        PdfSymulacjaWyniku.drukuj(listakontaprzychody, listakontakoszty, pozycjePodsumowaniaWynikuNowe, pozycjeObliczeniaPodatku, wpisView, i, pozycjeDoWyplaty);
+        PdfSymulacjaWyniku.drukuj(listakontaprzychody, listakontakoszty, pozycjePodsumowaniaWynikuNowe, pozycjeObliczeniaPodatku, wpisView, i, pozycjeDoWyplaty, sumaprzychody, sumavatprzychody, sumakoszty, sumavatkoszty);
     }
 
     private void pobierzzapisyzcechami() {
@@ -852,6 +873,22 @@ public class SymulacjaWynikuView implements Serializable {
 
     public void setPmn_mc_pop(double pmn_mc_pop) {
         this.pmn_mc_pop = pmn_mc_pop;
+    }
+
+    public double getSumavatprzychody() {
+        return sumavatprzychody;
+    }
+
+    public void setSumavatprzychody(double sumavatprzychody) {
+        this.sumavatprzychody = sumavatprzychody;
+    }
+
+    public double getSumavatkoszty() {
+        return sumavatkoszty;
+    }
+
+    public void setSumavatkoszty(double sumavatkoszty) {
+        this.sumavatkoszty = sumavatkoszty;
     }
 
     

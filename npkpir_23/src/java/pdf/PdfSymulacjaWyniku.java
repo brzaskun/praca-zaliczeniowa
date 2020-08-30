@@ -41,7 +41,7 @@ import view.WpisView;import viewfk.SymulacjaWynikuView;
 public class PdfSymulacjaWyniku {
     
     public static void drukuj(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<PozycjeSymulacjiNowe> listapozycjisymulacji, 
-            List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty) {
+            List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty, double sumaprzychody, double sumavatprzychody, double sumakoszty, double sumavatkoszty) {
         try {
             String nazwapliku = null;
             if (rodzajdruku == 1) {
@@ -53,7 +53,7 @@ public class PdfSymulacjaWyniku {
             if (file.isFile()) {
                 file.delete();
             }
-            drukujcd(listakontaprzychody, listakontakoszty, listapozycjisymulacji, pozycjeObliczeniaPodatku, wpisView, rodzajdruku, pozycjeDoWyplaty);
+            drukujcd(listakontaprzychody, listakontakoszty, listapozycjisymulacji, pozycjeObliczeniaPodatku, wpisView, rodzajdruku, pozycjeDoWyplaty, sumaprzychody, sumavatprzychody, sumakoszty, sumavatkoszty);
             Msg.msg("Wydruk zestawienia symulacja wyniku");
         } catch (Exception e) {
             E.e(e);
@@ -61,7 +61,7 @@ public class PdfSymulacjaWyniku {
     }
 
     private static void drukujcd(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<PozycjeSymulacjiNowe> listapozycjisymulacji,
-            List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty) throws DocumentException, FileNotFoundException, IOException {
+            List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty, double sumaprzychody, double sumavatprzychody, double sumakoszty, double sumavatkoszty) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
         try {
             if (rodzajdruku == 1) {
@@ -76,8 +76,8 @@ public class PdfSymulacjaWyniku {
             document.addCreator("Grzegorz Grzelczyk");
             document.open();
             document.setPageSize(PageSize.A4);
-            document.add(tablica(wpisView, listakontaprzychody, "p", rodzajdruku));
-            document.add(tablica(wpisView, listakontakoszty, "k", rodzajdruku));
+            document.add(tablica(wpisView, listakontaprzychody, "p", rodzajdruku, sumaprzychody, sumavatprzychody));
+            document.add(tablica(wpisView, listakontakoszty, "k", rodzajdruku, sumakoszty, sumavatkoszty));
             document.add(tablica2(listapozycjisymulacji));
             //nie ma tego od momentu jak przebudowalem tabsy i zmienilem kolejnosc wyswietlania
 //        document.add(tablica3(pozycjeObliczeniaPodatku));
@@ -93,17 +93,17 @@ public class PdfSymulacjaWyniku {
         }
     }
 
-    private static PdfPTable tablica(WpisView wpisView, List<SaldoKonto> listakonta, String pk, int rodzajdruku) throws DocumentException, IOException {
-        PdfPTable table = new PdfPTable(8);
-        table.setWidths(new int[]{1, 3, 8, 3, 3, 3, 3, 5});
+    private static PdfPTable tablica(WpisView wpisView, List<SaldoKonto> listakonta, String pk, int rodzajdruku, double razemnetto, double razemvat) throws DocumentException, IOException {
+        PdfPTable table = new PdfPTable(9);
+        table.setWidths(new int[]{1, 3, 6, 3, 3, 3, 3, 3, 4});
         table.setWidthPercentage(100);
         table.setSpacingBefore(15);
         try {
             table.addCell(ustawfraze(wpisView.getPodatnikObiekt().getNazwapelnaPDF(), 3, 0));
             if (pk.equals("p")) {
-                table.addCell(ustawfraze(B.b("zapisyprzychodowe") + ": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 5, 0));
+                table.addCell(ustawfraze(B.b("zapisyprzychodowe") + ": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 6, 0));
             } else {
-                table.addCell(ustawfraze(B.b("zapisykosztowe") + ": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 5, 0));
+                table.addCell(ustawfraze(B.b("zapisykosztowe") + ": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 6, 0));
             }
             table.addCell(ustawfraze(B.b("lp"), 0, 1));
             table.addCell(ustawfraze(B.b("numerkonta"), 0, 1));
@@ -112,30 +112,33 @@ public class PdfSymulacjaWyniku {
             table.addCell(ustawfraze(B.b("obrotyMa"), 0, 1));
             table.addCell(ustawfraze(B.b("saldoWn"), 0, 1));
             table.addCell(ustawfraze(B.b("saldoMa"), 0, 1));
+            table.addCell(ustawfraze(B.b("vat"), 0, 1));
             table.addCell(ustawfraze(B.b("kontosyntetyczne"), 0, 1));
+            String podsumowanie = "Razem netto: "+format.F.curr(razemnetto)+" vat: "+format.F.curr(razemvat);
+            table.addCell(ustawfrazeSpanFont(podsumowanie, 9, 0, 8));
+            table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - zestawienie symulacja wyniku finansowego", 9, 0, 6));
 
-            table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - zestawienie symulacja wyniku finansowego", 8, 0, 5));
-
-            table.setHeaderRows(3);
-            table.setFooterRows(1);
+            table.setHeaderRows(4);
+            table.setFooterRows(2);
         } catch (IOException ex) {
             // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         int i = 1;
         for (SaldoKonto rs : listakonta) {
-            table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7, 20f));
-            table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8, 20f));
+            table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 8));
             Locale browserLocale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
             if (browserLocale.getLanguage().equals("pl")) {
-                table.addCell(ustawfrazeAlign(rs.getKonto().getNazwaKontaInt(), "left", 7));
+                table.addCell(ustawfrazeAlign(rs.getKonto().getNazwaKontaInt(), "left", 8));
             } else if (browserLocale.getLanguage().equals("de")) {
-                table.addCell(ustawfrazeAlign(rs.getKonto().getDe(), "left", 7));
+                table.addCell(ustawfrazeAlign(rs.getKonto().getDe(), "left", 8));
             }
-            table.addCell(ustawfrazeAlign(rs.getObrotyWn() != 0 ? formatujWaluta(rs.getObrotyWn()) : "", "right", 7));
-            table.addCell(ustawfrazeAlign(rs.getObrotyMa() != 0 ? formatujWaluta(rs.getObrotyMa()) : "", "right", 7));
-            table.addCell(ustawfrazeAlign(rs.getSaldoWn() != 0 ? formatujWaluta(rs.getSaldoWn()) : "", "right", 7));
-            table.addCell(ustawfrazeAlign(rs.getSaldoMa() != 0 ? formatujWaluta(rs.getSaldoMa()) : "", "right", 7));
-            table.addCell(ustawfrazeAlign(rs.getTopKontoOpis(), "left", 7));
+            table.addCell(ustawfrazeAlign(rs.getObrotyWn() != 0 ? formatujWaluta(rs.getObrotyWn()) : "", "right", 8));
+            table.addCell(ustawfrazeAlign(rs.getObrotyMa() != 0 ? formatujWaluta(rs.getObrotyMa()) : "", "right", 8));
+            table.addCell(ustawfrazeAlign(rs.getSaldoWn() != 0 ? formatujWaluta(rs.getSaldoWn()) : "", "right", 8));
+            table.addCell(ustawfrazeAlign(rs.getSaldoMa() != 0 ? formatujWaluta(rs.getSaldoMa()) : "", "right", 8));
+            table.addCell(ustawfrazeAlign(rs.getVat() != 0 ? formatujWaluta(rs.getVat()) : "", "right", 8));
+            table.addCell(ustawfrazeAlign(rs.getTopKontoOpis(), "left", 8));
             if (rodzajdruku==2) {
                 PdfPTable p = subtable(rs.getZapisy());
                 PdfPCell r = new PdfPCell(p);

@@ -88,12 +88,17 @@
             <p:panelGrid columns="2">
                 <p:dataTable id="tablicasymulacjaP" value="#{symulacjaWynikuView.listakontaprzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}" rowIndexVar="indexa"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" selection="#{symulacjaWynikuView.sumaSaldoKontoPrzychody}"
-                         styleClass="gridtablicasyntetyczne" widgetVar="tablicasymulacjaP" style="width: 1000px; height: 400px; overflow-y: scroll;"
+                         styleClass="gridtablicasyntetyczne" widgetVar="tablicasymulacjaP" style="width: 1100px; height: 400px; overflow-y: scroll;"
                          
                          >
                 <f:facet name="header">
                     <h:outputText value="#{mgs.zapisyprzychodowe}: "/>
                     <h:outputText value="#{symulacjaWynikuView.sumaprzychody}">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                    <p:spacer width="30"/>
+                    <h:outputText value="#{mgs.vat}: "/>
+                    <h:outputText value="#{symulacjaWynikuView.sumavatprzychody}">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </f:facet>
@@ -135,6 +140,11 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
+                <p:column headerText="#{mgs.vat}" width="60" >
+                    <h:outputText value="#{loop.vat != 0.0 ? loop.vat : null}" style="float: right; color: green; font-weight: 700;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
                 <p:column headerText="#{mgs.kontosyntetyczne}" width="110" >
                     <h:outputText value="#{loop.getTopKontoOpis()}" />
                 </p:column>
@@ -171,11 +181,16 @@
                 </p:panelGrid>
             <p:dataTable id="tablicasymulacjaK" value="#{symulacjaWynikuView.listakontakoszty}" var="loop" rowKey="#{loop.konto.pelnynumer}"  rowIndexVar="index1"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" selection="#{symulacjaWynikuView.sumaSaldoKontoKoszty}" 
-                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1000px; height: 500px; overflow-y: scroll;" widgetVar="tablicasymulacjaK"
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1100px; height: 500px; overflow-y: scroll;" widgetVar="tablicasymulacjaK"
                          >
                 <f:facet name="header">
                     <h:outputText value="#{mgs.zapisykosztowe}: "/>
                     <h:outputText value="#{symulacjaWynikuView.sumakoszty}">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                    <p:spacer width="30"/>
+                    <h:outputText value="#{mgs.vat}: "/>
+                    <h:outputText value="#{symulacjaWynikuView.sumavatkoszty}">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </f:facet>
@@ -217,9 +232,15 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.konto}" width="110" >
+                  <p:column headerText="#{mgs.vat}" width="60" >
+                    <h:outputText value="#{loop.vat != 0.0 ? loop.vat : null}" style="float: right; color: green; font-weight: 700;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.kontosyntetyczne}" width="110" >
                     <h:outputText value="#{loop.getTopKontoOpis()}" />
                 </p:column>
+              
                 <p:rowExpansion>
                     <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
                         <p:column headerText="#{mgs.dokument}" width="60">

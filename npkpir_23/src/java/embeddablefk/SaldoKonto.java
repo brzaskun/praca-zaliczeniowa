@@ -45,6 +45,7 @@ public class SaldoKonto implements Serializable {
     private double saldoWnPLN;
     private double saldoMaPLN;
     private boolean roznicakursowastatystyczna;
+    double vat;
 
     public SaldoKonto() {
         this.zapisy = Collections.synchronizedList(new ArrayList<>());
@@ -299,6 +300,14 @@ public class SaldoKonto implements Serializable {
 
     public void setSaldoWnP(double saldoWnP) {
         this.saldoWnP = saldoWnP;
+    }
+
+    public double getVat() {
+        return vat;
+    }
+
+    public void setVat(double vat) {
+        this.vat = vat;
     }
 
     public double getSaldoMaP() {
