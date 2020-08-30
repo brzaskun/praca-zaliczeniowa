@@ -15,6 +15,7 @@ import entity.SrodekTrw;
 import entity.SrodekTrw_NowaWartosc;
 import entity.Srodkikst;
 import entity.UmorzenieN;
+import entityfk.Konto;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
@@ -74,6 +75,8 @@ public class STRTabView implements Serializable {
     //wyposazenie
     private List<SrodekTrw> wyposazenie;
     //dokumenty amortyzacyjne
+    private Konto kontonetto;
+    private Konto kontoumorzenie;
    
     @Inject
     private SrodekTrw wybranysrodektrwalyPosiadane;
@@ -443,6 +446,22 @@ public class STRTabView implements Serializable {
         return sTRDAO;
     }
 
+    public Konto getKontonetto() {
+        return kontonetto;
+    }
+
+    public void setKontonetto(Konto kontonetto) {
+        this.kontonetto = kontonetto;
+    }
+
+    public Konto getKontoumorzenie() {
+        return kontoumorzenie;
+    }
+
+    public void setKontoumorzenie(Konto kontoumorzenie) {
+        this.kontoumorzenie = kontoumorzenie;
+    }
+
     public void setsTRDAO(STRDAO sTRDAO) {
         this.sTRDAO = sTRDAO;
     }
@@ -619,6 +638,9 @@ public class STRTabView implements Serializable {
             selectedSTR.setKst(srodekkategoria.getSymbol());
             selectedSTR.setUmorzeniepoczatkowe(0.0);
             selectedSTR.setStawka(Double.parseDouble(srodekkategoria.getStawka()));
+            String data = wpisView.getRokUprzedniSt()+"-12-31";
+            selectedSTR.setDataprzek(data);
+            selectedSTR.setNrwldokzak("BO");
             PrimeFaces.current().ajax().update("formdialogsrodki:tabelasrodkitrwaleOT");
         } catch (Exception e) {
             E.e(e); 
@@ -632,21 +654,21 @@ public class STRTabView implements Serializable {
         try {
             selectedSTR.setVat(0.0);
             selectedSTR.setUmorzeniezaksiegowane(Boolean.FALSE);
-            selectedSTR.setNiepodlegaamortyzacji(selectedSTR.getNetto());
-            selectedSTR.setUmorzeniepoczatkowe(selectedSTR.getNetto());
             selectedSTR.setZlikwidowany(0);
             selectedSTR.setDatasprzedazy("");
             String podatnik = wpisView.getPodatnikWpisu();
             selectedSTR.setPodatnik(podatnik);
-            selectedSTR.setUmorzPlan(null);
-            selectedSTR.setStawka(0.0);
             selectedSTR.setNrwldokumentu(podatnik);
             selectedSTR.setNrsrodka(posiadane.size()+1);
             selectedSTR.setUmorzPlan(new ArrayList<Double>());
             selectedSTR.setPlanumorzen(new ArrayList<UmorzenieN>());
-            sTRDAO.dodaj(selectedSTR);
+            selectedSTR.setKontonetto(kontonetto);
+            selectedSTR.setKontoumorzenie(kontoumorzenie);
+            dodajSrodekTrwaly(selectedSTR);
             posiadane.add(selectedSTR);
             Collections.sort(sprzedane, new SrodekTrwcomparator());
+            selectedSTR = new SrodekTrw();
+            srodekkategoria =  null;
         } catch (Exception e) { E.e(e); 
         }
     }

@@ -7,8 +7,8 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     >
-    <p:dialog id="dialog_srodki_dodaj" header="Dodanie środka trwałego umorzonego z pominięciem pkpir" widgetVar="dialog_srodki_dodaj" 
-              resizable="false"  onShow="ustawdialog('dialog_srodki_dodaj','formbuttonsrodki:buttonsrodki',700,380);r('formdialogsrodki:acForce1_input').focus();" closeOnEscape="true" onHide="resetujdialog('dialog_srodki_dodaj');">
+    <p:dialog id="dialog_srodki_dodaj" header="Dodanie środka trwałego umorzonego z pominięciem dokumentu" widgetVar="dialog_srodki_dodaj" 
+              resizable="false"  onShow="ustawdialog('dialog_srodki_dodaj','formbuttonsrodki:buttonsrodki',850,480);r('formdialogsrodki:acForce1_input').focus();" closeOnEscape="true" onHide="resetujdialog('dialog_srodki_dodaj');">
         <!--pola ewidencji SRODKOW TRWALYCH-->
         <h:form id="formdialogsrodki">
             <p:panel id="panelwyszukiwarki" style="width: 300px; height: 80px;" >
@@ -66,10 +66,29 @@
                     <p:column>
                         <p:inputText value="#{STRTableView.selectedSTR.kst}"/>
                     </p:column>
+                    <h:outputText value="stawka"/>
+                    <p:column id="stawkaColumn" headerText="odpis stawka" sortBy="#{wpis.stawka}" width="50"  style="text-align: right;">  
+                    <p:inputText value="#{STRTableView.selectedSTR.stawka}" >
+                        <f:convertNumber maxFractionDigits="2"
+                                         groupingUsed="true"
+                                         maxIntegerDigits="5"
+                                         type="number"/>
+                    </p:inputText>
+                    </p:column>
                     <h:outputText value="cena zakupu"/>
                     <p:column>
                         <p:inputNumber id="cenazakupu" value="#{STRTableView.selectedSTR.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                         onblur="zweryfikujczyniebrakujesrodektrw('formdialogsrodki');"
+                                        style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto"/> 
+                    </p:column>
+                    <h:outputText value="kwota umorzenia"/>
+                    <p:column>
+                        <p:inputNumber id="umorzenie" value="#{STRTableView.selectedSTR.umorzeniepoczatkowe}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                        style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto"/> 
+                    </p:column>
+                    <h:outputText value="niepodlega umorzeniu"/>
+                    <p:column>
+                        <p:inputNumber id="umorzenie2" value="#{STRTableView.selectedSTR.niepodlegaamortyzacji}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                         style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto"/> 
                     </p:column>
                     <h:outputText value="środek trw/wyposazenie"/>
@@ -82,7 +101,34 @@
                         </h:selectOneMenu>
                     </p:column>
                 </p:panelGrid>
-                <p:commandButton id="dodajsrodekbutton" value="dodaj środek trwały" actionListener="#{STRTableView.dodajSrodekTrwaly()}" update=":akordeon:str_posiadane" 
+                 <p:panelGrid style="padding: 5px; margin-left: 5px;">
+                <f:facet name="header">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="konto środka"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="konto umorzeń"/>
+                        </p:column>
+                    </p:row>
+                </f:facet>
+                <p:column>
+                    <p:selectOneMenu value="#{STRTableView.kontonetto}" style="width: 350px;"  converter="#{kontoConv}" required="true"
+                                     requiredMessage="wybierz konto środka  ">
+                        <f:selectItem itemLabel="wybierz konto środka" itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{planKontSrTrw.listakontSrodkiTrwale}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu value="#{STRTableView.kontoumorzenie}" style="width: 350px;"  converter="#{kontoConv}"  required="true"
+                                     requiredMessage="wybierz konto umorzeń">
+                        <f:selectItem itemLabel="wybierz konto umorzeń" itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{planKontSrTrw.listakontSrodkiTrwaleUmorzenia}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
+                        <p:ajax event="change" onstart="r('srodkiwpis:buttonsrodektrw').show();" global="false"/>
+                    </p:selectOneMenu>
+                </p:column>
+            </p:panelGrid>
+                <p:commandButton id="dodajsrodekbutton" value="dodaj środek trwały" actionListener="#{STRTableView.dodajSrodekTrwaly()}" update="@form akordeon:str_posiadane" 
                                  style="display: none; margin-top: 10px; width: 120px;" onclick="PF('dialog_srodki_dodaj').hide();"/>
             </p:panel>
         </h:form>
