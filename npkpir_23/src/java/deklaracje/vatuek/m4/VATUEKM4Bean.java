@@ -125,43 +125,76 @@ public class VATUEKM4Bean {
                     if (p.getNetto()==null) {
                         p.setNetto(0.0);
                     }
-                    if (Z.z(p.getNetto()) != 0.0 && Z.z(p.getNettoprzedkorekta()) != 0.0) {
-                        switch (p.getTransakcja()) {
+                    if (p.getPoprzedninip()!=null && !p.getPoprzedninip().equals("")) {
+                        double starykwotaprzed = p.getNettoprzedkorekta();
+                        double starykwotapo = 0.0;
+                        double nowykwotaprzed = 0.0;
+                         switch (p.getTransakcja()) {
                             case "WDT":
-                                poz.getGrupa1().add(grupa1przed(p));
-                                poz.getGrupa1().add(grupa1po(p));
+                                p.setNettoprzedkorekta(nowykwotaprzed);
+                                poz.getGrupa1().add(grupa1przed(p, p.getKontrahent().getNip()));
+                                poz.getGrupa1().add(grupa1po(p, p.getKontrahent().getNip()));
+                                p.setNetto(starykwotapo);
+                                p.setNettoprzedkorekta(starykwotaprzed);
+                                poz.getGrupa1().add(grupa1przed(p, p.getPoprzedninip()));
+                                poz.getGrupa1().add(grupa1po(p, p.getPoprzedninip()));
                                 break;
                             case "WNT":
-                                poz.getGrupa2().add(grupa2przed(p));
-                                poz.getGrupa2().add(grupa2po(p));
+                                p.setNettoprzedkorekta(nowykwotaprzed);
+                                poz.getGrupa2().add(grupa2przed(p, p.getKontrahent().getNip()));
+                                poz.getGrupa2().add(grupa2po(p, p.getKontrahent().getNip()));
+                                p.setNetto(starykwotapo);
+                                p.setNettoprzedkorekta(starykwotaprzed);
+                                poz.getGrupa2().add(grupa2przed(p, p.getPoprzedninip()));
+                                poz.getGrupa2().add(grupa2po(p, p.getPoprzedninip()));
                                 break;
                             default:
-                                poz.getGrupa3().add(grupa3przed(p));
-                                poz.getGrupa3().add(grupa3po(p));
+                                p.setNettoprzedkorekta(nowykwotaprzed);
+                                poz.getGrupa3().add(grupa3przed(p, p.getKontrahent().getNip()));
+                                poz.getGrupa3().add(grupa3po(p, p.getKontrahent().getNip()));
+                                p.setNetto(starykwotapo);
+                                p.setNettoprzedkorekta(starykwotaprzed);
+                                poz.getGrupa3().add(grupa3przed(p, p.getPoprzedninip()));
+                                poz.getGrupa3().add(grupa3po(p, p.getPoprzedninip()));
+                                break;
+                        }
+                    } else if (Z.z(p.getNetto()) != 0.0 && Z.z(p.getNettoprzedkorekta()) != 0.0) {
+                        switch (p.getTransakcja()) {
+                            case "WDT":
+                                poz.getGrupa1().add(grupa1przed(p, p.getKontrahent().getNip()));
+                                poz.getGrupa1().add(grupa1po(p, p.getKontrahent().getNip()));
+                                break;
+                            case "WNT":
+                                poz.getGrupa2().add(grupa2przed(p, p.getKontrahent().getNip()));
+                                poz.getGrupa2().add(grupa2po(p, p.getKontrahent().getNip()));
+                                break;
+                            default:
+                                poz.getGrupa3().add(grupa3przed(p, p.getKontrahent().getNip()));
+                                poz.getGrupa3().add(grupa3po(p, p.getKontrahent().getNip()));
                                 break;
                         }
                     } else if (Z.z(p.getNetto()) == 0.0 && Z.z(p.getNettoprzedkorekta()) != 0.0) {
                         switch (p.getTransakcja()) {
                             case "WDT":
-                                poz.getGrupa1().add(grupa1przed(p));
+                                poz.getGrupa1().add(grupa1przed(p, p.getKontrahent().getNip()));
                                 break;
                             case "WNT":
-                                poz.getGrupa2().add(grupa2przed(p));
+                                poz.getGrupa2().add(grupa2przed(p, p.getKontrahent().getNip()));
                                 break;
                             default:
-                                poz.getGrupa3().add(grupa3przed(p));
+                                poz.getGrupa3().add(grupa3przed(p, p.getKontrahent().getNip()));
                                 break;
                         }
                     } else if (Z.z(p.getNetto()) != 0.0 && Z.z(p.getNettoprzedkorekta()) == 0.0) {
                         switch (p.getTransakcja()) {
                             case "WDT":
-                                poz.getGrupa1().add(grupa1po(p));
+                                poz.getGrupa1().add(grupa1po(p, p.getKontrahent().getNip()));
                                 break;
                             case "WNT":
-                                poz.getGrupa2().add(grupa2po(p));
+                                poz.getGrupa2().add(grupa2po(p, p.getKontrahent().getNip()));
                                 break;
                             default:
-                                poz.getGrupa3().add(grupa3po(p));
+                                poz.getGrupa3().add(grupa3po(p, p.getKontrahent().getNip()));
                                 break;
                         }
                     }
@@ -171,54 +204,54 @@ public class VATUEKM4Bean {
         return poz;
     }
 
-    private static Grupa1 grupa1przed(VatUe p) {
+    private static Grupa1 grupa1przed(VatUe p, String nip) {
         Grupa1 g = new Grupa1();
         g.setPDBa(kodkraju(p));
-        g.setPDBb(przetworznip(p.getKontrahent().getNip()));
+        g.setPDBb(przetworznip(nip));
         g.setPDBc(new BigInteger(Z.zUDI(p.getNettoprzedkorekta()).toString()));
         g.setPDBd((byte)1);
         return g;
     }
     
-    private static Grupa1 grupa1po(VatUe p) {
+    private static Grupa1 grupa1po(VatUe p, String nip) {
         Grupa1 g = new Grupa1();
         g.setPDJa(kodkraju(p));
-        g.setPDJb(przetworznip(p.getKontrahent().getNip()));
+        g.setPDJb(przetworznip(nip));
         g.setPDJc(new BigInteger(Z.zUDI(p.getNetto()).toString()));
         g.setPDJd((byte)1);
         return g;
     }
 
-    private static Grupa2 grupa2przed(VatUe p) {
+    private static Grupa2 grupa2przed(VatUe p, String nip) {
         Grupa2 g = new Grupa2();
         g.setPNBa(kodkraju(p));
-        g.setPNBb(przetworznip(p.getKontrahent().getNip()));
+        g.setPNBb(przetworznip(nip));
         g.setPNBc(new BigInteger(Z.zUDI(p.getNettoprzedkorekta()).toString()));
         g.setPNBd((byte)1);
         return g;
     }
     
-    private static Grupa2 grupa2po(VatUe p) {
+    private static Grupa2 grupa2po(VatUe p, String nip) {
         Grupa2 g = new Grupa2();
         g.setPNJa(kodkraju(p));
-        g.setPNJb(przetworznip(p.getKontrahent().getNip()));
+        g.setPNJb(przetworznip(nip));
         g.setPNJc(new BigInteger(Z.zUDI(p.getNetto()).toString()));
         g.setPNJd((byte)1);
         return g;
     }
 
-    private static Grupa3 grupa3przed(VatUe p) {
+    private static Grupa3 grupa3przed(VatUe p, String nip) {
         Grupa3 g = new Grupa3();
         g.setPUBa(kodkraju(p));
-        g.setPUBb(przetworznip(p.getKontrahent().getNip()));
+        g.setPUBb(przetworznip(nip));
         g.setPUBc(new BigInteger(Z.zUDI(p.getNettoprzedkorekta()).toString()));
         return g;
     }
     
-    private static Grupa3 grupa3po(VatUe p) {
+    private static Grupa3 grupa3po(VatUe p, String nip) {
         Grupa3 g = new Grupa3();
         g.setPUJa(kodkraju(p));
-        g.setPUJb(przetworznip(p.getKontrahent().getNip()));
+        g.setPUJb(przetworznip(nip));
         g.setPUJc(new BigInteger(Z.zUDI(p.getNetto()).toString()));
         return g;
     }

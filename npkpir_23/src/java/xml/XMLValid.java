@@ -26,18 +26,22 @@ import org.xml.sax.SAXException;
  */
 public class XMLValid {
     private static String schemaVATUE4 = "resources\\schema\\vatue4schemat.xsd";
+    private static String schemaVATUEK4 = "resources\\schema\\vatuek4schemat.xsd";
     private static String schemaVATUE4l = "d:\\vatue4schemat.xsd";
     private static String schemasprfin = "d:\\schemat.xsd";
     private static String deklaracja = "d:\\dekl.xml";
     private static String deklaracjaschema = "d:\\schemat.xsd";
     
     
-    public static Object[] walidujCMLVATUE(String deklaracja) {
+    public static Object[] walidujCMLVATUE(String deklaracja, int podst0korekta1) {
         Object[] zwrot = new Object[2];
         zwrot[0] = Boolean.FALSE;
         InputStream stream = null;
         ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         String realPath = ctx.getRealPath("/")+schemaVATUE4;
+        if (podst0korekta1==1) {
+            realPath = ctx.getRealPath("/")+schemaVATUEK4;
+        }
         try {
             //URL schemaFile = null;
 //        try {

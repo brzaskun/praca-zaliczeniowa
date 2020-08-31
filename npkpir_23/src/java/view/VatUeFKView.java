@@ -450,7 +450,7 @@ public class VatUeFKView implements Serializable {
                 for (VatUe s : staralista) {
                     for (VatUe t : lista) {
                         if (t.getKontrahent() != null && s.getKontrahent() != null && t.getKontrahent().equals(s.getKontrahent())) {
-                            if (Z.z(t.getNetto()) != Z.z(s.getNetto())) {
+                            if (Z.z(t.getNetto()) != Z.z(s.getNetto()) || !t.getKontrahent().getNip().equals(s.getKontrahent().getNip())) {
                                 t.setKorekta(true);
                                 robickorekte = true;
                                 nrkolejny = stara.getNrkolejny()+1;
@@ -480,7 +480,7 @@ public class VatUeFKView implements Serializable {
         boolean zwrot = false;
         try {
             String deklaracja = sporzadz(lista, korekta);
-            Object[] walidacja = XMLValid.walidujCMLVATUE(deklaracja);
+            Object[] walidacja = XMLValid.walidujCMLVATUE(deklaracja,0);
             if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
                 Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
                 if (podpisanadeklaracja != null) {
@@ -500,6 +500,7 @@ public class VatUeFKView implements Serializable {
                 }
             } else {
                 Msg.msg("e", (String) walidacja[1]);
+                Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UE. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
             }
         } catch (Exception e) {
             Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UE miesięczną wersja. Sprawdź parametry podatnika!");
@@ -511,21 +512,27 @@ public class VatUeFKView implements Serializable {
         boolean zwrot = false;
         try {
             String deklaracja = sporzadzkorekta(lista, staralista, korekta);
+            Object[] walidacja = XMLValid.walidujCMLVATUE(deklaracja,1);
+            if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
                 Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
-            if (podpisanadeklaracja != null) {
-                DeklaracjavatUE deklaracjavatUE = generujdeklaracje(podpisanadeklaracja);
-                deklaracjavatUE.setNrkolejny(nrkolejny);
-                for (VatUe p : lista) {
-                    p.setDeklaracjavatUE(deklaracjavatUE);
+                if (podpisanadeklaracja != null) {
+                    DeklaracjavatUE deklaracjavatUE = generujdeklaracje(podpisanadeklaracja);
+                    deklaracjavatUE.setNrkolejny(nrkolejny);
+                    for (VatUe p : lista) {
+                        p.setDeklaracjavatUE(deklaracjavatUE);
+                    }
+                    deklaracjavatUE.setPozycje(lista);
+                    //deklaracjavatUEDAO.dodaj(deklaracjavatUE);
+                    deklaracjeUE.add(deklaracjavatUE);
+                    deklaracjeUE_biezace.add(deklaracjavatUE);
+                    Msg.msg("Sporządzono deklarację VAT-UEK miesięczną wersja 4");
+                    zwrot = true;
+                } else {
+                    Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UEK. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
                 }
-                deklaracjavatUE.setPozycje(lista);
-                //deklaracjavatUEDAO.dodaj(deklaracjavatUE);
-                deklaracjeUE.add(deklaracjavatUE);
-                deklaracjeUE_biezace.add(deklaracjavatUE);
-                Msg.msg("Sporządzono deklarację VAT-UEK miesięczną wersja 4");
-                zwrot = true;
             } else {
-                Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UEK. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
+                Msg.msg("e", (String) walidacja[1]);
+                Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UE. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
             }
         } catch (Exception e) {
             E.e(e);
@@ -556,9 +563,12 @@ public class VatUeFKView implements Serializable {
     }
 
     private Object[] podpiszDeklaracje(String xml) {
-        Object[] deklaracjapodpisana = null;
+        //Object[] deklaracjapodpisana = null;
+        Object[] deklaracjapodpisana = new Object[2];
+        deklaracjapodpisana[0] = xml.getBytes();
+        deklaracjapodpisana[1] = xml;
         try {
-            deklaracjapodpisana = Xad.podpisz(xml, wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
+            //deklaracjapodpisana = Xad.podpisz(xml, wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
         } catch (Exception e) {
             E.e(e);
         }
@@ -591,7 +601,7 @@ public class VatUeFKView implements Serializable {
                 for (VatUe s : staralista) {
                     if (s.getKontrahent()!=null) {
                         if (p.getKontrahent().equals(s.getKontrahent())) {
-                            if (Z.z(p.getNetto()) != Z.z(s.getNetto())) {
+                            if (Z.z(p.getNetto()) != Z.z(s.getNetto()) || (p.getPoprzedninip() !=null && !p.getPoprzedninip().equals(""))) {
                                 p.setNettoprzedkorekta(s.getNetto());
                                 lista.add(p);
                             }

@@ -70,8 +70,12 @@
                               filterMatchMode="contains" sortBy="#{wpis1.kontrahent.nip}" style="width: 20%;" filterStyle="display : none;" >  
                         <h:outputText value="#{wpis1.kontrahent.nip}" />
                     </p:column>
+                    <p:column id="nipColumnold" headerText="pop. nip" filterBy="#{wpis1.poprzedninip}" 
+                              filterMatchMode="contains" sortBy="#{wpis1.poprzedninip}" style="width: 25%;" filterStyle="display : none;" >  
+                        <p:inputText value="#{wpis1.poprzedninip}" size="15"/>
+                    </p:column>
                     <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis1.kontrahent.npelna}" filterMatchMode="contains" 
-                              sortBy="#{wpis1.kontrahent.npelna}" style="width: 20%;" filterStyle="display : none;" width="370">  
+                              sortBy="#{wpis1.kontrahent.npelna}" filterStyle="display : none;" width="320">  
                         <h:outputText value="#{wpis1.kontrahent.npelna}"  />
                     </p:column>
                     <p:column id="nettoColumn" headerText="#{mgs.netto} pln" filterBy="#{wpis1.netto}" filterMatchMode="contains" sortBy="#{wpis1.netto}" style="width: 15%;" filterStyle="display : none;" >  

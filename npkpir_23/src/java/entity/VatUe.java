@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import vies.Vies;
 
 /**
@@ -36,7 +37,8 @@ public class VatUe extends VatSuper implements Serializable{
     @JoinColumn(name = "vies", referencedColumnName = "lp")
     @OneToOne(mappedBy = "vatue", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     protected Vies vies;
-    
+    @Transient
+    private String poprzedninip;
     
 
     public VatUe() {
@@ -104,6 +106,14 @@ public class VatUe extends VatSuper implements Serializable{
 
     public void setVies(Vies vies) {
         this.vies = vies;
+    }
+
+    public String getPoprzedninip() {
+        return poprzedninip;
+    }
+
+    public void setPoprzedninip(String poprzedninip) {
+        this.poprzedninip = poprzedninip;
     }
 
     

@@ -93,7 +93,6 @@ public class WalutyNBP implements Serializable {
                     }
                 }
             }
-            System.out.println("");
         } catch (Exception e) {
             E.e(e);
         }
