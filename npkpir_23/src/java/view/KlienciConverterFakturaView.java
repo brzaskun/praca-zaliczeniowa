@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -37,14 +38,18 @@ public class KlienciConverterFakturaView implements Serializable{
     private FakturaDAO fakturaDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    private List<Klienci> listaKlientowfakt;
+    private List<Klienci> listaKlientow;
     
-    
+    @PostConstruct
+    private void init() {
+        listaKlientowfakt = new ArrayList<Klienci>(new HashSet<Klienci>(fakturaDAO.findKontrahentFakturyRO(wpisView.getPodatnikObiekt())));
+    }
     
     
     public List<Klienci> completeKL(String query) {
         List<Klienci> results = Collections.synchronizedList(new ArrayList<>());
-        List<Klienci> listaKlientow = new ArrayList<Klienci>(new HashSet<Klienci>(fakturaDAO.findKontrahentFakturyRO(wpisView.getPodatnikObiekt())));
-        results = completeKLcd(listaKlientow, query, 0);
+        results = completeKLcd(listaKlientowfakt, query, 0);
         if (results.isEmpty()) {
             listaKlientow = klienciDAO.findAllReadOnlyContains(query);
             results = completeKLcd(listaKlientow, query, 1);
