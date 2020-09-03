@@ -77,8 +77,10 @@ public class KlienciConverterFakturaView implements Serializable{
                 int i = Integer.parseInt(q);
                 results = listaKlientow.stream().filter((p)->(p.getNip().startsWith(query))).collect(Collectors.toList()); 
             } catch (NumberFormatException e) {
-                String query2 = query.toLowerCase();
-                results = listaKlientow.stream().filter((p)->(p.getNpelna().toLowerCase().contains(query2.toLowerCase()))).collect(Collectors.toList()); 
+                try {
+                    String query2 = query.toLowerCase();
+                    results = listaKlientow.stream().filter((p)->(p.getNpelna().toLowerCase().contains(query2.toLowerCase()))).collect(Collectors.toList()); 
+                } catch (Exception ex) {}
             }
         }
         if (krok==1) {
