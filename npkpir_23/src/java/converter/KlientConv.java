@@ -33,25 +33,23 @@ public class KlientConv implements javax.faces.convert.Converter, Serializable {
        
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String sub) {
-        List<Klienci> listaKlientow = new ArrayList<>();
-        Klienci znaleziony = klienciDAO.findAllReadOnlyID(sub);
-        if (znaleziony != null) {
-            listaKlientow.add(znaleziony);
-        }
-        int submittedValue = Integer.parseInt(sub);
-        if (submittedValue==-2){  
-            listaKlientow.add(klienciConverterView.getKlientautomat());
-        }
+        Klienci zwrot = null;
         try {
-            return listaKlientow.stream().filter(p -> p.getId().equals(submittedValue)).findAny().orElse(null);
+            int submittedValue = Integer.parseInt(sub);
+            if (submittedValue==-2){  
+                zwrot = klienciConverterView.getKlientautomat();
+            } else {
+                zwrot = klienciDAO.findAllReadOnlyID(sub);
+            }
 //            for (Klienci p : listaKlientow) {  
 //                if (p.getId()==submittedValue) {  
 //                    return p;  
 //                }  
 //            }  
         } catch (NumberFormatException exception) {
-            return null;
+            
         }
+        return zwrot;
     }
   
     @Override

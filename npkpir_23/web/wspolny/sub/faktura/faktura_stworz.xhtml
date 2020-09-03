@@ -230,7 +230,7 @@
                             <h:outputLabel id="daneodbiorcyout" value="dane odbiorcy: " />
                         </div>
                         <div class="ui-grid-col-4" >
-                            <p:autoComplete id="acForce2" value="#{fakturaView.selected.odbiorca}" completeMethod="#{klienciConverterView.completeKL}"  inputStyle="width:400px;"
+                            <p:autoComplete id="acForce2" value="#{fakturaView.selected.odbiorca}" completeMethod="#{klienciConverterFakturaView.completeKL}"  inputStyle="width:400px;"
                                             var="pa" itemLabel="#{pa.npelna}" itemValue="#{pa}" converter="#{klientConv}" title="wpisz nazwę lub NIP odbiorcy"
                                             minQueryLength="3" maxResults="10" cache="true" converterMessage="Nieudana konwersja Klient"
                                             autocomplete="true" widgetVar="tworzenieklientapolenazwy1" binding="#{fakturaView.odbiorcastworz}"
