@@ -82,9 +82,9 @@
                 <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1  confirmDialog2" global="false"/>
                 <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1 confirmDialog2" global="false"/>
                 <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1 confirmDialog2" global="false"/>      
-                <p:ajax event="rowToggle" global="false" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1 confirmDialog2" />
-                <p:ajax event="rowSelect" global="false" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1 confirmDialog2" />
-                <p:ajax event="rowUnselect" global="false" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1 confirmDialog2" />
+                <p:ajax event="rowToggle"  partialSubmit="true" global="false" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1 confirmDialog2" />
+                <p:ajax event="rowSelect"  partialSubmit="true" global="false" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1 confirmDialog2" />
+                <p:ajax event="rowUnselect"  partialSubmit="true" global="false" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1 confirmDialog2" />
                 <p:column style="text-align: center;" width="20"> 
                     <h:outputText value="#{row+1}"/>
                 </p:column>

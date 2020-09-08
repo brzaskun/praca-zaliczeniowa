@@ -30,8 +30,8 @@
                 <p:commandButton value="drukuj zestawienie" actionListener="#{fakturaView.drukujfakturysporzadzone}" style="width: 150px; margin-left: 30px;"/>
                 </p:panelGrid>
             </p:panel>
-            <p:dataTable id="dokumentyLista_edit" value="#{fakturaView.faktury_edit}" var="wpis" rowIndexVar="row" filteredValue="#{fakturaView.faktury_edit_filter}" 
-                         selection="#{fakturaView.faktury_edit_select}" rowKey="#{wpis.numerkolejny}" widgetVar="dokTableFaktury" rowSelectMode="add" style="max-width: 1400px;"
+            <p:dataTable id="dokumentyLista_edit" value="#{fakturaView.faktury_edit}" var="wpis" filteredValue="#{fakturaView.faktury_edit_filter}" 
+                         selection="#{fakturaView.faktury_edit_select}" rowKey="#{wpis.numerkolejny}" widgetVar="dokTableFakturyedit" rowSelectMode="add" style="max-width: 1400px;"
                          sortBy="#{wpis.numerkolejny}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}" emptyMessage="Nie sporządzono faktur w tym miesiącu">
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie wygenerowanych faktur w mc #{WpisView.miesiacWpisu} " />  
