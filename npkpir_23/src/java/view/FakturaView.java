@@ -282,20 +282,20 @@ public class FakturaView implements Serializable {
 //            }
 //        }
         for (Faktura fakt : fakturytmp) {
-                if (!fakt.isTylkodlaokresowej()) {
-                        if (fakt.isProforma()) {
-                            fakturypro.add(fakt);
-                        } else if (fakt.getWyslana() == true && fakt.getZaksiegowana() == true) {
-                            fakturyarchiwum.add(fakt);
-                        } else if (fakt.isRecznaedycja()) {
-                            faktury_edit.add(fakt);
-                        } else if (pokaztylkoniewyslane && fakt.getDatawysylki()==null) {
-                            faktury.add(fakt);
-                        } else if (!pokaztylkoniewyslane) {
-                            faktury.add(fakt);
-                        }
-                    }
+            if (!fakt.isTylkodlaokresowej()) {
+                if (fakt.isProforma()) {
+                    fakturypro.add(fakt);
+                } else if (fakt.getWyslana() == true && fakt.getZaksiegowana() == true) {
+                    fakturyarchiwum.add(fakt);
+                } else if (fakt.isRecznaedycja()) {
+                    faktury_edit.add(fakt);
+                } else if (pokaztylkoniewyslane && fakt.getDatawysylki()==null) {
+                    faktury.add(fakt);
+                } else if (!pokaztylkoniewyslane) {
+                    faktury.add(fakt);
+                }
             }
+        }
         Fakturaelementygraficzne elementgraficzny = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
         if (elementgraficzny != null) {
             sprawdzczyniezniknalplik(elementgraficzny.getFakturaelementygraficznePK().getNazwaelementu());
