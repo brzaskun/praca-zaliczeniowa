@@ -31,7 +31,7 @@
                          sortBy="#{item.nrdokumentu}" sortFunction="#{fakturaRozrachunkiRozlView.sortujfaktrozrach}" sortOrder="descending" 
                          emptyMessage="niczego nie zaksięgowano w miesiącu #{WpisView.miesiacWpisu}" id="wprowadzonetabela"
                          widgetVar="fakturarozliczenia_tablica" editable="true" paginator="true" rows="10" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                         rowsPerPageTemplate="10,20,50,100">
+                         rowsPerPageTemplate="20,40,80,120">
                 <p:ajax event="rowEdit" listener="#{fakturaRozrachunkiView.onRowEdit}"/>
                 <p:ajax event="filter" global="false" oncomplete="przeliczfilter1();"/>
                 <p:column width="30" sortBy="#{item.lp}" sortable="true">

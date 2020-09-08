@@ -28,11 +28,9 @@
                 <p:commandButton value="mail wybrane" actionListener="#{fakturaRozrachunkiAnalizaView.mailwezwaniezbiorcze()}"  style="width: 120px; margin-left: 20px;"/>
                 <h:outputText value="pokaż nadpłaty" style="margin-left: 20px;"/>
                 <p:selectBooleanCheckbox value="#{fakturaRozrachunkiAnalizaView.pokaznadplaty}" style="margin-left: 10px;">
-                    <p:ajax event="change" partialSubmit="true"  listener="#{fakturaRozrachunkiAnalizaView.zestawieniezbiorcze()}" update="fakturaanalizazbiorcza akordeon:fakturaanaliza:wyborklienta"/>
                 </p:selectBooleanCheckbox>
                 <h:outputText value="tylko przeterminowane" style="margin-left: 20px;"/>
                 <p:selectBooleanCheckbox value="#{fakturaRozrachunkiAnalizaView.tylkoprzeterminowane}" style="margin-left: 10px;">
-                    <p:ajax event="change" partialSubmit="true" listener="#{fakturaRozrachunkiAnalizaView.zestawieniezbiorcze()}" update="fakturaanalizazbiorcza akordeon:fakturaanaliza:wyborklienta"/>
                 </p:selectBooleanCheckbox>
                 <p:panelGrid columns="2" style="padding: 10px;" id="suma">
                 <h:outputText value="suma"/>

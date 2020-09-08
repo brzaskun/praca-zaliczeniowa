@@ -79,10 +79,12 @@
                     <p:inputText id="globalFilter" onkeyup="PF('okresTable').filter()" style="width:150px" />  
                 </f:facet>
                 <p:ajax event="filter" global="false"/>
-                <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1" global="false"/>
-                <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1" global="false"/>
-                <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1" global="false"/>      
-                <p:ajax event="rowToggle" global="false" />
+                <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1  confirmDialog2" global="false"/>
+                <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1 confirmDialog2" global="false"/>
+                <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranychokresowe}" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1 confirmDialog2" global="false"/>      
+                <p:ajax event="rowToggle" global="false" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1 confirmDialog2" />
+                <p:ajax event="rowSelect" global="false" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1 confirmDialog2" />
+                <p:ajax event="rowUnselect" global="false" update=":akordeon:formokresowe:panelsumokresowe confirmDialog1 confirmDialog2" />
                 <p:column style="text-align: center;" width="20"> 
                     <h:outputText value="#{row+1}"/>
                 </p:column>
@@ -210,7 +212,7 @@
             </p:dataTable>
              <p:contextMenu for=":akordeon:formokresowe:dokumentyOkresowe" style="width: 250px;">
                 <p:menuitem value="#{mgs.drukuj}" update=":form1:messages" actionListener="#{fakturaView.drukujokresowa()}" icon="ui-icon-print" />
-                <p:menuitem value="Wygeneruj" update=":form1:messages, :akordeon:formzestawienie:dokumentyZestawienie" global="false" onclick="PF('confirmationFakturaOkresowe').show()" icon="ui-icon-lightbulb" />
+                <p:menuitem value="Wygeneruj" update=":form1:messages, :akordeon:formzestawienie:dokumentyZestawienie " global="false" onclick="PF('confirmationFakturaOkresowe').show()" icon="ui-icon-lightbulb" />
                 <p:menuitem value="Wygeneruj do edycji" update=":form1:messages, :akordeon:formzestawienie:dokumentyZestawienie" global="false" onclick="PF('confirmationFakturaOkresowe2').show()" icon="ui-icon-lightbulb" />
                 <p:menuitem value="Wygeneruj z waloryzacją" update=":form1:messages" actionListener="#{fakturaView.wygenerujzokresowychwaloryzacja()}" icon="ui-icon-lightbulb" />
                 <p:menuitem value="Usuń wybrane" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.usunfaktureokresowa()}" icon="ui-icon-trash" />

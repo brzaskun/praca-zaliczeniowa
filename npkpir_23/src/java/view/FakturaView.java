@@ -40,8 +40,6 @@ import entity.EVatwpis1;
 import entity.Evewidencja;
 import entity.Faktura;
 import entity.FakturaDodPozycjaKontrahent;
-import entity.FakturaStopkaNiemiecka;
-import entity.FakturaWalutaKonto;
 import entity.Fakturadodelementy;
 import entity.Fakturaelementygraficzne;
 import entity.Fakturywystokresowe;
@@ -50,7 +48,6 @@ import entity.KwotaKolumna1;
 import entity.Logofaktura;
 import entity.Podatnik;
 import entity.Rodzajedok;
-import entity.Uz;
 import entityfk.Dokfk;
 import entityfk.Tabelanbp;
 import error.E;
@@ -66,7 +63,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
@@ -76,7 +72,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
-import javax.persistence.PersistenceException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import mail.MailOther;
@@ -140,8 +135,12 @@ public class FakturaView implements Serializable {
     private FakturaDodPozycjaKontrahentDAO fakturaDodPozycjaKontrahentDAO;
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
-    //faktury z bazy danych
+    //faktury stworzone
     private List<Faktura> faktury;
+    //faktury stworzone do edycji
+    private List<Faktura> faktury_edit;
+    private List<Faktura> faktury_edit_select;
+    private List<Faktura> faktury_edit_filter;
     //faktury z bazy danych przefiltrowane
     private List<Faktura> fakturyFiltered;
     //faktury z bazy danych proforma
@@ -207,6 +206,7 @@ public class FakturaView implements Serializable {
     private double dolnylimit;
     private double gornylimit;
     private boolean pokaztylkoniewyslane;
+    private boolean mailplussms;
         
 
     public FakturaView() {
@@ -221,11 +221,13 @@ public class FakturaView implements Serializable {
         waloryzajca = 0.0;
         kwotaprzedwaloryzacja = 0.0;
         faktury = Collections.synchronizedList(new ArrayList<>());
+        faktury_edit = Collections.synchronizedList(new ArrayList<>());
         fakturypro = Collections.synchronizedList(new ArrayList<>());
         fakturyarchiwum = Collections.synchronizedList(new ArrayList<>());
         fakturyokresoweFiltered = null;
         fakturyFiltered = null;
         aktywnytab = 1;
+        mailplussms = true;
         fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         Collections.sort(fakturyokresowe, new Fakturyokresowecomparator());
         List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu());
@@ -285,6 +287,8 @@ public class FakturaView implements Serializable {
                             fakturypro.add(fakt);
                         } else if (fakt.getWyslana() == true && fakt.getZaksiegowana() == true) {
                             fakturyarchiwum.add(fakt);
+                        } else if (fakt.isRecznaedycja()) {
+                            faktury_edit.add(fakt);
                         } else if (pokaztylkoniewyslane && fakt.getDatawysylki()==null) {
                             faktury.add(fakt);
                         } else if (!pokaztylkoniewyslane) {
@@ -513,6 +517,9 @@ public class FakturaView implements Serializable {
         try {
             if (selected.isWygenerowanaautomatycznie() == true) {
                 selected.setWygenerowanaautomatycznie(false);
+            }
+            if (selected.isRecznaedycja()) {
+                selected.setRecznaedycja(false);
             }
             if (selected.getIdfakturaokresowa()!=null && selected.isTylkodlaokresowej()) {
                 String nowynumer = String.valueOf(new DateTime().getMillis());
@@ -1445,6 +1452,7 @@ public class FakturaView implements Serializable {
                 Faktura nowa = SerialClone.clone(p.getDokument());
                 nowa.setId(null);
                 nowa.setDatawysylki(null);
+                nowa.setRecznaedycja(p.isRecznaedycja());
                 if (wpisView.getPodatnikObiekt().getNip().equals("8511005008")) {
                     dodajwierszedodatkowe(nowa);
                 }
@@ -1509,7 +1517,11 @@ public class FakturaView implements Serializable {
                 FakturaBean.wielekont(nowa, fakturaWalutaKontoView.getListakontaktywne(), fakturaStopkaNiemieckaDAO, wpisView.getPodatnikObiekt());
                 try {
                     fakturaDAO.dodaj(nowa);
-                    faktury.add(nowa);
+                    if (nowa.isRecznaedycja()) {
+                        faktury_edit.add(nowa);
+                    } else {
+                        faktury.add(nowa);
+                    }
                     if (fakturanowyrok == 0) {
                         String datawystawienia = nowa.getDatawystawienia();
                         String miesiac = datawystawienia.substring(5, 7);
@@ -1904,9 +1916,11 @@ public class FakturaView implements Serializable {
             pdfFaktura.drukujmail(wybrane, wpisView);
             Fakturadodelementy stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
             MailOther.faktura(wybrane, wpisView, fakturaDAO, wiadomoscdodatkowa, stopka.getTrescelementu(), SMTPBean.pobierzSMTP(sMTPSettingsDAO, wpisView.getUzer()), sMTPSettingsDAO.findSprawaByDef());
-            Map<String, String> zwrot = SmsSend.wyslijSMSyFakturyLista(wybrane, "Na adres firmy wysłano właśnie fakturę.", podatnikDAO);
-            if (zwrot.size()>0) {
-                Msg.msg("e","Błąd podczas wysyłki faktury "+zwrot.size());
+            if (mailplussms) {
+                Map<String, String> zwrot = SmsSend.wyslijSMSyFakturyLista(wybrane, "Na adres firmy wysłano właśnie fakturę.", podatnikDAO);
+                if (zwrot.size()>0) {
+                    Msg.msg("e","Błąd podczas wysyłania sms do faktury "+zwrot.size());
+                }
             }
         } catch (Exception e) { E.e(e); 
             Msg.msg("e","Błąd podczas wysyłki faktury "+e.getMessage());
@@ -1920,6 +1934,13 @@ public class FakturaView implements Serializable {
             } else if (faktury !=null && faktury.size() > 0) {
                 pdfFaktura.drukujmasa(faktury, wpisView);
             }
+        } catch (Exception e) { E.e(e); 
+        }
+    }
+    
+    public void pdffaktura_edit() {
+        try {
+            pdfFaktura.drukujmasa(f.l.l(faktury_edit, faktury_edit_filter, faktury_edit_select), wpisView);
         } catch (Exception e) { E.e(e); 
         }
     }
@@ -2617,6 +2638,25 @@ public class FakturaView implements Serializable {
     public static void main(String[] args) {
     }
     
+    public void usunfakture(Faktura fakt) {
+        if (fakt!=null) {
+            try {
+                fakturaDAO.destroy(fakt);
+                faktury_edit.remove(fakt);
+                usundodatkowewiersze(fakt);
+                if (faktury_edit_filter != null) {
+                    faktury_edit_filter.remove(fakt);
+                }
+                if (fakt.isWygenerowanaautomatycznie() == true) {
+                    zaktualizujokresowa(fakt);
+                }
+                Msg.msg("Usunięto wybraną fakturę");
+            } catch (Exception e) {
+                Msg.msg("e","Wsytąpił błąd nie usunięto wybranej faktury");
+            }
+        }
+    }
+    
     public void pokazedytor(int i) {
         if (i==1) {
             podazedytorvar = true;
@@ -2748,6 +2788,38 @@ public class FakturaView implements Serializable {
 
     public void setPokaztylkoniewyslane(boolean pokaztylkoniewyslane) {
         this.pokaztylkoniewyslane = pokaztylkoniewyslane;
+    }
+
+    public boolean isMailplussms() {
+        return mailplussms;
+    }
+
+    public void setMailplussms(boolean mailplussms) {
+        this.mailplussms = mailplussms;
+    }
+
+    public List<Faktura> getFaktury_edit() {
+        return faktury_edit;
+    }
+
+    public void setFaktury_edit(List<Faktura> faktury_edit) {
+        this.faktury_edit = faktury_edit;
+    }
+
+    public List<Faktura> getFaktury_edit_select() {
+        return faktury_edit_select;
+    }
+
+    public void setFaktury_edit_select(List<Faktura> faktury_edit_select) {
+        this.faktury_edit_select = faktury_edit_select;
+    }
+
+    public List<Faktura> getFaktury_edit_filter() {
+        return faktury_edit_filter;
+    }
+
+    public void setFaktury_edit_filter(List<Faktura> faktury_edit_filter) {
+        this.faktury_edit_filter = faktury_edit_filter;
     }
     
     

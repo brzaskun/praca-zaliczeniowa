@@ -29,20 +29,23 @@ public class FakturaStopkaNiemieckaDAO  extends DAO implements Serializable {
     }
     
     public  List<FakturaStopkaNiemiecka> findAll(){
+        List<FakturaStopkaNiemiecka> zwrot = null;
         try {
-            return sessionFacade.findAll(FakturaStopkaNiemiecka.class);
+            zwrot = sessionFacade.findAll(FakturaStopkaNiemiecka.class);
         } catch (Exception e) { 
             E.e(e); 
-            return null;
         }
+        return zwrot;
    }
 
     public FakturaStopkaNiemiecka findByPodatnik(Podatnik podatnikObiekt) {
+        FakturaStopkaNiemiecka zwrot = null;
         try {
-            return sessionFacade.findStopkaNiemieckaByPodatnik(podatnikObiekt);
+            zwrot = sessionFacade.findStopkaNiemieckaByPodatnik(podatnikObiekt);
         } catch (Exception e) {
-            return null;
+            E.e(e); 
         }
+        return zwrot;
     }
     
 }

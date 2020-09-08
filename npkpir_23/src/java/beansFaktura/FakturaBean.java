@@ -21,6 +21,7 @@ import entity.FakturaStopkaNiemiecka;
 import entity.FakturaWalutaKonto;
 import entity.Podatnik;
 import entityfk.Tabelanbp;
+import error.E;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -275,6 +276,7 @@ public class FakturaBean {
                             fakturaStopkaNiemieckaDAO.edit(fakturaStopkaNiemiecka);
                         }
                     } catch (Exception e) {
+                        E.e(e);
                     }
                    break;
                 }

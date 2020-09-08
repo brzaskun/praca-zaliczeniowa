@@ -307,6 +307,8 @@ public class Faktura implements Serializable {
     private String datawaloryzacji;
     @Column (name = "procentwaloryzacji")
     private double procentwaloryzacji;
+    @Column(name = "recznaedycja")
+    private boolean recznaedycja;
     
   
 
@@ -408,6 +410,14 @@ public class Faktura implements Serializable {
 
     public void setWystawcanazwa(String wystawcanazwa) {
         this.wystawcanazwa = wystawcanazwa;
+    }
+
+    public boolean isRecznaedycja() {
+        return recznaedycja;
+    }
+
+    public void setRecznaedycja(boolean recznaedycja) {
+        this.recznaedycja = recznaedycja;
     }
 
     public Klienci getOdbiorca() {
