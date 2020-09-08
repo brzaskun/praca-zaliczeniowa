@@ -48,6 +48,9 @@ public class KlienciConverterFakturaView implements Serializable{
     
     
     public List<Klienci> completeKL(String query) {
+        if (listaKlientowfakt==null) {
+            listaKlientowfakt = new ArrayList<Klienci>(new HashSet<Klienci>(fakturaDAO.findKontrahentFakturyRO(wpisView.getPodatnikObiekt())));
+        }
         List<Klienci> results = Collections.synchronizedList(new ArrayList<>());
         if (query.length() > 3) {
             results = completeKLcd(listaKlientowfakt, query, 0);
@@ -72,16 +75,18 @@ public class KlienciConverterFakturaView implements Serializable{
             results = listaKlientow.stream().filter((p)->(p.getNip().startsWith(query2))).collect(Collectors.toList()); 
         } else {
             try {
-                //sluzydosporawdzenia czy chodzi o nip
-                String q = query.substring(0, 1);
-                int i = Integer.parseInt(q);
-                results = listaKlientow.stream().filter((p)->(p.getNip().startsWith(query))).collect(Collectors.toList()); 
-            } catch (NumberFormatException e) {
                 try {
-                    String query2 = query.toLowerCase();
-                    results = listaKlientow.stream().filter((p)->(p.getNpelna().toLowerCase().contains(query2.toLowerCase()))).collect(Collectors.toList()); 
-                } catch (Exception ex) {}
-            }
+                    //sluzydosporawdzenia czy chodzi o nip
+                    String q = query.substring(0, 1);
+                    int i = Integer.parseInt(q);
+                    results = listaKlientow.stream().filter((p)->(p.getNip().startsWith(query))).collect(Collectors.toList()); 
+                } catch (NumberFormatException e) {
+                    try {
+                        String query2 = query.toLowerCase();
+                        results = listaKlientow.stream().filter((p)->(p.getNpelna().toLowerCase().contains(query2.toLowerCase()))).collect(Collectors.toList()); 
+                    } catch (Exception ex) {}
+                }
+            } catch (Exception e){}
         }
         if (krok==1) {
             pattern = Pattern.compile("[0-9]{10}");
