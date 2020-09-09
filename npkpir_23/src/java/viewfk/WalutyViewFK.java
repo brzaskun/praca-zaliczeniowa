@@ -216,17 +216,21 @@ public class WalutyViewFK implements Serializable {
     public void dodajkurs(Tabelanbp tabelanbp, Podatnik podatnik) {
         try {
             tabelanbp.setNrtabeli(tabelanbp.getNrtabeli().toUpperCase(new Locale("PL")));
-            tabelanbp.setRecznie(true);
-            tabelanbp.setPodatnik(podatnik);
-            tabelanbpDAO.dodaj(tabelanbp);
-            wprowadzonekursyRok.add(tabelanbp);
-            dokfkView.zamienkursnareczny(tabelanbp);
-            kurswprowadzonyrecznie = new Tabelanbp();
-            kurswprowadzonyrecznie.setNrtabeli(generujNumerTabeli(tabelanbp.getNrtabeli().split("/")[2], wprowadzonekursyRok));
-            Msg.msg("Dodałem tabelę NBP");
-            PrimeFaces.current().ajax().update(":formkursrecznie :formwpisdokument:panelTabelaNBP :wprowadzonekursyrecznie");
-            PrimeFaces.current().executeScript("PF('dialogkursrecznie').hide()");
-            PrimeFaces.current().executeScript("powrotpozmianietabeli()");
+            if (tabelanbp.getNrtabeli().contains("NBP")) {
+                Msg.msg("e","Nie wolno dodawać tabeli NBP ręcznie");
+            } else {
+                tabelanbp.setRecznie(true);
+                tabelanbp.setPodatnik(podatnik);
+                tabelanbpDAO.dodaj(tabelanbp);
+                wprowadzonekursyRok.add(tabelanbp);
+                dokfkView.zamienkursnareczny(tabelanbp);
+                kurswprowadzonyrecznie = new Tabelanbp();
+                kurswprowadzonyrecznie.setNrtabeli(generujNumerTabeli(tabelanbp.getNrtabeli().split("/")[2], wprowadzonekursyRok));
+                Msg.msg("Dodałem tabelę walut");
+                PrimeFaces.current().ajax().update(":formkursrecznie :formwpisdokument:panelTabelaNBP :wprowadzonekursyrecznie");
+                PrimeFaces.current().executeScript("PF('dialogkursrecznie').hide()");
+                PrimeFaces.current().executeScript("powrotpozmianietabeli()");
+            }
         } catch (Exception e) {  
             E.e(e);
             List<Tabelanbp> kursypokrewne = Collections.synchronizedList(new ArrayList<>());

@@ -12,8 +12,8 @@
             height: 40px;
         }
     </style>
-    <p:dialog id="dialogczwarty" header="Zestawienie zapisów w dokumentach - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zapisywdokumentach"
-              resizable="false"  onShow="ustawdialog('dialogczwarty','menudokumenty', 1330, 750);" closeOnEscape="true" onHide="resetujdialog('dialogczwarty');" maximizable="true">
+        <p:dialog id="dialogczwarty" header="Zestawienie zapisów w dokumentach - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="zapisywdokumentach" style="overflow-y: hidden;"
+              resizable="false"  onShow="ustawdialog('dialogczwarty','menudokumenty', 1400, 750);" closeOnEscape="true" onHide="resetujdialog('dialogczwarty');" maximizable="true">
         <h:form id="zestawieniezapisownakontach">
             <p:panelGrid columns="6" style="margin-left: 2%;" >
                 <p:column>
@@ -36,10 +36,12 @@
             <p:contextMenu id="contextmenuwpis" for="zestawieniezapisownakontach:dataList">
                 <p:menuitem value="Pokazdokument" global="false" icon="ui-icon-circle-plus" onclick="zapisywierszywybordok();"/>
             </p:contextMenu>
-            <p:dataTable id="dataList" value="#{wierszeView.wiersze}" var="loop" rowIndexVar="row" style="width: 1300px; height: 640px; overflow-y: scroll;" 
+            <p:dataTable id="dataList" value="#{wierszeView.wiersze}" var="loop" rowIndexVar="row" style="width: 1350px; height: 640px; overflow-y: scroll;" 
                          widgetVar="dokwpisTable" emptyMessage="Nie pobrano wierszy" styleClass="tabelawierszy"
                          filteredValue="#{wierszeView.wierszefiltered}"
-                         rowKey="#{loop.idwiersza}" editable="true" selection="#{dokfkView.wiersz}" selectionMode="single" sortBy="#{loop.dokfk.datadokumentu}">
+                         rowKey="#{loop.idwiersza}" editable="true" selection="#{dokfkView.wiersz}" selectionMode="single" sortBy="#{loop.dokfk.datadokumentu}"
+                         rowsPerPageTemplate="100,200,300,400" paginatorPosition="top" paginator="#{wierszeView.wiersze.size() gt 100 ? 'true':'false'}" rows="100"
+                         >
                 <p:ajax global="false" event="rowSelect" listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia()}" 
                         update=":formwpisdokument, :zestawieniezapisownakontachpola"/>
                 <p:ajax event="filter" global="false" listener="#{wierszeView.sumujwiersze()}" update="zestawieniezapisownakontach_footer"/>
@@ -48,18 +50,21 @@
 <!--                    <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="PF('dokwpisTable').filter()" style="width:150px" />  -->
                 </f:facet>
+                <p:column headerText="import" width="30" filterBy="#{loop.dokfk.importowany}" sortBy="#{loop.dokfk.importowany}" style="text-align: center;">
+                    <h:outputText value="#{loop.dokfk.importowany ? 'tak':null}" style="color: red"/>
+                </p:column>
                 <p:column headerText="bez rozr." width="50"  style="text-align: center;">
                     <h:outputText value="#{loop.stronaWn.konto.zwyklerozrachszczegolne eq 'rozrachunkowe' ? (loop.stronaWn.typStronaWiersza eq 0 ? 'Wn ' : null) : null}"/>
                     <h:outputText value="#{loop.stronaMa.konto.zwyklerozrachszczegolne eq 'rozrachunkowe' ? (loop.stronaMa.typStronaWiersza eq 0 ? 'Ma' : null) : null}"/>
                 </p:column>
-                 <p:column headerText="data dokum" width="50">
+                <p:column headerText="data dokum" width="50">
                      <h:outputText value="#{loop.dokfk.datadokumentu.substring(2)}" style="#{loop.dokfk.datadokumentu.length() ne 10 ? 'color: red;': null}"/>
                 </p:column>
-                <p:column headerText="id dokumentu" width="90" sortBy="#{loop.dokfk.dokfkLP}" filterBy="#{loop.dokfk.dokfkLP}">
-                     <h:outputText value="#{loop.dokfk.dokfkLP}"/>
+                <p:column headerText="id dokumentu" width="90" sortBy="#{loop.dokfkS}" filterBy="#{loop.dokfkS}">
+                     <h:outputText value="#{loop.dokfkS}"/>
                 </p:column>
                 <p:column headerText="nr własny" width="120" sortBy="#{loop.dokfk.numerwlasnydokfk}" filterBy="#{loop.dokfk.numerwlasnydokfk}">
-                    <h:outputText value="#{loop.dokfk.numerwlasnydokfk}"/>
+                    <h:outputText value="#{loop.dokfk.numerwlasnydokfk}" style="#{loop.dokfk.importowany ? 'color: blue':null}"/>
                 </p:column>
                 <p:column headerText="lp wier." width="30" filterBy="#{loop.idporzadkowy}" style="text-align: center;"
                           filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.idporzadkowy}">

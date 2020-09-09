@@ -2369,11 +2369,23 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
     public SMTPSettings findSMTPSettingsByUzytkownik(Uz uzytkownik) {
-        return (SMTPSettings) em.createNamedQuery("SMTPSettings.findByUzytkownik").setParameter("uzytkownik", uzytkownik).getSingleResult();
+        SMTPSettings zwrot = null;
+        try {
+            zwrot = (SMTPSettings) em.createNamedQuery("SMTPSettings.findByUzytkownik").setParameter("uzytkownik", uzytkownik).getSingleResult();
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
     }
 
     public SMTPSettings findSMTPSettingsByDef() {
-        return (SMTPSettings) em.createNamedQuery("SMTPSettings.findByDef").getSingleResult();
+        SMTPSettings zwrot = null;
+        try {
+            zwrot = (SMTPSettings) em.createNamedQuery("SMTPSettings.findByDef").getSingleResult();
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
     }
 
     public List<UmorzenieN> findUmorzenieBySrodek(SrodekTrw str) {

@@ -256,6 +256,9 @@ function ustawDateFK(rok,mc, koncowkaadresu, zapisz0edytuj1){
           if (!testw.match(re)){
               nrTabeli.value = "b\u0142ędny numer tabeli";
           }
+          if (testw.indexOf("NBP")>-1) {
+              nrTabeli.value = "b\u0142ędny numer tabeli";
+          }
       } catch (e) {
           
       }
