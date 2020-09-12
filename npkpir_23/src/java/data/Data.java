@@ -323,6 +323,18 @@ public class Data implements Serializable {
         }
         return zwrot;
     }
+    /**
+     * @param mcgraniczny mcgraniczny
+     * @param rokgraniczny rokgraniczny
+     * @param mcbadanegookresu mcbadanegookresu
+     * @param rokbadanegookresu rokbadanegookresu
+     * 
+     */
+    public static boolean czyjestpomc(String mcgraniczny, String rokgraniczny, String mcbadanegookresu, String rokbadanegookresu) {
+        int wynikporównania = -1;
+        wynikporównania  = compare(rokbadanegookresu, mcbadanegookresu,rokbadanegookresu, mcgraniczny);
+        return wynikporównania > -1;
+    }
 
     public static boolean czyjestprzed(String dataDo, String rok, String mc) {
         boolean zwrot = false;

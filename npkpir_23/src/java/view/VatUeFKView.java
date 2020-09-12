@@ -43,6 +43,9 @@ import javax.inject.Inject;
 import msg.Msg;import pdf.PdfVATUEdekl;
 import pdf.PdfVatUE;
 import pdffk.PdfVIES;
+import pl.gov.crd.wzor._2020._07._03._9689.VATUEKM5Bean;
+import pl.gov.crd.wzor._2020._07._03._9689.*;
+import pl.gov.crd.wzor._2020._07._03._9690.VATUEM5Bean;
 import vies.VIESCheckBean;
 import vies.Vies;
 import waluty.Z;
@@ -479,8 +482,10 @@ public class VatUeFKView implements Serializable {
     public boolean robdeklaracje(List<VatUe> lista, boolean korekta, int nrkolejny) {
         boolean zwrot = false;
         try {
-            String deklaracja = sporzadz(lista, korekta);
-            Object[] walidacja = XMLValid.walidujCMLVATUE(deklaracja,0);
+            List zwrotdekl = sporzadz(lista, korekta);
+            String deklaracja = (String) zwrotdekl.get(0);
+            Object dekl_object = zwrotdekl.get(1);
+            Object[] walidacja = XMLValid.walidujCMLVATUE(deklaracja,dekl_object, 0);
             if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
                 Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
                 if (podpisanadeklaracja != null) {
@@ -493,7 +498,7 @@ public class VatUeFKView implements Serializable {
                     //deklaracjavatUEDAO.dodaj(deklaracjavatUE); dodamy ja przy wysylce bo wtedy robimy edit dok
                     deklaracjeUE.add(deklaracjavatUE);
                     deklaracjeUE_biezace.add(deklaracjavatUE);
-                    Msg.msg("Sporządzono deklarację VAT-UE miesięczną wersja 4");
+                    Msg.msg("Sporządzono deklarację VAT-UE miesięczną");
                     zwrot = true;
                 } else {
                     Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UE. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
@@ -511,8 +516,10 @@ public class VatUeFKView implements Serializable {
      public boolean robdeklaracjekorekta(List<VatUe> lista, List<VatUe> staralista, boolean korekta, int nrkolejny) {
         boolean zwrot = false;
         try {
-            String deklaracja = sporzadzkorekta(lista, staralista, korekta);
-            Object[] walidacja = XMLValid.walidujCMLVATUE(deklaracja,1);
+            List zwrotdekl = sporzadzkorekta(lista, staralista, korekta);
+            String deklaracja = (String) zwrotdekl.get(0);
+            Object dekl_object = zwrotdekl.get(1);
+            Object[] walidacja = XMLValid.walidujCMLVATUE(deklaracja,dekl_object, 1);
             if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
                 Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
                 if (podpisanadeklaracja != null) {
@@ -541,25 +548,53 @@ public class VatUeFKView implements Serializable {
         return zwrot;
     }
     
-    private String sporzadz(List<VatUe> lista, boolean korekta) {
-        deklaracje.vatue.m4.Deklaracja deklaracja = new deklaracje.vatue.m4.Deklaracja();
-        String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
-        deklaracja.setNaglowek(VATUEM4Bean.tworznaglowek(wpisView.getMiesiacWpisu(),wpisView.getRokWpisuSt(),kodurzedu));
-        deklaracja.setPodmiot1(VATUEM4Bean.podmiot1(wpisView));
-        deklaracja.setPozycjeSzczegolowe(VATUEM4Bean.pozycjeszczegolowe(lista));
-        deklaracja.setPouczenie(BigDecimal.ONE);
-        return VATUEM4Bean.marszajuldoStringu(deklaracja, wpisView);
+    private List sporzadz(List<VatUe> lista, boolean korekta) {
+        List zwrot = new ArrayList<>();
+        if (data.Data.czyjestpomc("07","2020", wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt())) {
+            pl.gov.crd.wzor._2020._07._03._9690.Deklaracja deklaracja = new pl.gov.crd.wzor._2020._07._03._9690.Deklaracja();
+            String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
+            deklaracja.setNaglowek(VATUEM5Bean.tworznaglowek(wpisView.getMiesiacWpisu(),wpisView.getRokWpisuSt(),kodurzedu));
+            deklaracja.setPodmiot1(VATUEM5Bean.podmiot1(wpisView));
+            deklaracja.setPozycjeSzczegolowe(VATUEM5Bean.pozycjeszczegolowe(lista));
+            deklaracja.setPouczenie(BigDecimal.ONE);
+            zwrot.add(VATUEM5Bean.marszajuldoStringu(deklaracja, wpisView));
+            zwrot.add(deklaracja);
+        } else {
+            deklaracje.vatue.m4.Deklaracja deklaracja = new deklaracje.vatue.m4.Deklaracja();
+            String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
+            deklaracja.setNaglowek(VATUEM4Bean.tworznaglowek(wpisView.getMiesiacWpisu(),wpisView.getRokWpisuSt(),kodurzedu));
+            deklaracja.setPodmiot1(VATUEM4Bean.podmiot1(wpisView));
+            deklaracja.setPozycjeSzczegolowe(VATUEM4Bean.pozycjeszczegolowe(lista));
+            deklaracja.setPouczenie(BigDecimal.ONE);
+            zwrot.add(VATUEM4Bean.marszajuldoStringu(deklaracja, wpisView));
+            zwrot.add(deklaracja);
+        }
+        return zwrot;
     }
     
-    private String sporzadzkorekta(List<VatUe> lista, List<VatUe> staralista, boolean korekta) {
+    private List sporzadzkorekta(List<VatUe> lista, List<VatUe> staralista, boolean korekta) {
+        List zwrot = new ArrayList<>();
         List<VatUe> listaroznic = sporzadzroznice(lista, staralista);
-        deklaracje.vatuek.m4.Deklaracja deklaracja = new deklaracje.vatuek.m4.Deklaracja();
-        String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
-        deklaracja.setNaglowek(VATUEKM4Bean.tworznaglowek(wpisView.getMiesiacWpisu(),wpisView.getRokWpisuSt(),kodurzedu));
-        deklaracja.setPodmiot1(VATUEKM4Bean.podmiot1(wpisView));
-        deklaracja.setPozycjeSzczegolowe(VATUEKM4Bean.pozycjeszczegolowe(listaroznic));
-        deklaracja.setPouczenie(BigDecimal.ONE);
-        return VATUEKM4Bean.marszajuldoStringu(deklaracja, wpisView);
+        if (data.Data.czyjestpomc("07","2020", wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt())) {
+            pl.gov.crd.wzor._2020._07._03._9689.Deklaracja deklaracja = new pl.gov.crd.wzor._2020._07._03._9689.Deklaracja();
+            String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
+            deklaracja.setNaglowek(VATUEKM5Bean.tworznaglowek(wpisView.getMiesiacWpisu(),wpisView.getRokWpisuSt(),kodurzedu));
+            deklaracja.setPodmiot1(VATUEKM5Bean.podmiot1(wpisView));
+            deklaracja.setPozycjeSzczegolowe(VATUEKM5Bean.pozycjeszczegolowe(listaroznic));
+            deklaracja.setPouczenie(BigDecimal.ONE);
+            zwrot.add(VATUEKM5Bean.marszajuldoStringu(deklaracja, wpisView));
+            zwrot.add(deklaracja);
+        } else {
+            deklaracje.vatuek.m4.Deklaracja deklaracja = new deklaracje.vatuek.m4.Deklaracja();
+            String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
+            deklaracja.setNaglowek(VATUEKM4Bean.tworznaglowek(wpisView.getMiesiacWpisu(),wpisView.getRokWpisuSt(),kodurzedu));
+            deklaracja.setPodmiot1(VATUEKM4Bean.podmiot1(wpisView));
+            deklaracja.setPozycjeSzczegolowe(VATUEKM4Bean.pozycjeszczegolowe(listaroznic));
+            deklaracja.setPouczenie(BigDecimal.ONE);
+            zwrot.add(VATUEKM4Bean.marszajuldoStringu(deklaracja, wpisView));
+            zwrot.add(deklaracja);
+        }
+        return zwrot;
     }
 
     private Object[] podpiszDeklaracje(String xml) {
