@@ -242,15 +242,16 @@
                             <h:outputText value="#{loop.dokfkS}-#{loop.wiersz.idporzadkowy}" rendered="#{kontoZapisFKView.pokaztransakcje eq true}" 
                                           style="#{loop.dokfkS.startsWith('WB') or loop.dokfkS.startsWith('RK') ? 'color: blue': 'color: initial'}"/>
                         </p:column>
-                        <p:column headerText="nr wl" width="70" styleClass="filter60"  style="text-align: center; font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.dokfk.numerwlasnydokfk}"
+                        <p:column headerText="nr wl" width="120" styleClass="filter60"  style="text-align: center; font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.dokfk.numerwlasnydokfk}"
                                   filterBy="#{loop.dokfk.numerwlasnydokfk}" filterMatchMode="contains">
-                            <h:outputText value="#{loop.dokfk.numerwlasnydokfk}" />
+                            <h:outputText value="#{loop.dokfk.numerwlasnydokfk}" id="opisa"/>
+                            <p:tooltip value="#{loop.dokfk.numerwlasnydokfk}" for="tabelazzapisami:tabela:#{rowindex}:opisa" trackMouse="true"/>
                         </p:column>
                         <p:column headerText="#{mgs.kontrahent}" width="100" sortBy="##{loop.getKontrahetZapisy(WpisView.podatnikObiekt.nip)}" 
                                   rendered="#{!kontoZapisFKView.wybranekonto.pelnynumer.startsWith('20')}">
                             <h:outputText value="#{loop.getKontrahetZapisy(WpisView.podatnikObiekt.nip)}" />
                         </p:column>
-                        <p:column headerText="#{mgs.opis}" width="150" sortBy="#{loop.wiersz.opisWiersza}" filterBy="#{loop.wiersz.opisWiersza}" filterMatchMode="contains" rendered="#{kontoZapisFKView.kolumnaopis}"
+                        <p:column headerText="#{mgs.opis}" width="100" sortBy="#{loop.wiersz.opisWiersza}" filterBy="#{loop.wiersz.opisWiersza}" filterMatchMode="contains" rendered="#{kontoZapisFKView.kolumnaopis}"
                                   style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;">
                             <h:outputText value="#{loop.wiersz.opisWiersza}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;" />
                         </p:column>

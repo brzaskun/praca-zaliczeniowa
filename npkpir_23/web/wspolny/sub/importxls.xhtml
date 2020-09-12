@@ -125,12 +125,12 @@
                     <h:outputText value="#{itemimp.kontrahent}"/>
                 </p:column>
                 <p:column headerText="kraj" width="40" sortBy="#{itemimp.klient.krajkod}" filterBy="#{itemimp.klient.krajkod}" filterMaxLength="3">
-                    <h:outputText value="#{itemimp.klient.krajkod}"/>
+                    <h:outputText value="#{itemimp.klient.krajkod ne null ? itemimp.klient.krajkod:'BRAK'}" style="#{itemimp.klient.krajkod eq null ? 'color: red':null}"/>
                 </p:column>
                 <p:column headerText="nip" width="80" sortBy="#{itemimp.nip}" filterBy="#{itemimp.nip}" >
                     <h:outputText value="#{itemimp.nip}"/>
                 </p:column>
-                <p:column headerText="nazwa fk" width="140" sortBy="#{itemimp.klient.npelna}" filterBy="#{itemimp.klient.npelna}" >
+                <p:column headerText="nazwafk" width="140" sortBy="#{itemimp.klient.npelna}" filterBy="#{itemimp.klient.npelna}" >
                     <h:outputText value="#{itemimp.klient.npelna}" rendered="#{itemimp.klient ne null}"/>
                     <h:outputText value="nowy" rendered="#{itemimp.klient eq null}" style="color: green;"/>
                 </p:column>

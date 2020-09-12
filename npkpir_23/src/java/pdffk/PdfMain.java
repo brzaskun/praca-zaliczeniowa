@@ -984,13 +984,14 @@ public class PdfMain {
                 col[3] = 3;
                 col[4] = 3;
                 col[5] = 5;
-                col[6] = 2;
-                col[7] = 4;
-                col[8] = 3;
+                col[6] = 3;
+                col[7] = 2;
+                col[8] = 4;
                 col[9] = 3;
                 col[10] = 3;
                 col[11] = 3;
-                col[12] = 2;
+                col[12] = 3;
+                col[13] = 2;
                 return col;
             case "entity.Podatnik":
                 col = new int[size];
@@ -2327,6 +2328,7 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(Data.data_yyyyMMdd(p.getDataobvat()), "left", 8));
                 table.addCell(ustawfrazeAlign(p.getNrfaktury(), "center", 8));
                 table.addCell(ustawfrazeAlign(p.getKlientnazwa(), "left", 8));
+                table.addCell(ustawfrazeAlign(p.getNip()!=null?p.getNip():"", "left", 8));
                 table.addCell(ustawfrazeAlign(p.getKlientpaństwo(), "left", 8));
                 table.addCell(ustawfrazeAlign(p.getAdres(), "left", 8));
                 table.addCell(ustawfrazeAlign(number.format(p.getNettoPLN()), "right", 8));

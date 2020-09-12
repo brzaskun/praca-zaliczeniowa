@@ -319,6 +319,7 @@ public class testobjects {
        n.add("data ob.vat");
        n.add("nr własny");
        n.add("kontrahent");
+       n.add("nip");
        n.add("kraj");
        n.add("adres");
        n.add("netto");

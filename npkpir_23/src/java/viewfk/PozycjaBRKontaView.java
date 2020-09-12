@@ -399,6 +399,7 @@ public class PozycjaBRKontaView implements Serializable {
         } else {
             Msg.msg("Konto niezwykle");
         }
+        PlanKontFKBean.kontopozycjazapisUsun(konto, kontopozycjaZapisDAO, wybranyuklad);
         if (kontabezprzydzialu.contains(konto)) {
             kontabezprzydzialu.remove(konto);
             kontabezprzydzialu.add(konto);
@@ -464,6 +465,7 @@ public class PozycjaBRKontaView implements Serializable {
             kontabezprzydzialu.add(konto);
             Collections.sort(kontabezprzydzialu, new Kontocomparator());
         }
+        PlanKontFKBean.kontopozycjazapisUsun(konto, kontopozycjaZapisDAO, wybranyuklad);
         uzupelnijpozycjeOKontaR(pozycje);
         PrimeFaces.current().ajax().update(wybranapozycja_wiersz);
     }
@@ -560,6 +562,7 @@ public class PozycjaBRKontaView implements Serializable {
             macierzyste.setStronaMa(null);
             macierzyste.setSyntetykaanalityka(null);
             kontoDAO.edit(macierzyste);
+            PlanKontFKBean.kontopozycjazapisUsun(macierzyste, kontopozycjaZapisDAO, wybranyuklad);
             for (Konto p : listaSiostrzane) {
                 p.setPozycjaWn(null);
                 p.setPozycjaMa(null);

@@ -850,6 +850,7 @@ public class PlanKontFKBean {
             //czesc nanoszaca informacje na macierzyste
             if (konto.getKontomacierzyste() != null) {
                 PozycjaRZiSFKBean.oznaczmacierzyste(konto, kontoDAO, podatnik, true);
+                kontopozycjazapisZapisz(konto.getKontomacierzyste(), ukladBR, true, kontopozycjaZapisDAO);
             }
         } catch (Exception e) {
             E.e(e);
@@ -871,6 +872,21 @@ public class PlanKontFKBean {
         kp.setUkladBR(ukladBR);
         kp.setWynik0bilans1(wynik0bilans1);
         kontopozycjaZapisDAO.dodaj(kp);
+    }
+    
+    public static void kontopozycjazapisUsun(Konto nowe,KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
+        KontopozycjaZapis kpstare = kontopozycjaZapisDAO.findByKonto(nowe, ukladBR);
+        if (kpstare!=null) {
+            if (nowe.getPozycjaWn()==null && nowe.getPozycjaMa()==null) {
+                kontopozycjaZapisDAO.destroy(kpstare);
+            } else {
+                kpstare.setPozycjaWn(nowe.getPozycjaWn());
+                kpstare.setPozycjaMa(nowe.getPozycjaMa());
+                kpstare.setStronaWn(nowe.getStronaWn());
+                kpstare.setStronaMa(nowe.getStronaMa());
+                kontopozycjaZapisDAO.edit(kpstare);
+            }
+        }
     }
 
     public static void przyporzadkujRZiS_kontozwykle(String wybranapozycja, Konto konto, KontoDAOfk kontoDAO, Podatnik podatnik, String wnmaPrzypisywanieKont, UkladBR ukladBR, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
