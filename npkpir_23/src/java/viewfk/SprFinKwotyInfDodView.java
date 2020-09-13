@@ -280,11 +280,19 @@ public class SprFinKwotyInfDodView  implements Serializable{
             List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             List<StronaWiersza> zapisyRok = stronaWierszaDAO.findStronaByPodatnikRokRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlitykaRokPop(wpisView);
-            List<SaldoKonto> listaSaldoKonto = SaldoAnalitykaBean.przygotowanalistasaldbo(kontaklienta, kontaklientarokpop, zapisyBO, zapisyObrotyRozp, zapisyRok, wpisView.getPodatnikObiekt());
-            try {
-                SprFinInfDodBean.drukujInformacjeDodatkowa(wpisView, sprFinKwotyInfDod, listaSaldoKonto);
-            } catch (Exception e) {
-                Msg.msg("e","Nie udało się wygenerować informacji w pdf");
+            boolean czyzaksiegowanoporok = false;
+            if (!kontaklienta.isEmpty()&&!kontaklientarokpop.isEmpty()) {
+                czyzaksiegowanoporok = SaldoAnalitykaBean.sprawdzzaksiegowanie(kontaklienta, kontaklientarokpop);
+            }
+            if (czyzaksiegowanoporok) {
+                List<SaldoKonto> listaSaldoKonto = SaldoAnalitykaBean.przygotowanalistasaldbo(kontaklienta, kontaklientarokpop, zapisyBO, zapisyObrotyRozp, zapisyRok, wpisView.getPodatnikObiekt());
+                try {
+                    SprFinInfDodBean.drukujInformacjeDodatkowa(wpisView, sprFinKwotyInfDod, listaSaldoKonto);
+                } catch (Exception e) {
+                    Msg.msg("e","Nie udało się wygenerować informacji w pdf");
+                }
+            } else {
+                Msg.msg("e","Są różnice między zaksięgowanymi saldami z roku pop. a kwotami w BO.");
             }
         }
     }
