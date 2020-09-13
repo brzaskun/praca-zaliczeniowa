@@ -176,20 +176,16 @@ public class SaldoAnalitykaBean  {
             Konto kontobiezace = it.next();
             for (Iterator<Konto> it1 = kontaklientarokpop.iterator(); it1.hasNext();) {
                 Konto kontopoprzednie = it1.next();
-                if (kontobiezace.getPelnynumer().equals(kontopoprzednie.getPelnynumer())) {
-                    double bzKWn = kontopoprzednie.getSaldoWnksiegi();
-                    double bzKMa = kontopoprzednie.getSaldoMaksiegi();
-                    double bzWn = kontopoprzednie.getSaldoWn();
-                    double bzMa = kontopoprzednie.getSaldoMa();
-                    double boWn = kontobiezace.getBoWn();
-                    double boMa = kontobiezace.getBoMa();
-                    if (Z.z(bzWn)!=Z.z(bzKWn)||Z.z(bzMa)!=Z.z(bzKMa)) {
-                        wszystkook = false;
-                        break;
-                    }
-                    if (Z.z(bzWn)!=Z.z(boWn)||Z.z(bzMa)!=Z.z(boMa)) {
-                        wszystkook = false;
-                        break;
+                if (kontopoprzednie.isWynik0bilans1()&&!kontopoprzednie.getPelnynumer().equals("860")) {
+                    if (kontobiezace.getPelnynumer().equals(kontopoprzednie.getPelnynumer())) {
+                        double bzKWn = kontopoprzednie.getSaldoWnksiegi();
+                        double bzKMa = kontopoprzednie.getSaldoMaksiegi();
+                        double boWn = kontobiezace.getBoWn();
+                        double boMa = kontobiezace.getBoMa();
+                        if (Z.z(bzKWn)!=Z.z(boWn)||Z.z(bzKMa)!=Z.z(boMa)) {
+                            wszystkook = false;
+                            break;
+                        }
                     }
                 }
             }
