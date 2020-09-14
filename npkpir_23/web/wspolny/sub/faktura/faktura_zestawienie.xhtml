@@ -8,7 +8,16 @@
 
     <p:tab id="zestawienie" title="Faktury wystawione wg kontrahentow">
         <h:form id="formzestawienie">
-            <p><p:commandButton value="#{mgs.pobierz}" actionListener="#{fakturaZestView.init()}" update="@form, :form1:messages" style="width: 120px;"  rendered="#{WpisView.biuroiszef eq true}"/></p>
+            
+            <p:selectOneListbox id="wyborklienta" value="#{fakturaZestView.szukanyklient}" style="width: 300px;"  converter="#{klientConv}"
+                                    styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" 
+                                    filter="true" filterMatchMode="contains"
+                                    >
+                    <f:selectItems value="#{fakturaZestView.klienci}"/>
+                    <p:ajax event="change" global="false" listener="#{fakturaZestView.pobierzwszystkoKlienta()}" 
+                            update="@form"/>
+            </p:selectOneListbox>
+            <p><p:commandButton value="wszystkie" actionListener="#{fakturaZestView.init()}" update="@form, :form1:messages" style="width: 120px;"  rendered="#{WpisView.biuroiszef eq true}"/></p>
             <p:dataTable id="dokumentyZestawienie" value="#{fakturaZestView.fakturyZestawienie}" var="item"  rowIndexVar="row" 
                          rowKey="#{item.kontrahent.npelna}" style="width: 900px;height: 800px; overflow-y: scroll;" widgetVar="zestTable" sortBy="#{item.kontrahent.npelna}" sortOrder="DESCENDING"
                          rowSelectMode="add"  emptyMessage="nie pobrano wierszy" >
