@@ -482,6 +482,7 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
             n.add("data wystawienia");
             n.add("przelew/payment/Uberweisung dnia");
             n.add("kwota/amount/Summe");
+            n.add("saldo na dzień");
             n.add("upom. tel");
             n.add("wysłano mail");
             List[] tabela = new List[2];

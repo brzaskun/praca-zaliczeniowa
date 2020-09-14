@@ -85,10 +85,10 @@ public class PdfFaktRozrach {
             FakturaPodatnikRozliczenie n = nowepozycje.get(nowepozycje.size()-1);
             if (n.getSaldopln() > 0) {
                 dodajLinieOpisu(document, " ");
-                if (n.getSaldo()!=0) {
-                    dodajLinieOpisu(document, "total/insgesamt/kwota do zapłaty na dzień sporządzenia faktur w Euro : "+F.curr(n.getSaldo(),"EUR"));
-                    dodajLinieOpisu(document, "total/insgesamt/kwota do zapłaty na dzień sporządzenia w przeliczeniu na PLN: "+F.curr(n.getSaldopln()));
-                }
+//                if (n.getSaldo()!=0) {
+//                    dodajLinieOpisu(document, "total/insgesamt/kwota do zapłaty na dzień sporządzenia faktur w Euro : "+F.curr(n.getSaldo(),"EUR"));
+//                    dodajLinieOpisu(document, "total/insgesamt/kwota do zapłaty na dzień sporządzenia w przeliczeniu na PLN: "+F.curr(n.getSaldopln()));
+//                }
                 dodajLinieOpisu(document, "total/insgesamt/kwota do zapłaty na dzień sporządzenia w PLN: "+F.curr(n.getSaldopln()));
                 dodajLinieOpisu(document, " ");
                 dodajLinieOpisu(document, "proszę sprawdzić saldo i przelać je niezwłocznie na nr konta podany na fakturze");

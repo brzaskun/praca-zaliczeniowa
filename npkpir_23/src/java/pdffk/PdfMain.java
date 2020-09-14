@@ -1031,7 +1031,7 @@ public class PdfMain {
                     col[3] = 3;
                     col[4] = 3;
                     col[5] = 3;
-                    col[6] = 3;
+                    col[7] = 3;
                     return col;
                 } else {
                     col = new int[size];
@@ -1674,6 +1674,8 @@ public class PdfMain {
                         String fraza = String.valueOf(number.format(p.getKwota()))+" "+p.getWalutafaktury();
                         table.addCell(ustawfrazeAlign(fraza, "right", 8, BaseColor.BLUE));
                     }
+                    String fraza = String.valueOf(number.format(p.getSaldo()))+" "+p.getWalutafaktury();
+                    table.addCell(ustawfrazeAlign(fraza, "right", 8));
                     table.addCell(ustawfrazeAlign(Data.data_yyyyMMdd(p.getDatatelefon()), "center", 8));
                     table.addCell(ustawfrazeAlign(Data.data_yyyyMMdd(p.getDataupomnienia()), "center", 8));
                 } else {
