@@ -7,7 +7,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
     
-    <p:tabView>
+    <p:tabView id="akordeon">
         <p:tab title="dodatki wprowadzanie">
             <h:form>
             <p:growl life="3600" showDetail="true"/>
@@ -55,12 +55,12 @@
                     <h:outputText value=""/>
                     <h:outputText value=""/>
                     <p:selectOneMenu id="rokWpisu" value="#{fakturaDodPozycjaKontrahentView.rok}" style="width: 60px;">
-                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.pobierzklientow()}" update="form2:kontrpole form2:kontrpole2 listapozycji"/>
+                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.pobierzklientow()}" update="form2:kontrpole form2:kontrpole2 akordeon:listapozycji:lista"/>
                         <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true" />
                         <f:selectItems value="#{Roki.rokiList}"/>
                     </p:selectOneMenu>
                     <p:selectOneMenu id="miesiacWpisu" value="#{fakturaDodPozycjaKontrahentView.mc}" style="width: 60px;">
-                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.pobierzklientow()}" update="form2:kontrpole form2:kontrpole2 listapozycji"/>
+                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.pobierzklientow()}" update="form2:kontrpole form2:kontrpole2 akordeon:listapozycji:lista"/>
                         <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true" />
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
@@ -90,7 +90,7 @@
                               filteredValue="#{fakturaDodPozycjaKontrahentView.lista_2_filter}"
                               paginator="true" paginatorAlwaysVisible="#{fakturaDodPozycjaKontrahentView.lista_2.size() gt 20 ? true : false}" rows="20" sortBy="#{zapis.kontrahent.getNazwabezCudzy()}"
                           paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                          rowsPerPageTemplate="20,50,100" 
+                          rowsPerPageTemplate="20,50,100" emptyMessage="Nie dodano pozycji w tym miesiącu"
                           rowKey="#{zapis.id}"> 
                 <f:facet name="header">  
                     <h:outputText value="Wykaz wprowadzonych wartości" />  
