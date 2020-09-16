@@ -46,6 +46,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     private PodatnikDAO podatnikDAO;
     private List<Klienci> klienci;
     private List<FakturaDodatkowaPozycja> pozycje;
+    private List<FakturaDodPozycjaKontrahent> lista_wzor;
     private List<FakturaDodPozycjaKontrahent> lista_2;
     private List<FakturaDodPozycjaKontrahent> lista_2_filter;
     @Inject
@@ -57,7 +58,9 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     @PostConstruct
     private void init() {
         pozycje = fakturaDodatkowaPozycjaDAO.findAll();
-        lista_2 = fakturaDodPozycjaKontrahentDAO.findAll();
+        lista_wzor = fakturaDodPozycjaKontrahentDAO.findAll();
+        lista_2 = new ArrayList<>();
+        lista_2.addAll(lista_wzor);
     }
     
     public void pobierzklientow() {
@@ -75,8 +78,11 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
         }
         Collections.sort(klienci,new Klienci1comparator());
         pozycje = fakturaDodatkowaPozycjaDAO.findAll();
-        List<FakturaDodPozycjaKontrahent> lista_tmp = lista_2.stream().filter(p->p.getRok().equals(rok)&&p.getMc().equals(mc)).collect(Collectors.toList());
-        lista_2 = lista_tmp;
+        if (rok!=null&&mc!=null) {
+            List<FakturaDodPozycjaKontrahent> lista_tmp = lista_wzor.stream().filter(p->p.getRok().equals(rok)&&p.getMc().equals(mc)).collect(Collectors.toList());
+            lista_2 = new ArrayList<>();
+            lista_2.addAll(lista_tmp);
+        }
     }
     
     public void dodaj() {
