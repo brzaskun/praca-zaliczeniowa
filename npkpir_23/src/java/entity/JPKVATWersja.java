@@ -61,7 +61,7 @@ public class JPKVATWersja implements Serializable {
     private String polejpk_netto_zakup;
     @Column(name = "polejpk_vat_zakup")
     private String polejpk_vat_zakup;
-    @JoinColumn(name = "evewidencja",referencedColumnName = "nazwa")
+    @JoinColumn(name = "evewidencja",referencedColumnName = "id")
     @ManyToOne
     private Evewidencja evewidencja;
 

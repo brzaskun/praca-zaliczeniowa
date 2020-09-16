@@ -1173,7 +1173,7 @@ public class FakturaView implements Serializable {
                 }
                 eVatwpis1.setDok(selDokument);
                 ewidencjaTransformowana.add(eVatwpis1);
-                if (r.getEwidencja().getNazwa().equals("usługi świad. poza ter.kraju")) {
+                if (r.getEwidencja().getNazwa().equals("usługi świad. poza ter.kraju art. 100 ust.1 pkt 4")) {
                     Rodzajedok rodzajedok2 = rodzajedokDAO.find("UPTK100", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                     selDokument.setRodzajedok(rodzajedok2);
                 }
