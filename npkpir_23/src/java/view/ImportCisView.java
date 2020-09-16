@@ -375,13 +375,13 @@ public class ImportCisView  implements Serializable {
         FakturaCis sumaryczna = new FakturaCis();
         sumaryczna.setData_wystawienia(data.Data.ostatniDzien(wpisView));
         sumaryczna.setBuyer_nip(wpisView.getPodatnikObiekt().getNip());
-        sumaryczna.setNumer_faktury("1/"+wpisView.getMiesiacWpisu()+"/sum");
+        sumaryczna.setNumer_faktury("1/"+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt()+"/sum");
         sumaryczna.setStawka_vat(19.0);
         double nettopln = 0.0;
         for (Dok p : lista) {
             nettopln += p.getNetto();
         }
-        sumaryczna.setCena_total_netto_pln(nettopln);
+        sumaryczna.setCena_total_netto_pln(Z.z(nettopln));
         sumaryczna.setPodatek_vat_pln(0.0);
         sumaryczna.setWaluta("PLN");
         Dok doksuma = generujdok(sumaryczna);
@@ -393,7 +393,7 @@ public class ImportCisView  implements Serializable {
         FakturaCis sumaryczna = new FakturaCis();
         sumaryczna.setData_wystawienia(data.Data.ostatniDzien(wpisView));
         sumaryczna.setBuyer_nip(wpisView.getPodatnikObiekt().getNip());
-        sumaryczna.setNumer_faktury("1/"+wpisView.getMiesiacWpisu()+"/sumPLN");
+        sumaryczna.setNumer_faktury("1/"+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt()+"/sumPLN");
         sumaryczna.setStawka_vat(23.0);
         double nettopln = 0.0;
         double vatpln = 0.0;
@@ -401,8 +401,8 @@ public class ImportCisView  implements Serializable {
             nettopln += p.getNetto();
             vatpln += p.getVat();
         }
-        sumaryczna.setCena_total_netto_pln(nettopln);
-        sumaryczna.setCena_total_netto_waluta(nettopln);
+        sumaryczna.setCena_total_netto_pln(Z.z(nettopln));
+        sumaryczna.setCena_total_netto_waluta(Z.z(nettopln));
         sumaryczna.setPodatek_vat_pln(vatpln);
         sumaryczna.setPodatek_vat_waluta(vatpln);
         sumaryczna.setWaluta("PLN");
