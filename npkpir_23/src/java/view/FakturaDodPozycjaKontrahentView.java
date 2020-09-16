@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -74,6 +75,8 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
         }
         Collections.sort(klienci,new Klienci1comparator());
         pozycje = fakturaDodatkowaPozycjaDAO.findAll();
+        List<FakturaDodPozycjaKontrahent> lista_tmp = lista_2.stream().filter(p->p.getRok().equals(rok)&&p.getMc().equals(mc)).collect(Collectors.toList());
+        lista_2 = lista_tmp;
     }
     
     public void dodaj() {
