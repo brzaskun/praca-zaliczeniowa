@@ -19,7 +19,7 @@
             <p:panelGrid columns="5">
                 <h:outputText value="data od  - nie starsza niż 3 mce!!"/>
                 <p:inputText maxlength="10" size="10" placeholder="yyyy-mm-dd" value="#{walutyKursRecznieView.dataodtabela}"/>
-                <h:outputText value="data końcowa"/>
+                <h:outputText value="data końcowa WYMAGANA!"/>
                 <p:inputText value="#{walutyKursRecznieView.datadotabela}" placeholder="rrrr-mm-dd" maxlength="10" size="10"/>
             </p:panelGrid>
             <p:dataTable id="dataTablewaluty" var="wpis" value="#{walutyViewFK.pobraneRodzajeWalut}" editable="true" emptyMessage="Nie ma wprowadzonych walut"

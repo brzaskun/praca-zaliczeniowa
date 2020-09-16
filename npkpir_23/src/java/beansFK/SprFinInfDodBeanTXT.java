@@ -329,7 +329,7 @@ public class SprFinInfDodBeanTXT {
         wiersze.add(pobierz("405", listaSaldoKonto, 0, 0));
         wiersze.add(pobierz("405", listaSaldoKonto, 0, 1));
         wiersze.add(pobierzprzyrost("405", listaSaldoKonto, 0));
-        wiersze.add("Ubezpieczenia społeczne");
+        wiersze.add("Ubezpieczenia społeczne i inne świadczenia prac.");
         wiersze.add(pobierz("406", listaSaldoKonto, 0, 0));
         wiersze.add(pobierz("406", listaSaldoKonto, 0, 1));
         wiersze.add(pobierzprzyrost("406", listaSaldoKonto, 0));
