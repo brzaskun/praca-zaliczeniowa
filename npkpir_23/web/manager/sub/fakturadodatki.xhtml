@@ -23,14 +23,17 @@
             <p:separator/>
           <h:form>
                 <p:growl life="3600" showDetail="true"/>
-                <p:dataTable  var="zapis" value="#{fakturaDodatkowaPozycjaView.lista}" id="lista" sortOrder="ascending" style="width: 730px;"
+                <p:dataTable  var="zapis" value="#{fakturaDodatkowaPozycjaView.lista}" id="lista" sortOrder="ascending" style="width: 770px;"
                               paginator="true" paginatorAlwaysVisible="#{fakturaDodatkowaPozycjaView.lista.size() gt 20 ? true : false}" rows="20" sortBy="#{zapis.nazwa}"
                           paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                          rowsPerPageTemplate="20,50,100" 
+                          rowsPerPageTemplate="20,50,100" rowIndexVar="index"
                           rowKey="#{zapis.id}"> 
                 <f:facet name="header">  
                     <h:outputText value="Wykaz wprowadzonych wartości" />  
                 </f:facet>
+                    <p:column width="20">  
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
                 <p:column headerText="nazwa" width="400">  
                     <h:outputText value="#{zapis.nazwa}"/>
                 </p:column>

@@ -69,11 +69,11 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
             List<Fakturywystokresowe> wykazfaktur = fakturywystokresoweDAO.findPodatnikBiezace("GRZELCZYK", rok);
             for (Fakturywystokresowe p : wykazfaktur) {
                 Podatnik pod = podatnikDAO.findPodatnikByNIP(p.getDokument().getKontrahent().getNip());
+                Klienci k = p.getDokument().getKontrahent();
                 if (pod != null) {
-                    Klienci k = p.getDokument().getKontrahent();
                     k.setJezykwysylki(pod.getJezykmaila());
-                    klienci.add(k);
                 }
+                klienci.add(k);
             }
         }
         Collections.sort(klienci,new Klienci1comparator());
