@@ -8,6 +8,8 @@
 
 package pl.gov.crd.wzor._2020._05._08._9393;
 
+import entity.JPKSuper;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -413,7 +415,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "ewidencja"
 })
 @XmlRootElement(name = "JPK")
-public class JPK {
+public class JPK extends JPKSuper implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "Naglowek", required = true)
     protected JPK.Naglowek naglowek;
@@ -518,6 +521,26 @@ public class JPK {
      */
     public void setEwidencja(JPK.Ewidencja value) {
         this.ewidencja = value;
+    }
+
+    @Override
+    public List getSprzedazWiersz() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Object getSprzedazCtrl() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List getZakupWiersz() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Object getZakupCtrl() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 
