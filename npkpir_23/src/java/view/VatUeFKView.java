@@ -603,7 +603,7 @@ public class VatUeFKView implements Serializable {
         deklaracjapodpisana[0] = xml.getBytes();
         deklaracjapodpisana[1] = xml;
         try {
-            //deklaracjapodpisana = Xad.podpisz(xml, wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
+            deklaracjapodpisana = Xad.podpisz(xml, wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
         } catch (Exception e) {
             E.e(e);
         }
