@@ -73,24 +73,24 @@ public class E {
     }
      
      public static void s (String s) {
-         //System.out.println(s);
+         System.out.println(s);
      }
      public static void s (Integer s) {
-         //System.out.println(s);
+         System.out.println(s);
      }
      public static void s (double s) {
-         //System.out.println(s);
+         System.out.println(s);
      }
      public static void s (boolean s) {
-         //System.out.println(s);
+         System.out.println(s);
      }
     public static void s(Class<?> superclass) {
-        //System.out.println(s);
+        System.out.println(superclass);
     }
     public static void s(LocalDate ld) {
-        //System.out.println(s);
+        System.out.println(ld);
     }
     public static void s(FakturaCis data) {
-        //System.out.println(s);
+        System.out.println(data);
     }
 }

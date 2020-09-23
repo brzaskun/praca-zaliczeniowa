@@ -184,6 +184,9 @@ public class VATUEM4Bean {
         if (p.getKontrahent().getKrajkod() != null) {
             try {
                 String k = p.getKontrahent().getKrajkod();
+                if (k.equals("GR")) {
+                    k = "EL";
+                }
                 zwrot = TKodKrajuUE.fromValue(k);
             } catch (Exception e) {
             }

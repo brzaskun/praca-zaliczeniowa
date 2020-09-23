@@ -283,6 +283,9 @@ public class VATUEKM5Bean {
         if (p.getKontrahent().getKrajkod() != null) {
             try {
                 String k = p.getKontrahent().getKrajkod();
+                if (k.equals("GR")) {
+                    k = "EL";
+                }
                 zwrot = TKodKrajuUE.fromValue(k);
             } catch (Exception e) {
             }
