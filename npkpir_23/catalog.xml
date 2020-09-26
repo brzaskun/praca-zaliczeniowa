@@ -18,4 +18,6 @@
     <system systemId="file:/C:/Regon/UslugaBIRzewnPubl_xsd2.xsd" uri="src/conf/xml-resources/web-services/GUS/wsdl/UslugaBIRzewnPubl_xsd2.xsd"/>
     <system systemId="file:/C:/Regon/UslugaBIRzewnPubl_xsd3.xsd" uri="src/conf/xml-resources/web-services/GUS/wsdl/UslugaBIRzewnPubl_xsd3.xsd"/>
     <system systemId="file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/wsdlnipvat.wsdl" uri="src/conf/xml-resources/web-services/NIPVATcheck/wsdl/wsdlnipvat.wsdl"/>
+    <system systemId="file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/checkVATTestService.wsdl" uri="src/conf/xml-resources/web-services/checkVATTestService/wsdl/checkVATTestService.wsdl"/>
+    <system systemId="file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/checkVATService.wsdl" uri="src/conf/xml-resources/web-services/Vies2/wsdl/checkVATService.wsdl"/>
 </catalog>
