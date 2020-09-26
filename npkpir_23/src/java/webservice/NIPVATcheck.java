@@ -17,7 +17,7 @@ import pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01.
  */
 @WebService(serviceName = "WeryfikacjaVAT", portName = "BasicHttpBinding_WeryfikacjaVAT", endpointInterface = "pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01.WeryfikacjaVAT", targetNamespace = "http://www.mf.gov.pl/uslugiBiznesowe/uslugiDomenowe/AP/WeryfikacjaVAT/2018/03/01", wsdlLocation = "WEB-INF/wsdl/NIPVATcheck/wsdlnipvat.wsdl")
 @Stateless
-public class NIPVATcheck {
+public class NIPVATcheck { 
 
     public static pl.gov.mf.uslugibiznesowe.uslugidomenowe.ap.weryfikacjavat._2018._03._01.TWynikWeryfikacjiVAT sprawdzNIP(java.lang.String nip) {
         WeryfikacjaVAT_Service w = new WeryfikacjaVAT_Service();
@@ -30,7 +30,7 @@ public class NIPVATcheck {
     }
     
     public static void main(String[] args) {
-        TWynikWeryfikacjiVAT sprawdzNIP = NIPVATcheck.sprawdzNIP("6751661857");
+        TWynikWeryfikacjiVAT sprawdzNIP = NIPVATcheck.sprawdzNIP("8511005008");
         error.E.s("wynik "+sprawdzNIP.getKomunikat());
         error.E.s("symbol "+sprawdzNIP.getKod().value());
     }

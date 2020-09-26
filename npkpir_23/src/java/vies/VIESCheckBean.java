@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import javax.xml.ws.Holder;
 import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
 import org.jsoup.Jsoup;
@@ -31,6 +32,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.FormElement;
 import org.jsoup.select.Elements;
+import viesapi.Vies2;
+import viesapi.ViesVatRegistration;
+import viesapi.ViesVatServiceException;
 
 /**
  *
@@ -56,7 +60,7 @@ public class VIESCheckBean {
                      }
                      Vies v = null;
                      try {
-                         v = VIESCheckBean.pobierz(kraj, nip, p.getKontrahent(), podatnik, wprowadzil);
+                         v = VIESCheckBean.pobierzAPI(kraj, nip, p.getKontrahent(), podatnik, wprowadzil);
                          p.setVies(v);
                          v.setVatue(p);
                      } catch (SocketTimeoutException se) {
@@ -87,6 +91,32 @@ public class VIESCheckBean {
         Pattern p = Pattern.compile("[0-9]");
         boolean isnumber = p.matcher(prefix).find();
         return !isnumber;
+    }
+    
+    private static Vies pobierzAPI(String kraj, String nip, Klienci k, Podatnik podatnik, Uz wprowadzil) throws SocketTimeoutException {
+        Vies zwrot = new Vies();
+        try {
+            javax.xml.ws.Holder<java.lang.String> countryCode = new Holder<>(kraj);
+            javax.xml.ws.Holder<java.lang.String> vatNumber = new Holder<>(nip);
+            ViesVatRegistration table = Vies2.checkVat(countryCode, vatNumber);
+            if (table != null) {
+                zwrot.setPodatnik(podatnik);
+                zwrot.setData(table.getRequestDate());
+                zwrot.setWynik(true);
+                zwrot.setKraj(kraj);
+                zwrot.setNIP(nip);
+                zwrot.setNazwafirmy(table.getName());
+                zwrot.setAdresfirmy(table.getAddress());
+                zwrot.setIdentyfikatorsprawdzenia(null);
+                zwrot.setWprowadzil(wprowadzil);
+                zwrot.setUwagi(null);
+            } else {
+                zwrot =  null;
+            }
+        } catch (ViesVatServiceException ex) {
+            zwrot.setUwagi(ex.getErrorKey());
+        }
+        return zwrot;
     }
     
     private static Vies pobierz(String kraj, String nip, Klienci k, Podatnik podatnik, Uz wprowadzil) throws SocketTimeoutException {
