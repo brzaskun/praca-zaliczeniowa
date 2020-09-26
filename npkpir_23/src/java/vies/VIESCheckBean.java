@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import javax.xml.ws.Holder;
 import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
 import org.jsoup.Jsoup;
@@ -31,6 +32,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.FormElement;
 import org.jsoup.select.Elements;
+import viesapi.Vies2;
+import viesapi.ViesVatRegistration;
+import viesapi.ViesVatServiceException;
 
 /**
  *
@@ -44,19 +48,16 @@ public class VIESCheckBean {
             List<Vies> viesy = Collections.synchronizedList(new ArrayList<>());
              for (Iterator it = klienciWDTWNT.iterator(); it.hasNext();) {
                  VatUe p = (VatUe) it.next();
-                 if (p.getKontrahent() != null && p.getVies() == null) {
+                 if (p.getKontrahent() != null && (p.getVies()==null ||!p.getVies().isWynik())) {
                      String kraj = p.getKontrahent().getKrajkod().trim();
                      String nip = p.getKontrahent().getNip().trim();
-                     if (nip.equals("ESB65448870")) {
-                         error.E.s("ESB65448870");
-                     }
                      boolean jestprefix = sprawdznip(p.getKontrahent().getNip());
                      if (jestprefix) {
                          nip = p.getKontrahent().getNip().substring(2).trim();
                      }
                      Vies v = null;
                      try {
-                         v = VIESCheckBean.pobierz(kraj, nip, p.getKontrahent(), podatnik, wprowadzil);
+                         v = VIESCheckBean.pobierzAPI(kraj, nip, p.getKontrahent(), podatnik, wprowadzil);
                          p.setVies(v);
                          v.setVatue(p);
                      } catch (SocketTimeoutException se) {
@@ -89,6 +90,31 @@ public class VIESCheckBean {
         return !isnumber;
     }
     
+    private static Vies pobierzAPI(String kraj, String nip, Klienci k, Podatnik podatnik, Uz wprowadzil) throws SocketTimeoutException {
+        Vies zwrot = new Vies();
+        if (kraj.equals("GR")) {
+            kraj = "EL";
+        }
+        javax.xml.ws.Holder<java.lang.String> countryCode = new Holder<>(kraj);
+        javax.xml.ws.Holder<java.lang.String> vatNumber = new Holder<>(nip);
+        ViesVatRegistration table = Vies2.checkVatApproxSimpl(countryCode, vatNumber);
+        if (table != null) {
+            zwrot.setPodatnik(podatnik);
+            zwrot.setData(table.getRequestDate());
+            zwrot.setWynik(table.isValid());
+            zwrot.setKraj(kraj);
+            zwrot.setNIP(nip);
+            zwrot.setNazwafirmy(table.getName());
+            zwrot.setAdresfirmy(table.getAddress());
+            zwrot.setIdentyfikatorsprawdzenia(table.getIdentifier());
+            zwrot.setWprowadzil(wprowadzil);
+            zwrot.setUwagi(table.getUwagi());
+        } else {
+            zwrot =  null;
+        }
+        return zwrot;
+    }
+
     private static Vies pobierz(String kraj, String nip, Klienci k, Podatnik podatnik, Uz wprowadzil) throws SocketTimeoutException {
         Vies zwrot = new Vies();
         if (kraj.equals("ES")) {

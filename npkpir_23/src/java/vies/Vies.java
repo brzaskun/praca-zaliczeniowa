@@ -205,9 +205,13 @@ public class Vies implements Serializable {
     
     public String getWynikVies() {
         String zwrot = "nieaktywny";
-        if (this.identyfikatorsprawdzenia != null && this.uwagi != null) {
-            zwrot = "awaria serw.";
-        } else if (this.identyfikatorsprawdzenia != null) {
+        if (!this.isWynik() && this.uwagi != null) {
+            if (this.uwagi.equals("MS_UNAVAILABLE")) {
+                zwrot = "serwer kraju wyłączony";
+            } else {
+                zwrot = this.uwagi;
+            }
+        } else if (this.isWynik()) {
             zwrot = "ok";
         }
         return zwrot;

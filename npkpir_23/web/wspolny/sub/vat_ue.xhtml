@@ -97,7 +97,7 @@
                         </h:outputText>
                     </p:column>
                     <p:column id="vies" headerText="VIES" sortBy="#{wpis1.vies}" style="width: 15%; text-align: center;">  
-                         <h:outputText value="#{wpis1.vies eq null ? 'nie sprawdzono' : wpis1.vies.wynikVies}" rendered="#{wpis1.transakcja eq 'podsum.' ? false : true}"
+                         <h:outputText value="#{wpis1.vies.wynikVies}" rendered="#{wpis1.transakcja eq 'podsum.' ? false : true}"
                                        style="#{wpis1.vies.identyfikatorsprawdzenia eq null or wpis1.vies.uwagi ne null ? 'color: red;':'color: green;'}">
                         </h:outputText>
                     </p:column>
