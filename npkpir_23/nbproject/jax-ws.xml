@@ -65,38 +65,6 @@
         </wsimport-option>
       </wsimport-options>
     </service>
-    <service name="Vies2">
-      <implementation-class>viesapi.Vies2</implementation-class>
-      <wsdl-url>file:/C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/web/WEB-INF/wsdl/checkVATService.wsdl</wsdl-url>
-      <local-wsdl-file>checkVATService.wsdl</local-wsdl-file>
-      <service-name>checkVatService</service-name>
-      <port-name>checkVatPort</port-name>
-      <package-name>eu.europa.ec.taxud.vies.services.checkvat</package-name>
-      <catalog-file>catalog.xml</catalog-file>
-      <use-provider>false</use-provider>
-      <wsimport-options>
-        <wsimport-option>
-          <wsimport-option-name>extension</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>verbose</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>fork</wsimport-option-name>
-          <wsimport-option-value>false</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>xnocompile</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>xendorsed</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-      </wsimport-options>
-    </service>
   </services>
   <clients>
     <client name="dokumenty">

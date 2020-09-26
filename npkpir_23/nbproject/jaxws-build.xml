@@ -97,25 +97,6 @@
         <delete dir="${build.generated.sources.dir}/jax-ws/pl/gov/mf/uslugibiznesowe/uslugidomenowe/ap/weryfikacjavat/_2018/_03/_01"/>
         <delete dir="${build.generated.dir}/jax-wsCache/service/NIPVATcheck"/>
     </target>
-    <target name="wsimport-service-Vies2" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/service/Vies2"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/service/Vies2" destdir="${build.generated.dir}/jax-wsCache/service/Vies2" wsdl="${basedir}/${conf-dir}xml-resources/web-services/Vies2/wsdl/checkVATService.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" xnocompile="true" xendorsed="true">
-            <depends file="${basedir}/${conf-dir}xml-resources/web-services/Vies2/wsdl/checkVATService.wsdl"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/service/Vies2"/>
-        </wsimport>
-        <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/service/Vies2">
-                <include name="**/*.java"/>
-            </fileset>
-        </copy>
-        <copy todir="${build.web.dir}/WEB-INF/wsdl/Vies2">
-            <fileset dir="${basedir}/${conf-dir}xml-resources/web-services/Vies2/wsdl/"/>
-        </copy>
-    </target>
-    <target name="wsimport-service-clean-Vies2" depends="-init-project">
-        <delete dir="${build.generated.sources.dir}/jax-ws/eu/europa/ec/taxud/vies/services/checkvat"/>
-        <delete dir="${build.generated.dir}/jax-wsCache/service/Vies2"/>
-    </target>
     <target name="wsimport-client-generate" depends="wsimport-client-dokumenty, wsimport-client-testdok"/>
-    <target name="wsimport-service-generate" depends="wsimport-service-GUS, wsimport-service-NIPVATcheck, wsimport-service-Vies2"/>
+    <target name="wsimport-service-generate" depends="wsimport-service-GUS, wsimport-service-NIPVATcheck"/>
 </project>
