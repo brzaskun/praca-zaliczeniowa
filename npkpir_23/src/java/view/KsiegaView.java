@@ -114,7 +114,7 @@ private static final long serialVersionUID = 1L;
         if (dokumentyzaMc != null && dokumentyzaMc.size()>0) {
             cechydokzlisty = CechaBean.znajdzcechy(dokumentyzaMc);
         }
-        podsumowanie = KsiegaBean.ustawpodsumowanie();
+        podsumowanie = KsiegaBean.ustawpodsumowanie(); 
         for (Dok tmp : dokumentyzaMc) {
             if (tmp.getUsunpozornie() == false) {
                 DokKsiega dk = new DokKsiega(tmp);
