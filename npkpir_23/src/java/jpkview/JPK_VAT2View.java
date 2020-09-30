@@ -315,7 +315,7 @@ public class JPK_VAT2View implements Serializable {
     private JPKSuper genJPK(List<EVatwpisSuper> wiersze, Podatnik podatnik, boolean nowa0korekta1) {
         JPKSuper zwrot = null;
         try {
-            if (wpisView.getRokWpisu()>2020 || (wpisView.getRokWpisu()==2020 && Integer.parseInt(wpisView.getMiesiacWpisu())>9)) {
+            if (wpisView.getRokWpisu()==2020 && Integer.parseInt(wpisView.getMiesiacWpisu())>9) {
                 pl.gov.crd.wzor._2020._05._08._9393.JPK jpk = new JPK();
                 Object[] sprzedaz = utworzWierszeJpkSprzedaz2020(wiersze);
                 List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazWiersz> listas = (List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazWiersz>) sprzedaz[0];
