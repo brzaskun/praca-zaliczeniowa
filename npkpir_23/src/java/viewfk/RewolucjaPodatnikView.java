@@ -877,39 +877,31 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
 //         }
 //         podatnikEwidencjaDokDAO.editList(podatnikEwidencjaDok);
 //         System.out.println("koniec");
+//            System.out.println("start");
+//            List<EVatwpis1> vat1 = eVatwpis1DAO.zwrocNULL();
+//            for (EVatwpis1 s : vat1) {
+//                s.setEwidencjaID(s.getEwidencja());
+//            }
+//            eVatwpis1DAO.editList(vat1);
+//            System.out.println("koniec rok");
+//             System.out.println("start");
+//            List<EVatwpisFK> vat2 = eVatwpisFKDAO.zwrocNULL();
+//            for (EVatwpisFK s : vat2) {
+//                s.setEwidencjaID(s.getEwidencja());
+//            }
+//            eVatwpisFKDAO.editList(vat2);
+//            System.out.println("koniec fk FK");
 //         System.out.println("start");
 //         for (int i = 2013; i<2021; i++) {
 //            for (String mc : Mce.getMceListS()) {
-//                List<EVatwpis1> vat1 = eVatwpis1DAO.zwrocRokMc(String.valueOf(i), mc);
-//                for (EVatwpis1 s : vat1) {
+//                List<EVatwpisDedra> vat3 = eVatwpisDedraDAO.zwrocRokMc(String.valueOf(i), mc);
+//                for (EVatwpisDedra s : vat3) {
 //                    s.setEwidencjaID(s.getEwidencja());
 //                }
-//                eVatwpis1DAO.editList(vat1);
-//                System.out.println("koniec rok"+i+" mc"+mc);
-//            }
-//         }
-//         System.out.println("start");
-//         for (int i = 2013; i<2021; i++) {
-//            for (String mc : Mce.getMceListS()) {
-                List<EVatwpisFK> vat2 = eVatwpisFKDAO.zwrocRokMc(String.valueOf(i), mc);
-//                for (EVatwpisFK s : vat2) {
-//                    //s.setEwidencjaID(s.getEwidencja());
-//                }
-//                eVatwpisFKDAO.editList(vat2);
+//                eVatwpisFKDAO.editList(vat3);
 //                System.out.println("koniec fk rok"+i+" mc"+mc);
 //            }
 //         }
-         System.out.println("start");
-         for (int i = 2013; i<2021; i++) {
-            for (String mc : Mce.getMceListS()) {
-                List<EVatwpisDedra> vat3 = eVatwpisDedraDAO.zwrocRokMc(String.valueOf(i), mc);
-                for (EVatwpisDedra s : vat3) {
-                    s.setEwidencjaID(s.getEwidencja());
-                }
-                eVatwpisFKDAO.editList(vat3);
-                System.out.println("koniec fk rok"+i+" mc"+mc);
-            }
-         }
 //         msg.Msg.dP();
      }
 }   

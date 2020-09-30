@@ -35,6 +35,7 @@ import org.eclipse.persistence.annotations.CacheType;
 @NamedQueries({
     @NamedQuery(name = "EVatwpisFK.findByWiersz", query = "SELECT k FROM EVatwpisFK k WHERE k.wiersz = :wiersz"),
     @NamedQuery(name = "EVatwpisFK.findByRok", query = "SELECT k FROM EVatwpisFK k WHERE k.rokEw = :rok"),
+    @NamedQuery(name = "EVatwpisFK.findEwidencjaNUll", query = "SELECT k FROM EVatwpisFK k WHERE k.ewidencja IS NULL"),
     @NamedQuery(name = "EVatwpisFK.findByMcRok", query = "SELECT k FROM EVatwpisFK k WHERE k.rokEw = :rok AND k.mcEw = :mc"),
     @NamedQuery(name = "EVatwpisFK.findByPodatnik", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik"),
     @NamedQuery(name = "EVatwpisFK.findByPodatnikRok", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik AND k.rokEw = :rok"),
@@ -216,16 +217,16 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
     public void setEwidencja(Evewidencja ewidencja) {
         this.ewidencja = ewidencja;
     }
-    
-    @Override
-    public Evewidencja getEwidencjaID() {
-        return ewidencjaID;
-    }
-
-    @Override
-    public void setEwidencjaID(Evewidencja ewidencjaID) {
-        this.ewidencjaID = ewidencjaID;
-    }
+//    
+//    @Override
+//    public Evewidencja getEwidencjaID() {
+//        return ewidencjaID;
+//    }
+//
+//    @Override
+//    public void setEwidencjaID(Evewidencja ewidencjaID) {
+//        this.ewidencjaID = ewidencjaID;
+//    }
     
     @Override
     public double getNetto() {

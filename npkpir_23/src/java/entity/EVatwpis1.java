@@ -27,6 +27,7 @@ import javax.persistence.NamedQuery;
     @NamedQuery(name = "EVatwpis1.findByRokMc", query = "SELECT d FROM EVatwpis1 d WHERE d.rokEw = :pkpirR AND d.dok.podatnik = :podatnik AND d.mcEw = :mc"),
     @NamedQuery(name = "EVatwpis1.findByRok", query = "SELECT d FROM EVatwpis1 d WHERE d.rokEw = :rok"),
     @NamedQuery(name = "EVatwpis1.findByMcRok", query = "SELECT d FROM EVatwpis1 d WHERE d.rokEw = :rok AND d.mcEw = :mc"),
+    @NamedQuery(name = "EVatwpis1.findByNULL", query = "SELECT d FROM EVatwpis1 d WHERE d.ewidencja IS NULL"),
     @NamedQuery(name = "EVatwpis1.findByRokMcKasowe", query = "SELECT d FROM EVatwpis1 d WHERE d.rokEw = :pkpirR AND d.dok.podatnik = :podatnik AND d.mcEw = :mc AND d.dok.rozliczony = '1'"),
     @NamedQuery(name = "EVatwpis1.findByRokKWKasowe", query = "SELECT d FROM EVatwpis1 d WHERE d.rokEw = :pkpirR AND d.dok.podatnik = :podatnik AND (d.mcEw = :mc1 OR d.mcEw = :mc2 OR d.mcEw = :mc3) AND d.dok.rozliczony = '1'")
 })

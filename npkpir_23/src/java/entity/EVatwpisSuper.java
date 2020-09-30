@@ -31,12 +31,12 @@ public class EVatwpisSuper implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     protected long id;
-    @JoinColumn(name = "ewidencja", referencedColumnName = "nazwa")
-    @ManyToOne
-    protected Evewidencja ewidencja;
+//    @JoinColumn(name = "ewidencja", referencedColumnName = "nazwa")
+//    @ManyToOne
+//    protected Evewidencja ewidencja;
     @JoinColumn(name = "evewidencjaID", referencedColumnName = "id")
     @ManyToOne
-    protected Evewidencja ewidencjaID;
+    protected Evewidencja ewidencja;
     @Column(name = "netto")
     protected double netto;
     @Column(name = "vat")
@@ -84,13 +84,13 @@ public class EVatwpisSuper implements Serializable {
         return ewidencja;
     }
 
-    public Evewidencja getEwidencjaID() {
-        return ewidencjaID;
-    }
-
-    public void setEwidencjaID(Evewidencja ewidencjaID) {
-        this.ewidencjaID = ewidencjaID;
-    }
+//    public Evewidencja getEwidencjaID() {
+//        return ewidencjaID;
+//    }
+//
+//    public void setEwidencjaID(Evewidencja ewidencjaID) {
+//        this.ewidencjaID = ewidencjaID;
+//    }
 
     public String getEstawka() {
         return estawka;
