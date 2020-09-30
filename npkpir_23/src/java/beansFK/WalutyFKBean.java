@@ -82,7 +82,7 @@ public class WalutyFKBean {
 //        return wierszepobranezNBP;
 //    }
     
-    @Schedule(hour = "17", persistent = false)
+    @Schedule(hour = "14,20", persistent = false)
     public void pobierzkursy() {
         String datawstepna;
         List<Waluty> pobranewaluty = walutyDAOfk.findAll();
