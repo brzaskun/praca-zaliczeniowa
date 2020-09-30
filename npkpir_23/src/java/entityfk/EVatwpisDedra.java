@@ -25,7 +25,8 @@ import javax.persistence.NamedQuery;
     @NamedQuery(name = "EVatwpisDedra.findByPodatnik", query = "SELECT k FROM EVatwpisDedra k WHERE k.podatnikObj = :podatnik"),
     @NamedQuery(name = "EVatwpisDedra.findByPodatnikRok", query = "SELECT k FROM EVatwpisDedra k WHERE k.podatnikObj = :podatnik AND k.rokEw = :rok"),
     @NamedQuery(name = "EVatwpisDedra.findByPodatnikRokMc", query = "SELECT k FROM EVatwpisDedra k WHERE k.podatnikObj = :podatnik AND k.rokEw = :rok AND k.mcEw = :mc"),
-    @NamedQuery(name = "EVatwpisDedra.findByPodatnikRokMcSprzedaz", query = "SELECT k FROM EVatwpisDedra k WHERE k.podatnikObj = :podatnik AND k.rokEw = :rok AND k.mcEw = :mc AND k.ewidencja.nazwa!=:nazwa"),
+    @NamedQuery(name = "EVatwpisDedra.findByMcRok", query = "SELECT k FROM EVatwpisDedra k WHERE k.rokEw = :rok AND k.mcEw = :mc"),
+    @NamedQuery(name = "EVatwpisDedra.findByPodatnikRokMcSprzedaz", query = "SELECT k FROM EVatwpisDedra k WHERE k.podatnikObj = :podatnik AND k.rokEw = :rok AND k.mcEw = :mc AND k.ewidencja.nazwa !=:nazwa"),
     @NamedQuery(name = "EVatwpisDedra.findByPodatnikRokMcZakup", query = "SELECT k FROM EVatwpisDedra k WHERE k.podatnikObj = :podatnik AND k.rokEw = :rok AND k.mcEw = :mc AND k.ewidencja.nazwa=:nazwa"),
     @NamedQuery(name = "EVatwpisDedra.findByPodatnikRokInnyOkres", query = "SELECT k FROM EVatwpisDedra k WHERE k.podatnikObj = :podatnik AND k.rokEw = :rok AND k.innyokres != 0")
 })
