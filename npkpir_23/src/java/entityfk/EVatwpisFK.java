@@ -34,6 +34,8 @@ import org.eclipse.persistence.annotations.CacheType;
 })
 @NamedQueries({
     @NamedQuery(name = "EVatwpisFK.findByWiersz", query = "SELECT k FROM EVatwpisFK k WHERE k.wiersz = :wiersz"),
+    @NamedQuery(name = "EVatwpisFK.findByRok", query = "SELECT k FROM EVatwpisFK k WHERE k.rokEw = :rok"),
+    @NamedQuery(name = "EVatwpisFK.findByMcRok", query = "SELECT k FROM EVatwpisFK k WHERE k.rokEw = :rok AND k.mcEw = :mc"),
     @NamedQuery(name = "EVatwpisFK.findByPodatnik", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik"),
     @NamedQuery(name = "EVatwpisFK.findByPodatnikRok", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik AND k.rokEw = :rok"),
     @NamedQuery(name = "EVatwpisFK.findByPodatnikRokMcodMcdo", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik AND k.rokEw = :rok AND k.mcEw >= :mcod AND k.mcEw <= :mcdo"),
@@ -178,20 +180,20 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
     public void setVatwwalucie(double vatwwalucie) {
         this.vatwwalucie = vatwwalucie;
     }
-
+    @Override
     public double getBrutto() {
         return brutto;
     }
-
+    @Override
     public void setBrutto(double brutto) {
         this.brutto = brutto;
     }
     
-    
+    @Override
     public int getLp() {
         return lp;
     }
-
+    @Override
     public void setLp(int lp) {
         this.lp = lp;
     }
@@ -215,6 +217,15 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
         this.ewidencja = ewidencja;
     }
     
+    @Override
+    public Evewidencja getEwidencjaID() {
+        return ewidencjaID;
+    }
+
+    @Override
+    public void setEwidencjaID(Evewidencja ewidencjaID) {
+        this.ewidencjaID = ewidencjaID;
+    }
     
     @Override
     public double getNetto() {

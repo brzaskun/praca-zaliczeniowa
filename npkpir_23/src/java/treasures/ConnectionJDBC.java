@@ -25,8 +25,8 @@ public class ConnectionJDBC {
     //jedynie dostep do pol a nie ma transofrmacji rzedu na object
      public static Connection getConnection() throws NamingException, ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         String url = "jdbc:mysql://localhost:3306/";
-        String dbName = "pkpir?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-        String driver = "com.mysql.cj.jdbc.Driver";
+        String dbName = "pkpir?useUnicode=true&characterEncoding=UTF-8&useSSL=false";
+        String driver = "com.mysql.jdbc.Driver";
         String userName = "brzaskun";
         String password = "Pufikun7005*";
         Class.forName(driver).newInstance();
@@ -39,14 +39,14 @@ public class ConnectionJDBC {
         try {
             Connection c = getConnection();
             PreparedStatement ps = c.prepareStatement(
-			   "select * from podatnik"); 
+			   "select * from schemaewidencja"); 
 		
 		//get customer data from database
             ResultSet result =  ps.executeQuery();
             List<String> list = Collections.synchronizedList(new ArrayList<>());
             while(result.next()){
-                list.add(result.getString("nip"));
-                error.E.s(result.getString("nip"));
+                list.add(result.getString("evewidencja"));
+                error.E.s(result.getString("evewidencja"));
             }
         } catch (Exception ex) {
              error.E.s(E.e(ex));

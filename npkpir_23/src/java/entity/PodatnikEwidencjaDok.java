@@ -45,6 +45,8 @@ public class PodatnikEwidencjaDok  implements Serializable {
     @JoinColumn(name = "ewidencja", referencedColumnName = "nazwa")
     @ManyToOne(optional = false)
     protected Evewidencja ewidencja;
+    @JoinColumn(name = "evewidencjaID", referencedColumnName = "id")
+    private Evewidencja evewidencjaID;
     @Column(name = "kolejnosc")
     private int kolejnosc;
 
@@ -117,6 +119,14 @@ public class PodatnikEwidencjaDok  implements Serializable {
 
     public void setEwidencja(Evewidencja ewidencja) {
         this.ewidencja = ewidencja;
+    }
+
+    public Evewidencja getEvewidencjaID() {
+        return evewidencjaID;
+    }
+
+    public void setEvewidencjaID(Evewidencja evewidencjaID) {
+        this.evewidencjaID = evewidencjaID;
     }
 
     public int getKolejnosc() {

@@ -38,6 +38,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQuery(name = "Evewidencja.findByTylkoNetto", query = "SELECT e FROM Evewidencja e WHERE e.tylkoNetto = :tylkoNetto")})
 public class Evewidencja implements Serializable {
     private static final long serialVersionUID = 1L;
+    
+    @Column(name = "id")
+    private int id;
     @Id
     @Basic(optional = false)
     @NotNull
@@ -112,7 +115,13 @@ public class Evewidencja implements Serializable {
         this.stawkavat = stawkavat;
     }
 
-       
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Evewidencja(String nazwa) {
         this.nazwa = nazwa;

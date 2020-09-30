@@ -7,6 +7,7 @@ package dao;
 
 import entity.Podatnik;
 import entity.PodatnikEwidencjaDok;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
@@ -20,7 +21,7 @@ import session.SessionFacade;
 @Named
 public class PodatnikEwidencjaDokDAO  extends DAO implements Serializable{
     @Inject
-    private SessionFacade sessionFacade;
+    private SessionFacade session1Facade;
 
     public PodatnikEwidencjaDokDAO() {
         super(PodatnikEwidencjaDok.class);
@@ -28,8 +29,16 @@ public class PodatnikEwidencjaDokDAO  extends DAO implements Serializable{
 
     
     public List<PodatnikEwidencjaDok> findOpodatkowaniePodatnik(Podatnik podatnik) {
-        return sessionFacade.findPodatnikEwidencjaByPodatnik(podatnik);
+        return session1Facade.findPodatnikEwidencjaByPodatnik(podatnik);
     }
-    
+    public  List<PodatnikEwidencjaDok> findAll(){
+        List<PodatnikEwidencjaDok> zwrot = null;
+        try {
+            zwrot = session1Facade.findAll(PodatnikEwidencjaDok.class);
+        } catch (Exception e) { 
+            E.e(e);
+        }
+        return zwrot;
+    }
     
 }

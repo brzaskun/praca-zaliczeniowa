@@ -150,4 +150,11 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
         return sessionFacade.findEVatwpisFKPodatnikKlient(podatnikObiekt, klient, rok);
     }
     
+    public List<EVatwpisFK> zwrocRok(String rokWpisuSt) {
+        return sessionFacade.getEntityManager().createNamedQuery("EVatwpisFK.findByRok").setParameter("rok", rokWpisuSt).getResultList();
+    }
+    
+    public List<EVatwpisFK> zwrocRokMc(String rokWpisuSt, String mc) {
+        return sessionFacade.getEntityManager().createNamedQuery("EVatwpisFK.findByMcRok").setParameter("rok", rokWpisuSt).setParameter("mc", mc).getResultList();
+    }
 }

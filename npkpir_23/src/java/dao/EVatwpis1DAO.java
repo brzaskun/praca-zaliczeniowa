@@ -45,6 +45,14 @@ public class EVatwpis1DAO  extends DAO implements Serializable {
         return sessionFacade.getEntityManager().createNamedQuery("EVatwpis1.findByRokKWKasowe").setParameter("podatnik", podatnikWpisu).setParameter("pkpirR", rokWpisuSt).setParameter("mc1", mce.get(0)).setParameter("mc2", mce.get(1)).setParameter("mc3", mce.get(2)).getResultList();
     }
     
+    public List<EVatwpis1> zwrocRok(String rokWpisuSt) {
+        return sessionFacade.getEntityManager().createNamedQuery("EVatwpis1.findByRok").setParameter("rok", rokWpisuSt).getResultList();
+    }
+    
+    public List<EVatwpis1> zwrocRokMc(String rokWpisuSt, String mc) {
+        return sessionFacade.getEntityManager().createNamedQuery("EVatwpis1.findByMcRok").setParameter("rok", rokWpisuSt).setParameter("mc", mc).getResultList();
+    }
+    
     public List<EVatwpis1> zwrocBiezacegoKlientaRokKW(Podatnik podatnikWpisu, String rokWpisuSt, String miesiacWpisu) {
         List<String> mce = Kwartaly.mctoMcewKw(miesiacWpisu);
         return sessionFacade.zwrocEVatwpis1KlientRokKw(podatnikWpisu, rokWpisuSt, mce);
