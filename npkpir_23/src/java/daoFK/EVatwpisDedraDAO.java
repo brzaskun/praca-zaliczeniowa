@@ -39,5 +39,8 @@ public class EVatwpisDedraDAO   extends DAO implements Serializable{
     }
     public List<EVatwpisDedra> findAll() {
         return sessionFacade.findAll(EVatwpisDedra.class);
+   }
+    public List<EVatwpisDedra> zwrocRokMc(String rokWpisuSt, String mc) {
+        return sessionFacade.getEntityManager().createNamedQuery("EVatwpisDedra.findByMcRok").setParameter("rok", rokWpisuSt).setParameter("mc", mc).getResultList();
     }
 }
