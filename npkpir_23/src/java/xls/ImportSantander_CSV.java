@@ -28,6 +28,7 @@ import msg.Msg;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
+import treasures.Filtrcsvbezsrednika;
 import static xls.ImportPKO_XML.pT;
 
 /**
@@ -52,6 +53,7 @@ public class ImportSantander_CSV implements Serializable {
                     try (BufferedReader br =  new BufferedReader(new InputStreamReader(file, Charset.forName("UTF-8")))) {
                         String line;
                         while ((line = br.readLine()) != null) {
+                            line = Filtrcsvbezsrednika.usunsrednik(line, ';', '\"');
                             String[] values = line.split(";");
                             List<String> wiersze = Arrays.asList(values);
                             ostatnidobrzeprzetworzony = wiersze.toString();

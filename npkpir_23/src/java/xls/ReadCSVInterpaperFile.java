@@ -39,6 +39,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import treasures.Filtrcsvbezsrednika;
 import view.WpisView;
 /**
  *
@@ -58,6 +59,7 @@ public class ReadCSVInterpaperFile {
             try (BufferedReader br = new BufferedReader(new InputStreamReader(file))) {
                 String line;
                 while ((line = br.readLine()) != null) {
+                    line = Filtrcsvbezsrednika.usunsrednik(line, ';', '\"');
                     String[] values = line.split(";");
                     records.add(Arrays.asList(values));
                 }

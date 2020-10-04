@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import treasures.Filtrcsvbezsrednika;
 
 
 /**
@@ -69,6 +70,7 @@ public class ImportCSVEbay {
             try (BufferedReader br = new BufferedReader(new InputStreamReader(is, "windows-1252"))) {
                 List<FakturaEbay> wierszefaktury = new ArrayList<>();
                 while ((line = br.readLine()) != null) {
+                    line = Filtrcsvbezsrednika.usunsrednik(line, ';', '\"');
                     try {
                         if (linianr>0) {
                             // use comma as separator

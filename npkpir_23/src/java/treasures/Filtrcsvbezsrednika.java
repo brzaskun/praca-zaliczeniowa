@@ -11,30 +11,57 @@ package treasures;
  */
 public class Filtrcsvbezsrednika {
     
-    private static final String LINIA = "Matylda jest; gupia; i;'Ma piecset; sera';";
+    private static final String LINIA = "Matylda jest; 'gu;pia ;;xsx'; i;\"Ma piecset; sera\";";
     private static final char DZIELNIK = ';';
-    private static final char CUDZY = '"';
+    private static final char CUDZY = '\"';
     private static boolean szukamy;
-    private static int miejsceod = -1;
-    private static int miejscedo;
+    private static boolean jestcudzy;
     
-    public static void main(String[] args) {
-        char[] array = LINIA.toCharArray();
-        int i = 0;
-        for (char ch : array) {
-            if (ch==DZIELNIK) {
+    
+    public static String usunsrednik(String linia, char dzielnik, char cudzy) {
+        char[] array = linia.toCharArray();
+        boolean szukamy = false;
+        boolean jestcudzy = false;
+        for (int i = 0; i < array.length; i++) {
+            char ch = array[i];
+            if (!szukamy && ch==dzielnik) {
                 szukamy = true;
-                System.out.println ("średnik");
-            } else if (szukamy && ch==DZIELNIK) {
-                ch =' ';
-            } else if (szukamy && ch==CUDZY) {
-                miejsceod = i;
-                System.out.println ("cudzysłów po średniku");
-            } else if (miejsceod > -1  && ch==CUDZY) {
-                miejscedo = i;
-            } else {
-                System.out.println (ch);
-            }
+            } else if (szukamy && !jestcudzy && ch==cudzy) {
+                jestcudzy = true;
+            } else if (jestcudzy && ch==dzielnik) {
+                array[i] =' ';
+            } else if (szukamy && jestcudzy && ch==cudzy) {
+                szukamy= false;
+                jestcudzy = false;
+            } 
         }
+        String zwrot = new String(array);
+        return zwrot;
+    }
+    
+//    public static void main(String[] args) {
+//        char[] array = LINIA.toCharArray();
+//        System.out.println(LINIA);
+//        for (int i = 0; i < array.length; i++) {
+//            char ch = array[i];
+//            if (!szukamy && ch==DZIELNIK) {
+//                szukamy = true;
+//            } else if (szukamy && !jestcudzy && ch==CUDZY) {
+//                jestcudzy = true;
+//            } else if (jestcudzy && ch==DZIELNIK) {
+//                array[i] =' ';
+//            } else if (szukamy && jestcudzy && ch==CUDZY) {
+//                szukamy= false;
+//                jestcudzy = false;
+//            } 
+//        }
+//        String zwrot = new String(array);
+//        System.out.println(zwrot);
+//    }
+//    
+    public static void main(String[] args) {
+        System.out.println(LINIA);
+        String zwrot = usunsrednik(LINIA, DZIELNIK, CUDZY);
+        System.out.println(zwrot);
     }
 }

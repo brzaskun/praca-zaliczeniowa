@@ -7,6 +7,7 @@ package dao;
 import entity.Klienci;
 import error.E;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
@@ -57,6 +58,16 @@ public class KlienciDAO extends DAO implements Serializable {
             return null;
         }
    }
+    
+    public  List<Klienci> findDoplery(){
+        List<Klienci> zwrot = new ArrayList<>();
+        try {
+            zwrot = Collections.synchronizedList(klienciFacade.getEntityManager().createNamedQuery("Klienci.findKlienciNipNazwa").setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).setHint(QueryHints.READ_ONLY, HintValues.TRUE).getResultList());
+        } catch (Exception e) { 
+            E.e(e); 
+        }
+        return zwrot;
+    }
     
     public  Klienci findAllReadOnlyID(String pole){
         Klienci zwrot = null;

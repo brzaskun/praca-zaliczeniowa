@@ -8,23 +8,15 @@ package viewfk;
 import dao.DAO;
 import dao.EVatwpis1DAO;
 import dao.EvewidencjaDAO;
+import dao.KlienciDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikEwidencjaDokDAO;
 import dao.SchemaEwidencjaDAO;
 import daoFK.DokDAOfk;
 import daoFK.EVatwpisDedraDAO;
 import daoFK.EVatwpisFKDAO;
-import daoFK.WierszDAO;
-import embeddable.Mce;
-import embeddable.SchemaEwidencjaSuma;
-import entity.EVatwpis1;
-import entity.Evewidencja;
-import entity.PodatnikEwidencjaDok;
-import entity.SchemaEwidencja;
-import entityfk.Cechazapisu;
+import entity.Klienci;
 import entityfk.Dokfk;
-import entityfk.EVatwpisDedra;
-import entityfk.EVatwpisFK;
 import entityfk.Wiersz;
 import error.E;
 import java.io.Serializable;
@@ -862,7 +854,7 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
          error.E.s("koniec");
      }
      
-     public void ewidencjabyid() {
+//     public void ewidencjabyid() {
 //         System.out.println("start");
 //         List<SchemaEwidencja> schemy = schemaEwidencjaDAO.findAll();
 //         for (SchemaEwidencja s : schemy) {
@@ -903,5 +895,12 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
 //            }
 //         }
 //         msg.Msg.dP();
+//     }
+
+     @Inject
+     private KlienciDAO klienciDAO;
+          
+     public void klienciporzadek() {
+         List<Klienci> doplery = klienciDAO.findDoplery();
      }
 }   

@@ -37,6 +37,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
+import treasures.Filtrcsvbezsrednika;
 import waluty.Z;
 
 /**
@@ -250,6 +251,7 @@ public class ImportiPKOBP_XLS implements Serializable {
             try (BufferedReader br =  Files.newBufferedReader(pathToFile,Charset.forName("windows-1250"))) {
                 String line;
                 while ((line = br.readLine()) != null) {
+                    line = Filtrcsvbezsrednika.usunsrednik(line, ';', '\"');
                     String[] values = line.split(";");
                     records.add(Arrays.asList(values));
                 }

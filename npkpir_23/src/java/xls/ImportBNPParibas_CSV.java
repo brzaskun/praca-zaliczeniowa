@@ -30,6 +30,7 @@ import org.apache.commons.lang3.text.WordUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
+import treasures.Filtrcsvbezsrednika;
 
 /**
  *
@@ -52,6 +53,7 @@ public class ImportBNPParibas_CSV implements Serializable {
                     try (BufferedReader br =  new BufferedReader(new InputStreamReader(file, Charset.forName("windows-1250")))) {
                         String line;
                         while ((line = br.readLine()) != null) {
+                            line = Filtrcsvbezsrednika.usunsrednik(line, ';', '\"');
                             String[] values = line.split(";");
                             records.add(Arrays.asList(values));
                         }
@@ -195,6 +197,7 @@ public class ImportBNPParibas_CSV implements Serializable {
             try (BufferedReader br =  Files.newBufferedReader(pathToFile,Charset.forName("windows-1250"))) {
                 String line;
                 while ((line = br.readLine()) != null) {
+                    line = Filtrcsvbezsrednika.usunsrednik(line, ';', '\"');
                     String[] values = line.split(";");
                     records.add(Arrays.asList(values));
                 }
