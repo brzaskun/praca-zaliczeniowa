@@ -28,7 +28,6 @@ import daoFK.CechazapisuDAOfk;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import data.Data;
-import embeddable.EwidencjaAddwiad;
 import embeddable.Mce;
 import embeddable.PanstwaMap;
 import entity.Amodok;

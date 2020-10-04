@@ -73,12 +73,14 @@ public class VATDeklaracja implements Serializable {
             pozycje.add(new EwidPoz(se, sm, ew.getNetto(), ew.getVat(), ew.getEwidencja().isTylkoNetto()));
         }
         if (korektanaliczonyzmniejszajaca!=null && korektanaliczonyzmniejszajaca!=0.0) {
-            SchemaEwidencja se = szukaniewieszaSchemyByOpis(schemaewidencjalista, "ulga na złe długi naliczony art. 89b ust.1");
+            //"ulga na złe długi naliczony art. 89b ust.1"
+            SchemaEwidencja se = szukaniewieszaSchemyByID(schemaewidencjalista, 22);
             SchemaEwidencja sm = se.getSchemamacierzysta();
             pozycje.add(new EwidPoz(se, sm, BigDecimal.ZERO , new BigDecimal(korektanaliczonyzmniejszajaca), false));
         }
         if (korektanaliczonyzwiekszajaca!=null && korektanaliczonyzwiekszajaca!=0.0) {
-            SchemaEwidencja se = szukaniewieszaSchemyByOpis(schemaewidencjalista, "ulga na złe długi naliczony art. 89b ust.4");
+            //"ulga na złe długi naliczony art. 89b ust.4"
+            SchemaEwidencja se = szukaniewieszaSchemyByID(schemaewidencjalista, 23);
             SchemaEwidencja sm = se.getSchemamacierzysta();
             pozycje.add(new EwidPoz(se, sm, BigDecimal.ZERO, new BigDecimal(korektanaliczonyzwiekszajaca), false));
         }
@@ -190,11 +192,12 @@ public class VATDeklaracja implements Serializable {
         }
     }
     
-    private static SchemaEwidencja szukaniewieszaSchemyByOpis(List<SchemaEwidencja> schemaewidencjalista, String nazwa) {
+    private static SchemaEwidencja szukaniewieszaSchemyByID(List<SchemaEwidencja> schemaewidencjalista, int ewid) {
         SchemaEwidencja s = null;
         for (SchemaEwidencja p : schemaewidencjalista) {
-            if (p.getEvewidencja().getNazwa().equals(nazwa)) {
+            if (p.getEvewidencja().getId()==ewid) {
                 s = p;
+                break;
             }
         }
         return s;
@@ -206,6 +209,7 @@ public class VATDeklaracja implements Serializable {
         for (SchemaEwidencja p : schemaewidencjalista) {
             if (p.getEvewidencja().equals(evewidencja)) {
                 s = p;
+                break;
             }
         }
         return s;
@@ -225,8 +229,8 @@ public class VATDeklaracja implements Serializable {
         List<EVatwpisSuma> ewidencjeUzupelniane = Collections.synchronizedList(new ArrayList<>());
         for (Iterator<EVatwpisSuma> it = ewidencjeDoPrzegladu.iterator(); it.hasNext();) {
             EVatwpisSuma ew = (EVatwpisSuma) it.next();
-            //dodaje wartosci ujete pierwotnie jako przychod, drugi raz jako koszt
-            if (ew.getEwidencja().getNazwa().equals("import usług") || ew.getEwidencja().getNazwa().equals("rejestr WNT") || ew.getEwidencja().getNazwa().equals("odwrotne obciążenie")) {
+            //dodaje wartosci ujete pierwotnie jako przychod, drugi raz jako koszt 1 "import usług",3 "rejestr WNT",17"odwrotne obciążenie"
+            if (ew.getEwidencja().getId()==1 || ew.getEwidencja().getId()==3 || ew.getEwidencja().getId()==17) {
                 EVatwpisSuma suma = new EVatwpisSuma(ew.getEwidencja(), ew.getNetto(), ew.getVat(), ew.getEstawka());
                 //pobieram i kopiuje stara ewidencje
                 Evewidencja tmp = new Evewidencja(ew.getEwidencja().getNazwa(), ew.getEwidencja().getNazwapola(), ew.getEwidencja().getNrpolanetto(), ew.getEwidencja().getNrpolavat(), ew.getEwidencja().getRodzajzakupu(), ew.getEwidencja().getTransakcja(), ew.getEwidencja().isTylkoNetto());
@@ -238,7 +242,7 @@ public class VATDeklaracja implements Serializable {
                 //dodaje tymczasowa sume do calosci 
                 ewidencjeUzupelniane.add(suma);
             }
-            if (ew.getEwidencja().getNazwa().equals("import usług")) {
+            if (ew.getEwidencja().getId()==1) {
                 EVatwpisSuma suma = new EVatwpisSuma(ew.getEwidencja(), ew.getNetto(), ew.getVat(), ew.getEstawka());
                 //pobieram i kopiuje stara ewidencje
                 Evewidencja tmp = new Evewidencja(ew.getEwidencja().getNazwa(), ew.getEwidencja().getNazwapola(), ew.getEwidencja().getNrpolanetto(), ew.getEwidencja().getNrpolavat(), ew.getEwidencja().getRodzajzakupu(), ew.getEwidencja().getTransakcja(), ew.getEwidencja().isTylkoNetto());
@@ -412,7 +416,8 @@ public class VATDeklaracja implements Serializable {
                         v += Z.zUD(ew.getVat().doubleValue());
                     }
                 }
-                if (ew.getEwidencja().getNazwa().equals("środki trwałe")) {
+                //"środki trwałe" 4
+                if (ew.getEwidencja().getId()==4) {
                     if (wierszsumaryczny.getNazwapozycji().equals("Nabycie środków trwałych")) {
                         n += Z.zUD(ew.getNetto().doubleValue());
                         v += Z.zUD(ew.getVat().doubleValue());
@@ -422,7 +427,7 @@ public class VATDeklaracja implements Serializable {
                         v += Z.zUD(ew.getVat().doubleValue());
                     }
                 }
-                 if (ew.getEwidencja().getTypewidencji().equals("z") && !ew.getEwidencja().getNazwa().equals("środki trwałe")) {
+                 if (ew.getEwidencja().getTypewidencji().equals("z") && ew.getEwidencja().getId()!=4) {
                     if (wierszsumaryczny.getNazwapozycji().equals("Nabycie towarów i usług pozostałych")) {
                         n += Z.zUD(ew.getNetto().doubleValue());
                         v += Z.zUD(ew.getVat().doubleValue());
@@ -440,7 +445,7 @@ public class VATDeklaracja implements Serializable {
     public static void podsumujewidencjeKoszty(List<EVatwpisSuma> pobraneewidencje, DeklaracjaVatSchemaWierszSum p) {
         DeklaracjaVatWierszSumaryczny wierszsumaryczny = p.getDeklaracjaVatWierszSumaryczny();
             for (EVatwpisSuma ew : pobraneewidencje) {
-                if (ew.getEwidencja().getNazwa().equals("środki trwałe")) {
+                if (ew.getEwidencja().getId()==4) {
                     if (wierszsumaryczny.getNazwapozycji().equals("Nabycie środków trwałych")) {
                         wierszsumaryczny.setSumanetto(Z.zUD( wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
                         wierszsumaryczny.setSumavat(Z.zUD( wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
@@ -450,7 +455,7 @@ public class VATDeklaracja implements Serializable {
                         wierszsumaryczny.setSumavat(Z.zUD( wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
                     }
                 }
-                 if (ew.getEwidencja().getTypewidencji().equals("z") && !ew.getEwidencja().getNazwa().equals("środki trwałe")) {
+                 if (ew.getEwidencja().getTypewidencji().equals("z") && ew.getEwidencja().getId()!=4) {
                     if (wierszsumaryczny.getNazwapozycji().equals("Nabycie towarów i usług pozostałych")) {
                         wierszsumaryczny.setSumanetto(Z.zUD( wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
                         wierszsumaryczny.setSumavat(Z.zUD( wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
@@ -467,8 +472,6 @@ public class VATDeklaracja implements Serializable {
         List<SchemaEwidencjaSuma> lista = Collections.synchronizedList(new ArrayList<>());
         for (Iterator<SchemaEwidencja> it = schemaewidencjalista.iterator(); it.hasNext();) {
             SchemaEwidencja p = it.next();
-            if (p.getEvewidencja().getNazwa().equals("sprzedaż 23%")) {
-            }
             if(!p.getCzescdeklaracji().equals("C")) {
                 it.remove();
             } else {

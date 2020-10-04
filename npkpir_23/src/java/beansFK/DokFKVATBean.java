@@ -36,21 +36,17 @@ import waluty.Z;
 public class DokFKVATBean {
     
     public static Double pobierzstawke(EVatwpisFK evatwpis) {
-        String stawkavat = null;
-        double kwotavat = 0.0;
+        double kwotavat = 0.23;
         try {
             if (evatwpis.getDokfk().getRodzajedok().getRodzajtransakcji().equals(("sprzedaz"))) {
-                stawkavat = evatwpis.getEwidencja().getNazwa().replaceAll("[^\\d]", "");
+                String stawkavat = evatwpis.getEwidencja().getNazwa().replaceAll("[^\\d]", "");
                 kwotavat = Double.parseDouble(stawkavat) / 100;
             } else if (evatwpis.getDokfk().getRodzajedok().getStawkavat() != 0.0) {
                 double st = evatwpis.getDokfk().getRodzajedok().getStawkavat();
                 kwotavat = st / 100;
-            }else {
-                kwotavat = 0.23;
             }
         } catch (Exception e) {
             E.e(e);
-            kwotavat = 0.23;
         }
         return kwotavat;
     }

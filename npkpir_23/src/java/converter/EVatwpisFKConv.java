@@ -27,23 +27,19 @@ public class EVatwpisFKConv  implements javax.faces.convert.Converter{
        FacesContext context = FacesContext.getCurrentInstance();
        EVatwpisFKConverterView eVatwpisFKConverterView = (EVatwpisFKConverterView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"eVatwpisFKConverterView");
        List<Evewidencja> listaEwidencji = eVatwpisFKConverterView.getListaEwidencji();
-        Evewidencja kl = new Evewidencja();
-        if (submittedValue.trim().isEmpty()) {  
-            return null;  
-        } else {  
+       if (submittedValue!=null) {
+            Integer idew = Integer.parseInt(submittedValue);
             try {  
-                String nazwa = submittedValue;  
                 for (Evewidencja p : listaEwidencji) {  
-                    if (p.getNazwa().equals(nazwa)) {  
+                    if (p.getId()==idew) {  
                         return p;  
                     }  
                 }  
-  
+
             } catch(NumberFormatException exception) {  
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid klient"));  
             }  
-        }  
-  
+        }
         return null;  
     }  
   
@@ -52,7 +48,7 @@ public class EVatwpisFKConv  implements javax.faces.convert.Converter{
         if (value == null || value.equals("")) {  
             return "";  
         } else {  
-            return String.valueOf(((Evewidencja) value).getNazwa());  
+            return String.valueOf(((Evewidencja) value).getId());  
         }  
     }  
     

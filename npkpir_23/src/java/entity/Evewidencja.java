@@ -22,6 +22,29 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  *
  * @author Osito
+ * 
+1	import usług
+2	rejestr WDT
+3	rejestr WNT
+4	środki trwałe
+5	zakup
+6	sprzedaż 23%
+9	sprzedaż 0%
+10	usługi świad. poza ter.kraju
+11	sprzedaż zw
+13	sprzedaż 8%
+14	sprzedaż 5%
+15	eksport towarów
+17	odwrotne obciążenie
+18	import usług art. 28b
+19	odwrotne obciążenie sprzedawca
+20	usługi świad. poza ter.kraju art. 100 ust.1 pkt 4
+21	sprzedaż Niemcy
+22	ulga na złe długi naliczony art. 89b ust.1
+23	ulga na złe długi naliczony art. 89b ust.4
+ * 
+ * 
+ * 
  */
 @Entity
 @Table(name = "evewidencja")
@@ -268,30 +291,32 @@ public class Evewidencja implements Serializable {
         this.polejpk_vat_zakup = polejpk_vat_zakup;
     }
 
-    
-
-  
-  
-    
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (nazwa != null ? nazwa.hashCode() : 0);
+        int hash = 7;
+        hash = 97 * hash + this.id;
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Evewidencja)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Evewidencja other = (Evewidencja) object;
-        if ((this.nazwa == null && other.nazwa != null) || (this.nazwa != null && !this.nazwa.equals(other.nazwa))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Evewidencja other = (Evewidencja) obj;
+        if (this.id != other.id) {
             return false;
         }
         return true;
     }
+       
+   
 
     @Override
     public String toString() {
