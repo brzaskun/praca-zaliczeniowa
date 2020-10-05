@@ -131,7 +131,10 @@ public class MailSetUp implements Serializable{
             }
             if (ogolne.isStarttlsenable()) {
                 props.put("mail.smtp.starttls.enable", "true");
+            } else if (ogolne.isSslenable()) {
+                props.put("mail.smtp.ssl.enable", "true");
             }
+            //"mail.smtp.ssl.enable"
             session = Session.getInstance(props,
                     new javax.mail.Authenticator() {
                         @Override

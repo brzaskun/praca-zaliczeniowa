@@ -58,6 +58,8 @@ public class SMTPSettings  implements Serializable {
     private boolean smtpauth;
     @Column(name = "starttlsenable")
     private boolean starttlsenable;
+    @Column(name = "sslenable")
+    private boolean sslenable;
     @Column(name = "glowne")
     private boolean glowne;
 
@@ -159,6 +161,14 @@ public class SMTPSettings  implements Serializable {
 
     public void setStarttlsenable(boolean starttlsenable) {
         this.starttlsenable = starttlsenable;
+    }
+
+    public boolean isSslenable() {
+        return sslenable;
+    }
+
+    public void setSslenable(boolean sslenable) {
+        this.sslenable = sslenable;
     }
 
     public boolean isGlowne() {
