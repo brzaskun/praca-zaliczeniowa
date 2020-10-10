@@ -117,18 +117,14 @@ public class SessionFacade<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @PreDestroy
-    private void end() {
-        if (em != null) {
-            EntityManagerFactory emf = em.getEntityManagerFactory();
-            em.clear();
-//            if (emf != null) {
-//                emf.close();
-//            }
-        }
+    private void preDestroy() {
+        em.clear();
+        em.close();
+        em = null;
         error.E.s("koniec jpa");
     }
 
-    @PersistenceContext(unitName = "npkpir_22PU", synchronization = SynchronizationType.SYNCHRONIZED)
+    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
 
     public SessionFacade() {

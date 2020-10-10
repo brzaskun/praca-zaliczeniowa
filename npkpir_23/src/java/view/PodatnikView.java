@@ -1118,14 +1118,19 @@ private DokDAO dokDAO;
                     throw new Exception();
                 }
                 if (udzialy.getNazwiskoimie().equals(p.getNazwiskoimie())&& (p.getDatazakonczenia()==null || p.getDatazakonczenia().equals(""))) {
+                    Msg.msg("e","Taki NIP jest już na liście");
                     throw new Exception();
                 }
-                
-                if (udzialy.getNip().equals(p.getNip())&& (p.getDatazakonczenia()==null || p.getDatazakonczenia().equals(""))) {
-                    throw new Exception();
+                if ((udzialy.getNip()!=null && p.getNip()!=null)&&(!udzialy.getNip().isEmpty()&&!p.getNip().isEmpty())) {
+                    if (udzialy.getNip().equals(p.getNip())&& (p.getDatazakonczenia()==null || p.getDatazakonczenia().equals(""))) {
+                        throw new Exception();
+                    }
                 }
-                if (udzialy.getPesel().equals(p.getPesel())&& (p.getDatazakonczenia()==null || p.getDatazakonczenia().equals(""))) {
-                    throw new Exception();
+                if ((udzialy.getPesel()!=null && p.getPesel()!=null)&&(!udzialy.getPesel().isEmpty()&&!p.getPesel().isEmpty())) {
+                    if (udzialy.getPesel().equals(p.getPesel())&& (p.getDatazakonczenia()==null || p.getDatazakonczenia().equals(""))) {
+                        Msg.msg("e","Taki Pesel jest już na liście");
+                        throw new Exception();
+                    }
                 }
                 if ((udzialy.getNip()==null && udzialy.getPesel()==null) || (udzialy.getNip()==null && udzialy.getPesel().equals("")) || (udzialy.getNip().equals("") && udzialy.getPesel()==null) || (udzialy.getNip().equals("") && udzialy.getPesel().equals(""))) {
                     Msg.msg("e","Wpisz NIP lub Pesel");
@@ -1145,6 +1150,7 @@ private DokDAO dokDAO;
             sumaudzialow = sumujudzialy(podatnikUdzialy);
             if (sumaudzialow > 100.0) {
                 udzialy.setUdzial(null);
+                Msg.msg("e","Suma udziałów powyżej 100");
                 throw new Exception();
             }
             podatnikUdzialyDAO.dodaj(udzialy);
