@@ -25,6 +25,8 @@
                 <p:selectBooleanCheckbox value="#{sMTPSettingsView.selected.smtpauth}" disabled="true"/>
                 <h:outputText value="smtp starttls"/>
                 <p:selectBooleanCheckbox value="#{sMTPSettingsView.selected.starttlsenable}" disabled="true"/>
+                <h:outputText value="smtp ssl"/>
+                <p:selectBooleanCheckbox value="#{sMTPSettingsView.selected.sslenable}" disabled="true"/>
             </p:panelGrid>
             <p:commandButton value="edytuj" style="width: 120px;" actionListener="#{sMTPSettingsView.przygotujedycja}" global="false" update="form2"/>
         </p:outputPanel>
@@ -49,6 +51,8 @@
                 <p:selectBooleanCheckbox value="#{sMTPSettingsView.nowy.smtpauth}"/>
                 <h:outputText value="smtp starttls"/>
                 <p:selectBooleanCheckbox value="#{sMTPSettingsView.nowy.starttlsenable}"/>
+                <h:outputText value="smtp ssl"/>
+                <p:selectBooleanCheckbox value="#{sMTPSettingsView.nowy.sslenable}"/>
             </p:panelGrid>
             <p:commandButton value="dodaj" style="width: 120px;" actionListener="#{sMTPSettingsView.dodaj}" global="false" update="form1 form2"/>
         </p:outputPanel>

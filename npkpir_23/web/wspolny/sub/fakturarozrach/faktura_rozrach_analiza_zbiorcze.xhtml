@@ -38,7 +38,7 @@
             </p:panelGrid>
                 <h:outputText value="saldo w kolorze niebieskim oznacza telefon lub wysłane upomnienie"/>
             <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.saldanierozliczone}" var="item" style="width: 1200px; margin-top: 20px;"
-                         emptyMessage="nie znaleziono żadnych księgowań" rowKey="#{item.lp}" sortBy="#{item.saldopln}" sortMode="descending"
+                         emptyMessage="nie znaleziono żadnych księgowań" rowKey="#{item.lp}" sortBy="#{item.saldo}" sortOrder="descending"
                          selection="#{fakturaRozrachunkiAnalizaView.saldanierozliczoneselected}" rowSelectMode="add"
                          
                          >
@@ -46,7 +46,7 @@
                 <p:ajax event="rowSelectCheckbox" global="false" listener="#{fakturaRozrachunkiAnalizaView.sumujwybrane()}" update="akordeon:fakturaanalizazbiorcza:suma"/>
                 <p:ajax event="rowUnselectCheckbox" global="false" listener="#{fakturaRozrachunkiAnalizaView.sumujwybrane()}" update="akordeon:fakturaanalizazbiorcza:suma"/>
                 <f:facet name="header">
-                    <h:outputText value="nowe dokumenty"/>
+                    <h:outputText value="dokumenty nierozliczone"/>
                 </f:facet>
                 <p:column width="20" selectionMode="multiple"/>
                 <p:column width="20" sortBy="#{item.lp}" sortable="true">
