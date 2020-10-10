@@ -1334,7 +1334,7 @@ private DokDAO dokDAO;
     public void znajdzdaneregon(String formularz) {
         try {
             if (selectedDod.getId() == 0) {
-                SzukajDaneBean.znajdzdaneregon(formularz, selectedDod, gUSView);
+                SzukajDaneBean.znajdzdaneregon(formularz, selectedDod);
             }
         } catch (Exception e) {
             E.e(e);

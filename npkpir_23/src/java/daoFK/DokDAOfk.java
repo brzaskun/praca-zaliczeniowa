@@ -139,6 +139,17 @@ public class DokDAOfk extends DAO implements Serializable {
        }
     }
     
+    
+    
+    public List<Dokfk> findByKontr(Klienci klienci) {
+        try {
+           return sessionFacade.getEntityManager().createNamedQuery("Dokfk.findByKontrahentDofk").setParameter("kontr", klienci.getId()).getResultList();
+       } catch (Exception e ){
+           return null;
+       }
+    }
+            
+            
     public List<Dokfk> findDokfkAllRok(String rok) {
         try {
            return sessionFacade.getEntityManager().createNamedQuery("Dokfk.findByRok").setParameter("rok", rok).getResultList();

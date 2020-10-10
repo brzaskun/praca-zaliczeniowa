@@ -47,7 +47,7 @@ public class StowRozrachCzlonkView implements Serializable {
     private StronaWierszaDAO stronaWierszaDAO;
     @Inject
     private KontoDAOfk kontoDAOfk;
-    @ManagedProperty(value = "#{WpisView}")
+    @ManagedProperty(value = "#{WpisView}") 
     private WpisView wpisView;
     private MiejscePrzychodow wybranyczlonek;
 

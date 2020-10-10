@@ -205,16 +205,16 @@ public class InterpaperImportView implements Serializable {
             List<Klienci> k = klienciDAO.findAll();
             switch (wybranyrodzajimportu.getLp()) {
                 case 1:
-                    pobranefaktury = ReadCSVInterpaperFile.getListafakturCSV(pobranyplik, k, klienciDAO, rodzajdok, gUSView, wpisView.getMiesiacWpisu());
+                    pobranefaktury = ReadCSVInterpaperFile.getListafakturCSV(pobranyplik, k, klienciDAO, rodzajdok, wpisView.getMiesiacWpisu());
                     break;
                 case 2:
-                    pobranefaktury = ReadXLSFirmaoFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, gUSView, wpisView.getMiesiacWpisu());
+                    pobranefaktury = ReadXLSFirmaoFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, wpisView.getMiesiacWpisu());
                     break;
                 case 3:
-                    pobranefaktury = ReadXLSTomTechFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, gUSView, wpisView.getMiesiacWpisu());
+                    pobranefaktury = ReadXLSTomTechFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, wpisView.getMiesiacWpisu());
                     break;
                 case 4:
-                    pobranefaktury = ReadXLSExolightFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, gUSView, wpisView.getMiesiacWpisu());
+                    pobranefaktury = ReadXLSExolightFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, wpisView.getMiesiacWpisu());
                     break;
                 case 5:
                     if (pobraneplikibytes.size()>0) {
@@ -222,12 +222,12 @@ public class InterpaperImportView implements Serializable {
                             pobranefaktury = new ArrayList<>();
                         }
                         for (byte[] p : pobraneplikibytes) {
-                            pobranefaktury.addAll(ReadXLSMurawskiFile.getListafakturXLS(p, k, klienciDAO, rodzajdok, gUSView, tabelanbpDAO, wpisView.getMiesiacWpisu()));
+                            pobranefaktury.addAll(ReadXLSMurawskiFile.getListafakturXLS(p, k, klienciDAO, rodzajdok, tabelanbpDAO, wpisView.getMiesiacWpisu()));
                         }
                     }
                     break;
                 case 6:
-                    pobranefaktury = ReadXLSMuchaFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, gUSView, wpisView.getMiesiacWpisu());
+                    pobranefaktury = ReadXLSMuchaFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, wpisView.getMiesiacWpisu());
                     break;
             }
             if (jakipobor!=null) {
@@ -483,7 +483,7 @@ public class InterpaperImportView implements Serializable {
     public Klienci znajdzdaneregonAutomat(String nip) {
         Klienci zwrot = null;
         try {
-            zwrot = SzukajDaneBean.znajdzdaneregonAutomat(nip, gUSView);
+            zwrot = SzukajDaneBean.znajdzdaneregonAutomat(nip);
             if (!zwrot.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
                 klienciDAO.dodaj(zwrot);
                 Msg.msg("Zaktualizowano dane klienta pobranymi z GUS");

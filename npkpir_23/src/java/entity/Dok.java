@@ -55,7 +55,7 @@ import waluty.Z;
     @NamedQuery(name = "Dok.findByIdDok", query = "SELECT d FROM Dok d WHERE d.idDok = :idDok"),
     @NamedQuery(name = "Dok.findByIdDokOdDo", query = "SELECT d FROM Dok d WHERE d.idDok > :odd AND D.idDok < :dod"),
     @NamedQuery(name = "Dok.findByTypDokumentu", query = "SELECT d FROM Dok d WHERE d.rodzajedok.skrot = :typdokumentu"),
-    @NamedQuery(name = "Dok.findByKontr", query = "SELECT d FROM Dok d WHERE d.kontr1 = :kontr"),
+    @NamedQuery(name = "Dok.findByKontr", query = "SELECT d FROM Dok d WHERE d.kontr1.id = :kontr"),
     @NamedQuery(name = "Dok.findByKontr1Null", query = "SELECT d FROM Dok d WHERE d.kontr1 IS NULL"),
     @NamedQuery(name = "Dok.findByDataWyst", query = "SELECT d FROM Dok d WHERE d.dataWyst = :dataWyst"),
     @NamedQuery(name = "Dok.findByTermin30", query = "SELECT d FROM Dok d WHERE d.termin30 = :termin30"),

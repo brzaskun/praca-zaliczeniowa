@@ -72,8 +72,6 @@ public class InterpaperImportMT940View implements Serializable {
     private static final long serialVersionUID = 1L;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-    @ManagedProperty(value = "#{gUSView}")
-    private GUSView gUSView;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
     @Inject
@@ -160,10 +158,10 @@ public class InterpaperImportMT940View implements Serializable {
     public void importujdok() {
         try {
             List<Klienci> k = klienciDAO.findAll();
-            pobranefaktury = ReadCSVInterpaperFile.getListafakturCSV(plikinterpaper, k, klienciDAO, rodzajdok, gUSView, wpisView.getMiesiacWpisu());
+            pobranefaktury = ReadCSVInterpaperFile.getListafakturCSV(plikinterpaper, k, klienciDAO, rodzajdok, wpisView.getMiesiacWpisu());
             for (InterpaperXLS p : pobranefaktury) {
                 if (p.getKlient()==null) {
-                    p.setKlient(SzukajDaneBean.znajdzdaneregonAutomat(p.getNip(), gUSView));
+                    p.setKlient(SzukajDaneBean.znajdzdaneregonAutomat(p.getNip()));
                 }
             }
             grid3.setRendered(true);
@@ -313,7 +311,7 @@ public class InterpaperImportMT940View implements Serializable {
     public Klienci znajdzdaneregonAutomat(String nip) {
         Klienci zwrot = null;
         try {
-            zwrot = SzukajDaneBean.znajdzdaneregonAutomat(nip, gUSView);
+            zwrot = SzukajDaneBean.znajdzdaneregonAutomat(nip);
             if (!zwrot.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
                 klienciDAO.dodaj(zwrot);
             }
@@ -645,15 +643,7 @@ private void przesuniecie(Dokfk nd, EVatwpisFK eVatwpisFK) {
         this.pobranefakturyfilter = pobranefakturyfilter;
     }
 
-    public GUSView getgUSView() {
-        return gUSView;
-    }
-
-    public void setgUSView(GUSView gUSView) {
-        this.gUSView = gUSView;
-    }
-
-    public List<Rodzajedok> getRodzajedokKlienta() {
+      public List<Rodzajedok> getRodzajedokKlienta() {
         return rodzajedokKlienta;
     }
 

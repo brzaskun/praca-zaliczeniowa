@@ -250,7 +250,7 @@ public class ImportSprzedazyView  implements Serializable {
         } else {
             Klienci klientznaleziony = klDAO.findKlientByNipImport(nrKontrahenta);
             if (klientznaleziony==null) {
-                klientznaleziony = SzukajDaneBean.znajdzdaneregonAutomat(nrKontrahenta, gUSView);
+                klientznaleziony = SzukajDaneBean.znajdzdaneregonAutomat(nrKontrahenta);
                 if (klientznaleziony!=null && klientznaleziony.getNpelna()!=null) {
                     boolean juzjest = false;
                     for (Klienci p : klienci) {

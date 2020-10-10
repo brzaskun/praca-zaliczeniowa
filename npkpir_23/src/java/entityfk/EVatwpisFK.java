@@ -37,6 +37,7 @@ import org.eclipse.persistence.annotations.CacheType;
     @NamedQuery(name = "EVatwpisFK.findByRok", query = "SELECT k FROM EVatwpisFK k WHERE k.rokEw = :rok"),
     @NamedQuery(name = "EVatwpisFK.findEwidencjaNUll", query = "SELECT k FROM EVatwpisFK k WHERE k.ewidencja IS NULL"),
     @NamedQuery(name = "EVatwpisFK.findByMcRok", query = "SELECT k FROM EVatwpisFK k WHERE k.rokEw = :rok AND k.mcEw = :mc"),
+    @NamedQuery(name = "EVatwpisFK.findByKlient", query = "SELECT k FROM EVatwpisFK k WHERE k.klient = :klient"),
     @NamedQuery(name = "EVatwpisFK.findByPodatnik", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik"),
     @NamedQuery(name = "EVatwpisFK.findByPodatnikRok", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik AND k.rokEw = :rok"),
     @NamedQuery(name = "EVatwpisFK.findByPodatnikRokMcodMcdo", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik AND k.rokEw = :rok AND k.mcEw >= :mcod AND k.mcEw <= :mcdo"),

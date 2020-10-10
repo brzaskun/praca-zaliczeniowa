@@ -471,7 +471,7 @@ public class KlView implements Serializable {
     
     public void znajdzdaneregon(String formularz) {
         try {
-            SzukajDaneBean.znajdzdaneregon(formularz, (Klienci) selected, gUSView);
+            SzukajDaneBean.znajdzdaneregon(formularz, (Klienci) selected);
             PrimeFaces.current().executeScript("$(\".uibuttonmui\").show()");
         } catch (Exception e) {
             E.e(e);
@@ -480,7 +480,7 @@ public class KlView implements Serializable {
     
     public void znajdzdaneregonAutomat(Klienci klientfaktura) {
         try {
-            Klienci aktualizuj = SzukajDaneBean.znajdzdaneregonAutomat(klientfaktura.getNip(), gUSView);
+            Klienci aktualizuj = SzukajDaneBean.znajdzdaneregonAutomat(klientfaktura.getNip());
             klientfaktura.setNpelna(aktualizuj.getNpelna());
             klientfaktura.setMiejscowosc(aktualizuj.getMiejscowosc());
             klientfaktura.setUlica(aktualizuj.getUlica());

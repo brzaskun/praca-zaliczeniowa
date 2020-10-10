@@ -352,7 +352,7 @@ public class DokView implements Serializable {
     public void dodajklientaautomat() {
         try {
             if (selDokument.getKontr().getNpelna().equals("dodaj klienta automatycznie")) {
-                Klienci dodany = SzukajDaneBean.znajdzdaneregonAutomat(selDokument.getKontr().getNip(), gUSView);
+                Klienci dodany = SzukajDaneBean.znajdzdaneregonAutomat(selDokument.getKontr().getNip());
                 selDokument.setKontr(dodany);
                 if (!dodany.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
                     klDAO.dodaj(dodany);
@@ -1740,7 +1740,7 @@ public class DokView implements Serializable {
     
     public void znajdzdaneregon(String formularz) {
         try {
-            SzukajDaneBean.znajdzdaneregon(formularz, selectedKlient, gUSView);
+            SzukajDaneBean.znajdzdaneregon(formularz, selectedKlient);
             PrimeFaces.current().executeScript("$(\".uibuttonmui\").show()");
         } catch (Exception e) {
             E.e(e);

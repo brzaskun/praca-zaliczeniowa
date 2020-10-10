@@ -59,15 +59,37 @@ public class KlienciDAO extends DAO implements Serializable {
         }
    }
     
-    public  List<Klienci> findDoplery(){
+    public  List<Klienci> findDoplery(int ile){
         List<Klienci> zwrot = new ArrayList<>();
         try {
-            zwrot = Collections.synchronizedList(klienciFacade.getEntityManager().createNamedQuery("Klienci.findKlienciNipNazwa").setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).setHint(QueryHints.READ_ONLY, HintValues.TRUE).getResultList());
+            zwrot = Collections.synchronizedList(klienciFacade.getEntityManager().createNamedQuery("Klienci.findDoplery").setParameter("ile", ile).getResultList());
         } catch (Exception e) { 
             E.e(e); 
         }
         return zwrot;
     }
+    
+     public  List<Klienci> findKlienciNipSpacja(){
+        List<Klienci> zwrot = new ArrayList<>();
+        try {
+            zwrot = Collections.synchronizedList(klienciFacade.getEntityManager().createNamedQuery("Klienci.findKlienciNipSpacja").getResultList());
+        } catch (Exception e) { 
+            E.e(e); 
+        }
+        return zwrot;
+    }
+    
+    public  List<Klienci> findKlienciByNip(String nip){
+        List<Klienci> zwrot = new ArrayList<>();
+        try {
+            zwrot = klienciFacade.findKlienciByNip(nip);
+        } catch (Exception e) { 
+            E.e(e); 
+        }
+        return zwrot;
+    }
+    
+
     
     public  Klienci findAllReadOnlyID(String pole){
         Klienci zwrot = null;

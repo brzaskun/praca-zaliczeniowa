@@ -550,7 +550,7 @@ public class FakturaView implements Serializable {
     public void faktItemSelect() {
         try {
             if (selected.getKontrahent().getNpelna().equals("dodaj klienta automatycznie")) {
-                Klienci dodany = SzukajDaneBean.znajdzdaneregonAutomat(selected.getKontrahent().getNip(), gUSView);
+                Klienci dodany = SzukajDaneBean.znajdzdaneregonAutomat(selected.getKontrahent().getNip());
                 selected.setKontrahent(dodany);
                 if (!dodany.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
                     klienciDAO.dodaj(dodany);
@@ -565,7 +565,7 @@ public class FakturaView implements Serializable {
     public void faktObiorcaSelect() {
         try {
             if (selected.getOdbiorca().getNpelna().equals("dodaj klienta automatycznie")) {
-                Klienci dodany = SzukajDaneBean.znajdzdaneregonAutomat(selected.getOdbiorca().getNip(), gUSView);
+                Klienci dodany = SzukajDaneBean.znajdzdaneregonAutomat(selected.getOdbiorca().getNip());
                 selected.setOdbiorca(dodany);
                 if (!dodany.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
                     klienciDAO.dodaj(dodany);

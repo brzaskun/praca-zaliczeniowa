@@ -21,11 +21,11 @@ public class GUSView implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-        
-    public Map<String, String> pobierzDane(String nip)  {
-        GUS poc = new GUS();
-        return poc.pobierz(nip);
-    }
+//        
+//    public Map<String, String> pobierzDane(String nip)  {
+//        GUS poc = new GUS();
+//        return poc.pobierz(nip);
+//    }
 
 //    public Map<String, String> pobierzDane(String nip) {
 //        Map<String, String> zwrot = new ConcurrentHashMap<>();

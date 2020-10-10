@@ -101,7 +101,7 @@ public class ReadXLSFirmaoFile {
         return listafaktur;
     }
     
-     public static List<InterpaperXLS> getListafakturXLS(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, GUSView gUSView, String mc) {
+     public static List<InterpaperXLS> getListafakturXLS(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, String mc) {
         List<InterpaperXLS> listafaktur = Collections.synchronizedList(new ArrayList<>());
          try {
             InputStream file = new ByteArrayInputStream(plikinterpaper);
@@ -121,16 +121,16 @@ public class ReadXLSFirmaoFile {
                         String mcdok = Data.getMc(Data.data_yyyyMMdd(row.getCell(10).getDateCellValue()));
                         if (mc.equals(mcdok)) {
                             if (rodzajdok.contains("zakup")) {
-                                uzupelnijzakup(interpaperXLS, row, k, klienciDAO, znalezieni, gUSView);
+                                uzupelnijzakup(interpaperXLS, row, k, klienciDAO, znalezieni);
                                 if (interpaperXLS.getKontrahent()!=null && (interpaperXLS.getNettowaluta()!=0.0 || interpaperXLS.getVatwaluta()!=0.0)) {
                                     interpaperXLS.setNr(i++);
                                     listafaktur.add(interpaperXLS);
                                 }
                             } else {
                                 if (rodzajdok.equals("sprzedaż NIP") && nip!=null && !nip.equals("")) {
-                                    uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni, gUSView);
+                                    uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
                                 } else if (rodzajdok.equals("sprzedaż os.fiz") && (nip==null || nip.equals(""))) {
-                                    uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni, gUSView);
+                                    uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
                                 }
                                 if (interpaperXLS.getKontrahent()!=null && (interpaperXLS.getNettowaluta()!=0.0 || interpaperXLS.getVatwaluta()!=0.0)) {
                                     interpaperXLS.setNr(i++);
@@ -150,7 +150,7 @@ public class ReadXLSFirmaoFile {
         return listafaktur;
     }
      
-   private static void uzupelnijzakup(InterpaperXLS interpaperXLS, Row row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni, GUSView gUSView) {
+   private static void uzupelnijzakup(InterpaperXLS interpaperXLS, Row row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
         if (row.getCell(16).getStringCellValue().equals("Zakup")) {
             interpaperXLS.setNrfaktury(row.getCell(0).getStringCellValue());
             interpaperXLS.setDatawystawienia(row.getCell(10).getDateCellValue());
@@ -166,7 +166,7 @@ public class ReadXLSFirmaoFile {
             String kontr = row.getCell(3).getStringCellValue()+" "+row.getCell(3).getStringCellValue()+" "+row.getCell(5).getStringCellValue()+" "+row.getCell(6).getStringCellValue();
             interpaperXLS.setKontrahent(kontr);
             interpaperXLS.setNip(row.getCell(2).getStringCellValue().replace("-", "").trim());
-            interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni, gUSView));
+            interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
             interpaperXLS.setWalutaplatnosci(row.getCell(12).getStringCellValue());
             interpaperXLS.setSaldofaktury(row.getCell(17).getNumericCellValue()+row.getCell(18).getNumericCellValue());
             interpaperXLS.setTerminplatnosci(row.getCell(9).getDateCellValue());
@@ -179,7 +179,7 @@ public class ReadXLSFirmaoFile {
         }
    }
    
-    private static void uzupelnijsprzedaz(InterpaperXLS interpaperXLS, Row row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni, GUSView gUSView) {
+    private static void uzupelnijsprzedaz(InterpaperXLS interpaperXLS, Row row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
         if (row.getCell(16).getStringCellValue().equals("Sprzedaż")&& !row.getCell(1).getStringCellValue().equals("Paragon")) {
             interpaperXLS.setNrfaktury(row.getCell(0).getStringCellValue());
             interpaperXLS.setDatawystawienia(row.getCell(10).getDateCellValue());
@@ -195,7 +195,7 @@ public class ReadXLSFirmaoFile {
             String kontr = row.getCell(3).getStringCellValue()+" "+row.getCell(3).getStringCellValue()+" "+row.getCell(5).getStringCellValue()+" "+row.getCell(6).getStringCellValue();
             interpaperXLS.setKontrahent(kontr);
             interpaperXLS.setNip(row.getCell(2).getStringCellValue().replace("-", "").trim());
-            interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni, gUSView));
+            interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
             interpaperXLS.setWalutaplatnosci(row.getCell(12).getStringCellValue());
             interpaperXLS.setSaldofaktury(row.getCell(17).getNumericCellValue()+row.getCell(18).getNumericCellValue());
             interpaperXLS.setTerminplatnosci(row.getCell(9).getDateCellValue());
@@ -208,7 +208,7 @@ public class ReadXLSFirmaoFile {
         }
     }
 
-   private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni, GUSView gUSView) {
+   private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
 //       if (interpaperXLS.getKontrahent().equals("HST")) {
 //           error.E.s("");
 //       }
@@ -243,7 +243,7 @@ public class ReadXLSFirmaoFile {
             if (klient==null && interpaperXLS.getNip()!=null && interpaperXLS.getNip().length()>6) {
                 String nip = interpaperXLS.getNip().trim();
                 if (nip.length()==10 && Character.isDigit(nip.charAt(0))) {
-                    klient = SzukajDaneBean.znajdzdaneregonAutomat(nip, gUSView);
+                    klient = SzukajDaneBean.znajdzdaneregonAutomat(nip);
                     if (klient.getNpelna()==null) {
                         klient = null;
                     } else {

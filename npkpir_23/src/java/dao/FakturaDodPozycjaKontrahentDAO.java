@@ -9,6 +9,7 @@ import entity.FakturaDodPozycjaKontrahent;
 import entity.Klienci;
 import error.E;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import session.SessionFacade;
@@ -65,5 +66,15 @@ public class FakturaDodPozycjaKontrahentDAO  extends DAO implements Serializable
 //            
 //        }
 //   }       
+
+    public List<FakturaDodPozycjaKontrahent> findbyKontrahent(Klienci t) {
+        List<FakturaDodPozycjaKontrahent> zwrot =  new ArrayList<>();
+        try {
+            zwrot = sessionFacade.getEntityManager().createNamedQuery("FakturaDodPozycjaKontrahent.findByKontrahent").setParameter("kontrahent", t).getResultList();
+        } catch (Exception e) { E.e(e); 
+            
+        }
+        return zwrot;
+    }
     
 }

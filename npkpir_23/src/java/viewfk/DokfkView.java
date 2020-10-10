@@ -1363,7 +1363,7 @@ public class DokfkView implements Serializable {
     public void dodajklientaautomatRK() {
         try {
             if (ewidencjaVatRK.getKlient().getNpelna().equals("dodaj klienta automatycznie")) {
-                Klienci dodany = SzukajDaneBean.znajdzdaneregonAutomat(ewidencjaVatRK.getKlient().getNip(), gUSView);
+                Klienci dodany = SzukajDaneBean.znajdzdaneregonAutomat(ewidencjaVatRK.getKlient().getNip());
                 ewidencjaVatRK.setKlient(dodany);
                 if (!dodany.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
                     klienciDAO.dodaj(dodany);
@@ -1439,7 +1439,7 @@ public class DokfkView implements Serializable {
     public void pobierzopiszpoprzedniegodokItemSelect() {
         try {
             if (selected.getKontr().getNpelna().equals("dodaj klienta automatycznie")) {
-                Klienci dodany = SzukajDaneBean.znajdzdaneregonAutomat(selected.getKontr().getNip(), gUSView);
+                Klienci dodany = SzukajDaneBean.znajdzdaneregonAutomat(selected.getKontr().getNip());
                 if (!dodany.getNpelna().equals("dodaj klienta automatycznie")) {
                     selected.setKontr(dodany);
                     if (!dodany.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {

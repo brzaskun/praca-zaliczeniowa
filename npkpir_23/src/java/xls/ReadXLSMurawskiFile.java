@@ -101,7 +101,7 @@ public class ReadXLSMurawskiFile {
         return listafaktur;
     }
     
-     public static List<InterpaperXLS> getListafakturXLS(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, GUSView gUSView, TabelanbpDAO tabelanbpDAO, String mc) {
+     public static List<InterpaperXLS> getListafakturXLS(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, TabelanbpDAO tabelanbpDAO, String mc) {
         List<InterpaperXLS> listafaktur = Collections.synchronizedList(new ArrayList<>());
          try {
             InputStream file = new ByteArrayInputStream(plikinterpaper);
@@ -123,7 +123,7 @@ public class ReadXLSMurawskiFile {
                 String mcdok = Data.getMc(Data.data_yyyyMMdd(wiersze.get(1).getCell(11).getDateCellValue()));
                 if (mc.equals(mcdok)) {
                     //String nip = row.getCell(2).getStringCellValue().replace("-", "").trim();
-                    uzupelnijsprzedaz(interpaperXLS, wiersze, k, klienciDAO, znalezieni, gUSView, tabelanbpDAO);
+                    uzupelnijsprzedaz(interpaperXLS, wiersze, k, klienciDAO, znalezieni, tabelanbpDAO);
                     if (interpaperXLS.getKontrahent()!=null && (interpaperXLS.getNettowaluta()!=0.0 || interpaperXLS.getVatwaluta()!=0.0)) {
                         interpaperXLS.setNr(i++);
                         listafaktur.add(interpaperXLS);
@@ -154,7 +154,7 @@ public class ReadXLSMurawskiFile {
         interpaperXLS.setBruttoPLN(Z.z(interpaperXLS.getNettoPLN()+interpaperXLS.getVatPLN()));
     }
       
-    private static void uzupelnijsprzedaz(InterpaperXLS interpaperXLS, List<Row> rows ,List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni, GUSView gUSView, TabelanbpDAO tabelanbpDAO) {
+    private static void uzupelnijsprzedaz(InterpaperXLS interpaperXLS, List<Row> rows ,List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni, TabelanbpDAO tabelanbpDAO) {
             if (rows.size()>0) {
             String numerrach = rows.get(10).getCell(8).getStringCellValue();
             boolean korekta = false;
@@ -187,7 +187,7 @@ public class ReadXLSMurawskiFile {
                 interpaperXLS.setKlientpaństwo("DE");
             }
             interpaperXLS.setNip("");
-            interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni, gUSView));
+            interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
             interpaperXLS.setWalutaplatnosci("EUR");
             if (korekta){
                 interpaperXLS.setNettowaluta(-Z.z(rows.get(21).getCell(8).getNumericCellValue()));
@@ -203,7 +203,7 @@ public class ReadXLSMurawskiFile {
             }
         }
 
-   private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni, GUSView gUSView) {
+   private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
 //       if (interpaperXLS.getKontrahent().equals("HST")) {
 //           error.E.s("");
 //       }
@@ -238,7 +238,7 @@ public class ReadXLSMurawskiFile {
             if (klient==null && interpaperXLS.getNip()!=null && interpaperXLS.getNip().length()>6) {
                 String nip = interpaperXLS.getNip().trim();
                 if (nip.length()==10 && Character.isDigit(nip.charAt(0))) {
-                    klient = SzukajDaneBean.znajdzdaneregonAutomat(nip, gUSView);
+                    klient = SzukajDaneBean.znajdzdaneregonAutomat(nip);
                     if (klient.getNpelna()==null) {
                         klient = null;
                     } else {

@@ -16,6 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.PrimeFaces;
+import webservice.GUS;
 
 /**
  *
@@ -23,12 +24,13 @@ import org.primefaces.PrimeFaces;
  */
 public class SzukajDaneBean {
     
-     public static void znajdzdaneregon(String formularz, Klienci selected, GUSView gUSView) {
+     public static void znajdzdaneregon(String formularz, Klienci selected) {
         String nip = selected.getNip();
         Pattern p = Pattern.compile("^[a-zA-Z]+$");//<-- compile( not Compile(
         Matcher m = p.matcher(nip.substring(0,1));  //<-- matcher( not Matcher
         if (selected.getNip() != null && !m.find() && selected.getNip().length()==10) {
-            Map<String, String> dane = gUSView.pobierzDane(selected.getNip());
+            GUS poc = new GUS();
+            Map<String, String> dane = poc.pobierz(nip);
             if (dane.size()==0) {
                 selected.setNpelna("wystąpił błąd logowania do serwera GUS");
             } else if (dane.size()==1) {
@@ -70,7 +72,7 @@ public class SzukajDaneBean {
         }
     }
      
-     public static Klienci znajdzdaneregonAutomat(String nip, GUSView gUSView) {
+     public static Klienci znajdzdaneregonAutomat(String nip) {
         if (nip.equals("9930282842")) {
             error.E.s("");
         }
@@ -79,7 +81,8 @@ public class SzukajDaneBean {
             Pattern p = Pattern.compile("^[a-zA-Z]+$");//<-- compile( not Compile(
             Matcher m = p.matcher(nip.substring(0,1));  //<-- matcher( not Matcher
             if (nip != null && !m.find() && nip.length()==10) {
-                Map<String, String> dane = gUSView.pobierzDane(nip);
+                GUS poc = new GUS();
+                Map<String, String> dane = poc.pobierz(nip);
                 if (dane.size()==0) {
                     selected.setNpelna("wystąpił błąd logowania do serwera GUS");
                 } else if (dane.size()==1) {
@@ -118,12 +121,13 @@ public class SzukajDaneBean {
         return selected;
     }
      
-     public static void znajdzdaneregon(String formularz, Podatnik selected, GUSView gUSView) {
+     public static void znajdzdaneregon(String formularz, Podatnik selected) {
         String nip = selected.getNip();
         Pattern p = Pattern.compile("^[a-zA-Z]+$");//<-- compile( not Compile(
         Matcher m = p.matcher(nip.substring(0,1));  //<-- matcher( not Matcher
         if (selected.getNip() != null && !m.find() && selected.getNip().length()==10) {
-            Map<String, String> dane = gUSView.pobierzDane(selected.getNip());
+            GUS poc = new GUS();
+            Map<String, String> dane = poc.pobierz(nip);
             if (dane.size()==0) {
                 selected.setPrintnazwa("wystąpił błąd logowania do serwera GUS");
             } else if (dane.size()==1) {

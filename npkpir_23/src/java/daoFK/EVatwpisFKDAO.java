@@ -40,7 +40,17 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
         return sessionFacade.findAll(EVatwpisFK.class);
     }
     
-    public List<EVatwpisFK> findPodatnik(Podatnik podatnik) {
+    public List<EVatwpisFK> findbyKontrahent(Klienci t) {
+        List<EVatwpisFK> zwrot = new ArrayList<>();
+        try {
+            zwrot = sessionFacade.getEntityManager().createNamedQuery("EVatwpisFK.findByKlient").setParameter("klient", t).getResultList();
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
+    }
+    
+     public List<EVatwpisFK> findPodatnik(Podatnik podatnik) {
         return sessionFacade.findEVatwpisFKByPodatnik(podatnik);
     }
     

@@ -369,7 +369,7 @@ public class BankPKOImportView implements Serializable {
       private Dokfk stworznowydokument(List<Klienci> klienci, int i) {
         int numerkolejny = ImportBean.oblicznumerkolejny(rodzajdok.getSkrotNazwyDok(), dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         Dokfk nd = new Dokfk(numerkolejny, wpisView.getRokWpisuSt());
-        nd.setKontr(ImportBean.ustawkontrahenta(wpisView.getPodatnikObiekt().getNip(), wpisView.getPodatnikWpisu(), klienci, gUSView, klienciDAO));
+        nd.setKontr(ImportBean.ustawkontrahenta(wpisView.getPodatnikObiekt().getNip(), wpisView.getPodatnikWpisu(), klienci, klienciDAO));
         ImportBean.ustawnumerwlasny(nd, "wyciag nr "+wyciagnr+"/"+i);
         nd.setOpisdokfk("rozliczenie wyciągu za "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt());
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());

@@ -176,7 +176,7 @@ public class ImportSprzedazyFKView  implements Serializable {
                 String pobranadata = p.getDataSprzedazy()!=null ? p.getDataSprzedazy().toString() : p.getDataWystawienia().toString();
                 boolean czydobradata = data.Data.czydatajestwmcu(pobranadata, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
                 if (czydobradata) {
-                    Klienci klient = ImportBean.ustawkontrahentaImportJPK(p.getNrKontrahenta(), p.getNazwaKontrahenta(), k, gUSView, klDAO);
+                    Klienci klient = ImportBean.ustawkontrahentaImportJPK(p.getNrKontrahenta(), p.getNazwaKontrahenta(), k, klDAO);
                     if (jpk1inne2==1) {
                         if (klient.getNip()!=null && klient.getNip().length()>8) {
                            s.setKlient(klient);
@@ -293,7 +293,7 @@ public class ImportSprzedazyFKView  implements Serializable {
         Zwrotgenerowania zw = new Zwrotgenerowania();
         Dokfk nd = null;
         String msg = zw.getWiadomosc();
-        Klienci kontrahent = ImportBean.ustawkontrahenta(wiersz.getSprzedazWiersz().getNrKontrahenta(), wiersz.getSprzedazWiersz().getNazwaKontrahenta(), klienci, gUSView, klienciDAO);
+        Klienci kontrahent = ImportBean.ustawkontrahenta(wiersz.getSprzedazWiersz().getNrKontrahenta(), wiersz.getSprzedazWiersz().getNazwaKontrahenta(), klienci, klienciDAO);
         if (kontrahent!=null) {
             try {
                 String rodzajdk = "SZ";

@@ -9,6 +9,7 @@ import entity.Klienci;
 import entity.Podatnik;
 import error.E;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.inject.Inject;
@@ -163,5 +164,15 @@ public class FakturaDAO extends DAO implements Serializable {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public List<Faktura> findbyKontrahent(Klienci t) {
+        List<Faktura> zwrot = new ArrayList<>();
+        try {
+            zwrot = fakturaFacade.findKontrahentIDFakt(t); 
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
     }
 }

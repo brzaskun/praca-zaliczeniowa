@@ -44,7 +44,7 @@ import waluty.Z;
  * @author Osito
  */
 public class ImportBean {
-    public static Klienci ustawkontrahenta(String nip, String nazwa, List<Klienci> k, GUSView gUSView, KlienciDAO klienciDAO) {
+    public static Klienci ustawkontrahenta(String nip, String nazwa, List<Klienci> k, KlienciDAO klienciDAO) {
         //Uwaga zawraca nie null jak nie znajdzie ale new Klieci() (Szukanie po regonie)
         Klienci klient = null;
         try {
@@ -63,7 +63,7 @@ public class ImportBean {
                 }
             }
             if (klient==null) {
-                klient = znajdzdaneregonAutomat(nip.trim(), klienciDAO, gUSView);
+                klient = znajdzdaneregonAutomat(nip.trim(), klienciDAO);
             }
             if (klient!=null && klient.getNpelna()!=null && klient.getNip()!=null) {
                 k.add(klient);
@@ -78,7 +78,7 @@ public class ImportBean {
         return klient;
     }
     
-    public static Klienci ustawkontrahentaImportJPK(String nip, String nazwa, List<Klienci> k, GUSView gUSView, KlienciDAO klienciDAO) {
+    public static Klienci ustawkontrahentaImportJPK(String nip, String nazwa, List<Klienci> k, KlienciDAO klienciDAO) {
         //Uwaga zawraca nie null jak nie znajdzie ale new Klieci() (Szukanie po regonie)
         Klienci klient = null;
         try {
@@ -89,7 +89,7 @@ public class ImportBean {
                 }
             }
             if (klient==null) {
-                klient = znajdzdaneregonAutomat(nip.trim(), klienciDAO, gUSView);
+                klient = znajdzdaneregonAutomat(nip.trim(), klienciDAO);
             }
             if (klient!=null && klient.getNpelna()!=null && klient.getNip()!=null) {
                 k.add(klient);
@@ -121,10 +121,10 @@ public class ImportBean {
         }
     }
     
-     public static Klienci znajdzdaneregonAutomat(String nip, KlienciDAO klienciDAO, GUSView gUSView) {
+     public static Klienci znajdzdaneregonAutomat(String nip, KlienciDAO klienciDAO) {
         Klienci zwrot = null;
         try {
-            zwrot = SzukajDaneBean.znajdzdaneregonAutomat(nip, gUSView);
+            zwrot = SzukajDaneBean.znajdzdaneregonAutomat(nip);
             if (zwrot!=null && zwrot.getNip()!=null) {
                 if (!zwrot.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
                     klienciDAO.dodaj(zwrot);

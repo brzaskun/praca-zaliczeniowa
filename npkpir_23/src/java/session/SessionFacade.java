@@ -1497,6 +1497,18 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         }
     }
     
+    
+    public List<Klienci> findKlienciByNip(String nip) {
+        List<Klienci> wynik = null;
+        try {
+            wynik = em.createNamedQuery("Klienci.findByNip").setParameter("nip", nip).getResultList();
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return wynik;
+    }
+    
+    
     public Klienci findKlientByNipImport(String nip) {
         List<Klienci> wynik = null;
         try {
@@ -1514,6 +1526,11 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         }
     }
     
+
+        
+    public List<Dok> findByKontr(Klienci numer) {
+        return  em.createNamedQuery("Dok.findByKontr").setParameter("kontr", numer.getId()).getResultList();
+    }
 
     public Dok findDokByNr(String numer) {
         return (Dok) em.createNamedQuery("Dok.findByNrWlDk").setParameter("nrWlDk", "fvp/2013/13185/m").getSingleResult();
@@ -2577,6 +2594,10 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     public SrodekTrw findStrId(Integer id) {
         return (SrodekTrw) em.createNamedQuery("SrodekTrw.findById").setParameter("id", id).getSingleResult();
+    }
+
+    public List<Faktura> findKontrahentIDFakt(Klienci t) {
+        return em.createNamedQuery("Faktura.findByKontrahentID").setParameter("kontrahent", t).getResultList();
     }
 
     

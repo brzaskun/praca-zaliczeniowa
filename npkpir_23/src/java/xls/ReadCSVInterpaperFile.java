@@ -51,7 +51,7 @@ public class ReadCSVInterpaperFile {
     private static String filename = "c://temp//faktury2.xlsx";
     
         
-     public static List<InterpaperXLS> getListafakturCSV(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, GUSView gUSView, String mc) {
+     public static List<InterpaperXLS> getListafakturCSV(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, String mc) {
         List<InterpaperXLS> listafaktur = Collections.synchronizedList(new ArrayList<>());
          try {
             InputStream file = new ByteArrayInputStream(plikinterpaper);
@@ -78,9 +78,9 @@ public class ReadCSVInterpaperFile {
                         String mcdok = Data.getMc(Data.data_yyyyMMdd(Date.valueOf(row.get(2))));
                         if (mc.equals(mcdok)) {
                             if (rodzajdok.equals("zakup")) {
-                                uzupelnijzakup(interpaperXLS, row, k, klienciDAO, znalezieni, gUSView);
+                                uzupelnijzakup(interpaperXLS, row, k, klienciDAO, znalezieni);
                             } else {
-                                uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni, gUSView);
+                                uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
                             }
                         }
                         listafaktur.add(interpaperXLS);
@@ -96,7 +96,7 @@ public class ReadCSVInterpaperFile {
         return listafaktur;
     }
      
-   private static void uzupelnijzakup(InterpaperXLS interpaperXLS, List<String> row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni, GUSView gUSView) {
+   private static void uzupelnijzakup(InterpaperXLS interpaperXLS, List<String> row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
        interpaperXLS.setNrfaktury(row.get(0));
        interpaperXLS.setDataotrzymania(Date.valueOf(row.get(1)));
         interpaperXLS.setDatawystawienia(Date.valueOf(row.get(2)));
@@ -104,7 +104,7 @@ public class ReadCSVInterpaperFile {
         interpaperXLS.setDataobvat(Date.valueOf(row.get(4)));
         interpaperXLS.setKontrahent(row.get(5));
         interpaperXLS.setNip(row.get(6));
-        interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni, gUSView));
+        interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
         interpaperXLS.setWalutaplatnosci(row.get(7));
         interpaperXLS.setBruttowaluta(format.F.kwota(row.get(8)));
         interpaperXLS.setSaldofaktury(format.F.kwota(row.get(9)));
@@ -124,14 +124,14 @@ public class ReadCSVInterpaperFile {
         interpaperXLS.setBruttoPLN(format.F.kwota(row.get(19)));
    }
    
-   private static void uzupelnijsprzedaz(InterpaperXLS interpaperXLS, List<String> row,List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni, GUSView gUSView) {
+   private static void uzupelnijsprzedaz(InterpaperXLS interpaperXLS, List<String> row,List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
        interpaperXLS.setNrfaktury(row.get(1));
         interpaperXLS.setDatawystawienia(Date.valueOf(row.get(2)));
         interpaperXLS.setDatasprzedaży(Date.valueOf(row.get(3)));
         interpaperXLS.setDataobvat(null);
         interpaperXLS.setKontrahent(row.get(4));
         interpaperXLS.setNip(row.get(5));
-        interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni, gUSView));
+        interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
         interpaperXLS.setWalutaplatnosci(row.get(6));
         interpaperXLS.setBruttowaluta(format.F.kwota(row.get(7)));
         interpaperXLS.setSaldofaktury(format.F.kwota(row.get(8)));
@@ -151,7 +151,7 @@ public class ReadCSVInterpaperFile {
         interpaperXLS.setBruttoPLN(format.F.kwota(row.get(18)));
    }
     
-   private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni, GUSView gUSView) {
+   private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
 //       if (interpaperXLS.getKontrahent().equals("HST")) {
 //           error.E.s("");
 //       }
@@ -186,7 +186,7 @@ public class ReadCSVInterpaperFile {
             if (klient==null) {
                 String nip = interpaperXLS.getNip().trim();
                 if (nip.length()==10 && Character.isDigit(nip.charAt(0))) {
-                    klient = SzukajDaneBean.znajdzdaneregonAutomat(nip, gUSView);
+                    klient = SzukajDaneBean.znajdzdaneregonAutomat(nip);
                     if (klient.getNpelna()==null) {
                         klient = null;
                     } else {

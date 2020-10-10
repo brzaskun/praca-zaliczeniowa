@@ -44,7 +44,11 @@ public class DokDAO extends DAO implements Serializable {
         return dokFacade.znajdzKontr1Null();
     }
     
-
+            
+    public List<Dok> findByKontr(Klienci numer) {
+        return dokFacade.findByKontr(numer);
+    }
+    
     public Dok findDokByNr(String numer) {
         return dokFacade.findDokByNr(numer);
     }

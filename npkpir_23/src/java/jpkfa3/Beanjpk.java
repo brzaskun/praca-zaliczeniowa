@@ -48,7 +48,7 @@ import xls.ImportBean;
 public class Beanjpk {
     
     public static Dok generujdok(Object p, String waldok, List<Evewidencja> evewidencje, TabelanbpDAO tabelanbpDAO, Tabelanbp tabeladomyslna, List<Klienci> klienci, boolean wybierzosobyfizyczne, 
-            boolean deklaracjaniemiecka, KlienciDAO klDAO, GUSView gUSView, Podatnik podatnik, DokDAO dokDAO, Rodzajedok rodzajedok, boolean pol0de1) {
+            boolean deklaracjaniemiecka, KlienciDAO klDAO, Podatnik podatnik, DokDAO dokDAO, Rodzajedok rodzajedok, boolean pol0de1) {
         jpkfa3.JPK.Faktura faktura = (jpkfa3.JPK.Faktura) p;
         Dok selDokument = new Dok();
         try {
@@ -68,7 +68,7 @@ public class Beanjpk {
             selDokument.setUsunpozornie(false);
             selDokument.setDataWyst(faktura.getP1().toString());
             selDokument.setDataSprz(faktura.getP6().toString());
-            selDokument.setKontr(pobierzkontrahenta(faktura, pobierzNIPkontrahenta(faktura), klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, gUSView));
+            selDokument.setKontr(pobierzkontrahenta(faktura, pobierzNIPkontrahenta(faktura), klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO));
             selDokument.setRodzajedok(rodzajedok);
             selDokument.setNrWlDk(faktura.getP2A());
             Tabelanbp innatabela = beansDok.BeansJPK.pobierztabele(waldok, selDokument.getDataWyst(), tabelanbpDAO);
@@ -127,7 +127,7 @@ public class Beanjpk {
     }
     
     public static Dokfk generujdokfk(Object p, String waldok, List<Evewidencja> evewidencje, TabelanbpDAO tabelanbpDAO, Tabelanbp tabeladomyslna, List<Klienci> klienci, boolean wybierzosobyfizyczne,
-            boolean deklaracjaniemiecka, KlienciDAO klDAO, GUSView gUSView, Podatnik podatnik, DokDAOfk dokDAOfk, Rodzajedok rodzajedok, boolean pol0de1,ListaEwidencjiVat listaEwidencjiVat,
+            boolean deklaracjaniemiecka, KlienciDAO klDAO, Podatnik podatnik, DokDAOfk dokDAOfk, Rodzajedok rodzajedok, boolean pol0de1,ListaEwidencjiVat listaEwidencjiVat,
             KliencifkDAO kliencifkDAO, WpisView wpisView, KontoDAOfk kontoDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBRDAO ukladBRDAO, int numerkolejny) {
         jpkfa3.JPK.Faktura faktura = (jpkfa3.JPK.Faktura) p;
         Dokfk nd = null;
@@ -140,7 +140,7 @@ public class Beanjpk {
             String rok = datawystawienia.substring(0, 4);
             nd = new Dokfk(numerkolejny, rok);
             nd.setWprowadzil(principal.getName());
-            nd.setKontr(pobierzkontrahenta(faktura, pobierzNIPkontrahenta(faktura), klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, gUSView));
+            nd.setKontr(pobierzkontrahenta(faktura, pobierzNIPkontrahenta(faktura), klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO));
             ImportBean.ustawnumerwlasny(nd, faktura.getP2A());
             nd.setOpisdokfk("przychód ze sprzedaży");
             nd.setPodatnikObj(podatnik);
@@ -255,7 +255,7 @@ public class Beanjpk {
     }
 
         
-    private static Klienci pobierzkontrahenta(jpkfa3.JPK.Faktura faktura, String nrKontrahenta, List<Klienci> klienci, boolean wybierzosobyfizyczne, boolean deklaracjaniemiecka, KlienciDAO klDAO, GUSView gUSView) {
+    private static Klienci pobierzkontrahenta(jpkfa3.JPK.Faktura faktura, String nrKontrahenta, List<Klienci> klienci, boolean wybierzosobyfizyczne, boolean deklaracjaniemiecka, KlienciDAO klDAO) {
         if (wybierzosobyfizyczne||deklaracjaniemiecka) {
            Klienci inc = new Klienci();
            inc.setNpelna(faktura.getP3A()!=null ? faktura.getP3A(): "brak nazwy indycentalnego");
@@ -264,7 +264,7 @@ public class Beanjpk {
         } else {
             Klienci klientznaleziony = klDAO.findKlientByNipImport(nrKontrahenta);
             if (klientznaleziony==null) {
-                klientznaleziony = SzukajDaneBean.znajdzdaneregonAutomat(nrKontrahenta, gUSView);
+                klientznaleziony = SzukajDaneBean.znajdzdaneregonAutomat(nrKontrahenta);
                 if (klientznaleziony!=null && klientznaleziony.getNip()!=null) {
                     boolean juzjest = false;
                     for (Klienci p : klienci) {

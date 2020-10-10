@@ -201,7 +201,7 @@ public class ImportFakturyView  implements Serializable {
             jpk.getFaktura().forEach((p) -> {
                 jpkfa.JPK.Faktura wiersz = (jpkfa.JPK.Faktura) p;
                 if (wiersz.getP5B() != null && wiersz.getP5B().length()>=10) {
-                    Dok dok = jpkfa.Beanjpk.generujdok(p, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, gUSView, wpisView.getPodatnikObiekt(), dokDAO, sprzedazkraj, false);
+                    Dok dok = jpkfa.Beanjpk.generujdok(p, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAO, sprzedazkraj, false);
                     if (dok!=null) {
                         dokumenty.add(dok);
                     }
@@ -218,7 +218,7 @@ public class ImportFakturyView  implements Serializable {
                 jpkfa3.CurrCodeType walutapliku = wiersz.getKodWaluty();
                 String waldok = walutapliku.toString();
                 if (wiersz.getP5B() != null && wiersz.getP5B().length()>=10) {
-                    Dok dok = jpkfa3.Beanjpk.generujdok(p, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, gUSView, wpisView.getPodatnikObiekt(), dokDAO, sprzedazkraj, false);
+                    Dok dok = jpkfa3.Beanjpk.generujdok(p, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAO, sprzedazkraj, false);
                     if (dok!=null) {
                         netto += dok.getNetto();
                         vat += dok.getVat();
@@ -240,9 +240,9 @@ public class ImportFakturyView  implements Serializable {
                 if (wiersz.getP5B() != null && wiersz.getP5B().length()>=0) {
                     Dokfk dok = null;
                     if (wiersz.getP5A()!=null && !wiersz.getP5A().toString().equals("PL")) {    
-                        dok = jpkfa3.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, gUSView, wpisView.getPodatnikObiekt(), dokDAOfk, sprzedazwdt, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny);
+                        dok = jpkfa3.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAOfk, sprzedazwdt, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny);
                     } else {
-                        dok = jpkfa3.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, gUSView, wpisView.getPodatnikObiekt(), dokDAOfk, sprzedazkraj, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny);
+                        dok = jpkfa3.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAOfk, sprzedazkraj, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny);
                     }
                     if (dok!=null) {
                         netto += dok.getNettoVAT();
@@ -264,7 +264,7 @@ public class ImportFakturyView  implements Serializable {
             jpk.getFaktura().forEach((p) -> {
                 jpkfa.JPK.Faktura wiersz = (jpkfa.JPK.Faktura) p;
                 if (wiersz.getP5B() == null || wiersz.getP5B().length()!=10) {
-                    Dok dok = jpkfa.Beanjpk.generujdok(p, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, gUSView, wpisView.getPodatnikObiekt(), dokDAO, sprzedazkraj, false);
+                    Dok dok = jpkfa.Beanjpk.generujdok(p, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAO, sprzedazkraj, false);
                     if (dok!=null) {
                         netto += dok.getNetto();
                         vat += dok.getVat();
@@ -284,7 +284,7 @@ public class ImportFakturyView  implements Serializable {
                 jpkfa3.CurrCodeType walutapliku = wiersz.getKodWaluty();
                 String waldok = walutapliku.toString();
                 if (wiersz.getP5B() == null || wiersz.getP5B().length()!=10) {
-                    Dok dok = jpkfa3.Beanjpk.generujdok(p, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, gUSView, wpisView.getPodatnikObiekt(), dokDAO, sprzedazkraj, false);
+                    Dok dok = jpkfa3.Beanjpk.generujdok(p, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAO, sprzedazkraj, false);
                     if (dok!=null) {
                         netto += dok.getNetto();
                         vat += dok.getVat();
@@ -304,7 +304,7 @@ public class ImportFakturyView  implements Serializable {
                 jpkfa3.CurrCodeType walutapliku = wiersz.getKodWaluty();
                 String waldok = walutapliku.toString();
                 if (wiersz.getP5B() == null || wiersz.getP5B().length()!=10) {
-                    Dokfk dok = jpkfa3.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, gUSView, wpisView.getPodatnikObiekt(), dokDAOfk, sprzedazkraj, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny);
+                    Dokfk dok = jpkfa3.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAOfk, sprzedazkraj, false, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny);
                     if (dok!=null) {
                         netto += dok.getNettoVAT();
                         vat += dok.getVATVAT();
@@ -324,7 +324,7 @@ public class ImportFakturyView  implements Serializable {
             jpk.getFaktura().forEach((p) -> {
                 jpkfa.JPK.Faktura wiersz = (jpkfa.JPK.Faktura) p;
                 if (wiersz.getP5B() == null || wiersz.getP5B().length()!=10) {
-                    Dok dok =  jpkfa.Beanjpk.generujdok(p, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, gUSView, wpisView.getPodatnikObiekt(), dokDAO, sprzedazkraj, true);
+                    Dok dok =  jpkfa.Beanjpk.generujdok(p, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAO, sprzedazkraj, true);
                     if (dok!=null) {
                         netto += dok.getNetto();
                         vat += dok.getVat();
@@ -344,7 +344,7 @@ public class ImportFakturyView  implements Serializable {
                 jpkfa3.CurrCodeType walutapliku = wiersz.getKodWaluty();
                 String waldok = walutapliku.toString();
                 if (wiersz.getP5B() == null || wiersz.getP5B().length()!=10) {
-                    Dok dok =  jpkfa3.Beanjpk.generujdok(p, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, gUSView, wpisView.getPodatnikObiekt(), dokDAO, sprzedazkraj, true);
+                    Dok dok =  jpkfa3.Beanjpk.generujdok(p, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAO, sprzedazkraj, true);
                     if (dok!=null) {
                         netto += dok.getNetto();
                         vat += dok.getVat();
@@ -364,7 +364,7 @@ public class ImportFakturyView  implements Serializable {
                 jpkfa3.CurrCodeType walutapliku = wiersz.getKodWaluty();
                 String waldok = walutapliku.toString();
                 if (wiersz.getP5B() == null || wiersz.getP5B().length()!=10) {
-                    Dokfk dok =  jpkfa3.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, gUSView, wpisView.getPodatnikObiekt(), dokDAOfk, sprzedazkraj, true, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny);
+                    Dokfk dok =  jpkfa3.Beanjpk.generujdokfk(wiersz, waldok, evewidencje, tabelanbpDAO, tabeladomyslna, klienci, wybierzosobyfizyczne, deklaracjaniemiecka, klDAO, wpisView.getPodatnikObiekt(), dokDAOfk, sprzedazkraj, true, listaEwidencjiVat, kliencifkDAO, wpisView, kontoDAO, kontopozycjaZapisDAO, ukladBRDAO, numerkolejny);
                     if (dok!=null) {
                         netto += dok.getNettoVAT();
                         vat += dok.getVATVAT();
