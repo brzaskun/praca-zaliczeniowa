@@ -8,7 +8,6 @@ import entityfk.Konto;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
-import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,7 +45,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Rodzajedok.findByListaWspolna", query = "SELECT r FROM Rodzajedok r WHERE r.podatnikObj = :podatnik"),
     @NamedQuery(name = "Rodzajedok.findByKategoriaDokumentu", query = "SELECT r FROM Rodzajedok r WHERE r.kategoriadokumentu = :kategoriadokumentu")
 })
-@Cacheable
 public class Rodzajedok implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
