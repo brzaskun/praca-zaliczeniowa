@@ -37,7 +37,7 @@
                 <bcf:outputpl value="#{fakturaRozrachunkiAnalizaView.sumasaldnierozliczonych}"/>
             </p:panelGrid>
                 <h:outputText value="saldo w kolorze niebieskim oznacza telefon lub wysłane upomnienie"/>
-            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.saldanierozliczone}" var="item" style="width: 1200px; margin-top: 20px;"
+            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.saldanierozliczone}" var="item" style="width: 1400px; margin-top: 20px;"
                          emptyMessage="nie znaleziono żadnych księgowań" rowKey="#{item.lp}" sortBy="#{item.saldo}" sortOrder="descending"
                          selection="#{fakturaRozrachunkiAnalizaView.saldanierozliczoneselected}" rowSelectMode="add"
                          
@@ -60,6 +60,12 @@
                         <h:outputText value="kontrahent"/>
                     </f:facet>
                     <h:outputText value="#{item.kontrahent}"/>
+                </p:column>
+                <p:column width="140" sortable="true" sortBy="#{item.nrtelefonu}">
+                    <f:facet name="header">
+                        <h:outputText value="nr telefonu"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nrtelefonu}"/>
                 </p:column>
                 <p:column width="70" sortBy="#{item.data}" sortable="true">
                     <f:facet name="header">
