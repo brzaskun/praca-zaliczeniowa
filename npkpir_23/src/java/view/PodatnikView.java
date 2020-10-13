@@ -1166,6 +1166,7 @@ private DokDAO dokDAO;
         try {
             Integer sumaudzialow = 0;
             if (sumujudzialy(podatnikUdzialy) > 100.0) {
+                Msg.msg("e", "Suma wartości udziałów powyżej 100%");
                 throw new Exception();
             }
             if (udzialy.getDatarozpoczecia()!=null && !udzialy.getDatarozpoczecia().equals("")) {

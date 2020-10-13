@@ -195,6 +195,12 @@ var TabKeyDown;
 
     function performTab($from, offset) {
         var $next = findNext($from, offset);
+        if ($next[0].id==="formwpisdokument:opisdokumentu_focus") {
+            $next = findNext($next, offset);
+        }
+        if ($next[0].id==="formwpisdokument:opisdokumentu_input") {
+            $next = findNext($next, offset);
+        }
         $next.focus();
         $next.select();
         return true;

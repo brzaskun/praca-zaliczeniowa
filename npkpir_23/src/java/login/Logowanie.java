@@ -113,7 +113,7 @@ public class Logowanie implements Serializable {
                     String nip = uzDAO.findUzByLogin(uzytkownik).getFirma();
                     Podatnik p = podatnikDAO.findPodatnikByNIP(nip);
                     if (p == null) {
-                        Msg.msg("e", "Firma, której nip został podany przy rejestracji, tj.: " + nip + ", nie istnieje w systemie. Nastąpi wylogowanie");
+                        Msg.msg("e", "Firma , której nip został podany przy rejestracji, tj.: " + nip + ", nie istnieje w systemie. Nastąpi wylogowanie");
                         return "failure";
                     }
                     navto = "GuestFK";
