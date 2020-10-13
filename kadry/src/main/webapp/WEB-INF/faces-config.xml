@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =========== FULL CONFIGURATION FILE ================================== -->
+
+<!--<faces-config version="2.1" 
+              xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd">-->
+    <!-- <factory>
+    <exception-handler-factory>org.primefaces.extensions.component.ajaxerrorhandler.AjaxExceptionHandlerFactory</exception-handler-factory>
+    </factory>-->
+    <faces-config version="2.2"
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+<!--    <application>
+        <el-resolver>
+            org.primefaces.application.exceptionhandler.PrimeExceptionHandlerELResolver
+        </el-resolver>
+    </application>
+    <factory>
+        <exception-handler-factory>
+            org.primefaces.application.exceptionhandler.PrimeExceptionHandlerFactory
+        </exception-handler-factory>
+    </factory>-->
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>Administrator</from-outcome>
+            <to-view-id>/admin/index.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+   <application>
+        <locale-config>
+            <default-locale>pl</default-locale>
+            <supported-locale>en</supported-locale>
+            <supported-locale>de</supported-locale>
+            <supported-locale>cs</supported-locale>
+        </locale-config>
+        <resource-bundle>
+            <base-name>messagesbundle.messages</base-name>
+            <var>mgs</var>
+        </resource-bundle>
+        <message-bundle>
+            scr/main/resources/messagesbundle/messagesbundle.messages
+        </message-bundle>
+    </application>
+    <application>
+        <locale-config>
+            <default-time-zone-id>Europe/Berlin</default-time-zone-id>
+        </locale-config>
+    </application>
+</faces-config>

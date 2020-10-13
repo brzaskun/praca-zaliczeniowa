@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core"
+      >
+    <f:view>
+        <h:head>
+            <meta http-equiv="Accept-Encoding" content="gzip"/>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta http-equiv="Pragma" content="no-cache"/>
+            <meta http-equiv="Expires" content="0" />
+            <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>
+            <link href="css/style.css" rel="stylesheet" type="text/css"/>
+            <title>Biuro Rachunkowe Taxman</title>
+        </h:head>
+        <h:body>
+
+            <p:panel style="text-align: center; min-height: 150px;">
+            </p:panel>
+            <p:panel style="margin-left: auto; margin-right: auto; width: 600px; border: none" >
+                <p:growl life="3600"  id="logowanie"  ><p:autoUpdate/></p:growl>
+             <h:form id="logowanieprzyciskigorne">
+                <p:panelGrid columns="3" style="margin-top: 5px; margin-left: auto; margin-right: auto; width: 400px; border-style: hidden !important;">
+                    <p:column >
+                        <p:commandButton value="#{mgs.pomoc}" action="pomoclogowanie" style="width: 140px;"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="#{mgs['zapomialem.hasla']}" action="zapomnialem" style="width: 140px;"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="#{mgs.rejestracja}" action="rejestruj" style="width: 140px;"/>
+                    </p:column>
+                </p:panelGrid>
+                    </h:form>
+            </p:panel>
+            <h:form id="formlog1">
+                <style>
+                    .aktywny .ui-widget-header {
+                        color:red;
+                    }
+                </style> 
+                <p:panel style="margin-top: 2%; margin-left: auto; margin-right: auto; width: 380px"
+                         header="kadry"
+                         >
+                    <p:focus id="focus" context="logowaniepanel"/>
+                    <p:panelGrid id="logowaniepanel" columns="2" style="margin-left: auto; margin-right: auto; margin-top: 4%; width: 350px; text-align: center;">
+                        <h:outputText id="loginnazwa" value="#{mgs.login}"/>
+                        <h:inputText value="#{logowanie.uzytkownik}" accesskey="s" required="true" style="width: 150px;" requiredMessage="Wpisz login!" 
+                                      >
+<!--                            <p:ajax event="blur" listener="#{logowanie.ustawLocale(logowanie.uzytkownik)}" partialSubmit="true" global="false"  
+                                    oncomplete="r('formlog1:haslo').focus();" 
+                                    update="formlog1:loginnazwa formlog1:loginhaslo formlog1:logowaniebutton infologowanie logowanieprzyciskigorne"/>-->
+                        </h:inputText>
+                        <h:outputText id="loginhaslo" value="#{mgs.haslo}"/>
+                        <h:inputSecret id="haslo" value="#{logowanie.haslo}" required="true" style="width: 150px;" requiredMessage="Wpisz hasło!" autocomplete="true" redisplay="true"/>
+                    </p:panelGrid>
+                    <br/>
+<!--                    test-->
+                    <p:panelGrid id="logowaniebutton" columns="2" style="margin-left: auto; margin-right: auto; width: 350px; text-align: center; border: none !important;">
+                        <p:defaultCommand target="zaloguj"/>
+                        <p:commandButton id="zaloguj" value="#{mgs.zaloguj}" action="#{logowanie.login()}" ajax="false"
+                                       styleClass="loginbutton" style="width: 150px; text-align: center;">
+                        </p:commandButton>
+                    </p:panelGrid>
+                </p:panel>
+            </h:form>
+        </h:body>
+    </f:view>
+</html>

@@ -1,0 +1,362 @@
+/* 
+    Document   : stylefk
+    Created on : 2013-11-04, 08:05:40
+    Author     : Osito
+    Description:
+        Purpose of the stylesheet follows.
+*/
+/*.ui-treetable thead th, .ui-treetable tbody td, .ui-treetable tfoot td {
+    padding: 0px !important;
+}*/
+
+/*jest problem przy wpisywanych tabelach*/
+/*.ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td {
+    padding: 0px !important;
+}*/
+/*normalny button*/
+.nb {
+    width: 120px;
+}
+ .ui-panelgrid {
+           border-collapse: separate !important;
+        }
+        .uipanelGrid0 td {
+            border-width: 1px !important;
+            padding: 1px !important;
+        }
+
+        .ui-panelgrid td {
+            padding: 0px !important;
+        }
+
+        .ui-panelgrid tr {
+            border-width: 1px !important;
+            padding: 0px !important;
+        }
+
+
+.ui-panelgrid {
+    border-collapse: initial !important; 
+}
+
+.niebieskietlo {
+    background: lightblue;
+}
+
+.ui-treetable .ui-treetable-data td {
+    word-wrap: normal;
+    overflow: auto !important;
+    white-space: normal !important;
+}
+
+.autoCompleteBig .ui-autocomplete-input {
+    width: 300px;
+}
+.zapisZcecha {
+    color: red;
+}
+.wierszpiatkowy, .wierszpiatkowy .ui-inputfield, .wierszpiatkowy span {
+    font-style: italic !important;
+    background: rgba(209, 217, 255, 0.28) !important;
+    color: #6374AB !important;
+}
+
+.kontorozrachunki .ui-inputfield {
+    font-style: italic !important;
+    color: green !important;
+}
+
+.kontonieznaleziono .ui-inputfield {
+    font-style: italic !important;
+    color: darkorchid !important;
+}
+
+.kontoplatnosci .ui-inputfield {
+    font-style: italic !important;
+    color: blue !important;
+}
+
+
+.pe-inputNumber {
+    text-align: right;
+ }
+ 
+ .ui-inputNum .ui-widget {
+     width: 90px;
+ }
+/* 
+    Document   : style.css
+    Created on : 2012-08-09, 16:49:54
+    Author     : Osito
+    Description:
+        Purpose of the stylesheet follows.
+*/
+body { 
+    font-size: 9.2pt !important;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif !important;
+}
+/*to chyba jest body*/
+.ui-layout-container {
+    width: 99% !important;
+/*    font-size: 0.8em !important;
+    font-weight: 600 !important;*/
+}
+
+
+
+
+.old{
+    background-image:none !important;
+    color: blue !important;
+}
+
+.odd{
+    background: #e4e3e3 !important;
+}
+
+.druga{
+    font-style: italic !important;
+    background-image:none !important;
+    
+}
+
+
+.ui-widget {
+    font-size: 100%;
+}
+
+#zestawienieroczne.td {
+    border-width: 0px !important;
+    padding: 1px 0px !important;
+}
+
+
+
+/*.fkpanelGrid .ui-panelgrid td :not(.ui-panelgrid-row){
+    border-width: 1px !important;
+    padding: 0px 0px !important;
+}*/
+
+/*.fkpanelGrid2 .ui-panelgrid-cell{
+    border-width: 1px !important;
+    padding: 0px 0px !important;
+}*/
+
+
+.ui-panelgrid td {
+    /*border-style: none !important;*/
+    border-color: #FFFFFF !important;
+}
+
+
+.ui-panel {
+    /*border-style: none !important;*/
+    border-color: #FFFFFF !important;
+}
+
+.ui-layout-unit ui-widget ui-widget-content ui-corner-all ui-layout-west {
+    width: 300px;
+}
+
+.ui-datatable .ui-datatable-data td {
+    vertical-align : central;
+    word-break: normal;
+}
+.ui-datatable .ui-datatable-data tr {
+    word-break: normal !important;
+}
+
+
+.tablicaplankont tr :hover{
+    background-color: silver;
+}
+
+/*.ui-datatable thead th,.ui-datatable tbody td,.ui-datatable tfoot td{
+    padding: 4px 4px;
+    overflow: auto !important;
+    white-space: normal !important;
+    border-width: 0px;
+    border-style: solid;}*/
+
+
+/*@page {
+    size: landscape;
+    object-fit: scale-down;
+    width: 50%;
+}*/
+
+#popup {
+    width: 150px;
+    height: 150px;
+    overflow: no-display;
+}
+ 
+.ui-autocomplete input :not(.kontoinput){
+    width: 200px;
+}
+
+.kontoinput ui-autocomplete input {
+    width: 200px;
+}
+.parzyste {
+    background: #e4e3e3 !important;
+}
+.row1 {
+    background: aquamarine !important;
+}
+
+.row2 {
+    background: #ccffff !important;
+}
+
+.row3 {
+    background: paleturquoise !important;
+}
+
+.row4 {
+    background: lightskyblue !important;
+}
+
+.row1w {
+    background: #f7d775 !important;
+}
+
+.row2w {
+    background: #faeab9 !important;
+}
+
+.row3w {
+    background: #f8e097 !important;
+}
+
+.row4w {
+    background: #fcf4dc !important;
+}
+
+.rowb_zwykle {
+    background: #b3e0ff !important;
+}
+
+.rowb_szczegolne {
+    background: #ffd9b3 !important;
+}
+
+.rowb_rozrachunkowe {
+    background: #c2f0c2 !important;
+}
+
+.rowb_vat {
+    background: #d9b3ff !important;
+}
+
+.rwioletta {
+    background: #d9b3ff !important;
+}
+
+.rrenata {
+    background: #c2f0c2 !important;
+}
+
+.rmalgosia {
+    background: #ffd9b3 !important;
+}
+
+.rmarta {
+    background: gainsboro !important;
+}
+
+.zerofaktur {
+    font-weight: normal;
+    color: red;
+    float: right;
+}
+.wiecejfaktur {
+    font-weight: bolder;
+    color: blue;
+    float: right;
+}
+
+.fifty-percent {
+     width: 50%;
+     vertical-align: top;
+}
+
+.forty-percent {
+     width: 40%;
+     vertical-align: top;
+}
+
+.sixty-percent {
+     width: 60%;
+     vertical-align: top;
+}
+
+.seventy-percent {
+     width: 70%;
+     vertical-align: top;
+}
+.threefive-percent {
+     width: 35%;
+     vertical-align: top;
+}
+.onefive-percent {
+     width: 15%;
+     vertical-align: top;
+}
+
+.ninety-percent {
+     width: 90%;
+     vertical-align: top;
+}
+
+.ten-percent {
+     width: 10%;
+     vertical-align: top;
+}
+
+.twenty-percent {
+     width: 20%;
+     vertical-align: top;
+}
+.thirty-percent {
+     width: 30%;
+     vertical-align: top;
+}
+
+.thirtytree-percent {
+     width: 33%;
+     vertical-align: top;
+}
+
+.twofive-percent {
+     width: 25%;
+     vertical-align: top;
+}
+
+.kontaGrid1 {
+    width: 1000px;
+    text-align: left;
+    
+}
+.kontaGrid2 {
+    width: 250px;
+    text-align: right;
+    
+}
+
+
+/*.tablicafk td {
+    padding: 0px 0px 0px 0px !important;
+}*/
+
+@media(max-width: 900px) {
+    #zapisynakontachwmcu {
+        width: 400px;
+        height: 400px;
+    }
+}
+
+
+
+
+ 
