@@ -21,6 +21,7 @@ import entity.Faktura;
 import entity.FakturaRozrachunki;
 import entity.Fakturadodelementy;
 import entity.Klienci;
+import entity.Podatnik;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -296,7 +297,18 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     }
     
     public void zestawieniezbiorcze() {
+        List<Podatnik> podatnicy = podatnikDAO.findAllManager();
         saldanierozliczone = Collections.synchronizedList(new ArrayList<>());
+        for (Klienci k : klienci) {
+            for (Iterator<Podatnik> it = podatnicy.iterator();it.hasNext();) {
+                Podatnik pod = it.next();
+                if (k.getNip().equals(pod.getNip())) {
+                    k.setZnacznik1(pod.getTelefonkontaktowy());
+                    it.remove();
+                    break;
+                }
+            }
+        }
         klienci.stream().forEach(p -> {
 //            if (szukanyklient.getNpelna().equals("\"KONSBUD\" PROJEKTOWANIE I REALIZACJA KONSTRUKCJI BUDOWLANYCH Przemysław Żurowski")) {
 //                error.E.s("");
@@ -304,6 +316,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             pobierzwszystko(wpisView.getMiesiacWpisu(), p);
             if (nowepozycje.size() > 0) {
                 FakturaPodatnikRozliczenie r = nowepozycje.get(nowepozycje.size()-1);
+                r.setNrtelefonu(p.getZnacznik1());
                 if (r.getSaldopln() != 0.0) {
                     if (r.getMc().equals(wpisView.getMiesiacWpisu())) {
                         if (r.getDataupomnienia()!=null || r.getDatatelefon()!=null) {

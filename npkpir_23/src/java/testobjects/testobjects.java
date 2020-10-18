@@ -493,7 +493,7 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
             List n = new ArrayList();
             n.add("lp");
             n.add("kontrahent");
-            n.add("rodzaj dok.");
+            n.add("telefon");
             n.add("nr dok.");
             n.add("data");
             n.add("saldo");

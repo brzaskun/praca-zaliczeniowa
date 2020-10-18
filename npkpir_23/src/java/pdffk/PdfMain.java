@@ -1682,7 +1682,7 @@ public class PdfMain {
                     FakturaPodatnikRozliczenie p = (FakturaPodatnikRozliczenie) it.next();
                     table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8, 22f));
                     table.addCell(ustawfrazeAlign(p.getKontrahent(), "left", 8));
-                    table.addCell(ustawfrazeAlign(p.getRodzajDok(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getNrtelefonu(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getNrDok(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getData(), "center", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSaldopln())), "right", 8));

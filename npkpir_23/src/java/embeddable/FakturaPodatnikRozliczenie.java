@@ -39,6 +39,7 @@ import waluty.Z;
     private boolean przeniesionosaldo;
     private String color;
     private String walutafaktury;
+    private String nrtelefonu;
     
 
     public FakturaPodatnikRozliczenie(FakturaRozrachunki p) {
@@ -334,6 +335,14 @@ import waluty.Z;
 
     public void setWalutafaktury(String walutafaktury) {
         this.walutafaktury = walutafaktury;
+    }
+
+    public String getNrtelefonu() {
+        return nrtelefonu;
+    }
+
+    public void setNrtelefonu(String nrtelefonu) {
+        this.nrtelefonu = nrtelefonu;
     }
     
     
