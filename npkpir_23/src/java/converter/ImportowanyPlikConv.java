@@ -13,7 +13,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
-import javax.inject.Inject;
 import xls.BankImportWykaz;
 import xls.ImportowanyPlik;
 
@@ -69,6 +68,7 @@ public class ImportowanyPlikConv implements javax.faces.convert.Converter{
         zwrot.add(new ImportowanyPlik("Exolight xls","xls","",4));
         zwrot.add(new ImportowanyPlik("Murawski xls","xls","",5));
         zwrot.add(new ImportowanyPlik("Mucha xls","xls","",6));
+        zwrot.add(new ImportowanyPlik("Zorin nowy xml","xml","",7));
         //to dotyczy importowanych bankow
         zwrot.addAll(BankImportWykaz.getWYKAZ());
         return zwrot;

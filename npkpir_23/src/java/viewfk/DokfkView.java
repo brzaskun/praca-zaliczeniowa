@@ -26,6 +26,7 @@ import comparator.Rodzajedokcomparator;
 import comparator.Transakcjacomparator;
 import comparator.TransakcjacomparatorKwota;
 import dao.EvewidencjaDAO;
+import dao.JPKOznaczeniaDAO;
 import dao.KlienciDAO;
 import dao.PodatnikEwidencjaDokDAO;
 import dao.RodzajedokDAO;
@@ -48,6 +49,7 @@ import embeddable.Parametr;
 import embeddable.Roki;
 import entity.EVatwpisSuper;
 import entity.Evewidencja;
+import entity.JPKoznaczenia;
 import entity.Klienci;
 import entity.PodatnikEwidencjaDok;
 import entity.Rodzajedok;
@@ -79,8 +81,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -91,7 +91,9 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.ArrayDataModel;
 import javax.faces.model.DataModel;
 import javax.inject.Inject;
-import msg.Msg;import org.joda.time.DateTime;
+import msg.Msg;
+import org.joda.time.DateTime;
+import org.primefaces.PrimeFaces;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.inputnumber.InputNumber;
 import params.Params;
@@ -105,9 +107,9 @@ import static pdffk.PdfMain.otwarcieDokumentu;
 import plik.Plik;
 import view.KlienciConverterView;
 import view.ParametrView;
-import view.WpisView; import org.primefaces.PrimeFaces;
+import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
-import viewfk.subroutines.UzupelnijWierszeoDane;
+ import viewfk.subroutines.UzupelnijWierszeoDane;
 import waluty.Z;
 
 /**
@@ -134,6 +136,8 @@ public class DokfkView implements Serializable {
     private StronaWierszaDAO stronaWierszaDAO;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
+    @Inject
+    private JPKOznaczeniaDAO jPKOznaczeniaDAO;
     @Inject
     private EvewidencjaDAO evewidencjaDAO;
     @Inject
@@ -262,6 +266,7 @@ public class DokfkView implements Serializable {
     private Set<Dokfk> ostatniedokumenty;
     private boolean nietrzebapodczepiac;
     private boolean dodacdoslownikow;
+    private List<JPKoznaczenia> listaoznaczenjpk;
 
      
     
@@ -282,6 +287,7 @@ public class DokfkView implements Serializable {
         this.cechydokzlisty = Collections.synchronizedList(new ArrayList<>());
         this.kontadlaewidencji = new ConcurrentHashMap<>();
         this.ostatniedokumenty = new HashSet<>();
+        this.listaoznaczenjpk = Collections.synchronizedList(new ArrayList<>());
     }
 
     //to zostaje bo tu i tak nie pobiera dokumentow
@@ -315,6 +321,7 @@ public class DokfkView implements Serializable {
                 if (klientdlaPK == null) {
                     klientdlaPK = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
                 }
+                listaoznaczenjpk = jPKOznaczeniaDAO.findAll();
                 //resetujDokumentOpen();
             }
         } catch (Exception e) {
@@ -1337,6 +1344,15 @@ public class DokfkView implements Serializable {
 //zastapilem to javascriptem nie do konca wiec jest hybryda. znikalo jak inne rzeczy odsiwezalem
     public void skopiujopisdopierwszegowiersza() {
         try {
+            if (selected.getOpisdokfk().startsWith("*")) {
+                selected.setOpisdokfk(selected.getOpisdokfk().substring(1).toUpperCase());
+                String[] lista = selected.getOpisdokfk().split("\\*");
+                boolean moznawsadzac = czyjesttylepustych(lista);
+                if (moznawsadzac) {
+                    wsadzoznaczenia(lista);
+                    PrimeFaces.current().ajax().update("wpisywaniefooter:panelinfo");
+                }
+            }
             Wiersz w = selected.getListawierszy().get(0);
             boolean kopiowac = w.getOpisWiersza() == null || w.getOpisWiersza().equals("");
             boolean kopiowac1 = w.getStronyWiersza().size() == 2;
@@ -1348,8 +1364,71 @@ public class DokfkView implements Serializable {
             E.e(e);
         }
     }
-
     
+    private boolean czyjesttylepustych(String[] lista) {
+        boolean zwrot = true;
+        int rozmiar = lista.length;
+        int ilepustych = ilepustychoblicz();
+        if (ilepustych<rozmiar) {
+            selected.setOpisdokfk("NIEPRAWIDŁOWa ILOŚĆ SYMBOLI JPK!");
+            zwrot = false;
+        }
+        return zwrot;
+    }
+    
+    private int ilepustychoblicz() {
+        int zwrot = 0;
+        if (selected.getOznaczenie1()==null) {
+            zwrot++;
+        }
+        if (selected.getOznaczenie2()==null) {
+            zwrot++;
+        }
+        if (selected.getOznaczenie3()==null) {
+            zwrot++;
+        }
+        if (selected.getOznaczenie4()==null) {
+            zwrot++;
+        }
+        return zwrot;
+    }
+    
+    private void wsadzoznaczenia(String[] lista) {
+        int rozmiar = lista.length;
+        for (int i = 0; i<rozmiar; i++) {
+            if (selected.getOznaczenie1()==null) {
+                selected.setOznaczenie1(pobierzoznaczenie(lista[i]));
+            } else
+            if (selected.getOznaczenie2()==null) {
+                selected.setOznaczenie2(pobierzoznaczenie(lista[i]));
+            } else
+            if (selected.getOznaczenie3()==null) {
+                selected.setOznaczenie3(pobierzoznaczenie(lista[i]));
+            } else
+            if (selected.getOznaczenie4()==null) {
+                selected.setOznaczenie4(pobierzoznaczenie(lista[i]));
+            }
+        }
+    }
+    
+    private JPKoznaczenia pobierzoznaczenie(String pozycja) {
+        JPKoznaczenia zwrot = null;
+        for (JPKoznaczenia r : listaoznaczenjpk) {
+            if (r.getSymbol().equals(pozycja.toUpperCase())) {
+                zwrot = r;
+                break;
+            }
+        }
+        return zwrot;
+    }
+    
+    public void podepnijoznaczenia() {
+        if (selected.getRodzajedok()!=null) {
+            Rodzajedok p = selected.getRodzajedok();
+            selected.setOznaczenie1(p.getOznaczenie1());
+            selected.setOznaczenie2(p.getOznaczenie2());
+        }
+    }
 
     public void pobierzopiszpoprzedniegodok() {
         Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt(), ostatniedokumenty);
@@ -4570,6 +4649,8 @@ public void oznaczjakonkup() {
         }
         ostatniedokumenty.add(selected);
     }
+
+    
 
     
     

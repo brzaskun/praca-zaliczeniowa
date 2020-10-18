@@ -9,6 +9,7 @@ import entityfk.EVatwpisFK;
 import entityfk.Waluty;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
@@ -35,7 +36,14 @@ public class DokSuper  implements Serializable {
     private Waluty walutadokumentu;
     @Transient
     private String terminPlatnosci;
-    
+    @JoinColumn(name = "oznaczenie1", referencedColumnName = "id")
+    private JPKoznaczenia oznaczenie1;
+    @JoinColumn(name = "oznaczenie2", referencedColumnName = "id")
+    private JPKoznaczenia oznaczenie2;
+    @JoinColumn(name = "oznaczenie3", referencedColumnName = "id")
+    private JPKoznaczenia oznaczenie3;
+    @JoinColumn(name = "oznaczenie4", referencedColumnName = "id")
+    private JPKoznaczenia oznaczenie4;
     
 
     public String getTypdokumentu() {
@@ -77,6 +85,38 @@ public class DokSuper  implements Serializable {
 
     public void setTerminPlatnosci(String terminPlatnosci) {
         this.terminPlatnosci = terminPlatnosci;
+    }
+
+    public JPKoznaczenia getOznaczenie1() {
+        return oznaczenie1;
+    }
+
+    public void setOznaczenie1(JPKoznaczenia oznaczenie1) {
+        this.oznaczenie1 = oznaczenie1;
+    }
+
+    public JPKoznaczenia getOznaczenie2() {
+        return oznaczenie2;
+    }
+
+    public void setOznaczenie2(JPKoznaczenia oznaczenie2) {
+        this.oznaczenie2 = oznaczenie2;
+    }
+
+    public JPKoznaczenia getOznaczenie3() {
+        return oznaczenie3;
+    }
+
+    public void setOznaczenie3(JPKoznaczenia oznaczenie3) {
+        this.oznaczenie3 = oznaczenie3;
+    }
+
+    public JPKoznaczenia getOznaczenie4() {
+        return oznaczenie4;
+    }
+
+    public void setOznaczenie4(JPKoznaczenia oznaczenie4) {
+        this.oznaczenie4 = oznaczenie4;
     }
    
     

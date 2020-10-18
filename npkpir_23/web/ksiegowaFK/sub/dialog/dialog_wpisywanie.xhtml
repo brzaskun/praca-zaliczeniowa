@@ -244,9 +244,10 @@
                                         <f:selectItems value="#{rodzajeDokKlientaView.rodzajedokKlienta}"  var="wploop" itemLabel="#{wploop.skrotNazwyDok} - #{wploop.nazwa}"/>
                                         <p:ajax global="false" event="blur" listener="#{dokfkView.wygenerujnumerkolejny}" update="formwpisdokument:numer formwpisdokument:numerwlasny formwpisdokument:przypkontotxt formwpisdokument:przypkonto" partialSubmit="true"/>
 <!--                                        <p:ajax global="false" event="change" listener="#{dokfkView.podepnijEwidencjeVatDok(0)}" update=":formwpisdokument:panelzewidencjavat"/>-->
-                                        <p:ajax global="false" event="blur" listener="#{dokfkView.podepnijEwidencjeVatDok(0)}" update=":formwpisdokument:panelzewidencjavat"/>
+                                        <p:ajax global="false" event="blur" listener="#{dokfkView.podepnijEwidencjeVatDok(0)}" update=":formwpisdokument:panelzewidencjavat wpisywaniefooter:panelinfo"/>
+                                        <p:ajax global="false" event="blur" listener="#{dokfkView.podepnijoznaczenia}" update="wpisywaniefooter:panelinfo"/>
                                         <p:ajax global="false" event="change" listener="#{dokfkView.przygotujDokumentWpisywanie()}" 
-                                                update=":formwpisdokument:panelwalutowy :formwpisdokument:panelzkwotamidok :formwpisdokument:dataList"/>
+                                                update=":formwpisdokument:panelwalutowy :formwpisdokument:panelzkwotamidok :formwpisdokument:dataList wpisywaniefooter:panelinfo"/>
                                     </h:selectOneMenu>
                                 </p:column>
                                 <p:column>
@@ -309,19 +310,19 @@
                                     </p:autoComplete>
                                 </p:column>
                                 <p:column>
-                                    <p:selectOneMenu id="opisdokumentu" value="#{dokfkView.selected.opisdokfk}" styleClass="pomin"
+<!--                                    <p:selectOneMenu id="opisdokumentu" value="#{dokfkView.selected.opisdokfk}" styleClass="pomin"
                                                      style="width: 230px; height: 19px;" editable="true" >
                                         <f:selectItem itemLabel="dostawa napojów alkoholowych" itemValue="GTU1"/>
                                         <f:selectItem itemLabel="dostawa paliw i olejów napędowych" itemValue="GTU2"/>
                                         <f:selectItem itemLabel="dostawa oleju opałowego" itemValue="GTU3"/>
-                                    </p:selectOneMenu>
-<!--                                    <p:inputText id="opisdokumentu" value="#{dokfkView.selected.opisdokfk}" 
+                                    </p:selectOneMenu>-->
+                                    <p:inputText id="opisdokumentu" value="#{dokfkView.selected.opisdokfk}" 
                                                  style="height: 19px; width: 230px;"
                                                  autocomplete="true">
                                         <p:ajax event="focus" listener="#{kliencifkView.pobieraniekontaFKWpis(dokfkView.isNiedodawajkontapole(), dokfkView.selected)}" global="false" update=":formwpisdokument:panelwalutowy"/>
                                         <p:ajax event="blur" partialSubmit="true" global="false" onstart="stworzdelegacje();"
                                                 listener="#{dokfkView.skopiujopisdopierwszegowiersza()}"/>
-                                    </p:inputText>-->
+                                    </p:inputText>
                                 </p:column>
                                
                                 <p:column>
@@ -778,11 +779,16 @@
                 <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/>
                 <h:inputText id="lpwierszaRK" value="#{dokfkView.lpwierszaRK}" style="display: none;"/>
                 <h:inputText id="lpwierszaWpisywanie" value="#{dokfkView.lpWierszaWpisywanie}"  style="display: none;"/>
-                <p:outputPanel style="margin-top: 20px;">
-                    <h:outputText value="domyślna cecha NKUP - Alt-A" style="width: 250px; color: green;" />
+                <p:panelGrid columns="14" id="panelinfo" style="width: 80%">
+                    <h:outputText value="domyślna cecha NKUP - Alt-A" style="width: 80px; color: green;" />
                     <p:spacer width="20"/>
-                    <h:outputText value="ręczny kurs - Alt-L" style="width: 250px; color: green;" />
-                </p:outputPanel>
+                    <h:outputText value="ręczny kurs - Alt-L  " style="width: 80px; color: green;" />
+                    <p:spacer width="70"/>
+                        <h:outputText value=":"/><h:outputText value="#{dokfkView.selected.oznaczenie1 ne null ?dokfkView.selected.oznaczenie1.symbol:'-'}" style="color: darkmagenta; font-size: large"/>
+                        <h:outputText value=":"/><h:outputText value="#{dokfkView.selected.oznaczenie2 ne null ?dokfkView.selected.oznaczenie2.symbol:'-'}" style="color: darkmagenta; font-size: large"/>
+                        <h:outputText value=":"/><h:outputText value="#{dokfkView.selected.oznaczenie3 ne null ?dokfkView.selected.oznaczenie3.symbol:'-'}" style="color: darkmagenta; font-size: large"/>
+                        <h:outputText value=":"/><h:outputText value="#{dokfkView.selected.oznaczenie4 ne null ?dokfkView.selected.oznaczenie4.symbol:'-'}" style="color: darkmagenta; font-size: large"/>
+                </p:panelGrid>
             </h:form>
             <h:form id="oznaczjakonkup">
                 <p:commandButton id="oznaczjakonkup" value="oznacz jako nkup" actionListener="#{dokfkView.oznaczjakonkup()}" accesskey="b"

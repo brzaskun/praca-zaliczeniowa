@@ -111,6 +111,10 @@ public class Rodzajedok implements Serializable {
     private boolean jednostronny;
     @Column(name = "rok")
     private String rok;
+    @JoinColumn(name = "oznaczenie1", referencedColumnName = "id")
+    private JPKoznaczenia oznaczenie1;
+    @JoinColumn(name = "oznaczenie2", referencedColumnName = "id")
+    private JPKoznaczenia oznaczenie2;
 
 
     public Rodzajedok() {
@@ -343,6 +347,22 @@ public class Rodzajedok implements Serializable {
             zwrot = false;
         }
         return zwrot;
+    }
+
+    public JPKoznaczenia getOznaczenie1() {
+        return oznaczenie1;
+    }
+
+    public void setOznaczenie1(JPKoznaczenia oznaczenie1) {
+        this.oznaczenie1 = oznaczenie1;
+    }
+
+    public JPKoznaczenia getOznaczenie2() {
+        return oznaczenie2;
+    }
+
+    public void setOznaczenie2(JPKoznaczenia oznaczenie2) {
+        this.oznaczenie2 = oznaczenie2;
     }
     
 

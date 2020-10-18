@@ -18,7 +18,7 @@
                 <f:selectItems value="#{Roki.rokiList}"/>
             </p:selectOneMenu>
         </p:panelGrid>
-        <p:panelGrid columns="1" style="max-width: 1240px">
+        <p:panelGrid columns="1" style="max-width: 1340px">
             <h:outputText value="brak listy dokumentów domyślnych na ten rok" rendered="#{rodzajedokView.listaWspolnych.size() eq 0}" style="color: green;"/>
             <p:commandButton value="generuj" actionListener="#{rodzajedokView.generujliste}" rendered="#{rodzajedokView.listaWspolnych.size() eq 0}" style="width: 120px;" update="@form"/>
             <p:dataTable id="dokLista" value="#{rodzajedokView.listaWspolnych}"  var="loop"  paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
@@ -71,6 +71,12 @@
                 </p:column>
                 <p:column headerText="jednostr." style="text-align: center;">
                     <h:outputText value="#{loop.jednostronny eq true ? 'tak' : null}" />
+                </p:column>
+                <p:column headerText="jpk ozn1" style="text-align: center;">
+                    <h:outputText value="#{loop.oznaczenie1.symbol}" />
+                </p:column>
+                <p:column headerText="jpk ozn2" style="text-align: center;">
+                    <h:outputText value="#{loop.oznaczenie2.symbol}" />
                 </p:column>
                 <p:column id="deleteColumn" headerText="usuń" style="text-align: center;">
                     <p:commandButton actionListener="#{rodzajedokView.destroy(loop)}" onclick="PF('confirmation').show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
@@ -130,6 +136,16 @@
              <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.tylkojpk}"/>
              <h:outputText value=" jednostronny wiersz" />
              <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.jednostronny}"/>
+             <h:outputText value=" jpk oznaczenie 1: " />
+             <h:selectOneMenu value="#{rodzajedokView.wprowadzany.oznaczenie1}" converter="#{jPKoznaczeniaConv}">
+                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                 <f:selectItems value="#{rodzajedokView.jpkoznaczenia}" var="itm1" itemLabel="#{itm1.symbol}" itemValue="#{itm1}" itemDescription="#{itm1.opis}"/>
+            </h:selectOneMenu>
+             <h:outputText value=" jpk oznaczenie 2: " />
+             <h:selectOneMenu value="#{rodzajedokView.wprowadzany.oznaczenie2}" converter="#{jPKoznaczeniaConv}">
+                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                 <f:selectItems value="#{rodzajedokView.jpkoznaczenia}" var="itm1" itemLabel="#{itm1.symbol}" itemValue="#{itm1}" itemDescription="#{itm1.opis}"/>
+            </h:selectOneMenu>
         </p:panelGrid>
         <p:panelGrid columns="3" style="column-width: 350px; width: 450px">
             <p:commandButton  actionListener="#{rodzajedokView.dodaj()}" value="dodaj dokument" update="form form1" style="width: 120px;"/>

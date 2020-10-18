@@ -147,7 +147,7 @@
                 <f:facet name="header">
                     <p:row >
                         <p:column>
-                            <h:outputLabel value="kontrahent ( + -> skopiuj)" style="font-weight: 500"/>
+                            <h:outputLabel value="kontrahent" style="font-weight: 500"/>
                         </p:column>
                         <p:column>
                             <h:outputLabel value="rodzaj dok" style="font-weight: 500"/>
@@ -199,6 +199,7 @@
                                            itemValue="#{loop}"/>
 <!--                            <p:ajax event="keyup" listener="#{DokumentView.pobierzwprowadzonynumer()}" global="false"/>-->
                             <p:ajax event="change" partialSubmit="true"  listener="#{DokumentView.wygenerujnumerkolejny()}"/>
+                            <p:ajax global="false" event="blur" listener="#{DokumentView.podepnijoznaczenia}"  update="dodWiad:paneloznaczenia"/>
                             <p:ajax event="change" listener="#{DokumentView.podepnijListe()}" 
                                     update="dodWiad:tabelapkpir " global="false" onstart="aktywujopis(#{DokumentView.nieVatowiec});"/>
                         </h:selectOneMenu>
@@ -214,7 +215,9 @@
                                         minQueryLength="2" maxResults="10" maxlength="40" required="true" requiredMessage="brak opisu dokumentu"
                                         effect="clip" autocomplete="true"  queryDelay="0" style="width: 200px;">
                             <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
+                            <p:ajax event="blur" partialSubmit="true" global="false" listener="#{DokumentView.oznaczeniajpk}"/>
                             <p:ajax event="focus" partialSubmit="true" listener="#{DokumentView.sprawdzCzyNieDuplikatwtrakcie}"/>
+                            
                         </p:autoComplete>
                     </p:column>
                 </p:row>
@@ -547,7 +550,13 @@
                     </p:column>
                 </p:row>
             </p:panelGrid>
-            <p:panelGrid columns="1">
+            <p:panelGrid columns="8" id="paneloznaczenia">
+                <h:outputText value=":"/><h:outputText value="#{DokumentView.selDokument.oznaczenie1 ne null ?DokumentView.selDokument.oznaczenie1.symbol:'-'}" style="color: darkmagenta; font-size: large"/>
+                <h:outputText value=":"/><h:outputText value="#{DokumentView.selDokument.oznaczenie2 ne null ?DokumentView.selDokument.oznaczenie2.symbol:'-'}" style="color: darkmagenta; font-size: large"/>
+                <h:outputText value=":"/><h:outputText value="#{DokumentView.selDokument.oznaczenie3 ne null ?DokumentView.selDokument.oznaczenie3.symbol:'-'}" style="color: darkmagenta; font-size: large"/>
+                <h:outputText value=":"/><h:outputText value="#{DokumentView.selDokument.oznaczenie4 ne null ?DokumentView.selDokument.oznaczenie4.symbol:'-'}" style="color: darkmagenta; font-size: large"/>
+            </p:panelGrid>
+            <p:panelGrid columns="3">
                 <h:outputText value="* kalkulator wartości netto ALT-k"/>
             <h:outputText value="* dodaj kolumnę pkpir ALT-p"/>
             <h:outputText value="* usuń kolumnę pkpir ALT-t"/>

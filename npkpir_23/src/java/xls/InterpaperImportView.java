@@ -56,9 +56,9 @@ import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-
 import pdf.PdfXLSImport;
-import view.WpisView;import waluty.Z;
+import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -166,6 +166,7 @@ public class InterpaperImportView implements Serializable {
         zwrot.add(new ImportowanyPlik("Exolight xls","xls","",4));
         zwrot.add(new ImportowanyPlik("Murawski xls","xls","",5));
         zwrot.add(new ImportowanyPlik("Mucha xls","xls","",6));
+        zwrot.add(new ImportowanyPlik("Zorin nowy xml","xml","",7));
         return zwrot;
     }
     
@@ -173,7 +174,7 @@ public class InterpaperImportView implements Serializable {
         try {
             UploadedFile uploadedFile = event.getFile();
             String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
-            if (extension.equals("csv")||extension.equals("xls")||extension.equals("xlsx")) {
+            if (extension.equals("csv")||extension.equals("xls")||extension.equals("xlsx")||extension.equals("xml")) {
                 String filename = uploadedFile.getFileName();
                 pobranyplik = uploadedFile.getContents();
                 pobraneplikibytes.add(uploadedFile.getContents());
@@ -229,6 +230,9 @@ public class InterpaperImportView implements Serializable {
                 case 6:
                     pobranefaktury = ReadXLSMuchaFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, wpisView.getMiesiacWpisu());
                     break;
+                case 7:
+                    pobranefaktury = ReadXMLZorinOptimaFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, jakipobor, wpisView.getMiesiacWpisu());
+                    break;
             }
             if (jakipobor!=null) {
                 if (jakipobor.equals("fiz")) {
@@ -268,8 +272,16 @@ public class InterpaperImportView implements Serializable {
                 drkujfizbutton.setRendered(true);
                 generujbutton.setRendered(true);
                 kontobutton.setRendered(true);
-            } else if (wybranyrodzajimportu.getLp()==5 || wybranyrodzajimportu.getLp()==6){
-                drkujfizbutton.setRendered(true);
+            } else if (wybranyrodzajimportu.getLp()==5 || wybranyrodzajimportu.getLp()==6 || wybranyrodzajimportu.getLp()==7){
+                if (jakipobor.equals("fiz")) {
+                    drkujfizbutton.setRendered(true);
+                    kontobutton.setRendered(true);
+                } else {
+                    drkujfizbutton.setRendered(true);
+                    kontobutton.setRendered(true);
+                    generujbutton.setRendered(true);
+                }
+                
                 //generujbutton.setRendered(true);
             }
             Msg.msg("Pobrano wszystkie dane");
@@ -919,6 +931,7 @@ public class InterpaperImportView implements Serializable {
                 break;
             case 5:
             case 6:
+            case 7:
                 zwrot.add("sprzedaż");
                 break;
         }

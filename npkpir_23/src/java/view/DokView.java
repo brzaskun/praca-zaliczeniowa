@@ -17,6 +17,7 @@ import comparator.Rodzajedokcomparator;
 import dao.AmoDokDAO;
 import dao.DokDAO;
 import dao.InwestycjeDAO;
+import dao.JPKOznaczeniaDAO;
 import dao.KlienciDAO;
 import dao.OstatnidokumentDAO;
 import dao.PodatnikDAO;
@@ -36,6 +37,7 @@ import entity.EVatwpis1;
 import entity.Evewidencja;
 import entity.Inwestycje;
 import entity.Inwestycje.Sumazalata;
+import entity.JPKoznaczenia;
 import entity.Klienci;
 import entity.KlienciSuper;
 import entity.Kolumna1Rozbicie;
@@ -77,8 +79,9 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import msg.Msg; import org.primefaces.PrimeFaces;
-import org.joda.time.DateTime;
+import msg.Msg;
+ import org.joda.time.DateTime;
+import org.primefaces.PrimeFaces;
 import params.Params;
 import waluty.Z;
 
@@ -105,6 +108,8 @@ public class DokView implements Serializable {
     private PodatnikDAO podatnikDAO;
     @Inject
     private SrodkikstDAO srodkikstDAO;
+    @Inject
+    private JPKOznaczeniaDAO jPKOznaczeniaDAO;
     @Inject
     private OstatnidokumentDAO ostatnidokumentDAO;
     @Inject
@@ -189,6 +194,7 @@ public class DokView implements Serializable {
     private List<PodatnikEwidencjaDok> listaewidencjipodatnika;
     @Inject
     private PodatnikEwidencjaDokDAO podatnikEwidencjaDokDAO;
+    private List<JPKoznaczenia> listaoznaczenjpk;
     
 
     public DokView() {
@@ -315,6 +321,7 @@ public class DokView implements Serializable {
         domyslatabela = DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selDokument);
         selDokument.setTabelanbp(domyslatabela);
         PrimeFaces.current().ajax().update("dodWiad");
+        listaoznaczenjpk = jPKOznaczeniaDAO.findAll();
         //ukrocmiesiace();
 
     }
@@ -653,7 +660,13 @@ public class DokView implements Serializable {
 //        }
 //       
 //    }
-    
+    public void podepnijoznaczenia() {
+        if (selDokument.getRodzajedok()!=null) {
+            Rodzajedok p = selDokument.getRodzajedok();
+            selDokument.setOznaczenie1(p.getOznaczenie1());
+            selDokument.setOznaczenie2(p.getOznaczenie2());
+        }
+    }
     public void wygenerujnumerkolejny() {
         String nowynumer = "";
         if (selDokument.getRodzajedok()!=null && selDokument.getRodzajedok().getWzorzec()!=null) {
@@ -1175,6 +1188,74 @@ public class DokView implements Serializable {
         return tmp;
     }
 
+    public void oznaczeniajpk() {
+        if (selDokument.getOpis().startsWith("*")) {
+            selDokument.setOpis(selDokument.getOpis().substring(1).toUpperCase());
+            String[] lista = selDokument.getOpis().split("\\*");
+            boolean moznawsadzac = czyjesttylepustych(lista);
+            if (moznawsadzac) {
+                wsadzoznaczenia(lista);
+                PrimeFaces.current().ajax().update("dodWiad:paneloznaczenia");
+            }
+        }
+    }
+    private boolean czyjesttylepustych(String[] lista) {
+        boolean zwrot = true;
+        int rozmiar = lista.length;
+        int ilepustych = ilepustychoblicz();
+        if (ilepustych<rozmiar) {
+            selDokument.setOpis("NIEPRAWIDŁOWa ILOŚĆ SYMBOLI JPK!");
+            zwrot = false;
+        }
+        return zwrot;
+    }
+    
+    private int ilepustychoblicz() {
+        int zwrot = 0;
+        if (selDokument.getOznaczenie1()==null) {
+            zwrot++;
+        }
+        if (selDokument.getOznaczenie2()==null) {
+            zwrot++;
+        }
+        if (selDokument.getOznaczenie3()==null) {
+            zwrot++;
+        }
+        if (selDokument.getOznaczenie4()==null) {
+            zwrot++;
+        }
+        return zwrot;
+    }
+    
+    private void wsadzoznaczenia(String[] lista) {
+        int rozmiar = lista.length;
+        for (int i = 0; i<rozmiar; i++) {
+            if (selDokument.getOznaczenie1()==null) {
+                selDokument.setOznaczenie1(pobierzoznaczenie(lista[i]));
+            } else
+            if (selDokument.getOznaczenie2()==null) {
+                selDokument.setOznaczenie2(pobierzoznaczenie(lista[i]));
+            } else
+            if (selDokument.getOznaczenie3()==null) {
+                selDokument.setOznaczenie3(pobierzoznaczenie(lista[i]));
+            } else
+            if (selDokument.getOznaczenie4()==null) {
+                selDokument.setOznaczenie4(pobierzoznaczenie(lista[i]));
+            }
+        }
+    }
+    
+    private JPKoznaczenia pobierzoznaczenie(String pozycja) {
+        JPKoznaczenia zwrot = null;
+        for (JPKoznaczenia r : listaoznaczenjpk) {
+            if (r.getSymbol().equals(pozycja.toUpperCase())) {
+                zwrot = r;
+                break;
+            }
+        }
+        return zwrot;
+    }
+    
     public void sprawdzCzyNieDuplikatwtrakcie(AjaxBehaviorEvent ex) {
         try {
                 Dok selD = null;

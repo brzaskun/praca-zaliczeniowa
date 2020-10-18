@@ -5,9 +5,11 @@
 package view;
 
 import comparator.Rodzajedokcomparator;
+import dao.JPKOznaczeniaDAO;
 import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
 import data.Data;
+import entity.JPKoznaczenia;
 import entity.Podatnik;
 import entity.Rodzajedok;
 import error.E;
@@ -22,7 +24,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import msg.Msg; import org.primefaces.PrimeFaces;
+import msg.Msg;
+ import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -35,6 +38,9 @@ public class RodzajedokView implements Serializable {
     private Rodzajedok doUsuniecia;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
+    @Inject
+    private JPKOznaczeniaDAO jPKOznaczeniaDAO;
+    private List<JPKoznaczenia> jpkoznaczenia;
     @Inject
     private Rodzajedok wprowadzany;
     @Inject
@@ -61,6 +67,7 @@ public class RodzajedokView implements Serializable {
             Podatnik podatnikwspolny = podatnikDAO.findPodatnikByNIP("0001005008");
             listaWspolnych = rodzajedokDAO.findListaPodatnik(podatnikwspolny, rok);
             listaPodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            jpkoznaczenia = jPKOznaczeniaDAO.findAll();
 //            //automatycznie uzupelnia liste podatnika o nowo dodane do wzorcow
 //            if (!wpisView.getPodatnikObiekt().getNip().equals("0001005008")) {
 //                for (Rodzajedok zrodlo : listaWspolnych) {
@@ -178,6 +185,16 @@ public class RodzajedokView implements Serializable {
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
+
+    public List<JPKoznaczenia> getJpkoznaczenia() {
+        return jpkoznaczenia;
+    }
+
+    public void setJpkoznaczenia(List<JPKoznaczenia> jpkoznaczenia) {
+        this.jpkoznaczenia = jpkoznaczenia;
+    }
+
+  
 
     public String getRok() {
         return rok;

@@ -47,7 +47,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
@@ -56,15 +55,15 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.event.ValueChangeListener;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import msg.Msg;import org.joda.time.DateTime;
-import org.primefaces.component.panelgrid.PanelGrid;
+import msg.Msg;
+import org.joda.time.DateTime;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.commandbutton.CommandButton;
+import org.primefaces.component.panelgrid.PanelGrid;
 
 /**
  *
@@ -1267,6 +1266,9 @@ private DokDAO dokDAO;
                         for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
                             if (r.getSkrot().equals(tmp.getSkrot())) {
                                 odnaleziono = true;
+                                r.setOznaczenie1(tmp.getOznaczenie1());
+                                r.setOznaczenie2(tmp.getOznaczenie2());
+                                rodzajedokDAO.edit(r);
                                 if (tmp.getKontoRZiS()!=null) {
                                     r.setKontoRZiS(tmp.getKontoRZiS());
                                 }
@@ -1278,6 +1280,7 @@ private DokDAO dokDAO;
                                 }
                                 KontaFKBean.nanieskonta(r, kontoDAOfk);
                                 rodzajedokDAO.edit(r);
+                                break;
                             }
                         }
                         if (odnaleziono == false) {
@@ -1290,12 +1293,39 @@ private DokDAO dokDAO;
                         }
                     }
                 }
+                //to tez musi tu byc bo przeciez moze nie byc dokumentu w roku poprzednim
+                for (Rodzajedok tmp : ogolnaListaDokumentow) {
+                    boolean odnaleziono = false;
+                    for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
+                        if (r.getSkrot().equals(tmp.getSkrot())) {
+                            odnaleziono = true;
+                            r.setOznaczenie1(tmp.getOznaczenie1());
+                            r.setOznaczenie2(tmp.getOznaczenie2());
+                            rodzajedokDAO.edit(r);
+                            break;
+                        }
+                    }
+                    if (odnaleziono == false) {
+                        Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
+                        nowy.setPodatnikObj(selected);
+                        nowy.setRok(wpisView.getRokWpisuSt());
+                        nowy.setKontoRZiS(null);
+                        nowy.setKontorozrachunkowe(null);
+                        nowy.setKontovat(null);
+                        rodzajedokDAO.dodaj(nowy);
+                        dokumentyBiezacegoPodatnika.add(nowy);
+                    }
+                }
             } else {
                     for (Rodzajedok tmp : ogolnaListaDokumentow) {
                         boolean odnaleziono = false;
                         for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
                             if (r.getSkrot().equals(tmp.getSkrot())) {
                                 odnaleziono = true;
+                                r.setOznaczenie1(tmp.getOznaczenie1());
+                                r.setOznaczenie2(tmp.getOznaczenie2());
+                                rodzajedokDAO.edit(r);
+                                break;
                             }
                         }
                         if (odnaleziono == false) {

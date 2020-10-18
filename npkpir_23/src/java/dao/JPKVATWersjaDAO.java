@@ -5,7 +5,6 @@
  */
 package dao;
 
-import entity.DeklaracjaVatSchema;
 import entity.JPKVATWersja;
 import java.io.Serializable;
 import java.util.List;
@@ -25,7 +24,7 @@ public class JPKVATWersjaDAO extends DAO implements Serializable{
     private SessionFacade sessionFacade;
 
     public JPKVATWersjaDAO() {
-        super(DeklaracjaVatSchema.class);
+        super(JPKVATWersja.class);
     }
     
     public List findAll() {
