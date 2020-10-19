@@ -275,7 +275,6 @@ public class InterpaperImportView implements Serializable {
             } else if (wybranyrodzajimportu.getLp()==5 || wybranyrodzajimportu.getLp()==6 || wybranyrodzajimportu.getLp()==7){
                 if (jakipobor.equals("fiz")) {
                     drkujfizbutton.setRendered(true);
-                    kontobutton.setRendered(true);
                 } else {
                     drkujfizbutton.setRendered(true);
                     kontobutton.setRendered(true);

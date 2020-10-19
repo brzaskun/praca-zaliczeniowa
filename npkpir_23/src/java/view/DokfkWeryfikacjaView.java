@@ -7,11 +7,9 @@ package view;
 
 import static beansFK.DokFKVATBean.pobierzKontoRozrachunkowe;
 import static beansFK.DokFKVATBean.podsumujwartosciVAT;
-import static beansFK.DokFKVATBean.rozliczVatKosztEdycja;
 import static beansFK.DokFKVATBean.rozliczVatKosztNapraw;
 import static beansFK.DokFKVATBean.rozliczVatKosztNaprawRachunek;
 import static beansFK.DokFKVATBean.rozliczVatKosztNaprawWB;
-import static beansFK.DokFKVATBean.rozliczVatPrzychodEdycja;
 import static beansFK.DokFKVATBean.rozliczVatPrzychodNapraw;
 import beansFK.WartosciVAT;
 import dao.KlienciDAO;
@@ -21,6 +19,7 @@ import daoFK.KontoDAOfk;
 import data.Data;
 import embeddable.Mce;
 import entity.Dok;
+import entity.EVatwpisSuper;
 import entity.Klienci;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
@@ -36,13 +35,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import org.primefaces.component.commandbutton.CommandButton;
+import msg.Msg;
+import org.primefaces.component.commandbutton.CommandButton;
 import viewfk.DokfkView;
 import waluty.Z;
 import webservice.NIPVATcheck;
@@ -138,6 +136,7 @@ public class DokfkWeryfikacjaView implements Serializable {
     }
     
     public void sprawdzWnMawDokfk(List<Dokfk> listaZaksiegowanych, DokfkView dokfkView) {
+        List<Dokfk> listabrakiewidvat = Collections.synchronizedList(new ArrayList<>());
         List<Dokfk> listaRozniceWnMa = Collections.synchronizedList(new ArrayList<>());
         List<Dokfk> listabrakiKontaAnalityczne = Collections.synchronizedList(new ArrayList<>());
         List<Integer> listabrakiKontaAnalityczne_nr = Collections.synchronizedList(new ArrayList<>());
@@ -150,6 +149,7 @@ public class DokfkWeryfikacjaView implements Serializable {
         List<Dokfk> listapustaewidencja = Collections.synchronizedList(new ArrayList<>());
         List<Dokfk> listaniezgodnoscvatkonto = Collections.synchronizedList(new ArrayList<>());
         for (Dokfk p : listaZaksiegowanych) {
+            boolean brakewidencjivat = sprawdzewidencjevat(p,listabrakiewidvat);
             boolean jestbrakkontrahenta = brakkontrahenta(p, listabrakkontrahenta);
             boolean skorygowanokontrahenta = korekcjakontrahenta(p);
             boolean usunietopusteewidencje = usunpusteewidencje(p, listapustaewidencja);
@@ -215,6 +215,12 @@ public class DokfkWeryfikacjaView implements Serializable {
             czysto = false;
             dokDAOfk.editList(listabraki);
             Msg.msg("w", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
+        }
+        if (listabrakiewidvat.size() > 0) {
+            main = "Brak ewidencji vat w fakturach w " + listabrakiewidvat.size() + " dokumentach: ";
+            b = pobierzbledy(listabrakiPozycji, main, listaZaksiegowanychDokumentow);
+            czysto = false;
+            Msg.msg("e", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
         if (listabrakiPozycji.size() > 0) {
             main = "Konta w dokumencie nie maja przyporzadkowania do Pozycji w " + listaRozniceWnMa.size() + " dokumentach: ";
@@ -364,6 +370,17 @@ public class DokfkWeryfikacjaView implements Serializable {
         return zwrot;
     }
 
+    private boolean sprawdzewidencjevat(Dokfk p, List<Dokfk> listabrakiewidvat) {
+        boolean zwrot = true;
+        for (EVatwpisSuper ewid : p.getEwidencjaVAT()) {
+            if ((ewid.getDokfk().getRodzajedok().getKategoriadokumentu()==1 ||  ewid.getDokfk().getRodzajedok().getKategoriadokumentu()==2) && ewid.getEwidencja()==null) {
+                zwrot = false;
+                listabrakiewidvat.add(p);
+            }
+        }
+        return zwrot;
+    }
+    
     private boolean sprawdzkontavat(Dokfk p, List<Dokfk> listabrakivat) {
         boolean zwrot = true;
         try {
@@ -722,5 +739,7 @@ public static void main(String[] args)     {
         }
     
 }
+
+    
 
 }
