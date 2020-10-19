@@ -218,7 +218,7 @@ public class DokfkWeryfikacjaView implements Serializable {
         }
         if (listabrakiewidvat.size() > 0) {
             main = "Brak ewidencji vat w fakturach w " + listabrakiewidvat.size() + " dokumentach: ";
-            b = pobierzbledy(listabrakiPozycji, main, listaZaksiegowanychDokumentow);
+            b = pobierzbledy(listabrakiewidvat, main, listaZaksiegowanychDokumentow);
             czysto = false;
             Msg.msg("e", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscisprawdzanie");
         }
