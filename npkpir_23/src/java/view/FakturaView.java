@@ -75,11 +75,12 @@ import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import mail.MailOther;
-import msg.Msg; import org.primefaces.PrimeFaces;
-import org.apache.commons.io.FileUtils;
+import msg.Msg;
+ import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.MutableDateTime;
+import org.primefaces.PrimeFaces;
 import org.primefaces.component.autocomplete.AutoComplete;
 import params.Params;
 import pdf.PdfFaktura;
@@ -1081,23 +1082,19 @@ public class FakturaView implements Serializable {
             for (Faktura p : lista) {
                 ksiegowanieFK(p);
             }
-            Msg.msg("i", "Dokument zaksięgowany");
         } else if (wpisView.getPodatnikObiekt().getFirmafk() == 0) {
             for (Faktura p : lista) {
                 ksiegowaniePkpir(p);
             }
-            Msg.msg("i", "Dokument zaksięgowany");
         } else {
             if (wpisView.isKsiegirachunkowe() == true) {
                 for (Faktura p : lista) {
                     ksiegowanieFK(p);
                 }
-                Msg.msg("i", "Dokument zaksięgowany");
             } else {
                 for (Faktura p : lista) {
                     ksiegowaniePkpir(p);
                 }
-                Msg.msg("i", "Dokument zaksięgowany");
             }
         }
     }
