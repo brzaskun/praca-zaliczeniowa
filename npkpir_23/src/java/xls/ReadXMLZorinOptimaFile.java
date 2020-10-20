@@ -363,7 +363,7 @@ public class ReadXMLZorinOptimaFile {
     private static String pobierzwalute(ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT row) {
         String zwrot = null;
         zwrot = row.getPLATNOSCI().getPLATNOSC().getWALUTADOK();
-        if (zwrot.equals("")) {
+        if (zwrot==null || zwrot.equals("")) {
             zwrot = "PLN";
         }
         return zwrot;
@@ -371,25 +371,39 @@ public class ReadXMLZorinOptimaFile {
 
     private static double[] obliczkwoty(List<ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.POZYCJE.POZYCJA> poz, ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.PLATNOSCI.PLATNOSC plt, String waluta) {
         double zwrot[] = new double[6];
+        double pozycjenetto = 0.0;
+        double pozycjevat = 0.0;
+        double sumapozycje = 0.0;
         double nettopln = 0.0;
         double vatpln = 0.0;
         double bruttopln = 0.0;
         for (ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.POZYCJE.POZYCJA p :poz) {
-            nettopln = Z.z(nettopln+Double.parseDouble(obetnijwalute(p.getNETTO(), waluta)));
-            vatpln = Z.z(vatpln+Double.parseDouble(obetnijwalute(p.getVAT(), waluta)));
+            pozycjenetto = Z.z(pozycjenetto+Double.parseDouble(obetnijwalute(p.getNETTO(), waluta)));
+            pozycjevat = Z.z(pozycjevat+Double.parseDouble(obetnijwalute(p.getVAT(), waluta)));
         }
-        zwrot[0] = nettopln;
-        zwrot[1] = vatpln;
-        zwrot[2] = Z.z(nettopln+vatpln);
-        double kurs = plt.getNOTOWANIEWALUTYILEPLAT();
-        if (plt.getKWOTAPLAT()!=plt.getKWOTAPLNPLAT()) {
-            zwrot[3] = Z.z(zwrot[0]*plt.getNOTOWANIEWALUTYILEPLAT());
-            zwrot[4] = Z.z(zwrot[1]*plt.getNOTOWANIEWALUTYILEPLAT());
-            zwrot[5] = Z.z(zwrot[2]*plt.getNOTOWANIEWALUTYILEPLAT());
+        sumapozycje = Z.z(pozycjenetto+pozycjevat);
+        boolean pozycjesawzlotowkach = sumapozycje == plt.getKWOTAPLNPLAT();
+        boolean kwotyrowne = plt.getKWOTAPLAT()==plt.getKWOTAPLNPLAT();
+        if (pozycjesawzlotowkach && kwotyrowne) {
+            nettopln = pozycjenetto;
+            vatpln = pozycjevat;
+            zwrot[0] = nettopln;
+            zwrot[1] = vatpln;
+            zwrot[2] = Z.z(nettopln+vatpln);
+            double kurs = plt.getNOTOWANIEWALUTYILEPLAT();
+            zwrot[3] = Z.z(zwrot[0]/plt.getNOTOWANIEWALUTYILEPLAT());
+            zwrot[4] = Z.z(zwrot[1]/plt.getNOTOWANIEWALUTYILEPLAT());
+            zwrot[5] = Z.z(zwrot[2]/plt.getNOTOWANIEWALUTYILEPLAT());
         } else {
-            zwrot[3] = zwrot[0];
-            zwrot[4] = zwrot[1];
-            zwrot[5] = zwrot[2];
+            nettopln = pozycjenetto*plt.getNOTOWANIEWALUTYILEPLAT();
+            vatpln = pozycjevat*plt.getNOTOWANIEWALUTYILEPLAT();
+            zwrot[0] = nettopln;
+            zwrot[1] = vatpln;
+            zwrot[2] = Z.z(nettopln+vatpln);
+            double kurs = plt.getNOTOWANIEWALUTYILEPLAT();
+            zwrot[3] = pozycjenetto;
+            zwrot[4] = pozycjevat;
+            zwrot[5] = Z.z(pozycjenetto+pozycjevat);
         }
         return zwrot;
     }
