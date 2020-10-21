@@ -395,22 +395,41 @@ public class ReadXMLZorinOptimaFile {
             zwrot[4] = vatpln;
             zwrot[5] = Z.z(nettopln+vatpln);
         } else {
-            nettopln = pozycjenetto;
-            vatpln = pozycjevat;
-            double stawkavat = Z.z(vatpln/nettopln);
-            double procentvat = Z.z4(stawkavat/(1+stawkavat));
-            zwrot[0] = nettopln;
-            zwrot[1] = vatpln;
-            zwrot[2] = Z.z(nettopln+vatpln);
-            double vatwaluta = Z.z(plt.getKWOTAPLAT()*procentvat);
-            double nettowaluta = Z.z(plt.getKWOTAPLAT()-vatwaluta);
-            if (nettopln<0.0) {
-                nettowaluta = -nettowaluta;
-                vatwaluta = -vatwaluta;
+            if (sumapozycje==plt.getKWOTAPLAT()) {
+                double nettowaluta = pozycjenetto;
+                double vatwaluta = pozycjevat;
+                double stawkavat = Z.z(vatwaluta/nettowaluta);
+                double procentvat = Z.z4(stawkavat/(1+stawkavat));
+                zwrot[3] = nettowaluta;
+                zwrot[4] = vatwaluta;
+                zwrot[5] = Z.z(nettowaluta+vatwaluta);
+                vatpln = Z.z(plt.getKWOTAPLAT()*procentvat);
+                nettopln = Z.z(plt.getKWOTAPLAT()-vatwaluta);
+                if (nettowaluta<0.0) {
+                    nettopln = -nettopln;
+                    vatpln = -vatpln;
+                }
+                zwrot[0] = nettopln;
+                zwrot[1] = vatpln;
+                zwrot[2] = Z.z(nettopln+vatpln);
+            } else {
+                nettopln = pozycjenetto;
+                vatpln = pozycjevat;
+                double stawkavat = Z.z(vatpln/nettopln);
+                double procentvat = Z.z4(stawkavat/(1+stawkavat));
+                zwrot[0] = nettopln;
+                zwrot[1] = vatpln;
+                zwrot[2] = Z.z(nettopln+vatpln);
+                double vatwaluta = Z.z(plt.getKWOTAPLAT()*procentvat);
+                double nettowaluta = Z.z(plt.getKWOTAPLAT()-vatwaluta);
+                if (nettopln<0.0) {
+                    nettowaluta = -nettowaluta;
+                    vatwaluta = -vatwaluta;
+                }
+                zwrot[3] = nettowaluta;
+                zwrot[4] = vatwaluta;
+                zwrot[5] = Z.z(nettowaluta+vatwaluta);
             }
-            zwrot[3] = nettowaluta;
-            zwrot[4] = vatwaluta;
-            zwrot[5] = Z.z(nettowaluta+vatwaluta);
         }
         return zwrot;
     }
