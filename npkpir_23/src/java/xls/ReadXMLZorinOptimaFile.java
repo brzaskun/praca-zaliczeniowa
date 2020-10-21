@@ -202,12 +202,13 @@ public class ReadXMLZorinOptimaFile {
             interpaperXLS.setSaldofaktury(plt.getKWOTAPLAT());
             interpaperXLS.setTerminplatnosci(plt.getTERMINPLAT().toGregorianCalendar().getTime());
             double kwoty[] = obliczkwoty(poz,plt, pobierzwalute(row));
-            interpaperXLS.setNettowaluta(kwoty[0]);
-            interpaperXLS.setVatwaluta(kwoty[1]);
-            interpaperXLS.setBruttowaluta(kwoty[2]);
-            interpaperXLS.setNettoPLN(kwoty[3]);
-            interpaperXLS.setNettoPLNvat(kwoty[4]);
-            interpaperXLS.setVatPLN(kwoty[5]);
+            interpaperXLS.setNettoPLN(kwoty[0]);
+            interpaperXLS.setNettoPLNvat(kwoty[0]);
+            interpaperXLS.setVatPLN(kwoty[1]);
+            interpaperXLS.setBruttoPLN(kwoty[2]);
+            interpaperXLS.setNettowaluta(kwoty[3]);
+            interpaperXLS.setVatwaluta(kwoty[4]);
+            interpaperXLS.setBruttowaluta(kwoty[5]);
         }
     }
 
@@ -390,20 +391,26 @@ public class ReadXMLZorinOptimaFile {
             zwrot[0] = nettopln;
             zwrot[1] = vatpln;
             zwrot[2] = Z.z(nettopln+vatpln);
-            double kurs = plt.getNOTOWANIEWALUTYILEPLAT();
-            zwrot[3] = Z.z(zwrot[0]/plt.getNOTOWANIEWALUTYILEPLAT());
-            zwrot[4] = Z.z(zwrot[1]/plt.getNOTOWANIEWALUTYILEPLAT());
-            zwrot[5] = Z.z(zwrot[2]/plt.getNOTOWANIEWALUTYILEPLAT());
+            zwrot[3] = nettopln;
+            zwrot[4] = vatpln;
+            zwrot[5] = Z.z(nettopln+vatpln);
         } else {
-            nettopln = pozycjenetto*plt.getNOTOWANIEWALUTYILEPLAT();
-            vatpln = pozycjevat*plt.getNOTOWANIEWALUTYILEPLAT();
+            nettopln = pozycjenetto;
+            vatpln = pozycjevat;
+            double stawkavat = Z.z(vatpln/nettopln);
+            double procentvat = Z.z4(stawkavat/(1+stawkavat));
             zwrot[0] = nettopln;
             zwrot[1] = vatpln;
             zwrot[2] = Z.z(nettopln+vatpln);
-            double kurs = plt.getNOTOWANIEWALUTYILEPLAT();
-            zwrot[3] = pozycjenetto;
-            zwrot[4] = pozycjevat;
-            zwrot[5] = Z.z(pozycjenetto+pozycjevat);
+            double vatwaluta = Z.z(plt.getKWOTAPLAT()*procentvat);
+            double nettowaluta = Z.z(plt.getKWOTAPLAT()-vatwaluta);
+            if (nettopln<0.0) {
+                nettowaluta = -nettowaluta;
+                vatwaluta = -vatwaluta;
+            }
+            zwrot[3] = nettowaluta;
+            zwrot[4] = vatwaluta;
+            zwrot[5] = Z.z(nettowaluta+vatwaluta);
         }
         return zwrot;
     }
