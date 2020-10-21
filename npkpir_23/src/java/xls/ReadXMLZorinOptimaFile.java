@@ -180,7 +180,7 @@ public class ReadXMLZorinOptimaFile {
 //FVPR i FVPR 2  Sprzedaz z przekroczeniem limitu gdzie stosowana ma być stawka danego kraju (DE  16% i FR 20%). 
 
     private static void uzupelnijsprzedaz(InterpaperXLS interpaperXLS, ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
-        if (!row.getOPIS().equals("PAR")&&!row.getOPIS().equals("PAR 2")) {
+        if (!row.getOPIS().equals("PAR")&&!row.getOPIS().equals("PAR 2")&&!row.getOPIS().equals("KPAR")&&!row.getOPIS().equals("KPAR 2")) {
             interpaperXLS.setNrfaktury(row.getNUMER());
             interpaperXLS.setDatawystawienia(row.getDATAWYSTAWIENIA().toGregorianCalendar().getTime());
             interpaperXLS.setDatasprzedaży(row.getDATASPRZEDAZY().toGregorianCalendar().getTime());
