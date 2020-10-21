@@ -395,7 +395,7 @@ public class ReadXMLZorinOptimaFile {
             zwrot[4] = vatpln;
             zwrot[5] = Z.z(nettopln+vatpln);
         } else {
-            if (sumapozycje==plt.getKWOTAPLAT()) {
+            if (Z.z(sumapozycje)==Z.z(plt.getKWOTAPLAT())) {
                 double nettowaluta = pozycjenetto;
                 double vatwaluta = pozycjevat;
                 double stawkavat = Z.z(vatwaluta/nettowaluta);
