@@ -403,8 +403,8 @@ public class ReadXMLZorinOptimaFile {
                 zwrot[3] = nettowaluta;
                 zwrot[4] = vatwaluta;
                 zwrot[5] = Z.z(nettowaluta+vatwaluta);
-                vatpln = Z.z(plt.getKWOTAPLAT()*procentvat);
-                nettopln = Z.z(plt.getKWOTAPLAT()-vatwaluta);
+                vatpln = Z.z(plt.getKWOTAPLNPLAT()*procentvat);
+                nettopln = Z.z(plt.getKWOTAPLNPLAT()-vatwaluta);
                 if (nettowaluta<0.0) {
                     nettopln = -nettopln;
                     vatpln = -vatpln;
