@@ -314,7 +314,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                 document.close();
                 PdfReader reader = new PdfReader(nazwapliku);
                 PdfReaderContentParser parser = new PdfReaderContentParser(reader);
-                String nazwapliku1 = "C:/Users/JA/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr1" + String.valueOf(nrfakt) + "firma" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+                String nazwapliku1 = realPath + "wydruki/fakturaNr1" + String.valueOf(nrfakt) + "firma" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
                 PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(nazwapliku1));
                 PdfContentByte canvas = stamper.getOverContent(1);
                 PdfFP.dolaczpozycjedofakturydlugacz1(fakturaelementygraficzneDAO, canvas, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
