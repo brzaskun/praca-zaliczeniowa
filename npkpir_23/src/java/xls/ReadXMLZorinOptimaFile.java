@@ -299,40 +299,62 @@ public class ReadXMLZorinOptimaFile {
       
     public static void main(String[] args) {
         try {
-            FileInputStream file = new FileInputStream(new File(filename));
-             //Create Workbook instance holding reference to .xlsx file
-            Workbook workbook = WorkbookFactory.create(file);
-             //Get first/desired sheet from the workbook
-            Sheet sheet = workbook.getSheetAt(0);
-             //Iterate through each rows one by one
-            Iterator<Row> rowIterator = sheet.iterator();
-            while (rowIterator.hasNext()) {
-                Row row = rowIterator.next();
-                InterpaperXLS interpaperXLS = new InterpaperXLS();
-                interpaperXLS.setNr((int) row.getCell(0).getNumericCellValue());
-                interpaperXLS.setNrfaktury(row.getCell(1).getStringCellValue());
-                interpaperXLS.setDatawystawienia(row.getCell(2).getDateCellValue());
-                interpaperXLS.setDatasprzedaży(row.getCell(3).getDateCellValue());
-                interpaperXLS.setKontrahent(row.getCell(4).getStringCellValue());
-                interpaperXLS.setWalutaplatnosci(row.getCell(5).getStringCellValue());
-                interpaperXLS.setBruttowaluta(row.getCell(6).getNumericCellValue());
-                interpaperXLS.setSaldofaktury(row.getCell(7).getNumericCellValue());
-                interpaperXLS.setTerminplatnosci(row.getCell(8).getDateCellValue());
-                interpaperXLS.setPrzekroczenieterminu((int) row.getCell(9).getNumericCellValue());
-                if (row.getCell(10) != null) {
-                    interpaperXLS.setOstatniawplata(row.getCell(10).getDateCellValue());
-                } else {
-                    interpaperXLS.setOstatniawplata(null);
+            FileInputStream file = new FileInputStream(new File("d://S1.xml"));
+            InputStreamReader reader = new InputStreamReader(file, "Windows-1250");
+            JAXBContext jaxbContext = JAXBContext.newInstance(ROOT.class);
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            ROOT tabela =  (ROOT) jaxbUnmarshaller.unmarshal(reader);
+             //Create Workbook instance holding reference to .xlsx file  TYLKO NOWE XLSX
+            if (tabela!=null && tabela.getREJESTRYSPRZEDAZYVAT()!=null && !tabela.getREJESTRYSPRZEDAZYVAT().getREJESTRSPRZEDAZYVAT().isEmpty()) {
+                int i =1;
+                int paragon = 0;
+                int faktura = 0;
+                for (ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT row :tabela.getREJESTRYSPRZEDAZYVAT().getREJESTRSPRZEDAZYVAT()) {
+                    try {
+                        InterpaperXLS interpaperXLS = new InterpaperXLS();
+                        String nip = pobierznip(row);
+                        if (!row.getOPIS().equals("PAR")&&!row.getOPIS().equals("PAR 2")&&!row.getOPIS().equals("KPAR")&&!row.getOPIS().equals("KPAR 2")) {
+                            interpaperXLS.setNrfaktury(row.getNUMER());
+                            interpaperXLS.setDatawystawienia(row.getDATAWYSTAWIENIA().toGregorianCalendar().getTime());
+                            interpaperXLS.setDatasprzedaży(row.getDATASPRZEDAZY().toGregorianCalendar().getTime());
+                            interpaperXLS.setDataobvat(row.getDATASPRZEDAZY().toGregorianCalendar().getTime());
+                            interpaperXLS.setKlientnazwa(row.getNAZWA1());
+                            interpaperXLS.setKlientpaństwo(row.getKRAJ());
+                            interpaperXLS.setKlientkod(row.getKODPOCZTOWY());
+                            interpaperXLS.setKlientmiasto(row.getMIASTO());
+                            interpaperXLS.setKlientulica(row.getULICA());
+                            interpaperXLS.setKlientdom(row.getNRDOMU());
+                            interpaperXLS.setKlientlokal(row.getNRLOKALU());
+                            String kontr = row.getNAZWA1()+" "+row.getKRAJ()+" "+row.getKODPOCZTOWY()+" "+row.getMIASTO();
+                            interpaperXLS.setKontrahent(kontr);
+                            interpaperXLS.setNip(pobierznip(row));
+                            interpaperXLS.setWalutaplatnosci(pobierzwalute(row));
+                            List<ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.POZYCJE.POZYCJA> poz = row.getPOZYCJE().getPOZYCJA();
+                            ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.PLATNOSCI.PLATNOSC plt = row.getPLATNOSCI().getPLATNOSC();
+                            interpaperXLS.setSaldofaktury(plt.getKWOTAPLAT());
+                            interpaperXLS.setTerminplatnosci(plt.getTERMINPLAT().toGregorianCalendar().getTime());
+                            double kwoty[] = obliczkwoty(poz,plt, pobierzwalute(row));
+                            interpaperXLS.setNettoPLN(kwoty[0]);
+                            interpaperXLS.setNettoPLNvat(kwoty[0]);
+                            interpaperXLS.setVatPLN(kwoty[1]);
+                            interpaperXLS.setBruttoPLN(kwoty[2]);
+                            interpaperXLS.setNettowaluta(kwoty[3]);
+                            interpaperXLS.setVatwaluta(kwoty[4]);
+                            interpaperXLS.setBruttowaluta(kwoty[5]);
+                            faktura++;
+                        } else {
+                            paragon++;
+                        }
+                    } catch (Exception e){
+                        E.e(e);
+                    }
                 }
-                interpaperXLS.setSposobzaplaty(row.getCell(11).getStringCellValue());
-                interpaperXLS.setNettowaluta(row.getCell(12).getNumericCellValue());
-                interpaperXLS.setVatwaluta(row.getCell(13).getNumericCellValue());
-                interpaperXLS.setNettoPLN(row.getCell(14).getNumericCellValue());
-                interpaperXLS.setVatPLN(row.getCell(15).getNumericCellValue());
-                interpaperXLS.setBruttoPLN(row.getCell(16).getNumericCellValue());
+                System.out.println("ilosc paragonow "+paragon);
+                System.out.println("ilosc faktur "+faktura);
             }
             file.close();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             E.e(e);
         }
     }
@@ -383,8 +405,8 @@ public class ReadXMLZorinOptimaFile {
             pozycjevat = Z.z(pozycjevat+Double.parseDouble(obetnijwalute(p.getVAT(), waluta)));
         }
         sumapozycje = Z.z(pozycjenetto+pozycjevat);
-        boolean pozycjesawzlotowkach = sumapozycje == plt.getKWOTAPLNPLAT();
-        boolean kwotyrowne = plt.getKWOTAPLAT()==plt.getKWOTAPLNPLAT();
+        boolean pozycjesawzlotowkach = Z.z(sumapozycje) == Z.z(plt.getKWOTAPLNPLAT());
+        boolean kwotyrowne = Z.z(plt.getKWOTAPLAT())==Z.z(plt.getKWOTAPLNPLAT());
         if (pozycjesawzlotowkach && kwotyrowne) {
             nettopln = pozycjenetto;
             vatpln = pozycjevat;
