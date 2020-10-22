@@ -30,7 +30,7 @@
             <p:dataTable value="#{fakturaRozrachunkiRozlView.wprowadzoneplatnosci}" var="item" style="width: 1150px; margin-top: 20px;" filteredValue="#{fakturaRozrachunkiRozlView.wprowadzoneplatnoscifiltered}"
                          sortBy="#{item.nrdokumentu}" sortFunction="#{fakturaRozrachunkiRozlView.sortujfaktrozrach}" sortOrder="descending" 
                          emptyMessage="niczego nie zaksięgowano w miesiącu #{WpisView.miesiacWpisu}" id="wprowadzonetabela"
-                         widgetVar="fakturarozliczenia_tablica" editable="true" paginator="true" rows="10" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                         widgetVar="fakturarozliczenia_tablica" editable="true" paginator="true" rows="20" paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                          rowsPerPageTemplate="20,40,80,120">
                 <p:ajax event="rowEdit" listener="#{fakturaRozrachunkiView.onRowEdit}"/>
                 <p:ajax event="filter" global="false" oncomplete="przeliczfilter1();"/>

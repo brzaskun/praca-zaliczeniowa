@@ -68,7 +68,7 @@ public class Logowanie implements Serializable {
         try {
             ipusera = IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest());
             liczniklogowan = Liczniklogowan.pobierzIloscLogowan(ipusera, rejestrlogowanDAO);
-            invalidatesession();
+            //invalidatesession();
         } catch (Exception e) {
             E.e(e);
         }
@@ -194,18 +194,23 @@ public class Logowanie implements Serializable {
         session.setAttribute("user", principal.getName());
         session.setAttribute("id", session.getId());
         String nrsesji = session.getId();
-        sesja.setNrsesji(nrsesji);
-        sesja.setUzytkownik(principal.getName());
-        sesja.setIloscdokumentow(0);
-        sesja.setIloscmaili(0);
-        sesja.setIloscwydrukow(0);
-        sesja.setIp(IPaddress.getIpAddr(request));
-        Calendar calendar = Calendar.getInstance();
-        sesja.setZalogowanie(new Timestamp(calendar.getTime().getTime()));
-        try {
-            sesjaDAO.edit(sesja);
-        } catch (Exception e) {
-            E.e(e);
+        Sesja czyjestjuzsesja = sesjaDAO.find(nrsesji);
+        if (czyjestjuzsesja!=null) {
+            
+        } else {
+            sesja.setNrsesji(nrsesji);
+            sesja.setUzytkownik(principal.getName());
+            sesja.setIloscdokumentow(0);
+            sesja.setIloscmaili(0);
+            sesja.setIloscwydrukow(0);
+            sesja.setIp(IPaddress.getIpAddr(request));
+            Calendar calendar = Calendar.getInstance();
+            sesja.setZalogowanie(new Timestamp(calendar.getTime().getTime()));
+            try {
+                sesjaDAO.edit(sesja);
+            } catch (Exception e) {
+                E.e(e);
+            }
         }
         try {
             Uz wprowadzil = uzDAO.findUzByLogin(uzytkownik);

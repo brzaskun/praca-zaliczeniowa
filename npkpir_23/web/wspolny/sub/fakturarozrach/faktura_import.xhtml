@@ -90,7 +90,7 @@
                 <p:panelGrid columns="1" rendered="false" binding="#{bankImportKsiazkaView.grid3}" style="height: 580px;">
             <p:dataTable id="dataListImportall" value="#{bankImportKsiazkaView.pobranefaktury}" var="itemimp" rowIndexVar="row" widgetVar="tablicadokumentyimportall" 
                          selection="#{bankImportKsiazkaView.selected}" rowKey="#{itemimp.nr}"  
-                         style="width: 1420px; height: 540px; overflow-y: scroll; margin-top: 15px;margin-bottom: 5px;" filteredValue="#{bankImportKsiazkaView.pobranefakturyfilter}"
+                         style="width: 1500px; height: 540px; overflow-y: scroll; margin-top: 15px;margin-bottom: 5px;" filteredValue="#{bankImportKsiazkaView.pobranefakturyfilter}"
                          emptyMessage="Brak importowanych dokumentów" styleClass="gridZaksiegowane"
                          sortBy="#{itemimp.nr}"  >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
@@ -115,6 +115,11 @@
                 </p:column>
                 <p:column headerText="waluta" styleClass="zaksiegowanewaski" width="40" style="text-align: center;"  sortBy="#{itemimp.waluta}" filterBy="#{itemimp.waluta}" filterMatchMode="contains" >
                     <h:outputText value="#{itemimp.waluta}"/>
+                </p:column>
+                <p:column headerText="kurs" styleClass="zaksiegowanewaski" width="80" style="text-align: center;"  sortBy="#{itemimp.kurs}" filterBy="#{itemimp.kurs}" filterMatchMode="contains" >
+                    <p:inputNumber value="#{itemimp.kurs}" symbol=" zł" style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="4" minValue="-10000000" size="9">
+                        <p:ajax event="blur" partialSubmit="true" global="false"/>
+                    </p:inputNumber>
                 </p:column>
                 <p:column headerText="typ" width="30" sortBy="#{itemimp.kontrahentakraj}" filterBy="#{itemimp.typtransakcji}" >
                     <h:outputText value="#{itemimp.typtransakcji}"/>

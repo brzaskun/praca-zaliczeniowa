@@ -29,17 +29,12 @@ import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
 import entityfk.Wiersz;
 import error.E;
-import gus.GUSView;
 import java.io.Serializable;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.ejb.EJBException;
-import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
-import webservice.GUS;
 
 /**
  *
@@ -951,8 +946,8 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
                 }
                 klienciDAO.destroy(t);
             } catch (Exception e) {
-                String zwrot = E.e(e);
-                System.out.println(zwrot);
+//                String zwrot = E.e(e);
+//                System.out.println(zwrot);
             }
         }
         doplery = klienciDAO.findKlienciByNip("0000000000");
@@ -965,8 +960,8 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
             t.setNip(nowynip);
             licznik++;
             klienciDAO.edit(t);
-            System.out.println(t.getId());
-            System.out.println(t.toString2());
+//            System.out.println(t.getId());
+//            System.out.println(t.toString2());
         }
           
         doplery = klienciDAO.findDoplery(1);
@@ -1007,7 +1002,7 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
                             for (Faktura d : faktury) {
                                 d.setKontrahent(nowy);
                                 //uzyc znacznik1 aby onzaczyc duplikat :)
-                                fakturaDAO.edit(d);
+                                    fakturaDAO.edit(d);
                             }
                             List<FakturaRozrachunki> fakturyr = fakturaRozrachunkiDAO.findbyKontrahent(t);
                             for (FakturaRozrachunki d : fakturyr) {
@@ -1034,6 +1029,7 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
                 }
             } catch (Exception ex) {
             }
+            System.out.println("dopler "+t.getNpelna());
         }
 
          System.out.println("KONIEC**************");

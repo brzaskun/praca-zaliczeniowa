@@ -21,14 +21,11 @@ import entity.FakturaStopkaNiemiecka;
 import entity.FakturaWalutaKonto;
 import entity.Podatnik;
 import entityfk.Tabelanbp;
-import error.E;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.inject.Named;
 import msg.Msg;
 import org.joda.time.DateTime;
@@ -276,7 +273,7 @@ public class FakturaBean {
                             fakturaStopkaNiemieckaDAO.edit(fakturaStopkaNiemiecka);
                         }
                     } catch (Exception e) {
-                        E.e(e);
+                       
                     }
                    break;
                 }

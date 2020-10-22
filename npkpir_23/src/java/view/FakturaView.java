@@ -2203,6 +2203,10 @@ public class FakturaView implements Serializable {
         } else {
             Msg.msg("e","Nie można oznaczyć faktury jako proforma. Brak wprowadzonego numeru faktury");
             selected.setProforma(false);
+            if (selected.getNumerkolejny().contains("/PROFORMA")) {
+                selected.setNumerkolejny(selected.getNumerkolejny().replace("/PROFORMA", ""));
+                wgenerujnumerfaktury();
+            }
             PrimeFaces.current().ajax().update("akordeon:formstworz:proformacheck");
         }
     }

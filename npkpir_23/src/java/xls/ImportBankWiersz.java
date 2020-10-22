@@ -19,6 +19,7 @@ public class ImportBankWiersz implements Serializable {
         private String IBAN;
         private double kwota;
         private String waluta;
+        private double kurs;
         private String wnma;
         private String datatransakcji;
         private String datawaluty;
@@ -77,6 +78,14 @@ public class ImportBankWiersz implements Serializable {
 
     public void setWaluta(String waluta) {
         this.waluta = waluta;
+    }
+
+    public double getKurs() {
+        return kurs;
+    }
+
+    public void setKurs(double kurs) {
+        this.kurs = kurs;
     }
 
     public String getWnma() {

@@ -13,11 +13,9 @@ import entity.Klienci;
 import entity.Uz;
 import format.F;
 import java.io.File;
-import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import msg.Msg;import org.apache.commons.lang3.RandomStringUtils;
 import static pdffk.PdfMain.*;
 import plik.Plik;
@@ -45,6 +43,7 @@ public class PdfFaktRozrach {
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepnyFaktury(document, "Zadłużenie wobec/debt to/Schulden gegenüber  ",wpisView.getPodatnikObiekt().getNazwadlafaktury(), wpisView.getPodatnikObiekt().getNip(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajLinieOpisu(document, "kontrahent/client/Mandant "+szukanyklient.getNpelna());
+            dodajLinieOpisu(document, "NIP: "+szukanyklient.getNip());
             dodajTabele(document, testobjects.testobjects.getFakturaRozrachunki(nowepozycje, 0),90,0);
             FakturaPodatnikRozliczenie n = nowepozycje.get(nowepozycje.size()-1);
             if (n.getSaldopln() > 0) {
@@ -97,10 +96,10 @@ public class PdfFaktRozrach {
                 dodajLinieOpisu(document, "please check the total and make the bank transfer ASAP");
                 dodajLinieOpisu(document, "thank you");
                 dodajLinieOpisu(document, " ");
-                dodajLinieOpisu(document, "bitte prüfen Sie die Summe und machen Sie die Überweisung ASAP");
+                dodajLinieOpisu(document, "bitte prüfen Sie die Summe und tätigen Sie die Überweisung ASAP");
                 dodajLinieOpisu(document, "danke schön");
                 dodajLinieOpisu(document, " ");
-                dodajLinieOpisu(document, "sporządzono dnia "+Data.aktualnaData());
+                dodajLinieOpisu(document, "Szczecin, "+Data.aktualnaData());
             }
             finalizacjaDokumentuQR(document,nazwa);
         } else {
