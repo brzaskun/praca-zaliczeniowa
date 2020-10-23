@@ -2198,15 +2198,15 @@ public class FakturaView implements Serializable {
         if (selected.getNumerkolejny() != null && selected.getNumerkolejny().length() > 1 && !selected.getNumerkolejny().equals("wpisz numer")) {
             if (selected.isProforma() && !selected.getNumerkolejny().contains("/PROFORMA")) {
                 selected.setNumerkolejny(selected.getNumerkolejny()+"/PROFORMA");
-            }
-            Msg.msg("Oznaczono fakturę jako PROFORMA Zmieniono numer faktury.");
-        } else {
-            Msg.msg("e","Nie można oznaczyć faktury jako proforma. Brak wprowadzonego numeru faktury");
-            selected.setProforma(false);
-            if (selected.getNumerkolejny().contains("/PROFORMA")) {
+                Msg.msg("Oznaczono fakturę jako PROFORMA Zmieniono numer faktury.");
+            } else if (!selected.isProforma() && selected.getNumerkolejny().contains("/PROFORMA")) {
+                selected.setProforma(false);
                 selected.setNumerkolejny(selected.getNumerkolejny().replace("/PROFORMA", ""));
                 wgenerujnumerfaktury();
+                Msg.msg("Usunięto oznaczeniePROFORMA Zmieniono numer faktury.");
             }
+        } else {
+            Msg.msg("e","Nie można oznaczyć faktury jako proforma. Brak wprowadzonego numeru faktury");
             PrimeFaces.current().ajax().update("akordeon:formstworz:proformacheck");
         }
     }
