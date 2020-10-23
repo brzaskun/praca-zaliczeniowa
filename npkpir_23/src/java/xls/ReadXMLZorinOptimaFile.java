@@ -420,13 +420,13 @@ public class ReadXMLZorinOptimaFile {
             if (Z.z(sumapozycje)==Z.z(plt.getKWOTAPLAT())) {
                 double nettowaluta = pozycjenetto;
                 double vatwaluta = pozycjevat;
-                double stawkavat = Z.z(vatwaluta/nettowaluta);
-                double procentvat = Z.z4(stawkavat/(1+stawkavat));
+                double stawkavat = vatwaluta/nettowaluta;
+                double procentvat = stawkavat/(1.0+stawkavat);
                 zwrot[3] = nettowaluta;
                 zwrot[4] = vatwaluta;
                 zwrot[5] = Z.z(nettowaluta+vatwaluta);
                 vatpln = Z.z(plt.getKWOTAPLNPLAT()*procentvat);
-                nettopln = Z.z(plt.getKWOTAPLNPLAT()-vatwaluta);
+                nettopln = Z.z(plt.getKWOTAPLNPLAT()-vatpln);
                 if (nettowaluta<0.0) {
                     nettopln = -nettopln;
                     vatpln = -vatpln;
@@ -437,8 +437,8 @@ public class ReadXMLZorinOptimaFile {
             } else {
                 nettopln = pozycjenetto;
                 vatpln = pozycjevat;
-                double stawkavat = Z.z(vatpln/nettopln);
-                double procentvat = Z.z4(stawkavat/(1+stawkavat));
+                double stawkavat = vatpln/nettopln;
+                double procentvat = stawkavat/(1+stawkavat);
                 zwrot[0] = nettopln;
                 zwrot[1] = vatpln;
                 zwrot[2] = Z.z(nettopln+vatpln);

@@ -68,7 +68,7 @@ public class Logowanie implements Serializable {
         try {
             ipusera = IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest());
             liczniklogowan = Liczniklogowan.pobierzIloscLogowan(ipusera, rejestrlogowanDAO);
-            //invalidatesession();
+            invalidatesession();
         } catch (Exception e) {
             E.e(e);
         }
