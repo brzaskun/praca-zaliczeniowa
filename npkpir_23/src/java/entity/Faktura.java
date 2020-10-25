@@ -932,10 +932,24 @@ public class Faktura implements Serializable {
         return this.netto;
     }
     
+    public double getNettoPrzeliczWal() {
+        double zwrot = this.netto;
+        if(this.pozycjepokorekcie!=null) {
+           zwrot = this.nettopk-this.netto;
+        }
+        return zwrot;
+    }
+    
     public double getNettoPrzelicz() {
         double zwrot = this.netto;
         if (this.getTabelanbp()!=null) {
             zwrot = this.nettopln;
+        }
+        if(this.pozycjepokorekcie!=null) {
+           zwrot = this.nettopk-this.netto;
+            if (this.getTabelanbp()!=null) {
+                zwrot = this.nettopkpln-this.nettopln;
+            }
         }
         return zwrot;
     }
@@ -949,10 +963,24 @@ public class Faktura implements Serializable {
         return this.vat;
     }
     
+    public double getVatPrzeliczWal() {
+        double zwrot = this.vat;
+        if(this.pozycjepokorekcie!=null) {
+           zwrot = this.vatpk-this.vat;
+        }
+        return zwrot;
+    }
+    
     public double getVatPrzelicz() {
         double zwrot = this.vat;
         if (this.getTabelanbp()!=null) {
             zwrot = this.vatpln;
+        }
+        if(this.pozycjepokorekcie!=null) {
+           zwrot = this.vatpk-this.vat;
+            if (this.getTabelanbp()!=null) {
+                zwrot = this.vatpkpln-this.vatpln;
+            }
         }
         return zwrot;
     }
@@ -964,11 +992,24 @@ public class Faktura implements Serializable {
     public double getBrutto() {
         return this.brutto;
     }
+     public double getBruttoPrzeliczWal() {
+        double zwrot = this.brutto;
+        if(this.pozycjepokorekcie!=null) {
+           zwrot = this.bruttopk-this.brutto;
+        }
+        return zwrot;
+    }
     
     public double getBruttoPrzelicz() {
         double zwrot = this.brutto;
         if (this.getTabelanbp()!=null) {
             zwrot = this.bruttopln;
+        }
+        if(this.pozycjepokorekcie!=null) {
+           zwrot = this.bruttopk-this.brutto;
+            if (this.getTabelanbp()!=null) {
+                zwrot = this.bruttopkpln-this.bruttopln;
+            }
         }
         return zwrot;
     }

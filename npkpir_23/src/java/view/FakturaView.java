@@ -1146,8 +1146,8 @@ public class FakturaView implements Serializable {
             List<KwotaKolumna1> listaX = Collections.synchronizedList(new ArrayList<>());
             KwotaKolumna1 tmpX = new KwotaKolumna1();
             tmpX.setNetto(faktura.getNettoPrzelicz());
-            tmpX.setNettowaluta(faktura.getNetto());
-            tmpX.setVatwaluta(faktura.getVat());
+            tmpX.setNettowaluta(faktura.getNettoPrzeliczWal());
+            tmpX.setVatwaluta(faktura.getVatPrzeliczWal());
             tmpX.setVat(faktura.getVatPrzelicz());
             tmpX.setNazwakolumny("przych. sprz");
             tmpX.setDok(selDokument);
@@ -1165,31 +1165,37 @@ public class FakturaView implements Serializable {
             List<EVatwpis1> ewidencjaTransformowana = Collections.synchronizedList(new ArrayList<>());
             for (EVatwpis r : faktura.getEwidencjavat()) {
                 if (faktura.getEwidencjavatpk() != null) {
-                        EVatwpis s  = null;
-                        for (EVatwpis t : faktura.getEwidencjavatpk()) {
-                            if (t.getEwidencja().equals(r.getEwidencja())) {
-                                s = t;
-                            }
+                    EVatwpis s  = null;
+                    for (EVatwpis t : faktura.getEwidencjavatpk()) {
+                        if (t.getEwidencja().equals(r.getEwidencja())) {
+                            s = t;
                         }
-                        Evewidencja odnalezionaewidencja = znajdziewidencje(s.getEwidencja());
-                        if (s != null) {
-                            EVatwpis1 eVatwpis1 = new EVatwpis1(odnalezionaewidencja, s.getNetto()-r.getNetto(), s.getVat()-r.getVat(), r.getEstawka(), p.getMc(), p.getRok());
-                            eVatwpis1.setDok(selDokument);
-                            ewidencjaTransformowana.add(eVatwpis1);
-                        } else {
-                            EVatwpis1 eVatwpis1 = new EVatwpis1(odnalezionaewidencja, -r.getNetto(), -r.getVat(), r.getEstawka(), p.getMc(), p.getRok());
-                            eVatwpis1.setDok(selDokument);
-                            ewidencjaTransformowana.add(eVatwpis1);
-                        }
-                    } else {
-                        Evewidencja odnalezionaewidencja = znajdziewidencje(r.getEwidencja());
-                        EVatwpis1 eVatwpis1 = new EVatwpis1(odnalezionaewidencja, r.getNettopln(), r.getVatpln(), r.getEstawka(), p.getMc(), p.getRok());
+                    }
+                    Evewidencja odnalezionaewidencja = znajdziewidencje(s.getEwidencja());
+                    if (s != null) {
+                        EVatwpis1 eVatwpis1 = new EVatwpis1(odnalezionaewidencja, s.getNettopln()-r.getNettopln(), s.getVatpln()-r.getVatpln(), r.getEstawka(), p.getMc(), p.getRok());
                         if (r.getNettopln()==0.0 && r.getVatpln() == 0.0) {
-                            eVatwpis1 = new EVatwpis1(odnalezionaewidencja, r.getNetto(), r.getVat(), r.getEstawka(), p.getMc(), p.getRok());
+                            eVatwpis1 = new EVatwpis1(odnalezionaewidencja, s.getNetto()-r.getNetto(), s.getVat()-r.getVat(), r.getEstawka(), p.getMc(), p.getRok());
+                        }
+                        eVatwpis1.setDok(selDokument);
+                        ewidencjaTransformowana.add(eVatwpis1);
+                    } else {
+                        EVatwpis1 eVatwpis1 = new EVatwpis1(odnalezionaewidencja, -r.getNettopln(), -r.getVatpln(), r.getEstawka(), p.getMc(), p.getRok());
+                        if (r.getNettopln()==0.0 && r.getVatpln() == 0.0) {
+                            eVatwpis1 = new EVatwpis1(odnalezionaewidencja, -r.getNetto(), -r.getVat(), r.getEstawka(), p.getMc(), p.getRok());
                         }
                         eVatwpis1.setDok(selDokument);
                         ewidencjaTransformowana.add(eVatwpis1);
                     }
+                } else {
+                    Evewidencja odnalezionaewidencja = znajdziewidencje(r.getEwidencja());
+                    EVatwpis1 eVatwpis1 = new EVatwpis1(odnalezionaewidencja, r.getNettopln(), r.getVatpln(), r.getEstawka(), p.getMc(), p.getRok());
+                    if (r.getNettopln()==0.0 && r.getVatpln() == 0.0) {
+                        eVatwpis1 = new EVatwpis1(odnalezionaewidencja, r.getNetto(), r.getVat(), r.getEstawka(), p.getMc(), p.getRok());
+                    }
+                    eVatwpis1.setDok(selDokument);
+                    ewidencjaTransformowana.add(eVatwpis1);
+                }
                 if (r.getEwidencja().getNazwa().equals("usługi świad. poza ter.kraju art. 100 ust.1 pkt 4")) {
                     Rodzajedok rodzajedok2 = rodzajedokDAO.find("UPTK100", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                     selDokument.setRodzajedok(rodzajedok2);
