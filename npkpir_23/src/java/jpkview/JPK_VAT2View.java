@@ -6,13 +6,18 @@
 package jpkview;
 
 import beansPodpis.ObslugaPodpisuBean;
+import dao.JPKVATWersjaDAO;
+import dao.JPKvatwersjaEvewidencjaDAO;
 import dao.UPODAO;
 import daoFK.EVatwpisDedraDAO;
 import data.Data;
 import embeddable.TKodUS;
 import entity.EVatwpis1;
 import entity.EVatwpisSuper;
+import entity.Evewidencja;
 import entity.JPKSuper;
+import entity.JPKVATWersja;
+import entity.JPKvatwersjaEvewidencja;
 import entity.Podatnik;
 import entity.UPO;
 import entityfk.EVatwpisDedra;
@@ -26,11 +31,12 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.KeyStoreException;
-import java.security.Security;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -40,10 +46,11 @@ import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import msg.Msg;
+import org.primefaces.PrimeFaces;
 import pdf.PdfUPO;
-import view.EwidencjaVatView;
-import view.WpisView; import org.primefaces.PrimeFaces;
 import pl.gov.crd.wzor._2020._05._08._9393.JPK;
+ import view.EwidencjaVatView;
+import view.WpisView;
 import waluty.Z;
 
 /**
@@ -63,6 +70,10 @@ public class JPK_VAT2View implements Serializable {
     private TKodUS tKodUS;
     @Inject
     private UPODAO uPODAO;
+    @Inject
+    private JPKVATWersjaDAO jPKVATWersjaDAO;
+    @Inject
+    private JPKvatwersjaEvewidencjaDAO jPKvatwersjaEvewidencjaDAO;
     private List<UPO> lista;
     @Inject
     private UPO selected;
@@ -316,11 +327,14 @@ public class JPK_VAT2View implements Serializable {
         JPKSuper zwrot = null;
         try {
             if (wpisView.getRokWpisu()==2020 && Integer.parseInt(wpisView.getMiesiacWpisu())>9) {
+                JPKVATWersja jPKVATWersja = jPKVATWersjaDAO.findByName("JPK2000");
+                List<JPKvatwersjaEvewidencja> jpkev = jPKvatwersjaEvewidencjaDAO.findJPKEwidencje(jPKVATWersja);
+                Map<Evewidencja, JPKvatwersjaEvewidencja> mapa = przetworzjpk(jpkev);
                 pl.gov.crd.wzor._2020._05._08._9393.JPK jpk = new JPK();
-                Object[] sprzedaz = utworzWierszeJpkSprzedaz2020(wiersze);
+                Object[] sprzedaz = utworzWierszeJpkSprzedaz2020(wiersze, mapa);
                 List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazWiersz> listas = (List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazWiersz>) sprzedaz[0];
                 pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazCtrl sprzedazCtrl = (pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazCtrl) sprzedaz[1];
-                Object[] zakup = utworzwierszjpkZakup2020(wiersze);
+                Object[] zakup = utworzwierszjpkZakup2020(wiersze, mapa);
                 List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupWiersz> listaz = (List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupWiersz>) zakup[0];
                 pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupCtrl zakupCtrl = (pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupCtrl) zakup[1];
                 String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
@@ -339,11 +353,14 @@ public class JPK_VAT2View implements Serializable {
                 }
                 zwrot = jpk;
             } else if (wpisView.getRokWpisu()>2017) {
+                JPKVATWersja jPKVATWersja = jPKVATWersjaDAO.findByName("JPK3");
+                List<JPKvatwersjaEvewidencja> jpkev = jPKvatwersjaEvewidencjaDAO.findJPKEwidencje(jPKVATWersja);
+                Map<Evewidencja, JPKvatwersjaEvewidencja> mapa = przetworzjpk(jpkev);
                 jpk201801.JPK jpk = new jpk201801.JPK();
-                Object[] sprzedaz = utworzWierszeJpkSprzedaz3(wiersze);
+                Object[] sprzedaz = utworzWierszeJpkSprzedaz3(wiersze, mapa);
                 List<jpk201801.JPK.SprzedazWiersz> listas = (List<jpk201801.JPK.SprzedazWiersz>) sprzedaz[0];
                 jpk201801.JPK.SprzedazCtrl sprzedazCtrl = (jpk201801.JPK.SprzedazCtrl) sprzedaz[1];
-                Object[] zakup = utworzwierszjpkZakup3(wiersze);
+                Object[] zakup = utworzwierszjpkZakup3(wiersze, mapa);
                 List<jpk201801.JPK.ZakupWiersz> listaz = (List<jpk201801.JPK.ZakupWiersz>) zakup[0];
                 jpk201801.JPK.ZakupCtrl zakupCtrl = (jpk201801.JPK.ZakupCtrl) zakup[1];
                 jpk.setNaglowek(JPK_VAT3_Bean.naglowek(Data.dzienpierwszy(wpisView), Data.ostatniDzien(wpisView)));
@@ -360,11 +377,14 @@ public class JPK_VAT2View implements Serializable {
                 }
                 zwrot = jpk;
             } else {
+                JPKVATWersja jPKVATWersja = jPKVATWersjaDAO.findByName("JPK2");
+                List<JPKvatwersjaEvewidencja> jpkev = jPKvatwersjaEvewidencjaDAO.findJPKEwidencje(jPKVATWersja);
+                Map<Evewidencja, JPKvatwersjaEvewidencja> mapa = przetworzjpk(jpkev);
                 jpk201701.JPK jpk = new jpk201701.JPK();
-                Object[] sprzedaz = utworzWierszeJpkSprzedaz2(wiersze);
+                Object[] sprzedaz = utworzWierszeJpkSprzedaz2(wiersze, mapa);
                 List<jpk201701.JPK.SprzedazWiersz> listas = (List<jpk201701.JPK.SprzedazWiersz>) sprzedaz[0];
                 jpk201701.JPK.SprzedazCtrl sprzedazCtrl = (jpk201701.JPK.SprzedazCtrl) sprzedaz[1];
-                Object[] zakup = utworzwierszjpkZakup2(wiersze);
+                Object[] zakup = utworzwierszjpkZakup2(wiersze, mapa);
                 List<jpk201701.JPK.ZakupWiersz> listaz = (List<jpk201701.JPK.ZakupWiersz>) zakup[0];
                 jpk201701.JPK.ZakupCtrl zakupCtrl = (jpk201701.JPK.ZakupCtrl) zakup[1];
                 jpk.setNaglowek(JPK_VAT2_Bean.naglowek(Data.dzienpierwszy(wpisView), Data.ostatniDzien(wpisView),tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy())));
@@ -553,7 +573,7 @@ public class JPK_VAT2View implements Serializable {
 //        }
 //}
 
-    private Object[] utworzWierszeJpkSprzedaz2(List wiersze) {
+    private Object[] utworzWierszeJpkSprzedaz2(List wiersze, Map<Evewidencja, JPKvatwersjaEvewidencja> mapa) {
         Object[] zwrot = new Object[2];
         zwrot[0] = Collections.synchronizedList(new ArrayList<>());
         if (wiersze.size() >0) {
@@ -567,7 +587,7 @@ public class JPK_VAT2View implements Serializable {
                 for (Object p : wiersze) {
                     EVatwpis1 wiersz = (EVatwpis1) p;
                     if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
-                        lista.add(JPK_VAT2_Bean.dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
+                        lista.add(JPK_VAT2_Bean.dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl, mapa.get(wiersz.getEwidencja())));
                     }
                 }
             } else if (c.getName().equals("entityfk.EVatwpisDedra")) {
@@ -575,7 +595,7 @@ public class JPK_VAT2View implements Serializable {
                 for (Object p : wiersze) {
                     EVatwpisDedra wiersz = (EVatwpisDedra) p;
                     if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
-                        lista.add(JPK_VAT2_Bean.dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
+                        lista.add(JPK_VAT2_Bean.dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl, mapa.get(wiersz.getEwidencja())));
                     }
                 }
             } else {
@@ -583,7 +603,7 @@ public class JPK_VAT2View implements Serializable {
                 for (Object p : wiersze) {
                     EVatwpisFK wiersz = (EVatwpisFK) p;
                     if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
-                        lista.add(JPK_VAT2_Bean.dodajwierszsprzedazyFK(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
+                        lista.add(JPK_VAT2_Bean.dodajwierszsprzedazyFK(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl, mapa.get(wiersz.getEwidencja())));
                     }
                 }
             }
@@ -593,7 +613,7 @@ public class JPK_VAT2View implements Serializable {
         return zwrot;
     }
     
-    private Object[] utworzWierszeJpkSprzedaz3(List wiersze) {
+    private Object[] utworzWierszeJpkSprzedaz3(List wiersze,  Map<Evewidencja, JPKvatwersjaEvewidencja> mapa) {
         Object[] zwrot = new Object[2];
         zwrot[0] = Collections.synchronizedList(new ArrayList<>());
         if (wiersze.size() >0) {
@@ -607,7 +627,7 @@ public class JPK_VAT2View implements Serializable {
                 for (Object p : wiersze) {
                     EVatwpis1 wiersz = (EVatwpis1) p;
                     if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
-                        lista.add(JPK_VAT3_Bean.dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
+                        lista.add(JPK_VAT3_Bean.dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl, mapa.get(wiersz.getEwidencja())));
                     }
                 }
             } else if (c.getName().equals("entityfk.EVatwpisDedra")) {
@@ -615,7 +635,7 @@ public class JPK_VAT2View implements Serializable {
                 for (Object p : wiersze) {
                     EVatwpisDedra wiersz = (EVatwpisDedra) p;
                     if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
-                        lista.add(JPK_VAT3_Bean.dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
+                        lista.add(JPK_VAT3_Bean.dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl, mapa.get(wiersz.getEwidencja())));
                     }
                 }
             } else {
@@ -623,7 +643,7 @@ public class JPK_VAT2View implements Serializable {
                 for (Object p : wiersze) {
                     EVatwpisFK wiersz = (EVatwpisFK) p;
                     if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
-                        lista.add(JPK_VAT3_Bean.dodajwierszsprzedazyFK(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
+                        lista.add(JPK_VAT3_Bean.dodajwierszsprzedazyFK(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl, mapa.get(wiersz.getEwidencja())));
                     }
                 }
             }
@@ -633,7 +653,7 @@ public class JPK_VAT2View implements Serializable {
         return zwrot;
     }
     
-    private Object[] utworzWierszeJpkSprzedaz2020(List wiersze) {
+    private Object[] utworzWierszeJpkSprzedaz2020(List wiersze, Map<Evewidencja, JPKvatwersjaEvewidencja> mapa) {
         Object[] zwrot = new Object[2];
         zwrot[0] = Collections.synchronizedList(new ArrayList<>());
         if (wiersze.size() >0) {
@@ -647,7 +667,7 @@ public class JPK_VAT2View implements Serializable {
                 for (Object p : wiersze) {
                     EVatwpis1 wiersz = (EVatwpis1) p;
                     if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
-                        lista.add(JPK_VAT2020_Bean.dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
+                        lista.add(JPK_VAT2020_Bean.dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl, mapa.get(wiersz.getEwidencja())));
                     }
                 }
             } else if (c.getName().equals("entityfk.EVatwpisDedra")) {
@@ -655,7 +675,7 @@ public class JPK_VAT2View implements Serializable {
                 for (Object p : wiersze) {
                     EVatwpisDedra wiersz = (EVatwpisDedra) p;
                     if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
-                        lista.add(JPK_VAT2020_Bean.dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
+                        lista.add(JPK_VAT2020_Bean.dodajwierszsprzedazy(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl, mapa.get(wiersz.getEwidencja())));
                     }
                 }
             } else {
@@ -663,7 +683,7 @@ public class JPK_VAT2View implements Serializable {
                 for (Object p : wiersze) {
                     EVatwpisFK wiersz = (EVatwpisFK) p;
                     if (!wiersz.getEwidencja().getTypewidencji().equals("z") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
-                        lista.add(JPK_VAT2020_Bean.dodajwierszsprzedazyFK(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl));
+                        lista.add(JPK_VAT2020_Bean.dodajwierszsprzedazyFK(wiersz, BigInteger.valueOf(lp++),sprzedazCtrl, mapa.get(wiersz.getEwidencja())));
                     }
                 }
             }
@@ -673,7 +693,7 @@ public class JPK_VAT2View implements Serializable {
         return zwrot;
     }
     
-    private Object[] utworzwierszjpkZakup2(List wiersze) {
+    private Object[] utworzwierszjpkZakup2(List wiersze, Map<Evewidencja, JPKvatwersjaEvewidencja> mapa) {
         Object[] zwrot = new Object[2];
         zwrot[0] = Collections.synchronizedList(new ArrayList<>());
         if (wiersze.size() >0) {
@@ -687,7 +707,7 @@ public class JPK_VAT2View implements Serializable {
                 for (Object p : wiersze) {
                     EVatwpis1 wiersz = (EVatwpis1) p;
                     if (!wiersz.getEwidencja().getTypewidencji().equals("s") && !wiersz.getEwidencja().getTypewidencji().equals("sz") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
-                        lista.add(JPK_VAT2_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl));
+                        lista.add(JPK_VAT2_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl, mapa.get(wiersz.getEwidencja())));
                     }
                 }
             } else if (c.getName().equals("entityfk.EVatwpisDedra")) {
@@ -697,7 +717,7 @@ public class JPK_VAT2View implements Serializable {
                 for (Object p : wiersze) {
                     EVatwpisFK wiersz = (EVatwpisFK) p;
                     if (!wiersz.getEwidencja().getTypewidencji().equals("s") && !wiersz.getEwidencja().getTypewidencji().equals("sz") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
-                        lista.add(JPK_VAT2_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl));
+                        lista.add(JPK_VAT2_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl, mapa.get(wiersz.getEwidencja())));
                     }
                 }
             }
@@ -707,7 +727,7 @@ public class JPK_VAT2View implements Serializable {
         return zwrot;
     }
     
-    private Object[] utworzwierszjpkZakup3(List wiersze) {
+    private Object[] utworzwierszjpkZakup3(List wiersze, Map<Evewidencja, JPKvatwersjaEvewidencja> mapa) {
         Object[] zwrot = new Object[2];
         zwrot[0] = Collections.synchronizedList(new ArrayList<>());
         if (wiersze.size() >0) {
@@ -721,7 +741,7 @@ public class JPK_VAT2View implements Serializable {
                 for (Object p : wiersze) {
                     EVatwpis1 wiersz = (EVatwpis1) p;
                     if (!wiersz.getEwidencja().getTypewidencji().equals("s") && !wiersz.getEwidencja().getTypewidencji().equals("sz") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
-                        lista.add(JPK_VAT3_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl));
+                        lista.add(JPK_VAT3_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl, mapa.get(wiersz.getEwidencja())));
                     }
                 }
             } else if (c.getName().equals("entityfk.EVatwpisDedra")) {
@@ -729,7 +749,7 @@ public class JPK_VAT2View implements Serializable {
                 for (Object p : wiersze) {
                     EVatwpisDedra wiersz = (EVatwpisDedra) p;
                     if (!wiersz.getEwidencja().getTypewidencji().equals("s") && !wiersz.getEwidencja().getTypewidencji().equals("sz") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
-                        lista.add(JPK_VAT3_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl));
+                        lista.add(JPK_VAT3_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl, mapa.get(wiersz.getEwidencja())));
                     }
                 }
             } else {
@@ -737,7 +757,7 @@ public class JPK_VAT2View implements Serializable {
                 for (Object p : wiersze) {
                     EVatwpisFK wiersz = (EVatwpisFK) p;
                     if (!wiersz.getEwidencja().getTypewidencji().equals("s") && !wiersz.getEwidencja().getTypewidencji().equals("sz") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
-                        lista.add(JPK_VAT3_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl));
+                        lista.add(JPK_VAT3_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl, mapa.get(wiersz.getEwidencja())));
                     }
                 }
             }
@@ -747,7 +767,7 @@ public class JPK_VAT2View implements Serializable {
         return zwrot;
     }
     
-    private Object[] utworzwierszjpkZakup2020(List wiersze) {
+    private Object[] utworzwierszjpkZakup2020(List wiersze, Map<Evewidencja, JPKvatwersjaEvewidencja> mapa) {
         Object[] zwrot = new Object[2];
         zwrot[0] = Collections.synchronizedList(new ArrayList<>());
         if (wiersze.size() >0) {
@@ -761,7 +781,7 @@ public class JPK_VAT2View implements Serializable {
                 for (Object p : wiersze) {
                     EVatwpis1 wiersz = (EVatwpis1) p;
                     if (!wiersz.getEwidencja().getTypewidencji().equals("s") && !wiersz.getEwidencja().getTypewidencji().equals("sz") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
-                        lista.add(JPK_VAT2020_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl));
+                        lista.add(JPK_VAT2020_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl, mapa.get(wiersz.getEwidencja())));
                     }
                 }
             } else if (c.getName().equals("entityfk.EVatwpisDedra")) {
@@ -769,7 +789,7 @@ public class JPK_VAT2View implements Serializable {
                 for (Object p : wiersze) {
                     EVatwpisDedra wiersz = (EVatwpisDedra) p;
                     if (!wiersz.getEwidencja().getTypewidencji().equals("s") && !wiersz.getEwidencja().getTypewidencji().equals("sz") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
-                        lista.add(JPK_VAT2020_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl));
+                        lista.add(JPK_VAT2020_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl, mapa.get(wiersz.getEwidencja())));
                     }
                 }
             } else {
@@ -777,7 +797,7 @@ public class JPK_VAT2View implements Serializable {
                 for (Object p : wiersze) {
                     EVatwpisFK wiersz = (EVatwpisFK) p;
                     if (!wiersz.getEwidencja().getTypewidencji().equals("s") && !wiersz.getEwidencja().getTypewidencji().equals("sz") && (Z.z(wiersz.getNetto()) != 0.0 || Z.z(wiersz.getVat()) != 0.0)) {
-                        lista.add(JPK_VAT2020_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl));
+                        lista.add(JPK_VAT2020_Bean.dodajwierszzakupu(wiersz, BigInteger.valueOf(lp++),zakupCtrl, mapa.get(wiersz.getEwidencja())));
                     }
                 }
             }
@@ -959,6 +979,16 @@ public class JPK_VAT2View implements Serializable {
                 }
             }
             
+        }
+        return zwrot;
+    }
+
+    private Map<Evewidencja, JPKvatwersjaEvewidencja> przetworzjpk(List<JPKvatwersjaEvewidencja> jpkev) {
+        Map<Evewidencja, JPKvatwersjaEvewidencja> zwrot = new HashMap<>();
+        if (jpkev!=null) {
+            for (JPKvatwersjaEvewidencja p : jpkev) {
+                zwrot.put(p.getEvewidencja(), p);
+            }
         }
         return zwrot;
     }

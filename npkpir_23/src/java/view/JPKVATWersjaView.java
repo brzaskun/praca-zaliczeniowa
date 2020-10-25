@@ -7,7 +7,6 @@ package view;
 
 import beansDok.JPKVATWersjaBean;
 import dao.JPKVATWersjaDAO;
-import entity.DeklaracjaVatSchema;
 import entity.JPKVATWersja;
 import java.io.Serializable;
 import java.util.List;
@@ -52,7 +51,7 @@ public class JPKVATWersjaView implements Serializable {
         } else if (czyschemaistnieje == 3) {
             Msg.msg("e", "Nie można dodać, brak nazwy nowego JPK.");
         } else if (czyschemaistnieje == 4) {
-            Msg.msg("e", "Nie można dodać. Nazwa JPK nie rozpoczyna się od M- lub K-");
+            Msg.msg("e", "Nie można dodać. Nazwa JPK nie rozpoczyna się od JPK pisanych wielką literą");
         } else {
             jPKVATWersjaDAO.dodaj(nowy);
             lista.add(nowy);
@@ -68,7 +67,7 @@ public class JPKVATWersjaView implements Serializable {
         Msg.msg("Udana edycja JPK");
     }
     
-    public void usun(DeklaracjaVatSchema s) {
+    public void usun(JPKVATWersja s) {
         jPKVATWersjaDAO.destroy(s);
         lista.remove(s);
         Msg.msg("Usunieto JPK");

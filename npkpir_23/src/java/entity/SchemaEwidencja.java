@@ -39,10 +39,8 @@ public class SchemaEwidencja implements Serializable {
     private Integer id;
     @JoinColumn(name = "deklaracjaVatSchema", referencedColumnName = "nazwaschemy")
     private DeklaracjaVatSchema deklaracjaVatSchema;
-    @JoinColumn(name = "evewidencja", referencedColumnName = "nazwa")
-    private Evewidencja evewidencja;
     @JoinColumn(name = "evewidencjaID", referencedColumnName = "id")
-    private Evewidencja evewidencjaID;
+    private Evewidencja evewidencja;
     @Column(name = "polenetto")
     private String polenetto;
     @Column(name = "polevat")
@@ -120,13 +118,6 @@ public class SchemaEwidencja implements Serializable {
         this.evewidencja = evewidencja;
     }
 
-    public Evewidencja getEvewidencjaID() {
-        return evewidencjaID;
-    }
-
-    public void setEvewidencjaID(Evewidencja evewidencjaID) {
-        this.evewidencjaID = evewidencjaID;
-    }
 
     public String getPolenetto() {
         return polenetto;

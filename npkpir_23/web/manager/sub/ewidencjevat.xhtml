@@ -15,23 +15,23 @@
                 
                 <h:outputText value="definiowanie ewidencji VAT" style="font-size: 15px"/>
                 <p:growl life="3600"  id="msg1" showDetail="true"/>
-                <p:dataTable id="tablica1" value="#{evewidencjaView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
-                             pageLinks="12" rows="10" selection="#{evewidencjaView.wybrany}" selectionMode="single" rowKey="#{loop.nazwa}"
-                             sortBy="#{loop.nrpolanetto}"
+                <p:dataTable id="tablica1" value="#{evewidencjaView.lista}"  var="loop4" paginatorAlwaysVisible="true" paginator="true" 
+                             pageLinks="12" rows="10" selection="#{evewidencjaView.wybrany}" selectionMode="single" rowKey="#{loop4.nazwa}"
+                             sortBy="#{loop4.nrpolanetto}"
                              editable="true" resizableColumns="true" paginatorPosition="top" style="width: 1350px;" emptyMessage="nie zdefiniowano ewidencji">
                     <p:ajax event="rowSelect" listener="#{evewidencjaView.przygotujdoedycji}" global="false" update="akordeon:parametryewidencji:parametr"/>
-                    <p:column headerText="nazwa ewidencji" width="200" filterBy="#{loop.nazwa}">
-                        <h:outputText id="in1" value="#{loop.nazwa}" style="word-wrap: normal; overflow: auto !important; white-space: normal !important;"/>
+                    <p:column headerText="nazwa ewidencji" width="200" filterBy="#{loop4.nazwa}">
+                        <h:outputText id="in1" value="#{loop4.nazwa}" style="word-wrap: normal; overflow: auto !important; white-space: normal !important;"/>
                     </p:column>
-                    <p:column headerText="lp" width="30" sortBy="#{loop.nrpolanetto}"><h:outputText id="in3" value="#{loop.nrpolanetto}"/></p:column>
-                    <p:column headerText="nazwa pola w deklaracji" width="350" sortBy="#{loop.pole}">
-                        <h:outputText id="in2" value="#{loop.pole}" style="word-wrap: normal; overflow: auto !important; white-space: normal !important;"/></p:column>
-                    <p:column headerText="rodzaj transkacji" width="150" sortBy="#{loop.transakcja}"><h:outputText id="in5" value="#{loop.transakcja}"/></p:column>
-                    <p:column headerText="rodzaj zakupu" width="100" sortBy="#{loop.rodzajzakupu}"><h:outputText id="in6" value="#{loop.rodzajzakupu}"/></p:column>
-                    <p:column headerText="tylko netto" width="60"><h:outputText id="in7" value="#{loop.tylkoNetto eq true ? 'tak' : null}"/></p:column>
-                    <p:column headerText="typ ewidencji" width="70" style="text-align: center;" sortBy="#{loop.typewidencji}"><h:outputText id="in8" value="#{loop.typewidencji eq 'sz' ? '+/-' : loop.typewidencji eq 's' ? '+' : '-'}"/></p:column>
+                    <p:column headerText="lp" width="30" sortBy="#{loop4.nrpolanetto}"><h:outputText id="in3" value="#{loop4.nrpolanetto}"/></p:column>
+                    <p:column headerText="nazwa pola w deklaracji" width="350" sortBy="#{loop4.pole}">
+                        <h:outputText id="in2" value="#{loop4.pole}" style="word-wrap: normal; overflow: auto !important; white-space: normal !important;"/></p:column>
+                    <p:column headerText="rodzaj transkacji" width="150" sortBy="#{loop4.transakcja}"><h:outputText id="in5" value="#{loop4.transakcja}"/></p:column>
+                    <p:column headerText="rodzaj zakupu" width="100" sortBy="#{loop4.rodzajzakupu}"><h:outputText id="in6" value="#{loop4.rodzajzakupu}"/></p:column>
+                    <p:column headerText="tylko netto" width="60"><h:outputText id="in7" value="#{loop4.tylkoNetto eq true ? 'tak' : null}"/></p:column>
+                    <p:column headerText="typ ewidencji" width="70" style="text-align: center;" sortBy="#{loop4.typewidencji}"><h:outputText id="in8" value="#{loop4.typewidencji eq 'sz' ? '+/-' : loop4.typewidencji eq 's' ? '+' : '-'}"/></p:column>
                     <p:column headerText="stawka vat" width="60" style="text-align: center;">
-                        <h:outputText value="#{loop.stawkavat/100}" rendered="#{loop.stawkavat gt 0}">
+                        <h:outputText value="#{loop4.stawkavat/100}" rendered="#{loop4.stawkavat gt 0}">
                             <f:convertNumber type="percent"/>
                         </h:outputText></p:column>
                     <p:column id="deleteColumn" headerText="usuń" width="50" style="text-align: center;">
@@ -81,9 +81,9 @@
         </p:tab>
         <p:tab title="Definiowanie wersji JPK">
            <h:form id="form_JPKView">
-                <p:dataTable value="#{jPKVATWersjaView.lista}" var="item" style="width: 680px;"
-                             emptyMessage="nie ma zdefiniowanych schem" id="wykazschem" rowKey="#{item.id}" rowIndexVar="index"
-                             selection="#{jPKVATWersjaView.selected}" selectionMode="single" sortBy="#{item.nazwa}" sortOrder="descending">
+                <p:dataTable value="#{jPKVATWersjaView.lista}" var="item2" style="width: 680px;"
+                             emptyMessage="nie ma zdefiniowanych schem" id="wykazschem" rowKey="#{item2.id}" rowIndexVar="index"
+                             selection="#{jPKVATWersjaView.selected}" selectionMode="single" sortBy="#{item2.nazwa}" sortOrder="descending">
                     <p:ajax event="toggleSelect" global="false"/>
                     <p:ajax event="rowSelect" global="false" listener="#{jPKVATWersjaView.skopiujschema()}" update="akordeon:wprowadzanieschemy"/>
                     <f:facet name="header">
@@ -96,28 +96,28 @@
                         <f:facet name="header">
                             <h:outputText value="RokOd"/>
                         </f:facet>
-                        <h:outputText value="#{item.rokOd}"/>
+                        <h:outputText value="#{item2.rokOd}"/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="McOd"/>
                         </f:facet>
-                        <h:outputText value="#{item.mcOd}"/>
+                        <h:outputText value="#{item2.mcOd}"/>
                     </p:column>
                     <p:column width="300">
                         <f:facet name="header">
                             <h:outputText value="Nazwa schemy"/>
                         </f:facet>
-                        <h:outputText value="#{item.nazwa}"/>
+                        <h:outputText value="#{item2.nazwa}"/>
                     </p:column>
                     <p:column width="70">
                         <f:facet name="header">
                             <h:outputText value="mc/kw"/>
                         </f:facet>
-                        <h:outputText value="#{item.mc0kw1 eq false ? 'miesięczna' : 'kwartalna'}" style="#{item.mc0kw1 eq false ? 'color: green' : 'color:blue'}"/>
+                        <h:outputText value="#{item2.mc0kw1 eq false ? 'miesięczna' : 'kwartalna'}" style="#{item2.mc0kw1 eq false ? 'color: green' : 'color:blue'}"/>
                     </p:column>
                     <p:column width="40">
-                        <p:commandButton icon="ui-icon-trash" actionListener="#{jPKVATWersjaView.usun(item)}"
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{jPKVATWersjaView.usun(item2)}"
                                          update="akordeon:form11 akordeon:form_JPKView:wykazschem"/>
                     </p:column>
                 </p:dataTable>
@@ -137,39 +137,70 @@
                 <p:commandButton value="edytuj" actionListener="#{jPKVATWersjaView.edytujscheme()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:form_JPKView:wykazschem akordeon:wprowadzanieschemy akordeon:form11"/>
             </h:form>
         </p:tab>
+          <p:tab title="Kopiuj przyporządkowania JPKWersja">
+            <h:form id="kopiowanieschemy">
+                <p:panelGrid columns="2" style="width: 400px;">
+                    <h:outputText value="ewidencja źródłowa"/>
+                    <p:selectOneMenu value="#{jPKvatwersjaEvewidencjaView.JPKVATWersja}" converter="#{jPKVATWersjaCechaConv}" rendered="#{jPKVATWersjaView.lista.size() > 0}">
+                        <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                        <f:selectItems value="#{jPKVATWersjaView.lista}" var="item11" itemLabel="#{item11.nazwa}" itemValue="#{item11}"/>
+                    </p:selectOneMenu>
+                    <h:outputText value="ewidencja docelowa"/>
+                    <p:selectOneMenu value="#{jPKvatwersjaEvewidencjaView.JPKVATWersjacopy}" converter="#{jPKVATWersjaCechaConv}" rendered="#{jPKVATWersjaView.lista.size() > 0}">
+                        <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                        <f:selectItems value="#{jPKVATWersjaView.lista}" var="item12" itemLabel="#{item12.nazwa}" itemValue="#{item12}"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <p:commandButton value="kopiuj" actionListener="#{jPKvatwersjaEvewidencjaView.kopiujschemaprzyporzadkowania()}" style="width: 120px; margin: 10px;" 
+                                 global="false" update="@(form)"/>
+            </h:form>
+        </p:tab>
         <p:tab title="Definiowanie pól JPK dla ewidencji VAT">  
             <h:form id="form11" >
-                <p:panelGrid columns="2">
+                <p:panelGrid columns="3">
                 <h:outputText value="wybór wersji JPK" />
-                <p:selectOneMenu value="#{evewidencjaView.jPKVATWersja}" converter="#{jPKVATWersjaCechaConv}">
+                <p:selectOneMenu value="#{jPKvatwersjaEvewidencjaView.JPKVATWersja}" converter="#{jPKVATWersjaCechaConv}">
                     <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                    <f:selectItems value="#{jPKVATWersjaView.lista}" var="item" itemLabel="#{item.nazwa}"/>
-                    <p:ajax event="change" partialSubmit="true"/>
+                    <f:selectItems value="#{jPKVATWersjaView.lista}" var="item1" itemLabel="#{item1.nazwa}"/>
+                    <p:ajax listener="#{jPKvatwersjaEvewidencjaView.pobierzjpkewidencja()}" update="akordeon:form11 akordeon:form11:tablica1" event="change" partialSubmit="true"/>
                 </p:selectOneMenu>
+                <p:commandButton value="zachowaj" actionListener="#{jPKvatwersjaEvewidencjaView.zachowaj()}" update="akordeon:form11:tablica1" style="width: 120px; margin: 10px;"
+                                 rendered="#{jPKvatwersjaEvewidencjaView.lista.size() > 0}"/>
                 </p:panelGrid>
                 <p:growl life="3600"  id="msg1" showDetail="true"/>
-                <p:dataTable id="tablica1" value="#{evewidencjaView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
-                             pageLinks="12" rows="10" selection="#{evewidencjaView.wybrany}" selectionMode="single" rowKey="#{loop.nazwa}"
-                             sortBy="#{loop.nrpolanetto}"
-                             editable="true" resizableColumns="true" paginatorPosition="top" style="width: 1450px;" emptyMessage="nie zdefiniowano ewidencji">
-                    <p:ajax event="rowSelect" listener="#{evewidencjaView.przygotujdoedycji}" global="false" update="akordeon:parametryewidencji2:parametr"/>
-                    <p:column headerText="nazwa ewidencji" width="200" filterBy="#{loop.nazwa}">
-                        <h:outputText id="in1" value="#{loop.nazwa}" style="word-wrap: normal; overflow: auto !important; white-space: normal !important;"/>
+                <p:dataTable id="tablica1" value="#{jPKvatwersjaEvewidencjaView.lista}"  var="loop2" paginatorAlwaysVisible="true" paginator="true" 
+                             pageLinks="12" rows="20" selection="#{jPKvatwersjaEvewidencjaView.selected}" selectionMode="single" rowKey="#{loop2.hashCode()}"
+                             sortBy="#{loop2.evewidencja.nrpolanetto}" rowIndexVar="index"
+                             editable="true" resizableColumns="true" paginatorPosition="top" style="width: 1150px;" emptyMessage="nie zdefiniowano ewidencji">
+<!--                    <p:ajax event="rowSelect" listener="#{evewidencjaView.przygotujdoedycji}" global="false" update="akordeon:parametryewidencji2:parametr"/>-->
+                    <p:column width="40" style="text-align: center;"><h:outputText value="#{index+1}"/></p:column>
+                    <p:column headerText="nazwa ewidencji" width="200" filterBy="#{loop2.evewidencja.nazwa}">
+                        <h:outputText id="in1" value="#{loop2.evewidencja.nazwa}" style="word-wrap: normal; overflow: auto !important; white-space: normal !important;"/>
                     </p:column>
-                    <p:column headerText="nazwa pola w deklaracji" width="350" sortBy="#{loop.pole}">
-                        <h:outputText id="in2" value="#{loop.pole}" style="word-wrap: normal; overflow: auto !important; white-space: normal !important;"/></p:column>
-                    <p:column headerText="rodzaj transkacji" width="150" sortBy="#{loop.transakcja}"><h:outputText id="in5" value="#{loop.transakcja}"/></p:column>
-                    <p:column headerText="tylko netto" width="60"><h:outputText id="in7" value="#{loop.tylkoNetto eq true ? 'tak' : null}"/></p:column>
-                    <p:column headerText="typ ewidencji" width="70" style="text-align: center;" sortBy="#{loop.typewidencji}"><h:outputText id="in8" value="#{loop.typewidencji eq 'sz' ? '+/-' : loop.typewidencji eq 's' ? '+' : '-'}"/></p:column>
-                    <p:column headerText="netto sprz" width="60" style="text-align: center;"><h:outputText value="#{loop.polejpk_netto_sprzedaz}"/></p:column>
-                    <p:column headerText="vat sprz" width="60" style="text-align: center;"><h:outputText value="#{loop.polejpk_vat_sprzedaz}"/></p:column>
-                    <p:column headerText="netto sprz. suma" width="60" style="text-align: center;"><h:outputText value="#{loop.polejpk_netto_sprzedaz_suma}"/></p:column>
-                    <p:column headerText="vat sprz. suma" width="60" style="text-align: center;"><h:outputText value="#{loop.polejpk_vat_sprzedaz_suma}"/></p:column>
-                    <p:column headerText="netto zakup" width="60" style="text-align: center;"><h:outputText value="#{loop.polejpk_netto_zakup}"/></p:column>
-                    <p:column headerText="vat zakup" width="60" style="text-align: center;"><h:outputText value="#{loop.polejpk_vat_zakup}"/></p:column>
+                    <p:column headerText="nazwa jpk" width="50" sortBy="#{loop2.jpkvatwersja.nazwa}">
+                        <h:outputText id="in2" value="#{loop2.jpkvatwersja.nazwa}" style="word-wrap: normal; overflow: auto !important; white-space: normal !important;"/>
+                    </p:column>
+                    <p:column headerText="netto sprz" width="60" style="text-align: center;">
+                        <h:inputText value="#{loop2.polejpk_netto_sprzedaz}" size="8"/>
+                    </p:column>
+                    <p:column headerText="vat sprz" width="60" style="text-align: center;">
+                        <h:inputText value="#{loop2.polejpk_vat_sprzedaz}" size="8"/>
+                    </p:column>
+                    <p:column headerText="netto sprz. suma" width="60" style="text-align: center;">
+                        <h:inputText value="#{loop2.polejpk_netto_sprzedaz_suma}" size="8"/>
+                    </p:column>
+                    <p:column headerText="vat sprz. suma" width="60" style="text-align: center;">
+                        <h:inputText value="#{loop2.polejpk_vat_sprzedaz_suma}" size="8"/>
+                    </p:column>
+                    <p:column headerText="netto zakup" width="60" style="text-align: center;">
+                        <h:inputText value="#{loop2.polejpk_netto_zakup}" size="8"/>
+                    </p:column>
+                    <p:column headerText="vat zakup" width="60" style="text-align: center;">
+                        <h:inputText value="#{loop2.polejpk_vat_zakup}" size="8"/>
+                    </p:column>
                 </p:dataTable>
             </h:form>
-            <h:form id="parametryewidencji2">
+<!--            <h:form id="parametryewidencji2">
                 <p:focus for="parametr"/><br/>
                 <h:outputText value="dodaj pola jpk dla ewidencji"/><br/>
                 <p:panelGrid id="parametr" columns="4" >
@@ -205,7 +236,7 @@
                     </p:selectOneMenu>
                 </p:panelGrid>
                     <p:commandButton action="#{evewidencjaView.edytuj()}" value="edytuj" update="akordeon:form11:tablica1, akordeon:parametryewidencji2:parametr" type="submit" style="width: 120px; margin: 10px;"/>
-            </h:form>
+            </h:form>-->
         </p:tab>
         <p:tab title="Internacjonalizacja"> 
             <h:form>
@@ -226,15 +257,15 @@
             <h:form id="form1" >
                 <h:outputText value="Nazwy ewidencji VAT" style="font-size: 15px"/>
 
-                <p:dataTable id="tablica1" value="#{evopisView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
-                             pageLinks="12" rows="10"  rowKey="#{loop.opis}" sortBy="#{loop.opis}" sortOrder="ascending"
+                <p:dataTable id="tablica1" value="#{evopisView.lista}"  var="loop5" paginatorAlwaysVisible="true" paginator="true" 
+                             pageLinks="12" rows="10"  rowKey="#{loop5.opis}" sortBy="#{loop5.opis}" sortOrder="ascending"
                              editable="true" resizableColumns="true" paginatorPosition="top"  style="width: 400px;"
                              >
                     <p:column width="300">
-                        <h:outputText id="in1" value="#{loop.opis}"/>
+                        <h:outputText id="in1" value="#{loop5.opis}"/>
                     </p:column>
                     <p:column id="deleteColumn" headerText="usuń" style="text-align: center;">
-                        <p:commandButton action="#{evopisView.usun(loop)}" id="delete" icon="ui-icon ui-icon-trash" update="@form, akordeon:form1, akordeon:parametryewidencji" type="submit" />
+                        <p:commandButton action="#{evopisView.usun(loop5)}" id="delete" icon="ui-icon ui-icon-trash" update="@form, akordeon:form1, akordeon:parametryewidencji" type="submit" />
                     </p:column>
                 </p:dataTable>
             </h:form>

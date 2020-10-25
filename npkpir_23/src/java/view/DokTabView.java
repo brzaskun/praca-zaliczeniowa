@@ -10,6 +10,7 @@ import comparator.Dokcomparator;
 import comparator.Rodzajedokcomparator;
 import dao.AmoDokDAO;
 import dao.DokDAO;
+import dao.FakturaDAO;
 import dao.InwestycjeDAO;
 import dao.PodatnikDAO;
 import dao.STRDAO;
@@ -18,6 +19,7 @@ import dao.UzDAO;
 import entity.Amodok;
 import entity.Dok;
 import entity.EVatwpis1;
+import entity.Faktura;
 import entity.Inwestycje;
 import entity.Podatnik;
 import entity.Rodzajedok;
@@ -44,7 +46,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
-import msg.Msg; import org.primefaces.PrimeFaces;
+import msg.Msg;
+ import org.primefaces.PrimeFaces;
 import pdf.PdfDok;
 import pdf.PdfPK;
 
@@ -86,6 +89,7 @@ public class DokTabView implements Serializable {
     @Inject private Dok selDokument;
     @Inject private StornoDokDAO stornoDokDAO;
     @Inject private STRDAO sTRDAO;
+    @Inject private FakturaDAO fakturaDAO;
     private boolean button;
     @Inject private Uz uzytkownik;
     @Inject private 
@@ -295,6 +299,12 @@ public class DokTabView implements Serializable {
                     dokumentypobrane.remove(dokdoUsuniecia);
                     dokumentylista.remove(dokdoUsuniecia);
                     dokumentyFiltered.remove(dokdoUsuniecia);
+                    if (dokdoUsuniecia.getFaktura()!=null) {
+                        Faktura f = dokdoUsuniecia.getFaktura();
+                        f.setZaksiegowana(false);
+                        fakturaDAO.edit(f);
+                        Msg.msg("Oznaczono dokument źródłowy jako niezaksięgowany");
+                    }
                 } catch (Exception e) {
                     E.e(e);
                 }

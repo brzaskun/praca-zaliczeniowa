@@ -30,5 +30,9 @@ public class JPKVATWersjaDAO extends DAO implements Serializable{
     public List findAll() {
         return sessionFacade.findAll(JPKVATWersja.class);
     }
+
+    public JPKVATWersja findByName(String nazwa) {
+        return (JPKVATWersja) sessionFacade.getEntityManager().createNamedQuery("JPKVATWersja.findByName").setParameter("nazwa", nazwa).getSingleResult();
+    }
     
 }

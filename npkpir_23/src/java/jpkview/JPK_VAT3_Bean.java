@@ -9,6 +9,7 @@ import data.Data;
 import entity.EVatwpis1;
 import entity.EVatwpisSuper;
 import entity.Evewidencja;
+import entity.JPKvatwersjaEvewidencja;
 import entity.Podatnik;
 import entityfk.EVatwpisDedra;
 import entityfk.EVatwpisFK;
@@ -18,8 +19,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import jpk201801.JPK;
 import jpk201801.JPK.Podmiot1;
 import jpk201801.TKodFormularza;
@@ -110,7 +109,7 @@ public class JPK_VAT3_Bean {
         jpk.getSprzedazWiersz().add(dodajwierszsprzedazy());
     }
     
-    public static JPK.SprzedazWiersz dodajwierszsprzedazy(EVatwpis1 ev, BigInteger lp, JPK.SprzedazCtrl sprzedazCtrl) {
+    public static JPK.SprzedazWiersz dodajwierszsprzedazy(EVatwpis1 ev, BigInteger lp, JPK.SprzedazCtrl sprzedazCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
         JPK.SprzedazWiersz w = new JPK.SprzedazWiersz();
         try {
             w.setLpSprzedazy(lp);
@@ -120,14 +119,14 @@ public class JPK_VAT3_Bean {
             w.setNazwaKontrahenta(ev.getDok().getKontr1().getNpelna());
             w.setAdresKontrahenta(ev.getDok().getKontr1().getAdres());
             w.setDowodSprzedazy(ev.getDok().getNrWlDk());
-            dodajkwotydowierszaSprzedazy(w,ev,sprzedazCtrl);
+            dodajkwotydowierszaSprzedazy(w,ev,sprzedazCtrl, jPKvatwersjaEvewidencja);
         } catch (Exception ex) {
 
         }
         return w;
     }
     
-    public static JPK.SprzedazWiersz dodajwierszsprzedazy(EVatwpisDedra ev, BigInteger lp, JPK.SprzedazCtrl sprzedazCtrl) {
+    public static JPK.SprzedazWiersz dodajwierszsprzedazy(EVatwpisDedra ev, BigInteger lp, JPK.SprzedazCtrl sprzedazCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
         JPK.SprzedazWiersz w = new JPK.SprzedazWiersz();
         try {
             w.setLpSprzedazy(lp);
@@ -137,7 +136,7 @@ public class JPK_VAT3_Bean {
             w.setNazwaKontrahenta(ev.getImienazwisko());
             w.setAdresKontrahenta(ev.getAdres());
             w.setDowodSprzedazy(ev.getFaktura());
-            dodajkwotydowierszaSprzedazy(w,ev,sprzedazCtrl);
+            dodajkwotydowierszaSprzedazy(w,ev,sprzedazCtrl, jPKvatwersjaEvewidencja);
         } catch (Exception ex) {
 
         }
@@ -146,7 +145,7 @@ public class JPK_VAT3_Bean {
     
     
     
-    public static JPK.SprzedazWiersz dodajwierszsprzedazyFK(EVatwpisFK ev, BigInteger lp, JPK.SprzedazCtrl sprzedazCtrl) {
+    public static JPK.SprzedazWiersz dodajwierszsprzedazyFK(EVatwpisFK ev, BigInteger lp, JPK.SprzedazCtrl sprzedazCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
         JPK.SprzedazWiersz w = new JPK.SprzedazWiersz();
         try {
             w.setLpSprzedazy(lp);
@@ -165,7 +164,7 @@ public class JPK_VAT3_Bean {
                 w.setAdresKontrahenta(ev.getDokfk().getKontr().getAdres());
                 w.setDowodSprzedazy(ev.getDokfk().getNumerwlasnydokfk());
             }
-            dodajkwotydowierszaSprzedazy(w,ev,sprzedazCtrl);
+            dodajkwotydowierszaSprzedazy(w,ev,sprzedazCtrl, jPKvatwersjaEvewidencja);
         } catch (Exception ex) {
 
         }
@@ -220,7 +219,7 @@ public class JPK_VAT3_Bean {
         jpk.getZakupWiersz().add(dodajwierszzakupu());
     }
 
-    public static JPK.ZakupWiersz dodajwierszzakupu(EVatwpis1 ev, BigInteger lp, JPK.ZakupCtrl zakupCtrl) {
+    public static JPK.ZakupWiersz dodajwierszzakupu(EVatwpis1 ev, BigInteger lp, JPK.ZakupCtrl zakupCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
         JPK.ZakupWiersz w = new JPK.ZakupWiersz();
         try {
             w.setLpZakupu(lp);
@@ -230,14 +229,14 @@ public class JPK_VAT3_Bean {
             w.setNrDostawcy(ev.getDok().getKontr1().getNip());
             w.setAdresDostawcy(ev.getDok().getKontr1().getAdres());
             w.setDowodZakupu(ev.getDok().getNrWlDk());
-            dodajkwotydowierszaZakupu(w,ev, zakupCtrl);
+            dodajkwotydowierszaZakupu(w,ev, zakupCtrl, jPKvatwersjaEvewidencja);
         } catch (Exception ex) {
             
         }
         return w;
     }
     
-    public static JPK.ZakupWiersz dodajwierszzakupu(EVatwpisDedra ev, BigInteger lp, JPK.ZakupCtrl zakupCtrl) {
+    public static JPK.ZakupWiersz dodajwierszzakupu(EVatwpisDedra ev, BigInteger lp, JPK.ZakupCtrl zakupCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
         JPK.ZakupWiersz w = new JPK.ZakupWiersz();
         try {
             w.setLpZakupu(lp);
@@ -247,14 +246,14 @@ public class JPK_VAT3_Bean {
             w.setNrDostawcy(ev.getKlient().getNip());
             w.setAdresDostawcy(ev.getKlient().getAdres());
             w.setDowodZakupu(ev.getFaktura());
-            dodajkwotydowierszaZakupu(w,ev, zakupCtrl);
+            dodajkwotydowierszaZakupu(w,ev, zakupCtrl, jPKvatwersjaEvewidencja);
         } catch (Exception ex) {
             
         }
         return w;
     }
     
-    public static JPK.ZakupWiersz dodajwierszzakupu(EVatwpisFK ev, BigInteger lp, JPK.ZakupCtrl zakupCtrl) {
+    public static JPK.ZakupWiersz dodajwierszzakupu(EVatwpisFK ev, BigInteger lp, JPK.ZakupCtrl zakupCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
         JPK.ZakupWiersz w = new JPK.ZakupWiersz();
         try {
             w.setLpZakupu(lp);
@@ -273,7 +272,7 @@ public class JPK_VAT3_Bean {
                 w.setAdresDostawcy(ev.getDokfk().getKontr().getAdres());
                 w.setDowodZakupu(ev.getDokfk().getNumerwlasnydokfk());
             }
-            dodajkwotydowierszaZakupu(w,ev, zakupCtrl);
+            dodajkwotydowierszaZakupu(w,ev, zakupCtrl, jPKvatwersjaEvewidencja);
         } catch (Exception ex) {
 
         }
@@ -321,12 +320,12 @@ public class JPK_VAT3_Bean {
         }
     }
 
-    private static void dodajkwotydowierszaSprzedazy(JPK.SprzedazWiersz w, EVatwpisSuper ev, JPK.SprzedazCtrl sprzedazCtrl) {
+    private static void dodajkwotydowierszaSprzedazy(JPK.SprzedazWiersz w, EVatwpisSuper ev, JPK.SprzedazCtrl sprzedazCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
         try {
-            String netto = ev.getEwidencja().getPolejpk_netto_sprzedaz().replace("_", "");
-            String vat = ev.getEwidencja().getPolejpk_vat_sprzedaz() != null ? ev.getEwidencja().getPolejpk_vat_sprzedaz().replace("_", "") : null;
-            String nettosuma = ev.getEwidencja().getPolejpk_netto_sprzedaz_suma() != null ? ev.getEwidencja().getPolejpk_netto_sprzedaz_suma().replace("_", "") : null;
-            String vatsuma = ev.getEwidencja().getPolejpk_vat_sprzedaz_suma() != null ? ev.getEwidencja().getPolejpk_vat_sprzedaz_suma().replace("_", "") : null;
+            String netto = jPKvatwersjaEvewidencja.getPolejpk_netto_sprzedaz().replace("_", "");
+            String vat = jPKvatwersjaEvewidencja.getPolejpk_vat_sprzedaz() != null ? jPKvatwersjaEvewidencja.getPolejpk_vat_sprzedaz().replace("_", "") : null;
+            String nettosuma = jPKvatwersjaEvewidencja.getPolejpk_netto_sprzedaz_suma() != null ? jPKvatwersjaEvewidencja.getPolejpk_netto_sprzedaz_suma().replace("_", "") : null;
+            String vatsuma = jPKvatwersjaEvewidencja.getPolejpk_vat_sprzedaz_suma() != null ? jPKvatwersjaEvewidencja.getPolejpk_vat_sprzedaz_suma().replace("_", "") : null;
             if (netto != null) {
                 Method method = JPK.SprzedazWiersz.class.getMethod(zwrocpolejpk(ev.getEwidencja(),netto),BigDecimal.class);
                 method.invoke(w, BigDecimal.valueOf(Z.z(ev.getNetto())).setScale(2, RoundingMode.HALF_EVEN));
@@ -354,10 +353,10 @@ public class JPK_VAT3_Bean {
     }
     
     
-    private static void dodajkwotydowierszaZakupu(JPK.ZakupWiersz w, EVatwpisSuper ev, JPK.ZakupCtrl zakupCtrl) {
+    private static void dodajkwotydowierszaZakupu(JPK.ZakupWiersz w, EVatwpisSuper ev, JPK.ZakupCtrl zakupCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
         try {
-            String netto = ev.getEwidencja().getPolejpk_netto_zakup().replace("_", "");
-            String vat = ev.getEwidencja().getPolejpk_vat_zakup() != null ? ev.getEwidencja().getPolejpk_vat_zakup().replace("_", "") : null;
+            String netto = jPKvatwersjaEvewidencja.getPolejpk_netto_zakup().replace("_", "");
+            String vat = jPKvatwersjaEvewidencja.getPolejpk_vat_zakup() != null ? jPKvatwersjaEvewidencja.getPolejpk_vat_zakup().replace("_", "") : null;
             if (netto != null) {
                 Method method = JPK.ZakupWiersz.class.getMethod(zwrocpolejpk(ev.getEwidencja(),netto),BigDecimal.class);
                 method.invoke(w, BigDecimal.valueOf(Z.z(ev.getNetto())).setScale(2, RoundingMode.HALF_EVEN));

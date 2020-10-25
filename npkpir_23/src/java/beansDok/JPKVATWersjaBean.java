@@ -19,7 +19,7 @@ public class JPKVATWersjaBean implements Serializable{
 
     public static int sprawdzScheme(JPKVATWersja jPKVATWersja, List schemyDeklaracjiVat) {
         int jestjuztaka = 0;
-        if (!schemyDeklaracjiVat.isEmpty() && jPKVATWersja != null) {
+        if (jPKVATWersja != null) {
                 jestjuztaka = sprawdznazwe(jPKVATWersja, schemyDeklaracjiVat);
             if (jestjuztaka == 0) {
                 jestjuztaka = sprawdzokres(jPKVATWersja, schemyDeklaracjiVat);
@@ -61,10 +61,21 @@ public class JPKVATWersjaBean implements Serializable{
         int jesttakiokres = 0;
             if (jPKVATWersja.getNazwa().isEmpty()) {
                 jesttakiokres = 3;
-            } else if (!jPKVATWersja.getNazwa().startsWith("M-") && !jPKVATWersja.getNazwa().startsWith("K-")) {
+            } else if (!jPKVATWersja.getNazwa().startsWith("JPK")) {
                 jesttakiokres = 4;
             }
         return jesttakiokres;
     }
     
+    public static JPKVATWersja pobierzJPKswersja(String mcwpisu, String rokwpisu, List<JPKVATWersja> listajpk) {
+        JPKVATWersja zwrot = null;
+        for (Iterator<JPKVATWersja> it = listajpk.iterator(); it.hasNext();) {
+            JPKVATWersja p = it.next();
+            int wynik = Data.compare(rokwpisu, mcwpisu, p.getRokOd(), p.getMcOd());
+            if (wynik > 1) {
+                zwrot = p;
+            }
+        }
+        return zwrot;
+    }
 }

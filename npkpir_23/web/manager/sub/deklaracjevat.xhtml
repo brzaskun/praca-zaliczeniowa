@@ -108,16 +108,16 @@
         </p:tab>
         <p:tab title="Kopiuj przyporządkowania schem">
             <h:form id="kopiowanieschemy">
-                <p:panelGrid columns="10" style="width: 400px;">
+                <p:panelGrid columns="2" style="width: 400px;">
                     <h:outputText value="ewidencja źródłowa"/>
                     <p:selectOneMenu value="#{deklaracjaVatSchemaView.wybranaschema}" converter="DeklaracjaVatSchemaConv" rendered="#{deklaracjaVatSchemaView.schemyDeklaracjiVat.size() > 0}">
+                        <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                         <f:selectItems value="#{deklaracjaVatSchemaView.schemyDeklaracjiVat}" var="item" itemLabel="#{item.nazwaschemy}" itemValue="#{item}"/>
-                        <p:ajax listener="#{deklaracjaVatSchemaView.pobierzschemaewidencja()}" update="akordeon:definowaniepozycji" event="change"/>
                     </p:selectOneMenu>
                     <h:outputText value="ewidencja docelowa"/>
                     <p:selectOneMenu value="#{deklaracjaVatSchemaView.kopiowanaschema}" converter="DeklaracjaVatSchemaConv" rendered="#{deklaracjaVatSchemaView.schemyDeklaracjiVat.size() > 0}">
+                        <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                         <f:selectItems value="#{deklaracjaVatSchemaView.schemyDeklaracjiVat}" var="item" itemLabel="#{item.nazwaschemy}" itemValue="#{item}"/>
-                        <p:ajax listener="#{deklaracjaVatSchemaView.pobierzschemaewidencja()}" update="akordeon:definowaniepozycji" event="change"/>
                     </p:selectOneMenu>
                 </p:panelGrid>
                 <p:commandButton value="kopiuj" actionListener="#{deklaracjaVatSchemaView.kopiujschemaprzyporzadkowania()}" style="width: 120px; margin: 10px;" 

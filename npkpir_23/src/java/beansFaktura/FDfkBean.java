@@ -6,6 +6,7 @@
 package beansFaktura;
 
 import beansFK.DFKWiersze;
+import dao.EvewidencjaDAO;
 import dao.RodzajedokDAO;
 import daoFK.DokDAOfk;
 import daoFK.KliencifkDAO;
@@ -13,6 +14,7 @@ import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import embeddable.EVatwpis;
+import entity.Evewidencja;
 import entity.Faktura;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
@@ -28,7 +30,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import msg.Msg;
-import view.WpisView;import waluty.Z;
+import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -43,7 +46,7 @@ public class FDfkBean {
     }
     
     public static Dokfk stworznowydokument(int numerkolejny, Faktura faktura, String rodzajdok, WpisView wpisView, RodzajedokDAO rodzajedokDAO,
-        TabelanbpDAO tabelanbpDAO, WalutyDAOfk walutyDAOfk, KontoDAOfk kontoDAOfk, KliencifkDAO kliencifkDAO) {
+        TabelanbpDAO tabelanbpDAO, WalutyDAOfk walutyDAOfk, KontoDAOfk kontoDAOfk, KliencifkDAO kliencifkDAO, EvewidencjaDAO evewidencjaDAO) {
         Dokfk nd = new Dokfk();
         nd.setNrkolejnywserii(numerkolejny);
         nd.setRok(wpisView.getRokWpisuSt());
@@ -54,7 +57,7 @@ public class FDfkBean {
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
         ustawrodzajedok(nd, rodzajdok, rodzajedokDAO, wpisView);
         ustawtabelenbp(nd,tabelanbpDAO, walutyDAOfk);
-        podepnijEwidencjeVat(nd, faktura);
+        podepnijEwidencjeVat(nd, faktura, evewidencjaDAO);
         ustawwiersze(nd, faktura, kontoDAOfk, wpisView, tabelanbpDAO,kliencifkDAO);
         nd.przeliczKwotyWierszaDoSumyDokumentu();
         nd.setImportowany(true);
@@ -113,7 +116,7 @@ public class FDfkBean {
         nd.setWalutadokumentu(w);
     }
     
-    private static void podepnijEwidencjeVat(Dokfk nd, Faktura faktura) {
+    private static void podepnijEwidencjeVat(Dokfk nd, Faktura faktura, EvewidencjaDAO evewidencjaDAO) {
         if (nd.getRodzajedok().getKategoriadokumentu() != 0 && nd.getRodzajedok().getKategoriadokumentu() != 5) {
             if (nd.iswTrakcieEdycji() == false) {
                 List<EVatwpisFK> ewidencjaTransformowana = Collections.synchronizedList(new ArrayList<>());
@@ -125,17 +128,19 @@ public class FDfkBean {
                                 s = t;
                             }
                         }
+                        Evewidencja odnalezionaewidencja = znajdziewidencje(s.getEwidencja(), evewidencjaDAO);
                         if (s != null) {
-                            EVatwpisFK eVatwpisFK = new EVatwpisFK(r.getEwidencja(), s.getNetto()-r.getNetto(), s.getVat()-r.getVat(), r.getEstawka());
+                            EVatwpisFK eVatwpisFK = new EVatwpisFK(odnalezionaewidencja, s.getNetto()-r.getNetto(), s.getVat()-r.getVat(), r.getEstawka());
                             eVatwpisFK.setDokfk(nd);
                             ewidencjaTransformowana.add(eVatwpisFK);
                         } else {
-                            EVatwpisFK eVatwpisFK = new EVatwpisFK(r.getEwidencja(), -r.getNetto(), -r.getVat(), r.getEstawka());
+                            EVatwpisFK eVatwpisFK = new EVatwpisFK(odnalezionaewidencja, -r.getNetto(), -r.getVat(), r.getEstawka());
                             eVatwpisFK.setDokfk(nd);
                             ewidencjaTransformowana.add(eVatwpisFK);
                         }
                     } else {
-                        EVatwpisFK eVatwpisFK = new EVatwpisFK(r.getEwidencja(), r.getNetto(), r.getVat(), r.getEstawka());
+                        Evewidencja odnalezionaewidencja = znajdziewidencje(r.getEwidencja(), evewidencjaDAO);
+                        EVatwpisFK eVatwpisFK = new EVatwpisFK(odnalezionaewidencja, r.getNetto(), r.getVat(), r.getEstawka());
                         eVatwpisFK.setDokfk(nd);
                         ewidencjaTransformowana.add(eVatwpisFK);
                     }
@@ -145,6 +150,14 @@ public class FDfkBean {
                     Msg.msg("e", "Brak podstawowych ustawień dla podatnika dotyczących opodatkowania. Nie można wpisywać dokumentów! podepnijEwidencjeVat()");
                 }
             }
+    }
+    
+    private static Evewidencja znajdziewidencje(Evewidencja ewidencja, EvewidencjaDAO evewidencjaDAO) {
+        Evewidencja zwrot = ewidencja;
+        if (ewidencja.getId()==0) {
+            zwrot = evewidencjaDAO.znajdzponazwie(ewidencja.getNazwa());
+        }
+        return zwrot;
     }
 
     private static void ustawwiersze(Dokfk nd, Faktura faktura, KontoDAOfk kontoDAOfk, WpisView wpisView, TabelanbpDAO tabelanbpDAO, KliencifkDAO kliencifkDAO) {

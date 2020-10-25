@@ -31,7 +31,8 @@ import msg.Msg;
 import org.joda.time.DateTime;
 import org.joda.time.IllegalFieldValueException;
 import org.joda.time.LocalDate;
-import view.WpisView;import waluty.Z;
+import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -325,7 +326,7 @@ public class FakturaBean {
             List<Evewidencja> ew = Collections.synchronizedList(new ArrayList<>());
             ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
             ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz Niemcy"));
-            ew.addAll(evewidencjaDAO.znajdzpotransakcji("usługi poza ter."));
+            ew.add(evewidencjaDAO.znajdzponazwie("usługi świad. poza ter.kraju art. 100 ust.1 pkt 4"));
             List<EVatwpis> el = Collections.synchronizedList(new ArrayList<>());
             Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected);
             if (selected.isFakturavatmarza() || selected.isRachunek()) {
@@ -352,7 +353,7 @@ public class FakturaBean {
         List<Evewidencja> ew = Collections.synchronizedList(new ArrayList<>());
         ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
         ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz Niemcy"));
-        ew.addAll(evewidencjaDAO.znajdzpotransakcji("usługi poza ter."));
+        ew.add(evewidencjaDAO.znajdzponazwie("usługi świad. poza ter.kraju art. 100 ust.1 pkt 4"));
         List<EVatwpis> el = Collections.synchronizedList(new ArrayList<>());
         Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected);
         if (selected.isFakturavatmarza() || selected.isRachunek()) {
@@ -467,7 +468,7 @@ public class FakturaBean {
     private static Evewidencja zwrocewidencje(List<Evewidencja> ewidencje, Pozycjenafakturzebazadanych p) {
         for (Evewidencja r : ewidencje) {
             if (p.getPodatek() == -1) {
-                if (r.getNazwa().equals("usługi świad. poza ter.kraju")) {
+                if (r.getNazwa().equals("usługi świad. poza ter.kraju art. 100 ust.1 pkt 4")) {
                     return r;
                 }
             }

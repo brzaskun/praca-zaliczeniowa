@@ -12,7 +12,6 @@ import dao.PlatnoscWalutaDAO;
 import dao.RodzajedokDAO;
 import dao.SMTPSettingsDAO;
 import dao.StronaWierszaDAO;
-import dao.WierszeDAO;
 import dao.WniosekVATZDEntityDAO;
 import daoFK.EVatwpisDedraDAO;
 import daoFK.EVatwpisFKDAO;
@@ -289,7 +288,7 @@ public class EwidencjaVatView implements Serializable {
             //PrimeFaces.current().ajax().update("formVatZestKsiegowa");
             //Msg.msg("Sporządzono ewidencje");
         } catch (Exception e) { 
-            Msg.dPe();
+            Msg.msg("e","Błąd przy tworzeniu ewidencji z dokumentów");
             E.e(e);
         }
         //drukuj ewidencje

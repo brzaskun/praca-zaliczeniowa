@@ -8,18 +8,13 @@ package entity;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -32,7 +27,7 @@ import javax.persistence.UniqueConstraint;
     @UniqueConstraint(columnNames={"nazwa"})
 })
 @NamedQueries({
-    @NamedQuery(name = "JPKVATWersja.usunliste", query = "DELETE FROM JPKVATWersja p WHERE p.nazwa = :nazwa")
+    @NamedQuery(name = "JPKVATWersja.findByName", query = "SELECT p FROM JPKVATWersja p WHERE p.nazwa = :nazwa")
 })
 public class JPKVATWersja implements Serializable {
    private static final long serialVersionUID = 1L;
@@ -49,21 +44,7 @@ public class JPKVATWersja implements Serializable {
     private String nazwa;
     @Column(name = "mc0kw1")
     private boolean mc0kw1;
-    @Column(name = "polejpk_netto_sprzedaz")
-    private String polejpk_netto_sprzedaz;
-    @Column(name = "polejpk_vat_sprzedaz")
-    private String polejpk_vat_sprzedaz;
-    @Column(name = "polejpk_netto_sprzedaz_suma")
-    private String polejpk_netto_sprzedaz_suma;
-    @Column(name = "polejpk_vat_sprzedaz_suma")
-    private String polejpk_vat_sprzedaz_suma;
-    @Column(name = "polejpk_netto_zakup")
-    private String polejpk_netto_zakup;
-    @Column(name = "polejpk_vat_zakup")
-    private String polejpk_vat_zakup;
-    @JoinColumn(name = "evewidencja",referencedColumnName = "id")
-    @ManyToOne
-    private Evewidencja evewidencja;
+    
 
     public JPKVATWersja() {
     }
@@ -102,7 +83,7 @@ public class JPKVATWersja implements Serializable {
 
     @Override
     public String toString() {
-        return "DeklaracjaVatSchema{" + "rokOd=" + rokOd + ", mcOd=" + mcOd + ", nazwa=" + nazwa + ", mc0kw1=" + mc0kw1 + '}';
+        return "JPKVATWersja{" + "rokOd=" + rokOd + ", mcOd=" + mcOd + ", nazwa=" + nazwa + ", mc0kw1=" + mc0kw1 + '}';
     }
   
     //<editor-fold defaultstate="collapsed" desc="comment">
@@ -153,62 +134,7 @@ public class JPKVATWersja implements Serializable {
     
 
 
-    public String getPolejpk_netto_sprzedaz() {
-        return polejpk_netto_sprzedaz;
-    }
-
-    public void setPolejpk_netto_sprzedaz(String polejpk_netto_sprzedaz) {
-        this.polejpk_netto_sprzedaz = polejpk_netto_sprzedaz;
-    }
-
-    public String getPolejpk_vat_sprzedaz() {
-        return polejpk_vat_sprzedaz;
-    }
-
-    public void setPolejpk_vat_sprzedaz(String polejpk_vat_sprzedaz) {
-        this.polejpk_vat_sprzedaz = polejpk_vat_sprzedaz;
-    }
-
-    public String getPolejpk_netto_sprzedaz_suma() {
-        return polejpk_netto_sprzedaz_suma;
-    }
-
-    public void setPolejpk_netto_sprzedaz_suma(String polejpk_netto_sprzedaz_suma) {
-        this.polejpk_netto_sprzedaz_suma = polejpk_netto_sprzedaz_suma;
-    }
-
-    public String getPolejpk_vat_sprzedaz_suma() {
-        return polejpk_vat_sprzedaz_suma;
-    }
-
-    public void setPolejpk_vat_sprzedaz_suma(String polejpk_vat_sprzedaz_suma) {
-        this.polejpk_vat_sprzedaz_suma = polejpk_vat_sprzedaz_suma;
-    }
-
-    public String getPolejpk_netto_zakup() {
-        return polejpk_netto_zakup;
-    }
-
-    public void setPolejpk_netto_zakup(String polejpk_netto_zakup) {
-        this.polejpk_netto_zakup = polejpk_netto_zakup;
-    }
-
-    public String getPolejpk_vat_zakup() {
-        return polejpk_vat_zakup;
-    }
-
-    public void setPolejpk_vat_zakup(String polejpk_vat_zakup) {
-        this.polejpk_vat_zakup = polejpk_vat_zakup;
-    }
     
-  
-    public Evewidencja getEvewidencja() {
-        return evewidencja;
-    }
-
-    public void setEvewidencja(Evewidencja evewidencja) {
-        this.evewidencja = evewidencja;
-    }
     
     //</editor-fold>
 

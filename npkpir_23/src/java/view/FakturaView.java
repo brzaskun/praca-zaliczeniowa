@@ -1106,7 +1106,7 @@ public class FakturaView implements Serializable {
                 FakturaBean.ewidencjavatkorekta(p, evewidencjaDAO);
             }
         }
-        Dokfk dokument = FDfkBean.stworznowydokument(FDfkBean.oblicznumerkolejny("SZ", dokDAOfk, wpisView),p, "SZ", wpisView, rodzajedokDAO, tabelanbpDAO, walutyDAOfk, kontoDAOfk, kliencifkDAO);
+        Dokfk dokument = FDfkBean.stworznowydokument(FDfkBean.oblicznumerkolejny("SZ", dokDAOfk, wpisView),p, "SZ", wpisView, rodzajedokDAO, tabelanbpDAO, walutyDAOfk, kontoDAOfk, kliencifkDAO, evewidencjaDAO);
         try {
             dokument.setImportowany(true);
             dokDAOfk.dodaj(dokument);
@@ -1164,12 +1164,32 @@ public class FakturaView implements Serializable {
             }
             List<EVatwpis1> ewidencjaTransformowana = Collections.synchronizedList(new ArrayList<>());
             for (EVatwpis r : faktura.getEwidencjavat()) {
-                EVatwpis1 eVatwpis1 = new EVatwpis1(r.getEwidencja(), r.getNettopln(), r.getVatpln(), r.getEstawka(), p.getMc(), p.getRok());
-                if (r.getNettopln()==0.0 && r.getVatpln() == 0.0) {
-                    eVatwpis1 = new EVatwpis1(r.getEwidencja(), r.getNetto(), r.getVat(), r.getEstawka(), p.getMc(), p.getRok());
-                }
-                eVatwpis1.setDok(selDokument);
-                ewidencjaTransformowana.add(eVatwpis1);
+                if (faktura.getEwidencjavatpk() != null) {
+                        EVatwpis s  = null;
+                        for (EVatwpis t : faktura.getEwidencjavatpk()) {
+                            if (t.getEwidencja().equals(r.getEwidencja())) {
+                                s = t;
+                            }
+                        }
+                        Evewidencja odnalezionaewidencja = znajdziewidencje(s.getEwidencja());
+                        if (s != null) {
+                            EVatwpis1 eVatwpis1 = new EVatwpis1(odnalezionaewidencja, s.getNetto()-r.getNetto(), s.getVat()-r.getVat(), r.getEstawka(), p.getMc(), p.getRok());
+                            eVatwpis1.setDok(selDokument);
+                            ewidencjaTransformowana.add(eVatwpis1);
+                        } else {
+                            EVatwpis1 eVatwpis1 = new EVatwpis1(odnalezionaewidencja, -r.getNetto(), -r.getVat(), r.getEstawka(), p.getMc(), p.getRok());
+                            eVatwpis1.setDok(selDokument);
+                            ewidencjaTransformowana.add(eVatwpis1);
+                        }
+                    } else {
+                        Evewidencja odnalezionaewidencja = znajdziewidencje(r.getEwidencja());
+                        EVatwpis1 eVatwpis1 = new EVatwpis1(odnalezionaewidencja, r.getNettopln(), r.getVatpln(), r.getEstawka(), p.getMc(), p.getRok());
+                        if (r.getNettopln()==0.0 && r.getVatpln() == 0.0) {
+                            eVatwpis1 = new EVatwpis1(odnalezionaewidencja, r.getNetto(), r.getVat(), r.getEstawka(), p.getMc(), p.getRok());
+                        }
+                        eVatwpis1.setDok(selDokument);
+                        ewidencjaTransformowana.add(eVatwpis1);
+                    }
                 if (r.getEwidencja().getNazwa().equals("usługi świad. poza ter.kraju art. 100 ust.1 pkt 4")) {
                     Rodzajedok rodzajedok2 = rodzajedokDAO.find("UPTK100", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                     selDokument.setRodzajedok(rodzajedok2);
@@ -1180,6 +1200,8 @@ public class FakturaView implements Serializable {
             try {
                 sprawdzCzyNieDuplikat(selDokument);
                 dokDAO.dodaj(selDokument);
+                selDokument.setFaktura(faktura);
+                dokDAO.edit(selDokument);
                 String wiadomosc = "Zaksięgowano fakturę sprzedaży nr: " + selDokument.getNrWlDk() + ", kontrahent: " + selDokument.getKontr().getNpelna() + ", kwota: " + selDokument.getBrutto();
                 Msg.msg("i", wiadomosc);
                 faktura.setZaksiegowana(true);
@@ -1190,7 +1212,15 @@ public class FakturaView implements Serializable {
             }
             PrimeFaces.current().ajax().update("akordeon:formsporzadzone:dokumentyLista");
     }
-
+    
+    private Evewidencja znajdziewidencje(Evewidencja ewidencja) {
+        Evewidencja zwrot = ewidencja;
+        if (ewidencja.getId()==0) {
+            zwrot = evewidencjaDAO.znajdzponazwie(ewidencja.getNazwa());
+        }
+        return zwrot;
+    }
+    
     public void sprawdzCzyNieDuplikat(Dok selD) throws Exception {
         Dok tmp = dokDAO.znajdzDuplikat(selD, selD.getPkpirR());
         if (tmp != null) {
@@ -2589,6 +2619,8 @@ public class FakturaView implements Serializable {
             }
         }
     }
+
+   
 
     
 

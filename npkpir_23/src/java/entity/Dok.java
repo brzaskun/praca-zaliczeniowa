@@ -254,6 +254,8 @@ public class Dok extends DokSuper implements Serializable {
     private FakturaCis fakturaCis;
     @Transient
     private FakturaEbay fakturaEbay;
+    @JoinColumn(name = "faktura", referencedColumnName = "id")
+    private Faktura faktura;
     
     
     public Dok() {
@@ -627,6 +629,14 @@ public class Dok extends DokSuper implements Serializable {
 
     public void setVat27(Vat27 vat27) {
         this.vat27 = vat27;
+    }
+
+    public Faktura getFaktura() {
+        return faktura;
+    }
+
+    public void setFaktura(Faktura faktura) {
+        this.faktura = faktura;
     }
 
     public WniosekVATZDEntity getWniosekVATZDEntity() {
