@@ -28,8 +28,6 @@ import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static pdf.PdfVAT7.absText;
 import pdffk.PdfMain;
 import static pdffk.PdfMain.finalizacjaDokumentuQR;
@@ -71,7 +69,7 @@ public class PdfVATUEdekl {
     
      public static void drukujVATUE(PodatnikDAO podatnikDAO, DeklaracjavatUE d, WpisView wpisView, Podatnik podatnik) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
-        String nazwapliku = "VATUE" + podatnik.getNip() + ".pdf";
+        String nazwapliku = "VATUEDetale" + podatnik.getNip() + ".pdf";
         try {
             List<Parametr> param = podatnik.getVatokres();
             //problem kwartalu

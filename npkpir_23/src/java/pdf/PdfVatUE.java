@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.List;
+import org.primefaces.PrimeFaces;
 import static pdf.PdfVAT7.absText;
 import pdffk.PdfMain;
 import static pdffk.PdfMain.dodajOpisWstepny;
@@ -39,7 +40,7 @@ import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
 import plik.Plik;
-import view.WpisView; import org.primefaces.PrimeFaces;
+ import view.WpisView;
 
 /**
  *

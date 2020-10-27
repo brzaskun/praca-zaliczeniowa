@@ -49,8 +49,11 @@
                         <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslaneUE(row)}" update="@(.upd3)" style="width: 80px;" rendered="#{row.identyfikator ne null and (row.status.startsWith('1') or row.status.startsWith('3'))}"/>
                         <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslaneUE(row)}" update="@(.upd3)" style="width: 80px;" rendered="#{row.identyfikator ne null and row.status.equals('null')}"/>
                     </p:column>
+                     <p:column style="text-align: center;" width="85">
+                        <p:commandButton value="drukuj szczeg." actionListener="#{vatUeFKView.drukuj(row)}" update="@form" style="width: 80px;"/>
+                    </p:column>
                     <p:column style="text-align: center;" width="85">
-                        <p:commandButton value="drukuj" actionListener="#{vatUeFKView.drukuj(row)}" update="@form" style="width: 80px;" async=""/>
+                        <p:commandButton value="drukuj uprosz." actionListener="#{vatUeFKView.drukujUPR(row)}" update="@form" style="width: 80px;"/>
                     </p:column>
                     <p:rowExpansion>
                         <p:panelGrid columns="2" columnClasses="twenty-percent eighty-percent">

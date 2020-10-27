@@ -1266,9 +1266,12 @@ private DokDAO dokDAO;
                         for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
                             if (r.getSkrot().equals(tmp.getSkrot())) {
                                 odnaleziono = true;
-                                r.setOznaczenie1(tmp.getOznaczenie1());
-                                r.setOznaczenie2(tmp.getOznaczenie2());
-                                rodzajedokDAO.edit(r);
+                                if (r.getOznaczenie1()==null) {
+                                    r.setOznaczenie1(tmp.getOznaczenie1());
+                                }
+                                if (r.getOznaczenie2()==null) {
+                                    r.setOznaczenie2(tmp.getOznaczenie2());
+                                }}
                                 if (tmp.getKontoRZiS()!=null) {
                                     r.setKontoRZiS(tmp.getKontoRZiS());
                                 }
@@ -1282,7 +1285,6 @@ private DokDAO dokDAO;
                                 rodzajedokDAO.edit(r);
                                 break;
                             }
-                        }
                         if (odnaleziono == false) {
                             Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
                             nowy.setRok(wpisView.getRokWpisuSt());

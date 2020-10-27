@@ -48,7 +48,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import view.WpisView; import org.primefaces.PrimeFaces;
+import org.primefaces.PrimeFaces;
+ import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
 import waluty.Z;
 

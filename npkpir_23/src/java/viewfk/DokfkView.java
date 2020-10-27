@@ -1341,10 +1341,8 @@ public class DokfkView implements Serializable {
         komunikatywpisdok = null;
     }
     
-//zastapilem to javascriptem nie do konca wiec jest hybryda. znikalo jak inne rzeczy odsiwezalem
-    public void skopiujopisdopierwszegowiersza() {
-        try {
-            if (selected.getOpisdokfk().startsWith("*")) {
+    private void naniesoznaczeniajpk() {
+        if (selected.getOpisdokfk().startsWith("*")) {
                 selected.setOpisdokfk(selected.getOpisdokfk().substring(1).toUpperCase());
                 String[] lista = selected.getOpisdokfk().split("\\*");
                 boolean moznawsadzac = czyjesttylepustych(lista);
@@ -1352,7 +1350,13 @@ public class DokfkView implements Serializable {
                     wsadzoznaczenia(lista);
                     PrimeFaces.current().ajax().update("wpisywaniefooter:panelinfo");
                 }
-            }
+        } 
+    }
+    
+//zastapilem to javascriptem nie do konca wiec jest hybryda. znikalo jak inne rzeczy odsiwezalem
+    public void skopiujopisdopierwszegowiersza() {
+        try {
+            naniesoznaczeniajpk();
             Wiersz w = selected.getListawierszy().get(0);
             boolean kopiowac = w.getOpisWiersza() == null || w.getOpisWiersza().equals("");
             boolean kopiowac1 = w.getStronyWiersza().size() == 2;
@@ -1377,6 +1381,7 @@ public class DokfkView implements Serializable {
     }
     
     private int ilepustychoblicz() {
+        podepnijoznaczenia();
         int zwrot = 0;
         if (selected.getOznaczenie1()==null) {
             zwrot++;
@@ -1427,6 +1432,8 @@ public class DokfkView implements Serializable {
             Rodzajedok p = selected.getRodzajedok();
             selected.setOznaczenie1(p.getOznaczenie1());
             selected.setOznaczenie2(p.getOznaczenie2());
+            selected.setOznaczenie3(null);
+            selected.setOznaczenie4(null);
         }
     }
 

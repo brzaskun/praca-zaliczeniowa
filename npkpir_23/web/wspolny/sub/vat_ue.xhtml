@@ -202,7 +202,10 @@
                         <p:commandButton value="sprawdź" actionListener="#{beanek.pobierzwyslaneUE(row)}" update="@form" style="width: 80px;" rendered="#{row.identyfikator ne null and !row.status.startsWith('4')}"/>
                     </p:column>
                     <p:column style="text-align: center;" width="85">
-                        <p:commandButton value="drukuj" actionListener="#{vatUeFKView.drukuj(row)}" update="@form" style="width: 80px;"/>
+                        <p:commandButton value="drukuj szczeg." actionListener="#{vatUeFKView.drukuj(row)}" update="@form" style="width: 80px;"/>
+                    </p:column>
+                    <p:column style="text-align: center;" width="85">
+                        <p:commandButton value="drukuj uprosz." actionListener="#{vatUeFKView.drukujUPR(row)}" update="@form" style="width: 80px;"/>
                     </p:column>
                     <p:rowExpansion>
                         <p:panelGrid columns="3">

@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 /**
@@ -37,12 +38,16 @@ public class DokSuper  implements Serializable {
     @Transient
     private String terminPlatnosci;
     @JoinColumn(name = "oznaczenie1", referencedColumnName = "id")
+    @OneToOne
     private JPKoznaczenia oznaczenie1;
     @JoinColumn(name = "oznaczenie2", referencedColumnName = "id")
+    @OneToOne
     private JPKoznaczenia oznaczenie2;
     @JoinColumn(name = "oznaczenie3", referencedColumnName = "id")
+    @OneToOne
     private JPKoznaczenia oznaczenie3;
     @JoinColumn(name = "oznaczenie4", referencedColumnName = "id")
+    @OneToOne
     private JPKoznaczenia oznaczenie4;
     
 

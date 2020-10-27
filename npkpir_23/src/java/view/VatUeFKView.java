@@ -40,11 +40,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import pdf.PdfVATUEdekl;
+import msg.Msg;
+import pdf.PdfVATUEdekl;
 import pdf.PdfVatUE;
 import pdffk.PdfVIES;
 import pl.gov.crd.wzor._2020._07._03._9689.VATUEKM5Bean;
-import pl.gov.crd.wzor._2020._07._03._9689.*;
 import pl.gov.crd.wzor._2020._07._03._9690.VATUEM5Bean;
 import vies.VIESCheckBean;
 import vies.Vies;
@@ -403,6 +403,19 @@ public class VatUeFKView implements Serializable {
             } else {
                 Podatnik podatnik = podatnikDAO.find(d.getPodatnik());
                 PdfVATUEdekl.drukujVATUE(podatnikDAO, d, wpisView, podatnik);
+                Msg.msg("Wydrukowano deklaracje");
+            }
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd, nie wydrukowano ewidencji");
+        }
+    }
+    
+    public void drukujUPR(DeklaracjavatUE d) {
+        try {
+            if (d == null) {
+                Msg.msg("e", "Nie wybrano deklaracji");
+            } else {
+                PdfVatUE.drukujewidencjeTabela(d.getPozycje(), wpisView,"VAT-UE");
                 Msg.msg("Wydrukowano deklaracje");
             }
         } catch (Exception e) {
