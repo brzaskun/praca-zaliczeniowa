@@ -54,38 +54,45 @@ public class AmazonCSV {
     
   
     public AmazonCSV(String[] tmpline) {
+        int i = 0;
+        try {
+            this.OUR_PRICETaxInclusiveSellingPrice = Double.valueOf(tmpline[20].replace(",", "."));
+        } catch (Exception e) {
+            i =1;
+        }
         this.MerchantID = tmpline[1];
         this.OrderDate = tmpline[2];
         this.TransactionType = tmpline[3];
-        this.OrderID = tmpline[4];
-        this.ShipmentDate = tmpline[5];
-        this.ShipmentID = tmpline[6];
-        this.TransactionID = tmpline[7];
-        this.TaxCalculationDate = tmpline[11];
-        this.TaxRate = tmpline[12];
-        this.Currency = tmpline[14];
-        this.TaxCalculationReasonCode = tmpline[16];
-        this.TaxAddressRole = tmpline[17];
-        this.JurisdictionName = tmpline[19];
-        this.OUR_PRICETaxInclusiveSellingPrice = Double.valueOf(tmpline[20].replace(",", "."));
-        this.OUR_PRICETaxAmount = Double.valueOf(tmpline[21].replace(",", "."));
-        this.OUR_PRICETaxExclusiveSellingPrice = Double.valueOf(tmpline[22].replace(",", "."));
-        this.SHIPPINGTaxInclusiveSellingPrice = Double.valueOf(tmpline[26].replace(",", "."));
-        this.SHIPPINGTaxAmount = Double.valueOf(tmpline[27].replace(",", "."));
-        this.SHIPPINGTaxExclusiveSellingPrice = Double.valueOf(tmpline[28].replace(",", "."));
-        this.SellerTaxRegistration = tmpline[38];
-        this.SellerTaxRegistrationJurisdiction = tmpline[39];
-        this.BuyerTaxRegistration = tmpline[40];
-        this.BuyerTaxRegistrationJurisdiction = tmpline[41];
-        this.InvoiceLevelCurrencyCode = tmpline[43];
-        this.InvoiceLevelExchangeRate = tmpline[44].equals("") ? 0.0 :Double.valueOf(tmpline[44].replace(",", "."));
-        this.InvoiceLevelExchangeRateDate = tmpline[45];
-        this.ConvertedTaxAmount = tmpline[47].equals("") ? 0.0 : Double.valueOf(tmpline[47].replace(",", "."));
-        this.VATInvoiceNumber = tmpline[48];
-        this.ShipToCity = tmpline[56];
-        this.ShipToCountry = tmpline[53];
-        this.ShipToPostalCode = tmpline[59];
+        this.OrderID = tmpline[4+i];
+        this.ShipmentDate = tmpline[5+i];
+        this.ShipmentID = tmpline[6+i];
+        this.TransactionID = tmpline[7+i];
+        this.TaxCalculationDate = tmpline[11+i];
+        this.TaxRate = tmpline[12+i];
+        this.Currency = tmpline[14+i];
+        this.TaxCalculationReasonCode = tmpline[16+i];
+        this.TaxAddressRole = tmpline[17+i];
+        this.JurisdictionName = tmpline[19+i];
+        this.OUR_PRICETaxInclusiveSellingPrice = Double.valueOf(tmpline[20+i].replace(",", "."));
+        this.OUR_PRICETaxAmount = Double.valueOf(tmpline[21+i].replace(",", "."));
+        this.OUR_PRICETaxExclusiveSellingPrice = Double.valueOf(tmpline[22+i].replace(",", "."));
+        this.SHIPPINGTaxInclusiveSellingPrice = Double.valueOf(tmpline[26+i].replace(",", "."));
+        this.SHIPPINGTaxAmount = Double.valueOf(tmpline[27+i].replace(",", "."));
+        this.SHIPPINGTaxExclusiveSellingPrice = Double.valueOf(tmpline[28+i].replace(",", "."));
+        this.SellerTaxRegistration = tmpline[38+i];
+        this.SellerTaxRegistrationJurisdiction = tmpline[39+i];
+        this.BuyerTaxRegistration = tmpline[40+i];
+        this.BuyerTaxRegistrationJurisdiction = tmpline[41+i];
+        this.InvoiceLevelCurrencyCode = tmpline[43+i];
+        this.InvoiceLevelExchangeRate = tmpline[44+i].equals("") ? 0.0 :Double.valueOf(tmpline[44+i].replace(",", "."));
+        this.InvoiceLevelExchangeRateDate = tmpline[45+i];
+        this.ConvertedTaxAmount = tmpline[47+i].equals("") ? 0.0 : Double.valueOf(tmpline[47+i].replace(",", "."));
+        this.VATInvoiceNumber = tmpline[48+i];
+        this.ShipToCity = tmpline[56+i];
+        this.ShipToCountry = tmpline[53+i];
+        this.ShipToPostalCode = tmpline[59+i];
     }
+    
     
     public String getData() {
         String d2 = "blad konwersji daty";
