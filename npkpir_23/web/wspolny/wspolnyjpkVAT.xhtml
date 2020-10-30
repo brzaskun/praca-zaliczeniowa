@@ -4,6 +4,9 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <h:form id="form_dialog_jpk_vat" >
+        <p:outputPanel rendered="#{jPK_VAT2View.jpkrazemzdeklaracja}" style="padding: 5px;">
+            <h:outputText value="#{jPK_VAT2View.wynikszukaniadeklaracji}" style="color: blue;"/>
+        </p:outputPanel>
         <p:panel header="wygeneruj JPK VAT za #{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt}" style="width: 1250px;"/>
         <p:panelGrid columns="5" rendered="#{WpisView.podatnikObiekt.nip ne '5263158333'}">
             <p:commandButton value="wyślij jpkfk" actionListener="#{jPK_VAT2View.przygotujXMLFK()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.nowa0korekta1 and jPK_VAT2View.pkpir0ksiegi1}"/>

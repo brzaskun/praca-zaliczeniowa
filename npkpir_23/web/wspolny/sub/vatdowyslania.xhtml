@@ -155,7 +155,7 @@
             </p:panelGrid>
         </p:panel>
     </h:form>-->
-    <p:accordionPanel id="akordeon" style="max-width: 1400px;"> 
+<p:accordionPanel id="akordeon" style="max-width: 1400px;" rendered="#{!deklaracjevatView.deklaracjazjpk()}"> 
         <p:tab title="W celu wysłania deklaracji na serwer ministerstwa wciśnij przycisk wyślij. Celem uzyskania potwierdzenia, należy odpowiednio kliknąć na przycisk upo">
         <p:panelGrid columns="3" style="width: 100%;">
             <p:column>
@@ -236,6 +236,14 @@
             </p:panelGrid>
     </p:tab>
         </p:accordionPanel>
+    <p:accordionPanel id="akordeon2" style="max-width: 1400px;" rendered="#{deklaracjevatView.deklaracjazjpk()}"> 
+        <p:tab title="W celu wysłania deklaracji na serwer ministerstwa wciśnij przycisk wyślij. Deklaracja zostanie wysłana przy najbliższej wysyłce JPK">
+            <p:panelGrid columns="3" style="width: 100%;">
+                <p:commandButton value="wyślij" actionListener="#{deklaracjevatView.zachowajdeklaracjezjpk}" 
+                                      style="margin-left: 3%; width: 120px;"/>
+            </p:panelGrid>
+        </p:tab>
+    </p:accordionPanel>
     </p:outputPanel>
 </ui:composition>   
 

@@ -27,6 +27,7 @@ import java.io.Serializable;
 import java.security.KeyStoreException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -37,7 +38,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import mail.MailOther;
-import msg.Msg; import org.primefaces.PrimeFaces;
+import msg.Msg;
+ import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
 import pdf.PdfVAT7;
 import pdf.PdfVAT7new;
@@ -178,6 +180,49 @@ public class DeklaracjevatView implements Serializable {
         }
         pokazprzyciskpodpisfunkcja();
         Collections.sort(wyslanenormalne, new Vatcomparator());
+    }
+    
+    public boolean deklaracjazjpk() {
+        boolean zwrot = false;
+        if (!oczekujace.isEmpty()) {
+            try {
+                Deklaracjevat biezaca = oczekujace.get(0);
+                String nazwaschemy = biezaca.getSchemaobj().getNazwaschemy();
+                if (nazwaschemy.contains("M-")) {
+                    nazwaschemy = nazwaschemy.replace("M-", "");
+                    int nrschemy = Integer.parseInt(nazwaschemy);
+                    if (nrschemy>20) {
+                        zwrot = true;
+                    }
+                } else {
+                    nazwaschemy = nazwaschemy.replace("K-", "");
+                    int nrschemy = Integer.parseInt(nazwaschemy);
+                    if (nrschemy>14) {
+                        zwrot = true;
+                    }
+                }
+            } catch (Exception e) {
+                
+            }
+        }
+        return zwrot;
+    }
+    
+    public void zachowajdeklaracjezjpk() {
+        if (!oczekujace.isEmpty()) {
+            try {
+                Deklaracjevat wysylanaDeklaracja = oczekujace.get(0);
+                wysylanaDeklaracja.setIdentyfikator("dla jpk");
+                wysylanaDeklaracja.setStatus("303");
+                wysylanaDeklaracja.setOpis("zachowana dla wysłania z jpk");
+                wysylanaDeklaracja.setDatazlozenia(new Date());
+                wysylanaDeklaracja.setSporzadzil(wpisView.getUzer().getImie() + " " + wpisView.getUzer().getNazw());
+                deklaracjevatDAO.edit(wysylanaDeklaracja);
+                Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + wpisView.getPodatnikObiekt().getNazwapelna() + " za " + wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu(), "formX:msg");
+                } catch (Exception e) {
+                
+            }
+        }
     }
     
     public void podpiszdeklaracje(List<Deklaracjevat> oczekujace) {

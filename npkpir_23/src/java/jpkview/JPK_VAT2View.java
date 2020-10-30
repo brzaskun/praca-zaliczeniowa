@@ -6,12 +6,15 @@
 package jpkview;
 
 import beansPodpis.ObslugaPodpisuBean;
+import dao.DeklaracjevatDAO;
 import dao.JPKVATWersjaDAO;
 import dao.JPKvatwersjaEvewidencjaDAO;
 import dao.UPODAO;
 import daoFK.EVatwpisDedraDAO;
 import data.Data;
+import embeddable.Mce;
 import embeddable.TKodUS;
+import entity.Deklaracjevat;
 import entity.EVatwpis1;
 import entity.EVatwpisSuper;
 import entity.Evewidencja;
@@ -49,8 +52,8 @@ import msg.Msg;
 import org.primefaces.PrimeFaces;
 import pdf.PdfUPO;
 import pl.gov.crd.wzor._2020._05._08._9393.JPK;
- import view.EwidencjaVatView;
-import view.WpisView;
+import view.EwidencjaVatView;
+ import view.WpisView;
 import waluty.Z;
 
 /**
@@ -74,6 +77,8 @@ public class JPK_VAT2View implements Serializable {
     private JPKVATWersjaDAO jPKVATWersjaDAO;
     @Inject
     private JPKvatwersjaEvewidencjaDAO jPKvatwersjaEvewidencjaDAO;
+    @Inject
+    private DeklaracjevatDAO deklaracjevatDAO;
     private List<UPO> lista;
     @Inject
     private UPO selected;
@@ -83,6 +88,10 @@ public class JPK_VAT2View implements Serializable {
     private EVatwpisDedraDAO eVatwpisDedraDAO;
     List<EVatwpisSuper> bledy;
     private int werjsajpkrecznie;
+    private boolean jpkrazemzdeklaracja;
+    private String wynikszukaniadeklaracji;
+    private Deklaracjevat deklaracjadlajpk;
+    private boolean moznawysylacjpk;
     
     public void init() { //E.m(this);
         try {
@@ -100,10 +109,46 @@ public class JPK_VAT2View implements Serializable {
                 }
             }
             pkpir0ksiegi1 = wpisView.isKsiegirachunkowe();
+            if (wpisView.getRokWpisu()>2020 || (wpisView.getRokWpisu()==2020 && Integer.parseInt(wpisView.getMiesiacWpisu())>9)) {
+                jpkrazemzdeklaracja = true;
+                szukajdeklaracji();
+            } else {
+                jpkrazemzdeklaracja = false;
+            }
         } catch (Exception e) {
             
         }
     }
+    
+    private void szukajdeklaracji() {
+        moznawysylacjpk = false;
+        List<Deklaracjevat> wyslane = deklaracjevatDAO.findDeklaracjeWyslaneMc(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        int znaleziono = 0;
+        for (Deklaracjevat p : wyslane) {
+            if (p.getStatus().equals("303")&&p.getIdentyfikator().equals("dla jpk")) {
+                deklaracjadlajpk = p;
+                znaleziono++;
+            }
+        }
+        if (znaleziono==0) {
+            if (wpisView.getVatokres()==2) {
+                   if (Mce.getMceListKW().contains(wpisView.getMiesiacWpisu())) {
+                       wynikszukaniadeklaracji = "Brak przygotowanej deklaracji do wysłania z jpk";
+                   }
+            } else {
+                wynikszukaniadeklaracji = "Brak przygotowanej deklaracji do wysłania z jpk";
+            }
+        } else if (znaleziono == 1) {
+            wynikszukaniadeklaracji = "Znaleziono deklaracje do wysłania razem z JPK";
+            moznawysylacjpk = true;
+        }
+        if (znaleziono>1) {
+            deklaracjadlajpk = null;
+            wynikszukaniadeklaracji = "Zachowano więcej niż jedną deklarację dla jpk";
+        }
+        
+    }
+    
     
     public void init2() {
         nowa0korekta1 = false;
@@ -326,7 +371,7 @@ public class JPK_VAT2View implements Serializable {
     private JPKSuper genJPK(List<EVatwpisSuper> wiersze, Podatnik podatnik, boolean nowa0korekta1) {
         JPKSuper zwrot = null;
         try {
-            if (wpisView.getRokWpisu()==2020 && Integer.parseInt(wpisView.getMiesiacWpisu())>9) {
+            if (wpisView.getRokWpisu()>2020 || (wpisView.getRokWpisu()==2020 && Integer.parseInt(wpisView.getMiesiacWpisu())>9)) {
                 JPKVATWersja jPKVATWersja = jPKVATWersjaDAO.findByName("JPK2000");
                 List<JPKvatwersjaEvewidencja> jpkev = jPKvatwersjaEvewidencjaDAO.findJPKEwidencje(jPKVATWersja);
                 Map<Evewidencja, JPKvatwersjaEvewidencja> mapa = przetworzjpk(jpkev);
@@ -849,6 +894,22 @@ public class JPK_VAT2View implements Serializable {
         this.werjsajpkrecznie = werjsajpkrecznie;
     }
 
+    public String getWynikszukaniadeklaracji() {
+        return wynikszukaniadeklaracji;
+    }
+
+    public void setWynikszukaniadeklaracji(String wynikszukaniadeklaracji) {
+        this.wynikszukaniadeklaracji = wynikszukaniadeklaracji;
+    }
+
+    public boolean isMoznawysylacjpk() {
+        return moznawysylacjpk;
+    }
+
+    public void setMoznawysylacjpk(boolean moznawysylacjpk) {
+        this.moznawysylacjpk = moznawysylacjpk;
+    }
+
      
 
     public List<UPO> getLista() {
@@ -873,6 +934,14 @@ public class JPK_VAT2View implements Serializable {
 
     public void setNowa0korekta1(boolean nowa0korekta1) {
         this.nowa0korekta1 = nowa0korekta1;
+    }
+
+    public boolean isJpkrazemzdeklaracja() {
+        return jpkrazemzdeklaracja;
+    }
+
+    public void setJpkrazemzdeklaracja(boolean jpkrazemzdeklaracja) {
+        this.jpkrazemzdeklaracja = jpkrazemzdeklaracja;
     }
 
     public boolean isPkpir0ksiegi1() {
