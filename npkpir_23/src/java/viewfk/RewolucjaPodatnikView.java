@@ -1031,7 +1031,15 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
             }
             System.out.println("dopler "+t.getNpelna());
         }
-
+        List<Dok> dokumenty = dokDAO.znajdzKontr1NullOdDo();
+        for (Dok d : dokumenty) {
+            Klienci kont = klienciDAO.findKlientByNip(d.getPodatnik().getNip());
+            d.setKontr1(kont);
+            try {
+                dokDAO.edit(d);
+            } catch (EJBException e) {
+            }
+        }
          System.out.println("KONIEC**************");
      }
      
