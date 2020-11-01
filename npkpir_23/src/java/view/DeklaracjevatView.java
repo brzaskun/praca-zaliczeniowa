@@ -83,6 +83,7 @@ public class DeklaracjevatView implements Serializable {
     private boolean pokazprzyciskpodpis;
     private double saldo222;
     private boolean wyslijtezjpk;
+    private String informacjazachowano;
 
     public DeklaracjevatView() {
         wyslane = Collections.synchronizedList(new ArrayList<>());
@@ -217,6 +218,7 @@ public class DeklaracjevatView implements Serializable {
                 wysylanaDeklaracja.setOpis("zachowana dla wysłania z jpk");
                 wysylanaDeklaracja.setDatazlozenia(new Date());
                 wysylanaDeklaracja.setSporzadzil(wpisView.getUzer().getImie() + " " + wpisView.getUzer().getNazw());
+                informacjazachowano = "Zachowano deklaracje";
                 deklaracjevatDAO.edit(wysylanaDeklaracja);
                 Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + wpisView.getPodatnikObiekt().getNazwapelna() + " za " + wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu(), "formX:msg");
                 } catch (Exception e) {
@@ -541,6 +543,14 @@ public class DeklaracjevatView implements Serializable {
 
     public void setWyslijtezjpk(boolean wyslijtezjpk) {
         this.wyslijtezjpk = wyslijtezjpk;
+    }
+
+    public String getInformacjazachowano() {
+        return informacjazachowano;
+    }
+
+    public void setInformacjazachowano(String informacjazachowano) {
+        this.informacjazachowano = informacjazachowano;
     }
 
    

@@ -49,7 +49,7 @@ public class DeklaracjaVatSchemaWierszSum implements Serializable {
     @Column(name = "funkcja")
     private String funkcja;
     @Column(name = "netto1vat2")
-    private int netto1vat2;
+    private int netto1vat2czek3tekst4;
     @Column(name = "czescdeklaracji", length = 1)
     private String czescdeklaracji;
 
@@ -92,7 +92,7 @@ public class DeklaracjaVatSchemaWierszSum implements Serializable {
 
     @Override
     public String toString() {
-        return "DeklaracjaVatSchemaWierszSum{" + "deklaracjaVatSchema=" + deklaracjaVatSchema.getNazwaschemy() + ", deklaracjaVatWierszSumaryczny=" + deklaracjaVatWierszSumaryczny.getNazwapozycji() + ", polenetto=" + polenetto + ", polevat=" + polevat + ", funkcja=" + funkcja + ", netto1vat2=" + netto1vat2 + ", czescdeklaracji=" + czescdeklaracji + '}';
+        return "DeklaracjaVatSchemaWierszSum{" + "deklaracjaVatSchema=" + deklaracjaVatSchema.getNazwaschemy() + ", deklaracjaVatWierszSumaryczny=" + deklaracjaVatWierszSumaryczny.getNazwapozycji() + ", polenetto=" + polenetto + ", polevat=" + polevat + ", funkcja=" + funkcja + ", netto1vat2=" + netto1vat2czek3tekst4 + ", czescdeklaracji=" + czescdeklaracji + '}';
     }
     
     
@@ -154,12 +154,12 @@ public class DeklaracjaVatSchemaWierszSum implements Serializable {
         this.czescdeklaracji = czescdeklaracji;
     }
 
-    public int getNetto1vat2() {
-        return netto1vat2;
+    public int getNetto1vat2czek3tekst4() {
+        return netto1vat2czek3tekst4;
     }
 
-    public void setNetto1vat2(int netto1vat2) {
-        this.netto1vat2 = netto1vat2;
+    public void setNetto1vat2czek3tekst4(int netto1vat2czek3tekst4) {
+        this.netto1vat2czek3tekst4 = netto1vat2czek3tekst4;
     }
     
     

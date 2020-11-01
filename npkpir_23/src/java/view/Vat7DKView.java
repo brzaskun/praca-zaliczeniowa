@@ -43,16 +43,15 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
-import msg.Msg; import org.primefaces.PrimeFaces;
-import org.joda.time.DateTime;
+import msg.Msg;
+ import org.joda.time.DateTime;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -259,6 +258,8 @@ public class Vat7DKView implements Serializable {
             korektanaliczonyzwiekszajaca = (int) wniosekVATZDEntity.getNaliczonyzwiekszenie();
         }
         wygenerujwierszesumaryczne(schemaewidencjalista, pobraneewidencje, schemawierszsumarycznylista);
+        //tutaj trzeba zrobic nowa deklaracje po nowemu.
+        
         VATDeklaracja.przyporzadkujPozycjeSzczegoloweNowe(schemaewidencjalista, pobraneewidencje, pozycjeSzczegoloweVAT, null, korektanaliczonyzmniejszajaca, korektanaliczonyzwiekszajaca);
         sumaschemewidencjilista = VATDeklaracja.wyluskajiPrzyporzadkujSprzedaz(schemaewidencjalista, pobraneewidencje);
         deklaracjakorygowana = czynieczekajuzcosdowyslania();
@@ -280,39 +281,25 @@ public class Vat7DKView implements Serializable {
             try {
                 //niepotrzebne bo jest wyzej
                 //deklaracjakorygowana = bylajuzdeklaracjawtymmiesiacu(rok,mc);
-                if (niesprawdzajpoprzednichdeklaracji || wymusozmnaczeniejakokorekte) {
-                    int p = przeniesieniezpoprzedniejdeklaracji == null? 0 : przeniesieniezpoprzedniejdeklaracji;
-                    przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(p);
-                    naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+p);
-                    Msg.msg("w", "Nie pobieram kwoty do przeniesienia z poprzednich deklaracji. Wprowadź ją ręcznie.");
-                } else {
+                int przeniesieniekwota = przeniesieniezpoprzedniejdeklaracji;
+                if (!niesprawdzajpoprzednichdeklaracji && !wymusozmnaczeniejakokorekte) {
                     Deklaracjevat deklaracjaPopMc = bylajuzdeklaracjawpoprzednimmiesiacu(rok,mc);
                     if (deklaracjaPopMc != null) {
                         //pobiera tylko wtedy jak nie ma z reki
                         if (przeniesieniezpoprzedniejdeklaracji == null) {
-                            Integer kwotazprzeniesienia = pobierz47zpoprzedniejN(deklaracjaPopMc);
-                            przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(kwotazprzeniesienia);
-                            naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+kwotazprzeniesienia+korektanaliczonyzmniejszajaca+korektanaliczonyzwiekszajaca);
-                        } else {
-                            przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(przeniesieniezpoprzedniejdeklaracji);
-                            naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+przeniesieniezpoprzedniejdeklaracji+korektanaliczonyzmniejszajaca+korektanaliczonyzwiekszajaca);
+                            przeniesieniekwota = pobierz47zpoprzedniejN(deklaracjaPopMc);
                         }
                     } else {
                         if (!wpisView.getPodatnikObiekt().getNip().equals("5263158333")) {
                             if (przeniesieniezpoprzedniejdeklaracji == null) {
-                                Integer kwotazprzeniesienia = pobierz47zustawienN();
-                                przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(kwotazprzeniesienia);
-                                naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+kwotazprzeniesienia+korektanaliczonyzmniejszajaca+korektanaliczonyzwiekszajaca);
-                                //najpierwszadeklaracja(); nie wiem po co to
+                                przeniesieniekwota = pobierz47zustawienN();
                                 Msg.msg("i", "Pobrałem kwotę do przeniesienia z ustawień");
-                            } else {
-                                przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(przeniesieniezpoprzedniejdeklaracji);
-                                naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+przeniesieniezpoprzedniejdeklaracji+korektanaliczonyzmniejszajaca+korektanaliczonyzwiekszajaca);
-                                Msg.msg("i", "Pobrałem kwotę do przeniesienia wpisaną ręcznie");
-                            }
+                            } 
                         }
                     }
                 }
+                przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(przeniesieniekwota);
+                naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+przeniesieniekwota+korektanaliczonyzmniejszajaca+korektanaliczonyzwiekszajaca);
             } catch (Exception ex) {
                E.e(ex);
             }
@@ -324,15 +311,7 @@ public class Vat7DKView implements Serializable {
                 nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().setSumavat(nl-nż);
             }
             if (kwotanakaserej != null) {
-                if (nż > nl) {
-                    DeklaracjaVatSchemaWierszSum kasadoodliczenia = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota wydatkowana na kasy rej. do odliczenia");
-                    kasadoodliczenia.getDeklaracjaVatWierszSumaryczny().setSumavat(kwotanakaserej);
-                    dowpłaty.getDeklaracjaVatWierszSumaryczny().setSumavat((dowpłaty.getDeklaracjaVatWierszSumaryczny().getSumavat() - kwotanakaserej) > 0 ? (dowpłaty.getDeklaracjaVatWierszSumaryczny().getSumavat() - kwotanakaserej) : 0);
-                } else {
-                    DeklaracjaVatSchemaWierszSum kasadozwrotu = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota wydatkowana na kasy rej. do zwrotu");
-                    kasadozwrotu.getDeklaracjaVatWierszSumaryczny().setSumavat(kwotanakaserej);
-                    nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat() + kwotanakaserej);
-                }
+                kasarejestrujaca(nż, nl, dowpłaty, nadwyzkanaliczonego);
             }
             DeklaracjaVatSchemaWierszSum doprzeniesienia = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do przeniesienia na następny okres rozliczeniowy");
             doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat());
@@ -340,33 +319,41 @@ public class Vat7DKView implements Serializable {
             if (zwrot25dni != null) {
                 flagazt = true;
                 pokazinfovatzz = true;
-                DeklaracjaVatSchemaWierszSum narachunek = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do zwrotu na rachunek bankowy");
-                DeklaracjaVatSchemaWierszSum narachunek25dni = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 25 dni");
-                narachunek.getDeklaracjaVatWierszSumaryczny().setSumavat(zwrot25dni);
-                narachunek25dni.getDeklaracjaVatWierszSumaryczny().setSumavat(zwrot25dni);
-                doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat()-zwrot25dni);
+                rozliczprzeniesienie(doprzeniesienia,nadwyzkanaliczonego, "Kwota do zwrotu na rachunek bankowy","do zwrotu w terminie 25 dni",zwrot25dni);
             }
             if (zwrot60dni != null) {
                 ustawflagazt(nż);
-                DeklaracjaVatSchemaWierszSum narachunek = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do zwrotu na rachunek bankowy");
-                DeklaracjaVatSchemaWierszSum narachunek60dni = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 60 dni");
-                narachunek.getDeklaracjaVatWierszSumaryczny().setSumavat(zwrot60dni);
-                narachunek60dni.getDeklaracjaVatWierszSumaryczny().setSumavat(zwrot60dni);
-                doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat()-zwrot60dni);
+                rozliczprzeniesienie(doprzeniesienia,nadwyzkanaliczonego, "Kwota do zwrotu na rachunek bankowy","do zwrotu w terminie 60 dni",zwrot60dni);
             }
             if (zwrot180dni != null) {
                 ustawflagazt(nż);
-                DeklaracjaVatSchemaWierszSum narachunek = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do zwrotu na rachunek bankowy");
-                DeklaracjaVatSchemaWierszSum narachunek180dni = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 180 dni");
-                narachunek.getDeklaracjaVatWierszSumaryczny().setSumavat(zwrot180dni);
-                narachunek180dni.getDeklaracjaVatWierszSumaryczny().setSumavat(zwrot180dni);
-                doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat()-zwrot180dni);
+                rozliczprzeniesienie(doprzeniesienia,nadwyzkanaliczonego, "Kwota do zwrotu na rachunek bankowy","do zwrotu w terminie 180 dni",zwrot180dni);
             }
            VATDeklaracja.przyporzadkujPozycjeSzczegoloweSumaryczne(schemawierszsumarycznylista, pozycjeSzczegoloweVAT, null);
         }
     }
     
+        
+    private void rozliczprzeniesienie(DeklaracjaVatSchemaWierszSum doprzeniesienia, DeklaracjaVatSchemaWierszSum nadwyzkanaliczonego, String kwota_do_zwrotu_na_rachunek_bankowy, String do_zwrotu_w_terminie_dni, Integer zwrotdni) {
+        DeklaracjaVatSchemaWierszSum narachunek = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,kwota_do_zwrotu_na_rachunek_bankowy);
+        DeklaracjaVatSchemaWierszSum narachunek25dni = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,do_zwrotu_w_terminie_dni);
+        narachunek.getDeklaracjaVatWierszSumaryczny().setSumavat(zwrotdni);
+        narachunek25dni.getDeklaracjaVatWierszSumaryczny().setSumavat(zwrotdni);
+        doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat()-zwrotdni);
+    }
     
+    private void kasarejestrujaca(int nż, int nl, DeklaracjaVatSchemaWierszSum dowpłaty, DeklaracjaVatSchemaWierszSum nadwyzkanaliczonego) {
+        if (nż > nl) {
+            DeklaracjaVatSchemaWierszSum kasadoodliczenia = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota wydatkowana na kasy rej. do odliczenia");
+            kasadoodliczenia.getDeklaracjaVatWierszSumaryczny().setSumavat(kwotanakaserej);
+            dowpłaty.getDeklaracjaVatWierszSumaryczny().setSumavat((dowpłaty.getDeklaracjaVatWierszSumaryczny().getSumavat() - kwotanakaserej) > 0 ? (dowpłaty.getDeklaracjaVatWierszSumaryczny().getSumavat() - kwotanakaserej) : 0);
+        } else {
+            DeklaracjaVatSchemaWierszSum kasadozwrotu = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota wydatkowana na kasy rej. do zwrotu");
+            kasadozwrotu.getDeklaracjaVatWierszSumaryczny().setSumavat(kwotanakaserej);
+            nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat() + kwotanakaserej);
+        }
+        
+    }
     
     private void ustawflagazt(int nż) {
         if (nż == 0) {
@@ -749,7 +736,10 @@ public class Vat7DKView implements Serializable {
                     nowadeklaracja.setNrkolejny(badana.getNrkolejny());
                     f = 2;
                 } else {
-                    if (badana.getStatus().startsWith("301") || badana.getStatus().startsWith("302") || badana.getStatus().isEmpty()) {
+                    if (badana.getStatus().startsWith("303")) {
+                        Msg.msg("w", "Przygotowano do zachowania drugą wersję niezałączonej do jpk deklaracji za okres  " + rok + "-" + mc,"form:messages");
+                        f = 1;
+                    } else if (badana.getStatus().startsWith("301") || badana.getStatus().startsWith("302") || badana.getStatus().isEmpty()) {
                         Msg.msg("e", "Wysłałeś już deklarację"+l+"ale nie pobrałeś UPO. Nie mozna sporządzić nowej deklaracji za miesiąc następny!","form:messages");
                         f = 1;
                     } else if (badana.getStatus().startsWith("4")) {
@@ -1308,6 +1298,8 @@ public class Vat7DKView implements Serializable {
     public void setKorektanaliczonyzwiekszajaca(int korektanaliczonyzwiekszajaca) {
         this.korektanaliczonyzwiekszajaca = korektanaliczonyzwiekszajaca;
     }
+
+    
 
     
 

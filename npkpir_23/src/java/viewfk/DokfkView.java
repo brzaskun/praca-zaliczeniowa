@@ -1343,16 +1343,35 @@ public class DokfkView implements Serializable {
     
     private void naniesoznaczeniajpk() {
         if (selected.getOpisdokfk().startsWith("*")) {
-                selected.setOpisdokfk(selected.getOpisdokfk().substring(1).toUpperCase());
-                String[] lista = selected.getOpisdokfk().split("\\*");
-                boolean moznawsadzac = czyjesttylepustych(lista);
+                String opis = selected.getOpisdokfk().substring(1);
+                String[] lista = opis.split("\\*");
+                String[] nowalista = przejrzyjliste(lista);
+                boolean moznawsadzac = czyjesttylepustych(nowalista);
                 if (moznawsadzac) {
-                    wsadzoznaczenia(lista);
+                    wsadzoznaczenia(nowalista);
                     PrimeFaces.current().ajax().update("wpisywaniefooter:panelinfo");
                 }
-        } 
+        } else {
+            podepnijoznaczenia();
+            PrimeFaces.current().ajax().update("wpisywaniefooter:panelinfo");
+        }
     }
-    
+    private String[] przejrzyjliste(String[] lista) {
+        String[] zwrot = null;
+        List<String> nowalista = new ArrayList<>();
+        int i = lista.length;
+        for (int j = 0; j<i;j++) {
+            JPKoznaczenia pobrane = pobierzoznaczenie(lista[j]);
+            if (pobrane!=null) {
+                nowalista.add(pobrane.getSymbol());
+            }
+        }
+        if (!nowalista.isEmpty()) {
+            String[] itemsArray = new String[nowalista.size()];
+            zwrot = nowalista.toArray(itemsArray);
+        }
+        return zwrot;
+    }
 //zastapilem to javascriptem nie do konca wiec jest hybryda. znikalo jak inne rzeczy odsiwezalem
     public void skopiujopisdopierwszegowiersza() {
         try {
@@ -1361,7 +1380,12 @@ public class DokfkView implements Serializable {
             boolean kopiowac = w.getOpisWiersza() == null || w.getOpisWiersza().equals("");
             boolean kopiowac1 = w.getStronyWiersza().size() == 2;
             if (kopiowac || kopiowac1) {
-                w.setOpisWiersza(selected.getOpisdokfk());
+                int jestgwiazdka = selected.getOpisdokfk().lastIndexOf("*");
+                if (jestgwiazdka>-1) {
+                    w.setOpisWiersza(selected.getOpisdokfk().substring(jestgwiazdka+1).trim());
+                } else {
+                    w.setOpisWiersza(selected.getOpisdokfk());
+                }
                 PrimeFaces.current().ajax().update("formwpisdokument:dataList");
             }
         } catch (Exception e) {
@@ -1374,7 +1398,7 @@ public class DokfkView implements Serializable {
         int rozmiar = lista.length;
         int ilepustych = ilepustychoblicz();
         if (ilepustych<rozmiar) {
-            selected.setOpisdokfk("NIEPRAWIDŁOWa ILOŚĆ SYMBOLI JPK!");
+            selected.setOpisdokfk("NIEPRAWIDŁOWA ILOŚĆ SYMBOLI JPK!");
             zwrot = false;
         }
         return zwrot;
@@ -1419,9 +1443,17 @@ public class DokfkView implements Serializable {
     private JPKoznaczenia pobierzoznaczenie(String pozycja) {
         JPKoznaczenia zwrot = null;
         for (JPKoznaczenia r : listaoznaczenjpk) {
-            if (r.getSymbol().equals(pozycja.toUpperCase())) {
-                zwrot = r;
-                break;
+            int jestGTU = r.getSymbol().indexOf("GTU_");
+            if (jestGTU>-1) {
+                if (r.getSymbol().contains(pozycja)) {
+                    zwrot = r;
+                    break;
+                }
+            } else {
+                if (r.getSymbol().equals(pozycja.toUpperCase())) {
+                    zwrot = r;
+                    break;
+                }
             }
         }
         return zwrot;
@@ -4656,6 +4688,8 @@ public void oznaczjakonkup() {
         }
         ostatniedokumenty.add(selected);
     }
+
+    
 
     
 

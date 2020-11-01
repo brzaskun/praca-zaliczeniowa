@@ -100,10 +100,10 @@
                         <h:outputText value="#{loop.deklaracjaVatWierszSumaryczny.nazwapozycji}"/>
                     </p:column>
                     <p:column width="30" style="text-align: center;">
-                        <h:outputText value="#{loop.polenetto}" rendered="#{loop.netto1vat2 != 2}"/>
+                        <h:outputText value="#{loop.polenetto}" rendered="#{loop.netto1vat2czek3tekst4 == 0 || loop.netto1vat2czek3tekst4 == 1}"/>
                     </p:column>
                     <p:column>
-                        <bcf:outputpl0 value="#{loop.deklaracjaVatWierszSumaryczny.sumanetto}" rendered="#{loop.netto1vat2 != 2}"/>
+                        <bcf:outputpl0 value="#{loop.deklaracjaVatWierszSumaryczny.sumanetto}" rendered="#{loop.netto1vat2czek3tekst4 == 0 || loop.netto1vat2czek3tekst4 == 1}"/>
                     </p:column>
                     <p:column width="30" style="text-align: center;">
                         <h:outputText value="#{loop.polevat}"/>

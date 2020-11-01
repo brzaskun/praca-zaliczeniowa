@@ -14,6 +14,7 @@ import daoFK.EVatwpisDedraDAO;
 import data.Data;
 import embeddable.Mce;
 import embeddable.TKodUS;
+import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Deklaracjevat;
 import entity.EVatwpis1;
 import entity.EVatwpisSuper;
@@ -31,6 +32,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.KeyStoreException;
@@ -52,6 +54,7 @@ import msg.Msg;
 import org.primefaces.PrimeFaces;
 import pdf.PdfUPO;
 import pl.gov.crd.wzor._2020._05._08._9393.JPK;
+import pl.gov.crd.wzor._2020._05._08._9393.TKodFormularzaVAT7;
 import view.EwidencjaVatView;
  import view.WpisView;
 import waluty.Z;
@@ -328,7 +331,7 @@ public class JPK_VAT2View implements Serializable {
             generujXMLPodglad(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
         } else {
             Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
-            String data = "brak daty";
+            String data;
             for (EVatwpisSuper p : bledy) {
                 if (p instanceof EVatwpis1) {
                     data = ((EVatwpis1) p).getDataWyst() != null ? ((EVatwpis1) p).getDataWyst() : "brak daty";
@@ -336,7 +339,7 @@ public class JPK_VAT2View implements Serializable {
                     data = p.getDokfk().getDatadokumentu() != null ? p.getDokfk().getDatadokumentu() : "brak daty";
                 }
                 String nr = p.getNrWlDk() != null ? p.getNrWlDk() : "brak numeru";
-                Msg.msg("e","Wadliwy dokument: data "+data+" nr "+p.getNrWlDk()+" kwota "+p.getNetto());
+                Msg.msg("e","Wadliwy dokument: data "+data+" nr "+nr+" kwota "+p.getNetto());
             }
         }
     }
@@ -372,10 +375,20 @@ public class JPK_VAT2View implements Serializable {
         JPKSuper zwrot = null;
         try {
             if (wpisView.getRokWpisu()>2020 || (wpisView.getRokWpisu()==2020 && Integer.parseInt(wpisView.getMiesiacWpisu())>9)) {
-                JPKVATWersja jPKVATWersja = jPKVATWersjaDAO.findByName("JPK2000");
+                JPKVATWersja jPKVATWersja = jPKVATWersjaDAO.findByName("JPK2020");
                 List<JPKvatwersjaEvewidencja> jpkev = jPKvatwersjaEvewidencjaDAO.findJPKEwidencje(jPKVATWersja);
                 Map<Evewidencja, JPKvatwersjaEvewidencja> mapa = przetworzjpk(jpkev);
                 pl.gov.crd.wzor._2020._05._08._9393.JPK jpk = new JPK();
+                if (deklaracjadlajpk!=null) {
+                    List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista = deklaracjadlajpk.getSchemawierszsumarycznylista();
+                    JPK.Deklaracja.Naglowek naglowek = deklaracja_naglowek();
+                    JPK.Deklaracja.PozycjeSzczegolowe pozycje = deklaracja_pozycjeszczegolowe(schemawierszsumarycznylista);
+                    JPK.Deklaracja deklaracja = new JPK.Deklaracja();
+                    deklaracja.setNaglowek(naglowek);
+                    deklaracja.setPozycjeSzczegolowe(pozycje);
+                    deklaracja.setPouczenia(BigDecimal.ONE);
+                    jpk.setDeklaracja(deklaracja);
+                }
                 Object[] sprzedaz = utworzWierszeJpkSprzedaz2020(wiersze, mapa);
                 List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazWiersz> listas = (List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazWiersz>) sprzedaz[0];
                 pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazCtrl sprzedazCtrl = (pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazCtrl) sprzedaz[1];
@@ -451,6 +464,54 @@ public class JPK_VAT2View implements Serializable {
             E.e(e);
         }
         return zwrot;
+    }
+    
+    private JPK.Deklaracja.Naglowek.KodFormularzaDekl deklaracja_naglowek_kod() {
+        JPK.Deklaracja.Naglowek.KodFormularzaDekl zwrot = new JPK.Deklaracja.Naglowek.KodFormularzaDekl();
+        zwrot.setKodSystemowy(zwrot.getKodSystemowy());
+        zwrot.setKodPodatku(zwrot.getKodPodatku());
+        zwrot.setRodzajZobowiazania(zwrot.getRodzajZobowiazania());
+        zwrot.setWersjaSchemy(zwrot.getWersjaSchemy());
+        zwrot.setValue(TKodFormularzaVAT7.VAT_7);
+        return zwrot;
+    }
+    
+    private JPK.Deklaracja.Naglowek deklaracja_naglowek() {
+        JPK.Deklaracja.Naglowek zwrot = new JPK.Deklaracja.Naglowek();
+        JPK.Deklaracja.Naglowek.KodFormularzaDekl kod = deklaracja_naglowek_kod();
+        zwrot.setKodFormularzaDekl(kod);
+        zwrot.setWariantFormularzaDekl(Byte.parseByte("21"));
+        return zwrot;
+    }
+    
+    private JPK.Deklaracja.PozycjeSzczegolowe deklaracja_pozycjeszczegolowe(List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista) {
+        pl.gov.crd.wzor._2020._05._08._9393.JPK.Deklaracja.PozycjeSzczegolowe pozycjeSzczegolowe = new JPK.Deklaracja.PozycjeSzczegolowe();
+        for (DeklaracjaVatSchemaWierszSum p : schemawierszsumarycznylista) {
+            try {
+                if (p.getNetto1vat2czek3tekst4()==3) {
+                    Method method = pl.gov.crd.wzor._2020._05._08._9393.JPK.Deklaracja.PozycjeSzczegolowe.class.getMethod(zwrocpolejpk(p.getPolenetto()),Byte.class);
+                    method.invoke(pozycjeSzczegolowe, BigInteger.valueOf(p.getDeklaracjaVatWierszSumaryczny().getSumanetto()));
+                } else if (p.getNetto1vat2czek3tekst4()==4) {
+                    Method method = pl.gov.crd.wzor._2020._05._08._9393.JPK.Deklaracja.PozycjeSzczegolowe.class.getMethod(zwrocpolejpk(p.getPolenetto()),String.class);
+                    method.invoke(pozycjeSzczegolowe, BigInteger.valueOf(p.getDeklaracjaVatWierszSumaryczny().getSumanetto()));
+                } else {
+                    Method method = pl.gov.crd.wzor._2020._05._08._9393.JPK.Deklaracja.PozycjeSzczegolowe.class.getMethod(zwrocpolejpk(p.getPolenetto()),BigInteger.class);
+                    method.invoke(pozycjeSzczegolowe, BigInteger.valueOf(p.getDeklaracjaVatWierszSumaryczny().getSumanetto()));
+                    method = pl.gov.crd.wzor._2020._05._08._9393.JPK.Deklaracja.PozycjeSzczegolowe.class.getMethod(zwrocpolejpk(p.getPolevat()),BigInteger.class);
+                    method.invoke(pozycjeSzczegolowe, BigInteger.valueOf(p.getDeklaracjaVatWierszSumaryczny().getSumavat()));
+                }
+            } catch (Exception e){
+                E.e(e);
+            }
+        }
+        return pozycjeSzczegolowe;
+    }
+    
+    private String zwrocpolejpk(String pole) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("setP");
+        sb.append(pole);
+        return sb.toString();
     }
     
     public void pobierzwszystkie(List<UPO> jpkzrobione) {
@@ -1061,6 +1122,8 @@ public class JPK_VAT2View implements Serializable {
         }
         return zwrot;
     }
+
+    
     
     
 }

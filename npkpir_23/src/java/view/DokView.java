@@ -660,13 +660,7 @@ public class DokView implements Serializable {
 //        }
 //       
 //    }
-    public void podepnijoznaczenia() {
-        if (selDokument.getRodzajedok()!=null) {
-            Rodzajedok p = selDokument.getRodzajedok();
-            selDokument.setOznaczenie1(p.getOznaczenie1());
-            selDokument.setOznaczenie2(p.getOznaczenie2());
-        }
-    }
+   
     public void wygenerujnumerkolejny() {
         String nowynumer = "";
         if (selDokument.getRodzajedok()!=null && selDokument.getRodzajedok().getWzorzec()!=null) {
@@ -1190,21 +1184,42 @@ public class DokView implements Serializable {
 
     public void oznaczeniajpk() {
         if (selDokument.getOpis().startsWith("*")) {
-            selDokument.setOpis(selDokument.getOpis().substring(1).toUpperCase());
-            String[] lista = selDokument.getOpis().split("\\*");
-            boolean moznawsadzac = czyjesttylepustych(lista);
+            String opis = selDokument.getOpis().substring(1);
+            String[] lista = opis.split("\\*");
+            String[] nowalista = przejrzyjliste(lista);
+            boolean moznawsadzac = czyjesttylepustych(nowalista);
             if (moznawsadzac) {
-                wsadzoznaczenia(lista);
+                wsadzoznaczenia(nowalista);
                 PrimeFaces.current().ajax().update("dodWiad:paneloznaczenia");
             }
+        } else {
+            podepnijoznaczenia();
+            PrimeFaces.current().ajax().update("dodWiad:paneloznaczenia");
         }
+    }
+    
+    private String[] przejrzyjliste(String[] lista) {
+        String[] zwrot = null;
+        List<String> nowalista = new ArrayList<>();
+        int i = lista.length;
+        for (int j = 0; j<i;j++) {
+            JPKoznaczenia pobrane = pobierzoznaczenie(lista[j]);
+            if (pobrane!=null) {
+                nowalista.add(pobrane.getSymbol());
+            }
+        }
+        if (!nowalista.isEmpty()) {
+            String[] itemsArray = new String[nowalista.size()];
+            zwrot = nowalista.toArray(itemsArray);
+        }
+        return zwrot;
     }
     private boolean czyjesttylepustych(String[] lista) {
         boolean zwrot = true;
         int rozmiar = lista.length;
         int ilepustych = ilepustychoblicz();
         if (ilepustych<rozmiar) {
-            selDokument.setOpis("NIEPRAWIDŁOWa ILOŚĆ SYMBOLI JPK!");
+            selDokument.setOpis("NIEPRAWIDŁOWA ILOŚĆ SYMBOLI JPK!");
             zwrot = false;
         }
         return zwrot;
@@ -1248,14 +1263,32 @@ public class DokView implements Serializable {
     private JPKoznaczenia pobierzoznaczenie(String pozycja) {
         JPKoznaczenia zwrot = null;
         for (JPKoznaczenia r : listaoznaczenjpk) {
-            if (r.getSymbol().equals(pozycja.toUpperCase())) {
-                zwrot = r;
-                break;
+            int jestGTU = r.getSymbol().indexOf("GTU_");
+            if (jestGTU>-1) {
+                if (r.getSymbol().contains(pozycja)) {
+                    zwrot = r;
+                    break;
+                }
+            } else {
+                if (r.getSymbol().equals(pozycja.toUpperCase())) {
+                    zwrot = r;
+                    break;
+                }
             }
         }
         return zwrot;
     }
     
+    
+    public void podepnijoznaczenia() {
+        if (selDokument.getRodzajedok()!=null) {
+            Rodzajedok p = selDokument.getRodzajedok();
+            selDokument.setOznaczenie1(p.getOznaczenie1());
+            selDokument.setOznaczenie2(p.getOznaczenie2());
+            selDokument.setOznaczenie3(null);
+            selDokument.setOznaczenie4(null);
+        }
+    }
     public void sprawdzCzyNieDuplikatwtrakcie(AjaxBehaviorEvent ex) {
         try {
                 Dok selD = null;

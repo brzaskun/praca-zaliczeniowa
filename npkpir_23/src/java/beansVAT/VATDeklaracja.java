@@ -127,17 +127,17 @@ public class VATDeklaracja implements Serializable {
                     jestzwrotnarachunek = true;
                 }
                 if (ws.getNazwapozycji().contains("do zwrotu w") && jestzwrotnarachunek) {
-                    if ((nrpolanetto != null) && (!nrpolanetto.isEmpty()) && ew.getNetto1vat2() != 2) {
+                    if ((nrpolanetto != null) && (!nrpolanetto.isEmpty()) && ew.getNetto1vat2czek3tekst4() != 2) {
                         ustawPozycjeSumaryczne(pozycjeSzczegoloweVAT, nrpolanetto, netto, nettoI);
                     }
-                    if ((nrpolavat != null) && (!nrpolavat.isEmpty()) && ew.getNetto1vat2() != 1) {
+                    if ((nrpolavat != null) && (!nrpolavat.isEmpty()) && ew.getNetto1vat2czek3tekst4() != 1) {
                         ustawPozycjeSumaryczne(pozycjeSzczegoloweVAT, nrpolavat, vat, vatI);
                     }
                 } else {
-                    if ((nrpolanetto != null) && (!nrpolanetto.isEmpty()) && ew.getNetto1vat2() != 2) {
+                    if ((nrpolanetto != null) && (!nrpolanetto.isEmpty()) && ew.getNetto1vat2czek3tekst4() != 2) {
                         ustawPozycjeSumaryczne(pozycjeSzczegoloweVAT, nrpolanetto, netto, nettoI);
                     }
-                    if ((nrpolavat != null) && (!nrpolavat.isEmpty()) && ew.getNetto1vat2() != 1) {
+                    if ((nrpolavat != null) && (!nrpolavat.isEmpty()) && ew.getNetto1vat2czek3tekst4() != 1) {
                         ustawPozycjeSumaryczne(pozycjeSzczegoloweVAT, nrpolavat, vat, vatI);
                     }
                 }

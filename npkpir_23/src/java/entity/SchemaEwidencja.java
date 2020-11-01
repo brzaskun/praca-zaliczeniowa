@@ -50,6 +50,7 @@ public class SchemaEwidencja implements Serializable {
     @JoinColumn(name = "schemamacierzysta",referencedColumnName = "id")
     private SchemaEwidencja schemamacierzysta;
 
+
     public SchemaEwidencja(DeklaracjaVatSchema deklaracjaVatSchema, Evewidencja evewidencja, String polenetto, String polevat) {
         this.deklaracjaVatSchema = deklaracjaVatSchema;
         this.evewidencja = evewidencja;
@@ -150,7 +151,6 @@ public class SchemaEwidencja implements Serializable {
     public void setSchemamacierzysta(SchemaEwidencja schemamacierzysta) {
         this.schemamacierzysta = schemamacierzysta;
     }
-    
     
     
 }
