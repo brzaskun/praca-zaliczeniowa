@@ -121,6 +121,11 @@ public class Vat7DKView implements Serializable {
     private WniosekVATZDEntity wniosekVATZDEntity;
     private boolean wymusozmnaczeniejakokorekte;
     private boolean niesprawdzajpoprzednichdeklaracji;
+    private boolean nowejpk;
+    private boolean przelewnarachunekvat;
+    private boolean zaliczenienapoczetzobowiazan;
+    private double zaliczenienapoczetzobowiazankwota;
+    private String rodzajzobowiazania;
    
     public Vat7DKView() {
         pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
@@ -138,6 +143,17 @@ public class Vat7DKView implements Serializable {
         if(wniosekVATZDEntityList!=null && wniosekVATZDEntityList.size()>0) {
             wniosekVATZDEntity = wniosekVATZDEntityList.get(0);
         }
+        nowejpk = czynowejpk();
+    }
+    
+    private boolean czynowejpk() {
+        boolean zwrot = false;
+        int rok = wpisView.getRokWpisu();
+        int mc = Integer.parseInt(wpisView.getMiesiacWpisu());
+        if (rok>2020 || (rok==2020 && mc > 9)) {
+            zwrot = true;
+        }
+        return zwrot;
     }
 
     //to bylo w starej wersji strony
@@ -329,7 +345,19 @@ public class Vat7DKView implements Serializable {
                 ustawflagazt(nż);
                 rozliczprzeniesienie(doprzeniesienia,nadwyzkanaliczonego, "Kwota do zwrotu na rachunek bankowy","do zwrotu w terminie 180 dni",zwrot180dni);
             }
-           VATDeklaracja.przyporzadkujPozycjeSzczegoloweSumaryczne(schemawierszsumarycznylista, pozycjeSzczegoloweVAT, null);
+            if (przelewnarachunekvat) {
+                DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Zwrot na rachunek VAT, o którym mowa w art. 87 ust. 6a ustawy");
+                zmienna.getDeklaracjaVatWierszSumaryczny().setSumanetto(1);
+            }
+            if (zaliczenienapoczetzobowiazan) {
+                DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Zaliczenie zwrotu podatku na poczet przyszłych zobowiązań podatkowych");
+                zmienna.getDeklaracjaVatWierszSumaryczny().setCzekpole(true);
+            }
+            if (rodzajzobowiazania!=null) {
+                DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Rodzaj przyszłego zobowiązania podatkowego");
+                zmienna.getDeklaracjaVatWierszSumaryczny().setStringpole(rodzajzobowiazania);
+            }
+            VATDeklaracja.przyporzadkujPozycjeSzczegoloweSumaryczne(schemawierszsumarycznylista, pozycjeSzczegoloweVAT, null);
         }
     }
     
@@ -1297,6 +1325,46 @@ public class Vat7DKView implements Serializable {
 
     public void setKorektanaliczonyzwiekszajaca(int korektanaliczonyzwiekszajaca) {
         this.korektanaliczonyzwiekszajaca = korektanaliczonyzwiekszajaca;
+    }
+
+    public boolean isNowejpk() {
+        return nowejpk;
+    }
+
+    public void setNowejpk(boolean nowejpk) {
+        this.nowejpk = nowejpk;
+    }
+
+    public boolean isPrzelewnarachunekvat() {
+        return przelewnarachunekvat;
+    }
+
+    public void setPrzelewnarachunekvat(boolean przelewnarachunekvat) {
+        this.przelewnarachunekvat = przelewnarachunekvat;
+    }
+
+    public boolean isZaliczenienapoczetzobowiazan() {
+        return zaliczenienapoczetzobowiazan;
+    }
+
+    public void setZaliczenienapoczetzobowiazan(boolean zaliczenienapoczetzobowiazan) {
+        this.zaliczenienapoczetzobowiazan = zaliczenienapoczetzobowiazan;
+    }
+
+    public double getZaliczenienapoczetzobowiazankwota() {
+        return zaliczenienapoczetzobowiazankwota;
+    }
+
+    public void setZaliczenienapoczetzobowiazankwota(double zaliczenienapoczetzobowiazankwota) {
+        this.zaliczenienapoczetzobowiazankwota = zaliczenienapoczetzobowiazankwota;
+    }
+
+    public String getRodzajzobowiazania() {
+        return rodzajzobowiazania;
+    }
+
+    public void setRodzajzobowiazania(String rodzajzobowiazania) {
+        this.rodzajzobowiazania = rodzajzobowiazania;
     }
 
     

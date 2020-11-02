@@ -42,6 +42,10 @@ public class DeklaracjaVatWierszSumaryczny implements Serializable {
     private int sumanetto;
     @Column(name = "sumavat")
     private int sumavat;
+    @Column(name = "czekpole")
+    private boolean czekpole;
+    @Column(name = "stringpole")
+    private String stringpole;
 
     @Override
     public int hashCode() {
@@ -99,13 +103,31 @@ public class DeklaracjaVatWierszSumaryczny implements Serializable {
         this.sumavat = sumavat;
     }
 
+    public boolean isCzekpole() {
+        return czekpole;
+    }
+
+    public void setCzekpole(boolean czekpole) {
+        this.czekpole = czekpole;
+    }
+
+    public String getStringpole() {
+        return stringpole;
+    }
+
+    public void setStringpole(String stringpole) {
+        this.stringpole = stringpole;
+    }
+
+    @Override
+    public String toString() {
+        return "DeklaracjaVatWierszSumaryczny{" + "nazwapozycji=" + nazwapozycji + ", sumanetto=" + sumanetto + ", sumavat=" + sumavat + ", czekpole=" + czekpole + ", stringpole=" + stringpole + '}';
+    }
+
    
   
    
-    @Override
-    public String toString() {
-        return "DeklaracjaVatSumaryczne{" + "id=" + id + ", nazwapozycji=" + nazwapozycji + '}';
-    }
+    
 
     
 }

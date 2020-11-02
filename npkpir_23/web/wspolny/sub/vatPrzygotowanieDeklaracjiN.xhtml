@@ -101,15 +101,18 @@
                     </p:column>
                     <p:column width="30" style="text-align: center;">
                         <h:outputText value="#{loop.polenetto}" rendered="#{loop.netto1vat2czek3tekst4 == 0 || loop.netto1vat2czek3tekst4 == 1}"/>
+
                     </p:column>
                     <p:column>
                         <bcf:outputpl0 value="#{loop.deklaracjaVatWierszSumaryczny.sumanetto}" rendered="#{loop.netto1vat2czek3tekst4 == 0 || loop.netto1vat2czek3tekst4 == 1}"/>
                     </p:column>
                     <p:column width="30" style="text-align: center;">
-                        <h:outputText value="#{loop.polevat}"/>
+                        <h:outputText value="#{loop.polevat}" rendered="#{loop.netto1vat2czek3tekst4 != 3 and loop.netto1vat2czek3tekst4 != 4}"/>
                     </p:column>
                     <p:column>
-                        <bcf:outputpl0 value="#{loop.deklaracjaVatWierszSumaryczny.sumavat}" />
+                        <bcf:outputpl0 value="#{loop.deklaracjaVatWierszSumaryczny.sumavat}" rendered="#{loop.netto1vat2czek3tekst4 != 3 and loop.netto1vat2czek3tekst4 != 4}"/>
+                        <h:outputText value="#{loop.deklaracjaVatWierszSumaryczny.czekpole eq 1?'tak':'nie'}" rendered="#{loop.netto1vat2czek3tekst4 == 3}"/>
+                        <h:outputText value="#{loop.deklaracjaVatWierszSumaryczny.stringpole}" rendered="#{loop.netto1vat2czek3tekst4 == 4}"/>
                     </p:column>
                 </p:dataTable>
             </p:panelGrid>
@@ -126,6 +129,7 @@
                 <h:outputText value="Korekta podatku naliczonego, o której mowa w art. 89b ust. 4 ustawy"  style="color: green;"/>
                 <bcf:outputpl0 value="#{vat7DKView.korektanaliczonyzwiekszajaca}"  />
             </p:panelGrid>
+            <p:panel header="dane wprowadzane ręcznie"/>
             <p:panelGrid columns="2"  style="width: 600px;" styleClass="vatramki"   rendered="#{vat7DKView.flaga ne 1}">
                 <h:outputText value="przeniesienie z pop.deklaracji"/>
                 <p:inputNumber styleClass="vatramki"   value="#{vat7DKView.przeniesieniezpoprzedniejdeklaracji}" decimalPlaces="0" inputStyle="text-align: right;" thousandSeparator="&#160;"/>
@@ -137,6 +141,16 @@
                 <p:inputNumber  value="#{vat7DKView.zwrot60dni}" decimalPlaces="0" inputStyle="text-align: right;"/>
                 <h:outputText value="zwrot na rachunek w terminie 180 dni"/>
                 <p:inputNumber value="#{vat7DKView.zwrot180dni}" decimalPlaces="0" inputStyle="text-align: right;"/>
+            </p:panelGrid>
+            <p:panelGrid columns="2"  style="width: 600px;" styleClass="vatramki"   rendered="#{vat7DKView.flaga ne 1 and vat7DKView.nowejpk}">
+                <h:outputText value="Zwrot na rachunek VAT, o którym mowa w art. 87 ust. 6a ustawy"/>
+                <p:selectBooleanCheckbox styleClass="vatramki"  value="#{vat7DKView.przelewnarachunekvat}" />
+                <h:outputText value="Zaliczenie zwrotu podatku na poczet przyszłych zobowiązań podatkowych"/>
+                <p:selectBooleanCheckbox styleClass="vatramki"  value="#{vat7DKView.zaliczenienapoczetzobowiazan}" />
+                <h:outputText value="Wysokość zwrotu do zaliczenia na poczet przyszłych zobowiązań podatkowych"/>
+                <p:inputNumber styleClass="vatramki"  value="#{vat7DKView.zaliczenienapoczetzobowiazankwota}" decimalPlaces="0" inputStyle="text-align: right;" />
+                <h:outputText value="Rodzaj przyszłego zobowiązania podatkowego"/>
+                <p:inputText styleClass="vatramki"  value="#{vat7DKView.rodzajzobowiazania}" size="20"/>
             </p:panelGrid>
         </h:form>
     <h:form id="deklaracjauwagavatzt"  >

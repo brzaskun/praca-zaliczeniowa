@@ -490,10 +490,14 @@ public class JPK_VAT2View implements Serializable {
             try {
                 if (p.getNetto1vat2czek3tekst4()==3) {
                     Method method = pl.gov.crd.wzor._2020._05._08._9393.JPK.Deklaracja.PozycjeSzczegolowe.class.getMethod(zwrocpolejpk(p.getPolenetto()),Byte.class);
-                    method.invoke(pozycjeSzczegolowe, BigInteger.valueOf(p.getDeklaracjaVatWierszSumaryczny().getSumanetto()));
+                    if (p.getDeklaracjaVatWierszSumaryczny().isCzekpole()) {
+                        method.invoke(pozycjeSzczegolowe, BigInteger.valueOf(1));
+                    } else {
+                        method.invoke(pozycjeSzczegolowe, BigInteger.valueOf(0));
+                    }
                 } else if (p.getNetto1vat2czek3tekst4()==4) {
                     Method method = pl.gov.crd.wzor._2020._05._08._9393.JPK.Deklaracja.PozycjeSzczegolowe.class.getMethod(zwrocpolejpk(p.getPolenetto()),String.class);
-                    method.invoke(pozycjeSzczegolowe, BigInteger.valueOf(p.getDeklaracjaVatWierszSumaryczny().getSumanetto()));
+                    method.invoke(pozycjeSzczegolowe, p.getDeklaracjaVatWierszSumaryczny().getStringpole());
                 } else {
                     Method method = pl.gov.crd.wzor._2020._05._08._9393.JPK.Deklaracja.PozycjeSzczegolowe.class.getMethod(zwrocpolejpk(p.getPolenetto()),BigInteger.class);
                     method.invoke(pozycjeSzczegolowe, BigInteger.valueOf(p.getDeklaracjaVatWierszSumaryczny().getSumanetto()));
