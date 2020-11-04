@@ -42,7 +42,11 @@
         <message-bundle>
             scr/main/resources/messagesbundle/messagesbundle.messages
         </message-bundle>
-    </application>
+      <resource-bundle>
+         <base-name>/Bundle</base-name>
+         <var>bundle</var>
+      </resource-bundle>
+   </application>
     <application>
         <locale-config>
             <default-time-zone-id>Europe/Berlin</default-time-zone-id>

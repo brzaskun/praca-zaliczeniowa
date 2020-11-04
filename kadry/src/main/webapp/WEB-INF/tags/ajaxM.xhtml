@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+       <ui:composition>
+           <f:view >
+                <p:growl widgetVar="ajaxm"/>
+                 <p:ajaxStatus onstart="startajaxm();" onsuccess="stopajaxm();"  >
+                     <f:facet name="error">
+                         <h:outputText value="Wystąpił nieoczekiwany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie"
+                                       style="color: red; font-weight: 900;"/>
+                     </f:facet>
+                </p:ajaxStatus>
+            </f:view>
+       </ui:composition>
+    </h:body>
+</html>

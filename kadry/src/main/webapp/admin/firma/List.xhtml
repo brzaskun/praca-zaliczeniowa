@@ -1,0 +1,1480 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListFirmaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListFirmaEmpty}" rendered="#{firmaController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{firmaController.items.rowCount > 0}">
+                    <h:outputText value="#{firmaController.pagination.pageFirstItem + 1}..#{firmaController.pagination.pageLastItem + 1}/#{firmaController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{firmaController.previous}" value="#{bundle.Previous} #{firmaController.pagination.pageSize}" rendered="#{firmaController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{firmaController.next}" value="#{bundle.Next} #{firmaController.pagination.pageSize}" rendered="#{firmaController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{firmaController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firSerial}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firSerial}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNazwaSkr}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNazwaSkr}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNazwaPel}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNazwaPel}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNip}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNip}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firRegon}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firRegon}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firPanSerial}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firPanSerial}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firMiaSerial}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firMiaSerial}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firKod}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firKod}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firUlica}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firUlica}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDom}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDom}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firMieszkanie}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firMieszkanie}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firTel}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firTel}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firFaks}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firFaks}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firKntSerial}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firKntSerial}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firRodzDzial}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firRodzDzial}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firFakBanSerial}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firFakBanSerial}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firFakNrKonta}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firFakNrKonta}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firZapBanSerial}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firZapBanSerial}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firZapNrKonta}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firZapNrKonta}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firFakWiadom}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firFakWiadom}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrFakAuto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrFakAuto}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrFakD}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrFakD}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrFakDP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrFakDP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrFakL}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrFakL}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrFakLP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrFakLP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrFakS}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrFakS}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrFakSP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrFakSP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrRachAuto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrRachAuto}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrRachS}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrRachS}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDataPlatRoz}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDataPlatRoz}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrKRachAuto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrKRachAuto}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrKRachS}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrKRachS}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrKFakAuto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrKFakAuto}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrKFakS}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrKFakS}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrRachSP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrRachSP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrRachD}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrRachD}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrRachDP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrRachDP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrRachL}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrRachL}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrRachLP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrRachLP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrKRachSP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrKRachSP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrKRachD}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrKRachD}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrKRachDP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrKRachDP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrKRachL}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrKRachL}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrKRachLP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrKRachLP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrKFakSP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrKFakSP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrKFakD}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrKFakD}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrKFakDP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrKFakDP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrKFakL}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrKFakL}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrKFakLP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrKFakLP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrZwAuto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrZwAuto}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrZwS}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrZwS}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrZwSP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrZwSP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrZwD}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrZwD}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrZwDP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrZwDP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrZwL}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrZwL}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrZwLP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrZwLP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrWzAuto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrWzAuto}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrWzS}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrWzS}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrWzSP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrWzSP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrWzD}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrWzD}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrWzDP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrWzDP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrWzL}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrWzL}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrWzLP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrWzLP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firFakLogo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firFakLogo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firRachLogo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firRachLogo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firKFakLogo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firKFakLogo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firKRachLogo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firKRachLogo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firZwLogo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firZwLogo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firWzLogo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firWzLogo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrPzAuto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrPzAuto}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrPzD}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrPzD}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrPzDP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrPzDP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrPzL}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrPzL}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrPzLP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrPzLP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrPzS}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrPzS}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrPzSP}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrPzSP}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firPzLogo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firPzLogo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firTypOsoby}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firTypOsoby}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firPesel}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firPesel}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firRodzajDok}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firRodzajDok}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firSeriaNr}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firSeriaNr}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNazwisko}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNazwisko}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firImie1}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firImie1}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDataUrodz}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDataUrodz}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firGmina}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firGmina}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firUrzSerial}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firUrzSerial}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firPowiat}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firPowiat}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firPoczta}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firPoczta}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firWojewodztwo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firWojewodztwo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firKodTerm}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firKodTerm}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firZaklPrChron}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firZaklPrChron}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firUbezpWyp}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firUbezpWyp}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firUprSwUbChor}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firUprSwUbChor}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firImieOjca}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firImieOjca}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firImieMatki}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firImieMatki}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firOptSerialPrac}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firOptSerialPrac}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firOptSerialOsob}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firOptSerialOsob}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firOptSerialWlas}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firOptSerialWlas}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firTestowa}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firTestowa}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firWiadomPar}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firWiadomPar}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firKonNrIdNaDok}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firKonNrIdNaDok}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firEkd}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firEkd}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firJednBudz}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firJednBudz}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firJednPozaBudz}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firJednPozaBudz}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firOrgZal}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firOrgZal}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firRejestr}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firRejestr}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firRejestrData}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firRejestrData}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firRejestrNr}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firRejestrNr}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firRejestrNazwaO}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firRejestrNazwaO}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDataObowUb}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDataObowUb}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDataRozp}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDataRozp}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firZaPrChrDOt}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firZaPrChrDOt}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firZaPrChrDUt}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firZaPrChrDUt}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firAdrDzialInny}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firAdrDzialInny}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firKod2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firKod2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firMiaSerial2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firMiaSerial2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firGmina2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firGmina2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firUlica2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firUlica2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDom2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDom2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firMieszkanie2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firMieszkanie2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firTel2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firTel2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firFaks2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firFaks2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firPanSerial2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firPanSerial2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firPowiat2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firPowiat2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firPoczta2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firPoczta2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firWojewodztwo2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firWojewodztwo2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firEmail}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firEmail}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firEmail2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firEmail2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firPanSerialK}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firPanSerialK}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firKodK}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firKodK}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firMiaSerialK}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firMiaSerialK}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firUlicaK}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firUlicaK}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDomK}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDomK}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firMieszkanieK}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firMieszkanieK}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firTelK}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firTelK}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firFaksK}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firFaksK}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firEmailK}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firEmailK}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firSkrytkaK}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firSkrytkaK}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firTeletransK}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firTeletransK}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firGminaK}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firGminaK}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firPowiatK}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firPowiatK}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firPocztaK}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firPocztaK}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firWojewodztwoK}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firWojewodztwoK}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firBiuroNip}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firBiuroNip}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firBiuroRegon}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firBiuroRegon}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firBiuroNazwaSkr}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firBiuroNazwaSkr}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firKodUprawn}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firKodUprawn}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDataUprawn}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDataUprawn}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firPanSerialD}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firPanSerialD}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firKodD}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firKodD}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firMiaSerialD}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firMiaSerialD}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firUlicaD}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firUlicaD}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDomD}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDomD}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firMieszkanieD}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firMieszkanieD}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firTelD}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firTelD}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firFaksD}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firFaksD}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firGminaD}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firGminaD}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firPowiatD}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firPowiatD}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firPocztaD}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firPocztaD}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firWojewodztwoD}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firWojewodztwoD}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firBanSerial3}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firBanSerial3}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrKonta3}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrKonta3}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firBanSerial4}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firBanSerial4}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNrKonta4}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNrKonta4}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firMiejsceUr}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firMiejsceUr}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firObywatelstwo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firObywatelstwo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firImie2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firImie2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firKodRodzUpr}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firKodRodzUpr}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firWiadomParTresc}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firWiadomParTresc}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firAdrTsam2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firAdrTsam2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firAdrTsamK}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firAdrTsamK}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firAdrTsamD}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firAdrTsamD}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar1}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar1}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar3}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar3}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar4}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar4}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar5}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar5}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar6}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar6}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar7}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar7}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar8}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar8}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodNum1}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodNum1}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodNum2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodNum2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodNum3}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodNum3}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodNum4}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodNum4}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodNum5}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodNum5}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodNum6}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodNum6}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodNum7}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodNum7}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodNum8}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodNum8}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firBiuro}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firBiuro}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firUbezpWypC}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firUbezpWypC}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firUbezpFpC}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firUbezpFpC}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firUbezpFgspC}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firUbezpFgspC}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firUbezpFp}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firUbezpFp}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firUbezpFgsp}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firUbezpFgsp}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firOptSerialWspo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firOptSerialWspo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firOptSerialDod1}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firOptSerialDod1}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firOptSerialDod2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firOptSerialDod2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodSerial1}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodSerial1}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodVchar1}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodVchar1}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodSerial2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodSerial2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodVchar2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodVchar2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar9}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar9}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar10}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar10}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar11}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar11}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar12}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar12}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar13}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar13}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar14}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar14}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar15}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar15}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar16}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar16}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodVchar3}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodVchar3}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodVchar4}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodVchar4}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodVchar5}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodVchar5}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodVchar6}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodVchar6}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firUrzSerialV}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firUrzSerialV}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodVchar7}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodVchar7}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodVchar8}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodVchar8}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodVchar9}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodVchar9}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodVchar10}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodVchar10}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firNusp}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firNusp}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar17}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar17}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar18}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar18}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar19}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar19}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar20}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar20}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar21}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar21}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar22}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar22}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar23}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar23}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodChar24}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodChar24}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firUstawienia}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firUstawienia}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firUstawieniaKs}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firUstawieniaKs}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firUstawieniaKp}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firUstawieniaKp}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodVchar11}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodVchar11}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodVchar12}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodVchar12}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodInt1}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodInt1}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodInt2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodInt2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodInt3}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodInt3}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firDodInt4}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firDodInt4}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_firLogo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firLogo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{firmaController.prepareView}" value="#{bundle.ListFirmaViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{firmaController.prepareEdit}" value="#{bundle.ListFirmaEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{firmaController.destroy}" value="#{bundle.ListFirmaDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{firmaController.prepareCreate}" value="#{bundle.ListFirmaCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListFirmaIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

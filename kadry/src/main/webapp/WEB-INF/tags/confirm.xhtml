@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:bcf="http://brzaskun.com/facelets">
+    <h:body>
+        <ui:composition>
+            <f:view>
+
+                <script>
+                    var zamknijdialog = function(nazwadialogu) {
+                        try {
+                            PF(nazwadialogu).hide();
+                        } catch (e) {
+                            // alert(e);
+                        }
+                    }
+                </script>
+                <p:confirmDialog id="confirmDialog#{lp != null ? lp : '1'}" message="#{wiadomosc != null ? wiadomosc : 'Potwierdz przetwarzanie danych'}"  
+                                 header="#{naglowek != null ? naglowek : ''}" severity="alert" widgetVar="confirm#{lp != null ? lp : '1'}" width="500" appendTo="@(body)"
+                                 >
+                    <h:form>
+                        <c:choose>
+                            <c:when test="#{listenerPresent}">
+                                <p:commandButton id="confirm" value="Akceptuj"  oncomplete="zamknijdialog('#{closeDialog}'); PF('confirm#{lp != null ? lp : '1'}').hide();"
+                                                 actionListener="#{listener}"
+                                                 style="float: left; width: 120px; margin-left: 2%;" update="#{update}">
+                                </p:commandButton>
+                            </c:when>
+                            <c:otherwise>
+                                <p:commandButton id="confirm" value="Akceptuj"  oncomplete="zamknijdialog('#{closeDialog}'); PF('confirm#{lp != null ? lp : '1'}').hide();"  style="float: left; width: 120px; margin-left: 2%;"/>
+                            </c:otherwise>
+                        </c:choose>
+                        <p:commandButton id="decline" value="Odwołaj" onclick="PF('confirm#{lp != null ? lp : '1'}').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
+                    </h:form>
+                </p:confirmDialog>  
+            </f:view>
+        </ui:composition>
+    </h:body>
+</html>

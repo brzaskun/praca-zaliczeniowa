@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateFirmaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firSerial}" for="firSerial" />
+                    <h:inputText id="firSerial" value="#{firmaController.selected.firSerial}" title="#{bundle.CreateFirmaTitle_firSerial}" required="true" requiredMessage="#{bundle.CreateFirmaRequiredMessage_firSerial}"/>
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNazwaSkr}" for="firNazwaSkr" />
+                    <h:inputText id="firNazwaSkr" value="#{firmaController.selected.firNazwaSkr}" title="#{bundle.CreateFirmaTitle_firNazwaSkr}" required="true" requiredMessage="#{bundle.CreateFirmaRequiredMessage_firNazwaSkr}"/>
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNazwaPel}" for="firNazwaPel" />
+                    <h:inputText id="firNazwaPel" value="#{firmaController.selected.firNazwaPel}" title="#{bundle.CreateFirmaTitle_firNazwaPel}" required="true" requiredMessage="#{bundle.CreateFirmaRequiredMessage_firNazwaPel}"/>
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNip}" for="firNip" />
+                    <h:inputText id="firNip" value="#{firmaController.selected.firNip}" title="#{bundle.CreateFirmaTitle_firNip}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firRegon}" for="firRegon" />
+                    <h:inputText id="firRegon" value="#{firmaController.selected.firRegon}" title="#{bundle.CreateFirmaTitle_firRegon}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firPanSerial}" for="firPanSerial" />
+                    <h:inputText id="firPanSerial" value="#{firmaController.selected.firPanSerial}" title="#{bundle.CreateFirmaTitle_firPanSerial}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firMiaSerial}" for="firMiaSerial" />
+                    <h:inputText id="firMiaSerial" value="#{firmaController.selected.firMiaSerial}" title="#{bundle.CreateFirmaTitle_firMiaSerial}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firKod}" for="firKod" />
+                    <h:inputText id="firKod" value="#{firmaController.selected.firKod}" title="#{bundle.CreateFirmaTitle_firKod}" required="true" requiredMessage="#{bundle.CreateFirmaRequiredMessage_firKod}"/>
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firUlica}" for="firUlica" />
+                    <h:inputText id="firUlica" value="#{firmaController.selected.firUlica}" title="#{bundle.CreateFirmaTitle_firUlica}" required="true" requiredMessage="#{bundle.CreateFirmaRequiredMessage_firUlica}"/>
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDom}" for="firDom" />
+                    <h:inputText id="firDom" value="#{firmaController.selected.firDom}" title="#{bundle.CreateFirmaTitle_firDom}" required="true" requiredMessage="#{bundle.CreateFirmaRequiredMessage_firDom}"/>
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firMieszkanie}" for="firMieszkanie" />
+                    <h:inputText id="firMieszkanie" value="#{firmaController.selected.firMieszkanie}" title="#{bundle.CreateFirmaTitle_firMieszkanie}" required="true" requiredMessage="#{bundle.CreateFirmaRequiredMessage_firMieszkanie}"/>
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firTel}" for="firTel" />
+                    <h:inputText id="firTel" value="#{firmaController.selected.firTel}" title="#{bundle.CreateFirmaTitle_firTel}" required="true" requiredMessage="#{bundle.CreateFirmaRequiredMessage_firTel}"/>
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firFaks}" for="firFaks" />
+                    <h:inputText id="firFaks" value="#{firmaController.selected.firFaks}" title="#{bundle.CreateFirmaTitle_firFaks}" required="true" requiredMessage="#{bundle.CreateFirmaRequiredMessage_firFaks}"/>
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firKntSerial}" for="firKntSerial" />
+                    <h:inputText id="firKntSerial" value="#{firmaController.selected.firKntSerial}" title="#{bundle.CreateFirmaTitle_firKntSerial}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firRodzDzial}" for="firRodzDzial" />
+                    <h:inputText id="firRodzDzial" value="#{firmaController.selected.firRodzDzial}" title="#{bundle.CreateFirmaTitle_firRodzDzial}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firFakBanSerial}" for="firFakBanSerial" />
+                    <h:inputText id="firFakBanSerial" value="#{firmaController.selected.firFakBanSerial}" title="#{bundle.CreateFirmaTitle_firFakBanSerial}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firFakNrKonta}" for="firFakNrKonta" />
+                    <h:inputText id="firFakNrKonta" value="#{firmaController.selected.firFakNrKonta}" title="#{bundle.CreateFirmaTitle_firFakNrKonta}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firZapBanSerial}" for="firZapBanSerial" />
+                    <h:inputText id="firZapBanSerial" value="#{firmaController.selected.firZapBanSerial}" title="#{bundle.CreateFirmaTitle_firZapBanSerial}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firZapNrKonta}" for="firZapNrKonta" />
+                    <h:inputText id="firZapNrKonta" value="#{firmaController.selected.firZapNrKonta}" title="#{bundle.CreateFirmaTitle_firZapNrKonta}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firFakWiadom}" for="firFakWiadom" />
+                    <h:inputText id="firFakWiadom" value="#{firmaController.selected.firFakWiadom}" title="#{bundle.CreateFirmaTitle_firFakWiadom}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrFakAuto}" for="firNrFakAuto" />
+                    <h:inputText id="firNrFakAuto" value="#{firmaController.selected.firNrFakAuto}" title="#{bundle.CreateFirmaTitle_firNrFakAuto}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrFakD}" for="firNrFakD" />
+                    <h:inputText id="firNrFakD" value="#{firmaController.selected.firNrFakD}" title="#{bundle.CreateFirmaTitle_firNrFakD}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrFakDP}" for="firNrFakDP" />
+                    <h:inputText id="firNrFakDP" value="#{firmaController.selected.firNrFakDP}" title="#{bundle.CreateFirmaTitle_firNrFakDP}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrFakL}" for="firNrFakL" />
+                    <h:inputText id="firNrFakL" value="#{firmaController.selected.firNrFakL}" title="#{bundle.CreateFirmaTitle_firNrFakL}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrFakLP}" for="firNrFakLP" />
+                    <h:inputText id="firNrFakLP" value="#{firmaController.selected.firNrFakLP}" title="#{bundle.CreateFirmaTitle_firNrFakLP}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrFakS}" for="firNrFakS" />
+                    <h:inputText id="firNrFakS" value="#{firmaController.selected.firNrFakS}" title="#{bundle.CreateFirmaTitle_firNrFakS}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrFakSP}" for="firNrFakSP" />
+                    <h:inputText id="firNrFakSP" value="#{firmaController.selected.firNrFakSP}" title="#{bundle.CreateFirmaTitle_firNrFakSP}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrRachAuto}" for="firNrRachAuto" />
+                    <h:inputText id="firNrRachAuto" value="#{firmaController.selected.firNrRachAuto}" title="#{bundle.CreateFirmaTitle_firNrRachAuto}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrRachS}" for="firNrRachS" />
+                    <h:inputText id="firNrRachS" value="#{firmaController.selected.firNrRachS}" title="#{bundle.CreateFirmaTitle_firNrRachS}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDataPlatRoz}" for="firDataPlatRoz" />
+                    <h:inputText id="firDataPlatRoz" value="#{firmaController.selected.firDataPlatRoz}" title="#{bundle.CreateFirmaTitle_firDataPlatRoz}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrKRachAuto}" for="firNrKRachAuto" />
+                    <h:inputText id="firNrKRachAuto" value="#{firmaController.selected.firNrKRachAuto}" title="#{bundle.CreateFirmaTitle_firNrKRachAuto}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrKRachS}" for="firNrKRachS" />
+                    <h:inputText id="firNrKRachS" value="#{firmaController.selected.firNrKRachS}" title="#{bundle.CreateFirmaTitle_firNrKRachS}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrKFakAuto}" for="firNrKFakAuto" />
+                    <h:inputText id="firNrKFakAuto" value="#{firmaController.selected.firNrKFakAuto}" title="#{bundle.CreateFirmaTitle_firNrKFakAuto}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrKFakS}" for="firNrKFakS" />
+                    <h:inputText id="firNrKFakS" value="#{firmaController.selected.firNrKFakS}" title="#{bundle.CreateFirmaTitle_firNrKFakS}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrRachSP}" for="firNrRachSP" />
+                    <h:inputText id="firNrRachSP" value="#{firmaController.selected.firNrRachSP}" title="#{bundle.CreateFirmaTitle_firNrRachSP}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrRachD}" for="firNrRachD" />
+                    <h:inputText id="firNrRachD" value="#{firmaController.selected.firNrRachD}" title="#{bundle.CreateFirmaTitle_firNrRachD}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrRachDP}" for="firNrRachDP" />
+                    <h:inputText id="firNrRachDP" value="#{firmaController.selected.firNrRachDP}" title="#{bundle.CreateFirmaTitle_firNrRachDP}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrRachL}" for="firNrRachL" />
+                    <h:inputText id="firNrRachL" value="#{firmaController.selected.firNrRachL}" title="#{bundle.CreateFirmaTitle_firNrRachL}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrRachLP}" for="firNrRachLP" />
+                    <h:inputText id="firNrRachLP" value="#{firmaController.selected.firNrRachLP}" title="#{bundle.CreateFirmaTitle_firNrRachLP}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrKRachSP}" for="firNrKRachSP" />
+                    <h:inputText id="firNrKRachSP" value="#{firmaController.selected.firNrKRachSP}" title="#{bundle.CreateFirmaTitle_firNrKRachSP}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrKRachD}" for="firNrKRachD" />
+                    <h:inputText id="firNrKRachD" value="#{firmaController.selected.firNrKRachD}" title="#{bundle.CreateFirmaTitle_firNrKRachD}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrKRachDP}" for="firNrKRachDP" />
+                    <h:inputText id="firNrKRachDP" value="#{firmaController.selected.firNrKRachDP}" title="#{bundle.CreateFirmaTitle_firNrKRachDP}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrKRachL}" for="firNrKRachL" />
+                    <h:inputText id="firNrKRachL" value="#{firmaController.selected.firNrKRachL}" title="#{bundle.CreateFirmaTitle_firNrKRachL}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrKRachLP}" for="firNrKRachLP" />
+                    <h:inputText id="firNrKRachLP" value="#{firmaController.selected.firNrKRachLP}" title="#{bundle.CreateFirmaTitle_firNrKRachLP}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrKFakSP}" for="firNrKFakSP" />
+                    <h:inputText id="firNrKFakSP" value="#{firmaController.selected.firNrKFakSP}" title="#{bundle.CreateFirmaTitle_firNrKFakSP}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrKFakD}" for="firNrKFakD" />
+                    <h:inputText id="firNrKFakD" value="#{firmaController.selected.firNrKFakD}" title="#{bundle.CreateFirmaTitle_firNrKFakD}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrKFakDP}" for="firNrKFakDP" />
+                    <h:inputText id="firNrKFakDP" value="#{firmaController.selected.firNrKFakDP}" title="#{bundle.CreateFirmaTitle_firNrKFakDP}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrKFakL}" for="firNrKFakL" />
+                    <h:inputText id="firNrKFakL" value="#{firmaController.selected.firNrKFakL}" title="#{bundle.CreateFirmaTitle_firNrKFakL}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrKFakLP}" for="firNrKFakLP" />
+                    <h:inputText id="firNrKFakLP" value="#{firmaController.selected.firNrKFakLP}" title="#{bundle.CreateFirmaTitle_firNrKFakLP}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrZwAuto}" for="firNrZwAuto" />
+                    <h:inputText id="firNrZwAuto" value="#{firmaController.selected.firNrZwAuto}" title="#{bundle.CreateFirmaTitle_firNrZwAuto}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrZwS}" for="firNrZwS" />
+                    <h:inputText id="firNrZwS" value="#{firmaController.selected.firNrZwS}" title="#{bundle.CreateFirmaTitle_firNrZwS}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrZwSP}" for="firNrZwSP" />
+                    <h:inputText id="firNrZwSP" value="#{firmaController.selected.firNrZwSP}" title="#{bundle.CreateFirmaTitle_firNrZwSP}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrZwD}" for="firNrZwD" />
+                    <h:inputText id="firNrZwD" value="#{firmaController.selected.firNrZwD}" title="#{bundle.CreateFirmaTitle_firNrZwD}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrZwDP}" for="firNrZwDP" />
+                    <h:inputText id="firNrZwDP" value="#{firmaController.selected.firNrZwDP}" title="#{bundle.CreateFirmaTitle_firNrZwDP}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrZwL}" for="firNrZwL" />
+                    <h:inputText id="firNrZwL" value="#{firmaController.selected.firNrZwL}" title="#{bundle.CreateFirmaTitle_firNrZwL}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrZwLP}" for="firNrZwLP" />
+                    <h:inputText id="firNrZwLP" value="#{firmaController.selected.firNrZwLP}" title="#{bundle.CreateFirmaTitle_firNrZwLP}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrWzAuto}" for="firNrWzAuto" />
+                    <h:inputText id="firNrWzAuto" value="#{firmaController.selected.firNrWzAuto}" title="#{bundle.CreateFirmaTitle_firNrWzAuto}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrWzS}" for="firNrWzS" />
+                    <h:inputText id="firNrWzS" value="#{firmaController.selected.firNrWzS}" title="#{bundle.CreateFirmaTitle_firNrWzS}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrWzSP}" for="firNrWzSP" />
+                    <h:inputText id="firNrWzSP" value="#{firmaController.selected.firNrWzSP}" title="#{bundle.CreateFirmaTitle_firNrWzSP}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrWzD}" for="firNrWzD" />
+                    <h:inputText id="firNrWzD" value="#{firmaController.selected.firNrWzD}" title="#{bundle.CreateFirmaTitle_firNrWzD}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrWzDP}" for="firNrWzDP" />
+                    <h:inputText id="firNrWzDP" value="#{firmaController.selected.firNrWzDP}" title="#{bundle.CreateFirmaTitle_firNrWzDP}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrWzL}" for="firNrWzL" />
+                    <h:inputText id="firNrWzL" value="#{firmaController.selected.firNrWzL}" title="#{bundle.CreateFirmaTitle_firNrWzL}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrWzLP}" for="firNrWzLP" />
+                    <h:inputText id="firNrWzLP" value="#{firmaController.selected.firNrWzLP}" title="#{bundle.CreateFirmaTitle_firNrWzLP}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firFakLogo}" for="firFakLogo" />
+                    <h:inputText id="firFakLogo" value="#{firmaController.selected.firFakLogo}" title="#{bundle.CreateFirmaTitle_firFakLogo}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firRachLogo}" for="firRachLogo" />
+                    <h:inputText id="firRachLogo" value="#{firmaController.selected.firRachLogo}" title="#{bundle.CreateFirmaTitle_firRachLogo}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firKFakLogo}" for="firKFakLogo" />
+                    <h:inputText id="firKFakLogo" value="#{firmaController.selected.firKFakLogo}" title="#{bundle.CreateFirmaTitle_firKFakLogo}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firKRachLogo}" for="firKRachLogo" />
+                    <h:inputText id="firKRachLogo" value="#{firmaController.selected.firKRachLogo}" title="#{bundle.CreateFirmaTitle_firKRachLogo}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firZwLogo}" for="firZwLogo" />
+                    <h:inputText id="firZwLogo" value="#{firmaController.selected.firZwLogo}" title="#{bundle.CreateFirmaTitle_firZwLogo}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firWzLogo}" for="firWzLogo" />
+                    <h:inputText id="firWzLogo" value="#{firmaController.selected.firWzLogo}" title="#{bundle.CreateFirmaTitle_firWzLogo}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrPzAuto}" for="firNrPzAuto" />
+                    <h:inputText id="firNrPzAuto" value="#{firmaController.selected.firNrPzAuto}" title="#{bundle.CreateFirmaTitle_firNrPzAuto}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrPzD}" for="firNrPzD" />
+                    <h:inputText id="firNrPzD" value="#{firmaController.selected.firNrPzD}" title="#{bundle.CreateFirmaTitle_firNrPzD}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrPzDP}" for="firNrPzDP" />
+                    <h:inputText id="firNrPzDP" value="#{firmaController.selected.firNrPzDP}" title="#{bundle.CreateFirmaTitle_firNrPzDP}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrPzL}" for="firNrPzL" />
+                    <h:inputText id="firNrPzL" value="#{firmaController.selected.firNrPzL}" title="#{bundle.CreateFirmaTitle_firNrPzL}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrPzLP}" for="firNrPzLP" />
+                    <h:inputText id="firNrPzLP" value="#{firmaController.selected.firNrPzLP}" title="#{bundle.CreateFirmaTitle_firNrPzLP}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrPzS}" for="firNrPzS" />
+                    <h:inputText id="firNrPzS" value="#{firmaController.selected.firNrPzS}" title="#{bundle.CreateFirmaTitle_firNrPzS}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrPzSP}" for="firNrPzSP" />
+                    <h:inputText id="firNrPzSP" value="#{firmaController.selected.firNrPzSP}" title="#{bundle.CreateFirmaTitle_firNrPzSP}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firPzLogo}" for="firPzLogo" />
+                    <h:inputText id="firPzLogo" value="#{firmaController.selected.firPzLogo}" title="#{bundle.CreateFirmaTitle_firPzLogo}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firTypOsoby}" for="firTypOsoby" />
+                    <h:inputText id="firTypOsoby" value="#{firmaController.selected.firTypOsoby}" title="#{bundle.CreateFirmaTitle_firTypOsoby}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firPesel}" for="firPesel" />
+                    <h:inputText id="firPesel" value="#{firmaController.selected.firPesel}" title="#{bundle.CreateFirmaTitle_firPesel}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firRodzajDok}" for="firRodzajDok" />
+                    <h:inputText id="firRodzajDok" value="#{firmaController.selected.firRodzajDok}" title="#{bundle.CreateFirmaTitle_firRodzajDok}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firSeriaNr}" for="firSeriaNr" />
+                    <h:inputText id="firSeriaNr" value="#{firmaController.selected.firSeriaNr}" title="#{bundle.CreateFirmaTitle_firSeriaNr}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNazwisko}" for="firNazwisko" />
+                    <h:inputText id="firNazwisko" value="#{firmaController.selected.firNazwisko}" title="#{bundle.CreateFirmaTitle_firNazwisko}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firImie1}" for="firImie1" />
+                    <h:inputText id="firImie1" value="#{firmaController.selected.firImie1}" title="#{bundle.CreateFirmaTitle_firImie1}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDataUrodz}" for="firDataUrodz" />
+                    <h:inputText id="firDataUrodz" value="#{firmaController.selected.firDataUrodz}" title="#{bundle.CreateFirmaTitle_firDataUrodz}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firGmina}" for="firGmina" />
+                    <h:inputText id="firGmina" value="#{firmaController.selected.firGmina}" title="#{bundle.CreateFirmaTitle_firGmina}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firUrzSerial}" for="firUrzSerial" />
+                    <h:inputText id="firUrzSerial" value="#{firmaController.selected.firUrzSerial}" title="#{bundle.CreateFirmaTitle_firUrzSerial}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firPowiat}" for="firPowiat" />
+                    <h:inputText id="firPowiat" value="#{firmaController.selected.firPowiat}" title="#{bundle.CreateFirmaTitle_firPowiat}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firPoczta}" for="firPoczta" />
+                    <h:inputText id="firPoczta" value="#{firmaController.selected.firPoczta}" title="#{bundle.CreateFirmaTitle_firPoczta}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firWojewodztwo}" for="firWojewodztwo" />
+                    <h:inputText id="firWojewodztwo" value="#{firmaController.selected.firWojewodztwo}" title="#{bundle.CreateFirmaTitle_firWojewodztwo}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firKodTerm}" for="firKodTerm" />
+                    <h:inputText id="firKodTerm" value="#{firmaController.selected.firKodTerm}" title="#{bundle.CreateFirmaTitle_firKodTerm}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firZaklPrChron}" for="firZaklPrChron" />
+                    <h:inputText id="firZaklPrChron" value="#{firmaController.selected.firZaklPrChron}" title="#{bundle.CreateFirmaTitle_firZaklPrChron}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firUbezpWyp}" for="firUbezpWyp" />
+                    <h:inputText id="firUbezpWyp" value="#{firmaController.selected.firUbezpWyp}" title="#{bundle.CreateFirmaTitle_firUbezpWyp}" required="true" requiredMessage="#{bundle.CreateFirmaRequiredMessage_firUbezpWyp}"/>
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firUprSwUbChor}" for="firUprSwUbChor" />
+                    <h:inputText id="firUprSwUbChor" value="#{firmaController.selected.firUprSwUbChor}" title="#{bundle.CreateFirmaTitle_firUprSwUbChor}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firImieOjca}" for="firImieOjca" />
+                    <h:inputText id="firImieOjca" value="#{firmaController.selected.firImieOjca}" title="#{bundle.CreateFirmaTitle_firImieOjca}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firImieMatki}" for="firImieMatki" />
+                    <h:inputText id="firImieMatki" value="#{firmaController.selected.firImieMatki}" title="#{bundle.CreateFirmaTitle_firImieMatki}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firOptSerialPrac}" for="firOptSerialPrac" />
+                    <h:inputText id="firOptSerialPrac" value="#{firmaController.selected.firOptSerialPrac}" title="#{bundle.CreateFirmaTitle_firOptSerialPrac}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firOptSerialOsob}" for="firOptSerialOsob" />
+                    <h:inputText id="firOptSerialOsob" value="#{firmaController.selected.firOptSerialOsob}" title="#{bundle.CreateFirmaTitle_firOptSerialOsob}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firOptSerialWlas}" for="firOptSerialWlas" />
+                    <h:inputText id="firOptSerialWlas" value="#{firmaController.selected.firOptSerialWlas}" title="#{bundle.CreateFirmaTitle_firOptSerialWlas}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firTestowa}" for="firTestowa" />
+                    <h:inputText id="firTestowa" value="#{firmaController.selected.firTestowa}" title="#{bundle.CreateFirmaTitle_firTestowa}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firWiadomPar}" for="firWiadomPar" />
+                    <h:inputText id="firWiadomPar" value="#{firmaController.selected.firWiadomPar}" title="#{bundle.CreateFirmaTitle_firWiadomPar}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firKonNrIdNaDok}" for="firKonNrIdNaDok" />
+                    <h:inputText id="firKonNrIdNaDok" value="#{firmaController.selected.firKonNrIdNaDok}" title="#{bundle.CreateFirmaTitle_firKonNrIdNaDok}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firEkd}" for="firEkd" />
+                    <h:inputText id="firEkd" value="#{firmaController.selected.firEkd}" title="#{bundle.CreateFirmaTitle_firEkd}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firJednBudz}" for="firJednBudz" />
+                    <h:inputText id="firJednBudz" value="#{firmaController.selected.firJednBudz}" title="#{bundle.CreateFirmaTitle_firJednBudz}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firJednPozaBudz}" for="firJednPozaBudz" />
+                    <h:inputText id="firJednPozaBudz" value="#{firmaController.selected.firJednPozaBudz}" title="#{bundle.CreateFirmaTitle_firJednPozaBudz}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firOrgZal}" for="firOrgZal" />
+                    <h:inputText id="firOrgZal" value="#{firmaController.selected.firOrgZal}" title="#{bundle.CreateFirmaTitle_firOrgZal}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firRejestr}" for="firRejestr" />
+                    <h:inputText id="firRejestr" value="#{firmaController.selected.firRejestr}" title="#{bundle.CreateFirmaTitle_firRejestr}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firRejestrData}" for="firRejestrData" />
+                    <h:inputText id="firRejestrData" value="#{firmaController.selected.firRejestrData}" title="#{bundle.CreateFirmaTitle_firRejestrData}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firRejestrNr}" for="firRejestrNr" />
+                    <h:inputText id="firRejestrNr" value="#{firmaController.selected.firRejestrNr}" title="#{bundle.CreateFirmaTitle_firRejestrNr}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firRejestrNazwaO}" for="firRejestrNazwaO" />
+                    <h:inputText id="firRejestrNazwaO" value="#{firmaController.selected.firRejestrNazwaO}" title="#{bundle.CreateFirmaTitle_firRejestrNazwaO}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDataObowUb}" for="firDataObowUb" />
+                    <h:inputText id="firDataObowUb" value="#{firmaController.selected.firDataObowUb}" title="#{bundle.CreateFirmaTitle_firDataObowUb}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDataRozp}" for="firDataRozp" />
+                    <h:inputText id="firDataRozp" value="#{firmaController.selected.firDataRozp}" title="#{bundle.CreateFirmaTitle_firDataRozp}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firZaPrChrDOt}" for="firZaPrChrDOt" />
+                    <h:inputText id="firZaPrChrDOt" value="#{firmaController.selected.firZaPrChrDOt}" title="#{bundle.CreateFirmaTitle_firZaPrChrDOt}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firZaPrChrDUt}" for="firZaPrChrDUt" />
+                    <h:inputText id="firZaPrChrDUt" value="#{firmaController.selected.firZaPrChrDUt}" title="#{bundle.CreateFirmaTitle_firZaPrChrDUt}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firAdrDzialInny}" for="firAdrDzialInny" />
+                    <h:inputText id="firAdrDzialInny" value="#{firmaController.selected.firAdrDzialInny}" title="#{bundle.CreateFirmaTitle_firAdrDzialInny}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firKod2}" for="firKod2" />
+                    <h:inputText id="firKod2" value="#{firmaController.selected.firKod2}" title="#{bundle.CreateFirmaTitle_firKod2}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firMiaSerial2}" for="firMiaSerial2" />
+                    <h:inputText id="firMiaSerial2" value="#{firmaController.selected.firMiaSerial2}" title="#{bundle.CreateFirmaTitle_firMiaSerial2}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firGmina2}" for="firGmina2" />
+                    <h:inputText id="firGmina2" value="#{firmaController.selected.firGmina2}" title="#{bundle.CreateFirmaTitle_firGmina2}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firUlica2}" for="firUlica2" />
+                    <h:inputText id="firUlica2" value="#{firmaController.selected.firUlica2}" title="#{bundle.CreateFirmaTitle_firUlica2}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDom2}" for="firDom2" />
+                    <h:inputText id="firDom2" value="#{firmaController.selected.firDom2}" title="#{bundle.CreateFirmaTitle_firDom2}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firMieszkanie2}" for="firMieszkanie2" />
+                    <h:inputText id="firMieszkanie2" value="#{firmaController.selected.firMieszkanie2}" title="#{bundle.CreateFirmaTitle_firMieszkanie2}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firTel2}" for="firTel2" />
+                    <h:inputText id="firTel2" value="#{firmaController.selected.firTel2}" title="#{bundle.CreateFirmaTitle_firTel2}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firFaks2}" for="firFaks2" />
+                    <h:inputText id="firFaks2" value="#{firmaController.selected.firFaks2}" title="#{bundle.CreateFirmaTitle_firFaks2}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firPanSerial2}" for="firPanSerial2" />
+                    <h:inputText id="firPanSerial2" value="#{firmaController.selected.firPanSerial2}" title="#{bundle.CreateFirmaTitle_firPanSerial2}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firPowiat2}" for="firPowiat2" />
+                    <h:inputText id="firPowiat2" value="#{firmaController.selected.firPowiat2}" title="#{bundle.CreateFirmaTitle_firPowiat2}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firPoczta2}" for="firPoczta2" />
+                    <h:inputText id="firPoczta2" value="#{firmaController.selected.firPoczta2}" title="#{bundle.CreateFirmaTitle_firPoczta2}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firWojewodztwo2}" for="firWojewodztwo2" />
+                    <h:inputText id="firWojewodztwo2" value="#{firmaController.selected.firWojewodztwo2}" title="#{bundle.CreateFirmaTitle_firWojewodztwo2}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firEmail}" for="firEmail" />
+                    <h:inputText id="firEmail" value="#{firmaController.selected.firEmail}" title="#{bundle.CreateFirmaTitle_firEmail}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firEmail2}" for="firEmail2" />
+                    <h:inputText id="firEmail2" value="#{firmaController.selected.firEmail2}" title="#{bundle.CreateFirmaTitle_firEmail2}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firPanSerialK}" for="firPanSerialK" />
+                    <h:inputText id="firPanSerialK" value="#{firmaController.selected.firPanSerialK}" title="#{bundle.CreateFirmaTitle_firPanSerialK}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firKodK}" for="firKodK" />
+                    <h:inputText id="firKodK" value="#{firmaController.selected.firKodK}" title="#{bundle.CreateFirmaTitle_firKodK}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firMiaSerialK}" for="firMiaSerialK" />
+                    <h:inputText id="firMiaSerialK" value="#{firmaController.selected.firMiaSerialK}" title="#{bundle.CreateFirmaTitle_firMiaSerialK}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firUlicaK}" for="firUlicaK" />
+                    <h:inputText id="firUlicaK" value="#{firmaController.selected.firUlicaK}" title="#{bundle.CreateFirmaTitle_firUlicaK}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDomK}" for="firDomK" />
+                    <h:inputText id="firDomK" value="#{firmaController.selected.firDomK}" title="#{bundle.CreateFirmaTitle_firDomK}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firMieszkanieK}" for="firMieszkanieK" />
+                    <h:inputText id="firMieszkanieK" value="#{firmaController.selected.firMieszkanieK}" title="#{bundle.CreateFirmaTitle_firMieszkanieK}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firTelK}" for="firTelK" />
+                    <h:inputText id="firTelK" value="#{firmaController.selected.firTelK}" title="#{bundle.CreateFirmaTitle_firTelK}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firFaksK}" for="firFaksK" />
+                    <h:inputText id="firFaksK" value="#{firmaController.selected.firFaksK}" title="#{bundle.CreateFirmaTitle_firFaksK}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firEmailK}" for="firEmailK" />
+                    <h:inputText id="firEmailK" value="#{firmaController.selected.firEmailK}" title="#{bundle.CreateFirmaTitle_firEmailK}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firSkrytkaK}" for="firSkrytkaK" />
+                    <h:inputText id="firSkrytkaK" value="#{firmaController.selected.firSkrytkaK}" title="#{bundle.CreateFirmaTitle_firSkrytkaK}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firTeletransK}" for="firTeletransK" />
+                    <h:inputText id="firTeletransK" value="#{firmaController.selected.firTeletransK}" title="#{bundle.CreateFirmaTitle_firTeletransK}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firGminaK}" for="firGminaK" />
+                    <h:inputText id="firGminaK" value="#{firmaController.selected.firGminaK}" title="#{bundle.CreateFirmaTitle_firGminaK}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firPowiatK}" for="firPowiatK" />
+                    <h:inputText id="firPowiatK" value="#{firmaController.selected.firPowiatK}" title="#{bundle.CreateFirmaTitle_firPowiatK}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firPocztaK}" for="firPocztaK" />
+                    <h:inputText id="firPocztaK" value="#{firmaController.selected.firPocztaK}" title="#{bundle.CreateFirmaTitle_firPocztaK}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firWojewodztwoK}" for="firWojewodztwoK" />
+                    <h:inputText id="firWojewodztwoK" value="#{firmaController.selected.firWojewodztwoK}" title="#{bundle.CreateFirmaTitle_firWojewodztwoK}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firBiuroNip}" for="firBiuroNip" />
+                    <h:inputText id="firBiuroNip" value="#{firmaController.selected.firBiuroNip}" title="#{bundle.CreateFirmaTitle_firBiuroNip}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firBiuroRegon}" for="firBiuroRegon" />
+                    <h:inputText id="firBiuroRegon" value="#{firmaController.selected.firBiuroRegon}" title="#{bundle.CreateFirmaTitle_firBiuroRegon}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firBiuroNazwaSkr}" for="firBiuroNazwaSkr" />
+                    <h:inputText id="firBiuroNazwaSkr" value="#{firmaController.selected.firBiuroNazwaSkr}" title="#{bundle.CreateFirmaTitle_firBiuroNazwaSkr}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firKodUprawn}" for="firKodUprawn" />
+                    <h:inputText id="firKodUprawn" value="#{firmaController.selected.firKodUprawn}" title="#{bundle.CreateFirmaTitle_firKodUprawn}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDataUprawn}" for="firDataUprawn" />
+                    <h:inputText id="firDataUprawn" value="#{firmaController.selected.firDataUprawn}" title="#{bundle.CreateFirmaTitle_firDataUprawn}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firPanSerialD}" for="firPanSerialD" />
+                    <h:inputText id="firPanSerialD" value="#{firmaController.selected.firPanSerialD}" title="#{bundle.CreateFirmaTitle_firPanSerialD}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firKodD}" for="firKodD" />
+                    <h:inputText id="firKodD" value="#{firmaController.selected.firKodD}" title="#{bundle.CreateFirmaTitle_firKodD}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firMiaSerialD}" for="firMiaSerialD" />
+                    <h:inputText id="firMiaSerialD" value="#{firmaController.selected.firMiaSerialD}" title="#{bundle.CreateFirmaTitle_firMiaSerialD}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firUlicaD}" for="firUlicaD" />
+                    <h:inputText id="firUlicaD" value="#{firmaController.selected.firUlicaD}" title="#{bundle.CreateFirmaTitle_firUlicaD}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDomD}" for="firDomD" />
+                    <h:inputText id="firDomD" value="#{firmaController.selected.firDomD}" title="#{bundle.CreateFirmaTitle_firDomD}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firMieszkanieD}" for="firMieszkanieD" />
+                    <h:inputText id="firMieszkanieD" value="#{firmaController.selected.firMieszkanieD}" title="#{bundle.CreateFirmaTitle_firMieszkanieD}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firTelD}" for="firTelD" />
+                    <h:inputText id="firTelD" value="#{firmaController.selected.firTelD}" title="#{bundle.CreateFirmaTitle_firTelD}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firFaksD}" for="firFaksD" />
+                    <h:inputText id="firFaksD" value="#{firmaController.selected.firFaksD}" title="#{bundle.CreateFirmaTitle_firFaksD}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firGminaD}" for="firGminaD" />
+                    <h:inputText id="firGminaD" value="#{firmaController.selected.firGminaD}" title="#{bundle.CreateFirmaTitle_firGminaD}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firPowiatD}" for="firPowiatD" />
+                    <h:inputText id="firPowiatD" value="#{firmaController.selected.firPowiatD}" title="#{bundle.CreateFirmaTitle_firPowiatD}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firPocztaD}" for="firPocztaD" />
+                    <h:inputText id="firPocztaD" value="#{firmaController.selected.firPocztaD}" title="#{bundle.CreateFirmaTitle_firPocztaD}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firWojewodztwoD}" for="firWojewodztwoD" />
+                    <h:inputText id="firWojewodztwoD" value="#{firmaController.selected.firWojewodztwoD}" title="#{bundle.CreateFirmaTitle_firWojewodztwoD}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firBanSerial3}" for="firBanSerial3" />
+                    <h:inputText id="firBanSerial3" value="#{firmaController.selected.firBanSerial3}" title="#{bundle.CreateFirmaTitle_firBanSerial3}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrKonta3}" for="firNrKonta3" />
+                    <h:inputText id="firNrKonta3" value="#{firmaController.selected.firNrKonta3}" title="#{bundle.CreateFirmaTitle_firNrKonta3}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firBanSerial4}" for="firBanSerial4" />
+                    <h:inputText id="firBanSerial4" value="#{firmaController.selected.firBanSerial4}" title="#{bundle.CreateFirmaTitle_firBanSerial4}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNrKonta4}" for="firNrKonta4" />
+                    <h:inputText id="firNrKonta4" value="#{firmaController.selected.firNrKonta4}" title="#{bundle.CreateFirmaTitle_firNrKonta4}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firMiejsceUr}" for="firMiejsceUr" />
+                    <h:inputText id="firMiejsceUr" value="#{firmaController.selected.firMiejsceUr}" title="#{bundle.CreateFirmaTitle_firMiejsceUr}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firObywatelstwo}" for="firObywatelstwo" />
+                    <h:inputText id="firObywatelstwo" value="#{firmaController.selected.firObywatelstwo}" title="#{bundle.CreateFirmaTitle_firObywatelstwo}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firImie2}" for="firImie2" />
+                    <h:inputText id="firImie2" value="#{firmaController.selected.firImie2}" title="#{bundle.CreateFirmaTitle_firImie2}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firKodRodzUpr}" for="firKodRodzUpr" />
+                    <h:inputText id="firKodRodzUpr" value="#{firmaController.selected.firKodRodzUpr}" title="#{bundle.CreateFirmaTitle_firKodRodzUpr}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firWiadomParTresc}" for="firWiadomParTresc" />
+                    <h:inputText id="firWiadomParTresc" value="#{firmaController.selected.firWiadomParTresc}" title="#{bundle.CreateFirmaTitle_firWiadomParTresc}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firAdrTsam2}" for="firAdrTsam2" />
+                    <h:inputText id="firAdrTsam2" value="#{firmaController.selected.firAdrTsam2}" title="#{bundle.CreateFirmaTitle_firAdrTsam2}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firAdrTsamK}" for="firAdrTsamK" />
+                    <h:inputText id="firAdrTsamK" value="#{firmaController.selected.firAdrTsamK}" title="#{bundle.CreateFirmaTitle_firAdrTsamK}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firAdrTsamD}" for="firAdrTsamD" />
+                    <h:inputText id="firAdrTsamD" value="#{firmaController.selected.firAdrTsamD}" title="#{bundle.CreateFirmaTitle_firAdrTsamD}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar1}" for="firDodChar1" />
+                    <h:inputText id="firDodChar1" value="#{firmaController.selected.firDodChar1}" title="#{bundle.CreateFirmaTitle_firDodChar1}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar2}" for="firDodChar2" />
+                    <h:inputText id="firDodChar2" value="#{firmaController.selected.firDodChar2}" title="#{bundle.CreateFirmaTitle_firDodChar2}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar3}" for="firDodChar3" />
+                    <h:inputText id="firDodChar3" value="#{firmaController.selected.firDodChar3}" title="#{bundle.CreateFirmaTitle_firDodChar3}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar4}" for="firDodChar4" />
+                    <h:inputText id="firDodChar4" value="#{firmaController.selected.firDodChar4}" title="#{bundle.CreateFirmaTitle_firDodChar4}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar5}" for="firDodChar5" />
+                    <h:inputText id="firDodChar5" value="#{firmaController.selected.firDodChar5}" title="#{bundle.CreateFirmaTitle_firDodChar5}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar6}" for="firDodChar6" />
+                    <h:inputText id="firDodChar6" value="#{firmaController.selected.firDodChar6}" title="#{bundle.CreateFirmaTitle_firDodChar6}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar7}" for="firDodChar7" />
+                    <h:inputText id="firDodChar7" value="#{firmaController.selected.firDodChar7}" title="#{bundle.CreateFirmaTitle_firDodChar7}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar8}" for="firDodChar8" />
+                    <h:inputText id="firDodChar8" value="#{firmaController.selected.firDodChar8}" title="#{bundle.CreateFirmaTitle_firDodChar8}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodNum1}" for="firDodNum1" />
+                    <h:inputText id="firDodNum1" value="#{firmaController.selected.firDodNum1}" title="#{bundle.CreateFirmaTitle_firDodNum1}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodNum2}" for="firDodNum2" />
+                    <h:inputText id="firDodNum2" value="#{firmaController.selected.firDodNum2}" title="#{bundle.CreateFirmaTitle_firDodNum2}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodNum3}" for="firDodNum3" />
+                    <h:inputText id="firDodNum3" value="#{firmaController.selected.firDodNum3}" title="#{bundle.CreateFirmaTitle_firDodNum3}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodNum4}" for="firDodNum4" />
+                    <h:inputText id="firDodNum4" value="#{firmaController.selected.firDodNum4}" title="#{bundle.CreateFirmaTitle_firDodNum4}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodNum5}" for="firDodNum5" />
+                    <h:inputText id="firDodNum5" value="#{firmaController.selected.firDodNum5}" title="#{bundle.CreateFirmaTitle_firDodNum5}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodNum6}" for="firDodNum6" />
+                    <h:inputText id="firDodNum6" value="#{firmaController.selected.firDodNum6}" title="#{bundle.CreateFirmaTitle_firDodNum6}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodNum7}" for="firDodNum7" />
+                    <h:inputText id="firDodNum7" value="#{firmaController.selected.firDodNum7}" title="#{bundle.CreateFirmaTitle_firDodNum7}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodNum8}" for="firDodNum8" />
+                    <h:inputText id="firDodNum8" value="#{firmaController.selected.firDodNum8}" title="#{bundle.CreateFirmaTitle_firDodNum8}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firBiuro}" for="firBiuro" />
+                    <h:inputText id="firBiuro" value="#{firmaController.selected.firBiuro}" title="#{bundle.CreateFirmaTitle_firBiuro}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firUbezpWypC}" for="firUbezpWypC" />
+                    <h:inputText id="firUbezpWypC" value="#{firmaController.selected.firUbezpWypC}" title="#{bundle.CreateFirmaTitle_firUbezpWypC}" required="true" requiredMessage="#{bundle.CreateFirmaRequiredMessage_firUbezpWypC}"/>
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firUbezpFpC}" for="firUbezpFpC" />
+                    <h:inputText id="firUbezpFpC" value="#{firmaController.selected.firUbezpFpC}" title="#{bundle.CreateFirmaTitle_firUbezpFpC}" required="true" requiredMessage="#{bundle.CreateFirmaRequiredMessage_firUbezpFpC}"/>
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firUbezpFgspC}" for="firUbezpFgspC" />
+                    <h:inputText id="firUbezpFgspC" value="#{firmaController.selected.firUbezpFgspC}" title="#{bundle.CreateFirmaTitle_firUbezpFgspC}" required="true" requiredMessage="#{bundle.CreateFirmaRequiredMessage_firUbezpFgspC}"/>
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firUbezpFp}" for="firUbezpFp" />
+                    <h:inputText id="firUbezpFp" value="#{firmaController.selected.firUbezpFp}" title="#{bundle.CreateFirmaTitle_firUbezpFp}" required="true" requiredMessage="#{bundle.CreateFirmaRequiredMessage_firUbezpFp}"/>
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firUbezpFgsp}" for="firUbezpFgsp" />
+                    <h:inputText id="firUbezpFgsp" value="#{firmaController.selected.firUbezpFgsp}" title="#{bundle.CreateFirmaTitle_firUbezpFgsp}" required="true" requiredMessage="#{bundle.CreateFirmaRequiredMessage_firUbezpFgsp}"/>
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firOptSerialWspo}" for="firOptSerialWspo" />
+                    <h:inputText id="firOptSerialWspo" value="#{firmaController.selected.firOptSerialWspo}" title="#{bundle.CreateFirmaTitle_firOptSerialWspo}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firOptSerialDod1}" for="firOptSerialDod1" />
+                    <h:inputText id="firOptSerialDod1" value="#{firmaController.selected.firOptSerialDod1}" title="#{bundle.CreateFirmaTitle_firOptSerialDod1}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firOptSerialDod2}" for="firOptSerialDod2" />
+                    <h:inputText id="firOptSerialDod2" value="#{firmaController.selected.firOptSerialDod2}" title="#{bundle.CreateFirmaTitle_firOptSerialDod2}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodSerial1}" for="firDodSerial1" />
+                    <h:inputText id="firDodSerial1" value="#{firmaController.selected.firDodSerial1}" title="#{bundle.CreateFirmaTitle_firDodSerial1}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodVchar1}" for="firDodVchar1" />
+                    <h:inputText id="firDodVchar1" value="#{firmaController.selected.firDodVchar1}" title="#{bundle.CreateFirmaTitle_firDodVchar1}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodSerial2}" for="firDodSerial2" />
+                    <h:inputText id="firDodSerial2" value="#{firmaController.selected.firDodSerial2}" title="#{bundle.CreateFirmaTitle_firDodSerial2}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodVchar2}" for="firDodVchar2" />
+                    <h:inputText id="firDodVchar2" value="#{firmaController.selected.firDodVchar2}" title="#{bundle.CreateFirmaTitle_firDodVchar2}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar9}" for="firDodChar9" />
+                    <h:inputText id="firDodChar9" value="#{firmaController.selected.firDodChar9}" title="#{bundle.CreateFirmaTitle_firDodChar9}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar10}" for="firDodChar10" />
+                    <h:inputText id="firDodChar10" value="#{firmaController.selected.firDodChar10}" title="#{bundle.CreateFirmaTitle_firDodChar10}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar11}" for="firDodChar11" />
+                    <h:inputText id="firDodChar11" value="#{firmaController.selected.firDodChar11}" title="#{bundle.CreateFirmaTitle_firDodChar11}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar12}" for="firDodChar12" />
+                    <h:inputText id="firDodChar12" value="#{firmaController.selected.firDodChar12}" title="#{bundle.CreateFirmaTitle_firDodChar12}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar13}" for="firDodChar13" />
+                    <h:inputText id="firDodChar13" value="#{firmaController.selected.firDodChar13}" title="#{bundle.CreateFirmaTitle_firDodChar13}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar14}" for="firDodChar14" />
+                    <h:inputText id="firDodChar14" value="#{firmaController.selected.firDodChar14}" title="#{bundle.CreateFirmaTitle_firDodChar14}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar15}" for="firDodChar15" />
+                    <h:inputText id="firDodChar15" value="#{firmaController.selected.firDodChar15}" title="#{bundle.CreateFirmaTitle_firDodChar15}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar16}" for="firDodChar16" />
+                    <h:inputText id="firDodChar16" value="#{firmaController.selected.firDodChar16}" title="#{bundle.CreateFirmaTitle_firDodChar16}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodVchar3}" for="firDodVchar3" />
+                    <h:inputText id="firDodVchar3" value="#{firmaController.selected.firDodVchar3}" title="#{bundle.CreateFirmaTitle_firDodVchar3}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodVchar4}" for="firDodVchar4" />
+                    <h:inputText id="firDodVchar4" value="#{firmaController.selected.firDodVchar4}" title="#{bundle.CreateFirmaTitle_firDodVchar4}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodVchar5}" for="firDodVchar5" />
+                    <h:inputText id="firDodVchar5" value="#{firmaController.selected.firDodVchar5}" title="#{bundle.CreateFirmaTitle_firDodVchar5}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodVchar6}" for="firDodVchar6" />
+                    <h:inputText id="firDodVchar6" value="#{firmaController.selected.firDodVchar6}" title="#{bundle.CreateFirmaTitle_firDodVchar6}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firUrzSerialV}" for="firUrzSerialV" />
+                    <h:inputText id="firUrzSerialV" value="#{firmaController.selected.firUrzSerialV}" title="#{bundle.CreateFirmaTitle_firUrzSerialV}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodVchar7}" for="firDodVchar7" />
+                    <h:inputText id="firDodVchar7" value="#{firmaController.selected.firDodVchar7}" title="#{bundle.CreateFirmaTitle_firDodVchar7}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodVchar8}" for="firDodVchar8" />
+                    <h:inputText id="firDodVchar8" value="#{firmaController.selected.firDodVchar8}" title="#{bundle.CreateFirmaTitle_firDodVchar8}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodVchar9}" for="firDodVchar9" />
+                    <h:inputText id="firDodVchar9" value="#{firmaController.selected.firDodVchar9}" title="#{bundle.CreateFirmaTitle_firDodVchar9}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodVchar10}" for="firDodVchar10" />
+                    <h:inputText id="firDodVchar10" value="#{firmaController.selected.firDodVchar10}" title="#{bundle.CreateFirmaTitle_firDodVchar10}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firNusp}" for="firNusp" />
+                    <h:inputText id="firNusp" value="#{firmaController.selected.firNusp}" title="#{bundle.CreateFirmaTitle_firNusp}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar17}" for="firDodChar17" />
+                    <h:inputText id="firDodChar17" value="#{firmaController.selected.firDodChar17}" title="#{bundle.CreateFirmaTitle_firDodChar17}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar18}" for="firDodChar18" />
+                    <h:inputText id="firDodChar18" value="#{firmaController.selected.firDodChar18}" title="#{bundle.CreateFirmaTitle_firDodChar18}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar19}" for="firDodChar19" />
+                    <h:inputText id="firDodChar19" value="#{firmaController.selected.firDodChar19}" title="#{bundle.CreateFirmaTitle_firDodChar19}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar20}" for="firDodChar20" />
+                    <h:inputText id="firDodChar20" value="#{firmaController.selected.firDodChar20}" title="#{bundle.CreateFirmaTitle_firDodChar20}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar21}" for="firDodChar21" />
+                    <h:inputText id="firDodChar21" value="#{firmaController.selected.firDodChar21}" title="#{bundle.CreateFirmaTitle_firDodChar21}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar22}" for="firDodChar22" />
+                    <h:inputText id="firDodChar22" value="#{firmaController.selected.firDodChar22}" title="#{bundle.CreateFirmaTitle_firDodChar22}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar23}" for="firDodChar23" />
+                    <h:inputText id="firDodChar23" value="#{firmaController.selected.firDodChar23}" title="#{bundle.CreateFirmaTitle_firDodChar23}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodChar24}" for="firDodChar24" />
+                    <h:inputText id="firDodChar24" value="#{firmaController.selected.firDodChar24}" title="#{bundle.CreateFirmaTitle_firDodChar24}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firUstawienia}" for="firUstawienia" />
+                    <h:inputText id="firUstawienia" value="#{firmaController.selected.firUstawienia}" title="#{bundle.CreateFirmaTitle_firUstawienia}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firUstawieniaKs}" for="firUstawieniaKs" />
+                    <h:inputText id="firUstawieniaKs" value="#{firmaController.selected.firUstawieniaKs}" title="#{bundle.CreateFirmaTitle_firUstawieniaKs}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firUstawieniaKp}" for="firUstawieniaKp" />
+                    <h:inputText id="firUstawieniaKp" value="#{firmaController.selected.firUstawieniaKp}" title="#{bundle.CreateFirmaTitle_firUstawieniaKp}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodVchar11}" for="firDodVchar11" />
+                    <h:inputText id="firDodVchar11" value="#{firmaController.selected.firDodVchar11}" title="#{bundle.CreateFirmaTitle_firDodVchar11}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodVchar12}" for="firDodVchar12" />
+                    <h:inputText id="firDodVchar12" value="#{firmaController.selected.firDodVchar12}" title="#{bundle.CreateFirmaTitle_firDodVchar12}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodInt1}" for="firDodInt1" />
+                    <h:inputText id="firDodInt1" value="#{firmaController.selected.firDodInt1}" title="#{bundle.CreateFirmaTitle_firDodInt1}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodInt2}" for="firDodInt2" />
+                    <h:inputText id="firDodInt2" value="#{firmaController.selected.firDodInt2}" title="#{bundle.CreateFirmaTitle_firDodInt2}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodInt3}" for="firDodInt3" />
+                    <h:inputText id="firDodInt3" value="#{firmaController.selected.firDodInt3}" title="#{bundle.CreateFirmaTitle_firDodInt3}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firDodInt4}" for="firDodInt4" />
+                    <h:inputText id="firDodInt4" value="#{firmaController.selected.firDodInt4}" title="#{bundle.CreateFirmaTitle_firDodInt4}" />
+                    <h:outputLabel value="#{bundle.CreateFirmaLabel_firLogo}" for="firLogo" />
+                    <h:inputTextarea rows="4" cols="30" id="firLogo" value="#{firmaController.selected.firLogo}" title="#{bundle.CreateFirmaTitle_firLogo}" />
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{firmaController.create}" value="#{bundle.CreateFirmaSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{firmaController.prepareList}" value="#{bundle.CreateFirmaShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateFirmaIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:layoutUnit position="north" size="50" resizable="true" closable="true" collapsible="true">
+        <h:form id="menubarnorth">
+            <p:menubar autoDisplay="true" style="border: none;">
+                <p:menuitem icon="fa fa-institution" value="firma" style="width: 150px" onclick="PF('dialogedycjadanychfirmy').show()" async="true"/>
+                <p:menuitem icon="fa fa-stack-overflow" value="pracownicy" style="width: 150px"/>
+                <p:menuitem icon="fa fa-sheqel" value="czas pracy" style="width: 150px"/>
+                <p:menuitem icon="fa fa-tasks" value="listy płac"  style="width: 150px"/>
+                <p:menuitem icon="fa fa-pencil" value="PIT" style="width: 150px"/>
+                <p:menuitem icon="fa fa-exchange" value="Ustawienia" style="width: 150px"/>
+            </p:menubar>
+        </h:form>
+    </p:layoutUnit>
+</ui:composition>   
+

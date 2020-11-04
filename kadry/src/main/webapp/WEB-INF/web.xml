@@ -53,6 +53,10 @@
         <param-name>primefaces.THEME</param-name>
         <param-value>#{themeSwitcherBean.theme}</param-value>
     </context-param>
+    <context-param>
+        <param-name>javax.faces.FACELETS_LIBRARIES</param-name>
+        <param-value>/WEB-INF/brzaskun.taglib.xml</param-value>
+    </context-param>
     <!--    to jest potrzebne zeby CKEditor pracowal-->
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
