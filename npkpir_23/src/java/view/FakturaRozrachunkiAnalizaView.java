@@ -42,7 +42,8 @@ import javax.faces.component.UISelectOne;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import mail.MailFaktRozrach;
-import msg.Msg;import pdf.PdfFaktRozrach;
+import msg.Msg;
+import pdf.PdfFaktRozrach;
 import sms.SmsSend;
 import waluty.Z;
 
@@ -319,6 +320,11 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 r.setNrtelefonu(p.getZnacznik1());
                 if (r.getSaldopln() != 0.0) {
                     if (r.getMc().equals(wpisView.getMiesiacWpisu())) {
+                        if (r.isFaktura0rozliczenie1()) {
+                            r.setColor2("green");
+                        } else {
+                            r.setColor("initial");
+                        }
                         if (r.getDataupomnienia()!=null || r.getDatatelefon()!=null) {
                             r.setColor("blue");
                         } else {

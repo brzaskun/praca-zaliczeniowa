@@ -48,6 +48,7 @@ public class DeklaracjaVatSchemaWierszSum implements Serializable {
     private String polevat;
     @Column(name = "funkcja")
     private String funkcja;
+    //5 to nieaktywny
     @Column(name = "netto1vat2")
     private int netto1vat2czek3tekst4;
     @Column(name = "czescdeklaracji", length = 1)

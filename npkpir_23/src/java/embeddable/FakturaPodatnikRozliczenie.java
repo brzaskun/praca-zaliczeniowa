@@ -38,6 +38,7 @@ import waluty.Z;
     private double ostatniaplatnosckwota;
     private boolean przeniesionosaldo;
     private String color;
+    private String color2;
     private String walutafaktury;
     private String nrtelefonu;
     
@@ -343,6 +344,14 @@ import waluty.Z;
 
     public void setNrtelefonu(String nrtelefonu) {
         this.nrtelefonu = nrtelefonu;
+    }
+
+    public String getColor2() {
+        return color2;
+    }
+
+    public void setColor2(String color2) {
+        this.color2 = color2;
     }
     
     

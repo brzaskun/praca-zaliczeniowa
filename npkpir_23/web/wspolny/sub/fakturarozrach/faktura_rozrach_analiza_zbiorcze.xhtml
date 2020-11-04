@@ -59,25 +59,25 @@
                     <f:facet name="header">
                         <h:outputText value="kontrahent"/>
                     </f:facet>
-                    <h:outputText value="#{item.kontrahent}"/>
+                    <h:outputText value="#{item.kontrahent}"  style="color: #{item.color2};"/>
                 </p:column>
                 <p:column width="140" sortable="true" sortBy="#{item.nrtelefonu}">
                     <f:facet name="header">
                         <h:outputText value="nr telefonu"/>
                     </f:facet>
-                    <h:outputText value="#{item.nrtelefonu}"/>
+                    <h:outputText value="#{item.nrtelefonu}"  style="color: #{item.color2};"/>
                 </p:column>
                 <p:column width="70" sortBy="#{item.data}" sortable="true">
                     <f:facet name="header">
                         <h:outputText value="data"/>
                     </f:facet>
-                    <h:outputText value="#{item.data}"/>
+                    <h:outputText value="#{item.data}" style="color: #{item.color2};"/>
                 </p:column>
                   <p:column width="120">
                     <f:facet name="header">
                         <h:outputText value="dokument"/>
                     </f:facet>
-                     <h:outputText value="#{item.rodzajDok} #{item.nrDok}"/>
+                     <h:outputText value="#{item.rodzajDok} #{item.nrDok}"  style="color: #{item.color2};"/>
                 </p:column>
 <!--                <p:column width="80" sortBy="#{item.kwota}" sortable="true">
                     <f:facet name="header">

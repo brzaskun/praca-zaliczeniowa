@@ -37,13 +37,15 @@ public class DeklaracjaVatSchemaWierszSumDAO  extends DAO implements Serializabl
     }
 
     public List<DeklaracjaVatSchemaWierszSum> findWierszeSchemy(DeklaracjaVatSchema wybranaschema) {
+        List<DeklaracjaVatSchemaWierszSum> zwrot = null;
         try {
-            return sessionFacade.findWierszSumSchemy(wybranaschema);
+            zwrot = sessionFacade.findWierszSumSchemy(wybranaschema);
         } catch (Exception e) { 
             E.e(e); 
-            return null;
         }
+        return zwrot;
     }
+    
     
     public void usunliste(DeklaracjaVatSchema s) {
         try {

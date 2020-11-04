@@ -150,6 +150,14 @@ public class FakturaDAO extends DAO implements Serializable {
         }
     }
 
+    public List<Klienci> findKontrahentFakturyRok(Podatnik podatnikObiekt, String rok) {
+        try {
+            return fakturaFacade.getEntityManager().createNamedQuery("Faktura.findByKonrahentPodatnikRok").setParameter("podatnik", podatnikObiekt).setParameter("rok", rok).getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
     public Collection<? extends Klienci> findKontrahentFaktury(Podatnik podatnikObiekt) {
         try {
             return fakturaFacade.findKontrahentFaktury(podatnikObiekt); 

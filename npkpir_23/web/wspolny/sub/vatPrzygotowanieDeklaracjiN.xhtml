@@ -100,19 +100,19 @@
                         <h:outputText value="#{loop.deklaracjaVatWierszSumaryczny.nazwapozycji}"/>
                     </p:column>
                     <p:column width="30" style="text-align: center;">
-                        <h:outputText value="#{loop.polenetto}" rendered="#{loop.netto1vat2czek3tekst4 == 0 || loop.netto1vat2czek3tekst4 == 1}"/>
+                        <h:outputText value="#{loop.polenetto}" rendered="#{loop.netto1vat2czek3tekst4 eq 0 || loop.netto1vat2czek3tekst4 eq 1}"/>
 
                     </p:column>
                     <p:column>
-                        <bcf:outputpl0 value="#{loop.deklaracjaVatWierszSumaryczny.sumanetto}" rendered="#{loop.netto1vat2czek3tekst4 == 0 || loop.netto1vat2czek3tekst4 == 1}"/>
+                        <bcf:outputpl0 value="#{loop.deklaracjaVatWierszSumaryczny.sumanetto}" rendered="#{loop.netto1vat2czek3tekst4 eq 0 || loop.netto1vat2czek3tekst4 eq 1}"/>
                     </p:column>
                     <p:column width="30" style="text-align: center;">
-                        <h:outputText value="#{loop.polevat}" rendered="#{loop.netto1vat2czek3tekst4 != 3 and loop.netto1vat2czek3tekst4 != 4}"/>
+                        <h:outputText value="#{loop.polevat}" rendered="#{loop.netto1vat2czek3tekst4 ne 3 and loop.netto1vat2czek3tekst4 ne 4}"/>
                     </p:column>
                     <p:column>
-                        <bcf:outputpl0 value="#{loop.deklaracjaVatWierszSumaryczny.sumavat}" rendered="#{loop.netto1vat2czek3tekst4 != 3 and loop.netto1vat2czek3tekst4 != 4}"/>
-                        <h:outputText value="#{loop.deklaracjaVatWierszSumaryczny.czekpole eq 1?'tak':'nie'}" rendered="#{loop.netto1vat2czek3tekst4 == 3}"/>
-                        <h:outputText value="#{loop.deklaracjaVatWierszSumaryczny.stringpole}" rendered="#{loop.netto1vat2czek3tekst4 == 4}"/>
+                        <bcf:outputpl0 value="#{loop.deklaracjaVatWierszSumaryczny.sumavat}" rendered="#{loop.netto1vat2czek3tekst4 ne 3 and loop.netto1vat2czek3tekst4 ne 4}"/>
+                        <h:outputText value="#{loop.deklaracjaVatWierszSumaryczny.czekpole ?'tak':'nie'}" rendered="#{loop.netto1vat2czek3tekst4 eq 3}"/>
+                        <h:outputText value="#{loop.deklaracjaVatWierszSumaryczny.stringpole}" rendered="#{loop.netto1vat2czek3tekst4 eq 4}"/>
                     </p:column>
                 </p:dataTable>
             </p:panelGrid>

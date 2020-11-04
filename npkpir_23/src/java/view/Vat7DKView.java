@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -50,7 +51,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
- import org.joda.time.DateTime;
+import org.joda.time.DateTime;
 import org.primefaces.PrimeFaces;
 
 /**
@@ -124,7 +125,7 @@ public class Vat7DKView implements Serializable {
     private boolean nowejpk;
     private boolean przelewnarachunekvat;
     private boolean zaliczenienapoczetzobowiazan;
-    private double zaliczenienapoczetzobowiazankwota;
+    private Integer zaliczenienapoczetzobowiazankwota;
     private String rodzajzobowiazania;
    
     public Vat7DKView() {
@@ -266,6 +267,12 @@ public class Vat7DKView implements Serializable {
         pasujacaSchema = VATDeklaracja.odnajdzscheme(vatokres, rok, mc, schemyLista);
         ArrayList<EVatwpisSuma> pobraneewidencje = new ArrayList<>(mapaewidencji.values());
         schemawierszsumarycznylista = deklaracjaVatSchemaWierszSumDAO.findWierszeSchemy(pasujacaSchema);
+        for (Iterator<DeklaracjaVatSchemaWierszSum> it = schemawierszsumarycznylista.iterator(); it.hasNext();) {
+            DeklaracjaVatSchemaWierszSum p = it.next();
+            if (p.getNetto1vat2czek3tekst4()==5) {
+                it.remove();
+            }
+        }
         pozycjeDeklaracjiVAT.setCelzlozenia("1");
         //tutaj przeklejamy z ewidencji vat do odpowiednich pol deklaracji
         List<SchemaEwidencja> schemaewidencjalista = schemaEwidencjaDAO.findEwidencjeSchemy(pasujacaSchema);
@@ -297,7 +304,7 @@ public class Vat7DKView implements Serializable {
             try {
                 //niepotrzebne bo jest wyzej
                 //deklaracjakorygowana = bylajuzdeklaracjawtymmiesiacu(rok,mc);
-                int przeniesieniekwota = przeniesieniezpoprzedniejdeklaracji;
+                int przeniesieniekwota = przeniesieniezpoprzedniejdeklaracji !=null ? przeniesieniezpoprzedniejdeklaracji:0;
                 if (!niesprawdzajpoprzednichdeklaracji && !wymusozmnaczeniejakokorekte) {
                     Deklaracjevat deklaracjaPopMc = bylajuzdeklaracjawpoprzednimmiesiacu(rok,mc);
                     if (deklaracjaPopMc != null) {
@@ -353,7 +360,11 @@ public class Vat7DKView implements Serializable {
                 DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Zaliczenie zwrotu podatku na poczet przyszłych zobowiązań podatkowych");
                 zmienna.getDeklaracjaVatWierszSumaryczny().setCzekpole(true);
             }
-            if (rodzajzobowiazania!=null) {
+            if (zaliczenienapoczetzobowiazankwota!=null) {
+                DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Wysokość zwrotu do zaliczenia na poczet przyszłych zobowiązań podatkowych");
+                zmienna.getDeklaracjaVatWierszSumaryczny().setSumavat(zaliczenienapoczetzobowiazankwota);
+            }
+            if (rodzajzobowiazania!=null && !rodzajzobowiazania.isEmpty()) {
                 DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Rodzaj przyszłego zobowiązania podatkowego");
                 zmienna.getDeklaracjaVatWierszSumaryczny().setStringpole(rodzajzobowiazania);
             }
@@ -1351,13 +1362,16 @@ public class Vat7DKView implements Serializable {
         this.zaliczenienapoczetzobowiazan = zaliczenienapoczetzobowiazan;
     }
 
-    public double getZaliczenienapoczetzobowiazankwota() {
+    public Integer getZaliczenienapoczetzobowiazankwota() {
         return zaliczenienapoczetzobowiazankwota;
     }
 
-    public void setZaliczenienapoczetzobowiazankwota(double zaliczenienapoczetzobowiazankwota) {
+    public void setZaliczenienapoczetzobowiazankwota(Integer zaliczenienapoczetzobowiazankwota) {
         this.zaliczenienapoczetzobowiazankwota = zaliczenienapoczetzobowiazankwota;
     }
+
+   
+    
 
     public String getRodzajzobowiazania() {
         return rodzajzobowiazania;

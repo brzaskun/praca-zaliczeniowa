@@ -11,11 +11,14 @@
 
     <p:tab  title="Aktywacja kontrahentów" >
         <h:form>
+            <p:panelGrid columns="1">
+                <p:commandButton value="aktualizuj" actionListener="#{fakturaAktywniKlienci.usunnieaktywnych()}" update="@form"/>
+            </p:panelGrid>
         <p:dataTable value="#{fakturaAktywniKlienci.klienciaktywowanie}" var="wpis"
                      style="width: 580px;" rowIndexVar="idf">
             <p:ajax event="filter" global="false"/>
             <f:facet name="header">
-                <h:outputText value="aktywacja kklientów"/>
+                <h:outputText value="aktywacja klientów"/>
             </f:facet>
             <p:column width="30">
                 <h:outputText value="#{idf+1}"/>

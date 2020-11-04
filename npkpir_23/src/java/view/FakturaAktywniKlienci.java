@@ -7,10 +7,11 @@ package view;
 
 import comparator.Kliencicomparator;
 import dao.FakturaDAO;
+import dao.FakturaRozrachunkiDAO;
 import dao.KlienciDAO;
 import entity.Klienci;
-import error.E;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -38,6 +39,8 @@ public class FakturaAktywniKlienci  implements Serializable {
     private FakturaRozrachunkiAnalizaView fakturaRozrachunkiAnalizaView;
     @Inject
     private FakturaDAO fakturaDAO;
+    @Inject
+    private FakturaRozrachunkiDAO fakturaRozrachunkiDAO;
     @Inject
     private KlienciDAO klienciDAO;
     
@@ -71,6 +74,28 @@ public class FakturaAktywniKlienci  implements Serializable {
         Msg.msg("Zmieniono stan aktywacji klienta");
     }
 
+    public void usunnieaktywnych() {
+        List<Klienci> kliencifakturyrok = fakturaDAO.findKontrahentFakturyRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<Klienci> platnosci = fakturaRozrachunkiDAO.findByPodatnikRok(wpisView);
+        List<Klienci> klienciwszystkie = (List<Klienci>) pobierzkontrahentowaktywowanie();
+        List<Klienci> aktywne = new ArrayList<>();
+        aktywne.addAll(kliencifakturyrok);
+        aktywne.addAll(platnosci);
+        for (Iterator<Klienci> it  = klienciwszystkie.iterator();it.hasNext();) {
+            Klienci p = it.next();
+            if (aktywne.contains(p)) {
+                p.setAktywnydlafaktrozrachunki(true);
+            } else {
+                p.setAktywnydlafaktrozrachunki(false);
+            }
+        }
+        klienciDAO.editList(klienciwszystkie);
+        Msg.msg("Zaktualizowano listę aktywnych klientów");
+        klienciaktywowanie = (List<Klienci>) pobierzkontrahentowaktywowanie();
+        Collections.sort(klienciaktywowanie, new Kliencicomparator());
+        fakturaRozrachunkiView.init();
+        fakturaRozrachunkiAnalizaView.init();
+    }
     
     public List<Klienci> getKlienciaktywowanie() {
         return klienciaktywowanie;
