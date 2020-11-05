@@ -12,8 +12,12 @@ var TabKeyVat;
             taregetId = event.target.name;
         }
         var zawartoscpola = r(taregetId).val();
+        var oznaczac = true;
+        if(r("dialogEdycja").is(":visible")){
+            oznaczac = false;
+        }
         try {
-            if (isSpaceKey(event)) {
+            if (isSpaceKey(event)&&oznaczac) {
                 //PF('grmes').renderMessage({summary:'Oznaczono wiersz', detail: '', severity: 'info'})
                 oznaczfakturespacja();
                 event.preventDefault();

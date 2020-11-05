@@ -9,8 +9,6 @@ import deklaracje.upo.Potwierdzenie;
 import java.io.Serializable;
 import java.io.StringWriter;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -66,9 +64,8 @@ public class UPO  implements Serializable {
     @Lob
     @Column (name = "jpk")
     private JPKSuper jpk;
-    @Lob
-    @Column (name = "deklaracja")
-    private DeklaracjaSuper deklaracja;
+    @JoinColumn(name = "deklaracja", referencedColumnName = "id")
+    private DeklSuper deklaracja;
     @Column (name = "wersja")
     private String wersja;
     @Column (name = "code")
@@ -165,9 +162,14 @@ public class UPO  implements Serializable {
                 if (cel.equals("2")) {
                     zwrot = "kor.";
                 }
-            } else {
+            } else if (jpk instanceof jpk201801.JPK) {
                 int cel = ((jpk201801.JPK)jpk).getNaglowek().getCelZlozenia();
                 if (cel > 0) {
+                    zwrot = "kor.";
+                }
+            } else if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
+                String cel = Byte.toString(((pl.gov.crd.wzor._2020._05._08._9393.JPK)jpk).getNaglowek().getCelZlozenia().getValue());
+                if (cel.equals("2")) {
                     zwrot = "kor.";
                 }
             }
@@ -178,31 +180,42 @@ public class UPO  implements Serializable {
     public String getJpkNaglowek() {
         String zwrot = "nie pobrano";
         if (jpk != null) {
-            if (jpk instanceof jpk201701.JPK) {
-                try {
-                    jpk201701.JPK jpkt = (jpk201701.JPK)jpk;
-                    JAXBContext context = JAXBContext.newInstance(jpk201701.JPK.class);
-                    Marshaller marshaller = context.createMarshaller();
-                    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-                    StringWriter sw = new StringWriter();
-                    marshaller.marshal(jpkt,sw);
-                    zwrot = sw.toString();
-                } catch (JAXBException ex) {
-                    // Logger.getLogger(UPO.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else {
-                try {
-                    jpk201801.JPK jpkt = (jpk201801.JPK)jpk;
-                    JAXBContext context = JAXBContext.newInstance(jpk201801.JPK.class);
-                    Marshaller marshaller = context.createMarshaller();
-                    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-                    StringWriter sw = new StringWriter();
-                    marshaller.marshal(jpkt,sw);
-                    zwrot = sw.toString();
-                } catch (JAXBException ex) {
-                    // Logger.getLogger(UPO.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            try {
+                Class kl = jpk.getClass();
+                JAXBContext context = JAXBContext.newInstance(kl);
+                Marshaller marshaller = context.createMarshaller();
+                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                StringWriter sw = new StringWriter();
+                marshaller.marshal(jpk,sw);
+                zwrot = sw.toString();
+            } catch (JAXBException ex) {
+                // Logger.getLogger(UPO.class.getName()).log(Level.SEVERE, null, ex);
             }
+//            if (jpk instanceof jpk201701.JPK) {
+//                try {
+//                    jpk201701.JPK jpkt = (jpk201701.JPK)jpk;
+//                    JAXBContext context = JAXBContext.newInstance(jpk201701.JPK.class);
+//                    Marshaller marshaller = context.createMarshaller();
+//                    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+//                    StringWriter sw = new StringWriter();
+//                    marshaller.marshal(jpkt,sw);
+//                    zwrot = sw.toString();
+//                } catch (JAXBException ex) {
+//                    // Logger.getLogger(UPO.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            } else {
+//                try {
+//                    jpk201801.JPK jpkt = (jpk201801.JPK)jpk;
+//                    JAXBContext context = JAXBContext.newInstance(jpk201801.JPK.class);
+//                    Marshaller marshaller = context.createMarshaller();
+//                    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+//                    StringWriter sw = new StringWriter();
+//                    marshaller.marshal(jpkt,sw);
+//                    zwrot = sw.toString();
+//                } catch (JAXBException ex) {
+//                    // Logger.getLogger(UPO.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
         }
         zwrot = zwrot.length() > 900 ? zwrot.substring(0,899) : zwrot;
         return zwrot;
@@ -212,11 +225,11 @@ public class UPO  implements Serializable {
         this.jpk = jpk;
     }
 
-    public DeklaracjaSuper getDeklaracja() {
+    public DeklSuper getDeklaracja() {
         return deklaracja;
     }
 
-    public void setDeklaracja(DeklaracjaSuper deklaracja) {
+    public void setDeklaracja(DeklSuper deklaracja) {
         this.deklaracja = deklaracja;
     }
 

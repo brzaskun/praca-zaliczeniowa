@@ -1226,6 +1226,7 @@ public class DokView implements Serializable {
     }
     
     private int ilepustychoblicz() {
+        podepnijoznaczenia();
         int zwrot = 0;
         if (selDokument.getOznaczenie1()==null) {
             zwrot++;

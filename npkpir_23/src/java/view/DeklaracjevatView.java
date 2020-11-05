@@ -214,7 +214,7 @@ public class DeklaracjevatView implements Serializable {
             try {
                 Deklaracjevat wysylanaDeklaracja = oczekujace.get(0);
                 wysylanaDeklaracja.setIdentyfikator("dla jpk");
-                wysylanaDeklaracja.setStatus("303");
+                wysylanaDeklaracja.setStatus("399");
                 wysylanaDeklaracja.setOpis("zachowana dla wysłania z jpk");
                 wysylanaDeklaracja.setDatazlozenia(new Date());
                 wysylanaDeklaracja.setSporzadzil(wpisView.getUzer().getImie() + " " + wpisView.getUzer().getNazw());

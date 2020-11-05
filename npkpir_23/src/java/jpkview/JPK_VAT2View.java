@@ -14,6 +14,7 @@ import daoFK.EVatwpisDedraDAO;
 import data.Data;
 import embeddable.Mce;
 import embeddable.TKodUS;
+import entity.DeklSuper;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Deklaracjevat;
 import entity.EVatwpis1;
@@ -128,7 +129,7 @@ public class JPK_VAT2View implements Serializable {
         List<Deklaracjevat> wyslane = deklaracjevatDAO.findDeklaracjeWyslaneMc(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         int znaleziono = 0;
         for (Deklaracjevat p : wyslane) {
-            if (p.getStatus().equals("303")&&p.getIdentyfikator().equals("dla jpk")) {
+            if (p.getStatus().equals("399")&&p.getIdentyfikator().equals("dla jpk")) {
                 deklaracjadlajpk = p;
                 znaleziono++;
             }
@@ -346,12 +347,24 @@ public class JPK_VAT2View implements Serializable {
     
     private UPO wysylkaJPK(Podatnik podatnik) {
         UPO upo = new UPO();
+        if (deklaracjadlajpk!=null) {
+            upo.setDeklaracja(deklaracjadlajpk);
+        }
         try {
             boolean moznapodpisac = ObslugaPodpisuBean.moznapodpisacError(wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
             if (moznapodpisac) {
                 String[] wiadomosc = SzachMatJPK.wysylka(podatnik, wpisView, upo);
                 if (!wiadomosc[0].equals("e")) {
                     wiadomosc = zachowajUPO(upo);
+                    if (upo.getDeklaracja()!=null) {
+                        DeklSuper deklaracja = upo.getDeklaracja();
+                        deklaracja.setStatus("388");
+                        deklaracja.setOpis(upo.getUpoString());
+                        deklaracja.setUpo(upo.getReferenceNumber());
+                        deklaracja.setDataupo(upo.getDataupo());
+                        deklaracja.setDatazlozenia(upo.getDatajpk());
+                        deklaracjevatDAO.edit(deklaracja);
+                    }
                     Msg.msg(wiadomosc[0], wiadomosc[1]);
                 } else {
                     Msg.msg(wiadomosc[0], wiadomosc[1]);
@@ -538,6 +551,15 @@ public class JPK_VAT2View implements Serializable {
                 String[] wiadomosc = SzachMatJPK.pobierzupo(selected.getReferenceNumber(), selected);
                 selected.setDataupo(new Date());
                 uPODAO.edit(selected);
+                if (selected.getDeklaracja()!=null&&selected.getCode()<299) {
+                        DeklSuper deklaracja = selected.getDeklaracja();
+                        deklaracja.setStatus(String.valueOf(selected.getCode()));
+                        deklaracja.setOpis(selected.getUpoString());
+                        deklaracja.setUpo(selected.getReferenceNumber());
+                        deklaracja.setDataupo(selected.getDataupo());
+                        deklaracja.setDatazlozenia(selected.getDatajpk());
+                        deklaracjevatDAO.edit(deklaracja);
+                    }
                 Msg.msg(wiadomosc[0], wiadomosc[1]);
             } else {
                 Msg.msg("Obecny status wysyłki to 200. Nie pobieram UPO");
@@ -922,6 +944,7 @@ public class JPK_VAT2View implements Serializable {
         zwrot[0] = "i";
         zwrot[1] = "Rozpoczynam zachowanie UPO";
             try {
+                JPKSuper jpk = upo.getJpk();
                 upo.setWprowadzil(wpisView.getUzer());
                 upo.setDataupo(new Date());
                 upo.setDatajpk(new Date());

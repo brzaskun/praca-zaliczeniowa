@@ -101,6 +101,46 @@ public class DeklSuper implements Serializable {
         this.status = status;
     }
 
+    public String getIdentyfikator() {
+        return identyfikator;
+    }
+
+    public void setIdentyfikator(String identyfikator) {
+        this.identyfikator = identyfikator;
+    }
+
+    public String getUpo() {
+        return upo;
+    }
+
+    public void setUpo(String upo) {
+        this.upo = upo;
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
+    }
+
+    public Date getDatazlozenia() {
+        return datazlozenia;
+    }
+
+    public void setDatazlozenia(Date datazlozenia) {
+        this.datazlozenia = datazlozenia;
+    }
+
+    public Date getDataupo() {
+        return dataupo;
+    }
+
+    public void setDataupo(Date dataupo) {
+        this.dataupo = dataupo;
+    }
+
     
     
     

@@ -354,19 +354,27 @@ public class Vat7DKView implements Serializable {
             }
             if (przelewnarachunekvat) {
                 DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Zwrot na rachunek VAT, o którym mowa w art. 87 ust. 6a ustawy");
-                zmienna.getDeklaracjaVatWierszSumaryczny().setSumanetto(1);
+                zmienna.getDeklaracjaVatWierszSumaryczny().setCzekpole(true);
+            } else {
+                VATDeklaracja.usunschemawiersz(schemawierszsumarycznylista,"Zwrot na rachunek VAT, o którym mowa w art. 87 ust. 6a ustawy");
             }
             if (zaliczenienapoczetzobowiazan) {
                 DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Zaliczenie zwrotu podatku na poczet przyszłych zobowiązań podatkowych");
                 zmienna.getDeklaracjaVatWierszSumaryczny().setCzekpole(true);
+            } else {
+                VATDeklaracja.usunschemawiersz(schemawierszsumarycznylista,"Zaliczenie zwrotu podatku na poczet przyszłych zobowiązań podatkowych");
             }
-            if (zaliczenienapoczetzobowiazankwota!=null) {
+            if (zaliczenienapoczetzobowiazankwota!=null&&zaliczenienapoczetzobowiazankwota>0) {
                 DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Wysokość zwrotu do zaliczenia na poczet przyszłych zobowiązań podatkowych");
                 zmienna.getDeklaracjaVatWierszSumaryczny().setSumavat(zaliczenienapoczetzobowiazankwota);
+            } else {
+                VATDeklaracja.usunschemawiersz(schemawierszsumarycznylista,"Wysokość zwrotu do zaliczenia na poczet przyszłych zobowiązań podatkowych");
             }
             if (rodzajzobowiazania!=null && !rodzajzobowiazania.isEmpty()) {
                 DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Rodzaj przyszłego zobowiązania podatkowego");
                 zmienna.getDeklaracjaVatWierszSumaryczny().setStringpole(rodzajzobowiazania);
+            } else {
+                VATDeklaracja.usunschemawiersz(schemawierszsumarycznylista,"Rodzaj przyszłego zobowiązania podatkowego");
             }
             VATDeklaracja.przyporzadkujPozycjeSzczegoloweSumaryczne(schemawierszsumarycznylista, pozycjeSzczegoloweVAT, null);
         }
@@ -775,7 +783,7 @@ public class Vat7DKView implements Serializable {
                     nowadeklaracja.setNrkolejny(badana.getNrkolejny());
                     f = 2;
                 } else {
-                    if (badana.getStatus().startsWith("303")) {
+                    if (badana.getStatus().startsWith("399")) {
                         Msg.msg("w", "Przygotowano do zachowania drugą wersję niezałączonej do jpk deklaracji za okres  " + rok + "-" + mc,"form:messages");
                         f = 1;
                     } else if (badana.getStatus().startsWith("301") || badana.getStatus().startsWith("302") || badana.getStatus().isEmpty()) {

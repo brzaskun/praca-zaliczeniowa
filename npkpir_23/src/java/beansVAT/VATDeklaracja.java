@@ -127,17 +127,17 @@ public class VATDeklaracja implements Serializable {
                     jestzwrotnarachunek = true;
                 }
                 if (ws.getNazwapozycji().contains("do zwrotu w") && jestzwrotnarachunek) {
-                    if ((nrpolanetto != null) && (!nrpolanetto.isEmpty()) && ew.getNetto1vat2czek3tekst4() != 2) {
+                    if ((nrpolanetto != null) && (!nrpolanetto.isEmpty()) && (ew.getNetto1vat2czek3tekst4() == 0||ew.getNetto1vat2czek3tekst4() == 1)) {
                         ustawPozycjeSumaryczne(pozycjeSzczegoloweVAT, nrpolanetto, netto, nettoI);
                     }
-                    if ((nrpolavat != null) && (!nrpolavat.isEmpty()) && ew.getNetto1vat2czek3tekst4() != 1) {
+                    if ((nrpolavat != null) && (!nrpolavat.isEmpty()) && (ew.getNetto1vat2czek3tekst4() == 0||ew.getNetto1vat2czek3tekst4() == 2)) {
                         ustawPozycjeSumaryczne(pozycjeSzczegoloweVAT, nrpolavat, vat, vatI);
                     }
                 } else {
-                    if ((nrpolanetto != null) && (!nrpolanetto.isEmpty()) && ew.getNetto1vat2czek3tekst4() != 2) {
+                    if ((nrpolanetto != null) && (!nrpolanetto.isEmpty()) && (ew.getNetto1vat2czek3tekst4() == 0||ew.getNetto1vat2czek3tekst4() == 1)) {
                         ustawPozycjeSumaryczne(pozycjeSzczegoloweVAT, nrpolanetto, netto, nettoI);
                     }
-                    if ((nrpolavat != null) && (!nrpolavat.isEmpty()) && ew.getNetto1vat2czek3tekst4() != 1) {
+                    if ((nrpolavat != null) && (!nrpolavat.isEmpty()) && (ew.getNetto1vat2czek3tekst4() == 0||ew.getNetto1vat2czek3tekst4() == 2)) {
                         ustawPozycjeSumaryczne(pozycjeSzczegoloweVAT, nrpolavat, vat, vatI);
                     }
                 }
@@ -496,6 +496,15 @@ public class VATDeklaracja implements Serializable {
             }
         }
         return wiersz;
+    }
+    
+    public static void usunschemawiersz(List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista, String opis) {
+        for (Iterator<DeklaracjaVatSchemaWierszSum> it = schemawierszsumarycznylista.iterator();it.hasNext();) {
+            DeklaracjaVatSchemaWierszSum p = it.next();
+            if (p.getDeklaracjaVatWierszSumaryczny().getNazwapozycji().equals(opis)) {
+                it.remove();
+            }
+        }
     }
 
   
