@@ -1894,6 +1894,7 @@ public class DokfkView implements Serializable {
                     selected.setZablokujzmianewaluty(false);
                 }
                 PrimeFaces.current().ajax().update("formwpisdokument");
+                PrimeFaces.current().ajax().update("wpisywaniefooter:panelinfo");
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");
