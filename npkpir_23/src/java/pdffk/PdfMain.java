@@ -71,8 +71,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import msg.B;
@@ -927,6 +925,7 @@ public class PdfMain {
                 return col;
             case "jpk201701.JPK$SprzedazWiersz":
             case "jpk201801.JPK$SprzedazWiersz":
+            case "pl.gov.crd.wzor._2020._05._08._9393.JPK$Ewidencja$SprzedazWiersz":
                 col = new int[size];
                 col[0] = 1;
                 col[1] = 4;
@@ -940,7 +939,8 @@ public class PdfMain {
                 col[9] = 2;
                 return col;
             case "jpk201701.JPK$ZakupWiersz":
-            case "jpk201801.JPK$ZakupWiersz":
+            case "jpk201801.JPK$Ewidencja$ZakupWiersz":
+            case "pl.gov.crd.wzor._2020._05._08._9393.JPK$Ewidencja$ZakupWiersz":
                 col = new int[size];
                 col[0] = 1;
                 col[1] = 4;
@@ -1732,8 +1732,34 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.getNettoPole(), "center", 7));
                 table.addCell(ustawfrazeAlign(p.getVatPole(), "center", 7));
             }
+            if (nazwaklasy.equals("pl.gov.crd.wzor._2020._05._08._9393.JPK$Ewidencja$ZakupWiersz")) {
+                pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupWiersz p =  (pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupWiersz) it.next();
+                table.addCell(ustawfrazeAlign(i++, "center", 7));
+                table.addCell(ustawfrazeAlign(p.getNrDostawcy(), "left", 7, 22f));
+                table.addCell(ustawfrazeAlign(p.getNazwaDostawcyShort(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getDowodZakupu(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getDataWplywu(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getDataZakupu(), "left", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 8));
+                table.addCell(ustawfrazeAlign(p.getNettoPole(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getVatPole(), "center", 7));
+            }
             if (nazwaklasy.equals("jpk201701.JPK$SprzedazWiersz") || nazwaklasy.equals("jpk201801.JPK$SprzedazWiersz")) {
                 jpkabstract.SprzedazWierszA p = (jpkabstract.SprzedazWierszA) it.next();
+                table.addCell(ustawfrazeAlign(i++, "center", 7));
+                table.addCell(ustawfrazeAlign(p.getNrKontrahenta(), "left", 7, 22f));
+                table.addCell(ustawfrazeAlign(p.getNazwaKontrahentaShort(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getDowodSprzedazy(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getDataWystawienia(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getDataSprzedazy(), "left", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 8));
+                table.addCell(ustawfrazeAlign(p.getNettoPole(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getVatPole(), "center", 7));
+            }
+            if (nazwaklasy.equals("pl.gov.crd.wzor._2020._05._08._9393.JPK$Ewidencja$SprzedazWiersz")) {
+                pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazWiersz p = (pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazWiersz) it.next();
                 table.addCell(ustawfrazeAlign(i++, "center", 7));
                 table.addCell(ustawfrazeAlign(p.getNrKontrahenta(), "left", 7, 22f));
                 table.addCell(ustawfrazeAlign(p.getNazwaKontrahentaShort(), "left", 7));

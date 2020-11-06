@@ -628,7 +628,9 @@ public class JPK_VAT2View implements Serializable {
         List<EVatwpisSuper> lista = new ArrayList<>(wiersze);
         JPKSuper jpk = genJPK(lista, podatnik, nowa0korekta1);
         try {
-            if (Integer.parseInt(Data.aktualnyRok()) > 2017) {
+            if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
+                PdfUPO.drukujJPK2020(jpk, wpisView, podatnik);
+            } else if (jpk instanceof jpk201801.JPK) {
                 PdfUPO.drukujJPK3(jpk, wpisView, podatnik);
             } else {
                 PdfUPO.drukujJPK2(jpk, wpisView, podatnik);
@@ -642,7 +644,9 @@ public class JPK_VAT2View implements Serializable {
     public void generujXMLPodglad(List<EVatwpisSuper> wiersze, Podatnik podatnik, boolean nowa0korekta1) {
         JPKSuper jpk = genJPK(wiersze, podatnik, nowa0korekta1);
         try {
-            if (Integer.parseInt(Data.aktualnyRok()) > 2017) {
+            if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
+                PdfUPO.drukujJPK2020(jpk, wpisView, podatnik);
+            } else if (jpk instanceof jpk201801.JPK) {
                 PdfUPO.drukujJPK3(jpk, wpisView, podatnik);
             } else {
                 PdfUPO.drukujJPK2(jpk, wpisView, podatnik);

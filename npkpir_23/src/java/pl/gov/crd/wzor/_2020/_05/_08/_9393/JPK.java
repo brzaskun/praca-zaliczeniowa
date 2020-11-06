@@ -10,6 +10,7 @@ package pl.gov.crd.wzor._2020._05._08._9393;
 
 import entity.JPKSuper;
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -543,6 +544,7 @@ public class JPK extends JPKSuper implements Serializable {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    
 
     /**
      * <p>Java class for anonymous complex type.
@@ -3152,6 +3154,7 @@ public class JPK extends JPKSuper implements Serializable {
          * {@link JPK.Ewidencja.ZakupWiersz }
          * 
          * 
+         * @return 
          */
         public List<JPK.Ewidencja.ZakupWiersz> getZakupWiersz() {
             if (zakupWiersz == null) {
@@ -3438,7 +3441,7 @@ public class JPK extends JPKSuper implements Serializable {
             "k36",
             "sprzedazVATMarza"
         })
-        public static class SprzedazWiersz {
+        public static class SprzedazWiersz  extends jpkabstract.SprzedazWierszA {
 
             @XmlElement(name = "LpSprzedazy", required = true)
             @XmlSchemaType(name = "nonNegativeInteger")
@@ -3575,6 +3578,127 @@ public class JPK extends JPKSuper implements Serializable {
             @XmlElement(name = "SprzedazVAT_Marza")
             protected BigDecimal sprzedazVATMarza;
 
+             private static final List SPRZEDAZWIERSZENETTO;
+        private static final List SPRZEDAZWIERSZEVAT;
+        static {
+            SPRZEDAZWIERSZENETTO = new ArrayList();
+            SPRZEDAZWIERSZENETTO.add("getK10");
+            SPRZEDAZWIERSZENETTO.add("getK11");
+            SPRZEDAZWIERSZENETTO.add("getK12");
+            SPRZEDAZWIERSZENETTO.add("getK13");
+            SPRZEDAZWIERSZENETTO.add("getK14");
+            SPRZEDAZWIERSZENETTO.add("getK15");
+            SPRZEDAZWIERSZENETTO.add("getK17");
+            SPRZEDAZWIERSZENETTO.add("getK19");
+            SPRZEDAZWIERSZENETTO.add("getK21");
+            SPRZEDAZWIERSZENETTO.add("getK22");
+            SPRZEDAZWIERSZENETTO.add("getK23");
+            SPRZEDAZWIERSZENETTO.add("getK25");
+            SPRZEDAZWIERSZENETTO.add("getK27");
+            SPRZEDAZWIERSZENETTO.add("getK29");
+            SPRZEDAZWIERSZENETTO.add("getK31");
+            SPRZEDAZWIERSZENETTO.add("getK32");
+            SPRZEDAZWIERSZENETTO.add("getK34");
+            SPRZEDAZWIERSZEVAT = new ArrayList();
+            SPRZEDAZWIERSZEVAT.add("getK16");
+            SPRZEDAZWIERSZEVAT.add("getK18");
+            SPRZEDAZWIERSZEVAT.add("getK20");
+            SPRZEDAZWIERSZEVAT.add("getK24");
+            SPRZEDAZWIERSZEVAT.add("getK26");
+            SPRZEDAZWIERSZEVAT.add("getK28");
+            SPRZEDAZWIERSZEVAT.add("getK30");
+            SPRZEDAZWIERSZEVAT.add("getK33");
+            SPRZEDAZWIERSZEVAT.add("getK35");
+            SPRZEDAZWIERSZEVAT.add("getK36");
+        };
+         @Override
+        public double getNetto() {
+            double zwrot = 0.0;
+            if (this != null) {
+                try {
+                    for (Method p : this.getClass().getMethods()) {
+                        if (SPRZEDAZWIERSZENETTO.contains(p.getName())) {
+                            BigDecimal pole = (BigDecimal) p.invoke(this);
+                            if(pole != null) {
+                                zwrot += pole.doubleValue();
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    
+                }
+            }
+            return zwrot;
+        }
+
+         @Override
+        public double getVat() {
+            double zwrot = 0.0;
+            if (this != null) {
+                try {
+                    for (Method p : this.getClass().getMethods()) {
+                        if (SPRZEDAZWIERSZEVAT.contains(p.getName())) {
+                            BigDecimal pole = (BigDecimal) p.invoke(this);
+                            if(pole != null) {
+                                zwrot += pole.doubleValue();
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    
+                }
+            }
+            return zwrot;
+        }
+            @Override
+            public String getNettoPole() {
+            String zwrot = "";
+            if (this != null) {
+                try {
+                    for (Method p : this.getClass().getMethods()) {
+                        if (SPRZEDAZWIERSZENETTO.contains(p.getName())) {
+                            BigDecimal pole = (BigDecimal) p.invoke(this);
+                            if(pole != null) {
+                                zwrot = p.getName().substring(3);
+                                break;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    
+                }
+            }
+            return zwrot;
+        }
+
+            @Override
+        public String getVatPole() {
+            String zwrot = "";
+            if (this != null) {
+                try {
+                    for (Method p : this.getClass().getMethods()) {
+                        if (SPRZEDAZWIERSZEVAT.contains(p.getName())) {
+                            BigDecimal pole = (BigDecimal) p.invoke(this);
+                            if(pole != null) {
+                                zwrot = p.getName().substring(3);
+                                break;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    
+                }
+            }
+            return zwrot;
+        }
+            @Override
+           public String getNazwaKontrahentaShort() {
+            String zwrot = nazwaKontrahenta;
+            if (zwrot != null && zwrot.length()>50) {
+                zwrot = nazwaKontrahenta.substring(0, 49);
+            }
+            return zwrot;
+        }
             /**
              * Gets the value of the lpSprzedazy property.
              * 
@@ -5239,7 +5363,7 @@ public class JPK extends JPKSuper implements Serializable {
             "k47",
             "zakupVATMarza"
         })
-        public static class ZakupWiersz {
+        public static class ZakupWiersz  extends jpkabstract.ZakupWierszA {
 
             @XmlElement(name = "LpZakupu", required = true)
             @XmlSchemaType(name = "nonNegativeInteger")
@@ -5288,6 +5412,105 @@ public class JPK extends JPKSuper implements Serializable {
             @XmlElement(name = "ZakupVAT_Marza")
             protected BigDecimal zakupVATMarza;
 
+             private static final List ZAKUPWIERSZENETTO;
+        private static final List ZAKUPWIERSZEVAT;
+        static {
+            ZAKUPWIERSZENETTO = new ArrayList();
+            ZAKUPWIERSZENETTO.add("getK40");
+            ZAKUPWIERSZENETTO.add("getK42");
+            ZAKUPWIERSZEVAT = new ArrayList();
+            ZAKUPWIERSZEVAT.add("getK43");
+            ZAKUPWIERSZEVAT.add("getK44");
+            ZAKUPWIERSZEVAT.add("getK45");
+            ZAKUPWIERSZEVAT.add("getK46");
+            ZAKUPWIERSZEVAT.add("getK47");
+        };
+         public double getNetto() {
+            double zwrot = 0.0;
+            if (this != null) {
+                try {
+                    for (Method p : this.getClass().getMethods()) {
+                        if (ZAKUPWIERSZENETTO.contains(p.getName())) {
+                            BigDecimal pole = (BigDecimal) p.invoke(this);
+                            if(pole != null) {
+                                zwrot = pole.doubleValue();
+                                break;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    
+                }
+            }
+            return zwrot;
+        }
+
+        public double getVat() {
+            double zwrot = 0.0;
+            if (this != null) {
+                try {
+                    for (Method p : this.getClass().getMethods()) {
+                        if (ZAKUPWIERSZEVAT.contains(p.getName())) {
+                            BigDecimal pole = (BigDecimal) p.invoke(this);
+                            if(pole != null) {
+                                zwrot = pole.doubleValue();
+                                break;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    
+                }
+            }
+            return zwrot;
+        }
+        public String getNettoPole() {
+            String zwrot = "";
+            if (this != null) {
+                try {
+                    for (Method p : this.getClass().getMethods()) {
+                        if (ZAKUPWIERSZENETTO.contains(p.getName())) {
+                            BigDecimal pole = (BigDecimal) p.invoke(this);
+                            if(pole != null) {
+                                zwrot = p.getName().substring(3);
+                                break;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    
+                }
+            }
+            return zwrot;
+        }
+
+        public String getVatPole() {
+            String zwrot = "";
+            if (this != null) {
+                try {
+                    for (Method p : this.getClass().getMethods()) {
+                        if (ZAKUPWIERSZEVAT.contains(p.getName())) {
+                            BigDecimal pole = (BigDecimal) p.invoke(this);
+                            if(pole != null) {
+                                zwrot = p.getName().substring(3);
+                                break;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    
+                }
+            }
+            return zwrot;
+        }
+            public String getNazwaDostawcyShort() {
+                String zwrot = nazwaDostawcy;
+                if (zwrot != null && zwrot.length() > 50) {
+                    zwrot = nazwaDostawcy.substring(0, 49);
+                }
+                return zwrot;
+            }
+            
             /**
              * Gets the value of the lpZakupu property.
              * 

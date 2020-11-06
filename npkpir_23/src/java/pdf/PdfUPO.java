@@ -6,6 +6,8 @@ package pdf;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
+import comparator.JPK2020SprzedazWierszcomparator;
+import comparator.JPK2020ZakupWierszcomparator;
 import comparator.JPK2SprzedazWierszcomparator;
 import comparator.JPK2ZakupWierszcomparator;
 import comparator.JPK3SprzedazWierszcomparator;
@@ -22,9 +24,11 @@ import java.util.Collections;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import msg.Msg;import static pdffk.PdfMain.*;
+import msg.Msg;
+import org.primefaces.PrimeFaces;
+import static pdffk.PdfMain.*;
 import plik.Plik;
-import view.WpisView; import org.primefaces.PrimeFaces;
+ import view.WpisView;
 
 
 /**
@@ -243,6 +247,43 @@ public class PdfUPO extends Pdf implements Serializable {
             Collections.sort(zakupWiersz, new JPK3ZakupWierszcomparator());
             dodajTabele(document, testobjects.testobjects.getTabelaUPOZ(zakupWiersz),100,0);
             jpk201801.JPK.ZakupCtrl zakupCtrl = (jpk201801.JPK.ZakupCtrl) jpk.getZakupCtrl();
+            if (zakupCtrl!=null) {
+                String opis = "Ilość faktur "+zakupCtrl.getLiczbaWierszyZakupow().intValue()+". Podatek naliczony "+F.curr(zakupCtrl.getPodatekNaliczony().doubleValue());
+                dodajLinieOpisu(document, opis);
+            } else {
+                dodajLinieOpisu(document, "Brak dokumentów zakupu");
+            }
+            finalizacjaDokumentuQR(document,nazwa);
+            String f = "pokazwydruk('"+nazwa+"');";
+            PrimeFaces.current().executeScript(f);
+        } else {
+            Msg.msg("w", "Pusty plik JPK");
+        }
+    }
+   
+    public static void drukujJPK2020(JPKSuper jpk, WpisView wpisView, Podatnik podatnik) {
+        String nazwa = podatnik.getNip()+"JPK";
+        if (jpk != null) {
+            Uz uz = wpisView.getUzer();
+            Document document = inicjacjaA4Portrait();
+            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            dodajOpisWstepny(document, "Plik JPK zestawienie", podatnik,wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazWiersz> sprzedazWiersz = ((pl.gov.crd.wzor._2020._05._08._9393.JPK)jpk).getEwidencja().getSprzedazWiersz();
+            Collections.sort(sprzedazWiersz, new JPK2020SprzedazWierszcomparator());
+            dodajTabele(document, testobjects.testobjects.getTabelaUPOS(sprzedazWiersz),100, 0);
+            pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazCtrl sprzedazCtrl = ((pl.gov.crd.wzor._2020._05._08._9393.JPK)jpk).getEwidencja().getSprzedazCtrl();
+            if (sprzedazCtrl!=null) {
+                String opis = "Ilość faktur "+sprzedazCtrl.getLiczbaWierszySprzedazy().intValue()+". Podatek należny "+F.curr(sprzedazCtrl.getPodatekNalezny().doubleValue());
+                dodajLinieOpisu(document, opis);
+            } else {
+                dodajLinieOpisu(document, "Brak dokumentów sprzedaży");
+            }
+            List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupWiersz> zakupWiersz = ((pl.gov.crd.wzor._2020._05._08._9393.JPK)jpk).getEwidencja().getZakupWiersz();
+            Collections.sort(zakupWiersz, new JPK2020ZakupWierszcomparator());
+            dodajTabele(document, testobjects.testobjects.getTabelaUPOZ(zakupWiersz),100,0);
+            pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupCtrl zakupCtrl = ((pl.gov.crd.wzor._2020._05._08._9393.JPK)jpk).getEwidencja().getZakupCtrl();
             if (zakupCtrl!=null) {
                 String opis = "Ilość faktur "+zakupCtrl.getLiczbaWierszyZakupow().intValue()+". Podatek naliczony "+F.curr(zakupCtrl.getPodatekNaliczony().doubleValue());
                 dodajLinieOpisu(document, opis);
