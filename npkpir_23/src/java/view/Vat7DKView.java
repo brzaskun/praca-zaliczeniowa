@@ -293,7 +293,7 @@ public class Vat7DKView implements Serializable {
                 Msg.msg("w", "Przygotowano do zachowania ręczną korekte deklaracji za okres  " + rok + "-" + mc);   
         } else {
             Deklaracjevat ostatniawyslana = cozostalowyslane();
-            zbadajpobranadeklarajce(ostatniawyslana);
+            flaga = zbadajpobranadeklarajce(ostatniawyslana);
         }
         if (flaga != 1) {
             DeklaracjaVatSchemaWierszSum przeniesienie = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota nadwyżki z poprzedniej deklaracji");
@@ -783,6 +783,10 @@ public class Vat7DKView implements Serializable {
                     nowadeklaracja.setNrkolejny(badana.getNrkolejny());
                     f = 2;
                 } else {
+                    if (badana.getStatus().startsWith("388")) {
+                        Msg.msg("w", "Istnieje deklaracja za okres " + rok + "-" + mc+" która została już wysłana z plikiem jpk, ale nie pobrano jeszcze upo!","form:messages");
+                        f = 1;
+                    } else
                     if (badana.getStatus().startsWith("399")) {
                         Msg.msg("w", "Przygotowano do zachowania drugą wersję niezałączonej do jpk deklaracji za okres  " + rok + "-" + mc,"form:messages");
                         f = 1;
