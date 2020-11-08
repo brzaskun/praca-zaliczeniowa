@@ -51,6 +51,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Deklaracjevat.findByPodatnikWyslane", query = "SELECT d FROM Deklaracjevat d WHERE d.podatnik = :podatnik AND NOT d.identyfikator = :identyfikator"),
     @NamedQuery(name = "Deklaracjevat.findByPodatnikWyslaneRok", query = "SELECT d FROM Deklaracjevat d WHERE d.podatnik = :podatnik AND NOT d.identyfikator = :identyfikator AND d.rok = :rok"),
     @NamedQuery(name = "Deklaracjevat.findByPodatnikWyslaneRokMc", query = "SELECT d FROM Deklaracjevat d WHERE d.podatnik = :podatnik AND NOT d.identyfikator = :identyfikator AND d.rok = :rok AND d.miesiac = :mc ORDER BY d.datazlozenia ASC"),
+    @NamedQuery(name = "Deklaracjevat.findByPodatnikWyslaneRokMcJPK", query = "SELECT d FROM Deklaracjevat d WHERE d.podatnik = :podatnik AND d.rok = :rok AND d.miesiac = :mc AND (d.status = 388 OR d.status = 399) ORDER BY d.datazlozenia ASC"),
     @NamedQuery(name = "Deklaracjevat.findByPodatnikWyslaneRok200", query = "SELECT d FROM Deklaracjevat d WHERE d.podatnik = :podatnik AND NOT d.identyfikator = :identyfikator AND d.status = 200 AND d.rok = :rok AND d.testowa = 0"),
     @NamedQuery(name = "Deklaracjevat.findByPodatnikWyslaneRokMc200", query = "SELECT d FROM Deklaracjevat d WHERE d.status = :status AND d.rok = :rok AND d.miesiac = :mc AND d.testowa = 0"),
     @NamedQuery(name = "Deklaracjevat.findByPodatnikWyslaneRokMc303", query = "SELECT d FROM Deklaracjevat d WHERE d.status = :status AND d.rok = :rok AND d.miesiac = :mc AND d.testowa = 0 AND d.podatnik = :podatnik")

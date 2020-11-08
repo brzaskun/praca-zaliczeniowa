@@ -88,6 +88,15 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
         }
         return znalezionedeklaracje;
     }
+    public List<Deklaracjevat> findDeklaracjeWyslaneMcJPK(String podatnik, String rok, String mc) {
+       List<Deklaracjevat> znalezionedeklaracje = Collections.synchronizedList(new ArrayList<>());
+        try {
+            znalezionedeklaracje = deklaracjevatFacade.getEntityManager().createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRokMcJPK").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList();
+        } catch (Exception e) { 
+            E.e(e);
+        }
+        return znalezionedeklaracje;
+    }
     
     
     public List<Deklaracjevat> findDeklaracjeWyslane(String pod, String rok) {

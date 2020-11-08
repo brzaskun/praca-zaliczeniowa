@@ -7,10 +7,12 @@ package view;
 
 import beansPodpis.ObslugaPodpisuBean;
 import beansPodpis.Xad;
+import entity.Deklaracjevat;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import java.security.KeyStoreException;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import msg.Msg;
@@ -25,6 +27,24 @@ public class PodpisView  implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private boolean jestkarta;
+    
+    public void sprawdzczymoznaFK(WpisView wpisView, List<Deklaracjevat> oczekujace) {
+        jestkarta = false;
+        if (oczekujace!=null && oczekujace.size()>0) {
+            try {
+                if (wpisView.getPodatnikObiekt().isPodpiscertyfikowany()) {
+                    jestkarta  = ObslugaPodpisuBean.moznapodpisacError(wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
+                }
+            } catch (KeyStoreException ex) {
+                Msg.msg("e", "Brak karty w czytniku");
+            } catch (IOException ex) {
+                Msg.msg("e", "UWAGA! Błędne hasło!");
+            } catch (Exception ex) {
+                E.e(ex);
+            }
+        }
+    }
+    
 
     public void sprawdzczymozna(WpisView wpisView) {
         jestkarta = false;

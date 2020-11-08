@@ -65,7 +65,7 @@ public class UPO  implements Serializable {
     @Column (name = "jpk")
     private JPKSuper jpk;
     @JoinColumn(name = "deklaracja", referencedColumnName = "id")
-    private DeklSuper deklaracja;
+    private Deklaracjevat deklaracja;
     @Column (name = "wersja")
     private String wersja;
     @Column (name = "code")
@@ -225,14 +225,15 @@ public class UPO  implements Serializable {
         this.jpk = jpk;
     }
 
-    public DeklSuper getDeklaracja() {
+    public Deklaracjevat getDeklaracja() {
         return deklaracja;
     }
 
-    public void setDeklaracja(DeklSuper deklaracja) {
+    public void setDeklaracja(Deklaracjevat deklaracja) {
         this.deklaracja = deklaracja;
     }
 
+   
     public String getWersja() {
         return wersja;
     }

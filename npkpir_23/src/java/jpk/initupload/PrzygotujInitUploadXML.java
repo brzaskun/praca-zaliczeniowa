@@ -5,7 +5,6 @@
  */
 package jpk.initupload;
 
-import data.Data;
 import error.E;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,7 +33,11 @@ public class PrzygotujInitUploadXML {
             doc.setDocumentList(new ArrayOfDocumentType());
             ArrayOfDocumentType.Document adok = new ArrayOfDocumentType.Document();
             DocumentType.FormCode formkode = new DocumentType.FormCode();
-            if (Integer.parseInt(Data.aktualnyRok()) > 2017) {
+            if (wpisView.getRokWpisu() > 2020 || (wpisView.getRokWpisu() == 2020 && Integer.parseInt(wpisView.getMiesiacWpisu())>9)) {
+                formkode.setSystemCode("JPK_V7M (1)");
+                formkode.setSchemaVersion("1-2E");
+                formkode.setValue("JPK_VAT");
+            } else if (wpisView.getRokWpisu() > 2017) {
                 formkode.setSystemCode("JPK_VAT (3)");
                 formkode.setSchemaVersion("1-1");
                 formkode.setValue("JPK_VAT");

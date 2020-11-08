@@ -60,7 +60,7 @@
                 </p:panelGrid>
             </p:column>
             <p:column id="deleteColumn" headerText="usuń" width="110" style="text-align: center;">
-                <p:commandButton actionListener="#{deklaracjevatView.destroy(item)}" update="@form" rendered="#{item.status ne '300'}"
+                <p:commandButton actionListener="#{deklaracjevatView.destroybezupo(item)}" update="@form" rendered="#{item.status ne '300'}"
                                  id="delete" icon="ui-icon ui-icon-trash" type="submit" style="width: 80px;"/>
             </p:column>
             <p:rowExpansion>

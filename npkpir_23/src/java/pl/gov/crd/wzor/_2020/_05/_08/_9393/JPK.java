@@ -737,7 +737,8 @@ public class JPK extends JPKSuper implements Serializable {
         "pozycjeSzczegolowe",
         "pouczenia"
     })
-    public static class Deklaracja {
+    public static class Deklaracja implements Serializable    {
+        private static final long serialVersionUID = 1L;
 
         @XmlElement(name = "Naglowek", required = true)
         protected JPK.Deklaracja.Naglowek naglowek;
@@ -861,7 +862,8 @@ public class JPK extends JPKSuper implements Serializable {
             "kodFormularzaDekl",
             "wariantFormularzaDekl"
         })
-        public static class Naglowek {
+        public static class Naglowek  implements Serializable {
+            private static final long serialVersionUID = 1L;
 
             @XmlElement(name = "KodFormularzaDekl", required = true)
             protected JPK.Deklaracja.Naglowek.KodFormularzaDekl kodFormularzaDekl;
@@ -933,7 +935,8 @@ public class JPK extends JPKSuper implements Serializable {
             @XmlType(name = "", propOrder = {
                 "value"
             })
-            public static class KodFormularzaDekl {
+            public static class KodFormularzaDekl  implements Serializable {
+                private static final long serialVersionUID = 1L;
 
                 @XmlValue
                 protected TKodFormularzaVAT7 value;
@@ -1290,7 +1293,8 @@ public class JPK extends JPKSuper implements Serializable {
             "p69",
             "pordzu"
         })
-        public static class PozycjeSzczegolowe {
+        public static class PozycjeSzczegolowe implements Serializable   {
+        private static final long serialVersionUID = 1L;
 
             @XmlElement(name = "P_10")
             protected BigInteger p10;
@@ -3069,7 +3073,8 @@ public class JPK extends JPKSuper implements Serializable {
         "zakupWiersz",
         "zakupCtrl"
     })
-    public static class Ewidencja {
+    public static class Ewidencja implements Serializable {
+        private static final long serialVersionUID = 1L;
 
         @XmlElement(name = "SprzedazWiersz")
         protected List<JPK.Ewidencja.SprzedazWiersz> sprzedazWiersz;
@@ -3213,7 +3218,8 @@ public class JPK extends JPKSuper implements Serializable {
             "liczbaWierszySprzedazy",
             "podatekNalezny"
         })
-        public static class SprzedazCtrl {
+        public static class SprzedazCtrl  implements Serializable {
+            private static final long serialVersionUID = 1L;
 
             @XmlElement(name = "LiczbaWierszySprzedazy", required = true)
             @XmlSchemaType(name = "nonNegativeInteger")
@@ -3441,7 +3447,8 @@ public class JPK extends JPKSuper implements Serializable {
             "k36",
             "sprzedazVATMarza"
         })
-        public static class SprzedazWiersz  extends jpkabstract.SprzedazWierszA {
+        public static class SprzedazWiersz  extends jpkabstract.SprzedazWierszA  implements Serializable {
+            private static final long serialVersionUID = 1L;
 
             @XmlElement(name = "LpSprzedazy", required = true)
             @XmlSchemaType(name = "nonNegativeInteger")
@@ -5239,7 +5246,8 @@ public class JPK extends JPKSuper implements Serializable {
             "liczbaWierszyZakupow",
             "podatekNaliczony"
         })
-        public static class ZakupCtrl {
+        public static class ZakupCtrl  implements Serializable {
+            private static final long serialVersionUID = 1L;
 
             @XmlElement(name = "LiczbaWierszyZakupow", required = true)
             @XmlSchemaType(name = "nonNegativeInteger")
@@ -5363,7 +5371,8 @@ public class JPK extends JPKSuper implements Serializable {
             "k47",
             "zakupVATMarza"
         })
-        public static class ZakupWiersz  extends jpkabstract.ZakupWierszA {
+        public static class ZakupWiersz  extends jpkabstract.ZakupWierszA  implements Serializable {
+            private static final long serialVersionUID = 1L;
 
             @XmlElement(name = "LpZakupu", required = true)
             @XmlSchemaType(name = "nonNegativeInteger")
@@ -5991,9 +6000,10 @@ public class JPK extends JPKSuper implements Serializable {
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "")
     public static class Naglowek
-        extends TNaglowek
+        extends TNaglowek implements Serializable 
+    
     {
-
+        private static final long serialVersionUID = 1L;
 
     }
 
@@ -6018,8 +6028,10 @@ public class JPK extends JPKSuper implements Serializable {
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "")
     public static class Podmiot1
-        extends TPodmiotDowolnyBezAdresu
+        extends TPodmiotDowolnyBezAdresu  implements Serializable 
+    
     {
+        private static final long serialVersionUID = 1L;
 
         @XmlAttribute(name = "rola", required = true)
         protected String rola;

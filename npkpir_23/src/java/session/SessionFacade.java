@@ -75,7 +75,6 @@ import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.RMK;
-import entityfk.SprFinKwotyInfDod;
 import entityfk.SprawozdanieFinansowe;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
@@ -94,11 +93,8 @@ import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
-import javax.persistence.SynchronizationType;
 import javax.persistence.TemporalType;
 import org.eclipse.persistence.config.CascadePolicy;
 import org.eclipse.persistence.config.HintValues;
@@ -543,7 +539,7 @@ public class SessionFacade<T> implements Serializable {
     public List<Deklaracjevat> findDeklaracjewyslaneMc(String pod, String rok, String mc) {
         return Collections.synchronizedList(em.createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRokMc").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rok).setParameter("mc", mc).getResultList());
     }
-
+    
     public List<Deklaracjevat> findDeklaracjewyslane200(String pod, String rok) {
         return Collections.synchronizedList(em.createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRok200").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rok).getResultList());
     }

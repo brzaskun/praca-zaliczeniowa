@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -39,8 +38,9 @@ import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import mail.MailOther;
 import msg.Msg;
- import org.primefaces.PrimeFaces;
-import org.primefaces.event.RowEditEvent;
+import org.primefaces.PrimeFaces;
+import org.primefaces.component.commandbutton.CommandButton;
+ import org.primefaces.event.RowEditEvent;
 import pdf.PdfVAT7;
 import pdf.PdfVAT7new;
 import viewfk.SaldoAnalitykaView;
@@ -95,7 +95,7 @@ public class DeklaracjevatView implements Serializable {
     }
     
     
-    @PostConstruct
+    
     public void init() { //E.m(this);
         pokazZT = false;
         pokazZZ = false;
@@ -180,11 +180,13 @@ public class DeklaracjevatView implements Serializable {
             E.e(e);
         }
         pokazprzyciskpodpisfunkcja();
+        deklaracjazjpk();
         Collections.sort(wyslanenormalne, new Vatcomparator());
     }
     
     public boolean deklaracjazjpk() {
         boolean zwrot = false;
+        oczekujace = deklaracjevatDAO.findDeklaracjeDowyslaniaList(wpisView.getPodatnikWpisu());
         if (!oczekujace.isEmpty()) {
             try {
                 Deklaracjevat biezaca = oczekujace.get(0);
@@ -209,18 +211,30 @@ public class DeklaracjevatView implements Serializable {
         return zwrot;
     }
     
+    private CommandButton buttonwysylaniejpk;
+
+    public CommandButton getButtonwysylaniejpk() {
+        return buttonwysylaniejpk;
+    }
+
+    public void setButtonwysylaniejpk(CommandButton buttonwysylaniejpk) {
+        this.buttonwysylaniejpk = buttonwysylaniejpk;
+    }
+    
+    
     public void zachowajdeklaracjezjpk() {
         if (!oczekujace.isEmpty()) {
             try {
                 Deklaracjevat wysylanaDeklaracja = oczekujace.get(0);
                 wysylanaDeklaracja.setIdentyfikator("dla jpk");
-                wysylanaDeklaracja.setStatus("399");
+                wysylanaDeklaracja.setStatus("388");
                 wysylanaDeklaracja.setOpis("zachowana dla wysłania z jpk");
                 wysylanaDeklaracja.setDatazlozenia(new Date());
                 wysylanaDeklaracja.setSporzadzil(wpisView.getUzer().getImie() + " " + wpisView.getUzer().getNazw());
-                informacjazachowano = "Deklaracja zapisana i gotowa do załączenia do pliku JPK. Status 399";
+                informacjazachowano = "Deklaracja zapisana i gotowa do załączenia do pliku JPK. Status 388";
                 deklaracjevatDAO.edit(wysylanaDeklaracja);
-                Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + wpisView.getPodatnikObiekt().getNazwapelna() + " za " + wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu(), "formX:msg");
+                buttonwysylaniejpk.setRendered(false);
+                Msg.msg("i", "Przygotowane deklaracje do podpięcia pod jpk  " + wpisView.getPodatnikObiekt().getNazwapelna() + " za " + wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu(), "formX:msg");
                 } catch (Exception e) {
                 
             }
@@ -257,6 +271,19 @@ public class DeklaracjevatView implements Serializable {
         }
     }
      
+     
+     
+    public void destroybezupo(Deklaracjevat selDok) {
+        selected = selDok;
+        try {
+               wyslaneniepotwierdzone.remove(selected);
+               deklaracjevatDAO.destroy(selected);
+                Msg.msg("i","Deklaracja usunięta");
+            } catch (Exception e) { E.e(e); 
+                Msg.msg("e","Deklaracja nie usunięta");
+            }
+    }
+           
    public void destroy(Deklaracjevat selDok) {
         selected = selDok;
         try {

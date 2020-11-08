@@ -5,7 +5,6 @@
  */
 package jpkview;
 
-import data.Data;
 import entity.JPKSuper;
 import entity.Podatnik;
 import entity.UPO;
@@ -27,6 +26,7 @@ import javax.xml.bind.Unmarshaller;
 import jpk.initupload.PrzygotujInitUploadXML;
 import static jpkview.UnzipUtility.unzip;
 import view.WpisView;
+
 /**
  *
  * @author Osito
@@ -200,7 +200,17 @@ public class SzachMatJPK {
     
    
     private static JPKSuper pobierzJPK(String dirmainfilename, WpisView wpisView) {
-        if (Integer.parseInt(Data.aktualnyRok()) > 2017) {
+        if (wpisView.getRokWpisu() > 2020 || (wpisView.getRokWpisu() == 2020 && Integer.parseInt(wpisView.getMiesiacWpisu())>9)) {
+            pl.gov.crd.wzor._2020._05._08._9393.JPK zwrot = null;
+            try {
+                JAXBContext context = JAXBContext.newInstance(pl.gov.crd.wzor._2020._05._08._9393.JPK.class);
+                Unmarshaller unmarshaller = context.createUnmarshaller();
+                zwrot = (pl.gov.crd.wzor._2020._05._08._9393.JPK) unmarshaller.unmarshal(new File(dirmainfilename));
+            } catch (JAXBException ex) {
+                E.e(ex);
+            }
+            return zwrot;
+        } else if (wpisView.getRokWpisu() > 2017) {
             jpk201801.JPK zwrot = null;
             try {
                 JAXBContext context = JAXBContext.newInstance(jpk201801.JPK.class);

@@ -126,10 +126,10 @@ public class JPK_VAT2View implements Serializable {
     
     private void szukajdeklaracji() {
         moznawysylacjpk = false;
-        List<Deklaracjevat> wyslane = deklaracjevatDAO.findDeklaracjeWyslaneMc(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        List<Deklaracjevat> wyslane = deklaracjevatDAO.findDeklaracjeWyslaneMcJPK(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         int znaleziono = 0;
         for (Deklaracjevat p : wyslane) {
-            if (p.getStatus().equals("399")&&p.getIdentyfikator().equals("dla jpk")) {
+            if (p.getStatus().equals("388")) {
                 deklaracjadlajpk = p;
                 znaleziono++;
             }
@@ -143,8 +143,13 @@ public class JPK_VAT2View implements Serializable {
                 wynikszukaniadeklaracji = "Brak przygotowanej deklaracji do wysłania z jpk";
             }
         } else if (znaleziono == 1) {
-            wynikszukaniadeklaracji = "Znaleziono deklaracje do wysłania razem z JPK";
-            moznawysylacjpk = true;
+            if (wyslane.get(0).getStatus().equals("399")) {
+                wynikszukaniadeklaracji = "Pobrana dekalracja już została wysłana z JPK ale nie pobrano UPO. Nie można wysyłać nowego JPK";
+                moznawysylacjpk = false;
+            } else {
+                wynikszukaniadeklaracji = "Znaleziono deklaracje do wysłania razem z JPK";
+                moznawysylacjpk = true;
+            }
         }
         if (znaleziono>1) {
             deklaracjadlajpk = null;
@@ -210,6 +215,8 @@ public class JPK_VAT2View implements Serializable {
                     this.lista = new ArrayList<>();
                 }
                 this.lista.add(upo);
+            } else {
+                Msg.msg("e","Wystąpił problem. Nie wysłano JPK");
             }
         } else {
             Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
@@ -302,6 +309,8 @@ public class JPK_VAT2View implements Serializable {
                     this.lista = new ArrayList<>();
                 }
                 this.lista.add(upo);
+            } else {
+                Msg.msg("e","Wystąpił problem. Nie wysłano JPK");
             }
         } else {
             Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
@@ -347,8 +356,10 @@ public class JPK_VAT2View implements Serializable {
     
     private UPO wysylkaJPK(Podatnik podatnik) {
         UPO upo = new UPO();
-        if (deklaracjadlajpk!=null) {
+        if (deklaracjadlajpk!=null && deklaracjadlajpk.getId()!=null) {
             upo.setDeklaracja(deklaracjadlajpk);
+        } else if (wpisView.getRokWpisu()>2020 || (wpisView.getRokWpisu()==2020 && Integer.valueOf(wpisView.getMiesiacWpisu())>9)){
+            return null;
         }
         try {
             boolean moznapodpisac = ObslugaPodpisuBean.moznapodpisacError(wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
@@ -358,7 +369,8 @@ public class JPK_VAT2View implements Serializable {
                     wiadomosc = zachowajUPO(upo);
                     if (upo.getDeklaracja()!=null) {
                         DeklSuper deklaracja = upo.getDeklaracja();
-                        deklaracja.setStatus("388");
+                        deklaracja.setStatus("399");
+                        deklaracja.setIdentyfikator("wysłano z jpk, oczekuje na upo");
                         deklaracja.setOpis(upo.getUpoString());
                         deklaracja.setUpo(upo.getReferenceNumber());
                         deklaracja.setDataupo(upo.getDataupo());
