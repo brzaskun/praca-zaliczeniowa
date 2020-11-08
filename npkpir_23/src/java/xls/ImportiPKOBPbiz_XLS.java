@@ -93,9 +93,9 @@ public class ImportiPKOBPbiz_XLS implements Serializable {
                         if (!mcwiersz.equals(mc)) {
                               
                         } else {
-                            String opis = baza.getCell(8).getStringCellValue();
+                            String opis = baza.getCell(12).getStringCellValue();
                             if (opis==null || opis.equals("")|| opis.contains("Tytuł:  Pobranie środków ")) {
-                                opis = baza.getCell(6).getStringCellValue();
+                                opis = baza.getCell(2).getStringCellValue();
                             }
                             if (opis.contains("Numer faktury VAT lub okres płatności zbiorczej:")||opis.contains("Tytuł:")) {
                                 opis = opis.replace("Numer faktury VAT lub okres płatności zbiorczej: ", "");
@@ -120,7 +120,7 @@ public class ImportiPKOBPbiz_XLS implements Serializable {
                                 rachunek = null;
                             }
                             x.setIBAN(rachunek);
-                            String nazw = baza.getCell(7)!=null? baza.getCell(7).getStringCellValue():null;
+                            String nazw = baza.getCell(10)!=null? baza.getCell(10).getStringCellValue():null;
                             if (nazw.contains("Dane adr. rach. przeciwst.:")) {
                                 nazw = nazw.replace("Dane adr. rach. przeciwst.: ", "");
                             }
@@ -194,22 +194,28 @@ public class ImportiPKOBPbiz_XLS implements Serializable {
             zwrot = 3;
         } else if (p.getNrtransakji().equals("PRZELEW ELIXIR - ONLINE") || p.getNrtransakji().equals("PRZELEW NA RACHUNEK W SAN PL - ONLINE")) {
             zwrot = 1;
-        } else if (p.getNrtransakji().equals("UZNANIE") || p.getNrtransakji().equals("UZNANIE - PŁATNOŚĆ PODZIELONA")) {
-            zwrot = 2;
+        } else if (p.getNrtransakji().equals("Uznanie") || p.getNrtransakji().equals("Uznanie - płatność podzielona")) {
+            zwrot = 1;
         } else if (p.getKontrahent().toLowerCase().contains("INTERPAPER SP Z O O SK")) {
             zwrot = 8;
         } else if (p.getKontrahent().toLowerCase().contains("Gmina")) {
             zwrot = 8;
+        } else if (p.getNrtransakji().contains("Przelew z rachunku")) {
+            zwrot = 2;
         } else if (p.getNrtransakji().contains("Przelew do ZUS")) {
             zwrot = 7;
         } else if (p.getNrtransakji().contains("Przelew podatkowy")) {
             zwrot = 6;
-        } else if (p.getNrtransakji().equals("Płatnośc kartą")) {
+        } else if (p.getNrtransakji().contains("Wypłata z bankomatu")) {
             zwrot = 4;
+        } else if (p.getNrtransakji().equals("Płatnośc kartą")) {
+            zwrot = 5;
+        } else if (p.getNrtransakji().equals("Uznanie")) {
+            zwrot = 9;
         } else if (p.getNrtransakji().contains("REZERWACJA")) {
             zwrot = 10;
-        } else if (p.getNrtransakji().contains("TRANSAKCJA KARTĄ ")) {
-            zwrot = 5;
+        } else if (p.getNrtransakji().contains("Przelew z rachunku")) {
+            zwrot = 2;
         } else if (p.getWnma().equals("Wn")) {
             zwrot = 1;
         } else if (p.getWnma().equals("Ma")) {

@@ -14,8 +14,6 @@ import java.text.SimpleDateFormat;
 import java.time.Year;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.inject.Named;
@@ -395,7 +393,7 @@ public class Data implements Serializable {
     
     private static String pobierzokres(String data, int pole) {
         String zwrot = null;
-        if (data.length()==10 | data.length()==8) {
+        if (data.length()>=8) {
             zwrot = data.split("-")[pole];
         }
         return zwrot;
@@ -600,8 +598,38 @@ public class Data implements Serializable {
         return dobradata;
     }
     
+    public static String zmienkolejnoscUS(String zladata) {
+        String dobradata = "";
+        if (dataamerico(zladata)) {
+            zladata = zladata.replace("/", "-");
+            zladata = zladata.replace(".", "-");
+            String rok = pobierzokres(zladata, 2);
+            String mc = pobierzokres(zladata, 0);
+            String dzien = pobierzokres(zladata, 1);
+            StringBuilder sb = new StringBuilder();
+            sb.append(rok);
+            sb.append("-");
+            mc = mc.length()==2? mc:"0"+mc;
+            sb.append(mc);
+            sb.append("-");
+            dzien = dzien.length()==2? dzien:"0"+dzien;
+            sb.append(dzien);
+            dobradata = sb.toString();
+        } else {
+            dobradata = zladata;
+        }
+        return dobradata;
+    }
+    
     private static boolean dataodprawejdolewej(String zladata) {
         String wzor = "([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))";
+        Pattern p = Pattern.compile(wzor);//<-- compile( not Compile(
+        Matcher m = p.matcher(zladata);
+        return m.find();
+    }
+    
+    private static boolean dataamerico(String zladata) {
+        String wzor = "(0?[1-9]|1[012])([\\/\\-])(0?[1-9]|[12]\\d|3[01])\\2(\\d{4})";
         Pattern p = Pattern.compile(wzor);//<-- compile( not Compile(
         Matcher m = p.matcher(zladata);
         return m.find();
@@ -618,18 +646,18 @@ public class Data implements Serializable {
         return zwrot;
     }
    
-    public static void main(String[] args) {
-        try {
-            String termin = "10-05-2012";
-            String dzis = "2012-05-02";
-            String wzor = "([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))";
-            Pattern p = Pattern.compile(wzor);//<-- compile( not Compile(
-            Matcher m = p.matcher(termin);
-            boolean find = m.find();
-            error.E.s(" s "+find);
-            m = p.matcher(dzis);
-            find = m.find();
-            error.E.s(" s "+find);
+//    public static void main(String[] args) {
+//        try {
+//            String termin = "10-05-2012";
+//            String dzis = "2012-05-02";
+//            String wzor = "([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))";
+//            Pattern p = Pattern.compile(wzor);//<-- compile( not Compile(
+//            Matcher m = p.matcher(termin);
+//            boolean find = m.find();
+//            error.E.s(" s "+find);
+//            m = p.matcher(dzis);
+//            find = m.find();
+//            error.E.s(" s "+find);
 //            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 //            
 //            Date date1 = format.parse(termin);
@@ -638,10 +666,10 @@ public class Data implements Serializable {
 //            if (date1.compareTo(date2) <0) {
 //                error.E.s("red");
 //            }
-        } catch (Exception ex) {
-            // Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
-        }
-}
+//        } catch (Exception ex) {
+//            // Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//}
     
 //    public static void main(String[] args) {
 //        try {
@@ -657,6 +685,12 @@ public class Data implements Serializable {
 //            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //}
+    
+     public static void main(String[] args) {
+         String data = "1/28/2020";
+         boolean jest = dataamerico(data);
+         System.out.println("");
+     }
     
 //   public static void main(String[] args) {
 //        String dzien = null;
@@ -702,6 +736,8 @@ public class Data implements Serializable {
 //  public static LocalDateTime asLocalDateTime(Date date) {
 //    return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
 //  }
+
+    
 
     
 }

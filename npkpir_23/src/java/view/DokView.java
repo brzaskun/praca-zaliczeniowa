@@ -1057,7 +1057,8 @@ public class DokView implements Serializable {
                 selDokument.setStatus("bufor");
                 selDokument.setUsunpozornie(false);
                 selDokument.setDataWyst(Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
-                selDokument.setKontr(new Klienci("", "dowód wewnętrzny"));
+                Klienci kontr = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+                selDokument.setKontr(kontr);
                 Rodzajedok amodok = rodzajedokDAO.find("AMO", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                 selDokument.setRodzajedok(amodok);
                 selDokument.setNrWlDk(wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisu().toString());
@@ -1074,7 +1075,7 @@ public class DokView implements Serializable {
                 selDokument.setRozliczony(true);
                 sprawdzCzyNieDuplikat(selDokument);
                 if (selDokument.getNetto() > 0) {
-                    dokDAO.edit(selDokument);
+                    dokDAO.dodaj(selDokument);
                     String wiadomosc = "Nowy dokument umorzenia zachowany: " + selDokument.getPkpirR() + "/" + selDokument.getPkpirM() + " kwota: " + selDokument.getNetto();
                     Msg.msg("i", wiadomosc);
                     amodokBiezacy.setZaksiegowane(true);
@@ -1449,24 +1450,7 @@ public class DokView implements Serializable {
         }
     }
 
-    //kopiuje ostatni dokument celem wykorzystania przy wpisie
-    public void skopiujdokument() {
-        try {
-            selDokument = ostatnidokumentDAO.pobierz(wpisView.getUzer().getLogin());
-            liczbawierszy = selDokument.getListakwot1().size();
-            Rodzajedok rodzajdok = selDokument.getRodzajedok();
-            typdokumentu = rodzajdok.getSkrot();
-            selDokument.setNrWlDk(null);
-            podepnijListe();
-            renderujwyszukiwarke(rodzajdok);
-            renderujtabele(rodzajdok);
-        } catch (Exception e) {
-            E.e(e);
-        }
-        PrimeFaces.current().ajax().update("dodWiad:wprowadzanie");
-        PrimeFaces.current().executeScript("$(document.getElementById('dodWiad:dataPole')).select();");
-    }
-
+    
     public void skopiujdoedycji() {
         selDokument = dokTabView.getGosciuwybral().get(0);
     }

@@ -5,6 +5,7 @@
  */
 package format;
 
+import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
 import java.util.Currency;
 import waluty.Z;
@@ -60,9 +61,24 @@ public class F {
     }
     
     public static double kwota(String f) {
+        double zwrot = 0.0;
         String f1 = f.trim();
         f1 = f1.replace(",", ".");
-        f1 = f1.replace(" ", "");
-        return Z.z(Double.valueOf(f1).doubleValue());
+        f1 = f1.replaceAll("[^0-9.]", "");
+        zwrot = Z.z(Double.valueOf(f1));
+        return zwrot;
     }
+    
+     public static void main(String[] args)  {
+            byte[] tabela = new byte[]{49,-62,-96,50,51,53,46,50,54};
+         String text = new String(tabela, StandardCharsets.UTF_8);
+         System.out.println("text "+text);
+         String f1 = text;
+         f1 = f1.replace(",", ".");
+         String f2 = f1.replaceAll("[^0-9.]","");
+         double f3 = kwota(f2);
+         //f1.getBytes();
+         System.out.println(f3);
+         //System.out.println(f3);
+     }
 }

@@ -363,7 +363,9 @@ public class UPO  implements Serializable {
             this.miesiac = wpisView.getMiesiacWpisu();
             this.rok = wpisView.getRokWpisuSt();
             if (jpk != null) {
-                if (jpk instanceof jpk201701.JPK) {
+                if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
+                    this.wersja = ((pl.gov.crd.wzor._2020._05._08._9393.JPK)jpk).getNaglowek().getKodFormularza().getWersjaSchemy();
+                } else if (jpk instanceof jpk201701.JPK) {
                     this.wersja = ((jpk201701.JPK)jpk).getNaglowek().getKodFormularza().getWersjaSchemy();
                 } else {
                     this.wersja = ((jpk201801.JPK)jpk).getNaglowek().getKodFormularza().getWersjaSchemy();

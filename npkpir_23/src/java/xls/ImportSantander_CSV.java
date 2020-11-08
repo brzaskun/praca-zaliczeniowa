@@ -6,7 +6,6 @@
 package xls;
 
 import data.Data;
-import dedra.Dedraparser;
 import error.E;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -22,14 +21,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import msg.Msg;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import treasures.Filtrcsvbezsrednika;
-import static xls.ImportPKO_XML.pT;
 
 /**
  *

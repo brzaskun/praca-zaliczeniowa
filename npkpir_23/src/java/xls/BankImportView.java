@@ -215,7 +215,7 @@ public class BankImportView implements Serializable {
     public void zachowajplik(FileUploadEvent event) {
         try {
             UploadedFile uploadedFile = event.getFile();
-            String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
+            String extension = FilenameUtils.getExtension(uploadedFile.getFileName()).toLowerCase();
             if (extension.equals("csv")||extension.equals("xml")||extension.equals("xls")||extension.equals("xlsx")) {
                 String filename = uploadedFile.getFileName();
                 pobraneplikibytes.add(uploadedFile.getContents());
@@ -301,6 +301,10 @@ public class BankImportView implements Serializable {
                         case 8 :
                             zwrot = ImportiPKOBPbiz_XLS.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
                             break;
+                        case 9 :
+                            numerwyciagu = 1;
+                            zwrot = ImportPayPal_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
+                            break;
                     }
                     if (zwrot.size()==5) {
                         Msg.msg("e", "Nie pobrano wszystkich plików. Wystąpił błąd");
@@ -359,9 +363,12 @@ public class BankImportView implements Serializable {
             Klienci kontr = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
             Waluty walutadokumentu = walutyDAOfk.findWalutaBySymbolWaluty(naglowek.getWyciagwaluta());
             List<BankImportWzory> zasady = bankImportWzoryDAO.findByBank(wybranyrodzajimportu.getOpis());
-            while (pobranefaktury!=null && pobranefaktury.size() >0) {
+            while (pobranefaktury!=null && pobranefaktury.size() >0 && ile < 10000) {
                 int czyduplikat = generowanieDokumentu(ile, kontr, walutadokumentu, zasady);
-                if (czyduplikat==1) {
+                if (czyduplikat == -1) {
+                    Msg.msg("e", "Błąd przy generowaniu dokumentów. Przerywam funkcje. "+duplikaty);
+                    break;
+                } else if (czyduplikat==1) {
                     duplikaty++;
                     ile++;
                 } else {
@@ -396,6 +403,7 @@ public class BankImportView implements Serializable {
             }
         } catch (Exception e) {
             E.e(e);
+            zwrot = -1;
         }
         return zwrot;
     }

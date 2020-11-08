@@ -218,7 +218,7 @@ public class DeklaracjevatView implements Serializable {
                 wysylanaDeklaracja.setOpis("zachowana dla wysłania z jpk");
                 wysylanaDeklaracja.setDatazlozenia(new Date());
                 wysylanaDeklaracja.setSporzadzil(wpisView.getUzer().getImie() + " " + wpisView.getUzer().getNazw());
-                informacjazachowano = "Zachowano deklaracje";
+                informacjazachowano = "Deklaracja zapisana i gotowa do załączenia do pliku JPK. Status 399";
                 deklaracjevatDAO.edit(wysylanaDeklaracja);
                 Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + wpisView.getPodatnikObiekt().getNazwapelna() + " za " + wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu(), "formX:msg");
                 } catch (Exception e) {

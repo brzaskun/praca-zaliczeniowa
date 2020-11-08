@@ -165,7 +165,7 @@ public class AmodokView implements Serializable {
             if (amoDok.getPlanumorzen().isEmpty()) {
                 amoDok.setZaksiegowane(true);
             }
-            amoDokDAO.edit(amoDok);
+            amoDokDAO.dodaj(amoDok);
             //ZAZNACZA PUSTE JAKO TRUe a to w celu zachwoania ciaglosci a to w celu pokazania ze sa sporzadzone za zadany okres a ze nie wsyatpil blad
             if (mcOd == 12) {
                 rokOd++;

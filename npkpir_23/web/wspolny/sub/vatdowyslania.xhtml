@@ -238,7 +238,7 @@
         </p:accordionPanel>
     <p:accordionPanel id="akordeon3" style="max-width: 1400px;" rendered="#{deklaracjevatView.deklaracjazjpk()}"> 
         <p:tab title="W celu wysłania deklaracji na serwer ministerstwa wciśnij przycisk wyślij. Deklaracja zostanie wysłana przy najbliższej wysyłce JPK" id="przycisk">
-            <p:panelGrid columns="1" style="width: 100%;">
+            <p:panelGrid columns="1" style="width: 100%; padding: 10px;margin-top: 20px;">
                 <p:commandButton value="wyślij" actionListener="#{deklaracjevatView.zachowajdeklaracjezjpk}" 
                                  style="margin-left: 3%; width: 120px;" update="akordeon3:przycisk"/>
                 <h:outputText value="#{deklaracjevatView.informacjazachowano}" style="color: blue;"/>
