@@ -37,7 +37,7 @@
                                  rendered="#{vat7DKView.pokazuproszczona}"
                                  style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>
                 <p:commandButton  value="zapisz"  actionListener="#{vat7DKView.zapiszdeklaracje}"
-                                 update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt formX" 
+                                 update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt formX dialog_deklaracje_vat_wysylka formbutton" 
                                  rendered="#{vat7DKView.pokazpelna}"
                                  style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>
                 <p:selectBooleanCheckbox itemLabel="wymuś korektę" style="margin-left: 100px;" value="#{vat7DKView.wymusozmnaczeniejakokorekte}"/>

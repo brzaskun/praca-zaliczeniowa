@@ -236,15 +236,17 @@
             </p:panelGrid>
     </p:tab>
         </p:accordionPanel>
+<h:form id="formbutton">
     <p:accordionPanel id="akordeon3" style="max-width: 1400px;" rendered="#{deklaracjevatView.deklaracjazjpk() and deklaracjevatView.oczekujace ne null and deklaracjevatView.oczekujace.size() gt 0}"> 
         <p:tab title="W celu wysłania deklaracji na serwer ministerstwa wciśnij przycisk wyślij. Deklaracja zostanie wysłana przy najbliższej wysyłce JPK" id="przycisk">
             <p:panelGrid columns="1" style="width: 100%; padding: 10px;margin-top: 20px;">
                 <p:commandButton value="wyślij" actionListener="#{deklaracjevatView.zachowajdeklaracjezjpk}" 
-                                 style="margin-left: 3%; width: 120px;" update="akordeon3:przycisk" binding="#{deklaracjevatView.buttonwysylaniejpk}"/>
+                                 style="margin-left: 3%; width: 120px;" update="formbutton"/>
                 <h:outputText value="#{deklaracjevatView.informacjazachowano}" style="color: blue;"/>
             </p:panelGrid>
         </p:tab>
     </p:accordionPanel>
+</h:form>
     </p:outputPanel>
 </ui:composition>   
 
