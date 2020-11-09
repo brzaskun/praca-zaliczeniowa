@@ -27,7 +27,7 @@
                             
                         </p:menuitem>
                     
-                    <p:menuitem global="false" value="wysyłka"  actionListener="#{deklaracjevatView.init()}" outcome="vatydowyslania" icon="ui-icon-circle-arrow-e"  rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>  
+                    <p:menuitem global="false" value="wysyłka"  outcome="vatydowyslania" icon="ui-icon-circle-arrow-e"  rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>  
                     <p:menuitem global="false" value="potwierdzenia"  outcome="vatywyslane" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>
                     <p:menuitem global="false" value="korekty"  outcome="korektavat" icon="ui-icon-circle-arrow-e"  rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>  
                     <p:menuitem global="false" value="VAT-UE"  outcome="vatue" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>
