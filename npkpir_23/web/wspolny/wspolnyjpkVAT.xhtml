@@ -9,7 +9,7 @@
         </p:outputPanel>
         <p:panel header="wygeneruj JPK VAT za #{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt}" style="width: 1250px;"/>
         <p:panelGrid columns="5" rendered="#{WpisView.podatnikObiekt.nip ne '5263158333'}">
-            <p:commandButton value="wyślij jpkfk" actionListener="#{jPK_VAT2View.przygotujXMLFK()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.nowa0korekta1 and jPK_VAT2View.pkpir0ksiegi1}"/>
+            <p:commandButton value="wyślij jpkfk" actionListener="#{jPK_VAT2View.przygotujXMLFK()}" update="@form form_dialog_jpk_vat:tabela" style="width: 120px;" rendered="#{!jPK_VAT2View.nowa0korekta1 and jPK_VAT2View.pkpir0ksiegi1}"/>
             <p:commandButton value="wyślij korektafk" actionListener="#{jPK_VAT2View.przygotujXMLFK()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.nowa0korekta1 and jPK_VAT2View.pkpir0ksiegi1}"/>
             <p:commandButton value="wyślij jpk" actionListener="#{jPK_VAT2View.przygotujXML()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.nowa0korekta1 and !jPK_VAT2View.pkpir0ksiegi1}"/>
             <p:commandButton value="wyślij korekta" actionListener="#{jPK_VAT2View.przygotujXML()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.nowa0korekta1 and !jPK_VAT2View.pkpir0ksiegi1}"/>

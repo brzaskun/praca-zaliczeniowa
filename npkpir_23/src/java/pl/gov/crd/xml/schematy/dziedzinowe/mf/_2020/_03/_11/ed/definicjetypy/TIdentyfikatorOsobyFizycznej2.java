@@ -8,6 +8,7 @@
 
 package pl.gov.crd.xml.schematy.dziedzinowe.mf._2020._03._11.ed.definicjetypy;
 
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -53,7 +54,10 @@ import javax.xml.datatype.XMLGregorianCalendar;
 @XmlSeeAlso({
     pl.gov.crd.wzor._2020._05._08._9393.TPodmiotDowolnyBezAdresu.OsobaFizyczna.class
 })
-public class TIdentyfikatorOsobyFizycznej2 {
+public class TIdentyfikatorOsobyFizycznej2 implements Serializable 
+    
+    {
+        private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "NIP", required = true)
     protected String nip;
