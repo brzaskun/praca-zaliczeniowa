@@ -427,13 +427,9 @@ public class JPK_VAT2View implements Serializable {
                 jpk.setPodmiot1(JPK_VAT2020_Bean.podmiot1(podatnik, wpisView.getUzer().getNrtelefonu(), wpisView.getUzer().getEmail()));
                 jpk.setEwidencja(new JPK.Ewidencja());
                 jpk.getEwidencja().getSprzedazWiersz().addAll(listas);
-                if (sprzedazCtrl != null && sprzedazCtrl.getLiczbaWierszySprzedazy().intValue() > 0) {
-                    jpk.getEwidencja().setSprzedazCtrl(sprzedazCtrl);
-                }
+                jpk.getEwidencja().setSprzedazCtrl(sprzedazCtrl);
                 jpk.getEwidencja().getZakupWiersz().addAll(listaz);
-                if (zakupCtrl != null && zakupCtrl.getLiczbaWierszyZakupow().intValue() > 0) {
-                    jpk.getEwidencja().setZakupCtrl(zakupCtrl);
-                }
+                jpk.getEwidencja().setZakupCtrl(zakupCtrl);
                 zwrot = jpk;
             } else if (wpisView.getRokWpisu()>2017) {
                 JPKVATWersja jPKVATWersja = jPKVATWersjaDAO.findByName("JPK3");
