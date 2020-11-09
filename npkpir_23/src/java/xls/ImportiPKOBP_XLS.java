@@ -6,16 +6,11 @@
 package xls;
 
 import data.Data;
-import dedra.Dedraparser;
-import error.E;
 import extclass.ReverseIterator;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -107,7 +102,7 @@ public class ImportiPKOBP_XLS implements Serializable {
                         if (!mcwiersz.equals(mc)) {
                               
                         } else {
-                            String opis = baza.getCell(12).getStringCellValue();
+                            String opis = baza.getCell(12)!=null? baza.getCell(12).getStringCellValue():baza.getCell(2).getStringCellValue();
                             if (opis.contains("Numer faktury VAT lub okres płatności zbiorczej:")||opis.contains("Tytuł:")) {
                                 opis = opis.replace("Numer faktury VAT lub okres płatności zbiorczej: ", "");
                                 opis = opis.replace("Tytuł: ", "");
