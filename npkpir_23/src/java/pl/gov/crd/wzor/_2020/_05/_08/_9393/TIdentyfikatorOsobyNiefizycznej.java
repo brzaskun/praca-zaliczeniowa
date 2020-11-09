@@ -8,6 +8,7 @@
 
 package pl.gov.crd.wzor._2020._05._08._9393;
 
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -54,7 +55,10 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlSeeAlso({
     pl.gov.crd.wzor._2020._05._08._9393.TPodmiotDowolnyBezAdresu.OsobaNiefizyczna.class
 })
-public class TIdentyfikatorOsobyNiefizycznej {
+public class TIdentyfikatorOsobyNiefizycznej implements Serializable 
+    
+    {
+        private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "NIP", required = true)
     protected String nip;

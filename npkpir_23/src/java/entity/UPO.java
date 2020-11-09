@@ -157,18 +157,18 @@ public class UPO  implements Serializable {
     public String getJpkWersja() {
         String zwrot = "pierw.";
         if (jpk != null) {
-            if (jpk instanceof jpk201701.JPK) {
-                String cel = Byte.toString(((jpk201701.JPK)jpk).getNaglowek().getCelZlozenia());
+            if (this.jpk instanceof jpk201701.JPK) {
+                String cel = Byte.toString(((jpk201701.JPK)this.jpk).getNaglowek().getCelZlozenia());
                 if (cel.equals("2")) {
                     zwrot = "kor.";
                 }
-            } else if (jpk instanceof jpk201801.JPK) {
-                int cel = ((jpk201801.JPK)jpk).getNaglowek().getCelZlozenia();
+            } else if (this.jpk instanceof jpk201801.JPK) {
+                int cel = ((jpk201801.JPK)this.jpk).getNaglowek().getCelZlozenia();
                 if (cel > 0) {
                     zwrot = "kor.";
                 }
-            } else if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
-                String cel = Byte.toString(((pl.gov.crd.wzor._2020._05._08._9393.JPK)jpk).getNaglowek().getCelZlozenia().getValue());
+            } else if (this.jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
+                String cel = Byte.toString(((pl.gov.crd.wzor._2020._05._08._9393.JPK)this.jpk).getNaglowek().getCelZlozenia().getValue());
                 if (cel.equals("2")) {
                     zwrot = "kor.";
                 }

@@ -8,6 +8,7 @@
 
 package pl.gov.crd.wzor._2020._05._08._9393;
 
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
@@ -29,7 +30,10 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlType(name = "TKodFormularzaVAT7")
 @XmlEnum
-public enum TKodFormularzaVAT7 {
+public enum TKodFormularzaVAT7 implements Serializable 
+    
+    {
+       
 
     @XmlEnumValue("VAT-7")
     VAT_7("VAT-7");

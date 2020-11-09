@@ -8,6 +8,7 @@
 
 package pl.gov.crd.wzor._2020._05._08._9393;
 
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -83,7 +84,10 @@ import pl.gov.crd.xml.schematy.dziedzinowe.mf._2020._03._11.ed.definicjetypy.TId
 @XmlSeeAlso({
     pl.gov.crd.wzor._2020._05._08._9393.JPK.Podmiot1 .class
 })
-public class TPodmiotDowolnyBezAdresu {
+public class TPodmiotDowolnyBezAdresu implements Serializable 
+    
+    {
+        private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "OsobaFizyczna")
     protected TPodmiotDowolnyBezAdresu.OsobaFizyczna osobaFizyczna;
@@ -172,7 +176,10 @@ public class TPodmiotDowolnyBezAdresu {
     })
     public static class OsobaFizyczna
         extends TIdentyfikatorOsobyFizycznej2
+    implements Serializable 
+    
     {
+        private static final long serialVersionUID = 1L;
 
         @XmlElement(name = "Email", required = true)
         @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -266,7 +273,10 @@ public class TPodmiotDowolnyBezAdresu {
     })
     public static class OsobaNiefizyczna
         extends TIdentyfikatorOsobyNiefizycznej
+    implements Serializable 
+    
     {
+        private static final long serialVersionUID = 1L;
 
         @XmlElement(name = "Email", required = true)
         @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
