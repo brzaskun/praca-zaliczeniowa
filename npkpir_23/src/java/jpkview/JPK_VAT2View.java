@@ -563,9 +563,10 @@ public class JPK_VAT2View implements Serializable {
                 if (selected.getDeklaracja()!=null&&selected.getCode()<299) {
                         DeklSuper deklaracja = selected.getDeklaracja();
                         deklaracja.setStatus(String.valueOf(selected.getCode()));
-                        deklaracja.setOpis(selected.getUpoString());
-                        deklaracja.setUpo(selected.getReferenceNumber());
+                        deklaracja.setOpis(selected.getDescription());
+                        deklaracja.setUpo(selected.getUpoString());
                         deklaracja.setDataupo(selected.getDataupo());
+                        deklaracja.setIdentyfikator(selected.getReferenceNumber());
                         deklaracja.setDatazlozenia(selected.getDatajpk());
                         deklaracjevatDAO.edit(deklaracja);
                     }
