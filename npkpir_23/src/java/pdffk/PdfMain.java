@@ -66,7 +66,9 @@ import format.F;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -75,6 +77,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import msg.B;
 import org.apache.commons.lang3.RandomStringUtils;
+import pl.gov.crd.wzor._2020._05._08._9393.JPK;
 import plik.Plik;
 import testobjects.WierszCecha;
 import testobjects.WierszDokfk;
@@ -296,32 +299,32 @@ public class PdfMain {
         }
    }
     
-    public static void main(String[] args) {
-        try {
-             ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-            String realPath = ctx.getRealPath("/");
-            String nazwaplikuzbazy = realPath+"resources/images/logo/taxman.jpg";
-            String nazwa = Plik.getKatalog()+"2.pdf";
-            File f = new File(nazwaplikuzbazy);
-            if(f.exists()) {
-                Image logo = Image.getInstance(nazwaplikuzbazy);
-                logo.scaleToFit(50f, 50f);
-                PdfReader reader = new PdfReader(nazwa);
-                String plikzqr = Plik.getKatalog()+"nowa.pdf";
-                PdfStamper pdfStamper = new PdfStamper(reader,new FileOutputStream(plikzqr));
-                PdfContentByte content = pdfStamper.getUnderContent(reader.getNumberOfPages());
-                int rot = reader.getPageRotation(reader.getNumberOfPages());
-                logo.setAbsolutePosition(10, 10); //e
-                content.addImage(logo);
-                pdfStamper.close();
-                reader.close();
-                Plik.usun(nazwa);
-                Plik.zapiszjako(plikzqr,nazwa);
-            }
-        } catch (Exception ex) {
-            // Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
-        }
-   }
+//    public static void main(String[] args) {
+//        try {
+//             ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+//            String realPath = ctx.getRealPath("/");
+//            String nazwaplikuzbazy = realPath+"resources/images/logo/taxman.jpg";
+//            String nazwa = Plik.getKatalog()+"2.pdf";
+//            File f = new File(nazwaplikuzbazy);
+//            if(f.exists()) {
+//                Image logo = Image.getInstance(nazwaplikuzbazy);
+//                logo.scaleToFit(50f, 50f);
+//                PdfReader reader = new PdfReader(nazwa);
+//                String plikzqr = Plik.getKatalog()+"nowa.pdf";
+//                PdfStamper pdfStamper = new PdfStamper(reader,new FileOutputStream(plikzqr));
+//                PdfContentByte content = pdfStamper.getUnderContent(reader.getNumberOfPages());
+//                int rot = reader.getPageRotation(reader.getNumberOfPages());
+//                logo.setAbsolutePosition(10, 10); //e
+//                content.addImage(logo);
+//                pdfStamper.close();
+//                reader.close();
+//                Plik.usun(nazwa);
+//                Plik.zapiszjako(plikzqr,nazwa);
+//            }
+//        } catch (Exception ex) {
+//            // Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//   }
     
    
     
@@ -936,10 +939,10 @@ public class PdfMain {
                 col[6] = 3;
                 col[7] = 3;
                 col[8] = 2;
-                col[9] = 2;
+                col[9] = 3;
                 return col;
             case "jpk201701.JPK$ZakupWiersz":
-            case "jpk201801.JPK$Ewidencja$ZakupWiersz":
+            case "jpk201801.JPK$ZakupWiersz":
             case "pl.gov.crd.wzor._2020._05._08._9393.JPK$Ewidencja$ZakupWiersz":
                 col = new int[size];
                 col[0] = 1;
@@ -951,7 +954,7 @@ public class PdfMain {
                 col[6] = 3;
                 col[7] = 3;
                 col[8] = 2;
-                col[9] = 2;
+                col[9] = 3;
                 return col;
             case "entityfk.MiejscePrzychodow":
                 col = new int[size];
@@ -1742,8 +1745,8 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.getDataZakupu(), "left", 7));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 8));
-                table.addCell(ustawfrazeAlign(p.getNettoPole(), "center", 7));
-                table.addCell(ustawfrazeAlign(p.getVatPole(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getNettoPole()+" "+p.getVatPole(), "center", 7));
+                table.addCell(ustawfrazeAlign(pobierzoznaczeniaJPK2020(p), "center", 7));
             }
             if (nazwaklasy.equals("jpk201701.JPK$SprzedazWiersz") || nazwaklasy.equals("jpk201801.JPK$SprzedazWiersz")) {
                 jpkabstract.SprzedazWierszA p = (jpkabstract.SprzedazWierszA) it.next();
@@ -1768,8 +1771,8 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.getDataSprzedazy(), "left", 7));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 8));
-                table.addCell(ustawfrazeAlign(p.getNettoPole(), "center", 7));
-                table.addCell(ustawfrazeAlign(p.getVatPole(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getNettoPole()+" "+p.getVatPole(), "center", 7));
+                table.addCell(ustawfrazeAlign(pobierzoznaczeniaJPK2020(p), "center", 7));
             }
             if (nazwaklasy.equals("vies.Vies")) {
                 Vies p = (Vies) it.next();
@@ -2918,6 +2921,38 @@ public class PdfMain {
             }
         }
     }
+    
+    private static String pobierzoznaczeniaJPK2020(Object p) {
+        String zwrot = "";
+        Method[] fields;
+        if (p instanceof JPK.Ewidencja.SprzedazWiersz) {
+            fields = JPK.Ewidencja.SprzedazWiersz.class.getMethods();
+        } else {
+            fields = JPK.Ewidencja.ZakupWiersz.class.getMethods();
+        }
+        List<String> metodystring = new ArrayList<>();
+        for (Method m : fields) {
+            if (m.getReturnType().equals(Byte.class)) {
+                try {
+                    Byte wynik = (Byte) m.invoke(p, Object[].class);
+                    if (wynik==(byte)1) {
+                        metodystring.add(m.getName().replace("get", "").replace(")(", ""));
+                    }
+                } catch (Exception ex) {
+                    System.out.println("");  
+                } 
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        if (!metodystring.isEmpty()) {
+            for (String s : metodystring) {
+                sb.append(s);
+                sb.append(",");
+            }
+        }
+        zwrot = sb.toString();
+       return zwrot;
+    }
 
     private static void tablicaWkomorce(PdfPTable table, Object p, String nazwaklasy, int modyfikator) {
         if (nazwaklasy.equals("entity.Dok")) {
@@ -3043,4 +3078,18 @@ public class PdfMain {
             String generatedString = RandomStringUtils.random(length, useLetters, useNumbers);
             return generatedString;
         }
+
+//    public static void main(String[] args) {
+//        Method[] fields = JPK.Ewidencja.SprzedazWiersz.class.getMethods();
+//        List<String> metodystring = new ArrayList<>();
+//        for (Method m : fields) {
+//            if (m.getReturnType().equals(Byte.class)) {
+//                Byte wynik = m.invoke(p, null);
+//                if (wynik==(byte)1) {
+//                    metodystring.add(m.getName().replace("get", "").replace(")(", ""));
+//                }
+//            }
+//        }
+//        System.out.println("");
+//    }
 }

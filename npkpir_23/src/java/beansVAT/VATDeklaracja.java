@@ -64,39 +64,39 @@ public class VATDeklaracja implements Serializable {
         }
     }
     
-    public static void przyporzadkujPozycjeSzczegoloweNowe(List<SchemaEwidencja> schemaewidencjalista, List<EVatwpisSuma> wyciagnieteewidencje, PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT, Integer nowaWartoscVatZPrzeniesienia,
+    public static List<EwidPoz> przyporzadkujPozycjeSzczegoloweNowe(List<SchemaEwidencja> schemaewidencjalista, List<EVatwpisSuma> wyciagnieteewidencje, PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT, Integer nowaWartoscVatZPrzeniesienia,
             Integer korektanaliczonyzmniejszajaca, Integer korektanaliczonyzwiekszajaca) {
         List<EwidPoz> pozycje = Collections.synchronizedList(new ArrayList<>());
         for (EVatwpisSuma ew : wyciagnieteewidencje) {
             SchemaEwidencja se = szukaniewieszaSchemy(schemaewidencjalista, ew.getEwidencja());
             SchemaEwidencja sm = se.getSchemamacierzysta();
-            pozycje.add(new EwidPoz(se, sm, ew.getNetto(), ew.getVat(), ew.getEwidencja().isTylkoNetto()));
+            pozycje.add(new EwidPoz(se, sm, ew.getNetto(), ew.getVat()));
         }
         if (korektanaliczonyzmniejszajaca!=null && korektanaliczonyzmniejszajaca!=0.0) {
             //"ulga na złe długi naliczony art. 89b ust.1"
             SchemaEwidencja se = szukaniewieszaSchemyByID(schemaewidencjalista, 22);
             SchemaEwidencja sm = se.getSchemamacierzysta();
-            pozycje.add(new EwidPoz(se, sm, BigDecimal.ZERO , new BigDecimal(korektanaliczonyzmniejszajaca), false));
+            pozycje.add(new EwidPoz(se, sm, BigDecimal.ZERO , new BigDecimal(korektanaliczonyzmniejszajaca)));
         }
         if (korektanaliczonyzwiekszajaca!=null && korektanaliczonyzwiekszajaca!=0.0) {
             //"ulga na złe długi naliczony art. 89b ust.4"
             SchemaEwidencja se = szukaniewieszaSchemyByID(schemaewidencjalista, 23);
             SchemaEwidencja sm = se.getSchemamacierzysta();
-            pozycje.add(new EwidPoz(se, sm, BigDecimal.ZERO, new BigDecimal(korektanaliczonyzwiekszajaca), false));
+            pozycje.add(new EwidPoz(se, sm, BigDecimal.ZERO, new BigDecimal(korektanaliczonyzwiekszajaca)));
         }
         for (EwidPoz ew : pozycje) {
             try {
-                if (ew.odnalezionyWierszSchemaEwidencja != null) {
+                if (ew.getWierszSchemaEwidencja() != null) {
                     String netto = String.valueOf(ew.getNetto());
                     int nettoI = Z.zUD(ew.getNetto());
                     String vat = String.valueOf(ew.getVat());
                     int vatI = Z.zUD(ew.getVat());
-                    if ((ew.polenetto != null) && (!ew.polenetto.isEmpty()) && nettoI != 0.0) {
-                        ustawPozycje(pozycjeSzczegoloweVAT, ew.polenetto, netto, nettoI);
+                    if ((ew.getPolenetto() != null) && (!ew.getPolenetto().isEmpty()) && nettoI != 0.0) {
+                        ustawPozycje(pozycjeSzczegoloweVAT, ew.getPolenetto(), netto, nettoI);
                     }
-                    if (!ew.isTylkonetto()) {
-                        if ((ew.polevat != null) && (!ew.polevat.isEmpty()) && (nettoI != 0.0 || vatI != 0.0)) {
-                            ustawPozycje(pozycjeSzczegoloweVAT, ew.polevat, vat, vatI);
+                    if (!ew.getWierszSchemaEwidencja().getEvewidencja().isTylkoNetto()) {
+                        if ((ew.getPolevat() != null) && (!ew.getPolevat().isEmpty()) && (nettoI != 0.0 || vatI != 0.0)) {
+                            ustawPozycje(pozycjeSzczegoloweVAT, ew.getPolevat(), vat, vatI);
                         }
                     }
                     //to jest uzywane przy korektach
@@ -110,6 +110,7 @@ public class VATDeklaracja implements Serializable {
                 E.e(ex);
             }
         }
+        return pozycje;
     }
     
     public static void przyporzadkujPozycjeSzczegoloweSumaryczne(List<DeklaracjaVatSchemaWierszSum> schemawierszelista, PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT, Integer nowaWartoscVatZPrzeniesienia) {

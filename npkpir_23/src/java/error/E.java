@@ -40,12 +40,14 @@ public class E {
             p.append(e.toString());
             zwrot += p.toString();
         }
+        s(zwrot);
         return zwrot;
     }
     
     public static void e(Exception e, String s) {
+        StringBuilder p = new StringBuilder();
         if (e.getStackTrace() != null && e.getStackTrace().length > 0) {
-            StringBuilder p = new StringBuilder();
+            p = new StringBuilder();
             p.append("Blad ");
             p.append(e.getStackTrace()[0].toString());
             if (e.getStackTrace()[1] != null) {
@@ -59,10 +61,11 @@ public class E {
                 p.append(e.getStackTrace()[2].toString());
             }
         } else {
-            StringBuilder p = new StringBuilder();
+            p = new StringBuilder();
             p.append("Blad ");
             p.append(e.toString());
         }
+        s(p.toString());
     }
     
      public static void m(Object e) {

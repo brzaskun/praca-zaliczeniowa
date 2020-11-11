@@ -93,7 +93,7 @@ public class ImportiPKOBPbiz_XLS implements Serializable {
                         if (!mcwiersz.equals(mc)) {
                               
                         } else {
-                            String opis = baza.getCell(12).getStringCellValue();
+                            String opis = baza.getCell(12)!=null? baza.getCell(12).getStringCellValue():baza.getCell(2).getStringCellValue();
                             if (opis==null || opis.equals("")|| opis.contains("Tytuł:  Pobranie środków ")) {
                                 opis = baza.getCell(2).getStringCellValue();
                             }

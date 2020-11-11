@@ -5,29 +5,66 @@
  */
 package beansVAT;
 
+import entity.Deklaracjevat;
 import entity.SchemaEwidencja;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 import waluty.Z;
 
 /**
  *
  * @author Osito
  */
-public class EwidPoz {
-    
-    String polenetto;
-    String polevat;
-    SchemaEwidencja odnalezionyWierszSchemaEwidencja;
-    SchemaEwidencja odnalezionyWierszSchemaEwidencjaMacierzysty;
+@Entity
+@Table
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "EwidPoz.findAll", query = "SELECT d FROM EwidPoz d")
+})
+public class EwidPoz implements Serializable {
+   private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private int id;
+    @Column(name = "polenetto")
+    private String polenetto;
+    @Column(name = "polevat")
+    private String polevat;
+    @JoinColumn(name = "wierszSchemaEwidencja", referencedColumnName = "id")
+    @ManyToOne
+    private SchemaEwidencja wierszSchemaEwidencja;
+    @JoinColumn(name = "wierszSchemaEwidencjaMacierzysty", referencedColumnName = "id")
+    @ManyToOne
+    private SchemaEwidencja wierszSchemaEwidencjaMacierzysty;
+    @JoinColumn(name = "deklaracja", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Deklaracjevat deklaracja;
+    @Column(name = "netto")
     double netto;
+    @Column(name = "vat")
     double vat;
-    boolean tylkonetto;
+   
 
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 23 * hash + Objects.hashCode(this.odnalezionyWierszSchemaEwidencja);
+        hash = 23 * hash + Objects.hashCode(this.wierszSchemaEwidencja);
         return hash;
     }
 
@@ -43,23 +80,33 @@ public class EwidPoz {
             return false;
         }
         final EwidPoz other = (EwidPoz) obj;
-        if (!Objects.equals(this.odnalezionyWierszSchemaEwidencja, other.odnalezionyWierszSchemaEwidencja)) {
+        if (!Objects.equals(this.wierszSchemaEwidencja, other.wierszSchemaEwidencja)) {
             return false;
         }
         return true;
     }
 
+    public EwidPoz() {
+    }
+
     
     
     
-    public EwidPoz(SchemaEwidencja odnalezionyWierszSchemaEwidencja, SchemaEwidencja odnalezionyWierszSchemaEwidencjaMacierzysty, BigDecimal netto, BigDecimal vat, boolean tylkonetto) {
-        this.polenetto = odnalezionyWierszSchemaEwidencja.getPolenetto();
-        this.polevat = odnalezionyWierszSchemaEwidencja.getPolevat();
-        this.odnalezionyWierszSchemaEwidencja = odnalezionyWierszSchemaEwidencja;
-        this.odnalezionyWierszSchemaEwidencjaMacierzysty = odnalezionyWierszSchemaEwidencjaMacierzysty;
+    public EwidPoz(SchemaEwidencja wierszSchemaEwidencja, SchemaEwidencja wierszSchemaEwidencjaMacierzysty, BigDecimal netto, BigDecimal vat) {
+        this.polenetto = wierszSchemaEwidencja.getPolenetto();
+        this.polevat = wierszSchemaEwidencja.getPolevat();
+        this.wierszSchemaEwidencja = wierszSchemaEwidencja;
+        this.wierszSchemaEwidencjaMacierzysty = wierszSchemaEwidencjaMacierzysty;
         this.netto = Z.z(netto.doubleValue());
         this.vat = Z.z(vat.doubleValue());
-        this.tylkonetto = tylkonetto;
+       }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getPolenetto() {
@@ -78,20 +125,20 @@ public class EwidPoz {
         this.polevat = polevat;
     }
 
-    public SchemaEwidencja getOdnalezionyWierszSchemaEwidencja() {
-        return odnalezionyWierszSchemaEwidencja;
+    public SchemaEwidencja getWierszSchemaEwidencja() {
+        return wierszSchemaEwidencja;
     }
 
-    public void setOdnalezionyWierszSchemaEwidencja(SchemaEwidencja odnalezionyWierszSchemaEwidencja) {
-        this.odnalezionyWierszSchemaEwidencja = odnalezionyWierszSchemaEwidencja;
+    public void setWierszSchemaEwidencja(SchemaEwidencja wierszSchemaEwidencja) {
+        this.wierszSchemaEwidencja = wierszSchemaEwidencja;
     }
 
-    public SchemaEwidencja getOdnalezionyWierszSchemaEwidencjaMacierzysty() {
-        return odnalezionyWierszSchemaEwidencjaMacierzysty;
+    public SchemaEwidencja getWierszSchemaEwidencjaMacierzysty() {
+        return wierszSchemaEwidencjaMacierzysty;
     }
 
-    public void setOdnalezionyWierszSchemaEwidencjaMacierzysty(SchemaEwidencja odnalezionyWierszSchemaEwidencjaMacierzysty) {
-        this.odnalezionyWierszSchemaEwidencjaMacierzysty = odnalezionyWierszSchemaEwidencjaMacierzysty;
+    public void setWierszSchemaEwidencjaMacierzysty(SchemaEwidencja wierszSchemaEwidencjaMacierzysty) {
+        this.wierszSchemaEwidencjaMacierzysty = wierszSchemaEwidencjaMacierzysty;
     }
 
     public double getNetto() {
@@ -110,20 +157,20 @@ public class EwidPoz {
         this.vat = vat;
     }
 
-    public boolean isTylkonetto() {
-        return tylkonetto;
+    public Deklaracjevat getDeklaracja() {
+        return deklaracja;
     }
 
-    public void setTylkonetto(boolean tylkonetto) {
-        this.tylkonetto = tylkonetto;
+    public void setDeklaracja(Deklaracjevat deklaracja) {
+        this.deklaracja = deklaracja;
     }
-
+    
     @Override
     public String toString() {
-        if (odnalezionyWierszSchemaEwidencjaMacierzysty != null) {
-            return "EwidPoz{" + "polenetto=" + polenetto + ", polevat=" + polevat + ", odnalezionyWierszSchemaEwidencja=" + odnalezionyWierszSchemaEwidencja.getEvewidencja().getNazwa() + ", odnalezionyWierszSchemaEwidencjaMacierzysty=" + odnalezionyWierszSchemaEwidencjaMacierzysty.getEvewidencja().getNazwa() + ", netto=" + netto + ", vat=" + vat + ", tylkonetto=" + tylkonetto + '}';
+        if (wierszSchemaEwidencjaMacierzysty != null) {
+            return "EwidPoz{" + "polenetto=" + polenetto + ", polevat=" + polevat + ", odnalezionyWierszSchemaEwidencja=" + wierszSchemaEwidencja.getEvewidencja().getNazwa() + ", odnalezionyWierszSchemaEwidencjaMacierzysty=" + wierszSchemaEwidencjaMacierzysty.getEvewidencja().getNazwa() + ", netto=" + netto + ", vat=" + vat + ", tylkonetto=" + wierszSchemaEwidencja.getEvewidencja().isTylkoNetto() + '}';
         } else {
-            return "EwidPoz{" + "polenetto=" + polenetto + ", polevat=" + polevat + ", odnalezionyWierszSchemaEwidencja=" + odnalezionyWierszSchemaEwidencja.getEvewidencja().getNazwa() + ", odnalezionyWierszSchemaEwidencjaMacierzysty=null, netto=" + netto + ", vat=" + vat + ", tylkonetto=" + tylkonetto + '}';
+            return "EwidPoz{" + "polenetto=" + polenetto + ", polevat=" + polevat + ", odnalezionyWierszSchemaEwidencja=" + wierszSchemaEwidencja.getEvewidencja().getNazwa() + ", odnalezionyWierszSchemaEwidencjaMacierzysty=null, netto=" + netto + ", vat=" + vat + ", tylkonetto=" + wierszSchemaEwidencja.getEvewidencja().isTylkoNetto() + '}';
         }
     }
     

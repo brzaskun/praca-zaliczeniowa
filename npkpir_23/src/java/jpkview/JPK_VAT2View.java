@@ -6,12 +6,14 @@
 package jpkview;
 
 import beansPodpis.ObslugaPodpisuBean;
+import beansVAT.EwidPoz;
 import dao.DeklaracjevatDAO;
 import dao.JPKVATWersjaDAO;
 import dao.JPKvatwersjaEvewidencjaDAO;
 import dao.UPODAO;
 import daoFK.EVatwpisDedraDAO;
 import data.Data;
+import embeddable.EVatwpisSuma;
 import embeddable.Mce;
 import embeddable.TKodUS;
 import entity.DeklSuper;
@@ -99,6 +101,7 @@ public class JPK_VAT2View implements Serializable {
     
     public void init() { //E.m(this);
         try {
+            moznawysylacjpk = true;
             lista = uPODAO.findPodatnikRok(wpisView);
             if (lista == null) {
                 lista = Collections.synchronizedList(new ArrayList<>());
@@ -404,34 +407,36 @@ public class JPK_VAT2View implements Serializable {
                 JPKVATWersja jPKVATWersja = jPKVATWersjaDAO.findByName("JPK2020");
                 List<JPKvatwersjaEvewidencja> jpkev = jPKvatwersjaEvewidencjaDAO.findJPKEwidencje(jPKVATWersja);
                 Map<Evewidencja, JPKvatwersjaEvewidencja> mapa = przetworzjpk(jpkev);
-                pl.gov.crd.wzor._2020._05._08._9393.JPK jpk = new JPK();
                 if (deklaracjadlajpk!=null) {
+                    pl.gov.crd.wzor._2020._05._08._9393.JPK jpk = new JPK();
                     List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista = deklaracjadlajpk.getSchemawierszsumarycznylista();
+                    HashMap<String, EVatwpisSuma> podsumowanieewidencji = deklaracjadlajpk.getPodsumowanieewidencji();
                     JPK.Deklaracja.Naglowek naglowek = deklaracja_naglowek();
-                    JPK.Deklaracja.PozycjeSzczegolowe pozycje = deklaracja_pozycjeszczegolowe(schemawierszsumarycznylista);
+                    List<EwidPoz> ewidpozlista = deklaracjadlajpk.getEwidpozlista();
+                    JPK.Deklaracja.PozycjeSzczegolowe pozycje = deklaracja_pozycjeszczegolowe(schemawierszsumarycznylista, ewidpozlista);
                     JPK.Deklaracja deklaracja = new JPK.Deklaracja();
                     deklaracja.setNaglowek(naglowek);
                     deklaracja.setPozycjeSzczegolowe(pozycje);
                     deklaracja.setPouczenia(BigDecimal.ONE);
                     jpk.setDeklaracja(deklaracja);
+                    Object[] sprzedaz = utworzWierszeJpkSprzedaz2020(wiersze, mapa);
+                    List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazWiersz> listas = (List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazWiersz>) sprzedaz[0];
+                    pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazCtrl sprzedazCtrl = (pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazCtrl) sprzedaz[1];
+                    Object[] zakup = utworzwierszjpkZakup2020(wiersze, mapa);
+                    List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupWiersz> listaz = (List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupWiersz>) zakup[0];
+                    pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupCtrl zakupCtrl = (pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupCtrl) zakup[1];
+                    String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
+                    jpk.setNaglowek(JPK_VAT2020_Bean.naglowek(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), kodurzedu));
+                    int cel = werjsajpkrecznie+1;
+                    jpk.getNaglowek().getCelZlozenia().setValue(Byte.parseByte(String.valueOf(cel)));
+                    jpk.setPodmiot1(JPK_VAT2020_Bean.podmiot1(podatnik, wpisView.getUzer().getNrtelefonu(), wpisView.getUzer().getEmail()));
+                    jpk.setEwidencja(new JPK.Ewidencja());
+                    jpk.getEwidencja().getSprzedazWiersz().addAll(listas);
+                    jpk.getEwidencja().setSprzedazCtrl(sprzedazCtrl);
+                    jpk.getEwidencja().getZakupWiersz().addAll(listaz);
+                    jpk.getEwidencja().setZakupCtrl(zakupCtrl);
+                    zwrot = jpk;
                 }
-                Object[] sprzedaz = utworzWierszeJpkSprzedaz2020(wiersze, mapa);
-                List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazWiersz> listas = (List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazWiersz>) sprzedaz[0];
-                pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazCtrl sprzedazCtrl = (pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazCtrl) sprzedaz[1];
-                Object[] zakup = utworzwierszjpkZakup2020(wiersze, mapa);
-                List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupWiersz> listaz = (List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupWiersz>) zakup[0];
-                pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupCtrl zakupCtrl = (pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupCtrl) zakup[1];
-                String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
-                jpk.setNaglowek(JPK_VAT2020_Bean.naglowek(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), kodurzedu));
-                int cel = werjsajpkrecznie+1;
-                jpk.getNaglowek().getCelZlozenia().setValue(Byte.parseByte(String.valueOf(cel)));
-                jpk.setPodmiot1(JPK_VAT2020_Bean.podmiot1(podatnik, wpisView.getUzer().getNrtelefonu(), wpisView.getUzer().getEmail()));
-                jpk.setEwidencja(new JPK.Ewidencja());
-                jpk.getEwidencja().getSprzedazWiersz().addAll(listas);
-                jpk.getEwidencja().setSprzedazCtrl(sprzedazCtrl);
-                jpk.getEwidencja().getZakupWiersz().addAll(listaz);
-                jpk.getEwidencja().setZakupCtrl(zakupCtrl);
-                zwrot = jpk;
             } else if (wpisView.getRokWpisu()>2017) {
                 JPKVATWersja jPKVATWersja = jPKVATWersjaDAO.findByName("JPK3");
                 List<JPKvatwersjaEvewidencja> jpkev = jPKvatwersjaEvewidencjaDAO.findJPKEwidencje(jPKVATWersja);
@@ -506,8 +511,18 @@ public class JPK_VAT2View implements Serializable {
         return zwrot;
     }
     
-    private JPK.Deklaracja.PozycjeSzczegolowe deklaracja_pozycjeszczegolowe(List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista) {
+    private JPK.Deklaracja.PozycjeSzczegolowe deklaracja_pozycjeszczegolowe(List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista, List<EwidPoz> ewidpozlista) {
         pl.gov.crd.wzor._2020._05._08._9393.JPK.Deklaracja.PozycjeSzczegolowe pozycjeSzczegolowe = new JPK.Deklaracja.PozycjeSzczegolowe();
+        for (EwidPoz r : ewidpozlista) {
+            try {
+                Method method = pl.gov.crd.wzor._2020._05._08._9393.JPK.Deklaracja.PozycjeSzczegolowe.class.getMethod(zwrocpolejpk(r.getPolenetto()),BigInteger.class);
+                method.invoke(pozycjeSzczegolowe, BigInteger.valueOf(Z.zUD(r.getNetto())));
+                method = pl.gov.crd.wzor._2020._05._08._9393.JPK.Deklaracja.PozycjeSzczegolowe.class.getMethod(zwrocpolejpk(r.getPolevat()),BigInteger.class);
+                method.invoke(pozycjeSzczegolowe, BigInteger.valueOf(Z.zUD(r.getVat())));
+            } catch (Exception e){
+                E.e(e);
+            }
+        }
         for (DeklaracjaVatSchemaWierszSum p : schemawierszsumarycznylista) {
             try {
                 if (p.getNetto1vat2czek3tekst4()==3) {
@@ -626,7 +641,9 @@ public class JPK_VAT2View implements Serializable {
     }
     
     public void drukujUPO(UPO item) {
-        if (Integer.parseInt(Data.aktualnyRok()) > 2017) {
+        if (item.getJpk() instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
+            PdfUPO.drukujJPK2020(item, wpisView);
+        } else if (item.getJpk() instanceof jpk201801.JPK) {
             PdfUPO.drukuj_JPK3(item, wpisView);
         } else {
             PdfUPO.drukuj_JPK2(item, wpisView);

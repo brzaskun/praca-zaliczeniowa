@@ -43,7 +43,8 @@ import java.util.List;
 import javax.inject.Named;
 import msg.B;
 import vies.Vies;
-import view.WpisView;import viewfk.CechyzapisuPrzegladView.CechaStronaWiersza;
+import view.WpisView;
+import viewfk.CechyzapisuPrzegladView.CechaStronaWiersza;
 import viewfk.StowRozrachCzlonkView;
 import viewfk.StowRozrachCzlonkZbiorczeView;
 
@@ -1138,7 +1139,7 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
        return w;
    }
    
-   public static List[] getTabelaUPOS(List wiersze) {
+   public static List[] getTabelaUPOS(List wiersze, int mod) {
        List n = new ArrayList();
        n.add("lp");
        n.add("nip");
@@ -1148,14 +1149,19 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
        n.add("data sprzed.");
        n.add("netto");
        n.add("vat");
-       n.add("p. netto");
-       n.add("p. vat");
+       if (mod==0) {
+            n.add("p. netto");
+            n.add("p. vat");
+       } else {
+            n.add("p. netto/vat");
+            n.add("symb.");
+       }
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;
        return tabela;
    }
-    public static List[] getTabelaUPOZ(List wiersze) {
+    public static List[] getTabelaUPOZ(List wiersze, int mod) {
        List n = new ArrayList();
        n.add("lp");
        n.add("nip");
@@ -1165,8 +1171,13 @@ public static List[] getKontoZapisy(List<StronaWiersza> wiersze) {
        n.add("data zakupu");
        n.add("netto");
        n.add("vat");
-       n.add("p. netto");
-       n.add("p. vat");
+       if (mod==0) {
+            n.add("p. netto");
+            n.add("p. vat");
+       } else {
+            n.add("p. netto/vat");
+            n.add("symb.");
+       }
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;

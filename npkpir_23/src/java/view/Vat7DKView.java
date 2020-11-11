@@ -6,6 +6,7 @@ package view;
 
 
 import beansPodpis.ObslugaPodpisuBean;
+import beansVAT.EwidPoz;
 import beansVAT.VATDeklaracja;
 import dao.DeklaracjaVatSchemaDAO;
 import dao.DeklaracjaVatSchemaPozKoncoweDAO;
@@ -127,6 +128,7 @@ public class Vat7DKView implements Serializable {
     private boolean zaliczenienapoczetzobowiazan;
     private Integer zaliczenienapoczetzobowiazankwota;
     private String rodzajzobowiazania;
+    private List<EwidPoz> pozycjeSzczegoloweNowe;
    
     public Vat7DKView() {
         pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
@@ -282,8 +284,7 @@ public class Vat7DKView implements Serializable {
         }
         wygenerujwierszesumaryczne(schemaewidencjalista, pobraneewidencje, schemawierszsumarycznylista);
         //tutaj trzeba zrobic nowa deklaracje po nowemu.
-        
-        VATDeklaracja.przyporzadkujPozycjeSzczegoloweNowe(schemaewidencjalista, pobraneewidencje, pozycjeSzczegoloweVAT, null, korektanaliczonyzmniejszajaca, korektanaliczonyzwiekszajaca);
+        pozycjeSzczegoloweNowe = VATDeklaracja.przyporzadkujPozycjeSzczegoloweNowe(schemaewidencjalista, pobraneewidencje, pozycjeSzczegoloweVAT, null, korektanaliczonyzmniejszajaca, korektanaliczonyzwiekszajaca);
         sumaschemewidencjilista = VATDeklaracja.wyluskajiPrzyporzadkujSprzedaz(schemaewidencjalista, pobraneewidencje);
         deklaracjakorygowana = czynieczekajuzcosdowyslania();
         flaga = zbadajpobranadeklarajce(deklaracjakorygowana);
@@ -452,7 +453,7 @@ public class Vat7DKView implements Serializable {
         if (flaga != 1) {
             pozycjeDeklaracjiVAT.setFirma1osobafiz0(wpisView.isKsiegirachunkowe());
             uzupelnijPozycjeDeklaracji(pozycjeDeklaracjiVAT, vatokres, kwotaautoryzujaca);
-            nowadeklaracja = stworzdeklaracje(pozycjeDeklaracjiVAT, vatokres, pasujacaSchema, vatzd, splitpayment);
+            nowadeklaracja = stworzdeklaracje(pozycjeDeklaracjiVAT, vatokres, pasujacaSchema, vatzd, splitpayment, pozycjeSzczegoloweNowe);
             nowadeklaracja.setSchemawierszsumarycznylista(schemawierszsumarycznylista);
             nowadeklaracja.setPodsumowanieewidencji(mapaewidencji);
             DeklaracjaVatSchemaWierszSum doprzeniesienia = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do przeniesienia na następny okres rozliczeniowy");
@@ -952,7 +953,7 @@ public class Vat7DKView implements Serializable {
         return uzupelnionewiersze;
     }
     
-    private Deklaracjevat stworzdeklaracje(Vatpoz pozycje, String vatokres, DeklaracjaVatSchema schema, boolean vatzd, boolean splitpayment) {
+    private Deklaracjevat stworzdeklaracje(Vatpoz pozycje, String vatokres, DeklaracjaVatSchema schema, boolean vatzd, boolean splitpayment, List<EwidPoz> pozycjeSzczegoloweNowe) {
         if (schema.getNazwaschemy().equals("M-18") || schema.getNazwaschemy().equals("K-12")) {
             korektaM18K12(pozycje);
         }
@@ -993,6 +994,10 @@ public class Vat7DKView implements Serializable {
             nowadekl.setMiesiac(mc);
             nowadekl.setMiesiackwartal(false);
         }
+        for (EwidPoz p : pozycjeSzczegoloweNowe) {
+            p.setDeklaracja(nowadeklaracja);
+        }
+        nowadekl.setEwidpozlista(pozycjeSzczegoloweNowe);
         nowadekl.setDeklaracjapodpisana(deklaracjapodpisana);
         nowadekl.setNrkwartalu(Kwartaly.getMapamckw().get(wpisView.getMiesiacWpisu()));
         nowadekl.setMiesiac(mc);

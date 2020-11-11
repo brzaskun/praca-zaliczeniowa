@@ -55,7 +55,7 @@ public class PdfUPO extends Pdf implements Serializable {
             JPKSuper jpk = upo.getJpk();
             List<jpk201701.JPK.SprzedazWiersz> sprzedazWiersz = jpk.getSprzedazWiersz();
             Collections.sort(sprzedazWiersz, new JPK2SprzedazWierszcomparator());
-            dodajTabele(document, testobjects.testobjects.getTabelaUPOS(sprzedazWiersz),100, 0);
+            dodajTabele(document, testobjects.testobjects.getTabelaUPOS(sprzedazWiersz,0),100, 0);
             jpk201701.JPK.SprzedazCtrl sprzedazCtrl = (jpk201701.JPK.SprzedazCtrl) jpk.getSprzedazCtrl();
             if (sprzedazCtrl!=null) {
                 String opis = "Ilość faktur "+sprzedazCtrl.getLiczbaWierszySprzedazy().intValue()+". Podatek należny "+F.curr(sprzedazCtrl.getPodatekNalezny().doubleValue());
@@ -65,7 +65,7 @@ public class PdfUPO extends Pdf implements Serializable {
             }
             List<jpk201701.JPK.ZakupWiersz> zakupWiersz = jpk.getZakupWiersz();
             Collections.sort(zakupWiersz, new JPK2ZakupWierszcomparator());
-            dodajTabele(document, testobjects.testobjects.getTabelaUPOZ(zakupWiersz),100,0);
+            dodajTabele(document, testobjects.testobjects.getTabelaUPOZ(zakupWiersz,0),100,0);
             jpk201701.JPK.ZakupCtrl zakupCtrl = (jpk201701.JPK.ZakupCtrl) jpk.getZakupCtrl();
             if (zakupCtrl!=null) {
                 String opis = "Ilość faktur "+zakupCtrl.getLiczbaWierszyZakupow().intValue()+". Podatek naliczony "+F.curr(zakupCtrl.getPodatekNaliczony().doubleValue());
@@ -129,7 +129,7 @@ public class PdfUPO extends Pdf implements Serializable {
             JPKSuper jpk = upo.getJpk();
             List<jpk201801.JPK.SprzedazWiersz> sprzedazWiersz = jpk.getSprzedazWiersz();
             Collections.sort(sprzedazWiersz, new JPK3SprzedazWierszcomparator());
-            dodajTabele(document, testobjects.testobjects.getTabelaUPOS(sprzedazWiersz),100, 0);
+            dodajTabele(document, testobjects.testobjects.getTabelaUPOS(sprzedazWiersz,0),100, 0);
             jpk201801.JPK.SprzedazCtrl sprzedazCtrl = (jpk201801.JPK.SprzedazCtrl) jpk.getSprzedazCtrl();
             if (sprzedazCtrl!=null) {
                 String opis = "Ilość faktur "+sprzedazCtrl.getLiczbaWierszySprzedazy().intValue()+". Podatek należny "+F.curr(sprzedazCtrl.getPodatekNalezny().doubleValue());
@@ -139,8 +139,82 @@ public class PdfUPO extends Pdf implements Serializable {
             }
             List<jpk201801.JPK.ZakupWiersz> zakupWiersz = jpk.getZakupWiersz();
             Collections.sort(zakupWiersz, new JPK3ZakupWierszcomparator());
-            dodajTabele(document, testobjects.testobjects.getTabelaUPOZ(zakupWiersz),100,0);
+            dodajTabele(document, testobjects.testobjects.getTabelaUPOZ(zakupWiersz,0),100,0);
             jpk201801.JPK.ZakupCtrl zakupCtrl = (jpk201801.JPK.ZakupCtrl) jpk.getZakupCtrl();
+            if (zakupCtrl!=null) {
+                String opis = "Ilość faktur "+zakupCtrl.getLiczbaWierszyZakupow().intValue()+". Podatek naliczony "+F.curr(zakupCtrl.getPodatekNaliczony().doubleValue());
+                dodajLinieOpisu(document, opis);
+            } else {
+                dodajLinieOpisu(document, "Brak dokumentów zakupu");
+            }
+            String opis = "Nr wysyłki "+upo.getReferenceNumber();
+            dodajLinieOpisuBezOdstepu(document, opis);
+            opis = "Okres "+upo.getMiesiac()+"/"+upo.getRok();
+            dodajLinieOpisuBezOdstepu(document, opis);
+            opis = "Data sporządzenia "+data.Data.data_ddMMMMyyyy(upo.getDatajpk());
+            dodajLinieOpisuBezOdstepu(document, opis);
+            if (upo.getCode() != null) {
+                opis = "Data upo "+data.Data.data_ddMMMMyyyy(upo.getDataupo());
+                dodajLinieOpisuBezOdstepu(document, opis);
+                opis = "Kod upo "+upo.getCode();
+                dodajLinieOpisuBezOdstepu(document, opis);
+                opis = "Status "+upo.getDescription()+" "+upo.getDetails();
+                dodajLinieOpisuBezOdstepu(document, opis);
+                opis = "Wersja "+upo.getWersja();
+                dodajLinieOpisuBezOdstepu(document, opis);
+            }
+            if (upo.getPotwierdzenie() != null) {
+                opis = "Potwierdzenie "+upo.getPotwierdzenie().getNazwaPodmiotuPrzyjmujacego();
+                dodajLinieOpisuBezOdstepu(document, opis);
+                opis = "Skrot dokumentu: "+upo.getPotwierdzenie().getSkrotDokumentu() +"Nr ref: "+upo.getPotwierdzenie().getNumerReferencyjny();
+                dodajLinieOpisuBezOdstepu(document, opis);
+                opis = "Stempel czasu "+upo.getPotwierdzenie().getStempelCzasu();
+                dodajLinieOpisuBezOdstepu(document, opis);
+                opis = "Nazwa struktury logicznej "+upo.getPotwierdzenie().getNazwaStrukturyLogicznej();
+                dodajLinieOpisuBezOdstepu(document, opis);
+                opis = "Nazwa urzędu "+TKodUS.getNazwaUrzedu(upo.getPotwierdzenie().getKodUrzedu());
+                dodajLinieOpisuBezOdstepu(document, opis);
+                opis = "Data wpłynęcia "+data.Data.data_ddMMMMyyyy(upo.getPotwierdzenie().getDataWplyniecia().toGregorianCalendar().getTime());
+                dodajLinieOpisuBezOdstepu(document, opis);
+            }
+            opis = "Sporządził "+upo.getWprowadzil().getImieNazwisko();
+            dodajLinieOpisuBezOdstepu(document, opis);
+            finalizacjaDokumentuQR(document,nazwa);
+            String f = "pokazwydruk('"+nazwa+"');";
+            PrimeFaces.current().executeScript(f);
+        } else {
+            Msg.msg("w", "Pusty plik JPK");
+        }
+    }
+   
+   public static void drukujJPK2020(UPO upo, WpisView wpisView) {
+        String nazwa = upo.getPodatnik().getNip()+"JPK";
+        File file = Plik.plik(nazwa, true);
+        if (file.isFile()) {
+            file.delete();
+        }
+        if (upo != null) {
+            Uz uz = wpisView.getUzer();
+            Document document = inicjacjaA4Portrait();
+            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            dodajOpisWstepny(document, "Plik JPK zestawienie", upo.getPodatnik(), upo.getMiesiac(), upo.getRok());
+            pl.gov.crd.wzor._2020._05._08._9393.JPK jpk = (pl.gov.crd.wzor._2020._05._08._9393.JPK) upo.getJpk();
+            List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazWiersz> sprzedazWiersz = jpk.getEwidencja().getSprzedazWiersz();
+            Collections.sort(sprzedazWiersz, new JPK2020SprzedazWierszcomparator());
+            dodajTabele(document, testobjects.testobjects.getTabelaUPOS(sprzedazWiersz,1),100, 0);
+            pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazCtrl sprzedazCtrl = jpk.getEwidencja().getSprzedazCtrl();
+            if (sprzedazCtrl!=null) {
+                String opis = "Ilość faktur "+sprzedazCtrl.getLiczbaWierszySprzedazy().intValue()+". Podatek należny "+F.curr(sprzedazCtrl.getPodatekNalezny().doubleValue());
+                dodajLinieOpisu(document, opis);
+            } else {
+                dodajLinieOpisu(document, "Brak dokumentów sprzedaży");
+            }
+            List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupWiersz> zakupWiersz = jpk.getEwidencja().getZakupWiersz();
+            Collections.sort(zakupWiersz, new JPK2020ZakupWierszcomparator());
+            dodajTabele(document, testobjects.testobjects.getTabelaUPOZ(zakupWiersz,1),100,0);
+            pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupCtrl zakupCtrl = jpk.getEwidencja().getZakupCtrl();
             if (zakupCtrl!=null) {
                 String opis = "Ilość faktur "+zakupCtrl.getLiczbaWierszyZakupow().intValue()+". Podatek naliczony "+F.curr(zakupCtrl.getPodatekNaliczony().doubleValue());
                 dodajLinieOpisu(document, opis);
@@ -198,7 +272,7 @@ public class PdfUPO extends Pdf implements Serializable {
             dodajOpisWstepny(document, "Plik JPK zestawienie", podatnik,wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             List<jpk201701.JPK.SprzedazWiersz> sprzedazWiersz = jpk.getSprzedazWiersz();
             Collections.sort(sprzedazWiersz, new JPK2SprzedazWierszcomparator());
-            dodajTabele(document, testobjects.testobjects.getTabelaUPOS(sprzedazWiersz),100, 0);
+            dodajTabele(document, testobjects.testobjects.getTabelaUPOS(sprzedazWiersz,0),100, 0);
             jpk201701.JPK.SprzedazCtrl sprzedazCtrl = (jpk201701.JPK.SprzedazCtrl) jpk.getSprzedazCtrl();
             if (sprzedazCtrl!=null) {
                 String opis = "Ilość faktur "+sprzedazCtrl.getLiczbaWierszySprzedazy().intValue()+". Podatek należny "+F.curr(sprzedazCtrl.getPodatekNalezny().doubleValue());
@@ -208,7 +282,7 @@ public class PdfUPO extends Pdf implements Serializable {
             }
             List<jpk201701.JPK.ZakupWiersz> zakupWiersz = jpk.getZakupWiersz();
             Collections.sort(zakupWiersz, new JPK2ZakupWierszcomparator());
-            dodajTabele(document, testobjects.testobjects.getTabelaUPOZ(zakupWiersz),100,0);
+            dodajTabele(document, testobjects.testobjects.getTabelaUPOZ(zakupWiersz,0),100,0);
             jpk201701.JPK.ZakupCtrl zakupCtrl = (jpk201701.JPK.ZakupCtrl) jpk.getZakupCtrl();
             if (zakupCtrl!=null) {
                 String opis = "Ilość faktur "+zakupCtrl.getLiczbaWierszyZakupow().intValue()+". Podatek naliczony "+F.curr(zakupCtrl.getPodatekNaliczony().doubleValue());
@@ -235,7 +309,7 @@ public class PdfUPO extends Pdf implements Serializable {
             dodajOpisWstepny(document, "Plik JPK zestawienie", podatnik,wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             List<jpk201801.JPK.SprzedazWiersz> sprzedazWiersz = jpk.getSprzedazWiersz();
             Collections.sort(sprzedazWiersz, new JPK3SprzedazWierszcomparator());
-            dodajTabele(document, testobjects.testobjects.getTabelaUPOS(sprzedazWiersz),100, 0);
+            dodajTabele(document, testobjects.testobjects.getTabelaUPOS(sprzedazWiersz,0),100, 0);
             jpk201801.JPK.SprzedazCtrl sprzedazCtrl = (jpk201801.JPK.SprzedazCtrl) jpk.getSprzedazCtrl();
             if (sprzedazCtrl!=null) {
                 String opis = "Ilość faktur "+sprzedazCtrl.getLiczbaWierszySprzedazy().intValue()+". Podatek należny "+F.curr(sprzedazCtrl.getPodatekNalezny().doubleValue());
@@ -245,7 +319,7 @@ public class PdfUPO extends Pdf implements Serializable {
             }
             List<jpk201801.JPK.ZakupWiersz> zakupWiersz = jpk.getZakupWiersz();
             Collections.sort(zakupWiersz, new JPK3ZakupWierszcomparator());
-            dodajTabele(document, testobjects.testobjects.getTabelaUPOZ(zakupWiersz),100,0);
+            dodajTabele(document, testobjects.testobjects.getTabelaUPOZ(zakupWiersz,0),100,0);
             jpk201801.JPK.ZakupCtrl zakupCtrl = (jpk201801.JPK.ZakupCtrl) jpk.getZakupCtrl();
             if (zakupCtrl!=null) {
                 String opis = "Ilość faktur "+zakupCtrl.getLiczbaWierszyZakupow().intValue()+". Podatek naliczony "+F.curr(zakupCtrl.getPodatekNaliczony().doubleValue());
@@ -272,7 +346,7 @@ public class PdfUPO extends Pdf implements Serializable {
             dodajOpisWstepny(document, "Plik JPK zestawienie", podatnik,wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazWiersz> sprzedazWiersz = ((pl.gov.crd.wzor._2020._05._08._9393.JPK)jpk).getEwidencja().getSprzedazWiersz();
             Collections.sort(sprzedazWiersz, new JPK2020SprzedazWierszcomparator());
-            dodajTabele(document, testobjects.testobjects.getTabelaUPOS(sprzedazWiersz),100, 0);
+            dodajTabele(document, testobjects.testobjects.getTabelaUPOS(sprzedazWiersz,1),100, 0);
             pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazCtrl sprzedazCtrl = ((pl.gov.crd.wzor._2020._05._08._9393.JPK)jpk).getEwidencja().getSprzedazCtrl();
             if (sprzedazCtrl!=null) {
                 String opis = "Ilość faktur "+sprzedazCtrl.getLiczbaWierszySprzedazy().intValue()+". Podatek należny "+F.curr(sprzedazCtrl.getPodatekNalezny().doubleValue());
@@ -282,7 +356,7 @@ public class PdfUPO extends Pdf implements Serializable {
             }
             List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupWiersz> zakupWiersz = ((pl.gov.crd.wzor._2020._05._08._9393.JPK)jpk).getEwidencja().getZakupWiersz();
             Collections.sort(zakupWiersz, new JPK2020ZakupWierszcomparator());
-            dodajTabele(document, testobjects.testobjects.getTabelaUPOZ(zakupWiersz),100,0);
+            dodajTabele(document, testobjects.testobjects.getTabelaUPOZ(zakupWiersz,1),100,0);
             pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupCtrl zakupCtrl = ((pl.gov.crd.wzor._2020._05._08._9393.JPK)jpk).getEwidencja().getZakupCtrl();
             if (zakupCtrl!=null) {
                 String opis = "Ilość faktur "+zakupCtrl.getLiczbaWierszyZakupow().intValue()+". Podatek naliczony "+F.curr(zakupCtrl.getPodatekNaliczony().doubleValue());

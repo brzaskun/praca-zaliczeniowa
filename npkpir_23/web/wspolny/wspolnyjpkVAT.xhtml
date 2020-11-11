@@ -9,14 +9,14 @@
         </p:outputPanel>
         <p:panel header="wygeneruj JPK VAT za #{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt}" style="width: 1250px;"/>
         <p:panelGrid columns="5" rendered="#{WpisView.podatnikObiekt.nip ne '5263158333'}">
-            <p:commandButton value="wyślij jpkfk" actionListener="#{jPK_VAT2View.przygotujXMLFK()}" update="@form form_dialog_jpk_vat:tabela" style="width: 120px;" rendered="#{!jPK_VAT2View.nowa0korekta1 and jPK_VAT2View.pkpir0ksiegi1}"/>
-            <p:commandButton value="wyślij korektafk" actionListener="#{jPK_VAT2View.przygotujXMLFK()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.nowa0korekta1 and jPK_VAT2View.pkpir0ksiegi1}"/>
-            <p:commandButton value="wyślij jpk" actionListener="#{jPK_VAT2View.przygotujXML()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.nowa0korekta1 and !jPK_VAT2View.pkpir0ksiegi1}"/>
-            <p:commandButton value="wyślij korekta" actionListener="#{jPK_VAT2View.przygotujXML()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.nowa0korekta1 and !jPK_VAT2View.pkpir0ksiegi1}"/>
-            <p:commandButton value="podgląd jpkfk" actionListener="#{jPK_VAT2View.przygotujXMLFKPodglad()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.pkpir0ksiegi1}"/>
-            <p:commandButton value="podgląd jpk" actionListener="#{jPK_VAT2View.przygotujXMLPodglad()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.pkpir0ksiegi1}"/>
-            <p:commandButton value="pobierz jpkfk" actionListener="#{jPK_VAT2View.przygotujXMLFKDL()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.pkpir0ksiegi1}"/>
-            <p:commandButton value="pobierz jpk" actionListener="#{jPK_VAT2View.przygotujXMLDL()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.pkpir0ksiegi1}"/>
+            <p:commandButton value="wyślij jpkfk" actionListener="#{jPK_VAT2View.przygotujXMLFK()}" update="@form form_dialog_jpk_vat:tabela" style="width: 120px;" rendered="#{!jPK_VAT2View.nowa0korekta1 and jPK_VAT2View.pkpir0ksiegi1 and jPK_VAT2View.moznawysylacjpk}"/>
+            <p:commandButton value="wyślij korektafk" actionListener="#{jPK_VAT2View.przygotujXMLFK()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.nowa0korekta1 and jPK_VAT2View.pkpir0ksiegi1 and jPK_VAT2View.moznawysylacjpk}"/>
+            <p:commandButton value="wyślij jpk" actionListener="#{jPK_VAT2View.przygotujXML()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.nowa0korekta1 and !jPK_VAT2View.pkpir0ksiegi1 and jPK_VAT2View.moznawysylacjpk}"/>
+            <p:commandButton value="wyślij korekta" actionListener="#{jPK_VAT2View.przygotujXML()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.nowa0korekta1 and !jPK_VAT2View.pkpir0ksiegi1 and jPK_VAT2View.moznawysylacjpk}"/>
+            <p:commandButton value="podgląd jpkfk" actionListener="#{jPK_VAT2View.przygotujXMLFKPodglad()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.pkpir0ksiegi1 and jPK_VAT2View.moznawysylacjpk}"/>
+            <p:commandButton value="podgląd jpk" actionListener="#{jPK_VAT2View.przygotujXMLPodglad()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.pkpir0ksiegi1 and jPK_VAT2View.moznawysylacjpk}"/>
+            <p:commandButton value="pobierz jpkfk" actionListener="#{jPK_VAT2View.przygotujXMLFKDL()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.pkpir0ksiegi1 and jPK_VAT2View.moznawysylacjpk}"/>
+            <p:commandButton value="pobierz jpk" actionListener="#{jPK_VAT2View.przygotujXMLDL()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.pkpir0ksiegi1 and jPK_VAT2View.moznawysylacjpk}"/>
             <h:outputText value="wersja jpk (0 - jpk pierwotne)" style="margin-left: 200px;"/>
             <p:selectOneMenu value="#{jPK_VAT2View.werjsajpkrecznie}" label="wersja jpk">
                 <f:selectItem itemValue="0" itemLabel="0"/>
@@ -93,7 +93,7 @@
                 <h:outputText value="#{itemblad.vat}" />
             </p:column>
         </p:dataTable>
-        <p:dataTable value="#{jPK_VAT2View.lista}" var="item" rowIndexVar="index" id="tabela" style="width: 1250px; margin-top: 10px; height: 500px;overflow-y: scroll;"
+        <p:dataTable value="#{jPK_VAT2View.lista}" var="item" rowIndexVar="index" id="tabela" style="width: 1250px; margin-top: 10px; height: 650px;overflow-y: scroll;"
                       sortBy="#{item.miesiac}"
                      selection="#{jPK_VAT2View.selected}" selectionMode="single" rowKey="#{item.id}"
                      emptyMessage="nie wysłano jeszcze plików jpk">
@@ -176,7 +176,7 @@
                 <f:facet name="header">
                     <h:outputText value="usuń"/>
                 </f:facet>
-                <p:commandButton icon="fa fa-trash" onclick="PF('confirmation').show()" update="@form" global="false" rendered="#{item.code gt 399 or item.code eq null}"/>
+                <p:commandButton icon="fa fa-trash" onclick="PF('confirmation').show()" update="@form" global="false" />
             </p:column>
             <p:rowExpansion>
                 <p:panelGrid columns="1">

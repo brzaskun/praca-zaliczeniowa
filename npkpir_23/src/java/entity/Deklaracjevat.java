@@ -4,6 +4,7 @@
  */
 package entity;
 
+import beansVAT.EwidPoz;
 import embeddable.EVatwpisSuma;
 import embeddable.Vatpoz;
 import java.io.Serializable;
@@ -14,11 +15,13 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -84,6 +87,8 @@ public class Deklaracjevat extends DeklSuper implements Serializable {
     @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "wniosekVATZDEntity", referencedColumnName = "id")
     private WniosekVATZDEntity wniosekVATZDEntity;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "deklaracja", cascade = CascadeType.ALL,  orphanRemoval=true)
+    private List<EwidPoz> ewidpozlista;
     @Transient
     private String kwotaautoryzacja;  
     
@@ -372,6 +377,14 @@ public class Deklaracjevat extends DeklSuper implements Serializable {
 
     public void setWniosekVATZDEntity(WniosekVATZDEntity wniosekVATZDEntity) {
         this.wniosekVATZDEntity = wniosekVATZDEntity;
+    }
+
+    public List<EwidPoz> getEwidpozlista() {
+        return ewidpozlista;
+    }
+
+    public void setEwidpozlista(List<EwidPoz> ewidpozlista) {
+        this.ewidpozlista = ewidpozlista;
     }
 
     

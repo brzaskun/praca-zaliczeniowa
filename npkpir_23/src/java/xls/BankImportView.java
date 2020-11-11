@@ -378,7 +378,7 @@ public class BankImportView implements Serializable {
             int iloscdok = ile-duplikaty-1;
             Msg.msg("Wygenerowano "+iloscdok+" wyciągów bankowych");
             if (duplikaty>0) {
-                Msg.msg("e", "Ilość duplikatów "+duplikaty);
+                Msg.msg("e", "Były już ręczne księgowania wyciągów w miesiącu. Sprawdź to! Ilość duplikatów "+duplikaty);
             }
         } else {
             Msg.msg("e", "Błąd! Lista danych źrdółowych jest pusta");
@@ -429,16 +429,17 @@ public class BankImportView implements Serializable {
         if (juzjest!=null) {
             nd = null;
             usunduplikat(juzjest);
-        }
-        ustawwiersze(nd, zasady);
-        if (nd.getListawierszy()!=null && nd.getListawierszy().size()>0) {
-            ustawdaty(nd, pn);
-            nd.setImportowany(true);
-            nd.setWprowadzil(wpisView.getUzer().getLogin());
-            nd.przeliczKwotyWierszaDoSumyDokumentu();
-            rozliczsaldoWBRK(nd);
         } else {
-            nd=null;
+            ustawwiersze(nd, zasady);
+            if (nd.getListawierszy()!=null && nd.getListawierszy().size()>0) {
+                ustawdaty(nd, pn);
+                nd.setImportowany(true);
+                nd.setWprowadzil(wpisView.getUzer().getLogin());
+                nd.przeliczKwotyWierszaDoSumyDokumentu();
+                rozliczsaldoWBRK(nd);
+            } else {
+                nd=null;
+            }
         }
         return nd;
     }
