@@ -136,15 +136,27 @@ public class ImportSprzedazyView  implements Serializable {
     private List<Dok> stworzdokumenty(JPKSuper jpk) {
         List<Dok> dokumenty = Collections.synchronizedList(new ArrayList<>());
         if (jpk != null) {
-            jpk.getSprzedazWiersz().forEach((p) -> {
-                SprzedazWierszA wiersz = (SprzedazWierszA) p;
-                if (wiersz.getNrKontrahenta() != null && wiersz.getNrKontrahenta().length()==10) {
-                    Dok dok = generujdok(p);
-                    if (dok!=null) {
-                        dokumenty.add(dok);
+            if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
+                ((pl.gov.crd.wzor._2020._05._08._9393.JPK) jpk).getEwidencja().getSprzedazWiersz().forEach((p) -> {
+                    SprzedazWierszA wiersz = (SprzedazWierszA) p;
+                    if (wiersz.getNrKontrahenta() != null && wiersz.getNrKontrahenta().length()==10) {
+                        Dok dok = generujdok(p);
+                        if (dok!=null) {
+                            dokumenty.add(dok);
+                        }
                     }
-                }
-            });
+                });
+            } else {
+                jpk.getSprzedazWiersz().forEach((p) -> {
+                    SprzedazWierszA wiersz = (SprzedazWierszA) p;
+                    if (wiersz.getNrKontrahenta() != null && wiersz.getNrKontrahenta().length()==10) {
+                        Dok dok = generujdok(p);
+                        if (dok!=null) {
+                            dokumenty.add(dok);
+                        }
+                    }
+                });
+            }
         }
         return dokumenty;
     }
@@ -152,15 +164,27 @@ public class ImportSprzedazyView  implements Serializable {
     private List<Dok> stworzdokumentyFizyczne(JPKSuper jpk) {
         List<Dok> dokumenty = Collections.synchronizedList(new ArrayList<>());
         if (jpk != null) {
-            jpk.getSprzedazWiersz().forEach((p) -> {
-                SprzedazWierszA wiersz = (SprzedazWierszA) p;
-                if (wiersz.getNrKontrahenta() == null ||(wiersz.getNrKontrahenta() != null && wiersz.getNrKontrahenta().length()<6)) {
-                    Dok dok = generujdok(p);
-                    if (dok!=null) {
-                        dokumenty.add(dok);
+            if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
+                ((pl.gov.crd.wzor._2020._05._08._9393.JPK) jpk).getEwidencja().getSprzedazWiersz().forEach((p) -> {
+                    SprzedazWierszA wiersz = (SprzedazWierszA) p;
+                    if (wiersz.getNrKontrahenta() == null ||(wiersz.getNrKontrahenta() != null && wiersz.getNrKontrahenta().length()<6)) {
+                        Dok dok = generujdok(p);
+                        if (dok!=null) {
+                            dokumenty.add(dok);
+                        }
                     }
-                }
-            });
+                });
+            } else {
+                jpk.getSprzedazWiersz().forEach((p) -> {
+                    SprzedazWierszA wiersz = (SprzedazWierszA) p;
+                    if (wiersz.getNrKontrahenta() == null ||(wiersz.getNrKontrahenta() != null && wiersz.getNrKontrahenta().length()<6)) {
+                        Dok dok = generujdok(p);
+                        if (dok!=null) {
+                            dokumenty.add(dok);
+                        }
+                    }
+                });
+            }
         }
         return dokumenty;
     }
@@ -168,21 +192,34 @@ public class ImportSprzedazyView  implements Serializable {
     private List<Dok> stworzdokumentyZagraniczne(JPKSuper jpk) {
         List<Dok> dokumenty = Collections.synchronizedList(new ArrayList<>());
         if (jpk != null) {
-            jpk.getSprzedazWiersz().forEach((p) -> {
-                SprzedazWierszA wiersz = (SprzedazWierszA) p;
-                if (wiersz.getNrKontrahenta() != null && !wiersz.getNrKontrahenta().startsWith("PL") && wiersz.getNrKontrahenta().matches("^[A-I].*$")  && wiersz.getNrKontrahenta().length()> 6) {
-                    Dok dok = generujdok(p);
-                    if (dok!=null) {
-                        dokumenty.add(dok);
+                 if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
+                ((pl.gov.crd.wzor._2020._05._08._9393.JPK) jpk).getEwidencja().getSprzedazWiersz().forEach((p) -> {
+                    SprzedazWierszA wiersz = (SprzedazWierszA) p;
+                    if (wiersz.getNrKontrahenta() != null && wiersz.getNrKontrahenta().length()==10) {
+                        Dok dok = generujdok(p);
+                        if (dok!=null) {
+                            dokumenty.add(dok);
+                        }
                     }
-                }
-            });
+                });
+            } else {
+                jpk.getSprzedazWiersz().forEach((p) -> {
+                    SprzedazWierszA wiersz = (SprzedazWierszA) p;
+                    if (wiersz.getNrKontrahenta() != null && !wiersz.getNrKontrahenta().startsWith("PL") && wiersz.getNrKontrahenta().matches("^[A-I].*$")  && wiersz.getNrKontrahenta().length()> 6) {
+                        Dok dok = generujdok(p);
+                        if (dok!=null) {
+                            dokumenty.add(dok);
+                        }
+                    }
+                });
+            }
         }
         return dokumenty;
     }
+     
     
     private Dok generujdok(Object p) {
-        jpk201801.JPK.SprzedazWiersz wiersz = (jpk201801.JPK.SprzedazWiersz) p;
+        jpkabstract.SprzedazWierszA wiersz = (jpkabstract.SprzedazWierszA) p;
         Dok selDokument = new Dok();
         try {
             HttpServletRequest request;
@@ -205,7 +242,7 @@ public class ImportSprzedazyView  implements Serializable {
             } else {
                 selDokument.setDataSprz(wiersz.getDataWystawienia().toString());
             }
-            selDokument.setKontr(pobierzkontrahenta(wiersz, wiersz.getNrKontrahenta()));
+            selDokument.setKontr(pobierzkontrahenta(wiersz.getNazwaKontrahenta(), wiersz.getAdresKontrahenta(), wiersz.getNrKontrahenta()));
             selDokument.setRodzajedok(rodzajedok);
             selDokument.setNrWlDk(wiersz.getDowodSprzedazy());
             selDokument.setOpis("przychód ze sprzedaży");
@@ -222,7 +259,61 @@ public class ImportSprzedazyView  implements Serializable {
             selDokument.setBrutto(tmpX.getBrutto());
             selDokument.setRozliczony(true);
             List<EVatwpis1> ewidencjaTransformowana = Collections.synchronizedList(new ArrayList<>());
-            EVatwpis1 eVatwpis1 = new EVatwpis1(pobierzewidencje(wiersz,evewidencje), wiersz.getNetto(), wiersz.getVat(), "sprz.op", miesiac, rok);
+            EVatwpis1 eVatwpis1 = new EVatwpis1(pobierzewidencje(wiersz.getNetto(), wiersz.getVat(),evewidencje), wiersz.getNetto(), wiersz.getVat(), "sprz.op", miesiac, rok);
+            eVatwpis1.setDok(selDokument);
+            ewidencjaTransformowana.add(eVatwpis1);
+            selDokument.setEwidencjaVAT1(ewidencjaTransformowana);
+            if (selDokument.getKontr()!=null && sprawdzCzyNieDuplikat(selDokument)!=null) {
+                selDokument = null;
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return selDokument;
+    }
+    
+    private Dok generujdok2020(Object p) {
+        pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazWiersz wiersz = (pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazWiersz) p;
+        Dok selDokument = new Dok();
+        try {
+            HttpServletRequest request;
+            request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            Principal principal = request.getUserPrincipal();
+            selDokument.setWprowadzil(principal.getName());
+            String datawystawienia = wiersz.getDataWystawienia().toString();
+            String miesiac = datawystawienia.substring(5, 7);
+            String rok = datawystawienia.substring(0, 4);
+            selDokument.setPkpirM(miesiac);
+            selDokument.setPkpirR(rok);
+            selDokument.setVatM(miesiac);
+            selDokument.setVatR(rok);
+            selDokument.setPodatnik(wpisView.getPodatnikObiekt());
+            selDokument.setStatus("bufor");
+            selDokument.setUsunpozornie(false);
+            selDokument.setDataWyst(wiersz.getDataWystawienia().toString());
+            if (wiersz.getDataSprzedazy()!=null) {
+                selDokument.setDataSprz(wiersz.getDataSprzedazy().toString());
+            } else {
+                selDokument.setDataSprz(wiersz.getDataWystawienia().toString());
+            }
+            selDokument.setKontr(pobierzkontrahenta(wiersz.getNazwaKontrahenta(), "", wiersz.getNrKontrahenta()));
+            selDokument.setRodzajedok(rodzajedok);
+            selDokument.setNrWlDk(wiersz.getDowodSprzedazy());
+            selDokument.setOpis("przychód ze sprzedaży");
+            List<KwotaKolumna1> listaX = Collections.synchronizedList(new ArrayList<>());
+            KwotaKolumna1 tmpX = new KwotaKolumna1();
+            tmpX.setNetto(wiersz.getNetto());
+            tmpX.setVat(wiersz.getVat());
+            tmpX.setNazwakolumny("przych. sprz");
+            tmpX.setDok(selDokument);
+            tmpX.setBrutto(Z.z(Z.z(wiersz.getNetto()+wiersz.getVat())));
+            listaX.add(tmpX);
+            selDokument.setListakwot1(listaX);
+            selDokument.setNetto(tmpX.getNetto());
+            selDokument.setBrutto(tmpX.getBrutto());
+            selDokument.setRozliczony(true);
+            List<EVatwpis1> ewidencjaTransformowana = Collections.synchronizedList(new ArrayList<>());
+            EVatwpis1 eVatwpis1 = new EVatwpis1(pobierzewidencje(wiersz.getNetto(), wiersz.getVat(),evewidencje), wiersz.getNetto(), wiersz.getVat(), "sprz.op", miesiac, rok);
             eVatwpis1.setDok(selDokument);
             ewidencjaTransformowana.add(eVatwpis1);
             selDokument.setEwidencjaVAT1(ewidencjaTransformowana);
@@ -244,15 +335,15 @@ public class ImportSprzedazyView  implements Serializable {
         return tmp;
     }
     
-    private Klienci pobierzkontrahenta(jpk201801.JPK.SprzedazWiersz wiersz, String nrKontrahenta) {
+    private Klienci pobierzkontrahenta(String nazwa, String adres, String nrKontrahenta) {
         if (nrKontrahenta.equals("9551014391")) {
             error.E.s("");
         }
         if (wybierzosobyfizyczne || wybierzfirmyzagraniczne) {
            Klienci inc = new Klienci();
-           inc.setNip(wiersz.getNrKontrahenta());
-           inc.setNpelna(wiersz.getNazwaKontrahenta()!=null ? wiersz.getNazwaKontrahenta(): "brak nazwy indycentalnego");
-           inc.setAdresincydentalny(wiersz.getAdresKontrahenta()!=null ? wiersz.getAdresKontrahenta(): "brak adresu indycentalnego");
+           inc.setNip(nrKontrahenta);
+           inc.setNpelna(nazwa!=null ? nazwa: "brak nazwy indycentalnego");
+           inc.setAdresincydentalny(adres!=null ? adres: "brak adresu indycentalnego");
            return inc;
         } else {
             Klienci klientznaleziony = klDAO.findKlientByNipImport(nrKontrahenta);
@@ -269,7 +360,7 @@ public class ImportSprzedazyView  implements Serializable {
                     if (juzjest==false) {
                         klienci.add(klientznaleziony);
                     }
-                } else {
+                } else if (klientznaleziony!=null){
                      klientznaleziony.setNskrocona(klientznaleziony.getNpelna());
                      klientznaleziony.setNpelna("nie znaleziono firmy w bazie Regon");
                 }
@@ -280,10 +371,10 @@ public class ImportSprzedazyView  implements Serializable {
         }
     }
     
-    private Evewidencja pobierzewidencje(SprzedazWierszA wiersz, List<Evewidencja> evewidencje) {
+    private Evewidencja pobierzewidencje(double netto, double vat, List<Evewidencja> evewidencje) {
         Evewidencja zwrot = null;
-        double stawka = obliczstawke(wiersz);
-        for (Evewidencja p : this.evewidencje) {
+        double stawka = obliczstawke(netto, vat);
+        for (Evewidencja p : evewidencje) {
             if (p.getStawkavat()==stawka) {
                 zwrot = p;
                 break;
@@ -292,10 +383,8 @@ public class ImportSprzedazyView  implements Serializable {
         return zwrot;
     }
     
-    private double obliczstawke(SprzedazWierszA wiersz) {
+    private double obliczstawke(double netto, double vat) {
         double stawka = 23;
-        double netto = wiersz.getNetto();
-        double vat = wiersz.getVat();
         double procent = Z.z4(vat/netto);
         if (procent>0.18) {
             stawka = 23;

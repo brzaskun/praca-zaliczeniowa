@@ -14,6 +14,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
 public abstract class SprzedazWierszA {
     
     public abstract String getNrKontrahenta();
+    public abstract String getNazwaKontrahenta();
+    public abstract String getAdresKontrahenta();
     public abstract String getNazwaKontrahentaShort();
     public abstract String getDowodSprzedazy();
     public abstract XMLGregorianCalendar getDataWystawienia();

@@ -368,6 +368,11 @@ public class JPK extends JPKSuper implements Serializable {
         return "JPK{" + "naglowek=" + naglowek + ", podmiot1=" + podmiot1 + ", sprzedazCtrl=" + sprzedazCtrl + ", zakupCtrl=" + zakupCtrl + '}';
     }
 
+    @Override
+    public Object getEwidencja() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     
     
 

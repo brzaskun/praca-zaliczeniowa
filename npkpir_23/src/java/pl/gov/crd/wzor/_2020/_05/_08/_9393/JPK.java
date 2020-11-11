@@ -508,6 +508,7 @@ public class JPK extends JPKSuper implements Serializable {
      *     {@link JPK.Ewidencja }
      *     
      */
+    @Override
     public JPK.Ewidencja getEwidencja() {
         return ewidencja;
     }
@@ -5216,6 +5217,11 @@ public class JPK extends JPKSuper implements Serializable {
              */
             public void setSprzedazVATMarza(BigDecimal value) {
                 this.sprzedazVATMarza = value;
+            }
+
+            @Override
+            public String getAdresKontrahenta() {
+                return "";
             }
 
         }

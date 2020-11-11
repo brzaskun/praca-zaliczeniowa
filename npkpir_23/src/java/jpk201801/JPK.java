@@ -368,6 +368,11 @@ public class JPK extends JPKSuper implements Serializable {
         this.zakupCtrl = value;
     }
 
+    @Override
+    public Object getEwidencja() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 
     /**
      * <p>Java class for anonymous complex type.
@@ -881,10 +886,12 @@ public class JPK extends JPKSuper implements Serializable {
          *     {@link String }
          *     
          */
+         @Override
         public String getNazwaKontrahenta() {
             return nazwaKontrahenta;
         }
 
+         @Override
         public String getNazwaKontrahentaShort() {
             String zwrot = nazwaKontrahenta;
             if (zwrot != null && zwrot.length()>50) {
