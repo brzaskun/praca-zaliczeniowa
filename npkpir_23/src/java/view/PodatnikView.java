@@ -345,6 +345,8 @@ private DokDAO dokDAO;
             selectedDod.setPodpiscertyfikowany(true);
             generujIndex(selectedDod);
             sformatuj(selectedDod);
+            selectedDod.setWprowadzil(wpisView.getUzer());
+            selectedDod.setDatawprowadzenia(new Date());
             podatnikDAO.dodaj(selectedDod);
             Msg.msg("i", "Dodano nowego podatnika-firmę FK: " + selectedDod.getNazwapelna());
             dodajjakoKlienci(selectedDod, selectedDod.getEmail());
