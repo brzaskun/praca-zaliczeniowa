@@ -137,7 +137,7 @@
         <p:outputPanel id="kontenertabeli"  rendered="#{WpisView.biuroiszef eq true}">
             <p:dataTable  var="wpis" value="#{DokTabView.dokumentylista}" id="dokumentyLista"  filteredValue="#{DokTabView.dokumentyFiltered}" 
                           rowIndexVar="index" 
-                          style="width: 1400px; margin-top: 10px; height: 700px; overflow-y: scroll;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" 
+                          style="width: 1450px; margin-top: 10px; height: 700px; overflow-y: scroll;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" 
                           widgetVar="dokTable"
                           rowStyleClass="#{wpis.rodzajedok.rodzajtransakcji eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" 
                           emptyMessage="W danym miesiącu nie było żadnych zapisów"
@@ -265,6 +265,10 @@
                 <p:column id="vatMcColumn" headerText="#{mgs.VAT}" filterBy="#{wpis.vatM}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.vatM}"  style="width: 14px; text-align: center;" filterMaxLength="2">  
                     <h:outputText style="#{wpis.vatM eq wpis.pkpirM ? null : 'font-weight: bold; color: red;'}" value="#{wpis.vatM}"/>
                 </p:column >
+                <p:column id="symbol" headerText="symbol"  style="width: 7%; text-align: center;color: blue;" sortBy="#{wpis.pobierzsymbole()}">
+                     <h:outputText value="#{wpis.pobierzsymbole()}" 
+                                  />
+                </p:column>
                 <p:column id="status" headerText="tab"  style="width: 7%; text-align: center;" sortBy="#{wpis.tabelanbp.waluta.symbolwaluty}">
                     <h:outputText value="#{wpis.tabelanbp.nrtabeli} " rendered="#{wpis.tabelanbp ne null and wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}" style="width: 50px;"/>
                     <h:outputText value="#{wpis.tabelanbp.kurssredni}" rendered="#{wpis.tabelanbp ne null and wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}" style="width: 50px;"/>

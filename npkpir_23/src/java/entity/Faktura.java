@@ -184,6 +184,10 @@ public class Faktura implements Serializable {
     private boolean zaksiegowana;
     @Basic(optional = false)
     @NotNull
+    @Column(nullable = false)
+    private boolean zaksiegowanakontrahent;
+    @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 255)
     @Column(nullable = false, length = 255)
     private String autor;
@@ -412,6 +416,14 @@ public class Faktura implements Serializable {
 
     public void setWystawcanazwa(String wystawcanazwa) {
         this.wystawcanazwa = wystawcanazwa;
+    }
+
+    public boolean isZaksiegowanakontrahent() {
+        return zaksiegowanakontrahent;
+    }
+
+    public void setZaksiegowanakontrahent(boolean zaksiegowanakontrahent) {
+        this.zaksiegowanakontrahent = zaksiegowanakontrahent;
     }
 
     public boolean isRecznaedycja() {

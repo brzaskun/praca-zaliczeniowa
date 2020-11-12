@@ -212,13 +212,13 @@
                           styleClass="zaksiegowanewaski" width="100" sortBy="#{item.numerwlasnydokfk}" filterBy="#{item.numerwlasnydokfk}" filterMatchMode="contains" >
                     <h:outputText value="#{item.numerwlasnydokfk}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
                 </p:column>
-                <p:column headerText="cecha dok" width="30" style="text-align: center;" sortBy="#{item.czyCechaDok()}">
-                    <h:outputText value="!" styleClass="zapisZcecha"
-                                  rendered="#{item.czyCechaDok()}"/>
+                <p:column headerText="symbole" width="30" style="text-align: center;color: blue;" sortBy="#{item.pobierzsymbole()}">
+                    <h:outputText value="#{item.pobierzsymbole()}" 
+                                  />
                 </p:column>
-                <p:column headerText="cecha zap" width="30" style="text-align: center;" sortBy="#{item.czyCechaZap()}">
+                <p:column headerText="cechy" width="30" style="text-align: center;" sortBy="#{item.czyCechaZap() || item.czyCechaDok()}">
                     <h:outputText value="!" styleClass="zapisZcecha" 
-                                  rendered="#{item.czyCechaZap()}"/>
+                                  rendered="#{item.czyCechaZap() || item.czyCechaDok()}"/>
                 </p:column>
                 <p:column headerText="#{mgs.wartość}" 
                           styleClass="zaksiegowanewaski" width="70" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >

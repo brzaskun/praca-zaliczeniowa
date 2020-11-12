@@ -305,6 +305,12 @@ public class DokTabView implements Serializable {
                         fakturaDAO.edit(f);
                         Msg.msg("Oznaczono dokument źródłowy jako niezaksięgowany");
                     }
+                    if (dokdoUsuniecia.getFaktura()!=null) {
+                        Faktura f = dokdoUsuniecia.getFakturakontrahent();
+                        f.setZaksiegowanakontrahent(false);
+                        fakturaDAO.edit(f);
+                        Msg.msg("Oznaczono dokument źródłowy jako niezaksięgowany");
+                    }
                 } catch (Exception e) {
                     E.e(e);
                 }

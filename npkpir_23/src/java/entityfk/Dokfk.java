@@ -9,6 +9,7 @@ import embeddable.Kwartaly;
 import embeddable.Mce;
 import embeddablefk.ImportJPKSprzedaz;
 import entity.DokSuper;
+import entity.Faktura;
 import entity.Klienci;
 import entity.Podatnik;
 import entity.Rodzajedok;
@@ -231,6 +232,13 @@ public class Dokfk extends DokSuper implements Serializable {
     @JoinColumn(name = "wniosekVATZDEntity", referencedColumnName = "id")
     @OneToOne
     private WniosekVATZDEntity wniosekVATZDEntity;
+    @JoinColumn(name = "faktura", referencedColumnName = "id")
+    @OneToOne
+    private Faktura faktura;
+    @JoinColumn(name = "fakturakontrahent", referencedColumnName = "id")
+    @OneToOne
+    private Faktura fakturakontrahent;
+    
 
 
 
@@ -778,6 +786,22 @@ public class Dokfk extends DokSuper implements Serializable {
     public String getMc() {
         return this.miesiac;
     }
+
+    public Faktura getFaktura() {
+        return faktura;
+    }
+
+    public void setFaktura(Faktura faktura) {
+        this.faktura = faktura;
+    }
+
+    public Faktura getFakturakontrahent() {
+        return fakturakontrahent;
+    }
+
+    public void setFakturakontrahent(Faktura fakturakontrahent) {
+        this.fakturakontrahent = fakturakontrahent;
+    }
     
    
     public void dodajKwotyWierszaDoSumyDokumentu(Wiersz biezacywiersz) {
@@ -1249,6 +1273,31 @@ public class Dokfk extends DokSuper implements Serializable {
                           "UPTK100",
                           "EXP"));
         zwrot = !memorialy.contains(rodzajdok);
+        return zwrot;
+    }
+    
+    public String pobierzsymbole() {
+        String zwrot = null;
+        StringBuilder sb = new StringBuilder();
+        if (this.getOznaczenie1()!=null || this.getOznaczenie2()!=null || this.getOznaczenie3()!=null || this.getOznaczenie4()!=null ) {
+            if (this.getOznaczenie1()!=null) {
+                sb.append(this.getOznaczenie1().getSymbol());
+                sb.append(", ");
+            }
+            if (this.getOznaczenie2()!=null) {
+                sb.append(this.getOznaczenie1().getSymbol());
+                sb.append(", ");
+            }
+            if (this.getOznaczenie3()!=null) {
+                sb.append(this.getOznaczenie1().getSymbol());
+                sb.append(", ");
+            }
+            if (this.getOznaczenie4()!=null) {
+                sb.append(this.getOznaczenie1().getSymbol());
+            }
+            zwrot = sb.toString();
+            zwrot = zwrot.substring(0, zwrot.length()-2);
+        }
         return zwrot;
     }
     

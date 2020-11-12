@@ -24,6 +24,7 @@ import dao.FakturywystokresoweDAO;
 import dao.KlienciDAO;
 import dao.LogofakturaDAO;
 import dao.PodatnikDAO;
+import dao.PodatnikOpodatkowanieDAO;
 import dao.RodzajedokDAO;
 import dao.SMTPSettingsDAO;
 import daoFK.DokDAOfk;
@@ -47,6 +48,7 @@ import entity.Klienci;
 import entity.KwotaKolumna1;
 import entity.Logofaktura;
 import entity.Podatnik;
+import entity.PodatnikOpodatkowanieD;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
 import entityfk.Tabelanbp;
@@ -134,6 +136,8 @@ public class FakturaView implements Serializable {
     private FakturadodelementyDAO fakturadodelementyDAO;
     @Inject
     private FakturaDodPozycjaKontrahentDAO fakturaDodPozycjaKontrahentDAO;
+    @Inject
+    private PodatnikOpodatkowanieDAO podatnikOpodatkowanieDDAO;
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
     //faktury stworzone
@@ -1080,45 +1084,82 @@ public class FakturaView implements Serializable {
     public void zaksieguj(List<Faktura> lista) throws Exception {
         if (wpisView.getPodatnikObiekt().getFirmafk() == 1) {
             for (Faktura p : lista) {
-                ksiegowanieFK(p);
+                ksiegowanieFK(p, p.getWystawca(), p.getKontrahent(),0);
             }
         } else if (wpisView.getPodatnikObiekt().getFirmafk() == 0) {
             for (Faktura p : lista) {
-                ksiegowaniePkpir(p);
+                ksiegowaniePkpir(p, p.getWystawca(), p.getKontrahent(),0);
             }
         } else {
             if (wpisView.isKsiegirachunkowe() == true) {
                 for (Faktura p : lista) {
-                    ksiegowanieFK(p);
+                    ksiegowanieFK(p, p.getWystawca(), p.getKontrahent(),0);
                 }
             } else {
                 for (Faktura p : lista) {
-                    ksiegowaniePkpir(p);
+                    ksiegowaniePkpir(p, p.getWystawca(), p.getKontrahent(),0);
                 }
             }
         }
     }
     
-    private void ksiegowanieFK(Faktura p) {
-        if (p.getNetto() != p.getBrutto() && (p.getEwidencjavat() == null || p.getEwidencjavat().size() == 0)) {
-            FakturaBean.ewidencjavat(p, evewidencjaDAO);
-            if (p.getPozycjepokorekcie() != null && !p.getPozycjepokorekcie().isEmpty()) {
-                FakturaBean.ewidencjavatkorekta(p, evewidencjaDAO);
+    
+    public void zaksiegujUOdbiorcow(List<Faktura> lista) throws Exception {
+        for (Faktura p : lista) {
+            Klienci odbiorca = p.getKontrahent();
+            Podatnik  wystawca = p.getWystawca();
+            if (odbiorca!=null ) {
+                Podatnik podatnikdocelowy = podatnikDAO.findPodatnikByNIP(odbiorca.getNip());
+                Klienci wystawcajakoklient = klienciDAO.findKlientByNip(wystawca.getNip());
+                int pkpir0fk1 = zwrocFormaOpodatkowania(podatnikdocelowy, p.getRok());
+                if (pkpir0fk1==0) {
+                    ksiegowaniePkpir(p, podatnikdocelowy, wystawcajakoklient, 1);
+                } else {
+                    ksiegowanieFK(p, podatnikdocelowy, wystawcajakoklient, 1);
+                }
             }
         }
-        Dokfk dokument = FDfkBean.stworznowydokument(FDfkBean.oblicznumerkolejny("SZ", dokDAOfk, wpisView),p, "SZ", wpisView, rodzajedokDAO, tabelanbpDAO, walutyDAOfk, kontoDAOfk, kliencifkDAO, evewidencjaDAO);
+    }
+    
+    private int zwrocFormaOpodatkowania(Podatnik podatnik, String rok) {
+        int pkpir0fk1 = 0;
+        PodatnikOpodatkowanieD opodatkowanie = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(podatnik, rok);
+        if (opodatkowanie !=null) {
+            String rodzajopodatkowania = opodatkowanie.getFormaopodatkowania();
+              if (rodzajopodatkowania.contains("księgi rachunkowe")) {
+                  pkpir0fk1 = 1;
+              }
+        }
+        return pkpir0fk1;
+    }
+    
+    
+    private void ksiegowanieFK(Faktura faktura,Podatnik podatnik, Klienci kontrahent, int podatnik0kontrahent) {
+        if (faktura.getNetto() != faktura.getBrutto() && (faktura.getEwidencjavat() == null || faktura.getEwidencjavat().size() == 0)) {
+            FakturaBean.ewidencjavat(faktura, evewidencjaDAO);
+            if (faktura.getPozycjepokorekcie() != null && !faktura.getPozycjepokorekcie().isEmpty()) {
+                FakturaBean.ewidencjavatkorekta(faktura, evewidencjaDAO);
+            }
+        }
+        Dokfk dokument = FDfkBean.stworznowydokument(FDfkBean.oblicznumerkolejny("SZ", dokDAOfk, podatnik, wpisView.getRokWpisuSt()),faktura, "SZ", podatnik, kontrahent, wpisView, rodzajedokDAO, tabelanbpDAO, walutyDAOfk, kontoDAOfk, kliencifkDAO, evewidencjaDAO);
         try {
             dokument.setImportowany(true);
             dokDAOfk.dodaj(dokument);
-            p.setZaksiegowana(true);
-            fakturaDAO.edit(p);
+            if (podatnik0kontrahent==0) {
+                dokument.setFaktura(faktura);
+                faktura.setZaksiegowana(true);
+            } else {
+                dokument.setFakturakontrahent(faktura);
+                faktura.setZaksiegowanakontrahent(true);
+            }
+            fakturaDAO.edit(faktura);
             Msg.msg("Zaksięgowano dokument SZ o nr własnym"+dokument.getNumerwlasnydokfk());
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu SZ");
         }
     }
-    private void ksiegowaniePkpir(Faktura p) {
-        Faktura faktura = p;
+    private void ksiegowaniePkpir(Faktura p ,Podatnik podatnik, Klienci kontrahent, int podatnik0kontrahent) {
+            Faktura faktura = p;
             Dok selDokument = new Dok();
             selDokument.setEwidencjaVAT1(null);
             HttpServletRequest request;
@@ -1132,12 +1173,12 @@ public class FakturaView implements Serializable {
             selDokument.setPkpirR(rok);
             selDokument.setVatM(miesiac);
             selDokument.setVatR(rok);
-            selDokument.setPodatnik(wpisView.getPodatnikObiekt());
+            selDokument.setPodatnik(podatnik);
             selDokument.setStatus("bufor");
             selDokument.setUsunpozornie(false);
             selDokument.setDataWyst(faktura.getDatawystawienia());
             selDokument.setDataSprz(faktura.getDatawystawienia());
-            selDokument.setKontr(faktura.getKontrahent());
+            selDokument.setKontr(kontrahent);
             selDokument.setTabelanbp(p.getTabelanbp());
             Rodzajedok rodzajedok = rodzajedokDAO.find("SZ", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             selDokument.setRodzajedok(rodzajedok);
@@ -1206,11 +1247,16 @@ public class FakturaView implements Serializable {
             try {
                 sprawdzCzyNieDuplikat(selDokument);
                 dokDAO.dodaj(selDokument);
-                selDokument.setFaktura(faktura);
+                if (podatnik0kontrahent==0) {
+                    selDokument.setFaktura(faktura);
+                    faktura.setZaksiegowana(true);
+                } else {
+                    selDokument.setFakturakontrahent(faktura);
+                    faktura.setZaksiegowanakontrahent(true);
+                }
                 dokDAO.edit(selDokument);
                 String wiadomosc = "Zaksięgowano fakturę sprzedaży nr: " + selDokument.getNrWlDk() + ", kontrahent: " + selDokument.getKontr().getNpelna() + ", kwota: " + selDokument.getBrutto();
                 Msg.msg("i", wiadomosc);
-                faktura.setZaksiegowana(true);
                 fakturaDAO.edit(faktura);
             } catch (Exception e) { 
                 E.e(e); 

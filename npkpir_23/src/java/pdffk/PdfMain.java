@@ -2934,12 +2934,20 @@ public class PdfMain {
         for (Method m : fields) {
             if (m.getReturnType().equals(Byte.class)) {
                 try {
-                    Byte wynik = (Byte) m.invoke(p, Object[].class);
-                    if (wynik==(byte)1) {
-                        metodystring.add(m.getName().replace("get", "").replace(")(", ""));
+                    Byte wynik = (Byte) m.invoke(p, (Object[]) null);
+                    if (wynik != null && wynik==(byte)1) {
+                        metodystring.add(m.getName().replace("get", "").replace("()", ""));
                     }
                 } catch (Exception ex) {
-                    System.out.println("");  
+                } 
+            } else if (m.getName().contains("DokumentZakupu")) {
+                try {
+                    pl.gov.crd.wzor._2020._05._08._9393.TDowoduZakupu wynik = (pl.gov.crd.wzor._2020._05._08._9393.TDowoduZakupu) m.invoke(p, (Object[]) null);
+                    if (wynik != null) {
+                        metodystring.add(wynik.value());
+                    }
+                } catch (Exception ex) {
+                
                 } 
             }
         }

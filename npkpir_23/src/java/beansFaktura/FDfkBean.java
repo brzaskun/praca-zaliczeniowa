@@ -16,6 +16,8 @@ import daoFK.WalutyDAOfk;
 import embeddable.EVatwpis;
 import entity.Evewidencja;
 import entity.Faktura;
+import entity.Klienci;
+import entity.Podatnik;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
@@ -40,21 +42,22 @@ import waluty.Z;
 
 public class FDfkBean {
     
-    public static int oblicznumerkolejny(String rodzajdok, DokDAOfk dokDAOfk, WpisView wpisView) {
-        Dokfk poprzednidokumentvat = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), rodzajdok, wpisView.getRokWpisuSt());
+    public static int oblicznumerkolejny(String rodzajdok, DokDAOfk dokDAOfk, Podatnik podatnik, String rokwpisu) {
+        Dokfk poprzednidokumentvat = dokDAOfk.findDokfkLastofaType(podatnik, rodzajdok, rokwpisu);
         return poprzednidokumentvat == null ? 1 : poprzednidokumentvat.getNrkolejnywserii() + 1;
     }
     
-    public static Dokfk stworznowydokument(int numerkolejny, Faktura faktura, String rodzajdok, WpisView wpisView, RodzajedokDAO rodzajedokDAO,
+    public static Dokfk stworznowydokument(int numerkolejny, Faktura faktura, String rodzajdok, Podatnik podatnik, Klienci kontrahent,  WpisView wpisView, RodzajedokDAO rodzajedokDAO,
         TabelanbpDAO tabelanbpDAO, WalutyDAOfk walutyDAOfk, KontoDAOfk kontoDAOfk, KliencifkDAO kliencifkDAO, EvewidencjaDAO evewidencjaDAO) {
         Dokfk nd = new Dokfk();
         nd.setNrkolejnywserii(numerkolejny);
         nd.setRok(wpisView.getRokWpisuSt());
         ustawdaty(nd, faktura, wpisView);
-        ustawkontrahenta(nd,faktura);
+        ustawkontrahenta(nd,kontrahent);
         ustawnumerwlasny(nd, faktura);
         ustawopisfaktury(nd, faktura);
-        nd.setPodatnikObj(wpisView.getPodatnikObiekt());
+        nd.setPodatnikObj(podatnik);
+        nd.setWprowadzil(wpisView.getUzer().getLogin());
         ustawrodzajedok(nd, rodzajdok, rodzajedokDAO, wpisView);
         ustawtabelenbp(nd,tabelanbpDAO, walutyDAOfk);
         podepnijEwidencjeVat(nd, faktura, evewidencjaDAO);
@@ -82,8 +85,8 @@ public class FDfkBean {
         }
     }
     
-     private static void ustawkontrahenta(Dokfk nd, Faktura faktura) {
-            nd.setKontr(faktura.getKontrahent());
+     private static void ustawkontrahenta(Dokfk nd, Klienci kontrahent) {
+            nd.setKontr(kontrahent);
     }
      
     private static void ustawnumerwlasny(Dokfk nd, Faktura faktura) {

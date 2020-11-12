@@ -143,6 +143,10 @@
                           style="text-align: center;" width="30">
                     <h:outputText value="#{wpis.zaksiegowana ? 'tak' : 'nie'}"/>
                 </p:column>
+                <p:column styleClass="data3" headerText="zaks.K" sortBy="#{wpis.zaksiegowanakontrahent}" filterBy="#{wpis.zaksiegowanakontrahent ? 'tak' : 'nie'}" filterMatchMode="contains"  
+                          style="text-align: center;" width="30">
+                    <h:outputText value="#{wpis.zaksiegowanakontrahent ? 'tak' : 'nie'}"/>
+                </p:column>
                 <p:column styleClass="data1" headerText="typ" sortBy="#{wpis.rodzajdokumentu}" filterBy="#{wpis.rodzajdokumentu}" filterMatchMode="contains" 
                           style="text-align: center;" width="60">
                     <h:outputText value="#{wpis.rodzajdokumentu}" style="#{wpis.pozycjepokorekcie.size() gt 0  or wpis.gutschrift ? 'color:red;' : null}"/>
@@ -261,6 +265,7 @@
                 <p:menuitem value="Faktura okresowa" update=":form1:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa(fakturaView.gosciwybral)}"/>
                 <p:menuitem value="Duplikat" actionListener="#{fakturaDuplikatView.generujduplikat(fakturaView.gosciwybral)}" icon="ui-icon-copy" update=":akordeon:formsporzadzone:dokumentyLista :form1:messages"/>
                 <p:menuitem value="Zaksięguj" update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" actionListener="#{fakturaView.zaksieguj(fakturaView.gosciwybral)}" icon="ui-icon-locked" />
+                <p:menuitem value="Zaksięguj u odbiorców" update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" actionListener="#{fakturaView.zaksiegujUOdbiorcow(fakturaView.gosciwybral)}" icon="ui-icon-locked" rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
                 <p:menuitem value="Usuń wybrane" update="confirmDialog" oncomplete="PF('confirmationFaktura').show();" icon="ui-icon-trash" />
                 <p:separator/>
                 <p:menuitem value="Przenumeruj w górę" update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.przenumerujwgore()}" />
