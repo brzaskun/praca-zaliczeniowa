@@ -56,4 +56,10 @@ public enum TKodFormularzaVAT7 implements Serializable
         throw new IllegalArgumentException(v);
     }
 
+    @Override
+    public String toString() {
+        return "TKodFormularzaVAT7{" + "value=" + value + '}';
+    }
+
+    
 }

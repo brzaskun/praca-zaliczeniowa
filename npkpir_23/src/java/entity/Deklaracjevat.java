@@ -123,14 +123,17 @@ public class Deklaracjevat extends DeklSuper implements Serializable {
 //       return xmlString;
 //    }
 
+   @Override
     public Integer getId() {
         return id;
     }
 
+   @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
+   @Override
     public String getDeklaracja() {
         return deklaracja;
     }

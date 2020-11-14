@@ -820,6 +820,12 @@ public class JPK extends JPKSuper implements Serializable {
             this.pouczenia = value;
         }
 
+        @Override
+        public String toString() {
+            return "Deklaracja{" + "naglowek=" + naglowek.toString() + ", pozycjeSzczegolowe=" + pozycjeSzczegolowe.toString() + ", pouczenia=" + pouczenia.toString() + '}';
+        }
+        
+
 
         /**
          * <p>Java class for anonymous complex type.
@@ -909,6 +915,11 @@ public class JPK extends JPKSuper implements Serializable {
              */
             public void setWariantFormularzaDekl(byte value) {
                 this.wariantFormularzaDekl = value;
+            }
+
+            @Override
+            public String toString() {
+                return "Naglowek{" + "kodFormularzaDekl=" + kodFormularzaDekl.toString() + ", wariantFormularzaDekl=" + wariantFormularzaDekl + '}';
             }
 
 
@@ -1088,6 +1099,11 @@ public class JPK extends JPKSuper implements Serializable {
                     this.wersjaSchemy = value;
                 }
 
+                @Override
+                public String toString() {
+                    return "KodFormularzaDekl{" + "value=" + value + ", kodSystemowy=" + kodSystemowy + ", kodPodatku=" + kodPodatku + ", rodzajZobowiazania=" + rodzajZobowiazania + ", wersjaSchemy=" + wersjaSchemy + '}';
+                }
+                
             }
 
         }
@@ -1422,6 +1438,13 @@ public class JPK extends JPKSuper implements Serializable {
             @XmlElement(name = "P_ORDZU")
             protected String pordzu;
 
+            @Override
+            public String toString() {
+                return "PozycjeSzczegolowe{" + "p10=" + p10 + ", p11=" + p11 + ", p12=" + p12 + ", p13=" + p13 + ", p14=" + p14 + ", p15=" + p15 + ", p16=" + p16 + ", p17=" + p17 + ", p18=" + p18 + ", p19=" + p19 + ", p20=" + p20 + ", p21=" + p21 + ", p22=" + p22 + ", p23=" + p23 + ", p24=" + p24 + ", p25=" + p25 + ", p26=" + p26 + ", p27=" + p27 + ", p28=" + p28 + ", p29=" + p29 + ", p30=" + p30 + ", p31=" + p31 + ", p32=" + p32 + ", p33=" + p33 + ", p34=" + p34 + ", p35=" + p35 + ", p36=" + p36 + ", p37=" + p37 + ", p38=" + p38 + ", p39=" + p39 + ", p40=" + p40 + ", p41=" + p41 + ", p42=" + p42 + ", p43=" + p43 + ", p44=" + p44 + ", p45=" + p45 + ", p46=" + p46 + ", p47=" + p47 + ", p48=" + p48 + ", p49=" + p49 + ", p50=" + p50 + ", p51=" + p51 + ", p52=" + p52 + ", p53=" + p53 + ", p54=" + p54 + ", p55=" + p55 + ", p56=" + p56 + ", p57=" + p57 + ", p58=" + p58 + ", p59=" + p59 + ", p60=" + p60 + ", p61=" + p61 + ", p62=" + p62 + ", p63=" + p63 + ", p64=" + p64 + ", p65=" + p65 + ", p66=" + p66 + ", p67=" + p67 + ", p68=" + p68 + ", p69=" + p69 + ", pordzu=" + pordzu + '}';
+            }
+
+            
+            
             /**
              * Gets the value of the p10 property.
              * 

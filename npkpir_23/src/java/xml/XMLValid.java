@@ -10,8 +10,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.xml.XMLConstants;
@@ -106,6 +104,55 @@ public class XMLValid {
         }
         return zwrot;
     }
+    
+    public static Object[] walidujJPK2020View(String mainfilename, int coweryfikowac, String wersjaschemy) {
+            Object[] zwrot = new Object[2];
+            zwrot[0] = Boolean.FALSE;
+            error.E.s("start walidacji");
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/")+"resources\\xml\\JPK2020M.xsd";
+            if (wersjaschemy.equals("1-2E")) {
+                realPath = ctx.getRealPath("/")+"resources\\xml\\JPK2020M.xsd";
+                if (coweryfikowac==1) {
+                    realPath = ctx.getRealPath("/")+"resources\\xml\\JPK2020K.xsd";
+                }
+            }
+            try {
+            File schemaFile = null;
+            try {
+                schemaFile = new File(realPath);
+            } catch (Exception ex) {
+                // Logger.getLogger(XMLValid.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            String realPath2 = ctx.getRealPath("/")+"resources\\xml\\";
+            FileInputStream fis = new FileInputStream(realPath2+mainfilename);
+            String data = IOUtils.toString(fis, "UTF-8");
+            Source xmlFile = new StreamSource(new ByteArrayInputStream(data.getBytes(org.apache.commons.codec.CharEncoding.UTF_8)));
+            SchemaFactory schemaFactory = SchemaFactory
+                    .newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            try {
+                Schema schema = schemaFactory.newSchema(schemaFile);
+                Validator validator = schema.newValidator();
+                validator.validate(xmlFile);
+                zwrot[0] = Boolean.TRUE;
+                zwrot[1] = "Plik prawidłowy";
+                error.E.s("Plik jest prawidłowy");
+                error.E.s("Koniec walidacji bezbledna");
+            } catch (SAXException e) {
+                zwrot[0] = Boolean.FALSE;
+                zwrot[1] = obsluzblad2(e);
+                error.E.s(obsluzblad2(e));
+            } catch (Exception e) {
+                zwrot[0] = Boolean.FALSE;
+                zwrot[1] = "Błąd walidacji pliku. Sprawdzanie przerwane";
+            }
+        } catch (Exception ex) {
+            E.e(ex);
+            error.E.s("Błąd ładowania plików do walidacji. Sprawdzanie przerwane");
+        }
+        return zwrot;
+    }
+            
     
 
     public static Object[] walidujsprawozdanieView(InputStream inputStream, int coweryfikowac, String wersjaschemy) {
@@ -202,8 +249,8 @@ public class XMLValid {
                 error.E.s("Koniec walidacji bezbledna");
             } catch (SAXException e) {
                 zwrot[0] = Boolean.FALSE;
-                zwrot[1] = obsluzblad(e);
-                error.E.s(obsluzblad(e));
+                zwrot[1] = obsluzblad2(e);
+                error.E.s(obsluzblad2(e));
             } catch (Exception e) {
                 zwrot[0] = Boolean.FALSE;
                 zwrot[1] = "Błąd walidacji pliku. Sprawdzanie przerwane";
@@ -290,6 +337,31 @@ public class XMLValid {
         String wiadomosc = rodzajbledu(e.getMessage());
         return zwrot+wiadomosc;
     }
+    private static String obsluzblad2(SAXException e) {
+        String zwrot ="Bląd walidacji: ";
+        String wiadomosc = rodzajbledu2(e.getMessage());
+        return zwrot+wiadomosc;
+    }
+     private static String rodzajbledu2(String message) {
+        String zwrot = message;
+        String polenip = "";
+        if (message.contains("Email}' is expected")) {
+            zwrot = "Brak adresu email"; 
+        } else if (message.contains("not facet-valid with respect to pattern '(.)+@(.)+' for type 'TAdresEmail'")) {
+            zwrot = "Zły adres email";
+        } else if (message.contains("facet-valid with respect to pattern '((\\d{4})-(\\d{2})-(\\d{2}))' for type 'TData'")) {
+            zwrot = "Błęda data w wierszu";
+        } else if (message.contains("Invalid content was found starting with element 'P_")) {
+            message = message.replace("cvc-complex-type.2.4.a: Invalid content was found starting with element ", "");
+            message = message.replace("http://crd.gov.pl/wzor/2020/05/08/9393/", "");
+            message = message.replace("One of", "Brakuje pól");
+            message = message.replace("is expected", "");
+            zwrot = "Deklaracja. Błąd od pola "+message;
+        } else {
+            zwrot = message;
+        }
+        return zwrot;
+    }
     
     private static String rodzajbledu(String message) {
         String zwrot = message;
@@ -312,10 +384,53 @@ public class XMLValid {
         }
         return zwrot;
     }
-
+ public static Object[] walidujJPK2020() {
+     Object[] zwrot = new Object[2];
+        zwrot[0] = Boolean.FALSE;
+        InputStream stream = null;
+        File schemaFile = null;
+        try {
+            schemaFile = new File("d:\\JPK2020M.xsd");
+        } catch (Exception ex) {
+            // Logger.getLogger(XMLValid.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //webapp example xsd:
+        //URL schemaFile = new URL("http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd");
+        //local file example:
+            //File schemaFile = new File(realPath); // etc.
+            String data = null;
+            error.E.s("start walidacji");
+            try {
+                FileInputStream fis = new FileInputStream("d:\\jpk2020test.xml");
+                data = IOUtils.toString(fis, "UTF-8");
+            Source xmlFile = new StreamSource(new ByteArrayInputStream(data.getBytes(org.apache.commons.codec.CharEncoding.UTF_8)));
+            SchemaFactory schemaFactory = SchemaFactory
+                    .newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            try {
+                Schema schema = schemaFactory.newSchema(schemaFile);
+                Validator validator = schema.newValidator();
+                validator.validate(xmlFile);
+                zwrot[0] = Boolean.TRUE;
+                zwrot[1] = "Plik prawidłowy";
+                error.E.s("Plik jest prawidłowy");
+                error.E.s("Koniec walidacji bezbledna");
+            } catch (SAXException e) {
+                zwrot[0] = Boolean.FALSE;
+                zwrot[1] = obsluzblad(e);
+                error.E.s(obsluzblad(e));
+            } catch (Exception e) {
+                zwrot[0] = Boolean.FALSE;
+                zwrot[1] = "Błąd walidacji pliku. Sprawdzanie przerwane";
+            }
+        } catch (Exception ex) {
+            E.e(ex);
+            error.E.s("Błąd ładowania plików do walidacji. Sprawdzanie przerwane");
+        }
+        return zwrot;
+    }
     
     public static void main(String[] args) {
-        walidujsprawozdanie();
+        walidujJPK2020();
     }
 
     

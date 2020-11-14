@@ -10,7 +10,7 @@
         <p:panel header="wygeneruj JPK VAT za #{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt}" style="width: 1250px;"/>
         <p:panelGrid columns="5" rendered="#{WpisView.podatnikObiekt.nip ne '5263158333'}">
             <p:commandButton value="wyślij jpkfk" actionListener="#{jPK_VAT2View.przygotujXMLFK()}" update="@form form_dialog_jpk_vat:tabela" style="width: 120px;" rendered="#{!jPK_VAT2View.nowa0korekta1 and jPK_VAT2View.pkpir0ksiegi1 and jPK_VAT2View.moznawysylacjpk}"/>
-            <p:commandButton value="wyślij korektafk" actionListener="#{jPK_VAT2View.przygotujXMLFK()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.nowa0korekta1 and jPK_VAT2View.pkpir0ksiegi1 and jPK_VAT2View.moznawysylacjpk}"/>
+            <p:commandButton value="wyślij korektafk" actionListener="#{jPK_VAT2View.przygotujXMLFK()}" update="@form form_dialog_jpk_vat:tabela" style="width: 120px;" rendered="#{jPK_VAT2View.nowa0korekta1 and jPK_VAT2View.pkpir0ksiegi1 and jPK_VAT2View.moznawysylacjpk}"/>
             <p:commandButton value="wyślij jpk" actionListener="#{jPK_VAT2View.przygotujXML()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.nowa0korekta1 and !jPK_VAT2View.pkpir0ksiegi1 and jPK_VAT2View.moznawysylacjpk}"/>
             <p:commandButton value="wyślij korekta" actionListener="#{jPK_VAT2View.przygotujXML()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.nowa0korekta1 and !jPK_VAT2View.pkpir0ksiegi1 and jPK_VAT2View.moznawysylacjpk}"/>
             <p:commandButton value="podgląd jpkfk" actionListener="#{jPK_VAT2View.przygotujXMLFKPodglad()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.pkpir0ksiegi1 and jPK_VAT2View.moznawysylacjpk}"/>
@@ -158,7 +158,7 @@
                 <f:facet name="header">
                     <h:outputText value="upo"/>
                 </f:facet>
-                <p:commandButton icon="fa fa-archive" actionListener="#{jPK_VAT2View.pobierzUPO(item)}" update="@form"/>
+                <p:commandButton icon="fa fa-download" actionListener="#{jPK_VAT2View.pobierzUPO(item)}" update="@form"/>
             </p:column>
              <p:column style="width: 40px; text-align: center;">
                 <f:facet name="header">
@@ -196,7 +196,7 @@
                             <h:outputText value="#{itemik.wprowadzil.imie} #{itemik.wprowadzil.nazw}"/>
                         </p:column>
                         <p:column headerText="upo">
-                            <h:outputText value="#{itemik.potwierdzenie.toString()}"/>
+                            <h:outputText value="#{item.potwierdzenie.toString()}"/>
                         </p:column>
                  </p:dataTable>
                 </p:panelGrid>

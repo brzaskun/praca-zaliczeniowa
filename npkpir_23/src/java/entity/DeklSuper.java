@@ -148,8 +148,12 @@ public class DeklSuper implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
-
     
+    public String getDeklaracja() {
+        return this.deklaracja;
+    }
     
-    
+     public void setDeklaracja(String deklaracja) {
+        this.deklaracja = deklaracja;
+    }
 }

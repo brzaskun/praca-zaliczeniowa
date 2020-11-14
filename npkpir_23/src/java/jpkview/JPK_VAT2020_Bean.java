@@ -40,8 +40,10 @@ public class JPK_VAT2020_Bean {
             w.setNrKontrahenta(ev.getDok().getKontr1().getNip());
             w.setNazwaKontrahenta(ev.getDok().getKontr1().getNpelna());
             w.setDowodSprzedazy(ev.getDok().getNrWlDk());
-            dodajkwotydowierszaSprzedazy(w,ev,sprzedazCtrl, jPKvatwersjaEvewidencja);
             dodajcechydowierszaSprzedaz(w,ev);
+            if (!w.getTypDokumentu().value().equals("FP")) {
+                dodajkwotydowierszaSprzedazy(w,ev,sprzedazCtrl, jPKvatwersjaEvewidencja);
+            }
         } catch (Exception ex) {
 
         }
@@ -57,8 +59,8 @@ public class JPK_VAT2020_Bean {
             w.setNrKontrahenta("brak");
             w.setNazwaKontrahenta(ev.getImienazwisko());
             w.setDowodSprzedazy(ev.getFaktura());
-            dodajkwotydowierszaSprzedazy(w,ev,sprzedazCtrl, jPKvatwersjaEvewidencja);
             dodajcechydowierszaSprzedaz(w,ev);
+            dodajkwotydowierszaSprzedazy(w,ev,sprzedazCtrl, jPKvatwersjaEvewidencja);
         } catch (Exception ex) {
 
         }

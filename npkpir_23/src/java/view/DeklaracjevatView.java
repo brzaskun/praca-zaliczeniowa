@@ -148,6 +148,10 @@ public class DeklaracjevatView implements Serializable {
                     pokazZZ = false;
                     pokazZT = false;
                 }
+                if (p.getSchemaobj().getNazwaschemy().equals("M-21") || p.getSchemaobj().getNazwaschemy().equals("K-15")) {
+                    pokazZZ = false;
+                    pokazZT = false;
+                }
             }
         } catch (Exception e) {
             E.e(e);
