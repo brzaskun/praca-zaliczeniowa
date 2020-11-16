@@ -337,6 +337,7 @@ public class Vat7DKView implements Serializable {
             if (kwotanakaserej != null) {
                 kasarejestrujaca(nż, nl, dowpłaty, nadwyzkanaliczonego);
             }
+            boolean nowyjpk2020 = (wpisView.getRokWpisu()>2020 || wpisView.getRokWpisu()==2020 && Integer.parseInt(wpisView.getMiesiacWpisu())>9);
             DeklaracjaVatSchemaWierszSum doprzeniesienia = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do przeniesienia na następny okres rozliczeniowy");
             doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat());
             pokazinfovatzz =  false;
@@ -344,14 +345,29 @@ public class Vat7DKView implements Serializable {
                 flagazt = true;
                 pokazinfovatzz = true;
                 rozliczprzeniesienie(doprzeniesienia,nadwyzkanaliczonego, "Kwota do zwrotu na rachunek bankowy","do zwrotu w terminie 25 dni",zwrot25dni);
+                if (nowyjpk2020) {
+                    DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 25 dni");
+                    zmienna.getDeklaracjaVatWierszSumaryczny().setCzekpole(true);
+                }
             }
             if (zwrot60dni != null) {
                 ustawflagazt(nż);
                 rozliczprzeniesienie(doprzeniesienia,nadwyzkanaliczonego, "Kwota do zwrotu na rachunek bankowy","do zwrotu w terminie 60 dni",zwrot60dni);
+                if (nowyjpk2020) {
+                    DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 60 dni");
+                    zmienna.getDeklaracjaVatWierszSumaryczny().setCzekpole(true);
+                }
             }
             if (zwrot180dni != null) {
                 ustawflagazt(nż);
                 rozliczprzeniesienie(doprzeniesienia,nadwyzkanaliczonego, "Kwota do zwrotu na rachunek bankowy","do zwrotu w terminie 180 dni",zwrot180dni);
+                if (nowyjpk2020) {
+                    DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 180 dni");
+                    zmienna.getDeklaracjaVatWierszSumaryczny().setCzekpole(true);
+                }
+            }
+            if (zwrot25dni == null && zwrot60dni == null && zwrot180dni == null && nowyjpk2020) {
+                VATDeklaracja.usunschemawiersz(schemawierszsumarycznylista,"Kwota do zwrotu na rachunek bankowy");
             }
             if (przelewnarachunekvat) {
                 DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Zwrot na rachunek VAT, o którym mowa w art. 87 ust. 6a ustawy");

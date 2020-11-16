@@ -51,6 +51,7 @@ import entity.Podatnik;
 import entity.PodatnikOpodatkowanieD;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
+import entityfk.Konto;
 import entityfk.Tabelanbp;
 import error.E;
 import gus.GUSView;
@@ -1088,7 +1089,7 @@ public class FakturaView implements Serializable {
             }
         } else if (wpisView.getPodatnikObiekt().getFirmafk() == 0) {
             for (Faktura p : lista) {
-                ksiegowaniePkpir(p, p.getWystawca(), p.getKontrahent(),0);
+                ksiegowaniePkpir(p, p.getWystawca(), p.getKontrahent(),0, "SZ");
             }
         } else {
             if (wpisView.isKsiegirachunkowe() == true) {
@@ -1097,7 +1098,7 @@ public class FakturaView implements Serializable {
                 }
             } else {
                 for (Faktura p : lista) {
-                    ksiegowaniePkpir(p, p.getWystawca(), p.getKontrahent(),0);
+                    ksiegowaniePkpir(p, p.getWystawca(), p.getKontrahent(),0, "SZ");
                 }
             }
         }
@@ -1113,7 +1114,7 @@ public class FakturaView implements Serializable {
                 Klienci wystawcajakoklient = klienciDAO.findKlientByNip(wystawca.getNip());
                 int pkpir0fk1 = zwrocFormaOpodatkowania(podatnikdocelowy, p.getRok());
                 if (pkpir0fk1==0) {
-                    ksiegowaniePkpir(p, podatnikdocelowy, wystawcajakoklient, 1);
+                    ksiegowaniePkpir(p, podatnikdocelowy, wystawcajakoklient, 1, "ZZ");
                 } else {
                     ksiegowanieFK(p, podatnikdocelowy, wystawcajakoklient, 1);
                 }
@@ -1141,24 +1142,46 @@ public class FakturaView implements Serializable {
                 FakturaBean.ewidencjavatkorekta(faktura, evewidencjaDAO);
             }
         }
-        Dokfk dokument = FDfkBean.stworznowydokument(FDfkBean.oblicznumerkolejny("SZ", dokDAOfk, podatnik, wpisView.getRokWpisuSt()),faktura, "SZ", podatnik, kontrahent, wpisView, rodzajedokDAO, tabelanbpDAO, walutyDAOfk, kontoDAOfk, kliencifkDAO, evewidencjaDAO);
         try {
-            dokument.setImportowany(true);
-            dokDAOfk.dodaj(dokument);
             if (podatnik0kontrahent==0) {
+                Dokfk dokument = FDfkBean.stworznowydokument(FDfkBean.oblicznumerkolejny("SZ", dokDAOfk, podatnik, wpisView.getRokWpisuSt()),faktura, "SZ", podatnik, kontrahent, wpisView, rodzajedokDAO, tabelanbpDAO, walutyDAOfk, kontoDAOfk, kliencifkDAO, evewidencjaDAO,podatnik0kontrahent, null);
+                dokument.setImportowany(true);
                 dokument.setFaktura(faktura);
+                dokDAOfk.dodaj(dokument);
                 faktura.setZaksiegowana(true);
+                fakturaDAO.edit(faktura);
+                Msg.msg("Zaksięgowano dokument SZ o nr własnym"+dokument.getNumerwlasnydokfk());
             } else {
+                Dokfk poprzedni = dokDAOfk.findDokfkLastofaTypeKontrahent(podatnik, "ZZ", kontrahent, wpisView.getRokWpisuSt(), null);
+                try {
+                    if (poprzedni==null) {
+                        poprzedni = dokDAOfk.findDokfkLastofaTypeKontrahent(podatnik, "ZZ", kontrahent, wpisView.getRokUprzedniSt(), null);
+                        if (poprzedni!=null) {
+                            String konto0Wn = poprzedni.getListawierszy().get(0).getKontoWn().getPelnynumer();
+                            String konto0Ma = poprzedni.getListawierszy().get(0).getKontoMa().getPelnynumer();
+                            String konto1Wn = poprzedni.getListawierszy().get(1).getKontoWn().getPelnynumer();
+                            Konto kontoWn0 = kontoDAOfk.findKonto(konto1Wn, podatnik, wpisView.getRokWpisu());
+                            Konto kontoMa0 = kontoDAOfk.findKonto(konto1Wn, podatnik, wpisView.getRokWpisu());
+                            Konto kontoWn1 = kontoDAOfk.findKonto(konto1Wn, podatnik, wpisView.getRokWpisu());
+                            poprzedni.getListawierszy().get(0).getStronaWn().setKonto(kontoWn0);
+                            poprzedni.getListawierszy().get(0).getStronaMa().setKonto(kontoMa0);
+                            poprzedni.getListawierszy().get(1).getStronaWn().setKonto(kontoWn1);
+                        }
+                    }
+                } catch (Exception e) {}
+                Dokfk dokument = FDfkBean.stworznowydokument(FDfkBean.oblicznumerkolejny("ZZ", dokDAOfk, podatnik, wpisView.getRokWpisuSt()),faktura, "ZZ", podatnik, kontrahent, wpisView, rodzajedokDAO, tabelanbpDAO, walutyDAOfk, kontoDAOfk, kliencifkDAO, evewidencjaDAO,podatnik0kontrahent, poprzedni);
+                dokument.setImportowany(true);
                 dokument.setFakturakontrahent(faktura);
+                dokDAOfk.dodaj(dokument);
                 faktura.setZaksiegowanakontrahent(true);
+                fakturaDAO.edit(faktura);
+                Msg.msg("Zaksięgowano dokument ZZ o nr własnym"+dokument.getNumerwlasnydokfk());
             }
-            fakturaDAO.edit(faktura);
-            Msg.msg("Zaksięgowano dokument SZ o nr własnym"+dokument.getNumerwlasnydokfk());
         } catch (Exception e) { E.e(e); 
-            Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu SZ");
+            Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu SZ/ZZ");
         }
     }
-    private void ksiegowaniePkpir(Faktura p ,Podatnik podatnik, Klienci kontrahent, int podatnik0kontrahent) {
+    private void ksiegowaniePkpir(Faktura p ,Podatnik podatnik, Klienci kontrahent, int podatnik0kontrahent, String rodzajdokumentu) {
             Faktura faktura = p;
             Dok selDokument = new Dok();
             selDokument.setEwidencjaVAT1(null);
@@ -1180,7 +1203,7 @@ public class FakturaView implements Serializable {
             selDokument.setDataSprz(faktura.getDatawystawienia());
             selDokument.setKontr(kontrahent);
             selDokument.setTabelanbp(p.getTabelanbp());
-            Rodzajedok rodzajedok = rodzajedokDAO.find("SZ", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            Rodzajedok rodzajedok = rodzajedokDAO.find(rodzajdokumentu, podatnik, wpisView.getRokWpisuSt());
             selDokument.setRodzajedok(rodzajedok);
             selDokument.setNrWlDk(faktura.getNumerkolejny());
             selDokument.setOpis(faktura.getPozycjenafakturze().get(0).getNazwa());
@@ -1191,6 +1214,9 @@ public class FakturaView implements Serializable {
             tmpX.setVatwaluta(faktura.getVatPrzeliczWal());
             tmpX.setVat(faktura.getVatPrzelicz());
             tmpX.setNazwakolumny("przych. sprz");
+            if (podatnik0kontrahent==1) {
+                tmpX.setNazwakolumny("poz. koszty");
+            }
             tmpX.setDok(selDokument);
             tmpX.setBrutto(Z.z(faktura.getBruttoPrzelicz()));
             listaX.add(tmpX);
@@ -1205,6 +1231,10 @@ public class FakturaView implements Serializable {
             }
             List<EVatwpis1> ewidencjaTransformowana = Collections.synchronizedList(new ArrayList<>());
             for (EVatwpis r : faktura.getEwidencjavat()) {
+                Evewidencja odnalezionaewidencja = evewidencjaDAO.znajdzponazwie(r.getEwidencja().getNazwa());
+                if (podatnik0kontrahent==1) {
+                    odnalezionaewidencja = evewidencjaDAO.znajdzponazwie("zakup");
+                }
                 if (faktura.getEwidencjavatpk() != null) {
                     EVatwpis s  = null;
                     for (EVatwpis t : faktura.getEwidencjavatpk()) {
@@ -1212,7 +1242,6 @@ public class FakturaView implements Serializable {
                             s = t;
                         }
                     }
-                    Evewidencja odnalezionaewidencja = znajdziewidencje(s.getEwidencja());
                     if (s != null) {
                         EVatwpis1 eVatwpis1 = new EVatwpis1(odnalezionaewidencja, s.getNettopln()-r.getNettopln(), s.getVatpln()-r.getVatpln(), r.getEstawka(), p.getMc(), p.getRok());
                         if (r.getNettopln()==0.0 && r.getVatpln() == 0.0) {
@@ -1229,7 +1258,6 @@ public class FakturaView implements Serializable {
                         ewidencjaTransformowana.add(eVatwpis1);
                     }
                 } else {
-                    Evewidencja odnalezionaewidencja = znajdziewidencje(r.getEwidencja());
                     EVatwpis1 eVatwpis1 = new EVatwpis1(odnalezionaewidencja, r.getNettopln(), r.getVatpln(), r.getEstawka(), p.getMc(), p.getRok());
                     if (r.getNettopln()==0.0 && r.getVatpln() == 0.0) {
                         eVatwpis1 = new EVatwpis1(odnalezionaewidencja, r.getNetto(), r.getVat(), r.getEstawka(), p.getMc(), p.getRok());
@@ -1265,13 +1293,7 @@ public class FakturaView implements Serializable {
             PrimeFaces.current().ajax().update("akordeon:formsporzadzone:dokumentyLista");
     }
     
-    private Evewidencja znajdziewidencje(Evewidencja ewidencja) {
-        Evewidencja zwrot = ewidencja;
-        if (ewidencja.getId()==0) {
-            zwrot = evewidencjaDAO.znajdzponazwie(ewidencja.getNazwa());
-        }
-        return zwrot;
-    }
+    
     
     public void sprawdzCzyNieDuplikat(Dok selD) throws Exception {
         Dok tmp = dokDAO.znajdzDuplikat(selD, selD.getPkpirR());
