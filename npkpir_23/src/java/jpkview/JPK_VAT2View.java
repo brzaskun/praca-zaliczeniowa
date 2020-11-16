@@ -323,14 +323,14 @@ public class JPK_VAT2View implements Serializable {
                 Msg.msg("e","Błąd generowania/walidacji JPK. Wstrzymuje przetwarzanie danych");
             } else {
                 UPO upo = wysylkaJPK(wpisView.getPodatnikObiekt());
-    //            if (upo != null && upo.getReferenceNumber() != null) {
-    //                if (this.lista==null) {
-    //                    this.lista = new ArrayList<>();
-    //                }
-    //                this.lista.add(upo);
-    //            } else {
-    //                Msg.msg("e","Wystąpił problem. Nie wysłano JPK");
-    //            }
+                if (upo != null && upo.getReferenceNumber() != null) {
+                    if (this.lista==null) {
+                        this.lista = new ArrayList<>();
+                    }
+                    this.lista.add(upo);
+                } else {
+                    Msg.msg("e","Wystąpił problem. Nie wysłano JPK");
+                }
             }
         } else {
             Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
