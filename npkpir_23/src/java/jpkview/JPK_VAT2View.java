@@ -705,10 +705,10 @@ public class JPK_VAT2View implements Serializable {
         String[] zwrot = new String[2];
         JPKSuper jpk = genJPK(wiersze, podatnik, nowa0korekta1);
         String sciezka = null;
-        zwrot[0] = sciezka;
-        zwrot[1] = "ok";
         try {
             sciezka = marszajuldoplikuxml(podatnik, jpk);
+            zwrot[0] = sciezka;
+            zwrot[1] = "ok";
             if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
                 pl.gov.crd.wzor._2020._05._08._9393.JPK jpk2 = (pl.gov.crd.wzor._2020._05._08._9393.JPK) jpk;
                 String mainfilename = "jpk"+podatnik.getNip()+"mcrok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
