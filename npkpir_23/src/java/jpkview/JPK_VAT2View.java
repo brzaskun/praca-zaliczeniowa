@@ -705,6 +705,8 @@ public class JPK_VAT2View implements Serializable {
         String[] zwrot = new String[2];
         JPKSuper jpk = genJPK(wiersze, podatnik, nowa0korekta1);
         String sciezka = null;
+        zwrot[0] = sciezka;
+        zwrot[1] = "ok";
         try {
             sciezka = marszajuldoplikuxml(podatnik, jpk);
             if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
