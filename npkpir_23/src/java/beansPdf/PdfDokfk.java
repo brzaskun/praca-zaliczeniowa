@@ -31,7 +31,7 @@ public class PdfDokfk {
         dodajOpisWstepny(document, selected);
         infooFirmie(document, selected);
         saldopoczatkowe(document, selected);
-        if (!selected.getRodzajedok().isTylkojpk()) {
+        if (!selected.getRodzajedok().isTylkovat()&&!selected.getRodzajedok().isTylkojpk()) {
             if (selected.getRodzajedok().getKategoriadokumentu() != 0) {
                 dodajTabele(document, testobjects.testobjects.getTabelaKonta(selected.getListawierszy()),100,0);
             } else {

@@ -828,7 +828,7 @@ public class DokfkView implements Serializable {
 
     public void dolaczWierszeZKwotami(EVatwpisFK evatwpis) {
         boolean niesumuj = evatwpis.isNieduplikuj() && evatwpis.getEwidencja().getNazwa().equals("zakup");
-        if (!selected.iswTrakcieEdycji() && !niesumuj && !selected.getRodzajedok().isTylkojpk()){
+        if (!selected.iswTrakcieEdycji() && !niesumuj && !selected.getRodzajedok().isTylkovat() && !selected.getRodzajedok().isTylkojpk()){
             Rodzajedok rodzajdok = selected.getRodzajedok();
             WartosciVAT wartosciVAT = podsumujwartosciVAT(selected.getEwidencjaVAT());
             if (selected.getListawierszy().size() == 1 && selected.isImportowany() == false) {
@@ -1070,7 +1070,7 @@ public class DokfkView implements Serializable {
 //                    komunikatywpisdok = "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.";
 //                    PrimeFaces.current().ajax().update("formwpisdokument:komunikatywpisdok");
 //                }
-                if (!selected.getRodzajedok().isTylkojpk()) {
+                if (!selected.getRodzajedok().isTylkovat() && !selected.getRodzajedok().isTylkojpk()) {
                     for (Wiersz p : selected.getListawierszy()) {
                         ObslugaWiersza.przepiszWaluty(p);
                     }
@@ -1141,7 +1141,7 @@ public class DokfkView implements Serializable {
                 }
                 selected.setwTrakcieEdycji(false);
                 selected.oznaczVATdokument(sprawdzjakiokresvat());
-                if (!selected.getRodzajedok().isTylkojpk()) {
+                if (!selected.getRodzajedok().isTylkovat() && !selected.getRodzajedok().isTylkojpk()) {
                     for (Wiersz p : selected.getListawierszy()) {
                         ObslugaWiersza.przepiszWaluty(p);
                     }

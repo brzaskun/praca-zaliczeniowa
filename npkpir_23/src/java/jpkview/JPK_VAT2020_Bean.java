@@ -10,6 +10,7 @@ import entity.DokSuper;
 import entity.EVatwpis1;
 import entity.EVatwpisSuper;
 import entity.JPKvatwersjaEvewidencja;
+import entity.Klienci;
 import entity.Podatnik;
 import entityfk.EVatwpisDedra;
 import entityfk.EVatwpisFK;
@@ -18,6 +19,7 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.util.regex.Pattern;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
 import pl.gov.crd.wzor._2020._05._08._9393.*;
@@ -37,7 +39,8 @@ public class JPK_VAT2020_Bean {
             w.setLpSprzedazy(lp);
             w.setDataSprzedazy(Data.dataoddo(ev.getDok().getDataSprz()));
             w.setDataWystawienia(Data.dataoddo(ev.getDok().getDataWyst()));
-            w.setNrKontrahenta(ev.getDok().getKontr1().getNip());
+            w.setKodKrajuNadaniaTIN(kodkraju(ev.getDok().getKontr1()));
+            w.setNrKontrahenta(przetworznip(ev.getDok().getKontr1().getNip()));
             w.setNazwaKontrahenta(ev.getDok().getKontr1().getNpelna());
             w.setDowodSprzedazy(ev.getDok().getNrWlDk());
             dodajcechydowierszaSprzedaz(w,ev);
@@ -76,13 +79,15 @@ public class JPK_VAT2020_Bean {
             if ((ev.getDokfk().getRodzajedok().getKategoriadokumentu()==0 || ev.getDokfk().getRodzajedok().getKategoriadokumentu()==5) && ev.getNumerwlasnydokfk()!=null) {
                 w.setDataSprzedazy(Data.dataoddo(ev.getDataoperacji()));
                 w.setDataWystawienia(Data.dataoddo(ev.getDatadokumentu()));
-                w.setNrKontrahenta(ev.getKlient().getNip());
+                w.setKodKrajuNadaniaTIN(kodkraju(ev.getDokfk().getKontr()));
+                w.setNrKontrahenta(przetworznip(ev.getDokfk().getKontr().getNip()));
                 w.setNazwaKontrahenta(ev.getKlient().getNpelna());
                 w.setDowodSprzedazy(ev.getNumerwlasnydokfk());
             } else {
                 w.setDataSprzedazy(Data.dataoddo(ev.getDokfk().getDataoperacji()));
                 w.setDataWystawienia(Data.dataoddo(ev.getDokfk().getDatawystawienia()));
-                w.setNrKontrahenta(ev.getDokfk().getKontr().getNip());
+                w.setKodKrajuNadaniaTIN(kodkraju(ev.getDokfk().getKontr()));
+                w.setNrKontrahenta(przetworznip(ev.getDokfk().getKontr().getNip()));
                 w.setNazwaKontrahenta(ev.getDokfk().getKontr().getNpelna());
                 w.setDowodSprzedazy(ev.getDokfk().getNumerwlasnydokfk());
             }
@@ -140,7 +145,8 @@ public class JPK_VAT2020_Bean {
             w.setDataZakupu(Data.dataoddo(ev.getDok().getDataSprz()));
             w.setDataWplywu(Data.dataoddo(ev.getDok().getDataWyst()));
             w.setNazwaDostawcy(ev.getDok().getKontr1().getNpelna());
-            w.setNrDostawcy(ev.getDok().getKontr1().getNip());
+            w.setKodKrajuNadaniaTIN(kodkraju(ev.getDok().getKontr1()));
+            w.setNrDostawcy(przetworznip(ev.getDok().getKontr1().getNip()));
             w.setDowodZakupu(ev.getDok().getNrWlDk());
             dodajkwotydowierszaZakupu(w,ev, zakupCtrl, jPKvatwersjaEvewidencja);
             dodajcechydowierszaZakupu(w,ev);
@@ -157,7 +163,8 @@ public class JPK_VAT2020_Bean {
             w.setDataZakupu(Data.dataoddo(ev.getDataoperacji()));
             w.setDataWplywu(Data.dataoddo(ev.getDatadokumentu()));
             w.setNazwaDostawcy(ev.getKlient().getNpelna());
-            w.setNrDostawcy(ev.getKlient().getNip());
+            w.setKodKrajuNadaniaTIN(kodkraju(ev.getKlient()));
+            w.setNrDostawcy(przetworznip(ev.getKlient().getNip()));
             w.setDowodZakupu(ev.getFaktura());
             dodajkwotydowierszaZakupu(w,ev, zakupCtrl, jPKvatwersjaEvewidencja);
             dodajcechydowierszaZakupu(w,ev);
@@ -174,14 +181,16 @@ public class JPK_VAT2020_Bean {
             if ((ev.getDokfk().getRodzajedok().getKategoriadokumentu()==0 || ev.getDokfk().getRodzajedok().getKategoriadokumentu()==5) && ev.getNumerwlasnydokfk()!=null) {
                 w.setDataZakupu(Data.dataoddo(ev.getDataoperacji()));
                 w.setDataWplywu(Data.dataoddo(ev.getDatadokumentu()));
-                w.setNrDostawcy(ev.getKlient().getNip());
+                w.setKodKrajuNadaniaTIN(kodkraju(ev.getDokfk().getKontr()));
+                w.setNrDostawcy(przetworznip(ev.getDokfk().getKontr().getNip()));
                 w.setNazwaDostawcy(ev.getKlient().getNpelna());
                 w.setDowodZakupu(ev.getNumerwlasnydokfk());
             } else {
                 w.setDataZakupu(Data.dataoddo(ev.getDokfk().getDataoperacji()));
                 w.setDataWplywu(Data.dataoddo(ev.getDokfk().getDatawystawienia()));
                 w.setNazwaDostawcy(ev.getDokfk().getKontr().getNpelna());
-                w.setNrDostawcy(ev.getDokfk().getKontr().getNip());
+                w.setKodKrajuNadaniaTIN(kodkraju(ev.getDokfk().getKontr()));
+                w.setNrDostawcy(przetworznip(ev.getDokfk().getKontr().getNip()));
                 w.setDowodZakupu(ev.getDokfk().getNumerwlasnydokfk());
             }
             dodajkwotydowierszaZakupu(w,ev, zakupCtrl, jPKvatwersjaEvewidencja);
@@ -211,6 +220,39 @@ public class JPK_VAT2020_Bean {
         } catch (Exception e) {
             E.e(e);
         }
+    }
+    
+     public static String przetworznip(String nip) {
+        String dobrynip = nip;
+        boolean jestprefix = sprawdznip(nip);
+            if (jestprefix) {
+                dobrynip = nip.substring(2);
+        }
+        return dobrynip;
+    }
+    
+    private static boolean sprawdznip(String nip) {
+        //jezeli false to dobrze
+        String prefix = nip.substring(0, 2);
+        Pattern p = Pattern.compile("[0-9]");
+        boolean isnumber = p.matcher(prefix).find();
+        return !isnumber;
+    }
+
+    private static String kodkraju(Klienci p) {
+        String zwrot = null;
+        if (p.getKrajkod() != null) {
+            try {
+                zwrot = p.getKrajkod();
+                if (zwrot.equals("GR")) {
+                    zwrot = "EL";
+                }
+            } catch (Exception e) {
+            }
+        } else if (p.getKrajnazwa().equals("Polska")) {
+            zwrot = "PL";
+        }
+        return zwrot;
     }
     
     public static JPK.Naglowek naglowek(String rok, String mc, String kodurzedu) {

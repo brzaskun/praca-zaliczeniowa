@@ -2949,6 +2949,15 @@ public class PdfMain {
                 } catch (Exception ex) {
                 
                 } 
+            } else if (m.getName().contains("TypDokumentu")) {
+                try {
+                    pl.gov.crd.wzor._2020._05._08._9393.TDowoduSprzedazy wynik = (pl.gov.crd.wzor._2020._05._08._9393.TDowoduSprzedazy) m.invoke(p, (Object[]) null);
+                    if (wynik != null) {
+                        metodystring.add(wynik.value());
+                    }
+                } catch (Exception ex) {
+                
+                } 
             }
         }
         StringBuilder sb = new StringBuilder();

@@ -1285,15 +1285,15 @@ public class Dokfk extends DokSuper implements Serializable {
                 sb.append(", ");
             }
             if (this.getOznaczenie2()!=null) {
-                sb.append(this.getOznaczenie1().getSymbol());
+                sb.append(this.getOznaczenie2().getSymbol());
                 sb.append(", ");
             }
             if (this.getOznaczenie3()!=null) {
-                sb.append(this.getOznaczenie1().getSymbol());
+                sb.append(this.getOznaczenie3().getSymbol());
                 sb.append(", ");
             }
             if (this.getOznaczenie4()!=null) {
-                sb.append(this.getOznaczenie1().getSymbol());
+                sb.append(this.getOznaczenie4().getSymbol());
             }
             zwrot = sb.toString();
             zwrot = zwrot.substring(0, zwrot.length()-2);

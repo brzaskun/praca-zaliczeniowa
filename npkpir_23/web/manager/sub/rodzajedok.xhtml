@@ -18,7 +18,7 @@
                 <f:selectItems value="#{Roki.rokiList}"/>
             </p:selectOneMenu>
         </p:panelGrid>
-        <p:panelGrid columns="1" style="max-width: 1340px">
+        <p:panelGrid columns="1" style="max-width: 1380px">
             <h:outputText value="brak listy dokumentów domyślnych na ten rok" rendered="#{rodzajedokView.listaWspolnych.size() eq 0}" style="color: green;"/>
             <p:commandButton value="generuj" actionListener="#{rodzajedokView.generujliste}" rendered="#{rodzajedokView.listaWspolnych.size() eq 0}" style="width: 120px;" update="@form"/>
             <p:dataTable id="dokLista" value="#{rodzajedokView.listaWspolnych}"  var="loop"  paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
@@ -65,6 +65,9 @@
                 </p:column>
                 <p:column headerText="tylko vat należ." style="text-align: center;">
                     <h:outputText value="#{loop.tylkovatnalezny eq true ? 'tak' : null}" />
+                </p:column>
+                <p:column headerText="tylko vat" style="text-align: center;">
+                    <h:outputText value="#{loop.tylkovat eq true ? 'tak' : null}" />
                 </p:column>
                 <p:column headerText="tylko jpk" style="text-align: center;">
                     <h:outputText value="#{loop.tylkojpk eq true ? 'tak' : null}" />
@@ -132,8 +135,10 @@
             <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.niepokazuj}"/>
             <h:outputText value=" tylko vat należny" />
             <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.tylkovatnalezny}"/>
-             <h:outputText value=" tylko jpk" />
-             <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.tylkojpk}"/>
+             <h:outputText value=" tylko vat" />
+             <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.tylkovat}"/>
+              <h:outputText value=" tylko jpk" />
+              <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.tylkojpk}"/>
              <h:outputText value=" jednostronny wiersz" />
              <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.jednostronny}"/>
              <h:outputText value=" jpk oznaczenie 1: " />

@@ -20,7 +20,7 @@ public class UzupelnijWierszeoDane implements Serializable {
     
     //uzupeelnia wiersze podczas ich wprowadzania badz edycji, nie rusza pol edycji
     public static void uzupelnijWierszeoDate(Dokfk selected) {
-        if (!selected.getRodzajedok().isTylkojpk()) {
+        if (!selected.getRodzajedok().isTylkovat() && !selected.getRodzajedok().isTylkojpk()) {
             //ladnie uzupelnia informacje o wierszu pk
             List<Wiersz> wierszewdokumencie = selected.getListawierszy();
             try {

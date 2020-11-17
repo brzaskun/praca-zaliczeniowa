@@ -105,6 +105,8 @@ public class Rodzajedok implements Serializable {
     private boolean tylkovatnalezny;
     @Column(name = "procentkup")
     private double procentkup;
+    @Column(name = "tylkovat")
+    private boolean tylkovat;
     @Column(name = "tylkojpk")
     private boolean tylkojpk;
     @Column(name = "jednostronny")
@@ -138,6 +140,7 @@ public class Rodzajedok implements Serializable {
         this.wzorzec = rodzajedok.getWzorzec();
         this.stawkavat = rodzajedok.getStawkavat();
         this.tylkovatnalezny = rodzajedok.isTylkovatnalezny();
+        this.tylkovat = rodzajedok.isTylkovat();
         this.tylkojpk = rodzajedok.isTylkojpk();
     }
 
@@ -178,12 +181,12 @@ public class Rodzajedok implements Serializable {
         this.skrotNazwyDok = skrotNazwyDok;
     }
 
-    public boolean isTylkojpk() {
-        return tylkojpk;
+    public boolean isTylkovat() {
+        return tylkovat;
     }
 
-    public void setTylkojpk(boolean tylkojpk) {
-        this.tylkojpk = tylkojpk;
+    public void setTylkovat(boolean tylkovat) {
+        this.tylkovat = tylkovat;
     }
 
 
@@ -363,6 +366,14 @@ public class Rodzajedok implements Serializable {
 
     public void setOznaczenie2(JPKoznaczenia oznaczenie2) {
         this.oznaczenie2 = oznaczenie2;
+    }
+
+    public boolean isTylkojpk() {
+        return tylkojpk;
+    }
+
+    public void setTylkojpk(boolean tylkojpk) {
+        this.tylkojpk = tylkojpk;
     }
     
 

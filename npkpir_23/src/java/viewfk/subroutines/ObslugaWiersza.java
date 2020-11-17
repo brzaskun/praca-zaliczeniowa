@@ -22,7 +22,8 @@ import java.util.Iterator;
 import java.util.List;
 import javax.inject.Named;
 import msg.Msg;
-import view.WpisView; import org.primefaces.PrimeFaces;
+import org.primefaces.PrimeFaces;
+ import view.WpisView;
 import waluty.Z;
 
 /**
@@ -38,7 +39,7 @@ public class ObslugaWiersza {
         if (dokfk.getSeriadokfk().equals("BO")) {
             return true;
         }
-        if (dokfk.getRodzajedok().isTylkojpk()) {
+        if (dokfk.getRodzajedok().isTylkovat() || dokfk.getRodzajedok().isTylkojpk()) {
             return true;
         }
         double stronalewa = 0.0;

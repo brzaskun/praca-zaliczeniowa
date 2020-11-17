@@ -128,6 +128,8 @@
                     <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.pokazszt}" />
                     <h:outputText value=" rozliczaj tylko VAT należny: " />
                     <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.tylkovatnalezny}" />
+                     <h:outputText value=" dokument tylko dla vat: " />
+                     <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.tylkovat}" />
                      <h:outputText value=" dokument tylko dla jpk: " />
                      <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.tylkojpk}" />
                      <h:outputText value=" jpk oznaczenie 1: " />
@@ -141,7 +143,7 @@
                         <f:selectItems value="#{rodzajedokView.jpkoznaczenia}" var="itm1" itemLabel="#{itm1.symbol}" itemValue="#{itm1}" itemDescription="#{itm1.opis}" />
                    </h:selectOneMenu>
                 </p:panelGrid>
-            <p:panelGrid id="parametryDokKsi1" columns="4" rendered="#{WpisView.ksiegirachunkowe and podatnikView.selectedDokKsi.tylkojpk eq false}">
+            <p:panelGrid id="parametryDokKsi1" columns="4" rendered="#{WpisView.ksiegirachunkowe and podatnikView.selectedDokKsi.tylkovat eq false and podatnikView.selectedDokKsi.tylkojpk eq false}">
 
                     <p:column headerText="konto rozrach." style="text-align: center;" >
                         <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kontorozrachunkowe}" style="width: 250px;" converter="#{kontoConv}"  rendered="#{podatnikView.selectedDokKsi.kategoriadokumentu == 0}">
