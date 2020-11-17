@@ -80,7 +80,7 @@ import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import msg.Msg;
- import org.joda.time.DateTime;
+import org.joda.time.DateTime;
 import org.primefaces.PrimeFaces;
 import params.Params;
 import waluty.Z;
@@ -875,7 +875,6 @@ public class DokView implements Serializable {
                 } else {
                     podepnijEwidencjeVat();
                 }
-                selDokument.setOpis(wysDokument.getOpis());
                 wygenerujnumerkolejny();
                 podepnijListe();
                 setRenderujwysz(false);
@@ -883,6 +882,9 @@ public class DokView implements Serializable {
                 //wygenerujnumerkolejny();nie potrzebne jest generowane w xhtml
                 int i = 0;
                 try {
+                    if (wysDokument!=null) {
+                       selDokument.setOpis(wysDokument.getOpis());
+                    }
                     if (wysDokument.getListakwot1() != null) {
                         for (KwotaKolumna1 p : wysDokument.getListakwot1()) {
                             if (selDokument.getListakwot1().size() < i + 2) {

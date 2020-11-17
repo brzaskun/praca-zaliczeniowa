@@ -277,6 +277,14 @@ public class EwidencjaVatView implements Serializable {
                 vatokres = 1;
             }
             pobierzEVATwpis1zaOkres(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+             if (listadokvatprzetworzona != null) {
+                for (Iterator<EVatwpisSuper> it = listadokvatprzetworzona.iterator(); it.hasNext();) {
+                    EVatwpis1 p = (EVatwpis1) it.next();
+                    if (p.getDok() != null && p.getDok().getRodzajedok().isTylkojpk()) {
+                        it.remove();
+                    }
+                }
+            }
             przejrzyjEVatwpis1Lista();
             stworzenieEwidencjiCzescWspolna();
             for (String k : listaewidencji.keySet()) {
@@ -286,6 +294,29 @@ public class EwidencjaVatView implements Serializable {
                 ewidencje.add(p);
             }
             pobierzmiesiacdlajpk = false;
+            //PrimeFaces.current().ajax().update("formVatZestKsiegowa");
+            //Msg.msg("Sporządzono ewidencje");
+        } catch (Exception e) { 
+            Msg.msg("e","Błąd przy tworzeniu ewidencji z dokumentów");
+            E.e(e);
+        }
+        //drukuj ewidencje
+    }
+    
+     public void stworzenieEwidencjiZDokumentowJPK(Podatnik podatnik) {
+        try {
+            ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");
+            zerujListy();
+            int vatokres = wpisView.getVatokres();
+            if (pobierzmiesiacdlajpk) {
+                vatokres = 1;
+            }
+            if (wpisView.sprawdzczyue() && vatokres==0) {
+                vatokres = 1;
+            }
+            pobierzEVATwpis1zaOkres(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            przejrzyjEVatwpis1Lista();
+             
             //PrimeFaces.current().ajax().update("formVatZestKsiegowa");
             //Msg.msg("Sporządzono ewidencje");
         } catch (Exception e) { 
@@ -351,6 +382,14 @@ public class EwidencjaVatView implements Serializable {
                 wyluskajzlisty(listaprzesunietychBardziejPrzychody, "przychody");
                 sumaprzesunietychBardziejPrzychody = sumujprzesuniete(listaprzesunietychBardziejPrzychody);
             }
+            if (listadokvatprzetworzona != null) {
+                for (Iterator<EVatwpisSuper> it = listadokvatprzetworzona.iterator(); it.hasNext();) {
+                    EVatwpisFK p = (EVatwpisFK) it.next();
+                    if (p.getDokfk() != null && p.getDokfk().getRodzajedok().isTylkojpk()) {
+                        it.remove();
+                    }
+                }
+            }
             przejrzyjEVatwpis1Lista();
             dodajwierszeVATZD(wniosekVATZDEntity);
             
@@ -375,6 +414,43 @@ public class EwidencjaVatView implements Serializable {
         }
         //drukuj ewidencje
     }
+    
+    public void stworzenieEwidencjiZDokumentowFKJPK(Podatnik podatnik, WniosekVATZDEntity wniosekVATZDEntity) {
+        try {
+            listadokvatprzetworzona = Collections.synchronizedList(new ArrayList<>());
+            ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");
+            zerujListy();
+            String vatokres = sprawdzjakiokresvat();
+            if (pobierzmiesiacdlajpk) {
+                vatokres = "miesięczne";
+            }
+            if (wpisView.getPodatnikObiekt().getMetodakasowa().equals("tak")) {
+                listadokvatprzetworzona = przetworzRozliczenia(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+                Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
+            } else {
+                listadokvatprzetworzona.addAll(pobierzEVatRokFK(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
+                Collections.sort(listadokvatprzetworzona,new EVatwpisFKcomparator());
+                listaprzesunietychKoszty = pobierzEVatRokFKNastepnyOkres(vatokres);
+                wyluskajzlisty(listaprzesunietychKoszty, "koszty");
+                sumaprzesunietych = sumujprzesuniete(listaprzesunietychKoszty);
+                listaprzesunietychBardziej = pobierzEVatRokFKNastepnyOkresBardziej(vatokres);
+                wyluskajzlisty(listaprzesunietychBardziej, "koszty");
+                sumaprzesunietychBardziej = sumujprzesuniete(listaprzesunietychBardziej);
+                listaprzesunietychPrzychody = pobierzEVatRokFKNastepnyOkres(vatokres);
+                wyluskajzlisty(listaprzesunietychPrzychody, "przychody");
+                sumaprzesunietychprzychody = sumujprzesuniete(listaprzesunietychPrzychody);
+                listaprzesunietychBardziejPrzychody = pobierzEVatRokFKNastepnyOkresBardziej(vatokres);
+                wyluskajzlisty(listaprzesunietychBardziejPrzychody, "przychody");
+                sumaprzesunietychBardziejPrzychody = sumujprzesuniete(listaprzesunietychBardziejPrzychody);
+            }
+            
+ 
+        } catch (Exception e) { 
+            E.e(e); 
+        }
+        //drukuj ewidencje
+    }
+    
     
     private List<EVatwpisSuper> przetworzRozliczenia(Podatnik podatnik, String vatokres, String rokWpisuSt, String miesiacWpisu) {
         List<EVatwpisSuper> zwrot = new ArrayList<>();

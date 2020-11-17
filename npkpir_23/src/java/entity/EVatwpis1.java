@@ -281,7 +281,15 @@ public class EVatwpis1 extends EVatwpisSuper implements Serializable {
     public void setNieduplikuj(boolean nieduplikuj) {
         this.nieduplikuj = nieduplikuj;
     }
-    
+    @Override
+    public boolean isTylkodlajpk() {
+        return super.tylkodlajpk;
+    }
+
+    @Override
+    public void setTylkodlajpk(boolean tylkodlajpk) {
+        this.tylkodlajpk = tylkodlajpk;
+    }
     
 }
 

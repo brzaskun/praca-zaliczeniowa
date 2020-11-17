@@ -51,6 +51,8 @@ public class EVatwpisSuper implements Serializable {
     protected String rokEw;
     @Column(name="nieduplikuj")
     protected boolean nieduplikuj;
+    @Column(name = "tylkodlajpk")
+    protected boolean tylkodlajpk;
     @Transient
     protected boolean duplikat;
     @Transient
@@ -242,6 +244,14 @@ public class EVatwpisSuper implements Serializable {
 
     public void setBrutto(double brutto) {
         this.brutto = brutto;
+    }
+
+    public boolean isTylkodlajpk() {
+        return tylkodlajpk;
+    }
+
+    public void setTylkodlajpk(boolean tylkodlajpk) {
+        this.tylkodlajpk = tylkodlajpk;
     }
 
 

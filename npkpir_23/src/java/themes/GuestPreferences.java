@@ -44,18 +44,18 @@ public class GuestPreferences implements Serializable {
         
         
         public String getTheme() {
-                HttpServletRequest request;
-                request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-                try {
-                Principal principal = request.getUserPrincipal();
-                String kto  = principal.getName();
-                Uz ktoUz = uzDAO.findUzByLogin(kto);
-                theme = ktoUz.getTheme();
-                } catch (Exception e){
-                    E.e(e);
-                }
-                return theme;
+        HttpServletRequest request;
+        request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        try {
+            Principal principal = request.getUserPrincipal();
+            String kto = principal.getName();
+            Uz ktoUz = uzDAO.findUzByLogin(kto);
+            theme = ktoUz.getTheme();
+        } catch (Exception e) {
+            E.e(e);
         }
+        return theme;
+    }
 
         public void setTheme(String theme) {
                 this.theme = theme;

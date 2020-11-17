@@ -7,7 +7,6 @@
 package daoFK;
 
 import dao.DAO;
-import embeddable.Mce;
 import entity.Klienci;
 import entity.Podatnik;
 import entityfk.EVatwpisFK;

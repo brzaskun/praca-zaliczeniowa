@@ -34,11 +34,8 @@ import org.eclipse.persistence.annotations.CacheType;
 })
 @NamedQueries({
     @NamedQuery(name = "EVatwpisFK.findByWiersz", query = "SELECT k FROM EVatwpisFK k WHERE k.wiersz = :wiersz"),
-    @NamedQuery(name = "EVatwpisFK.findByRok", query = "SELECT k FROM EVatwpisFK k WHERE k.rokEw = :rok"),
     @NamedQuery(name = "EVatwpisFK.findEwidencjaNUll", query = "SELECT k FROM EVatwpisFK k WHERE k.ewidencja IS NULL"),
-    @NamedQuery(name = "EVatwpisFK.findByMcRok", query = "SELECT k FROM EVatwpisFK k WHERE k.rokEw = :rok AND k.mcEw = :mc"),
     @NamedQuery(name = "EVatwpisFK.findByKlient", query = "SELECT k FROM EVatwpisFK k WHERE k.klient = :klient"),
-    @NamedQuery(name = "EVatwpisFK.findByPodatnik", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik"),
     @NamedQuery(name = "EVatwpisFK.findByPodatnikRok", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik AND k.rokEw = :rok"),
     @NamedQuery(name = "EVatwpisFK.findByPodatnikRokMcodMcdo", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik AND k.rokEw = :rok AND k.mcEw >= :mcod AND k.mcEw <= :mcdo"),
     @NamedQuery(name = "EVatwpisFK.findByPodatnikRokInnyOkres", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik AND k.rokEw = :rok AND k.innyokres != 0"),
@@ -537,6 +534,16 @@ public class EVatwpisFK extends EVatwpisSuper implements Serializable {
 
     public void setSumatransakcji(double sumatransakcji) {
         this.sumatransakcji = sumatransakcji;
+    }
+
+     @Override
+    public boolean isTylkodlajpk() {
+        return super.tylkodlajpk;
+    }
+
+    @Override
+    public void setTylkodlajpk(boolean tylkodlajpk) {
+        this.tylkodlajpk = tylkodlajpk;
     }
     
 }

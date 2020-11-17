@@ -124,7 +124,7 @@ public class JPK_VAT2View implements Serializable {
                 jpkrazemzdeklaracja = false;
             }
         } catch (Exception e) {
-            
+            E.e(e);
         }
     }
     
@@ -185,7 +185,9 @@ public class JPK_VAT2View implements Serializable {
             String[] sciezka = generujXML(lista, wpisView.getPodatnikObiekt(), nowa0korekta1);
             if (sciezka[1]==null) {
                 Msg.msg("e","Błąd generowania/walidacji JPK. Wstrzymuje przetwarzanie danych");
-            } else {
+            } else if (wiersze==null || wiersze.isEmpty()) {
+                Msg.msg("e","Brak zaksięgowanych faktur nie mozna generowac JPK");
+            }  else {
                 UPO upo = wysylkaJPK(wpisView.getPodatnikObiekt());
                 if (upo != null && upo.getReferenceNumber() != null) {
                     this.lista.add(upo);
@@ -205,7 +207,7 @@ public class JPK_VAT2View implements Serializable {
             String polecenie = "wydrukXML(\""+sciezka[0]+"\")";
             PrimeFaces.current().executeScript(polecenie);
         } else if (wiersze==null || wiersze.isEmpty()) {
-            Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+            Msg.msg("e","Brak zaksięgowanych faktur nie mozna generowac JPK");
         } else {
             Msg.msg("e","Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
         }
@@ -214,7 +216,7 @@ public class JPK_VAT2View implements Serializable {
     
     public void przygotujXML() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
-        ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
+        ewidencjaVatView.stworzenieEwidencjiZDokumentowJPK(wpisView.getPodatnikObiekt());
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
         if (bledy.size()==0 && wiersze!=null && !wiersze.isEmpty()) {
@@ -233,7 +235,7 @@ public class JPK_VAT2View implements Serializable {
                 }
             }
         }  else if (wiersze==null || wiersze.isEmpty()) {
-            Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+            Msg.msg("e","Brak zaksięgowanych faktur nie mozna generowac JPK");
         } else {
             Msg.msg("e","Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
         }
@@ -241,7 +243,7 @@ public class JPK_VAT2View implements Serializable {
     
      public void przygotujXMLDL() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
-        ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
+        ewidencjaVatView.stworzenieEwidencjiZDokumentowJPK(wpisView.getPodatnikObiekt());
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
         if (bledy.size()==0 && wiersze!=null && !wiersze.isEmpty()) {
@@ -249,7 +251,7 @@ public class JPK_VAT2View implements Serializable {
             String polecenie = "wydrukXML(\""+sciezka[0]+"\")";
             PrimeFaces.current().executeScript(polecenie);
         } else if (wiersze==null || wiersze.isEmpty()) {
-            Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+           Msg.msg("e","Brak zaksięgowanych faktur nie mozna generowac JPK");
         } else {
             Msg.msg("e","Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
         }
@@ -258,7 +260,7 @@ public class JPK_VAT2View implements Serializable {
      public void przygotujXMLAll(Podatnik podatnik,  List<Podatnik> dowyslania,  List<UPO> jpkzrobione) {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
         if (podatnik.getFormaPrawna()==null) {
-            ewidencjaVatView.stworzenieEwidencjiZDokumentow(podatnik);
+            ewidencjaVatView.stworzenieEwidencjiZDokumentowJPK(podatnik);
         } else {
             ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(podatnik, null);
         }
@@ -277,13 +279,13 @@ public class JPK_VAT2View implements Serializable {
     
     public void przygotujXMLPodglad() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
-        ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
+        ewidencjaVatView.stworzenieEwidencjiZDokumentowJPK(wpisView.getPodatnikObiekt());
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
         if (bledy.size()==0 && wiersze!=null && !wiersze.isEmpty()) {
             generujXMLPodglad(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
         } else if (wiersze==null || wiersze.isEmpty()) {
-            Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+           Msg.msg("e","Brak zaksięgowanych faktur nie mozna generowac JPK");
         } else {
             Msg.msg("e","Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
             String data = "brak daty";
@@ -305,7 +307,7 @@ public class JPK_VAT2View implements Serializable {
         if (bledy.size()==0 && wiersze!=null && !wiersze.isEmpty()) {
             generujXMLPodgladDedra(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
         } else if (wiersze==null || wiersze.isEmpty()) {
-            Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+            Msg.msg("e","Brak zaksięgowanych faktur nie mozna generowac JPK");
         } else {
             Msg.msg("e","Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
         }
@@ -316,7 +318,7 @@ public class JPK_VAT2View implements Serializable {
         if (podatnik.getFormaPrawna()==null) {
             ewidencjaVatView.stworzenieEwidencjiZDokumentow(podatnik);
         } else {
-            ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(podatnik, null);
+            ewidencjaVatView.stworzenieEwidencjiZDokumentowFKJPK(podatnik, null);
         }
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         generujXMLPodglad(wiersze, podatnik, nowa0korekta1);
@@ -324,7 +326,7 @@ public class JPK_VAT2View implements Serializable {
     
     public void przygotujXMLFK() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
-        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt(), null);
+        ewidencjaVatView.stworzenieEwidencjiZDokumentowFKJPK(wpisView.getPodatnikObiekt(), null);
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
         if (bledy.size()==0 && wiersze!=null && !wiersze.isEmpty()) {
@@ -343,7 +345,7 @@ public class JPK_VAT2View implements Serializable {
                 }
             }
         } else if (wiersze==null || wiersze.isEmpty()) {
-            Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+            Msg.msg("e","Brak zaksięgowanych faktur nie mozna generowac JPK");
         } else {
             Msg.msg("e","Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
         }
@@ -351,7 +353,7 @@ public class JPK_VAT2View implements Serializable {
     
     public void przygotujXMLFKDL() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
-        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt(), null);
+        ewidencjaVatView.stworzenieEwidencjiZDokumentowFKJPK(wpisView.getPodatnikObiekt(), null);
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
         if (bledy.size()==0 && wiersze!=null && !wiersze.isEmpty()) {
@@ -359,7 +361,7 @@ public class JPK_VAT2View implements Serializable {
             String polecenie = "wydrukXML(\""+sciezka[0]+"\")";
             PrimeFaces.current().executeScript(polecenie);
         } else if (wiersze==null || wiersze.isEmpty()) {
-            Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+            Msg.msg("e","Brak zaksięgowanych faktur nie mozna generowac JPK");
         } else {
             Msg.msg("e","Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
         }
@@ -368,15 +370,15 @@ public class JPK_VAT2View implements Serializable {
        
     public void przygotujXMLFKPodglad() {
         ewidencjaVatView.setPobierzmiesiacdlajpk(true);
-        ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt(), null);
+        ewidencjaVatView.stworzenieEwidencjiZDokumentowFKJPK(wpisView.getPodatnikObiekt(), null);
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
         if (bledy.size()==0 && wiersze!=null && !wiersze.isEmpty()) {
             generujXMLPodglad(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
         } else if (wiersze==null || wiersze.isEmpty()) {
-            Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+            Msg.msg("e","Brak zaksięgowanych faktur nie mozna generowac JPK");
         } else {
-            Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+            Msg.msg("e","Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
             String data;
             for (EVatwpisSuper p : bledy) {
                 if (p instanceof EVatwpis1) {
@@ -439,8 +441,8 @@ public class JPK_VAT2View implements Serializable {
                 JPKVATWersja jPKVATWersja = jPKVATWersjaDAO.findByName("JPK2020");
                 List<JPKvatwersjaEvewidencja> jpkev = jPKvatwersjaEvewidencjaDAO.findJPKEwidencje(jPKVATWersja);
                 Map<Evewidencja, JPKvatwersjaEvewidencja> mapa = przetworzjpk(jpkev);
+                pl.gov.crd.wzor._2020._05._08._9393.JPK jpk = new JPK();
                 if (deklaracjadlajpk!=null) {
-                    pl.gov.crd.wzor._2020._05._08._9393.JPK jpk = new JPK();
                     List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista = deklaracjadlajpk.getSchemawierszsumarycznylista();
                     HashMap<String, EVatwpisSuma> podsumowanieewidencji = deklaracjadlajpk.getPodsumowanieewidencji();
                     JPK.Deklaracja.Naglowek naglowek = deklaracja_naglowek();
@@ -451,24 +453,24 @@ public class JPK_VAT2View implements Serializable {
                     deklaracja.setPozycjeSzczegolowe(pozycje);
                     deklaracja.setPouczenia(BigDecimal.ONE);
                     jpk.setDeklaracja(deklaracja);
-                    Object[] sprzedaz = utworzWierszeJpkSprzedaz2020(wiersze, mapa);
-                    List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazWiersz> listas = (List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazWiersz>) sprzedaz[0];
-                    pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazCtrl sprzedazCtrl = (pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazCtrl) sprzedaz[1];
-                    Object[] zakup = utworzwierszjpkZakup2020(wiersze, mapa);
-                    List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupWiersz> listaz = (List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupWiersz>) zakup[0];
-                    pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupCtrl zakupCtrl = (pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupCtrl) zakup[1];
-                    String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
-                    jpk.setNaglowek(JPK_VAT2020_Bean.naglowek(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), kodurzedu));
-                    int cel = werjsajpkrecznie+1;
-                    jpk.getNaglowek().getCelZlozenia().setValue(Byte.parseByte(String.valueOf(cel)));
-                    jpk.setPodmiot1(JPK_VAT2020_Bean.podmiot1(podatnik, wpisView.getUzer().getNrtelefonu(), wpisView.getUzer().getEmail()));
-                    jpk.setEwidencja(new JPK.Ewidencja());
-                    jpk.getEwidencja().getSprzedazWiersz().addAll(listas);
-                    jpk.getEwidencja().setSprzedazCtrl(sprzedazCtrl);
-                    jpk.getEwidencja().getZakupWiersz().addAll(listaz);
-                    jpk.getEwidencja().setZakupCtrl(zakupCtrl);
-                    zwrot=jpk;
                 }
+                Object[] sprzedaz = utworzWierszeJpkSprzedaz2020(wiersze, mapa);
+                List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazWiersz> listas = (List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazWiersz>) sprzedaz[0];
+                pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazCtrl sprzedazCtrl = (pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.SprzedazCtrl) sprzedaz[1];
+                Object[] zakup = utworzwierszjpkZakup2020(wiersze, mapa);
+                List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupWiersz> listaz = (List<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupWiersz>) zakup[0];
+                pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupCtrl zakupCtrl = (pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupCtrl) zakup[1];
+                String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
+                jpk.setNaglowek(JPK_VAT2020_Bean.naglowek(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), kodurzedu));
+                int cel = werjsajpkrecznie+1;
+                jpk.getNaglowek().getCelZlozenia().setValue(Byte.parseByte(String.valueOf(cel)));
+                jpk.setPodmiot1(JPK_VAT2020_Bean.podmiot1(podatnik, wpisView.getUzer().getNrtelefonu(), wpisView.getUzer().getEmail()));
+                jpk.setEwidencja(new JPK.Ewidencja());
+                jpk.getEwidencja().getSprzedazWiersz().addAll(listas);
+                jpk.getEwidencja().setSprzedazCtrl(sprzedazCtrl);
+                jpk.getEwidencja().getZakupWiersz().addAll(listaz);
+                jpk.getEwidencja().setZakupCtrl(zakupCtrl);
+                zwrot=jpk;
             } else if (wpisView.getRokWpisu()>2017) {
                 JPKVATWersja jPKVATWersja = jPKVATWersjaDAO.findByName("JPK3");
                 List<JPKvatwersjaEvewidencja> jpkev = jPKvatwersjaEvewidencjaDAO.findJPKEwidencje(jPKVATWersja);
@@ -1132,12 +1134,19 @@ public class JPK_VAT2View implements Serializable {
     private int pobierznumerkorekty() {
         int numer = 1;
         for (UPO p : lista) {
-            if (p.getJpk().getClass().getName().equals("jpk201701.JPK")) {
-                numer = 1;
-            } else if (p.getJpk().getClass().getName().equals("jpk201801.JPK")) {
-                int celzlozenia = ((jpk201801.JPK)p.getJpk()).getNaglowek().getCelZlozenia();
-                if (p.getRok().equals(wpisView.getRokWpisuSt()) && p.getMiesiac().equals(wpisView.getMiesiacWpisu()) && celzlozenia > numer && p.getCode()==200) {
-                    numer = celzlozenia;
+            if (p.getJpk()!=null) {
+                if (p.getJpk().getClass().getName().equals("jpk201701.JPK")) {
+                    numer = 1;
+                } else if (p.getJpk().getClass().getName().equals("jpk201801.JPK")) {
+                    int celzlozenia = ((jpk201801.JPK)p.getJpk()).getNaglowek().getCelZlozenia();
+                    if (p.getRok().equals(wpisView.getRokWpisuSt()) && p.getMiesiac().equals(wpisView.getMiesiacWpisu()) && celzlozenia > numer && p.getCode()==200) {
+                        numer = celzlozenia;
+                    }
+                } else if (p.getJpk().getClass().getName().equals("pl.gov.crd.wzor._2020._05._08._9393.JPK")) {
+                    int celzlozenia = (int) ((pl.gov.crd.wzor._2020._05._08._9393.JPK)p.getJpk()).getNaglowek().getCelZlozenia().getValue();
+                    if (p.getRok().equals(wpisView.getRokWpisuSt()) && p.getMiesiac().equals(wpisView.getMiesiacWpisu()) && celzlozenia > numer && p.getCode()==200) {
+                        numer = celzlozenia;
+                    }
                 }
             }
         }

@@ -35,7 +35,7 @@ public class JPK_VAT2020_Bean {
     public static JPK.Ewidencja.SprzedazWiersz dodajwierszsprzedazy(EVatwpis1 ev, BigInteger lp, JPK.Ewidencja.SprzedazCtrl sprzedazCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
         JPK.Ewidencja.SprzedazWiersz w = new JPK.Ewidencja.SprzedazWiersz();
         try {
-            w.setTypDokumentu(TDowoduSprzedazy.RO);
+            w.setTypDokumentu(pobierztypdokumentu(ev));
             w.setLpSprzedazy(lp);
             w.setDataSprzedazy(Data.dataoddo(ev.getDok().getDataSprz()));
             w.setDataWystawienia(Data.dataoddo(ev.getDok().getDataWyst()));
@@ -44,9 +44,7 @@ public class JPK_VAT2020_Bean {
             w.setNazwaKontrahenta(ev.getDok().getKontr1().getNpelna());
             w.setDowodSprzedazy(ev.getDok().getNrWlDk());
             dodajcechydowierszaSprzedaz(w,ev);
-            if (!w.getTypDokumentu().value().equals("FP")) {
-                dodajkwotydowierszaSprzedazy(w,ev,sprzedazCtrl, jPKvatwersjaEvewidencja);
-            }
+            dodajkwotydowierszaSprzedazy(w,ev,sprzedazCtrl, jPKvatwersjaEvewidencja);
         } catch (Exception ex) {
 
         }
@@ -56,6 +54,7 @@ public class JPK_VAT2020_Bean {
     public static JPK.Ewidencja.SprzedazWiersz dodajwierszsprzedazy(EVatwpisDedra ev, BigInteger lp, JPK.Ewidencja.SprzedazCtrl sprzedazCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
         JPK.Ewidencja.SprzedazWiersz w = new JPK.Ewidencja.SprzedazWiersz();
         try {
+            w.setTypDokumentu(pobierztypdokumentu(ev));
             w.setLpSprzedazy(lp);
             w.setDataSprzedazy(Data.dataoddo(ev.getDataoperacji()));
             w.setDataWystawienia(Data.dataoddo(ev.getDatadokumentu()));
@@ -77,6 +76,7 @@ public class JPK_VAT2020_Bean {
         try {
             w.setLpSprzedazy(lp);
             if ((ev.getDokfk().getRodzajedok().getKategoriadokumentu()==0 || ev.getDokfk().getRodzajedok().getKategoriadokumentu()==5) && ev.getNumerwlasnydokfk()!=null) {
+                w.setTypDokumentu(pobierztypdokumentu(ev));
                 w.setDataSprzedazy(Data.dataoddo(ev.getDataoperacji()));
                 w.setDataWystawienia(Data.dataoddo(ev.getDatadokumentu()));
                 w.setKodKrajuNadaniaTIN(kodkraju(ev.getDokfk().getKontr()));
@@ -84,6 +84,7 @@ public class JPK_VAT2020_Bean {
                 w.setNazwaKontrahenta(ev.getKlient().getNpelna());
                 w.setDowodSprzedazy(ev.getNumerwlasnydokfk());
             } else {
+                w.setTypDokumentu(pobierztypdokumentu(ev));
                 w.setDataSprzedazy(Data.dataoddo(ev.getDokfk().getDataoperacji()));
                 w.setDataWystawienia(Data.dataoddo(ev.getDokfk().getDatawystawienia()));
                 w.setKodKrajuNadaniaTIN(kodkraju(ev.getDokfk().getKontr()));
@@ -109,22 +110,24 @@ public class JPK_VAT2020_Bean {
                 Method method = JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpk(netto),BigDecimal.class);
                 method.invoke(w, BigDecimal.valueOf(Z.z(ev.getNetto())).setScale(2, RoundingMode.HALF_EVEN));
             }
-            if (nettosuma != null) {
-                Method method = JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpk(nettosuma),BigDecimal.class);
-                method.invoke(w, BigDecimal.valueOf(Z.z(ev.getNetto())).setScale(2, RoundingMode.HALF_EVEN));
-            }
             if (vat != null) {
                 Method method = JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpk(vat),BigDecimal.class);
                 method.invoke(w, BigDecimal.valueOf(Z.z(ev.getVat())));
                 sprzedazCtrl.setPodatekNalezny(sprzedazCtrl.getPodatekNalezny().add(BigDecimal.valueOf(ev.getVat())).setScale(2, RoundingMode.HALF_EVEN));
             }
-            if (vatsuma != null) {
-                Method method = JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpk(vatsuma),BigDecimal.class);
-                method.invoke(w, BigDecimal.valueOf(Z.z(ev.getVat())));
-                sprzedazCtrl.setPodatekNalezny(sprzedazCtrl.getPodatekNalezny().add(BigDecimal.valueOf(ev.getVat())).setScale(2, RoundingMode.HALF_EVEN));
-            }
-            if (ev.getNetto() != 0.0 || ev.getVat() != 0.0) {
-                sprzedazCtrl.setLiczbaWierszySprzedazy(sprzedazCtrl.getLiczbaWierszySprzedazy().add(BigInteger.ONE));
+            if (w.getTypDokumentu() == null || !w.getTypDokumentu().value().equals("FP")) {
+                if (nettosuma != null) {
+                    Method method = JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpk(nettosuma), BigDecimal.class);
+                    method.invoke(w, BigDecimal.valueOf(Z.z(ev.getNetto())).setScale(2, RoundingMode.HALF_EVEN));
+                }
+                if (vatsuma != null) {
+                    Method method = JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpk(vatsuma), BigDecimal.class);
+                    method.invoke(w, BigDecimal.valueOf(Z.z(ev.getVat())));
+                    sprzedazCtrl.setPodatekNalezny(sprzedazCtrl.getPodatekNalezny().add(BigDecimal.valueOf(ev.getVat())).setScale(2, RoundingMode.HALF_EVEN));
+                }
+                if (ev.getNetto() != 0.0 || ev.getVat() != 0.0) {
+                    sprzedazCtrl.setLiczbaWierszySprzedazy(sprzedazCtrl.getLiczbaWierszySprzedazy().add(BigInteger.ONE));
+                }
             }
         } catch (Exception e) {
             E.e(e);
@@ -142,6 +145,7 @@ public class JPK_VAT2020_Bean {
         JPK.Ewidencja.ZakupWiersz w = new JPK.Ewidencja.ZakupWiersz();
         try {
             w.setLpZakupu(lp);
+            w.setDokumentZakupu(pobierzdokumentzakupu(ev));
             w.setDataZakupu(Data.dataoddo(ev.getDok().getDataSprz()));
             w.setDataWplywu(Data.dataoddo(ev.getDok().getDataWyst()));
             w.setNazwaDostawcy(ev.getDok().getKontr1().getNpelna());
@@ -160,6 +164,7 @@ public class JPK_VAT2020_Bean {
         JPK.Ewidencja.ZakupWiersz w = new JPK.Ewidencja.ZakupWiersz();
         try {
             w.setLpZakupu(lp);
+            w.setDokumentZakupu(pobierzdokumentzakupu(ev));
             w.setDataZakupu(Data.dataoddo(ev.getDataoperacji()));
             w.setDataWplywu(Data.dataoddo(ev.getDatadokumentu()));
             w.setNazwaDostawcy(ev.getKlient().getNpelna());
@@ -179,6 +184,7 @@ public class JPK_VAT2020_Bean {
         try {
             w.setLpZakupu(lp);
             if ((ev.getDokfk().getRodzajedok().getKategoriadokumentu()==0 || ev.getDokfk().getRodzajedok().getKategoriadokumentu()==5) && ev.getNumerwlasnydokfk()!=null) {
+                w.setDokumentZakupu(pobierzdokumentzakupu(ev));
                 w.setDataZakupu(Data.dataoddo(ev.getDataoperacji()));
                 w.setDataWplywu(Data.dataoddo(ev.getDatadokumentu()));
                 w.setKodKrajuNadaniaTIN(kodkraju(ev.getDokfk().getKontr()));
@@ -186,6 +192,7 @@ public class JPK_VAT2020_Bean {
                 w.setNazwaDostawcy(ev.getKlient().getNpelna());
                 w.setDowodZakupu(ev.getNumerwlasnydokfk());
             } else {
+                w.setDokumentZakupu(pobierzdokumentzakupu(ev));
                 w.setDataZakupu(Data.dataoddo(ev.getDokfk().getDataoperacji()));
                 w.setDataWplywu(Data.dataoddo(ev.getDokfk().getDatawystawienia()));
                 w.setNazwaDostawcy(ev.getDokfk().getKontr().getNpelna());
@@ -328,26 +335,128 @@ public class JPK_VAT2020_Bean {
         if (dok!=null) {
             try {
                 if (dok.getOznaczenie1()!=null) {
-                    Method method = JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpkdok(dok.getOznaczenie1().getSymbol()),Byte.class);
-                    method.invoke(w, Byte.valueOf("1"));
+                    try {
+                        Method method = JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpkdok(dok.getOznaczenie1().getSymbol()),Byte.class);
+                        method.invoke(w, Byte.valueOf("1"));
+                    } catch (Exception e){}
                 }
                 if (dok.getOznaczenie2()!=null) {
-                    Method method = JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpkdok(dok.getOznaczenie2().getSymbol()),Byte.class);
-                    method.invoke(w, Byte.valueOf("1"));
+                    try {
+                        Method method = JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpkdok(dok.getOznaczenie2().getSymbol()),Byte.class);
+                        method.invoke(w, Byte.valueOf("1"));
+                    } catch (Exception e){}
                 }
                 if (dok.getOznaczenie3()!=null) {
-                    Method method = JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpkdok(dok.getOznaczenie3().getSymbol()),Byte.class);
-                    method.invoke(w, Byte.valueOf("1"));
+                    try {
+                        Method method = JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpkdok(dok.getOznaczenie3().getSymbol()),Byte.class);
+                        method.invoke(w, Byte.valueOf("1"));
+                    } catch (Exception e){}
                 }
                 if (dok.getOznaczenie4()!=null) {
-                    Method method = JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpkdok(dok.getOznaczenie4().getSymbol()),Byte.class);
-                    method.invoke(w, Byte.valueOf("1"));
+                    try {
+                        Method method = JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpkdok(dok.getOznaczenie4().getSymbol()),Byte.class);
+                        method.invoke(w, Byte.valueOf("1"));
+                    } catch (Exception e){}
                 }
             } catch (Exception e) {
             }
         }
     }
     
+    private static TDowoduSprzedazy pobierztypdokumentu(EVatwpisSuper ev) {
+        TDowoduSprzedazy zwrot = null;
+        DokSuper dok = null;
+        if (ev instanceof EVatwpisFK) {
+            dok = ((EVatwpisFK) ev).getDokfk();
+        } else if (ev instanceof EVatwpis1) {
+            dok = ((EVatwpis1) ev).getDok();
+        }
+        if (dok!=null) {
+            try {
+                if (dok.getOznaczenie1()!=null) {
+                    String symbol = dok.getOznaczenie1().getSymbol();
+                    zwrot = pobierzoznaczeniesprzedaz(symbol);
+                }
+                if (dok.getOznaczenie2()!=null && zwrot==null) {
+                    String symbol = dok.getOznaczenie2().getSymbol();
+                    zwrot = pobierzoznaczeniesprzedaz(symbol);
+                }
+                if (dok.getOznaczenie3()!=null && zwrot==null) {
+                    String symbol = dok.getOznaczenie3().getSymbol();
+                    zwrot = pobierzoznaczeniesprzedaz(symbol);
+                }
+                if (dok.getOznaczenie4()!=null && zwrot==null) {
+                    String symbol = dok.getOznaczenie4().getSymbol();
+                    zwrot = pobierzoznaczeniesprzedaz(symbol);
+                }
+                
+            } catch (Exception e) {
+            }
+        }
+        return zwrot;
+    }
+    
+    private static TDowoduSprzedazy pobierzoznaczeniesprzedaz(String symbol) {
+        TDowoduSprzedazy zwrot = null;
+        if (symbol.equals("RO")) {
+            zwrot = TDowoduSprzedazy.RO;
+        } else if (symbol.equals("WEW")) {
+            zwrot = TDowoduSprzedazy.WEW;
+        } else if (symbol.equals("FP")) {
+            zwrot = TDowoduSprzedazy.FP;
+        }
+        return zwrot;
+    }
+    
+    
+    private static TDowoduZakupu pobierzdokumentzakupu(EVatwpisSuper ev) {
+        TDowoduZakupu zwrot = null;
+        DokSuper dok = null;
+        if (ev instanceof EVatwpisFK) {
+            dok = ((EVatwpisFK) ev).getDokfk();
+        } else if (ev instanceof EVatwpis1) {
+            dok = ((EVatwpis1) ev).getDok();
+        }
+        if (dok!=null) {
+            try {
+                if (dok.getOznaczenie1()!=null) {
+                    String symbol = dok.getOznaczenie1().getSymbol();
+                    zwrot = pobierzoznaczeniezakup(symbol);
+                }
+                if (dok.getOznaczenie2()!=null) {
+                    String symbol = dok.getOznaczenie2().getSymbol();
+                    zwrot = pobierzoznaczeniezakup(symbol);
+                }
+                if (dok.getOznaczenie3()!=null) {
+                    String symbol = dok.getOznaczenie3().getSymbol();
+                    zwrot = pobierzoznaczeniezakup(symbol);
+                }
+                if (dok.getOznaczenie4()!=null) {
+                    String symbol = dok.getOznaczenie4().getSymbol();
+                    zwrot = pobierzoznaczeniezakup(symbol);
+                }
+                
+            } catch (Exception e) {
+            }
+        }
+        return zwrot;
+    }
+    
+
+    private static TDowoduZakupu pobierzoznaczeniezakup(String symbol) {
+        TDowoduZakupu zwrot = null;
+        if (symbol.equals("MK")) {
+            zwrot = TDowoduZakupu.MK;
+        } else if (symbol.equals("WEW")) {
+            zwrot = TDowoduZakupu.WEW;
+        } else if (symbol.equals("VAT_RR")) {
+            zwrot = TDowoduZakupu.VAT_RR;
+        }
+        return zwrot;
+    }
+    
+    
+
     private static String zwrocpolejpkdok(String pole) {
         pole = pole.replace("_", "");
         StringBuilder sb = new StringBuilder();
@@ -398,4 +507,9 @@ public class JPK_VAT2020_Bean {
                 w.setIMP(new  Byte("1"));
             }
         }
+
+    
+    
+
+    
     }
