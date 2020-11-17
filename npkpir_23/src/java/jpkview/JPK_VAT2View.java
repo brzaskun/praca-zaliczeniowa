@@ -181,7 +181,7 @@ public class JPK_VAT2View implements Serializable {
         List<EVatwpisDedra> wiersze =  eVatwpisDedraDAO.findWierszePodatnikMc(wpisView);
         List<EVatwpisSuper> lista = new ArrayList<>(wiersze);
         List<EVatwpisSuper> bledy = weryfikujwiersze(lista);
-        if (bledy.size()==0) {
+        if (bledy.size()==0 && wiersze!=null && !wiersze.isEmpty()) {
             String[] sciezka = generujXML(lista, wpisView.getPodatnikObiekt(), nowa0korekta1);
             if (sciezka[1]==null) {
                 Msg.msg("e","Błąd generowania/walidacji JPK. Wstrzymuje przetwarzanie danych");
@@ -200,12 +200,14 @@ public class JPK_VAT2View implements Serializable {
         List<EVatwpisDedra> wiersze =  eVatwpisDedraDAO.findWierszePodatnikMc(wpisView);
         List<EVatwpisSuper> lista = new ArrayList<>(wiersze);
         List<EVatwpisSuper> bledy = weryfikujwiersze(lista);
-        if (bledy.size()==0) {
+        if (bledy.size()==0 && wiersze!=null && !wiersze.isEmpty()) {
             String[] sciezka = generujXML(lista, wpisView.getPodatnikObiekt(), nowa0korekta1);
             String polecenie = "wydrukXML(\""+sciezka[0]+"\")";
             PrimeFaces.current().executeScript(polecenie);
-        } else {
+        } else if (wiersze==null || wiersze.isEmpty()) {
             Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+        } else {
+            Msg.msg("e","Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
         }
         
     }
@@ -215,7 +217,7 @@ public class JPK_VAT2View implements Serializable {
         ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
-        if (bledy.size()==0) {
+        if (bledy.size()==0 && wiersze!=null && !wiersze.isEmpty()) {
             String[] sciezka = generujXML(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
             if (sciezka[1]==null) {
                 Msg.msg("e","Błąd generowania/walidacji JPK. Wstrzymuje przetwarzanie danych");
@@ -230,8 +232,10 @@ public class JPK_VAT2View implements Serializable {
                     Msg.msg("e","Wystąpił problem. Nie wysłano JPK");
                 }
             }
-        } else {
+        }  else if (wiersze==null || wiersze.isEmpty()) {
             Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+        } else {
+            Msg.msg("e","Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
         }
     }
     
@@ -240,12 +244,14 @@ public class JPK_VAT2View implements Serializable {
         ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
-        if (bledy.size()==0) {
+        if (bledy.size()==0 && wiersze!=null && !wiersze.isEmpty()) {
             String[] sciezka = generujXML(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
             String polecenie = "wydrukXML(\""+sciezka[0]+"\")";
             PrimeFaces.current().executeScript(polecenie);
-        } else {
+        } else if (wiersze==null || wiersze.isEmpty()) {
             Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+        } else {
+            Msg.msg("e","Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
         }
     }
     
@@ -274,8 +280,10 @@ public class JPK_VAT2View implements Serializable {
         ewidencjaVatView.stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
-        if (bledy.size()==0) {
+        if (bledy.size()==0 && wiersze!=null && !wiersze.isEmpty()) {
             generujXMLPodglad(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
+        } else if (wiersze==null || wiersze.isEmpty()) {
+            Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
         } else {
             Msg.msg("e","Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
             String data = "brak daty";
@@ -294,10 +302,12 @@ public class JPK_VAT2View implements Serializable {
     public void przygotujXMLPodgladDedra() {
         List<EVatwpisDedra> wiersze =  eVatwpisDedraDAO.findWierszePodatnikMc(wpisView);
         List<EVatwpisSuper> bledy = weryfikujwierszeDedra(wiersze);
-        if (bledy.size()==0) {
+        if (bledy.size()==0 && wiersze!=null && !wiersze.isEmpty()) {
             generujXMLPodgladDedra(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
-        } else {
+        } else if (wiersze==null || wiersze.isEmpty()) {
             Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+        } else {
+            Msg.msg("e","Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
         }
     }
     
@@ -317,7 +327,7 @@ public class JPK_VAT2View implements Serializable {
         ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt(), null);
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
-        if (bledy.size()==0) {
+        if (bledy.size()==0 && wiersze!=null && !wiersze.isEmpty()) {
             String[] sciezka = generujXML(wiersze,wpisView.getPodatnikObiekt(), nowa0korekta1);
             if (sciezka[1]==null) {
                 Msg.msg("e","Błąd generowania/walidacji JPK. Wstrzymuje przetwarzanie danych");
@@ -332,8 +342,10 @@ public class JPK_VAT2View implements Serializable {
                     Msg.msg("e","Wystąpił problem. Nie wysłano JPK");
                 }
             }
-        } else {
+        } else if (wiersze==null || wiersze.isEmpty()) {
             Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+        } else {
+            Msg.msg("e","Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
         }
     }
     
@@ -342,12 +354,14 @@ public class JPK_VAT2View implements Serializable {
         ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt(), null);
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
-        if (bledy.size()==0) {
+        if (bledy.size()==0 && wiersze!=null && !wiersze.isEmpty()) {
             String[] sciezka = generujXML(wiersze,wpisView.getPodatnikObiekt(), nowa0korekta1);
             String polecenie = "wydrukXML(\""+sciezka[0]+"\")";
             PrimeFaces.current().executeScript(polecenie);
-        } else {
+        } else if (wiersze==null || wiersze.isEmpty()) {
             Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
+        } else {
+            Msg.msg("e","Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
         }
     }
     
@@ -357,8 +371,10 @@ public class JPK_VAT2View implements Serializable {
         ewidencjaVatView.stworzenieEwidencjiZDokumentowFK(wpisView.getPodatnikObiekt(), null);
         List<EVatwpisSuper> wiersze = ewidencjaVatView.getListadokvatprzetworzona();
         List<EVatwpisSuper> bledy = weryfikujwiersze(wiersze);
-        if (bledy.size()==0) {
+        if (bledy.size()==0 && wiersze!=null && !wiersze.isEmpty()) {
             generujXMLPodglad(wiersze, wpisView.getPodatnikObiekt(), nowa0korekta1);
+        } else if (wiersze==null || wiersze.isEmpty()) {
+            Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
         } else {
             Msg.msg("Wystąpiły braki w dokumentach (data, numer, kwota). Nie można wygenerować JPK");
             String data;

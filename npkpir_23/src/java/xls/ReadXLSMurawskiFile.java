@@ -161,6 +161,9 @@ public class ReadXLSMurawskiFile {
             String kontr = rows.get(11).getCell(8).getStringCellValue().split("\n")[0];
             interpaperXLS.setKontrahent(kontr);
             String[] kl = rows.get(11).getCell(8).getStringCellValue().split("\n");
+            if (kl.length==1) {
+                kl = rows.get(11).getCell(7).getStringCellValue().split("\n");
+            }
             if (kl!=null && kl.length==3) {
                 interpaperXLS.setKlientnazwa(kl[0]);
                 interpaperXLS.setKlientulica(kl[1]);
@@ -174,6 +177,7 @@ public class ReadXLSMurawskiFile {
             }
             interpaperXLS.setNip("");
             interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
+            interpaperXLS.setKlientpaństwo(interpaperXLS.getKlientpaństwo());
             interpaperXLS.setWalutaplatnosci("EUR");
             if (korekta){
                 interpaperXLS.setNettowaluta(-Z.z(rows.get(21).getCell(8).getNumericCellValue()));

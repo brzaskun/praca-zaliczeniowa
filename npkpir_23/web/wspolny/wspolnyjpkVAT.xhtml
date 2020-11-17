@@ -13,10 +13,10 @@
             <p:commandButton value="wyślij korektafk" actionListener="#{jPK_VAT2View.przygotujXMLFK()}" update="@form form_dialog_jpk_vat:tabela" style="width: 120px;" rendered="#{jPK_VAT2View.nowa0korekta1 and jPK_VAT2View.pkpir0ksiegi1 and jPK_VAT2View.moznawysylacjpk}"/>
             <p:commandButton value="wyślij jpk" actionListener="#{jPK_VAT2View.przygotujXML()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.nowa0korekta1 and !jPK_VAT2View.pkpir0ksiegi1 and jPK_VAT2View.moznawysylacjpk}"/>
             <p:commandButton value="wyślij korekta" actionListener="#{jPK_VAT2View.przygotujXML()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.nowa0korekta1 and !jPK_VAT2View.pkpir0ksiegi1 and jPK_VAT2View.moznawysylacjpk}"/>
-            <p:commandButton value="podgląd jpkfk" actionListener="#{jPK_VAT2View.przygotujXMLFKPodglad()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.pkpir0ksiegi1 and jPK_VAT2View.moznawysylacjpk}"/>
-            <p:commandButton value="podgląd jpk" actionListener="#{jPK_VAT2View.przygotujXMLPodglad()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.pkpir0ksiegi1 and jPK_VAT2View.moznawysylacjpk}"/>
-            <p:commandButton value="pobierz jpkfk" actionListener="#{jPK_VAT2View.przygotujXMLFKDL()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.pkpir0ksiegi1 and jPK_VAT2View.moznawysylacjpk}"/>
-            <p:commandButton value="pobierz jpk" actionListener="#{jPK_VAT2View.przygotujXMLDL()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.pkpir0ksiegi1 and jPK_VAT2View.moznawysylacjpk}"/>
+            <p:commandButton value="podgląd jpkfk" actionListener="#{jPK_VAT2View.przygotujXMLFKPodglad()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.pkpir0ksiegi1}"/>
+            <p:commandButton value="podgląd jpk" actionListener="#{jPK_VAT2View.przygotujXMLPodglad()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.pkpir0ksiegi1}"/>
+            <p:commandButton value="pobierz jpkfk" actionListener="#{jPK_VAT2View.przygotujXMLFKDL()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.pkpir0ksiegi1}"/>
+            <p:commandButton value="pobierz jpk" actionListener="#{jPK_VAT2View.przygotujXMLDL()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.pkpir0ksiegi1}"/>
             <h:outputText value="wersja jpk (0 - jpk pierwotne)" style="margin-left: 200px;"/>
             <p:selectOneMenu value="#{jPK_VAT2View.werjsajpkrecznie}" label="wersja jpk">
                 <f:selectItem itemValue="0" itemLabel="0"/>
