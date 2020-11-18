@@ -54,7 +54,7 @@
             <p:column id="previewColumn" headerText="operacje" width="110" style="text-align: center;">
                 <p:panelGrid columns="1" rendered="#{item.identyfikator ne 'dla jpk'}">
                     <p:commandButton value="upo" actionListener="#{beanek.pobierzwyslane(item)}" update="formwyslane:akordeon"  style="width: 100px;"
-                                 rendered="#{item.status eq '300' or item.status eq '388' or item.status eq '399' ? false : true}"/>
+                                 rendered="#{item.status eq '300' or item.status eq '388' or item.status eq '399' or item.status eq '120' ? false : true}"/>
                     <p:commandButton value="re-wysyłka" actionListener="#{beanek.przerzucdowysylki(item.identyfikator)}" update="formwyslane:akordeon"  style="width: 100px;"
                                  rendered="#{item.status eq '300' ? true : false}" />
                 </p:panelGrid>

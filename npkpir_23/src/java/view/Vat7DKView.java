@@ -795,7 +795,7 @@ public class Vat7DKView implements Serializable {
         try {
             if (badana != null) {
                 String l = " "+badana.getRok()+"-"+badana.getMiesiac()+" wysłana dnia: "+data.Data.data_yyyyMMdd(badana.getDatazlozenia())+" ";
-                if (badana.getStatus().startsWith("399")) {
+                if (badana.getStatus().startsWith("399")||badana.getStatus().startsWith("120")) {
                     Msg.msg("e", "Istnieje deklaracja za okres " + rok + "-" + mc + " która została już wysłana z plikiem jpk, ale nie pobrano jeszcze upo!", "form:messages");
                     pozycjeDeklaracjiVAT.setCelzlozenia("1");
                     nowadeklaracja.setNrkolejny(badana.getNrkolejny());
