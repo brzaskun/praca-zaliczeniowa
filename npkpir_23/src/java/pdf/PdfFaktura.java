@@ -46,16 +46,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
-import msg.Msg;import static pdf.PdfVAT7.absText;
+import msg.Msg;
+import org.primefaces.PrimeFaces;
+import static pdf.PdfVAT7.absText;
 import plik.Plik;
-import view.WpisView; import org.primefaces.PrimeFaces;
+import view.WpisView;
 
 
 /**
@@ -83,8 +83,13 @@ public class PdfFaktura extends Pdf implements Serializable {
         int i = 0;
         for (Faktura selected : fakturydruk) {
             try {
+                 int row = i;
+                if (wpisView.getPodatnikObiekt().getNip().equals("9552340951")||wpisView.getPodatnikObiekt().getNip().equals("9552339497")) {
+                    String[] numer = selected.getNumerkolejny().split("/");
+                    row = Integer.parseInt(numer[0]);
+                }
                 List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
-                drukujcd(selected, fdod, i, "mail", wpisView, false, null);
+                drukujcd(selected, fdod, row, "mail", wpisView, false, null);
                 i++;
             } catch (Exception e) {
                 E.e(e);
@@ -95,6 +100,10 @@ public class PdfFaktura extends Pdf implements Serializable {
 
     public void drukuj(Faktura selected, int row, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         try {
+            if (wpisView.getPodatnikObiekt().getNip().equals("9552340951")||wpisView.getPodatnikObiekt().getNip().equals("9552339497")) {
+                String[] numer = selected.getNumerkolejny().split("/");
+                row = Integer.parseInt(numer[0]);
+            }
             ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
             String realPath = ctx.getRealPath("/");
             String nazwapliku = realPath+"wydruki/faktura" + String.valueOf(row) + wpisView.getPodatnikObiekt().getNip() + ".pdf";
@@ -115,15 +124,20 @@ public class PdfFaktura extends Pdf implements Serializable {
     
     public void drukujDuplikat(Faktura selected, FakturaDuplikat duplikat, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         try {
+            int row = duplikat.getId();
+            if (wpisView.getPodatnikObiekt().getNip().equals("9552340951")||wpisView.getPodatnikObiekt().getNip().equals("9552339497")) {
+                String[] numer = selected.getNumerkolejny().split("/");
+                row = Integer.parseInt(numer[0]);
+            }
             ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
             String realPath = ctx.getRealPath("/");
-            String nazwapliku = realPath+"wydruki/fakturaduplikat" + String.valueOf(duplikat.getId()) + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+            String nazwapliku = realPath+"wydruki/fakturaduplikat" + String.valueOf(row) + wpisView.getPodatnikObiekt().getNip() + ".pdf";
             File file = new File(nazwapliku);
             if (file.isFile()) {
                 file.delete();
             }
             List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
-            drukujcd(selected, fdod, duplikat.getId(), "druk", wpisView, true, duplikat);
+            drukujcd(selected, fdod, row, "druk", wpisView, true, duplikat);
             Msg.msg("Wydruk faktury");
 
         } catch (DocumentException | IOException e) {
@@ -158,7 +172,12 @@ public class PdfFaktura extends Pdf implements Serializable {
         for (Faktura selected : fakturydruk) {
             try {
                 List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
-                drukujcd(selected, fdod, i, "druk", wpisView, false, null);
+                int row = i;
+                if (wpisView.getPodatnikObiekt().getNip().equals("9552340951")||wpisView.getPodatnikObiekt().getNip().equals("9552339497")) {
+                    String[] numer = selected.getNumerkolejny().split("/");
+                    row = Integer.parseInt(numer[0]);
+                }
+                drukujcd(selected, fdod, row, "druk", wpisView, false, null);
                 i++;
             } catch (Exception e) {
                 E.e(e);
@@ -172,8 +191,13 @@ public class PdfFaktura extends Pdf implements Serializable {
         List<String> pliki = new ArrayList<>();
         for (Faktura selected : fakturydruk) {
             try {
+                int row = i;
+                if (wpisView.getPodatnikObiekt().getNip().equals("9552340951")||wpisView.getPodatnikObiekt().getNip().equals("9552339497")) {
+                    String[] numer = selected.getNumerkolejny().split("/");
+                    row = Integer.parseInt(numer[0]);
+                }
                 List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
-                pliki.add(drukujcd(selected, fdod, i, "masa", wpisView, false, null));
+                pliki.add(drukujcd(selected, fdod, row, "masa", wpisView, false, null));
                 i++;
             } catch (Exception e) {
                 E.e(e);
