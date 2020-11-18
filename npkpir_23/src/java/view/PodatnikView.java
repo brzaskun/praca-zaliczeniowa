@@ -1264,37 +1264,39 @@ private DokDAO dokDAO;
             if (konta!=null && konta.size()>0) {
                 if (dokumentyBiezacegoPodatnikaRokPoprzedni!=null && !dokumentyBiezacegoPodatnikaRokPoprzedni.isEmpty()) {
                     for (Rodzajedok tmp : dokumentyBiezacegoPodatnikaRokPoprzedni) {
-                        boolean odnaleziono = false;
-                        for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
-                            if (r.getSkrot().equals(tmp.getSkrot())) {
-                                odnaleziono = true;
-                                if (r.getOznaczenie1()==null) {
-                                    r.setOznaczenie1(tmp.getOznaczenie1());
+                        try {
+                            boolean odnaleziono = false;
+                            for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
+                                if (r.getSkrot().equals(tmp.getSkrot())) {
+                                    odnaleziono = true;
+                                    if (r.getOznaczenie1()==null) {
+                                        r.setOznaczenie1(tmp.getOznaczenie1());
+                                    }
+                                    if (r.getOznaczenie2()==null) {
+                                        r.setOznaczenie2(tmp.getOznaczenie2());
+                                    }}
+                                    if (tmp.getKontoRZiS()!=null) {
+                                        r.setKontoRZiS(tmp.getKontoRZiS());
+                                    }
+                                    if (tmp.getKontorozrachunkowe()!=null) {
+                                        r.setKontorozrachunkowe(tmp.getKontorozrachunkowe());
+                                    }
+                                    if (tmp.getKontovat()!=null) {
+                                        r.setKontovat(tmp.getKontovat());
+                                    }
+                                    KontaFKBean.nanieskonta(r, kontoDAOfk);
+                                    rodzajedokDAO.edit(r);
+                                    break;
                                 }
-                                if (r.getOznaczenie2()==null) {
-                                    r.setOznaczenie2(tmp.getOznaczenie2());
-                                }}
-                                if (tmp.getKontoRZiS()!=null) {
-                                    r.setKontoRZiS(tmp.getKontoRZiS());
-                                }
-                                if (tmp.getKontorozrachunkowe()!=null) {
-                                    r.setKontorozrachunkowe(tmp.getKontorozrachunkowe());
-                                }
-                                if (tmp.getKontovat()!=null) {
-                                    r.setKontovat(tmp.getKontovat());
-                                }
-                                KontaFKBean.nanieskonta(r, kontoDAOfk);
-                                rodzajedokDAO.edit(r);
-                                break;
+                            if (odnaleziono == false) {
+                                Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
+                                nowy.setRok(wpisView.getRokWpisuSt());
+                                nowy.setPodatnikObj(selected);
+                                KontaFKBean.nanieskonta(nowy, kontoDAOfk);
+                                rodzajedokDAO.dodaj(nowy);
+                                dokumentyBiezacegoPodatnika.add(nowy);
                             }
-                        if (odnaleziono == false) {
-                            Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
-                            nowy.setRok(wpisView.getRokWpisuSt());
-                            nowy.setPodatnikObj(selected);
-                            KontaFKBean.nanieskonta(nowy, kontoDAOfk);
-                            rodzajedokDAO.dodaj(nowy);
-                            dokumentyBiezacegoPodatnika.add(nowy);
-                        }
+                        } catch (Exception e){}
                     }
                 }
                 //to tez musi tu byc bo przeciez moze nie byc dokumentu w roku poprzednim
