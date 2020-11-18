@@ -21,7 +21,6 @@ import entityfk.Konto;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import error.E;
-import gus.GUSView;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;

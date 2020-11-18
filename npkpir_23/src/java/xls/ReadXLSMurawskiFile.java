@@ -168,16 +168,15 @@ public class ReadXLSMurawskiFile {
                 interpaperXLS.setKlientnazwa(kl[0]);
                 interpaperXLS.setKlientulica(kl[1]);
                 interpaperXLS.setKlientkod(kl[2]);
-                interpaperXLS.setKlientpaństwo("DE");
+                interpaperXLS.setKlientpaństwo("Niemcy");
             } else if (kl!=null && kl.length==4) {
                 interpaperXLS.setKlientnazwa(kl[0]);
                 interpaperXLS.setKlientulica(kl[1]+" "+kl[2]);
                 interpaperXLS.setKlientkod(kl[3]);
-                interpaperXLS.setKlientpaństwo("DE");
+                interpaperXLS.setKlientpaństwo("Niemcy");
             }
             interpaperXLS.setNip("");
             interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
-            interpaperXLS.setKlientpaństwo(interpaperXLS.getKlientpaństwo());
             interpaperXLS.setWalutaplatnosci("EUR");
             if (korekta){
                 interpaperXLS.setNettowaluta(-Z.z(rows.get(21).getCell(8).getNumericCellValue()));
@@ -241,7 +240,7 @@ public class ReadXLSMurawskiFile {
             if (klient==null && interpaperXLS.getNip()!=null && interpaperXLS.getNip().length()>6) {
                 String nip = interpaperXLS.getNip().trim();
                 if (!Character.isDigit(nip.charAt(0))) {
-                    klient = new Klienci(1, interpaperXLS.getKlientnazwa(), interpaperXLS.getKlientnazwa(), interpaperXLS.getNip(), interpaperXLS.getKlientkod(), interpaperXLS.getKlientmiasto(), interpaperXLS.getKlientulica(), interpaperXLS.getKlientdom(), interpaperXLS.getKlientlokal());
+                    klient = new Klienci(1, interpaperXLS.getKlientnazwa(), interpaperXLS.getKlientnazwa(), interpaperXLS.getNip(), interpaperXLS.getKlientkod(), interpaperXLS.getKlientmiasto(), interpaperXLS.getKlientulica(), interpaperXLS.getKlientdom(), interpaperXLS.getKlientlokal(), interpaperXLS.getKlientpaństwo());
                     klient.setKrajnazwa(interpaperXLS.getKlientpaństwo());
                     klient.setKrajkod(PanstwaMap.getWykazPanstwSX().get(klient.getKrajnazwa()));
                     if (klient.getNip()!=null && klient.getNip().length()>5) {
@@ -252,7 +251,7 @@ public class ReadXLSMurawskiFile {
             }
             //sa dwie opcje moze nie znalesc po nipoie polskiego i te bez nipu
             if (klient==null) {
-                klient = new Klienci(1, interpaperXLS.getKlientnazwa(), interpaperXLS.getKlientnazwa(), null, interpaperXLS.getKlientkod(), interpaperXLS.getKlientmiasto(), interpaperXLS.getKlientulica(), interpaperXLS.getKlientdom(), interpaperXLS.getKlientlokal());
+                klient = new Klienci(1, interpaperXLS.getKlientnazwa(), interpaperXLS.getKlientnazwa(), null, interpaperXLS.getKlientkod(), interpaperXLS.getKlientmiasto(), interpaperXLS.getKlientulica(), interpaperXLS.getKlientdom(), interpaperXLS.getKlientlokal(), interpaperXLS.getKlientpaństwo());
                 klient.setKrajnazwa(interpaperXLS.getKlientpaństwo());
                 klient.setKrajkod(PanstwaMap.getWykazPanstwSX().get(klient.getKrajnazwa()));
                 znalezieni.put(interpaperXLS.getKontrahent(), klient);

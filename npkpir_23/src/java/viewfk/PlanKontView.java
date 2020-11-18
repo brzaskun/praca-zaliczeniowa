@@ -56,10 +56,10 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import javax.persistence.RollbackException;
-import lazyDataModel.LazyKontoDataModel;
-import msg.Msg;import org.primefaces.model.LazyDataModel;
+import msg.Msg;
+import org.primefaces.PrimeFaces;
 import pdffk.PdfPlanKont;
-import view.WpisView; import org.primefaces.PrimeFaces;
+import view.WpisView;
 
 /**
  *
@@ -1047,7 +1047,7 @@ public class PlanKontView implements Serializable {
 //                p.czyscPozycje();
 //            }
             //tutaj nanosi czy ma potomkow
-            KontaFKBean.ustawCzyMaPotomkow(wykazkontf, kontoDAOfk);
+            KontaFKBean.ustawCzyMaPotomkowJedno(selectednodekonto, wykazkontf, kontoDAOfk);
             wykazkontf = new ArrayList<>();
             kontoDAOfk.findKontaWszystkiePotomnePodatnik(wykazkontf, podatnik, wpisView.getRokWpisu(), selectednodekonto);
             for (Konto p : wykazkontf) {

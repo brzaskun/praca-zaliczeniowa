@@ -137,9 +137,19 @@ public class Klienci extends KlienciSuper implements Serializable {
         this.ulica = ulica;
         this.dom = dom;
         this.lokal = lokal;
-        this.evat = evat;
-        this.pkpirKolumna = pkpirKolumna;
-        
+    }
+    
+     public Klienci(int id, String npelna, String nskrocona, String nip, String kodpocztowy, String miejscowosc, String ulica, String dom, String lokal, String krajkod) {
+        this.id = id;
+        this.npelna = npelna;
+        this.nskrocona = nskrocona;
+        this.nip = nip;
+        this.kodpocztowy = kodpocztowy;
+        this.miejscowosc = miejscowosc;
+        this.ulica = ulica;
+        this.dom = dom;
+        this.lokal = lokal;
+        this.krajkod = krajkod;
     }
     
     

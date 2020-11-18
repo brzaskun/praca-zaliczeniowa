@@ -22,7 +22,8 @@ import java.util.concurrent.atomic.DoubleAccumulator;
 import javax.inject.Named;
 import javax.persistence.PersistenceException;
 import msg.Msg;
-import view.WpisView;import waluty.Z;
+import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -42,6 +43,32 @@ public class KontaFKBean implements Serializable{
             r.setBlokada(false);
         }
         kontoDAO.editList(wykazkont);
+        List<Konto> sprawdzonemacierzyste = Collections.synchronizedList(new ArrayList<>());
+        wykazkont.stream().filter((p) -> (p.getKontomacierzyste()!=null)).forEachOrdered((p) -> {
+            try {
+                Konto macierzyste = p.getKontomacierzyste();
+                if (!sprawdzonemacierzyste.contains(macierzyste)) {
+                    naniesBlokade(macierzyste);
+                    sprawdzonemacierzyste.add(macierzyste);
+                }
+            } catch (PersistenceException e) {               
+                Msg.msg("e","Wystąpił błąd przy edycji konta. "+p.getPelnynumer());
+            } catch (Exception ef) {
+                Msg.msg("e","Wystąpił błąd przy edycji konta. "+ef.getMessage()+" Nie wyedytowanododano: "+p.getPelnynumer());
+            }
+        });
+        kontoDAO.editList(sprawdzonemacierzyste);
+    }
+    
+    /**
+     *
+     * @param selectednodekonto
+     * @param wykazkont
+     * @param kontoDAO
+     */
+    public static void ustawCzyMaPotomkowJedno(Konto selectednodekonto, List<Konto> wykazkont, KontoDAOfk kontoDAO) {
+        selectednodekonto.setMapotomkow(false);
+        kontoDAO.edit(selectednodekonto);
         List<Konto> sprawdzonemacierzyste = Collections.synchronizedList(new ArrayList<>());
         wykazkont.stream().filter((p) -> (p.getKontomacierzyste()!=null)).forEachOrdered((p) -> {
             try {
