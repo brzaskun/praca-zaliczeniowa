@@ -16,7 +16,7 @@ var ustawdialogWindow = function(nazwa, szerokosc, wysokosc) {
 };
     
 var pokazmes = function() {
-  PF('grmes').renderMessage({summary:'Wybrano wiersz', detail: 'można edytować', severity: 'info'});  
+  //PF('grmes').renderMessage({summary:'Wybrano wiersz', detail: 'można edytować', severity: 'info'});  
 };
 
 

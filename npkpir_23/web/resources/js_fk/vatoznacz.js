@@ -5,26 +5,24 @@ var TabKeyVat;
     var focusable = ":input, a[href]";
 
     TabKeyVat = function (event) {
-        //Get the element that registered the event
-        var $target = $(event.target);
-        var taregetId = event.target.id;
-        if (taregetId === "") {
-            taregetId = event.target.name;
-        }
-        var zawartoscpola = r(taregetId).val();
-        var oznaczac = true;
-        if(r("dialogEdycja").is(":visible")){
-            oznaczac = false;
-        }
-        try {
-            if (isSpaceKey(event)&&oznaczac) {
-                //PF('grmes').renderMessage({summary:'Oznaczono wiersz', detail: '', severity: 'info'})
-                oznaczfakturespacja();
-                event.preventDefault();
-                event.stopPropagation();
-                event.stopImmediatePropagation();
+        if(r("dialogewidencjevat").is(":visible")){
+            //Get the element that registered the event
+            var $target = $(event.target);
+            var taregetId = event.target.id;
+            if (taregetId === "") {
+                taregetId = event.target.name;
             }
-        } catch (e){}
+            var zawartoscpola = r(taregetId).val();
+            try {
+                if (isSpaceKey(event)) {
+                    //PF('grmes').renderMessage({summary:'Oznaczono wiersz', detail: '', severity: 'info'})
+                    oznaczfakturespacja();
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.stopImmediatePropagation();
+                }
+            } catch (e){}
+        }
     }
     
     
