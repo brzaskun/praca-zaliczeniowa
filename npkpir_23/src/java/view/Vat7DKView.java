@@ -341,6 +341,7 @@ public class Vat7DKView implements Serializable {
             DeklaracjaVatSchemaWierszSum doprzeniesienia = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do przeniesienia na następny okres rozliczeniowy");
             doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat());
             pokazinfovatzz =  false;
+            int dozwrotujuznarachunek = 0;
             if (zwrot25dni != null) {
                 flagazt = true;
                 pokazinfovatzz = true;
@@ -348,6 +349,7 @@ public class Vat7DKView implements Serializable {
                 if (nowyjpk2020) {
                     DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 25 dni");
                     zmienna.getDeklaracjaVatWierszSumaryczny().setCzekpole(true);
+                    dozwrotujuznarachunek = dozwrotujuznarachunek+zwrot25dni;
                 }
             }
             if (zwrot60dni != null) {
@@ -356,6 +358,7 @@ public class Vat7DKView implements Serializable {
                 if (nowyjpk2020) {
                     DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 60 dni");
                     zmienna.getDeklaracjaVatWierszSumaryczny().setCzekpole(true);
+                    dozwrotujuznarachunek = dozwrotujuznarachunek+zwrot60dni;
                 }
             }
             if (zwrot180dni != null) {
@@ -364,6 +367,7 @@ public class Vat7DKView implements Serializable {
                 if (nowyjpk2020) {
                     DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 180 dni");
                     zmienna.getDeklaracjaVatWierszSumaryczny().setCzekpole(true);
+                    dozwrotujuznarachunek = dozwrotujuznarachunek+zwrot180dni;
                 }
             }
             if (zwrot25dni == null && zwrot60dni == null && zwrot180dni == null && nowyjpk2020) {
@@ -384,7 +388,7 @@ public class Vat7DKView implements Serializable {
             if (zaliczenienapoczetzobowiazankwota!=null&&zaliczenienapoczetzobowiazankwota>0) {
                 DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Wysokość zwrotu do zaliczenia na poczet przyszłych zobowiązań podatkowych");
                 zmienna.getDeklaracjaVatWierszSumaryczny().setSumavat(zaliczenienapoczetzobowiazankwota);
-                doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat()-zaliczenienapoczetzobowiazankwota);
+                doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat()-zaliczenienapoczetzobowiazankwota-dozwrotujuznarachunek);
             } else {
                 VATDeklaracja.usunschemawiersz(schemawierszsumarycznylista,"Wysokość zwrotu do zaliczenia na poczet przyszłych zobowiązań podatkowych");
             }
