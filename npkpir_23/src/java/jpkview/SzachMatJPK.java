@@ -200,12 +200,22 @@ public class SzachMatJPK {
     
    
     private static JPKSuper pobierzJPK(String dirmainfilename, WpisView wpisView) {
-        if (wpisView.getRokWpisu() > 2020 || (wpisView.getRokWpisu() == 2020 && Integer.parseInt(wpisView.getMiesiacWpisu())>9)) {
+        if (wpisView.isJpk2020M()) {
             pl.gov.crd.wzor._2020._05._08._9393.JPK zwrot = null;
             try {
                 JAXBContext context = JAXBContext.newInstance(pl.gov.crd.wzor._2020._05._08._9393.JPK.class);
                 Unmarshaller unmarshaller = context.createUnmarshaller();
                 zwrot = (pl.gov.crd.wzor._2020._05._08._9393.JPK) unmarshaller.unmarshal(new File(dirmainfilename));
+            } catch (JAXBException ex) {
+                E.e(ex);
+            }
+            return zwrot;
+        } else if (wpisView.isJpk2020K()) {
+            pl.gov.crd.wzor._2020._05._08._9394.JPK zwrot = null;
+            try {
+                JAXBContext context = JAXBContext.newInstance(pl.gov.crd.wzor._2020._05._08._9394.JPK.class);
+                Unmarshaller unmarshaller = context.createUnmarshaller();
+                zwrot = (pl.gov.crd.wzor._2020._05._08._9394.JPK) unmarshaller.unmarshal(new File(dirmainfilename));
             } catch (JAXBException ex) {
                 E.e(ex);
             }

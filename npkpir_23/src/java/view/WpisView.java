@@ -79,6 +79,8 @@ public class WpisView implements Serializable {
     private Podatnik podatnikwzorcowy;
     private String odjakiegomcdok;
     private boolean biuroiszef;
+    private boolean jpk2020M;
+    private boolean jpk2020K;
 
     public WpisView() {
         czegosbrakuje = false;
@@ -114,6 +116,7 @@ public class WpisView implements Serializable {
             czyniegosc();
             podatnikwzorcowy = podatnikDAO.find("Wzorcowy");
             czytojetsbiuroiszef();
+            jakitobedziejpk2020();
         }
     }
     
@@ -268,6 +271,7 @@ public class WpisView implements Serializable {
         uzupelnijdanepodatnika();
         czyniegosc();
        czytojetsbiuroiszef();
+       jakitobedziejpk2020();
     }
     
     private void czytojetsbiuroiszef() {
@@ -773,6 +777,22 @@ public class WpisView implements Serializable {
     public void setPodatnikwzorcowy(Podatnik podatnikwzorcowy) {
         this.podatnikwzorcowy = podatnikwzorcowy;
     }
+
+    public boolean isJpk2020M() {
+        return jpk2020M;
+    }
+
+    public void setJpk2020M(boolean jpk2020M) {
+        this.jpk2020M = jpk2020M;
+    }
+
+    public boolean isJpk2020K() {
+        return jpk2020K;
+    }
+
+    public void setJpk2020K(boolean jpk2020K) {
+        this.jpk2020K = jpk2020K;
+    }
     
     
 //</editor-fold>
@@ -791,6 +811,19 @@ public class WpisView implements Serializable {
 
     public void setBiuroiszef(boolean biuroiszef) {
         this.biuroiszef = biuroiszef;
+    }
+
+    private void jakitobedziejpk2020() {
+        jpk2020M = false;
+        jpk2020K = false;
+        boolean dobryrok = rokWpisu>2020 || (rokWpisu==2020 && Integer.parseInt(miesiacWpisu)>9);
+        if (dobryrok) {
+            if (vatokres==1) {
+                jpk2020M = true;
+            } else if (vatokres==2) {
+                jpk2020K = true;
+            }
+        }
     }
   
 

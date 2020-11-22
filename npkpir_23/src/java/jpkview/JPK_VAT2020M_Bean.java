@@ -30,7 +30,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-public class JPK_VAT2020_Bean {
+public class JPK_VAT2020M_Bean {
     
     public static JPK.Ewidencja.SprzedazWiersz dodajwierszsprzedazy(EVatwpis1 ev, BigInteger lp, JPK.Ewidencja.SprzedazCtrl sprzedazCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
         JPK.Ewidencja.SprzedazWiersz w = new JPK.Ewidencja.SprzedazWiersz();

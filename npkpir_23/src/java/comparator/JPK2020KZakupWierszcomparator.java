@@ -13,10 +13,10 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-public class JPK2020ZakupWierszcomparator implements Comparator<pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupWiersz> {
+public class JPK2020KZakupWierszcomparator implements Comparator<pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupWiersz> {
 
     @Override
-    public int compare(pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupWiersz o1, pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupWiersz o2) {
+    public int compare(pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupWiersz o1, pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupWiersz o2) {
         String datao1 = o1.getNazwaDostawcy().toLowerCase(new Locale("pl", "PL"));
         String datao2 = o2.getNazwaDostawcy().toLowerCase(new Locale("pl", "PL"));
         return datao1.compareTo(datao2);

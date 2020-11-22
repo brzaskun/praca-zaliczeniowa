@@ -33,7 +33,7 @@ public class PrzygotujInitUploadXML {
             doc.setDocumentList(new ArrayOfDocumentType());
             ArrayOfDocumentType.Document adok = new ArrayOfDocumentType.Document();
             DocumentType.FormCode formkode = new DocumentType.FormCode();
-            if (wpisView.getRokWpisu() > 2020 || (wpisView.getRokWpisu() == 2020 && Integer.parseInt(wpisView.getMiesiacWpisu())>9)) {
+            if (wpisView.isJpk2020M()) {
                 formkode.setSystemCode("JPK_V7M (1)");
                 formkode.setSchemaVersion("1-2E");
                 formkode.setValue("JPK_VAT");

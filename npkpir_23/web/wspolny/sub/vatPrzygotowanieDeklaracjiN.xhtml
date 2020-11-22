@@ -34,12 +34,13 @@
                                  rendered="#{WpisView.podatnikObiekt.podpiscertyfikowany and !podpisView.jestkarta}"/>-->
                 <p:commandButton id="przycisk3" value="zapisz"  actionListener="#{vat7DKView.zapiszdeklaracje}"
                                  update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt" 
-                                 rendered="#{vat7DKView.pokazuproszczona}"
+                                 rendered="#{vat7DKView.pokazuproszczona and vat7DKView.pozwolnazapis}"
                                  style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>
                 <p:commandButton  value="zapisz"  actionListener="#{vat7DKView.zapiszdeklaracje}"
                                  update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt formX dialog_deklaracje_vat_wysylka formbutton" 
-                                 rendered="#{vat7DKView.pokazpelna}"
+                                 rendered="#{vat7DKView.pokazpelna and vat7DKView.pozwolnazapis}"
                                  style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>
+                <h:outputText value=" rozliczenia są kwartalne nie można zapisać deklaracji" style="color: red;" rendered="#{!vat7DKView.pozwolnazapis}"/>
                 <p:selectBooleanCheckbox itemLabel="wymuś korektę" style="margin-left: 100px;" value="#{vat7DKView.wymusozmnaczeniejakokorekte}"/>
                 <p:selectBooleanCheckbox itemLabel="nie sprawdzaj poprzednich"  value="#{vat7DKView.niesprawdzajpoprzednichdeklaracji}"/>
 

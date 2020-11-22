@@ -5,125 +5,129 @@ var TabKeyDown;
     var focusable = ":input, a[href]";
 
     TabKeyDown = function (event) {
-        //Get the element that registered the event
-        var $target = $(event.target);
-        var taregetId = event.target.id;
-        if (taregetId === "") {
-            taregetId = event.target.name;
-        }
-        var zawartoscpola = r(taregetId).val();
-        var wiersze = $(document.getElementById("formwpisdokument:dataList_data")).children("tr");
-        var dlugoscwierszy = wiersze.length;
-        try {
-            var czyZawieraWn = taregetId.indexOf("kontown");
-            var czyZawieraMa = taregetId.indexOf("kontoma");
-            var enterdefault = taregetId.indexOf("enterdefault");
-            var rozrachunki = taregetId.indexOf("rozrachunki");
-            var opis = taregetId.indexOf("opisdokwpis");
-            var typwiersza = MYAPP.typwiersza;
-            var wierszlp = parseInt($target.attr("name").split(":")[2])+1;
-        } catch (e1) {
-            
-        }
-        if (rozrachunki === -1) {
-            var toJestPoleKonta = false;
-            if (czyZawieraWn > 0 || czyZawieraMa > 0 || enterdefault > 0) {
-                toJestPoleKonta = true;
+        var wpisywanie = isTabKey(event)||isBackspaceKey(event)||isArrowkey(event);
+        var rozrachunki = isTabKey(event)||isSpaceKey(event)||isDeleteKey(event);
+        if((r("dialogpierwszy").is(":visible") && wpisywanie)||(r("dialogdrugi").is(":visible") && rozrachunki)){
+            //Get the element that registered the event
+            var $target = $(event.target);
+            var taregetId = event.target.id;
+            if (taregetId === "") {
+                taregetId = event.target.name;
             }
-            var czypoleedycji = $(event.target).is("input") || $(event.target).is("textarea");
-            if (isBackspaceKey(event) && czypoleedycji === false) {
-                //alert('backspace');
-                event.preventDefault();
-                event.stopPropagation();
-                event.stopImmediatePropagation();
-            } else {
-                var war1 = isTabKey(event);
-                if (war1===true) {
-                    var war2 = dlugoscwierszy === wierszlp;
-                    var war3 = czyZawieraWn > 0 && zawartoscpola !== "" && typwiersza === 1;
-                    var war4 = czyZawieraMa > 0 && zawartoscpola !== "";
-                    if ($(event.target).is("button") === false) {
-                        if (war1 && war2 && war3 || war1 && war2 && war4) {
-                            $(document.getElementById("wpisywaniefooter:dodajPustyWierszNaKoncu")).click();
-                                event.preventDefault();
-                                event.stopPropagation();
-                                event.stopImmediatePropagation();
-                                return false;
-                        } else if (isTabKey(event)) {
-                            var isTabSuccessful = tab(true, event.shiftKey, $target);
-                            if (isTabSuccessful === true) {
-                                event.preventDefault();
-                                event.stopPropagation();
-                                event.stopImmediatePropagation();
-                                return false;
-                            }
-                        }
-                    }
-                } else if (isArrowkey(event) && opis > -1) {
-                    if (event.keyCode === 40) {
-                        goDown(wiersze,wierszlp);
-                    } else if (event.keyCode === 38) {
-                        goUp(wiersze,wierszlp);
-                    }
+            var zawartoscpola = r(taregetId).val();
+            var wiersze = $(document.getElementById("formwpisdokument:dataList_data")).children("tr");
+            var dlugoscwierszy = wiersze.length;
+            try {
+                var czyZawieraWn = taregetId.indexOf("kontown");
+                var czyZawieraMa = taregetId.indexOf("kontoma");
+                var enterdefault = taregetId.indexOf("enterdefault");
+                var rozrachunki = taregetId.indexOf("rozrachunki");
+                var opis = taregetId.indexOf("opisdokwpis");
+                var typwiersza = MYAPP.typwiersza;
+                var wierszlp = parseInt($target.attr("name").split(":")[2])+1;
+            } catch (e1) {
+
+            }
+            if (rozrachunki === -1) {
+                var toJestPoleKonta = false;
+                if (czyZawieraWn > 0 || czyZawieraMa > 0 || enterdefault > 0) {
+                    toJestPoleKonta = true;
                 }
-            }
-        } else if (rozrachunki > -1) {
-            //dodaje kwoty z wiersza obok przy rozliczaniu rozachunkow
-            if ($(event.target).is("button") === false) {
-                if (isTabKey(event)) {
+                var czypoleedycji = $(event.target).is("input") || $(event.target).is("textarea");
+                if (isBackspaceKey(event) && czypoleedycji === false) {
+                    //alert('backspace');
                     event.preventDefault();
                     event.stopPropagation();
                     event.stopImmediatePropagation();
-                    return false;
-                } else if (isSpaceKey(event)) {
-                    var index = $target[0].id.match(/\d+/)[0];
-                    var walutaplatnosci = r("rozrachunki:walutarozliczajacego").text();
-                    var kursplatnosci = zrobFloat((r("rozrachunki:kursrozliczajacego").text()));
-                    var kursrachunku = pobierzkurs(taregetId.split(":")[2]);
-                    var walutarachunku = pobierzwaluta(taregetId.split(":")[2]);
-                    var limitplatnosci = zrobFloat($(document.getElementById('rozrachunki:pozostalodorozliczenia')).text());
-                    if (limitplatnosci > 0) {
-                        var i = "rozrachunki:dataList:" + index + ":pozostaloWn";
-                        var i_obj = document.getElementById(i);
-                        var limitrachunku = i_obj.innerText.replace(/\s+/g, '');
-                        limitrachunku = limitrachunku.replace(",", ".");
-                        limitrachunku = parseFloat(limitrachunku);
-                        if (walutaplatnosci===walutarachunku) {
-                            //nie zmieniaj limitu
-                        } else if (walutarachunku !== "PLN" && walutaplatnosci==="PLN" ) {
-                            limitrachunku = limitrachunku*kursrachunku;
-                            limitrachunku = limitrachunku.round(2);
-                        } else if (walutarachunku==="PLN" && walutaplatnosci!=="PLN") {
-                            limitrachunku = limitrachunku/kursplatnosci;
-                            limitrachunku = limitrachunku.round(2);
-                        } else if (walutarachunku!=="PLN" && walutaplatnosci!=="PLN") {
-                            var limitplatnosciwpln =  limitplatnosci*kursplatnosci;
-                            limitplatnosci = limitplatnosciwpln/kursrachunku;
-                            limitplatnosci = limitplatnosci.round(2);
-                        }
-                        var kom1 = taregetId.split("_")[0]+"_input";
-                        var kom2 = taregetId.split("_")[0]+"_hinput";
-                        if (limitrachunku <= limitplatnosci) {
-                            if (walutaplatnosci===walutarachunku) {
-                              //nie zmieniaj limitu
-                            } else if (walutarachunku!=="PLN" && walutaplatnosci!=="PLN") {
-                                limitrachunku = limitrachunku*kursrachunku;
-                                limitrachunku = limitrachunku/kursplatnosci;
-                                limitrachunku = limitrachunku.round(2);
+                } else {
+                    var war1 = isTabKey(event);
+                    if (war1===true) {
+                        var war2 = dlugoscwierszy === wierszlp;
+                        var war3 = czyZawieraWn > 0 && zawartoscpola !== "" && typwiersza === 1;
+                        var war4 = czyZawieraMa > 0 && zawartoscpola !== "";
+                        if ($(event.target).is("button") === false) {
+                            if (war1 && war2 && war3 || war1 && war2 && war4) {
+                                $(document.getElementById("wpisywaniefooter:dodajPustyWierszNaKoncu")).click();
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                    event.stopImmediatePropagation();
+                                    return false;
+                            } else if (isTabKey(event)) {
+                                var isTabSuccessful = tab(true, event.shiftKey, $target);
+                                if (isTabSuccessful === true) {
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                    event.stopImmediatePropagation();
+                                    return false;
+                                }
                             }
-                            r(kom1).val(limitrachunku);
-                            r(kom2).val(limitrachunku);
-                        } else {
-                            r(kom1).val(limitplatnosci);
-                            r(kom2).val(limitplatnosci);
+                        }
+                    } else if (isArrowkey(event) && opis > -1) {
+                        if (event.keyCode === 40) {
+                            goDown(wiersze,wierszlp);
+                        } else if (event.keyCode === 38) {
+                            goUp(wiersze,wierszlp);
                         }
                     }
-                } else if (isDeleteKey(event)) {
-                    var kom1 = taregetId.split("_")[0]+"_input";
-                    var kom2 = taregetId.split("_")[0]+"_hinput";
-                    r(kom1).val(0.0);
-                    r(kom2).val(0.0);
-                    $target.change();
+                }
+            } else if (rozrachunki > -1) {
+                //dodaje kwoty z wiersza obok przy rozliczaniu rozachunkow
+                if ($(event.target).is("button") === false) {
+                    if (isTabKey(event)) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        event.stopImmediatePropagation();
+                        return false;
+                    } else if (isSpaceKey(event)) {
+                        var index = $target[0].id.match(/\d+/)[0];
+                        var walutaplatnosci = r("rozrachunki:walutarozliczajacego").text();
+                        var kursplatnosci = zrobFloat((r("rozrachunki:kursrozliczajacego").text()));
+                        var kursrachunku = pobierzkurs(taregetId.split(":")[2]);
+                        var walutarachunku = pobierzwaluta(taregetId.split(":")[2]);
+                        var limitplatnosci = zrobFloat($(document.getElementById('rozrachunki:pozostalodorozliczenia')).text());
+                        if (limitplatnosci > 0) {
+                            var i = "rozrachunki:dataList:" + index + ":pozostaloWn";
+                            var i_obj = document.getElementById(i);
+                            var limitrachunku = i_obj.innerText.replace(/\s+/g, '');
+                            limitrachunku = limitrachunku.replace(",", ".");
+                            limitrachunku = parseFloat(limitrachunku);
+                            if (walutaplatnosci===walutarachunku) {
+                                //nie zmieniaj limitu
+                            } else if (walutarachunku !== "PLN" && walutaplatnosci==="PLN" ) {
+                                limitrachunku = limitrachunku*kursrachunku;
+                                limitrachunku = limitrachunku.round(2);
+                            } else if (walutarachunku==="PLN" && walutaplatnosci!=="PLN") {
+                                limitrachunku = limitrachunku/kursplatnosci;
+                                limitrachunku = limitrachunku.round(2);
+                            } else if (walutarachunku!=="PLN" && walutaplatnosci!=="PLN") {
+                                var limitplatnosciwpln =  limitplatnosci*kursplatnosci;
+                                limitplatnosci = limitplatnosciwpln/kursrachunku;
+                                limitplatnosci = limitplatnosci.round(2);
+                            }
+                            var kom1 = taregetId.split("_")[0]+"_input";
+                            var kom2 = taregetId.split("_")[0]+"_hinput";
+                            if (limitrachunku <= limitplatnosci) {
+                                if (walutaplatnosci===walutarachunku) {
+                                  //nie zmieniaj limitu
+                                } else if (walutarachunku!=="PLN" && walutaplatnosci!=="PLN") {
+                                    limitrachunku = limitrachunku*kursrachunku;
+                                    limitrachunku = limitrachunku/kursplatnosci;
+                                    limitrachunku = limitrachunku.round(2);
+                                }
+                                r(kom1).val(limitrachunku);
+                                r(kom2).val(limitrachunku);
+                            } else {
+                                r(kom1).val(limitplatnosci);
+                                r(kom2).val(limitplatnosci);
+                            }
+                        }
+                    } else if (isDeleteKey(event)) {
+                        var kom1 = taregetId.split("_")[0]+"_input";
+                        var kom2 = taregetId.split("_")[0]+"_hinput";
+                        r(kom1).val(0.0);
+                        r(kom2).val(0.0);
+                        $target.change();
+                    }
                 }
             }
         }

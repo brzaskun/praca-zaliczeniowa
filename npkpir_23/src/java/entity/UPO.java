@@ -172,6 +172,11 @@ public class UPO  implements Serializable {
                 if (cel.equals("2")) {
                     zwrot = "kor.";
                 }
+            } else if (this.jpk instanceof pl.gov.crd.wzor._2020._05._08._9394.JPK) {
+                String cel = Byte.toString(((pl.gov.crd.wzor._2020._05._08._9394.JPK)this.jpk).getNaglowek().getCelZlozenia().getValue());
+                if (cel.equals("2")) {
+                    zwrot = "kor.";
+                }
             }
         }
         return zwrot;
@@ -366,6 +371,8 @@ public class UPO  implements Serializable {
             if (jpk != null) {
                 if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
                     this.wersja = ((pl.gov.crd.wzor._2020._05._08._9393.JPK)jpk).getNaglowek().getKodFormularza().getWersjaSchemy();
+                } else if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9394.JPK) {
+                    this.wersja = ((pl.gov.crd.wzor._2020._05._08._9394.JPK)jpk).getNaglowek().getKodFormularza().getWersjaSchemy();
                 } else if (jpk instanceof jpk201701.JPK) {
                     this.wersja = ((jpk201701.JPK)jpk).getNaglowek().getKodFormularza().getWersjaSchemy();
                 } else {

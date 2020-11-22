@@ -118,6 +118,7 @@ public class Vat7DKView implements Serializable {
     private boolean flagazt;
     private boolean pokazuproszczona;
     private boolean pokazpelna;
+    private boolean pozwolnazapis;
     @Inject
     private WniosekVATZDEntityDAO wniosekVATZDEntityDAO;
     private WniosekVATZDEntity wniosekVATZDEntity;
@@ -147,6 +148,7 @@ public class Vat7DKView implements Serializable {
             wniosekVATZDEntity = wniosekVATZDEntityList.get(0);
         }
         nowejpk = czynowejpk();
+        pozwolnazapis = obliczpozwolnanazpis();
     }
     
     private boolean czynowejpk() {
@@ -337,7 +339,7 @@ public class Vat7DKView implements Serializable {
             if (kwotanakaserej != null) {
                 kasarejestrujaca(nż, nl, dowpłaty, nadwyzkanaliczonego);
             }
-            boolean nowyjpk2020 = (wpisView.getRokWpisu()>2020 || wpisView.getRokWpisu()==2020 && Integer.parseInt(wpisView.getMiesiacWpisu())>9);
+            boolean nowyjpk2020 = wpisView.isJpk2020M();
             DeklaracjaVatSchemaWierszSum doprzeniesienia = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do przeniesienia na następny okres rozliczeniowy");
             doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat());
             pokazinfovatzz =  false;
@@ -1402,6 +1404,14 @@ public class Vat7DKView implements Serializable {
         this.zaliczenienapoczetzobowiazankwota = zaliczenienapoczetzobowiazankwota;
     }
 
+    public boolean isPozwolnazapis() {
+        return pozwolnazapis;
+    }
+
+    public void setPozwolnazapis(boolean pozwolnazapis) {
+        this.pozwolnazapis = pozwolnazapis;
+    }
+
    
     
 
@@ -1411,6 +1421,16 @@ public class Vat7DKView implements Serializable {
 
     public void setRodzajzobowiazania(String rodzajzobowiazania) {
         this.rodzajzobowiazania = rodzajzobowiazania;
+    }
+
+    private boolean obliczpozwolnanazpis() {
+        boolean zwrot = true;
+        if (wpisView.isJpk2020K()) {
+            if (!wpisView.getMiesiacWpisu().equals("03")&&!wpisView.getMiesiacWpisu().equals("06")&&!wpisView.getMiesiacWpisu().equals("09")&&!wpisView.getMiesiacWpisu().equals("12")) {
+                zwrot = false;
+            }
+        }
+        return zwrot;
     }
 
     
