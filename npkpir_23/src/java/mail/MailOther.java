@@ -110,7 +110,12 @@ public class MailOther implements Serializable{
                     // attach the file to the message
                     ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
                     String realPath = ctx.getRealPath("/");
-                    FileDataSource fds = new FileDataSource(realPath+"wydruki/fakturaNr" + String.valueOf(i) + "firma"+ wpisView.getPodatnikObiekt().getNip() + ".pdf");
+                    int row = i;
+                    if (wpisView.getPodatnikObiekt().getNip().equals("9552340951")||wpisView.getPodatnikObiekt().getNip().equals("9552339497")) {
+                        String[] numer = faktura.getNumerkolejny().split("/");
+                        row = Integer.parseInt(numer[0]);
+                    }
+                    FileDataSource fds = new FileDataSource(realPath+"wydruki/fakturaNr" + String.valueOf(row) + "firma"+ wpisView.getPodatnikObiekt().getNip() + ".pdf");
                     mbp2.setDataHandler(new DataHandler(fds));
                     mbp2.setFileName(fds.getName());
 
@@ -172,7 +177,12 @@ public class MailOther implements Serializable{
                  // attach the file to the message
                  ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
                  String realPath = ctx.getRealPath("/");
-                 FileDataSource fds = new FileDataSource(realPath+"wydruki/faktura"+String.valueOf(i) + wpisView.getPodatnikObiekt().getNip() + ".pdf");
+                int row = i;
+                  if (wpisView.getPodatnikObiekt().getNip().equals("9552340951")||wpisView.getPodatnikObiekt().getNip().equals("9552339497")) {
+                      String[] numer = faktura.getNumerkolejny().split("/");
+                      row = Integer.parseInt(numer[0]);
+                  }
+                 FileDataSource fds = new FileDataSource(realPath+"wydruki/faktura"+String.valueOf(row) + wpisView.getPodatnikObiekt().getNip() + ".pdf");
                  mbp2.setDataHandler(new DataHandler(fds));
                  mbp2.setFileName(fds.getName());
                  
