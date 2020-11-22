@@ -528,6 +528,14 @@ public class ObslugaWiersza {
                     wierszNowy.getStronaMa().setKonto(selected.getRodzajedok().getKontorozrachunkowe());
                 }
             }
+            if (selected.getRodzajedok().getKategoriadokumentu()==0||selected.getRodzajedok().getKategoriadokumentu()==5) {
+                if (wiersz.getKontoWn().getPelnynumer().startsWith("4")||wiersz.getKontoWn().getPelnynumer().startsWith("7")) {
+                    wierszNowy.getStronaWn().setKonto(wiersz.getKontoWn());
+                }
+                if (wiersz.getKontoWn().getPelnynumer().startsWith("7")) {
+                    wierszNowy.getStronaWn().setKonto(wiersz.getKontoMa());
+                }
+            }
             selected.getListawierszy().add(wierszNowy);
         } else {
             ObslugaWiersza.dodajiPrzenumerujWiersze(selected, wierszNowy, lpmacierzystego);
