@@ -273,6 +273,10 @@
                     <h:outputText value="#{wpis.tabelanbp.nrtabeli} " rendered="#{wpis.tabelanbp ne null and wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}" style="width: 50px;"/>
                     <h:outputText value="#{wpis.tabelanbp.kurssredni}" rendered="#{wpis.tabelanbp ne null and wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}" style="width: 50px;"/>
                 </p:column>
+                <p:column width="25" style="text-align: center;" >
+                    <p:commandButton id="drukujbutton2" icon="fa fa-file-pdf-o" action="#{sesjaView.dodajwydruk()}" actionListener="#{pdfFaktura.drukuj(wpis.fakturakontrahent, row, wpis.fakturakontrahent.wystawca)}" styleClass="fkbutton"
+                                     style="width: 30px;" rendered="#{wpis.fakturakontrahent ne null}"/>
+                </p:column>
                 <p:column id="deleteColumn" headerText="usuń" style="width: 4%; text-align: center;">
                     <p:commandButton actionListener="#{DokTabView.destroy(wpis)}" onclick="PF('confirmation').show()" style="width: 30px;"
                                      id="delete" icon="ui-icon ui-icon-trash"  rendered="#{wpis.status eq 'bufor' ? true : false}" />

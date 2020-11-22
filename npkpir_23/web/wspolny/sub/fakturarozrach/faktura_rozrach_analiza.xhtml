@@ -160,7 +160,7 @@
                         <p:rowEditor style="height: 30px;" rendered="#{item.faktura0rozliczenie1 eq true}"/>
                 </p:column>
                 <p:column   style="text-align: center;"  width="40">
-                    <p:commandButton  update=":form1:messages" actionListener="#{pdfFaktura.drukuj(item.faktura, row, WpisView)}" icon="ui-icon-print"  rendered="#{item.faktura0rozliczenie1 eq false}"/>
+                    <p:commandButton  update=":form1:messages" actionListener="#{pdfFaktura.drukuj(item.faktura, row, WpisView.podatnikObiekt)}" icon="ui-icon-print"  rendered="#{item.faktura0rozliczenie1 eq false}"/>
                 </p:column>
 <!--                 <p:column width="40" style="text-align: center;">
                     <p:commandButton icon="fa fa-archive" actionListener="#{fakturaRozrachunkiAnalizaView.rozlicz(item, true)}"

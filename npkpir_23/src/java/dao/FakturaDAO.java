@@ -183,4 +183,8 @@ public class FakturaDAO extends DAO implements Serializable {
         }
         return zwrot;
     }
+
+    public Faktura findByID(int faktid) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

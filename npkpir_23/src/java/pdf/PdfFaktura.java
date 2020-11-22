@@ -34,6 +34,7 @@ import entity.FakturaDuplikat;
 import entity.FakturaStopkaNiemiecka;
 import entity.Fakturadodelementy;
 import entity.Fakturywystokresowe;
+import entity.Podatnik;
 import entity.Pozycjenafakturze;
 import error.E;
 import java.io.File;
@@ -66,8 +67,6 @@ import view.WpisView;
 @ViewScoped
 public class PdfFaktura extends Pdf implements Serializable {
 
-    
- 
     @Inject
     private PozycjenafakturzeDAO pozycjeDAO;
     @Inject
@@ -89,7 +88,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                     row = Integer.parseInt(numer[0]);
                 }
                 List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
-                drukujcd(selected, fdod, row, "mail", wpisView, false, null);
+                drukujcd(selected, fdod, row, "mail", wpisView.getPodatnikObiekt(), false, null);
                 i++;
             } catch (Exception e) {
                 E.e(e);
@@ -98,21 +97,21 @@ public class PdfFaktura extends Pdf implements Serializable {
         }
     }
 
-    public void drukuj(Faktura selected, int row, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
+    public void drukuj(Faktura selected, int row, Podatnik podatnik) throws DocumentException, FileNotFoundException, IOException {
         try {
-            if (wpisView.getPodatnikObiekt().getNip().equals("9552340951")||wpisView.getPodatnikObiekt().getNip().equals("9552339497")) {
+            if (podatnik.getNip().equals("9552340951")||podatnik.getNip().equals("9552339497")) {
                 String[] numer = selected.getNumerkolejny().split("/");
                 row = Integer.parseInt(numer[0]);
             }
             ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
             String realPath = ctx.getRealPath("/");
-            String nazwapliku = realPath+"wydruki/faktura" + String.valueOf(row) + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+            String nazwapliku = realPath+"wydruki/faktura" + String.valueOf(row) + podatnik.getNip() + ".pdf";
             File file = new File(nazwapliku);
             if (file.isFile()) {
                 file.delete();
             }
-            List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
-            drukujcd(selected, fdod, row, "druk", wpisView, false, null);
+            List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(podatnik.getNazwapelna());
+            drukujcd(selected, fdod, row, "druk", podatnik, false, null);
             Msg.msg("Wydruk faktury");
 
         } catch (DocumentException | IOException e) {
@@ -137,7 +136,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                 file.delete();
             }
             List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
-            drukujcd(selected, fdod, row, "druk", wpisView, true, duplikat);
+            drukujcd(selected, fdod, row, "druk", wpisView.getPodatnikObiekt(), true, duplikat);
             Msg.msg("Wydruk faktury");
 
         } catch (DocumentException | IOException e) {
@@ -157,7 +156,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                 file.delete();
             }
             List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
-            drukujcd(selected, fdod, 0, "druk", wpisView, false, null);
+            drukujcd(selected, fdod, 0, "druk", wpisView.getPodatnikObiekt(), false, null);
             Msg.msg("i","Wygenerowano podgląd faktury.","akordeon:formstworz:messagesinline");
 
         } catch (DocumentException | IOException e) {
@@ -177,7 +176,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                     String[] numer = selected.getNumerkolejny().split("/");
                     row = Integer.parseInt(numer[0]);
                 }
-                drukujcd(selected, fdod, row, "druk", wpisView, false, null);
+                drukujcd(selected, fdod, row, "druk", wpisView.getPodatnikObiekt(), false, null);
                 i++;
             } catch (Exception e) {
                 E.e(e);
@@ -197,7 +196,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                     row = Integer.parseInt(numer[0]);
                 }
                 List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
-                pliki.add(drukujcd(selected, fdod, row, "masa", wpisView, false, null));
+                pliki.add(drukujcd(selected, fdod, row, "masa", wpisView.getPodatnikObiekt(), false, null));
                 i++;
             } catch (Exception e) {
                 E.e(e);
@@ -245,17 +244,17 @@ public class PdfFaktura extends Pdf implements Serializable {
         }
     }
 
-    public void drukujokresowa(Fakturywystokresowe selected, int row, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
+    public void drukujokresowa(Fakturywystokresowe selected, int row, Podatnik podatnik) throws DocumentException, FileNotFoundException, IOException {
         ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
             String realPath = ctx.getRealPath("/");
-            String nazwapliku = realPath+"wydruki/fakturaNr" + String.valueOf(row) + "firma" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+            String nazwapliku = realPath+"wydruki/fakturaNr" + String.valueOf(row) + "firma" + podatnik.getNip() + ".pdf";
         File file = new File(nazwapliku);
         if (file.isFile()) {
             file.delete();
         }
         try {
-            List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
-            drukujcd(selected.getDokument(), fdod, row, "druk", wpisView, false, null);
+            List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(podatnik.getNazwapelna());
+            drukujcd(selected.getDokument(), fdod, row, "druk", podatnik, false, null);
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Błąd - nie wybrano faktury");
@@ -267,7 +266,7 @@ public class PdfFaktura extends Pdf implements Serializable {
         for (Fakturywystokresowe selected : fakturydruk) {
             try {
                 List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
-                drukujcdPrinter(selected.getDokument(), fdod, i, "druk",wpisView);
+                drukujcdPrinter(selected.getDokument(), fdod, i, "druk",wpisView.getPodatnikObiekt());
                 i++;
             } catch (Exception e) {
                 E.e(e);
@@ -276,12 +275,12 @@ public class PdfFaktura extends Pdf implements Serializable {
         }
     }
 
-    private String drukujcd(Faktura selected, List<Fakturadodelementy> elementydod, int nrfakt, String przeznaczenie, WpisView wpisView, boolean duplikat,
+    private String drukujcd(Faktura selected, List<Fakturadodelementy> elementydod, int nrfakt, String przeznaczenie, Podatnik podatnik, boolean duplikat,
         FakturaDuplikat duplikatobj) throws DocumentException, FileNotFoundException, IOException {
         ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         String realPath = ctx.getRealPath("/");
-        String nazwapliku = realPath + "wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
-        List<Pozycjenafakturze> skladnikifaktury = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikWpisu());
+        String nazwapliku = realPath + "wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma" + podatnik.getNip() + ".pdf";
+        List<Pozycjenafakturze> skladnikifaktury = pozycjeDAO.findFakturyPodatnik(podatnik.getNazwapelna());
         if (skladnikifaktury.isEmpty()) {
             Msg.msg("e", "Nie zdefiniowano pozycji faktury. Nie można jej wydrukować. Przejdź do zakładki: 'Wzór faktury'.", "akordeon:formstworz:messagesinline");
         } else {
@@ -292,7 +291,7 @@ public class PdfFaktura extends Pdf implements Serializable {
             boolean jestkorekta = selected.getPozycjepokorekcie() != null;
             if ((wierszewtabelach > 12 && jestkorekta == false) || (dlugiwiersz && jestkorekta) || (wierszewtabelach > 7 && jestkorekta)) {
                 Document document = new Document();
-                PdfWriter writer = writerCreate(document, nrfakt, wpisView.getPodatnikObiekt().getNip());
+                PdfWriter writer = writerCreate(document, nrfakt, podatnik.getNip());
                 PdfFP.dodajopisdok(document);
                 document.setMargins(0, 0, 400, 20);
                 document.open();
@@ -304,50 +303,50 @@ public class PdfFaktura extends Pdf implements Serializable {
                     PdfFP.dodajoznaczenieproforma(writer);
                 }
                 PdfFP.dodajnaglowekstopka(writer, elementydod);
-                Image logo = PdfFP.dolaczpozycjedofakturydlugaczlogo(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
+                Image logo = PdfFP.dolaczpozycjedofakturydlugaczlogo(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, podatnik, document, elementydod, fakturaXXLKolumnaDAO);
                 if (logo != null) {
                     document.add(logo);
                 }
                 if (selected.getPozycjepokorekcie() != null) {
                     if (selected.isFakturaxxl()) {
-                        document.add(PdfFP.dolaczpozycjedofakturydlugacz2(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
+                        document.add(PdfFP.dolaczpozycjedofakturydlugacz2(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, podatnik, document, elementydod, fakturaXXLKolumnaDAO));
                         document.add(new Paragraph(""));
                         document.add(Chunk.NEWLINE);
-                        document.add(PdfFP.dolaczpozycjedofakturydlugacz2korekta(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
+                        document.add(PdfFP.dolaczpozycjedofakturydlugacz2korekta(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, podatnik, document, elementydod, fakturaXXLKolumnaDAO));
                     } else if (selected.isFakturavatmarza()) {
-                        document.add(PdfFP.dolaczpozycjedofakturyvatmarza(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
+                        document.add(PdfFP.dolaczpozycjedofakturyvatmarza(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, document, elementydod, fakturaXXLKolumnaDAO));
                         document.add(new Paragraph(""));
                         document.add(Chunk.NEWLINE);
-                        document.add(PdfFP.dolaczpozycjedofakturyvatmarzakorekta(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
+                        document.add(PdfFP.dolaczpozycjedofakturyvatmarzakorekta(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, document, elementydod, fakturaXXLKolumnaDAO));
                     } else {
-                        document.add(PdfFP.dolaczpozycjedofaktury2normal(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
+                        document.add(PdfFP.dolaczpozycjedofaktury2normal(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury,  document, elementydod, fakturaXXLKolumnaDAO));
                         document.add(new Paragraph(""));
                         document.add(Chunk.NEWLINE);
-                        document.add(PdfFP.dolaczpozycjedofaktury2normalkorekta(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
+                        document.add(PdfFP.dolaczpozycjedofaktury2normalkorekta(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, document, elementydod, fakturaXXLKolumnaDAO));
                     }
                 } else {
                     if (selected.isFakturaxxl()) {
-                        document.add(PdfFP.dolaczpozycjedofakturydlugacz2(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
+                        document.add(PdfFP.dolaczpozycjedofakturydlugacz2(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, podatnik, document, elementydod, fakturaXXLKolumnaDAO));
                     } else if (selected.isFakturavatmarza()) {
-                        document.add(PdfFP.dolaczpozycjedofakturyvatmarza(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
+                        document.add(PdfFP.dolaczpozycjedofakturyvatmarza(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury,  document, elementydod, fakturaXXLKolumnaDAO));
                     } else {
-                        document.add(PdfFP.dolaczpozycjedofaktury2normal(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
+                        document.add(PdfFP.dolaczpozycjedofaktury2normal(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury,  document, elementydod, fakturaXXLKolumnaDAO));
                     }
                 }
                 //writer.close();
                 document.close();
                 PdfReader reader = new PdfReader(nazwapliku);
                 PdfReaderContentParser parser = new PdfReaderContentParser(reader);
-                String nazwapliku1 = realPath + "wydruki/fakturaNr1" + String.valueOf(nrfakt) + "firma" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+                String nazwapliku1 = realPath + "wydruki/fakturaNr1" + String.valueOf(nrfakt) + "firma" + podatnik.getNip() + ".pdf";
                 PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(nazwapliku1));
                 PdfContentByte canvas = stamper.getOverContent(1);
-                PdfFP.dolaczpozycjedofakturydlugacz1(fakturaelementygraficzneDAO, canvas, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
+                PdfFP.dolaczpozycjedofakturydlugacz1(fakturaelementygraficzneDAO, canvas, selected, wymiaryGora, skladnikifaktury, document, elementydod, fakturaXXLKolumnaDAO);
                 stamper.close();
                 reader.close();
                 PdfFP.usunplik(nazwapliku);
                 reader = new PdfReader(nazwapliku1);
                 parser = new PdfReaderContentParser(reader);
-                String nazwapliku2 = realPath + "wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma" + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+                String nazwapliku2 = realPath + "wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma" + podatnik.getNip() + ".pdf";
                 stamper = new PdfStamper(reader, new FileOutputStream(nazwapliku2));
                 TextMarginFinder finder;
                 int n = reader.getNumberOfPages();
@@ -360,17 +359,17 @@ public class PdfFaktura extends Pdf implements Serializable {
                 if (finder.getLly() < 300) {
                     stamper.insertPage(++n, reader.getPageSize(1));
                     canvas = stamper.getOverContent(n);
-                    PdfFP.dolaczpozycjedofakturydlugacz3(true, fakturaelementygraficzneDAO, canvas, selected, 800, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
+                    PdfFP.dolaczpozycjedofakturydlugacz3(true, fakturaelementygraficzneDAO, canvas, selected, 800, skladnikifaktury,  document, elementydod, fakturaXXLKolumnaDAO);
                 } else {
                     canvas = stamper.getOverContent(n);
-                    PdfFP.dolaczpozycjedofakturydlugacz3(false, fakturaelementygraficzneDAO, canvas, selected, finder.getLly(), skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
+                    PdfFP.dolaczpozycjedofakturydlugacz3(false, fakturaelementygraficzneDAO, canvas, selected, finder.getLly(), skladnikifaktury, document, elementydod, fakturaXXLKolumnaDAO);
                 }
                 stamper.close();
                 reader.close();
                 PdfFP.usunplik(nazwapliku1);
             } else {
                 Document document = new Document();
-                PdfWriter writer = writerCreate(document, nrfakt, wpisView.getPodatnikObiekt().getNip());
+                PdfWriter writer = writerCreate(document, nrfakt, podatnik.getNip());
                 PdfFP.dodajopisdok(document);
                 document.open();
                 document.setMargins(0, 0, 20, 20);
@@ -382,23 +381,23 @@ public class PdfFaktura extends Pdf implements Serializable {
                 }
                 if (czyjeststopkaniemiecka(elementydod)) {
                     PdfFP.dodajnaglowek(writer, elementydod);
-                    PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
-                    FakturaStopkaNiemiecka f = fakturaStopkaNiemieckaDAO.findByPodatnik(wpisView.getPodatnikObiekt());
+                    PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, podatnik, document, elementydod, fakturaXXLKolumnaDAO);
+                    FakturaStopkaNiemiecka f = fakturaStopkaNiemieckaDAO.findByPodatnik(podatnik);
                     if (f != null) {
                         PdfFP.stopkaniemiecka(writer, document, f);
                     }
                 } else if (selected.isSprzedazsamochoduimportowanego()) {
                     PdfFP.dodajnaglowek(writer, elementydod);
-                    PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
+                    PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, podatnik, document, elementydod, fakturaXXLKolumnaDAO);
                     PdfFP.sprzedazsamochoduimportowanego(writer, document, selected);
                 } else {
                     PdfFP.dodajnaglowekstopka(writer, elementydod);
-                    PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
+                    PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, podatnik, document, elementydod, fakturaXXLKolumnaDAO);
                 }
                 document.close();
             }
             if (przeznaczenie.equals("druk")) {
-                String funkcja = "wydrukfaktura('" + String.valueOf(nrfakt) + "firma" + wpisView.getPodatnikObiekt().getNip() + "');";
+                String funkcja = "wydrukfaktura('" + String.valueOf(nrfakt) + "firma" + podatnik.getNip() + "');";
                 PrimeFaces.current().executeScript(funkcja);
             }
         }
@@ -432,15 +431,15 @@ public class PdfFaktura extends Pdf implements Serializable {
         return zwrot;
     }
     
-     private String drukujcdPrinter(Faktura selected, List<Fakturadodelementy> elementydod, int nrfakt, String przeznaczenie, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
+     private String drukujcdPrinter(Faktura selected, List<Fakturadodelementy> elementydod, int nrfakt, String przeznaczenie, Podatnik podatnik) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
         ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
             String realPath = ctx.getRealPath("/");
-            String nazwapliku = realPath+"wydruki/faktura" + String.valueOf(nrfakt) + wpisView.getPodatnikObiekt().getNip() + ".pdf";
+            String nazwapliku = realPath+"wydruki/faktura" + String.valueOf(nrfakt) + podatnik.getNip() + ".pdf";
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
         PdfFP.dodajopisdok(document);
         document.open();
-        List<Pozycjenafakturze> lista = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikWpisu());
+        List<Pozycjenafakturze> lista = pozycjeDAO.findFakturyPodatnik(podatnik.getNazwapelna());
         Collections.sort(lista, new Pozycjenafakturzecomparator());
         Map<String, Integer> wymiary = PdfFP.pobierzwymiarGora(lista);
         PdfFP.dodajnaglowekstopka(writer, elementydod);
@@ -451,7 +450,7 @@ public class PdfFaktura extends Pdf implements Serializable {
         absText(writer, "Fakturę wygenerowano elektronicznie w autorskim programie księgowym Biura Rachunkowego Taxman.", 15, 26, 6);
         absText(writer, "Dokument nie wymaga podpisu. Odbiorca wyraził zgode na otrzymanie faktury w formie elektr.", 15, 18, 6);
         prost(writer.getDirectContent(), 12, 15, 560, 20);
-        PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiary, lista, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
+        PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiary, lista, podatnik, document, elementydod, fakturaXXLKolumnaDAO);
         document.close();
         return nazwapliku;
 

@@ -34,15 +34,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import msg.B;
-import msg.Msg;import static pdffk.PdfMain.inicjacjaA4Landscape;
+import msg.Msg;
+import org.primefaces.PrimeFaces;
+import static pdffk.PdfMain.inicjacjaA4Landscape;
 import plik.Plik;
-import view.WpisView; import org.primefaces.PrimeFaces;
+import view.WpisView;
 import waluty.Z;
-
 /**
  *
  * @author Osito
@@ -95,7 +94,7 @@ public class PdfKonta {
         PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR(nazwapliku));
         int liczydlo = 1;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
-        writer.setBoxSize("art", new Rectangle(595, 842, 0, 0));
+        writer.setBoxSize("art", new Rectangle(590, 842, 0, 0));
         writer.setPageEvent(headerfoter);
         document.addTitle("Zestawienie obroty sald");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
@@ -152,7 +151,7 @@ public class PdfKonta {
         PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR(nazwapliku));
         int liczydlo = 1;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
-        writer.setBoxSize("art", new Rectangle(595, 842, 0, 0));
+        writer.setBoxSize("art", new Rectangle(590, 842, 0, 0));
         writer.setPageEvent(headerfoter);
         document.addTitle("Zestawienie obroty sald");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");

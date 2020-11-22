@@ -1301,29 +1301,7 @@ private DokDAO dokDAO;
                 }
                 //to tez musi tu byc bo przeciez moze nie byc dokumentu w roku poprzednim
                 for (Rodzajedok tmp : ogolnaListaDokumentow) {
-                    boolean odnaleziono = false;
-                    for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
-                        if (r.getSkrot().equals(tmp.getSkrot())) {
-                            odnaleziono = true;
-                            r.setOznaczenie1(tmp.getOznaczenie1());
-                            r.setOznaczenie2(tmp.getOznaczenie2());
-                            rodzajedokDAO.edit(r);
-                            break;
-                        }
-                    }
-                    if (odnaleziono == false) {
-                        Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
-                        nowy.setPodatnikObj(selected);
-                        nowy.setRok(wpisView.getRokWpisuSt());
-                        nowy.setKontoRZiS(null);
-                        nowy.setKontorozrachunkowe(null);
-                        nowy.setKontovat(null);
-                        rodzajedokDAO.dodaj(nowy);
-                        dokumentyBiezacegoPodatnika.add(nowy);
-                    }
-                }
-            } else {
-                    for (Rodzajedok tmp : ogolnaListaDokumentow) {
+                    try {
                         boolean odnaleziono = false;
                         for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
                             if (r.getSkrot().equals(tmp.getSkrot())) {
@@ -1343,6 +1321,34 @@ private DokDAO dokDAO;
                             nowy.setKontovat(null);
                             rodzajedokDAO.dodaj(nowy);
                             dokumentyBiezacegoPodatnika.add(nowy);
+                        }
+                    } catch (Exception ex) {
+                    }
+                }
+            } else {
+                    for (Rodzajedok tmp : ogolnaListaDokumentow) {
+                        try {
+                            boolean odnaleziono = false;
+                            for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
+                                if (r.getSkrot().equals(tmp.getSkrot())) {
+                                    odnaleziono = true;
+                                    r.setOznaczenie1(tmp.getOznaczenie1());
+                                    r.setOznaczenie2(tmp.getOznaczenie2());
+                                    rodzajedokDAO.edit(r);
+                                    break;
+                                }
+                            }
+                            if (odnaleziono == false) {
+                                Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
+                                nowy.setPodatnikObj(selected);
+                                nowy.setRok(wpisView.getRokWpisuSt());
+                                nowy.setKontoRZiS(null);
+                                nowy.setKontorozrachunkowe(null);
+                                nowy.setKontovat(null);
+                                rodzajedokDAO.dodaj(nowy);
+                                dokumentyBiezacegoPodatnika.add(nowy);
+                            }
+                        } catch (Exception ex) {
                         }
                     }
             }
