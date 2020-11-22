@@ -532,8 +532,8 @@ public class ObslugaWiersza {
                 if (wiersz.getKontoWn().getPelnynumer().startsWith("4")||wiersz.getKontoWn().getPelnynumer().startsWith("7")) {
                     wierszNowy.getStronaWn().setKonto(wiersz.getKontoWn());
                 }
-                if (wiersz.getKontoWn().getPelnynumer().startsWith("7")) {
-                    wierszNowy.getStronaWn().setKonto(wiersz.getKontoMa());
+                if (wiersz.getKontoMa().getPelnynumer().startsWith("7")) {
+                    wierszNowy.getStronaMa().setKonto(wiersz.getKontoMa());
                 }
             }
             selected.getListawierszy().add(wierszNowy);
