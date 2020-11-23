@@ -438,8 +438,6 @@ public class JPK_VAT2View implements Serializable {
         UPO upo = new UPO();
         if (deklaracjadlajpk!=null && deklaracjadlajpk.getId()!=null) {
             upo.setDeklaracja(deklaracjadlajpk);
-        } else if (wpisView.getRokWpisu()>2020 || (wpisView.getRokWpisu()==2020 && Integer.valueOf(wpisView.getMiesiacWpisu())>9)){
-            return null;
         }
         try {
             boolean moznapodpisac = ObslugaPodpisuBean.moznapodpisacError(wpisView.getPodatnikObiekt().getKartacert(), wpisView.getPodatnikObiekt().getKartapesel());
