@@ -26,6 +26,7 @@ import comparator.Rodzajedokcomparator;
 import comparator.Transakcjacomparator;
 import comparator.TransakcjacomparatorKwota;
 import dao.EvewidencjaDAO;
+import dao.FakturaDAO;
 import dao.JPKOznaczeniaDAO;
 import dao.KlienciDAO;
 import dao.PodatnikEwidencjaDokDAO;
@@ -49,6 +50,7 @@ import embeddable.Parametr;
 import embeddable.Roki;
 import entity.EVatwpisSuper;
 import entity.Evewidencja;
+import entity.Faktura;
 import entity.JPKoznaczenia;
 import entity.Klienci;
 import entity.PodatnikEwidencjaDok;
@@ -130,6 +132,8 @@ public class DokfkView implements Serializable {
     private DokDAOfk dokDAOfk;
     @Inject
     private KlienciDAO klDAO;
+    @Inject
+    private FakturaDAO fakturaDAO;
     @Inject
     private KlienciDAO klienciDAO;
     @Inject
@@ -1228,7 +1232,17 @@ public class DokfkView implements Serializable {
 
     public void usundokument() {
         try {
+            Faktura fksiegi = dokumentdousuniecia.getFaktura();
+            Faktura fkontrahent = dokumentdousuniecia.getFakturakontrahent();
             dokDAOfk.usun(dokumentdousuniecia);
+            if (fksiegi!=null) {
+                fksiegi.setZaksiegowana(false);
+                fakturaDAO.edit(fksiegi);
+            }
+            if (fkontrahent!=null) {
+                fkontrahent.setZaksiegowanakontrahent(false);
+                fakturaDAO.edit(fkontrahent);
+            }
             wykazZaksiegowanychDokumentow.remove(dokumentdousuniecia);
             if (filteredValue != null) {
                 filteredValue.remove(dokumentdousuniecia);
@@ -1250,7 +1264,17 @@ public class DokfkView implements Serializable {
     
      public void usundokumentimport(Dokfk dok) {
         try {
+            Faktura fksiegi = dokumentdousuniecia.getFaktura();
+            Faktura fkontrahent = dokumentdousuniecia.getFakturakontrahent();
             dokDAOfk.usun(dok);
+            if (fksiegi!=null) {
+                fksiegi.setZaksiegowana(false);
+                fakturaDAO.edit(fksiegi);
+            }
+            if (fkontrahent!=null) {
+                fkontrahent.setZaksiegowanakontrahent(false);
+                fakturaDAO.edit(fkontrahent);
+            }
             wykazZaksiegowanychDokumentowimport.remove(dok);
             if (filteredValueimport != null) {
                 filteredValueimport.remove(dok);

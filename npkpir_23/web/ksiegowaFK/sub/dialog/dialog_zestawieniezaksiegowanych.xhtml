@@ -248,7 +248,7 @@
                 </p:column>
                 <p:column width="25" style="text-align: center;" >
                     <p:commandButton id="drukujbutton2" icon="fa fa-file-pdf-o" action="#{sesjaView.dodajwydruk()}" actionListener="#{pdfFaktura.drukuj(item.fakturakontrahent, row, item.fakturakontrahent.wystawca)}" styleClass="fkbutton"
-                                     style="width: 30px;"  rendered="#{wpis.fakturakontrahent ne null}"/>
+                                     style="width: 30px;"  rendered="#{item.fakturakontrahent ne null}"/>
                 </p:column>
 
                 <p:column width="25" style="text-align: center;" >

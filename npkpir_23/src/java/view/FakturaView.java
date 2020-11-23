@@ -1157,6 +1157,7 @@ public class FakturaView implements Serializable {
                     if (poprzedni==null) {
                         poprzedni = dokDAOfk.findDokfkLastofaTypeKontrahent(podatnik, "ZZ", kontrahent, wpisView.getRokUprzedniSt(), null);
                         if (poprzedni!=null) {
+                            //to jest ok. trzeba pobrac konta tylkokwtedy gdy poprzenie jest z porpzedniego roku
                             String konto0Wn = poprzedni.getListawierszy().get(0).getKontoWn().getPelnynumer();
                             String konto0Ma = poprzedni.getListawierszy().get(0).getKontoMa().getPelnynumer();
                             String konto1Wn = poprzedni.getListawierszy().get(1).getKontoWn().getPelnynumer();
@@ -1177,8 +1178,12 @@ public class FakturaView implements Serializable {
                 fakturaDAO.edit(faktura);
                 Msg.msg("Zaksięgowano dokument ZZ o nr własnym"+dokument.getNumerwlasnydokfk());
             }
-        } catch (Exception e) { E.e(e); 
-            Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu SZ/ZZ");
+        } catch (javax.ejb.EJBException e1) {
+            E.e(e1); 
+            Msg.msg("e", "Próba zaksięgowania duplikatu!");
+        } catch (Exception e) { 
+            E.e(e); 
+            Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu SZ/ZZ"+E.e(e));
         }
     }
     private void ksiegowaniePkpir(Faktura p ,Podatnik podatnik, Klienci kontrahent, int podatnik0kontrahent, String rodzajdokumentu) {
@@ -1286,9 +1291,12 @@ public class FakturaView implements Serializable {
                 String wiadomosc = "Zaksięgowano fakturę sprzedaży nr: " + selDokument.getNrWlDk() + ", kontrahent: " + selDokument.getKontr().getNpelna() + ", kwota: " + selDokument.getBrutto();
                 Msg.msg("i", wiadomosc);
                 fakturaDAO.edit(faktura);
+            } catch (javax.ejb.EJBException e1) {
+                E.e(e1); 
+                Msg.msg("e", "Próba zaksięgowania duplikatu!");
             } catch (Exception e) { 
                 E.e(e); 
-                Msg.msg("e","Są zaksięgowane dokumenty o tych samych numerach");
+                Msg.msg("e","Błąd poczask księgowania faktury u klienta "+E.e(e));
             }
             PrimeFaces.current().ajax().update("akordeon:formsporzadzone:dokumentyLista");
     }
