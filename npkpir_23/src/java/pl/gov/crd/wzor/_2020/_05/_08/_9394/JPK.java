@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlValue;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.datatype.XMLGregorianCalendar;
+import waluty.Z;
 
 
 /**
@@ -3673,6 +3674,14 @@ private static final List SPRZEDAZWIERSZENETTO;
                 }
             }
             return zwrot;
+        }
+        @Override
+        public String getStawka() {
+            double stawka = 0;
+            if (getNetto()!=0.0) {
+                stawka = Z.z(getVat()/getNetto())*100;
+            }
+            return stawka+"%";
         }
             @Override
             public String getNettoPole() {

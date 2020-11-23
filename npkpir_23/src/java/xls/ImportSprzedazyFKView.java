@@ -11,10 +11,10 @@ import dao.RodzajedokDAO;
 import daoFK.DokDAOfk;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
-import daoFK.TabelanbpDAO;
-import daoFK.WalutyDAOfk;
 import daoFK.KontopozycjaZapisDAO;
+import daoFK.TabelanbpDAO;
 import daoFK.UkladBRDAO;
+import daoFK.WalutyDAOfk;
 import embeddable.PanstwaEUSymb;
 import embeddablefk.ImportJPKSprzedaz;
 import entity.JPKSuper;
@@ -31,7 +31,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,13 +45,13 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import jpk201801.JPK.SprzedazWiersz;
 import jpkabstract.SprzedazWierszA;
-import msg.Msg;import org.apache.commons.io.FilenameUtils;
- import org.primefaces.PrimeFaces;
-import org.primefaces.component.commandbutton.CommandButton;
+import msg.Msg;
+import org.apache.commons.io.FilenameUtils;
+import org.primefaces.PrimeFaces;
+ import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-
 import pdffk.PdfJPKSprzedaz;
 import view.WpisView;
 import waluty.Z;
@@ -168,9 +167,25 @@ public class ImportSprzedazyFKView  implements Serializable {
     private List<ImportJPKSprzedaz> stworzlistesprzedaz(JPKSuper jpk, int jpk1inne2) {
         List<Klienci> k = klDAO.findAll();
         List<ImportJPKSprzedaz> zwrot = new ArrayList<>();
-        List<SprzedazWiersz> wiersze = jpk.getSprzedazWiersz();
+        List<SprzedazWierszA> wiersze = new ArrayList<>();
+        if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9394.JPK) {
+                ((pl.gov.crd.wzor._2020._05._08._9393.JPK) jpk).getEwidencja().getSprzedazWiersz().forEach((p) -> {
+                    SprzedazWierszA wiersz = (SprzedazWierszA) p;
+                    wiersze.add(wiersz);
+                });
+            } else if (jpk instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
+                ((pl.gov.crd.wzor._2020._05._08._9393.JPK) jpk).getEwidencja().getSprzedazWiersz().forEach((p) -> {
+                   SprzedazWierszA wiersz = (SprzedazWierszA) p;
+                    wiersze.add(wiersz);
+                });
+            } else {
+                jpk.getSprzedazWiersz().forEach((p) -> {
+                    SprzedazWierszA wiersz = (SprzedazWierszA) p;
+                    wiersze.add(wiersz);
+                });
+            }
         int i = 1;
-        for (SprzedazWiersz p : wiersze) {
+        for (SprzedazWierszA p : wiersze) {
                 ImportJPKSprzedaz s = new ImportJPKSprzedaz(p);
             try {
                 String pobranadata = p.getDataSprzedazy()!=null ? p.getDataSprzedazy().toString() : p.getDataWystawienia().toString();
@@ -256,8 +271,18 @@ public class ImportSprzedazyFKView  implements Serializable {
     }
     
     private JPKSuper pobierzJPK() {
-       InputStream is = new ByteArrayInputStream(plikinterpaper);
        JPKSuper zwrot = null;
+       InputStream is = new ByteArrayInputStream(plikinterpaper);
+        try {
+           JAXBContext context = JAXBContext.newInstance(pl.gov.crd.wzor._2020._05._08._9393.JPK.class);
+           Unmarshaller unmarshaller = context.createUnmarshaller();
+           zwrot = (pl.gov.crd.wzor._2020._05._08._9393.JPK) unmarshaller.unmarshal(is);
+       } catch (Exception ex) {}
+       try {
+           JAXBContext context = JAXBContext.newInstance(jpk201701.JPK.class);
+           Unmarshaller unmarshaller = context.createUnmarshaller();
+           zwrot = (jpk201701.JPK) unmarshaller.unmarshal(is);
+       } catch (Exception ex) {}
        try {
            JAXBContext context = JAXBContext.newInstance(jpk201801.JPK.class);
            Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -371,7 +396,7 @@ public class ImportSprzedazyFKView  implements Serializable {
         
     }
     
-    private void ustawdaty(Dokfk nd, SprzedazWiersz wiersz) {
+    private void ustawdaty(Dokfk nd, SprzedazWierszA wiersz) {
         Format formatterX = new SimpleDateFormat("yyyy-MM-dd");
         String datadokumentu = formatterX.format(wiersz.getDataWystawienia().toGregorianCalendar().getTime());
         String datasprzedazy = formatterX.format(wiersz.getDataWystawienia().toGregorianCalendar().getTime());
@@ -406,7 +431,7 @@ public class ImportSprzedazyFKView  implements Serializable {
             }
         }
     }
-   private Wiersz przygotujwierszNetto(Klienci klient, SprzedazWiersz wiersz, Dokfk nd) {
+   private Wiersz przygotujwierszNetto(Klienci klient, SprzedazWierszA wiersz, Dokfk nd) {
         Wiersz w = new Wiersz(1, nd, 0);
         uzupelnijwiersz(w, nd, 0);
         String opiswiersza = "sprzedaż towarów"; 
@@ -422,7 +447,7 @@ public class ImportSprzedazyFKView  implements Serializable {
         return w;
     }
     
-    private Wiersz przygotujwierszVat(SprzedazWiersz wiersz, Dokfk nd) {
+    private Wiersz przygotujwierszVat(SprzedazWierszA wiersz, Dokfk nd) {
         Wiersz w = new Wiersz(2, nd, 2);
         uzupelnijwiersz(w, nd, 1);
         String opiswiersza = "sprzedaż towarów - VAT"; 
@@ -434,7 +459,7 @@ public class ImportSprzedazyFKView  implements Serializable {
         return w;
     }
     
-    private Wiersz przygotujwierszNettoK(Klienci klient, SprzedazWiersz wiersz, Dokfk nd) {
+    private Wiersz przygotujwierszNettoK(Klienci klient, SprzedazWierszA wiersz, Dokfk nd) {
         Wiersz w = new Wiersz(1, nd, 0);
         uzupelnijwiersz(w, nd, 0);
         String opiswiersza = "usługa transportowa"; 
@@ -450,7 +475,7 @@ public class ImportSprzedazyFKView  implements Serializable {
         return w;
     }
     
-    private Wiersz przygotujwierszVatK(SprzedazWiersz wiersz, Dokfk nd) {
+    private Wiersz przygotujwierszVatK(SprzedazWierszA wiersz, Dokfk nd) {
         Wiersz w = new Wiersz(2, nd, 1);
         uzupelnijwiersz(w, nd, 1);
         String opiswiersza = "usługa transportowa - VAT"; 

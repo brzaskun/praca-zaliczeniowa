@@ -8,7 +8,7 @@ package embeddablefk;
 import entity.Klienci;
 import java.io.Serializable;
 import java.util.Objects;
-import jpk201801.JPK.SprzedazWiersz;
+import jpkabstract.SprzedazWierszA;
 
 /**
  *
@@ -18,14 +18,14 @@ public class ImportJPKSprzedaz implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private int id;
-    private jpk201801.JPK.SprzedazWiersz sprzedazWiersz;
+    private SprzedazWierszA sprzedazWiersz;
     private Klienci klient;
     private boolean juzzaksiegowany;
 
     public ImportJPKSprzedaz() {
     }
 
-    public ImportJPKSprzedaz(SprzedazWiersz p) {
+    public ImportJPKSprzedaz(SprzedazWierszA p) {
         super();
         this.sprzedazWiersz = p;
     }
@@ -55,11 +55,11 @@ public class ImportJPKSprzedaz implements Serializable {
         this.juzzaksiegowany = juzzaksiegowany;
     }
 
-    public SprzedazWiersz getSprzedazWiersz() {
+    public SprzedazWierszA getSprzedazWiersz() {
         return sprzedazWiersz;
     }
 
-    public void setSprzedazWiersz(SprzedazWiersz sprzedazWiersz) {
+    public void setSprzedazWiersz(SprzedazWierszA sprzedazWiersz) {
         this.sprzedazWiersz = sprzedazWiersz;
     }
     

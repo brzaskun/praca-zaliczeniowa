@@ -5,6 +5,7 @@
  */
 package jpkabstract;
 
+import java.math.BigDecimal;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
@@ -24,4 +25,8 @@ public abstract class SprzedazWierszA {
     public abstract double getVat();
     public abstract String getNettoPole();
     public abstract String getVatPole();
+    public abstract void setK10(BigDecimal bigDecimal);
+    public abstract void setK16(BigDecimal bigDecimal);
+    public abstract Object getStawka();
+    
 }
