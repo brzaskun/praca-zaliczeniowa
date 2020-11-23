@@ -79,7 +79,7 @@
 
             /* ]]> */
         </script>
-        <p:panelGrid columns="7" id="panelprzyciskow">
+        <p:panelGrid columns="5" id="panelprzyciskow">
         <p:commandButton  icon="fa fa-print" style="width: 120px;" actionListener="#{DokTabView.drukujdokumentyuproszczona()}" global="false"/>
         <h:outputText value="dok z cechami"/>
         <p:selectOneMenu value="#{DokTabView.wybranacechadok}" id="cechydokuk"
@@ -126,10 +126,14 @@
                             update="form:dokumentyLista" />
                     </p:column>
                  <p:column width="240">
-                 <h:outputText value="spacja - oznaczanie"/>
+                     <h:outputText value="spacja - oznaczanie"/>
                  </p:column>
                  </p:row>
          </p:panelGrid>
+         <h:outputText value="pokaz tylko dla jpk SF20"/>
+         <p:selectBooleanCheckbox value="#{DokTabView.dodajdlajpk}" label="+tylko jpk" >
+             <p:ajax event="change" partialSubmit="true" global="false" listener="#{DokTabView.init()}" update="form:dokumentyLista"/>
+         </p:selectBooleanCheckbox>
         </p:panelGrid>
         <p:hotkey bind="down"  onstart="przejdzwiersz();" global="false"/>
         <p:hotkey bind="up"   onstart="wrocwiersz();" global="false"/>

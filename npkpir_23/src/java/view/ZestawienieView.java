@@ -45,13 +45,13 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
-import msg.Msg;import org.apache.commons.collections4.CollectionUtils;
- import org.primefaces.PrimeFaces;
-import org.primefaces.model.chart.Axis;
+import msg.Msg;
+import org.apache.commons.collections4.CollectionUtils;
+import org.primefaces.PrimeFaces;
+ import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.LineChartModel;
@@ -196,6 +196,12 @@ public class ZestawienieView implements Serializable {
                         }
                     }
                }
+               for (Iterator<Dok> it = lista.iterator(); it.hasNext();) {
+                    Dok tmpx = it.next();
+                    if (tmpx.getRodzajedok().isTylkojpk()) {
+                        it.remove();
+                    }
+                }
             } catch (Exception e) {
                 E.e(e);
             }

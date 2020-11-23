@@ -115,9 +115,9 @@ public class ReadXMLZorinOptimaFile {
                                     listafaktur.add(interpaperXLS);
                                 }
                             } else {
-                                if (jakipobor.equals("firmy") && nip!=null && !nip.equals("")) {
+                                if (jakipobor.equals("firmy") && nip!=null && !nip.equals("") &&  nip.length()>7) {
                                     uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
-                                } else if (jakipobor.equals("fiz") && (nip==null || nip.equals(""))) {
+                                } else if (jakipobor.equals("fiz") && (nip==null || nip.equals("") || nip.length()<8)) {
                                     uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
                                 }
                                 if (interpaperXLS.getKontrahent()!=null && (interpaperXLS.getNettowaluta()!=0.0 || interpaperXLS.getVatwaluta()!=0.0)) {
@@ -256,7 +256,7 @@ public class ReadXMLZorinOptimaFile {
              
             if (klient==null && interpaperXLS.getNip()!=null && interpaperXLS.getNip().length()>6) {
                 String nip = interpaperXLS.getNip().trim();
-                if (!Character.isDigit(nip.charAt(0))) {
+                if (interpaperXLS.getKlientpaństwo()!=null) {
                     klient = new Klienci(1, interpaperXLS.getKlientnazwa(), interpaperXLS.getKlientnazwa(), interpaperXLS.getNip(), interpaperXLS.getKlientkod(), interpaperXLS.getKlientmiasto(), interpaperXLS.getKlientulica(), interpaperXLS.getKlientdom(), interpaperXLS.getKlientlokal());
                     klient.setKrajnazwa(interpaperXLS.getKlientpaństwo());
                     klient.setKrajkod(PanstwaMap.getWykazPanstwSX().get(klient.getKrajnazwa()));

@@ -383,6 +383,7 @@ public class InterpaperImportView implements Serializable {
                 if (dokument!=null) {
                     dokument.setImportowany(true);
                     dokDAOfk.dodaj(dokument);
+                    interpaperXLS.setSymbolzaksiegowanego(dokument.getDokfkSN());
                     ile = 1;
                 }
             } catch (Exception e) {
@@ -972,6 +973,18 @@ public class InterpaperImportView implements Serializable {
     
     public void drukuj() {
         PdfXLSImport.drukuj(pobranefaktury, wpisView, 0);
+    }
+    
+    public void usunduplikatyInter() {
+        if (pobranefaktury!=null) {
+            for (Iterator<InterpaperXLS> it = pobranefaktury.iterator();it.hasNext();) {
+                InterpaperXLS p = it.next();
+                if (p.isJuzzaksiegowany()) {
+                    it.remove();
+                }
+            }
+            Msg.msg("Usunięto duplikaty");
+        }
     }
      
     public WpisView getWpisView() {

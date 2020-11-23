@@ -222,7 +222,7 @@ public class UPO  implements Serializable {
 //                }
 //            }
         }
-        zwrot = zwrot.length() > 900 ? zwrot.substring(0,899) : zwrot;
+        zwrot = zwrot.length() > 2000 ? zwrot.substring(0,1999) : zwrot;
         return zwrot;
     }
 

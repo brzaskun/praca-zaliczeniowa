@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,7 +34,8 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import mail.MailOther;
-import msg.Msg;import pdf.PdfPkpir;
+import msg.Msg;
+import pdf.PdfPkpir;
 
 /**
  *
@@ -111,6 +113,12 @@ private static final long serialVersionUID = 1L;
         int numerkolejny = KsiegaBean.pobierznumerrecznie(pod,rok,mc);
         //dlatego jest caly rok bo nadajemy numery za kazdym razem
         List<Dok> dokumentyzaMc = KsiegaBean.pobierzdokumenty(dokDAO, pod, rok, mc, numerkolejny, wpisView.getOdjakiegomcdok());
+        for (Iterator<Dok> it = dokumentyzaMc.iterator(); it.hasNext();) {
+            Dok tmpx = it.next();
+            if (tmpx.getRodzajedok().isTylkojpk()) {
+                it.remove();
+            }
+        }
         if (dokumentyzaMc != null && dokumentyzaMc.size()>0) {
             cechydokzlisty = CechaBean.znajdzcechy(dokumentyzaMc);
         }

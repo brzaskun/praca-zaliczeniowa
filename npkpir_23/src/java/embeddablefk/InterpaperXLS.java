@@ -5,7 +5,6 @@
  */
 package embeddablefk;
 
-import beansFK.TabelaNBPBean;
 import entity.Klienci;
 import entityfk.Tabelanbp;
 import java.io.Serializable;
@@ -52,6 +51,7 @@ public class InterpaperXLS implements Serializable {
     private boolean koszt0material1;
     private String opis;
     private Tabelanbp tabelanbp;
+    private String symbolzaksiegowanego;
 
     @Override
     public int hashCode() {
@@ -398,6 +398,14 @@ public class InterpaperXLS implements Serializable {
 
     public void setTabelanbp(Tabelanbp tabelanbp) {
         this.tabelanbp = tabelanbp;
+    }
+
+    public String getSymbolzaksiegowanego() {
+        return symbolzaksiegowanego;
+    }
+
+    public void setSymbolzaksiegowanego(String symbolzaksiegowanego) {
+        this.symbolzaksiegowanego = symbolzaksiegowanego;
     }
 
     

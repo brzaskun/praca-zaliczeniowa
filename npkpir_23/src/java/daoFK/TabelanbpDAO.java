@@ -10,9 +10,7 @@ import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import error.E;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -91,7 +89,8 @@ public class TabelanbpDAO extends DAO implements Serializable {
     public Tabelanbp findByDateWaluta(String datatabeli, String nazwawaluty) {
          try {
             return tabelanbpFacade.findByDateWaluta(datatabeli, nazwawaluty);
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) { 
+            E.e(e); 
             return null;
         }
     }

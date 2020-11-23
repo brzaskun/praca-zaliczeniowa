@@ -104,6 +104,7 @@ public class DokTabView implements Serializable {
      private double sumanetto;
      private double sumavat;
      private double sumabrutto;
+     private boolean dodajdlajpk;
 
     public DokTabView() {
        inicjalizacjalist();
@@ -162,6 +163,14 @@ public class DokTabView implements Serializable {
         try {
             dokumentypobrane.addAll(dokDAO.zwrocBiezacegoKlientaRokMC(podatnik, rok.toString(), mc));
             //sortowanie dokumentów
+            if (dokumentypobrane!=null) {
+                for (Iterator<Dok> it = dokumentypobrane.iterator(); it.hasNext();) {
+                    Dok tmpx = it.next();
+                    if (dodajdlajpk==false && tmpx.getRodzajedok().isTylkojpk()) {
+                        it.remove();
+                    }
+                }
+            }
             Collections.sort(dokumentypobrane, new Dokcomparator());
         } catch (Exception e) {
             E.e(e);
@@ -753,6 +762,14 @@ public class DokTabView implements Serializable {
 
     public void setSumuj(boolean sumuj) {
         this.sumuj = sumuj;
+    }
+
+    public boolean isDodajdlajpk() {
+        return dodajdlajpk;
+    }
+
+    public void setDodajdlajpk(boolean dodajdlajpk) {
+        this.dodajdlajpk = dodajdlajpk;
     }
 
         public List<Dok> getDokumentyFiltered() {
