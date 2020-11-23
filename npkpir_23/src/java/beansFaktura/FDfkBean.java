@@ -67,6 +67,26 @@ public class FDfkBean {
         return nd;
     }
     
+    public static Dokfk stworznowydokumentNieVAT(int numerkolejny, Faktura faktura, String rodzajdok, Podatnik podatnik, Klienci kontrahent,  WpisView wpisView, RodzajedokDAO rodzajedokDAO,
+        TabelanbpDAO tabelanbpDAO, WalutyDAOfk walutyDAOfk, KontoDAOfk kontoDAOfk, KliencifkDAO kliencifkDAO, EvewidencjaDAO evewidencjaDAO, int podatnik0kontrahent, Dokfk poprzedni) {
+        Dokfk nd = new Dokfk();
+        nd.setNrkolejnywserii(numerkolejny);
+        nd.setRok(wpisView.getRokWpisuSt());
+        ustawdaty(nd, faktura, wpisView);
+        ustawkontrahenta(nd,kontrahent);
+        ustawnumerwlasny(nd, faktura);
+        ustawopisfaktury(nd, faktura);
+        nd.setPodatnikObj(podatnik);
+        nd.setWprowadzil(wpisView.getUzer().getLogin());
+        ustawrodzajedok(nd, rodzajdok, rodzajedokDAO, wpisView, podatnik);
+        ustawtabelenbp(nd,tabelanbpDAO, walutyDAOfk);
+        nd.setEwidencjaVAT(null);
+        ustawwiersze(nd, faktura, kontoDAOfk, wpisView, tabelanbpDAO,kliencifkDAO, podatnik0kontrahent, poprzedni);
+        nd.przeliczKwotyWierszaDoSumyDokumentu();
+        nd.setImportowany(true);
+        return nd;
+    }
+    
     private static void ustawdaty(Dokfk nd, Faktura faktura, WpisView wpisView) {
         String datadokumentu = faktura.getDatawystawienia();
         String datasprzedazy = faktura.getDatasprzedazy();
@@ -179,6 +199,7 @@ public class FDfkBean {
             }
         }
     }
+    
     
     private static Wiersz przygotujwierszNettoPrzychod(Faktura faktura, Dokfk nd, KontoDAOfk kontoDAOfk, WpisView wpisView, TabelanbpDAO tabelanbpDAO, KliencifkDAO kliencifkDAO){
         Wiersz w = new Wiersz(1, nd, 0);
