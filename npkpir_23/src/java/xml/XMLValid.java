@@ -391,7 +391,7 @@ public class XMLValid {
         InputStream stream = null;
         File schemaFile = null;
         try {
-            schemaFile = new File("d:\\JPK2020K.xsd");
+            schemaFile = new File("d:\\JPK2020M.xsd");
         } catch (Exception ex) {
             // Logger.getLogger(XMLValid.class.getName()).log(Level.SEVERE, null, ex);
         }

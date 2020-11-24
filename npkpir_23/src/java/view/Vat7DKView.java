@@ -390,7 +390,7 @@ public class Vat7DKView implements Serializable {
             if (zaliczenienapoczetzobowiazankwota!=null&&zaliczenienapoczetzobowiazankwota>0) {
                 DeklaracjaVatSchemaWierszSum zmienna = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Wysokość zwrotu do zaliczenia na poczet przyszłych zobowiązań podatkowych");
                 zmienna.getDeklaracjaVatWierszSumaryczny().setSumavat(zaliczenienapoczetzobowiazankwota);
-                doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat()-zaliczenienapoczetzobowiazankwota-dozwrotujuznarachunek);
+                doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat()-zaliczenienapoczetzobowiazankwota);
             } else {
                 VATDeklaracja.usunschemawiersz(schemawierszsumarycznylista,"Wysokość zwrotu do zaliczenia na poczet przyszłych zobowiązań podatkowych");
             }
