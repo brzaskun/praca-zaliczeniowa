@@ -54,49 +54,72 @@
         <p:layoutUnit id="westtree" position="west" size="350" >
 
             <h:outputScript library="js_fk" name="chodzeniepokontach.js"/>
-            <h:form id="form">
-                <p:hotkey bind="down" global="false"  onstart="przejdzwiersz();"/>
-                <p:hotkey bind="up" global="false"  onstart="wrocwiersz();"/>
-                <script>
-                    /* <![CDATA[ */
-                    //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+            <h:form id="form1">
 
-                    $(document).on("click", '.grid tr', function (event) {
-                        try {
-                            zachowajobiekt(this, event);
-                        } catch (ex) {
-                            alert('error dialog zapisynakoncie' + ex.toString());
-                        }
-                    });
-                    $(document).on("click", '.grid1 tr', function (event) {
-                        var lolo = $("#form\\:dataList_data").children("tr");
-                        var pierwszy = $(lolo[0]).find(".lpwiersza").text();
-                        try {
-                            event.stopPropagation(); // will prevent double click events from link being clicked within row
-                            var unitNo = $.trim($(this).closest("tr").find(".lpwiersza").text()); // trim to remove end space, closest gets closest parent of selected type
-                            var numerwiersza = unitNo - pierwszy;
-                            zachowajnumerwiersza("zmiennazapisy", numerwiersza);
-                        } catch (e) {
-                            alert('error');
-                        }
-                    });
-                    /* ]]> */
-                </script>
-                <p:panelGrid id="kontenertabeli" columns="1" style="width: 325px; height: 500px;" >
-                    <p:treeTable id="dataList" value="#{rozrachunkiPrzegladView.root}" var="loop1" selectionMode="single" selection="#{rozrachunkiPrzegladView.wybranekontoNode}" 
-                                 styleClass="grid" style="width: 100%;">
-                        <p:ajax event="select" global="false" update=":tabelanowerozrachunki:tabela, :sumy, :formwpiskonta" listener="#{rozrachunkiPrzegladView.pobierzZapisyNaKoncieNode}" />
-                        <p:ajax event="unselect" global="false" update=":tabelanowerozrachunki:tabela, :sumy, :formwpiskonta" listener="#{rozrachunkiPrzegladView.pobierzZapisyNaKoncieNodeUnselect}" />
-                        <p:column headerText="#{mgs.numerkonta}" style="width: 90px; height: 40px;" styleClass="#{loop1.level eq 2 ? 'druga' : null}" >
-                            <h:outputText value="#{loop1.pelnynumer}" /> 
-                        </p:column>
-                        <p:column headerText="#{mgs.nazwapełna}" style="width: 170px; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;">
-                            <h:outputText value="#{loop1.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
-                            <h:outputText value="#{loop1.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
-                        </p:column>
-                    </p:treeTable>
-                </p:panelGrid>>
-            </h:form>
+                    
+                    <p:outputPanel id="kontenertabeli">
+                        <style>
+                                .grid .ui-widget-content .ui-datatable-odd td{
+                                    height : 30px !important;
+                                    padding: 0px 0px  !important;
+                                }
+                                .grid .ui-widget-content .ui-datatable-even td{
+                                    height : 30px !important;
+                                    padding: 0px 0px  !important;
+                                }
+                                .grid1 .ui-widget-content .ui-datatable-odd td{
+                                    height : 30px !important;
+                                    padding: 0px 0px  !important;
+                                }
+                                .grid1 .ui-widget-content .ui-datatable-even td{
+                                    height : 30px !important;
+                                    padding: 0px 0px  !important;
+                                }
+                          </style>
+                          <p:dataTable id="dataList" value="#{rozrachunkiPrzegladView.wykazkont}" var="loop1" selectionMode="single" 
+                                     selection="#{rozrachunkiPrzegladView.wybranekonto}" rowKey="#{loop1.id}" rowStyleClass="zapisyrowclass"
+                                     styleClass="grid" style="width: 100%; height: 520px; overflow-y: scroll;" rowIndexVar="index"
+                                     sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop1}" >
+                            <p:ajax event="rowSelect"  update=":tabelanowerozrachunki:tabela, :sumy, :formwpisrozrachunki:nazwawybranegokonta, :tabelazzapisami:tabela, :tabelazsumami:sumy, sumy"
+                                    listener="#{rozrachunkiPrzegladView.pobierzZapisyNaKoncieNode(rozrachunkiPrzegladView.wybranekonto)}" 
+                                    >
+                            </p:ajax>
+                            <p:ajax event="rowUnselect" global="false" update=":tabelanowerozrachunki:tabela, :sumy, :formwpisrozrachunki:nazwawybranegokonta, :tabelazzapisami:tabela, :tabelazsumami:sumy, sumy" 
+                                    listener="#{rozrachunkiPrzegladView.pobierzZapisyNaKoncieNodeUnselect}" />
+                            <p:column width="0.1">
+                                <h:outputText value="#{index+1}" styleClass="lpwiersza" style="font-size: 0.1pt;"/>
+                            </p:column>
+                            <p:column  style="width: 50px; text-align: center;" width="10">
+                                <h:outputText value="#{loop1.mapotomkow == true ? '+' : null}" /> 
+                            </p:column>
+                            <p:column headerText="nr konta" styleClass="#{loop1.level eq 2 ? 'druga' : null}" style="width: 100px; height: 30px;">
+                                <h:outputText value="#{loop1.nrkonta}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '0' ? true : false)}" style="font-weight: 900;"/> 
+                                <h:outputText value="#{loop1.pelnynumer}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
+                                <h:outputText value="#{loop1.pelnynumer}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
+                                <h:outputText value="#{loop1.pelnynumer}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '3' ? true : false)}" style="margin-left: 30px;"/> 
+                            </p:column>
+                            <p:column headerText="nazwa pełna" >
+                                <h:outputText value="#{loop1.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                                <h:outputText value="#{loop1.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
+                            </p:column>
+                        </p:dataTable>
+<!--                        <p:treeTable id="dataList" value="#{rozrachunkiPrzegladView.root}" var="loop1" selectionMode="single" 
+                                     selection="#{rozrachunkiPrzegladView.wybranekontoNode}" 
+                                     styleClass="grid" style="width: 100%; height: 530px; overflow-y: scroll;" >
+                            <p:ajax event="select" update=":tabelanowerozrachunki:tabela, :sumy, :formwpisrozrachunki:nazwawybranegokonta, :tabelazzapisami:tabela, :tabelazsumami:sumy, sumy" 
+                                    listener="#{rozrachunkiPrzegladView.pobierzZapisyNaKoncieNode}" />
+                            <p:ajax event="unselect" update=":tabelanowerozrachunki:tabela, :sumy, :formwpisrozrachunki:nazwawybranegokonta, :tabelazzapisami:tabela, :tabelazsumami:sumy, sumy" 
+                                    listener="#{rozrachunkiPrzegladView.pobierzZapisyNaKoncieNodeUnselect}" />
+                            <p:column headerText="nr konta" style="width: 120px; height: 30px;" styleClass="#{loop1.level eq 2 ? 'druga' : null}" >
+                                <h:outputText value="#{loop1.pelnynumer}"/> 
+                            </p:column>
+                            <p:column headerText="nazwa pełna" >
+                                <h:outputText value="#{loop1.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                                <h:outputText value="#{loop1.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
+                            </p:column>
+                        </p:treeTable>-->
+                    </p:outputPanel>
+                </h:form>
         </p:layoutUnit>  
 
         <p:layoutUnit position="center" style="width: 1050px;">
