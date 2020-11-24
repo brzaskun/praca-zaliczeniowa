@@ -391,7 +391,7 @@ public class XMLValid {
         InputStream stream = null;
         File schemaFile = null;
         try {
-            schemaFile = new File("d:\\JPK2020M.xsd");
+            schemaFile = new File("d:\\JPK2020K.xsd");
         } catch (Exception ex) {
             // Logger.getLogger(XMLValid.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -402,7 +402,7 @@ public class XMLValid {
             String data = null;
             error.E.s("start walidacji");
             try {
-                FileInputStream fis = new FileInputStream("d:\\jpk2020test.xml");
+                FileInputStream fis = new FileInputStream("d:\\jpk.xml");
                 data = IOUtils.toString(fis, "UTF-8");
             Source xmlFile = new StreamSource(new ByteArrayInputStream(data.getBytes(org.apache.commons.codec.CharEncoding.UTF_8)));
             SchemaFactory schemaFactory = SchemaFactory

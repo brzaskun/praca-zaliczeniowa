@@ -503,7 +503,10 @@ public class JPK_VAT2View implements Serializable {
                 pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupCtrl zakupCtrl = (pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja.ZakupCtrl) zakup[1];
                 String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
                 jpk.setNaglowek(JPK_VAT2020M_Bean.naglowek(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), kodurzedu));
-                int cel = werjsajpkrecznie+1;
+                int cel = 1;
+                if (nowa0korekta1) {
+                    cel = 2;
+                }
                 jpk.getNaglowek().getCelZlozenia().setValue(Byte.parseByte(String.valueOf(cel)));
                 jpk.setPodmiot1(JPK_VAT2020M_Bean.podmiot1(podatnik, wpisView.getUzer().getNrtelefonu(), wpisView.getUzer().getEmail()));
                 jpk.setEwidencja(new pl.gov.crd.wzor._2020._05._08._9393.JPK.Ewidencja());
@@ -536,8 +539,10 @@ public class JPK_VAT2View implements Serializable {
                 pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupCtrl zakupCtrl = (pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupCtrl) zakup[1];
                 String kodurzedu = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
                 jpk.setNaglowek(JPK_VAT2020K_Bean.naglowek(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), kodurzedu));
-                int cel = werjsajpkrecznie+1;
-                if (cel>2) {cel=2;};
+                int cel = 1;
+                if (nowa0korekta1) {
+                    cel = 2;
+                }
                 jpk.getNaglowek().getCelZlozenia().setValue(Byte.parseByte(String.valueOf(cel)));
                 jpk.setPodmiot1(JPK_VAT2020K_Bean.podmiot1(podatnik, wpisView.getUzer().getNrtelefonu(), wpisView.getUzer().getEmail()));
                 jpk.setEwidencja(new pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja());
@@ -749,7 +754,11 @@ public class JPK_VAT2View implements Serializable {
                         deklaracja.setDataupo(selected.getDataupo());
                         deklaracja.setIdentyfikator(selected.getReferenceNumber());
                         deklaracja.setDatazlozenia(selected.getDatajpk());
-                        deklaracja.setDeklaracja(((pl.gov.crd.wzor._2020._05._08._9393.JPK)selected.getJpk()).getDeklaracja().toString());
+                        if (selected.getJpk() instanceof pl.gov.crd.wzor._2020._05._08._9393.JPK) {
+                            deklaracja.setDeklaracja(((pl.gov.crd.wzor._2020._05._08._9393.JPK)selected.getJpk()).getDeklaracja().toString());
+                        } else {
+                            deklaracja.setDeklaracja(((pl.gov.crd.wzor._2020._05._08._9394.JPK)selected.getJpk()).getDeklaracja().toString());
+                        }
                         deklaracjevatDAO.edit(deklaracja);
                     }
                 Msg.msg(wiadomosc[0], wiadomosc[1]);

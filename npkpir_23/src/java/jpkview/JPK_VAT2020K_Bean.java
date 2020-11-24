@@ -22,8 +22,6 @@ import java.math.RoundingMode;
 import java.util.regex.Pattern;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
-import pl.gov.crd.wzor._2020._05._08._9394.*;
-import pl.gov.crd.wzor._2020._05._08._9394.JPK.Podmiot1;
 import waluty.Z;
 
 /**
@@ -32,8 +30,8 @@ import waluty.Z;
  */
 public class JPK_VAT2020K_Bean {
     
-    public static JPK.Ewidencja.SprzedazWiersz dodajwierszsprzedazy(EVatwpis1 ev, BigInteger lp, JPK.Ewidencja.SprzedazCtrl sprzedazCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
-        JPK.Ewidencja.SprzedazWiersz w = new JPK.Ewidencja.SprzedazWiersz();
+    public static pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazWiersz dodajwierszsprzedazy(EVatwpis1 ev, BigInteger lp, pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazCtrl sprzedazCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
+        pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazWiersz w = new pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazWiersz();
         try {
             w.setTypDokumentu(pobierztypdokumentu(ev));
             w.setLpSprzedazy(lp);
@@ -51,8 +49,8 @@ public class JPK_VAT2020K_Bean {
         return w;
     }
     
-    public static JPK.Ewidencja.SprzedazWiersz dodajwierszsprzedazy(EVatwpisDedra ev, BigInteger lp, JPK.Ewidencja.SprzedazCtrl sprzedazCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
-        JPK.Ewidencja.SprzedazWiersz w = new JPK.Ewidencja.SprzedazWiersz();
+    public static pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazWiersz dodajwierszsprzedazy(EVatwpisDedra ev, BigInteger lp, pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazCtrl sprzedazCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
+        pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazWiersz w = new pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazWiersz();
         try {
             w.setTypDokumentu(pobierztypdokumentu(ev));
             w.setLpSprzedazy(lp);
@@ -71,8 +69,8 @@ public class JPK_VAT2020K_Bean {
     
     
     
-    public static JPK.Ewidencja.SprzedazWiersz dodajwierszsprzedazyFK(EVatwpisFK ev, BigInteger lp, JPK.Ewidencja.SprzedazCtrl sprzedazCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
-        JPK.Ewidencja.SprzedazWiersz w = new JPK.Ewidencja.SprzedazWiersz();
+    public static pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazWiersz dodajwierszsprzedazyFK(EVatwpisFK ev, BigInteger lp, pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazCtrl sprzedazCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
+        pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazWiersz w = new pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazWiersz();
         try {
             w.setLpSprzedazy(lp);
             if ((ev.getDokfk().getRodzajedok().getKategoriadokumentu()==0 || ev.getDokfk().getRodzajedok().getKategoriadokumentu()==5) && ev.getNumerwlasnydokfk()!=null) {
@@ -100,28 +98,28 @@ public class JPK_VAT2020K_Bean {
         return w;
     }
     
-    private static void dodajkwotydowierszaSprzedazy(JPK.Ewidencja.SprzedazWiersz w, EVatwpisSuper ev, JPK.Ewidencja.SprzedazCtrl sprzedazCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
+    private static void dodajkwotydowierszaSprzedazy(pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazWiersz w, EVatwpisSuper ev, pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazCtrl sprzedazCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
         try {
             String netto = jPKvatwersjaEvewidencja.getPolejpk_netto_sprzedaz().replace("_", "");
             String vat = jPKvatwersjaEvewidencja.getPolejpk_vat_sprzedaz() != null ? jPKvatwersjaEvewidencja.getPolejpk_vat_sprzedaz().replace("_", "") : null;
             String nettosuma = jPKvatwersjaEvewidencja.getPolejpk_netto_sprzedaz_suma() != null ? jPKvatwersjaEvewidencja.getPolejpk_netto_sprzedaz_suma().replace("_", "") : null;
             String vatsuma = jPKvatwersjaEvewidencja.getPolejpk_vat_sprzedaz_suma() != null ? jPKvatwersjaEvewidencja.getPolejpk_vat_sprzedaz_suma().replace("_", "") : null;
             if (netto != null) {
-                Method method = JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpk(netto),BigDecimal.class);
+                Method method = pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpk(netto),BigDecimal.class);
                 method.invoke(w, BigDecimal.valueOf(Z.z(ev.getNetto())).setScale(2, RoundingMode.HALF_EVEN));
             }
             if (vat != null) {
-                Method method = JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpk(vat),BigDecimal.class);
+                Method method = pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpk(vat),BigDecimal.class);
                 method.invoke(w, BigDecimal.valueOf(Z.z(ev.getVat())));
                 sprzedazCtrl.setPodatekNalezny(sprzedazCtrl.getPodatekNalezny().add(BigDecimal.valueOf(ev.getVat())).setScale(2, RoundingMode.HALF_EVEN));
             }
             if (w.getTypDokumentu() == null || !w.getTypDokumentu().value().equals("FP")) {
                 if (nettosuma != null) {
-                    Method method = JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpk(nettosuma), BigDecimal.class);
+                    Method method = pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpk(nettosuma), BigDecimal.class);
                     method.invoke(w, BigDecimal.valueOf(Z.z(ev.getNetto())).setScale(2, RoundingMode.HALF_EVEN));
                 }
                 if (vatsuma != null) {
-                    Method method = JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpk(vatsuma), BigDecimal.class);
+                    Method method = pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpk(vatsuma), BigDecimal.class);
                     method.invoke(w, BigDecimal.valueOf(Z.z(ev.getVat())));
                     sprzedazCtrl.setPodatekNalezny(sprzedazCtrl.getPodatekNalezny().add(BigDecimal.valueOf(ev.getVat())).setScale(2, RoundingMode.HALF_EVEN));
                 }
@@ -141,8 +139,8 @@ public class JPK_VAT2020K_Bean {
         return sb.toString();
     }
     
-     public static JPK.Ewidencja.ZakupWiersz dodajwierszzakupu(EVatwpis1 ev, BigInteger lp, JPK.Ewidencja.ZakupCtrl zakupCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
-        JPK.Ewidencja.ZakupWiersz w = new JPK.Ewidencja.ZakupWiersz();
+     public static pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupWiersz dodajwierszzakupu(EVatwpis1 ev, BigInteger lp, pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupCtrl zakupCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
+        pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupWiersz w = new pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupWiersz();
         try {
             w.setLpZakupu(lp);
             w.setDokumentZakupu(pobierzdokumentzakupu(ev));
@@ -160,8 +158,8 @@ public class JPK_VAT2020K_Bean {
         return w;
     }
     
-    public static JPK.Ewidencja.ZakupWiersz dodajwierszzakupu(EVatwpisDedra ev, BigInteger lp, JPK.Ewidencja.ZakupCtrl zakupCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
-        JPK.Ewidencja.ZakupWiersz w = new JPK.Ewidencja.ZakupWiersz();
+    public static pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupWiersz dodajwierszzakupu(EVatwpisDedra ev, BigInteger lp, pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupCtrl zakupCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
+        pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupWiersz w = new pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupWiersz();
         try {
             w.setLpZakupu(lp);
             w.setDokumentZakupu(pobierzdokumentzakupu(ev));
@@ -179,8 +177,8 @@ public class JPK_VAT2020K_Bean {
         return w;
     }
     
-    public static JPK.Ewidencja.ZakupWiersz dodajwierszzakupu(EVatwpisFK ev, BigInteger lp, JPK.Ewidencja.ZakupCtrl zakupCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
-        JPK.Ewidencja.ZakupWiersz w = new JPK.Ewidencja.ZakupWiersz();
+    public static pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupWiersz dodajwierszzakupu(EVatwpisFK ev, BigInteger lp, pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupCtrl zakupCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
+        pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupWiersz w = new pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupWiersz();
         try {
             w.setLpZakupu(lp);
             if ((ev.getDokfk().getRodzajedok().getKategoriadokumentu()==0 || ev.getDokfk().getRodzajedok().getKategoriadokumentu()==5) && ev.getNumerwlasnydokfk()!=null) {
@@ -208,16 +206,16 @@ public class JPK_VAT2020K_Bean {
         return w;
     }
     
-    private static void dodajkwotydowierszaZakupu(JPK.Ewidencja.ZakupWiersz w, EVatwpisSuper ev, JPK.Ewidencja.ZakupCtrl zakupCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
+    private static void dodajkwotydowierszaZakupu(pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupWiersz w, EVatwpisSuper ev, pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupCtrl zakupCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
         try {
             String netto = jPKvatwersjaEvewidencja.getPolejpk_netto_zakup().replace("_", "");
             String vat = jPKvatwersjaEvewidencja.getPolejpk_vat_zakup() != null ? jPKvatwersjaEvewidencja.getPolejpk_vat_zakup().replace("_", "") : null;
             if (netto != null) {
-                Method method = JPK.Ewidencja.ZakupWiersz.class.getMethod(zwrocpolejpk(netto),BigDecimal.class);
+                Method method = pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupWiersz.class.getMethod(zwrocpolejpk(netto),BigDecimal.class);
                 method.invoke(w, BigDecimal.valueOf(Z.z(ev.getNetto())).setScale(2, RoundingMode.HALF_EVEN));
             }
             if (vat != null) {
-                Method method = JPK.Ewidencja.ZakupWiersz.class.getMethod(zwrocpolejpk(vat),BigDecimal.class);
+                Method method = pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupWiersz.class.getMethod(zwrocpolejpk(vat),BigDecimal.class);
                 method.invoke(w, BigDecimal.valueOf(Z.z(ev.getVat())));
                 zakupCtrl.setPodatekNaliczony(zakupCtrl.getPodatekNaliczony().add(BigDecimal.valueOf(ev.getVat())).setScale(2, RoundingMode.HALF_EVEN));
             }
@@ -262,18 +260,18 @@ public class JPK_VAT2020K_Bean {
         return zwrot;
     }
     
-    public static JPK.Naglowek naglowek(String rok, String mc, String kodurzedu) {
-        JPK.Naglowek n = new JPK.Naglowek();
+    public static pl.gov.crd.wzor._2020._05._08._9394.JPK.Naglowek naglowek(String rok, String mc, String kodurzedu) {
+        pl.gov.crd.wzor._2020._05._08._9394.JPK.Naglowek n = new pl.gov.crd.wzor._2020._05._08._9394.JPK.Naglowek();
         try {
             byte p = 1;
-            TNaglowek.CelZlozenia cel = new TNaglowek.CelZlozenia();
+            pl.gov.crd.wzor._2020._05._08._9394.TNaglowek.CelZlozenia cel = new pl.gov.crd.wzor._2020._05._08._9394.TNaglowek.CelZlozenia();
             cel.setValue(p);
             cel.setPoz(cel.getPoz());
             n.setCelZlozenia(cel);
             byte warform = 1;
             n.setWariantFormularza(warform);
-            TNaglowek.KodFormularza k = new TNaglowek.KodFormularza();
-            k.setValue(TKodFormularza.JPK_VAT);
+            pl.gov.crd.wzor._2020._05._08._9394.TNaglowek.KodFormularza k = new pl.gov.crd.wzor._2020._05._08._9394.TNaglowek.KodFormularza();
+            k.setValue(pl.gov.crd.wzor._2020._05._08._9394.TKodFormularza.JPK_VAT);
             k.setKodSystemowy(k.getKodSystemowy());
             k.setWersjaSchemy(k.getWersjaSchemy());
             n.setKodFormularza(k);
@@ -288,8 +286,8 @@ public class JPK_VAT2020K_Bean {
         return n;
     }
 
-    public static Podmiot1 podmiot1(Podatnik wv, String telefon, String email) {
-        Podmiot1 p = new Podmiot1();
+    public static pl.gov.crd.wzor._2020._05._08._9394.JPK.Podmiot1 podmiot1(Podatnik wv, String telefon, String email) {
+        pl.gov.crd.wzor._2020._05._08._9394.JPK.Podmiot1 p = new pl.gov.crd.wzor._2020._05._08._9394.JPK.Podmiot1();
         p.setRola(p.getRola());
         if (wv.getPesel().equals("00000000000")) {
             p.setOsobaNiefizyczna(zrobNiefizyczn(wv, telefon, email));
@@ -299,8 +297,8 @@ public class JPK_VAT2020K_Bean {
         return p;
     }
 
-    private static TPodmiotDowolnyBezAdresu.OsobaFizyczna zrobFizyczna(Podatnik wv, String telefon, String email) {
-        TPodmiotDowolnyBezAdresu.OsobaFizyczna p = new TPodmiotDowolnyBezAdresu.OsobaFizyczna();
+    private static pl.gov.crd.wzor._2020._05._08._9394.TPodmiotDowolnyBezAdresu.OsobaFizyczna zrobFizyczna(Podatnik wv, String telefon, String email) {
+        pl.gov.crd.wzor._2020._05._08._9394.TPodmiotDowolnyBezAdresu.OsobaFizyczna p = new pl.gov.crd.wzor._2020._05._08._9394.TPodmiotDowolnyBezAdresu.OsobaFizyczna();
         p.setNIP(wv.getNip());
         p.setImiePierwsze(wv.getImie());
         p.setNazwisko(wv.getNazwisko());
@@ -316,8 +314,8 @@ public class JPK_VAT2020K_Bean {
         return p;
     }
 
-    private static TPodmiotDowolnyBezAdresu.OsobaNiefizyczna zrobNiefizyczn(Podatnik wv, String telefon, String email) {
-        TPodmiotDowolnyBezAdresu.OsobaNiefizyczna p = new TPodmiotDowolnyBezAdresu.OsobaNiefizyczna();
+    private static pl.gov.crd.wzor._2020._05._08._9394.TPodmiotDowolnyBezAdresu.OsobaNiefizyczna zrobNiefizyczn(Podatnik wv, String telefon, String email) {
+        pl.gov.crd.wzor._2020._05._08._9394.TPodmiotDowolnyBezAdresu.OsobaNiefizyczna p = new pl.gov.crd.wzor._2020._05._08._9394.TPodmiotDowolnyBezAdresu.OsobaNiefizyczna();
         p.setNIP(wv.getNip());
         p.setPelnaNazwa(wv.getPrintnazwa());
         p.setEmail(email);
@@ -325,7 +323,7 @@ public class JPK_VAT2020K_Bean {
         return p;
     }
 
-    private static void dodajcechydowierszaSprzedaz(JPK.Ewidencja.SprzedazWiersz w, EVatwpisSuper ev) {
+    private static void dodajcechydowierszaSprzedaz(pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazWiersz w, EVatwpisSuper ev) {
         DokSuper dok = null;
         if (ev instanceof EVatwpisFK) {
             dok = ((EVatwpisFK) ev).getDokfk();
@@ -336,25 +334,25 @@ public class JPK_VAT2020K_Bean {
             try {
                 if (dok.getOznaczenie1()!=null) {
                     try {
-                        Method method = JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpkdok(dok.getOznaczenie1().getSymbol()),Byte.class);
+                        Method method = pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpkdok(dok.getOznaczenie1().getSymbol()),Byte.class);
                         method.invoke(w, Byte.valueOf("1"));
                     } catch (Exception e){}
                 }
                 if (dok.getOznaczenie2()!=null) {
                     try {
-                        Method method = JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpkdok(dok.getOznaczenie2().getSymbol()),Byte.class);
+                        Method method = pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpkdok(dok.getOznaczenie2().getSymbol()),Byte.class);
                         method.invoke(w, Byte.valueOf("1"));
                     } catch (Exception e){}
                 }
                 if (dok.getOznaczenie3()!=null) {
                     try {
-                        Method method = JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpkdok(dok.getOznaczenie3().getSymbol()),Byte.class);
+                        Method method = pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpkdok(dok.getOznaczenie3().getSymbol()),Byte.class);
                         method.invoke(w, Byte.valueOf("1"));
                     } catch (Exception e){}
                 }
                 if (dok.getOznaczenie4()!=null) {
                     try {
-                        Method method = JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpkdok(dok.getOznaczenie4().getSymbol()),Byte.class);
+                        Method method = pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpkdok(dok.getOznaczenie4().getSymbol()),Byte.class);
                         method.invoke(w, Byte.valueOf("1"));
                     } catch (Exception e){}
                 }
@@ -363,8 +361,8 @@ public class JPK_VAT2020K_Bean {
         }
     }
     
-    private static TDowoduSprzedazy pobierztypdokumentu(EVatwpisSuper ev) {
-        TDowoduSprzedazy zwrot = null;
+    private static pl.gov.crd.wzor._2020._05._08._9394.TDowoduSprzedazy pobierztypdokumentu(EVatwpisSuper ev) {
+        pl.gov.crd.wzor._2020._05._08._9394.TDowoduSprzedazy zwrot = null;
         DokSuper dok = null;
         if (ev instanceof EVatwpisFK) {
             dok = ((EVatwpisFK) ev).getDokfk();
@@ -396,21 +394,21 @@ public class JPK_VAT2020K_Bean {
         return zwrot;
     }
     
-    private static TDowoduSprzedazy pobierzoznaczeniesprzedaz(String symbol) {
-        TDowoduSprzedazy zwrot = null;
+    private static pl.gov.crd.wzor._2020._05._08._9394.TDowoduSprzedazy pobierzoznaczeniesprzedaz(String symbol) {
+        pl.gov.crd.wzor._2020._05._08._9394.TDowoduSprzedazy zwrot = null;
         if (symbol.equals("RO")) {
-            zwrot = TDowoduSprzedazy.RO;
+            zwrot = pl.gov.crd.wzor._2020._05._08._9394.TDowoduSprzedazy.RO;
         } else if (symbol.equals("WEW")) {
-            zwrot = TDowoduSprzedazy.WEW;
+            zwrot = pl.gov.crd.wzor._2020._05._08._9394.TDowoduSprzedazy.WEW;
         } else if (symbol.equals("FP")) {
-            zwrot = TDowoduSprzedazy.FP;
+            zwrot = pl.gov.crd.wzor._2020._05._08._9394.TDowoduSprzedazy.FP;
         }
         return zwrot;
     }
     
     
-    private static TDowoduZakupu pobierzdokumentzakupu(EVatwpisSuper ev) {
-        TDowoduZakupu zwrot = null;
+    private static pl.gov.crd.wzor._2020._05._08._9394.TDowoduZakupu pobierzdokumentzakupu(EVatwpisSuper ev) {
+        pl.gov.crd.wzor._2020._05._08._9394.TDowoduZakupu zwrot = null;
         DokSuper dok = null;
         if (ev instanceof EVatwpisFK) {
             dok = ((EVatwpisFK) ev).getDokfk();
@@ -443,14 +441,14 @@ public class JPK_VAT2020K_Bean {
     }
     
 
-    private static TDowoduZakupu pobierzoznaczeniezakup(String symbol) {
-        TDowoduZakupu zwrot = null;
+    private static pl.gov.crd.wzor._2020._05._08._9394.TDowoduZakupu pobierzoznaczeniezakup(String symbol) {
+        pl.gov.crd.wzor._2020._05._08._9394.TDowoduZakupu zwrot = null;
         if (symbol.equals("MK")) {
-            zwrot = TDowoduZakupu.MK;
+            zwrot = pl.gov.crd.wzor._2020._05._08._9394.TDowoduZakupu.MK;
         } else if (symbol.equals("WEW")) {
-            zwrot = TDowoduZakupu.WEW;
+            zwrot = pl.gov.crd.wzor._2020._05._08._9394.TDowoduZakupu.WEW;
         } else if (symbol.equals("VAT_RR")) {
-            zwrot = TDowoduZakupu.VAT_RR;
+            zwrot = pl.gov.crd.wzor._2020._05._08._9394.TDowoduZakupu.VAT_RR;
         }
         return zwrot;
     }
@@ -465,7 +463,7 @@ public class JPK_VAT2020K_Bean {
         return sb.toString();
     }
 
-    private static void dodajcechydowierszaZakupu(JPK.Ewidencja.ZakupWiersz w, EVatwpisSuper ev) {
+    private static void dodajcechydowierszaZakupu(pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupWiersz w, EVatwpisSuper ev) {
         DokSuper dok = null;
         if (ev instanceof EVatwpisFK) {
             dok = ((EVatwpisFK) ev).getDokfk();
@@ -490,15 +488,15 @@ public class JPK_VAT2020K_Bean {
             }
         }
     }
-        private static void oznaczpolejpkdok(String pole, JPK.Ewidencja.ZakupWiersz w) {
+        private static void oznaczpolejpkdok(String pole, pl.gov.crd.wzor._2020._05._08._9394.JPK.Ewidencja.ZakupWiersz w) {
             if (pole.equals("MK")) {
-                w.setDokumentZakupu(TDowoduZakupu.MK);
+                w.setDokumentZakupu(pl.gov.crd.wzor._2020._05._08._9394.TDowoduZakupu.MK);
             }
             if (pole.equals("VAT_RR")) {
-                w.setDokumentZakupu(TDowoduZakupu.VAT_RR);
+                w.setDokumentZakupu(pl.gov.crd.wzor._2020._05._08._9394.TDowoduZakupu.VAT_RR);
             }
             if (pole.equals("WEW")) {
-                w.setDokumentZakupu(TDowoduZakupu.WEW);
+                w.setDokumentZakupu(pl.gov.crd.wzor._2020._05._08._9394.TDowoduZakupu.WEW);
             }
             if (pole.equals("MPP")) {
                 w.setMPP(new  Byte("1"));

@@ -37,6 +37,10 @@ public class PrzygotujInitUploadXML {
                 formkode.setSystemCode("JPK_V7M (1)");
                 formkode.setSchemaVersion("1-2E");
                 formkode.setValue("JPK_VAT");
+            } else if (wpisView.isJpk2020K()) {
+                formkode.setSystemCode("JPK_V7K (1)");
+                formkode.setSchemaVersion("1-2E");
+                formkode.setValue("JPK_VAT");
             } else if (wpisView.getRokWpisu() > 2017) {
                 formkode.setSystemCode("JPK_VAT (3)");
                 formkode.setSchemaVersion("1-1");

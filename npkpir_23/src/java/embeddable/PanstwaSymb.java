@@ -199,7 +199,7 @@ static{
     wykazPanstwS.add("AS");
     wykazPanstwS.add("SM");
     wykazPanstwS.add("SN");
-    wykazPanstwS.add("XS");
+    wykazPanstwS.add("RS");
     wykazPanstwS.add("SC");
     wykazPanstwS.add("SL");
     wykazPanstwS.add("SG");

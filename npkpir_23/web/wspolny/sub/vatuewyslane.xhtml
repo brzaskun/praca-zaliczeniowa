@@ -9,7 +9,7 @@
     
             <p:outputPanel id="wrapper"> 
 
-                <p:dataTable value="#{vatUeFKView.deklaracjeUE}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="width: 1350px;" styleClass="upd3"
+                <p:dataTable value="#{vatUeFKView.deklaracjeUE}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="height: 500px;overflow-y: scroll;width: 1350px;" styleClass="upd3"
                              selection="#{vatUeFKView.deklUEselected}" selectionMode="single" rowKey="#{row.hashCode()}">
                     <p:column style="width: 3%;">
                         <p:rowToggler/>
