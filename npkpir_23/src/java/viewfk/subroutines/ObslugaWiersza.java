@@ -529,12 +529,18 @@ public class ObslugaWiersza {
                 }
             }
             if (selected.getRodzajedok().getKategoriadokumentu()==0||selected.getRodzajedok().getKategoriadokumentu()==5) {
-                if (wiersz.getKontoWn().getPelnynumer().startsWith("4")||wiersz.getKontoWn().getPelnynumer().startsWith("7")) {
-                    wierszNowy.getStronaWn().setKonto(wiersz.getKontoWn());
-                }
-                if (wiersz.getKontoMa().getPelnynumer().startsWith("7")) {
-                    wierszNowy.getStronaMa().setKonto(wiersz.getKontoMa());
-                }
+                try {
+                    if (wierszNowy.getStronaWn()!=null) {
+                        if (wiersz.getKontoWn().getPelnynumer().startsWith("4")||wiersz.getKontoWn().getPelnynumer().startsWith("7")) {
+                            wierszNowy.getStronaWn().setKonto(wiersz.getKontoWn());
+                        }
+                    }
+                    if (wierszNowy.getStronaMa()!=null) {
+                        if (wiersz.getKontoMa().getPelnynumer().startsWith("7")) {
+                            wierszNowy.getStronaMa().setKonto(wiersz.getKontoMa());
+                        }
+                    }
+                } catch (Exception e){}
             }
             selected.getListawierszy().add(wierszNowy);
         } else {
