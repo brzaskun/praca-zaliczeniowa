@@ -23,7 +23,7 @@
             <p:panel header="Menu:">
                 <p:panelGrid columns="1">
                     <p:menu style="width: 200px;">
-                        <p:menuitem value="#{mgs.dokumenty}"  outcome="gfktablica" icon="ui-icon-circle-arrow-e" actionListener="#{dokfkView.odswiezzaksiegowaneInit}" update=":zestawieniedokumentow"/>
+                        
                         <p:menuitem value="#{mgs.faktury}"  outcome="gfkFaktura" icon="ui-icon-circle-arrow-e"/>
                         <p:menuitem value="#{mgs.fakturyustawienia}"  outcome="gfkFakturaUstawienia" icon="ui-icon-circle-arrow-e"/>
                         <p:menuitem value="#{mgs.płatności}"  outcome="gfakturaFakturaPlatnosci" icon="ui-icon-circle-arrow-e"/>
@@ -40,6 +40,7 @@
                         <p:menuitem value="zbiorcze zest. roz. z czł." outcome="gfk_stow_rozrachunkizczlonkami_zbiorcze" icon="ui-icon-circle-arrow-e" actionListener="#{stowRozrachCzlonkZbiorczeView.pobierzzbiorcze()}"></p:menuitem>
                     </p:menu>
                     <p:menu style="width: 200px;">
+                        <p:menuitem value="#{mgs.dokumenty}"  outcome="gfktablica" icon="ui-icon-circle-arrow-e" actionListener="#{dokfkView.odswiezzaksiegowaneInit}" update=":zestawieniedokumentow"/>
                         <p:menuitem value="#{mgs.grupykosztów}"  outcome="gfkZestawienia" icon="ui-icon-circle-arrow-e"/>
                         <p:menuitem value="#{mgs.wynikfinansowy}"  outcome="gfkWynik" icon="ui-icon-circle-arrow-e"/>
                         <p:menuitem value="#{mgs.zestawienia}"  outcome="gfkBilanse" icon="ui-icon-circle-arrow-e"/>
