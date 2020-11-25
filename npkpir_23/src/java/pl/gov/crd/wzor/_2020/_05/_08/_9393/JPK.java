@@ -3649,7 +3649,7 @@ public class JPK extends JPKSuper implements Serializable {
             if (this != null) {
                 try {
                     for (Method p : this.getClass().getMethods()) {
-                        if (SPRZEDAZWIERSZENETTO.contains(p.getName())) {
+                        if (SPRZEDAZWIERSZENETTO.contains(p.getName())&&!p.getName().equals("getK12")) {
                             BigDecimal pole = (BigDecimal) p.invoke(this);
                             if(pole != null) {
                                 zwrot += pole.doubleValue();

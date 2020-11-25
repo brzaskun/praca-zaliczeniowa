@@ -111,7 +111,7 @@ public class ImportiPKOBPbiz_XLS implements Serializable {
                             }
                             x.setOpistransakcji(opis);
                             x.setNrwyciagu(pn.getWyciagnr());
-                            String rachunek = baza.getCell(6).getStringCellValue();
+                            String rachunek = baza.getCell(6).getStringCellValue().length()>1 ?baza.getCell(6).getStringCellValue():baza.getCell(9).getStringCellValue();
                             if (rachunek.contains("Nr rach. przeciwst.:")) {
                                 int rozm = rachunek.length();
                                 rachunek = rachunek.substring(rozm-32, rozm);
