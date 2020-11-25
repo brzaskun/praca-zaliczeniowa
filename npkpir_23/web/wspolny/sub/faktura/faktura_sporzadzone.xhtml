@@ -227,10 +227,10 @@
                         </p:panelGrid>
                         </p:column>
                     </p:panelGrid>
-                    <p:panelGrid  columns="1"  style="width:1000px">
+                    <p:panelGrid  columns="1"  style="width:800px">
                         <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" >  
-                            <p:dataTable var="subwpis" value="#{wpis.dokument.ewidencjavat}" emptyMessage="dokument bez vat"  resizableColumns="true">
-                                <p:column id="SubColumn1" headerText="ewidencja" width="400">  
+                            <p:dataTable var="subwpis" value="#{wpis.ewidencjavat}" emptyMessage="dokument bez vat"  resizableColumns="true">
+                                <p:column id="SubColumn1" headerText="ewidencja" width="350">  
                                 <h:outputText value="#{subwpis.ewidencja.nazwa}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}" />
                             </p:column>
                             <p:column id="SubColumn1a"  headerText="#{mgs.netto}">  
