@@ -127,6 +127,8 @@ public class FDfkBean {
         if (rodzajedok != null) {
             nd.setSeriadokfk(rodzajedok.getSkrot());
             nd.setRodzajedok(rodzajedok);
+            nd.setOznaczenie1(rodzajedok.getOznaczenie1());
+            nd.setOznaczenie2(rodzajedok.getOznaczenie2());
         } else {
             Msg.msg("e", "Brak zdefiniowanego dokumentu "+rodzajdok);
         }

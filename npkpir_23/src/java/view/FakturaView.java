@@ -1228,6 +1228,8 @@ public class FakturaView implements Serializable {
             selDokument.setKontr(kontrahent);
             selDokument.setTabelanbp(p.getTabelanbp());
             Rodzajedok rodzajedok = rodzajedokDAO.find(rodzajdokumentu, podatnik, wpisView.getRokWpisuSt());
+            selDokument.setOznaczenie1(rodzajedok.getOznaczenie1());
+            selDokument.setOznaczenie2(rodzajedok.getOznaczenie2());
             selDokument.setRodzajedok(rodzajedok);
             selDokument.setNrWlDk(faktura.getNumerkolejny());
             selDokument.setOpis(faktura.getPozycjenafakturze().get(0).getNazwa());
@@ -1292,6 +1294,8 @@ public class FakturaView implements Serializable {
                 if (r.getEwidencja().getNazwa().equals("usługi świad. poza ter.kraju art. 100 ust.1 pkt 4")) {
                     Rodzajedok rodzajedok2 = rodzajedokDAO.find("UPTK100", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                     selDokument.setRodzajedok(rodzajedok2);
+                    selDokument.setOznaczenie1(rodzajedok.getOznaczenie1());
+                    selDokument.setOznaczenie2(rodzajedok.getOznaczenie2());
                 }
                     //tutaj
                 }
@@ -1347,6 +1351,8 @@ public class FakturaView implements Serializable {
             selDokument.setKontr(kontrahent);
             selDokument.setTabelanbp(p.getTabelanbp());
             Rodzajedok rodzajedok = rodzajedokDAO.find(rodzajdokumentu, podatnik, wpisView.getRokWpisuSt());
+            selDokument.setOznaczenie1(rodzajedok.getOznaczenie1());
+            selDokument.setOznaczenie2(rodzajedok.getOznaczenie2());
             selDokument.setRodzajedok(rodzajedok);
             selDokument.setNrWlDk(faktura.getNumerkolejny());
             selDokument.setOpis(faktura.getPozycjenafakturze().get(0).getNazwa());
