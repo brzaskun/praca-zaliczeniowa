@@ -111,7 +111,7 @@ doczeplistnerydopol();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnE
                                      selection="#{rozrachunkiPrzegladView.wybranekonto}" rowKey="#{loop1.id}" rowStyleClass="zapisyrowclass"
                                      styleClass="grid" style="width: 100%; height: 520px; overflow-y: scroll;" rowIndexVar="index"
                                      sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop1}" >
-                            <p:ajax event="rowSelect"  update=":tabelanowerozrachunki:tabela, :sumy, :formwpisrozrachunki:nazwawybranegokonta, :tabelazzapisami:tabela, :tabelazsumami:sumy, sumy"
+                            <p:ajax event="rowSelect"  update="tabelanowerozrachunki:tabela, sumy, formwpisrozrachunki:nazwawybranegokonta tabelazsumami:sumy formwpisrozrachunki:wyborkonta"
                                     listener="#{rozrachunkiPrzegladView.pobierzZapisyNaKoncieNode(rozrachunkiPrzegladView.wybranekonto)}" 
                                     >
                             </p:ajax>

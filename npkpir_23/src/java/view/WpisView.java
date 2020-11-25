@@ -156,7 +156,7 @@ public class WpisView implements Serializable {
     private void inicjacjaUz() {
         miesiacWpisu = Data.aktualnyMc();
         uzer.setMiesiacWpisu(Data.aktualnyMc());
-        uzer.setMiesiacOd(Data.aktualnyMc());
+        uzer.setMiesiacOd("01");
         uzer.setMiesiacDo(Data.aktualnyMc());
         uzer.setRokWpisu(Integer.parseInt(Data.aktualnyRok()));
         miesiacWpisuArchiwum = Data.aktualnyMc();
@@ -180,7 +180,7 @@ public class WpisView implements Serializable {
      private void inicjacjaUzDaty() {
         miesiacWpisu = Data.aktualnyMc();
         uzer.setMiesiacWpisu(Data.aktualnyMc());
-        uzer.setMiesiacOd(Data.aktualnyMc());
+        uzer.setMiesiacOd("01");
         uzer.setMiesiacDo(Data.aktualnyMc());
         miesiacWpisuArchiwum = Data.aktualnyMc();
         uzer.setRokWpisu(Integer.parseInt(Data.aktualnyRok()));
@@ -474,7 +474,7 @@ public class WpisView implements Serializable {
     
     private void ustawMceOdDo() {
         if (miesiacDo == null && miesiacWpisu == null) {
-            miesiacDo = miesiacWpisu;
+            miesiacDo = "01";
             miesiacOd = miesiacWpisu;
         }
     }
@@ -816,14 +816,16 @@ public class WpisView implements Serializable {
     private void jakitobedziejpk2020() {
         jpk2020M = false;
         jpk2020K = false;
-        boolean dobryrok = rokWpisu>2020 || (rokWpisu==2020 && Integer.parseInt(miesiacWpisu)>9);
-        if (dobryrok) {
-            if (vatokres==1) {
-                jpk2020M = true;
-            } else if (vatokres==2) {
-                jpk2020K = true;
+        try {
+            boolean dobryrok = rokWpisu>2020 || (rokWpisu==2020 && Integer.parseInt(miesiacWpisu)>9);
+            if (dobryrok) {
+                if (vatokres==1) {
+                    jpk2020M = true;
+                } else if (vatokres==2) {
+                    jpk2020K = true;
+                }
             }
-        }
+        } catch (Exception e){}
     }
   
 

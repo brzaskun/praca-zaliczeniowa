@@ -7,6 +7,7 @@
 package viewfk;
 
 import beansFK.RozliczTransakcjeBean;
+import comparator.Kontocomparator;
 import comparator.StronaWierszacomparator;
 import dao.StronaWierszaDAO;
 import daoFK.KliencifkDAO;
@@ -18,7 +19,6 @@ import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,14 +26,15 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import org.primefaces.event.NodeUnselectEvent;
+import msg.Msg;
+import org.primefaces.event.NodeUnselectEvent;
 import pdffk.PDFRozrachunki;
-import view.WpisView; import org.primefaces.PrimeFaces;
-
+import view.WpisView;
 /**
  *
  * @author Osito
@@ -74,7 +75,7 @@ public class RozrachunkiPrzegladView implements Serializable{
         wybranyRodzajTransakcji = "transakcje";
     }
     
-    
+    @PostConstruct
     public void init() { //E.m(this);
         wykazkont = Collections.synchronizedList(new ArrayList<>());
         //listaRozrachunkow = Collections.synchronizedList(new ArrayList<>());
@@ -83,6 +84,7 @@ public class RozrachunkiPrzegladView implements Serializable{
         coWyswietlacRozrachunkiPrzeglad = "potwierdzenie";
         wybranyRodzajTransakcji = "transakcje";
         wykazkont = stronaWierszaDAO.findKontoByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        Collections.sort(wykazkont, new Kontocomparator());
         pobierzmacierzyste(wykazkont);
         if (wykazkont != null && wykazkont.isEmpty()==false) {
             wybranekonto = wykazkont.get(0);
@@ -121,9 +123,9 @@ public class RozrachunkiPrzegladView implements Serializable{
          pobierzZapisyZmianaWaluty();
     }
     
-    public void pobierzZapisyNaKoncieNode(Konto wybraneKontoNode) {
+    public void pobierzZapisyNaKoncieNode(Konto wybraneKonto) {
         stronyWiersza = Collections.synchronizedList(new ArrayList<>());
-        wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
+        wybranekonto = serialclone.SerialClone.clone(wybraneKonto);
         if (wybranyRodzajTransakcji.equals("wszystkie")) {
             if (wybranaWalutaDlaKont.equals("wszystkie")) {
                 stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieNT(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
@@ -176,7 +178,7 @@ public class RozrachunkiPrzegladView implements Serializable{
     public void pobierzZapisyZmianaTransakcji() {
         if (wybranyRodzajTransakcji.equals("wszystkie")) {
             if (wybranaWalutaDlaKont.equals("wszystkie")) {
-                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieNT(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
+                    stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieNT(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
                 stronyWiersza.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieR(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt()));
             } else {
                 stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieNT(wpisView.getPodatnikObiekt(), wybranaWalutaDlaKont, wybranekonto, wpisView.getRokWpisuSt());
@@ -231,11 +233,13 @@ public class RozrachunkiPrzegladView implements Serializable{
         sumawaluta = 0.0;
         sumapl = 0.0;
         sumujwszystkie();
-        PrimeFaces.current().ajax().update("paseknorth");
-        PrimeFaces.current().ajax().update("tabelazzapisami");
-        PrimeFaces.current().ajax().update("form:dataList");
-        PrimeFaces.current().ajax().update("form:kontenertabeli");
-        PrimeFaces.current().ajax().update("tabelazsumamirozrach");
+//        try {
+//            PrimeFaces.current().ajax().update("paseknorth");
+//            PrimeFaces.current().ajax().update("tabelazzapisami");
+//            PrimeFaces.current().ajax().update("form:dataList");
+//            PrimeFaces.current().ajax().update("form:kontenertabeli");
+//            PrimeFaces.current().ajax().update("tabelazsumamirozrach");
+//        } catch (Exception e){}
     }
     
     private void filtrrozrachunkow() {

@@ -16,14 +16,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import msg.B;
 import msg.Msg;
+import org.primefaces.PrimeFaces;
 import static pdffk.PdfMain.*;
 import plik.Plik;
 import slownie.Slownie;
-import view.WpisView; import org.primefaces.PrimeFaces;
+import view.WpisView;
 
 /**
  *
@@ -97,7 +96,7 @@ public class PDFRozrachunki {
             String f = "pokazwydruk('"+nazwa+"');";
             PrimeFaces.current().executeScript(f);
         } else {
-            Msg.msg("w", "Nie wybrano Planu kont do wydruku");
+            Msg.msg("w", "Nie wybrano rozrachunków do wydruku");
         }
     }
     
