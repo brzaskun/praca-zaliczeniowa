@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UbezpieczenieEditDlg" widgetVar="UbezpieczenieEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditUbezpieczenieTitle}">
+            <h:form id="UbezpieczenieEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ubezpieczenieController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditUbezpieczenieLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{ubezpieczenieController.selected.id}" title="#{bundle.EditUbezpieczenieTitle_id}" required="true" requiredMessage="#{bundle.EditUbezpieczenieRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditUbezpieczenieLabel_kodubezpieczenia}" for="kodubezpieczenia" />
+                        <p:inputText id="kodubezpieczenia" value="#{ubezpieczenieController.selected.kodubezpieczenia}" title="#{bundle.EditUbezpieczenieTitle_kodubezpieczenia}" required="true" requiredMessage="#{bundle.EditUbezpieczenieRequiredMessage_kodubezpieczenia}"/>
+                        <p:outputLabel value="#{bundle.EditUbezpieczenieLabel_kodzawodu}" for="kodzawodu" />
+                        <p:inputText id="kodzawodu" value="#{ubezpieczenieController.selected.kodzawodu}" title="#{bundle.EditUbezpieczenieTitle_kodzawodu}" required="true" requiredMessage="#{bundle.EditUbezpieczenieRequiredMessage_kodzawodu}"/>
+                        <p:outputLabel value="#{bundle.EditUbezpieczenieLabel_nfz}" for="nfz" />
+                        <p:inputText id="nfz" value="#{ubezpieczenieController.selected.nfz}" title="#{bundle.EditUbezpieczenieTitle_nfz}" />
+                        <p:outputLabel value="#{bundle.EditUbezpieczenieLabel_datanfz}" for="datanfz" />
+                        <p:inputText id="datanfz" value="#{ubezpieczenieController.selected.datanfz}" title="#{bundle.EditUbezpieczenieTitle_datanfz}" />
+                        <p:outputLabel value="#{bundle.EditUbezpieczenieLabel_dataspoleczne}" for="dataspoleczne" />
+                        <p:inputText id="dataspoleczne" value="#{ubezpieczenieController.selected.dataspoleczne}" title="#{bundle.EditUbezpieczenieTitle_dataspoleczne}" />
+                        <p:outputLabel value="#{bundle.EditUbezpieczenieLabel_datazdrowotne}" for="datazdrowotne" />
+                        <p:inputText id="datazdrowotne" value="#{ubezpieczenieController.selected.datazdrowotne}" title="#{bundle.EditUbezpieczenieTitle_datazdrowotne}" />
+                        <p:outputLabel value="#{bundle.EditUbezpieczenieLabel_emerytalne}" for="emerytalne" />
+                        <p:selectBooleanCheckbox id="emerytalne" value="#{ubezpieczenieController.selected.emerytalne}" />
+                        <p:outputLabel value="#{bundle.EditUbezpieczenieLabel_rentowe}" for="rentowe" />
+                        <p:selectBooleanCheckbox id="rentowe" value="#{ubezpieczenieController.selected.rentowe}" />
+                        <p:outputLabel value="#{bundle.EditUbezpieczenieLabel_chorobowe}" for="chorobowe" />
+                        <p:selectBooleanCheckbox id="chorobowe" value="#{ubezpieczenieController.selected.chorobowe}" />
+                        <p:outputLabel value="#{bundle.EditUbezpieczenieLabel_chorobowedobrowolne}" for="chorobowedobrowolne" />
+                        <p:selectBooleanCheckbox id="chorobowedobrowolne" value="#{ubezpieczenieController.selected.chorobowedobrowolne}" />
+                        <p:outputLabel value="#{bundle.EditUbezpieczenieLabel_wypadkowe}" for="wypadkowe" />
+                        <p:selectBooleanCheckbox id="wypadkowe" value="#{ubezpieczenieController.selected.wypadkowe}" />
+                        <p:outputLabel value="#{bundle.EditUbezpieczenieLabel_zdrowotne}" for="zdrowotne" />
+                        <p:selectBooleanCheckbox id="zdrowotne" value="#{ubezpieczenieController.selected.zdrowotne}" />
+                        <p:outputLabel value="#{bundle.EditUbezpieczenieLabel_nieliczFP}" for="nieliczFP" />
+                        <p:selectBooleanCheckbox id="nieliczFP" value="#{ubezpieczenieController.selected.nieliczFP}" />
+                        <p:outputLabel value="#{bundle.EditUbezpieczenieLabel_nieliczFGSP}" for="nieliczFGSP" />
+                        <p:selectBooleanCheckbox id="nieliczFGSP" value="#{ubezpieczenieController.selected.nieliczFGSP}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ubezpieczenieController.update}" value="#{bundle.Save}" update="display,:UbezpieczenieListForm:datalist,:growl" oncomplete="handleSubmit(args, 'UbezpieczenieEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="UbezpieczenieEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

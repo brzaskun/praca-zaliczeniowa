@@ -13,15 +13,36 @@
             <f:view>
                 <bcf:ajaxs/>
                 <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj"> 
-                    <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
+                    <ui:include src="sub/layout/north.xhtml" />  <!-- panel polnocny-->
                     <ui:include src="sub/layout/south.xhtml"/>   <!-- panel poludniowy-->
                     <p:layoutUnit position="center" id="centertile" >
+                        <h:form id="formmenu">
+                         <p:menubar autoDisplay="true" style="border: none;">
+                            <p:menuitem icon="fa fa-institution" value="firma" style="width: 150px" onclick="PF('dialogedycjadanychfirmy').show()" async="true"/>
+                            <p:submenu label="pracownicy" style="width: 150px">
+                                <p:menuitem icon="fa fa-stack-overflow" value="edycja pracownicy" style="width: 150px" onclick="PF('dialogedycjadanychpracownik').show()" async="true"/>
+                                <p:menuitem icon="fa fa-stack-overflow" value="edycja angażu" style="width: 150px" onclick="PF('dialogpracownikangaz').show()" async="true"/>
+                                <p:menuitem icon="fa fa-stack-overflow" value="lista angażów" style="width: 150px" onclick="PF('dialoglistaangazy').show()" async="true"/>
+                            </p:submenu>
+                            <p:menuitem icon="fa fa-sheqel" value="czas pracy" style="width: 150px"/>
+                            <p:menuitem icon="fa fa-tasks" value="listy płac"  style="width: 150px"/>
+                            <p:menuitem icon="fa fa-pencil" value="PIT" style="width: 150px"/>
+                            <p:menuitem icon="fa fa-exchange" value="Parametry" style="width: 150px"/>
+                        </p:menubar>
+                        </h:form>
                        <ui:include src="sub/dialog/dialog_edycjadanych_firmy.xhtml"/>
-<!--                        <p:outputPanel rendered="#{WpisView.niegosc}">
-                        <ui:include src="sub/kalendarz.xhtml"/>    właściwa tablica z danymi z księgi
-                        <ui:include src="sub/dialog_sprawy.xhtml"/>
-                        <ui:include src="sub/dialog_nowasprawa.xhtml"/> 
-                        </p:outputPanel>-->
+                       <ui:include src="sub/dialog/dialog_edycjadanych_pracownik.xhtml"/>
+                       <ui:include src="sub/dialog/dialog_edycjadanych_angaz.xhtml"/>
+                       <ui:include src="sub/dialog/dialog_listaangazy.xhtml"/>
+<!--                       <h:form>
+                       <h:outputText value="rok WpisView"/>
+                       <h:outputText value="#{wpisView.rokWpisu}"/>
+                       <p:spacer width="100"/>
+                       <h:outputText value="rok TestView"/>
+                       <h:outputText value="#{testView.rok}"/>
+                       <p:spacer height="50"/>
+                       <p:commandButton value="zmien Wpis" actionListener="#{wpisView.zmienrok}" update="@form" global="false"/>
+                       </h:form>-->
                     </p:layoutUnit>
                 </p:layout>
             </f:view>

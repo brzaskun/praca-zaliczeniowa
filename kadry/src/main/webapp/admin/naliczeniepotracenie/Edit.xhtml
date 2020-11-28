@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NaliczeniepotracenieEditDlg" widgetVar="NaliczeniepotracenieEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditNaliczeniepotracenieTitle}">
+            <h:form id="NaliczeniepotracenieEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{naliczeniepotracenieController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditNaliczeniepotracenieLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{naliczeniepotracenieController.selected.id}" title="#{bundle.EditNaliczeniepotracenieTitle_id}" required="true" requiredMessage="#{bundle.EditNaliczeniepotracenieRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditNaliczeniepotracenieLabel_kwota}" for="kwota" />
+                        <p:inputText id="kwota" value="#{naliczeniepotracenieController.selected.kwota}" title="#{bundle.EditNaliczeniepotracenieTitle_kwota}" required="true" requiredMessage="#{bundle.EditNaliczeniepotracenieRequiredMessage_kwota}"/>
+                        <p:outputLabel value="#{bundle.EditNaliczeniepotracenieLabel_rok}" for="rok" />
+                        <p:inputText id="rok" value="#{naliczeniepotracenieController.selected.rok}" title="#{bundle.EditNaliczeniepotracenieTitle_rok}" required="true" requiredMessage="#{bundle.EditNaliczeniepotracenieRequiredMessage_rok}"/>
+                        <p:outputLabel value="#{bundle.EditNaliczeniepotracenieLabel_mc}" for="mc" />
+                        <p:inputText id="mc" value="#{naliczeniepotracenieController.selected.mc}" title="#{bundle.EditNaliczeniepotracenieTitle_mc}" required="true" requiredMessage="#{bundle.EditNaliczeniepotracenieRequiredMessage_mc}"/>
+                        <p:outputLabel value="#{bundle.EditNaliczeniepotracenieLabel_definicjalistaplac}" for="definicjalistaplac" />
+                        <p:selectOneMenu id="definicjalistaplac" value="#{naliczeniepotracenieController.selected.definicjalistaplac}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{definicjalistaplacController.itemsAvailableSelectOne}"
+                                           var="definicjalistaplacItem"
+                                           itemValue="#{definicjalistaplacItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditNaliczeniepotracenieLabel_skladnikpotracenia}" for="skladnikpotracenia" />
+                        <p:selectOneMenu id="skladnikpotracenia" value="#{naliczeniepotracenieController.selected.skladnikpotracenia}" required="true" requiredMessage="#{bundle.EditNaliczeniepotracenieRequiredMessage_skladnikpotracenia}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{skladnikpotraceniaController.itemsAvailableSelectOne}"
+                                           var="skladnikpotraceniaItem"
+                                           itemValue="#{skladnikpotraceniaItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{naliczeniepotracenieController.update}" value="#{bundle.Save}" update="display,:NaliczeniepotracenieListForm:datalist,:growl" oncomplete="handleSubmit(args, 'NaliczeniepotracenieEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="NaliczeniepotracenieEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

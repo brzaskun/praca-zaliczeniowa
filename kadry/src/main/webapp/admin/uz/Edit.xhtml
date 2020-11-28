@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UzEditDlg" widgetVar="UzEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditUzTitle}">
+            <h:form id="UzEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{uzController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditUzLabel_login}" for="login" />
+                        <p:inputText id="login" value="#{uzController.selected.login}" title="#{bundle.EditUzTitle_login}" required="true" requiredMessage="#{bundle.EditUzRequiredMessage_login}"/>
+                        <p:outputLabel value="#{bundle.EditUzLabel_haslo}" for="haslo" />
+                        <p:inputText id="haslo" value="#{uzController.selected.haslo}" title="#{bundle.EditUzTitle_haslo}" />
+                        <p:outputLabel value="#{bundle.EditUzLabel_imie}" for="imie" />
+                        <p:inputText id="imie" value="#{uzController.selected.imie}" title="#{bundle.EditUzTitle_imie}" />
+                        <p:outputLabel value="#{bundle.EditUzLabel_nazw}" for="nazw" />
+                        <p:inputText id="nazw" value="#{uzController.selected.nazw}" title="#{bundle.EditUzTitle_nazw}" />
+                        <p:outputLabel value="#{bundle.EditUzLabel_uprawnienia}" for="uprawnienia" />
+                        <p:inputText id="uprawnienia" value="#{uzController.selected.uprawnienia}" title="#{bundle.EditUzTitle_uprawnienia}" />
+                        <p:outputLabel value="#{bundle.EditUzLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{uzController.selected.email}" title="#{bundle.EditUzTitle_email}" />
+                        <p:outputLabel value="#{bundle.EditUzLabel_firma}" for="firma" />
+                        <p:inputText id="firma" value="#{uzController.selected.firma}" title="#{bundle.EditUzTitle_firma}" />
+                        <p:outputLabel value="#{bundle.EditUzLabel_iloscwierszy}" for="iloscwierszy" />
+                        <p:inputText id="iloscwierszy" value="#{uzController.selected.iloscwierszy}" title="#{bundle.EditUzTitle_iloscwierszy}" />
+                        <p:outputLabel value="#{bundle.EditUzLabel_biezacasesja}" for="biezacasesja" />
+                        <p:inputText id="biezacasesja" value="#{uzController.selected.biezacasesja}" title="#{bundle.EditUzTitle_biezacasesja}" />
+                        <p:outputLabel value="#{bundle.EditUzLabel_theme}" for="theme" />
+                        <p:inputText id="theme" value="#{uzController.selected.theme}" title="#{bundle.EditUzTitle_theme}" />
+                        <p:outputLabel value="#{bundle.EditUzLabel_locale}" for="locale" />
+                        <p:inputText id="locale" value="#{uzController.selected.locale}" title="#{bundle.EditUzTitle_locale}" />
+                        <p:outputLabel value="#{bundle.EditUzLabel_imieNazwisko}" for="imieNazwisko" />
+                        <p:inputText id="imieNazwisko" value="#{uzController.selected.imieNazwisko}" title="#{bundle.EditUzTitle_imieNazwisko}" />
+                        <p:outputLabel value="#{bundle.EditUzLabel_nrtelefonu}" for="nrtelefonu" />
+                        <p:inputText id="nrtelefonu" value="#{uzController.selected.nrtelefonu}" title="#{bundle.EditUzTitle_nrtelefonu}" />
+                        <p:outputLabel value="#{bundle.EditUzLabel_loginglowny}" for="loginglowny" />
+                        <p:selectOneMenu id="loginglowny" value="#{uzController.selected.loginglowny}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{uzController.itemsAvailableSelectOne}"
+                                           var="loginglownyItem"
+                                           itemValue="#{loginglownyItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditUzLabel_sumafaktur}" for="sumafaktur" />
+                        <p:inputText id="sumafaktur" value="#{uzController.selected.sumafaktur}" title="#{bundle.EditUzTitle_sumafaktur}" />
+                        <p:outputLabel value="#{bundle.EditUzLabel_wynagrodzenieobecne}" for="wynagrodzenieobecne" />
+                        <p:inputText id="wynagrodzenieobecne" value="#{uzController.selected.wynagrodzenieobecne}" title="#{bundle.EditUzTitle_wynagrodzenieobecne}" />
+                        <p:outputLabel value="#{bundle.EditUzLabel_procent}" for="procent" />
+                        <p:inputText id="procent" value="#{uzController.selected.procent}" title="#{bundle.EditUzTitle_procent}" />
+                        <p:outputLabel value="#{bundle.EditUzLabel_wynagrodzenieprocentowe}" for="wynagrodzenieprocentowe" />
+                        <p:inputText id="wynagrodzenieprocentowe" value="#{uzController.selected.wynagrodzenieprocentowe}" title="#{bundle.EditUzTitle_wynagrodzenieprocentowe}" />
+                        <p:outputLabel value="#{bundle.EditUzLabel_rokWpisu}" for="rokWpisu" />
+                        <p:inputText id="rokWpisu" value="#{uzController.selected.rokWpisu}" title="#{bundle.EditUzTitle_rokWpisu}" />
+                        <p:outputLabel value="#{bundle.EditUzLabel_miesiacWpisu}" for="miesiacWpisu" />
+                        <p:inputText id="miesiacWpisu" value="#{uzController.selected.miesiacWpisu}" title="#{bundle.EditUzTitle_miesiacWpisu}" />
+                        <p:outputLabel value="#{bundle.EditUzLabel_miesiacOd}" for="miesiacOd" />
+                        <p:inputText id="miesiacOd" value="#{uzController.selected.miesiacOd}" title="#{bundle.EditUzTitle_miesiacOd}" />
+                        <p:outputLabel value="#{bundle.EditUzLabel_miesiacDo}" for="miesiacDo" />
+                        <p:inputText id="miesiacDo" value="#{uzController.selected.miesiacDo}" title="#{bundle.EditUzTitle_miesiacDo}" />
+                        <p:outputLabel value="#{bundle.EditUzLabel_liczbapodatnikow}" for="liczbapodatnikow" />
+                        <p:inputText id="liczbapodatnikow" value="#{uzController.selected.liczbapodatnikow}" title="#{bundle.EditUzTitle_liczbapodatnikow}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{uzController.update}" value="#{bundle.Save}" update="display,:UzListForm:datalist,:growl" oncomplete="handleSubmit(args, 'UzEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="UzEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

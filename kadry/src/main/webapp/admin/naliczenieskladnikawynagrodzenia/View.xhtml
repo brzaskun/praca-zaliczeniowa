@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NaliczenieskladnikawynagrodzeniaViewDlg" widgetVar="NaliczenieskladnikawynagrodzeniaViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewNaliczenieskladnikawynagrodzeniaTitle}">
+            <h:form id="NaliczenieskladnikawynagrodzeniaViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{naliczenieskladnikawynagrodzeniaController.selected != null}">
+                        <h:outputText value="#{bundle.ViewNaliczenieskladnikawynagrodzeniaLabel_id}"/>
+                        <h:outputText value="#{naliczenieskladnikawynagrodzeniaController.selected.id}" title="#{bundle.ViewNaliczenieskladnikawynagrodzeniaTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewNaliczenieskladnikawynagrodzeniaLabel_kwota}"/>
+                        <h:outputText value="#{naliczenieskladnikawynagrodzeniaController.selected.kwota}" title="#{bundle.ViewNaliczenieskladnikawynagrodzeniaTitle_kwota}"/>
+                        <h:outputText value="#{bundle.ViewNaliczenieskladnikawynagrodzeniaLabel_rok}"/>
+                        <h:outputText value="#{naliczenieskladnikawynagrodzeniaController.selected.rok}" title="#{bundle.ViewNaliczenieskladnikawynagrodzeniaTitle_rok}"/>
+                        <h:outputText value="#{bundle.ViewNaliczenieskladnikawynagrodzeniaLabel_mc}"/>
+                        <h:outputText value="#{naliczenieskladnikawynagrodzeniaController.selected.mc}" title="#{bundle.ViewNaliczenieskladnikawynagrodzeniaTitle_mc}"/>
+                        <h:outputText value="#{bundle.ViewNaliczenieskladnikawynagrodzeniaLabel_kwotazus}"/>
+                        <h:outputText value="#{naliczenieskladnikawynagrodzeniaController.selected.kwotazus}" title="#{bundle.ViewNaliczenieskladnikawynagrodzeniaTitle_kwotazus}"/>
+                        <h:outputText value="#{bundle.ViewNaliczenieskladnikawynagrodzeniaLabel_kwotabezzus}"/>
+                        <h:outputText value="#{naliczenieskladnikawynagrodzeniaController.selected.kwotabezzus}" title="#{bundle.ViewNaliczenieskladnikawynagrodzeniaTitle_kwotabezzus}"/>
+                        <h:outputText value="#{bundle.ViewNaliczenieskladnikawynagrodzeniaLabel_definicjalistaplac}"/>
+                        <h:outputText value="#{naliczenieskladnikawynagrodzeniaController.selected.definicjalistaplac}" title="#{bundle.ViewNaliczenieskladnikawynagrodzeniaTitle_definicjalistaplac}"/>
+                        <h:outputText value="#{bundle.ViewNaliczenieskladnikawynagrodzeniaLabel_skladnikwynagrodzenia}"/>
+                        <h:outputText value="#{naliczenieskladnikawynagrodzeniaController.selected.skladnikwynagrodzenia}" title="#{bundle.ViewNaliczenieskladnikawynagrodzeniaTitle_skladnikwynagrodzenia}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="NaliczenieskladnikawynagrodzeniaViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

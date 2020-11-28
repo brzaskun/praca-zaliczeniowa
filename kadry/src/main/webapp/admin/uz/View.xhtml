@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UzViewDlg" widgetVar="UzViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewUzTitle}">
+            <h:form id="UzViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{uzController.selected != null}">
+                        <h:outputText value="#{bundle.ViewUzLabel_login}"/>
+                        <h:outputText value="#{uzController.selected.login}" title="#{bundle.ViewUzTitle_login}"/>
+                        <h:outputText value="#{bundle.ViewUzLabel_haslo}"/>
+                        <h:outputText value="#{uzController.selected.haslo}" title="#{bundle.ViewUzTitle_haslo}"/>
+                        <h:outputText value="#{bundle.ViewUzLabel_imie}"/>
+                        <h:outputText value="#{uzController.selected.imie}" title="#{bundle.ViewUzTitle_imie}"/>
+                        <h:outputText value="#{bundle.ViewUzLabel_nazw}"/>
+                        <h:outputText value="#{uzController.selected.nazw}" title="#{bundle.ViewUzTitle_nazw}"/>
+                        <h:outputText value="#{bundle.ViewUzLabel_uprawnienia}"/>
+                        <h:outputText value="#{uzController.selected.uprawnienia}" title="#{bundle.ViewUzTitle_uprawnienia}"/>
+                        <h:outputText value="#{bundle.ViewUzLabel_email}"/>
+                        <h:outputText value="#{uzController.selected.email}" title="#{bundle.ViewUzTitle_email}"/>
+                        <h:outputText value="#{bundle.ViewUzLabel_firma}"/>
+                        <h:outputText value="#{uzController.selected.firma}" title="#{bundle.ViewUzTitle_firma}"/>
+                        <h:outputText value="#{bundle.ViewUzLabel_iloscwierszy}"/>
+                        <h:outputText value="#{uzController.selected.iloscwierszy}" title="#{bundle.ViewUzTitle_iloscwierszy}"/>
+                        <h:outputText value="#{bundle.ViewUzLabel_biezacasesja}"/>
+                        <h:outputText value="#{uzController.selected.biezacasesja}" title="#{bundle.ViewUzTitle_biezacasesja}"/>
+                        <h:outputText value="#{bundle.ViewUzLabel_theme}"/>
+                        <h:outputText value="#{uzController.selected.theme}" title="#{bundle.ViewUzTitle_theme}"/>
+                        <h:outputText value="#{bundle.ViewUzLabel_locale}"/>
+                        <h:outputText value="#{uzController.selected.locale}" title="#{bundle.ViewUzTitle_locale}"/>
+                        <h:outputText value="#{bundle.ViewUzLabel_imieNazwisko}"/>
+                        <h:outputText value="#{uzController.selected.imieNazwisko}" title="#{bundle.ViewUzTitle_imieNazwisko}"/>
+                        <h:outputText value="#{bundle.ViewUzLabel_nrtelefonu}"/>
+                        <h:outputText value="#{uzController.selected.nrtelefonu}" title="#{bundle.ViewUzTitle_nrtelefonu}"/>
+                        <h:outputText value="#{bundle.ViewUzLabel_loginglowny}"/>
+                        <h:outputText value="#{uzController.selected.loginglowny}" title="#{bundle.ViewUzTitle_loginglowny}"/>
+                        <h:outputText value="#{bundle.ViewUzLabel_sumafaktur}"/>
+                        <h:outputText value="#{uzController.selected.sumafaktur}" title="#{bundle.ViewUzTitle_sumafaktur}"/>
+                        <h:outputText value="#{bundle.ViewUzLabel_wynagrodzenieobecne}"/>
+                        <h:outputText value="#{uzController.selected.wynagrodzenieobecne}" title="#{bundle.ViewUzTitle_wynagrodzenieobecne}"/>
+                        <h:outputText value="#{bundle.ViewUzLabel_procent}"/>
+                        <h:outputText value="#{uzController.selected.procent}" title="#{bundle.ViewUzTitle_procent}"/>
+                        <h:outputText value="#{bundle.ViewUzLabel_wynagrodzenieprocentowe}"/>
+                        <h:outputText value="#{uzController.selected.wynagrodzenieprocentowe}" title="#{bundle.ViewUzTitle_wynagrodzenieprocentowe}"/>
+                        <h:outputText value="#{bundle.ViewUzLabel_rokWpisu}"/>
+                        <h:outputText value="#{uzController.selected.rokWpisu}" title="#{bundle.ViewUzTitle_rokWpisu}"/>
+                        <h:outputText value="#{bundle.ViewUzLabel_miesiacWpisu}"/>
+                        <h:outputText value="#{uzController.selected.miesiacWpisu}" title="#{bundle.ViewUzTitle_miesiacWpisu}"/>
+                        <h:outputText value="#{bundle.ViewUzLabel_miesiacOd}"/>
+                        <h:outputText value="#{uzController.selected.miesiacOd}" title="#{bundle.ViewUzTitle_miesiacOd}"/>
+                        <h:outputText value="#{bundle.ViewUzLabel_miesiacDo}"/>
+                        <h:outputText value="#{uzController.selected.miesiacDo}" title="#{bundle.ViewUzTitle_miesiacDo}"/>
+                        <h:outputText value="#{bundle.ViewUzLabel_liczbapodatnikow}"/>
+                        <h:outputText value="#{uzController.selected.liczbapodatnikow}" title="#{bundle.ViewUzTitle_liczbapodatnikow}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="UzViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

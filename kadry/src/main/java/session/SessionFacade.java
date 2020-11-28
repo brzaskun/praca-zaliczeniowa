@@ -1,5 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package session;
@@ -9,18 +10,14 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
-import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 
 /**
  *
  * @author Osito
- * @param <T>
  */
-@Stateless
-public class SessionFacade<T> implements Serializable {
+public class SessionFacade <T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -51,12 +48,6 @@ public class SessionFacade<T> implements Serializable {
     
     
     
-    public List<T> findAllReadOnly(Class<T> entityClass) {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(entityClass));
-        return Collections.synchronizedList(getEntityManager().createQuery(cq).getResultList());
-    }
-    
 //    
 //    public List<T> findAllReadOnlyXX(Class<T> entityClass) {
 //        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
@@ -80,19 +71,6 @@ public class SessionFacade<T> implements Serializable {
         
     }
     
-//    public void refresh(List<T> entityList) {
-//        for (T p : entityList) {
-//            try {
-//                getEntityManager().refresh(p);
-//            } catch(Exception e){}
-//        }
-//        
-//    }
-
-//    public void refresh(T entity) {
-//        getEntityManager().refresh(getEntityManager().merge(entity));
-//    }
-
     public T findEntity(Class<T> entityClass, T entityPK) {
         T find = getEntityManager().find(entityClass, entityPK);
         return find;
@@ -139,44 +117,5 @@ public class SessionFacade<T> implements Serializable {
         }
         
     }
-
-//    //to jest po to, ze jk juz jest cos w np. planie kont to 
-//    //wywali blad w jednym, ele reszte zasejwuje w bazie :)
-//    public void createRefresh(List<T> entityList) {
-//        for (T p : entityList) {
-//            try {
-//                if (p!=null) {
-//                    getEntityManager().persist(p);
-//                }
-//            } catch (Exception e) {
-//                E.e(e);
-//            }
-//        }
-//        
-//    }
-
-    public List<T> findXLast(Class<T> entityClass, int ile) {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        javax.persistence.criteria.Root<T> rt = cq.from(entityClass);
-        cq.select(getEntityManager().getCriteriaBuilder().count(rt));
-        javax.persistence.Query q = getEntityManager().createQuery(cq);
-        int ilosc = ((Number) q.getSingleResult()).intValue();
-        int kontrolailosci = ilosc - ile;
-        if (kontrolailosci < 0) {
-            kontrolailosci = 0;
-        }
-        int[] range = {ilosc, kontrolailosci};
-        cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(entityClass));
-        q = getEntityManager().createQuery(cq);
-        q.setMaxResults(ile);
-        q.setFirstResult(range[1]);
-        return Collections.synchronizedList(q.getResultList());
-    }
-
-    
-
-    
-
     
 }

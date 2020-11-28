@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NaliczenieskladnikawynagrodzeniaCreateDlg" widgetVar="NaliczenieskladnikawynagrodzeniaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateNaliczenieskladnikawynagrodzeniaTitle}">
+            <h:form id="NaliczenieskladnikawynagrodzeniaCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{naliczenieskladnikawynagrodzeniaController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateNaliczenieskladnikawynagrodzeniaLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{naliczenieskladnikawynagrodzeniaController.selected.id}" title="#{bundle.CreateNaliczenieskladnikawynagrodzeniaTitle_id}" required="true" requiredMessage="#{bundle.CreateNaliczenieskladnikawynagrodzeniaRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.CreateNaliczenieskladnikawynagrodzeniaLabel_kwota}" for="kwota" />
+                        <p:inputText id="kwota" value="#{naliczenieskladnikawynagrodzeniaController.selected.kwota}" title="#{bundle.CreateNaliczenieskladnikawynagrodzeniaTitle_kwota}" required="true" requiredMessage="#{bundle.CreateNaliczenieskladnikawynagrodzeniaRequiredMessage_kwota}"/>
+                        <p:outputLabel value="#{bundle.CreateNaliczenieskladnikawynagrodzeniaLabel_rok}" for="rok" />
+                        <p:inputText id="rok" value="#{naliczenieskladnikawynagrodzeniaController.selected.rok}" title="#{bundle.CreateNaliczenieskladnikawynagrodzeniaTitle_rok}" required="true" requiredMessage="#{bundle.CreateNaliczenieskladnikawynagrodzeniaRequiredMessage_rok}"/>
+                        <p:outputLabel value="#{bundle.CreateNaliczenieskladnikawynagrodzeniaLabel_mc}" for="mc" />
+                        <p:inputText id="mc" value="#{naliczenieskladnikawynagrodzeniaController.selected.mc}" title="#{bundle.CreateNaliczenieskladnikawynagrodzeniaTitle_mc}" required="true" requiredMessage="#{bundle.CreateNaliczenieskladnikawynagrodzeniaRequiredMessage_mc}"/>
+                        <p:outputLabel value="#{bundle.CreateNaliczenieskladnikawynagrodzeniaLabel_kwotazus}" for="kwotazus" />
+                        <p:inputText id="kwotazus" value="#{naliczenieskladnikawynagrodzeniaController.selected.kwotazus}" title="#{bundle.CreateNaliczenieskladnikawynagrodzeniaTitle_kwotazus}" />
+                        <p:outputLabel value="#{bundle.CreateNaliczenieskladnikawynagrodzeniaLabel_kwotabezzus}" for="kwotabezzus" />
+                        <p:inputText id="kwotabezzus" value="#{naliczenieskladnikawynagrodzeniaController.selected.kwotabezzus}" title="#{bundle.CreateNaliczenieskladnikawynagrodzeniaTitle_kwotabezzus}" />
+                        <p:outputLabel value="#{bundle.CreateNaliczenieskladnikawynagrodzeniaLabel_definicjalistaplac}" for="definicjalistaplac" />
+                        <p:selectOneMenu id="definicjalistaplac" value="#{naliczenieskladnikawynagrodzeniaController.selected.definicjalistaplac}" >
+                            <f:selectItems value="#{definicjalistaplacController.itemsAvailableSelectOne}"
+                                           var="definicjalistaplacItem"
+                                           itemValue="#{definicjalistaplacItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateNaliczenieskladnikawynagrodzeniaLabel_skladnikwynagrodzenia}" for="skladnikwynagrodzenia" />
+                        <p:selectOneMenu id="skladnikwynagrodzenia" value="#{naliczenieskladnikawynagrodzeniaController.selected.skladnikwynagrodzenia}" required="true" requiredMessage="#{bundle.EditNaliczenieskladnikawynagrodzeniaRequiredMessage_skladnikwynagrodzenia}">
+                            <f:selectItems value="#{skladnikwynagrodzeniaController.itemsAvailableSelectOne}"
+                                           var="skladnikwynagrodzeniaItem"
+                                           itemValue="#{skladnikwynagrodzeniaItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{naliczenieskladnikawynagrodzeniaController.create}" value="#{bundle.Save}" update="display,:NaliczenieskladnikawynagrodzeniaListForm:datalist,:growl" oncomplete="handleSubmit(args,'NaliczenieskladnikawynagrodzeniaCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="NaliczenieskladnikawynagrodzeniaCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

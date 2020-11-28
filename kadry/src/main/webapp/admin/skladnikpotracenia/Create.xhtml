@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SkladnikpotraceniaCreateDlg" widgetVar="SkladnikpotraceniaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateSkladnikpotraceniaTitle}">
+            <h:form id="SkladnikpotraceniaCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{skladnikpotraceniaController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateSkladnikpotraceniaLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{skladnikpotraceniaController.selected.id}" title="#{bundle.CreateSkladnikpotraceniaTitle_id}" required="true" requiredMessage="#{bundle.CreateSkladnikpotraceniaRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.CreateSkladnikpotraceniaLabel_nazwa}" for="nazwa" />
+                        <p:inputText id="nazwa" value="#{skladnikpotraceniaController.selected.nazwa}" title="#{bundle.CreateSkladnikpotraceniaTitle_nazwa}" required="true" requiredMessage="#{bundle.CreateSkladnikpotraceniaRequiredMessage_nazwa}"/>
+                        <p:outputLabel value="#{bundle.CreateSkladnikpotraceniaLabel_rodzajumowy}" for="rodzajumowy" />
+                        <p:selectOneMenu id="rodzajumowy" value="#{skladnikpotraceniaController.selected.rodzajumowy}" required="true" requiredMessage="#{bundle.EditSkladnikpotraceniaRequiredMessage_rodzajumowy}">
+                            <f:selectItems value="#{rodzajumowyController.itemsAvailableSelectOne}"
+                                           var="rodzajumowyItem"
+                                           itemValue="#{rodzajumowyItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateSkladnikpotraceniaLabel_zmiennapotracenia}" for="zmiennapotracenia" />
+                        <p:selectOneMenu id="zmiennapotracenia" value="#{skladnikpotraceniaController.selected.zmiennapotracenia}" >
+                            <f:selectItems value="#{zmiennapotraceniaController.itemsAvailableSelectOne}"
+                                           var="zmiennapotraceniaItem"
+                                           itemValue="#{zmiennapotraceniaItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{skladnikpotraceniaController.create}" value="#{bundle.Save}" update="display,:SkladnikpotraceniaListForm:datalist,:growl" oncomplete="handleSubmit(args,'SkladnikpotraceniaCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="SkladnikpotraceniaCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

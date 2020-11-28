@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ZmiennapotraceniaEditDlg" widgetVar="ZmiennapotraceniaEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditZmiennapotraceniaTitle}">
+            <h:form id="ZmiennapotraceniaEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{zmiennapotraceniaController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditZmiennapotraceniaLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{zmiennapotraceniaController.selected.id}" title="#{bundle.EditZmiennapotraceniaTitle_id}" required="true" requiredMessage="#{bundle.EditZmiennapotraceniaRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditZmiennapotraceniaLabel_nazwa}" for="nazwa" />
+                        <p:inputText id="nazwa" value="#{zmiennapotraceniaController.selected.nazwa}" title="#{bundle.EditZmiennapotraceniaTitle_nazwa}" />
+                        <p:outputLabel value="#{bundle.EditZmiennapotraceniaLabel_dataod}" for="dataod" />
+                        <p:inputText id="dataod" value="#{zmiennapotraceniaController.selected.dataod}" title="#{bundle.EditZmiennapotraceniaTitle_dataod}" />
+                        <p:outputLabel value="#{bundle.EditZmiennapotraceniaLabel_datado}" for="datado" />
+                        <p:inputText id="datado" value="#{zmiennapotraceniaController.selected.datado}" title="#{bundle.EditZmiennapotraceniaTitle_datado}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{zmiennapotraceniaController.update}" value="#{bundle.Save}" update="display,:ZmiennapotraceniaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ZmiennapotraceniaEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ZmiennapotraceniaEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

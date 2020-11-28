@@ -12,7 +12,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import msg.Msg;
@@ -54,11 +53,7 @@ public class Logowanie implements Serializable {
             if (haslo.equals("haslo")) {
                 navto = "nowehaslo";
             } else {
-                try {
-                    request.login(uzytkownik, haslo);
-                } catch (ServletException e) {
-                    E.e(e);
-                }
+                request.login(uzytkownik, haslo);
                 request.setAttribute("user", uzytkownik);
                 String lo = request.getRemoteUser(); 
                 if (request.isUserInRole("Administrator")) {

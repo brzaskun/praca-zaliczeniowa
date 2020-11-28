@@ -6,15 +6,18 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:layoutUnit position="north" size="50" resizable="true" closable="true" collapsible="true">
-        <h:form id="menubarnorth">
-            <p:menubar autoDisplay="true" style="border: none;">
-                <p:menuitem icon="fa fa-institution" value="firma" style="width: 150px" onclick="PF('dialogedycjadanychfirmy').show()" async="true"/>
-                <p:menuitem icon="fa fa-stack-overflow" value="pracownicy" style="width: 150px"/>
-                <p:menuitem icon="fa fa-sheqel" value="czas pracy" style="width: 150px"/>
-                <p:menuitem icon="fa fa-tasks" value="listy płac"  style="width: 150px"/>
-                <p:menuitem icon="fa fa-pencil" value="PIT" style="width: 150px"/>
-                <p:menuitem icon="fa fa-exchange" value="Ustawienia" style="width: 150px"/>
-            </p:menubar>
+        <h:form id="north">
+            <p:panelGrid columns="3" style="width: 600px" columnClasses="fifty-percent, twofive-percent, twofive-percent">
+                <p:column>
+                    <h:outputText value="#{wpisView.firma.nazwa}" style="font-weight: 900; font-size: x-large;"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{wpisView.pracownik.nazwisko}" style="font-weight: 900; font-size: x-large;"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{wpisView.pracownik.imię}" style="font-weight: 900; font-size: x-large;"/>
+                </p:column>
+            </p:panelGrid>
         </h:form>
     </p:layoutUnit>
 </ui:composition>   

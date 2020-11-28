@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ZmiennawynagrodzeniaViewDlg" widgetVar="ZmiennawynagrodzeniaViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewZmiennawynagrodzeniaTitle}">
+            <h:form id="ZmiennawynagrodzeniaViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{zmiennawynagrodzeniaController.selected != null}">
+                        <h:outputText value="#{bundle.ViewZmiennawynagrodzeniaLabel_id}"/>
+                        <h:outputText value="#{zmiennawynagrodzeniaController.selected.id}" title="#{bundle.ViewZmiennawynagrodzeniaTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewZmiennawynagrodzeniaLabel_nazwa}"/>
+                        <h:outputText value="#{zmiennawynagrodzeniaController.selected.nazwa}" title="#{bundle.ViewZmiennawynagrodzeniaTitle_nazwa}"/>
+                        <h:outputText value="#{bundle.ViewZmiennawynagrodzeniaLabel_dataod}"/>
+                        <h:outputText value="#{zmiennawynagrodzeniaController.selected.dataod}" title="#{bundle.ViewZmiennawynagrodzeniaTitle_dataod}"/>
+                        <h:outputText value="#{bundle.ViewZmiennawynagrodzeniaLabel_datado}"/>
+                        <h:outputText value="#{zmiennawynagrodzeniaController.selected.datado}" title="#{bundle.ViewZmiennawynagrodzeniaTitle_datado}"/>
+                        <h:outputText value="#{bundle.ViewZmiennawynagrodzeniaLabel_kwotastala}"/>
+                        <h:outputText value="#{zmiennawynagrodzeniaController.selected.kwotastala}" title="#{bundle.ViewZmiennawynagrodzeniaTitle_kwotastala}"/>
+                        <h:outputText value="#{bundle.ViewZmiennawynagrodzeniaLabel_stala0zmienna1}"/>
+                        <p:selectBooleanCheckbox value="#{zmiennawynagrodzeniaController.selected.stala0zmienna1}" disabled="true"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="ZmiennawynagrodzeniaViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

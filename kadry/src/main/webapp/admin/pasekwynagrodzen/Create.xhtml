@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PasekwynagrodzenCreateDlg" widgetVar="PasekwynagrodzenCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreatePasekwynagrodzenTitle}">
+            <h:form id="PasekwynagrodzenCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{pasekwynagrodzenController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreatePasekwynagrodzenLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{pasekwynagrodzenController.selected.id}" title="#{bundle.CreatePasekwynagrodzenTitle_id}" required="true" requiredMessage="#{bundle.CreatePasekwynagrodzenRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.CreatePasekwynagrodzenLabel_pracchorobowe}" for="pracchorobowe" />
+                        <p:inputText id="pracchorobowe" value="#{pasekwynagrodzenController.selected.pracchorobowe}" title="#{bundle.CreatePasekwynagrodzenTitle_pracchorobowe}" />
+                        <p:outputLabel value="#{bundle.CreatePasekwynagrodzenLabel_pracrentowe}" for="pracrentowe" />
+                        <p:inputText id="pracrentowe" value="#{pasekwynagrodzenController.selected.pracrentowe}" title="#{bundle.CreatePasekwynagrodzenTitle_pracrentowe}" />
+                        <p:outputLabel value="#{bundle.CreatePasekwynagrodzenLabel_pracemerytalne}" for="pracemerytalne" />
+                        <p:inputText id="pracemerytalne" value="#{pasekwynagrodzenController.selected.pracemerytalne}" title="#{bundle.CreatePasekwynagrodzenTitle_pracemerytalne}" />
+                        <p:outputLabel value="#{bundle.CreatePasekwynagrodzenLabel_praczdrowotne}" for="praczdrowotne" />
+                        <p:inputText id="praczdrowotne" value="#{pasekwynagrodzenController.selected.praczdrowotne}" title="#{bundle.CreatePasekwynagrodzenTitle_praczdrowotne}" />
+                        <p:outputLabel value="#{bundle.CreatePasekwynagrodzenLabel_praczdrowotnepomniejszone}" for="praczdrowotnepomniejszone" />
+                        <p:inputText id="praczdrowotnepomniejszone" value="#{pasekwynagrodzenController.selected.praczdrowotnepomniejszone}" title="#{bundle.CreatePasekwynagrodzenTitle_praczdrowotnepomniejszone}" />
+                        <p:outputLabel value="#{bundle.CreatePasekwynagrodzenLabel_praczdrowotnedodoliczenia}" for="praczdrowotnedodoliczenia" />
+                        <p:inputText id="praczdrowotnedodoliczenia" value="#{pasekwynagrodzenController.selected.praczdrowotnedodoliczenia}" title="#{bundle.CreatePasekwynagrodzenTitle_praczdrowotnedodoliczenia}" />
+                        <p:outputLabel value="#{bundle.CreatePasekwynagrodzenLabel_praczdrowotnedopotracenia}" for="praczdrowotnedopotracenia" />
+                        <p:inputText id="praczdrowotnedopotracenia" value="#{pasekwynagrodzenController.selected.praczdrowotnedopotracenia}" title="#{bundle.CreatePasekwynagrodzenTitle_praczdrowotnedopotracenia}" />
+                        <p:outputLabel value="#{bundle.CreatePasekwynagrodzenLabel_rentowe}" for="rentowe" />
+                        <p:inputText id="rentowe" value="#{pasekwynagrodzenController.selected.rentowe}" title="#{bundle.CreatePasekwynagrodzenTitle_rentowe}" />
+                        <p:outputLabel value="#{bundle.CreatePasekwynagrodzenLabel_wypadkowe}" for="wypadkowe" />
+                        <p:inputText id="wypadkowe" value="#{pasekwynagrodzenController.selected.wypadkowe}" title="#{bundle.CreatePasekwynagrodzenTitle_wypadkowe}" />
+                        <p:outputLabel value="#{bundle.CreatePasekwynagrodzenLabel_fp}" for="fp" />
+                        <p:inputText id="fp" value="#{pasekwynagrodzenController.selected.fp}" title="#{bundle.CreatePasekwynagrodzenTitle_fp}" />
+                        <p:outputLabel value="#{bundle.CreatePasekwynagrodzenLabel_fgsp}" for="fgsp" />
+                        <p:inputText id="fgsp" value="#{pasekwynagrodzenController.selected.fgsp}" title="#{bundle.CreatePasekwynagrodzenTitle_fgsp}" />
+                        <p:outputLabel value="#{bundle.CreatePasekwynagrodzenLabel_kosztyuzyskania}" for="kosztyuzyskania" />
+                        <p:inputText id="kosztyuzyskania" value="#{pasekwynagrodzenController.selected.kosztyuzyskania}" title="#{bundle.CreatePasekwynagrodzenTitle_kosztyuzyskania}" />
+                        <p:outputLabel value="#{bundle.CreatePasekwynagrodzenLabel_podstawaopodatkowania}" for="podstawaopodatkowania" />
+                        <p:inputText id="podstawaopodatkowania" value="#{pasekwynagrodzenController.selected.podstawaopodatkowania}" title="#{bundle.CreatePasekwynagrodzenTitle_podstawaopodatkowania}" />
+                        <p:outputLabel value="#{bundle.CreatePasekwynagrodzenLabel_kwotawolna}" for="kwotawolna" />
+                        <p:inputText id="kwotawolna" value="#{pasekwynagrodzenController.selected.kwotawolna}" title="#{bundle.CreatePasekwynagrodzenTitle_kwotawolna}" />
+                        <p:outputLabel value="#{bundle.CreatePasekwynagrodzenLabel_podatekdochodowy}" for="podatekdochodowy" />
+                        <p:inputText id="podatekdochodowy" value="#{pasekwynagrodzenController.selected.podatekdochodowy}" title="#{bundle.CreatePasekwynagrodzenTitle_podatekdochodowy}" />
+                        <p:outputLabel value="#{bundle.CreatePasekwynagrodzenLabel_netto}" for="netto" />
+                        <p:inputText id="netto" value="#{pasekwynagrodzenController.selected.netto}" title="#{bundle.CreatePasekwynagrodzenTitle_netto}" />
+                        <p:outputLabel value="#{bundle.CreatePasekwynagrodzenLabel_bruttozus}" for="bruttozus" />
+                        <p:inputText id="bruttozus" value="#{pasekwynagrodzenController.selected.bruttozus}" title="#{bundle.CreatePasekwynagrodzenTitle_bruttozus}" />
+                        <p:outputLabel value="#{bundle.CreatePasekwynagrodzenLabel_bruttobezzus}" for="bruttobezzus" />
+                        <p:inputText id="bruttobezzus" value="#{pasekwynagrodzenController.selected.bruttobezzus}" title="#{bundle.CreatePasekwynagrodzenTitle_bruttobezzus}" />
+                        <p:outputLabel value="#{bundle.CreatePasekwynagrodzenLabel_definicjalistaplac}" for="definicjalistaplac" />
+                        <p:selectOneMenu id="definicjalistaplac" value="#{pasekwynagrodzenController.selected.definicjalistaplac}" required="true" requiredMessage="#{bundle.EditPasekwynagrodzenRequiredMessage_definicjalistaplac}">
+                            <f:selectItems value="#{definicjalistaplacController.itemsAvailableSelectOne}"
+                                           var="definicjalistaplacItem"
+                                           itemValue="#{definicjalistaplacItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{pasekwynagrodzenController.create}" value="#{bundle.Save}" update="display,:PasekwynagrodzenListForm:datalist,:growl" oncomplete="handleSubmit(args,'PasekwynagrodzenCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PasekwynagrodzenCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DefinicjalistaplacEditDlg" widgetVar="DefinicjalistaplacEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditDefinicjalistaplacTitle}">
+            <h:form id="DefinicjalistaplacEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{definicjalistaplacController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditDefinicjalistaplacLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{definicjalistaplacController.selected.id}" title="#{bundle.EditDefinicjalistaplacTitle_id}" required="true" requiredMessage="#{bundle.EditDefinicjalistaplacRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditDefinicjalistaplacLabel_opis}" for="opis" />
+                        <p:inputText id="opis" value="#{definicjalistaplacController.selected.opis}" title="#{bundle.EditDefinicjalistaplacTitle_opis}" required="true" requiredMessage="#{bundle.EditDefinicjalistaplacRequiredMessage_opis}"/>
+                        <p:outputLabel value="#{bundle.EditDefinicjalistaplacLabel_datasporzadzenia}" for="datasporzadzenia" />
+                        <p:inputText id="datasporzadzenia" value="#{definicjalistaplacController.selected.datasporzadzenia}" title="#{bundle.EditDefinicjalistaplacTitle_datasporzadzenia}" />
+                        <p:outputLabel value="#{bundle.EditDefinicjalistaplacLabel_datapodatek}" for="datapodatek" />
+                        <p:inputText id="datapodatek" value="#{definicjalistaplacController.selected.datapodatek}" title="#{bundle.EditDefinicjalistaplacTitle_datapodatek}" />
+                        <p:outputLabel value="#{bundle.EditDefinicjalistaplacLabel_datazus}" for="datazus" />
+                        <p:inputText id="datazus" value="#{definicjalistaplacController.selected.datazus}" title="#{bundle.EditDefinicjalistaplacTitle_datazus}" />
+                        <p:outputLabel value="#{bundle.EditDefinicjalistaplacLabel_nrkolejny}" for="nrkolejny" />
+                        <p:inputText id="nrkolejny" value="#{definicjalistaplacController.selected.nrkolejny}" title="#{bundle.EditDefinicjalistaplacTitle_nrkolejny}" />
+                        <p:outputLabel value="#{bundle.EditDefinicjalistaplacLabel_rodzajlistyplac}" for="rodzajlistyplac" />
+                        <p:selectOneMenu id="rodzajlistyplac" value="#{definicjalistaplacController.selected.rodzajlistyplac}" required="true" requiredMessage="#{bundle.EditDefinicjalistaplacRequiredMessage_rodzajlistyplac}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{rodzajlistyplacController.itemsAvailableSelectOne}"
+                                           var="rodzajlistyplacItem"
+                                           itemValue="#{rodzajlistyplacItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{definicjalistaplacController.update}" value="#{bundle.Save}" update="display,:DefinicjalistaplacListForm:datalist,:growl" oncomplete="handleSubmit(args, 'DefinicjalistaplacEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="DefinicjalistaplacEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

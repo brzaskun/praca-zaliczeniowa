@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ZmiennawynagrodzeniaEditDlg" widgetVar="ZmiennawynagrodzeniaEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditZmiennawynagrodzeniaTitle}">
+            <h:form id="ZmiennawynagrodzeniaEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{zmiennawynagrodzeniaController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditZmiennawynagrodzeniaLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{zmiennawynagrodzeniaController.selected.id}" title="#{bundle.EditZmiennawynagrodzeniaTitle_id}" required="true" requiredMessage="#{bundle.EditZmiennawynagrodzeniaRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditZmiennawynagrodzeniaLabel_nazwa}" for="nazwa" />
+                        <p:inputText id="nazwa" value="#{zmiennawynagrodzeniaController.selected.nazwa}" title="#{bundle.EditZmiennawynagrodzeniaTitle_nazwa}" />
+                        <p:outputLabel value="#{bundle.EditZmiennawynagrodzeniaLabel_dataod}" for="dataod" />
+                        <p:inputText id="dataod" value="#{zmiennawynagrodzeniaController.selected.dataod}" title="#{bundle.EditZmiennawynagrodzeniaTitle_dataod}" />
+                        <p:outputLabel value="#{bundle.EditZmiennawynagrodzeniaLabel_datado}" for="datado" />
+                        <p:inputText id="datado" value="#{zmiennawynagrodzeniaController.selected.datado}" title="#{bundle.EditZmiennawynagrodzeniaTitle_datado}" />
+                        <p:outputLabel value="#{bundle.EditZmiennawynagrodzeniaLabel_kwotastala}" for="kwotastala" />
+                        <p:inputText id="kwotastala" value="#{zmiennawynagrodzeniaController.selected.kwotastala}" title="#{bundle.EditZmiennawynagrodzeniaTitle_kwotastala}" />
+                        <p:outputLabel value="#{bundle.EditZmiennawynagrodzeniaLabel_stala0zmienna1}" for="stala0zmienna1" />
+                        <p:selectBooleanCheckbox id="stala0zmienna1" value="#{zmiennawynagrodzeniaController.selected.stala0zmienna1}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{zmiennawynagrodzeniaController.update}" value="#{bundle.Save}" update="display,:ZmiennawynagrodzeniaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ZmiennawynagrodzeniaEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ZmiennawynagrodzeniaEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

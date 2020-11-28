@@ -6,9 +6,55 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:dialog id="dialogedycjadanychfirmy" header="Edycja danych firmy #{WpisView.podatnikObiekt.nazwapelnaPDF}." widgetVar="dialogedycjadanychfirmy"  
-              resizable="false"  onShow="ustawdialog('dialogedycjadanychfirmy','centertile',1250,800);" closeOnEscape="true" onHide="resetujdialog('dialogedycjadanychfirmy');" 
+              resizable="false"  onShow="ustawdialog('dialogedycjadanychfirmy','centertile',1450,1000);" closeOnEscape="true" onHide="resetujdialog('dialogedycjadanychfirmy');" 
               fitViewport="true">
-      
-      
+        <p:outputPanel style="height: 300px">
+            <h:form id="FirmaCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{firmaController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateFirmaLabel_nip}" for="nip" />
+                        <p:inputText id="nip" value="#{firmaController.selected.nip}" title="#{bundle.CreateFirmaTitle_nip}" required="true" requiredMessage="#{bundle.CreateFirmaRequiredMessage_nip}"/>
+                        <p:outputLabel value="#{bundle.CreateFirmaLabel_nazwa}" for="nazwa" />
+                        <p:inputText id="nazwa" value="#{firmaController.selected.nazwa}" title="#{bundle.CreateFirmaTitle_nazwa}" required="true" requiredMessage="#{bundle.CreateFirmaRequiredMessage_nazwa}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{firmaController.create}" value="#{bundle.Save}" update="display,:FirmaListForm:datalist"/>
+                    <p:commandButton value="#{bundle.Cancel}"/>
+                </h:panelGroup>
+            </h:form>
+        </p:outputPanel>
+        <p:outputPanel>
+            <h:form id="FirmaListForm">
+                <p:panel header="#{bundle.ListFirmaTitle}">
+                    <p:dataTable id="datalist" value="#{firmaController.items}" var="item"
+                                 selectionMode="single" selection="#{firmaController.selected}"
+                                 rowKey="#{item.id}"
+                                 style="height: 250px; overflow-y: scroll;"
+                                 >
+
+                        <p:column width="40">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_nip}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nip}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFirmaTitle_nazwa}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nazwa}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <p:commandButton value="aktywna" actionListener="#{firmaController.firmaaktywuj(item)}" update="north"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+        </p:outputPanel>
     </p:dialog>
 </ui:composition>

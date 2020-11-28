@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListDefinicjalistaplacTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="DefinicjalistaplacListForm">
+                <p:panel header="#{bundle.ListDefinicjalistaplacTitle}">
+                    <p:dataTable id="datalist" value="#{definicjalistaplacController.items}" var="item"
+                                 selectionMode="single" selection="#{definicjalistaplacController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.id}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_opis}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.opis}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_datasporzadzenia}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.datasporzadzenia}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_datapodatek}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.datapodatek}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_datazus}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.datazus}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_nrkolejny}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nrkolejny}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_rodzajlistyplac}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.rodzajlistyplac}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{definicjalistaplacController.prepareCreate}" update=":DefinicjalistaplacCreateForm" oncomplete="PF('DefinicjalistaplacCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":DefinicjalistaplacViewForm" oncomplete="PF('DefinicjalistaplacViewDialog').show()" disabled="#{empty definicjalistaplacController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":DefinicjalistaplacEditForm" oncomplete="PF('DefinicjalistaplacEditDialog').show()" disabled="#{empty definicjalistaplacController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{definicjalistaplacController.destroy}" update=":growl,datalist" disabled="#{empty definicjalistaplacController.selected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

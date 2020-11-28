@@ -40,12 +40,15 @@
             <var>mgs</var>
         </resource-bundle>
         <message-bundle>
-            scr/main/resources/messagesbundle/messagesbundle.messages
+            messagesbundle.messages
         </message-bundle>
       <resource-bundle>
-         <base-name>/Bundle</base-name>
+         <base-name>messagesbundle.Bundle</base-name>
          <var>bundle</var>
       </resource-bundle>
+       <message-bundle>
+            messagesbundle.Bundle
+      </message-bundle>
    </application>
     <application>
         <locale-config>

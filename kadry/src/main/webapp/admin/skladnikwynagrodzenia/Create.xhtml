@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SkladnikwynagrodzeniaCreateDlg" widgetVar="SkladnikwynagrodzeniaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateSkladnikwynagrodzeniaTitle}">
+            <h:form id="SkladnikwynagrodzeniaCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{skladnikwynagrodzeniaController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateSkladnikwynagrodzeniaLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{skladnikwynagrodzeniaController.selected.id}" title="#{bundle.CreateSkladnikwynagrodzeniaTitle_id}" required="true" requiredMessage="#{bundle.CreateSkladnikwynagrodzeniaRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.CreateSkladnikwynagrodzeniaLabel_nazwa}" for="nazwa" />
+                        <p:inputText id="nazwa" value="#{skladnikwynagrodzeniaController.selected.nazwa}" title="#{bundle.CreateSkladnikwynagrodzeniaTitle_nazwa}" required="true" requiredMessage="#{bundle.CreateSkladnikwynagrodzeniaRequiredMessage_nazwa}"/>
+                        <p:outputLabel value="#{bundle.CreateSkladnikwynagrodzeniaLabel_godzinowe0miesieczne1}" for="godzinowe0miesieczne1" />
+                        <p:selectBooleanCheckbox id="godzinowe0miesieczne1" value="#{skladnikwynagrodzeniaController.selected.godzinowe0miesieczne1}" />
+                        <p:outputLabel value="#{bundle.CreateSkladnikwynagrodzeniaLabel_definicjalistaplac}" for="definicjalistaplac" />
+                        <p:inputText id="definicjalistaplac" value="#{skladnikwynagrodzeniaController.selected.definicjalistaplac}" title="#{bundle.CreateSkladnikwynagrodzeniaTitle_definicjalistaplac}" />
+                        <p:outputLabel value="#{bundle.CreateSkladnikwynagrodzeniaLabel_rodzajumowy}" for="rodzajumowy" />
+                        <p:selectOneMenu id="rodzajumowy" value="#{skladnikwynagrodzeniaController.selected.rodzajumowy}" required="true" requiredMessage="#{bundle.EditSkladnikwynagrodzeniaRequiredMessage_rodzajumowy}">
+                            <f:selectItems value="#{rodzajumowyController.itemsAvailableSelectOne}"
+                                           var="rodzajumowyItem"
+                                           itemValue="#{rodzajumowyItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateSkladnikwynagrodzeniaLabel_zmiennawynagrodzenia}" for="zmiennawynagrodzenia" />
+                        <p:selectOneMenu id="zmiennawynagrodzenia" value="#{skladnikwynagrodzeniaController.selected.zmiennawynagrodzenia}" >
+                            <f:selectItems value="#{zmiennawynagrodzeniaController.itemsAvailableSelectOne}"
+                                           var="zmiennawynagrodzeniaItem"
+                                           itemValue="#{zmiennawynagrodzeniaItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{skladnikwynagrodzeniaController.create}" value="#{bundle.Save}" update="display,:SkladnikwynagrodzeniaListForm:datalist,:growl" oncomplete="handleSubmit(args,'SkladnikwynagrodzeniaCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="SkladnikwynagrodzeniaCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

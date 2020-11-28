@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UmowaCreateDlg" widgetVar="UmowaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateUmowaTitle}">
+            <h:form id="UmowaCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{umowaController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{umowaController.selected.id}" title="#{bundle.CreateUmowaTitle_id}" required="true" requiredMessage="#{bundle.CreateUmowaRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_dataod}" for="dataod" />
+                        <p:inputText id="dataod" value="#{umowaController.selected.dataod}" title="#{bundle.CreateUmowaTitle_dataod}" required="true" requiredMessage="#{bundle.CreateUmowaRequiredMessage_dataod}"/>
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_datado}" for="datado" />
+                        <p:inputText id="datado" value="#{umowaController.selected.datado}" title="#{bundle.CreateUmowaTitle_datado}" required="true" requiredMessage="#{bundle.CreateUmowaRequiredMessage_datado}"/>
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_datazawarcia}" for="datazawarcia" />
+                        <p:inputText id="datazawarcia" value="#{umowaController.selected.datazawarcia}" title="#{bundle.CreateUmowaTitle_datazawarcia}" required="true" requiredMessage="#{bundle.CreateUmowaRequiredMessage_datazawarcia}"/>
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_angaz}" for="angaz" />
+                        <p:selectOneMenu id="angaz" value="#{umowaController.selected.angaz}" required="true" requiredMessage="#{bundle.EditUmowaRequiredMessage_angaz}">
+                            <f:selectItems value="#{angazController.itemsAvailableSelectOne}"
+                                           var="angazItem"
+                                           itemValue="#{angazItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_rodzajumowy}" for="rodzajumowy" />
+                        <p:selectOneMenu id="rodzajumowy" value="#{umowaController.selected.rodzajumowy}" required="true" requiredMessage="#{bundle.EditUmowaRequiredMessage_rodzajumowy}">
+                            <f:selectItems value="#{rodzajumowyController.itemsAvailableSelectOne}"
+                                           var="rodzajumowyItem"
+                                           itemValue="#{rodzajumowyItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{umowaController.create}" value="#{bundle.Save}" update="display,:UmowaListForm:datalist,:growl" oncomplete="handleSubmit(args,'UmowaCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="UmowaCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

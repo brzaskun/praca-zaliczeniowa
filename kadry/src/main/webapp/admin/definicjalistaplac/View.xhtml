@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DefinicjalistaplacViewDlg" widgetVar="DefinicjalistaplacViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewDefinicjalistaplacTitle}">
+            <h:form id="DefinicjalistaplacViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{definicjalistaplacController.selected != null}">
+                        <h:outputText value="#{bundle.ViewDefinicjalistaplacLabel_id}"/>
+                        <h:outputText value="#{definicjalistaplacController.selected.id}" title="#{bundle.ViewDefinicjalistaplacTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewDefinicjalistaplacLabel_opis}"/>
+                        <h:outputText value="#{definicjalistaplacController.selected.opis}" title="#{bundle.ViewDefinicjalistaplacTitle_opis}"/>
+                        <h:outputText value="#{bundle.ViewDefinicjalistaplacLabel_datasporzadzenia}"/>
+                        <h:outputText value="#{definicjalistaplacController.selected.datasporzadzenia}" title="#{bundle.ViewDefinicjalistaplacTitle_datasporzadzenia}"/>
+                        <h:outputText value="#{bundle.ViewDefinicjalistaplacLabel_datapodatek}"/>
+                        <h:outputText value="#{definicjalistaplacController.selected.datapodatek}" title="#{bundle.ViewDefinicjalistaplacTitle_datapodatek}"/>
+                        <h:outputText value="#{bundle.ViewDefinicjalistaplacLabel_datazus}"/>
+                        <h:outputText value="#{definicjalistaplacController.selected.datazus}" title="#{bundle.ViewDefinicjalistaplacTitle_datazus}"/>
+                        <h:outputText value="#{bundle.ViewDefinicjalistaplacLabel_nrkolejny}"/>
+                        <h:outputText value="#{definicjalistaplacController.selected.nrkolejny}" title="#{bundle.ViewDefinicjalistaplacTitle_nrkolejny}"/>
+                        <h:outputText value="#{bundle.ViewDefinicjalistaplacLabel_rodzajlistyplac}"/>
+                        <h:outputText value="#{definicjalistaplacController.selected.rodzajlistyplac}" title="#{bundle.ViewDefinicjalistaplacTitle_rodzajlistyplac}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="DefinicjalistaplacViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

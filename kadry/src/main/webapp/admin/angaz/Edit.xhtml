@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AngazEditDlg" widgetVar="AngazEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditAngazTitle}">
+            <h:form id="AngazEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{angazController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditAngazLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{angazController.selected.id}" title="#{bundle.EditAngazTitle_id}" required="true" requiredMessage="#{bundle.EditAngazRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditAngazLabel_rodzajwynagrodzenia}" for="rodzajwynagrodzenia" />
+                        <p:inputText id="rodzajwynagrodzenia" value="#{angazController.selected.rodzajwynagrodzenia}" title="#{bundle.EditAngazTitle_rodzajwynagrodzenia}" required="true" requiredMessage="#{bundle.EditAngazRequiredMessage_rodzajwynagrodzenia}"/>
+                        <p:outputLabel value="#{bundle.EditAngazLabel_firma}" for="firma" />
+                        <p:selectOneMenu id="firma" value="#{angazController.selected.firma}" required="true" requiredMessage="#{bundle.EditAngazRequiredMessage_firma}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{firmaController.itemsAvailableSelectOne}"
+                                           var="firmaItem"
+                                           itemValue="#{firmaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditAngazLabel_podatek}" for="podatek" />
+                        <p:selectOneMenu id="podatek" value="#{angazController.selected.podatek}" required="true" requiredMessage="#{bundle.EditAngazRequiredMessage_podatek}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{podatekController.itemsAvailableSelectOne}"
+                                           var="podatekItem"
+                                           itemValue="#{podatekItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditAngazLabel_pracownik}" for="pracownik" />
+                        <p:selectOneMenu id="pracownik" value="#{angazController.selected.pracownik}" required="true" requiredMessage="#{bundle.EditAngazRequiredMessage_pracownik}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{pracownikController.itemsAvailableSelectOne}"
+                                           var="pracownikItem"
+                                           itemValue="#{pracownikItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditAngazLabel_ubezpieczenie}" for="ubezpieczenie" />
+                        <p:selectOneMenu id="ubezpieczenie" value="#{angazController.selected.ubezpieczenie}" required="true" requiredMessage="#{bundle.EditAngazRequiredMessage_ubezpieczenie}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{ubezpieczenieController.itemsAvailableSelectOne}"
+                                           var="ubezpieczenieItem"
+                                           itemValue="#{ubezpieczenieItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{angazController.update}" value="#{bundle.Save}" update="display,:AngazListForm:datalist,:growl" oncomplete="handleSubmit(args, 'AngazEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="AngazEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

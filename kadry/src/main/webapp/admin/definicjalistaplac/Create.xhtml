@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DefinicjalistaplacCreateDlg" widgetVar="DefinicjalistaplacCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateDefinicjalistaplacTitle}">
+            <h:form id="DefinicjalistaplacCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{definicjalistaplacController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{definicjalistaplacController.selected.id}" title="#{bundle.CreateDefinicjalistaplacTitle_id}" required="true" requiredMessage="#{bundle.CreateDefinicjalistaplacRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_opis}" for="opis" />
+                        <p:inputText id="opis" value="#{definicjalistaplacController.selected.opis}" title="#{bundle.CreateDefinicjalistaplacTitle_opis}" required="true" requiredMessage="#{bundle.CreateDefinicjalistaplacRequiredMessage_opis}"/>
+                        <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_datasporzadzenia}" for="datasporzadzenia" />
+                        <p:inputText id="datasporzadzenia" value="#{definicjalistaplacController.selected.datasporzadzenia}" title="#{bundle.CreateDefinicjalistaplacTitle_datasporzadzenia}" />
+                        <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_datapodatek}" for="datapodatek" />
+                        <p:inputText id="datapodatek" value="#{definicjalistaplacController.selected.datapodatek}" title="#{bundle.CreateDefinicjalistaplacTitle_datapodatek}" />
+                        <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_datazus}" for="datazus" />
+                        <p:inputText id="datazus" value="#{definicjalistaplacController.selected.datazus}" title="#{bundle.CreateDefinicjalistaplacTitle_datazus}" />
+                        <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_nrkolejny}" for="nrkolejny" />
+                        <p:inputText id="nrkolejny" value="#{definicjalistaplacController.selected.nrkolejny}" title="#{bundle.CreateDefinicjalistaplacTitle_nrkolejny}" />
+                        <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_rodzajlistyplac}" for="rodzajlistyplac" />
+                        <p:selectOneMenu id="rodzajlistyplac" value="#{definicjalistaplacController.selected.rodzajlistyplac}" required="true" requiredMessage="#{bundle.EditDefinicjalistaplacRequiredMessage_rodzajlistyplac}">
+                            <f:selectItems value="#{rodzajlistyplacController.itemsAvailableSelectOne}"
+                                           var="rodzajlistyplacItem"
+                                           itemValue="#{rodzajlistyplacItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{definicjalistaplacController.create}" value="#{bundle.Save}" update="display,:DefinicjalistaplacListForm:datalist,:growl" oncomplete="handleSubmit(args,'DefinicjalistaplacCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="DefinicjalistaplacCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PasekwynagrodzenViewDlg" widgetVar="PasekwynagrodzenViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewPasekwynagrodzenTitle}">
+            <h:form id="PasekwynagrodzenViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{pasekwynagrodzenController.selected != null}">
+                        <h:outputText value="#{bundle.ViewPasekwynagrodzenLabel_id}"/>
+                        <h:outputText value="#{pasekwynagrodzenController.selected.id}" title="#{bundle.ViewPasekwynagrodzenTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewPasekwynagrodzenLabel_pracchorobowe}"/>
+                        <h:outputText value="#{pasekwynagrodzenController.selected.pracchorobowe}" title="#{bundle.ViewPasekwynagrodzenTitle_pracchorobowe}"/>
+                        <h:outputText value="#{bundle.ViewPasekwynagrodzenLabel_pracrentowe}"/>
+                        <h:outputText value="#{pasekwynagrodzenController.selected.pracrentowe}" title="#{bundle.ViewPasekwynagrodzenTitle_pracrentowe}"/>
+                        <h:outputText value="#{bundle.ViewPasekwynagrodzenLabel_pracemerytalne}"/>
+                        <h:outputText value="#{pasekwynagrodzenController.selected.pracemerytalne}" title="#{bundle.ViewPasekwynagrodzenTitle_pracemerytalne}"/>
+                        <h:outputText value="#{bundle.ViewPasekwynagrodzenLabel_praczdrowotne}"/>
+                        <h:outputText value="#{pasekwynagrodzenController.selected.praczdrowotne}" title="#{bundle.ViewPasekwynagrodzenTitle_praczdrowotne}"/>
+                        <h:outputText value="#{bundle.ViewPasekwynagrodzenLabel_praczdrowotnepomniejszone}"/>
+                        <h:outputText value="#{pasekwynagrodzenController.selected.praczdrowotnepomniejszone}" title="#{bundle.ViewPasekwynagrodzenTitle_praczdrowotnepomniejszone}"/>
+                        <h:outputText value="#{bundle.ViewPasekwynagrodzenLabel_praczdrowotnedodoliczenia}"/>
+                        <h:outputText value="#{pasekwynagrodzenController.selected.praczdrowotnedodoliczenia}" title="#{bundle.ViewPasekwynagrodzenTitle_praczdrowotnedodoliczenia}"/>
+                        <h:outputText value="#{bundle.ViewPasekwynagrodzenLabel_praczdrowotnedopotracenia}"/>
+                        <h:outputText value="#{pasekwynagrodzenController.selected.praczdrowotnedopotracenia}" title="#{bundle.ViewPasekwynagrodzenTitle_praczdrowotnedopotracenia}"/>
+                        <h:outputText value="#{bundle.ViewPasekwynagrodzenLabel_rentowe}"/>
+                        <h:outputText value="#{pasekwynagrodzenController.selected.rentowe}" title="#{bundle.ViewPasekwynagrodzenTitle_rentowe}"/>
+                        <h:outputText value="#{bundle.ViewPasekwynagrodzenLabel_wypadkowe}"/>
+                        <h:outputText value="#{pasekwynagrodzenController.selected.wypadkowe}" title="#{bundle.ViewPasekwynagrodzenTitle_wypadkowe}"/>
+                        <h:outputText value="#{bundle.ViewPasekwynagrodzenLabel_fp}"/>
+                        <h:outputText value="#{pasekwynagrodzenController.selected.fp}" title="#{bundle.ViewPasekwynagrodzenTitle_fp}"/>
+                        <h:outputText value="#{bundle.ViewPasekwynagrodzenLabel_fgsp}"/>
+                        <h:outputText value="#{pasekwynagrodzenController.selected.fgsp}" title="#{bundle.ViewPasekwynagrodzenTitle_fgsp}"/>
+                        <h:outputText value="#{bundle.ViewPasekwynagrodzenLabel_kosztyuzyskania}"/>
+                        <h:outputText value="#{pasekwynagrodzenController.selected.kosztyuzyskania}" title="#{bundle.ViewPasekwynagrodzenTitle_kosztyuzyskania}"/>
+                        <h:outputText value="#{bundle.ViewPasekwynagrodzenLabel_podstawaopodatkowania}"/>
+                        <h:outputText value="#{pasekwynagrodzenController.selected.podstawaopodatkowania}" title="#{bundle.ViewPasekwynagrodzenTitle_podstawaopodatkowania}"/>
+                        <h:outputText value="#{bundle.ViewPasekwynagrodzenLabel_kwotawolna}"/>
+                        <h:outputText value="#{pasekwynagrodzenController.selected.kwotawolna}" title="#{bundle.ViewPasekwynagrodzenTitle_kwotawolna}"/>
+                        <h:outputText value="#{bundle.ViewPasekwynagrodzenLabel_podatekdochodowy}"/>
+                        <h:outputText value="#{pasekwynagrodzenController.selected.podatekdochodowy}" title="#{bundle.ViewPasekwynagrodzenTitle_podatekdochodowy}"/>
+                        <h:outputText value="#{bundle.ViewPasekwynagrodzenLabel_netto}"/>
+                        <h:outputText value="#{pasekwynagrodzenController.selected.netto}" title="#{bundle.ViewPasekwynagrodzenTitle_netto}"/>
+                        <h:outputText value="#{bundle.ViewPasekwynagrodzenLabel_bruttozus}"/>
+                        <h:outputText value="#{pasekwynagrodzenController.selected.bruttozus}" title="#{bundle.ViewPasekwynagrodzenTitle_bruttozus}"/>
+                        <h:outputText value="#{bundle.ViewPasekwynagrodzenLabel_bruttobezzus}"/>
+                        <h:outputText value="#{pasekwynagrodzenController.selected.bruttobezzus}" title="#{bundle.ViewPasekwynagrodzenTitle_bruttobezzus}"/>
+                        <h:outputText value="#{bundle.ViewPasekwynagrodzenLabel_definicjalistaplac}"/>
+                        <h:outputText value="#{pasekwynagrodzenController.selected.definicjalistaplac}" title="#{bundle.ViewPasekwynagrodzenTitle_definicjalistaplac}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PasekwynagrodzenViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

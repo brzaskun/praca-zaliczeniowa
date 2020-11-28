@@ -92,9 +92,6 @@ public class Uz implements Serializable {
     private double procent;
     @Column(name = "wynagrodzenieprocentowe")
     private double wynagrodzenieprocentowe;
-//    @ManyToOne
-//    @JoinColumn(name = "podid", referencedColumnName = "id")
-//    private Podatnik podatnik;
     @Column(name = "rokWpisu")
     private Integer rokWpisu;
     @Size(max = 2)

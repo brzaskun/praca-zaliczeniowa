@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NaliczeniepotracenieCreateDlg" widgetVar="NaliczeniepotracenieCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateNaliczeniepotracenieTitle}">
+            <h:form id="NaliczeniepotracenieCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{naliczeniepotracenieController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateNaliczeniepotracenieLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{naliczeniepotracenieController.selected.id}" title="#{bundle.CreateNaliczeniepotracenieTitle_id}" required="true" requiredMessage="#{bundle.CreateNaliczeniepotracenieRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.CreateNaliczeniepotracenieLabel_kwota}" for="kwota" />
+                        <p:inputText id="kwota" value="#{naliczeniepotracenieController.selected.kwota}" title="#{bundle.CreateNaliczeniepotracenieTitle_kwota}" required="true" requiredMessage="#{bundle.CreateNaliczeniepotracenieRequiredMessage_kwota}"/>
+                        <p:outputLabel value="#{bundle.CreateNaliczeniepotracenieLabel_rok}" for="rok" />
+                        <p:inputText id="rok" value="#{naliczeniepotracenieController.selected.rok}" title="#{bundle.CreateNaliczeniepotracenieTitle_rok}" required="true" requiredMessage="#{bundle.CreateNaliczeniepotracenieRequiredMessage_rok}"/>
+                        <p:outputLabel value="#{bundle.CreateNaliczeniepotracenieLabel_mc}" for="mc" />
+                        <p:inputText id="mc" value="#{naliczeniepotracenieController.selected.mc}" title="#{bundle.CreateNaliczeniepotracenieTitle_mc}" required="true" requiredMessage="#{bundle.CreateNaliczeniepotracenieRequiredMessage_mc}"/>
+                        <p:outputLabel value="#{bundle.CreateNaliczeniepotracenieLabel_definicjalistaplac}" for="definicjalistaplac" />
+                        <p:selectOneMenu id="definicjalistaplac" value="#{naliczeniepotracenieController.selected.definicjalistaplac}" >
+                            <f:selectItems value="#{definicjalistaplacController.itemsAvailableSelectOne}"
+                                           var="definicjalistaplacItem"
+                                           itemValue="#{definicjalistaplacItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateNaliczeniepotracenieLabel_skladnikpotracenia}" for="skladnikpotracenia" />
+                        <p:selectOneMenu id="skladnikpotracenia" value="#{naliczeniepotracenieController.selected.skladnikpotracenia}" required="true" requiredMessage="#{bundle.EditNaliczeniepotracenieRequiredMessage_skladnikpotracenia}">
+                            <f:selectItems value="#{skladnikpotraceniaController.itemsAvailableSelectOne}"
+                                           var="skladnikpotraceniaItem"
+                                           itemValue="#{skladnikpotraceniaItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{naliczeniepotracenieController.create}" value="#{bundle.Save}" update="display,:NaliczeniepotracenieListForm:datalist,:growl" oncomplete="handleSubmit(args,'NaliczeniepotracenieCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="NaliczeniepotracenieCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
