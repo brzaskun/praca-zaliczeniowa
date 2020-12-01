@@ -38,18 +38,62 @@ public class Pozycjenafakturzebazadanych implements Serializable{
     public Pozycjenafakturzebazadanych() {
     }
 
-         public Pozycjenafakturzebazadanych(int lp, String nazwa, String PKWiU, String jednostka, double ilosc, double cena, double netto, double podatek, double podatekkwota, double brutto) {
-            this.lp = lp;
-            this.nazwa = nazwa;
-            this.PKWiU = PKWiU;
-            this.jednostka = jednostka;
-            this.ilosc = ilosc;
-            this.cena = cena;
-            this.netto = netto;
-            this.podatek = podatek;
-            this.podatekkwota = podatekkwota;
-            this.brutto = brutto;
-        }
+    public Pozycjenafakturzebazadanych(int lp, String nazwa, String PKWiU, String jednostka, double ilosc, double cena, double netto, double podatek, double podatekkwota, double brutto) {
+       this.lp = lp;
+       this.nazwa = nazwa;
+       this.PKWiU = PKWiU;
+       this.jednostka = jednostka;
+       this.ilosc = ilosc;
+       this.cena = cena;
+       this.netto = netto;
+       this.podatek = podatek;
+       this.podatekkwota = podatekkwota;
+       this.brutto = brutto;
+   }
+    
+    public Pozycjenafakturzebazadanych(int lp, String nazwa, String nowakolumna, double cenajedn0, double cenajedn1, double cenajedn2, double cenajedn3, double cenajedn4, double cenajedn5, String PKWiU, String jednostka, double ilosc, double cena, double netto, double podatek, double podatekkwota, double brutto, int dodatkowapozycja) {
+       this.lp = lp;
+       this.nazwa = nazwa;
+       this.nowakolumna = nowakolumna;
+       this.cenajedn0 = cenajedn0;
+       this.cenajedn1 = cenajedn1;
+       this.cenajedn2 = cenajedn2;
+       this.cenajedn3 = cenajedn3;
+       this.cenajedn4 = cenajedn4;
+       this.cenajedn5 = cenajedn5;
+       this.PKWiU = PKWiU;
+       this.jednostka = jednostka;
+       this.ilosc = ilosc;
+       this.cena = cena;
+       this.netto = netto;
+       this.podatek = podatek;
+       this.podatekkwota = podatekkwota;
+       this.brutto = brutto;
+       this.dodatkowapozycja = dodatkowapozycja;
+   }
+
+    public Pozycjenafakturzebazadanych(Pozycjenafakturzebazadanych p) {
+       this.lp = p.lp;
+       this.nazwa = p.nazwa;
+       this.nowakolumna = p.nowakolumna;
+       this.cenajedn0 = p.cenajedn0;
+       this.cenajedn1 = p.cenajedn1;
+       this.cenajedn2 = p.cenajedn2;
+       this.cenajedn3 = p.cenajedn3;
+       this.cenajedn4 = p.cenajedn4;
+       this.cenajedn5 = p.cenajedn5;
+       this.PKWiU = p.PKWiU;
+       this.jednostka = p.jednostka;
+       this.ilosc = p.ilosc;
+       this.cena = p.cena;
+       this.netto = p.netto;
+       this.podatek = p.podatek;
+       this.podatekkwota = p.podatekkwota;
+       this.brutto = p.brutto;
+       this.dodatkowapozycja = p.dodatkowapozycja;
+    }
+    
+    
 
     public int getLp() {
         return lp;
