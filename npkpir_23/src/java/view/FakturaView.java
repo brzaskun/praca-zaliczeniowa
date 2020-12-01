@@ -669,7 +669,7 @@ public class FakturaView implements Serializable {
         pokazfakture = true;
         zapis0edycja1 = false;
         selected.setNumerkolejny(selected.getNumerkolejny()+"/KOR");
-        selected.setPozycjepokorekcie(SerialClone.clone(faktura.getPozycjenafakturze()));
+        selected.setPozycjepokorekcie(utworznowepozycje(faktura.getPozycjenafakturze()));
 //        String funkcja = "PF('tworzenieklientapolenazwy').search('"+faktura.getKontrahent_nip()+"');";
 //        PrimeFaces.current().executeScript(funkcja);
 //        funkcja = "PF('tworzenieklientapolenazwy').activate();";
@@ -2830,6 +2830,16 @@ public class FakturaView implements Serializable {
                 }
             }
         }
+    }
+
+    private List<Pozycjenafakturzebazadanych> utworznowepozycje(List<Pozycjenafakturzebazadanych> pozycjenafakturze) {
+        List<Pozycjenafakturzebazadanych> zwrot = new ArrayList<>();
+        if (pozycjenafakturze!=null) {
+            for (Pozycjenafakturzebazadanych p : pozycjenafakturze) {
+                zwrot.add(new Pozycjenafakturzebazadanych(p));
+            }
+        }
+        return zwrot;
     }
 
    
