@@ -187,8 +187,8 @@ public class JPK_VAT2020M_Bean {
                 w.setDokumentZakupu(pobierzdokumentzakupu(ev));
                 w.setDataZakupu(Data.dataoddo(ev.getDataoperacji()));
                 w.setDataWplywu(Data.dataoddo(ev.getDatadokumentu()));
-                w.setKodKrajuNadaniaTIN(kodkraju(ev.getDokfk().getKontr()));
-                w.setNrDostawcy(przetworznip(ev.getDokfk().getKontr().getNip()));
+                w.setKodKrajuNadaniaTIN(kodkraju(ev.getKlient()));
+                w.setNrDostawcy(przetworznip(ev.getKlient().getNip()));
                 w.setNazwaDostawcy(ev.getKlient().getNpelna());
                 w.setDowodZakupu(ev.getNumerwlasnydokfk());
             } else {
