@@ -443,8 +443,13 @@ public class EwidencjaVatView implements Serializable {
                 wyluskajzlisty(listaprzesunietychBardziejPrzychody, "przychody");
                 sumaprzesunietychBardziejPrzychody = sumujprzesuniete(listaprzesunietychBardziejPrzychody);
             }
-            
- 
+            List<EVatwpisSuper> wierszedodatkowe = Collections.synchronizedList(new ArrayList<>());
+            for (EVatwpisSuper ewid : listadokvatprzetworzona) {
+                if (ewid.getNazwaewidencji().getTypewidencji().equals("sz") && !ewid.isNieduplikuj()) {
+                    wierszedodatkowe.add(beansVAT.EwidencjaVATSporzadzanie.duplikujEVatwpisSuper(ewid,ewidencjazakupu));
+                }
+            }
+            listadokvatprzetworzona.addAll(wierszedodatkowe);
         } catch (Exception e) { 
             E.e(e); 
         }
