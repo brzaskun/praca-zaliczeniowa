@@ -17,6 +17,7 @@
                         <h:form id="form">
                             <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                         </h:form>
+                            <f:event type="preRenderView" listener="#{deklaracjevatView.init()}"/>
                              <f:event type="preRenderView" listener="#{podpisView.sprawdzczymozna(WpisView)}"/>
                             <ui:include src="../wspolny/sub/vatdowyslania.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                     </p:layoutUnit>
