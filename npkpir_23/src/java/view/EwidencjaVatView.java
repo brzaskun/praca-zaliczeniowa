@@ -345,7 +345,7 @@ public class EwidencjaVatView implements Serializable {
             }
             pobierzmiesiacdlajpk = false;
             PrimeFaces.current().ajax().update("formVatZestKsiegowa");
-            Msg.msg("Sporządzono ewidencje");
+            Msg.msg("Sporządzono deklarację VAT");
         } catch (Exception e) { 
             Msg.dPe();
             E.e(e);
