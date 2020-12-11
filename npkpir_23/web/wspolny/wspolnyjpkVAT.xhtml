@@ -30,10 +30,10 @@
             </p:selectOneMenu>
         </p:panelGrid>
         <p:panelGrid columns="5" rendered="#{WpisView.podatnikObiekt.nip eq '5263158333'}">
-            <p:commandButton value="wyślij jpk" actionListener="#{jPK_VAT2View.przygotujXMLDedra()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.nowa0korekta1 and !jPK_VAT2View.pkpir0ksiegi1}"/>
-            <p:commandButton value="wyślij korekta" actionListener="#{jPK_VAT2View.przygotujXMLDedra()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.nowa0korekta1 and !jPK_VAT2View.pkpir0ksiegi1}"/>
-            <p:commandButton value="podgląd jpk" actionListener="#{jPK_VAT2View.przygotujXMLPodgladDedra()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.pkpir0ksiegi1}"/>
-            <p:commandButton value="pobierz jpk" actionListener="#{jPK_VAT2View.przygotujXMLDedraDL()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.pkpir0ksiegi1}"/>
+            <p:commandButton value="wyślij jpk" actionListener="#{jPK_VAT2View.przygotujXMLDedra()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.nowa0korekta1}"/>
+            <p:commandButton value="wyślij korekta" actionListener="#{jPK_VAT2View.przygotujXMLDedra()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.nowa0korekta1}"/>
+            <p:commandButton value="podgląd jpk" actionListener="#{jPK_VAT2View.przygotujXMLPodgladDedra()}" update="@form" style="width: 120px;" />
+            <p:commandButton value="pobierz jpk" actionListener="#{jPK_VAT2View.przygotujXMLDedraDL()}" update="@form" style="width: 120px;" />
             <h:outputText value="wersja jpk (0 - jpk pierwotne)" style="margin-left: 200px;"/>
             <p:selectOneMenu value="#{jPK_VAT2View.werjsajpkrecznie}" label="wersja jpk">
                 <f:selectItem itemValue="0" itemLabel="0"/>
