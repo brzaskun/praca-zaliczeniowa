@@ -479,7 +479,7 @@ public class JPK_VAT2View implements Serializable {
     private JPKSuper genJPK(List<EVatwpisSuper> wiersze, Podatnik podatnik, boolean nowa0korekta1) {
         JPKSuper zwrot = null;
         try {
-            if (wpisView.isJpk2020M()) {
+            if (wpisView.isJpk2020M()||podatnik.getNip().equals("5263158333")) {
                 JPKVATWersja jPKVATWersja = jPKVATWersjaDAO.findByName("JPK2020");
                 List<JPKvatwersjaEvewidencja> jpkev = jPKvatwersjaEvewidencjaDAO.findJPKEwidencje(jPKVATWersja);
                 Map<Evewidencja, JPKvatwersjaEvewidencja> mapa = przetworzjpk(jpkev);
