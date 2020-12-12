@@ -36,88 +36,90 @@ public class ImportPayPal_CSV implements Serializable {
     private static final long serialVersionUID = 1L;
     
     
-    public static List importujdok(byte[] pobrane, String mcwpisu, int nrwyciagu, int lpwiersza, String mc) {
+    public static List importujdok(byte[] pobrane, String mcwpisu, int nrwyciagu, int lpwiersza, String mc, String wybranawaluta) {
         List zwrot = new ArrayList<Object>();
         ImportowanyPlikNaglowek pn = new ImportowanyPlikNaglowek();
-        String numer = String.valueOf(nrwyciagu)+"mc";
+        String numer = String.valueOf(nrwyciagu) + "mc";
         List<ImportBankWiersz> listaswierszy = new ArrayList<>();
         boolean blad = false;
         try {
             ByteArrayInputStream file = new ByteArrayInputStream(pobrane);
-            if (pobrane!=null) {
-                    //Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(Files.newBufferedReader(pathToFile,Charset.forName("UTF-8")));
-                    Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse( new InputStreamReader(file,Charset.forName("UTF-8")));
-                    int i = 0;
-                     ImportBankWiersz y = new ImportBankWiersz();
-                     for (CSVRecord record : recordss) {
-                         if (i==0) {
-                             pn.setWyciagnr(numer);
-                             pn.setWyciagnrod(numer);
-                             pn.setWyciagnrdo(numer);
-                             pn.setWyciagdataod(Data.zmienkolejnoscUS(record.get("Data")));
-                             pn.setWyciagdatado(Data.zmienkolejnoscUS(record.get("Data")));
-                             pn.setWyciagkonto("brak");
-                             pn.setWyciagwaluta("PLN");
-                             double kwota =  F.kwota(record.get("Brutto"));
-                             double bokwota = F.kwota(record.get("Saldo"))-kwota;
-                             pn.setWyciagbo(bokwota);
-                             pn.setWyciagobrotywn(kwota > 0.0 ? kwota : 0.0);
-                             pn.setWyciagobrotyma(kwota < 0.0 ? Math.abs(kwota) : 0.0);
-                             String mcwiersz = Data.zmienkolejnosc(Data.zmienkolejnoscUS(record.get("Data"))).split("-")[1];
-                             if (!mcwiersz.equals(mc)) {
-                                 blad = true;
-                                 break;
-                             }
-                         }
-                             ImportBankWiersz x = new ImportBankWiersz();
-                             x.setNr(lpwiersza++);
-                             x.setDatatransakcji(Data.zmienkolejnoscUS(record.get("Data")));
-                             x.setDatawaluty(Data.zmienkolejnoscUS(record.get("Data")));
-                             String mcwiersz = Data.zmienkolejnosc(Data.zmienkolejnoscUS(record.get("Data"))).split("-")[1];
-                             if (!mcwiersz.equals(mc)) {
-                                 blad = true;
-                                 break;
-                             }
-                             x.setIBAN("");//??
-                             x.setWaluta("PLN");
-                             x.setKontrahent(record.get("Z adresu e-mail"));//??
-                             double kwota =  F.kwota(record.get("Brutto"));
-                             x.setKwota(kwota);
-                             if (kwota > 0.0) {
-                                 x.setWnma("Wn");
-                                 pn.setWyciagobrotywn(pn.getWyciagobrotywn()+kwota);
-                             } else {
-                                 x.setWnma("Ma");
-                                 pn.setWyciagobrotyma(pn.getWyciagobrotyma()+Math.abs(kwota));
-                             }
-                             x.setNrtransakji(record.get("Numer transakcji"));
-                             x.setOpistransakcji(record.get("Opis"));
-                             x.setTyptransakcji(oblicztyptransakcji(x));
-                             pn.setWyciagdatado(Data.zmienkolejnoscUS(record.get("Data")));
-                             pn.setWyciagbz(F.kwota(record.get("Saldo")));
-                             x.setNaglowek(pn);
-                             y.setNr(lpwiersza+2);
-                             y.setDatatransakcji(Data.zmienkolejnoscUS(record.get("Data")));
-                             y.setDatawaluty(Data.zmienkolejnoscUS(record.get("Data")));
-                             y.setIBAN("");//??
-                             y.setKontrahent(record.get("Z adresu e-mail"));//??
-                             kwota =  F.kwota(record.get("Opłata"));
-                             y.setKwota(Z.z(y.getKwota()+kwota)) ;
-                             y.setWnma("Ma");
-                             y.setWaluta("PLN");
-                             y.setNrtransakji("Prowizja");
-                             y.setOpistransakcji("Prowizja");
-                             y.setTyptransakcji(oblicztyptransakcji(y));
-                             y.setNaglowek(pn);
-                             listaswierszy.add(x);
-                             i++;
-                         }
-                     Collections.sort(listaswierszy, new ImportBankWierszcomparator());
-                     int j = 1;
-                     for (ImportBankWiersz p : listaswierszy) {
-                         p.setNr(j++);
-                     }
-                 listaswierszy.add(y);
+            if (pobrane != null) {
+                //Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(Files.newBufferedReader(pathToFile,Charset.forName("UTF-8")));
+                Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(new InputStreamReader(file, Charset.forName("UTF-8")));
+                int i = 0;
+                ImportBankWiersz y = new ImportBankWiersz();
+                for (CSVRecord record : recordss) {
+                    if (i == 0) {
+                        pn.setWyciagnr(numer);
+                        pn.setWyciagnrod(numer);
+                        pn.setWyciagnrdo(numer);
+                        pn.setWyciagdataod(Data.zmienkolejnoscUS(record.get("Data")));
+                        pn.setWyciagdatado(Data.zmienkolejnoscUS(record.get("Data")));
+                        pn.setWyciagkonto("brak");
+                        pn.setWyciagwaluta(wybranawaluta);
+                        double kwota = F.kwota(record.get("Brutto"));
+                        double bokwota = F.kwota(record.get("Saldo")) - kwota;
+                        pn.setWyciagbo(bokwota);
+                        pn.setWyciagobrotywn(kwota > 0.0 ? kwota : 0.0);
+                        pn.setWyciagobrotyma(kwota < 0.0 ? Math.abs(kwota) : 0.0);
+                        String mcwiersz = Data.zmienkolejnosc(Data.zmienkolejnoscUS(record.get("Data"))).split("-")[1];
+                        if (!mcwiersz.equals(mc)) {
+                            blad = true;
+                            break;
+                        }
+                    }
+                    if (record.get("Waluta").equals(wybranawaluta)) {
+                        ImportBankWiersz x = new ImportBankWiersz();
+                        x.setNr(lpwiersza++);
+                        x.setDatatransakcji(Data.zmienkolejnoscUS(record.get("Data")));
+                        x.setDatawaluty(Data.zmienkolejnoscUS(record.get("Data")));
+                        String mcwiersz = Data.zmienkolejnosc(Data.zmienkolejnoscUS(record.get("Data"))).split("-")[1];
+                        if (!mcwiersz.equals(mc)) {
+                            blad = true;
+                            break;
+                        }
+                        x.setIBAN("");//??
+                        x.setWaluta(wybranawaluta);
+                        x.setKontrahent(record.get("Z adresu e-mail"));//??
+                        double kwota = F.kwota(record.get("Brutto"));
+                        x.setKwota(kwota);
+                        if (kwota > 0.0) {
+                            x.setWnma("Wn");
+                            pn.setWyciagobrotywn(pn.getWyciagobrotywn() + kwota);
+                        } else {
+                            x.setWnma("Ma");
+                            pn.setWyciagobrotyma(pn.getWyciagobrotyma() + Math.abs(kwota));
+                        }
+                        x.setNrtransakji(record.get("Numer transakcji"));
+                        x.setOpistransakcji(record.get("Opis"));
+                        x.setTyptransakcji(oblicztyptransakcji(x));
+                        pn.setWyciagdatado(Data.zmienkolejnoscUS(record.get("Data")));
+                        pn.setWyciagbz(F.kwota(record.get("Saldo")));
+                        x.setNaglowek(pn);
+                        y.setNr(lpwiersza + 2);
+                        y.setDatatransakcji(Data.zmienkolejnoscUS(record.get("Data")));
+                        y.setDatawaluty(Data.zmienkolejnoscUS(record.get("Data")));
+                        y.setIBAN("");//??
+                        y.setKontrahent("prowizja");//??
+                        kwota = F.kwota(record.get("Opłata"));
+                        y.setKwota(Z.z(y.getKwota() + kwota));
+                        y.setWnma("Ma");
+                        y.setWaluta("PLN");
+                        y.setNrtransakji("Prowizja");
+                        y.setOpistransakcji("Prowizja");
+                        y.setTyptransakcji(oblicztyptransakcji(y));
+                        y.setNaglowek(pn);
+                        listaswierszy.add(x);
+                        i++;
+                    }
+                }
+                Collections.sort(listaswierszy, new ImportBankWierszcomparator());
+                int j = 1;
+                for (ImportBankWiersz p : listaswierszy) {
+                    p.setNr(j++);
+                }
+                listaswierszy.add(y);
             }
         } catch (Exception e) {
             E.e(e);
@@ -127,7 +129,7 @@ public class ImportPayPal_CSV implements Serializable {
         zwrot.add(nrwyciagu);
         zwrot.add(lpwiersza);
         if (blad) {
-           zwrot.add("dataerror");
+            zwrot.add("dataerror");
         }
         return zwrot;
     }

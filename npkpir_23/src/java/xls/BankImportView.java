@@ -136,6 +136,7 @@ public class BankImportView implements Serializable {
     private ImportowanyPlikNaglowek naglowek;
     @Inject
     private BankImportWzoryDAO bankImportWzoryDAO;
+    private String wybranawaluta;
  //typ transakcji
         //1 wpływ faktura 201,203
         //2 zapłata faktura 202,204
@@ -303,7 +304,7 @@ public class BankImportView implements Serializable {
                             break;
                         case 9 :
                             numerwyciagu = 1;
-                            zwrot = ImportPayPal_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu());
+                            zwrot = ImportPayPal_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu(), wybranawaluta);
                             break;
                     }
                     if (zwrot.size()==5) {
@@ -871,6 +872,14 @@ public class BankImportView implements Serializable {
 
     public void setAlert1(HtmlOutputText alert1) {
         this.alert1 = alert1;
+    }
+
+    public String getWybranawaluta() {
+        return wybranawaluta;
+    }
+
+    public void setWybranawaluta(String wybranawaluta) {
+        this.wybranawaluta = wybranawaluta;
     }
 
    

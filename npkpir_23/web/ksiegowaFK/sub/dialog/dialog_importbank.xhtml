@@ -44,7 +44,7 @@
                         </p:fileUpload>
                         <p:growl life="3600"  id="messages1" showDetail="false"/>
                     </p:panelGrid>
-                <p:panelGrid columns="2" style="margin-top: 20px;margin-bottom: 10px; float: right;" rendered="false" binding="#{bankImportView.grid1}">
+                <p:panelGrid columns="4" style="margin-top: 20px;margin-bottom: 10px; float: right;" rendered="false" binding="#{bankImportView.grid1}">
                     <h:outputText value="rodzaj wyciągu" style="margin-left: 40px;"/>
                         <p:selectOneMenu id="symbolall" value="#{bankImportView.rodzajdok}" 
                                          style="width: 200px; margin-left: 20px;"  converter="#{rodzajedokConv}">
@@ -52,6 +52,16 @@
                             <f:selectItems value="#{bankImportView.rodzajedokKlienta}"  var="wploop" itemLabel="#{wploop.skrotNazwyDok} - #{wploop.nazwa}"/>
                             <p:ajax global="false" event="blur"  partialSubmit="true"/>
                             <p:ajax global="false" event="change"  partialSubmit="true" listener="#{bankImportView.grid2pokaz}" update="panelprzyciskowbankall form_importbankall"/>
+                        </p:selectOneMenu>
+                    <h:outputText value="wybierz walutę" style="margin-left: 40px;"/>
+                        <p:selectOneMenu  value="#{bankImportView.wybranawaluta}" 
+                                         style="width: 200px; margin-left: 20px;"  >
+                            <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="PLN" itemValue="PLN"/>
+                            <f:selectItem itemLabel="EUR" itemValue="EUR"/>
+                            <f:selectItem itemLabel="GBP" itemValue="GBP"/>
+                            <f:selectItem itemLabel="USD" itemValue="USD"/>
+                            <p:ajax global="false" event="blur"  partialSubmit="true"/>
                         </p:selectOneMenu>
                 </p:panelGrid>
             </p:panelGrid>
