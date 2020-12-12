@@ -7,8 +7,10 @@
         <p:outputPanel rendered="#{jPK_VAT2View.jpkrazemzdeklaracja}" style="padding: 5px;">
             <h:outputText value="#{jPK_VAT2View.wynikszukaniadeklaracji}" style="color: blue;"/>
         </p:outputPanel>
-        <p:panel header="wygeneruj JPK VAT MIESIĘCZNY za #{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt} (wymagana miesięczna deklaracja VAT)" style="width: 1250px;" rendered="#{WpisView.jpk2020M}"/>
-        <p:panel header="wygeneruj JPK VAT KWARTALNY za #{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt} (deklaracja tylko na koniec kwartału, w pozostałe miesiące bez deklaracji)" style="width: 1250px;" rendered="#{WpisView.jpk2020K}"/>
+        <p:panel header="wygeneruj JPK VAT MIESIĘCZNY KOREKTA za #{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt} (deklaracja VAT nie wymagana)" style="width: 1250px;" rendered="#{WpisView.jpk2020M and jPK_VAT2View.nowa0korekta1}"/>
+        <p:panel header="wygeneruj JPK VAT KWARTALNY KOREKTA za #{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt} (deklaracja VAT nie wymagana)" style="width: 1250px;" rendered="#{WpisView.jpk2020K and jPK_VAT2View.nowa0korekta1}"/>
+        <p:panel header="wygeneruj JPK VAT MIESIĘCZNY za #{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt} (wymagana miesięczna deklaracja VAT)" style="width: 1250px;" rendered="#{WpisView.jpk2020M and jPK_VAT2View.nowa0korekta1 eq false}"/>
+        <p:panel header="wygeneruj JPK VAT KWARTALNY za #{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt} (deklaracja tylko na koniec kwartału, w pozostałe miesiące bez deklaracji)" style="width: 1250px;" rendered="#{WpisView.jpk2020K and jPK_VAT2View.nowa0korekta1 eq false}"/>
         <p:panelGrid columns="5" rendered="#{WpisView.podatnikObiekt.nip ne '5263158333'}">
             <p:commandButton value="wyślij jpkfk" actionListener="#{jPK_VAT2View.przygotujXMLFK()}" update="@form form_dialog_jpk_vat:tabela" style="width: 120px;" rendered="#{jPK_VAT2View.jpkfk}"/>
             <p:commandButton value="wyślij korektafk" actionListener="#{jPK_VAT2View.przygotujXMLFK()}" update="@form form_dialog_jpk_vat:tabela" style="width: 120px;" rendered="#{jPK_VAT2View.jpkfkkorekta}"/>
