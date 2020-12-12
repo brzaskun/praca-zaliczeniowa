@@ -151,7 +151,9 @@ public class JPK_VAT2View implements Serializable {
      
     private boolean ustawpokazywanie() {
         boolean zwrot = false;
-        if (!wpisView.isJpk2020M() && !wpisView.isJpk2020K()) {
+        if (nowa0korekta1==true) {
+            zwrot = true;
+        } else if (!wpisView.isJpk2020M() && !wpisView.isJpk2020K()) {
             zwrot = true;
         } else if (wpisView.isJpk2020M() && odnalezionodeklaracje) {
             zwrot = true;
