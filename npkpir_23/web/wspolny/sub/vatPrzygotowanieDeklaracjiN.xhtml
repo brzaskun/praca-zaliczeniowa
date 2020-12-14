@@ -29,7 +29,7 @@
                 <p:commandButton id="przycisk2" value="oblicz"  actionListener="#{vat7DKView.obliczNowaPkpir()}" update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."
                                  rendered="#{!WpisView.ksiegirachunkowe and WpisView.podatnikObiekt.nip ne '5263158333'}"/>
                 <p:commandButton id="przycisk3a" value="oblicz"  actionListener="#{vat7DKView.obliczNowaFK()}" update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."
-                                 rendered="#{WpisView.ksiegirachunkowe}"/>
+                                 rendered="#{WpisView.ksiegirachunkowe and WpisView.podatnikObiekt.nip ne '5263158333'}"/>
 <!--                <p:commandButton id="przycisk2a" value="sprawdź kartę"  update="formdekl:przyciskivat" style="width: 150px"
                                  rendered="#{WpisView.podatnikObiekt.podpiscertyfikowany and !podpisView.jestkarta}"/>-->
                 <p:commandButton id="przycisk3" value="zapisz"  actionListener="#{vat7DKView.zapiszdeklaracje}"
@@ -38,7 +38,11 @@
                                  style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>
                 <p:commandButton  value="zapisz"  actionListener="#{vat7DKView.zapiszdeklaracje}"
                                  update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt formX dialog_deklaracje_vat_wysylka formbutton" 
-                                 rendered="#{vat7DKView.pokazpelna and vat7DKView.pozwolnazapis}"
+                                 rendered="#{WpisView.podatnikObiekt.nip ne '5263158333' and vat7DKView.pokazpelna and vat7DKView.pozwolnazapis}" 
+                                 style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>
+                <p:commandButton  value="zapisz"  actionListener="#{vat7DKView.zapiszdeklaracje}"
+                                 update=":formdekl deklaracjauwagavatzz deklaracjauwagavatzt" 
+                                 rendered="#{WpisView.podatnikObiekt.nip eq '5263158333' and vat7DKView.pokazpelna and vat7DKView.pozwolnazapis}" 
                                  style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij 'oblicz'. Potem dopisz ewentualne kwoty z ręki."/>
                 <h:outputText value=" rozliczenia są kwartalne nie można zapisać deklaracji" style="color: red;" rendered="#{!vat7DKView.pozwolnazapis}"/>
                 <p:selectBooleanCheckbox itemLabel="wymuś korektę" style="margin-left: 100px;" value="#{vat7DKView.wymusozmnaczeniejakokorekte}"/>
