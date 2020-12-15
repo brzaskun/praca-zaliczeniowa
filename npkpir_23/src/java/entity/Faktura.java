@@ -170,6 +170,8 @@ public class Faktura implements Serializable {
     @Lob
     @Column
     private List<Pozycjenafakturzebazadanych> pozycjepokorekcie;
+    @OneToMany(mappedBy = "faktura")
+    private List<Pozycjenafakturzebd> pozycjebd;
     @Basic(optional = false)
     @NotNull
     @Column(nullable = false)
@@ -416,6 +418,14 @@ public class Faktura implements Serializable {
 
     public void setWystawcanazwa(String wystawcanazwa) {
         this.wystawcanazwa = wystawcanazwa;
+    }
+
+    public List<Pozycjenafakturzebd> getPozycjebd() {
+        return null;
+    }
+
+    public void setPozycjebd(List<Pozycjenafakturzebd> pozycjebd) {
+
     }
 
     public boolean isZaksiegowanakontrahent() {

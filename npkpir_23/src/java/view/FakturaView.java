@@ -1114,19 +1114,21 @@ public class FakturaView implements Serializable {
             Podatnik  wystawca = p.getWystawca();
             if (odbiorca!=null ) {
                 Podatnik podatnikdocelowy = podatnikDAO.findPodatnikByNIP(odbiorca.getNip());
-                Klienci wystawcajakoklient = klienciDAO.findKlientByNip(wystawca.getNip());
-                int pkpir0fk1 = zwrocFormaOpodatkowania(podatnikdocelowy, p.getRok());
-                String miesiac = p.getDatawystawienia().substring(5, 7);
-                String rok = p.getDatawystawienia().substring(0, 4);
-                boolean vatowiec = nievat0vat1(podatnikdocelowy, Integer.parseInt(rok), miesiac);
-                if (pkpir0fk1==0) {
-                    if (vatowiec) {
-                        ksiegowaniePkpirVAT(p, podatnikdocelowy, wystawcajakoklient, 1, "ZZ");
+                if (podatnikdocelowy!=null) {
+                    Klienci wystawcajakoklient = klienciDAO.findKlientByNip(wystawca.getNip());
+                    int pkpir0fk1 = zwrocFormaOpodatkowania(podatnikdocelowy, p.getRok());
+                    String miesiac = p.getDatawystawienia().substring(5, 7);
+                    String rok = p.getDatawystawienia().substring(0, 4);
+                    boolean vatowiec = nievat0vat1(podatnikdocelowy, Integer.parseInt(rok), miesiac);
+                    if (pkpir0fk1==0) {
+                        if (vatowiec) {
+                            ksiegowaniePkpirVAT(p, podatnikdocelowy, wystawcajakoklient, 1, "ZZ");
+                        } else {
+                            ksiegowaniePkpir(p, podatnikdocelowy, wystawcajakoklient, 1, "RACH");
+                        }
                     } else {
-                        ksiegowaniePkpir(p, podatnikdocelowy, wystawcajakoklient, 1, "RACH");
+                        ksiegowanieFK(p, podatnikdocelowy, wystawcajakoklient, 1, vatowiec);
                     }
-                } else {
-                    ksiegowanieFK(p, podatnikdocelowy, wystawcajakoklient, 1, vatowiec);
                 }
             }
         }
@@ -2161,7 +2163,8 @@ public class FakturaView implements Serializable {
                     Msg.msg("e","Błąd podczas wysyłania sms do faktury "+zwrot.size());
                 }
             }
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) { 
+            E.e(e); 
             Msg.msg("e","Błąd podczas wysyłki faktury "+e.getMessage());
         }
     }

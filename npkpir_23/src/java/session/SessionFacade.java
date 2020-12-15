@@ -2592,7 +2592,9 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return em.createNamedQuery("Faktura.findByKontrahentID").setParameter("kontrahent", t).getResultList();
     }
 
-    
+     public void klientJPKdeleteByPodRokMc (Podatnik podatnik, String rok, String mc) {
+        em.createNamedQuery("KlientJPK.deletePodRokMc").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mc", mc).executeUpdate();
+    }
     
 
     

@@ -82,7 +82,7 @@ public class PdfFaktura extends Pdf implements Serializable {
         int i = 0;
         for (Faktura selected : fakturydruk) {
             try {
-                 int row = i;
+                int row = i;
                 if (wpisView.getPodatnikObiekt().getNip().equals("9552340951")||wpisView.getPodatnikObiekt().getNip().equals("9552339497")) {
                     String[] numer = selected.getNumerkolejny().split("/");
                     row = Integer.parseInt(numer[0]);

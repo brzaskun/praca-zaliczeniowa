@@ -21,7 +21,7 @@
                         <h:form>
                             <p:growl life="3600"  id="messages1"/>
                             <p:fileUpload fileUploadListener="#{importCisView.importujsprzedaz}" 
-                                          mode="advanced" dragDropSupport="true" fileLimit="1"
+                                          mode="advanced" dragDropSupport="true" fileLimit="1" auto="true"
                                           update="messages1 importtabela" sizeLimit="4000000"  
                                           validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
                                           fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"  onstart="PF('dialogAjaxCzekaj').show();"

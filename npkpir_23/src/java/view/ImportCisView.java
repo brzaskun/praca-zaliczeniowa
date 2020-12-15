@@ -6,18 +6,20 @@
 package view;
 
 import beansFK.TabelaNBPBean;
+import beansJPK.KlienciJPKBean;
 import beansRegon.SzukajDaneBean;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
+import dao.KlientJPKDAO;
 import dao.RodzajedokDAO;
 import daoFK.TabelanbpDAO;
-import daoFK.WalutyDAOfk;
 import embeddable.FakturaCis;
 import entity.Dok;
 import entity.EVatwpis1;
 import entity.Evewidencja;
 import entity.Klienci;
+import entity.KlientJPK;
 import entity.KwotaKolumna1;
 import entity.Rodzajedok;
 import entityfk.Tabelanbp;
@@ -38,7 +40,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import msg.Msg;import org.joda.time.DateTime;
+import msg.Msg;
+import org.joda.time.DateTime;
  import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -64,6 +67,8 @@ public class ImportCisView  implements Serializable {
     private GUSView gUSView;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
+    @Inject
+    private KlientJPKDAO klientJPKDAO;
     private Map<String,Rodzajedok> rodzajedok;
     @Inject
     private DokDAO dokDAO;
@@ -356,6 +361,7 @@ public class ImportCisView  implements Serializable {
             if (polskaprywatne.size()>0) {
                 try {
                     dokDAO.dodaj(wygenerujdokumentsumarycznyPL(polskaprywatne));
+                    zaksiegujdokjpk(polskaprywatne);
                     PdfDok.drukujDok(polskaprywatne, wpisView,0, null, "pl");
                     Msg.msg("Zaksięgowano dokument sumaryczny PL");
                 } catch (Exception e) {
@@ -369,6 +375,13 @@ public class ImportCisView  implements Serializable {
                 Msg.msg("w", "Nie zaksięgowano dokumentów Polska");
             }
         }
+    }
+    
+    private void zaksiegujdokjpk(List<Dok> polskaprywatne) {
+        klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        List<KlientJPK> lista = KlienciJPKBean.zaksiegujdok(polskaprywatne, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        klientJPKDAO.dodaj(lista);
+        Msg.msg("Zaksięgowano dokumenty dla JPK");
     }
     
     private Dok wygenerujdokumentsumaryczny(List<Dok> lista) {
