@@ -38,6 +38,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -49,7 +50,9 @@ import waluty.Z;
  * @author Osito
  */
 @Entity
-@Table(name = "dok")
+@Table(name = "dok", uniqueConstraints = {
+    @UniqueConstraint(columnNames={"nr_wl_dk,podid,kontr1,pkpir_r"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Dok.findByIdDok", query = "SELECT d FROM Dok d WHERE d.idDok = :idDok"),
