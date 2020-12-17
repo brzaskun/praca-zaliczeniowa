@@ -465,7 +465,7 @@ public class Vat7DKView implements Serializable {
         }
         String vatokres = sprawdzjakiokresvat();
         deklaracjakorygowana = czynieczekajuzcosdowyslania();
-        if (flaga == 2) {
+        if (flaga == 2 && deklaracjakorygowana!=null) {
             deklaracjevatDAO.destroy(deklaracjakorygowana);
             deklaracjakorygowana = null;
             flaga = 0;
