@@ -5,6 +5,8 @@
  */
 package entity;
 
+import data.Data;
+import embeddablefk.InterpaperXLS;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -28,7 +30,8 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "klientJPK")
 @NamedQueries({
-    @NamedQuery(name = "KlientJPK.deletePodRokMc", query = "DELETE FROM KlientJPK a WHERE a.podatnik = :podatnik AND a.rok = :rok AND a.mc = :mc")
+    @NamedQuery(name = "KlientJPK.deletePodRokMc", query = "DELETE FROM KlientJPK a WHERE a.podatnik = :podatnik AND a.rok = :rok AND a.mc = :mc"),
+    @NamedQuery(name = "KlientJPK.findByPodRokMc", query = "SELECT a FROM KlientJPK a WHERE a.podatnik = :podatnik AND a.rok = :rok AND a.mc = :mc")
 })
 public class KlientJPK implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -37,18 +40,22 @@ public class KlientJPK implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private int id;
-    @Column(name = "KodKrajuNadaniaTIN")
+    @Column(name = "kodkrajunadaniatin")
     private String kodKrajuNadaniaTIN;
-    @Column(name = "NrKontrahenta")
+    @Column(name = "nrkontrahenta")
     private String nrKontrahenta;
-    @Column(name = "NazwaKontrahenta")
+    @Column(name = "nazwakontrahenta")
     private String nazwaKontrahenta;
-    @Column(name = "DowodSprzedazy")
+    @Column(name = "dowodsprzedazy")
     private String dowodSprzedazy;
-    @Column(name = "DataWystawienia")
+    @Column(name = "datawystawienia")
     private String dataWystawienia;
-    @Column(name = "DataSprzedazy")
+    @Column(name = "datadprzedazy")
     private String dataSprzedazy;
+    @Column(name = "netto")
+    private double netto;
+    @Column(name = "vat")
+    private double vat;
     @ManyToOne
     @JoinColumn(name = "podid", referencedColumnName = "id")
     private Podatnik podatnik;
@@ -58,6 +65,11 @@ public class KlientJPK implements Serializable {
     @Size(max = 2)
     @Column(name = "mc")
     private String mc;
+    @JoinColumn(name = "evewidencja", referencedColumnName = "id")
+    @ManyToOne
+    protected Evewidencja ewidencja;
+    @Column(name = "waluta")
+    private String waluta;
 
     public KlientJPK() {
     }
@@ -72,6 +84,25 @@ public class KlientJPK implements Serializable {
         this.podatnik = podatnik;
         this.rok = rok;
         this.mc = mc;
+        this.ewidencja = d.getEwidencjaVAT1().get(0).getEwidencja();
+        this.netto = d.getNetto();
+        this.vat = d.getVat();
+        this.waluta = d.getSymbolWaluty();
+    }
+
+    public KlientJPK(InterpaperXLS d, Podatnik podatnik, String rok, String mc) {
+        this.dataSprzedazy = Data.data_yyyyMMdd(d.getDatasprzedaży());
+        this.dataWystawienia = Data.data_yyyyMMdd(d.getDatawystawienia());
+        this.dowodSprzedazy = d.getNrfaktury();
+        this.nrKontrahenta = "brak";
+        this.nazwaKontrahenta = d.getKontrahent();
+        this.podatnik = podatnik;
+        this.rok = rok;
+        this.mc = mc;
+        this.ewidencja = d.getEvewidencja();
+        this.netto = d.getNettoPLN();
+        this.vat = d.getVatPLN();
+        this.waluta = d.getWalutaplatnosci();
     }
 
     public int getId() {
@@ -153,6 +184,40 @@ public class KlientJPK implements Serializable {
     public void setMc(String mc) {
         this.mc = mc;
     }
+
+    public Evewidencja getEwidencja() {
+        return ewidencja;
+    }
+
+    public void setEwidencja(Evewidencja ewidencja) {
+        this.ewidencja = ewidencja;
+    }
+
+    public double getNetto() {
+        return netto;
+    }
+
+    public void setNetto(double netto) {
+        this.netto = netto;
+    }
+
+    public double getVat() {
+        return vat;
+    }
+
+    public void setVat(double vat) {
+        this.vat = vat;
+    }
+
+    public String getWaluta() {
+        return waluta;
+    }
+
+    public void setWaluta(String waluta) {
+        this.waluta = waluta;
+    }
+    
+    
 
     @Override
     public int hashCode() {

@@ -278,24 +278,30 @@ public class ImportSprzedazyFKView  implements Serializable {
            Unmarshaller unmarshaller = context.createUnmarshaller();
            zwrot = (pl.gov.crd.wzor._2020._05._08._9394.JPK) unmarshaller.unmarshal(is);
        } catch (Exception ex) {}
-       try {
-           is = new ByteArrayInputStream(plikinterpaper);
-           JAXBContext context = JAXBContext.newInstance(pl.gov.crd.wzor._2020._05._08._9393.JPK.class);
-           Unmarshaller unmarshaller = context.createUnmarshaller();
-           zwrot = (pl.gov.crd.wzor._2020._05._08._9393.JPK) unmarshaller.unmarshal(is);
-       } catch (Exception ex) {}
-       try {
-           is = new ByteArrayInputStream(plikinterpaper);
-           JAXBContext context = JAXBContext.newInstance(jpk201701.JPK.class);
-           Unmarshaller unmarshaller = context.createUnmarshaller();
-           zwrot = (jpk201701.JPK) unmarshaller.unmarshal(is);
-       } catch (Exception ex) {}
-       try {
-           is = new ByteArrayInputStream(plikinterpaper);
-           JAXBContext context = JAXBContext.newInstance(jpk201801.JPK.class);
-           Unmarshaller unmarshaller = context.createUnmarshaller();
-           zwrot = (jpk201801.JPK) unmarshaller.unmarshal(is);
-       } catch (Exception ex) {}
+       if (zwrot ==null) {
+            try {
+                is = new ByteArrayInputStream(plikinterpaper);
+                JAXBContext context = JAXBContext.newInstance(pl.gov.crd.wzor._2020._05._08._9393.JPK.class);
+                Unmarshaller unmarshaller = context.createUnmarshaller();
+                zwrot = (pl.gov.crd.wzor._2020._05._08._9393.JPK) unmarshaller.unmarshal(is);
+            } catch (Exception ex) {}
+       }
+        if (zwrot ==null) {
+            try {
+                is = new ByteArrayInputStream(plikinterpaper);
+                JAXBContext context = JAXBContext.newInstance(jpk201701.JPK.class);
+                Unmarshaller unmarshaller = context.createUnmarshaller();
+                zwrot = (jpk201701.JPK) unmarshaller.unmarshal(is);
+            } catch (Exception ex) {}
+        }
+        if (zwrot ==null) {
+            try {
+                is = new ByteArrayInputStream(plikinterpaper);
+                JAXBContext context = JAXBContext.newInstance(jpk201801.JPK.class);
+                Unmarshaller unmarshaller = context.createUnmarshaller();
+                zwrot = (jpk201801.JPK) unmarshaller.unmarshal(is);
+            } catch (Exception ex) {}
+        }
        return zwrot;
     }
     public void grid2pokaz() {

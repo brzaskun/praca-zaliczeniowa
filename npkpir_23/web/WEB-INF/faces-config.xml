@@ -245,6 +245,10 @@
             <from-outcome>importcis</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaImportCis.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>importmatacz</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaImportMatacz.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>importebay</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaImportEbay.xhtml?faces-redirect=true</to-view-id>

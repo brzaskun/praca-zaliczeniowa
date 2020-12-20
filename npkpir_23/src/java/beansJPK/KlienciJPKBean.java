@@ -5,6 +5,7 @@
  */
 package beansJPK;
 
+import embeddablefk.InterpaperXLS;
 import entity.Dok;
 import entity.KlientJPK;
 import entity.Podatnik;
@@ -24,6 +25,15 @@ public class KlienciJPKBean {
     public static List<KlientJPK> zaksiegujdok(List<Dok> polskaprywatne, Podatnik podatnik, String rok, String mc) {
         List<KlientJPK> zwrot = new ArrayList<>();
         for (Dok d : polskaprywatne) {
+            KlientJPK a = new KlientJPK(d, podatnik, rok, mc);
+            zwrot.add(a);
+        }
+        return zwrot;
+    }
+
+    public static List<KlientJPK> zaksiegujdokJPK(List<InterpaperXLS> polskaprywatne, Podatnik podatnik, String rok, String mc) {
+         List<KlientJPK> zwrot = new ArrayList<>();
+        for (InterpaperXLS d : polskaprywatne) {
             KlientJPK a = new KlientJPK(d, podatnik, rok, mc);
             zwrot.add(a);
         }
