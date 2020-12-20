@@ -24,6 +24,7 @@ public class Roki implements Serializable{
 
     static{
         rokiList = Collections.synchronizedList(new ArrayList<>());
+        rokiList.add(2021);
         rokiList.add(2020);
         rokiList.add(2019);
         rokiList.add(2018);
@@ -33,6 +34,7 @@ public class Roki implements Serializable{
         rokiList.add(2014);
         rokiList.add(2013);
         rokiListS = Collections.synchronizedList(new ArrayList<>());
+        rokiListS.add("2021");
         rokiListS.add("2020");
         rokiListS.add("2019");
         rokiListS.add("2018");
