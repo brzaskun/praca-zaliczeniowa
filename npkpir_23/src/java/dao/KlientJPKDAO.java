@@ -31,6 +31,10 @@ public class KlientJPKDAO  extends DAO implements Serializable {
     public void deleteByPodRokMc (Podatnik podatnik, String rok, String mc) {
         sessionFacade.klientJPKdeleteByPodRokMc(podatnik, rok, mc);
     }
+
+    public List<KlientJPK> findbyKlientRokMc(Podatnik podatnikObiekt, String rokWpisuSt, String miesiacWpisu) {
+        return sessionFacade.getEntityManager().createNamedQuery("KlientJPK.findByPodRokMc").setParameter("podatnik", podatnikObiekt).setParameter("rok", rokWpisuSt).setParameter("mc", miesiacWpisu).getResultList();
+    }
     
     
     
