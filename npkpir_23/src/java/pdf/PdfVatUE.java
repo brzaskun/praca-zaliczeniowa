@@ -348,7 +348,14 @@ public class PdfVatUE {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Ewidencja dokumentów "+nazwa1, wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            if (listawybranych!=null && !listawybranych.isEmpty()) {
+                VatUe wybrane = listawybranych.get(0);
+                String mc = wybrane.getDeklaracjavatUE().getMiesiac();
+                String rok = wybrane.getDeklaracjavatUE().getRok();
+                dodajOpisWstepny(document, "Ewidencja dokumentów "+nazwa1, wpisView.getPodatnikObiekt(), mc, rok);
+            } else {
+                dodajOpisWstepny(document, "Ewidencja dokumentów "+nazwa1, wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            }
             czyjestpodsumowanie(listawybranych);
             dodajTabele(document, testobjects.testobjects.getEwidencjaVATUE(listawybranych), 100, 0);
             finalizacjaDokumentuQR(document,nazwa);

@@ -60,8 +60,8 @@ var wydrukvat7 = function(kto, index){
 
 
 
-var wydrukvatue = function(kto){
-    window.open('../wydruki/VATUE'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+var wydrukvatue = function(nazwa){
+    window.open('../wydruki/'+nazwa+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 };
 
 var schowajmailbutton = function (index) {
