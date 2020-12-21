@@ -6,9 +6,11 @@
 package view;
 
 import beansDok.ListaEwidencjiVat;
+import beansJPK.KlienciJPKBean;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
+import dao.KlientJPKDAO;
 import dao.RodzajedokDAO;
 import daoFK.DokDAOfk;
 import daoFK.KliencifkDAO;
@@ -19,6 +21,7 @@ import daoFK.UkladBRDAO;
 import entity.Dok;
 import entity.Evewidencja;
 import entity.Klienci;
+import entity.KlientJPK;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
 import entityfk.Tabelanbp;
@@ -81,6 +84,8 @@ public class ImportFakturyView  implements Serializable {
     private List<Evewidencja> evewidencje;
     @Inject
     private EvewidencjaDAO evewidencjaDAO;
+    @Inject
+    private KlientJPKDAO klientJPKDAO;
     @Inject
     private KlienciDAO klDAO;
     private boolean wybierzosobyfizyczne;
@@ -384,6 +389,13 @@ public class ImportFakturyView  implements Serializable {
     public void usun(Dok dok) {
         dokumenty.remove(dok);
         Msg.msg("Usunięto dokument z listy");
+    }
+    
+    public void zaksiegujdlajpk() {
+        klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        List<KlientJPK> lista = KlienciJPKBean.zaksiegujdok(dokumenty, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        klientJPKDAO.dodaj(lista);
+        Msg.msg("Zaksięgowano dokumenty dla JPK");
     }
     
     public void zaksieguj() {
