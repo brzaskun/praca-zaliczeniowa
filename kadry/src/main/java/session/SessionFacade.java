@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -17,6 +18,7 @@ import javax.persistence.PersistenceContext;
  *
  * @author Osito
  */
+@Stateless
 public class SessionFacade <T> implements Serializable {
 
     private static final long serialVersionUID = 1L;

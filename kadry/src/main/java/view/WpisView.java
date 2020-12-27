@@ -4,7 +4,6 @@
  */
 package view;
 
-import session.SessionFacade;
 import dao.UzDAO;
 import entity.Firma;
 import entity.Pracownik;
@@ -14,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import session.SessionFacade;
 /**
  *
  * @author Osito
@@ -55,6 +55,10 @@ public class WpisView implements Serializable {
 
     public String getRokWpisu() {
         return rokWpisu;
+    }
+    
+    public int getRokWpisuInt() {
+        return Integer.parseInt(rokWpisu);
     }
 
     public void setRokWpisu(String rokWpisu) {

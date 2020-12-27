@@ -8,7 +8,6 @@ package entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -36,22 +35,21 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Skladnikpotracenia.findByNazwa", query = "SELECT s FROM Skladnikpotracenia s WHERE s.nazwa = :nazwa")})
 public class Skladnikpotracenia implements Serializable {
 
+    @Size(max = 255)
+    @Column(name = "nazwa")
+    private String nazwa;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "nazwa")
-    private String nazwa;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikpotracenia")
+    @OneToMany(mappedBy = "skladnikpotracenia")
     private List<Naliczeniepotracenie> naliczeniepotracenieList;
-    @JoinColumn(name = "rodzajumowy", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Rodzajumowy rodzajumowy;
+    @JoinColumn(name = "umowa", referencedColumnName = "id")
+    @ManyToOne
+    private Umowa umowa;
     @JoinColumn(name = "zmiennapotracenia", referencedColumnName = "id")
     @ManyToOne
     private Zmiennapotracenia zmiennapotracenia;
@@ -59,13 +57,8 @@ public class Skladnikpotracenia implements Serializable {
     public Skladnikpotracenia() {
     }
 
-    public Skladnikpotracenia(Integer id) {
+    public Skladnikpotracenia(int id) {
         this.id = id;
-    }
-
-    public Skladnikpotracenia(Integer id, String nazwa) {
-        this.id = id;
-        this.nazwa = nazwa;
     }
 
     public Integer getId() {
@@ -76,13 +69,6 @@ public class Skladnikpotracenia implements Serializable {
         this.id = id;
     }
 
-    public String getNazwa() {
-        return nazwa;
-    }
-
-    public void setNazwa(String nazwa) {
-        this.nazwa = nazwa;
-    }
 
     @XmlTransient
     public List<Naliczeniepotracenie> getNaliczeniepotracenieList() {
@@ -93,12 +79,12 @@ public class Skladnikpotracenia implements Serializable {
         this.naliczeniepotracenieList = naliczeniepotracenieList;
     }
 
-    public Rodzajumowy getRodzajumowy() {
-        return rodzajumowy;
+    public Umowa getUmowa() {
+        return umowa;
     }
 
-    public void setRodzajumowy(Rodzajumowy rodzajumowy) {
-        this.rodzajumowy = rodzajumowy;
+    public void setUmowa(Umowa umowa) {
+        this.umowa = umowa;
     }
 
     public Zmiennapotracenia getZmiennapotracenia() {
@@ -132,6 +118,14 @@ public class Skladnikpotracenia implements Serializable {
     @Override
     public String toString() {
         return "entity.Skladnikpotracenia[ id=" + id + " ]";
+    }
+
+    public String getNazwa() {
+        return nazwa;
+    }
+
+    public void setNazwa(String nazwa) {
+        this.nazwa = nazwa;
     }
     
 }

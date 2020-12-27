@@ -4,18 +4,37 @@
   <persistence-unit name="kadryPU" transaction-type="JTA">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>kadryDB</jta-data-source>
+    <class>com.mycompany.kadry.resources.AngazPodatek</class>
+    <class>com.mycompany.kadry.resources.Angaz</class>
+    <class>entity.Angaz</class>
+    <class>entity.Zmiennawynagrodzenia</class>
+    <class>entity.Skladnikpotracenia</class>
+    <class>entity.Umowa</class>
+    <class>entity.Zmiennapotracenia</class>
+    <class>entity.Pracownik</class>
+    <class>entity.Naliczenieskladnikawynagrodzenia</class>
+    <class>entity.Pasekwynagrodzen</class>
+    <class>entity.Skladnikwynagrodzenia</class>
+    <class>entity.Firma</class>
+    <class>entity.Kalendarzmiesiac</class>
+    <class>entity.Definicjalistaplac</class>
+    <class>entity.Rodzajumowy</class>
+    <class>entity.Naliczeniepotracenie</class>
+    <class>entity.Nieobecnosc</class>
+    <class>entity.Naliczenienieobecnosc</class>
+    <class>entity.Dzien</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>ALL</shared-cache-mode>
     <validation-mode>NONE</validation-mode>
     <properties>
       <property name="eclipselink.ddl-generation" value="create-tables"/>
-      <property name="eclipselink.ddl-generation" value="none"/>
       <!--      <property name="eclipselink.query-results-cache" value="true"/>-->
       <!--      <property name="eclipselink.cache-usage" value="CheckCacheThenDatabase"/>-->
       <!-- configure logging -->
       <!--      <property name="eclipselink.logging.level" value="INFO"/>
       <property name="eclipselink.logging.level.sql" value="FINE"/>
       <property name="eclipselink.logging.parameters" value="true"/>-->
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
 </persistence>

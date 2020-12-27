@@ -8,7 +8,6 @@ package entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -33,45 +32,47 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Skladnikwynagrodzenia.findAll", query = "SELECT s FROM Skladnikwynagrodzenia s"),
     @NamedQuery(name = "Skladnikwynagrodzenia.findById", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.id = :id"),
-    @NamedQuery(name = "Skladnikwynagrodzenia.findByNazwa", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.nazwa = :nazwa"),
+    @NamedQuery(name = "Skladnikwynagrodzenia.findByDefinicjalistaplac", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.definicjalistaplac = :definicjalistaplac"),
     @NamedQuery(name = "Skladnikwynagrodzenia.findByGodzinowe0miesieczne1", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.godzinowe0miesieczne1 = :godzinowe0miesieczne1"),
-    @NamedQuery(name = "Skladnikwynagrodzenia.findByDefinicjalistaplac", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.definicjalistaplac = :definicjalistaplac")})
+    @NamedQuery(name = "Skladnikwynagrodzenia.findByNazwa", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.nazwa = :nazwa")})
 public class Skladnikwynagrodzenia implements Serializable {
 
+   
+    
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "nazwa")
-    private String nazwa;
     @Column(name = "godzinowe0miesieczne1")
-    private Boolean godzinowe0miesieczne1;
-    @Column(name = "definicjalistaplac")
-    private Integer definicjalistaplac;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikwynagrodzenia")
+    private boolean godzinowe0miesieczne1;
+    @OneToMany(mappedBy = "skladnikwynagrodzenia")
     private List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList;
-    @JoinColumn(name = "rodzajumowy", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Rodzajumowy rodzajumowy;
+    @JoinColumn(name = "umowa", referencedColumnName = "id")
+    @ManyToOne
+    private Umowa umowa;
     @JoinColumn(name = "zmiennawynagrodzenia", referencedColumnName = "id")
     @ManyToOne
     private Zmiennawynagrodzenia zmiennawynagrodzenia;
+    @Column(name = "redukowanyzaczasnieobecnosci")
+    private boolean redukowanyzaczasnieobecnosci;
+    @OneToMany(mappedBy = "skladnikwynagrodzenia")
+    private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
+    @Size(max = 255)
+    @Column(name = "nazwa")
+    private String nazwa;
+    @Column(name = "stala0zmienna1")
+    private boolean stala0zmienna1;
+    @Size(max = 4)
+    @Column(name = "kodzmiennawynagrodzenia")
+    private String kodzmiennawynagrodzenia;
 
     public Skladnikwynagrodzenia() {
     }
 
-    public Skladnikwynagrodzenia(Integer id) {
+    public Skladnikwynagrodzenia(int id) {
         this.id = id;
-    }
-
-    public Skladnikwynagrodzenia(Integer id, String nazwa) {
-        this.id = id;
-        this.nazwa = nazwa;
     }
 
     public Integer getId() {
@@ -82,29 +83,14 @@ public class Skladnikwynagrodzenia implements Serializable {
         this.id = id;
     }
 
-    public String getNazwa() {
-        return nazwa;
-    }
-
-    public void setNazwa(String nazwa) {
-        this.nazwa = nazwa;
-    }
-
-    public Boolean getGodzinowe0miesieczne1() {
+    public boolean getGodzinowe0miesieczne1() {
         return godzinowe0miesieczne1;
     }
 
-    public void setGodzinowe0miesieczne1(Boolean godzinowe0miesieczne1) {
+    public void setGodzinowe0miesieczne1(boolean godzinowe0miesieczne1) {
         this.godzinowe0miesieczne1 = godzinowe0miesieczne1;
     }
 
-    public Integer getDefinicjalistaplac() {
-        return definicjalistaplac;
-    }
-
-    public void setDefinicjalistaplac(Integer definicjalistaplac) {
-        this.definicjalistaplac = definicjalistaplac;
-    }
 
     @XmlTransient
     public List<Naliczenieskladnikawynagrodzenia> getNaliczenieskladnikawynagrodzeniaList() {
@@ -115,12 +101,12 @@ public class Skladnikwynagrodzenia implements Serializable {
         this.naliczenieskladnikawynagrodzeniaList = naliczenieskladnikawynagrodzeniaList;
     }
 
-    public Rodzajumowy getRodzajumowy() {
-        return rodzajumowy;
+    public Umowa getUmowa() {
+        return umowa;
     }
 
-    public void setRodzajumowy(Rodzajumowy rodzajumowy) {
-        this.rodzajumowy = rodzajumowy;
+    public void setUmowa(Umowa umowa) {
+        this.umowa = umowa;
     }
 
     public Zmiennawynagrodzenia getZmiennawynagrodzenia() {
@@ -130,7 +116,45 @@ public class Skladnikwynagrodzenia implements Serializable {
     public void setZmiennawynagrodzenia(Zmiennawynagrodzenia zmiennawynagrodzenia) {
         this.zmiennawynagrodzenia = zmiennawynagrodzenia;
     }
+    public boolean getRedukowanyzaczasnieobecnosci() {
+        return redukowanyzaczasnieobecnosci;
+    }
 
+    public void setRedukowanyzaczasnieobecnosci(boolean redukowanyzaczasnieobecnosci) {
+        this.redukowanyzaczasnieobecnosci = redukowanyzaczasnieobecnosci;
+    }
+
+    public String getKodzmiennawynagrodzenia() {
+        return kodzmiennawynagrodzenia;
+    }
+
+    public void setKodzmiennawynagrodzenia(String kodzmiennawynagrodzenia) {
+        this.kodzmiennawynagrodzenia = kodzmiennawynagrodzenia;
+    }
+    @XmlTransient
+    public List<Naliczenienieobecnosc> getNaliczenienieobecnoscList() {
+        return naliczenienieobecnoscList;
+    }
+
+    public void setNaliczenienieobecnoscList(List<Naliczenienieobecnosc> naliczenienieobecnoscList) {
+        this.naliczenienieobecnoscList = naliczenienieobecnoscList;
+    }
+
+    public String getNazwa() {
+        return nazwa;
+    }
+
+    public void setNazwa(String nazwa) {
+        this.nazwa = nazwa;
+    }
+
+    public boolean getStala0zmienna1() {
+        return stala0zmienna1;
+    }
+
+    public void setStala0zmienna1(boolean stala0zmienna1) {
+        this.stala0zmienna1 = stala0zmienna1;
+    }
     @Override
     public int hashCode() {
         int hash = 0;
@@ -155,5 +179,8 @@ public class Skladnikwynagrodzenia implements Serializable {
     public String toString() {
         return "entity.Skladnikwynagrodzenia[ id=" + id + " ]";
     }
+
+
+    
     
 }

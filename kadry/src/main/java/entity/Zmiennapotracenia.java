@@ -31,10 +31,23 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Zmiennapotracenia.findAll", query = "SELECT z FROM Zmiennapotracenia z"),
     @NamedQuery(name = "Zmiennapotracenia.findById", query = "SELECT z FROM Zmiennapotracenia z WHERE z.id = :id"),
-    @NamedQuery(name = "Zmiennapotracenia.findByNazwa", query = "SELECT z FROM Zmiennapotracenia z WHERE z.nazwa = :nazwa"),
+    @NamedQuery(name = "Zmiennapotracenia.findByDatado", query = "SELECT z FROM Zmiennapotracenia z WHERE z.datado = :datado"),
     @NamedQuery(name = "Zmiennapotracenia.findByDataod", query = "SELECT z FROM Zmiennapotracenia z WHERE z.dataod = :dataod"),
-    @NamedQuery(name = "Zmiennapotracenia.findByDatado", query = "SELECT z FROM Zmiennapotracenia z WHERE z.datado = :datado")})
+    @NamedQuery(name = "Zmiennapotracenia.findByNazwa", query = "SELECT z FROM Zmiennapotracenia z WHERE z.nazwa = :nazwa")})
 public class Zmiennapotracenia implements Serializable {
+
+    @Size(max = 255)
+    @Column(name = "datado")
+    private String datado;
+    @Size(max = 255)
+    @Column(name = "dataod")
+    private String dataod;
+    @Size(max = 255)
+    @Column(name = "nazwa")
+    private String nazwa;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "kwotastala")
+    private double kwotastala;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,22 +55,13 @@ public class Zmiennapotracenia implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 45)
-    @Column(name = "nazwa")
-    private String nazwa;
-    @Size(max = 45)
-    @Column(name = "dataod")
-    private String dataod;
-    @Size(max = 45)
-    @Column(name = "datado")
-    private String datado;
     @OneToMany(mappedBy = "zmiennapotracenia")
     private List<Skladnikpotracenia> skladnikpotraceniaList;
 
     public Zmiennapotracenia() {
     }
 
-    public Zmiennapotracenia(Integer id) {
+    public Zmiennapotracenia(int id) {
         this.id = id;
     }
 
@@ -69,29 +73,6 @@ public class Zmiennapotracenia implements Serializable {
         this.id = id;
     }
 
-    public String getNazwa() {
-        return nazwa;
-    }
-
-    public void setNazwa(String nazwa) {
-        this.nazwa = nazwa;
-    }
-
-    public String getDataod() {
-        return dataod;
-    }
-
-    public void setDataod(String dataod) {
-        this.dataod = dataod;
-    }
-
-    public String getDatado() {
-        return datado;
-    }
-
-    public void setDatado(String datado) {
-        this.datado = datado;
-    }
 
     @XmlTransient
     public List<Skladnikpotracenia> getSkladnikpotraceniaList() {
@@ -125,6 +106,38 @@ public class Zmiennapotracenia implements Serializable {
     @Override
     public String toString() {
         return "entity.Zmiennapotracenia[ id=" + id + " ]";
+    }
+
+    public String getDatado() {
+        return datado;
+    }
+
+    public void setDatado(String datado) {
+        this.datado = datado;
+    }
+
+    public String getDataod() {
+        return dataod;
+    }
+
+    public void setDataod(String dataod) {
+        this.dataod = dataod;
+    }
+
+    public String getNazwa() {
+        return nazwa;
+    }
+
+    public void setNazwa(String nazwa) {
+        this.nazwa = nazwa;
+    }
+
+    public double getKwotastala() {
+        return kwotastala;
+    }
+
+    public void setKwotastala(double kwotastala) {
+        this.kwotastala = kwotastala;
     }
     
 }

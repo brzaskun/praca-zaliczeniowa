@@ -17,8 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -32,11 +30,21 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Naliczenieskladnikawynagrodzenia.findAll", query = "SELECT n FROM Naliczenieskladnikawynagrodzenia n"),
     @NamedQuery(name = "Naliczenieskladnikawynagrodzenia.findById", query = "SELECT n FROM Naliczenieskladnikawynagrodzenia n WHERE n.id = :id"),
     @NamedQuery(name = "Naliczenieskladnikawynagrodzenia.findByKwota", query = "SELECT n FROM Naliczenieskladnikawynagrodzenia n WHERE n.kwota = :kwota"),
-    @NamedQuery(name = "Naliczenieskladnikawynagrodzenia.findByRok", query = "SELECT n FROM Naliczenieskladnikawynagrodzenia n WHERE n.rok = :rok"),
-    @NamedQuery(name = "Naliczenieskladnikawynagrodzenia.findByMc", query = "SELECT n FROM Naliczenieskladnikawynagrodzenia n WHERE n.mc = :mc"),
-    @NamedQuery(name = "Naliczenieskladnikawynagrodzenia.findByKwotazus", query = "SELECT n FROM Naliczenieskladnikawynagrodzenia n WHERE n.kwotazus = :kwotazus"),
-    @NamedQuery(name = "Naliczenieskladnikawynagrodzenia.findByKwotabezzus", query = "SELECT n FROM Naliczenieskladnikawynagrodzenia n WHERE n.kwotabezzus = :kwotabezzus")})
+    @NamedQuery(name = "Naliczenieskladnikawynagrodzenia.findByKwotabezzus", query = "SELECT n FROM Naliczenieskladnikawynagrodzenia n WHERE n.kwotabezzus = :kwotabezzus"),
+    @NamedQuery(name = "Naliczenieskladnikawynagrodzenia.findByKwotazus", query = "SELECT n FROM Naliczenieskladnikawynagrodzenia n WHERE n.kwotazus = :kwotazus")})
 public class Naliczenieskladnikawynagrodzenia implements Serializable {
+
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "kwota")
+    private double kwota;
+    @Column(name = "kwotabezzus")
+    private double kwotabezzus;
+    @Column(name = "kwotazus")
+    private double kwotazus;
+    @Column(name = "kwotazredukowana")
+    private double kwotazredukowana;
+    @Column(name = "ilezredukowano")
+    private double ilezredukowano;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,44 +52,18 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "kwota")
-    private double kwota;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "rok")
-    private String rok;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "mc")
-    private String mc;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "kwotazus")
-    private Double kwotazus;
-    @Column(name = "kwotabezzus")
-    private Double kwotabezzus;
-    @JoinColumn(name = "definicjalistaplac", referencedColumnName = "id")
+    @JoinColumn(name = "kalendarzmiesiac", referencedColumnName = "id")
     @ManyToOne
-    private Definicjalistaplac definicjalistaplac;
+    private Kalendarzmiesiac kalendarzmiesiac;
     @JoinColumn(name = "skladnikwynagrodzenia", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Skladnikwynagrodzenia skladnikwynagrodzenia;
 
     public Naliczenieskladnikawynagrodzenia() {
     }
 
-    public Naliczenieskladnikawynagrodzenia(Integer id) {
+    public Naliczenieskladnikawynagrodzenia(int id) {
         this.id = id;
-    }
-
-    public Naliczenieskladnikawynagrodzenia(Integer id, double kwota, String rok, String mc) {
-        this.id = id;
-        this.kwota = kwota;
-        this.rok = rok;
-        this.mc = mc;
     }
 
     public Integer getId() {
@@ -92,52 +74,13 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
         this.id = id;
     }
 
-    public double getKwota() {
-        return kwota;
+
+    public Kalendarzmiesiac getKalendarzmiesiac() {
+        return kalendarzmiesiac;
     }
 
-    public void setKwota(double kwota) {
-        this.kwota = kwota;
-    }
-
-    public String getRok() {
-        return rok;
-    }
-
-    public void setRok(String rok) {
-        this.rok = rok;
-    }
-
-    public String getMc() {
-        return mc;
-    }
-
-    public void setMc(String mc) {
-        this.mc = mc;
-    }
-
-    public Double getKwotazus() {
-        return kwotazus;
-    }
-
-    public void setKwotazus(Double kwotazus) {
-        this.kwotazus = kwotazus;
-    }
-
-    public Double getKwotabezzus() {
-        return kwotabezzus;
-    }
-
-    public void setKwotabezzus(Double kwotabezzus) {
-        this.kwotabezzus = kwotabezzus;
-    }
-
-    public Definicjalistaplac getDefinicjalistaplac() {
-        return definicjalistaplac;
-    }
-
-    public void setDefinicjalistaplac(Definicjalistaplac definicjalistaplac) {
-        this.definicjalistaplac = definicjalistaplac;
+    public void setKalendarzmiesiac(Kalendarzmiesiac kalendarzmiesiac) {
+        this.kalendarzmiesiac = kalendarzmiesiac;
     }
 
     public Skladnikwynagrodzenia getSkladnikwynagrodzenia() {
@@ -171,6 +114,46 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
     @Override
     public String toString() {
         return "entity.Naliczenieskladnikawynagrodzenia[ id=" + id + " ]";
+    }
+
+    public double getKwota() {
+        return kwota;
+    }
+
+    public void setKwota(double kwota) {
+        this.kwota = kwota;
+    }
+
+    public double getKwotabezzus() {
+        return kwotabezzus;
+    }
+
+    public void setKwotabezzus(double kwotabezzus) {
+        this.kwotabezzus = kwotabezzus;
+    }
+
+    public double getKwotazus() {
+        return kwotazus;
+    }
+
+    public void setKwotazus(double kwotazus) {
+        this.kwotazus = kwotazus;
+    }
+
+    public double getKwotazredukowana() {
+        return kwotazredukowana;
+    }
+
+    public void setKwotazredukowana(double kwotazredukowana) {
+        this.kwotazredukowana = kwotazredukowana;
+    }
+
+    public double getIlezredukowano() {
+        return ilezredukowano;
+    }
+
+    public void setIlezredukowano(double ilezredukowano) {
+        this.ilezredukowano = ilezredukowano;
     }
     
 }

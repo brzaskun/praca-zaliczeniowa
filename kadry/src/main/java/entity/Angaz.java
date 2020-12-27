@@ -8,7 +8,6 @@ package entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +19,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -37,48 +35,29 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Angaz.findByRodzajwynagrodzenia", query = "SELECT a FROM Angaz a WHERE a.rodzajwynagrodzenia = :rodzajwynagrodzenia")})
 public class Angaz implements Serializable {
 
+    @Column(name = "rodzajwynagrodzenia")
+    private Integer rodzajwynagrodzenia;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "rodzajwynagrodzenia")
-    private int rodzajwynagrodzenia;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz")
+    @OneToMany(mappedBy = "angaz")
     private List<Umowa> umowaList;
     @JoinColumn(name = "firma", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Firma firma;
-    @JoinColumn(name = "podatek", referencedColumnName = "id")
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    private Podatek podatek;
     @JoinColumn(name = "pracownik", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Pracownik pracownik;
-    @JoinColumn(name = "ubezpieczenie", referencedColumnName = "id")
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    private Ubezpieczenie ubezpieczenie;
 
-    
     public Angaz() {
-        this.podatek = new Podatek();
-        this.ubezpieczenie = new Ubezpieczenie();
     }
 
-    public Angaz(Integer id) {
+    public Angaz(int id) {
         this.id = id;
-        this.podatek = new Podatek();
-        this.ubezpieczenie = new Ubezpieczenie();
-    }
-
-    public Angaz(Integer id, int rodzajwynagrodzenia) {
-        this.id = id;
-        this.rodzajwynagrodzenia = rodzajwynagrodzenia;
-        this.podatek = new Podatek();
-        this.ubezpieczenie = new Ubezpieczenie();
     }
 
     public Integer getId() {
@@ -89,13 +68,6 @@ public class Angaz implements Serializable {
         this.id = id;
     }
 
-    public int getRodzajwynagrodzenia() {
-        return rodzajwynagrodzenia;
-    }
-
-    public void setRodzajwynagrodzenia(int rodzajwynagrodzenia) {
-        this.rodzajwynagrodzenia = rodzajwynagrodzenia;
-    }
 
     @XmlTransient
     public List<Umowa> getUmowaList() {
@@ -114,28 +86,12 @@ public class Angaz implements Serializable {
         this.firma = firma;
     }
 
-    public Podatek getPodatek() {
-        return podatek;
-    }
-
-    public void setPodatek(Podatek podatek) {
-        this.podatek = podatek;
-    }
-
     public Pracownik getPracownik() {
         return pracownik;
     }
 
     public void setPracownik(Pracownik pracownik) {
         this.pracownik = pracownik;
-    }
-
-    public Ubezpieczenie getUbezpieczenie() {
-        return ubezpieczenie;
-    }
-
-    public void setUbezpieczenie(Ubezpieczenie ubezpieczenie) {
-        this.ubezpieczenie = ubezpieczenie;
     }
 
     @Override
@@ -161,6 +117,14 @@ public class Angaz implements Serializable {
     @Override
     public String toString() {
         return "entity.Angaz[ id=" + id + " ]";
+    }
+
+    public Integer getRodzajwynagrodzenia() {
+        return rodzajwynagrodzenia;
+    }
+
+    public void setRodzajwynagrodzenia(Integer rodzajwynagrodzenia) {
+        this.rodzajwynagrodzenia = rodzajwynagrodzenia;
     }
     
 }
