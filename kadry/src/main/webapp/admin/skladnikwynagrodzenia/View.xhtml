@@ -14,16 +14,20 @@
                     <p:panelGrid columns="2" rendered="#{skladnikwynagrodzeniaController.selected != null}">
                         <h:outputText value="#{bundle.ViewSkladnikwynagrodzeniaLabel_id}"/>
                         <h:outputText value="#{skladnikwynagrodzeniaController.selected.id}" title="#{bundle.ViewSkladnikwynagrodzeniaTitle_id}"/>
-                        <h:outputText value="#{bundle.ViewSkladnikwynagrodzeniaLabel_nazwa}"/>
-                        <h:outputText value="#{skladnikwynagrodzeniaController.selected.nazwa}" title="#{bundle.ViewSkladnikwynagrodzeniaTitle_nazwa}"/>
                         <h:outputText value="#{bundle.ViewSkladnikwynagrodzeniaLabel_godzinowe0miesieczne1}"/>
                         <p:selectBooleanCheckbox value="#{skladnikwynagrodzeniaController.selected.godzinowe0miesieczne1}" disabled="true"/>
-                        <h:outputText value="#{bundle.ViewSkladnikwynagrodzeniaLabel_definicjalistaplac}"/>
-                        <h:outputText value="#{skladnikwynagrodzeniaController.selected.definicjalistaplac}" title="#{bundle.ViewSkladnikwynagrodzeniaTitle_definicjalistaplac}"/>
-                        <h:outputText value="#{bundle.ViewSkladnikwynagrodzeniaLabel_rodzajumowy}"/>
-                        <h:outputText value="#{skladnikwynagrodzeniaController.selected.rodzajumowy}" title="#{bundle.ViewSkladnikwynagrodzeniaTitle_rodzajumowy}"/>
+                        <h:outputText value="#{bundle.ViewSkladnikwynagrodzeniaLabel_umowa}"/>
+                        <h:outputText value="#{skladnikwynagrodzeniaController.selected.umowa}" title="#{bundle.ViewSkladnikwynagrodzeniaTitle_umowa}"/>
                         <h:outputText value="#{bundle.ViewSkladnikwynagrodzeniaLabel_zmiennawynagrodzenia}"/>
                         <h:outputText value="#{skladnikwynagrodzeniaController.selected.zmiennawynagrodzenia}" title="#{bundle.ViewSkladnikwynagrodzeniaTitle_zmiennawynagrodzenia}"/>
+                        <h:outputText value="#{bundle.ViewSkladnikwynagrodzeniaLabel_redukowanyzaczasnieobecnosci}"/>
+                        <p:selectBooleanCheckbox value="#{skladnikwynagrodzeniaController.selected.redukowanyzaczasnieobecnosci}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewSkladnikwynagrodzeniaLabel_kod}"/>
+                        <h:outputText value="#{skladnikwynagrodzeniaController.selected.kod}" title="#{bundle.ViewSkladnikwynagrodzeniaTitle_kod}"/>
+                        <h:outputText value="#{bundle.ViewSkladnikwynagrodzeniaLabel_nazwa}"/>
+                        <h:outputText value="#{skladnikwynagrodzeniaController.selected.nazwa}" title="#{bundle.ViewSkladnikwynagrodzeniaTitle_nazwa}"/>
+                        <h:outputText value="#{bundle.ViewSkladnikwynagrodzeniaLabel_stala0zmienna1}"/>
+                        <p:selectBooleanCheckbox value="#{skladnikwynagrodzeniaController.selected.stala0zmienna1}" disabled="true"/>
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="SkladnikwynagrodzeniaViewDialog.hide()"/>
                 </h:panelGroup>

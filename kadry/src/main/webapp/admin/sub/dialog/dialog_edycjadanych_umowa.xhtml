@@ -78,11 +78,11 @@
             <h:form id="UmowaListForm">
                 <p:panel header="Wykaz umów">
                     <p:dataTable id="datalist" value="#{umowaView.lista}" var="itemumowa"
-                                 selectionMode="single" selection="#{pracownikView.selectedlista}"
+                                 selectionMode="single" selection="#{umowaView.selectedlista}"
                                  rowKey="#{itemumowa.id}"
                                  style="height: 200px; overflow-y: scroll;"
                                  >
-
+                        <p:ajax event="rowSelect" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north,SkladnikwynagrodzeniaCreateForm,ZmiennawynagrodzeniaListForm"/>
                         <p:column width="40">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListUmowaTitle_id}"/>

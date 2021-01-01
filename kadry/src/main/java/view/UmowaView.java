@@ -64,9 +64,11 @@ public class UmowaView  implements Serializable {
       }
     }
     
-    public void aktywuj(Umowa umowa) {
-        if (umowa!=null) {
-            wpisView.setUmowa(umowa);
+    public void aktywuj() {
+        if (selectedlista!=null) {
+            wpisView.setUmowa(selectedlista);
+            wpisView.setFirma(selectedlista.getAngaz().getFirma());
+            wpisView.setPracownik(selectedlista.getAngaz().getPracownik());
             Msg.msg("Aktywowano umowę");
         }
     }

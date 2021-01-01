@@ -14,16 +14,16 @@
                     <p:panelGrid columns="2" rendered="#{zmiennawynagrodzeniaController.selected != null}">
                         <h:outputText value="#{bundle.ViewZmiennawynagrodzeniaLabel_id}"/>
                         <h:outputText value="#{zmiennawynagrodzeniaController.selected.id}" title="#{bundle.ViewZmiennawynagrodzeniaTitle_id}"/>
-                        <h:outputText value="#{bundle.ViewZmiennawynagrodzeniaLabel_nazwa}"/>
-                        <h:outputText value="#{zmiennawynagrodzeniaController.selected.nazwa}" title="#{bundle.ViewZmiennawynagrodzeniaTitle_nazwa}"/>
-                        <h:outputText value="#{bundle.ViewZmiennawynagrodzeniaLabel_dataod}"/>
-                        <h:outputText value="#{zmiennawynagrodzeniaController.selected.dataod}" title="#{bundle.ViewZmiennawynagrodzeniaTitle_dataod}"/>
+                        <h:outputText value="#{bundle.ViewZmiennawynagrodzeniaLabel_kwota}"/>
+                        <h:outputText value="#{zmiennawynagrodzeniaController.selected.kwota}" title="#{bundle.ViewZmiennawynagrodzeniaTitle_kwota}"/>
                         <h:outputText value="#{bundle.ViewZmiennawynagrodzeniaLabel_datado}"/>
                         <h:outputText value="#{zmiennawynagrodzeniaController.selected.datado}" title="#{bundle.ViewZmiennawynagrodzeniaTitle_datado}"/>
-                        <h:outputText value="#{bundle.ViewZmiennawynagrodzeniaLabel_kwotastala}"/>
-                        <h:outputText value="#{zmiennawynagrodzeniaController.selected.kwotastala}" title="#{bundle.ViewZmiennawynagrodzeniaTitle_kwotastala}"/>
-                        <h:outputText value="#{bundle.ViewZmiennawynagrodzeniaLabel_stala0zmienna1}"/>
-                        <p:selectBooleanCheckbox value="#{zmiennawynagrodzeniaController.selected.stala0zmienna1}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewZmiennawynagrodzeniaLabel_dataod}"/>
+                        <h:outputText value="#{zmiennawynagrodzeniaController.selected.dataod}" title="#{bundle.ViewZmiennawynagrodzeniaTitle_dataod}"/>
+                        <h:outputText value="#{bundle.ViewZmiennawynagrodzeniaLabel_nazwa}"/>
+                        <h:outputText value="#{zmiennawynagrodzeniaController.selected.nazwa}" title="#{bundle.ViewZmiennawynagrodzeniaTitle_nazwa}"/>
+                        <h:outputText value="#{bundle.ViewZmiennawynagrodzeniaLabel_skladnikwynagrodzenia}"/>
+                        <h:outputText value="#{zmiennawynagrodzeniaController.selected.skladnikwynagrodzenia}" title="#{bundle.ViewZmiennawynagrodzeniaTitle_skladnikwynagrodzenia}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="ZmiennawynagrodzeniaViewDialog.hide()"/>
                 </h:panelGroup>

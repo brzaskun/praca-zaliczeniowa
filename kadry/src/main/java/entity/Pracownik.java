@@ -100,16 +100,19 @@ public class Pracownik implements Serializable {
     public String toString() {
         return "entity.Pracownik[ id=" + id + " ]";
     }
+    public String getNazwiskoImie() {
+        return nazwisko+" "+imie;
+    }
 
     public String getImie() {
         return imie;
     }
 
+  
+
     public void setImie(String imie) {
         this.imie = imie;
     }
-
-  
 
     public String getNazwisko() {
         return nazwisko;
@@ -117,10 +120,6 @@ public class Pracownik implements Serializable {
 
     public void setNazwisko(String nazwisko) {
         this.nazwisko = nazwisko;
-    }
-    
-    public String getNazwiskoImie() {
-        return nazwisko+" "+imie;
     }
     
 }

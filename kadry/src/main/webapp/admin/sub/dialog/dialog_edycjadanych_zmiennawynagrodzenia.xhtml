@@ -1,0 +1,74 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:dialog id="dialogzmiennewynagrodzenia" header="Wprowadzanie zmiennych wynagrodzenia" widgetVar="dialogzmiennewynagrodzenia"  
+              resizable="false"  onShow="ustawdialog('dialogzmiennewynagrodzenia','centertile',1450,1000);" closeOnEscape="true" onHide="resetujdialog('dialogzmiennewynagrodzenia');" 
+              fitViewport="true">
+        <p:outputPanel style="height: 250px">
+           <h:form id="ZmiennawynagrodzeniaCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="8" rendered="#{zmiennaWynagrodzeniaView.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateZmiennawynagrodzeniaLabel_nazwa}" for="nazwa" />
+                        <p:inputText id="nazwa" value="#{zmiennaWynagrodzeniaView.selected.nazwa}" title="#{bundle.CreateZmiennawynagrodzeniaTitle_nazwa}" />
+                        <p:outputLabel value="#{bundle.CreateZmiennawynagrodzeniaLabel_datado}" for="datado" />
+                        <p:inputText id="datado" value="#{zmiennaWynagrodzeniaView.selected.datado}" title="#{bundle.CreateZmiennawynagrodzeniaTitle_datado}" />
+                        <p:outputLabel value="#{bundle.CreateZmiennawynagrodzeniaLabel_dataod}" for="dataod" />
+                        <p:inputText id="dataod" value="#{zmiennaWynagrodzeniaView.selected.dataod}" title="#{bundle.CreateZmiennawynagrodzeniaTitle_dataod}" />
+                        <p:outputLabel value="#{bundle.CreateZmiennawynagrodzeniaLabel_kwota}" for="kwota" />
+                        <p:inputText id="kwota" value="#{zmiennaWynagrodzeniaView.selected.kwota}" title="#{bundle.CreateZmiennawynagrodzeniaTitle_kwota}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{zmiennaWynagrodzeniaView.create}" value="#{bundle.Save}" update="display,:ZmiennawynagrodzeniaListForm:datalist"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ZmiennawynagrodzeniaCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:outputPanel>
+        <p:outputPanel>
+            <h:form id="ZmiennawynagrodzeniaListForm">
+                <p:panel header="Wykaz zmiennych">
+                    <p:dataTable id="datalist" value="#{zmiennaWynagrodzeniaView.lista}" var="itemzmiennawyn"
+                                 selectionMode="single" selection="#{pracownikView.selectedlista}"
+                                 rowKey="#{itemzmiennawyn.id}"
+                                 style="height: 200px; overflow-y: scroll;"
+                                 >
+
+                        <p:column width="40">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListZmiennawynagrodzeniaTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemzmiennawyn.id}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListZmiennawynagrodzeniaTitle_nazwa}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemzmiennawyn.nazwa}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListZmiennawynagrodzeniaTitle_datado}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemzmiennawyn.datado}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListZmiennawynagrodzeniaTitle_dataod}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemzmiennawyn.dataod}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListZmiennawynagrodzeniaTitle_kwota}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemzmiennawyn.kwota}"/>
+                        </p:column>
+                        
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+        </p:outputPanel>
+    </p:dialog>
+</ui:composition>

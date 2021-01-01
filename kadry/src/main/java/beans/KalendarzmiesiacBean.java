@@ -91,10 +91,10 @@ public class KalendarzmiesiacBean {
 
     static void naliczskladnikiwynagrodzenia(Kalendarzmiesiac kalendarz) {
         for (Skladnikwynagrodzenia p : kalendarz.getUmowa().getSkladnikwynagrodzeniaList()) {
-            if (p.getKodzmiennawynagrodzenia().equals("10")) {
+            if (p.getKod().equals("10")) {
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenie();
                 kalendarz.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
-            } else if (p.getKodzmiennawynagrodzenia().equals("20")) {
+            } else if (p.getKod().equals("20")) {
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createPremia();
                 kalendarz.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
             }
@@ -115,13 +115,13 @@ public class KalendarzmiesiacBean {
             naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
             naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
             double skladnik = 0.0;
-            if (p.getSkladnikwynagrodzenia().getKodzmiennawynagrodzenia().equals("10")) {
-                skladnik = skladnikwynagrodzenia.getZmiennawynagrodzenia().getKwota();
+            if (p.getSkladnikwynagrodzenia().getKod().equals("10")) {
+                skladnik = skladnikwynagrodzenia.getZmiennawynagrodzeniaList().get(0).getKwota();
             }
-            if (p.getSkladnikwynagrodzenia().getKodzmiennawynagrodzenia().equals("20")) {
+            if (p.getSkladnikwynagrodzenia().getKod().equals("20")) {
                 skladnik = Z.z(1800/3.0);
             }
-            if (p.getSkladnikwynagrodzenia().getKodzmiennawynagrodzenia().equals("30")||p.getSkladnikwynagrodzenia().getKodzmiennawynagrodzenia().equals("31")) {
+            if (p.getSkladnikwynagrodzenia().getKod().equals("30")||p.getSkladnikwynagrodzenia().getKod().equals("31")) {
                 skladnik = Z.z(210/3.0);
             }
             int dninieobecnosci = Data.iletodni(nieobecnosc.getDatado(), nieobecnosc.getDataod());
@@ -160,14 +160,14 @@ public class KalendarzmiesiacBean {
                 Skladnikwynagrodzenia skladnikwynagrodzenia = p.getSkladnikwynagrodzenia();
                 naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
                 double skladnik = 0.0;
-                if (p.getSkladnikwynagrodzenia().getKodzmiennawynagrodzenia().equals("10")) {
-                    skladnik = skladnikwynagrodzenia.getZmiennawynagrodzenia().getKwota();
+                if (p.getSkladnikwynagrodzenia().getKod().equals("10")) {
+                    skladnik = skladnikwynagrodzenia.getZmiennawynagrodzeniaList().get(0).getKwota();
                 }
-                if (p.getSkladnikwynagrodzenia().getKodzmiennawynagrodzenia().equals("20")) {
+                if (p.getSkladnikwynagrodzenia().getKod().equals("20")) {
                     skladnik = Z.z(1800/3.0);
                     dniroboczewmiesiacu = 64.0/3.0;
                 }
-                if (p.getSkladnikwynagrodzenia().getKodzmiennawynagrodzenia().equals("30")||p.getSkladnikwynagrodzenia().getKodzmiennawynagrodzenia().equals("31")) {
+                if (p.getSkladnikwynagrodzenia().getKod().equals("30")||p.getSkladnikwynagrodzenia().getKod().equals("31")) {
                     skladnik = Z.z(210/3.0);
                 }
                 naliczenienieobecnosc.setSkladnikistale(skladnik);
@@ -202,7 +202,7 @@ public class KalendarzmiesiacBean {
                 Skladnikwynagrodzenia skladnikwynagrodzenia = p.getSkladnikwynagrodzenia();
                 naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
                 naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
-                double skladnikistale = skladnikwynagrodzenia.getZmiennawynagrodzenia().getKwota();
+                double skladnikistale = skladnikwynagrodzenia.getZmiennawynagrodzeniaList().get(0).getKwota();
                 naliczenienieobecnosc.setSkladnikistale(skladnikistale);
                 double liczbagodzinroboczych = dniroboczewmiesiacu * 8.0;
                 naliczenienieobecnosc.setLiczbagodzinroboczych(liczbagodzinroboczych);
@@ -235,7 +235,7 @@ public class KalendarzmiesiacBean {
         Skladnikwynagrodzenia wynagrodzeniezasadnicze = SkladnikwynagrodzeniaBean.createWynagrodzenie();
         Skladnikwynagrodzenia skladniknadgodziny50 = SkladnikwynagrodzeniaBean.createNadgodziny50();
         naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(skladniknadgodziny50);
-        double skladnik = wynagrodzeniezasadnicze.getZmiennawynagrodzenia().getKwota();
+        double skladnik = wynagrodzeniezasadnicze.getZmiennawynagrodzeniaList().get(0).getKwota();
         double stawkagodznowanormalna = skladnik / godzinyrobocze*0.5;
         naliczenieskladnikawynagrodzenia.setKwota(Z.z(stawkagodznowanormalna*nadliczbowe));
         naliczenieskladnikawynagrodzenia.setKwotazus(Z.z(stawkagodznowanormalna*nadliczbowe));
@@ -257,7 +257,7 @@ public class KalendarzmiesiacBean {
         Skladnikwynagrodzenia wynagrodzeniezasadnicze = SkladnikwynagrodzeniaBean.createWynagrodzenie();
         Skladnikwynagrodzenia skladniknadgodziny100 = SkladnikwynagrodzeniaBean.createNadgodziny100();
         naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(skladniknadgodziny100);
-        double skladnik = wynagrodzeniezasadnicze.getZmiennawynagrodzenia().getKwota();
+        double skladnik = wynagrodzeniezasadnicze.getZmiennawynagrodzeniaList().get(0).getKwota();
         double stawkagodznowanormalna = skladnik / godzinyrobocze;
         naliczenieskladnikawynagrodzenia.setKwota(Z.z(stawkagodznowanormalna*nadliczbowe));
         naliczenieskladnikawynagrodzenia.setKwotazus(Z.z(stawkagodznowanormalna*nadliczbowe));

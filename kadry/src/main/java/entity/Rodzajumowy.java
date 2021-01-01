@@ -34,6 +34,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Rodzajumowy.findByNazwa", query = "SELECT r FROM Rodzajumowy r WHERE r.nazwa = :nazwa")})
 public class Rodzajumowy implements Serializable {
 
+    @Size(max = 255)
+    @Column(name = "nazwa")
+    private String nazwa;
+
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,9 +47,6 @@ public class Rodzajumowy implements Serializable {
     private Integer id;
     @OneToMany(mappedBy = "rodzajumowy")
     private List<Umowa> umowaList;
-    @Size(max = 255)
-    @Column(name = "nazwa")
-    private String nazwa;
 
     public Rodzajumowy() {
     }

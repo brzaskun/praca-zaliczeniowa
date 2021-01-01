@@ -14,16 +14,20 @@
                     <p:panelGrid columns="2" rendered="#{zmiennawynagrodzeniaController.selected != null}">
                         <p:outputLabel value="#{bundle.CreateZmiennawynagrodzeniaLabel_id}" for="id" />
                         <p:inputText id="id" value="#{zmiennawynagrodzeniaController.selected.id}" title="#{bundle.CreateZmiennawynagrodzeniaTitle_id}" required="true" requiredMessage="#{bundle.CreateZmiennawynagrodzeniaRequiredMessage_id}"/>
-                        <p:outputLabel value="#{bundle.CreateZmiennawynagrodzeniaLabel_nazwa}" for="nazwa" />
-                        <p:inputText id="nazwa" value="#{zmiennawynagrodzeniaController.selected.nazwa}" title="#{bundle.CreateZmiennawynagrodzeniaTitle_nazwa}" />
-                        <p:outputLabel value="#{bundle.CreateZmiennawynagrodzeniaLabel_dataod}" for="dataod" />
-                        <p:inputText id="dataod" value="#{zmiennawynagrodzeniaController.selected.dataod}" title="#{bundle.CreateZmiennawynagrodzeniaTitle_dataod}" />
+                        <p:outputLabel value="#{bundle.CreateZmiennawynagrodzeniaLabel_kwota}" for="kwota" />
+                        <p:inputText id="kwota" value="#{zmiennawynagrodzeniaController.selected.kwota}" title="#{bundle.CreateZmiennawynagrodzeniaTitle_kwota}" />
                         <p:outputLabel value="#{bundle.CreateZmiennawynagrodzeniaLabel_datado}" for="datado" />
                         <p:inputText id="datado" value="#{zmiennawynagrodzeniaController.selected.datado}" title="#{bundle.CreateZmiennawynagrodzeniaTitle_datado}" />
-                        <p:outputLabel value="#{bundle.CreateZmiennawynagrodzeniaLabel_kwotastala}" for="kwotastala" />
-                        <p:inputText id="kwotastala" value="#{zmiennawynagrodzeniaController.selected.kwotastala}" title="#{bundle.CreateZmiennawynagrodzeniaTitle_kwotastala}" />
-                        <p:outputLabel value="#{bundle.CreateZmiennawynagrodzeniaLabel_stala0zmienna1}" for="stala0zmienna1" />
-                        <p:selectBooleanCheckbox id="stala0zmienna1" value="#{zmiennawynagrodzeniaController.selected.stala0zmienna1}" />
+                        <p:outputLabel value="#{bundle.CreateZmiennawynagrodzeniaLabel_dataod}" for="dataod" />
+                        <p:inputText id="dataod" value="#{zmiennawynagrodzeniaController.selected.dataod}" title="#{bundle.CreateZmiennawynagrodzeniaTitle_dataod}" />
+                        <p:outputLabel value="#{bundle.CreateZmiennawynagrodzeniaLabel_nazwa}" for="nazwa" />
+                        <p:inputText id="nazwa" value="#{zmiennawynagrodzeniaController.selected.nazwa}" title="#{bundle.CreateZmiennawynagrodzeniaTitle_nazwa}" />
+                        <p:outputLabel value="#{bundle.CreateZmiennawynagrodzeniaLabel_skladnikwynagrodzenia}" for="skladnikwynagrodzenia" />
+                        <p:selectOneMenu id="skladnikwynagrodzenia" value="#{zmiennawynagrodzeniaController.selected.skladnikwynagrodzenia}" required="true" requiredMessage="#{bundle.EditZmiennawynagrodzeniaRequiredMessage_skladnikwynagrodzenia}">
+                            <f:selectItems value="#{skladnikwynagrodzeniaController.itemsAvailableSelectOne}"
+                                           var="skladnikwynagrodzeniaItem"
+                                           itemValue="#{skladnikwynagrodzeniaItem}"/>
+                        </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{zmiennawynagrodzeniaController.create}" value="#{bundle.Save}" update="display,:ZmiennawynagrodzeniaListForm:datalist,:growl" oncomplete="handleSubmit(args,'ZmiennawynagrodzeniaCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="ZmiennawynagrodzeniaCreateDialog.hide()"/>

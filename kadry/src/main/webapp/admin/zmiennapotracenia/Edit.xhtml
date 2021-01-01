@@ -14,12 +14,21 @@
                     <p:panelGrid columns="2" rendered="#{zmiennapotraceniaController.selected != null}">
                         <p:outputLabel value="#{bundle.EditZmiennapotraceniaLabel_id}" for="id" />
                         <p:inputText id="id" value="#{zmiennapotraceniaController.selected.id}" title="#{bundle.EditZmiennapotraceniaTitle_id}" required="true" requiredMessage="#{bundle.EditZmiennapotraceniaRequiredMessage_id}"/>
-                        <p:outputLabel value="#{bundle.EditZmiennapotraceniaLabel_nazwa}" for="nazwa" />
-                        <p:inputText id="nazwa" value="#{zmiennapotraceniaController.selected.nazwa}" title="#{bundle.EditZmiennapotraceniaTitle_nazwa}" />
-                        <p:outputLabel value="#{bundle.EditZmiennapotraceniaLabel_dataod}" for="dataod" />
-                        <p:inputText id="dataod" value="#{zmiennapotraceniaController.selected.dataod}" title="#{bundle.EditZmiennapotraceniaTitle_dataod}" />
                         <p:outputLabel value="#{bundle.EditZmiennapotraceniaLabel_datado}" for="datado" />
                         <p:inputText id="datado" value="#{zmiennapotraceniaController.selected.datado}" title="#{bundle.EditZmiennapotraceniaTitle_datado}" />
+                        <p:outputLabel value="#{bundle.EditZmiennapotraceniaLabel_dataod}" for="dataod" />
+                        <p:inputText id="dataod" value="#{zmiennapotraceniaController.selected.dataod}" title="#{bundle.EditZmiennapotraceniaTitle_dataod}" />
+                        <p:outputLabel value="#{bundle.EditZmiennapotraceniaLabel_nazwa}" for="nazwa" />
+                        <p:inputText id="nazwa" value="#{zmiennapotraceniaController.selected.nazwa}" title="#{bundle.EditZmiennapotraceniaTitle_nazwa}" />
+                        <p:outputLabel value="#{bundle.EditZmiennapotraceniaLabel_kwotastala}" for="kwotastala" />
+                        <p:inputText id="kwotastala" value="#{zmiennapotraceniaController.selected.kwotastala}" title="#{bundle.EditZmiennapotraceniaTitle_kwotastala}" />
+                        <p:outputLabel value="#{bundle.EditZmiennapotraceniaLabel_skladnikpotracenia}" for="skladnikpotracenia" />
+                        <p:selectOneMenu id="skladnikpotracenia" value="#{zmiennapotraceniaController.selected.skladnikpotracenia}" required="true" requiredMessage="#{bundle.EditZmiennapotraceniaRequiredMessage_skladnikpotracenia}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{skladnikpotraceniaController.itemsAvailableSelectOne}"
+                                           var="skladnikpotraceniaItem"
+                                           itemValue="#{skladnikpotraceniaItem}"/>
+                        </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{zmiennapotraceniaController.update}" value="#{bundle.Save}" update="display,:ZmiennapotraceniaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ZmiennapotraceniaEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="ZmiennapotraceniaEditDialog.hide()"/>

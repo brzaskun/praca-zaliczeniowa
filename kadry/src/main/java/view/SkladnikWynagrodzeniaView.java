@@ -5,12 +5,8 @@
  */
 package view;
 
-import dao.AngazFacade;
-import dao.FirmaFacade;
-import dao.PracownikFacade;
-import entity.Angaz;
-import entity.Firma;
-import entity.Pracownik;
+import dao.SkladnikWynagrodzeniaFacade;
+import entity.Skladnikwynagrodzenia;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -28,90 +24,64 @@ import msg.Msg;
 public class SkladnikWynagrodzeniaView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
-    private Angaz selected;
+    private Skladnikwynagrodzenia selected;
     @Inject
-    private Angaz selectedlista;
-    private List<Angaz> lista;
-    private List<Firma> listafirm;
-    private List<Pracownik> listapracownikow;
+    private Skladnikwynagrodzenia selectedlista;
+    private List<Skladnikwynagrodzenia> lista;
     @Inject
-    private AngazFacade angazFacade;
-    @Inject
-    private FirmaFacade firmaFacade;
-    @Inject
-    private PracownikFacade pracownikFacade;
+    private SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade;
     @Inject
     private WpisView wpisView;
     
     @PostConstruct
     private void init() {
-        lista  = angazFacade.findAll();
-        listafirm = firmaFacade.findAll();
-        listapracownikow = pracownikFacade.findAll();
+        lista  = skladnikWynagrodzeniaFacade.findAll();
     }
 
     public void create() {
-      if (selected!=null) {
+      if (selected!=null && wpisView.getUmowa()!=null) {
           try {
-            angazFacade.create(selected);
+            selected.setUmowa(wpisView.getUmowa());
+            skladnikWynagrodzeniaFacade.create(selected);
             lista.add(selected);
-            selected = new Angaz();
-            Msg.msg("Dodano nową firmę");
+            selected = new Skladnikwynagrodzenia();
+            Msg.msg("Dodano nowy składnik wynagrodzenia");
           } catch (Exception e) {
               System.out.println("");
-              Msg.msg("e", "Błąd - nie dodano nowej firmy");
+              Msg.msg("e", "Błąd - nie dodano nowego składnika wynagrodzenai");
           }
+      } else {
+          Msg.msg("e","Brak wybranej umowy");
       }
     }
     
-    public void aktywuj(Angaz angaz) {
-        if (angaz!=null) {
-            wpisView.setAngaz(angaz);
-            Msg.msg("Aktywowano firmę");
-        }
-    }
-    
-    public Angaz getSelected() {
+
+    public Skladnikwynagrodzenia getSelected() {
         return selected;
     }
 
-    public void setSelected(Angaz selected) {
+    public void setSelected(Skladnikwynagrodzenia selected) {
         this.selected = selected;
     }
 
-    public List<Angaz> getLista() {
-        return lista;
-    }
-
-    public void setLista(List<Angaz> lista) {
-        this.lista = lista;
-    }
-
-    public Angaz getSelectedlista() {
+    public Skladnikwynagrodzenia getSelectedlista() {
         return selectedlista;
     }
 
-    public void setSelectedlista(Angaz selectedlista) {
+    public void setSelectedlista(Skladnikwynagrodzenia selectedlista) {
         this.selectedlista = selectedlista;
     }
 
-    public List<Firma> getListafirm() {
-        return listafirm;
+    public List<Skladnikwynagrodzenia> getLista() {
+        return lista;
     }
 
-    public void setListafirm(List<Firma> listafirm) {
-        this.listafirm = listafirm;
+    public void setLista(List<Skladnikwynagrodzenia> lista) {
+        this.lista = lista;
     }
 
-    public List<Pracownik> getListapracownikow() {
-        return listapracownikow;
-    }
 
-    public void setListapracownikow(List<Pracownik> listapracownikow) {
-        this.listapracownikow = listapracownikow;
-    }
-
-   
+    
     
     
 }

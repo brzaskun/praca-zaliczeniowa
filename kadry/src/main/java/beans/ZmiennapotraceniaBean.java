@@ -22,6 +22,7 @@ public class ZmiennapotraceniaBean {
             zmiennapotracenia.setDatado("2020-12-31");
             zmiennapotracenia.setNazwa("PZU");
             zmiennapotracenia.setKwotastala(200.0);
+            zmiennapotracenia.setSkladnikpotracenia(SkladnikpotraceniaBean.create());
         }
         return zmiennapotracenia;
     }

@@ -23,6 +23,7 @@ public class ZmiennawynagrodzeniaBean {
             zmiennawynagrodzenia.setDatado("2020-12-31");
             zmiennawynagrodzenia.setNazwa("wynagrodzenie");
             zmiennawynagrodzenia.setKwota(3500.0);
+            zmiennawynagrodzenia.setSkladnikwynagrodzenia(SkladnikwynagrodzeniaBean.createWynagrodzenie());
             ;
         }
         return zmiennawynagrodzenia;
@@ -35,6 +36,7 @@ public class ZmiennawynagrodzeniaBean {
             zmiennapremia.setDatado("2020-12-31");
             zmiennapremia.setNazwa("premia uznaniowa");
             zmiennapremia.setKwota(100.0);
+            zmiennapremia.setSkladnikwynagrodzenia(SkladnikwynagrodzeniaBean.createPremiaUznaniowa());
         }
         return zmiennapremia;
     }

@@ -35,9 +35,9 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListZmiennapotraceniaTitle_nazwa}"/>
+                                <h:outputText value="#{bundle.ListZmiennapotraceniaTitle_datado}"/>
                             </f:facet>
-                            <h:outputText value="#{item.nazwa}"/>
+                            <h:outputText value="#{item.datado}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -47,9 +47,21 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListZmiennapotraceniaTitle_datado}"/>
+                                <h:outputText value="#{bundle.ListZmiennapotraceniaTitle_nazwa}"/>
                             </f:facet>
-                            <h:outputText value="#{item.datado}"/>
+                            <h:outputText value="#{item.nazwa}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListZmiennapotraceniaTitle_kwotastala}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.kwotastala}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListZmiennapotraceniaTitle_skladnikpotracenia}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.skladnikpotracenia}"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{zmiennapotraceniaController.prepareCreate}" update=":ZmiennapotraceniaCreateForm" oncomplete="PF('ZmiennapotraceniaCreateDialog').show()"/>

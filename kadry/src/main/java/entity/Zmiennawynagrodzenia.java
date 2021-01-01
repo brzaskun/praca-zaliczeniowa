@@ -6,20 +6,19 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -38,28 +37,27 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class Zmiennawynagrodzenia implements Serializable {
 
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @OneToMany(mappedBy = "zmiennawynagrodzenia")
-    private List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList;
     @Size(max = 255)
     @Column(name = "datado")
     private String datado;
     @Size(max = 255)
     @Column(name = "dataod")
     private String dataod;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "kwota")
-    private Double kwota;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Size(max = 255)
     @Column(name = "nazwa")
     private String nazwa;
+    @JoinColumn(name = "skladnikwynagrodzenia", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Skladnikwynagrodzenia skladnikwynagrodzenia;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "kwota")
+    private Double kwota;
     
 
 
@@ -78,16 +76,6 @@ public class Zmiennawynagrodzenia implements Serializable {
         this.id = id;
     }
 
-
-
-    @XmlTransient
-    public List<Skladnikwynagrodzenia> getSkladnikwynagrodzeniaList() {
-        return skladnikwynagrodzeniaList;
-    }
-
-    public void setSkladnikwynagrodzeniaList(List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList) {
-        this.skladnikwynagrodzeniaList = skladnikwynagrodzeniaList;
-    }
 
     @Override
     public int hashCode() {
@@ -115,6 +103,15 @@ public class Zmiennawynagrodzenia implements Serializable {
     }
 
 
+
+    public Double getKwota() {
+        return kwota;
+    }
+
+    public void setKwota(Double kwota) {
+        this.kwota = kwota;
+    }
+
     public String getDatado() {
         return datado;
     }
@@ -131,20 +128,20 @@ public class Zmiennawynagrodzenia implements Serializable {
         this.dataod = dataod;
     }
 
-    public Double getKwota() {
-        return kwota;
-    }
-
-    public void setKwota(Double kwota) {
-        this.kwota = kwota;
-    }
-
     public String getNazwa() {
         return nazwa;
     }
 
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
+    }
+
+    public Skladnikwynagrodzenia getSkladnikwynagrodzenia() {
+        return skladnikwynagrodzenia;
+    }
+
+    public void setSkladnikwynagrodzenia(Skladnikwynagrodzenia skladnikwynagrodzenia) {
+        this.skladnikwynagrodzenia = skladnikwynagrodzenia;
     }
 
     

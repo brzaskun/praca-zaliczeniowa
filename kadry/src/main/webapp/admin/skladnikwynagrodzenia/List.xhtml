@@ -35,33 +35,45 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSkladnikwynagrodzeniaTitle_nazwa}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.nazwa}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
                                 <h:outputText value="#{bundle.ListSkladnikwynagrodzeniaTitle_godzinowe0miesieczne1}"/>
                             </f:facet>
                             <p:selectBooleanCheckbox value="#{item.godzinowe0miesieczne1}" disabled="true"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSkladnikwynagrodzeniaTitle_definicjalistaplac}"/>
+                                <h:outputText value="#{bundle.ListSkladnikwynagrodzeniaTitle_umowa}"/>
                             </f:facet>
-                            <h:outputText value="#{item.definicjalistaplac}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSkladnikwynagrodzeniaTitle_rodzajumowy}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.rodzajumowy}"/>
+                            <h:outputText value="#{item.umowa}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListSkladnikwynagrodzeniaTitle_zmiennawynagrodzenia}"/>
                             </f:facet>
                             <h:outputText value="#{item.zmiennawynagrodzenia}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSkladnikwynagrodzeniaTitle_redukowanyzaczasnieobecnosci}"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item.redukowanyzaczasnieobecnosci}" disabled="true"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSkladnikwynagrodzeniaTitle_kod}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.kod}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSkladnikwynagrodzeniaTitle_nazwa}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nazwa}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSkladnikwynagrodzeniaTitle_stala0zmienna1}"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item.stala0zmienna1}" disabled="true"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{skladnikwynagrodzeniaController.prepareCreate}" update=":SkladnikwynagrodzeniaCreateForm" oncomplete="PF('SkladnikwynagrodzeniaCreateDialog').show()"/>

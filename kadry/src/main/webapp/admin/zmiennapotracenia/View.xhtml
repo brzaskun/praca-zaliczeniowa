@@ -14,12 +14,16 @@
                     <p:panelGrid columns="2" rendered="#{zmiennapotraceniaController.selected != null}">
                         <h:outputText value="#{bundle.ViewZmiennapotraceniaLabel_id}"/>
                         <h:outputText value="#{zmiennapotraceniaController.selected.id}" title="#{bundle.ViewZmiennapotraceniaTitle_id}"/>
-                        <h:outputText value="#{bundle.ViewZmiennapotraceniaLabel_nazwa}"/>
-                        <h:outputText value="#{zmiennapotraceniaController.selected.nazwa}" title="#{bundle.ViewZmiennapotraceniaTitle_nazwa}"/>
-                        <h:outputText value="#{bundle.ViewZmiennapotraceniaLabel_dataod}"/>
-                        <h:outputText value="#{zmiennapotraceniaController.selected.dataod}" title="#{bundle.ViewZmiennapotraceniaTitle_dataod}"/>
                         <h:outputText value="#{bundle.ViewZmiennapotraceniaLabel_datado}"/>
                         <h:outputText value="#{zmiennapotraceniaController.selected.datado}" title="#{bundle.ViewZmiennapotraceniaTitle_datado}"/>
+                        <h:outputText value="#{bundle.ViewZmiennapotraceniaLabel_dataod}"/>
+                        <h:outputText value="#{zmiennapotraceniaController.selected.dataod}" title="#{bundle.ViewZmiennapotraceniaTitle_dataod}"/>
+                        <h:outputText value="#{bundle.ViewZmiennapotraceniaLabel_nazwa}"/>
+                        <h:outputText value="#{zmiennapotraceniaController.selected.nazwa}" title="#{bundle.ViewZmiennapotraceniaTitle_nazwa}"/>
+                        <h:outputText value="#{bundle.ViewZmiennapotraceniaLabel_kwotastala}"/>
+                        <h:outputText value="#{zmiennapotraceniaController.selected.kwotastala}" title="#{bundle.ViewZmiennapotraceniaTitle_kwotastala}"/>
+                        <h:outputText value="#{bundle.ViewZmiennapotraceniaLabel_skladnikpotracenia}"/>
+                        <h:outputText value="#{zmiennapotraceniaController.selected.skladnikpotracenia}" title="#{bundle.ViewZmiennapotraceniaTitle_skladnikpotracenia}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="ZmiennapotraceniaViewDialog.hide()"/>
                 </h:panelGroup>

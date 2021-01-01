@@ -21,7 +21,6 @@ public class SkladnikpotraceniaBean {
             skladnikpotracenia = new Skladnikpotracenia();
             skladnikpotracenia.setNazwa("wynagrodzenie zasadnicze");
             skladnikpotracenia.setUmowa(UmowaBean.create());
-            skladnikpotracenia.setZmiennapotracenia(ZmiennapotraceniaBean.create());
         }
         return skladnikpotracenia;
     }

@@ -35,15 +35,9 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListZmiennawynagrodzeniaTitle_nazwa}"/>
+                                <h:outputText value="#{bundle.ListZmiennawynagrodzeniaTitle_kwota}"/>
                             </f:facet>
-                            <h:outputText value="#{item.nazwa}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListZmiennawynagrodzeniaTitle_dataod}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.dataod}"/>
+                            <h:outputText value="#{item.kwota}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -53,15 +47,21 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListZmiennawynagrodzeniaTitle_kwotastala}"/>
+                                <h:outputText value="#{bundle.ListZmiennawynagrodzeniaTitle_dataod}"/>
                             </f:facet>
-                            <h:outputText value="#{item.kwotastala}"/>
+                            <h:outputText value="#{item.dataod}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListZmiennawynagrodzeniaTitle_stala0zmienna1}"/>
+                                <h:outputText value="#{bundle.ListZmiennawynagrodzeniaTitle_nazwa}"/>
                             </f:facet>
-                            <p:selectBooleanCheckbox value="#{item.stala0zmienna1}" disabled="true"/>
+                            <h:outputText value="#{item.nazwa}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListZmiennawynagrodzeniaTitle_skladnikwynagrodzenia}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.skladnikwynagrodzenia}"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{zmiennawynagrodzeniaController.prepareCreate}" update=":ZmiennawynagrodzeniaCreateForm" oncomplete="PF('ZmiennawynagrodzeniaCreateDialog').show()"/>

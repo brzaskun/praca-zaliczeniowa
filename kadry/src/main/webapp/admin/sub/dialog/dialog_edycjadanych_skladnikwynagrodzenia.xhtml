@@ -1,0 +1,88 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:dialog id="dialogskladnikiwynagrodzenia" header="Wprowadzanie składników wynagrodzenia" widgetVar="dialogskladnikiwynagrodzenia"  
+              resizable="false"  onShow="ustawdialog('dialogskladnikiwynagrodzenia','centertile',1450,1000);" closeOnEscape="true" onHide="resetujdialog('dialogskladnikiwynagrodzenia');" 
+              fitViewport="true">
+        <p:outputPanel style="height: 250px">
+           <h:form id="SkladnikwynagrodzeniaCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="6" rendered="#{skladnikWynagrodzeniaView.selected != null}">
+                        <p:outputLabel value="nazwa" for="nazwa" />
+                        <p:inputText id="nazwa" value="#{skladnikWynagrodzeniaView.selected.nazwa}" title="#{bundle.CreateSkladnikwynagrodzeniaTitle_nazwa}" />
+                        <p:outputLabel value="godzinowe0miesieczne1" for="godzinowe0miesieczne1" />
+                        <p:selectBooleanCheckbox id="godzinowe0miesieczne1" value="#{skladnikWynagrodzeniaView.selected.godzinowe0miesieczne1}" />
+                        <p:outputLabel value="redukowany za czas nieobecnosci}" for="redukowanyzaczasnieobecnosci" />
+                        <p:selectBooleanCheckbox id="redukowanyzaczasnieobecnosci" value="#{skladnikWynagrodzeniaView.selected.redukowanyzaczasnieobecnosci}" />
+                        <p:outputLabel value="kod" for="kod" />
+                        <p:inputText id="kod" value="#{skladnikWynagrodzeniaView.selected.kod}" title="#{bundle.CreateSkladnikwynagrodzeniaTitle_kod}" />
+                        <p:outputLabel value="stala0zmienna1" for="stala0zmienna1" />
+                        <p:selectBooleanCheckbox id="stala0zmienna1" value="#{skladnikWynagrodzeniaView.selected.stala0zmienna1}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{skladnikWynagrodzeniaView.create}" value="#{bundle.Save}" update="display,:SkladnikwynagrodzeniaListForm:datalist"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="SkladnikwynagrodzeniaCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:outputPanel>
+        <p:outputPanel>
+            <h:form id="SkladnikwynagrodzeniaListForm">
+                <p:panel header="Wykaz zmiennych">
+                    <p:dataTable id="datalist" value="#{skladnikWynagrodzeniaView.lista}" var="itemskladnikwyn"
+                                 selectionMode="single" selection="#{pracownikView.selectedlista}"
+                                 rowKey="#{itemskladnikwyn.id}"
+                                 style="height: 200px; overflow-y: scroll;"
+                                 >
+
+                        <p:column width="40">
+                            <f:facet name="header">
+                                <h:outputText value="id"/>
+                            </f:facet>
+                            <h:outputText value="#{itemskladnikwyn.id}"/>
+                        </p:column>
+                          <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="nazwa"/>
+                            </f:facet>
+                            <h:outputText value="#{itemskladnikwyn.nazwa}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="godzinowe0 miesieczne1"/>
+                            </f:facet>
+                            <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.godzinowe0miesieczne1 eq true}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="umowa"/>
+                            </f:facet>
+                            <h:outputText value="#{itemskladnikwyn.umowa.angaz.pracownik.nazwiskoImie}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="reduk. za czas nieobecnosci"/>
+                            </f:facet>
+                            <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.redukowanyzaczasnieobecnosci eq true}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="kod"/>
+                            </f:facet>
+                            <h:outputText value="#{itemskladnikwyn.kod}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="stala0 zmienna1"/>
+                            </f:facet>
+                            <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.stala0zmienna1 eq true}"/>
+                        </p:column>
+                        
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+        </p:outputPanel>
+    </p:dialog>
+</ui:composition>

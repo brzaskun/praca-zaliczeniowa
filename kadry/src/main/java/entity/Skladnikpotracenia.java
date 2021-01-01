@@ -8,8 +8,11 @@ package entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,7 +20,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -34,25 +36,23 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Skladnikpotracenia.findById", query = "SELECT s FROM Skladnikpotracenia s WHERE s.id = :id"),
     @NamedQuery(name = "Skladnikpotracenia.findByNazwa", query = "SELECT s FROM Skladnikpotracenia s WHERE s.nazwa = :nazwa")})
 public class Skladnikpotracenia implements Serializable {
-
-   
-    private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
+    @Size(max = 255)
+    @Column(name = "nazwa")
+    private String nazwa;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikpotracenia")
+    private List<Zmiennapotracenia> zmiennapotraceniaList;
+
     @OneToMany(mappedBy = "skladnikpotracenia")
     private List<Naliczeniepotracenie> naliczeniepotracenieList;
     @JoinColumn(name = "umowa", referencedColumnName = "id")
     @ManyToOne
     private Umowa umowa;
-    @JoinColumn(name = "zmiennapotracenia", referencedColumnName = "id")
-    @ManyToOne
-    private Zmiennapotracenia zmiennapotracenia;
-    @Size(max = 255)
-    @Column(name = "nazwa")
-    private String nazwa;
 
 
     public Skladnikpotracenia() {
@@ -88,13 +88,6 @@ public class Skladnikpotracenia implements Serializable {
         this.umowa = umowa;
     }
 
-    public Zmiennapotracenia getZmiennapotracenia() {
-        return zmiennapotracenia;
-    }
-
-    public void setZmiennapotracenia(Zmiennapotracenia zmiennapotracenia) {
-        this.zmiennapotracenia = zmiennapotracenia;
-    }
 
     @Override
     public int hashCode() {
@@ -127,6 +120,15 @@ public class Skladnikpotracenia implements Serializable {
 
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
+    }
+
+    @XmlTransient
+    public List<Zmiennapotracenia> getZmiennapotraceniaList() {
+        return zmiennapotraceniaList;
+    }
+
+    public void setZmiennapotraceniaList(List<Zmiennapotracenia> zmiennapotraceniaList) {
+        this.zmiennapotraceniaList = zmiennapotraceniaList;
     }
     
 }
