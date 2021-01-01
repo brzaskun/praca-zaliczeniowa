@@ -5,7 +5,9 @@
  */
 package view;
 
+import dao.SkladnikWynagrodzeniaFacade;
 import dao.ZmiennaWynagrodzeniaFacade;
+import entity.Skladnikwynagrodzenia;
 import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
 import java.util.List;
@@ -28,27 +30,33 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
     @Inject
     private Zmiennawynagrodzenia selectedlista;
     private List<Zmiennawynagrodzenia> lista;
+    private List<Skladnikwynagrodzenia> listaskladnikiwynagrodzenia;
     @Inject
     private ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade;
+    @Inject
+    private SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade;
     @Inject
     private WpisView wpisView;
     
     @PostConstruct
     private void init() {
         lista  = zmiennaWynagrodzeniaFacade.findAll();
+        listaskladnikiwynagrodzenia = skladnikWynagrodzeniaFacade.findAll();
     }
 
     public void create() {
-      if (selected!=null) {
+      if (selected!=null && selected.getSkladnikwynagrodzenia()!=null) {
           try {
             zmiennaWynagrodzeniaFacade.create(selected);
             lista.add(selected);
             selected = new Zmiennawynagrodzenia();
-            Msg.msg("Dodano nową firmę");
+            Msg.msg("Dodano zmienną wyn");
           } catch (Exception e) {
               System.out.println("");
-              Msg.msg("e", "Błąd - nie dodano nowej firmy");
+              Msg.msg("e", "Błąd - nie dodano zmiennej wyn");
           }
+      } else {
+          Msg.msg("e", "Nie wybrano składnika");
       }
     }
     
@@ -75,6 +83,14 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
 
     public void setLista(List<Zmiennawynagrodzenia> lista) {
         this.lista = lista;
+    }
+
+    public List<Skladnikwynagrodzenia> getListaskladnikiwynagrodzenia() {
+        return listaskladnikiwynagrodzenia;
+    }
+
+    public void setListaskladnikiwynagrodzenia(List<Skladnikwynagrodzenia> listaskladnikiwynagrodzenia) {
+        this.listaskladnikiwynagrodzenia = listaskladnikiwynagrodzenia;
     }
 
 
