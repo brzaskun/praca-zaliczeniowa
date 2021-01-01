@@ -39,7 +39,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Definicjalistaplac.findByRok", query = "SELECT d FROM Definicjalistaplac d WHERE d.rok = :rok"),
     @NamedQuery(name = "Definicjalistaplac.findByMc", query = "SELECT d FROM Definicjalistaplac d WHERE d.mc = :mc")})
 public class Definicjalistaplac implements Serializable {
-
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "id")
+    private Integer id;
     @Size(max = 255)
     @Column(name = "datapodatek")
     private String datapodatek;
@@ -64,12 +69,6 @@ public class Definicjalistaplac implements Serializable {
     @Size(max = 2)
     @Column(name = "mc")
     private String mc;
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id")
-    private Integer id;
     @OneToMany(mappedBy = "definicjalistaplac")
     private List<Pasekwynagrodzen> pasekwynagrodzenList;
 

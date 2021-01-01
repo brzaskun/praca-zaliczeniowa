@@ -36,7 +36,16 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Zmiennapotracenia.findByNazwa", query = "SELECT z FROM Zmiennapotracenia z WHERE z.nazwa = :nazwa")})
 public class Zmiennapotracenia implements Serializable {
 
-    @Size(max = 255)
+  
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
+    @OneToMany(mappedBy = "zmiennapotracenia")
+    private List<Skladnikpotracenia> skladnikpotraceniaList;
+      @Size(max = 255)
     @Column(name = "datado")
     private String datado;
     @Size(max = 255)
@@ -49,14 +58,6 @@ public class Zmiennapotracenia implements Serializable {
     @Column(name = "kwotastala")
     private double kwotastala;
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
-    @OneToMany(mappedBy = "zmiennapotracenia")
-    private List<Skladnikpotracenia> skladnikpotraceniaList;
 
     public Zmiennapotracenia() {
     }

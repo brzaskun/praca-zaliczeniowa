@@ -6,7 +6,7 @@
 package beans;
 
 import entity.Definicjalistaplac;
-import entity.KalendarzWzor;
+import entity.Kalendarzwzor;
 import entity.Kalendarzmiesiac;
 import entity.Naliczenienieobecnosc;
 import entity.Naliczeniepotracenie;
@@ -33,7 +33,7 @@ public class PasekwynagrodzenBean {
     }
     
      public static void main (String[] args) {
-        KalendarzWzor kalendarzwzor = KalendarzWzorBean.create();
+        Kalendarzwzor kalendarzwzor = KalendarzWzorBean.create();
         Kalendarzmiesiac kalendarz = KalendarzmiesiacBean.create();
         Nieobecnosc choroba = NieobecnosciBean.createChoroba();
         Nieobecnosc urlop = NieobecnosciBean.createUrlop();

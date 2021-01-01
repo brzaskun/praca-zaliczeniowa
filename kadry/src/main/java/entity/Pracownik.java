@@ -31,13 +31,13 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Pracownik.findAll", query = "SELECT p FROM Pracownik p"),
     @NamedQuery(name = "Pracownik.findById", query = "SELECT p FROM Pracownik p WHERE p.id = :id"),
-    @NamedQuery(name = "Pracownik.findByImi\u0119", query = "SELECT p FROM Pracownik p WHERE p.imi\u0119 = :imi\u0119"),
+    @NamedQuery(name = "Pracownik.findByImie", query = "SELECT p FROM Pracownik p WHERE p.imie = :imie"),
     @NamedQuery(name = "Pracownik.findByNazwisko", query = "SELECT p FROM Pracownik p WHERE p.nazwisko = :nazwisko")})
 public class Pracownik implements Serializable {
 
     @Size(max = 255)
-    @Column(name = "imi\u0119")
-    private String imię;
+    @Column(name = "imie")
+    private String imie;
     @Size(max = 255)
     @Column(name = "nazwisko")
     private String nazwisko;
@@ -101,13 +101,15 @@ public class Pracownik implements Serializable {
         return "entity.Pracownik[ id=" + id + " ]";
     }
 
-    public String getImię() {
-        return imię;
+    public String getImie() {
+        return imie;
     }
 
-    public void setImię(String imię) {
-        this.imię = imię;
+    public void setImie(String imie) {
+        this.imie = imie;
     }
+
+  
 
     public String getNazwisko() {
         return nazwisko;
@@ -115,6 +117,10 @@ public class Pracownik implements Serializable {
 
     public void setNazwisko(String nazwisko) {
         this.nazwisko = nazwisko;
+    }
+    
+    public String getNazwiskoImie() {
+        return nazwisko+" "+imie;
     }
     
 }

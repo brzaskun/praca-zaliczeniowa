@@ -35,10 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Skladnikpotracenia.findByNazwa", query = "SELECT s FROM Skladnikpotracenia s WHERE s.nazwa = :nazwa")})
 public class Skladnikpotracenia implements Serializable {
 
-    @Size(max = 255)
-    @Column(name = "nazwa")
-    private String nazwa;
-
+   
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -53,6 +50,10 @@ public class Skladnikpotracenia implements Serializable {
     @JoinColumn(name = "zmiennapotracenia", referencedColumnName = "id")
     @ManyToOne
     private Zmiennapotracenia zmiennapotracenia;
+    @Size(max = 255)
+    @Column(name = "nazwa")
+    private String nazwa;
+
 
     public Skladnikpotracenia() {
     }

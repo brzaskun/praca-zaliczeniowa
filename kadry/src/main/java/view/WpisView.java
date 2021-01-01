@@ -4,16 +4,16 @@
  */
 package view;
 
-import dao.UzDAO;
+import entity.Angaz;
 import entity.Firma;
 import entity.Pracownik;
+import entity.Umowa;
 import entity.Uz;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import session.SessionFacade;
 /**
  *
  * @author Osito
@@ -33,10 +33,9 @@ public class WpisView implements Serializable {
     private String miesiacDo;
     private Firma firma;
     private Pracownik pracownik;
-    @Inject
-    private UzDAO uzDAO;
-    @Inject
-    private SessionFacade firmaFacade;
+    private Angaz angaz;
+    private Umowa umowa;
+ 
     
 
     public WpisView() {
@@ -120,6 +119,23 @@ public class WpisView implements Serializable {
     public void setPracownik(Pracownik pracownik) {
         this.pracownik = pracownik;
     }
+
+    public Angaz getAngaz() {
+        return angaz;
+    }
+
+    public void setAngaz(Angaz angaz) {
+        this.angaz = angaz;
+    }
+
+    public Umowa getUmowa() {
+        return umowa;
+    }
+
+    public void setUmowa(Umowa umowa) {
+        this.umowa = umowa;
+    }
+    
     
 
   }

@@ -14,16 +14,48 @@
                     <p:panelGrid columns="2" rendered="#{umowaController.selected != null}">
                         <h:outputText value="#{bundle.ViewUmowaLabel_id}"/>
                         <h:outputText value="#{umowaController.selected.id}" title="#{bundle.ViewUmowaTitle_id}"/>
-                        <h:outputText value="#{bundle.ViewUmowaLabel_dataod}"/>
-                        <h:outputText value="#{umowaController.selected.dataod}" title="#{bundle.ViewUmowaTitle_dataod}"/>
-                        <h:outputText value="#{bundle.ViewUmowaLabel_datado}"/>
-                        <h:outputText value="#{umowaController.selected.datado}" title="#{bundle.ViewUmowaTitle_datado}"/>
-                        <h:outputText value="#{bundle.ViewUmowaLabel_datazawarcia}"/>
-                        <h:outputText value="#{umowaController.selected.datazawarcia}" title="#{bundle.ViewUmowaTitle_datazawarcia}"/>
+                        <h:outputText value="#{bundle.ViewUmowaLabel_odliczaculgepodatkowa}"/>
+                        <p:selectBooleanCheckbox value="#{umowaController.selected.odliczaculgepodatkowa}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewUmowaLabel_chorobowe}"/>
+                        <p:selectBooleanCheckbox value="#{umowaController.selected.chorobowe}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewUmowaLabel_chorobowedobrowolne}"/>
+                        <p:selectBooleanCheckbox value="#{umowaController.selected.chorobowedobrowolne}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewUmowaLabel_emerytalne}"/>
+                        <p:selectBooleanCheckbox value="#{umowaController.selected.emerytalne}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewUmowaLabel_nieliczFGSP}"/>
+                        <p:selectBooleanCheckbox value="#{umowaController.selected.nieliczFGSP}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewUmowaLabel_nieliczFP}"/>
+                        <p:selectBooleanCheckbox value="#{umowaController.selected.nieliczFP}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewUmowaLabel_rentowe}"/>
+                        <p:selectBooleanCheckbox value="#{umowaController.selected.rentowe}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewUmowaLabel_wypadkowe}"/>
+                        <p:selectBooleanCheckbox value="#{umowaController.selected.wypadkowe}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewUmowaLabel_zdrowotne}"/>
+                        <p:selectBooleanCheckbox value="#{umowaController.selected.zdrowotne}" disabled="true"/>
                         <h:outputText value="#{bundle.ViewUmowaLabel_angaz}"/>
                         <h:outputText value="#{umowaController.selected.angaz}" title="#{bundle.ViewUmowaTitle_angaz}"/>
                         <h:outputText value="#{bundle.ViewUmowaLabel_rodzajumowy}"/>
                         <h:outputText value="#{umowaController.selected.rodzajumowy}" title="#{bundle.ViewUmowaTitle_rodzajumowy}"/>
+                        <h:outputText value="#{bundle.ViewUmowaLabel_datado}"/>
+                        <h:outputText value="#{umowaController.selected.datado}" title="#{bundle.ViewUmowaTitle_datado}"/>
+                        <h:outputText value="#{bundle.ViewUmowaLabel_dataod}"/>
+                        <h:outputText value="#{umowaController.selected.dataod}" title="#{bundle.ViewUmowaTitle_dataod}"/>
+                        <h:outputText value="#{bundle.ViewUmowaLabel_datazawarcia}"/>
+                        <h:outputText value="#{umowaController.selected.datazawarcia}" title="#{bundle.ViewUmowaTitle_datazawarcia}"/>
+                        <h:outputText value="#{bundle.ViewUmowaLabel_kosztyuzyskania}"/>
+                        <h:outputText value="#{umowaController.selected.kosztyuzyskania}" title="#{bundle.ViewUmowaTitle_kosztyuzyskania}"/>
+                        <h:outputText value="#{bundle.ViewUmowaLabel_datanfz}"/>
+                        <h:outputText value="#{umowaController.selected.datanfz}" title="#{bundle.ViewUmowaTitle_datanfz}"/>
+                        <h:outputText value="#{bundle.ViewUmowaLabel_dataspoleczne}"/>
+                        <h:outputText value="#{umowaController.selected.dataspoleczne}" title="#{bundle.ViewUmowaTitle_dataspoleczne}"/>
+                        <h:outputText value="#{bundle.ViewUmowaLabel_datazdrowotne}"/>
+                        <h:outputText value="#{umowaController.selected.datazdrowotne}" title="#{bundle.ViewUmowaTitle_datazdrowotne}"/>
+                        <h:outputText value="#{bundle.ViewUmowaLabel_kodubezpieczenia}"/>
+                        <h:outputText value="#{umowaController.selected.kodubezpieczenia}" title="#{bundle.ViewUmowaTitle_kodubezpieczenia}"/>
+                        <h:outputText value="#{bundle.ViewUmowaLabel_kodzawodu}"/>
+                        <h:outputText value="#{umowaController.selected.kodzawodu}" title="#{bundle.ViewUmowaTitle_kodzawodu}"/>
+                        <h:outputText value="#{bundle.ViewUmowaLabel_nfz}"/>
+                        <h:outputText value="#{umowaController.selected.nfz}" title="#{bundle.ViewUmowaTitle_nfz}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="UmowaViewDialog.hide()"/>
                 </h:panelGroup>

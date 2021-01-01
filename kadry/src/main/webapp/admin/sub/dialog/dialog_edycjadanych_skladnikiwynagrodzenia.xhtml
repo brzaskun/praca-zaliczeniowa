@@ -1,0 +1,261 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:dialog id="dialogskladnikiwynagrodzenia" header="Wprowadzanie danych angażu" widgetVar="dialogskladnikiwynagrodzenia"  
+              resizable="false"  onShow="ustawdialog('dialogskladnikiwynagrodzenia','centertile',1450,1000);" closeOnEscape="true" onHide="resetujdialog('dialogskladnikiwynagrodzenia');" 
+              fitViewport="true">
+        <p:outputPanel style="height: 720px">
+            <h:form id="UmowaCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{umowaView.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_angaz}" for="angaz" />
+                         <p:selectOneMenu id="angaz" value="#{umowaView.selected.angaz}" converter="#{angazConverter}">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
+                            <f:selectItems value="#{umowaView.listaangaz}"
+                                           var="angazItem"
+                                           itemValue="#{angazItem}" itemLabel="#{angazItem.pracownik.nazwiskoImie}"/>
+                            <p:ajax event="change" partialSubmit="true" global="false"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_rodzajumowy}" for="rodzajumowy" />
+                        <p:selectOneMenu id="rodzajumowy" value="#{umowaView.selected.rodzajumowy}" converter="#{rodzajumowyConverter}">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{umowaView.listarodzajumowy}"
+                                           var="rodzajumowyItem"
+                                           itemValue="#{rodzajumowyItem}" itemLabel="#{rodzajumowyItem.nazwa}"/>
+                            <p:ajax event="change" listener="#{umowaView.ustawumowe}" partialSubmit="true" global="false" update="@form"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_odliczaculgepodatkowa}" for="odliczaculgepodatkowa" />
+                        <p:selectBooleanCheckbox id="odliczaculgepodatkowa" value="#{umowaView.selected.odliczaculgepodatkowa}" />
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_chorobowe}" for="chorobowe" />
+                        <p:selectBooleanCheckbox id="chorobowe" value="#{umowaView.selected.chorobowe}" />
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_chorobowedobrowolne}" for="chorobowedobrowolne" />
+                        <p:selectBooleanCheckbox id="chorobowedobrowolne" value="#{umowaView.selected.chorobowedobrowolne}" />
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_emerytalne}" for="emerytalne" />
+                        <p:selectBooleanCheckbox id="emerytalne" value="#{umowaView.selected.emerytalne}" />
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_nieliczFGSP}" for="nieliczFGSP" />
+                        <p:selectBooleanCheckbox id="nieliczFGSP" value="#{umowaView.selected.nieliczFGSP}" />
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_nieliczFP}" for="nieliczFP" />
+                        <p:selectBooleanCheckbox id="nieliczFP" value="#{umowaView.selected.nieliczFP}" />
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_rentowe}" for="rentowe" />
+                        <p:selectBooleanCheckbox id="rentowe" value="#{umowaView.selected.rentowe}" />
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_wypadkowe}" for="wypadkowe" />
+                        <p:selectBooleanCheckbox id="wypadkowe" value="#{umowaView.selected.wypadkowe}" />
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_zdrowotne}" for="zdrowotne" />
+                        <p:selectBooleanCheckbox id="zdrowotne" value="#{umowaView.selected.zdrowotne}" />
+                        
+                       
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_datado}" for="datado" />
+                        <p:inputText id="datado" value="#{umowaView.selected.datado}" title="#{bundle.CreateUmowaTitle_datado}" />
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_dataod}" for="dataod" />
+                        <p:inputText id="dataod" value="#{umowaView.selected.dataod}" title="#{bundle.CreateUmowaTitle_dataod}" />
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_datazawarcia}" for="datazawarcia" />
+                        <p:inputText id="datazawarcia" value="#{umowaView.selected.datazawarcia}" title="#{bundle.CreateUmowaTitle_datazawarcia}" />
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_kosztyuzyskania}" for="kosztyuzyskania" />
+                        <p:inputText id="kosztyuzyskania" value="#{umowaView.selected.kosztyuzyskania}" title="#{bundle.CreateUmowaTitle_kosztyuzyskania}" />
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_datanfz}" for="datanfz" />
+                        <p:inputText id="datanfz" value="#{umowaView.selected.datanfz}" title="#{bundle.CreateUmowaTitle_datanfz}" />
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_dataspoleczne}" for="dataspoleczne" />
+                        <p:inputText id="dataspoleczne" value="#{umowaView.selected.dataspoleczne}" title="#{bundle.CreateUmowaTitle_dataspoleczne}" />
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_datazdrowotne}" for="datazdrowotne" />
+                        <p:inputText id="datazdrowotne" value="#{umowaView.selected.datazdrowotne}" title="#{bundle.CreateUmowaTitle_datazdrowotne}" />
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_kodubezpieczenia}" for="kodubezpieczenia" />
+                        <p:inputText id="kodubezpieczenia" value="#{umowaView.selected.kodubezpieczenia}" title="#{bundle.CreateUmowaTitle_kodubezpieczenia}" />
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_kodzawodu}" for="kodzawodu" />
+                        <p:inputText id="kodzawodu" value="#{umowaView.selected.kodzawodu}" title="#{bundle.CreateUmowaTitle_kodzawodu}" />
+                        <p:outputLabel value="#{bundle.CreateUmowaLabel_nfz}" for="nfz" />
+                        <p:inputText id="nfz" value="#{umowaView.selected.nfz}" title="#{bundle.CreateUmowaTitle_nfz}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{umowaView.create}" value="#{bundle.Save}" update="display,:UmowaListForm:datalist" />
+                    <p:commandButton value="#{bundle.Cancel}" onclick="UmowaCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:outputPanel>
+        <p:outputPanel>
+            <h:form id="UmowaListForm">
+                <p:panel header="Wykaz umów">
+                    <p:dataTable id="datalist" value="#{umowaView.lista}" var="itemumowa"
+                                 selectionMode="single" selection="#{pracownikView.selectedlista}"
+                                 rowKey="#{itemumowa.id}"
+                                 style="height: 200px; overflow-y: scroll;"
+                                 >
+
+                        <p:column width="40">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemumowa.id}"/>
+                        </p:column>
+                         <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_angaz}"/>
+                            </f:facet>
+                             <h:outputText value="#{itemumowa.angaz.pracownik.nazwiskoImie}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_rodzajumowy}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemumowa.rodzajumowy.nazwa}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_odliczaculgepodatkowa}"/>
+                            </f:facet>
+                            <h:outputText value="&#x2714;" rendered="#{itemumowa.odliczaculgepodatkowa eq true}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_chorobowe}"/>
+                            </f:facet>
+                            <h:outputText value="&#x2714;"  rendered="#{itemumowa.chorobowe eq true}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_chorobowedobrowolne}"/>
+                            </f:facet>
+                            <h:outputText value="&#x2714;"  rendered="#{itemumowa.chorobowedobrowolne eq true}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_emerytalne}"/>
+                            </f:facet>
+                            <h:outputText value="&#x2714;"  rendered="#{itemumowa.emerytalne eq true}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_nieliczFGSP}"/>
+                            </f:facet>
+                            <h:outputText value="&#x2714;"  rendered="#{itemumowa.nieliczFGSP eq true}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_nieliczFP}"/>
+                            </f:facet>
+                            <h:outputText value="&#x2714;"  rendered="#{itemumowa.nieliczFP eq true}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_rentowe}"/>
+                            </f:facet>
+                            <h:outputText value="&#x2714;"  rendered="#{itemumowa.rentowe eq true}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_wypadkowe}"/>
+                            </f:facet>
+                            <h:outputText value="&#x2714;"  rendered="#{itemumowa.wypadkowe eq true}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_zdrowotne}"/>
+                            </f:facet>
+                            <h:outputText value="&#x2714;"  rendered="#{itemumowa.zdrowotne eq true}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_datado}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemumowa.datado}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_dataod}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemumowa.dataod}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_datazawarcia}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemumowa.datazawarcia}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_kosztyuzyskania}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemumowa.kosztyuzyskania}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_datanfz}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemumowa.datanfz}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_dataspoleczne}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemumowa.dataspoleczne}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_datazdrowotne}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemumowa.datazdrowotne}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_kodubezpieczenia}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemumowa.kodubezpieczenia}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_kodzawodu}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemumowa.kodzawodu}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_nfz}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemumowa.nfz}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+        </p:outputPanel>
+<!--        <p:outputPanel>
+             <h:form id="AngazListForm">
+                <p:panel header="#{bundle.ListAngazTitle}">
+                    <p:dataTable id="datalist" value="#{angazView.lista}" var="itemAngaz"
+                                 selectionMode="single" selection="#{angazView.selected}"
+                                 rowKey="#{itemAngaz.id}"
+                                style="height: 500px; overflow-y: scroll;"
+                                 >
+                        <p:column width="40">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListAngazTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemAngaz.id}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListAngazTitle_rodzajwynagrodzenia}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemAngaz.rodzajwynagrodzenia}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListAngazTitle_firma}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemAngaz.firma.nazwa}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListAngazTitle_pracownik}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemAngaz.pracownik.nazwisko}"/>
+                            <h:outputText value=" "/>
+                            <h:outputText value="#{itemAngaz.pracownik.imie}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+        </p:outputPanel>-->
+    </p:dialog>
+</ui:composition>

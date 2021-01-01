@@ -35,21 +35,57 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListUmowaTitle_dataod}"/>
+                                <h:outputText value="#{bundle.ListUmowaTitle_odliczaculgepodatkowa}"/>
                             </f:facet>
-                            <h:outputText value="#{item.dataod}"/>
+                            <p:selectBooleanCheckbox value="#{item.odliczaculgepodatkowa}" disabled="true"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListUmowaTitle_datado}"/>
+                                <h:outputText value="#{bundle.ListUmowaTitle_chorobowe}"/>
                             </f:facet>
-                            <h:outputText value="#{item.datado}"/>
+                            <p:selectBooleanCheckbox value="#{item.chorobowe}" disabled="true"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListUmowaTitle_datazawarcia}"/>
+                                <h:outputText value="#{bundle.ListUmowaTitle_chorobowedobrowolne}"/>
                             </f:facet>
-                            <h:outputText value="#{item.datazawarcia}"/>
+                            <p:selectBooleanCheckbox value="#{item.chorobowedobrowolne}" disabled="true"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_emerytalne}"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item.emerytalne}" disabled="true"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_nieliczFGSP}"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item.nieliczFGSP}" disabled="true"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_nieliczFP}"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item.nieliczFP}" disabled="true"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_rentowe}"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item.rentowe}" disabled="true"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_wypadkowe}"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item.wypadkowe}" disabled="true"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_zdrowotne}"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item.zdrowotne}" disabled="true"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -62,6 +98,66 @@
                                 <h:outputText value="#{bundle.ListUmowaTitle_rodzajumowy}"/>
                             </f:facet>
                             <h:outputText value="#{item.rodzajumowy}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_datado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.datado}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_dataod}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dataod}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_datazawarcia}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.datazawarcia}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_kosztyuzyskania}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.kosztyuzyskania}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_datanfz}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.datanfz}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_dataspoleczne}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dataspoleczne}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_datazdrowotne}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.datazdrowotne}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_kodubezpieczenia}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.kodubezpieczenia}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_kodzawodu}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.kodzawodu}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUmowaTitle_nfz}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nfz}"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{umowaController.prepareCreate}" update=":UmowaCreateForm" oncomplete="PF('UmowaCreateDialog').show()"/>

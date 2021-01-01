@@ -14,26 +14,58 @@
                     <p:panelGrid columns="2" rendered="#{umowaController.selected != null}">
                         <p:outputLabel value="#{bundle.EditUmowaLabel_id}" for="id" />
                         <p:inputText id="id" value="#{umowaController.selected.id}" title="#{bundle.EditUmowaTitle_id}" required="true" requiredMessage="#{bundle.EditUmowaRequiredMessage_id}"/>
-                        <p:outputLabel value="#{bundle.EditUmowaLabel_dataod}" for="dataod" />
-                        <p:inputText id="dataod" value="#{umowaController.selected.dataod}" title="#{bundle.EditUmowaTitle_dataod}" required="true" requiredMessage="#{bundle.EditUmowaRequiredMessage_dataod}"/>
-                        <p:outputLabel value="#{bundle.EditUmowaLabel_datado}" for="datado" />
-                        <p:inputText id="datado" value="#{umowaController.selected.datado}" title="#{bundle.EditUmowaTitle_datado}" required="true" requiredMessage="#{bundle.EditUmowaRequiredMessage_datado}"/>
-                        <p:outputLabel value="#{bundle.EditUmowaLabel_datazawarcia}" for="datazawarcia" />
-                        <p:inputText id="datazawarcia" value="#{umowaController.selected.datazawarcia}" title="#{bundle.EditUmowaTitle_datazawarcia}" required="true" requiredMessage="#{bundle.EditUmowaRequiredMessage_datazawarcia}"/>
+                        <p:outputLabel value="#{bundle.EditUmowaLabel_odliczaculgepodatkowa}" for="odliczaculgepodatkowa" />
+                        <p:selectBooleanCheckbox id="odliczaculgepodatkowa" value="#{umowaController.selected.odliczaculgepodatkowa}" />
+                        <p:outputLabel value="#{bundle.EditUmowaLabel_chorobowe}" for="chorobowe" />
+                        <p:selectBooleanCheckbox id="chorobowe" value="#{umowaController.selected.chorobowe}" />
+                        <p:outputLabel value="#{bundle.EditUmowaLabel_chorobowedobrowolne}" for="chorobowedobrowolne" />
+                        <p:selectBooleanCheckbox id="chorobowedobrowolne" value="#{umowaController.selected.chorobowedobrowolne}" />
+                        <p:outputLabel value="#{bundle.EditUmowaLabel_emerytalne}" for="emerytalne" />
+                        <p:selectBooleanCheckbox id="emerytalne" value="#{umowaController.selected.emerytalne}" />
+                        <p:outputLabel value="#{bundle.EditUmowaLabel_nieliczFGSP}" for="nieliczFGSP" />
+                        <p:selectBooleanCheckbox id="nieliczFGSP" value="#{umowaController.selected.nieliczFGSP}" />
+                        <p:outputLabel value="#{bundle.EditUmowaLabel_nieliczFP}" for="nieliczFP" />
+                        <p:selectBooleanCheckbox id="nieliczFP" value="#{umowaController.selected.nieliczFP}" />
+                        <p:outputLabel value="#{bundle.EditUmowaLabel_rentowe}" for="rentowe" />
+                        <p:selectBooleanCheckbox id="rentowe" value="#{umowaController.selected.rentowe}" />
+                        <p:outputLabel value="#{bundle.EditUmowaLabel_wypadkowe}" for="wypadkowe" />
+                        <p:selectBooleanCheckbox id="wypadkowe" value="#{umowaController.selected.wypadkowe}" />
+                        <p:outputLabel value="#{bundle.EditUmowaLabel_zdrowotne}" for="zdrowotne" />
+                        <p:selectBooleanCheckbox id="zdrowotne" value="#{umowaController.selected.zdrowotne}" />
                         <p:outputLabel value="#{bundle.EditUmowaLabel_angaz}" for="angaz" />
-                        <p:selectOneMenu id="angaz" value="#{umowaController.selected.angaz}" required="true" requiredMessage="#{bundle.EditUmowaRequiredMessage_angaz}">
+                        <p:selectOneMenu id="angaz" value="#{umowaController.selected.angaz}" >
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                             <f:selectItems value="#{angazController.itemsAvailableSelectOne}"
                                            var="angazItem"
                                            itemValue="#{angazItem}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.EditUmowaLabel_rodzajumowy}" for="rodzajumowy" />
-                        <p:selectOneMenu id="rodzajumowy" value="#{umowaController.selected.rodzajumowy}" required="true" requiredMessage="#{bundle.EditUmowaRequiredMessage_rodzajumowy}">
+                        <p:selectOneMenu id="rodzajumowy" value="#{umowaController.selected.rodzajumowy}" >
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                             <f:selectItems value="#{rodzajumowyController.itemsAvailableSelectOne}"
                                            var="rodzajumowyItem"
                                            itemValue="#{rodzajumowyItem}"/>
                         </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditUmowaLabel_datado}" for="datado" />
+                        <p:inputText id="datado" value="#{umowaController.selected.datado}" title="#{bundle.EditUmowaTitle_datado}" />
+                        <p:outputLabel value="#{bundle.EditUmowaLabel_dataod}" for="dataod" />
+                        <p:inputText id="dataod" value="#{umowaController.selected.dataod}" title="#{bundle.EditUmowaTitle_dataod}" />
+                        <p:outputLabel value="#{bundle.EditUmowaLabel_datazawarcia}" for="datazawarcia" />
+                        <p:inputText id="datazawarcia" value="#{umowaController.selected.datazawarcia}" title="#{bundle.EditUmowaTitle_datazawarcia}" />
+                        <p:outputLabel value="#{bundle.EditUmowaLabel_kosztyuzyskania}" for="kosztyuzyskania" />
+                        <p:inputText id="kosztyuzyskania" value="#{umowaController.selected.kosztyuzyskania}" title="#{bundle.EditUmowaTitle_kosztyuzyskania}" />
+                        <p:outputLabel value="#{bundle.EditUmowaLabel_datanfz}" for="datanfz" />
+                        <p:inputText id="datanfz" value="#{umowaController.selected.datanfz}" title="#{bundle.EditUmowaTitle_datanfz}" />
+                        <p:outputLabel value="#{bundle.EditUmowaLabel_dataspoleczne}" for="dataspoleczne" />
+                        <p:inputText id="dataspoleczne" value="#{umowaController.selected.dataspoleczne}" title="#{bundle.EditUmowaTitle_dataspoleczne}" />
+                        <p:outputLabel value="#{bundle.EditUmowaLabel_datazdrowotne}" for="datazdrowotne" />
+                        <p:inputText id="datazdrowotne" value="#{umowaController.selected.datazdrowotne}" title="#{bundle.EditUmowaTitle_datazdrowotne}" />
+                        <p:outputLabel value="#{bundle.EditUmowaLabel_kodubezpieczenia}" for="kodubezpieczenia" />
+                        <p:inputText id="kodubezpieczenia" value="#{umowaController.selected.kodubezpieczenia}" title="#{bundle.EditUmowaTitle_kodubezpieczenia}" />
+                        <p:outputLabel value="#{bundle.EditUmowaLabel_kodzawodu}" for="kodzawodu" />
+                        <p:inputText id="kodzawodu" value="#{umowaController.selected.kodzawodu}" title="#{bundle.EditUmowaTitle_kodzawodu}" />
+                        <p:outputLabel value="#{bundle.EditUmowaLabel_nfz}" for="nfz" />
+                        <p:inputText id="nfz" value="#{umowaController.selected.nfz}" title="#{bundle.EditUmowaTitle_nfz}" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{umowaController.update}" value="#{bundle.Save}" update="display,:UmowaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'UmowaEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="UmowaEditDialog.hide()"/>

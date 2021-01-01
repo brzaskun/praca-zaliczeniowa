@@ -35,13 +35,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Firma.findByNip", query = "SELECT f FROM Firma f WHERE f.nip = :nip")})
 public class Firma implements Serializable {
 
-    @Size(max = 255)
-    @Column(name = "nazwa")
-    private String nazwa;
-    @Size(max = 255)
-    @Column(name = "nip")
-    private String nip;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,6 +43,14 @@ public class Firma implements Serializable {
     private Integer id;
     @OneToMany(mappedBy = "firma")
     private List<Angaz> angazList;
+    @Size(max = 255)
+    @Column(name = "nazwa")
+    private String nazwa;
+    @Size(max = 255)
+    @Column(name = "nip")
+    private String nip;
+    @OneToMany(mappedBy = "firma")
+    private List<Kalendarzwzor> kalendarzWzorList;
 
     public Firma() {
     }
@@ -115,6 +116,15 @@ public class Firma implements Serializable {
 
     public void setNip(String nip) {
         this.nip = nip;
+    }
+
+    @XmlTransient
+    public List<Kalendarzwzor> getKalendarzWzorList() {
+        return kalendarzWzorList;
+    }
+
+    public void setKalendarzWzorList(List<Kalendarzwzor> kalendarzWzorList) {
+        this.kalendarzWzorList = kalendarzWzorList;
     }
     
 }

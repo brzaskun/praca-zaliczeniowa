@@ -1,0 +1,87 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package view;
+
+import dao.PracownikFacade;
+import entity.Pracownik;
+import java.io.Serializable;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import msg.Msg;
+
+/**
+ *
+ * @author Osito
+ */
+@Named
+@ViewScoped
+public class PracownikView  implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Inject
+    private Pracownik selected;
+    @Inject
+    private Pracownik selectedlista;
+    private List<Pracownik> lista;
+    @Inject
+    private PracownikFacade pracownikFacade;
+    @Inject
+    private WpisView wpisView;
+    
+    @PostConstruct
+    private void init() {
+        lista  = pracownikFacade.findAll();
+    }
+
+    public void create() {
+      if (selected!=null) {
+          try {
+            pracownikFacade.create(selected);
+            lista.add(selected);
+            selected = new Pracownik();
+            Msg.msg("Dodano nowego pracownika");
+          } catch (Exception e) {
+              System.out.println("");
+              Msg.msg("e", "Błąd - nie dodano nowego pracownika");
+          }
+      }
+    }
+    
+    public void aktywuj(Pracownik pracownik) {
+        if (pracownik!=null) {
+            wpisView.setPracownik(pracownik);
+            Msg.msg("Aktywowano pracownika");
+        }
+    }
+    public Pracownik getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Pracownik selected) {
+        this.selected = selected;
+    }
+
+    public List<Pracownik> getLista() {
+        return lista;
+    }
+
+    public void setLista(List<Pracownik> lista) {
+        this.lista = lista;
+    }
+
+    public Pracownik getSelectedlista() {
+        return selectedlista;
+    }
+
+    public void setSelectedlista(Pracownik selectedlista) {
+        this.selectedlista = selectedlista;
+    }
+    
+    
+    
+}

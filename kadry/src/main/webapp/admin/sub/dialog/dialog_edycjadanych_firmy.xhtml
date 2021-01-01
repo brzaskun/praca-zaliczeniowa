@@ -11,13 +11,13 @@
         <p:outputPanel style="height: 300px">
             <h:form id="FirmaCreateForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{firmaController.selected != null}">
+                    <p:panelGrid columns="2" rendered="#{firmaView.selected != null}">
                         <p:outputLabel value="#{bundle.CreateFirmaLabel_nip}" for="nip" />
-                        <p:inputText id="nip" value="#{firmaController.selected.nip}" title="#{bundle.CreateFirmaTitle_nip}" required="true" requiredMessage="#{bundle.CreateFirmaRequiredMessage_nip}"/>
+                        <p:inputText id="nip" value="#{firmaView.selected.nip}" title="#{bundle.CreateFirmaTitle_nip}" required="true" requiredMessage="#{bundle.CreateFirmaRequiredMessage_nip}"/>
                         <p:outputLabel value="#{bundle.CreateFirmaLabel_nazwa}" for="nazwa" />
-                        <p:inputText id="nazwa" value="#{firmaController.selected.nazwa}" title="#{bundle.CreateFirmaTitle_nazwa}" required="true" requiredMessage="#{bundle.CreateFirmaRequiredMessage_nazwa}"/>
+                        <p:inputText id="nazwa" value="#{firmaView.selected.nazwa}" title="#{bundle.CreateFirmaTitle_nazwa}" required="true" requiredMessage="#{bundle.CreateFirmaRequiredMessage_nazwa}"/>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{firmaController.create}" value="#{bundle.Save}" update="display,:FirmaListForm:datalist"/>
+                    <p:commandButton actionListener="#{firmaView.create()}" value="#{bundle.Save}" update="display,:FirmaListForm:datalist"/>
                     <p:commandButton value="#{bundle.Cancel}"/>
                 </h:panelGroup>
             </h:form>
@@ -25,32 +25,32 @@
         <p:outputPanel>
             <h:form id="FirmaListForm">
                 <p:panel header="#{bundle.ListFirmaTitle}">
-                    <p:dataTable id="datalist" value="#{firmaController.items}" var="item"
-                                 selectionMode="single" selection="#{firmaController.selected}"
-                                 rowKey="#{item.id}"
-                                 style="height: 250px; overflow-y: scroll;"
+                    <p:dataTable id="datalist" value="#{firmaView.lista}" var="item1"
+                                 selectionMode="single" selection="#{firmaView.selectedlista}"
+                                 rowKey="#{item1.id}" 
+                                 style="height: 500px; overflow-y: scroll;"
                                  >
 
                         <p:column width="40">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListFirmaTitle_id}"/>
                             </f:facet>
-                            <h:outputText value="#{item.id}"/>
+                            <h:outputText value="#{item1.id}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListFirmaTitle_nip}"/>
                             </f:facet>
-                            <h:outputText value="#{item.nip}"/>
+                            <h:outputText value="#{item1.nip}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListFirmaTitle_nazwa}"/>
                             </f:facet>
-                            <h:outputText value="#{item.nazwa}"/>
+                            <h:outputText value="#{item1.nazwa}"/>
                         </p:column>
                         <p:column style="text-align: center;">
-                            <p:commandButton value="aktywna" actionListener="#{firmaController.firmaaktywuj(item)}" update="north"/>
+                            <p:commandButton value="aktywna" actionListener="#{firmaView.aktywuj(item1)}" update="north"/>
                         </p:column>
                     </p:dataTable>
                 </p:panel>

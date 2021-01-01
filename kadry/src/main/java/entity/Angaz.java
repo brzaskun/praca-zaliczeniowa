@@ -35,9 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Angaz.findByRodzajwynagrodzenia", query = "SELECT a FROM Angaz a WHERE a.rodzajwynagrodzenia = :rodzajwynagrodzenia")})
 public class Angaz implements Serializable {
 
-    @Column(name = "rodzajwynagrodzenia")
-    private Integer rodzajwynagrodzenia;
-
+  
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,6 +50,9 @@ public class Angaz implements Serializable {
     @JoinColumn(name = "pracownik", referencedColumnName = "id")
     @ManyToOne
     private Pracownik pracownik;
+    @Column(name = "rodzajwynagrodzenia")
+    private Integer rodzajwynagrodzenia;
+
 
     public Angaz() {
     }

@@ -19,7 +19,7 @@ public class PracownikBean {
          if (pracownik==null) {
             pracownik = new Pracownik();
             pracownik.setNazwisko("Kowalski");
-            pracownik.setImię("Jan");
+            pracownik.setImie("Jan");
          }
         return pracownik;
      }

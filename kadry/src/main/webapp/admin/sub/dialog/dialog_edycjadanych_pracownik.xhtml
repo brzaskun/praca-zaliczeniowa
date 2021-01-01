@@ -11,46 +11,45 @@
         <p:outputPanel style="height: 300px">
             <h:form id="PracownikCreateForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{pracownikController.selected != null}">
+                    <p:panelGrid columns="2" rendered="#{pracownikView.selected != null}">
                         <p:outputLabel value="#{bundle.CreatePracownikLabel_nazwisko}" for="nazwisko" />
-                        <p:inputText id="nazwisko" value="#{pracownikController.selected.nazwisko}" title="#{bundle.CreatePracownikTitle_nazwisko}" required="true" requiredMessage="#{bundle.CreatePracownikRequiredMessage_nazwisko}"/>
-                        <p:outputLabel value="#{bundle.CreatePracownikLabel_imię}" for="imię" />
-                        <p:inputText id="imię" value="#{pracownikController.selected.imię}" title="#{bundle.CreatePracownikTitle_imię}" required="true" requiredMessage="#{bundle.CreatePracownikRequiredMessage_imię}"/>
+                        <p:inputText id="nazwisko" value="#{pracownikView.selected.nazwisko}" title="#{bundle.CreatePracownikTitle_nazwisko}" required="true" requiredMessage="#{bundle.CreatePracownikRequiredMessage_nazwisko}"/>
+                        <p:outputLabel value="#{bundle.CreatePracownikLabel_imię}" for="imie" />
+                        <p:inputText id="imie" value="#{pracownikView.selected.imie}" title="#{bundle.CreatePracownikTitle_imię}" required="true" requiredMessage="#{bundle.CreatePracownikRequiredMessage_imię}"/>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{pracownikController.create}" value="#{bundle.Save}" update="display,:PracownikListForm:datalist" oncomplete="handleSubmit(args,'PracownikCreateDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="PracownikCreateDialog.hide()"/>
+                    <p:commandButton actionListener="#{pracownikView.create}" value="#{bundle.Save}" update="display,:PracownikListForm:datalist" />
                 </h:panelGroup>
             </h:form>
         </p:outputPanel>
         <p:outputPanel>
             <h:form id="PracownikListForm">
                 <p:panel header="#{bundle.ListFirmaTitle}">
-                    <p:dataTable id="datalist" value="#{pracownikController.items}" var="item"
-                                 selectionMode="single" selection="#{pracownikController.selected}"
-                                 rowKey="#{item.id}"
-                                 style="height: 250px; overflow-y: scroll;"
+                    <p:dataTable id="datalist" value="#{pracownikView.lista}" var="item2"
+                                 selectionMode="single" selection="#{pracownikView.selectedlista}"
+                                 rowKey="#{item2.id}"
+                                 style="height: 500px; overflow-y: scroll;"
                                  >
 
                         <p:column width="40">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPracownikTitle_id}"/>
                             </f:facet>
-                            <h:outputText value="#{item.id}"/>
+                            <h:outputText value="#{item2.id}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPracownikTitle_nazwisko}"/>
                             </f:facet>
-                            <h:outputText value="#{item.nazwisko}"/>
+                            <h:outputText value="#{item2.nazwisko}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPracownikTitle_imię}"/>
                             </f:facet>
-                            <h:outputText value="#{item.imię}"/>
+                            <h:outputText value="#{item2.imie}"/>
                         </p:column>
                         <p:column style="text-align: center;">
-                            <p:commandButton value="aktywna" actionListener="#{pracownikController.pracownikaktywuj(item)}" update="north"/>
+                            <p:commandButton value="aktywna" actionListener="#{pracownikView.aktywuj(item2)}" update="north"/>
                         </p:column>
                     </p:dataTable>
                 </p:panel>
