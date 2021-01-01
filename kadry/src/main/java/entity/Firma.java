@@ -41,6 +41,8 @@ public class Firma implements Serializable {
     @Size(max = 255)
     @Column(name = "nip")
     private String nip;
+    @OneToMany(mappedBy = "firma")
+    private List<Definicjalistaplac> definicjalistaplacList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -111,6 +113,16 @@ public class Firma implements Serializable {
 
     public void setKalendarzWzorList(List<Kalendarzwzor> kalendarzWzorList) {
         this.kalendarzWzorList = kalendarzWzorList;
+    }
+
+
+    @XmlTransient
+    public List<Definicjalistaplac> getDefinicjalistaplacList() {
+        return definicjalistaplacList;
+    }
+
+    public void setDefinicjalistaplacList(List<Definicjalistaplac> definicjalistaplacList) {
+        this.definicjalistaplacList = definicjalistaplacList;
     }
 
     public String getNazwa() {

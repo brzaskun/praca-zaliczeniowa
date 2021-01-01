@@ -10,12 +10,15 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -39,12 +42,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Definicjalistaplac.findByRok", query = "SELECT d FROM Definicjalistaplac d WHERE d.rok = :rok"),
     @NamedQuery(name = "Definicjalistaplac.findByMc", query = "SELECT d FROM Definicjalistaplac d WHERE d.mc = :mc")})
 public class Definicjalistaplac implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id")
-    private Integer id;
     @Size(max = 255)
     @Column(name = "datapodatek")
     private String datapodatek;
@@ -69,6 +66,15 @@ public class Definicjalistaplac implements Serializable {
     @Size(max = 2)
     @Column(name = "mc")
     private String mc;
+    @JoinColumn(name = "firma", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Firma firma;
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
     @OneToMany(mappedBy = "definicjalistaplac")
     private List<Pasekwynagrodzen> pasekwynagrodzenList;
 
@@ -178,6 +184,14 @@ public class Definicjalistaplac implements Serializable {
 
     public void setMc(String mc) {
         this.mc = mc;
+    }
+
+    public Firma getFirma() {
+        return firma;
+    }
+
+    public void setFirma(Firma firma) {
+        this.firma = firma;
     }
     
 }

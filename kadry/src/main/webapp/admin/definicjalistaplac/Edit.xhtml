@@ -14,22 +14,28 @@
                     <p:panelGrid columns="2" rendered="#{definicjalistaplacController.selected != null}">
                         <p:outputLabel value="#{bundle.EditDefinicjalistaplacLabel_id}" for="id" />
                         <p:inputText id="id" value="#{definicjalistaplacController.selected.id}" title="#{bundle.EditDefinicjalistaplacTitle_id}" required="true" requiredMessage="#{bundle.EditDefinicjalistaplacRequiredMessage_id}"/>
-                        <p:outputLabel value="#{bundle.EditDefinicjalistaplacLabel_opis}" for="opis" />
-                        <p:inputText id="opis" value="#{definicjalistaplacController.selected.opis}" title="#{bundle.EditDefinicjalistaplacTitle_opis}" required="true" requiredMessage="#{bundle.EditDefinicjalistaplacRequiredMessage_opis}"/>
-                        <p:outputLabel value="#{bundle.EditDefinicjalistaplacLabel_datasporzadzenia}" for="datasporzadzenia" />
-                        <p:inputText id="datasporzadzenia" value="#{definicjalistaplacController.selected.datasporzadzenia}" title="#{bundle.EditDefinicjalistaplacTitle_datasporzadzenia}" />
                         <p:outputLabel value="#{bundle.EditDefinicjalistaplacLabel_datapodatek}" for="datapodatek" />
                         <p:inputText id="datapodatek" value="#{definicjalistaplacController.selected.datapodatek}" title="#{bundle.EditDefinicjalistaplacTitle_datapodatek}" />
+                        <p:outputLabel value="#{bundle.EditDefinicjalistaplacLabel_datasporzadzenia}" for="datasporzadzenia" />
+                        <p:inputText id="datasporzadzenia" value="#{definicjalistaplacController.selected.datasporzadzenia}" title="#{bundle.EditDefinicjalistaplacTitle_datasporzadzenia}" />
                         <p:outputLabel value="#{bundle.EditDefinicjalistaplacLabel_datazus}" for="datazus" />
                         <p:inputText id="datazus" value="#{definicjalistaplacController.selected.datazus}" title="#{bundle.EditDefinicjalistaplacTitle_datazus}" />
                         <p:outputLabel value="#{bundle.EditDefinicjalistaplacLabel_nrkolejny}" for="nrkolejny" />
                         <p:inputText id="nrkolejny" value="#{definicjalistaplacController.selected.nrkolejny}" title="#{bundle.EditDefinicjalistaplacTitle_nrkolejny}" />
+                        <p:outputLabel value="#{bundle.EditDefinicjalistaplacLabel_opis}" for="opis" />
+                        <p:inputText id="opis" value="#{definicjalistaplacController.selected.opis}" title="#{bundle.EditDefinicjalistaplacTitle_opis}" />
                         <p:outputLabel value="#{bundle.EditDefinicjalistaplacLabel_rodzajlistyplac}" for="rodzajlistyplac" />
-                        <p:selectOneMenu id="rodzajlistyplac" value="#{definicjalistaplacController.selected.rodzajlistyplac}" required="true" requiredMessage="#{bundle.EditDefinicjalistaplacRequiredMessage_rodzajlistyplac}">
+                        <p:inputText id="rodzajlistyplac" value="#{definicjalistaplacController.selected.rodzajlistyplac}" title="#{bundle.EditDefinicjalistaplacTitle_rodzajlistyplac}" />
+                        <p:outputLabel value="#{bundle.EditDefinicjalistaplacLabel_rok}" for="rok" />
+                        <p:inputText id="rok" value="#{definicjalistaplacController.selected.rok}" title="#{bundle.EditDefinicjalistaplacTitle_rok}" />
+                        <p:outputLabel value="#{bundle.EditDefinicjalistaplacLabel_mc}" for="mc" />
+                        <p:inputText id="mc" value="#{definicjalistaplacController.selected.mc}" title="#{bundle.EditDefinicjalistaplacTitle_mc}" />
+                        <p:outputLabel value="#{bundle.EditDefinicjalistaplacLabel_firma}" for="firma" />
+                        <p:selectOneMenu id="firma" value="#{definicjalistaplacController.selected.firma}" required="true" requiredMessage="#{bundle.EditDefinicjalistaplacRequiredMessage_firma}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{rodzajlistyplacController.itemsAvailableSelectOne}"
-                                           var="rodzajlistyplacItem"
-                                           itemValue="#{rodzajlistyplacItem}"/>
+                            <f:selectItems value="#{firmaController.itemsAvailableSelectOne}"
+                                           var="firmaItem"
+                                           itemValue="#{firmaItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{definicjalistaplacController.update}" value="#{bundle.Save}" update="display,:DefinicjalistaplacListForm:datalist,:growl" oncomplete="handleSubmit(args, 'DefinicjalistaplacEditDialog');"/>

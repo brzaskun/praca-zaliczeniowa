@@ -35,21 +35,15 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_opis}"/>
+                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_datapodatek}"/>
                             </f:facet>
-                            <h:outputText value="#{item.opis}"/>
+                            <h:outputText value="#{item.datapodatek}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_datasporzadzenia}"/>
                             </f:facet>
                             <h:outputText value="#{item.datasporzadzenia}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_datapodatek}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.datapodatek}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -65,9 +59,33 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_opis}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.opis}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
                                 <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_rodzajlistyplac}"/>
                             </f:facet>
                             <h:outputText value="#{item.rodzajlistyplac}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_rok}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.rok}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_mc}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.mc}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_firma}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.firma}"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{definicjalistaplacController.prepareCreate}" update=":DefinicjalistaplacCreateForm" oncomplete="PF('DefinicjalistaplacCreateDialog').show()"/>

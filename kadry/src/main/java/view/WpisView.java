@@ -45,7 +45,7 @@ public class WpisView implements Serializable {
     @PostConstruct
     private void init() { //E.m(this);
         rokWpisu="2020";
-        miesiacWpisu="11";
+        miesiacWpisu="12";
     }
     
     public void zmienrok() {

@@ -298,6 +298,13 @@ public class Umowa implements Serializable {
     public void setZdrowotne(Boolean zdrowotne) {
         this.zdrowotne = zdrowotne;
     }
+    @XmlTransient
+    public List<Nieobecnosc> getNieobecnoscList() {
+        return nieobecnoscList;
+    }
+    public void setNieobecnoscList(List<Nieobecnosc> nieobecnoscList) {
+        this.nieobecnoscList = nieobecnoscList;
+    }
 
     public String getDatado() {
         return datado;
@@ -371,13 +378,4 @@ public class Umowa implements Serializable {
         this.nfz = nfz;
     }
 
-    @XmlTransient
-    public List<Nieobecnosc> getNieobecnoscList() {
-        return nieobecnoscList;
-    }
-
-    public void setNieobecnoscList(List<Nieobecnosc> nieobecnoscList) {
-        this.nieobecnoscList = nieobecnoscList;
-    }
-    
 }
