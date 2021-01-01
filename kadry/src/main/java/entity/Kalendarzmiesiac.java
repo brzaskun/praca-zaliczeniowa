@@ -8,6 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -47,6 +49,7 @@ public class Kalendarzmiesiac implements Serializable {
     private Integer id;
     @OneToMany(mappedBy = "kalendarzmiesiac")
     private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
+    @NotNull
     @JoinColumn(name = "umowa", referencedColumnName = "id")
     @ManyToOne
     private Umowa umowa;
@@ -57,12 +60,14 @@ public class Kalendarzmiesiac implements Serializable {
     @OneToMany(mappedBy = "kalendarzmiesiac")
     private List<Pasekwynagrodzen> pasekwynagrodzenList;
     @Size(max = 4)
+    @NotNull
     @Column(name = "rok")
     private String rok;
     @Size(max = 2)
+    @NotNull
     @Column(name = "mc")
     private String mc;
-    @OneToMany(mappedBy = "kalendarzmiesiac")
+    @OneToMany(mappedBy = "kalendarzmiesiac", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dzien> dzienList;
     
 

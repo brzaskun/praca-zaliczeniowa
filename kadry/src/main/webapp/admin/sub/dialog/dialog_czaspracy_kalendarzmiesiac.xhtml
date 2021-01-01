@@ -1,0 +1,109 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:dialog id="dialogkalendarzmiesiac" header="Kalendarz pracownika" widgetVar="dialogkalendarzmiesiac"  
+              resizable="false"  onShow="ustawdialog('dialogkalendarzmiesiac','centertile',1450,1000);" closeOnEscape="true" onHide="resetujdialog('dialogkalendarzmiesiac');" 
+              fitViewport="true">
+        <p:outputPanel style="height: 200px">
+            <h:form id="KalendarzmiesiacCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{kalendarzmiesiacView.selected != null}">
+                        <p:outputLabel value="umowa" for="umowakalendarz" />
+                        <p:selectOneMenu id="umowakalendarz" value="#{kalendarzmiesiacView.selected.umowa}" converter="#{umowaConverter}">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{kalendarzmiesiacView.listaumowa}"
+                                           var="firmaKItem"
+                                           itemValue="#{firmaKItem}" itemLabel="#{firmaKItem.angaz.pracownik.nazwiskoImie}"/> 
+                            <p:ajax event="change" partialSubmit="true" global="false"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="rok" for="rok" />
+                        <p:inputText id="rok" value="#{kalendarzmiesiacView.selected.rok}" title="#{bundle.CreateKalendarzwzorTitle_rok}" >
+                            <p:ajax event="change" partialSubmit="true" global="false"/>
+                        </p:inputText>
+                        <p:outputLabel value="miesiąc" for="mc" />
+                        <p:inputText id="mc" value="#{kalendarzmiesiacView.selected.mc}" title="#{bundle.CreateKalendarzwzorTitle_mc}" >
+                            <p:ajax event="change" listener="#{kalendarzmiesiacView.zrobkalendarzumowa}" partialSubmit="true" global="false" update=":KalendarzmiesiacListForm:datalist"/>
+                        </p:inputText>
+                        
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+        </p:outputPanel>
+        <p:outputPanel>
+            <h:form id="KalendarzmiesiacListForm">
+                <p:panel header="Dni kalendarza pracownika">
+                    <p:dataTable id="datalist" value="#{kalendarzmiesiacView.selected.dzienList}" var="itemkalendarz"
+                                 rowKey="#{itemkalendarz.id}"
+                                 style="height: 500px; overflow-y: scroll;"
+                                 >
+
+<!--                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDzienTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemkalendarz.id}"/>
+                        </p:column>-->
+                        <p:column width="50">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDzienTitle_nrdnia}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemkalendarz.nrdnia}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDzienTitle_typdnia}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemkalendarz.typdnia}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDzienTitle_normagodzin}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemkalendarz.normagodzin}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDzienTitle_przepracowano}"/>
+                            </f:facet>
+                            <h:inputText value="#{itemkalendarz.przepracowano}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDzienTitle_piecdziesiatki}"/>
+                            </f:facet>
+                            <h:inputText value="#{itemkalendarz.piecdziesiatki}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDzienTitle_setki}"/>
+                            </f:facet>
+                            <h:inputText value="#{itemkalendarz.setki}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDzienTitle_poranocna}"/>
+                            </f:facet>
+                            <h:inputText value="#{itemkalendarz.poranocna}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDzienTitle_kod}"/>
+                            </f:facet>
+                            <h:inputText value="#{itemkalendarz.kod}"/>
+                        </p:column>
+
+                    </p:dataTable>
+                </p:panel>
+                <p:outputPanel>
+                    <p:commandButton actionListener="#{kalendarzmiesiacView.create}" value="#{bundle.Save}" />
+                    <p:commandButton value="#{bundle.Cancel}" onclick="KalendarzwzorCreateDialog.hide()"/>
+                </p:outputPanel>
+
+            </h:form>
+        </p:outputPanel>
+    </p:dialog>
+</ui:composition>

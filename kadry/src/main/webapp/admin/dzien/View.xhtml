@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DzienViewDlg" widgetVar="DzienViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewDzienTitle}">
+            <h:form id="DzienViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{dzienController.selected != null}">
+                        <h:outputText value="#{bundle.ViewDzienLabel_id}"/>
+                        <h:outputText value="#{dzienController.selected.id}" title="#{bundle.ViewDzienTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewDzienLabel_kalendarzmiesiac}"/>
+                        <h:outputText value="#{dzienController.selected.kalendarzmiesiac}" title="#{bundle.ViewDzienTitle_kalendarzmiesiac}"/>
+                        <h:outputText value="#{bundle.ViewDzienLabel_nrdnia}"/>
+                        <h:outputText value="#{dzienController.selected.nrdnia}" title="#{bundle.ViewDzienTitle_nrdnia}"/>
+                        <h:outputText value="#{bundle.ViewDzienLabel_typdnia}"/>
+                        <h:outputText value="#{dzienController.selected.typdnia}" title="#{bundle.ViewDzienTitle_typdnia}"/>
+                        <h:outputText value="#{bundle.ViewDzienLabel_normagodzin}"/>
+                        <h:outputText value="#{dzienController.selected.normagodzin}" title="#{bundle.ViewDzienTitle_normagodzin}"/>
+                        <h:outputText value="#{bundle.ViewDzienLabel_przepracowano}"/>
+                        <h:outputText value="#{dzienController.selected.przepracowano}" title="#{bundle.ViewDzienTitle_przepracowano}"/>
+                        <h:outputText value="#{bundle.ViewDzienLabel_piecdziesiatki}"/>
+                        <h:outputText value="#{dzienController.selected.piecdziesiatki}" title="#{bundle.ViewDzienTitle_piecdziesiatki}"/>
+                        <h:outputText value="#{bundle.ViewDzienLabel_setki}"/>
+                        <h:outputText value="#{dzienController.selected.setki}" title="#{bundle.ViewDzienTitle_setki}"/>
+                        <h:outputText value="#{bundle.ViewDzienLabel_poranocna}"/>
+                        <h:outputText value="#{dzienController.selected.poranocna}" title="#{bundle.ViewDzienTitle_poranocna}"/>
+                        <h:outputText value="#{bundle.ViewDzienLabel_kod}"/>
+                        <h:outputText value="#{dzienController.selected.kod}" title="#{bundle.ViewDzienTitle_kod}"/>
+                        <h:outputText value="#{bundle.ViewDzienLabel_kalendarzwzor}"/>
+                        <h:outputText value="#{dzienController.selected.kalendarzwzor}" title="#{bundle.ViewDzienTitle_kalendarzwzor}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="DzienViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

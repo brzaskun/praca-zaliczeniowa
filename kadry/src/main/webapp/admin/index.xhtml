@@ -19,14 +19,18 @@
                         <h:form id="formmenu">
                          <p:menubar autoDisplay="true" style="border: none;">
                             <p:menuitem icon="fa fa-institution" value="firma" style="width: 150px" onclick="PF('dialogedycjadanychfirmy').show()" async="true"/>
-                            <p:submenu label="pracownicy" style="width: 150px">
-                                <p:menuitem icon="fa fa-stack-overflow" value="edycja pracownicy" style="width: 150px" onclick="PF('dialogedycjadanychpracownik').show()" async="true"/>
-                                <p:menuitem icon="fa fa-stack-overflow" value="edycja angażu" style="width: 150px" onclick="PF('dialogpracownikangaz').show()" async="true"/>
-                                <p:menuitem icon="fa fa-stack-overflow" value="edycja umowy" style="width: 150px" onclick="PF('dialogpracownikumowa').show()" async="true"/>
-                                <p:menuitem icon="fa fa-stack-overflow" value="edycja składniki wynagrodzenia" style="width: 150px" onclick="PF('dialogskladnikiwynagrodzenia').show()" async="true"/>
-                                <p:menuitem icon="fa fa-stack-overflow" value="edycja zmienne wynagrodzenia" style="width: 150px" onclick="PF('dialogzmiennewynagrodzenia').show()" async="true"/>
+                            <p:submenu label="pracownicy" style="width: 200px">
+                                <p:menuitem icon="fa fa-stack-overflow" value="edycja pracownicy" style="width: 200px" onclick="PF('dialogedycjadanychpracownik').show()" async="true"/>
+                                <p:menuitem icon="fa fa-stack-overflow" value="edycja angażu" style="width: 200px" onclick="PF('dialogpracownikangaz').show()" async="true"/>
+                                <p:menuitem icon="fa fa-stack-overflow" value="edycja umowy" style="width: 200px" onclick="PF('dialogpracownikumowa').show()" async="true"/>
+                                <p:menuitem icon="fa fa-stack-overflow" value="edycja składniki wynagrodzenia" style="width: 200px" onclick="PF('dialogskladnikiwynagrodzenia').show()" async="true"/>
+                                <p:menuitem icon="fa fa-stack-overflow" value="edycja zmienne wynagrodzenia" style="width: 200px" onclick="PF('dialogzmiennewynagrodzenia').show()" async="true"/>
                             </p:submenu>
-                            <p:menuitem icon="fa fa-sheqel" value="czas pracy" style="width: 150px"/>
+                            <p:submenu label="czas pracy" style="width: 200px">
+                                <p:menuitem icon="fa fa-stack-overflow" value="kalendarz wzorcowy" style="width: 200px" onclick="PF('dialogkalendarzwzor').show()" async="true"/>
+                                <p:menuitem icon="fa fa-stack-overflow" value="kalendarz pracownika" style="width: 200px" onclick="PF('dialogkalendarzmiesiac').show()" async="true"/>
+                                <p:menuitem icon="fa fa-stack-overflow" value="nieobecności" style="width: 200px" onclick="PF('dialogpracownikanieobecnosci').show()" async="true"/>
+                            </p:submenu>
                             <p:menuitem icon="fa fa-tasks" value="listy płac"  style="width: 150px"/>
                             <p:menuitem icon="fa fa-pencil" value="PIT" style="width: 150px"/>
                             <p:menuitem icon="fa fa-exchange" value="Parametry" style="width: 150px"/>
@@ -39,6 +43,9 @@
                      <ui:include src="sub/dialog/dialog_edycjadanych_umowa.xhtml"/>
                      <ui:include src="sub/dialog/dialog_edycjadanych_skladnikwynagrodzenia.xhtml"/>
                      <ui:include src="sub/dialog/dialog_edycjadanych_zmiennawynagrodzenia.xhtml"/>
+                     <ui:include src="sub/dialog/dialog_czaspracy_kalendarzwzor.xhtml"/>
+                     <ui:include src="sub/dialog/dialog_czaspracy_kalendarzmiesiac.xhtml"/>
+                     <ui:include src="sub/dialog/dialog_czaspracy_nieobecnosci.xhtml"/>
 
 <!--                       <h:form>
                        <h:outputText value="rok WpisView"/>

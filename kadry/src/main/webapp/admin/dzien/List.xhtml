@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListDzienTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="DzienListForm">
+                <p:panel header="#{bundle.ListDzienTitle}">
+                    <p:dataTable id="datalist" value="#{dzienController.items}" var="item"
+                                 selectionMode="single" selection="#{dzienController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.id}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDzienTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDzienTitle_kalendarzmiesiac}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.kalendarzmiesiac}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDzienTitle_nrdnia}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nrdnia}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDzienTitle_typdnia}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.typdnia}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDzienTitle_normagodzin}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.normagodzin}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDzienTitle_przepracowano}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.przepracowano}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDzienTitle_piecdziesiatki}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.piecdziesiatki}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDzienTitle_setki}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.setki}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDzienTitle_poranocna}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.poranocna}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDzienTitle_kod}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.kod}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDzienTitle_kalendarzwzor}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.kalendarzwzor}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{dzienController.prepareCreate}" update=":DzienCreateForm" oncomplete="PF('DzienCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":DzienViewForm" oncomplete="PF('DzienViewDialog').show()" disabled="#{empty dzienController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":DzienEditForm" oncomplete="PF('DzienEditDialog').show()" disabled="#{empty dzienController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{dzienController.destroy}" update=":growl,datalist" disabled="#{empty dzienController.selected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

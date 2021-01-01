@@ -38,6 +38,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Dzien.findBySetki", query = "SELECT d FROM Dzien d WHERE d.setki = :setki"),
     @NamedQuery(name = "Dzien.findByPoranocna", query = "SELECT d FROM Dzien d WHERE d.poranocna = :poranocna")})
 public class Dzien implements Serializable {
+
+    @Size(max = 5)
+    @Column(name = "kod")
+    private String kod;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,9 +69,6 @@ public class Dzien implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "poranocna")
     private Double poranocna;
-    @Size(max = 5)
-    @Column(name = "kod")
-    private String kod;
     @JoinColumn(name = "kalendarzwzor", referencedColumnName = "id")
     @ManyToOne
     private Kalendarzwzor kalendarzwzor;
@@ -85,6 +86,7 @@ public class Dzien implements Serializable {
     public Dzien(int nrdnia, int rob1wolny0swieto2, double normagodzin, double przepracowano, Kalendarzmiesiac kalendarzmiesiac) {
         this.nrdnia = nrdnia;
         this.typdnia = rob1wolny0swieto2;
+        this.przepracowano = przepracowano;
         this.normagodzin = normagodzin;
         this.kalendarzmiesiac = kalendarzmiesiac;
     }
@@ -93,6 +95,7 @@ public class Dzien implements Serializable {
         this.nrdnia = nrdnia;
         this.typdnia = rob1wolny0swieto2;
         this.normagodzin = normagodzin;
+        this.przepracowano = przepracowano;
         this.kalendarzmiesiac = kalendarzmiesiac;
         this.piecdziesiatki = piecdziesiatki;
     }
@@ -137,7 +140,7 @@ public class Dzien implements Serializable {
     }
     @Override
     public String toString() {
-        return "Dzien{" + "nrdnia=" + nrdnia + ", typdnia=" + typdnia + ", normagodzin=" + normagodzin + ", przepracowano=" + przepracowano + ", piecdziesiatki=" + piecdziesiatki + ", setki=" + setki + ", poranocna=" + poranocna + ", kalendarzmiesiac=" + kalendarzmiesiac.getMc() + ", kod=" + kod + '}';
+        return "Dzien{" + "nrdnia=" + nrdnia + ", typdnia=" + typdnia + ", normagodzin=" + normagodzin + ", przepracowano=" + przepracowano + ", piecdziesiatki=" + piecdziesiatki + ", setki=" + setki + ", poranocna=" + poranocna + ", kod=" + kod + '}';
     }
 
     public Integer getNrdnia() {
@@ -199,13 +202,6 @@ public class Dzien implements Serializable {
         this.poranocna = poranocna;
     }
 
-    public String getKod() {
-        return kod;
-    }
-
-    public void setKod(String kod) {
-        this.kod = kod;
-    }
 
     public Kalendarzwzor getKalendarzwzor() {
         return kalendarzwzor;
@@ -213,6 +209,14 @@ public class Dzien implements Serializable {
 
     public void setKalendarzwzor(Kalendarzwzor kalendarzwzor) {
         this.kalendarzwzor = kalendarzwzor;
+    }
+
+    public String getKod() {
+        return kod;
+    }
+
+    public void setKod(String kod) {
+        this.kod = kod;
     }
 
   

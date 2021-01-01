@@ -69,6 +69,44 @@ public class KalendarzmiesiacBean {
         }
         return kalendarzmiesiac;
     }
+    
+    public static void create(Kalendarzmiesiac kalendarzmiesiac) {
+            kalendarzmiesiac.setDzienList(new ArrayList<>());
+            kalendarzmiesiac.getDzienList().add(new Dzien(1, 0, 8, 8, 2, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(2, 0, 8, 8, 2, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(3, 0, 8, 8, 2, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(4, 0, 8, 8, 2, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(5, 1, 0, 0, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(6, 2, 0, 0, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(7, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(8, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(9, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(10, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(11, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(12, 1, 0, 0, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(13, 2, 0, 0, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(14, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(15, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(16, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(17, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(18, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(19, 1, 0, 0, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(20, 2, 0, 0, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(21, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(22, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(23, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(24, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(25, 3, 0, 0, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(26, 3, 0, 0, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(27, 2, 0, 0, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(28, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(29, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(30, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.getDzienList().add(new Dzien(31, 0, 8, 8, kalendarzmiesiac));
+            kalendarzmiesiac.setNaliczenienieobecnoscList(new ArrayList<>());
+            kalendarzmiesiac.setNaliczeniepotracenieList(new ArrayList<>());
+            kalendarzmiesiac.setNaliczenieskladnikawynagrodzeniaList(new ArrayList<>());
+    }
 
     static void dodajnieobecnosc(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc) {
         int dzienod = Integer.parseInt(Data.getDzien(nieobecnosc.getDataod()));

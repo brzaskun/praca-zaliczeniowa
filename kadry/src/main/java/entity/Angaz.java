@@ -127,5 +127,7 @@ public class Angaz implements Serializable {
     public void setRodzajwynagrodzenia(Integer rodzajwynagrodzenia) {
         this.rodzajwynagrodzenia = rodzajwynagrodzenia;
     }
-    
+     public String getAngazString() {
+        return this.getFirma().getNazwa()+" "+this.getPracownik().getNazwiskoImie();
+    }
 }

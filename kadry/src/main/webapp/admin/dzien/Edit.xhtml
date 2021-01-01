@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DzienEditDlg" widgetVar="DzienEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditDzienTitle}">
+            <h:form id="DzienEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{dzienController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditDzienLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{dzienController.selected.id}" title="#{bundle.EditDzienTitle_id}" required="true" requiredMessage="#{bundle.EditDzienRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditDzienLabel_kalendarzmiesiac}" for="kalendarzmiesiac" />
+                        <p:selectOneMenu id="kalendarzmiesiac" value="#{dzienController.selected.kalendarzmiesiac}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{kalendarzmiesiacController.itemsAvailableSelectOne}"
+                                           var="kalendarzmiesiacItem"
+                                           itemValue="#{kalendarzmiesiacItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditDzienLabel_nrdnia}" for="nrdnia" />
+                        <p:inputText id="nrdnia" value="#{dzienController.selected.nrdnia}" title="#{bundle.EditDzienTitle_nrdnia}" />
+                        <p:outputLabel value="#{bundle.EditDzienLabel_typdnia}" for="typdnia" />
+                        <p:inputText id="typdnia" value="#{dzienController.selected.typdnia}" title="#{bundle.EditDzienTitle_typdnia}" />
+                        <p:outputLabel value="#{bundle.EditDzienLabel_normagodzin}" for="normagodzin" />
+                        <p:inputText id="normagodzin" value="#{dzienController.selected.normagodzin}" title="#{bundle.EditDzienTitle_normagodzin}" />
+                        <p:outputLabel value="#{bundle.EditDzienLabel_przepracowano}" for="przepracowano" />
+                        <p:inputText id="przepracowano" value="#{dzienController.selected.przepracowano}" title="#{bundle.EditDzienTitle_przepracowano}" />
+                        <p:outputLabel value="#{bundle.EditDzienLabel_piecdziesiatki}" for="piecdziesiatki" />
+                        <p:inputText id="piecdziesiatki" value="#{dzienController.selected.piecdziesiatki}" title="#{bundle.EditDzienTitle_piecdziesiatki}" />
+                        <p:outputLabel value="#{bundle.EditDzienLabel_setki}" for="setki" />
+                        <p:inputText id="setki" value="#{dzienController.selected.setki}" title="#{bundle.EditDzienTitle_setki}" />
+                        <p:outputLabel value="#{bundle.EditDzienLabel_poranocna}" for="poranocna" />
+                        <p:inputText id="poranocna" value="#{dzienController.selected.poranocna}" title="#{bundle.EditDzienTitle_poranocna}" />
+                        <p:outputLabel value="#{bundle.EditDzienLabel_kod}" for="kod" />
+                        <p:inputText id="kod" value="#{dzienController.selected.kod}" title="#{bundle.EditDzienTitle_kod}" />
+                        <p:outputLabel value="#{bundle.EditDzienLabel_kalendarzwzor}" for="kalendarzwzor" />
+                        <p:selectOneMenu id="kalendarzwzor" value="#{dzienController.selected.kalendarzwzor}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{kalendarzwzorController.itemsAvailableSelectOne}"
+                                           var="kalendarzwzorItem"
+                                           itemValue="#{kalendarzwzorItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{dzienController.update}" value="#{bundle.Save}" update="display,:DzienListForm:datalist,:growl" oncomplete="handleSubmit(args, 'DzienEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="DzienEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

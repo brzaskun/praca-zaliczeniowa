@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NieobecnoscEditDlg" widgetVar="NieobecnoscEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditNieobecnoscTitle}">
+            <h:form id="NieobecnoscEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{nieobecnoscController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditNieobecnoscLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{nieobecnoscController.selected.id}" title="#{bundle.EditNieobecnoscTitle_id}" required="true" requiredMessage="#{bundle.EditNieobecnoscRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditNieobecnoscLabel_kod}" for="kod" />
+                        <p:inputText id="kod" value="#{nieobecnoscController.selected.kod}" title="#{bundle.EditNieobecnoscTitle_kod}" required="true" requiredMessage="#{bundle.EditNieobecnoscRequiredMessage_kod}"/>
+                        <p:outputLabel value="#{bundle.EditNieobecnoscLabel_nazwa}" for="nazwa" />
+                        <p:inputText id="nazwa" value="#{nieobecnoscController.selected.nazwa}" title="#{bundle.EditNieobecnoscTitle_nazwa}" required="true" requiredMessage="#{bundle.EditNieobecnoscRequiredMessage_nazwa}"/>
+                        <p:outputLabel value="#{bundle.EditNieobecnoscLabel_dataod}" for="dataod" />
+                        <p:inputText id="dataod" value="#{nieobecnoscController.selected.dataod}" title="#{bundle.EditNieobecnoscTitle_dataod}" />
+                        <p:outputLabel value="#{bundle.EditNieobecnoscLabel_datado}" for="datado" />
+                        <p:inputText id="datado" value="#{nieobecnoscController.selected.datado}" title="#{bundle.EditNieobecnoscTitle_datado}" />
+                        <p:outputLabel value="#{bundle.EditNieobecnoscLabel_umowa}" for="umowa" />
+                        <p:selectOneMenu id="umowa" value="#{nieobecnoscController.selected.umowa}" required="true" requiredMessage="#{bundle.EditNieobecnoscRequiredMessage_umowa}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{umowaController.itemsAvailableSelectOne}"
+                                           var="umowaItem"
+                                           itemValue="#{umowaItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{nieobecnoscController.update}" value="#{bundle.Save}" update="display,:NieobecnoscListForm:datalist,:growl" oncomplete="handleSubmit(args, 'NieobecnoscEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="NieobecnoscEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

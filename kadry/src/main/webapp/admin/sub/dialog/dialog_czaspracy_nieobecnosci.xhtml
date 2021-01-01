@@ -1,0 +1,85 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:dialog id="dialogpracownikanieobecnosci" header="Wprowadzanie danych angażu" widgetVar="dialogpracownikanieobecnosci"  
+              resizable="false"  onShow="ustawdialog('dialogpracownikanieobecnosci','centertile',1450,1000);" closeOnEscape="true" onHide="resetujdialog('dialogpracownikanieobecnosci');" 
+              fitViewport="true">
+        <p:outputPanel style="height: 200px">
+             <h:form id="NieobecnoscCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{nieobecnoscView.selected != null}">
+                        <p:outputLabel value="kod" for="kod" />
+                        <p:inputText id="kod" value="#{nieobecnoscView.selected.kod}" title="#{bundle.CreateNieobecnoscTitle_kod}" required="true" requiredMessage="#{bundle.CreateNieobecnoscRequiredMessage_kod}"/>
+                        <p:outputLabel value="#{bundle.CreateNieobecnoscLabel_nazwa}" for="nazwa" />
+                        <p:inputText id="nazwa" value="#{nieobecnoscView.selected.nazwa}" title="#{bundle.CreateNieobecnoscTitle_nazwa}" required="true" requiredMessage="#{bundle.CreateNieobecnoscRequiredMessage_nazwa}"/>
+                        <p:outputLabel value="#{bundle.CreateNieobecnoscLabel_dataod}" for="dataod" />
+                        <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="#{bundle.CreateNieobecnoscTitle_dataod}" />
+                        <p:outputLabel value="#{bundle.CreateNieobecnoscLabel_datado}" for="datado" />
+                        <p:inputText id="datado" value="#{nieobecnoscView.selected.datado}" title="#{bundle.CreateNieobecnoscTitle_datado}" />
+                        <p:outputLabel value="umowa" for="umowa" />
+                        <p:selectOneMenu id="umowa" value="#{nieobecnoscView.selected.umowa}" required="true" requiredMessage="wybierz umowę" converter="#{umowaConverter}">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{nieobecnoscView.listaumowa}"
+                                           var="umowaItem"
+                                           itemValue="#{umowaItem}" itemLabel="#{umowaItem.angaz.pracownik.nazwiskoImie}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{nieobecnoscView.create}" value="#{bundle.Save}" update="display,:NieobecnoscListForm:datalist"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="NieobecnoscCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:outputPanel>
+        <p:outputPanel>
+             <h:form id="NieobecnoscListForm">
+                <p:panel header="#{bundle.ListAngazTitle}">
+                    <p:dataTable id="datalist" value="#{nieobecnoscView.lista}" var="itemNieob"
+                                 selectionMode="single" selection="#{angazView.selectedlista}"
+                                 rowKey="#{itemNieob.id}"
+                                style="height: 500px; overflow-y: scroll;"
+                                 >
+                        <p:column width="40">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListNieobecnoscTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemNieob.id}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListNieobecnoscTitle_kod}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemNieob.kod}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListNieobecnoscTitle_nazwa}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemNieob.nazwa}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListNieobecnoscTitle_dataod}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemNieob.dataod}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListNieobecnoscTitle_datado}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemNieob.datado}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListNieobecnoscTitle_umowa}"/>
+                            </f:facet>
+                            <h:outputText value="#{itemNieob.umowa.angaz.angazString}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+        </p:outputPanel>
+    </p:dialog>
+</ui:composition>

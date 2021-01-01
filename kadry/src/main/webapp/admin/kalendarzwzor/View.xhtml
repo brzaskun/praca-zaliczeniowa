@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="KalendarzwzorViewDlg" widgetVar="KalendarzwzorViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewKalendarzwzorTitle}">
+            <h:form id="KalendarzwzorViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{kalendarzwzorController.selected != null}">
+                        <h:outputText value="#{bundle.ViewKalendarzwzorLabel_id}"/>
+                        <h:outputText value="#{kalendarzwzorController.selected.id}" title="#{bundle.ViewKalendarzwzorTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewKalendarzwzorLabel_rok}"/>
+                        <h:outputText value="#{kalendarzwzorController.selected.rok}" title="#{bundle.ViewKalendarzwzorTitle_rok}"/>
+                        <h:outputText value="#{bundle.ViewKalendarzwzorLabel_mc}"/>
+                        <h:outputText value="#{kalendarzwzorController.selected.mc}" title="#{bundle.ViewKalendarzwzorTitle_mc}"/>
+                        <h:outputText value="#{bundle.ViewKalendarzwzorLabel_firma}"/>
+                        <h:outputText value="#{kalendarzwzorController.selected.firma}" title="#{bundle.ViewKalendarzwzorTitle_firma}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="KalendarzwzorViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

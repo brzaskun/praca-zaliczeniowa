@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="KalendarzwzorCreateDlg" widgetVar="KalendarzwzorCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateKalendarzwzorTitle}">
+            <h:form id="KalendarzwzorCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{kalendarzwzorController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateKalendarzwzorLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{kalendarzwzorController.selected.id}" title="#{bundle.CreateKalendarzwzorTitle_id}" required="true" requiredMessage="#{bundle.CreateKalendarzwzorRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.CreateKalendarzwzorLabel_rok}" for="rok" />
+                        <p:inputText id="rok" value="#{kalendarzwzorController.selected.rok}" title="#{bundle.CreateKalendarzwzorTitle_rok}" />
+                        <p:outputLabel value="#{bundle.CreateKalendarzwzorLabel_mc}" for="mc" />
+                        <p:inputText id="mc" value="#{kalendarzwzorController.selected.mc}" title="#{bundle.CreateKalendarzwzorTitle_mc}" />
+                        <p:outputLabel value="#{bundle.CreateKalendarzwzorLabel_firma}" for="firma" />
+                        <p:selectOneMenu id="firma" value="#{kalendarzwzorController.selected.firma}" >
+                            <f:selectItems value="#{firmaController.itemsAvailableSelectOne}"
+                                           var="firmaItem"
+                                           itemValue="#{firmaItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{kalendarzwzorController.create}" value="#{bundle.Save}" update="display,:KalendarzwzorListForm:datalist,:growl" oncomplete="handleSubmit(args,'KalendarzwzorCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="KalendarzwzorCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
