@@ -7,16 +7,18 @@ package dao;
 import entity.Uz;
 import java.util.Collections;
 import java.util.List;
-import javax.inject.Named;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 
 /**
  *
  * @author Osito
  */
-@Named
+@Stateless
+@Transactional
 public class UzDAO  extends AbstractFacade<Uz> {
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;

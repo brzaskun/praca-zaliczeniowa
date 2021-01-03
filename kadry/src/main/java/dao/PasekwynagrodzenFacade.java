@@ -14,12 +14,14 @@ import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 /**
  *
  * @author Osito
  */
 @Stateless
+@Transactional
 public class PasekwynagrodzenFacade   implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -58,7 +60,6 @@ public class PasekwynagrodzenFacade   implements Serializable {
      
     public void remove(Pasekwynagrodzen entity) {
         em.remove(em.merge(entity));
-        em.flush();
     }
     
     public void remove(List<Pasekwynagrodzen> entityList) {

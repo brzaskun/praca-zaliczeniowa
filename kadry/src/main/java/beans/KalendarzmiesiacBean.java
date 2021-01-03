@@ -317,7 +317,7 @@ public class KalendarzmiesiacBean {
         Naliczenieskladnikawynagrodzenia wynagrodzeniedopobrania = pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().get(0);
         Skladnikwynagrodzenia wynagrodzeniezasadnicze = wynagrodzeniedopobrania.getSkladnikwynagrodzenia();
         Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
-        Skladnikwynagrodzenia skladniknadgodziny50 = SkladnikwynagrodzeniaBean.createNadgodziny50DB(kalendarz,dataod, datado);
+        Skladnikwynagrodzenia skladniknadgodziny50 = pobierzskladnik(kalendarz);
         naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(skladniknadgodziny50);
         double skladnik = wynagrodzeniezasadnicze.getZmiennawynagrodzeniaList().get(0).getKwota();
         double stawkagodznowanormalna = skladnik / godzinyrobocze*0.5;
@@ -371,6 +371,17 @@ public class KalendarzmiesiacBean {
                 p.setKwotazredukowana(p.getKwota()-dowyplatyzaczaschoroby-dowyplatyzaczasurlopu-dowyplatyzaczasurlopubezplatnego);
             }
         }
+    }
+
+    private static Skladnikwynagrodzenia pobierzskladnik(Kalendarzmiesiac kalendarz) {
+        Skladnikwynagrodzenia zwrot = null;
+        for (Skladnikwynagrodzenia p : kalendarz.getUmowa().getSkladnikwynagrodzeniaList()) {
+            if (p.getKod().equals("30")) {
+                zwrot = p;
+                break;
+            }
+        }
+        return zwrot;
     }
 
     

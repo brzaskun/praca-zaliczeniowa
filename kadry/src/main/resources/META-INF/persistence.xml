@@ -5,7 +5,7 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>kadryDB</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    <shared-cache-mode>ALL</shared-cache-mode>
+    <shared-cache-mode>NONE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>
     <properties>
 <!--      <property name="eclipselink.ddl-generation" value="create-tables"/>-->
@@ -13,8 +13,9 @@
       <!--      <property name="eclipselink.cache-usage" value="CheckCacheThenDatabase"/>-->
       <!-- configure logging -->
       <!--      <property name="eclipselink.logging.level" value="INFO"/>-->
+      <property name="eclipselink.query-results-cache" value="false"/>
       <property name="eclipselink.logging.level.sql" value="FINE"/>
-      <property name="eclipselink.logging.parameters" value="true"/>-->
+      <property name="eclipselink.logging.parameters" value="true"/>--&gt;
     </properties>
   </persistence-unit>
 </persistence>

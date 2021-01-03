@@ -12,12 +12,14 @@ import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 /**
  *
  * @author Osito
  */
 @Stateless
+@Transactional
 public class KalendarzwzorFacade   implements Serializable {
     private static final long serialVersionUID = 1L;
 

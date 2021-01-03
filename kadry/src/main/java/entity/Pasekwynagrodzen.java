@@ -103,11 +103,11 @@ private Double bruttobezzus;
     private Double podstawaubezpzdrowotne;
     @Column(name = "potracenia")
     private Double potracenia;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
     private List<Naliczeniepotracenie> naliczeniepotracenieList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
     private List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
     private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
     private static final long serialVersionUID = 1L;
     @Id

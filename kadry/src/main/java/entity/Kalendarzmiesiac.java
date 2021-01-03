@@ -51,7 +51,7 @@ public class Kalendarzmiesiac implements Serializable {
     @Size(min = 1, max = 2)
     @Column(name = "mc")
     private String mc;
-    @OneToMany(mappedBy = "kalendarzmiesiac", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "kalendarzmiesiac", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pasekwynagrodzen> pasekwynagrodzenList;
    
     
