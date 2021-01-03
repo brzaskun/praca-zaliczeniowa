@@ -5,6 +5,7 @@
  */
 package beans;
 
+import entity.Skladnikwynagrodzenia;
 import entity.Zmiennawynagrodzenia;
 
 /**
@@ -39,5 +40,15 @@ public class ZmiennawynagrodzeniaBean {
             zmiennapremia.setSkladnikwynagrodzenia(SkladnikwynagrodzeniaBean.createPremiaUznaniowa());
         }
         return zmiennapremia;
+    }
+    
+    public static Zmiennawynagrodzenia createNadgodziny50DB(Skladnikwynagrodzenia skladnikwynagrodzenia, String dataod, String datado) {
+            Zmiennawynagrodzenia zwrot = new Zmiennawynagrodzenia();
+            zwrot.setDataod(dataod);
+            zwrot.setDatado(datado);
+            zwrot.setNazwa("premia uznaniowa");
+            zwrot.setKwota(0.0);
+            zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+        return zwrot;
     }
 }

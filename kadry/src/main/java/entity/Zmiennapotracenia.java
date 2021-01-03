@@ -51,7 +51,7 @@ public class Zmiennapotracenia implements Serializable {
     private String nazwa;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "kwotastala")
-    private Double kwotastala;
+    private double kwotastala;
     @JoinColumn(name = "skladnikpotracenia", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Skladnikpotracenia skladnikpotracenia;
@@ -122,11 +122,11 @@ public class Zmiennapotracenia implements Serializable {
         this.nazwa = nazwa;
     }
 
-    public Double getKwotastala() {
+    public double getKwotastala() {
         return kwotastala;
     }
 
-    public void setKwotastala(Double kwotastala) {
+    public void setKwotastala(double kwotastala) {
         this.kwotastala = kwotastala;
     }
 

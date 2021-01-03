@@ -6,7 +6,9 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,8 +18,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -28,6 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Pasekwynagrodzen.findAll", query = "SELECT p FROM Pasekwynagrodzen p"),
+    @NamedQuery(name = "Pasekwynagrodzen.findByDefKal", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.definicjalistaplac = :definicjalistaplac AND p.kalendarzmiesiac = :kalendarzmiesiac"),
     @NamedQuery(name = "Pasekwynagrodzen.findById", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.id = :id"),
     @NamedQuery(name = "Pasekwynagrodzen.findByBruttobezzus", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.bruttobezzus = :bruttobezzus"),
     @NamedQuery(name = "Pasekwynagrodzen.findByBruttozus", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.bruttozus = :bruttozus"),
@@ -49,6 +55,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Pasekwynagrodzen.findByWypadkowe", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.wypadkowe = :wypadkowe")})
 public class Pasekwynagrodzen implements Serializable {
 
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "bruttobezzus")
 private double bruttobezzus;
@@ -95,6 +102,12 @@ private double bruttobezzus;
     private double podstawaubezpzdrowotne;
     @Column(name = "potracenia")
     private double potracenia;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen")
+    private List<Naliczeniepotracenie> naliczeniepotracenieList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen")
+    private List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen")
+    private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -104,8 +117,7 @@ private double bruttobezzus;
     @JoinColumn(name = "definicjalistaplac", referencedColumnName = "id")
     @ManyToOne
     private Definicjalistaplac definicjalistaplac;
-    @JoinColumn(name = "kalendarzmiesiac", referencedColumnName = "id")
-    @ManyToOne
+    @OneToOne(mappedBy = "pasekwynagrodzen")
     private Kalendarzmiesiac kalendarzmiesiac;
 
     public Pasekwynagrodzen() {
@@ -128,12 +140,7 @@ private double bruttobezzus;
     public void setDefinicjalistaplac(Definicjalistaplac definicjalistaplac) {
         this.definicjalistaplac = definicjalistaplac;
     }
-    public Kalendarzmiesiac getKalendarzmiesiac() {
-        return kalendarzmiesiac;
-    }
-    public void setKalendarzmiesiac(Kalendarzmiesiac kalendarzmiesiac) {
-        this.kalendarzmiesiac = kalendarzmiesiac;
-    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -332,5 +339,43 @@ private double bruttobezzus;
     public void setPotracenia(double potracenia) {
         this.potracenia = potracenia;
     }
+
+
+    @XmlTransient
+    public List<Naliczeniepotracenie> getNaliczeniepotracenieList() {
+        return naliczeniepotracenieList;
+    }
+
+    public void setNaliczeniepotracenieList(List<Naliczeniepotracenie> naliczeniepotracenieList) {
+        this.naliczeniepotracenieList = naliczeniepotracenieList;
+    }
+
+    @XmlTransient
+    public List<Naliczenieskladnikawynagrodzenia> getNaliczenieskladnikawynagrodzeniaList() {
+        return naliczenieskladnikawynagrodzeniaList;
+    }
+
+    public void setNaliczenieskladnikawynagrodzeniaList(List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList) {
+        this.naliczenieskladnikawynagrodzeniaList = naliczenieskladnikawynagrodzeniaList;
+    }
+
+    @XmlTransient
+    public List<Naliczenienieobecnosc> getNaliczenienieobecnoscList() {
+        return naliczenienieobecnoscList;
+    }
+
+    public void setNaliczenienieobecnoscList(List<Naliczenienieobecnosc> naliczenienieobecnoscList) {
+        this.naliczenienieobecnoscList = naliczenienieobecnoscList;
+    }
+
+    public Kalendarzmiesiac getKalendarzmiesiac() {
+        return kalendarzmiesiac;
+    }
+
+    public void setKalendarzmiesiac(Kalendarzmiesiac kalendarzmiesiac) {
+        this.kalendarzmiesiac = kalendarzmiesiac;
+    }
+
     
+        
 }

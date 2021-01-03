@@ -8,6 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -66,6 +68,8 @@ public class Definicjalistaplac implements Serializable {
     @Size(max = 2)
     @Column(name = "mc")
     private String mc;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "definicjalistaplac")
+    private Pasekwynagrodzen pasekwynagrodzen;
     @JoinColumn(name = "firma", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Firma firma;
@@ -75,7 +79,7 @@ public class Definicjalistaplac implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-    @OneToMany(mappedBy = "definicjalistaplac")
+    @OneToMany(mappedBy = "definicjalistaplac", cascade = CascadeType.ALL)
     private List<Pasekwynagrodzen> pasekwynagrodzenList;
 
     public Definicjalistaplac() {
@@ -120,6 +124,18 @@ public class Definicjalistaplac implements Serializable {
     @Override
     public String toString() {
         return "entity.Definicjalistaplac[ id=" + id + " ]";
+    }
+    public Firma getFirma() {
+        return firma;
+    }
+    public void setFirma(Firma firma) {
+        this.firma = firma;
+    }
+    public Pasekwynagrodzen getPasekwynagrodzen() {
+        return pasekwynagrodzen;
+    }
+    public void setPasekwynagrodzen(Pasekwynagrodzen pasekwynagrodzen) {
+        this.pasekwynagrodzen = pasekwynagrodzen;
     }
 
     public String getDatapodatek() {
@@ -184,14 +200,6 @@ public class Definicjalistaplac implements Serializable {
 
     public void setMc(String mc) {
         this.mc = mc;
-    }
-
-    public Firma getFirma() {
-        return firma;
-    }
-
-    public void setFirma(Firma firma) {
-        this.firma = firma;
     }
     
 }

@@ -130,4 +130,7 @@ public class Angaz implements Serializable {
      public String getAngazString() {
         return this.getFirma().getNazwa()+" "+this.getPracownik().getNazwiskoImie();
     }
+    public String getAngazStringPlik() {
+        return this.getFirma().getNazwa();
+    }
 }

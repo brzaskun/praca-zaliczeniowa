@@ -9,9 +9,9 @@
               resizable="false"  onShow="ustawdialog('dialoglistadefinicja','centertile',1450,1000);" closeOnEscape="true" onHide="resetujdialog('dialoglistadefinicja');" 
               fitViewport="true">
         <p:outputPanel style="height: 200px">
-             <h:form id="DefinicjalistaplacCreateForm">
+             <h:form id="DefinicjalistaplacdefCreateForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="4 " rendered="#{definicjalistaplacView.selected != null}">
+                    <p:panelGrid columns="4" rendered="#{definicjalistaplacView.selected != null}">
                         <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_datasporzadzenia}" for="datasporzadzenia" />
                         <p:inputText id="datasporzadzenia" value="#{definicjalistaplacView.selected.datasporzadzenia}" title="#{bundle.CreateDefinicjalistaplacTitle_datasporzadzenia}" />
                         <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_datapodatek}" for="datapodatek" />

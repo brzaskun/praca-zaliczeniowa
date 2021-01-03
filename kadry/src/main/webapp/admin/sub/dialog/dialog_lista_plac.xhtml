@@ -1,196 +1,191 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-
-    <ui:composition template="/template.xhtml">
-
-
-        <ui:define name="title">
-            <h:outputText value="#{bundle.ListPasekwynagrodzenTitle}"></h:outputText>
-        </ui:define>
-
-        <ui:define name="body">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:dialog id="dialoglistaplac" header="Kalendarz pracownika" widgetVar="dialoglistaplac"  
+              resizable="false"  onShow="ustawdialog('dialoglistaplac','centertile',1450,1000);" closeOnEscape="true" onHide="resetujdialog('dialoglistaplac');" 
+              fitViewport="true">
+        <p:outputPanel style="height: 200px">
+             <h:form id="DefinicjalistaplacCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{pasekwynagrodzenView.listakalendarzmiesiac ne null}">
+                        <p:outputLabel value="wybrana lista płac" for="wybranalista" />
+                        <p:selectOneMenu id="wybranalista" value="#{pasekwynagrodzenView.wybranalistaplac}" required="true" requiredMessage="Wybierz firmę" converter="#{definicjalistaplacConverter}">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{pasekwynagrodzenView.listadefinicjalistaplac}"
+                                           var="firmalistaItem"
+                                           itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.opis} #{firmalistaItem.nrkolejny}"/>
+                            <p:ajax event="change" partialSubmit="true" global="false"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="wybrany pracownik" for="wybranypracownik" />
+                        <p:selectOneMenu id="wybranypracownik" value="#{pasekwynagrodzenView.wybranypracownik}" required="true" requiredMessage="Wybierz pracownika" converter="#{kalendarzmiesiacConverter}">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{pasekwynagrodzenView.listakalendarzmiesiac}"
+                                           var="kalendarzItem"
+                                           itemValue="#{kalendarzItem}" itemLabel="#{kalendarzItem.umowa.angaz.pracownik.nazwiskoImie}"/>
+                            <p:ajax event="change" listener="#{pasekwynagrodzenView.przelicz}" partialSubmit="true" global="false" update=":PasekwynagrodzenListForm:datalist"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{pasekwynagrodzenView.create}" value="#{bundle.Save}" update="display,:PasekwynagrodzenListForm:datalist" />
+                    <p:commandButton value="#{bundle.Cancel}" onclick="DefinicjalistaplacCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:outputPanel>
+        <p:outputPanel>
             <h:form id="PasekwynagrodzenListForm">
-                <p:panel header="#{bundle.ListPasekwynagrodzenTitle}">
-                    <p:dataTable id="datalist" value="#{pasekwynagrodzenController.items}" var="item"
-                                 selectionMode="single" selection="#{pasekwynagrodzenController.selected}"
-                                 paginator="true"
-                                 rowKey="#{item.id}"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
+                <p:panel header="#{bundle.ListDefinicjalistaplacTitle}">
+                    <p:dataTable id="datalist" value="#{pasekwynagrodzenView.lista}" var="itempasek"
+                                 selectionMode="single" selection="#{pasekwynagrodzenView.selectedlista}"
+                                 rowKey="#{itempasek.id}"
+                                 style="height: 500px; overflow-y: scroll;"
                                  >
-
-                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
-
-                        <p:column>
+                        <p:column width="40">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_id}"/>
                             </f:facet>
-                            <h:outputText value="#{item.id}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_definicjalistaplac}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.definicjalistaplac}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_kalendarzmiesiac}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.kalendarzmiesiac}"/>
+                            <h:outputText value="#{itempasek.id}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_bruttobezzus}"/>
                             </f:facet>
-                            <h:outputText value="#{item.bruttobezzus}"/>
+                            <h:outputText value="#{itempasek.bruttobezzus}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_bruttozus}"/>
                             </f:facet>
-                            <h:outputText value="#{item.bruttozus}"/>
+                            <h:outputText value="#{itempasek.bruttozus}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_fgsp}"/>
                             </f:facet>
-                            <h:outputText value="#{item.fgsp}"/>
+                            <h:outputText value="#{itempasek.fgsp}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_fp}"/>
                             </f:facet>
-                            <h:outputText value="#{item.fp}"/>
+                            <h:outputText value="#{itempasek.fp}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_kosztyuzyskania}"/>
                             </f:facet>
-                            <h:outputText value="#{item.kosztyuzyskania}"/>
+                            <h:outputText value="#{itempasek.kosztyuzyskania}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_kwotawolna}"/>
                             </f:facet>
-                            <h:outputText value="#{item.kwotawolna}"/>
+                            <h:outputText value="#{itempasek.kwotawolna}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_netto}"/>
                             </f:facet>
-                            <h:outputText value="#{item.netto}"/>
+                            <h:outputText value="#{itempasek.netto}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_podatekdochodowy}"/>
                             </f:facet>
-                            <h:outputText value="#{item.podatekdochodowy}"/>
+                            <h:outputText value="#{itempasek.podatekdochodowy}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_podstawaopodatkowania}"/>
                             </f:facet>
-                            <h:outputText value="#{item.podstawaopodatkowania}"/>
+                            <h:outputText value="#{itempasek.podstawaopodatkowania}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_pracchorobowe}"/>
                             </f:facet>
-                            <h:outputText value="#{item.pracchorobowe}"/>
+                            <h:outputText value="#{itempasek.pracchorobowe}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_pracemerytalne}"/>
                             </f:facet>
-                            <h:outputText value="#{item.pracemerytalne}"/>
+                            <h:outputText value="#{itempasek.pracemerytalne}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_pracrentowe}"/>
                             </f:facet>
-                            <h:outputText value="#{item.pracrentowe}"/>
+                            <h:outputText value="#{itempasek.pracrentowe}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_razemspolecznepracownik}"/>
                             </f:facet>
-                            <h:outputText value="#{item.razemspolecznepracownik}"/>
+                            <h:outputText value="#{itempasek.razemspolecznepracownik}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_praczdrowotne}"/>
                             </f:facet>
-                            <h:outputText value="#{item.praczdrowotne}"/>
+                            <h:outputText value="#{itempasek.praczdrowotne}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_praczdrowotnedodoliczenia}"/>
                             </f:facet>
-                            <h:outputText value="#{item.praczdrowotnedodoliczenia}"/>
+                            <h:outputText value="#{itempasek.praczdrowotnedodoliczenia}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_praczdrowotnedopotracenia}"/>
                             </f:facet>
-                            <h:outputText value="#{item.praczdrowotnedopotracenia}"/>
+                            <h:outputText value="#{itempasek.praczdrowotnedopotracenia}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_praczdrowotnepomniejszone}"/>
                             </f:facet>
-                            <h:outputText value="#{item.praczdrowotnepomniejszone}"/>
+                            <h:outputText value="#{itempasek.praczdrowotnepomniejszone}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_rentowe}"/>
                             </f:facet>
-                            <h:outputText value="#{item.rentowe}"/>
+                            <h:outputText value="#{itempasek.rentowe}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_wypadkowe}"/>
                             </f:facet>
-                            <h:outputText value="#{item.wypadkowe}"/>
+                            <h:outputText value="#{itempasek.wypadkowe}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_podatekwstepny}"/>
                             </f:facet>
-                            <h:outputText value="#{item.podatekwstepny}"/>
+                            <h:outputText value="#{itempasek.podatekwstepny}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_podstawaubezpzdrowotne}"/>
                             </f:facet>
-                            <h:outputText value="#{item.podstawaubezpzdrowotne}"/>
+                            <h:outputText value="#{itempasek.podstawaubezpzdrowotne}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPasekwynagrodzenTitle_potracenia}"/>
                             </f:facet>
-                            <h:outputText value="#{item.potracenia}"/>
+                            <h:outputText value="#{itempasek.potracenia}"/>
                         </p:column>
-                        <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{pasekwynagrodzenController.prepareCreate}" update=":PasekwynagrodzenCreateForm" oncomplete="PF('PasekwynagrodzenCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":PasekwynagrodzenViewForm" oncomplete="PF('PasekwynagrodzenViewDialog').show()" disabled="#{empty pasekwynagrodzenController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":PasekwynagrodzenEditForm" oncomplete="PF('PasekwynagrodzenEditDialog').show()" disabled="#{empty pasekwynagrodzenController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{pasekwynagrodzenController.destroy}" update=":growl,datalist" disabled="#{empty pasekwynagrodzenController.selected}"/>
-                        </f:facet>
+                        <p:column>
+                            <p:commandButton icon="fa fa-print" actionListener="#{pasekwynagrodzenView.drukuj(itempasek)}" global="false"/>
+                        </p:column>
                     </p:dataTable>
                 </p:panel>
             </h:form>
-
-            <ui:include src="Create.xhtml"/>
-            <ui:include src="Edit.xhtml"/>
-            <ui:include src="View.xhtml"/>
-        </ui:define>
-    </ui:composition>
-
-</html>
+        </p:outputPanel>
+    </p:dialog>
+</ui:composition>

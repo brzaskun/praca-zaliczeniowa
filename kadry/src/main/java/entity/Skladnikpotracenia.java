@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -36,15 +37,16 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Skladnikpotracenia.findById", query = "SELECT s FROM Skladnikpotracenia s WHERE s.id = :id"),
     @NamedQuery(name = "Skladnikpotracenia.findByNazwa", query = "SELECT s FROM Skladnikpotracenia s WHERE s.nazwa = :nazwa")})
 public class Skladnikpotracenia implements Serializable {
+
+    @Size(max = 255)
+    @Column(name = "nazwa")
+    private String nazwa;
    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 255)
-    @Column(name = "nazwa")
-    private String nazwa;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikpotracenia")
     private List<Zmiennapotracenia> zmiennapotraceniaList;
 
@@ -56,10 +58,12 @@ public class Skladnikpotracenia implements Serializable {
 
 
     public Skladnikpotracenia() {
+        this.zmiennapotraceniaList = new ArrayList<>();
     }
 
     public Skladnikpotracenia(int id) {
         this.id = id;
+        this.zmiennapotraceniaList = new ArrayList<>();
     }
 
     public Integer getId() {
@@ -114,13 +118,6 @@ public class Skladnikpotracenia implements Serializable {
         return "entity.Skladnikpotracenia[ id=" + id + " ]";
     }
 
-    public String getNazwa() {
-        return nazwa;
-    }
-
-    public void setNazwa(String nazwa) {
-        this.nazwa = nazwa;
-    }
 
     @XmlTransient
     public List<Zmiennapotracenia> getZmiennapotraceniaList() {
@@ -129,6 +126,14 @@ public class Skladnikpotracenia implements Serializable {
 
     public void setZmiennapotraceniaList(List<Zmiennapotracenia> zmiennapotraceniaList) {
         this.zmiennapotraceniaList = zmiennapotraceniaList;
+    }
+
+    public String getNazwa() {
+        return nazwa;
+    }
+
+    public void setNazwa(String nazwa) {
+        this.nazwa = nazwa;
     }
     
 }

@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Naliczenieskladnikawynagrodzenia implements Serializable {
 
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "kwota")
     private double kwota;
     @Column(name = "kwotabezzus")
@@ -45,6 +46,9 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
     private double kwotazredukowana;
     @Column(name = "ilezredukowano")
     private double ilezredukowano;
+    @JoinColumn(name = "pasekwynagrodzen", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Pasekwynagrodzen pasekwynagrodzen;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -154,6 +158,14 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
 
     public void setIlezredukowano(double ilezredukowano) {
         this.ilezredukowano = ilezredukowano;
+    }
+
+    public Pasekwynagrodzen getPasekwynagrodzen() {
+        return pasekwynagrodzen;
+    }
+
+    public void setPasekwynagrodzen(Pasekwynagrodzen pasekwynagrodzen) {
+        this.pasekwynagrodzen = pasekwynagrodzen;
     }
     
 }

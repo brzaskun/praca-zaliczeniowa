@@ -43,17 +43,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Naliczenienieobecnosc.findByStawkadziennaredukcji", query = "SELECT n FROM Naliczenienieobecnosc n WHERE n.stawkadziennaredukcji = :stawkadziennaredukcji")})
 public class Naliczenienieobecnosc implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "kwota")
-    private double kwota;
+private double kwota;
     @Column(name = "kwotastatystyczna")
     private double kwotastatystyczna;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "kwotabezzus")
     private double kwotabezzus;
     @Column(name = "kwotazus")
@@ -76,6 +71,15 @@ public class Naliczenienieobecnosc implements Serializable {
     private double stawkadziennaredukcji;
     @Column(name = "kwotaredukcji")
     private double kwotaredukcji;
+    @JoinColumn(name = "pasekwynagrodzen", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Pasekwynagrodzen pasekwynagrodzen;
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @JoinColumn(name = "kalendarzmiesiac", referencedColumnName = "id")
     @ManyToOne
     private Kalendarzmiesiac kalendarzmiesiac;
@@ -101,6 +105,56 @@ public class Naliczenienieobecnosc implements Serializable {
         this.id = id;
     }
 
+
+    public Kalendarzmiesiac getKalendarzmiesiac() {
+        return kalendarzmiesiac;
+    }
+
+    public void setKalendarzmiesiac(Kalendarzmiesiac kalendarzmiesiac) {
+        this.kalendarzmiesiac = kalendarzmiesiac;
+    }
+
+    public Nieobecnosc getNieobecnosc() {
+        return nieobecnosc;
+    }
+
+    public void setNieobecnosc(Nieobecnosc nieobecnosc) {
+        this.nieobecnosc = nieobecnosc;
+    }
+
+    public Skladnikwynagrodzenia getSkladnikwynagrodzenia() {
+        return skladnikwynagrodzenia;
+    }
+
+    public void setSkladnikwynagrodzenia(Skladnikwynagrodzenia skladnikwynagrodzenia) {
+        this.skladnikwynagrodzenia = skladnikwynagrodzenia;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Naliczenienieobecnosc)) {
+            return false;
+        }
+        Naliczenienieobecnosc other = (Naliczenienieobecnosc) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "entity.Naliczenienieobecnosc[ id=" + id + " ]";
+    }
+
     public double getKwota() {
         return kwota;
     }
@@ -115,14 +169,6 @@ public class Naliczenienieobecnosc implements Serializable {
 
     public void setKwotastatystyczna(double kwotastatystyczna) {
         this.kwotastatystyczna = kwotastatystyczna;
-    }
-
-    public double getKwotaredukcji() {
-        return kwotaredukcji;
-    }
-
-    public void setKwotaredukcji(double kwotaredukcji) {
-        this.kwotaredukcji = kwotaredukcji;
     }
 
     public double getKwotabezzus() {
@@ -205,53 +251,20 @@ public class Naliczenienieobecnosc implements Serializable {
         this.stawkadziennaredukcji = stawkadziennaredukcji;
     }
 
-    public Kalendarzmiesiac getKalendarzmiesiac() {
-        return kalendarzmiesiac;
+    public double getKwotaredukcji() {
+        return kwotaredukcji;
     }
 
-    public void setKalendarzmiesiac(Kalendarzmiesiac kalendarzmiesiac) {
-        this.kalendarzmiesiac = kalendarzmiesiac;
+    public void setKwotaredukcji(double kwotaredukcji) {
+        this.kwotaredukcji = kwotaredukcji;
     }
 
-    public Nieobecnosc getNieobecnosc() {
-        return nieobecnosc;
+    public Pasekwynagrodzen getPasekwynagrodzen() {
+        return pasekwynagrodzen;
     }
 
-    public void setNieobecnosc(Nieobecnosc nieobecnosc) {
-        this.nieobecnosc = nieobecnosc;
-    }
-
-    public Skladnikwynagrodzenia getSkladnikwynagrodzenia() {
-        return skladnikwynagrodzenia;
-    }
-
-    public void setSkladnikwynagrodzenia(Skladnikwynagrodzenia skladnikwynagrodzenia) {
-        this.skladnikwynagrodzenia = skladnikwynagrodzenia;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Naliczenienieobecnosc)) {
-            return false;
-        }
-        Naliczenienieobecnosc other = (Naliczenienieobecnosc) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entity.Naliczenienieobecnosc[ id=" + id + " ]";
+    public void setPasekwynagrodzen(Pasekwynagrodzen pasekwynagrodzen) {
+        this.pasekwynagrodzen = pasekwynagrodzen;
     }
     
 }

@@ -57,7 +57,7 @@ public class Zmiennawynagrodzenia implements Serializable {
     private Skladnikwynagrodzenia skladnikwynagrodzenia;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "kwota")
-    private Double kwota;
+    private double kwota;
     
 
 
@@ -104,11 +104,11 @@ public class Zmiennawynagrodzenia implements Serializable {
 
 
 
-    public Double getKwota() {
+    public double getKwota() {
         return kwota;
     }
 
-    public void setKwota(Double kwota) {
+    public void setKwota(double kwota) {
         this.kwota = kwota;
     }
 

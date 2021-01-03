@@ -5,6 +5,7 @@
  */
 package beans;
 
+import entity.Kalendarzmiesiac;
 import entity.Skladnikwynagrodzenia;
 
 /**
@@ -27,6 +28,7 @@ public class SkladnikwynagrodzeniaBean {
             skladnikwynagrodzenia.setStala0zmienna1(Boolean.FALSE);
             skladnikwynagrodzenia.setRedukowanyzaczasnieobecnosci(Boolean.TRUE);
             skladnikwynagrodzenia.setKod("10");
+            skladnikwynagrodzenia.getZmiennawynagrodzeniaList().add(ZmiennawynagrodzeniaBean.createWynagrodzenie());
         }
         return skladnikwynagrodzenia;
     }
@@ -58,6 +60,20 @@ public class SkladnikwynagrodzeniaBean {
         }
         return skladniknadgodziny50;
     }
+    
+    public static Skladnikwynagrodzenia createNadgodziny50DB(Kalendarzmiesiac kalendarz, String dataod, String datado) {
+            Skladnikwynagrodzenia zwrot = new Skladnikwynagrodzenia();
+            zwrot.setNazwa("nadgodziny 50%");
+            zwrot.setUmowa(kalendarz.getUmowa());
+            zwrot.setGodzinowe0miesieczne1(Boolean.FALSE);
+            zwrot.setStala0zmienna1(Boolean.TRUE);
+            zwrot.setRedukowanyzaczasnieobecnosci(Boolean.FALSE);
+            zwrot.setKod("30");
+            zwrot.getZmiennawynagrodzeniaList().add(ZmiennawynagrodzeniaBean.createNadgodziny50DB(zwrot, dataod, datado));
+            return zwrot;
+    }
+    
+    
     public static Skladnikwynagrodzenia createNadgodziny100() {
         if (skladniknadgodziny100==null) {
             skladniknadgodziny100 = new Skladnikwynagrodzenia();

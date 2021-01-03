@@ -49,26 +49,26 @@ public class Dzien implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Column(name = "nrdnia")
-    private Integer nrdnia;
+    private int nrdnia;
     @Column(name = "typdnia")
-    private Integer typdnia;
+    private int typdnia;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "normagodzin")
-    private Double normagodzin;
+    private double normagodzin;
     //0roboczy
     //1sobota
     //2niedziela
     //3swieto
     //4ekwiwalentzaswieto
     @Column(name = "przepracowano")
-    private Double przepracowano;
+    private double przepracowano;
     @Column(name = "piecdziesiatki")
-    private Double piecdziesiatki;
+    private double piecdziesiatki;
     @Column(name = "setki")
-    private Double setki;
+    private double setki;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "poranocna")
-    private Double poranocna;
+    private double poranocna;
     @JoinColumn(name = "kalendarzwzor", referencedColumnName = "id")
     @ManyToOne
     private Kalendarzwzor kalendarzwzor;
@@ -143,62 +143,62 @@ public class Dzien implements Serializable {
         return "Dzien{" + "nrdnia=" + nrdnia + ", typdnia=" + typdnia + ", normagodzin=" + normagodzin + ", przepracowano=" + przepracowano + ", piecdziesiatki=" + piecdziesiatki + ", setki=" + setki + ", poranocna=" + poranocna + ", kod=" + kod + '}';
     }
 
-    public Integer getNrdnia() {
+    public int getNrdnia() {
         return nrdnia;
     }
 
-    public void setNrdnia(Integer nrdnia) {
+    public void setNrdnia(int nrdnia) {
         this.nrdnia = nrdnia;
     }
 
-    public Integer getTypdnia() {
+    public int getTypdnia() {
         return typdnia;
     }
 
 
 
-    public void setTypdnia(Integer typdnia) {
+    public void setTypdnia(int typdnia) {
         this.typdnia = typdnia;
     }
 
-    public Double getNormagodzin() {
+    public double getNormagodzin() {
         return normagodzin;
     }
 
-    public void setNormagodzin(Double normagodzin) {
+    public void setNormagodzin(double normagodzin) {
         this.normagodzin = normagodzin;
     }
 
-    public Double getPrzepracowano() {
+    public double getPrzepracowano() {
         return przepracowano;
     }
 
-    public void setPrzepracowano(Double przepracowano) {
+    public void setPrzepracowano(double przepracowano) {
         this.przepracowano = przepracowano;
     }
 
-    public Double getPiecdziesiatki() {
+    public double getPiecdziesiatki() {
         return piecdziesiatki;
     }
 
-    public void setPiecdziesiatki(Double piecdziesiatki) {
+    public void setPiecdziesiatki(double piecdziesiatki) {
         this.piecdziesiatki = piecdziesiatki;
     }
 
-    public Double getSetki() {
+    public double getSetki() {
         return setki;
     }
 
-    public void setSetki(Double setki) {
+    public void setSetki(double setki) {
         this.setki = setki;
     }
 
-    public Double getPoranocna() {
+    public double getPoranocna() {
         return poranocna;
     }
 
 
-    public void setPoranocna(Double poranocna) {
+    public void setPoranocna(double poranocna) {
         this.poranocna = poranocna;
     }
 

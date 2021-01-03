@@ -5,7 +5,10 @@
  */
 package beans;
 
+import entity.Kalendarzmiesiac;
 import entity.Naliczenieskladnikawynagrodzenia;
+import entity.Skladnikwynagrodzenia;
+import entity.Zmiennawynagrodzenia;
 
 /**
  *
@@ -29,6 +32,18 @@ public class NaliczenieskladnikawynagrodzeniaBean {
             naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(SkladnikwynagrodzeniaBean.createWynagrodzenie());
         }
         return naliczenieskladnikawynagrodzenia;
+    }
+    
+    public static Naliczenieskladnikawynagrodzenia createWynagrodzenie(Kalendarzmiesiac kalendarzmiesiac, Skladnikwynagrodzenia skladnikwynagrodzenia) {
+        Naliczenieskladnikawynagrodzenia zwrot = new Naliczenieskladnikawynagrodzenia();
+        zwrot.setKalendarzmiesiac(kalendarzmiesiac);
+        Zmiennawynagrodzenia zmiennawynagrodzenia = skladnikwynagrodzenia.getZmiennawynagrodzeniaList().get(0);
+        zwrot.setKwota(zmiennawynagrodzenia.getKwota());
+        zwrot.setKwotabezzus(0.0);
+        zwrot.setKwotazus(zmiennawynagrodzenia.getKwota());
+        zwrot.setKwotazredukowana(zmiennawynagrodzenia.getKwota());
+        zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+        return zwrot;
     }
     
     public static Naliczenieskladnikawynagrodzenia createPremia() {

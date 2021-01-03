@@ -33,8 +33,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Naliczeniepotracenie implements Serializable {
 
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "kwota")
     private double kwota;
+    @JoinColumn(name = "pasekwynagrodzen", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Pasekwynagrodzen pasekwynagrodzen;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -112,6 +116,14 @@ public class Naliczeniepotracenie implements Serializable {
 
     public void setKwota(double kwota) {
         this.kwota = kwota;
+    }
+
+    public Pasekwynagrodzen getPasekwynagrodzen() {
+        return pasekwynagrodzen;
+    }
+
+    public void setPasekwynagrodzen(Pasekwynagrodzen pasekwynagrodzen) {
+        this.pasekwynagrodzen = pasekwynagrodzen;
     }
     
 }

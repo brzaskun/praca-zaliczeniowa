@@ -5,14 +5,18 @@
  */
 package beans;
 
+import dao.PasekwynagrodzenFacade;
 import entity.Definicjalistaplac;
-import entity.Kalendarzwzor;
 import entity.Kalendarzmiesiac;
+import entity.Kalendarzwzor;
 import entity.Naliczenienieobecnosc;
 import entity.Naliczeniepotracenie;
 import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Nieobecnosc;
 import entity.Pasekwynagrodzen;
+import error.E;
+import java.util.ArrayList;
+import java.util.List;
 import z.Z;
 
 /**
@@ -28,9 +32,65 @@ public class PasekwynagrodzenBean {
             pasekwynagrodzen = new Pasekwynagrodzen();
             pasekwynagrodzen.setDefinicjalistaplac(DefinicjalistaplacBean.create());
             pasekwynagrodzen.setKalendarzmiesiac(KalendarzmiesiacBean.create());
+            pasekwynagrodzen.setNaliczenienieobecnoscList(new ArrayList<>());
+            pasekwynagrodzen.setNaliczeniepotracenieList(new ArrayList<>());
+            pasekwynagrodzen.setNaliczenieskladnikawynagrodzeniaList(new ArrayList<>());
         }
         return pasekwynagrodzen;
     }
+    
+      
+    public static Pasekwynagrodzen oblicz(Pasekwynagrodzen pasek, Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac) {
+        List<Nieobecnosc> nieobecnosci = kalendarz.getUmowa().getNieobecnoscList();
+        Nieobecnosc choroba = pobierz(nieobecnosci,"331");
+        Nieobecnosc urlop = pobierz(nieobecnosci,"001");
+        Nieobecnosc urlopbezplatny = pobierz(nieobecnosci,"002");
+        KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek);
+        //KalendarzmiesiacBean.nalicznadgodziny50DB(kalendarz, pasek);
+        //KalendarzmiesiacBean.nalicznadgodziny100(kalendarz, pasek);
+        //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje
+        //KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, choroba, pasek);
+//        KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlop, pasek);
+//        KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlopbezplatny, pasek);
+//        KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
+//        KalendarzmiesiacBean.naliczskladnikipotracenia(kalendarz, pasek);
+        PasekwynagrodzenBean.obliczbruttozus(pasek);
+        PasekwynagrodzenBean.obliczbruttobezzus(pasek);
+        PasekwynagrodzenBean.pracownikemerytalna(pasek);
+        PasekwynagrodzenBean.pracownikrentowa(pasek);
+        PasekwynagrodzenBean.pracownikchorobowa(pasek);
+        PasekwynagrodzenBean.razemspolecznepracownik(pasek);
+        PasekwynagrodzenBean.obliczpodstaweopodatkowania(pasek);
+        PasekwynagrodzenBean.obliczpodatekwstepny(pasek);
+        PasekwynagrodzenBean.ulgapodatkowa(pasek);
+        PasekwynagrodzenBean.naliczzdrowota(pasek);
+        PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
+        PasekwynagrodzenBean.potracenia(pasek);
+        PasekwynagrodzenBean.dowyplaty(pasek);
+        System.out.println("****************");
+        for (Naliczenieskladnikawynagrodzenia r : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
+            if (r.getSkladnikwynagrodzenia().getRedukowanyzaczasnieobecnosci()) {
+                System.out.println(r.getSkladnikwynagrodzenia().getNazwa()+" "+Z.z(r.getKwotazredukowana()));
+            } else {
+                System.out.println(r.getSkladnikwynagrodzenia().getNazwa()+" "+Z.z(r.getKwota()));
+            }
+        }
+        for (Naliczenienieobecnosc r : pasek.getNaliczenienieobecnoscList()) {
+            System.out.println(r.getNieobecnosc().getNazwa()+" od "+r.getSkladnikwynagrodzenia().getNazwa()+" "+Z.z(r.getKwota()));
+            if (r.getKwotaredukcji()!=0.0 && r.getSkladnikwynagrodzenia().getRedukowanyzaczasnieobecnosci()) {
+                System.out.println(r.getSkladnikwynagrodzenia().getNazwa()+" redukcja za "+r.getNieobecnosc().getNazwa()+" kwota redukcji "+Z.z(r.getKwotaredukcji()));
+            }
+        }
+        System.out.println("****************");
+        System.out.println(pasek.getBruttozus());
+        System.out.println(pasek.getBruttobezzus());
+        double suma = pasek.getBruttozus()+pasek.getBruttobezzus();
+        System.out.println("Razem: "+Z.z(suma));
+        System.out.println(pasek.getNetto());
+        System.out.println("");
+        return pasek;
+    }
+    
     
      public static void main (String[] args) {
         Kalendarzwzor kalendarzwzor = KalendarzWzorBean.create();
@@ -38,17 +98,20 @@ public class PasekwynagrodzenBean {
         Nieobecnosc choroba = NieobecnosciBean.createChoroba();
         Nieobecnosc urlop = NieobecnosciBean.createUrlop();
         Nieobecnosc urlopbezplatny = NieobecnosciBean.createUrlopBezplatny();
-        KalendarzmiesiacBean.naliczskladnikiwynagrodzenia(kalendarz);
-        KalendarzmiesiacBean.nalicznadgodziny50(kalendarz);
+        Pasekwynagrodzen pasek = create();
+        pasek.setKalendarzmiesiac(kalendarz);
+        kalendarz.setPasekwynagrodzen(pasek);
+        KalendarzmiesiacBean.naliczskladnikiwynagrodzenia(kalendarz, pasek);
+        KalendarzmiesiacBean.nalicznadgodziny50(kalendarz, pasek);
         //KalendarzmiesiacBean.nalicznadgodziny100(kalendarz);
         //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje
-        KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, choroba);
-        KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlop);
-        KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlopbezplatny);
-        KalendarzmiesiacBean.redukujskladnikistale(kalendarz);
-        KalendarzmiesiacBean.naliczskladnikipotracenia(kalendarz);
+        KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, choroba, pasek);
+        KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlop, pasek);
+        KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlopbezplatny, pasek);
+        KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
+        KalendarzmiesiacBean.naliczskladnikipotracenia(kalendarz, pasek);
         Definicjalistaplac definicjalistaplac = DefinicjalistaplacBean.create();
-        Pasekwynagrodzen pasek = create();
+        
         pasek.setDefinicjalistaplac(definicjalistaplac);
         pasek.setKalendarzmiesiac(kalendarz);
         PasekwynagrodzenBean.obliczbruttozus(pasek);
@@ -65,14 +128,14 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.potracenia(pasek);
         PasekwynagrodzenBean.dowyplaty(pasek);
         System.out.println("****************");
-        for (Naliczenieskladnikawynagrodzenia r : pasek.getKalendarzmiesiac().getNaliczenieskladnikawynagrodzeniaList()) {
+        for (Naliczenieskladnikawynagrodzenia r : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
             if (r.getSkladnikwynagrodzenia().getRedukowanyzaczasnieobecnosci()) {
                 System.out.println(r.getSkladnikwynagrodzenia().getNazwa()+" "+Z.z(r.getKwotazredukowana()));
             } else {
                 System.out.println(r.getSkladnikwynagrodzenia().getNazwa()+" "+Z.z(r.getKwota()));
             }
         }
-        for (Naliczenienieobecnosc r : pasek.getKalendarzmiesiac().getNaliczenienieobecnoscList()) {
+        for (Naliczenienieobecnosc r : pasek.getNaliczenienieobecnoscList()) {
             System.out.println(r.getNieobecnosc().getNazwa()+" od "+r.getSkladnikwynagrodzenia().getNazwa()+" "+Z.z(r.getKwota()));
             if (r.getKwotaredukcji()!=0.0 && r.getSkladnikwynagrodzenia().getRedukowanyzaczasnieobecnosci()) {
                 System.out.println(r.getSkladnikwynagrodzenia().getNazwa()+" redukcja za "+r.getNieobecnosc().getNazwa()+" kwota redukcji "+Z.z(r.getKwotaredukcji()));
@@ -89,14 +152,14 @@ public class PasekwynagrodzenBean {
 
     private static void obliczbruttozus(Pasekwynagrodzen pasek) {
         double bruttozus = 0.0;
-        for (Naliczenieskladnikawynagrodzenia p : pasek.getKalendarzmiesiac().getNaliczenieskladnikawynagrodzeniaList()) {
+        for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
             if (p.getSkladnikwynagrodzenia().getRedukowanyzaczasnieobecnosci()) {
                 bruttozus = Z.z(bruttozus+p.getKwotazredukowana());
             } else {
                 bruttozus = Z.z(bruttozus+p.getKwota());
             }
         }
-        for (Naliczenienieobecnosc p : pasek.getKalendarzmiesiac().getNaliczenienieobecnoscList()) {
+        for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
             bruttozus = Z.z(bruttozus+p.getKwotazus());
         }
         pasek.setBruttozus(bruttozus);
@@ -104,10 +167,10 @@ public class PasekwynagrodzenBean {
 
     private static void obliczbruttobezzus(Pasekwynagrodzen pasek) {
         double bruttobezzus = 0.0;
-        for (Naliczenieskladnikawynagrodzenia p : pasek.getKalendarzmiesiac().getNaliczenieskladnikawynagrodzeniaList()) {
+        for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
             bruttobezzus = Z.z(bruttobezzus+p.getKwotabezzus());
         }
-        for (Naliczenienieobecnosc p : pasek.getKalendarzmiesiac().getNaliczenienieobecnoscList()) {
+        for (Naliczenienieobecnosc p : pasek.getNaliczenienieobecnoscList()) {
             bruttobezzus = Z.z(bruttobezzus+p.getKwotabezzus());
         }
         pasek.setBruttobezzus(bruttobezzus);
@@ -175,7 +238,7 @@ public class PasekwynagrodzenBean {
 
     private static void potracenia(Pasekwynagrodzen pasek) {
         double potracenia = 0.0;
-        for (Naliczeniepotracenie p : pasek.getKalendarzmiesiac().getNaliczeniepotracenieList()) {
+        for (Naliczeniepotracenie p : pasek.getNaliczeniepotracenieList()) {
             potracenia = Z.z(potracenia+p.getKwota());
         }
         pasek.setPotracenia(potracenia);
@@ -183,5 +246,28 @@ public class PasekwynagrodzenBean {
 
     private static void dowyplaty(Pasekwynagrodzen pasek) {
         pasek.setNetto(Z.z(pasek.getPodstawaubezpzdrowotne()-pasek.getPraczdrowotne()-pasek.getPodatekdochodowy()));
+    }
+
+    private static Nieobecnosc pobierz(List<Nieobecnosc> nieobecnosci, String string) {
+        Nieobecnosc zwrot = null;
+        for (Nieobecnosc p : nieobecnosci) {
+            if (p.getKod().equals(string)) {
+                zwrot = p;
+                break;
+            }
+        }
+        return zwrot;
+    }
+
+    public static void usunpasekjeslijest(Pasekwynagrodzen selected, PasekwynagrodzenFacade pasekwynagrodzenFacade) {
+        Pasekwynagrodzen jesttaki = null;
+        try {
+            jesttaki = pasekwynagrodzenFacade.findByDefKal(selected.getDefinicjalistaplac(), selected.getKalendarzmiesiac());
+            if (jesttaki!=null) {
+                pasekwynagrodzenFacade.remove(jesttaki);
+            }
+        } catch (Exception e) {
+            System.out.println(E.e(e));
+        }
     }
 }

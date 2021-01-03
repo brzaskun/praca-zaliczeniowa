@@ -119,6 +119,12 @@ public class Nieobecnosc implements Serializable {
     public String toString() {
         return "entity.Nieobecnosc[ id=" + id + " ]";
     }
+    public Umowa getUmowa() {
+        return umowa;
+    }
+    public void setUmowa(Umowa umowa) {
+        this.umowa = umowa;
+    }
 
     public String getKod() {
         return kod;
@@ -150,14 +156,6 @@ public class Nieobecnosc implements Serializable {
 
     public void setDatado(String datado) {
         this.datado = datado;
-    }
-
-    public Umowa getUmowa() {
-        return umowa;
-    }
-
-    public void setUmowa(Umowa umowa) {
-        this.umowa = umowa;
     }
     
 }

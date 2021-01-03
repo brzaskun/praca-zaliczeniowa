@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -40,6 +41,20 @@ import javax.xml.bind.annotation.XmlTransient;
    })
 public class Kalendarzmiesiac implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 4)
+    @Column(name = "rok")
+    private String rok;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2)
+    @Column(name = "mc")
+    private String mc;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pasekwynagrodzen", referencedColumnName = "id")
+    private Pasekwynagrodzen pasekwynagrodzen;
+   
     
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,26 +62,10 @@ public class Kalendarzmiesiac implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @OneToMany(mappedBy = "kalendarzmiesiac")
-    private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
     @NotNull
     @JoinColumn(name = "umowa", referencedColumnName = "id")
     @ManyToOne
     private Umowa umowa;
-    @OneToMany(mappedBy = "kalendarzmiesiac")
-    private List<Naliczeniepotracenie> naliczeniepotracenieList;
-    @OneToMany(mappedBy = "kalendarzmiesiac")
-    private List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList;
-    @OneToMany(mappedBy = "kalendarzmiesiac")
-    private List<Pasekwynagrodzen> pasekwynagrodzenList;
-    @Size(max = 4)
-    @NotNull
-    @Column(name = "rok")
-    private String rok;
-    @Size(max = 2)
-    @NotNull
-    @Column(name = "mc")
-    private String mc;
     @OneToMany(mappedBy = "kalendarzmiesiac", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dzien> dzienList;
     
@@ -91,28 +90,8 @@ public class Kalendarzmiesiac implements Serializable {
     public void setUmowa(Umowa umowa) {
         this.umowa = umowa;
     }
-    @XmlTransient
-    public List<Naliczeniepotracenie> getNaliczeniepotracenieList() {
-        return naliczeniepotracenieList;
-    }
-    public void setNaliczeniepotracenieList(List<Naliczeniepotracenie> naliczeniepotracenieList) {
-        this.naliczeniepotracenieList = naliczeniepotracenieList;
-    }
-    @XmlTransient
-    public List<Naliczenieskladnikawynagrodzenia> getNaliczenieskladnikawynagrodzeniaList() {
-        return naliczenieskladnikawynagrodzeniaList;
-    }
-    public void setNaliczenieskladnikawynagrodzeniaList(List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList) {
-        this.naliczenieskladnikawynagrodzeniaList = naliczenieskladnikawynagrodzeniaList;
-    }
-    @XmlTransient
-    public List<Pasekwynagrodzen> getPasekwynagrodzenList() {
-        return pasekwynagrodzenList;
-    }
-    public void setPasekwynagrodzenList(List<Pasekwynagrodzen> pasekwynagrodzenList) {
-        this.pasekwynagrodzenList = pasekwynagrodzenList;
-    }
    
+      
     @Override
     public int hashCode() {
         int hash = 0;
@@ -135,14 +114,75 @@ public class Kalendarzmiesiac implements Serializable {
     public String toString() {
         return "entity.Kalendarzmiesiac[ id=" + id + " ]";
     }
+   
     @XmlTransient
-    public List<Naliczenienieobecnosc> getNaliczenienieobecnoscList() {
-        return naliczenienieobecnoscList;
-    }
-    public void setNaliczenienieobecnoscList(List<Naliczenienieobecnosc> naliczenienieobecnoscList) {
-        this.naliczenienieobecnoscList = naliczenienieobecnoscList;
+    public List<Dzien> getDzienList() {
+        return dzienList;
     }
 
+    public void setDzienList(List<Dzien> dzienList) {
+        this.dzienList = dzienList;
+    }
+
+    public int[] robocze() {
+        int[] zwrot = new int[2];
+        int roboczenalicz = 0;
+        int roboczenawyk = 0;
+        if (this.dzienList!=null) {
+            for (Dzien d : dzienList) {
+                if (d.getTypdnia()==0) {
+                    roboczenalicz++;
+                    if (d.getPrzepracowano()>0) {
+                        roboczenawyk++;
+                    }
+                }
+            }
+        }
+        zwrot[0] = roboczenalicz;
+        zwrot[1] = roboczenawyk;
+        return zwrot;
+    }
+    
+    public double[] roboczegodz() {
+        double[] zwrot = new double[2];
+        double roboczenalicz = 0;
+        double roboczenawyk = 0;
+        if (this.dzienList!=null) {
+            for (Dzien d : dzienList) {
+                if (d.getTypdnia()==0) {
+                    roboczenalicz = roboczenalicz+d.getNormagodzin();
+                    if (d.getPrzepracowano()>0) {
+                        roboczenawyk = roboczenawyk+d.getPrzepracowano();
+                    }
+                }
+            }
+        }
+        zwrot[0] = roboczenalicz;
+        zwrot[1] = roboczenawyk;
+        return zwrot;
+    }
+    
+    public double[] roboczenieob(String kod) {
+        double[] zwrot = new double[2];
+        double roboczenalicz = 0;
+        double roboczenawyk = 0;
+        if (this.dzienList!=null) {
+            for (Dzien d : dzienList) {
+                if (d.getKod().equals(kod)) {
+                    roboczenalicz = roboczenalicz+d.getNormagodzin();
+                    if (d.getPrzepracowano()>0) {
+                        roboczenawyk = roboczenawyk+d.getPrzepracowano();
+                    }
+                }
+            }
+        }
+        zwrot[0] = roboczenalicz;
+        zwrot[1] = roboczenawyk;
+        return zwrot;
+    }
+
+
+   
     public String getRok() {
         return rok;
     }
@@ -159,14 +199,14 @@ public class Kalendarzmiesiac implements Serializable {
         this.mc = mc;
     }
 
-    @XmlTransient
-    public List<Dzien> getDzienList() {
-        return dzienList;
+    public Pasekwynagrodzen getPasekwynagrodzen() {
+        return pasekwynagrodzen;
     }
 
-    public void setDzienList(List<Dzien> dzienList) {
-        this.dzienList = dzienList;
+    public void setPasekwynagrodzen(Pasekwynagrodzen pasekwynagrodzen) {
+        this.pasekwynagrodzen = pasekwynagrodzen;
     }
 
+   
         
 }

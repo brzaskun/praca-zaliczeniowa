@@ -107,7 +107,7 @@ public class Umowa implements Serializable {
     @Column(name = "zdrowotne")
     private Boolean zdrowotne;
     @Column(name = "kosztyuzyskania")
-    private Double kosztyuzyskania;
+    private double kosztyuzyskania;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -216,11 +216,11 @@ public class Umowa implements Serializable {
 
    
 
-    public Double getKosztyuzyskania() {
+    public double getKosztyuzyskania() {
         return kosztyuzyskania;
     }
 
-    public void setKosztyuzyskania(Double kosztyuzyskania) {
+    public void setKosztyuzyskania(double kosztyuzyskania) {
         this.kosztyuzyskania = kosztyuzyskania;
     }
 

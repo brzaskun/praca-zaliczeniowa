@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -37,24 +38,25 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Skladnikwynagrodzenia.findByGodzinowe0miesieczne1", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.godzinowe0miesieczne1 = :godzinowe0miesieczne1"),
     @NamedQuery(name = "Skladnikwynagrodzenia.findByNazwa", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.nazwa = :nazwa")})
 public class Skladnikwynagrodzenia implements Serializable {
+
+    @Column(name = "godzinowe0miesieczne1")
+    private Boolean godzinowe0miesieczne1;
+    @Size(max = 255)
+    @Column(name = "nazwa")
+    private String nazwa;
+    @Column(name = "redukowanyzaczasnieobecnosci")
+    private Boolean redukowanyzaczasnieobecnosci;
+    @Column(name = "stala0zmienna1")
+    private Boolean stala0zmienna1;
+    @Size(max = 4)
+    @Column(name = "kod")
+    private String kod;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "godzinowe0miesieczne1")
-    private boolean godzinowe0miesieczne1;
-    @Size(max = 255)
-    @Column(name = "nazwa")
-    private String nazwa;
-    @Column(name = "redukowanyzaczasnieobecnosci")
-    private boolean redukowanyzaczasnieobecnosci;
-    @Column(name = "stala0zmienna1")
-    private boolean stala0zmienna1;
-    @Size(max = 4)
-    @Column(name = "kod")
-    private String kod;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikwynagrodzenia")
     private List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList;
     @OneToMany(mappedBy = "skladnikwynagrodzenia")
@@ -66,10 +68,12 @@ public class Skladnikwynagrodzenia implements Serializable {
     private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
 
     public Skladnikwynagrodzenia() {
+        this.zmiennawynagrodzeniaList = new ArrayList<>();
     }
 
     public Skladnikwynagrodzenia(int id) {
         this.id = id;
+        this.zmiennawynagrodzeniaList = new ArrayList<>();
     }
 
     public Integer getId() {
@@ -132,12 +136,19 @@ public class Skladnikwynagrodzenia implements Serializable {
     public String toString() {
         return "entity.Skladnikwynagrodzenia[ id=" + id + " ]";
     }
+    @XmlTransient
+    public List<Zmiennawynagrodzenia> getZmiennawynagrodzeniaList() {
+        return zmiennawynagrodzeniaList;
+    }
+    public void setZmiennawynagrodzeniaList(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList) {
+        this.zmiennawynagrodzeniaList = zmiennawynagrodzeniaList;
+    }
 
-    public boolean getGodzinowe0miesieczne1() {
+    public Boolean getGodzinowe0miesieczne1() {
         return godzinowe0miesieczne1;
     }
 
-    public void setGodzinowe0miesieczne1(boolean godzinowe0miesieczne1) {
+    public void setGodzinowe0miesieczne1(Boolean godzinowe0miesieczne1) {
         this.godzinowe0miesieczne1 = godzinowe0miesieczne1;
     }
 
@@ -149,19 +160,19 @@ public class Skladnikwynagrodzenia implements Serializable {
         this.nazwa = nazwa;
     }
 
-    public boolean getRedukowanyzaczasnieobecnosci() {
+    public Boolean getRedukowanyzaczasnieobecnosci() {
         return redukowanyzaczasnieobecnosci;
     }
 
-    public void setRedukowanyzaczasnieobecnosci(boolean redukowanyzaczasnieobecnosci) {
+    public void setRedukowanyzaczasnieobecnosci(Boolean redukowanyzaczasnieobecnosci) {
         this.redukowanyzaczasnieobecnosci = redukowanyzaczasnieobecnosci;
     }
 
-    public boolean getStala0zmienna1() {
+    public Boolean getStala0zmienna1() {
         return stala0zmienna1;
     }
 
-    public void setStala0zmienna1(boolean stala0zmienna1) {
+    public void setStala0zmienna1(Boolean stala0zmienna1) {
         this.stala0zmienna1 = stala0zmienna1;
     }
 
@@ -171,15 +182,6 @@ public class Skladnikwynagrodzenia implements Serializable {
 
     public void setKod(String kod) {
         this.kod = kod;
-    }
-
-    @XmlTransient
-    public List<Zmiennawynagrodzenia> getZmiennawynagrodzeniaList() {
-        return zmiennawynagrodzeniaList;
-    }
-
-    public void setZmiennawynagrodzeniaList(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList) {
-        this.zmiennawynagrodzeniaList = zmiennawynagrodzeniaList;
     }
 
 
