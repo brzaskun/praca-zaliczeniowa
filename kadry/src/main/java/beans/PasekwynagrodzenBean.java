@@ -17,6 +17,7 @@ import entity.Pasekwynagrodzen;
 import error.E;
 import java.util.ArrayList;
 import java.util.List;
+import pdf.PdfListaPlac;
 import z.Z;
 
 /**
@@ -100,7 +101,7 @@ public class PasekwynagrodzenBean {
         Nieobecnosc urlopbezplatny = NieobecnosciBean.createUrlopBezplatny();
         Pasekwynagrodzen pasek = create();
         pasek.setKalendarzmiesiac(kalendarz);
-        kalendarz.setPasekwynagrodzen(pasek);
+        kalendarz.getPasekwynagrodzenList().add(pasek);
         KalendarzmiesiacBean.naliczskladnikiwynagrodzenia(kalendarz, pasek);
         KalendarzmiesiacBean.nalicznadgodziny50(kalendarz, pasek);
         //KalendarzmiesiacBean.nalicznadgodziny100(kalendarz);
@@ -113,7 +114,6 @@ public class PasekwynagrodzenBean {
         Definicjalistaplac definicjalistaplac = DefinicjalistaplacBean.create();
         
         pasek.setDefinicjalistaplac(definicjalistaplac);
-        pasek.setKalendarzmiesiac(kalendarz);
         PasekwynagrodzenBean.obliczbruttozus(pasek);
         PasekwynagrodzenBean.obliczbruttobezzus(pasek);
         PasekwynagrodzenBean.pracownikemerytalna(pasek);
@@ -148,6 +148,7 @@ public class PasekwynagrodzenBean {
         System.out.println("Razem: "+Z.z(suma));
         System.out.println(pasek.getNetto());
         System.out.println("");
+        PdfListaPlac.drukuj(pasek);
     }
 
     private static void obliczbruttozus(Pasekwynagrodzen pasek) {

@@ -5,8 +5,8 @@
  */
 package beans;
 
-import entity.Kalendarzmiesiac;
 import entity.Naliczenieskladnikawynagrodzenia;
+import entity.Pasekwynagrodzen;
 import entity.Skladnikwynagrodzenia;
 import entity.Zmiennawynagrodzenia;
 
@@ -24,7 +24,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
     public static Naliczenieskladnikawynagrodzenia createWynagrodzenie() {
         if (naliczenieskladnikawynagrodzenia == null) {
             naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
-            naliczenieskladnikawynagrodzenia.setKalendarzmiesiac(KalendarzmiesiacBean.create());
+            naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(PasekwynagrodzenBean.create());
             naliczenieskladnikawynagrodzenia.setKwota(3500.0);
             naliczenieskladnikawynagrodzenia.setKwotabezzus(0.0);
             naliczenieskladnikawynagrodzenia.setKwotazus(3500.0);
@@ -34,10 +34,10 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         return naliczenieskladnikawynagrodzenia;
     }
     
-    public static Naliczenieskladnikawynagrodzenia createWynagrodzenie(Kalendarzmiesiac kalendarzmiesiac, Skladnikwynagrodzenia skladnikwynagrodzenia) {
+    public static Naliczenieskladnikawynagrodzenia createWynagrodzenie(Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia) {
         Naliczenieskladnikawynagrodzenia zwrot = new Naliczenieskladnikawynagrodzenia();
-        zwrot.setKalendarzmiesiac(kalendarzmiesiac);
         Zmiennawynagrodzenia zmiennawynagrodzenia = skladnikwynagrodzenia.getZmiennawynagrodzeniaList().get(0);
+        zwrot.setPasekwynagrodzen(pasekwynagrodzen);
         zwrot.setKwota(zmiennawynagrodzenia.getKwota());
         zwrot.setKwotabezzus(0.0);
         zwrot.setKwotazus(zmiennawynagrodzenia.getKwota());
@@ -49,7 +49,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
     public static Naliczenieskladnikawynagrodzenia createPremia() {
         if (naliczenieskladnikapremia == null) {
             naliczenieskladnikapremia = new Naliczenieskladnikawynagrodzenia();
-            naliczenieskladnikapremia.setKalendarzmiesiac(KalendarzmiesiacBean.create());
+            naliczenieskladnikapremia.setPasekwynagrodzen(PasekwynagrodzenBean.create());
             naliczenieskladnikapremia.setKwota(100.0);
             naliczenieskladnikapremia.setKwotabezzus(0.0);
             naliczenieskladnikapremia.setKwotazus(100.0);
@@ -62,7 +62,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
     public static Naliczenieskladnikawynagrodzenia createNadgodziny50() {
         if (naliczenieskladnikanadgodziny50 == null) {
             naliczenieskladnikanadgodziny50 = new Naliczenieskladnikawynagrodzenia();
-            naliczenieskladnikanadgodziny50.setKalendarzmiesiac(KalendarzmiesiacBean.create());
+            naliczenieskladnikanadgodziny50.setPasekwynagrodzen(PasekwynagrodzenBean.create());
             naliczenieskladnikanadgodziny50.setKwota(100.0);
             naliczenieskladnikanadgodziny50.setKwotabezzus(0.0);
             naliczenieskladnikanadgodziny50.setKwotazus(100.0);
@@ -75,7 +75,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
     public static Naliczenieskladnikawynagrodzenia createNadgodziny100() {
         if (naliczenieskladnikanadgodziny100 == null) {
             naliczenieskladnikanadgodziny100 = new Naliczenieskladnikawynagrodzenia();
-            naliczenieskladnikanadgodziny100.setKalendarzmiesiac(KalendarzmiesiacBean.create());
+            naliczenieskladnikanadgodziny100.setPasekwynagrodzen(PasekwynagrodzenBean.create());
             naliczenieskladnikanadgodziny100.setKwota(100.0);
             naliczenieskladnikanadgodziny100.setKwotabezzus(0.0);
             naliczenieskladnikanadgodziny100.setKwotazus(100.0);

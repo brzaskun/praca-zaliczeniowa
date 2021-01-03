@@ -80,9 +80,6 @@ private double kwota;
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @JoinColumn(name = "kalendarzmiesiac", referencedColumnName = "id")
-    @ManyToOne
-    private Kalendarzmiesiac kalendarzmiesiac;
     @JoinColumn(name = "nieobecnosc", referencedColumnName = "id")
     @ManyToOne
     private Nieobecnosc nieobecnosc;
@@ -103,15 +100,6 @@ private double kwota;
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-
-    public Kalendarzmiesiac getKalendarzmiesiac() {
-        return kalendarzmiesiac;
-    }
-
-    public void setKalendarzmiesiac(Kalendarzmiesiac kalendarzmiesiac) {
-        this.kalendarzmiesiac = kalendarzmiesiac;
     }
 
     public Nieobecnosc getNieobecnosc() {

@@ -24,8 +24,7 @@ public class Plik {
     public static String zapiszplik(String nazwa, String rozszerzenie, String tresc) {
         String name = nazwa;
         try {
-            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-            String realPath = ctx.getRealPath("/")+"resources\\wydruki\\";
+             String realPath = getKatalog();
             String roz = "."+rozszerzenie;
             final File file = File.createTempFile(nazwa, roz, new File(realPath));
             file.deleteOnExit();
@@ -40,8 +39,7 @@ public class Plik {
    }
     
     public static File plik(String nazwa, boolean temp) {
-        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        String realPath = ctx.getRealPath("/")+"resources\\wydruki\\";
+         String realPath = getKatalog();
         File file = null;
         String pelnanazwa = realPath+nazwa;
         
@@ -55,8 +53,7 @@ public class Plik {
     }
     
     public static BufferedOutputStream plikR(String nazwa) {
-        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        String realPath = ctx.getRealPath("/")+"resources\\wydruki\\";
+        String realPath = getKatalog();
         BufferedOutputStream fileOutputStream = null;
         String pelnanazwa = realPath+nazwa;
         try {

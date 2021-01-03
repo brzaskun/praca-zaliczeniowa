@@ -137,7 +137,7 @@ public class KalendarzmiesiacBean {
     static void naliczskladnikiwynagrodzeniaDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen) {
         for (Skladnikwynagrodzenia p : kalendarz.getUmowa().getSkladnikwynagrodzeniaList()) {
             if (p.getKod().equals("10")) {
-                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenie(kalendarzmiesiac, p);
+                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenie(pasekwynagrodzen, p);
                 pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
             } else if (p.getKod().equals("20")) {
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createPremia();
@@ -314,8 +314,9 @@ public class KalendarzmiesiacBean {
                 }
             }
         }
-        Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().get(0);
-        Skladnikwynagrodzenia wynagrodzeniezasadnicze = naliczenieskladnikawynagrodzenia.getSkladnikwynagrodzenia();
+        Naliczenieskladnikawynagrodzenia wynagrodzeniedopobrania = pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().get(0);
+        Skladnikwynagrodzenia wynagrodzeniezasadnicze = wynagrodzeniedopobrania.getSkladnikwynagrodzenia();
+        Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
         Skladnikwynagrodzenia skladniknadgodziny50 = SkladnikwynagrodzeniaBean.createNadgodziny50DB(kalendarz,dataod, datado);
         naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(skladniknadgodziny50);
         double skladnik = wynagrodzeniezasadnicze.getZmiennawynagrodzeniaList().get(0).getKwota();

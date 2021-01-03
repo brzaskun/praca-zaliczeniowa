@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -19,7 +20,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -51,9 +51,8 @@ public class Kalendarzmiesiac implements Serializable {
     @Size(min = 1, max = 2)
     @Column(name = "mc")
     private String mc;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pasekwynagrodzen", referencedColumnName = "id")
-    private Pasekwynagrodzen pasekwynagrodzen;
+    @OneToMany(mappedBy = "kalendarzmiesiac", cascade = CascadeType.ALL)
+    private List<Pasekwynagrodzen> pasekwynagrodzenList;
    
     
     private static final long serialVersionUID = 1L;
@@ -71,10 +70,14 @@ public class Kalendarzmiesiac implements Serializable {
     
 
     public Kalendarzmiesiac() {
+        this.dzienList = new ArrayList<>();
+        this.pasekwynagrodzenList = new ArrayList<>();
     }
 
     public Kalendarzmiesiac(int id) {
         this.id = id;
+        this.dzienList = new ArrayList<>();
+        this.pasekwynagrodzenList = new ArrayList<>();
     }
 
     public Integer getId() {
@@ -183,6 +186,15 @@ public class Kalendarzmiesiac implements Serializable {
 
 
    
+
+    public List<Pasekwynagrodzen> getPasekwynagrodzenList() {
+        return pasekwynagrodzenList;
+    }
+
+    public void setPasekwynagrodzenList(List<Pasekwynagrodzen> pasekwynagrodzenList) {
+        this.pasekwynagrodzenList = pasekwynagrodzenList;
+    }
+
     public String getRok() {
         return rok;
     }
@@ -199,14 +211,6 @@ public class Kalendarzmiesiac implements Serializable {
         this.mc = mc;
     }
 
-    public Pasekwynagrodzen getPasekwynagrodzen() {
-        return pasekwynagrodzen;
-    }
-
-    public void setPasekwynagrodzen(Pasekwynagrodzen pasekwynagrodzen) {
-        this.pasekwynagrodzen = pasekwynagrodzen;
-    }
-
-   
+ 
         
 }

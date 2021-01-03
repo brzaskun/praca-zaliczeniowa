@@ -21,7 +21,7 @@
                             <p:ajax event="change" partialSubmit="true" global="false"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="wybrany pracownik" for="wybranypracownik" />
-                        <p:selectOneMenu id="wybranypracownik" value="#{pasekwynagrodzenView.wybranypracownik}" required="true" requiredMessage="Wybierz pracownika" converter="#{kalendarzmiesiacConverter}">
+                        <p:selectOneMenu id="wybranypracownik" value="#{pasekwynagrodzenView.wybranykalendarz}" required="true" requiredMessage="Wybierz pracownika" converter="#{kalendarzmiesiacConverter}">
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{pasekwynagrodzenView.listakalendarzmiesiac}"
                                            var="kalendarzItem"

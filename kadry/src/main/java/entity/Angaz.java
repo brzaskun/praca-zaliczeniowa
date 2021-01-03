@@ -8,6 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,7 +43,7 @@ public class Angaz implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @OneToMany(mappedBy = "angaz")
+    @OneToMany(mappedBy = "angaz", cascade = CascadeType.ALL)
     private List<Umowa> umowaList;
     @JoinColumn(name = "firma", referencedColumnName = "id")
     @ManyToOne

@@ -122,11 +122,11 @@ public class Umowa implements Serializable {
     @JoinColumn(name = "rodzajumowy", referencedColumnName = "id")
     @ManyToOne
     private Rodzajumowy rodzajumowy;
-    @OneToMany(mappedBy = "umowa")
+    @OneToMany(mappedBy = "umowa", cascade = CascadeType.ALL)
     private List<Kalendarzmiesiac> kalendarzmiesiacList;
-    @OneToMany(mappedBy = "umowa")
+    @OneToMany(mappedBy = "umowa", cascade = CascadeType.ALL)
     private List<Skladnikpotracenia> skladnikpotraceniaList;
-    @OneToMany(mappedBy = "umowa")
+    @OneToMany(mappedBy = "umowa", cascade = CascadeType.ALL)
     private List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList;
 
     public Umowa() {

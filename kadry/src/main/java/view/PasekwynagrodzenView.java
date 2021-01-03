@@ -35,7 +35,7 @@ public class PasekwynagrodzenView  implements Serializable {
     @Inject
     private Pasekwynagrodzen selectedlista;
     private Definicjalistaplac wybranalistaplac;
-    private Kalendarzmiesiac wybranypracownik;
+    private Kalendarzmiesiac wybranykalendarz;
     private List<Pasekwynagrodzen> lista;
     private List<Definicjalistaplac> listadefinicjalistaplac;
     private List<Kalendarzmiesiac> listakalendarzmiesiac;
@@ -59,7 +59,6 @@ public class PasekwynagrodzenView  implements Serializable {
       if (selected!=null) {
           try {
             PasekwynagrodzenBean.usunpasekjeslijest(selected, pasekwynagrodzenFacade);
-            kalendarzmiesiacFacade.edit(selected.getKalendarzmiesiac());
             pasekwynagrodzenFacade.create(selected);
             lista.add(selected);
             selected = new Pasekwynagrodzen();
@@ -72,10 +71,10 @@ public class PasekwynagrodzenView  implements Serializable {
     }
     
     public void przelicz() {
-        if (wybranypracownik!=null && wybranalistaplac!=null) {
+        if (wybranykalendarz!=null && wybranalistaplac!=null) {
             selected.setDefinicjalistaplac(wybranalistaplac);
-            selected.setKalendarzmiesiac(wybranypracownik);
-            Pasekwynagrodzen pasek = PasekwynagrodzenBean.oblicz(selected, wybranypracownik, wybranalistaplac);
+            selected.setKalendarzmiesiac(wybranykalendarz);
+            Pasekwynagrodzen pasek = PasekwynagrodzenBean.oblicz(selected, wybranykalendarz, wybranalistaplac);
             pasek.setId(1);
             lista.add(pasek);
             Msg.msg("Sporządzono listę dla pracownika");
@@ -148,12 +147,12 @@ public class PasekwynagrodzenView  implements Serializable {
         this.wybranalistaplac = wybranalistaplac;
     }
 
-    public Kalendarzmiesiac getWybranypracownik() {
-        return wybranypracownik;
+    public Kalendarzmiesiac getWybranykalendarz() {
+        return wybranykalendarz;
     }
 
-    public void setWybranypracownik(Kalendarzmiesiac wybranypracownik) {
-        this.wybranypracownik = wybranypracownik;
+    public void setWybranykalendarz(Kalendarzmiesiac wybranykalendarz) {
+        this.wybranykalendarz = wybranykalendarz;
     }
 
  

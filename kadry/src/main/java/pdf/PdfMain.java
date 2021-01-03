@@ -302,11 +302,11 @@ public class PdfMain {
     
     public static void dodajOpisWstepny(Document document, Pasekwynagrodzen p) {
         try {
-            String mc = p.getKalendarzmiesiac().getMc();
-            String rok = p.getKalendarzmiesiac().getRok();
+            String mc = p.getDefinicjalistaplac().getMc();
+            String rok = p.getDefinicjalistaplac().getRok();
             StringBuilder s = new StringBuilder();
             s.append("Lista płac ");
-            s.append(p.getKalendarzmiesiac().getUmowa().getAngaz().getFirma().getNazwa());
+            s.append(p.getDefinicjalistaplac().getFirma().getNazwa());
             s.append(" nr ");
             s.append(p.getDefinicjalistaplac().getNrkolejny());
             Paragraph opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
@@ -320,6 +320,7 @@ public class PdfMain {
                 opiswstepny = new Paragraph(new Phrase("okres rozliczeniony" + " rok "+ rok, ft[1]));
             }
             document.add(opiswstepny);
+            document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
             E.e(ex);
         }

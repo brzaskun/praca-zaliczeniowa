@@ -46,9 +46,6 @@ public class Naliczeniepotracenie implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @JoinColumn(name = "kalendarzmiesiac", referencedColumnName = "id")
-    @ManyToOne
-    private Kalendarzmiesiac kalendarzmiesiac;
     @JoinColumn(name = "skladnikpotracenia", referencedColumnName = "id")
     @ManyToOne
     private Skladnikpotracenia skladnikpotracenia;
@@ -66,15 +63,6 @@ public class Naliczeniepotracenie implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-
-    public Kalendarzmiesiac getKalendarzmiesiac() {
-        return kalendarzmiesiac;
-    }
-
-    public void setKalendarzmiesiac(Kalendarzmiesiac kalendarzmiesiac) {
-        this.kalendarzmiesiac = kalendarzmiesiac;
     }
 
     public Skladnikpotracenia getSkladnikpotracenia() {

@@ -18,7 +18,7 @@ public class NaliczeniepotracenieBean {
     public static Naliczeniepotracenie create() {
         if (naliczeniepotracenie == null) {
             naliczeniepotracenie = new Naliczeniepotracenie();
-            naliczeniepotracenie.setKalendarzmiesiac(KalendarzmiesiacBean.create());
+            naliczeniepotracenie.setPasekwynagrodzen(PasekwynagrodzenBean.create());
             naliczeniepotracenie.setKwota(2000.0);
             naliczeniepotracenie.setSkladnikpotracenia(SkladnikpotraceniaBean.create());
         }

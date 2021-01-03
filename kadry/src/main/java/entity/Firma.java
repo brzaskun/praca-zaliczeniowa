@@ -8,6 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,7 +42,7 @@ public class Firma implements Serializable {
     @Size(max = 255)
     @Column(name = "nip")
     private String nip;
-    @OneToMany(mappedBy = "firma")
+    @OneToMany(mappedBy = "firma", cascade = CascadeType.ALL)
     private List<Definicjalistaplac> definicjalistaplacList;
 
     private static final long serialVersionUID = 1L;
@@ -50,9 +51,9 @@ public class Firma implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @OneToMany(mappedBy = "firma")
+    @OneToMany(mappedBy = "firma", cascade = CascadeType.ALL)
     private List<Angaz> angazList;
-    @OneToMany(mappedBy = "firma")
+    @OneToMany(mappedBy = "firma", cascade = CascadeType.ALL)
     private List<Kalendarzwzor> kalendarzWzorList;
 
     public Firma() {

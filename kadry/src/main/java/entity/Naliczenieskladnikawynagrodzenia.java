@@ -56,9 +56,6 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @JoinColumn(name = "kalendarzmiesiac", referencedColumnName = "id")
-    @ManyToOne
-    private Kalendarzmiesiac kalendarzmiesiac;
     @JoinColumn(name = "skladnikwynagrodzenia", referencedColumnName = "id")
     @ManyToOne
     private Skladnikwynagrodzenia skladnikwynagrodzenia;
@@ -78,14 +75,6 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
         this.id = id;
     }
 
-
-    public Kalendarzmiesiac getKalendarzmiesiac() {
-        return kalendarzmiesiac;
-    }
-
-    public void setKalendarzmiesiac(Kalendarzmiesiac kalendarzmiesiac) {
-        this.kalendarzmiesiac = kalendarzmiesiac;
-    }
 
     public Skladnikwynagrodzenia getSkladnikwynagrodzenia() {
         return skladnikwynagrodzenia;
