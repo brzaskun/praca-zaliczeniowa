@@ -57,15 +57,21 @@ public class PdfListaPlac {
                     tablazestawienia.addCell(ustawfraze("czas pracy", 0, 0));
                     
                         PdfPTable tabelaskladniki = dodajtabeleskladniki(p, document);
-                        tablazestawienia.addCell(tabelaskladniki);
+                        PdfPCell cell = new PdfPCell();
+                        cell.addElement(tabelaskladniki);
+                        tablazestawienia.addCell(cell);
                         if (p.getKalendarzmiesiac().getUmowa().getNieobecnoscList()!=null&&!p.getKalendarzmiesiac().getUmowa().getNieobecnoscList().isEmpty()) {
                             PdfPTable tabelanieobecnosci = dodajtabelenieobecnosci(p, document);
-                            tablazestawienia.addCell(tabelanieobecnosci);
+                            cell = new PdfPCell();
+                            cell.addElement(tabelanieobecnosci);
+                            tablazestawienia.addCell(cell);
                         } else {
                             tablazestawienia.addCell(new PdfPCell());
                         }
                         PdfPTable tabelcaczas = dodajtabelaczaspracy(p, document);
-                        tablazestawienia.addCell(tabelcaczas);
+                        cell = new PdfPCell();
+                        cell.addElement(tabelcaczas);
+                        tablazestawienia.addCell(cell);
                 } catch (Exception e){}
                 document.add(tablazestawienia);
                 finalizacjaDokumentuQR(document,nazwa);
@@ -185,8 +191,8 @@ public class PdfListaPlac {
      private static PdfPTable generujTabeleSkladniki() {
         PdfPTable table = new PdfPTable(6);
         try {
-            table.setWidthPercentage(33);
-            table.setWidths(new int[]{1, 2, 4, 3, 3, 4});
+            table.setWidthPercentage(100);
+            table.setWidths(new int[]{1, 2, 5, 3, 3, 3});
             table.addCell(ustawfraze("", 0, 0, 10f));
             table.addCell(ustawfraze("kod", 0, 0));
             table.addCell(ustawfraze("nazwa", 0, 0));
@@ -213,10 +219,14 @@ public class PdfListaPlac {
         for (Naliczenienieobecnosc rs : wykaznieob) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "left",6,10f));
             table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getKod(), "left",6));
-            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getNazwa(), "left",6));
+            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getNazwa()+" "+rs.getJakiskladnikredukowalny(), "left",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotazus()), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotabezzus()), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(-rs.getKwotaredukcji()), "left",6));
+            if (rs.getKwotastatystyczna()!=0.0) {
+                table.addCell(ustawfrazeAlign(formatujWaluta(-rs.getKwotastatystyczna()), "left",6));
+            } else {
+                table.addCell(ustawfrazeAlign(formatujWaluta(-rs.getKwotaredukcji()), "left",6));
+            }
         }
     }
      
@@ -235,7 +245,7 @@ public class PdfListaPlac {
      private static PdfPTable generujTabeleNieobecnosci() {
         PdfPTable table = new PdfPTable(6);
         try {
-            table.setWidthPercentage(33);
+            table.setWidthPercentage(100);
             table.setWidths(new int[]{1, 2, 4, 3, 3, 4});
             table.addCell(ustawfraze("", 0, 0, 10f));
             table.addCell(ustawfraze("kod", 0, 0));
@@ -276,7 +286,7 @@ public class PdfListaPlac {
      private static PdfPTable generujTabeleCzasPracy() {
         PdfPTable table = new PdfPTable(4);
         try {
-            table.setWidthPercentage(33);
+            table.setWidthPercentage(100);
             table.setWidths(new int[]{1, 5, 3, 3});
             table.addCell(ustawfraze("", 0, 0, 10f));
             table.addCell(ustawfraze("nazwa", 0, 0));

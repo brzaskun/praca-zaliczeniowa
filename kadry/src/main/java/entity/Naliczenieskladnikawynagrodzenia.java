@@ -59,6 +59,7 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
     @JoinColumn(name = "skladnikwynagrodzenia", referencedColumnName = "id")
     @ManyToOne
     private Skladnikwynagrodzenia skladnikwynagrodzenia;
+   
 
     public Naliczenieskladnikawynagrodzenia() {
     }
@@ -156,5 +157,6 @@ public class Naliczenieskladnikawynagrodzenia implements Serializable {
     public void setPasekwynagrodzen(Pasekwynagrodzen pasekwynagrodzen) {
         this.pasekwynagrodzen = pasekwynagrodzen;
     }
+
     
 }

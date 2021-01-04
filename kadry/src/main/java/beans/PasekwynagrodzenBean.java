@@ -17,7 +17,6 @@ import entity.Pasekwynagrodzen;
 import error.E;
 import java.util.ArrayList;
 import java.util.List;
-import pdf.PdfListaPlac;
 import z.Z;
 
 /**
@@ -47,13 +46,13 @@ public class PasekwynagrodzenBean {
         Nieobecnosc urlop = pobierz(nieobecnosci,"001");
         Nieobecnosc urlopbezplatny = pobierz(nieobecnosci,"002");
         KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek);
-        //KalendarzmiesiacBean.nalicznadgodziny50DB(kalendarz, pasek);
+        KalendarzmiesiacBean.nalicznadgodziny50DB(kalendarz, pasek);
         //KalendarzmiesiacBean.nalicznadgodziny100(kalendarz, pasek);
         //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje
-        //KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, choroba, pasek);
-//        KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlop, pasek);
-//        KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlopbezplatny, pasek);
-//        KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, choroba, pasek);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlop, pasek);
+        KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlopbezplatny, pasek);
+        KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
 //        KalendarzmiesiacBean.naliczskladnikipotracenia(kalendarz, pasek);
         PasekwynagrodzenBean.obliczbruttozus(pasek);
         PasekwynagrodzenBean.obliczbruttobezzus(pasek);
@@ -148,7 +147,7 @@ public class PasekwynagrodzenBean {
         System.out.println("Razem: "+Z.z(suma));
         System.out.println(pasek.getNetto());
         System.out.println("");
-        PdfListaPlac.drukuj(pasek);
+        //PdfListaPlac.drukuj(pasek);
     }
 
     private static void obliczbruttozus(Pasekwynagrodzen pasek) {

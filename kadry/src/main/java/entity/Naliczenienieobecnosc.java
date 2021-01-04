@@ -86,6 +86,8 @@ private double kwota;
     @JoinColumn(name = "skladnikwynagrodzenia", referencedColumnName = "id")
     @ManyToOne
     private Skladnikwynagrodzenia skladnikwynagrodzenia;
+    @Column(name = "jakiskladnikredukowalny")
+    private String jakiskladnikredukowalny;
 
     public Naliczenienieobecnosc() {
     }
@@ -253,6 +255,14 @@ private double kwota;
 
     public void setPasekwynagrodzen(Pasekwynagrodzen pasekwynagrodzen) {
         this.pasekwynagrodzen = pasekwynagrodzen;
+    }
+
+    public String getJakiskladnikredukowalny() {
+        return jakiskladnikredukowalny;
+    }
+
+    public void setJakiskladnikredukowalny(String jakiskladnikredukowalny) {
+        this.jakiskladnikredukowalny = jakiskladnikredukowalny;
     }
     
 }

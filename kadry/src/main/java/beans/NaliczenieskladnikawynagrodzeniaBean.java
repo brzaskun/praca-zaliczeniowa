@@ -34,7 +34,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         return naliczenieskladnikawynagrodzenia;
     }
     
-    public static Naliczenieskladnikawynagrodzenia createWynagrodzenie(Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia) {
+    public static Naliczenieskladnikawynagrodzenia createWynagrodzenieDB(Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia) {
         Naliczenieskladnikawynagrodzenia zwrot = new Naliczenieskladnikawynagrodzenia();
         Zmiennawynagrodzenia zmiennawynagrodzenia = skladnikwynagrodzenia.getZmiennawynagrodzeniaList().get(0);
         zwrot.setPasekwynagrodzen(pasekwynagrodzen);
@@ -57,6 +57,17 @@ public class NaliczenieskladnikawynagrodzeniaBean {
             naliczenieskladnikapremia.setSkladnikwynagrodzenia(SkladnikwynagrodzeniaBean.createPremiaUznaniowa());
         }
         return naliczenieskladnikapremia;
+    }
+    
+    public static Naliczenieskladnikawynagrodzenia createPremiaDB(Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia) {
+            Naliczenieskladnikawynagrodzenia zwrot = new Naliczenieskladnikawynagrodzenia();
+            zwrot.setPasekwynagrodzen(pasekwynagrodzen);
+            zwrot.setKwota(100.0);
+            zwrot.setKwotabezzus(0.0);
+            zwrot.setKwotazus(100.0);
+            zwrot.setKwotazredukowana(100.0);
+            zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+        return zwrot;
     }
     
     public static Naliczenieskladnikawynagrodzenia createNadgodziny50() {
