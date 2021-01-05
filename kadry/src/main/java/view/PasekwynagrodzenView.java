@@ -92,6 +92,16 @@ public class PasekwynagrodzenView  implements Serializable {
         }
     }
     
+    public void usun(Pasekwynagrodzen p ) {
+        if (p!=null) {
+            pasekwynagrodzenFacade.remove(p);
+            lista.remove(p);
+            Msg.msg("Usunięto wiersz listy płac");
+        } else {
+            Msg.msg("e","Błąd usuwania. Pasek null");
+        }
+    }
+    
     public void aktywuj(Angaz angaz) {
         if (angaz!=null) {
             wpisView.setAngaz(angaz);

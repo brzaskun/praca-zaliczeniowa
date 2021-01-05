@@ -39,15 +39,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Dzien.findByPoranocna", query = "SELECT d FROM Dzien d WHERE d.poranocna = :poranocna")})
 public class Dzien implements Serializable {
 
-    @Size(max = 5)
-    @Column(name = "kod")
-    private String kod;
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
     @Column(name = "nrdnia")
     private int nrdnia;
     @Column(name = "typdnia")
@@ -55,20 +46,38 @@ public class Dzien implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "normagodzin")
     private double normagodzin;
+    @Column(name = "przepracowano")
+    private double przepracowano;
+    @Column(name = "piecdziesiatki")
+    private double piecdziesiatki;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "setki")
+    private double setki;
     //0roboczy
     //1sobota
     //2niedziela
     //3swieto
     //4ekwiwalentzaswieto
-    @Column(name = "przepracowano")
-    private double przepracowano;
-    @Column(name = "piecdziesiatki")
-    private double piecdziesiatki;
-    @Column(name = "setki")
-    private double setki;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "poranocna")
     private double poranocna;
+    @Size(max = 5)
+    @Column(name = "kod")
+    private String kod;
+    @Column(name = "urlop platny")
+    private double urlopPlatny;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "urlopbezplatny")
+    private double urlopbezplatny;
+    @Column(name = "wynagrodzeniezachorobe")
+    private int wynagrodzeniezachorobe;
+    @Column(name = "zasilek")
+    private int zasilek;
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @JoinColumn(name = "kalendarzwzor", referencedColumnName = "id")
     @ManyToOne
     private Kalendarzwzor kalendarzwzor;
@@ -79,7 +88,7 @@ public class Dzien implements Serializable {
     public Dzien() {
     }
 
-    public Dzien(Integer id) {
+    public Dzien(int id) {
         this.id = id;
     }
 
@@ -142,10 +151,18 @@ public class Dzien implements Serializable {
     public String toString() {
         return "Dzien{" + "nrdnia=" + nrdnia + ", typdnia=" + typdnia + ", normagodzin=" + normagodzin + ", przepracowano=" + przepracowano + ", piecdziesiatki=" + piecdziesiatki + ", setki=" + setki + ", poranocna=" + poranocna + ", kod=" + kod + '}';
     }
+    public Kalendarzwzor getKalendarzwzor() {
+        return kalendarzwzor;
+    }
+    public void setKalendarzwzor(Kalendarzwzor kalendarzwzor) {
+        this.kalendarzwzor = kalendarzwzor;
+    }
 
     public int getNrdnia() {
         return nrdnia;
     }
+
+
 
     public void setNrdnia(int nrdnia) {
         this.nrdnia = nrdnia;
@@ -155,8 +172,45 @@ public class Dzien implements Serializable {
         return typdnia;
     }
 
+    public String getTypdniaString() {
+        String zwrot = "robocz.";
+        switch (typdnia) {
+            case 1:
+                zwrot = "sobota";
+                break;
+            case 2: 
+                zwrot = "niedziela";
+                break;
+            case 3: 
+                zwrot = "święto";
+                break;
+            case 4: 
+                zwrot = "ekw.za św.";
+                break;
+        }
+        return zwrot;
+    }
+    
+    public String getTypdniaCol() {
+        String zwrot = "init";
+        switch (typdnia) {
+            case 1:
+                zwrot = "blue";
+                break;
+            case 2: 
+                zwrot = "red";
+                break;
+            case 3: 
+                zwrot = "orange";
+                break;
+            case 4: 
+                zwrot = "purple";
+                break;
+        }
+        return zwrot;
+    }
 
-
+    
     public void setTypdnia(int typdnia) {
         this.typdnia = typdnia;
     }
@@ -189,26 +243,18 @@ public class Dzien implements Serializable {
         return setki;
     }
 
+
     public void setSetki(double setki) {
         this.setki = setki;
     }
+
 
     public double getPoranocna() {
         return poranocna;
     }
 
-
     public void setPoranocna(double poranocna) {
         this.poranocna = poranocna;
-    }
-
-
-    public Kalendarzwzor getKalendarzwzor() {
-        return kalendarzwzor;
-    }
-
-    public void setKalendarzwzor(Kalendarzwzor kalendarzwzor) {
-        this.kalendarzwzor = kalendarzwzor;
     }
 
     public String getKod() {
@@ -217,6 +263,38 @@ public class Dzien implements Serializable {
 
     public void setKod(String kod) {
         this.kod = kod;
+    }
+
+    public double getUrlopPlatny() {
+        return urlopPlatny;
+    }
+
+    public void setUrlopPlatny(double urlopPlatny) {
+        this.urlopPlatny = urlopPlatny;
+    }
+
+    public double getUrlopbezplatny() {
+        return urlopbezplatny;
+    }
+
+    public void setUrlopbezplatny(double urlopbezplatny) {
+        this.urlopbezplatny = urlopbezplatny;
+    }
+
+    public int getWynagrodzeniezachorobe() {
+        return wynagrodzeniezachorobe;
+    }
+
+    public void setWynagrodzeniezachorobe(int wynagrodzeniezachorobe) {
+        this.wynagrodzeniezachorobe = wynagrodzeniezachorobe;
+    }
+
+    public int getZasilek() {
+        return zasilek;
+    }
+
+    public void setZasilek(int zasilek) {
+        this.zasilek = zasilek;
     }
 
   

@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:dialog id="dialogkalendarzmiesiac" header="Kalendarz pracownika" widgetVar="dialogkalendarzmiesiac"  
-              resizable="false"  onShow="ustawdialog('dialogkalendarzmiesiac','centertile',1450,1000);" closeOnEscape="true" onHide="resetujdialog('dialogkalendarzmiesiac');" 
+              resizable="false"  onShow="ustawdialog('dialogkalendarzmiesiac','centertile',1650,1000);" closeOnEscape="true" onHide="resetujdialog('dialogkalendarzmiesiac');" 
               fitViewport="true">
         <p:outputPanel style="height: 200px">
             <h:form id="KalendarzmiesiacCreateForm">
@@ -21,11 +21,11 @@
                             <p:ajax event="change" partialSubmit="true" global="false"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="rok" for="rok" />
-                        <p:inputText id="rok" value="#{kalendarzmiesiacView.selected.rok}" title="#{bundle.CreateKalendarzwzorTitle_rok}" >
+                        <p:inputText id="rok" value="#{kalendarzmiesiacView.selected.rok}" title="rok" >
                             <p:ajax event="change" partialSubmit="true" global="false"/>
                         </p:inputText>
                         <p:outputLabel value="miesiąc" for="mc" />
-                        <p:inputText id="mc" value="#{kalendarzmiesiacView.selected.mc}" title="#{bundle.CreateKalendarzwzorTitle_mc}" >
+                        <p:inputText id="mc" value="#{kalendarzmiesiacView.selected.mc}" title="miesiąc" >
                             <p:ajax event="change" listener="#{kalendarzmiesiacView.zrobkalendarzumowa}" partialSubmit="true" global="false" update=":KalendarzmiesiacListForm:datalist"/>
                         </p:inputText>
                         
@@ -49,58 +49,83 @@
                         </p:column>-->
                         <p:column width="50">
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDzienTitle_nrdnia}"/>
+                                <h:outputText value="nr dnia"/>
                             </f:facet>
                             <h:outputText value="#{itemkalendarz.nrdnia}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDzienTitle_typdnia}"/>
+                                <h:outputText value="typ dnia"/>
                             </f:facet>
-                            <h:outputText value="#{itemkalendarz.typdnia}"/>
+                            <h:outputText value="#{itemkalendarz.typdniaString}" style="color: #{itemkalendarz.typdniaCol}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDzienTitle_normagodzin}"/>
+                                <h:outputText value="norma godzin"/>
                             </f:facet>
                             <h:outputText value="#{itemkalendarz.normagodzin}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDzienTitle_przepracowano}"/>
+                                <h:outputText value="przepracowano"/>
                             </f:facet>
-                            <h:inputText value="#{itemkalendarz.przepracowano}"/>
+                            <h:inputText size="4" value="#{itemkalendarz.przepracowano}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDzienTitle_piecdziesiatki}"/>
+                                <h:outputText value="piecdziesiatki"/>
                             </f:facet>
-                            <h:inputText value="#{itemkalendarz.piecdziesiatki}"/>
+                            <h:inputText size="4"  value="#{itemkalendarz.piecdziesiatki}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDzienTitle_setki}"/>
+                                <h:outputText value="setki"/>
                             </f:facet>
-                            <h:inputText value="#{itemkalendarz.setki}"/>
+                            <h:inputText size="4"  value="#{itemkalendarz.setki}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDzienTitle_poranocna}"/>
+                                <h:outputText value="pora nocna"/>
                             </f:facet>
-                            <h:inputText value="#{itemkalendarz.poranocna}"/>
+                            <h:inputText size="4"  value="#{itemkalendarz.poranocna}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDzienTitle_kod}"/>
+                                <h:outputText value="kod"/>
                             </f:facet>
-                            <h:inputText value="#{itemkalendarz.kod}"/>
+                            <h:inputText size="3"  value="#{itemkalendarz.kod}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="url. platny"/>
+                            </f:facet>
+                            <h:inputText size="4"  value="#{itemkalendarz.urlopPlatny}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="url. bezplatny"/>
+                            </f:facet>
+                            <h:inputText size="4"  value="#{itemkalendarz.urlopbezplatny}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="choroba"/>
+                            </f:facet>
+                            <h:inputText size="4"  value="#{itemkalendarz.wynagrodzeniezachorobe}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="zasiłek"/>
+                            </f:facet>
+                            <h:inputText size="4"  value="#{itemkalendarz.zasilek}"/>
                         </p:column>
 
                     </p:dataTable>
                 </p:panel>
                 <p:outputPanel>
-                    <p:commandButton actionListener="#{kalendarzmiesiacView.create}" value="#{bundle.Save}" />
-                    <p:commandButton value="#{bundle.Cancel}" onclick="KalendarzwzorCreateDialog.hide()"/>
+                    <p:commandButton actionListener="#{kalendarzmiesiacView.create}" value="zachowaj"/>
+                    <p:commandButton actionListener="#{kalendarzmiesiacView.reset}" value="resetuj" />
+                    <p:commandButton value="Rezygnuj" />
                 </p:outputPanel>
 
             </h:form>

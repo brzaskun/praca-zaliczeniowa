@@ -6,6 +6,7 @@
 package dao;
 
 import entity.Kalendarzmiesiac;
+import entity.Umowa;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -52,5 +53,13 @@ public class KalendarzmiesiacFacade  {
     
      public void edit(Kalendarzmiesiac entity) {
         getEntityManager().merge(entity);
+    }
+
+    public Kalendarzmiesiac findByRokMcUmowa(Umowa umowa, String rok, String mc) {
+        Kalendarzmiesiac zwrot = null;
+        try {
+            zwrot = (Kalendarzmiesiac) getEntityManager().createNamedQuery("Kalendarzmiesiac.findByRokMcUmowa").setParameter("rok", rok).setParameter("mc", mc).setParameter("umowa", umowa).getSingleResult();
+        } catch (Exception e) {}
+        return zwrot;
     }
 }

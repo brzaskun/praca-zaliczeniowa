@@ -59,11 +59,31 @@ public class KalendarzmiesiacView  implements Serializable {
       }
     }
     
+    public void reset() {
+      if (selected!=null) {
+          try {
+            KalendarzmiesiacBean.create(selected);
+            kalendarzmiesiacFacade.edit(selected);
+            Msg.msg("Zresetowano kalendarz dla pracownika do waartości domyślnych");
+          } catch (Exception e) {
+              System.out.println("");
+              Msg.msg("e", "Błąd - nieudany reset kalendarza dla pracownika");
+          }
+      }
+    }
+    
     public void zrobkalendarzumowa() {
         if (selected!=null && selected.getUmowa()!=null) {
             if (selected.getRok()!=null&&selected.getMc()!=null) {
-                KalendarzmiesiacBean.create(selected);
-                Msg.msg("Przygotowano kalendarz");
+                Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(selected.getUmowa(), selected.getRok(), selected.getMc());
+                if (znaleziony!=null) {
+                    selected = znaleziony;
+                    Msg.msg("Pobrano z bazy zachowany kalendarz");
+                } else {
+                    KalendarzmiesiacBean.create(selected);
+                    Msg.msg("Przygotowano nowy kalendarz");
+                }
+                
             }
         } else {
             Msg.msg("e", "Błąd - nie wybrano firmy dla kalendarza");
