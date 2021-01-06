@@ -21,11 +21,11 @@
                             <p:ajax event="change" partialSubmit="true" global="false"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="rok" for="rok" />
-                        <p:inputText id="rok" value="#{kalendarzwzorView.selected.rok}" title="#{bundle.CreateKalendarzwzorTitle_rok}" >
+                        <p:inputText id="rok" value="#{kalendarzwzorView.selected.rok}" title="rok" >
                             <p:ajax event="change" partialSubmit="true" global="false"/>
                         </p:inputText>
                         <p:outputLabel value="miesiąc" for="mc" />
-                        <p:inputText id="mc" value="#{kalendarzwzorView.selected.mc}" title="#{bundle.CreateKalendarzwzorTitle_mc}" >
+                        <p:inputText id="mc" value="#{kalendarzwzorView.selected.mc}" title="mc" >
                             <p:ajax event="change" listener="#{kalendarzwzorView.zrobkalendarzumowa}" partialSubmit="true" global="false" update=":KalendarzwzorListForm:datalist"/>
                         </p:inputText>
                         
@@ -43,55 +43,55 @@
 
 <!--                        <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDzienTitle_id}"/>
+                                <h:outputText value="id}"/>
                             </f:facet>
                             <h:outputText value="#{itemkalendarz.id}"/>
                         </p:column>-->
                         <p:column width="50">
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDzienTitle_nrdnia}"/>
+                                <h:outputText value="nr dnia"/>
                             </f:facet>
                             <h:outputText value="#{itemkalendarz.nrdnia}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDzienTitle_typdnia}"/>
+                                <h:outputText value="typ dnia"/>
                             </f:facet>
                             <h:outputText value="#{itemkalendarz.typdnia}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDzienTitle_normagodzin}"/>
+                                <h:outputText value="norma godzin"/>
                             </f:facet>
                             <h:outputText value="#{itemkalendarz.normagodzin}"/>
                         </p:column>
 <!--                        <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDzienTitle_przepracowano}"/>
+                                <h:outputText value="przepracowano}"/>
                             </f:facet>
                             <h:outputText value="#{item.przepracowano}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDzienTitle_piecdziesiatki}"/>
+                                <h:outputText value="piecdziesiatki}"/>
                             </f:facet>
                             <h:outputText value="#{item.piecdziesiatki}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDzienTitle_setki}"/>
+                                <h:outputText value="setki}"/>
                             </f:facet>
                             <h:outputText value="#{item.setki}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDzienTitle_poranocna}"/>
+                                <h:outputText value="poranocna}"/>
                             </f:facet>
                             <h:outputText value="#{item.poranocna}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDzienTitle_kod}"/>
+                                <h:outputText value="kod}"/>
                             </f:facet>
                             <h:outputText value="#{item.kod}"/>
                         </p:column>-->

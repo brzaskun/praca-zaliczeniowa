@@ -13,13 +13,13 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{nieobecnoscView.selected != null}">
                         <p:outputLabel value="kod" for="kod" />
-                        <p:inputText id="kod" value="#{nieobecnoscView.selected.kod}" title="#{bundle.CreateNieobecnoscTitle_kod}" required="true" requiredMessage="#{bundle.CreateNieobecnoscRequiredMessage_kod}"/>
+                        <p:inputText id="kod" value="#{nieobecnoscView.selected.kod}" title="kod" required="true" requiredMessage="#{bundle.CreateNieobecnoscRequiredMessage_kod}"/>
                         <p:outputLabel value="#{bundle.CreateNieobecnoscLabel_nazwa}" for="nazwa" />
-                        <p:inputText id="nazwa" value="#{nieobecnoscView.selected.nazwa}" title="#{bundle.CreateNieobecnoscTitle_nazwa}" required="true" requiredMessage="#{bundle.CreateNieobecnoscRequiredMessage_nazwa}"/>
+                        <p:inputText id="nazwa" value="#{nieobecnoscView.selected.nazwa}" title="nazwa" required="true" requiredMessage="#{bundle.CreateNieobecnoscRequiredMessage_nazwa}"/>
                         <p:outputLabel value="#{bundle.CreateNieobecnoscLabel_dataod}" for="dataod" />
-                        <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="#{bundle.CreateNieobecnoscTitle_dataod}" />
+                        <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="datac od" />
                         <p:outputLabel value="#{bundle.CreateNieobecnoscLabel_datado}" for="datado" />
-                        <p:inputText id="datado" value="#{nieobecnoscView.selected.datado}" title="#{bundle.CreateNieobecnoscTitle_datado}" />
+                        <p:inputText id="datado" value="#{nieobecnoscView.selected.datado}" title="data do" />
                         <p:outputLabel value="umowa" for="umowa" />
                         <p:selectOneMenu id="umowa" value="#{nieobecnoscView.selected.umowa}" required="true" requiredMessage="wybierz umowę" converter="#{umowaConverter}">
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
@@ -43,37 +43,37 @@
                                  >
                         <p:column width="40">
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListNieobecnoscTitle_id}"/>
+                                <h:outputText value="id"/>
                             </f:facet>
                             <h:outputText value="#{itemNieob.id}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListNieobecnoscTitle_kod}"/>
+                                <h:outputText value="kod"/>
                             </f:facet>
                             <h:outputText value="#{itemNieob.kod}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListNieobecnoscTitle_nazwa}"/>
+                                <h:outputText value="nazwa"/>
                             </f:facet>
                             <h:outputText value="#{itemNieob.nazwa}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListNieobecnoscTitle_dataod}"/>
+                                <h:outputText value="data od"/>
                             </f:facet>
                             <h:outputText value="#{itemNieob.dataod}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListNieobecnoscTitle_datado}"/>
+                                <h:outputText value="data do"/>
                             </f:facet>
                             <h:outputText value="#{itemNieob.datado}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListNieobecnoscTitle_umowa}"/>
+                                <h:outputText value="umowa"/>
                             </f:facet>
                             <h:outputText value="#{itemNieob.umowa.angaz.angazString}"/>
                         </p:column>

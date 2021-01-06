@@ -25,8 +25,8 @@ public class FirmaView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private Firma selected;
-    @Inject
     private Firma selectedlista;
+    private Firma selectedeast;
     private List<Firma> lista;
     @Inject
     private FirmaFacade firmaFacade;
@@ -55,7 +55,7 @@ public class FirmaView  implements Serializable {
     public void aktywuj(Firma firma) {
         if (firma!=null) {
             wpisView.setFirma(firma);
-            Msg.msg("Aktywowano firmę");
+            Msg.msg("Aktywowano firmę "+firma.getNazwa());
         }
     }
     
@@ -81,6 +81,14 @@ public class FirmaView  implements Serializable {
 
     public void setSelectedlista(Firma selectedlista) {
         this.selectedlista = selectedlista;
+    }
+
+    public Firma getSelectedeast() {
+        return selectedeast;
+    }
+
+    public void setSelectedeast(Firma selectedeast) {
+        this.selectedeast = selectedeast;
     }
     
     

@@ -5,6 +5,7 @@
  */
 package dao;
 
+import entity.Firma;
 import entity.Kalendarzwzor;
 import java.io.Serializable;
 import java.util.List;
@@ -54,5 +55,13 @@ public class KalendarzwzorFacade   implements Serializable {
     
      public void edit(Kalendarzwzor entity) {
         getEntityManager().merge(entity);
+    }
+
+    public Kalendarzwzor findByFirmaRokMc(Firma firma, String rok, String mc) {
+        Kalendarzwzor zwrot = null;
+        try {
+            zwrot = (Kalendarzwzor) getEntityManager().createNamedQuery("Kalendarzwzor.findByFirmaRokMc").setParameter("firma", firma).setParameter("rok", rok). setParameter("mc", mc).getSingleResult();
+        } catch (Exception e){}
+        return zwrot;
     }
 }

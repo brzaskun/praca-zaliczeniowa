@@ -80,3 +80,13 @@ tr.jsfcrud_even_row {
     left: 50%;
     top: 50%;
 }
+
+span.ui-button-text.ui-c {
+    width: 120px !important;
+}
+
+.ui-button.ui-widget {
+       margin-top: 15px;
+       margin-bottom: 15px;
+       margin-left: 15px;
+}

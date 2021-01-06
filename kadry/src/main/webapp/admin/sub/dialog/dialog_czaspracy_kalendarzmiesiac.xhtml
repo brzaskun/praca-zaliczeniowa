@@ -38,7 +38,7 @@
                 <p:panel header="Dni kalendarza pracownika">
                     <p:dataTable id="datalist" value="#{kalendarzmiesiacView.selected.dzienList}" var="itemkalendarz"
                                  rowKey="#{itemkalendarz.id}"
-                                 style="height: 500px; overflow-y: scroll;"
+                                 style="height: 500px; overflow-y: scroll;" sortBy="#{itemkalendarz.nrdnia}"
                                  >
 
 <!--                        <p:column>
@@ -124,7 +124,7 @@
                 </p:panel>
                 <p:outputPanel>
                     <p:commandButton actionListener="#{kalendarzmiesiacView.create}" value="zachowaj"/>
-                    <p:commandButton actionListener="#{kalendarzmiesiacView.reset}" value="resetuj" />
+                    <p:commandButton actionListener="#{kalendarzmiesiacView.reset}" value="resetuj" update=":KalendarzmiesiacListForm:datalist"/>
                     <p:commandButton value="Rezygnuj" />
                 </p:outputPanel>
 

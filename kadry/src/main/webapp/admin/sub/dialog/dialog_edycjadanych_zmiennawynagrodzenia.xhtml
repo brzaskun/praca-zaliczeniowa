@@ -20,13 +20,13 @@
                                            itemValue="#{skladnikItem}" itemLabel="#{skladnikItem.nazwa}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.CreateZmiennawynagrodzeniaLabel_nazwa}" for="nazwa" />
-                        <p:inputText id="nazwa" value="#{zmiennaWynagrodzeniaView.selected.nazwa}" title="#{bundle.CreateZmiennawynagrodzeniaTitle_nazwa}" />
+                        <p:inputText id="nazwa" value="#{zmiennaWynagrodzeniaView.selected.nazwa}" title="nazwa" />
                         <p:outputLabel value="#{bundle.CreateZmiennawynagrodzeniaLabel_dataod}" for="dataod" />
-                        <p:inputText id="dataod" value="#{zmiennaWynagrodzeniaView.selected.dataod}" title="#{bundle.CreateZmiennawynagrodzeniaTitle_dataod}" />
+                        <p:inputText id="dataod" value="#{zmiennaWynagrodzeniaView.selected.dataod}" title="data od" />
                         <p:outputLabel value="#{bundle.CreateZmiennawynagrodzeniaLabel_datado}" for="datado" />
-                        <p:inputText id="datado" value="#{zmiennaWynagrodzeniaView.selected.datado}" title="#{bundle.CreateZmiennawynagrodzeniaTitle_datado}" />
+                        <p:inputText id="datado" value="#{zmiennaWynagrodzeniaView.selected.datado}" title="data do" />
                         <p:outputLabel value="#{bundle.CreateZmiennawynagrodzeniaLabel_kwota}" for="kwota" />
-                        <p:inputText id="kwota" value="#{zmiennaWynagrodzeniaView.selected.kwota}" title="#{bundle.CreateZmiennawynagrodzeniaTitle_kwota}" />
+                        <p:inputText id="kwota" value="#{zmiennaWynagrodzeniaView.selected.kwota}" title="kwota" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{zmiennaWynagrodzeniaView.create}" value="#{bundle.Save}" update="display,:ZmiennawynagrodzeniaListForm:datalist"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="ZmiennawynagrodzeniaCreateDialog.hide()"/>
@@ -44,31 +44,31 @@
 
                         <p:column width="40">
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListZmiennawynagrodzeniaTitle_id}"/>
+                                <h:outputText value="id"/>
                             </f:facet>
                             <h:outputText value="#{itemzmiennawyn.id}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListZmiennawynagrodzeniaTitle_nazwa}"/>
+                                <h:outputText value="nazwa"/>
                             </f:facet>
                             <h:outputText value="#{itemzmiennawyn.nazwa}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListZmiennawynagrodzeniaTitle_datado}"/>
+                                <h:outputText value="data do"/>
                             </f:facet>
                             <h:outputText value="#{itemzmiennawyn.datado}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListZmiennawynagrodzeniaTitle_dataod}"/>
+                                <h:outputText value="data od"/>
                             </f:facet>
                             <h:outputText value="#{itemzmiennawyn.dataod}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListZmiennawynagrodzeniaTitle_kwota}"/>
+                                <h:outputText value="kwota"/>
                             </f:facet>
                             <h:outputText value="#{itemzmiennawyn.kwota}"/>
                         </p:column>

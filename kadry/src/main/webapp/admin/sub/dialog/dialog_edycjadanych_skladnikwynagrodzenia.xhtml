@@ -13,13 +13,13 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="6" rendered="#{skladnikWynagrodzeniaView.selected != null}">
                         <p:outputLabel value="nazwa" for="nazwa" />
-                        <p:inputText id="nazwa" value="#{skladnikWynagrodzeniaView.selected.nazwa}" title="#{bundle.CreateSkladnikwynagrodzeniaTitle_nazwa}" />
+                        <p:inputText id="nazwa" value="#{skladnikWynagrodzeniaView.selected.nazwa}" title="nazwa" />
                         <p:outputLabel value="godzinowe0miesieczne1" for="godzinowe0miesieczne1" />
                         <p:selectBooleanCheckbox id="godzinowe0miesieczne1" value="#{skladnikWynagrodzeniaView.selected.godzinowe0miesieczne1}" />
                         <p:outputLabel value="redukowany za czas nieobecnosci}" for="redukowanyzaczasnieobecnosci" />
                         <p:selectBooleanCheckbox id="redukowanyzaczasnieobecnosci" value="#{skladnikWynagrodzeniaView.selected.redukowanyzaczasnieobecnosci}" />
                         <p:outputLabel value="kod" for="kod" />
-                        <p:inputText id="kod" value="#{skladnikWynagrodzeniaView.selected.kod}" title="#{bundle.CreateSkladnikwynagrodzeniaTitle_kod}" />
+                        <p:inputText id="kod" value="#{skladnikWynagrodzeniaView.selected.kod}" title="kod" />
                         <p:outputLabel value="stala0zmienna1" for="stala0zmienna1" />
                         <p:selectBooleanCheckbox id="stala0zmienna1" value="#{skladnikWynagrodzeniaView.selected.stala0zmienna1}" />
                     </p:panelGrid>

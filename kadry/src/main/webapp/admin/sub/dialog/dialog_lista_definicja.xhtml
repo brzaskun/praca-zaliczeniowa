@@ -13,21 +13,21 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="4" rendered="#{definicjalistaplacView.selected != null}">
                         <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_datasporzadzenia}" for="datasporzadzenia" />
-                        <p:inputText id="datasporzadzenia" value="#{definicjalistaplacView.selected.datasporzadzenia}" title="#{bundle.CreateDefinicjalistaplacTitle_datasporzadzenia}" />
+                        <p:inputText id="datasporzadzenia" value="#{definicjalistaplacView.selected.datasporzadzenia}" title="data sporzadzenia" />
                         <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_datapodatek}" for="datapodatek" />
-                        <p:inputText id="datapodatek" value="#{definicjalistaplacView.selected.datapodatek}" title="#{bundle.CreateDefinicjalistaplacTitle_datapodatek}" />
+                        <p:inputText id="datapodatek" value="#{definicjalistaplacView.selected.datapodatek}" title="data podatek" />
                         <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_datazus}" for="datazus" />
-                        <p:inputText id="datazus" value="#{definicjalistaplacView.selected.datazus}" title="#{bundle.CreateDefinicjalistaplacTitle_datazus}" />
+                        <p:inputText id="datazus" value="#{definicjalistaplacView.selected.datazus}" title="data zus" />
                         <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_nrkolejny}" for="nrkolejny" />
-                        <p:inputText id="nrkolejny" value="#{definicjalistaplacView.selected.nrkolejny}" title="#{bundle.CreateDefinicjalistaplacTitle_nrkolejny}" />
+                        <p:inputText id="nrkolejny" value="#{definicjalistaplacView.selected.nrkolejny}" title="nr kolejny" />
                         <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_opis}" for="opis" />
-                        <p:inputText id="opis" value="#{definicjalistaplacView.selected.opis}" title="#{bundle.CreateDefinicjalistaplacTitle_opis}" />
+                        <p:inputText id="opis" value="#{definicjalistaplacView.selected.opis}" title="opis}" />
                         <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_rodzajlistyplac}" for="rodzajlistyplac" />
-                        <p:inputText id="rodzajlistyplac" value="#{definicjalistaplacView.selected.rodzajlistyplac}" title="#{bundle.CreateDefinicjalistaplacTitle_rodzajlistyplac}" />
+                        <p:inputText id="rodzajlistyplac" value="#{definicjalistaplacView.selected.rodzajlistyplac}" title="rodzaj list yplac" />
                         <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_rok}" for="rok" />
-                        <p:inputText id="rok" value="#{definicjalistaplacView.selected.rok}" title="#{bundle.CreateDefinicjalistaplacTitle_rok}" />
+                        <p:inputText id="rok" value="#{definicjalistaplacView.selected.rok}" title="rok" />
                         <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_mc}" for="mc" />
-                        <p:inputText id="mc" value="#{definicjalistaplacView.selected.mc}" title="#{bundle.CreateDefinicjalistaplacTitle_mc}" />
+                        <p:inputText id="mc" value="#{definicjalistaplacView.selected.mc}" title="mc" />
                         <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_firma}" for="firma" />
                         <p:selectOneMenu id="firma" value="#{definicjalistaplacView.selected.firma}" required="true" requiredMessage="Wybierz firmę" converter="#{firmaConverter}">
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
@@ -51,61 +51,61 @@
                                  >
                         <p:column width="40">
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_id}"/>
+                                <h:outputText value="id"/>
                             </f:facet>
                             <h:outputText value="#{itemdeflisty.id}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_datasporzadzenia}"/>
+                                <h:outputText value="data sporzadzenia"/>
                             </f:facet>
                             <h:outputText value="#{itemdeflisty.datasporzadzenia}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_datapodatek}"/>
+                                <h:outputText value="data podatek"/>
                             </f:facet>
                             <h:outputText value="#{itemdeflisty.datapodatek}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_datazus}"/>
+                                <h:outputText value="data zus"/>
                             </f:facet>
                             <h:outputText value="#{itemdeflisty.datazus}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_nrkolejny}"/>
+                                <h:outputText value="nr kolejny"/>
                             </f:facet>
                             <h:outputText value="#{itemdeflisty.nrkolejny}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_opis}"/>
+                                <h:outputText value="opis"/>
                             </f:facet>
                             <h:outputText value="#{itemdeflisty.opis}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_rodzajlistyplac}"/>
+                                <h:outputText value="rodzaj listy plac"/>
                             </f:facet>
                             <h:outputText value="#{itemdeflisty.rodzajlistyplac}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_rok}"/>
+                                <h:outputText value="rok"/>
                             </f:facet>
                             <h:outputText value="#{itemdeflisty.rok}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_mc}"/>
+                                <h:outputText value="mc"/>
                             </f:facet>
                             <h:outputText value="#{itemdeflisty.mc}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDefinicjalistaplacTitle_firma}"/>
+                                <h:outputText value="firma"/>
                             </f:facet>
                             <h:outputText value="#{itemdeflisty.firma.nazwa}"/>
                         </p:column>

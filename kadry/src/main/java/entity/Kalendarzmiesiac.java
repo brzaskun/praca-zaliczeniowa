@@ -212,6 +212,14 @@ public class Kalendarzmiesiac implements Serializable {
         this.mc = mc;
     }
 
+    public void nanies(Kalendarzwzor kalendarzwzor) {
+        int i = 0;
+        for (Dzien d : this.dzienList) {
+            Dzien dzienwzor = kalendarzwzor.getDzienList().get(i++);
+            d.nanies(dzienwzor);
+        }
+    }
+
  
         
 }

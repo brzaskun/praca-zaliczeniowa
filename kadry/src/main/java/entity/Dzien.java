@@ -38,6 +38,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Dzien.findBySetki", query = "SELECT d FROM Dzien d WHERE d.setki = :setki"),
     @NamedQuery(name = "Dzien.findByPoranocna", query = "SELECT d FROM Dzien d WHERE d.poranocna = :poranocna")})
 public class Dzien implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
 
     @Column(name = "nrdnia")
     private int nrdnia;
@@ -63,7 +69,7 @@ public class Dzien implements Serializable {
     @Size(max = 5)
     @Column(name = "kod")
     private String kod;
-    @Column(name = "urlop platny")
+    @Column(name = "urlopplatny")
     private double urlopPlatny;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "urlopbezplatny")
@@ -72,12 +78,7 @@ public class Dzien implements Serializable {
     private int wynagrodzeniezachorobe;
     @Column(name = "zasilek")
     private int zasilek;
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
+    
     @JoinColumn(name = "kalendarzwzor", referencedColumnName = "id")
     @ManyToOne
     private Kalendarzwzor kalendarzwzor;
@@ -295,6 +296,21 @@ public class Dzien implements Serializable {
 
     public void setZasilek(int zasilek) {
         this.zasilek = zasilek;
+    }
+
+    void nanies(Dzien dzienwzor) {
+        this.nrdnia = dzienwzor.nrdnia;
+        this.typdnia = dzienwzor.typdnia;
+        this.przepracowano = dzienwzor.normagodzin;
+        this.normagodzin = dzienwzor.normagodzin;
+        this.piecdziesiatki = 0.0;
+        this.setki = 0.0;
+        this.poranocna = 0.0;
+        this.wynagrodzeniezachorobe = 0;
+        this.zasilek = 0;
+        this.urlopPlatny = 0.0;
+        this.urlopbezplatny = 0.0;
+        this.kod = null;
     }
 
   

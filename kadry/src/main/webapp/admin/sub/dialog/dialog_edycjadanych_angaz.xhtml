@@ -13,22 +13,22 @@
                 <h:panelGroup id="display">
                     <p:panel header="Dane pracownika"/>
                     <p:panelGrid columns="2" rendered="#{angazView.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateAngazLabel_rodzajwynagrodzenia}" for="rodzajwynagrodzenia" />
-                        <p:selectOneMenu id="rodzajwynagrodzenia" value="#{angazView.selected.rodzajwynagrodzenia}" required="true" requiredMessage="#{bundle.CreateAngazRequiredMessage_rodzajwynagrodzenia}">
+                        <p:outputLabel value="rodzaj wynagrodzenia" for="rodzajwynagrodzenia" />
+                        <p:selectOneMenu id="rodzajwynagrodzenia" value="#{angazView.selected.rodzajwynagrodzenia}" required="true" requiredMessage="rodzajwynagrodzenia}">
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItem itemValue="0" itemLabel="godzinowe"/>
                             <f:selectItem itemValue="1" itemLabel="stałe"/>
                             <f:selectItem itemValue="2" itemLabel="akord"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.CreateAngazLabel_firma}" for="firma" />
-                        <p:selectOneMenu id="firma" value="#{angazView.selected.firma}" required="true" requiredMessage="#{bundle.EditAngazRequiredMessage_firma}" converter="#{firmaConverter}">
+                        <p:outputLabel value="firma" for="firma" />
+                        <p:selectOneMenu id="firma" value="#{angazView.selected.firma}" required="true" requiredMessage="firma" converter="#{firmaConverter}">
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{angazView.listafirm}"
                                            var="firmaItem"
                                            itemValue="#{firmaItem}" itemLabel="#{firmaItem.nazwa}"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.CreateAngazLabel_pracownik}" for="pracownik" />
-                        <p:selectOneMenu id="pracownik" value="#{angazView.selected.pracownik}" required="true" requiredMessage="#{bundle.EditAngazRequiredMessage_pracownik}"  converter="#{pracownikConverter}">
+                        <p:outputLabel value="pracownik" for="pracownik" />
+                        <p:selectOneMenu id="pracownik" value="#{angazView.selected.pracownik}" required="true" requiredMessage="pracownik"  converter="#{pracownikConverter}">
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{angazView.listapracownikow}"
                                            var="pracownikItem"
@@ -82,7 +82,7 @@
         </p:outputPanel>
         <p:outputPanel>
              <h:form id="AngazListForm">
-                <p:panel header="#{bundle.ListAngazTitle}">
+                <p:panel header="Wykaz angażów">
                     <p:dataTable id="datalist" value="#{angazView.lista}" var="itemAngaz"
                                  selectionMode="single" selection="#{angazView.selectedlista}"
                                  rowKey="#{itemAngaz.id}"
@@ -90,25 +90,25 @@
                                  >
                         <p:column width="40">
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListAngazTitle_id}"/>
+                                <h:outputText value="id}"/>
                             </f:facet>
                             <h:outputText value="#{itemAngaz.id}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListAngazTitle_rodzajwynagrodzenia}"/>
+                                <h:outputText value="rodzaj wynagrodzenia"/>
                             </f:facet>
                             <h:outputText value="#{itemAngaz.rodzajwynagrodzenia}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListAngazTitle_firma}"/>
+                                <h:outputText value="firma"/>
                             </f:facet>
                             <h:outputText value="#{itemAngaz.firma.nazwa}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListAngazTitle_pracownik}"/>
+                                <h:outputText value="pracownik"/>
                             </f:facet>
                             <h:outputText value="#{itemAngaz.pracownik.nazwisko}"/>
                             <h:outputText value=" "/>

@@ -7,8 +7,10 @@ package view;
 
 import beans.KalendarzmiesiacBean;
 import dao.KalendarzmiesiacFacade;
+import dao.KalendarzwzorFacade;
 import dao.UmowaFacade;
 import entity.Kalendarzmiesiac;
+import entity.Kalendarzwzor;
 import entity.Umowa;
 import java.io.Serializable;
 import java.util.List;
@@ -35,6 +37,8 @@ public class KalendarzmiesiacView  implements Serializable {
     @Inject
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
     @Inject
+    private KalendarzwzorFacade kalendarzwzorFacade;
+    @Inject
     private UmowaFacade umowaFacade;
     @Inject
     private WpisView wpisView;
@@ -48,7 +52,7 @@ public class KalendarzmiesiacView  implements Serializable {
     public void create() {
       if (selected!=null) {
           try {
-            kalendarzmiesiacFacade.create(selected);
+            kalendarzmiesiacFacade.edit(selected);
             lista.add(selected);
             selected = new Kalendarzmiesiac();
             Msg.msg("Dodano nowy kalendarz dla pracownika");
@@ -62,9 +66,14 @@ public class KalendarzmiesiacView  implements Serializable {
     public void reset() {
       if (selected!=null) {
           try {
-            KalendarzmiesiacBean.create(selected);
-            kalendarzmiesiacFacade.edit(selected);
-            Msg.msg("Zresetowano kalendarz dla pracownika do waartości domyślnych");
+            Kalendarzwzor kalendarzwzor = kalendarzwzorFacade.findByFirmaRokMc(selected.getUmowa().getAngaz().getFirma(), selected.getRok(), selected.getMc());
+            if (kalendarzwzor!=null) {
+                selected.nanies(kalendarzwzor);
+                kalendarzmiesiacFacade.edit(selected);
+                Msg.msg("Zresetowano kalendarz dla pracownika do waartości domyślnych");
+            } else {
+                Msg.msg("e", "Brak kalendarza wzorcowego za dany okres");
+            }
           } catch (Exception e) {
               System.out.println("");
               Msg.msg("e", "Błąd - nieudany reset kalendarza dla pracownika");
@@ -79,12 +88,11 @@ public class KalendarzmiesiacView  implements Serializable {
                 if (znaleziony!=null) {
                     selected = znaleziony;
                     Msg.msg("Pobrano z bazy zachowany kalendarz");
+                }
                 } else {
                     KalendarzmiesiacBean.create(selected);
                     Msg.msg("Przygotowano nowy kalendarz");
                 }
-                
-            }
         } else {
             Msg.msg("e", "Błąd - nie wybrano firmy dla kalendarza");
         }

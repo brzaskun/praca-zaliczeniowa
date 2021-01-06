@@ -12,10 +12,10 @@
             <h:form id="PracownikCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{pracownikView.selected != null}">
-                        <p:outputLabel value="#{bundle.CreatePracownikLabel_nazwisko}" for="nazwisko" />
-                        <p:inputText id="nazwisko" value="#{pracownikView.selected.nazwisko}" title="#{bundle.CreatePracownikTitle_nazwisko}" required="true" requiredMessage="#{bundle.CreatePracownikRequiredMessage_nazwisko}"/>
-                        <p:outputLabel value="#{bundle.CreatePracownikLabel_imię}" for="imie" />
-                        <p:inputText id="imie" value="#{pracownikView.selected.imie}" title="#{bundle.CreatePracownikTitle_imię}" required="true" requiredMessage="#{bundle.CreatePracownikRequiredMessage_imię}"/>
+                        <p:outputLabel value="nazwisko" for="nazwisko" />
+                        <p:inputText id="nazwisko" value="#{pracownikView.selected.nazwisko}" title="nazwisko" required="true" requiredMessage="Wpisz nazwisko"/>
+                        <p:outputLabel value="imię" for="imie" />
+                        <p:inputText id="imie" value="#{pracownikView.selected.imie}" title="imię" required="true" requiredMessage="Wpisz imię"/>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{pracownikView.create}" value="#{bundle.Save}" update="display,:PracownikListForm:datalist" />
                 </h:panelGroup>
@@ -23,7 +23,7 @@
         </p:outputPanel>
         <p:outputPanel>
             <h:form id="PracownikListForm">
-                <p:panel header="#{bundle.ListFirmaTitle}">
+                <p:panel header="Wykaz pracowników">
                     <p:dataTable id="datalist" value="#{pracownikView.lista}" var="item2"
                                  selectionMode="single" selection="#{pracownikView.selectedlista}"
                                  rowKey="#{item2.id}"
@@ -32,19 +32,19 @@
 
                         <p:column width="40">
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPracownikTitle_id}"/>
+                                <h:outputText value="id"/>
                             </f:facet>
                             <h:outputText value="#{item2.id}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPracownikTitle_nazwisko}"/>
+                                <h:outputText value="nazwisko"/>
                             </f:facet>
                             <h:outputText value="#{item2.nazwisko}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPracownikTitle_imię}"/>
+                                <h:outputText value="imię"/>
                             </f:facet>
                             <h:outputText value="#{item2.imie}"/>
                         </p:column>
