@@ -1112,7 +1112,7 @@ public class FakturaView implements Serializable {
         for (Faktura p : lista) {
             Klienci odbiorca = p.getKontrahent();
             Podatnik  wystawca = p.getWystawca();
-            if (odbiorca!=null ) {
+            if (odbiorca!=null && p.isZaksiegowanakontrahent()==false) {
                 Podatnik podatnikdocelowy = podatnikDAO.findPodatnikByNIP(odbiorca.getNip());
                 if (podatnikdocelowy!=null) {
                     Klienci wystawcajakoklient = klienciDAO.findKlientByNip(wystawca.getNip());
@@ -1331,81 +1331,83 @@ public class FakturaView implements Serializable {
     }
     
     private void ksiegowaniePkpir(Faktura p ,Podatnik podatnik, Klienci kontrahent, int podatnik0kontrahent, String rodzajdokumentu) {
-            Faktura faktura = p;
-            Dok selDokument = new Dok();
-            selDokument.setEwidencjaVAT1(null);
-            HttpServletRequest request;
-            request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            Principal principal = request.getUserPrincipal();
-            selDokument.setWprowadzil(principal.getName());
-            String datawystawienia = faktura.getDatawystawienia();
-            String miesiac = datawystawienia.substring(5, 7);
-            String rok = datawystawienia.substring(0, 4);
-            selDokument.setPkpirM(miesiac);
-            selDokument.setPkpirR(rok);
-            selDokument.setVatM(miesiac);
-            selDokument.setVatR(rok);
-            selDokument.setPodatnik(podatnik);
-            selDokument.setStatus("bufor");
-            selDokument.setUsunpozornie(false);
-            selDokument.setDataWyst(faktura.getDatawystawienia());
-            selDokument.setDataSprz(faktura.getDatawystawienia());
-            selDokument.setKontr(kontrahent);
-            selDokument.setTabelanbp(p.getTabelanbp());
             Rodzajedok rodzajedok = rodzajedokDAO.find(rodzajdokumentu, podatnik, wpisView.getRokWpisuSt());
-            selDokument.setOznaczenie1(rodzajedok.getOznaczenie1());
-            selDokument.setOznaczenie2(rodzajedok.getOznaczenie2());
-            selDokument.setRodzajedok(rodzajedok);
-            selDokument.setNrWlDk(faktura.getNumerkolejny());
-            selDokument.setOpis(faktura.getPozycjenafakturze().get(0).getNazwa());
-            List<KwotaKolumna1> listaX = Collections.synchronizedList(new ArrayList<>());
-            KwotaKolumna1 tmpX = new KwotaKolumna1();
-            tmpX.setNetto(faktura.getBruttoPrzelicz());
-            tmpX.setNettowaluta(faktura.getBruttoPrzeliczWal());
-            tmpX.setVatwaluta(0.0);
-            tmpX.setVat(0.0);
-            tmpX.setNazwakolumny("przych. sprz");
-            if (podatnik0kontrahent==1) {
-                tmpX.setNazwakolumny("poz. koszty");
-            }
-            tmpX.setDok(selDokument);
-            tmpX.setBrutto(Z.z(faktura.getBruttoPrzelicz()));
-            listaX.add(tmpX);
-            selDokument.setListakwot1(listaX);
-            selDokument.setNetto(tmpX.getBrutto());
-            selDokument.setBrutto(tmpX.getBrutto());
-            selDokument.setRozliczony(true);
-            if (faktura.getTabelanbp()!=null) {
-                selDokument.setWalutadokumentu(faktura.getTabelanbp().getWaluta());
-            } else {
-                selDokument.setWalutadokumentu(domyslatabela.getWaluta());
-            }
-            try {
-                Dok tmp = dokDAO.znajdzDuplikat(selDokument, selDokument.getPkpirR());
-                if (tmp==null) {
-                    dokDAO.dodaj(selDokument);
-                    if (podatnik0kontrahent==0) {
-                        selDokument.setFaktura(faktura);
-                        faktura.setZaksiegowana(true);
-                    } else {
-                        selDokument.setFakturakontrahent(faktura);
-                        faktura.setZaksiegowanakontrahent(true);
-                    }
-                    dokDAO.edit(selDokument);
-                    String wiadomosc = "Zaksięgowano fakturę sprzedaży nr: " + selDokument.getNrWlDk() + ", kontrahent: " + selDokument.getKontr().getNpelna() + ", kwota: " + selDokument.getBrutto();
-                    Msg.msg("i", wiadomosc);
-                    fakturaDAO.edit(faktura);
-                } else {
-                    Msg.msg("e", "Próba zaksięgowania duplikatu!");
+            if (rodzajedok!=null) {
+                Faktura faktura = p;
+                Dok selDokument = new Dok();
+                selDokument.setEwidencjaVAT1(null);
+                HttpServletRequest request;
+                request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                Principal principal = request.getUserPrincipal();
+                selDokument.setWprowadzil(principal.getName());
+                String datawystawienia = faktura.getDatawystawienia();
+                String miesiac = datawystawienia.substring(5, 7);
+                String rok = datawystawienia.substring(0, 4);
+                selDokument.setPkpirM(miesiac);
+                selDokument.setPkpirR(rok);
+                selDokument.setVatM(miesiac);
+                selDokument.setVatR(rok);
+                selDokument.setPodatnik(podatnik);
+                selDokument.setStatus("bufor");
+                selDokument.setUsunpozornie(false);
+                selDokument.setDataWyst(faktura.getDatawystawienia());
+                selDokument.setDataSprz(faktura.getDatawystawienia());
+                selDokument.setKontr(kontrahent);
+                selDokument.setTabelanbp(p.getTabelanbp());
+                selDokument.setOznaczenie1(rodzajedok.getOznaczenie1());
+                selDokument.setOznaczenie2(rodzajedok.getOznaczenie2());
+                selDokument.setRodzajedok(rodzajedok);
+                selDokument.setNrWlDk(faktura.getNumerkolejny());
+                selDokument.setOpis(faktura.getPozycjenafakturze().get(0).getNazwa());
+                List<KwotaKolumna1> listaX = Collections.synchronizedList(new ArrayList<>());
+                KwotaKolumna1 tmpX = new KwotaKolumna1();
+                tmpX.setNetto(faktura.getBruttoPrzelicz());
+                tmpX.setNettowaluta(faktura.getBruttoPrzeliczWal());
+                tmpX.setVatwaluta(0.0);
+                tmpX.setVat(0.0);
+                tmpX.setNazwakolumny("przych. sprz");
+                if (podatnik0kontrahent==1) {
+                    tmpX.setNazwakolumny("poz. koszty");
                 }
-            } catch (javax.ejb.EJBException e1) {
-                E.e(e1); 
-                Msg.msg("e", "Próba zaksięgowania duplikatu!");
-            } catch (Exception e) { 
-                E.e(e); 
-                Msg.msg("e","Błąd poczask księgowania faktury u klienta "+E.e(e));
+                tmpX.setDok(selDokument);
+                tmpX.setBrutto(Z.z(faktura.getBruttoPrzelicz()));
+                listaX.add(tmpX);
+                selDokument.setListakwot1(listaX);
+                selDokument.setNetto(tmpX.getBrutto());
+                selDokument.setBrutto(tmpX.getBrutto());
+                selDokument.setRozliczony(true);
+                if (faktura.getTabelanbp()!=null) {
+                    selDokument.setWalutadokumentu(faktura.getTabelanbp().getWaluta());
+                } else {
+                    selDokument.setWalutadokumentu(domyslatabela.getWaluta());
+                }
+                try {
+                    Dok tmp = dokDAO.znajdzDuplikat(selDokument, selDokument.getPkpirR());
+                    if (tmp==null) {
+                        dokDAO.dodaj(selDokument);
+                        if (podatnik0kontrahent==0) {
+                            selDokument.setFaktura(faktura);
+                            faktura.setZaksiegowana(true);
+                        } else {
+                            selDokument.setFakturakontrahent(faktura);
+                            faktura.setZaksiegowanakontrahent(true);
+                        }
+                        dokDAO.edit(selDokument);
+                        String wiadomosc = "Zaksięgowano fakturę sprzedaży nr: " + selDokument.getNrWlDk() + ", kontrahent: " + selDokument.getKontr().getNpelna() + ", kwota: " + selDokument.getBrutto();
+                        Msg.msg("i", wiadomosc);
+                        fakturaDAO.edit(faktura);
+                    } else {
+                        Msg.msg("e", "Próba zaksięgowania duplikatu!");
+                    }
+                } catch (javax.ejb.EJBException e1) {
+                    E.e(e1); 
+                    Msg.msg("e", "Próba zaksięgowania duplikatu!");
+                } catch (Exception e) { 
+                    E.e(e); 
+                    Msg.msg("e","Błąd poczask księgowania faktury u klienta "+E.e(e));
+                }
+                PrimeFaces.current().ajax().update("akordeon:formsporzadzone:dokumentyLista");
             }
-            PrimeFaces.current().ajax().update("akordeon:formsporzadzone:dokumentyLista");
     }
     
     private boolean nievat0vat1(Podatnik podatnik, Integer rok, String mic) {

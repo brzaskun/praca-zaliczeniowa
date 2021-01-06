@@ -62,7 +62,7 @@ public class ImportPayPal_CSV implements Serializable {
                         double bokwota = F.kwota(record.get("Saldo")) - kwota;
                         pn.setWyciagbo(bokwota);
                         pn.setWyciagobrotywn(kwota > 0.0 ? kwota : 0.0);
-                        pn.setWyciagobrotyma(kwota < 0.0 ? Math.abs(kwota) : 0.0);
+                        pn.setWyciagobrotyma(kwota < 0.0 ? kwota : 0.0);
                         String mcwiersz = Data.zmienkolejnosc(Data.zmienkolejnoscUS(record.get("Data"))).split("-")[1];
                         if (!mcwiersz.equals(mc)) {
                             blad = true;

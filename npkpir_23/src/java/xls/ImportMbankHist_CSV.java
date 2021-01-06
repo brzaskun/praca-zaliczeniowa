@@ -6,7 +6,6 @@
 package xls;
 
 import data.Data;
-import dedra.Dedraparser;
 import error.E;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -23,8 +22,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import msg.Msg;
 import org.apache.commons.lang3.text.WordUtils;
 import org.w3c.dom.Element;
@@ -148,7 +145,7 @@ public class ImportMbankHist_CSV implements Serializable {
         //9 bank-bank - 149-2
     private static int oblicztyptransakcji(ImportBankWiersz p) {
         int zwrot = 0;
-        if (p.getNrtransakji().equals("OPŁATA/PROWIZJA")) {
+        if (p.getNrtransakji().contains("PROWIZJA")||p.getNrtransakji().contains("OPŁATA")) {
             zwrot = 3;
         } else if (p.getNrtransakji().contains("OPŁATA PRZELEW")) {
             zwrot = 3;
@@ -164,7 +161,7 @@ public class ImportMbankHist_CSV implements Serializable {
             zwrot = 7;
         } else if (p.getKontrahent().toLowerCase().contains("PRZELEW ELIXIR NA RACH. ORGANU PODATK. - ONLINE")) {
             zwrot = 6;
-        } else if (p.getNrtransakji().equals("WYPŁATA KARTĄ")||p.getNrtransakji().equals("WPŁATA WE WPŁATOMACIE")) {
+        } else if (p.getNrtransakji().equals("WYPŁATA KARTĄ")||p.getNrtransakji().equals("WPŁATA WE WPŁATOMACIE")||p.getNrtransakji().equals("WYPŁATA W BANKOMACIE")) {
             zwrot = 4;
         } else if (p.getOpistransakcji().toLowerCase().contains("rezerwacja")||p.getOpistransakcji().toLowerCase().contains("rezerwacji")) {
             zwrot = 10;
