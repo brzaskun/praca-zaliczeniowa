@@ -20,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -39,10 +40,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Kalendarzwzor.findByFirmaRokMc", query = "SELECT k FROM Kalendarzwzor k WHERE k.firma=:firma AND k.rok=:rok AND k.mc = :mc")
 })
 public class Kalendarzwzor implements Serializable {
-
+    @NotNull
     @Size(max = 4)
     @Column(name = "rok")
     private String rok;
+    @NotNull
     @Size(max = 2)
     @Column(name = "mc")
     private String mc;
@@ -55,6 +57,7 @@ public class Kalendarzwzor implements Serializable {
     private Integer id;
     @OneToMany(mappedBy = "kalendarzwzor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dzien> dzienList;
+    @NotNull
     @JoinColumn(name = "firma", referencedColumnName = "id")
     @ManyToOne
     private Firma firma;
@@ -64,6 +67,11 @@ public class Kalendarzwzor implements Serializable {
 
     public Kalendarzwzor(int id) {
         this.id = id;
+    }
+
+    public Kalendarzwzor(Firma firma, String rok) {
+        this.firma = firma;
+        this.rok = rok;
     }
 
     public Integer getId() {
