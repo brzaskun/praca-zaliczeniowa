@@ -122,4 +122,11 @@ public class Pracownik implements Serializable {
         this.nazwisko = nazwisko;
     }
     
+    public String getCzyjetsangaz(){
+        String zwrot = "";
+        if (this.angazList!=null&& !this.angazList.isEmpty()) {
+            zwrot = "✔";
+        }
+        return zwrot;
+    }
 }

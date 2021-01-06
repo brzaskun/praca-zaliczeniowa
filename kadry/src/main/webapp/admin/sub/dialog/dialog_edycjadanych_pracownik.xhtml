@@ -30,7 +30,7 @@
                                  style="height: 500px; overflow-y: scroll;"
                                  >
 
-                        <p:column width="40">
+                        <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="id"/>
                             </f:facet>
@@ -47,6 +47,12 @@
                                 <h:outputText value="imię"/>
                             </f:facet>
                             <h:outputText value="#{item2.imie}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="angaż"/>
+                            </f:facet>
+                             <h:outputText value="#{item2.czyjetsangaz}"/>
                         </p:column>
                         <p:column style="text-align: center;">
                             <p:commandButton value="aktywna" actionListener="#{pracownikView.aktywuj(item2)}" update="north"/>

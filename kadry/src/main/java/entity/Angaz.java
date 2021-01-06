@@ -33,7 +33,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Angaz.findAll", query = "SELECT a FROM Angaz a"),
     @NamedQuery(name = "Angaz.findById", query = "SELECT a FROM Angaz a WHERE a.id = :id"),
-    @NamedQuery(name = "Angaz.findByRodzajwynagrodzenia", query = "SELECT a FROM Angaz a WHERE a.rodzajwynagrodzenia = :rodzajwynagrodzenia")})
+    @NamedQuery(name = "Angaz.findByRodzajwynagrodzenia", query = "SELECT a FROM Angaz a WHERE a.rodzajwynagrodzenia = :rodzajwynagrodzenia"),
+    @NamedQuery(name = "Angaz.findByFirma", query = "SELECT a FROM Angaz a WHERE a.firma = :firma"),
+    @NamedQuery(name = "Angaz.findPracownikByFirma", query = "SELECT a.pracownik FROM Angaz a WHERE a.firma = :firma")
+})
+
 public class Angaz implements Serializable {
 
   

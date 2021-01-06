@@ -43,7 +43,7 @@
                                  rowKey="#{itempasek.id}"
                                  style="height: 500px; overflow-y: scroll;"
                                  >
-                        <p:column width="40">
+                        <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="id"/>
                             </f:facet>
@@ -59,13 +59,13 @@
                             <f:facet name="header">
                                 <h:outputText value="brutto zus"/>
                             </f:facet>
-                            <bcf:inputpl value="#{itempasek.bruttozus}"/>
+                            <bcf:inputpl value="#{itempasek.bruttozus}" />
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="brutto"/>
                             </f:facet>
-                            <bcf:inputpl value="#{itempasek.brutto}"/>
+                            <bcf:outputpl value="#{itempasek.wartoscbrutto}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">

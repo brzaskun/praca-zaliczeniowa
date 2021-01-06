@@ -216,7 +216,7 @@ private double bruttobezzus;
         this.bruttozus = bruttozus;
     }
 
-    public double getBrutto() {
+    public double getWartoscbrutto() {
         return Z.z(this.bruttobezzus+this.bruttozus);
     }
     

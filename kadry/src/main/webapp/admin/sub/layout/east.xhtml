@@ -14,6 +14,7 @@
                              style="height: 50%;overflow-y: scroll;"
                              >
                     <p:ajax event="rowSelect" listener="#{firmaView.aktywuj(firmaView.selectedeast)}" partialSubmit="true" global="false" update="north"/>
+                    <p:ajax event="rowSelect" listener="#{angazView.findPracownicyByFirma(firmaView.selectedeast)}" partialSubmit="true" global="false" update="EastPracownicy:datalist"/>
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="nazwa"/>
@@ -23,9 +24,9 @@
                 </p:dataTable>
             </p:panel>
         </h:form>
-        <h:form>
+        <h:form id="EastPracownicy">
             <p:panel header="Pracownicy">
-                <p:dataTable id="datalist" value="#{pracownikView.lista}" var="item2"
+                <p:dataTable id="datalist" value="#{angazView.listapracownikow}" var="item2"
                              selectionMode="single" selection="#{pracownikView.selectedeast}"
                              rowKey="#{item2.id}"
                              style="height: 50%;overflow-y: scroll;"

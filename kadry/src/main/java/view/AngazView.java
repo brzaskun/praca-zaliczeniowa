@@ -71,6 +71,15 @@ public class AngazView  implements Serializable {
         }
     }
     
+    public void findPracownicyByFirma(Firma firma) {
+        if (firma!=null) {
+            listapracownikow = angazFacade.findPracownicyByFirma(firma);
+            Msg.msg("Pobrano pracowników firmy");
+        } else {
+            Msg.msg("e", "Błąd nie wybrano firmy");
+        }
+    }
+    
     public Angaz getSelected() {
         return selected;
     }
