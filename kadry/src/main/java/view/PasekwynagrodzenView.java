@@ -14,6 +14,7 @@ import entity.Definicjalistaplac;
 import entity.Kalendarzmiesiac;
 import entity.Pasekwynagrodzen;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -52,7 +53,6 @@ public class PasekwynagrodzenView  implements Serializable {
     private void init() {
         lista  = pasekwynagrodzenFacade.findAll();
         listadefinicjalistaplac = definicjalistaplacFacade.findAll();
-        listakalendarzmiesiac = kalendarzmiesiacFacade.findAll();
     }
 
     public void create() {
@@ -106,6 +106,15 @@ public class PasekwynagrodzenView  implements Serializable {
         if (angaz!=null) {
             wpisView.setAngaz(angaz);
             Msg.msg("Aktywowano firmę");
+        }
+    }
+    
+    public void pobierzkalendarzezamc() {
+        if (wybranalistaplac!=null) {
+            listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMc(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
+            if (listakalendarzmiesiac==null) {
+                listakalendarzmiesiac = new ArrayList<>();
+            }
         }
     }
     

@@ -51,7 +51,7 @@ public class KalendarzwzorView  implements Serializable {
           try {
             kalendarzwzorFacade.create(selected);
             lista.add(selected);
-            selected = new Kalendarzwzor();
+            selected = new Kalendarzwzor(selected.getFirma(), selected.getRok());
             Msg.msg("Dodano nowy kalendarz");
           } catch (Exception e) {
               System.out.println("");
@@ -63,8 +63,16 @@ public class KalendarzwzorView  implements Serializable {
     public void zrobkalendarzumowa() {
         if (selected!=null && selected.getFirma()!=null) {
             if (selected.getRok()!=null&&selected.getMc()!=null) {
-                KalendarzWzorBean.create(selected);
-                Msg.msg("Przygotowano kalendarz");
+                try {
+                    Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(selected.getFirma(), selected.getRok(), selected.getMc());
+                    if (znaleziono!=null) {
+                        selected = znaleziono;
+                        Msg.msg("Pobrano kalendarz z bazy danych");
+                    } else {
+                        KalendarzWzorBean.create(selected);
+                        Msg.msg("Przygotowano kalendarz");
+                    }
+                } catch (Exception e){}
             }
         } else {
             Msg.msg("e", "Błąd - nie wybrano firmy dla kalendarza");

@@ -12,14 +12,14 @@
         <p:outputPanel style="height: 200px">
              <h:form id="DefinicjalistaplacCreateForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{pasekwynagrodzenView.listakalendarzmiesiac ne null}">
+                    <p:panelGrid columns="2" rendered="#{pasekwynagrodzenView.listadefinicjalistaplac ne null}">
                         <p:outputLabel value="wybrana lista płac" for="wybranalista" />
                         <p:selectOneMenu id="wybranalista" value="#{pasekwynagrodzenView.wybranalistaplac}" required="true" requiredMessage="Wybierz firmę" converter="#{definicjalistaplacConverter}">
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{pasekwynagrodzenView.listadefinicjalistaplac}"
                                            var="firmalistaItem"
                                            itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.opis} #{firmalistaItem.nrkolejny}"/>
-                            <p:ajax event="change" partialSubmit="true" global="false"/>
+                            <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.pobierzkalendarzezamc}" update="DefinicjalistaplacCreateForm:wybranypracownik"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="wybrany pracownik" for="wybranypracownik" />
                         <p:selectOneMenu id="wybranypracownik" value="#{pasekwynagrodzenView.wybranykalendarz}" required="true" requiredMessage="Wybierz pracownika" converter="#{kalendarzmiesiacConverter}">

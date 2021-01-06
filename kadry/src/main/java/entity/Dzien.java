@@ -117,6 +117,25 @@ public class Dzien implements Serializable {
         this.kalendarzwzor = kalendarzWzor;
     }
 
+
+    public Dzien(Dzien dzienwzor, Kalendarzmiesiac kalendarzmiesiac) {
+        this.nrdnia = dzienwzor.nrdnia;
+        this.typdnia = dzienwzor.typdnia;
+        this.normagodzin = dzienwzor.normagodzin;
+        this.przepracowano = dzienwzor.przepracowano;
+        this.piecdziesiatki = dzienwzor.piecdziesiatki;
+        this.setki = dzienwzor.setki;
+        this.poranocna = dzienwzor.poranocna;
+        this.kod = dzienwzor.kod;
+        this.urlopPlatny = dzienwzor.urlopPlatny;
+        this.urlopbezplatny = dzienwzor.urlopbezplatny;
+        this.wynagrodzeniezachorobe = dzienwzor.wynagrodzeniezachorobe;
+        this.zasilek = dzienwzor.zasilek;
+        this.kalendarzmiesiac = kalendarzmiesiac;
+    }
+
+    
+    
     public Integer getId() {
         return id;
     }

@@ -88,11 +88,17 @@ public class KalendarzmiesiacView  implements Serializable {
                 if (znaleziony!=null) {
                     selected = znaleziony;
                     Msg.msg("Pobrano z bazy zachowany kalendarz");
-                }
                 } else {
-                    KalendarzmiesiacBean.create(selected);
-                    Msg.msg("Przygotowano nowy kalendarz");
+                    Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(selected.getUmowa().getAngaz().getFirma(), selected.getRok(), selected.getMc());
+                    if (znaleziono!=null) {
+                        selected.ganerujdnizwzrocowego(znaleziono);
+                        Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych");
+                    } else {
+                        KalendarzmiesiacBean.create(selected);
+                        Msg.msg("Przygotowano kalendarz");
+                    }
                 }
+            }
         } else {
             Msg.msg("e", "Błąd - nie wybrano firmy dla kalendarza");
         }

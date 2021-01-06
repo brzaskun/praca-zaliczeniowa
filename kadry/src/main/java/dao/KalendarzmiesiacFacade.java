@@ -5,8 +5,10 @@
  */
 package dao;
 
+import entity.Firma;
 import entity.Kalendarzmiesiac;
 import entity.Umowa;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -59,6 +61,14 @@ public class KalendarzmiesiacFacade  {
         Kalendarzmiesiac zwrot = null;
         try {
             zwrot = (Kalendarzmiesiac) getEntityManager().createNamedQuery("Kalendarzmiesiac.findByRokMcUmowa").setParameter("rok", rok).setParameter("mc", mc).setParameter("umowa", umowa).getSingleResult();
+        } catch (Exception e) {}
+        return zwrot;
+    }
+
+    public List<Kalendarzmiesiac> findByFirmaRokMc(Firma firma, String rok, String mc) {
+        List<Kalendarzmiesiac> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createNamedQuery("Kalendarzmiesiac.findByFirmaRokMc").setParameter("rok", rok).setParameter("mc", mc).setParameter("firma", firma).getResultList();
         } catch (Exception e) {}
         return zwrot;
     }

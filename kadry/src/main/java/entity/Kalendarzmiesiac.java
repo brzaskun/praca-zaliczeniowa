@@ -38,7 +38,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Kalendarzmiesiac.findById", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.id = :id"),
     @NamedQuery(name = "Kalendarzmiesiac.findByRok", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.rok = :rok"),
     @NamedQuery(name = "Kalendarzmiesiac.findByMc", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc"),
-    @NamedQuery(name = "Kalendarzmiesiac.findByRokMcUmowa", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok AND k.umowa=:umowa")
+    @NamedQuery(name = "Kalendarzmiesiac.findByRokMcUmowa", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok AND k.umowa=:umowa"),
+    @NamedQuery(name = "Kalendarzmiesiac.findByFirmaRokMc", query = "SELECT k FROM Kalendarzmiesiac k WHERE k.mc = :mc AND k.rok = :rok AND k.umowa.angaz.firma=:firma")
    })
 public class Kalendarzmiesiac implements Serializable {
 
@@ -204,13 +205,15 @@ public class Kalendarzmiesiac implements Serializable {
         this.rok = rok;
     }
 
-    public String getMc() {
-        return mc;
-    }
-
+  
     public void setMc(String mc) {
         this.mc = mc;
     }
+
+    public String getMc() {
+        return mc;
+    }
+    
 
     public void nanies(Kalendarzwzor kalendarzwzor) {
         int i = 0;
@@ -218,6 +221,15 @@ public class Kalendarzmiesiac implements Serializable {
             Dzien dzienwzor = kalendarzwzor.getDzienList().get(i++);
             d.nanies(dzienwzor);
         }
+    }
+    
+    public void ganerujdnizwzrocowego(Kalendarzwzor kalendarzwzor) {
+        List<Dzien> nowedni = new ArrayList<>();
+        for (int i = 0; i < kalendarzwzor.getDzienList().size(); i++) {
+            Dzien dzienwzor = kalendarzwzor.getDzienList().get(i);
+            nowedni.add(new Dzien(dzienwzor, this));
+        }
+        this.dzienList = nowedni;
     }
 
  
