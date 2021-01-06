@@ -5,30 +5,30 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog id="dialoglistadefinicja" header="Kalendarz pracownika" widgetVar="dialoglistadefinicja"  
+    <p:dialog id="dialoglistadefinicja" header="Definicja listy płaca" widgetVar="dialoglistadefinicja"  
               resizable="false"  onShow="ustawdialog('dialoglistadefinicja','centertile',1650,1000);" closeOnEscape="true" onHide="resetujdialog('dialoglistadefinicja');" 
               fitViewport="true">
         <p:outputPanel style="height: 200px">
              <h:form id="DefinicjalistaplacdefCreateForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="4" rendered="#{definicjalistaplacView.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_datasporzadzenia}" for="datasporzadzenia" />
+                    <p:panelGrid columns="+6" rendered="#{definicjalistaplacView.selected != null}">
+                        <p:outputLabel value="data sporzadzenia" for="datasporzadzenia" />
                         <p:inputText id="datasporzadzenia" value="#{definicjalistaplacView.selected.datasporzadzenia}" title="data sporzadzenia" />
-                        <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_datapodatek}" for="datapodatek" />
+                        <p:outputLabel value="data podatek" for="datapodatek" />
                         <p:inputText id="datapodatek" value="#{definicjalistaplacView.selected.datapodatek}" title="data podatek" />
-                        <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_datazus}" for="datazus" />
+                        <p:outputLabel value="data zus" for="datazus" />
                         <p:inputText id="datazus" value="#{definicjalistaplacView.selected.datazus}" title="data zus" />
-                        <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_nrkolejny}" for="nrkolejny" />
+                        <p:outputLabel value="nr kolejny" for="nrkolejny" />
                         <p:inputText id="nrkolejny" value="#{definicjalistaplacView.selected.nrkolejny}" title="nr kolejny" />
-                        <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_opis}" for="opis" />
+                        <p:outputLabel value="opis" for="opis" />
                         <p:inputText id="opis" value="#{definicjalistaplacView.selected.opis}" title="opis}" />
-                        <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_rodzajlistyplac}" for="rodzajlistyplac" />
+                        <p:outputLabel value="rodzaj listy plac" for="rodzajlistyplac" />
                         <p:inputText id="rodzajlistyplac" value="#{definicjalistaplacView.selected.rodzajlistyplac}" title="rodzaj list yplac" />
-                        <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_rok}" for="rok" />
+                        <p:outputLabel value="rok" for="rok" />
                         <p:inputText id="rok" value="#{definicjalistaplacView.selected.rok}" title="rok" />
-                        <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_mc}" for="mc" />
+                        <p:outputLabel value="mc" for="mc" />
                         <p:inputText id="mc" value="#{definicjalistaplacView.selected.mc}" title="mc" />
-                        <p:outputLabel value="#{bundle.CreateDefinicjalistaplacLabel_firma}" for="firma" />
+                        <p:outputLabel value="firma" for="firma" />
                         <p:selectOneMenu id="firma" value="#{definicjalistaplacView.selected.firma}" required="true" requiredMessage="Wybierz firmę" converter="#{firmaConverter}">
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{definicjalistaplacView.listafirm}"
@@ -43,7 +43,7 @@
         </p:outputPanel>
         <p:outputPanel>
             <h:form id="DefinicjalistaplacListForm">
-                <p:panel header="#{bundle.ListDefinicjalistaplacTitle}">
+                <p:panel header="Definicje listy płac">
                     <p:dataTable id="datalist" value="#{definicjalistaplacView.lista}" var="itemdeflisty"
                                  selectionMode="single" selection="#{definicjalistaplacView.selectedlista}"
                                  rowKey="#{itemdeflisty.id}"

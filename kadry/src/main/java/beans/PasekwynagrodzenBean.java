@@ -228,12 +228,12 @@ public class PasekwynagrodzenBean {
         double zdrowotne = Z.z(podstawazdrowotna*0.09);
         pasek.setPraczdrowotne(zdrowotne);
         double zdrowotneodliczane = Z.z(podstawazdrowotna*0.0775);
-        pasek.setPraczdrowotnedodoliczenia(zdrowotneodliczane);
+        pasek.setPraczdrowotnedopotracenia(zdrowotneodliczane);
         //trzeba zrobic tez inne opcje
     }
 
     private static void obliczpodatekdowplaty(Pasekwynagrodzen pasek) {
-        pasek.setPodatekdochodowy(Z.z0(pasek.getPodatekwstepny()-pasek.getPraczdrowotnedodoliczenia()-pasek.getKwotawolna()));
+        pasek.setPodatekdochodowy(Z.z0(pasek.getPodatekwstepny()-pasek.getPraczdrowotnedopotracenia()-pasek.getKwotawolna()));
     }
 
     private static void potracenia(Pasekwynagrodzen pasek) {

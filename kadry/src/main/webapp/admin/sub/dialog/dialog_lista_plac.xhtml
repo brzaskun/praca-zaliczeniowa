@@ -4,8 +4,9 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    >
-    <p:dialog id="dialoglistaplac" header="Definicja listy płac" widgetVar="dialoglistaplac"  
+        
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:dialog id="dialoglistaplac" header="Wyliczanie listy płac" widgetVar="dialoglistaplac"  
               resizable="false"  onShow="ustawdialog('dialoglistaplac','centertile',1650,1000);" closeOnEscape="true" onHide="resetujdialog('dialoglistaplac');" 
               fitViewport="true">
         <p:outputPanel style="height: 200px">
@@ -52,121 +53,109 @@
                             <f:facet name="header">
                                 <h:outputText value="brutto bez zus"/>
                             </f:facet>
-                            <h:outputText value="#{itempasek.bruttobezzus}"/>
+                            <bcf:inputpl value="#{itempasek.bruttobezzus}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="brutto zus"/>
                             </f:facet>
-                            <h:outputText value="#{itempasek.bruttozus}"/>
-                        </p:column>
-<!--                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="fgsp"/>
-                            </f:facet>
-                            <h:outputText value="#{itempasek.fgsp}"/>
+                            <bcf:inputpl value="#{itempasek.bruttozus}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="fp"/>
+                                <h:outputText value="brutto"/>
                             </f:facet>
-                            <h:outputText value="#{itempasek.fp}"/>
-                        </p:column>-->
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="koszty uzyskania"/>
-                            </f:facet>
-                            <h:outputText value="#{itempasek.kosztyuzyskania}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="kwota wolna"/>
-                            </f:facet>
-                            <h:outputText value="#{itempasek.kwotawolna}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="podstawa opodatkowania"/>
-                            </f:facet>
-                            <h:outputText value="#{itempasek.podstawaopodatkowania}"/>
+                            <bcf:inputpl value="#{itempasek.brutto}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="prac chorobowe"/>
                             </f:facet>
-                            <h:outputText value="#{itempasek.pracchorobowe}"/>
+                            <bcf:inputpl value="#{itempasek.pracchorobowe}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="prac emerytalne"/>
                             </f:facet>
-                            <h:outputText value="#{itempasek.pracemerytalne}"/>
+                            <bcf:inputpl value="#{itempasek.pracemerytalne}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="prac rentowe"/>
                             </f:facet>
-                            <h:outputText value="#{itempasek.pracrentowe}"/>
+                            <bcf:inputpl value="#{itempasek.pracrentowe}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="razem spoleczne pracownik"/>
                             </f:facet>
-                            <h:outputText value="#{itempasek.razemspolecznepracownik}"/>
+                            <bcf:inputpl value="#{itempasek.razemspolecznepracownik}"/>
+                        </p:column>
+<!--                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="fgsp"/>
+                            </f:facet>
+                            <bcf:inputpl value="#{itempasek.fgsp}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="fp"/>
+                            </f:facet>
+                            <bcf:inputpl value="#{itempasek.fp}"/>
+                        </p:column>-->
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="podstawa opodatkowania"/>
+                            </f:facet>
+                            <bcf:inputpl value="#{itempasek.podstawaopodatkowania}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="koszty uzyskania"/>
+                            </f:facet>
+                            <bcf:inputpl value="#{itempasek.kosztyuzyskania}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="kwota wolna"/>
+                            </f:facet>
+                            <bcf:inputpl value="#{itempasek.kwotawolna}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="podstawa ubezp zdrowotne"/>
                             </f:facet>
-                            <h:outputText value="#{itempasek.podstawaubezpzdrowotne}"/>
+                            <bcf:inputpl value="#{itempasek.podstawaubezpzdrowotne}"/>
+                        </p:column>
+                           <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="prac zdrowotne"/>
+                            </f:facet>
+                               <bcf:inputpl value="#{itempasek.praczdrowotne}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="praczdrowotne"/>
+                                <h:outputText value="prac zdrowotne do potrącenia"/>
                             </f:facet>
-                            <h:outputText value="#{itempasek.praczdrowotne}"/>
+                            <bcf:inputpl value="#{itempasek.praczdrowotnedopotracenia}"/>
                         </p:column>
                         <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="prac zdrowotne do doliczenia"/>
-                            </f:facet>
-                            <h:outputText value="#{itempasek.praczdrowotnedodoliczenia}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="prac zdrowotne do potracenia"/>
-                            </f:facet>
-                            <h:outputText value="#{itempasek.praczdrowotnedopotracenia}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="rentowe"/>
-                            </f:facet>
-                            <h:outputText value="#{itempasek.rentowe}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="wypadkowe"/>
-                            </f:facet>
-                            <h:outputText value="#{itempasek.wypadkowe}"/>
-                        </p:column>
-                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="podatek dochodowy"/>
                             </f:facet>
-                            <h:outputText value="#{itempasek.podatekdochodowy}"/>
+                            <bcf:inputpl value="#{itempasek.podatekdochodowy}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="potracenia"/>
                             </f:facet>
-                            <h:outputText value="#{itempasek.potracenia}"/>
+                            <bcf:inputpl value="#{itempasek.potracenia}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="netto"/>
                             </f:facet>
-                            <h:outputText value="#{itempasek.netto}"/>
+                            <bcf:inputpl value="#{itempasek.netto}"/>
                         </p:column>
                         <p:column style="text-align: center;">
                             <p:commandButton icon="fa fa-print" actionListener="#{pasekwynagrodzenView.drukuj(itempasek)}" global="false"/>

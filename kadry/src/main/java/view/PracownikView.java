@@ -25,8 +25,8 @@ public class PracownikView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private Pracownik selected;
-    @Inject
     private Pracownik selectedlista;
+    private Pracownik selectedeast;
     private List<Pracownik> lista;
     @Inject
     private PracownikFacade pracownikFacade;
@@ -80,6 +80,14 @@ public class PracownikView  implements Serializable {
 
     public void setSelectedlista(Pracownik selectedlista) {
         this.selectedlista = selectedlista;
+    }
+
+    public Pracownik getSelectedeast() {
+        return selectedeast;
+    }
+
+    public void setSelectedeast(Pracownik selectedeast) {
+        this.selectedeast = selectedeast;
     }
     
     

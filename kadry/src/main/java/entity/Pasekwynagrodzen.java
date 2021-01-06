@@ -23,6 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import z.Z;
 
 /**
  *
@@ -59,50 +60,50 @@ public class Pasekwynagrodzen implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "bruttobezzus")
-private Double bruttobezzus;
+private double bruttobezzus;
     @Column(name = "bruttozus")
-    private Double bruttozus;
+    private double bruttozus;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "fgsp")
-    private Double fgsp;
+    private double fgsp;
     @Column(name = "fp")
-    private Double fp;
+    private double fp;
     @Column(name = "kosztyuzyskania")
-    private Double kosztyuzyskania;
+    private double kosztyuzyskania;
     @Column(name = "kwotawolna")
-    private Double kwotawolna;
+    private double kwotawolna;
     @Column(name = "netto")
-    private Double netto;
+    private double netto;
     @Column(name = "podatekdochodowy")
-    private Double podatekdochodowy;
+    private double podatekdochodowy;
     @Column(name = "podstawaopodatkowania")
-    private Double podstawaopodatkowania;
+    private double podstawaopodatkowania;
     @Column(name = "pracchorobowe")
-    private Double pracchorobowe;
+    private double pracchorobowe;
     @Column(name = "pracemerytalne")
-    private Double pracemerytalne;
+    private double pracemerytalne;
     @Column(name = "pracrentowe")
-    private Double pracrentowe;
+    private double pracrentowe;
     @Column(name = "razemspolecznepracownik")
-    private Double razemspolecznepracownik;
+    private double razemspolecznepracownik;
     @Column(name = "praczdrowotne")
-    private Double praczdrowotne;
+    private double praczdrowotne;
     @Column(name = "praczdrowotnedodoliczenia")
-    private Double praczdrowotnedodoliczenia;
+    private double praczdrowotnedodoliczenia;
     @Column(name = "praczdrowotnedopotracenia")
-    private Double praczdrowotnedopotracenia;
+    private double praczdrowotnedopotracenia;
     @Column(name = "praczdrowotnepomniejszone")
-    private Double praczdrowotnepomniejszone;
+    private double praczdrowotnepomniejszone;
     @Column(name = "rentowe")
-    private Double rentowe;
+    private double rentowe;
     @Column(name = "wypadkowe")
-    private Double wypadkowe;
+    private double wypadkowe;
     @Column(name = "podatekwstepny")
-    private Double podatekwstepny;
+    private double podatekwstepny;
     @Column(name = "podstawaubezpzdrowotne")
-    private Double podstawaubezpzdrowotne;
+    private double podstawaubezpzdrowotne;
     @Column(name = "potracenia")
-    private Double potracenia;
+    private double potracenia;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
     private List<Naliczeniepotracenie> naliczeniepotracenieList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
@@ -199,180 +200,184 @@ private Double bruttobezzus;
         this.kalendarzmiesiac = kalendarzmiesiac;
     }
 
-    public Double getBruttobezzus() {
+    public double getBruttobezzus() {
         return bruttobezzus;
     }
 
-    public void setBruttobezzus(Double bruttobezzus) {
+    public void setBruttobezzus(double bruttobezzus) {
         this.bruttobezzus = bruttobezzus;
     }
 
-    public Double getBruttozus() {
+    public double getBruttozus() {
         return bruttozus;
     }
 
-    public void setBruttozus(Double bruttozus) {
+    public void setBruttozus(double bruttozus) {
         this.bruttozus = bruttozus;
     }
 
-    public Double getFgsp() {
+    public double getBrutto() {
+        return Z.z(this.bruttobezzus+this.bruttozus);
+    }
+    
+    public double getFgsp() {
         return fgsp;
     }
 
-    public void setFgsp(Double fgsp) {
+    public void setFgsp(double fgsp) {
         this.fgsp = fgsp;
     }
 
-    public Double getFp() {
+    public double getFp() {
         return fp;
     }
 
-    public void setFp(Double fp) {
+    public void setFp(double fp) {
         this.fp = fp;
     }
 
-    public Double getKosztyuzyskania() {
+    public double getKosztyuzyskania() {
         return kosztyuzyskania;
     }
 
-    public void setKosztyuzyskania(Double kosztyuzyskania) {
+    public void setKosztyuzyskania(double kosztyuzyskania) {
         this.kosztyuzyskania = kosztyuzyskania;
     }
 
-    public Double getKwotawolna() {
+    public double getKwotawolna() {
         return kwotawolna;
     }
 
-    public void setKwotawolna(Double kwotawolna) {
+    public void setKwotawolna(double kwotawolna) {
         this.kwotawolna = kwotawolna;
     }
 
-    public Double getNetto() {
+    public double getNetto() {
         return netto;
     }
 
-    public void setNetto(Double netto) {
+    public void setNetto(double netto) {
         this.netto = netto;
     }
 
-    public Double getPodatekdochodowy() {
+    public double getPodatekdochodowy() {
         return podatekdochodowy;
     }
 
-    public void setPodatekdochodowy(Double podatekdochodowy) {
+    public void setPodatekdochodowy(double podatekdochodowy) {
         this.podatekdochodowy = podatekdochodowy;
     }
 
-    public Double getPodstawaopodatkowania() {
+    public double getPodstawaopodatkowania() {
         return podstawaopodatkowania;
     }
 
-    public void setPodstawaopodatkowania(Double podstawaopodatkowania) {
+    public void setPodstawaopodatkowania(double podstawaopodatkowania) {
         this.podstawaopodatkowania = podstawaopodatkowania;
     }
 
-    public Double getPracchorobowe() {
+    public double getPracchorobowe() {
         return pracchorobowe;
     }
 
-    public void setPracchorobowe(Double pracchorobowe) {
+    public void setPracchorobowe(double pracchorobowe) {
         this.pracchorobowe = pracchorobowe;
     }
 
-    public Double getPracemerytalne() {
+    public double getPracemerytalne() {
         return pracemerytalne;
     }
 
-    public void setPracemerytalne(Double pracemerytalne) {
+    public void setPracemerytalne(double pracemerytalne) {
         this.pracemerytalne = pracemerytalne;
     }
 
-    public Double getPracrentowe() {
+    public double getPracrentowe() {
         return pracrentowe;
     }
 
-    public void setPracrentowe(Double pracrentowe) {
+    public void setPracrentowe(double pracrentowe) {
         this.pracrentowe = pracrentowe;
     }
 
-    public Double getRazemspolecznepracownik() {
+    public double getRazemspolecznepracownik() {
         return razemspolecznepracownik;
     }
 
-    public void setRazemspolecznepracownik(Double razemspolecznepracownik) {
+    public void setRazemspolecznepracownik(double razemspolecznepracownik) {
         this.razemspolecznepracownik = razemspolecznepracownik;
     }
 
-    public Double getPraczdrowotne() {
+    public double getPraczdrowotne() {
         return praczdrowotne;
     }
 
-    public void setPraczdrowotne(Double praczdrowotne) {
+    public void setPraczdrowotne(double praczdrowotne) {
         this.praczdrowotne = praczdrowotne;
     }
 
-    public Double getPraczdrowotnedodoliczenia() {
+    public double getPraczdrowotnedodoliczenia() {
         return praczdrowotnedodoliczenia;
     }
 
-    public void setPraczdrowotnedodoliczenia(Double praczdrowotnedodoliczenia) {
+    public void setPraczdrowotnedodoliczenia(double praczdrowotnedodoliczenia) {
         this.praczdrowotnedodoliczenia = praczdrowotnedodoliczenia;
     }
 
-    public Double getPraczdrowotnedopotracenia() {
+    public double getPraczdrowotnedopotracenia() {
         return praczdrowotnedopotracenia;
     }
 
-    public void setPraczdrowotnedopotracenia(Double praczdrowotnedopotracenia) {
+    public void setPraczdrowotnedopotracenia(double praczdrowotnedopotracenia) {
         this.praczdrowotnedopotracenia = praczdrowotnedopotracenia;
     }
 
-    public Double getPraczdrowotnepomniejszone() {
+    public double getPraczdrowotnepomniejszone() {
         return praczdrowotnepomniejszone;
     }
 
-    public void setPraczdrowotnepomniejszone(Double praczdrowotnepomniejszone) {
+    public void setPraczdrowotnepomniejszone(double praczdrowotnepomniejszone) {
         this.praczdrowotnepomniejszone = praczdrowotnepomniejszone;
     }
 
-    public Double getRentowe() {
+    public double getRentowe() {
         return rentowe;
     }
 
-    public void setRentowe(Double rentowe) {
+    public void setRentowe(double rentowe) {
         this.rentowe = rentowe;
     }
 
 
-    public Double getWypadkowe() {
+    public double getWypadkowe() {
         return wypadkowe;
     }
 
-    public void setWypadkowe(Double wypadkowe) {
+    public void setWypadkowe(double wypadkowe) {
         this.wypadkowe = wypadkowe;
     }
 
-    public Double getPodatekwstepny() {
+    public double getPodatekwstepny() {
         return podatekwstepny;
     }
 
-    public void setPodatekwstepny(Double podatekwstepny) {
+    public void setPodatekwstepny(double podatekwstepny) {
         this.podatekwstepny = podatekwstepny;
     }
 
-    public Double getPodstawaubezpzdrowotne() {
+    public double getPodstawaubezpzdrowotne() {
         return podstawaubezpzdrowotne;
     }
 
-    public void setPodstawaubezpzdrowotne(Double podstawaubezpzdrowotne) {
+    public void setPodstawaubezpzdrowotne(double podstawaubezpzdrowotne) {
         this.podstawaubezpzdrowotne = podstawaubezpzdrowotne;
     }
 
-    public Double getPotracenia() {
+    public double getPotracenia() {
         return potracenia;
     }
 
-    public void setPotracenia(Double potracenia) {
+    public void setPotracenia(double potracenia) {
         this.potracenia = potracenia;
     }
 

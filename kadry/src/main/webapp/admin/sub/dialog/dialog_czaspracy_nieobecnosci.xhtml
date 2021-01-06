@@ -11,14 +11,14 @@
         <p:outputPanel style="height: 200px">
              <h:form id="NieobecnoscCreateForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{nieobecnoscView.selected != null}">
+                    <p:panelGrid columns="4" rendered="#{nieobecnoscView.selected != null}">
                         <p:outputLabel value="kod" for="kod" />
-                        <p:inputText id="kod" value="#{nieobecnoscView.selected.kod}" title="kod" required="true" requiredMessage="#{bundle.CreateNieobecnoscRequiredMessage_kod}"/>
-                        <p:outputLabel value="#{bundle.CreateNieobecnoscLabel_nazwa}" for="nazwa" />
-                        <p:inputText id="nazwa" value="#{nieobecnoscView.selected.nazwa}" title="nazwa" required="true" requiredMessage="#{bundle.CreateNieobecnoscRequiredMessage_nazwa}"/>
-                        <p:outputLabel value="#{bundle.CreateNieobecnoscLabel_dataod}" for="dataod" />
+                        <p:inputText id="kod" value="#{nieobecnoscView.selected.kod}" title="kod" required="true" requiredMessage="kod"/>
+                        <p:outputLabel value="nazwa" for="nazwa" />
+                        <p:inputText id="nazwa" value="#{nieobecnoscView.selected.nazwa}" title="nazwa" required="true" requiredMessage="nazwa"/>
+                        <p:outputLabel value="data od" for="dataod" />
                         <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="datac od" />
-                        <p:outputLabel value="#{bundle.CreateNieobecnoscLabel_datado}" for="datado" />
+                        <p:outputLabel value="data do" for="datado" />
                         <p:inputText id="datado" value="#{nieobecnoscView.selected.datado}" title="data do" />
                         <p:outputLabel value="umowa" for="umowa" />
                         <p:selectOneMenu id="umowa" value="#{nieobecnoscView.selected.umowa}" required="true" requiredMessage="wybierz umowę" converter="#{umowaConverter}">
@@ -35,7 +35,7 @@
         </p:outputPanel>
         <p:outputPanel>
              <h:form id="NieobecnoscListForm">
-                <p:panel header="#{bundle.ListAngazTitle}">
+                <p:panel header="Lista nieobecnosci">
                     <p:dataTable id="datalist" value="#{nieobecnoscView.lista}" var="itemNieob"
                                  selectionMode="single" selection="#{angazView.selectedlista}"
                                  rowKey="#{itemNieob.id}"
