@@ -35,7 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Kalendarzwzor.findAll", query = "SELECT k FROM Kalendarzwzor k"),
     @NamedQuery(name = "Kalendarzwzor.findById", query = "SELECT k FROM Kalendarzwzor k WHERE k.id = :id"),
     @NamedQuery(name = "Kalendarzwzor.findByRok", query = "SELECT k FROM Kalendarzwzor k WHERE k.rok = :rok"),
-    @NamedQuery(name = "Kalendarzwzor.findByMc", query = "SELECT k FROM Kalendarzwzor k WHERE k.mc = :mc")
+    @NamedQuery(name = "Kalendarzwzor.findByMc", query = "SELECT k FROM Kalendarzwzor k WHERE k.mc = :mc"),
+    @NamedQuery(name = "Kalendarzwzor.findByFirmaRokMc", query = "SELECT k FROM Kalendarzwzor k WHERE k.firma=:firma AND k.rok=:rok AND k.mc = :mc")
 })
 public class Kalendarzwzor implements Serializable {
 
