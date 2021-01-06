@@ -9,6 +9,7 @@ import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Pasekwynagrodzen;
 import entity.Skladnikwynagrodzenia;
 import entity.Zmiennawynagrodzenia;
+import java.util.List;
 
 /**
  *
@@ -36,12 +37,18 @@ public class NaliczenieskladnikawynagrodzeniaBean {
     
     public static Naliczenieskladnikawynagrodzenia createWynagrodzenieDB(Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia) {
         Naliczenieskladnikawynagrodzenia zwrot = new Naliczenieskladnikawynagrodzenia();
-        Zmiennawynagrodzenia zmiennawynagrodzenia = skladnikwynagrodzenia.getZmiennawynagrodzeniaList().get(0);
+        double zmiennawynagrodzeniakwota = 0.0;
+        List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = skladnikwynagrodzenia.getZmiennawynagrodzeniaList();
+        for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
+            if (p.getSkladnikwynagrodzenia().getKod().equals("10")) {
+                zmiennawynagrodzeniakwota = p.getKwota();
+            }
+        }
         zwrot.setPasekwynagrodzen(pasekwynagrodzen);
-        zwrot.setKwota(zmiennawynagrodzenia.getKwota());
+        zwrot.setKwota(zmiennawynagrodzeniakwota);
         zwrot.setKwotabezzus(0.0);
-        zwrot.setKwotazus(zmiennawynagrodzenia.getKwota());
-        zwrot.setKwotazredukowana(zmiennawynagrodzenia.getKwota());
+        zwrot.setKwotazus(zmiennawynagrodzeniakwota);
+        zwrot.setKwotazredukowana(zmiennawynagrodzeniakwota);
         zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
         return zwrot;
     }
@@ -61,11 +68,18 @@ public class NaliczenieskladnikawynagrodzeniaBean {
     
     public static Naliczenieskladnikawynagrodzenia createPremiaDB(Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia) {
             Naliczenieskladnikawynagrodzenia zwrot = new Naliczenieskladnikawynagrodzenia();
+            double zmiennawynagrodzeniakwota = 0.0;
+            List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = skladnikwynagrodzenia.getZmiennawynagrodzeniaList();
+            for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
+                if (p.getSkladnikwynagrodzenia().getKod().equals("20")) {
+                    zmiennawynagrodzeniakwota = p.getKwota();
+                }
+            }
             zwrot.setPasekwynagrodzen(pasekwynagrodzen);
-            zwrot.setKwota(100.0);
+            zwrot.setKwota(zmiennawynagrodzeniakwota);
             zwrot.setKwotabezzus(0.0);
-            zwrot.setKwotazus(100.0);
-            zwrot.setKwotazredukowana(100.0);
+            zwrot.setKwotazus(zmiennawynagrodzeniakwota);
+            zwrot.setKwotazredukowana(zmiennawynagrodzeniakwota);
             zwrot.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
         return zwrot;
     }

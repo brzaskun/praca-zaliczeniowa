@@ -158,21 +158,23 @@ public class KalendarzmiesiacBean {
     }
     
     static void dodajnieobecnoscDB(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen) {
-        int dzienod = Integer.parseInt(Data.getDzien(nieobecnosc.getDataod()));
-        int dziendo = Integer.parseInt(Data.getDzien(nieobecnosc.getDatado()));
-        for (int i = dzienod;i<dziendo+1;i++) {
-            for (Dzien p : kalendarz.getDzienList()) {
-                if (p.getNrdnia()==i) {
-                    p.setKod(nieobecnosc.getKod());
+        if (nieobecnosc!=null) {
+            int dzienod = Integer.parseInt(Data.getDzien(nieobecnosc.getDataod()));
+            int dziendo = Integer.parseInt(Data.getDzien(nieobecnosc.getDatado()));
+            for (int i = dzienod;i<dziendo+1;i++) {
+                for (Dzien p : kalendarz.getDzienList()) {
+                    if (p.getNrdnia()==i) {
+                        p.setKod(nieobecnosc.getKod());
+                    }
                 }
             }
-        }
-        if (nieobecnosc.getKod().equals("331")) {
-            naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen);
-        } else if (nieobecnosc.getKod().equals("001")) {
-            naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen);
-        } else if (nieobecnosc.getKod().equals("002")) {
-            naliczskladnikiwynagrodzeniazaUrlopBezplatny(kalendarz, nieobecnosc, pasekwynagrodzen);
+            if (nieobecnosc.getKod().equals("331")) {
+                naliczskladnikiwynagrodzeniazaChorobe(kalendarz, nieobecnosc, pasekwynagrodzen);
+            } else if (nieobecnosc.getKod().equals("001")) {
+                naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen);
+            } else if (nieobecnosc.getKod().equals("002")) {
+                naliczskladnikiwynagrodzeniazaUrlopBezplatny(kalendarz, nieobecnosc, pasekwynagrodzen);
+            }
         }
     }
 
@@ -192,10 +194,14 @@ public class KalendarzmiesiacBean {
         for (Skladnikwynagrodzenia p : kalendarz.getUmowa().getSkladnikwynagrodzeniaList()) {
             if (p.getKod().equals("10")) {
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDB(pasekwynagrodzen, p);
-                pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+                if (naliczenieskladnikawynagrodzenia.getKwota()!=0.0) {
+                    pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+                }
             } else if (p.getKod().equals("20")) {
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createPremiaDB(pasekwynagrodzen, p);
-                pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+                if (naliczenieskladnikawynagrodzenia.getKwota()!=0.0) {
+                    pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+                }
             }
         }
     }

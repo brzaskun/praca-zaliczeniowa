@@ -6,6 +6,7 @@
 package beans;
 
 import dao.PasekwynagrodzenFacade;
+import data.Data;
 import entity.Definicjalistaplac;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
@@ -41,7 +42,7 @@ public class PasekwynagrodzenBean {
     
       
     public static Pasekwynagrodzen oblicz(Pasekwynagrodzen pasek, Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac) {
-        List<Nieobecnosc> nieobecnosci = kalendarz.getUmowa().getNieobecnoscList();
+        List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz);
         Nieobecnosc choroba = pobierz(nieobecnosci,"331");
         Nieobecnosc urlop = pobierz(nieobecnosci,"001");
         Nieobecnosc urlopbezplatny = pobierz(nieobecnosci,"002");
@@ -51,7 +52,7 @@ public class PasekwynagrodzenBean {
         //najpierw musimy przyporzadkowac aktualne skladniki, aby potem prawidlowo obliczyc redukcje
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, choroba, pasek);
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlop, pasek);
-        KalendarzmiesiacBean.dodajnieobecnosc(kalendarz, urlopbezplatny, pasek);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopbezplatny, pasek);
         KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
 //        KalendarzmiesiacBean.naliczskladnikipotracenia(kalendarz, pasek);
         PasekwynagrodzenBean.obliczbruttozus(pasek);
@@ -269,5 +270,20 @@ public class PasekwynagrodzenBean {
         } catch (Exception e) {
             System.out.println(E.e(e));
         }
+    }
+
+    private static List<Nieobecnosc> pobierznieobecnosci(Kalendarzmiesiac kalendarz) {
+        String rok = kalendarz.getRok();
+        String mc = kalendarz.getMc();
+        boolean jest = false;
+        List<Nieobecnosc> zwrot = new ArrayList<>();
+        for (Nieobecnosc p : kalendarz.getUmowa().getNieobecnoscList()) {
+            jest = Data.czydatajestwmcu(p.getDataod(), rok, mc);
+            jest = Data.czydatajestwmcu(p.getDatado(), rok, mc);
+            if (jest) {
+                zwrot.add(p);
+            }
+        }
+        return zwrot;
     }
 }
