@@ -164,6 +164,24 @@ public class Fakturywystokresowe implements Serializable {
         this.m12 = m12;
     }
 
+    public Fakturywystokresowe(Fakturywystokresowe stara) {
+        this.podatnik = stara.podatnik;
+        this.rok = stara.rok;
+        this.dokument = new Faktura(stara.dokument);
+        this.m1 = stara.m1;
+        this.m2 = stara.m2;
+        this.m3 = stara.m3;
+        this.m4 = stara.m4;
+        this.m5 = stara.m5;
+        this.m6 = stara.m6;
+        this.m7 = stara.m7;
+        this.m8 = stara.m8;
+        this.m9 = stara.m9;
+        this.m10 = stara.m10;
+        this.m11 = stara.m11;
+        this.m12 = stara.m12;
+    }
+
     public Integer getId() {
         return id;
     }
