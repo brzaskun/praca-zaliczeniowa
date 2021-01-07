@@ -325,7 +325,7 @@ public class Faktura implements Serializable {
 
        public Faktura(Faktura stara) {
         this.wystawcanazwa = stara.wystawcanazwa;
-        this.numerkolejny = stara.numerkolejny+"/dlaokresowej";
+        this.numerkolejny = stara.numerkolejny+"/dlaokresowej/"+String.valueOf(stara.getId());
         this.wystawca = stara.wystawca;
         this.rodzajdokumentu = stara.rodzajdokumentu;
         this.rodzajtransakcji = stara.rodzajtransakcji;

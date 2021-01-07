@@ -2051,7 +2051,7 @@ public class FakturaView implements Serializable {
     
     public void skopiujdoNowegoroku() {
         for (Fakturywystokresowe stara : gosciwybralokres) {
-            Fakturywystokresowe p = SerialClone.clone(stara);
+            Fakturywystokresowe p = new Fakturywystokresowe(stara);
             p.setId(null);
             p.setRok(wpisView.getRokNastepnySt());
             p.setM1(0);
@@ -2257,7 +2257,7 @@ public class FakturaView implements Serializable {
     
     public void edytujnazwaskroconapodatnika() {
         selected.getKontrahent().setNskrocona(nazwaskroconafaktura.toUpperCase());
-        podatnikDAO.edit(selected.getKontrahent());
+        klienciDAO.edit(selected.getKontrahent());
         Msg.msg("Dopisano nazwę skróconą podatnika");
         FakturaOkresowaGenNum.wygenerujnumerfaktury(fakturaDAO, selected, wpisView);
     }
