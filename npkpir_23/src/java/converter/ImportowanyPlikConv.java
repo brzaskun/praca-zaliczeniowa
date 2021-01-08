@@ -4,6 +4,7 @@
  */
 package converter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -22,7 +23,8 @@ import xls.ImportowanyPlik;
  */
 @ManagedBean
 @SessionScoped
-public class ImportowanyPlikConv implements javax.faces.convert.Converter{
+public class ImportowanyPlikConv implements javax.faces.convert.Converter,Serializable {
+    private static final long serialVersionUID = 1L;
 
     private List<ImportowanyPlik> rodzajeimportulista;
     

@@ -13,7 +13,7 @@
                         <h:outputText value="Akceptowana wersja pliku xls,xlsx, xml" style="font-weight: bold;"/>
                         <p:fileUpload fileUploadListener="#{importMataczView.zachowajplik}" 
                                       mode="advanced" dragDropSupport="true" multiple="true" sequential="true" auto="true"
-                                      update="messages2 panelprzyciskow form_importinterpaper " 
+                                      update="messages2 panelprzyciskow importmatacz " 
                                       invalidSizeMessage="Plik za duży" allowTypes="/(\.|\/)(csv|xls|xml|xlsx)$/" invalidFileMessage="Niewłaściwy format pliku: "
                                       uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
                                       style="height: 90px;"> 
@@ -24,11 +24,11 @@
         </h:form>
         <h:form id="panelprzyciskow">
         <p:panelGrid columns="5">
-                <p:commandButton value="zaksięguj" actionListener="#{importMataczView.zaksiegujdokjpk()}" update="panelprzyciskow form_importinterpaper" style="width: 120px;margin-left: 30px;" />
+                <p:commandButton value="zaksięguj" actionListener="#{importMataczView.zaksiegujdokjpk()}" update="panelprzyciskow importmatacz" style="width: 120px;margin-left: 30px;" />
         </p:panelGrid>
         </h:form>  
        
-            <h:form id="form_importinterpaper">
+            <h:form id="importmatacz">
                 <p:panelGrid columns="1" >
             <p:dataTable id="dataListImport" value="#{importMataczView.dokumenty}" var="itemimp" rowIndexVar="row" widgetVar="tablicadokumentyimport" 
                          selection="#{importMataczView.selected}" rowKey="#{itemimp.nr}"  

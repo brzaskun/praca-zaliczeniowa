@@ -90,8 +90,12 @@ public class ReadXMLZorinOptimaFile {
 //        return listafaktur;
 //    }
     
-     public static List<InterpaperXLS> getListafakturXLS(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, String jakipobor, String mc) {
+     public static Object[] getListafakturXLS(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, String jakipobor, String mc) {
+        Object[] zwrot = new Object[4];
         List<InterpaperXLS> listafaktur = Collections.synchronizedList(new ArrayList<>());
+        List<ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT> innyokres = new ArrayList<>();
+        List<ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT> przerwanyimport = new ArrayList<>();
+        List<InterpaperXLS> importyzbrakami = Collections.synchronizedList(new ArrayList<>());
          try {
             InputStream file = new ByteArrayInputStream(plikinterpaper);
             InputStreamReader reader = new InputStreamReader(file, "Windows-1250");
@@ -99,7 +103,6 @@ public class ReadXMLZorinOptimaFile {
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             ROOT tabela =  (ROOT) jaxbUnmarshaller.unmarshal(reader);
              //Create Workbook instance holding reference to .xlsx file  TYLKO NOWE XLSX
-            List<String> zlefaktury = new ArrayList<>();
             if (tabela!=null && tabela.getREJESTRYSPRZEDAZYVAT()!=null && !tabela.getREJESTRYSPRZEDAZYVAT().getREJESTRSPRZEDAZYVAT().isEmpty()) {
                 int i =1;
                 Map<String, Klienci> znalezieni = new HashMap<>();
@@ -116,37 +119,73 @@ public class ReadXMLZorinOptimaFile {
                                     listafaktur.add(interpaperXLS);
                                 }
                             } else {
-                                String zwrot = null;
+                                ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT zlyrow = null;
                                 if (jakipobor.equals("firmy") && nip!=null && !nip.equals("") &&  nip.length()>7) {
-                                    zwrot = uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
+                                    zlyrow = uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
+                                    if (zlyrow!=null) {
+                                        przerwanyimport.add(zlyrow);
+                                    }
+                                    if (interpaperXLS.getKontrahent()!=null && (interpaperXLS.getNettowaluta()!=0.0 || interpaperXLS.getVatwaluta()!=0.0)) {
+                                        interpaperXLS.setNr(i++);
+                                        listafaktur.add(interpaperXLS);
+                                    } else {
+                                        importyzbrakami.add(interpaperXLS);
+                                    }
                                 } else if (jakipobor.equals("fiz") && (nip==null || nip.equals("") || nip.length()<8)) {
-                                    zwrot = uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
-                                }
-                                if (zwrot!=null) {
-                                    zlefaktury.add(zwrot);
-                                }
-                                if (interpaperXLS.getKontrahent()!=null && (interpaperXLS.getNettowaluta()!=0.0 || interpaperXLS.getVatwaluta()!=0.0)) {
-                                    interpaperXLS.setNr(i++);
-                                    listafaktur.add(interpaperXLS);
+                                    zlyrow = uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
+                                    if (zlyrow != null) {
+                                        przerwanyimport.add(zlyrow);
+                                    }
+                                    if (interpaperXLS.getKontrahent() != null && (interpaperXLS.getNettowaluta() != 0.0 || interpaperXLS.getVatwaluta() != 0.0)) {
+                                        interpaperXLS.setNr(i++);
+                                        listafaktur.add(interpaperXLS);
+                                    } else {
+                                        importyzbrakami.add(interpaperXLS);
+                                    }
                                 }
                             }
+                                
                         } else {
-                            zlefaktury.add(row.getNUMER());
+                            innyokres.add(row);
                         }
                     } catch (Exception e){
                         E.e(e);
                     }
                 }
+            } else {
+                
             }
             file.close();
-            for (String p : zlefaktury) {
-                System.out.println(p);
-            }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             E.e(e);
         }
-        return listafaktur;
+        zwrot[0] = listafaktur;
+        zwrot[2] = importyzbrakami;
+        List<InterpaperXLS> zlefakturylista = new ArrayList<>();
+        Map<String, Klienci> znalezieni = new HashMap<>();
+        int i =1;
+        for (ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT row :przerwanyimport) {
+            try {
+                InterpaperXLS interpaperXLS = new InterpaperXLS();
+                uzupelnijsprzedaz2(interpaperXLS, row, k, klienciDAO, znalezieni);
+                interpaperXLS.setNr(i++);
+                zlefakturylista.add(interpaperXLS);
+            } catch (Exception e){}
+        }
+        zwrot[1] = zlefakturylista;
+        List<InterpaperXLS> zlefakturylista2 = new ArrayList<>();
+        Map<String, Klienci> znalezieni2 = new HashMap<>();
+        i =1;
+        for (ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT row :innyokres) {
+            try {
+                InterpaperXLS interpaperXLS = new InterpaperXLS();
+                uzupelnijsprzedaz2(interpaperXLS, row, k, klienciDAO, znalezieni2);
+                interpaperXLS.setNr(i++);
+                zlefakturylista2.add(interpaperXLS);
+            } catch (Exception e){}
+        }
+        zwrot[3] = zlefakturylista2;
+        return zwrot;
     }
      
    private static void uzupelnijzakup(InterpaperXLS interpaperXLS, ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
@@ -184,8 +223,8 @@ public class ReadXMLZorinOptimaFile {
 //FE i FE 2  Sprzedaz eksportowa
 //FVPR i FVPR 2  Sprzedaz z przekroczeniem limitu gdzie stosowana ma być stawka danego kraju (DE  16% i FR 20%). 
 
-    private static String uzupelnijsprzedaz(InterpaperXLS interpaperXLS, ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
-        String zlafaktura = null;
+    private static ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT uzupelnijsprzedaz(InterpaperXLS interpaperXLS, ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
+        ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT zlafaktura = null;
         if (!row.getOPIS().equals("PAR")&&!row.getOPIS().equals("PAR 2")&&!row.getOPIS().equals("KPAR")&&!row.getOPIS().equals("KPAR 2")) {
             try {
                 interpaperXLS.setNrfaktury(row.getNUMER());
@@ -218,8 +257,46 @@ public class ReadXMLZorinOptimaFile {
                 interpaperXLS.setBruttowaluta(kwoty[5]);
             } catch (Exception e) {
                 System.out.println("");
-                zlafaktura = row.getNUMER();
+                zlafaktura = row;
             }
+        }
+        return zlafaktura;
+    }
+    
+    private static ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT uzupelnijsprzedaz2(InterpaperXLS interpaperXLS, ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
+        ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT zlafaktura = null;
+        try {
+            interpaperXLS.setNrfaktury(row.getNUMER());
+            interpaperXLS.setDatawystawienia(row.getDATAWYSTAWIENIA().toGregorianCalendar().getTime());
+            interpaperXLS.setDatasprzedaży(row.getDATASPRZEDAZY().toGregorianCalendar().getTime());
+            interpaperXLS.setDataobvat(row.getDATASPRZEDAZY().toGregorianCalendar().getTime());
+            interpaperXLS.setKlientnazwa(row.getNAZWA1());
+            interpaperXLS.setKlientpaństwo(row.getKRAJ());
+            interpaperXLS.setKlientkod(row.getKODPOCZTOWY());
+            interpaperXLS.setKlientmiasto(row.getMIASTO());
+            interpaperXLS.setKlientulica(row.getULICA());
+            interpaperXLS.setKlientdom(row.getNRDOMU());
+            interpaperXLS.setKlientlokal(row.getNRLOKALU());
+            String kontr = row.getNAZWA1()+" "+row.getKRAJ()+" "+row.getKODPOCZTOWY()+" "+row.getMIASTO();
+            interpaperXLS.setKontrahent(kontr);
+            interpaperXLS.setNip(pobierznip(row));
+            interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
+            interpaperXLS.setWalutaplatnosci(pobierzwalute(row));
+            List<ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.POZYCJE.POZYCJA> poz = row.getPOZYCJE().getPOZYCJA();
+            ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.PLATNOSCI.PLATNOSC plt = row.getPLATNOSCI().getPLATNOSC();
+            interpaperXLS.setSaldofaktury(plt.getKWOTAPLAT());
+            interpaperXLS.setTerminplatnosci(plt.getTERMINPLAT()!=null? plt.getTERMINPLAT().toGregorianCalendar().getTime():null);
+            double kwoty[] = obliczkwoty(poz,plt, pobierzwalute(row));
+            interpaperXLS.setNettoPLN(kwoty[0]);
+            interpaperXLS.setNettoPLNvat(kwoty[0]);
+            interpaperXLS.setVatPLN(kwoty[1]);
+            interpaperXLS.setBruttoPLN(kwoty[2]);
+            interpaperXLS.setNettowaluta(kwoty[3]);
+            interpaperXLS.setVatwaluta(kwoty[4]);
+            interpaperXLS.setBruttowaluta(kwoty[5]);
+        } catch (Exception e) {
+            System.out.println("");
+            zlafaktura = row;
         }
         return zlafaktura;
     }

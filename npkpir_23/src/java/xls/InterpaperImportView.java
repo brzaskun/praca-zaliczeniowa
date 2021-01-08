@@ -94,7 +94,10 @@ public class InterpaperImportView implements Serializable {
     private ListaEwidencjiVat listaEwidencjiVat;
     private byte[] pobranyplik;
     private List<byte[]> pobraneplikibytes;
-    public  List<InterpaperXLS> pobranefaktury;
+    public List<InterpaperXLS> pobranefaktury;
+    public List<InterpaperXLS> przerwanyimport;
+    public List<InterpaperXLS> importyzbrakami;
+    public List<InterpaperXLS> innyokres;
     public  List<InterpaperXLS> pobranefakturyfilter;
     public  List<InterpaperXLS> selected;
     private List<Rodzajedok> rodzajedokKlienta;
@@ -103,7 +106,6 @@ public class InterpaperImportView implements Serializable {
     private PanelGrid grid0;
     private PanelGrid grid1;
     private PanelGrid grid2;
-    private PanelGrid grid3;
     private boolean sabraki;
     private CommandButton generujbutton;
     private CommandButton drkujfizbutton;
@@ -181,8 +183,7 @@ public class InterpaperImportView implements Serializable {
                 PrimeFaces.current().ajax().update("panelplik");
                 grid1.setRendered(true);
                 grid2.setRendered(false);
-                grid3.setRendered(false);
-                pobranefaktury = null;
+                    pobranefaktury = null;
                 rodzajdok = null;
                 jakipobor = null;
                 rodzajedokimportu = pobierzrodzajeimportu(wybranyrodzajimportu.getLp());
@@ -231,7 +232,11 @@ public class InterpaperImportView implements Serializable {
                     pobranefaktury = ReadXLSMuchaFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, wpisView.getMiesiacWpisu());
                     break;
                 case 7:
-                    pobranefaktury = ReadXMLZorinOptimaFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, jakipobor, wpisView.getMiesiacWpisu());
+                    Object[] zwrot = ReadXMLZorinOptimaFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, jakipobor, wpisView.getMiesiacWpisu());
+                    pobranefaktury = (List<InterpaperXLS>) zwrot[0];
+                    przerwanyimport = (List<InterpaperXLS>) zwrot[1];
+                    importyzbrakami = (List<InterpaperXLS>) zwrot[2];
+                    innyokres = (List<InterpaperXLS>) zwrot[3];
                     break;
             }
             if (jakipobor!=null) {
@@ -251,7 +256,6 @@ public class InterpaperImportView implements Serializable {
                     }
                 }
             }
-            grid3.setRendered(true);
             if (wybranyrodzajimportu.getLp()==2 && (rodzajdok.equals("sprzedaż NIP") || rodzajdok.contains("zakup"))) {
                 generujbutton.setRendered(true);
                 drkujfizbutton.setRendered(true);
@@ -963,11 +967,9 @@ public class InterpaperImportView implements Serializable {
         if (rodzajdok!=null) {
             grid2.setRendered(true);
             pobranefaktury = null;
-            grid3.setRendered(false);
         } else {
             grid2.setRendered(false);
             pobranefaktury = null;
-            grid3.setRendered(false);
         }
     }
     
@@ -1069,15 +1071,7 @@ public class InterpaperImportView implements Serializable {
         this.grid2 = grid2;
     }
 
-    public PanelGrid getGrid3() {
-        return grid3;
-    }
-
-    public void setGrid3(PanelGrid grid3) {
-        this.grid3 = grid3;
-    }
-
-    public CommandButton getGenerujbutton() {
+      public CommandButton getGenerujbutton() {
         return generujbutton;
     }
 
@@ -1179,6 +1173,30 @@ public class InterpaperImportView implements Serializable {
 
     public void setJakipobor(String jakipobor) {
         this.jakipobor = jakipobor;
+    }
+
+    public List<InterpaperXLS> getPrzerwanyimport() {
+        return przerwanyimport;
+    }
+
+    public void setPrzerwanyimport(List<InterpaperXLS> przerwanyimport) {
+        this.przerwanyimport = przerwanyimport;
+    }
+
+    public List<InterpaperXLS> getImportyzbrakami() {
+        return importyzbrakami;
+    }
+
+    public void setImportyzbrakami(List<InterpaperXLS> importyzbrakami) {
+        this.importyzbrakami = importyzbrakami;
+    }
+
+    public List<InterpaperXLS> getInnyokres() {
+        return innyokres;
+    }
+
+    public void setInnyokres(List<InterpaperXLS> innyokres) {
+        this.innyokres = innyokres;
     }
 
   

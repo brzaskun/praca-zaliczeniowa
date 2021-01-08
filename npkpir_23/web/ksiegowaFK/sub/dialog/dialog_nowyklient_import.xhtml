@@ -20,7 +20,7 @@
                                     forceSelection="true" styleClass="wpisywaniekontrfk" autocomplete="true" moreText="jest więcej pasujących pozycji"
                                      style="width: 250px;">
                         <p:ajax event="query" global="false"/>
-                        <p:ajax event="itemSelect" listener="#{interpaperImportView.nanieszmianytabela}" partialSubmit="true" oncomplete="PF('dlgwprowadzanieklientaimport').hide();" global="false" update="form_importinterpaper"/>
+                        <p:ajax event="itemSelect" listener="#{interpaperImportView.nanieszmianytabela}" partialSubmit="true" oncomplete="PF('dlgwprowadzanieklientaimport').hide();" global="false" update="akordeon5:form_importinterpaper"/>
                         <f:facet name="itemtip">  
                             <h:panelGrid  columns="2" cellpadding="5" width="400">  
                                 <f:facet name="header">  
@@ -92,7 +92,7 @@
                     </p:autoComplete>
                     <p:inputText id="emailPole" value="#{interpaperImportView.selectedimport.email}" style="width: 200px" >
                     </p:inputText>
-                    <p:commandButton value="dodaj" action="#{interpaperImportView.dodajKlienta()}" update="form_importinterpaper" oncomplete="PF('dlgwprowadzanieklientaimport').hide();"
+                    <p:commandButton value="dodaj" action="#{interpaperImportView.dodajKlienta()}" update="akordeon5:form_importinterpaper" oncomplete="PF('dlgwprowadzanieklientaimport').hide();"
                                       style="width: 120px;margin-top: 8px;"/>
                 </p:panelGrid>
             </p:panel>
