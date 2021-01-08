@@ -1417,12 +1417,14 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return Collections.synchronizedList(em.createNamedQuery("Rejestrlogowan.findByIloscLogowan0").getResultList());
     }
 
-    public List<Podatnik> findAktywnyPodatnik(Boolean podmiotaktywny) {
-        return Collections.synchronizedList(em.createNamedQuery("Podatnik.findByPodmiotaktywny").setParameter("podmiotaktywny", podmiotaktywny).getResultList());
+    public List<Podatnik> findAktywnyPodatnik() {
+        List<Podatnik> zwrot = Collections.synchronizedList(em.createNamedQuery("Podatnik.findByPodmiotaktywny").getResultList());
+        System.out.println("POBRAŁEM PODATNIKÓW AKTYWNYCH");
+        return zwrot;
     }
     
-    public List<Podatnik> findAktywnyPodatnikRO(Boolean podmiotaktywny) {
-        return Collections.synchronizedList(em.createNamedQuery("Podatnik.findByPodmiotaktywny").setParameter("podmiotaktywny", podmiotaktywny)
+    public List<Podatnik> findAktywnyPodatnikRO() {
+        return Collections.synchronizedList(em.createNamedQuery("Podatnik.findByPodmiotaktywny")
                 .setHint(QueryHints.READ_ONLY, HintValues.TRUE)
                 .setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE)
                 .getResultList());

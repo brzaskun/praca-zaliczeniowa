@@ -26,15 +26,15 @@ import entity.Uz;
 import error.E;
 import java.io.Serializable;
 import java.security.Principal;
-import javax.faces.bean.ManagedBean;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import view.WpisView;
-@ManagedBean
-@RequestScoped
+@Named
+@SessionScoped
 public class GuestPreferences implements Serializable {
 
         private String theme = "redmond"; //default

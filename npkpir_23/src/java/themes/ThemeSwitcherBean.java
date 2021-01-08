@@ -1,6 +1,5 @@
 package themes;
 
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,14 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
-@ManagedBean
-@RequestScoped
+@Named
+@SessionScoped
 public class ThemeSwitcherBean implements Serializable {
-        
+    private static final long serialVersionUID = 1L;
     private Map<String, String> themes;
     
     private List<Theme> advancedThemes;

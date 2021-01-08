@@ -24,6 +24,7 @@
         </h:form>
         <h:form id="panelprzyciskow">
         <p:panelGrid columns="5">
+            <p:growl life="3600"/>
                 <p:commandButton value="zaksięguj" actionListener="#{importMataczView.zaksiegujdokjpk()}" update="panelprzyciskow importmatacz" style="width: 120px;margin-left: 30px;" />
         </p:panelGrid>
         </h:form>  
