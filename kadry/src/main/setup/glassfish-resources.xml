@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+<resources>
+  <jdbc-resource enabled="true" jndi-name="kadryDB" object-type="user" pool-name="connectionPool">
+    <description/>
+  </jdbc-resource>
+  <jdbc-connection-pool associate-with-thread="false"
+                          datasource-classname="com.mysql.cj.jdbc.MysqlDataSource"
+                          wrap-jdbc-objects="true" connection-creation-retry-attempts="10" connection-creation-retry-interval-in-seconds="1" 
+                          connection-leak-reclaim="true"
+                          statement-cache-size="100"
+                          idle-timeout-in-seconds="4000" 
+                          is-isolation-level-guaranteed="true" lazy-connection-association="true" 
+                          lazy-connection-enlistment="true" match-connections="true" max-connection-usage-count="0" max-pool-size="1024"
+                          max-wait-time-in-millis="6000" name="connectionPool" non-transactional-connections="true"
+                          pool-resize-quantity="4" res-type="javax.sql.DataSource"   
+                          steady-pool-size="40" ping="true" 
+                          is-connection-validation-required="true"
+                          connection-validation-method="custom-validation"
+                          validation-classname="org.glassfish.api.jdbc.validation.MySQLConnectionValidation"
+                          validate-atmost-once-period-in-seconds="10"
+                          connection-leak-timeout-in-seconds="5" 
+                          statement-leak-timeout-in-seconds="5" 
+  >
+    <property name="URL" value="jdbc:mysql://localhost:3306/kadry?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false&amp;allowPublicKeyRetrieval=true&amp;"/>
+    <property name="User" value="brzaskun"/>
+    <property name="Password" value="pufikun"/>
+    <property name="serverName" value="localhost"/>
+        <property name="portNumber" value="3306"/>
+        <property name="databaseName" value="kadry"/>
+        <property name="PasswordCredential" value="pufikun"/>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>  </jdbc-connection-pool>
+</resources>

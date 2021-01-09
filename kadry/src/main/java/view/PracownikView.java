@@ -58,6 +58,16 @@ public class PracownikView  implements Serializable {
             Msg.msg("Aktywowano pracownika");
         }
     }
+    
+    public void usun(Pracownik pracownik) {
+        if (pracownik!=null) {
+            pracownikFacade.remove(pracownik);
+            lista.remove(pracownik);
+            Msg.msg("Usunięto pracownika");
+        } else {
+            Msg.msg("e","Nie wybrano pracownika");
+        }
+    }
     public Pracownik getSelected() {
         return selected;
     }

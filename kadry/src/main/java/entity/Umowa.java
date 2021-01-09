@@ -5,6 +5,7 @@
  */
 package entity;
 
+import enumy.Memory;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -65,6 +66,9 @@ public class Umowa implements Serializable {
     @Size(max = 255)
     @Column(name = "datazawarcia")
     private String datazawarcia;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "kosztyuzyskania")
+    private Double kosztyuzyskania;
     @Size(max = 255)
     @Column(name = "datanfz")
     private String datanfz;
@@ -83,6 +87,8 @@ public class Umowa implements Serializable {
     @Size(max = 255)
     @Column(name = "nfz")
     private String nfz;
+    @OneToMany(mappedBy = "umowa")
+    private List<Memory> memoryList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa")
     private List<Nieobecnosc> nieobecnoscList;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -106,8 +112,6 @@ public class Umowa implements Serializable {
     private Boolean wypadkowe;
     @Column(name = "zdrowotne")
     private Boolean zdrowotne;
-    @Column(name = "kosztyuzyskania")
-    private double kosztyuzyskania;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -216,13 +220,6 @@ public class Umowa implements Serializable {
 
    
 
-    public double getKosztyuzyskania() {
-        return kosztyuzyskania;
-    }
-
-    public void setKosztyuzyskania(double kosztyuzyskania) {
-        this.kosztyuzyskania = kosztyuzyskania;
-    }
 
 
     public Boolean getOdliczaculgepodatkowa() {
@@ -330,6 +327,14 @@ public class Umowa implements Serializable {
         this.datazawarcia = datazawarcia;
     }
 
+    public Double getKosztyuzyskania() {
+        return kosztyuzyskania;
+    }
+
+    public void setKosztyuzyskania(Double kosztyuzyskania) {
+        this.kosztyuzyskania = kosztyuzyskania;
+    }
+
     public String getDatanfz() {
         return datanfz;
     }
@@ -376,6 +381,15 @@ public class Umowa implements Serializable {
 
     public void setNfz(String nfz) {
         this.nfz = nfz;
+    }
+
+    @XmlTransient
+    public List<Memory> getMemoryList() {
+        return memoryList;
+    }
+
+    public void setMemoryList(List<Memory> memoryList) {
+        this.memoryList = memoryList;
     }
 
 }

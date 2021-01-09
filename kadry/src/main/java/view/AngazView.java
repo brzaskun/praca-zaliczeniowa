@@ -71,6 +71,15 @@ public class AngazView  implements Serializable {
         }
     }
     
+     public void usun(Angaz angaz) {
+        if (angaz!=null) {
+            angazFacade.remove(angaz);
+            Msg.msg("Usunięto firmę");
+        } else {
+            Msg.msg("e","Nie wybrano angażu");
+        }
+    }
+    
     public void findPracownicyByFirma(Firma firma) {
         if (firma!=null) {
             listapracownikow = angazFacade.findPracownicyByFirma(firma);

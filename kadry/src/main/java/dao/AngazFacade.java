@@ -47,6 +47,15 @@ public class AngazFacade  {
         getEntityManager().persist(entity);
     }
     
+     public void remove(Angaz entity) {
+        em.remove(em.merge(entity));
+    }
+    
+    public void remove(List<Angaz> entityList) {
+        for (Angaz p : entityList) {
+            em.remove(em.merge(p));
+        }
+    }
     public List<Angaz> findAll() {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(Angaz.class));

@@ -53,4 +53,14 @@ public class PracownikFacade  {
      public void edit(Pracownik entity) {
         getEntityManager().merge(entity);
     }
+     
+    public void remove(Pracownik entity) {
+        em.remove(em.merge(entity));
+    }
+    
+    public void remove(List<Pracownik> entityList) {
+        for (Pracownik p : entityList) {
+            em.remove(em.merge(p));
+        }
+    }
 }

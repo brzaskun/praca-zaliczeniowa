@@ -57,6 +57,9 @@
                         <p:column style="text-align: center;">
                             <p:commandButton value="aktywna" actionListener="#{pracownikView.aktywuj(item2)}" update="north"/>
                         </p:column>
+                        <p:column style="text-align: center;">
+                            <p:commandButton icon="fa fa-trash" actionListener="#{pracownikView.usun(item2)}" update="north @form"/>
+                        </p:column>
                     </p:dataTable>
                 </p:panel>
             </h:form>

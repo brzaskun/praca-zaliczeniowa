@@ -5,9 +5,11 @@
  */
 package entity;
 
+import enumy.Memory;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,6 +43,8 @@ public class Pracownik implements Serializable {
     @Size(max = 255)
     @Column(name = "nazwisko")
     private String nazwisko;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pracownik")
+    private List<Memory> memoryList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -103,12 +107,19 @@ public class Pracownik implements Serializable {
     public String getNazwiskoImie() {
         return nazwisko+" "+imie;
     }
+    public String getCzyjetsangaz(){
+        String zwrot = "";
+        if (this.angazList!=null&& !this.angazList.isEmpty()) {
+            zwrot = "✔";
+        }
+        return zwrot;
+    }
+
+  
 
     public String getImie() {
         return imie;
     }
-
-  
 
     public void setImie(String imie) {
         this.imie = imie;
@@ -117,16 +128,17 @@ public class Pracownik implements Serializable {
     public String getNazwisko() {
         return nazwisko;
     }
-
-    public void setNazwisko(String nazwisko) {
+    
+    public void setNazwisko(String nazwisko){
         this.nazwisko = nazwisko;
     }
-    
-    public String getCzyjetsangaz(){
-        String zwrot = "";
-        if (this.angazList!=null&& !this.angazList.isEmpty()) {
-            zwrot = "✔";
-        }
-        return zwrot;
+
+    @XmlTransient
+    public List<Memory> getMemoryList() {
+        return memoryList;
+    }
+
+    public void setMemoryList(List<Memory> memoryList) {
+        this.memoryList = memoryList;
     }
 }
