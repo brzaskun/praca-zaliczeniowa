@@ -46,6 +46,7 @@ public class PasekwynagrodzenFacade   implements Serializable {
     
     public void create(Pasekwynagrodzen entity) {
         getEntityManager().persist(entity);
+        getEntityManager().flush();
     }
     
     public List<Pasekwynagrodzen> findAll() {

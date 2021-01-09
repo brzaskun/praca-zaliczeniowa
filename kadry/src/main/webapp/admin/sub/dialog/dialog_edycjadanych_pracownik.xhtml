@@ -26,11 +26,11 @@
                 <p:panel header="Wykaz pracowników">
                     <p:dataTable id="datalist" value="#{pracownikView.lista}" var="item2"
                                  selectionMode="single" selection="#{pracownikView.selectedlista}"
-                                 rowKey="#{item2.id}"
+                                 rowKey="#{item2.id}" 
                                  style="height: 500px; overflow-y: scroll;"
                                  >
 
-                        <p:column width="40" style="text-align: center;">
+                        <p:column width="40" style="text-align: center;height: 30px;">
                             <f:facet name="header">
                                 <h:outputText value="id"/>
                             </f:facet>

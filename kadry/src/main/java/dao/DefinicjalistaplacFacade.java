@@ -44,6 +44,7 @@ public class DefinicjalistaplacFacade  implements Serializable {
     
     public void create(Definicjalistaplac entity) {
         getEntityManager().persist(entity);
+        getEntityManager().flush();
     }
     
     public List<Definicjalistaplac> findAll() {

@@ -5,7 +5,6 @@
  */
 package entity;
 
-import enumy.Memory;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -54,7 +53,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Umowa.findByNieliczFP", query = "SELECT u FROM Umowa u WHERE u.nieliczFP = :nieliczFP"),
     @NamedQuery(name = "Umowa.findByRentowe", query = "SELECT u FROM Umowa u WHERE u.rentowe = :rentowe"),
     @NamedQuery(name = "Umowa.findByWypadkowe", query = "SELECT u FROM Umowa u WHERE u.wypadkowe = :wypadkowe"),
-    @NamedQuery(name = "Umowa.findByZdrowotne", query = "SELECT u FROM Umowa u WHERE u.zdrowotne = :zdrowotne")})
+    @NamedQuery(name = "Umowa.findByZdrowotne", query = "SELECT u FROM Umowa u WHERE u.zdrowotne = :zdrowotne"),
+    @NamedQuery(name = "Umowa.findByPracownik", query = "SELECT u FROM Umowa u WHERE u.angaz.pracownik = :pracownik")
+})
 public class Umowa implements Serializable {
 
     @Size(max = 255)
@@ -67,8 +68,6 @@ public class Umowa implements Serializable {
     @Column(name = "datazawarcia")
     private String datazawarcia;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "kosztyuzyskania")
-    private Double kosztyuzyskania;
     @Size(max = 255)
     @Column(name = "datanfz")
     private String datanfz;
@@ -87,8 +86,8 @@ public class Umowa implements Serializable {
     @Size(max = 255)
     @Column(name = "nfz")
     private String nfz;
-    @OneToMany(mappedBy = "umowa")
-    private List<Memory> memoryList;
+    @Column(name = "kosztyuzyskania")
+    private Double kosztyuzyskania;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa")
     private List<Nieobecnosc> nieobecnoscList;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -215,9 +214,12 @@ public class Umowa implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Umowa[ id=" + id + " ]";
+        return "Umowa{" + "datado=" + datado + ", dataod=" + dataod + ", angaz=" + angaz.getPracownik().getNazwiskoImie() + ", rodzajumowy=" + rodzajumowy.getNazwa() + '}';
     }
 
+   public String umowanumernazwa() {
+       return this.angaz.getPracownik().getNazwiskoImie()+" "+this.rodzajumowy.getNazwa()+" "+this.dataod;
+   }
    
 
 
@@ -303,6 +305,15 @@ public class Umowa implements Serializable {
         this.nieobecnoscList = nieobecnoscList;
     }
 
+
+    public Double getKosztyuzyskania() {
+        return kosztyuzyskania;
+    }
+
+    public void setKosztyuzyskania(Double kosztyuzyskania) {
+        this.kosztyuzyskania = kosztyuzyskania;
+    }
+
     public String getDatado() {
         return datado;
     }
@@ -325,14 +336,6 @@ public class Umowa implements Serializable {
 
     public void setDatazawarcia(String datazawarcia) {
         this.datazawarcia = datazawarcia;
-    }
-
-    public Double getKosztyuzyskania() {
-        return kosztyuzyskania;
-    }
-
-    public void setKosztyuzyskania(Double kosztyuzyskania) {
-        this.kosztyuzyskania = kosztyuzyskania;
     }
 
     public String getDatanfz() {
@@ -383,13 +386,6 @@ public class Umowa implements Serializable {
         this.nfz = nfz;
     }
 
-    @XmlTransient
-    public List<Memory> getMemoryList() {
-        return memoryList;
-    }
-
-    public void setMemoryList(List<Memory> memoryList) {
-        this.memoryList = memoryList;
-    }
-
+    
+    
 }

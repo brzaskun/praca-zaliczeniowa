@@ -5,7 +5,7 @@
  */
 package entity;
 
-import enumy.Memory;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -43,16 +43,14 @@ public class Pracownik implements Serializable {
     @Size(max = 255)
     @Column(name = "nazwisko")
     private String nazwisko;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pracownik")
-    private List<Memory> memoryList;
-
+   
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @OneToMany(mappedBy = "pracownik")
+    @OneToMany(mappedBy = "pracownik", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Angaz> angazList;
 
     public Pracownik() {
@@ -133,12 +131,5 @@ public class Pracownik implements Serializable {
         this.nazwisko = nazwisko;
     }
 
-    @XmlTransient
-    public List<Memory> getMemoryList() {
-        return memoryList;
-    }
-
-    public void setMemoryList(List<Memory> memoryList) {
-        this.memoryList = memoryList;
-    }
+   
 }

@@ -40,14 +40,14 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Skladnikwynagrodzenia implements Serializable {
 
     @Column(name = "godzinowe0miesieczne1")
-    private Boolean godzinowe0miesieczne1;
+    private boolean godzinowe0miesieczne1;
     @Size(max = 255)
     @Column(name = "nazwa")
     private String nazwa;
     @Column(name = "redukowanyzaczasnieobecnosci")
-    private Boolean redukowanyzaczasnieobecnosci;
+    private boolean redukowanyzaczasnieobecnosci;
     @Column(name = "stala0zmienna1")
-    private Boolean stala0zmienna1;
+    private boolean stala0zmienna1;
     @Size(max = 4)
     @Column(name = "kod")
     private String kod;
@@ -59,12 +59,12 @@ public class Skladnikwynagrodzenia implements Serializable {
     private Integer id;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikwynagrodzenia")
     private List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList;
-    @OneToMany(mappedBy = "skladnikwynagrodzenia")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikwynagrodzenia")
     private List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList;
     @JoinColumn(name = "umowa", referencedColumnName = "id")
     @ManyToOne
     private Umowa umowa;
-    @OneToMany(mappedBy = "skladnikwynagrodzenia")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikwynagrodzenia")
     private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
 
     public Skladnikwynagrodzenia() {
@@ -144,11 +144,11 @@ public class Skladnikwynagrodzenia implements Serializable {
         this.zmiennawynagrodzeniaList = zmiennawynagrodzeniaList;
     }
 
-    public Boolean getGodzinowe0miesieczne1() {
+    public boolean getGodzinowe0miesieczne1() {
         return godzinowe0miesieczne1;
     }
 
-    public void setGodzinowe0miesieczne1(Boolean godzinowe0miesieczne1) {
+    public void setGodzinowe0miesieczne1(boolean godzinowe0miesieczne1) {
         this.godzinowe0miesieczne1 = godzinowe0miesieczne1;
     }
 
@@ -160,19 +160,19 @@ public class Skladnikwynagrodzenia implements Serializable {
         this.nazwa = nazwa;
     }
 
-    public Boolean getRedukowanyzaczasnieobecnosci() {
+    public boolean getRedukowanyzaczasnieobecnosci() {
         return redukowanyzaczasnieobecnosci;
     }
 
-    public void setRedukowanyzaczasnieobecnosci(Boolean redukowanyzaczasnieobecnosci) {
+    public void setRedukowanyzaczasnieobecnosci(boolean redukowanyzaczasnieobecnosci) {
         this.redukowanyzaczasnieobecnosci = redukowanyzaczasnieobecnosci;
     }
 
-    public Boolean getStala0zmienna1() {
+    public boolean getStala0zmienna1() {
         return stala0zmienna1;
     }
 
-    public void setStala0zmienna1(Boolean stala0zmienna1) {
+    public void setStala0zmienna1(boolean stala0zmienna1) {
         this.stala0zmienna1 = stala0zmienna1;
     }
 

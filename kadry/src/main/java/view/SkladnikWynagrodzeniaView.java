@@ -6,7 +6,9 @@
 package view;
 
 import dao.SkladnikWynagrodzeniaFacade;
+import dao.UmowaFacade;
 import entity.Skladnikwynagrodzenia;
+import entity.Umowa;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -25,23 +27,28 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private Skladnikwynagrodzenia selected;
+    private Umowa selectedumowa;
     @Inject
     private Skladnikwynagrodzenia selectedlista;
     private List<Skladnikwynagrodzenia> lista;
+    private List<Umowa> listaumow;
     @Inject
     private SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade;
+    @Inject
+    private UmowaFacade umowaFacade;
     @Inject
     private WpisView wpisView;
     
     @PostConstruct
     private void init() {
         lista  = skladnikWynagrodzeniaFacade.findAll();
+        listaumow = umowaFacade.findPracownik(wpisView.getPracownik());
     }
 
     public void create() {
-      if (selected!=null && wpisView.getUmowa()!=null) {
+      if (selected!=null && selectedumowa!=null) {
           try {
-            selected.setUmowa(wpisView.getUmowa());
+            selected.setUmowa(selectedumowa);
             skladnikWynagrodzeniaFacade.create(selected);
             lista.add(selected);
             selected = new Skladnikwynagrodzenia();
@@ -55,7 +62,15 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
       }
     }
     
-
+    public void usun(Skladnikwynagrodzenia skladnikwynagrodzenia) {
+        if (skladnikwynagrodzenia!=null) {
+            skladnikWynagrodzeniaFacade.remove(skladnikwynagrodzenia);
+            lista.remove(skladnikwynagrodzenia);
+            Msg.msg("Usunięto składnik wynagrodzeani");
+        } else {
+            Msg.msg("e","Nie wybrano składnika wynagrodzenia");
+        }
+    }
     public Skladnikwynagrodzenia getSelected() {
         return selected;
     }
@@ -80,6 +95,23 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
         this.lista = lista;
     }
 
+    public List<Umowa> getListaumow() {
+        return listaumow;
+    }
+
+    public void setListaumow(List<Umowa> listaumow) {
+        this.listaumow = listaumow;
+    }
+
+    public Umowa getSelectedumowa() {
+        return selectedumowa;
+    }
+
+    public void setSelectedumowa(Umowa selectedumowa) {
+        this.selectedumowa = selectedumowa;
+    }
+
+    
 
     
     

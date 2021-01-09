@@ -40,6 +40,9 @@ import javax.xml.bind.annotation.XmlTransient;
 
 public class Angaz implements Serializable {
 
+    @OneToMany(mappedBy = "angaz")
+    private List<Memory> memoryList;
+
   
     private static final long serialVersionUID = 1L;
     @Id
@@ -137,5 +140,14 @@ public class Angaz implements Serializable {
     }
     public String getAngazStringPlik() {
         return this.getFirma().getNazwa();
+    }
+
+    @XmlTransient
+    public List<Memory> getMemoryList() {
+        return memoryList;
+    }
+
+    public void setMemoryList(List<Memory> memoryList) {
+        this.memoryList = memoryList;
     }
 }

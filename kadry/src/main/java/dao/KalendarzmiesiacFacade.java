@@ -45,6 +45,7 @@ public class KalendarzmiesiacFacade  {
     
     public void create(Kalendarzmiesiac entity) {
         getEntityManager().persist(entity);
+        getEntityManager().flush();
     }
     
     public List<Kalendarzmiesiac> findAll() {

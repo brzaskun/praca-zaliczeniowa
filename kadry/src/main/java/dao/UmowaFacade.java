@@ -5,7 +5,9 @@
  */
 package dao;
 
+import entity.Pracownik;
 import entity.Umowa;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -42,6 +44,7 @@ public class UmowaFacade  {
     
     public void create(Umowa entity) {
         getEntityManager().persist(entity);
+        getEntityManager().flush();
     }
     
     public List<Umowa> findAll() {
@@ -52,5 +55,11 @@ public class UmowaFacade  {
     
      public void edit(Umowa entity) {
         getEntityManager().merge(entity);
+    }
+
+    public List<Umowa> findPracownik(Pracownik pracownik) {
+        List<Umowa> zwrot = new ArrayList<>();
+        zwrot = getEntityManager().createNamedQuery("Umowa.findByPracownik").setParameter("pracownik", pracownik).getResultList();
+        return zwrot;
     }
 }

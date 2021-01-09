@@ -42,6 +42,7 @@ public class RodzajumowyFacade  {
     
     public void create(Rodzajumowy entity) {
         getEntityManager().persist(entity);
+        getEntityManager().flush();
     }
     
     public List<Rodzajumowy> findAll() {

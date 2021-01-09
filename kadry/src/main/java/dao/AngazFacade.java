@@ -45,6 +45,7 @@ public class AngazFacade  {
     
     public void create(Angaz entity) {
         getEntityManager().persist(entity);
+        getEntityManager().flush();
     }
     
      public void remove(Angaz entity) {

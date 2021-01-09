@@ -4,12 +4,15 @@
  */
 package view;
 
+import dao.MemoryFacade;
 import entity.Angaz;
 import entity.Firma;
+import entity.Memory;
 import entity.Pracownik;
 import entity.Umowa;
 import entity.Uz;
 import java.io.Serializable;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -23,6 +26,9 @@ import javax.inject.Named;
 public class WpisView implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @Inject
+    private MemoryFacade memoryFacade;
+    private Memory memory;
     private String rokWpisu;
     private String rokUprzedni;
     private String rokNastepny;
@@ -35,6 +41,11 @@ public class WpisView implements Serializable {
     private Pracownik pracownik;
     private Angaz angaz;
     private Umowa umowa;
+    
+    @Inject
+    private FirmaView firmaView;
+    @Inject
+    private PracownikView pracownikView;
  
     
 
@@ -46,6 +57,28 @@ public class WpisView implements Serializable {
     private void init() { //E.m(this);
         rokWpisu="2020";
         miesiacWpisu="12";
+        memory = pobierzMemory();
+        if (memory!=null) {
+            this.firma = memory.getFirma();
+            this.pracownik = memory.getPracownik();
+            this.rokWpisu = memory.getRok();
+            this.miesiacWpisu = memory.getMc();
+            firmaView.setSelectedeast(memory.getFirma());
+            pracownikView.setSelectedeast(memory.getPracownik());
+        }
+    }
+    
+    private Memory pobierzMemory() {
+        Memory zwrot = null;
+        List<Memory> listamemory = memoryFacade.findAll();
+        if (listamemory!=null && !listamemory.isEmpty()) {
+            zwrot = listamemory.get(0);
+        }
+        if (zwrot==null) {
+            zwrot = new Memory(this.firma,this.pracownik, this.rokWpisu, this.miesiacWpisu);
+            memoryFacade.create(zwrot);
+        }
+        return zwrot;
     }
     
     public void zmienrok() {
@@ -61,6 +94,10 @@ public class WpisView implements Serializable {
     }
 
     public void setRokWpisu(String rokWpisu) {
+        if (memory!=null) {
+            memory.setRok(rokWpisu);
+            memoryFacade.edit(memory);
+        }
         this.rokWpisu = rokWpisu;
     }
 
@@ -85,6 +122,10 @@ public class WpisView implements Serializable {
     }
 
     public void setMiesiacWpisu(String miesiacWpisu) {
+        if (memory!=null) {
+            memory.setMc(miesiacWpisu);
+            memoryFacade.edit(memory);
+        }
         this.miesiacWpisu = miesiacWpisu;
     }
 
@@ -109,6 +150,10 @@ public class WpisView implements Serializable {
     }
 
     public void setFirma(Firma firma) {
+        if (memory!=null) {
+            memory.setFirma(firma);
+            memoryFacade.edit(memory);
+        }
         this.firma = firma;
     }
 
@@ -117,6 +162,10 @@ public class WpisView implements Serializable {
     }
 
     public void setPracownik(Pracownik pracownik) {
+         if (memory!=null) {
+            memory.setPracownik(pracownik);
+            memoryFacade.edit(memory);
+        }
         this.pracownik = pracownik;
     }
 

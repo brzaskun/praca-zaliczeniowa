@@ -44,6 +44,7 @@ public class NieobecnoscFacade    implements Serializable {
     
     public void create(Nieobecnosc entity) {
         getEntityManager().persist(entity);
+        getEntityManager().flush();
     }
     
     public List<Nieobecnosc> findAll() {

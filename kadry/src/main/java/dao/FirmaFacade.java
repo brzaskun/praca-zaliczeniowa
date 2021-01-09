@@ -42,6 +42,7 @@ public class FirmaFacade  {
     
     public void create(Firma entity) {
         getEntityManager().persist(entity);
+        getEntityManager().flush();
     }
     
     public List<Firma> findAll() {

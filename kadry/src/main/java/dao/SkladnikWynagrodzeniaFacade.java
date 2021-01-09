@@ -42,6 +42,7 @@ public class SkladnikWynagrodzeniaFacade  {
     
     public void create(Skladnikwynagrodzenia entity) {
         getEntityManager().persist(entity);
+        getEntityManager().flush();
     }
     
     public List<Skladnikwynagrodzenia> findAll() {
@@ -52,5 +53,15 @@ public class SkladnikWynagrodzeniaFacade  {
     
      public void edit(Skladnikwynagrodzenia entity) {
         getEntityManager().merge(entity);
+    }
+     
+    public void remove(Skladnikwynagrodzenia entity) {
+        em.remove(em.merge(entity));
+    }
+    
+    public void remove(List<Skladnikwynagrodzenia> entityList) {
+        for (Skladnikwynagrodzenia p : entityList) {
+            em.remove(em.merge(p));
+        }
     }
 }

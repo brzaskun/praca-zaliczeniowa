@@ -42,6 +42,7 @@ public class PracownikFacade  {
     
     public void create(Pracownik entity) {
         getEntityManager().persist(entity);
+        getEntityManager().flush();
     }
     
     public List<Pracownik> findAll() {

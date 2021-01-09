@@ -42,6 +42,7 @@ public class ZmiennaWynagrodzeniaFacade  {
     
     public void create(Zmiennawynagrodzenia entity) {
         getEntityManager().persist(entity);
+        getEntityManager().flush();
     }
     
     public List<Zmiennawynagrodzenia> findAll() {

@@ -5,8 +5,18 @@
     Description:
         Purpose of the stylesheet follows.
 */
+.ui-menu .ui-menu-parent .ui-menu-child {
+    white-space: nowrap;
+    width: auto !important;
+    min-width: 200px !important;
+}
+
+.ui-datatable .ui-datatable-data tr{
+    height : 20px;
+}
+
 body { 
-    font-size: 9pt !important;
+    font-size: 10pt !important;
     font-family: TimesNewRoman !important;
     font-weight: 500;
     width: 99%;
