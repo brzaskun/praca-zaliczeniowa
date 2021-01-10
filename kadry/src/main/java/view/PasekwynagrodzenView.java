@@ -5,7 +5,7 @@
  */
 package view;
 
-import beans.PasekwynagrodzenBean;
+import beanstesty.PasekwynagrodzenBean;
 import dao.DefinicjalistaplacFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.PasekwynagrodzenFacade;

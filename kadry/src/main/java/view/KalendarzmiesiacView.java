@@ -5,7 +5,7 @@
  */
 package view;
 
-import beans.KalendarzmiesiacBean;
+import beanstesty.KalendarzmiesiacBean;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.UmowaFacade;

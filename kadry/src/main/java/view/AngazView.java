@@ -58,7 +58,9 @@ public class AngazView  implements Serializable {
         listapracownikow = pracownikFacade.findAll();
     }
     
-   
+    public void initRecznie() {
+        init();
+    }
 
     public void create() {
       if (selected!=null) {

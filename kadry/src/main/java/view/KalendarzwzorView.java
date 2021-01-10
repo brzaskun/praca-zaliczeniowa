@@ -5,7 +5,7 @@
  */
 package view;
 
-import beans.KalendarzWzorBean;
+import beanstesty.KalendarzWzorBean;
 import dao.FirmaFacade;
 import dao.KalendarzwzorFacade;
 import entity.Firma;
