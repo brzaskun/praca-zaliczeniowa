@@ -13,10 +13,10 @@
                         <h:outputText value="#{wpisView.firma.nazwa}" style="font-weight: 900; font-size: x-large;"/>
                     </p:column>
                     <p:column>
-                        <h:outputText value="#{wpisView.pracownik.nazwisko}" style="font-weight: 900; font-size: x-large;"/>
+                        <h:outputText value="#{wpisView.pracownik.nazwisko}" style="font-weight: 900; font-size: x-large;" rendered="#{wpisView.pracownik ne null}"/>
                     </p:column>
                     <p:column>
-                        <h:outputText value="#{wpisView.pracownik.imie}" style="font-weight: 900; font-size: x-large;"/>
+                        <h:outputText value="#{wpisView.pracownik.imie}" style="font-weight: 900; font-size: x-large;"  rendered="#{wpisView.pracownik ne null}"/>
                     </p:column>
                 </p:panelGrid>
                 <p:panelGrid columns="2" style="width: 600px;float: right;overflow-y: hidden;" columnClasses="sixty-percent, forty-percent">

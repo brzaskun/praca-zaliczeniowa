@@ -7,18 +7,15 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:layoutUnit position="east" size="175" collapsible="false">
         <h:form>
-            <p:panel header="Wykaz firm">
+            <p:panel header="Wykaz firm" style="margin-top: 80px;"> 
                 <p:dataTable id="datalist" value="#{firmaView.lista}" var="item1"
                              selectionMode="single" selection="#{firmaView.selectedeast}"
                              rowKey="#{item1.id}" 
                              style="height: 50%;overflow-y: scroll;"
                              >
-                    <p:ajax event="rowSelect" listener="#{firmaView.aktywuj(firmaView.selectedeast)}" partialSubmit="true" global="false" update="north,PracownikListForm"/>
+                    <p:ajax event="rowSelect" listener="#{firmaView.aktywuj(firmaView.selectedeast)}" partialSubmit="true" global="false" update="north,@(form)"/>
                     <p:ajax event="rowSelect" listener="#{angazView.findPracownicyByFirma(firmaView.selectedeast)}" partialSubmit="true" global="false" update="EastPracownicy:datalist"/>
                     <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="nazwa"/>
-                        </f:facet>
                         <h:outputText value="#{item1.nazwa}"/>
                     </p:column>
                 </p:dataTable>
@@ -26,17 +23,14 @@
         </h:form>
         <h:form id="EastPracownicy">
             <p:panel header="Pracownicy">
-                <p:dataTable id="datalist" value="#{angazView.listapracownikow}" var="item2"
+                <p:dataTable id="datalist" value="#{angazView.listapracownikoweast}" var="item2"
                              selectionMode="single" selection="#{pracownikView.selectedeast}"
-                             rowKey="#{item2.id}"
+                             rowKey="#{item2.id}" emptyMessage="Firma nie ma pracowników"
                              style="height: 50%;overflow-y: scroll;"
                              >
-                    <p:ajax event="rowSelect" listener="#{pracownikView.aktywuj(pracownikView.selectedeast)}" partialSubmit="true" global="false" update="north"/>
+                    <p:ajax event="rowSelect" listener="#{pracownikView.aktywuj(pracownikView.selectedeast)}" partialSubmit="true" global="false" update="north,@(form)"/>
                     <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="nazwisko imię"/>
-                        </f:facet>
-                        <h:outputText value="#{item2.nazwisko} #{item2.imie}"/>
+                        <h:outputText value="#{item2.nazwiskoImie}"/>
                     </p:column>
                 </p:dataTable>
             </p:panel>

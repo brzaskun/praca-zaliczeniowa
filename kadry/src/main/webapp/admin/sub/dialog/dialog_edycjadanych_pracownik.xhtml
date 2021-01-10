@@ -23,7 +23,7 @@
         </p:outputPanel>
         <p:outputPanel>
             <h:form id="PracownikListForm">
-                <p:panel header="Wykaz pracowników">
+                <p:panel header="Wykaz pracowników firmy #{wpisView.firma.nazwa}">
                     <p:dataTable id="datalist" value="#{pracownikView.lista}" var="item2"
                                  selectionMode="single" selection="#{pracownikView.selectedlista}"
                                  rowKey="#{item2.id}" 
@@ -50,12 +50,18 @@
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
-                                <h:outputText value="angaż"/>
+                                <h:outputText value=" jest angaż"/>
                             </f:facet>
-                             <h:outputText value="#{item2.czyjetsangaz}"/>
+                             <h:outputText value="#{item2.czyjestangaz}"/>
                         </p:column>
                         <p:column style="text-align: center;">
-                            <p:commandButton value="aktywna" actionListener="#{pracownikView.aktywuj(item2)}" update="north"/>
+                            <f:facet name="header">
+                                <h:outputText value="jest umowa"/>
+                            </f:facet>
+                             <h:outputText value="#{item2.czyjestumowa}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <p:commandButton value="aktywny" actionListener="#{pracownikView.aktywuj(item2)}" update="north"/>
                         </p:column>
                         <p:column style="text-align: center;">
                             <p:commandButton icon="fa fa-trash" actionListener="#{pracownikView.usun(item2)}" update="north @form"/>

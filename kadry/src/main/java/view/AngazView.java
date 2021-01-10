@@ -34,6 +34,7 @@ public class AngazView  implements Serializable {
     private List<Angaz> lista;
     private List<Firma> listafirm;
     private List<Pracownik> listapracownikow;
+    private List<Pracownik> listapracownikoweast;
     @Inject
     private AngazFacade angazFacade;
     @Inject
@@ -56,6 +57,9 @@ public class AngazView  implements Serializable {
         lista  = angazFacade.findAll();
         listafirm = firmaFacade.findAll();
         listapracownikow = pracownikFacade.findAll();
+        if (wpisView.getFirma()!=null) {
+            listapracownikoweast = angazFacade.findPracownicyByFirma(wpisView.getFirma());
+        }
     }
     
     public void initRecznie() {
@@ -67,12 +71,12 @@ public class AngazView  implements Serializable {
           try {
             angazFacade.create(selected);
             lista.add(selected);
+            wpisView.setAngaz(selected);
             selected = new Angaz();
             pracownikView.initRecznie();
             zmiennaWynagrodzeniaView.initRecznie();
             skladnikWynagrodzeniaView.initRecznie();
             umowaView.initRecznie();
-            wpisView.setAngaz(selected);
             Msg.msg("Dodano nowy angaż");
           } catch (Exception e) {
               System.out.println("");
@@ -113,7 +117,7 @@ public class AngazView  implements Serializable {
     
     public void findPracownicyByFirma(Firma firma) {
         if (firma!=null) {
-            listapracownikow = angazFacade.findPracownicyByFirma(firma);
+            listapracownikoweast = angazFacade.findPracownicyByFirma(firma);
             Msg.msg("Pobrano pracowników firmy");
         } else {
             Msg.msg("e", "Błąd nie wybrano firmy");
@@ -158,6 +162,14 @@ public class AngazView  implements Serializable {
 
     public void setListapracownikow(List<Pracownik> listapracownikow) {
         this.listapracownikow = listapracownikow;
+    }
+
+    public List<Pracownik> getListapracownikoweast() {
+        return listapracownikoweast;
+    }
+
+    public void setListapracownikoweast(List<Pracownik> listapracownikoweast) {
+        this.listapracownikoweast = listapracownikoweast;
     }
 
    

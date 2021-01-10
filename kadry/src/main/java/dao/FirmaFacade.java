@@ -54,4 +54,14 @@ public class FirmaFacade  {
      public void edit(Firma entity) {
         getEntityManager().merge(entity);
     }
+     
+     public void remove(Firma entity) {
+        em.remove(em.merge(entity));
+    }
+    
+    public void remove(List<Firma> entityList) {
+        for (Firma p : entityList) {
+            em.remove(em.merge(p));
+        }
+    }
 }

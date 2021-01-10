@@ -106,10 +106,22 @@ public class Pracownik implements Serializable {
     public String getNazwiskoImie() {
         return nazwisko+" "+imie;
     }
-    public String getCzyjetsangaz(){
+    public String getCzyjestangaz(){
         String zwrot = "";
         if (this.angazList!=null&& !this.angazList.isEmpty()) {
             zwrot = "✔";
+        }
+        return zwrot;
+    }
+    
+    public String getCzyjestumowa(){
+        String zwrot = "";
+        if (this.angazList!=null&& !this.angazList.isEmpty()) {
+            for (Angaz p : angazList) {
+                if (p.getUmowaList()!=null && !p.getUmowaList().isEmpty()) {
+                    zwrot = "✔";
+                }
+            }
         }
         return zwrot;
     }

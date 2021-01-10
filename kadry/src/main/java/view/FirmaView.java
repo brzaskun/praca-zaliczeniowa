@@ -57,8 +57,25 @@ public class FirmaView  implements Serializable {
     public void aktywuj(Firma firma) {
         if (firma!=null) {
             wpisView.setFirma(firma);
-            pracownikView.initRecznie();
+            if (firma.getAngazList()==null||firma.getAngazList().isEmpty()) {
+                wpisView.setPracownik(null);
+                wpisView.setAngaz(null);
+                wpisView.setUmowa(null);
+            }
             Msg.msg("Aktywowano firmę "+firma.getNazwa());
+        }
+    }
+    
+    public void usun(Firma firma) {
+        if (firma!=null) {
+            if (wpisView.getFirma()!=null && wpisView.getFirma().equals(firma)) {
+                wpisView.setFirma(null);
+            }
+            firmaFacade.remove(firma);
+            lista.remove(firma);
+            Msg.msg("Usunięto firmę");
+        } else {
+            Msg.msg("e","Nie usunięto firmy");
         }
     }
     

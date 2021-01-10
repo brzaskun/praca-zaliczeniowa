@@ -38,9 +38,7 @@ public class PracownikView  implements Serializable {
     
     @PostConstruct
     private void init() {
-        if (wpisView.getFirma()!=null) {
-            lista  = angazFacade.findPracownicyByFirma(wpisView.getFirma());
-        }
+        lista  = pracownikFacade.findAll();
     }
 
     public void initRecznie() {
@@ -52,8 +50,8 @@ public class PracownikView  implements Serializable {
           try {
             pracownikFacade.create(selected);
             lista.add(selected);
-            selected = new Pracownik();
             wpisView.setPracownik(selected);
+            selected = new Pracownik();
             Msg.msg("Dodano nowego pracownika");
           } catch (Exception e) {
               System.out.println("");

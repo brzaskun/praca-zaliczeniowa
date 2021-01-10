@@ -81,7 +81,7 @@ tr.jsfcrud_even_row {
     top: 50%;
 }
 
-span.ui-button-text.ui-c {
+.ui-button {
     width: 120px !important;
 }
 
