@@ -5,6 +5,7 @@
  */
 package view;
 
+import dao.AngazFacade;
 import dao.PracownikFacade;
 import entity.Pracownik;
 import java.io.Serializable;
@@ -29,21 +30,30 @@ public class PracownikView  implements Serializable {
     private Pracownik selectedeast;
     private List<Pracownik> lista;
     @Inject
+    private AngazFacade angazFacade;
+    @Inject
     private PracownikFacade pracownikFacade;
     @Inject
     private WpisView wpisView;
     
     @PostConstruct
     private void init() {
-        lista  = pracownikFacade.findAll();
+        if (wpisView.getFirma()!=null) {
+            lista  = angazFacade.findPracownicyByFirma(wpisView.getFirma());
+        }
     }
 
+    public void initRecznie() {
+        init();
+    }
+    
     public void create() {
       if (selected!=null) {
           try {
             pracownikFacade.create(selected);
             lista.add(selected);
             selected = new Pracownik();
+            wpisView.setPracownik(selected);
             Msg.msg("Dodano nowego pracownika");
           } catch (Exception e) {
               System.out.println("");
@@ -63,6 +73,9 @@ public class PracownikView  implements Serializable {
         if (pracownik!=null) {
             pracownikFacade.remove(pracownik);
             lista.remove(pracownik);
+            if (wpisView.getPracownik().equals(pracownik)) {
+                wpisView.setPracownik(null);
+            }
             Msg.msg("Usunięto pracownika");
         } else {
             Msg.msg("e","Nie wybrano pracownika");

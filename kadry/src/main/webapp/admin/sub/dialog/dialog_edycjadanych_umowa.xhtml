@@ -69,7 +69,7 @@
                         <p:outputLabel value="nfz" for="nfz" />
                         <p:inputText id="nfz" value="#{umowaView.selected.nfz}" title="nfz}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{umowaView.create}" value="#{bundle.Save}" update="display,:UmowaListForm:datalist" />
+                    <p:commandButton actionListener="#{umowaView.create}" value="#{bundle.Save}" update="display,:UmowaListForm:datalist,SkladnikwynagrodzeniaCreateForm" />
                     <p:commandButton value="#{bundle.Cancel}" onclick="UmowaCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

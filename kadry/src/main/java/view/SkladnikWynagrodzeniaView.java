@@ -38,12 +38,21 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
     private UmowaFacade umowaFacade;
     @Inject
     private WpisView wpisView;
+    @Inject
+    private ZmiennaWynagrodzeniaView zmiennaWynagrodzeniaView;
     
     @PostConstruct
     private void init() {
-        lista  = skladnikWynagrodzeniaFacade.findAll();
+        if (wpisView.getAngaz()!=null) {
+            lista  = skladnikWynagrodzeniaFacade.findByPracownik(wpisView.getAngaz().getPracownik());
+        }
         listaumow = umowaFacade.findPracownik(wpisView.getPracownik());
     }
+    
+    public void initRecznie() {
+        init();
+    }
+
 
     public void create() {
       if (selected!=null && selectedumowa!=null) {
@@ -52,6 +61,7 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
             skladnikWynagrodzeniaFacade.create(selected);
             lista.add(selected);
             selected = new Skladnikwynagrodzenia();
+            zmiennaWynagrodzeniaView.initRecznie();
             Msg.msg("Dodano nowy składnik wynagrodzenia");
           } catch (Exception e) {
               System.out.println("");
@@ -66,6 +76,7 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
         if (skladnikwynagrodzenia!=null) {
             skladnikWynagrodzeniaFacade.remove(skladnikwynagrodzenia);
             lista.remove(skladnikwynagrodzenia);
+            zmiennaWynagrodzeniaView.initRecznie();
             Msg.msg("Usunięto składnik wynagrodzeani");
         } else {
             Msg.msg("e","Nie wybrano składnika wynagrodzenia");

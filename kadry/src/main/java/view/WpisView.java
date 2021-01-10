@@ -41,11 +41,8 @@ public class WpisView implements Serializable {
     private Pracownik pracownik;
     private Angaz angaz;
     private Umowa umowa;
-    
     @Inject
     private FirmaView firmaView;
-    @Inject
-    private PracownikView pracownikView;
  
     
 
@@ -58,13 +55,14 @@ public class WpisView implements Serializable {
         rokWpisu="2020";
         miesiacWpisu="12";
         memory = pobierzMemory();
-        if (memory!=null) {
+        if (memory!=null && memory.getId()!=null) {
             this.firma = memory.getFirma();
+            this.angaz = memory.getAngaz();
+            this.umowa = memory.getUmowa();
             this.pracownik = memory.getPracownik();
             this.rokWpisu = memory.getRok();
             this.miesiacWpisu = memory.getMc();
             firmaView.setSelectedeast(memory.getFirma());
-            pracownikView.setSelectedeast(memory.getPracownik());
         }
     }
     
@@ -174,6 +172,10 @@ public class WpisView implements Serializable {
     }
 
     public void setAngaz(Angaz angaz) {
+        if (memory!=null) {
+            memory.setAngaz(angaz);
+            memoryFacade.edit(memory);
+        }
         this.angaz = angaz;
     }
 
@@ -182,7 +184,17 @@ public class WpisView implements Serializable {
     }
 
     public void setUmowa(Umowa umowa) {
+        if (memory!=null) {
+            memory.setUmowa(umowa);
+            memoryFacade.edit(memory);
+        }
         this.umowa = umowa;
+    }
+
+    void memorize() {
+        if (memory!=null&&memory.getId()!=null) {
+            memoryFacade.edit(memory);
+        }
     }
     
     

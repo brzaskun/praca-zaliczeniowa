@@ -64,4 +64,6 @@ public class PracownikFacade  {
             em.remove(em.merge(p));
         }
     }
+
+   
 }

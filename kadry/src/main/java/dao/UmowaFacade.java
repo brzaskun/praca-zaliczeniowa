@@ -5,6 +5,7 @@
  */
 package dao;
 
+import entity.Angaz;
 import entity.Pracownik;
 import entity.Umowa;
 import java.util.ArrayList;
@@ -60,6 +61,12 @@ public class UmowaFacade  {
     public List<Umowa> findPracownik(Pracownik pracownik) {
         List<Umowa> zwrot = new ArrayList<>();
         zwrot = getEntityManager().createNamedQuery("Umowa.findByPracownik").setParameter("pracownik", pracownik).getResultList();
+        return zwrot;
+    }
+
+    public List<Umowa> findByAngaz(Angaz angaz) {
+        List<Umowa> zwrot = new ArrayList<>();
+        zwrot = getEntityManager().createNamedQuery("Umowa.findByAngaz").setParameter("angaz", angaz).getResultList();
         return zwrot;
     }
 }

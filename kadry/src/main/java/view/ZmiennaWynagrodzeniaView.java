@@ -41,7 +41,13 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
     @PostConstruct
     private void init() {
         lista  = zmiennaWynagrodzeniaFacade.findAll();
-        listaskladnikiwynagrodzenia = skladnikWynagrodzeniaFacade.findAll();
+        if (wpisView.getAngaz()!=null) {
+            listaskladnikiwynagrodzenia = skladnikWynagrodzeniaFacade.findByPracownik(wpisView.getAngaz().getPracownik());
+        }
+    }
+    
+    public void initRecznie() {
+        init();
     }
 
     public void create() {
@@ -59,7 +65,15 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
           Msg.msg("e", "Nie wybrano składnika");
       }
     }
-    
+    public void usun(Zmiennawynagrodzenia zmienna) {
+        if (zmienna!=null) {
+            zmiennaWynagrodzeniaFacade.remove(zmienna);
+            lista.remove(zmienna);
+            Msg.msg("Usunięto zmienną");
+        } else {
+            Msg.msg("e","Nie wybrano zmiennej");
+        }
+    }
 
     public Zmiennawynagrodzenia getSelected() {
         return selected;

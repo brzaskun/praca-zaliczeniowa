@@ -32,6 +32,7 @@ public class FirmaView  implements Serializable {
     private FirmaFacade firmaFacade;
     @Inject
     private WpisView wpisView;
+    private PracownikView pracownikView;
     
     @PostConstruct
     private void init() {
@@ -44,6 +45,7 @@ public class FirmaView  implements Serializable {
             firmaFacade.create(selected);
             lista.add(selected);
             selected = new Firma();
+            pracownikView.initRecznie();
             Msg.msg("Dodano nową firmę");
           } catch (Exception e) {
               System.out.println("");
@@ -55,6 +57,7 @@ public class FirmaView  implements Serializable {
     public void aktywuj(Firma firma) {
         if (firma!=null) {
             wpisView.setFirma(firma);
+            pracownikView.initRecznie();
             Msg.msg("Aktywowano firmę "+firma.getNazwa());
         }
     }

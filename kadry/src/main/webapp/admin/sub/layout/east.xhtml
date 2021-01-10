@@ -13,7 +13,7 @@
                              rowKey="#{item1.id}" 
                              style="height: 50%;overflow-y: scroll;"
                              >
-                    <p:ajax event="rowSelect" listener="#{firmaView.aktywuj(firmaView.selectedeast)}" partialSubmit="true" global="false" update="north"/>
+                    <p:ajax event="rowSelect" listener="#{firmaView.aktywuj(firmaView.selectedeast)}" partialSubmit="true" global="false" update="north,PracownikListForm"/>
                     <p:ajax event="rowSelect" listener="#{angazView.findPracownicyByFirma(firmaView.selectedeast)}" partialSubmit="true" global="false" update="EastPracownicy:datalist"/>
                     <p:column>
                         <f:facet name="header">

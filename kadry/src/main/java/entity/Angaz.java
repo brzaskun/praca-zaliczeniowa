@@ -20,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -53,9 +54,11 @@ public class Angaz implements Serializable {
     @OneToMany(mappedBy = "angaz", cascade = CascadeType.ALL)
     private List<Umowa> umowaList;
     @JoinColumn(name = "firma", referencedColumnName = "id")
+    @NotNull
     @ManyToOne
     private Firma firma;
     @JoinColumn(name = "pracownik", referencedColumnName = "id")
+    @NotNull
     @ManyToOne
     private Pracownik pracownik;
     @Column(name = "rodzajwynagrodzenia")

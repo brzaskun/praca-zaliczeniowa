@@ -5,7 +5,9 @@
  */
 package dao;
 
+import entity.Pracownik;
 import entity.Skladnikwynagrodzenia;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -63,5 +65,11 @@ public class SkladnikWynagrodzeniaFacade  {
         for (Skladnikwynagrodzenia p : entityList) {
             em.remove(em.merge(p));
         }
+    }
+
+    public List<Skladnikwynagrodzenia> findByPracownik(Pracownik pracownik) {
+        List<Skladnikwynagrodzenia> zwrot = new ArrayList<>();
+        zwrot = getEntityManager().createNamedQuery("Skladnikwynagrodzenia.findByPracownik").setParameter("pracownik", pracownik).getResultList();
+        return zwrot;
     }
 }

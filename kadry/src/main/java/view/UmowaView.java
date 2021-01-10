@@ -42,20 +42,27 @@ public class UmowaView  implements Serializable {
     private AngazFacade angazFacade;
     @Inject
     private WpisView wpisView;
+    @Inject
+    private SkladnikWynagrodzeniaView skladnikWynagrodzeniaView;
     
     @PostConstruct
     private void init() {
-        lista  = umowaFacade.findAll();
-        listaangaz = angazFacade.findAll();
+        lista  = umowaFacade.findByAngaz(wpisView.getAngaz());
+        listaangaz = angazFacade.findByFirma(wpisView.getFirma());
         listarodzajumowy = rodzajumowyFacade.findAll();
     }
-
+ 
+    public void initRecznie() {
+        init();
+    }
     public void create() {
       if (selected!=null) {
           try {
             umowaFacade.create(selected);
             lista.add(selected);
+            skladnikWynagrodzeniaView.initRecznie();
             selected = new Umowa();
+            wpisView.setUmowa(selected);
             Msg.msg("Dodano nową umowę");
           } catch (Exception e) {
               System.out.println("");

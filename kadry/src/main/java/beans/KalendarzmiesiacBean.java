@@ -417,26 +417,28 @@ public class KalendarzmiesiacBean {
     }
 
     static void redukujskladnikistale(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen) {
-        double dowyplatyzaczaschoroby = 0.0;
-        double dowyplatyzaczasurlopu = 0.0;
-        double dowyplatyzaczasurlopubezplatnego = 0.0;
-        for (Naliczenienieobecnosc p : pasekwynagrodzen.getNaliczenienieobecnoscList()) {
-            if (p.getSkladnikwynagrodzenia().getRedukowanyzaczasnieobecnosci()) {
-                switch (p.getNieobecnosc().getKod()) {
-                    case "331":
-                        dowyplatyzaczaschoroby = dowyplatyzaczaschoroby+p.getKwotaredukcji();
-                        break;
-                    case "001":
-                        dowyplatyzaczasurlopu = dowyplatyzaczasurlopu+p.getKwotaredukcji();
-                    case "002":
-                        dowyplatyzaczasurlopubezplatnego = dowyplatyzaczasurlopubezplatnego+p.getKwotastatystyczna();
+        if (pasekwynagrodzen.getNaliczenienieobecnoscList()!=null&&pasekwynagrodzen.getNaliczenienieobecnoscList().size()>0) {
+            double dowyplatyzaczaschoroby = 0.0;
+            double dowyplatyzaczasurlopu = 0.0;
+            double dowyplatyzaczasurlopubezplatnego = 0.0;
+            for (Naliczenienieobecnosc p : pasekwynagrodzen.getNaliczenienieobecnoscList()) {
+                if (p.getSkladnikwynagrodzenia().getRedukowanyzaczasnieobecnosci()) {
+                    switch (p.getNieobecnosc().getKod()) {
+                        case "331":
+                            dowyplatyzaczaschoroby = dowyplatyzaczaschoroby+p.getKwotaredukcji();
+                            break;
+                        case "001":
+                            dowyplatyzaczasurlopu = dowyplatyzaczasurlopu+p.getKwotaredukcji();
+                        case "002":
+                            dowyplatyzaczasurlopubezplatnego = dowyplatyzaczasurlopubezplatnego+p.getKwotastatystyczna();
 
+                    }
                 }
             }
-        }
-        for (Naliczenieskladnikawynagrodzenia p : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (p.getSkladnikwynagrodzenia().getRedukowanyzaczasnieobecnosci()) {
-                p.setKwotazredukowana(p.getKwota()-dowyplatyzaczaschoroby-dowyplatyzaczasurlopu-dowyplatyzaczasurlopubezplatnego);
+            for (Naliczenieskladnikawynagrodzenia p : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {
+                if (p.getSkladnikwynagrodzenia().getRedukowanyzaczasnieobecnosci()) {
+                    p.setKwotazredukowana(p.getKwota()-dowyplatyzaczaschoroby-dowyplatyzaczasurlopu-dowyplatyzaczasurlopubezplatnego);
+                }
             }
         }
     }

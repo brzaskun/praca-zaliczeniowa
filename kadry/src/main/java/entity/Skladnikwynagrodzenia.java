@@ -36,7 +36,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Skladnikwynagrodzenia.findAll", query = "SELECT s FROM Skladnikwynagrodzenia s"),
     @NamedQuery(name = "Skladnikwynagrodzenia.findById", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.id = :id"),
     @NamedQuery(name = "Skladnikwynagrodzenia.findByGodzinowe0miesieczne1", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.godzinowe0miesieczne1 = :godzinowe0miesieczne1"),
-    @NamedQuery(name = "Skladnikwynagrodzenia.findByNazwa", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.nazwa = :nazwa")})
+    @NamedQuery(name = "Skladnikwynagrodzenia.findByNazwa", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.nazwa = :nazwa"),
+    @NamedQuery(name = "Skladnikwynagrodzenia.findByPracownik", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.umowa.angaz.pracownik = :pracownik")
+})
 public class Skladnikwynagrodzenia implements Serializable {
 
     @Column(name = "godzinowe0miesieczne1")
@@ -57,14 +59,14 @@ public class Skladnikwynagrodzenia implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikwynagrodzenia")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikwynagrodzenia", orphanRemoval = true)
     private List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikwynagrodzenia")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikwynagrodzenia", orphanRemoval = true)
     private List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList;
     @JoinColumn(name = "umowa", referencedColumnName = "id")
     @ManyToOne
     private Umowa umowa;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikwynagrodzenia")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikwynagrodzenia", orphanRemoval = true)
     private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
 
     public Skladnikwynagrodzenia() {

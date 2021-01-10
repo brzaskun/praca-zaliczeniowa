@@ -42,6 +42,14 @@ public class AngazView  implements Serializable {
     private PracownikFacade pracownikFacade;
     @Inject
     private WpisView wpisView;
+    @Inject
+    private UmowaView umowaView;
+    @Inject
+    private ZmiennaWynagrodzeniaView zmiennaWynagrodzeniaView;
+    @Inject
+    private SkladnikWynagrodzeniaView skladnikWynagrodzeniaView;
+    @Inject
+    private PracownikView pracownikView;
     
     @PostConstruct
     private void init() {
@@ -49,6 +57,8 @@ public class AngazView  implements Serializable {
         listafirm = firmaFacade.findAll();
         listapracownikow = pracownikFacade.findAll();
     }
+    
+   
 
     public void create() {
       if (selected!=null) {
@@ -56,25 +66,44 @@ public class AngazView  implements Serializable {
             angazFacade.create(selected);
             lista.add(selected);
             selected = new Angaz();
-            Msg.msg("Dodano nową firmę");
+            pracownikView.initRecznie();
+            zmiennaWynagrodzeniaView.initRecznie();
+            skladnikWynagrodzeniaView.initRecznie();
+            umowaView.initRecznie();
+            wpisView.setAngaz(selected);
+            Msg.msg("Dodano nowy angaż");
           } catch (Exception e) {
               System.out.println("");
-              Msg.msg("e", "Błąd - nie dodano nowej firmy");
+              Msg.msg("e", "Błąd - nie dodano nowego angażu");
           }
       }
     }
     
-    public void aktywuj(Angaz angaz) {
-        if (angaz!=null) {
-            wpisView.setAngaz(angaz);
-            Msg.msg("Aktywowano firmę");
+    public void aktywuj() {
+        if (selectedlista!=null) {
+            wpisView.setAngaz(selectedlista);
+            pracownikView.initRecznie();
+            zmiennaWynagrodzeniaView.initRecznie();
+            skladnikWynagrodzeniaView.initRecznie();
+            umowaView.initRecznie();
+            Msg.msg("Aktywowano angaż");
         }
     }
     
      public void usun(Angaz angaz) {
         if (angaz!=null) {
+            if (wpisView.getAngaz()!=null && wpisView.getAngaz().equals(angaz)) {
+                wpisView.setAngaz(null);
+                wpisView.setUmowa(null);
+                wpisView.memorize();
+            }
             angazFacade.remove(angaz);
-            Msg.msg("Usunięto firmę");
+            lista.remove(angaz);
+            pracownikView.initRecznie();
+            zmiennaWynagrodzeniaView.initRecznie();
+            skladnikWynagrodzeniaView.initRecznie();
+            umowaView.initRecznie();
+            Msg.msg("Usunięto angaż");
         } else {
             Msg.msg("e","Nie wybrano angażu");
         }
