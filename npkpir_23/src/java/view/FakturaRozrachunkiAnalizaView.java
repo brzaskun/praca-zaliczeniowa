@@ -374,6 +374,17 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         aktywnytab = 3;
     }
     
+    public void usunfakture(FakturaPodatnikRozliczenie fakturaPodatnikRozliczenie) {
+        Faktura faktura = fakturaPodatnikRozliczenie.getFaktura();
+        if (faktura!=null &&  faktura.isProforma()) {
+            fakturaDAO.destroy(faktura);
+            nowepozycje.remove(fakturaPodatnikRozliczenie);
+            Msg.msg("Usunięto proformę");
+        } else {
+            Msg.msg("e","Nie wybrano faktury/Faktura nie jest proformą");
+        }
+    }
+    
     public void zaksiegujjakoBOselected() {
         if (saldanierozliczoneselected!=null && !saldanierozliczoneselected.isEmpty()) {
             for (FakturaPodatnikRozliczenie p : saldanierozliczoneselected) {

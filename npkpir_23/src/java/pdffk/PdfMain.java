@@ -539,7 +539,7 @@ public class PdfMain {
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
-            opiswstepny = new Paragraph("rozliczenia z uwzględnieniem okresu " + mc + "/" + rok, ft[1]);
+            opiswstepny = new Paragraph("rozliczenie uwzględnia stan na koniec okresu " + mc + "/" + rok, ft[1]);
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
