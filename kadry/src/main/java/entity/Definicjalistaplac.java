@@ -44,6 +44,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Definicjalistaplac.findByRok", query = "SELECT d FROM Definicjalistaplac d WHERE d.rok = :rok"),
     @NamedQuery(name = "Definicjalistaplac.findByMc", query = "SELECT d FROM Definicjalistaplac d WHERE d.mc = :mc")})
 public class Definicjalistaplac implements Serializable {
+     private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
     @Size(max = 255)
     @Column(name = "datapodatek")
     private String datapodatek;
@@ -59,26 +65,21 @@ public class Definicjalistaplac implements Serializable {
     @Size(max = 255)
     @Column(name = "opis")
     private String opis;
-    @Size(max = 255)
-    @Column(name = "rodzajlistyplac")
-    private String rodzajlistyplac;
     @Size(max = 4)
     @Column(name = "rok")
     private String rok;
     @Size(max = 2)
     @Column(name = "mc")
     private String mc;
+    @JoinColumn(name = "rodzajlistyplac", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Rodzajlistyplac rodzajlistyplac;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "definicjalistaplac")
     private Pasekwynagrodzen pasekwynagrodzen;
     @JoinColumn(name = "firma", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Firma firma;
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
+   
     @OneToMany(mappedBy = "definicjalistaplac", cascade = CascadeType.ALL)
     private List<Pasekwynagrodzen> pasekwynagrodzenList;
 
@@ -178,14 +179,6 @@ public class Definicjalistaplac implements Serializable {
         this.opis = opis;
     }
 
-    public String getRodzajlistyplac() {
-        return rodzajlistyplac;
-    }
-
-    public void setRodzajlistyplac(String rodzajlistyplac) {
-        this.rodzajlistyplac = rodzajlistyplac;
-    }
-
     public String getRok() {
         return rok;
     }
@@ -200,6 +193,14 @@ public class Definicjalistaplac implements Serializable {
 
     public void setMc(String mc) {
         this.mc = mc;
+    }
+
+    public Rodzajlistyplac getRodzajlistyplac() {
+        return rodzajlistyplac;
+    }
+
+    public void setRodzajlistyplac(Rodzajlistyplac rodzajlistyplac) {
+        this.rodzajlistyplac = rodzajlistyplac;
     }
     
 }

@@ -23,7 +23,12 @@
                         <p:outputLabel value="opis" for="opis" />
                         <p:inputText id="opis" value="#{definicjalistaplacView.selected.opis}" title="opis}" />
                         <p:outputLabel value="rodzaj listy plac" for="rodzajlistyplac" />
-                        <p:inputText id="rodzajlistyplac" value="#{definicjalistaplacView.selected.rodzajlistyplac}" title="rodzaj list yplac" />
+                         <p:selectOneMenu id="rodzajlistyplac" value="#{definicjalistaplacView.selected.rodzajlistyplac}" required="true" requiredMessage="wybierz rodzaj umowy" converter="#{rodzjalistyplacConverter}">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{definicjalistaplacView.listarodzajlistyplac}"
+                                           var="rodzajlistyItem"
+                                           itemValue="#{rodzajlistyItem}" itemLabel="#{rodzajlistyItem.nazwa}"/>
+                        </p:selectOneMenu>
                         <p:outputLabel value="rok" for="rok" />
                         <p:inputText id="rok" value="#{definicjalistaplacView.selected.rok}" title="rok" />
                         <p:outputLabel value="mc" for="mc" />
@@ -89,7 +94,7 @@
                             <f:facet name="header">
                                 <h:outputText value="rodzaj listy plac"/>
                             </f:facet>
-                            <h:outputText value="#{itemdeflisty.rodzajlistyplac}"/>
+                            <h:outputText value="#{itemdeflisty.rodzajlistyplac.nazwa}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">

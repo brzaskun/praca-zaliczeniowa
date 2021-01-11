@@ -11,7 +11,7 @@ import entity.Pracownik;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
@@ -21,7 +21,7 @@ import msg.Msg;
  * @author Osito
  */
 @Named
-@ViewScoped
+@RequestScoped
 public class PracownikView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
@@ -41,10 +41,7 @@ public class PracownikView  implements Serializable {
         lista  = pracownikFacade.findAll();
     }
 
-    public void initRecznie() {
-        init();
-    }
-    
+        
     public void create() {
       if (selected!=null) {
           try {

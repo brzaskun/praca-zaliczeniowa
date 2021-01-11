@@ -14,7 +14,7 @@ import entity.Umowa;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
@@ -24,7 +24,7 @@ import msg.Msg;
  * @author Osito
  */
 @Named
-@ViewScoped
+@RequestScoped
 public class UmowaView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
@@ -52,15 +52,11 @@ public class UmowaView  implements Serializable {
         listarodzajumowy = rodzajumowyFacade.findAll();
     }
  
-    public void initRecznie() {
-        init();
-    }
     public void create() {
       if (selected!=null) {
           try {
             umowaFacade.create(selected);
             lista.add(selected);
-            skladnikWynagrodzeniaView.initRecznie();
             selected = new Umowa();
             wpisView.setUmowa(selected);
             Msg.msg("Dodano nową umowę");

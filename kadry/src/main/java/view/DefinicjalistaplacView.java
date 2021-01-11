@@ -7,12 +7,14 @@ package view;
 
 import dao.DefinicjalistaplacFacade;
 import dao.FirmaFacade;
+import dao.RodzajlistyplacFacade;
 import entity.Definicjalistaplac;
 import entity.Firma;
+import entity.Rodzajlistyplac;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
@@ -22,7 +24,7 @@ import msg.Msg;
  * @author Osito
  */
 @Named
-@ViewScoped
+@RequestScoped
 public class DefinicjalistaplacView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
@@ -31,8 +33,11 @@ public class DefinicjalistaplacView  implements Serializable {
     private Definicjalistaplac selectedlista;
     private List<Definicjalistaplac> lista;
     private List<Firma> listafirm;
+    private List<Rodzajlistyplac> listarodzajlistyplac;
     @Inject
     private DefinicjalistaplacFacade definicjalistaplac;
+    @Inject
+    private RodzajlistyplacFacade rodzajlistyplacFacade;
     @Inject
     private FirmaFacade firmaFacade;
     @Inject
@@ -42,6 +47,7 @@ public class DefinicjalistaplacView  implements Serializable {
     private void init() {
         lista  = definicjalistaplac.findAll();
         listafirm = firmaFacade.findAll();
+        listarodzajlistyplac = rodzajlistyplacFacade.findAll();
         selected.setRok(wpisView.getRokWpisu());
         selected.setMc(wpisView.getMiesiacWpisu());
     }
@@ -91,6 +97,14 @@ public class DefinicjalistaplacView  implements Serializable {
 
     public void setListafirm(List<Firma> listafirm) {
         this.listafirm = listafirm;
+    }
+
+    public List<Rodzajlistyplac> getListarodzajlistyplac() {
+        return listarodzajlistyplac;
+    }
+
+    public void setListarodzajlistyplac(List<Rodzajlistyplac> listarodzajlistyplac) {
+        this.listarodzajlistyplac = listarodzajlistyplac;
     }
 
       

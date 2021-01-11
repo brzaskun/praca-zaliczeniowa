@@ -100,7 +100,7 @@ public class KalendarzmiesiacView  implements Serializable {
                 }
             }
         } else {
-            Msg.msg("e", "Błąd - nie wybrano firmy dla kalendarza");
+                Msg.msg("e", "Błąd - nie wybrano firmy dla kalendarza");
         }
     }
     

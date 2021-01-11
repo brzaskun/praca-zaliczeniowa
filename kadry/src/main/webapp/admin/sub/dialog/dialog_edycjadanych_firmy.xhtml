@@ -17,7 +17,7 @@
                         <p:outputLabel value="nazwa" for="nazwa" />
                         <p:inputText id="nazwa" value="#{firmaView.selected.nazwa}" title="nazwa" required="true" requiredMessage="Wpisz nazwę"/>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{firmaView.create()}" value="#{bundle.Save}" update="display,:FirmaListForm:datalist,PracownikListForm"/>
+                    <p:commandButton actionListener="#{firmaView.create()}" value="#{bundle.Save}" update="display,@(form)"/>
                     <p:commandButton value="#{bundle.Cancel}"/>
                 </h:panelGroup>
             </h:form>
@@ -50,7 +50,7 @@
                             <h:outputText value="#{item1.nazwa}"/>
                         </p:column>
                         <p:column style="text-align: center;">
-                            <p:commandButton value="aktywna" actionListener="#{firmaView.aktywuj(item1)}" update="north,PracownikListForm"/>
+                            <p:commandButton value="aktywna" actionListener="#{firmaView.aktywuj(item1)}" update="north,PracownikListForm,@(form)"/>
                         </p:column>
                          <p:column style="text-align: center;">
                             <p:commandButton icon="fa fa-trash" actionListener="#{firmaView.usun(item1)}" update="north @(form)"/>

@@ -41,7 +41,10 @@ public class PasekwynagrodzenBean {
     }
     
       
-    public static Pasekwynagrodzen oblicz(Pasekwynagrodzen pasek, Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac) {
+    public static Pasekwynagrodzen oblicz(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac) {
+        Pasekwynagrodzen pasek = new Pasekwynagrodzen();
+        pasek.setDefinicjalistaplac(definicjalistaplac);
+        pasek.setKalendarzmiesiac(kalendarz);
         List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz);
         Nieobecnosc choroba = pobierz(nieobecnosci,"331");
         Nieobecnosc urlop = pobierz(nieobecnosci,"001");

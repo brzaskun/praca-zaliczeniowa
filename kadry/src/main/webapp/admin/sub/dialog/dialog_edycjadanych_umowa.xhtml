@@ -8,52 +8,56 @@
     <p:dialog id="dialogpracownikumowa" header="Wprowadzanie danych umowy" widgetVar="dialogpracownikumowa"  
               resizable="false"  onShow="ustawdialog('dialogpracownikumowa','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogpracownikumowa');" 
               fitViewport="true">
-        <p:outputPanel style="height: 720px">
+        <p:outputPanel style="height: 420px">
             <h:form id="UmowaCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{umowaView.selected != null}">
-                        <p:outputLabel value="angaz" for="angaz" />
-                         <p:selectOneMenu id="angaz" value="#{umowaView.selected.angaz}" converter="#{angazConverter}">
-                            <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
-                            <f:selectItems value="#{umowaView.listaangaz}"
-                                           var="angazItem"
-                                           itemValue="#{angazItem}" itemLabel="#{angazItem.pracownik.nazwiskoImie}"/>
-                            <p:ajax event="change" partialSubmit="true" global="false"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="rodzaj umowy" for="rodzajumowy" />
-                        <p:selectOneMenu id="rodzajumowy" value="#{umowaView.selected.rodzajumowy}" converter="#{rodzajumowyConverter}">
-                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                            <f:selectItems value="#{umowaView.listarodzajumowy}"
-                                           var="rodzajumowyItem"
-                                           itemValue="#{rodzajumowyItem}" itemLabel="#{rodzajumowyItem.nazwa}"/>
-                            <p:ajax event="change" listener="#{umowaView.ustawumowe}" partialSubmit="true" global="false" update="@form"/>
-                        </p:selectOneMenu>
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="angaz" for="angaz" />
+                             <p:selectOneMenu id="angaz" value="#{umowaView.selected.angaz}" converter="#{angazConverter}">
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
+                                <f:selectItems value="#{umowaView.listaangaz}"
+                                               var="angazItem"
+                                               itemValue="#{angazItem}" itemLabel="#{angazItem.pracownik.nazwiskoImie}"/>
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="rodzaj umowy" for="rodzajumowy" />
+                            <p:selectOneMenu id="rodzajumowy" value="#{umowaView.selected.rodzajumowy}" converter="#{rodzajumowyConverter}">
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                <f:selectItems value="#{umowaView.listarodzajumowy}"
+                                               var="rodzajumowyItem"
+                                               itemValue="#{rodzajumowyItem}" itemLabel="#{rodzajumowyItem.nazwa}"/>
+                                <p:ajax event="change" listener="#{umowaView.ustawumowe}" partialSubmit="true" global="false" update="@(form)"/>
+                            </p:selectOneMenu>
+                             <p:outputLabel value="data od" for="dataod" />
+                            <p:inputText id="dataod" value="#{umowaView.selected.dataod}" title="data od" />
+                             <p:outputLabel value="data do" for="datado" />
+                            <p:inputText id="datado" value="#{umowaView.selected.datado}" title="data do" />
+                            <p:outputLabel value="data zawarcia" for="datazawarcia" />
+                            <p:inputText id="datazawarcia" value="#{umowaView.selected.datazawarcia}" title="data zawarcia" />
+
+                            <p:outputLabel value="chorobowe" for="chorobowe" />
+                            <p:selectBooleanCheckbox id="chorobowe" value="#{umowaView.selected.chorobowe}" />
+                            <p:outputLabel value="chorobowe dobrowolne" for="chorobowedobrowolne" />
+                            <p:selectBooleanCheckbox id="chorobowedobrowolne" value="#{umowaView.selected.chorobowedobrowolne}" />
+                            <p:outputLabel value="emerytalne" for="emerytalne" />
+                            <p:selectBooleanCheckbox id="emerytalne" value="#{umowaView.selected.emerytalne}" />
+                            <p:outputLabel value="nie licz FGSP" for="nieliczFGSP" />
+                            <p:selectBooleanCheckbox id="nieliczFGSP" value="#{umowaView.selected.nieliczFGSP}" />
+                            <p:outputLabel value="nie licz FP" for="nieliczFP" />
+                            <p:selectBooleanCheckbox id="nieliczFP" value="#{umowaView.selected.nieliczFP}" />
+                            <p:outputLabel value="rentowe" for="rentowe" />
+                            <p:selectBooleanCheckbox id="rentowe" value="#{umowaView.selected.rentowe}" />
+                            <p:outputLabel value="wypadkowe}" for="wypadkowe" />
+                            <p:selectBooleanCheckbox id="wypadkowe" value="#{umowaView.selected.wypadkowe}" />
+                            <p:outputLabel value="zdrowotne" for="zdrowotne" />
+                            <p:selectBooleanCheckbox id="zdrowotne" value="#{umowaView.selected.zdrowotne}" />
+                        </p:panelGrid>
+                        <p:panelGrid columns="2">
+                       
                         <p:outputLabel value="odliczac ulge podatkowa" for="odliczaculgepodatkowa" />
                         <p:selectBooleanCheckbox id="odliczaculgepodatkowa" value="#{umowaView.selected.odliczaculgepodatkowa}" />
-                        <p:outputLabel value="chorobowe" for="chorobowe" />
-                        <p:selectBooleanCheckbox id="chorobowe" value="#{umowaView.selected.chorobowe}" />
-                        <p:outputLabel value="chorobowe dobrowolne" for="chorobowedobrowolne" />
-                        <p:selectBooleanCheckbox id="chorobowedobrowolne" value="#{umowaView.selected.chorobowedobrowolne}" />
-                        <p:outputLabel value="emerytalne" for="emerytalne" />
-                        <p:selectBooleanCheckbox id="emerytalne" value="#{umowaView.selected.emerytalne}" />
-                        <p:outputLabel value="nie licz FGSP" for="nieliczFGSP" />
-                        <p:selectBooleanCheckbox id="nieliczFGSP" value="#{umowaView.selected.nieliczFGSP}" />
-                        <p:outputLabel value="nie licz FP" for="nieliczFP" />
-                        <p:selectBooleanCheckbox id="nieliczFP" value="#{umowaView.selected.nieliczFP}" />
-                        <p:outputLabel value="rentowe" for="rentowe" />
-                        <p:selectBooleanCheckbox id="rentowe" value="#{umowaView.selected.rentowe}" />
-                        <p:outputLabel value="wypadkowe}" for="wypadkowe" />
-                        <p:selectBooleanCheckbox id="wypadkowe" value="#{umowaView.selected.wypadkowe}" />
-                        <p:outputLabel value="zdrowotne" for="zdrowotne" />
-                        <p:selectBooleanCheckbox id="zdrowotne" value="#{umowaView.selected.zdrowotne}" />
-                        
                        
-                        <p:outputLabel value="data do" for="datado" />
-                        <p:inputText id="datado" value="#{umowaView.selected.datado}" title="data do" />
-                        <p:outputLabel value="data od" for="dataod" />
-                        <p:inputText id="dataod" value="#{umowaView.selected.dataod}" title="data od" />
-                        <p:outputLabel value="data zawarcia" for="datazawarcia" />
-                        <p:inputText id="datazawarcia" value="#{umowaView.selected.datazawarcia}" title="data zawarcia" />
                         <p:outputLabel value="koszty uzyskania" for="kosztyuzyskania" />
                         <p:inputText id="kosztyuzyskania" value="#{umowaView.selected.kosztyuzyskania}" title="koszty uzyskania" />
                         <p:outputLabel value="data nfz" for="datanfz" />
@@ -68,6 +72,7 @@
                         <p:inputText id="kodzawodu" value="#{umowaView.selected.kodzawodu}" title="kod zawodu" />
                         <p:outputLabel value="nfz" for="nfz" />
                         <p:inputText id="nfz" value="#{umowaView.selected.nfz}" title="nfz}" />
+                        </p:panelGrid>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{umowaView.create}" value="#{bundle.Save}" update="display,:UmowaListForm:datalist,SkladnikwynagrodzeniaCreateForm" />
                     <p:commandButton value="#{bundle.Cancel}" onclick="UmowaCreateDialog.hide()"/>

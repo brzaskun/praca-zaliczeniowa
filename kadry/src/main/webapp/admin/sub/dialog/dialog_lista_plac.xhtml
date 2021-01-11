@@ -9,7 +9,7 @@
     <p:dialog id="dialoglistaplac" header="Wyliczanie listy płac" widgetVar="dialoglistaplac"  
               resizable="false"  onShow="ustawdialog('dialoglistaplac','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialoglistaplac');" 
               fitViewport="true">
-        <p:outputPanel style="height: 200px">
+        <p:outputPanel style="height: 280px">
              <h:form id="DefinicjalistaplacCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{pasekwynagrodzenView.listadefinicjalistaplac ne null}">
@@ -19,18 +19,20 @@
                             <f:selectItems value="#{pasekwynagrodzenView.listadefinicjalistaplac}"
                                            var="firmalistaItem"
                                            itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.opis} #{firmalistaItem.nrkolejny}"/>
-                            <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.pobierzkalendarzezamc}" update="DefinicjalistaplacCreateForm:wybranypracownik"/>
+                            <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.pobierzkalendarzezamc}" update="@(form)"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="wybrany pracownik" for="wybranypracownik" />
-                        <p:selectOneMenu id="wybranypracownik" value="#{pasekwynagrodzenView.wybranykalendarz}" required="true" requiredMessage="Wybierz pracownika" converter="#{kalendarzmiesiacConverter}">
+                        <p:outputLabel value="" for="wybranypracownik" />
+                        <p:pickList id="wybranypracownik" value="#{pasekwynagrodzenView.listakalendarzmiesiac}" var="kalendarzItem" itemLabel="#{kalendarzItem.umowa.angaz.pracownik.nazwiskoImie}" itemValue="#{kalendarzItem}" 
+                                    showCheckbox="true" converter="#{kalendarzmiesiacConverter}"/>
+<!--                        <p:selectOneMenu id="wybranypracownik" value="#{pasekwynagrodzenView.wybranykalendarz}" required="true" requiredMessage="Wybierz pracownika" converter="#{kalendarzmiesiacConverter}">
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{pasekwynagrodzenView.listakalendarzmiesiac}"
                                            var="kalendarzItem"
                                            itemValue="#{kalendarzItem}" itemLabel="#{kalendarzItem.umowa.angaz.pracownik.nazwiskoImie}"/>
-                            <p:ajax event="change" listener="#{pasekwynagrodzenView.przelicz}" partialSubmit="true" global="false" update=":PasekwynagrodzenListForm:datalist"/>
-                        </p:selectOneMenu>
+                            <p:ajax event="change" listener="#{pasekwynagrodzenView.przelicz}" partialSubmit="true" global="false" update="@(form)"/>
+                        </p:selectOneMenu>-->
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{pasekwynagrodzenView.create}" value="#{bundle.Save}" update="display,:PasekwynagrodzenListForm:datalist" />
+                    <p:commandButton actionListener="#{pasekwynagrodzenView.przelicz}" value="oblicz" update="PasekwynagrodzenListForm" />
                     <p:commandButton value="#{bundle.Cancel}" onclick="DefinicjalistaplacCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

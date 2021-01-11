@@ -10,7 +10,7 @@ import entity.Firma;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
@@ -20,7 +20,7 @@ import msg.Msg;
  * @author Osito
  */
 @Named
-@ViewScoped
+@RequestScoped
 public class FirmaView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
@@ -44,8 +44,8 @@ public class FirmaView  implements Serializable {
           try {
             firmaFacade.create(selected);
             lista.add(selected);
+            wpisView.setFirma(selected);
             selected = new Firma();
-            pracownikView.initRecznie();
             Msg.msg("Dodano nową firmę");
           } catch (Exception e) {
               System.out.println("");

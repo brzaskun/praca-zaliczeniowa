@@ -116,7 +116,7 @@
                             <h:outputText value="#{itemAngaz.pracownik.imie}"/>
                         </p:column>
                           <p:column style="text-align: center;">
-                            <p:commandButton icon="fa fa-trash" actionListener="#{angazView.usun(itemAngaz)}" update="north @form"/>
+                            <p:commandButton icon="fa fa-trash" actionListener="#{angazView.usun(itemAngaz)}" update="north @(form)"/>
                         </p:column>
                     </p:dataTable>
                 </p:panel>

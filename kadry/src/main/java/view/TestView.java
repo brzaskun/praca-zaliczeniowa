@@ -7,7 +7,7 @@ package view;
 
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -16,7 +16,7 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-@ViewScoped
+@RequestScoped
 public class TestView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject

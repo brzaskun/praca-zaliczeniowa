@@ -16,6 +16,7 @@ import entity.Pasekwynagrodzen;
 import entity.Skladnikpotracenia;
 import entity.Skladnikwynagrodzenia;
 import java.util.ArrayList;
+import java.util.List;
 import z.Z;
 
 /**
@@ -381,17 +382,19 @@ public class KalendarzmiesiacBean {
                 }
             }
         }
-        Naliczenieskladnikawynagrodzenia wynagrodzeniedopobrania = pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().get(0);
-        Skladnikwynagrodzenia wynagrodzeniezasadnicze = wynagrodzeniedopobrania.getSkladnikwynagrodzenia();
-        Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
-        Skladnikwynagrodzenia skladniknadgodziny50 = pobierzskladnik(kalendarz);
-        naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(skladniknadgodziny50);
-        double skladnik = wynagrodzeniezasadnicze.getZmiennawynagrodzeniaList().get(0).getKwota();
-        double stawkagodznowanormalna = skladnik / godzinyrobocze*0.5;
-        naliczenieskladnikawynagrodzenia.setKwota(Z.z(stawkagodznowanormalna*nadliczbowe));
-        naliczenieskladnikawynagrodzenia.setKwotazus(Z.z(stawkagodznowanormalna*nadliczbowe));
-        naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
-        pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+        if (nadliczbowe>0.0) {
+            Naliczenieskladnikawynagrodzenia wynagrodzeniedopobrania = pobierzskladnik(pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList(), "10");
+            Skladnikwynagrodzenia wynagrodzeniezasadnicze = wynagrodzeniedopobrania.getSkladnikwynagrodzenia();
+            Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
+            Skladnikwynagrodzenia skladniknadgodziny50 = pobierzskladnik(kalendarz, "30");
+            naliczenieskladnikawynagrodzenia.setSkladnikwynagrodzenia(skladniknadgodziny50);
+            double skladnik = wynagrodzeniezasadnicze.getZmiennawynagrodzeniaList().get(0).getKwota();
+            double stawkagodznowanormalna = skladnik / godzinyrobocze*0.5;
+            naliczenieskladnikawynagrodzenia.setKwota(Z.z(stawkagodznowanormalna*nadliczbowe));
+            naliczenieskladnikawynagrodzenia.setKwotazus(Z.z(stawkagodznowanormalna*nadliczbowe));
+            naliczenieskladnikawynagrodzenia.setPasekwynagrodzen(pasekwynagrodzen);
+            pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+        }
     }
     
     static void nalicznadgodziny100(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen) {
@@ -443,10 +446,21 @@ public class KalendarzmiesiacBean {
         }
     }
 
-    private static Skladnikwynagrodzenia pobierzskladnik(Kalendarzmiesiac kalendarz) {
+    private static Skladnikwynagrodzenia pobierzskladnik(Kalendarzmiesiac kalendarz, String kodskladnika) {
         Skladnikwynagrodzenia zwrot = null;
         for (Skladnikwynagrodzenia p : kalendarz.getUmowa().getSkladnikwynagrodzeniaList()) {
-            if (p.getKod().equals("30")) {
+            if (p.getKod().equals(kodskladnika)) {
+                zwrot = p;
+                break;
+            }
+        }
+        return zwrot;
+    }
+
+    private static Naliczenieskladnikawynagrodzenia pobierzskladnik(List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList, String kodskladnika) {
+        Naliczenieskladnikawynagrodzenia zwrot = null;
+        for (Naliczenieskladnikawynagrodzenia p : naliczenieskladnikawynagrodzeniaList) {
+            if (p.getSkladnikwynagrodzenia().getKod().equals(kodskladnika)) {
                 zwrot = p;
                 break;
             }

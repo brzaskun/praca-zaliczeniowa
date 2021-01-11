@@ -215,7 +215,7 @@ public class Umowa implements Serializable {
 
     @Override
     public String toString() {
-        return "Umowa{" + "datado=" + datado + ", dataod=" + dataod + ", angaz=" + angaz.getPracownik().getNazwiskoImie() + ", rodzajumowy=" + rodzajumowy.getNazwa() + '}';
+        return "Umowa{" + "datado=" + datado + ", dataod=" + dataod + ", angaz=" + angaz.getPracownik().getNazwiskoImie() + ", rodzajumowy=" + rodzajumowy.getNazwa() + "}";
     }
 
    public String umowanumernazwa() {
