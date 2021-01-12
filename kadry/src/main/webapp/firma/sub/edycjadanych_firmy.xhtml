@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 300px">
+    <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 300px;width: 1500px;">
         <p:outputPanel>
             <h:form id="FirmaCreateForm">
                 <p:panel header="dodaj nową firmę"/>
@@ -46,9 +46,13 @@
                             </f:facet>
                             <h:outputText value="#{item1.nazwa}"/>
                         </p:column>
-                        <p:column style="text-align: center;">
-                            <p:commandButton value="aktywna" actionListener="#{firmaView.aktywuj(item1)}" update="north,@(form)"/>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="pracownicy"/>
+                            </f:facet>
+                            <h:outputText value="#{item1.angazList ne null and item1.angazList.size() gt 0 ? item1.angazList.size():''}"/>
                         </p:column>
+
                         <p:column style="text-align: center;">
                             <p:commandButton icon="fa fa-trash" actionListener="#{firmaView.usun(item1)}" update="north @(form)"/>
                         </p:column>

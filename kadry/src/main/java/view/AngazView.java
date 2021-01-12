@@ -59,6 +59,7 @@ public class AngazView  implements Serializable {
         listafirm = firmaFacade.findAll();
         listapracownikow = pracownikFacade.findAll();
         if (wpisView.getFirma()!=null) {
+            lista = angazFacade.findByFirma(wpisView.getFirma());
             listaeast = angazFacade.findByFirma(wpisView.getFirma());
         }
          if (wpisView.getAngaz()!=null) {
@@ -68,8 +69,9 @@ public class AngazView  implements Serializable {
     
 
     public void create() {
-      if (selected!=null) {
+      if (selected!=null && wpisView.getFirma()!=null) {
           try {
+            selected.setFirma(wpisView.getFirma());
             angazFacade.create(selected);
             lista.add(selected);
             wpisView.setAngaz(selected);

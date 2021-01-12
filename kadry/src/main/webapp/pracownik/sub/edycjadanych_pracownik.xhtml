@@ -5,11 +5,11 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 300px">
+    <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 300px;width: 1500px;">
         <p:outputPanel style="height: 300px">
             <h:form id="PracownikCreateForm">
                 <h:panelGroup id="display">
-                    <p:panel header="Dane nowego pracownika"/>
+                    <p:panel header="Dane nowego pracownika "/>
                     <p:panelGrid columns="2" rendered="#{pracownikView.selected != null}">
                         <p:outputLabel value="nazwisko" for="nazwisko" />
                         <p:inputText id="nazwisko" value="#{pracownikView.selected.nazwisko}" title="nazwisko" required="true" requiredMessage="Wpisz nazwisko"/>
@@ -22,10 +22,10 @@
         </p:outputPanel>
         <p:outputPanel>
             <h:form id="PracownikListForm">
-                <p:panel header="Wykaz pracowników firmy #{wpisView.firma.nazwa}">
+                <p:panel header="Wykaz pracowników w programie">
                     <p:dataTable id="datalist" value="#{pracownikView.lista}" var="item2"
                                  selectionMode="single" selection="#{pracownikView.selectedlista}"
-                                 rowKey="#{item2.id}" 
+                                 rowKey="#{item2.id}" sortBy="#{item2.nazwisko}"
                                  style="height: 500px; overflow-y: scroll;"
                                  >
 
@@ -47,6 +47,12 @@
                             </f:facet>
                             <h:outputText value="#{item2.imie}"/>
                         </p:column>
+                          <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="imię"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.firmypracownika}"/>
+                        </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value=" jest angaż"/>
@@ -58,9 +64,6 @@
                                 <h:outputText value="jest umowa"/>
                             </f:facet>
                              <h:outputText value="#{item2.czyjestumowa}"/>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <p:commandButton value="aktywny" actionListener="#{pracownikView.aktywuj(item2)}" update="north,@(form)"/>
                         </p:column>
                         <p:column style="text-align: center;">
                             <p:commandButton icon="fa fa-trash" actionListener="#{pracownikView.usun(item2)}" update="north,@(form)"/>

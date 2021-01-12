@@ -127,6 +127,17 @@ public class Pracownik implements Serializable {
     }
 
   
+    public String getFirmypracownika(){
+        String zwrot = "";
+        if (this.angazList!=null&& !this.angazList.isEmpty()) {
+            for (Angaz p : angazList) {
+                if (p.getUmowaList()!=null && !p.getUmowaList().isEmpty()) {
+                    zwrot = zwrot+p.getFirma().getNazwa()+"; ";
+                }
+            }
+        }
+        return zwrot;
+    }
 
     public String getImie() {
         return imie;

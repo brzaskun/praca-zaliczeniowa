@@ -5,11 +5,11 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-     <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 300px">
+     <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 300px;width: 1500px;">
         <p:outputPanel style="height: 200px">
             <h:form id="AngazCreateForm">
                 <h:panelGroup id="display">
-                    <p:panel header="Wybór pracownika do angażu"/>
+                    <p:panel header="Wybór pracownika do angażu w firmie #{wpisView.firma.nazwa}"/>
                     <p:panelGrid columns="2" rendered="#{angazView.selected != null}">
                         <p:outputLabel value="rodzaj wynagrodzenia" for="rodzajwynagrodzenia" />
                         <p:selectOneMenu id="rodzajwynagrodzenia" value="#{angazView.selected.rodzajwynagrodzenia}" required="true" requiredMessage="rodzajwynagrodzenia}">
@@ -17,13 +17,6 @@
                             <f:selectItem itemValue="0" itemLabel="godzinowe"/>
                             <f:selectItem itemValue="1" itemLabel="stałe"/>
                             <f:selectItem itemValue="2" itemLabel="akord"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="firma" for="firma" />
-                        <p:selectOneMenu id="firma" value="#{angazView.selected.firma}" required="true" requiredMessage="firma" converter="#{firmaConverter}">
-                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                            <f:selectItems value="#{angazView.listafirm}"
-                                           var="firmaItem"
-                                           itemValue="#{firmaItem}" itemLabel="#{firmaItem.nazwa}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="pracownik" for="pracownik" />
                         <p:selectOneMenu id="pracownik" value="#{angazView.selected.pracownik}" required="true" requiredMessage="pracownik"  converter="#{pracownikConverter}">
@@ -73,17 +66,17 @@
                         <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_nieliczFGSP}" for="nieliczFGSP" />
                         <p:selectBooleanCheckbox id="nieliczFGSP" value="#{angazView.selected.ubezpieczenie.nieliczFGSP}" />
                     </p:panelGrid>-->
-                    <p:commandButton actionListener="#{angazView.create}" value="#{bundle.Save}" update="display" />
+                    <p:commandButton actionListener="#{angazView.create}" value="#{bundle.Save}" update="display,@(form)" />
                     <p:commandButton value="#{bundle.Cancel}" onclick="AngazCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:outputPanel>
         <p:outputPanel>
              <h:form id="AngazListForm">
-                <p:panel header="Wykaz angażów">
+                 <p:panel header="Wykaz angażów w firmie #{wpisView.firma.nazwa}">
                     <p:dataTable id="datalist" value="#{angazView.lista}" var="itemAngaz"
                                  selectionMode="single" selection="#{angazView.selectedlista}"
-                                 rowKey="#{itemAngaz.id}"
+                                 rowKey="#{itemAngaz.id}"  sortBy="#{itemAngaz.pracownik.nazwisko}"
                                 style="height: 500px; overflow-y: scroll;"
                                  >
                         <p:ajax event="rowSelect" listener="#{angazView.aktywuj}" partialSubmit="true" global="false" update="north"/>
