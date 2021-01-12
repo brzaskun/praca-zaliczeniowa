@@ -5,13 +5,11 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog id="dialogpracownikangaz" header="Wprowadzanie danych angażu" widgetVar="dialogpracownikangaz"  
-              resizable="false"  onShow="ustawdialog('dialogpracownikangaz','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogpracownikangaz');" 
-              fitViewport="true">
+     <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 300px">
         <p:outputPanel style="height: 200px">
             <h:form id="AngazCreateForm">
                 <h:panelGroup id="display">
-                    <p:panel header="Dane pracownika"/>
+                    <p:panel header="Wybór pracownika do angażu"/>
                     <p:panelGrid columns="2" rendered="#{angazView.selected != null}">
                         <p:outputLabel value="rodzaj wynagrodzenia" for="rodzajwynagrodzenia" />
                         <p:selectOneMenu id="rodzajwynagrodzenia" value="#{angazView.selected.rodzajwynagrodzenia}" required="true" requiredMessage="rodzajwynagrodzenia}">
@@ -122,5 +120,5 @@
                 </p:panel>
             </h:form>
         </p:outputPanel>
-    </p:dialog>
+     </p:panelGrid>
 </ui:composition>

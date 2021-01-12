@@ -5,12 +5,11 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog id="dialogedycjadanychpracownik" header="Edycja danych pracownika" widgetVar="dialogedycjadanychpracownik"  
-              resizable="false"  onShow="ustawdialog('dialogedycjadanychpracownik','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogedycjadanychpracownik');" 
-              fitViewport="true">
+    <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 300px">
         <p:outputPanel style="height: 300px">
             <h:form id="PracownikCreateForm">
                 <h:panelGroup id="display">
+                    <p:panel header="Dane nowego pracownika"/>
                     <p:panelGrid columns="2" rendered="#{pracownikView.selected != null}">
                         <p:outputLabel value="nazwisko" for="nazwisko" />
                         <p:inputText id="nazwisko" value="#{pracownikView.selected.nazwisko}" title="nazwisko" required="true" requiredMessage="Wpisz nazwisko"/>
@@ -70,5 +69,5 @@
                 </p:panel>
             </h:form>
         </p:outputPanel>
-    </p:dialog>
+</p:panelGrid>    
 </ui:composition>
