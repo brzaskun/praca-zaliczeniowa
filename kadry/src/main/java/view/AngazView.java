@@ -31,10 +31,11 @@ public class AngazView  implements Serializable {
     private Angaz selected;
     @Inject
     private Angaz selectedlista;
+    private Angaz selectedeast;
     private List<Angaz> lista;
+    private List<Angaz> listaeast;
     private List<Firma> listafirm;
     private List<Pracownik> listapracownikow;
-    private List<Pracownik> listapracownikoweast;
     @Inject
     private AngazFacade angazFacade;
     @Inject
@@ -58,7 +59,10 @@ public class AngazView  implements Serializable {
         listafirm = firmaFacade.findAll();
         listapracownikow = pracownikFacade.findAll();
         if (wpisView.getFirma()!=null) {
-            listapracownikoweast = angazFacade.findPracownicyByFirma(wpisView.getFirma());
+            listaeast = angazFacade.findByFirma(wpisView.getFirma());
+        }
+         if (wpisView.getAngaz()!=null) {
+            selectedeast = wpisView.getAngaz();
         }
     }
     
@@ -78,10 +82,11 @@ public class AngazView  implements Serializable {
       }
     }
     
-    public void aktywuj() {
-        if (selectedlista!=null) {
-            wpisView.setAngaz(selectedlista);
-            Msg.msg("Aktywowano angaż");
+   public void aktywuj(Angaz angaz) {
+        if (angaz!=null) {
+            wpisView.setAngaz(angaz);
+            wpisView.setPracownik(angaz.getPracownik());
+            Msg.msg("Aktywowano pracownika");
         }
     }
     
@@ -100,9 +105,9 @@ public class AngazView  implements Serializable {
         }
     }
     
-    public void findPracownicyByFirma(Firma firma) {
+    public void findByFirma(Firma firma) {
         if (firma!=null) {
-            listapracownikoweast = angazFacade.findPracownicyByFirma(firma);
+            listaeast = angazFacade.findByFirma(firma);
             Msg.msg("Pobrano pracowników firmy");
         } else {
             Msg.msg("e", "Błąd nie wybrano firmy");
@@ -149,12 +154,21 @@ public class AngazView  implements Serializable {
         this.listapracownikow = listapracownikow;
     }
 
-    public List<Pracownik> getListapracownikoweast() {
-        return listapracownikoweast;
+    public List<Angaz> getListaeast() {
+        return listaeast;
     }
 
-    public void setListapracownikoweast(List<Pracownik> listapracownikoweast) {
-        this.listapracownikoweast = listapracownikoweast;
+    public void setListaeast(List<Angaz> listaeast) {
+        this.listaeast = listaeast;
+    }
+
+
+    public Angaz getSelectedeast() {
+        return selectedeast;
+    }
+
+    public void setSelectedeast(Angaz selectedeast) {
+        this.selectedeast = selectedeast;
     }
 
    

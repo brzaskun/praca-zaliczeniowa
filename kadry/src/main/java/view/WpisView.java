@@ -41,8 +41,6 @@ public class WpisView implements Serializable {
     private Pracownik pracownik;
     private Angaz angaz;
     private Umowa umowa;
-    @Inject
-    private FirmaView firmaView;
  
     
 
@@ -62,7 +60,6 @@ public class WpisView implements Serializable {
             this.pracownik = memory.getPracownik();
             this.rokWpisu = memory.getRok();
             this.miesiacWpisu = memory.getMc();
-            firmaView.setSelectedeast(memory.getFirma());
         }
     }
     

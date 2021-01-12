@@ -5,26 +5,35 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:layoutUnit position="west" size="175" header="Opcje" collapsible="true">
+    <p:layoutUnit position="west" size="175" collapsible="true">
         <h:form>
-            <p:menu id="menuWest">  
-                <p:submenu>  
-                    <p:menuitem value="autoryzacja" outcome="aindex" icon="ui-icon-circle-arrow-e" />
-                    <p:menuitem value="multiuser" outcome="multiuser" icon="ui-icon-circle-arrow-e" />
-                    <p:menuitem value="sesja" outcome="asesja" icon="ui-icon-circle-arrow-e" />
-                    <p:menuitem value="news" outcome="news" icon="ui-icon-circle-arrow-e" />
-                    <p:menuitem value="mail" outcome="mailAD" icon="ui-icon-circle-arrow-e" />
-                    <p:menuitem value="pisma do admina" outcome="pismoadminobrobka" icon="ui-icon-circle-arrow-e" />
-                    <p:menuitem value="obsluga ip" outcome="ipobsluga" icon="ui-icon-circle-arrow-e" />
-                    <p:menuitem value="statystyka" outcome="adminstatystyka" icon="ui-icon-circle-arrow-e" />
-                    <p:menuitem value="podatnicy" outcome="adminpodatnicy" icon="ui-icon-circle-arrow-e" />
-                    <p:menuitem value="obroty" outcome="adminstatystykakalkulacja" icon="ui-icon-circle-arrow-e" />
-                    <p:menuitem value="kalkulacja" outcome="adminstatystykaobroty" icon="ui-icon-circle-arrow-e" />
-                    <p:menuitem value="faktury" outcome="adminstatystykafaktury" icon="ui-icon-circle-arrow-e" />
-                    <p:menuitem value="status programu" outcome="adminstatusprogramu" icon="ui-icon-circle-arrow-e" />
-                    <p:menuitem value="ustawienia smtp" outcome="ustawieniasmtp" icon="ui-icon-circle-arrow-e" />
-                </p:submenu>  
-            </p:menu>
+            <p:panel header="Wykaz firm" style="margin-top: 80px;"> 
+                <p:dataTable id="datalist" value="#{firmaView.lista}" var="item1"
+                             selectionMode="single" selection="#{firmaView.selectedeast}"
+                             rowKey="#{item1.id}" 
+                             style="height: 50%;overflow-y: scroll;"
+                             >
+                    <p:ajax event="rowSelect" listener="#{firmaView.aktywuj(firmaView.selectedeast)}" partialSubmit="true" global="false" update="north,@(form)"/>
+                    <p:ajax event="rowSelect" listener="#{angazView.findByFirma(firmaView.selectedeast)}" partialSubmit="true" global="false" update="@(form)"/>
+                    <p:column>
+                        <h:outputText value="#{item1.nazwa}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+        <h:form id="EastPracownicy">
+            <p:panel header="Pracownicy">
+                <p:dataTable id="datalist" value="#{angazView.listaeast}" var="item2"
+                             selectionMode="single" selection="#{angazView.selectedeast}"
+                             rowKey="#{item2.id}" emptyMessage="Firma nie ma pracowników"
+                             style="height: 50%;overflow-y: scroll;"
+                             >
+                    <p:ajax event="rowSelect" listener="#{angazView.aktywuj(angazView.selectedeast)}" partialSubmit="true" global="false" update="north,@(form)"/>
+                    <p:column>
+                        <h:outputText value="#{item2.pracownik.nazwiskoImie}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
         </h:form>
     </p:layoutUnit>
 </ui:composition>   

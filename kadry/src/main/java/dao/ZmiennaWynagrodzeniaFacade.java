@@ -5,6 +5,7 @@
  */
 package dao;
 
+import entity.Umowa;
 import entity.Zmiennawynagrodzenia;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -63,5 +64,9 @@ public class ZmiennaWynagrodzeniaFacade {
         for (Zmiennawynagrodzenia p : entityList) {
             em.remove(em.merge(p));
         }
+    }
+
+    public List<Zmiennawynagrodzenia> findByUmowa(Umowa umowa) {
+        return getEntityManager().createNamedQuery("Zmiennawynagrodzenia.findByUmowa").setParameter("umowa", umowa).getResultList();
     }
 }

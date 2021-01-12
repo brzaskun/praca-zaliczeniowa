@@ -75,7 +75,7 @@
                         <p:outputLabel value="#{bundle.CreateUbezpieczenieLabel_nieliczFGSP}" for="nieliczFGSP" />
                         <p:selectBooleanCheckbox id="nieliczFGSP" value="#{angazView.selected.ubezpieczenie.nieliczFGSP}" />
                     </p:panelGrid>-->
-                    <p:commandButton actionListener="#{angazView.create}" value="#{bundle.Save}" update="display,:AngazListForm:datalist,PracownikCreateForm,UmowaCreateForm" />
+                    <p:commandButton actionListener="#{angazView.create}" value="#{bundle.Save}" update="display" />
                     <p:commandButton value="#{bundle.Cancel}" onclick="AngazCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
@@ -88,7 +88,7 @@
                                  rowKey="#{itemAngaz.id}"
                                 style="height: 500px; overflow-y: scroll;"
                                  >
-                        <p:ajax event="rowSelect" listener="#{angazView.aktywuj}" partialSubmit="true" global="false" update="north,SkladnikwynagrodzeniaCreateForm,ZmiennawynagrodzeniaListForm, ZmiennawynagrodzeniaCreateForm"/>
+                        <p:ajax event="rowSelect" listener="#{angazView.aktywuj}" partialSubmit="true" global="false" update="north"/>
                         <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="id"/>

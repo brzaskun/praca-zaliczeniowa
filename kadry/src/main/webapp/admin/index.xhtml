@@ -15,14 +15,13 @@
                 <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj"> 
                     <ui:include src="sub/layout/north.xhtml" />  <!-- panel polnocny-->
                     <ui:include src="sub/layout/south.xhtml"/>   <!-- panel poludniowy-->
-                    <ui:include src="sub/layout/east.xhtml"/>   <!-- panel poludniowy-->
+                    <ui:include src="sub/layout/west.xhtml"/>   <!-- panel poludniowy-->
                     <p:layoutUnit position="center" id="centertile" >
                         <h:form id="formmenu">
-                         <p:menubar autoDisplay="true" style="border: none;">
-                            <p:menuitem icon="fa fa-institution" value="firma" style="width: 150px" onclick="PF('dialogedycjadanychfirmy').show()" async="true"/>
-                            <p:submenu label="pracownicy" style="width: 250px">
-                                <p:menuitem icon="fa fa-stack-overflow" value="edycja pracownicy" style="width: 250px" onclick="PF('dialogedycjadanychpracownik').show()" async="true" />
-                                <p:menuitem icon="fa fa-stack-overflow" value="edycja angażu" style="width: 250px" onclick="PF('dialogpracownikangaz').show()" async="true"/>
+                         <p:menubar autoDisplay="true">
+                             <p:menuitem icon="fa fa-institution" value="firmy" style="width: 150px" action="Firma"/>
+                             <p:menuitem icon="fa fa-institution" value="pracownicy" style="width: 150px" action="Pracownik"/>
+                            <p:submenu label="kadry" style="width: 250px">
                                 <p:menuitem icon="fa fa-stack-overflow" value="edycja umowy" style="width: 250px" onclick="PF('dialogpracownikumowa').show()" async="true"/>
                                 <p:menuitem icon="fa fa-stack-overflow" value="edycja składniki wynagrodzenia" style="width: 250px" onclick="PF('dialogskladnikiwynagrodzenia').show()" async="true"/>
                                 <p:menuitem icon="fa fa-stack-overflow" value="edycja zmienne wynagrodzenia" style="width: 250px" onclick="PF('dialogzmiennewynagrodzenia').show()" async="true"/>
@@ -42,9 +41,6 @@
                         </p:menubar>
                         </h:form>
                        <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
-                       <ui:include src="sub/dialog/dialog_edycjadanych_firmy.xhtml"/>
-                       <ui:include src="sub/dialog/dialog_edycjadanych_pracownik.xhtml"/>
-                     <ui:include src="sub/dialog/dialog_edycjadanych_angaz.xhtml"/>
                      <ui:include src="sub/dialog/dialog_edycjadanych_umowa.xhtml"/>
                      <ui:include src="sub/dialog/dialog_edycjadanych_skladnikwynagrodzenia.xhtml"/>
                      <ui:include src="sub/dialog/dialog_edycjadanych_zmiennawynagrodzenia.xhtml"/>
