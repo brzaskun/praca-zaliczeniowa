@@ -45,7 +45,7 @@
                                            itemValue="#{kalendarzwzorItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{dzienController.update}" value="#{bundle.Save}" update="display,:DzienListForm:datalist,:growl" oncomplete="handleSubmit(args, 'DzienEditDialog');"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{dzienController.update}" value="#{bundle.Save}" update="display,:DzienListForm:datalist,:growl" oncomplete="handleSubmit(args, 'DzienEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="DzienEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

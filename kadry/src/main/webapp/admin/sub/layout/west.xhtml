@@ -28,7 +28,7 @@
                              rowKey="#{item2.id}" emptyMessage="Firma nie ma pracowników"
                              style="height: 50%;overflow-y: scroll;"
                              >
-                    <p:ajax event="rowSelect" listener="#{angazView.aktywuj(angazView.selectedeast)}" partialSubmit="true" global="false" update="north,@(form)"/>
+                    <p:ajax event="rowSelect" listener="#{angazView.aktywuj(angazView.selectedeast)}" partialSubmit="true" global="false" update="north,@(form),dialogpracownikumowa"/>
                     <p:column>
                         <h:outputText value="#{item2.pracownik.nazwiskoImie}"/>
                     </p:column>

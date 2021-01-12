@@ -67,7 +67,7 @@
                         <p:outputLabel value="#{bundle.EditUmowaLabel_nfz}" for="nfz" />
                         <p:inputText id="nfz" value="#{umowaController.selected.nfz}" title="#{bundle.EditUmowaTitle_nfz}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{umowaController.update}" value="#{bundle.Save}" update="display,:UmowaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'UmowaEditDialog');"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{umowaController.update}" value="#{bundle.Save}" update="display,:UmowaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'UmowaEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="UmowaEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

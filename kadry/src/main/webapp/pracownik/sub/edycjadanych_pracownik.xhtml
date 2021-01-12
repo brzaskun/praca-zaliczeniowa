@@ -16,7 +16,7 @@
                         <p:outputLabel value="imię" for="imie" />
                         <p:inputText id="imie" value="#{pracownikView.selected.imie}" title="imię" required="true" requiredMessage="Wpisz imię"/>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{pracownikView.create}" value="#{bundle.Save}" update="display,@(form)" />
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{pracownikView.create}" value="#{bundle.Save}" update="display,@(form)" />
                 </h:panelGroup>
             </h:form>
         </p:outputPanel>

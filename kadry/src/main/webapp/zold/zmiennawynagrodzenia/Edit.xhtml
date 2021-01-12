@@ -30,7 +30,7 @@
                                            itemValue="#{skladnikwynagrodzeniaItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{zmiennawynagrodzeniaController.update}" value="#{bundle.Save}" update="display,:ZmiennawynagrodzeniaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ZmiennawynagrodzeniaEditDialog');"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{zmiennawynagrodzeniaController.update}" value="#{bundle.Save}" update="display,:ZmiennawynagrodzeniaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ZmiennawynagrodzeniaEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="ZmiennawynagrodzeniaEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

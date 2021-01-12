@@ -54,7 +54,7 @@ public class Zmiennawynagrodzenia implements Serializable {
     @Column(name = "nazwa")
     private String nazwa;
     @JoinColumn(name = "skladnikwynagrodzenia", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Skladnikwynagrodzenia skladnikwynagrodzenia;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "kwota")

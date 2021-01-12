@@ -71,7 +71,7 @@
                         <p:outputLabel value="#{bundle.CreatePasekwynagrodzenLabel_potracenia}" for="potracenia" />
                         <p:inputText id="potracenia" value="#{pasekwynagrodzenController.selected.potracenia}" title="#{bundle.CreatePasekwynagrodzenTitle_potracenia}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{pasekwynagrodzenController.create}" value="#{bundle.Save}" update="display,:PasekwynagrodzenListForm:datalist,:growl" oncomplete="handleSubmit(args,'PasekwynagrodzenCreateDialog');"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenController.create}" value="#{bundle.Save}" update="display,:PasekwynagrodzenListForm:datalist,:growl" oncomplete="handleSubmit(args,'PasekwynagrodzenCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="PasekwynagrodzenCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

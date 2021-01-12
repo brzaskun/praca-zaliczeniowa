@@ -25,7 +25,7 @@
                                            itemValue="#{firmaItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{kalendarzwzorController.create}" value="#{bundle.Save}" update="display,:KalendarzwzorListForm:datalist,:growl" oncomplete="handleSubmit(args,'KalendarzwzorCreateDialog');"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzwzorController.create}" value="#{bundle.Save}" update="display,:KalendarzwzorListForm:datalist,:growl" oncomplete="handleSubmit(args,'KalendarzwzorCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="KalendarzwzorCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

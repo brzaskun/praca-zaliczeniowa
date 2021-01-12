@@ -19,7 +19,7 @@
                         <p:outputLabel value="#{bundle.CreatePodatekLabel_kosztyuzyskania}" for="kosztyuzyskania" />
                         <p:inputText id="kosztyuzyskania" value="#{podatekController.selected.kosztyuzyskania}" title="#{bundle.CreatePodatekTitle_kosztyuzyskania}" required="true" requiredMessage="#{bundle.CreatePodatekRequiredMessage_kosztyuzyskania}"/>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{podatekController.create}" value="#{bundle.Save}" update="display,:PodatekListForm:datalist,:growl" oncomplete="handleSubmit(args,'PodatekCreateDialog');"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{podatekController.create}" value="#{bundle.Save}" update="display,:PodatekListForm:datalist,:growl" oncomplete="handleSubmit(args,'PodatekCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="PodatekCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

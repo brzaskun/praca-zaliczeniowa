@@ -35,6 +35,7 @@ import z.Z;
 @NamedQueries({
     @NamedQuery(name = "Pasekwynagrodzen.findAll", query = "SELECT p FROM Pasekwynagrodzen p"),
     @NamedQuery(name = "Pasekwynagrodzen.findByDefKal", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.definicjalistaplac = :definicjalistaplac AND p.kalendarzmiesiac = :kalendarzmiesiac"),
+    @NamedQuery(name = "Pasekwynagrodzen.findByDef", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.definicjalistaplac = :definicjalistaplac"),
     @NamedQuery(name = "Pasekwynagrodzen.findById", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.id = :id"),
     @NamedQuery(name = "Pasekwynagrodzen.findByBruttobezzus", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.bruttobezzus = :bruttobezzus"),
     @NamedQuery(name = "Pasekwynagrodzen.findByBruttozus", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.bruttozus = :bruttozus"),
@@ -164,6 +165,9 @@ private double bruttobezzus;
         }
         Pasekwynagrodzen other = (Pasekwynagrodzen) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        if ((this.id == null && other.id == null) && (!this.kalendarzmiesiac.equals(other.kalendarzmiesiac))) {
             return false;
         }
         return true;
@@ -381,6 +385,8 @@ private double bruttobezzus;
         this.potracenia = potracenia;
     }
 
-    
+    public String getNazwiskoImie() {
+        return this.kalendarzmiesiac.getUmowa().getAngaz().getPracownik().getNazwiskoImie();
+    }
         
 }

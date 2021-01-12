@@ -72,4 +72,7 @@ public class PasekwynagrodzenFacade   implements Serializable {
     public Pasekwynagrodzen findByDefKal(Definicjalistaplac definicjalistaplac, Kalendarzmiesiac kalendarzmiesiac) {
         return (Pasekwynagrodzen) getEntityManager().createNamedQuery("Pasekwynagrodzen.findByDefKal").setParameter("definicjalistaplac", definicjalistaplac).setParameter("kalendarzmiesiac", kalendarzmiesiac).getSingleResult();
     }
+    public List<Pasekwynagrodzen> findByDef(Definicjalistaplac definicjalistaplac) {
+        return getEntityManager().createNamedQuery("Pasekwynagrodzen.findByDef").setParameter("definicjalistaplac", definicjalistaplac).getResultList();
+    }
 }

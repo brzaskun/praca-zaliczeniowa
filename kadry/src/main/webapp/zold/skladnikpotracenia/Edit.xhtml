@@ -31,7 +31,7 @@
                                            itemValue="#{zmiennapotraceniaItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{skladnikpotraceniaController.update}" value="#{bundle.Save}" update="display,:SkladnikpotraceniaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'SkladnikpotraceniaEditDialog');"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{skladnikpotraceniaController.update}" value="#{bundle.Save}" update="display,:SkladnikpotraceniaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'SkladnikpotraceniaEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="SkladnikpotraceniaEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

@@ -63,7 +63,7 @@
                         <p:outputLabel value="#{bundle.CreateUzLabel_liczbapodatnikow}" for="liczbapodatnikow" />
                         <p:inputText id="liczbapodatnikow" value="#{uzController.selected.liczbapodatnikow}" title="#{bundle.CreateUzTitle_liczbapodatnikow}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{uzController.create}" value="#{bundle.Save}" update="display,:UzListForm:datalist,:growl" oncomplete="handleSubmit(args,'UzCreateDialog');"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{uzController.create}" value="#{bundle.Save}" update="display,:UzListForm:datalist,:growl" oncomplete="handleSubmit(args,'UzCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="UzCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

@@ -38,7 +38,7 @@
                                            itemValue="#{firmaItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{definicjalistaplacController.update}" value="#{bundle.Save}" update="display,:DefinicjalistaplacListForm:datalist,:growl" oncomplete="handleSubmit(args, 'DefinicjalistaplacEditDialog');"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{definicjalistaplacController.update}" value="#{bundle.Save}" update="display,:DefinicjalistaplacListForm:datalist,:growl" oncomplete="handleSubmit(args, 'DefinicjalistaplacEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="DefinicjalistaplacEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

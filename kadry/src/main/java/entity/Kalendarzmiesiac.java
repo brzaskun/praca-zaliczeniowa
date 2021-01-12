@@ -232,6 +232,9 @@ public class Kalendarzmiesiac implements Serializable {
         this.dzienList = nowedni;
     }
 
- 
+    public String getNazwiskoImie() {
+        return this.getUmowa().getAngaz().getPracownik().getNazwiskoImie();
+    }
+       
         
 }

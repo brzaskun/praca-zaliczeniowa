@@ -14,13 +14,7 @@
                     <p:panelGrid columns="2" rendered="#{umowaView.selected != null}">
                         <p:panelGrid columns="2">
                             <p:outputLabel value="angaz" for="angaz" />
-                             <p:selectOneMenu id="angaz" value="#{umowaView.selected.angaz}" converter="#{angazConverter}">
-                                <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
-                                <f:selectItems value="#{umowaView.listaangaz}"
-                                               var="angazItem"
-                                               itemValue="#{angazItem}" itemLabel="#{angazItem.pracownik.nazwiskoImie}"/>
-                                <p:ajax event="change" partialSubmit="true" global="false"/>
-                            </p:selectOneMenu>
+                            <h:outputText id="angaz" value="#{wpisView.angaz.pracownik.nazwiskoImie}"/>
                             <p:outputLabel value="rodzaj umowy" for="rodzajumowy" />
                             <p:selectOneMenu id="rodzajumowy" value="#{umowaView.selected.rodzajumowy}" converter="#{rodzajumowyConverter}">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
@@ -74,7 +68,7 @@
                         <p:inputText id="nfz" value="#{umowaView.selected.nfz}" title="nfz}" />
                         </p:panelGrid>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{umowaView.create}" value="#{bundle.Save}" update="display,:UmowaListForm:datalist,SkladnikwynagrodzeniaCreateForm" />
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{umowaView.create}" value="#{bundle.Save}" update="north, @(form)" />
                     <p:commandButton value="#{bundle.Cancel}" onclick="UmowaCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
@@ -87,7 +81,7 @@
                                  rowKey="#{itemumowa.id}"
                                  style="height: 200px; overflow-y: scroll;"
                                  >
-                        <p:ajax event="rowSelect" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north,SkladnikwynagrodzeniaCreateForm,ZmiennawynagrodzeniaListForm"/>
+                        <p:ajax event="rowSelect" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>
                         <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="id"/>
@@ -219,6 +213,9 @@
                                 <h:outputText value="nfz"/>
                             </f:facet>
                             <h:outputText value="#{itemumowa.nfz}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <p:commandButton icon="fa fa-trash" actionListener="#{umowaView.usun(itemumowa)}" update="north, @(form)"/>
                         </p:column>
                     </p:dataTable>
                 </p:panel>

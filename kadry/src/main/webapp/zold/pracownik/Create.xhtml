@@ -19,7 +19,7 @@
                         <p:outputLabel value="#{bundle.CreatePracownikLabel_imię}" for="imię" />
                         <p:inputText id="imię" value="#{pracownikController.selected.imię}" title="#{bundle.CreatePracownikTitle_imię}" required="true" requiredMessage="#{bundle.CreatePracownikRequiredMessage_imię}"/>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{pracownikController.create}" value="#{bundle.Save}" update="display,:PracownikListForm:datalist,:growl" oncomplete="handleSubmit(args,'PracownikCreateDialog');"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{pracownikController.create}" value="#{bundle.Save}" update="display,:PracownikListForm:datalist,:growl" oncomplete="handleSubmit(args,'PracownikCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="PracownikCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

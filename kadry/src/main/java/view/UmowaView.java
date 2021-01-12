@@ -53,16 +53,17 @@ public class UmowaView  implements Serializable {
     }
  
     public void create() {
-      if (selected!=null) {
+      if (selected!=null && wpisView.getAngaz()!=null) {
           try {
+            selected.setAngaz(wpisView.getAngaz());
             umowaFacade.create(selected);
             lista.add(selected);
-            selected = new Umowa();
             wpisView.setUmowa(selected);
+            selected = new Umowa();
             Msg.msg("Dodano nową umowę");
           } catch (Exception e) {
               System.out.println("");
-              Msg.msg("e", "Błąd - nie dodano nowej umowy");
+              Msg.msg("e", "Błąd - nie dodano nowej umowy. Sprawdź angaż");
           }
       }
     }
@@ -91,6 +92,7 @@ public class UmowaView  implements Serializable {
                 selected.setDatazdrowotne("2020-01-01");
                 selected.setKosztyuzyskania(250.0);
                 selected.setNfz("13");
+                selected.setKodzawodu("568");
                 selected.setKodubezpieczenia("0110");
                 selected.setOdliczaculgepodatkowa(true);
             } else if (selected.getRodzajumowy().getNazwa().equals("umowa zlecenia")) {
@@ -107,8 +109,20 @@ public class UmowaView  implements Serializable {
                 selected.setDatazdrowotne("2020-04-01");
                 selected.setKosztyuzyskania(0.0);
                 selected.setNfz("13");
+                selected.setKodzawodu("888");
                 selected.setKodubezpieczenia("0411");
         }
+        }
+    }
+    
+    public void usun(Umowa umowa) {
+        if (umowa!=null) {
+            wpisView.setUmowa(null);
+            umowaFacade.remove(umowa);
+            lista.remove(umowa);
+            Msg.msg("Usunięto umowę");
+        } else {
+            Msg.msg("e","Nie wybrano umowy");
         }
     }
     

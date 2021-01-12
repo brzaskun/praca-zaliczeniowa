@@ -41,7 +41,7 @@
                                            itemValue="#{ubezpieczenieItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{angazController.create}" value="#{bundle.Save}" update="display,:AngazListForm:datalist,:growl" oncomplete="handleSubmit(args,'AngazCreateDialog');"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{angazController.create}" value="#{bundle.Save}" update="display,:AngazListForm:datalist,:growl" oncomplete="handleSubmit(args,'AngazCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="AngazCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

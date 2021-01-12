@@ -30,7 +30,7 @@
                                            itemValue="#{umowaItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{nieobecnoscController.update}" value="#{bundle.Save}" update="display,:NieobecnoscListForm:datalist,:growl" oncomplete="handleSubmit(args, 'NieobecnoscEditDialog');"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscController.update}" value="#{bundle.Save}" update="display,:NieobecnoscListForm:datalist,:growl" oncomplete="handleSubmit(args, 'NieobecnoscEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="NieobecnoscEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

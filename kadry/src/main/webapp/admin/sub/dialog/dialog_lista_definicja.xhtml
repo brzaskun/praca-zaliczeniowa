@@ -41,7 +41,7 @@
                                            itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.nazwa}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{definicjalistaplacView.create}" value="#{bundle.Save}" update="display,:DefinicjalistaplacListForm:datalist" />
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{definicjalistaplacView.create}" value="#{bundle.Save}" update="display,:DefinicjalistaplacListForm:datalist" />
                     <p:commandButton value="#{bundle.Cancel}" onclick="DefinicjalistaplacCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

@@ -6,6 +6,7 @@
 package view;
 
 import beanstesty.PasekwynagrodzenBean;
+import comparator.Kalendarzmiesiaccomparator;
 import dao.DefinicjalistaplacFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.PasekwynagrodzenFacade;
@@ -15,6 +16,8 @@ import entity.Kalendarzmiesiac;
 import entity.Pasekwynagrodzen;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -76,12 +79,21 @@ public class PasekwynagrodzenView  implements Serializable {
             int i = 1;
             for (Kalendarzmiesiac p : listakalendarzmiesiac.getTarget()) {
                 Pasekwynagrodzen pasek = PasekwynagrodzenBean.oblicz(p, wybranalistaplac);
-                pasek.setId(i++);
+                usunpasekjakzawiera(pasek);
                 lista.add(pasek);
             }
             Msg.msg("Sporządzono listę płac");
         } else {
             Msg.msg("e","Nie wybrano listy lub pracownika");
+        }
+    }
+    
+    private void usunpasekjakzawiera(Pasekwynagrodzen pasek) {
+        for (Iterator<Pasekwynagrodzen> it = lista.iterator(); it.hasNext(); ) {
+            Pasekwynagrodzen pa = it.next();
+            if (pa.getKalendarzmiesiac().equals(pasek.getKalendarzmiesiac())) {
+                it.remove();
+            }
         }
     }
     
@@ -96,8 +108,12 @@ public class PasekwynagrodzenView  implements Serializable {
     
     public void usun(Pasekwynagrodzen p ) {
         if (p!=null) {
-            pasekwynagrodzenFacade.remove(p);
-            lista.remove(p);
+            if (p.getId()!=null) {
+                pasekwynagrodzenFacade.remove(p);
+                lista.remove(p);
+            } else {
+                lista.remove(p);
+            }
             Msg.msg("Usunięto wiersz listy płac");
         } else {
             Msg.msg("e","Błąd usuwania. Pasek null");
@@ -114,9 +130,11 @@ public class PasekwynagrodzenView  implements Serializable {
     public void pobierzkalendarzezamc() {
         if (wybranalistaplac!=null) {
             List<Kalendarzmiesiac> listakalendarzmiesiac = kalendarzmiesiacFacade.findByFirmaRokMc(wybranalistaplac.getFirma(), wybranalistaplac.getRok(), wybranalistaplac.getMc());
+            Collections.sort(listakalendarzmiesiac, new Kalendarzmiesiaccomparator());
             if (listakalendarzmiesiac!=null) {
                 this.listakalendarzmiesiac.setSource(listakalendarzmiesiac);
             }
+            lista = pasekwynagrodzenFacade.findByDef(wybranalistaplac);
         }
     }
     
@@ -169,6 +187,8 @@ public class PasekwynagrodzenView  implements Serializable {
     public void setWybranalistaplac(Definicjalistaplac wybranalistaplac) {
         this.wybranalistaplac = wybranalistaplac;
     }
+
+    
 
    
     

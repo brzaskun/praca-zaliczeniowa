@@ -17,7 +17,7 @@
                         <p:outputLabel value="#{bundle.EditRodzajumowyLabel_nazwa}" for="nazwa" />
                         <p:inputText id="nazwa" value="#{rodzajumowyController.selected.nazwa}" title="#{bundle.EditRodzajumowyTitle_nazwa}" required="true" requiredMessage="#{bundle.EditRodzajumowyRequiredMessage_nazwa}"/>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{rodzajumowyController.update}" value="#{bundle.Save}" update="display,:RodzajumowyListForm:datalist,:growl" oncomplete="handleSubmit(args, 'RodzajumowyEditDialog');"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{rodzajumowyController.update}" value="#{bundle.Save}" update="display,:RodzajumowyListForm:datalist,:growl" oncomplete="handleSubmit(args, 'RodzajumowyEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="RodzajumowyEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

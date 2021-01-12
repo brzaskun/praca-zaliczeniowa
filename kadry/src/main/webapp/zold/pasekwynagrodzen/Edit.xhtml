@@ -73,7 +73,7 @@
                         <p:outputLabel value="#{bundle.EditPasekwynagrodzenLabel_potracenia}" for="potracenia" />
                         <p:inputText id="potracenia" value="#{pasekwynagrodzenController.selected.potracenia}" title="#{bundle.EditPasekwynagrodzenTitle_potracenia}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{pasekwynagrodzenController.update}" value="#{bundle.Save}" update="display,:PasekwynagrodzenListForm:datalist,:growl" oncomplete="handleSubmit(args, 'PasekwynagrodzenEditDialog');"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenController.update}" value="#{bundle.Save}" update="display,:PasekwynagrodzenListForm:datalist,:growl" oncomplete="handleSubmit(args, 'PasekwynagrodzenEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="PasekwynagrodzenEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

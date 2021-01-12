@@ -15,7 +15,7 @@
                     <p:outputLabel value="nazwa" for="nazwa" />
                     <p:inputText id="nazwa" value="#{firmaView.selected.nazwa}" title="nazwa" required="true" requiredMessage="Wpisz nazwę"/>
                 </p:panelGrid>
-                <p:commandButton actionListener="#{firmaView.create()}" value="#{bundle.Save}" update="@(form)"/>
+                <p:commandButton styleClass="buttonnorm" actionListener="#{firmaView.create()}" value="#{bundle.Save}" update="@(form)"/>
                 <p:commandButton value="#{bundle.Cancel}"/>
             </h:form>
         </p:outputPanel>

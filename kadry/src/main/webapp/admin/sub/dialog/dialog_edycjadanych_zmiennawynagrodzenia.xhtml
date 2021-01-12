@@ -34,7 +34,7 @@
                         <p:outputLabel value="kwota" for="kwota" />
                         <p:inputText id="kwota" value="#{zmiennaWynagrodzeniaView.selected.kwota}" title="kwota" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{zmiennaWynagrodzeniaView.create}" value="#{bundle.Save}" update="display,:ZmiennawynagrodzeniaListForm:datalist"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{zmiennaWynagrodzeniaView.create}" value="#{bundle.Save}" update="display,:ZmiennawynagrodzeniaListForm:datalist"/>
                     <p:commandButton value="#{bundle.Cancel}"/>
                 </h:panelGroup>
             </h:form>

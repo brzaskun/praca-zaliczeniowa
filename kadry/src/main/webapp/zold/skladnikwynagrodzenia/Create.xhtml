@@ -37,7 +37,7 @@
                         <p:outputLabel value="#{bundle.CreateSkladnikwynagrodzeniaLabel_stala0zmienna1}" for="stala0zmienna1" />
                         <p:selectBooleanCheckbox id="stala0zmienna1" value="#{skladnikwynagrodzeniaController.selected.stala0zmienna1}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{skladnikwynagrodzeniaController.create}" value="#{bundle.Save}" update="display,:SkladnikwynagrodzeniaListForm:datalist,:growl" oncomplete="handleSubmit(args,'SkladnikwynagrodzeniaCreateDialog');"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{skladnikwynagrodzeniaController.create}" value="#{bundle.Save}" update="display,:SkladnikwynagrodzeniaListForm:datalist,:growl" oncomplete="handleSubmit(args,'SkladnikwynagrodzeniaCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="SkladnikwynagrodzeniaCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

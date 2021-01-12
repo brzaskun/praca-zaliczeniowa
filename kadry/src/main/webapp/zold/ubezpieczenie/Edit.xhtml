@@ -43,7 +43,7 @@
                         <p:outputLabel value="#{bundle.EditUbezpieczenieLabel_nieliczFGSP}" for="nieliczFGSP" />
                         <p:selectBooleanCheckbox id="nieliczFGSP" value="#{ubezpieczenieController.selected.nieliczFGSP}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{ubezpieczenieController.update}" value="#{bundle.Save}" update="display,:UbezpieczenieListForm:datalist,:growl" oncomplete="handleSubmit(args, 'UbezpieczenieEditDialog');"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{ubezpieczenieController.update}" value="#{bundle.Save}" update="display,:UbezpieczenieListForm:datalist,:growl" oncomplete="handleSubmit(args, 'UbezpieczenieEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="UbezpieczenieEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

@@ -17,7 +17,7 @@
                         <p:outputLabel value="#{bundle.EditRodzajlistyplacLabel_nazwa}" for="nazwa" />
                         <p:inputText id="nazwa" value="#{rodzajlistyplacController.selected.nazwa}" title="#{bundle.EditRodzajlistyplacTitle_nazwa}" required="true" requiredMessage="#{bundle.EditRodzajlistyplacRequiredMessage_nazwa}"/>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{rodzajlistyplacController.update}" value="#{bundle.Save}" update="display,:RodzajlistyplacListForm:datalist,:growl" oncomplete="handleSubmit(args, 'RodzajlistyplacEditDialog');"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{rodzajlistyplacController.update}" value="#{bundle.Save}" update="display,:RodzajlistyplacListForm:datalist,:growl" oncomplete="handleSubmit(args, 'RodzajlistyplacEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="RodzajlistyplacEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

@@ -4,13 +4,13 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-        
+
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:dialog id="dialoglistaplac" header="Wyliczanie listy płac" widgetVar="dialoglistaplac"  
               resizable="false"  onShow="ustawdialog('dialoglistaplac','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialoglistaplac');" 
               fitViewport="true">
         <p:outputPanel style="height: 280px">
-             <h:form id="DefinicjalistaplacCreateForm">
+            <h:form id="DefinicjalistaplacCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{pasekwynagrodzenView.listadefinicjalistaplac ne null}">
                         <p:outputLabel value="wybrana lista płac" for="wybranalista" />
@@ -32,7 +32,7 @@
                             <p:ajax event="change" listener="#{pasekwynagrodzenView.przelicz}" partialSubmit="true" global="false" update="@(form)"/>
                         </p:selectOneMenu>-->
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{pasekwynagrodzenView.przelicz}" value="oblicz" update="PasekwynagrodzenListForm" />
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.przelicz}" value="oblicz" update="PasekwynagrodzenListForm" />
                     <p:commandButton value="#{bundle.Cancel}" onclick="DefinicjalistaplacCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
@@ -41,129 +41,153 @@
             <h:form id="PasekwynagrodzenListForm">
                 <p:panel header="paski wynagrodzeń">
                     <p:dataTable id="datalist" value="#{pasekwynagrodzenView.lista}" var="itempasek"
-                                 selectionMode="single" selection="#{pasekwynagrodzenView.selectedlista}"
-                                 rowKey="#{itempasek.id}"
+                                 selectionMode="single" selection="#{pasekwynagrodzenView.selectedlista}" rowIndexVar="indexpasek"
+                                 rowKey="#{itempasek.kalendarzmiesiac.hashCode()}" sortBy="#{itempasek.kalendarzmiesiac.umowa.angaz.pracownik.nazwiskoImie}"
                                  style="height: 500px; overflow-y: scroll;"
                                  >
-                        <p:column width="40" style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="id"/>
-                            </f:facet>
-                            <h:outputText value="#{itempasek.id}"/>
-                        </p:column>
                         <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="brutto bez zus"/>
-                            </f:facet>
-                            <bcf:inputpl value="#{itempasek.bruttobezzus}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="brutto zus"/>
-                            </f:facet>
-                            <bcf:inputpl value="#{itempasek.bruttozus}" />
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="brutto"/>
-                            </f:facet>
-                            <bcf:outputpl value="#{itempasek.wartoscbrutto}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="prac chorobowe"/>
-                            </f:facet>
-                            <bcf:inputpl value="#{itempasek.pracchorobowe}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="prac emerytalne"/>
-                            </f:facet>
-                            <bcf:inputpl value="#{itempasek.pracemerytalne}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="prac rentowe"/>
-                            </f:facet>
-                            <bcf:inputpl value="#{itempasek.pracrentowe}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="razem spoleczne pracownik"/>
-                            </f:facet>
-                            <bcf:inputpl value="#{itempasek.razemspolecznepracownik}"/>
-                        </p:column>
-<!--                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="fgsp"/>
-                            </f:facet>
-                            <bcf:inputpl value="#{itempasek.fgsp}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="fp"/>
-                            </f:facet>
-                            <bcf:inputpl value="#{itempasek.fp}"/>
-                        </p:column>-->
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="podstawa opodatkowania"/>
-                            </f:facet>
-                            <bcf:inputpl value="#{itempasek.podstawaopodatkowania}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="koszty uzyskania"/>
-                            </f:facet>
-                            <bcf:inputpl value="#{itempasek.kosztyuzyskania}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="kwota wolna"/>
-                            </f:facet>
-                            <bcf:inputpl value="#{itempasek.kwotawolna}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="podstawa ubezp zdrowotne"/>
-                            </f:facet>
-                            <bcf:inputpl value="#{itempasek.podstawaubezpzdrowotne}"/>
-                        </p:column>
-                           <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="prac zdrowotne"/>
-                            </f:facet>
-                               <bcf:inputpl value="#{itempasek.praczdrowotne}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="prac zdrowotne do potrącenia"/>
-                            </f:facet>
-                            <bcf:inputpl value="#{itempasek.praczdrowotnedopotracenia}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="podatek dochodowy"/>
-                            </f:facet>
-                            <bcf:inputpl value="#{itempasek.podatekdochodowy}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="potracenia"/>
-                            </f:facet>
-                            <bcf:inputpl value="#{itempasek.potracenia}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="netto"/>
-                            </f:facet>
-                            <bcf:inputpl value="#{itempasek.netto}"/>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <p:commandButton icon="fa fa-print" actionListener="#{pasekwynagrodzenView.drukuj(itempasek)}" global="false"/>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <p:commandButton icon="fa fa-trash" actionListener="#{pasekwynagrodzenView.usun(itempasek)}" global="false"/>
+                            <p:panelGrid styleClass="pasekwyn">
+                                <p:row>
+                                    <p:column width="40" style="text-align: center;">
+                                        <h:outputText value=""/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="brutto bez zus"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="brutto zus"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="brutto"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="prac chorobowe"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="prac emerytalne"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="prac rentowe"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="razem spoleczne prac."/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="podstawa opodatk."/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value=" "/>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column width="40" style="text-align: center;">
+                                        <h:outputText value="#{indexpasek+1}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:inputpl value="#{itempasek.bruttobezzus}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:inputpl value="#{itempasek.bruttozus}" />
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:outputpl value="#{itempasek.wartoscbrutto}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:inputpl value="#{itempasek.pracchorobowe}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:inputpl value="#{itempasek.pracemerytalne}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:inputpl value="#{itempasek.pracrentowe}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:inputpl value="#{itempasek.razemspolecznepracownik}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:inputpl value="#{itempasek.podstawaopodatkowania}"/>
+                                    </p:column>
+                                    <p:column style="text-align: center;">
+                                        <p:commandButton icon="fa fa-print" actionListener="#{pasekwynagrodzenView.drukuj(itempasek)}" global="false"/>
+                                    </p:column>
+                                </p:row>
+                                <!--                        <p:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="fgsp"/>
+                                                            </f:facet>
+                                                            <bcf:inputpl value="#{itempasek.fgsp}"/>
+                                                        </p:column>
+                                                        <p:column>
+                                                            <f:facet name="header">
+                                                                <h:outputText value="fp"/>
+                                                            </f:facet>
+                                                            <bcf:inputpl value="#{itempasek.fp}"/>
+                                                        </p:column>-->
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText value="nazwisko i imię"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="koszty uzyskania"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="kwota wolna"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="podstawa ubezp zdrow."/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="prac zdrowotne"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="prac zdrow. do potrąc."/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="podatek dochodowy"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="potracenia"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="netto"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value=" "/>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                     <p:column>
+                                         <h:outputText value="#{itempasek.nazwiskoImie}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:inputpl value="#{itempasek.kosztyuzyskania}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:inputpl value="#{itempasek.kwotawolna}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:inputpl value="#{itempasek.podstawaubezpzdrowotne}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:inputpl value="#{itempasek.praczdrowotne}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:inputpl value="#{itempasek.praczdrowotnedopotracenia}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:inputpl value="#{itempasek.podatekdochodowy}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:inputpl value="#{itempasek.potracenia}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <bcf:inputpl value="#{itempasek.netto}"/>
+                                    </p:column>
+                                   <p:column style="text-align: center;">
+                                        <p:commandButton icon="fa fa-trash" actionListener="#{pasekwynagrodzenView.usun(itempasek)}" global="false" update="@form"/>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
                         </p:column>
                     </p:dataTable>
                 </p:panel>

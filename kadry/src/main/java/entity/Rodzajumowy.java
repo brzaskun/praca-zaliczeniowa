@@ -8,6 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -45,7 +46,7 @@ public class Rodzajumowy implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @OneToMany(mappedBy = "rodzajumowy")
+    @OneToMany(mappedBy = "rodzajumowy", cascade = CascadeType.ALL)
     private List<Umowa> umowaList;
 
     public Rodzajumowy() {

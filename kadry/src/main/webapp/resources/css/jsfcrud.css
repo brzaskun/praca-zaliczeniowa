@@ -10,10 +10,23 @@ table {
     empty-cells: show;
 }
 
-.ui-button {
+.buttonnorm.ui-button {
     width: 120px !important;
 }
 
+.pasekwyn.ui-panelgrid td {
+     padding: -5px -5px !important;
+     border-style: none !important;
+     border-spacing: 0px !important;
+}
+
+.pasekwyn.ui-panelgrid td input{
+    width: 90px !important;
+}
+
+.pasek.ui-inputfield {
+    padding: 0px !important;
+}
 /*.ui-button.ui-widget {
        margin-top: 15px;
        margin-bottom: 15px;

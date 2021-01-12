@@ -35,7 +35,7 @@
                         <p:outputLabel value="stala0zmienna1" for="stala0zmienna1" />
                         <p:selectBooleanCheckbox id="stala0zmienna1" value="#{skladnikWynagrodzeniaView.selected.stala0zmienna1}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{skladnikWynagrodzeniaView.create}" value="#{bundle.Save}" update="display,:SkladnikwynagrodzeniaListForm:datalist,ZmiennawynagrodzeniaCreateForm, ZmiennawynagrodzeniaListForm"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{skladnikWynagrodzeniaView.create}" value="#{bundle.Save}" update="display,@(form)"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="SkladnikwynagrodzeniaCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
@@ -92,7 +92,7 @@
                             <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.stala0zmienna1 eq true}"/>
                         </p:column>
                          <p:column style="text-align: center;">
-                            <p:commandButton icon="fa fa-trash" actionListener="#{skladnikWynagrodzeniaView.usun(item2)}" update="north @form,ZmiennawynagrodzeniaCreateForm, ZmiennawynagrodzeniaListForm"/>
+                            <p:commandButton icon="fa fa-trash" actionListener="#{skladnikWynagrodzeniaView.usun(item2)}" update="north, @(form)"/>
                         </p:column>
                     </p:dataTable>
                 </p:panel>

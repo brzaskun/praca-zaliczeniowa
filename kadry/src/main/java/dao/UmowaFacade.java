@@ -63,7 +63,16 @@ public class UmowaFacade  {
         zwrot = getEntityManager().createNamedQuery("Umowa.findByPracownik").setParameter("pracownik", pracownik).getResultList();
         return zwrot;
     }
-
+  public void remove(Umowa entity) {
+        Umowa merge = em.merge(entity);
+        em.remove(merge);
+    }
+    
+    public void remove(List<Umowa> entityList) {
+        for (Umowa p : entityList) {
+            em.remove(em.merge(p));
+        }
+    }
     public List<Umowa> findByAngaz(Angaz angaz) {
         List<Umowa> zwrot = new ArrayList<>();
         zwrot = getEntityManager().createNamedQuery("Umowa.findByAngaz").setParameter("angaz", angaz).getResultList();

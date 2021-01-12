@@ -17,7 +17,7 @@
                         <p:outputLabel value="#{bundle.CreateRodzajlistyplacLabel_nazwa}" for="nazwa" />
                         <p:inputText id="nazwa" value="#{rodzajlistyplacController.selected.nazwa}" title="#{bundle.CreateRodzajlistyplacTitle_nazwa}" required="true" requiredMessage="#{bundle.CreateRodzajlistyplacRequiredMessage_nazwa}"/>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{rodzajlistyplacController.create}" value="#{bundle.Save}" update="display,:RodzajlistyplacListForm:datalist,:growl" oncomplete="handleSubmit(args,'RodzajlistyplacCreateDialog');"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{rodzajlistyplacController.create}" value="#{bundle.Save}" update="display,:RodzajlistyplacListForm:datalist,:growl" oncomplete="handleSubmit(args,'RodzajlistyplacCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="RodzajlistyplacCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

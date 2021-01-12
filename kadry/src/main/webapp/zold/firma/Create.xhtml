@@ -19,7 +19,7 @@
                         <p:outputLabel value="#{bundle.CreateFirmaLabel_nazwa}" for="nazwa" />
                         <p:inputText id="nazwa" value="#{firmaController.selected.nazwa}" title="#{bundle.CreateFirmaTitle_nazwa}" required="true" requiredMessage="#{bundle.CreateFirmaRequiredMessage_nazwa}"/>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{firmaController.create}" value="#{bundle.Save}" update="display,:FirmaListForm:datalist,:growl" oncomplete="handleSubmit(args,'FirmaCreateDialog');"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{firmaController.create}" value="#{bundle.Save}" update="display,:FirmaListForm:datalist,:growl" oncomplete="handleSubmit(args,'FirmaCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="FirmaCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
