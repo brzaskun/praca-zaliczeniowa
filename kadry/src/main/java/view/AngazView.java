@@ -11,6 +11,7 @@ import dao.PracownikFacade;
 import entity.Angaz;
 import entity.Firma;
 import entity.Pracownik;
+import entity.Umowa;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -88,6 +89,10 @@ public class AngazView  implements Serializable {
         if (angaz!=null) {
             wpisView.setAngaz(angaz);
             wpisView.setPracownik(angaz.getPracownik());
+            List<Umowa> umowy = wpisView.getAngaz().getUmowaList();
+            if (umowy!=null && umowy.size()==1) {
+                wpisView.setUmowa(umowy.get(0));
+            }
             Msg.msg("Aktywowano pracownika");
         }
     }

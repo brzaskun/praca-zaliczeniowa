@@ -24,11 +24,11 @@
                                 <p:ajax event="change" listener="#{umowaView.ustawumowe}" partialSubmit="true" global="false" update="@(form)"/>
                             </p:selectOneMenu>
                              <p:outputLabel value="data od" for="dataod" />
-                            <p:inputText id="dataod" value="#{umowaView.selected.dataod}" title="data od" />
+                            <p:inputText id="dataod" value="#{umowaView.selected.dataod}" title="data od"  placeholder="____-__-__" />
                              <p:outputLabel value="data do" for="datado" />
-                            <p:inputText id="datado" value="#{umowaView.selected.datado}" title="data do" />
+                            <p:inputText id="datado" value="#{umowaView.selected.datado}" title="data do"  placeholder="____-__-__" />
                             <p:outputLabel value="data zawarcia" for="datazawarcia" />
-                            <p:inputText id="datazawarcia" value="#{umowaView.selected.datazawarcia}" title="data zawarcia" />
+                            <p:inputText id="datazawarcia" value="#{umowaView.selected.datazawarcia}" title="data zawarcia"  placeholder="____-__-__" />
 
                             <p:outputLabel value="chorobowe" for="chorobowe" />
                             <p:selectBooleanCheckbox id="chorobowe" value="#{umowaView.selected.chorobowe}" />
@@ -55,12 +55,12 @@
                         <p:outputLabel value="koszty uzyskania" for="kosztyuzyskania" />
                         <p:inputText id="kosztyuzyskania" value="#{umowaView.selected.kosztyuzyskania}" title="koszty uzyskania" />
                         <p:outputLabel value="data nfz" for="datanfz" />
-                        <p:inputText id="datanfz" value="#{umowaView.selected.datanfz}" title="data nfz" />
-                        <p:outputLabel value="data spoleczne}" for="dataspoleczne" />
-                        <p:inputText id="dataspoleczne" value="#{umowaView.selected.dataspoleczne}" title="data spoleczne" />
-                        <p:outputLabel value="data zdrowotne}" for="datazdrowotne" />
-                        <p:inputText id="datazdrowotne" value="#{umowaView.selected.datazdrowotne}" title="data zdrowotne" />
-                        <p:outputLabel value="kod ubezpieczenia}" for="kodubezpieczenia" />
+                        <p:inputText id="datanfz" value="#{umowaView.selected.datanfz}" title="data nfz"  placeholder="____-__-__" />
+                        <p:outputLabel value="data spoleczne" for="dataspoleczne" />
+                        <p:inputText id="dataspoleczne" value="#{umowaView.selected.dataspoleczne}" title="data spoleczne"  placeholder="____-__-__" />
+                        <p:outputLabel value="data zdrowotne" for="datazdrowotne" />
+                        <p:inputText id="datazdrowotne" value="#{umowaView.selected.datazdrowotne}" title="data zdrowotne"  placeholder="____-__-__" />
+                        <p:outputLabel value="kod ubezpieczenia" for="kodubezpieczenia" />
                         <p:inputText id="kodubezpieczenia" value="#{umowaView.selected.kodubezpieczenia}" title="kod ubezpieczenia" />
                         <p:outputLabel value="kod zawodu" for="kodzawodu" />
                         <p:inputText id="kodzawodu" value="#{umowaView.selected.kodzawodu}" title="kod zawodu" />

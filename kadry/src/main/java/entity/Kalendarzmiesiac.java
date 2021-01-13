@@ -5,6 +5,7 @@
  */
 package entity;
 
+import data.Data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +81,19 @@ public class Kalendarzmiesiac implements Serializable {
         this.id = id;
         this.dzienList = new ArrayList<>();
         this.pasekwynagrodzenList = new ArrayList<>();
+    }
+
+    public Kalendarzmiesiac(Umowa umowa, String rokWpisu, String miesiacWpisu) {
+        this.umowa = umowa;
+        this.rok = rokWpisu;
+        this.mc = miesiacWpisu;
+    }
+
+    public Kalendarzmiesiac(Kalendarzmiesiac selected) {
+        this.umowa = selected.umowa;
+        this.rok = selected.rok;
+        this.mc = selected.mc;
+        this.dzienList = selected.dzienList;
     }
 
     public Integer getId() {
@@ -234,6 +248,23 @@ public class Kalendarzmiesiac implements Serializable {
 
     public String getNazwiskoImie() {
         return this.getUmowa().getAngaz().getPracownik().getNazwiskoImie();
+    }
+
+    public void naniesnieobecnosc(Nieobecnosc p) {
+        int dzienod = Integer.parseInt(Data.getDzien(p.getDataod()))-1;
+        int dziendo = Integer.parseInt(Data.getDzien(p.getDatado()))-1;
+        for (int i = dzienod; i <= dziendo; i++) {
+            Dzien dzienaktualny = this.dzienList.get(i);
+            dzienaktualny.setKod(p.getKod());
+            dzienaktualny.setPrzepracowano(0);
+            if (p.getKod().equals("331")) {
+                dzienaktualny.setWynagrodzeniezachorobe(dzienaktualny.getNormagodzin());
+            } else if (p.getKod().equals("001")) {
+                dzienaktualny.setUrlopPlatny(dzienaktualny.getNormagodzin());
+            } else if (p.getKod().equals("002")) {
+                dzienaktualny.setUrlopbezplatny(dzienaktualny.getNormagodzin());
+            }
+        }
     }
        
         

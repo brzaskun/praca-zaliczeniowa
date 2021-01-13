@@ -34,7 +34,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Zmiennawynagrodzenia.findByDataod", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.dataod = :dataod"),
     @NamedQuery(name = "Zmiennawynagrodzenia.findByKwotastala", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.kwota = :kwota"),
     @NamedQuery(name = "Zmiennawynagrodzenia.findByNazwa", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.nazwa = :nazwa"),
-    @NamedQuery(name = "Zmiennawynagrodzenia.findByUmowa", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.skladnikwynagrodzenia.umowa = :umowa")
+    @NamedQuery(name = "Zmiennawynagrodzenia.findByUmowa", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.skladnikwynagrodzenia.umowa = :umowa"),
+    @NamedQuery(name = "Zmiennawynagrodzenia.findBySkladnik", query = "SELECT z FROM Zmiennawynagrodzenia z WHERE z.skladnikwynagrodzenia = :skladnikwynagrodzenia")
 })
 public class Zmiennawynagrodzenia implements Serializable {
 

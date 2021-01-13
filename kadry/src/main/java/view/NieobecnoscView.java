@@ -5,8 +5,13 @@
  */
 package view;
 
+import beanstesty.KalendarzmiesiacBean;
+import dao.KalendarzmiesiacFacade;
+import dao.KalendarzwzorFacade;
 import dao.NieobecnoscFacade;
 import dao.UmowaFacade;
+import entity.Kalendarzmiesiac;
+import entity.Kalendarzwzor;
 import entity.Nieobecnosc;
 import entity.Umowa;
 import java.io.Serializable;
@@ -34,14 +39,18 @@ public class NieobecnoscView  implements Serializable {
     @Inject
     private NieobecnoscFacade nieobecnoscFacade;
     @Inject
+    private KalendarzmiesiacFacade kalendarzmiesiacFacade;
+    @Inject
+    private KalendarzwzorFacade kalendarzwzorFacade;
+    @Inject
     private UmowaFacade umowaFacade;
     @Inject
     private WpisView wpisView;
     
     @PostConstruct
     private void init() {
-        lista  = nieobecnoscFacade.findAll();
-        listaumowa = umowaFacade.findAll();
+        lista  = nieobecnoscFacade.findByUmowa(wpisView.getUmowa());
+        listaumowa = umowaFacade.findPracownik(wpisView.getPracownik());;
     }
 
     public void create() {
@@ -58,6 +67,27 @@ public class NieobecnoscView  implements Serializable {
       }
     }
     
+    public void nieniesnakalendarz() {
+        if (wpisView.getUmowa() != null) {
+            Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+            if (znaleziony == null) {
+                znaleziony = new Kalendarzmiesiac(wpisView.getUmowa(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+                Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+                if (znaleziono != null) {
+                    znaleziony.ganerujdnizwzrocowego(znaleziono);
+                    Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych");
+                } else {
+                    KalendarzmiesiacBean.create(znaleziony);
+                    Msg.msg("Przygotowano kalendarz");
+                }
+            }
+            for (Nieobecnosc p : lista) {
+                znaleziony.naniesnieobecnosc(p);
+            }
+            kalendarzmiesiacFacade.edit(znaleziony);
+            Msg.msg("Naniesiono nieobecnosci");
+        }
+    }
 
     
     public Nieobecnosc getSelected() {

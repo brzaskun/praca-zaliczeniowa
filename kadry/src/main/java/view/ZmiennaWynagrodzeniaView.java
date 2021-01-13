@@ -40,11 +40,16 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
     
     @PostConstruct
     private void init() {
-        lista  = zmiennaWynagrodzeniaFacade.findByUmowa(wpisView.getUmowa());
         if (wpisView.getAngaz()!=null) {
             listaskladnikiwynagrodzenia = skladnikWynagrodzeniaFacade.findByPracownik(wpisView.getAngaz().getPracownik());
         }
     }
+    
+    public void init2(Skladnikwynagrodzenia skladnikwynagrodzenia) {
+       if (skladnikwynagrodzenia!=null) {
+            lista  = zmiennaWynagrodzeniaFacade.findBySkladnik(skladnikwynagrodzenia);
+       }
+   }
     
 
     public void create() {

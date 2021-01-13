@@ -32,7 +32,6 @@ public class KalendarzmiesiacView  implements Serializable {
     private Kalendarzmiesiac selected;
     @Inject
     private Kalendarzmiesiac selectedlista;
-    private List<Kalendarzmiesiac> lista;
     private List<Umowa> listaumowa;
     @Inject
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
@@ -45,16 +44,18 @@ public class KalendarzmiesiacView  implements Serializable {
     
     @PostConstruct
     private void init() {
-        lista  = kalendarzmiesiacFacade.findAll();
-        listaumowa = umowaFacade.findAll();
+        selectedlista  = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+        listaumowa =  umowaFacade.findPracownik(wpisView.getPracownik());
     }
 
     public void create() {
       if (selected!=null) {
           try {
-            kalendarzmiesiacFacade.edit(selected);
-            lista.add(selected);
+            kalendarzmiesiacFacade.edit(selectedlista);
+            wpisView.setRokWpisu(selected.getRok());
+            wpisView.setMiesiacWpisu(selected.getMc());
             selected = new Kalendarzmiesiac();
+            selectedlista = null;
             Msg.msg("Dodano nowy kalendarz dla pracownika");
           } catch (Exception e) {
               System.out.println("");
@@ -64,12 +65,12 @@ public class KalendarzmiesiacView  implements Serializable {
     }
     
     public void reset() {
-      if (selected!=null) {
+      if (selectedlista!=null) {
           try {
-            Kalendarzwzor kalendarzwzor = kalendarzwzorFacade.findByFirmaRokMc(selected.getUmowa().getAngaz().getFirma(), selected.getRok(), selected.getMc());
+            Kalendarzwzor kalendarzwzor = kalendarzwzorFacade.findByFirmaRokMc(selectedlista.getUmowa().getAngaz().getFirma(), selectedlista.getRok(), selectedlista.getMc());
             if (kalendarzwzor!=null) {
-                selected.nanies(kalendarzwzor);
-                kalendarzmiesiacFacade.edit(selected);
+                selectedlista.nanies(kalendarzwzor);
+                kalendarzmiesiacFacade.edit(selectedlista);
                 Msg.msg("Zresetowano kalendarz dla pracownika do waartości domyślnych");
             } else {
                 Msg.msg("e", "Brak kalendarza wzorcowego za dany okres");
@@ -84,9 +85,8 @@ public class KalendarzmiesiacView  implements Serializable {
     public void zrobkalendarzumowa() {
         if (selected!=null && selected.getUmowa()!=null) {
             if (selected.getRok()!=null&&selected.getMc()!=null) {
-                Kalendarzmiesiac znaleziony = kalendarzmiesiacFacade.findByRokMcUmowa(selected.getUmowa(), selected.getRok(), selected.getMc());
-                if (znaleziony!=null) {
-                    selected = znaleziony;
+                selectedlista = kalendarzmiesiacFacade.findByRokMcUmowa(selected.getUmowa(), selected.getRok(), selected.getMc());
+                if (selectedlista!=null) {
                     Msg.msg("Pobrano z bazy zachowany kalendarz");
                 } else {
                     Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(selected.getUmowa().getAngaz().getFirma(), selected.getRok(), selected.getMc());
@@ -97,6 +97,7 @@ public class KalendarzmiesiacView  implements Serializable {
                         KalendarzmiesiacBean.create(selected);
                         Msg.msg("Przygotowano kalendarz");
                     }
+                    selectedlista = new Kalendarzmiesiac(selected);
                 }
             }
         } else {
@@ -111,14 +112,6 @@ public class KalendarzmiesiacView  implements Serializable {
 
     public void setSelected(Kalendarzmiesiac selected) {
         this.selected = selected;
-    }
-
-    public List<Kalendarzmiesiac> getLista() {
-        return lista;
-    }
-
-    public void setLista(List<Kalendarzmiesiac> lista) {
-        this.lista = lista;
     }
 
     public Kalendarzmiesiac getSelectedlista() {

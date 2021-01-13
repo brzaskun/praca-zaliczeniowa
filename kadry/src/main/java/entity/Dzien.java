@@ -75,9 +75,9 @@ public class Dzien implements Serializable {
     @Column(name = "urlopbezplatny")
     private double urlopbezplatny;
     @Column(name = "wynagrodzeniezachorobe")
-    private int wynagrodzeniezachorobe;
+    private double wynagrodzeniezachorobe;
     @Column(name = "zasilek")
-    private int zasilek;
+    private double zasilek;
     
     @JoinColumn(name = "kalendarzwzor", referencedColumnName = "id")
     @ManyToOne
@@ -301,19 +301,19 @@ public class Dzien implements Serializable {
         this.urlopbezplatny = urlopbezplatny;
     }
 
-    public int getWynagrodzeniezachorobe() {
+    public double getWynagrodzeniezachorobe() {
         return wynagrodzeniezachorobe;
     }
 
-    public void setWynagrodzeniezachorobe(int wynagrodzeniezachorobe) {
+    public void setWynagrodzeniezachorobe(double wynagrodzeniezachorobe) {
         this.wynagrodzeniezachorobe = wynagrodzeniezachorobe;
     }
 
-    public int getZasilek() {
+    public double getZasilek() {
         return zasilek;
     }
 
-    public void setZasilek(int zasilek) {
+    public void setZasilek(double zasilek) {
         this.zasilek = zasilek;
     }
 

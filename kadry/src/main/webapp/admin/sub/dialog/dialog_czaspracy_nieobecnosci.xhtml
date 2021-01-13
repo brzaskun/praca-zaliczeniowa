@@ -5,28 +5,32 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog id="dialogpracownikanieobecnosci" header="Wprowadzanie danych angażu" widgetVar="dialogpracownikanieobecnosci"  
+    <p:dialog id="dialogpracownikanieobecnosci" header="Wprowadzanie nieobecności" widgetVar="dialogpracownikanieobecnosci"  
               resizable="false"  onShow="ustawdialog('dialogpracownikanieobecnosci','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogpracownikanieobecnosci');" 
               fitViewport="true">
         <p:outputPanel style="height: 200px">
              <h:form id="NieobecnoscCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="4" rendered="#{nieobecnoscView.selected != null}">
-                        <p:outputLabel value="kod" for="kod" />
-                        <p:inputText id="kod" value="#{nieobecnoscView.selected.kod}" title="kod" required="true" requiredMessage="kod"/>
-                        <p:outputLabel value="nazwa" for="nazwa" />
-                        <p:inputText id="nazwa" value="#{nieobecnoscView.selected.nazwa}" title="nazwa" required="true" requiredMessage="nazwa"/>
-                        <p:outputLabel value="data od" for="dataod" />
-                        <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="datac od" />
-                        <p:outputLabel value="data do" for="datado" />
-                        <p:inputText id="datado" value="#{nieobecnoscView.selected.datado}" title="data do" />
                         <p:outputLabel value="umowa" for="umowa" />
                         <p:selectOneMenu id="umowa" value="#{nieobecnoscView.selected.umowa}" required="true" requiredMessage="wybierz umowę" converter="#{umowaConverter}">
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{nieobecnoscView.listaumowa}"
                                            var="umowaItem"
-                                           itemValue="#{umowaItem}" itemLabel="#{umowaItem.angaz.pracownik.nazwiskoImie}"/>
+                                           itemValue="#{umowaItem}" itemLabel="#{umowaItem.umowanumernazwa()}"/>
                         </p:selectOneMenu>
+                        <p:outputLabel value=" " />
+                        <h:outputText value=" "/>
+                        <p:outputLabel value="kod" for="kod" />
+                        <p:inputText id="kod" value="#{nieobecnoscView.selected.kod}" title="kod" required="true" requiredMessage="kod"/>
+                        <p:outputLabel value="nazwa" for="nazwa" />
+                        <p:inputText id="nazwa" value="#{nieobecnoscView.selected.nazwa}" title="nazwa" required="true" requiredMessage="nazwa"/>
+                        <p:outputLabel value="data od" for="dataod" />
+                        <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="datac od"  placeholder="____-__-__" />
+                        <p:outputLabel value="data do" for="datado" />
+                        <p:inputText id="datado" value="#{nieobecnoscView.selected.datado}" title="data do"  placeholder="____-__-__" />
+
+                        
                     </p:panelGrid>
                     <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.create}" value="#{bundle.Save}" update="display,:NieobecnoscListForm:datalist"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="NieobecnoscCreateDialog.hide()"/>
@@ -39,7 +43,7 @@
                     <p:dataTable id="datalist" value="#{nieobecnoscView.lista}" var="itemNieob"
                                  selectionMode="single" selection="#{angazView.selectedlista}"
                                  rowKey="#{itemNieob.id}"
-                                style="height: 500px; overflow-y: scroll;"
+                                style="height: 450px; overflow-y: scroll;"
                                  >
                         <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
@@ -78,6 +82,7 @@
                             <h:outputText value="#{itemNieob.umowa.angaz.angazString}"/>
                         </p:column>
                     </p:dataTable>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.nieniesnakalendarz}" value="nanieś na kal." update="NieobecnoscListForm:datalist"/>
                 </p:panel>
             </h:form>
         </p:outputPanel>

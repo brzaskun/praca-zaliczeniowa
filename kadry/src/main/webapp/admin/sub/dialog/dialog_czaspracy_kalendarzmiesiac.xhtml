@@ -36,7 +36,7 @@
         <p:outputPanel>
             <h:form id="KalendarzmiesiacListForm">
                 <p:panel header="Dni kalendarza pracownika">
-                    <p:dataTable id="datalist" value="#{kalendarzmiesiacView.selected.dzienList}" var="itemkalendarz"
+                    <p:dataTable id="datalist" value="#{kalendarzmiesiacView.selectedlista.dzienList}" var="itemkalendarz"
                                  rowKey="#{itemkalendarz.id}"
                                  style="height: 450px; overflow-y: scroll;" sortBy="#{itemkalendarz.nrdnia}"
                                  >
@@ -123,8 +123,8 @@
                     </p:dataTable>
                 </p:panel>
                 <p:outputPanel>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.create}" value="zachowaj"/>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.reset}" value="resetuj" update=":KalendarzmiesiacListForm:datalist"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.create}" value="zachowaj" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm:datalist"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.reset}" value="resetuj" update="north KalendarzmiesiacCreateForm :KalendarzmiesiacListForm:datalist"/>
                     <p:commandButton value="Rezygnuj" />
                 </p:outputPanel>
 

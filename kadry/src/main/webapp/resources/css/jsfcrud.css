@@ -27,6 +27,16 @@ table {
 .pasek.ui-inputfield {
     padding: 0px !important;
 }
+
+.panelzramka.ui-outputpanel {
+    border-style: solid !important;
+    border-width: 1px !important;
+    border-color: #a6c9e2 !important;
+}
+
+.ui-chkbox-box {
+    border: 1px solid #79b7e7 !Important;
+}
 /*.ui-button.ui-widget {
        margin-top: 15px;
        margin-bottom: 15px;

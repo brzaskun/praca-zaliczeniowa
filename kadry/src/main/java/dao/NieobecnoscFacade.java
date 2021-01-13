@@ -6,6 +6,7 @@
 package dao;
 
 import entity.Nieobecnosc;
+import entity.Umowa;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -55,5 +56,9 @@ public class NieobecnoscFacade    implements Serializable {
     
      public void edit(Nieobecnosc entity) {
         getEntityManager().merge(entity);
+    }
+
+    public List<Nieobecnosc> findByUmowa(Umowa umowa) {
+        return getEntityManager().createNamedQuery("Nieobecnosc.findByUmowa").setParameter("umowa", umowa).getResultList();
     }
 }

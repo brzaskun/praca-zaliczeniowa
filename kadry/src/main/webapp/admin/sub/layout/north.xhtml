@@ -8,7 +8,7 @@
     <p:layoutUnit position="north" resizable="true" closable="true" collapsible="true" size="63">
         <h:form id="north">
             <p:panelGrid columns="2" style="width: 100%;overflow-y: hidden;">
-                <p:panelGrid columns="3" style="width: 600px" columnClasses="fifty-percent, twofive-percent, twofive-percent" styleClass="tabelanorth">
+                <p:panelGrid columns="4" style="width: 900px" columnClasses="fifty-percent, twofive-percent, twofive-percent" styleClass="tabelanorth">
                     <p:column>
                         <h:outputText value="#{wpisView.firma.nazwa}" style="font-weight: 900; font-size: x-large;"/>
                     </p:column>
@@ -17,6 +17,9 @@
                     </p:column>
                     <p:column>
                         <h:outputText value="#{wpisView.pracownik.imie}" style="font-weight: 900; font-size: x-large;"  rendered="#{wpisView.pracownik ne null}"/>
+                    </p:column>
+                     <p:column>
+                         <h:outputText value="#{wpisView.umowa.id}" style="font-weight: 900; font-size: x-large;"  rendered="#{wpisView.umowa ne null}"/>
                     </p:column>
                 </p:panelGrid>
                 <p:panelGrid columns="2" style="width: 600px;float: right;overflow-y: hidden;" columnClasses="sixty-percent, forty-percent">
