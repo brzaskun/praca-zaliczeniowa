@@ -40,6 +40,16 @@ public class PdfFont {
         }
         return par;
     }
+    public static Paragraph ustawparagrafSmall(String fraza) {
+        Paragraph par = null;
+        try {
+            String fraza2 = String.valueOf(fraza != null ? fraza : "");
+            par = new Paragraph(new Phrase(fraza2, PF.getFont(Fonty.CALIBRI, 7)));
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+        return par;
+    }
 
     public static PdfPCell ustawfraze(String fraza, int colsp, int rowsp) {
         PdfPCell cell = null;

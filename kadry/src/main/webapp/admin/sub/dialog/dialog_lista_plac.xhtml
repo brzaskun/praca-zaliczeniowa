@@ -33,7 +33,7 @@
                         </p:selectOneMenu>-->
                     </p:panelGrid>
                     <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.przelicz}" value="oblicz" update="PasekwynagrodzenListForm" />
-                    <p:commandButton value="#{bundle.Cancel}" onclick="DefinicjalistaplacCreateDialog.hide()"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.drukujliste}" value="druk lista"/>
                 </h:panelGroup>
             </h:form>
         </p:outputPanel>

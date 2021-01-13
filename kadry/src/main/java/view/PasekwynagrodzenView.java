@@ -105,6 +105,14 @@ public class PasekwynagrodzenView  implements Serializable {
             Msg.msg("e","Błąd drukowania. Pasek null");
         }
     }
+    public void drukujliste () {
+        if (lista!=null && lista.size()>0) {
+            PdfListaPlac.drukujListaPodstawowa(lista, wybranalistaplac);
+            Msg.msg("Wydrukowano listę płac");
+        } else {
+            Msg.msg("e","Błąd drukowania. Brak pasków");
+        }
+    }
     
     public void usun(Pasekwynagrodzen p ) {
         if (p!=null) {

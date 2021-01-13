@@ -22,7 +22,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
-import entity.Pasekwynagrodzen;
+import entity.Definicjalistaplac;
 import error.E;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -300,15 +300,15 @@ public class PdfMain {
     }
     
     
-    public static void dodajOpisWstepny(Document document, Pasekwynagrodzen p) {
+    public static void dodajOpisWstepny(Document document, Definicjalistaplac def) {
         try {
-            String mc = p.getDefinicjalistaplac().getMc();
-            String rok = p.getDefinicjalistaplac().getRok();
+            String mc = def.getMc();
+            String rok = def.getRok();
             StringBuilder s = new StringBuilder();
             s.append("Lista płac ");
-            s.append(p.getDefinicjalistaplac().getFirma().getNazwa());
+            s.append(def.getFirma().getNazwa());
             s.append(" nr ");
-            s.append(p.getDefinicjalistaplac().getNrkolejny());
+            s.append(def.getNrkolejny());
             Paragraph opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));

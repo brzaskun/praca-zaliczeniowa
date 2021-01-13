@@ -5,12 +5,14 @@
  */
 package pdf;
 
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import entity.Angaz;
+import entity.Definicjalistaplac;
 import entity.Kalendarzmiesiac;
 import entity.Naliczenienieobecnosc;
 import entity.Naliczenieskladnikawynagrodzenia;
@@ -44,7 +46,7 @@ public class PdfListaPlac {
                 PdfWriter writer = inicjacjaWritera(document, nazwa);
                 naglowekStopkaL(writer);
                 otwarcieDokumentu(document, nazwa);
-                PdfMain.dodajOpisWstepny(document, p);
+                PdfMain.dodajOpisWstepny(document, p.getDefinicjalistaplac());
                 String[] opisy = {"Razem przychód","Podst. wymiaru składek ubezp. społecznych","Ubezp. Emerytalne","Ubezp. rentowe","Ubezp. chorobowe","Razem składki na ub. Społ.","Podst. wymiaru składek ubezp. zdrowotnego",
                     "Koszty uzyskania przychodu","Podstawa opodatkowania","Potrącona zaliczka na podatek dochodowy","Potrącona","Odliczona od podatku","Należna zaliczka na podatek dochodowy","Do wypłaty"};
                 dodajtabeleglowna(p, document);
@@ -188,6 +190,18 @@ public class PdfListaPlac {
         return table;
     }
      
+     private static String generujpasekskladniki(Pasekwynagrodzen p, Document document) {
+        String wierszeSkladnikiString = "";
+        try {
+            List<Naliczenieskladnikawynagrodzenia> lista = p.getNaliczenieskladnikawynagrodzeniaList();
+            List<Naliczenienieobecnosc> lista2 = p.getNaliczenienieobecnoscList();
+            wierszeSkladnikiString = wierszeSkladnikiString(lista, lista2);
+        } catch (Exception ex) {
+            Logger.getLogger(PdfListaPlac.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return wierszeSkladnikiString;
+    }
+     
      private static PdfPTable generujTabeleSkladniki() {
         PdfPTable table = new PdfPTable(6);
         try {
@@ -230,6 +244,40 @@ public class PdfListaPlac {
         }
     }
      
+      public static String wierszeSkladnikiString(List<Naliczenieskladnikawynagrodzenia> wykaz,List<Naliczenienieobecnosc> wykaznieob) {
+        StringBuilder sb = new StringBuilder();
+        for (Naliczenieskladnikawynagrodzenia rs : wykaz) {
+            sb.append(rs.getSkladnikwynagrodzenia().getKod());
+            sb.append(" ");
+            sb.append(rs.getSkladnikwynagrodzenia().getNazwa());
+            sb.append(" ");
+            if (rs.getKwotazus()!=0.0) {
+                sb.append(formatujWaluta(rs.getKwotazus()));
+                sb.append(";  ");
+            } else {
+                sb.append(formatujWaluta(rs.getKwotabezzus()));
+                sb.append("; ");
+            }
+        }
+        for (Naliczenienieobecnosc rs : wykaznieob) {
+            sb.append(rs.getNieobecnosc().getKod());
+            sb.append(" ");
+            sb.append(rs.getNieobecnosc().getNazwa());
+            sb.append(" ");
+            if (rs.getKwotazus()!=0.0) {
+                sb.append(formatujWaluta(rs.getKwotazus()));
+                sb.append("; ");
+            } else if (rs.getKwotastatystyczna()!=0.0){
+                sb.append(formatujWaluta(rs.getKwotabezzus()));
+                sb.append("; ");
+            } else {
+                sb.append(formatujWaluta(rs.getKwotabezzus()));
+                sb.append("; ");
+            }
+        }
+        return sb.toString();
+    }
+     
       private static PdfPTable dodajtabelenieobecnosci(Pasekwynagrodzen p, Document document) {
         PdfPTable table = null;
         try {
@@ -240,6 +288,17 @@ public class PdfListaPlac {
             Logger.getLogger(PdfListaPlac.class.getName()).log(Level.SEVERE, null, ex);
         }
         return table;
+    }
+      
+    private static String generujpasekobecnosci(Pasekwynagrodzen p, Document document) {
+         String wierszeString = "";
+        try {
+            List<Nieobecnosc> lista = p.getKalendarzmiesiac().getUmowa().getNieobecnoscList();
+            wierszeString = wierszeNieobecnosciString(lista);
+        } catch (Exception ex) {
+            Logger.getLogger(PdfListaPlac.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return wierszeString;
     }
      
      private static PdfPTable generujTabeleNieobecnosci() {
@@ -271,7 +330,20 @@ public class PdfListaPlac {
             table.addCell(ustawfrazeAlign(rs.getUmowa().getRodzajumowy().getNazwa(), "left",6));
         }
     }
-     
+      public static String wierszeNieobecnosciString(List<Nieobecnosc> wykaznieob) {
+        StringBuilder sb = new StringBuilder();
+        for (Nieobecnosc rs : wykaznieob) {
+            sb.append(rs.getKod());
+            sb.append(" ");
+            sb.append(rs.getNazwa());
+            sb.append(" ");
+            sb.append(rs.getDataod().replace("-", "."));
+            sb.append("-");
+            sb.append(rs.getDatado().replace("-", "."));
+            sb.append("; ");
+        }
+        return sb.toString();
+    }
      private static PdfPTable dodajtabelaczaspracy(Pasekwynagrodzen p, Document document) {
         PdfPTable table = null;
         try {
@@ -326,5 +398,38 @@ public class PdfListaPlac {
         roboczenieob = k.roboczenieob("002");
         table.addCell(ustawfrazeAlign(roboczenieob[0], "left",6));
         table.addCell(ustawfrazeAlign(roboczenieob[1], "left",6));
+    }
+
+    public static void drukujListaPodstawowa(List<Pasekwynagrodzen> lista, Definicjalistaplac def) {
+        try {
+            String nrpoprawny = def.getNrkolejny().replaceAll("[^A-Za-z0-9]", "");
+            String nazwa = def.getFirma().getNip() + "_" + nrpoprawny + "_" + "lp.pdf";
+            if (lista != null) {
+                Document document = PdfMain.inicjacjaA4Landscape();
+                PdfWriter writer = inicjacjaWritera(document, nazwa);
+                naglowekStopkaL(writer);
+                otwarcieDokumentu(document, nazwa);
+                PdfMain.dodajOpisWstepny(document, def);
+                String[] opisy = {"Razem przychód", "Podst. wymiaru składek ubezp. społecznych", "Ubezp. Emerytalne", "Ubezp. rentowe", "Ubezp. chorobowe", "Razem składki na ub. Społ.", "Podst. wymiaru składek ubezp. zdrowotnego",
+                    "Koszty uzyskania przychodu", "Podstawa opodatkowania", "Potrącona zaliczka na podatek dochodowy", "Potrącona", "Odliczona od podatku", "Należna zaliczka na podatek dochodowy", "Do wypłaty"};
+                for (Pasekwynagrodzen p : lista) {
+                    dodajtabeleglowna(p, document);
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(generujpasekskladniki(p, document));
+                    document.add(ustawparagrafSmall(sb.toString()));
+                    sb = new StringBuilder();
+                    sb.append(generujpasekobecnosci(p, document));
+                    document.add(ustawparagrafSmall(sb.toString()));
+                    document.add(Chunk.NEWLINE);
+                }
+                finalizacjaDokumentuQR(document, nazwa);
+                String f = "pokazwydruk('" + nazwa + "');";
+                PrimeFaces.current().executeScript(f);
+            } else {
+                Msg.msg("w", "Nie ma Paska do wydruku");
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
     }
 }
