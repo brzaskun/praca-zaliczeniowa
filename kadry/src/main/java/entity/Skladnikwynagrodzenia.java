@@ -44,15 +44,11 @@ public class Skladnikwynagrodzenia implements Serializable {
     @Column(name = "godzinowe0miesieczne1")
     private boolean godzinowe0miesieczne1;
     @Size(max = 255)
-    @Column(name = "nazwa")
-    private String nazwa;
-    @Column(name = "redukowanyzaczasnieobecnosci")
-    private boolean redukowanyzaczasnieobecnosci;
-    @Column(name = "stala0zmienna1")
-    private boolean stala0zmienna1;
-    @Size(max = 4)
-    @Column(name = "kod")
-    private String kod;
+    @Column(name = "uwagi")
+    private String uwagi;
+    @JoinColumn(name = "rodzajwynagrodzenia", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Rodzajwynagrodzenia rodzajwynagrodzenia;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -154,36 +150,20 @@ public class Skladnikwynagrodzenia implements Serializable {
         this.godzinowe0miesieczne1 = godzinowe0miesieczne1;
     }
 
-    public String getNazwa() {
-        return nazwa;
+    public String getUwagi() {
+        return uwagi;
     }
 
-    public void setNazwa(String nazwa) {
-        this.nazwa = nazwa;
+    public void setUwagi(String uwagi) {
+        this.uwagi = uwagi;
     }
 
-    public boolean getRedukowanyzaczasnieobecnosci() {
-        return redukowanyzaczasnieobecnosci;
+    public Rodzajwynagrodzenia getRodzajwynagrodzenia() {
+        return rodzajwynagrodzenia;
     }
 
-    public void setRedukowanyzaczasnieobecnosci(boolean redukowanyzaczasnieobecnosci) {
-        this.redukowanyzaczasnieobecnosci = redukowanyzaczasnieobecnosci;
-    }
-
-    public boolean getStala0zmienna1() {
-        return stala0zmienna1;
-    }
-
-    public void setStala0zmienna1(boolean stala0zmienna1) {
-        this.stala0zmienna1 = stala0zmienna1;
-    }
-
-    public String getKod() {
-        return kod;
-    }
-
-    public void setKod(String kod) {
-        this.kod = kod;
+    public void setRodzajwynagrodzenia(Rodzajwynagrodzenia rodzajwynagrodzenia) {
+        this.rodzajwynagrodzenia = rodzajwynagrodzenia;
     }
 
 

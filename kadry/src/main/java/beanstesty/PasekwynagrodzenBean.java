@@ -74,15 +74,15 @@ public class PasekwynagrodzenBean {
         System.out.println("****************");
         for (Naliczenieskladnikawynagrodzenia r : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
             if (r.getSkladnikwynagrodzenia().getRedukowanyzaczasnieobecnosci()) {
-                System.out.println(r.getSkladnikwynagrodzenia().getNazwa()+" "+Z.z(r.getKwotazredukowana()));
+                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwotazredukowana()));
             } else {
-                System.out.println(r.getSkladnikwynagrodzenia().getNazwa()+" "+Z.z(r.getKwota()));
+                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwota()));
             }
         }
         for (Naliczenienieobecnosc r : pasek.getNaliczenienieobecnoscList()) {
-            System.out.println(r.getNieobecnosc().getNazwa()+" od "+r.getSkladnikwynagrodzenia().getNazwa()+" "+Z.z(r.getKwota()));
+            System.out.println(r.getNieobecnosc().getNazwa()+" od "+r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwota()));
             if (r.getKwotaredukcji()!=0.0 && r.getSkladnikwynagrodzenia().getRedukowanyzaczasnieobecnosci()) {
-                System.out.println(r.getSkladnikwynagrodzenia().getNazwa()+" redukcja za "+r.getNieobecnosc().getNazwa()+" kwota redukcji "+Z.z(r.getKwotaredukcji()));
+                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" redukcja za "+r.getNieobecnosc().getNazwa()+" kwota redukcji "+Z.z(r.getKwotaredukcji()));
             }
         }
         System.out.println("****************");
@@ -133,15 +133,15 @@ public class PasekwynagrodzenBean {
         System.out.println("****************");
         for (Naliczenieskladnikawynagrodzenia r : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
             if (r.getSkladnikwynagrodzenia().getRedukowanyzaczasnieobecnosci()) {
-                System.out.println(r.getSkladnikwynagrodzenia().getNazwa()+" "+Z.z(r.getKwotazredukowana()));
+                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwotazredukowana()));
             } else {
-                System.out.println(r.getSkladnikwynagrodzenia().getNazwa()+" "+Z.z(r.getKwota()));
+                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwota()));
             }
         }
         for (Naliczenienieobecnosc r : pasek.getNaliczenienieobecnoscList()) {
-            System.out.println(r.getNieobecnosc().getNazwa()+" od "+r.getSkladnikwynagrodzenia().getNazwa()+" "+Z.z(r.getKwota()));
+            System.out.println(r.getNieobecnosc().getNazwa()+" od "+r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwota()));
             if (r.getKwotaredukcji()!=0.0 && r.getSkladnikwynagrodzenia().getRedukowanyzaczasnieobecnosci()) {
-                System.out.println(r.getSkladnikwynagrodzenia().getNazwa()+" redukcja za "+r.getNieobecnosc().getNazwa()+" kwota redukcji "+Z.z(r.getKwotaredukcji()));
+                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" redukcja za "+r.getNieobecnosc().getNazwa()+" kwota redukcji "+Z.z(r.getKwotaredukcji()));
             }
         }
         System.out.println("****************");

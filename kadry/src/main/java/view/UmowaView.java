@@ -80,6 +80,7 @@ public class UmowaView  implements Serializable {
     public void ustawumowe() {
         if (selected.getRodzajumowy() != null) {
             if (selected.getRodzajumowy().getNazwa().equals("umowa o pracę")) {
+                selected.setNrkolejny("UP/Pesel"+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu());
                 selected.setChorobowe(true);
                 selected.setRentowe(true);
                 selected.setEmerytalne(true);

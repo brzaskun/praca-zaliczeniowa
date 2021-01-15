@@ -25,16 +25,24 @@
                                                itemValue="#{umowaskladnikItem}" itemLabel="#{umowaskladnikItem.umowanumernazwa()}"/>
                                 <p:ajax event="change" partialSubmit="true" global="false"/>
                             </p:selectOneMenu>
-                            <p:outputLabel value="nazwa" for="nazwa" />
-                            <p:inputText id="nazwa" value="#{skladnikWynagrodzeniaView.selected.nazwa}" title="nazwa" />
+                             <p:outputLabel value="nazwa" for="nazwa" />
+                             <p:selectOneMenu id="nazwa" value="#{skladnikWynagrodzeniaView.selected.rodzajwynagrodzenia}" converter="#{rodzajwynagrodzeniaConverter}" filter="true">
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
+                                <f:selectItems value="#{skladnikWynagrodzeniaView.listarodzajwynagrodzenia}"
+                                               var="rodzajwynItem"
+                                               itemValue="#{rodzajwynItem}" itemLabel="#{rodzajwynItem.opisskrocony}"/>
+                                <p:ajax event="change" partialSubmit="true" global="false"  update="SkladnikwynagrodzeniaCreateForm:kod"/>
+                            </p:selectOneMenu>
+                             <p:outputLabel value="uwagi" for="uwagi" />
+                             <p:inputText id="uwagi" value="#{skladnikWynagrodzeniaView.selected.uwagi}" title="nazwa" />
                             <p:outputLabel value="miesieczne" for="godzinowe0miesieczne1" />
-                            <p:selectBooleanCheckbox id="godzinowe0miesieczne1" value="#{skladnikWynagrodzeniaView.selected.godzinowe0miesieczne1}" />
+                            <p:selectBooleanCheckbox id="godzinowe0miesieczne1" value="#{skladnikWynagrodzeniaView.selected.rodzajwynagrodzenia.godzinowe0miesieczne1}" />
                             <p:outputLabel value="redukowany" for="redukowanyzaczasnieobecnosci" />
-                            <p:selectBooleanCheckbox id="redukowanyzaczasnieobecnosci" value="#{skladnikWynagrodzeniaView.selected.redukowanyzaczasnieobecnosci}" />
+                            <p:selectBooleanCheckbox id="redukowanyzaczasnieobecnosci" value="#{skladnikWynagrodzeniaView.selected.rodzajwynagrodzenia.redukowany}" />
                             <p:outputLabel value="kod" for="kod" />
-                            <p:inputText id="kod" value="#{skladnikWynagrodzeniaView.selected.kod}" title="kod" />
+                            <h:outputText id="kod" value="#{skladnikWynagrodzeniaView.selected.rodzajwynagrodzenia.kod}" title="kod" />
                             <p:outputLabel value="stala0zmienna1" for="stala0zmienna1" />
-                            <p:selectBooleanCheckbox id="stala0zmienna1" value="#{skladnikWynagrodzeniaView.selected.stala0zmienna1}" />
+                            <p:selectBooleanCheckbox id="stala0zmienna1" value="#{skladnikWynagrodzeniaView.selected.rodzajwynagrodzenia.stala0zmienna1}" />
                         </p:panelGrid>
                         <p:commandButton styleClass="buttonnorm" actionListener="#{skladnikWynagrodzeniaView.create}" value="#{bundle.Save}" update="display,@(form)"/>
                         <p:commandButton value="#{bundle.Cancel}" onclick="SkladnikwynagrodzeniaCreateDialog.hide()"/>
@@ -44,11 +52,7 @@
             <p:outputPanel style="height: 200px" styleClass="panelzramka">
                 <h:form id="ZmiennawynagrodzeniaCreateForm">
                     <h:panelGroup id="display">
-                        <p:panelGrid columns="2">
-                            <p:outputLabel value=" " for="skladnikwynprac" />
-                            <h:outputText value=" " id="skladnikwynprac"/>
-                        </p:panelGrid>
-                        <p:panelGrid columns="4" rendered="#{zmiennaWynagrodzeniaView.selected != null}">
+                        <p:panelGrid columns="4" rendered="#{zmiennaWynagrodzeniaView.selected != null}" style="margin-top: 25px;">
                             <p:outputLabel value="nazwa" for="nazwa" />
                             <p:inputText id="nazwa" value="#{zmiennaWynagrodzeniaView.selected.nazwa}" title="nazwa" />
                             <p:outputLabel value="kwota" />
@@ -83,7 +87,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="nazwa"/>
                                 </f:facet>
-                                <h:outputText value="#{itemskladnikwyn.nazwa}"/>
+                                <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.opispelny}"/>
                             </p:column>
                             <p:column style="text-align: center;">
                                 <f:facet name="header">
@@ -108,7 +112,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="kod"/>
                                 </f:facet>
-                                <h:outputText value="#{itemskladnikwyn.kod}"/>
+                                <h:outputText value="#{itemskladnikwyn.rodzajwynagrodzenia.kod}"/>
                             </p:column>
                             <p:column style="text-align: center;">
                                 <f:facet name="header">

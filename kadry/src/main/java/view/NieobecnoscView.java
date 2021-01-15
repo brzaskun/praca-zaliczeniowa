@@ -83,7 +83,10 @@ public class NieobecnoscView  implements Serializable {
             }
             for (Nieobecnosc p : lista) {
                 znaleziony.naniesnieobecnosc(p);
+                p.setNaniesiona(true);
+                
             }
+            nieobecnoscFacade.edit(selected);
             kalendarzmiesiacFacade.edit(znaleziony);
             Msg.msg("Naniesiono nieobecnosci");
         }

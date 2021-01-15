@@ -230,7 +230,7 @@ public class KalendarzmiesiacBean {
                 if (p.getSkladnikwynagrodzenia().getKod().equals("30")||p.getSkladnikwynagrodzenia().getKod().equals("31")) {
                     skladnik = Z.z(210/3.0);
                 }
-                naliczenienieobecnosc.setJakiskladnikredukowalny(p.getSkladnikwynagrodzenia().getNazwa());               }
+                naliczenienieobecnosc.setJakiskladnikredukowalny(p.getSkladnikwynagrodzenia().getUwagi());               }
                 int dninieobecnosci = Data.iletodni(nieobecnosc.getDatado(), nieobecnosc.getDataod());
                 double skladnikistalenetto = skladnik-(skladnik*.1371);
                 double skladnikistaledoredukcji = skladnik;
@@ -279,7 +279,7 @@ public class KalendarzmiesiacBean {
                 if (p.getSkladnikwynagrodzenia().getKod().equals("30")||p.getSkladnikwynagrodzenia().getKod().equals("31")) {
                     skladnik = Z.z(210/3.0);
                 }
-                naliczenienieobecnosc.setJakiskladnikredukowalny(p.getSkladnikwynagrodzenia().getNazwa()); 
+                naliczenienieobecnosc.setJakiskladnikredukowalny(p.getSkladnikwynagrodzenia().getUwagi()); 
                 naliczenienieobecnosc.setSkladnikistale(skladnik);
                 double liczbagodzinroboczych = dniroboczewmiesiacu * 8.0;
                 naliczenienieobecnosc.setLiczbagodzinroboczych(liczbagodzinroboczych);
@@ -326,7 +326,7 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setKwotazus(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setKwotastatystyczna(naliczenienieobecnosc.getKwota());
                 naliczenienieobecnosc.setKwotazus(0.0);
-                naliczenienieobecnosc.setJakiskladnikredukowalny(p.getSkladnikwynagrodzenia().getNazwa()); 
+                naliczenienieobecnosc.setJakiskladnikredukowalny(p.getSkladnikwynagrodzenia().getUwagi()); 
                 naliczenienieobecnosc.setPasekwynagrodzen(pasekwynagrodzen);
                 pasekwynagrodzen.getNaliczenienieobecnoscList().add(naliczenienieobecnosc);
             }

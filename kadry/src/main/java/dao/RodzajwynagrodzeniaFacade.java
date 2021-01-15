@@ -5,8 +5,7 @@
  */
 package dao;
 
-import entity.Nieobecnosc;
-import entity.Umowa;
+import entity.Rodzajwynagrodzenia;
 import error.E;
 import java.io.Serializable;
 import java.util.List;
@@ -22,7 +21,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class NieobecnoscFacade    implements Serializable {
+public class RodzajwynagrodzeniaFacade    implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @PersistenceContext(unitName = "kadryPU")
@@ -41,26 +40,26 @@ public class NieobecnoscFacade    implements Serializable {
         return em;
     }
 
-    public NieobecnoscFacade() {
+    public RodzajwynagrodzeniaFacade() {
     }
     
-    public void create(Nieobecnosc entity) {
+    public void create(Rodzajwynagrodzenia entity) {
         getEntityManager().persist(entity);
         getEntityManager().flush();
     }
     
-    public List<Nieobecnosc> findAll() {
+    public List<Rodzajwynagrodzenia> findAll() {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Nieobecnosc.class));
+        cq.select(cq.from(Rodzajwynagrodzenia.class));
         return getEntityManager().createQuery(cq).getResultList();
     }
     
-     public void edit(Nieobecnosc entity) {
+     public void edit(Rodzajwynagrodzenia entity) {
         getEntityManager().merge(entity);
     }
     
-     public void edit(List<Nieobecnosc> entityList) {
-        for (Nieobecnosc p : entityList) {
+     public void edit(List<Rodzajwynagrodzenia> entityList) {
+        for (Rodzajwynagrodzenia p : entityList) {
             try {
                 getEntityManager().merge(p);
             } catch (Exception e) {
@@ -69,7 +68,5 @@ public class NieobecnoscFacade    implements Serializable {
         }
     }
 
-    public List<Nieobecnosc> findByUmowa(Umowa umowa) {
-        return getEntityManager().createNamedQuery("Nieobecnosc.findByUmowa").setParameter("umowa", umowa).getResultList();
-    }
+  
 }

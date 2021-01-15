@@ -12,19 +12,17 @@
                     <p:column>
                         <h:outputText value="#{wpisView.firma.nazwa}" style="font-weight: 900; font-size: x-large;"/>
                     </p:column>
-                    <p:column>
-                        <h:outputText value="#{wpisView.pracownik.nazwisko}" style="font-weight: 900; font-size: x-large;" rendered="#{wpisView.pracownik ne null}"/>
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{wpisView.pracownik.imie}" style="font-weight: 900; font-size: x-large;"  rendered="#{wpisView.pracownik ne null}"/>
-                    </p:column>
                 </p:panelGrid>
                 <p:panelGrid columns="2" style="width: 600px;float: right;overflow-y: hidden;" columnClasses="sixty-percent, forty-percent">
                     <p:column>
-                        <h:outputText value="#{wpisView.rokWpisu}" style="font-weight: 900; font-size: x-large;"/>
+                        <p:inputText value="#{wpisView.rokWpisu}" style="font-weight: 900; font-size: x-large;">
+                            <p:ajax event="change" partialSubmit="true" global="false"/>
+                        </p:inputText>
                     </p:column>
                     <p:column>
-                        <h:outputText value="#{wpisView.miesiacWpisu}" style="font-weight: 900; font-size: x-large;"/>
+                        <p:inputText value="#{wpisView.miesiacWpisu}" style="font-weight: 900; font-size: x-large;">
+                            <p:ajax event="change" partialSubmit="true" global="false"/>
+                        </p:inputText>
                     </p:column>
                 </p:panelGrid>
             </p:panelGrid>

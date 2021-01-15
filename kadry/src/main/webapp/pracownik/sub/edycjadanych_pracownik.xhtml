@@ -15,6 +15,8 @@
                         <p:inputText id="nazwisko" value="#{pracownikView.selected.nazwisko}" title="nazwisko" required="true" requiredMessage="Wpisz nazwisko"/>
                         <p:outputLabel value="imię" for="imie" />
                         <p:inputText id="imie" value="#{pracownikView.selected.imie}" title="imię" required="true" requiredMessage="Wpisz imię"/>
+                        <p:outputLabel value="pesel" for="pesel" />
+                        <p:inputText id="pesel" value="#{pracownikView.selected.pesel}" title="imię" required="true" requiredMessage="Wpisz Pesel"/>
                     </p:panelGrid>
                     <p:commandButton styleClass="buttonnorm" actionListener="#{pracownikView.create}" value="#{bundle.Save}" update="display,@(form)" />
                 </h:panelGroup>
@@ -47,9 +49,15 @@
                             </f:facet>
                             <h:outputText value="#{item2.imie}"/>
                         </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Pesel"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.pesel}"/>
+                        </p:column>
                           <p:column>
                             <f:facet name="header">
-                                <h:outputText value="imię"/>
+                                <h:outputText value="firmy"/>
                             </f:facet>
                             <h:outputText value="#{item2.firmypracownika}"/>
                         </p:column>

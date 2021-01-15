@@ -68,6 +68,8 @@ public class Nieobecnosc implements Serializable {
     private Integer id;
     @OneToMany(mappedBy = "nieobecnosc")
     private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
+    @Column(name="naniesiona")
+    private boolean naniesiona;
 
    
     public Nieobecnosc() {
@@ -157,6 +159,14 @@ public class Nieobecnosc implements Serializable {
 
     public void setDatado(String datado) {
         this.datado = datado;
+    }
+
+    public boolean isNaniesiona() {
+        return naniesiona;
+    }
+
+    public void setNaniesiona(boolean naniesiona) {
+        this.naniesiona = naniesiona;
     }
     
 }

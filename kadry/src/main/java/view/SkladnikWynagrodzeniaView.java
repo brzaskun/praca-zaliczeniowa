@@ -5,8 +5,10 @@
  */
 package view;
 
+import dao.RodzajwynagrodzeniaFacade;
 import dao.SkladnikWynagrodzeniaFacade;
 import dao.UmowaFacade;
+import entity.Rodzajwynagrodzenia;
 import entity.Skladnikwynagrodzenia;
 import entity.Umowa;
 import java.io.Serializable;
@@ -31,11 +33,14 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
     @Inject
     private Skladnikwynagrodzenia selectedlista;
     private List<Skladnikwynagrodzenia> lista;
+    private List<Rodzajwynagrodzenia> listarodzajwynagrodzenia;
     private List<Umowa> listaumow;
     @Inject
     private SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade;
     @Inject
     private UmowaFacade umowaFacade;
+    @Inject
+    private RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade;
     @Inject
     private WpisView wpisView;
     @Inject
@@ -47,6 +52,8 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
             lista  = skladnikWynagrodzeniaFacade.findByPracownik(wpisView.getAngaz().getPracownik());
         }
         listaumow = umowaFacade.findPracownik(wpisView.getPracownik());
+        listarodzajwynagrodzenia = rodzajwynagrodzeniaFacade.findAll();
+
     }
     
 
@@ -114,6 +121,14 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
 
     public void setSelectedumowa(Umowa selectedumowa) {
         this.selectedumowa = selectedumowa;
+    }
+
+    public List<Rodzajwynagrodzenia> getListarodzajwynagrodzenia() {
+        return listarodzajwynagrodzenia;
+    }
+
+    public void setListarodzajwynagrodzenia(List<Rodzajwynagrodzenia> listarodzajwynagrodzenia) {
+        this.listarodzajwynagrodzenia = listarodzajwynagrodzenia;
     }
 
     

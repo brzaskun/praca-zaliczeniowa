@@ -19,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -38,12 +39,21 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class Pracownik implements Serializable {
 
-    @Size(max = 255)
+    @Basic(optional = false)
+    @NotNull()
+    @Size(min = 1, max = 255)
     @Column(name = "imie")
     private String imie;
-    @Size(max = 255)
+    @Basic(optional = false)
+    @NotNull()
+    @Size(min = 1, max = 255)
     @Column(name = "nazwisko")
     private String nazwisko;
+    @Basic(optional = false)
+    @NotNull()
+    @Size(min = 1, max = 45)
+    @Column(name = "pesel")
+    private String pesel;
    
     private static final long serialVersionUID = 1L;
     @Id
@@ -153,6 +163,14 @@ public class Pracownik implements Serializable {
     
     public void setNazwisko(String nazwisko){
         this.nazwisko = nazwisko;
+    }
+
+    public String getPesel() {
+        return pesel;
+    }
+
+    public void setPesel(String pesel) {
+        this.pesel = pesel;
     }
 
    
