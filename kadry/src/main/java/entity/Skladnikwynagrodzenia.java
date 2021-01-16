@@ -35,14 +35,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Skladnikwynagrodzenia.findAll", query = "SELECT s FROM Skladnikwynagrodzenia s"),
     @NamedQuery(name = "Skladnikwynagrodzenia.findById", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.id = :id"),
-    @NamedQuery(name = "Skladnikwynagrodzenia.findByGodzinowe0miesieczne1", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.godzinowe0miesieczne1 = :godzinowe0miesieczne1"),
-    @NamedQuery(name = "Skladnikwynagrodzenia.findByNazwa", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.nazwa = :nazwa"),
     @NamedQuery(name = "Skladnikwynagrodzenia.findByPracownik", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.umowa.angaz.pracownik = :pracownik")
 })
 public class Skladnikwynagrodzenia implements Serializable {
 
-    @Column(name = "godzinowe0miesieczne1")
-    private boolean godzinowe0miesieczne1;
     @Size(max = 255)
     @Column(name = "uwagi")
     private String uwagi;
@@ -140,14 +136,6 @@ public class Skladnikwynagrodzenia implements Serializable {
     }
     public void setZmiennawynagrodzeniaList(List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList) {
         this.zmiennawynagrodzeniaList = zmiennawynagrodzeniaList;
-    }
-
-    public boolean getGodzinowe0miesieczne1() {
-        return godzinowe0miesieczne1;
-    }
-
-    public void setGodzinowe0miesieczne1(boolean godzinowe0miesieczne1) {
-        this.godzinowe0miesieczne1 = godzinowe0miesieczne1;
     }
 
     public String getUwagi() {

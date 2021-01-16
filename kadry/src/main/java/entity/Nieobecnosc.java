@@ -19,7 +19,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -34,29 +33,24 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Nieobecnosc.findAll", query = "SELECT n FROM Nieobecnosc n"),
     @NamedQuery(name = "Nieobecnosc.findById", query = "SELECT n FROM Nieobecnosc n WHERE n.id = :id"),
-    @NamedQuery(name = "Nieobecnosc.findByKod", query = "SELECT n FROM Nieobecnosc n WHERE n.kod = :kod"),
-    @NamedQuery(name = "Nieobecnosc.findByNazwa", query = "SELECT n FROM Nieobecnosc n WHERE n.nazwa = :nazwa"),
+    @NamedQuery(name = "Nieobecnosc.findByKod", query = "SELECT n FROM Nieobecnosc n WHERE n.nieobecnosckodzus.kod = :kod"),
+    @NamedQuery(name = "Nieobecnosc.findByNazwa", query = "SELECT n FROM Nieobecnosc n WHERE n.nieobecnosckodzus.opis = :opis"),
     @NamedQuery(name = "Nieobecnosc.findByUmowa", query = "SELECT n FROM Nieobecnosc n WHERE n.umowa = :umowa"),
     @NamedQuery(name = "Nieobecnosc.findByDataod", query = "SELECT n FROM Nieobecnosc n WHERE n.dataod = :dataod"),
     @NamedQuery(name = "Nieobecnosc.findByDatado", query = "SELECT n FROM Nieobecnosc n WHERE n.datado = :datado")})
 public class Nieobecnosc implements Serializable {
 
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "kod")
-    private String kod;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "nazwa")
-    private String nazwa;
     @Size(max = 45)
     @Column(name = "dataod")
     private String dataod;
     @Size(max = 45)
     @Column(name = "datado")
     private String datado;
+    @Column(name = "naniesiona")
+    private Boolean naniesiona;
+    @JoinColumn(name = "nieobecnosckodzus", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Nieobecnosckodzus nieobecnosckodzus;
     @JoinColumn(name = "umowa", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Umowa umowa;
@@ -68,8 +62,6 @@ public class Nieobecnosc implements Serializable {
     private Integer id;
     @OneToMany(mappedBy = "nieobecnosc")
     private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
-    @Column(name="naniesiona")
-    private boolean naniesiona;
 
    
     public Nieobecnosc() {
@@ -129,22 +121,7 @@ public class Nieobecnosc implements Serializable {
         this.umowa = umowa;
     }
 
-    public String getKod() {
-        return kod;
-    }
-
-    public void setKod(String kod) {
-        this.kod = kod;
-    }
-
-    public String getNazwa() {
-        return nazwa;
-    }
-
-    public void setNazwa(String nazwa) {
-        this.nazwa = nazwa;
-    }
-
+  
     public String getDataod() {
         return dataod;
     }
@@ -161,12 +138,20 @@ public class Nieobecnosc implements Serializable {
         this.datado = datado;
     }
 
-    public boolean isNaniesiona() {
+    public Boolean getNaniesiona() {
         return naniesiona;
     }
 
-    public void setNaniesiona(boolean naniesiona) {
+    public void setNaniesiona(Boolean naniesiona) {
         this.naniesiona = naniesiona;
+    }
+
+    public Nieobecnosckodzus getNieobecnosckodzus() {
+        return nieobecnosckodzus;
+    }
+
+    public void setNieobecnosckodzus(Nieobecnosckodzus nieobecnosckodzus) {
+        this.nieobecnosckodzus = nieobecnosckodzus;
     }
     
 }

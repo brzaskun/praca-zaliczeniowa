@@ -9,10 +9,12 @@ import beanstesty.KalendarzmiesiacBean;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.NieobecnoscFacade;
+import dao.NieobecnosckodzusFacade;
 import dao.UmowaFacade;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
 import entity.Nieobecnosc;
+import entity.Nieobecnosckodzus;
 import entity.Umowa;
 import java.io.Serializable;
 import java.util.List;
@@ -35,9 +37,12 @@ public class NieobecnoscView  implements Serializable {
     @Inject
     private Nieobecnosc selectedlista;
     private List<Nieobecnosc> lista;
+    private List<Nieobecnosckodzus> listanieobecnosckodzus;
     private List<Umowa> listaumowa;
     @Inject
     private NieobecnoscFacade nieobecnoscFacade;
+    @Inject
+    private NieobecnosckodzusFacade nieobecnosckodzusFacade;
     @Inject
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
     @Inject
@@ -50,7 +55,8 @@ public class NieobecnoscView  implements Serializable {
     @PostConstruct
     private void init() {
         lista  = nieobecnoscFacade.findByUmowa(wpisView.getUmowa());
-        listaumowa = umowaFacade.findPracownik(wpisView.getPracownik());;
+        listaumowa = umowaFacade.findPracownik(wpisView.getPracownik());
+        listanieobecnosckodzus = nieobecnosckodzusFacade.findAll();
     }
 
     public void create() {
@@ -123,6 +129,14 @@ public class NieobecnoscView  implements Serializable {
 
     public void setListaumowa(List<Umowa> listaumowa) {
         this.listaumowa = listaumowa;
+    }
+
+    public List<Nieobecnosckodzus> getListanieobecnosckodzus() {
+        return listanieobecnosckodzus;
+    }
+
+    public void setListanieobecnosckodzus(List<Nieobecnosckodzus> listanieobecnosckodzus) {
+        this.listanieobecnosckodzus = listanieobecnosckodzus;
     }
 
    

@@ -70,14 +70,12 @@ public class Umowa implements Serializable {
     private String datazawarcia;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "kosztyuzyskania")
-    private Double kosztyuzyskania;
     @Column(name = "odliczaculgepodatkowa")
-    private boolean odliczaculgepodatkowa;
+    private  Boolean odliczaculgepodatkowa;
     @Column(name = "chorobowe")
-    private boolean chorobowe;
+    private  Boolean chorobowe;
     @Column(name = "chorobowedobrowolne")
-    private boolean chorobowedobrowolne;
+    private  Boolean chorobowedobrowolne;
     @Size(max = 255)
     @Column(name = "datanfz")
     private String datanfz;
@@ -88,12 +86,12 @@ public class Umowa implements Serializable {
     @Column(name = "datazdrowotne")
     private String datazdrowotne;
     @Column(name = "emerytalne")
-    private boolean emerytalne;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    private  Boolean emerytalne;
     @Size(max = 255)
     @Column(name = "kodubezpieczenia")
     private String kodubezpieczenia;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Size(max = 255)
     @Column(name = "kodzawodu")
     private String kodzawodu;
@@ -101,19 +99,24 @@ public class Umowa implements Serializable {
     @Column(name = "nfz")
     private String nfz;
     @Column(name = "nieliczFGSP")
-    private boolean nieliczFGSP;
-
+    private  Boolean nieliczFGSP;
     @Column(name = "nieliczFP")
-    private boolean nieliczFP;
+    private  Boolean nieliczFP;
+
     @Column(name = "rentowe")
-    private boolean rentowe;
+    private  Boolean rentowe;
     @Column(name = "wypadkowe")
-    private boolean wypadkowe;
+    private  Boolean wypadkowe;
     @Column(name = "zdrowotne")
-    private boolean zdrowotne;
+    private  Boolean zdrowotne;
     @Size(max = 45)
     @Column(name = "nrkolejny")
     private String nrkolejny;
+    @JoinColumn(name = "umowakodzus", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Umowakodzus umowakodzus;
+    @Column(name = "kosztyuzyskania")
+    private Double kosztyuzyskania;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa")
     private List<Nieobecnosc> nieobecnoscList;
     private static final long serialVersionUID = 1L;
@@ -126,10 +129,6 @@ public class Umowa implements Serializable {
     @JoinColumn(name = "angaz", referencedColumnName = "id")
     @ManyToOne()
     private Angaz angaz;
-    @NotNull
-    @JoinColumn(name = "rodzajumowy", referencedColumnName = "id")
-    @ManyToOne
-    private Rodzajumowy rodzajumowy;
     @OneToMany(mappedBy = "umowa", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Kalendarzmiesiac> kalendarzmiesiacList;
     @OneToMany(mappedBy = "umowa", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -160,14 +159,6 @@ public class Umowa implements Serializable {
 
     public void setAngaz(Angaz angaz) {
         this.angaz = angaz;
-    }
-
-    public Rodzajumowy getRodzajumowy() {
-        return rodzajumowy;
-    }
-
-    public void setRodzajumowy(Rodzajumowy rodzajumowy) {
-        this.rodzajumowy = rodzajumowy;
     }
 
     @XmlTransient
@@ -219,11 +210,11 @@ public class Umowa implements Serializable {
 
     @Override
     public String toString() {
-        return "Umowa{" + "datado=" + datado + ", dataod=" + dataod + ", angaz=" + angaz.getPracownik().getNazwiskoImie() + ", rodzajumowy=" + rodzajumowy.getNazwa() + "}";
+        return "Umowa{" + "datado=" + datado + ", dataod=" + dataod + ", angaz=" + angaz.getPracownik().getNazwiskoImie() + ", rodzajumowy="+ "}";
     }
 
    public String umowanumernazwa() {
-       return this.angaz.getPracownik().getNazwiskoImie()+" "+this.rodzajumowy.getNazwa()+" "+this.dataod;
+       return this.nrkolejny;
    }
    @XmlTransient   
    public List<Nieobecnosc> getNieobecnoscList() {
@@ -232,6 +223,22 @@ public class Umowa implements Serializable {
    public void setNieobecnoscList(List<Nieobecnosc> nieobecnoscList) {
        this.nieobecnoscList = nieobecnoscList;
    }
+
+
+
+    public Double getKosztyuzyskania() {
+        return kosztyuzyskania;
+    }
+
+    public void setKosztyuzyskania(Double kosztyuzyskania) {
+        this.kosztyuzyskania = kosztyuzyskania;
+    }
+    public Umowakodzus getUmowakodzus() {
+        return umowakodzus;
+    }
+    public void setUmowakodzus(Umowakodzus umowakodzus) {
+        this.umowakodzus = umowakodzus;
+    }
 
     public String getDatado() {
         return datado;
@@ -249,45 +256,34 @@ public class Umowa implements Serializable {
         this.dataod = dataod;
     }
 
-
-    public String getDatazawarcia() {
+    public  String getDatazawarcia() {
         return datazawarcia;
     }
 
-    public void setDatazawarcia(String datazawarcia) {
+    public void setDatazawarcia( String datazawarcia) {
         this.datazawarcia = datazawarcia;
     }
-
-
-    public Double getKosztyuzyskania() {
-        return kosztyuzyskania;
-    }
-
-    public void setKosztyuzyskania(Double kosztyuzyskania) {
-        this.kosztyuzyskania = kosztyuzyskania;
-    }
-
-    public boolean getOdliczaculgepodatkowa() {
+    public  Boolean getOdliczaculgepodatkowa() {
         return odliczaculgepodatkowa;
     }
-
-    public void setOdliczaculgepodatkowa(boolean odliczaculgepodatkowa) {
+    public void setOdliczaculgepodatkowa( Boolean odliczaculgepodatkowa) {
         this.odliczaculgepodatkowa = odliczaculgepodatkowa;
     }
 
-    public boolean getChorobowe() {
+
+    public  Boolean getChorobowe() {
         return chorobowe;
     }
 
-    public void setChorobowe(boolean chorobowe) {
+    public void setChorobowe( Boolean chorobowe) {
         this.chorobowe = chorobowe;
     }
 
-    public boolean getChorobowedobrowolne() {
+    public Boolean getChorobowedobrowolne() {
         return chorobowedobrowolne;
     }
 
-    public void setChorobowedobrowolne(boolean chorobowedobrowolne) {
+    public void setChorobowedobrowolne(Boolean chorobowedobrowolne) {
         this.chorobowedobrowolne = chorobowedobrowolne;
     }
 
@@ -298,27 +294,28 @@ public class Umowa implements Serializable {
     public void setDatanfz(String datanfz) {
         this.datanfz = datanfz;
     }
+
     public String getDataspoleczne() {
         return dataspoleczne;
     }
+
     public void setDataspoleczne(String dataspoleczne) {
         this.dataspoleczne = dataspoleczne;
     }
 
-
-    public String getDatazdrowotne() {
+    public  String getDatazdrowotne() {
         return datazdrowotne;
     }
 
-    public void setDatazdrowotne(String datazdrowotne) {
+    public void setDatazdrowotne( String datazdrowotne) {
         this.datazdrowotne = datazdrowotne;
     }
 
-    public boolean getEmerytalne() {
+    public Boolean getEmerytalne() {
         return emerytalne;
     }
 
-    public void setEmerytalne(boolean emerytalne) {
+    public void setEmerytalne(Boolean emerytalne) {
         this.emerytalne = emerytalne;
     }
 
@@ -338,51 +335,51 @@ public class Umowa implements Serializable {
         this.kodzawodu = kodzawodu;
     }
 
-    public String getNfz() {
+    public  String getNfz() {
         return nfz;
     }
 
-    public void setNfz(String nfz) {
+    public void setNfz( String nfz) {
         this.nfz = nfz;
     }
 
-    public boolean getNieliczFGSP() {
+    public  Boolean getNieliczFGSP() {
         return nieliczFGSP;
     }
 
-    public void setNieliczFGSP(boolean nieliczFGSP) {
+    public void setNieliczFGSP( Boolean nieliczFGSP) {
         this.nieliczFGSP = nieliczFGSP;
     }
 
-    public boolean getNieliczFP() {
+    public  Boolean getNieliczFP() {
         return nieliczFP;
     }
 
-    public void setNieliczFP(boolean nieliczFP) {
+    public void setNieliczFP( Boolean nieliczFP) {
         this.nieliczFP = nieliczFP;
     }
 
-    public boolean getRentowe() {
+    public  Boolean getRentowe() {
         return rentowe;
     }
 
-    public void setRentowe(boolean rentowe) {
+    public void setRentowe( Boolean rentowe) {
         this.rentowe = rentowe;
     }
 
-    public boolean getWypadkowe() {
+    public  Boolean getWypadkowe() {
         return wypadkowe;
     }
 
-    public void setWypadkowe(boolean wypadkowe) {
+    public void setWypadkowe( Boolean wypadkowe) {
         this.wypadkowe = wypadkowe;
     }
 
-    public boolean getZdrowotne() {
+    public Boolean getZdrowotne() {
         return zdrowotne;
     }
 
-    public void setZdrowotne(boolean zdrowotne) {
+    public void setZdrowotne(Boolean zdrowotne) {
         this.zdrowotne = zdrowotne;
     }
 

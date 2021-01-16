@@ -8,6 +8,8 @@
     <class>entity.Rodzajlistyplac</class>
     <class>dao.Rodzajwynagrodzenia</class>
     <class>entity.Rodzajwynagrodzenia</class>
+    <class>entity.Umowakodzus</class>
+    <class>entity.Nieobecnosckodzus</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>

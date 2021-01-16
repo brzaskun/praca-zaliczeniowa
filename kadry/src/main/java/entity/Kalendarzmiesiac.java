@@ -255,13 +255,13 @@ public class Kalendarzmiesiac implements Serializable {
         int dziendo = Integer.parseInt(Data.getDzien(p.getDatado()))-1;
         for (int i = dzienod; i <= dziendo; i++) {
             Dzien dzienaktualny = this.dzienList.get(i);
-            dzienaktualny.setKod(p.getKod());
+            dzienaktualny.setKod(p.getNieobecnosckodzus().getKod());
             dzienaktualny.setPrzepracowano(0);
-            if (p.getKod().equals("331")) {
+            if (p.getNieobecnosckodzus().getKod().equals("331")) {
                 dzienaktualny.setWynagrodzeniezachorobe(dzienaktualny.getNormagodzin());
-            } else if (p.getKod().equals("001")) {
+            } else if (p.getNieobecnosckodzus().getKod().equals("100")) {
                 dzienaktualny.setUrlopPlatny(dzienaktualny.getNormagodzin());
-            } else if (p.getKod().equals("002")) {
+            } else if (p.getNieobecnosckodzus().getKod().equals("111")) {
                 dzienaktualny.setUrlopbezplatny(dzienaktualny.getNormagodzin());
             }
         }

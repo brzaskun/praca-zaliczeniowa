@@ -6,11 +6,11 @@
 package view;
 
 import dao.AngazFacade;
-import dao.RodzajumowyFacade;
 import dao.UmowaFacade;
+import dao.UmowakodzusFacade;
 import entity.Angaz;
-import entity.Rodzajumowy;
 import entity.Umowa;
+import entity.Umowakodzus;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -33,11 +33,11 @@ public class UmowaView  implements Serializable {
     private Umowa selectedlista;
     private List<Umowa> lista;
     private List<Angaz> listaangaz;
-    private List<Rodzajumowy> listarodzajumowy;
+    private List<Umowakodzus> listaumowakodzus;
     @Inject
     private UmowaFacade umowaFacade;
     @Inject
-    private RodzajumowyFacade rodzajumowyFacade;
+    private UmowakodzusFacade rodzajumowyFacade;
     @Inject
     private AngazFacade angazFacade;
     @Inject
@@ -49,7 +49,7 @@ public class UmowaView  implements Serializable {
     private void init() {
         lista  = umowaFacade.findByAngaz(wpisView.getAngaz());
         listaangaz = angazFacade.findByFirma(wpisView.getFirma());
-        listarodzajumowy = rodzajumowyFacade.findAll();
+        listaumowakodzus = rodzajumowyFacade.findAll();
     }
  
     public void create() {
@@ -78,9 +78,9 @@ public class UmowaView  implements Serializable {
     }
     
     public void ustawumowe() {
-        if (selected.getRodzajumowy() != null) {
-            if (selected.getRodzajumowy().getNazwa().equals("umowa o pracę")) {
-                selected.setNrkolejny("UP/Pesel"+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu());
+        if (selected.getUmowakodzus() != null) {
+            if (selected.getUmowakodzus().getKod().equals("0110")) {
+                selected.setNrkolejny("UP/"+wpisView.getPracownik().getPesel()+"/"+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu());
                 selected.setChorobowe(true);
                 selected.setRentowe(true);
                 selected.setEmerytalne(true);
@@ -96,7 +96,8 @@ public class UmowaView  implements Serializable {
                 selected.setKodzawodu("568");
                 selected.setKodubezpieczenia("0110");
                 selected.setOdliczaculgepodatkowa(true);
-            } else if (selected.getRodzajumowy().getNazwa().equals("umowa zlecenia")) {
+            } else if (selected.getUmowakodzus().getKod().equals("0410")) {
+                selected.setNrkolejny("UZ/"+wpisView.getPracownik().getPesel()+"/"+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu());
                 selected.setChorobowe(false);
                 selected.setChorobowedobrowolne(true);
                 selected.setRentowe(true);
@@ -159,14 +160,15 @@ public class UmowaView  implements Serializable {
         this.listaangaz = listaangaz;
     }
 
-    public List<Rodzajumowy> getListarodzajumowy() {
-        return listarodzajumowy;
+    public List<Umowakodzus> getListaumowakodzus() {
+        return listaumowakodzus;
     }
 
-    public void setListarodzajumowy(List<Rodzajumowy> listarodzajumowy) {
-        this.listarodzajumowy = listarodzajumowy;
+    public void setListaumowakodzus(List<Umowakodzus> listaumowakodzus) {
+        this.listaumowakodzus = listaumowakodzus;
     }
 
+   
       
     
     

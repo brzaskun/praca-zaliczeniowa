@@ -5,7 +5,7 @@
  */
 package dao;
 
-import entity.Rodzajumowy;
+import entity.Umowakodzus;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -19,7 +19,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class RodzajumowyFacade  {
+public class UmowakodzusFacade  {
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
@@ -37,21 +37,21 @@ public class RodzajumowyFacade  {
         return em;
     }
 
-    public RodzajumowyFacade() {
+    public UmowakodzusFacade() {
     }
     
-    public void create(Rodzajumowy entity) {
+    public void create(Umowakodzus entity) {
         getEntityManager().persist(entity);
         getEntityManager().flush();
     }
     
-    public List<Rodzajumowy> findAll() {
+    public List<Umowakodzus> findAll() {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Rodzajumowy.class));
+        cq.select(cq.from(Umowakodzus.class));
         return getEntityManager().createQuery(cq).getResultList();
     }
     
-     public void edit(Rodzajumowy entity) {
+     public void edit(Umowakodzus entity) {
         getEntityManager().merge(entity);
     }
 }

@@ -16,13 +16,15 @@
                             <p:outputLabel value="angaz" for="angaz" />
                             <h:outputText id="angaz" value="#{wpisView.angaz.pracownik.nazwiskoImie}"/>
                             <p:outputLabel value="rodzaj umowy" for="rodzajumowy" />
-                            <p:selectOneMenu id="rodzajumowy" value="#{umowaView.selected.rodzajumowy}" converter="#{rodzajumowyConverter}">
+                            <p:selectOneMenu id="rodzajumowy" value="#{umowaView.selected.umowakodzus}" converter="#{umowakodzusConverter}" autoWidth="false" style="width: 300px;">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                                <f:selectItems value="#{umowaView.listarodzajumowy}"
-                                               var="rodzajumowyItem"
-                                               itemValue="#{rodzajumowyItem}" itemLabel="#{rodzajumowyItem.nazwa}"/>
+                                <f:selectItems value="#{umowaView.listaumowakodzus}"
+                                               var="umowakodzusItem"
+                                               itemValue="#{umowakodzusItem}" itemLabel="#{umowakodzusItem.opis}"/>
                                 <p:ajax event="change" listener="#{umowaView.ustawumowe}" partialSubmit="true" global="false" update="@(form)"/>
                             </p:selectOneMenu>
+                            <p:outputLabel value="kod" for="kodumowy" />
+                            <p:inputText id="kodumowy" value="#{umowaView.selected.umowakodzus.kod}" title="kod" readonly="true"/>
                              <p:outputLabel value="nr umowy" for="nrumowy" />
                              <p:inputText id="nrumowy" value="#{umowaView.selected.nrkolejny}" title="data od" />
                              <p:outputLabel value="data od" for="dataod" />
@@ -101,7 +103,7 @@
                             <f:facet name="header">
                                 <h:outputText value="rodzaj umowy"/>
                             </f:facet>
-                            <h:outputText value="#{itemumowa.rodzajumowy.nazwa}"/>
+                            <h:outputText value="#{itemumowa.umowakodzus.opis}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">

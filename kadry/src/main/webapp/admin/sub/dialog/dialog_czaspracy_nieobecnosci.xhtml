@@ -17,14 +17,18 @@
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{nieobecnoscView.listaumowa}"
                                            var="umowaItem"
-                                           itemValue="#{umowaItem}" itemLabel="#{umowaItem.umowanumernazwa()}"/>
+                                           itemValue="#{umowaItem}" itemLabel="#{umowaItem.nrkolejny}"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value=" " />
-                        <h:outputText value=" "/>
+                        <p:outputLabel value="nazwa nieobecnosci" for="nieobkodzus" />
+                        <p:selectOneMenu id="nieobkodzus" value="#{nieobecnoscView.selected.nieobecnosckodzus}" required="true" requiredMessage="wybierz rodzaj nieobecnosci" converter="#{nieobecnosckodzusConverter}">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItems value="#{nieobecnoscView.listanieobecnosckodzus}"
+                                           var="kodzusItem"
+                                           itemValue="#{kodzusItem}" itemLabel="#{kodzusItem.opisskrocony}"/>
+                                <p:ajax event="change" partialSubmit="true" global="false" update="NieobecnoscCreateForm:kod"/>
+                        </p:selectOneMenu>
                         <p:outputLabel value="kod" for="kod" />
-                        <p:inputText id="kod" value="#{nieobecnoscView.selected.kod}" title="kod" required="true" requiredMessage="kod"/>
-                        <p:outputLabel value="nazwa" for="nazwa" />
-                        <p:inputText id="nazwa" value="#{nieobecnoscView.selected.nazwa}" title="nazwa" required="true" requiredMessage="nazwa"/>
+                        <p:inputText id="kod" value="#{nieobecnoscView.selected.nieobecnosckodzus.kod}" title="kod" required="true" readonly="true"/>
                         <p:outputLabel value="data od" for="dataod" />
                         <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="datac od"  placeholder="____-__-__" />
                         <p:outputLabel value="data do" for="datado" />
@@ -51,17 +55,17 @@
                             </f:facet>
                             <h:outputText value="#{itemNieob.id}"/>
                         </p:column>
-                        <p:column>
+                        <p:column width="50">
                             <f:facet name="header">
                                 <h:outputText value="kod"/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.kod}"/>
+                            <h:outputText value="#{itemNieob.nieobecnosckodzus.kod}"/>
                         </p:column>
-                        <p:column>
+                        <p:column width="400">
                             <f:facet name="header">
                                 <h:outputText value="nazwa"/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.nazwa}"/>
+                            <h:outputText value="#{itemNieob.nieobecnosckodzus.opis}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -74,6 +78,18 @@
                                 <h:outputText value="data do"/>
                             </f:facet>
                             <h:outputText value="#{itemNieob.datado}"/>
+                        </p:column>
+                         <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="zus"/>
+                            </f:facet>
+                             <h:outputText value="&#x2714;" rendered="#{itemNieob.nieobecnosckodzus.spoleczne}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="podatek"/>
+                            </f:facet>
+                            <h:outputText value="&#x2714;" rendered="#{itemNieob.nieobecnosckodzus.podatek}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -94,3 +110,4 @@
         </p:outputPanel>
     </p:dialog>
 </ui:composition>
+

@@ -22,8 +22,7 @@ public class NieobecnosciBean {
            choroba = new Nieobecnosc();
            choroba.setDataod("2020-12-01");
            choroba.setDatado("2020-12-05");
-           choroba.setKod("331");
-           choroba.setNazwa("choroba");
+           choroba.setNieobecnosckodzus(NieobecnosckodzusBean.createChoroba());
         }
         return choroba;
     }
@@ -33,8 +32,7 @@ public class NieobecnosciBean {
            urlop = new Nieobecnosc();
            urlop.setDataod("2020-12-06");
            urlop.setDatado("2020-12-11");
-           urlop.setKod("001");
-           urlop.setNazwa("urlop wypoczynkowy");
+           urlop.setNieobecnosckodzus(NieobecnosckodzusBean.createUrlop());
         }
         return urlop;
     }
@@ -44,8 +42,7 @@ public class NieobecnosciBean {
            urlopbezplatny = new Nieobecnosc();
            urlopbezplatny.setDataod("2020-12-25");
            urlopbezplatny.setDatado("2020-12-31");
-           urlopbezplatny.setKod("002");
-           urlopbezplatny.setNazwa("urlop bezplatny");
+           urlopbezplatny.setNieobecnosckodzus(NieobecnosckodzusBean.createUrlopBezplatny());
         }
         return urlopbezplatny;
     }

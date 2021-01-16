@@ -1,0 +1,64 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+        <p:outputPanel>
+            <h:form id="RodzajwynagrodzeniaForm">
+                <p:panel header="Rodzaje skłądników wynagrodzęń">
+                    <p:dataTable id="datalist" value="#{rodzjawynagrodzeniaSetView.lista}" var="item1"
+                                 selectionMode="single" selection="#{rodzjawynagrodzeniaSetView.selectedlista}"
+                                 rowKey="#{item1.id}" 
+                                 style="height: 400px; overflow-y: scroll; width: 1200px;"
+                                 >
+
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="id"/>
+                            </f:facet>
+                            <h:outputText value="#{item1.id}"/>
+                        </p:column>
+                        <p:column width="50" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="kod"/>
+                            </f:facet>
+                            <h:outputText value="#{item1.kod}"/>
+                        </p:column>
+                        <p:column width="300">
+                            <f:facet name="header">
+                                <h:outputText value="opis"/>
+                            </f:facet>
+                            <h:outputText value="#{item1.opispelny}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="godzinowe0 miesieczne1"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item1.godzinowe0miesieczne1}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="redukowany"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item1.redukowany}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="stale0 zmienne1"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item1.stale0zmienne1}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="zus0 bezzus1"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item1.zus0bezzus1}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+                <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{rodzjawynagrodzeniaSetView.zachowaj}" update="@form"/>
+            </h:form>
+        </p:outputPanel>
+</ui:composition>

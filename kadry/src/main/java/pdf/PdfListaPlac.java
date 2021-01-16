@@ -224,7 +224,7 @@ public class PdfListaPlac {
         int i = 1;
         for (Naliczenieskladnikawynagrodzenia rs : wykaz) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "left",6,10f));
-            table.addCell(ustawfrazeAlign(rs.getSkladnikwynagrodzenia().getKod(), "left",6));
+            table.addCell(ustawfrazeAlign(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod(), "left",6));
             table.addCell(ustawfrazeAlign(rs.getSkladnikwynagrodzenia().getUwagi(), "left",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotazus()), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotabezzus()), "right",6));
@@ -232,8 +232,8 @@ public class PdfListaPlac {
         }
         for (Naliczenienieobecnosc rs : wykaznieob) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "left",6,10f));
-            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getKod(), "left",6));
-            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getNazwa()+" "+rs.getJakiskladnikredukowalny(), "left",6));
+            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getNieobecnosckodzus().getKod(), "left",6));
+            table.addCell(ustawfrazeAlign(rs.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony()+" "+rs.getJakiskladnikredukowalny(), "left",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotazus()), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotabezzus()), "right",6));
             if (rs.getKwotastatystyczna()!=0.0) {
@@ -247,7 +247,7 @@ public class PdfListaPlac {
       public static String wierszeSkladnikiString(List<Naliczenieskladnikawynagrodzenia> wykaz,List<Naliczenienieobecnosc> wykaznieob) {
         StringBuilder sb = new StringBuilder();
         for (Naliczenieskladnikawynagrodzenia rs : wykaz) {
-            sb.append(rs.getSkladnikwynagrodzenia().getKod());
+            sb.append(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod());
             sb.append(" ");
             sb.append(rs.getSkladnikwynagrodzenia().getUwagi());
             sb.append(" ");
@@ -260,9 +260,9 @@ public class PdfListaPlac {
             }
         }
         for (Naliczenienieobecnosc rs : wykaznieob) {
-            sb.append(rs.getNieobecnosc().getKod());
+            sb.append(rs.getNieobecnosc().getNieobecnosckodzus().getKod());
             sb.append(" ");
-            sb.append(rs.getNieobecnosc().getNazwa());
+            sb.append(rs.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony());
             sb.append(" ");
             if (rs.getKwotazus()!=0.0) {
                 sb.append(formatujWaluta(rs.getKwotazus()));
@@ -323,19 +323,19 @@ public class PdfListaPlac {
         int i = 1;
         for (Nieobecnosc rs : wykaz) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "left",6,10f));
-            table.addCell(ustawfrazeAlign(rs.getKod(), "left",6));
-            table.addCell(ustawfrazeAlign(rs.getNazwa(), "left",6));
+            table.addCell(ustawfrazeAlign(rs.getNieobecnosckodzus().getKod(), "left",6));
+            table.addCell(ustawfrazeAlign(rs.getNieobecnosckodzus().getOpisskrocony(), "left",6));
             table.addCell(ustawfrazeAlign(rs.getDataod(), "right",6));
             table.addCell(ustawfrazeAlign(rs.getDatado(), "right",6));
-            table.addCell(ustawfrazeAlign(rs.getUmowa().getRodzajumowy().getNazwa(), "left",6));
+            table.addCell(ustawfrazeAlign(rs.getUmowa().getUmowakodzus().getOpis(), "left",6));
         }
     }
       public static String wierszeNieobecnosciString(List<Nieobecnosc> wykaznieob) {
         StringBuilder sb = new StringBuilder();
         for (Nieobecnosc rs : wykaznieob) {
-            sb.append(rs.getKod());
+            sb.append(rs.getNieobecnosckodzus().getKod());
             sb.append(" ");
-            sb.append(rs.getNazwa());
+            sb.append(rs.getNieobecnosckodzus().getOpisskrocony());
             sb.append(" ");
             sb.append(rs.getDataod().replace("-", "."));
             sb.append("-");
@@ -390,12 +390,12 @@ public class PdfListaPlac {
         table.addCell(ustawfrazeAlign(roboczenieob[1], "left",6));
         table.addCell(ustawfrazeAlign(String.valueOf(i++), "left",6,10f));
         table.addCell(ustawfrazeAlign("urlop", "left",6));
-        roboczenieob = k.roboczenieob("001");
+        roboczenieob = k.roboczenieob("100");
         table.addCell(ustawfrazeAlign(roboczenieob[0], "left",6));
         table.addCell(ustawfrazeAlign(roboczenieob[1], "left",6));
         table.addCell(ustawfrazeAlign(String.valueOf(i++), "left",6,10f));
         table.addCell(ustawfrazeAlign("urlopbezplatny", "left",6));
-        roboczenieob = k.roboczenieob("002");
+        roboczenieob = k.roboczenieob("111");
         table.addCell(ustawfrazeAlign(roboczenieob[0], "left",6));
         table.addCell(ustawfrazeAlign(roboczenieob[1], "left",6));
     }

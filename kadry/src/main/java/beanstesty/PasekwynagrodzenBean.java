@@ -47,8 +47,8 @@ public class PasekwynagrodzenBean {
         pasek.setKalendarzmiesiac(kalendarz);
         List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz);
         Nieobecnosc choroba = pobierz(nieobecnosci,"331");
-        Nieobecnosc urlop = pobierz(nieobecnosci,"001");
-        Nieobecnosc urlopbezplatny = pobierz(nieobecnosci,"002");
+        Nieobecnosc urlop = pobierz(nieobecnosci,"100");
+        Nieobecnosc urlopbezplatny = pobierz(nieobecnosci,"111");
         KalendarzmiesiacBean.naliczskladnikiwynagrodzeniaDB(kalendarz, pasek);
         KalendarzmiesiacBean.nalicznadgodziny50DB(kalendarz, pasek);
         //KalendarzmiesiacBean.nalicznadgodziny100(kalendarz, pasek);
@@ -73,16 +73,16 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.dowyplaty(pasek);
         System.out.println("****************");
         for (Naliczenieskladnikawynagrodzenia r : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (r.getSkladnikwynagrodzenia().getRedukowanyzaczasnieobecnosci()) {
+            if (r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
                 System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwotazredukowana()));
             } else {
                 System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwota()));
             }
         }
         for (Naliczenienieobecnosc r : pasek.getNaliczenienieobecnoscList()) {
-            System.out.println(r.getNieobecnosc().getNazwa()+" od "+r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwota()));
-            if (r.getKwotaredukcji()!=0.0 && r.getSkladnikwynagrodzenia().getRedukowanyzaczasnieobecnosci()) {
-                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" redukcja za "+r.getNieobecnosc().getNazwa()+" kwota redukcji "+Z.z(r.getKwotaredukcji()));
+            System.out.println(r.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony()+" od "+r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwota()));
+            if (r.getKwotaredukcji()!=0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
+                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" redukcja za "+r.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony()+" kwota redukcji "+Z.z(r.getKwotaredukcji()));
             }
         }
         System.out.println("****************");
@@ -132,16 +132,16 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.dowyplaty(pasek);
         System.out.println("****************");
         for (Naliczenieskladnikawynagrodzenia r : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (r.getSkladnikwynagrodzenia().getRedukowanyzaczasnieobecnosci()) {
+            if (r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
                 System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwotazredukowana()));
             } else {
                 System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwota()));
             }
         }
         for (Naliczenienieobecnosc r : pasek.getNaliczenienieobecnoscList()) {
-            System.out.println(r.getNieobecnosc().getNazwa()+" od "+r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwota()));
-            if (r.getKwotaredukcji()!=0.0 && r.getSkladnikwynagrodzenia().getRedukowanyzaczasnieobecnosci()) {
-                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" redukcja za "+r.getNieobecnosc().getNazwa()+" kwota redukcji "+Z.z(r.getKwotaredukcji()));
+            System.out.println(r.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony()+" od "+r.getSkladnikwynagrodzenia().getUwagi()+" "+Z.z(r.getKwota()));
+            if (r.getKwotaredukcji()!=0.0 && r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
+                System.out.println(r.getSkladnikwynagrodzenia().getUwagi()+" redukcja za "+r.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony()+" kwota redukcji "+Z.z(r.getKwotaredukcji()));
             }
         }
         System.out.println("****************");
@@ -157,7 +157,7 @@ public class PasekwynagrodzenBean {
     private static void obliczbruttozus(Pasekwynagrodzen pasek) {
         double bruttozus = 0.0;
         for (Naliczenieskladnikawynagrodzenia p : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (p.getSkladnikwynagrodzenia().getRedukowanyzaczasnieobecnosci()) {
+            if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
                 bruttozus = Z.z(bruttozus+p.getKwotazredukowana());
             } else {
                 bruttozus = Z.z(bruttozus+p.getKwota());
@@ -255,7 +255,7 @@ public class PasekwynagrodzenBean {
     private static Nieobecnosc pobierz(List<Nieobecnosc> nieobecnosci, String string) {
         Nieobecnosc zwrot = null;
         for (Nieobecnosc p : nieobecnosci) {
-            if (p.getKod().equals(string)) {
+            if (p.getNieobecnosckodzus().getKod().equals(string)) {
                 zwrot = p;
                 break;
             }

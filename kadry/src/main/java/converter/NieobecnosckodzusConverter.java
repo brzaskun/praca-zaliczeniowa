@@ -5,8 +5,8 @@
  */
 package converter;
 
-import dao.RodzajumowyFacade;
-import entity.Rodzajumowy;
+import dao.NieobecnosckodzusFacade;
+import entity.Nieobecnosckodzus;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.component.UIComponent;
@@ -19,22 +19,22 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-public class RodzajumowyConverter implements javax.faces.convert.Converter {
+public class NieobecnosckodzusConverter implements javax.faces.convert.Converter {
     
-    private List<Rodzajumowy> lista;
+    private List<Nieobecnosckodzus> lista;
     @Inject
-    private RodzajumowyFacade rodzajumowyFacade;
+    private NieobecnosckodzusFacade nieobecnosckodzusFacade;
     
     @PostConstruct
     private void init() {
-        lista = rodzajumowyFacade.findAll();
+        lista = nieobecnosckodzusFacade.findAll();
     }
     
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String sub) {
         try {
             int submittedValue = Integer.parseInt(sub);
-            for (Rodzajumowy p : lista) {
+            for (Nieobecnosckodzus p : lista) {
                 if (p.getId()==submittedValue) {
                     return p;
                 }
@@ -50,7 +50,7 @@ public class RodzajumowyConverter implements javax.faces.convert.Converter {
         if (value == null || value.equals("")) {
             return "";
         } else {
-            return String.valueOf(((Rodzajumowy) value).getId());
+            return String.valueOf(((Nieobecnosckodzus) value).getId());
         }
     }
 }

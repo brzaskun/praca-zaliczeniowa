@@ -35,6 +35,10 @@
             <from-outcome>Pracownik</from-outcome>
             <to-view-id>/pracownik/index.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>Parametry</from-outcome>
+            <to-view-id>/parametry/index.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
     </navigation-rule>
    <application>
         <locale-config>

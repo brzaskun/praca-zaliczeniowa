@@ -37,7 +37,7 @@ public class UmowaBean {
             umowa.setNieliczFP(Boolean.FALSE);
             umowa.setOdliczaculgepodatkowa(Boolean.TRUE);
             umowa.setRentowe(Boolean.TRUE);
-            umowa.setRodzajumowy(RodzajumowyBean.create());
+            umowa.setUmowakodzus(UmowakodzusBean.create());
             umowa.setWypadkowe(Boolean.TRUE);
             umowa.setZdrowotne(Boolean.TRUE);
             umowa.setSkladnikwynagrodzeniaList(new ArrayList<>());

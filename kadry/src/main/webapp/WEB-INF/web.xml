@@ -111,6 +111,7 @@
             <url-pattern>/admin/*</url-pattern>
             <url-pattern>/firma/*</url-pattern>
             <url-pattern>/pracownik/*</url-pattern>
+            <url-pattern>/parametry/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Administrator</role-name>

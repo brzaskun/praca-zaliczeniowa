@@ -54,13 +54,13 @@ public class Rodzajwynagrodzenia implements Serializable {
     @Column(name = "opisskrocony")
     private String opisskrocony;
     @Column(name = "stale0zmienne1")
-    private Boolean stale0zmienne1;
+    private  boolean stale0zmienne1;
     @Column(name = "godzinowe0miesieczne1")
-    private Boolean godzinowe0miesieczne1;
+    private  boolean godzinowe0miesieczne1;
     @Column(name = "redukowany")
-    private Boolean redukowany;
+    private  boolean redukowany;
     @Column(name = "zus0bezzus1")
-    private Boolean zus0bezzus1;
+    private  boolean zus0bezzus1;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -72,6 +72,7 @@ public class Rodzajwynagrodzenia implements Serializable {
     private List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList;
 
     public Rodzajwynagrodzenia() {
+        System.out.println("");
     }
 
     public Rodzajwynagrodzenia(Integer id) {
@@ -152,35 +153,35 @@ public class Rodzajwynagrodzenia implements Serializable {
         this.opisskrocony = opisskrocony;
     }
 
-    public Boolean getStale0zmienne1() {
+    public  boolean getStale0zmienne1() {
         return stale0zmienne1;
     }
 
-    public void setStale0zmienne1(Boolean stale0zmienne1) {
+    public void setStale0zmienne1( boolean stale0zmienne1) {
         this.stale0zmienne1 = stale0zmienne1;
     }
 
-    public Boolean getGodzinowe0miesieczne1() {
+    public  boolean getGodzinowe0miesieczne1() {
         return godzinowe0miesieczne1;
     }
 
-    public void setGodzinowe0miesieczne1(Boolean godzinowe0miesieczne1) {
+    public void setGodzinowe0miesieczne1( boolean godzinowe0miesieczne1) {
         this.godzinowe0miesieczne1 = godzinowe0miesieczne1;
     }
 
-    public Boolean getRedukowany() {
+    public  boolean getRedukowany() {
         return redukowany;
     }
 
-    public void setRedukowany(Boolean redukowany) {
+    public void setRedukowany( boolean redukowany) {
         this.redukowany = redukowany;
     }
 
-    public Boolean getZus0bezzus1() {
+    public  boolean getZus0bezzus1() {
         return zus0bezzus1;
     }
 
-    public void setZus0bezzus1(Boolean zus0bezzus1) {
+    public void setZus0bezzus1( boolean zus0bezzus1) {
         this.zus0bezzus1 = zus0bezzus1;
     }
     
