@@ -5,6 +5,7 @@
  */
 package entity;
 
+import embeddable.CzasTrwania;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -87,9 +88,6 @@ public class Umowa implements Serializable {
     private String datazdrowotne;
     @Column(name = "emerytalne")
     private  Boolean emerytalne;
-    @Size(max = 255)
-    @Column(name = "kodubezpieczenia")
-    private String kodubezpieczenia;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Size(max = 255)
@@ -135,6 +133,8 @@ public class Umowa implements Serializable {
     private List<Skladnikpotracenia> skladnikpotraceniaList;
     @OneToMany(mappedBy = "umowa", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList;
+    @Column(name = "czastrwania")
+    private int czastrwania;
 
     public Umowa() {
     }
@@ -319,15 +319,7 @@ public class Umowa implements Serializable {
         this.emerytalne = emerytalne;
     }
 
-    public String getKodubezpieczenia() {
-        return kodubezpieczenia;
-    }
-
-    public void setKodubezpieczenia(String kodubezpieczenia) {
-        this.kodubezpieczenia = kodubezpieczenia;
-    }
-
-    public String getKodzawodu() {
+      public String getKodzawodu() {
         return kodzawodu;
     }
 
@@ -389,6 +381,16 @@ public class Umowa implements Serializable {
 
     public void setNrkolejny(String nrkolejny) {
         this.nrkolejny = nrkolejny;
+    }
+
+    public String getCzastrwania() {
+        String zwrot = CzasTrwania.getListaczastrwania().get(this.czastrwania);
+        return zwrot;
+    }
+
+    public void setCzastrwania(String czastrwania) {
+        int zwrot = CzasTrwania.find(czastrwania);;
+        this.czastrwania = zwrot;
     }
 
     

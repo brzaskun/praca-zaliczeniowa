@@ -5,6 +5,7 @@
  */
 package view;
 
+import static beanstesty.UmowaBean.umowa;
 import dao.AngazFacade;
 import dao.UmowaFacade;
 import dao.UmowakodzusFacade;
@@ -86,6 +87,7 @@ public class UmowaView  implements Serializable {
                 selected.setEmerytalne(true);
                 selected.setWypadkowe(true);
                 selected.setZdrowotne(true);
+                umowa.setCzastrwania("umowa na okres próbny");
                 selected.setDataod("2020-01-01");
                 selected.setDatanfz("2020-01-01");
                 selected.setDataspoleczne("2020-01-01");
@@ -94,7 +96,6 @@ public class UmowaView  implements Serializable {
                 selected.setKosztyuzyskania(250.0);
                 selected.setNfz("13");
                 selected.setKodzawodu("568");
-                selected.setKodubezpieczenia("0110");
                 selected.setOdliczaculgepodatkowa(true);
             } else if (selected.getUmowakodzus().getKod().equals("0410")) {
                 selected.setNrkolejny("UZ/"+wpisView.getPracownik().getPesel()+"/"+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu());
@@ -112,7 +113,6 @@ public class UmowaView  implements Serializable {
                 selected.setKosztyuzyskania(0.0);
                 selected.setNfz("13");
                 selected.setKodzawodu("888");
-                selected.setKodubezpieczenia("0411");
         }
         }
     }

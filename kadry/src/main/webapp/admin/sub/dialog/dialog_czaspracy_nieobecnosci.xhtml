@@ -13,14 +13,14 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="4" rendered="#{nieobecnoscView.selected != null}">
                         <p:outputLabel value="umowa" for="umowa" />
-                        <p:selectOneMenu id="umowa" value="#{nieobecnoscView.selected.umowa}" required="true" requiredMessage="wybierz umowę" converter="#{umowaConverter}">
+                        <p:selectOneMenu id="umowa" value="#{nieobecnoscView.selected.umowa}" required="true" requiredMessage="wybierz umowę" converter="#{umowaConverter}" >
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{nieobecnoscView.listaumowa}"
                                            var="umowaItem"
                                            itemValue="#{umowaItem}" itemLabel="#{umowaItem.nrkolejny}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="nazwa nieobecnosci" for="nieobkodzus" />
-                        <p:selectOneMenu id="nieobkodzus" value="#{nieobecnoscView.selected.nieobecnosckodzus}" required="true" requiredMessage="wybierz rodzaj nieobecnosci" converter="#{nieobecnosckodzusConverter}">
+                        <p:selectOneMenu id="nieobkodzus" value="#{nieobecnoscView.selected.nieobecnosckodzus}" required="true" requiredMessage="wybierz rodzaj nieobecnosci" converter="#{nieobecnosckodzusConverter}" filter="true">
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{nieobecnoscView.listanieobecnosckodzus}"
                                            var="kodzusItem"

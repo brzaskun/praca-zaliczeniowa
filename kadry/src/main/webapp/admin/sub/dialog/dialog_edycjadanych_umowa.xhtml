@@ -11,12 +11,12 @@
         <p:outputPanel style="height: 420px">
             <h:form id="UmowaCreateForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{umowaView.selected != null}">
+                    <p:panelGrid columns="3" rendered="#{umowaView.selected != null}">
                         <p:panelGrid columns="2">
                             <p:outputLabel value="angaz" for="angaz" />
                             <h:outputText id="angaz" value="#{wpisView.angaz.pracownik.nazwiskoImie}"/>
                             <p:outputLabel value="rodzaj umowy" for="rodzajumowy" />
-                            <p:selectOneMenu id="rodzajumowy" value="#{umowaView.selected.umowakodzus}" converter="#{umowakodzusConverter}" autoWidth="false" style="width: 300px;">
+                            <p:selectOneMenu id="rodzajumowy" value="#{umowaView.selected.umowakodzus}" converter="#{umowakodzusConverter}" autoWidth="false" style="width: 300px;" filter="true" filterMatchMode="contains">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                                 <f:selectItems value="#{umowaView.listaumowakodzus}"
                                                var="umowakodzusItem"
@@ -26,8 +26,17 @@
                             <p:outputLabel value="kod" for="kodumowy" />
                             <p:inputText id="kodumowy" value="#{umowaView.selected.umowakodzus.kod}" title="kod" readonly="true"/>
                              <p:outputLabel value="nr umowy" for="nrumowy" />
-                             <p:inputText id="nrumowy" value="#{umowaView.selected.nrkolejny}" title="data od" />
-                             <p:outputLabel value="data od" for="dataod" />
+                             <p:inputText id="nrumowy" value="#{umowaView.selected.nrkolejny}" title="data od" style="width: 200px;"/>
+                             <p:outputLabel value="czas trwania" for="czasumowy" />
+                             <p:selectOneMenu id="czasumowy" value="#{umowaView.selected.czastrwania}" autoWidth="false" style="width: 300px;">
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                <f:selectItems value="#{czasTrwania.getListaczastrwaniaS()}"
+                                               var="czastrwaniaItem"
+                                               itemValue="#{czastrwaniaItem}" itemLabel="#{umowakodzusItem}"/>
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="data od" for="dataod" />
                             <p:inputText id="dataod" value="#{umowaView.selected.dataod}" title="data od"  placeholder="____-__-__" />
                              <p:outputLabel value="data do" for="datado" />
                             <p:inputText id="datado" value="#{umowaView.selected.datado}" title="data do"  placeholder="____-__-__" />
@@ -61,8 +70,6 @@
                         <p:inputText id="dataspoleczne" value="#{umowaView.selected.dataspoleczne}" title="data spoleczne"  placeholder="____-__-__" />
                         <p:outputLabel value="data zdrowotne" for="datazdrowotne" />
                         <p:inputText id="datazdrowotne" value="#{umowaView.selected.datazdrowotne}" title="data zdrowotne"  placeholder="____-__-__" />
-                        <p:outputLabel value="kod ubezpieczenia" for="kodubezpieczenia" />
-                        <p:inputText id="kodubezpieczenia" value="#{umowaView.selected.kodubezpieczenia}" title="kod ubezpieczenia" />
                         <p:outputLabel value="kod zawodu" for="kodzawodu" />
                         <p:inputText id="kodzawodu" value="#{umowaView.selected.kodzawodu}" title="kod zawodu" />
                         <p:outputLabel value="nfz" for="nfz" />
