@@ -6,6 +6,7 @@
 package dao;
 
 import entity.Kodyzawodow;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -57,5 +58,13 @@ public class KodyzawodowFacade   implements Serializable {
         getEntityManager().merge(entity);
     }
 
-   
+    public void edit(List<Kodyzawodow> entityList) {
+        for (Kodyzawodow p : entityList) {
+            try {
+                getEntityManager().merge(p);
+            } catch (Exception e) {
+                E.e(e);
+            }
+        }
+    }
 }

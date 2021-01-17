@@ -25,7 +25,7 @@ public class RodzajwynagrodzeniaBean {
             rodzajwynagrodzenia.setGodzinowe0miesieczne1(Boolean.TRUE);
             rodzajwynagrodzenia.setStale0zmienne1(Boolean.FALSE);
             rodzajwynagrodzenia.setRedukowany(Boolean.TRUE);
-            rodzajwynagrodzenia.setKod("10");
+            rodzajwynagrodzenia.setKod("11");
         }
         return rodzajwynagrodzenia;
     }

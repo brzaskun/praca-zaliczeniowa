@@ -70,12 +70,14 @@
                         <p:inputText id="dataspoleczne" value="#{umowaView.selected.dataspoleczne}" title="data spoleczne"  placeholder="____-__-__" />
                         <p:outputLabel value="data zdrowotne" for="datazdrowotne" />
                         <p:inputText id="datazdrowotne" value="#{umowaView.selected.datazdrowotne}" title="data zdrowotne"  placeholder="____-__-__" />
-                        <p:selectOneMenu id="kodzawodu" value="#{umowaView.selected.kodzawodu}" converter="#{kodyzawodowConverter}" autoWidth="false" style="width: 300px;" filter="true" filterMatchMode="contains">
-                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                                <f:selectItems value="#{umowaView.listakodyzawodow}"
-                                               var="kodzawoduItem"
-                                               itemValue="#{kodzawoduItem}" itemLabel="#{kodzawoduItem.nazwa}"/>
-                        </p:selectOneMenu>
+                        <p:outputLabel value="kod zawodu" for="kodzawodu" />
+                        <p:autoComplete id="kodzawodu" value="#{umowaView.selected.kodzawodu}" converter="#{kodyzawodowConverter}" style="width: 300px;" cache="true" cacheTimeout="2000"
+                                        minQueryLength="3" maxResults="15" maxlength="25" itemtipMyPosition="rightbottom" queryDelay="10" size="50"
+                                        completeMethod="#{kodyzawodowConverter.complete}" var="kodzawoduItem"
+                                        itemLabel="#{kodzawoduItem.nazwa}" itemValue="#{kodzawoduItem}" 
+                                        >
+                            <p:ajax event="query" global="false"/>
+                        </p:autoComplete>
                         <p:outputLabel value="nfz" for="nfz" />
                         <p:inputText id="nfz" value="#{umowaView.selected.nfz}" title="nfz}" />
                         <p:outputLabel value="nie licz FGSP" for="nieliczFGSP" />
@@ -122,7 +124,8 @@
                         </p:column>
                         </p:dataTable>
                     </p:panelGrid>-->
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{umowaView.create}" value="#{bundle.Save}" update="north, @(form)" />
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{umowaView.edit}" value="#{bundle.Edit}" update="north, @(form)" rendered="#{umowaView.selected.id ne null}"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{umowaView.create}" value="#{bundle.Save}" update="north, @(form)"  rendered="#{umowaView.selected.id eq null}"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="UmowaCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
@@ -210,16 +213,17 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="data do"/>
-                            </f:facet>
-                            <h:outputText value="#{itemumowa.datado}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
                                 <h:outputText value="data od"/>
                             </f:facet>
                             <h:outputText value="#{itemumowa.dataod}"/>
                         </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="data do"/>
+                            </f:facet>
+                            <h:outputText value="#{itemumowa.datado}"/>
+                        </p:column>
+
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="data zawarcia"/>
@@ -234,27 +238,9 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="datan fz"/>
-                            </f:facet>
-                            <h:outputText value="#{itemumowa.datanfz}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="data spoleczne"/>
-                            </f:facet>
-                            <h:outputText value="#{itemumowa.dataspoleczne}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="data zdrowotne"/>
-                            </f:facet>
-                            <h:outputText value="#{itemumowa.datazdrowotne}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
                                 <h:outputText value="kod ubezpieczenia"/>
                             </f:facet>
-                            <h:outputText value="#{itemumowa.kodubezpieczenia}"/>
+                            <h:outputText value="#{itemumowa.umowakodzus.kod}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -267,6 +253,9 @@
                                 <h:outputText value="nfz"/>
                             </f:facet>
                             <h:outputText value="#{itemumowa.nfz}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <p:commandButton icon="fa fa-edit" actionListener="#{umowaView.edytuj(itemumowa)}" update="north, @(form)"/>
                         </p:column>
                         <p:column style="text-align: center;">
                             <p:commandButton icon="fa fa-trash" actionListener="#{umowaView.usun(itemumowa)}" update="north, @(form)"/>

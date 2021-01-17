@@ -9,6 +9,7 @@ import beanstesty.KalendarzmiesiacBean;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.UmowaFacade;
+import embeddable.Mce;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
 import entity.Umowa;
@@ -33,6 +34,7 @@ public class KalendarzmiesiacView  implements Serializable {
     @Inject
     private Kalendarzmiesiac selectedlista;
     private List<Umowa> listaumowa;
+    private List<Kalendarzmiesiac> listakalendarzeprac;
     @Inject
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
     @Inject
@@ -46,6 +48,7 @@ public class KalendarzmiesiacView  implements Serializable {
     private void init() {
         selectedlista  = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
         listaumowa =  umowaFacade.findPracownik(wpisView.getPracownik());
+        pobierzkalendarzeprac();
     }
 
     public void create() {
@@ -105,6 +108,38 @@ public class KalendarzmiesiacView  implements Serializable {
         }
     }
     
+    public void generujrok() {
+        if (wpisView.getAngaz()!=null && wpisView.getPracownik()!=null && wpisView.getUmowa()!=null) {
+            for (String mce: Mce.getMceListS()) {
+                Kalendarzmiesiac kal = new Kalendarzmiesiac();
+                kal.setRok(wpisView.getRokWpisu());
+                kal.setMc(mce);
+                kal.setUmowa(wpisView.getUmowa());
+                Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), mce);
+                if (kalmiesiac==null) {
+                    Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(kal.getUmowa().getAngaz().getFirma(), kal.getRok(), mce);
+                    if (znaleziono!=null) {
+                        kal.ganerujdnizwzrocowego(znaleziono);
+                        kalendarzmiesiacFacade.create(kal);
+                    } else {
+                        Msg.msg("e","Brak kalendarza wzorcowego za "+mce);
+                    }
+                }
+            }
+            listakalendarzeprac = kalendarzmiesiacFacade.findByRokUmowa(wpisView.getUmowa(), wpisView.getRokWpisu());
+            Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych i utworzono kalendarze pracownika");
+        } else {
+            Msg.msg("e","Nie wybrano pracownika i umowy");
+        }
+    }
+    
+    public void pobierzkalendarzeprac() {
+        if (wpisView.getAngaz()!=null && wpisView.getPracownik()!=null) {
+            listakalendarzeprac = kalendarzmiesiacFacade.findByRokUmowa(wpisView.getUmowa(), wpisView.getRokWpisu());
+        } else {
+            Msg.msg("e","Nie wybrano pracownika i umowy");
+        }
+    }
      
     public Kalendarzmiesiac getSelected() {
         return selected;
@@ -128,6 +163,14 @@ public class KalendarzmiesiacView  implements Serializable {
 
     public void setListaumowa(List<Umowa> listaumowa) {
         this.listaumowa = listaumowa;
+    }
+
+    public List<Kalendarzmiesiac> getListakalendarzeprac() {
+        return listakalendarzeprac;
+    }
+
+    public void setListakalendarzeprac(List<Kalendarzmiesiac> listakalendarzeprac) {
+        this.listakalendarzeprac = listakalendarzeprac;
     }
 
     

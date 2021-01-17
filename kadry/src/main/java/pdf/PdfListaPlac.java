@@ -225,7 +225,7 @@ public class PdfListaPlac {
         for (Naliczenieskladnikawynagrodzenia rs : wykaz) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "left",6,10f));
             table.addCell(ustawfrazeAlign(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod(), "left",6));
-            table.addCell(ustawfrazeAlign(rs.getSkladnikwynagrodzenia().getUwagi(), "left",6));
+            table.addCell(ustawfrazeAlign(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony(), "left",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotazus()), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotabezzus()), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotazredukowana()), "left",6));
@@ -248,6 +248,8 @@ public class PdfListaPlac {
         StringBuilder sb = new StringBuilder();
         for (Naliczenieskladnikawynagrodzenia rs : wykaz) {
             sb.append(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod());
+            sb.append(" ");
+            sb.append(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony());
             sb.append(" ");
             sb.append(rs.getSkladnikwynagrodzenia().getUwagi());
             sb.append(" ");

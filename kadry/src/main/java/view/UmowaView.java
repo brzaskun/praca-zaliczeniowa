@@ -19,7 +19,7 @@ import entity.Umowakodzus;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
@@ -29,7 +29,7 @@ import msg.Msg;
  * @author Osito
  */
 @Named
-@RequestScoped
+@ViewScoped
 public class UmowaView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
@@ -63,6 +63,7 @@ public class UmowaView  implements Serializable {
         listaangaz = angazFacade.findByFirma(wpisView.getFirma());
         listaumowakodzus = rodzajumowyFacade.findAll();
         listakodyzawodow = kodyzawodowFacade.findAll();
+       
     }
  
     public void create() {
@@ -76,6 +77,20 @@ public class UmowaView  implements Serializable {
             wpisView.setUmowa(selected);
             selected = new Umowa();
             Msg.msg("Dodano nową umowę");
+          } catch (Exception e) {
+              System.out.println("");
+              Msg.msg("e", "Błąd - nie dodano nowej umowy. Sprawdź angaż");
+          }
+      }
+    }
+    
+    public void edit() {
+      if (selected!=null && selected.getId()!=null) {
+          try {
+            umowaFacade.edit(selected);
+            wpisView.setUmowa(selected);
+            selected = new Umowa();
+            Msg.msg("Edycja umowy zakończona");
           } catch (Exception e) {
               System.out.println("");
               Msg.msg("e", "Błąd - nie dodano nowej umowy. Sprawdź angaż");
@@ -137,6 +152,15 @@ public class UmowaView  implements Serializable {
             umowaFacade.remove(umowa);
             lista.remove(umowa);
             Msg.msg("Usunięto umowę");
+        } else {
+            Msg.msg("e","Nie wybrano umowy");
+        }
+    }
+    
+    public void edytuj(Umowa umowa) {
+        if (umowa!=null) {
+            selected = umowa;
+            Msg.msg("Wybrano umowę do edycji");
         } else {
             Msg.msg("e","Nie wybrano umowy");
         }

@@ -122,7 +122,8 @@ public class Dzien implements Serializable {
         this.nrdnia = dzienwzor.nrdnia;
         this.typdnia = dzienwzor.typdnia;
         this.normagodzin = dzienwzor.normagodzin;
-        this.przepracowano = dzienwzor.przepracowano;
+        //tu nie ma bledu bo inczaej pracownik ma zero.za kladamy ze pracowal
+        this.przepracowano = dzienwzor.normagodzin;
         this.piecdziesiatki = dzienwzor.piecdziesiatki;
         this.setki = dzienwzor.setki;
         this.poranocna = dzienwzor.poranocna;

@@ -6,6 +6,7 @@
 package view;
 
 import beanstesty.PasekwynagrodzenBean;
+import comparator.Defnicjalistaplaccomparator;
 import comparator.Kalendarzmiesiaccomparator;
 import dao.DefinicjalistaplacFacade;
 import dao.KalendarzmiesiacFacade;
@@ -56,6 +57,7 @@ public class PasekwynagrodzenView  implements Serializable {
     private void init() {
         lista = new ArrayList<>();
         listadefinicjalistaplac = definicjalistaplacFacade.findAll();
+        Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
         listakalendarzmiesiac = new org.primefaces.model.DualListModel<>();
     }
 

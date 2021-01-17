@@ -14,9 +14,9 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{pasekwynagrodzenView.listadefinicjalistaplac ne null}">
                         <p:outputLabel value="wybrana lista płac" for="wybranalista" />
-                        <p:selectOneMenu id="wybranalista" value="#{pasekwynagrodzenView.wybranalistaplac}" required="true" requiredMessage="Wybierz firmę" converter="#{definicjalistaplacConverter}">
+                        <p:selectOneMenu id="wybranalista" value="#{pasekwynagrodzenView.wybranalistaplac}" required="true" requiredMessage="Wybierz firmę" converter="#{definicjalistaplacConverter}" >
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                            <f:selectItems value="#{pasekwynagrodzenView.listadefinicjalistaplac}"
+                            <f:selectItems value="#{pasekwynagrodzenView.listadefinicjalistaplac}" 
                                            var="firmalistaItem"
                                            itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.opis} #{firmalistaItem.nrkolejny}"/>
                             <p:ajax event="change" partialSubmit="true" global="false" listener="#{pasekwynagrodzenView.pobierzkalendarzezamc}" update="@(form)"/>

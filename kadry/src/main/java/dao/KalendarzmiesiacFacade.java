@@ -65,6 +65,14 @@ public class KalendarzmiesiacFacade  {
         } catch (Exception e) {}
         return zwrot;
     }
+    
+    public List<Kalendarzmiesiac> findByRokUmowa(Umowa umowa, String rok) {
+        List<Kalendarzmiesiac> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createNamedQuery("Kalendarzmiesiac.findByRokUmowa").setParameter("rok", rok).setParameter("umowa", umowa).getResultList();
+        } catch (Exception e) {}
+        return zwrot;
+    }
 
     public List<Kalendarzmiesiac> findByFirmaRokMc(Firma firma, String rok, String mc) {
         List<Kalendarzmiesiac> zwrot = new ArrayList<>();

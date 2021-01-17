@@ -181,7 +181,7 @@ public class KalendarzmiesiacBean {
 
     static void naliczskladnikiwynagrodzenia(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen) {
         for (Skladnikwynagrodzenia p : kalendarz.getUmowa().getSkladnikwynagrodzeniaList()) {
-            if (p.getRodzajwynagrodzenia().getKod().equals("10")) {
+            if (p.getRodzajwynagrodzenia().getKod().equals("11")) {
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenie();
                 pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
             } else if (p.getRodzajwynagrodzenia().getKod().equals("20")) {
@@ -193,7 +193,7 @@ public class KalendarzmiesiacBean {
     
     static void naliczskladnikiwynagrodzeniaDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen) {
         for (Skladnikwynagrodzenia p : kalendarz.getUmowa().getSkladnikwynagrodzeniaList()) {
-            if (p.getRodzajwynagrodzenia().getKod().equals("10")) {
+            if (p.getRodzajwynagrodzenia().getKod().equals("11")) {
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDB(pasekwynagrodzen, p);
                 if (naliczenieskladnikawynagrodzenia.getKwota()!=0.0) {
                     pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
@@ -216,13 +216,13 @@ public class KalendarzmiesiacBean {
 
     static void naliczskladnikiwynagrodzeniazaChorobe(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen) {
         for (Naliczenieskladnikawynagrodzenia p : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {
-            if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("10")) {
+            if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("11")) {
                 Naliczenienieobecnosc naliczenienieobecnosc = new Naliczenienieobecnosc();
                 Skladnikwynagrodzenia skladnikwynagrodzenia = p.getSkladnikwynagrodzenia();
                 naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
                 naliczenienieobecnosc.setNieobecnosc(nieobecnosc);
                 double skladnik = 0.0;
-                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("10")) {
+                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("11")) {
                     skladnik = skladnikwynagrodzenia.getZmiennawynagrodzeniaList().get(0).getKwota();
                 if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("20")) {
                     skladnik = Z.z(1800/3.0);
@@ -269,7 +269,7 @@ public class KalendarzmiesiacBean {
                 Skladnikwynagrodzenia skladnikwynagrodzenia = p.getSkladnikwynagrodzenia();
                 naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
                 double skladnik = 0.0;
-                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("10")) {
+                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("11")) {
                     skladnik = skladnikwynagrodzenia.getZmiennawynagrodzeniaList().get(0).getKwota();
                 }
                 if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("20")) {
@@ -383,7 +383,7 @@ public class KalendarzmiesiacBean {
             }
         }
         if (nadliczbowe>0.0) {
-            Naliczenieskladnikawynagrodzenia wynagrodzeniedopobrania = pobierzskladnik(pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList(), "10");
+            Naliczenieskladnikawynagrodzenia wynagrodzeniedopobrania = pobierzskladnik(pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList(), "11");
             Skladnikwynagrodzenia wynagrodzeniezasadnicze = wynagrodzeniedopobrania.getSkladnikwynagrodzenia();
             Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = new Naliczenieskladnikawynagrodzenia();
             Skladnikwynagrodzenia skladniknadgodziny50 = pobierzskladnik(kalendarz, "30");

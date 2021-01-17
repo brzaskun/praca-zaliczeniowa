@@ -48,7 +48,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Umowa.findByDataspoleczne", query = "SELECT u FROM Umowa u WHERE u.dataspoleczne = :dataspoleczne"),
     @NamedQuery(name = "Umowa.findByDatazdrowotne", query = "SELECT u FROM Umowa u WHERE u.datazdrowotne = :datazdrowotne"),
     @NamedQuery(name = "Umowa.findByEmerytalne", query = "SELECT u FROM Umowa u WHERE u.emerytalne = :emerytalne"),
-    @NamedQuery(name = "Umowa.findByKodubezpieczenia", query = "SELECT u FROM Umowa u WHERE u.kodubezpieczenia = :kodubezpieczenia"),
     @NamedQuery(name = "Umowa.findByKodzawodu", query = "SELECT u FROM Umowa u WHERE u.kodzawodu = :kodzawodu"),
     @NamedQuery(name = "Umowa.findByNfz", query = "SELECT u FROM Umowa u WHERE u.nfz = :nfz"),
     @NamedQuery(name = "Umowa.findByNieliczFGSP", query = "SELECT u FROM Umowa u WHERE u.nieliczFGSP = :nieliczFGSP"),
@@ -80,9 +79,6 @@ public class Umowa implements Serializable {
     @Column(name = "datazdrowotne")
     private String datazdrowotne;
     @Size(max = 255)
-    @Column(name = "kodubezpieczenia")
-    private String kodubezpieczenia;
-    @Size(max = 255)
     @Column(name = "nfz")
     private String nfz;
     @Size(max = 45)
@@ -92,7 +88,7 @@ public class Umowa implements Serializable {
     @ManyToOne(optional = false)
     private Kodyzawodow kodzawodu;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa", orphanRemoval = true)
     private List<Etat> etatList;
     @Column(name = "czastrwania")
     private Integer czastrwania;
@@ -394,15 +390,7 @@ public class Umowa implements Serializable {
         this.datazdrowotne = datazdrowotne;
     }
 
-    public String getKodubezpieczenia() {
-        return kodubezpieczenia;
-    }
-
-    public void setKodubezpieczenia(String kodubezpieczenia) {
-        this.kodubezpieczenia = kodubezpieczenia;
-    }
-
-    public String getNfz() {
+      public String getNfz() {
         return nfz;
     }
 

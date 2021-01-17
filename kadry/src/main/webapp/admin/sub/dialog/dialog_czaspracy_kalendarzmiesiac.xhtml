@@ -9,29 +9,51 @@
               resizable="false"  onShow="ustawdialog('dialogkalendarzmiesiac','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogkalendarzmiesiac');" 
               fitViewport="true">
         <p:outputPanel style="height: 200px">
-            <h:form id="KalendarzmiesiacCreateForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{kalendarzmiesiacView.selected != null}">
-                        <p:outputLabel value="umowa" for="umowakalendarz" />
-                        <p:selectOneMenu id="umowakalendarz" value="#{kalendarzmiesiacView.selected.umowa}" converter="#{umowaConverter}">
-                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                            <f:selectItems value="#{kalendarzmiesiacView.listaumowa}"
-                                           var="firmaKItem"
-                                           itemValue="#{firmaKItem}" itemLabel="#{firmaKItem.angaz.pracownik.nazwiskoImie}"/> 
-                            <p:ajax event="change" partialSubmit="true" global="false"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="rok" for="rok" />
-                        <p:inputText id="rok" value="#{kalendarzmiesiacView.selected.rok}" title="rok" >
-                            <p:ajax event="change" partialSubmit="true" global="false"/>
-                        </p:inputText>
-                        <p:outputLabel value="miesiąc" for="mc" />
-                        <p:inputText id="mc" value="#{kalendarzmiesiacView.selected.mc}" title="miesiąc" >
-                            <p:ajax event="blur" listener="#{kalendarzmiesiacView.zrobkalendarzumowa}" partialSubmit="true" global="false" update=":KalendarzmiesiacListForm:datalist"/>
-                        </p:inputText>
-                        
-                    </p:panelGrid>
-                </h:panelGroup>
-            </h:form>
+            <h:panelGroup id="display">
+                <p:panelGrid columns="3">
+                    <h:form id="KalendarzmiesiacCreateForm">
+                        <p:panelGrid columns="2" rendered="#{kalendarzmiesiacView.selected != null}">
+                            <p:outputLabel value="umowa" for="umowakalendarz" />
+                            <p:selectOneMenu id="umowakalendarz" value="#{kalendarzmiesiacView.selected.umowa}" converter="#{umowaConverter}">
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                <f:selectItems value="#{kalendarzmiesiacView.listaumowa}"
+                                               var="firmaKItem"
+                                               itemValue="#{firmaKItem}" itemLabel="#{firmaKItem.angaz.pracownik.nazwiskoImie}"/> 
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="rok" for="rok" />
+                            <p:inputText id="rok" value="#{kalendarzmiesiacView.selected.rok}" title="rok" >
+                                <p:ajax event="blur" listener="#{kalendarzmiesiacView.pobierzkalendarzeprac}" partialSubmit="true" global="false" update="KalendarzmiesiacSaRokForm"/>
+                            </p:inputText>
+                            <p:outputLabel value="miesiąc" for="mc" />
+                            <p:inputText id="mc" value="#{kalendarzmiesiacView.selected.mc}" title="miesiąc" >
+                                <p:ajax event="blur" listener="#{kalendarzmiesiacView.zrobkalendarzumowa}" partialSubmit="true" global="false" update=":KalendarzmiesiacListForm:datalist"/>
+                            </p:inputText>
+
+                        </p:panelGrid>
+                    </h:form>
+                    <h:form id="KalendarzmiesiacCreateRokForm">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="generuj kalendarz za rok" for="rokkal" />
+                            <p:commandButton id="rokkal" value="generuj" styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.generujrok()}" update="KalendarzmiesiacSaRokForm"/>
+                        </p:panelGrid>
+                    </h:form>
+                    <h:form id="KalendarzmiesiacSaRokForm">
+                        <p:dataTable id="datalist" value="#{kalendarzmiesiacView.listakalendarzeprac}" var="itemkalendarzjest"
+                                     rowKey="#{itemkalendarzjest.id}" emptyMessage="brak kalendarzy prac"
+                                 style="height: 150px;overflow-y: scroll; width: 150px; margin-left: 50px;" sortBy="#{itemkalendarzjest.mc}"
+                                 >
+
+                            <p:column width="50" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="utworzono kalendarze za mc"/>
+                                </f:facet>
+                                <h:outputText value="#{itemkalendarzjest.mc}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </p:panelGrid>
+            </h:panelGroup>
         </p:outputPanel>
         <p:outputPanel>
             <h:form id="KalendarzmiesiacListForm">

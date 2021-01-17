@@ -40,7 +40,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         double zmiennawynagrodzeniakwota = 0.0;
         List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = skladnikwynagrodzenia.getZmiennawynagrodzeniaList();
         for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
-            if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("10")) {
+            if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("11")) {
                 zmiennawynagrodzeniakwota = p.getKwota();
             }
         }

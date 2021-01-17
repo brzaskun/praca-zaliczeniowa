@@ -7,7 +7,9 @@ package converter;
 
 import dao.KodyzawodowFacade;
 import entity.Kodyzawodow;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -52,5 +54,17 @@ public class KodyzawodowConverter implements javax.faces.convert.Converter {
         } else {
             return String.valueOf(((Kodyzawodow) value).getId());
         }
+    }
+    
+    public List<Kodyzawodow> complete(String query) {  
+        List<Kodyzawodow> results = new ArrayList<>();
+        query = query.toLowerCase(new Locale("pl"));
+        for(Kodyzawodow p : lista) {  
+            String pl = p.getNazwa().toLowerCase(new Locale("pl"));
+            if(pl.contains(query)) {
+                results.add(p);
+            }
+        }
+        return results;
     }
 }

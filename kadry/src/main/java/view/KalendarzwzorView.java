@@ -13,7 +13,7 @@ import entity.Kalendarzwzor;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
@@ -23,7 +23,7 @@ import msg.Msg;
  * @author Osito
  */
 @Named
-@RequestScoped
+@ViewScoped
 public class KalendarzwzorView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
@@ -44,6 +44,7 @@ public class KalendarzwzorView  implements Serializable {
         lista  = kalendarzwzorFacade.findAll();
         listafirm = firmaFacade.findAll();
         selected.setFirma(wpisView.getFirma());
+        selected.setRok(wpisView.getRokWpisu());
     }
 
     public void create() {
