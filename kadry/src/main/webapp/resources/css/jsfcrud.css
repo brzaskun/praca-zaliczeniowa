@@ -12,6 +12,9 @@ table {
 
 .buttonnorm.ui-button {
     width: 120px !important;
+    border-style: solid !important;
+    border-width: 1px !important;
+    border-color: #a6c9e2 !important;
 }
 
 .pasekwyn.ui-panelgrid td {

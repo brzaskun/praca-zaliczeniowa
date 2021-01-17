@@ -5,11 +5,15 @@
  */
 package view;
 
-import static beanstesty.UmowaBean.umowa;
+import beanstesty.KodzawoduBean;
 import dao.AngazFacade;
+import dao.EtatFacade;
+import dao.KodyzawodowFacade;
 import dao.UmowaFacade;
 import dao.UmowakodzusFacade;
 import entity.Angaz;
+import entity.Etat;
+import entity.Kodyzawodow;
 import entity.Umowa;
 import entity.Umowakodzus;
 import java.io.Serializable;
@@ -32,11 +36,18 @@ public class UmowaView  implements Serializable {
     private Umowa selected;
     @Inject
     private Umowa selectedlista;
+    @Inject
+    private Etat etat;
     private List<Umowa> lista;
     private List<Angaz> listaangaz;
     private List<Umowakodzus> listaumowakodzus;
+    private List<Kodyzawodow> listakodyzawodow;
     @Inject
     private UmowaFacade umowaFacade;
+    @Inject
+    private KodyzawodowFacade kodyzawodowFacade;
+    @Inject
+    private EtatFacade etatFacade;
     @Inject
     private UmowakodzusFacade rodzajumowyFacade;
     @Inject
@@ -51,6 +62,7 @@ public class UmowaView  implements Serializable {
         lista  = umowaFacade.findByAngaz(wpisView.getAngaz());
         listaangaz = angazFacade.findByFirma(wpisView.getFirma());
         listaumowakodzus = rodzajumowyFacade.findAll();
+        listakodyzawodow = kodyzawodowFacade.findAll();
     }
  
     public void create() {
@@ -59,6 +71,8 @@ public class UmowaView  implements Serializable {
             selected.setAngaz(wpisView.getAngaz());
             umowaFacade.create(selected);
             lista.add(selected);
+            Etat etat = new Etat(selected);
+            etatFacade.create(etat);
             wpisView.setUmowa(selected);
             selected = new Umowa();
             Msg.msg("Dodano nową umowę");
@@ -87,7 +101,7 @@ public class UmowaView  implements Serializable {
                 selected.setEmerytalne(true);
                 selected.setWypadkowe(true);
                 selected.setZdrowotne(true);
-                umowa.setCzastrwania("umowa na okres próbny");
+                selected.setCzastrwania("umowa na okres próbny");
                 selected.setDataod("2020-01-01");
                 selected.setDatanfz("2020-01-01");
                 selected.setDataspoleczne("2020-01-01");
@@ -95,7 +109,7 @@ public class UmowaView  implements Serializable {
                 selected.setDatazdrowotne("2020-01-01");
                 selected.setKosztyuzyskania(250.0);
                 selected.setNfz("13");
-                selected.setKodzawodu("568");
+                selected.setKodzawodu(KodzawoduBean.create());
                 selected.setOdliczaculgepodatkowa(true);
             } else if (selected.getUmowakodzus().getKod().equals("0410")) {
                 selected.setNrkolejny("UZ/"+wpisView.getPracownik().getPesel()+"/"+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu());
@@ -112,7 +126,7 @@ public class UmowaView  implements Serializable {
                 selected.setDatazdrowotne("2020-04-01");
                 selected.setKosztyuzyskania(0.0);
                 selected.setNfz("13");
-                selected.setKodzawodu("888");
+                selected.setKodzawodu(KodzawoduBean.create());
         }
         }
     }
@@ -125,6 +139,14 @@ public class UmowaView  implements Serializable {
             Msg.msg("Usunięto umowę");
         } else {
             Msg.msg("e","Nie wybrano umowy");
+        }
+    }
+    
+    public void dodatetat() {
+        if (etat!=null&&etat.getDataod()!=null) {
+            etatFacade.create(etat);
+            selected.getEtatList().add(etat);
+            umowaFacade.edit(selected);
         }
     }
     
@@ -167,6 +189,23 @@ public class UmowaView  implements Serializable {
     public void setListaumowakodzus(List<Umowakodzus> listaumowakodzus) {
         this.listaumowakodzus = listaumowakodzus;
     }
+
+    public Etat getEtat() {
+        return etat;
+    }
+
+    public void setEtat(Etat etat) {
+        this.etat = etat;
+    }
+
+    public List<Kodyzawodow> getListakodyzawodow() {
+        return listakodyzawodow;
+    }
+
+    public void setListakodyzawodow(List<Kodyzawodow> listakodyzawodow) {
+        this.listakodyzawodow = listakodyzawodow;
+    }
+
 
    
       

@@ -7,6 +7,7 @@ package entity;
 
 import embeddable.CzasTrwania;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -69,14 +70,6 @@ public class Umowa implements Serializable {
     @Size(max = 255)
     @Column(name = "datazawarcia")
     private String datazawarcia;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "odliczaculgepodatkowa")
-    private  Boolean odliczaculgepodatkowa;
-    @Column(name = "chorobowe")
-    private  Boolean chorobowe;
-    @Column(name = "chorobowedobrowolne")
-    private  Boolean chorobowedobrowolne;
     @Size(max = 255)
     @Column(name = "datanfz")
     private String datanfz;
@@ -86,16 +79,36 @@ public class Umowa implements Serializable {
     @Size(max = 255)
     @Column(name = "datazdrowotne")
     private String datazdrowotne;
-    @Column(name = "emerytalne")
-    private  Boolean emerytalne;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Size(max = 255)
-    @Column(name = "kodzawodu")
-    private String kodzawodu;
+    @Column(name = "kodubezpieczenia")
+    private String kodubezpieczenia;
     @Size(max = 255)
     @Column(name = "nfz")
     private String nfz;
+    @Size(max = 45)
+    @Column(name = "nrkolejny")
+    private String nrkolejny;
+    @JoinColumn(name = "kodzawodu", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Kodyzawodow kodzawodu;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa")
+    private List<Etat> etatList;
+    @Column(name = "czastrwania")
+    private Integer czastrwania;
+    @Column(name = "etat")
+    private Integer etat;
+
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "odliczaculgepodatkowa")
+    private  Boolean odliczaculgepodatkowa;
+    @Column(name = "chorobowe")
+    private  Boolean chorobowe;
+    @Column(name = "chorobowedobrowolne")
+    private  Boolean chorobowedobrowolne;
+    @Column(name = "emerytalne")
+    private  Boolean emerytalne;
     @Column(name = "nieliczFGSP")
     private  Boolean nieliczFGSP;
     @Column(name = "nieliczFP")
@@ -107,9 +120,6 @@ public class Umowa implements Serializable {
     private  Boolean wypadkowe;
     @Column(name = "zdrowotne")
     private  Boolean zdrowotne;
-    @Size(max = 45)
-    @Column(name = "nrkolejny")
-    private String nrkolejny;
     @JoinColumn(name = "umowakodzus", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Umowakodzus umowakodzus;
@@ -133,14 +143,14 @@ public class Umowa implements Serializable {
     private List<Skladnikpotracenia> skladnikpotraceniaList;
     @OneToMany(mappedBy = "umowa", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList;
-    @Column(name = "czastrwania")
-    private int czastrwania;
 
     public Umowa() {
+        this.etatList = new ArrayList<>();
     }
 
     public Umowa(int id) {
         this.id = id;
+        this.etatList = new ArrayList<>();
     }
 
     public Integer getId() {
@@ -240,29 +250,6 @@ public class Umowa implements Serializable {
         this.umowakodzus = umowakodzus;
     }
 
-    public String getDatado() {
-        return datado;
-    }
-
-    public void setDatado(String datado) {
-        this.datado = datado;
-    }
-
-    public String getDataod() {
-        return dataod;
-    }
-
-    public void setDataod(String dataod) {
-        this.dataod = dataod;
-    }
-
-    public  String getDatazawarcia() {
-        return datazawarcia;
-    }
-
-    public void setDatazawarcia( String datazawarcia) {
-        this.datazawarcia = datazawarcia;
-    }
     public  Boolean getOdliczaculgepodatkowa() {
         return odliczaculgepodatkowa;
     }
@@ -287,29 +274,6 @@ public class Umowa implements Serializable {
         this.chorobowedobrowolne = chorobowedobrowolne;
     }
 
-    public String getDatanfz() {
-        return datanfz;
-    }
-
-    public void setDatanfz(String datanfz) {
-        this.datanfz = datanfz;
-    }
-
-    public String getDataspoleczne() {
-        return dataspoleczne;
-    }
-
-    public void setDataspoleczne(String dataspoleczne) {
-        this.dataspoleczne = dataspoleczne;
-    }
-
-    public  String getDatazdrowotne() {
-        return datazdrowotne;
-    }
-
-    public void setDatazdrowotne( String datazdrowotne) {
-        this.datazdrowotne = datazdrowotne;
-    }
 
     public Boolean getEmerytalne() {
         return emerytalne;
@@ -319,21 +283,6 @@ public class Umowa implements Serializable {
         this.emerytalne = emerytalne;
     }
 
-      public String getKodzawodu() {
-        return kodzawodu;
-    }
-
-    public void setKodzawodu(String kodzawodu) {
-        this.kodzawodu = kodzawodu;
-    }
-
-    public  String getNfz() {
-        return nfz;
-    }
-
-    public void setNfz( String nfz) {
-        this.nfz = nfz;
-    }
 
     public  Boolean getNieliczFGSP() {
         return nieliczFGSP;
@@ -374,6 +323,92 @@ public class Umowa implements Serializable {
     public void setZdrowotne(Boolean zdrowotne) {
         this.zdrowotne = zdrowotne;
     }
+    public String getCzastrwania() {
+        String zwrot = CzasTrwania.getListaczastrwania().get(this.czastrwania);
+        return zwrot;
+    }
+    public void setCzastrwania(String czastrwania) {
+        int zwrot = CzasTrwania.find(czastrwania);;
+        this.czastrwania = zwrot;
+    }
+    public Integer getEtat() {
+        return etat;
+    }
+    public void setEtat(Integer etat) {
+        this.etat = etat;
+    }
+   
+    @XmlTransient
+    public List<Etat> getEtatList() {
+        return etatList;
+    }
+    public void setEtatList(List<Etat> etatList) {
+        this.etatList = etatList;
+    }
+
+    public String getDatado() {
+        return datado;
+    }
+
+    public void setDatado(String datado) {
+        this.datado = datado;
+    }
+
+    public String getDataod() {
+        return dataod;
+    }
+
+    public void setDataod(String dataod) {
+        this.dataod = dataod;
+    }
+
+    public String getDatazawarcia() {
+        return datazawarcia;
+    }
+
+    public void setDatazawarcia(String datazawarcia) {
+        this.datazawarcia = datazawarcia;
+    }
+
+    public String getDatanfz() {
+        return datanfz;
+    }
+
+    public void setDatanfz(String datanfz) {
+        this.datanfz = datanfz;
+    }
+
+    public String getDataspoleczne() {
+        return dataspoleczne;
+    }
+
+    public void setDataspoleczne(String dataspoleczne) {
+        this.dataspoleczne = dataspoleczne;
+    }
+
+    public String getDatazdrowotne() {
+        return datazdrowotne;
+    }
+
+    public void setDatazdrowotne(String datazdrowotne) {
+        this.datazdrowotne = datazdrowotne;
+    }
+
+    public String getKodubezpieczenia() {
+        return kodubezpieczenia;
+    }
+
+    public void setKodubezpieczenia(String kodubezpieczenia) {
+        this.kodubezpieczenia = kodubezpieczenia;
+    }
+
+    public String getNfz() {
+        return nfz;
+    }
+
+    public void setNfz(String nfz) {
+        this.nfz = nfz;
+    }
 
     public String getNrkolejny() {
         return nrkolejny;
@@ -383,14 +418,12 @@ public class Umowa implements Serializable {
         this.nrkolejny = nrkolejny;
     }
 
-    public String getCzastrwania() {
-        String zwrot = CzasTrwania.getListaczastrwania().get(this.czastrwania);
-        return zwrot;
+    public Kodyzawodow getKodzawodu() {
+        return kodzawodu;
     }
 
-    public void setCzastrwania(String czastrwania) {
-        int zwrot = CzasTrwania.find(czastrwania);;
-        this.czastrwania = zwrot;
+    public void setKodzawodu(Kodyzawodow kodzawodu) {
+        this.kodzawodu = kodzawodu;
     }
 
     

@@ -11,7 +11,7 @@
         <p:outputPanel style="height: 420px">
             <h:form id="UmowaCreateForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="3" rendered="#{umowaView.selected != null}">
+                    <p:panelGrid columns="4" rendered="#{umowaView.selected != null}">
                         <p:panelGrid columns="2">
                             <p:outputLabel value="angaz" for="angaz" />
                             <h:outputText id="angaz" value="#{wpisView.angaz.pracownik.nazwiskoImie}"/>
@@ -70,8 +70,12 @@
                         <p:inputText id="dataspoleczne" value="#{umowaView.selected.dataspoleczne}" title="data spoleczne"  placeholder="____-__-__" />
                         <p:outputLabel value="data zdrowotne" for="datazdrowotne" />
                         <p:inputText id="datazdrowotne" value="#{umowaView.selected.datazdrowotne}" title="data zdrowotne"  placeholder="____-__-__" />
-                        <p:outputLabel value="kod zawodu" for="kodzawodu" />
-                        <p:inputText id="kodzawodu" value="#{umowaView.selected.kodzawodu}" title="kod zawodu" />
+                        <p:selectOneMenu id="kodzawodu" value="#{umowaView.selected.kodzawodu}" converter="#{kodyzawodowConverter}" autoWidth="false" style="width: 300px;" filter="true" filterMatchMode="contains">
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                                <f:selectItems value="#{umowaView.listakodyzawodow}"
+                                               var="kodzawoduItem"
+                                               itemValue="#{kodzawoduItem}" itemLabel="#{kodzawoduItem.nazwa}"/>
+                        </p:selectOneMenu>
                         <p:outputLabel value="nfz" for="nfz" />
                         <p:inputText id="nfz" value="#{umowaView.selected.nfz}" title="nfz}" />
                         <p:outputLabel value="nie licz FGSP" for="nieliczFGSP" />
@@ -80,6 +84,44 @@
                             <p:selectBooleanCheckbox id="nieliczFP" value="#{umowaView.selected.nieliczFP}" />
                         </p:panelGrid>
                     </p:panelGrid>
+<!--                    <p:panelGrid columns="1" id="paneldodawaniaetatu" rendered="#{umowaView.selected.id != null}">
+                        <p:panelGrid columns="8">
+                            <p:outputLabel value="data od" for="dataodetat" />
+                            <p:inputText id="dataodetat" value="#{umowaView.etat.dataod}" title="data od"  placeholder="____-__-__" />
+                            <p:outputLabel value="data do" for="datadoetat" />
+                            <p:inputText id="datadoetat" value="#{umowaView.etat.datado}" title="data od"  placeholder="____-__-__" />
+                            <p:outputLabel value=" " for="etat1" />
+                            <p:inputText id="etat1" value="#{umowaView.etat.etat1}" title="etat1"  size="1"/>
+                            <p:outputLabel value=" " for="etat2" />
+                            <p:inputText id="etat2" value="#{umowaView.etat.etat2}" title="etat2"  size="1"/>
+                            <p:commandButton styleClass="buttonnorm" actionListener="#{umowaView.dodatetat}" value="#{bundle.Save}" update="north, @(form)" />
+                        </p:panelGrid>
+                        <p:dataTable value="#{umowaView.selected.etatList}" 
+                                     var="itemetatlist"
+                                     rowKey="#{itemetatlist.id}"
+                                     style="height: 200px; overflow-y: scroll;">
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="od"/>
+                            </f:facet>
+                                <h:outputText value="#{itemetatlist.dataod}"/>
+                        </p:column>
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="do"/>
+                            </f:facet>
+                            <h:outputText value="#{itemetatlist.datado}"/>
+                        </p:column>
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="/"/>
+                            </f:facet>
+                            <h:outputText value="#{itemetatlist.etat1}"/>
+                            <h:outputText value="/"/>
+                            <h:outputText value="#{itemetatlist.etat2}"/>
+                        </p:column>
+                        </p:dataTable>
+                    </p:panelGrid>-->
                     <p:commandButton styleClass="buttonnorm" actionListener="#{umowaView.create}" value="#{bundle.Save}" update="north, @(form)" />
                     <p:commandButton value="#{bundle.Cancel}" onclick="UmowaCreateDialog.hide()"/>
                 </h:panelGroup>
@@ -218,7 +260,7 @@
                             <f:facet name="header">
                                 <h:outputText value="kod zawodu"/>
                             </f:facet>
-                            <h:outputText value="#{itemumowa.kodzawodu}"/>
+                            <h:outputText value="#{itemumowa.kodzawodu.symbolkzis}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">

@@ -30,7 +30,7 @@ public class UmowaBean {
             umowa.setDatazdrowotne("2020-12-01");
             umowa.setEmerytalne(Boolean.TRUE);
             umowa.setCzastrwania("umowa na okres próbny");
-            umowa.setKodzawodu("5041");
+            umowa.setKodzawodu(KodzawoduBean.create());
             umowa.setKosztyuzyskania(250.0);
             umowa.setNfz("16");
             umowa.setNieliczFGSP(Boolean.FALSE);

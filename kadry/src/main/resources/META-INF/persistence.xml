@@ -10,6 +10,8 @@
     <class>entity.Rodzajwynagrodzenia</class>
     <class>entity.Umowakodzus</class>
     <class>entity.Nieobecnosckodzus</class>
+    <class>entity.Etat</class>
+    <class>entity.Kodyzawodow</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>

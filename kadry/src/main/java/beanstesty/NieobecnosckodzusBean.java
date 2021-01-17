@@ -40,7 +40,7 @@ public class NieobecnosckodzusBean {
      public static Nieobecnosckodzus createUrlopBezplatny() {
         if (urlopbezplatny==null) {
            urlopbezplatny = new Nieobecnosckodzus();
-           urlop.setKod("111");
+           urlopbezplatny.setKod("111");
            urlopbezplatny.setOpis("urlop bezplatny");
            urlopbezplatny.setOpisskrocony("urlop bezplatny");
         }
