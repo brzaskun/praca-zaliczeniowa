@@ -14,6 +14,7 @@ import dao.KlientJPKDAO;
 import dao.UPODAO;
 import daoFK.EVatwpisDedraDAO;
 import data.Data;
+import embeddable.Kwartaly;
 import embeddable.Mce;
 import embeddable.TKodUS;
 import entity.DeklSuper;
@@ -695,7 +696,8 @@ public class JPK_VAT2View implements Serializable {
         pl.gov.crd.wzor._2020._05._08._9394.JPK.Deklaracja.Naglowek zwrot = new pl.gov.crd.wzor._2020._05._08._9394.JPK.Deklaracja.Naglowek();
         pl.gov.crd.wzor._2020._05._08._9394.JPK.Deklaracja.Naglowek.KodFormularzaDekl kod = deklaracja_naglowek_kodK();
         zwrot.setKodFormularzaDekl(kod);
-        zwrot.setWariantFormularzaDekl(Byte.parseByte("21"));
+        zwrot.setWariantFormularzaDekl(Byte.parseByte("15"));
+        zwrot.setKwartal(Byte.valueOf(Kwartaly.getMapamckw().get(wpisView.getMiesiacWpisu())));
         return zwrot;
     }
     
