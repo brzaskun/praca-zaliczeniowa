@@ -67,3 +67,6 @@ and open the template in the editor.
 html.progress, html.progress * {
     cursor: progress !important;
 }
+.ui-chkbox-box {
+    border: 1px solid #79b7e7 !Important;
+}

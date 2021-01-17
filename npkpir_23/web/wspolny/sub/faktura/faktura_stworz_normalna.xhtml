@@ -24,7 +24,7 @@
         </p:panelGrid>
         <p:outputPanel style="margin-top: 15px;">
             <p:dataTable id="rzadn" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat"
-                         style="width: 950px;"
+                         style="width: 1100px;"
                          >
                 <f:facet name="header" >
                     <h:outputText value="przed korektą"  rendered="#{fakturaView.fakturakorekta}"/>
@@ -82,6 +82,11 @@
                         <f:selectItem itemLabel="np" itemValue="-1"/>
                     </h:selectOneMenu>
                 </p:column>
+                <p:column headerText="VAT" width="140" style="text-align: center;">
+                     <p:inputNumber id="VAT" value="#{row.podatekkwota}" required="true" styleClass="kwotarozrachunku" size="13" 
+                                    requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="."  
+                                    thousandSeparator="&#160;" inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000"/> 
+                </p:column>
                 <p:column style="text-align: center;">
                     <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaView.usunwierszSrodek(row)}" update="@namingcontainer" global="false"/>
                 </p:column>
@@ -98,7 +103,7 @@
         <p:outputPanel id="panelkorekty" style="margin-top: 15px;" rendered="#{fakturaView.fakturakorekta}">
             <p:dataTable id="rzadkorektyn" value="#{fakturaView.selected.pozycjepokorekcie}" 
                          var="row" rowIndexVar="rowStat" 
-                         style="width: 950px;"
+                         style="width: 1100px;"
                          >
                 <f:facet name="header">
                     <h:outputText value="po korekcie"/>
@@ -153,6 +158,11 @@
                         <f:selectItem itemLabel="zw" itemValue="-2"/>
                         <f:selectItem itemLabel="np" itemValue="-1"/>
                     </h:selectOneMenu>
+                </p:column>
+                <p:column headerText="VAT" width="140" style="text-align: center;">
+                     <p:inputNumber id="VATK" value="#{row.podatekkwota}" required="true" styleClass="kwotarozrachunku" size="13" 
+                                    requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="."  
+                                    thousandSeparator="&#160;" inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column style="text-align: center;">
                     <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaView.usunwierszSrodekk(row)}" update="@namingcontainer" global="false"/>
