@@ -123,7 +123,7 @@ public class PdfVatUE {
             document.close();
             E.e(e);
         }
-        PrimeFaces.current().executeScript("wydrukvatue('" + wpisView.getPodatnikObiekt().getNip() + "');");
+        PrimeFaces.current().executeScript("wydrukvatue('" +"VATUE" +  wpisView.getPodatnikObiekt().getNip() + "');");
     }
     
 
@@ -348,7 +348,7 @@ public class PdfVatUE {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            if (listawybranych!=null && !listawybranych.isEmpty()) {
+            if (listawybranych!=null && !listawybranych.isEmpty() && listawybranych.get(0).getDeklaracjavatUE()!=null) {
                 VatUe wybrane = listawybranych.get(0);
                 String mc = wybrane.getDeklaracjavatUE().getMiesiac();
                 String rok = wybrane.getDeklaracjavatUE().getRok();
