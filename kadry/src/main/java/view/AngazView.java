@@ -55,7 +55,7 @@ public class AngazView  implements Serializable {
     private PracownikView pracownikView;
     
     @PostConstruct
-    private void init() {
+    public void init() {
         lista  = angazFacade.findAll();
         listafirm = firmaFacade.findAll();
         listapracownikow = pracownikFacade.findAll();
@@ -93,6 +93,9 @@ public class AngazView  implements Serializable {
             if (umowy!=null && umowy.size()==1) {
                 wpisView.setUmowa(umowy.get(0));
             }
+            umowaView.init();
+            skladnikWynagrodzeniaView.init();
+            zmiennaWynagrodzeniaView.init();
             Msg.msg("Aktywowano pracownika");
         }
     }

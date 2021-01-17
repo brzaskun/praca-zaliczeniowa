@@ -5,16 +5,14 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
-    <p:dialog id="dialogskladnikiwynagrodzenia" header="Wprowadzanie składników wynagrodzenia wybranego pracownika" widgetVar="dialogskladnikiwynagrodzenia"  
-              resizable="false"  onShow="ustawdialog('dialogskladnikiwynagrodzenia','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogskladnikiwynagrodzenia');" 
-              fitViewport="true">
         <p:panelGrid columns="2">
             <p:outputPanel style="height: 200px" styleClass="panelzramka">
                 <h:form id="SkladnikwynagrodzeniaCreateForm">
+                    <p:panel header="Dodawanie/edycja składnika wynagrodzenia i zmiennych"/>
                     <h:panelGroup id="display">
                         <p:panelGrid columns="6" rendered="#{skladnikWynagrodzeniaView.selected != null}">
                             <p:outputLabel value="umowa" for="umowaskladnik" />
-                            <p:selectOneMenu id="umowaskladnik" value="#{skladnikWynagrodzeniaView.selectedumowa}" converter="#{umowaConverter}">
+                            <p:selectOneMenu id="umowaskladnik" value="#{skladnikWynagrodzeniaView.selectedumowa}" converter="#{umowaConverter}" required="true">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
                                 <f:selectItems value="#{skladnikWynagrodzeniaView.listaumow}"
                                                var="umowaskladnikItem"
@@ -22,7 +20,7 @@
                                 <p:ajax event="change" partialSubmit="true" global="false"/>
                             </p:selectOneMenu>
                              <p:outputLabel value="nazwa" for="nazwa" />
-                             <p:selectOneMenu id="nazwa" value="#{skladnikWynagrodzeniaView.selected.rodzajwynagrodzenia}" converter="#{rodzajwynagrodzeniaConverter}" filter="true">
+                             <p:selectOneMenu id="nazwa" value="#{skladnikWynagrodzeniaView.selected.rodzajwynagrodzenia}" converter="#{rodzajwynagrodzeniaConverter}" filter="true" required="true">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
                                 <f:selectItems value="#{skladnikWynagrodzeniaView.listarodzajwynagrodzenia}"
                                                var="rodzajwynItem"
@@ -44,11 +42,11 @@
                     <h:panelGroup id="display">
                         <p:panelGrid columns="4" rendered="#{zmiennaWynagrodzeniaView.selected != null}">
                             <p:outputLabel value="nazwa" for="nazwa" />
-                            <p:inputText id="nazwa" value="#{zmiennaWynagrodzeniaView.selected.nazwa}" title="nazwa" />
+                            <p:inputText id="nazwa" value="#{zmiennaWynagrodzeniaView.selected.nazwa}" title="nazwa"  required="true"/>
                             <p:outputLabel value="kwota" />
-                            <bcf:innum  value="#{zmiennaWynagrodzeniaView.selected.kwota}"/>
+                            <bcf:innum  value="#{zmiennaWynagrodzeniaView.selected.kwota}" />
                             <p:outputLabel value="data od" for="dataod" />
-                            <p:inputText id="dataod" value="#{zmiennaWynagrodzeniaView.selected.dataod}" title="data od" placeholder="____-__-__" />
+                            <p:inputText id="dataod" value="#{zmiennaWynagrodzeniaView.selected.dataod}" title="data od" placeholder="____-__-__"  required="true"/>
                             <p:outputLabel value="data do" for="datado" />
                             <p:inputText id="datado" value="#{zmiennaWynagrodzeniaView.selected.datado}" title="data do" placeholder="____-__-__" />
                            
@@ -166,5 +164,4 @@
                 </h:form>
             </p:outputPanel>
         </p:panelGrid>
-    </p:dialog>
 </ui:composition>

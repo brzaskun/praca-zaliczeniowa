@@ -14,14 +14,13 @@
                              style="height: 50%;overflow-y: scroll;"
                              >
                     <p:ajax event="rowSelect" listener="#{firmaView.aktywuj(firmaView.selectedeast)}" partialSubmit="true" global="false" update="north,@(form)"/>
-                    <p:ajax event="rowSelect" listener="#{angazView.findByFirma(firmaView.selectedeast)}" partialSubmit="true" global="false" update="@(form)"/>
                     <p:column>
                         <h:outputText value="#{item1.nazwa}"/>
                     </p:column>
                 </p:dataTable>
             </p:panel>
         </h:form>
-        <h:form id="EastPracownicy">
+         <h:form id="EastPracownicy">
             <p:panel header="Pracownicy">
                 <p:dataTable id="datalist" value="#{angazView.listaeast}" var="item2"
                              selectionMode="single" selection="#{angazView.selectedeast}"
@@ -34,7 +33,7 @@
                     </p:column>
                 </p:dataTable>
             </p:panel>
-        </h:form>
+         </h:form><!-- comment -->
     </p:layoutUnit>
 </ui:composition>   
 

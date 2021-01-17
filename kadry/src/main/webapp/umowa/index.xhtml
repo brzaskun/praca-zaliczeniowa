@@ -22,14 +22,17 @@
                                 <p:menubar autoDisplay="true">
                                     <p:menuitem icon="fa fa-institution" value="firmy" style="width: 200px" action="Firma"/>
                                     <p:menuitem icon="fa fa-institution" value="pracownicy" style="width: 200px" action="Pracownik"/>
-                                    <p:menuitem icon="fa fa-institution" value="umowy" style="width: 200px" action="Umowa"/>
+                                     <p:menuitem icon="fa fa-institution" value="umowy" style="width: 200px" action="Umowa"/>
                                     <p:menuitem icon="fa fa-institution" value="płace" style="width: 200px" action="Administrator"/>
                                     <p:menuitem icon="fa fa-exchange" value="parametry" style="width: 200px" action="Parametry"/>
                                 </p:menubar>
                             </h:form>
                         </p:outputPanel>
                         <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
-                        <ui:include src="sub/edycjadanych_parametry.xhtml"/>
+                        <ui:include src="sub/edycjadanych_umowa.xhtml"/>
+                         <ui:include src="sub/edycjadanych_skladnikwynagrodzenia.xhtml"/>
+                        
+                        
                     </p:layoutUnit>
                 </p:layout>
             </f:view>

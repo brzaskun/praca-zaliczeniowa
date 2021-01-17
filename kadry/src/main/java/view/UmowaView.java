@@ -58,7 +58,7 @@ public class UmowaView  implements Serializable {
     private SkladnikWynagrodzeniaView skladnikWynagrodzeniaView;
     
     @PostConstruct
-    private void init() {
+    public void init() {
         lista  = umowaFacade.findByAngaz(wpisView.getAngaz());
         listaangaz = angazFacade.findByFirma(wpisView.getFirma());
         listaumowakodzus = rodzajumowyFacade.findAll();

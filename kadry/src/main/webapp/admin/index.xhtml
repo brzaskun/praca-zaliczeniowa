@@ -21,10 +21,7 @@
                          <p:menubar autoDisplay="true">
                              <p:menuitem icon="fa fa-institution" value="firmy" style="width: 200px" action="Firma"/>
                              <p:menuitem icon="fa fa-institution" value="pracownicy" style="width: 200px" action="Pracownik"/>
-                            <p:submenu label="kadry" style="width: 200px">
-                                <p:menuitem icon="fa fa-stack-overflow" value="edycja umowy" style="width: 200px" onclick="PF('dialogpracownikumowa').show()" async="true"/>
-                                <p:menuitem icon="fa fa-stack-overflow" value="edycja składniki wynagr." style="width: 200px" onclick="PF('dialogskladnikiwynagrodzenia').show()" async="true"/>
-                            </p:submenu>
+                             <p:menuitem icon="fa fa-institution" value="umowy" style="width: 200px" action="Umowa"/>
                             <p:submenu label="czas pracy" style="width: 200px">
                                 <p:menuitem icon="fa fa-stack-overflow" value="nieobecności" style="width: 200px" onclick="PF('dialogpracownikanieobecnosci').show()" async="true"/>
                                 <p:menuitem icon="fa fa-stack-overflow" value="kalendarz pracownika" style="width: 200px" onclick="PF('dialogkalendarzmiesiac').show()" async="true"/>
@@ -40,8 +37,6 @@
                         </p:menubar>
                         </h:form>
                        <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
-                     <ui:include src="sub/dialog/dialog_edycjadanych_umowa.xhtml"/>
-                     <ui:include src="sub/dialog/dialog_edycjadanych_skladnikwynagrodzenia.xhtml"/>
                      <ui:include src="sub/dialog/dialog_czaspracy_kalendarzwzor.xhtml"/>
                      <ui:include src="sub/dialog/dialog_czaspracy_kalendarzmiesiac.xhtml"/>
                      <ui:include src="sub/dialog/dialog_czaspracy_nieobecnosci.xhtml"/>
