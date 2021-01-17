@@ -1264,9 +1264,14 @@ public class DokfkView implements Serializable {
     
      public void usundokumentimport(Dokfk dok) {
         try {
-            Faktura fksiegi = dokumentdousuniecia.getFaktura();
-            Faktura fkontrahent = dokumentdousuniecia.getFakturakontrahent();
             dokDAOfk.usun(dok);
+            wykazZaksiegowanychDokumentowimport.remove(dok);
+            if (filteredValueimport != null) {
+                filteredValueimport.remove(dok);
+            }
+            Msg.msg("i", "Dokument importowy usunięty");
+            Faktura fksiegi = dok.getFaktura();
+            Faktura fkontrahent = dok.getFakturakontrahent();
             if (fksiegi!=null) {
                 fksiegi.setZaksiegowana(false);
                 fakturaDAO.edit(fksiegi);
@@ -1275,11 +1280,7 @@ public class DokfkView implements Serializable {
                 fkontrahent.setZaksiegowanakontrahent(false);
                 fakturaDAO.edit(fkontrahent);
             }
-            wykazZaksiegowanychDokumentowimport.remove(dok);
-            if (filteredValueimport != null) {
-                filteredValueimport.remove(dok);
-            }
-            Msg.msg("i", "Dokument importowy usunięty");
+            
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Nie udało się usunąć dokumentu importowego"+E.e(e));
