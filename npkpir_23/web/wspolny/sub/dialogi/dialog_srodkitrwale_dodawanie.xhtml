@@ -101,7 +101,7 @@
                         </h:selectOneMenu>
                     </p:column>
                 </p:panelGrid>
-                 <p:panelGrid style="padding: 5px; margin-left: 5px;">
+                <p:panelGrid style="padding: 5px; margin-left: 5px;" rendered="#{WpisView.ksiegirachunkowe eq true}">
                 <f:facet name="header">
                     <p:row>
                         <p:column>
@@ -112,6 +112,7 @@
                         </p:column>
                     </p:row>
                 </f:facet>
+
                 <p:column>
                     <p:selectOneMenu value="#{STRTableView.kontonetto}" style="width: 350px;"  converter="#{kontoConv}" required="true"
                                      requiredMessage="wybierz konto środka  ">

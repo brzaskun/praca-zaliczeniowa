@@ -45,7 +45,7 @@ public class SrodkikstView implements Serializable {
         }
         List<Srodkikst> results = Collections.synchronizedList(new ArrayList<>());  
          lista.stream().forEach((p)->{
-            if(p.getNazwa().contains(query.toLowerCase())) {
+            if(p.getNazwa().toLowerCase().contains(query.toLowerCase())) {
                 if(!results.contains(p)){
                      results.add(p);
                 }
