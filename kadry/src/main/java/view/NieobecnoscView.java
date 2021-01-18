@@ -80,7 +80,7 @@ public class NieobecnoscView  implements Serializable {
                 znaleziony = new Kalendarzmiesiac(wpisView.getUmowa(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
                 Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getFirma(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
                 if (znaleziono != null) {
-                    znaleziony.ganerujdnizwzrocowego(znaleziono);
+                    znaleziony.ganerujdnizwzrocowego(znaleziono, null);
                     Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych");
                 } else {
                     KalendarzmiesiacBean.create(znaleziony);

@@ -35,11 +35,13 @@
                         </p:panelGrid>
                         <p:panelGrid columns="2">
                             <p:outputLabel value="data od" for="dataod" />
-                            <p:inputText id="dataod" value="#{umowaView.selected.dataod}" title="data od"  placeholder="____-__-__"  required="true"/>
+                            <p:inputText id="dataod" value="#{umowaView.selected.dataod}" title="data od"  placeholder="____-__-__"  required="true" styleClass="dataUmowy">
+                                <p:ajax event="change" listener="#{umowaView.naniesdatynaumowe}" partialSubmit="true" global="false" update="@(.dataUmowy)"/>
+                            </p:inputText>
                              <p:outputLabel value="data do" for="datado" />
                             <p:inputText id="datado" value="#{umowaView.selected.datado}" title="data do"  placeholder="____-__-__" />
                             <p:outputLabel value="data zawarcia" for="datazawarcia" />
-                            <p:inputText id="datazawarcia" value="#{umowaView.selected.datazawarcia}" title="data zawarcia"  placeholder="____-__-__"  required="true"/>
+                            <p:inputText id="datazawarcia" value="#{umowaView.selected.datazawarcia}" title="data zawarcia"  placeholder="____-__-__"  required="true" styleClass="dataUmowy"/>
 
                             <p:outputLabel value="chorobowe" for="chorobowe" />
                             <p:selectBooleanCheckbox id="chorobowe" value="#{umowaView.selected.chorobowe}" />
@@ -63,11 +65,11 @@
                         <p:outputLabel value="koszty uzyskania" for="kosztyuzyskania" />
                         <p:inputText id="kosztyuzyskania" value="#{umowaView.selected.kosztyuzyskania}" title="koszty uzyskania" />
                         <p:outputLabel value="data nfz" for="datanfz" />
-                        <p:inputText id="datanfz" value="#{umowaView.selected.datanfz}" title="data nfz"  placeholder="____-__-__" />
+                        <p:inputText id="datanfz" value="#{umowaView.selected.datanfz}" title="data nfz"  placeholder="____-__-__"  styleClass="dataUmowy"/>
                         <p:outputLabel value="data spoleczne" for="dataspoleczne" />
-                        <p:inputText id="dataspoleczne" value="#{umowaView.selected.dataspoleczne}" title="data spoleczne"  placeholder="____-__-__" />
+                        <p:inputText id="dataspoleczne" value="#{umowaView.selected.dataspoleczne}" title="data spoleczne"  placeholder="____-__-__"  styleClass="dataUmowy"/>
                         <p:outputLabel value="data zdrowotne" for="datazdrowotne" />
-                        <p:inputText id="datazdrowotne" value="#{umowaView.selected.datazdrowotne}" title="data zdrowotne"  placeholder="____-__-__" />
+                        <p:inputText id="datazdrowotne" value="#{umowaView.selected.datazdrowotne}" title="data zdrowotne"  placeholder="____-__-__"  styleClass="dataUmowy"/>
                         <p:outputLabel value="kod zawodu" for="kodzawodu" />
                         <p:autoComplete id="kodzawodu" value="#{umowaView.selected.kodzawodu}" converter="#{kodyzawodowConverter}" style="width: 300px;" cache="true" cacheTimeout="2000"
                                         minQueryLength="3" maxResults="15" maxlength="25" itemtipMyPosition="rightbottom" queryDelay="10" size="50"

@@ -8,11 +8,17 @@ package view;
 import beanstesty.KodzawoduBean;
 import dao.AngazFacade;
 import dao.EtatFacade;
+import dao.KalendarzmiesiacFacade;
+import dao.KalendarzwzorFacade;
 import dao.KodyzawodowFacade;
 import dao.UmowaFacade;
 import dao.UmowakodzusFacade;
+import data.Data;
+import embeddable.Mce;
 import entity.Angaz;
 import entity.Etat;
+import entity.Kalendarzmiesiac;
+import entity.Kalendarzwzor;
 import entity.Kodyzawodow;
 import entity.Umowa;
 import entity.Umowakodzus;
@@ -51,6 +57,10 @@ public class UmowaView  implements Serializable {
     @Inject
     private UmowakodzusFacade rodzajumowyFacade;
     @Inject
+    private KalendarzmiesiacFacade kalendarzmiesiacFacade;
+    @Inject
+    private KalendarzwzorFacade kalendarzwzorFacade;
+    @Inject
     private AngazFacade angazFacade;
     @Inject
     private WpisView wpisView;
@@ -77,11 +87,43 @@ public class UmowaView  implements Serializable {
             wpisView.setUmowa(selected);
             selected = new Umowa();
             Msg.msg("Dodano nową umowę");
+            generujKalendarzNowaUmowa();
           } catch (Exception e) {
               System.out.println("");
               Msg.msg("e", "Błąd - nie dodano nowej umowy. Sprawdź angaż");
           }
       }
+    }
+    
+    
+    public void generujKalendarzNowaUmowa() {
+        if (wpisView.getAngaz()!=null && wpisView.getPracownik()!=null && wpisView.getUmowa()!=null) {
+            Integer mcod = Integer.parseInt(Data.getMc(wpisView.getUmowa().getDataod()));
+            Integer dzienod = Integer.parseInt(Data.getDzien(wpisView.getUmowa().getDataod()));
+            for (String mce: Mce.getMceListS()) {
+                Integer kolejnymc = Integer.parseInt(mce);
+                if (kolejnymc>=mcod) {
+                    Kalendarzmiesiac kal = new Kalendarzmiesiac();
+                    kal.setRok(wpisView.getRokWpisu());
+                    kal.setMc(mce);
+                    kal.setUmowa(wpisView.getUmowa());
+                    Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), mce);
+                    if (kalmiesiac==null) {
+                        Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(kal.getUmowa().getAngaz().getFirma(), kal.getRok(), mce);
+                        if (znaleziono!=null) {
+                            kal.ganerujdnizwzrocowego(znaleziono, dzienod);
+                            kalendarzmiesiacFacade.create(kal);
+                            dzienod = null;
+                        } else {
+                            Msg.msg("e","Brak kalendarza wzorcowego za "+mce);
+                        }
+                    }
+                }
+            }
+            Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych i utworzono kalendarze pracownika");
+        } else {
+            Msg.msg("e","Nie wybrano pracownika i umowy");
+        }
     }
     
     public void edit() {
@@ -171,6 +213,15 @@ public class UmowaView  implements Serializable {
             etatFacade.create(etat);
             selected.getEtatList().add(etat);
             umowaFacade.edit(selected);
+        }
+    }
+    
+    public void naniesdatynaumowe() {
+        if (selected!=null && selected.getDataod()!=null) {
+            selected.setDatanfz(selected.getDataod());
+            selected.setDataspoleczne(selected.getDataod());
+            selected.setDatazdrowotne(selected.getDataod());
+            selected.setDatazawarcia(selected.getDataod());
         }
     }
     

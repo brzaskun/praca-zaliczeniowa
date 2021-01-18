@@ -238,11 +238,16 @@ public class Kalendarzmiesiac implements Serializable {
         }
     }
     
-    public void ganerujdnizwzrocowego(Kalendarzwzor kalendarzwzor) {
+    public void ganerujdnizwzrocowego(Kalendarzwzor kalendarzwzor, Integer dzienstart) {
+        int start = dzienstart!=null? dzienstart:0;
         List<Dzien> nowedni = new ArrayList<>();
         for (int i = 0; i < kalendarzwzor.getDzienList().size(); i++) {
             Dzien dzienwzor = kalendarzwzor.getDzienList().get(i);
-            nowedni.add(new Dzien(dzienwzor, this));
+            Dzien dzien = new Dzien(dzienwzor, this);
+            if (dzien.getNrdnia()<start) {
+                dzien.setPrzepracowano(0);
+            }
+            nowedni.add(dzien);
         }
         this.dzienList = nowedni;
     }
