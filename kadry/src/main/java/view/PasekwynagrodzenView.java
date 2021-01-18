@@ -10,6 +10,7 @@ import comparator.Defnicjalistaplaccomparator;
 import comparator.Kalendarzmiesiaccomparator;
 import dao.DefinicjalistaplacFacade;
 import dao.KalendarzmiesiacFacade;
+import dao.NieobecnosckodzusFacade;
 import dao.PasekwynagrodzenFacade;
 import entity.Angaz;
 import entity.Definicjalistaplac;
@@ -51,6 +52,8 @@ public class PasekwynagrodzenView  implements Serializable {
     @Inject
     private PasekwynagrodzenFacade pasekwynagrodzenFacade;
     @Inject
+    private NieobecnosckodzusFacade nieobecnosckodzusFacade;
+    @Inject
     private WpisView wpisView;
     
     @PostConstruct
@@ -80,7 +83,7 @@ public class PasekwynagrodzenView  implements Serializable {
         if (wybranalistaplac!=null && !listakalendarzmiesiac.getTarget().isEmpty()) {
             int i = 1;
             for (Kalendarzmiesiac p : listakalendarzmiesiac.getTarget()) {
-                Pasekwynagrodzen pasek = PasekwynagrodzenBean.oblicz(p, wybranalistaplac);
+                Pasekwynagrodzen pasek = PasekwynagrodzenBean.oblicz(p, wybranalistaplac, nieobecnosckodzusFacade);
                 usunpasekjakzawiera(pasek);
                 lista.add(pasek);
             }

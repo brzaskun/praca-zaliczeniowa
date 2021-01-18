@@ -154,7 +154,7 @@ public class KalendarzmiesiacBean {
         } else if (nieobecnosc.getNieobecnosckodzus().getKod().equals("100")) {
             naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen);
         } else if (nieobecnosc.getNieobecnosckodzus().getKod().equals("111")) {
-            naliczskladnikiwynagrodzeniazaUrlopBezplatny(kalendarz, nieobecnosc, pasekwynagrodzen);
+            naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen,"111");
         }
     }
     
@@ -174,7 +174,9 @@ public class KalendarzmiesiacBean {
             } else if (nieobecnosc.getNieobecnosckodzus().getKod().equals("100")) {
                 naliczskladnikiwynagrodzeniazaUrlop(kalendarz, nieobecnosc, pasekwynagrodzen);
             } else if (nieobecnosc.getNieobecnosckodzus().getKod().equals("111")) {
-                naliczskladnikiwynagrodzeniazaUrlopBezplatny(kalendarz, nieobecnosc, pasekwynagrodzen);
+                naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen,"111");
+            } else if (nieobecnosc.getNieobecnosckodzus().getKod().equals("200")) {
+                naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen,"200");
             }
         }
     }
@@ -296,14 +298,14 @@ public class KalendarzmiesiacBean {
         }
     }
     
-    static void naliczskladnikiwynagrodzeniazaUrlopBezplatny(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen) {
+    static void naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen, String kod) {
         double dniroboczewmiesiacu = 0;
         double dninieobecnoscirobocze = 0;
         for (Dzien p : kalendarz.getDzienList()) {
             if (p.getTypdnia()==0) {
                 dniroboczewmiesiacu++;
             }
-            if (p.getTypdnia()==0 && p.getKod()!=null && p.getKod().equals("111")) {
+            if (p.getTypdnia()==0 && p.getKod()!=null && p.getKod().equals(kod)) {
                 dninieobecnoscirobocze++;
             }
         }
@@ -433,6 +435,8 @@ public class KalendarzmiesiacBean {
                         case "100":
                             dowyplatyzaczasurlopu = dowyplatyzaczasurlopu+p.getKwotaredukcji();
                         case "111":
+                            dowyplatyzaczasurlopubezplatnego = dowyplatyzaczasurlopubezplatnego+p.getKwotastatystyczna();
+                        case "200":
                             dowyplatyzaczasurlopubezplatnego = dowyplatyzaczasurlopubezplatnego+p.getKwotastatystyczna();
 
                     }

@@ -5,6 +5,7 @@
  */
 package beanstesty;
 
+import dao.NieobecnosckodzusFacade;
 import dao.PasekwynagrodzenFacade;
 import data.Data;
 import entity.Definicjalistaplac;
@@ -14,8 +15,12 @@ import entity.Naliczenienieobecnosc;
 import entity.Naliczeniepotracenie;
 import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Nieobecnosc;
+import entity.Nieobecnosckodzus;
 import entity.Pasekwynagrodzen;
+import entity.Umowa;
 import error.E;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import z.Z;
@@ -41,11 +46,12 @@ public class PasekwynagrodzenBean {
     }
     
       
-    public static Pasekwynagrodzen oblicz(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac) {
+    public static Pasekwynagrodzen oblicz(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, NieobecnosckodzusFacade nieobecnosckodzusFacade) {
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
         pasek.setDefinicjalistaplac(definicjalistaplac);
         pasek.setKalendarzmiesiac(kalendarz);
         List<Nieobecnosc> nieobecnosci = pobierznieobecnosci(kalendarz);
+        Nieobecnosc zatrudnieniewtrakciemiesiaca = generuj(kalendarz.getUmowa(),nieobecnosckodzusFacade, kalendarz.getRok(), kalendarz.getMc());
         Nieobecnosc choroba = pobierz(nieobecnosci,"331");
         Nieobecnosc urlop = pobierz(nieobecnosci,"100");
         Nieobecnosc urlopbezplatny = pobierz(nieobecnosci,"111");
@@ -56,6 +62,7 @@ public class PasekwynagrodzenBean {
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, choroba, pasek);
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlop, pasek);
         KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, urlopbezplatny, pasek);
+        KalendarzmiesiacBean.dodajnieobecnoscDB(kalendarz, zatrudnieniewtrakciemiesiaca, pasek);
         KalendarzmiesiacBean.redukujskladnikistale(kalendarz, pasek);
 //        KalendarzmiesiacBean.naliczskladnikipotracenia(kalendarz, pasek);
         PasekwynagrodzenBean.obliczbruttozus(pasek);
@@ -286,6 +293,26 @@ public class PasekwynagrodzenBean {
             if (jest) {
                 zwrot.add(p);
             }
+        }
+        return zwrot;
+    }
+
+    private static Nieobecnosc generuj(Umowa umowa, NieobecnosckodzusFacade nieobecnosckodzusFacade, String rok, String mc) {
+        Nieobecnosc zwrot =null;
+        String rokumowa = Data.getRok(umowa.getDataod());
+        String mcumowa = Data.getMc(umowa.getDataod());
+        String dzienumowa = Data.getDzien(umowa.getDataod());
+        if (rokumowa.equals(rok)&&mcumowa.equals(mc)&&!dzienumowa.equals("01")) {
+            Nieobecnosckodzus nieobecnosckodzus = nieobecnosckodzusFacade.findByKod("200");
+            zwrot = new Nieobecnosc();
+            zwrot.setUmowa(umowa);
+            zwrot.setNieobecnosckodzus(nieobecnosckodzus);
+            String dataod = Data.pierwszyDzien(umowa.getDataod());
+            LocalDate today = LocalDate.parse(umowa.getDataod());
+            LocalDate yesterday = today.minusDays(1);  
+            String datado = yesterday.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            zwrot.setDataod(dataod);
+            zwrot.setDatado(datado);
         }
         return zwrot;
     }

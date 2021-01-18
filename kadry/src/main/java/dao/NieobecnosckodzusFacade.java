@@ -54,4 +54,8 @@ public class NieobecnosckodzusFacade  {
      public void edit(Nieobecnosckodzus entity) {
         getEntityManager().merge(entity);
     }
+
+    public Nieobecnosckodzus findByKod(String string) {
+        return (Nieobecnosckodzus) getEntityManager().createNamedQuery("Nieobecnosckodzus.findByKod").setParameter("kod", string).getSingleResult();
+    }
 }
