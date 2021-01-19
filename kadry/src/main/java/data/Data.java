@@ -436,9 +436,9 @@ public class Data implements Serializable {
         return zwrot;
     }
     
-    public static String getCzescDaty(String data, int rok0mc1d2) {
+    public static String getCzescDaty(String data, int rok0mc1d2rokmc3) {
         String zwrot = "";
-        switch (rok0mc1d2) {
+        switch (rok0mc1d2rokmc3) {
             case 0 :
                 zwrot = data.substring(0,4);
                 break;
@@ -447,6 +447,9 @@ public class Data implements Serializable {
                 break;
             case 2 :
                 zwrot = data.substring(8,10);
+                break;
+            case 3 :
+                zwrot = data.substring(0,8);
                 break;
         }
         return zwrot;

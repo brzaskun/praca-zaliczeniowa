@@ -11,15 +11,19 @@
         <p:outputPanel style="height: 200px">
              <h:form id="DefinicjalistaplacdefCreateForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="+6" rendered="#{definicjalistaplacView.selected != null}">
+                    <p:panelGrid columns="8" rendered="#{definicjalistaplacView.selected != null}">
+                         <p:outputLabel value="okres rozliczeniowy" for="okresrozl" />
+                         <h:outputText id="okresrozl" value="#{wpisView.rokWpisu}/#{wpisView.miesiacWpisu}"/>
                         <p:outputLabel value="data sporzadzenia" for="datasporzadzenia" />
-                        <p:inputText id="datasporzadzenia" value="#{definicjalistaplacView.selected.datasporzadzenia}" title="data sporzadzenia" />
+                        <p:inputText id="datasporzadzenia" value="#{definicjalistaplacView.selected.datasporzadzenia}" title="data sporzadzenia" >
+                            <p:ajax event="change" partialSubmit="true" global="false" listener="#{definicjalistaplacView.uzupelnijdatylisty}" update="@(.datalistadef)"/>
+                        </p:inputText>
                         <p:outputLabel value="data podatek" for="datapodatek" />
-                        <p:inputText id="datapodatek" value="#{definicjalistaplacView.selected.datapodatek}" title="data podatek" />
+                        <p:inputText id="datapodatek" value="#{definicjalistaplacView.selected.datapodatek}" title="data podatek" styleClass="datalistadef" required="true"/>
                         <p:outputLabel value="data zus" for="datazus" />
-                        <p:inputText id="datazus" value="#{definicjalistaplacView.selected.datazus}" title="data zus" />
+                        <p:inputText id="datazus" value="#{definicjalistaplacView.selected.datazus}" title="data zus"  styleClass="datalistadef" required="true"/>
                         <p:outputLabel value="nr kolejny" for="nrkolejny" />
-                        <p:inputText id="nrkolejny" value="#{definicjalistaplacView.selected.nrkolejny}" title="nr kolejny" />
+                        <p:inputText id="nrkolejny" value="#{definicjalistaplacView.selected.nrkolejny}" title="nr kolejny"  required="true"/>
                         <p:outputLabel value="opis" for="opis" />
                         <p:inputText id="opis" value="#{definicjalistaplacView.selected.opis}" title="opis}" />
                         <p:outputLabel value="rodzaj listy plac" for="rodzajlistyplac" />
@@ -30,11 +34,11 @@
                                            itemValue="#{rodzajlistyItem}" itemLabel="#{rodzajlistyItem.nazwa}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="rok" for="rok" />
-                        <p:inputText id="rok" value="#{definicjalistaplacView.selected.rok}" title="rok" />
+                        <p:inputText id="rok" value="#{definicjalistaplacView.selected.rok}" title="rok"  required="true" styleClass="datalistadef"/>
                         <p:outputLabel value="mc" for="mc" />
-                        <p:inputText id="mc" value="#{definicjalistaplacView.selected.mc}" title="mc" />
+                        <p:inputText id="mc" value="#{definicjalistaplacView.selected.mc}" title="mc"  required="true" styleClass="datalistadef"/>
                         <p:outputLabel value="firma" for="firma" />
-                        <p:selectOneMenu id="firma" value="#{definicjalistaplacView.selected.firma}" required="true" requiredMessage="Wybierz firmę" converter="#{firmaConverter}">
+                        <p:selectOneMenu id="firma" value="#{definicjalistaplacView.selected.firma}" required="true" requiredMessage="Wybierz firmę" converter="#{firmaConverter}" styleClass="datalistadef">
                             <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                             <f:selectItems value="#{definicjalistaplacView.listafirm}"
                                            var="firmalistaItem"
@@ -51,14 +55,15 @@
                 <p:panel header="Definicje listy płac">
                     <p:dataTable id="datalist" value="#{definicjalistaplacView.lista}" var="itemdeflisty"
                                  selectionMode="single" selection="#{definicjalistaplacView.selectedlista}"
-                                 rowKey="#{itemdeflisty.id}"
+                                 rowKey="#{itemdeflisty.id}" sortBy="#{itemdeflisty.datasporzadzenia}"
+                                 rowIndexVar="indexdeflp"
                                  style="height: 500px; overflow-y: scroll;"
                                  >
                         <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="id"/>
                             </f:facet>
-                            <h:outputText value="#{itemdeflisty.id}"/>
+                            <h:outputText value="#{indexdeflp+1}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">

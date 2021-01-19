@@ -8,6 +8,7 @@ package view;
 import dao.DefinicjalistaplacFacade;
 import dao.FirmaFacade;
 import dao.RodzajlistyplacFacade;
+import data.Data;
 import entity.Definicjalistaplac;
 import entity.Firma;
 import entity.Rodzajlistyplac;
@@ -48,8 +49,7 @@ public class DefinicjalistaplacView  implements Serializable {
         lista  = definicjalistaplac.findAll();
         listafirm = firmaFacade.findAll();
         listarodzajlistyplac = rodzajlistyplacFacade.findAll();
-        selected.setRok(wpisView.getRokWpisu());
-        selected.setMc(wpisView.getMiesiacWpisu());
+        selected.setOpis("lista główna");
     }
 
     public void create() {
@@ -66,6 +66,16 @@ public class DefinicjalistaplacView  implements Serializable {
       }
     }
 
+    public void uzupelnijdatylisty() {
+        if (selected!=null && selected.getDatasporzadzenia()!=null) {
+            String lewaczesc = Data.getCzescDaty(selected.getDatasporzadzenia(), 3);
+            selected.setDatazus(lewaczesc+"15");
+            selected.setDatapodatek(lewaczesc+"20");
+            selected.setMc(wpisView.getMiesiacWpisu());
+            selected.setRok(wpisView.getRokWpisu());
+            selected.setFirma(wpisView.getFirma());
+        }
+    }
     
     public Definicjalistaplac getSelected() {
         return selected;

@@ -48,6 +48,8 @@ public class AngazView  implements Serializable {
     @Inject
     private UmowaView umowaView;
     @Inject
+    private KalendarzmiesiacView kalendarzmiesiacView;
+    @Inject
     private ZmiennaWynagrodzeniaView zmiennaWynagrodzeniaView;
     @Inject
     private SkladnikWynagrodzeniaView skladnikWynagrodzeniaView;
@@ -96,6 +98,7 @@ public class AngazView  implements Serializable {
             umowaView.init();
             skladnikWynagrodzeniaView.init();
             zmiennaWynagrodzeniaView.init();
+            kalendarzmiesiacView.init();
             Msg.msg("Aktywowano pracownika");
         }
     }

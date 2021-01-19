@@ -45,8 +45,9 @@ public class KalendarzmiesiacView  implements Serializable {
     private WpisView wpisView;
     
     @PostConstruct
-    private void init() {
+    public void init() {
         selectedlista  = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+        selected = selectedlista;
         listaumowa =  umowaFacade.findPracownik(wpisView.getPracownik());
         pobierzkalendarzeprac();
     }
