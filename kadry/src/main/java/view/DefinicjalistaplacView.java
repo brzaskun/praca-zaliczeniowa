@@ -15,7 +15,7 @@ import entity.Rodzajlistyplac;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
@@ -25,7 +25,7 @@ import msg.Msg;
  * @author Osito
  */
 @Named
-@RequestScoped
+@ViewScoped
 public class DefinicjalistaplacView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
@@ -65,6 +65,19 @@ public class DefinicjalistaplacView  implements Serializable {
           }
       }
     }
+    
+    public void edytuj() {
+      if (selected!=null) {
+          try {
+            definicjalistaplac.edit(selected);
+             selected = new Definicjalistaplac();
+            Msg.msg("Zachowano zmiany edycji definicji listy płac");
+          } catch (Exception e) {
+              System.out.println("");
+              Msg.msg("e", "Błąd - nie zachowano zmian definicji listy płac");
+          }
+      }
+    }
 
     public void uzupelnijdatylisty() {
         if (selected!=null && selected.getDatasporzadzenia()!=null) {
@@ -75,6 +88,15 @@ public class DefinicjalistaplacView  implements Serializable {
             selected.setRok(wpisView.getRokWpisu());
             selected.setFirma(wpisView.getFirma());
         }
+    }
+    
+    public void wybierzdoedycji() {
+          if (selectedlista!=null && selectedlista.getDatasporzadzenia()!=null) {
+              selected = selectedlista;
+              Msg.msg("Wybrano listę do edycji");
+          } else {
+              Msg.msg("e","Nie wybrano definicji");
+          }
     }
     
     public Definicjalistaplac getSelected() {

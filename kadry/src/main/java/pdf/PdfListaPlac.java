@@ -256,6 +256,9 @@ public class PdfListaPlac {
             if (rs.getKwotazus()!=0.0) {
                 sb.append(formatujWaluta(rs.getKwotazus()));
                 sb.append(";  ");
+            } else if (rs.getKwotabezzus()!=0.0) {
+                sb.append(formatujWaluta(rs.getKwotabezzus()));
+                sb.append("; ");
             } else {
                 sb.append(formatujWaluta(rs.getKwotabezzus()));
                 sb.append("; ");

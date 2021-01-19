@@ -299,14 +299,14 @@ public class KalendarzmiesiacBean {
     }
     
     static void naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(Kalendarzmiesiac kalendarz, Nieobecnosc nieobecnosc, Pasekwynagrodzen pasekwynagrodzen, String kod) {
-        double dniroboczewmiesiacu = 0;
-        double dninieobecnoscirobocze = 0;
+        double godzinyroboczewmiesiacu = 0;
+        double godzinynieobecnoscirobocze = 0;
         for (Dzien p : kalendarz.getDzienList()) {
-            if (p.getTypdnia()==0) {
-                dniroboczewmiesiacu++;
+            if (p.getTypdnia()>-1) {
+                godzinyroboczewmiesiacu = godzinyroboczewmiesiacu+p.getNormagodzin();
             }
             if (p.getTypdnia()==0 && p.getKod()!=null && p.getKod().equals(kod)) {
-                dninieobecnoscirobocze++;
+                godzinynieobecnoscirobocze = godzinynieobecnoscirobocze+p.getNormagodzin();
             }
         }
         for (Naliczenieskladnikawynagrodzenia p : pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList()) {
@@ -317,13 +317,11 @@ public class KalendarzmiesiacBean {
                 naliczenienieobecnosc.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
                 double skladnikistale = skladnikwynagrodzenia.getZmiennawynagrodzeniaList().get(0).getKwota();
                 naliczenienieobecnosc.setSkladnikistale(skladnikistale);
-                double liczbagodzinroboczych = dniroboczewmiesiacu * 8.0;
-                naliczenienieobecnosc.setLiczbagodzinroboczych(liczbagodzinroboczych);
-                double liczbagodzinurlopu = dninieobecnoscirobocze * 8.0;
-                naliczenienieobecnosc.setLiczbagodzinurlopu(liczbagodzinurlopu);
-                double stawkadzienna = Z.z4(skladnikistale / liczbagodzinroboczych);
+                naliczenienieobecnosc.setLiczbagodzinroboczych(godzinyroboczewmiesiacu);
+                naliczenienieobecnosc.setLiczbagodzinurlopu(godzinynieobecnoscirobocze);
+                double stawkadzienna = Z.z4(skladnikistale / godzinyroboczewmiesiacu);
                 naliczenienieobecnosc.setStawkadzienna(Z.z(stawkadzienna));
-                double dowyplatyzaczasnieobecnosci = Z.z(stawkadzienna * liczbagodzinurlopu);
+                double dowyplatyzaczasnieobecnosci = Z.z(stawkadzienna * godzinynieobecnoscirobocze);
                 naliczenienieobecnosc.setKwota(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setKwotazus(dowyplatyzaczasnieobecnosci);
                 naliczenienieobecnosc.setKwotastatystyczna(naliczenienieobecnosc.getKwota());

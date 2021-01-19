@@ -45,7 +45,8 @@
                                            itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.nazwa}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{definicjalistaplacView.create}" value="#{bundle.Save}" update="display,:DefinicjalistaplacListForm:datalist" />
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{definicjalistaplacView.edytuj}" value="#{bundle.Edit}" update="display,:DefinicjalistaplacListForm:datalist" rendered="#{definicjalistaplacView.selected.id ne null}"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{definicjalistaplacView.create}" value="#{bundle.Save}" update="display,:DefinicjalistaplacListForm:datalist" rendered="#{definicjalistaplacView.selected.id eq null}" />
                     <p:commandButton value="#{bundle.Cancel}" onclick="DefinicjalistaplacCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
@@ -59,6 +60,7 @@
                                  rowIndexVar="indexdeflp"
                                  style="height: 500px; overflow-y: scroll;"
                                  >
+                        <p:ajax event="rowSelect" partialSubmit="true" global="false" listener="#{definicjalistaplacView.wybierzdoedycji}" update="DefinicjalistaplacdefCreateForm"/>
                         <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="id"/>

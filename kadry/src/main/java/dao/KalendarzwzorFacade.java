@@ -65,4 +65,8 @@ public class KalendarzwzorFacade   implements Serializable {
         } catch (Exception e){}
         return zwrot;
     }
+
+    public List<Kalendarzwzor> findByFirmaRok(Firma firma, String rok) {
+       return getEntityManager().createNamedQuery("Kalendarzwzor.findByFirmaRok").setParameter("firma", firma).setParameter("rok", rok).getResultList();
+    }
 }

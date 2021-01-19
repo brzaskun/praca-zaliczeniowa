@@ -41,7 +41,7 @@ public class KalendarzwzorView  implements Serializable {
     
     @PostConstruct
     private void init() {
-        lista  = kalendarzwzorFacade.findAll();
+        lista  = kalendarzwzorFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
         listafirm = firmaFacade.findAll();
         selected.setFirma(wpisView.getFirma());
         selected.setRok(wpisView.getRokWpisu());
@@ -57,6 +57,18 @@ public class KalendarzwzorView  implements Serializable {
           } catch (Exception e) {
               System.out.println("");
               Msg.msg("e", "Błąd - nie dodano nowej firmy");
+          }
+      }
+    }
+    
+    public void edit() {
+      if (selected!=null) {
+          try {
+            kalendarzwzorFacade.edit(selected);
+            Msg.msg("Edytowano kalendarz");
+          } catch (Exception e) {
+              System.out.println("");
+              Msg.msg("e", "Błąd - nie zachowano zmian kalendarza");
           }
       }
     }
