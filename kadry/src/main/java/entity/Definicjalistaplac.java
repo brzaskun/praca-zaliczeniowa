@@ -41,6 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Definicjalistaplac.findByNrkolejny", query = "SELECT d FROM Definicjalistaplac d WHERE d.nrkolejny = :nrkolejny"),
     @NamedQuery(name = "Definicjalistaplac.findByOpis", query = "SELECT d FROM Definicjalistaplac d WHERE d.opis = :opis"),
     @NamedQuery(name = "Definicjalistaplac.findByRodzajlistyplac", query = "SELECT d FROM Definicjalistaplac d WHERE d.rodzajlistyplac = :rodzajlistyplac"),
+    @NamedQuery(name = "Definicjalistaplac.findByFirmaRok", query = "SELECT d FROM Definicjalistaplac d WHERE d.firma = :firma and d.rok = :rok"),
     @NamedQuery(name = "Definicjalistaplac.findByRok", query = "SELECT d FROM Definicjalistaplac d WHERE d.rok = :rok"),
     @NamedQuery(name = "Definicjalistaplac.findByMc", query = "SELECT d FROM Definicjalistaplac d WHERE d.mc = :mc")})
 public class Definicjalistaplac implements Serializable {

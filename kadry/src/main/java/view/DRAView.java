@@ -59,7 +59,7 @@ public class PasekwynagrodzenView  implements Serializable {
     @PostConstruct
     private void init() {
         lista = new ArrayList<>();
-        listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
+        listadefinicjalistaplac = definicjalistaplacFacade.findAll();
         Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());
         listakalendarzmiesiac = new org.primefaces.model.DualListModel<>();
     }

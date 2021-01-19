@@ -60,6 +60,8 @@ public class Pasekwynagrodzen implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "bruttobezzus")
 private double bruttobezzus;
     @Column(name = "bruttozus")
@@ -95,16 +97,22 @@ private double bruttobezzus;
     private double praczdrowotnedopotracenia;
     @Column(name = "praczdrowotnepomniejszone")
     private double praczdrowotnepomniejszone;
+    @Column(name = "emerytalne")
+    private double emerytalne;
     @Column(name = "rentowe")
     private double rentowe;
     @Column(name = "wypadkowe")
     private double wypadkowe;
+    @Column(name = "razemspolecznefirma")
+    private double razemspolecznefirma;
     @Column(name = "podatekwstepny")
     private double podatekwstepny;
     @Column(name = "podstawaubezpzdrowotne")
     private double podstawaubezpzdrowotne;
     @Column(name = "potracenia")
     private double potracenia;
+    @Column(name = "razem53")
+    private double razem53;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
     private List<Naliczeniepotracenie> naliczeniepotracenieList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
@@ -203,6 +211,12 @@ private double bruttobezzus;
     public void setKalendarzmiesiac(Kalendarzmiesiac kalendarzmiesiac) {
         this.kalendarzmiesiac = kalendarzmiesiac;
     }
+    public double getWartoscbrutto() {
+        return Z.z(this.bruttobezzus+this.bruttozus);
+    }
+    public String getNazwiskoImie() {
+        return this.kalendarzmiesiac.getUmowa().getAngaz().getPracownik().getNazwiskoImie();
+    }
 
     public double getBruttobezzus() {
         return bruttobezzus;
@@ -215,15 +229,11 @@ private double bruttobezzus;
     public double getBruttozus() {
         return bruttozus;
     }
-
+    
     public void setBruttozus(double bruttozus) {
         this.bruttozus = bruttozus;
     }
 
-    public double getWartoscbrutto() {
-        return Z.z(this.bruttobezzus+this.bruttozus);
-    }
-    
     public double getFgsp() {
         return fgsp;
     }
@@ -344,6 +354,15 @@ private double bruttobezzus;
         this.praczdrowotnepomniejszone = praczdrowotnepomniejszone;
     }
 
+    public double getEmerytalne() {
+        return emerytalne;
+    }
+
+
+    public void setEmerytalne(double emerytalne) {
+        this.emerytalne = emerytalne;
+    }
+
     public double getRentowe() {
         return rentowe;
     }
@@ -352,13 +371,20 @@ private double bruttobezzus;
         this.rentowe = rentowe;
     }
 
-
     public double getWypadkowe() {
         return wypadkowe;
     }
 
     public void setWypadkowe(double wypadkowe) {
         this.wypadkowe = wypadkowe;
+    }
+
+    public double getRazemspolecznefirma() {
+        return razemspolecznefirma;
+    }
+
+    public void setRazemspolecznefirma(double razemspolecznefirma) {
+        this.razemspolecznefirma = razemspolecznefirma;
     }
 
     public double getPodatekwstepny() {
@@ -385,8 +411,12 @@ private double bruttobezzus;
         this.potracenia = potracenia;
     }
 
-    public String getNazwiskoImie() {
-        return this.kalendarzmiesiac.getUmowa().getAngaz().getPracownik().getNazwiskoImie();
+    public double getRazem53() {
+        return razem53;
+    }
+
+    public void setRazem53(double razem53) {
+        this.razem53 = razem53;
     }
         
 }

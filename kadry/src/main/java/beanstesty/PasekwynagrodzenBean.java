@@ -78,6 +78,13 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
         PasekwynagrodzenBean.potracenia(pasek);
         PasekwynagrodzenBean.dowyplaty(pasek);
+        PasekwynagrodzenBean.emerytalna(pasek);
+        PasekwynagrodzenBean.rentowa(pasek);
+        PasekwynagrodzenBean.wypadkowa(pasek);
+        PasekwynagrodzenBean.razemspolecznefirma(pasek);
+        PasekwynagrodzenBean.fp(pasek);
+        PasekwynagrodzenBean.fgsp(pasek);
+        PasekwynagrodzenBean.razem53(pasek);
         System.out.println("****************");
         for (Naliczenieskladnikawynagrodzenia r : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
             if (r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
@@ -190,9 +197,29 @@ public class PasekwynagrodzenBean {
     private static void pracownikemerytalna(Pasekwynagrodzen pasek) {
         pasek.setPracemerytalne(Z.z(pasek.getBruttozus()*0.0976));
     }
+    
+    private static void emerytalna(Pasekwynagrodzen pasek) {
+        pasek.setEmerytalne(Z.z(pasek.getBruttozus()*0.0976));
+    }
 
     private static void pracownikrentowa(Pasekwynagrodzen pasek) {
         pasek.setPracrentowe(Z.z(pasek.getBruttozus()*0.015));
+    }
+    
+    private static void rentowa(Pasekwynagrodzen pasek) {
+        pasek.setRentowe(Z.z(pasek.getBruttozus()*0.065));
+    }
+    
+    private static void wypadkowa(Pasekwynagrodzen pasek) {
+        pasek.setWypadkowe(Z.z(pasek.getBruttozus()*0.0167));
+    }
+    
+    private static void fp(Pasekwynagrodzen pasek) {
+        pasek.setFp(Z.z(pasek.getBruttozus()*0.0245));
+    }
+    
+    private static void fgsp(Pasekwynagrodzen pasek) {
+        pasek.setFgsp(Z.z(pasek.getBruttozus()*0.001));
     }
 
     private static void pracownikchorobowa(Pasekwynagrodzen pasek) {
@@ -204,6 +231,14 @@ public class PasekwynagrodzenBean {
 
     private static void razemspolecznepracownik(Pasekwynagrodzen pasek) {
         pasek.setRazemspolecznepracownik(Z.z(pasek.getPracemerytalne()+pasek.getPracrentowe()+pasek.getPracchorobowe()));
+    }
+    
+    private static void razemspolecznefirma(Pasekwynagrodzen pasek) {
+        pasek.setRazemspolecznefirma(Z.z(pasek.getEmerytalne()+pasek.getRentowe()+pasek.getWypadkowe()));
+    }
+    
+    private static void razem53(Pasekwynagrodzen pasek) {
+        pasek.setRazem53(Z.z(pasek.getFp()+pasek.getFgsp()));
     }
 
     private static void obliczpodstaweopodatkowania(Pasekwynagrodzen pasek) {
