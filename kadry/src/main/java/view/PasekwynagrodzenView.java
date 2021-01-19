@@ -79,6 +79,23 @@ public class PasekwynagrodzenView  implements Serializable {
       }
     }
     
+    public void zapisz() {
+        if (lista!=null && lista.size()>0) {
+            pasekwynagrodzenFacade.editList(lista);
+            Msg.msg("Zachowano listę płac");
+        }
+    }
+    
+    public void usun() {
+        if (lista!=null && lista.size()>0) {
+            for (Pasekwynagrodzen p : lista) {
+                pasekwynagrodzenFacade.remove(p);
+                lista.remove(p);
+            }
+            Msg.msg("Usunięto listę płac");
+        }
+    }
+    
     public void przelicz() {
         if (wybranalistaplac!=null && !listakalendarzmiesiac.getTarget().isEmpty()) {
             int i = 1;

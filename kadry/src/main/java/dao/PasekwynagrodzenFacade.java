@@ -8,6 +8,7 @@ package dao;
 import entity.Definicjalistaplac;
 import entity.Kalendarzmiesiac;
 import entity.Pasekwynagrodzen;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -66,6 +67,16 @@ public class PasekwynagrodzenFacade   implements Serializable {
     public void remove(List<Pasekwynagrodzen> entityList) {
         for (Pasekwynagrodzen p : entityList) {
             em.remove(em.merge(p));
+        }
+    }
+    
+    public void editList(List<Pasekwynagrodzen> entityList) {
+        for (Pasekwynagrodzen p : entityList) {
+            try {
+                getEntityManager().merge(p);
+            } catch (Exception e) {
+                E.e(e);
+            }
         }
     }
 

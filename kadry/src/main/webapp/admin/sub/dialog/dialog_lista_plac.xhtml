@@ -33,6 +33,8 @@
                         </p:selectOneMenu>-->
                     </p:panelGrid>
                     <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.przelicz}" value="oblicz" update="PasekwynagrodzenListForm" />
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.zapisz}" value="Save" update="PasekwynagrodzenListForm" />
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.usun}" value="usuń" update="PasekwynagrodzenListForm" />
                     <p:commandButton styleClass="buttonnorm" actionListener="#{pasekwynagrodzenView.drukujliste}" value="druk lista"/>
                 </h:panelGroup>
             </h:form>
