@@ -500,6 +500,18 @@ public class Data implements Serializable {
         return newXMLGregorianCalendar;
    }
    
+   public static XMLGregorianCalendar XMLGCinitRokMc(String rok, String mc) {
+       XMLGregorianCalendar newXMLGregorianCalendar = null;
+        try {
+            newXMLGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar();
+            newXMLGregorianCalendar.setYear(Integer.parseInt(rok));
+            newXMLGregorianCalendar.setMonth(Integer.parseInt(mc));
+        } catch (DatatypeConfigurationException ex) {
+            // Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return newXMLGregorianCalendar;
+   }
+   
    public static XMLGregorianCalendar XMLGCinitMc(String mc) {
        XMLGregorianCalendar newXMLGregorianCalendar = null;
         try {
