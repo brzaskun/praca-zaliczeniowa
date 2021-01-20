@@ -21,7 +21,7 @@
                                            itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.opis} #{firmalistaItem.nrkolejny}"/>
                             <p:ajax event="change" partialSubmit="true" global="false" listener="#{draView.pobierzpaski}" update="DRAListForm DRASumaForm"/>
                         </p:selectOneMenu>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{dRAView.drukujliste}" value="druk lista"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{draView.drukujliste}" value="druk lista"/>
                     </p:panelGrid>
                 </h:panelGroup>
             </h:form>

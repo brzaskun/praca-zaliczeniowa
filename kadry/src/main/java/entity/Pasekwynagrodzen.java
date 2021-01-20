@@ -113,6 +113,8 @@ private double bruttobezzus;
     private double potracenia;
     @Column(name = "razem53")
     private double razem53;
+    @Column(name = "kosztpracodawcy")
+    private double kosztpracodawcy;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
     private List<Naliczeniepotracenie> naliczeniepotracenieList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
@@ -418,5 +420,34 @@ private double bruttobezzus;
     public void setRazem53(double razem53) {
         this.razem53 = razem53;
     }
-        
+
+    public double getKosztpracodawcy() {
+        return kosztpracodawcy;
+    }
+
+    public void setKosztpracodawcy(double kosztpracodawcy) {
+        this.kosztpracodawcy = kosztpracodawcy;
+    }
+
+    public void dodajPasek(Pasekwynagrodzen p) {
+        this.bruttozus = this.bruttozus + p.bruttozus;
+        this.fgsp = this.fgsp + p.fgsp;
+        this.fp = this.fp + p.fp;
+        this.bruttobezzus = this.bruttobezzus + p.bruttobezzus;
+        this.podatekdochodowy = this.podatekdochodowy + p.podatekdochodowy;
+        this.pracchorobowe = this.pracchorobowe + p.pracchorobowe;
+        this.pracemerytalne = this.pracemerytalne + p.pracemerytalne;
+        this.pracrentowe = this.pracrentowe + p.pracrentowe;
+        this.praczdrowotne = this.praczdrowotne + p.praczdrowotne;
+        this.emerytalne = this.emerytalne + p.emerytalne;
+        this.rentowe = this.rentowe + p.rentowe;
+        this.wypadkowe = this.wypadkowe + p.wypadkowe;
+        this.razemspolecznepracownik = this.razemspolecznepracownik + p.razemspolecznepracownik;
+        this.razemspolecznefirma = this.razemspolecznefirma + p.razemspolecznefirma;
+        this.podstawaubezpzdrowotne = this.podstawaubezpzdrowotne + p.podstawaubezpzdrowotne;
+        this.razem53 = this.razem53 + p.razem53;
+        this.kosztpracodawcy = this.kosztpracodawcy + p.kosztpracodawcy;
+    }
+    
+    
 }

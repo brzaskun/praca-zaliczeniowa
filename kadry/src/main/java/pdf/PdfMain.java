@@ -300,12 +300,13 @@ public class PdfMain {
     }
     
     
-    public static void dodajOpisWstepny(Document document, Definicjalistaplac def) {
+    public static void dodajOpisWstepny(Document document, Definicjalistaplac def, String nazwadok) {
         try {
             String mc = def.getMc();
             String rok = def.getRok();
             StringBuilder s = new StringBuilder();
-            s.append("Lista płac ");
+            s.append(nazwadok);
+            s.append(" ");
             s.append(def.getFirma().getNazwa());
             s.append(" nr ");
             s.append(def.getNrkolejny());

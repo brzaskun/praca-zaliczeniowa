@@ -8,6 +8,7 @@ package beanstesty;
 import dao.NieobecnosckodzusFacade;
 import dao.PasekwynagrodzenFacade;
 import data.Data;
+import entity.Angaz;
 import entity.Definicjalistaplac;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
@@ -17,6 +18,7 @@ import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Nieobecnosc;
 import entity.Nieobecnosckodzus;
 import entity.Pasekwynagrodzen;
+import entity.Pracownik;
 import entity.Umowa;
 import error.E;
 import java.time.LocalDate;
@@ -85,6 +87,7 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.fp(pasek);
         PasekwynagrodzenBean.fgsp(pasek);
         PasekwynagrodzenBean.razem53(pasek);
+        PasekwynagrodzenBean.razemkosztpracodawcy(pasek);
         System.out.println("****************");
         for (Naliczenieskladnikawynagrodzenia r : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
             if (r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
@@ -241,6 +244,9 @@ public class PasekwynagrodzenBean {
         pasek.setRazem53(Z.z(pasek.getFp()+pasek.getFgsp()));
     }
 
+     private static void razemkosztpracodawcy(Pasekwynagrodzen pasek) {
+         pasek.setKosztpracodawcy(Z.z(pasek.getRazemspolecznefirma()+pasek.getFgsp()+pasek.getFgsp()));
+    }
     private static void obliczpodstaweopodatkowania(Pasekwynagrodzen pasek) {
         double zzus = pasek.getBruttozus();
         double bezzus = pasek.getBruttobezzus();
@@ -351,4 +357,17 @@ public class PasekwynagrodzenBean {
         }
         return zwrot;
     }
+
+    public static Pasekwynagrodzen sumujpaski(List<Pasekwynagrodzen> lista) {
+        Pasekwynagrodzen sumapasek = new Pasekwynagrodzen();
+        sumapasek.setKalendarzmiesiac(new Kalendarzmiesiac());
+        sumapasek.getKalendarzmiesiac().setUmowa(new Umowa());
+        sumapasek.getKalendarzmiesiac().getUmowa().setAngaz(new Angaz());
+        sumapasek.getKalendarzmiesiac().getUmowa().getAngaz().setPracownik(new Pracownik("podsumowanie"," "));
+        for (Pasekwynagrodzen p : lista) {
+            sumapasek.dodajPasek(p);
+        }
+        return sumapasek;
+    }
+   
 }

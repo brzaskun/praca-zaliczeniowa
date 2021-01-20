@@ -71,6 +71,11 @@ public class Pracownik implements Serializable {
         this.id = id;
     }
 
+    public Pracownik(String podsumowanie, String a) {
+        this.nazwisko = "podsumowanie";
+        this.imie = "";
+    }
+
     public Integer getId() {
         return id;
     }
