@@ -6,11 +6,13 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,6 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Kalendarzwzor.findById", query = "SELECT k FROM Kalendarzwzor k WHERE k.id = :id"),
     @NamedQuery(name = "Kalendarzwzor.findByRok", query = "SELECT k FROM Kalendarzwzor k WHERE k.rok = :rok"),
     @NamedQuery(name = "Kalendarzwzor.findByMc", query = "SELECT k FROM Kalendarzwzor k WHERE k.mc = :mc"),
+    @NamedQuery(name = "Kalendarzwzor.findByFirmaRok", query = "SELECT k FROM Kalendarzwzor k WHERE k.firma=:firma AND k.rok=:rok"),
     @NamedQuery(name = "Kalendarzwzor.findByFirmaRokMc", query = "SELECT k FROM Kalendarzwzor k WHERE k.firma=:firma AND k.rok=:rok AND k.mc = :mc")
 })
 public class Kalendarzwzor implements Serializable {
@@ -55,7 +58,7 @@ public class Kalendarzwzor implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @OneToMany(mappedBy = "kalendarzwzor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "kalendarzwzor", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Dzien> dzienList;
     @NotNull
     @JoinColumn(name = "firma", referencedColumnName = "id")
@@ -104,6 +107,17 @@ public class Kalendarzwzor implements Serializable {
         return "entity.Kalendarzwzor[ id=" + id + " ]";
     }
 
+     public void ganerujdnizglobalnego(Kalendarzwzor kalendarzwzor) {
+        List<Dzien> nowedni = new ArrayList<>();
+        for (int i = 0; i < kalendarzwzor.getDzienList().size(); i++) {
+            Dzien dzienwzor = kalendarzwzor.getDzienList().get(i);
+            Dzien dzien = new Dzien(dzienwzor, this);
+            nowedni.add(dzien);
+        }
+        this.dzienList = nowedni;
+    }
+    
+    
     @XmlTransient
     public List<Dzien> getDzienList() {
         return dzienList;
