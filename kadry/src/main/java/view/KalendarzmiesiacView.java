@@ -58,6 +58,9 @@ public class KalendarzmiesiacView  implements Serializable {
       if (selectedlista!=null) {
           try {
             kalendarzmiesiacFacade.edit(selectedlista);
+            if (!listakalendarzeprac.contains(selectedlista)) {
+                listakalendarzeprac.add(selectedlista);
+            }
             wpisView.setRokWpisu(selected.getRok());
             wpisView.setMiesiacWpisu(selected.getMc());
             selected = new Kalendarzmiesiac();

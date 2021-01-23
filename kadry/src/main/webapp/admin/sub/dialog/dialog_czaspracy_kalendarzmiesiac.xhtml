@@ -27,7 +27,7 @@
                             </p:inputText>
                             <p:outputLabel value="miesiąc" for="mc" />
                             <p:inputText id="mc" value="#{kalendarzmiesiacView.selected.mc}" title="miesiąc" >
-                                <p:ajax event="blur" listener="#{kalendarzmiesiacView.zrobkalendarzumowa}" partialSubmit="true" global="false" update=":KalendarzmiesiacListForm:datalist"/>
+                                <p:ajax event="blur" listener="#{kalendarzmiesiacView.zrobkalendarzumowa}" partialSubmit="true" global="false" update=":KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm"/>
                             </p:inputText>
 
                         </p:panelGrid>
@@ -146,8 +146,8 @@
                     </p:dataTable>
                 </p:panel>
                 <p:outputPanel>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.create}" value="zachowaj" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm:datalist"/>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.reset}" value="resetuj" update="north KalendarzmiesiacCreateForm :KalendarzmiesiacListForm:datalist"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.create}" value="zachowaj" update="north KalendarzmiesiacCreateForm KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzmiesiacView.reset}" value="resetuj" update="north KalendarzmiesiacCreateForm :KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm"/>
                     <p:commandButton value="Rezygnuj" />
                 </p:outputPanel>
 

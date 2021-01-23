@@ -177,6 +177,8 @@ public class KalendarzmiesiacBean {
                 naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen,"111");
             } else if (nieobecnosc.getNieobecnosckodzus().getKod().equals("200")) {
                 naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen,"200");
+            } else if (nieobecnosc.getNieobecnosckodzus().getKod().equals("777")) {
+                naliczskladnikiwynagrodzeniazaOkresnieprzepracowany(kalendarz, nieobecnosc, pasekwynagrodzen,"777");
             }
         }
     }
@@ -193,12 +195,16 @@ public class KalendarzmiesiacBean {
         }
     }
     
-    static void naliczskladnikiwynagrodzeniaDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen) {
+    static boolean naliczskladnikiwynagrodzeniaDB(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen, double kurs) {
+        boolean jestoddelegowanie = false;
         for (Skladnikwynagrodzenia p : kalendarz.getUmowa().getSkladnikwynagrodzeniaList()) {
             if (p.getRodzajwynagrodzenia().getKod().equals("11")) {
-                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDB(pasekwynagrodzen, p);
+                Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createWynagrodzenieDB(pasekwynagrodzen, p, kalendarz.getDzienList(), kurs);
                 if (naliczenieskladnikawynagrodzenia.getKwota()!=0.0) {
                     pasekwynagrodzen.getNaliczenieskladnikawynagrodzeniaList().add(naliczenieskladnikawynagrodzenia);
+                    if (p.isOddelegowanie()) {
+                        jestoddelegowanie = true;
+                    }
                 }
             } else if (p.getRodzajwynagrodzenia().getKod().equals("20")) {
                 Naliczenieskladnikawynagrodzenia naliczenieskladnikawynagrodzenia = NaliczenieskladnikawynagrodzeniaBean.createPremiaDB(pasekwynagrodzen, p);
@@ -207,6 +213,7 @@ public class KalendarzmiesiacBean {
                 }
             }
         }
+        return jestoddelegowanie;
     }
 
     static void naliczskladnikipotracenia(Kalendarzmiesiac kalendarz, Pasekwynagrodzen pasekwynagrodzen) {
@@ -435,6 +442,8 @@ public class KalendarzmiesiacBean {
                         case "111":
                             dowyplatyzaczasurlopubezplatnego = dowyplatyzaczasurlopubezplatnego+p.getKwotastatystyczna();
                         case "200":
+                            dowyplatyzaczasurlopubezplatnego = dowyplatyzaczasurlopubezplatnego+p.getKwotastatystyczna();
+                        case "777":
                             dowyplatyzaczasurlopubezplatnego = dowyplatyzaczasurlopubezplatnego+p.getKwotastatystyczna();
 
                     }

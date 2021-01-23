@@ -171,7 +171,7 @@ public class PdfListaPlac {
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodstawaopodatkowania())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodatekwstepny())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotne())), "right",6));
-            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotnedodoliczenia())), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPraczdrowotnedopotracenia())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getPodatekdochodowy())), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(Z.z(rs.getNetto())), "right",6));
         }
@@ -247,37 +247,47 @@ public class PdfListaPlac {
       public static String wierszeSkladnikiString(List<Naliczenieskladnikawynagrodzenia> wykaz,List<Naliczenienieobecnosc> wykaznieob) {
         StringBuilder sb = new StringBuilder();
         for (Naliczenieskladnikawynagrodzenia rs : wykaz) {
-            sb.append(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod());
-            sb.append(" ");
-            sb.append(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony());
-            sb.append(" ");
-            sb.append(rs.getSkladnikwynagrodzenia().getUwagi());
-            sb.append(" ");
-            if (rs.getKwotazus()!=0.0) {
-                sb.append(formatujWaluta(rs.getKwotazus()));
-                sb.append(";  ");
-            } else if (rs.getKwotabezzus()!=0.0) {
-                sb.append(formatujWaluta(rs.getKwotabezzus()));
-                sb.append("; ");
-            } else {
-                sb.append(formatujWaluta(rs.getKwotabezzus()));
-                sb.append("; ");
+            if (!rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("777")) {
+                sb.append(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod());
+                sb.append(" ");
+                sb.append(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony());
+                sb.append(" ");
+                sb.append(rs.getSkladnikwynagrodzenia().getUwagi());
+                sb.append(" ");
+                if (Z.z(rs.getKwotazredukowana())!=0.0&&Z.z(rs.getKwotazredukowana())!=Z.z(rs.getKwota())) {
+                    sb.append(formatujWaluta(rs.getKwotazredukowana()));
+                    sb.append(";  ");
+                } else {
+                    if (Z.z(rs.getKwotazus())!=0.0) {
+                        sb.append("kwZus/ ");
+                        sb.append(formatujWaluta(rs.getKwotazus()));
+                        sb.append("; ");
+                    }
+                    if (Z.z(rs.getKwotabezzus())!=0.0) {
+                        sb.append("kwBezZus/ ");
+                        sb.append(formatujWaluta(rs.getKwotabezzus()));
+                        sb.append("; ");
+                    } 
+
+                }
             }
         }
         for (Naliczenienieobecnosc rs : wykaznieob) {
-            sb.append(rs.getNieobecnosc().getNieobecnosckodzus().getKod());
-            sb.append(" ");
-            sb.append(rs.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony());
-            sb.append(" ");
-            if (rs.getKwotazus()!=0.0) {
-                sb.append(formatujWaluta(rs.getKwotazus()));
-                sb.append("; ");
-            } else if (rs.getKwotastatystyczna()!=0.0){
-                sb.append(formatujWaluta(rs.getKwotabezzus()));
-                sb.append("; ");
-            } else {
-                sb.append(formatujWaluta(rs.getKwotabezzus()));
-                sb.append("; ");
+            if (!rs.getNieobecnosc().getNieobecnosckodzus().getKod().equals("777")) {
+                sb.append(rs.getNieobecnosc().getNieobecnosckodzus().getKod());
+                sb.append(" ");
+                sb.append(rs.getNieobecnosc().getNieobecnosckodzus().getOpisskrocony());
+                sb.append(" ");
+                if (rs.getKwotazus()!=0.0) {
+                    sb.append(formatujWaluta(rs.getKwotazus()));
+                    sb.append("; ");
+                } else if (rs.getKwotastatystyczna()!=0.0){
+                    sb.append(formatujWaluta(rs.getKwotabezzus()));
+                    sb.append("; ");
+                } else {
+                    sb.append(formatujWaluta(rs.getKwotabezzus()));
+                    sb.append("; ");
+                }
             }
         }
         return sb.toString();

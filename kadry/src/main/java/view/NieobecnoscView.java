@@ -100,7 +100,7 @@ public class NieobecnoscView  implements Serializable {
                 p.setNaniesiona(true);
                 
             }
-            nieobecnoscFacade.edit(selected);
+            nieobecnoscFacade.edit(lista);
             kalendarzmiesiacFacade.edit(znaleziony);
             Msg.msg("Naniesiono nieobecnosci");
         }

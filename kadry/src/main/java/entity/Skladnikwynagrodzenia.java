@@ -130,8 +130,10 @@ public class Skladnikwynagrodzenia implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Skladnikwynagrodzenia[ id=" + id + " ]";
+        return "Skladnikwynagrodzenia{" + "rodzajwynagrodzenia=" + rodzajwynagrodzenia.getOpisskrocony() + ", umowa=" + umowa.getNrkolejny() + ", oddelegowanie=" + oddelegowanie + '}';
     }
+
+   
     @XmlTransient
     public List<Zmiennawynagrodzenia> getZmiennawynagrodzeniaList() {
         return zmiennawynagrodzeniaList;

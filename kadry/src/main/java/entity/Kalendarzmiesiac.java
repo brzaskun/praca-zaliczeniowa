@@ -260,13 +260,17 @@ private static final long serialVersionUID = 1L;
         for (int i = dzienod; i <= dziendo; i++) {
             Dzien dzienaktualny = this.dzienList.get(i);
             dzienaktualny.setKod(p.getNieobecnosckodzus().getKod());
-            dzienaktualny.setPrzepracowano(0);
             if (p.getNieobecnosckodzus().getKod().equals("331")) {
                 dzienaktualny.setWynagrodzeniezachorobe(dzienaktualny.getNormagodzin());
+                dzienaktualny.setPrzepracowano(0);
             } else if (p.getNieobecnosckodzus().getKod().equals("100")) {
                 dzienaktualny.setUrlopPlatny(dzienaktualny.getNormagodzin());
+                dzienaktualny.setPrzepracowano(0);
             } else if (p.getNieobecnosckodzus().getKod().equals("111")) {
                 dzienaktualny.setUrlopbezplatny(dzienaktualny.getNormagodzin());
+                dzienaktualny.setPrzepracowano(0);
+            } else if (p.getNieobecnosckodzus().getKod().equals("777")) {
+                
             }
         }
     }

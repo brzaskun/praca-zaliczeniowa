@@ -115,6 +115,16 @@ private double bruttobezzus;
     private double razem53;
     @Column(name = "kosztpracodawcy")
     private double kosztpracodawcy;
+     @Column(name = "dietastawka")
+    private double dietastawka;
+    @Column(name = "dietaodliczeniepodstawaop")
+    private double dietaodliczeniepodstawaop;
+    @Column(name = "dieta")
+    private double dieta;
+    @Column(name = "kurs")
+    private double kurs;
+    @Column(name = "limitzus")
+    private double limitzus;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
     private List<Naliczeniepotracenie> naliczeniepotracenieList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
@@ -182,10 +192,14 @@ private double bruttobezzus;
         }
         return true;
     }
+
     @Override
     public String toString() {
-        return "entity.Pasekwynagrodzen[ id=" + id + " ]";
+        return "Pasekwynagrodzen{" + "kalendarzmiesiac=" + kalendarzmiesiac.getNazwiskoImie() + '}';
     }
+
+    
+    
     @XmlTransient
     public List<Naliczeniepotracenie> getNaliczeniepotracenieList() {
         return naliczeniepotracenieList;
@@ -428,6 +442,48 @@ private double bruttobezzus;
     public void setKosztpracodawcy(double kosztpracodawcy) {
         this.kosztpracodawcy = kosztpracodawcy;
     }
+
+    public double getDietaodliczeniepodstawaop() {
+        return dietaodliczeniepodstawaop;
+    }
+
+    public void setDietaodliczeniepodstawaop(double dietaodliczeniepodstawaop) {
+        this.dietaodliczeniepodstawaop = dietaodliczeniepodstawaop;
+    }
+
+    public double getDietastawka() {
+        return dietastawka;
+    }
+
+    public void setDietastawka(double dietastawka) {
+        this.dietastawka = dietastawka;
+    }
+
+    public double getDieta() {
+        return dieta;
+    }
+
+    public void setDieta(double dieta) {
+        this.dieta = dieta;
+    }
+
+    public double getKurs() {
+        return kurs;
+    }
+
+    public void setKurs(double kurs) {
+        this.kurs = kurs;
+    }
+
+    public double getLimitzus() {
+        return limitzus;
+    }
+
+    public void setLimitzus(double limitzus) {
+        this.limitzus = limitzus;
+    }
+    
+    
 
     public void dodajPasek(Pasekwynagrodzen p) {
         this.bruttozus = this.bruttozus + p.bruttozus;

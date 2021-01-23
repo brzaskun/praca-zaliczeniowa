@@ -5,11 +5,13 @@
  */
 package beanstesty;
 
+import entity.Dzien;
 import entity.Naliczenieskladnikawynagrodzenia;
 import entity.Pasekwynagrodzen;
 import entity.Skladnikwynagrodzenia;
 import entity.Zmiennawynagrodzenia;
 import java.util.List;
+import z.Z;
 
 /**
  *
@@ -35,13 +37,28 @@ public class NaliczenieskladnikawynagrodzeniaBean {
         return naliczenieskladnikawynagrodzenia;
     }
     
-    public static Naliczenieskladnikawynagrodzenia createWynagrodzenieDB(Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia) {
+    public static Naliczenieskladnikawynagrodzenia createWynagrodzenieDB(Pasekwynagrodzen pasekwynagrodzen, Skladnikwynagrodzenia skladnikwynagrodzenia, List<Dzien> listadni, double kurs) {
         Naliczenieskladnikawynagrodzenia zwrot = new Naliczenieskladnikawynagrodzenia();
         double zmiennawynagrodzeniakwota = 0.0;
-        List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = skladnikwynagrodzenia.getZmiennawynagrodzeniaList();
-        for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
-            if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("11")) {
-                zmiennawynagrodzeniakwota = p.getKwota();
+        if (skladnikwynagrodzenia.getRodzajwynagrodzenia().getGodzinowe0miesieczne1()==true) {
+            List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = skladnikwynagrodzenia.getZmiennawynagrodzeniaList();
+            for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
+                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("11")) {
+                    zmiennawynagrodzeniakwota = p.getKwota();
+                }
+            }
+        } else {
+            double godzinyoddelegowanie = 0.0;
+            for (Dzien p : listadni) {
+                if (p.getTypdnia()>-1 && p.getKod().equals("777")) {
+                    godzinyoddelegowanie = godzinyoddelegowanie+p.getPrzepracowano() ;
+                }
+            }
+            List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = skladnikwynagrodzenia.getZmiennawynagrodzeniaList();
+            for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
+                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("11")) {
+                    zmiennawynagrodzeniakwota = Z.z(p.getKwota()*kurs*godzinyoddelegowanie);
+                }
             }
         }
         zwrot.setPasekwynagrodzen(pasekwynagrodzen);

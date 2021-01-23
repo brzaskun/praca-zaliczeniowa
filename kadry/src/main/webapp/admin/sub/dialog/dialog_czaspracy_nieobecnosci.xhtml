@@ -114,7 +114,7 @@
                             <h:outputText value="#{itemNieob.umowa.angaz.angazString}"/>
                         </p:column>
                     </p:dataTable>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.nieniesnakalendarz}" value="nanieś na kal." update="NieobecnoscListForm:datalist"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.nieniesnakalendarz()}" value="nanieś na kal." update="NieobecnoscListForm:datalist"/>
                 </p:panel>
             </h:form>
         </p:outputPanel>

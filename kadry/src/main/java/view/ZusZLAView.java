@@ -7,6 +7,7 @@ package view;
 
 import data.Data;
 import java.io.Serializable;
+import java.util.Base64;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.xml.ws.BindingProvider;
@@ -38,7 +39,7 @@ public class ZusZLAView  implements Serializable {
             }
         });
         PobierzRaporty parameters = new PobierzRaporty();
-        parameters.setNip("5110275048");
+        parameters.setNip("8511005008");
         parameters.setLogin("a.barczyk@taxman.biz.pl");
         parameters.setHaslo("Taxman2810*");
         String nowadata = Data.odejmijdniDzis(30);
@@ -49,6 +50,9 @@ public class ZusZLAView  implements Serializable {
         prov.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "b2b_platnik_raporty_zla");
         PobierzRaportyResponse pobierzRaporty = port.pobierzRaporty(parameters);
         zuszla.Raporty rap = pobierzRaporty.getRaporty();
+        zuszla.Raport raport = rap.getRaport().get(0);
+        byte[] encodedString = Base64.getDecoder().decode(raport.getZawartosc());
+        
         System.out.println("");
        } catch (Exception e) {
            System.out.println("");
