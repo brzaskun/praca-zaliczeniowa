@@ -68,7 +68,7 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
           Msg.msg("e", "Nie wybrano składnika");
       }
     }
-    public void usun(Zmiennawynagrodzenia zmienna) {
+    public void usunZmiennaWyn(Zmiennawynagrodzenia zmienna) {
         if (zmienna!=null) {
             zmiennaWynagrodzeniaFacade.remove(zmienna);
             lista.remove(zmienna);

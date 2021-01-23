@@ -44,7 +44,9 @@
                      <ui:include src="sub/dialog/dialog_lista_definicja.xhtml"/>
                      <ui:include src="sub/dialog/dialog_lista_plac.xhtml"/>
                      <ui:include src="sub/dialog/dialog_dra.xhtml"/>
-
+                     <h:form>
+                         <p:commandButton value="zus zla" styleClass="buttonnorm" actionListener="#{zusZLAView.zuszla()}" />
+                     </h:form>
 <!--                       <h:form>
                        <h:outputText value="rok WpisView"/>
                        <h:outputText value="#{wpisView.rokWpisu}"/>

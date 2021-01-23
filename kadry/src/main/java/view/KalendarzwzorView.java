@@ -8,6 +8,7 @@ package view;
 import beanstesty.KalendarzWzorBean;
 import dao.FirmaFacade;
 import dao.KalendarzwzorFacade;
+import embeddable.Mce;
 import entity.Firma;
 import entity.Kalendarzwzor;
 import java.io.Serializable;
@@ -45,6 +46,10 @@ public class KalendarzwzorView  implements Serializable {
         listafirm = firmaFacade.findAll();
         selected.setFirma(wpisView.getFirma());
         selected.setRok(wpisView.getRokWpisu());
+    }
+    
+    public void init2() {
+        init();
     }
 
     public void create() {
@@ -92,6 +97,31 @@ public class KalendarzwzorView  implements Serializable {
         }
     }
     
+      public void globalnie() {
+        if (wpisView.getFirma()!=null && wpisView.getRokWpisu()!=null) {
+            Firma firmaglobalna = firmaFacade.findByNIP("8511005008");
+            for (String mce: Mce.getMceListS()) {
+                Kalendarzwzor kal = new Kalendarzwzor();
+                kal.setRok(wpisView.getRokWpisu());
+                kal.setMc(mce);
+                kal.setFirma(wpisView.getFirma());
+                Kalendarzwzor kalmiesiac = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getFirma(), kal.getRok(), mce);
+                if (kalmiesiac==null) {
+                    Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(firmaglobalna, kal.getRok(), mce);
+                    if (znaleziono!=null) {
+                        kal.ganerujdnizglobalnego(znaleziono);
+                        kalendarzwzorFacade.create(kal);
+                    } else {
+                        Msg.msg("e","Brak kalendarza globalnego za "+mce);
+                    }
+                }
+            }
+             lista  = kalendarzwzorFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
+            Msg.msg("Pobrano dane z kalendarza globalnego z bazy danych i utworzono kalendarz wzorcowy firmy");
+        } else {
+            Msg.msg("e","Nie wybrano firmy");
+        }
+    }
      
     public Kalendarzwzor getSelected() {
         return selected;

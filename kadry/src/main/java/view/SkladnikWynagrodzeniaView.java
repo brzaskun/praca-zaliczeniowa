@@ -74,7 +74,7 @@ public class SkladnikWynagrodzeniaView  implements Serializable {
       }
     }
     
-    public void usun(Skladnikwynagrodzenia skladnikwynagrodzenia) {
+    public void usunSkladnikWyn(Skladnikwynagrodzenia skladnikwynagrodzenia) {
         if (skladnikwynagrodzenia!=null) {
             skladnikWynagrodzeniaFacade.remove(skladnikwynagrodzenia);
             lista.remove(skladnikwynagrodzenia);

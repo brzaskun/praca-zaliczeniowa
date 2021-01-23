@@ -55,7 +55,7 @@ public class KalendarzmiesiacView  implements Serializable {
     }
 
     public void create() {
-      if (selected!=null) {
+      if (selectedlista!=null) {
           try {
             kalendarzmiesiacFacade.edit(selectedlista);
             wpisView.setRokWpisu(selected.getRok());

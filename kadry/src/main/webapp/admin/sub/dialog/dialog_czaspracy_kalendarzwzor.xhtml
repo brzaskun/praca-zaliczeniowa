@@ -19,7 +19,7 @@
                                 <f:selectItems value="#{kalendarzwzorView.listafirm}"
                                                var="firmaKItem"
                                                itemValue="#{firmaKItem}" itemLabel="#{firmaKItem.nazwa}"/> 
-                                <p:ajax event="change" partialSubmit="true" global="false"/>
+                                <p:ajax event="change" partialSubmit="true" listener="#{kalendarzwzorView.init2()}" global="false" update="KalendarzwzormiesiacSaRokForm"/>
                             </p:selectOneMenu>
                             <p:outputLabel value="rok" for="rok" />
                             <p:inputText id="rok" value="#{kalendarzwzorView.selected.rok}" title="rok" >
@@ -47,6 +47,11 @@
                             <h:outputText value="#{itemkalendarzwzorjest.mc}"/>
                         </p:column>
                     </p:dataTable>
+                </h:form>
+                <h:form id="KalendarzwzorCopyForm">
+                    <p:outputPanel>
+                        <p:commandButton value="kopiuj globalny" styleClass="nuttonnorm" actionListener="#{kalendarzwzorView.globalnie}" update="KalendarzwzormiesiacSaRokForm"/>
+                    </p:outputPanel>
                 </h:form>
             </p:panelGrid>
         </p:outputPanel>
@@ -81,6 +86,12 @@
                                 <h:outputText value="norma godzin"/>
                             </f:facet>
                             <p:inputText value="#{itemkalendarz.normagodzin}" size="4" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="kod"/>
+                            </f:facet>
+                            <h:inputText size="3"  value="#{itemkalendarz.kod}"/>
                         </p:column>
 <!--                        <p:column>
                             <f:facet name="header">

@@ -64,4 +64,8 @@ public class FirmaFacade  {
             em.remove(em.merge(p));
         }
     }
+
+    public Firma findByNIP(String nip) {
+        return (Firma) getEntityManager().createNamedQuery("Firma.findByNip").setParameter("nip", nip).getSingleResult();
+    }
 }

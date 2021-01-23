@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="file:/C:/Users/Osito/Documents/NetBeansProjects/kadry/src/main/webapp/resources/wdsl/zuszla.wsdl" uri="wsdl/zuszla.wsdl"/>
+    <system systemId="file:/C:/Users/Osito/Documents/NetBeansProjects/kadry/src/wsdl/zuszla.wsdl" uri="wsdl/zuszla.wsdl"/>
+    <system systemId="file:/C:/Users/Osito/Documents/NetBeansProjects/kadry/src/main/webapp/WEB-INF/wsdl/zuszla.wsdl" uri="wsdl/zuszla.wsdl"/>
+</catalog>

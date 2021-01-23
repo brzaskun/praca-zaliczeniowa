@@ -1,0 +1,63 @@
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soapjms="http://www.w3.org/2010/soapjms/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://zus/zus.channel.platnikRaportyZla:wsdlPlatnikRaportyZla" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" name="wsdlPlatnikRaportyZla" targetNamespace="http://zus/zus.channel.platnikRaportyZla:wsdlPlatnikRaportyZla">
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://zus/zus.channel.platnikRaportyZla:wsdlPlatnikRaportyZla" targetNamespace="http://zus/zus.channel.platnikRaportyZla:wsdlPlatnikRaportyZla">
+			<xsd:element name="PobierzRaporty" type="tns:PobierzRaporty"/>
+			<xsd:element name="PobierzRaportyResponse" type="tns:PobierzRaportyResponse"/>
+			<xsd:complexType name="PobierzRaporty">
+				<xsd:sequence>
+					<xsd:element name="dataOd" type="xsd:date"/>
+					<xsd:element name="login" type="xsd:string"/>
+					<xsd:element name="haslo" type="xsd:string"/>
+					<xsd:element name="nip" nillable="true" type="xsd:string"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="PobierzRaportyResponse">
+				<xsd:sequence>
+					<xsd:element name="kod" type="xsd:string"/>
+					<xsd:element name="opis" type="xsd:string"/>
+					<xsd:element name="raporty" type="tns:raporty" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="raporty">
+				<xsd:sequence>
+					<xsd:element name="raport" type="tns:Raport" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="Raport">
+				<xsd:sequence>
+					<xsd:element name="dataWygenerowania" type="xsd:date"/>
+					<xsd:element name="zawartosc" type="xsd:base64Binary"/>
+				</xsd:sequence>
+			</xsd:complexType>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="wsdlPlatnikRaportyZla_PortType_PobierzRaportyResponse">
+		<wsdl:part name="parameters" element="tns:PobierzRaportyResponse"> </wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="wsdlPlatnikRaportyZla_PortType_PobierzRaporty">
+		<wsdl:part name="parameters" element="tns:PobierzRaporty"> </wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="wsdlPlatnikRaportyZla_PortType">
+		<wsdl:operation name="pobierzRaporty">
+			<wsdl:input message="tns:wsdlPlatnikRaportyZla_PortType_PobierzRaporty"> </wsdl:input>
+			<wsdl:output message="tns:wsdlPlatnikRaportyZla_PortType_PobierzRaportyResponse"> </wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="zus_channel_platnikRaportyZla_wsdlPlatnikRaportyZla_Binder" type="tns:wsdlPlatnikRaportyZla_PortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="pobierzRaporty">
+			<soap:operation soapAction="zus_channel_platnikRaportyZla_wsdlPlatnikRaportyZla_Binder_pobierzRaporty" style="document"/>
+			<wsdl:input>
+				<soap:body parts="parameters" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body parts="parameters" use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="wsdlPlatnikRaportyZla">
+		<wsdl:port name="zus_channel_platnikRaportyZla_wsdlPlatnikRaportyZla_Port" binding="tns:zus_channel_platnikRaportyZla_wsdlPlatnikRaportyZla_Binder">
+			<soap:address location="https://193.105.143.40:8500/ws/zus.channel.platnikRaportyZla:wsdlPlatnikRaportyZla/zus_channel_platnikRaportyZla_wsdlPlatnikRaportyZla_Port"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -16,6 +16,8 @@ import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.inject.Named;
@@ -550,11 +552,26 @@ public class Data implements Serializable {
         }
         return zwrot;
     }
-
-    public static XMLGregorianCalendar dataoddo(String data) throws DatatypeConfigurationException {
+    
+    public static String odejmijdni(String databiezaca, int iloscdni) {
+        return LocalDate.parse(databiezaca).minusDays(iloscdni).toString();
+    }
+    
+    public static String odejmijdniDzis(int iloscdni) {
+        return LocalDate.now().minusDays(iloscdni).toString();
+    }
+            
+            
+    public static XMLGregorianCalendar dataoddo(String data) {
         String f = "yyyy-MM-dd";
         DateFormat format = new SimpleDateFormat(f);
-        return DatatypeFactory.newInstance().newXMLGregorianCalendar(f.format(data));
+        XMLGregorianCalendar newXMLGregorianCalendar = null;
+        try {
+             newXMLGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(f.format(data));
+        } catch (DatatypeConfigurationException ex) {
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return newXMLGregorianCalendar;
     }
     
     public static String zmienkolejnosc(String zladata) {

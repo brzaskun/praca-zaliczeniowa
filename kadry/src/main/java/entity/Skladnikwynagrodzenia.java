@@ -60,6 +60,8 @@ public class Skladnikwynagrodzenia implements Serializable {
     private Umowa umowa;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikwynagrodzenia", orphanRemoval = true)
     private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
+    @Column(name = "oddelegowanie")
+    private  boolean oddelegowanie;
 
     public Skladnikwynagrodzenia() {
         this.zmiennawynagrodzeniaList = new ArrayList<>();
@@ -152,6 +154,14 @@ public class Skladnikwynagrodzenia implements Serializable {
 
     public void setRodzajwynagrodzenia(Rodzajwynagrodzenia rodzajwynagrodzenia) {
         this.rodzajwynagrodzenia = rodzajwynagrodzenia;
+    }
+
+    public boolean isOddelegowanie() {
+        return oddelegowanie;
+    }
+
+    public void setOddelegowanie(boolean oddelegowanie) {
+        this.oddelegowanie = oddelegowanie;
     }
 
 

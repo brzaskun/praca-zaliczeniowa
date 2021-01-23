@@ -11,6 +11,7 @@ import dao.KalendarzwzorFacade;
 import dao.NieobecnoscFacade;
 import dao.NieobecnosckodzusFacade;
 import dao.UmowaFacade;
+import data.Data;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
 import entity.Nieobecnosc;
@@ -22,7 +23,12 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.xml.ws.BindingProvider;
+import javax.xml.ws.WebServiceRef;
 import msg.Msg;
+import zuszla.PobierzRaporty;
+import zuszla.PobierzRaportyResponse;
+import zuszla.WsdlPlatnikRaportyZlaPortType;
 
 /**
  *
@@ -51,6 +57,8 @@ public class NieobecnoscView  implements Serializable {
     private UmowaFacade umowaFacade;
     @Inject
     private WpisView wpisView;
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/zuszla.wsdl")
+    private zuszla.WsdlPlatnikRaportyZla wsdlPlatnikRaportyZla;
     
     @PostConstruct
     private void init() {
@@ -98,6 +106,33 @@ public class NieobecnoscView  implements Serializable {
         }
     }
 
+    public void pobierzzzus() {
+        try {
+            PobierzRaporty parameters = new PobierzRaporty();
+            parameters.setNip(wpisView.getFirma().getNip());
+            parameters.setLogin("a.barczyk@taxman.biz.pl");
+            parameters.setHaslo("Taxman2810*");
+            String nowadata = Data.odejmijdniDzis(30);
+            parameters.setDataOd(Data.dataoddo(nowadata));
+            WsdlPlatnikRaportyZlaPortType port = wsdlPlatnikRaportyZla.getZusChannelPlatnikRaportyZlaWsdlPlatnikRaportyZlaPort();
+            BindingProvider prov = (BindingProvider) port;
+            prov.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "b2b_platnik_raporty_zla");
+            prov.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "b2b_platnik_raporty_zla");
+            PobierzRaportyResponse pobierzRaporty = port.pobierzRaporty(parameters);
+            if (pobierzRaporty.getKod().equals("0")) {
+                if (pobierzRaporty.getRaporty()==null) {
+                    Msg.msg("w","Brak zwolnien w ostatnich 30 dniach");
+                } else {
+                    Msg.msg("Pobrano zwolnienia z ostatnich 30 dni");
+                }
+            } else if (pobierzRaporty.getKod().equals("200")) {
+                Msg.msg("e","Serwer ZUS wyłączony");
+            }
+            System.out.println("");
+        } catch (Exception e) {
+            System.out.println("");
+        }
+    }
     
     public Nieobecnosc getSelected() {
         return selected;

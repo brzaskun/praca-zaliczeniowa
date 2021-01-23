@@ -27,6 +27,8 @@
                                                itemValue="#{rodzajwynItem}" itemLabel="#{rodzajwynItem.opisskrocony}"/>
                                 <p:ajax event="change" partialSubmit="true" global="false"  update="SkladnikwynagrodzeniaCreateForm:kod"/>
                             </p:selectOneMenu>
+                             <p:outputLabel value="oddelegowanie" for="oddelegowniebox" />
+                             <p:selectBooleanCheckbox id="oddelegowniebox" value="#{skladnikWynagrodzeniaView.selected.oddelegowanie}" />
                             <p:outputLabel value="kod" for="kod" />
                             <h:outputText id="kod" value="#{skladnikWynagrodzeniaView.selected.rodzajwynagrodzenia.kod}" title="kod" />
                             <p:outputLabel value="uwagi" for="uwagi" />
@@ -40,11 +42,16 @@
             <p:outputPanel style="height: 200px" styleClass="panelzramka">
                 <h:form id="ZmiennawynagrodzeniaCreateForm">
                     <h:panelGroup id="display">
-                        <p:panelGrid columns="4" rendered="#{zmiennaWynagrodzeniaView.selected != null}">
+                        <p:panelGrid columns="6" rendered="#{zmiennaWynagrodzeniaView.selected != null}">
                             <p:outputLabel value="nazwa" for="nazwa" />
                             <p:inputText id="nazwa" value="#{zmiennaWynagrodzeniaView.selected.nazwa}" title="nazwa"  required="true"/>
                             <p:outputLabel value="kwota" />
                             <bcf:innum  value="#{zmiennaWynagrodzeniaView.selected.kwota}" />
+                             <p:outputLabel value="umowa" for="umowaskladnik" />
+                             <p:selectOneMenu id="umowaskladnik" value="#{zmiennaWynagrodzeniaView.selected.waluta}" required="true">
+                                <f:selectItem itemLabel="wybierz" noSelectionOption="true" />
+                                <f:selectItems value="#{waluty.listawalut}"/>
+                            </p:selectOneMenu>
                             <p:outputLabel value="data od" for="dataod" />
                             <p:inputText id="dataod" value="#{zmiennaWynagrodzeniaView.selected.dataod}" title="data od" placeholder="____-__-__"  required="true"/>
                             <p:outputLabel value="data do" for="datado" />
@@ -109,8 +116,14 @@
                                 <h:outputText value="zmienna" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.stale0zmienne1 eq true}"/>
                                 <h:outputText value="stała" rendered="#{itemskladnikwyn.rodzajwynagrodzenia.stale0zmienne1 eq false}"/>
                             </p:column>
+                             <p:column style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="oddel."/>
+                                </f:facet>
+                                 <h:outputText value="&#x2714;" rendered="#{itemskladnikwyn.oddelegowanie eq true}"/>
+                            </p:column>
                             <p:column style="text-align: center; width: 40px;">
-                                <p:commandButton icon="fa fa-trash" actionListener="#{skladnikWynagrodzeniaView.usun(item2)}" update="north, @(form)"/>
+                                <p:commandButton icon="fa fa-trash" actionListener="#{skladnikWynagrodzeniaView.usunSkladnikWyn(itemskladnikwyn)}" update="north, @(form)"/>
                             </p:column>
                         </p:dataTable>
                     </p:panel>
@@ -156,8 +169,14 @@
                                 </f:facet>
                                 <bcf:outputpl value="#{itemzmiennawyn.kwota}"/>
                             </p:column>
+                            <p:column width="40" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="kwota"/>
+                                </f:facet>
+                                <bcf:outputpl value="#{itemzmiennawyn.waluta}"/>
+                            </p:column>
                             <p:column style="text-align: center;">
-                                <p:commandButton icon="fa fa-trash" actionListener="#{zmiennaWynagrodzeniaView.usun(itemzmiennawyn)}" update="north @(form)"/>
+                                <p:commandButton icon="fa fa-trash" actionListener="#{zmiennaWynagrodzeniaView.usunZmiennaWyn(itemzmiennawyn)}" update="north @(form)"/>
                             </p:column>
                         </p:dataTable>
                     </p:panel>

@@ -54,6 +54,9 @@ public class Zmiennawynagrodzenia implements Serializable {
     @Size(max = 255)
     @Column(name = "nazwa")
     private String nazwa;
+    @Size(max = 3)
+    @Column(name = "waluta")
+    private String waluta;
     @JoinColumn(name = "skladnikwynagrodzenia", referencedColumnName = "id")
     @ManyToOne
     private Skladnikwynagrodzenia skladnikwynagrodzenia;
@@ -64,10 +67,12 @@ public class Zmiennawynagrodzenia implements Serializable {
 
 
     public Zmiennawynagrodzenia() {
+        this.waluta = "PLN";
     }
 
     public Zmiennawynagrodzenia(int id) {
         this.id = id;
+        this.waluta = "PLN";
     }
 
     public Integer getId() {
@@ -144,6 +149,14 @@ public class Zmiennawynagrodzenia implements Serializable {
 
     public void setSkladnikwynagrodzenia(Skladnikwynagrodzenia skladnikwynagrodzenia) {
         this.skladnikwynagrodzenia = skladnikwynagrodzenia;
+    }
+
+    public String getWaluta() {
+        return waluta;
+    }
+
+    public void setWaluta(String waluta) {
+        this.waluta = waluta;
     }
 
     
