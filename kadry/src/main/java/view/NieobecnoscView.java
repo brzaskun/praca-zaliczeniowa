@@ -17,15 +17,27 @@ import entity.Kalendarzwzor;
 import entity.Nieobecnosc;
 import entity.Nieobecnosckodzus;
 import entity.Umowa;
+import generated.RaportEzla;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.WebServiceRef;
 import msg.Msg;
+import net.lingala.zip4j.ZipFile;
+import net.lingala.zip4j.model.FileHeader;
 import zuszla.PobierzRaporty;
 import zuszla.PobierzRaportyResponse;
 import zuszla.WsdlPlatnikRaportyZlaPortType;
@@ -35,7 +47,7 @@ import zuszla.WsdlPlatnikRaportyZlaPortType;
  * @author Osito
  */
 @Named
-@RequestScoped
+@ViewScoped
 public class NieobecnoscView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
@@ -120,15 +132,41 @@ public class NieobecnoscView  implements Serializable {
             prov.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "b2b_platnik_raporty_zla");
             PobierzRaportyResponse pobierzRaporty = port.pobierzRaporty(parameters);
             if (pobierzRaporty.getKod().equals("0")) {
-                if (pobierzRaporty.getRaporty()==null) {
-                    Msg.msg("w","Brak zwolnien w ostatnich 30 dniach");
+                if (pobierzRaporty.getRaporty() == null) {
+                    Msg.msg("w", "Brak zwolnien w ostatnich 30 dniach");
                 } else {
                     Msg.msg("Pobrano zwolnienia z ostatnich 30 dni");
                 }
             } else if (pobierzRaporty.getKod().equals("200")) {
-                Msg.msg("e","Serwer ZUS wyłączony");
+                Msg.msg("e", "Serwer ZUS wyłączony");
+            }
+            zuszla.Raporty rap = pobierzRaporty.getRaporty();
+            zuszla.Raport raport = rap.getRaport().get(3);
+            Base64.Decoder dec = Base64.getDecoder();
+            byte[] dane = raport.getZawartosc();
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/");
+            Path path = Paths.get(realPath + "resources/zla/raport.zip");
+            Files.write(path, dane);
+            ZipFile zp = new ZipFile(realPath + "resources/zla/raport.zip", "Taxman2810*".toCharArray());
+            FileHeader fileHeader = zp.getFileHeader("raport.xml");
+            InputStream inputStream = zp.getInputStream(fileHeader);
+            //File targetFile = new File("src/main/resources/targetFile.tmp");
+            RaportEzla zwrot = null;
+            try {
+                JAXBContext context = JAXBContext.newInstance(RaportEzla.class);
+                Unmarshaller unmarshaller = context.createUnmarshaller();
+                zwrot = (RaportEzla) unmarshaller.unmarshal(inputStream);
+            } catch (Exception ex) {
+                error.E.s("");
             }
             System.out.println("");
+            if (zwrot != null) {
+                Nieobecnosc nieob = new Nieobecnosc(zwrot, wpisView.getUmowa());
+                nieob.setNieobecnosckodzus(nieobecnosckodzusFacade.findByKod("331"));
+                nieob.setId(999);
+                lista.add(nieob);
+            }
         } catch (Exception e) {
             System.out.println("");
         }

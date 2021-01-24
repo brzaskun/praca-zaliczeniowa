@@ -5,6 +5,8 @@
  */
 package entity;
 
+import data.Data;
+import generated.RaportEzla;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -70,6 +72,14 @@ public class Nieobecnosc implements Serializable {
     public Nieobecnosc(int id) {
         this.id = id;
     }
+
+    public Nieobecnosc(RaportEzla zwrot, Umowa umowa) {
+        this.setUmowa(umowa);
+        this.setDataod(Data.calendarToString(zwrot.getDokumentyEzla().getDaneDokumentu().getOkresZwolnienia().getDataOd()));
+        this.setDatado(Data.calendarToString(zwrot.getDokumentyEzla().getDaneDokumentu().getOkresZwolnienia().getDataDo()));
+    }
+
+   
 
     public Integer getId() {
         return id;
