@@ -68,5 +68,9 @@ public class RodzajwynagrodzeniaFacade    implements Serializable {
         }
     }
 
+    public Rodzajwynagrodzenia findZasadnicze() {
+        return (Rodzajwynagrodzenia) getEntityManager().createNamedQuery("Rodzajwynagrodzenia.findByOpispelny").setParameter("opispelny", "Wynagrodzenie zasadnicze").getSingleResult();
+    }
+
   
 }

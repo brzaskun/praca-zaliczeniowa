@@ -12,7 +12,7 @@ import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
@@ -22,7 +22,7 @@ import msg.Msg;
  * @author Osito
  */
 @Named
-@ViewScoped
+@RequestScoped
 public class ZmiennaWynagrodzeniaView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
@@ -40,8 +40,11 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
     
     @PostConstruct
     public void init() {
-        if (wpisView.getAngaz()!=null) {
+        if (wpisView.getAngaz() != null) {
             listaskladnikiwynagrodzenia = skladnikWynagrodzeniaFacade.findByPracownik(wpisView.getAngaz().getPracownik());
+            if (listaskladnikiwynagrodzenia != null && !listaskladnikiwynagrodzenia.isEmpty()) {
+                lista = zmiennaWynagrodzeniaFacade.findBySkladnik(listaskladnikiwynagrodzenia.get(0));
+            }
         }
     }
     

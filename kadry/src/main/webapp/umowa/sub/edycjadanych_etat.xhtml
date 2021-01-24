@@ -1,0 +1,77 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+        <p:panelGrid columns="2">
+            <p:outputPanel style="height: 250px;" styleClass="panelzramka">
+                <h:form id="EtatCreateForm">
+                    <p:panel header="Dodawanie/edycja etatu do umowy"/>
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="8" rendered="#{etatView.selected != null}" style="width: 300px">
+                            <p:outputLabel value="data od" for="dataode" />
+                            <p:inputText id="dataode" value="#{etatView.selected.dataod}" title="data od" placeholder="____-__-__"  required="true"/>
+                            <p:outputLabel value="data do" for="datadoe" />
+                            <p:inputText id="datadoe" value="#{etatView.selected.datado}" title="data do" placeholder="____-__-__" />
+                            <p:outputLabel value=" " for="etat1" />
+                            <p:inputNumber id="etat1" value="#{etatView.selected.etat1}" size="2" maxValue="9" maxlength="1" decimalPlaces="0"/>
+                            <p:outputLabel value=" " for="etat2" />
+                            <p:inputNumber id="etat2" value="#{etatView.selected.etat2}" size="2" maxValue="9" maxlength="1" decimalPlaces="0"/>
+                        </p:panelGrid>
+                        <p:commandButton styleClass="buttonnorm" actionListener="#{etatView.create}" value="#{bundle.Save}" update="display,@(form)"/>
+                        <p:commandButton value="#{bundle.Cancel}" onclick="EtatCreateDialog.hide()"/>
+                    </h:panelGroup>
+                </h:form>
+            </p:outputPanel>
+             <p:outputPanel>
+                <h:form id="EtatListForm">
+                    <p:panel header="Wykaz historii etatów">
+                        <p:dataTable id="datalist" value="#{etatView.lista}" var="itemetat"
+                                     selectionMode="single" selection="#{etatView.selectedlista}"
+                                     rowKey="#{itemetat.id}" emptyMessage="Składnik nie posiada zdefiniowanych zmiennych"
+                                     style="height: 200px; overflow-y: scroll;width: 800px;"
+                                     >
+
+                            <p:column width="40" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="id"/>
+                                </f:facet>
+                                <h:outputText value="#{itemetat.id}"/>
+                            </p:column>
+                            <p:column width="250">
+                                <f:facet name="header">
+                                    <h:outputText value="umowa"/>
+                                </f:facet>
+                                <h:outputText value="#{itemetat.umowa.nrkolejny}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="data od"/>
+                                </f:facet>
+                                <h:outputText value="#{itemetat.dataod}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="data do"/>
+                                </f:facet>
+                                <h:outputText value="#{itemetat.datado}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="etat"/>
+                                </f:facet>
+                                <h:outputText value="#{itemetat.etat1}"/>
+                                <h:outputText value="/"/>
+                                <h:outputText value="#{itemetat.etat2}"/>
+                            </p:column>
+                            <p:column style="text-align: center;">
+                                <p:commandButton icon="fa fa-trash" actionListener="#{etatView.usunEtat(itemetat)}" update="north @(form)"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </p:outputPanel>
+        </p:panelGrid>
+</ui:composition>

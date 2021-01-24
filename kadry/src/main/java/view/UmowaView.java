@@ -11,8 +11,11 @@ import dao.EtatFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.KodyzawodowFacade;
+import dao.RodzajwynagrodzeniaFacade;
+import dao.SkladnikWynagrodzeniaFacade;
 import dao.UmowaFacade;
 import dao.UmowakodzusFacade;
+import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
 import embeddable.Mce;
 import entity.Angaz;
@@ -20,8 +23,10 @@ import entity.Etat;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
 import entity.Kodyzawodow;
+import entity.Skladnikwynagrodzenia;
 import entity.Umowa;
 import entity.Umowakodzus;
+import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -66,6 +71,7 @@ public class UmowaView  implements Serializable {
     private WpisView wpisView;
     @Inject
     private SkladnikWynagrodzeniaView skladnikWynagrodzeniaView;
+    private double wynagrodzemieskrot;
     
     @PostConstruct
     public void init() {
@@ -85,9 +91,16 @@ public class UmowaView  implements Serializable {
             Etat etat = new Etat(selected);
             etatFacade.create(etat);
             wpisView.setUmowa(selected);
-            selected = new Umowa();
             Msg.msg("Dodano nową umowę");
             generujKalendarzNowaUmowa();
+            if (wynagrodzemieskrot!=0.0){
+              Skladnikwynagrodzenia skladnikwynagrodzenia = dodajskladnikwynagrodzenia();
+              Zmiennawynagrodzenia zmiennawynagrodzenie = dodajzmiennawynagrodzenie(skladnikwynagrodzenia);
+              if (skladnikwynagrodzenia.getId()!=null && zmiennawynagrodzenie!=null){
+                  Msg.msg("Dodano składniki wynagrodzania");
+              }
+            }
+            selected = new Umowa();
           } catch (Exception e) {
               System.out.println("");
               Msg.msg("e", "Błąd - nie dodano nowej umowy. Sprawdź angaż");
@@ -225,6 +238,39 @@ public class UmowaView  implements Serializable {
         }
     }
     
+    @Inject
+    private SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade;
+    @Inject
+    private RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade;
+    @Inject
+    private ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade;
+
+    private Skladnikwynagrodzenia dodajskladnikwynagrodzenia() {
+        Skladnikwynagrodzenia skladnikwynagrodzenia = new Skladnikwynagrodzenia();
+        skladnikwynagrodzenia.setUmowa(selected);
+        skladnikwynagrodzenia.setRodzajwynagrodzenia(rodzajwynagrodzeniaFacade.findZasadnicze());
+        try {
+            skladnikWynagrodzeniaFacade.create(skladnikwynagrodzenia);
+        } catch (Exception e){}
+        return skladnikwynagrodzenia;
+    }
+    
+      private Zmiennawynagrodzenia dodajzmiennawynagrodzenie(Skladnikwynagrodzenia skladnikwynagrodzenia) {
+        Zmiennawynagrodzenia zmiennawynagrodzenia = new Zmiennawynagrodzenia();
+        if (skladnikwynagrodzenia.getId()!=null) {
+            zmiennawynagrodzenia.setSkladnikwynagrodzenia(skladnikwynagrodzenia);
+            zmiennawynagrodzenia.setWaluta("PLN");
+            zmiennawynagrodzenia.setNazwa("zasadnicze");
+            zmiennawynagrodzenia.setKwota(wynagrodzemieskrot);
+            zmiennawynagrodzenia.setDataod(selected.getDataod());
+        }
+        try {
+            zmiennaWynagrodzeniaFacade.create(zmiennawynagrodzenia);
+        } catch (Exception e){}
+        return zmiennawynagrodzenia;
+    }
+    
+    
     public Umowa getSelected() {
         return selected;
     }
@@ -280,6 +326,17 @@ public class UmowaView  implements Serializable {
     public void setListakodyzawodow(List<Kodyzawodow> listakodyzawodow) {
         this.listakodyzawodow = listakodyzawodow;
     }
+
+    public double getWynagrodzemieskrot() {
+        return wynagrodzemieskrot;
+    }
+
+    public void setWynagrodzemieskrot(double wynagrodzemieskrot) {
+        this.wynagrodzemieskrot = wynagrodzemieskrot;
+    }
+
+  
+    
 
 
    

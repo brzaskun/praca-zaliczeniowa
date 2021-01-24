@@ -8,7 +8,7 @@
         <p:panelGrid columns="2">
             <p:outputPanel style="height: 200px" styleClass="panelzramka">
                 <h:form id="SkladnikwynagrodzeniaCreateForm">
-                    <p:panel header="Dodawanie/edycja składnika wynagrodzenia i zmiennych"/>
+                    <p:panel header="Dodawanie/edycja składnika wynagrodzenia"/>
                     <h:panelGroup id="display">
                         <p:panelGrid columns="6" rendered="#{skladnikWynagrodzeniaView.selected != null}">
                             <p:outputLabel value="umowa" for="umowaskladnik" />
@@ -41,6 +41,7 @@
             </p:outputPanel>
             <p:outputPanel style="height: 200px" styleClass="panelzramka">
                 <h:form id="ZmiennawynagrodzeniaCreateForm">
+                    <p:panel header="Dodawanie/edycja zmiennych"/>
                     <h:panelGroup id="display">
                         <p:panelGrid columns="6" rendered="#{zmiennaWynagrodzeniaView.selected != null}">
                             <p:outputLabel value="nazwa" for="nazwa" />

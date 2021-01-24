@@ -5,9 +5,9 @@
  */
 package dao;
 
-import entity.Angaz;
 import entity.Etat;
 import entity.Pracownik;
+import entity.Umowa;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -73,9 +73,10 @@ public class EtatFacade  {
             em.remove(em.merge(p));
         }
     }
-    public List<Etat> findByAngaz(Angaz angaz) {
+
+    public List<Etat> findByUmowa(Umowa umowa) {
         List<Etat> zwrot = new ArrayList<>();
-        zwrot = getEntityManager().createNamedQuery("Etat.findByAngaz").setParameter("angaz", angaz).getResultList();
+        zwrot = getEntityManager().createNamedQuery("Etat.findByUmowa").setParameter("umowa", umowa).getResultList();
         return zwrot;
     }
 }
