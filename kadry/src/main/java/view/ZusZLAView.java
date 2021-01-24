@@ -41,14 +41,14 @@ public class ZusZLAView  implements Serializable {
     
    public void zuszla() {
        try {
-//        javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(
-//        new javax.net.ssl.HostnameVerifier(){
-//
-//            public boolean verify(String hostname,
-//                    javax.net.ssl.SSLSession sslSession) {
-//                return hostname.equals("193.105.143.40");
-//            }
-//        });
+        javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(
+        new javax.net.ssl.HostnameVerifier(){
+
+            public boolean verify(String hostname,
+                    javax.net.ssl.SSLSession sslSession) {
+                return hostname.equals("193.105.143.40");
+            }
+        });
         PobierzRaporty parameters = new PobierzRaporty();
         parameters.setNip("8511005008");
         parameters.setLogin("a.barczyk@taxman.biz.pl");
