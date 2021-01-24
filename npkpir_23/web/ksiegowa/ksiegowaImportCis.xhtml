@@ -11,6 +11,7 @@
         <ui:define name="body">
             <f:view>
                 <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                    <p:growl life="3600"  id="messages1"/>
                     <ui:include src="sub/layoutImporty/north.xhtml"/>  <!-- panel polnocny-->
                     <ui:include src="sub/layoutImporty/south.xhtml"/>   <!-- panel poludniowy-->
                     <ui:include src="sub/layoutImporty/west.xhtml"/>   <!-- panel zachodni-->
@@ -19,7 +20,7 @@
                         <bcf:ajaxs/>
                          <h:outputText value="import dokumentów z pliku JSON AMAZON"/>
                         <h:form>
-                            <p:growl life="3600"  id="messages1"/>
+                            
                             <p:fileUpload fileUploadListener="#{importCisView.importujsprzedaz}" 
                                           mode="advanced" dragDropSupport="true" fileLimit="1" auto="true"
                                           update="messages1 importtabela" sizeLimit="4000000"  
@@ -44,8 +45,8 @@
                                 <p:commandButton value="Print" type="button" icon="pi pi-print" style="margin-left: 20px; width: 120px;">
                                     <p:printer target="importtabela:dokumentyLista" />
                                 </p:commandButton>
-                                <p:commandButton value="generuj" actionListener="#{importCisView.stworzdokumenty}" style="margin-left: 100px;width: 120px;" update="importtabeladok"/>
-                                <p:commandButton value="księguj" actionListener="#{importCisView.zaksieguj}" style="margin-left: 70px;width: 120px;" update="importtabeladok"/>
+                                <p:commandButton value="generuj" actionListener="#{importCisView.stworzdokumenty}" style="margin-left: 100px;width: 120px;" update="messages1 importtabeladok"/>
+                                <p:commandButton value="księguj" actionListener="#{importCisView.zaksieguj}" style="margin-left: 70px;width: 120px;" update="messages1 importtabeladok"/>
                             </p:panelGrid>
                             <p:remoteCommand name="przeliczfilter" actionListener="#{importCisView.sumuj}" update="importtabela:sumysumy" global="false"/>
                             <p:dataTable  var="wpisek" value="#{importCisView.faktury}" id="dokumentyLista"

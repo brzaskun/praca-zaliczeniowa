@@ -517,6 +517,7 @@ public class VatUeFKView implements Serializable {
                     Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UE. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
                 }
             } else {
+                Msg.msg("e", "Sprawdź oznaczenia krajów i NIP-y!");
                 Msg.msg("e", (String) walidacja[1]);
                 Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UE. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
             }

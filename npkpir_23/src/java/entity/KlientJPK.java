@@ -80,7 +80,7 @@ public class KlientJPK implements Serializable {
         this.dataWystawienia = d.getDataWyst();
         this.dowodSprzedazy = d.getNrWlDk();
         this.nrKontrahenta = "brak";
-        this.nazwaKontrahenta = d.getKontr1().getNpelna();
+        this.nazwaKontrahenta = d.getKontr1().getNpelna()==null?"BRAK":d.getKontr1().getNpelna();
         this.podatnik = podatnik;
         this.rok = rok;
         this.mc = mc;
@@ -95,7 +95,7 @@ public class KlientJPK implements Serializable {
         this.dataWystawienia = Data.data_yyyyMMdd(d.getDatawystawienia());
         this.dowodSprzedazy = d.getNrfaktury();
         this.nrKontrahenta = "brak";
-        this.nazwaKontrahenta = d.getKontrahent();
+        this.nazwaKontrahenta = d.getKontrahent()==null?"BRAK":d.getKontrahent();
         this.podatnik = podatnik;
         this.rok = rok;
         this.mc = mc;

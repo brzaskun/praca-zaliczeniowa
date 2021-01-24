@@ -4,6 +4,7 @@
  */
 package daoFK;
 
+import dao.DAO;
 import dao.*;
 import error.E;
 import java.io.Serializable;

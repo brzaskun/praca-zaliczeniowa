@@ -6,8 +6,6 @@ package dao;
 
 import error.E;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJBException;
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
