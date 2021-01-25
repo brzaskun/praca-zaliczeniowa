@@ -5,7 +5,6 @@
  */
 package dao;
 
-import entity.Firma;
 import entity.Pracownik;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -66,9 +65,6 @@ public class PracownikFacade  {
         }
     }
 
-    public List<Pracownik> findByFirma(Firma firma) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
    
 }

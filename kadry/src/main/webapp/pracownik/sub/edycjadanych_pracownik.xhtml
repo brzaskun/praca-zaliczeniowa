@@ -5,8 +5,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 300px;width: 1500px;">
-        <p:outputPanel style="height: 300px">
+    <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 200px;width: 1500px;">
+        <p:outputPanel style="height: 200px">
             <h:form id="PracownikCreateForm">
                 <h:panelGroup id="display">
                     <p:panel header="Dane nowego pracownika "/>
@@ -28,7 +28,7 @@
                     <p:dataTable id="datalist" value="#{pracownikView.lista}" var="item2"
                                  selectionMode="single" selection="#{pracownikView.selectedlista}"
                                  rowKey="#{item2.id}" sortBy="#{item2.nazwisko}"
-                                 style="height: 500px; overflow-y: scroll;"
+                                 style="height: 300px; overflow-y: scroll;"
                                  >
 
                         <p:column width="40" style="text-align: center;height: 30px;">
@@ -37,13 +37,13 @@
                             </f:facet>
                             <h:outputText value="#{item2.id}"/>
                         </p:column>
-                        <p:column>
+                        <p:column filterBy="#{item2.nazwisko}" filterMatchMode="startsWith">
                             <f:facet name="header">
                                 <h:outputText value="nazwisko"/>
                             </f:facet>
                             <h:outputText value="#{item2.nazwisko}"/>
                         </p:column>
-                        <p:column>
+                        <p:column filterBy="#{item2.imie}" filterMatchMode="startsWith">
                             <f:facet name="header">
                                 <h:outputText value="imię"/>
                             </f:facet>

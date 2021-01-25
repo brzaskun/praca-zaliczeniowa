@@ -34,7 +34,7 @@ public class EtatView implements Serializable {
     private WpisView wpisView;
     
     @PostConstruct
-    private void init() {
+    public void init() {
         selected.setUmowa(wpisView.getUmowa());
         lista = etatFacade.findByUmowa(wpisView.getUmowa());
     }

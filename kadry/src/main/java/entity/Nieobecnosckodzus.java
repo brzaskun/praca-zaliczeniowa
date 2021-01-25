@@ -57,13 +57,13 @@ public class Nieobecnosckodzus implements Serializable {
     @Column(name = "opisskrocony")
     private String opisskrocony;
     @Column(name = "podatek")
-    private Boolean podatek;
+    private boolean podatek;
     @Column(name = "spoleczne")
-    private Boolean spoleczne;
+    private boolean spoleczne;
     @Column(name = "swiadczeniezus")
-    private Boolean swiadczeniezus;
+    private boolean swiadczeniezus;
     @Column(name = "urlop")
-    private Boolean urlop;
+    private boolean urlop;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -164,35 +164,35 @@ public class Nieobecnosckodzus implements Serializable {
         this.opisskrocony = opisskrocony;
     }
 
-    public Boolean getPodatek() {
+    public boolean getPodatek() {
         return podatek;
     }
 
-    public void setPodatek(Boolean podatek) {
+    public void setPodatek(boolean podatek) {
         this.podatek = podatek;
     }
 
-    public Boolean getSpoleczne() {
+    public boolean getSpoleczne() {
         return spoleczne;
     }
 
-    public void setSpoleczne(Boolean spoleczne) {
+    public void setSpoleczne(boolean spoleczne) {
         this.spoleczne = spoleczne;
     }
 
-    public Boolean getSwiadczeniezus() {
+    public boolean getSwiadczeniezus() {
         return swiadczeniezus;
     }
 
-    public void setSwiadczeniezus(Boolean swiadczeniezus) {
+    public void setSwiadczeniezus(boolean swiadczeniezus) {
         this.swiadczeniezus = swiadczeniezus;
     }
 
-    public Boolean getUrlop() {
+    public boolean getUrlop() {
         return urlop;
     }
 
-    public void setUrlop(Boolean urlop) {
+    public void setUrlop(boolean urlop) {
         this.urlop = urlop;
     }
     

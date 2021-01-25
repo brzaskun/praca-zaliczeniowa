@@ -162,4 +162,14 @@
             <name>rendered</name>
         </attribute>
     </tag>
+    <tag>
+        <tag-name>innumint</tag-name>
+        <source>tags/innumint.xhtml</source>
+        <attribute>
+            <name>value</name>
+        </attribute>
+        <attribute>
+            <name>rendered</name>
+        </attribute>
+    </tag>
 </facelet-taglib>

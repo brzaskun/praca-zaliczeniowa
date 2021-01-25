@@ -23,17 +23,14 @@
                                     <p:menuitem icon="fa fa-institution" value="firmy" style="width: 150px" action="Firma"/>
                                     <p:menuitem icon="fa fa-institution" value="pracownicy" style="width: 150px" action="Pracownik"/>
                                     <p:menuitem icon="fa fa-institution" value="historia" style="width: 150px" action="Historia"/>
-                                     <p:menuitem icon="fa fa-institution" value="umowy" style="width: 150px" action="Umowa"/>
+                                    <p:menuitem icon="fa fa-institution" value="umowy" style="width: 150px" action="Umowa"/>
                                     <p:menuitem icon="fa fa-institution" value="płace" style="width: 150px" action="Administrator"/>
                                     <p:menuitem icon="fa fa-exchange" value="parametry" style="width: 150px" action="Parametry"/>
                                 </p:menubar>
                             </h:form>
                         </p:outputPanel>
                         <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
-                        <ui:include src="sub/edycjadanych_umowa.xhtml"/>
-                        <ui:include src="sub/edycjadanych_skladnikwynagrodzenia.xhtml"/>
-                        <ui:include src="sub/edycjadanych_etat.xhtml"/>
-                        
+                        <ui:include src="sub/edycjadanych_historia.xhtml"/>
                     </p:layoutUnit>
                 </p:layout>
             </f:view>

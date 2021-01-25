@@ -257,6 +257,10 @@ private static final long serialVersionUID = 1L;
     public void naniesnieobecnosc(Nieobecnosc p) {
         int dzienod = Integer.parseInt(Data.getDzien(p.getDataod()))-1;
         int dziendo = Integer.parseInt(Data.getDzien(p.getDatado()))-1;
+        String mcod = Data.getMc(p.getDataod());
+        String mcdo = Data.getMc(p.getDatado());
+        dzienod = modyfikujod(mcod, dzienod);
+        dziendo = modyfikujdo(mcdo, dziendo);
         for (int i = dzienod; i <= dziendo; i++) {
             Dzien dzienaktualny = this.dzienList.get(i);
             dzienaktualny.setKod(p.getNieobecnosckodzus().getKod());
@@ -273,6 +277,30 @@ private static final long serialVersionUID = 1L;
                 
             }
         }
+    }
+
+    private int modyfikujod(String mcod, int dzienod) {
+        String mckalendarza = this.getMc();
+        if (!mcod.equals(mckalendarza)||!mcod.equals(mckalendarza)) {
+            int mckalendarzaint = Integer.parseInt(mckalendarza);
+            int mcodint = Integer.parseInt(mcod);
+            if (mcodint<mckalendarzaint) {
+                dzienod = 0;
+            }
+        }
+        return dzienod;
+    }
+    
+    private int modyfikujdo(String mcoddo, int dziendo) {
+        String mckalendarza = this.getMc();
+        if (!mcoddo.equals(mckalendarza)||!mcoddo.equals(mckalendarza)) {
+            int mckalendarzaint = Integer.parseInt(mckalendarza);
+            int mcdoint = Integer.parseInt(mcoddo);
+            if (mcdoint>mckalendarzaint) {
+                dziendo = Integer.parseInt(Data.ostatniDzien(this.rok, this.mc))-1;
+            }
+        }
+        return dziendo;
     }
        
         

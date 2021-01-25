@@ -103,8 +103,10 @@ public class Firma implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Firma[ id=" + id + " ]";
+        return "Firma{" + "nazwa=" + nazwa + ", nip=" + nip + '}';
     }
+
+    
 
 
     @XmlTransient

@@ -48,8 +48,11 @@ public class Nieobecnosc implements Serializable {
     @Size(max = 45)
     @Column(name = "datado")
     private String datado;
+    @Size(max = 45)
+    @Column(name = "kodzwolnienia")
+    private String kodzwolnienia;
     @Column(name = "naniesiona")
-    private Boolean naniesiona;
+    private boolean naniesiona;
     @JoinColumn(name = "nieobecnosckodzus", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Nieobecnosckodzus nieobecnosckodzus;
@@ -77,6 +80,7 @@ public class Nieobecnosc implements Serializable {
         this.setUmowa(umowa);
         this.setDataod(Data.calendarToString(zwrot.getDokumentyEzla().getDaneDokumentu().getOkresZwolnienia().getDataOd()));
         this.setDatado(Data.calendarToString(zwrot.getDokumentyEzla().getDaneDokumentu().getOkresZwolnienia().getDataDo()));
+        this.setKodzwolnienia(zwrot.getDokumentyEzla().getDaneDokumentu().getSeria()+zwrot.getDokumentyEzla().getDaneDokumentu().getNumer());
     }
 
    
@@ -132,6 +136,23 @@ public class Nieobecnosc implements Serializable {
     }
 
   
+
+    public boolean getNaniesiona() {
+        return naniesiona;
+    }
+
+    public void setNaniesiona(boolean naniesiona) {
+        this.naniesiona = naniesiona;
+    }
+
+    public Nieobecnosckodzus getNieobecnosckodzus() {
+        return nieobecnosckodzus;
+    }
+
+    public void setNieobecnosckodzus(Nieobecnosckodzus nieobecnosckodzus) {
+        this.nieobecnosckodzus = nieobecnosckodzus;
+    }
+
     public String getDataod() {
         return dataod;
     }
@@ -148,20 +169,12 @@ public class Nieobecnosc implements Serializable {
         this.datado = datado;
     }
 
-    public Boolean getNaniesiona() {
-        return naniesiona;
+    public String getKodzwolnienia() {
+        return kodzwolnienia;
     }
 
-    public void setNaniesiona(Boolean naniesiona) {
-        this.naniesiona = naniesiona;
-    }
-
-    public Nieobecnosckodzus getNieobecnosckodzus() {
-        return nieobecnosckodzus;
-    }
-
-    public void setNieobecnosckodzus(Nieobecnosckodzus nieobecnosckodzus) {
-        this.nieobecnosckodzus = nieobecnosckodzus;
+    public void setKodzwolnienia(String kodzwolnienia) {
+        this.kodzwolnienia = kodzwolnienia;
     }
     
 }

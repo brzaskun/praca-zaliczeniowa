@@ -41,6 +41,9 @@ import javax.xml.bind.annotation.XmlTransient;
 
 public class Angaz implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz")
+    private List<Wynagrodzeniahistoryczne> wynagrodzeniahistoryczneList;
+
     @OneToMany(mappedBy = "angaz")
     private List<Memory> memoryList;
 
@@ -152,5 +155,14 @@ public class Angaz implements Serializable {
 
     public void setMemoryList(List<Memory> memoryList) {
         this.memoryList = memoryList;
+    }
+
+    @XmlTransient
+    public List<Wynagrodzeniahistoryczne> getWynagrodzeniahistoryczneList() {
+        return wynagrodzeniahistoryczneList;
+    }
+
+    public void setWynagrodzeniahistoryczneList(List<Wynagrodzeniahistoryczne> wynagrodzeniahistoryczneList) {
+        this.wynagrodzeniahistoryczneList = wynagrodzeniahistoryczneList;
     }
 }

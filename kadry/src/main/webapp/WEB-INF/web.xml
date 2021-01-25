@@ -113,6 +113,7 @@
             <url-pattern>/pracownik/*</url-pattern>
             <url-pattern>/parametry/*</url-pattern>
             <url-pattern>/umowa/*</url-pattern>
+            <url-pattern>/historia/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Administrator</role-name>

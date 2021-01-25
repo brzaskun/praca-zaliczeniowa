@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-     <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 300px;width: 1500px;">
+     <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 200px;width: 1500px;">
         <p:outputPanel style="height: 200px">
             <h:form id="AngazCreateForm">
                 <h:panelGroup id="display">
@@ -77,7 +77,7 @@
                     <p:dataTable id="datalist" value="#{angazView.lista}" var="itemAngaz"
                                  selectionMode="single" selection="#{angazView.selectedlista}"
                                  rowKey="#{itemAngaz.id}"  sortBy="#{itemAngaz.pracownik.nazwisko}"
-                                style="height: 500px; overflow-y: scroll;"
+                                style="height: 300px; overflow-y: scroll;"
                                  >
                         <p:ajax event="rowSelect" listener="#{angazView.aktywuj}" partialSubmit="true" global="false" update="north"/>
                         <p:column width="40" style="text-align: center;">

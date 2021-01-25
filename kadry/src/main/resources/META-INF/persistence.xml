@@ -12,6 +12,7 @@
     <class>entity.Nieobecnosckodzus</class>
     <class>entity.Etat</class>
     <class>entity.Kodyzawodow</class>
+    <class>entity.Wynagrodzeniahistoryczne</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>

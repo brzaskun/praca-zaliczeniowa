@@ -5,6 +5,7 @@
  */
 package entity;
 
+import data.Data;
 import embeddable.CzasTrwania;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -84,40 +85,37 @@ public class Umowa implements Serializable {
     @Size(max = 45)
     @Column(name = "nrkolejny")
     private String nrkolejny;
-    @JoinColumn(name = "kodzawodu", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Kodyzawodow kodzawodu;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa", orphanRemoval = true)
-    private List<Etat> etatList;
-    @Column(name = "czastrwania")
-    private Integer czastrwania;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "kosztyuzyskania")
+    private double kosztyuzyskania;
     @Column(name = "odliczaculgepodatkowa")
-    private  boolean odliczaculgepodatkowa;
+    private boolean odliczaculgepodatkowa;
     @Column(name = "chorobowe")
-    private  boolean chorobowe;
+    private boolean chorobowe;
     @Column(name = "chorobowedobrowolne")
-    private  boolean chorobowedobrowolne;
+    private boolean chorobowedobrowolne;
     @Column(name = "emerytalne")
-    private  boolean emerytalne;
+    private boolean emerytalne;
     @Column(name = "nieliczFGSP")
     private  boolean nieliczFGSP;
     @Column(name = "nieliczFP")
     private  boolean nieliczFP;
-
     @Column(name = "rentowe")
     private  boolean rentowe;
     @Column(name = "wypadkowe")
     private  boolean wypadkowe;
     @Column(name = "zdrowotne")
     private  boolean zdrowotne;
+    @JoinColumn(name = "kodzawodu", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Kodyzawodow kodzawodu;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa", orphanRemoval = true)
+    private List<Etat> etatList;
+    @Column(name = "czastrwania")
+    private Integer czastrwania;
     @JoinColumn(name = "umowakodzus", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Umowakodzus umowakodzus;
-    @Column(name = "kosztyuzyskania")
-    private double kosztyuzyskania;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa")
     private List<Nieobecnosc> nieobecnoscList;
     private static final long serialVersionUID = 1L;
@@ -229,44 +227,66 @@ public class Umowa implements Serializable {
 
 
 
-    public double getKosztyuzyskania() {
-        return kosztyuzyskania;
-    }
-
-    public void setKosztyuzyskania(double kosztyuzyskania) {
-        this.kosztyuzyskania = kosztyuzyskania;
-    }
     public Umowakodzus getUmowakodzus() {
         return umowakodzus;
     }
     public void setUmowakodzus(Umowakodzus umowakodzus) {
         this.umowakodzus = umowakodzus;
     }
+    public String getCzastrwania() {
+        String zwrot = CzasTrwania.getListaczastrwania().get(this.czastrwania);
+        return zwrot;
+    }
+    public void setCzastrwania(String czastrwania) {
+        int zwrot = CzasTrwania.find(czastrwania);;
+        this.czastrwania = zwrot;
+    }
+    @XmlTransient
+    public List<Etat> getEtatList() {
+        return etatList;
+    }
+    public void setEtatList(List<Etat> etatList) {
+        this.etatList = etatList;
+    }
+    public Kodyzawodow getKodzawodu() {
+        return kodzawodu;
+    }
+    public void setKodzawodu(Kodyzawodow kodzawodu) {
+        this.kodzawodu = kodzawodu;
+    }
+
+
+
+    public  double getKosztyuzyskania() {
+        return kosztyuzyskania;
+    }
+
+    public void setKosztyuzyskania( double kosztyuzyskania) {
+        this.kosztyuzyskania = kosztyuzyskania;
+    }
 
     public  boolean getOdliczaculgepodatkowa() {
         return odliczaculgepodatkowa;
     }
+
     public void setOdliczaculgepodatkowa( boolean odliczaculgepodatkowa) {
         this.odliczaculgepodatkowa = odliczaculgepodatkowa;
     }
 
-
-    public  boolean getChorobowe() {
+    public boolean getChorobowe() {
         return chorobowe;
     }
 
-    public void setChorobowe( boolean chorobowe) {
+    public void setChorobowe(boolean chorobowe) {
         this.chorobowe = chorobowe;
     }
-
     public boolean getChorobowedobrowolne() {
         return chorobowedobrowolne;
     }
-
     public void setChorobowedobrowolne(boolean chorobowedobrowolne) {
         this.chorobowedobrowolne = chorobowedobrowolne;
     }
-
+   
 
     public boolean getEmerytalne() {
         return emerytalne;
@@ -277,35 +297,35 @@ public class Umowa implements Serializable {
     }
 
 
-    public  boolean getNieliczFGSP() {
+    public boolean getNieliczFGSP() {
         return nieliczFGSP;
     }
 
-    public void setNieliczFGSP( boolean nieliczFGSP) {
+    public void setNieliczFGSP(boolean nieliczFGSP) {
         this.nieliczFGSP = nieliczFGSP;
     }
 
-    public  boolean getNieliczFP() {
+    public boolean getNieliczFP() {
         return nieliczFP;
     }
 
-    public void setNieliczFP( boolean nieliczFP) {
+    public void setNieliczFP(boolean nieliczFP) {
         this.nieliczFP = nieliczFP;
     }
 
-    public  boolean getRentowe() {
+      public boolean getRentowe() {
         return rentowe;
     }
 
-    public void setRentowe( boolean rentowe) {
+    public void setRentowe(boolean rentowe) {
         this.rentowe = rentowe;
     }
 
-    public  boolean getWypadkowe() {
+    public boolean getWypadkowe() {
         return wypadkowe;
     }
 
-    public void setWypadkowe( boolean wypadkowe) {
+    public void setWypadkowe(boolean wypadkowe) {
         this.wypadkowe = wypadkowe;
     }
 
@@ -315,22 +335,6 @@ public class Umowa implements Serializable {
 
     public void setZdrowotne(boolean zdrowotne) {
         this.zdrowotne = zdrowotne;
-    }
-    public String getCzastrwania() {
-        String zwrot = CzasTrwania.getListaczastrwania().get(this.czastrwania);
-        return zwrot;
-    }
-    public void setCzastrwania(String czastrwania) {
-        int zwrot = CzasTrwania.find(czastrwania);;
-        this.czastrwania = zwrot;
-    }
-   
-    @XmlTransient
-    public List<Etat> getEtatList() {
-        return etatList;
-    }
-    public void setEtatList(List<Etat> etatList) {
-        this.etatList = etatList;
     }
 
     public String getDatado() {
@@ -381,7 +385,7 @@ public class Umowa implements Serializable {
         this.datazdrowotne = datazdrowotne;
     }
 
-      public String getNfz() {
+    public String getNfz() {
         return nfz;
     }
 
@@ -397,14 +401,12 @@ public class Umowa implements Serializable {
         this.nrkolejny = nrkolejny;
     }
 
-    public Kodyzawodow getKodzawodu() {
-        return kodzawodu;
+    public String getMc() {
+        return Data.getMc(this.dataod);
     }
-
-    public void setKodzawodu(Kodyzawodow kodzawodu) {
-        this.kodzawodu = kodzawodu;
+    public String getRok() {
+        return Data.getRok(this.dataod);
     }
-
     
     
 }

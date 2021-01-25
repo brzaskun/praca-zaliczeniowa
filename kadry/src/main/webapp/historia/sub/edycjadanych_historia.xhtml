@@ -1,0 +1,88 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+        
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 300px;width: 1500px;">
+        <p:outputPanel>
+            <p:panel header="Wybór pracownika"/>
+            <h:form id="HistoriaForm">
+                <p:selectOneMenu id="pracownik" value="#{historiaView.selectedangaz}" required="true" requiredMessage="pracownik"  converter="#{angazConverter}" style="width: 300px;" filter="true" filterMatchMode="contains">
+                    <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                    <f:selectItems value="#{historiaView.listapracownikow}"
+                                var="pracownikItem"
+                                itemValue="#{pracownikItem}" itemLabel="#{pracownikItem.pracownik.nazwiskoImie}"/>
+                    <p:ajax event="change" partialSubmit="true" listener="#{historiaView.pobierzhistorie}" global="false" update="@form"/>
+                </p:selectOneMenu>
+                <p:panel header="Historia wynagrodzeń przed angażem">
+                    <p:dataTable id="datalist" value="#{historiaView.listawynagrodzenhistoria}" var="item1"
+                                 selectionMode="single" selection="#{historiaView.selectedlista}"
+                                 rowIndexVar="index"
+                                 rowKey="index" 
+                                 style="height: 400px; overflow-y: scroll; width: 1200px;"
+                                 >
+
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="id"/>
+                            </f:facet>
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="rok"/>
+                            </f:facet>
+                            <h:outputText value="#{item1.rok}"/>
+                        </p:column>
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="mc"/>
+                            </f:facet>
+                            <h:outputText value="#{item1.mc}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="wyn.stałe"/>
+                            </f:facet>
+                            <bcf:inputpl value="#{item1.wynagrodzeniestale}" />
+                        </p:column>
+                        <p:column >
+                            <f:facet name="header">
+                                <h:outputText value="wyn. zmienne"/>
+                            </f:facet>
+                            <bcf:inputpl value="#{item1.wynagrodzeniezmienne}" />
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="dni przeprac"/>
+                            </f:facet>
+                            <bcf:innumint value="#{item1.dniobowiazku}" />
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="dni wymiar"/>
+                            </f:facet>
+                            <bcf:innumint value="#{item1.dniobowiazku}" />
+                        </p:column>
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="pominąć"/>
+                            </f:facet>
+                            <p:selectBooleanCheckbox value="#{item1.trzebapominac}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="wyn. uzupełnione"/>
+                            </f:facet>
+                            <bcf:inputpl value="#{item1.wynagrodzenieuzupelnione}" />
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+                <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{historiaView.zachowajhist}" update="@form"/>
+            </h:form>
+        </p:outputPanel>
+    </p:panelGrid>
+</ui:composition>

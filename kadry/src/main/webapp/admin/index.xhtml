@@ -19,9 +19,10 @@
                     <p:layoutUnit position="center" id="centertile" >
                         <h:form id="formmenu">
                          <p:menubar autoDisplay="true">
-                             <p:menuitem icon="fa fa-institution" value="firmy" style="width: 200px" action="Firma"/>
-                             <p:menuitem icon="fa fa-institution" value="pracownicy" style="width: 200px" action="Pracownik"/>
-                             <p:menuitem icon="fa fa-institution" value="umowy" style="width: 200px" action="Umowa"/>
+                             <p:menuitem icon="fa fa-institution" value="firmy" style="width: 150px" action="Firma"/>
+                             <p:menuitem icon="fa fa-institution" value="pracownicy" style="width: 150px" action="Pracownik"/>
+                             <p:menuitem icon="fa fa-institution" value="historia" style="width: 150px" action="Historia"/>
+                             <p:menuitem icon="fa fa-institution" value="umowy" style="width: 150px" action="Umowa"/>
                             <p:submenu label="czas pracy" style="width: 200px">
                                 <p:menuitem icon="fa fa-stack-overflow" value="nieobecności" style="width: 200px" onclick="PF('dialogpracownikanieobecnosci').show()" async="true"/>
                                 <p:menuitem icon="fa fa-stack-overflow" value="kalendarz pracownika" style="width: 200px" onclick="PF('dialogkalendarzmiesiac').show()" async="true"/>
@@ -34,7 +35,7 @@
                             </p:submenu>
                             <p:menuitem icon="fa fa-tasks" value=""  style="width: 200px"/>
                             <p:menuitem icon="fa fa-pencil" value="PIT" style="width: 200px"/>
-                            <p:menuitem icon="fa fa-exchange" value="parametry" style="width: 200px" action="Parametry"/>
+                            <p:menuitem icon="fa fa-exchange" value="parametry" style="width: 150px" action="Parametry"/>
                         </p:menubar>
                         </h:form>
                        <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
