@@ -107,7 +107,7 @@ public class Kalendarzwzor implements Serializable {
         return "entity.Kalendarzwzor[ id=" + id + " ]";
     }
 
-     public void ganerujdnizglobalnego(Kalendarzwzor kalendarzwzor) {
+     public void generujdnizglobalnego(Kalendarzwzor kalendarzwzor) {
         List<Dzien> nowedni = new ArrayList<>();
         for (int i = 0; i < kalendarzwzor.getDzienList().size(); i++) {
             Dzien dzienwzor = kalendarzwzor.getDzienList().get(i);
