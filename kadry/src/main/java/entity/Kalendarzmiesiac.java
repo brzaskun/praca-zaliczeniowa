@@ -95,6 +95,14 @@ private static final long serialVersionUID = 1L;
         this.dzienList = selected.dzienList;
     }
 
+      public void edytujdnizglobalnego(Kalendarzwzor kalendarzwzor) {
+        for (int i = 0; i < kalendarzwzor.getDzienList().size(); i++) {
+            Dzien dzien = this.getDzienList().get(i);
+            Dzien dzienwzor = kalendarzwzor.getDzienList().get(i);
+            dzien.nanieswzor(dzienwzor);
+        }
+    }
+    
     public Integer getId() {
         return id;
     }

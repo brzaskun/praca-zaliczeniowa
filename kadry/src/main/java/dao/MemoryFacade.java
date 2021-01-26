@@ -6,6 +6,7 @@
 package dao;
 
 import entity.Memory;
+import entity.Uz;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -62,6 +63,10 @@ public class MemoryFacade  {
     
      public void edit(Memory entity) {
         getEntityManager().merge(entity);
+    }
+
+    public Memory findByUzer(Uz uzer) {
+        return (Memory) getEntityManager().createNamedQuery("Memory.findByUzer").setParameter("uzer", uzer).getSingleResult();
     }
      
    

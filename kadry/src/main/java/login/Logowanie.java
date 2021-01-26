@@ -4,23 +4,25 @@
  */
 package login;
 
-import dao.UzDAO;
+import dao.UzFacade;
+import entity.Uz;
 import error.E;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import msg.Msg;
+import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class Logowanie implements Serializable {
 
@@ -28,7 +30,8 @@ public class Logowanie implements Serializable {
     private String haslo;
     private int liczniklogowan;
     @Inject
-    private UzDAO uzDAO;
+    private UzFacade uzFacade;
+    @Inject WpisView wpisView;
 
     public Logowanie() {
        
@@ -58,7 +61,12 @@ public class Logowanie implements Serializable {
                 String lo = request.getRemoteUser(); 
                 if (request.isUserInRole("Administrator")) {
                     navto = "Administrator";
+                } else if (request.isUserInRole("Pracownik")) {
+                    navto = "PracownikUst";
                 }
+                Uz uzer = uzFacade.findUzByLogin(lo);
+                wpisView.setUzer(uzer);
+                wpisView.init();
             }
             //Msg.msg("Zweryfikowano hasło");
             System.out.println("zweryfikowano haslo");

@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -27,25 +28,21 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Osito
  */
 @Entity
-@Table(name = "firma")
+@Table(name = "uprawnienia")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Firma.findAll", query = "SELECT f FROM Firma f"),
-    @NamedQuery(name = "Firma.findById", query = "SELECT f FROM Firma f WHERE f.id = :id"),
-    @NamedQuery(name = "Firma.findByNazwa", query = "SELECT f FROM Firma f WHERE f.nazwa = :nazwa"),
-    @NamedQuery(name = "Firma.findByNip", query = "SELECT f FROM Firma f WHERE f.nip = :nip")})
-public class Firma implements Serializable {
+    @NamedQuery(name = "Uprawnienia.findAll", query = "SELECT u FROM Uprawnienia u"),
+    @NamedQuery(name = "Uprawnienia.findById", query = "SELECT u FROM Uprawnienia u WHERE u.id = :id"),
+    @NamedQuery(name = "Uprawnienia.findByNazwa", query = "SELECT u FROM Uprawnienia u WHERE u.nazwa = :nazwa")})
+public class Uprawnienia implements Serializable {
 
-    @Size(max = 255)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "nazwa")
     private String nazwa;
-    @Size(max = 255)
-    @Column(name = "nip")
-    private String nip;
-    @OneToMany(mappedBy = "firma")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "uprawnienia")
     private List<Uz> uzList;
-    @OneToMany(mappedBy = "firma", cascade = CascadeType.ALL)
-    private List<Definicjalistaplac> definicjalistaplacList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,16 +50,17 @@ public class Firma implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @OneToMany(mappedBy = "firma", cascade = CascadeType.ALL)
-    private List<Angaz> angazList;
-    @OneToMany(mappedBy = "firma", cascade = CascadeType.ALL)
-    private List<Kalendarzwzor> kalendarzWzorList;
 
-    public Firma() {
+    public Uprawnienia() {
     }
 
-    public Firma(int id) {
+    public Uprawnienia(Integer id) {
         this.id = id;
+    }
+
+    public Uprawnienia(Integer id, String nazwa) {
+        this.id = id;
+        this.nazwa = nazwa;
     }
 
     public Integer getId() {
@@ -74,15 +72,6 @@ public class Firma implements Serializable {
     }
 
 
-    @XmlTransient
-    public List<Angaz> getAngazList() {
-        return angazList;
-    }
-
-    public void setAngazList(List<Angaz> angazList) {
-        this.angazList = angazList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -93,10 +82,10 @@ public class Firma implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Firma)) {
+        if (!(object instanceof Uprawnienia)) {
             return false;
         }
-        Firma other = (Firma) object;
+        Uprawnienia other = (Uprawnienia) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -105,29 +94,7 @@ public class Firma implements Serializable {
 
     @Override
     public String toString() {
-        return "Firma{" + "nazwa=" + nazwa + ", nip=" + nip + '}';
-    }
-
-    
-
-
-    @XmlTransient
-    public List<Kalendarzwzor> getKalendarzWzorList() {
-        return kalendarzWzorList;
-    }
-
-    public void setKalendarzWzorList(List<Kalendarzwzor> kalendarzWzorList) {
-        this.kalendarzWzorList = kalendarzWzorList;
-    }
-
-
-    @XmlTransient
-    public List<Definicjalistaplac> getDefinicjalistaplacList() {
-        return definicjalistaplacList;
-    }
-
-    public void setDefinicjalistaplacList(List<Definicjalistaplac> definicjalistaplacList) {
-        this.definicjalistaplacList = definicjalistaplacList;
+        return "entity.Uprawnienia[ id=" + id + " ]";
     }
 
 
@@ -146,14 +113,6 @@ public class Firma implements Serializable {
 
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
-    }
-
-    public String getNip() {
-        return nip;
-    }
-
-    public void setNip(String nip) {
-        this.nip = nip;
     }
     
 }

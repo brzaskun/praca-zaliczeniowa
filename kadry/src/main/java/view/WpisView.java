@@ -12,7 +12,6 @@ import entity.Pracownik;
 import entity.Umowa;
 import entity.Uz;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -33,7 +32,6 @@ public class WpisView implements Serializable {
     private String rokUprzedni;
     private String rokNastepny;
     private String miesiacWpisu;
-    @Inject
     private Uz uzer;
     private String miesiacOd;
     private String miesiacDo;
@@ -49,28 +47,26 @@ public class WpisView implements Serializable {
     
 
     @PostConstruct
-    private void init() { //E.m(this);
+    public void init() { //E.m(this);
         rokWpisu="2020";
         miesiacWpisu="12";
-        memory = pobierzMemory();
-        if (memory!=null && memory.getId()!=null) {
-            this.firma = memory.getFirma();
-            this.angaz = memory.getAngaz();
-            this.umowa = memory.getUmowa();
-            this.pracownik = memory.getPracownik();
-            this.rokWpisu = memory.getRok();
-            this.miesiacWpisu = memory.getMc();
+        if (uzer!=null) {
+            memory = pobierzMemory();
+            if (memory!=null && memory.getId()!=null) {
+                this.firma = memory.getFirma();
+                this.angaz = memory.getAngaz();
+                this.umowa = memory.getUmowa();
+                this.pracownik = memory.getPracownik();
+                this.rokWpisu = memory.getRok();
+                this.miesiacWpisu = memory.getMc();
+            }
         }
     }
     
     private Memory pobierzMemory() {
-        Memory zwrot = null;
-        List<Memory> listamemory = memoryFacade.findAll();
-        if (listamemory!=null && !listamemory.isEmpty()) {
-            zwrot = listamemory.get(0);
-        }
+        Memory zwrot = memoryFacade.findByUzer(uzer);
         if (zwrot==null) {
-            zwrot = new Memory(this.firma,this.pracownik, this.rokWpisu, this.miesiacWpisu);
+            zwrot = new Memory(this.uzer, this.firma,this.pracownik, this.rokWpisu, this.miesiacWpisu);
             memoryFacade.create(zwrot);
         }
         return zwrot;
@@ -192,6 +188,14 @@ public class WpisView implements Serializable {
         if (memory!=null&&memory.getId()!=null) {
             memoryFacade.edit(memory);
         }
+    }
+
+    public Uz getUzer() {
+        return uzer;
+    }
+
+    public void setUzer(Uz uzer) {
+        this.uzer = uzer;
     }
     
     

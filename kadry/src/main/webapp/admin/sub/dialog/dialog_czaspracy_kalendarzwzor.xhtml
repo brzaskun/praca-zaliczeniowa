@@ -39,7 +39,7 @@
                                  selection="#{kalendarzwzorView.selected}" selectionMode="single"
                                  style="height: 150px;overflow-y: scroll; width: 150px; margin-left: 50px;" sortBy="#{itemkalendarzwzorjest.mc}"
                                  >
-                        <p:ajax event="rowSelect" partialSubmit="true" global="false" update=":KalendarzwzorListForm"/>
+                        <p:ajax event="rowSelect" partialSubmit="true" global="false" update=":KalendarzwzorListForm KalendarzwzorCreateForm:mc KalendarzwzorCreateForm:rok"/>
                         <p:column width="50" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="utworzono kalendarze za mc"/>
@@ -129,7 +129,7 @@
                 <p:outputPanel>
                     <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzwzorView.edit}" value="#{bundle.Edit}"  update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist" rendered="#{kalendarzwzorView.selected.id ne null}"/>
                     <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzwzorView.create}" value="#{bundle.Save}"  update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist" rendered="#{kalendarzwzorView.selected.id eq null}"/>
-                    <p:commandButton value="#{bundle.Cancel}" />
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzwzorView.nanieszmiany}" value="nanieś pracow."  update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist" rendered="#{kalendarzwzorView.selected.id ne null}"/>
                 </p:outputPanel>
 
             </h:form>

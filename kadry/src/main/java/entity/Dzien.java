@@ -351,6 +351,15 @@ public class Dzien implements Serializable {
         this.kod = null;
     }
 
+    void nanieswzor(Dzien dzienwzor) {
+        this.typdnia = dzienwzor.typdnia;
+        this.normagodzin = dzienwzor.normagodzin;
+        this.przepracowano = dzienwzor.normagodzin;
+        if (dzienwzor.getKod()!=null&&!dzienwzor.getKod().equals("")) {
+            this.kod = dzienwzor.kod;
+        }
+    }
+
   
     
 }

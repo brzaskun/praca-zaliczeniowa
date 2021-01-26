@@ -1,0 +1,84 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 200px;width: 1500px;">
+        <p:outputPanel style="height: 200px">
+            <h:form id="PracownikCreateForm">
+                <h:panelGroup id="display">
+                    <p:panel header="Dane nowego pracownika "/>
+                    <p:panelGrid columns="2" rendered="#{pracownikView.selected != null}">
+                        <p:outputLabel value="nazwisko" for="nazwisko" />
+                        <p:inputText id="nazwisko" value="#{pracownikView.selected.nazwisko}" title="nazwisko" required="true" requiredMessage="Wpisz nazwisko"/>
+                        <p:outputLabel value="imię" for="imie" />
+                        <p:inputText id="imie" value="#{pracownikView.selected.imie}" title="imię" required="true" requiredMessage="Wpisz imię"/>
+                        <p:outputLabel value="pesel" for="pesel" />
+                        <p:inputText id="pesel" value="#{pracownikView.selected.pesel}" title="imię" required="true" requiredMessage="Wpisz Pesel"/>
+                    </p:panelGrid>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{pracownikView.create}" value="#{bundle.Save}" update="display,@(form)" />
+                </h:panelGroup>
+            </h:form>
+        </p:outputPanel>
+        <p:outputPanel>
+            <h:form id="PracownikListForm">
+                <p:panel header="Wykaz pracowników w programie">
+                    <p:dataTable id="datalist" value="#{pracownikView.lista}" var="item2"
+                                 selectionMode="single" selection="#{pracownikView.selectedlista}"
+                                 rowKey="#{item2.id}" sortBy="#{item2.nazwisko}"
+                                 style="height: 300px; overflow-y: scroll;"
+                                 >
+
+                        <p:column width="40" style="text-align: center;height: 30px;">
+                            <f:facet name="header">
+                                <h:outputText value="id"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.id}"/>
+                        </p:column>
+                        <p:column filterBy="#{item2.nazwisko}" filterMatchMode="startsWith">
+                            <f:facet name="header">
+                                <h:outputText value="nazwisko"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.nazwisko}"/>
+                        </p:column>
+                        <p:column filterBy="#{item2.imie}" filterMatchMode="startsWith">
+                            <f:facet name="header">
+                                <h:outputText value="imię"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.imie}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Pesel"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.pesel}"/>
+                        </p:column>
+                          <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="firmy"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.firmypracownika}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value=" jest angaż"/>
+                            </f:facet>
+                             <h:outputText value="#{item2.czyjestangaz}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="jest umowa"/>
+                            </f:facet>
+                             <h:outputText value="#{item2.czyjestumowa}"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <p:commandButton icon="fa fa-trash" actionListener="#{pracownikView.usun(item2)}" update="north,@(form)"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+        </p:outputPanel>
+</p:panelGrid>    
+</ui:composition>

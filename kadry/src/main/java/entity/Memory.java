@@ -17,7 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -36,10 +35,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Memory.findByMc", query = "SELECT m FROM Memory m WHERE m.mc = :mc")})
 public class Memory implements Serializable {
 
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "uzer")
-    private int uzer;
+    @ManyToOne
+    @JoinColumn(name = "uzer", referencedColumnName = "id")
+    private Uz uzer;
     @Size(max = 4)
     @Column(name = "rok")
     private String rok;
@@ -73,7 +71,7 @@ public class Memory implements Serializable {
         this.id = id;
     }
 
-    public Memory(Integer id, int uzer) {
+    public Memory(Integer id, Uz uzer) {
         this.id = id;
         this.uzer = uzer;
     }
@@ -83,7 +81,8 @@ public class Memory implements Serializable {
         this.pracownik = pracownik;
     }
 
-    public Memory(Firma firma, Pracownik pracownik, String rokWpisu, String miesiacWpisu) {
+    public Memory(Uz uzer, Firma firma, Pracownik pracownik, String rokWpisu, String miesiacWpisu) {
+        this.uzer = uzer;
         this.firma = firma;
         this.pracownik = pracownik;
         this.rok = rokWpisu;
@@ -124,11 +123,11 @@ public class Memory implements Serializable {
         return "entity.Memory[ id=" + id + " ]";
     }
 
-    public int getUzer() {
+    public Uz getUzer() {
         return uzer;
     }
 
-    public void setUzer(int uzer) {
+    public void setUzer(Uz uzer) {
         this.uzer = uzer;
     }
 

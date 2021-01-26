@@ -7,9 +7,11 @@ package view;
 
 import beanstesty.KalendarzWzorBean;
 import dao.FirmaFacade;
+import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import embeddable.Mce;
 import entity.Firma;
+import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
 import java.io.Serializable;
 import java.util.List;
@@ -35,6 +37,8 @@ public class KalendarzwzorView  implements Serializable {
     private List<Firma> listafirm;
     @Inject
     private KalendarzwzorFacade kalendarzwzorFacade;
+    @Inject
+    private KalendarzmiesiacFacade kalendarzmiesiacFacade;
     @Inject
     private FirmaFacade firmaFacade;
     @Inject
@@ -109,7 +113,7 @@ public class KalendarzwzorView  implements Serializable {
                 if (kalmiesiac==null) {
                     Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(firmaglobalna, kal.getRok(), mce);
                     if (znaleziono!=null) {
-                        kal.ganerujdnizglobalnego(znaleziono);
+                        kal.generujdnizglobalnego(znaleziono);
                         kalendarzwzorFacade.create(kal);
                     } else {
                         Msg.msg("e","Brak kalendarza globalnego za "+mce);
@@ -123,6 +127,21 @@ public class KalendarzwzorView  implements Serializable {
         }
     }
      
+    public void nanieszmiany() {
+        if (wpisView.getFirma()!=null && wpisView.getRokWpisu()!=null) {
+            Firma firma = wpisView.getFirma();
+            List<Kalendarzmiesiac> kalendarzepracownikow = kalendarzmiesiacFacade.findByFirmaRokMc(firma, selected.getRok(), selected.getMc());
+            for (Kalendarzmiesiac kal: kalendarzepracownikow) {
+                Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(firma, selected.getRok(), selected.getMc());
+                kal.edytujdnizglobalnego(znaleziono);
+                kalendarzmiesiacFacade.edit(kal);
+            }
+            Msg.msg("Naniesiono zmiany na kalendarze pracowników");
+        } else {
+            Msg.msg("e","Nie wybrano firmy");
+        }
+    }
+      
     public Kalendarzwzor getSelected() {
         return selected;
     }

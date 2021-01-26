@@ -8,6 +8,13 @@
   </security-role-mapping>
   <class-loader delegate="false"/>
   <context-root>/kadry</context-root>
+  <security-role-mapping>
+    <role-name>Pracownik</role-name>
+    <principal-name>Pracownik</principal-name>
+    <group-name>Pracownik</group-name>
+  </security-role-mapping>
+  <class-loader delegate="false"/>
+  <context-root>/pracownik</context-root>
 <!--    <jsp-config>
     <property name="keepgenerated" value="true">
       <description>Keep a copy of the generated servlet class' java code.</description>

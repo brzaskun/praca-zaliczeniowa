@@ -7,6 +7,7 @@ package dao;
 import entity.Uz;
 import java.util.Collections;
 import java.util.List;
+import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,17 +20,36 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class UzDAO  extends AbstractFacade<Uz> {
+public class UzFacade {
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
 
-    @Override
+   @PreDestroy
+    private void preDestroy() {
+        em.clear();
+        em.close();
+        em.getEntityManagerFactory().close();
+        em = null;
+        error.E.s("koniec jpa");
+    }
+
     protected EntityManager getEntityManager() {
         return em;
     }
-
-    public UzDAO() {
-        super(Uz.class);
+    
+    public void create(Uz entity) {
+        getEntityManager().persist(entity);
+        getEntityManager().flush();
+    }
+    
+    public List<Uz> findAll() {
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        cq.select(cq.from(Uz.class));
+        return getEntityManager().createQuery(cq).getResultList();
+    }
+    
+     public void edit(Uz entity) {
+        getEntityManager().merge(entity);
     }
  
    
