@@ -15,11 +15,7 @@
   </security-role-mapping>
   <class-loader delegate="false"/>
   <context-root>/pracownik</context-root>
-<!--    <jsp-config>
-    <property name="keepgenerated" value="true">
-      <description>Keep a copy of the generated servlet class' java code.</description>
-    </property>
-  </jsp-config>-->
+
   <!-- Change the default character encoding from ISO-8859-1 to UTF-8 -->
   <parameter-encoding default-charset="UTF-8"/>
   </glassfish-web-app>
