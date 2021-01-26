@@ -4,7 +4,10 @@
  */
 package view;
 
+import dao.FirmaFacade;
 import dao.MemoryFacade;
+import dao.PracownikFacade;
+import data.Data;
 import entity.Angaz;
 import entity.Firma;
 import entity.Memory;
@@ -27,6 +30,10 @@ public class WpisView implements Serializable {
 
     @Inject
     private MemoryFacade memoryFacade;
+    @Inject
+    private FirmaFacade firmaFacade;
+    @Inject
+    private PracownikFacade pracownikFacade;
     private Memory memory;
     private String rokWpisu;
     private String rokUprzedni;
@@ -66,7 +73,11 @@ public class WpisView implements Serializable {
     private Memory pobierzMemory() {
         Memory zwrot = memoryFacade.findByUzer(uzer);
         if (zwrot==null) {
-            zwrot = new Memory(this.uzer, this.firma,this.pracownik, this.rokWpisu, this.miesiacWpisu);
+            Pracownik pracownik = this.pracownik;
+            if (uzer.getPesel()!=null) {
+                pracownik = pracownikFacade.findByPesel(uzer.getPesel());
+            }
+            zwrot = new Memory(this.uzer, uzer.getFirma(),pracownik, Data.aktualnyRok(), Data.aktualnyMc());
             memoryFacade.create(zwrot);
         }
         return zwrot;

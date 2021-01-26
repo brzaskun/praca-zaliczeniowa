@@ -14,7 +14,7 @@
     <group-name>Pracownik</group-name>
   </security-role-mapping>
   <class-loader delegate="false"/>
-  <context-root>/pracownik</context-root>
+  <context-root>/pracownikust</context-root>
 
   <!-- Change the default character encoding from ISO-8859-1 to UTF-8 -->
   <parameter-encoding default-charset="UTF-8"/>

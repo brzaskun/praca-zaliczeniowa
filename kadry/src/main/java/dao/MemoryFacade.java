@@ -66,7 +66,11 @@ public class MemoryFacade  {
     }
 
     public Memory findByUzer(Uz uzer) {
-        return (Memory) getEntityManager().createNamedQuery("Memory.findByUzer").setParameter("uzer", uzer).getSingleResult();
+        Memory zwrot = null;
+        try {
+            zwrot = (Memory) getEntityManager().createNamedQuery("Memory.findByUzer").setParameter("uzer", uzer).getSingleResult();
+        } catch (Exception ex){}
+        return zwrot;
     }
      
    

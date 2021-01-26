@@ -65,6 +65,10 @@ public class PracownikFacade  {
         }
     }
 
+    public Pracownik findByPesel(String pesel) {
+        return (Pracownik) getEntityManager().createNamedQuery("Pracownik.findByPesel").setParameter("pesel", pesel).getSingleResult();
+    }
+
     
    
 }
