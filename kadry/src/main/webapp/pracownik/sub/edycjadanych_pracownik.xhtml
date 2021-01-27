@@ -5,8 +5,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 200px;width: 1500px;">
-        <p:outputPanel style="height: 200px">
+    <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 400px;width: 1500px;">
+        <p:outputPanel style="height: 400px">
             <h:form id="PracownikCreateForm">
                 <h:panelGroup id="display">
                     <p:panel header="Dane nowego pracownika "/>
@@ -28,7 +28,8 @@
                     <p:dataTable id="datalist" value="#{pracownikView.lista}" var="item2"
                                  selectionMode="single" selection="#{pracownikView.selectedlista}"
                                  rowKey="#{item2.id}" sortBy="#{item2.nazwisko}"
-                                 style="height: 300px; overflow-y: scroll;"
+                                 style="height: 400px; overflow-y: scroll;"
+                                 rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
                                  >
 
                         <p:column width="40" style="text-align: center;height: 30px;">
@@ -49,7 +50,7 @@
                             </f:facet>
                             <h:outputText value="#{item2.imie}"/>
                         </p:column>
-                        <p:column>
+                        <p:column filterBy="#{item2.pesel}" filterMatchMode="startsWith">
                             <f:facet name="header">
                                 <h:outputText value="Pesel"/>
                             </f:facet>

@@ -5,80 +5,121 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 200px;width: 1500px;">
+    <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="width: 1500px;">
         <p:outputPanel style="height: 200px">
             <h:form id="PracownikCreateForm">
-                <h:panelGroup id="display">
-                    <p:panel header="Dane nowego pracownika "/>
-                    <p:panelGrid columns="2" rendered="#{pracownikView.selected != null}">
+                <p:outputPanel>
+                    <p:panel header="dane personalne "/>
+                    <p:panelGrid columns="4">
                         <p:outputLabel value="nazwisko" for="nazwisko" />
-                        <p:inputText id="nazwisko" value="#{pracownikView.selected.nazwisko}" title="nazwisko" required="true" requiredMessage="Wpisz nazwisko"/>
+                        <p:inputText id="nazwisko" value="#{pracownikDaneView.selected.nazwisko}" title="nazwisko" required="true" requiredMessage="Wpisz nazwisko"/>
                         <p:outputLabel value="imię" for="imie" />
-                        <p:inputText id="imie" value="#{pracownikView.selected.imie}" title="imię" required="true" requiredMessage="Wpisz imię"/>
+                        <p:inputText id="imie" value="#{pracownikDaneView.selected.imie}" title="imię" required="true" requiredMessage="Wpisz imię"/>
+                        <p:outputLabel value="drugie imię" for="drugieimie" />
+                        <p:inputText id="drugieimie" value="#{pracownikDaneView.selected.drugieimie}" title=" drugie imię"/>
                         <p:outputLabel value="pesel" for="pesel" />
-                        <p:inputText id="pesel" value="#{pracownikView.selected.pesel}" title="imię" required="true" requiredMessage="Wpisz Pesel"/>
+                        <p:inputText id="pesel" value="#{pracownikDaneView.selected.pesel}" title="imię" required="true" requiredMessage="Wpisz Pesel" maxlength="11"/>
+                        <p:outputLabel value="imię ojca" for="imojca" />
+                        <p:inputText id="imojca" value="#{pracownikDaneView.selected.ojciec}" title="mię ojca" required="true" requiredMessage="Wpisz imię ojca"/>
+                        <p:outputLabel value="imię matki" for="imatki" />
+                        <p:inputText id="imatki" value="#{pracownikDaneView.selected.matka}" title="imię matki" required="true" requiredMessage="Wpisz imię matki"/>
+                        <p:outputLabel value="data urodzenia" for="du" />
+                        <p:inputText id="du" value="#{pracownikDaneView.selected.dataurodzenia}" title="data urodzenia" required="true" requiredMessage="Wpisz datę urodzenia"/>
+                        <p:outputLabel value="miejsce urodzenia" for="mu" />
+                        <p:inputText id="mu" value="#{pracownikDaneView.selected.miejsceurodzenia}" title="miejsce urodzenia" required="true" requiredMessage="Wpisz miejsce urodzenia"/>
+                     </p:panelGrid>
+                    <p:panel header="adres zamieszkania"/>
+                    <p:panelGrid columns="8">
+                        <p:outputLabel value="kraj" for="kraj" />
+                        <p:inputText id="kraj" value="#{pracownikDaneView.selected.kraj}" title="kraj" required="true" requiredMessage="Wpisz nazwę kraju"/>
+                        <p:outputLabel value="województwo" for="woj" />
+                        <p:inputText id="woj" value="#{pracownikDaneView.selected.wojewodztwo}" title="województwo" required="true" requiredMessage="Wpisz nazwę województwa"/>
+                        <p:outputLabel value="powiat" for="pow" />
+                        <p:inputText id="pow" value="#{pracownikDaneView.selected.powiat}" title="powiat" required="true" requiredMessage="Wpisz powiat"/>
+                        <p:outputLabel value="gmina" for="gmina" />
+                        <p:inputText id="gmina" value="#{pracownikDaneView.selected.gmina}" title="gmina"  required="true" requiredMessage="Wpisz nazwę gminy"/>
+                        <p:outputLabel value="miasto" for="miasto" />
+                        <p:inputText id="miasto" value="#{pracownikDaneView.selected.miasto}" title="miasto" required="true" requiredMessage="Wpisz miasto"/>
+                        <p:outputLabel value="ulica" for="ulica" />
+                        <p:inputText id="ulica" value="#{pracownikDaneView.selected.ulica}" title="ulica"/>
+                        <p:outputLabel value="nr domu" for="dom" />
+                        <p:inputText id="dom" value="#{pracownikDaneView.selected.dom}" title="dom" required="true" requiredMessage="Wpisz nr domu"/>
+                        <p:outputLabel value="nr lokalu" for="lokal" />
+                        <p:inputText id="lokal" value="#{pracownikDaneView.selected.lokal}" title="lokal"/>
+                        <p:outputLabel value="kod pocztowy" for="kod" />
+                        <p:inputText id="kod" value="#{pracownikDaneView.selected.miasto}" title="kod pocztowy" required="true" requiredMessage="Wpisz kod pocztowy"/>
+                        <p:outputLabel value="poczta" for="poczta" />
+                        <p:inputText id="poczta" value="#{pracownikDaneView.selected.poczta}" title="miasto" required="true" requiredMessage="Wpisz nazwę poczty"/>
                     </p:panelGrid>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{pracownikView.create}" value="#{bundle.Save}" update="display,@(form)" />
-                </h:panelGroup>
-            </h:form>
-        </p:outputPanel>
-        <p:outputPanel>
-            <h:form id="PracownikListForm">
-                <p:panel header="Wykaz pracowników w programie">
-                    <p:dataTable id="datalist" value="#{pracownikView.lista}" var="item2"
-                                 selectionMode="single" selection="#{pracownikView.selectedlista}"
-                                 rowKey="#{item2.id}" sortBy="#{item2.nazwisko}"
-                                 style="height: 300px; overflow-y: scroll;"
-                                 >
+                    <p:panel header="dane kontaktowe"/>
+                    <p:panelGrid columns="4">
+                        <p:outputLabel value="telefon" for="tel" />
+                        <p:inputText id="tel" value="#{pracownikDaneView.selected.telefon}" title="telefon" required="true" requiredMessage="Wpisz nr telefonu" size="32"/>
+                        <p:outputLabel value="adres email" for="email" />
+                        <p:inputText id="email" value="#{pracownikDaneView.selected.email}" title="telefon" required="true" requiredMessage="Wpisz adres email" size="32"/>
+                    </p:panelGrid>
+                    <p:panel header="bank"/>
+                    <p:panelGrid columns="4">
+                        <p:outputLabel value="nazwa banku" for="nzbaku" />
+                        <p:inputText id="nzbaku" value="#{pracownikDaneView.selected.banknazwa}" title="nazwa banku" size="32"/>
+                        <p:outputLabel value="nr konta" for="nrkonta" />
+                        <p:inputText id="nrkonta" value="#{pracownikDaneView.selected.bankkonto}" title="telefon" maxlength="32" size="32"/>
+                    </p:panelGrid>
+                    <p:panel header="inne dane"/>
+                    <p:panelGrid columns="8">
+                        <p:outputLabel value="nr dowodu osobistego" for="dowod" />
+                        <p:inputText id="dowod" value="#{pracownikDaneView.selected.dowodosobisty}" title="nr dowodu osobistego"/>
+                        <p:outputLabel value="nr paszportu" for="paszport" />
+                        <p:inputText id="paszport" value="#{pracownikDaneView.selected.paszport}" title="nr paszportu" />
+                        <p:outputLabel value="obywatelstwo" for="obywatelstwo" />
+                        <p:inputText id="obywatelstwo" value="#{pracownikDaneView.selected.obywatelstwo}" title="obywatelstwo" required="true" requiredMessage="Wpisz obywatelstwo"/>
+                        <p:outputLabel value="nazwisko rodowe" for="nazrod" />
+                        <p:inputText id="nazrod" value="#{pracownikDaneView.selected.nazwiskorodowe}" title="kraj"/>
+                    </p:panelGrid>
 
-                        <p:column width="40" style="text-align: center;height: 30px;">
-                            <f:facet name="header">
-                                <h:outputText value="id"/>
-                            </f:facet>
-                            <h:outputText value="#{item2.id}"/>
-                        </p:column>
-                        <p:column filterBy="#{item2.nazwisko}" filterMatchMode="startsWith">
-                            <f:facet name="header">
-                                <h:outputText value="nazwisko"/>
-                            </f:facet>
-                            <h:outputText value="#{item2.nazwisko}"/>
-                        </p:column>
-                        <p:column filterBy="#{item2.imie}" filterMatchMode="startsWith">
-                            <f:facet name="header">
-                                <h:outputText value="imię"/>
-                            </f:facet>
-                            <h:outputText value="#{item2.imie}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Pesel"/>
-                            </f:facet>
-                            <h:outputText value="#{item2.pesel}"/>
-                        </p:column>
-                          <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="firmy"/>
-                            </f:facet>
-                            <h:outputText value="#{item2.firmypracownika}"/>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value=" jest angaż"/>
-                            </f:facet>
-                             <h:outputText value="#{item2.czyjestangaz}"/>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="jest umowa"/>
-                            </f:facet>
-                             <h:outputText value="#{item2.czyjestumowa}"/>
-                        </p:column>
-                        <p:column style="text-align: center;">
-                            <p:commandButton icon="fa fa-trash" actionListener="#{pracownikView.usun(item2)}" update="north,@(form)"/>
-                        </p:column>
-                    </p:dataTable>
-                </p:panel>
+                </p:outputPanel>
+                <p:outputPanel style="margin-top: 50px;">
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{pracownikDaneView.edit}" value="#{bundle.Save}" update="@form" />
+                </p:outputPanel>
             </h:form>
+                <p:outputPanel>
+                        <p>Wciśniecie przycisku Zapis jest równoznaczne ze złożeniem
+                        poniższego oświadczenia </p>
+
+                        <p>Niniejszym oświadczam, że zostałem/am poinformowany/a, o
+                        tym, że:<br/>
+                        <br/>
+                        Dane osobowe będą przetwarzane w celach związanych z zatrudnieniem, w tym w
+                        szczególności na potrzeby realizacji obowiązków służbowych, a także wykonywania
+                        przez pracodawcę obowiązków pracodawcy, płatnika składek i zaliczek na podatek
+                        dochodowy.<br/>
+                        Przyjmuję do wiadomości, iż podanie danych osobowych jest wymogiem ustawowym i
+                        ich podanie jest obowiązkowe.<br/>
+                        Przetwarzanie podanych przeze mnie danych osobowych w związku z zatrudnieniem
+                        odbywa się w oparciu o przepisy prawa, w szczególności przepisy prawa podatkowego,
+                        prawa pracy i ubezpieczeń społecznych, w tym również na potrzeby ustalenia
+                        mojej zdolności do pracy – art. 6 ust. 1 lit. c rozporządzenia Parlamentu
+                        Europejskiego i Rady (UE) 2016/679 z 27.04.2016 r. w sprawie ochrony osób
+                        fizycznych w związku z przetwarzaniem danych osobowych i w sprawie swobodnego
+                        przepływu takich danych oraz uchylenia dyrektywy 95/46/WE (ogólne
+                        rozporządzenie o ochronie danych) (Dz.U. UE. L. z 2016 r. Nr 119, str. 1) –
+                        dalej RODO, art. 9 ust. 2 lit. b RODO oraz art. 9 ust. 2 lit. h RODO.<br/>
+                        Dane będą mogły być również przetwarzane w związku z dochodzeniem/obroną
+                        roszczeń (art. 6 ust. 1 lit. f RODO, art. 9 ust. 2 lit. f RODO), jako
+                        uzasadniony interes administratora danych.<br/>
+                        Mam prawo do żądania dostępu do moich danych osobowych, ich sprostowania,
+                        usunięcia lub ograniczenia przetwarzania, prawo do wniesienia sprzeciwu wobec
+                        przetwarzania, a także prawo do przenoszenia danych oraz prawo do złożenia
+                        oświadczenia o cofnięciu każdej wyrażonej zgody w każdym czasie. Cofnięcie
+                        zgody nie ma wpływu na zgodność z prawem przetwarzania, którego dokonano na
+                        podstawie zgody przed jej cofnięciem.<br/>
+                        Moje dane osobowe będą przetwarzane przez okres wymagany przepisami prawa. Moje
+                        dane osobowe będą mogły być przetwarzane przez okres przedawnienia roszczeń
+                        związanych z zatrudnieniem.<br/>
+                        Moje dane, w związku z tym, że Pracodawca przy realizowaniu swoich zadań
+                        korzysta z usług innych podmiotów, będą przekazywane innym podmiotom Biuro
+                        Rachunkowe Taxman NIP 8511005008. </p>
+                </p:outputPanel>
         </p:outputPanel>
 </p:panelGrid>    
 </ui:composition>

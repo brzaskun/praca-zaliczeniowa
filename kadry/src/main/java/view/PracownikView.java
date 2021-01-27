@@ -66,11 +66,11 @@ public class PracownikView  implements Serializable {
     
     public void usun(Pracownik pracownik) {
         if (pracownik!=null) {
+            if (wpisView.getPracownik().equals(pracownik)) {
+               wpisView.setPracownik(null);
+            }
             pracownikFacade.remove(pracownik);
             lista.remove(pracownik);
-            if (wpisView.getPracownik().equals(pracownik)) {
-                wpisView.setPracownik(null);
-            }
             Msg.msg("Usunięto pracownika");
         } else {
             Msg.msg("e","Nie wybrano pracownika");

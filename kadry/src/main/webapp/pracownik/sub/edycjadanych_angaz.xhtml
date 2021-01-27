@@ -5,8 +5,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-     <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 200px;width: 1500px;">
-        <p:outputPanel style="height: 200px">
+     <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 300px;width: 1500px;">
+        <p:outputPanel style="height: 300px">
             <h:form id="AngazCreateForm">
                 <h:panelGroup id="display">
                     <p:panel header="Wybór pracownika do angażu w firmie #{wpisView.firma.nazwa}"/>
@@ -78,6 +78,7 @@
                                  selectionMode="single" selection="#{angazView.selectedlista}"
                                  rowKey="#{itemAngaz.id}"  sortBy="#{itemAngaz.pracownik.nazwisko}"
                                 style="height: 300px; overflow-y: scroll;"
+                                rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
                                  >
                         <p:ajax event="rowSelect" listener="#{angazView.aktywuj}" partialSubmit="true" global="false" update="north"/>
                         <p:column width="40" style="text-align: center;">
