@@ -8,11 +8,16 @@ package view;
 import dao.AngazFacade;
 import dao.FirmaFacade;
 import dao.PracownikFacade;
+import dao.UprawnieniaFacade;
+import dao.UzFacade;
 import entity.Angaz;
 import entity.Firma;
 import entity.Pracownik;
 import entity.Umowa;
+import entity.Uprawnienia;
+import entity.Uz;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -43,6 +48,10 @@ public class AngazView  implements Serializable {
     private FirmaFacade firmaFacade;
     @Inject
     private PracownikFacade pracownikFacade;
+    @Inject
+    private UzFacade uzFacade;
+    @Inject
+    private UprawnieniaFacade uprawnieniaFacade;
     @Inject
     private WpisView wpisView;
     @Inject
@@ -80,8 +89,11 @@ public class AngazView  implements Serializable {
             angazFacade.create(selected);
             lista.add(selected);
             wpisView.setAngaz(selected);
+            Uprawnienia uprawnienia = uprawnieniaFacade.findByNazwa("Pracownik");
+            Uz uzer = new Uz(selected, uprawnienia);
             selected = new Angaz();
             Msg.msg("Dodano nowy angaż");
+            uzFacade.edit(uzer);
           } catch (Exception e) {
               System.out.println("");
               Msg.msg("e", "Błąd - nie dodano nowego angażu");
@@ -113,9 +125,14 @@ public class AngazView  implements Serializable {
                 wpisView.setUmowa(null);
                 wpisView.memorize();
             }
+            Pracownik prac = angaz.getPracownik();
             angazFacade.remove(angaz);
             lista.remove(angaz);
             Msg.msg("Usunięto angaż");
+            try {
+                Uz uzer = uzFacade.findUzByLogin(prac.getEmail());
+                uzFacade.remove(uzer);
+            } catch (Exception ex){}
         } else {
             Msg.msg("e","Nie wybrano angażu");
         }
@@ -127,6 +144,33 @@ public class AngazView  implements Serializable {
             Msg.msg("Pobrano pracowników firmy");
         } else {
             Msg.msg("e", "Błąd nie wybrano firmy");
+        }
+    }
+    
+    public List<Pracownik> complete(String query) {
+        List<Pracownik> results = new ArrayList<>();
+        try {
+            String q = query.substring(0, 1);
+            int i = Integer.parseInt(q);
+            for (Pracownik p : listapracownikow) {
+                if (p.getPesel().startsWith(query)) {
+                    results.add(p);
+                }
+            }
+        } catch (NumberFormatException e) {
+            for (Pracownik p : listapracownikow) {
+                if (p.getNazwisko().toLowerCase().contains(query.toLowerCase())) {
+                    results.add(p);
+                }
+            }
+        }
+        return results;
+    }
+    
+    public void zapiszmail(Pracownik pracownik) {
+        if (pracownik!=null) {
+            pracownikFacade.edit(pracownik);
+            Msg.msg("Zaktualizowano email pracownika");
         }
     }
     

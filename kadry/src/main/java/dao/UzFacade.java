@@ -51,7 +51,17 @@ public class UzFacade {
      public void edit(Uz entity) {
         getEntityManager().merge(entity);
     }
- 
+    
+     public void remove(Uz entity) {
+        em.remove(em.merge(entity));
+    }
+    
+    public void remove(List<Uz> entityList) {
+        for (Uz p : entityList) {
+            em.remove(em.merge(p));
+        }
+    }
+
    
     public Uz findUzByLogin(String login){
          Uz zwrot = null;

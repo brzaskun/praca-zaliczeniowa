@@ -4,6 +4,7 @@
  */
 package entity;
 
+import data.Data;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -106,6 +107,22 @@ public class Uz implements Serializable {
 
     public Uz(String login) {
         this.login = login;
+    }
+
+    public Uz(Angaz selected, Uprawnienia uprawnienia) {
+        this.firma = selected.getFirma();
+        this.email = selected.getPracownik().getEmail();
+        this.imie = selected.getPracownik().getImie();
+        this.nazwisko = selected.getPracownik().getNazwisko();
+        this.pesel = selected.getPracownik().getPesel();
+        this.rok = Data.aktualnyRok();
+        this.mc = Data.aktualnyMc();
+        this.nrtelefonu = selected.getPracownik().getTelefon();
+        this.haslo = selected.getPracownik().getPesel();
+        this.secname = "Pracownik";
+        this.login = selected.getPracownik().getEmail();
+        this.uprawnienia = uprawnienia;
+                
     }
 
     public String getImieNazwisko() {

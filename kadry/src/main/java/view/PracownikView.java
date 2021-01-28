@@ -29,6 +29,7 @@ public class PracownikView  implements Serializable {
     private Pracownik selectedlista;
     private Pracownik selectedeast;
     private List<Pracownik> lista;
+    private List<Pracownik> listafiltered;
     @Inject
     private AngazFacade angazFacade;
     @Inject
@@ -66,12 +67,13 @@ public class PracownikView  implements Serializable {
     
     public void usun(Pracownik pracownik) {
         if (pracownik!=null) {
-            if (wpisView.getPracownik().equals(pracownik)) {
+            if (wpisView.getPracownik()!=null&&wpisView.getPracownik().equals(pracownik)) {
                wpisView.setPracownik(null);
             }
             pracownikFacade.remove(pracownik);
             lista.remove(pracownik);
             Msg.msg("Usunięto pracownika");
+            listafiltered.remove(pracownik);
         } else {
             Msg.msg("e","Nie wybrano pracownika");
         }
@@ -106,6 +108,14 @@ public class PracownikView  implements Serializable {
 
     public void setSelectedeast(Pracownik selectedeast) {
         this.selectedeast = selectedeast;
+    }
+
+    public List<Pracownik> getListafiltered() {
+        return listafiltered;
+    }
+
+    public void setListafiltered(List<Pracownik> listafiltered) {
+        this.listafiltered = listafiltered;
     }
     
     

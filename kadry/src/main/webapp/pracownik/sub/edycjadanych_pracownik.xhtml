@@ -16,7 +16,11 @@
                         <p:outputLabel value="imię" for="imie" />
                         <p:inputText id="imie" value="#{pracownikView.selected.imie}" title="imię" required="true" requiredMessage="Wpisz imię"/>
                         <p:outputLabel value="pesel" for="pesel" />
-                        <p:inputText id="pesel" value="#{pracownikView.selected.pesel}" title="imię" required="true" requiredMessage="Wpisz Pesel"/>
+                        <p:inputText id="pesel" value="#{pracownikView.selected.pesel}" title="pesel" required="true" requiredMessage="Wpisz Pesel"/>
+                        <p:outputLabel value="email" for="email" />
+                        <p:inputText id="email" value="#{pracownikView.selected.email}" title="email"/>
+                        <p:outputLabel value="telefon" for="telefon" />
+                        <p:inputText id="telefon" value="#{pracownikView.selected.pesel}" title="telefon"/>
                     </p:panelGrid>
                     <p:commandButton styleClass="buttonnorm" actionListener="#{pracownikView.create}" value="#{bundle.Save}" update="display,@(form)" />
                 </h:panelGroup>
@@ -27,7 +31,7 @@
                 <p:panel header="Wykaz pracowników w programie">
                     <p:dataTable id="datalist" value="#{pracownikView.lista}" var="item2"
                                  selectionMode="single" selection="#{pracownikView.selectedlista}"
-                                 rowKey="#{item2.id}" sortBy="#{item2.nazwisko}"
+                                 rowKey="#{item2.id}" sortBy="#{item2.nazwisko}" filteredValue="#{pracownikView.listafiltered}"
                                  style="height: 400px; overflow-y: scroll;"
                                  rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
                                  >
