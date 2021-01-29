@@ -143,7 +143,10 @@
                                 <p:ajax event="blur" partialSubmit="true" global="false" listener="#{angazView.zapiszmail(itemAngaz.pracownik)}"/>
                             </p:inputText>
                         </p:column>
-                          <p:column style="text-align: center;">
+                        <p:column  width="40" style="text-align: center;">
+                            <p:commandButton icon="fa fa-file-text" actionListener="#{angazView.mail(itemAngaz.pracownik)}"/>
+                        </p:column>
+                          <p:column width="40" style="text-align: center;">
                             <p:commandButton icon="fa fa-trash" actionListener="#{angazView.usun(itemAngaz)}" update="north @(form)"/>
                         </p:column>
                     </p:dataTable>

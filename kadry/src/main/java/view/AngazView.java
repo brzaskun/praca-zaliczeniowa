@@ -8,11 +8,13 @@ package view;
 import dao.AngazFacade;
 import dao.FirmaFacade;
 import dao.PracownikFacade;
+import dao.SMTPSettingsFacade;
 import dao.UprawnieniaFacade;
 import dao.UzFacade;
 import entity.Angaz;
 import entity.Firma;
 import entity.Pracownik;
+import entity.SMTPSettings;
 import entity.Umowa;
 import entity.Uprawnienia;
 import entity.Uz;
@@ -23,6 +25,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import mail.Mail;
 import msg.Msg;
 
 /**
@@ -52,6 +55,8 @@ public class AngazView  implements Serializable {
     private UzFacade uzFacade;
     @Inject
     private UprawnieniaFacade uprawnieniaFacade;
+    @Inject
+    private SMTPSettingsFacade sMTPSettingsFacade;
     @Inject
     private WpisView wpisView;
     @Inject
@@ -93,7 +98,8 @@ public class AngazView  implements Serializable {
             Uz uzer = new Uz(selected, uprawnienia);
             selected = new Angaz();
             Msg.msg("Dodano nowy angaż");
-            uzFacade.edit(uzer);
+            uzFacade.create(uzer);
+            Msg.msg("Dodano nowego użytkownika");
           } catch (Exception e) {
               System.out.println("");
               Msg.msg("e", "Błąd - nie dodano nowego angażu");
@@ -171,7 +177,16 @@ public class AngazView  implements Serializable {
         if (pracownik!=null) {
             pracownikFacade.edit(pracownik);
             Msg.msg("Zaktualizowano email pracownika");
+            Uz uzer = uzFacade.findUzByPesel(pracownik.getPesel());
+            uzer.setLogin(pracownik.getEmail());
+            uzer.setEmail(pracownik.getEmail());
+            uzFacade.edit(uzer);
         }
+    }
+    
+    public void mail(Pracownik pracownik) {
+        SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+        Mail.ankieta(pracownik.getEmail(), null, findSprawaByDef);
     }
     
     public Angaz getSelected() {

@@ -49,7 +49,7 @@ public class Mail {
 
       
       
-       public static void resetowaniehasla(String adres, String login, SMTPSettings settings, SMTPSettings ogolne) {
+       public static void ankieta(String adres, SMTPSettings settings, SMTPSettings ogolne) {
         try {
             MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
             message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
@@ -57,14 +57,13 @@ public class Mail {
                     InternetAddress.parse(adres));
             message.setRecipients(Message.RecipientType.BCC,
                     InternetAddress.parse("brzaskun@gmail.com"));
-            message.setSubject("Potwierdzenie zresetowania zapomnianego hasła w serwisie Biura Rachunkowego Taxman");
+            message.setSubject("Wprowadzenie/aktualizacja danych pracownika");
             message.setContent("Szanowny Użytkowniku,"
-                    + "<p>Administrator własnie zresetował Ci hasło"
+                    + "<p>Twój pracodawca prosi o uzupełnienie Twoich danych"
                     + "w naszym serwisie</p>"
-                    + "<p>Nowe hasło brzmi po prostu - <strong>haslo</strong></p>"
-                    + "<p>Teraz powinieneś zalogować się do naszego serwisu <a href=\"http://taxman.pl:8080\">http://taxman.pl:8080</a><br/>"
-                    + "używając swojego loginu: "+login+" i nowego hasła nadanego przez administratora</p>"
-                    + "<p><strong>oraz zmienić je niezwłocznie(!!!) na swoje własne.</strong></p>"
+                    + "<p>Dane są niezbędne do rozliczeń kadrowych i płac.</p>"
+                    + "<p>Teraz powinieneś zalogować się do naszego serwisu <a href=\"https://taxman.pl:8181//kadry\">https://taxman.pl:8181//kadry</a><br/>"
+                    + "używając jako loginu: "+adres+" a jako hasła swojego numeru Pesel</p>"
                     + stopka,  "text/html; charset=utf-8");
             message.setHeader("Content-Type", "text/html; charset=utf-8");
             Transport.send(message);

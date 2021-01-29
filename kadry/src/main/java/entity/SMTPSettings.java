@@ -5,7 +5,6 @@
  */
 package entity;
 
-import entity.Uz;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -27,7 +26,7 @@ import javax.validation.constraints.NotNull;
  * @author Osito
  */
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames={"uzytkownik"})})
+@Table(name = "smtpsettings", uniqueConstraints = {@UniqueConstraint(columnNames={"uzytkownik"})})
 @NamedQueries({
     @NamedQuery(name = "SMTPSettings.findByUzytkownik", query = "SELECT s FROM SMTPSettings s WHERE s.uzytkownik = :uzytkownik"),
     @NamedQuery(name = "SMTPSettings.findByDef", query = "SELECT s FROM SMTPSettings s WHERE s.glowne = '1'")

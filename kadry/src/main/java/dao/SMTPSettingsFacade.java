@@ -5,7 +5,6 @@
 package dao;
 
 import entity.SMTPSettings;
-import entity.Rodzajwynagrodzenia;
 import entity.Uz;
 import error.E;
 import java.io.Serializable;
@@ -40,23 +39,23 @@ public class SMTPSettingsFacade   implements Serializable {
         return em;
     }
 
-    public void create(Rodzajwynagrodzenia entity) {
+    public void create(SMTPSettings entity) {
         getEntityManager().persist(entity);
         getEntityManager().flush();
     }
     
-    public List<Rodzajwynagrodzenia> findAll() {
+    public List<SMTPSettings> findAll() {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Rodzajwynagrodzenia.class));
+        cq.select(cq.from(SMTPSettings.class));
         return getEntityManager().createQuery(cq).getResultList();
     }
     
-     public void edit(Rodzajwynagrodzenia entity) {
+     public void edit(SMTPSettings entity) {
         getEntityManager().merge(entity);
     }
     
-     public void edit(List<Rodzajwynagrodzenia> entityList) {
-        for (Rodzajwynagrodzenia p : entityList) {
+     public void edit(List<SMTPSettings> entityList) {
+        for (SMTPSettings p : entityList) {
             try {
                 getEntityManager().merge(p);
             } catch (Exception e) {
@@ -68,7 +67,7 @@ public class SMTPSettingsFacade   implements Serializable {
     public SMTPSettings findSprawaByUzytkownik(Uz uzytkownik) {
         SMTPSettings zwrot = null;
         try {
-             zwrot = (SMTPSettings) em.createNamedQuery("SMTPSettings.findByUzytkownik").setParameter("uzytkownik", uzytkownik).getSingleResult();
+             zwrot = (SMTPSettings) getEntityManager().createNamedQuery("SMTPSettings.findByUzytkownik").setParameter("uzytkownik", uzytkownik).getSingleResult();
         } catch (Exception e) {
             
         }
@@ -78,7 +77,7 @@ public class SMTPSettingsFacade   implements Serializable {
     public SMTPSettings findSprawaByDef() {
         SMTPSettings zwrot = null;
         try {
-            zwrot = (SMTPSettings) em.createNamedQuery("SMTPSettings.findByDef").getSingleResult();
+            zwrot = (SMTPSettings) getEntityManager().createNamedQuery("SMTPSettings.findByDef").getSingleResult();
         } catch (Exception e) {
         
         }

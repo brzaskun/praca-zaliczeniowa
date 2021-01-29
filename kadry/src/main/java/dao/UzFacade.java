@@ -81,6 +81,10 @@ public class UzFacade {
     public List<String> findUzByUprawnienia(String uprawnienia){
          return Collections.synchronizedList(getEntityManager().createNamedQuery("Uz.findByUprawnienia").setParameter("uprawnienia", uprawnienia).getResultList());
      }
+
+    public Uz findUzByPesel(String pesel) {
+        return (Uz) getEntityManager().createNamedQuery("Uz.findByPesel").setParameter("pesel", pesel).getSingleResult();
+    }
     
 }
 

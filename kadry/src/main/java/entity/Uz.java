@@ -6,6 +6,7 @@ package entity;
 
 import data.Data;
 import java.io.Serializable;
+import java.security.MessageDigest;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -27,7 +29,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(name = "uz")
+@Table(name = "uz", uniqueConstraints = {
+    @UniqueConstraint(columnNames={"login","pesel"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Uz.findAll", query = "SELECT u FROM Uz u"),
@@ -36,18 +40,16 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Uz.findByHaslo", query = "SELECT u FROM Uz u WHERE u.haslo = :haslo"),
     @NamedQuery(name = "Uz.findByImie", query = "SELECT u FROM Uz u WHERE u.imie = :imie"),
     @NamedQuery(name = "Uz.findByNazw", query = "SELECT u FROM Uz u WHERE u.nazwisko = :nazwisko"),
+    @NamedQuery(name = "Uz.findByPesel", query = "SELECT u FROM Uz u WHERE u.pesel = :pesel"),
     @NamedQuery(name = "Uz.findByUprawnienia", query = "SELECT u FROM Uz u WHERE u.uprawnienia = :uprawnienia"),
     @NamedQuery(name = "Uz.findByUzUprawnienia", query = "SELECT u.login FROM Uz u WHERE u.uprawnienia = :uprawnienia")
 })
 public class Uz implements Serializable {
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    
     @NotNull()
     @Size(min = 1, max = 255)
     @Column(name = "login")
     private String login;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @NotNull()
     @Size(min = 1, max = 255)
     @Column(name = "email")
@@ -89,7 +91,7 @@ public class Uz implements Serializable {
     @Column(name = "pesel", nullable = true)
     private String pesel;
     @JoinColumn(name = "firma", referencedColumnName = "id")
-    @ManyToOne()
+    @ManyToOne(optional = false)
     private Firma firma;
     @JoinColumn(name = "uprawnienia", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -118,11 +120,25 @@ public class Uz implements Serializable {
         this.rok = Data.aktualnyRok();
         this.mc = Data.aktualnyMc();
         this.nrtelefonu = selected.getPracownik().getTelefon();
-        this.haslo = selected.getPracownik().getPesel();
+        this.haslo = haszuj(selected.getPracownik().getPesel());
         this.secname = "Pracownik";
         this.login = selected.getPracownik().getEmail();
         this.uprawnienia = uprawnienia;
                 
+    }
+    
+    private String haszuj(String password){
+        StringBuffer sb = new StringBuffer();
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(password.getBytes());
+            byte byteData[] = md.digest();
+            //convert the byte to hex format method 1
+            for (int i = 0; i < byteData.length; i++) {
+                sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+            }
+        } catch (Exception ex){}
+        return sb.toString();
     }
 
     public String getImieNazwisko() {
