@@ -1254,9 +1254,9 @@ private DokDAO dokDAO;
         selected = wpisView.getPodatnikObiekt();
         List<Rodzajedok> dokumentyBiezacegoPodatnika = rodzajedokDAO.findListaPodatnik(selected, wpisView.getRokWpisuSt());
         List<Rodzajedok> dokumentyBiezacegoPodatnikaRokPoprzedni = rodzajedokDAO.findListaPodatnik(selected, wpisView.getRokUprzedniSt());
-        List<Rodzajedok> dokumentyBiezacegoPodatnikaOgolnie = rodzajedokDAO.findListaPodatnikNull(selected);
-        if ((dokumentyBiezacegoPodatnikaRokPoprzedni==null || dokumentyBiezacegoPodatnika.isEmpty()) && (dokumentyBiezacegoPodatnikaOgolnie!=null && !dokumentyBiezacegoPodatnikaOgolnie.isEmpty())) {
-            dokumentyBiezacegoPodatnikaRokPoprzedni = dokumentyBiezacegoPodatnikaOgolnie;
+        List<Rodzajedok> wspolnedokumentypodatnikow = rodzajedokDAO.findListaPodatnikNull(selected);
+        if (((dokumentyBiezacegoPodatnikaRokPoprzedni==null||dokumentyBiezacegoPodatnikaRokPoprzedni.isEmpty()) && dokumentyBiezacegoPodatnika.isEmpty()) && (wspolnedokumentypodatnikow!=null && !wspolnedokumentypodatnikow.isEmpty())) {
+            dokumentyBiezacegoPodatnikaRokPoprzedni = wspolnedokumentypodatnikow;
         }
         List<Rodzajedok> ogolnaListaDokumentow = rodzajedokView.getListaWspolnych();
         List<Konto> konta = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
@@ -1326,7 +1326,7 @@ private DokDAO dokDAO;
                     }
                 }
             } else {
-                    for (Rodzajedok tmp : ogolnaListaDokumentow) {
+                    for (Rodzajedok tmp : dokumentyBiezacegoPodatnikaRokPoprzedni) {
                         try {
                             boolean odnaleziono = false;
                             for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
@@ -1392,11 +1392,13 @@ private DokDAO dokDAO;
     
     private void zweryfikujBazeBiezacegoPodatnika() {
         //dodalem to bo byly konta ze starego roku
-        List<Rodzajedok> dokumentyBiezacegoPodatnika = rodzajedokDAO.findListaPodatnik(selected, wpisView.getRokWpisuSt());
-        for (Rodzajedok nowy : dokumentyBiezacegoPodatnika) {
-            KontaFKBean.nanieskonta(nowy, kontoDAOfk);
-            rodzajedokDAO.edit(nowy);
-        }
+        try {
+            List<Rodzajedok> dokumentyBiezacegoPodatnika = rodzajedokDAO.findListaPodatnik(selected, wpisView.getRokWpisuSt());
+            for (Rodzajedok nowy : dokumentyBiezacegoPodatnika) {
+                KontaFKBean.nanieskonta(nowy, kontoDAOfk);
+                rodzajedokDAO.edit(nowy);
+            }
+        } catch (Exception e){}
         // to bylo nam potrzebne do transformacji teraz jest juz zbedne bo klineci maja przeniesione dokumenty
 //        List<Rodzajedok> listaRodzajeDokPodatnika = rodzajedokDAO.findListaPodatnik(selected);
 //        if (listaRodzajeDokPodatnika == null || listaRodzajeDokPodatnika.size() == 0) {
