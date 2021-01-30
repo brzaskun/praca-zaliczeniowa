@@ -39,6 +39,10 @@
             <from-outcome>PracownikUst</from-outcome>
             <to-view-id>/pracownikust/index.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>Pracodawca</from-outcome>
+            <to-view-id>/pracodawca/index.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
          <navigation-case>
             <from-outcome>Parametry</from-outcome>
             <to-view-id>/parametry/index.xhtml?faces-redirect=true</to-view-id>

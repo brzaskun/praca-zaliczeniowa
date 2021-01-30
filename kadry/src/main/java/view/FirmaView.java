@@ -6,7 +6,11 @@
 package view;
 
 import dao.FirmaFacade;
+import dao.UprawnieniaFacade;
+import dao.UzFacade;
 import entity.Firma;
+import entity.Uprawnienia;
+import entity.Uz;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -31,6 +35,10 @@ public class FirmaView  implements Serializable {
     @Inject
     private FirmaFacade firmaFacade;
     @Inject
+    private UprawnieniaFacade uprawnieniaFacade;
+    @Inject
+    private UzFacade uzFacade;
+    @Inject
     private WpisView wpisView;
     private PracownikView pracownikView;
     
@@ -48,8 +56,13 @@ public class FirmaView  implements Serializable {
             firmaFacade.create(selected);
             lista.add(selected);
             wpisView.setFirma(selected);
-            selected = new Firma();
             Msg.msg("Dodano nową firmę");
+            Uprawnienia uprawnienia = uprawnieniaFacade.findByNazwa("Pracodawca");
+            Uz uzer = new Uz(selected, uprawnienia);
+            selected = new Firma();
+            Msg.msg("Dodano nowy angaż");
+            uzFacade.create(uzer);
+            Msg.msg("Dodano nowego użytkownika");
           } catch (Exception e) {
               System.out.println("");
               Msg.msg("e", "Błąd - nie dodano nowej firmy");
@@ -79,6 +92,25 @@ public class FirmaView  implements Serializable {
             Msg.msg("Usunięto firmę");
         } else {
             Msg.msg("e","Nie usunięto firmy");
+        }
+    }
+    
+    public void edytuj(Firma firma) {
+        if (firma!=null && firma.getEmail()!=null) {
+            firmaFacade.edit(firma);
+            Uz uz = uzFacade.findUzByPesel(firma.getNip());
+            if (uz!=null) {
+                uz.setEmail(firma.getEmail());
+                uz.setNrtelefonu(firma.getTelefon());
+                uzFacade.edit(uz);
+            } else {
+                Uprawnienia uprawnienia = uprawnieniaFacade.findByNazwa("Pracodawca");
+                Uz uzer = new Uz(firma, uprawnienia);
+                uzFacade.create(uzer);
+            }
+            Msg.msg("Edytowano firmę");
+        } else {
+            Msg.msg("e","Nie wybrano firmy");
         }
     }
     

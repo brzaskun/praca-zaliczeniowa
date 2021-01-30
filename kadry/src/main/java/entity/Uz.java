@@ -126,6 +126,21 @@ public class Uz implements Serializable {
         this.uprawnienia = uprawnienia;
                 
     }
+
+    public Uz(Firma firma, Uprawnienia uprawnienia) {
+        this.firma = firma;
+        this.email = firma.getEmail();
+        this.imie = null;
+        this.nazwisko = firma.getNazwa();
+        this.pesel = firma.getNip();
+        this.rok = Data.aktualnyRok();
+        this.mc = Data.aktualnyMc();
+        this.nrtelefonu = firma.getTelefon();
+        this.haslo = haszuj(firma.getNip());
+        this.secname = "Pracodawca";
+        this.login = firma.getEmail();
+        this.uprawnienia = uprawnienia;
+    }
     
     private String haszuj(String password){
         StringBuffer sb = new StringBuffer();

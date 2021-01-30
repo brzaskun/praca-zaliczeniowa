@@ -10,28 +10,28 @@
             <h:form id="PracownikCreateForm">
                 <h:panelGroup id="display">
                     <p:panel header="Dane nowego pracownika "/>
-                    <p:panelGrid columns="2" rendered="#{pracownikView.selected != null}">
+                    <p:panelGrid columns="2" rendered="#{pracodawcaDaneView.selected != null}">
                         <p:outputLabel value="nazwisko" for="nazwisko" />
-                        <p:inputText id="nazwisko" value="#{pracownikView.selected.nazwisko}" title="nazwisko" required="true" requiredMessage="Wpisz nazwisko"/>
+                        <p:inputText id="nazwisko" value="#{pracodawcaDaneView.selected.nazwisko}" title="nazwisko" required="true" requiredMessage="Wpisz nazwisko"/>
                         <p:outputLabel value="imię" for="imie" />
-                        <p:inputText id="imie" value="#{pracownikView.selected.imie}" title="imię" required="true" requiredMessage="Wpisz imię"/>
+                        <p:inputText id="imie" value="#{pracodawcaDaneView.selected.imie}" title="imię" required="true" requiredMessage="Wpisz imię"/>
                         <p:outputLabel value="pesel" for="pesel" />
-                        <p:inputText id="pesel" value="#{pracownikView.selected.pesel}" title="pesel" required="true" requiredMessage="Wpisz Pesel"/>
+                        <p:inputText id="pesel" value="#{pracodawcaDaneView.selected.pesel}" title="pesel" required="true" requiredMessage="Wpisz Pesel"/>
                         <p:outputLabel value="email" for="email" />
-                        <p:inputText id="email" value="#{pracownikView.selected.email}" title="email"/>
+                        <p:inputText id="email" value="#{pracodawcaDaneView.selected.email}" title="email"/>
                         <p:outputLabel value="telefon" for="telefon" />
-                        <p:inputText id="telefon" value="#{pracownikView.selected.telefon}" title="telefon"/>
+                        <p:inputText id="telefon" value="#{pracodawcaDaneView.selected.telefon}" title="telefon"/>
                     </p:panelGrid>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{pracownikView.create}" value="#{bundle.Save}" update="display,@(form)" />
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{pracodawcaDaneView.create}" value="#{bundle.Save}" update="display,@(form)" />
                 </h:panelGroup>
             </h:form>
         </p:outputPanel>
         <p:outputPanel>
             <h:form id="PracownikListForm">
                 <p:panel header="Wykaz pracowników w programie">
-                    <p:dataTable id="datalist" value="#{pracownikView.lista}" var="item2"
-                                 selectionMode="single" selection="#{pracownikView.selectedlista}"
-                                 rowKey="#{item2.id}" sortBy="#{item2.nazwisko}" filteredValue="#{pracownikView.listafiltered}"
+                    <p:dataTable id="datalist" value="#{pracodawcaDaneView.listapracownikow}" var="item2"
+                                 selectionMode="single" selection="#{pracodawcaDaneView.selectedlista}"
+                                 rowKey="#{item2.id}" sortBy="#{item2.nazwisko}" filteredValue="#{pracodawcaDaneView.listafiltered}"
                                  style="height: 400px; overflow-y: scroll;"
                                  rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
                                  >
@@ -58,19 +58,19 @@
                             <f:facet name="header">
                                 <h:outputText value="Pesel"/>
                             </f:facet>
-                            <h:outputText value="#{item2.pesel}"/>
+                            <p:inputText value="#{item2.pesel}"/>
                         </p:column>
                           <p:column>
                             <f:facet name="header">
-                                <h:outputText value="firmy"/>
+                                <h:outputText value="email"/>
                             </f:facet>
-                            <h:outputText value="#{item2.firmypracownika}"/>
+                              <p:inputText value="#{item2.email}"/>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
-                                <h:outputText value=" jest angaż"/>
+                                <h:outputText value="telefon"/>
                             </f:facet>
-                             <h:outputText value="#{item2.czyjestangaz}"/>
+                            <p:inputText value="#{item2.telefon}"/>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
@@ -79,7 +79,7 @@
                              <h:outputText value="#{item2.czyjestumowa}"/>
                         </p:column>
                         <p:column style="text-align: center;">
-                            <p:commandButton icon="fa fa-trash" actionListener="#{pracownikView.usun(item2)}" update="north,@(form)"/>
+                            <p:commandButton icon="fa fa-check" actionListener="#{pracodawcaDaneView.edytuj(item2)}" update="north,@(form)"/>
                         </p:column>
                     </p:dataTable>
                 </p:panel>

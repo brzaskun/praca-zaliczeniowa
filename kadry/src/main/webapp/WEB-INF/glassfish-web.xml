@@ -15,7 +15,13 @@
   </security-role-mapping>
   <class-loader delegate="false"/>
   <context-root>/pracownikust</context-root>
-
+ <security-role-mapping>
+    <role-name>Pracodawca</role-name>
+    <principal-name>Pracodawca</principal-name>
+    <group-name>Pracodawca</group-name>
+  </security-role-mapping>
+  <class-loader delegate="false"/>
+  <context-root>/pracodawca</context-root>
   <!-- Change the default character encoding from ISO-8859-1 to UTF-8 -->
   <parameter-encoding default-charset="UTF-8"/>
   </glassfish-web-app>

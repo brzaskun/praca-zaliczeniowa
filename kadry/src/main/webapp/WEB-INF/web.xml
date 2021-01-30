@@ -132,4 +132,16 @@
             <role-name>Pracownik</role-name>
         </auth-constraint>
     </security-constraint>
+    <security-role>
+        <role-name>Pracodawca</role-name>
+    </security-role>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Pracodawca Area</web-resource-name>
+            <url-pattern>/pracodawca/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Pracodawca</role-name>
+        </auth-constraint>
+    </security-constraint>
 </web-app>

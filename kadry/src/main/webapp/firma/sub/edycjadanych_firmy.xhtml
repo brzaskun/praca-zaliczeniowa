@@ -14,6 +14,10 @@
                     <p:inputText id="nip" value="#{firmaView.selected.nip}" title="nip" required="true" requiredMessage="NIP wymagany}"/>
                     <p:outputLabel value="nazwa" for="nazwa" />
                     <p:inputText id="nazwa" value="#{firmaView.selected.nazwa}" title="nazwa" required="true" requiredMessage="Wpisz nazwę"/>
+                    <p:outputLabel value="email" for="email" />
+                    <p:inputText id="email" value="#{firmaView.selected.email}" title="email" required="true" requiredMessage="Wpisz email"/>
+                    <p:outputLabel value="telefon" for="telefon" />
+                    <p:inputText id="telefon" value="#{firmaView.selected.telefon}" title="telefon" required="true" requiredMessage="Wpisz telefon"/>
                 </p:panelGrid>
                 <p:commandButton styleClass="buttonnorm" actionListener="#{firmaView.create()}" value="#{bundle.Save}" update="@(form)"/>
                 <p:commandButton value="#{bundle.Cancel}"/>
@@ -46,14 +50,30 @@
                             </f:facet>
                             <h:outputText value="#{item1.nazwa}"/>
                         </p:column>
+                         <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="email"/>
+                            </f:facet>
+                             <p:inputText value="#{item1.email}">
+                                 <p:ajax event="blur" partialSubmit="true" global="false" listener="#{firmaView.edytuj(item1)}"/>
+                             </p:inputText>
+                        </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="pracownicy"/>
+                                <h:outputText value="telefon"/>
+                            </f:facet>
+                            <p:inputText value="#{item1.telefon}">
+                                <p:ajax event="blur" partialSubmit="true" global="false" listener="#{firmaView.edytuj(item1)}"/>
+                            </p:inputText>
+                        </p:column>
+                        <p:column width="60" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="prac."/>
                             </f:facet>
                             <h:outputText value="#{item1.angazList ne null and item1.angazList.size() gt 0 ? item1.angazList.size():''}"/>
                         </p:column>
 
-                        <p:column style="text-align: center;">
+                        <p:column width="40" style="text-align: center;">
                             <p:commandButton icon="fa fa-trash" actionListener="#{firmaView.usun(item1)}" update="north @(form)"/>
                         </p:column>
                     </p:dataTable>

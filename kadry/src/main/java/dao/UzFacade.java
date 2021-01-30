@@ -83,7 +83,11 @@ public class UzFacade {
      }
 
     public Uz findUzByPesel(String pesel) {
-        return (Uz) getEntityManager().createNamedQuery("Uz.findByPesel").setParameter("pesel", pesel).getSingleResult();
+        Uz zwrot = null;
+        try {
+            zwrot = (Uz) getEntityManager().createNamedQuery("Uz.findByPesel").setParameter("pesel", pesel).getSingleResult();
+        } catch (Exception e) {}
+        return zwrot;
     }
     
 }

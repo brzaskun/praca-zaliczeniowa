@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -27,7 +28,9 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Osito
  */
 @Entity
-@Table(name = "firma")
+@Table(name = "firma", uniqueConstraints = {
+    @UniqueConstraint(columnNames={"nip"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Firma.findAll", query = "SELECT f FROM Firma f"),
@@ -40,7 +43,7 @@ public class Firma implements Serializable {
     @Column(name = "nazwa")
     private String nazwa;
     @Size(max = 255)
-    @Column(name = "nip")
+    @Column(name = "nip",nullable = false)
     private String nip;
     @OneToMany(mappedBy = "firma", cascade = CascadeType.ALL)
     private List<Uz> uzList;
@@ -57,6 +60,12 @@ public class Firma implements Serializable {
     private List<Angaz> angazList;
     @OneToMany(mappedBy = "firma", cascade = CascadeType.ALL)
     private List<Kalendarzwzor> kalendarzWzorList;
+    @Size(max = 128)
+    @Column(name = "email")
+    private String email;
+    @Size(max = 128)
+    @Column(name = "telefon")
+    private String telefon;
 
     public Firma() {
     }
@@ -154,6 +163,22 @@ public class Firma implements Serializable {
 
     public void setNip(String nip) {
         this.nip = nip;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTelefon() {
+        return telefon;
+    }
+
+    public void setTelefon(String telefon) {
+        this.telefon = telefon;
     }
     
 }

@@ -63,6 +63,8 @@ public class Logowanie implements Serializable {
                     navto = "Administrator";
                 } else if (request.isUserInRole("Pracownik")) {
                     navto = "PracownikUst";
+                } else if (request.isUserInRole("Pracodawca")) {
+                    navto = "Pracodawca";
                 }
                 Uz uzer = uzFacade.findUzByLogin(lo);
                 wpisView.setUzer(uzer);
