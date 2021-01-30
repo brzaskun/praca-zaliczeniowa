@@ -79,6 +79,9 @@
                              <h:outputText value="#{item2.czyjestumowa}"/>
                         </p:column>
                         <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="zapisz"/>
+                            </f:facet>
                             <p:commandButton icon="fa fa-check" actionListener="#{pracodawcaDaneView.edytuj(item2)}" update="north,@(form)"/>
                         </p:column>
                     </p:dataTable>
