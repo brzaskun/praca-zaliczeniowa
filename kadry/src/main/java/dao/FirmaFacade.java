@@ -6,7 +6,6 @@
 package dao;
 
 import entity.Firma;
-import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -19,7 +18,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class FirmaFacade  {
+public class FirmaFacade extends DAO {
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
@@ -37,33 +36,12 @@ public class FirmaFacade  {
         return em;
     }
 
-    public FirmaFacade() {
+   public FirmaFacade() {
+        super(Firma.class);
+        super.em = em;
     }
     
-    public void create(Firma entity) {
-        getEntityManager().persist(entity);
-        getEntityManager().flush();
-    }
     
-    public List<Firma> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Firma.class));
-        return getEntityManager().createQuery(cq).getResultList();
-    }
-    
-     public void edit(Firma entity) {
-        getEntityManager().merge(entity);
-    }
-     
-     public void remove(Firma entity) {
-        em.remove(em.merge(entity));
-    }
-    
-    public void remove(List<Firma> entityList) {
-        for (Firma p : entityList) {
-            em.remove(em.merge(p));
-        }
-    }
 
     public Firma findByNIP(String nip) {
         return (Firma) getEntityManager().createNamedQuery("Firma.findByNip").setParameter("nip", nip).getSingleResult();

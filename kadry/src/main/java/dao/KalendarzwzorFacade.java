@@ -7,7 +7,6 @@ package dao;
 
 import entity.Firma;
 import entity.Kalendarzwzor;
-import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -21,9 +20,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class KalendarzwzorFacade   implements Serializable {
-    private static final long serialVersionUID = 1L;
-
+public class KalendarzwzorFacade extends DAO   {
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
     
@@ -41,22 +38,11 @@ public class KalendarzwzorFacade   implements Serializable {
     }
 
     public KalendarzwzorFacade() {
+        super(Kalendarzwzor.class);
+        super.em = em;
     }
-    
-    public void create(Kalendarzwzor entity) {
-        getEntityManager().persist(entity);
-        getEntityManager().flush();
-    }
-    
-    public List<Kalendarzwzor> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Kalendarzwzor.class));
-        return getEntityManager().createQuery(cq).getResultList();
-    }
-    
-     public void edit(Kalendarzwzor entity) {
-        getEntityManager().merge(entity);
-    }
+
+   
 
     public Kalendarzwzor findByFirmaRokMc(Firma firma, String rok, String mc) {
         Kalendarzwzor zwrot = null;

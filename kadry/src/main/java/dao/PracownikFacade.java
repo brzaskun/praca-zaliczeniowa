@@ -6,7 +6,6 @@
 package dao;
 
 import entity.Pracownik;
-import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -19,7 +18,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class PracownikFacade  {
+public class PracownikFacade extends DAO  {
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
@@ -38,32 +37,10 @@ public class PracownikFacade  {
     }
 
     public PracownikFacade() {
+        super(Pracownik.class);
+        super.em = em;
     }
     
-    public void create(Pracownik entity) {
-        getEntityManager().persist(entity);
-        getEntityManager().flush();
-    }
-    
-    public List<Pracownik> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Pracownik.class));
-        return getEntityManager().createQuery(cq).getResultList();
-    }
-    
-     public void edit(Pracownik entity) {
-        getEntityManager().merge(entity);
-    }
-     
-    public void remove(Pracownik entity) {
-        em.remove(em.merge(entity));
-    }
-    
-    public void remove(List<Pracownik> entityList) {
-        for (Pracownik p : entityList) {
-            em.remove(em.merge(p));
-        }
-    }
 
     public Pracownik findByPesel(String pesel) {
         return (Pracownik) getEntityManager().createNamedQuery("Pracownik.findByPesel").setParameter("pesel", pesel).getSingleResult();

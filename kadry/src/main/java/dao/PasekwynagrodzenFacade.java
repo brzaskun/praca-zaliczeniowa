@@ -8,7 +8,6 @@ package dao;
 import entity.Definicjalistaplac;
 import entity.Kalendarzmiesiac;
 import entity.Pasekwynagrodzen;
-import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -23,7 +22,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class PasekwynagrodzenFacade   implements Serializable {
+public class PasekwynagrodzenFacade extends DAO   implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @PersistenceContext(unitName = "kadryPU")
@@ -43,42 +42,10 @@ public class PasekwynagrodzenFacade   implements Serializable {
     }
 
     public PasekwynagrodzenFacade() {
+        super(Pasekwynagrodzen.class);
+        super.em = em;
     }
     
-    public void create(Pasekwynagrodzen entity) {
-        getEntityManager().persist(entity);
-        getEntityManager().flush();
-    }
-    
-    public List<Pasekwynagrodzen> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Pasekwynagrodzen.class));
-        return getEntityManager().createQuery(cq).getResultList();
-    }
-    
-    public void edit(Pasekwynagrodzen entity) {
-        getEntityManager().merge(entity);
-    }
-     
-    public void remove(Pasekwynagrodzen entity) {
-        em.remove(em.merge(entity));
-    }
-    
-    public void remove(List<Pasekwynagrodzen> entityList) {
-        for (Pasekwynagrodzen p : entityList) {
-            em.remove(em.merge(p));
-        }
-    }
-    
-    public void editList(List<Pasekwynagrodzen> entityList) {
-        for (Pasekwynagrodzen p : entityList) {
-            try {
-                getEntityManager().merge(p);
-            } catch (Exception e) {
-                E.e(e);
-            }
-        }
-    }
 
     public Pasekwynagrodzen findByDefKal(Definicjalistaplac definicjalistaplac, Kalendarzmiesiac kalendarzmiesiac) {
         return (Pasekwynagrodzen) getEntityManager().createNamedQuery("Pasekwynagrodzen.findByDefKal").setParameter("definicjalistaplac", definicjalistaplac).setParameter("kalendarzmiesiac", kalendarzmiesiac).getSingleResult();

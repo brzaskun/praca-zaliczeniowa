@@ -5,6 +5,7 @@
  */
 package dao;
 
+import error.E;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -12,13 +13,15 @@ import javax.persistence.EntityManager;
  *
  * @author Osito
  */
-public abstract class AbstractFacade<T> {
+public abstract class  DAO<T> {
 
-    private Class<T> entityClass;
+    EntityManager em;
+    Class<T> entityClass;
 
-    public AbstractFacade(Class<T> entityClass) {
+    protected DAO(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
+
 
     protected abstract EntityManager getEntityManager();
 
@@ -28,6 +31,17 @@ public abstract class AbstractFacade<T> {
 
     public void edit(T entity) {
         getEntityManager().merge(entity);
+    }
+    
+    public void editList(List<T> entityList) {
+        for (T p : entityList) {
+            try {
+                getEntityManager().merge(p);
+            } catch (Exception e) {
+                E.e(e);
+            }
+        }
+        
     }
 
     public void remove(T entity) {

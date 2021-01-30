@@ -21,7 +21,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class ZmiennaWynagrodzeniaFacade {
+public class ZmiennaWynagrodzeniaFacade extends DAO {
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
@@ -40,31 +40,8 @@ public class ZmiennaWynagrodzeniaFacade {
     }
 
     public ZmiennaWynagrodzeniaFacade() {
-    }
-
-    public void create(Zmiennawynagrodzenia entity) {
-        getEntityManager().persist(entity);
-        getEntityManager().flush();
-    }
-
-    public List<Zmiennawynagrodzenia> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Zmiennawynagrodzenia.class));
-        return getEntityManager().createQuery(cq).getResultList();
-    }
-
-    public void edit(Zmiennawynagrodzenia entity) {
-        getEntityManager().merge(entity);
-    }
-
-    public void remove(Zmiennawynagrodzenia entity) {
-        em.remove(em.merge(entity));
-    }
-
-    public void remove(List<Zmiennawynagrodzenia> entityList) {
-        for (Zmiennawynagrodzenia p : entityList) {
-            em.remove(em.merge(p));
-        }
+        super(Zmiennawynagrodzenia.class);
+        super.em = em;
     }
 
     public List<Zmiennawynagrodzenia> findByUmowa(Umowa umowa) {

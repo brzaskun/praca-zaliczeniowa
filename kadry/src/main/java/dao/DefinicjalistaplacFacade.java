@@ -21,7 +21,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class DefinicjalistaplacFacade  implements Serializable {
+public class DefinicjalistaplacFacade extends DAO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @PersistenceContext(unitName = "kadryPU")
@@ -41,23 +41,11 @@ public class DefinicjalistaplacFacade  implements Serializable {
     }
 
     public DefinicjalistaplacFacade() {
-    }
-    
-    public void create(Definicjalistaplac entity) {
-        getEntityManager().persist(entity);
-        getEntityManager().flush();
-    }
-    
-    public List<Definicjalistaplac> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Definicjalistaplac.class));
-        return getEntityManager().createQuery(cq).getResultList();
-    }
-    
-     public void edit(Definicjalistaplac entity) {
-        getEntityManager().merge(entity);
+        super(Definicjalistaplac.class);
+        super.em = em;
     }
 
+  
     public List<Definicjalistaplac> findByFirmaRok(Firma firma, String rok) {
         return getEntityManager().createNamedQuery("Definicjalistaplac.findByFirmaRok").setParameter("firma", firma).setParameter("rok", rok).getResultList();
     }

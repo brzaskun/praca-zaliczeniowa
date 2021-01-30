@@ -21,7 +21,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class SkladnikWynagrodzeniaFacade  {
+public class SkladnikWynagrodzeniaFacade extends DAO  {
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
@@ -40,33 +40,10 @@ public class SkladnikWynagrodzeniaFacade  {
     }
 
     public SkladnikWynagrodzeniaFacade() {
+        super(Skladnikwynagrodzenia.class);
+        super.em = em;
     }
     
-    public void create(Skladnikwynagrodzenia entity) {
-        getEntityManager().persist(entity);
-        getEntityManager().flush();
-    }
-    
-    public List<Skladnikwynagrodzenia> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Skladnikwynagrodzenia.class));
-        return getEntityManager().createQuery(cq).getResultList();
-    }
-    
-     public void edit(Skladnikwynagrodzenia entity) {
-        getEntityManager().merge(entity);
-    }
-     
-    public void remove(Skladnikwynagrodzenia entity) {
-        em.remove(em.merge(entity));
-    }
-    
-    public void remove(List<Skladnikwynagrodzenia> entityList) {
-        for (Skladnikwynagrodzenia p : entityList) {
-            em.remove(em.merge(p));
-        }
-    }
-
     public List<Skladnikwynagrodzenia> findByPracownik(Pracownik pracownik) {
         List<Skladnikwynagrodzenia> zwrot = new ArrayList<>();
         zwrot = getEntityManager().createNamedQuery("Skladnikwynagrodzenia.findByPracownik").setParameter("pracownik", pracownik).getResultList();

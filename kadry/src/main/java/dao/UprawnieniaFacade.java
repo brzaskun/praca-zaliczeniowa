@@ -5,9 +5,7 @@
  */
 package dao;
 
-import entity.Pracownik;
 import entity.Uprawnienia;
-import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -20,7 +18,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class UprawnieniaFacade  {
+public class UprawnieniaFacade extends DAO  {
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
@@ -39,33 +37,10 @@ public class UprawnieniaFacade  {
     }
 
     public UprawnieniaFacade() {
+        super(Uprawnienia.class);
+        super.em = em;
     }
     
-    public void create(Uprawnienia entity) {
-        getEntityManager().persist(entity);
-        getEntityManager().flush();
-    }
-    
-    public List<Uprawnienia> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Pracownik.class));
-        return getEntityManager().createQuery(cq).getResultList();
-    }
-    
-     public void edit(Uprawnienia entity) {
-        getEntityManager().merge(entity);
-    }
-     
-    public void remove(Uprawnienia entity) {
-        em.remove(em.merge(entity));
-    }
-    
-    public void remove(List<Uprawnienia> entityList) {
-        for (Uprawnienia p : entityList) {
-            em.remove(em.merge(p));
-        }
-    }
-
     public Uprawnienia findByNazwa(String nazwa) {
         return (Uprawnienia) getEntityManager().createNamedQuery("Uprawnienia.findByNazwa").setParameter("nazwa", nazwa).getSingleResult();
     }

@@ -7,7 +7,6 @@ package dao;
 
 import entity.Memory;
 import entity.Uz;
-import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -20,7 +19,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class MemoryFacade  {
+public class MemoryFacade extends DAO  {
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
@@ -39,31 +38,11 @@ public class MemoryFacade  {
     }
 
     public MemoryFacade() {
+        super(Memory.class);
+        super.em = em;
     }
-    
-    public void create(Memory entity) {
-        getEntityManager().persist(entity);
-        getEntityManager().flush();
-    }
-    
-     public void remove(Memory entity) {
-        em.remove(em.merge(entity));
-    }
-    
-    public void remove(List<Memory> entityList) {
-        for (Memory p : entityList) {
-            em.remove(em.merge(p));
-        }
-    }
-    public List<Memory> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Memory.class));
-        return getEntityManager().createQuery(cq).getResultList();
-    }
-    
-     public void edit(Memory entity) {
-        getEntityManager().merge(entity);
-    }
+
+   
 
     public Memory findByUzer(Uz uzer) {
         Memory zwrot = null;

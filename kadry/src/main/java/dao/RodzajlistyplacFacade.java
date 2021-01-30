@@ -6,7 +6,6 @@
 package dao;
 
 import entity.Rodzajlistyplac;
-import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -19,7 +18,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class RodzajlistyplacFacade  {
+public class RodzajlistyplacFacade extends DAO  {
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
@@ -38,22 +37,9 @@ public class RodzajlistyplacFacade  {
     }
 
     public RodzajlistyplacFacade() {
+        super(Rodzajlistyplac.class);
+        super.em = em;
     }
     
-    public void create(Rodzajlistyplac entity) {
-        getEntityManager().persist(entity);
-        getEntityManager().flush();
-    }
-    
-    public List<Rodzajlistyplac> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Rodzajlistyplac.class));
-        return getEntityManager().createQuery(cq).getResultList();
-    }
-    
-     public void edit(Rodzajlistyplac entity) {
-        getEntityManager().merge(entity);
-    }
-
-    
+       
 }

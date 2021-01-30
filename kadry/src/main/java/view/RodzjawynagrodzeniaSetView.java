@@ -34,7 +34,7 @@ public class RodzjawynagrodzeniaSetView  implements Serializable {
     }
 
     public void zachowaj() {
-        rodzajwynagrodzeniaFacade.edit(lista);
+        rodzajwynagrodzeniaFacade.editList(lista);
         Msg.msg("Zmiany zachowane");
     }
     

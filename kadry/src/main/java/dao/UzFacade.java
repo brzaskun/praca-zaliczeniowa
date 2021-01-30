@@ -20,7 +20,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class UzFacade {
+public class UzFacade extends DAO {
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
 
@@ -36,32 +36,13 @@ public class UzFacade {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
-    public void create(Uz entity) {
-        getEntityManager().persist(entity);
-        getEntityManager().flush();
-    }
-    
-    public List<Uz> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Uz.class));
-        return getEntityManager().createQuery(cq).getResultList();
-    }
-    
-     public void edit(Uz entity) {
-        getEntityManager().merge(entity);
-    }
-    
-     public void remove(Uz entity) {
-        em.remove(em.merge(entity));
-    }
-    
-    public void remove(List<Uz> entityList) {
-        for (Uz p : entityList) {
-            em.remove(em.merge(p));
-        }
-    }
 
+    public UzFacade() {
+        super(Uz.class);
+        super.em = em;
+    }
+    
+    
    
     public Uz findUzByLogin(String login){
          Uz zwrot = null;

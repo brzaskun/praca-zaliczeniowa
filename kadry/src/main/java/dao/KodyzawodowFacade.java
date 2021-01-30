@@ -6,9 +6,6 @@
 package dao;
 
 import entity.Kodyzawodow;
-import error.E;
-import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -21,8 +18,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class KodyzawodowFacade   implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class KodyzawodowFacade extends DAO   {
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
@@ -41,30 +37,9 @@ public class KodyzawodowFacade   implements Serializable {
     }
 
     public KodyzawodowFacade() {
-    }
-    
-    public void create(Kodyzawodow entity) {
-        getEntityManager().persist(entity);
-        getEntityManager().flush();
-    }
-    
-    public List<Kodyzawodow> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Kodyzawodow.class));
-        return getEntityManager().createQuery(cq).getResultList();
-    }
-    
-     public void edit(Kodyzawodow entity) {
-        getEntityManager().merge(entity);
+        super(Kodyzawodow.class);
+        super.em = em;
     }
 
-    public void edit(List<Kodyzawodow> entityList) {
-        for (Kodyzawodow p : entityList) {
-            try {
-                getEntityManager().merge(p);
-            } catch (Exception e) {
-                E.e(e);
-            }
-        }
-    }
+  
 }

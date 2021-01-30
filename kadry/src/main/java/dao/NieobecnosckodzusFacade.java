@@ -6,7 +6,6 @@
 package dao;
 
 import entity.Nieobecnosckodzus;
-import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -19,7 +18,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class NieobecnosckodzusFacade  {
+public class NieobecnosckodzusFacade extends DAO  {
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
@@ -38,23 +37,11 @@ public class NieobecnosckodzusFacade  {
     }
 
     public NieobecnosckodzusFacade() {
+        super(Nieobecnosckodzus.class);
+        super.em = em;
     }
     
-    public void create(Nieobecnosckodzus entity) {
-        getEntityManager().persist(entity);
-        getEntityManager().flush();
-    }
-    
-    public List<Nieobecnosckodzus> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Nieobecnosckodzus.class));
-        return getEntityManager().createQuery(cq).getResultList();
-    }
-    
-     public void edit(Nieobecnosckodzus entity) {
-        getEntityManager().merge(entity);
-    }
-
+   
     public Nieobecnosckodzus findByKod(String string) {
         return (Nieobecnosckodzus) getEntityManager().createNamedQuery("Nieobecnosckodzus.findByKod").setParameter("kod", string).getSingleResult();
     }

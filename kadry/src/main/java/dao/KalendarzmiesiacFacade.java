@@ -22,7 +22,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class KalendarzmiesiacFacade  {
+public class KalendarzmiesiacFacade  extends DAO {
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
@@ -41,23 +41,12 @@ public class KalendarzmiesiacFacade  {
     }
 
     public KalendarzmiesiacFacade() {
-    }
-    
-    public void create(Kalendarzmiesiac entity) {
-        getEntityManager().persist(entity);
-        getEntityManager().flush();
-    }
-    
-    public List<Kalendarzmiesiac> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Kalendarzmiesiac.class));
-        return getEntityManager().createQuery(cq).getResultList();
-    }
-    
-     public void edit(Kalendarzmiesiac entity) {
-        getEntityManager().merge(entity);
+        super(Kalendarzmiesiac.class);
+        super.em = em;
     }
 
+   
+   
     public Kalendarzmiesiac findByRokMcUmowa(Umowa umowa, String rok, String mc) {
         Kalendarzmiesiac zwrot = null;
         try {

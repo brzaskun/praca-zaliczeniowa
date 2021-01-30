@@ -22,10 +22,12 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class EtatFacade  {
+public class EtatFacade extends DAO{
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
+
+    
     
     @PreDestroy
     private void preDestroy() {
@@ -41,39 +43,17 @@ public class EtatFacade  {
     }
 
     public EtatFacade() {
+        super(Etat.class);
+        super.em = em;
     }
     
-    public void create(Etat entity) {
-        getEntityManager().persist(entity);
-        getEntityManager().flush();
-    }
-    
-    public List<Etat> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Etat.class));
-        return getEntityManager().createQuery(cq).getResultList();
-    }
-    
-     public void edit(Etat entity) {
-        getEntityManager().merge(entity);
-    }
 
     public List<Etat> findPracownik(Pracownik pracownik) {
         List<Etat> zwrot = new ArrayList<>();
         zwrot = getEntityManager().createNamedQuery("Etat.findByPracownik").setParameter("pracownik", pracownik).getResultList();
         return zwrot;
     }
-  public void remove(Etat entity) {
-        Etat merge = em.merge(entity);
-        em.remove(merge);
-    }
     
-    public void remove(List<Etat> entityList) {
-        for (Etat p : entityList) {
-            em.remove(em.merge(p));
-        }
-    }
-
     public List<Etat> findByUmowa(Umowa umowa) {
         List<Etat> zwrot = new ArrayList<>();
         zwrot = getEntityManager().createNamedQuery("Etat.findByUmowa").setParameter("umowa", umowa).getResultList();

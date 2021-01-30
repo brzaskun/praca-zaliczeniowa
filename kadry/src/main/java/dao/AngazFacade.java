@@ -22,7 +22,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class AngazFacade  {
+public class AngazFacade extends DAO{
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
@@ -41,32 +41,11 @@ public class AngazFacade  {
     }
 
     public AngazFacade() {
+        super(Firma.class);
+        super.em = em;
     }
-    
-    public void create(Angaz entity) {
-        getEntityManager().persist(entity);
-        getEntityManager().flush();
-    }
-    
-     public void remove(Angaz entity) {
-        em.remove(em.merge(entity));
-    }
-    
-    public void remove(List<Angaz> entityList) {
-        for (Angaz p : entityList) {
-            em.remove(em.merge(p));
-        }
-    }
-    public List<Angaz> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Angaz.class));
-        return getEntityManager().createQuery(cq).getResultList();
-    }
-    
-     public void edit(Angaz entity) {
-        getEntityManager().merge(entity);
-    }
-     
+
+        
      public List<Angaz> findByFirma(Firma firma) {
          List<Angaz> zwrot = new ArrayList<>();
          try {

@@ -7,7 +7,6 @@ package dao;
 
 import entity.Nieobecnosc;
 import entity.Umowa;
-import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -22,7 +21,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class NieobecnoscFacade    implements Serializable {
+public class NieobecnoscFacade extends DAO    implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @PersistenceContext(unitName = "kadryPU")
@@ -42,32 +41,11 @@ public class NieobecnoscFacade    implements Serializable {
     }
 
     public NieobecnoscFacade() {
+        super(Nieobecnosc.class);
+        super.em = em;
     }
     
-    public void create(Nieobecnosc entity) {
-        getEntityManager().persist(entity);
-        getEntityManager().flush();
-    }
-    
-    public List<Nieobecnosc> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(Nieobecnosc.class));
-        return getEntityManager().createQuery(cq).getResultList();
-    }
-    
-     public void edit(Nieobecnosc entity) {
-        getEntityManager().merge(entity);
-    }
-    
-     public void edit(List<Nieobecnosc> entityList) {
-        for (Nieobecnosc p : entityList) {
-            try {
-                getEntityManager().merge(p);
-            } catch (Exception e) {
-                E.e(e);
-            }
-        }
-    }
+   
 
     public List<Nieobecnosc> findByUmowa(Umowa umowa) {
         return getEntityManager().createNamedQuery("Nieobecnosc.findByUmowa").setParameter("umowa", umowa).getResultList();
