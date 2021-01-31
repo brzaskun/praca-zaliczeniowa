@@ -9,10 +9,11 @@ import entity.FakturaWalutaKonto;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 import view.WpisView;
 /**
@@ -52,7 +53,7 @@ public class FakturaWalutaKontoDAO extends DAO implements Serializable{
     }
     
     public List<FakturaWalutaKonto> findAll() {
-        return sessionFacade.findAll(FakturaWalutaKonto.class);
+        return findAll();
     }
 
     public List<FakturaWalutaKonto> findPodatnik(WpisView wpisView) {

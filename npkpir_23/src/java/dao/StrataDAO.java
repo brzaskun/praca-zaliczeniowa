@@ -48,7 +48,7 @@ public class StrataDAO  extends DAO implements Serializable {
     public void usuntensamrok(Strata nowastrata) {
         Strata strata = (Strata) sessionFacade.getEntityManager().createNamedQuery("Strata.findByPodatnikRok").setParameter("podatnik", nowastrata.getPodatnikObj()).setParameter("rok", nowastrata.getRok());
         if (strata != null) {
-            sessionFacade.remove(strata);
+            remove(strata);
         }
     }
     

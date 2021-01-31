@@ -69,10 +69,10 @@ public class OstatnidokumentDAO extends DAO implements Serializable {
     }
     
     public void usun(String nazwa){
-        List<Ostatnidokument> temp = ostatnidokumentFacade.findAll(Ostatnidokument.class);
+        List<Ostatnidokument> temp = findAll();
         for(Ostatnidokument p :temp){
             if(p.getUzytkownik().equals(nazwa)){
-                ostatnidokumentFacade.remove(p);
+                remove(p);
                 break;
             }
         }

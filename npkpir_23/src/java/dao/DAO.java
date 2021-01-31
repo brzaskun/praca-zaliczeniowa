@@ -5,8 +5,11 @@
 package dao;
 
 import error.E;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityManager;
+import org.eclipse.persistence.config.HintValues;
+import org.eclipse.persistence.config.QueryHints;
 
 /**
  *
@@ -74,6 +77,29 @@ public abstract class DAO<T> {
         return ((Long) q.getSingleResult()).intValue();
     }
        
+    public List<T> findAllReadOnly(Class<T> entityClass) {
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        cq.select(cq.from(entityClass));
+        return Collections.synchronizedList(getEntityManager().createQuery(cq).setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).setHint(QueryHints.READ_ONLY, HintValues.TRUE).getResultList());
+    }
+    public List<T> findXLast(Class<T> entityClass, int ile) {
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        javax.persistence.criteria.Root<T> rt = cq.from(entityClass);
+        cq.select(getEntityManager().getCriteriaBuilder().count(rt));
+        javax.persistence.Query q = getEntityManager().createQuery(cq);
+        int ilosc = ((Number) q.getSingleResult()).intValue();
+        int kontrolailosci = ilosc - ile;
+        if (kontrolailosci < 0) {
+            kontrolailosci = 0;
+        }
+        int[] range = {ilosc, kontrolailosci};
+        cq = getEntityManager().getCriteriaBuilder().createQuery();
+        cq.select(cq.from(entityClass));
+        q = getEntityManager().createQuery(cq);
+        q.setMaxResults(ile);
+        q.setFirstResult(range[1]);
+        return Collections.synchronizedList(q.getResultList());
+    }
     
 
 }

@@ -92,7 +92,7 @@ public class ReadWriteTextFileJDK7 implements Serializable{
             
         } else {
             try {
-                sf.create(str);
+                //sf.create(str);
             } catch (Exception e) {
             }
         }

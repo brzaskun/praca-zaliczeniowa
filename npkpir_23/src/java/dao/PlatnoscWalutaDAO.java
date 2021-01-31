@@ -12,10 +12,11 @@ import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 
 /**
@@ -52,7 +53,7 @@ public class PlatnoscWalutaDAO extends DAO implements Serializable {
     
     public  List<PlatnoscWaluta> findAll(){
         try {
-            return sessionFacade.findAll(PlatnoscWaluta.class);
+            return findAll();
         } catch (Exception e) { E.e(e); 
             return null;
         }

@@ -57,7 +57,7 @@ public class FakturaDAO extends DAO implements Serializable {
        return fakturaFacade.findfaktura(f);
    }
    public void dodaj(Faktura faktura){
-        fakturaFacade.create(faktura);
+        create(faktura);
    }
 
     public List<Faktura> findbyKontrahent_nip(String kontrahent_nip, Podatnik podatnik) {

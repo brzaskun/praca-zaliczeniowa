@@ -65,7 +65,7 @@ public class PodatnikDAO extends DAO implements Serializable{
     
      public  List<Podatnik> findAllManager(){
         try {
-            return sessionFacade.findAll(Podatnik.class);
+            return findAll();
         } catch (Exception e) { E.e(e); 
             return null;
         }

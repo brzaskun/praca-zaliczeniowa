@@ -75,7 +75,7 @@ public class TabelanbpDAO extends DAO implements Serializable {
    
     public List<Tabelanbp> findLast(){
         try {
-            return tabelanbpFacade.findXLast(Tabelanbp.class,1);
+            return findXLast(Tabelanbp.class,1);
         } catch (Exception e) { E.e(e); 
             return null;
         }

@@ -7,7 +7,10 @@ package viewfk;
 
 import beansRegon.SzukajDaneBean;
 import dao.DokDAO;
+import dao.DokDAOfk;
 import dao.EVatwpis1DAO;
+import dao.EVatwpisDedraDAO;
+import dao.EVatwpisFKDAO;
 import dao.EvewidencjaDAO;
 import dao.FakturaDAO;
 import dao.FakturaDodPozycjaKontrahentDAO;
@@ -16,9 +19,6 @@ import dao.KlienciDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikEwidencjaDokDAO;
 import dao.SchemaEwidencjaDAO;
-import dao.DokDAOfk;
-import dao.EVatwpisDedraDAO;
-import dao.EVatwpisFKDAO;
 import entity.Dok;
 import entity.Faktura;
 import entity.FakturaDodPozycjaKontrahent;
@@ -858,7 +858,7 @@ public class RewolucjaPodatnikView  implements Serializable {
          List<Wiersz> wiersze = dokFacade.getEntityManager().createQuery("SELECT k FROM Wiersz k WHERE k.dokfk IS NULL").getResultList();
          for (Wiersz p : wiersze) {
              try {
-                dokFacade.remove(p);
+                //dokFacade.remove(p);
              } catch (Exception e) {
                  E.e(e);
              }

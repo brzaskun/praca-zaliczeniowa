@@ -6,8 +6,6 @@ package dao;
 
 import entity.EVatOpis;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Iterator;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -23,7 +21,7 @@ import session.SessionFacade;
 @Stateless
 @Transactional
 //pomaga przenosci opisy bo inaczej nie chca sie zachowac. scopy nie pasuja
-public class EVatOpisDAO extends DAO implements Serializable {
+public class AdminNewsDAO extends DAO implements Serializable {
 
     @Inject
     private SessionFacade eVatOpisFacade;
@@ -43,24 +41,10 @@ public class EVatOpisDAO extends DAO implements Serializable {
         return em;
     }
 
-    public EVatOpisDAO() {
+    public AdminNewsDAO() {
         super(EVatOpis.class);
         super.em = this.em;
     }
 
     
-    public void clear(){
-        Collection c = null;
-        c = findAll();
-        Iterator it;
-        it = c.iterator();
-        while(it.hasNext()){
-            EVatOpis x = (EVatOpis) it.next();
-            remove(x);
-        }
-    }
-    
-    public EVatOpis findS(String name){
-        return eVatOpisFacade.findEVatOpis(name);
-    }
-}
+   }

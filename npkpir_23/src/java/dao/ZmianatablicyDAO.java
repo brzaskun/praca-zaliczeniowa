@@ -8,11 +8,12 @@ import entity.Zmianatablicy;
 import error.E;
 import java.io.Serializable;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 
 /**
@@ -57,7 +58,7 @@ public class ZmianatablicyDAO extends DAO implements Serializable{
             }
             zmianatablicy.setNazwatablicy(param);
             zmianatablicy.setZmiana(zmiana);
-            sessionFacade.create(zmianatablicy);
+            create(zmianatablicy);
         } catch (Exception e) { E.e(e); 
             throw new PersistenceException();
         }
@@ -70,7 +71,7 @@ public class ZmianatablicyDAO extends DAO implements Serializable{
             }
             zmianatablicy.setNazwatablicy(param);
             zmianatablicy.setZmiana(zmiana);
-            sessionFacade.edit(zmianatablicy);
+            edit(zmianatablicy);
         } catch (Exception e) { E.e(e); 
             throw new PersistenceException();
         }

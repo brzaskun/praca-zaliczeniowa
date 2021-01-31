@@ -55,7 +55,7 @@ public class DokDAOfk extends DAO implements Serializable {
 
   
     public void usun(Dokfk selected) {
-        sessionFacade.remove(selected);
+        remove(selected);
     }
 
     public List findDokfkPodatnikRokMc(WpisView wpisView) {

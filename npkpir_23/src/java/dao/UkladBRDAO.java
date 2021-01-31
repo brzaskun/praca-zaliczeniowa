@@ -123,7 +123,7 @@ public class UkladBRDAO extends DAO implements Serializable{
             if (uklad == null) {
                 uklad = sessionFacade.findukladBRPodatnikRokPodstawowy(podatnikWpisu, rokWpisuSt);
                 uklad.setAktualny(true);
-                sessionFacade.edit(uklad);
+                edit(uklad);
             }
         } catch (Exception e) { 
             E.e(e); 

@@ -64,7 +64,7 @@ public class AmoDokDAO extends DAO implements Serializable {
         it = lista.iterator();
         while(it.hasNext()){
             Amodok tmp = (Amodok) it.next();
-            sessionFacade.remove(tmp);
+            remove(tmp);
         }
     }
     
@@ -83,7 +83,7 @@ public class AmoDokDAO extends DAO implements Serializable {
         for(Amodok tmp : lista){
             int wynikporownywania = Data.compare(tmp.getAmodokPK().getRok(), tmp.getAmodokPK().getMc(), rok, mc);
             if(wynikporownywania >= 0) {
-                sessionFacade.remove(tmp);
+                remove(tmp);
             }
         }
     }

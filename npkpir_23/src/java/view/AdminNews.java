@@ -4,18 +4,19 @@
  */
 package view;
 
+import dao.AdminNewsDAO;
 import entity.Adminnews;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import session.SessionFacade;
+import javax.inject.Named;
+import msg.Msg;
+import session.SessionFacade;
 
 /**
  *
@@ -30,6 +31,8 @@ public class AdminNews  implements Serializable {
     @Inject Adminnews adminnews;
     @Inject SessionFacade sessionFacade;
     private List<Adminnews> newslist;
+    @Inject
+    private AdminNewsDAO adminNewsDAO;
 
     public AdminNews() {
         newslist = Collections.synchronizedList(new ArrayList<>());
@@ -37,7 +40,7 @@ public class AdminNews  implements Serializable {
 
     @PostConstruct
     private void init() { //E.m(this);
-        newslist = sessionFacade.findXLast(Adminnews.class, 6);
+        newslist = adminNewsDAO.findXLast(Adminnews.class, 6);
         //newslist = sessionFacade.findAll(Adminnews.class);
         int wielkosc = newslist.size();
         if(wielkosc>6){
@@ -50,13 +53,13 @@ public class AdminNews  implements Serializable {
         Adminnews an = new Adminnews();
         an.setData(new Date());
         an.setTresc(nowynews);
-        sessionFacade.create(an);
+        adminNewsDAO.create(an);
         newslist.add(an);
         Msg.msg("i","Nowy news dodany","form:messages");
     }
     
     public void usun(){
-        sessionFacade.remove(adminnews);
+        adminNewsDAO.remove(adminnews);
         newslist.remove(adminnews);
         Msg.msg("i","News usuniety","form:messages");
     }
