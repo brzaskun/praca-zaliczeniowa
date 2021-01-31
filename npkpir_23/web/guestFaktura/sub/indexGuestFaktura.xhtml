@@ -23,10 +23,10 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 100px;">
-                    <f:selectItems value="#{Roki.rokiList}"/>
+                    <f:selectItems value="#{roki.rokiList}"/>
                 </p:selectOneMenu>
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}"  style="width: 100px;">
-                    <f:selectItems value="#{Mce.mceList}"/>
+                    <f:selectItems value="#{mce.mceList}"/>
                 </p:selectOneMenu>
                 <p:commandButton action="#{WpisView.wrocGuestfk()}" value="#{mgs.wybierzmcrok}" actionListener="#{WpisView.wpisAktualizuj()}" accesskey="s" style="height: 40px" ajax="false"/>
             </p:panelGrid>

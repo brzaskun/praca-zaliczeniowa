@@ -20,11 +20,11 @@
                     <p:ajax event="change" partialSubmit="true"  listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa form:panellimity form:wiadnr1" global="fasle"/>
                 </p:selectOneListbox>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
-                    <f:selectItems value="#{Roki.rokiList}"/>
+                    <f:selectItems value="#{roki.rokiList}"/>
                     <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa form:panellimity form:wiadnr1"  global="fasle"/>
                 </p:selectOneMenu>
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                    <f:selectItems value="#{Mce.mceList}"/>
+                    <f:selectItems value="#{mce.mceList}"/>
                     <p:ajax event="change" listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa form:panellimity form:wiadnr1" global="fasle"/>
                 </p:selectOneMenu>
                 

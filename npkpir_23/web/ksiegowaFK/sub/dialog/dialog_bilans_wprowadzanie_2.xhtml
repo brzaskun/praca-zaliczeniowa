@@ -122,7 +122,7 @@
                         <p:selectOneMenu value="#{bilansWprowadzanieView.miesiacWpisu}"  rendered="#{!bilansWprowadzanieView.tojestbilanslikwidacyjny}">
                             <p:ajax event="change" listener="#{bilansWprowadzanieView.init2()}" 
                                     update="formbilanswprowadzanie2 formbilanswprowadzanie2_wiersz formbilanswprowadzanie3" />
-                            <f:selectItems value="#{Mce.mceList}"/>
+                            <f:selectItems value="#{mce.mceList}"/>
                         </p:selectOneMenu>
                     </p:column>
                 </p:row>

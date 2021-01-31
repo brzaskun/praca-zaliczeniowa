@@ -32,7 +32,7 @@
                                 onstart="PF('tabelaroznicekursowe').clearFilters();PF('tabelaroznicekursowe').unselectAllRows();"
                                 update="transakcje:tabelaroznicekursowe" />
                         <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR" />
-                        <f:selectItems value="#{Mce.mceList}"/>
+                        <f:selectItems value="#{mce.mceList}"/>
                 </p:selectOneMenu>
             <h:outputText value="zmień miesiąc"/>
             <p:dataTable id="tabelaroznicekursowe" var="wpis" value="#{rozniceKursoweFKView.pobranetransakcje}" editable="true" 

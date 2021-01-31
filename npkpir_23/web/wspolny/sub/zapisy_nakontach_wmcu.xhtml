@@ -40,14 +40,14 @@
                             <p:column>
                                 <p:selectOneMenu id="miesiacWpisuOd" value="#{WpisView.miesiacOd}">
                                     <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}"  partialSubmit="true" update=":tabelazzapisami, :tabelazsumami"/>
-                                    <f:selectItems value="#{Mce.mceList}"/>
+                                    <f:selectItems value="#{mce.mceList}"/>
                                 </p:selectOneMenu>
                             </p:column>
                             <h:outputText value="#{mgs.domc}"/>
                             <p:column>
                                 <p:selectOneMenu id="miesiacWpisuDo" value="#{WpisView.miesiacDo}">
                                     <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}" partialSubmit="true" update=":tabelazzapisami, :tabelazsumami"/>
-                                    <f:selectItems value="#{Mce.mceList}"/>
+                                    <f:selectItems value="#{mce.mceList}"/>
                                 </p:selectOneMenu>
                             </p:column>
                             <p:commandButton value="#{mgs.drukuj}" icon="fa fa-print" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncie}" oncomplete="wydrukzapisynakoncie('#{WpisView.podatnikWpisu}')"  style="width: 120px; margin-left: 30px;"/>

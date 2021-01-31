@@ -13,7 +13,7 @@
                 <p:column>
                     <p:selectOneMenu value="#{cechyZestView.mc}">
                         <p:ajax event="change" partialSubmit="true" listener="#{cechyZestView.pobierz()}" update="@form"/>
-                        <f:selectItems value="#{Mce.mceList}"/>
+                        <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:commandButton value="#{mgs.pobierz}" actionListener="#{cechyZestView.pobierz()}" update="@form" style="width: 120px;"/>

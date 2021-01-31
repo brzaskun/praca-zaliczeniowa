@@ -26,7 +26,7 @@
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" update="akordeon:formtablicaanalityczne:tablicasaldaanalityczne akordeon:tabelazsumamianalityka:sumy"/>
-                        <f:selectItems value="#{Mce.mceList}"/>
+                        <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>

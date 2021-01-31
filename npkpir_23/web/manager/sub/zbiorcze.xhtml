@@ -97,12 +97,12 @@
                     <f:ajax>
                         <h:outputText value="rok: "/>
                         <p:selectOneMenu value="#{zUSStawkiZbiorczeView.obrabianeparametryzus.zusstawkiPK.rok}" id="rokzus">
-                            <f:selectItems value="#{Roki.rokiList}"/>
+                            <f:selectItems value="#{roki.rokiList}"/>
                             <p:ajax event="change" partialSubmit="true" listener="#{zUSStawkiZbiorczeView.zonglerkaPrzyciskamiDodajEdytuj(podatnik.zusparametr)}" update=":akordeon:formbuttony, :akordeon:formwartosci"/>
                         </p:selectOneMenu>
                         <h:outputText value="miesiąc płatności: "/>
                         <p:selectOneMenu value="#{zUSStawkiZbiorczeView.obrabianeparametryzus.zusstawkiPK.miesiac}" id="miesiaczus">
-                            <f:selectItems value="#{Mce.mceList}" />
+                            <f:selectItems value="#{mce.mceList}" />
                             <p:ajax event="change" partialSubmit="true" listener="#{zUSStawkiZbiorczeView.zonglerkaPrzyciskamiDodajEdytuj(podatnik.zusparametr)}" update=":akordeon:formbuttony, :akordeon:formwartosci"/>
                         </p:selectOneMenu>
                         <h:outputText value="kwota zus51 z chor.: "/>

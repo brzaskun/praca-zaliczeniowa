@@ -23,7 +23,7 @@
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{wierszeView.odswiezzaksiegowane}" update=":zestawieniezapisownakontach, :zestawieniezapisownakontach_footer"/>
                         <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR"/>
-                        <f:selectItems value="#{Mce.mceList}"/>
+                        <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:commandButton id="butonpobierzwiersze" value="#{mgs.pobierz}" actionListener="#{wierszeView.init}" update=":zestawieniezapisownakontach, :zestawieniezapisownakontach_footer" style="margin-left: 20px; width: 120px;"/>

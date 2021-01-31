@@ -28,7 +28,7 @@
                 </p:selectOneMenu>
                 <h:outputText value="Skopiuj do roku" style="width: 300px; margin-top: 10px;"/>
                 <p:selectOneMenu value="#{ukladBRView.ukladdocelowyrok}" style="width: 100px;">
-                    <f:selectItems value="#{Roki.rokiList}"/>
+                    <f:selectItems value="#{roki.rokiList}"/>
                 </p:selectOneMenu>
             </p:panelGrid>
             <p:commandButton value="kopiuj" actionListener="#{ukladBRView.kopiujuklad}" type="submit" 

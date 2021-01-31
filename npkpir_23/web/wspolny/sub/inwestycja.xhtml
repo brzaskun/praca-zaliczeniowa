@@ -11,10 +11,10 @@
                 <h:form id="forminwestycje">
                 <p:panelGrid columns="4" style="margin-left: 65%;">
                     <h:outputText value="m-c zakończenia"/><h:selectOneMenu value="#{inwestycjeView.mczakonczenia}">
-                        <f:selectItems value="#{Mce.mceList}"/>
+                        <f:selectItems value="#{mce.mceList}"/>
                     </h:selectOneMenu>
                     <h:outputText value="rok zakończenia"/><h:selectOneMenu value="#{inwestycjeView.rokzakonczenia}">
-                        <f:selectItems value="#{Roki.rokiList}"/>
+                        <f:selectItems value="#{roki.rokiList}"/>
                     </h:selectOneMenu>
                 </p:panelGrid>
                 <p:dataTable id="dataList" value="#{inwestycjeView.inwestycjerozpoczete}" style="width: 1550px;" 
@@ -181,11 +181,11 @@
                     <p:panelGrid id="nowapanel" columns="2">
                         <h:outputLabel value="Rok rozpoczecia:" for="rokrozpoczecia" />
                         <p:selectOneMenu id="rokrozpoczecia" value="#{inwestycjeView.selected.rokrozpoczecia}" required="true" style="width: 70px;">
-                            <f:selectItems value="#{Roki.rokiList}"/>
+                            <f:selectItems value="#{roki.rokiList}"/>
                         </p:selectOneMenu>
                         <h:outputLabel value="Mc rozpoczecia:" for="mcrozpoczecia" />
                         <p:selectOneMenu id="mcrozpoczecia" value="#{inwestycjeView.selected.mcrozpoczecia}" required="true"  style="width: 70px;">
-                            <f:selectItems value="#{Mce.mceList}"/>
+                            <f:selectItems value="#{mce.mceList}"/>
                         </p:selectOneMenu>
                         <h:outputLabel value="Skrót:" for="skrot" />
                         <p:inputText id="skrot" value="#{inwestycjeView.selected.skrot}" title="Skrot" required="true"/>

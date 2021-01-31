@@ -124,8 +124,8 @@
             </h:form>
             <h:form id="wprowadzanieschemy">
                 <p:panelGrid id="parametrydeklaracjaschema" columns="6" style="padding: 10px;">
-                    <h:outputText value="rok od: "/><p:selectOneMenu value="#{jPKVATWersjaView.nowy.rokOd}"><f:selectItems value="#{Roki.rokiList}"/></p:selectOneMenu>
-                    <h:outputText value="miesiąc od: "/><p:selectOneMenu value="#{jPKVATWersjaView.nowy.mcOd}"><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>
+                    <h:outputText value="rok od: "/><p:selectOneMenu value="#{jPKVATWersjaView.nowy.rokOd}"><f:selectItems value="#{roki.rokiList}"/></p:selectOneMenu>
+                    <h:outputText value="miesiąc od: "/><p:selectOneMenu value="#{jPKVATWersjaView.nowy.mcOd}"><f:selectItems value="#{mce.mceList}"/></p:selectOneMenu>
                     <h:outputText value="nazwa jpk: "/><p:inputText value="#{jPKVATWersjaView.nowy.nazwa}" style="width: 200px;"/>
                     <h:outputText value="mc/kw: " />
                     <p:selectOneListbox value="#{jPKVATWersjaView.nowy.mc0kw1}">

@@ -40,7 +40,7 @@
                     <p:selectOneMenu id="miesiacWpisu1" value="#{symulacjaWynikuView.mcod}">
                         <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" 
                                 update="akordeon" oncomplete="pokazprzyciski();"/>
-                        <f:selectItems value="#{Mce.mceList}"/>
+                        <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <h:outputText value="m-c do" style="margin-right: 10px;"/>
@@ -48,7 +48,7 @@
                     <p:selectOneMenu id="miesiacWpisu2" value="#{symulacjaWynikuView.mcdo}">
                         <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" 
                                 update="akordeon" oncomplete="pokazprzyciski();"/>
-                        <f:selectItems value="#{Mce.mceList}"/>
+                        <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>

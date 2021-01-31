@@ -27,7 +27,7 @@
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{symulacjaWynikuNarastajacoView.odswiezsymulacjewynikunar}" update="akordeon:formsymulacjanarastajaco"/>
 <!--                        <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne()}" update="akordeon:formsymulacja" global="false"/>-->
-                        <f:selectItems value="#{Mce.mceList}"/>
+                        <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>

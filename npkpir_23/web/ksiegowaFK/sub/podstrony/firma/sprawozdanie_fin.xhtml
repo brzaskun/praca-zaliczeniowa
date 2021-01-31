@@ -14,7 +14,7 @@
         <h:form id="form_dialog_sprawozdania_finansowe">
             <p:growl life="3600"  id="msg" ><p:autoUpdate/></p:growl>
             <p:selectOneMenu id="rokWpisu" value="#{sprawozdanieFinansoweView.wybranyrok}">
-                <f:selectItems value="#{Roki.rokiListString}"/>
+                <f:selectItems value="#{roki.rokiListString}"/>
                 <p:ajax event="change" listener="#{sprawozdanieFinansoweView.pobierzrok}" global="false" update="@form"/>
             </p:selectOneMenu>
             <p:outputPanel id="listaelementow">

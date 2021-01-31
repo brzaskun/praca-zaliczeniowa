@@ -58,8 +58,8 @@
             </p:panelGrid>
             <p:panel header="Wprowadź parametry aktualne" style="width: 80%;" rendered="#{!podatnikView.selected.wysylkazusmail}">
             <p:panelGrid id="parametryp2" columns="4" >
-                <h:outputText value="rok: "/><p:selectOneMenu value="#{podatnikView.zusstawki.zusstawkiPK.rok}" id="rokzus"><f:selectItems value="#{Roki.rokiListString}"/></p:selectOneMenu>
-                <h:outputText value="miesiąc: "/><p:selectOneMenu value="#{podatnikView.zusstawki.zusstawkiPK.miesiac}" id="miesiaczus"><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>
+                <h:outputText value="rok: "/><p:selectOneMenu value="#{podatnikView.zusstawki.zusstawkiPK.rok}" id="rokzus"><f:selectItems value="#{roki.rokiListString}"/></p:selectOneMenu>
+                <h:outputText value="miesiąc: "/><p:selectOneMenu value="#{podatnikView.zusstawki.zusstawkiPK.miesiac}" id="miesiaczus"><f:selectItems value="#{mce.mceList}"/></p:selectOneMenu>
                   <h:outputText value="kwota zus51 z chor.: "/>
                     <p:inputNumber value="#{podatnikView.zusstawki.zus51ch}" symbol=" zł" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" /> 
                     <h:outputText value="kwota zus51 bez chor.: "/>

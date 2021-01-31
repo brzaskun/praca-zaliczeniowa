@@ -13,11 +13,11 @@
             <p:panelGrid id="parametryzus" columns="8">
                 <h:outputText value="rok: "/><p:selectOneMenu value="#{zUSMailView.rok}">
                     <p:ajax event="change" partialSubmit="true" listener="#{zUSMailView.dokonajZmianyElementu('roku.')}" update=":wykazmaili"/>
-                    <f:selectItems value="#{Roki.rokiList}"/>
+                    <f:selectItems value="#{roki.rokiList}"/>
                 </p:selectOneMenu>
                 <h:outputText value="miesiac płatności: "/><p:selectOneMenu value="#{zUSMailView.mc}" >
                     <p:ajax event="change" partialSubmit="true"  listener="#{zUSMailView.dokonajZmianyElementu('miesiąca.')}" update=":wykazmaili"/>
-                    <f:selectItems value="#{Mce.mceList}"/>
+                    <f:selectItems value="#{mce.mceList}"/>
                 </p:selectOneMenu>
                 <h:outputText value="nr wysyłki : "/><p:selectOneMenu value="#{zUSMailView.nrwysylki}" >
                     <p:ajax event="change" partialSubmit="true"  listener="#{zUSMailView.dokonajZmianyElementu('statusu wysyłki.')}" update=":wykazmaili"/>

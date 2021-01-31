@@ -17,7 +17,7 @@
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{wierszeView.odswiezzaksiegowaneWNT()}" update=":formzapisywdokumentachWNT"/>
                         <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR"/>
-                        <f:selectItems value="#{Mce.mceList}"/>
+                        <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:commandButton value="#{mgs.pobierz}" actionListener="#{wierszeView.initwierszeWNT()}" update="formzapisywdokumentachWNT" style="margin-left: 20px; width: 120px;"/>

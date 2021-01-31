@@ -10,14 +10,14 @@
             <p:panelGrid  columns="2" >
                     <p:column>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="margin-left: 5%">
-                    <f:selectItems value="#{Roki.rokiList}"/>
+                    <f:selectItems value="#{roki.rokiList}"/>
                     <f:param name="rokWpisu" value="2012" />
                     <p:ajax event="change" listener="#{DokTabView.aktualizujGuest('guestTablica.xhtml')}" update=":wykazpism"/>
                 </p:selectOneMenu>
                   </p:column>
                     <p:column>
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="margin-left: 5%">
-                    <f:selectItems value="#{Mce.mceList}"/>
+                    <f:selectItems value="#{mce.mceList}"/>
                     <p:ajax event="change" listener="#{DokTabView.aktualizujGuest('guestTablica.xhtml')}"  update=":wykazpism"/>
                 </p:selectOneMenu>
                     </p:column>

@@ -39,7 +39,7 @@
                     <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{pozycjaBRView.odswiezbilansdwiestrony()}" update=":formprzegladbilans" />
-                        <f:selectItems value="#{Mce.mceList}"/>
+                        <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
                     </p:column>
                     <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.obliczBilansNaDzien()}" update=":formprzegladbilans"/>

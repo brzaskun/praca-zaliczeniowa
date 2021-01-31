@@ -48,14 +48,14 @@
                             <p:column>
                                 <p:selectOneMenu id="miesiacWpisuOd" value="#{WpisView.miesiacOd}">
                                     <p:ajax event="change" listener="#{rozrachunkiPrzegladView.rozrachunkimiesiace}"  partialSubmit="true" update=":tabelanowerozrachunki:tabela, sumy"/>
-                                    <f:selectItems value="#{Mce.mceList}"/>
+                                    <f:selectItems value="#{mce.mceList}"/>
                                 </p:selectOneMenu>
                             </p:column>
                             <h:outputText value="do"/>
                             <p:column>
                                 <p:selectOneMenu id="miesiacWpisuDo" value="#{WpisView.miesiacDo}">
                                     <p:ajax event="change" listener="#{rozrachunkiPrzegladView.rozrachunkimiesiace}" partialSubmit="true" update=":tabelanowerozrachunki:tabela, sumy"/>
-                                    <f:selectItems value="#{Mce.mceList}"/>
+                                    <f:selectItems value="#{mce.mceList}"/>
                                 </p:selectOneMenu>
                             </p:column>
                             <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" action="#{sesjaView.dodajwydruk()}" actionListener="#{rozrachunkiPrzegladView.drukuj}"   style="width: 120px; margin-left: 30px;"/>

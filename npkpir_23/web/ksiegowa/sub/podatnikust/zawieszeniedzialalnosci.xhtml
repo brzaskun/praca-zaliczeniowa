@@ -33,10 +33,10 @@
             <p:panel header="wprowadz nowy okres zawieszenia" style="width: 990px;"/>
             <p:panelGrid id="parametrypodatnika" columns="2" >
                 <h:outputText value="rok podatkowy: "/><p:selectOneMenu value="#{podatnikView.parametr.rokOd}">
-                    <f:selectItems value="#{Roki.rokiListString}"/>
+                    <f:selectItems value="#{roki.rokiListString}"/>
                 </p:selectOneMenu>
-                <h:outputText value="miesiąc od: "/><p:selectOneMenu value="#{podatnikView.parametr.mcOd}"><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>
-                <h:outputText value="miesiąc do: "/><p:selectOneMenu value="#{podatnikView.parametr.mcDo}"><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>
+                <h:outputText value="miesiąc od: "/><p:selectOneMenu value="#{podatnikView.parametr.mcOd}"><f:selectItems value="#{mce.mceList}"/></p:selectOneMenu>
+                <h:outputText value="miesiąc do: "/><p:selectOneMenu value="#{podatnikView.parametr.mcDo}"><f:selectItems value="#{mce.mceList}"/></p:selectOneMenu>
                 <p:selectOneMenu value="#{podatnikView.parametr.parametr}" >
                     <f:selectItem itemValue="zawieszony" itemLabel="zawieszony"/> 
                 </p:selectOneMenu>

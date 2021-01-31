@@ -72,12 +72,12 @@
                 <h:outputText value="symbol roku: "/>
                 <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.symbolroku}">
                     <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/> 
-                    <f:selectItems value="#{Roki.rokiListString}"/>
+                    <f:selectItems value="#{roki.rokiListString}"/>
                 </p:selectOneMenu>
                  <h:outputText value="dołączony do: "/>
                  <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.dolaczonydoroku}"  rendered="#{WpisView.podatnikObiekt.firmafk eq 1}">
                     <f:selectItem itemValue="" itemLabel="wybierz" noSelectionOption="true"/> 
-                    <f:selectItems value="#{Roki.rokiListString}"/>
+                    <f:selectItems value="#{roki.rokiListString}"/>
                 </p:selectOneMenu>
                 <h:outputText value="rodzaj opod: "/>
                 <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.formaopodatkowania}"  rendered="#{WpisView.podatnikObiekt.firmafk eq 0}">

@@ -22,7 +22,7 @@
                     <p:selectOneMenu value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{miejscePrzychodowView.zapisykontmiesiace}" update="formzapisymiejscaprzychodowwmcu"/>
                         <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR"/>
-                        <f:selectItems value="#{Mce.mceList}"/>
+                        <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:commandButton value="#{mgs.pobierz}" actionListener="#{miejscePrzychodowView.sumymiesiecy}" update="formzapisymiejscaprzychodowwmcu" style="width: 120px;"/>

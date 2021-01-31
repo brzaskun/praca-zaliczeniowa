@@ -57,7 +57,7 @@
         <br/>
         <p:panel header="wybierz parametry aktualne" style="width: 700px;">
         <p:panelGrid id="parametryzus" columns="2" >
-            <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{podStawkiView.selected.rok}"><f:selectItems value="#{Roki.rokiList}"/></h:selectOneMenu>
+            <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{podStawkiView.selected.rok}"><f:selectItems value="#{roki.rokiList}"/></h:selectOneMenu>
             <h:outputText value="kwota wolna: "/><h:inputText value="#{podStawkiView.selected.kwotawolna}"><f:convertNumber /></h:inputText>
             <h:outputText value="kwota próg: "/><h:inputText value="#{podStawkiView.selected.prog}"><f:convertNumber /></h:inputText>
             <h:outputText value="kwota stawka 1: "/><h:inputText value="#{podStawkiView.selected.stawka1}"><f:convertNumber /></h:inputText>

@@ -15,7 +15,7 @@
                             <p:ajax event="change" listener="#{vATZDView.rokinit}" partialSubmit="true"
                                     onstart="PF('tablicadokumentyzak').clearFilters();PF('tablicadokumentyzak').unselectAllRows();"
                                     update="akordeonzd:form2:dataListzak" />
-                            <f:selectItems value="#{Roki.rokiList}"/>
+                            <f:selectItems value="#{roki.rokiList}"/>
                         </p:selectOneMenu>
             </p:column>
             <p:column>
@@ -24,7 +24,7 @@
                                     onstart="PF('tablicadokumentyzak').clearFilters();PF('tablicadokumentyzak').unselectAllRows();"
                                     update="akordeonzd:form2:dataListzak" />
                             <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR" />
-                            <f:selectItems value="#{Mce.mceList}"/>
+                            <f:selectItems value="#{mce.mceList}"/>
                         </p:selectOneMenu>
                     </p:column>
             <p:commandButton id="wybierzdokz" value="wybierz" actionListener="#{vATZDView.wybierzdokumentyfk(vATZDView.dokumentyfkzakupselected)}" 

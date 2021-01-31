@@ -83,8 +83,8 @@
             </h:form>
             <h:form id="wprowadzanieschemy">
                 <p:panelGrid id="parametrydeklaracjaschema" columns="6" style="padding: 10px;">
-                    <h:outputText value="rok od: "/><p:selectOneMenu value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.rokOd}"><f:selectItems value="#{Roki.rokiList}"/></p:selectOneMenu>
-                    <h:outputText value="miesiąc od: "/><p:selectOneMenu value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.mcOd}"><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>
+                    <h:outputText value="rok od: "/><p:selectOneMenu value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.rokOd}"><f:selectItems value="#{roki.rokiList}"/></p:selectOneMenu>
+                    <h:outputText value="miesiąc od: "/><p:selectOneMenu value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.mcOd}"><f:selectItems value="#{mce.mceList}"/></p:selectOneMenu>
                     <h:outputText value="nazwa schemy: "/><p:inputText value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.nazwaschemy}" style="width: 200px;"/>
                     <h:outputText value="mc/kw: " />
                     <p:selectOneListbox value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.mc0kw1}">

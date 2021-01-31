@@ -17,10 +17,10 @@
             <p></p>
             <p:panelGrid columns="3" style="text-align: center; margin: auto;">
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 100px;">
-                    <f:selectItems value="#{Roki.rokiList}"/>
+                    <f:selectItems value="#{roki.rokiList}"/>
                 </p:selectOneMenu>
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}"  style="width: 100px;">
-                    <f:selectItems value="#{Mce.mceList}"/>
+                    <f:selectItems value="#{mce.mceList}"/>
                 </p:selectOneMenu>
                 <p:commandButton action="/guest/guestPodatki.xhtml?faces-redirect=true" value="#{mgs.wybierzmcrok}" actionListener="#{WpisView.wpisAktualizuj()}" accesskey="s" style="height: 40px"/>
             </p:panelGrid>

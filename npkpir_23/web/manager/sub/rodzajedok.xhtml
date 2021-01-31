@@ -15,7 +15,7 @@
             <h:outputText value="rok "/>
             <p:selectOneMenu id="rokWpisu" value="#{rodzajedokView.rok}">
                 <p:ajax event="change" listener="#{rodzajedokView.zmianaroku()}" update="@form"/>
-                <f:selectItems value="#{Roki.rokiList}"/>
+                <f:selectItems value="#{roki.rokiList}"/>
             </p:selectOneMenu>
         </p:panelGrid>
         <p:panelGrid columns="1" style="max-width: 1380px">
@@ -99,7 +99,7 @@
             <h:inputText value="#{rodzajedokView.wprowadzany.nazwa}" style="width: 400px;"/>
             <h:outputText value="rok dokumentu"/>
             <p:selectOneMenu value="#{rodzajedokView.wprowadzany.rok}">
-                <f:selectItems value="#{Roki.rokiList}"/>
+                <f:selectItems value="#{roki.rokiList}"/>
             </p:selectOneMenu>
             <h:outputText value=" rodzaj transakcji: " />
             <h:selectOneMenu value="#{rodzajedokView.wprowadzany.rodzajtransakcji}" >

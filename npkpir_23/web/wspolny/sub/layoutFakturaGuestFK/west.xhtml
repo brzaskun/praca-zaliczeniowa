@@ -9,13 +9,13 @@
             <p:panelGrid  columns="2" >
                 <p:column>
                     <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="margin-left: 5%">
-                        <f:selectItems value="#{Roki.rokiList}"/>
+                        <f:selectItems value="#{roki.rokiList}"/>
                         <p:ajax event="change" partialSubmit="true" listener="#{fakturaView.aktualizujTabeleTabelaGuest}"  update=":akordeon:formsporzadzone:dokumentyLista, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formokresowe:dokumentyOkresowe"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="margin-left: 5%">
-                        <f:selectItems value="#{Mce.mceList}"/>
+                        <f:selectItems value="#{mce.mceList}"/>
                         <p:ajax event="change" partialSubmit="true" listener="#{fakturaView.aktualizujTabeleTabelaGuest}"  update=":akordeon:formsporzadzone:dokumentyLista, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formokresowe:dokumentyOkresowe"/>
                     </p:selectOneMenu>
                 </p:column>

@@ -43,7 +43,7 @@
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{pozycjaBRZestawienieView.odswiezrzisBO()}" update="form_dialog_rzis_porownanie" />
-                        <f:selectItems value="#{Mce.mceList}"/>
+                        <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                  <h:outputText value="rok poprzedni " style="margin-left: 5px;"/>

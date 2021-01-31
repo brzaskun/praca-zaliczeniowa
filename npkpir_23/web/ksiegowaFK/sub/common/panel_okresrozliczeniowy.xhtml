@@ -21,13 +21,13 @@
             <p:panelGrid columns="3" style="float: right;">
 <!--                <p:column>
                     <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="float: right;">
-                        <f:selectItems value="#{Roki.rokiList}"/>
+                        <f:selectItems value="#{roki.rokiList}"/>
                         <p:ajax event="change" listener="#{WpisView.wpisAktualizuj()}" update="@all" partialSubmit="true"/>
                     </p:selectOneMenu>
                 </p:column>-->
 <!--                <p:column >
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="float: right;">
-                        <f:selectItems value="#{Mce.mceListOdKonca}"/>
+                        <f:selectItems value="#{mce.mceListOdKonca}"/>
                         <p:ajax event="change" listener="#{WpisView.wpisAktualizuj2()}" update="zestawieniedokumentow" process="@form" onstart="pobierzform();"/>
                     </p:selectOneMenu>
                 </p:column>-->

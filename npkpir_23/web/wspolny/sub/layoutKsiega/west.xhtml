@@ -13,12 +13,12 @@
                 <h:outputText value="#{WpisView.podatnikObiekt.nazwapelnaPDF}"/>
                 <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
                  <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 70px;">
-                    <f:selectItems value="#{Roki.rokiList}"/>
+                    <f:selectItems value="#{roki.rokiList}"/>
                     <p:ajax event="change" listener="#{ksiegaView.aktualizujTabeleTabela}" update=":form:dokumentyKsiega, westKsiegowa:linki"/>
                 </p:selectOneMenu>
                 <h:outputText value="Miesiąc:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 70px;">
-                    <f:selectItems value="#{Mce.mceList}"/>
+                    <f:selectItems value="#{mce.mceList}"/>
                     <p:ajax event="change" listener="#{ksiegaView.aktualizujTabeleTabela}" update=":form:dokumentyKsiega, westKsiegowa:linki"/>
                 </p:selectOneMenu>
             </p:panelGrid>

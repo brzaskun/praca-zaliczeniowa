@@ -11,7 +11,7 @@
          <p:panelGrid columns="4">
         <h:outputText value="Rok:" style="text-shadow: #6374AB 1px -1px 1px"/>
         <p:selectOneMenu id="rokWpisu" value="#{podatnikKsiegowaView.rok}" style="width: 70px;">
-            <f:selectItems value="#{Roki.rokiList}"/>
+            <f:selectItems value="#{roki.rokiList}"/>
             <p:ajax event="change" partialSubmit="true"/>
         </p:selectOneMenu>
         <p:selectBooleanCheckbox value="#{podatnikKsiegowaView.bezzerowych}" itemLabel="tylko niezerowe">

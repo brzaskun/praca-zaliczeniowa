@@ -40,7 +40,7 @@
                     <p:commandButton value="pokaż pasywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pokazukladprzegladBilans('pasywa')}" update=":formprzegladbilanszapisy"/>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{pozycjaBRView.odswiezbilans()}" update="formprzegladbilanszapisy" />
-                        <f:selectItems value="#{Mce.mceList}"/>
+                        <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
                     <h:outputText value="wydruki z nr kont są dostępne w okienku 'przeglądaj Bilans'"/>
 <!--                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie()}" update=":formprzegladbilanszapisy:dataList" style="float: left;" />

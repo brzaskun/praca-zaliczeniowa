@@ -49,8 +49,8 @@
                 <h:form>
                     <p:focus for="parametryzob"/>
                 <p:panelGrid id="parametryzob" columns="2" >
-                    <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{zobowiazanieView.selected.zobowiazaniePK.rok}"><f:selectItems value="#{Roki.rokiList}"/></h:selectOneMenu>
-                    <h:outputText value="miesiac : "/><h:selectOneMenu value="#{zobowiazanieView.selected.zobowiazaniePK.mc}" ><f:selectItems value="#{Mce.mceList}"/></h:selectOneMenu>
+                    <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{zobowiazanieView.selected.zobowiazaniePK.rok}"><f:selectItems value="#{roki.rokiList}"/></h:selectOneMenu>
+                    <h:outputText value="miesiac : "/><h:selectOneMenu value="#{zobowiazanieView.selected.zobowiazaniePK.mc}" ><f:selectItems value="#{mce.mceList}"/></h:selectOneMenu>
                     <h:outputText value="pit: "/><h:inputText value="#{zobowiazanieView.selected.pitday}" maxlength="2"><f:validateRegex pattern="[0-3][0-9]" /></h:inputText>
                     <h:outputText value="vat: "/><h:inputText value="#{zobowiazanieView.selected.vatday}" maxlength="2"><f:validateRegex pattern="[0-3][0-9]" /></h:inputText>
                     <h:outputText value="zus bez prac: "/><h:inputText value="#{zobowiazanieView.selected.zusday1}" maxlength="2"><f:validateRegex pattern="[0-3][0-9]" /></h:inputText>

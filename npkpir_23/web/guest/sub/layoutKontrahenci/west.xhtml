@@ -9,17 +9,17 @@
             <h:messages id="westmsg"/>
             <p:panelGrid columns="3" >
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" >
-                    <f:selectItems value="#{Roki.rokiList}"/>
+                    <f:selectItems value="#{roki.rokiList}"/>
                     <p:ajax event="change" listener="#{obrotyView.aktualizujObroty}"  />
                     <p:ajax event="change" listener="#{obrotyView.init()}" />
                 </p:selectOneMenu>
                 <p:selectOneMenu id="miesiacOd" value="#{WpisView.miesiacOd}" >
-                    <f:selectItems value="#{Mce.mceList}"/>
+                    <f:selectItems value="#{mce.mceList}"/>
                     <p:ajax event="change" listener="#{obrotyView.aktualizujObroty}" />
                     <p:ajax event="change" listener="#{obrotyView.init()}"  />
                 </p:selectOneMenu>
                 <p:selectOneMenu id="miesiacDo" value="#{WpisView.miesiacDo}">
-                    <f:selectItems value="#{Mce.mceList}"/>
+                    <f:selectItems value="#{mce.mceList}"/>
                     <p:ajax event="change" listener="#{obrotyView.aktualizujObroty}" />
                     <p:ajax event="change" listener="#{obrotyView.init()}"  />
                 </p:selectOneMenu>

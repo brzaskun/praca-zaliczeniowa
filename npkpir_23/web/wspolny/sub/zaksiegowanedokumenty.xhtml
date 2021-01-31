@@ -33,7 +33,7 @@
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{guestFKDokumenty.pobierz()}" update="zestawieniedokumentow:dataList" oncomplete="PF('tablicadokumenty').clearFilters()"/>
-                        <f:selectItems value="#{Mce.mceList}"/>
+                        <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>

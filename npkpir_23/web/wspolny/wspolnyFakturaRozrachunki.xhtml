@@ -35,11 +35,11 @@
                                     <p:ajax event="change"  listener="#{fakturaRozrachunkiView.aktualizuj}" update=":akordeon" />
                                 </p:selectOneMenu>
                                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
-                                    <f:selectItems value="#{Roki.rokiList}"/>
+                                    <f:selectItems value="#{roki.rokiList}"/>
                                     <p:ajax event="change" listener="#{fakturaRozrachunkiView.aktualizuj}" update=":akordeon" />
                                 </p:selectOneMenu>
                                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                                    <f:selectItems value="#{Mce.mceList}"/>
+                                    <f:selectItems value="#{mce.mceList}"/>
                                     <p:ajax event="change" listener="#{fakturaRozrachunkiView.aktualizuj}" update=":akordeon"/>
                                 </p:selectOneMenu>
                             </p:panelGrid>

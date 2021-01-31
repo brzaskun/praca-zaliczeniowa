@@ -61,8 +61,8 @@
         <p:focus for="parametryzus"/>
         <p:panel header="Wprowadź parametry aktualne" style="width: 70%; width: 810px;">
             <p:panelGrid id="parametryzus" columns="4">
-                <h:outputText value="rok podatkowy: "/><p:selectOneMenu value="#{zUSstawkiView.wprowadzanie.zusstawkiPK.rok}"><f:selectItems value="#{Roki.rokiList}"/></p:selectOneMenu>
-                <h:outputText value="miesiac : "/><p:selectOneMenu value="#{zUSstawkiView.wprowadzanie.zusstawkiPK.miesiac}" ><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>
+                <h:outputText value="rok podatkowy: "/><p:selectOneMenu value="#{zUSstawkiView.wprowadzanie.zusstawkiPK.rok}"><f:selectItems value="#{roki.rokiList}"/></p:selectOneMenu>
+                <h:outputText value="miesiac : "/><p:selectOneMenu value="#{zUSstawkiView.wprowadzanie.zusstawkiPK.miesiac}" ><f:selectItems value="#{mce.mceList}"/></p:selectOneMenu>
                 <h:outputText value="kwota zus51 z chor.: "/>
                 <p:inputNumber value="#{zUSstawkiView.wprowadzanie.zus51ch}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" /> 
                 <h:outputText value="kwota zus51 bez chor.: "/>

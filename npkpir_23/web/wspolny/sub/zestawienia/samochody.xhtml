@@ -16,7 +16,7 @@
                 <p:column>
                     <p:selectOneMenu value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{pojazdyView.zapisykontmiesiace}" update="akordeon:formzapisypojazdywmcu"/>
-                        <f:selectItems value="#{Mce.mceList}"/>
+                        <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:commandButton value="#{mgs.pobierz}" actionListener="#{pojazdyView.sumymiesiecy}" update="akordeon:formzapisypojazdywmcu" style="width: 120px;"/>

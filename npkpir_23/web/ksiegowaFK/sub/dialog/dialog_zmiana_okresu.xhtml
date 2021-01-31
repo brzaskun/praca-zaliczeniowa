@@ -13,12 +13,12 @@
             <p:panelGrid  columns="2" style="padding: 10px;">
                 <p:column>
                     <h:selectOneMenu id="miesiacWpisu" value="#{WpisView.zmianaokresuMc}" style="float: right;"  >
-                        <f:selectItems value="#{Mce.mceListOdKonca}" var="item" itemLabel="#{item}" itemValue="#{item}"/>
+                        <f:selectItems value="#{mce.mceListOdKonca}" var="item" itemLabel="#{item}" itemValue="#{item}"/>
                     </h:selectOneMenu>
                 </p:column>
                  <p:column>
                     <h:selectOneMenu id="rokWpisu" value="#{WpisView.zmianaokresuRok}" style="float: right;" >
-                        <f:selectItems value="#{Roki.rokiListString}" />
+                        <f:selectItems value="#{roki.rokiListString}" />
                     </h:selectOneMenu>
                 </p:column>
             </p:panelGrid>

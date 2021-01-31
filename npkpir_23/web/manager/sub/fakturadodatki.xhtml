@@ -60,12 +60,12 @@
                     <p:selectOneMenu id="rokWpisu" value="#{fakturaDodPozycjaKontrahentView.rok}" style="width: 60px;">
                         <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.pobierzklientow()}" update="form2:kontrpole form2:kontrpole2 akordeon:listapozycji:lista"/>
                         <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true" />
-                        <f:selectItems value="#{Roki.rokiList}"/>
+                        <f:selectItems value="#{roki.rokiList}"/>
                     </p:selectOneMenu>
                     <p:selectOneMenu id="miesiacWpisu" value="#{fakturaDodPozycjaKontrahentView.mc}" style="width: 60px;">
                         <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.pobierzklientow()}" update="form2:kontrpole form2:kontrpole2 akordeon:listapozycji:lista"/>
                         <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true" />
-                        <f:selectItems value="#{Mce.mceList}"/>
+                        <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
                     <h:outputText value=""/>
                     <h:outputText value=""/>

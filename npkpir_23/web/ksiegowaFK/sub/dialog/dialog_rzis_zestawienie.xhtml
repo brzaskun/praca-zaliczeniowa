@@ -42,7 +42,7 @@
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{pozycjaBRZestawienieView.odswiezrzis()}" update="formdialogrziszestawienie" />
-                        <f:selectItems value="#{Mce.mceList}"/>
+                        <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
 <!--                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRZestawienieView.rozwinwszystkie(pozycjaBRZestawienieView.rootProjektRZiS)}" update=":formdialogrziszestawienie:dataList" style="float: left;" />
