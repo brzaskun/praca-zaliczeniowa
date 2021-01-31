@@ -71,6 +71,7 @@ public class ImportowanyPlikConv implements javax.faces.convert.Converter,Serial
         zwrot.add(new ImportowanyPlik("Murawski xls","xls","",5));
         zwrot.add(new ImportowanyPlik("Mucha xls","xls","",6));
         zwrot.add(new ImportowanyPlik("Zorin nowy xml","xml","",7));
+        zwrot.add(new ImportowanyPlik("Seven xml","xml","",8));
         //to dotyczy importowanych bankow
         zwrot.addAll(BankImportWykaz.getWYKAZ());
         return zwrot;

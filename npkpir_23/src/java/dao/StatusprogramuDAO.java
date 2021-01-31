@@ -7,21 +7,35 @@ package dao;
 
 import entity.Statusprogramu;
 import java.io.Serializable;
+import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.annotation.Resource;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 /**
  *
  * @author Osito
  */
 @Stateless
-@Transactional
+@PersistenceContext(name="ProjectEM", unitName = "npkpir_22PU")
 public class StatusprogramuDAO  extends DAO implements Serializable {
-     @PersistenceContext(unitName = "npkpir_22PU")
+    
     private EntityManager em;
+    
+    @Resource 
+    SessionContext ctx;
+ 
+    @PostConstruct
+    private void init() {
+         try {
+            em = (EntityManager)ctx.lookup("ProjectEM");
+         } catch (Exception e) {
+             System.out.println("");
+         }
+     }
     
     @PreDestroy
     private void preDestroy() {

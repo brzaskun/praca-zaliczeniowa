@@ -9,12 +9,12 @@ import beansDok.ListaEwidencjiVat;
 import beansFK.PlanKontFKBean;
 import beansRegon.SzukajDaneBean;
 import comparator.Kliencifkcomparator;
-import dao.KlienciDAO;
-import dao.RodzajedokDAO;
 import dao.DokDAOfk;
+import dao.KlienciDAO;
 import dao.KliencifkDAO;
 import dao.KontoDAOfk;
 import dao.KontopozycjaZapisDAO;
+import dao.RodzajedokDAO;
 import dao.TabelanbpDAO;
 import dao.UkladBRDAO;
 import dao.WalutyDAOfk;
@@ -168,6 +168,7 @@ public class InterpaperImportView implements Serializable {
         zwrot.add(new ImportowanyPlik("Murawski xls","xls","",5));
         zwrot.add(new ImportowanyPlik("Mucha xls","xls","",6));
         zwrot.add(new ImportowanyPlik("Zorin nowy xml","xml","",7));
+        zwrot.add(new ImportowanyPlik("Seven xml","xml","",8));
         return zwrot;
     }
     
@@ -236,6 +237,13 @@ public class InterpaperImportView implements Serializable {
                     przerwanyimport = (List<InterpaperXLS>) zwrot[1];
                     importyzbrakami = (List<InterpaperXLS>) zwrot[2];
                     innyokres = (List<InterpaperXLS>) zwrot[3];
+                    break;
+                case 8:
+                    Object[] zwrot1 = ReadXMLSevenFile.getListafaktur(pobranyplik, k, klienciDAO, rodzajdok, jakipobor, wpisView.getMiesiacWpisu());
+                    pobranefaktury = (List<InterpaperXLS>) zwrot1[0];
+                    przerwanyimport = (List<InterpaperXLS>) zwrot1[1];
+                    importyzbrakami = (List<InterpaperXLS>) zwrot1[2];
+                    innyokres = (List<InterpaperXLS>) zwrot1[3];
                     break;
             }
             if (jakipobor!=null) {

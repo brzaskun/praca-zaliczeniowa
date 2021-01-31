@@ -55,9 +55,13 @@ public abstract class DAO<T> {
     }
 
     public List<T> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(entityClass));
-        return getEntityManager().createQuery(cq).getResultList();
+        try {
+            javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+            cq.select(cq.from(entityClass));
+            return getEntityManager().createQuery(cq).getResultList();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public List<T> findRange(int[] range) {
