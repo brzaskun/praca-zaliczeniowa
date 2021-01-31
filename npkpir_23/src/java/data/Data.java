@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.Year;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -20,11 +21,6 @@ import javax.inject.Named;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import view.WpisView;
 /**
  *
@@ -192,31 +188,24 @@ public class Data implements Serializable {
     }
     
     public static String aktualnaData() {
-        DateTime dt = new DateTime();
-        LocalDate dataRozrachunku = dt.toLocalDate();
-        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-        String formattedDate = formatter.print(dataRozrachunku);
+        java.time.LocalDate dt = java.time.LocalDate.now();
+        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = dt.format(formatter);
         return formattedDate;
     }
     
     public static String aktualnaDataCzas() {
-        DateTime dt = new DateTime();
-        LocalDate dataRozrachunku = dt.toLocalDate();
-        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-        String formattedDate = formatter.print(dataRozrachunku);
-        LocalTime czas = dt.toLocalTime();
-        formatter = DateTimeFormat.forPattern("hh:mm");
-        String formattedCzas = formatter.print(czas);
-        String zwrot = formattedDate+" "+formattedCzas;
+        LocalDateTime dt = LocalDateTime.now();
+        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String zwrot = formatter.format(dt);
         return zwrot;
     }
     
-    public static String aktualnyRok() {
+     public static String aktualnyRok() {
         String zwrot = "błąd";
-        DateTime dt = new DateTime();
-        LocalDate dataRozrachunku = dt.toLocalDate();
-        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-        String formattedDate = formatter.print(dataRozrachunku);
+        java.time.LocalDate dt = java.time.LocalDate.now();
+        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = dt.format(formatter);
         if (formattedDate.length() > 0) {
             zwrot = formattedDate.split("-")[0];
         }
@@ -225,10 +214,9 @@ public class Data implements Serializable {
     
     public static String aktualnyRokShort() {
         String zwrot = "błąd";
-        DateTime dt = new DateTime();
-        LocalDate dataRozrachunku = dt.toLocalDate();
-        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-        String formattedDate = formatter.print(dataRozrachunku);
+        java.time.LocalDate dt = java.time.LocalDate.now();
+        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = dt.format(formatter);
         if (formattedDate.length() > 0) {
             zwrot = formattedDate.split("-")[0].substring(2, 4);
         }
@@ -237,10 +225,9 @@ public class Data implements Serializable {
     
     public static String aktualnyMc() {
         String zwrot = "błąd";
-        DateTime dt = new DateTime();
-        LocalDate dataRozrachunku = dt.toLocalDate();
-        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-        String formattedDate = formatter.print(dataRozrachunku);
+        java.time.LocalDate dt = java.time.LocalDate.now();
+        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = dt.format(formatter);
         if (formattedDate.length() > 0) {
             zwrot = formattedDate.split("-")[1];
         }
