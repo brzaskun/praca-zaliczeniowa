@@ -68,6 +68,7 @@ public class Logowanie implements Serializable {
                 }
                 Uz uzer = uzFacade.findUzByLogin(lo);
                 wpisView.setUzer(uzer);
+                wpisView.setFirma(uzer.getFirma());
                 wpisView.init();
             }
             //Msg.msg("Zweryfikowano hasło");
