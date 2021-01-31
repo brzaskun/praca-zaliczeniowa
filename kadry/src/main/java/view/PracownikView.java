@@ -7,6 +7,7 @@ package view;
 
 import dao.AngazFacade;
 import dao.PracownikFacade;
+import data.Data;
 import entity.Pracownik;
 import java.io.Serializable;
 import java.util.List;
@@ -78,6 +79,25 @@ public class PracownikView  implements Serializable {
             Msg.msg("e","Nie wybrano pracownika");
         }
     }
+    
+    
+    public void korektadat() {
+        if (!lista.isEmpty()) {
+            Msg.msg("poczatek");
+            for (Pracownik p : lista) {
+                p. setDataurodzenia(Data.zmienkolejnosc(p.getDataurodzenia()));
+                if (p.getDatazatrudnienia()!=null&&!p.getDatazatrudnienia().equals("")) {
+                    p. setDatazatrudnienia(Data.zmienkolejnosc(p.getDatazatrudnienia()));
+                }
+                if (p.getDatazwolnienia()!=null&&!p.getDatazwolnienia().equals("")) {
+                    p. setDatazwolnienia(Data.zmienkolejnosc(p.getDatazwolnienia()));
+                }
+            }
+            pracownikFacade.editList(lista);
+            Msg.msg("koniec");
+        }
+    }
+    
     public Pracownik getSelected() {
         return selected;
     }
