@@ -10,10 +10,11 @@ import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 
 /**
@@ -55,7 +56,7 @@ public class OstatnidokumentDAO extends DAO implements Serializable {
         
     public Dok pobierz(String nazwa){
         try {
-            List<Ostatnidokument> temp = ostatnidokumentFacade.findAll(Ostatnidokument.class);
+            List<Ostatnidokument> temp = findAll();
             for(Ostatnidokument p :temp){
                 if(p.getUzytkownik().equals(nazwa)){
                     return p.getDokument();
@@ -78,12 +79,6 @@ public class OstatnidokumentDAO extends DAO implements Serializable {
         
     }
     
-    public  List<Ostatnidokument> findAll(){
-        try {
-            return ostatnidokumentFacade.findAll(Ostatnidokument.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
+    
     
 }

@@ -5,9 +5,7 @@
 package dao;
 
 import dao.DAO;
-import error.E;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.ejb.Stateless;import javax.transaction.Transactional;
@@ -47,14 +45,7 @@ public class ViesDAO extends DAO implements Serializable {
         super(Vies.class);
         super.em = this.em;
     }
-   
-    public  List<Vies> findAll(){
-        try {
-            return sessionFacade.findAll(Vies.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
+  
     
     
 }

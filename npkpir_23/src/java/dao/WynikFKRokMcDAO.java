@@ -5,16 +5,16 @@
  */
 package dao;
 
-import dao.DAO;
 import entity.Podatnik;
 import entityfk.WynikFKRokMc;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 import view.WpisView;
 /**
@@ -77,10 +77,6 @@ public class WynikFKRokMcDAO extends DAO implements Serializable {
     public WynikFKRokMc findWynikFKPodatnikRokUdzialowiec(Podatnik podatnik, String rok, String mc, String udzialowiec) {
         return sessionFacade.findWynikFKRokMcUdzialowiec(podatnik, rok, mc, udzialowiec);
     }
-    
-
-    public List<WynikFKRokMc> findAll() {
-        return sessionFacade.findAll(WynikFKRokMc.class);
-    }
+  
     
 }

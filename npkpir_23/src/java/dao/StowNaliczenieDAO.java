@@ -5,16 +5,16 @@
  */
 package dao;
 
-import dao.DAO;
 import entity.Podatnik;
 import entityfk.StowNaliczenie;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 import view.WpisView;
 /**
@@ -49,10 +49,7 @@ public class StowNaliczenieDAO  extends DAO implements Serializable{
         super.em = this.em;
     }   
        
- 
-    public List<StowNaliczenie> findAll() {
-        return sessionFacade.findAll(StowNaliczenie.class);
-    }
+
 
     public void usunnaliczeniemc(WpisView wpisView, String kategoria) {
          sessionFacade.usunnaliczeniemc(wpisView, kategoria);

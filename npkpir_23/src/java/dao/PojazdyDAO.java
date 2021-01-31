@@ -6,16 +6,16 @@
 
 package dao;
 
-import dao.DAO;
 import entity.Podatnik;
 import entityfk.Pojazdy;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 
 /**
@@ -51,11 +51,6 @@ public class PojazdyDAO extends DAO implements Serializable{
         super.em = this.em;
     }
        
-
-    public List<Pojazdy> findAll() {
-        return sessionFacade.findAll(Pojazdy.class);
-    }
-
     public List<Pojazdy> findPojazdyPodatnik(Podatnik podatnikObiekt) {
         return sessionFacade.findPojazdyPodatnik(podatnikObiekt);
     }

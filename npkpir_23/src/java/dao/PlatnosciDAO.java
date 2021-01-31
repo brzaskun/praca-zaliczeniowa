@@ -6,7 +6,6 @@ package dao;
 
 import entity.Platnosci;
 import entity.PlatnosciPK;
-import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -56,11 +55,5 @@ public class PlatnosciDAO extends DAO implements Serializable{
         return platnosciFacade.findPlatnosciPodRok(rok, podatnik);
      }
      
-     public  List<Platnosci> findAll(){
-        try {
-            return platnosciFacade.findAll(Platnosci.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
+  
 }

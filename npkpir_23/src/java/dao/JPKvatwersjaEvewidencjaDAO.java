@@ -10,10 +10,11 @@ import entity.JPKvatwersjaEvewidencja;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 
 /**
@@ -47,11 +48,6 @@ public class JPKvatwersjaEvewidencjaDAO extends DAO implements Serializable{
         super.em = this.em;
     }
 
-
-    
-    public List findAll() {
-        return sessionFacade.findAll(JPKvatwersjaEvewidencja.class);
-    }
 
     public List<JPKvatwersjaEvewidencja> findJPKEwidencje(JPKVATWersja selected) {
         return sessionFacade.getEntityManager().createNamedQuery("JPKvatwersjaEvewidencja.findyByJPKvatwersja").setParameter("jpkvatwersja", selected).getResultList();

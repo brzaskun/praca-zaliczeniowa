@@ -11,10 +11,11 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 import view.WpisView;
 /**
@@ -63,10 +64,7 @@ public class PodatnikUdzialyDAO extends DAO implements Serializable{
         return udzialy;
     }
 
-    public List<PodatnikUdzialy> findAll() {
-        return sessionFacade.findAll(PodatnikUdzialy.class);
-    }
-    
+  
     
     
 }

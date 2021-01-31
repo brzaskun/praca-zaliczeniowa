@@ -10,10 +10,11 @@ import entity.PodatnikOpodatkowanieD;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 import view.WpisView;
 /**
@@ -67,8 +68,4 @@ public class PodatnikOpodatkowanieDAO extends DAO implements Serializable{
     }
     
 
-    public List<PodatnikOpodatkowanieD> findAll() {
-        return sessionFacade.findAll(PodatnikOpodatkowanieD.class);
-    }
-    
 }

@@ -5,15 +5,15 @@
  */
 package dao;
 
-import dao.DAO;
 import entityfk.EVatwpisDedra;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 import view.WpisView;
 /**
@@ -58,9 +58,7 @@ public class EVatwpisDedraDAO   extends DAO implements Serializable{
             return sessionFacade.getEntityManager().createNamedQuery("EVatwpisDedra.findByPodatnikRokMcZakup").setParameter("podatnik",wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).setParameter("nazwa", "zakup").getResultList();
         }
     }
-    public List<EVatwpisDedra> findAll() {
-        return sessionFacade.findAll(EVatwpisDedra.class);
-   }
+
     public List<EVatwpisDedra> zwrocRokMc(String rokWpisuSt, String mc) {
         return sessionFacade.getEntityManager().createNamedQuery("EVatwpisDedra.findByMcRok").setParameter("rok", rokWpisuSt).setParameter("mc", mc).getResultList();
     }

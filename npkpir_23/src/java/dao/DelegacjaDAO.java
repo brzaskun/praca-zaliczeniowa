@@ -6,7 +6,6 @@
 
 package dao;
 
-import dao.DAO;
 import entityfk.Delegacja;
 import error.E;
 import java.io.Serializable;
@@ -51,11 +50,7 @@ public class DelegacjaDAO extends DAO implements Serializable{
         super(Delegacja.class);
         super.em = this.em;
     }
-   
-    public List<Delegacja> findAll() {
-        return sessionFacade.findAll(Delegacja.class);
-    }
-
+ 
     public List<Delegacja> findDelegacjaPodatnik(WpisView wpisView, boolean krajowa0zagraniczna1) {
         return sessionFacade.findDelegacjaPodatnik(wpisView, krajowa0zagraniczna1);
     }

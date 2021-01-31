@@ -5,15 +5,11 @@
 package dao;
 
 import entity.Evopis;
-import error.E;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
 import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import session.SessionFacade;
 
 /**
  *
@@ -23,8 +19,7 @@ import session.SessionFacade;
 @Transactional
 public class EvopisDAO extends DAO implements Serializable {
 
-    @Inject
-    private SessionFacade evopisFacade;
+
       @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
@@ -47,11 +42,5 @@ public class EvopisDAO extends DAO implements Serializable {
     }
 
        
-    public  List<Evopis> findAll(){
-        try {
-            return evopisFacade.findAll(Evopis.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
+
 }

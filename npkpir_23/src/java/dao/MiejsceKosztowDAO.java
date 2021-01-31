@@ -6,16 +6,16 @@
 
 package dao;
 
-import dao.DAO;
 import entity.Podatnik;
 import entityfk.MiejsceKosztow;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 
 /**
@@ -51,10 +51,6 @@ public class MiejsceKosztowDAO extends DAO implements Serializable{
         super.em = this.em;
     }
        
-
-    public List<MiejsceKosztow> findAll() {
-        return sessionFacade.findAll(MiejsceKosztow.class);
-    }
 
     public List<MiejsceKosztow> findMiejscaPodatnik(Podatnik podatnikObiekt) {
         return sessionFacade.findMiejscaPodatnik(podatnikObiekt);

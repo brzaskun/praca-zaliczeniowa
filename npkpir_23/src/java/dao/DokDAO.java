@@ -193,8 +193,5 @@ public class DokDAO extends DAO implements Serializable {
         return dokFacade.getEntityManager().createNamedQuery("Dok.findByInwestycje").getResultList();
     }
 
-    public List<Dok> findAll() {
-        return dokFacade.findAll(Dok.class);
-    }
   
 }

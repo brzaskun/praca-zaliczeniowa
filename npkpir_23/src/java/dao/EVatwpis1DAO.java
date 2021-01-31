@@ -8,7 +8,6 @@ package dao;
 import embeddable.Kwartaly;
 import entity.EVatwpis1;
 import entity.Podatnik;
-import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -46,14 +45,6 @@ public class EVatwpis1DAO  extends DAO implements Serializable {
         super.em = this.em;
     }
 
-    public  List<EVatwpis1> findAll(){
-        try {
-            return sessionFacade.findAll(EVatwpis1.class);
-        } catch (Exception e) { 
-            E.e(e); 
-            return null;
-        }
-   }
 
     public List<EVatwpis1> zwrocBiezacegoKlientaRokMcKasowe(Podatnik podatnikWpisu, String rokWpisuSt, String miesiacWpisu) {
         return sessionFacade.getEntityManager().createNamedQuery("EVatwpis1.findByRokMcKasowe").setParameter("podatnik", podatnikWpisu).setParameter("pkpirR", rokWpisuSt).setParameter("mc", miesiacWpisu).getResultList();

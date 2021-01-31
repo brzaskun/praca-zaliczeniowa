@@ -6,9 +6,7 @@ package dao;
 
 import dao.DAO;
 import entityfk.Waluty;
-import error.E;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.ejb.Stateless;import javax.transaction.Transactional;
@@ -49,15 +47,7 @@ public class WalutyDAOfk extends DAO implements Serializable {
         super.em = this.em;
     }
       
-    
-    public  List<Waluty> findAll(){
-        try {
-            return walutyFacade.findAll(Waluty.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
-
+ 
     public Waluty findWalutaBySymbolWaluty(String staranazwa) {
         try {
             return walutyFacade.findWalutaBySymbolWaluty(staranazwa);

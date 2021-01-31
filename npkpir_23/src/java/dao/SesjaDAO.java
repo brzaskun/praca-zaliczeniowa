@@ -46,14 +46,7 @@ public class SesjaDAO extends DAO implements Serializable {
         super(entityClass);
     }
     
-   
-   public  List<Sesja> findAll(){
-        try {
-            return sesjaFacade.findAll(Sesja.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
+ 
    
    public  List<Sesja> findUser(String user){
         try {

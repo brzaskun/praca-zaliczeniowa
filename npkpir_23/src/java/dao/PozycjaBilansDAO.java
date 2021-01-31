@@ -4,7 +4,6 @@
  */
 package dao;
 
-import dao.DAO;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.UkladBR;
@@ -12,10 +11,11 @@ import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 
 /**
@@ -55,13 +55,7 @@ public class PozycjaBilansDAO extends DAO implements Serializable{
         super(entityClass);
     }
     
-      public  List<PozycjaBilans> findAll(){
-        try {
-            return sessionFacade.findAll(PozycjaBilans.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
+ 
      public  List<PozycjaBilans> findBilansukladAktywa(UkladBR bilansuklad){
         try {
             return sessionFacade.findBilansukladAktywa(bilansuklad);

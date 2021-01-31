@@ -5,7 +5,6 @@
  */
 package dao;
 
-import dao.DAO;
 import entity.Podatnik;
 import entityfk.Tabelanbp;
 import entityfk.Wiersz;
@@ -13,10 +12,11 @@ import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 
 /**
@@ -50,10 +50,7 @@ public class WierszDAO extends DAO implements Serializable {
         super(Wiersz.class);
         super.em = this.em;
     }  
-    public List<Wiersz> findAll(){
-        return sessionFacade.findAll(Wiersz.class);
-    }
-    
+ 
     public List<Wiersz> findWierszeRok(String rok){
         return sessionFacade.getEntityManager().createNamedQuery("Wiersz.findByRok").setParameter("rok", rok).getResultList();
     }

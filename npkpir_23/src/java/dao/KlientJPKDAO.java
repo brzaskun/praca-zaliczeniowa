@@ -9,10 +9,11 @@ import entity.Podatnik;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 
 /**
@@ -47,10 +48,7 @@ public class KlientJPKDAO  extends DAO implements Serializable {
 
     private String test;
    
-    
-    public List<KlientJPK> findAll() {
-        return sessionFacade.findAll(KlientJPK.class);
-    }
+
     
     public void deleteByPodRokMc (Podatnik podatnik, String rok, String mc) {
         sessionFacade.klientJPKdeleteByPodRokMc(podatnik, rok, mc);

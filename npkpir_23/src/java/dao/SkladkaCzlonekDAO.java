@@ -5,15 +5,15 @@
  */
 package dao;
 
-import dao.DAO;
 import entityfk.SkladkaCzlonek;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 import view.WpisView;
 /**
@@ -46,11 +46,7 @@ public class SkladkaCzlonekDAO extends DAO implements Serializable{
         super(SkladkaCzlonek.class);
         super.em = this.em;
     }
-   
-    public List<SkladkaCzlonek> findAll() {
-        return sessionFacade.findAll(SkladkaCzlonek.class);
-    }
-
+  
     public List<SkladkaCzlonek> findPodatnikRok(WpisView wpisView) {
         return sessionFacade.getEntityManager().createNamedQuery("SkladkaCzlonek.findByPodatnikRok").setParameter("podatnikObj", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
     }

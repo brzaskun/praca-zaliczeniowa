@@ -5,7 +5,6 @@
 package dao;
 
 import entity.ZamkniecieRokuRozliczenie;
-import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -46,15 +45,6 @@ public class ZamkniecieRokuRozliczenieDAO extends DAO implements Serializable {
     }
    
 
-    
-    public  List<ZamkniecieRokuRozliczenie> findAll(){
-        try {
-            return wpisFacade.findAll(ZamkniecieRokuRozliczenie.class);
-        } catch (Exception e) { 
-            E.e(e); 
-            return null;
-        }
-   }
 
     public List<ZamkniecieRokuRozliczenie> findByRokPodatnik(WpisView wpisView) {
         return wpisFacade.findZakmniecieRokuByRokPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());

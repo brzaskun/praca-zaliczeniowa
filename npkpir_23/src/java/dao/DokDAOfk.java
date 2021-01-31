@@ -4,7 +4,6 @@
  */
 package dao;
 
-import dao.DAO;
 import embeddable.Kwartaly;
 import entity.Klienci;
 import entity.Podatnik;
@@ -53,11 +52,7 @@ public class DokDAOfk extends DAO implements Serializable {
         super(Dokfk.class);
         super.em = this.em;
     } 
-            
-    public List<Dokfk> findAll(){
-        return sessionFacade.findAll(Dokfk.class);
-    }
-    
+
   
     public void usun(Dokfk selected) {
         sessionFacade.remove(selected);

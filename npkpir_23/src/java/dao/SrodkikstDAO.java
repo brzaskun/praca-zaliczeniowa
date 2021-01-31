@@ -5,7 +5,6 @@
 package dao;
 
 import entity.Srodkikst;
-import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -57,12 +56,5 @@ public class SrodkikstDAO extends DAO implements Serializable{
     public Srodkikst find(Srodkikst srodek){
         return srodkikstFacade.findSr(srodek);
     }
-    
-    public  List<Srodkikst> findAll(){
-        try {
-            return srodkikstFacade.findAll(Srodkikst.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
+ 
 }

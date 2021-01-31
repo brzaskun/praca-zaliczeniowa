@@ -5,7 +5,6 @@
 package dao;
 
 import comparator.Tabelanbpcomparator;
-import dao.DAO;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import error.E;
@@ -13,10 +12,11 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 
 /**
@@ -52,14 +52,7 @@ public class TabelanbpDAO extends DAO implements Serializable {
         super.em = this.em;
     }
         
-    
-    public  List<Tabelanbp> findAll(){
-        try {
-            return tabelanbpFacade.findAll(Tabelanbp.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
+  
     public  List<Tabelanbp> findKursyRokNBP(String rok){
         try {
             String rok1 = rok+"%";

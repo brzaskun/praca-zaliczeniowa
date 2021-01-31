@@ -6,7 +6,6 @@
 
 package dao;
 
-import dao.DAO;
 import entity.Podatnik;
 import entityfk.Cechazapisu;
 import java.io.Serializable;
@@ -25,7 +24,6 @@ import session.SessionFacade;
  */
 @Stateless
 @Transactional
-
 public class CechazapisuDAOfk extends DAO implements Serializable {
     private static final long serialVersionUID = 1L;
     
@@ -51,12 +49,7 @@ public class CechazapisuDAOfk extends DAO implements Serializable {
         super.em = this.em;
     }
    
-    
-    
-    public List<Cechazapisu> findAll() {
-        return sessionFacade.findAll(Cechazapisu.class);
-    }
-    
+     
     public List<Cechazapisu> findPodatnikOnly(Podatnik podatnikObiekt) {
         return sessionFacade.findCechaZapisuByPodatnikOnly(podatnikObiekt);
     }

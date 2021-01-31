@@ -6,7 +6,6 @@ package dao;
 
 import entity.SrodekTrw;
 import entity.UmorzenieN;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,15 +48,7 @@ public class UmorzenieDAO extends DAO implements Serializable {
         super.em = this.em;
     }
 
-    
-    
-    public  List<UmorzenieN> findAll(){
-        try {
-            return umorzenieFacade.findAll(UmorzenieN.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
+  
    
     public List<UmorzenieN> findBySrodek(SrodekTrw str) {
         List<UmorzenieN> list = umorzenieFacade.findUmorzenieBySrodek(str);

@@ -6,14 +6,10 @@
 package dao;
 
 import entity.FakturaDodatkowaPozycja;
-import error.E;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import session.SessionFacade;
 
 /**
  *
@@ -21,8 +17,6 @@ import session.SessionFacade;
  */
 public class FakturaDodatkowaPozycjaDAO  extends DAO implements Serializable {
 
-    @Inject
-    private SessionFacade sessionFacade;
       @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
@@ -45,13 +39,5 @@ public class FakturaDodatkowaPozycjaDAO  extends DAO implements Serializable {
     }
 
    
-    
-     public  List<FakturaDodatkowaPozycja> findAll(){
-        try {
-            return sessionFacade.findAll(FakturaDodatkowaPozycja.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
     
 }

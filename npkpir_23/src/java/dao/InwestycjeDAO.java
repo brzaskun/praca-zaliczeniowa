@@ -9,10 +9,11 @@ import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 
 /**
@@ -56,8 +57,5 @@ public class InwestycjeDAO  extends DAO implements Serializable {
         }
    }
 
-    public List<Inwestycje> findAll() {
-        return sessionFacade.findAll(Inwestycje.class);
-    }
     
 }

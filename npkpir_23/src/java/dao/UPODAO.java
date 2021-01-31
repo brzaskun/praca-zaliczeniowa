@@ -10,10 +10,11 @@ import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 import view.WpisView;
 /**
@@ -47,15 +48,6 @@ public class UPODAO extends DAO implements Serializable{
     }
 
   
-    public  List<Pismoadmin> findAll(){
-        try {
-            List<Pismoadmin> lista = sessionFacade.findAll(UPO.class);
-            return lista;
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
-    
     
     public List<UPO> findPodatnikRok(WpisView wpisView) {
         try {

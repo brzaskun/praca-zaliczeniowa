@@ -11,10 +11,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 import view.WpisView;
 /**
@@ -48,16 +49,7 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
         super.em = this.em;
     }
 
-   
-     public  List<Deklaracjevat> findAll(){
-        try {
-            return deklaracjevatFacade.findAll(Deklaracjevat.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
-    
-    
+     
     public Deklaracjevat findDeklaracje(String rok, String mc, String pod){
         return deklaracjevatFacade.findDeklaracjevat(rok, mc, pod);
     }

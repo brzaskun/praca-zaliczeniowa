@@ -8,7 +8,6 @@ import entity.Logofaktura;
 import entity.Podatnik;
 import error.E;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.ejb.Stateless;import javax.transaction.Transactional;
@@ -49,14 +48,6 @@ public class LogofakturaDAO extends DAO implements Serializable {
     }
 
 
-    
-    public  List<Logofaktura> findAll(){
-        try {
-            return sessionFacade.findAll(Logofaktura.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
 
     public void usun(Podatnik podatnikObiekt) {
         try {

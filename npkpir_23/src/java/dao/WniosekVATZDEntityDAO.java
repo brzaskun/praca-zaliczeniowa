@@ -43,15 +43,7 @@ public class WniosekVATZDEntityDAO extends DAO implements Serializable{
         super.em = this.em;
     }
    
-    
-    
-    public  List<WniosekVATZDEntity> findAll(){
-        try {
-            return wierszeFacade.findAll(WniosekVATZDEntity.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
+  
     
     public  List<WniosekVATZDEntity> findByPodatnikRokMcFK(WpisView wpisView){
         try {

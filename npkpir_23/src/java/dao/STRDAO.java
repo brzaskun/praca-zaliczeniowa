@@ -10,10 +10,11 @@ import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 
 
@@ -61,13 +62,7 @@ public class STRDAO extends DAO implements Serializable{
 //        return tmp;
 //        }
    
-   public  List<SrodekTrw> findAll(){
-        try {
-            return strFacade.findAll(SrodekTrw.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
+ 
    
    public  List<SrodekTrw> findStrPod(String pod){
         try {

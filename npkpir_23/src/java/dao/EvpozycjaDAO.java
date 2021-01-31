@@ -5,9 +5,7 @@
 package dao;
 
 import entity.Evpozycja;
-import error.E;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.ejb.Stateless;import javax.transaction.Transactional;
@@ -52,11 +50,5 @@ public class EvpozycjaDAO extends DAO implements Serializable {
         return evpozycjaFacade.findEvpozycjaByName(nazwapola);
     }
     
-    public  List<Evpozycja> findAll(){
-        try {
-            return evpozycjaFacade.findAll(Evpozycja.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
+
 }

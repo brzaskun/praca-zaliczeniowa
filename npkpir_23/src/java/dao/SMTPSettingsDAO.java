@@ -6,9 +6,7 @@ package dao;
 
 import entity.SMTPSettings;
 import entity.Uz;
-import error.E;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.ejb.Stateless;import javax.transaction.Transactional;
@@ -47,16 +45,7 @@ public class SMTPSettingsDAO extends DAO implements Serializable {
     }
 
 
-    
-    public  List<SMTPSettings> findAll(){
-        try {
-            return wpisFacade.findAll(SMTPSettings.class);
-        } catch (Exception e) { 
-            E.e(e); 
-            return null;
-        }
-   }
-
+ 
  
     public SMTPSettings findSprawaByUzytkownik(Uz uzytkownik) {
         SMTPSettings zwrot = null;

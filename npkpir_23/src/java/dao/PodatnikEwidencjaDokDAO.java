@@ -7,7 +7,6 @@ package dao;
 
 import entity.Podatnik;
 import entity.PodatnikEwidencjaDok;
-import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -52,14 +51,6 @@ public class PodatnikEwidencjaDokDAO  extends DAO implements Serializable{
     public List<PodatnikEwidencjaDok> findOpodatkowaniePodatnik(Podatnik podatnik) {
         return session1Facade.findPodatnikEwidencjaByPodatnik(podatnik);
     }
-    public  List<PodatnikEwidencjaDok> findAll(){
-        List<PodatnikEwidencjaDok> zwrot = null;
-        try {
-            zwrot = session1Facade.findAll(PodatnikEwidencjaDok.class);
-        } catch (Exception e) { 
-            E.e(e);
-        }
-        return zwrot;
-    }
+  
     
 }

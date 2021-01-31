@@ -5,9 +5,7 @@
 package dao;
 
 import entity.Podstawki;
-import error.E;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.ejb.Stateless;import javax.transaction.Transactional;
@@ -52,11 +50,5 @@ public class PodStawkiDAO extends DAO implements Serializable{
         return podstawkiFacade.findPodstawkiyear(rok);
      }
    
-    public  List<Podstawki> findAll(){
-        try {
-            return podstawkiFacade.findAll(Podstawki.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
+   
 }

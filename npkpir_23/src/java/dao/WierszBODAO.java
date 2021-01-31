@@ -6,7 +6,6 @@
 
 package dao;
 
-import dao.DAO;
 import entity.Podatnik;
 import entityfk.Konto;
 import entityfk.WierszBO;
@@ -16,10 +15,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 import view.WpisView;
 /**
@@ -75,10 +75,7 @@ public class WierszBODAO extends DAO implements Serializable {
             return Collections.synchronizedList(new ArrayList<>());
         }
     }
-    
-    public List<WierszBO> findAll() {
-        return wierszBOFacade.findAll(WierszBO.class);
-    }
+  
     
     public List<WierszBO> findPodatnikRok(Podatnik podatnik, String rok) {
         return wierszBOFacade.findWierszBOPodatnikRok(podatnik, rok);

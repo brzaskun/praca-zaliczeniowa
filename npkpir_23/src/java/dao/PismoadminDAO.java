@@ -9,10 +9,11 @@ import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 
 /**
@@ -46,16 +47,6 @@ public class PismoadminDAO extends DAO implements Serializable{
     }
 
 
-   
-    
-    public  List<Pismoadmin> findAll(){
-        try {
-            List<Pismoadmin> lista = sessionFacade.findAll(Pismoadmin.class);
-            return lista;
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
     
     public  List<Pismoadmin> findBiezace(){
         try {

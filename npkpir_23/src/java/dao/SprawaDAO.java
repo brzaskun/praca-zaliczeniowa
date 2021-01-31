@@ -6,7 +6,6 @@ package dao;
 
 import entity.Sprawa;
 import entity.Uz;
-import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -47,16 +46,6 @@ public class SprawaDAO extends DAO implements Serializable {
     }
   
  
-    
-    public  List<Sprawa> findAll(){
-        try {
-            return wpisFacade.findAll(Sprawa.class);
-        } catch (Exception e) { 
-            E.e(e); 
-            return null;
-        }
-   }
-
  
     public List<Sprawa> findSprawaByOdbiorca(Uz odbiorca) {
         return wpisFacade.findSprawaByOdbiorca(odbiorca);

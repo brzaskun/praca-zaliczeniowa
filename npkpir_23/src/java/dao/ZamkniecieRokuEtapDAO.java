@@ -5,7 +5,6 @@
 package dao;
 
 import entity.ZamkniecieRokuEtap;
-import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -46,15 +45,6 @@ public class ZamkniecieRokuEtapDAO extends DAO implements Serializable {
     }
  
 
-    
-    public  List<ZamkniecieRokuEtap> findAll(){
-        try {
-            return wpisFacade.findAll(ZamkniecieRokuEtap.class);
-        } catch (Exception e) { 
-            E.e(e); 
-            return null;
-        }
-   }
 
     public List<ZamkniecieRokuEtap> findByRok(String rok) {
         return wpisFacade.findZakmniecieRokuEtapByRok(rok);

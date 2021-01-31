@@ -8,7 +8,6 @@ package dao;
 import dao.DAO;
 import entityfk.RodzajCzlonkostwa;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.ejb.Stateless;import javax.transaction.Transactional;
@@ -46,9 +45,5 @@ public class RodzajCzlonkostwaDAO extends DAO implements Serializable{
         super(RodzajCzlonkostwa.class);
         super.em = this.em;
     }
-    
-    public List<RodzajCzlonkostwa> findAll() {
-        return sessionFacade.findAll(RodzajCzlonkostwa.class);
-    }
-    
+ 
 }

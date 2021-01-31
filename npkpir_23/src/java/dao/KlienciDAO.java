@@ -11,10 +11,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import org.eclipse.persistence.config.HintValues;
 import org.eclipse.persistence.config.QueryHints;
 import session.SessionFacade;
@@ -51,15 +52,6 @@ public class KlienciDAO extends DAO implements Serializable {
     }
 
 
-    
-    public  List<Klienci> findAll(){
-        try {
-            return klienciFacade.findAll(Klienci.class);
-        } catch (Exception e) {
-            E.e(e); 
-            return null;
-        }
-   }
     
     public  List<Klienci> findAllReadOnly(){
         try {

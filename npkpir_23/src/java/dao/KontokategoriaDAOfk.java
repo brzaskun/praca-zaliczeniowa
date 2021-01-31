@@ -6,15 +6,11 @@ package dao;
 
 import dao.DAO;
 import entityfk.Kontokategoria;
-import error.E;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
 import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import session.SessionFacade;
 
 /**
  *
@@ -24,9 +20,7 @@ import session.SessionFacade;
 @Transactional
 public class KontokategoriaDAOfk extends DAO implements Serializable {
     private static final long serialVersionUID = 1L;
-    
-    @Inject
-    private SessionFacade walutyFacade;
+
  @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
@@ -48,16 +42,7 @@ public class KontokategoriaDAOfk extends DAO implements Serializable {
         super.em = this.em;
     }
    
-    
-    
-    public  List<Kontokategoria> findAll(){
-        try {
-            return walutyFacade.findAll(Kontokategoria.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
-
+   
    
       
 }

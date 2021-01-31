@@ -47,15 +47,7 @@ public class FakturaDodPozycjaKontrahentDAO  extends DAO implements Serializable
     }
 
     
-    
-     public  List<FakturaDodPozycjaKontrahent> findAll(){
-        try {
-            return sessionFacade.findAll(FakturaDodPozycjaKontrahent.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
-     
+      
     public  FakturaDodPozycjaKontrahent findById(int id) {
         try {
             return (FakturaDodPozycjaKontrahent) sessionFacade.getEntityManager().createNamedQuery("FakturaDodPozycjaKontrahent.findById").setParameter("id", id).getSingleResult();

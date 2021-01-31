@@ -7,7 +7,6 @@ package dao;
 
 import entity.DeklaracjaVatWierszSumaryczny;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.ejb.Stateless;import javax.transaction.Transactional;
@@ -47,10 +46,7 @@ public class DeklaracjaVatWierszSumarycznyDAO  extends DAO implements Serializab
         super.em = this.em;
     }
     
-   
-    public List findAll() {
-        return sessionFacade.findAll(DeklaracjaVatWierszSumaryczny.class);
-    }
+  
 
     public DeklaracjaVatWierszSumaryczny findWiersz(String razem_suma_przychodów) {
         return sessionFacade.findWierszSumaryczny(razem_suma_przychodów);

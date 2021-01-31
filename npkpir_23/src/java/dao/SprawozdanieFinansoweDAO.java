@@ -5,15 +5,15 @@
  */
 package dao;
 
-import dao.DAO;
 import entityfk.SprawozdanieFinansowe;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 import view.WpisView;
 /**
@@ -55,8 +55,5 @@ public class SprawozdanieFinansoweDAO  extends DAO implements Serializable{
     public List<SprawozdanieFinansowe> findSprawozdanieRok(String rok) {
         return sessionFacade.findSprawozdanieRok(rok);
     }
-    
-    public List<SprawozdanieFinansowe> findAll() {
-        return sessionFacade.findAll(SprawozdanieFinansowe.class);
-    }
+ 
 }

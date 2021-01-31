@@ -5,9 +5,7 @@
 package dao;
 
 import entity.Zobowiazanie;
-import error.E;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.ejb.Stateless;import javax.transaction.Transactional;
@@ -51,13 +49,6 @@ public class ZobowiazanieDAO extends DAO implements Serializable{
      public Zobowiazanie find(String rok, String mc) throws Exception{
         return zobowiazanieFacade.findZobowiazanie(rok, mc);
      }
-     
-     public  List<Zobowiazanie> findAll(){
-        try {
-            return zobowiazanieFacade.findAll(Zobowiazanie.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
+   
    
 }

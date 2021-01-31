@@ -8,7 +8,6 @@ package dao;
 import entity.DeklaracjaVatPozycjeKoncowe;
 import entity.DeklaracjaVatWierszSumaryczny;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -49,11 +48,7 @@ public class DeklaracjaVatPozycjeKoncoweDAO  extends DAO implements Serializable
         super.em = this.em;
     }
 
-    
-    public List findAll() {
-        return sessionFacade.findAll(DeklaracjaVatPozycjeKoncowe.class);
-    }
-
+  
     public DeklaracjaVatPozycjeKoncowe findWiersz(String nazwa) {
         return (DeklaracjaVatPozycjeKoncowe) sessionFacade.getEntityManager().createNamedQuery("DeklaracjaVatPozycjeKoncowe.findWiersz").setParameter("nazwapozycji", nazwa).getSingleResult();
     }

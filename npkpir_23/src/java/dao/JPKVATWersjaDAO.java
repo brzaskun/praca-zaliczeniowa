@@ -7,7 +7,6 @@ package dao;
 
 import entity.JPKVATWersja;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.ejb.Stateless;import javax.transaction.Transactional;
@@ -47,11 +46,6 @@ public class JPKVATWersjaDAO extends DAO implements Serializable{
         super.em = this.em;
     }
 
-
-    
-    public List findAll() {
-        return sessionFacade.findAll(JPKVATWersja.class);
-    }
 
     public JPKVATWersja findByName(String nazwa) {
         return (JPKVATWersja) sessionFacade.getEntityManager().createNamedQuery("JPKVATWersja.findByName").setParameter("nazwa", nazwa).getSingleResult();

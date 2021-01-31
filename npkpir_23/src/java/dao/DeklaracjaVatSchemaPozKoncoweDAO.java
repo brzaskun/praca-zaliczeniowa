@@ -11,10 +11,11 @@ import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 
 /**
@@ -50,15 +51,6 @@ public class DeklaracjaVatSchemaPozKoncoweDAO  extends DAO implements Serializab
         super.em = this.em;
     }
    
-
-    public List<DeklaracjaVatSchemaPozKoncowe> findAll() {
-        try {
-            return sessionFacade.findAll(DeklaracjaVatSchemaPozKoncowe.class);
-        } catch (Exception e) { 
-            E.e(e); 
-            return null;
-        }
-    }
 
     public List<DeklaracjaVatSchemaPozKoncowe> findWierszeSchemy(DeklaracjaVatSchema wybranaschema) {
         try {

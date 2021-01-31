@@ -42,13 +42,6 @@ public class VATZDDAO extends DAO implements Serializable{
         super.em = this.em;
     }
   
-    public  List<VATZDpozycja> findAll(){
-        try {
-            return wierszeFacade.findAll(VATZDpozycja.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
     
     public  List<VATZDpozycja> findByPodatnikRokMcFK(WpisView wpisView){
         try {

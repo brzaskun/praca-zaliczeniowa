@@ -6,7 +6,6 @@ package dao;
 
 import entity.Podatnik;
 import entityfk.Wiersz;
-import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -44,15 +43,7 @@ public class WierszeDAO extends DAO implements Serializable{
     }
 
     
-    
-    public  List<Wiersz> findAll(){
-        try {
-            return wierszeFacade.findAll(Wiersz.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
-
+ 
     
     public List<Wiersz> findWierszeZapisy(String podatnik, String konto) {
          try {

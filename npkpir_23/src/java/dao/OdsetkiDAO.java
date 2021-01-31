@@ -5,15 +5,11 @@
 package dao;
 
 import entity.Odsetki;
-import error.E;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
 import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import session.SessionFacade;
 
 /**
  *
@@ -23,8 +19,7 @@ import session.SessionFacade;
 @Transactional
 public class OdsetkiDAO extends DAO implements Serializable {
 
-    @Inject
-    private SessionFacade odsetkiFacade;
+
        @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
@@ -46,13 +41,4 @@ public class OdsetkiDAO extends DAO implements Serializable {
         super.em = this.em;
     }
 
-
- 
-    public  List<Odsetki> findAll(){
-        try {
-            return odsetkiFacade.findAll(Odsetki.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
 }

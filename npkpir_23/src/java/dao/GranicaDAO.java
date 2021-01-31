@@ -5,7 +5,6 @@
 package dao;
 
 import entity.Granica;
-import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -46,15 +45,7 @@ public class GranicaDAO extends DAO implements Serializable{
         super.em = this.em;
     }
 
-   
-     
-   public  List<Granica> findAll(){
-        try {
-            return sessionFacade.findAll(Granica.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
+ 
 
     public List<Granica> findByRok(String rokWpisuSt) {
         return sessionFacade.getEntityManager().createNamedQuery("Granica.findByRok").setParameter("rok", rokWpisuSt).getResultList();

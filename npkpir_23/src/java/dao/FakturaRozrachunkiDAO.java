@@ -115,14 +115,6 @@ public class FakturaRozrachunkiDAO extends DAO implements Serializable {
         }
     }
 
-    public List<FakturaRozrachunki> findAll(WpisView wpisView) {
-        try {
-            return sessionFacade.findAll(FakturaRozrachunki.class);
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
 
     public List<FakturaRozrachunki> findbyKontrahent(Klienci t) {
         List<FakturaRozrachunki> zwrot = new ArrayList<>();

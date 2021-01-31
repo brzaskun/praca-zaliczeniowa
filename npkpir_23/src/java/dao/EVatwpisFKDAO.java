@@ -6,7 +6,6 @@
 
 package dao;
 
-import dao.DAO;
 import entity.Klienci;
 import entity.Podatnik;
 import entityfk.EVatwpisFK;
@@ -17,10 +16,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 
 /**
@@ -54,12 +54,6 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
         super(EVatwpisFK.class);
         super.em = this.em;
     }
-   
-    
-    public List<EVatwpisFK> findAll() {
-        return sessionFacade.findAll(EVatwpisFK.class);
-    }
-    
     public List<EVatwpisFK> findbyKontrahent(Klienci t) {
         List<EVatwpisFK> zwrot = new ArrayList<>();
         try {

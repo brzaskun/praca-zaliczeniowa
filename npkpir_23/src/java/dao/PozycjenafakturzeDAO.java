@@ -8,10 +8,11 @@ import entity.Pozycjenafakturze;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 
 /**
@@ -45,10 +46,6 @@ public class PozycjenafakturzeDAO  extends DAO implements Serializable {
     }
 
   
-    public List<Pozycjenafakturze> findAll(){
-                return pozycjeSession.findAll(Pozycjenafakturze.class);
-    }
-    
     /**
      *
      * @param podatnik

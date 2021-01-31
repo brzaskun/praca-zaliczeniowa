@@ -5,9 +5,7 @@
 package dao;
 
 import entity.Zamknietemiesiace;
-import error.E;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.ejb.Stateless;import javax.transaction.Transactional;
@@ -52,11 +50,5 @@ public class ZamknietemiesiaceDAO extends DAO implements Serializable{
          return  zamknietemiesiaceFacade.findZM(podatnik);
    }
    
-   public  List<Zamknietemiesiace> findAll(){
-        try {
-            return zamknietemiesiaceFacade.findAll(Zamknietemiesiace.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
+  
 }

@@ -11,10 +11,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 
 /**
@@ -49,15 +50,7 @@ public class FakturyokresoweDAO  extends DAO implements Serializable {
     }
 
 
-    
-    public  List<Fakturyokresowe> findAll(){
-        try {
-            return fakturyokresoweFacade.findAll(Fakturyokresowe.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
-    
+      
     public List<Fakturyokresowe> findPodatnik(String podatnik){
         List<Fakturyokresowe> zwrot = Collections.synchronizedList(new ArrayList<>());
         try {

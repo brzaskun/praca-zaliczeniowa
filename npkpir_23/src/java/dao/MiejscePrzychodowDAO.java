@@ -6,16 +6,16 @@
 
 package dao;
 
-import dao.DAO;
 import entity.Podatnik;
 import entityfk.MiejscePrzychodow;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 
 /**
@@ -51,9 +51,6 @@ public class MiejscePrzychodowDAO extends DAO implements Serializable{
     }
       
 
-    public List<MiejscePrzychodow> findAll() {
-        return sessionFacade.findAll(MiejscePrzychodow.class);
-    }
 
     public List<MiejscePrzychodow> findMiejscaPodatnikRok(Podatnik podatnikObiekt, int rok) {
         return sessionFacade.findMiejscaPrzychodowPodatnikRok(podatnikObiekt, rok);

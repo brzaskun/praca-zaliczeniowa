@@ -7,9 +7,7 @@ package dao;
 
 import dao.DAO;
 import entityfk.SprawozdanieUklad;
-import error.E;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.ejb.Stateless;import javax.transaction.Transactional;
@@ -51,14 +49,5 @@ public class SprawozdanieUkladDAO  extends DAO implements Serializable {
         super.em = this.em;
     }
    
-    
-     public List<SprawozdanieUklad> findAll() {
-        try {
-            return sessionFacade.findAll(SprawozdanieUklad.class);
-        } catch (Exception e) { 
-            E.e(e); 
-            return null;
-        }
-    }
-    
+  
 }

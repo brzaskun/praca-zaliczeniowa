@@ -5,23 +5,22 @@
 package dao;
 
 import entity.Adminmail;
-import error.E;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import session.SessionFacade;
+import javax.transaction.Transactional;
 
 /**
  *
  * @author Osito
  */
+@Stateless
+@Transactional
 public class AdminmailDAO  extends DAO implements Serializable {
     
-    @Inject
-    private SessionFacade adminmailFacade;
+
     @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
@@ -43,17 +42,6 @@ public class AdminmailDAO  extends DAO implements Serializable {
         super.em = this.em;
     }
 
-    
-    
-    public  List<Adminmail> findAll(){
-        try {
-            return adminmailFacade.findAll(Adminmail.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
-
-   
-    
+       
     
 }

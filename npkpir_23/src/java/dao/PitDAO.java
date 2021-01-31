@@ -11,10 +11,11 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 
 /**
@@ -74,12 +75,4 @@ public class PitDAO extends DAO implements Serializable {
         return Collections.synchronizedList(tmp);
     }
 
-    public  List<Pitpoz> findAll(){
-        try {
-            List<Pitpoz> lista = pitpozFacade.findPitpozAll()   ;
-            return lista;
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
 }

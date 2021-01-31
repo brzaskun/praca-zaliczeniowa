@@ -10,10 +10,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 
 /**
@@ -49,11 +50,6 @@ public class JPKOznaczeniaDAO extends DAO implements Serializable{
     }
 
 
-    
-    public List findAll() {
-        return sessionFacade.findAll(JPKoznaczenia.class);
-    }
-    
     public List<JPKoznaczenia> findByKlasa(int klasa) {
         List<JPKoznaczenia> zwrot = new ArrayList<>();
         try {

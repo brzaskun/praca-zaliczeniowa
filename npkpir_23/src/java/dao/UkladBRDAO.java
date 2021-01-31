@@ -4,17 +4,17 @@
  */
 package dao;
 
-import dao.DAO;
 import entity.Podatnik;
 import entityfk.UkladBR;
 import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 
 /**
@@ -53,14 +53,7 @@ public class UkladBRDAO extends DAO implements Serializable{
     public UkladBR findukladBR(UkladBR ukladBR) {
         return sessionFacade.findUkladBRUklad(ukladBR);
     }
-    public  List<UkladBR> findAll(){
-        try {
-            return sessionFacade.findAll(UkladBR.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-    }
-    
+  
     public List<UkladBR> findPodatnik(Podatnik nazwapelna) {
         try {
             return sessionFacade.findUkladBRPodatnik(nazwapelna);

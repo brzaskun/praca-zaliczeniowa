@@ -5,7 +5,6 @@
 package dao;
 
 import entity.Ryczpoz;
-import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -58,12 +57,5 @@ public class RyczDAO extends DAO implements Serializable {
         return ryczFacade.findRyczpodatnik(rok,pod);
     }
     
-    public  List<Ryczpoz> findAll(){
-        try {
-            List<Ryczpoz> lista = ryczFacade.findRyczAll()   ;
-            return lista;
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
+   
 }

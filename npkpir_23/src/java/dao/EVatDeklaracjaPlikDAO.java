@@ -5,15 +5,15 @@
  */
 package dao;
 
-import dao.DAO;
 import entityfk.EVatDeklaracjaPlik;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 import view.WpisView;
 /**
@@ -51,8 +51,5 @@ public class EVatDeklaracjaPlikDAO   extends DAO implements Serializable{
     public List<EVatDeklaracjaPlik> findDeklaracjePodatnikMc(WpisView wpisView) {
         return sessionFacade.getEntityManager().createNamedQuery("EVatDeklaracjaPlik.findByPodatnikRok").setParameter("podatnik",wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
     }
-     public List<EVatDeklaracjaPlik> findAll() {
-        return sessionFacade.findAll(EVatDeklaracjaPlik.class);
-    }
-    
+
 }
