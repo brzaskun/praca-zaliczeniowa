@@ -6,9 +6,9 @@ package viewfk;
 
 
 import dao.StronaWierszaDAO;
-import daoFK.KontoDAOfk;
-import daoFK.TransakcjaDAO;
-import daoFK.WierszBODAO;
+import dao.KontoDAOfk;
+import dao.TransakcjaDAO;
+import dao.WierszBODAO;
 import embeddable.Mce;
 import embeddablefk.ListaSum;
 import embeddablefk.TreeNodeExtended;
@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import pdffk.PdfKontoZapisyLista;
 import view.WpisView; import org.primefaces.PrimeFaces;
@@ -33,7 +33,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class ZapisyKontaPodatnikFKView implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -58,9 +58,9 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
     private Double saldoWnPLN;
     private Double saldoMaPLN;
     private List zapisydopodswietlenia;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{planKontView}")
+    @Inject
     private PlanKontView planKontView;
     private String wybranaWalutaDlaKont;
     private List<ListaSum> listasum;

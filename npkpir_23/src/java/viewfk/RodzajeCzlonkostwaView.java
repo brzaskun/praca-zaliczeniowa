@@ -5,21 +5,21 @@
  */
 package viewfk;
 
-import daoFK.RodzajCzlonkostwaDAO;
+import dao.RodzajCzlonkostwaDAO;
 import entityfk.RodzajCzlonkostwa;
 import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.inject.Named;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import msg.Msg;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class RodzajeCzlonkostwaView implements Serializable {
     @Inject
@@ -38,7 +38,7 @@ public class RodzajeCzlonkostwaView implements Serializable {
     }
     public void dodaj() {
         try {
-            rodzajCzlonkostwaDAO.dodaj(rodzajCzlonkostwa);
+            rodzajCzlonkostwaDAO.create(rodzajCzlonkostwa);
             rodzajCzlonkostwaLista.add(rodzajCzlonkostwa);
             rodzajCzlonkostwa = new RodzajCzlonkostwa();
             Msg.msg("Nanieniono nowy rodzaj członkostwa");
@@ -67,7 +67,7 @@ public class RodzajeCzlonkostwaView implements Serializable {
     
     public void usun(RodzajCzlonkostwa p) {
         try {
-            rodzajCzlonkostwaDAO.destroy(p);
+            rodzajCzlonkostwaDAO.remove(p);
             rodzajCzlonkostwaLista.remove(p);
             Msg.msg("Usunięto pozycję");
         } catch (Exception e) {

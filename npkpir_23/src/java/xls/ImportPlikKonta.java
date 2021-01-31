@@ -5,12 +5,10 @@
  */
 package xls;
 
-import daoFK.KontoDAOfk;
+import dao.KontoDAOfk;
 import entity.Podatnik;
-import entity.Rodzajedok;
 import entityfk.Konto;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.io.Serializable;
 import javax.inject.Named;
 
 /**
@@ -18,7 +16,7 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-public class ImportPlikKonta {
+public class ImportPlikKonta implements Serializable{
     private Konto wplyw;
     private Konto zaplata;
     private Konto prowizja;

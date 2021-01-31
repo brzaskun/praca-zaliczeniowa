@@ -8,13 +8,13 @@ package xls;
 import beansDok.ListaEwidencjiVat;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
-import daoFK.DokDAOfk;
-import daoFK.KliencifkDAO;
-import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
-import daoFK.TabelanbpDAO;
-import daoFK.UkladBRDAO;
-import daoFK.WalutyDAOfk;
+import dao.DokDAOfk;
+import dao.KliencifkDAO;
+import dao.KontoDAOfk;
+import dao.KontopozycjaZapisDAO;
+import dao.TabelanbpDAO;
+import dao.UkladBRDAO;
+import dao.WalutyDAOfk;
 import embeddable.PanstwaEUSymb;
 import embeddablefk.ImportJPKSprzedaz;
 import entity.JPKSuper;
@@ -37,18 +37,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import jpk201801.JPK.SprzedazWiersz;
 import jpkabstract.SprzedazWierszA;
-import msg.Msg;
+ import msg.Msg;
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.PrimeFaces;
- import org.primefaces.component.commandbutton.CommandButton;
+import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -56,17 +55,18 @@ import pdffk.PdfJPKSprzedaz;
 import view.WpisView;
 import waluty.Z;
 
+
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class ImportSprzedazyFKView  implements Serializable {
     private static final long serialVersionUID = 1L;
-    @ManagedProperty(value = "#{WpisView}")
+   @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{gUSView}")
+   @Inject
     private GUSView gUSView;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
@@ -318,7 +318,7 @@ public class ImportSprzedazyFKView  implements Serializable {
                     Zwrotgenerowania dok = stworznowydokument(wiersz,k);
                     if (dok.getDokfk()!=null) {
                         dokumenty.add(dok.getDokfk());
-                        dokDAOfk.dodaj(dok.getDokfk());
+                        dokDAOfk.create(dok.getDokfk());
                     } else {
                         Msg.msg("e", dok.getWiadomosc());
                     }

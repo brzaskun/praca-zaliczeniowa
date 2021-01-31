@@ -5,10 +5,10 @@
  */
 package beansFK;
 
-import daoFK.KontoDAOfk;
-import daoFK.PozycjaBilansDAO;
-import daoFK.PozycjaRZiSDAO;
-import daoFK.UkladBRDAO;
+import dao.KontoDAOfk;
+import dao.PozycjaBilansDAO;
+import dao.PozycjaRZiSDAO;
+import dao.UkladBRDAO;
 import entityfk.Konto;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;

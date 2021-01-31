@@ -9,15 +9,12 @@ import comparator.SaldoKontocomparator;
 import dao.PodatnikOpodatkowanieDAO;
 import embeddablefk.SaldoKonto;
 import entity.PodatnikOpodatkowanieD;
-import entityfk.PozycjaRZiSBilans;
 import error.E;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import pdf.PdfKonta;
 import pdffk.PdfBilans;
@@ -28,26 +25,26 @@ import view.WpisView;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class DrukujsprawozdaniefinansoweView  implements Serializable {
     private static final long serialVersionUID = 1L;
     
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{pozycjaBRView}")
+    @Inject
     private PozycjaBRView pozycjaBRView;
-    @ManagedProperty(value = "#{pozycjaBRZestawienieView}")
+    @Inject
     private PozycjaBRZestawienieView pozycjaBRZestawienieView;
-    @ManagedProperty(value = "#{saldoAnalitykaView}")
+    @Inject
     private SaldoAnalitykaView saldoAnalitykaView;
-    @ManagedProperty(value = "#{saldoSyntetykaView}")
+    @Inject
     private SaldoSyntetykaView saldoSyntetykaView;
-    @ManagedProperty(value = "#{dokfkView}")
+    @Inject
     private DokfkView dokfkView;
-    @ManagedProperty(value = "#{pdfZaksiegowaneView}")
+    @Inject
     private PdfZaksiegowaneView pdfZaksiegowaneView;
-    @ManagedProperty(value = "#{planKontView}")
+    @Inject
     private PlanKontView planKontView;
     @Inject
     PodatnikOpodatkowanieDAO podatnikOpodatkowanieDAO;

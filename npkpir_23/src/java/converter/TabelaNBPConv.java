@@ -6,6 +6,7 @@
 package converter;
 
 import entityfk.Tabelanbp;
+import java.io.Serializable;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -18,7 +19,7 @@ import viewfk.TabelaNBPView;
  * @author Osito
  */
 
-public class TabelaNBPConv implements javax.faces.convert.Converter{
+public class TabelaNBPConv implements javax.faces.convert.Converter, Serializable {
     
     
        

@@ -20,9 +20,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.inject.Named;
+
+import javax.enterprise.context.RequestScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import msg.Msg; import org.primefaces.PrimeFaces;
@@ -31,7 +31,7 @@ import msg.Msg; import org.primefaces.PrimeFaces;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class ZamkniecieView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -43,7 +43,7 @@ public class ZamkniecieView implements Serializable {
     private List<Okresrozliczeniowy> mapaokresowPobrane;
     private List<Okresrozliczeniowy> mapaokresowPobraneZapas;
     @Inject private ZamknietemiesiaceDAO zDAO ;
-    @ManagedProperty(value="#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject DokDAO dokDAO;
     private boolean moznaksiegowac;

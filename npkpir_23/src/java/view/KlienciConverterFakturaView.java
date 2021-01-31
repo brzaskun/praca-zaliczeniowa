@@ -18,16 +18,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class KlienciConverterFakturaView implements Serializable{
     
@@ -36,7 +36,7 @@ public class KlienciConverterFakturaView implements Serializable{
     private Klienci klientautomat;
     @Inject
     private FakturaDAO fakturaDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private List<Klienci> listaKlientowfakt;
     private List<Klienci> listaKlientow;

@@ -7,7 +7,7 @@ package viewfk;
 
 import beansFK.CechazapisuBean;
 import comparator.CechaStronaWierszacomparator;
-import daoFK.DokDAOfk;
+import dao.DokDAOfk;
 import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.StronaWiersza;
@@ -19,9 +19,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import pdffk.PdfCechyZapisow;
 import view.WpisView; import org.primefaces.PrimeFaces;
@@ -30,7 +30,7 @@ import view.WpisView; import org.primefaces.PrimeFaces;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class CechyzapisuPrzegladView implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -39,7 +39,7 @@ public class CechyzapisuPrzegladView implements Serializable{
     private List<CechaStronaWiersza> wybraneZapisyZCecha;
     private Set<String> wykazcech;
     private double razem;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private DokDAOfk dokDAOfk;

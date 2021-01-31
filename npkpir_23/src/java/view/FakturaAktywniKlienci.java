@@ -17,25 +17,24 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class FakturaAktywniKlienci  implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<Klienci> klienciaktywowanie;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{fakturaRozrachunkiView}")
+    @Inject
     private FakturaRozrachunkiView fakturaRozrachunkiView;
-    @ManagedProperty(value = "#{fakturaRozrachunkiAnalizaView}")
+    @Inject
     private FakturaRozrachunkiAnalizaView fakturaRozrachunkiAnalizaView;
     @Inject
     private FakturaDAO fakturaDAO;

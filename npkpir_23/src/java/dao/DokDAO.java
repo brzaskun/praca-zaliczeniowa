@@ -11,30 +11,45 @@ import entity.Klienci;
 import entity.Podatnik;
 import java.io.Serializable;
 import java.util.List;
-import java.util.logging.Logger;
+import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 import view.WpisView;
 /**
  *
  * @author Osito
  */
-@Named(value = "DokDAO")
+@Stateless
+@Transactional
 public class DokDAO extends DAO implements Serializable {
     //private static final Logger LOG =  Logger.getLogger(DokDAO.class.getName());
 
     @Inject private SessionFacade dokFacade;
+      @PersistenceContext(unitName = "npkpir_22PU")
+    private EntityManager em;
     
-    //tablica wciagnieta z bazy danych
+    @PreDestroy
+    private void preDestroy() {
+        em.clear();
+        em.close();
+        em.getEntityManagerFactory().close();
+        em = null;
+        error.E.s("koniec jpa");
+    }
+
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 
     public DokDAO() {
         super(Dok.class);
+        super.em = this.em;
     }
-
-    public DokDAO(Class entityClass) {
-        super(entityClass);
-    }
+    
     
     public List<Dok> znajdzOdDo(long odd, long dod) {
         return dokFacade.znajdzOdDo(odd,dod);
@@ -175,11 +190,11 @@ public class DokDAO extends DAO implements Serializable {
     }
 
     public List<Dok> findDokByInwest() {
-        return sessionFacade.getEntityManager().createNamedQuery("Dok.findByInwestycje").getResultList();
+        return dokFacade.getEntityManager().createNamedQuery("Dok.findByInwestycje").getResultList();
     }
 
     public List<Dok> findAll() {
-        return sessionFacade.findAll(Dok.class);
+        return dokFacade.findAll(Dok.class);
     }
   
 }

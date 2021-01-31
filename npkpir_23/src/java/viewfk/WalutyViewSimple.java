@@ -6,9 +6,9 @@ package viewfk;
 
 import beansFK.WalutyFKBean;
 import comparator.Tabelanbpcomparator;
-import daoFK.TabelanbpDAO;
-import daoFK.WalutyDAOfk;
-import daoFK.WierszDAO;
+import dao.TabelanbpDAO;
+import dao.WalutyDAOfk;
+import dao.WierszDAO;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import entityfk.Wiersz;
@@ -23,9 +23,9 @@ import java.util.Locale;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import org.primefaces.event.RowEditEvent;
 import view.WpisView; import org.primefaces.PrimeFaces;
@@ -36,7 +36,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @SessionScoped
 public class WalutyViewSimple implements Serializable {
     private static final long serialVersionUID = 1L;

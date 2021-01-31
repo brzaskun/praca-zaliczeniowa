@@ -6,21 +6,20 @@ package converter;
 
 import dao.PodatnikDAO;
 import entity.Podatnik;
-import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PodatConv implements javax.faces.convert.Converter, Serializable {
     private static final long serialVersionUID = 1L;

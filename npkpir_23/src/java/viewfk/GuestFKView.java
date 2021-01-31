@@ -10,20 +10,20 @@ package viewfk;
 
 import java.io.IOException;
 import java.io.Serializable;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import view.WpisView;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class GuestFKView implements Serializable {
     private static final long serialVersionUID = 1L;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     

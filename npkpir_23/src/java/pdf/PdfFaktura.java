@@ -47,10 +47,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.ServletContext;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
@@ -63,7 +63,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PdfFaktura extends Pdf implements Serializable {
 

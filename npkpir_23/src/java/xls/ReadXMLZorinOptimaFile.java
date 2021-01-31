@@ -341,7 +341,7 @@ public class ReadXMLZorinOptimaFile {
                         klient = null;
                     } else {
                         if (!klient.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
-                            klienciDAO.dodaj(klient);
+                            klienciDAO.create(klient);
                         }
                     }
                     znalezieni.put(interpaperXLS.getKontrahent(), klient);
@@ -356,7 +356,7 @@ public class ReadXMLZorinOptimaFile {
                     klient.setKrajkod(PanstwaMap.getWykazPanstwSX().get(klient.getKrajnazwa()));
                     if (klient.getNip()!=null && klient.getNip().length()>5) {
                         if (!klient.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
-                            klienciDAO.dodaj(klient);
+                            klienciDAO.create(klient);
                         }
                         znalezieni.put(interpaperXLS.getKontrahent(), klient);
                     }

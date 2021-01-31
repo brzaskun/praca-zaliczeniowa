@@ -5,7 +5,7 @@
  */
 package viewfk;
 
-import daoFK.TabelanbpDAO;
+import dao.TabelanbpDAO;
 import entityfk.Tabelanbp;
 import error.E;
 import java.io.Serializable;
@@ -13,14 +13,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 import javax.inject.Inject;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 public class TabelaNBPView implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject

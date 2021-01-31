@@ -11,7 +11,7 @@ import dao.Deklaracjavat27DAO;
 import dao.DeklaracjavatUEDAO;
 import dao.DeklaracjevatDAO;
 import dao.DokDAO;
-import daoFK.DokDAOfk;
+import dao.DokDAOfk;
 import entity.Deklaracjavat27;
 import entity.DeklaracjavatUE;
 import entity.Deklaracjevat;
@@ -31,13 +31,10 @@ import java.security.cert.X509Certificate;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -59,21 +56,22 @@ import javax.xml.ws.Holder;
 import javax.xml.ws.WebServiceRef;
 import jpkview.JPK_VAT2View;
 import msg.Msg;
+import org.primefaces.PrimeFaces;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import service.GateService;
 import view.DeklaracjevatView;
-import view.WpisView; import org.primefaces.PrimeFaces;
+ import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class beanek  implements Serializable {
     
-    @ManagedProperty(value="#{jPK_VAT2View}")
+    @Inject
     private JPK_VAT2View jPK_VAT2View;
     
     private static final long serialVersionUID = 1L;
@@ -128,9 +126,9 @@ public class beanek  implements Serializable {
     private DokDAOfk dokDAOfk;
     @Inject
     private DokDAO dokDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value="#{deklaracjevatView}")
+    @Inject
     private DeklaracjevatView deklaracjevatView;
 
     public beanek() {
@@ -248,7 +246,7 @@ public class beanek  implements Serializable {
                     it.remove();
                 }
             }
-            deklaracjavat27DAO.dodaj(deklaracja);
+            deklaracjavat27DAO.create(deklaracja);
             edytujdok(listadok, listadokfk);
             Msg.msg("i", "Wypuszczono testowego gołębia z deklaracja podatnika " + wpisView.getPodatnikWpisu() + " za " + wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu());
         } catch (ClientTransportException ex1) {
@@ -278,7 +276,7 @@ public class beanek  implements Serializable {
             wysylanaDeklaracja.setDatazlozenia(new Date());
             wysylanaDeklaracja.setSporzadzil(wpisView.getUzer().getImie() + " " + wpisView.getUzer().getNazw());
             wysylanaDeklaracja.setTestowa(false);
-            deklaracjavatUEDAO.dodaj(wysylanaDeklaracja);
+            deklaracjavatUEDAO.create(wysylanaDeklaracja);
             edytujdok(listadok, listadokfk);
             Msg.msg("i", "Wypuszczono gołębia z deklaracja podatnika " + wpisView.getPodatnikWpisu() + " za " + wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu());
         } catch (ClientTransportException ex1) {

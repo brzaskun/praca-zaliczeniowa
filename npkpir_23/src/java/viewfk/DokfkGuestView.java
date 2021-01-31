@@ -7,7 +7,7 @@ package viewfk;
 
 import comparator.Dokfkcomparator;
 import comparator.Rodzajedokcomparator;
-import daoFK.DokDAOfk;
+import dao.DokDAOfk;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
 import java.io.Serializable;
@@ -18,16 +18,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import view.WpisView;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class DokfkGuestView implements Serializable {
 
@@ -37,7 +37,7 @@ public class DokfkGuestView implements Serializable {
     private List dokumentypodatnikazestawienie;
     private List<Dokfk> filteredValue;
     private Dokfk selected;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private DokDAOfk dokDAOfk;

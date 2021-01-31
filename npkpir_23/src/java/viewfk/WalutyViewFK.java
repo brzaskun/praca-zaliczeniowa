@@ -6,9 +6,9 @@ package viewfk;
 
 import beansFK.WalutyFKBean;
 import comparator.Tabelanbpcomparator;
-import daoFK.TabelanbpDAO;
-import daoFK.WalutyDAOfk;
-import daoFK.WierszDAO;
+import dao.TabelanbpDAO;
+import dao.WalutyDAOfk;
+import dao.WierszDAO;
 import entity.Podatnik;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
@@ -22,9 +22,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import org.primefaces.event.RowEditEvent;
 import view.WpisView; import org.primefaces.PrimeFaces;
@@ -35,7 +34,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class WalutyViewFK implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -57,11 +56,11 @@ public class WalutyViewFK implements Serializable {
     private Tabelanbp kurswprowadzonyrecznie;
     @Inject
     private Waluty nowawaluta;
-    @ManagedProperty(value = "#{walutyFKBean}")
+    @Inject
     private WalutyFKBean walutyFKBean;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{dokfkView}")
+    @Inject
     private DokfkView dokfkView;
     private String datawstepna;
     private String datakoncowa;
@@ -119,7 +118,7 @@ public class WalutyViewFK implements Serializable {
                     Msg.msg("e", "Nie ma takiej tabeli. Nie udalo sie pobrac kursow walut z internetu");
                 } else {
                     try {
-                        tabelanbpDAO.dodaj(wierszepobranezNBP);
+                        tabelanbpDAO.create(wierszepobranezNBP);
                     } catch (Exception e) { 
                         E.e(e);
                     }
@@ -186,7 +185,7 @@ public class WalutyViewFK implements Serializable {
         try {
             nowawaluta.setSymbolwaluty(nowawaluta.getSymbolwaluty().toUpperCase(new Locale("pl")));
             nowawaluta.setNazwawaluty(nowawaluta.getNazwawaluty().toLowerCase(new Locale("pl")));
-            walutyDAOfk.dodaj(nowawaluta);
+            walutyDAOfk.create(nowawaluta);
             pobraneRodzajeWalut.add(nowawaluta);
             nowawaluta = new Waluty();
             Msg.msg("i", "Dodano nową walute");
@@ -205,7 +204,7 @@ public class WalutyViewFK implements Serializable {
     
     public void usunwalute(Waluty waluty) {
         try {
-            walutyDAOfk.destroy(waluty);
+            walutyDAOfk.remove(waluty);
             pobraneRodzajeWalut.remove(waluty);
             Msg.msg("Usunięto walutę.");
         } catch (Exception e) {  E.e(e);
@@ -221,7 +220,7 @@ public class WalutyViewFK implements Serializable {
             } else {
                 tabelanbp.setRecznie(true);
                 tabelanbp.setPodatnik(podatnik);
-                tabelanbpDAO.dodaj(tabelanbp);
+                tabelanbpDAO.create(tabelanbp);
                 wprowadzonekursyRok.add(tabelanbp);
                 dokfkView.zamienkursnareczny(tabelanbp);
                 kurswprowadzonyrecznie = new Tabelanbp();
@@ -260,7 +259,7 @@ public class WalutyViewFK implements Serializable {
     }
     
     public void usuntabele(Tabelanbp tabelanbp) {
-        tabelanbpDAO.destroy(tabelanbp);
+        tabelanbpDAO.remove(tabelanbp);
         wprowadzonekursyRok.remove(tabelanbp);
     }
     

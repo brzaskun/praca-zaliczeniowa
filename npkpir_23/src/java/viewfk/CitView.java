@@ -9,8 +9,8 @@ import beansFK.CechazapisuBean;
 import beansFK.PozycjaRZiSFKBean;
 import beansFK.StronaWierszaBean;
 import dao.StronaWierszaDAO;
-import daoFK.KontoDAOfk;
-import daoFK.PozycjaRZiSDAO;
+import dao.KontoDAOfk;
+import dao.PozycjaRZiSDAO;
 import embeddable.CitBiezacyPozycja;
 import embeddablefk.TreeNodeExtended;
 import entityfk.PozycjaRZiS;
@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import org.primefaces.model.TreeNode;
 import view.WpisView;import waluty.Z;
@@ -33,7 +33,7 @@ import view.WpisView;import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class CitView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -55,7 +55,7 @@ public class CitView implements Serializable {
     private StronaWierszaDAO stronaWierszaDAO;
     @Inject
     private KontoDAOfk kontoDAOfk;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
 
     public CitView() {

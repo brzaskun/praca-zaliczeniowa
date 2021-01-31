@@ -12,12 +12,12 @@ import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
 import dao.KlientJPKDAO;
 import dao.RodzajedokDAO;
-import daoFK.DokDAOfk;
-import daoFK.KliencifkDAO;
-import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
-import daoFK.TabelanbpDAO;
-import daoFK.UkladBRDAO;
+import dao.DokDAOfk;
+import dao.KliencifkDAO;
+import dao.KontoDAOfk;
+import dao.KontopozycjaZapisDAO;
+import dao.TabelanbpDAO;
+import dao.UkladBRDAO;
 import entity.Dok;
 import entity.Evewidencja;
 import entity.Klienci;
@@ -33,9 +33,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
@@ -52,16 +51,16 @@ import xls.ImportBean;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class ImportFakturyView  implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<Dok> dokumenty;
     private List<Dokfk> dokumentyfk;
     private List<Klienci> klienci;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{gUSView}")
+    @Inject
     private GUSView gUSView;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
@@ -394,7 +393,7 @@ public class ImportFakturyView  implements Serializable {
     public void zaksiegujdlajpk() {
         klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         List<KlientJPK> lista = KlienciJPKBean.zaksiegujdok(dokumenty, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        klientJPKDAO.dodaj(lista);
+        klientJPKDAO.create(lista);
         Msg.msg("Zaksięgowano dokumenty dla JPK");
     }
     
@@ -403,7 +402,7 @@ public class ImportFakturyView  implements Serializable {
             for (Klienci p: klienci) {
                 try {
                     if (p.getNip()!=null) {
-                        klDAO.dodaj(p);
+                        klDAO.create(p);
                     }
                 } catch(Exception e){
                 }
@@ -415,7 +414,7 @@ public class ImportFakturyView  implements Serializable {
             for (Dok p: dokumenty) {
                 try {
                     if (p.getKontr().getNip()!=null) {
-                        dokDAO.dodaj(p);
+                        dokDAO.create(p);
                     }
                 } catch(Exception e){
                 }
@@ -430,7 +429,7 @@ public class ImportFakturyView  implements Serializable {
             for (Klienci p: klienci) {
                 try {
                     if (p.getNip()!=null) {
-                        klDAO.dodaj(p);
+                        klDAO.create(p);
                     }
                 } catch(Exception e){
                 }
@@ -442,7 +441,7 @@ public class ImportFakturyView  implements Serializable {
             for (Dokfk p: dokumentyfk) {
                 try {
                     if (p.getKontr().getNip()!=null) {
-                        dokDAOfk.dodaj(p);
+                        dokDAOfk.create(p);
                     }
                 } catch(Exception e){
                 }

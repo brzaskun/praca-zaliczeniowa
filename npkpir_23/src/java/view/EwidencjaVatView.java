@@ -13,9 +13,9 @@ import dao.RodzajedokDAO;
 import dao.SMTPSettingsDAO;
 import dao.StronaWierszaDAO;
 import dao.WniosekVATZDEntityDAO;
-import daoFK.EVatwpisDedraDAO;
-import daoFK.EVatwpisFKDAO;
-import daoFK.TransakcjaDAO;
+import dao.EVatwpisDedraDAO;
+import dao.EVatwpisFKDAO;
+import dao.TransakcjaDAO;
 import data.Data;
 import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
@@ -50,9 +50,9 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
@@ -69,7 +69,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class EwidencjaVatView implements Serializable {
 
@@ -105,7 +105,7 @@ public class EwidencjaVatView implements Serializable {
     private EVatwpisFKDAO eVatwpisFKDAO;
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private List<EVatwpisSuper> goscwybral;
     private List<EVatwpisSuper> filtered;
@@ -198,7 +198,7 @@ public class EwidencjaVatView implements Serializable {
     }
     
     public void usunpozycje(List<EVatwpis1> l, EVatwpis1 p) {
-        eVatwpis1DAO.destroy(p);
+        eVatwpis1DAO.remove(p);
         l.remove(p);
         Msg.dP();
     }

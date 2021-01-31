@@ -5,7 +5,7 @@
  */
 package viewfk;
 
-import daoFK.SprawozdanieUkladDAO;
+import dao.SprawozdanieUkladDAO;
 import entityfk.SprawozdanieUklad;
 import error.E;
 import java.io.Serializable;
@@ -13,16 +13,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import view.WpisView;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class SprawozdanieUkladView  implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -33,7 +33,7 @@ public class SprawozdanieUkladView  implements Serializable {
     @Inject
     private SprawozdanieUklad selected;
     private String nazwanowegoukladu;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
 
     public SprawozdanieUkladView() {
@@ -55,7 +55,7 @@ public class SprawozdanieUkladView  implements Serializable {
             SprawozdanieUklad uklad = new SprawozdanieUklad();
             uklad.setRok(wpisView.getRokWpisuSt());
             uklad.setNazwaukladu(nazwanowegoukladu);
-            sprawozdanieUkladDAO.dodaj(uklad);
+            sprawozdanieUkladDAO.create(uklad);
             zachowaneuklady.add(uklad);
             nazwanowegoukladu = "";
             Msg.msg("i", "Dodano nowy układ");
@@ -67,7 +67,7 @@ public class SprawozdanieUkladView  implements Serializable {
      
       public void usun(SprawozdanieUklad uklad) {
         try {
-            sprawozdanieUkladDAO.destroy(uklad);
+            sprawozdanieUkladDAO.remove(uklad);
             zachowaneuklady.remove(uklad);
             Msg.msg("i", "Usunięto wybrany układ");
         } catch (Exception e) {  

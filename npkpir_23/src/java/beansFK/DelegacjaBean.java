@@ -7,7 +7,7 @@
 package beansFK;
 
 import dao.StronaWierszaDAO;
-import daoFK.DelegacjaDAO;
+import dao.DelegacjaDAO;
 import embeddablefk.DelegacjaZest;
 import entityfk.Delegacja;
 import entityfk.Konto;

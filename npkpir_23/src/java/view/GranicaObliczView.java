@@ -18,19 +18,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
+import javax.inject.Named;
+
 import javax.inject.Inject;
 import msg.Msg;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @RequestScope
 public class GranicaObliczView  implements Serializable {
     private static final long serialVersionUID = 1L;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private GranicaDAO granicaDAO;

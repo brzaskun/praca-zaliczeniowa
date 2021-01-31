@@ -11,23 +11,45 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.annotation.PreDestroy;
 import javax.inject.Inject;
-import javax.inject.Named;
+import javax.ejb.Stateless;import javax.transaction.Transactional;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import session.SessionFacade;
 
 /**
  *
  * @author Osito
  */
-@Named
+@Stateless
+@Transactional
 public class UmorzenieDAO extends DAO implements Serializable {
 
     @Inject
     private SessionFacade umorzenieFacade;
+   @PersistenceContext(unitName = "npkpir_22PU")
+    private EntityManager em;
+    
+    @PreDestroy
+    private void preDestroy() {
+        em.clear();
+        em.close();
+        em.getEntityManagerFactory().close();
+        em = null;
+        error.E.s("koniec jpa");
+    }
+
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 
     public UmorzenieDAO() {
         super(UmorzenieN.class);
+        super.em = this.em;
     }
+
+    
     
     public  List<UmorzenieN> findAll(){
         try {

@@ -7,8 +7,8 @@ package viewfk;
 
 import comparator.MiejscePrzychodowcomparator;
 import dao.StronaWierszaDAO;
-import daoFK.KontoDAOfk;
-import daoFK.MiejscePrzychodowDAO;
+import dao.KontoDAOfk;
+import dao.MiejscePrzychodowDAO;
 import entityfk.Konto;
 import entityfk.MiejscePrzychodow;
 import entityfk.StronaWiersza;
@@ -21,9 +21,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.inject.Named;
+
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import pdffk.PDFStowRozrachCzlonk;
 import view.WpisView;import waluty.Z;
@@ -32,7 +32,7 @@ import view.WpisView;import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class StowRozrachCzlonkView implements Serializable {
 
@@ -47,7 +47,7 @@ public class StowRozrachCzlonkView implements Serializable {
     private StronaWierszaDAO stronaWierszaDAO;
     @Inject
     private KontoDAOfk kontoDAOfk;
-    @ManagedProperty(value = "#{WpisView}") 
+    @Inject 
     private WpisView wpisView;
     private MiejscePrzychodow wybranyczlonek;
 

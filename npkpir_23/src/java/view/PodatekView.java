@@ -23,20 +23,18 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 /**
  *
  * @author Osito
  */
-@ManagedBean(name="PodatekView")
+@Named(value="PodatekView")
 @RequestScoped
 public class PodatekView implements Serializable{
     private static final long serialVersionUID = 1L;
-    @ManagedProperty(value="#{DokTabView.dokumentypodatnika}")
     private ArrayList<Dok> oDOK;
     @Inject
     PodatnikDAO podatnikDAO;
@@ -46,7 +44,7 @@ public class PodatekView implements Serializable{
     private Podatnik selected;
     @Inject
     private ZobowiazanieDAO zv;
-    @ManagedProperty(value="#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private BigDecimal przychody;
     private HashMap<String, BigDecimal> przychodyRyczalt;

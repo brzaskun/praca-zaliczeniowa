@@ -6,7 +6,7 @@
 package viewfk;
 
 
-import daoFK.EVatDeklaracjaPlikDAO;
+import dao.EVatDeklaracjaPlikDAO;
 import data.Data;
 import entityfk.EVatDeklaracjaPlik;
 import error.E;
@@ -16,9 +16,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
@@ -33,10 +33,10 @@ import view.WpisView;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class EVatDeklaracjaPlikView  implements Serializable {
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private EVatDeklaracjaPlikDAO eVatDeklaracjaPlikDAO;
@@ -70,7 +70,7 @@ public class EVatDeklaracjaPlikView  implements Serializable {
            FileUtils.copyInputStreamToFile(uploadedFile.getInputstream(), newfile);
            String dzis = Data.aktualnaData();
            EVatDeklaracjaPlik e = new EVatDeklaracjaPlik(wpisView, nazwakrotka, dzis);
-           eVatDeklaracjaPlikDAO.dodaj(e);
+           eVatDeklaracjaPlikDAO.create(e);
            wiersze.add(e);
            Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
         } catch (Exception e) { 
@@ -83,7 +83,7 @@ public class EVatDeklaracjaPlikView  implements Serializable {
     public void usunwierszeewidencji(EVatDeklaracjaPlik sel) {
         if (wiersze != null && wiersze.size() > 0) {
             try {
-                eVatDeklaracjaPlikDAO.destroy(sel);
+                eVatDeklaracjaPlikDAO.remove(sel);
                 wiersze.clear();
                 Msg.msg("Usunięto plik deklaracji");
             } catch (Exception e) {

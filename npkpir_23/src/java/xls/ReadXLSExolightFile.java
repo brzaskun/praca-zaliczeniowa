@@ -8,9 +8,9 @@ package xls;
 import beansRegon.SzukajDaneBean;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
-import daoFK.KontoDAOfk;
-import daoFK.PozycjaBilansDAO;
-import daoFK.PozycjaRZiSDAO;
+import dao.KontoDAOfk;
+import dao.PozycjaBilansDAO;
+import dao.PozycjaRZiSDAO;
 import embeddable.PanstwaMap;
 import embeddablefk.InterpaperXLS;
 import entity.Klienci;
@@ -233,7 +233,7 @@ public class ReadXLSExolightFile {
                         klient = null;
                     } else {
                         if (!klient.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
-                            klienciDAO.dodaj(klient);
+                            klienciDAO.create(klient);
                         }
                     }
                     znalezieni.put(interpaperXLS.getKontrahent(), klient);
@@ -248,7 +248,7 @@ public class ReadXLSExolightFile {
                     klient.setKrajkod(PanstwaMap.getWykazPanstwSX().get(klient.getKrajnazwa()));
                     if (klient.getNip()!=null && klient.getNip().length()>5) {
                         if (!klient.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
-                            klienciDAO.dodaj(klient);
+                            klienciDAO.create(klient);
                         }
                         znalezieni.put(interpaperXLS.getKontrahent(), klient);
                     }

@@ -5,19 +5,19 @@
  */
 package multi;
 
-import daoFK.KontoDAOfk;
+import dao.KontoDAOfk;
 import java.io.Serializable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class Watek implements Serializable {
 

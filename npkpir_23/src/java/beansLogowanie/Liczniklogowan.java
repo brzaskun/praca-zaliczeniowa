@@ -11,14 +11,12 @@ import entity.Rejestrlogowan;
 import entity.SMTPSettings;
 import error.E;
 import java.util.Date;
-import javax.inject.Named;
 import mail.MailAdmin;
 
 /**
  *
  * @author Osito
  */
-@Named
 
 public class Liczniklogowan {
     
@@ -31,7 +29,7 @@ public class Liczniklogowan {
                 zwrot = biezacelogowanie.getIlosclogowan();
             } else {
                 Rejestrlogowan rejestrlogowan = new Rejestrlogowan(ip,new Date(),5,false);
-                rejestrlogowanDAO.dodaj(rejestrlogowan);
+                rejestrlogowanDAO.create(rejestrlogowan);
             }
         } catch (Exception e) {
             E.e(e);

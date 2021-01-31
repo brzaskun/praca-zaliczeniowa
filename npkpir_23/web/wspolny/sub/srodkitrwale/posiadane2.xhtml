@@ -11,12 +11,12 @@
     <p:tab id="zestawienieposiadane2" title="posiadane2">
         <h:form id="str_posiadane2">
             <p:contextMenu for="srodkiLista2" style="width: 220px;">
-                <p:menuitem value="Zmień wartość środka" update="form_dialog_srodkitrwale_zmianawartosci" actionListener="#{STRTableView.kopiujwybrany(STRTableView.wybranysrodektrwalyPosiadane2)}" oncomplete="PF('dialog_srodkitrwale_zmianawartosci').show()" icon="fa fa-cc-visa" />
+                <p:menuitem value="Zmień wartość środka" update="form_dialog_srodkitrwale_zmianawartosci" actionListener="#{sTRTabView.kopiujwybrany(sTRTabView.wybranysrodektrwalyPosiadane2)}" oncomplete="PF('dialog_srodkitrwale_zmianawartosci').show()" icon="fa fa-cc-visa" />
             </p:contextMenu>
-                <p:dataTable  var="wpis" value="#{STRTableView.posiadane2}" id="srodkiLista2" 
+                <p:dataTable  var="wpis" value="#{sTRTabView.posiadane2}" id="srodkiLista2" 
                               widgetVar="srodkiLista2" style="width: 1400px; overflow-y: scroll; height: 390px;" 
                               rowKey="#{wpis.id}" rowIndexVar="index1"  sortBy="#{wpis.dataprzek}" sortOrder="descending"
-                              selection="#{STRTableView.wybranysrodektrwalyPosiadane2}" selectionMode="single"> 
+                              selection="#{sTRTabView.wybranysrodektrwalyPosiadane2}" selectionMode="single"> 
                     <p:ajax event="rowSelect" global="false" update="form_dialog_srodkitrwale_zmianawartosci akordeon:str_posiadane:srodkiLista"/>
                     <p:ajax event="filter" global="false"/>
                     <f:facet name="header">  

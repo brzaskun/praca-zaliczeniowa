@@ -46,9 +46,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
@@ -59,7 +58,7 @@ import org.primefaces.PrimeFaces;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class Vat7DKView implements Serializable {
 
@@ -68,9 +67,9 @@ public class Vat7DKView implements Serializable {
     private Deklaracjevat deklaracjakorygowana;
     @Inject
     private Deklaracjevat nowadeklaracja;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     protected WpisView wpisView;
-    @ManagedProperty(value = "#{ewidencjaVatView}")
+    @Inject
     private EwidencjaVatView ewidencjaVatView;
     @Inject
     private Vatpoz pozycjeDeklaracjiVAT;
@@ -212,14 +211,14 @@ public class Vat7DKView implements Serializable {
 //        //jezeli zachowaj bedzie true dopiero wrzuci deklaracje do kategorii do wyslania
 //        if (zachowaj == true) {
 //            if (flaga == 2) {
-//                deklaracjevatDAO.destroy(deklaracjakorygowana);
+//                deklaracjevatDAO.remove(deklaracjakorygowana);
 //                deklaracjevatDAO.edit(nowadeklaracja);
 //                deklaracjakorygowana = new Deklaracjevat();
 //                Msg.msg("i", podatnik + " - zachowano korekte niewysłanej deklaracji VAT za " + rok + "-" + mc,"form:messages");
 //            } else if (flaga == 1) {
 //                Msg.msg("e", podatnik + " Deklaracja nie zachowana","form:messages");
 //            } else {
-//                deklaracjevatDAO.dodaj(nowadeklaracja);
+//                deklaracjevatDAO.create(nowadeklaracja);
 //                Msg.msg("i", podatnik + " - zachowano nową deklaracje VAT za " + rok + "-" + mc,"form:messages");
 //            }
 //            //pobieranie potwierdzenia
@@ -466,7 +465,7 @@ public class Vat7DKView implements Serializable {
         String vatokres = sprawdzjakiokresvat();
         deklaracjakorygowana = czynieczekajuzcosdowyslania();
         if (flaga == 2 && deklaracjakorygowana!=null) {
-            deklaracjevatDAO.destroy(deklaracjakorygowana);
+            deklaracjevatDAO.remove(deklaracjakorygowana);
             deklaracjakorygowana = null;
             flaga = 0;
             Msg.msg("i", "Podatnik: "+wpisView.getPrintNazwa() + " - usunięto poprzednią niewysłaną deklarację VAT za " + rok + "-" + mc);
@@ -492,7 +491,7 @@ public class Vat7DKView implements Serializable {
                 nowadeklaracja.setWniosekVATZDEntity(wniosekVATZDEntity);
             }
             nowadeklaracja.setDatasporzadzenia(new Date());
-            deklaracjevatDAO.dodaj(nowadeklaracja);
+            deklaracjevatDAO.create(nowadeklaracja);
             if (vatzd) {
                 wniosekVATZDEntityDAO.edit(wniosekVATZDEntity);
             }

@@ -22,9 +22,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +37,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean(name = "STREwidencja")
+@Named(value = "STREwidencja")
 @ViewScoped
 public class STREwidencja implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -45,7 +45,7 @@ public class STREwidencja implements Serializable {
     private STRDAO sTRDAO;
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     //tablica obiektw danego klienta
     private List<SrodekTrw> listaSrodkiTrwale;

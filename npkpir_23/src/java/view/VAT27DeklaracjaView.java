@@ -17,9 +17,8 @@ import error.E;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import waluty.Z;
 
@@ -27,17 +26,17 @@ import msg.Msg;import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class VAT27DeklaracjaView implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private TKodUS tKodUS;
-    @ManagedProperty(value="#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value="#{vat27View}")
+    @Inject
     private Vat27View vat27View;
-    @ManagedProperty(value="#{vat27FKView}")
+    @Inject
     private Vat27FKView vat27FKView;
     @Inject
     private Deklaracjavat27DAO deklaracjavat27DAO;

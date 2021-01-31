@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;;
 import javax.inject.Named;
 import javax.persistence.Embeddable;
 

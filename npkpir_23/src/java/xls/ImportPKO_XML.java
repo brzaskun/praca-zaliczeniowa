@@ -183,7 +183,7 @@ public class ImportPKO_XML implements Serializable {
 //            try {
 //                if (dokument!=null) {
 //                    dokument.setImportowany(true);
-//                    dokDAOfk.dodaj(dokument);
+//                    dokDAOfk.create(dokument);
 //                } else {
 //                    zwrot++;
 //                }

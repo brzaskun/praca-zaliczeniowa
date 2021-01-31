@@ -5,6 +5,7 @@
 package converter;
 
 import entityfk.SkladkaStowarzyszenie;
+import java.io.Serializable;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -16,7 +17,7 @@ import viewfk.SkladkaStowarzyszenieView;
  *
  * @author Osito
  */
-public class SkladkaStowarzyszenieConv implements javax.faces.convert.Converter{
+public class SkladkaStowarzyszenieConv implements javax.faces.convert.Converter, Serializable {
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
         SkladkaStowarzyszenieView skladkaStowarzyszenieView = (SkladkaStowarzyszenieView) facesContext.getELContext().getELResolver().getValue(facesContext.getELContext(), null,"skladkaStowarzyszenieView"); 

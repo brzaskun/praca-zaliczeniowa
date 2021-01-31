@@ -9,7 +9,7 @@ import beansFK.TabelaNBPBean;
 import beansRegon.SzukajDaneBean;
 import dao.DokDAO;
 import dao.KlienciDAO;
-import daoFK.TabelanbpDAO;
+import dao.TabelanbpDAO;
 import entity.Dok;
 import entity.EVatwpis1;
 import entity.Evewidencja;

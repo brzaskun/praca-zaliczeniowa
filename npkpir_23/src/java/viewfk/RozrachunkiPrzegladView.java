@@ -10,9 +10,9 @@ import beansFK.RozliczTransakcjeBean;
 import comparator.Kontocomparator;
 import comparator.StronaWierszacomparator;
 import dao.StronaWierszaDAO;
-import daoFK.KliencifkDAO;
-import daoFK.KontoDAOfk;
-import daoFK.TransakcjaDAO;
+import dao.KliencifkDAO;
+import dao.KontoDAOfk;
+import dao.TransakcjaDAO;
 import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Kliencifk;
@@ -27,9 +27,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.event.NodeUnselectEvent;
@@ -39,7 +39,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class RozrachunkiPrzegladView implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -53,9 +53,9 @@ public class RozrachunkiPrzegladView implements Serializable{
     @Inject private Konto wybranekonto;
     @Inject private TransakcjaDAO transakcjaDAO;
     //@Inject private RozrachunekfkDAO rozrachunekfkDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-//    @ManagedProperty(value = "#{kontoZapisFKView}")
+//    @Inject
 //    private KontoZapisFKView kontoZapisFKView;
     private String wybranaWalutaDlaKont;
     private String wybranyRodzajTransakcji;

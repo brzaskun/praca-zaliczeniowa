@@ -19,9 +19,9 @@ import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
@@ -31,7 +31,7 @@ import msg.Msg;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class RodzajedokView implements Serializable {
 
@@ -50,7 +50,7 @@ public class RodzajedokView implements Serializable {
     @Inject
     private PodatnikDAO podatnikDAO;
     private String rok;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
  
 
@@ -79,7 +79,7 @@ public class RodzajedokView implements Serializable {
 //                        }
 //                    }
 //                    if (znaleziono == false) {
-//                        rodzajedokDAO.dodaj(new Rodzajedok(zrodlo, wpisView.getPodatnikObiekt()));
+//                        rodzajedokDAO.create(new Rodzajedok(zrodlo, wpisView.getPodatnikObiekt()));
 //                    }
 //                }
 //            }
@@ -101,7 +101,7 @@ public class RodzajedokView implements Serializable {
             for (Rodzajedok p : listaWspolnychrokpop) {
                 Rodzajedok nowy = serialclone.SerialClone.clone(p);
                 nowy.setRok("2020");
-                rodzajedokDAO.dodaj(nowy);
+                rodzajedokDAO.create(nowy);
             }
             listaWspolnych = rodzajedokDAO.findListaPodatnik(podatnikwspolny, rok);
             Collections.sort(listaWspolnych, new Rodzajedokcomparator());
@@ -121,7 +121,7 @@ public class RodzajedokView implements Serializable {
         try {
             wprowadzany.setPodatnikObj(podatnikDAO.findPodatnikByNIP("0001005008"));
             wprowadzany.setSkrot(wprowadzany.getSkrotNazwyDok());
-            rodzajedokDAO.dodaj(wprowadzany);
+            rodzajedokDAO.create(wprowadzany);
             listaWspolnych.add(wprowadzany);
             Collections.sort(listaWspolnych, new Rodzajedokcomparator());
             Msg.msg("Dodatno nowy rodzaj dokumentu: " + wprowadzany.getNazwa());
@@ -158,7 +158,7 @@ public class RodzajedokView implements Serializable {
 
     public void destroy2() {
         try {
-            rodzajedokDAO.destroy(doUsuniecia);
+            rodzajedokDAO.remove(doUsuniecia);
             listaWspolnych.remove(doUsuniecia);
             PrimeFaces.current().ajax().update("form:dokLista");
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Wzorzec usunięty", "");

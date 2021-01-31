@@ -7,8 +7,8 @@ package xls;
 
 import comparator.FakturaRozrachunkicomparator;
 import dao.FakturaRozrachunkiDAO;
-import daoFK.TabelanbpDAO;
-import daoFK.WalutyDAOfk;
+import dao.TabelanbpDAO;
+import dao.WalutyDAOfk;
 import data.Data;
 import embeddable.Mce;
 import entity.FakturaRozrachunki;
@@ -28,11 +28,10 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlOutputText;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.PrimeFaces;
@@ -47,11 +46,11 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class BankImportKsiazkaView implements Serializable {
     private static final long serialVersionUID = 1L;
-    @ManagedProperty(value = "#{WpisView}")
+   @Inject
     private WpisView wpisView;
     @Inject
     private TabelanbpDAO tabelanbpDAO;
@@ -60,9 +59,9 @@ public class BankImportKsiazkaView implements Serializable {
     @Inject
     private FakturaRozrachunkiDAO fakturaRozrachunkiDAO;
     private List<byte[]> pobraneplikibytes;
-    public  List<ImportBankWiersz> pobranefaktury;
-    public  List<ImportBankWiersz> pobranefakturyfilter;
-    public  List<ImportBankWiersz> selected;
+    private List<ImportBankWiersz> pobranefaktury;
+    private List<ImportBankWiersz> pobranefakturyfilter;
+    private List<ImportBankWiersz> selected;
     private List<String> rodzajedokKlienta;
     private List<ImportowanyPlik> rodzajeimportu;
     private ImportowanyPlik wybranyrodzajimportu;
@@ -341,7 +340,7 @@ public class BankImportKsiazkaView implements Serializable {
             pobierzostatninumer(nowe);
             try {
                 if (nowe!=null && nowe.getKontrahent()!=null) {
-                    fakturaRozrachunkiDAO.dodaj(nowe);
+                    fakturaRozrachunkiDAO.create(nowe);
                 } else {
                     zwrot++;
                 }

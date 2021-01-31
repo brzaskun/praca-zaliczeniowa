@@ -21,9 +21,8 @@ import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -36,7 +35,7 @@ import msg.Msg;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class Logowanie implements Serializable {
 
@@ -56,7 +55,7 @@ public class Logowanie implements Serializable {
     private RejestrlogowanDAO rejestrlogowanDAO;
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
-    @ManagedProperty(value = "#{localeChanger}")
+    @Inject
     private LocaleChanger localeChanger;
 
     public Logowanie() {

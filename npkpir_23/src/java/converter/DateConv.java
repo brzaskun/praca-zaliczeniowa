@@ -4,11 +4,13 @@
  */
 package converter;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Osito
  */
-public class DateConv extends javax.faces.convert.DateTimeConverter  {  
+public class DateConv extends javax.faces.convert.DateTimeConverter implements Serializable  {  
   
 public static final String CONVERTER_ID = "converter.DateConv";  
    

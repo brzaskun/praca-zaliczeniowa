@@ -6,6 +6,7 @@
 package converter;
 
 import entity.DeklaracjaVatZZ;
+import java.io.Serializable;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -19,7 +20,7 @@ import view.DeklaracjaVatZZPowodPrzypView;
  * @author Osito
  */
 @FacesConverter(value = "DeklaracjaVatZZConv", forClass = DeklaracjaVatZZ.class)
-public class DeklaracjaVatZZConv implements javax.faces.convert.Converter {
+public class DeklaracjaVatZZConv implements javax.faces.convert.Converter, Serializable {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {

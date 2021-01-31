@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg; import org.primefaces.PrimeFaces;
 import pdf.PdfPIT28;
@@ -20,13 +20,13 @@ import pdf.PdfPIT28;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class RyczView implements Serializable {
     private List<Ryczpoz> lista;
     @Inject private RyczDAO ryczDAO;
     @Inject private PodatnikDAO podatnikDAO;
-    @ManagedProperty(value="#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject private Ryczpoz biezacyPit;
    
@@ -47,7 +47,7 @@ public class RyczView implements Serializable {
      public void usun() {
         int index = lista.size() - 1;
         Ryczpoz selected = lista.get(index);
-        ryczDAO.destroy(selected);
+        ryczDAO.remove(selected);
         lista.remove(selected);
         PrimeFaces.current().ajax().update("formpi1:tablicapit");
         Msg.msg("i", "Usunieto ostatni PIT ryczałt"+selected.getUdzialowiec()+" za m-c: "+selected.getPkpirM(),"formpi:messages");

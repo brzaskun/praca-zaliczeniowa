@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 import javax.persistence.Embeddable;
 
 @Embeddable
-@ManagedBean
+@Named
 public class TKodUS implements Serializable {
 
     private static HashMap<String,String> mapaUrzadKod;

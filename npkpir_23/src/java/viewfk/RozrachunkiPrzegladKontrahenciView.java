@@ -7,8 +7,8 @@
 package viewfk;
 
 import dao.StronaWierszaDAO;
-import daoFK.KontoDAOfk;
-import daoFK.TransakcjaDAO;
+import dao.KontoDAOfk;
+import dao.TransakcjaDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -21,9 +21,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.NodeUnselectEvent;
@@ -32,7 +32,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class RozrachunkiPrzegladKontrahenciView implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -49,7 +49,7 @@ public class RozrachunkiPrzegladKontrahenciView implements Serializable{
     private int levelBiezacy = 0;
     private int levelMaksymalny = 0;
     @Inject private TreeNodeExtended<Konto> wybranekontoNode;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private String wybranaWalutaDlaKont;
     private String coWyswietlacRozrachunkiPrzeglad;

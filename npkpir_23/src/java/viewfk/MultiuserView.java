@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class MultiuserView   implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -80,13 +80,13 @@ public class MultiuserView   implements Serializable{
         ms.setPodatnik(podatnik);
         ms.setUser(selected);
         ms.setLevel(0);
-        multiuserSettingsDAO.dodaj(ms);
+        multiuserSettingsDAO.create(ms);
         listafirm.remove(podatnik);
         listapodpietychfirm.add(ms);
     }
     
     public void odepnijfirme(MultiuserSettings ms) {
-        multiuserSettingsDAO.destroy(ms);
+        multiuserSettingsDAO.remove(ms);
         listafirm.add(ms.getPodatnik());
         listapodpietychfirm.remove(ms);
     }

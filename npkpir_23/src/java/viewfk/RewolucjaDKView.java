@@ -6,20 +6,20 @@
 package viewfk;
 
 import dao.STRDAO;
-import daoFK.DokDAOfk;
-import daoFK.EVatwpisFKDAO;
-import daoFK.RMKDAO;
-import daoFK.WierszDAO;
+import dao.DokDAOfk;
+import dao.EVatwpisFKDAO;
+import dao.RMKDAO;
+import dao.WierszDAO;
 import java.io.Serializable;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class RewolucjaDKView implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -23,8 +23,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 
@@ -32,7 +32,7 @@ import msg.Msg;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class FakturaDodPozycjaKontrahentView  implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -90,7 +90,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
             try {
                 selected.setRok(rok);
                 selected.setMc(mc);
-                fakturaDodPozycjaKontrahentDAO.dodaj(selected);
+                fakturaDodPozycjaKontrahentDAO.create(selected);
                 lista_2.add(selected);
                 selected = new FakturaDodPozycjaKontrahent();
                 Msg.msg("Zapisano nową pozycję");
@@ -105,7 +105,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     public void usun(FakturaDodPozycjaKontrahent sel) {
         if (sel !=null) {
             try {
-                fakturaDodPozycjaKontrahentDAO.destroy(sel);
+                fakturaDodPozycjaKontrahentDAO.remove(sel);
                 lista_2.remove(sel);
                 Msg.msg("Usunięto pozycję");
             } catch (Exception e) {

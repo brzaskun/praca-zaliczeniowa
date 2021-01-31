@@ -17,9 +17,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
@@ -32,7 +31,7 @@ import viewfk.KliencifkView;
  *
  * @author Osito
  */
-@ManagedBean(name = "KlView")
+@Named(value = "KlView")
 @ViewScoped
 public class KlView implements Serializable {
 
@@ -45,9 +44,9 @@ public class KlView implements Serializable {
     private Klienci doUsuniecia;
    
     private boolean edycja;
-    @ManagedProperty(value = "#{kliencifkView}")
+    @Inject
     private KliencifkView kliencifkView;
-    @ManagedProperty(value = "#{gUSView}")
+    @Inject
     private GUSView gUSView;
     @Inject
     private PanstwaMap panstwaMapa;
@@ -142,7 +141,7 @@ public class KlView implements Serializable {
                 }
                 poszukajDuplikatNip();
                 poszukajDuplikatNazwa();
-                klDAO.dodaj(selected);
+                klDAO.create(selected);
                 kl1.add(selected);
                 Msg.msg("i", "Dodano nowego klienta" + selected.getNpelna());
                 selected = new Klienci();
@@ -174,7 +173,7 @@ public class KlView implements Serializable {
                 selected.setKrajkod(symbol);
                 poszukajDuplikatNip();
                 poszukajDuplikatNazwa();
-                klDAO.dodaj(selected);
+                klDAO.create(selected);
                 kl1.add(selected);
                 //planKontCompleteView.init(); to jest zbedne, po co pobierac konta jeszcze raz skoro dodano tylko pozycje do kartoteki klientow a nie kont.
                 Msg.msg("i", "Dodano nowego klienta" + selected.getNpelna());
@@ -290,7 +289,7 @@ public class KlView implements Serializable {
 //                    }
 //                    try {
 //                        if (knazwa == null && knip == null) {
-//                            klDAO.dodaj(selected);
+//                            klDAO.create(selected);
 //                        }
 //                    } catch (Exception es) {
 //                    }
@@ -363,7 +362,7 @@ public class KlView implements Serializable {
 
     public void destroy2() {
         try {
-            klDAO.destroy(doUsuniecia);
+            klDAO.remove(doUsuniecia);
             kl1.remove(doUsuniecia);
             klienciFiltered.remove(doUsuniecia);
             PrimeFaces.current().ajax().update("formY:");

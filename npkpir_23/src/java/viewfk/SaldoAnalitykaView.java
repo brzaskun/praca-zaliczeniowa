@@ -9,10 +9,10 @@ import beansFK.BOFKBean;
 import beansFK.CechazapisuBean;
 import beansFK.KontaFKBean;
 import dao.StronaWierszaDAO;
-import daoFK.CechazapisuDAOfk;
-import daoFK.DokDAOfk;
-import daoFK.KontoDAOfk;
-import daoFK.WalutyDAOfk;
+import dao.CechazapisuDAOfk;
+import dao.DokDAOfk;
+import dao.KontoDAOfk;
+import dao.WalutyDAOfk;
 import embeddable.Mce;
 import embeddablefk.SaldoKonto;
 import embeddablefk.Sprawozdanie_0;
@@ -29,9 +29,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import pdf.PdfKonta;
 import pdf.PdfKontaPorownanie;
@@ -43,7 +43,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class SaldoAnalitykaView implements Serializable {
 
@@ -52,7 +52,7 @@ public class SaldoAnalitykaView implements Serializable {
     private List<SaldoKonto> listaSaldoKontowybrane;
     private List<SaldoKonto> listaSaldoKontofilter;
     private List<SaldoKonto> sumaSaldoKonto;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private KontoDAOfk kontoDAOfk;

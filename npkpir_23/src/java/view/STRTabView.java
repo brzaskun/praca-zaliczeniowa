@@ -24,15 +24,13 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg; import org.primefaces.PrimeFaces;
+import javax.inject.Named;
+import msg.Msg;
+ import org.primefaces.PrimeFaces;
 import pdf.PdfSTRtabela;
 import pdf.PdfSrodekTrwKarta;
 import waluty.Z;
@@ -41,7 +39,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean(name = "STRTableView")
+@Named
 @ViewScoped
 public class STRTabView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -54,9 +52,9 @@ public class STRTabView implements Serializable {
     private SrodekTrw selectedSTR;
     @Inject
     private Srodkikst srodekkategoria;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{STREwidencja}")
+    @Inject
     private STREwidencja sTREwidencja;
     //tablica obiektów
     private List<SrodekTrw> srodkiTrwaleWyposazenie;
@@ -244,7 +242,7 @@ public class STRTabView implements Serializable {
             posiadane.remove(wybranySrodekTrw);
             posiadane2.remove(wybranySrodekTrw);
             sprzedane.remove(wybranySrodekTrw);
-            sTRDAO.destroy(wybranySrodekTrw);
+            sTRDAO.remove(wybranySrodekTrw);
             Msg.msg("Usunieto środek trwały o nazwie: "+wybranySrodekTrw.getNazwa());
         } catch (Exception e) { 
             E.e(e);
@@ -680,7 +678,7 @@ public class STRTabView implements Serializable {
             //oblicza planowane umorzenia
             dodawanysrodektrwaly.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(dodawanysrodektrwaly));
             dodawanysrodektrwaly.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(dodawanysrodektrwaly, wpisView));
-            sTRDAO.dodaj(dodawanysrodektrwaly);
+            sTRDAO.create(dodawanysrodektrwaly);
 //            PrimeFaces.current().ajax().update("srodki:panelekXA");
             Msg.msg("i", "Środek trwały "+dodawanysrodektrwaly.getNazwa()+" dodany", "formSTR:messages");
         } catch (Exception e) { 

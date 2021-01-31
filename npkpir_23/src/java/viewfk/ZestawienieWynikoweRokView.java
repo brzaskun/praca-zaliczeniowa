@@ -6,7 +6,7 @@
 package viewfk;
 
 import dao.StronaWierszaDAO;
-import daoFK.KontoDAOfk;
+import dao.KontoDAOfk;
 import embeddable.Mce;
 import embeddablefk.KontoSumyRok;
 import embeddablefk.SaldoKonto;
@@ -18,9 +18,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import view.WpisView;import waluty.Z;
 
@@ -28,7 +28,7 @@ import view.WpisView;import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class ZestawienieWynikoweRokView implements Serializable {
 
@@ -37,7 +37,7 @@ public class ZestawienieWynikoweRokView implements Serializable {
     private List<SaldoKonto> listakontaprzychody;
     private List<KontoSumyRok> kontosumyrokPrzychody;
     private List<KontoSumyRok> kontosumyrokKoszty;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private KontoDAOfk kontoDAOfk;

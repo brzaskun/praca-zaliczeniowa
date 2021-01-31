@@ -27,11 +27,11 @@ import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDAO;
 import dao.RodzajedokDAO;
 import dao.SMTPSettingsDAO;
-import daoFK.DokDAOfk;
-import daoFK.KliencifkDAO;
-import daoFK.KontoDAOfk;
-import daoFK.TabelanbpDAO;
-import daoFK.WalutyDAOfk;
+import dao.DokDAOfk;
+import dao.KliencifkDAO;
+import dao.KontoDAOfk;
+import dao.TabelanbpDAO;
+import dao.WalutyDAOfk;
 import data.Data;
 import embeddable.EVatwpis;
 import embeddable.Mce;
@@ -70,9 +70,8 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
@@ -101,7 +100,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class FakturaView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -119,11 +118,11 @@ public class FakturaView implements Serializable {
     @Inject
     private PdfFaktura pdfFaktura;
     private boolean pokazfakture;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{fakturaWalutaKontoView}")
+    @Inject
     private FakturaWalutaKontoView fakturaWalutaKontoView;
-    @ManagedProperty(value = "#{gUSView}")
+    @Inject
     private GUSView gUSView;
     @Inject
     private FakturaDAO fakturaDAO;
@@ -483,7 +482,7 @@ public class FakturaView implements Serializable {
                 selected.setRok(Data.getCzescDaty(selected.getDatawystawienia(), 0));
                 selected.setMc(Data.getCzescDaty(selected.getDatawystawienia(), 1));
             }
-            fakturaDAO.dodaj(selected);
+            fakturaDAO.create(selected);
             init();
             Msg.msg("i", "Dodano fakturę.");
             pokazfakture = false;
@@ -533,7 +532,7 @@ public class FakturaView implements Serializable {
                 String nowynumer = String.valueOf(new DateTime().getMillis());
                 selected.setNumerkolejny(nowynumer);
                 selected.setTylkodlaokresowej(true);
-                fakturaDAO.dodaj(selected);
+                fakturaDAO.create(selected);
                 selected.getIdfakturaokresowa().setDokument(selected);
                 fakturywystokresoweDAO.edit(selected.getIdfakturaokresowa());
             } else {
@@ -561,7 +560,7 @@ public class FakturaView implements Serializable {
                 Klienci dodany = SzukajDaneBean.znajdzdaneregonAutomat(selected.getKontrahent().getNip());
                 selected.setKontrahent(dodany);
                 if (!dodany.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
-                    klienciDAO.dodaj(dodany);
+                    klienciDAO.create(dodany);
                 }
                 PrimeFaces.current().ajax().update("akordeon:formstworz:acForce");
             }
@@ -576,7 +575,7 @@ public class FakturaView implements Serializable {
                 Klienci dodany = SzukajDaneBean.znajdzdaneregonAutomat(selected.getOdbiorca().getNip());
                 selected.setOdbiorca(dodany);
                 if (!dodany.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
-                    klienciDAO.dodaj(dodany);
+                    klienciDAO.create(dodany);
                 }
                 PrimeFaces.current().ajax().update("akordeon:formstworz:acForce");
             }
@@ -824,7 +823,7 @@ public class FakturaView implements Serializable {
     public void destroysporzadzone() {
         for (Faktura p : gosciwybral) {
             try {
-                fakturaDAO.destroy(p);
+                fakturaDAO.remove(p);
                 faktury.remove(p);
                 usundodatkowewiersze(p);
                 if (fakturyFiltered != null) {
@@ -838,7 +837,7 @@ public class FakturaView implements Serializable {
                 try {
                     Faktura jestjuzjednausunieta = fakturaDAO.findbyNumerPodatnikDlaOkresowej(p.getNumerkolejny(), p.getWystawca());
                     if (jestjuzjednausunieta != null) {
-                        fakturaDAO.destroy(p);
+                        fakturaDAO.remove(p);
                         faktury.remove(p);
                         if (fakturyFiltered != null) {
                             fakturyFiltered.remove(p);
@@ -871,7 +870,7 @@ public class FakturaView implements Serializable {
     public void destroysporzadzonepro() {
         for (Faktura p : gosciwybralpro) {
             try {
-                fakturaDAO.destroy(p);
+                fakturaDAO.remove(p);
                 fakturypro.remove(p);
                 if (fakturyFilteredpro != null) {
                     fakturyFilteredpro.remove(p);
@@ -891,11 +890,11 @@ public class FakturaView implements Serializable {
                 boolean mialokresowo = false;
                 if (f != null && f.size() > 0) {
                     for (Fakturywystokresowe fw : f) {
-                        fakturywystokresoweDAO.destroy(fw);
+                        fakturywystokresoweDAO.remove(fw);
                     }
                     mialokresowo = true;
                 }
-                fakturaDAO.destroy(p);
+                fakturaDAO.remove(p);
                 faktury.remove(p);
                 if (fakturyFiltered != null) {
                     fakturyFiltered.remove(p);
@@ -922,7 +921,7 @@ public class FakturaView implements Serializable {
                 }
                 p.setIdfakturaokresowa(null);
                 fakturaDAO.edit(p);
-                fakturaDAO.destroy(p);
+                fakturaDAO.remove(p);
                 fakturyarchiwum.remove(p);
                 if (fakturyFiltered != null) {
                     fakturyFiltered.remove(p);
@@ -940,7 +939,7 @@ public class FakturaView implements Serializable {
     private void usunfakturezaksiegowana(Faktura p) {
         try {
                 Dok znajdka = dokDAO.findFaktWystawione(p.getWystawca(), p.getKontrahent(), p.getNumerkolejny(), p.getBrutto());
-                dokDAO.destroy(znajdka);
+                dokDAO.remove(znajdka);
                 Msg.msg("i", "Usunięto księgowanie faktury: " + p.getNumerkolejny());
             } catch (EJBException e1) {
                 Msg.msg("w", "Faktura nie była zaksięgowana");
@@ -1159,7 +1158,7 @@ public class FakturaView implements Serializable {
                 Dokfk dokument = FDfkBean.stworznowydokument(FDfkBean.oblicznumerkolejny("SZ", dokDAOfk, podatnik, wpisView.getRokWpisuSt()),faktura, "SZ", podatnik, kontrahent, wpisView, rodzajedokDAO, tabelanbpDAO, walutyDAOfk, kontoDAOfk, kliencifkDAO, evewidencjaDAO,podatnik0kontrahent, null);
                 dokument.setImportowany(true);
                 dokument.setFaktura(faktura);
-                dokDAOfk.dodaj(dokument);
+                dokDAOfk.create(dokument);
                 faktura.setZaksiegowana(true);
                 fakturaDAO.edit(faktura);
                 Msg.msg("Zaksięgowano dokument SZ o nr własnym"+dokument.getNumerwlasnydokfk());
@@ -1191,7 +1190,7 @@ public class FakturaView implements Serializable {
                 if (dokument!=null) {
                     dokument.setImportowany(true);
                     dokument.setFakturakontrahent(faktura);
-                    dokDAOfk.dodaj(dokument);
+                    dokDAOfk.create(dokument);
                     faktura.setZaksiegowanakontrahent(true);
                     fakturaDAO.edit(faktura);
                     Msg.msg("Zaksięgowano dokument ZZ/RACH o nr własnym"+dokument.getNumerwlasnydokfk());
@@ -1305,7 +1304,7 @@ public class FakturaView implements Serializable {
              try {
                 Dok tmp = dokDAO.znajdzDuplikat(selDokument, selDokument.getPkpirR());
                 if (tmp==null) {
-                    dokDAO.dodaj(selDokument);
+                    dokDAO.create(selDokument);
                     if (podatnik0kontrahent==0) {
                         selDokument.setFaktura(faktura);
                         faktura.setZaksiegowana(true);
@@ -1384,7 +1383,7 @@ public class FakturaView implements Serializable {
                 try {
                     Dok tmp = dokDAO.znajdzDuplikat(selDokument, selDokument.getPkpirR());
                     if (tmp==null) {
-                        dokDAO.dodaj(selDokument);
+                        dokDAO.create(selDokument);
                         if (podatnik0kontrahent==0) {
                             selDokument.setFaktura(faktura);
                             faktura.setZaksiegowana(true);
@@ -1478,7 +1477,7 @@ public class FakturaView implements Serializable {
                 String rok = p.getDatasprzedazy().split("-")[0];
                 nowafakturaokresowa.setRok(rok);
                 try {
-                    fakturywystokresoweDAO.dodaj(nowafakturaokresowa);
+                    fakturywystokresoweDAO.create(nowafakturaokresowa);
                     p.setIdfakturaokresowa(nowafakturaokresowa);
                     fakturaDAO.edit(p);
                     fakturyokresowe.add(nowafakturaokresowa);
@@ -1569,7 +1568,7 @@ public class FakturaView implements Serializable {
         } catch (Exception ef) {
             fakturyokr.setM1(1);
             fakturyokresowe.add(fakturyokr);
-            fakturywystokresoweDAO.dodaj(fakturyokr);
+            fakturywystokresoweDAO.create(fakturyokr);
             Msg.msg("i", "Dodano fakturę okresową");
         }
         PrimeFaces.current().ajax().update("akordeon:formokresowe:dokumentyOkresowe");
@@ -1759,7 +1758,7 @@ public class FakturaView implements Serializable {
                 nowa.setNrkontabankowego(FakturaBean.pobierznumerkonta(wpisView.getPodatnikObiekt()));
                 FakturaBean.wielekont(nowa, fakturaWalutaKontoView.getListakontaktywne(), fakturaStopkaNiemieckaDAO, wpisView.getPodatnikObiekt());
                 try {
-                    fakturaDAO.dodaj(nowa);
+                    fakturaDAO.create(nowa);
                     if (nowa.isRecznaedycja()) {
                         faktury_edit.add(nowa);
                     } else {
@@ -2066,7 +2065,7 @@ public class FakturaView implements Serializable {
             p.setM10(0);
             p.setM11(0);
             p.setM12(0);
-            fakturywystokresoweDAO.dodaj(p);
+            fakturywystokresoweDAO.create(p);
         }
         Msg.msg("Skopiowano okresowe do nowego roku");
     }
@@ -2351,9 +2350,9 @@ public class FakturaView implements Serializable {
                    }
                }
            }
-           fakturaDAO.destroy(gosciwybral.get(i));
+           fakturaDAO.remove(gosciwybral.get(i));
            p.setNumerkolejny(nowynumerfakt);
-           fakturaDAO.dodaj(p);
+           fakturaDAO.create(p);
         }
         gosciwybral = Collections.synchronizedList(new ArrayList<>());
         init();
@@ -2394,9 +2393,9 @@ public class FakturaView implements Serializable {
                    }
                }
            }
-           fakturaDAO.destroy(gosciwybral.get(i));
+           fakturaDAO.remove(gosciwybral.get(i));
            p.setNumerkolejny(nowynumerfakt);
-           fakturaDAO.dodaj(p);
+           fakturaDAO.create(p);
         }
         gosciwybral = Collections.synchronizedList(new ArrayList<>());
         init();
@@ -2901,7 +2900,7 @@ public class FakturaView implements Serializable {
     public void usunfakture(Faktura fakt) {
         if (fakt!=null) {
             try {
-                fakturaDAO.destroy(fakt);
+                fakturaDAO.remove(fakt);
                 faktury_edit.remove(fakt);
                 usundodatkowewiersze(fakt);
                 if (faktury_edit_filter != null) {

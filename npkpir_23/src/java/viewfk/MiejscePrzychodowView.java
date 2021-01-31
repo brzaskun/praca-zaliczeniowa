@@ -12,10 +12,10 @@ import beansFK.PlanKontFKBean;
 import beansFK.SlownikiBean;
 import comparator.MiejscePrzychodowcomparator;
 import dao.StronaWierszaDAO;
-import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
-import daoFK.MiejscePrzychodowDAO;
-import daoFK.UkladBRDAO;
+import dao.KontoDAOfk;
+import dao.KontopozycjaZapisDAO;
+import dao.MiejscePrzychodowDAO;
+import dao.UkladBRDAO;
 import embeddablefk.MiejsceZest;
 import entityfk.Konto;
 import entityfk.MiejscePrzychodow;
@@ -29,9 +29,9 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import pdf.PdfMiejscePrzychodow;
 import view.WpisView;
@@ -39,7 +39,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class MiejscePrzychodowView  implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -50,7 +50,7 @@ public class MiejscePrzychodowView  implements Serializable{
     private List<MiejscePrzychodow> czlonkowiestowarzyszenia;
     @Inject
     private MiejscePrzychodowDAO miejscePrzychodowDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private boolean zapisz0edytuj1;
     @Inject
@@ -108,7 +108,7 @@ public class MiejscePrzychodowView  implements Serializable{
             List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             selected.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumer());
             selected.setRok(wpisView.getRokWpisu());
-            miejscePrzychodowDAO.dodaj(selected);
+            miejscePrzychodowDAO.create(selected);
             PlanKontFKBean.aktualizujslownikMiejscaPrzychodow(wykazkont, miejscePrzychodowDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
             miejscaprzychodow = miejscePrzychodowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
             czlonkowiestowarzyszenia.add(selected);
@@ -136,7 +136,7 @@ public class MiejscePrzychodowView  implements Serializable{
     }
 
     public void usun(MiejscePrzychodow miejscePrzychodow) {
-        miejscePrzychodowDAO.destroy(miejscePrzychodow);
+        miejscePrzychodowDAO.remove(miejscePrzychodow);
         miejscaprzychodow.remove(miejscePrzychodow);
         if (miejscaprzychodowfiltered != null) {
             miejscaprzychodowfiltered.remove(miejscePrzychodow);

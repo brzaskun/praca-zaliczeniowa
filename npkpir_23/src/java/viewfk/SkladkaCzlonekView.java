@@ -5,9 +5,9 @@
  */
 package viewfk;
 
-import daoFK.MiejscePrzychodowDAO;
-import daoFK.SkladkaCzlonekDAO;
-import daoFK.SkladkaStowarzyszenieDAO;
+import dao.MiejscePrzychodowDAO;
+import dao.SkladkaCzlonekDAO;
+import dao.SkladkaStowarzyszenieDAO;
 import entityfk.MiejscePrzychodow;
 import entityfk.SkladkaCzlonek;
 import entityfk.SkladkaStowarzyszenie;
@@ -19,16 +19,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.inject.Named;
+
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import msg.Msg;import view.WpisView;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class SkladkaCzlonekView implements Serializable {
     @Inject
@@ -42,7 +42,7 @@ public class SkladkaCzlonekView implements Serializable {
     @Inject
     private SkladkaStowarzyszenieDAO skladkaStowarzyszenieDAO;
     boolean zapisz0edytuj1;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private SkladkaStowarzyszenie skladkadomyslna;
     

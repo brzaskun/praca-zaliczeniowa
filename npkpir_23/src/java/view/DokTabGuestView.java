@@ -24,9 +24,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import pdf.PdfDok;
 import pdf.PdfPK;
@@ -36,14 +36,14 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean(name = "DokTabGuestView")
+@Named(value = "DokTabGuestView")
 @ViewScoped
 public class DokTabGuestView implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<Dok> selected;
     private List<Dok> pobranedokumenty;
     private List<Dok> pobranedokumentyFiltered;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private DokDAO dokDAO;

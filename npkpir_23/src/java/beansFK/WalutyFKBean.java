@@ -7,8 +7,8 @@ package beansFK;
 
 import comparator.Tabelanbpcomparator;
 import dao.SMTPSettingsDAO;
-import daoFK.TabelanbpDAO;
-import daoFK.WalutyDAOfk;
+import dao.TabelanbpDAO;
+import dao.WalutyDAOfk;
 import data.Data;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
@@ -77,7 +77,7 @@ public class WalutyFKBean {
 //            //Msg.msg("i", "Udalo sie pobrac kursow walut z internetu");
 //        }
 //        for (Tabelanbp p : wierszepobranezNBP) {
-//            tabelanbpDAO.dodaj(p);
+//            tabelanbpDAO.create(p);
 //        }
 //        return wierszepobranezNBP;
 //    }
@@ -110,7 +110,7 @@ public class WalutyFKBean {
                 
             }
             for (Tabelanbp p : wierszepobranezNBP) {
-               tabelanbpDAO.dodaj(p);
+               tabelanbpDAO.create(p);
             }
             //Msg.msg("i", "Udalo sie pobrac kursow walut z internetu");
         }

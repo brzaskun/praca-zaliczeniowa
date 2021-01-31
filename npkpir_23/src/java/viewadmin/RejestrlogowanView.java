@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 
@@ -24,7 +24,7 @@ import msg.Msg;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class RejestrlogowanView implements Serializable{
     private static final long serialVersionUID = 1L;

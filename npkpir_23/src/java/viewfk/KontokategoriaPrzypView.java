@@ -5,8 +5,8 @@
  */
 package viewfk;
 
-import daoFK.KontoDAOfk;
-import daoFK.KontokategoriaDAOfk;
+import dao.KontoDAOfk;
+import dao.KontokategoriaDAOfk;
 import entityfk.Konto;
 import entityfk.Kontokategoria;
 import error.E;
@@ -14,16 +14,16 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import view.WpisView;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class KontokategoriaPrzypView  implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -37,7 +37,7 @@ public class KontokategoriaPrzypView  implements Serializable {
     private KontokategoriaDAOfk kontokategoriaDAOfk;
     @Inject
     private KontoDAOfk kontoDAOfk;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
 
     public KontokategoriaPrzypView() {
@@ -131,7 +131,7 @@ public class KontokategoriaPrzypView  implements Serializable {
         if (selectedDod != null) {
             try {
                 selectedDod.setSymbol(selectedDod.getSymbol());
-                kontokategoriaDAOfk.dodaj(selectedDod);
+                kontokategoriaDAOfk.create(selectedDod);
                 lista.add(selectedDod);
                 selectedDod = new Kontokategoria();
                 Msg.msg("Dodano nową kategorię");
@@ -158,7 +158,7 @@ public class KontokategoriaPrzypView  implements Serializable {
     public void usun(Kontokategoria k) {
         if (k != null) {
             try {
-                kontokategoriaDAOfk.destroy(k);
+                kontokategoriaDAOfk.remove(k);
                 lista.remove(k);
                 Msg.msg("Usunięto kategorię");
             } catch (Exception e) {

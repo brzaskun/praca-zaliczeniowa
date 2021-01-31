@@ -9,12 +9,12 @@ import beansFK.DokumentFKBean;
 import comparator.Kontocomparator;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
-import daoFK.DokDAOfk;
-import daoFK.KontoDAOfk;
-import daoFK.MiejscePrzychodowDAO;
-import daoFK.SkladkaCzlonekDAO;
-import daoFK.StowNaliczenieDAO;
-import daoFK.TabelanbpDAO;
+import dao.DokDAOfk;
+import dao.KontoDAOfk;
+import dao.MiejscePrzychodowDAO;
+import dao.SkladkaCzlonekDAO;
+import dao.StowNaliczenieDAO;
+import dao.TabelanbpDAO;
 import data.Data;
 import entityfk.Dokfk;
 import entityfk.Konto;
@@ -30,16 +30,16 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import view.WpisView;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class StowNaliczenieView  implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -62,7 +62,7 @@ public class StowNaliczenieView  implements Serializable {
     private TabelanbpDAO tabelanbpDAO;
     @Inject
     private KontoDAOfk kontoDAOfk;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private String wybranakategoria;
     private Konto kontoWn;
@@ -311,7 +311,7 @@ public class StowNaliczenieView  implements Serializable {
                         dokfk = DokumentFKBean.generujdokumentSkladki(wpisView, klienciDAO, "PK", "przypis - "+wybranakategoria, rodzajedokDAO, tabelanbpDAO, kontoWn, kontoMa, kontoDAOfk, lista, dokDAOfk);
                         break;
                 }
-                dokDAOfk.dodaj(dokfk);
+                dokDAOfk.create(dokfk);
                 Msg.msg("Zaksięgowano dokument PK");
             } catch (Exception e) {
                 E.e(e);

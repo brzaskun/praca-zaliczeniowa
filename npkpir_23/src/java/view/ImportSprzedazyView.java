@@ -26,11 +26,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
@@ -46,15 +45,15 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class ImportSprzedazyView  implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<Dok> dokumenty;
     private List<Klienci> klienci;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{gUSView}")
+    @Inject
     private GUSView gUSView;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
@@ -68,9 +67,9 @@ public class ImportSprzedazyView  implements Serializable {
     private KlienciDAO klDAO;
     private boolean wybierzosobyfizyczne;
     private boolean wybierzfirmyzagraniczne;
-    public double netto;
-    public double vat;
-    public double brutto;
+    private double netto;
+    private double vat;
+    private double brutto;
         
     @PostConstruct
     private void init() { //E.m(this);
@@ -418,7 +417,7 @@ public class ImportSprzedazyView  implements Serializable {
             for (Klienci p: klienci) {
                 try {
                     if (!p.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
-                        klDAO.dodaj(p);
+                        klDAO.create(p);
                     }
                 } catch(Exception e){
                 }
@@ -430,7 +429,7 @@ public class ImportSprzedazyView  implements Serializable {
             for (Dok p: dokumenty) {
                 try {
                     if (!p.getKontr().getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
-                        dokDAO.dodaj(p);
+                        dokDAO.create(p);
                     } else {
                         Msg.msg("e","Bład kontrahenta. Nie zaksięgowano dokumentu!");
                     }

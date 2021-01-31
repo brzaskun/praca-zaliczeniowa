@@ -4,7 +4,7 @@
  */
 package waluty;
 
-import daoFK.WalutyDAOfk;
+import dao.WalutyDAOfk;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import java.io.Serializable;

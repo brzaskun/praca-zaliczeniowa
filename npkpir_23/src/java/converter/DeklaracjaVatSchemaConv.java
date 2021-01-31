@@ -7,6 +7,7 @@ package converter;
 
 import entity.DeklaracjaVatSchema;
 import entity.SchemaEwidencja;
+import java.io.Serializable;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -20,7 +21,7 @@ import view.DeklaracjaVatSchemaView;
  * @author Osito
  */
 @FacesConverter(value = "DeklaracjaVatSchemaConv", forClass = SchemaEwidencja.class)
-public class DeklaracjaVatSchemaConv implements javax.faces.convert.Converter {
+public class DeklaracjaVatSchemaConv implements javax.faces.convert.Converter, Serializable {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {

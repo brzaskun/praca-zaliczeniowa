@@ -32,11 +32,11 @@
                 </p:dataTable>
             </p:outputPanel>
             <p:outputPanel style="margin-top: 10px">
-                <p:dataTable  var="wpis" value="#{STRTableView.posiadane}" id="srodkiLista" editable="true" 
+                <p:dataTable  var="wpis" value="#{sTRTabView.posiadane}" id="srodkiLista" editable="true" 
                               paginator="true" paginatorAlwaysVisible="true" rows="5"
                               paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                               rowsPerPageTemplate="5,20,40,80"  widgetVar="srodkiLista1" style="max-width: 1400px;"
-                              rowKey="#{wpis.id}" selection="#{STRTableView.wybranysrodektrwalyPosiadane}" selectionMode="single"> 
+                              rowKey="#{wpis.id}" selection="#{sTRTabView.wybranysrodektrwalyPosiadane}" selectionMode="single"> 
 
                     <f:facet name="header">  
                         <h:outputText value="Ewidencja srodkow trwalych" />
@@ -92,7 +92,7 @@
                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                 </h:outputText>
                 <h:outputText value="Wartość środków trwałych ewidencja:"/>
-                <h:outputText value="#{STRTableView.posiadanesumanetto}" style="text-align: center;">
+                <h:outputText value="#{sTRTabView.posiadanesumanetto}" style="text-align: center;">
                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                 </h:outputText>
             </p:panelGrid>

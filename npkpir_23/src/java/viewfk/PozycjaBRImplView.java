@@ -5,8 +5,8 @@
  */
 package viewfk;
 
-import daoFK.PozycjaBilansDAO;
-import daoFK.PozycjaRZiSDAO;
+import dao.PozycjaBilansDAO;
+import dao.PozycjaRZiSDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
@@ -14,15 +14,15 @@ import entityfk.UkladBR;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PozycjaBRImplView  implements Serializable {
     private static final long serialVersionUID = 1L;

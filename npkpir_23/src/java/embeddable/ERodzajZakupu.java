@@ -8,14 +8,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 import javax.persistence.Embeddable;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @Embeddable
 public class ERodzajZakupu implements Serializable {
     private static final List<String> rodzajZakupu;

@@ -11,9 +11,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import view.WpisView;
@@ -21,12 +21,12 @@ import view.WpisView;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class SprawozdanieFin2018View  implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     
     public static void generuj() {

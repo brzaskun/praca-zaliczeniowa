@@ -10,19 +10,19 @@ import dao.UzDAO;
 import entity.Uz;
 import entityfk.Dokfk;
 import java.io.Serializable;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import view.WpisView;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PdfDokfkView implements Serializable {
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private UzDAO uzDAO;

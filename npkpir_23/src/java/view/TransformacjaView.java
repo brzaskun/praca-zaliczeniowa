@@ -12,14 +12,13 @@ import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
 import entity.Dok;
 import entity.Rozrachunek1;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 
 /**
@@ -27,7 +26,7 @@ import javax.inject.Inject;
  * @author Osito
  */
 @ViewScoped
-@ManagedBean
+@Named
 public class TransformacjaView implements Serializable{
     private static final long serialVersionUID = 1L;
     @Inject
@@ -39,7 +38,7 @@ public class TransformacjaView implements Serializable{
     private DeklaracjevatDAO deklaracjevatDAO;
     @Inject 
     private EvewidencjaDAO evewidencjaDAO;
-    public List<Dok> listaWszystkichDok;
+    private List<Dok> listaWszystkichDok;
 
     public TransformacjaView() {
         listaWszystkichDok = Collections.synchronizedList(new ArrayList<>());
@@ -72,7 +71,7 @@ public class TransformacjaView implements Serializable{
 //                            klient = p.getKontr();
 //                            klient.setNip("0000000000");
 //                            if (klient.getNip().equals("0000000000")) {
-//                                klienciDAO.dodaj(klient);
+//                                klienciDAO.create(klient);
 //                            }
 //                        }
 //                    }
@@ -135,7 +134,7 @@ public class TransformacjaView implements Serializable{
 //                            if (klient.getNip() == null) {
 //                                klient.setNip("0000000000");
 //                            }
-//                             klienciDAO.dodaj(klient);
+//                             klienciDAO.create(klient);
 //                        }
 //                    }
 //                } else {

@@ -16,8 +16,8 @@ import dao.PodatnikUdzialyDAO;
 import dao.RodzajedokDAO;
 import dao.UzDAO;
 import dao.ZUSDAO;
-import daoFK.DokDAOfk;
-import daoFK.KontoDAOfk;
+import dao.DokDAOfk;
+import dao.KontoDAOfk;
 import data.Data;
 import embeddable.Parametr;
 import embeddable.Udzialy;
@@ -51,9 +51,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.event.ValueChangeListener;
@@ -69,7 +68,7 @@ import org.primefaces.component.panelgrid.PanelGrid;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PodatnikView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -89,11 +88,11 @@ public class PodatnikView implements Serializable {
     private Rodzajedok wybranyRodzajDokumentu;
     @Inject KontoDAOfk kontoDAOfk;
     private List<Rodzajedok> rodzajeDokumentowLista;
-    @ManagedProperty(value = "#{rodzajedokView}")
+    @Inject
     private RodzajedokView rodzajedokView;
-    @ManagedProperty(value = "#{gUSView}")
+    @Inject
     private GUSView gUSView;
-    @ManagedProperty(value = "#{podatnikWyborView}")
+    @Inject
     private PodatnikWyborView podatnikWyborView;
     private List<String> pojList;
     private PanelGrid grid;
@@ -257,7 +256,7 @@ private DokDAO dokDAO;
             generujIndex(selectedDod);
             sformatuj(selectedDod);
             if (!selectedDod.getPrintnazwa().equals("nie znaleziono firmy w bazie Regon")) {
-                podatnikDAO.dodaj(selectedDod);
+                podatnikDAO.create(selectedDod);
                 podatnikWyborView.init();
                 Msg.msg("i", "Dodano nowego podatnika: " + selectedDod.getPrintnazwa());
                 dodajjakoKlienci(selectedDod, selectedDod.getEmail());
@@ -285,7 +284,7 @@ private DokDAO dokDAO;
             aktualizuj.setKrajnazwa("Polska");
             aktualizuj.setKrajkod("PL");
             aktualizuj.setEmail(email);
-            klDAO.dodaj(aktualizuj);
+            klDAO.create(aktualizuj);
             Msg.msg("Dodano podatnika jako klienta ");
         } catch (Exception e) {
             Msg.msg("e","Błąd, nie dodano firmy jako klienta, lub taki klient już istnieje");
@@ -347,7 +346,7 @@ private DokDAO dokDAO;
             sformatuj(selectedDod);
             selectedDod.setWprowadzil(wpisView.getUzer());
             selectedDod.setDatawprowadzenia(new Date());
-            podatnikDAO.dodaj(selectedDod);
+            podatnikDAO.create(selectedDod);
             Msg.msg("i", "Dodano nowego podatnika-firmę FK: " + selectedDod.getNazwapelna());
             dodajjakoKlienci(selectedDod, selectedDod.getEmail());
             selectedDod =  new Podatnik();
@@ -614,7 +613,7 @@ private DokDAO dokDAO;
                 wybranyPodatnikOpodatkowanie.setKsiegowa(wpisView.getUzer());
             if (sprawdzrok(wybranyPodatnikOpodatkowanie, podatnikOpodatkowanie) == 0) {
                 podatnikOpodatkowanie.add(wybranyPodatnikOpodatkowanie);
-                podatnikOpodatkowanieDDAO.dodaj(wybranyPodatnikOpodatkowanie);
+                podatnikOpodatkowanieDDAO.create(wybranyPodatnikOpodatkowanie);
                 wybranyPodatnikOpodatkowanie = new PodatnikOpodatkowanieD();
                 Msg.msg("Dodatno parametr pod.dochodowy do podatnika "+selected.getNazwapelna());
             } else {
@@ -711,7 +710,7 @@ private DokDAO dokDAO;
     public void usundoch() {
         PodatnikOpodatkowanieD p = podatnikOpodatkowanie.get(podatnikOpodatkowanie.size()-1);
         podatnikOpodatkowanie.remove(p);
-        podatnikOpodatkowanieDDAO.destroy(p);
+        podatnikOpodatkowanieDDAO.remove(p);
     }
 
     public void dodajvat() {
@@ -1154,7 +1153,7 @@ private DokDAO dokDAO;
                 Msg.msg("e","Suma udziałów powyżej 100");
                 throw new Exception();
             }
-            podatnikUdzialyDAO.dodaj(udzialy);
+            podatnikUdzialyDAO.create(udzialy);
             udzialy = new PodatnikUdzialy();
             Msg.msg("i", "Dodano udziały");
         } catch (Exception ex) {
@@ -1201,7 +1200,7 @@ private DokDAO dokDAO;
     
     public void usunUdzialy(PodatnikUdzialy udzialy) {
         selected = wpisView.getPodatnikObiekt();
-        podatnikUdzialyDAO.destroy(udzialy);
+        podatnikUdzialyDAO.remove(udzialy);
         podatnikUdzialy.remove(udzialy);
         Msg.msg("i", "Usunięto wskazany udział: " + udzialy.getNazwiskoimie(), "akordeon:form6:messages");
     }
@@ -1214,7 +1213,7 @@ private DokDAO dokDAO;
                 selectedDokKsi.setSkrotNazwyDok(selectedDokKsi.getSkrot().toUpperCase(new Locale("pl")));
                 selectedDokKsi.setNazwa(selectedDokKsi.getNazwa().toLowerCase(new Locale("pl")));
                 selectedDokKsi.setRok(wpisView.getRokWpisuSt());
-                rodzajedokDAO.dodaj(selectedDokKsi);
+                rodzajedokDAO.create(selectedDokKsi);
                 rodzajeDokumentowLista.add(selectedDokKsi);
                 selectedDokKsi = new Rodzajedok();
                 Msg.msg("i", "Dodano nowy wzór dokumentu", "akordeon:form6");
@@ -1245,7 +1244,7 @@ private DokDAO dokDAO;
     }
 
     public void usunDokKsi(Rodzajedok rodzajDokKsi) {
-        rodzajedokDAO.destroy(rodzajDokKsi);
+        rodzajedokDAO.remove(rodzajDokKsi);
         rodzajeDokumentowLista.remove(rodzajDokKsi);
         Msg.msg("i", "Usunięto wzor dokumentu", "akordeon:form6");
     }
@@ -1293,7 +1292,7 @@ private DokDAO dokDAO;
                                 nowy.setRok(wpisView.getRokWpisuSt());
                                 nowy.setPodatnikObj(selected);
                                 KontaFKBean.nanieskonta(nowy, kontoDAOfk);
-                                rodzajedokDAO.dodaj(nowy);
+                                rodzajedokDAO.create(nowy);
                                 dokumentyBiezacegoPodatnika.add(nowy);
                             }
                         } catch (Exception e){}
@@ -1319,7 +1318,7 @@ private DokDAO dokDAO;
                             nowy.setKontoRZiS(null);
                             nowy.setKontorozrachunkowe(null);
                             nowy.setKontovat(null);
-                            rodzajedokDAO.dodaj(nowy);
+                            rodzajedokDAO.create(nowy);
                             dokumentyBiezacegoPodatnika.add(nowy);
                         }
                     } catch (Exception ex) {
@@ -1345,7 +1344,7 @@ private DokDAO dokDAO;
                                 nowy.setKontoRZiS(null);
                                 nowy.setKontorozrachunkowe(null);
                                 nowy.setKontovat(null);
-                                rodzajedokDAO.dodaj(nowy);
+                                rodzajedokDAO.create(nowy);
                                 dokumentyBiezacegoPodatnika.add(nowy);
                             }
                         } catch (Exception ex) {
@@ -1406,7 +1405,7 @@ private DokDAO dokDAO;
 //                RodzajedokPK rodzajedokPK = new RodzajedokPK(p.getSkrot());
 //                p.setRodzajedokPK(rodzajedokPK);
 //                p.setPodatnikObj(selected);
-//                rodzajedokDAO.dodaj(p);
+//                rodzajedokDAO.create(p);
 //            }
 //            rodzajeDokumentowLista.addAll(rodzajedokDAO.findListaPodatnik(selected));
 //            PrimeFaces.current().ajax().update("akordeon:form6:parametryDokKsi");
@@ -1880,7 +1879,7 @@ private DokDAO dokDAO;
                 for (Udzialy r : udzialy) {
                     PodatnikUdzialy s = new PodatnikUdzialy(r,p);
                     try {
-                        podatnikUdzialyDAO.dodaj(s);
+                        podatnikUdzialyDAO.create(s);
                     } catch (Exception e) {
                         E.e(e);
                     }
@@ -1907,7 +1906,7 @@ private DokDAO dokDAO;
 //            if (parametr != null) {
 //                for (Parametr r : parametr) {
 //                    PodatnikOpodatkowanieD s = new PodatnikOpodatkowanieD(r,p);
-//                    podatnikOpodatkowanieDDAO.dodaj(s);
+//                    podatnikOpodatkowanieDDAO.create(s);
 //                }
 //            p.setPodatekdochodowy(null);
 //            podatnikDAO.edit(p);

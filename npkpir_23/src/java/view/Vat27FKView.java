@@ -7,8 +7,8 @@ package view;
 import comparator.Dokfkcomparator;
 import dao.Deklaracjavat27DAO;
 import dao.PodatnikDAO;
-import daoFK.DokDAOfk;
-import daoFK.VatuepodatnikDAO;
+import dao.DokDAOfk;
+import dao.VatuepodatnikDAO;
 import entity.Deklaracjavat27;
 import entity.Vat27;
 import entityfk.Dokfk;
@@ -23,9 +23,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import pdf.PdfVAT27dekl;
 import pdf.PdfVat27;
@@ -36,7 +36,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class Vat27FKView implements Serializable {
 
@@ -44,7 +44,7 @@ public class Vat27FKView implements Serializable {
     private List<Vat27> klienciWDTWNT;
     private List<Vat27> listawybranych;
     private List<Dokfk> listaDokfk;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private DokDAOfk dokDAOfk;
@@ -187,10 +187,10 @@ public class Vat27FKView implements Serializable {
         vatuepodatnik.setRozliczone(Boolean.FALSE);
         //bo czasami nie edytowalo nie wiem dlaczego
         try {
-            vatuepodatnikDAO.destroy(vatuepodatnik);
+            vatuepodatnikDAO.remove(vatuepodatnik);
         } catch (Exception e) { E.e(e); };
         try {
-            vatuepodatnikDAO.dodaj(vatuepodatnik);
+            vatuepodatnikDAO.create(vatuepodatnik);
             Msg.msg("i", "Zachowano dane do VAT-27");
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Błąd podczas zachowywania danych do VAT-UE");
@@ -252,7 +252,7 @@ public class Vat27FKView implements Serializable {
     
     public void usundekl(Deklaracjavat27 d) {
         try {
-            deklaracjavat27DAO.destroy(d);
+            deklaracjavat27DAO.remove(d);
             deklaracjevat27.remove(d);
             for (Vat27 p : d.getPozycje()) {
                 if (!p.getZawierafk().isEmpty()) {

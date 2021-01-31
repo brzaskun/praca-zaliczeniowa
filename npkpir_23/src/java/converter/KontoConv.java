@@ -4,29 +4,28 @@
  */
 package converter;
 
-import daoFK.KontoDAOfk;
+import dao.KontoDAOfk;
 import entityfk.Konto;
-import error.E;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import view.WpisView;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
-public class KontoConv implements javax.faces.convert.Converter{
+public class KontoConv implements javax.faces.convert.Converter, Serializable {
     @Inject
     private KontoDAOfk kontoDAOfk;
     private List<Konto> konta;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     
     @PostConstruct

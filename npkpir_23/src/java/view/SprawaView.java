@@ -21,20 +21,20 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class SprawaView  implements Serializable{
     private static final long serialVersionUID = 1L;
-    @ManagedProperty(value="#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private SprawaDAO sprawaDAO;
@@ -96,7 +96,7 @@ public class SprawaView  implements Serializable{
             nowa.setDatasporzadzenia(new Date());
             nowa.setNadawca(login);
             nowa.setStatus("wysłana");
-            sprawaDAO.dodaj(nowa);
+            sprawaDAO.create(nowa);
             nowa = new Sprawa();
             Msg.msg("Dodano sprawę");
         } catch (Exception e) {

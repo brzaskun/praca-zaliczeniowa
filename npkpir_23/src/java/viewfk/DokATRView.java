@@ -8,10 +8,10 @@ package viewfk;
 import beansFK.DokumentFKBean;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
-import daoFK.CechazapisuDAOfk;
-import daoFK.DokDAOfk;
-import daoFK.KontoDAOfk;
-import daoFK.TabelanbpDAO;
+import dao.CechazapisuDAOfk;
+import dao.DokDAOfk;
+import dao.KontoDAOfk;
+import dao.TabelanbpDAO;
 import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.Konto;
@@ -21,23 +21,23 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import view.WpisView;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class DokATRView  implements Serializable{
     private static final long serialVersionUID = 1L;
     @Inject
     private DokDAOfk dokDAOfk;
     private List<Dokfk> lista;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private TabelanbpDAO tabelanbpDAO;
@@ -64,7 +64,7 @@ public class DokATRView  implements Serializable{
                 Cechazapisu nkup = pobierzCeche("NKUP");
                 Cechazapisu npup = pobierzCeche("NPUP");
                 naniescechy(nowy, nkup, npup);
-                dokDAOfk.dodaj(nowy);
+                dokDAOfk.create(nowy);
                 nowewyksiegowane.add(nowy);
             }
             Msg.msg("Wyksięgowano dokumenty ATR z poprzedniego roku");

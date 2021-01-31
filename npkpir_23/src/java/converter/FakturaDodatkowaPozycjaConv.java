@@ -5,26 +5,20 @@
 package converter;
 
 import dao.FakturaDodatkowaPozycjaDAO;
-import dao.KlienciDAO;
 import entity.FakturaDodatkowaPozycja;
-import entity.Klienci;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import view.KlienciConverterView;
+import javax.inject.Named;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class FakturaDodatkowaPozycjaConv implements javax.faces.convert.Converter, Serializable {
     private static final long serialVersionUID = 1L;

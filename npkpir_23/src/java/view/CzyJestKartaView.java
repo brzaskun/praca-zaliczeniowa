@@ -6,22 +6,21 @@
 package view;
 
 import beansPodpis.ObslugaPodpisuBean;
-import error.E;
 import java.io.Serializable;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class CzyJestKartaView   implements Serializable {
     private static final long serialVersionUID = 1L;
     private boolean moznapodpisywac;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private String innehaslo;
     private String innypesel;

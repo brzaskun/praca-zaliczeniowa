@@ -7,19 +7,20 @@ package view;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
+
 
 /**
  *
  * @author Osito
  */
-@ManagedBean(name="CSSView")
+@Named(value="CSSView")
 @SessionScoped
 public class CSSView implements Serializable {
     private static final long serialVersionUID = 1L;
-    public String css;
-    public List<String> cssList;
+    private String css;
+    private List<String> cssList;
 
     public CSSView() {
         css = "css/style.css";

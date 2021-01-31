@@ -34,9 +34,9 @@ import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import org.primefaces.PrimeFaces;
@@ -45,7 +45,7 @@ import org.primefaces.PrimeFaces;
  *
  * @author Osito
  */
-@ManagedBean(name = "PlatnosciView")
+@Named(value = "PlatnosciView")
 @ViewScoped
 public class PlatnosciView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -64,7 +64,7 @@ public class PlatnosciView implements Serializable {
     private ZobowiazanieDAO zv;
     @Inject
     private DeklaracjevatDAO deklaracjevatDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private boolean edytujplatnosc;
 
@@ -215,7 +215,7 @@ public class PlatnosciView implements Serializable {
         }
         try {
             if (opcja == 1) {
-                platnosciDAO.dodaj(selectedZob);
+                platnosciDAO.create(selectedZob);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci zachowane - PodatekView", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 PrimeFaces.current().ajax().update("akordeon:formZob:wiad");
@@ -247,7 +247,7 @@ public class PlatnosciView implements Serializable {
         }
         try {
             if (opcja == 1) {
-                platnosciDAO.dodaj(selectedZob);
+                platnosciDAO.create(selectedZob);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci zachowane - PodatekView", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 PrimeFaces.current().ajax().update("akordeon:formZob1:wiad1");
@@ -279,7 +279,7 @@ public class PlatnosciView implements Serializable {
         }
         try {
             if (opcja == 1) {
-                platnosciDAO.dodaj(selectedZob);
+                platnosciDAO.create(selectedZob);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci zachowane - PodatekView", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 PrimeFaces.current().ajax().update("akordeon:formZob1:wiad1");
@@ -311,7 +311,7 @@ public class PlatnosciView implements Serializable {
         }
         try {
             if (opcja == 1) {
-                platnosciDAO.dodaj(selectedZob);
+                platnosciDAO.create(selectedZob);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Platnosci zachowane - PodatekView", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 PrimeFaces.current().ajax().update("akordeon:formZob1:wiad1");

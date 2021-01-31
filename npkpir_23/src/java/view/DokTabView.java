@@ -39,9 +39,9 @@ import java.util.Locale;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -55,7 +55,7 @@ import pdf.PdfPK;
  *
  * @author Osito
  */
-@ManagedBean(name = "DokTabView")
+@Named(value = "DokTabView")
 @ViewScoped
 public class DokTabView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -83,7 +83,7 @@ public class DokTabView implements Serializable {
     private List<String> walutywdokum;
     
     /*pkpir*/
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject private DokDAO dokDAO;
     @Inject private Dok selDokument;
@@ -266,7 +266,7 @@ public class DokTabView implements Serializable {
             try {
                 dokdoUsuniecia.setInwestycja(null);
                 dokDAO.edit(dokdoUsuniecia);
-                dokDAO.destroy(dokdoUsuniecia);
+                dokDAO.remove(dokdoUsuniecia);
                 if (dokdoUsuniecia.getFaktura()!=null) {
                     Faktura f = dokdoUsuniecia.getFaktura();
                     f.setZaksiegowana(false);
@@ -316,7 +316,7 @@ public class DokTabView implements Serializable {
                 try {
                     dokdoUsuniecia.setInwestycja(null);
                     dokDAO.edit(dokdoUsuniecia);
-                    dokDAO.destroy(dokdoUsuniecia);
+                    dokDAO.remove(dokdoUsuniecia);
                     dokumentypobrane.remove(dokdoUsuniecia);
                     dokumentylista.remove(dokdoUsuniecia);
                     dokumentyFiltered.remove(dokdoUsuniecia);
@@ -356,7 +356,7 @@ public class DokTabView implements Serializable {
         } else {
             dokdoUsuniecia.getRodzajedok().getSkrot().equals("OT");
             try {
-                dokDAO.destroy(dokdoUsuniecia);
+                dokDAO.remove(dokdoUsuniecia);
                 dokumentypobrane.remove(dokdoUsuniecia);
                 dokumentylista.remove(dokdoUsuniecia);
                 dokumentyFiltered.remove(dokdoUsuniecia);

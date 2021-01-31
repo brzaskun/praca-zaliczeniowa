@@ -22,9 +22,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import org.joda.time.DateTime;
 
@@ -32,7 +32,7 @@ import msg.Msg;import org.joda.time.DateTime;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class ZUSStawkiZbiorczeView  implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -48,7 +48,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     private String biezacyRok;
     private boolean dodaj0edtuj1;
     private boolean pokazButtonUsun;
-    @ManagedProperty(value="#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private boolean wszystkielata;
 

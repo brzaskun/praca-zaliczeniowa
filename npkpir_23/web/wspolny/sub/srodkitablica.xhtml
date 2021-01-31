@@ -14,12 +14,12 @@
     </style>
     <h:form id="formbuttonsrodki">
         <p:commandButton id="buttonsrodki" value="dodaj środek trwały" onclick="PF('dialog_srodki_dodaj').show();"/>
-        <p:commandButton id="buttondrukowanie" value="drukuj posiadane" style="margin-left: 50px; width: 150px;" actionListener="#{STRTableView.drukowanietabeli(STRTableView.posiadane, 'posiadane',0)}"/>
-        <p:commandButton id="buttondrukowanie3" value="drukuj posiadane2" style="margin-left: 20px; width: 150px;" actionListener="#{STRTableView.drukowanietabeli(STRTableView.posiadane2, 'posiadane2',1)}"/>
-        <p:commandButton id="buttondrukowanie4" value="drukuj umorzenia plan" style="margin-left: 20px; width: 150px;" actionListener="#{STRTableView.drukowanietabeliPlan(STRTableView.posiadane, 'posiadaneplan',2)}"/>
-        <p:commandButton id="buttondrukowanie2" value="drukuj sprzedane" style="margin-left: 20px; width: 150px;" actionListener="#{STRTableView.drukowanietabeli(STRTableView.sprzedane, 'sprzedane',0)}"/>
-        <p:selectBooleanCheckbox value="#{STRTableView.pokazwnip}" itemLabel="pokaż wnip" style="margin-left: 20px;">
-            <p:ajax event="change" partialSubmit="true" update="akordeon" listener="#{STRTableView.init()}"/>
+        <p:commandButton id="buttondrukowanie" value="drukuj posiadane" style="margin-left: 50px; width: 150px;" actionListener="#{sTRTabView.drukowanietabeli(sTRTabView.posiadane, 'posiadane',0)}"/>
+        <p:commandButton id="buttondrukowanie3" value="drukuj posiadane2" style="margin-left: 20px; width: 150px;" actionListener="#{sTRTabView.drukowanietabeli(sTRTabView.posiadane2, 'posiadane2',1)}"/>
+        <p:commandButton id="buttondrukowanie4" value="drukuj umorzenia plan" style="margin-left: 20px; width: 150px;" actionListener="#{sTRTabView.drukowanietabeliPlan(sTRTabView.posiadane, 'posiadaneplan',2)}"/>
+        <p:commandButton id="buttondrukowanie2" value="drukuj sprzedane" style="margin-left: 20px; width: 150px;" actionListener="#{sTRTabView.drukowanietabeli(sTRTabView.sprzedane, 'sprzedane',0)}"/>
+        <p:selectBooleanCheckbox value="#{sTRTabView.pokazwnip}" itemLabel="pokaż wnip" style="margin-left: 20px;">
+            <p:ajax event="change" partialSubmit="true" update="akordeon" listener="#{sTRTabView.init()}"/>
         </p:selectBooleanCheckbox>
     </h:form>
     <h:form id="formSTR">
@@ -40,14 +40,14 @@
             </f:facet>
             <p:row>
                 <p:column style="text-align: center;">
-                    <h:outputText value="#{STRTableView.iloscsrodkow}"/>
+                    <h:outputText value="#{sTRTabView.iloscsrodkow}"/>
                 </p:column>
                 <p:column style="text-align: center;">
-                    <h:outputText value="#{STRTableView.zakupionewbiezacyrok}"/>
+                    <h:outputText value="#{sTRTabView.zakupionewbiezacyrok}"/>
                 </p:column>
                 <p:column style="text-align: center;">
-                    <p:selectBooleanCheckbox value="#{STRTableView.bezcalkowicieumorzonych}" label="bez umorzonych całkowicie" >
-                        <p:ajax event="change" global="false" listener="#{STRTableView.init}" update=":akordeon:str_posiadane"
+                    <p:selectBooleanCheckbox value="#{sTRTabView.bezcalkowicieumorzonych}" label="bez umorzonych całkowicie" >
+                        <p:ajax event="change" global="false" listener="#{sTRTabView.init}" update=":akordeon:str_posiadane"
                                  />
                     </p:selectBooleanCheckbox>
                 </p:column>

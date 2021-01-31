@@ -25,9 +25,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import pdf.PdfInwestycja;
 
@@ -35,14 +35,14 @@ import msg.Msg;import pdf.PdfInwestycja;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class InwestycjeView implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private List<Inwestycje> inwestycjerozpoczete;
     private List<Inwestycje> inwestycjezakonczone;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private InwestycjeDAO inwestycjeDAO;
@@ -82,7 +82,7 @@ public class InwestycjeView implements Serializable {
         try {
             selected.setPodatnik(wpisView.getPodatnikWpisu());
             selected.setSymbol(wpisView.getRokWpisu() + "/" + selected.getSkrot());
-            inwestycjeDAO.dodaj(selected);
+            inwestycjeDAO.create(selected);
             selected.setOpis("");
             selected.setSkrot("");
             Msg.msg("i", "Dodałem nową inwestycję", "form:messages");
@@ -99,7 +99,7 @@ public class InwestycjeView implements Serializable {
                 Msg.msg("e", "Inwestycja zawiera dokumenty! Usuń je najpierw", "form:messages");
                 throw new Exception();
             } else {
-                inwestycjeDAO.destroy(wybrana);
+                inwestycjeDAO.remove(wybrana);
                 inwestycjerozpoczete.remove(wybrana);
                 Msg.msg("i", "Usunąłem wybrną inwestycję", "form:messages");
             }
@@ -190,7 +190,7 @@ public class InwestycjeView implements Serializable {
             //oblicza planowane umorzenia
             selectedSTR.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(selectedSTR));
             selectedSTR.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(selectedSTR, wpisView));
-            sTRDAO.dodaj(selectedSTR);
+            sTRDAO.create(selectedSTR);
             Msg.msg("i", "Środek trwały "+selectedSTR.getNazwa()+" dodany", "formSTR:messages");
         } catch (Exception e) { 
             E.e(e); 

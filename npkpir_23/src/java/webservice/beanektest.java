@@ -20,13 +20,10 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -47,17 +44,18 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.ws.Holder;
 import javax.xml.ws.WebServiceRef;
 import msg.Msg;
+import org.primefaces.PrimeFaces;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import service.GateService;
 import view.DeklaracjevatView;
-import view.WpisView; import org.primefaces.PrimeFaces;
+ import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class beanektest  implements Serializable {
     
@@ -105,9 +103,9 @@ public class beanektest  implements Serializable {
     private String upoMBT;
     @Inject
     DeklaracjevatDAO deklaracjevatDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value="#{deklaracjevatView}")
+    @Inject
     private DeklaracjevatView deklaracjevatView;
     
     String wysylanaDeklaracja;

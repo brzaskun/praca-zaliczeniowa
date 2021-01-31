@@ -8,8 +8,8 @@ package viewfk;
 import error.E;
 import java.io.InputStream;
 import java.io.Serializable;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import msg.Msg;
 import org.apache.commons.io.IOUtils;
 import org.primefaces.event.FileUploadEvent;
@@ -20,7 +20,7 @@ import xml.XMLValid;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class WeryfikujSprawozdanieView  implements Serializable {
     private static final long serialVersionUID = 1L;

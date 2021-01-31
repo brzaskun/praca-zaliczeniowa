@@ -4,29 +4,28 @@
  */
 package converter;
 
-import daoFK.CechazapisuDAOfk;
+import dao.CechazapisuDAOfk;
 import entityfk.Cechazapisu;
-import error.E;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import view.WpisView;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
-public class CechaConv implements javax.faces.convert.Converter {
+public class CechaConv implements javax.faces.convert.Converter, Serializable {
 
     @Inject
     private CechazapisuDAOfk cechazapisuDAOfk;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private List<Cechazapisu> lista;
     

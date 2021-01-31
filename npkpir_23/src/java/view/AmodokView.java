@@ -16,9 +16,9 @@ import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import dao.STRDAO;
 import dao.UmorzenieDAO;
-import daoFK.DokDAOfk;
-import daoFK.KontoDAOfk;
-import daoFK.TabelanbpDAO;
+import dao.DokDAOfk;
+import dao.KontoDAOfk;
+import dao.TabelanbpDAO;
 import embeddable.Roki;
 import entity.Amodok;
 import entity.SrodekTrw;
@@ -31,19 +31,19 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
-@ManagedBean
+@Named
 @ViewScoped
 public class AmodokView implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private List<Amodok> amodoklist;
     private List<Amodok> amodoklistselected;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private AmoDokDAO amoDokDAO;
@@ -213,7 +213,7 @@ public class AmodokView implements Serializable {
             Msg.msg("w", "Wskazanie umorzenie nie dotyczy bieżącego miesiąca. Nie jest to prawidłowe!");
         }
         try {
-            dokDAOfk.dodaj(dokumentAMO);
+            dokDAOfk.create(dokumentAMO);
             amodok.setZaksiegowane(true);
             amoDokDAO.edit(amodok);
             Msg.msg("Zaksięgowano dokument AMO");

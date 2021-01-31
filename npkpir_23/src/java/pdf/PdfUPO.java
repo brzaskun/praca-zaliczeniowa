@@ -24,8 +24,8 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
 import static pdffk.PdfMain.*;
@@ -37,7 +37,7 @@ import plik.Plik;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class PdfUPO extends Pdf implements Serializable {
 

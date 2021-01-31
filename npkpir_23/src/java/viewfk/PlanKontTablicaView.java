@@ -6,14 +6,14 @@
 package viewfk;
 
 import beansFK.PlanKontTablicaBean;
-import daoFK.KontoDAOfk;
+import dao.KontoDAOfk;
 import entityfk.Konto;
 import error.E;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedProperty;
+
 import javax.inject.Inject;
 import view.WpisView;
 /**
@@ -24,7 +24,7 @@ public class PlanKontTablicaView {
     private static final long serialVersionUID = 1L;
     @Inject
     private KontoDAOfk kontoDAOfk;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     
     private Map<Integer, List<Konto>> leveleKonta;

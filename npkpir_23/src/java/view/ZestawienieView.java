@@ -15,7 +15,7 @@ import dao.PodatnikOpodatkowanieDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.StrataDAO;
 import dao.ZobowiazanieDAO;
-import daoFK.CechazapisuDAOfk;
+import dao.CechazapisuDAOfk;
 import embeddable.Kwartaly;
 import embeddable.Mce;
 import entity.Amodok;
@@ -43,9 +43,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import msg.Msg;
@@ -64,7 +63,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean(name = "ZestawienieView")
+@Named(value = "ZestawienieView")
 @ViewScoped
 public class ZestawienieView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -103,9 +102,9 @@ public class ZestawienieView implements Serializable {
     private Pitpoz narPitpoz;
     //lista pitow
     private List<Pitpoz> listapit;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{remanentView}")
+    @Inject
     private RemanentView remanentView;
     private List<Dok> lista;
     private List<Pitpoz> pobierzPity;
@@ -1235,9 +1234,9 @@ public class ZestawienieView implements Serializable {
             try {
                 Pitpoz find = pitDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM(), biezacyPit.getPodatnik(), biezacyPit.getUdzialowiec(), wybranacechadok);
                 if (find!=null) {
-                    pitDAO.destroy(find);
+                    pitDAO.remove(find);
                 }
-                pitDAO.dodaj(biezacyPit);
+                pitDAO.create(biezacyPit);
                 String wiad = String.format("Edytowano PIT %s za m-c:%s", biezacyPit.getUdzialowiec(), biezacyPit.getPkpirM());
                 Msg.msg("i", wiad);
             } catch (Exception e) {

@@ -8,7 +8,7 @@ package viewfk;
 
 import beansFK.KontaFKBean;
 import dao.StronaWierszaDAO;
-import daoFK.KontoDAOfk;
+import dao.KontoDAOfk;
 import embeddable.Mce;
 import embeddablefk.SaldoKonto;
 import entityfk.Konto;
@@ -18,9 +18,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import view.WpisView; import org.primefaces.PrimeFaces;
 
@@ -28,12 +28,12 @@ import view.WpisView; import org.primefaces.PrimeFaces;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class RMKDokView implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<SaldoKonto> kontarmk;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private KontoDAOfk kontoDAOfk;

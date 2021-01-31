@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 
 /**
@@ -25,7 +25,7 @@ import javax.inject.Inject;
  * @author Osito
  * Informacja na dzien dorby co zostalo niewyslane z deklaracji, moze zostac ini
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class InfoViewAll implements Serializable {
 private static final long serialVersionUID = 1L;
@@ -35,7 +35,7 @@ private static final long serialVersionUID = 1L;
     private DeklaracjevatDAO deklaracjevatDAO;
     @Inject
     PodatnikDAO podatnikDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
 
     /**

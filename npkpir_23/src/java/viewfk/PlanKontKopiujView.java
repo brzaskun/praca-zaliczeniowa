@@ -7,7 +7,7 @@ package viewfk;
 
 import beansFK.PlanKontFKKopiujBean;
 import comparator.Kontocomparator;
-import daoFK.KontoDAOfk;
+import dao.KontoDAOfk;
 import embeddable.Roki;
 import entity.Podatnik;
 import entityfk.Konto;
@@ -18,16 +18,15 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import view.WpisView;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PlanKontKopiujView implements Serializable {
 
@@ -37,9 +36,9 @@ public class PlanKontKopiujView implements Serializable {
     private String rokzrodlowy;
     private String rokdocelowy;
     private boolean kopiujSlownikowe;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{planKontView}")
+    @Inject
     private PlanKontView planKontView;
     @Inject
     private KontoDAOfk kontoDAOfk;
@@ -139,7 +138,7 @@ public class PlanKontKopiujView implements Serializable {
                     Konto macierzyste = PlanKontFKKopiujBean.wyszukajmacierzyste(r.getKontomacierzyste().getPelnynumer(), macierzystelista);
                     r.setMacierzysty(macierzyste.getId());
                     r.setKontomacierzyste(macierzyste);
-                    kontoDAOfk.dodaj(r);
+                    kontoDAOfk.create(r);
                     nowemacierzyste.add(r);
                 } catch (Exception e) {
                     E.e(e);

@@ -5,7 +5,7 @@
 package viewfk;
 
 import comparator.Kontocomparator;
-import daoFK.KontoDAOfk;
+import dao.KontoDAOfk;
 import entityfk.Konto;
 import error.E;
 import java.io.Serializable;
@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import view.WpisView;
 /**
@@ -26,14 +26,14 @@ import view.WpisView;
  * @author Osito
  */
 @ViewScoped
-@ManagedBean
+@Named
 public class PlanKontBOView implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Inject
     private KontoDAOfk kontoDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private Map<Integer,List<Konto>> wykazkontGrupa;
     private List<Konto> wykazkont;

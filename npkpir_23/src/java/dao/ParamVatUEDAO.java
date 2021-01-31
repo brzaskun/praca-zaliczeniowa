@@ -6,18 +6,41 @@ package dao;
 
 import entity.ParamVatUE;
 import java.io.Serializable;
-import javax.inject.Named;
+import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;import javax.transaction.Transactional;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
  * @author Osito
  */
-@Named
+@Stateless
+@Transactional
 public class ParamVatUEDAO extends DAO implements Serializable{
       
+    
+       @PersistenceContext(unitName = "npkpir_22PU")
+    private EntityManager em;
+    
+    @PreDestroy
+    private void preDestroy() {
+        em.clear();
+        em.close();
+        em.getEntityManagerFactory().close();
+        em = null;
+        error.E.s("koniec jpa");
+    }
+
+    protected EntityManager getEntityManager() {
+        return em;
+    }
+
     public ParamVatUEDAO() {
         super(ParamVatUE.class);
+        super.em = this.em;
     }
+
 
     
 }

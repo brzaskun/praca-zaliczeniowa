@@ -46,9 +46,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg; import org.primefaces.PrimeFaces;
 import org.joda.time.DateTime;
@@ -60,7 +60,7 @@ import serialclone.SerialClone;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class VatKorektaView implements Serializable {
     
@@ -100,7 +100,7 @@ public class VatKorektaView implements Serializable {
     private List<VatKorektaDok> listadokumentowDoKorekty;
     @Inject
     private VatKorektaDok vatKorektaDok;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private WniosekVATZDEntityDAO wniosekVATZDEntityDAO;
@@ -292,9 +292,9 @@ public class VatKorektaView implements Serializable {
                 wniosekVATZDEntity.getDeklaracjevat().add(deklaracjaVATPoKorekcie);
                 deklaracjaVATPoKorekcie.setWniosekVATZDEntity(wniosekVATZDEntity);
             }
-            deklaracjevatDAO.dodaj(deklaracjaVATPoKorekcie);
+            deklaracjevatDAO.create(deklaracjaVATPoKorekcie);
             vATDeklaracjaKorektaDok.setDeklaracjaKorekta(deklaracjaVATPoKorekcie);
-            vATDeklaracjaKorektaDokDAO.dodaj(vATDeklaracjaKorektaDok);
+            vATDeklaracjaKorektaDokDAO.create(vATDeklaracjaKorektaDok);
             if (vatzd) {
                 wniosekVATZDEntityDAO.edit(wniosekVATZDEntity);
             }

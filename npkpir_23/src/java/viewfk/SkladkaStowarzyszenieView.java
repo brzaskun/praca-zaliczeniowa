@@ -6,8 +6,8 @@
 package viewfk;
 
 import comparator.RodzajCzlonkostwacomparator;
-import daoFK.RodzajCzlonkostwaDAO;
-import daoFK.SkladkaStowarzyszenieDAO;
+import dao.RodzajCzlonkostwaDAO;
+import dao.SkladkaStowarzyszenieDAO;
 import entityfk.RodzajCzlonkostwa;
 import entityfk.SkladkaStowarzyszenie;
 import error.E;
@@ -15,16 +15,16 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.inject.Named;
+
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import msg.Msg;import view.WpisView;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class SkladkaStowarzyszenieView implements Serializable {
     @Inject
@@ -36,7 +36,7 @@ public class SkladkaStowarzyszenieView implements Serializable {
     @Inject
     private RodzajCzlonkostwaDAO rodzajCzlonkostwaDAO;
     boolean zapisz0edytuj1;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     
     @PostConstruct
@@ -53,7 +53,7 @@ public class SkladkaStowarzyszenieView implements Serializable {
     public void dodaj() {
         try {
             skladkaStowarzyszenie.setPodatnik(wpisView.getPodatnikObiekt());
-            skladkaStowarzyszenieDAO.dodaj(skladkaStowarzyszenie);
+            skladkaStowarzyszenieDAO.create(skladkaStowarzyszenie);
             skladkaStowarzyszenieLista.add(skladkaStowarzyszenie);
             skladkaStowarzyszenie = new SkladkaStowarzyszenie();
             Msg.msg("Nanieniono nowy rodzaj składki");
@@ -82,7 +82,7 @@ public class SkladkaStowarzyszenieView implements Serializable {
     
     public void usun(SkladkaStowarzyszenie p) {
         try {
-            skladkaStowarzyszenieDAO.destroy(p);
+            skladkaStowarzyszenieDAO.remove(p);
             skladkaStowarzyszenieLista.remove(p);
             Msg.msg("Usunięto pozycję");
         } catch (Exception e) {

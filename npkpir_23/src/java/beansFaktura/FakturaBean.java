@@ -10,7 +10,7 @@ import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.FakturaDAO;
 import dao.FakturaStopkaNiemieckaDAO;
-import daoFK.TabelanbpDAO;
+import dao.TabelanbpDAO;
 import data.Data;
 import embeddable.EVatwpis;
 import embeddable.Pozycjenafakturzebazadanych;

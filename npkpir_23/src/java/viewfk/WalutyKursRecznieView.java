@@ -5,8 +5,7 @@
  */
 package viewfk;
 
-import daoFK.TabelanbpDAO;
-import data.Data;
+import dao.TabelanbpDAO;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import error.E;
@@ -16,9 +15,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.xml.parsers.ParserConfigurationException;
 import msg.Msg;import org.joda.time.DateTime;
@@ -29,7 +27,7 @@ import view.WpisView;import waluty.WalutyNBP;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class WalutyKursRecznieView implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -37,9 +35,9 @@ public class WalutyKursRecznieView implements Serializable{
     private TabelanbpDAO tabelanbpDAO;
     @Inject
     private WalutyNBP walutyNBP;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{walutyViewFK}")
+    @Inject
     private WalutyViewFK walutyViewFK;
     private String dataodtabela;
     private String datadotabela;
@@ -77,7 +75,7 @@ public class WalutyKursRecznieView implements Serializable{
     private void zachowajwiersze (List<Tabelanbp> wierszepobranezNBP) {
         for (Tabelanbp p : wierszepobranezNBP) {
             try {
-                tabelanbpDAO.dodaj(p);
+                tabelanbpDAO.create(p);
             } catch (Exception e) { 
                 E.e(e);
             }

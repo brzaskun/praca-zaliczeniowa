@@ -11,11 +11,11 @@ import comparator.RoznicaSaldBOcomparator;
 import comparator.SaldoKontocomparator;
 import comparator.StronaWierszacomparatorBO;
 import comparator.StronaWierszacomparatorDesc;
-import daoFK.DokDAOfk;
-import daoFK.KontoDAOfk;
-import daoFK.UkladBRDAO;
-import daoFK.WalutyDAOfk;
-import daoFK.WierszBODAO;
+import dao.DokDAOfk;
+import dao.KontoDAOfk;
+import dao.UkladBRDAO;
+import dao.WalutyDAOfk;
+import dao.WierszBODAO;
 import embeddablefk.RoznicaSaldBO;
 import embeddablefk.SaldoKonto;
 import entityfk.Dokfk;
@@ -33,14 +33,12 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import pdffk.PdfBilansGen;
 import testobjects.WierszBO_T;
@@ -53,15 +51,15 @@ import view.WpisView;import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class BilansGenerowanieView implements Serializable {
 
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{saldoAnalitykaView}")
+    @Inject
     private SaldoAnalitykaView saldoAnalitykaView;
-    @ManagedProperty(value = "#{bilansWprowadzanieView}")
+    @Inject
     private BilansWprowadzanieView bilansWprowadzanieView;
     @Inject
     private KontoDAOfk kontoDAO;
@@ -220,7 +218,7 @@ public class BilansGenerowanieView implements Serializable {
             } else {
                 Dokfk dokbo = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
                 if (dokbo != null) {
-                    dokDAOfk.destroy(dokbo);
+                    dokDAOfk.remove(dokbo);
                 } else {
                     Msg.msg("w","Nie znaleziono dokumentu BO. Albo go nie ma, albo jesteś w niewłaściwym miesiącu");
                 }
@@ -296,7 +294,7 @@ public class BilansGenerowanieView implements Serializable {
                     wierszeBO.add(new WierszBO(wpisView.getPodatnikObiekt(), sk, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), p.getKonto(), walpln, wpisView.getUzer()));
                 }
             }
-            wierszBODAO.dodaj(wierszeBO);
+            wierszBODAO.create(wierszeBO);
             Msg.msg("Naniesiono wiersze różnicowe");
         } catch (Exception e) {
             E.e(e);

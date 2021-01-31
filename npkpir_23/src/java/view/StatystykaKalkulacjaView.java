@@ -11,7 +11,7 @@ import dao.DokDAO;
 import dao.FakturaDAO;
 import dao.PodatnikDAO;
 import dao.StatystykaDAO;
-import daoFK.DokDAOfk;
+import dao.DokDAOfk;
 import entity.Podatnik;
 import entity.Statystyka;
 import error.E;
@@ -23,8 +23,8 @@ import java.util.Collections;
 import java.util.List;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import org.apache.commons.math3.stat.descriptive.rank.Median;
 import pdffk.PdfKlienciKalkulacja;
@@ -33,7 +33,7 @@ import pdffk.PdfKlienciKalkulacja;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class StatystykaKalkulacjaView  implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -154,7 +154,7 @@ public class StatystykaKalkulacjaView  implements Serializable {
         if (!listadozachowania.isEmpty()) {
             try {
                 statystykaDAO.usunrok(rok);
-                statystykaDAO.dodaj(listadozachowania);
+                statystykaDAO.create(listadozachowania);
                 Msg.msg("Zaksięgowano zapisy za rok");
             } catch (Exception e) {
                 Msg.msg("Wystąpił błąd nie zaksięgowano podumowania za rok");

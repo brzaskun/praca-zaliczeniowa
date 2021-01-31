@@ -10,10 +10,10 @@ import beansFK.MiejsceKosztowBean;
 import beansFK.PlanKontFKBean;
 import beansFK.SlownikiBean;
 import dao.StronaWierszaDAO;
-import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
-import daoFK.MiejsceKosztowDAO;
-import daoFK.UkladBRDAO;
+import dao.KontoDAOfk;
+import dao.KontopozycjaZapisDAO;
+import dao.MiejsceKosztowDAO;
+import dao.UkladBRDAO;
 import embeddablefk.MiejsceZest;
 import entityfk.Konto;
 import entityfk.MiejsceKosztow;
@@ -26,9 +26,9 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import pdf.PdfMiejsceKosztow;
 import view.WpisView;
@@ -36,7 +36,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class MiejsceKosztowView  implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -45,7 +45,7 @@ public class MiejsceKosztowView  implements Serializable{
     private List<MiejsceKosztow> miejscakosztow;
     @Inject
     private MiejsceKosztowDAO miejsceKosztowDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private boolean zapisz0edytuj1;
     @Inject
@@ -95,7 +95,7 @@ public class MiejsceKosztowView  implements Serializable{
         try {
             List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             selected.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumer(), wpisView.getRokWpisu());
-            miejsceKosztowDAO.dodaj(selected);
+            miejsceKosztowDAO.create(selected);
             PlanKontFKBean.aktualizujslownikMiejscaKosztow(wykazkont, miejsceKosztowDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
             miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
             selected.setOpismiejsca(null);
@@ -145,9 +145,9 @@ public class MiejsceKosztowView  implements Serializable{
                 Msg.msg("e", "Są zapisy w roku bieżącym na koncie "+boxnakonto.getPelnynumer()+" z użyciem tego miejsca kosztów. Nie można go usunąć!");
             } else {
                 for (Konto r : dosprawdzenia) {
-                    kontoDAOfk.destroy(r);
+                    kontoDAOfk.remove(r);
                 }
-                miejsceKosztowDAO.destroy(miejsceKosztow);
+                miejsceKosztowDAO.remove(miejsceKosztow);
                 miejscakosztow.remove(miejsceKosztow);
                 Msg.msg("Usunięto miejsce kosztów "+miejsceKosztow.getOpismiejsca()+" wraz z kontami");
                 

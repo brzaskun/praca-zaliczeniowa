@@ -27,9 +27,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
@@ -41,13 +41,13 @@ import pdf.PdfPkpir;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class KsiegaView implements Serializable {
 private static final long serialVersionUID = 1L;
     private List<DokKsiega> lista;
     private List<DokKsiega> listaFiltered;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private DokKsiega selDokument;
     @Inject
@@ -160,9 +160,9 @@ private static final long serialVersionUID = 1L;
         try {
             sumyzachowac = KsiegaBean.zachowajsumypkpir(wpisView, podsumowanie);
             sumypkpirDAO.usun(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-            sumypkpirDAO.dodaj(sumyzachowac);
+            sumypkpirDAO.create(sumyzachowac);
         } catch (Exception e) {
-            sumypkpirDAO.dodaj(sumyzachowac);
+            sumypkpirDAO.create(sumyzachowac);
         }
     }
 

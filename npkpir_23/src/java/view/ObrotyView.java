@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -38,7 +38,7 @@ import org.primefaces.PrimeFaces;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class ObrotyView implements Serializable{
     
@@ -51,7 +51,7 @@ public class ObrotyView implements Serializable{
     //lista wybranych dokumentow w panelu Guest
     private List<Dok> goscwybral;
     /*pkpir*/
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject  private DokDAO dokDAO;
     @Inject

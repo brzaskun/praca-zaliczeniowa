@@ -5,8 +5,8 @@
  */
 package viewfk;
 
-import daoFK.DokDAOfk;
-import daoFK.WierszBODAO;
+import dao.DokDAOfk;
+import dao.WierszBODAO;
 import entityfk.Dokfk;
 import entityfk.StronaWiersza;
 import entityfk.Wiersz;
@@ -17,20 +17,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import view.WpisView;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class BilansRozniceView implements Serializable {
     private static final long serialVersionUID = 1L;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private WierszBODAO wierszBODAO;

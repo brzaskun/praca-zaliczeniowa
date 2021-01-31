@@ -6,10 +6,10 @@
 package viewfk;
 
 import beansFK.PlanKontFKKopiujBean;
-import daoFK.KontoDAOfk;
-import daoFK.PozycjaBilansDAO;
-import daoFK.PozycjaRZiSDAO;
-import daoFK.UkladBRDAO;
+import dao.KontoDAOfk;
+import dao.PozycjaBilansDAO;
+import dao.PozycjaRZiSDAO;
+import dao.UkladBRDAO;
 import entity.Podatnik;
 import entityfk.Konto;
 import entityfk.UkladBR;
@@ -17,24 +17,23 @@ import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJBException;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import view.WpisView;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PodatnikRokObrachukowyView implements Serializable {
     private static final long serialVersionUID = 1L;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{planKontView}")
+    @Inject
     private PlanKontView planKontView;
-    @ManagedProperty(value = "#{pozycjaBRKontaView}")
+    @Inject
     private PozycjaBRKontaView pozycjaBRKontaView;
     @Inject
     private KontoDAOfk kontoDAOfk;
@@ -115,7 +114,7 @@ public class PodatnikRokObrachukowyView implements Serializable {
                         ukladBR.setPodatnik(wpisView.getPodatnikObiekt());
                         ukladBR.setRok(ukladdocelowyrok);
                         ukladBR.setImportowany(true);
-                        ukladBRDAO.dodaj(ukladBR);
+                        ukladBRDAO.create(ukladBR);
                         PlanKontFKKopiujBean.implementujRZiS(pozycjaRZiSDAO, ukladzrodlowy, wpisView.getPodatnikWpisu(), ukladdocelowyrok, ukladzrodlowy.getUklad());
                         PlanKontFKKopiujBean.implementujBilans(pozycjaBilansDAO, ukladzrodlowy, wpisView.getPodatnikWpisu(), ukladdocelowyrok, ukladzrodlowy.getUklad());
                         Msg.msg("i", "Skopiowano układ podatnika "+ukladzrodlowy.getUklad());

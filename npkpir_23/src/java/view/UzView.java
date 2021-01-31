@@ -18,9 +18,9 @@ import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
@@ -34,7 +34,7 @@ import params.Params;
  *
  * @author Osito
  */
-@ManagedBean(name = "UzView")
+@Named(value = "UzView")
 @ViewScoped
 public class UzView implements Serializable {
 
@@ -58,7 +58,7 @@ public class UzView implements Serializable {
     private String nowymail;
     private String nowehaslo;
     private String nowedrugiehaslo;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private List<DemoWiersz> polademo;
     private boolean pokazprzyciskrejestracja;
@@ -95,7 +95,7 @@ public class UzView implements Serializable {
         if (validateData()) {
             try {
                 selUzytkownik.setHaslo(haszuj(selUzytkownik.getHaslo()));
-                uzDAO.dodaj(selUzytkownik);
+                uzDAO.create(selUzytkownik);
                 String wiadomosc = B.b("rejestracjaudana");
                 Msg.msg(wiadomosc);
                 Mail.nadajMailRejestracjaNowegoUzera(selUzytkownik.getEmail(), selUzytkownik.getLogin(), null, sMTPSettingsDAO.findSprawaByDef());
@@ -114,7 +114,7 @@ public class UzView implements Serializable {
             nowyUzytkownik.setLoginglowny(nowyUzytkownik);
             nowyUzytkownik.setLocale("pl");
             nowyUzytkownik.setHaslo(haszuj(nowyUzytkownik.getHaslo()));
-            uzDAO.dodaj(nowyUzytkownik);
+            uzDAO.create(nowyUzytkownik);
             listaUzytkownikow.add(nowyUzytkownik);
             Msg.msg("Rejestracja udana");
         } catch (Exception e) {
@@ -207,7 +207,7 @@ public class UzView implements Serializable {
 
     public void destroy(Uz uzytkownik) {
         try {
-            uzDAO.destroy(uzytkownik);
+            uzDAO.remove(uzytkownik);
             listaUzytkownikow.remove(uzytkownik);
             obiektUZjsfselected.remove(uzytkownik);
             Msg.msg("i", "Usunąłem użytkownika " + uzytkownik.getLogin());

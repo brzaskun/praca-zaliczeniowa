@@ -9,11 +9,11 @@ import beansFK.PlanKontFKBean;
 import beansFK.PozycjaRZiSFKBean;
 import beansFK.UkladBRBean;
 import comparator.Kontocomparator;
-import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
-import daoFK.PozycjaBilansDAO;
-import daoFK.PozycjaRZiSDAO;
-import daoFK.UkladBRDAO;
+import dao.KontoDAOfk;
+import dao.KontopozycjaZapisDAO;
+import dao.PozycjaBilansDAO;
+import dao.PozycjaRZiSDAO;
+import dao.UkladBRDAO;
 import embeddablefk.TreeNodeExtended;
 import entity.Podatnik;
 import entityfk.Konto;
@@ -28,9 +28,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;import org.apache.commons.lang3.StringUtils;
@@ -44,7 +44,7 @@ import view.WpisView; import org.primefaces.PrimeFaces;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PozycjaBRKontaView implements Serializable {
 
@@ -69,7 +69,7 @@ public class PozycjaBRKontaView implements Serializable {
     private List<Konto> przyporzadkowanekonta;
     private TreeNodeExtended rootProjektKontaRZiS;
     private TreeNodeExtended rootProjektKontaBilans;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private int level = 0;
     private String wybranapozycja;
@@ -572,7 +572,7 @@ public class PozycjaBRKontaView implements Serializable {
                 kontabezprzydzialu.remove(p);
                 KontopozycjaZapis poz = kontopozycjaZapisDAO.findByKonto(p, wybranyuklad);
                 if (poz!=null) {
-                    kontopozycjaZapisDAO.destroy(poz);
+                    kontopozycjaZapisDAO.remove(poz);
                 }
             }
             kontoDAO.editList(listaSiostrzane);
@@ -598,7 +598,7 @@ public class PozycjaBRKontaView implements Serializable {
             kontabezprzydzialu.remove(p);
             KontopozycjaZapis poz = kontopozycjaZapisDAO.findByKonto(p, wybranyuklad);
             if (poz!=null) {
-                kontopozycjaZapisDAO.destroy(poz);
+                kontopozycjaZapisDAO.remove(poz);
             }
             
         }
@@ -630,7 +630,7 @@ public class PozycjaBRKontaView implements Serializable {
                     E.e(e);
                 }
             }
-            kontopozycjaZapisDAO.dodaj(nowezapispozycje);
+            kontopozycjaZapisDAO.create(nowezapispozycje);
         }
         if (rb.equals("b")) {
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowy, "bilansowe", aktywa0pasywa1);
@@ -646,7 +646,7 @@ public class PozycjaBRKontaView implements Serializable {
                     E.e(e);
                 }
             }
-            kontopozycjaZapisDAO.dodaj(nowezapispozycje);
+            kontopozycjaZapisDAO.create(nowezapispozycje);
         }
         Msg.msg("Zapamiętano przyporządkowane pozycje");
     }
@@ -656,14 +656,14 @@ public class PozycjaBRKontaView implements Serializable {
 //            List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaZapisPodatnikUklad(wybranyuklad, "wynikowe");
 //            kontopozycjaZapisDAO.usunKontoPozycjaBiezacaPodatnikUklad(wybranyuklad, "wynikowe");
 //            for (KontopozycjaBiezaca p : pozycjebiezace) {
-//                kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
+//                kontopozycjaZapisDAO.create(new KontopozycjaZapis(p));
 //            }
 //        }
 //        if (rb.equals("b")) {
 //            List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaZapisPodatnikUklad(wybranyuklad, "bilansowe");
 //            kontopozycjaZapisDAO.usunKontoPozycjaBiezacaPodatnikUklad(wybranyuklad, "bilansowe");
 //            for (KontopozycjaBiezaca p : pozycjebiezace) {
-//                kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
+//                kontopozycjaZapisDAO.create(new KontopozycjaZapis(p));
 //            }
 //        }
 //        Msg.msg("Zapamiętano przyporządkowane pozycje");

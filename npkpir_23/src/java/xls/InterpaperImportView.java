@@ -11,13 +11,13 @@ import beansRegon.SzukajDaneBean;
 import comparator.Kliencifkcomparator;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
-import daoFK.DokDAOfk;
-import daoFK.KliencifkDAO;
-import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
-import daoFK.TabelanbpDAO;
-import daoFK.UkladBRDAO;
-import daoFK.WalutyDAOfk;
+import dao.DokDAOfk;
+import dao.KliencifkDAO;
+import dao.KontoDAOfk;
+import dao.KontopozycjaZapisDAO;
+import dao.TabelanbpDAO;
+import dao.UkladBRDAO;
+import dao.WalutyDAOfk;
 import embeddable.PanstwaEUSymb;
 import embeddable.PanstwaMap;
 import embeddablefk.InterpaperXLS;
@@ -42,10 +42,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.poifs.filesystem.OfficeXmlFileException;
@@ -64,13 +63,13 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class InterpaperImportView implements Serializable {
     private static final long serialVersionUID = 1L;
-    @ManagedProperty(value = "#{WpisView}")
+   @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{gUSView}")
+   @Inject
     private GUSView gUSView;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
@@ -94,12 +93,12 @@ public class InterpaperImportView implements Serializable {
     private ListaEwidencjiVat listaEwidencjiVat;
     private byte[] pobranyplik;
     private List<byte[]> pobraneplikibytes;
-    public List<InterpaperXLS> pobranefaktury;
-    public List<InterpaperXLS> przerwanyimport;
-    public List<InterpaperXLS> importyzbrakami;
-    public List<InterpaperXLS> innyokres;
-    public  List<InterpaperXLS> pobranefakturyfilter;
-    public  List<InterpaperXLS> selected;
+    private List<InterpaperXLS> pobranefaktury;
+    private List<InterpaperXLS> przerwanyimport;
+    private List<InterpaperXLS> importyzbrakami;
+    private List<InterpaperXLS> innyokres;
+    private  List<InterpaperXLS> pobranefakturyfilter;
+    private  List<InterpaperXLS> selected;
     private List<Rodzajedok> rodzajedokKlienta;
     private String wiadomoscnieprzypkonta;
     private String rodzajdok;
@@ -386,7 +385,7 @@ public class InterpaperImportView implements Serializable {
             try {
                 if (dokument!=null) {
                     dokument.setImportowany(true);
-                    dokDAOfk.dodaj(dokument);
+                    dokDAOfk.create(dokument);
                     interpaperXLS.setSymbolzaksiegowanego(dokument.getDokfkSN());
                     ile = 1;
                 }
@@ -501,7 +500,7 @@ public class InterpaperImportView implements Serializable {
         try {
             zwrot = SzukajDaneBean.znajdzdaneregonAutomat(nip);
             if (!zwrot.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
-                klienciDAO.dodaj(zwrot);
+                klienciDAO.create(zwrot);
                 Msg.msg("Zaktualizowano dane klienta pobranymi z GUS");
             }
         } catch (Exception e) {
@@ -782,7 +781,7 @@ public class InterpaperImportView implements Serializable {
             klientMaKonto.setPodatniknazwa(wpisView.getPodatnikWpisu());
             klientMaKonto.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
             klientMaKonto.setNrkonta(pobierznastepnynumer());
-            kliencifkDAO.dodaj(klientMaKonto);
+            kliencifkDAO.create(klientMaKonto);
             List<Konto> wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             PlanKontFKBean.aktualizujslownikKontrahenci(wykazkont, kliencifkDAO, klientMaKonto, kontoDAO, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
             String numerkonta = "201-2-"+klientMaKonto.getNrkonta();
@@ -810,7 +809,7 @@ public class InterpaperImportView implements Serializable {
             klientMaKonto.setPodatniknazwa(wpisView.getPodatnikWpisu());
             klientMaKonto.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
             klientMaKonto.setNrkonta(pobierznastepnynumer());
-            kliencifkDAO.dodaj(klientMaKonto);
+            kliencifkDAO.create(klientMaKonto);
             List<Konto> wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             PlanKontFKBean.aktualizujslownikKontrahenci(wykazkont, kliencifkDAO, klientMaKonto, kontoDAO, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
             String numerkonta = "202-2-"+klientMaKonto.getNrkonta();
@@ -897,7 +896,7 @@ public class InterpaperImportView implements Serializable {
                 selectedimport.setLokal("-");
             }
             if (!selectedimport.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
-                klienciDAO.dodaj(selectedimport);
+                klienciDAO.create(selectedimport);
             }
             for (InterpaperXLS p : pobranefaktury) {
                 if (p.getKontrahent().equals(selectedimport1text)) {

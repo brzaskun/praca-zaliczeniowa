@@ -4,14 +4,15 @@
  */
 package links;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
+
 
 /**
  *
  * @author Osito
  */
-@ManagedBean(name="Links")
+@Named
 @RequestScoped
 public class links {
     private String adminIndexURL="admin/adminIndex";

@@ -8,7 +8,7 @@ package view;
 import beansFK.TabelaNBPBean;
 import dao.DokDAO;
 import dao.PlatnoscWalutaDAO;
-import daoFK.TabelanbpDAO;
+import dao.TabelanbpDAO;
 import entity.Dok;
 import entity.PlatnoscWaluta;
 import entityfk.Waluty;
@@ -23,9 +23,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;import org.joda.time.DateTime;
@@ -35,7 +35,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PlatnosciWalutyView  implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -46,7 +46,7 @@ public class PlatnosciWalutyView  implements Serializable {
     @Inject
     private TabelanbpDAO tabelanbpDAO;
     private List<Dok> dokumenty;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private Dok selected;
     private List<String> kontrahentypodatnika;

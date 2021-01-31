@@ -8,7 +8,7 @@ package view;
 import beansVAT.VATZDBean;
 import dao.VATZDDAO;
 import dao.WniosekVATZDEntityDAO;
-import daoFK.DokDAOfk;
+import dao.DokDAOfk;
 import data.Data;
 import deklaracje.vatzd.WniosekVATZD;
 import entity.Dok;
@@ -19,24 +19,23 @@ import entityfk.Dokfk;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
-import msg.Msg;import waluty.Z;
+import msg.Msg;
+import waluty.Z;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class VATZDView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -56,7 +55,7 @@ public class VATZDView implements Serializable {
     private VATZDDAO vatzddao;
     @Inject
     private WniosekVATZDEntityDAO wniosekVATZDEntityDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private WniosekVATZDEntity wniosekVATZDEntity;
     private boolean tylkowybrane;
@@ -218,7 +217,7 @@ public class VATZDView implements Serializable {
     public void vatzdback() {
         try {
             for (VATZDpozycja p : pozycje) {
-                vatzddao.destroy(p);
+                vatzddao.remove(p);
                 pozycje.remove(p);
                 Dokfk dok = p.getDokfk();
                 dok.setWniosekVATZDEntity(null);
@@ -233,8 +232,8 @@ public class VATZDView implements Serializable {
     
     public void zachowajwniosek() {
         try {
-            vatzddao.dodaj(pozycje);
-            wniosekVATZDEntityDAO.dodaj(wniosekVATZDEntity);
+            vatzddao.create(pozycje);
+            wniosekVATZDEntityDAO.create(wniosekVATZDEntity);
             dokDAOfk.editList(wniosekVATZDEntity.getZawierafk());
             Msg.msg("Zachowano wniosek");
         } catch (Exception e) {
@@ -248,7 +247,7 @@ public class VATZDView implements Serializable {
             for (Dokfk d : wniosekVATZDEntity.getZawierafk()) {
                 d.setWniosekVATZDEntity(null);
             }
-            wniosekVATZDEntityDAO.destroy(wniosekVATZDEntity);
+            wniosekVATZDEntityDAO.remove(wniosekVATZDEntity);
             dokDAOfk.editList(wniosekVATZDEntity.getZawierafk());
             wniosekVATZDEntity = null;
             Msg.msg("Usunięto wniosek");
@@ -271,7 +270,7 @@ public class VATZDView implements Serializable {
     
     public void usunfk(VATZDpozycja poz) {
         if (poz.getDeklaracjavat()==null) {
-            vatzddao.destroy(poz);
+            vatzddao.remove(poz);
             pozycje.remove(poz);
             Msg.msg("Usunięto pozycję");
         } else {

@@ -11,13 +11,13 @@ import beansRegon.SzukajDaneBean;
 import comparator.Kliencifkcomparator;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
-import daoFK.DokDAOfk;
-import daoFK.KliencifkDAO;
-import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
-import daoFK.TabelanbpDAO;
-import daoFK.UkladBRDAO;
-import daoFK.WalutyDAOfk;
+import dao.DokDAOfk;
+import dao.KliencifkDAO;
+import dao.KontoDAOfk;
+import dao.KontopozycjaZapisDAO;
+import dao.TabelanbpDAO;
+import dao.UkladBRDAO;
+import dao.WalutyDAOfk;
 import embeddable.PanstwaEUSymb;
 import embeddablefk.InterpaperXLS;
 import entity.Evewidencja;
@@ -32,7 +32,6 @@ import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import entityfk.Wiersz;
 import error.E;
-import gus.GUSView;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -47,10 +46,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 import org.apache.commons.io.FilenameUtils;
 import org.joda.time.DateTime;
@@ -59,18 +57,18 @@ import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-
-import view.WpisView;import waluty.Z;
+import view.WpisView;
+import waluty.Z;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class InterpaperImportMT940View implements Serializable {
     private static final long serialVersionUID = 1L;
-    @ManagedProperty(value = "#{WpisView}")
+   @Inject
     private WpisView wpisView;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
@@ -93,9 +91,9 @@ public class InterpaperImportMT940View implements Serializable {
     @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
     private byte[] plikinterpaper;
-    public  List<InterpaperXLS> pobranefaktury;
-    public  List<InterpaperXLS> pobranefakturyfilter;
-    public  List<InterpaperXLS> selected;
+    private List<InterpaperXLS> pobranefaktury;
+    private List<InterpaperXLS> pobranefakturyfilter;
+    private List<InterpaperXLS> selected;
     private List<Rodzajedok> rodzajedokKlienta;
     private String wiadomoscnieprzypkonta;
     private String rodzajdok;
@@ -218,7 +216,7 @@ public class InterpaperImportMT940View implements Serializable {
             try {
                 if (dokument!=null) {
                     dokument.setImportowany(true);
-                    dokDAOfk.dodaj(dokument);
+                    dokDAOfk.create(dokument);
                     ile++;
                 }
             } catch (Exception e) {
@@ -313,7 +311,7 @@ public class InterpaperImportMT940View implements Serializable {
         try {
             zwrot = SzukajDaneBean.znajdzdaneregonAutomat(nip);
             if (!zwrot.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
-                klienciDAO.dodaj(zwrot);
+                klienciDAO.create(zwrot);
             }
             Msg.msg("Zaktualizowano dane klienta pobranymi z GUS");
         } catch (Exception e) {
@@ -548,7 +546,7 @@ private void przesuniecie(Dokfk nd, EVatwpisFK eVatwpisFK) {
             klientMaKonto.setPodatniknazwa(wpisView.getPodatnikWpisu());
             klientMaKonto.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
             klientMaKonto.setNrkonta(pobierznastepnynumer());
-            kliencifkDAO.dodaj(klientMaKonto);
+            kliencifkDAO.create(klientMaKonto);
             List<Konto> wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             PlanKontFKBean.aktualizujslownikKontrahenci(wykazkont, kliencifkDAO, klientMaKonto, kontoDAO, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
             String numerkonta = "201-2-"+klientMaKonto.getNrkonta();
@@ -576,7 +574,7 @@ private void przesuniecie(Dokfk nd, EVatwpisFK eVatwpisFK) {
             klientMaKonto.setPodatniknazwa(wpisView.getPodatnikWpisu());
             klientMaKonto.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
             klientMaKonto.setNrkonta(pobierznastepnynumer());
-            kliencifkDAO.dodaj(klientMaKonto);
+            kliencifkDAO.create(klientMaKonto);
             List<Konto> wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             PlanKontFKBean.aktualizujslownikKontrahenci(wykazkont, kliencifkDAO, klientMaKonto, kontoDAO, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
             String numerkonta = "202-2-"+klientMaKonto.getNrkonta();

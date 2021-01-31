@@ -15,25 +15,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class FakturyokresoweView implements Serializable{
     private List<Fakturyokresowe> faktury;
     @Inject private FakturyokresoweDAO fakturyokresoweDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{DokTabGuestView}")
+    @Inject
     private DokTabGuestView dokTabGuestView;
-    @ManagedProperty(value = "#{DokTabView}")
+    @Inject
     private DokTabView dokTabView;
     private Fakturyokresowe selected;
     @Inject private DokDAO dokDAO;
@@ -55,7 +54,7 @@ public class FakturyokresoweView implements Serializable{
         Fakturyokresowe fakturyokresowe = new Fakturyokresowe();
         fakturyokresowe.setDokument(dokTabView.getGosciuwybral().get(0));
         fakturyokresowe.setPodatnik(wpisView.getPodatnikWpisu());
-        fakturyokresoweDAO.dodaj(fakturyokresowe);
+        fakturyokresoweDAO.create(fakturyokresowe);
         Msg.msg("i", "Dodano fakturę okresową");
     }
     
@@ -63,13 +62,13 @@ public class FakturyokresoweView implements Serializable{
         Fakturyokresowe fakturyokresowe = new Fakturyokresowe();
         fakturyokresowe.setDokument(dokTabGuestView.getSelected().get(0));
         fakturyokresowe.setPodatnik(wpisView.getPodatnikWpisu());
-        fakturyokresoweDAO.dodaj(fakturyokresowe);
+        fakturyokresoweDAO.create(fakturyokresowe);
         Msg.msg("i", "Dodano fakturę okresową");
     }
 
     public void usunfaktureokresowa(){
         faktury.remove(selected);
-        fakturyokresoweDAO.destroy(selected);
+        fakturyokresoweDAO.remove(selected);
         Msg.msg("i", "Usunięto fakturę okresową");
     }//<editor-fold defaultstate="collapsed" desc="comment">
     public List<Fakturyokresowe> getFaktury() {

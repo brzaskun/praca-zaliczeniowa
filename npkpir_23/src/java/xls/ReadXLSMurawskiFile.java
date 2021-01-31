@@ -7,8 +7,8 @@ package xls;
 
 import beansRegon.SzukajDaneBean;
 import dao.KlienciDAO;
-import daoFK.KontoDAOfk;
-import daoFK.TabelanbpDAO;
+import dao.KontoDAOfk;
+import dao.TabelanbpDAO;
 import data.Data;
 import embeddable.PanstwaMap;
 import embeddablefk.InterpaperXLS;
@@ -231,7 +231,7 @@ public class ReadXLSMurawskiFile {
                     if (klient.getNpelna()==null) {
                         klient = null;
                     } else {
-                        //klienciDAO.dodaj(klient);
+                        //klienciDAO.create(klient);
                     }
                     znalezieni.put(interpaperXLS.getKontrahent(), klient);
                 }
@@ -244,7 +244,7 @@ public class ReadXLSMurawskiFile {
                     klient.setKrajnazwa(interpaperXLS.getKlientpaństwo());
                     klient.setKrajkod(PanstwaMap.getWykazPanstwSX().get(klient.getKrajnazwa()));
                     if (klient.getNip()!=null && klient.getNip().length()>5) {
-                        //klienciDAO.dodaj(klient);
+                        //klienciDAO.create(klient);
                         znalezieni.put(interpaperXLS.getKontrahent(), klient);
                     }
                 }

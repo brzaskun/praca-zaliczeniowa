@@ -7,7 +7,7 @@
 package beansFK;
 
 import dao.StronaWierszaDAO;
-import daoFK.TransakcjaDAO;
+import dao.TransakcjaDAO;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import entityfk.Wiersz;

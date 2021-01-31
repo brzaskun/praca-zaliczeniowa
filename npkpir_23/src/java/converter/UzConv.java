@@ -6,24 +6,24 @@ package converter;
 
 import dao.UzDAO;
 import entity.Uz;
-import error.E;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @SessionScoped
-public class UzConv implements javax.faces.convert.Converter{
+public class UzConv implements javax.faces.convert.Converter, Serializable{
     @Inject
     private UzDAO uzDAO;
     private List<Uz> uzytkownicy;

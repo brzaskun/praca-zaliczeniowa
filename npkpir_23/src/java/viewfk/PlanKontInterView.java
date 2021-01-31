@@ -5,7 +5,7 @@
  */
 package viewfk;
 
-import daoFK.KontoDAOfk;
+import dao.KontoDAOfk;
 import entity.Podatnik;
 import entityfk.Konto;
 import error.E;
@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import view.WpisView;import xls.ReadCSVInterpaperFile;
 
@@ -24,13 +24,13 @@ import msg.Msg;import view.WpisView;import xls.ReadCSVInterpaperFile;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PlanKontInterView implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<Konto> wykazkont;
     private List<Konto> wykazkontwzor;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private KontoDAOfk kontoDAOfk;

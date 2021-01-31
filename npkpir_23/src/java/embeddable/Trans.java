@@ -9,16 +9,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import view.WpisView;
 /**
  *
  * @author Osito
  */
-@ManagedBean(name="Trans")
+@Named
 @RequestScoped
 public class Trans implements Serializable{
 
@@ -78,7 +77,7 @@ public class Trans implements Serializable{
     @Inject
     private PodatnikDAO podatnikDAO;
      
-    @ManagedProperty(value="#{WpisView}")
+    @Inject
     private WpisView wpisView;
 
     

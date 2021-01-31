@@ -17,9 +17,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg; import org.primefaces.PrimeFaces;
 import waluty.Z;
@@ -28,7 +28,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class StrataView  implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -39,7 +39,7 @@ public class StrataView  implements Serializable{
     private PitDAO pitDAO;
     @Inject
     private Strata selected;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
 
     public StrataView() {
@@ -53,7 +53,7 @@ public class StrataView  implements Serializable{
     
     public void usunstrate(Strata loop) {
         try {
-            strataDAO.destroy(loop);
+            strataDAO.remove(loop);
             stratypodatnika.remove(loop);
             Msg.msg("i", "Usunieto stratę za rok " + loop.getRok(), "akordeon:form2:messages");
         } catch (Exception e) { E.e(e); 
@@ -74,7 +74,7 @@ public class StrataView  implements Serializable{
                 Msg.msg("e", "Strata z tego roku jest już naniesiona", "akordeon:form2:messages");
                 throw new Exception();
             }
-            strataDAO.dodaj(selected);
+            strataDAO.create(selected);
             stratypodatnika.add(selected);
             selected = new Strata();
             selected.setRok(wpisView.getRokUprzedni());
@@ -126,7 +126,7 @@ public class StrataView  implements Serializable{
             }
             Strata nowastrata = new Strata(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedni(), wynikzarok, Z.z(wynikzarok/2), 0, wynikzarok);
             strataDAO.usuntensamrok(nowastrata);
-            strataDAO.dodaj(nowastrata);
+            strataDAO.create(nowastrata);
             stratypodatnika.add(nowastrata);
             //wczesniej usunieto zapisy z roku ale nie zaktualizowano podsumowan
             for (Strata r : stratypodatnika) {

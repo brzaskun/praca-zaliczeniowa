@@ -6,7 +6,7 @@
 package dedra;
 
 
-import daoFK.EVatwpisDedraDAO;
+import dao.EVatwpisDedraDAO;
 import entity.EVatwpisSuper;
 import entity.Evewidencja;
 import entity.Podatnik;
@@ -158,7 +158,7 @@ public class Dedraparser {
             p.setRokEw(wpisView.getRokWpisuSt());
             p.setEwidencja(ewidencja);
             p.setPodatnikObj(podatnik);
-            eVatwpisDedraDAO.dodaj(p);
+            eVatwpisDedraDAO.create(p);
             return p;
     }
     

@@ -21,17 +21,17 @@ import java.io.Serializable;
 import java.security.Principal;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import msg.Msg;
 /**
  *
  * @author Osito
  */
-@ManagedBean(name = "WpisView")
+@Named(value = "WpisView")
 @SessionScoped
 public class WpisView implements Serializable {
     private static final long serialVersionUID = 1L;

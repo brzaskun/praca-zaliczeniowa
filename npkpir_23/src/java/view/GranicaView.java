@@ -15,15 +15,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class GranicaView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -83,7 +83,7 @@ public class GranicaView implements Serializable {
             if (niema(nazwalimitu)) {
                 nowa.setNazwalimitu(nazwalimitu);
                 granicewykaz.get(nazwalimitu).add(nowa);
-                granicaDAO.dodaj(nowa);
+                granicaDAO.create(nowa);
                 Msg.dP();
                 nowa = new Granica();
             } else {
@@ -111,7 +111,7 @@ public class GranicaView implements Serializable {
     public void usun(Granica granica) {
         try {
             granicewykaz.get(granica.getNazwalimitu()).remove(selected);
-            granicaDAO.destroy(selected);
+            granicaDAO.remove(selected);
             Msg.dP();
             selected = new Granica();
         } catch(Exception e) {

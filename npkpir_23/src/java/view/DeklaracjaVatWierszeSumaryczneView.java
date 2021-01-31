@@ -11,15 +11,15 @@ import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class DeklaracjaVatWierszeSumaryczneView implements Serializable {
     @Inject
@@ -38,7 +38,7 @@ public class DeklaracjaVatWierszeSumaryczneView implements Serializable {
     
     public void dodajwiersz() {
         try {
-            deklaracjaVatWierszSumarycznyDAO.dodaj(nazwawierszasumarycznego);
+            deklaracjaVatWierszSumarycznyDAO.create(nazwawierszasumarycznego);
             wierszesumarycznelista.add(nazwawierszasumarycznego);
             nazwawierszasumarycznego = new DeklaracjaVatWierszSumaryczny();
             Msg.msg("Dodano nowy wiersz sumaryczny");
@@ -48,7 +48,7 @@ public class DeklaracjaVatWierszeSumaryczneView implements Serializable {
     }
     
     public void usun(DeklaracjaVatWierszSumaryczny i) {
-        deklaracjaVatWierszSumarycznyDAO.destroy(i);
+        deklaracjaVatWierszSumarycznyDAO.remove(i);
         wierszesumarycznelista.remove(i);
         Msg.msg("Usunięto wiersz sumaryczny");
     }

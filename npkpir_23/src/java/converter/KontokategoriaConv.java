@@ -5,6 +5,7 @@
 package converter;
 
 import entityfk.Kontokategoria;
+import java.io.Serializable;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -16,7 +17,7 @@ import viewfk.KontokategoriaPrzypView;
  *
  * @author Osito
  */
-public class KontokategoriaConv implements javax.faces.convert.Converter{
+public class KontokategoriaConv implements javax.faces.convert.Converter, Serializable {
     
        
     @Override

@@ -7,7 +7,7 @@
 package beansFK;
 
 import dao.StronaWierszaDAO;
-import daoFK.KontoDAOfk;
+import dao.KontoDAOfk;
 import embeddablefk.SaldoKonto;
 import entity.Podatnik;
 import entity.Rodzajedok;

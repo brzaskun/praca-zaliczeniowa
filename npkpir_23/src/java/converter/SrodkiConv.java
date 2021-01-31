@@ -5,6 +5,7 @@
 package converter;
 
 import entity.Srodkikst;
+import java.io.Serializable;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -16,7 +17,7 @@ import view.SrodkikstView;
  *
  * @author Osito
  */
-public class SrodkiConv implements javax.faces.convert.Converter{
+public class SrodkiConv implements javax.faces.convert.Converter, Serializable {
     
        
     @Override

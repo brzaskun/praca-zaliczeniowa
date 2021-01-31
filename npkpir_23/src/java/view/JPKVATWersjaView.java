@@ -11,8 +11,8 @@ import entity.JPKVATWersja;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 
@@ -20,7 +20,7 @@ import msg.Msg;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class JPKVATWersjaView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -53,7 +53,7 @@ public class JPKVATWersjaView implements Serializable {
         } else if (czyschemaistnieje == 4) {
             Msg.msg("e", "Nie można dodać. Nazwa JPK nie rozpoczyna się od JPK pisanych wielką literą");
         } else {
-            jPKVATWersjaDAO.dodaj(nowy);
+            jPKVATWersjaDAO.create(nowy);
             lista.add(nowy);
             nowy = new JPKVATWersja();
             Msg.msg("Dodano JPK");
@@ -68,7 +68,7 @@ public class JPKVATWersjaView implements Serializable {
     }
     
     public void usun(JPKVATWersja s) {
-        jPKVATWersjaDAO.destroy(s);
+        jPKVATWersjaDAO.remove(s);
         lista.remove(s);
         Msg.msg("Usunieto JPK");
     }

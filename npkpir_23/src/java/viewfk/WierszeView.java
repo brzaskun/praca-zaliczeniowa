@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import pdffk.PdfWiersz;
 import view.WpisView;
@@ -25,7 +25,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class WierszeView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -40,7 +40,7 @@ public class WierszeView implements Serializable {
     private double sumaszt;
     private double sumawn;
     private double sumama;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private boolean tylkobezrozrachunkow;
 

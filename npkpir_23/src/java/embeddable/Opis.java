@@ -6,15 +6,14 @@ package embeddable;
 
 import dao.PodatnikDAO;
 import entity.Podatnik;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.inject.Inject;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
@@ -24,14 +23,14 @@ import view.WpisView; import org.primefaces.PrimeFaces;
  *
  * @author Osito
  */
-@ManagedBean(name="Opis")
+@Named
 @ViewScoped
 public class Opis implements Serializable{
 
     private List<String> opisy;
     @Inject private PodatnikDAO podatnikDAO;
     @Inject private Podatnik podatnik;
-    @ManagedProperty(value="#{WpisView}")
+    @Inject
     private WpisView wpisView;
      
 

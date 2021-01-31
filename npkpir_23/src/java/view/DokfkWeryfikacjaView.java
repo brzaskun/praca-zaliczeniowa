@@ -13,9 +13,9 @@ import static beansFK.DokFKVATBean.rozliczVatKosztNaprawWB;
 import static beansFK.DokFKVATBean.rozliczVatPrzychodNapraw;
 import beansFK.WartosciVAT;
 import dao.KlienciDAO;
-import daoFK.DokDAOfk;
-import daoFK.KliencifkDAO;
-import daoFK.KontoDAOfk;
+import dao.DokDAOfk;
+import dao.KliencifkDAO;
+import dao.KontoDAOfk;
 import data.Data;
 import embeddable.Mce;
 import entity.Dok;
@@ -35,9 +35,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.component.commandbutton.CommandButton;
@@ -49,7 +49,7 @@ import webservice.NIPVATcheck;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class DokfkWeryfikacjaView implements Serializable {
 
@@ -62,7 +62,7 @@ public class DokfkWeryfikacjaView implements Serializable {
     private KliencifkDAO kliencifkDAO;
     @Inject
     private KontoDAOfk kontoDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private CommandButton ksiegujbutton;
 

@@ -5,9 +5,9 @@
  */
 package beansFK;
 
-import daoFK.DokDAOfk;
-import daoFK.KontoDAOfk;
-import daoFK.WierszBODAO;
+import dao.DokDAOfk;
+import dao.KontoDAOfk;
+import dao.WierszBODAO;
 import entity.Podatnik;
 import entityfk.Dokfk;
 import entityfk.Konto;

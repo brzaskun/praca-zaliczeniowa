@@ -8,10 +8,10 @@ package viewfk;
 import beansFK.DokumentFKBean;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
-import daoFK.DokDAOfk;
-import daoFK.KontoDAOfk;
-import daoFK.TabelanbpDAO;
-import daoFK.TransakcjaDAO;
+import dao.DokDAOfk;
+import dao.KontoDAOfk;
+import dao.TabelanbpDAO;
+import dao.TransakcjaDAO;
 import entityfk.Dokfk;
 import entityfk.Transakcja;
 import error.E;
@@ -19,9 +19,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import pdffk.PdfRRK;
 import view.WpisView; import org.primefaces.PrimeFaces;
@@ -30,7 +30,7 @@ import view.WpisView; import org.primefaces.PrimeFaces;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class RozniceKursoweFKView implements Serializable {
 
@@ -48,7 +48,7 @@ public class RozniceKursoweFKView implements Serializable {
     private TabelanbpDAO tabelanbpDAO;
     @Inject
     private KontoDAOfk kontoDAOfk;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private double sumatransakcji;
     private String mczaksiegowane;
@@ -81,7 +81,7 @@ public class RozniceKursoweFKView implements Serializable {
                 usundokumentztegosamegomiesiaca(nrkolejny);
             }
             Dokfk dokumentRKK = DokumentFKBean.generujdokument(wpisView, klienciDAO, "RRK", "zaksięgowanie różnicC kursowych", rodzajedokDAO, tabelanbpDAO, kontoDAOfk, pobranetransakcje, dokDAOfk);
-            dokDAOfk.dodaj(dokumentRKK);
+            dokDAOfk.create(dokumentRKK);
             Msg.msg("Zaksięgowano dokument RRK");
         } catch (Exception e) {  
             E.e(e);
@@ -97,7 +97,7 @@ public class RozniceKursoweFKView implements Serializable {
     private void usundokumentztegosamegomiesiaca(int numerkolejny) {
         Dokfk popDokfk = dokDAOfk.findDokfofaType(wpisView.getPodatnikObiekt(), "RRK", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         if (popDokfk != null) {
-            dokDAOfk.destroy(popDokfk);
+            dokDAOfk.remove(popDokfk);
         }
     }
 

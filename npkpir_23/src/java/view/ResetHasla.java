@@ -9,7 +9,7 @@ import dao.UzDAO;
 import entity.Uz;
 import error.E;
 import java.io.Serializable;
-import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 import javax.inject.Inject;
 import mail.Mail;
 import msg.Msg;
@@ -17,7 +17,7 @@ import msg.Msg;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 public class ResetHasla implements Serializable {
 
     private static final long serialVersionUID = 1L;

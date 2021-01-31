@@ -6,7 +6,6 @@ package view;
 
 
 import embeddablefk.SaldoKonto;
-import entity.EVatwpis1;
 import entity.EVatwpisSuper;
 import entityfk.EVatwpisFK;
 import entityfk.StronaWiersza;
@@ -17,23 +16,23 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import msg.Msg;import waluty.Z;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class EwidencjaVatCheckView implements Serializable {
 
     private List<EwidencjaKonto> ewkonto;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{ewidencjaVatView}")
+    @Inject
     private EwidencjaVatView ewidencjaVatView;
     
    public void wykryjbledy(List<SaldoKonto> kontavat) {

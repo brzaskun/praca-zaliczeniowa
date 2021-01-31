@@ -10,8 +10,8 @@ import entity.FakturaDodatkowaPozycja;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 
@@ -19,7 +19,7 @@ import msg.Msg;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class FakturaDodatkowaPozycjaView  implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -38,7 +38,7 @@ public class FakturaDodatkowaPozycjaView  implements Serializable {
         if (selected.getNazwa()!=null && selected.getKwota() > 0.0) {
             try {
                 selected.setAktywny(true);
-                fakturaDodatkowaPozycjaDAO.dodaj(selected);
+                fakturaDodatkowaPozycjaDAO.create(selected);
                 lista.add(selected);
                 selected = new FakturaDodatkowaPozycja();
                 Msg.msg("Zapisano nową pozycję");
@@ -53,7 +53,7 @@ public class FakturaDodatkowaPozycjaView  implements Serializable {
     public void usun(FakturaDodatkowaPozycja sel) {
         if (sel !=null) {
             try {
-                fakturaDodatkowaPozycjaDAO.destroy(sel);
+                fakturaDodatkowaPozycjaDAO.remove(sel);
                 lista.remove(sel);
                 Msg.msg("Usunięto pozycję");
             } catch (Exception e) {

@@ -5,8 +5,8 @@
  */
 package beansFK;
 
-import daoFK.KontopozycjaZapisDAO;
-import daoFK.UkladBRDAO;
+import dao.KontopozycjaZapisDAO;
+import dao.UkladBRDAO;
 import entity.Podatnik;
 import entityfk.Konto;
 import entityfk.KontopozycjaZapis;
@@ -32,7 +32,7 @@ public class KontoPozycjaBean {
                     nowe.add(r);
                 }
             }
-            kontopozycjaZapisDAO.dodaj(nowe);
+            kontopozycjaZapisDAO.create(nowe);
         }
     }
     

@@ -12,8 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg; import org.primefaces.PrimeFaces;
@@ -23,7 +23,7 @@ import org.primefaces.event.RowEditEvent;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class EvopisView  implements Serializable {
 
@@ -57,7 +57,7 @@ public class EvopisView  implements Serializable {
                     throw new Exception();
                 }
             }
-            eopisDAO.dodaj(selected);
+            eopisDAO.create(selected);
             lista.add(selected);
             selected = new Evopis();
             Msg.msg("Dodano nowy opis");
@@ -78,7 +78,7 @@ public class EvopisView  implements Serializable {
     }
 
     public void usun(Evopis evopis) {
-        eopisDAO.destroy(evopis);
+        eopisDAO.remove(evopis);
         lista.remove(evopis);
         PrimeFaces.current().ajax().update("akordeon:form1");
     }

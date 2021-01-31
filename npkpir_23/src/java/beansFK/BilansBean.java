@@ -5,10 +5,10 @@
  */
 package beansFK;
 
-import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
-import daoFK.PozycjaRZiSDAO;
-import daoFK.UkladBRDAO;
+import dao.KontoDAOfk;
+import dao.KontopozycjaZapisDAO;
+import dao.PozycjaRZiSDAO;
+import dao.UkladBRDAO;
 import embeddable.Mce;
 import entity.Podatnik;
 import entityfk.Konto;

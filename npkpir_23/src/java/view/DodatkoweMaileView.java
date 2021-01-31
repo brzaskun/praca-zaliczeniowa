@@ -12,8 +12,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 
@@ -21,7 +21,7 @@ import msg.Msg;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class DodatkoweMaileView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -41,7 +41,7 @@ public class DodatkoweMaileView implements Serializable {
     
     public void dodaj() {
         if (selected!=null && selected.getMail()!=null && selected.getNazwa()!=null) {
-            dodatkoweMaileDAO.dodaj(selected);
+            dodatkoweMaileDAO.create(selected);
             lista.add(selected);
             selected = new DodatkoweMaile();
             Msg.msg("Dodano adres");
@@ -52,7 +52,7 @@ public class DodatkoweMaileView implements Serializable {
     
     public void usun(DodatkoweMaile p) {
         try {
-            dodatkoweMaileDAO.destroy(p);
+            dodatkoweMaileDAO.remove(p);
             lista.remove(p);
             Msg.msg("Usunięto maila");
         } catch (Exception e) {

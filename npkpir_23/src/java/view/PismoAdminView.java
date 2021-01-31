@@ -18,9 +18,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
@@ -31,7 +31,7 @@ import msg.Msg;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PismoAdminView implements Serializable{
     @Inject
@@ -113,7 +113,7 @@ public class PismoAdminView implements Serializable{
     private List<Pismoadmin> listapism;
     private List<Pismoadmin> listapismwszytskie;
     @Inject private PismoadminDAO pismoadminDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private boolean razemzarchiwalnymi;
     private boolean wybierznowe;
@@ -148,7 +148,7 @@ public class PismoAdminView implements Serializable{
              pismoadmin.setWaznosc(".");
              int wynik = sprawdzduplikat();
              if (wynik == 0) {
-                 pismoadminDAO.dodaj(pismoadmin);
+                 pismoadminDAO.create(pismoadmin);
                  listapism.clear();
                  listapism.addAll(pismoadminDAO.findAll());
                  pismoadmin = new Pismoadmin();
@@ -189,7 +189,7 @@ public class PismoAdminView implements Serializable{
     
     public void usunpismoadmin(Pismoadmin p) {
         try {
-            pismoadminDAO.destroy(p);
+            pismoadminDAO.remove(p);
             listapismwszytskie.remove(p);
             Msg.msg("i", "Udało się usunąć infomację dla Admina");
         } catch (Exception e) { E.e(e); 

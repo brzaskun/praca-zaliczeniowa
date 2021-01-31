@@ -17,12 +17,12 @@
                                       widgetVar="confirmation">  
                         <p:panelGrid columns="2">
                             <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :akordeon:str_posiadane :akordeon:str_posiadane2" oncomplete="PF('confirmation').hide()"  
-                                             actionListener="#{STRTableView.destroy2()}" />  
+                                             actionListener="#{sTRTabView.destroy2()}" />  
                             <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation').hide()" type="button" />   
                         </p:panelGrid>
                         <p:panelGrid columns="2" style="text-align: left;">
                             <h:outputLabel for="powerusun" value="twarde usuwanie"/>
-                            <h:selectBooleanCheckbox id="powerusun" value="#{STRTableView.napewnousunac}" title="napewno usunac"/>
+                            <h:selectBooleanCheckbox id="powerusun" value="#{sTRTabView.napewnousunac}" title="napewno usunac"/>
                         </p:panelGrid>
                     </p:dialog>  
                 </h:form>

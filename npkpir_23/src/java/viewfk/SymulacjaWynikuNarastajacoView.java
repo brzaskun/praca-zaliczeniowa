@@ -6,7 +6,7 @@
 package viewfk;
 
 import dao.PodatnikUdzialyDAO;
-import daoFK.WynikFKRokMcDAO;
+import dao.WynikFKRokMcDAO;
 import data.Data;
 import embeddable.Mce;
 import entity.PodatnikUdzialy;
@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.B;
 import msg.Msg;import pdf.PdfSymulacjaWynikuNarastajaco;
@@ -34,7 +34,7 @@ import view.WpisView;import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class SymulacjaWynikuNarastajacoView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -53,7 +53,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     private Map<String, Double> wyplaconedywidendy;
     @Inject
     private WynikFKRokMcDAO wynikFKRokMcDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private double wynikfinansowy;
     private double wynikfinansowynetto;
@@ -333,7 +333,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     
     public void usun(WynikFKRokMc wynikFKRokMc) {
         try {
-            wynikFKRokMcDAO.destroy(wynikFKRokMc);
+            wynikFKRokMcDAO.remove(wynikFKRokMc);
             listamiesiecy.remove(wynikFKRokMc);
         } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Wystąpił bład. Nie usunięto wyniku za mc "+wynikFKRokMc.getMc());
@@ -438,7 +438,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
                     wynikFKRokMcDAO.edit(r);
                 } catch (Exception e) {
                     WynikFKRokMc znalezione = wynikFKRokMcDAO.findWynikFKPodatnikRokUdzialowiec(r);
-                    wynikFKRokMcDAO.destroy(znalezione);
+                    wynikFKRokMcDAO.remove(znalezione);
                     wynikFKRokMcDAO.edit(r);
                 }
             }

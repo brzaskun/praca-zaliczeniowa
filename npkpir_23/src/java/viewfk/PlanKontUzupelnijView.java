@@ -5,9 +5,9 @@
  */
 package viewfk;
 
-import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
-import daoFK.UkladBRDAO;
+import dao.KontoDAOfk;
+import dao.KontopozycjaZapisDAO;
+import dao.UkladBRDAO;
 import embeddable.Roki;
 import entity.Podatnik;
 import entityfk.Konto;
@@ -19,16 +19,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import view.WpisView;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PlanKontUzupelnijView implements Serializable {
 
@@ -36,9 +36,9 @@ public class PlanKontUzupelnijView implements Serializable {
     private Podatnik podatnikdocelowy;
     private String rokzrodlowy;
     private String rokdocelowy;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{planKontView}")
+    @Inject
     private PlanKontView planKontView;
     @Inject
     private KontoDAOfk kontoDAOfk;
@@ -117,7 +117,7 @@ public class PlanKontUzupelnijView implements Serializable {
                     nowekontopozycjazapis.add(kp);
                 }
             }
-            kontopozycjaZapisDAO.dodaj(nowekontopozycjazapis);
+            kontopozycjaZapisDAO.create(nowekontopozycjazapis);
             Msg.msg("Zakończono implementację brakujących kont");
             //planKontView.init();
             //planKontView.porzadkowanieKontPodatnika();
@@ -148,7 +148,7 @@ public class PlanKontUzupelnijView implements Serializable {
                 macierzyste.add(r);
             }
         }
-        kontoDAOfk.dodaj(macierzyste);
+        kontoDAOfk.create(macierzyste);
         return macierzyste;
     }
 
@@ -162,7 +162,7 @@ public class PlanKontUzupelnijView implements Serializable {
             }
         }
         if (!nowekontalevel1.isEmpty()) {
-            kontoDAOfk.dodaj(nowekontalevel1);
+            kontoDAOfk.create(nowekontalevel1);
         }
         return nowekontalevel1;
     }

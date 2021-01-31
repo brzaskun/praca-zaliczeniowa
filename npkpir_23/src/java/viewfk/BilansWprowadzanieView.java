@@ -12,12 +12,12 @@ import comparator.WierszBOcomparatorKwota;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
-import daoFK.DokDAOfk;
-import daoFK.KontoDAOfk;
-import daoFK.TabelanbpDAO;
-import daoFK.WalutyDAOfk;
-import daoFK.WierszBODAO;
-import daoFK.WierszDAO;
+import dao.DokDAOfk;
+import dao.KontoDAOfk;
+import dao.TabelanbpDAO;
+import dao.WalutyDAOfk;
+import dao.WierszBODAO;
+import dao.WierszDAO;
 import data.Data;
 import entity.Evewidencja;
 import entity.Klienci;
@@ -43,9 +43,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import org.primefaces.component.datatable.DataTable;
 import pdffk.PdfWierszBO;
@@ -56,7 +56,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class BilansWprowadzanieView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -132,7 +132,7 @@ public class BilansWprowadzanieView implements Serializable {
     private List<Evewidencja> listaewidencjivatRK;
     private boolean ewidencjaVATRKzapis0edycja1;
 
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
 
     public BilansWprowadzanieView() {
@@ -415,7 +415,7 @@ public class BilansWprowadzanieView implements Serializable {
                 selected.setWprowadzil(wpisView.getUzer());
                 listaBO.add(selected);
                 selected.setNowy0edycja1usun2(0);
-                wierszBODAO.dodaj(selected);
+                wierszBODAO.create(selected);
                 if (listaBOFiltered != null) {
                     listaBOFiltered.add(selected);
                     podsumujWnMa(listaBOFiltered, listaBOsumy);
@@ -500,7 +500,7 @@ public class BilansWprowadzanieView implements Serializable {
         try {
             for (WierszBO p : wierszBOlista) {
                 if (p.getNowy0edycja1usun2Int() == 0) {
-                    wierszBODAO.destroy(p);
+                    wierszBODAO.remove(p);
                     listaBO.remove(p);
                 } else {
                     p.setNowy0edycja1usun2(2);
@@ -553,16 +553,16 @@ public class BilansWprowadzanieView implements Serializable {
                         s.setWiersz(null);
                         stronaWierszaDAO.edit(s);
                         s = stronaWierszaDAO.findStronaByWierszBO(p);
-                        stronaWierszaDAO.destroy(s);
+                        stronaWierszaDAO.remove(s);
                         if (w!=null) {
-                            wierszDAO.destroy(w);
+                            wierszDAO.remove(w);
                         }
                     }
                 } catch (Exception ex) {
                   E.e(ex);
                   Msg.msg("e", "Problem ze stroną wiersza");
                 }
-                 wierszBODAO.destroy(p);
+                 wierszBODAO.remove(p);
                  listaBO.remove(p);
             }
             if (listaBOFiltered != null) {
@@ -858,10 +858,10 @@ public class BilansWprowadzanieView implements Serializable {
             double kwotaMa = p.getKwotaMa();
             if (kwotaWn != 0) {
                 StronaWiersza stronaWiersza = new StronaWiersza(p, "Wn");
-                stronaWierszaDAO.dodaj(stronaWiersza);
+                stronaWierszaDAO.create(stronaWiersza);
             } else if (kwotaMa != 0) {
                 StronaWiersza stronaWiersza = new StronaWiersza(p, "Ma");
-                stronaWierszaDAO.dodaj(stronaWiersza);
+                stronaWierszaDAO.create(stronaWiersza);
             }
         }
     }
@@ -875,7 +875,7 @@ public class BilansWprowadzanieView implements Serializable {
         Dokfk dok = stworznowydokument(1, zachowaneWiersze, typ);
         dok.przeliczKwotyWierszaDoSumyDokumentu();
         try {
-            dokDAOfk.dodaj(dok);
+            dokDAOfk.create(dok);
             for (WierszBO p : zachowaneWiersze) {
                 p.setNowy0edycja1usun2(3);
             }
@@ -906,7 +906,7 @@ public class BilansWprowadzanieView implements Serializable {
             for (Iterator<WierszBO> it = zachowaneWiersze.iterator(); it.hasNext();) {
                 WierszBO p = it.next();
                 if (p.getNowy0edycja1usun2Int() == 2) {
-                    wierszBODAO.destroy(p);
+                    wierszBODAO.remove(p);
                     usunwierszzlisty(p);
                     it.remove();
                 } else {
@@ -951,7 +951,7 @@ public class BilansWprowadzanieView implements Serializable {
     private void usundokumentztegosamegomiesiaca(String typ) {
         Dokfk popDokfk = dokDAOfk.findDokfofaType(wpisView.getPodatnikObiekt(), typ, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         if (popDokfk != null) {
-            dokDAOfk.destroy(popDokfk);
+            dokDAOfk.remove(popDokfk);
         }
     }
 
@@ -1109,7 +1109,7 @@ public class BilansWprowadzanieView implements Serializable {
                     generujStronaWierszaWn(p, wierszwdokumencie);
                 }
                 if (Z.z(p.getKwotaWn()) == 0.0 && Z.z(p.getKwotaMa()) == 0.0 && Z.z(p.getKwotaWnPLN()) == 0.0 && Z.z(p.getKwotaMaPLN()) == 0.0) {
-                    wierszBODAO.destroy(p);
+                    wierszBODAO.remove(p);
                     it.remove();
                 }
             }
@@ -1194,7 +1194,7 @@ public class BilansWprowadzanieView implements Serializable {
             }
             if (czyedytowac) {
                 if (wiersze.isEmpty()) {
-                    dokDAOfk.destroy(nd);
+                    dokDAOfk.remove(nd);
                     isteniejeDokBO = false;
                     dokumentBO = null;
                 } else {

@@ -33,17 +33,17 @@ import dao.PodatnikEwidencjaDokDAO;
 import dao.RodzajedokDAO;
 import dao.STRDAO;
 import dao.StronaWierszaDAO;
-import daoFK.CechazapisuDAOfk;
-import daoFK.DokDAOfk;
-import daoFK.EVatwpisFKDAO;
-import daoFK.KliencifkDAO;
-import daoFK.KontoDAOfk;
-import daoFK.RMKDAO;
-import daoFK.TabelanbpDAO;
-import daoFK.TransakcjaDAO;
-import daoFK.WalutyDAOfk;
-import daoFK.WierszBODAO;
-import daoFK.WierszDAO;
+import dao.CechazapisuDAOfk;
+import dao.DokDAOfk;
+import dao.EVatwpisFKDAO;
+import dao.KliencifkDAO;
+import dao.KontoDAOfk;
+import dao.RMKDAO;
+import dao.TabelanbpDAO;
+import dao.TransakcjaDAO;
+import dao.WalutyDAOfk;
+import dao.WierszBODAO;
+import dao.WierszDAO;
 import data.Data;
 import embeddable.Mce;
 import embeddable.Parametr;
@@ -84,9 +84,9 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import javax.ejb.EJBException;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
@@ -118,7 +118,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class DokfkView implements Serializable {
 
@@ -189,9 +189,9 @@ public class DokfkView implements Serializable {
     private String wybranawaluta;
     private String symbolwalutydowiersza;
     private List<Waluty> wprowadzonesymbolewalut;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{kontoZapisFKView}")
+    @Inject
     private KontoZapisFKView kontoZapisFKView;
     private String rachunekCzyPlatnosc;
     private int typwiersza;
@@ -255,9 +255,9 @@ public class DokfkView implements Serializable {
     private Konto kontoRozrachunkowe;
     private Dokfk poprzedniDokument ;
     private double[] sumadokbo;
-    @ManagedProperty(value = "#{gUSView}")
+    @Inject
     private GUSView gUSView;
-    @ManagedProperty(value = "#{klienciConverterView}")
+    @Inject
     private KlienciConverterView klienciConverterView;
     private Cechazapisu cechazapisudododania;
     private String linijkaewidencjiupdate;
@@ -1089,7 +1089,7 @@ public class DokfkView implements Serializable {
                     selected.getListawierszy().remove(0);
                 }
                 selected.setDataujecia(new Date());
-                dokDAOfk.dodaj(selected);
+                dokDAOfk.create(selected);
                 dodajdolistyostatnich(selected);
                 biezacetransakcje = null;
                 //Dokfk dodany = dokDAOfk.findDokfkObj(selected);
@@ -1509,7 +1509,7 @@ public class DokfkView implements Serializable {
                 Klienci dodany = SzukajDaneBean.znajdzdaneregonAutomat(ewidencjaVatRK.getKlient().getNip());
                 ewidencjaVatRK.setKlient(dodany);
                 if (!dodany.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
-                    klienciDAO.dodaj(dodany);
+                    klienciDAO.create(dodany);
                 }
                 PrimeFaces.current().ajax().update("ewidencjavatRK:klientRK");
             } else {
@@ -1586,7 +1586,7 @@ public class DokfkView implements Serializable {
                 if (!dodany.getNpelna().equals("dodaj klienta automatycznie")) {
                     selected.setKontr(dodany);
                     if (!dodany.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
-                        klienciDAO.dodaj(dodany);
+                        klienciDAO.create(dodany);
                         //null bo dodajemy nowego kontrahenta inaczej wezmie ze starego
                         kontoRozrachunkowe = null;
                         poprzedniDokument = null;
@@ -3301,12 +3301,12 @@ public class DokfkView implements Serializable {
     public void usunwszytskieimportowane() {
         if (filteredValueimport!=null && filteredValueimport.size()>0) {
             for (Dokfk p : filteredValueimport) {
-                dokDAOfk.destroy(p);
+                dokDAOfk.remove(p);
             }
             filteredValueimport = Collections.synchronizedList(new ArrayList<>());
         } else {
             for (Dokfk p : wykazZaksiegowanychDokumentowimport) {
-                dokDAOfk.destroy(p);
+                dokDAOfk.remove(p);
             }
             wykazZaksiegowanychDokumentowimport = Collections.synchronizedList(new ArrayList<>());
         }
@@ -3316,12 +3316,12 @@ public class DokfkView implements Serializable {
     public void ksiegujwszytskieimportowane() {
         if (filteredValueimport!=null && filteredValueimport.size()>0) {
             for (Dokfk p : filteredValueimport) {
-                dokDAOfk.destroy(p);
+                dokDAOfk.remove(p);
             }
             filteredValueimport = Collections.synchronizedList(new ArrayList<>());
         } else {
             for (Dokfk p : wykazZaksiegowanychDokumentowimport) {
-                dokDAOfk.destroy(p);
+                dokDAOfk.remove(p);
             }
             wykazZaksiegowanychDokumentowimport = Collections.synchronizedList(new ArrayList<>());
         }
@@ -3525,7 +3525,7 @@ public class DokfkView implements Serializable {
             if (selectedlist != null && selectedlist.size() > 0) {
                 for (Dokfk p : selectedlist) {
                     wykazZaksiegowanychDokumentow.remove(p);
-                    dokDAOfk.destroy(p);
+                    dokDAOfk.remove(p);
                 }
                 selectedlist = null;
             }
@@ -3575,7 +3575,7 @@ public void oznaczjakonkup() {
                     List<Transakcja> transakcje = pobierztransakcje(strony);
                     for (Transakcja sz : transakcje) {
                         try {
-                            transakcjaDAO.destroy(sz);
+                            transakcjaDAO.remove(sz);
                         } catch (Exception e){
                             E.e(e);
                         }
@@ -3586,7 +3586,7 @@ public void oznaczjakonkup() {
                             //error.E.s("DELETE FROM `pkpir`.`stronawiersza` WHERE `id`='"+sa.getId()+"';");
                             s.setWiersz(null);
                             stronaWierszaDAO.edit(s);
-                            stronaWierszaDAO.destroy(s);
+                            stronaWierszaDAO.remove(s);
                             //error.E.s("DELETE FROM `pkpir`.`stronawiersza` WHERE `id`='"+sa.getId()+"';");
                         } catch (Exception e){
                             E.e(e);
@@ -3595,14 +3595,14 @@ public void oznaczjakonkup() {
                     }
                     for (Wiersz s : wiersze) {
                         try {
-                            wierszDAO.destroy(s);
+                            wierszDAO.remove(s);
                             //error.E.s("DELETE FROM `pkpir`.`WIERSZ` WHERE `idwiersza`='"+s.getIdwiersza()+"';");
                         } catch (Exception e){
                             E.e(e);
                             //error.E.s("DELETE FROM `pkpir`.`WIERSZ` WHERE `idwiersza`='"+s.getIdwiersza()+"';");
                         }
                     }
-                    dokDAOfk.destroy(p);
+                    dokDAOfk.remove(p);
                     wykazZaksiegowanychDokumentow.remove(p);
                 }
                 selectedlist = null;
@@ -4371,10 +4371,10 @@ public void oznaczjakonkup() {
         try {
             if (modyfikator == 1) {
                 rozliczsrodkitrw(dokfk);
-                dokDAOfk.destroy(dokfk);
+                dokDAOfk.remove(dokfk);
             } else {
                 rozliczrmk(dokfk);
-                dokDAOfk.destroy(dokfk);
+                dokDAOfk.remove(dokfk);
             }
             Msg.msg("Usunięto dokument specjalny " + dokfk);
         } catch (Exception e) {

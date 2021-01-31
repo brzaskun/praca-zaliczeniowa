@@ -7,14 +7,14 @@ package viewfk;
 
 import entity.Klienci;
 import java.io.Serializable;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class DedratestView  implements Serializable {
     private double netto;

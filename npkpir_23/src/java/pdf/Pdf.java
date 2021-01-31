@@ -19,9 +19,8 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.naming.NamingException;
 import view.KsiegaView;
 import view.ObrotyView;
@@ -30,7 +29,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 public class Pdf implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="comment">
@@ -101,11 +100,11 @@ public class Pdf implements Serializable {
     }
 //</editor-fold>
 
-    @ManagedProperty(value = "#{ksiegaView}")
+    @Inject
     protected KsiegaView ksiegaView;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     protected WpisView wpisView;
-    @ManagedProperty(value = "#{obrotyView}")
+    @Inject
     protected ObrotyView obrotyView;
     @Inject
     protected UzDAO uzDAO;

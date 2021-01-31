@@ -11,14 +11,14 @@ import entity.Deklaracjevat;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.inject.Named;
+import javax.enterprise.context.RequestScoped;
 import msg.Msg;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class Vat7VATZTView extends Vat7DKView implements Serializable{
     public static String dekl = 

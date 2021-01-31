@@ -6,7 +6,6 @@
 package viewfk;
 
 import beansRegon.SzukajDaneBean;
-import dao.DAO;
 import dao.DokDAO;
 import dao.EVatwpis1DAO;
 import dao.EvewidencjaDAO;
@@ -17,9 +16,9 @@ import dao.KlienciDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikEwidencjaDokDAO;
 import dao.SchemaEwidencjaDAO;
-import daoFK.DokDAOfk;
-import daoFK.EVatwpisDedraDAO;
-import daoFK.EVatwpisFKDAO;
+import dao.DokDAOfk;
+import dao.EVatwpisDedraDAO;
+import dao.EVatwpisFKDAO;
 import entity.Dok;
 import entity.Faktura;
 import entity.FakturaDodPozycjaKontrahent;
@@ -41,7 +40,7 @@ import session.SessionFacade;
  * @author Osito
  */
 @Named
-public class RewolucjaPodatnikView extends DAO implements Serializable {
+public class RewolucjaPodatnikView  implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Inject private SessionFacade dokFacade;
@@ -830,7 +829,7 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
                          }
                     }
                 }
-                dokDAOfk.editListLateFlush(lista);
+                //dokDAOfk.editListLateFlush(lista);
                 error.E.s("stop wiersze");
             } else {
                 error.E.s("pusty rok");
@@ -928,7 +927,7 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
                 List<Klienci> doplery2  = klienciDAO.findKlienciByNip(t.getNip());
                 for (Klienci s : doplery2) {
                     try {
-                        klienciDAO.destroy(s);
+                        klienciDAO.remove(s);
                     } catch (Exception e) {
                     }
                 }
@@ -944,7 +943,7 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
                     d.setKontr1(kli);
                     dokDAO.edit(d);
                 }
-                klienciDAO.destroy(t);
+                klienciDAO.remove(t);
             } catch (Exception e) {
 //                String zwrot = E.e(e);
 //                System.out.println(zwrot);
@@ -1019,7 +1018,7 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
                                 d.setKontrahent(nowy);
                                 fakturaDodPozycjaKontrahentDAO.edit(d);
                             }
-                            klienciDAO.destroy(s);
+                            klienciDAO.remove(s);
                         } catch (Exception e) {
                             String zwrot = E.e(e);
                             System.out.println(zwrot);
@@ -1060,6 +1059,7 @@ public class RewolucjaPodatnikView extends DAO implements Serializable {
             E.e(e);
         }
     }
+
 
  
       

@@ -23,9 +23,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.apache.commons.io.FilenameUtils;
@@ -42,14 +42,14 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class ImportMataczView  implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<InterpaperXLS> dokumenty;
     private List<InterpaperXLS> selected;
     private List<InterpaperXLS> filter;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private KlientJPKDAO klientJPKDAO;
@@ -220,7 +220,7 @@ public class ImportMataczView  implements Serializable {
     public void zaksiegujdokjpk() {
         klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         List<KlientJPK> lista = KlienciJPKBean.zaksiegujdokJPK(dokumenty, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        klientJPKDAO.dodaj(lista);
+        klientJPKDAO.create(lista);
         Msg.msg("Zaksięgowano dokumenty dla JPK");
     }
     

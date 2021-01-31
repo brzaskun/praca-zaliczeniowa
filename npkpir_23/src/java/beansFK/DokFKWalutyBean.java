@@ -6,7 +6,7 @@
 
 package beansFK;
 
-import daoFK.WalutyDAOfk;
+import dao.WalutyDAOfk;
 import embeddable.EVatwpis;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;

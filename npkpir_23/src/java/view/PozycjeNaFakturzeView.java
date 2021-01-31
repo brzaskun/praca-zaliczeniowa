@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.inject.Named;
+
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +25,7 @@ import msg.Msg;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class PozycjeNaFakturzeView implements Serializable {
 
@@ -42,7 +42,7 @@ public class PozycjeNaFakturzeView implements Serializable {
         zestaw.add(new Pozycjenafakturzebazadanych(1, "koperek topiony", "20.45", "kg", 12, 8.5, 125, 23, 12, 147));
         zestaw.add(new Pozycjenafakturzebazadanych(1, "marchewka topiona", "20.45", "kg", 12, 8.5, 125, 23, 12, 147));
     }
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private int lewy;
     private int gora;
@@ -81,7 +81,7 @@ public class PozycjeNaFakturzeView implements Serializable {
         klucz.setPodatnik(wpisView.getPodatnikWpisu());
         Pozycjenafakturze pozycje = new Pozycjenafakturze(klucz, true, gora, lewy);
         try {
-            pozycjeDAO.dodaj(pozycje);
+            pozycjeDAO.create(pozycje);
         } catch (Exception e) { E.e(e); 
             pozycjeDAO.edit(pozycje);
         }

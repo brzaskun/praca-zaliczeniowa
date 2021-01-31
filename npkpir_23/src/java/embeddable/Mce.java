@@ -11,15 +11,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 import msg.Msg;
 import view.WpisView;
 /**
  *
  * @author Osito
  */
-@ManagedBean(name="Mce")
+@Named
 @SessionScoped
 public class Mce implements Serializable{
     

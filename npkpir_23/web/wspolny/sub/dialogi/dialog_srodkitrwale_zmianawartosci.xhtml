@@ -15,51 +15,51 @@
                 <p:panelGrid id="tabelasrodkitrwaleOT" columns="4" style="width: 650px;">
                     <h:outputText value="nazwa środka" style="height: 45px;"/>
                     <p:column  width="200">
-                        <p:inputText id="nazwasrodka" value="#{STRTableView.edytowanysrodek.nazwa}" style="width: 200px;"
+                        <p:inputText id="nazwasrodka" value="#{sTRTabView.edytowanysrodek.nazwa}" style="width: 200px;"
                                      required="true" requiredMessage="Proszę wpisać nazwę środka"/>
                     </p:column>
                     <h:outputText value="symbol inwent."/>
                     <p:column width="100">
-                        <p:inputText id="symbolinwent" value="#{STRTableView.edytowanysrodek.symbolinwentarzowy}" />
+                        <p:inputText id="symbolinwent" value="#{sTRTabView.edytowanysrodek.symbolinwentarzowy}" />
                     </p:column>
                     <h:outputText value="data zakupu"/>
                     <p:column>
-                        <p:inputText id="datazak" value="#{STRTableView.edytowanysrodek.datazak}"
+                        <p:inputText id="datazak" value="#{sTRTabView.edytowanysrodek.datazak}"
                                      onchange="ustawDateSrodekTrw();" placeholder="rrrr-mm-dd" required="true" size="10" immediate="true"/>
                     </p:column>
                     <h:outputText value="data przyjecia"/>
                     <p:column>
-                        <p:inputText id="dataprz" value="#{STRTableView.edytowanysrodek.dataprzek}" valueChangeListener="#{STRTableView.zmianadatyprzyjecia}"
+                        <p:inputText id="dataprz" value="#{sTRTabView.edytowanysrodek.dataprzek}" valueChangeListener="#{sTRTabView.zmianadatyprzyjecia}"
                                      onchange="ustawDateSrodekTrw();" placeholder="rrrr-mm-dd" required="true" size="10" immediate="true"/>
                     </p:column>
                     <h:outputText value="numer faktury"/>
                     <p:column>
-                        <p:inputText id="numerfaktzakupu" value="#{STRTableView.edytowanysrodek.nrwldokzak}"/>
+                        <p:inputText id="numerfaktzakupu" value="#{sTRTabView.edytowanysrodek.nrwldokzak}"/>
                     </p:column>
                     <h:outputText value="symbol KST"/>
                     <p:column>
-                        <p:inputText value="#{STRTableView.edytowanysrodek.kst}"/>
+                        <p:inputText value="#{sTRTabView.edytowanysrodek.kst}"/>
                     </p:column>
                     <h:outputText value="cena zakupu"/>
                     <p:column>
-                        <p:inputNumber id="cenazakupu" value="#{STRTableView.edytowanysrodek.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty netto - uzupełnij" 
-                                        onblur="zweryfikujczyniebrakujesrodektrw('form_dialog_srodkitrwale_zmianawartosci');" valueChangeListener="#{STRTableView.zmianakwotynetto}"
+                        <p:inputNumber id="cenazakupu" value="#{sTRTabView.edytowanysrodek.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty netto - uzupełnij" 
+                                        onblur="zweryfikujczyniebrakujesrodektrw('form_dialog_srodkitrwale_zmianawartosci');" valueChangeListener="#{sTRTabView.zmianakwotynetto}"
                                         style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto"/> 
                     </p:column>
                     <h:outputText value="kwota vat"/>
                     <p:column>
-                        <p:inputNumber id="kwotavat" value="#{STRTableView.edytowanysrodek.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty vat - uzupełnij" 
+                        <p:inputNumber id="kwotavat" value="#{sTRTabView.edytowanysrodek.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty vat - uzupełnij" 
                                         style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto"/> 
                     </p:column>
                     <h:outputText value="umorzenie pocz."/>
                     <p:column>
-                        <p:inputNumber id="umorzeniepocz" value="#{STRTableView.edytowanysrodek.umorzeniepoczatkowe}" symbol=" zł" required="true" requiredMessage="Brak kwoty umorzenia - uzupełnij" 
-                                        onblur="zweryfikujczyniebrakujesrodektrw('form_dialog_srodkitrwale_zmianawartosci');" valueChangeListener="#{STRTableView.zmianaumorzeniapocz}"
+                        <p:inputNumber id="umorzeniepocz" value="#{sTRTabView.edytowanysrodek.umorzeniepoczatkowe}" symbol=" zł" required="true" requiredMessage="Brak kwoty umorzenia - uzupełnij" 
+                                        onblur="zweryfikujczyniebrakujesrodektrw('form_dialog_srodkitrwale_zmianawartosci');" valueChangeListener="#{sTRTabView.zmianaumorzeniapocz}"
                                         style="text-align: right;" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2"  styleClass="wiersznetto"/> 
                     </p:column>
                     <h:outputText value="środek trw/wyposazenie"/>
                     <p:column>
-                        <h:selectOneMenu value="#{STRTableView.edytowanysrodek.typ}"
+                        <h:selectOneMenu value="#{sTRTabView.edytowanysrodek.typ}"
                                           onfocus="$(this).addClass('ui-state-focus');"
                                         onblur="$(this).removeClass('ui-state-focus');" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all">
                             <f:selectItem itemLabel="srodek trw." itemValue="srodek trw."/>
@@ -69,7 +69,7 @@
                     </p:column>
                     <h:outputText value="data zmiany"/>
                     <p:column style="margin-top: 10px">
-                        <p:inputText id="data1DialogWpisywanie" value="#{STRTableView.datazmiany}" 
+                        <p:inputText id="data1DialogWpisywanie" value="#{sTRTabView.datazmiany}" 
                                     onblur="weryfikujsporzadzfakture(this)"
                                     title="wpisz numer dnia, lub miesiąc i dzień" styleClass="dataInput"
                                     >
@@ -77,7 +77,7 @@
                         </p:inputText>
                     </p:column>
                     <h:outputText value="zwiększenie/zmniejszenie o"/>
-                    <p:inputNumber id="kwotaPkpir" value="#{STRTableView.kwotazmiany}" symbol="zł" required="true" 
+                    <p:inputNumber id="kwotaPkpir" value="#{sTRTabView.kwotazmiany}" symbol="zł" required="true" 
                                         requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" 
                                         symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000" 
                                         styleClass="wiersznetto" > 
@@ -96,24 +96,24 @@
                     </p:row>
                 </f:facet>
                 <p:column>
-                    <p:selectOneListbox value="#{STRTableView.edytowanysrodek.kontonetto}" style="width: 350px;" scrollHeight="95" converter="#{kontoConv}">
+                    <p:selectOneListbox value="#{sTRTabView.edytowanysrodek.kontonetto}" style="width: 350px;" scrollHeight="95" converter="#{kontoConv}">
                         <f:selectItems value="#{planKontSrTrw.listakontSrodkiTrwale}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
                     </p:selectOneListbox>
                 </p:column>
                 <p:column>
-                    <p:selectOneListbox value="#{STRTableView.edytowanysrodek.kontoumorzenie}" style="width: 350px;" scrollHeight="95" converter="#{kontoConv}">
+                    <p:selectOneListbox value="#{sTRTabView.edytowanysrodek.kontoumorzenie}" style="width: 350px;" scrollHeight="95" converter="#{kontoConv}">
                         <f:selectItems value="#{planKontSrTrw.listakontSrodkiTrwaleUmorzenia}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
                     </p:selectOneListbox>
                 </p:column>
             </p:panelGrid>
                 <p:panelGrid columns="3" >
-                <p:commandButton id="dodajsrodekbutton" value="zachowaj" actionListener="#{STRTableView.edytujSrodekTrwaly()}" 
+                <p:commandButton id="dodajsrodekbutton" value="zachowaj" actionListener="#{sTRTabView.edytujSrodekTrwaly()}" 
                                  update=":akordeon:str_posiadane:srodkiLista :akordeon:str_posiadane2:srodkiLista2 :form_dialog_srodkitrwale_zmianawartosci" 
                                  style="margin-top: 10px; width: 120px;" onclick="PF('dialog_srodkitrwale_zmianawartosci').hide();"/>
                 <p:commandButton id="dodajsrodekbutton2" value="anuluj zmiany" update=":akordeon:str_posiadane:srodkiLista :akordeon:str_posiadane2:srodkiLista2 :form_dialog_srodkitrwale_zmianawartosci" 
                                  style="margin-top: 10px; width: 120px;" onclick="PF('dialog_srodkitrwale_zmianawartosci').hide();"/>
                 </p:panelGrid>
-                <p:dataTable value="#{STRTableView.edytowanysrodek.zmianawartosci}" var="item" id="tabelazmian"
+                <p:dataTable value="#{sTRTabView.edytowanysrodek.zmianawartosci}" var="item" id="tabelazmian"
                                  emptyMessage="Nie naniesiono wcześniej żadnych zmian" style="width: 600px; margin-top: 10px; overflow-y: scroll;height: 100px;"
                                  rowIndexVar="index">
                         <f:facet name="header">
@@ -139,7 +139,7 @@
                             </h:outputText>
                         </p:column>
                          <p:column id="deleteColumn" headerText="usuń" width="40" style="text-align: center;">
-                            <p:commandButton actionListener="#{STRTableView.destroyZmianaWartosci(item)}" id="delete" 
+                            <p:commandButton actionListener="#{sTRTabView.destroyZmianaWartosci(item)}" id="delete" 
                                              update="form_dialog_srodkitrwale_zmianawartosci:tabelazmian :akordeon:str_posiadane:srodkiLista :akordeon:str_posiadane2:srodkiLista2" icon="ui-icon ui-icon-trash" type="submit" >
                                 <p:ajax event="click" global="false"/>
                             </p:commandButton>

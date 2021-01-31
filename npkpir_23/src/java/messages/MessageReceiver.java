@@ -5,8 +5,8 @@
 package messages;
 
 import java.util.Date;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
@@ -25,7 +25,7 @@ import javax.jms.TextMessage;
 //        propertyValue="javax.jms.Queue")
 //})
 
-@ManagedBean
+@Named
 @RequestScoped
 public class MessageReceiver implements MessageListener{
     private static String wiadomosc;

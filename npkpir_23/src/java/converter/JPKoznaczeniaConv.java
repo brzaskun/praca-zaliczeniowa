@@ -6,20 +6,21 @@ package converter;
 
 import dao.JPKOznaczeniaDAO;
 import entity.JPKoznaczenia;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
-public class JPKoznaczeniaConv implements javax.faces.convert.Converter {
+public class JPKoznaczeniaConv implements javax.faces.convert.Converter, Serializable {
 
     @Inject
     private JPKOznaczeniaDAO jPKOznaczeniaDAO;

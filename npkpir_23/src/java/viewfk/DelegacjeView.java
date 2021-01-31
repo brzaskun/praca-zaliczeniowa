@@ -10,10 +10,10 @@ import beansFK.DelegacjaBean;
 import beansFK.PlanKontFKBean;
 import beansFK.SlownikiBean;
 import dao.StronaWierszaDAO;
-import daoFK.DelegacjaDAO;
-import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
-import daoFK.UkladBRDAO;
+import dao.DelegacjaDAO;
+import dao.KontoDAOfk;
+import dao.KontopozycjaZapisDAO;
+import dao.UkladBRDAO;
 import embeddablefk.DelegacjaZest;
 import entityfk.Delegacja;
 import entityfk.Dokfk;
@@ -23,9 +23,9 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import view.WpisView; import org.primefaces.PrimeFaces;
 
@@ -33,7 +33,7 @@ import msg.Msg;import view.WpisView; import org.primefaces.PrimeFaces;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class DelegacjeView  implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -43,7 +43,7 @@ public class DelegacjeView  implements Serializable{
     private List<Delegacja> delegacjezagraniczne;
     @Inject
     private DelegacjaDAO delegacjaDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private boolean zapisz0edytuj1;
     @Inject
@@ -55,7 +55,7 @@ public class DelegacjeView  implements Serializable{
     private Map<Delegacja, List<DelegacjaZest>> listadelegacja;
     @Inject
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
-    @ManagedProperty(value = "#{planKontCompleteView}")
+    @Inject
     private PlanKontCompleteView planKontCompleteView;
     private int jest1niema0;
 
@@ -104,7 +104,7 @@ public class DelegacjeView  implements Serializable{
             selected.setKrajowa0zagraniczna1(krajowa0zagraniczna1);
             selected.setRok(wpisView.getRokWpisu());
             selected.setAktywny(true);
-            delegacjaDAO.dodaj(selected);
+            delegacjaDAO.create(selected);
             if (krajowa0zagraniczna1) {
                 delegacjezagraniczne = delegacjaDAO.findDelegacjaPodatnik(wpisView, krajowa0zagraniczna1);
                 PlanKontFKBean.aktualizujslownikDelegacjeZagraniczne(wykazkont, delegacjaDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
@@ -130,7 +130,7 @@ public class DelegacjeView  implements Serializable{
         if (delegacja.getAktywny() == true) {
             Msg.msg("e", "Delegacja jest w użyciu, nie można usunąć opisu");
         } else {
-            delegacjaDAO.destroy(delegacja);
+            delegacjaDAO.remove(delegacja);
             if (krajowa0zagraniczna1) {
                 this.delegacjezagraniczne.remove(delegacja);
             } else {

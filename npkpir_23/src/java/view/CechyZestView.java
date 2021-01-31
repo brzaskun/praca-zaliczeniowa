@@ -5,15 +5,15 @@
 package view;
 
 import dao.DokDAO;
-import daoFK.CechazapisuDAOfk;
+import dao.CechazapisuDAOfk;
 import entity.Dok;
 import entityfk.Cechazapisu;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import pdffk.PdfCechyZapisow;
 
@@ -21,11 +21,11 @@ import pdffk.PdfCechyZapisow;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class CechyZestView  implements Serializable {
     private static final long serialVersionUID = 1L;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private String mc;
     private List<Cechazapisu> pobranecechypodatnik;

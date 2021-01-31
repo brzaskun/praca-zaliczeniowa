@@ -6,11 +6,11 @@ package viewfk;
 
 import beansFK.PozycjaRZiSFKBean;
 import comparator.UkladBRcomparator;
-import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
-import daoFK.PozycjaBilansDAO;
-import daoFK.PozycjaRZiSDAO;
-import daoFK.UkladBRDAO;
+import dao.KontoDAOfk;
+import dao.KontopozycjaZapisDAO;
+import dao.PozycjaBilansDAO;
+import dao.PozycjaRZiSDAO;
+import dao.UkladBRDAO;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import entityfk.UkladBR;
@@ -20,23 +20,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import view.WpisView;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class UkladBRWzorcowyView implements Serializable{
     private static final long serialVersionUID = 1L;
     private List<UkladBR> lista;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{ukladBRView}")
+    @Inject
     private UkladBRView ukladBRView;
     @Inject
     private UkladBR selected;
@@ -85,7 +84,7 @@ public class UkladBRWzorcowyView implements Serializable{
             ukladBR.setZwykly0wzrocowy1(true);
             ukladBR.setRok(wpisView.getRokWpisuSt());
             ukladBR.setUklad(nazwanowegoukladu);
-            ukladBRDAO.dodaj(ukladBR);
+            ukladBRDAO.create(ukladBR);
             lista.add(ukladBR);
             ukladBRView.init();
             init();
@@ -116,7 +115,7 @@ public class UkladBRWzorcowyView implements Serializable{
         try {
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "bilansowe");
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "wynikowe");
-            ukladBRDAO.destroy(ukladBR);
+            ukladBRDAO.remove(ukladBR);
             lista.remove(ukladBR);
             pozycjaRZiSDAO.findRemoveRzisuklad(ukladBR);
             pozycjaBilansDAO.findRemoveBilansuklad(ukladBR);
@@ -133,7 +132,7 @@ public class UkladBRWzorcowyView implements Serializable{
                 ukladdocelowy.setUklad(ukladdocelowynazwa);
                 ukladdocelowy.setRok(ukladdocelowyrok);
                 ukladdocelowy.setZwykly0wzrocowy1(true);
-                ukladBRDAO.dodaj(ukladdocelowy);
+                ukladBRDAO.create(ukladdocelowy);
                 lista.add(ukladdocelowy);
                 Collections.sort(lista, new UkladBRcomparator());
                 implementujRZiS(ukladzrodlowy,ukladdocelowy);
@@ -207,7 +206,7 @@ public class UkladBRWzorcowyView implements Serializable{
                 r.setUklad(ukladdocelowy.getUklad());
                 r.setRok(ukladdocelowy.getRok());
                 try {
-                    pozycjaRZiSDAO.dodaj(r);
+                    pozycjaRZiSDAO.create(r);
                 } catch (Exception e) {  E.e(e);
                     
                 }
@@ -228,7 +227,7 @@ public class UkladBRWzorcowyView implements Serializable{
                 r.setUklad(ukladdocelowy.getUklad());
                 r.setRok(ukladdocelowy.getRok());
                 try {
-                    pozycjaBilansDAO.dodaj(r);
+                    pozycjaBilansDAO.create(r);
                 } catch (Exception e) {  
                     E.e(e);
                 }
@@ -251,7 +250,7 @@ public class UkladBRWzorcowyView implements Serializable{
                     r.setRok(ukladdocelowy.getRok());
                     PozycjaRZiS macierzyste = wyszukajmacierzysteRZiS(p, macierzystelista);
                     r.setMacierzysta(macierzyste);
-                    pozycjaRZiSDAO.dodaj(r);
+                    pozycjaRZiSDAO.create(r);
                     nowemacierzyste.add(r);
                 } catch (Exception e) {  E.e(e);
                     
@@ -274,7 +273,7 @@ public class UkladBRWzorcowyView implements Serializable{
                     r.setRok(ukladdocelowy.getRok());
                     PozycjaBilans macierzyste = wyszukajmacierzysteBilans(p, macierzystelista);
                     r.setMacierzysta(macierzyste);
-                    pozycjaBilansDAO.dodaj(r);
+                    pozycjaBilansDAO.create(r);
                     nowemacierzyste.add(r);
                 } catch (Exception e) {  
                     E.e(e);
@@ -429,7 +428,7 @@ public class UkladBRWzorcowyView implements Serializable{
 //                r.setPodatnik(wpisView.getPodatnikWpisu());
 //                r.setRok(wpisView.getRokWpisuSt());
 //                try {
-//                    pozycjaRZiSDAO.dodaj(r);
+//                    pozycjaRZiSDAO.create(r);
 //                } catch (Exception e) {  E.e(e);
 //                    
 //                }
@@ -450,7 +449,7 @@ public class UkladBRWzorcowyView implements Serializable{
 //                    r.setLp(null);
 //                    PozycjaRZiS macierzyste = wyszukajmacierzyste(p, macierzystelista);
 //                    r.setMacierzysty(macierzyste.getLp());
-//                    pozycjaRZiSDAO.dodaj(r);
+//                    pozycjaRZiSDAO.create(r);
 //                    nowemacierzyste.add(r);
 //                } catch (Exception e) {  E.e(e);
 //                    
@@ -478,7 +477,7 @@ public class UkladBRWzorcowyView implements Serializable{
 //                r.setPodatnik(wpisView.getPodatnikWpisu());
 //                r.setRok(wpisView.getRokWpisuSt());
 //                try {
-//                    pozycjaRZiSDAO.dodaj(r);
+//                    pozycjaRZiSDAO.create(r);
 //                } catch (Exception e) {  E.e(e);
 //                    
 //                }
@@ -499,7 +498,7 @@ public class UkladBRWzorcowyView implements Serializable{
 //                    r.setLp(null);
 //                    PozycjaBilans macierzyste = wyszukajmacierzysteB(p, macierzystelista);
 //                    r.setMacierzysty(macierzyste.getLp());
-//                    pozycjaBilansDAO.dodaj(r);
+//                    pozycjaBilansDAO.create(r);
 //                    nowemacierzyste.add(r);
 //                } catch (Exception e) {  E.e(e);
 //                    

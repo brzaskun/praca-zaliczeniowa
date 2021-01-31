@@ -9,11 +9,11 @@ import beansFK.StronaWierszaBean;
 import beansFK.UkladBRBean;
 import converter.RomNumb;
 import dao.StronaWierszaDAO;
-import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
-import daoFK.PozycjaBilansDAO;
-import daoFK.PozycjaRZiSDAO;
-import daoFK.UkladBRDAO;
+import dao.KontoDAOfk;
+import dao.KontopozycjaZapisDAO;
+import dao.PozycjaBilansDAO;
+import dao.PozycjaRZiSDAO;
+import dao.UkladBRDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.KontopozycjaZapis;
@@ -29,9 +29,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
@@ -43,7 +43,7 @@ import view.WpisView;import xls.ReadCSVInterpaperFile;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PozycjaBRWzorcowyView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -87,7 +87,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
     private UkladBR uklad;
     private String nowanazwa;
     
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private String aktywapasywa;
     
@@ -345,7 +345,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
             nowyelementRZiS.setPodatnik(uklad.getPodatnik().getNazwapelna());
             nowyelementRZiS.setRok(uklad.getRok());
             try {
-                pozycjaRZiSDAO.dodaj(nowyelementRZiS);
+                pozycjaRZiSDAO.create(nowyelementRZiS);
                 pozycje.add(nowyelementRZiS);
                 rootProjektRZiS = new TreeNodeExtended("root", null);
                 PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
@@ -387,7 +387,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
             nowyelementRZiS.setPodatnik(uklad.getPodatnik().getNazwapelna());
             nowyelementRZiS.setRok(uklad.getRok());
             try {
-                pozycjaRZiSDAO.dodaj(nowyelementRZiS);
+                pozycjaRZiSDAO.create(nowyelementRZiS);
                 pozycje.add(nowyelementRZiS);
                 rootProjektRZiS = new TreeNodeExtended("root", null);
                 PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
@@ -439,7 +439,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
             nowyelementBilans.setPodatnik(uklad.getPodatnik().getNazwapelna());
             nowyelementBilans.setRok(uklad.getRok());
             try {
-                pozycjaRZiSDAO.dodaj(nowyelementBilans);
+                pozycjaRZiSDAO.create(nowyelementBilans);
                 pozycje.add(nowyelementBilans);
                 rootProjektRZiS = new TreeNodeExtended("root", null);
                 PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
@@ -481,7 +481,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
             nowyelementBilans.setPodatnik(uklad.getPodatnik().getNazwapelna());
             nowyelementBilans.setRok(uklad.getRok());
             try {
-                pozycjaRZiSDAO.dodaj(nowyelementBilans);
+                pozycjaRZiSDAO.create(nowyelementBilans);
                 pozycje.add(nowyelementBilans);
                 rootProjektRZiS = new TreeNodeExtended("root", null);
                 PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
@@ -541,7 +541,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
             PozycjaRZiSBilans nowa = serialclone.SerialClone.clone(implementowanapozycja);
             nowa.setPodatnik(u.getPodatnik().getNazwapelna());
             nowa.setLp(null);
-            pozycjaBilansDAO.dodaj(nowa);
+            pozycjaBilansDAO.create(nowa);
         } catch (Exception e) {
             Msg.msg("e", "Bład nie dodano pozycji dla podatnika "+u.getPodatnik().getPrintnazwa());
         }
@@ -556,7 +556,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
                 throw new Exception();
             }
             pozycje.remove(wybranynodekonta.getData());
-            pozycjaRZiSDAO.destroy(wybranynodekonta.getData());
+            pozycjaRZiSDAO.remove(wybranynodekonta.getData());
             if (pozycje.isEmpty()) {
                 pozycje.add(new PozycjaRZiS(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");
@@ -590,10 +590,10 @@ public class PozycjaBRWzorcowyView implements Serializable {
                     }
                     for (KontopozycjaZapis s : dousuniecia) {
                         try {
-                            kontopozycjaZapisDAO.destroy(s);
+                            kontopozycjaZapisDAO.remove(s);
                         } catch (Exception e) {}
                     }
-                    pozycjaBilansDAO.destroy(pozycjepodatnikow);
+                    pozycjaBilansDAO.remove(pozycjepodatnikow);
                     Msg.msg("Udane usuniecie pozycji Bilansu");
                 } else {
                     pozycjepodatnikow = pozycjaRZiSDAO.findRZiSPozString(p.getPozycjaString(), wpisView.getRokWpisuSt(), p.getUklad());
@@ -602,10 +602,10 @@ public class PozycjaBRWzorcowyView implements Serializable {
                     }
                     for (KontopozycjaZapis s : dousuniecia) {
                         try {
-                            kontopozycjaZapisDAO.destroy(s);
+                            kontopozycjaZapisDAO.remove(s);
                         } catch (Exception e) {}
                     }
-                    pozycjaRZiSDAO.destroy(pozycjepodatnikow);
+                    pozycjaRZiSDAO.remove(pozycjepodatnikow);
                     Msg.msg("Udane usuniecie pozycji RZiS");
                 }
             }
@@ -644,7 +644,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
     public void usunwszystkie() {
         try {
             for (PozycjaRZiSBilans p : pozycje) {
-                pozycjaRZiSDAO.destroy(p);
+                pozycjaRZiSDAO.remove(p);
             }
             pozycje = Collections.synchronizedList(new ArrayList<>());
             if (pozycje.isEmpty()) {
@@ -738,7 +738,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
             }
             int level = ((PozycjaRZiSBilans) wybranynodekonta.getData()).getLevel();
             pozycje.remove(wybranynodekonta.getData());
-            pozycjaRZiSDAO.destroy(wybranynodekonta.getData());
+            pozycjaRZiSDAO.remove(wybranynodekonta.getData());
             if (pozycje.isEmpty()) {
                 pozycje.add(new PozycjaRZiS(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");

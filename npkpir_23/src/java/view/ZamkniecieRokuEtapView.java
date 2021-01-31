@@ -11,15 +11,15 @@ import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class ZamkniecieRokuEtapView  implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -36,7 +36,7 @@ public class ZamkniecieRokuEtapView  implements Serializable {
     
     public void dodaj() {
         try {
-            zamkniecieRokuEtapDAO.dodaj(nowy);
+            zamkniecieRokuEtapDAO.create(nowy);
             lista.add(nowy);
             nowy = new ZamkniecieRokuEtap();
             Msg.dP();
@@ -48,7 +48,7 @@ public class ZamkniecieRokuEtapView  implements Serializable {
     
     public void usun(ZamkniecieRokuEtap item) {
         try {
-            zamkniecieRokuEtapDAO.destroy(item);
+            zamkniecieRokuEtapDAO.remove(item);
             lista.remove(item);
             Msg.dP();
         } catch (Exception e) {

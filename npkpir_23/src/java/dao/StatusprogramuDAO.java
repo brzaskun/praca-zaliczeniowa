@@ -6,33 +6,43 @@
 package dao;
 
 import entity.Statusprogramu;
-import error.E;
 import java.io.Serializable;
-import java.util.List;
-import javax.inject.Inject;
-import session.SessionFacade;
+import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 /**
  *
  * @author Osito
  */
+@Stateless
+@Transactional
 public class StatusprogramuDAO  extends DAO implements Serializable {
-   @Inject private SessionFacade sesjaFacade;
-      
-    public StatusprogramuDAO() {
-        super(Statusprogramu.class);
+     @PersistenceContext(unitName = "npkpir_22PU")
+    private EntityManager em;
+    
+    @PreDestroy
+    private void preDestroy() {
+        em.clear();
+        em.close();
+        em.getEntityManagerFactory().close();
+        em = null;
+        error.E.s("koniec jpa");
     }
 
-    public StatusprogramuDAO(Class entityClass) {
-        super(entityClass);
+
+    public StatusprogramuDAO() {
+        super(Statusprogramu.class);
+        super.em = this.em;
+    }
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
     }
     
-     public  List<Statusprogramu> findAll(){
-        try {
-            return sesjaFacade.findAll(Statusprogramu.class);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-   }
-    
+   
+        
 }

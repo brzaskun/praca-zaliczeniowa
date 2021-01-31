@@ -6,16 +6,14 @@
 package gus;
 
 import java.io.Serializable;
-import java.util.Map;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import webservice.GUS;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class GUSView implements Serializable {
 

@@ -9,9 +9,9 @@ import beansFK.BOFKBean;
 import beansFK.SaldoAnalitykaBean;
 import beansFK.SprFinInfDodBean;
 import dao.StronaWierszaDAO;
-import daoFK.DokDAOfk;
-import daoFK.KontoDAOfk;
-import daoFK.SprFinKwotyInfDodDAO;
+import dao.DokDAOfk;
+import dao.KontoDAOfk;
+import dao.SprFinKwotyInfDodDAO;
 import embeddablefk.SaldoKonto;
 import entityfk.Konto;
 import entityfk.SprFinKwotyInfDod;
@@ -27,9 +27,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import org.apache.commons.io.IOUtils;
 import org.primefaces.event.FileUploadEvent;
@@ -47,7 +47,7 @@ import org.primefaces.model.UploadedFile;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class SprFinKwotyInfDodView  implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -63,7 +63,7 @@ public class SprFinKwotyInfDodView  implements Serializable{
     @Inject
     private StronaWierszaDAO stronaWierszaDAO;
     private List<PodatnikUdzialy> podatnikUdzialy;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     
     

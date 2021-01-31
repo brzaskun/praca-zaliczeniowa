@@ -14,8 +14,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -24,7 +24,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class SesjaView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -79,7 +79,7 @@ public class SesjaView implements Serializable {
             for (Iterator<Sesja> it = wykazsesji.iterator(); it.hasNext(); ) {
                 Sesja s = it.next();
                 if (s.getWylogowanie() == null) {
-                    sesjaDAO.destroy(s);
+                    sesjaDAO.remove(s);
                     it.remove();
                 }
             }

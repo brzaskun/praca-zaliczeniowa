@@ -27,7 +27,7 @@ import error.E;
 import java.io.Serializable;
 import java.security.Principal;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedProperty;
+import javax.inject.Inject;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -39,7 +39,7 @@ public class GuestPreferences implements Serializable {
 
         private String theme = "redmond"; //default
         @Inject private UzDAO uzDAO;
-        @ManagedProperty(value="#{WpisView}")
+        @Inject
         private WpisView wpisView;
         
         

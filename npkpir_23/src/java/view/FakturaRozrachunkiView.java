@@ -23,9 +23,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +35,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class FakturaRozrachunkiView  implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -46,11 +45,11 @@ public class FakturaRozrachunkiView  implements Serializable {
     private List<FakturaRozrachunki> wprowadzoneplatnoscifiltered;
     @Inject
     private FakturaRozrachunki selected;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{fakturaRozrachunkiRozlView}")
+    @Inject
     private FakturaRozrachunkiRozlView fakturaRozrachunkiRozlView;
-    @ManagedProperty(value = "#{fakturaRozrachunkiAnalizaView}")
+    @Inject
     private FakturaRozrachunkiAnalizaView fakturaRozrachunkiAnalizaView;
     @Inject
     private FakturaDAO fakturaDAO;
@@ -164,7 +163,7 @@ public class FakturaRozrachunkiView  implements Serializable {
             } else {
                 selected.setKwotawwalucie(selected.getKwotapln());
             }
-            fakturaRozrachunkiDAO.dodaj(selected);
+            fakturaRozrachunkiDAO.create(selected);
             wprowadzoneplatnosci.add(selected);
             boolean zaplata0korekta1 = selected.isZaplata0korekta1();
             String rodzajdokumentu = selected.getRodzajdokumentu();
@@ -201,7 +200,7 @@ public class FakturaRozrachunkiView  implements Serializable {
     
     public void usun(FakturaRozrachunki p) {
         try {
-            fakturaRozrachunkiDAO.destroy(p);
+            fakturaRozrachunkiDAO.remove(p);
             wprowadzoneplatnosci.remove(p);
         } catch (Exception e) {
             E.e(e);

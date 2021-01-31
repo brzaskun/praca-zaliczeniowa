@@ -10,8 +10,8 @@ import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
-import daoFK.TabelanbpDAO;
-import daoFK.WalutyDAOfk;
+import dao.TabelanbpDAO;
+import dao.WalutyDAOfk;
 import deklaracje.vatue.m4.VATUEM4Bean;
 import embeddable.AmazonCSV;
 import entity.Dok;
@@ -25,7 +25,6 @@ import entityfk.Waluty;
 import error.E;
 import gus.GUSView;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -35,9 +34,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -53,15 +51,15 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class ImportCSVView  implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<Dok> dokumenty;
     private List<Klienci> klienci;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{gUSView}")
+    @Inject
     private GUSView gUSView;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
@@ -276,7 +274,7 @@ public class ImportCSVView  implements Serializable {
             for (Klienci p: klienci) {
                 try {
                     if (p.getNip()!=null) {
-                        klDAO.dodaj(p);
+                        klDAO.create(p);
                     }
                 } catch(Exception e){
                 }
@@ -288,7 +286,7 @@ public class ImportCSVView  implements Serializable {
             for (Dok p: dokumenty) {
                 try {
                     if (p.getKontr().getNip()!=null) {
-                        dokDAO.dodaj(p);
+                        dokDAO.create(p);
                     }
                 } catch(Exception e){
                 }

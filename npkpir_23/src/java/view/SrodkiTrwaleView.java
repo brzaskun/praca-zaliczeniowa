@@ -12,9 +12,9 @@ import entityfk.Dokfk;
 import error.E;
 import java.io.Serializable;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import msg.Msg; import org.primefaces.PrimeFaces;
@@ -23,7 +23,7 @@ import msg.Msg; import org.primefaces.PrimeFaces;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class SrodkiTrwaleView implements Serializable {
 
@@ -37,7 +37,7 @@ public class SrodkiTrwaleView implements Serializable {
     private SrodekTrw selectedSTR;
     @Inject
     private Dokfk dokfk;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
 
     public SrodkiTrwaleView() {
@@ -134,7 +134,7 @@ public class SrodkiTrwaleView implements Serializable {
 //            }
 //            dodawanysrodektrwaly.setUmorzPlan(listaplanum);
 //            dodawanysrodektrwaly.setUmorzWyk(SrodkiTrwBean.generujumorzeniadlasrodka(dodawanysrodektrwaly, wpisView));
-//            sTRDAO.dodaj(dodawanysrodektrwaly);
+//            sTRDAO.create(dodawanysrodektrwaly);
 //            PrimeFaces.current().ajax().update("srodki:panelekXA");
 //            Msg.msg("i", "Środek trwały "+dodawanysrodektrwaly.getNazwa()+" dodany", "formSTR:messages");
 //        } catch (Exception e) { E.e(e); 
@@ -151,7 +151,7 @@ public class SrodkiTrwaleView implements Serializable {
             //oblicza planowane umorzenia
             dodawanysrodektrwaly.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(dodawanysrodektrwaly));
             dodawanysrodektrwaly.setPlanumorzen(SrodkiTrwBean.generujumorzeniadlasrodka(dodawanysrodektrwaly, wpisView));
-            sTRDAO.dodaj(dodawanysrodektrwaly);
+            sTRDAO.create(dodawanysrodektrwaly);
 //            PrimeFaces.current().ajax().update("srodki:panelekXA");
             Msg.msg("i", "Środek trwały "+dodawanysrodektrwaly.getNazwa()+" dodany");
         } catch (Exception e) { 

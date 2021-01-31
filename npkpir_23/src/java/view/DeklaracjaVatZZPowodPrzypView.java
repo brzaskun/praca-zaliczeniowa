@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
@@ -25,7 +25,7 @@ import org.primefaces.model.DualListModel;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class DeklaracjaVatZZPowodPrzypView  implements Serializable {
     @Inject
@@ -53,7 +53,7 @@ public class DeklaracjaVatZZPowodPrzypView  implements Serializable {
     
     public void dodaj() {
         try {
-            deklaracjaVatZZPowodDAO.dodaj(nowypowod);
+            deklaracjaVatZZPowodDAO.create(nowypowod);
             deklracjaVatZZpowody.add(nowypowod);
             nowypowod = new DeklaracjaVatZZPowod();
             Msg.msg("Dodano powód");
@@ -69,7 +69,7 @@ public class DeklaracjaVatZZPowodPrzypView  implements Serializable {
     }
     
     public void usun(DeklaracjaVatZZPowod p) {
-        deklaracjaVatZZPowodDAO.destroy(p);
+        deklaracjaVatZZPowodDAO.remove(p);
         deklracjaVatZZpowody.remove(p);
         Msg.msg("Usunięto powód");
     }

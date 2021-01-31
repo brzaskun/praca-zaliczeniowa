@@ -14,16 +14,16 @@ import converter.KontoConv;
 import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
-import daoFK.DelegacjaDAO;
-import daoFK.KliencifkDAO;
-import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
-import daoFK.MiejsceKosztowDAO;
-import daoFK.MiejscePrzychodowDAO;
-import daoFK.PojazdyDAO;
-import daoFK.PozycjaRZiSDAO;
-import daoFK.UkladBRDAO;
-import daoFK.WierszBODAO;
+import dao.DelegacjaDAO;
+import dao.KliencifkDAO;
+import dao.KontoDAOfk;
+import dao.KontopozycjaZapisDAO;
+import dao.MiejsceKosztowDAO;
+import dao.MiejscePrzychodowDAO;
+import dao.PojazdyDAO;
+import dao.PozycjaRZiSDAO;
+import dao.UkladBRDAO;
+import dao.WierszBODAO;
 import embeddable.Mce;
 import embeddable.Roki;
 import embeddablefk.TreeNodeExtended;
@@ -49,9 +49,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
@@ -65,7 +64,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PlanKontView implements Serializable {
 
@@ -89,7 +88,7 @@ public class PlanKontView implements Serializable {
     private boolean czyoddacdowzorca;
     @Inject
     private PodatnikDAO podatnikDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private KontoDAOfk kontoDAOfk;
@@ -114,9 +113,9 @@ public class PlanKontView implements Serializable {
     @Inject
     private KontoDAOfk kontoDAO;
     private String infozebrakslownikowych;
-    @ManagedProperty(value = "#{planKontCompleteView}")
+    @Inject
     private PlanKontCompleteView planKontCompleteView;
-    @ManagedProperty(value = "#{kontoConv}")
+    @Inject
     private KontoConv kontoConv;
     private boolean bezslownikowych;
     private boolean tylkosyntetyka;
@@ -749,7 +748,7 @@ public class PlanKontView implements Serializable {
                     p.setRok(wpisView.getRokWpisu());
                     p.setPodatnik(wpisView.getPodatnikObiekt());
                     try {
-                        kontoDAOfk.dodaj(p);
+                        kontoDAOfk.create(p);
                     } catch (PersistenceException e) {
                         Msg.msg("e", "Wystąpił błąd przy implementowaniu kont. Istnieje konto o takim numerze: " + p.getPelnynumer());
                     } catch (Exception ef) {
@@ -797,7 +796,7 @@ public class PlanKontView implements Serializable {
                             kontopodatnik.setMapotomkow(false);
                             kontopodatnik.setBlokada(false);
                         }
-                        kontoDAOfk.dodaj(kontopodatnik);
+                        kontoDAOfk.create(kontopodatnik);
                         KontoPozycjaBean.duplikujpozycje(ukladBRDAO,wybranyukladwzorcowy.getUklad(), p, wpisView.getRokWpisuSt(), selectednodekonto, kontopodatnik, kontopozycjaZapisDAO);
                     } catch (RollbackException e) {
                         E.e(e);
@@ -834,7 +833,7 @@ public class PlanKontView implements Serializable {
                             kontopodatnik.setMapotomkow(false);
                             kontopodatnik.setBlokada(false);
                         }
-                        kontoDAOfk.dodaj(kontopodatnik);
+                        kontoDAOfk.create(kontopodatnik);
                         KontoPozycjaBean.duplikujpozycje(ukladBRDAO,wybranyukladwzorcowy.getUklad(), p, wpisView.getRokWpisuSt(), selectednodekonto, kontopodatnik, kontopozycjaZapisDAO);
                     } catch (RollbackException e) {
                         E.e(e);
@@ -911,7 +910,7 @@ public class PlanKontView implements Serializable {
             konto.setBlokada(false);
         }
         try {
-            kontoDAOfk.dodaj(konto);
+            kontoDAOfk.create(konto);
         } catch (RollbackException e) {
 
         } catch (PersistenceException x) {
@@ -935,7 +934,7 @@ public class PlanKontView implements Serializable {
             konto.setBlokada(false);
         }
         try {
-            kontoDAOfk.dodaj(konto);
+            kontoDAOfk.create(konto);
         } catch (RollbackException e) {
 
         } catch (PersistenceException x) {
@@ -965,7 +964,7 @@ public class PlanKontView implements Serializable {
                 Konto p = (Konto) it.next();
                 if (!p.getPodatnik().equals(null)) {
                     try {
-                        kontoDAOfk.destroy(p);
+                        kontoDAOfk.remove(p);
                         it.remove();
                     } catch (Exception e) {
                         E.e(e);
@@ -1022,7 +1021,7 @@ public class PlanKontView implements Serializable {
             }
             for (Konto p : wykazkontwzor) {
                 try {
-                    kontoDAOfk.destroy(p);
+                    kontoDAOfk.remove(p);
                 } catch (Exception e) {
                     E.e(e);
                     Msg.msg("e", "Wystąpił błąd przy usuwaniu wszytskich kont. Na nieusuniętych kontach istnieją zapisy. Przerywam wykonywanie funkcji");
@@ -1141,7 +1140,7 @@ public class PlanKontView implements Serializable {
                 E.e(e);
             }
         }
-        kontopozycjaZapisDAO.dodaj(nowepozycje);
+        kontopozycjaZapisDAO.create(nowepozycje);
         if (podatnik.equals(wpisView.getPodatnikObiekt())) {
             listaukladow = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), rok);
             wybranyuklad = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladow);
@@ -1281,7 +1280,7 @@ public class PlanKontView implements Serializable {
         try {
             KontopozycjaZapis p = kontopozycjaZapisDAO.findByKonto(kontoDoUsuniecia, wybranyuklad);
             if (p != null) {
-                kontopozycjaZapisDAO.destroy(p);
+                kontopozycjaZapisDAO.remove(p);
             }
         } catch (Exception e) {
             E.e(e);
@@ -1291,7 +1290,7 @@ public class PlanKontView implements Serializable {
     private void usunkontozbazy(Konto kontoDoUsuniecia, String klientWzor) {
         kontoDoUsuniecia.setKontomacierzyste(null);
         kontoDAOfk.edit(kontoDoUsuniecia);
-        kontoDAOfk.destroy(kontoDoUsuniecia);
+        kontoDAOfk.remove(kontoDoUsuniecia);
         if (klientWzor.equals("W")) {
             wykazkontwzor.remove(kontoDoUsuniecia);
         } else {
@@ -1459,7 +1458,7 @@ public class PlanKontView implements Serializable {
                     if (usunprzyporzadkowanie) {
                         KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(p, wybranyuklad);
                         if (kp != null) {
-                            kontopozycjaZapisDAO.destroy(kp);
+                            kontopozycjaZapisDAO.remove(kp);
                         }
                         p.czyscPozycje();
                     }
@@ -1469,7 +1468,7 @@ public class PlanKontView implements Serializable {
             if (usunprzyporzadkowanie) {
                 KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(selectednodekonto, wybranyuklad);
                 if (kp != null) {
-                    kontopozycjaZapisDAO.destroy(kp);
+                    kontopozycjaZapisDAO.remove(kp);
                 }
                 selectednodekonto.czyscPozycje();
             }
@@ -1735,7 +1734,7 @@ public class PlanKontView implements Serializable {
         try {
             if (selectednodekonto.isSlownikowe()) {
                 List<Konto> kontadousuniecia = kontoDAOfk.findKontaSiostrzanePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), selectednodekonto.getKontomacierzyste());
-                kontoDAOfk.destroy(kontadousuniecia);
+                kontoDAOfk.remove(kontadousuniecia);
                 for (Konto p : kontadousuniecia) {
                     wykazkont.remove(p);
                 }
@@ -2098,7 +2097,7 @@ public class PlanKontView implements Serializable {
     private void usunpozycjezapisane() {
         List<KontopozycjaZapis> pozycje = kontopozycjaZapisDAO.findKontaPozycjaZapisPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         if (!pozycje.isEmpty()) {
-            kontopozycjaZapisDAO.destroy(pozycje);
+            kontopozycjaZapisDAO.remove(pozycje);
         }
     }
 

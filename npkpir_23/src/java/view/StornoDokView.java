@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.ListIterator;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
+import javax.inject.Named;
+
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
@@ -37,7 +37,7 @@ import org.primefaces.PrimeFaces;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @RequestScope
 public class StornoDokView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -74,7 +74,7 @@ public class StornoDokView implements Serializable {
     private StornoDok stornoDok;
     private List<Dok> lista;
     private List<Dok> pobraneDok;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private DokDAO dokDAO;
@@ -302,9 +302,12 @@ public class StornoDokView implements Serializable {
                 }
             }
         }
-        stornoDokDAO.destroy(stornodok);
-        dokDAO.destroyStornoDok(rok.toString(), mc, wpisView.getPodatnikObiekt());
+        stornoDokDAO.remove(stornodok);
         PrimeFaces.current().ajax().update("form:dokumentyLista");
+        throw new Exception();
+        //nie ma tej metody nie wiem dlaczego UWAGA
+        //dokDAO.removeStornoDok(rok.toString(), mc, wpisView.getPodatnikObiekt());
+        
         }
     }
 

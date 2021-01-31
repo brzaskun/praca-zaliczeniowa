@@ -11,8 +11,8 @@ import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import xls.BankImportWykaz;
@@ -23,7 +23,7 @@ import xls.ImportowanyPlik;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class BankImportWzoryView   implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -81,7 +81,7 @@ public class BankImportWzoryView   implements Serializable {
                     selected.setPolekonto(null);
                 }
                 selected.setNrkonta(wybranekonto.getPelnynumer());
-                bankImportWzoryDAO.dodaj(selected);
+                bankImportWzoryDAO.create(selected);
                 lista.add(selected);
                 selected = new BankImportWzory();
             } else {
@@ -111,7 +111,7 @@ public class BankImportWzoryView   implements Serializable {
     
     public void usun(BankImportWzory im) {
         try {
-            bankImportWzoryDAO.destroy(im);
+            bankImportWzoryDAO.remove(im);
             lista.remove(im);
             Msg.msg("Usunięto zapis");
         } catch (Exception e) {

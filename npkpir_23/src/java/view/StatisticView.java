@@ -13,9 +13,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -24,7 +24,7 @@ import org.joda.time.Duration;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class StatisticView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -33,7 +33,7 @@ public class StatisticView implements Serializable {
     private int iloscwydrukow;
     private String spedzonyczas;
     private List<Sesja> sesje;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private SesjaDAO sesjaDAO;

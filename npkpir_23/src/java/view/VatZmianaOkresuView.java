@@ -8,22 +8,22 @@ package view;
 import entity.Podatnik;
 import error.E;
 import java.io.Serializable;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import viewfk.KontaVatFKView;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class VatZmianaOkresuView implements Serializable {
     private static final long serialVersionUID = 1L;
-    @ManagedProperty(value = "#{ewidencjaVatView}")
+    @Inject
     private EwidencjaVatView ewidencjaVatView;
-    @ManagedProperty(value = "#{kontaVatFKView}")
+    @Inject
     private KontaVatFKView kontaVatFKView;
     
     public void aktualizujpozmianiedaty(Podatnik podatnik) {

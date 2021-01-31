@@ -8,8 +8,8 @@ package view;
 import beansFK.BOFKBean;
 import dao.STRDAO;
 import dao.StronaWierszaDAO;
-import daoFK.DokDAOfk;
-import daoFK.KontoDAOfk;
+import dao.DokDAOfk;
+import dao.KontoDAOfk;
 import data.Data;
 import embeddable.Mce;
 import embeddablefk.SaldoKonto;
@@ -26,9 +26,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import waluty.Z;
 
@@ -36,12 +36,12 @@ import msg.Msg;import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class SrodkiKontaView implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     protected STRDAO sTRDAO;

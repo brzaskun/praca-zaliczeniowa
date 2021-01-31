@@ -6,7 +6,7 @@
 package viewfk;
 
 import comparator.Kontocomparator;
-import daoFK.KontoDAOfk;
+import dao.KontoDAOfk;
 import entityfk.Konto;
 import error.E;
 import java.io.Serializable;
@@ -15,21 +15,21 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import view.WpisView;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PlanKontNazwyView implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private KontoDAOfk kontoDAOfk;

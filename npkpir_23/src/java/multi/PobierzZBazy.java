@@ -5,7 +5,7 @@
  */
 package multi;
 
-import daoFK.KontoDAOfk;
+import dao.KontoDAOfk;
 import entityfk.Konto;
 
 /**

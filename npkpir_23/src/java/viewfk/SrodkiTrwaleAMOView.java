@@ -11,10 +11,10 @@ import dao.AmoDokDAO;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
-import daoFK.DokDAOfk;
-import daoFK.KontoDAOfk;
-import daoFK.TabelanbpDAO;
-import daoFK.WalutyDAOfk;
+import dao.DokDAOfk;
+import dao.KontoDAOfk;
+import dao.TabelanbpDAO;
+import dao.WalutyDAOfk;
 import data.Data;
 import embeddable.Mce;
 import embeddablefk.SaldoKonto;
@@ -36,9 +36,9 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import view.WpisView; import org.primefaces.PrimeFaces;
 import waluty.Z;
@@ -47,12 +47,12 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class SrodkiTrwaleAMOView implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<SaldoKonto> kontasrodkitrw;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private KontoDAOfk kontoDAOfk;
@@ -162,7 +162,7 @@ public class SrodkiTrwaleAMOView implements Serializable {
             usundokumentztegosamegomiesiaca();
             Dokfk dokumentamo = stworznowydokument(oblicznumerkolejny());
             try {
-                dokDAOfk.dodaj(dokumentamo);
+                dokDAOfk.create(dokumentamo);
                 Msg.msg("Zaksięgowano dokument AMO");
             } catch (EJBException e) {
                 E.e(e);
@@ -185,7 +185,7 @@ public class SrodkiTrwaleAMOView implements Serializable {
         try {
             Dokfk popDokfk = dokDAOfk.findDokfofaType(wpisView.getPodatnikObiekt(), "AMO", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
             if (popDokfk != null) {
-                dokDAOfk.destroy(popDokfk);
+                dokDAOfk.remove(popDokfk);
             }
         } catch (Exception e) {  E.e(e);
             

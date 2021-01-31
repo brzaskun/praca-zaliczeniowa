@@ -10,20 +10,18 @@ import beansFK.KontaFKBean;
 import beansFK.StronaWierszaBean;
 import dao.PodatnikUdzialyDAO;
 import dao.StronaWierszaDAO;
-import daoFK.CechazapisuDAOfk;
-import daoFK.KontoDAOfk;
-import daoFK.TransakcjaDAO;
-import daoFK.WierszBODAO;
-import daoFK.WynikFKRokMcDAO;
+import dao.CechazapisuDAOfk;
+import dao.KontoDAOfk;
+import dao.TransakcjaDAO;
+import dao.WierszBODAO;
+import dao.WynikFKRokMcDAO;
 import embeddable.Mce;
 import embeddablefk.PozycjeSymulacjiNowe;
 import embeddablefk.SaldoKonto;
-import entity.EVatwpisSuper;
 import entity.Podatnik;
 import entity.PodatnikUdzialy;
 import entityfk.Cechazapisu;
 import entityfk.Dokfk;
-import entityfk.EVatwpisFK;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
@@ -39,9 +37,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.B;
 import msg.Msg;import pdf.PdfSymulacjaWyniku;
@@ -51,7 +48,7 @@ import view.WpisView;import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class SymulacjaWynikuView implements Serializable {
 
@@ -64,9 +61,9 @@ public class SymulacjaWynikuView implements Serializable {
     private List<PozycjeSymulacjiNowe> pozycjePodsumowaniaWynikuNowe;
     private List<PozycjeSymulacji> pozycjeObliczeniaPodatku;
     private List<PozycjeSymulacji> pozycjeDoWyplaty;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{symulacjaWynikuNarastajacoView}")
+    @Inject
     private SymulacjaWynikuNarastajacoView symulacjaWynikuNarastajacoView;
     @Inject
     private WierszBODAO wierszBODAO;
@@ -536,12 +533,12 @@ public class SymulacjaWynikuView implements Serializable {
     //        wynikFKRokMc.setListakoszty(listakontakoszty);
             try {
                 WynikFKRokMc pobrany = wynikFKRokMcDAO.findWynikFKRokMcFirma(wynikFKRokMc);
-                wynikFKRokMcDAO.destroy(pobrany);
+                wynikFKRokMcDAO.remove(pobrany);
             } catch (Exception e) {  
                 E.e(e);
             }
             try {
-                wynikFKRokMcDAO.dodaj(wynikFKRokMc);
+                wynikFKRokMcDAO.create(wynikFKRokMc);
                 symulacjaWynikuNarastajacoView.init();
                 Msg.msg("Zachowano wynik");
             } catch (Exception e) {  E.e(e);

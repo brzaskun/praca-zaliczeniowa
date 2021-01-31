@@ -14,8 +14,8 @@ import dao.PodatnikDAO;
 import dao.SMTPSettingsDAO;
 import dao.SchemaEwidencjaDAO;
 import dao.WniosekVATZDEntityDAO;
-import daoFK.DokDAOfk;
-import daoFK.KontoDAOfk;
+import dao.DokDAOfk;
+import dao.KontoDAOfk;
 import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Deklaracjevat;
@@ -30,9 +30,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
@@ -48,7 +48,7 @@ import viewfk.SaldoAnalitykaView;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class DeklaracjevatView implements Serializable {
     private Deklaracjevat selected;
@@ -59,9 +59,9 @@ public class DeklaracjevatView implements Serializable {
     private List<Deklaracjevat> wyslanetestowe;
     private List<Deklaracjevat> wyslanezbledem;
     private List<Deklaracjevat> oczekujace;
-    @ManagedProperty(value="#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value="#{saldoAnalitykaView}")
+    @Inject
     private SaldoAnalitykaView saldoAnalitykaView;
     @Inject
     private PodatnikDAO podatnikDAO;
@@ -274,7 +274,7 @@ public class DeklaracjevatView implements Serializable {
     public void destroybezupo(Deklaracjevat selDok) {
         selected = selDok;
         try {
-               deklaracjevatDAO.destroy(selected);
+               deklaracjevatDAO.remove(selected);
                wyslaneniepotwierdzone.remove(selected);
                 Msg.msg("i","Deklaracja usunięta");
             } catch (Exception e) { 
@@ -287,7 +287,7 @@ public class DeklaracjevatView implements Serializable {
         selected = selDok;
         try {
                oczekujace.remove(selected);
-               deklaracjevatDAO.destroy(selected);
+               deklaracjevatDAO.remove(selected);
                 Msg.msg("i","Deklaracja usunięta");
             } catch (Exception e) { E.e(e); 
                 Msg.msg("e","Deklaracja nie usunięta");
@@ -298,7 +298,7 @@ public class DeklaracjevatView implements Serializable {
         selected = selDok;
         try {
                wyslanenormalne.remove(selected);
-               deklaracjevatDAO.destroy(selected);
+               deklaracjevatDAO.remove(selected);
                 Msg.msg("i","Deklaracja usunięta");
             } catch (Exception e) { E.e(e); 
                 Msg.msg("e","Deklaracja nie usunięta");
@@ -308,7 +308,7 @@ public class DeklaracjevatView implements Serializable {
     public void destroy2() {
          try {
                oczekujace.remove(selected);
-               deklaracjevatDAO.destroy(selected);
+               deklaracjevatDAO.remove(selected);
                 Msg.msg("i","Deklaracja usunięta");
             } catch (Exception e) { E.e(e); 
                 Msg.msg("e","Deklaracja nie usunięta");
@@ -320,7 +320,7 @@ public class DeklaracjevatView implements Serializable {
          try {
                wyslanezbledem.remove(selected);
                wyslanetestowe.remove(selected);
-               deklaracjevatDAO.destroy(selected);
+               deklaracjevatDAO.remove(selected);
                 Msg.msg("i","Deklaracja usunięta");
             } catch (Exception e) { E.e(e); 
                 Msg.msg("e","Deklaracja nie usunięta");

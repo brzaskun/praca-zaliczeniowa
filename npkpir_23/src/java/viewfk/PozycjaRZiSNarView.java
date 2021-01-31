@@ -9,10 +9,10 @@ import beansFK.BilansBean;
 import beansFK.PozycjaRZiSFKBean;
 import beansFK.StronaWierszaBean;
 import dao.StronaWierszaDAO;
-import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
-import daoFK.PozycjaRZiSDAO;
-import daoFK.UkladBRDAO;
+import dao.KontoDAOfk;
+import dao.KontopozycjaZapisDAO;
+import dao.PozycjaRZiSDAO;
+import dao.UkladBRDAO;
 import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
 import entityfk.PozycjaRZiSBilans;
@@ -21,9 +21,9 @@ import entityfk.UkladBR;
 import error.E;
 import java.io.Serializable;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import pdffk.PdfRZiS;
 import view.WpisView;
@@ -31,11 +31,11 @@ import view.WpisView;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PozycjaRZiSNarView  implements Serializable {
     private static final long serialVersionUID = 1L;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private UkladBRDAO ukladBRDAO;

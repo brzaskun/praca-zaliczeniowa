@@ -11,11 +11,11 @@ import comparator.SaldoKontocomparator;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
-import daoFK.DokDAOfk;
-import daoFK.KontoDAOfk;
-import daoFK.TabelanbpDAO;
-import daoFK.WalutyDAOfk;
-import daoFK.WierszBODAO;
+import dao.DokDAOfk;
+import dao.KontoDAOfk;
+import dao.TabelanbpDAO;
+import dao.WalutyDAOfk;
+import dao.WierszBODAO;
 import data.Data;
 import embeddable.Kwartaly;
 import embeddable.Mce;
@@ -36,9 +36,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import view.EwidencjaVatView;
 import view.ParametrView;
@@ -48,14 +47,14 @@ import view.WpisView;import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class KontaVatFKView implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<SaldoKonto> kontavat;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{ewidencjaVatView}")
+    @Inject
     private EwidencjaVatView ewidencjaVatView;
     @Inject
     private WierszBODAO wierszBODAO;
@@ -360,7 +359,7 @@ public class KontaVatFKView implements Serializable {
         }
         try {
             if (dokumentvat.getListawierszy()!=null&&dokumentvat.getListawierszy().size()>0) {
-                dokDAOfk.dodaj(dokumentvat);
+                dokDAOfk.create(dokumentvat);
                 Msg.msg("Zaksięgowano dokument VAT");
             } else {
                 Msg.msg("w","Nie ma sald na kontach vat. Nie generuje dokumentu");
@@ -404,7 +403,7 @@ public class KontaVatFKView implements Serializable {
         List<Dokfk> popDokfk = dokDAOfk.findDokfofaTypeKilkaLista(wpisView.getPodatnikObiekt(), "VAT", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         if (popDokfk != null) {
             for (Dokfk dok : popDokfk) {
-                dokDAOfk.destroy(dok);
+                dokDAOfk.remove(dok);
             }
         }
     }

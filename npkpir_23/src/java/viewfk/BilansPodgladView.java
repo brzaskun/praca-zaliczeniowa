@@ -6,7 +6,7 @@ package viewfk;
 
 import comparator.KontoBOcomparatorByKwota;
 import dao.StronaWierszaDAO;
-import daoFK.KontoDAOfk;
+import dao.KontoDAOfk;
 import embeddablefk.KontoBO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
@@ -16,9 +16,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import org.primefaces.model.TreeNode;
 import pdffk.PdfBilansPodgladKonta;
@@ -28,7 +28,7 @@ import view.WpisView;import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class BilansPodgladView  implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -41,7 +41,7 @@ public class BilansPodgladView  implements Serializable{
     private TreeNode[] selectednodes;
     private double sumawn;
     private double sumama;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private boolean sortujwgwartosci;
 

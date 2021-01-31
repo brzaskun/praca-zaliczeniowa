@@ -15,9 +15,9 @@ import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.inject.Named;
+
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -27,14 +27,14 @@ import org.joda.time.DateTime;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class ZobowiazanieView implements Serializable{
     @Inject
     private ZobowiazanieDAO zobowiazanieDAO;
     @Inject
     private Zobowiazanie selected;
-    @ManagedProperty(value = "#{WpisView}") 
+    @Inject 
     private WpisView wpisView;
     
     private List<Zobowiazanie> listapobranychstawek;
@@ -60,7 +60,7 @@ public class ZobowiazanieView implements Serializable{
     
      public void dodaj(){
          try{
-         zobowiazanieDAO.dodaj(selected);
+         zobowiazanieDAO.create(selected);
          listapobranychstawek.add(selected);
          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno zobowiązanie za rok i mc:", selected.getZobowiazaniePK().getRok().concat(selected.getZobowiazaniePK().getMc()) );
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);
@@ -77,7 +77,7 @@ public class ZobowiazanieView implements Serializable{
       public void usun(){
         int index = listapobranychstawek.size()-1;
         selected = listapobranychstawek.get(index);
-        zobowiazanieDAO.destroy(selected);
+        zobowiazanieDAO.remove(selected);
         listapobranychstawek.remove(index);
          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usunieto zobowiązanie za rok i mc:", selected.getZobowiazaniePK().toString());
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);

@@ -9,7 +9,7 @@ import dao.DeklaracjevatDAO;
 import dao.EVatwpis1DAO;
 import dao.PodatnikDAO;
 import dao.UPODAO;
-import daoFK.EVatwpisFKDAO;
+import dao.EVatwpisFKDAO;
 import embeddable.Parametr;
 import entity.Deklaracjevat;
 import entity.Podatnik;
@@ -21,21 +21,21 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class JPKListaView  implements Serializable {
     private static final long serialVersionUID = 1L;
-    @ManagedProperty(value="#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject 
     private DeklaracjevatDAO deklaracjevatDAO;

@@ -22,7 +22,7 @@
                 <p:menuitem icon="fa fa-pencil" value="stow." outcome="raportyFK" rendered="#{WpisView.czegosbrakuje == false}"/>
                 <p:menuitem icon="fa fa-car" value="środki trw." outcome="srodkitrwaleFK" rendered="#{WpisView.czegosbrakuje == false}">
                     <f:actionListener binding="#{srodkiTrwaleAMOView.init()}"/>
-                    <f:actionListener binding="#{STRTableView.init()}"/>
+                    <f:actionListener binding="#{sTRTabView.init()}"/>
                 </p:menuitem>
                 <p:menuitem icon="fa fa-newspaper-o" value="#{mgs.zestawienia}" outcome="guestwynikFK" rendered="#{WpisView.czegosbrakuje == false}"/>
                 <p:menuitem value=" | "/>

@@ -6,27 +6,27 @@
 
 package converter;
 
-import daoFK.WalutyDAOfk;
+import dao.WalutyDAOfk;
 import entityfk.Waluty;
-import error.E;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
  * @author Osito
  */
 
-@ManagedBean
+@Named
 @ViewScoped
-public class WalutyConv implements javax.faces.convert.Converter{
+public class WalutyConv implements javax.faces.convert.Converter, Serializable{
     @Inject
     private WalutyDAOfk walutyDAOfk;
     private List<Waluty> listaWalut;

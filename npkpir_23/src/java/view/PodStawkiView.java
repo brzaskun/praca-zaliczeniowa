@@ -14,8 +14,8 @@ import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.inject.Named;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
@@ -23,7 +23,7 @@ import javax.inject.Inject;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class PodStawkiView implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -47,7 +47,7 @@ public class PodStawkiView implements Serializable{
     
      public void dodaj(){
          try{
-         podStawkiDAO.dodaj(selected);
+         podStawkiDAO.create(selected);
           listapobranychstawek.add(selected);
          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr podatkowy za rok:", selected.getRok().toString() );
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);
@@ -64,7 +64,7 @@ public class PodStawkiView implements Serializable{
       public void usun(){
         int index = listapobranychstawek.size()-1;
         selected = listapobranychstawek.get(index);
-        podStawkiDAO.destroy(selected);
+        podStawkiDAO.remove(selected);
         listapobranychstawek.remove(index);
          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usunieto parametru podatkowego za rok:", selected.getRok().toString());
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);

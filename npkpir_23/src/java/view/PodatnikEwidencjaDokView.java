@@ -17,9 +17,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 
@@ -27,7 +27,7 @@ import msg.Msg;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PodatnikEwidencjaDokView  implements Serializable {
 
@@ -37,7 +37,7 @@ public class PodatnikEwidencjaDokView  implements Serializable {
     private PodatnikEwidencjaDokDAO podatnikEwidencjaDokDAO;
     @Inject
     private EvewidencjaDAO evewidencjaDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     
     @PostConstruct
@@ -78,7 +78,7 @@ public class PodatnikEwidencjaDokView  implements Serializable {
                     }
                 }
                 if (samezerowe) {
-                    podatnikEwidencjaDokDAO.destroy(lista);
+                    podatnikEwidencjaDokDAO.remove(lista);
                     Msg.msg("Usunięto listę");
                 } else {
                     podatnikEwidencjaDokDAO.editList(lista);

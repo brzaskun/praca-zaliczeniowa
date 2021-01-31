@@ -6,6 +6,7 @@
 package converter;
 
 import entityfk.MiejscePrzychodow;
+import java.io.Serializable;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -17,7 +18,7 @@ import viewfk.StowRozrachCzlonkView;
  *
  * @author Osito
  */
-public class MiejscePrzychodowConv  implements javax.faces.convert.Converter{
+public class MiejscePrzychodowConv  implements javax.faces.convert.Converter, Serializable {
     
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {

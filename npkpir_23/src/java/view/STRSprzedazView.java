@@ -6,6 +6,7 @@
 package view;
 
 import comparator.UmorzenieNcomparator;
+import dao.STRDAO;
 import data.Data;
 import entity.SrodekTrw;
 import entity.UmorzenieN;
@@ -16,28 +17,31 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
-import msg.Msg;import waluty.Z;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import msg.Msg;
+import waluty.Z;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
-public class STRSprzedazView extends STRTabView implements Serializable {
+public class STRSprzedazView implements Serializable {
     private static final long serialVersionUID = 1L;
     //do sprzedawania srodko trwalych
     private List<SrodekTrw> wybranesrodkitrwale;
     private List<SrodekTrw> grupausun;
     private String data;
     private String nrwlasny;
-    @ManagedProperty(value = "#{STRTableView}")
+    @Inject
     private STRTabView sTRTabView;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
+    @Inject
+    protected STRDAO sTRDAO;
     
    
     

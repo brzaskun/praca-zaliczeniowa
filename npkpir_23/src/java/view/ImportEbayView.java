@@ -11,8 +11,7 @@ import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
-import daoFK.TabelanbpDAO;
-import daoFK.WalutyDAOfk;
+import dao.TabelanbpDAO;
 import embeddable.FakturaEbay;
 import entity.Dok;
 import entity.EVatwpis1;
@@ -32,9 +31,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -46,13 +44,12 @@ import pdf.PdfDok;
 import pdf.PdfEbay;
 import waluty.Z;
 import xls.ImportCSVEbay;
-import xls.ImportJsonCislowski;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class ImportEbayView  implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -60,9 +57,9 @@ public class ImportEbayView  implements Serializable {
     private List<FakturaEbay> fakturyfiltered;
     private List<Dok> dokumenty;
     private List<Klienci> klienci;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{gUSView}")
+    @Inject
     private GUSView gUSView;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
@@ -315,7 +312,7 @@ public class ImportEbayView  implements Serializable {
             for (Klienci p: klienci) {
                 try {
                     if (p.getNip()!=null) {
-                        klDAO.dodaj(p);
+                        klDAO.create(p);
                     }
                 } catch(Exception e){
                 }
@@ -334,7 +331,7 @@ public class ImportEbayView  implements Serializable {
             for (Dok p: dokumenty) {
                 try {
                     if (p.getKontr().getNip()!=null) {
-                        dokDAO.dodaj(p);
+                        dokDAO.create(p);
                         i++;
                     } else {
                         if (p.getVat()!=0) {
@@ -354,7 +351,7 @@ public class ImportEbayView  implements Serializable {
             }
             if (innykraj.size()>0) {
                 try {
-                    dokDAO.dodaj(wygenerujdokumentsumaryczny(innykraj, "1"));
+                    dokDAO.create(wygenerujdokumentsumaryczny(innykraj, "1"));
                     PdfDok.drukujDok(innykraj, wpisView,0, null, "de");
                     Msg.msg("Zaksięgowano dokument sumaryczny DE");
                 } catch (Exception e) {
@@ -363,7 +360,7 @@ public class ImportEbayView  implements Serializable {
             }
             if (innykrajzero.size()>0) {
                 try {
-                    dokDAO.dodaj(wygenerujdokumentsumaryczny(innykraj, "2"));
+                    dokDAO.create(wygenerujdokumentsumaryczny(innykraj, "2"));
                     PdfDok.drukujDok(innykrajzero, wpisView,0, null, "zero");
                     Msg.msg("Zaksięgowano dokument sumaryczny ze stawką 0%");
                 } catch (Exception e) {
@@ -372,7 +369,7 @@ public class ImportEbayView  implements Serializable {
             }
             if (polskaprywatne.size()>0) {
                 try {
-                    dokDAO.dodaj(wygenerujdokumentsumarycznyPL(polskaprywatne));
+                    dokDAO.create(wygenerujdokumentsumarycznyPL(polskaprywatne));
                     PdfDok.drukujDok(polskaprywatne, wpisView,0, null, "pl");
                     Msg.msg("Zaksięgowano dokument sumaryczny PL");
                 } catch (Exception e) {

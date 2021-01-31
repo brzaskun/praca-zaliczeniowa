@@ -13,8 +13,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import org.primefaces.event.RowEditEvent;
 
@@ -22,7 +22,7 @@ import msg.Msg;import org.primefaces.event.RowEditEvent;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class EvpozycjaView  implements Serializable {
 
@@ -60,7 +60,7 @@ public class EvpozycjaView  implements Serializable {
                     throw new Exception();
                 }
             }
-            epozycjaDAO.dodaj(selected);
+            epozycjaDAO.create(selected);
             lista.add(selected);
             if (Character.isUpperCase(selected.getNazwapola().charAt(0))) {
                 listamacierzyste.add(selected);
@@ -94,7 +94,7 @@ public class EvpozycjaView  implements Serializable {
     }
 
     public void usun(Evpozycja evpozycja) {
-        epozycjaDAO.destroy(evpozycja);
+        epozycjaDAO.remove(evpozycja);
         lista.remove(evpozycja);
         if (Character.isUpperCase(selected.getNazwapola().charAt(0))) {
             listamacierzyste.add(selected);

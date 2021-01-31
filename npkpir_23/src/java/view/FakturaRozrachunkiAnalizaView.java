@@ -35,9 +35,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.faces.component.UISelectOne;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
@@ -51,7 +51,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -67,7 +67,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private List<FakturaPodatnikRozliczenie> selectedrozliczenia;
     @Inject
     private FakturaRozrachunki selected;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
    @Inject
     private FakturaDAO fakturaDAO;
@@ -377,7 +377,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     public void usunfakture(FakturaPodatnikRozliczenie fakturaPodatnikRozliczenie) {
         Faktura faktura = fakturaPodatnikRozliczenie.getFaktura();
         if (faktura!=null &&  faktura.isProforma()) {
-            fakturaDAO.destroy(faktura);
+            fakturaDAO.remove(faktura);
             nowepozycje.remove(fakturaPodatnikRozliczenie);
             Msg.msg("Usunięto proformę");
         } else {
@@ -424,7 +424,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         f.setNrdokumentu(nr);
         f.setPrzeniesionosaldo(true);
         selectOneUI.setValue(szukanyklient);
-        fakturaRozrachunkiDAO.dodaj(f);
+        fakturaRozrachunkiDAO.create(f);
         aktywnytab = 3;
         Msg.msg("Zaksięgowano w bo");
     }
@@ -454,7 +454,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             String nr = "ka/"+wpisView.getPodatnikWpisu().substring(0,1)+"/"+wpisView.getMiesiacWpisu();
             f.setNrdokumentu(nr);
             selectOneUI.setValue(szukanyklient);
-            fakturaRozrachunkiDAO.dodaj(f);
+            fakturaRozrachunkiDAO.create(f);
             saldanierozliczone.remove(p);
             aktywnytab = 3;
         } else {

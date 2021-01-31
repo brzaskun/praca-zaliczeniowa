@@ -26,7 +26,7 @@ public class ObslugaRozrachunku {
 //        try {
 //            Rozrachunekfk rU = rozrachunekfkDAO.findRozrachunekfk(rozrachunekfk);
 //            if (rU instanceof Rozrachunekfk) {
-//                rozrachunekfkDAO.destroy(rU);
+//                rozrachunekfkDAO.remove(rU);
 //            }
 //        } catch (Exception e){
 //        }

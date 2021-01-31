@@ -7,6 +7,7 @@
 package converter;
 
 import entity.Evewidencja;
+import java.io.Serializable;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -18,7 +19,7 @@ import view.EVatwpisFKConverterView;
  *
  * @author Osito
  */
-public class EVatwpisFKConv  implements javax.faces.convert.Converter{
+public class EVatwpisFKConv  implements javax.faces.convert.Converter, Serializable {
     
     
     

@@ -20,12 +20,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
@@ -40,16 +37,16 @@ import org.primefaces.model.UploadedFile;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class FakturaelementygraficzneView implements Serializable {
     
     private List<Fakturaelementygraficzne> fakturaelementygraficzne;
     @Inject
     private FakturaelementygraficzneDAO fakturaelementygraficzneDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{fakturadodelementyView}")
+    @Inject
     private FakturadodelementyView fakturadodelementyView;
     @Inject
     private FakturadodelementyDAO fakturadodelementyDAO;
@@ -113,7 +110,7 @@ public class FakturaelementygraficzneView implements Serializable {
             usunlogo();
             uzycieloga(true);
             zachowajpliknadysku(uploadedFile.getInputstream(), dt, extension);
-            fakturaelementygraficzneDAO.dodaj(new Fakturaelementygraficzne(wpisView.getPodatnikWpisu(),nazwakrotka));
+            fakturaelementygraficzneDAO.create(new Fakturaelementygraficzne(wpisView.getPodatnikWpisu(),nazwakrotka));
             PrimeFaces.current().ajax().update("akordeon:formelementy");
             PrimeFaces.current().ajax().update("akordeon:formelementygraficzne:panellogo");
             Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
@@ -135,10 +132,10 @@ public class FakturaelementygraficzneView implements Serializable {
                 Fakturaelementygraficzne f = new Fakturaelementygraficzne();
                 f.getFakturaelementygraficznePK().setPodatnik(wpisView.getPodatnikWpisu());
                 f.getFakturaelementygraficznePK().setNazwaelementu(element.getFakturaelementygraficznePK().getNazwaelementu());
-                fakturaelementygraficzneDAO.destroy(f);
+                fakturaelementygraficzneDAO.remove(f);
                 uzycieloga(false);
             } else {
-                fakturaelementygraficzneDAO.destroy(element);
+                fakturaelementygraficzneDAO.remove(element);
                 uzycieloga(false);
             }
             logofakturaDAO.usun(wpisView.getPodatnikObiekt());

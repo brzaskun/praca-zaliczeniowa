@@ -7,10 +7,10 @@ package beansFK;
 
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
-import daoFK.CechazapisuDAOfk;
-import daoFK.DokDAOfk;
-import daoFK.KontoDAOfk;
-import daoFK.TabelanbpDAO;
+import dao.CechazapisuDAOfk;
+import dao.DokDAOfk;
+import dao.KontoDAOfk;
+import dao.TabelanbpDAO;
 import data.Data;
 import embeddablefk.ListaSum;
 import entity.Klienci;

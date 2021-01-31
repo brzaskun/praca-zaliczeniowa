@@ -5,8 +5,8 @@
  */
 package viewfk;
 
-import daoFK.MiejscePrzychodowDAO;
-import daoFK.StowNaliczenieDAO;
+import dao.MiejscePrzychodowDAO;
+import dao.StowNaliczenieDAO;
 import data.Data;
 import embeddable.Mce;
 import entityfk.MiejscePrzychodow;
@@ -18,16 +18,16 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import view.WpisView;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class StowNaliczenieZestView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -36,7 +36,7 @@ public class StowNaliczenieZestView implements Serializable {
     private StowNaliczenieDAO stowNaliczenieDAO;
     @Inject
     private MiejscePrzychodowDAO miejscePrzychodowDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private String wybranakategoria;
     

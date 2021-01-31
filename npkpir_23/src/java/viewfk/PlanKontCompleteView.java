@@ -7,10 +7,10 @@ package viewfk;
 
 import beansFK.PlanKontFKBean;
 import comparator.Kontocomparator;
-import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
-import daoFK.MiejscePrzychodowDAO;
-import daoFK.UkladBRDAO;
+import dao.KontoDAOfk;
+import dao.KontopozycjaZapisDAO;
+import dao.MiejscePrzychodowDAO;
+import dao.UkladBRDAO;
 import entityfk.Konto;
 import entityfk.KontopozycjaZapis;
 import entityfk.MiejscePrzychodow;
@@ -23,9 +23,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -34,7 +34,7 @@ import msg.Msg;import view.WpisView;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PlanKontCompleteView implements javax.faces.convert.Converter, Serializable {
     private static final long serialVersionUID = 1L;
@@ -49,7 +49,7 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
     private UkladBRDAO ukladBRDAO;
     @Inject
     private MiejscePrzychodowDAO miejscePrzychodowDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private String elementslownika_nazwapelna;
     private String elementslownika_nazwaskrocona;
@@ -196,7 +196,7 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
                 mp.setAktywny(true);
                 mp.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumerMP());
                 mp.setRok(wpisView.getRokWpisu());
-                miejscePrzychodowDAO.dodaj(mp);
+                miejscePrzychodowDAO.create(mp);
                 if (kontomacierzyste != null) {
                     int wynikdodaniakonta = 0;
                     List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());

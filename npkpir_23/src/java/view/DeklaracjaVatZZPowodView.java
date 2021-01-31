@@ -11,15 +11,15 @@ import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class DeklaracjaVatZZPowodView  implements Serializable {
     @Inject
@@ -35,7 +35,7 @@ public class DeklaracjaVatZZPowodView  implements Serializable {
     
     public void dodaj() {
         try {
-            deklaracjaVatZZPowodDAO.dodaj(nowypowod);
+            deklaracjaVatZZPowodDAO.create(nowypowod);
             deklracjaVatZZpowody.add(nowypowod);
             nowypowod = new DeklaracjaVatZZPowod();
             Msg.msg("Dodano powód");
@@ -51,7 +51,7 @@ public class DeklaracjaVatZZPowodView  implements Serializable {
     }
     
     public void usun(DeklaracjaVatZZPowod p) {
-        deklaracjaVatZZPowodDAO.destroy(p);
+        deklaracjaVatZZPowodDAO.remove(p);
         deklracjaVatZZpowody.remove(p);
         Msg.msg("Usunięto powód");
     }

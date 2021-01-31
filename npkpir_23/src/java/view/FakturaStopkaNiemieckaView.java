@@ -10,13 +10,13 @@ import entity.FakturaStopkaNiemiecka;
 import error.E;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class FakturaStopkaNiemieckaView implements Serializable {
 
@@ -24,7 +24,7 @@ public class FakturaStopkaNiemieckaView implements Serializable {
     private FakturaStopkaNiemiecka fakturaStopkaNiemiecka;
     @Inject
     private FakturaStopkaNiemieckaDAO fakturaStopkaNiemieckaDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     
     @PostConstruct

@@ -7,11 +7,11 @@
 package beansFK;
 
 import converter.RomNumb;
-import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
-import daoFK.PozycjaBilansDAO;
-import daoFK.PozycjaRZiSDAO;
-import daoFK.UkladBRDAO;
+import dao.KontoDAOfk;
+import dao.KontopozycjaZapisDAO;
+import dao.PozycjaBilansDAO;
+import dao.PozycjaRZiSDAO;
+import dao.UkladBRDAO;
 import embeddablefk.TreeNodeExtended;
 import entity.Podatnik;
 import entityfk.Konto;
@@ -535,7 +535,7 @@ public class PozycjaRZiSFKBean {
 //                        KontopozycjaZapis p = it.next();
 //                        if (!p.getKontoID().getPodatnik().equals(wpisView.getPodatnikwzorcowy())) {
 //                            it.remove();
-//                            kontopozycjaZapisDAO.destroy(p);
+//                            kontopozycjaZapisDAO.remove(p);
 //                        }
 //                    }
 //                }
@@ -554,7 +554,7 @@ public class PozycjaRZiSFKBean {
                                     kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
                                     kp.setUkladBR(ukladdocelowy);
                                     kp.setWynik0bilans1(false);
-                                    kontopozycjaZapisDAO.dodaj(kp);
+                                    kontopozycjaZapisDAO.create(kp);
                                 }
                             }
                         }
@@ -578,7 +578,7 @@ public class PozycjaRZiSFKBean {
 //                        KontopozycjaZapis p = it.next();
 //                        if (!p.getKontoID().getPodatnik().equals(wpisView.getPodatnikwzorcowy())) {
 //                            it.remove();
-//                            kontopozycjaZapisDAO.destroy(p);
+//                            kontopozycjaZapisDAO.remove(p);
 //                        }
 //                    }
 //                }
@@ -597,7 +597,7 @@ public class PozycjaRZiSFKBean {
                                     kp.setSyntetykaanalityka(p.getSyntetykaanalityka());
                                     kp.setUkladBR(ukladdocelowy);
                                     kp.setWynik0bilans1(true);
-                                    kontopozycjaZapisDAO.dodaj(kp);
+                                    kontopozycjaZapisDAO.create(kp);
                                 }
                             }
                         }

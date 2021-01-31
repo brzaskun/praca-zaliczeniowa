@@ -33,9 +33,9 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import mail.MailAdmin;
 import msg.Msg;
@@ -53,7 +53,7 @@ import org.primefaces.model.UploadedFile;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class AdminMailView implements Serializable {
 
@@ -71,7 +71,7 @@ public class AdminMailView implements Serializable {
     private SMTPSettingsDAO sMTPSettingsDAO;
     private List<Klienci> klientList;
     private List<Adminmail> wyslanemaile;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private boolean tylkozus;
     private boolean tylkospolki;
@@ -291,7 +291,7 @@ public class AdminMailView implements Serializable {
             }
             adminmail.setMaile(email);
             adminmail.setPodatnicy(nazwy);
-            adminmailDAO.dodaj(adminmail);
+            adminmailDAO.create(adminmail);
             wyslanemaile.add(adminmail);
             PrimeFaces.current().ajax().update("akordeon:formmaile:wyslenemaile");
             Msg.msg("i", "Zachowano maila");

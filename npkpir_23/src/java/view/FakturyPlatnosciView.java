@@ -12,9 +12,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import msg.Msg;
@@ -22,7 +22,7 @@ import msg.Msg;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class FakturyPlatnosciView  implements Serializable {
     private List<Faktura> fakturyniezaplacone;
@@ -34,7 +34,7 @@ public class FakturyPlatnosciView  implements Serializable {
     @Inject
     private Faktura selected;
     private String datazaplaty;
-    @ManagedProperty(value="#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private double sumaniezaplaconych;
 

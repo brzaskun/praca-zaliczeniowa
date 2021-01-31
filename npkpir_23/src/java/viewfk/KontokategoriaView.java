@@ -5,7 +5,7 @@
  */
 package viewfk;
 
-import daoFK.KontokategoriaDAOfk;
+import dao.KontokategoriaDAOfk;
 import entityfk.Kontokategoria;
 import error.E;
 import java.io.Serializable;
@@ -13,15 +13,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class KontokategoriaView  implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -59,7 +59,7 @@ public class KontokategoriaView  implements Serializable {
         if (selectedDod != null) {
             try {
                 selectedDod.setSymbol(selectedDod.getSymbol());
-                kontokategoriaDAOfk.dodaj(selectedDod);
+                kontokategoriaDAOfk.create(selectedDod);
                 lista.add(selectedDod);
                 selectedDod = new Kontokategoria();
                 Msg.msg("Dodano nową kategorię");
@@ -86,7 +86,7 @@ public class KontokategoriaView  implements Serializable {
     public void usun(Kontokategoria k) {
         if (k != null) {
             try {
-                kontokategoriaDAOfk.destroy(k);
+                kontokategoriaDAOfk.remove(k);
                 lista.remove(k);
                 Msg.msg("Usunięto kategorię");
             } catch (Exception e) {

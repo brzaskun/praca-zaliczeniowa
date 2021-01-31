@@ -11,13 +11,13 @@ import comparator.Kontocomparator;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
-import daoFK.CechazapisuDAOfk;
-import daoFK.DokDAOfk;
-import daoFK.KontoDAOfk;
-import daoFK.TabelanbpDAO;
-import daoFK.TransakcjaDAO;
-import daoFK.WierszBODAO;
-import daoFK.WierszDAO;
+import dao.CechazapisuDAOfk;
+import dao.DokDAOfk;
+import dao.KontoDAOfk;
+import dao.TabelanbpDAO;
+import dao.TransakcjaDAO;
+import dao.WierszBODAO;
+import dao.WierszDAO;
 import data.Data;
 import embeddable.Mce;
 import embeddablefk.ListaSum;
@@ -46,9 +46,9 @@ import java.util.concurrent.atomic.DoubleAccumulator;
 import java.util.stream.Collectors;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -63,7 +63,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class KontoZapisFKView implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -100,7 +100,7 @@ public class KontoZapisFKView implements Serializable{
     private Double saldoWnPLN;
     private Double saldoMaPLN;
     private List zapisydopodswietlenia;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private String wybranaWalutaDlaKont;
     private List<ListaSum> listasum;
@@ -917,7 +917,7 @@ public class KontoZapisFKView implements Serializable{
         if (kontozapisy != null && kontozapisy.size() > 0) {
             Map<String, ListaSum> listasum = sumujzapisy();
             Dokfk nowydok = DokumentFKBean.generujdokumentAutomRozrach(wpisView, klienciDAO, "ARS", "automatyczne rozliczenie salda konta", rodzajedokDAO, tabelanbpDAO, kontoDAOfk, kontozapisy, listasum, dokDAOfk, cechazapisuDAOfk);
-            dokDAOfk.dodaj(nowydok);
+            dokDAOfk.create(nowydok);
             dodajzapisy(kontozapisy.get(0).getKonto(), nowydok);
             this.listasum = Collections.synchronizedList(new ArrayList<>());
             ListaSum l = new ListaSum();
@@ -933,7 +933,7 @@ public class KontoZapisFKView implements Serializable{
         if (kontozapisy != null && kontozapisy.size() > 0) {
             Map<String, ListaSum> listasum = sumujzapisyPLN();
             Dokfk nowydok = DokumentFKBean.generujdokumentAutomRozrach(wpisView, klienciDAO, "ARS", "automatyczne rozliczenie salda konta", rodzajedokDAO, tabelanbpDAO, kontoDAOfk, kontozapisy, listasum, dokDAOfk, cechazapisuDAOfk);
-            dokDAOfk.dodaj(nowydok);
+            dokDAOfk.create(nowydok);
             dodajzapisy(kontozapisy.get(0).getKonto(), nowydok);
             this.listasum = Collections.synchronizedList(new ArrayList<>());
             ListaSum l = new ListaSum();
@@ -957,7 +957,7 @@ public class KontoZapisFKView implements Serializable{
                     String opis = "automatyczne rozliczenie walut na koncie bankowym na koniec "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisu();
                     String opiswiersza = "różnice kursowe na środkach własnych: ";
                     Dokfk nowydok = DokumentFKBean.generujdokumentAutomSaldo(opiswiersza, wpisView, klienciDAO, "ARS", opis, rodzajedokDAO, tabelanbpDAO, kontoDAOfk, kontozapisy, roznicawnroznicama, dokDAOfk);
-                    dokDAOfk.dodaj(nowydok);
+                    dokDAOfk.create(nowydok);
                     dodajzapisy(kontozapisy.get(0).getKonto(), nowydok);
                     this.listasum = Collections.synchronizedList(new ArrayList<>());
                     ListaSum l = new ListaSum();
@@ -1001,7 +1001,7 @@ public class KontoZapisFKView implements Serializable{
                     Cechazapisu nkup = pobierzCeche("NKUP");
                     Cechazapisu npup = pobierzCeche("NPUP");
                     naniescechy(nowydok, nkup, npup);
-                    dokDAOfk.dodaj(nowydok);
+                    dokDAOfk.create(nowydok);
                     dodajzapisy(kontozapisy.get(0).getKonto(), nowydok);
                     this.listasum = Collections.synchronizedList(new ArrayList<>());
                     ListaSum l = new ListaSum();
@@ -1237,7 +1237,7 @@ public class KontoZapisFKView implements Serializable{
             try {
                 StronaWiersza p = it.next();
                 if (p.getDokfk().getSeriadokfk().equals(symbol)) {
-                    dokDAOfk.destroy(p.getDokfk());
+                    dokDAOfk.remove(p.getDokfk());
                     //zapisyRok.remove(p);
                     it.remove();
                 }
@@ -1319,7 +1319,7 @@ public class KontoZapisFKView implements Serializable{
         try {
             Dokfk dokfk = null;
             dokfk = DokumentFKBean.generujdokumentZaksieguj(wpisView, klienciDAO, "PK", "przeksięgowanie zapisów", rodzajedokDAO, tabelanbpDAO, docelowe, kontoDAOfk, wybranezapisydosumowania, dokDAOfk);
-            dokDAOfk.dodaj(dokfk);
+            dokDAOfk.create(dokfk);
             Msg.msg("Wygenerowano dokument PK");
         } catch (Exception e) {
             E.e(e);
@@ -1852,7 +1852,7 @@ public class KontoZapisFKView implements Serializable{
                     brak = false;
                 }
                 if (brak) {
-                    stronaWierszaDAO.destroy(p);
+                    stronaWierszaDAO.remove(p);
                     it.remove();
                 }
 

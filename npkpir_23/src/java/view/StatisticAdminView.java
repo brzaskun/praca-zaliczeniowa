@@ -7,8 +7,8 @@ package view;
 import dao.DokDAO;
 import dao.SesjaDAO;
 import dao.UzDAO;
-import daoFK.DokDAOfk;
-import daoFK.WierszDAO;
+import dao.DokDAOfk;
+import dao.WierszDAO;
 import entity.Dok;
 import entity.Sesja;
 import entityfk.Wiersz;
@@ -21,9 +21,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -32,14 +32,14 @@ import org.joda.time.Duration;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class StatisticAdminView implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<Statystyka> statystyka;
     private List<Sesja> sesje;
     private List<Obrabiani> obrabiani;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private SesjaDAO sesjaDAO;

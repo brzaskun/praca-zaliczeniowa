@@ -4,14 +4,13 @@
  */
 package messages;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+
 
 /**
  *
  * @author Osito
  */
-//@ManagedBean
+//@Named
 //@RequestScoped
 public class MessageProducer {
 //    @Resource(mappedName = "jms/pkpirQueue")

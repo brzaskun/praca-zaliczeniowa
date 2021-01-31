@@ -5,7 +5,7 @@
  */
 package vies;
 
-import daoFK.ViesDAO;
+import dao.ViesDAO;
 import entity.Klienci;
 import entity.Podatnik;
 import entity.Uz;

@@ -25,9 +25,9 @@ import dao.PodatnikEwidencjaDokDAO;
 import dao.RodzajedokDAO;
 import dao.SrodkikstDAO;
 import dao.StornoDokDAO;
-import daoFK.CechazapisuDAOfk;
-import daoFK.TabelanbpDAO;
-import daoFK.WalutyDAOfk;
+import dao.CechazapisuDAOfk;
+import dao.TabelanbpDAO;
+import dao.WalutyDAOfk;
 import data.Data;
 import embeddable.Mce;
 import embeddable.PanstwaMap;
@@ -71,13 +71,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import msg.Msg;
 import org.joda.time.DateTime;
@@ -89,7 +88,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean(name = "DokumentView")
+@Named(value = "DokumentView")
 @ViewScoped
 public class DokView implements Serializable {
 
@@ -125,17 +124,17 @@ public class DokView implements Serializable {
     @Inject
     private TabelanbpDAO tabelanbpDAO;
 
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-//    @ManagedProperty(value = "#{KlView}")
+//    @Inject(value = "#{KlView}")
 //    private KlView klView;
-    @ManagedProperty(value = "#{srodkiTrwaleView}")
+    @Inject
     private SrodkiTrwaleView sTRView;
-    @ManagedProperty(value = "#{STRTableView}")
+    @Inject
     private STRTabView sTRTableView;
-    @ManagedProperty(value = "#{DokTabView}")
+    @Inject
     private DokTabView dokTabView;
-    @ManagedProperty(value = "#{gUSView}")
+    @Inject
     private GUSView gUSView;
     @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
@@ -170,7 +169,7 @@ public class DokView implements Serializable {
     private double sumbrutto;
     private int liczbawierszy;
     private List<String> kolumny;
-    public boolean renderujwysz;
+    private boolean renderujwysz;
     @Inject
     private Klienci selectedKlient;
     @Inject
@@ -362,7 +361,7 @@ public class DokView implements Serializable {
                 Klienci dodany = SzukajDaneBean.znajdzdaneregonAutomat(selDokument.getKontr().getNip());
                 selDokument.setKontr(dodany);
                 if (!dodany.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
-                    klDAO.dodaj(dodany);
+                    klDAO.create(dodany);
                 }
                 PrimeFaces.current().ajax().update("dodWiad:acForce");
             }
@@ -377,7 +376,7 @@ public class DokView implements Serializable {
         try {
             selDokument = ostatnidokumentDAO.pobierz(wpisView.getUzer().getLogin());
             typdokumentu = selDokument.getRodzajedok().getSkrot();
-            dokDAO.destroy(selDokument);
+            dokDAO.remove(selDokument);
         } catch (Exception e) {
             E.e(e);
         }
@@ -819,7 +818,7 @@ public class DokView implements Serializable {
                     if (cechastala != null) {
                         dodajcechedodokumentu(cechastala);
                     }
-                    dokDAO.dodaj(selDokument);
+                    dokDAO.create(selDokument);
                     //wpisywanie do bazy ostatniego dokumentu
                     Ostatnidokument temp = new Ostatnidokument();
                     temp.setUzytkownik(wpisView.getUzer().getLogin());
@@ -1077,7 +1076,7 @@ public class DokView implements Serializable {
                 selDokument.setRozliczony(true);
                 sprawdzCzyNieDuplikat(selDokument);
                 if (selDokument.getNetto() > 0) {
-                    dokDAO.dodaj(selDokument);
+                    dokDAO.create(selDokument);
                     String wiadomosc = "Nowy dokument umorzenia zachowany: " + selDokument.getPkpirR() + "/" + selDokument.getPkpirM() + " kwota: " + selDokument.getNetto();
                     Msg.msg("i", wiadomosc);
                     amodokBiezacy.setZaksiegowane(true);
@@ -1159,7 +1158,7 @@ public class DokView implements Serializable {
             //sprawdzCzyNieDuplikat(selDokument);
             if (selDokument.getNetto() != 0) {
                 sprawdzCzyNieDuplikat(selDokument);
-                dokDAO.dodaj(selDokument);
+                dokDAO.create(selDokument);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nowy dokument storno zachowany", selDokument.getIdDok().toString());
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 tmp.setZaksiegowane(true);
@@ -1389,7 +1388,7 @@ public class DokView implements Serializable {
         temp.setUzytkownik(principal.getName());
         temp.setDokument(wpis);
         try {
-            ostatnidokumentDAO.dodaj(temp);
+            ostatnidokumentDAO.create(temp);
         } catch (Exception e) {
             E.e(e);
             ostatnidokumentDAO.edit(temp);
@@ -1537,7 +1536,7 @@ public class DokView implements Serializable {
             String symbol = panstwaMapa.getWykazPanstwSX().get(kraj);
             selectedKlient.setKrajkod(symbol);
             poszukajnip();
-            klDAO.dodaj(selectedKlient);
+            klDAO.create(selectedKlient);
             selDokument.setKontr(selectedKlient);
             selectedKlient = new Klienci();
             PrimeFaces.current().ajax().update("dodWiad:acForce");

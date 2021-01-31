@@ -15,15 +15,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 
 /**
  *
  * @author Osito
  */ 
-@ManagedBean
+@Named
 @ViewScoped
 public class SrodkikstView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -89,12 +89,12 @@ public class SrodkikstView implements Serializable {
         for(Srodkikst p : lista){
             wykaz.add(p);
             try{
-                srodkikstDAO.destroy(p);
+                srodkikstDAO.remove(p);
             } catch (Exception e) { E.e(e); 
             }
         }
         for(Srodkikst w : wykaz){
-                srodkikstDAO.dodaj(w);
+                srodkikstDAO.create(w);
         }
     }
     

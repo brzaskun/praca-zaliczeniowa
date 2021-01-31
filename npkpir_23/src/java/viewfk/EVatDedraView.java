@@ -6,7 +6,7 @@
 package viewfk;
 
 import dao.EvewidencjaDAO;
-import daoFK.EVatwpisDedraDAO;
+import dao.EVatwpisDedraDAO;
 import dedra.Dedraparser;
 import entity.Evewidencja;
 import entityfk.EVatwpisDedra;
@@ -17,9 +17,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
@@ -35,10 +35,10 @@ import view.WpisView;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class EVatDedraView  implements Serializable {
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private EvewidencjaDAO evewidencjaDAO;
@@ -101,7 +101,7 @@ public class EVatDedraView  implements Serializable {
         if (wiersze != null && wiersze.size() > 0) {
             try {
                 wiersze.remove(wiersze.size()-1);
-                eVatwpisDedraDAO.dodaj(wiersze);
+                eVatwpisDedraDAO.create(wiersze);
                 wiersze.add(sumuj());
                 Msg.msg("Zachowano wiersze ewidencji");
             } catch (Exception e) {
@@ -116,7 +116,7 @@ public class EVatDedraView  implements Serializable {
     public void usunwierszeewidencji() {
         if (wiersze != null && wiersze.size() > 0) {
             try {
-                eVatwpisDedraDAO.destroy(wiersze);
+                eVatwpisDedraDAO.remove(wiersze);
                 wiersze.clear();
                 Msg.msg("Usunięto wiersze ewidencji");
             } catch (Exception e) {
@@ -150,7 +150,7 @@ public class EVatDedraView  implements Serializable {
     
     public void usun(EVatwpisDedra item) {
          try {
-            eVatwpisDedraDAO.destroy(item);
+            eVatwpisDedraDAO.remove(item);
             zakupy.remove(item);
             Msg.msg("Usunięto wieresz zakupu");
         } catch (Exception e) {

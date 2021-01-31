@@ -8,12 +8,12 @@ package xls;
 import beansFK.DialogWpisywanie;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
-import daoFK.DokDAOfk;
-import daoFK.KliencifkDAO;
-import daoFK.KontoDAOfk;
-import daoFK.TabelanbpDAO;
-import daoFK.WalutyDAOfk;
-import daoFK.WierszDAO;
+import dao.DokDAOfk;
+import dao.KliencifkDAO;
+import dao.KontoDAOfk;
+import dao.TabelanbpDAO;
+import dao.WalutyDAOfk;
+import dao.WierszDAO;
 import data.Data;
 import entity.Klienci;
 import entity.Rodzajedok;
@@ -39,10 +39,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import msg.Msg;
@@ -53,25 +52,25 @@ import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import view.WpisView;import waluty.Z;
+import view.WpisView;
+import waluty.Z;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class BankPKOImportView implements Serializable {
     private static final long serialVersionUID = 1L;
-    @ManagedProperty(value = "#{WpisView}")
+   @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{gUSView}")
+   @Inject
     private GUSView gUSView;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
@@ -90,9 +89,9 @@ public class BankPKOImportView implements Serializable {
     @Inject
     private WierszDAO wierszDAO;
     private byte[] plikinterpaper;
-    public  List<ImportBankWiersz> pobranefaktury;
-    public  List<ImportBankWiersz> pobranefakturyfilter;
-    public  List<ImportBankWiersz> selected;
+    private List<ImportBankWiersz> pobranefaktury;
+    private List<ImportBankWiersz> pobranefakturyfilter;
+    private List<ImportBankWiersz> selected;
     private List<Rodzajedok> rodzajedokKlienta;
     private String wiadomoscnieprzypkonta;
     private Rodzajedok rodzajdok;
@@ -353,7 +352,7 @@ public class BankPKOImportView implements Serializable {
             try {
                 if (dokument!=null) {
                     dokument.setImportowany(true);
-                    dokDAOfk.dodaj(dokument);
+                    dokDAOfk.create(dokument);
                 } else {
                     zwrot++;
                 }

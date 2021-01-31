@@ -6,11 +6,9 @@
 package cookie;
 
 import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class Ciasteczko {
     

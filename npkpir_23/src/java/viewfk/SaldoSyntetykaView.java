@@ -8,8 +8,8 @@ package viewfk;
 
 import beansFK.KontaFKBean;
 import dao.StronaWierszaDAO;
-import daoFK.DokDAOfk;
-import daoFK.KontoDAOfk;
+import dao.DokDAOfk;
+import dao.KontoDAOfk;
 import embeddable.Mce;
 import embeddablefk.SaldoKonto;
 import entityfk.Konto;
@@ -20,9 +20,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import pdf.PdfKonta;
 import sortfunction.KontoSortBean;
@@ -32,7 +32,7 @@ import view.WpisView;import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class SaldoSyntetykaView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -40,7 +40,7 @@ public class SaldoSyntetykaView implements Serializable {
     private List<SaldoKonto> listaSaldoKontofilter;
     private List<SaldoKonto> listaSaldoKontowybrane;
     private List<SaldoKonto> sumaSaldoKonto;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private DokDAOfk dokDAOfk;

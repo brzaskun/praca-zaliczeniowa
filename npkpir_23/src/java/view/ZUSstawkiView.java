@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import org.joda.time.DateTime;
 
@@ -22,7 +22,7 @@ import msg.Msg;import org.joda.time.DateTime;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class ZUSstawkiView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -53,7 +53,7 @@ public class ZUSstawkiView implements Serializable {
 
     public void dodajzus() {
         try {
-            zusDAO.dodaj(wprowadzanie);
+            zusDAO.create(wprowadzanie);
             obsluzZUSduzy();
             Msg.msg("Dodatno parametr ZUS do podatnika za m-c: " + wprowadzanie.getZusstawkiPK().getMiesiac());
         } catch (Exception e) {
@@ -79,7 +79,7 @@ public class ZUSstawkiView implements Serializable {
     public void dodajzusmaly() {
         try {
             wprowadzanie.getZusstawkiPK().setMalyzus(true);
-            zusDAO.dodaj(wprowadzanie);
+            zusDAO.create(wprowadzanie);
             obsluzZUSmaly();
             Msg.msg("Dodatno parametr ZUS do podatnika za m-c: " + wprowadzanie.getZusstawkiPK().getMiesiac());
         } catch (Exception e) {
@@ -105,7 +105,7 @@ public class ZUSstawkiView implements Serializable {
 
     public void usunzus(Zusstawki zusstawki) {
         try {
-            zusDAO.destroy(zusstawki);
+            zusDAO.remove(zusstawki);
             obsluzZUSduzy();
             Msg.msg("Usunieto parametr ZUS do podatnika za m-c: " + zusstawki.getZusstawkiPK().getMiesiac());
         } catch (Exception e) {
@@ -116,7 +116,7 @@ public class ZUSstawkiView implements Serializable {
     
     public void usunzusmaly(Zusstawki zusstawki) {
         try {
-            zusDAO.destroy(zusstawki);
+            zusDAO.remove(zusstawki);
             obsluzZUSmaly();
             Msg.msg("Usunieto parametr ZUS do podatnika za m-c: " + zusstawki.getZusstawkiPK().getMiesiac());
         } catch (Exception e) {

@@ -4,7 +4,7 @@
  */
 package waluty;
 
-import daoFK.TabelanbpDAO;
+import dao.TabelanbpDAO;
 import data.Data;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;

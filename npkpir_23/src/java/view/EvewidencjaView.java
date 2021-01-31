@@ -15,8 +15,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg; import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
@@ -25,7 +25,7 @@ import org.primefaces.event.RowEditEvent;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class EvewidencjaView implements  Serializable {
     private static final long serialVersionUID = 1L;
@@ -62,7 +62,7 @@ public class EvewidencjaView implements  Serializable {
                     throw new Exception();
                 }
             }
-            evwidencjaDAO.dodaj(selected);
+            evwidencjaDAO.create(selected);
             lista.add(selected);
             selected = new Evewidencja();
             Msg.msg("i", "Dodano nową ewidencję VAT");
@@ -103,7 +103,7 @@ public class EvewidencjaView implements  Serializable {
     }
 
     public void usun() {
-        evwidencjaDAO.destroy(selected);
+        evwidencjaDAO.remove(selected);
         lista.remove(selected);
         Msg.msg("i", "Usunięto ewidencję VAT"+selected.getNazwa());
         PrimeFaces.current().ajax().update("akordeon:form0");

@@ -5,9 +5,9 @@
  */
 package beansFK;
 
-import daoFK.KliencifkDAO;
-import daoFK.KontoDAOfk;
-import daoFK.TabelanbpDAO;
+import dao.KliencifkDAO;
+import dao.KontoDAOfk;
+import dao.TabelanbpDAO;
 import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;

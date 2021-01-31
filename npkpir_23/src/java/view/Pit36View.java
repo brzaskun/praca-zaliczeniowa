@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import pdf.PdfRyczpoz;
 import waluty.Z;
@@ -26,7 +26,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class Pit36View implements Serializable {
 
@@ -35,7 +35,7 @@ public class Pit36View implements Serializable {
     @Inject
     private PitDAO pitDAO;
     @Inject private RyczDAO ryczDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
 
     public Pit36View() {

@@ -5,6 +5,7 @@
 package converter;
 
 import entityfk.UkladBR;
+import java.io.Serializable;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -17,7 +18,7 @@ import viewfk.UkladBRWzorcowyView;
  * @author Osito
  */
 
-public class UkladBRWzorcowyConv  implements javax.faces.convert.Converter{
+public class UkladBRWzorcowyConv  implements javax.faces.convert.Converter, Serializable {
     
      
     @Override

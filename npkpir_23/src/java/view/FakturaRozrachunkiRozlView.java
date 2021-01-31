@@ -19,16 +19,16 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class FakturaRozrachunkiRozlView  implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -38,7 +38,7 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
     private List<FakturaRozrachunki> wprowadzoneplatnoscifiltered;
     @Inject
     private FakturaRozrachunki selected;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private FakturaDAO fakturaDAO;
@@ -110,7 +110,7 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
        
     public void usun(FakturaRozrachunki p) {
         try {
-            fakturaRozrachunkiDAO.destroy(p);
+            fakturaRozrachunkiDAO.remove(p);
             wprowadzoneplatnosci.remove(p);
             if (wprowadzoneplatnoscifiltered!=null) {
                 wprowadzoneplatnoscifiltered.remove(p);

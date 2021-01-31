@@ -6,14 +6,14 @@
 
 package beansFK;
 
-import daoFK.DelegacjaDAO;
-import daoFK.KliencifkDAO;
-import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
-import daoFK.MiejsceKosztowDAO;
-import daoFK.MiejscePrzychodowDAO;
-import daoFK.PojazdyDAO;
-import daoFK.UkladBRDAO;
+import dao.DelegacjaDAO;
+import dao.KliencifkDAO;
+import dao.KontoDAOfk;
+import dao.KontopozycjaZapisDAO;
+import dao.MiejsceKosztowDAO;
+import dao.MiejscePrzychodowDAO;
+import dao.PojazdyDAO;
+import dao.UkladBRDAO;
 import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
 import entity.Podatnik;
@@ -410,7 +410,7 @@ public class PlanKontFKBean {
         List<Konto> kontaslownikowaklientfk = kontoDAO.findSlownikoweKlienci(wpisView, kliencifk);
         for (Konto p : kontaslownikowaklientfk) {
             try {
-                kontoDAO.destroy(p);
+                kontoDAO.remove(p);
             } catch (Exception e) {
                 zwrot = 1;
                 E.e(e);
@@ -593,8 +593,8 @@ public class PlanKontFKBean {
         List<Konto> listakont = kontoDAO.findKontaPotomnePodatnik(podatnik, rok, kontomacierzyste);
         if (listakont != null) {
             for (Konto p : listakont) {
-                kontopozycjaZapisDAO.destroy(kontopozycjaZapisDAO.findByKonto(p, ukladBR));
-                kontoDAO.destroy(p);
+                kontopozycjaZapisDAO.remove(kontopozycjaZapisDAO.findByKonto(p, ukladBR));
+                kontoDAO.remove(p);
                 wykazkont.remove(p);
             }
             return 0;
@@ -653,7 +653,7 @@ public class PlanKontFKBean {
     private static int zachowajkonto(List<Konto> wykazkont, Konto nowekonto, KontoDAOfk kontoDAOfk) {
         Konto konto = znajdzduplikat(wykazkont, nowekonto);
         if (konto == null) {
-                kontoDAOfk.dodaj(nowekonto);
+                kontoDAOfk.create(nowekonto);
             return 0;
         } else {
                 konto.setNazwapelna(nowekonto.getNazwapelna());
@@ -706,7 +706,7 @@ public class PlanKontFKBean {
             List<Konto> kontapotomne = kontoDAOfk.findKontaPotomne(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), p, p.getBilansowewynikowe());
             for (Konto r : kontapotomne) {
                 if (r.getNrkonta().equals(delegacja.getNrkonta())) {
-                    kontoDAOfk.destroy(r);
+                    kontoDAOfk.remove(r);
                 }
             }
         }
@@ -726,7 +726,7 @@ public class PlanKontFKBean {
                 kp.setKontoID(noweKonto);
                 kp.setUkladBR(ukladBR);
                 kp.setWynik0bilans1(kpo.isWynik0bilans1());
-                kontopozycjaZapisDAO.dodaj(kp);
+                kontopozycjaZapisDAO.create(kp);
                 noweKonto.naniesPozycje(kpo);
                 kontoDAOfk.edit(noweKonto);
             } else {
@@ -860,7 +860,7 @@ public class PlanKontFKBean {
     public static void kontopozycjazapisZapisz(Konto nowe, UkladBR ukladBR, boolean wynik0bilans1, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
         KontopozycjaZapis kpstare = kontopozycjaZapisDAO.findByKonto(nowe, ukladBR);
         if (kpstare!=null) {
-            kontopozycjaZapisDAO.destroy(kpstare);
+            kontopozycjaZapisDAO.remove(kpstare);
         }
         KontopozycjaZapis kp = new KontopozycjaZapis();
         kp.setKontoID(nowe);
@@ -871,14 +871,14 @@ public class PlanKontFKBean {
         kp.setSyntetykaanalityka(nowe.getSyntetykaanalityka());
         kp.setUkladBR(ukladBR);
         kp.setWynik0bilans1(wynik0bilans1);
-        kontopozycjaZapisDAO.dodaj(kp);
+        kontopozycjaZapisDAO.create(kp);
     }
     
     public static void kontopozycjazapisUsun(Konto nowe,KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
         KontopozycjaZapis kpstare = kontopozycjaZapisDAO.findByKonto(nowe, ukladBR);
         if (kpstare!=null) {
             if (nowe.getPozycjaWn()==null && nowe.getPozycjaMa()==null) {
-                kontopozycjaZapisDAO.destroy(kpstare);
+                kontopozycjaZapisDAO.remove(kpstare);
             } else {
                 kpstare.setPozycjaWn(nowe.getPozycjaWn());
                 kpstare.setPozycjaMa(nowe.getPozycjaMa());

@@ -11,13 +11,13 @@
      <p:tab id="zestawieniestrs" title="sprzedane">
          <h:form id="str_sprzedane">
                 <p:contextMenu for="srodkiListas" style="width: 220px;">
-                    <p:menuitem value="Przywróć środek do ewidencji" update=":akordeon:str_posiadane :akordeon:str_sprzedane" actionListener="#{STRTableView.przywrocsrodki()}" icon="ui-icon-arrowreturnthick-1-w" />
-                    <p:menuitem value="Drukuj środek z ewidencji" actionListener="#{STRTableView.drukujsrodeksprzedaz()}" icon="ui-icon-print" />
+                    <p:menuitem value="Przywróć środek do ewidencji" update=":akordeon:str_posiadane :akordeon:str_sprzedane" actionListener="#{sTRTabView.przywrocsrodki()}" icon="ui-icon-arrowreturnthick-1-w" />
+                    <p:menuitem value="Drukuj środek z ewidencji" actionListener="#{sTRTabView.drukujsrodeksprzedaz()}" icon="ui-icon-print" />
                 </p:contextMenu>
-                <p:dataTable  var="wpis" value="#{STRTableView.sprzedane}" id="srodkiListas" editable="true" 
+                <p:dataTable  var="wpis" value="#{sTRTabView.sprzedane}" id="srodkiListas" editable="true" 
                               scrollable="true" scrollHeight="390"
                               style="max-width: 1400px;"
-                              rowKey="#{wpis.id}" selection="#{STRTableView.wybranysrodektrwalySprzedane}" selectionMode="single"> 
+                              rowKey="#{wpis.id}" selection="#{sTRTabView.wybranysrodektrwalySprzedane}" selectionMode="single"> 
 
                     <f:facet name="header">  
                         <h:outputText value="Ewidencja srodkow trwalych" />  
@@ -103,7 +103,7 @@
                     </p:column>
 
                     <p:column id="deleteColumn" headerText="usuń" style="text-align: center; width: 40px;">
-                        <p:commandButton actionListener="#{STRTableView.destroy(wpis)}" onclick="PF('confirmation').show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
+                        <p:commandButton actionListener="#{sTRTabView.destroy(wpis)}" onclick="PF('confirmation').show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
                     </p:column>
                 <p:rowExpansion>
                     <p:column id="amortColumn" headerText="zaplanowane miesięczne umorzenia" filterBy="#{wpis.planumorzen}" filterMatchMode="contains" 

@@ -11,11 +11,11 @@ import beansRegon.SzukajDaneBean;
 import comparator.Kliencifkcomparator;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
-import daoFK.DokDAOfk;
-import daoFK.KliencifkDAO;
-import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
-import daoFK.UkladBRDAO;
+import dao.DokDAOfk;
+import dao.KliencifkDAO;
+import dao.KontoDAOfk;
+import dao.KontopozycjaZapisDAO;
+import dao.UkladBRDAO;
 import embeddable.Panstwa;
 import embeddable.PanstwaMap;
 import embeddablefk.ImportJPKSprzedaz;
@@ -127,7 +127,7 @@ public class ImportBean {
             zwrot = SzukajDaneBean.znajdzdaneregonAutomat(nip);
             if (zwrot!=null && zwrot.getNip()!=null) {
                 if (!zwrot.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
-                    klienciDAO.dodaj(zwrot);
+                    klienciDAO.create(zwrot);
                     Msg.msg("Zaktualizowano dane klienta pobranymi z GUS");
                 }
             }
@@ -168,7 +168,7 @@ public class ImportBean {
                 klientMaKonto.setPodatniknazwa(wpisView.getPodatnikWpisu());
                 klientMaKonto.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
                 klientMaKonto.setNrkonta(pobierznastepnynumer(kliencifkDAO, wpisView.getPodatnikObiekt()));
-                kliencifkDAO.dodaj(klientMaKonto);
+                kliencifkDAO.create(klientMaKonto);
                 List<Konto> wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
                 PlanKontFKBean.aktualizujslownikKontrahenci(wykazkont, kliencifkDAO, klientMaKonto, kontoDAO, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
                 String numerkonta = "201-2-"+klientMaKonto.getNrkonta();
@@ -197,7 +197,7 @@ public class ImportBean {
             klientMaKonto.setPodatniknazwa(wpisView.getPodatnikWpisu());
             klientMaKonto.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
             klientMaKonto.setNrkonta(pobierznastepnynumer(kliencifkDAO, wpisView.getPodatnikObiekt()));
-            kliencifkDAO.dodaj(klientMaKonto);
+            kliencifkDAO.create(klientMaKonto);
             List<Konto> wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             PlanKontFKBean.aktualizujslownikKontrahenci(wykazkont, kliencifkDAO, klientMaKonto, kontoDAO, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
             String numerkonta = "202-2-"+klientMaKonto.getNrkonta();

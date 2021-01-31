@@ -13,7 +13,7 @@ import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
 import dao.KlientJPKDAO;
 import dao.RodzajedokDAO;
-import daoFK.TabelanbpDAO;
+import dao.TabelanbpDAO;
 import embeddable.FakturaCis;
 import entity.Dok;
 import entity.EVatwpis1;
@@ -34,9 +34,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -53,7 +52,7 @@ import xls.ImportJsonCislowski;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class ImportCisView  implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -61,9 +60,9 @@ public class ImportCisView  implements Serializable {
     private List<FakturaCis> fakturyfiltered;
     private List<Dok> dokumenty;
     private List<Klienci> klienci;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{gUSView}")
+    @Inject
     private GUSView gUSView;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
@@ -317,7 +316,7 @@ public class ImportCisView  implements Serializable {
             for (Klienci p: klienci) {
                 try {
                     if (p.getNip()!=null) {
-                        klDAO.dodaj(p);
+                        klDAO.create(p);
                     }
                 } catch(Exception e){
                 }
@@ -334,7 +333,7 @@ public class ImportCisView  implements Serializable {
             for (Dok p: dokumenty) {
                 try {
                     if (p.getKontr().getNip()!=null) {
-                        dokDAO.dodaj(p);
+                        dokDAO.create(p);
                         i++;
                     } else {
                         if (p.getVat()!=0) {
@@ -352,7 +351,7 @@ public class ImportCisView  implements Serializable {
             if (innykraj.size()>0) {
                 try {
                     PdfDok.drukujDok(innykraj, wpisView,0, null, "de");
-                    dokDAO.dodaj(wygenerujdokumentsumaryczny(innykraj));
+                    dokDAO.create(wygenerujdokumentsumaryczny(innykraj));
                     Msg.msg("Zaksięgowano dokument sumaryczny DE");
                 } catch (Exception e) {
                     Msg.msg("e", "Błąd podczas księgowania dokumentu sumarycznego DE. Prawdopodobnie duplikat.");
@@ -362,7 +361,7 @@ public class ImportCisView  implements Serializable {
                 try {
                     zaksiegujdokjpk(polskaprywatne);
                     PdfDok.drukujDok(polskaprywatne, wpisView,0, null, "pl");
-                    dokDAO.dodaj(wygenerujdokumentsumarycznyPL(polskaprywatne));
+                    dokDAO.create(wygenerujdokumentsumarycznyPL(polskaprywatne));
                     Msg.msg("Zaksięgowano dokument sumaryczny PL");
                 } catch (Exception e) {
                     Msg.msg("e", "Błąd podczas księgowania dokumentu sumarycznego PL. Prawdopodobnie duplikat.");
@@ -380,7 +379,7 @@ public class ImportCisView  implements Serializable {
     private void zaksiegujdokjpk(List<Dok> polskaprywatne) {
         klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         List<KlientJPK> lista = KlienciJPKBean.zaksiegujdok(polskaprywatne, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        klientJPKDAO.dodaj(lista);
+        klientJPKDAO.create(lista);
         Msg.msg("Zaksięgowano dokumenty dla JPK");
     }
     

@@ -12,15 +12,15 @@ import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.inject.Named;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class EVatwpisFKConverterView implements Serializable{
     private static final long serialVersionUID = 1L;

@@ -6,10 +6,7 @@ package dao;
 
 import error.E;
 import java.util.List;
-import javax.ejb.EJBException;
-import javax.inject.Inject;
-import javax.persistence.PersistenceException;
-import session.SessionFacade;
+import javax.persistence.EntityManager;
 
 /**
  *
@@ -18,147 +15,64 @@ import session.SessionFacade;
  */
 public abstract class DAO<T> {
 
-    @Inject
-    protected SessionFacade sessionFacade;
-    private Class<T> entityClass;
+    EntityManager em;
+    Class<T> entityClass;
+    protected abstract EntityManager getEntityManager();
 
     protected DAO(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
 
-    public DAO() {
+
+    public void create(T entity) {
+        getEntityManager().persist(entity);
     }
 
-    /**
-     *
-     * @param selected
-     */
-    public void dodaj(T selected) {
-        try {
-            sessionFacade.create(selected);
-        } catch (EJBException e) {
-            // Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
-            throw new EJBException(e.getCause().getMessage(), e);
-        } catch (Exception e) {
-            E.e(e);
-            // Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
-            throw new PersistenceException(e.getCause().getMessage(), e);
-        }
+    public void edit(T entity) {
+        getEntityManager().merge(entity);
     }
     
-    public void dodaj(List<T> selected) {
-        try {
-            sessionFacade.createList(selected);
-            error.E.s("");
-        } catch (EJBException e) {
-            // Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
-            throw new EJBException(e.getCause().getMessage(), e);
-        } catch (Exception e) {
-            E.e(e);
-            // Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
-            throw new PersistenceException(e.getCause().getMessage(), e);
+    public void editList(List<T> entityList) {
+        for (T p : entityList) {
+            try {
+                getEntityManager().merge(p);
+            } catch (Exception e) {
+                E.e(e);
+            }
         }
+        
     }
 
-    /**
-     *
-     * @param selected
-     */
-    public void destroy(T selected) {
-        try {
-            sessionFacade.remove(selected);
-        } catch (EJBException e) {
-            //Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
-            throw new EJBException(e.getCause().getMessage(), e);
-        } catch (Exception e) {
-            //E.e(e);
-            //Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
-            throw new PersistenceException(e.getCause().getMessage(), e);
-        }
-    }
-    
-      public void destroy(List<T> selected) {
-        try {
-            sessionFacade.remove(selected);
-        } catch (EJBException e) {
-            // Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
-            throw new EJBException(e.getCause().getMessage(), e);
-        } catch (Exception e) {
-            E.e(e);
-            // Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
-            throw new PersistenceException(e.getCause().getMessage(), e);
-        }
+    public void remove(T entity) {
+        getEntityManager().remove(getEntityManager().merge(entity));
     }
 
-    /**
-     *
-     * @param selected
-     */
-    public void edit(T selected) {
-        try {
-            sessionFacade.edit(selected);
-        } catch (EJBException e) {
-            // Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
-            throw new EJBException(e.getCause().getMessage(), e);
-        } catch (Exception e) {
-            E.e(e);
-            // Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
-            throw new PersistenceException(e.getCause().getMessage(), e);
-        }
+    public T find(Object id) {
+        return getEntityManager().find(entityClass, id);
     }
 
-    public void editList(List<T> selected) {
-        try {
-            sessionFacade.edit(selected);
-        } catch (EJBException e) {
-            // Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
-            throw new EJBException(e.getCause().getMessage(), e);
-        } catch (Exception e) {
-            E.e(e);
-            // Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
-            throw new PersistenceException(e.getCause().getMessage(), e);
-        }
+    public List<T> findAll() {
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        cq.select(cq.from(entityClass));
+        return getEntityManager().createQuery(cq).getResultList();
     }
-    
-    public void editListLateFlush(List<T> selected) {
-        try {
-            sessionFacade.editLateflush(selected);
-        } catch (EJBException e) {
-            // Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
-            throw new EJBException(e.getCause().getMessage(), e);
-        } catch (Exception e) {
-            E.e(e);
-            // Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
-            throw new PersistenceException(e.getCause().getMessage(), e);
-        }
+
+    public List<T> findRange(int[] range) {
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        cq.select(cq.from(entityClass));
+        javax.persistence.Query q = getEntityManager().createQuery(cq);
+        q.setMaxResults(range[1] - range[0] + 1);
+        q.setFirstResult(range[0]);
+        return q.getResultList();
     }
-    
-//    public void refresh(List<T> selected) {
-//        try {
-//            sessionFacade.refresh(selected);
-//        } catch (EJBException e) {
-//            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
-//            throw new EJBException(e.getCause().getMessage(), e);
-//        } catch (Exception e) {
-//            E.e(e);
-//            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
-//            throw new PersistenceException(e.getCause().getMessage(), e);
-//        }
-//    }
 
-//    public void createListRefresh(List<T> selected) {
-//        try {
-//            sessionFacade.createList(selected);
-//        } catch (EJBException e) {
-//            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
-//            throw new EJBException(e.getCause().getMessage(), e);
-//        } catch (Exception e) {
-//            E.e(e);
-//            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
-//            throw new PersistenceException(e.getCause().getMessage(), e);
-//        }
-//    }
-
+    public int count() {
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        javax.persistence.criteria.Root<T> rt = cq.from(entityClass);
+        cq.select(getEntityManager().getCriteriaBuilder().count(rt));
+        javax.persistence.Query q = getEntityManager().createQuery(cq);
+        return ((Long) q.getSingleResult()).intValue();
+    }
        
     
 

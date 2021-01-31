@@ -11,20 +11,20 @@ import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class FakturaWalutaKontoView implements Serializable{
     private static final long serialVersionUID = 1L;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private FakturaWalutaKontoDAO fakturaWalutaKontoDAO;
@@ -42,7 +42,7 @@ public class FakturaWalutaKontoView implements Serializable{
     public void dodaj() {
         try {
             selected.setPodatnik(wpisView.getPodatnikObiekt());
-            fakturaWalutaKontoDAO.dodaj(selected);
+            fakturaWalutaKontoDAO.create(selected);
             listakont.add(selected);
             listakontaktywne.add(selected);
             selected = new FakturaWalutaKonto();
@@ -54,7 +54,7 @@ public class FakturaWalutaKontoView implements Serializable{
     
     public void usun(FakturaWalutaKonto u) {
         try {
-            fakturaWalutaKontoDAO.destroy(u);
+            fakturaWalutaKontoDAO.remove(u);
             listakont.remove(u);
             listakontaktywne.remove(u);
             Msg.dP();

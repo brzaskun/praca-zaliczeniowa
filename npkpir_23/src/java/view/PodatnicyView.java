@@ -11,9 +11,9 @@ import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import pdf.PdfPodatnicy;
 
@@ -21,7 +21,7 @@ import msg.Msg;import pdf.PdfPodatnicy;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PodatnicyView  implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -29,7 +29,7 @@ public class PodatnicyView  implements Serializable {
     private List<Podatnik> wybranipodatnicy;
     @Inject
     private PodatnikDAO podatnikDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     
     @PostConstruct

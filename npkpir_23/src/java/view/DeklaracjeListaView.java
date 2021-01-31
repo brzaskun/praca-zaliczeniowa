@@ -17,20 +17,20 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class DeklaracjeListaView  implements Serializable {
     private static final long serialVersionUID = 1L;
-    @ManagedProperty(value="#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject 
     private DeklaracjevatDAO deklaracjevatDAO;

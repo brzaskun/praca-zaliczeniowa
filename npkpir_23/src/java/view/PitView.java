@@ -7,7 +7,7 @@ package view;
 import dao.PitDAO;
 import dao.PodatnikDAO;
 import dao.SMTPSettingsDAO;
-import daoFK.CechazapisuDAOfk;
+import dao.CechazapisuDAOfk;
 import entity.Pitpoz;
 import entityfk.Cechazapisu;
 import error.E;
@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import mail.MailOther;
 import msg.Msg; import org.primefaces.PrimeFaces;
@@ -29,7 +29,7 @@ import pdf.PdfPIT5;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PitView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -38,7 +38,7 @@ public class PitView implements Serializable {
 
     @Inject private PitDAO pitDAO;
     @Inject private PodatnikDAO podatnikDAO;
-    @ManagedProperty(value="#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
@@ -70,7 +70,7 @@ public class PitView implements Serializable {
      public void usun() {
         int index = lista.size() - 1;
         Pitpoz selected = lista.get(index);
-        pitDAO.destroy(selected);
+        pitDAO.remove(selected);
         lista.remove(selected);
         PrimeFaces.current().ajax().update("formpi:tablicapit");
         Msg.msg("i", "Usunieto ostatni PIT dla podatnika "+selected.getUdzialowiec()+" za m-c: "+selected.getPkpirM(),"formpi:messages");

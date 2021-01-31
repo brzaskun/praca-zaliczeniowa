@@ -25,9 +25,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import mail.MaiManager;
 import msg.Msg;
@@ -39,7 +39,7 @@ import view.WpisView;import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class ZUSMailView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -58,7 +58,7 @@ public class ZUSMailView implements Serializable {
     private ZusmailDAO zusmailDAO;
     @Inject
     private SMTPSettingsDAO sMTPSettingsDAO;
-    @ManagedProperty(value="#{WpisView}")
+    @Inject
     private WpisView wpisView;
 
     public ZUSMailView() {
@@ -260,7 +260,7 @@ public class ZUSMailView implements Serializable {
             } else {
                zusmail.setNrwysylki(1);
                zusmail.setDatawysylki(new Date());
-               zusmailDAO.dodaj(zusmail);
+               zusmailDAO.create(zusmail);
                Msg.msg("Zachowano nowy zusmail");
             }
         } catch (Exception e) {

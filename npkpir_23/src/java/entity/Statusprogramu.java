@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "statusprogramu")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Statusprogramu.findAll", query = "SELECT e FROM Statusprogramu e"),
+    @NamedQuery(name = "Statusprogramu.findAll", query = "SELECT e FROM Statusprogramu e")
 })
 public class Statusprogramu implements Serializable {
     private static final long serialVersionUID = 1L;

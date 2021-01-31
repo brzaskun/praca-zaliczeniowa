@@ -10,10 +10,10 @@ import beansFK.PlanKontFKBean;
 import beansFK.PojazdyBean;
 import beansFK.SlownikiBean;
 import dao.StronaWierszaDAO;
-import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
-import daoFK.PojazdyDAO;
-import daoFK.UkladBRDAO;
+import dao.KontoDAOfk;
+import dao.KontopozycjaZapisDAO;
+import dao.PojazdyDAO;
+import dao.UkladBRDAO;
 import embeddablefk.PojazdyZest;
 import entityfk.Konto;
 import entityfk.Pojazdy;
@@ -26,9 +26,9 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import pdf.PdfPojazdy;
 import view.WpisView;
@@ -36,7 +36,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PojazdyView  implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -47,7 +47,7 @@ public class PojazdyView  implements Serializable{
     private PojazdyDAO pojazdyDAO;
     @Inject
     private UkladBRDAO ukladBRDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private boolean zapisz0edytuj1;
     @Inject
@@ -93,7 +93,7 @@ public class PojazdyView  implements Serializable{
     public void dodaj() {
         List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         selected.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumer(), wpisView.getRokWpisu());
-        pojazdyDAO.dodaj(selected);
+        pojazdyDAO.create(selected);
         PlanKontFKBean.aktualizujslownikPojazdy(wykazkont, pojazdyDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
         pojazdy = pojazdyDAO.findPojazdyPodatnik(wpisView.getPodatnikObiekt());
         selected.setNrrejestracyjny(null);
@@ -110,7 +110,7 @@ public class PojazdyView  implements Serializable{
         if (pojazdy.getAktywny() == true) {
             Msg.msg("e", "Pojazd jest w użyciu, nie można usunąć opisu");
         } else {
-            pojazdyDAO.destroy(pojazdy);
+            pojazdyDAO.remove(pojazdy);
             this.pojazdy.remove(pojazdy);
         }
     }

@@ -9,12 +9,12 @@ import beansFK.StronaWierszaBean;
 import beansFK.UkladBRBean;
 import converter.RomNumb;
 import dao.StronaWierszaDAO;
-import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
-import daoFK.PozycjaBilansDAO;
-import daoFK.PozycjaRZiSDAO;
-import daoFK.UkladBRDAO;
-import daoFK.WierszBODAO;
+import dao.KontoDAOfk;
+import dao.KontopozycjaZapisDAO;
+import dao.PozycjaBilansDAO;
+import dao.PozycjaRZiSDAO;
+import dao.UkladBRDAO;
+import dao.WierszBODAO;
 import data.Data;
 import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
@@ -32,9 +32,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import org.primefaces.model.TreeNode;
 import pdffk.PdfBilans;
@@ -45,7 +45,7 @@ import view.WpisView;import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PozycjaBRZestawienieView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -95,7 +95,7 @@ public class PozycjaBRZestawienieView implements Serializable {
     private String bilansnadzien;
     private String bilansoddnia;
     
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     
 
@@ -524,7 +524,7 @@ public class PozycjaBRZestawienieView implements Serializable {
             nowyelementRZiS.setPodatnik(uklad.getPodatnik().getNazwapelna());
             nowyelementRZiS.setRok(uklad.getRok());
             try {
-                pozycjaRZiSDAO.dodaj(nowyelementRZiS);
+                pozycjaRZiSDAO.create(nowyelementRZiS);
                 pozycje.add(nowyelementRZiS);
                 rootProjektRZiS = new TreeNodeExtended("root", null);
                 PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
@@ -568,7 +568,7 @@ public class PozycjaBRZestawienieView implements Serializable {
             nowyelementRZiS.setPodatnik(uklad.getPodatnik().getNazwapelna());
             nowyelementRZiS.setRok(uklad.getRok());
             try {
-                pozycjaRZiSDAO.dodaj(nowyelementRZiS);
+                pozycjaRZiSDAO.create(nowyelementRZiS);
                 pozycje.add(nowyelementRZiS);
                 rootProjektRZiS = new TreeNodeExtended("root", null);
                 PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
@@ -609,7 +609,7 @@ public class PozycjaBRZestawienieView implements Serializable {
             nowyelementBilans.setPodatnik(uklad.getPodatnik().getNazwapelna());
             nowyelementBilans.setRok(uklad.getRok());
             try {
-                pozycjaRZiSDAO.dodaj(nowyelementBilans);
+                pozycjaRZiSDAO.create(nowyelementBilans);
                 pozycje.add(nowyelementBilans);
                 rootProjektRZiS = new TreeNodeExtended("root", null);
                 PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
@@ -653,7 +653,7 @@ public class PozycjaBRZestawienieView implements Serializable {
             nowyelementBilans.setPodatnik(uklad.getPodatnik().getNazwapelna());
             nowyelementBilans.setRok(uklad.getRok());
             try {
-                pozycjaRZiSDAO.dodaj(nowyelementBilans);
+                pozycjaRZiSDAO.create(nowyelementBilans);
                 pozycje.add(nowyelementBilans);
                 rootProjektRZiS = new TreeNodeExtended("root", null);
                 PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
@@ -673,7 +673,7 @@ public class PozycjaBRZestawienieView implements Serializable {
                 throw new Exception();
             }
             pozycje.remove(wybranynodekonta.getData());
-            pozycjaRZiSDAO.destroy(wybranynodekonta.getData());
+            pozycjaRZiSDAO.remove(wybranynodekonta.getData());
             if (pozycje.isEmpty()) {
                 pozycje.add(new PozycjaRZiS(1, "A", "A", null, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");

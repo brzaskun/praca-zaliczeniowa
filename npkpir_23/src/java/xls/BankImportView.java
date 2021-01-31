@@ -10,12 +10,12 @@ import dao.BankImportWzoryDAO;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
-import daoFK.DokDAOfk;
-import daoFK.KliencifkDAO;
-import daoFK.KontoDAOfk;
-import daoFK.TabelanbpDAO;
-import daoFK.WalutyDAOfk;
-import daoFK.WierszDAO;
+import dao.DokDAOfk;
+import dao.KliencifkDAO;
+import dao.KontoDAOfk;
+import dao.TabelanbpDAO;
+import dao.WalutyDAOfk;
+import dao.WierszDAO;
 import data.Data;
 import entity.Klienci;
 import entity.Rodzajedok;
@@ -42,11 +42,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlOutputText;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.text.WordUtils;
@@ -66,13 +65,13 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class BankImportView implements Serializable {
     private static final long serialVersionUID = 1L;
-    @ManagedProperty(value = "#{WpisView}")
+   @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{gUSView}")
+   @Inject
     private GUSView gUSView;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
@@ -95,9 +94,9 @@ public class BankImportView implements Serializable {
     @Inject
     private ImportPlikKonta importPlikKonta;
     private List<byte[]> pobraneplikibytes;
-    public  List<ImportBankWiersz> pobranefaktury;
-    public  List<ImportBankWiersz> pobranefakturyfilter;
-    public  List<ImportBankWiersz> selected;
+    private List<ImportBankWiersz> pobranefaktury;
+    private List<ImportBankWiersz> pobranefakturyfilter;
+    private List<ImportBankWiersz> selected;
     private List<Rodzajedok> rodzajedokKlienta;
     private List<ImportowanyPlik> rodzajeimportu;
     private ImportowanyPlik wybranyrodzajimportu;
@@ -395,7 +394,7 @@ public class BankImportView implements Serializable {
             try {
                 if (dokument!=null) {
                     dokument.setImportowany(true);
-                    dokDAOfk.dodaj(dokument);
+                    dokDAOfk.create(dokument);
                 } else {
                     zwrot++;
                 }

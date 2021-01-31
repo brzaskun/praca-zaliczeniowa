@@ -13,15 +13,15 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.security.KeyStoreException;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import msg.Msg;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PodpisView  implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -5,7 +5,7 @@
  */
 package beansFK;
 
-import daoFK.KontoDAOfk;
+import dao.KontoDAOfk;
 import entity.Podatnik;
 import entityfk.Delegacja;
 import entityfk.Kliencifk;

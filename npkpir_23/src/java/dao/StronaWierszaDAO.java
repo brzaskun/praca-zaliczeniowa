@@ -17,7 +17,10 @@ import error.E;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
+import javax.annotation.PreDestroy;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.eclipse.persistence.config.HintValues;
 import org.eclipse.persistence.config.QueryHints;
 import org.eclipse.persistence.queries.LoadGroup;
@@ -30,20 +33,28 @@ import view.WpisView;
 public class StronaWierszaDAO extends DAO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject private SessionFacade sessionFacade;
+       @PersistenceContext(unitName = "npkpir_22PU")
+    private EntityManager em;
+    
+    @PreDestroy
+    private void preDestroy() {
+        em.clear();
+        em.close();
+        em.getEntityManagerFactory().close();
+        em = null;
+        error.E.s("koniec jpa");
+    }
+
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 
     public StronaWierszaDAO() {
         super(StronaWiersza.class);
+        super.em = this.em;
     }
 
-    public StronaWierszaDAO(SessionFacade sessionFacade, Class entityClass) {
-        super(entityClass);
-        this.sessionFacade = sessionFacade;
-    }
-
-    public StronaWierszaDAO(SessionFacade sessionFacade) {
-        this.sessionFacade = sessionFacade;
-    }
-    
+   
     public StronaWiersza findStronaById(StronaWiersza strona) {
         return sessionFacade.findStronaWierszaById(strona);
     }

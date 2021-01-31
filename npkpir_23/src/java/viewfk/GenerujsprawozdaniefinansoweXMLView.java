@@ -6,7 +6,7 @@
 package viewfk;
 
 import dao.PodatnikOpodatkowanieDAO;
-import daoFK.SprFinKwotyInfDodDAO;
+import dao.SprFinKwotyInfDodDAO;
 import entity.PodatnikOpodatkowanieD;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.SprFinKwotyInfDod;
@@ -17,9 +17,8 @@ import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
@@ -27,7 +26,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import msg.Msg;import pdffk.PdfZaksiegowaneView;
 import sprawozdania.rok2018.JednostkaInna;
-import sprawozdania.rok2018.JednostkaOp;
 import sprawozdania.rok2018.SprawozdanieFin2018Bean;
 import sprawozdania.rok2018.SprawozdanieFin2018BilansBean;
 import sprawozdania.rok2018.SprawozdanieFin2018DodInfoBean;
@@ -42,22 +40,22 @@ import view.WpisView; import org.primefaces.PrimeFaces;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class GenerujsprawozdaniefinansoweXMLView  implements Serializable {
     private static final long serialVersionUID = 1L;
     
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{pozycjaBRView}")
+    @Inject
     private PozycjaBRView pozycjaBRView;
-    @ManagedProperty(value = "#{pozycjaBRZestawienieView}")
+    @Inject
     private PozycjaBRZestawienieView pozycjaBRZestawienieView;
-    @ManagedProperty(value = "#{saldoAnalitykaView}")
+    @Inject
     private SaldoAnalitykaView saldoAnalitykaView;
-    @ManagedProperty(value = "#{pdfZaksiegowaneView}")
+    @Inject
     private PdfZaksiegowaneView pdfZaksiegowaneView;
-    @ManagedProperty(value = "#{planKontView}")
+    @Inject
     private PlanKontView planKontView;
     @Inject
     private SprFinKwotyInfDodDAO sprFinKwotyInfDodDAO;

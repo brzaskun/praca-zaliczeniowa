@@ -7,15 +7,15 @@ package viewfk;
 import entityfk.Konto;
 import error.E;
 import java.io.Serializable;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import sortfunction.KontoSortBean;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class KontoSortView  implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -19,15 +19,15 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class DeklVATZalSchemaView  implements Serializable {
     @Inject
@@ -76,7 +76,7 @@ public class DeklVATZalSchemaView  implements Serializable {
         } else if (czyschemaistnieje == 4) {
             Msg.msg("e", "Nie można dodać. Nazwa schemy nie rozpoczyna się od ZZ");
         } else {
-            deklaracjaVatZZDAO.dodaj(nowaschemaZZ);
+            deklaracjaVatZZDAO.create(nowaschemaZZ);
             schemyDeklaracjiVatZZ.add(nowaschemaZZ);
             DeklaracjaVatSchema d = nowaschemaZZ.getDeklaracjaVatSchema();
             d.setDeklaracjaVatZZ(nowaschemaZZ);
@@ -98,7 +98,7 @@ public class DeklVATZalSchemaView  implements Serializable {
         } else if (czyschemaistnieje == 4) {
             Msg.msg("e", "Nie można dodać. Nazwa schemy nie rozpoczyna się od ZT");
         } else {
-            deklaracjaVatZTDAO.dodaj(nowaschemaZT);
+            deklaracjaVatZTDAO.create(nowaschemaZT);
             schemyDeklaracjiVatZT.add(nowaschemaZT);
             DeklaracjaVatSchema d = nowaschemaZT.getDeklaracjaVatSchema();
             d.setDeklaracjaVatZT(nowaschemaZT);
@@ -131,7 +131,7 @@ public class DeklVATZalSchemaView  implements Serializable {
             DeklaracjaVatSchema d = s.getDeklaracjaVatSchema();
             d.setDeklaracjaVatZZ(null);
             deklaracjaVatSchemaDAO.edit(d);
-            deklaracjaVatZZDAO.destroy(s);
+            deklaracjaVatZZDAO.remove(s);
             schemyDeklaracjiVatZZ.remove(s);
             if (schemyDeklaracjiVatZZ.size() > 0) {
                 wybranaschemaZZ = schemyDeklaracjiVatZZ.get(schemyDeklaracjiVatZZ.size()-1);
@@ -148,7 +148,7 @@ public class DeklVATZalSchemaView  implements Serializable {
             DeklaracjaVatSchema d = s.getDeklaracjaVatSchema();
             d.setDeklaracjaVatZT(null);
             deklaracjaVatSchemaDAO.edit(d);
-            deklaracjaVatZTDAO.destroy(s);
+            deklaracjaVatZTDAO.remove(s);
             schemyDeklaracjiVatZT.remove(s);
             if (schemyDeklaracjiVatZT.size() > 0) {
                 wybranaschemaZT = schemyDeklaracjiVatZT.get(schemyDeklaracjiVatZT.size() - 1);

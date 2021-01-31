@@ -6,7 +6,7 @@
 
 package entityfk;
 
-import daoFK.UkladBRDAO;
+import dao.UkladBRDAO;
 import entity.Podatnik;
 import java.io.Serializable;
 import java.util.List;

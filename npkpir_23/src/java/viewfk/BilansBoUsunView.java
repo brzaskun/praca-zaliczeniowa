@@ -5,13 +5,13 @@
  */
 package viewfk;
 
-import daoFK.DokDAOfk;
-import daoFK.WierszBODAO;
+import dao.DokDAOfk;
+import dao.WierszBODAO;
 import entityfk.Dokfk;
 import error.E;
 import java.io.Serializable;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;import view.WpisView; import org.primefaces.PrimeFaces;
@@ -20,7 +20,7 @@ import msg.Msg;import view.WpisView; import org.primefaces.PrimeFaces;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class BilansBoUsunView  implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -44,7 +44,7 @@ public class BilansBoUsunView  implements Serializable {
         try {
             Dokfk dokbo = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
             if (dokbo != null) {
-                dokDAOfk.destroy(dokbo);
+                dokDAOfk.remove(dokbo);
             }
             wierszBODAO.deletePodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
             FacesContext context = FacesContext.getCurrentInstance();

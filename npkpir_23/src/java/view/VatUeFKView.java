@@ -9,9 +9,9 @@ import dao.DeklaracjavatUEDAO;
 import dao.DokDAO;
 import dao.KlienciDAO;
 import dao.PodatnikDAO;
-import daoFK.DokDAOfk;
-import daoFK.VatuepodatnikDAO;
-import daoFK.ViesDAO;
+import dao.DokDAOfk;
+import dao.VatuepodatnikDAO;
+import dao.ViesDAO;
 import data.Data;
 import deklaracje.vatue.m4.VATUEM4Bean;
 import deklaracje.vatuek.m4.VATUEKM4Bean;
@@ -36,9 +36,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import pdf.PdfVATUEdekl;
@@ -55,7 +55,7 @@ import xml.XMLValid;
  *
  * @author Osito
  */
-@ManagedBean(name = "vatUeFKView")
+@Named(value = "vatUeFKView")
 @ViewScoped
 public class VatUeFKView implements Serializable {
 
@@ -69,7 +69,7 @@ public class VatUeFKView implements Serializable {
     private List<Dokfk> listaDokfk;
     @Inject
     private DeklaracjavatUE deklUEselected;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private DokDAOfk dokDAOfk;
@@ -226,10 +226,10 @@ public class VatUeFKView implements Serializable {
 //            vatuepodatnik.setRozliczone(Boolean.FALSE);
 //            //bo czasami nie edytowalo nie wiem dlaczego
 //            try {
-//                vatuepodatnikDAO.destroy(vatuepodatnik);
+//                vatuepodatnikDAO.remove(vatuepodatnik);
 //            } catch (Exception e) { E.e(e); };
 //            try {
-//                vatuepodatnikDAO.dodaj(vatuepodatnik);
+//                vatuepodatnikDAO.create(vatuepodatnik);
 //                Msg.msg("i", "Zachowano dane do VAT-EU");
 //            } catch (Exception e) { E.e(e); 
 //                Msg.msg("e", "Błąd podczas zachowywania danych do VAT-UE");
@@ -425,7 +425,7 @@ public class VatUeFKView implements Serializable {
     
     public void usundekl(DeklaracjavatUE d) {
         try {
-            deklaracjavatUEDAO.destroy(d);
+            deklaracjavatUEDAO.remove(d);
             deklaracjeUE.remove(d);
             for (VatUe p : d.getPozycje()) {
                 if (!p.getZawiera().isEmpty()) {
@@ -508,7 +508,7 @@ public class VatUeFKView implements Serializable {
                         p.setDeklaracjavatUE(deklaracjavatUE);
                     }
                     deklaracjavatUE.setPozycje(lista);
-                    //deklaracjavatUEDAO.dodaj(deklaracjavatUE); dodamy ja przy wysylce bo wtedy robimy edit dok
+                    //deklaracjavatUEDAO.create(deklaracjavatUE); dodamy ja przy wysylce bo wtedy robimy edit dok
                     deklaracjeUE.add(deklaracjavatUE);
                     deklaracjeUE_biezace.add(deklaracjavatUE);
                     Msg.msg("Sporządzono deklarację VAT-UE miesięczną");
@@ -543,7 +543,7 @@ public class VatUeFKView implements Serializable {
                         p.setDeklaracjavatUE(deklaracjavatUE);
                     }
                     deklaracjavatUE.setPozycje(lista);
-                    //deklaracjavatUEDAO.dodaj(deklaracjavatUE);
+                    //deklaracjavatUEDAO.create(deklaracjavatUE);
                     deklaracjeUE.add(deklaracjavatUE);
                     deklaracjeUE_biezace.add(deklaracjavatUE);
                     Msg.msg("Sporządzono deklarację VAT-UEK miesięczną wersja 4");

@@ -10,12 +10,12 @@ import comparator.Kontocomparator;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
-import daoFK.CechazapisuDAOfk;
-import daoFK.DokDAOfk;
-import daoFK.KontoDAOfk;
-import daoFK.RMKDAO;
-import daoFK.TabelanbpDAO;
-import daoFK.WalutyDAOfk;
+import dao.CechazapisuDAOfk;
+import dao.DokDAOfk;
+import dao.KontoDAOfk;
+import dao.RMKDAO;
+import dao.TabelanbpDAO;
+import dao.WalutyDAOfk;
 import data.Data;
 import embeddable.Mce;
 import entity.Klienci;
@@ -35,9 +35,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import view.WpisView; import org.primefaces.PrimeFaces;
 import waluty.Z;
@@ -46,7 +45,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class RMKView  implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -55,9 +54,9 @@ public class RMKView  implements Serializable {
     private List<Konto> listakontkosztowych;
     private List<Konto> listakontrmk;
     private List<RMK> listarmk;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{rMKDokView}")
+    @Inject
     private RMKDokView rMKDokView;
     @Inject
     private KontoDAOfk kontoDAO;
@@ -159,7 +158,7 @@ public class RMKView  implements Serializable {
                 }
                 narastajaco = narastajaco + odpisbiezacy;
             }
-            rmkdao.dodaj(rmk);
+            rmkdao.create(rmk);
             Msg.msg("Dodano rozliczenie międzyokresowe");
         } catch (Exception e) {
             Msg.msg("e", "Takie RMK już zaksięgowano");
@@ -181,7 +180,7 @@ public class RMKView  implements Serializable {
             if (rmk.getUjetewksiegach() != null && rmk.getUjetewksiegach().size() > 0) {
                 Msg.msg("e", "Zapisy zostały zaksięgowane. Nie można usunąć pozycji");
             } else {
-                rmkdao.destroy(rmk);
+                rmkdao.remove(rmk);
                 listarmk.remove(rmk);
                 init();
                 rMKDokView.init();
@@ -196,7 +195,7 @@ public class RMKView  implements Serializable {
         usundokumentztegosamegomiesiaca();
         Dokfk dokumentRMK = stworznowydokument(oblicznumerkolejny());
         try {
-            dokDAOfk.dodaj(dokumentRMK);
+            dokDAOfk.create(dokumentRMK);
             Msg.msg("Zaksięgowano dokument RMK");
         } catch (Exception e) {  
             E.e(e);
@@ -212,7 +211,7 @@ public class RMKView  implements Serializable {
     private void usundokumentztegosamegomiesiaca() {
         Dokfk popDokfk = dokDAOfk.findDokfofaType(wpisView.getPodatnikObiekt(), "RMK", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         if (popDokfk != null) {
-            dokDAOfk.destroy(popDokfk);
+            dokDAOfk.remove(popDokfk);
         }
     }
 

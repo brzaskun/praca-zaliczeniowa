@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import mail.MailOther;
@@ -34,13 +34,13 @@ import msg.Msg;import pdf.PdfEwidencjaPrzychodow;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class EwidencjaPrzychodowView implements Serializable {
 
     private List<DokEwidPrzych> lista;
     private List<DokEwidPrzych> listaFiltered;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private DokEwidPrzych selDokument;
     @Inject

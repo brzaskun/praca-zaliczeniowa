@@ -16,8 +16,8 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.inject.Named;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
@@ -25,7 +25,7 @@ import javax.inject.Inject;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class OdsetkiView implements Serializable{
     @Inject
@@ -50,7 +50,7 @@ public class OdsetkiView implements Serializable{
          selected.setDataod(ndX);
         } catch (Exception e) { E.e(e); }
          if(sprawdz()==0){
-         odsetkiDAO.dodaj(selected);
+         odsetkiDAO.create(selected);
          lista.add(selected);
          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno odsetki od daty:", selected.getDataod() );
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);
@@ -71,13 +71,13 @@ public class OdsetkiView implements Serializable{
             if(x>=y){
                 return 1;
             }
-           odsetkiDAO.destroy(ostatniparametr);
+           odsetkiDAO.remove(ostatniparametr);
            lista.remove(ostatniparametr);
            ostatniparametr.setDatadoD(new Date(selected.getDataodD().getTime()-(1000*24*60*60)));
            Format formatterX = new SimpleDateFormat("yyyy-MM-dd");
            String ndX = formatterX.format(ostatniparametr.getDatadoD());
            ostatniparametr.setDatado(ndX);
-           odsetkiDAO.dodaj(ostatniparametr);
+           odsetkiDAO.create(ostatniparametr);
            lista.add(ostatniparametr);
            return 0;
         }
@@ -89,7 +89,7 @@ public class OdsetkiView implements Serializable{
     public void usun(){
         int index = lista.size()-1;
         selected = lista.get(index);
-        odsetkiDAO.destroy(selected);
+        odsetkiDAO.remove(selected);
         lista.remove(index);
         index = lista.size()-1;
         selected = lista.get(index);

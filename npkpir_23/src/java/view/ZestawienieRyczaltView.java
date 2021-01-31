@@ -32,20 +32,19 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg; import org.primefaces.PrimeFaces;
+import javax.inject.Named;
+import msg.Msg;
+ import org.primefaces.PrimeFaces;
 import pdf.PdfPIT28;
 import pdf.PdfZestRok;
 import waluty.Z;
@@ -54,7 +53,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean(name = "ZestawienieRyczaltView")
+@Named(value = "ZestawienieRyczaltView")
 @ViewScoped
 public class ZestawienieRyczaltView implements Serializable {
     //dane niezbedne do wyliczania pit
@@ -74,7 +73,7 @@ public class ZestawienieRyczaltView implements Serializable {
     private Ryczpoz narPitpoz;
     //lista pitow
     private List<Ryczpoz> listapit;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     List<Double> styczen;
     List<Double> luty;
@@ -607,12 +606,12 @@ public class ZestawienieRyczaltView implements Serializable {
         if (biezacyPit.getWynik() != null) {
             try {
                 Ryczpoz find = pitDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM(), biezacyPit.getPodatnik(), biezacyPit.getUdzialowiec());
-                pitDAO.destroy(find);
-                pitDAO.dodaj(biezacyPit);
+                pitDAO.remove(find);
+                pitDAO.create(biezacyPit);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edytowano PIT " + biezacyPit.getUdzialowiec() + " za m-c:" + biezacyPit.getPkpirM(), null);
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             } catch (Exception e) { E.e(e); 
-                pitDAO.dodaj(biezacyPit);
+                pitDAO.create(biezacyPit);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Zachowano PIT " + biezacyPit.getUdzialowiec() + " za m-c:" + biezacyPit.getPkpirM(), null);
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             }

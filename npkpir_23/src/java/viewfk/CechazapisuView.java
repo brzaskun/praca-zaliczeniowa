@@ -7,7 +7,7 @@
 package viewfk;
 
 import dao.DokDAO;
-import daoFK.CechazapisuDAOfk;
+import dao.CechazapisuDAOfk;
 import entity.Dok;
 import entityfk.Cechazapisu;
 import entityfk.CharakterCechy;
@@ -18,9 +18,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import view.WpisView;
@@ -28,7 +28,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class CechazapisuView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -38,7 +38,7 @@ public class CechazapisuView implements Serializable {
     private List<Cechazapisu> pobranecechyfiltered;
     @Inject
     private Cechazapisu selected;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
 
     public CechazapisuView() {
@@ -78,7 +78,7 @@ public class CechazapisuView implements Serializable {
                 Msg.msg("e", "Nie można usunąć cech podstawowych");
                 return;
             } else {
-                cechazapisuDAOfk.destroy(c);
+                cechazapisuDAOfk.remove(c);
                 pobranecechy.remove(c);
                 pobranecechypodatnik.remove(c);
                 Msg.msg("Usunięto cechę");

@@ -8,6 +8,7 @@ package interceptor;
 import dao.SesjaDAO;
 import entity.Sesja;
 import error.E;
+import java.io.Serializable;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
@@ -20,7 +21,7 @@ import javax.servlet.http.HttpSession;
  * @author Osito
  */
 @Interceptor
-public class WydrukInterceptor {
+public class WydrukInterceptor implements Serializable{
     
     @Inject
     private SesjaDAO sesjaDAO;

@@ -7,7 +7,7 @@ package beansDok;
 
 import beansFK.TabelaNBPBean;
 import dao.DokDAO;
-import daoFK.TabelanbpDAO;
+import dao.TabelanbpDAO;
 import entity.Dok;
 import entity.Podatnik;
 import entityfk.Tabelanbp;

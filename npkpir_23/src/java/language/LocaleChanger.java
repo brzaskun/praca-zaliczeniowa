@@ -10,18 +10,18 @@ import error.E;
 import java.io.Serializable;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @SessionScoped
 public class LocaleChanger implements Serializable{
     
@@ -46,7 +46,7 @@ public class LocaleChanger implements Serializable{
             ustawLocale(uzytkownik);
         }
         if (locale == null) {
-            locale = new Locale("pl");
+            locale = new Locale("pl_PL");
         }
     }
     

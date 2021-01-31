@@ -26,15 +26,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class DeklaracjaVatSchemaView implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -90,7 +90,7 @@ public class DeklaracjaVatSchemaView implements Serializable {
         } else if (czyschemaistnieje == 4) {
             Msg.msg("e", "Nie można dodać. Nazwa schemy nie rozpoczyna się od M- lub K-");
         } else {
-            deklaracjaVatSchemaDAO.dodaj(deklaracjaVatSchema);
+            deklaracjaVatSchemaDAO.create(deklaracjaVatSchema);
             schemyDeklaracjiVat.add(deklaracjaVatSchema);
             deklaracjaVatSchema = new DeklaracjaVatSchema();
             Msg.msg("Dodano schemę");
@@ -105,7 +105,7 @@ public class DeklaracjaVatSchemaView implements Serializable {
     }
     
     public void usun(DeklaracjaVatSchema s) {
-        deklaracjaVatSchemaDAO.destroy(s);
+        deklaracjaVatSchemaDAO.remove(s);
         schemyDeklaracjiVat.remove(s);
         if (schemyDeklaracjiVat.size() > 0) {
             wybranaschema = schemyDeklaracjiVat.get(schemyDeklaracjiVat.size()-1);
@@ -156,7 +156,7 @@ public class DeklaracjaVatSchemaView implements Serializable {
     
     public void usun(SchemaEwidencja s) {
         try {
-            schemaEwidencjaDAO.destroy(s);
+            schemaEwidencjaDAO.remove(s);
             schemaewidencjalista.remove(s);
             Msg.uP();
         } catch (Exception e) {
@@ -205,7 +205,7 @@ public class DeklaracjaVatSchemaView implements Serializable {
                     nowaschemaewidencja.add(p);
                 }
                 if (!nowaschemaewidencja.isEmpty()) {
-                    schemaEwidencjaDAO.dodaj(nowaschemaewidencja);
+                    schemaEwidencjaDAO.create(nowaschemaewidencja);
                 }
                 List<DeklaracjaVatSchemaWierszSum> nowesumwiersze = Collections.synchronizedList(new ArrayList<>());
                 for (DeklaracjaVatSchemaWierszSum p : schemawierszlista) {
@@ -214,7 +214,7 @@ public class DeklaracjaVatSchemaView implements Serializable {
                     nowesumwiersze.add(p);
                 }
                 if (!nowesumwiersze.isEmpty()) {
-                    deklaracjaVatSchemaWierszSumDAO.dodaj(nowesumwiersze);
+                    deklaracjaVatSchemaWierszSumDAO.create(nowesumwiersze);
                 }
                 wybranaschema = kopiowanaschema;
                 schemaewidencjalista = schemaEwidencjaDAO.findEwidencjeSchemy(wybranaschema);

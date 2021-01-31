@@ -22,9 +22,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import pdf.PdfVAT27dekl;
 import pdf.PdfVat27;
@@ -34,7 +34,7 @@ import pdf.PdfVatUE;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class Vat27View implements Serializable {
 
@@ -46,7 +46,7 @@ public class Vat27View implements Serializable {
     @Inject
     private Deklaracjavat27 dekl27selected;
     private boolean niemoznadrukowac;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private DokDAO dokDAO;
@@ -204,7 +204,7 @@ public class Vat27View implements Serializable {
     
     public void usundekl(Deklaracjavat27 d) {
         try {
-            deklaracjavat27DAO.destroy(d);
+            deklaracjavat27DAO.remove(d);
             deklaracjevat27.remove(d);
             for (Vat27 p : d.getPozycje()) {
                 if (!p.getZawiera().isEmpty()) {

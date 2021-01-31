@@ -12,7 +12,7 @@ import dao.JPKVATWersjaDAO;
 import dao.JPKvatwersjaEvewidencjaDAO;
 import dao.KlientJPKDAO;
 import dao.UPODAO;
-import daoFK.EVatwpisDedraDAO;
+import dao.EVatwpisDedraDAO;
 import data.Data;
 import embeddable.Kwartaly;
 import embeddable.Mce;
@@ -47,11 +47,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -67,14 +66,14 @@ import xml.XMLValid;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class JPK_VAT2View implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{ewidencjaVatView}")
+    @Inject
     private EwidencjaVatView ewidencjaVatView;
     @Inject
     private TKodUS tKodUS;
@@ -822,7 +821,7 @@ public class JPK_VAT2View implements Serializable {
     public void usunUPO() {
         try {
             if (selected != null) {
-                uPODAO.destroy(selected);
+                uPODAO.remove(selected);
                 lista.remove(selected);
                 init2();
                 Msg.msg("Usunieto wybrany JPK "+selected.getReferenceNumber());
@@ -1313,7 +1312,7 @@ public class JPK_VAT2View implements Serializable {
                 upo.setWprowadzil(wpisView.getUzer());
                 upo.setDataupo(new Date());
                 upo.setDatajpk(new Date());
-                uPODAO.dodaj(upo);
+                uPODAO.create(upo);
                 zwrot[0] = "i";
                 zwrot[1] = "Udane zachowanie UPO";
             } catch (Exception e) {

@@ -8,11 +8,11 @@ import beansFK.PlanKontFKKopiujBean;
 import beansFK.PozycjaRZiSFKBean;
 import comparator.UkladBRNamecomparator;
 import comparator.UkladBRcomparator;
-import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
-import daoFK.PozycjaBilansDAO;
-import daoFK.PozycjaRZiSDAO;
-import daoFK.UkladBRDAO;
+import dao.KontoDAOfk;
+import dao.KontopozycjaZapisDAO;
+import dao.PozycjaBilansDAO;
+import dao.PozycjaRZiSDAO;
+import dao.UkladBRDAO;
 import entity.Podatnik;
 import entityfk.Konto;
 import entityfk.PozycjaBilans;
@@ -25,16 +25,15 @@ import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;import view.WpisView;
 /**
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class UkladBRView implements Serializable {
 
@@ -46,11 +45,11 @@ public class UkladBRView implements Serializable {
     private List<UkladBR> listaWzorcowy;
     private List<UkladBR> listaWzorcowyBiezacy;
     private List<UkladBR> listaWzorcowyUprzedni;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{pozycjaBRKontaView}")
+    @Inject
     private PozycjaBRKontaView pozycjaBRKontaView;
-    @ManagedProperty(value = "#{planKontView}")
+    @Inject
     private PlanKontView planKontView;
     @Inject
     private UkladBR selected;
@@ -108,7 +107,7 @@ public class UkladBRView implements Serializable {
             ukladBR.setRok(wpisView.getRokWpisuSt());
             ukladBR.setUklad(nazwanowegoukladu);
             ukladBR.setZwykly0wzrocowy1(false);
-            ukladBRDAO.dodaj(ukladBR);
+            ukladBRDAO.create(ukladBR);
             lista.add(ukladBR);
             nazwanowegoukladu = null;
             Msg.msg("i", "Dodano nowy układ podatnika");
@@ -129,7 +128,7 @@ public class UkladBRView implements Serializable {
                 ukladBR.setPodatnik(wpisView.getPodatnikObiekt());
                 ukladBR.setRok(ukladdocelowyrok);
                 ukladBR.setImportowany(true);
-                ukladBRDAO.dodaj(ukladBR);
+                ukladBRDAO.create(ukladBR);
                 PlanKontFKKopiujBean.implementujRZiS(pozycjaRZiSDAO, ukladzrodlowy, wpisView.getPodatnikWpisu(), ukladdocelowyrok, ukladzrodlowy.getUklad());
                 PlanKontFKKopiujBean.implementujBilans(pozycjaBilansDAO, ukladzrodlowy, wpisView.getPodatnikWpisu(), ukladdocelowyrok, ukladzrodlowy.getUklad());
     //            skopiujPozycje("r", ukladBR, ukladzrodlowy);
@@ -161,7 +160,7 @@ public class UkladBRView implements Serializable {
             ukladBR.setPodatnik(wpisView.getPodatnikObiekt());
             ukladBR.setRok(wpisView.getRokWpisuSt());
             ukladBR.setImportowany(true);
-            ukladBRDAO.dodaj(ukladBR);
+            ukladBRDAO.create(ukladBR);
             PlanKontFKKopiujBean.implementujRZiS(pozycjaRZiSDAO, wybranyukladwzorcowy, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wybranyukladwzorcowy.getUklad());
             PlanKontFKKopiujBean.implementujBilans(pozycjaBilansDAO, wybranyukladwzorcowy, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wybranyukladwzorcowy.getUklad());
             lista.add(ukladBR);
@@ -186,7 +185,7 @@ public class UkladBRView implements Serializable {
             ukladBR.setPodatnik(podatnik);
             ukladBR.setRok(rok);
             ukladBR.setImportowany(true);
-            ukladBRDAO.dodaj(ukladBR);
+            ukladBRDAO.create(ukladBR);
             PlanKontFKKopiujBean.implementujRZiS(pozycjaRZiSDAO, wybranyukladwzorcowy, podatnik.getNazwapelna(), rok, wybranyukladwzorcowy.getUklad());
             PlanKontFKKopiujBean.implementujBilans(pozycjaBilansDAO, wybranyukladwzorcowy, podatnik.getNazwapelna(), rok, wybranyukladwzorcowy.getUklad());
             planKontView.porzadkowanieKontPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
@@ -208,7 +207,7 @@ public class UkladBRView implements Serializable {
                 kontoDAOfk.editList(konta);
                 kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(selected, "wynikowe");
                 kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(selected, "bilansowe");
-                ukladBRDAO.destroy(selected);
+                ukladBRDAO.remove(selected);
                 lista.remove(selected);
                 pozycjaRZiSDAO.findRemoveRzisuklad(selected);
                 pozycjaBilansDAO.findRemoveBilansuklad(selected);
@@ -360,7 +359,7 @@ public class UkladBRView implements Serializable {
             try {
                 UkladBR ukladdocelowy = new UkladBR(ukladzrodlowy);
                 ukladdocelowy.setRok(ukladdocelowyrok);
-                ukladBRDAO.dodaj(ukladdocelowy);
+                ukladBRDAO.create(ukladdocelowy);
                 lista.add(ukladdocelowy);
                 implementujRZiS(ukladzrodlowy, ukladdocelowyrok);
                 implementujBilans(ukladzrodlowy, ukladdocelowyrok);
@@ -402,7 +401,7 @@ public class UkladBRView implements Serializable {
                 r.setPodatnik(wpisView.getPodatnikWpisu());
                 r.setRok(rok);
                 try {
-                    pozycjaRZiSDAO.dodaj(r);
+                    pozycjaRZiSDAO.create(r);
                 } catch (Exception e) {  E.e(e);
                     
                 }
@@ -420,7 +419,7 @@ public class UkladBRView implements Serializable {
                 r.setPodatnik(wpisView.getPodatnikWpisu());
                 r.setRok(rok);
                 try {
-                    pozycjaRZiSDAO.dodaj(r);
+                    pozycjaRZiSDAO.create(r);
                 } catch (Exception e) {  E.e(e);
                     
                 }
@@ -440,7 +439,7 @@ public class UkladBRView implements Serializable {
                     r.setRok(rok);
                     PozycjaRZiS macierzyste = wyszukajmacierzysteRZiS(p, macierzystelista);
                     r.setMacierzysta(macierzyste);
-                    pozycjaRZiSDAO.dodaj(r);
+                    pozycjaRZiSDAO.create(r);
                     nowemacierzyste.add(r);
                 } catch (Exception e) {  E.e(e);
                     
@@ -460,7 +459,7 @@ public class UkladBRView implements Serializable {
                     r.setRok(rok);
                     PozycjaBilans macierzyste = wyszukajmacierzysteBilans(p, macierzystelista);
                     r.setMacierzysta(macierzyste);
-                    pozycjaRZiSDAO.dodaj(r);
+                    pozycjaRZiSDAO.create(r);
                     nowemacierzyste.add(r);
                 } catch (Exception e) {  E.e(e);
                     

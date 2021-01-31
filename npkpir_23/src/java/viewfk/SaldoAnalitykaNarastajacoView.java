@@ -8,8 +8,8 @@ package viewfk;
 
 import beansFK.BOFKBean;
 import dao.StronaWierszaDAO;
-import daoFK.DokDAOfk;
-import daoFK.KontoDAOfk;
+import dao.DokDAOfk;
+import dao.KontoDAOfk;
 import embeddable.Mce;
 import embeddablefk.SaldoKontoNarastajaco;
 import entityfk.Konto;
@@ -22,9 +22,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import pdf.PdfKontaNarastajaco;
 import view.WpisView;import waluty.Z;
@@ -33,13 +33,13 @@ import view.WpisView;import waluty.Z;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class SaldoAnalitykaNarastajacoView implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<SaldoKontoNarastajaco> listaSaldoKonto;
     private List<SaldoKontoNarastajaco> listaSaldoKontoSelected;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private KontoDAOfk kontoDAOfk;

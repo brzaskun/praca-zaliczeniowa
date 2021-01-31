@@ -5,7 +5,7 @@
  */
 package beansFK;
 
-import daoFK.TabelanbpDAO;
+import dao.TabelanbpDAO;
 import entityfk.Dokfk;
 import entityfk.Tabelanbp;
 import java.util.ArrayList;

@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import mail.Mail;
 import msg.Msg;
@@ -29,7 +29,7 @@ import msg.Msg;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class FakturadodelementyView implements Serializable {
 
@@ -40,7 +40,7 @@ public class FakturadodelementyView implements Serializable {
     private List<Fakturadodelementy> fakturadodelementy;
     @Inject
     private FakturadodelementyDAO fakturadodelementyDAO;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     private String mailfakturastopka;
 
@@ -76,7 +76,7 @@ public class FakturadodelementyView implements Serializable {
                 FakturadodelementyPK fPK = new FakturadodelementyPK(podatnik, p);
                 Fakturadodelementy f = new Fakturadodelementy(fPK, elementy.get(p), false);
                 if (!fakturadodelementy.contains(f)) {
-                    fakturadodelementyDAO.dodaj(f);
+                    fakturadodelementyDAO.create(f);
                     fakturadodelementy.add(f);
                 }
             }
@@ -102,7 +102,7 @@ public class FakturadodelementyView implements Serializable {
     public void zachowajzmiany() {
         try {
             for (Fakturadodelementy p : fakturadodelementy) {
-                fakturadodelementyDAO.dodaj(p);
+                fakturadodelementyDAO.create(p);
             }
             Msg.msg("i", "Zachowano dodatkowe elementy faktury.");
         } catch (Exception e) { E.e(e); 
@@ -139,7 +139,7 @@ public class FakturadodelementyView implements Serializable {
         } else {
             f = new Fakturadodelementy(wpisView.getPodatnikWpisu(), "mailstopka");
             f.setTrescelementu(mailfakturastopka);
-            fakturadodelementyDAO.dodaj(f);
+            fakturadodelementyDAO.create(f);
         }
     }
 

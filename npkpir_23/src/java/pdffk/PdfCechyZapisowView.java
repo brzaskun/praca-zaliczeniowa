@@ -12,10 +12,10 @@ import entity.Uz;
 import java.io.File;
 import java.io.Serializable;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 import static pdffk.PdfMain.*;
 import plik.Plik;
@@ -26,10 +26,10 @@ import viewfk.CechyzapisuPrzegladView;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PdfCechyZapisowView implements Serializable {
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
     @Inject
     private UzDAO uzDAO;

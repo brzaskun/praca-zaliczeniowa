@@ -10,10 +10,10 @@ import beansFK.SlownikiBean;
 import comparator.Kliencifkcomparator;
 import converter.KontoConv;
 import dao.KlienciDAO;
-import daoFK.KliencifkDAO;
-import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaZapisDAO;
-import daoFK.UkladBRDAO;
+import dao.KliencifkDAO;
+import dao.KontoDAOfk;
+import dao.KontopozycjaZapisDAO;
+import dao.UkladBRDAO;
 import entity.Klienci;
 import entityfk.Kliencifk;
 import entityfk.Konto;
@@ -23,9 +23,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;import view.WpisView; import org.primefaces.PrimeFaces;
@@ -34,7 +33,7 @@ import msg.Msg;import view.WpisView; import org.primefaces.PrimeFaces;
  *
  * @author Osito
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class KliencifkBOView implements Serializable {
 
@@ -58,17 +57,17 @@ public class KliencifkBOView implements Serializable {
     private UkladBRDAO ukladBRDAO;
     @Inject
     private Kliencifk selected;
-    @ManagedProperty(value = "#{WpisView}")
+    @Inject
     private WpisView wpisView;
-    @ManagedProperty(value = "#{dokfkView}")
+    @Inject
     private DokfkView dokfkView;
-    @ManagedProperty(value = "#{planKontCompleteView}")
+    @Inject
     private PlanKontCompleteView planKontCompleteView;
-    @ManagedProperty(value = "#{planKontBOView}")
+    @Inject
     private PlanKontBOView planKontBOView;
-    @ManagedProperty(value = "#{planKontSrTrw}")
+    @Inject
     private PlanKontSrTrw planKontSrTrw;
-    @ManagedProperty(value = "#{kontoConv}")
+    @Inject
     private KontoConv kontoConv;
     private boolean makonto0niemakonta1;
     @Inject
@@ -169,7 +168,7 @@ public class KliencifkBOView implements Serializable {
         }
         try {
             List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            kliencifkDAO.dodaj(klientBezKonta);
+            kliencifkDAO.create(klientBezKonta);
             PlanKontFKBean.aktualizujslownikKontrahenci(wykazkont, kliencifkDAO, klientBezKonta, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
             listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
             Msg.msg("Zaktualizowano konta słownikowe");
@@ -219,7 +218,7 @@ public class KliencifkBOView implements Serializable {
         try {
             int wynik = PlanKontFKBean.aktualizujslownikKontrahenciRemove(klientkontodousuniecia, kontoDAOfk, wpisView);
             if (wynik == 0) {
-                kliencifkDAO.destroy(klientkontodousuniecia);
+                kliencifkDAO.remove(klientkontodousuniecia);
                 listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
                 Msg.msg("Usunięto konta słownikowe dla klienta " + klientkontodousuniecia.getNazwa());
             } else {
