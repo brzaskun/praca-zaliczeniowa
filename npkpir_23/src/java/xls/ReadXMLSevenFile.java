@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
+import msg.Msg;
 import pl.com.cdn.optima.offline.ROOT;
 import waluty.Z;
 /**
@@ -159,6 +160,7 @@ public class ReadXMLSevenFile {
             file.close();
         } catch (Exception e) {
             E.e(e);
+            Msg.msg("e","Błąd w strukturze pliku");
         }
         zwrot[0] = listafaktur;
         zwrot[2] = importyzbrakami;
@@ -374,8 +376,8 @@ public class ReadXMLSevenFile {
       
     public static void main(String[] args) {
         try {
-            FileInputStream file = new FileInputStream(new File("d://raport_invoices.xml"));
-            InputStreamReader reader = new InputStreamReader(file);
+            FileInputStream file = new FileInputStream(new File("d://raport_invoices_20210128a.xml"));
+            InputStreamReader reader = new InputStreamReader(file,"UTF-8");
             JAXBContext jaxbContext = JAXBContext.newInstance(Invoices.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             Invoices tabela =  (Invoices) jaxbUnmarshaller.unmarshal(reader);

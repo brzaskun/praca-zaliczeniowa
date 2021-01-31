@@ -283,7 +283,7 @@ public class InterpaperImportView implements Serializable {
                 drkujfizbutton.setRendered(true);
                 generujbutton.setRendered(true);
                 kontobutton.setRendered(true);
-            } else if (wybranyrodzajimportu.getLp()==5 || wybranyrodzajimportu.getLp()==6 || wybranyrodzajimportu.getLp()==7){
+            } else if (wybranyrodzajimportu.getLp()==5 || wybranyrodzajimportu.getLp()==6 || wybranyrodzajimportu.getLp()==7 || wybranyrodzajimportu.getLp()==8){
                 if (jakipobor.equals("fiz")) {
                     drkujfizbutton.setRendered(true);
                 } else {
@@ -297,7 +297,7 @@ public class InterpaperImportView implements Serializable {
             Msg.msg("Pobrano wszystkie dane");
         } catch (OfficeXmlFileException e1) {
             E.e(e1);
-            Msg.msg("e", "Niewłaściwa wersja pliku xls");
+            Msg.msg("e", "Niewłaściwa wersja pliku. Może problem z kodowaniem");
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Wystąpił błąd przy pobieraniu danych");
@@ -943,6 +943,9 @@ public class InterpaperImportView implements Serializable {
             case 5:
             case 6:
             case 7:
+                zwrot.add("sprzedaż");
+                break;
+            case 8:
                 zwrot.add("sprzedaż");
                 break;
         }
