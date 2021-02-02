@@ -99,8 +99,9 @@ public class RodzajedokView implements Serializable {
             String rokpop = String.valueOf(Integer.parseInt(rok)-1);
             List<Rodzajedok> listaWspolnychrokpop = rodzajedokDAO.findListaPodatnik(podatnikwspolny, rokpop);
             for (Rodzajedok p : listaWspolnychrokpop) {
-                Rodzajedok nowy = serialclone.SerialClone.clone(p);
-                nowy.setRok("2020");
+                Rodzajedok nowy = new Rodzajedok(p, podatnikwspolny);
+                nowy.setId(null);
+                nowy.setRok(rok);
                 rodzajedokDAO.create(nowy);
             }
             listaWspolnych = rodzajedokDAO.findListaPodatnik(podatnikwspolny, rok);

@@ -51,7 +51,7 @@ public class Rodzajedok implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
-    private int id;
+    private Integer id;
     @Column(name="SKROTNAZWYDOK")
     private String skrotNazwyDok;
     @Size(max = 255)
@@ -189,15 +189,15 @@ public class Rodzajedok implements Serializable {
         this.tylkovat = tylkovat;
     }
 
-
-    
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
+
+
     
 
     public String getNazwa() {

@@ -1253,7 +1253,8 @@ private DokDAO dokDAO;
         selected = wpisView.getPodatnikObiekt();
         List<Rodzajedok> dokumentyBiezacegoPodatnika = rodzajedokDAO.findListaPodatnik(selected, wpisView.getRokWpisuSt());
         List<Rodzajedok> dokumentyBiezacegoPodatnikaRokPoprzedni = rodzajedokDAO.findListaPodatnik(selected, wpisView.getRokUprzedniSt());
-        List<Rodzajedok> wspolnedokumentypodatnikow = rodzajedokDAO.findListaPodatnikNull(selected);
+        Podatnik podatnikwspolny = podatnikDAO.findPodatnikByNIP("0001005008");
+        List<Rodzajedok> wspolnedokumentypodatnikow = rodzajedokDAO.findListaPodatnik(podatnikwspolny, wpisView.getRokWpisuSt());
         if (((dokumentyBiezacegoPodatnikaRokPoprzedni==null||dokumentyBiezacegoPodatnikaRokPoprzedni.isEmpty()) && dokumentyBiezacegoPodatnika.isEmpty()) && (wspolnedokumentypodatnikow!=null && !wspolnedokumentypodatnikow.isEmpty())) {
             dokumentyBiezacegoPodatnikaRokPoprzedni = wspolnedokumentypodatnikow;
         }

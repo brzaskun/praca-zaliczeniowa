@@ -1477,9 +1477,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         }
     }
 
-    public List<Rodzajedok> findListaWspolne(Podatnik podatnik) {
-         return Collections.synchronizedList( getEntityManager().createNamedQuery("Rodzajedok.findByListaWspolna").setParameter("podatnik", podatnik).getResultList());
-    }
+    
 
     public List<Rodzajedok> findListaPodatnik(Podatnik podatnik, String rok) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Rodzajedok.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());

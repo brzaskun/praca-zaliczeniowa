@@ -8,6 +8,7 @@ import entity.Podatnik;
 import entity.Rodzajedok;
 import error.E;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -62,7 +63,7 @@ public class RodzajedokDAO extends DAO implements Serializable{
        
     public  List<Rodzajedok> findListaWspolne(Podatnik podatnik){
         try {
-            return rodzajedokFacade.findListaWspolne(podatnik);
+            return getEntityManager().createNamedQuery("Rodzajedok.findByListaWspolna").setParameter("podatnik", podatnik).getResultList();
         } catch (Exception e) { E.e(e); 
             return null;
         }
