@@ -100,7 +100,6 @@ public class RodzajedokView implements Serializable {
             List<Rodzajedok> listaWspolnychrokpop = rodzajedokDAO.findListaPodatnik(podatnikwspolny, rokpop);
             for (Rodzajedok p : listaWspolnychrokpop) {
                 Rodzajedok nowy = new Rodzajedok(p, podatnikwspolny);
-                nowy.setId(null);
                 nowy.setRok(rok);
                 rodzajedokDAO.create(nowy);
             }
