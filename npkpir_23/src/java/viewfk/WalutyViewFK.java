@@ -118,7 +118,7 @@ public class WalutyViewFK implements Serializable {
                     Msg.msg("e", "Nie ma takiej tabeli. Nie udalo sie pobrac kursow walut z internetu");
                 } else {
                     try {
-                        tabelanbpDAO.create(wierszepobranezNBP);
+                        tabelanbpDAO.createList(wierszepobranezNBP);
                     } catch (Exception e) { 
                         E.e(e);
                     }

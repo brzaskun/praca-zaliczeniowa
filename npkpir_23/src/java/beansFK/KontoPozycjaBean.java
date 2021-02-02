@@ -32,7 +32,7 @@ public class KontoPozycjaBean {
                     nowe.add(r);
                 }
             }
-            kontopozycjaZapisDAO.create(nowe);
+            kontopozycjaZapisDAO.createList(nowe);
         }
     }
     

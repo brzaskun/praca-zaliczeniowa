@@ -1140,7 +1140,7 @@ public class PlanKontView implements Serializable {
                 E.e(e);
             }
         }
-        kontopozycjaZapisDAO.create(nowepozycje);
+        kontopozycjaZapisDAO.createList(nowepozycje);
         if (podatnik.equals(wpisView.getPodatnikObiekt())) {
             listaukladow = ukladBRDAO.findPodatnikRok(wpisView.getPodatnikObiekt(), rok);
             wybranyuklad = UkladBRBean.pobierzukladaktywny(ukladBRDAO, listaukladow);

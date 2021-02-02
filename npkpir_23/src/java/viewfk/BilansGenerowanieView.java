@@ -294,7 +294,7 @@ public class BilansGenerowanieView implements Serializable {
                     wierszeBO.add(new WierszBO(wpisView.getPodatnikObiekt(), sk, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), p.getKonto(), walpln, wpisView.getUzer()));
                 }
             }
-            wierszBODAO.create(wierszeBO);
+            wierszBODAO.createList(wierszeBO);
             Msg.msg("Naniesiono wiersze różnicowe");
         } catch (Exception e) {
             E.e(e);

@@ -154,7 +154,7 @@ public class StatystykaKalkulacjaView  implements Serializable {
         if (!listadozachowania.isEmpty()) {
             try {
                 statystykaDAO.usunrok(rok);
-                statystykaDAO.create(listadozachowania);
+                statystykaDAO.createList(listadozachowania);
                 Msg.msg("Zaksięgowano zapisy za rok");
             } catch (Exception e) {
                 Msg.msg("Wystąpił błąd nie zaksięgowano podumowania za rok");

@@ -393,7 +393,7 @@ public class ImportFakturyView  implements Serializable {
     public void zaksiegujdlajpk() {
         klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         List<KlientJPK> lista = KlienciJPKBean.zaksiegujdok(dokumenty, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        klientJPKDAO.create(lista);
+        klientJPKDAO.createList(lista);
         Msg.msg("Zaksięgowano dokumenty dla JPK");
     }
     

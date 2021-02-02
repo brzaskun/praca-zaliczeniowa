@@ -31,6 +31,18 @@ public abstract class DAO<T> {
         getEntityManager().persist(entity);
     }
 
+    
+     public void createList(List<T> entityList) {
+        for (T p : entityList) {
+            try {
+                getEntityManager().persist(p);
+            } catch (Exception e) {
+                E.e(e);
+            }
+        }
+     }
+        
+    
     public void edit(T entity) {
         getEntityManager().merge(entity);
     }

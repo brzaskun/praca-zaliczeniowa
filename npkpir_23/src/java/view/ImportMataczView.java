@@ -220,7 +220,7 @@ public class ImportMataczView  implements Serializable {
     public void zaksiegujdokjpk() {
         klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         List<KlientJPK> lista = KlienciJPKBean.zaksiegujdokJPK(dokumenty, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        klientJPKDAO.create(lista);
+        klientJPKDAO.createList(lista);
         Msg.msg("Zaksięgowano dokumenty dla JPK");
     }
     

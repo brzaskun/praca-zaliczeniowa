@@ -148,7 +148,7 @@ public class PlanKontUzupelnijView implements Serializable {
                 macierzyste.add(r);
             }
         }
-        kontoDAOfk.create(macierzyste);
+        kontoDAOfk.createList(macierzyste);
         return macierzyste;
     }
 

@@ -630,7 +630,7 @@ public class PozycjaBRKontaView implements Serializable {
                     E.e(e);
                 }
             }
-            kontopozycjaZapisDAO.create(nowezapispozycje);
+            kontopozycjaZapisDAO.createList(nowezapispozycje);
         }
         if (rb.equals("b")) {
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowy, "bilansowe", aktywa0pasywa1);
@@ -646,7 +646,7 @@ public class PozycjaBRKontaView implements Serializable {
                     E.e(e);
                 }
             }
-            kontopozycjaZapisDAO.create(nowezapispozycje);
+            kontopozycjaZapisDAO.createList(nowezapispozycje);
         }
         Msg.msg("Zapamiętano przyporządkowane pozycje");
     }

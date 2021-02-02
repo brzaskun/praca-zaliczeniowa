@@ -37,10 +37,9 @@ public class PlanKontFKKopiujBean {
                 r.setSprawdzono(null);
                 zeruDanekontaBO(r);
                 macierzyste.add(r);
-                it.remove();
+                kontoDAOfk.create(r);
             }
         }
-        kontoDAOfk.create(macierzyste);
         return macierzyste;
     }
     

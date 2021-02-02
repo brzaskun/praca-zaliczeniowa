@@ -379,7 +379,7 @@ public class ImportCisView  implements Serializable {
     private void zaksiegujdokjpk(List<Dok> polskaprywatne) {
         klientJPKDAO.deleteByPodRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         List<KlientJPK> lista = KlienciJPKBean.zaksiegujdok(polskaprywatne, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        klientJPKDAO.create(lista);
+        klientJPKDAO.createList(lista);
         Msg.msg("Zaksięgowano dokumenty dla JPK");
     }
     
