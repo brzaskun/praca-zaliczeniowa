@@ -1,0 +1,94 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="width: 1500px;">
+            <p:outputPanel style="height: 200px">
+                <h:form id="AngazCreateForm">
+                    <p:selectOneMenu id="pracownik" value="#{pracownikDane2View.selectedangaz}" required="true" requiredMessage="pracownik"  converter="#{angazConverter}" style="width: 300px;" filter="true" filterMatchMode="contains">
+                        <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                        <f:selectItems value="#{pracownikDane2View.listapracownikow}"
+                                       var="pracownikItem"
+                                       itemValue="#{pracownikItem}" itemLabel="#{pracownikItem.pracownik.nazwiskoImie}"/>
+                        <p:ajax event="change" partialSubmit="true" listener="#{pracownikDane2View.pobierzdane}" global="false" update="PracownikCreateForm"/>
+                    </p:selectOneMenu>
+                </h:form>
+            </p:outputPanel>
+        <p:outputPanel style="height: 200px">
+            <h:form id="PracownikCreateForm">
+                <p:outputPanel>
+                    <p:panel header="dane personalne "/>
+                    <p:panelGrid columns="4">
+                        <p:outputLabel value="nazwisko" for="nazwisko" />
+                        <p:inputText id="nazwisko" value="#{pracownikDane2View.selected.nazwisko}" title="nazwisko" required="true" requiredMessage="Wpisz nazwisko"/>
+                        <p:outputLabel value="imię" for="imie" />
+                        <p:inputText id="imie" value="#{pracownikDane2View.selected.imie}" title="imię" required="true" requiredMessage="Wpisz imię"/>
+                        <p:outputLabel value="drugie imię" for="drugieimie" />
+                        <p:inputText id="drugieimie" value="#{pracownikDane2View.selected.drugieimie}" title=" drugie imię"/>
+                        <p:outputLabel value="pesel" for="pesel" />
+                        <p:inputText id="pesel" value="#{pracownikDane2View.selected.pesel}" title="imię" required="true" requiredMessage="Wpisz Pesel" maxlength="11"/>
+                        <p:outputLabel value="data urodzenia" for="du" />
+                        <p:inputText id="du" value="#{pracownikDane2View.selected.dataurodzenia}" title="data urodzenia" required="true" requiredMessage="Wpisz datę urodzenia"/>
+                        <p:outputLabel value="miejsce urodzenia" for="mu" />
+                        <p:inputText id="mu" value="#{pracownikDane2View.selected.miejsceurodzenia}" title="miejsce urodzenia" required="true" requiredMessage="Wpisz miejsce urodzenia"/>
+                     </p:panelGrid>
+                    <p:panel header="adres zamieszkania"/>
+                    <p:panelGrid columns="8">
+                        <p:outputLabel value="kraj" for="kraj" />
+                        <p:inputText id="kraj" value="#{pracownikDane2View.selected.kraj}" title="kraj" required="true" requiredMessage="Wpisz nazwę kraju"/>
+                        <p:outputLabel value="województwo" for="woj" />
+                        <p:inputText id="woj" value="#{pracownikDane2View.selected.wojewodztwo}" title="województwo" required="true" requiredMessage="Wpisz nazwę województwa"/>
+                        <p:outputLabel value="powiat" for="pow" />
+                        <p:inputText id="pow" value="#{pracownikDane2View.selected.powiat}" title="powiat" required="true" requiredMessage="Wpisz powiat"/>
+                        <p:outputLabel value="gmina" for="gmina" />
+                        <p:inputText id="gmina" value="#{pracownikDane2View.selected.gmina}" title="gmina"  required="true" requiredMessage="Wpisz nazwę gminy"/>
+                        <p:outputLabel value="miasto" for="miasto" />
+                        <p:inputText id="miasto" value="#{pracownikDane2View.selected.miasto}" title="miasto" required="true" requiredMessage="Wpisz miasto"/>
+                        <p:outputLabel value="ulica" for="ulica" />
+                        <p:inputText id="ulica" value="#{pracownikDane2View.selected.ulica}" title="ulica"/>
+                        <p:outputLabel value="nr domu" for="dom" />
+                        <p:inputText id="dom" value="#{pracownikDane2View.selected.dom}" title="dom" required="true" requiredMessage="Wpisz nr domu"/>
+                        <p:outputLabel value="nr lokalu" for="lokal" />
+                        <p:inputText id="lokal" value="#{pracownikDane2View.selected.lokal}" title="lokal"/>
+                        <p:outputLabel value="kod pocztowy" for="kod" />
+                        <p:inputText id="kod" value="#{pracownikDane2View.selected.miasto}" title="kod pocztowy" required="true" requiredMessage="Wpisz kod pocztowy"/>
+                        <p:outputLabel value="poczta" for="poczta" />
+                        <p:inputText id="poczta" value="#{pracownikDane2View.selected.poczta}" title="miasto" required="true" requiredMessage="Wpisz nazwę poczty"/>
+                    </p:panelGrid>
+                    <p:panel header="dane kontaktowe"/>
+                    <p:panelGrid columns="4">
+                        <p:outputLabel value="telefon" for="tel" />
+                        <p:inputText id="tel" value="#{pracownikDane2View.selected.telefon}" title="telefon" required="true" requiredMessage="Wpisz nr telefonu" size="32"/>
+                        <p:outputLabel value="adres email" for="email" />
+                        <p:inputText id="email" value="#{pracownikDane2View.selected.email}" title="telefon" required="true" requiredMessage="Wpisz adres email" size="32"/>
+                    </p:panelGrid>
+                    <p:panel header="bank"/>
+                    <p:panelGrid columns="4">
+                        <p:outputLabel value="nazwa banku" for="nzbaku" />
+                        <p:inputText id="nzbaku" value="#{pracownikDane2View.selected.banknazwa}" title="nazwa banku" size="32"/>
+                        <p:outputLabel value="nr konta" for="nrkonta" />
+                        <p:inputText id="nrkonta" value="#{pracownikDane2View.selected.bankkonto}" title="telefon" maxlength="32" size="32"/>
+                    </p:panelGrid>
+                    <p:panel header="inne dane"/>
+                    <p:panelGrid columns="8">
+                        <p:outputLabel value="nr dowodu osobistego" for="dowod" />
+                        <p:inputText id="dowod" value="#{pracownikDane2View.selected.dowodosobisty}" title="nr dowodu osobistego"/>
+                        <p:outputLabel value="nr paszportu" for="paszport" />
+                        <p:inputText id="paszport" value="#{pracownikDane2View.selected.paszport}" title="nr paszportu" />
+                        <p:outputLabel value="obywatelstwo" for="obywatelstwo" />
+                        <p:inputText id="obywatelstwo" value="#{pracownikDane2View.selected.obywatelstwo}" title="obywatelstwo" required="true" requiredMessage="Wpisz obywatelstwo"/>
+                        <p:outputLabel value="nazwisko rodowe" for="nazrod" />
+                        <p:inputText id="nazrod" value="#{pracownikDane2View.selected.nazwiskorodowe}" title="kraj"/>
+                    </p:panelGrid>
+
+                </p:outputPanel>
+                <p:outputPanel style="margin-top: 50px;">
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{pracownikDane2View.edit}" value="#{bundle.Save}" update="@form" />
+                </p:outputPanel>
+            </h:form>
+        </p:outputPanel>
+</p:panelGrid>    
+</ui:composition>

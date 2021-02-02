@@ -121,7 +121,10 @@ public class HistoriaView  implements Serializable {
                 listawynagrodzenhistoria.add(wynagrodzeniahistoryczne);
                 poprzedniOkres = Data.poprzedniOkres(poprzedniOkres[0], poprzedniOkres[1]);
             }
-         }
+         } else {
+            Msg.msg("e", "Pracownik bez umowy! Nie można generować historii");
+        }
+        
     }
 
     public Wynagrodzeniahistoryczne getSelectedlista() {

@@ -41,7 +41,7 @@ public class AngazFacade extends DAO{
     }
 
     public AngazFacade() {
-        super(Firma.class);
+        super(Angaz.class);
         super.em = em;
     }
 

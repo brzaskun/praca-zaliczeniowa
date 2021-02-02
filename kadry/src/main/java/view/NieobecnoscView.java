@@ -6,6 +6,7 @@
 package view;
 
 import beanstesty.KalendarzmiesiacBean;
+import comparator.Nieobecnoscikodzuscomparator;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.NieobecnoscFacade;
@@ -24,6 +25,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -77,6 +79,7 @@ public class NieobecnoscView  implements Serializable {
         lista  = nieobecnoscFacade.findByUmowa(wpisView.getUmowa());
         listaumowa = umowaFacade.findPracownik(wpisView.getPracownik());
         listanieobecnosckodzus = nieobecnosckodzusFacade.findAll();
+        Collections.sort(listanieobecnosckodzus, new Nieobecnoscikodzuscomparator());
     }
 
     public void create() {

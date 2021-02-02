@@ -5,54 +5,24 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog id="dialogpracownikanieobecnosci" header="Wprowadzanie nieobecności" widgetVar="dialogpracownikanieobecnosci"  
-              resizable="false"  onShow="ustawdialog('dialogpracownikanieobecnosci','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogpracownikanieobecnosci');" 
+    <p:dialog id="dialgoczaspracyurlop" header="Rozliczenie urlopu" widgetVar="dialgoczaspracyurlop"  
+              resizable="false"  onShow="ustawdialog('dialgoczaspracyurlop','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialgoczaspracyurlop');" 
               fitViewport="true">
-        <p:outputPanel style="height: 200px">
-            <p:panelGrid columns="2">
-                <h:form id="NieobecnoscCreateForm">
-                    <h:panelGroup id="display">
-                        <p:panelGrid columns="4" rendered="#{nieobecnoscView.selected != null}">
-                            <p:outputLabel value="umowa" for="umowa" />
-                            <p:selectOneMenu id="umowa" value="#{nieobecnoscView.selected.umowa}" required="true" requiredMessage="wybierz umowę" converter="#{umowaConverter}" >
-                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                                <f:selectItems value="#{nieobecnoscView.listaumowa}"
-                                               var="umowaItem"
-                                               itemValue="#{umowaItem}" itemLabel="#{umowaItem.nrkolejny}"/>
-                            </p:selectOneMenu>
-                            <p:outputLabel value="nazwa nieobecnosci" for="nieobkodzus" />
-                            <p:selectOneMenu id="nieobkodzus" value="#{nieobecnoscView.selected.nieobecnosckodzus}" required="true" requiredMessage="wybierz rodzaj nieobecnosci"  converter="#{nieobecnosckodzusConverter}" filter="true">
-                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                                <f:selectItems value="#{nieobecnoscView.listanieobecnosckodzus}" 
-                                               var="kodzusItem"
-                                               itemValue="#{kodzusItem}" itemLabel="#{kodzusItem.opisskrocony}"/>
-                                <p:ajax event="change" partialSubmit="true" global="false" update="NieobecnoscCreateForm:kod"/>
-                            </p:selectOneMenu>
-                            <p:outputLabel value="kod" for="kod" />
-                            <p:inputText id="kod" value="#{nieobecnoscView.selected.nieobecnosckodzus.kod}" title="kod" required="true" readonly="true"/>
-                            <p:outputLabel value="data od" for="dataod" />
-                            <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="datac od"  placeholder="____-__-__" />
-                            <p:outputLabel value="data do" for="datado" />
-                            <p:inputText id="datado" value="#{nieobecnoscView.selected.datado}" title="data do"  placeholder="____-__-__" />
-
-
-                        </p:panelGrid>
-                        <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.create}" value="#{bundle.Save}" update="display,:NieobecnoscListForm:datalist"/>
-                        <p:commandButton value="#{bundle.Cancel}" onclick="NieobecnoscCreateDialog.hide()"/>
-                    </h:panelGroup>
+            <p:panelGrid columns="1">
+                <p:outputPanel style="height: 200px">
+                <h:form id="PracownikPobierzForm">
+                    <p:selectOneMenu id="pracownik" value="#{pracownikUrlopView.selectedangaz}" required="true" requiredMessage="pracownik"  converter="#{angazConverter}" style="width: 300px;" filter="true" filterMatchMode="contains">
+                        <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                        <f:selectItems value="#{pracownikUrlopView.listapracownikow}"
+                                       var="pracownikItem"
+                                       itemValue="#{pracownikItem}" itemLabel="#{pracownikItem.pracownik.nazwiskoImie}"/>
+                        <p:ajax event="change" partialSubmit="true" listener="#{pracownikUrlopView.pobierzdane}" global="false" update="PracownikUrlopForm"/>
+                    </p:selectOneMenu>
                 </h:form>
-                <h:form id="NieobecnoscCreateFormZUS">
-                    <h:panelGroup id="display">
-                        <p:panelGrid columns="2" >
-                            <p:outputLabel value="pobranie zwolnien z ZUS" for="zuspobierz" />
-                            <p:commandButton id="zuspobierz" styleClass="buttonnorm" actionListener="#{nieobecnoscView.pobierzzzus}" value="pobierz" update="display,:NieobecnoscListForm:datalist"/>
-                        </p:panelGrid>
-                    </h:panelGroup>
-                </h:form>
+            </p:outputPanel>
             </p:panelGrid>
-        </p:outputPanel>
         <p:outputPanel>
-             <h:form id="NieobecnoscListForm">
+             <h:form id="PracownikUrlopForm">
                 <p:panel header="Lista nieobecnosci">
                     <p:dataTable id="datalist" value="#{nieobecnoscView.lista}" var="itemNieob"
                                  selectionMode="single" selection="#{angazView.selectedlista}"
