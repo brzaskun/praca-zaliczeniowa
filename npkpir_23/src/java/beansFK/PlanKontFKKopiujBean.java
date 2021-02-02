@@ -84,7 +84,7 @@ public class PlanKontFKKopiujBean {
             }
         }
         if (!nowemacierzyste.isEmpty()) {
-            kontoDAOfk.create(nowemacierzyste);
+            kontoDAOfk.createList(nowemacierzyste);
         }
         return nowemacierzyste;
     }
@@ -126,7 +126,7 @@ public class PlanKontFKKopiujBean {
                 macierzyste = skopiujlevel(pozycje, macierzyste, i, podatnik, rok, uklad);
                 pozycjenowe.addAll(macierzyste);
             }
-            pozycjaRZiSDAO.create(pozycjenowe);
+            pozycjaRZiSDAO.createList(pozycjenowe);
         } else {
             Msg.msg("e", "Brak pozycji RZiS przyporządkowanych do wybranego układu");
         }
@@ -190,7 +190,7 @@ public class PlanKontFKKopiujBean {
                 macierzyste = skopiujlevelB(pozycje, macierzyste, i, podatnik, rok, uklad);
                 pozycjenowe.addAll(macierzyste);
             }
-            pozycjaBilansDAO.create(pozycjenowe);
+            pozycjaBilansDAO.createList(pozycjenowe);
         }
         pozycje = pozycjaBilansDAO.findBilansukladPasywa(ukladBR);
         pozycjenowe = Collections.synchronizedList(new ArrayList<>());
@@ -202,7 +202,7 @@ public class PlanKontFKKopiujBean {
                 macierzyste = skopiujlevelB(pozycje, macierzyste, i, podatnik, rok, uklad);
                 pozycjenowe.addAll(macierzyste);
             }
-            pozycjaBilansDAO.create(pozycjenowe);
+            pozycjaBilansDAO.createList(pozycjenowe);
         } else {
             Msg.msg("e", "Brak pozycji bilansu przyporządkowanych do wybranego układu");
         }
