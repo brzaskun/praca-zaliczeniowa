@@ -32,7 +32,9 @@
                                                var="czastrwaniaItem"
                                                itemValue="#{czastrwaniaItem}" itemLabel="#{umowakodzusItem}"/>
                             </p:selectOneMenu>
-                        </p:panelGrid>
+                              <p:outputLabel value="stanowisko" for="stanowisko" />
+                                <p:inputText id="stanowisko" value="#{umowaView.selected.stanowisko}" title="stanowisko" style="width: 200px;"/>
+                           </p:panelGrid>
                         <p:panelGrid columns="2">
                             <p:outputLabel value="data od" for="dataod" />
                             <p:inputText id="dataod" value="#{umowaView.selected.dataod}" title="data od"  placeholder="____-__-__"  required="true" styleClass="dataUmowy">

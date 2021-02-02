@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 /**
  *
  * @author Osito
+ * @param <T>
  */
 public abstract class  DAO<T> {
 
