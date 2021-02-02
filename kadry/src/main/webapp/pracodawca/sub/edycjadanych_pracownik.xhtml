@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 400px;width: 1500px;">
+    <p:panelGrid columns="2" columnClasses="twenty-percent, eighty-percent" style="height: 400px;width: 1600px;">
         <p:outputPanel style="height: 400px">
             <h:form id="PracownikCreateForm">
                 <h:panelGroup id="display">
@@ -31,7 +31,7 @@
                 <p:panel header="Wykaz pracowników w programie">
                     <p:dataTable id="datalist" value="#{pracodawcaDaneView.listapracownikow}" var="item2"
                                  selectionMode="single" selection="#{pracodawcaDaneView.selectedlista}"
-                                 rowKey="#{item2.id}" sortBy="#{item2.nazwisko}" filteredValue="#{pracodawcaDaneView.listafiltered}"
+                                 rowKey="#{item2.pesel}" sortBy="#{item2.nazwisko}" filteredValue="#{pracodawcaDaneView.listafiltered}"
                                  style="height: 400px; overflow-y: scroll;"
                                  rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" rows="20"
                                  >
@@ -58,19 +58,23 @@
                             <f:facet name="header">
                                 <h:outputText value="Pesel"/>
                             </f:facet>
-                            <p:inputText value="#{item2.pesel}"/>
+                            <h:outputText value="#{item2.pesel}"/>
                         </p:column>
-                          <p:column>
+                        <p:column width="150">
                             <f:facet name="header">
                                 <h:outputText value="email"/>
                             </f:facet>
-                              <p:inputText value="#{item2.email}"/>
+                            <p:inputText value="#{item2.email}">
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{pracodawcaDaneView.edytuj(item2)}"/>
+                            </p:inputText>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="telefon"/>
                             </f:facet>
-                            <p:inputText value="#{item2.telefon}"/>
+                            <p:inputText value="#{item2.telefon}">
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{pracodawcaDaneView.edytuj(item2)}"/>
+                            </p:inputText>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
@@ -78,15 +82,17 @@
                             </f:facet>
                              <h:outputText value="#{item2.czyjestumowa}"/>
                         </p:column>
-                        <p:column style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="zapisz"/>
-                            </f:facet>
-                            <p:commandButton icon="fa fa-check" actionListener="#{pracodawcaDaneView.edytuj(item2)}" update="north,@(form)"/>
-                        </p:column>
                     </p:dataTable>
                 </p:panel>
             </h:form>
         </p:outputPanel>
+         <p:outputPanel style="height: 400px">
+             <h:form id="MailBiuro">
+                 <p:panelGrid columns="2">
+                    <p:outputLabel value="poinformuj biuro, że dane pracowników zostały naniesione" for="mailbiuro" />
+                    <p:commandButton id="mailbiuro" styleClass="buttonnorm" value="mail" actionListener="#{pracodawcaDaneView.mailbiuro()}"/>
+                 </p:panelGrid>
+             </h:form>
+         </p:outputPanel>
 </p:panelGrid>    
 </ui:composition>

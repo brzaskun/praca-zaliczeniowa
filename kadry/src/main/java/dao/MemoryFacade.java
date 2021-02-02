@@ -48,7 +48,9 @@ public class MemoryFacade extends DAO  {
         Memory zwrot = null;
         try {
             zwrot = (Memory) getEntityManager().createNamedQuery("Memory.findByUzer").setParameter("uzer", uzer).getSingleResult();
-        } catch (Exception ex){}
+        } catch (Exception ex){
+            System.out.println("");
+        }
         return zwrot;
     }
      

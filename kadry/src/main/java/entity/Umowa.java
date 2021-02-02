@@ -85,6 +85,9 @@ public class Umowa implements Serializable {
     @Size(max = 45)
     @Column(name = "nrkolejny")
     private String nrkolejny;
+    @Size(max = 128)
+    @Column(name = "stanowisko")
+    private String stanowisko;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "kosztyuzyskania")
     private double kosztyuzyskania;
@@ -406,6 +409,14 @@ public class Umowa implements Serializable {
     }
     public String getRok() {
         return Data.getRok(this.dataod);
+    }
+
+    public String getStanowisko() {
+        return stanowisko;
+    }
+
+    public void setStanowisko(String stanowisko) {
+        this.stanowisko = stanowisko;
     }
     
     

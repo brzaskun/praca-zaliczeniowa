@@ -72,7 +72,7 @@ public class WpisView implements Serializable {
     
     private Memory pobierzMemory() {
         Memory zwrot = memoryFacade.findByUzer(uzer);
-        if (zwrot==null&&uzer.getPesel().length()==11) {
+        if (zwrot==null&&uzer.getPesel()!=null&&uzer.getPesel().length()==11) {
             Pracownik pracownik = this.pracownik;
             if (uzer.getPesel()!=null) {
                 pracownik = pracownikFacade.findByPesel(uzer.getPesel());

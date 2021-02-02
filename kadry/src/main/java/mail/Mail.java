@@ -8,6 +8,8 @@ package mail;
  *
  * @author Osito
  */
+import entity.Firma;
+import entity.Pracownik;
 import entity.SMTPSettings;
 import error.E;
 import javax.inject.Named;
@@ -58,9 +60,9 @@ public class Mail {
             message.setRecipients(Message.RecipientType.BCC,
                     InternetAddress.parse("brzaskun@gmail.com"));
             message.setSubject("Wprowadzenie/aktualizacja danych pracownika");
-            message.setContent("Szanowny Użytkowniku,"
-                    + "<p>Twój pracodawca prosi o uzupełnienie Twoich danych"
-                    + "w naszym serwisie</p>"
+            message.setContent("Dzień dobry,"
+                    + "<p>Twój pracodawca prosi o uzupełnienie niezbędnych danych"
+                    + "w naszym serwisie kadrowo-płacowym</p>"
                     + "<p>Dane są niezbędne do rozliczeń kadrowych i płac.</p>"
                     + "<p>Teraz powinieneś zalogować się do naszego serwisu <a href=\"https://taxman.pl:8181//kadry\">https://taxman.pl:8181//kadry</a><br/>"
                     + "używając jako loginu: "+adres+" a jako hasła swojego numeru Pesel</p>"
@@ -85,6 +87,54 @@ public class Mail {
 
     public static String getFake() {
         return fake;
+    }
+
+  
+    public static void updateemailpracownik(Firma firma, String adres, SMTPSettings settings, SMTPSettings ogolne) {
+        try {
+            MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(adres));
+            message.setRecipients(Message.RecipientType.BCC,
+                    InternetAddress.parse("a.barczyk@taxman.biz.pl"));
+            message.setRecipients(Message.RecipientType.BCC,
+                    InternetAddress.parse("k.koszarek@taxman.biz.pl"));
+            message.setSubject("Aktualizacja danych w firmie "+firma.getNazwa());
+            message.setContent("Dzień dobry"
+                    + "<p>Firma "+firma.getNazwa()+" NIP "+firma.getNip()
+                    + "zaktualizowała właśnie dane swoich pracowników</p>"
+                    + stopka,  "text/html; charset=utf-8");
+            message.setHeader("Content-Type", "text/html; charset=utf-8");
+            Transport.send(message);
+        } catch (Exception e) {
+            E.e(e);
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public static void updateemailnowypracownik(Firma firma, Pracownik pracownik, String adres, SMTPSettings settings, SMTPSettings ogolne) {
+        try {
+            MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
+            message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(adres));
+            message.setRecipients(Message.RecipientType.BCC,
+                    InternetAddress.parse("a.barczyk@taxman.biz.pl"));
+            message.setRecipients(Message.RecipientType.BCC,
+                    InternetAddress.parse("k.koszarek@taxman.biz.pl"));
+            message.setSubject("Nowy pracownik w "+firma.getNazwa());
+            message.setContent("Dzień dobry"
+                    + "<p>Firma "+firma.getNazwa()+" NIP "+firma.getNip()
+                    + "dodała nowego pracownika</p>"
+                    + "<p>dodała nowego pracownika "+pracownik.getNazwiskoImie()+"</p>"
+                    + stopka,  "text/html; charset=utf-8");
+            message.setHeader("Content-Type", "text/html; charset=utf-8");
+            Transport.send(message);
+        } catch (Exception e) {
+            E.e(e);
+            throw new RuntimeException(e);
+        }
     }
     
     

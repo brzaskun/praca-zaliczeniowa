@@ -5,11 +5,14 @@
  */
 package view;
 
+import beans.IPaddress;
 import dao.PracownikFacade;
 import dao.UzFacade;
+import data.Data;
 import entity.Pracownik;
 import entity.Uz;
 import java.io.Serializable;
+import java.util.Calendar;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -51,6 +54,10 @@ public class PracownikDaneView  implements Serializable {
     public void edit() {
       if (selected!=null) {
           try {
+            selected.setIpusera(IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()));
+            Calendar calendar = Calendar.getInstance();
+            selected.setDatalogowania(Data.aktualnaDataCzas());
+            selected.setModyfikowal(wpisView.getUzer().getSecname());
             pracownikFacade.edit(selected);
             Msg.msg("Uaktualniono dane");
           } catch (Exception e) {

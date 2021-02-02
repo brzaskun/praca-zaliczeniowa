@@ -5,15 +5,22 @@
  */
 package view;
 
+import beans.IPaddress;
 import dao.AngazFacade;
 import dao.PracownikFacade;
+import dao.SMTPSettingsFacade;
+import data.Data;
 import entity.Pracownik;
+import entity.SMTPSettings;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+import mail.Mail;
 import msg.Msg;
 
 /**
@@ -31,6 +38,8 @@ public class PracodawcaDaneView  implements Serializable {
     @Inject
     private AngazFacade angazFacade;
     @Inject
+    private SMTPSettingsFacade sMTPSettingsFacade;
+    @Inject
     private Pracownik selected;
     private Pracownik selectedlista;
     @Inject
@@ -45,9 +54,13 @@ public class PracodawcaDaneView  implements Serializable {
     public void create() {
       if (selected!=null) {
           try {
+            selected.setIpusera(IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()));
+            selected.setDatalogowania(Data.aktualnaDataCzas());
+            selected.setModyfikowal(wpisView.getUzer().getLogin());
             pracownikFacade.create(selected);
             listapracownikow.add(selected);
             wpisView.setPracownik(selected);
+            maildodanonowegoprac(selected);
             selected = new Pracownik();
             Msg.msg("Dodano nowego pracownika");
           } catch (Exception e) {
@@ -57,6 +70,31 @@ public class PracodawcaDaneView  implements Serializable {
       }
     }
     
+    public void edytuj(Pracownik pracownik) {
+      if (pracownik!=null) {
+          try {
+            pracownik.setIpusera(IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()));
+            pracownik.setDatalogowania(Data.aktualnaDataCzas());
+            pracownik.setModyfikowal(wpisView.getUzer().getLogin());
+            pracownikFacade.edit(pracownik);
+            wpisView.setPracownik(pracownik);
+            Msg.msg("Zachowano zmienione dane pracownika");
+          } catch (Exception e) {
+              System.out.println("");
+              Msg.msg("e", "Błąd - nie zachowano zmian pracownika");
+          }
+      }
+    }
+    
+    public void mailbiuro() {
+        SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+        Mail.updateemailpracownik(wpisView.getFirma(),"info@taxman.biz.pl", null, findSprawaByDef);
+    }
+    
+    public void maildodanonowegoprac(Pracownik pracownik) {
+        SMTPSettings findSprawaByDef = sMTPSettingsFacade.findSprawaByDef();
+        Mail.updateemailnowypracownik(wpisView.getFirma(),pracownik,"info@taxman.biz.pl", null, findSprawaByDef);
+    }
     
     public List<Pracownik> getListapracownikow() {
         return listapracownikow;

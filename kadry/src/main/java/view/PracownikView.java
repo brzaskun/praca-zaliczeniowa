@@ -5,6 +5,7 @@
  */
 package view;
 
+import beans.IPaddress;
 import dao.AngazFacade;
 import dao.PracownikFacade;
 import data.Data;
@@ -12,9 +13,11 @@ import entity.Pracownik;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import msg.Msg;
 
 /**
@@ -22,7 +25,7 @@ import msg.Msg;
  * @author Osito
  */
 @Named
-@RequestScoped
+@ViewScoped
 public class PracownikView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
@@ -47,6 +50,8 @@ public class PracownikView  implements Serializable {
     public void create() {
       if (selected!=null) {
           try {
+            selected.setIpusera(IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()));
+            selected.setModyfikowal(wpisView.getUzer().getLogin());
             pracownikFacade.create(selected);
             lista.add(selected);
             wpisView.setPracownik(selected);
@@ -96,6 +101,22 @@ public class PracownikView  implements Serializable {
             pracownikFacade.editList(lista);
             Msg.msg("koniec");
         }
+    }
+    
+    public void edytuj(Pracownik pracownik) {
+      if (pracownik!=null) {
+          try {
+            pracownik.setIpusera(IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()));
+            pracownik.setDatalogowania(Data.aktualnaDataCzas());
+            pracownik.setModyfikowal(wpisView.getUzer().getLogin());
+            pracownikFacade.edit(pracownik);
+            wpisView.setPracownik(pracownik);
+            Msg.msg("Zachowano zmienione dane pracownika");
+          } catch (Exception e) {
+              System.out.println("");
+              Msg.msg("e", "Błąd - nie zachowano zmian pracownika");
+          }
+      }
     }
     
     public Pracownik getSelected() {

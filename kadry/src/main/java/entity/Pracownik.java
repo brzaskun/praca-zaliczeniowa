@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Pracownik.findByNazwisko", query = "SELECT p FROM Pracownik p WHERE p.nazwisko = :nazwisko")
 })
 public class Pracownik implements Serializable {
-
+private static final long serialVersionUID = 1L;
     @Basic(optional = false)
     @NotNull()
     @Size(min = 1, max = 128)
@@ -61,12 +61,6 @@ public class Pracownik implements Serializable {
     @Size(max = 128)
     @Column(name = "nazwiskorodowe")
     private String nazwiskorodowe;
-    @Size(max = 128)
-    @Column(name = "ojciec")
-    private String ojciec;
-    @Size(max = 128)
-    @Column(name = "matka")
-    private String matka;
     @Size(max = 128)
     @Column(name = "dataurodzenia")
     private String dataurodzenia;
@@ -140,8 +134,13 @@ public class Pracownik implements Serializable {
     @Size(max = 128)
     @Column(name = "paszport")
     private String paszport;
+    @Column(name = "ipusera")
+    private String ipusera;
+    @Column(name = "datalogowania")
+    private String datalogowania;
+    @Column(name = "modyfikowal")
+    private String modyfikowal;
    
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -272,22 +271,7 @@ public class Pracownik implements Serializable {
         this.nazwiskorodowe = nazwiskorodowe;
     }
 
-    public String getOjciec() {
-        return ojciec;
-    }
-
-    public void setOjciec(String ojciec) {
-        this.ojciec = ojciec;
-    }
-
-    public String getMatka() {
-        return matka;
-    }
-
-    public void setMatka(String matka) {
-        this.matka = matka;
-    }
-
+  
     public String getDataurodzenia() {
         return dataurodzenia;
     }
@@ -480,5 +464,31 @@ public class Pracownik implements Serializable {
         this.telefon = telefon;
     }
 
+    public String getIpusera() {
+        return ipusera;
+    }
+
+    public void setIpusera(String ipusera) {
+        this.ipusera = ipusera;
+    }
+
+    public String getDatalogowania() {
+        return datalogowania;
+    }
+
+    public void setDatalogowania(String datalogowania) {
+        this.datalogowania = datalogowania;
+    }
+
+   
+    public String getModyfikowal() {
+        return modyfikowal;
+    }
+
+    public void setModyfikowal(String modyfikowal) {
+        this.modyfikowal = modyfikowal;
+    }
+
+    
    
 }
