@@ -42,12 +42,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Pracownik.findByNazwisko", query = "SELECT p FROM Pracownik p WHERE p.nazwisko = :nazwisko")
 })
 public class Pracownik implements Serializable {
-private static final long serialVersionUID = 1L;
     @Basic(optional = false)
-    @NotNull()
+    @NotNull
     @Size(min = 1, max = 128)
     @Column(name = "nazwisko")
-    private String nazwisko;
+private String nazwisko;
     @Basic(optional = false)
     @NotNull()
     @Size(min = 1, max = 128)
@@ -56,31 +55,29 @@ private static final long serialVersionUID = 1L;
     @Size(max = 128)
     @Column(name = "drugieimie")
     private String drugieimie;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 128)
     @Column(name = "nazwiskorodowe")
     private String nazwiskorodowe;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 128)
     @Column(name = "dataurodzenia")
     private String dataurodzenia;
     @Size(max = 128)
     @Column(name = "miejsceurodzenia")
     private String miejsceurodzenia;
-    @Size(max = 128)
+    @Size(max = 11)
     @Column(name = "pesel")
     private String pesel;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 128)
     @Column(name = "email")
     private String email;
-     @Size(max = 128)
-    @Column(name = "telefon")
-    private String telefon;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 128)
     @Column(name = "miasto")
     private String miasto;
-    @Size(max = 128)
+     @Size(max = 128)
     @Column(name = "ulica")
     private String ulica;
     @Size(max = 128)
@@ -89,7 +86,7 @@ private static final long serialVersionUID = 1L;
     @Size(max = 128)
     @Column(name = "lokal")
     private String lokal;
-    @Size(max = 128)
+    @Size(max = 7)
     @Column(name = "kod")
     private String kod;
     @Size(max = 128)
@@ -101,13 +98,13 @@ private static final long serialVersionUID = 1L;
     @Size(max = 128)
     @Column(name = "poczta")
     private String poczta;
-     @Size(max = 128)
+    @Size(max = 45)
     @Column(name = "kraj")
     private String kraj;
     @Size(max = 128)
     @Column(name = "wojewodztwo")
     private String wojewodztwo;
-    @Size(max = 128)
+     @Size(max = 128)
     @Column(name = "datazatrudnienia")
     private String datazatrudnienia;
     @Size(max = 128)
@@ -122,7 +119,7 @@ private static final long serialVersionUID = 1L;
     @Size(max = 128)
     @Column(name = "zusid")
     private String zusid;
-    @Size(max = 128)
+    @Size(max = 1)
     @Column(name = "plec")
     private String plec;
     @Size(max = 128)
@@ -134,6 +131,12 @@ private static final long serialVersionUID = 1L;
     @Size(max = 128)
     @Column(name = "paszport")
     private String paszport;
+    @Size(max = 45)
+    @Column(name = "telefon")
+    private String telefon;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pracownik")
+    private List<Urlopprezentacja> urlopprezentacjaList;
+    private static final long serialVersionUID = 1L;
     @Column(name = "ipusera")
     private String ipusera;
     @Column(name = "datalogowania")
@@ -238,6 +241,24 @@ private static final long serialVersionUID = 1L;
         }
         return zwrot;
     }
+    public String getIpusera() {
+        return ipusera;
+    }
+    public void setIpusera(String ipusera) {
+        this.ipusera = ipusera;
+    }
+    public String getDatalogowania() {
+        return datalogowania;
+    }
+    public void setDatalogowania(String datalogowania) {
+        this.datalogowania = datalogowania;
+    }
+    public String getModyfikowal() {
+        return modyfikowal;
+    }
+    public void setModyfikowal(String modyfikowal) {
+        this.modyfikowal = modyfikowal;
+    }
 
     public String getNazwisko() {
         return nazwisko;
@@ -247,11 +268,12 @@ private static final long serialVersionUID = 1L;
         this.nazwisko = nazwisko;
     }
 
+  
     public String getImie() {
         return imie;
     }
-    
-    public void setImie(String imie){
+
+    public void setImie(String imie) {
         this.imie = imie;
     }
 
@@ -271,7 +293,6 @@ private static final long serialVersionUID = 1L;
         this.nazwiskorodowe = nazwiskorodowe;
     }
 
-  
     public String getDataurodzenia() {
         return dataurodzenia;
     }
@@ -368,6 +389,14 @@ private static final long serialVersionUID = 1L;
         this.poczta = poczta;
     }
 
+    public String getKraj() {
+        return kraj;
+    }
+
+    public void setKraj(String kraj) {
+        this.kraj = kraj;
+    }
+
     public String getWojewodztwo() {
         return wojewodztwo;
     }
@@ -448,13 +477,6 @@ private static final long serialVersionUID = 1L;
         this.paszport = paszport;
     }
 
-    public String getKraj() {
-        return kraj;
-    }
-
-    public void setKraj(String kraj) {
-        this.kraj = kraj;
-    }
 
     public String getTelefon() {
         return telefon;
@@ -464,29 +486,13 @@ private static final long serialVersionUID = 1L;
         this.telefon = telefon;
     }
 
-    public String getIpusera() {
-        return ipusera;
+    @XmlTransient
+    public List<Urlopprezentacja> getUrlopprezentacjaList() {
+        return urlopprezentacjaList;
     }
 
-    public void setIpusera(String ipusera) {
-        this.ipusera = ipusera;
-    }
-
-    public String getDatalogowania() {
-        return datalogowania;
-    }
-
-    public void setDatalogowania(String datalogowania) {
-        this.datalogowania = datalogowania;
-    }
-
-   
-    public String getModyfikowal() {
-        return modyfikowal;
-    }
-
-    public void setModyfikowal(String modyfikowal) {
-        this.modyfikowal = modyfikowal;
+    public void setUrlopprezentacjaList(List<Urlopprezentacja> urlopprezentacjaList) {
+        this.urlopprezentacjaList = urlopprezentacjaList;
     }
 
     

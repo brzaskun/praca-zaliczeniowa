@@ -14,6 +14,7 @@
     <class>entity.Kodyzawodow</class>
     <class>entity.Wynagrodzeniahistoryczne</class>
     <class>entity.Uprawnienia</class>
+    <class>entity.Urlopprezentacja</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>
