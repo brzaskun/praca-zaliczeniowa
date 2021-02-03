@@ -23,7 +23,7 @@
                             </p:selectOneMenu>
                             <p:outputLabel value="rok" for="rok" />
                             <p:inputText id="rok" value="#{kalendarzwzorView.selected.rok}" title="rok" >
-                                <p:ajax event="change" partialSubmit="true" global="false"/>
+                                <p:ajax event="change" partialSubmit="true" listener="#{kalendarzwzorView.init2()}" global="false" update="KalendarzwzormiesiacSaRokForm" />
                             </p:inputText>
                             <p:outputLabel value="miesiąc" for="mc" />
                             <p:inputText id="mc" value="#{kalendarzwzorView.selected.mc}" title="mc" >
@@ -56,6 +56,7 @@
             </p:panelGrid>
         </p:outputPanel>
         <p:outputPanel>
+            <p:panelGrid columns="2">
             <h:form id="KalendarzwzorListForm">
                 <p:panel header="Dni kalendarza wzorcowego">
                     <p:dataTable id="datalist" value="#{kalendarzwzorView.selected.dzienList}" var="itemkalendarz"
@@ -131,8 +132,19 @@
                     <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzwzorView.create}" value="#{bundle.Save}"  update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist" rendered="#{kalendarzwzorView.selected.id eq null}"/>
                     <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzwzorView.nanieszmiany}" value="nanieś pracow."  update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist" rendered="#{kalendarzwzorView.selected.id ne null}"/>
                 </p:outputPanel>
-
-            </h:form>
+           </h:form>
+                <p:outputPanel>
+                    <p:panelGrid columns="1">
+                    <h:outputText value="0 roboczy"/>
+                    <h:outputText value="1 sobota"/>
+                    <h:outputText value="2 niedziela"/>
+                    <h:outputText value="3 swieto"/>
+                    <h:outputText value="4 ekwiwalent"/>
+                    <h:outputText value=""/>
+                    <h:outputText value="kod 777 oddelegowanie"/>
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:panelGrid>
         </p:outputPanel>
     </p:dialog>
 </ui:composition>

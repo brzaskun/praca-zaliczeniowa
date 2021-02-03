@@ -46,14 +46,14 @@ public class KalendarzwzorView  implements Serializable {
     
     @PostConstruct
     private void init() {
-        lista  = kalendarzwzorFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
-        listafirm = firmaFacade.findAll();
         selected.setFirma(wpisView.getFirma());
         selected.setRok(wpisView.getRokWpisu());
+        lista  = kalendarzwzorFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
+        listafirm = firmaFacade.findAll();
     }
     
     public void init2() {
-        init();
+        lista  = kalendarzwzorFacade.findByFirmaRok(selected.getFirma(), selected.getRok());
     }
 
     public void create() {

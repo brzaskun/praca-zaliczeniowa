@@ -7,12 +7,13 @@ package view;
 
 import dao.SkladnikWynagrodzeniaFacade;
 import dao.ZmiennaWynagrodzeniaFacade;
+import data.Data;
 import entity.Skladnikwynagrodzenia;
 import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
@@ -22,7 +23,7 @@ import msg.Msg;
  * @author Osito
  */
 @Named
-@RequestScoped
+@ViewScoped
 public class ZmiennaWynagrodzeniaView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
@@ -59,6 +60,9 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
     public void create() {
       if (selected!=null && selected.getSkladnikwynagrodzenia()!=null) {
           try {
+            if (lista!=null && lista.size()>0) {
+                zakonczokrespoprzedni(lista,selected);
+            }
             zmiennaWynagrodzeniaFacade.create(selected);
             lista.add(selected);
             selected = new Zmiennawynagrodzenia();
@@ -71,6 +75,17 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
           Msg.msg("e", "Nie wybrano składnika");
       }
     }
+    
+    private void zakonczokrespoprzedni(List<Zmiennawynagrodzenia> lista, Zmiennawynagrodzenia selected) {
+        try {
+            Zmiennawynagrodzenia ostatnia = lista.get(lista.size()-1);
+            String nowadataod = selected.getDataod();
+            String wyliczonadatado = Data.odejmijdni(nowadataod, 1);
+            ostatnia.setDatado(wyliczonadatado);
+            zmiennaWynagrodzeniaFacade.edit(ostatnia);
+        } catch (Exception e) {}
+    }
+
     public void usunZmiennaWyn(Zmiennawynagrodzenia zmienna) {
         if (zmienna!=null) {
             zmiennaWynagrodzeniaFacade.remove(zmienna);
@@ -113,6 +128,7 @@ public class ZmiennaWynagrodzeniaView  implements Serializable {
         this.listaskladnikiwynagrodzenia = listaskladnikiwynagrodzenia;
     }
 
+    
 
     
     

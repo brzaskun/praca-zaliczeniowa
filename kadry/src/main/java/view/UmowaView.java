@@ -71,6 +71,8 @@ public class UmowaView  implements Serializable {
     private WpisView wpisView;
     @Inject
     private SkladnikWynagrodzeniaView skladnikWynagrodzeniaView;
+    @Inject
+    private ZmiennaWynagrodzeniaView zmiennaWynagrodzeniaView;
     private double wynagrodzemieskrot;
     
     @PostConstruct
@@ -99,6 +101,8 @@ public class UmowaView  implements Serializable {
               if (skladnikwynagrodzenia.getId()!=null && zmiennawynagrodzenie!=null){
                   Msg.msg("Dodano składniki wynagrodzania");
               }
+              skladnikWynagrodzeniaView.init();
+              zmiennaWynagrodzeniaView.init();
             }
             selected = new Umowa();
           } catch (Exception e) {

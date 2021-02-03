@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -26,7 +27,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(name = "etat")
+@Table(name = "etat", uniqueConstraints = {
+    @UniqueConstraint(columnNames={"umowa","dataod"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Etat.findAll", query = "SELECT e FROM Etat e"),

@@ -57,9 +57,10 @@
                             <p:inputText id="dataod" value="#{zmiennaWynagrodzeniaView.selected.dataod}" title="data od" placeholder="____-__-__"  required="true"/>
                             <p:outputLabel value="data do" for="datado" />
                             <p:inputText id="datado" value="#{zmiennaWynagrodzeniaView.selected.datado}" title="data do" placeholder="____-__-__" />
-                           
+                           <p:outputLabel value="brutto" for="bruttonetto" />
+                           <p:selectBooleanCheckbox id="bruttonetto" value="#{zmiennaWynagrodzeniaView.selected.brutto}"/>
                         </p:panelGrid>
-                        <p:commandButton styleClass="buttonnorm" actionListener="#{zmiennaWynagrodzeniaView.create}" value="#{bundle.Save}" update="display,:ZmiennawynagrodzeniaListForm:datalist"/>
+                        <p:commandButton styleClass="buttonnorm" actionListener="#{zmiennaWynagrodzeniaView.create}" value="#{bundle.Save}" update="ZmiennawynagrodzeniaCreateForm :ZmiennawynagrodzeniaListForm:datalist"/>
                         <p:commandButton value="#{bundle.Cancel}"/>
                     </h:panelGroup>
                 </h:form>
@@ -175,6 +176,12 @@
                                     <h:outputText value="kwota"/>
                                 </f:facet>
                                 <bcf:outputpl value="#{itemzmiennawyn.waluta}"/>
+                            </p:column>
+                             <p:column width="40" style="text-align: center;">
+                                <f:facet name="header">
+                                    <h:outputText value="brutto"/>
+                                </f:facet>
+                                 <h:outputText value="&#x2714;" rendered="#{itemzmiennawyn.brutto eq true}"/>
                             </p:column>
                             <p:column style="text-align: center;">
                                 <p:commandButton icon="fa fa-trash" actionListener="#{zmiennaWynagrodzeniaView.usunZmiennaWyn(itemzmiennawyn)}" update="north @(form)"/>

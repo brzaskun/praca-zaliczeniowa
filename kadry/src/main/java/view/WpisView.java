@@ -83,6 +83,12 @@ public class WpisView implements Serializable {
         return zwrot;
     }
     
+    private Memory createMemory() {
+            Memory zwrot = new Memory(this.uzer, uzer.getFirma(),null, Data.aktualnyRok(), Data.aktualnyMc());
+            memoryFacade.create(zwrot);
+            return zwrot;
+    }
+    
     public void zmienrok() {
         rokWpisu=String.valueOf(Integer.parseInt(rokWpisu)+1);
     }
@@ -99,7 +105,12 @@ public class WpisView implements Serializable {
         if (memory!=null) {
             memory.setRok(rokWpisu);
             memoryFacade.edit(memory);
+        } else {
+            memory = createMemory();
+            memory.setRok(rokWpisu);
+            memoryFacade.edit(memory);
         }
+                
         this.rokWpisu = rokWpisu;
     }
 
@@ -126,6 +137,10 @@ public class WpisView implements Serializable {
     public void setMiesiacWpisu(String miesiacWpisu) {
         if (memory!=null) {
             memory.setMc(miesiacWpisu);
+            memoryFacade.edit(memory);
+        } else {
+            memory = createMemory();
+            memory.setMc(rokWpisu);
             memoryFacade.edit(memory);
         }
         this.miesiacWpisu = miesiacWpisu;
@@ -165,6 +180,10 @@ public class WpisView implements Serializable {
 
     public void setPracownik(Pracownik pracownik) {
          if (memory!=null) {
+            memory.setPracownik(pracownik);
+            memoryFacade.edit(memory);
+        } else {
+            memory = createMemory();
             memory.setPracownik(pracownik);
             memoryFacade.edit(memory);
         }

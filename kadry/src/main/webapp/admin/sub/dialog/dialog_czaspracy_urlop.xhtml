@@ -23,75 +23,54 @@
             </p:panelGrid>
         <p:outputPanel>
              <h:form id="PracownikUrlopForm">
-                <p:panel header="Lista nieobecnosci">
-                    <p:dataTable id="datalist" value="#{nieobecnoscView.lista}" var="itemNieob"
-                                 selectionMode="single" selection="#{angazView.selectedlista}"
-                                 rowKey="#{itemNieob.id}"
-                                style="height: 450px; overflow-y: scroll;"
-                                 >
-                        <p:column width="40" style="text-align: center;">
-                            <f:facet name="header">
-                                <h:outputText value="id"/>
-                            </f:facet>
-                            <h:outputText value="#{itemNieob.id}"/>
-                        </p:column>
-                        <p:column width="50">
-                            <f:facet name="header">
-                                <h:outputText value="kod"/>
-                            </f:facet>
-                            <h:outputText value="#{itemNieob.nieobecnosckodzus.kod}"/>
-                        </p:column>
-                        <p:column width="400">
-                            <f:facet name="header">
-                                <h:outputText value="nazwa"/>
-                            </f:facet>
-                            <h:outputText value="#{itemNieob.nieobecnosckodzus.opis}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="data od"/>
-                            </f:facet>
-                            <h:outputText value="#{itemNieob.dataod}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="data do"/>
-                            </f:facet>
-                            <h:outputText value="#{itemNieob.datado}"/>
-                        </p:column>
-                         <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="kod zwolnienia"/>
-                            </f:facet>
-                             <h:outputText value="#{itemNieob.kodzwolnienia}"/>
-                        </p:column>
-                         <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="zus"/>
-                            </f:facet>
-                             <h:outputText value="&#x2714;" rendered="#{itemNieob.nieobecnosckodzus.spoleczne}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="podatek"/>
-                            </f:facet>
-                            <h:outputText value="&#x2714;" rendered="#{itemNieob.nieobecnosckodzus.podatek}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="naniesiona"/>
-                            </f:facet>
-                            <h:outputText value="&#x2714;" rendered="#{itemNieob.naniesiona}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="umowa"/>
-                            </f:facet>
-                            <h:outputText value="#{itemNieob.umowa.angaz.angazString}"/>
-                        </p:column>
-                    </p:dataTable>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.nieniesnakalendarz()}" value="nanieś na kal." update="NieobecnoscListForm:datalist"/>
+                
+                  <p:panelGrid columns="4" rendered="#{pracownikUrlopView.urlopprezentacja != null}">
+                        <p:outputLabel value="nazwisko i imię pracownika" for="urlopimie" />
+                        <p:inputText id="urlopimie" value="#{pracownikUrlopView.urlopprezentacja.pracownik.nazwiskoImie}" readonly="true"/>
+                        <p:outputLabel value="rok rozliczeniowy" for="urloprok" />
+                        <p:inputText id="urloprok" value="#{pracownikUrlopView.urlopprezentacja.rok}" readonly="true"/>
+                        <p:outputLabel value="zaległy rok uprzedni" for="urloplp" />
+                        <p:inputNumber id="urloplp" value="#{pracownikUrlopView.urlopprezentacja.latapoprzednie}"  size="5"  maxlength="2" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
+                        <p:outputLabel value="wymiar rok bieżący" for="urloplp1" />
+                        <p:inputNumber id="urloplp1" value="#{pracownikUrlopView.urlopprezentacja.wymiarrokbiezacy}"  size="5" maxlength="2" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
+                    </p:panelGrid>
+                <p:panel header="wykorzystanie urlopu rok biezacy" rendered="#{pracownikUrlopView.urlopprezentacja != null}">
+                    <p:panelGrid columns="12" >
+                        <h:outputText value="01"/>
+                        <h:outputText value="02"/>
+                        <h:outputText value="03"/>
+                        <h:outputText value="04"/>
+                        <h:outputText value="05"/>
+                        <h:outputText value="06"/>
+                        <h:outputText value="07"/>
+                        <h:outputText value="08"/>
+                        <h:outputText value="09"/>
+                        <h:outputText value="10"/>
+                        <h:outputText value="11"/>
+                        <h:outputText value="12"/>
+                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w1}"  size="5" maxlength="2" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
+                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w2}"  size="5" maxlength="2" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
+                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w3}"  size="5" maxlength="2" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
+                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w4}"  size="5" maxlength="2" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
+                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w5}"  size="5" maxlength="2" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
+                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w6}"  size="5" maxlength="2" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
+                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w7}"  size="5" maxlength="2" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
+                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w8}"  size="5" maxlength="2" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
+                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w9}"  size="5" maxlength="2" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
+                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w10}"  size="5" maxlength="2" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
+                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w11}"  size="5" maxlength="2" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
+                        <p:inputNumber value="#{pracownikUrlopView.urlopprezentacja.w12}"  size="5" maxlength="2" decimalPlaces="1" decimalSeparator="." inputStyle="text-align: right"/>
+                    </p:panelGrid>
                 </p:panel>
+                  <p:panelGrid columns="4" rendered="#{pracownikUrlopView.urlopprezentacja != null}">
+                        <p:outputLabel value="ekwiwalent" for="ekwiwalent" />
+                        <h:outputText id="ekwiwalent" value="#{pracownikUrlopView.urlopprezentacja.ekwiwalent}"/>
+                        <p:outputLabel value="do przeniesienia" for="przeniesienia" />
+                        <h:outputText id="przeniesienia" value="#{pracownikUrlopView.urlopprezentacja.doprzeniesienia}"/>
+                    </p:panelGrid>
+                 <p:outputPanel style="margin-top: 30px;">
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.nieniesnakalendarz()}" value="nanieś na kal." update="NieobecnoscListForm:datalist"/>
+                 </p:outputPanel>
             </h:form>
         </p:outputPanel>
     </p:dialog>

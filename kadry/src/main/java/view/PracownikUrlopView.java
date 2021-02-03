@@ -8,10 +8,11 @@ package view;
 import beans.IPaddress;
 import dao.AngazFacade;
 import dao.PracownikFacade;
-import dao.UzFacade;
+import dao.UrlopprezentacjaFacade;
 import data.Data;
 import entity.Angaz;
 import entity.Pracownik;
+import entity.Urlopprezentacja;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
@@ -36,13 +37,14 @@ public class PracownikUrlopView  implements Serializable {
     @Inject
     private PracownikFacade pracownikFacade;
     @Inject
-    private UzFacade uzFacade;
+    private UrlopprezentacjaFacade urlopprezentacjaFacade;
     @Inject
     private AngazFacade angazFacade;
     @Inject
     private WpisView wpisView;
     private List<Angaz> listapracownikow;
     private Angaz selectedangaz;
+    private Urlopprezentacja urlopprezentacja;
     
     
     @PostConstruct
@@ -71,6 +73,7 @@ public class PracownikUrlopView  implements Serializable {
         if (selectedangaz!=null) {
             selected = selectedangaz.getPracownik();
             wpisView.setPracownik(selected);
+            urlopprezentacja = urlopprezentacjaFacade.findPracownik(selected, wpisView.getRokWpisu());
             Msg.msg("Pobrano dane");
         }
     }
@@ -96,6 +99,14 @@ public class PracownikUrlopView  implements Serializable {
 
     public void setSelectedangaz(Angaz selectedangaz) {
         this.selectedangaz = selectedangaz;
+    }
+
+    public Urlopprezentacja getUrlopprezentacja() {
+        return urlopprezentacja;
+    }
+
+    public void setUrlopprezentacja(Urlopprezentacja urlopprezentacja) {
+        this.urlopprezentacja = urlopprezentacja;
     }
 
     

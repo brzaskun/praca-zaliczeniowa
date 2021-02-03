@@ -41,6 +41,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Urlopprezentacja.findByW8", query = "SELECT u FROM Urlopprezentacja u WHERE u.w8 = :w8"),
     @NamedQuery(name = "Urlopprezentacja.findByW9", query = "SELECT u FROM Urlopprezentacja u WHERE u.w9 = :w9"),
     @NamedQuery(name = "Urlopprezentacja.findByW10", query = "SELECT u FROM Urlopprezentacja u WHERE u.w10 = :w10"),
+    @NamedQuery(name = "Urlopprezentacja.findByPracownik", query = "SELECT u FROM Urlopprezentacja u WHERE u.pracownik = :pracownik"),
+    @NamedQuery(name = "Urlopprezentacja.findByPracownikRok", query = "SELECT u FROM Urlopprezentacja u WHERE u.pracownik = :pracownik AND u.rok = :rok"),
     @NamedQuery(name = "Urlopprezentacja.findByEkwiwalent", query = "SELECT u FROM Urlopprezentacja u WHERE u.ekwiwalent = :ekwiwalent"),
     @NamedQuery(name = "Urlopprezentacja.findByDoprzeniesienia", query = "SELECT u FROM Urlopprezentacja u WHERE u.doprzeniesienia = :doprzeniesienia")})
 public class Urlopprezentacja implements Serializable {
@@ -76,6 +78,10 @@ public class Urlopprezentacja implements Serializable {
     private double w9;
     @Column(name = "w10")
     private double w10;
+     @Column(name = "w11")
+    private double w11;
+      @Column(name = "w12")
+    private double w12;
     @Column(name = "ekwiwalent")
     private double ekwiwalent;
     @Column(name = "doprzeniesienia")
@@ -84,13 +90,18 @@ public class Urlopprezentacja implements Serializable {
     @ManyToOne(optional = false)
     private Pracownik pracownik;
     @Column(name = "rok", nullable = false)
-    private double rok;
+    private String rok;
 
     public Urlopprezentacja() {
     }
 
     public Urlopprezentacja(Integer id) {
         this.id = id;
+    }
+
+    public Urlopprezentacja(Pracownik pracownik, String rok) {
+        this.pracownik = pracownik;
+        this.rok = rok;
     }
 
     public Integer getId() {
@@ -197,6 +208,22 @@ public class Urlopprezentacja implements Serializable {
         this.w10 = w10;
     }
 
+    public double getW11() {
+        return w11;
+    }
+
+    public void setW11(double w11) {
+        this.w11 = w11;
+    }
+
+    public double getW12() {
+        return w12;
+    }
+
+    public void setW12(double w12) {
+        this.w12 = w12;
+    }
+
     public double getEkwiwalent() {
         return ekwiwalent;
     }
@@ -221,13 +248,15 @@ public class Urlopprezentacja implements Serializable {
         this.pracownik = pracownik;
     }
 
-    public double getRok() {
+    public String getRok() {
         return rok;
     }
 
-    public void setRok(double rok) {
+    public void setRok(String rok) {
         this.rok = rok;
     }
+
+  
 
     
     @Override
