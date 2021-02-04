@@ -937,23 +937,9 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         }
     }
 
-    public Dokfk findDokfkLastofaTypeKontrahent(Podatnik podatnik, String seriadokfk, Klienci kontr, String rok) {
-        try {
-            return (Dokfk)  getEntityManager().createNamedQuery("Dokfk.findByLastofaTypeKontrahent").setParameter("podatnik", podatnik).setParameter("seriadokfk", seriadokfk).setParameter("kontr", kontr).setParameter("rok", rok).setMaxResults(1).getSingleResult();
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
+    
 
-    public Dok findDokLastofaTypeKontrahent(Podatnik podatnik, Klienci kontr, String pkpirR) {
-        try {
-            return (Dok)  getEntityManager().createNamedQuery("Dok.findByfindByLastofaTypeKontrahent").setParameter("podatnik", podatnik).setParameter("kontr", kontr).setParameter("pkpirR", pkpirR).setMaxResults(1).getSingleResult();
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
+    
 
     public Tabelanbp findByDateWaluta(String datatabeli, String nazwawaluty) {
         return (Tabelanbp)  getEntityManager().createNamedQuery("Tabelanbp.findByDatatabeliSymbolwaluty").setParameter("datatabeli", datatabeli).setParameter("symbolwaluty", nazwawaluty).getSingleResult();

@@ -25,20 +25,20 @@ import comparator.PodatnikEwidencjaDokcomparator;
 import comparator.Rodzajedokcomparator;
 import comparator.Transakcjacomparator;
 import comparator.TransakcjacomparatorKwota;
+import dao.CechazapisuDAOfk;
+import dao.DokDAOfk;
+import dao.EVatwpisFKDAO;
 import dao.EvewidencjaDAO;
 import dao.FakturaDAO;
 import dao.JPKOznaczeniaDAO;
 import dao.KlienciDAO;
+import dao.KliencifkDAO;
+import dao.KontoDAOfk;
 import dao.PodatnikEwidencjaDokDAO;
+import dao.RMKDAO;
 import dao.RodzajedokDAO;
 import dao.STRDAO;
 import dao.StronaWierszaDAO;
-import dao.CechazapisuDAOfk;
-import dao.DokDAOfk;
-import dao.EVatwpisFKDAO;
-import dao.KliencifkDAO;
-import dao.KontoDAOfk;
-import dao.RMKDAO;
 import dao.TabelanbpDAO;
 import dao.TransakcjaDAO;
 import dao.WalutyDAOfk;
@@ -84,15 +84,14 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import javax.ejb.EJBException;
-import javax.inject.Named;
-
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.ArrayDataModel;
 import javax.faces.model.DataModel;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 import org.joda.time.DateTime;
 import org.primefaces.PrimeFaces;
@@ -1595,7 +1594,10 @@ public class DokfkView implements Serializable {
                 PrimeFaces.current().ajax().update("formwpisdokument:acForce");
             } else {
                 if (selected.getKontr() != null) {
-                        poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt(), ostatniedokumenty);
+                    poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt(), ostatniedokumenty);
+                    if (poprzedniDokument == null) {
+                        poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokUprzedniSt(), ostatniedokumenty);
+                    }
                     if (poprzedniDokument != null) {
                         selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
                         PrimeFaces.current().ajax().update("formwpisdokument:opisdokumentu");

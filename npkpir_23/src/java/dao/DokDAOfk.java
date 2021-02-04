@@ -249,7 +249,7 @@ public class DokDAOfk extends DAO implements Serializable {
            return null;
        }
     }
-    
+
     public Dokfk findDokfkLastofaTypeKontrahent(Podatnik podatnik, String seriadokfk, Klienci kontr, String rok, Set<Dokfk> listaostatnich) {
         Dokfk zwrot = null;
         try {
@@ -262,7 +262,7 @@ public class DokDAOfk extends DAO implements Serializable {
                 }
             }
             if (zwrot == null) {
-                zwrot = sessionFacade.findDokfkLastofaTypeKontrahent(podatnik, seriadokfk, kontr, rok);
+                zwrot = (Dokfk)  getEntityManager().createNamedQuery("Dokfk.findByLastofaTypeKontrahent").setParameter("podatnik", podatnik).setParameter("seriadokfk", seriadokfk).setParameter("kontr", kontr).setParameter("rok", rok).setMaxResults(1).getSingleResult();
             }
         } catch (Exception e) {
 

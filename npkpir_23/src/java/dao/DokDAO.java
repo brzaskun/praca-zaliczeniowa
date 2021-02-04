@@ -174,11 +174,13 @@ public class DokDAO extends DAO implements Serializable {
     }
    
      public Dok findDokLastofaKontrahent(Podatnik podatnik, Klienci kontr, String rok) {
+       Dok zwrot = null;
        try {
-           return dokFacade.findDokLastofaTypeKontrahent(podatnik, kontr,rok);
+           zwrot = (Dok)  getEntityManager().createNamedQuery("Dok.findByfindByLastofaTypeKontrahent").setParameter("podatnik", podatnik).setParameter("kontr", kontr).setParameter("pkpirR", rok).setMaxResults(1).getSingleResult();
        } catch (Exception e ){
-           return null;
+           
        }
+       return zwrot;
     }
 
     public Dok znajdzDokumentInwestycja(WpisView wpisView, Dok r) {
