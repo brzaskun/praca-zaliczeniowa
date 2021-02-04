@@ -86,6 +86,7 @@
                          selection="#{dokfkGuestView.selected}" rowKey="#{item}" selectionMode="single" 
                          style="width: 1250px;" filteredValue="#{dokfkGuestView.filteredValue}"
                          emptyMessage="#{mgs.niepobrano}" styleClass="gridZaksiegowane" 
+                         rowsPerPageTemplate="150,300,500,1000" paginatorPosition="top" paginator="#{dokfkGuestView.wykazZaksiegowanychDokumentow.size() gt 150 ? 'true':'false'}" rows="150"
                          >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
                 <p:ajax event="filter" global="false"/>
