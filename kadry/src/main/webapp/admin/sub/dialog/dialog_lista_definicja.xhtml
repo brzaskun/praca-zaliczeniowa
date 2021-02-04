@@ -23,7 +23,7 @@
                         <p:outputLabel value="data zus" for="datazus" />
                         <p:inputText id="datazus" value="#{definicjalistaplacView.selected.datazus}" title="data zus"  styleClass="datalistadef" required="true"/>
                         <p:outputLabel value="nr kolejny" for="nrkolejny" />
-                        <p:inputText id="nrkolejny" value="#{definicjalistaplacView.selected.nrkolejny}" title="nr kolejny"  required="true"/>
+                        <p:inputText id="nrkolejny" value="#{definicjalistaplacView.selected.nrkolejny}" title="nr kolejny"  styleClass="datalistadef" required="true"/>
                         <p:outputLabel value="opis" for="opis" />
                         <p:inputText id="opis" value="#{definicjalistaplacView.selected.opis}" title="opis}" />
                         <p:outputLabel value="rodzaj listy plac" for="rodzajlistyplac" />
@@ -45,10 +45,14 @@
                                            itemValue="#{firmalistaItem}" itemLabel="#{firmalistaItem.nazwa}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{definicjalistaplacView.edytuj}" value="#{bundle.Edit}" update="display,:DefinicjalistaplacListForm:datalist" rendered="#{definicjalistaplacView.selected.id ne null}"/>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{definicjalistaplacView.create}" value="#{bundle.Save}" update="display,:DefinicjalistaplacListForm:datalist" rendered="#{definicjalistaplacView.selected.id eq null}" />
-                    <p:commandButton value="#{bundle.Cancel}" onclick="DefinicjalistaplacCreateDialog.hide()"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{definicjalistaplacView.edytuj}" value="#{bundle.Edit}" update="display,:DefinicjalistaplacListForm:datalist DefinicjalistaplacgenerujForm" rendered="#{definicjalistaplacView.selected.id ne null}"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{definicjalistaplacView.create}" value="#{bundle.Save}" update="display,:DefinicjalistaplacListForm:datalist DefinicjalistaplacgenerujForm" rendered="#{definicjalistaplacView.selected.id eq null}" />
                 </h:panelGroup>
+            </h:form>
+        </p:outputPanel>
+        <p:outputPanel style="height: 50px">
+            <h:form id="DefinicjalistaplacgenerujForm">
+                <p:commandButton styleClass="buttonnorm" actionListener="#{definicjalistaplacView.createrok}" value="generuj rok" update="display,:DefinicjalistaplacListForm:datalist" rendered="#{definicjalistaplacView.lista.size() gt 0}" />
             </h:form>
         </p:outputPanel>
         <p:outputPanel>
@@ -121,6 +125,14 @@
                             </f:facet>
                             <h:outputText value="#{itemdeflisty.firma.nazwa}"/>
                         </p:column>
+                         <p:column>
+                            <f:facet name="header">
+                            </f:facet>
+                            <h:outputText value="#{itemdeflisty.firma.nazwa}"/>
+                        </p:column>
+                        <p:column width="40" style="text-align: center;">
+                            <p:commandButton icon="fa fa-trash" actionListener="#{definicjalistaplacView.usun(itemdeflisty)}" update="north, @(form)"/>
+                        </p:column><!-- comment -->
                     </p:dataTable>
                 </p:panel>
             </h:form>

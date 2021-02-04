@@ -23,7 +23,7 @@
                             </p:selectOneMenu>
                             <p:outputLabel value="rok" for="rok" />
                             <p:inputText id="rok" value="#{kalendarzmiesiacView.selected.rok}" title="rok" >
-                                <p:ajax event="blur" listener="#{kalendarzmiesiacView.pobierzkalendarzeprac}" partialSubmit="true" global="false" update="KalendarzmiesiacSaRokForm"/>
+                                <p:ajax event="blur" listener="#{kalendarzmiesiacView.pobierzkalendarzeprac}" partialSubmit="true" global="false" update=":KalendarzmiesiacListForm:datalist KalendarzmiesiacSaRokForm"/>
                             </p:inputText>
                             <p:outputLabel value="miesiąc" for="mc" />
                             <p:inputText id="mc" value="#{kalendarzmiesiacView.selected.mc}" title="miesiąc" >

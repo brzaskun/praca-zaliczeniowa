@@ -50,22 +50,27 @@ public class KalendarzmiesiacView  implements Serializable {
         if (selectedlista!=null) {
             selected = selectedlista;
         }
-        listaumowa =  umowaFacade.findPracownik(wpisView.getPracownik());
+        selected.setRok(wpisView.getRokWpisu());
+        selected.setMc(wpisView.getMiesiacWpisu());
+        listaumowa =  umowaFacade.findPracownikFirma(wpisView.getPracownik(), wpisView.getFirma());
         pobierzkalendarzeprac();
     }
 
     public void create() {
       if (selectedlista!=null) {
           try {
-            kalendarzmiesiacFacade.edit(selectedlista);
-            if (!listakalendarzeprac.contains(selectedlista)) {
-                listakalendarzeprac.add(selectedlista);
+            if (selectedlista.getId()==null) {
+                kalendarzmiesiacFacade.create(selectedlista);
+                if (!listakalendarzeprac.contains(selectedlista)) {
+                    listakalendarzeprac.add(selectedlista);
+                }
+                Msg.msg("Dodano nowy kalendarz dla pracownika");
+            } else {
+                kalendarzmiesiacFacade.edit(selectedlista);
+                Msg.msg("Edytowano nowy kalendarz dla pracownika");
             }
             wpisView.setRokWpisu(selected.getRok());
             wpisView.setMiesiacWpisu(selected.getMc());
-            selected = new Kalendarzmiesiac();
-            selectedlista = null;
-            Msg.msg("Dodano nowy kalendarz dla pracownika");
           } catch (Exception e) {
               System.out.println("");
               Msg.msg("e", "Błąd - nie dodano kalendarza dla pracownika");

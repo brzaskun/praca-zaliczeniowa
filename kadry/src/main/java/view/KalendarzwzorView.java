@@ -9,10 +9,12 @@ import beanstesty.KalendarzWzorBean;
 import dao.FirmaFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
+import dao.UmowaFacade;
 import embeddable.Mce;
 import entity.Firma;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
+import entity.Umowa;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -41,6 +43,8 @@ public class KalendarzwzorView  implements Serializable {
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
     @Inject
     private FirmaFacade firmaFacade;
+    @Inject
+    private UmowaFacade umowaFacade;
     @Inject
     private WpisView wpisView;
     
@@ -142,6 +146,27 @@ public class KalendarzwzorView  implements Serializable {
         }
     }
       
+    
+    public void implementuj() {
+        if (selected!=null) {
+            List<Umowa> listaumowa = umowaFacade.findPracownikFirma(wpisView.getPracownik(), wpisView.getFirma());
+            for (Umowa u : listaumowa) {
+                if (u.nalezydomiesiaca(selected.getRok(), selected.getMc())) {
+                    Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(u.getAngaz().getFirma(), selected.getRok(), selected.getMc());
+                    if (znaleziono!=null) {
+                        Kalendarzmiesiac kalendarzmiesiac = new Kalendarzmiesiac();
+                        kalendarzmiesiac.setRok(selected.getRok());
+                        kalendarzmiesiac.setMc(selected.getMc());
+                        kalendarzmiesiac.setUmowa(u);
+                        kalendarzmiesiac.ganerujdnizwzrocowego(znaleziono, null);
+                    } 
+                }
+            }
+            Msg.msg("Zaimplantowano kalendarz wzorcowy u wszystkich");
+        }
+    }
+    
+    
     public Kalendarzwzor getSelected() {
         return selected;
     }

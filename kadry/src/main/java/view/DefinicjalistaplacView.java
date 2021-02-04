@@ -9,6 +9,7 @@ import dao.DefinicjalistaplacFacade;
 import dao.FirmaFacade;
 import dao.RodzajlistyplacFacade;
 import data.Data;
+import embeddable.Mce;
 import entity.Definicjalistaplac;
 import entity.Firma;
 import entity.Rodzajlistyplac;
@@ -36,7 +37,7 @@ public class DefinicjalistaplacView  implements Serializable {
     private List<Firma> listafirm;
     private List<Rodzajlistyplac> listarodzajlistyplac;
     @Inject
-    private DefinicjalistaplacFacade definicjalistaplac;
+    private DefinicjalistaplacFacade definicjalistaplacFacade;
     @Inject
     private RodzajlistyplacFacade rodzajlistyplacFacade;
     @Inject
@@ -46,7 +47,7 @@ public class DefinicjalistaplacView  implements Serializable {
     
     @PostConstruct
     private void init() {
-        lista  = definicjalistaplac.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
+        lista  = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
         listafirm = firmaFacade.findAll();
         listarodzajlistyplac = rodzajlistyplacFacade.findAll();
         selected.setOpis("lista główna");
@@ -55,7 +56,7 @@ public class DefinicjalistaplacView  implements Serializable {
     public void create() {
       if (selected!=null) {
           try {
-            definicjalistaplac.create(selected);
+            definicjalistaplacFacade.create(selected);
             lista.add(selected);
             selected = new Definicjalistaplac();
             Msg.msg("Dodano nową definicję listy płac");
@@ -66,11 +67,53 @@ public class DefinicjalistaplacView  implements Serializable {
       }
     }
     
+    public void createrok() {
+        if (lista!=null && lista.size()==1) {
+            Definicjalistaplac sel = lista.get(0);
+            for (int i = 2; i <13 ;i++) {
+                try {
+                    selected = new Definicjalistaplac();
+                    String rok = Data.getRok(sel.getDatasporzadzenia());
+                    String mc = Data.getMc(sel.getDatasporzadzenia());
+                    String dzien = Data.getDzien(sel.getDatasporzadzenia());
+                    String[] zwiekszone = Mce.zwiekszmiesiac(rok, mc);
+                    rok = zwiekszone[0];
+                    mc = zwiekszone[1];
+                    String lewaczesc = rok+"-"+mc+"-";
+                    selected.setDatasporzadzenia(lewaczesc+dzien);
+                    zwiekszone = Mce.zwiekszmiesiac(rok, mc);
+                    String rokN = zwiekszone[0];
+                    String mcN = zwiekszone[1];
+                    lewaczesc = rokN+"-"+mcN+"-";
+                    selected.setDatazus(lewaczesc+"15");
+                    selected.setRodzajlistyplac(sel.getRodzajlistyplac());
+                    selected.setDatapodatek(lewaczesc+"20");
+                    selected.setMc(mc);
+                    selected.setOpis(sel.getOpis());
+                    selected.setRok(rok);
+                    selected.setFirma(wpisView.getFirma());
+                    selected.setNrkolejny(rok+"/"+mc);
+                    selected.setId(null);
+                    definicjalistaplacFacade.create(selected);
+                    sel = selected;
+                } catch (Exception e) {}
+                
+            }
+            lista  = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
+            Msg.msg("Wygenerowano listy na cały rok");  
+            
+        } else {
+            Msg.msg("e","Lista jest pusta lub ma wiecej pozycji niż jedna");
+        }
+    }
+    
     public void edytuj() {
       if (selected!=null) {
           try {
-            definicjalistaplac.edit(selected);
+            definicjalistaplacFacade.edit(selected);
              selected = new Definicjalistaplac();
+             selected.setOpis("lista główna");
+             
             Msg.msg("Zachowano zmiany edycji definicji listy płac");
           } catch (Exception e) {
               System.out.println("");
@@ -81,12 +124,18 @@ public class DefinicjalistaplacView  implements Serializable {
 
     public void uzupelnijdatylisty() {
         if (selected!=null && selected.getDatasporzadzenia()!=null) {
-            String lewaczesc = Data.getCzescDaty(selected.getDatasporzadzenia(), 3);
+            String rok = Data.getRok(selected.getDatasporzadzenia());
+            String mc = Data.getMc(selected.getDatasporzadzenia());
+            String[] zwiekszone = Mce.zwiekszmiesiac(rok, mc);
+            rok = zwiekszone[0];
+            mc = zwiekszone[1];
+            String lewaczesc = rok+"-"+mc+"-";
             selected.setDatazus(lewaczesc+"15");
             selected.setDatapodatek(lewaczesc+"20");
             selected.setMc(wpisView.getMiesiacWpisu());
             selected.setRok(wpisView.getRokWpisu());
             selected.setFirma(wpisView.getFirma());
+            selected.setNrkolejny(wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu());
         }
     }
     
@@ -97,6 +146,18 @@ public class DefinicjalistaplacView  implements Serializable {
           } else {
               Msg.msg("e","Nie wybrano definicji");
           }
+    }
+    
+    public void usun(Definicjalistaplac def) {
+        if (def!=null) {
+            definicjalistaplacFacade.remove(def);
+            lista.remove(def);
+            selected = new Definicjalistaplac();
+            selected.setOpis("lista główna");
+            Msg.msg("Usunieto definicje");
+        } else {
+            Msg.msg("e", "Nie wybrano definicji");
+        }
     }
     
     public Definicjalistaplac getSelected() {

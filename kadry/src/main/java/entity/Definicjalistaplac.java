@@ -19,7 +19,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -75,8 +74,6 @@ public class Definicjalistaplac implements Serializable {
     @JoinColumn(name = "rodzajlistyplac", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Rodzajlistyplac rodzajlistyplac;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "definicjalistaplac")
-    private Pasekwynagrodzen pasekwynagrodzen;
     @JoinColumn(name = "firma", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Firma firma;
@@ -132,12 +129,6 @@ public class Definicjalistaplac implements Serializable {
     }
     public void setFirma(Firma firma) {
         this.firma = firma;
-    }
-    public Pasekwynagrodzen getPasekwynagrodzen() {
-        return pasekwynagrodzen;
-    }
-    public void setPasekwynagrodzen(Pasekwynagrodzen pasekwynagrodzen) {
-        this.pasekwynagrodzen = pasekwynagrodzen;
     }
 
     public String getDatapodatek() {

@@ -252,8 +252,10 @@ public class PdfListaPlac {
                 sb.append(" ");
                 sb.append(rs.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getOpisskrocony());
                 sb.append(" ");
-                sb.append(rs.getSkladnikwynagrodzenia().getUwagi());
-                sb.append(" ");
+                if (rs.getSkladnikwynagrodzenia().getUwagi()!=null) {
+                    sb.append(rs.getSkladnikwynagrodzenia().getUwagi());
+                    sb.append(" ");
+                }
                 if (Z.z(rs.getKwotazredukowana())!=0.0&&Z.z(rs.getKwotazredukowana())!=Z.z(rs.getKwota())) {
                     sb.append(formatujWaluta(rs.getKwotazredukowana()));
                     sb.append(";  ");
