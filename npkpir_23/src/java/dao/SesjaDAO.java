@@ -48,29 +48,32 @@ public class SesjaDAO extends DAO implements Serializable {
     
  
    public  List<Sesja> findUser(String user){
+       List<Sesja> zwrot = null;
         try {
-            return getEntityManager().createNamedQuery("Sesja.findByUzytkownik").setParameter("uzytkownik", user).getResultList();
+            zwrot = getEntityManager().createNamedQuery("Sesja.findByUzytkownik").setParameter("uzytkownik", user).getResultList();
         } catch (Exception e) { E.e(e); 
-            return null;
         }
+        return zwrot;
    }
 
 
     public Sesja find(String nrsesji) {
+        Sesja zwrot = null;
         try {
-            return (Sesja)  getEntityManager().createNamedQuery("Sesja.findByNrsesji").setParameter("nrsesji", nrsesji).getSingleResult();
+            zwrot = (Sesja)  getEntityManager().createNamedQuery("Sesja.findByNrsesji").setParameter("nrsesji", nrsesji).getSingleResult();
         } catch (Exception e) {
             E.e(e);
-            return null;
         }
-
+        return zwrot;
     }
 
     public List<Sesja> findSesjaZalogowani() {
+        List<Sesja> zwrot = null;
         try {
-            return getEntityManager().createNamedQuery("Sesja.findByZalogowani").getResultList();
+            zwrot = getEntityManager().createNamedQuery("Sesja.findByZalogowani").getResultList();
         } catch (Exception e) { E.e(e); 
-            return null;
+            
         }
+        return zwrot;
     }
 }

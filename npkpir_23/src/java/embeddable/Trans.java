@@ -4,21 +4,18 @@
  */
 package embeddable;
 
-import dao.PodatnikDAO;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import view.WpisView;
 /**
  *
  * @author Osito
  */
 @Named
-@RequestScoped
+@SessionScoped
 public class Trans implements Serializable{
 
     private static final List<String> transList;
@@ -74,11 +71,7 @@ public class Trans implements Serializable{
     public static List<String> getTransList() {
         return transList;
     }
-    @Inject
-    private PodatnikDAO podatnikDAO;
-     
-    @Inject
-    private WpisView wpisView;
+
 
     
     public Trans() {
@@ -86,14 +79,6 @@ public class Trans implements Serializable{
 
     public List<String> getTransListView() {
         return transList;
-    }
-
-    public WpisView getWpisView() {
-        return wpisView;
-    }
-
-    public void setWpisView(WpisView wpisView) {
-        this.wpisView = wpisView;
     }
 
     

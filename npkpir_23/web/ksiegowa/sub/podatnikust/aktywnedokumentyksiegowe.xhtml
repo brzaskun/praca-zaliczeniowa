@@ -82,7 +82,7 @@
                     <h:outputText value=" rodzaj transakcji: " />
                     <p:selectOneMenu value="#{podatnikView.selectedDokKsi.rodzajtransakcji}" >
                         <f:selectItem itemLabel="wybierz" itemValue="-1" noSelectionOption="true"/>
-                        <f:selectItems value="#{Trans.transListView}"/>
+                        <f:selectItems value="#{trans.transListView}"/>
                     </p:selectOneMenu>
                     <h:outputText value=" wzorzec:* " />
                     <p:inputText value="#{podatnikView.selectedDokKsi.wzorzec}" />
