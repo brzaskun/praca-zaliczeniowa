@@ -9,15 +9,15 @@ import beansRegon.SzukajDaneBean;
 import comparator.Kontocomparator;
 import comparator.Podatnikcomparator;
 import dao.DokDAO;
+import dao.DokDAOfk;
 import dao.KlienciDAO;
+import dao.KontoDAOfk;
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.RodzajedokDAO;
 import dao.UzDAO;
 import dao.ZUSDAO;
-import dao.DokDAOfk;
-import dao.KontoDAOfk;
 import data.Data;
 import embeddable.Parametr;
 import embeddable.Udzialy;
@@ -51,12 +51,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.event.ValueChangeListener;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import msg.Msg;
 import org.joda.time.DateTime;
@@ -1266,28 +1266,29 @@ private DokDAO dokDAO;
                     for (Rodzajedok tmp : dokumentyBiezacegoPodatnikaRokPoprzedni) {
                         try {
                             boolean odnaleziono = false;
-                            for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
+                            for (Rodzajedok r : dokumentyBiezacegoPodatnika) {
                                 if (r.getSkrot().equals(tmp.getSkrot())) {
                                     odnaleziono = true;
-                                    if (r.getOznaczenie1()==null) {
+                                    if (r.getOznaczenie1() == null) {
                                         r.setOznaczenie1(tmp.getOznaczenie1());
                                     }
-                                    if (r.getOznaczenie2()==null) {
+                                    if (r.getOznaczenie2() == null) {
                                         r.setOznaczenie2(tmp.getOznaczenie2());
-                                    }}
-                                    if (tmp.getKontoRZiS()!=null) {
+                                    }
+                                    if (tmp.getKontoRZiS() != null) {
                                         r.setKontoRZiS(tmp.getKontoRZiS());
                                     }
-                                    if (tmp.getKontorozrachunkowe()!=null) {
+                                    if (tmp.getKontorozrachunkowe() != null) {
                                         r.setKontorozrachunkowe(tmp.getKontorozrachunkowe());
                                     }
-                                    if (tmp.getKontovat()!=null) {
+                                    if (tmp.getKontovat() != null) {
                                         r.setKontovat(tmp.getKontovat());
                                     }
                                     KontaFKBean.nanieskonta(r, kontoDAOfk);
                                     rodzajedokDAO.edit(r);
                                     break;
                                 }
+                            }
                             if (odnaleziono == false) {
                                 Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
                                 nowy.setRok(wpisView.getRokWpisuSt());
@@ -1353,6 +1354,7 @@ private DokDAO dokDAO;
                     }
             }
         } catch (Exception ex) {
+            System.out.println("");
         }
     }
 

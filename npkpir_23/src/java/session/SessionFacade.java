@@ -41,12 +41,10 @@ import entity.PodatnikOpodatkowanieD;
 import entity.PodatnikUdzialy;
 import entity.Podstawki;
 import entity.Pozycjenafakturze;
-import entity.Rejestrlogowan;
 import entity.Rodzajedok;
 import entity.Ryczpoz;
 import entity.SMTPSettings;
 import entity.SchemaEwidencja;
-import entity.Sesja;
 import entity.Sprawa;
 import entity.SrodekTrw;
 import entity.Srodkikst;
@@ -201,14 +199,7 @@ public class SessionFacade<T> implements Serializable {
         return zwrot;
     }
 
-    public Sesja findSesja(String nrsesji) {
-        try {
-            return (Sesja)  getEntityManager().createNamedQuery("Sesja.findByNrsesji").setParameter("nrsesji", nrsesji).getSingleResult();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
+    
     public Podstawki findPodstawkiyear(Integer rok) {
         Podstawki tmp = (Podstawki)  getEntityManager().createNamedQuery("Podstawki.findByRok").setParameter("rok", rok).getSingleResult();
         return tmp;
@@ -979,9 +970,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         }
     }
 
-    public List<Sesja> findUser(String user) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Sesja.findByUzytkownik").setParameter("uzytkownik", user).getResultList());
-    }
+    
 
     public Collection<? extends Dokfk> findDokByTypeYear(String BO, String rok) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Dokfk.findBySeriaRokdokfk").setParameter("seriadokfk", BO).setParameter("rok", rok).getResultList());
@@ -1268,14 +1257,9 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Dokfk.findByPodatnikRokKategoriaOrderByNo").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).setParameter("kategoria", kategoria).getResultList());
     }
 
-    public Rejestrlogowan findRejestrlogowanByIP(String ipusera) {
-        return (Rejestrlogowan)  getEntityManager().createNamedQuery("Rejestrlogowan.findByIpusera").setParameter("ipusera", ipusera).getSingleResult();
-    }
+    
 
-    public List<Rejestrlogowan> RejestrlogowanfindByLiczbalogowan0() {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Rejestrlogowan.findByIloscLogowan0").getResultList());
-    }
-
+    
     public List<Podatnik> findAktywnyPodatnik() {
         List<Podatnik> zwrot = Collections.synchronizedList( getEntityManager().createNamedQuery("Podatnik.findByPodmiotaktywny").getResultList());
         System.out.println("POBRAŁEM PODATNIKÓW AKTYWNYCH");
@@ -2366,9 +2350,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return Collections.synchronizedList( getEntityManager().createNamedQuery("EVatwpisFK.findByRokKW").setParameter("podatnik", podatnikWpisu).setParameter("pkpirR", rokWpisuSt).setParameter("mc1", mce.get(0)).setParameter("mc2", mce.get(1)).setParameter("mc3", mce.get(2)).getResultList());
     }
 
-    public List<Sesja> findSesjaZalogowani() {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Sesja.findByZalogowani").getResultList());
-    }
+   
 
     public String findEVatwpisFKPodatnikKlient(Podatnik podatnikObiekt, Klienci klient, String rok) {
         return ((EVatwpisFK)  getEntityManager().createNamedQuery("EVatwpisFK.findEVatwpisFKPodatnikKlient").setParameter("podatnik", podatnikObiekt).setParameter("klient", klient).setParameter("rok", rok).setMaxResults(1).getSingleResult()).getOpisvat();

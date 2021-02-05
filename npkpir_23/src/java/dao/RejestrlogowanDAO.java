@@ -52,18 +52,19 @@ public class RejestrlogowanDAO  extends DAO implements Serializable {
     public RejestrlogowanDAO(Class entityClass) {
         super(entityClass);
     }
+    
 
-    public Rejestrlogowan findByIP(String ip) {
+    public Rejestrlogowan findByIP(String ipusera) {
         Rejestrlogowan zwrot = null;
         try {
-            zwrot = sessionFacade.findRejestrlogowanByIP(ip);
+            zwrot = (Rejestrlogowan)  getEntityManager().createNamedQuery("Rejestrlogowan.findByIpusera").setParameter("ipusera", ipusera).getSingleResult();
         } catch (Exception e){}
         return zwrot;
     }
 
-    
+
     public List<Rejestrlogowan> findByLiczbalogowan0() {
-        return sessionFacade.RejestrlogowanfindByLiczbalogowan0();
+        return  getEntityManager().createNamedQuery("Rejestrlogowan.findByIloscLogowan0").getResultList();
     }
 
   
