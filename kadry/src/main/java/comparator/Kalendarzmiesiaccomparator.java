@@ -20,8 +20,8 @@ public class Kalendarzmiesiaccomparator implements Comparator<Kalendarzmiesiac> 
 
     @Override
     public int compare(Kalendarzmiesiac o1, Kalendarzmiesiac o2) {
-        String datao1 = o1.getNazwiskoImie().toLowerCase();
-        String datao2 = o2.getNazwiskoImie().toLowerCase();
+        String datao1 = o1.getNazwiskoImie().toLowerCase(new Locale("pl", "PL"));
+        String datao2 = o2.getNazwiskoImie().toLowerCase(new Locale("pl", "PL"));
         Collator collator = Collator.getInstance(new Locale("pl", "PL"));
         collator.setStrength(Collator.PRIMARY);
         return collator.compare(datao1, datao2);

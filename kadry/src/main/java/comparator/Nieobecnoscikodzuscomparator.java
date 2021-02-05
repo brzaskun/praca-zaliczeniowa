@@ -20,8 +20,8 @@ public class Nieobecnoscikodzuscomparator implements Comparator<Nieobecnosckodzu
 
     @Override
     public int compare(Nieobecnosckodzus o1, Nieobecnosckodzus o2) {
-        String datao1 = o1.getOpis().toLowerCase();
-        String datao2 = o2.getOpis().toLowerCase();
+        String datao1 = o1.getOpisskrocony().toLowerCase(new Locale("pl", "PL"));
+        String datao2 = o2.getOpisskrocony().toLowerCase(new Locale("pl", "PL"));
         Collator collator = Collator.getInstance(new Locale("pl", "PL"));
         collator.setStrength(Collator.PRIMARY);
         return collator.compare(datao1, datao2);
