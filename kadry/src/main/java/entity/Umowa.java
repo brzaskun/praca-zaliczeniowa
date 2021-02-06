@@ -138,6 +138,8 @@ public class Umowa implements Serializable {
     private List<Skladnikpotracenia> skladnikpotraceniaList;
     @OneToMany(mappedBy = "umowa", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList;
+     @Column(name = "aktywna")
+    private  boolean aktywna;
 
     public Umowa() {
         this.etatList = new ArrayList<>();
@@ -410,6 +412,14 @@ public class Umowa implements Serializable {
     }
     public String getRok() {
         return Data.getRok(this.dataod);
+    }
+
+    public boolean isAktywna() {
+        return aktywna;
+    }
+
+    public void setAktywna(boolean aktywna) {
+        this.aktywna = aktywna;
     }
 
     public String getStanowisko() {

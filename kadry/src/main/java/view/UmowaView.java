@@ -88,6 +88,11 @@ public class UmowaView  implements Serializable {
       if (selected!=null && wpisView.getAngaz()!=null) {
           try {
             selected.setAngaz(wpisView.getAngaz());
+            for (Umowa p : lista) {
+                p.setAktywna(false);
+            }
+            selected.setAktywna(true);
+            umowaFacade.editList(lista);
             umowaFacade.create(selected);
             lista.add(selected);
             Etat etat = new Etat(selected);
@@ -274,6 +279,17 @@ public class UmowaView  implements Serializable {
         return zmiennawynagrodzenia;
     }
     
+    public void oznaczjakoaktywna() {
+        if (selectedlista!=null) {
+            for (Umowa p : lista) {
+                p.setAktywna(false);
+            }
+            umowaFacade.editList(lista);
+            selectedlista.setAktywna(true);
+            umowaFacade.edit(selectedlista);
+            Msg.msg("Oznaczono umowę");
+        }
+    }
     
     public Umowa getSelected() {
         return selected;

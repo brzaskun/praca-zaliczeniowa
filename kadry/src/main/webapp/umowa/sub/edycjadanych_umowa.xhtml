@@ -139,7 +139,7 @@
         <p:outputPanel>
             <h:form id="UmowaListForm">
                 <p:panel header="Wykaz umów">
-                    <p:dataTable id="datalist" value="#{umowaView.lista}" var="itemumowa"
+                    <p:dataTable id="datalist" value="#{umowaView.lista}" var="itemumowa" widgetVar="dataListumowa"
                                  selectionMode="single" selection="#{umowaView.selectedlista}"
                                  rowKey="#{itemumowa.id}"
                                  style="height: 200px; overflow-y: scroll;"
@@ -155,19 +155,19 @@
                             <f:facet name="header">
                                 <h:outputText value="angaz"/>
                             </f:facet>
-                             <h:outputText value="#{itemumowa.angaz.pracownik.nazwiskoImie}"/>
+                             <h:outputText value="#{itemumowa.angaz.pracownik.nazwiskoImie}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
                         </p:column>
                         <p:column width="200">
                             <f:facet name="header">
                                 <h:outputText value="rodzaj umowy"/>
                             </f:facet>
-                            <h:outputText value="#{itemumowa.umowakodzus.opis}"/>
+                            <h:outputText value="#{itemumowa.umowakodzus.opis}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="odliczac ulge podatkowa"/>
                             </f:facet>
-                            <h:outputText value="&#x2714;" rendered="#{itemumowa.odliczaculgepodatkowa eq true}"/>
+                            <h:outputText value="&#x2714;" rendered="#{itemumowa.odliczaculgepodatkowa eq true}" style="color: #{itemumowa.aktywna eq true ? 'green':'initial'}"/>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
@@ -268,6 +268,9 @@
                         </p:column>
                     </p:dataTable>
                 </p:panel>
+                  <p:contextMenu for="datalist" style="width: 200px;">
+                        <p:menuitem value="oznacz jako aktywną" icon="fa fa-star" actionListener="#{umowaView.oznaczjakoaktywna()}" update="@form"/>
+                  </p:contextMenu>
             </h:form>
         </p:outputPanel>
 </ui:composition>
