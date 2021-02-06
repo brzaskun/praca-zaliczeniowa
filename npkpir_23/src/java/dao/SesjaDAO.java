@@ -9,18 +9,15 @@ import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import session.SessionFacade;
 
 /**
  *
  * @author Osito
  */
 public class SesjaDAO extends DAO implements Serializable {
-   @Inject private SessionFacade sesjaFacade;
-      @PersistenceContext(unitName = "npkpir_22PU")
+    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
     @PreDestroy

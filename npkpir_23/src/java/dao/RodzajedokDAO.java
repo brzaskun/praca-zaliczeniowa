@@ -56,7 +56,15 @@ public class RodzajedokDAO extends DAO implements Serializable{
     }
     
     public Rodzajedok find(String skrot, Podatnik podatnik, String rok){
-        return rodzajedokFacade.findRodzajedokPodatnikRok(skrot, podatnik, rok);
+        Rodzajedok wynik = null;
+        try {
+            wynik = (Rodzajedok)  getEntityManager().createNamedQuery("Rodzajedok.findBySkrotPodatnikRok").setParameter("skrot", skrot).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
+            
+        } catch (Exception e) {
+            E.e(e);
+
+        }
+        return wynik;
     }
     
        
@@ -69,10 +77,12 @@ public class RodzajedokDAO extends DAO implements Serializable{
         return zwrot;
    }
 
+    
+    
     public List<Rodzajedok> findListaPodatnik(Podatnik podatnik, String rok) {
         List<Rodzajedok> zwrot = null;
         try {
-            zwrot =  rodzajedokFacade.findListaPodatnik(podatnik, rok);
+            zwrot =  getEntityManager().createNamedQuery("Rodzajedok.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
         } catch (Exception e) { E.e(e); 
         }
         return zwrot;
@@ -97,7 +107,7 @@ public class RodzajedokDAO extends DAO implements Serializable{
     
     public List<Rodzajedok> findListaPodatnikEdycja(Podatnik podatnik, String rok) {
         try {
-            List<Rodzajedok> lista = rodzajedokFacade.findListaPodatnik(podatnik, rok);
+            List<Rodzajedok> lista = getEntityManager().createNamedQuery("Rodzajedok.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
             if (lista != null) {
                 for (Iterator<Rodzajedok> it = lista.iterator(); it.hasNext();) {
                     Rodzajedok p = it.next();

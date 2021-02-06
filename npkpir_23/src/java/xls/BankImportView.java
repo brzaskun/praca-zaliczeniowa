@@ -7,12 +7,12 @@ package xls;
 
 import beansFK.DialogWpisywanie;
 import dao.BankImportWzoryDAO;
-import dao.KlienciDAO;
-import dao.RodzajedokDAO;
-import dao.StronaWierszaDAO;
 import dao.DokDAOfk;
+import dao.KlienciDAO;
 import dao.KliencifkDAO;
 import dao.KontoDAOfk;
+import dao.RodzajedokDAO;
+import dao.StronaWierszaDAO;
 import dao.TabelanbpDAO;
 import dao.WalutyDAOfk;
 import dao.WierszDAO;
@@ -187,6 +187,7 @@ public class BankImportView implements Serializable {
     
     private Map<String, Konto> zrobibankonto() {
         List<Wiersz> wiersze = wierszDAO.pobierzWierszeMcDokImportIBAN(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        wiersze.addAll(wierszDAO.pobierzWierszeMcDokImportIBAN(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt()));
         Map<String,Konto> lista = new HashMap<>();
         if (wiersze!=null && wiersze.size()>0) {
             for (Wiersz p : wiersze) {

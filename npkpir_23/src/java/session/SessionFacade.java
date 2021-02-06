@@ -205,15 +205,9 @@ public class SessionFacade<T> implements Serializable {
         return tmp;
     }
 
-    public Podatnik findPodatnikNP(String np) {
-        Podatnik tmp = (Podatnik)  getEntityManager().createNamedQuery("Podatnik.findByNazwapelna").setParameter("nazwapelna", np).getSingleResult();
-        return tmp;
-    }
+    
 
-    public Podatnik findPodatnikNPN(String np) {
-        Podatnik tmp = (Podatnik)  getEntityManager().createNamedQuery("Podatnik.findByNip").setParameter("nip", np).getSingleResult();
-        return tmp;
-    }
+    
 
     public Platnosci findPlatnosciPK(PlatnosciPK key) throws Exception {
         Platnosci tmp = (Platnosci)  getEntityManager().createNamedQuery("Platnosci.findByKey").setParameter("podatnik", key.getPodatnik()).setParameter("rok", key.getRok()).setParameter("miesiac", key.getMiesiac()).getSingleResult();
@@ -309,17 +303,7 @@ public class SessionFacade<T> implements Serializable {
         return wynik;
     }
 
-    public Rodzajedok findRodzajedokPodatnikRok(String skrot, Podatnik podatnik, String rok) {
-        Rodzajedok wynik = null;
-        try {
-            wynik = (Rodzajedok)  getEntityManager().createNamedQuery("Rodzajedok.findBySkrotPodatnikRok").setParameter("skrot", skrot).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
-            
-        } catch (Exception e) {
-            E.e(e);
-
-        }
-        return wynik;
-    }
+    
 
     public List<Amodok> findAmodok(String podatnik) {
         List<Amodok> tmp =  getEntityManager().createNamedQuery("Amodok.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
@@ -714,10 +698,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Faktura.findByWystawcanazwaRok").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).getResultList());
     }
 
-    public List<Faktura> findByPodatnikRokMc(Podatnik podatnik, String rok, String mc) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Faktura.findByWystawcanazwaRokMc").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList());
-    }
-
+    
     public List<Faktura> findByPodatnikRokMcPlatnosci(Podatnik podatnik, String rok, String mc, boolean niezaplacone0zaplacone1) {
         if (niezaplacone0zaplacone1 == false) {
             return Collections.synchronizedList( getEntityManager().createNamedQuery("Faktura.findByWystawcanazwaRokMcNiezaplacone").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList());
@@ -1070,21 +1051,8 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
     }
 
 
-    public List<Podatnik> findPodatnikFK() {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Podatnik.findByFirmafk").setParameter("firmafk", 1).getResultList());
-    }
-
-    public List<Podatnik> findPodatnikNieFK() {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Podatnik.findByFirmafk").setParameter("firmafk", 0).getResultList());
-    }
-
-    public List<Podatnik> findPodatnikFKPkpir() {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Podatnik.findByFirmafk").setParameter("firmafk", 3).getResultList());
-    }
-
-    public List<Podatnik> findPodatnikZUS() {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Podatnik.findByZUS").getResultList());
-    }
+    
+  
 
     public List<Konto> findKontoPodatnik(Podatnik podatnik, String rok) {
         return  getEntityManager().createNamedQuery("Konto.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
@@ -1266,12 +1234,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return zwrot;
     }
     
-    public List<Podatnik> findAktywnyPodatnikRO() {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Podatnik.findByPodmiotaktywny")
-                .setHint(QueryHints.READ_ONLY, HintValues.TRUE)
-                .setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE)
-                .getResultList());
-    }
+    
 
     public int usunniezaksiegowane(String podatnik) {
         return  getEntityManager().createNamedQuery("Rozrachunekfk.usunNiezaksiegowane").setParameter("podatnik", podatnik).executeUpdate();
@@ -1316,14 +1279,6 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return (Klienci)  getEntityManager().createNamedQuery("Klienci.findByNpelna").setParameter("npelna", nazwapelna).getSingleResult();
     }
 
-    public Klienci findKlientByNip(String nip) {
-        try {
-            return (Klienci)  getEntityManager().createNamedQuery("Klienci.findByNip").setParameter("nip", nip).getSingleResult();
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
     
     public List<String> findKlientByNipXX() {
         try {
@@ -1449,9 +1404,6 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
 
     
 
-    public List<Rodzajedok> findListaPodatnik(Podatnik podatnik, String rok) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Rodzajedok.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
-    }
     
     public List<Rodzajedok> findListaPodatnikNull(Podatnik podatnik) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Rodzajedok.findByPodatnikNull").setParameter("podatnik", podatnik).getResultList());

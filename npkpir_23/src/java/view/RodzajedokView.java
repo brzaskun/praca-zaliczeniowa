@@ -19,11 +19,10 @@ import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.inject.Named;
-
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
  import org.primefaces.PrimeFaces;
 
@@ -66,8 +65,11 @@ public class RodzajedokView implements Serializable {
             rok = Data.aktualnyRok();
             Podatnik podatnikwspolny = podatnikDAO.findPodatnikByNIP("0001005008");
             listaWspolnych = rodzajedokDAO.findListaPodatnik(podatnikwspolny, rok);
-            listaPodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             jpkoznaczenia = jPKOznaczeniaDAO.findAll();
+            try {
+                listaPodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                Collections.sort(listaPodatnika, new Rodzajedokcomparator());
+            } catch (Exception e){}
 //            //automatycznie uzupelnia liste podatnika o nowo dodane do wzorcow
 //            if (!wpisView.getPodatnikObiekt().getNip().equals("0001005008")) {
 //                for (Rodzajedok zrodlo : listaWspolnych) {
@@ -84,7 +86,7 @@ public class RodzajedokView implements Serializable {
 //                }
 //            }
 //            listaPodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
-            Collections.sort(listaPodatnika, new Rodzajedokcomparator());
+            
             Collections.sort(listaWspolnych, new Rodzajedokcomparator());
             
 //        } catch (Exception e) { 

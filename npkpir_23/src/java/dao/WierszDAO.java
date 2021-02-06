@@ -10,14 +10,13 @@ import entityfk.Tabelanbp;
 import entityfk.Wiersz;
 import error.E;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import session.SessionFacade;
 
 /**
  *
@@ -28,8 +27,6 @@ import session.SessionFacade;
 public class WierszDAO extends DAO implements Serializable {
     private static final long serialVersionUID = 1L;
     
-    @Inject
-    private SessionFacade sessionFacade;
    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
@@ -52,13 +49,13 @@ public class WierszDAO extends DAO implements Serializable {
     }  
  
     public List<Wiersz> findWierszeRok(String rok){
-        return sessionFacade.getEntityManager().createNamedQuery("Wiersz.findByRok").setParameter("rok", rok).getResultList();
+        return getEntityManager().createNamedQuery("Wiersz.findByRok").setParameter("rok", rok).getResultList();
     }
     
     public List<Wiersz> pobierzWiersze(Tabelanbp tabelanbp, Podatnik podatnik, String rok) {
-        List<Wiersz> zwrot = null;
+        List<Wiersz> zwrot = new ArrayList<>();
         try {
-            zwrot = sessionFacade.getEntityManager().createNamedQuery("Wiersz.findByPodatnikRokTabela").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("tabelanbp", tabelanbp).getResultList();
+            zwrot = getEntityManager().createNamedQuery("Wiersz.findByPodatnikRokTabela").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("tabelanbp", tabelanbp).getResultList();
         } catch (Exception e) {
             E.e(e);
         }
@@ -66,9 +63,9 @@ public class WierszDAO extends DAO implements Serializable {
     }
     
     public List<Wiersz> pobierzWierszeMcDok(Podatnik podatnik, String rok, String mc, String rodzajdok) {
-        List<Wiersz> zwrot = null;
+        List<Wiersz> zwrot = new ArrayList<>();
         try {
-            zwrot = sessionFacade.getEntityManager().createNamedQuery("Wiersz.findByPodatnikRokMcSeria").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mc", mc).setParameter("rodzajdok", rodzajdok).getResultList();
+            zwrot = getEntityManager().createNamedQuery("Wiersz.findByPodatnikRokMcSeria").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mc", mc).setParameter("rodzajdok", rodzajdok).getResultList();
         } catch (Exception e) {
             E.e(e);
         }
@@ -76,9 +73,9 @@ public class WierszDAO extends DAO implements Serializable {
     }
     
     public List<Wiersz> pobierzWierszeMcDokImportIBAN(Podatnik podatnik, String rok) {
-        List<Wiersz> zwrot = null;
+        List<Wiersz> zwrot = new ArrayList<>();
         try {
-            zwrot = sessionFacade.getEntityManager().createNamedQuery("Wiersz.findByPodatnikRokMcImport").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+            zwrot = getEntityManager().createNamedQuery("Wiersz.findByPodatnikRokMcImport").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
         } catch (Exception e) {
             E.e(e);
         }
@@ -86,9 +83,9 @@ public class WierszDAO extends DAO implements Serializable {
     }
     
     public List<Wiersz> pobierzWierszeRok(Podatnik podatnik, String rok) {
-        List<Wiersz> zwrot = null;
+        List<Wiersz> zwrot = new ArrayList<>();
         try {
-            zwrot = sessionFacade.getEntityManager().createNamedQuery("Wiersz.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+            zwrot = getEntityManager().createNamedQuery("Wiersz.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
         } catch (Exception e) {
             E.e(e);
         }

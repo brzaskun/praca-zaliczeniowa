@@ -14,6 +14,7 @@ import beansMail.SMTPBean;
 import beansRegon.SzukajDaneBean;
 import comparator.Fakturyokresowecomparator;
 import dao.DokDAO;
+import dao.DokDAOfk;
 import dao.EvewidencjaDAO;
 import dao.FakturaDAO;
 import dao.FakturaDodPozycjaKontrahentDAO;
@@ -22,14 +23,13 @@ import dao.FakturadodelementyDAO;
 import dao.FakturaelementygraficzneDAO;
 import dao.FakturywystokresoweDAO;
 import dao.KlienciDAO;
+import dao.KliencifkDAO;
+import dao.KontoDAOfk;
 import dao.LogofakturaDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDAO;
 import dao.RodzajedokDAO;
 import dao.SMTPSettingsDAO;
-import dao.DokDAOfk;
-import dao.KliencifkDAO;
-import dao.KontoDAOfk;
 import dao.TabelanbpDAO;
 import dao.WalutyDAOfk;
 import data.Data;
@@ -70,12 +70,12 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import mail.MailOther;
@@ -237,7 +237,7 @@ public class FakturaView implements Serializable {
         mailplussms = true;
         fakturyokresowe = fakturywystokresoweDAO.findPodatnikBiezace(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         Collections.sort(fakturyokresowe, new Fakturyokresowecomparator());
-        List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu());
+        List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         boolean czybiuro = wpisView.getPodatnikObiekt().getNip().equals("8511005008");
 //        if (czybiuro) {
 //            boolean czyszef = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser().equals("szef");
@@ -1107,7 +1107,8 @@ public class FakturaView implements Serializable {
     }
     
     
-    public void zaksiegujUOdbiorcow(List<Faktura> lista) throws Exception {
+    public void zaksiegujUOdbiorcow(List<Faktura> lista){
+        if (lista!=null && lista.size()>0) {
         for (Faktura p : lista) {
             Klienci odbiorca = p.getKontrahent();
             Podatnik  wystawca = p.getWystawca();
@@ -1115,21 +1116,31 @@ public class FakturaView implements Serializable {
                 Podatnik podatnikdocelowy = podatnikDAO.findPodatnikByNIP(odbiorca.getNip());
                 if (podatnikdocelowy!=null) {
                     Klienci wystawcajakoklient = klienciDAO.findKlientByNip(wystawca.getNip());
-                    int pkpir0fk1 = zwrocFormaOpodatkowania(podatnikdocelowy, p.getRok());
-                    String miesiac = p.getDatawystawienia().substring(5, 7);
-                    String rok = p.getDatawystawienia().substring(0, 4);
-                    boolean vatowiec = nievat0vat1(podatnikdocelowy, Integer.parseInt(rok), miesiac);
-                    if (pkpir0fk1==0) {
-                        if (vatowiec) {
-                            ksiegowaniePkpirVAT(p, podatnikdocelowy, wystawcajakoklient, 1, "ZZ");
-                        } else {
-                            ksiegowaniePkpir(p, podatnikdocelowy, wystawcajakoklient, 1, "RACH");
+                    if (wystawcajakoklient!=null) {
+                        int pkpir0fk1 = zwrocFormaOpodatkowania(podatnikdocelowy, p.getRok());
+                        String miesiac = Data.getMc(p.getDatawystawienia());
+                        String rok = Data.getRok(p.getDatawystawienia());
+                        boolean vatowiec = nievat0vat1(podatnikdocelowy, Integer.parseInt(rok), miesiac);
+                        try {
+                            if (pkpir0fk1==0) {
+                                if (vatowiec) {
+                                    ksiegowaniePkpirVAT(p, podatnikdocelowy, wystawcajakoklient, 1, "ZZ");
+                                } else {
+                                    ksiegowaniePkpir(p, podatnikdocelowy, wystawcajakoklient, 1, "RACH");
+                                }
+                            } else {
+                                ksiegowanieFK(p, podatnikdocelowy, wystawcajakoklient, 1, vatowiec);
+                            }
+                        } catch (Exception e) {
+                            Msg.msg("e","Błąd przy generowaniu dokumentu");
                         }
-                    } else {
-                        ksiegowanieFK(p, podatnikdocelowy, wystawcajakoklient, 1, vatowiec);
                     }
                 }
             }
+        }
+        Msg.msg("Zaksięgowano dokumenty");
+        } else {
+            Msg.msg("e","Nie wybrano faktur do zaksięgowania u odbiorcy");
         }
     }
     
@@ -1225,7 +1236,7 @@ public class FakturaView implements Serializable {
             selDokument.setStatus("bufor");
             selDokument.setUsunpozornie(false);
             selDokument.setDataWyst(faktura.getDatawystawienia());
-            selDokument.setDataSprz(faktura.getDatawystawienia());
+            selDokument.setDataSprz(faktura.getDatasprzedazy());
             selDokument.setKontr(kontrahent);
             selDokument.setTabelanbp(p.getTabelanbp());
             Rodzajedok rodzajedok = rodzajedokDAO.find(rodzajdokumentu, podatnik, wpisView.getRokWpisuSt());

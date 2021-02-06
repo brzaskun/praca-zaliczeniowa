@@ -185,7 +185,7 @@ public class PodatnikView implements Serializable {
             nazwaWybranegoPodatnika = uz.getPodatnik().getPrintnazwa();
             selected = uz.getPodatnik();
             //zrobdokumenty();
-            weryfikujlisteDokumentowPodatnika();
+            weryfikujlisteDokumentowPodatnika(selected, wpisView.getRokWpisuSt(), wpisView.getRokUprzedniSt());
             zweryfikujBazeBiezacegoPodatnika();
             uzupelnijListyKont();
             selectedStrata = podatnikDAO.find(wpisView.getPodatnikWpisu());
@@ -1248,18 +1248,32 @@ private DokDAO dokDAO;
         rodzajeDokumentowLista.remove(rodzajDokKsi);
         Msg.msg("i", "Usunięto wzor dokumentu", "akordeon:form6");
     }
+    
+    public void nowyrokdokumenty(String rok) {
+        List<Podatnik> listapodatnikow = podatnikDAO.findAll();
+        if (listapodatnikow != null) {
+            for (Podatnik p : listapodatnikow) {
+                if (p.isPodmiotaktywny()) {
+                    try {
+                        weryfikujlisteDokumentowPodatnika(p, rok, String.valueOf(Integer.parseInt(rok) - 1));
+                    } catch (Exception e) {
+                    }
+                }
+            }
+            Msg.msg("Skopiowano dokumenty podatnikow do nowego roku");
+        }
+    }
 
-    public void weryfikujlisteDokumentowPodatnika() {
-        selected = wpisView.getPodatnikObiekt();
-        List<Rodzajedok> dokumentyBiezacegoPodatnika = rodzajedokDAO.findListaPodatnik(selected, wpisView.getRokWpisuSt());
-        List<Rodzajedok> dokumentyBiezacegoPodatnikaRokPoprzedni = rodzajedokDAO.findListaPodatnik(selected, wpisView.getRokUprzedniSt());
+    public void weryfikujlisteDokumentowPodatnika(Podatnik selected, String rok, String rokpoprzedni) {
+        List<Rodzajedok> dokumentyBiezacegoPodatnika = rodzajedokDAO.findListaPodatnik(selected, rok);
+        List<Rodzajedok> dokumentyBiezacegoPodatnikaRokPoprzedni = rodzajedokDAO.findListaPodatnik(selected, rokpoprzedni);
         Podatnik podatnikwspolny = podatnikDAO.findPodatnikByNIP("0001005008");
-        List<Rodzajedok> wspolnedokumentypodatnikow = rodzajedokDAO.findListaPodatnik(podatnikwspolny, wpisView.getRokWpisuSt());
+        List<Rodzajedok> wspolnedokumentypodatnikow = rodzajedokDAO.findListaPodatnik(podatnikwspolny, rok);
         if (((dokumentyBiezacegoPodatnikaRokPoprzedni==null||dokumentyBiezacegoPodatnikaRokPoprzedni.isEmpty()) && dokumentyBiezacegoPodatnika.isEmpty()) && (wspolnedokumentypodatnikow!=null && !wspolnedokumentypodatnikow.isEmpty())) {
             dokumentyBiezacegoPodatnikaRokPoprzedni = wspolnedokumentypodatnikow;
         }
         List<Rodzajedok> ogolnaListaDokumentow = rodzajedokView.getListaWspolnych();
-        List<Konto> konta = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<Konto> konta = kontoDAOfk.findWszystkieKontaPodatnika(selected, rokpoprzedni);
         try {
             if (konta!=null && konta.size()>0) {
                 if (dokumentyBiezacegoPodatnikaRokPoprzedni!=null && !dokumentyBiezacegoPodatnikaRokPoprzedni.isEmpty()) {
@@ -1291,7 +1305,7 @@ private DokDAO dokDAO;
                             }
                             if (odnaleziono == false) {
                                 Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
-                                nowy.setRok(wpisView.getRokWpisuSt());
+                                nowy.setRok(rok);
                                 nowy.setPodatnikObj(selected);
                                 KontaFKBean.nanieskonta(nowy, kontoDAOfk);
                                 rodzajedokDAO.create(nowy);
@@ -1316,7 +1330,7 @@ private DokDAO dokDAO;
                         if (odnaleziono == false) {
                             Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
                             nowy.setPodatnikObj(selected);
-                            nowy.setRok(wpisView.getRokWpisuSt());
+                            nowy.setRok(rok);
                             nowy.setKontoRZiS(null);
                             nowy.setKontorozrachunkowe(null);
                             nowy.setKontovat(null);
@@ -1342,7 +1356,7 @@ private DokDAO dokDAO;
                             if (odnaleziono == false) {
                                 Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
                                 nowy.setPodatnikObj(selected);
-                                nowy.setRok(wpisView.getRokWpisuSt());
+                                nowy.setRok(rok);
                                 nowy.setKontoRZiS(null);
                                 nowy.setKontorozrachunkowe(null);
                                 nowy.setKontovat(null);

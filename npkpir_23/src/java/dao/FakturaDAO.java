@@ -42,6 +42,7 @@ public class FakturaDAO extends DAO implements Serializable {
         error.E.s("koniec jpa");
     }
 
+    @Override
     protected EntityManager getEntityManager() {
         return em;
     }
@@ -148,13 +149,15 @@ public class FakturaDAO extends DAO implements Serializable {
             return null;
         }
     }
-    
+
     public List<Faktura> findbyPodatnikRokMc(Podatnik podatnik, String rok, String mc) {
+        List<Faktura> zwrot = new ArrayList<>();
          try {
-            return fakturaFacade.findByPodatnikRokMc(podatnik, rok, mc);
-        } catch (Exception e) { E.e(e); 
-            return null;
+            zwrot = getEntityManager().createNamedQuery("Faktura.findByWystawcanazwaRokMc").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList();
+        } catch (Exception e) { 
+            E.e(e); 
         }
+        return zwrot;
     }
     
     public List<Faktura> findbyPodatnikRokMcPlatnosci(Podatnik podatnik, String rok, String mc, boolean niezaplacone0zaplacone1) {
