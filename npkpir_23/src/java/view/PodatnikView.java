@@ -148,6 +148,7 @@ public class PodatnikView implements Serializable {
     private KlienciDAO klDAO;
     private CommandButton but1;
     private CommandButton but2;
+    private String rokgenerowanie;
     
     
 
@@ -201,6 +202,7 @@ public class PodatnikView implements Serializable {
         formyprawne.add(FormaPrawna.STOWARZYSZENIE);
         formyprawne.add(FormaPrawna.FEDERACJA);
         formyprawne.add(FormaPrawna.FUNDACJA);
+        rokgenerowanie = Data.aktualnyRok();
         wybranyPodatnikOpodatkowanie.setDatarozpoczecia(wpisView.getRokWpisuSt()+"-01-01");
         wybranyPodatnikOpodatkowanie.setDatazakonczenia(wpisView.getRokWpisuSt()+"-12-31");
         wybranyPodatnikOpodatkowanie.setSymbolroku(wpisView.getRokWpisuSt());
@@ -1249,13 +1251,13 @@ private DokDAO dokDAO;
         Msg.msg("i", "Usunięto wzor dokumentu", "akordeon:form6");
     }
     
-    public void nowyrokdokumenty(String rok) {
+    public void nowyrokdokumenty() {
         List<Podatnik> listapodatnikow = podatnikDAO.findAll();
         if (listapodatnikow != null) {
             for (Podatnik p : listapodatnikow) {
                 if (p.isPodmiotaktywny()) {
                     try {
-                        weryfikujlisteDokumentowPodatnika(p, rok, String.valueOf(Integer.parseInt(rok) - 1));
+                        weryfikujlisteDokumentowPodatnika(p, rokgenerowanie, String.valueOf(Integer.parseInt(rokgenerowanie) - 1));
                     } catch (Exception e) {
                     }
                 }
@@ -2030,6 +2032,14 @@ public void przygotujedycjeopodatkowanie() {
 
     public void setBut2(CommandButton but2) {
         this.but2 = but2;
+    }
+
+    public String getRokgenerowanie() {
+        return rokgenerowanie;
+    }
+
+    public void setRokgenerowanie(String rokgenerowanie) {
+        this.rokgenerowanie = rokgenerowanie;
     }
 
 }

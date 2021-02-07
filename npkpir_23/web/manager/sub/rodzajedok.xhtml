@@ -8,6 +8,15 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
     <bcf:ajaxs/>
+     <p:outputPanel style="margin-top: 50px;margin-left: 50px;">
+        <h:form>
+            <p:panelGrid columns="3">
+                <p:outputLabel value="wybierz rok do generowania"/>
+                <p:inputText value="#{podatnikView.rokgenerowanie}"/>
+                <p:commandButton value="generuj nowy rok" actionListener="#{podatnikView.nowyrokdokumenty()}" />
+            </p:panelGrid>
+        </h:form>
+    </p:outputPanel>
     <h:form id="form" >
         <h:outputText value="Rodzaje dokumentów księgowych dla WSZYSTKICH naszych klientów" style="font-size: 15px"/>
         <p:growl life="3600"  id="messages" showDetail="true" ><p:autoUpdate/></p:growl>
@@ -166,10 +175,6 @@
                 <h:outputText value="****Dotyczy faktur typu ZZP(samochodowych od 2019). Wpisać tylko gdy inny niż 100%. Format wpisu dla osobowych: 75"/>
         </p:panelGrid>
     </h:form>
-    <p:outputPanel style="margin-top: 50px;margin-left: 50px;">
-        <h:form>
-            <p:commandButton value="generuj nowy rok" actionListener="#{podatnikView.nowyrokdokumenty(rodzajedokView.rok)}" />
-        </h:form>
-    </p:outputPanel>
+   
 </ui:composition>   
 

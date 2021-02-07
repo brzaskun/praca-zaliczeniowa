@@ -275,16 +275,18 @@ public class WpisView implements Serializable {
     }
     
     private void czytojetsbiuroiszef() {
-        biuroiszef = true;
-        boolean czybiuro = getPodatnikObiekt().getNip().equals("8511005008");
-        if (czybiuro) {
-            biuroiszef = false;
-            boolean czyszef = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser().equals("szef");
-            boolean czyrenata = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser().equals("renata");
-            if (czyszef || czyrenata) {
-                biuroiszef = true;
+        try {
+            biuroiszef = true;
+            boolean czybiuro = getPodatnikObiekt().getNip().equals("8511005008");
+            if (czybiuro) {
+                biuroiszef = false;
+                boolean czyszef = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser().equals("szef");
+                boolean czyrenata = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser().equals("renata");
+                if (czyszef || czyrenata) {
+                    biuroiszef = true;
+                }
             }
-        }
+        } catch (Exception e) {}
     }
     
      public void aktualizuj(){
