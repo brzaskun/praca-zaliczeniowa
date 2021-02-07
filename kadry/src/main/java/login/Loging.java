@@ -24,16 +24,15 @@ import view.WpisView;
  */
 @Named
 @ViewScoped
-public class Logowanie implements Serializable {
+public class Loging implements Serializable {
 
     private String uzytkownik;
     private String haslo;
-    private int liczniklogowan;
     @Inject
     private UzFacade uzFacade;
     @Inject WpisView wpisView;
 
-    public Logowanie() {
+    public Loging() {
        
     }
 

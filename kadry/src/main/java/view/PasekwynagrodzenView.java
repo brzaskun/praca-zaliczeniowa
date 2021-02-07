@@ -112,7 +112,7 @@ public class PasekwynagrodzenView  implements Serializable {
                     paskidowyliczeniapodstawy = pobierzpaskidosredniej(p);
                     historiawynagrodzen = wynagrodzeniahistoryczneFacade.findByAngaz(p.getUmowa().getAngaz());
                 }
-                Pasekwynagrodzen pasek = PasekwynagrodzenBean.oblicz(p, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy);
+                Pasekwynagrodzen pasek = PasekwynagrodzenBean.oblicz(p, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy, historiawynagrodzen);
                 usunpasekjakzawiera(pasek);
                 lista.add(pasek);
             }

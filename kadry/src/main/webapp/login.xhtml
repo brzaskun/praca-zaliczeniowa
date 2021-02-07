@@ -48,20 +48,20 @@
                     <p:focus id="focus" context="logowaniepanel"/>
                     <p:panelGrid id="logowaniepanel" columns="2" style="margin-left: auto; margin-right: auto; margin-top: 4%; width: 350px; text-align: center;">
                         <h:outputText id="loginnazwa" value="#{mgs.login}"/>
-                        <h:inputText value="#{logowanie.uzytkownik}" accesskey="s" required="true" style="width: 150px;" requiredMessage="Wpisz login!" 
+                        <h:inputText value="#{loging.uzytkownik}" accesskey="s" required="true" style="width: 150px;" requiredMessage="Wpisz login!" 
                                       >
-<!--                            <p:ajax event="blur" listener="#{logowanie.ustawLocale(logowanie.uzytkownik)}" partialSubmit="true" global="false"  
+<!--                            <p:ajax event="blur" listener="#{loging.ustawLocale(loging.uzytkownik)}" partialSubmit="true" global="false"  
                                     oncomplete="r('formlog1:haslo').focus();" 
                                     update="formlog1:loginnazwa formlog1:loginhaslo formlog1:logowaniebutton infologowanie logowanieprzyciskigorne"/>-->
                         </h:inputText>
                         <h:outputText id="loginhaslo" value="#{mgs.haslo}"/>
-                        <h:inputSecret id="haslo" value="#{logowanie.haslo}" required="true" style="width: 150px;" requiredMessage="Wpisz hasło!" autocomplete="true" redisplay="true"/>
+                        <h:inputSecret id="haslo" value="#{loging.haslo}" required="true" style="width: 150px;" requiredMessage="Wpisz hasło!" autocomplete="true" redisplay="true"/>
                     </p:panelGrid>
                     <br/>
 <!--                    test-->
                     <p:panelGrid id="logowaniebutton" columns="2" style="margin-left: auto; margin-right: auto; width: 350px; text-align: center; border: none !important;">
                         <p:defaultCommand target="zaloguj"/>
-                        <p:commandButton id="zaloguj" value="#{mgs.zaloguj}" action="#{logowanie.login()}" ajax="false"
+                        <p:commandButton id="zaloguj" value="#{mgs.zaloguj}" action="#{loging.login()}" ajax="false"
                                        styleClass="loginbutton" style="width: 150px; text-align: center;">
                         </p:commandButton>
                     </p:panelGrid>
