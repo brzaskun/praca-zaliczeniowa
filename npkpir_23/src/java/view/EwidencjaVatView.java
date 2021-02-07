@@ -160,7 +160,7 @@ public class EwidencjaVatView implements Serializable {
         aktualizuj();
         init();
         stworzenieEwidencjiZDokumentow(wpisView.getPodatnikObiekt());
-        Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu(),"form:messages");
+        Msg.msg("i","Udana zamiana klienta. Aktualny klient to: " +wpisView.getPodatnikWpisu()+" okres rozliczeniowy: "+wpisView.getRokWpisu()+"/"+wpisView.getMiesiacWpisu());
     }
     
     private void aktualizuj(){
