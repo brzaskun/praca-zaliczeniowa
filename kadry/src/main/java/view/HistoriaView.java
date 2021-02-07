@@ -113,8 +113,8 @@ public class HistoriaView  implements Serializable {
         listawynagrodzenhistoria = new ArrayList<>();
         List<Umowa> umowy = selectedangaz.getUmowaList();
         if (umowy!=null && umowy.size()==1) {
-            Umowa umowa = umowy.get(0);
-            String[] poprzedniOkres = Data.poprzedniOkres(umowa.getMc(), umowa.getRok());
+            Umowa umowa = pobierzaktywna(umowy);
+            String[] poprzedniOkres = Data.poprzedniOkres(Data.getMc(umowa.getDatasystem()), Data.getRok(umowa.getDatasystem()));
             for (int i=11;i>=0;i--) {
                 Wynagrodzeniahistoryczne wynagrodzeniahistoryczne = new Wynagrodzeniahistoryczne(selectedangaz, poprzedniOkres);
                 wynagrodzeniahistoryczne.setDniobowiazku(dni[i]);
@@ -126,6 +126,16 @@ public class HistoriaView  implements Serializable {
         }
         
     }
+    
+    private Umowa pobierzaktywna(List<Umowa> umowy) {
+        Umowa zwrot = umowy.get(0);
+        for (Umowa p : umowy) {
+            if (p.isAktywna()) {
+                zwrot = p;
+            }
+        }
+        return zwrot;
+    }
 
     public Wynagrodzeniahistoryczne getSelectedlista() {
         return selectedlista;
@@ -134,6 +144,8 @@ public class HistoriaView  implements Serializable {
     public void setSelectedlista(Wynagrodzeniahistoryczne selectedlista) {
         this.selectedlista = selectedlista;
     }
+
+    
 
    
 

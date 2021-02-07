@@ -49,7 +49,7 @@ public class PasekwynagrodzenBean {
     }
     
       
-    public static Pasekwynagrodzen oblicz(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, NieobecnosckodzusFacade nieobecnosckodzusFacade) {
+    public static Pasekwynagrodzen oblicz(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, NieobecnosckodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy) {
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
         double kurs = 4.4745;
         double dietastawka = 49.0;
@@ -101,6 +101,7 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.fgsp(pasek);
         PasekwynagrodzenBean.razem53(pasek);
         PasekwynagrodzenBean.razemkosztpracodawcy(pasek);
+        PasekwynagrodzenBean.naniesrobocze(pasek,kalendarz);
         System.out.println("****************");
         for (Naliczenieskladnikawynagrodzenia r : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
             if (r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
@@ -160,6 +161,7 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.obliczpodatekdowplaty(pasek);
         PasekwynagrodzenBean.potracenia(pasek);
         PasekwynagrodzenBean.dowyplaty(pasek);
+
         System.out.println("****************");
         for (Naliczenieskladnikawynagrodzenia r : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
             if (r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {
@@ -445,6 +447,12 @@ public class PasekwynagrodzenBean {
         pasek.setDietastawka(dietastawka);
         pasek.setKurs(kurs);
         pasek.setLimitzus(limitZUS);
+    }
+
+    private static void naniesrobocze(Pasekwynagrodzen pasek, Kalendarzmiesiac kalendarz) {
+        int[] robocze = kalendarz.robocze();
+        pasek.setDniobowiazku(robocze[0]);
+        pasek.setDniprzepracowane(robocze[1]);
     }
 
     

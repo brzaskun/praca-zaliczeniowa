@@ -140,6 +140,9 @@ public class Umowa implements Serializable {
     private List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList;
      @Column(name = "aktywna")
     private  boolean aktywna;
+    @Size(max = 10)
+    @Column(name = "datasystem")
+    private String datasystem;
 
     public Umowa() {
         this.etatList = new ArrayList<>();
@@ -435,6 +438,14 @@ public class Umowa implements Serializable {
         boolean konczysiew = Data.czydatajestwmcu(this.dataod, rok, mc);
         boolean zwrot = zaczynasiew || konczysiew;
         return zwrot;
+    }
+
+    public String getDatasystem() {
+        return datasystem;
+    }
+
+    public void setDatasystem(String datasystem) {
+        this.datasystem = datasystem;
     }
     
     

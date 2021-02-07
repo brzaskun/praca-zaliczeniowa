@@ -9,6 +9,7 @@ import entity.Definicjalistaplac;
 import entity.Kalendarzmiesiac;
 import entity.Pasekwynagrodzen;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -52,5 +53,15 @@ public class PasekwynagrodzenFacade extends DAO   implements Serializable {
     }
     public List<Pasekwynagrodzen> findByDef(Definicjalistaplac definicjalistaplac) {
         return getEntityManager().createNamedQuery("Pasekwynagrodzen.findByDef").setParameter("definicjalistaplac", definicjalistaplac).getResultList();
+    }
+
+    public List<Pasekwynagrodzen> findByRokAngaz(String rok, Kalendarzmiesiac p) {
+        List<Pasekwynagrodzen> zwrot = new ArrayList<>();
+        try {
+            return getEntityManager().createNamedQuery("Pasekwynagrodzen.findByRokAngaz").setParameter("rok", rok).setParameter("angaz", p.getUmowa().getAngaz()).getResultList();
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
     }
 }

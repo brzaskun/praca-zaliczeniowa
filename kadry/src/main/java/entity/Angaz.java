@@ -66,6 +66,8 @@ public class Angaz implements Serializable {
     private Pracownik pracownik;
     @Column(name = "rodzajwynagrodzenia")
     private Integer rodzajwynagrodzenia;
+    @Column(name = "ciagloscchorobowe")
+    private boolean ciagloscchorobowe;
 
 
     public Angaz() {
@@ -165,4 +167,14 @@ public class Angaz implements Serializable {
     public void setWynagrodzeniahistoryczneList(List<Wynagrodzeniahistoryczne> wynagrodzeniahistoryczneList) {
         this.wynagrodzeniahistoryczneList = wynagrodzeniahistoryczneList;
     }
+
+    public boolean isCiagloscchorobowe() {
+        return ciagloscchorobowe;
+    }
+
+    public void setCiagloscchorobowe(boolean ciagloscchorobowe) {
+        this.ciagloscchorobowe = ciagloscchorobowe;
+    }
+    
+    
 }

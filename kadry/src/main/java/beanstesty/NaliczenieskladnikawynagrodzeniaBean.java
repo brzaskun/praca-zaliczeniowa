@@ -88,7 +88,7 @@ public class NaliczenieskladnikawynagrodzeniaBean {
             double zmiennawynagrodzeniakwota = 0.0;
             List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList = skladnikwynagrodzenia.getZmiennawynagrodzeniaList();
             for (Zmiennawynagrodzenia p : zmiennawynagrodzeniaList) {
-                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("20")) {
+                if (p.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getKod().equals("21")) {
                     zmiennawynagrodzeniakwota = p.getKwota();
                 }
             }

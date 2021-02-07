@@ -18,8 +18,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,9 +28,10 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Osito
  */
 @Entity
-@Table(name = "pracownik", uniqueConstraints = {
-    @UniqueConstraint(columnNames={"pesel"})
-})
+//docelowo trzeba to zrobic
+//@Table(name = "pracownik", uniqueConstraints = {
+//    @UniqueConstraint(columnNames={"pesel"})
+//})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Pracownik.findAll", query = "SELECT p FROM Pracownik p"),
@@ -46,7 +45,7 @@ public class Pracownik implements Serializable {
     @NotNull
     @Size(min = 1, max = 128)
     @Column(name = "nazwisko")
-private String nazwisko;
+    private String nazwisko;
     @Basic(optional = false)
     @NotNull()
     @Size(min = 1, max = 128)
@@ -134,7 +133,7 @@ private String nazwisko;
     @Size(max = 45)
     @Column(name = "telefon")
     private String telefon;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pracownik")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pracownik", orphanRemoval = true)
     private List<Urlopprezentacja> urlopprezentacjaList;
     private static final long serialVersionUID = 1L;
     @Column(name = "ipusera")

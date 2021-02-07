@@ -22,7 +22,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import mail.Mail;
@@ -33,7 +33,7 @@ import msg.Msg;
  * @author Osito
  */
 @Named
-@RequestScoped
+@ViewScoped
 public class AngazView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
@@ -88,23 +88,27 @@ public class AngazView  implements Serializable {
     
 
     public void create() {
-      if (selected!=null && wpisView.getFirma()!=null) {
-          try {
-            selected.setFirma(wpisView.getFirma());
-            angazFacade.create(selected);
-            lista.add(selected);
-            wpisView.setAngaz(selected);
-            Uprawnienia uprawnienia = uprawnieniaFacade.findByNazwa("Pracownik");
-            Uz uzer = new Uz(selected, uprawnienia);
-            selected = new Angaz();
-            Msg.msg("Dodano nowy angaż");
-            uzFacade.create(uzer);
-            Msg.msg("Dodano nowego użytkownika");
-          } catch (Exception e) {
-              System.out.println("");
-              Msg.msg("e", "Błąd - nie dodano nowego angażu");
-          }
-      }
+        if (selected != null && wpisView.getFirma() != null) {
+            if (selected.getPracownik().getEmail() == null || selected.getPracownik().getEmail().equals("")) {
+                Msg.msg("e", "Pracownik nie posiada adresu email. Nie można stworzyć angażu. Email musi być unikalny");
+            } else {
+                try {
+                    selected.setFirma(wpisView.getFirma());
+                    angazFacade.create(selected);
+                    lista.add(selected);
+                    wpisView.setAngaz(selected);
+                    Uprawnienia uprawnienia = uprawnieniaFacade.findByNazwa("Pracownik");
+                    Uz uzer = new Uz(selected, uprawnienia);
+                    selected = new Angaz();
+                    Msg.msg("Dodano nowy angaż");
+                    uzFacade.create(uzer);
+                    Msg.msg("Dodano nowego użytkownika");
+                } catch (Exception e) {
+                    System.out.println("");
+                    Msg.msg("e", "Błąd - nie dodano nowego angażu");
+                }
+            }
+        }
     }
     
    public void aktywuj(Angaz angaz) {

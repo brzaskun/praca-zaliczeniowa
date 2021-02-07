@@ -12,10 +12,13 @@ import dao.DefinicjalistaplacFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.NieobecnosckodzusFacade;
 import dao.PasekwynagrodzenFacade;
+import dao.WynagrodzeniahistoryczneFacade;
+import data.Data;
 import entity.Angaz;
 import entity.Definicjalistaplac;
 import entity.Kalendarzmiesiac;
 import entity.Pasekwynagrodzen;
+import entity.Wynagrodzeniahistoryczne;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,6 +56,8 @@ public class PasekwynagrodzenView  implements Serializable {
     private PasekwynagrodzenFacade pasekwynagrodzenFacade;
     @Inject
     private NieobecnosckodzusFacade nieobecnosckodzusFacade;
+    @Inject
+    private WynagrodzeniahistoryczneFacade wynagrodzeniahistoryczneFacade;
     @Inject
     private WpisView wpisView;
     
@@ -100,7 +105,14 @@ public class PasekwynagrodzenView  implements Serializable {
         if (wybranalistaplac!=null && !listakalendarzmiesiac.getTarget().isEmpty()) {
             int i = 1;
             for (Kalendarzmiesiac p : listakalendarzmiesiac.getTarget()) {
-                Pasekwynagrodzen pasek = PasekwynagrodzenBean.oblicz(p, wybranalistaplac, nieobecnosckodzusFacade);
+                boolean czysainnekody = p.czysainnekody();
+                List<Pasekwynagrodzen> paskidowyliczeniapodstawy = new ArrayList<>();
+                List<Wynagrodzeniahistoryczne> historiawynagrodzen = new ArrayList<>();
+                if (czysainnekody) {
+                    paskidowyliczeniapodstawy = pobierzpaskidosredniej(p);
+                    historiawynagrodzen = wynagrodzeniahistoryczneFacade.findByAngaz(p.getUmowa().getAngaz());
+                }
+                Pasekwynagrodzen pasek = PasekwynagrodzenBean.oblicz(p, wybranalistaplac, nieobecnosckodzusFacade, paskidowyliczeniapodstawy);
                 usunpasekjakzawiera(pasek);
                 lista.add(pasek);
             }
@@ -109,6 +121,15 @@ public class PasekwynagrodzenView  implements Serializable {
             Msg.msg("e","Nie wybrano listy lub pracownika");
         }
     }
+    
+    private List<Pasekwynagrodzen> pobierzpaskidosredniej(Kalendarzmiesiac p) {
+        String[] okrespoprzedni = Data.poprzedniOkres(p);
+        List<Pasekwynagrodzen> paskiporzednie = pasekwynagrodzenFacade.findByRokAngaz(okrespoprzedni[1],p);
+        String rokpoprzedni = String.valueOf(Integer.parseInt(okrespoprzedni[1])-1);
+        paskiporzednie.addAll(pasekwynagrodzenFacade.findByRokAngaz(rokpoprzedni,p));
+        return paskiporzednie;
+    }
+
     
     private void usunpasekjakzawiera(Pasekwynagrodzen pasek) {
         for (Iterator<Pasekwynagrodzen> it = lista.iterator(); it.hasNext(); ) {
@@ -218,6 +239,7 @@ public class PasekwynagrodzenView  implements Serializable {
         this.wybranalistaplac = wybranalistaplac;
     }
 
+    
     
 
    

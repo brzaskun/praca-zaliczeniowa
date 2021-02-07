@@ -81,11 +81,11 @@ public class Etat implements Serializable {
         this.etat2 = etat2;
     }
 
-    public Etat(Umowa selected) {
+    public Etat(Umowa selected, Integer etat1, Integer etat2) {
         this.dataod = selected.getDataod();
         this.datado = selected.getDatado();
-        this.etat1 = 1;
-        this.etat2 = 1;
+        this.etat1 = etat1==null?1:etat1;
+        this.etat2 = etat2==null?1:etat2;
         this.umowa = selected;
     }
 

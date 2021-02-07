@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-     <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 300px;width: 1500px;">
+     <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 300px;width: 1700px;">
         <p:outputPanel style="height: 300px">
             <h:form id="AngazCreateForm">
                 <h:panelGroup id="display">
@@ -18,6 +18,12 @@
                             <f:selectItem itemValue="1" itemLabel="stałe"/>
                             <f:selectItem itemValue="2" itemLabel="akord"/>
                         </p:selectOneMenu>
+                        <p:outputLabel value="ciągłość chorobowego" for="ciagloscchorobowego" />
+                        <p:selectBooleanCheckbox id="ciagloscchorobowego"  value="#{angazView.selected.ciagloscchorobowe}">
+                            <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                            <f:selectItem itemValue="true" itemLabel="jest ciągłość"/>
+                            <f:selectItem itemValue="false" itemLabel="brak ciągłości"/>
+                        </p:selectBooleanCheckbox>
                         <p:outputLabel value="pracownik" for="pracownik" />
                         <p:autoComplete id="pracownik" value="#{angazView.selected.pracownik}" required="true" requiredMessage="Wybierz pracownika" converter="#{pracownikConverter}"
                                         widgetVar="angazpracownik" completeMethod="#{angazView.complete}"
@@ -135,11 +141,17 @@
                             </f:facet>
                             <h:outputText value="#{itemAngaz.pracownik.pesel}"/>
                         </p:column>
-                        <p:column>
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="chor."/>
+                            </f:facet>
+                              <h:outputText value="&#x2714;" rendered="#{itemAngaz.ciagloscchorobowe eq true}"/>
+                        </p:column>
+                        <p:column width="250">
                             <f:facet name="header">
                                 <h:outputText value="email"/>
                             </f:facet>
-                            <p:inputText value="#{itemAngaz.pracownik.email}">
+                            <p:inputText value="#{itemAngaz.pracownik.email}" size="30">
                                 <p:ajax event="blur" partialSubmit="true" global="false" listener="#{angazView.zapiszmail(itemAngaz.pracownik)}"/>
                             </p:inputText>
                         </p:column>

@@ -36,7 +36,7 @@ public class RodzajwynagrodzeniaBean {
             skladnikpremiauznaniowa.setGodzinowe0miesieczne1(Boolean.TRUE);
             skladnikpremiauznaniowa.setStale0zmienne1(Boolean.TRUE);
             skladnikpremiauznaniowa.setRedukowany(Boolean.FALSE);
-            skladnikpremiauznaniowa.setKod("20");
+            skladnikpremiauznaniowa.setKod("21");
         }
         return skladnikpremiauznaniowa;
     }
@@ -47,7 +47,7 @@ public class RodzajwynagrodzeniaBean {
             rodzajnadgodziny50.setGodzinowe0miesieczne1(Boolean.FALSE);
             rodzajnadgodziny50.setStale0zmienne1(Boolean.TRUE);
             rodzajnadgodziny50.setRedukowany(Boolean.FALSE);
-            rodzajnadgodziny50.setKod("30");
+            rodzajnadgodziny50.setKod("12");
         }
         return rodzajnadgodziny50;
     }
@@ -57,7 +57,7 @@ public class RodzajwynagrodzeniaBean {
             zwrot.setGodzinowe0miesieczne1(Boolean.FALSE);
             zwrot.setStale0zmienne1(Boolean.TRUE);
             zwrot.setRedukowany(Boolean.FALSE);
-            zwrot.setKod("30");
+            zwrot.setKod("12");
             return zwrot;
     }
     

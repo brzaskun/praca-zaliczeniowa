@@ -74,6 +74,9 @@ public class UmowaView  implements Serializable {
     @Inject
     private ZmiennaWynagrodzeniaView zmiennaWynagrodzeniaView;
     private double wynagrodzemieskrot;
+    private Integer etat1;
+    private Integer etat2;
+    
     
     @PostConstruct
     public void init() {
@@ -355,7 +358,23 @@ public class UmowaView  implements Serializable {
         this.wynagrodzemieskrot = wynagrodzemieskrot;
     }
 
-  
+    public Integer getEtat1() {
+        return etat1;
+    }
+
+    public void setEtat1(Integer etat1) {
+        this.etat1 = etat1;
+    }
+
+    public Integer getEtat2() {
+        return etat2;
+    }
+
+    public void setEtat2(Integer etat2) {
+        this.etat2 = etat2;
+    }
+
+    
     
 
 

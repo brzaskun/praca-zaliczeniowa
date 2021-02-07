@@ -36,6 +36,7 @@ import z.Z;
     @NamedQuery(name = "Pasekwynagrodzen.findAll", query = "SELECT p FROM Pasekwynagrodzen p"),
     @NamedQuery(name = "Pasekwynagrodzen.findByDefKal", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.definicjalistaplac = :definicjalistaplac AND p.kalendarzmiesiac = :kalendarzmiesiac"),
     @NamedQuery(name = "Pasekwynagrodzen.findByDef", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.definicjalistaplac = :definicjalistaplac"),
+    @NamedQuery(name = "Pasekwynagrodzen.findByRokAngaz", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.kalendarzmiesiac.rok = :rok AND p.kalendarzmiesiac.umowa.angaz = :angaz"),
     @NamedQuery(name = "Pasekwynagrodzen.findById", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.id = :id"),
     @NamedQuery(name = "Pasekwynagrodzen.findByBruttobezzus", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.bruttobezzus = :bruttobezzus"),
     @NamedQuery(name = "Pasekwynagrodzen.findByBruttozus", query = "SELECT p FROM Pasekwynagrodzen p WHERE p.bruttozus = :bruttozus"),
@@ -125,6 +126,10 @@ private double bruttobezzus;
     private double kurs;
     @Column(name = "limitzus")
     private double limitzus;
+    @Column(name = "dniobowiazku")
+    private Integer dniobowiazku;
+    @Column(name = "dniprzepracowane")
+    private Integer dniprzepracowane;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
     private List<Naliczeniepotracenie> naliczeniepotracenieList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pasekwynagrodzen", orphanRemoval = true)
@@ -481,6 +486,22 @@ private double bruttobezzus;
 
     public void setLimitzus(double limitzus) {
         this.limitzus = limitzus;
+    }
+
+    public Integer getDniobowiazku() {
+        return dniobowiazku;
+    }
+
+    public void setDniobowiazku(Integer dniobowiazku) {
+        this.dniobowiazku = dniobowiazku;
+    }
+
+    public Integer getDniprzepracowane() {
+        return dniprzepracowane;
+    }
+
+    public void setDniprzepracowane(Integer dniprzepracowane) {
+        this.dniprzepracowane = dniprzepracowane;
     }
     
     

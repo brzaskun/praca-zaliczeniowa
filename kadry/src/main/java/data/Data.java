@@ -5,6 +5,7 @@
 package data;
 
 import embeddable.Mce;
+import entity.Kalendarzmiesiac;
 import error.E;
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -255,6 +256,10 @@ public class Data implements Serializable {
             poprzedniOkres[1] = rok;
         }
         return poprzedniOkres;
+    }
+    
+    public static String[] poprzedniOkres(Kalendarzmiesiac p) {
+        return poprzedniOkres(p.getMc(), p.getRok());
     }
     
     public static String[] nastepnyOkres (String mc, String rok) {
@@ -761,6 +766,8 @@ public class Data implements Serializable {
 //  public static LocalDateTime asLocalDateTime(Date date) {
 //    return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
 //  }
+
+    
 
     
 

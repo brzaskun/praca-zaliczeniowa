@@ -6,7 +6,6 @@
 package view;
 
 import beans.IPaddress;
-import dao.AngazFacade;
 import dao.PracownikFacade;
 import data.Data;
 import entity.Pracownik;
@@ -34,8 +33,6 @@ public class PracownikView  implements Serializable {
     private Pracownik selectedeast;
     private List<Pracownik> lista;
     private List<Pracownik> listafiltered;
-    @Inject
-    private AngazFacade angazFacade;
     @Inject
     private PracownikFacade pracownikFacade;
     @Inject
