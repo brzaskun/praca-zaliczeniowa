@@ -98,7 +98,7 @@ public class UmowaView  implements Serializable {
             umowaFacade.editList(lista);
             umowaFacade.create(selected);
             lista.add(selected);
-            Etat etat = new Etat(selected);
+            Etat etat = new Etat(selected, etat1, etat2);
             etatFacade.create(etat);
             wpisView.setUmowa(selected);
             Msg.msg("Dodano nową umowę");
@@ -113,6 +113,9 @@ public class UmowaView  implements Serializable {
               zmiennaWynagrodzeniaView.init();
             }
             selected = new Umowa();
+            wynagrodzemieskrot = 0.0;
+            etat1 = null;
+            etat2 = null;
           } catch (Exception e) {
               System.out.println("");
               Msg.msg("e", "Błąd - nie dodano nowej umowy. Sprawdź angaż");

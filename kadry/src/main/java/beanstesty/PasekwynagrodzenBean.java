@@ -21,6 +21,7 @@ import entity.Nieobecnosckodzus;
 import entity.Pasekwynagrodzen;
 import entity.Pracownik;
 import entity.Umowa;
+import entity.Wynagrodzeniahistoryczne;
 import error.E;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -49,7 +50,7 @@ public class PasekwynagrodzenBean {
     }
     
       
-    public static Pasekwynagrodzen oblicz(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, NieobecnosckodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy) {
+    public static Pasekwynagrodzen oblicz(Kalendarzmiesiac kalendarz, Definicjalistaplac definicjalistaplac, NieobecnosckodzusFacade nieobecnosckodzusFacade, List<Pasekwynagrodzen> paskidowyliczeniapodstawy, List<Wynagrodzeniahistoryczne> historiawynagrodzen) {
         Pasekwynagrodzen pasek = new Pasekwynagrodzen();
         double kurs = 4.4745;
         double dietastawka = 49.0;
