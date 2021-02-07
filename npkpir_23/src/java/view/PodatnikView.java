@@ -1267,16 +1267,17 @@ private DokDAO dokDAO;
     }
 
     public void weryfikujlisteDokumentowPodatnika(Podatnik selected, String rok, String rokpoprzedni) {
-        List<Rodzajedok> dokumentyBiezacegoPodatnika = rodzajedokDAO.findListaPodatnik(selected, rok);
-        List<Rodzajedok> dokumentyBiezacegoPodatnikaRokPoprzedni = rodzajedokDAO.findListaPodatnik(selected, rokpoprzedni);
-        Podatnik podatnikwspolny = podatnikDAO.findPodatnikByNIP("0001005008");
-        List<Rodzajedok> wspolnedokumentypodatnikow = rodzajedokDAO.findListaPodatnik(podatnikwspolny, rok);
-        if (((dokumentyBiezacegoPodatnikaRokPoprzedni==null||dokumentyBiezacegoPodatnikaRokPoprzedni.isEmpty()) && dokumentyBiezacegoPodatnika.isEmpty()) && (wspolnedokumentypodatnikow!=null && !wspolnedokumentypodatnikow.isEmpty())) {
-            dokumentyBiezacegoPodatnikaRokPoprzedni = wspolnedokumentypodatnikow;
-        }
-        List<Rodzajedok> ogolnaListaDokumentow = rodzajedokView.getListaWspolnych();
-        List<Konto> konta = kontoDAOfk.findWszystkieKontaPodatnika(selected, rokpoprzedni);
         try {
+            List<Rodzajedok> dokumentyBiezacegoPodatnika = rodzajedokDAO.findListaPodatnik(selected, rok);
+            List<Rodzajedok> dokumentyBiezacegoPodatnikaRokPoprzedni = rodzajedokDAO.findListaPodatnik(selected, rokpoprzedni);
+            Podatnik podatnikwspolny = podatnikDAO.findPodatnikByNIP("0001005008");
+            List<Rodzajedok> wspolnedokumentypodatnikow = rodzajedokDAO.findListaPodatnik(podatnikwspolny, rok);
+            if (((dokumentyBiezacegoPodatnikaRokPoprzedni==null||dokumentyBiezacegoPodatnikaRokPoprzedni.isEmpty()) && dokumentyBiezacegoPodatnika.isEmpty()) && (wspolnedokumentypodatnikow!=null && !wspolnedokumentypodatnikow.isEmpty())) {
+                dokumentyBiezacegoPodatnikaRokPoprzedni = wspolnedokumentypodatnikow;
+            }
+            List<Rodzajedok> ogolnaListaDokumentow = rodzajedokView.getListaWspolnych();
+            List<Konto> konta = kontoDAOfk.findWszystkieKontaPodatnika(selected, rokpoprzedni);
+        
             if (konta!=null && konta.size()>0) {
                 if (dokumentyBiezacegoPodatnikaRokPoprzedni!=null && !dokumentyBiezacegoPodatnikaRokPoprzedni.isEmpty()) {
                     for (Rodzajedok tmp : dokumentyBiezacegoPodatnikaRokPoprzedni) {
@@ -1368,7 +1369,9 @@ private DokDAO dokDAO;
                         } catch (Exception ex) {
                         }
                     }
+                    System.out.println("Klient "+selected.getNazwapelna());
             }
+            System.out.println("KONIEC UPDATU DOKUMENTOW");
         } catch (Exception ex) {
             System.out.println("");
         }

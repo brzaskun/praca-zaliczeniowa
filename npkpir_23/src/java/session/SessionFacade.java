@@ -189,16 +189,7 @@ public class SessionFacade<T> implements Serializable {
     }
 
 
-    public Uz findUzNP(String login) {
-        Uz zwrot = null;
-        try {
-            zwrot = (Uz)  getEntityManager().createNamedQuery("Uz.findByLogin").setParameter("login", login).getSingleResult();
-        } catch (Exception e) {
-            
-        }
-        return zwrot;
-    }
-
+    
     
     public Podstawki findPodstawkiyear(Integer rok) {
         Podstawki tmp = (Podstawki)  getEntityManager().createNamedQuery("Podstawki.findByRok").setParameter("rok", rok).getSingleResult();
@@ -1835,9 +1826,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return (long)  getEntityManager().createNamedQuery("Delegacja.countByPodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("krajowa0zagraniczna1", krajowa0zagraniczna1).getSingleResult();
     }
 
-    public List<Uz> findByUprawnienia(String uprawnienia) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Uz.findByUprawnienia").setParameter("uprawnienia", uprawnienia).getResultList());
-    }
+    
 
     public List<MultiuserSettings> findMutliuserSettingsByUz(Uz user) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("MultiuserSettings.findByUser").setParameter("user", user).getResultList());

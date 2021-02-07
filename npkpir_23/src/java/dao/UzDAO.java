@@ -8,11 +8,10 @@ import entity.Uz;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import session.SessionFacade;
+import javax.transaction.Transactional;
 
 
 /**
@@ -22,8 +21,6 @@ import session.SessionFacade;
 @Stateless
 @Transactional
 public class UzDAO extends DAO implements Serializable{
-    @Inject
-    private SessionFacade uzFacade;
     @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
@@ -45,18 +42,36 @@ public class UzDAO extends DAO implements Serializable{
         super.em = this.em;
     }
 
-    
+ 
     public Uz findUzByLogin(String login){
-         return uzFacade.findUzNP(login);
+        Uz zwrot = null;
+        try {
+            zwrot = (Uz)  getEntityManager().createNamedQuery("Uz.findByLogin").setParameter("login", login).getSingleResult();
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
      }
-    
+
     public List<Uz> findByUprawnienia(String uprawnienia) {
-        return uzFacade.findByUprawnienia(uprawnienia);
+        List<Uz> zwrot = null;
+        try {
+            zwrot = getEntityManager().createNamedQuery("Uz.findByUprawnienia").setParameter("uprawnienia", uprawnienia).getResultList();
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
     }
    
   
     public List<String> findUzByUprawnienia(String uprawnienia){
-         return uzFacade.getEntityManager().createNamedQuery("Uz.findByUzUprawnienia").setParameter("uprawnienia", uprawnienia).getResultList();
+        List<String> zwrot = null;
+        try {
+            zwrot = getEntityManager().createNamedQuery("Uz.findByUzUprawnienia").setParameter("uprawnienia", uprawnienia).getResultList();
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
      }
     
 }

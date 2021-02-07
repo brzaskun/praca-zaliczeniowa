@@ -22,13 +22,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.B;
-import msg.Msg;import pdf.PdfSymulacjaWynikuNarastajaco;
-import view.WpisView;import waluty.Z;
+import msg.Msg;
+import pdf.PdfSymulacjaWynikuNarastajaco;
+import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -144,7 +145,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         w.setWynikfinansowy(Z.z(przychod-koszt));
         w.setNpup(npup);
         w.setNkup(nkup);
-        w.setWynikpodatkowy(Z.z(przychod-koszt+npup+nkup));
+        w.setWynikpodatkowy(Z.z(przychod-koszt-npup+nkup));
         return w;
     }
     
@@ -169,7 +170,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         w.setWynikfinansowy(Z.z(przychod-koszt));
         w.setNpup(npup);
         w.setNkup(nkup);
-        w.setWynikpodatkowy(Z.z(przychod-koszt+npup+nkup));
+        w.setWynikpodatkowy(Z.z(przychod-koszt-npup+nkup));
         return w;
     }
     
