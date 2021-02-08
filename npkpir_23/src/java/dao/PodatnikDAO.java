@@ -10,8 +10,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import org.eclipse.persistence.config.HintValues;
-import org.eclipse.persistence.config.QueryHints;
 
 
 /**
@@ -56,10 +54,7 @@ public class PodatnikDAO extends DAO implements Serializable{
     public  List<Podatnik> findAllRO(){
         List<Podatnik>  zwrot = null;
         try {
-            zwrot = getEntityManager().createNamedQuery("Podatnik.findByPodmiotaktywny")
-                .setHint(QueryHints.READ_ONLY, HintValues.TRUE)
-                .setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE)
-                .getResultList();
+            zwrot = getEntityManager().createNamedQuery("Podatnik.findByPodmiotaktywny").getResultList();
         } catch (Exception e) { 
             E.e(e); 
         }

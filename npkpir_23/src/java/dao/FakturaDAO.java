@@ -11,14 +11,15 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import session.SessionFacade;
+import org.eclipse.persistence.config.HintValues;
+import org.eclipse.persistence.config.QueryHints;
 
 /**
  *
@@ -28,8 +29,7 @@ import session.SessionFacade;
 @Transactional
 public class FakturaDAO extends DAO implements Serializable {
 
-    @Inject
-    private SessionFacade fakturaFacade;
+
       @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
@@ -53,82 +53,74 @@ public class FakturaDAO extends DAO implements Serializable {
     }
 
 
-   
-   public Faktura findFaktura(Faktura f) {
-       return fakturaFacade.findfaktura(f);
-   }
-   public void dodaj(Faktura faktura){
-        create(faktura);
-   }
-
-    public List<Faktura> findbyKontrahent_nip(String kontrahent_nip, Podatnik podatnik) {
-         try {
-            return fakturaFacade.findByKontrahent_nip(kontrahent_nip, podatnik);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-    }
-    
+//   public void dodaj(Faktura faktura){
+//        create(faktura);
+//   }
+//
+//    public List<Faktura> findbyKontrahent_nip(String kontrahent_nip, Podatnik podatnik) {
+//         try {
+//            return fakturaFacade.findByKontrahent_nip(kontrahent_nip, podatnik);
+//        } catch (Exception e) { E.e(e); 
+//            return null;
+//        }
+//    }
+ 
     public List<Faktura> findbyKontrahentNipRok(String kontrahentnip, Podatnik podatnik, String rok) {
          try {
-            return fakturaFacade.findByKontrahentNipRok(kontrahentnip, podatnik, rok);
+            return getEntityManager().createNamedQuery("Faktura.findByKontrahentRok").setParameter("kontrahent_nip", kontrahentnip).setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).getResultList();
         } catch (Exception e) { E.e(e); 
             return null;
         }
     }
     
-    public List<Faktura> findbyKontrahentNipPo2015(String kontrahentnip, Podatnik podatnik) {
-         try {
-            return fakturaFacade.findByKontrahentNipPo2015(kontrahentnip, podatnik);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-    }
+//    public List<Faktura> findbyKontrahentNipPo2015(String kontrahentnip, Podatnik podatnik) {
+//         try {
+//            return fakturaFacade.findByKontrahentNipPo2015(kontrahentnip, podatnik);
+//        } catch (Exception e) { E.e(e); 
+//            return null;
+//        }
+//    }
     
-    public List<Faktura> findFakturyByRok(String rok) {
-         try {
-            return fakturaFacade.findFakturyByRok(rok);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-    }
+//    public List<Faktura> findFakturyByRok(String rok) {
+//         try {
+//            return fakturaFacade.findFakturyByRok(rok);
+//        } catch (Exception e) { E.e(e); 
+//            return null;
+//        }
+//    }
     
-       
+
     public List<Faktura> findFakturyByRokPodatnik(String rok, Podatnik wystawcanazwa) {
+        List<Faktura> zwrot = null;
          try {
-            return fakturaFacade.findFakturyByRokPodatnik(rok, wystawcanazwa);
+            zwrot = getEntityManager().createNamedQuery("Faktura.findByRokPodatnik").setParameter("rok", rok).setParameter("wystawcanazwa", wystawcanazwa).getResultList();
         } catch (Exception e) { E.e(e); 
-            return null;
+            
         }
-    }
-    
-    public Long liczFakturyByRokPodatnik(String rok, Podatnik wystawcanazwa) {
-         try {
-            return fakturaFacade.liczFakturyByRokPodatnik(rok, wystawcanazwa);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
+        return zwrot;
     }
     
     public Faktura findOstatniaFakturaByRokPodatnik(String rok, Podatnik wystawcanazwa) {
          try {
-            return fakturaFacade.findOstatniaFakturaByRokPodatnik(rok, wystawcanazwa);
+            return (Faktura)  getEntityManager().createNamedQuery("Faktura.findOstatniaFakturaByRokPodatnik").setParameter("rok", rok).setParameter("wystawcanazwa", wystawcanazwa).setMaxResults(1).getSingleResult();
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
+
+    public List<Faktura> findbyPodatnik(Podatnik podatnik) {
+         try {
+            return getEntityManager().createNamedQuery("Faktura.findByWystawcanazwa").setParameter("wystawcanazwa", podatnik).getResultList();
         } catch (Exception e) { E.e(e); 
             return null;
         }
     }
     
-    public List<Faktura> findbyPodatnik(Podatnik podatnik) {
-         try {
-            return fakturaFacade.findByPodatnik(podatnik);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-    }
+
     public Faktura findbyNumerPodatnik(String numerkolejny, Podatnik podatnik) {
         Faktura zwrot = null;
         try {
-            zwrot = fakturaFacade.findByNumerPodatnik(numerkolejny, podatnik);
+            zwrot = (Faktura) getEntityManager().createNamedQuery("Faktura.findByNumerkolejnyWystawcanazwa").setParameter("wystawcanazwa", podatnik).setParameter("numerkolejny", numerkolejny).getSingleResult();
         } catch (Exception e) {
         }
         return zwrot;
@@ -136,15 +128,16 @@ public class FakturaDAO extends DAO implements Serializable {
     public Faktura findbyNumerPodatnikDlaOkresowej(String numerkolejny, Podatnik podatnik) {
         Faktura zwrot = null;
         try {
-            zwrot = fakturaFacade.findByNumerPodatnikDlaOkresowej(numerkolejny, podatnik);
+            zwrot = (Faktura)  getEntityManager().createNamedQuery("Faktura.findByNumerkolejnyWystawcanazwaDlaOkresowej").setParameter("wystawcanazwa", podatnik).setParameter("numerkolejny", numerkolejny).getSingleResult();
         } catch (Exception e) {
         }
         return zwrot;
     }
-     
+
+    
       public List<Faktura> findbyPodatnikRok(Podatnik podatnik, String rok) {
          try {
-            return fakturaFacade.findByPodatnikRok(podatnik, rok);
+            return getEntityManager().createNamedQuery("Faktura.findByWystawcanazwaRok").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).getResultList();
         } catch (Exception e) { E.e(e); 
             return null;
         }
@@ -160,9 +153,14 @@ public class FakturaDAO extends DAO implements Serializable {
         return zwrot;
     }
     
+    
     public List<Faktura> findbyPodatnikRokMcPlatnosci(Podatnik podatnik, String rok, String mc, boolean niezaplacone0zaplacone1) {
          try {
-            return fakturaFacade.findByPodatnikRokMcPlatnosci(podatnik, rok, mc, niezaplacone0zaplacone1);
+            if (niezaplacone0zaplacone1 == false) {
+                return Collections.synchronizedList( getEntityManager().createNamedQuery("Faktura.findByWystawcanazwaRokMcNiezaplacone").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList());
+            } else {
+                return Collections.synchronizedList( getEntityManager().createNamedQuery("Faktura.findByWystawcanazwaRokMcZaplacone").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList());
+            }
         } catch (Exception e) { E.e(e); 
             return null;
         }
@@ -170,23 +168,23 @@ public class FakturaDAO extends DAO implements Serializable {
 
     public List<Klienci> findKontrahentFakturyRok(Podatnik podatnikObiekt, String rok) {
         try {
-            return fakturaFacade.getEntityManager().createNamedQuery("Faktura.findByKonrahentPodatnikRok").setParameter("podatnik", podatnikObiekt).setParameter("rok", rok).getResultList();
+            return getEntityManager().createNamedQuery("Faktura.findByKonrahentPodatnikRok").setParameter("podatnik", podatnikObiekt).setParameter("rok", rok).getResultList();
         } catch (Exception e) {
             return null;
         }
     }
-    
+   
     public Collection<? extends Klienci> findKontrahentFaktury(Podatnik podatnikObiekt) {
         try {
-            return fakturaFacade.findKontrahentFaktury(podatnikObiekt); 
+            return getEntityManager().createNamedQuery("Faktura.findByKonrahentPodatnik").setParameter("podatnik", podatnikObiekt).getResultList(); 
         } catch (Exception e) {
             return null;
         }
     }
-    
+
     public Collection<? extends Klienci> findKontrahentFakturyRO(Podatnik podatnikObiekt) {
         try {
-            return fakturaFacade.findKontrahentFakturyRO(podatnikObiekt); 
+            return getEntityManager().createNamedQuery("Faktura.findByKonrahentPodatnik").setParameter("podatnik", podatnikObiekt).setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).setHint(QueryHints.READ_ONLY, HintValues.TRUE).getResultList(); 
         } catch (Exception e) {
             return null;
         }
@@ -195,7 +193,7 @@ public class FakturaDAO extends DAO implements Serializable {
     public List<Faktura> findbyKontrahent(Klienci t) {
         List<Faktura> zwrot = new ArrayList<>();
         try {
-            zwrot = fakturaFacade.findKontrahentIDFakt(t); 
+            zwrot = getEntityManager().createNamedQuery("Faktura.findByKontrahentID").setParameter("kontrahent", t).getResultList(); 
         } catch (Exception e) {
             
         }

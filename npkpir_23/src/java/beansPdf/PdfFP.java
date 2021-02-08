@@ -204,7 +204,7 @@ public class PdfFP {
         int gornylimit = 836;
         for (Pozycjenafakturze p : lista) {
             int wymiargora = (p.getGora() / 2);
-            wymiary.put(p.getPozycjenafakturzePK().getNazwa(), gornylimit - wymiargora);
+            wymiary.put(p.getNazwa(), gornylimit - wymiargora);
         }
         return wymiary;
     }
@@ -217,7 +217,7 @@ public class PdfFP {
         float dzielnik = 2;
         boolean bylnabywca=false;
         for (Pozycjenafakturze p : skladnikifaktury) {
-            switch (p.getPozycjenafakturzePK().getNazwa()) {
+            switch (p.getNazwa()) {
                 case "akordeon:formwzor:data":
                     //Dane do moudlu data
                     pozycja = zwrocPolozenieElementu(skladnikifaktury, "data");
@@ -517,7 +517,7 @@ public class PdfFP {
         String adres = "";
         float dzielnik = 2;
         for (Pozycjenafakturze p : skladnikifaktury) {
-            switch (p.getPozycjenafakturzePK().getNazwa()) {
+            switch (p.getNazwa()) {
                 case "akordeon:formwzor:logo":
                     //Dane do modulu przewłaszczenie
                     try {
@@ -561,7 +561,7 @@ public class PdfFP {
         String adres = "";
         float dzielnik = 2;
         for (Pozycjenafakturze p : skladnikifaktury) {
-            switch (p.getPozycjenafakturzePK().getNazwa()) {
+            switch (p.getNazwa()) {
                 case "akordeon:formwzor:data":
                     //Dane do moudlu data
                     pobrane = zwrocPolozenieElementu(skladnikifaktury, "data");
@@ -638,7 +638,7 @@ public class PdfFP {
     public static PdfPTable dolaczpozycjedofakturydlugacz2(FakturaelementygraficzneDAO fakturaelementygraficzneDAO, PdfWriter writer, Faktura selected, Map<String, Integer> wymiary, List<Pozycjenafakturze> skladnikifaktury, Podatnik podatnik, Document document, List<Fakturadodelementy> elementydod, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO) throws DocumentException, IOException {
         Pozycjenafakturze pobrane = new Pozycjenafakturze();
         for (Pozycjenafakturze p : skladnikifaktury) {
-            switch (p.getPozycjenafakturzePK().getNazwa()) {
+            switch (p.getNazwa()) {
                 case "akordeon:formwzor:towary":
                     //Dane do tablicy z wierszami
                     pobrane = zwrocPolozenieElementu(skladnikifaktury, "towary");
@@ -654,7 +654,7 @@ public class PdfFP {
     public static PdfPTable dolaczpozycjedofaktury2normal(FakturaelementygraficzneDAO fakturaelementygraficzneDAO, PdfWriter writer, Faktura selected, Map<String, Integer> wymiary, List<Pozycjenafakturze> skladnikifaktury, Document document, List<Fakturadodelementy> elementydod, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO) throws DocumentException, IOException {
         Pozycjenafakturze pobrane = new Pozycjenafakturze();
         for (Pozycjenafakturze p : skladnikifaktury) {
-            switch (p.getPozycjenafakturzePK().getNazwa()) {
+            switch (p.getNazwa()) {
                 case "akordeon:formwzor:towary":
                     //Dane do tablicy z wierszami
                     pobrane = zwrocPolozenieElementu(skladnikifaktury, "towary");
@@ -669,7 +669,7 @@ public class PdfFP {
     public static PdfPTable dolaczpozycjedofakturyvatmarza(FakturaelementygraficzneDAO fakturaelementygraficzneDAO, PdfWriter writer, Faktura selected, Map<String, Integer> wymiary, List<Pozycjenafakturze> skladnikifaktury, Document document, List<Fakturadodelementy> elementydod, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO) throws DocumentException, IOException {
         Pozycjenafakturze pobrane = new Pozycjenafakturze();
         for (Pozycjenafakturze p : skladnikifaktury) {
-            switch (p.getPozycjenafakturzePK().getNazwa()) {
+            switch (p.getNazwa()) {
                 case "akordeon:formwzor:towary":
                     //Dane do tablicy z wierszami
                     pobrane = zwrocPolozenieElementu(skladnikifaktury, "towary");
@@ -684,7 +684,7 @@ public class PdfFP {
     public static PdfPTable dolaczpozycjedofaktury2normalkorekta(FakturaelementygraficzneDAO fakturaelementygraficzneDAO, PdfWriter writer, Faktura selected, Map<String, Integer> wymiary, List<Pozycjenafakturze> skladnikifaktury, Document document, List<Fakturadodelementy> elementydod, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO) throws DocumentException, IOException {
         Pozycjenafakturze pobrane = new Pozycjenafakturze();
         for (Pozycjenafakturze p : skladnikifaktury) {
-            switch (p.getPozycjenafakturzePK().getNazwa()) {
+            switch (p.getNazwa()) {
                 case "akordeon:formwzor:towary":
                     //Dane do tablicy z wierszami
                     pobrane = zwrocPolozenieElementu(skladnikifaktury, "towary");
@@ -699,7 +699,7 @@ public class PdfFP {
     public static PdfPTable dolaczpozycjedofakturyvatmarzakorekta(FakturaelementygraficzneDAO fakturaelementygraficzneDAO, PdfWriter writer, Faktura selected, Map<String, Integer> wymiary, List<Pozycjenafakturze> skladnikifaktury, Document document, List<Fakturadodelementy> elementydod, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO) throws DocumentException, IOException {
         Pozycjenafakturze pobrane = new Pozycjenafakturze();
         for (Pozycjenafakturze p : skladnikifaktury) {
-            switch (p.getPozycjenafakturzePK().getNazwa()) {
+            switch (p.getNazwa()) {
                 case "akordeon:formwzor:towary":
                     //Dane do tablicy z wierszami
                     pobrane = zwrocPolozenieElementu(skladnikifaktury, "towary");
@@ -714,7 +714,7 @@ public class PdfFP {
     public static PdfPTable dolaczpozycjedofakturydlugacz2korekta(FakturaelementygraficzneDAO fakturaelementygraficzneDAO, PdfWriter writer, Faktura selected, Map<String, Integer> wymiary, List<Pozycjenafakturze> skladnikifaktury, Podatnik podatnik, Document document, List<Fakturadodelementy> elementydod, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO) throws DocumentException, IOException {
         Pozycjenafakturze pobrane = new Pozycjenafakturze();
         for (Pozycjenafakturze p : skladnikifaktury) {
-            switch (p.getPozycjenafakturzePK().getNazwa()) {
+            switch (p.getNazwa()) {
                 case "akordeon:formwzor:towary":
                     //Dane do tablicy z wierszami
                     pobrane = zwrocPolozenieElementu(skladnikifaktury, "towary");
@@ -736,7 +736,7 @@ public class PdfFP {
             absText(canvas, "Przyczyna korekty: " + selected.getPrzyczynakorekty(), (int) (pobrane.getLewy() / dzielnik), wymiar, 8);
         }
         for (Pozycjenafakturze p : skladnikifaktury) {
-            switch (p.getPozycjenafakturzePK().getNazwa()) {
+            switch (p.getNazwa()) {
                 case "akordeon:formwzor:datasprzedazy":
                     //Dane do moudlu data
                     wymiar = (int) gora - 45;
@@ -797,7 +797,7 @@ public class PdfFP {
 
     private static Pozycjenafakturze zwrocPolozenieElementu(List<Pozycjenafakturze> lista, String data) {
         for (Pozycjenafakturze p : lista) {
-            if (p.getPozycjenafakturzePK().getNazwa().contains(data)) {
+            if (p.getNazwa().contains(data)) {
                 return p;
             }
         }

@@ -27,7 +27,6 @@ import error.E;
 import java.io.Serializable;
 import java.security.Principal;
 import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -38,15 +37,16 @@ import view.WpisView;
 public class GuestPreferences implements Serializable {
 
         private String theme = "redmond"; //default
-        @Inject private UzDAO uzDAO;
+        @Inject 
+        private UzDAO uzDAO;
         @Inject
         private WpisView wpisView;
         
         
-        public String getTheme() {
-        HttpServletRequest request;
-        request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+      public String getTheme() {
         try {
+            HttpServletRequest request;
+            request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             Principal principal = request.getUserPrincipal();
             String kto = principal.getName();
             Uz ktoUz = uzDAO.findUzByLogin(kto);
@@ -57,12 +57,16 @@ public class GuestPreferences implements Serializable {
         return theme;
     }
 
-        public void setTheme(String theme) {
-                this.theme = theme;
-                Uz tmp = wpisView.getUzer();
-                tmp.setTheme(theme);
-                uzDAO.edit(tmp);
+       public void setTheme(String theme) {
+        try {
+            this.theme = theme;
+            Uz tmp = wpisView.getUzer();
+            tmp.setTheme(theme);
+            uzDAO.edit(tmp);
+        } catch (Exception e) {
+            E.e(e);
         }
+    }
 
     public UzDAO getUzDAO() {
         return uzDAO;

@@ -22,7 +22,8 @@ public class ThemeSwitcherBean implements Serializable {
     }
     
     
-    @Inject private GuestPreferences gp;
+    @Inject 
+    private GuestPreferences gp;
 
     public void setGp(GuestPreferences gp) {
         this.gp = gp;

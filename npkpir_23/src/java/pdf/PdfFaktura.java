@@ -47,8 +47,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletContext;
@@ -280,7 +280,7 @@ public class PdfFaktura extends Pdf implements Serializable {
         ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         String realPath = ctx.getRealPath("/");
         String nazwapliku = realPath + "wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma" + podatnik.getNip() + ".pdf";
-        List<Pozycjenafakturze> skladnikifaktury = pozycjeDAO.findFakturyPodatnik(podatnik.getNazwapelna());
+        List<Pozycjenafakturze> skladnikifaktury = pozycjeDAO.findFakturyPodatnik(podatnik);
         if (skladnikifaktury.isEmpty()) {
             Msg.msg("e", "Nie zdefiniowano pozycji faktury. Nie można jej wydrukować. Przejdź do zakładki: 'Wzór faktury'.", "akordeon:formstworz:messagesinline");
         } else {
@@ -439,7 +439,7 @@ public class PdfFaktura extends Pdf implements Serializable {
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
         PdfFP.dodajopisdok(document);
         document.open();
-        List<Pozycjenafakturze> lista = pozycjeDAO.findFakturyPodatnik(podatnik.getNazwapelna());
+        List<Pozycjenafakturze> lista = pozycjeDAO.findFakturyPodatnik(podatnik);
         Collections.sort(lista, new Pozycjenafakturzecomparator());
         Map<String, Integer> wymiary = PdfFP.pobierzwymiarGora(lista);
         PdfFP.dodajnaglowekstopka(writer, elementydod);

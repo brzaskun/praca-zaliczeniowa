@@ -77,11 +77,12 @@ public class FakturywystokresoweDAO  extends DAO implements Serializable {
 //        } catch (Exception e) { E.e(e); }
 //        return zwrot;
 //    }
-     
+ 
+    
      public List<Fakturywystokresowe> findPodatnikBiezace(String podatnik, String rok){
         List<Fakturywystokresowe> zwrot = Collections.synchronizedList(new ArrayList<>());
         try {
-            zwrot = fakturywystokresoweFacade.findPodatnikRokFakturyBiezace(podatnik, rok);
+            zwrot = getEntityManager().createNamedQuery("Fakturywystokresowe.findByPodatnikRokBiezace").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
         } catch (Exception e) { E.e(e); }
         return zwrot;
     }

@@ -30,7 +30,9 @@ public class PodatConv implements javax.faces.convert.Converter, Serializable {
     
     @PostConstruct
     public void init() { //E.m(this);
-        lista = podatnikDAO.findAll();
+        try {
+            lista = podatnikDAO.findAll();
+        } catch (Exception e) {}
     }
 
     @Override

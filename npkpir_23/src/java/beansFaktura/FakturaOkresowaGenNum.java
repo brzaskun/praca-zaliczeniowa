@@ -13,7 +13,8 @@ import java.util.Iterator;
 import java.util.List;
 import javax.inject.Named;
 import msg.Msg;
-import view.WpisView; import org.primefaces.PrimeFaces;
+import org.primefaces.PrimeFaces;
+ import view.WpisView;
 
 /**
  *
@@ -51,9 +52,9 @@ public class FakturaOkresowaGenNum {
             }
         } catch (Exception er) {
         }
-        Integer istniejafakturyrok = fakturaDAO.liczFakturyByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt()).intValue();
+        boolean istniejafakturyrok = fakturaDAO.findFakturyByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt()).isEmpty();
         if (wpisView.getPodatnikObiekt().getSchematnumeracji() != null && !wpisView.getPodatnikObiekt().getSchematnumeracji().equals("")) {
-            if (istniejafakturyrok == 0) {
+            if (istniejafakturyrok == true) {
                 String numer = FakturaBean.uzyjwzorcagenerujpierwszynumerFaktura(wpisView.getPodatnikObiekt().getSchematnumeracji(), wpisView);
                 selected.setNumerkolejny(numer);
                 selected.setLp(1);

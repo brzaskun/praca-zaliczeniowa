@@ -4,6 +4,7 @@
  */
 package dao;
 
+import entity.Podatnik;
 import entity.Pozycjenafakturze;
 import java.io.Serializable;
 import java.util.List;
@@ -47,7 +48,7 @@ public class PozycjenafakturzeDAO  extends DAO implements Serializable {
      * @param podatnik
      * @return
      */
-    public List<Pozycjenafakturze> findFakturyPodatnik(String podatnik){
+    public List<Pozycjenafakturze> findFakturyPodatnik(Podatnik podatnik){
         return getEntityManager().createNamedQuery("Pozycjenafakturze.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
 }

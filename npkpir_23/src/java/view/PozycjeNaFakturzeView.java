@@ -4,12 +4,9 @@
  */
 package view;
 
-import dao.PodatnikDAO;
 import dao.PozycjenafakturzeDAO;
 import embeddable.Pozycjenafakturzebazadanych;
-import entity.Podatnik;
 import entity.Pozycjenafakturze;
-import entity.PozycjenafakturzePK;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -78,21 +75,22 @@ public class PozycjeNaFakturzeView implements Serializable {
    
 
     public void zachowajpozycje() {
-        PozycjenafakturzePK klucz = new PozycjenafakturzePK();
-        klucz.setNazwa(co);
-        klucz.setPodatnik(wpisView.getPodatnikWpisu());
-        Pozycjenafakturze pozycje = new Pozycjenafakturze(klucz, true, gora, lewy);
+        Pozycjenafakturze pozycje = new Pozycjenafakturze(co, wpisView.getPodatnikObiekt(), gora, lewy);
         try {
-            pozycjeDAO.create(pozycje);
-        } catch (Exception e) { E.e(e); 
-            pozycjeDAO.edit(pozycje);
+            if (pozycje.getId()!=null) {
+                pozycjeDAO.create(pozycje);
+            } else {
+                pozycjeDAO.edit(pozycje);
+            }
+        } catch (Exception e) { 
+            E.e(e); 
         }
         Msg.msg("i", "Zachowano "+pozycje.toString(), "form:messages");
     }
 
     public void odchowaj() {
         try {
-            List<Pozycjenafakturze> lista = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikWpisu());
+            List<Pozycjenafakturze> lista = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikObiekt());
             if (!lista.isEmpty()) {
                 lewyTablica = "";
                 goraTablica = "";
@@ -100,7 +98,7 @@ public class PozycjeNaFakturzeView implements Serializable {
                 for (Pozycjenafakturze p : lista) {
                     lewyTablica = lewyTablica + p.getLewy() + ",";
                     goraTablica = goraTablica + p.getGora() + ",";
-                    coTablica = coTablica + p.getPozycjenafakturzePK().getNazwa() + ",";
+                    coTablica = coTablica + p.getNazwa() + ",";
                 }
             }
         } catch (Exception e) { E.e(e); 
@@ -108,22 +106,22 @@ public class PozycjeNaFakturzeView implements Serializable {
         }
     }
 
-    @Inject
-    private PodatnikDAO podatnikDAO;
-    
-    public void dodajnowakolumne() {
-        System.out.println("startt");
-        List<Pozycjenafakturze> lista = pozycjeDAO.findAll();
-        int i =1;
-        for (Pozycjenafakturze p: lista) {
-            Podatnik podid = podatnikDAO.findByNazwaPelna(p.getPozycjenafakturzePK().getPodatnik());
-            System.out.println("p: "+p.getPozycjenafakturzePK().getPodatnik());
-            p.setPodid(podid);
-            p.setId(i++);
-            pozycjeDAO.edit(p);
-            //System.out.println("podid: "+podid.getPrintnazwa());
-        }
-    }
+//    @Inject
+//    private PodatnikDAO podatnikDAO;
+//    
+//    public void dodajnowakolumne() {
+//        System.out.println("startt");
+//        List<Pozycjenafakturze> lista = pozycjeDAO.findAll();
+//        int i =1;
+//        for (Pozycjenafakturze p: lista) {
+//            Podatnik podid = podatnikDAO.findByNazwaPelna(p.getPozycjenafakturzePK.getPodatnik());
+//            System.out.println("p: "+p.getPozycjenafakturzePK().getPodatnik());
+//            p.setPodid(podid);
+//            p.setId(i++);
+//            pozycjeDAO.edit(p);
+//            //System.out.println("podid: "+podid.getPrintnazwa());
+//        }
+//    }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
     public String getWest() {

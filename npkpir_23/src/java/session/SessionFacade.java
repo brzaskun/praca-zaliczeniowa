@@ -619,10 +619,7 @@ public class SessionFacade<T> implements Serializable {
     public List<Fakturywystokresowe> findPodatnikRokFaktury(String podatnik, String rok) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Fakturywystokresowe.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
-public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, String rok) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Fakturywystokresowe.findByPodatnikRokBiezace").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
-    }
-    
+
 
     public List<Evewidencja> findEvewidencjaByTransakcja(String transakcja) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Evewidencja.findByTransakcja").setParameter("transakcja", transakcja).getResultList());
@@ -636,11 +633,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Faktura.findByKontrahent").setParameter("kontrahent_nip", kontrahent_nip).setParameter("wystawcanazwa", wystawca).getResultList());
     }
 
-    public List<Faktura> findByKontrahentNipRok(String kontrahent_nip, Podatnik wystawca, String rok) {
-        if (kontrahent_nip.equals("9552379284")) {
-        }
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Faktura.findByKontrahentRok").setParameter("kontrahent_nip", kontrahent_nip).setParameter("wystawcanazwa", wystawca).setParameter("rok", rok).getResultList());
-    }
+    
     
     public List<Faktura> findByKontrahentNipPo2015(String kontrahent_nip, Podatnik wystawca) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Faktura.findByKontrahentRokPo2015").setParameter("kontrahent_nip", kontrahent_nip).setParameter("wystawcanazwa", wystawca).getResultList());
@@ -650,17 +643,8 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Faktura.findByRok").setParameter("rok", rok).getResultList());
     }
 
-    public List<Faktura> findFakturyByRokPodatnik(String rok, Podatnik wystawcanazwa) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Faktura.findByRokPodatnik").setParameter("rok", rok).setParameter("wystawcanazwa", wystawcanazwa).getResultList());
-    }
-
-    public Long liczFakturyByRokPodatnik(String rok, Podatnik wystawcanazwa) {
-        return (Long)  getEntityManager().createNamedQuery("Faktura.liczByRokPodatnik").setParameter("rok", rok).setParameter("wystawcanazwa", wystawcanazwa).getSingleResult();
-    }
-
-    public Faktura findOstatniaFakturaByRokPodatnik(String rok, Podatnik wystawcanazwa) {
-        return (Faktura)  getEntityManager().createNamedQuery("Faktura.findOstatniaFakturaByRokPodatnik").setParameter("rok", rok).setParameter("wystawcanazwa", wystawcanazwa).setMaxResults(1).getSingleResult();
-    }
+    
+    
 
     public List<Fakturadodelementy> findFaktElementyPodatnik(String podatnik) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Fakturadodelementy.findByPodatnik").setParameter("podatnik", podatnik).getResultList());
@@ -670,30 +654,14 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return (Fakturadodelementy)  getEntityManager().createNamedQuery("Fakturadodelementy.findByNazwaelementuPodatnik").setParameter("podatnik", podatnik).setParameter("nazwaelementu", "mailstopka").getSingleResult();
     }
 
-    public List<Faktura> findByPodatnik(Podatnik podatnik) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Faktura.findByWystawcanazwa").setParameter("wystawcanazwa", podatnik).getResultList());
-    }
 
-    public Faktura findByNumerPodatnik(String numerkolejny, Podatnik podatnik) {
-        return (Faktura)  getEntityManager().createNamedQuery("Faktura.findByNumerkolejnyWystawcanazwa").setParameter("wystawcanazwa", podatnik).setParameter("numerkolejny", numerkolejny).getSingleResult();
-    }
-
-    public Faktura findByNumerPodatnikDlaOkresowej(String numerkolejny, Podatnik podatnik) {
-        return (Faktura)  getEntityManager().createNamedQuery("Faktura.findByNumerkolejnyWystawcanazwaDlaOkresowej").setParameter("wystawcanazwa", podatnik).setParameter("numerkolejny", numerkolejny).getSingleResult();
-    }
-    
-    public List<Faktura> findByPodatnikRok(Podatnik podatnik, String rok) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Faktura.findByWystawcanazwaRok").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).getResultList());
-    }
 
     
-    public List<Faktura> findByPodatnikRokMcPlatnosci(Podatnik podatnik, String rok, String mc, boolean niezaplacone0zaplacone1) {
-        if (niezaplacone0zaplacone1 == false) {
-            return Collections.synchronizedList( getEntityManager().createNamedQuery("Faktura.findByWystawcanazwaRokMcNiezaplacone").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList());
-        } else {
-            return Collections.synchronizedList( getEntityManager().createNamedQuery("Faktura.findByWystawcanazwaRokMcZaplacone").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList());
-        }
-    }
+    
+    
+
+    
+    
 
     public Fakturywystokresowe findOkresowa(String rok, String klientnip, String nazwapelna, double brutto) {
         return (Fakturywystokresowe)  getEntityManager().createNamedQuery("Fakturywystokresowe.findByOkresowa").setParameter("rok", rok).setParameter("podatnik", nazwapelna).setParameter("nipodbiorcy", klientnip).setParameter("brutto", brutto).getSingleResult();
@@ -2074,13 +2042,9 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Zusstawki.findZUS").setParameter("duzy0maly1", duzy0maly1).getResultList());
     }
 
-    public Collection<? extends Klienci> findKontrahentFaktury(Podatnik podatnikObiekt) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Faktura.findByKonrahentPodatnik").setParameter("podatnik", podatnikObiekt).getResultList());
-    }
     
-    public Collection<? extends Klienci> findKontrahentFakturyRO(Podatnik podatnikObiekt) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Faktura.findByKonrahentPodatnik").setParameter("podatnik", podatnikObiekt).setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).setHint(QueryHints.READ_ONLY, HintValues.TRUE).getResultList());
-    }
+    
+    
 
     public List<FakturaRozrachunki> rozrachunkiZDnia(Date d, WpisView wpisView) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("FakturaRozrachunki.findByData_k").setParameter("data", d, TemporalType.DATE).setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList());
@@ -2367,9 +2331,7 @@ public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, 
         return (SrodekTrw)  getEntityManager().createNamedQuery("SrodekTrw.findById").setParameter("id", id).getSingleResult();
     }
 
-    public List<Faktura> findKontrahentIDFakt(Klienci t) {
-        return  getEntityManager().createNamedQuery("Faktura.findByKontrahentID").setParameter("kontrahent", t).getResultList();
-    }
+    
 
      public void klientJPKdeleteByPodRokMc (Podatnik podatnik, String rok, String mc) {
          getEntityManager().createNamedQuery("KlientJPK.deletePodRokMc").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mc", mc).executeUpdate();
