@@ -67,7 +67,7 @@ public class PdfVAT7new {
         PdfWriter writer = inicjacjaWritera(document, nazwa);
         naglowekStopkaP(writer);
         otwarcieDokumentu(document, nazwa);
-        Podatnik pod = podatnikDAO.find(d.getPodatnik());
+        Podatnik pod = podatnikDAO.findByNazwaPelna(d.getPodatnik());
         if (d.getWzorschemy().contains("M")) {
             dodajOpisWstepny(document, "Deklaracja VAT firma: ", pod, d.getMiesiac(), d.getRok());
         } else {

@@ -170,12 +170,12 @@ public class Vat7DKView implements Serializable {
 //        }
 //        List<DeklaracjaVatSchema> schemyLista = deklaracjaVatSchemaDAO.findAll();
 //        pasujacaSchema = VATDeklaracja.odnajdzscheme(vatokres, rok, mc, schemyLista);
-//        HashMap<String, EVatwpisSuma> sumaewidencji = ewidencjeVatDAO.find(rok, mc, podatnik).getSumaewidencji();
+//        HashMap<String, EVatwpisSuma> sumaewidencji = ewidencjeVatDAO.findByNazwaPelna(rok, mc, podatnik).getSumaewidencji();
 //        ArrayList<EVatwpisSuma> wartosci = new ArrayList<>(sumaewidencji.values());
 //        //tu zduplikowac ewidencje
 //        //VATDeklaracja.duplikujZapisyDlaTransakcji(wartosci);
 //        //sumuj ewidencje 51 i52 pola
-//        Evpozycja evpozycja = evpozycjaDAO.find("Nabycie towarów i usług pozostałych");
+//        Evpozycja evpozycja = evpozycjaDAO.findByNazwaPelna("Nabycie towarów i usług pozostałych");
 //        VATDeklaracja.agregacjaEwidencjiZakupowych5152(wartosci,evpozycja);
 //        //
 //        pozycjeDeklaracjiVAT.setCelzlozenia("1");
@@ -666,7 +666,7 @@ public class Vat7DKView implements Serializable {
         try {
             //jak jest z reki to zeby nie bralo z ustawien
             if (pole47zreki == false) {
-                Podatnik pod = podatnikDAO.find(podatnik);
+                Podatnik pod = podatnikDAO.findByNazwaPelna(podatnik);
                 String Pole47 = pod.getPole47();
                 Integer PoleI47 = Integer.parseInt(Pole47);
                 pozycjeSzczegoloweVAT.setPole47(Pole47);

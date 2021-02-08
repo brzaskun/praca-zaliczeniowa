@@ -40,7 +40,7 @@ public class Opis implements Serializable{
     
     @PostConstruct
     private void init() { //E.m(this);
-        podatnik = podatnikDAO.find(wpisView.getPodatnikWpisu());
+        podatnik = podatnikDAO.findByNazwaPelna(wpisView.getPodatnikWpisu());
         try{
             opisy.addAll(podatnik.getOpisypkpir());
         } catch (Exception e){}

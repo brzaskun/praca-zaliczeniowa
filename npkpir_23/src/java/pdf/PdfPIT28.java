@@ -73,7 +73,7 @@ public class PdfPIT28 {
             document.add(Chunk.NEWLINE);
             miziu1 = new Paragraph(new Phrase("Firma: "+wpisView.getPrintNazwa(),fontM));
             document.add(miziu1);
-            Podatnik pod = podatnikDAO.find(selected.getPodatnik());
+            Podatnik pod = podatnikDAO.findByNazwaPelna(selected.getPodatnik());
             miziu1 = new Paragraph(new Phrase("adres: "+pod.getMiejscowosc()+" "+pod.getUlica()+" "+pod.getNrdomu(),fontM));
             document.add(miziu1);
             miziu1 = new Paragraph(new Phrase("NIP: "+pod.getNip(),fontM));

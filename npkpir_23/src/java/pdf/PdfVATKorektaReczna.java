@@ -87,7 +87,7 @@ public class PdfVATKorektaReczna {
             document.add(Chunk.NEWLINE);
             miziu1 = new Paragraph(new Phrase("Firma: "+selected.getDeklaracjaKorekta().getPodatnik(),fontM));
             document.add(miziu1);
-            Podatnik pod = podatnikDAO.find(selected.getDeklaracjaKorekta().getPodatnik());
+            Podatnik pod = podatnikDAO.findByNazwaPelna(selected.getDeklaracjaKorekta().getPodatnik());
             miziu1 = new Paragraph(new Phrase("adres: "+pod.getMiejscowosc()+" "+pod.getUlica()+" "+pod.getNrdomu(),fontM));
             document.add(miziu1);
             miziu1 = new Paragraph(new Phrase("NIP: "+pod.getNip(),fontM));

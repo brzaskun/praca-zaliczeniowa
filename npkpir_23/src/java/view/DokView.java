@@ -269,7 +269,7 @@ public class DokView implements Serializable {
         } catch (Exception e) {
             E.e(e);
             String pod = "GRZELCZYK";
-            podX = podatnikDAO.find(pod);
+            podX = podatnikDAO.findByNazwaPelna(pod);
             rodzajedokKlienta.addAll(rodzajedokDAO.findListaPodatnik(podX, wpisView.getRokWpisuSt()));
         }
         //pobranie ostatniego dokumentu

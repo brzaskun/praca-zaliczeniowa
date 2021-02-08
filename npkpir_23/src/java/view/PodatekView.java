@@ -117,7 +117,7 @@ public class PodatekView implements Serializable{
         dochód = (przychody.subtract(koszty));
         dochód = dochód.setScale(0, RoundingMode.HALF_EVEN);
         String poszukiwany = wpisView.getPodatnikWpisu();
-        Podatnik selected=podatnikDAO.find(poszukiwany);
+        Podatnik selected=podatnikDAO.findByNazwaPelna(poszukiwany);
         opodatkowanie = wpisView.getRodzajopodatkowania();
         String rodzajop = opodatkowanie;
         Double stawka;

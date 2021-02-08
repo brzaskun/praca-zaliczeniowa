@@ -142,7 +142,7 @@ public class ZestawienieRyczaltView implements Serializable {
             zebranieMcy = Collections.synchronizedList(new ArrayList<>());
             listapit = Collections.synchronizedList(new ArrayList<>());
             listawybranychudzialowcow = Collections.synchronizedList(new ArrayList<>());
-            Podatnik pod = podatnikDAO.find(wpisView.getPodatnikWpisu());
+            Podatnik pod = podatnikDAO.findByNazwaPelna(wpisView.getPodatnikWpisu());
             List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
             try {
                 for (PodatnikUdzialy p : udzialy) {
@@ -459,7 +459,7 @@ public class ZestawienieRyczaltView implements Serializable {
     //oblicze pit ryczałtowca  i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje
     public void obliczPit() {
         if (!wybranyudzialowiec.equals("wybierz osobe")) {
-                Podatnik tmpP = podatnikDAO.find(wpisView.getPodatnikWpisu());
+                Podatnik tmpP = podatnikDAO.findByNazwaPelna(wpisView.getPodatnikWpisu());
                 List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
                 for (PodatnikUdzialy p : udzialy) {
                     if (p.getNazwiskoimie().equals(wybranyudzialowiec)) {

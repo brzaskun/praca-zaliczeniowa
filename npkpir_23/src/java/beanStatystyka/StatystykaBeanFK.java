@@ -49,7 +49,7 @@ public class StatystykaBeanFK implements Runnable {
     @Override
     public void run() {
         List<Dokfk> dokumenty = dokDAOfk.findDokfkPodatnikRok(p, rok);
-        Podatnik podatnik = podatnikDAO.find("8511005008");
+        Podatnik podatnik = podatnikDAO.findByNazwaPelna("8511005008");
         List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(p.getNip(), podatnik, rok);
         Statystyka sb = new Statystyka(lp++, p, rok, iloscdok(dokumenty), obrotyfk(dokumenty), iloscfaktur(faktury), kwotafaktur(faktury));
         if (sb.getIloscdokumentow() > 0 || sb.getIloscfaktur() > 0) {

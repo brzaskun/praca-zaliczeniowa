@@ -189,7 +189,7 @@ public class PodatnikView implements Serializable {
             weryfikujlisteDokumentowPodatnika(selected, wpisView.getRokWpisuSt(), wpisView.getRokUprzedniSt());
             zweryfikujBazeBiezacegoPodatnika();
             uzupelnijListyKont();
-            selectedStrata = podatnikDAO.find(wpisView.getPodatnikWpisu());
+            selectedStrata = podatnikDAO.findByNazwaPelna(wpisView.getPodatnikWpisu());
         } catch (Exception e) { E.e(e); 
         }
         rodzajeDokumentowLista = rodzajedokDAO.findListaPodatnikEdycja(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
@@ -476,7 +476,7 @@ private DokDAO dokDAO;
 //        String regex = "^((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$";
 //        Pattern p = Pattern.compile(regex);
 //        Matcher m = p.matcher(pricesString);
-//        while (m.find()) {
+//        while (m.findByNazwaPelna()) {
 //        }
         String s = "WB1".toUpperCase(new Locale("pl"));
         error.E.s("nazwa "+s);

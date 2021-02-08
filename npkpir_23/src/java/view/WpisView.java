@@ -114,7 +114,7 @@ public class WpisView implements Serializable {
             obsluzMce();
             uzupelnijdanepodatnika();
             czyniegosc();
-            podatnikwzorcowy = podatnikDAO.find("Wzorcowy");
+            podatnikwzorcowy = podatnikDAO.findByNazwaPelna("Wzorcowy");
             czytojetsbiuroiszef();
             jakitobedziejpk2020();
         }
@@ -307,7 +307,7 @@ public class WpisView implements Serializable {
 //    public String findNazwaPodatnika() {
 //        String wprowadzilX = getPrincipal().getName();
 //        uzer = uzDAO.findUzByLogin(wprowadzilX);
-//        Wpis wpis = wpisDAO.find(wprowadzilX);
+//        Wpis wpis = wpisDAO.findByNazwaPelna(wprowadzilX);
 //        if (wpis.getPodatnikWpisu() != null) {
 //            return wpis.getPodatnikWpisu();
 //        } else {

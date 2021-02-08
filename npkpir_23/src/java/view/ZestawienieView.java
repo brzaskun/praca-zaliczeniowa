@@ -175,7 +175,7 @@ public class ZestawienieView implements Serializable {
             listapit = Collections.synchronizedList(new ArrayList<>());
             listawybranychudzialowcow = Collections.synchronizedList(new ArrayList<>());
             pobranecechypodatnik = cechazapisuDAOfk.findPodatnikOnlyAktywne(wpisView.getPodatnikObiekt());
-            Podatnik pod = podatnikDAO.find(wpisView.getPodatnikWpisu());
+            Podatnik pod = podatnikDAO.findByNazwaPelna(wpisView.getPodatnikWpisu());
             try {
                 List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
                 for (PodatnikUdzialy p : udzialy) {

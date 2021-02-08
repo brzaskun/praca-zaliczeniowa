@@ -40,7 +40,6 @@ import entity.PodatnikEwidencjaDok;
 import entity.PodatnikOpodatkowanieD;
 import entity.PodatnikUdzialy;
 import entity.Podstawki;
-import entity.Pozycjenafakturze;
 import entity.Rodzajedok;
 import entity.Ryczpoz;
 import entity.SMTPSettings;
@@ -623,9 +622,7 @@ public class SessionFacade<T> implements Serializable {
 public List<Fakturywystokresowe> findPodatnikRokFakturyBiezace(String podatnik, String rok) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Fakturywystokresowe.findByPodatnikRokBiezace").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
-    public List<Pozycjenafakturze> findFakturyPodatnik(String podatnik) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Pozycjenafakturze.findByPodatnik").setParameter("podatnik", podatnik).getResultList());
-    }
+    
 
     public List<Evewidencja> findEvewidencjaByTransakcja(String transakcja) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Evewidencja.findByTransakcja").setParameter("transakcja", transakcja).getResultList());

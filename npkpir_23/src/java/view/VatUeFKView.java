@@ -401,7 +401,7 @@ public class VatUeFKView implements Serializable {
             if (d == null) {
                 Msg.msg("e", "Nie wybrano deklaracji");
             } else {
-                Podatnik podatnik = podatnikDAO.find(d.getPodatnik());
+                Podatnik podatnik = podatnikDAO.findByNazwaPelna(d.getPodatnik());
                 PdfVATUEdekl.drukujVATUE(podatnikDAO, d, wpisView, podatnik);
                 Msg.msg("Wydrukowano deklaracje");
             }

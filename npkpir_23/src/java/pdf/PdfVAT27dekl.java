@@ -50,7 +50,7 @@ public class PdfVAT27dekl {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            Podatnik pod = podatnikDAO.find(d.getPodatnik());
+            Podatnik pod = podatnikDAO.findByNazwaPelna(d.getPodatnik());
             dodajOpisWstepny(document, "Deklaracja VAT-27 firma: ", pod, d.getMiesiac(), d.getRok());
             dodajTabele(document, testobjects.getPozycje(d.getPozycje()),97,1);
             uzupelnijDlaVAT7(document, d, wpisView);

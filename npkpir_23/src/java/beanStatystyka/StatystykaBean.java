@@ -51,7 +51,7 @@ public class StatystykaBean implements Runnable {
     @Override
     public void run() {
         List<Dok> dokumenty = dokDAO.zwrocBiezacegoKlientaRok(p, rok);
-        Podatnik podatnik = podatnikDAO.find("8511005008");
+        Podatnik podatnik = podatnikDAO.findByNazwaPelna("8511005008");
         List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(p.getNip(), podatnik, rok);
         Statystyka sb = new Statystyka(lp++, p, rok, iloscdok(dokumenty), obroty(dokumenty), iloscfaktur(faktury), kwotafaktur(faktury));
         if (sb.getIloscdokumentow() > 0 && sb.getIloscfaktur() > 0) {

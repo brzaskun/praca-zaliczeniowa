@@ -117,7 +117,7 @@ public class PodatnikDAO extends DAO implements Serializable{
         }
         return zwrot;
     }
-    public Podatnik find(String np) {
+    public Podatnik findByNazwaPelna(String np) {
         Podatnik zwrot = null;
         try {
             zwrot = (Podatnik)  getEntityManager().createNamedQuery("Podatnik.findByNazwapelna").setParameter("nazwapelna", np).getSingleResult();

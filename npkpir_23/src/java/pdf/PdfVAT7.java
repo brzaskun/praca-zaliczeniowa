@@ -219,7 +219,7 @@ public class PdfVAT7 extends Pdf implements Serializable {
     private static String vat72;
 
     public static void drukuj(Deklaracjevat dkl, int index, PodatnikDAO podatnikDAO) throws DocumentException, FileNotFoundException, IOException {
-        Podatnik p = podatnikDAO.find(dkl.getPodatnik());
+        Podatnik p = podatnikDAO.findByNazwaPelna(dkl.getPodatnik());
         if (dkl.isMiesiackwartal() == true) {
             PdfVAT7K.drukujVAT7K(dkl, p, index);
         } else {
@@ -300,7 +300,7 @@ public class PdfVAT7 extends Pdf implements Serializable {
 
     //drukuje deklaracje przygotowana do wysylki
     public static void drukujwys(PodatnikDAO podatnikDAO, Deklaracjevat dkl) throws DocumentException, FileNotFoundException, IOException {
-        Podatnik p = podatnikDAO.find(dkl.getPodatnik());
+        Podatnik p = podatnikDAO.findByNazwaPelna(dkl.getPodatnik());
         if (dkl.isMiesiackwartal() == true) {
             PdfVAT7K.drukujwysVAT7K(dkl, p);
         } else {
@@ -381,7 +381,7 @@ public class PdfVAT7 extends Pdf implements Serializable {
         try {
             String var = l.getWzorschemy();
             if (l.getWzorschemy().equals("M-14")) {
-                Podatnik p = podatnikDAO.find(d.getPodatnik());
+                Podatnik p = podatnikDAO.findByNazwaPelna(d.getPodatnik());
                 PozycjeSzczegoloweVAT o = d.getPozycjeszczegolowe();
                 absText(writer, p.getNip(), 70, 795);
                 absText(writer, d.getMiesiac(), 200, 750);
@@ -440,7 +440,7 @@ public class PdfVAT7 extends Pdf implements Serializable {
                 absText(writer, l.getIdentyfikator(), 440, 760, 6);
             }
         } catch (Exception es) {
-            Podatnik p = podatnikDAO.find(d.getPodatnik());
+            Podatnik p = podatnikDAO.findByNazwaPelna(d.getPodatnik());
             PozycjeSzczegoloweVAT o = d.getPozycjeszczegolowe();
             absText(writer, p.getNip(), 70, 790);
             absText(writer, d.getMiesiac(), 200, 745);
@@ -511,7 +511,7 @@ public class PdfVAT7 extends Pdf implements Serializable {
         try {
             String var = l.getWzorschemy();
             if (l.getWzorschemy().equals("M-14")) {
-                Podatnik p = podatnikDAO.find(d.getPodatnik());
+                Podatnik p = podatnikDAO.findByNazwaPelna(d.getPodatnik());
                 PozycjeSzczegoloweVAT o = d.getPozycjeszczegolowe();
                 absText(writer, o.getPole49(), 330, 774, "f");
                 absText(writer, o.getPole50(), 490, 774, "f");
@@ -541,7 +541,7 @@ public class PdfVAT7 extends Pdf implements Serializable {
 
             }
         } catch (Exception es) {
-            Podatnik p = podatnikDAO.find(d.getPodatnik());
+            Podatnik p = podatnikDAO.findByNazwaPelna(d.getPodatnik());
             PozycjeSzczegoloweVAT o = d.getPozycjeszczegolowe();
             absText(writer, o.getPole47(), 490, 750, "f");
             absText(writer, o.getPole48(), 490, 726, "f");
@@ -577,7 +577,7 @@ public class PdfVAT7 extends Pdf implements Serializable {
         try {
             String var = l.getWzorschemy();
             if (l.getWzorschemy().equals("M-14")) {
-                Podatnik p = podatnikDAO.find(d.getPodatnik());
+                Podatnik p = podatnikDAO.findByNazwaPelna(d.getPodatnik());
                 PozycjeSzczegoloweVAT o = d.getPozycjeszczegolowe();
                 absText(writer, p.getNip(), 70, 795);
                 absText(writer, d.getMiesiac(), 200, 750);
@@ -625,7 +625,7 @@ public class PdfVAT7 extends Pdf implements Serializable {
 
             }
         } catch (Exception es) {
-            Podatnik p = podatnikDAO.find(d.getPodatnik());
+            Podatnik p = podatnikDAO.findByNazwaPelna(d.getPodatnik());
             PozycjeSzczegoloweVAT o = d.getPozycjeszczegolowe();
             absText(writer, p.getNip(), 70, 790);
             absText(writer, d.getMiesiac(), 200, 745);
@@ -686,7 +686,7 @@ public class PdfVAT7 extends Pdf implements Serializable {
         try {
             String var = l.getWzorschemy();
             if (l.getWzorschemy().equals("M-14")) {
-                Podatnik p = podatnikDAO.find(d.getPodatnik());
+                Podatnik p = podatnikDAO.findByNazwaPelna(d.getPodatnik());
                 PozycjeSzczegoloweVAT o = d.getPozycjeszczegolowe();
                 absText(writer, o.getPole39(), 330, 774, "f");
                 absText(writer, o.getPole40(), 490, 774, "f");
@@ -716,7 +716,7 @@ public class PdfVAT7 extends Pdf implements Serializable {
                 absText(writer, "91 8120976", 80, 238);
             }
         } catch (Exception es) {
-            Podatnik p = podatnikDAO.find(d.getPodatnik());
+            Podatnik p = podatnikDAO.findByNazwaPelna(d.getPodatnik());
             PozycjeSzczegoloweVAT o = d.getPozycjeszczegolowe();
             absText(writer, o.getPole47(), 490, 750, "f");
             absText(writer, o.getPole48(), 490, 726, "f");

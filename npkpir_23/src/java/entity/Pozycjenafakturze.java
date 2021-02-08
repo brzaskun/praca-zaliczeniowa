@@ -9,6 +9,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -45,6 +46,12 @@ public class Pozycjenafakturze implements Serializable {
     @NotNull
     @Column(name = "lewy")
     private int lewy;
+    @JoinColumn(name = "podid", referencedColumnName = "id")
+    private Podatnik podid;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "id")
+    private Integer id;
 
     public Pozycjenafakturze() {
     }
@@ -95,6 +102,24 @@ public class Pozycjenafakturze implements Serializable {
     public void setLewy(int lewy) {
         this.lewy = lewy;
     }
+
+    public Podatnik getPodid() {
+        return podid;
+    }
+
+    public void setPodid(Podatnik podid) {
+        this.podid = podid;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+  
 
     @Override
     public int hashCode() {

@@ -4,8 +4,10 @@
  */
 package view;
 
+import dao.PodatnikDAO;
 import dao.PozycjenafakturzeDAO;
 import embeddable.Pozycjenafakturzebazadanych;
+import entity.Podatnik;
 import entity.Pozycjenafakturze;
 import entity.PozycjenafakturzePK;
 import error.E;
@@ -14,11 +16,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import msg.Msg;
 /**
@@ -47,6 +48,8 @@ public class PozycjeNaFakturzeView implements Serializable {
     private int lewy;
     private int gora;
     private String co;
+    @Inject
+    private PozycjenafakturzeDAO pozycjeDAO;
 
     @PostConstruct
     private void init() { //E.m(this);
@@ -72,8 +75,7 @@ public class PozycjeNaFakturzeView implements Serializable {
         }
     }
 
-    @Inject
-    private PozycjenafakturzeDAO pozycjeDAO;
+   
 
     public void zachowajpozycje() {
         PozycjenafakturzePK klucz = new PozycjenafakturzePK();
@@ -106,6 +108,23 @@ public class PozycjeNaFakturzeView implements Serializable {
         }
     }
 
+    @Inject
+    private PodatnikDAO podatnikDAO;
+    
+    public void dodajnowakolumne() {
+        System.out.println("startt");
+        List<Pozycjenafakturze> lista = pozycjeDAO.findAll();
+        int i =1;
+        for (Pozycjenafakturze p: lista) {
+            Podatnik podid = podatnikDAO.findByNazwaPelna(p.getPozycjenafakturzePK().getPodatnik());
+            System.out.println("p: "+p.getPozycjenafakturzePK().getPodatnik());
+            p.setPodid(podid);
+            p.setId(i++);
+            pozycjeDAO.edit(p);
+            //System.out.println("podid: "+podid.getPrintnazwa());
+        }
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="comment">
     public String getWest() {
         return west;
