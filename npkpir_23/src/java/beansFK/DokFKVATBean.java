@@ -24,7 +24,8 @@ import java.util.List;
 import java.util.Map;
 import javax.inject.Named;
 import msg.Msg;
-import view.WpisView; import org.primefaces.PrimeFaces;
+import org.primefaces.PrimeFaces;
+ import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
 import waluty.Z;
 
@@ -287,7 +288,7 @@ public class DokFKVATBean {
      
      public static void pobierzkontaZpoprzedniegoDokumentu(Dokfk poprzedniDokument, Dokfk selected) {
         try {
-            if (poprzedniDokument != null && poprzedniDokument.getRok().equals(selected.getRok())) {
+            if (poprzedniDokument != null) {
                 int rozmiar = poprzedniDokument.getListawierszy().size() > 1 ? 3 : 2;
                 for (int i = 0; i < rozmiar; i++) {
                     Wiersz wierszDokumentuPoprzedniego = poprzedniDokument.getListawierszy().get(i);

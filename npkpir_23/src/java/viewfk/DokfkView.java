@@ -110,7 +110,7 @@ import view.KlienciConverterView;
 import view.ParametrView;
 import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
- import viewfk.subroutines.UzupelnijWierszeoDane;
+import viewfk.subroutines.UzupelnijWierszeoDane;
 import waluty.Z;
 
 /**
@@ -1597,12 +1597,23 @@ public class DokfkView implements Serializable {
                     poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt(), ostatniedokumenty);
                     if (poprzedniDokument == null) {
                         poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokUprzedniSt(), ostatniedokumenty);
+                        if (poprzedniDokument != null) {
+                            poprzedniDokument.getListawierszy().get(0).getStronaWn().setKonto(kontoDAOfk.findKonto(poprzedniDokument.getListawierszy().get(0).getKontoWn().getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+                            poprzedniDokument.getListawierszy().get(0).getStronaMa().setKonto(kontoDAOfk.findKonto(poprzedniDokument.getListawierszy().get(0).getKontoMa().getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+                            try {
+                                poprzedniDokument.getListawierszy().get(1).getStronaWn().setKonto(kontoDAOfk.findKonto(poprzedniDokument.getListawierszy().get(1).getKontoWn().getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+                            } catch (Exception e){}
+                            try {
+                                poprzedniDokument.getListawierszy().get(1).getStronaMa().setKonto(kontoDAOfk.findKonto(poprzedniDokument.getListawierszy().get(1).getKontoMa().getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+                            } catch (Exception e){}
+                        }
                     }
                     if (poprzedniDokument != null) {
                         selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
                         PrimeFaces.current().ajax().update("formwpisdokument:opisdokumentu");
                         Wiersz w = selected.getListawierszy().get(0);
                         w.setOpisWiersza(selected.getOpisdokfk());
+                        //to jest ok. skoro firma nie jest vat-owcem to juz w tym miejscu trzeba pobeirac konta
                         if(wpisView.getVatokres()==0) {
                             DokFKVATBean.pobierzkontaZpoprzedniegoDokumentu(poprzedniDokument, selected);
                         }
