@@ -28,12 +28,13 @@ import java.io.Serializable;
 import java.security.Principal;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import view.WpisView;
 @Named
-@SessionScoped
+@ViewScoped
 public class GuestPreferences implements Serializable {
 
         private String theme = "redmond"; //default

@@ -5,11 +5,12 @@ import java.util.Map;
 import java.util.TreeMap;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named
-@SessionScoped
+@ViewScoped
 public class ThemeSwitcherBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private Map<String, String> themes;
