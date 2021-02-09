@@ -12,10 +12,8 @@ import embeddable.PanstwaMap;
 import embeddablefk.InterpaperXLS;
 import entity.Klienci;
 import error.E;
-import importfaktury.seven.Invoices;
+import importfaktury.k3f.Invoice;
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -33,7 +31,7 @@ import waluty.Z;
  * @author Osito
  */
 
-public class ReadXMLSevenFile {
+public class ReadXMLK3FFile {
     
     private static String filename = "c://temp//faktury2.xlsx";
     
@@ -95,24 +93,24 @@ public class ReadXMLSevenFile {
      public static Object[] getListafaktur(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, String jakipobor, String mc) {
         Object[] zwrot = new Object[4];
         List<InterpaperXLS> listafaktur = Collections.synchronizedList(new ArrayList<>());
-        List<Invoices.Invoice> innyokres = new ArrayList<>();
-        List<Invoices.Invoice> przerwanyimport = new ArrayList<>();
+        List<Invoice.Item> innyokres = new ArrayList<>();
+        List<Invoice.Item> przerwanyimport = new ArrayList<>();
         List<InterpaperXLS> importyzbrakami = Collections.synchronizedList(new ArrayList<>());
          try {
             InputStream file = new ByteArrayInputStream(plikinterpaper);
             InputStreamReader reader = new InputStreamReader(file, "UTF-8");
-            JAXBContext jaxbContext = JAXBContext.newInstance(Invoices.class);
+            JAXBContext jaxbContext = JAXBContext.newInstance(Invoice.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            Invoices tabela =  (Invoices) jaxbUnmarshaller.unmarshal(reader);
+            Invoice tabela =  (Invoice) jaxbUnmarshaller.unmarshal(reader);
              //Create Workbook instance holding reference to .xlsx file  TYLKO NOWE XLSX
-            if (tabela!=null && tabela.getInvoice()!=null && !tabela.getInvoice().isEmpty()) {
+            if (tabela!=null && tabela.getItem()!=null && !tabela.getItem().isEmpty()) {
                 int i =1;
                 Map<String, Klienci> znalezieni = new HashMap<>();
-                for (Invoices.Invoice row :tabela.getInvoice()) {
+                for (Invoice.Item row :tabela.getItem()) {
                     try {
                         InterpaperXLS interpaperXLS = new InterpaperXLS();
                         String nip = pobierznip(row);
-                        String mcdok = Data.getMc(Data.zmienkolejnosc(row.getDateSell()));
+                        String mcdok = Data.getMc(Data.zmienkolejnosc(Data.calendarToString(row.getInvSellDate())));
                         if (mc.equals(mcdok)) {
                             if (rodzajdok.contains("zakup")) {
                                 uzupelnijzakup(interpaperXLS, row, k, klienciDAO, znalezieni);
@@ -121,9 +119,9 @@ public class ReadXMLSevenFile {
                                     listafaktur.add(interpaperXLS);
                                 }
                             } else {
-                                Invoices.Invoice zlyrow = null;
+                                Invoice.Item zlyrow = null;
                                 if (jakipobor.equals("firmy") && nip!=null && !nip.equals("") &&  nip.length()>7) {
-                                    zlyrow = uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
+                                    zlyrow = uzupelnijsprzedaz2(interpaperXLS, row, k, klienciDAO, znalezieni);
                                     if (zlyrow!=null) {
                                         przerwanyimport.add(zlyrow);
                                     }
@@ -167,7 +165,7 @@ public class ReadXMLSevenFile {
         List<InterpaperXLS> zlefakturylista = new ArrayList<>();
         Map<String, Klienci> znalezieni = new HashMap<>();
         int i =1;
-        for (Invoices.Invoice row :przerwanyimport) {
+        for (Invoice.Item row :przerwanyimport) {
             try {
                 InterpaperXLS interpaperXLS = new InterpaperXLS();
                 uzupelnijsprzedaz2(interpaperXLS, row, k, klienciDAO, znalezieni);
@@ -179,7 +177,7 @@ public class ReadXMLSevenFile {
         List<InterpaperXLS> zlefakturylista2 = new ArrayList<>();
         Map<String, Klienci> znalezieni2 = new HashMap<>();
         i =1;
-        for (Invoices.Invoice row :innyokres) {
+        for (Invoice.Item row :innyokres) {
             try {
                 InterpaperXLS interpaperXLS = new InterpaperXLS();
                 uzupelnijsprzedaz2(interpaperXLS, row, k, klienciDAO, znalezieni2);
@@ -191,7 +189,7 @@ public class ReadXMLSevenFile {
         return zwrot;
     }
      
-   private static void uzupelnijzakup(InterpaperXLS interpaperXLS, Invoices.Invoice row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
+   private static void uzupelnijzakup(InterpaperXLS interpaperXLS, Invoice.Item row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
 //        if (row.getCell(16).getStringCellValue().equals("Zakup")) {
 //            interpaperXLS.setNrfaktury(row.getCell(0).getStringCellValue());
 //            interpaperXLS.setDatawystawienia(row.getCell(10).getDateCellValue());
@@ -226,31 +224,31 @@ public class ReadXMLSevenFile {
 //FE i FE 2  Sprzedaz eksportowa
 //FVPR i FVPR 2  Sprzedaz z przekroczeniem limitu gdzie stosowana ma być stawka danego kraju (DE  16% i FR 20%). 
 
-    private static Invoices.Invoice uzupelnijsprzedaz(InterpaperXLS interpaperXLS, Invoices.Invoice row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
-        Invoices.Invoice zlafaktura = null;
+    private static Invoice.Item uzupelnijsprzedaz(InterpaperXLS interpaperXLS, Invoice.Item row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
+        Invoice.Item zlafaktura = null;
             try {
                 String nip = pobierznip(row);
-                interpaperXLS.setNrfaktury(row.getInvoiceNumber());
-                interpaperXLS.setDatawystawienia(Data.stringToDate(row.getDateInvoice()));
-                interpaperXLS.setDatasprzedaży(Data.stringToDate(row.getDateSell()));
-                interpaperXLS.setDataobvat(Data.stringToDate(row.getDateSell()));
-                interpaperXLS.setKlientnazwa(row.getClientInformation().getInvoiceFullname());
-                interpaperXLS.setKlientpaństwo(row.getClientInformation().getInvoiceCountry());
-                interpaperXLS.setKlientkod(row.getClientInformation().getInvoicePostcode());
-                interpaperXLS.setKlientmiasto(row.getClientInformation().getInvoiceCity());
-                interpaperXLS.setKlientulica(row.getClientInformation().getInvoiceAddress());
-                String kontr = row.getClientInformation().getInvoiceFullname()+" "+row.getClientInformation().getInvoiceCountry()+" "+row.getClientInformation().getInvoicePostcode()+" "+row.getClientInformation().getInvoiceCity();
+                interpaperXLS.setNrfaktury(row.getInvNumberString());
+                interpaperXLS.setDatawystawienia(Data.stringToDate(Data.calendarToString(row.getInvDate())));
+                interpaperXLS.setDatasprzedaży(Data.stringToDate(Data.calendarToString(row.getInvSellDate())));
+                interpaperXLS.setDataobvat(Data.stringToDate(Data.calendarToString(row.getInvSellDate())));
+                interpaperXLS.setKlientnazwa(row.getInvBillCompany());
+                interpaperXLS.setKlientpaństwo(row.getInvBillCountry());
+                interpaperXLS.setKlientkod(row.getInvBillCode());
+                interpaperXLS.setKlientmiasto(row.getInvBillCity());
+                interpaperXLS.setKlientulica(row.getInvBillStreet());
+                String kontr = row.getInvBillCompany()+" "+row.getInvBillCountry()+" "+row.getInvBillCode()+" "+row.getInvBillCity();
                 interpaperXLS.setKontrahent(kontr);
                 interpaperXLS.setNip(pobierznip(row));
                 interpaperXLS.setWalutaplatnosci(pobierzwalute(row));
-                interpaperXLS.setSaldofaktury(row.getTotalPriceBrutto());
-                interpaperXLS.setNettoPLN(Z.z(row.getTotalPriceNetto()));
-                interpaperXLS.setNettoPLNvat(Z.z(row.getTotalTax()));
-                interpaperXLS.setVatPLN(Z.z(row.getTotalTax()));
-                interpaperXLS.setBruttoPLN(row.getTotalPriceBrutto());
-                interpaperXLS.setNettowaluta(Z.z(row.getTotalPriceNetto()));
-                interpaperXLS.setVatwaluta(Z.z(row.getTotalTax()));
-                interpaperXLS.setBruttowaluta(row.getTotalPriceBrutto());
+                interpaperXLS.setSaldofaktury(row.getInvPrice());
+                interpaperXLS.setNettoPLN(Z.z(row.getInvPriceNet()));
+                interpaperXLS.setNettoPLNvat(Z.z(row.getInvPriceNet()));
+                interpaperXLS.setVatPLN(Z.z(row.getInvTax()));
+                interpaperXLS.setBruttoPLN(row.getInvPrice());
+                interpaperXLS.setNettowaluta(Z.z(row.getInvPriceNet()));
+                interpaperXLS.setVatwaluta(Z.z(row.getInvTax()));
+                interpaperXLS.setBruttowaluta(row.getInvPrice());
             } catch (Exception e) {
                 System.out.println("");
                 zlafaktura = row;
@@ -258,31 +256,32 @@ public class ReadXMLSevenFile {
         return zlafaktura;
     }
     
-    private static Invoices.Invoice uzupelnijsprzedaz2(InterpaperXLS interpaperXLS, Invoices.Invoice row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
-        Invoices.Invoice zlafaktura = null;
+    private static Invoice.Item uzupelnijsprzedaz2(InterpaperXLS interpaperXLS, Invoice.Item row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
+        Invoice.Item zlafaktura = null;
         try {
                 String nip = pobierznip(row);
-                interpaperXLS.setNrfaktury(row.getInvoiceNumber());
-                interpaperXLS.setDatawystawienia(Data.stringToDate(row.getDateInvoice()));
-                interpaperXLS.setDatasprzedaży(Data.stringToDate(row.getDateSell()));
-                interpaperXLS.setDataobvat(Data.stringToDate(row.getDateSell()));
-                interpaperXLS.setKlientnazwa(row.getClientInformation().getInvoiceFullname());
-                interpaperXLS.setKlientpaństwo(row.getClientInformation().getInvoiceCountry());
-                interpaperXLS.setKlientkod(row.getClientInformation().getInvoicePostcode());
-                interpaperXLS.setKlientmiasto(row.getClientInformation().getInvoiceCity());
-                interpaperXLS.setKlientulica(row.getClientInformation().getInvoiceAddress());
-                String kontr = row.getClientInformation().getInvoiceFullname()+" "+row.getClientInformation().getInvoiceCountry()+" "+row.getClientInformation().getInvoicePostcode()+" "+row.getClientInformation().getInvoiceCity();
+                interpaperXLS.setNrfaktury(row.getInvNumberString());
+                interpaperXLS.setDatawystawienia(Data.stringToDate(Data.calendarToString(row.getInvDate())));
+                interpaperXLS.setDatasprzedaży(Data.stringToDate(Data.calendarToString(row.getInvSellDate())));
+                interpaperXLS.setDataobvat(Data.stringToDate(Data.calendarToString(row.getInvSellDate())));
+                interpaperXLS.setKlientnazwa(row.getInvBillCompany());
+                interpaperXLS.setKlientpaństwo(row.getInvBillCountry());
+                interpaperXLS.setKlientkod(row.getInvBillCode());
+                interpaperXLS.setKlientmiasto(row.getInvBillCity());
+                interpaperXLS.setKlientulica(row.getInvBillStreet());
+                String kontr = row.getInvBillCompany()+" "+row.getInvBillCountry()+" "+row.getInvBillCode()+" "+row.getInvBillCity();
                 interpaperXLS.setKontrahent(kontr);
                 interpaperXLS.setNip(pobierznip(row));
+                interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
                 interpaperXLS.setWalutaplatnosci(pobierzwalute(row));
-                interpaperXLS.setSaldofaktury(row.getTotalPriceBrutto());
-                interpaperXLS.setNettoPLN(Z.z(row.getTotalPriceNetto()));
-                interpaperXLS.setNettoPLNvat(Z.z(row.getTotalTax()));
-                interpaperXLS.setVatPLN(Z.z(row.getTotalTax()));
-                interpaperXLS.setBruttoPLN(row.getTotalPriceBrutto());
-                interpaperXLS.setNettowaluta(Z.z(row.getTotalPriceNetto()));
-                interpaperXLS.setVatwaluta(Z.z(row.getTotalTax()));
-                interpaperXLS.setBruttowaluta(row.getTotalPriceBrutto());
+                interpaperXLS.setSaldofaktury(row.getInvPrice());
+                interpaperXLS.setNettoPLN(Z.z(row.getInvPriceNet()));
+                interpaperXLS.setNettoPLNvat(Z.z(row.getInvPriceNet()));
+                interpaperXLS.setVatPLN(Z.z(row.getInvTax()));
+                interpaperXLS.setBruttoPLN(row.getInvPrice());
+                interpaperXLS.setNettowaluta(Z.z(row.getInvPriceNet()));
+                interpaperXLS.setVatwaluta(Z.z(row.getInvTax()));
+                interpaperXLS.setBruttowaluta(row.getInvPrice());
             } catch (Exception e) {
             zlafaktura = row;
         }
@@ -374,59 +373,59 @@ public class ReadXMLSevenFile {
    
     
       
-    public static void main(String[] args) {
-        try {
-            FileInputStream file = new FileInputStream(new File("d://raport_invoices_20210128a.xml"));
-            InputStreamReader reader = new InputStreamReader(file,"UTF-8");
-            JAXBContext jaxbContext = JAXBContext.newInstance(Invoices.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            Invoices tabela =  (Invoices) jaxbUnmarshaller.unmarshal(reader);
-            System.out.println("");
-             //Create Workbook instance holding reference to .xlsx file  TYLKO NOWE XLSX
-            if (tabela!=null && tabela.getInvoice()!=null && !tabela.getInvoice().isEmpty()) {
-                int i =1;
-                int paragon = 0;
-                int faktura = 0;
-                for (Invoices.Invoice row :tabela.getInvoice()) {
-                    try {
-                        InterpaperXLS interpaperXLS = new InterpaperXLS();
-                        String nip = pobierznip(row);
-                        interpaperXLS.setNrfaktury(row.getInvoiceNumber());
-                        interpaperXLS.setDatawystawienia(Data.stringToDate(row.getDateInvoice()));
-                        interpaperXLS.setDatasprzedaży(Data.stringToDate(row.getDateSell()));
-                        interpaperXLS.setDataobvat(Data.stringToDate(row.getDateSell()));
-                        interpaperXLS.setKlientnazwa(row.getClientInformation().getInvoiceFullname());
-                        interpaperXLS.setKlientpaństwo(row.getClientInformation().getInvoiceCountry());
-                        interpaperXLS.setKlientkod(row.getClientInformation().getInvoicePostcode());
-                        interpaperXLS.setKlientmiasto(row.getClientInformation().getInvoiceCity());
-                        interpaperXLS.setKlientulica(row.getClientInformation().getInvoiceAddress());
-                        String kontr = row.getClientInformation().getInvoiceFullname()+" "+row.getClientInformation().getInvoiceCountry()+" "+row.getClientInformation().getInvoicePostcode()+" "+row.getClientInformation().getInvoiceCity();
-                        interpaperXLS.setKontrahent(kontr);
-                        interpaperXLS.setNip(pobierznip(row));
-                        interpaperXLS.setWalutaplatnosci(pobierzwalute(row));
-                        interpaperXLS.setSaldofaktury(row.getTotalPriceBrutto());
-                        interpaperXLS.setNettoPLN(Z.z(row.getTotalPriceNetto()));
-                        interpaperXLS.setNettoPLNvat(Z.z(row.getTotalTax()));
-                        interpaperXLS.setVatPLN(Z.z(row.getTotalTax()));
-                        interpaperXLS.setBruttoPLN(row.getTotalPriceBrutto());
-                        interpaperXLS.setNettowaluta(Z.z(row.getTotalPriceNetto()));
-                        interpaperXLS.setVatwaluta(Z.z(row.getTotalTax()));
-                        interpaperXLS.setBruttowaluta(row.getTotalPriceBrutto());
-                        faktura++;
-                    } catch (Exception e){
-                        E.e(e);
-                    }
-                }
-                System.out.println("ilosc paragonow "+paragon);
-                System.out.println("ilosc faktur "+faktura);
-            }
-            file.close();
-            System.out.println("");
-        }
-        catch (Exception e) {
-            E.e(e);
-        }
-    }
+//    public static void main(String[] args) {
+//        try {
+//            FileInputStream file = new FileInputStream(new File("d://raport_invoices_20210128a.xml"));
+//            InputStreamReader reader = new InputStreamReader(file,"UTF-8");
+//            JAXBContext jaxbContext = JAXBContext.newInstance(Invoices.class);
+//            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+//            Invoices tabela =  (Invoices) jaxbUnmarshaller.unmarshal(reader);
+//            System.out.println("");
+//             //Create Workbook instance holding reference to .xlsx file  TYLKO NOWE XLSX
+//            if (tabela!=null && tabela.getInvoice()!=null && !tabela.getInvoice().isEmpty()) {
+//                int i =1;
+//                int paragon = 0;
+//                int faktura = 0;
+//                for (Invoice.Item row :tabela.getInvoice()) {
+//                    try {
+//                        InterpaperXLS interpaperXLS = new InterpaperXLS();
+//                        String nip = pobierznip(row);
+//                        interpaperXLS.setNrfaktury(row.getInvoiceNumber());
+//                        interpaperXLS.setDatawystawienia(Data.stringToDate(row.getDateInvoice()));
+//                        interpaperXLS.setDatasprzedaży(Data.stringToDate(row.getDateSell()));
+//                        interpaperXLS.setDataobvat(Data.stringToDate(row.getDateSell()));
+//                        interpaperXLS.setKlientnazwa(row.getClientInformation().getInvoiceFullname());
+//                        interpaperXLS.setKlientpaństwo(row.getClientInformation().getInvoiceCountry());
+//                        interpaperXLS.setKlientkod(row.getClientInformation().getInvoicePostcode());
+//                        interpaperXLS.setKlientmiasto(row.getClientInformation().getInvoiceCity());
+//                        interpaperXLS.setKlientulica(row.getClientInformation().getInvoiceAddress());
+//                        String kontr = row.getClientInformation().getInvoiceFullname()+" "+row.getClientInformation().getInvoiceCountry()+" "+row.getClientInformation().getInvoicePostcode()+" "+row.getClientInformation().getInvoiceCity();
+//                        interpaperXLS.setKontrahent(kontr);
+//                        interpaperXLS.setNip(pobierznip(row));
+//                        interpaperXLS.setWalutaplatnosci(pobierzwalute(row));
+//                        interpaperXLS.setSaldofaktury(row.getTotalPriceBrutto());
+//                        interpaperXLS.setNettoPLN(Z.z(row.getTotalPriceNetto()));
+//                        interpaperXLS.setNettoPLNvat(Z.z(row.getTotalTax()));
+//                        interpaperXLS.setVatPLN(Z.z(row.getTotalTax()));
+//                        interpaperXLS.setBruttoPLN(row.getTotalPriceBrutto());
+//                        interpaperXLS.setNettowaluta(Z.z(row.getTotalPriceNetto()));
+//                        interpaperXLS.setVatwaluta(Z.z(row.getTotalTax()));
+//                        interpaperXLS.setBruttowaluta(row.getTotalPriceBrutto());
+//                        faktura++;
+//                    } catch (Exception e){
+//                        E.e(e);
+//                    }
+//                }
+//                System.out.println("ilosc paragonow "+paragon);
+//                System.out.println("ilosc faktur "+faktura);
+//            }
+//            file.close();
+//            System.out.println("");
+//        }
+//        catch (Exception e) {
+//            E.e(e);
+//        }
+//    }
     
 //    switch (cell.getCellType())
 //                    {
@@ -443,15 +442,15 @@ public class ReadXMLSevenFile {
 //                            break;
 //                    }
 
-    private static String pobierznip(Invoices.Invoice row) {
+    private static String pobierznip(Invoice.Item row) {
         String zwrot = null;
-        zwrot = row.getClientInformation().getInvoiceNip();
+        zwrot = row.getInvBillVat();
         return zwrot;
     }
 
-    private static String pobierzwalute(Invoices.Invoice row) {
+    private static String pobierzwalute(Invoice.Item row) {
         String zwrot = null;
-        zwrot = row.getCurrency();
+        zwrot = "PLN";
         if (zwrot==null || zwrot.equals("")) {
             zwrot = "PLN";
         }

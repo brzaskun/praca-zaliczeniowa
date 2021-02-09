@@ -6,7 +6,7 @@
 //
 
 
-package generated;
+package importfaktury.seven;
 
 import javax.xml.bind.annotation.XmlRegistry;
 

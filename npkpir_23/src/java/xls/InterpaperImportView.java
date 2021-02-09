@@ -169,6 +169,7 @@ public class InterpaperImportView implements Serializable {
         zwrot.add(new ImportowanyPlik("Mucha xls","xls","",6));
         zwrot.add(new ImportowanyPlik("Zorin nowy xml","xml","",7));
         zwrot.add(new ImportowanyPlik("Seven xml","xml","",8));
+        zwrot.add(new ImportowanyPlik("K3F xml","xml","",9));
         return zwrot;
     }
     
@@ -245,6 +246,13 @@ public class InterpaperImportView implements Serializable {
                     importyzbrakami = (List<InterpaperXLS>) zwrot1[2];
                     innyokres = (List<InterpaperXLS>) zwrot1[3];
                     break;
+                case 9:
+                    Object[] zwrot2 = ReadXMLK3FFile.getListafaktur(pobranyplik, k, klienciDAO, rodzajdok, jakipobor, wpisView.getMiesiacWpisu());
+                    pobranefaktury = (List<InterpaperXLS>) zwrot2[0];
+                    przerwanyimport = (List<InterpaperXLS>) zwrot2[1];
+                    importyzbrakami = (List<InterpaperXLS>) zwrot2[2];
+                    innyokres = (List<InterpaperXLS>) zwrot2[3];
+                    break;
             }
             if (jakipobor!=null) {
                 if (jakipobor.equals("fiz")) {
@@ -283,7 +291,7 @@ public class InterpaperImportView implements Serializable {
                 drkujfizbutton.setRendered(true);
                 generujbutton.setRendered(true);
                 kontobutton.setRendered(true);
-            } else if (wybranyrodzajimportu.getLp()==5 || wybranyrodzajimportu.getLp()==6 || wybranyrodzajimportu.getLp()==7 || wybranyrodzajimportu.getLp()==8){
+            } else {
                 if (jakipobor.equals("fiz")) {
                     drkujfizbutton.setRendered(true);
                 } else {
@@ -943,9 +951,8 @@ public class InterpaperImportView implements Serializable {
             case 5:
             case 6:
             case 7:
-                zwrot.add("sprzedaż");
-                break;
             case 8:
+            case 9:
                 zwrot.add("sprzedaż");
                 break;
         }
