@@ -5,7 +5,6 @@
  */
 package viewfk;
 
-import beansRegon.SzukajDaneBean;
 import dao.DokDAO;
 import dao.DokDAOfk;
 import dao.EVatwpis1DAO;
@@ -19,18 +18,11 @@ import dao.KlienciDAO;
 import dao.PodatnikDAO;
 import dao.PodatnikEwidencjaDokDAO;
 import dao.SchemaEwidencjaDAO;
-import entity.Dok;
-import entity.Faktura;
-import entity.FakturaDodPozycjaKontrahent;
-import entity.FakturaRozrachunki;
-import entity.Klienci;
 import entityfk.Dokfk;
-import entityfk.EVatwpisFK;
 import entityfk.Wiersz;
 import error.E;
 import java.io.Serializable;
 import java.util.List;
-import javax.ejb.EJBException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -920,145 +912,146 @@ public class RewolucjaPodatnikView  implements Serializable {
      @Inject
      private FakturaDodPozycjaKontrahentDAO fakturaDodPozycjaKontrahentDAO;
                
-     public void klienciporzadek() {
-        List<Klienci> doplery = klienciDAO.findDoplery(1);
-        for (Klienci t : doplery) {
-            try {
-                List<Klienci> doplery2  = klienciDAO.findKlienciByNip(t.getNip());
-                for (Klienci s : doplery2) {
-                    try {
-                        klienciDAO.remove(s);
-                    } catch (Exception e) {
-                    }
-                }
-            } catch (Exception ex) {
-            }
-        }
-        doplery = klienciDAO.findKlienciNipSpacja();
-        for (Klienci t : doplery) {
-            try {
-                List<Dok> dokumenty = dokDAO.findByKontr(t);
-                for (Dok d : dokumenty) {
-                    Klienci kli = klienciDAO.findKlientByNip(d.getPodatnik().getNip());
-                    d.setKontr1(kli);
-                    dokDAO.edit(d);
-                }
-                klienciDAO.remove(t);
-            } catch (Exception e) {
-//                String zwrot = E.e(e);
-//                System.out.println(zwrot);
-            }
-        }
-        doplery = klienciDAO.findKlienciByNip("0000000000");
-        List<Klienci> doplery2 = klienciDAO.findKlienciNipSpacja();
-        doplery.addAll(doplery2);
-        String nip = "XX000000";
-        int licznik = 2316;
-        for (Klienci t : doplery) {
-            String nowynip = nip+licznik;
-            t.setNip(nowynip);
-            licznik++;
-            klienciDAO.edit(t);
-//            System.out.println(t.getId());
-//            System.out.println(t.toString2());
-        }
-          
-        doplery = klienciDAO.findDoplery(1);
-        for (Klienci t : doplery) {
-            try {
-                doplery2  = klienciDAO.findKlienciByNip(t.getNip());
-                if (doplery2!=null) {
-                    Klienci nowy = doplery2.get(0);
-                    doplery2.remove(nowy);
-                    znajdzdaneregonAutomat(nowy);
-                    for (Klienci s : doplery2) {
-                        try {
-                            List<Dok> dokumenty = dokDAO.findByKontr(t);
-                            for (Dok d : dokumenty) {
-                                d.setKontr1(nowy);
-                                try {
-                                    dokDAO.edit(d);
-                                } catch (EJBException e) {
-                                    String numer = d.getNrWlDk();
-                                    numer = "DUPLIKAT/"+numer;
-                                    d.setNrWlDk(numer);
-                                    dokDAO.edit(d);
-                                }
-                            }
-                            List<Dokfk> dokumentyfk = dokDAOfk.findByKontr(t);
-                            for (Dokfk d : dokumentyfk) {
-                                d.setKontr(nowy);
-                                try {
-                                    dokDAOfk.edit(d);
-                                } catch (EJBException e) {
-                                    String numer = d.getNumerwlasnydokfk();
-                                    numer = "DUPLIKAT/"+numer;
-                                    d.setNumerwlasnydokfk(numer);
-                                    dokDAOfk.edit(d);
-                                }
-                            }
-                            List<Faktura> faktury = fakturaDAO.findbyKontrahent(t);
-                            for (Faktura d : faktury) {
-                                d.setKontrahent(nowy);
-                                //uzyc znacznik1 aby onzaczyc duplikat :)
-                                    fakturaDAO.edit(d);
-                            }
-                            List<FakturaRozrachunki> fakturyr = fakturaRozrachunkiDAO.findbyKontrahent(t);
-                            for (FakturaRozrachunki d : fakturyr) {
-                                d.setKontrahent(nowy);
-                                fakturaRozrachunkiDAO.edit(d);
-                            }
-                            List<EVatwpisFK> vat = eVatwpisFKDAO.findbyKontrahent(t);
-                            for (EVatwpisFK d : vat) {
-                                d.setKlient(nowy);
-                                eVatwpisFKDAO.edit(d);
-                            }
-                            List<FakturaDodPozycjaKontrahent> fakpoz = fakturaDodPozycjaKontrahentDAO.findbyKontrahent(t);
-                            for (FakturaDodPozycjaKontrahent d : fakpoz) {
-                                d.setKontrahent(nowy);
-                                fakturaDodPozycjaKontrahentDAO.edit(d);
-                            }
-                            klienciDAO.remove(s);
-                        } catch (Exception e) {
-                            String zwrot = E.e(e);
-                            System.out.println(zwrot);
-
-                        }
-                    }
-                }
-            } catch (Exception ex) {
-            }
-            System.out.println("dopler "+t.getNpelna());
-        }
-        List<Dok> dokumenty = dokDAO.znajdzKontr1NullOdDo();
-        for (Dok d : dokumenty) {
-            Klienci kont = klienciDAO.findKlientByNip(d.getPodatnik().getNip());
-            d.setKontr1(kont);
-            try {
-                dokDAO.edit(d);
-            } catch (EJBException e) {
-            }
-        }
-         System.out.println("KONIEC**************");
-     }
-     
-      public void znajdzdaneregonAutomat(Klienci klientfaktura) {
-        try {
-            Klienci aktualizuj = SzukajDaneBean.znajdzdaneregonAutomat(klientfaktura.getNip());
-            if (aktualizuj!=null) {
-                klientfaktura.setNpelna(aktualizuj.getNpelna());
-                klientfaktura.setMiejscowosc(aktualizuj.getMiejscowosc());
-                klientfaktura.setUlica(aktualizuj.getUlica());
-                klientfaktura.setDom(aktualizuj.getDom());
-                klientfaktura.setLokal(aktualizuj.getLokal());
-                klientfaktura.setKodpocztowy(aktualizuj.getKodpocztowy());
-                klientfaktura.setNskrocona(aktualizuj.getNpelna());
-                klienciDAO.edit(klientfaktura);
-            }
-        } catch (Exception e) {
-            E.e(e);
-        }
-    }
+//     public void klienciporzadek() {
+//        List<Klienci> doplery = klienciDAO.findDoplery(1);
+//        for (Klienci t : doplery) {
+//            try {
+//                List<Klienci> doplery2  = klienciDAO.findKlienciByNip(t.getNip());
+//                for (Klienci s : doplery2) {
+//                    try {
+//                        klienciDAO.remove(s);
+//                    } catch (Exception e) {
+//                    }
+//                }
+//            } catch (Exception ex) {
+//            }
+//        }
+//        doplery = klienciDAO.findKlienciNipSpacja();
+//        for (Klienci t : doplery) {
+//            try {
+//                List<Dok> dokumenty = dokDAO.findByKontr(t);
+//                for (Dok d : dokumenty) {
+//                    Klienci kli = klienciDAO.findKlientByNip(d.getPodatnik().getNip());
+//                    d.setKontr1(kli);
+//                    dokDAO.edit(d);
+//                }
+//                klienciDAO.remove(t);
+//            } catch (Exception e) {
+////                String zwrot = E.e(e);
+////                System.out.println(zwrot);
+//            }
+//        }
+//        doplery = klienciDAO.findKlienciByNip("0000000000");
+//        List<Klienci> doplery2 = klienciDAO.findKlienciNipSpacja();
+//        doplery.addAll(doplery2);
+//        String nip = "XX000000";
+//        int licznik = 2316;
+//        for (Klienci t : doplery) {
+//            String nowynip = nip+licznik;
+//            t.setNip(nowynip);
+//            licznik++;
+//            klienciDAO.edit(t);
+////            System.out.println(t.getId());
+////            System.out.println(t.toString2());
+//        }
+//          
+//        doplery = klienciDAO.findDoplery(1);
+//        for (Klienci t : doplery) {
+//            try {
+//                doplery2  = klienciDAO.findKlienciByNip(t.getNip());
+//                if (doplery2!=null) {
+//                    Klienci nowy = doplery2.get(0);
+//                    doplery2.remove(nowy);
+//                    znajdzdaneregonAutomat(nowy);
+//                    for (Klienci s : doplery2) {
+//                        try {
+//                            List<Dok> dokumenty = dokDAO.findByKontr(t);
+//                            for (Dok d : dokumenty) {
+//                                d.setKontr1(nowy);
+//                                try {
+//                                    dokDAO.edit(d);
+//                                } catch (EJBException e) {
+//                                    String numer = d.getNrWlDk();
+//                                    numer = "DUPLIKAT/"+numer;
+//                                    d.setNrWlDk(numer);
+//                                    dokDAO.edit(d);
+//                                }
+//                            }
+//                            List<Dokfk> dokumentyfk = dokDAOfk.findByKontr(t);
+//                            for (Dokfk d : dokumentyfk) {
+//                                d.setKontr(nowy);
+//                                try {
+//                                    dokDAOfk.edit(d);
+//                                } catch (EJBException e) {
+//                                    String numer = d.getNumerwlasnydokfk();
+//                                    numer = "DUPLIKAT/"+numer;
+//                                    d.setNumerwlasnydokfk(numer);
+//                                    dokDAOfk.edit(d);
+//                                }
+//                            }
+//                            List<Faktura> faktury = fakturaDAO.findbyKontrahent(t);
+//                            for (Faktura d : faktury) {
+//                                d.setKontrahent(nowy);
+//                                //uzyc znacznik1 aby onzaczyc duplikat :)
+//                                    fakturaDAO.edit(d);
+//                            }
+//                            List<FakturaRozrachunki> fakturyr = fakturaRozrachunkiDAO.findbyKontrahent(t);
+//                            for (FakturaRozrachunki d : fakturyr) {
+//                                d.setKontrahent(nowy);
+//                                fakturaRozrachunkiDAO.edit(d);
+//                            }
+//                            List<EVatwpisFK> vat = eVatwpisFKDAO.findbyKontrahent(t);
+//                            for (EVatwpisFK d : vat) {
+//                                d.setKlient(nowy);
+//                                eVatwpisFKDAO.edit(d);
+//                            }
+//                            List<FakturaDodPozycjaKontrahent> fakpoz = fakturaDodPozycjaKontrahentDAO.findbyKontrahent(t);
+//                            for (FakturaDodPozycjaKontrahent d : fakpoz) {
+//                                d.setKontrahent(nowy);
+//                                fakturaDodPozycjaKontrahentDAO.edit(d);
+//                            }
+//                            klienciDAO.remove(s);
+//                        } catch (Exception e) {
+//                            String zwrot = E.e(e);
+//                            System.out.println(zwrot);
+//
+//                        }
+//                    }
+//                }
+//            } catch (Exception ex) {
+//            }
+//            System.out.println("dopler "+t.getNpelna());
+//        }
+//        //List<Dok> dokumenty = dokDAO.znajdzKontr1NullOdDo();
+//        List<Dok> dokumenty = null;
+//        for (Dok d : dokumenty) {
+//            Klienci kont = klienciDAO.findKlientByNip(d.getPodatnik().getNip());
+//            d.setKontr1(kont);
+//            try {
+//                dokDAO.edit(d);
+//            } catch (EJBException e) {
+//            }
+//        }
+//         System.out.println("KONIEC**************");
+//     }
+//     
+//      public void znajdzdaneregonAutomat(Klienci klientfaktura) {
+//        try {
+//            Klienci aktualizuj = SzukajDaneBean.znajdzdaneregonAutomat(klientfaktura.getNip());
+//            if (aktualizuj!=null) {
+//                klientfaktura.setNpelna(aktualizuj.getNpelna());
+//                klientfaktura.setMiejscowosc(aktualizuj.getMiejscowosc());
+//                klientfaktura.setUlica(aktualizuj.getUlica());
+//                klientfaktura.setDom(aktualizuj.getDom());
+//                klientfaktura.setLokal(aktualizuj.getLokal());
+//                klientfaktura.setKodpocztowy(aktualizuj.getKodpocztowy());
+//                klientfaktura.setNskrocona(aktualizuj.getNpelna());
+//                klienciDAO.edit(klientfaktura);
+//            }
+//        } catch (Exception e) {
+//            E.e(e);
+//        }
+//    }
 
 
  

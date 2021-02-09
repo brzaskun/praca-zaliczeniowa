@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
@@ -187,7 +187,7 @@ public class TransformacjaView implements Serializable{
         for (int j = 0; j < 32299; j += 200) {
             int dokad = (j + 199 > 32299 ? 32299 : j + 199);
             List<Dok> listaWszystkichDok = Collections.synchronizedList(new ArrayList<>());
-            listaWszystkichDok.addAll(dokDAO.znajdzOdDo(j, dokad));
+//            listaWszystkichDok.addAll(dokDAO.znajdzOdDo(j, dokad));
             //listaWszystkichDok.add(dokDAO.findDokByNr("fvp/2013/13185/m"));
             for (Dok p : listaWszystkichDok) {
                // List<Rozrachunek> eVatwpis = p.getRozrachunki();

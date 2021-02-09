@@ -208,41 +208,10 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList(tmp);
     }
 
-    public Dok dokumentDuplicat(Dok selD, String pkpirR) throws Exception {
-        Dok wynik = null;
-        try {
-            wynik = (Dok)  getEntityManager().createNamedQuery("Dok.findDuplicate").setParameter("podatnik", selD.getPodatnik()).setParameter("nip", selD.getKontr().getNip()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("netto", selD.getNetto()).setParameter("pkpirR", pkpirR).getSingleResult();
-        } catch (Exception e) {
-            return null;
-        }
-        return wynik;
-    }
+    
+    
 
-    public Dok dokumentDuplicatAMO(Dok selD, String pkpirR) throws Exception {
-        Dok wynik = null;
-        try {
-            wynik = (Dok)  getEntityManager().createNamedQuery("Dok.findDuplicateAMO").setParameter("podatnik", selD.getPodatnik()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("pkpirR", pkpirR).getSingleResult();
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-        return wynik;
-    }
-
-    public Dok dokumentDuplicatwtrakcie(Dok selD, Podatnik podatnik, String typdokumentu) {
-        List<Dok> wynik = null;
-        try {
-            wynik =  getEntityManager().createNamedQuery("Dok.findDuplicatewTrakcie").setParameter("nip", selD.getKontr().getNip()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("podatnik", podatnik).setParameter("typdokumentu", typdokumentu).getResultList();
-            if (!wynik.isEmpty()) {
-                return wynik.get(wynik.size() - 1);
-            } else {
-                return null;
-            }
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
+    
 
     public Zobowiazanie findZobowiazanie(String rok, String mc) throws Exception {
         String[] nowedane = Mce.zwiekszmiesiac(rok, mc);
@@ -299,16 +268,7 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList(tmp);
     }
 
-    public Dok findStornoDok(String rok, String mc, Podatnik podatnik) {
-        Dok wynik = null;
-        try {
-            wynik = (Dok)  getEntityManager().createNamedQuery("Dok.findStornoDok").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", podatnik).setParameter("opis", "storno za miesiac").getSingleResult();
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-        return wynik;
-    }
+  
 
     public boolean findSTR(String podatnik, Double netto, String numer) {
         try {
@@ -325,9 +285,7 @@ public class SessionFacade<T> implements Serializable {
     }
 
   
-    public List<Dok> findDokPod(Podatnik pod) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Dok.findByPodatnik").setParameter("podatnik", pod).getResultList());
-    }
+    
 
     public List<Srodkikst> findSrodekkst(String nazwa) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Srodkikst.findByNazwa").setParameter("nazwa", nazwa).getResultList());
@@ -392,68 +350,24 @@ public class SessionFacade<T> implements Serializable {
         return (EVatOpis)  getEntityManager().createNamedQuery("EVatOpis.findByLogin").setParameter("login", name).getSingleResult();
     }
 
-    public List<Dok> findDokBK(Podatnik pod, String rok) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Dok.findByBK").setParameter("podatnik", pod).setParameter("pkpirR", rok).getResultList());
-    }
     
-    public List<Dok> findDokBKodMca(Podatnik pod, String rok, String mc) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Dok.findByBKodMca").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("mc", mc).getResultList());
-    }
     
-    public List<Dok> findDokBKodMcadoMca(Podatnik pod, String rok, String mcod, String mcdo) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Dok.findByBKodMcadoMca").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("mcod", mcod).setParameter("mcdo", mcdo).getResultList());
-    }
 
-    public List<Dok> findDokBKPrzychody(Podatnik pod, String rok) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Dok.findByBKPrzychody").setParameter("podatnik", pod).setParameter("pkpirR", rok).getResultList());
-    }
-
-    public List<Dok> findDokBKMCPrzychody(Podatnik pod, String rok, String mc) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Dok.findByBKMCPrzychody").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getResultList());
-    }
-
-    public List<Dok> findDokRok(String rok) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Dok.findByPkpirR").setParameter("pkpirR", rok).getResultList());
-    }
-
-    public List<Dok> findDokBKVAT(Podatnik pod, String rok) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Dok.findByBKVAT").setParameter("podatnik", pod).setParameter("vatR", rok).getResultList());
-    }
+//    public List<Dok> findDokBKVAT(Podatnik pod, String rok) {
+//        return Collections.synchronizedList( getEntityManager().createNamedQuery("Dok.findByBKVAT").setParameter("podatnik", pod).setParameter("vatR", rok).getResultList());
+//    }
 
     public List<Dok> findDokfkBKVAT(Podatnik pod, String rok) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Dokfk.findByBKVAT").setParameter("podatnik", pod).setParameter("vatR", rok).getResultList());
     }
 
-    public Dok findDokTPR(String typdokumentu, Podatnik pod, String rok) {
-        Dok d = null;
-        d = (Dok)  getEntityManager().createNamedQuery("Dok.findByTPR").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("typdokumentu", typdokumentu).setMaxResults(1).getSingleResult();
-        return d;
-    }
+    
 
-    public List<Dok> findDokBK(Podatnik pod, String rok, String mc) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Dok.findByBKM").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getResultList());
-    }
-    
-    public List<Dok> findDokBKVAT(Podatnik pod, String rok, String mc) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Dok.findByBKMVAT").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("vatM", mc).getResultList());
-    }
-    
     public List<Dok> findDokBKWaluta(Podatnik pod, String rok, String mc) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Dok.findByBKMWaluta").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getResultList());
     }
 
-    public List<Dok> findDokRokKW(Podatnik pod, String rok, List<String> mce) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Dok.findByRokKW").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("mc1", mce.get(0)).setParameter("mc2", mce.get(1)).setParameter("mc3", mce.get(2)).getResultList());
-    }
-    
-
-    public Object findDokBKCount(Podatnik pod, String rok, String mc) {
-        return  getEntityManager().createNamedQuery("Dok.findByPkpirRMCount").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getSingleResult();
-    }
-
-    public List<Dok> findDokDuplikat(Podatnik pod, String rok) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Dok.findByDuplikat").setParameter("podatnik", pod).setParameter("pkpirR", rok).getResultList());
-    }
+  
 
     public List<Sumypkpir> findSumy(String podatnik, String rok) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Sumypkpir.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
@@ -486,14 +400,7 @@ public class SessionFacade<T> implements Serializable {
         }
     }
 
-    public Dok findDokMC(String typdokumentu, Podatnik podatnik, String rok, String mc) {
-        try {
-            return (Dok)  getEntityManager().createNamedQuery("Dok.findByRMPT").setParameter("typdokumentu", typdokumentu).setParameter("podatnik", podatnik).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getSingleResult();
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
+    
 
     public List<Inwestycje> findInwestycje(String podatnik, boolean zakonczona) {
         LoadGroup lg = new LoadGroup();
@@ -654,20 +561,8 @@ public class SessionFacade<T> implements Serializable {
     }
 
 
-
-    
-    
-    
-
-    
-    
-
     public Fakturywystokresowe findOkresowa(String rok, String klientnip, String nazwapelna, double brutto) {
         return (Fakturywystokresowe)  getEntityManager().createNamedQuery("Fakturywystokresowe.findByOkresowa").setParameter("rok", rok).setParameter("podatnik", nazwapelna).setParameter("nipodbiorcy", klientnip).setParameter("brutto", brutto).getSingleResult();
-    }
-
-    public Dok findFaktWystawione(Podatnik podatnik, Klienci kontrahent, String numerkolejny, double brutto) {
-        return (Dok)  getEntityManager().createNamedQuery("Dok.findByFakturaWystawiona").setParameter("podatnik", podatnik).setParameter("kontr", kontrahent).setParameter("nrWlDk", numerkolejny).setParameter("brutto", brutto).getSingleResult();
     }
 
     public List<Wiersz> findWierszefkRozrachunki(String podatnik, Konto konto, Dokfk dokfk) {
@@ -1592,9 +1487,7 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Transakcja.findByRozliczajacy").setParameter("rozliczajacy", s).getResultList());
     }
 
-    public Dok znajdzDokumentInwestycja(WpisView wpisView, Dok r) {
-        return (Dok)  getEntityManager().createNamedQuery("Dok.znajdzInwestycja").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("data", r.getDataWyst()).setParameter("netto", r.getNetto()).setParameter("numer", r.getNrWlDk()).getSingleResult();
-    }
+    
 
     public EVatwpisFK znajdzEVatwpisFKPoWierszu(Wiersz wiersz) {
         return (EVatwpisFK)  getEntityManager().createNamedQuery("EVatwpisFK.findByWiersz").setParameter("wiersz", wiersz).getSingleResult();
@@ -2004,9 +1897,7 @@ public class SessionFacade<T> implements Serializable {
         return zwrot;
     }
 
-    public List<String> znajdzDokumentPodatnikWpr(String wpr) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Dok.znajdzDokumentPodatnikWpr").setParameter("wprowadzil", wpr).getResultList());
-    }
+    
 
     public List<String> znajdzDokumentPodatnikWprFK(String wpr) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Dokfk.znajdzDokumentPodatnikWpr").setParameter("wprowadzil", wpr).getResultList());
