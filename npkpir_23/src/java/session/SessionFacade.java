@@ -43,7 +43,6 @@ import entity.Podstawki;
 import entity.Rodzajedok;
 import entity.Ryczpoz;
 import entity.SMTPSettings;
-import entity.SchemaEwidencja;
 import entity.Sprawa;
 import entity.SrodekTrw;
 import entity.Srodkikst;
@@ -2018,9 +2017,7 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList((List<String>)  getEntityManager().createNamedQuery("Dokfk.znajdzSeriePodatnik").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList());
     }
 
-    public List<SchemaEwidencja> findEwidencjeSchemy(DeklaracjaVatSchema wybranaschema) {
-        return Collections.synchronizedList((List<SchemaEwidencja>)  getEntityManager().createNamedQuery("SchemaEwidencja.findEwidencjeSchemy").setParameter("deklarachaVatSchema", wybranaschema).getResultList());
-    }
+    
 
     public List<DeklaracjaVatSchemaWierszSum> findWierszSumSchemy(DeklaracjaVatSchema wybranaschema) {
         return Collections.synchronizedList((List<DeklaracjaVatSchemaWierszSum>)  getEntityManager().createNamedQuery("DeklaracjaVatSchemaWierszSum.findEwidencjeSchemy").setParameter("deklarachaVatSchema", wybranaschema).getResultList());

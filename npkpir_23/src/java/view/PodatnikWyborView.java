@@ -8,15 +8,14 @@ package view;
 import comparator.Podatnikcomparator;
 import dao.PodatnikDAO;
 import entity.Podatnik;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *

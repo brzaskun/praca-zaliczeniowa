@@ -12,11 +12,9 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import session.SessionFacade;
 
 /**
  *
@@ -24,11 +22,10 @@ import session.SessionFacade;
  */
 @Stateless
 @Transactional
-
 public class SchemaEwidencjaDAO  extends DAO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Inject private SessionFacade sessionFacade;
+    
     @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
@@ -53,17 +50,18 @@ public class SchemaEwidencjaDAO  extends DAO implements Serializable {
 
 
     public List<SchemaEwidencja> findEwidencjeSchemy(DeklaracjaVatSchema wybranaschema) {
+        List<SchemaEwidencja> zwrot = null;
         try {
-            return sessionFacade.findEwidencjeSchemy(wybranaschema);
+            zwrot =  getEntityManager().createNamedQuery("SchemaEwidencja.findEwidencjeSchemy").setParameter("deklarachaVatSchema", wybranaschema).getResultList();
         } catch (Exception e) { 
             E.e(e); 
-            return null;
         }
+        return zwrot;
     }
 
     public void usunliste(DeklaracjaVatSchema s) {
         try {
-            sessionFacade.getEntityManager().createNamedQuery("DeklaracjaVatSchema.usunliste").setParameter("nazwaschemy", s.getNazwaschemy()).executeUpdate();
+            getEntityManager().createNamedQuery("DeklaracjaVatSchema.usunliste").setParameter("nazwaschemy", s.getNazwaschemy()).executeUpdate();
         } catch (Exception e) { 
             E.e(e); 
         }

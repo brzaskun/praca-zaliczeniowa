@@ -18,10 +18,11 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import view.WpisView;
+import javax.inject.Named;
+import msg.Msg;
+import view.WpisView;
 /**
  *
  * @author Osito
@@ -120,7 +121,48 @@ public class PlanKontKopiujView implements Serializable {
             planKontView.init();
             Msg.msg("Zaimplementowano wzorcowy plan kont z roku "+rokzrodlowy_wzorzec);
         } else {
-            
+//            List<Konto> kontazrodlowe = kontoDAOfk.findWszystkieKontaPodatnikaPobierzRelacje(podatnikzrodlowy, rokzrodlowy);
+//            List<Konto> kontadocelowe = kontoDAOfk.findWszystkieKontaPodatnikaPobierzRelacje(podatnikdocelowy, rokdocelowy);
+//            List<Konto> brakujacelevel0 = Collections.synchronizedList(new ArrayList<>());
+//            List<Konto> brakujacelevelinne = Collections.synchronizedList(new ArrayList<>());
+//            for (Konto p : kontazrodlowe) {
+//                if (!kontadocelowe.contains(p)) {
+//                    if (p.isSlownikowe() == false) {
+//                        if (p.getKontomacierzyste() == null) {
+//                            brakujacelevel0.add(p);
+//                        } else {
+//                            brakujacelevelinne.add(p);
+//                        }
+//                    }
+//                    if (p.isSlownikowe() == true && p.getNrkonta().equals("0")) {
+//                        brakujacelevelinne.add(p);
+//                    }
+//                }
+//            }
+//            skopiujlevel0(wpisView.getPodatnikObiekt(), brakujacelevel0, rokdocelowy);
+//            kontadocelowe = kontoDAOfk.findWszystkieKontaPodatnika(podatnikdocelowy, rokdocelowy);
+//            skopiujlevel(wpisView.getPodatnikObiekt(), brakujacelevelinne, kontadocelowe, rokdocelowy);
+//            List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = Collections.synchronizedList(new ArrayList<>());
+//            List<Konto> brakujacekonta = Collections.synchronizedList(new ArrayList<>());
+//            brakujacekonta.addAll(brakujacelevel0);
+//            brakujacekonta.addAll(brakujacelevelinne);
+//            for (Konto p : brakujacekonta) {
+//                zapisanePOzycjezUkladuWzorcowego.addAll(kontopozycjaZapisDAO.findByKontoOnly(p));
+//            }
+//            List<KontopozycjaZapis> nowekontopozycjazapis = Collections.synchronizedList(new ArrayList<>());
+//            for (KontopozycjaZapis r : zapisanePOzycjezUkladuWzorcowego) {
+//                UkladBR uklad = odnajdzuklad(ukladBRDAO, r.getUkladBR(), wpisView.getRokWpisuSt());
+//                if (uklad == null || uklad.getUklad() == null) {
+//                    break;
+//                }
+//                Konto starekonto = pobierzkontozlisty(brakujacekonta, r);
+//                Konto nowekonto = kontoDAOfk.findKonto(starekonto.getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+//                if (starekonto != null && nowekonto != null) {
+//                    KontopozycjaZapis kp = new KontopozycjaZapis(r, nowekonto, uklad);
+//                    nowekontopozycjazapis.add(kp);
+//                }
+//            }
+//            kontopozycjaZapisDAO.create(nowekontopozycjazapis);
             Msg.msg("w","Istnieje plan kont podatnika. Dokonam uzupełnienia kont i sprawdzę nazwy z roku "+rokzrodlowy_wzorzec);
         }
     }

@@ -9,13 +9,17 @@ import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 /**
  *
  * @author Osito
  */
+@Stateless
+@Transactional
 public class SesjaDAO extends DAO implements Serializable {
     @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
