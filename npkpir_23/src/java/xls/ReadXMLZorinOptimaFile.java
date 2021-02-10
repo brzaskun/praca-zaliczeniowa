@@ -468,6 +468,7 @@ public class ReadXMLZorinOptimaFile {
         String podmiotit = row.getPODMIOTID();
         if (!podmiotit.equals("00000000-0009-0002-0001-000000000000")) {
             zwrot = row.getNIP();
+            zwrot = zwrot.replace("-","");
         }
         return zwrot;
     }

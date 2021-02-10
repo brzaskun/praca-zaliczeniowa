@@ -445,6 +445,7 @@ public class ReadXMLK3FFile {
     private static String pobierznip(Invoice.Item row) {
         String zwrot = null;
         zwrot = row.getInvBillVat();
+        zwrot = zwrot.replace("-","");
         return zwrot;
     }
 

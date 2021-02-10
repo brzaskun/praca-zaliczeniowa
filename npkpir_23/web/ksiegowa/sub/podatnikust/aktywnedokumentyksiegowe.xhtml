@@ -143,7 +143,7 @@
                         <f:selectItems value="#{rodzajedokView.jpkoznaczenia}" var="itm1" itemLabel="#{itm1.symbol}" itemValue="#{itm1}" itemDescription="#{itm1.opis}" />
                    </h:selectOneMenu>
                 </p:panelGrid>
-            <p:panelGrid id="parametryDokKsi1" columns="4" rendered="#{WpisView.ksiegirachunkowe and podatnikView.selectedDokKsi.tylkovat eq false and podatnikView.selectedDokKsi.tylkojpk eq false}">
+            <p:panelGrid id="parametryDokKsi1" columns="4" rendered="#{WpisView.podatnikObiekt.firmafk ne 0 and podatnikView.selectedDokKsi.tylkovat eq false and podatnikView.selectedDokKsi.tylkojpk eq false}">
 
                     <p:column headerText="konto rozrach." style="text-align: center;" >
                         <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kontorozrachunkowe}" style="width: 250px;" converter="#{kontoConv}"  rendered="#{podatnikView.selectedDokKsi.kategoriadokumentu == 0}">
@@ -156,13 +156,13 @@
                             <f:selectItems value="#{podatnikView.listaKontRozrachunkowych}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}" itemDescription="#{item.kontomacierzyste.pelnynumer} #{item.kontomacierzyste.nazwapelna}"/>
                         </p:selectOneMenu>
                     </p:column>
-                    <p:column headerText="konto VAT" style="text-align: center;" rendered="#{WpisView.ksiegirachunkowe}">
+                    <p:column headerText="konto VAT" style="text-align: center;">
                         <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kontovat}" style="width: 250px;" converter="#{kontoConv}">
                             <f:selectItem itemLabel="wybierz konto dla vat" itemValue="" />
                             <f:selectItems value="#{podatnikView.listaKontVAT}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}" itemDescription="#{item.kontomacierzyste.pelnynumer} #{item.kontomacierzyste.nazwapelna}"/>
                         </p:selectOneMenu>
                     </p:column>
-                    <p:column headerText="konto RZiS" style="text-align: center;" rendered="#{WpisView.ksiegirachunkowe}">
+                    <p:column headerText="konto RZiS" style="text-align: center;" >
                         <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kontoRZiS}" style="width: 250px;" converter="#{kontoConv}">
                             <f:selectItem itemLabel="wybierz konto dla netto" itemValue="" />
                             <f:selectItems value="#{podatnikView.listakontoRZiS}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}" itemDescription="#{item.kontomacierzyste.pelnynumer} #{item.kontomacierzyste.nazwapelna}"/>

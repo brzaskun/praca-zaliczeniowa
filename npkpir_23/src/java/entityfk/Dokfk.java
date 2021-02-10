@@ -175,7 +175,8 @@ public class Dokfk extends DokSuper implements Serializable {
     @Column(name = "wtrakcieedycji")
     private boolean wTrakcieEdycji;
     @JoinColumn(name = "kontr", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Klienci kontr;
     @OneToMany(mappedBy = "dokfk", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<EVatwpisFK> ewidencjaVAT;
@@ -764,7 +765,11 @@ public class Dokfk extends DokSuper implements Serializable {
     }
     
     public String getOpisDokfkUsun() {
-        return this.toString2()+" "+this.numerwlasnydokfk+" "+this.kontr.getNpelna();
+        try {
+            return this.toString2()+" "+this.numerwlasnydokfk+" "+this.kontr.getNpelna();
+        } catch (Exception e) {
+            return "";
+        }
     }
     
     public String toString3() {

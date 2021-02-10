@@ -241,7 +241,11 @@ public class Logowanie implements Serializable {
     public void invalidatesession() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         if (session != null) {
-            session.invalidate();
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            Principal principal = request.getUserPrincipal();
+            if (principal!=null) {
+                session.invalidate();
+            }
         }
     }
 
