@@ -2046,25 +2046,7 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("SprawozdanieFinansowe.findByRok").setParameter("rok", rok).getResultList());
     }
 
-    public List<Cechazapisu> findCechaZapisuByPodatnikOnly(Podatnik podatnikObiekt) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Cechazapisu.findByPodatnikOnly").setParameter("podatnik", podatnikObiekt).getResultList());
-    }
     
-    public List<Cechazapisu> findCechaZapisuByPodatnikOnlyAktywne(Podatnik podatnikObiekt) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Cechazapisu.findByPodatnikOnlyAktywne").setParameter("podatnik", podatnikObiekt).getResultList());
-    }
-    
-    public List<Cechazapisu> findCechaZapisuByPodatnikOnlyStatystyczne(Podatnik podatnikObiekt) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Cechazapisu.findByPodatnikOnlyStatystyczne").setParameter("podatnik", podatnikObiekt).getResultList());
-    }
-    
-    public List<Cechazapisu> findCechaZapisuByPodatnik(Podatnik podatnikObiekt) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Cechazapisu.findByPodatnik").setParameter("podatnik", podatnikObiekt).getResultList());
-    }
-    
-    public Cechazapisu findCechaZapisuByPodatnikNKUP() {
-        return (Cechazapisu)  getEntityManager().createNamedQuery("Cechazapisu.findByPodatnikNKUP").setParameter("nazwacechy", "NKUP").getSingleResult();
-    }
 
     public List<Fakturywystokresowe> findOkresoweOstatnieByfaktura(Faktura p) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Fakturywystokresowe.findByFaktura").setParameter("faktura", p).getResultList());

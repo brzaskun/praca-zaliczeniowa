@@ -12,11 +12,9 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import session.SessionFacade;
 
 /**
  *
@@ -27,7 +25,6 @@ import session.SessionFacade;
 public class CechazapisuDAOfk extends DAO implements Serializable {
     private static final long serialVersionUID = 1L;
     
-    @Inject private SessionFacade sessionFacade;
  @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
@@ -51,24 +48,43 @@ public class CechazapisuDAOfk extends DAO implements Serializable {
    
      
     public List<Cechazapisu> findPodatnikOnly(Podatnik podatnikObiekt) {
-        return sessionFacade.findCechaZapisuByPodatnikOnly(podatnikObiekt);
+        List<Cechazapisu> zwrot = null;
+        try {
+            zwrot =  getEntityManager().createNamedQuery("Cechazapisu.findByPodatnikOnly").setParameter("podatnik", podatnikObiekt).getResultList();
+        } catch (Exception e){}
+        return zwrot;
     }
     
     public List<Cechazapisu> findPodatnikOnlyAktywne(Podatnik podatnikObiekt) {
-        return sessionFacade.findCechaZapisuByPodatnikOnlyAktywne(podatnikObiekt);
+         List<Cechazapisu> zwrot = null;
+        try {
+            zwrot = getEntityManager().createNamedQuery("Cechazapisu.findByPodatnikOnlyAktywne").setParameter("podatnik", podatnikObiekt).getResultList();
+        } catch (Exception e){}
+        return zwrot;
     }
     
     public List<Cechazapisu> findPodatnikOnlyStatystyczne(Podatnik podatnikObiekt) {
-        return sessionFacade.findCechaZapisuByPodatnikOnlyStatystyczne(podatnikObiekt);
+          List<Cechazapisu> zwrot = null;
+        try {
+            zwrot = getEntityManager().createNamedQuery("Cechazapisu.findByPodatnikOnlyStatystyczne").setParameter("podatnik", podatnikObiekt).getResultList();
+        } catch (Exception e){}
+        return zwrot;
     }
 
     public List<Cechazapisu> findPodatnik(Podatnik podatnikObiekt) {
-        return sessionFacade.findCechaZapisuByPodatnik(podatnikObiekt);
+          List<Cechazapisu> zwrot = null;
+        try {
+            zwrot = getEntityManager().createNamedQuery("Cechazapisu.findByPodatnik").setParameter("podatnik", podatnikObiekt).getResultList();
+        } catch (Exception e){}
+        return zwrot;
     }
 
     public Cechazapisu findPodatniknkup() {
-        return sessionFacade.findCechaZapisuByPodatnikNKUP();
+          Cechazapisu zwrot = null;
+        try {
+            zwrot = (Cechazapisu) getEntityManager().createNamedQuery("Cechazapisu.findByPodatnikNKUP").setParameter("nazwacechy", "NKUP").getSingleResult();
+        } catch (Exception e){}
+        return zwrot;
     }
-
     
 }
