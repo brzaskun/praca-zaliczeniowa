@@ -446,6 +446,7 @@ public class ReadXMLSevenFile {
     private static String pobierznip(Invoices.Invoice row) {
         String zwrot = null;
         zwrot = row.getClientInformation().getInvoiceNip();
+        zwrot = zwrot.replace("-","");
         return zwrot;
     }
 

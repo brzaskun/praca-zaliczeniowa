@@ -396,7 +396,7 @@ public class WpisView implements Serializable {
                 } else {
                     ksiegaryczalt = true;
                 }
-                if (rodzajopodatkowania.contains("księgi rachunkowe")) {
+                if (rodzajopodatkowania.contains("księgi rachunkowe")||podatnikObiekt.getFirmafk()!=0) {
                     ksiegirachunkowe = true;
                 } else {
                     ksiegirachunkowe = false;
@@ -409,7 +409,7 @@ public class WpisView implements Serializable {
             if (rodzajopodatkowania == null) {
                 czegosbrakuje = true;
             }
-            if (podatnikObiekt.getFormaPrawna() == null && ksiegirachunkowe) {
+            if (podatnikObiekt.getFormaPrawna() == null && ksiegirachunkowe && podatnikObiekt.getFirmafk()==1) {
                 czegosbrakuje = true;
                 Msg.msg("e", "Brak wyboru formy prawnej");
             }

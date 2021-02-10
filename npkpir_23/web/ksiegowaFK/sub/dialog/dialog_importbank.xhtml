@@ -18,7 +18,7 @@
         }
     </style>
    
-        <p:dialog id="importbank" header="Pobieranie wyciągów bankowych z banków\" widgetVar="importbank" height="900" width="1450" style="overflow-y: no-display"
+        <p:dialog id="importbank" header="Pobieranie wyciągów bankowych z banków" widgetVar="importbank" height="900" width="1450" style="overflow-y: no-display"
               resizable="false"  onShow="ustawdialog('importbank','menudokumenty', 1450,900);" closeOnEscape="true" onHide="resetujdialog('importbank');" >
             <p:ajax event="open" listener="#{bankImportView.init()}" update="panelplikbankall"/>
         <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" rendered="false" update=":form_importbankall"/>
