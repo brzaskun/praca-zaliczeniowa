@@ -16,6 +16,7 @@
             <h:outputLabel value="hasło"/>
             <h:outputLabel value="uprawnienia"/>
             <h:outputLabel value="firma"/>
+            <h:outputLabel value="email"/>
             <h:outputLabel value=""/>
             <p:inputText value="#{UzView.nowyUzytkownik.login}" accesskey="s" required="true" requiredMessage="logi  - uzupełnij">
             </p:inputText>
@@ -28,7 +29,8 @@
             <p:selectOneMenu value="#{UzView.nowyUzytkownik.firma}" style="width: 300px;" >
                 <f:selectItems value="#{podatnikWyborView.listaPodatnikow}" var="item" itemLabel="#{item.printnazwa}" itemValue="#{item.nip}"/>
             </p:selectOneMenu>
-            <p:commandButton action="#{UzView.dodajNowyWpis()}" value="Dodaj" update=":form:uzytkownicyLista"/>
+            <p:inputText value="#{UzView.nowyUzytkownik.email}" />
+            <p:commandButton action="#{UzView.dodajNowyWpis()}" value="Dodaj" update=":form:uzytkownicyLista dodWiad"/>
         </p:panelGrid>
     </p:panel>
 <!--    <p:panel id="ostatniUzytkownik" menuTitle="Ostatnio wprowadzony użytkownik">

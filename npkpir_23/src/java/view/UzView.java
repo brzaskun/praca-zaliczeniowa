@@ -18,16 +18,16 @@ import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.inject.Named;
-
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import mail.Mail;
 import msg.B;
-import msg.Msg; import org.primefaces.PrimeFaces;
+import msg.Msg;
+ import org.primefaces.PrimeFaces;
 import params.Params;
 
 /**
@@ -116,6 +116,7 @@ public class UzView implements Serializable {
             nowyUzytkownik.setHaslo(haszuj(nowyUzytkownik.getHaslo()));
             uzDAO.create(nowyUzytkownik);
             listaUzytkownikow.add(nowyUzytkownik);
+            nowyUzytkownik = new Uz();
             Msg.msg("Rejestracja udana");
         } catch (Exception e) {
             E.e(e);
