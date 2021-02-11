@@ -31,7 +31,7 @@ public class EvewidencjaDAO extends DAO implements Serializable {
 
     @Inject
     private SessionFacade evewidencjaFacade;
-      @PersistenceContext(unitName = "npkpir_22PU")
+    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
     @PreDestroy
@@ -80,20 +80,20 @@ public class EvewidencjaDAO extends DAO implements Serializable {
             return null;
         }
    }
-    
+
     public Evewidencja znajdzponazwie(String nazwa)  {
         Evewidencja tmp = new Evewidencja();
         try {
-            tmp = evewidencjaFacade.findEvewidencjaByName(nazwa);
+            tmp = (Evewidencja)  getEntityManager().createNamedQuery("Evewidencja.findByNazwa").setParameter("nazwa", nazwa).getSingleResult();
             return tmp;
         } catch (Exception e) { E.e(e); 
              return null;
         }
     }
-    
-    public List<Evewidencja> znajdzpotransakcji(String nazwa) {
+
+    public List<Evewidencja> znajdzpotransakcji(String transakcja) {
         try {
-            return evewidencjaFacade.findEvewidencjaByTransakcja(nazwa);
+            return getEntityManager().createNamedQuery("Evewidencja.findByTransakcja").setParameter("transakcja", transakcja).getResultList();
         } catch (Exception e) { E.e(e); 
             return null;
         }
@@ -101,7 +101,7 @@ public class EvewidencjaDAO extends DAO implements Serializable {
 
     public Evewidencja znajdzponazwiePola(Evpozycja macierzysty) {
         try {
-            return evewidencjaFacade.findEvewidencjaByPole(macierzysty);
+            return (Evewidencja)  getEntityManager().createNamedQuery("Evewidencja.findByPole").setParameter("pole", macierzysty).getSingleResult();
         } catch (Exception e) { 
             E.e(e); 
             return null;

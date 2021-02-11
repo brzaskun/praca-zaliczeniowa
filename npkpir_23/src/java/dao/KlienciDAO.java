@@ -8,17 +8,14 @@ import entity.Klienci;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import org.eclipse.persistence.config.HintValues;
 import org.eclipse.persistence.config.QueryHints;
-import session.SessionFacade;
 
 /**
  *
@@ -28,8 +25,6 @@ import session.SessionFacade;
 @Transactional
 public class KlienciDAO extends DAO implements Serializable {
 
-    @Inject
-    private SessionFacade klienciFacade;
     @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
 
@@ -66,7 +61,7 @@ public class KlienciDAO extends DAO implements Serializable {
         String nazwa = "%"+pole+"%";
         String nip = pole+"%";
         try {
-            return Collections.synchronizedList(klienciFacade.getEntityManager().createNamedQuery("Klienci.findKlienciNipNazwa").setParameter("npelna", nazwa).setParameter("nip", nip).setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).setHint(QueryHints.READ_ONLY, HintValues.TRUE).getResultList());
+            return getEntityManager().createNamedQuery("Klienci.findKlienciNipNazwa").setParameter("npelna", nazwa).setParameter("nip", nip).setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).setHint(QueryHints.READ_ONLY, HintValues.TRUE).getResultList();
         } catch (Exception e) { 
             E.e(e); 
             return null;
@@ -76,7 +71,7 @@ public class KlienciDAO extends DAO implements Serializable {
     public  List<Klienci> findDoplery(int ile){
         List<Klienci> zwrot = new ArrayList<>();
         try {
-            zwrot = Collections.synchronizedList(klienciFacade.getEntityManager().createNamedQuery("Klienci.findDoplery").setParameter("ile", ile).getResultList());
+            zwrot = getEntityManager().createNamedQuery("Klienci.findDoplery").setParameter("ile", ile).getResultList();
         } catch (Exception e) { 
             E.e(e); 
         }
@@ -86,24 +81,23 @@ public class KlienciDAO extends DAO implements Serializable {
      public  List<Klienci> findKlienciNipSpacja(){
         List<Klienci> zwrot = new ArrayList<>();
         try {
-            zwrot = Collections.synchronizedList(klienciFacade.getEntityManager().createNamedQuery("Klienci.findKlienciNipSpacja").getResultList());
+            zwrot = getEntityManager().createNamedQuery("Klienci.findKlienciNipSpacja").getResultList();
         } catch (Exception e) { 
             E.e(e); 
         }
         return zwrot;
     }
-    
-    public  List<Klienci> findKlienciByNip(String nip){
-        List<Klienci> zwrot = new ArrayList<>();
-        try {
-            zwrot = klienciFacade.findKlienciByNip(nip);
-        } catch (Exception e) { 
-            E.e(e); 
-        }
-        return zwrot;
-    }
-    
 
+    public  List<Klienci> findKlienciByNip(String nip){
+        List<Klienci> wynik = null;
+        try {
+            wynik =  getEntityManager().createNamedQuery("Klienci.findByNip").setParameter("nip", nip).getResultList();
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return wynik;
+    }
+    
     
     public  Klienci findAllReadOnlyID(String pole){
         Klienci zwrot = null;
@@ -111,7 +105,7 @@ public class KlienciDAO extends DAO implements Serializable {
             Integer id = null;
             if (pole!=null) {
                 id = Integer.valueOf(pole);
-                zwrot = (Klienci) klienciFacade.getEntityManager().createNamedQuery("Klienci.findById").setParameter("id", id).setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).setHint(QueryHints.READ_ONLY, HintValues.TRUE).getSingleResult();
+                zwrot = (Klienci) getEntityManager().createNamedQuery("Klienci.findById").setParameter("id", id).setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).setHint(QueryHints.READ_ONLY, HintValues.TRUE).getSingleResult();
             }
         } catch (Exception e) { 
             E.e(e); 
@@ -119,25 +113,25 @@ public class KlienciDAO extends DAO implements Serializable {
         return zwrot;
    }
     
-    
     public  List<String> findNIP(){
         try {
-            return klienciFacade.findKlienciNIP();
+            return getEntityManager().createNamedQuery("Klienci.findKlienciNip").getResultList();
         } catch (Exception e) { E.e(e); 
             return null;
         }
    }
-    
+
     public  List<String> findNazwaPelna(String nowanazwa){
         try {
-            return klienciFacade.findNazwaPelna(nowanazwa);
+            return getEntityManager().createNamedQuery("Klienci.findByNpelna").setParameter("npelna", nowanazwa).getResultList();
         } catch (Exception e) { E.e(e); 
             return null;
         }
    }
-    
+
+
     public Klienci findKlientByNazwa(String nazwapelna) {
-            return klienciFacade.findKlientByNazwa(nazwapelna);
+            return (Klienci)  getEntityManager().createNamedQuery("Klienci.findByNpelna").setParameter("npelna", nazwapelna).getSingleResult();
     }
     
     public Klienci findKlientByNip(String nip) {
@@ -148,17 +142,36 @@ public class KlienciDAO extends DAO implements Serializable {
         }
         return zwrot;
     }
-    
+
     public List<String> findKlientByNipXX() {
-        return klienciFacade.findKlientByNipXX();
-    }
-    
-    public Klienci findKlientByNipImport(String nip) {
-        return klienciFacade.findKlientByNipImport(nip);
+        try {
+            return  getEntityManager().createNamedQuery("Klienci.findByNipXX").setParameter("nip", "XX%").getResultList();
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
     }
 
+    public Klienci findKlientByNipImport(String nip) {
+        List<Klienci> wynik = null;
+        try {
+            wynik =  getEntityManager().createNamedQuery("Klienci.findByNip").setParameter("nip", nip).getResultList();
+            if (!wynik.isEmpty() && wynik.size()==1) {
+                return wynik.get(0);
+            } else if (!wynik.isEmpty() && wynik.size()>1){
+                return wynik.get(0);
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
+
+
     public Klienci findKlientById(int i) {
-        return klienciFacade.findKlientById(i);
+        return (Klienci)  getEntityManager().createNamedQuery("Klienci.findById").setParameter("id", i).getSingleResult();
     }
    
    

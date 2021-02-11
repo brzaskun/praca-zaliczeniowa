@@ -16,7 +16,6 @@ import entity.Deklaracjevat;
 import entity.Dok;
 import entity.EVatOpis;
 import entity.EVatwpis1;
-import entity.Evewidencja;
 import entity.Evpozycja;
 import entity.Faktura;
 import entity.FakturaRozrachunki;
@@ -61,7 +60,6 @@ import entity.Zusstawki;
 import entityfk.Cechazapisu;
 import entityfk.Delegacja;
 import entityfk.Dokfk;
-import entityfk.EVatwpisFK;
 import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.KontopozycjaZapis;
@@ -131,9 +129,7 @@ public class SessionFacade<T> implements Serializable {
 
    
 
-    public Evewidencja findEvewidencjaByName(String nazwa) {
-        return (Evewidencja)  getEntityManager().createNamedQuery("Evewidencja.findByNazwa").setParameter("nazwa", nazwa).getSingleResult();
-    }
+    
 
     public Evpozycja findEvpozycjaByName(String nazwapola) {
         return (Evpozycja)  getEntityManager().createNamedQuery("Evpozycja.findByNazwapola").setParameter("nazwapola", nazwapola).getSingleResult();
@@ -527,13 +523,9 @@ public class SessionFacade<T> implements Serializable {
     }
 
 
-    public List<Evewidencja> findEvewidencjaByTransakcja(String transakcja) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Evewidencja.findByTransakcja").setParameter("transakcja", transakcja).getResultList());
-    }
     
-    public Evewidencja findEvewidencjaByPole(Evpozycja macierzysty) {
-        return (Evewidencja)  getEntityManager().createNamedQuery("Evewidencja.findByPole").setParameter("pole", macierzysty).getSingleResult();
-    }
+    
+    
 
     public List<Faktura> findByKontrahent_nip(String kontrahent_nip, Podatnik wystawca) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Faktura.findByKontrahent").setParameter("kontrahent_nip", kontrahent_nip).setParameter("wystawcanazwa", wystawca).getResultList());
@@ -884,26 +876,7 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Pismoadmin.findByStatus").setParameter("status", "wysłana").getResultList());
     }
 
-    public Kliencifk znajdzkontofk(String nip, String podatniknip) {
-        try {
-            return (Kliencifk)  getEntityManager().createNamedQuery("Kliencifk.findByNipPodatniknip").setParameter("nip", nip).setParameter("podatniknip", podatniknip).getSingleResult();
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-
-    public List<Kliencifk> znajdzkontofkKlient(String podatniknip) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Kliencifk.findByPodatniknip").setParameter("podatniknip", podatniknip).getResultList());
-    }
-    public Kliencifk znajdzkontofkByKonto(Konto konto) {
-        return (Kliencifk)  getEntityManager().createNamedQuery("Kliencifk.findByNrkonta").setParameter("nrkonta", konto.getNrkonta()).setParameter("podatniknip", konto.getPodatnik().getNip()).getSingleResult();
-    }
-
-
-    
   
-
     public List<Konto> findKontoPodatnik(Podatnik podatnik, String rok) {
         return  getEntityManager().createNamedQuery("Konto.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
     }
@@ -1015,13 +988,8 @@ public class SessionFacade<T> implements Serializable {
         return  getEntityManager().createNamedQuery("Konto.updateZablokowane").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).executeUpdate();
     }
 
-    public List<String> findKlienciNIP() {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Klienci.findKlienciNip").getResultList());
-    }
-
-    public List<String> findNazwaPelna(String nowanazwa) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Klienci.findByNpelna").setParameter("npelna", nowanazwa).getResultList());
-    }
+    
+    
 
     public Zusmail findZusmail(Zusmail zusmail) {
         return (Zusmail)  getEntityManager().createNamedQuery("Zusmail.findByPK").setParameter("podatnik", zusmail.getPodatnik()).setParameter("rok", zusmail.getRok()).setParameter("mc", zusmail.getMc()).getSingleResult();
@@ -1125,48 +1093,15 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Dok.findByIdDokOdDo").setParameter("odd", odd).setParameter("dod", dod).getResultList());
     }
 
-    public Klienci findKlientByNazwa(String nazwapelna) {
-        return (Klienci)  getEntityManager().createNamedQuery("Klienci.findByNpelna").setParameter("npelna", nazwapelna).getSingleResult();
-    }
-
-    
-    public List<String> findKlientByNipXX() {
-        try {
-            return  getEntityManager().createNamedQuery("Klienci.findByNipXX").setParameter("nip", "XX%").getResultList();
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
     
     
-    public List<Klienci> findKlienciByNip(String nip) {
-        List<Klienci> wynik = null;
-        try {
-            wynik =  getEntityManager().createNamedQuery("Klienci.findByNip").setParameter("nip", nip).getResultList();
-        } catch (Exception e) {
-            E.e(e);
-        }
-        return wynik;
-    }
+   
     
     
-    public Klienci findKlientByNipImport(String nip) {
-        List<Klienci> wynik = null;
-        try {
-            wynik =  getEntityManager().createNamedQuery("Klienci.findByNip").setParameter("nip", nip).getResultList();
-            if (!wynik.isEmpty() && wynik.size()==1) {
-                return wynik.get(0);
-            } else if (!wynik.isEmpty() && wynik.size()>1){
-                return wynik.get(0);
-            } else {
-                return null;
-            }
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
+  
+    
+    
+    
     
 
         
@@ -1489,9 +1424,7 @@ public class SessionFacade<T> implements Serializable {
 
     
 
-    public EVatwpisFK znajdzEVatwpisFKPoWierszu(Wiersz wiersz) {
-        return (EVatwpisFK)  getEntityManager().createNamedQuery("EVatwpisFK.findByWiersz").setParameter("wiersz", wiersz).getSingleResult();
-    }
+    
 
     public List<Konto> findlistaKontKasaBank(WpisView wpisView) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Konto.findlistaKontKasaBank").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
@@ -1785,21 +1718,9 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("WynikFKRokMc.findPodatnikRokUdzialowiec").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList());
     }
 
-    public Klienci findKlientById(int i) {
-        return (Klienci)  getEntityManager().createNamedQuery("Klienci.findById").setParameter("id", i).getSingleResult();
-    }
-
-    public List<EVatwpisFK> findEVatwpisFKByPodatnik(Podatnik podatnik) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("EVatwpisFK.findByPodatnik").setParameter("podatnik", podatnik).setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).getResultList());
-    }
-
-    public List<EVatwpisFK> findEVatwpisFKByPodatnikRokMcodMcdo(Podatnik podatnik, String rok, String mcod, String mcdo) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("EVatwpisFK.findByPodatnikRokMcodMcdo").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mcod", mcod).setParameter("mcdo", mcdo).setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).getResultList());
-    }
-
-    public List<EVatwpisFK> findEVatwpisFKByPodatnikRokInnyOkres(Podatnik podatnik, String rok) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("EVatwpisFK.findByPodatnikRokInnyOkres").setParameter("podatnik", podatnik).setParameter("rok", rok).setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).getResultList());
-    }
+    
+    
+  
 
     public UkladBR findUkladBRUklad(UkladBR ukladBR) {
         return (UkladBR)  getEntityManager().createNamedQuery("UkladBR.findByUkladPodRok").setParameter("uklad", ukladBR.getUklad()).setParameter("podatnik", ukladBR.getPodatnik()).setParameter("rok", ukladBR.getRok()).getSingleResult();
@@ -2105,13 +2026,9 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("UPO.findUPORokMc").setParameter("rok", rokWpisuSt).setParameter("mc", miesiacWpisu).getResultList());
     }
 
-    public List<EVatwpis1> zwrocEVatwpis1KlientRokMc(Podatnik podatnikWpisu, String rokWpisuSt, String miesiacWpisu) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("EVatwpis1.findByRokMc").setParameter("podatnik", podatnikWpisu).setParameter("pkpirR", rokWpisuSt).setParameter("mc", miesiacWpisu).getResultList());
-    }
+    
 
-    public List<EVatwpis1> zwrocEVatwpis1KlientRokKw(Podatnik podatnikWpisu, String rokWpisuSt, List<String> mce) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("EVatwpis1.findByRokKW").setParameter("podatnik", podatnikWpisu).setParameter("pkpirR", rokWpisuSt).setParameter("mc1", mce.get(0)).setParameter("mc2", mce.get(1)).setParameter("mc3", mce.get(2)).getResultList());
-    }
+    
     
     public List<EVatwpis1> zwrocEVatwpisFKKlientRokMc(Podatnik podatnikWpisu, String rokWpisuSt, String miesiacWpisu) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("EVatwpisFK.findByRokMc").setParameter("podatnik", podatnikWpisu).setParameter("pkpirR", rokWpisuSt).setParameter("mc", miesiacWpisu)
@@ -2124,10 +2041,7 @@ public class SessionFacade<T> implements Serializable {
 
    
 
-    public String findEVatwpisFKPodatnikKlient(Podatnik podatnikObiekt, Klienci klient, String rok) {
-        return ((EVatwpisFK)  getEntityManager().createNamedQuery("EVatwpisFK.findEVatwpisFKPodatnikKlient").setParameter("podatnik", podatnikObiekt).setParameter("klient", klient).setParameter("rok", rok).setMaxResults(1).getSingleResult()).getOpisvat();
-    }
-
+  
     public List<KontopozycjaZapis> findByKontoOnly(Konto konto) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("KontopozycjaZapis.findByKontoOnly").setParameter("konto", konto).getResultList());
                 

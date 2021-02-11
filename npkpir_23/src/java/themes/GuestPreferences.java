@@ -28,13 +28,12 @@ import java.io.Serializable;
 import java.security.Principal;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import view.WpisView;
 @Named
-@ViewScoped
+@SessionScoped
 public class GuestPreferences implements Serializable {
 
         private String theme = "redmond"; //default
@@ -49,9 +48,11 @@ public class GuestPreferences implements Serializable {
             HttpServletRequest request;
             request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             Principal principal = request.getUserPrincipal();
-            String kto = principal.getName();
-            Uz ktoUz = uzDAO.findUzByLogin(kto);
-            theme = ktoUz.getTheme();
+            if (principal!=null) {
+                String kto = principal.getName();
+                Uz ktoUz = uzDAO.findUzByLogin(kto);
+                theme = ktoUz.getTheme();
+            }
         } catch (Exception e) {
             E.e(e);
         }

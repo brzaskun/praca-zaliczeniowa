@@ -17,11 +17,11 @@ import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import session.SessionFacade;
+import org.eclipse.persistence.config.HintValues;
+import org.eclipse.persistence.config.QueryHints;
 
 /**
  *
@@ -33,8 +33,7 @@ import session.SessionFacade;
 public class EVatwpisFKDAO  extends DAO implements Serializable{
     private static final long serialVersionUID = 1L;
     
-    @Inject private SessionFacade sessionFacade;
- @PersistenceContext(unitName = "npkpir_22PU")
+    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
     @PreDestroy
@@ -57,20 +56,21 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
     public List<EVatwpisFK> findbyKontrahent(Klienci t) {
         List<EVatwpisFK> zwrot = new ArrayList<>();
         try {
-            zwrot = sessionFacade.getEntityManager().createNamedQuery("EVatwpisFK.findByKlient").setParameter("klient", t).getResultList();
+            zwrot = getEntityManager().createNamedQuery("EVatwpisFK.findByKlient").setParameter("klient", t).getResultList();
         } catch (Exception e) {
             
         }
         return zwrot;
     }
-    
+   
+
      public List<EVatwpisFK> findPodatnik(Podatnik podatnik) {
-        return sessionFacade.findEVatwpisFKByPodatnik(podatnik);
+        return getEntityManager().createNamedQuery("EVatwpisFK.findByPodatnik").setParameter("podatnik", podatnik).setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).getResultList();
     }
-    
-    public List<EVatwpisFK> findPodatnikMc(Podatnik podatnik, String rok, String mcod, String mcdo) {
+
+     public List<EVatwpisFK> findPodatnikMc(Podatnik podatnik, String rok, String mcod, String mcdo) {
         List<EVatwpisFK> l = Collections.synchronizedList(new ArrayList<>());
-        List<EVatwpisFK> input = sessionFacade.findEVatwpisFKByPodatnikRokMcodMcdo(podatnik, String.valueOf(rok), mcod, mcdo);
+        List<EVatwpisFK> input = getEntityManager().createNamedQuery("EVatwpisFK.findByPodatnikRokMcodMcdo").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mcod", mcod).setParameter("mcdo", mcdo).setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).getResultList();
         if (input != null && !input.isEmpty()) {
             for (EVatwpisFK p : input) {
                 try {
@@ -85,11 +85,12 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
         }
         return l;
     }
+  
     
     public List<EVatwpisFK> findPodatnikMcInnyOkres(Podatnik podatnik, String rok, String mcod, String mcdo) {
         //pobieramy ewidencje z tego roku i mca i badamy ich dokumenty, jezeli sa rozne to pobieramy
         List<EVatwpisFK> l = Collections.synchronizedList(new ArrayList<>());
-        List<EVatwpisFK> input = sessionFacade.findEVatwpisFKByPodatnikRokInnyOkres(podatnik, rok);
+        List<EVatwpisFK> input = getEntityManager().createNamedQuery("EVatwpisFK.findByPodatnikRokInnyOkres").setParameter("podatnik", podatnik).setParameter("rok", String.valueOf(rok)).setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).getResultList();
         int rokdeklaracji = Integer.parseInt(rok);
         if (input != null && !input.isEmpty()) {
             int dok_dolnagranica = Integer.parseInt(mcod)-1;
@@ -138,10 +139,10 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
 //        }
 //        return l;
 //    }
-    
+ 
     public List<EVatwpisFK> findPodatnikDalszeMce(Podatnik podatnik, Integer rok, String mcod, String mcdo) {
         List<EVatwpisFK> l = Collections.synchronizedList(new ArrayList<>());
-        List<EVatwpisFK> wierszeewidencji = sessionFacade.findEVatwpisFKByPodatnikRokInnyOkres(podatnik, String.valueOf(rok));
+        List<EVatwpisFK> wierszeewidencji = getEntityManager().createNamedQuery("EVatwpisFK.findByPodatnikRokInnyOkres").setParameter("podatnik", podatnik).setParameter("rok", String.valueOf(rok)).setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).getResultList();
         if (wierszeewidencji != null && !wierszeewidencji.isEmpty()) {
             int mc_gorna_granica = Integer.parseInt(mcdo);
             if (mc_gorna_granica == 13) {
@@ -165,24 +166,25 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
         }
         return l;
     }
-    
+
     public EVatwpisFK znajdzEVatwpisFKPoWierszu(Wiersz wiersz) {
-        return sessionFacade.znajdzEVatwpisFKPoWierszu(wiersz);
+        return (EVatwpisFK)  getEntityManager().createNamedQuery("EVatwpisFK.findByWiersz").setParameter("wiersz", wiersz).getSingleResult();
     }
 
+
     public String findEVatwpisFKPodatnikKlient(Podatnik podatnikObiekt, Klienci klient, String rok) {
-        return sessionFacade.findEVatwpisFKPodatnikKlient(podatnikObiekt, klient, rok);
+        return ((EVatwpisFK)  getEntityManager().createNamedQuery("EVatwpisFK.findEVatwpisFKPodatnikKlient").setParameter("podatnik", podatnikObiekt).setParameter("klient", klient).setParameter("rok", rok).setMaxResults(1).getSingleResult()).getOpisvat();
     }
     
     public List<EVatwpisFK> zwrocRok(String rokWpisuSt) {
-        return sessionFacade.getEntityManager().createNamedQuery("EVatwpisFK.findByRok").setParameter("rok", rokWpisuSt).getResultList();
+        return getEntityManager().createNamedQuery("EVatwpisFK.findByRok").setParameter("rok", rokWpisuSt).getResultList();
     }
     
     public List<EVatwpisFK> zwrocNULL() {
-        return sessionFacade.getEntityManager().createNamedQuery("EVatwpisFK.findEwidencjaNUll").getResultList();
+        return getEntityManager().createNamedQuery("EVatwpisFK.findEwidencjaNUll").getResultList();
     }
     
     public List<EVatwpisFK> zwrocRokMc(String rokWpisuSt, String mc) {
-        return sessionFacade.getEntityManager().createNamedQuery("EVatwpisFK.findByMcRok").setParameter("rok", rokWpisuSt).setParameter("mc", mc).getResultList();
+        return getEntityManager().createNamedQuery("EVatwpisFK.findByMcRok").setParameter("rok", rokWpisuSt).setParameter("mc", mc).getResultList();
     }
 }

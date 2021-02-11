@@ -6,18 +6,16 @@
 
 package dao;
 
-import dao.DAO;
 import entityfk.Kliencifk;
 import entityfk.Konto;
 import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import session.SessionFacade;
+import javax.transaction.Transactional;
 
 /**
  *
@@ -29,7 +27,6 @@ import session.SessionFacade;
 public class KliencifkDAO extends DAO implements Serializable{
     private static final long serialVersionUID = 1L;
     
-    @Inject private SessionFacade sessionFacade;
  @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
@@ -51,27 +48,22 @@ public class KliencifkDAO extends DAO implements Serializable{
         super.em = this.em;
     }
    
-
-    public KliencifkDAO(Class entityClass) {
-        super(entityClass);
-    }
-    
     
     public Kliencifk znajdzkontofk(String nip, String podatniknip) {
         try {
-            Kliencifk kf = sessionFacade.znajdzkontofk(nip, podatniknip);
-            return kf;
-        } catch (Exception e) { E.e(e); 
+            return (Kliencifk)  getEntityManager().createNamedQuery("Kliencifk.findByNipPodatniknip").setParameter("nip", nip).setParameter("podatniknip", podatniknip).getSingleResult();
+        } catch (Exception e) {
+            E.e(e);
             return null;
         }
     }
-    
+
     public List<Kliencifk> znajdzkontofkKlient(String podatniknip) {
-        return sessionFacade.znajdzkontofkKlient(podatniknip);
+        return getEntityManager().createNamedQuery("Kliencifk.findByPodatniknip").setParameter("podatniknip", podatniknip).getResultList();
     }
-    
+ 
     public Kliencifk znajdzkontofkByKonto(Konto konto) {
-        return sessionFacade.znajdzkontofkByKonto(konto);
+        return (Kliencifk)  getEntityManager().createNamedQuery("Kliencifk.findByNrkonta").setParameter("nrkonta", konto.getNrkonta()).setParameter("podatniknip", konto.getPodatnik().getNip()).getSingleResult();
     }
     
     
