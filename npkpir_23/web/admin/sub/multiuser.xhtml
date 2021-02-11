@@ -51,10 +51,10 @@
                 <f:facet name="header">
                     <h:outputText value="Firmy do podpięcia"/>
                 </f:facet>
-                <p:column headerText="nip" width="100">
+                <p:column headerText="nip" width="100" filterBy="#{item.nip}" filterMatchMode="contains">
                     <h:outputText value="#{item.nip}"/>
                 </p:column>
-                <p:column headerText="nazwa" width="250">
+                <p:column headerText="nazwa" width="250" filterBy="#{item.printnazwa}" filterMatchMode="contains">
                     <h:outputText value="#{item.printnazwa}"/>
                 </p:column>
                 <p:column width="50" style="text-align: center;">

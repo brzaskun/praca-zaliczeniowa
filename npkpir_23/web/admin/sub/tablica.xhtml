@@ -75,7 +75,7 @@
                 </f:facet> 
                     <h:outputText value="#{wpis.locale}" />
             </p:column>
-              <p:column id="emailColumn" headerText="email">  
+              <p:column id="emailColumn" headerText="email" filterBy="#{wpis.email}" filterMatchMode="contains">  
                 <f:facet name="header">  
                     <h:outputText value="email" />  
                 </f:facet> 
@@ -84,11 +84,11 @@
                         <h:outputText value="#{wpis.email}" />
                     </f:facet>
                     <f:facet name="input">  
-                        <p:inputText value="#{wpis.email}"/>
+                        <p:inputText value="#{wpis.email}" valueChangeListener="#{UzView.edit}"/>
                     </f:facet>
                 </p:cellEditor>
             </p:column>
-            <p:column id="firmaColumn" headerText="firma">  
+            <p:column id="firmaColumn" headerText="firma" filterBy="#{wpis.firma}" filterMatchMode="contains">  
                 <f:facet name="header">  
                     <h:outputText value="firma" />  
                 </f:facet> 
