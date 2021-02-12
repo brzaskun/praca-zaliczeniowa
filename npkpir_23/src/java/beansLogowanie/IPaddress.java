@@ -33,6 +33,17 @@ public class IPaddress {
                 return ip;
             }
         }
+        ip = request.getHeader("host");
+        if (null != ip && !"".equals(ip.trim())
+                && !"unknown".equalsIgnoreCase(ip)) {
+        // get first ip from proxy ip
+            int index = ip.indexOf(':');
+            if (index != -1) {
+                return ip.substring(0, index);
+            } else {
+                return ip;
+            }
+        }
         return request.getRemoteAddr();
     }
 }
