@@ -1142,9 +1142,7 @@ public class SessionFacade<T> implements Serializable {
 //                .setHint(QueryHints.READ_ONLY, HintValues.TRUE).getResultList());
 //    }
 
-    public List<Konto> findKontoByPodatnikRokBilans(Podatnik podatnik, String rok) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByKontoDistinctPodatnikRokBilans").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList());
-    }
+    
 
     public List<StronaWiersza> findStronaByPodatnikRokWalutaBilansBO(Podatnik podatnik, String rok, String skrotWaluty) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikRokWalutaBilansBO").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList());
