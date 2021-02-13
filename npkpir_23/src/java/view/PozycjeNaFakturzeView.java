@@ -57,7 +57,7 @@ public class PozycjeNaFakturzeView implements Serializable {
         } else if (request.isUserInRole("Bookkeeper")) {
             west = "sub/layoutFakturaKsiegowa/west.xhtml";
             westustawienia = "sub/layoutFakturaKsiegowa/westustawienia.xhtml";
-        } else if (request.isUserInRole("GuestFK")) {
+        } else if (request.isUserInRole("GuestFK")||request.isUserInRole("GuestFKBook")) {
             west = "../wspolny/sub/layoutFakturaGuestFK/west.xhtml";
             westustawienia = "../wspolny/sub/layoutFakturaGuestFK/westustawienia.xhtml";
         } else if (request.isUserInRole("GuestFaktura")) {

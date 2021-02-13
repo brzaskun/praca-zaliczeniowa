@@ -18,9 +18,11 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import org.eclipse.persistence.config.HintValues;
 import org.eclipse.persistence.config.QueryHints;
 import org.eclipse.persistence.queries.LoadGroup;
@@ -30,6 +32,8 @@ import view.WpisView;
  *
  * @author Osito
  */
+@Stateless
+@Transactional
 public class StronaWierszaDAO extends DAO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject private SessionFacade sessionFacade;

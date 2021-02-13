@@ -110,7 +110,7 @@ public class Logowanie implements Serializable {
                         return "failure";
                     }
                     navto = "Guest";
-                } else if (request.isUserInRole("GuestFK")) {
+                } else if (request.isUserInRole("GuestFK")||request.isUserInRole("GuestFKBook")) {
                     String nip = uzDAO.findUzByLogin(uzytkownik).getFirma();
                     Podatnik p = podatnikDAO.findPodatnikByNIP(nip);
                     if (p == null) {

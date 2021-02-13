@@ -21,10 +21,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 /**
  *
@@ -81,7 +80,7 @@ public class SprawaView  implements Serializable{
             Uz s = it.next();
             if (s.getLoginglowny() != null) {
                 it.remove();
-            } else if (s.getUprawnienia().equals("Guest")||s.getUprawnienia().equals("GuestFK")||s.getUprawnienia().equals("GuestFaktura")||s.getUprawnienia().equals("Multiuser")||s.getUprawnienia().equals("Dedra")) {
+            } else if (s.getUprawnienia().equals("Guest")||s.getUprawnienia().equals("GuestFK")||s.getUprawnienia().equals("GuestFKBook")||s.getUprawnienia().equals("GuestFaktura")||s.getUprawnienia().equals("Multiuser")||s.getUprawnienia().equals("Dedra")) {
                 it.remove();
             }
         }

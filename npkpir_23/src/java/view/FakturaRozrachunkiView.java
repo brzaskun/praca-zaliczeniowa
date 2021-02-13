@@ -23,12 +23,13 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
-import msg.Msg;import org.primefaces.event.RowEditEvent;
+import msg.Msg;
+import org.primefaces.event.RowEditEvent;
 import waluty.Z;
 
 /**
@@ -70,7 +71,7 @@ public class FakturaRozrachunkiView  implements Serializable {
             west = "sub/layoutFakturaRozrachunki/west.xhtml";
         } else if (request.isUserInRole("Manager")) {
             west = "sub/layoutFakturaRozrachunkiManager/west.xhtml";
-        } else if (request.isUserInRole("GuestFK")) {
+        } else if (request.isUserInRole("GuestFK")||request.isUserInRole("GuestFKBook")) {
             west = "../wspolny/sub/layoutFakturaRozrachunki/west.xhtml";
         } else if (request.isUserInRole("GuestFaktura")) {
             west = "../wspolny/sub/layoutFakturaRozrachunki/west.xhtml";

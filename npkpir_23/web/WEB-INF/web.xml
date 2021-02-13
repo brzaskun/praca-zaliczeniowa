@@ -134,6 +134,9 @@
     <security-role>
         <role-name>GuestFK</role-name>
     </security-role>
+     <security-role>
+        <role-name>GuestFKBook</role-name>
+    </security-role>
     <security-role>
         <role-name>Multiuser</role-name>
     </security-role>
@@ -226,6 +229,7 @@
         <auth-constraint>
             <role-name>Guest</role-name>
             <role-name>GuestFK</role-name>
+            <role-name>GuestFKBook</role-name>
             <role-name>Manager</role-name>
             <role-name>Administrator</role-name>
             <role-name>Bookkeeper</role-name>
@@ -240,6 +244,7 @@
         </web-resource-collection>
         <auth-constraint>
             <role-name>GuestFK</role-name>
+            <role-name>GuestFKBook</role-name>
             <role-name>Manager</role-name>
             <role-name>Administrator</role-name>
             <role-name>Bookkeeper</role-name>
@@ -256,6 +261,7 @@
             <role-name>Noobie</role-name>
             <role-name>Guest</role-name>
             <role-name>GuestFK</role-name>
+            <role-name>GuestFKBook</role-name>
             <role-name>Manager</role-name>
             <role-name>Administrator</role-name>
             <role-name>Bookkeeper</role-name>
@@ -273,6 +279,7 @@
             <role-name>Guest</role-name>
             <role-name>GuestFaktura</role-name>
             <role-name>GuestFK</role-name>
+            <role-name>GuestFKBook</role-name>
             <role-name>Manager</role-name>
             <role-name>Administrator</role-name>
             <role-name>Bookkeeper</role-name>

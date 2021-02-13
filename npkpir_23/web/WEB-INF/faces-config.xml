@@ -760,6 +760,11 @@
             <to-view-id>/guestFK/guestFKIndex.xhtml</to-view-id>
             <redirect></redirect>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>GuestFKBook</from-outcome>
+            <to-view-id>/guestFK/guestFKIndex.xhtml</to-view-id>
+            <redirect></redirect>
+        </navigation-case>
         <navigation-case>
             <from-outcome>gfkFaktura</from-outcome>
             <to-view-id>/wspolny/wspolnyFaktura.xhtml?faces-redirect=true</to-view-id>

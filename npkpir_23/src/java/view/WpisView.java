@@ -483,7 +483,7 @@ public class WpisView implements Serializable {
     
     private void czyniegosc() {
         niegosc = true;
-        if (this.uzer.getUprawnienia().equals("Guest")||this.uzer.getUprawnienia().equals("GuestFK")||this.uzer.getUprawnienia().equals("GuestFaktura")||this.uzer.getUprawnienia().equals("Multiuser")||this.uzer.getUprawnienia().equals("Dedra")) {
+        if (this.uzer.getUprawnienia().equals("Guest")||this.uzer.getUprawnienia().equals("GuestFK")||this.uzer.getUprawnienia().equals("GuestFKBook")||this.uzer.getUprawnienia().equals("GuestFaktura")||this.uzer.getUprawnienia().equals("Multiuser")||this.uzer.getUprawnienia().equals("Dedra")) {
             niegosc = false;
         }
     }

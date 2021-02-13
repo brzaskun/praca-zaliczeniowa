@@ -9,15 +9,19 @@ import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 import view.WpisView;
 /**
  *
  * @author Osito
  */
+@Stateless
+@Transactional
 public class WierszeDAO extends DAO implements Serializable{
     
     @Inject private SessionFacade wierszeFacade;
