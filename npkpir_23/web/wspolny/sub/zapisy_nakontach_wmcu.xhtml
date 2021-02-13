@@ -221,7 +221,7 @@
                     </p:panelGrid>
                 </h:form>
                 <h:form>
-                        <p:panelGrid columns="3" rendered="#{!WpisView.rokzamkniety}">
+                    <p:panelGrid columns="3" rendered="#{!WpisView.rokzamkniety && request.isUserInRole('GuestFKBook')}">
                             <h:outputText value="#{mgs.wybierzkonto}: "/>
                             <p:autoComplete id="wyborkonta" value="#{kontoZapisFKView.kontodoprzeksiegowania}" completeMethod="#{kontoZapisFKView.completeWszystkieKonta}" 
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" cache="true" forceSelection="true"
