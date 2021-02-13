@@ -7,9 +7,9 @@
 package viewfk;
 
 import beansFK.BOFKBean;
-import dao.StronaWierszaDAO;
 import dao.DokDAOfk;
 import dao.KontoDAOfk;
+import dao.StronaWierszaDAO;
 import embeddable.Mce;
 import embeddablefk.SaldoKontoNarastajaco;
 import entityfk.Konto;
@@ -22,12 +22,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import pdf.PdfKontaNarastajaco;
-import view.WpisView;import waluty.Z;
+import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -57,7 +57,7 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     
     public void init() { //E.m(this);
        try {
-        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
+        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
          if (wybranyRodzajKonta.equals("bilansowe")) {
              for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
                  if (it.next().getBilansowewynikowe().equals("wynikowe")) {

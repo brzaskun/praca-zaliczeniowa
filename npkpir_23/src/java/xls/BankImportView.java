@@ -201,7 +201,13 @@ public class BankImportView implements Serializable {
                 }
                 if (zwrot!=null) {
                     String nowyiban = p.getIban().replace("\"", "").replace("'", "").replace("'", "");
-                    lista.put(nowyiban, zwrot);
+                    if (zwrot.getRokSt().equals(wpisView.getRokWpisuSt())) {
+                        lista.put(nowyiban, zwrot);
+                    } else {
+                        //szukamy jesli konto z innego roku
+                        zwrot = kontoDAO.findKonto(zwrot.getPelnynumer(), zwrot.getPodatnik(), zwrot.getRok());
+                        lista.put(nowyiban, zwrot);
+                    }
                 }
             }
         }

@@ -17,6 +17,10 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import org.eclipse.persistence.config.CascadePolicy;
+import org.eclipse.persistence.config.HintValues;
+import org.eclipse.persistence.config.QueryHints;
+import org.eclipse.persistence.queries.LoadGroup;
 import session.SessionFacade;
 import view.WpisView;
 /**
@@ -57,7 +61,7 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public List<Konto> findKontaRozrachunkowe(WpisView wpisView) {
         try {
-            return Collections.synchronizedList(sessionFacade.findKontaRozrachunkowe(wpisView));
+            return getEntityManager().createNamedQuery("Konto.findByRozrachunkowePodatnik").setParameter("zwyklerozrachszczegolne", "rozrachunkowe").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -66,7 +70,7 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public List<Konto> findKontaRozrachunkoweZpotomkami(WpisView wpisView) {
         try {
-            return Collections.synchronizedList(sessionFacade.findKontaRozrachunkoweZpotomkami(wpisView));
+            return getEntityManager().createNamedQuery("Konto.findByRozrachunkowePodatnikZpotomkami").setParameter("zwyklerozrachszczegolne", "rozrachunkowe").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -75,7 +79,7 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public List<Konto> findKontaRozrachunkoweWszystkie(WpisView wpisView) {
         try {
-            return Collections.synchronizedList(sessionFacade.findKontaRozrachunkoweWszystkie(wpisView));
+            return getEntityManager().createNamedQuery("Konto.findByRozrachunkiPodatnikWszystkie").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -84,16 +88,17 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public List<Konto> findKontaVAT(Podatnik podatnik, int rok) {
         try {
-            return Collections.synchronizedList(sessionFacade.findKontaVAT(podatnik, rok));
+            return getEntityManager().createNamedQuery("Konto.findByVATPodatnik").setParameter("zwyklerozrachszczegolne", "vat").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
         }
     }
 
+
     public List<Konto> findKontaSrodkiTrw(Podatnik podatnik, int rok) {
         try {
-            return Collections.synchronizedList(sessionFacade.findKontaSrodkiTrw(podatnik, rok));
+            return getEntityManager().createNamedQuery("Konto.findBySrodkiTrwPodatnik").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -102,7 +107,7 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public List<Konto> findKontaRMK(Podatnik podatnik, int rok) {
         try {
-            return Collections.synchronizedList(sessionFacade.findKontaRMK(podatnik, rok));
+            return getEntityManager().createNamedQuery("Konto.findByRMKPodatnik").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -111,7 +116,7 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public List<Konto> findKontaRZiS(WpisView wpisView) {
         try {
-            return Collections.synchronizedList(sessionFacade.findKontaRZiS(wpisView));
+            return getEntityManager().createNamedQuery("Konto.findByBilansowewynikowePodatnik").setParameter("bilansowewynikowe", "wynikowe").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -120,7 +125,7 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public List<Konto> findKontaGrupa(WpisView wpisView, String grupa) {
         try {
-            return Collections.synchronizedList(sessionFacade.findlistaKontGrupa(wpisView, grupa));
+            return getEntityManager().createNamedQuery("Konto.findlistaKontGrupa").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("grupa", grupa).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -129,7 +134,7 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public List<Konto> findKontaGrupaAnalityka(WpisView wpisView, String grupa) {
         try {
-            return Collections.synchronizedList(sessionFacade.findlistaKontGrupaAnalityka(wpisView, grupa));
+            return getEntityManager().createNamedQuery("Konto.findlistaKontGrupaAnalityka").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("grupa", grupa).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -211,7 +216,7 @@ public class KontoDAOfk extends DAO implements Serializable {
     public Konto findKonto(String numer, Podatnik podatnik, Integer rok) {
         Konto zwrot = null;
         try {
-            zwrot = sessionFacade.findKonto(numer, podatnik, rok);
+            zwrot = (Konto)  getEntityManager().createNamedQuery("Konto.findByPelnynumerPodatnik").setParameter("pelnynumer", numer).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
         } catch (Exception e) {
         }
         return zwrot;
@@ -220,16 +225,17 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public Konto findKontoNazwaPodatnik(String nazwaskrocona, WpisView wpisView) {
         try {
-            return sessionFacade.findKontoNazwaPodatnik(nazwaskrocona, wpisView);
+            return (Konto)  getEntityManager().createNamedQuery("Konto.findByNazwaPodatnik").setParameter("nazwaskrocona", nazwaskrocona).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getSingleResult();
         } catch (Exception e) {
             E.e(e);
             return null;
         }
     }
 
+
     public Konto findKontoNazwaPelnaPodatnik(String nazwapelna, WpisView wpisView) {
         try {
-            return sessionFacade.findKontoNazwaPelnaPodatnik(nazwapelna, wpisView);
+            return (Konto)  getEntityManager().createNamedQuery("Konto.findByNazwaPelnaPodatnik").setParameter("nazwapelna", nazwapelna).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getSingleResult();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -238,7 +244,7 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public Konto findKonto(int id) {
         try {
-            return sessionFacade.findKonto(id);
+            return (Konto)  getEntityManager().createNamedQuery("Konto.findById").setParameter("id", id).getSingleResult();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -246,54 +252,62 @@ public class KontoDAOfk extends DAO implements Serializable {
     }
 
     public Konto findKonto2(int id) {
+         Konto k = null;
         try {
-            return sessionFacade.findKonto2(id);
+            k = (Konto)  getEntityManager().createNamedQuery("Konto.findById").setParameter("id", id).getSingleResult();
+        } catch (Exception e) {
+
+        }
+        return k;
+    }
+
+    
+    public List<Konto> findWszystkieKontaPodatnika(Podatnik podatnik, String rok) {
+        try {
+            return getEntityManager().createNamedQuery("Konto.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
         }
     }
 
-    public List<Konto> findWszystkieKontaPodatnika(Podatnik podatnik, String rok) {
-        try {
-            return Collections.synchronizedList(sessionFacade.findKontoPodatnik(podatnik, rok));
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-    
     public List<Konto> findWszystkieKontaPodatnikaBezPrzyporzadkowania(Podatnik podatnik, String rok) {
         try {
-            return sessionFacade.findKontoPodatnikBezPrzyporzadkowania(podatnik, rok);
+            return getEntityManager().createNamedQuery("Konto.findByPodatnikRokBezPrzyporzadkowania").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
         }
     }
-    
+
     public List<Konto> findWszystkieKontaPodatnikaRO(Podatnik podatnik, String rok) {
         try {
-            return sessionFacade.findKontoPodatnikRO(podatnik, rok);
+            return getEntityManager().createNamedQuery("Konto.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
         }
     }
-    
+
     public List<Konto> findWszystkieKontaPodatnikaPobierzRelacje(Podatnik podatnik, String rok) {
         try {
-            return sessionFacade.findKontoPodatnikRelacje(podatnik, rok);
+             LoadGroup lg = new LoadGroup();
+            lg.addAttribute("kontokategoria");
+            lg.addAttribute("kontomacierzyste");
+            lg.setIsConcurrent(Boolean.TRUE);
+            return  getEntityManager().createNamedQuery("Konto.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok))
+                    .setHint(QueryHints.REFRESH_CASCADE, CascadePolicy.CascadeAllParts)
+                    .setHint(QueryHints.LOAD_GROUP, lg).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
         }
     }
-    
+
       
     public List<Konto> findWszystkieKontaPodatnikaKsiegi(Podatnik podatnik, String rok) {
         try {
-            return Collections.synchronizedList(sessionFacade.findKontoPodatnikKsiegi(podatnik, rok));
+            return getEntityManager().createNamedQuery("Konto.findByPodatnikKsiegi").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -302,7 +316,7 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public List<Konto> findWszystkieKontaPodatnikaBezSlownik(Podatnik podatnik, String rok) {
         try {
-            return Collections.synchronizedList(sessionFacade.findKontoPodatnikBezSlownik(podatnik, rok));
+            return getEntityManager().createNamedQuery("Konto.findByPodatnikBezSlownik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -311,16 +325,16 @@ public class KontoDAOfk extends DAO implements Serializable {
     
     public List<Konto> findWszystkieKontaPodatnikaBezSlownikEdycja(Podatnik podatnik, String rok) {
         try {
-            return Collections.synchronizedList(sessionFacade.findKontoPodatnikBezSlownikEdycja(podatnik, rok));
+            return getEntityManager().createNamedQuery("Konto.findByPodatnikBezSlownik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
         }
     }
-    
+
     public List<Konto> findWszystkieKontaPodatnikaBezSlownikKsiegi(Podatnik podatnik, String rok) {
         try {
-            return Collections.synchronizedList(sessionFacade.findKontoPodatnikBezSlownikKsiegi(podatnik, rok));
+            return getEntityManager().createNamedQuery("Konto.findByPodatnikBezSlownikKsiegi").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -329,7 +343,7 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public List<Konto> findWszystkieKontaPodatnikaTylkoSlownik(Podatnik podatnik, String rok) {
         try {
-            return Collections.synchronizedList(sessionFacade.findKontoPodatnikTylkoSlownik(podatnik, rok));
+            return getEntityManager().createNamedQuery("Konto.findByPodatnikTylkoSlownik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -338,7 +352,7 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public List<Konto> findWszystkieKontaPodatnikaBO(WpisView wpisView, String kategoriaKonta) {
         try {
-            return Collections.synchronizedList(sessionFacade.findWszystkieKontaPodatnikaBO(wpisView, kategoriaKonta));
+            return getEntityManager().createNamedQuery("Konto.findByKontaPodatnikaBO").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("wzorzec", kategoriaKonta).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -347,7 +361,11 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public List<Konto> findWszystkieKontaBilansowePodatnika(Podatnik podatnik, String rok) {
         try {
-            return Collections.synchronizedList(sessionFacade.findWszystkieKontaBilansowePodatnika(podatnik, rok));
+            LoadGroup lg = new LoadGroup();
+            lg.addAttribute("kontokategoria");
+            lg.addAttribute("kontomacierzyste");
+            return getEntityManager().createNamedQuery("Konto.findByPodatnikBilansowe").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok))
+                    .setHint(QueryHints.LOAD_GROUP, lg).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -356,7 +374,11 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public List<Konto> findWszystkieKontaWynikowePodatnika(Podatnik podatnik, String rok) {
         try {
-            return Collections.synchronizedList(sessionFacade.findWszystkieKontaWynikowePodatnika(podatnik, rok));
+            LoadGroup lg = new LoadGroup();
+            lg.addAttribute("kontokategoria");
+            lg.addAttribute("kontomacierzyste");
+           return getEntityManager().createNamedQuery("Konto.findByPodatnikWynikowe").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok))
+                    .setHint(QueryHints.LOAD_GROUP, lg).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -365,7 +387,7 @@ public class KontoDAOfk extends DAO implements Serializable {
     
     public List<Konto> findWszystkieKontaSlownikowePodatnika(Podatnik podatnik, Integer rok) {
         try {
-            return Collections.synchronizedList(sessionFacade.getEntityManager().createNamedQuery("Konto.findByPodatnikTylkoSlownikZero").setParameter("rok", rok).setParameter("podatnik", podatnik).getResultList());
+            return getEntityManager().createNamedQuery("Konto.findByPodatnikTylkoSlownikZero").setParameter("rok", rok).setParameter("podatnik", podatnik).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -374,109 +396,68 @@ public class KontoDAOfk extends DAO implements Serializable {
 
 
     public void wyzerujBoWnBoMawKontach(WpisView wpisView, String bilansowewynikowe) {
-        sessionFacade.wyzerujBoWnBoMawKontach(wpisView, bilansowewynikowe);
+        getEntityManager().createNamedQuery("Konto.wyzerujBoWnwKontach").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("bilansowewynikowe", bilansowewynikowe).executeUpdate();
+         getEntityManager().createNamedQuery("Konto.wyzerujBoMawKontach").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("bilansowewynikowe", bilansowewynikowe).executeUpdate();
     }
-    
+  
     public void wyzerujBoWnBoMawKontach(WpisView wpisView) {
-        sessionFacade.wyzerujBoWnBoMawKontach(wpisView);
+        getEntityManager().createNamedQuery("Konto.wyzerujBowKontach").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).executeUpdate();
     }
 
-//    public void wyzerujPozycjeWKontachWzorcowy(UkladBR uklad, String bilansowewynikowe) {
-//        kontoFacade.wyzerujPozycjeWKontachWzorcowy(uklad, bilansowewynikowe));
-//    }
+    
     public List<Konto> findKontaBilansowePodatnikaBezPotomkow(WpisView wpisView) {
-        return Collections.synchronizedList(sessionFacade.findKontaBilansowePodatnikaBezPotomkow(wpisView));
+        return getEntityManager().createNamedQuery("Konto.findByPodatnikBilansoweBezPotomkow").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
-    
+
     public List<Konto> findKontaBilansowePodatnikaBezPotomkowRokPoprzedni(WpisView wpisView) {
-        return Collections.synchronizedList(sessionFacade.findKontaBilansowePodatnikaBezPotomkowRokPoprzedni(wpisView));
+        return getEntityManager().createNamedQuery("Konto.findByPodatnikBilansoweBezPotomkow").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokUprzedni()).getResultList();
     }
-    
+
     public List<Konto> findKontaBilansowePodatnikaKwotaBezPotomkow(WpisView wpisView) {
-        return Collections.synchronizedList(sessionFacade.findKontaBilansowePodatnikaKwotaBezPotomkow(wpisView));
+        return getEntityManager().createNamedQuery("Konto.findByPodatnikBilansoweKwotaBezPotomkow").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
+
 
     public Konto findKonto860(WpisView wpisView) {
-        return sessionFacade.findKonto860(wpisView);
+        return (Konto)  getEntityManager().createNamedQuery("Konto.findByKonto860").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getSingleResult();
     }
 
     public List<Konto> findKontaWynikowePodatnikaBezPotomkow(WpisView wpisView) {
-        return Collections.synchronizedList(sessionFacade.findKontaWynikowePodatnikaBezPotomkow(wpisView));
-    }
-    public List<Konto> findKontaPodatnikZPotomkani(WpisView wpisView) {
-        return Collections.synchronizedList(sessionFacade.findKontaPodatnikZPotomkami(wpisView));
+        return getEntityManager().createNamedQuery("Konto.findByPodatnikWynikoweBezPotomkow").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
     
+
+    public List<Konto> findKontaPodatnikZPotomkani(WpisView wpisView) {
+        return getEntityManager().createNamedQuery("Konto.findByPodatnikZPotomkami").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+    }
+
     public List<Konto> findKontaWynikowePodatnikaBezPotomkowRokPop(WpisView wpisView) {
-        return Collections.synchronizedList(sessionFacade.findKontaWynikowePodatnikaBezPotomkowRokPop(wpisView));
+        return getEntityManager().createNamedQuery("Konto.findByPodatnikWynikoweBezPotomkow").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokUprzedni()).getResultList();
     }
 
     public Konto findKontoPodatnik490(WpisView wpisView) {
         try {
-            return sessionFacade.findKontoPodatnik490(wpisView);
+            return (Konto)  getEntityManager().createNamedQuery("Konto.findByPodatnik490").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getSingleResult();
         } catch (Exception e) {
             E.e(e);
             return null;
         }
     }
 
-    public List<Konto> findKontaOstAlityka(WpisView wpisView) {
+    public List<Konto> findKontaOstAlityka(Podatnik podatnik, String rok) {
         try {
-            return Collections.synchronizedList(sessionFacade.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+            return getEntityManager().createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnik").setParameter("mapotomkow", false).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
         }
     }
     
-    public List<Konto> findKontaOstAlityka(Podatnik podatnik, Integer rok) {
-        try {
-            return Collections.synchronizedList(sessionFacade.findKontaOstAlityka(podatnik, rok));
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
     
-    public List<Konto> findKontaOstAlitykaRO(WpisView wpisView) {
-        try {
-            return Collections.synchronizedList(sessionFacade.findKontaOstAlitykaRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-    
-    public List<Konto> findKontaOstAlitykaRokPop(WpisView wpisView) {
-        try {
-            return Collections.synchronizedList(sessionFacade.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedni()));
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-    
-    public List<Konto> findKontaOstAlitykaRokPop(Podatnik podatnik, Integer rokuprzedni) {
-        try {
-            return Collections.synchronizedList(sessionFacade.findKontaOstAlityka(podatnik, rokuprzedni));
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-    
-    public List<Konto> findKontaOstAlitykaRokPopRO(WpisView wpisView) {
-        try {
-            return Collections.synchronizedList(sessionFacade.findKontaOstAlitykaRO(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedni()));
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
 
     public List<Konto> findKontaOstAlitykaWynikowe(WpisView wpisView) {
         try {
-            return Collections.synchronizedList(sessionFacade.findKontaOstAlitykaWynikowe(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+            return getEntityManager().createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnikWynikowe").setParameter("mapotomkow", false).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -485,7 +466,7 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public List<Konto> findKontaOstAlityka5(WpisView wpisView) {
         try {
-            return Collections.synchronizedList(sessionFacade.findKontaOstAlityka5(wpisView));
+            return getEntityManager().createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnik5").setParameter("mapotomkow", false).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -500,45 +481,55 @@ public class KontoDAOfk extends DAO implements Serializable {
             } else {
                 aktywapasywa = "0";
             }
-            return Collections.synchronizedList(sessionFacade.findKontaPrzyporzadkowane(pozycja, bilansowewynikowe, podatnik, rok, aktywapasywa));
+            if (bilansowewynikowe.equals("bilansowe")) {
+                return getEntityManager().createNamedQuery("Konto.findByPozycjaBilansowe").setParameter("pozycja", pozycja).setParameter("aktywa0pasywa1", aktywa0pasywa1).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+            } else {
+                return getEntityManager().createNamedQuery("Konto.findByPozycjaWynikowe").setParameter("pozycja", pozycja).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+            }
         } catch (Exception e) {
             E.e(e);
             return null;
         }
     }
-    
+  
     public List<Konto> findKontaPrzyporzadkowaneAll(String bilansowewynikowe, Podatnik podatnik, Integer rok) {
         try {
-            return Collections.synchronizedList(sessionFacade.findKontaPrzyporzadkowaneAll(bilansowewynikowe, podatnik, rok));
+             LoadGroup lg = new LoadGroup();
+            lg.addAttribute("kontokategoria");
+            if (bilansowewynikowe.equals("bilansowe")) {
+                return Collections.synchronizedList( getEntityManager().createNamedQuery("Konto.findByPozycjaBilansoweAll").setParameter("podatnik", podatnik).setParameter("rok", rok)
+
+                    .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
+                //return Collections.synchronizedList( getEntityManager().createNamedQuery("Konto.findByPozycjaBilansoweAll").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
+            } else {
+                return Collections.synchronizedList( getEntityManager().createNamedQuery("Konto.findByPozycjaWynikoweAll").setParameter("podatnik", podatnik).setParameter("rok", rok)
+
+                    .setHint(QueryHints.LOAD_GROUP, lg).getResultList());
+    //            return Collections.synchronizedList( getEntityManager().createNamedQuery("Konto.findByPozycjaWynikoweAll").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList());
+            }
         } catch (Exception e) {
             E.e(e);
             return null;
         }
     }
     
-   
+
     public List<Konto> findKontaPotomnePodatnik(Podatnik podatnik, Integer rok, Konto macierzyste) {
         try {
-            return Collections.synchronizedList(sessionFacade.findKontaPotomnePodatnik(podatnik, rok, macierzyste));
+            LoadGroup lg = new LoadGroup();
+            lg.addAttribute("kontokategoria");
+            return getEntityManager().createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).setParameter("rok", rok).setHint(QueryHints.LOAD_GROUP, lg).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
         }
     }
 
-    public List<Konto> findKontaPotomnePodatnik(Podatnik podatnik, String rok, Konto macierzyste) {
-        try {
-            return Collections.synchronizedList(sessionFacade.findKontaPotomnePodatnik(podatnik, Integer.parseInt(rok), macierzyste));
-        } catch (Exception e) {
-            E.e(e);
-            return null;
-        }
-    }
-
+  
     public List<Konto> findKontaWszystkiePotomnePodatnik(List<Konto> listakontwszystkie, Podatnik podatnik, Integer rok, Konto macierzyste) {
         try {
-            macierzyste.getAllChildren(listakontwszystkie, podatnik, rok, sessionFacade);
-            return Collections.synchronizedList(listakontwszystkie);
+            macierzyste.getAllChildren(listakontwszystkie, podatnik, rok, this);
+            return listakontwszystkie;
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -548,25 +539,38 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public List<Konto> findKontaPotomne(Podatnik podatnik, Integer rok, Konto macierzyste, String bilansowewynikowe) {
         try {
-            return Collections.synchronizedList(sessionFacade.findKontaPotomne(podatnik, rok, macierzyste, bilansowewynikowe));
+            if (macierzyste == null) {
+                if (bilansowewynikowe.equals("bilansowe")) {
+                    return Collections.synchronizedList(getEntityManager().createNamedQuery("Konto.findByMacierzysteBilansoweNull").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
+                } else {
+                    return Collections.synchronizedList(getEntityManager().createNamedQuery("Konto.findByMacierzysteWynikoweNull").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
+                }
+            } else {
+                if (bilansowewynikowe.equals("bilansowe")) {
+                    return Collections.synchronizedList(getEntityManager().createNamedQuery("Konto.findByMacierzysteBilansowe").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
+                } else {
+                    return Collections.synchronizedList(getEntityManager().createNamedQuery("Konto.findByMacierzysteWynikowe").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
+                }
+            }
         } catch (Exception e) {
             E.e(e);
             return null;
         }
     }
 
+
     public List<Konto> findKontaMaSlownik(Podatnik podatnik, Integer rok, int idslownika) {
         try {
-            return Collections.synchronizedList(sessionFacade.findKontaMaSlownik(podatnik, rok, idslownika));
+            return getEntityManager().createNamedQuery("Konto.findByMaSlownik").setParameter("idslownika", idslownika).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
         }
     }
-    
+
     public Konto findKontoMacierzystyNrkonta(Podatnik podatnik, Integer rok, Konto kontomacierzyste, String numerkonta) {
         try {
-            return sessionFacade.findKontoMacierzystyNrkonta(podatnik, rok, kontomacierzyste, numerkonta);
+            return (Konto)  getEntityManager().createNamedQuery("Konto.findKontoMacierzystyNrkonta").setParameter("kontomacierzyste", kontomacierzyste).setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("nrkonta", numerkonta).getSingleResult();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -575,7 +579,7 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public int resetujKolumneMapotomkow(WpisView wpisView) {
         try {
-            return sessionFacade.resetujKolumneMapotomkow(wpisView);
+            return getEntityManager().createNamedQuery("Konto.updateMapotomkow").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).executeUpdate();
         } catch (Exception e) {
             E.e(e);
             return 1;
@@ -584,7 +588,7 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public int resetujKolumneZablokowane(WpisView wpisView) {
         try {
-            return sessionFacade.resetujKolumneZablokowane(wpisView);
+            return getEntityManager().createNamedQuery("Konto.updateZablokowane").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).executeUpdate();
         } catch (Exception e) {
             E.e(e);
             return 1;
@@ -593,25 +597,16 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public int policzPotomne(Podatnik podatnik, Integer rok, Konto macierzyste) {
         try {
-            return Integer.parseInt(String.valueOf(sessionFacade.findKontaPotomnePodatnikCount(podatnik, rok, macierzyste)));
+            return Integer.parseInt(String.valueOf(getEntityManager().createNamedQuery("Konto.findByMacierzystePodatnikCOUNT").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult()));
         } catch (Exception e) {
             E.e(e);
             return 0;
         }
     }
 
-//    public int policzPotomneWzorcowy(WpisView wpisView, String macierzyste) {
-//        try {
-//            return Integer.parseInt(String.valueOf(kontoFacade.findKontaPotomneWzorcowyCount(wpisView, macierzyste)));
-//        } catch (Exception e) {
-//            E.e(e);
-//            return 0;
-//        }
-//    }
-
     public List<Konto> findListaKontRozrachunkowych(WpisView wpisView) {
         try {
-            return Collections.synchronizedList(sessionFacade.findKontaMaSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), 1));
+            return getEntityManager().createNamedQuery("Konto.findByMaSlownik").setParameter("idslownika", 1).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -620,7 +615,7 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public List<Konto> findKontaNazwaPodatnik(String nip, WpisView wpisView) {
         try {
-            return Collections.synchronizedList(sessionFacade.findKontaNazwaPodatnik(nip, wpisView));
+            return getEntityManager().createNamedQuery("Konto.findByNazwaPodatnik").setParameter("nazwaskrocona", nip).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
@@ -628,14 +623,14 @@ public class KontoDAOfk extends DAO implements Serializable {
     }
 
     public List<Konto> findKontaSiostrzanePodatnik(Podatnik podatnik, Integer rok, Konto pelnynumer) {
-        return Collections.synchronizedList(sessionFacade.findKontaSiostrzanePodatnik(podatnik, rok, pelnynumer));
+        return getEntityManager().createNamedQuery("Konto.findBySiostrzaneBOPodatnik").setParameter("macierzyste", pelnynumer).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
 
     }
 
 
 
     public List<Konto> findlistaKontKasaBank(WpisView wpisView) {
-        return Collections.synchronizedList(sessionFacade.findlistaKontKasaBank(wpisView));
+        return getEntityManager().createNamedQuery("Konto.findlistaKontKasaBank").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
 
 //    public List<Konto> findWszystkieKontaWzorcowy(WpisView wpisView) {
@@ -656,33 +651,30 @@ public class KontoDAOfk extends DAO implements Serializable {
 //        }
 //    }
 
-    public List<Konto> findWszystkieKontaPodatnikaBez0(Podatnik podatnikWpisu, String rokWpisuSt) {
+
+    public List<Konto> findWszystkieKontaPodatnikaBez0(Podatnik podatnik, String rok) {
         try {
-            return Collections.synchronizedList(sessionFacade.findKontoPodatnikBez0(podatnikWpisu, rokWpisuSt));
+            return getEntityManager().createNamedQuery("Konto.findByPodatnikBez0").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).setHint(QueryHints.READ_ONLY, HintValues.TRUE).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
         }
     }
 
-    public int findMaxLevelPodatnik(Podatnik podatnikWpisu, int rokWpisu) {
-        return sessionFacade.findMaxLevelPodatnik(podatnikWpisu, rokWpisu);
+    public int findMaxLevelPodatnik(Podatnik podatnik, int rok) {
+        return (int)  getEntityManager().createNamedQuery("Konto.findByMaxLevelPodatnik").setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
     }
 
     public List<Konto> findKontazLevelu(Podatnik podatnikWpisu, int rokWpisu, int i) {
-        return Collections.synchronizedList(sessionFacade.findKontazLevelu(podatnikWpisu, rokWpisu, i));
+        return getEntityManager().createNamedQuery("Konto.findByLevelPodatnik").setParameter("level", i).setParameter("podatnik", podatnikWpisu).setParameter("rok", rokWpisu).getResultList();
     }
 
 //    public List<Konto> findKontazLeveluWzorcowy(WpisView wpisView, int i) {
 //        return Collections.synchronizedList(kontoFacade.findKontazLeveluWzorcowy(wpisView, i));
 //    }
 
-    public List<Konto> findKontazLeveluRok(WpisView wpisView, int i) {
-        return Collections.synchronizedList(sessionFacade.findKontazLeveluRok(wpisView, i));
-    }
-
     public List<Konto> findSlownikoweKlienci(WpisView wpisView, Kliencifk kliencifk) {
-        return Collections.synchronizedList(sessionFacade.findSlownikoweKlienci(wpisView, kliencifk));
+        return getEntityManager().createNamedQuery("Konto.findByPodatnikKliencifk").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("nazwa", kliencifk.getNazwa()).setParameter("nip", kliencifk.getNip()).getResultList();
     }
 
 //    public void zerujkontazLevelu(WpisView wpisView, int i) {
@@ -690,11 +682,11 @@ public class KontoDAOfk extends DAO implements Serializable {
 //    }
 
     public Konto findBySlownikoweMacierzyste(Konto konto, String nrkonta, WpisView wpisView) {
-        return sessionFacade.findByKontoSlownikoweMacierzyste(konto, nrkonta, wpisView);
+        return (Konto)  getEntityManager().createNamedQuery("Konto.findBySlownikoweMacierzyste").setParameter("kontomacierzyste", konto).setParameter("nrkonta", nrkonta).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getSingleResult();
     }
 
     public void zerujsaldazaksiegowane(WpisView wpisView) {
-        sessionFacade.wyzerujSaldaZaksiegowanewKontach(wpisView);
+        getEntityManager().createNamedQuery("Konto.wyzerujSaldaZaksiegowanewKontach").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).executeUpdate();
     }
 
 }

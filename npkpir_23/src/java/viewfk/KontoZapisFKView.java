@@ -8,18 +8,17 @@ import beansFK.DokumentFKBean;
 import beansFK.KontaFKBean;
 import beansFK.RozliczTransakcjeBean;
 import comparator.Kontocomparator;
-import dao.KlienciDAO;
-import dao.RodzajedokDAO;
-import dao.StronaWierszaDAO;
 import dao.CechazapisuDAOfk;
 import dao.DokDAOfk;
+import dao.KlienciDAO;
 import dao.KontoDAOfk;
+import dao.RodzajedokDAO;
+import dao.StronaWierszaDAO;
 import dao.TabelanbpDAO;
 import dao.TransakcjaDAO;
 import dao.WierszBODAO;
 import dao.WierszDAO;
 import data.Data;
-import embeddable.Mce;
 import embeddablefk.ListaSum;
 import entityfk.Cechazapisu;
 import entityfk.Dokfk;
@@ -46,17 +45,18 @@ import java.util.concurrent.atomic.DoubleAccumulator;
 import java.util.stream.Collectors;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
-import javax.inject.Named;
-
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import org.primefaces.component.datatable.DataTable;
+import javax.inject.Named;
+import msg.Msg;
+import org.primefaces.PrimeFaces;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.model.TreeNode;
 import pdf.PdfKontoZapisy;
-import view.WpisView; import org.primefaces.PrimeFaces;
+ import view.WpisView;
 import waluty.Z;
 
 /**
@@ -128,7 +128,7 @@ public class KontoZapisFKView implements Serializable{
     
 
     public void init() { //E.m(this);
-        ostatniaanalityka = kontoDAOfk.findKontaOstAlityka(wpisView);
+        ostatniaanalityka = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         wszystkiekonta = new ArrayList<>(wykazkont);
         wpisView.setMiesiacOd(wpisView.getMiesiacOd());
@@ -143,7 +143,7 @@ public class KontoZapisFKView implements Serializable{
     }
     
     public void publicinit() {
-       ostatniaanalityka = kontoDAOfk.findKontaOstAlityka(wpisView);
+       ostatniaanalityka = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         if (wykazkont != null) {
             wybranekonto = wykazkont.get(0);
@@ -1367,7 +1367,7 @@ public class KontoZapisFKView implements Serializable{
     private void przeksiegujslownikowe() {
         int rozrachunkowe = 0;
         int bo = 0;
-        List<Konto> potomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), kontodoprzeksiegowania);
+        List<Konto> potomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), kontodoprzeksiegowania);
         if (potomne == null || potomne.size() == 0) {
             Msg.msg("e", "Konto docelowe nie zawiera podłączonego słownika. Nie można przeksięgować");
             return;

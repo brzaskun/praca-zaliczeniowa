@@ -4562,7 +4562,7 @@ public void oznaczjakonkup() {
     public void usunzapisy(Konto konto, List<StronaWiersza> kontozapisy) {
         List<Konto> konta = new ArrayList();
         if (konto.isMapotomkow()) {
-            List<Konto> kontatmp = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), konto);
+            List<Konto> kontatmp = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), konto);
             if (kontatmp!=null) {
                 for (Konto r : kontatmp) {
                     if (!r.isMapotomkow()) {

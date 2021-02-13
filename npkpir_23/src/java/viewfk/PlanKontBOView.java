@@ -16,10 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import view.WpisView;
 /**
  *
@@ -55,7 +54,7 @@ public class PlanKontBOView implements Serializable {
             List<Konto> wykazkont6 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "6%");
             List<Konto> wykazkont7 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "7%");
             List<Konto> wykazkont8 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "8%");
-            wykazkont = kontoDAO.findKontaOstAlityka(wpisView);
+            wykazkont = kontoDAO.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             wykazkontGrupa.put(0, wykazkont0);
             wykazkontGrupa.put(1, wykazkont1);
             wykazkontGrupa.put(2, wykazkont2);

@@ -5,6 +5,7 @@
 package entityfk;
 
 import abstractClasses.ToBeATreeNodeObject;
+import dao.KontoDAOfk;
 import entity.Podatnik;
 import java.io.Serializable;
 import java.util.List;
@@ -31,8 +32,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import language.LocaleInfo;
 import org.eclipse.persistence.annotations.Cache;
 import org.eclipse.persistence.annotations.CacheType;
-import org.eclipse.persistence.annotations.FetchAttribute;
-import session.SessionFacade;
 
 /**
  *
@@ -356,12 +355,12 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.boMa = ma;
     }
     
-    public void getAllChildren(List<Konto> listakontwszystkie, Podatnik podatnik, Integer rok, SessionFacade kontoFacade) {
-        List<Konto> children = kontoFacade.findKontaPotomnePodatnik(podatnik, rok, this);
+    public void getAllChildren(List<Konto> listakontwszystkie, Podatnik podatnik, Integer rok, KontoDAOfk kontoDAOfk) {
+        List<Konto> children = kontoDAOfk.findKontaPotomnePodatnik(podatnik, rok, this);
         if (!children.isEmpty()) {
             for (Konto o : children) {
                 listakontwszystkie.add(o);
-                o.getAllChildren(listakontwszystkie,podatnik, rok, kontoFacade);
+                o.getAllChildren(listakontwszystkie,podatnik, rok, kontoDAOfk);
             }
         }
     }

@@ -8,11 +8,14 @@ package viewfk;
 import beansFK.BOFKBean;
 import beansFK.SaldoAnalitykaBean;
 import beansFK.SprFinInfDodBean;
-import dao.StronaWierszaDAO;
 import dao.DokDAOfk;
 import dao.KontoDAOfk;
+import dao.PodatnikUdzialyDAO;
 import dao.SprFinKwotyInfDodDAO;
+import dao.StronaWierszaDAO;
+import embeddable.Mce;
 import embeddablefk.SaldoKonto;
+import entity.PodatnikUdzialy;
 import entityfk.Konto;
 import entityfk.SprFinKwotyInfDod;
 import entityfk.StronaWiersza;
@@ -23,25 +26,18 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import org.apache.commons.io.IOUtils;
+import javax.inject.Named;
+import msg.Msg;
+ import org.apache.commons.io.IOUtils;
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
-import plik.Plik;
-import view.WpisView; import org.primefaces.PrimeFaces;
-import static beansFK.SprFinInfDodBean.drukujInformacjeDodatkowa;
-import dao.PodatnikUdzialyDAO;
-import embeddable.Mce;
-import entity.PodatnikUdzialy;
-import java.util.Base64;
-import java.util.Iterator;
 import org.primefaces.model.UploadedFile;
+import plik.Plik;
+import view.WpisView;
 
 /**
  *
@@ -279,7 +275,7 @@ public class SprFinKwotyInfDodView  implements Serializable{
             List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             List<StronaWiersza> zapisyRok = stronaWierszaDAO.findStronaByPodatnikRokRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlitykaRokPop(wpisView);
+            List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlityka( wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
             boolean czyzaksiegowanoporok = true;
 //            if (!kontaklienta.isEmpty()&&!kontaklientarokpop.isEmpty()) {
 //                czyzaksiegowanoporok = SaldoAnalitykaBean.sprawdzzaksiegowanie(kontaklienta, kontaklientarokpop);

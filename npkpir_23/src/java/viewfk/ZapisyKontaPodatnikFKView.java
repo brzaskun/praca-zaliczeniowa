@@ -5,8 +5,8 @@
 package viewfk;
 
 
-import dao.StronaWierszaDAO;
 import dao.KontoDAOfk;
+import dao.StronaWierszaDAO;
 import dao.TransakcjaDAO;
 import dao.WierszBODAO;
 import embeddable.Mce;
@@ -21,12 +21,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import pdffk.PdfKontoZapisyLista;
-import view.WpisView; import org.primefaces.PrimeFaces;
+import javax.inject.Named;
+import msg.Msg;
+import org.primefaces.PrimeFaces;
+import pdffk.PdfKontoZapisyLista;
+ import view.WpisView;
 import waluty.Z;
 
 /**
@@ -92,7 +93,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
     
     
     private void init() { //E.m(this);
-        List<Konto> wykazkont = kontoDAOfk.findKontaOstAlityka(wpisView);
+        List<Konto> wykazkont = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         wybranaWalutaDlaKont = "wszystkie";
         kontozapisy = Collections.synchronizedList(new ArrayList<>());
         pobierzZapisyNaKoncieNode(wykazkont);

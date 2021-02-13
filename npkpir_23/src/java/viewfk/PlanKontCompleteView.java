@@ -23,13 +23,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
-import javax.faces.view.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import view.WpisView;
+import javax.inject.Named;
+import msg.Msg;
+import view.WpisView;
 /**
  *
  * @author Osito
@@ -63,7 +63,7 @@ public class PlanKontCompleteView implements javax.faces.convert.Converter, Seri
     
   @PostConstruct
   public void init() { //E.m(this);
-      listakontOstatniaAnalitykaklienta = kontoDAOfk.findKontaOstAlitykaRO(wpisView);
+      listakontOstatniaAnalitykaklienta = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
       if (listakontOstatniaAnalitykaklienta!=null) {
         Collections.sort(listakontOstatniaAnalitykaklienta, new Kontocomparator());
       }

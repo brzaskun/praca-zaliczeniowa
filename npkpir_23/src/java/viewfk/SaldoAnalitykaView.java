@@ -8,10 +8,10 @@ package viewfk;
 import beansFK.BOFKBean;
 import beansFK.CechazapisuBean;
 import beansFK.KontaFKBean;
-import dao.StronaWierszaDAO;
 import dao.CechazapisuDAOfk;
 import dao.DokDAOfk;
 import dao.KontoDAOfk;
+import dao.StronaWierszaDAO;
 import dao.WalutyDAOfk;
 import embeddable.Mce;
 import embeddablefk.SaldoKonto;
@@ -29,14 +29,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import pdf.PdfKonta;
+import javax.inject.Named;
+import msg.Msg;
+import org.primefaces.PrimeFaces;
+import pdf.PdfKonta;
 import pdf.PdfKontaPorownanie;
 import sortfunction.KontoSortBean;
-import view.WpisView; import org.primefaces.PrimeFaces;
+ import view.WpisView;
 import waluty.Z;
 
 /**
@@ -81,7 +82,7 @@ public class SaldoAnalitykaView implements Serializable {
     }
 
     public void init() { //E.m(this);
-        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
+        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         if (wybranyRodzajKonta != null) {
             if (wybranyRodzajKonta.equals("bilansowe")) {
                 for (Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
@@ -104,7 +105,7 @@ public class SaldoAnalitykaView implements Serializable {
     }
     
      public void initbo() {
-        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
+        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         if (wybranyRodzajKonta != null) {
             if (wybranyRodzajKonta.equals("bilansowe")) {
                 for (Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
@@ -123,16 +124,16 @@ public class SaldoAnalitykaView implements Serializable {
         pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
         List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlitykaRokPop(wpisView);
+        List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlityka( wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
         przygotowanalistasaldbo(kontaklienta, kontaklientarokpop, zapisyBO, zapisyObrotyRozp, wybranyRodzajKonta, wpisView.getRokWpisuSt(),"12");
     }
      
      
     public void initzamknijksiegi(Podatnik podatnik, String rok, String rokuprzedni) {
-        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(podatnik, Integer.parseInt(rok));
+        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(podatnik, rok);
         List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, podatnik, rok);
         List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, podatnik, rok);
-        List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlitykaRokPop(podatnik, Integer.parseInt(rokuprzedni));
+        List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlityka(podatnik, rokuprzedni);
         przygotowanalistasaldbo(kontaklienta, kontaklientarokpop, zapisyBO, zapisyObrotyRozp, "wszystkie", rok, "12");
     }
 
@@ -180,7 +181,7 @@ public class SaldoAnalitykaView implements Serializable {
         wpisView.setRokWpisu(rok - 1);
         wpisView.setRokWpisuSt(String.valueOf(rok - 1));
         wpisView.setMiesiacWpisu("12");
-        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
+        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         listaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
         List<StronaWiersza> zapisyRok = pobierzzapisy("wszystkie", wpisView.getRokWpisuSt(),"12");
 //        for (StronaWiersza p : zapisyRok) {
