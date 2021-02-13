@@ -13,7 +13,6 @@ import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -21,7 +20,6 @@ import org.eclipse.persistence.config.CascadePolicy;
 import org.eclipse.persistence.config.HintValues;
 import org.eclipse.persistence.config.QueryHints;
 import org.eclipse.persistence.queries.LoadGroup;
-import session.SessionFacade;
 import view.WpisView;
 /**
  *
@@ -34,8 +32,6 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Inject
-    private SessionFacade sessionFacade;
  @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
@@ -457,7 +453,7 @@ public class KontoDAOfk extends DAO implements Serializable {
 
     public List<Konto> findKontaOstAlitykaWynikowe(WpisView wpisView) {
         try {
-            return getEntityManager().createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnikWynikowe").setParameter("mapotomkow", false).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
+            return getEntityManager().createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnikWynikowe").setParameter("mapotomkow", false).setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
