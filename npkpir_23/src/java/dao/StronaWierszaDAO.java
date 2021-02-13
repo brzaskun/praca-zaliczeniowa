@@ -248,9 +248,8 @@ public class StronaWierszaDAO extends DAO implements Serializable {
         return Collections.synchronizedList(sessionFacade.findStronaByPodatnikRokBilans(podatnik, rok, mc));
     }
     
-    
     public List<Konto> findKontoByPodatnikRokBilans(Podatnik podatnik, String rok) {
-        return Collections.synchronizedList(sessionFacade.findKontoByPodatnikRokBilans(podatnik, rok));
+        return getEntityManager().createNamedQuery("StronaWiersza.findByKontoDistinctPodatnikRokBilans").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList();
     }
     
     public List<StronaWiersza> findStronaByPodatnikRokWalutaBilansBO(Podatnik podatnik, String rok, String skrotWaluty) {
