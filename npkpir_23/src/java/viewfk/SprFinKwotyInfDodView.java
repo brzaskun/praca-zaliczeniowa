@@ -275,7 +275,7 @@ public class SprFinKwotyInfDodView  implements Serializable{
             List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             List<StronaWiersza> zapisyRok = stronaWierszaDAO.findStronaByPodatnikRokRO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-            List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlityka( wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
+            List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlityka( wpisView.getPodatnikObiekt(), wpisView.getRokUprzedni());
             boolean czyzaksiegowanoporok = true;
 //            if (!kontaklienta.isEmpty()&&!kontaklientarokpop.isEmpty()) {
 //                czyzaksiegowanoporok = SaldoAnalitykaBean.sprawdzzaksiegowanie(kontaklienta, kontaklientarokpop);

@@ -82,7 +82,7 @@ public class SaldoAnalitykaView implements Serializable {
     }
 
     public void init() { //E.m(this);
-        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         if (wybranyRodzajKonta != null) {
             if (wybranyRodzajKonta.equals("bilansowe")) {
                 for (Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
@@ -105,7 +105,7 @@ public class SaldoAnalitykaView implements Serializable {
     }
     
      public void initbo() {
-        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         if (wybranyRodzajKonta != null) {
             if (wybranyRodzajKonta.equals("bilansowe")) {
                 for (Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
@@ -124,16 +124,16 @@ public class SaldoAnalitykaView implements Serializable {
         pobranecechypodatnik = cechazapisuDAOfk.findPodatnik(wpisView.getPodatnikObiekt());
         List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlityka( wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
+        List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlityka( wpisView.getPodatnikObiekt(), wpisView.getRokUprzedni());
         przygotowanalistasaldbo(kontaklienta, kontaklientarokpop, zapisyBO, zapisyObrotyRozp, wybranyRodzajKonta, wpisView.getRokWpisuSt(),"12");
     }
      
      
     public void initzamknijksiegi(Podatnik podatnik, String rok, String rokuprzedni) {
-        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(podatnik, rok);
+        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(podatnik, Integer.parseInt(rok));
         List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(dokDAOfk, podatnik, rok);
         List<StronaWiersza> zapisyObrotyRozp = BOFKBean.pobierzZapisyObrotyRozp(dokDAOfk, podatnik, rok);
-        List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlityka(podatnik, rokuprzedni);
+        List<Konto> kontaklientarokpop = kontoDAOfk.findKontaOstAlityka(podatnik, Integer.parseInt(rokuprzedni));
         przygotowanalistasaldbo(kontaklienta, kontaklientarokpop, zapisyBO, zapisyObrotyRozp, "wszystkie", rok, "12");
     }
 
@@ -181,7 +181,7 @@ public class SaldoAnalitykaView implements Serializable {
         wpisView.setRokWpisu(rok - 1);
         wpisView.setRokWpisuSt(String.valueOf(rok - 1));
         wpisView.setMiesiacWpisu("12");
-        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         listaSaldoKonto = Collections.synchronizedList(new ArrayList<>());
         List<StronaWiersza> zapisyRok = pobierzzapisy("wszystkie", wpisView.getRokWpisuSt(),"12");
 //        for (StronaWiersza p : zapisyRok) {

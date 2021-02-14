@@ -57,7 +57,7 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     
     public void init() { //E.m(this);
        try {
-        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
          if (wybranyRodzajKonta.equals("bilansowe")) {
              for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
                  if (it.next().getBilansowewynikowe().equals("wynikowe")) {

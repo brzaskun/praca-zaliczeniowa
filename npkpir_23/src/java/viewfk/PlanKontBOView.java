@@ -54,7 +54,7 @@ public class PlanKontBOView implements Serializable {
             List<Konto> wykazkont6 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "6%");
             List<Konto> wykazkont7 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "7%");
             List<Konto> wykazkont8 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "8%");
-            wykazkont = kontoDAO.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            wykazkont = kontoDAO.findKontaOstAlityka(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
             wykazkontGrupa.put(0, wykazkont0);
             wykazkontGrupa.put(1, wykazkont1);
             wykazkontGrupa.put(2, wykazkont2);

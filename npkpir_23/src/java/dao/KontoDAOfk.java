@@ -440,7 +440,7 @@ public class KontoDAOfk extends DAO implements Serializable {
         }
     }
 
-    public List<Konto> findKontaOstAlityka(Podatnik podatnik, String rok) {
+    public List<Konto> findKontaOstAlityka(Podatnik podatnik, Integer rok) {
         try {
             return getEntityManager().createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnik").setParameter("mapotomkow", false).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
         } catch (Exception e) {
