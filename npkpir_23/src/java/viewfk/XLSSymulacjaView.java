@@ -14,13 +14,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import org.apache.poi.ss.usermodel.Workbook;
-import view.WpisView;import waluty.Z;
+import javax.inject.Named;
+import msg.Msg;
+import org.apache.poi.ss.usermodel.Workbook;
+import view.WpisView;
+import waluty.Z;
 import xls.PozycjaObliczenia;
 import xls.PozycjaPrzychodKoszt;
 import xls.WriteXLSFile;
@@ -200,7 +202,7 @@ public class XLSSymulacjaView implements Serializable{
         List l = new ArrayList();
         int j = 1;
         int k = 1;
-        for (int i = 0; i < lista.size(); i = i+8) {
+        for (int i = 0; i < lista.size(); i = i+11) {
             SymulacjaWynikuView.PozycjeSymulacji p = lista.get(i);
             String nazwaudzialowca = p.getNazwa().replaceAll("\\s+","");
             l.add(new PozycjaObliczenia(j++,p.getNazwa(),p.getWartosc()));

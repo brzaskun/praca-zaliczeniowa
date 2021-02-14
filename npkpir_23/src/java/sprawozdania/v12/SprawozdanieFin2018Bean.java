@@ -11,8 +11,6 @@ import entityfk.PozycjaRZiSBilans;
 import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.datatype.DatatypeConfigurationException;
 import waluty.Z;
 

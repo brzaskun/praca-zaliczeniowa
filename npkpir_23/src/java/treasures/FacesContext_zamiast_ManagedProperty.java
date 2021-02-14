@@ -5,9 +5,6 @@
  */
 package treasures;
 
-import entity.SrodekTrw;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import view.WpisView;
 /**

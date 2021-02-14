@@ -5,18 +5,13 @@
  */
 package viesapi;
 
-import javax.jws.WebService;
 import eu.europa.ec.taxud.vies.services.checkvat.CheckVatPortType;
 import eu.europa.ec.taxud.vies.services.checkvat.CheckVatService;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
 import javax.jws.WebService;
 import javax.xml.soap.SOAPFault;
 import javax.xml.ws.Holder;
 import javax.xml.ws.WebServiceException;
 import javax.xml.ws.soap.SOAPFaultException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
@@ -26,7 +21,6 @@ import org.slf4j.LoggerFactory;
 @WebService(serviceName = "checkVatService", portName = "checkVatPort", endpointInterface = "eu.europa.ec.taxud.vies.services.checkvat.CheckVatPortType", targetNamespace = "urn:ec.europa.eu:taxud:vies:services:checkVat", wsdlLocation = "WEB-INF/wsdl/Vies2/checkVATService.wsdl")
 public class Vies2 {
     
-    private static final Logger LOG = LoggerFactory.getLogger(Vies2.class);
 
    public static ViesVatRegistration  checkVat(javax.xml.ws.Holder<java.lang.String> countryCode, javax.xml.ws.Holder<java.lang.String> vatNumber, javax.xml.ws.Holder<javax.xml.datatype.XMLGregorianCalendar> requestDate, javax.xml.ws.Holder<Boolean> valid, javax.xml.ws.Holder<java.lang.String> name, javax.xml.ws.Holder<java.lang.String> address) throws ViesVatServiceException {
         CheckVatService chs = new CheckVatService();
@@ -41,7 +35,7 @@ public class Vies2 {
             throw new ViesVatServiceException(faultKey, countryCode + "-" + vatNumber + ": " + faultMessage);
         }
         catch (WebServiceException ex) {
-            LOG.error("{}-{} lookup failed", countryCode, vatNumber, ex);
+            //LOG.error("{}-{} lookup failed", countryCode, vatNumber, ex);
             throw new ViesVatServiceException("WebServiceException", countryCode + "-" + vatNumber + ": " + ex.getMessage());
         }
 
@@ -55,7 +49,7 @@ public class Vies2 {
         res.setRequestDate(requestDate.value.toGregorianCalendar().getTime());
         res.setName(name.value);
         res.setAddress(address.value);
-        LOG.info("{}-{} : {}", countryCode, vatNumber, res);
+        //LOG.info("{}-{} : {}", countryCode, vatNumber, res);
         return res;
     }
 
@@ -99,7 +93,7 @@ public class Vies2 {
             res.setValid(false);
             res.setUwagi(faultKey);
         }  catch (WebServiceException ex) {
-            LOG.error("{}-{} lookup failed", countryCode, vatNumber, ex);
+            //LOG.error("{}-{} lookup failed", countryCode, vatNumber, ex);
             res.setValid(false);
             res.setUwagi("błąd programu");
         }

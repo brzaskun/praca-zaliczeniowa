@@ -279,7 +279,7 @@ public class WynikFKRokMc implements Serializable {
     public double getPrzychodyPodatkowe() {
         double p = this.przychody!=null ? this.przychody : 0.0;
         double k = this.npup !=null ? this.npup : 0.0;
-        return Z.z(p-k);
+        return Z.z(p+k);
     }
     
     public double getKosztyPodatkowe() {

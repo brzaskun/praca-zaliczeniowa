@@ -8,10 +8,10 @@ package viewfk;
 import beansFK.CechazapisuBean;
 import beansFK.KontaFKBean;
 import beansFK.StronaWierszaBean;
-import dao.PodatnikUdzialyDAO;
-import dao.StronaWierszaDAO;
 import dao.CechazapisuDAOfk;
 import dao.KontoDAOfk;
+import dao.PodatnikUdzialyDAO;
+import dao.StronaWierszaDAO;
 import dao.TransakcjaDAO;
 import dao.WierszBODAO;
 import dao.WynikFKRokMcDAO;
@@ -37,12 +37,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.B;
-import msg.Msg;import pdf.PdfSymulacjaWyniku;
-import view.WpisView;import waluty.Z;
+import msg.Msg;
+import pdf.PdfSymulacjaWyniku;
+import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -355,10 +357,10 @@ public class SymulacjaWynikuView implements Serializable {
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("nkup"), Z.z(nkup)));
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("kupmn", Z.z(kupmn_mc)));
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("kupmn pop mce", Z.z(kupmn_mc_pop)));
-        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("npup"),-Z.z(npup)));
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("npup"),Z.z(npup)));
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("pmn",Z.z(pmn_mc)));
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("pmn pop mce",Z.z(pmn_mc_pop)));
-        double wynikpodatkowy = Z.z(wynikfinansowy + nkup + kupmn_mc + kupmn_mc_pop - npup - pmn_mc - pmn_mc_pop);
+        double wynikpodatkowy = Z.z(wynikfinansowy + nkup + kupmn_mc + kupmn_mc_pop + npup + pmn_mc + pmn_mc_pop);
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikpodatkowy"), wynikpodatkowy));
     }
     
@@ -367,7 +369,7 @@ public class SymulacjaWynikuView implements Serializable {
         double przychody = Z.z(sumuj(listakontaprzychody, "przychody"));
         double koszty = Z.z(sumuj(listakontakoszty, "koszty"));
         double wynik = Z.z(przychody - koszty);
-        double wynikpodatkowy = Z.z(wynikfinansowy + nkup + kupmn_mc + kupmn_mc_pop - npup - pmn_mc - pmn_mc_pop);
+        double wynikpodatkowy = Z.z(wynikfinansowy + nkup + kupmn_mc + kupmn_mc_pop + npup + pmn_mc + pmn_mc_pop);
         double udzial = 1;
         String kto = B.b("wszyscy");
         int id = 1;
@@ -488,7 +490,7 @@ public class SymulacjaWynikuView implements Serializable {
                     zapisyZCechaP.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, stw, false, false));
                 }
         }
-        pmn_mc = -CechazapisuBean.sumujcecha(zapisycechaprzychod, "PMN", wpisView.getMiesiacWpisu());
+        pmn_mc = CechazapisuBean.sumujcecha(zapisycechaprzychod, "PMN", wpisView.getMiesiacWpisu());
         pmn_mc_pop = 0.0;
         zapisycechaprzychod = CechazapisuBean.pobierzwierszezcecha(zapisy, "PMN", wpisView.getMiesiacUprzedni());
         pmn_mc_pop = CechazapisuBean.sumujcecha(zapisycechaprzychod, "PMN", wpisView.getMiesiacUprzedni());

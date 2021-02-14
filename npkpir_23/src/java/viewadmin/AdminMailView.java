@@ -30,25 +30,21 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import mail.MailAdmin;
 import msg.Msg;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTime;
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
-import view.ParametrView;
-import view.WpisView; import org.primefaces.PrimeFaces;
 import org.primefaces.model.UploadedFile;
-//import org.primefaces.model.UploadedFile;
-
+ import view.ParametrView;
+import view.WpisView;
 /**
  *
  * @author Osito

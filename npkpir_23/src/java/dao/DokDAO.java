@@ -26,7 +26,6 @@ import view.WpisView;
 @Stateless
 @Transactional
 public class DokDAO extends DAO implements Serializable {
-    //private static final Logger LOG =  Logger.getLogger(DokDAO.class.getName());
 
     @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;

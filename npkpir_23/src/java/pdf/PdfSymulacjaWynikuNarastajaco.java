@@ -5,6 +5,7 @@
  */
 package pdf;
 
+import static beansPdf.PdfFont.formatujProcent;
 import static beansPdf.PdfFont.formatujWaluta;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
@@ -21,11 +22,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import msg.B;
-import msg.Msg;import plik.Plik;
-import view.WpisView;import viewfk.SymulacjaWynikuView;
+import msg.Msg;
+import plik.Plik;
+import view.WpisView;
+import viewfk.SymulacjaWynikuView;
 
 /**
  *
@@ -160,9 +161,19 @@ public class PdfSymulacjaWynikuNarastajaco {
         } catch (IOException ex) {
             // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
+        int ia = 0;
+        int porownanie = 0;
         for (SymulacjaWynikuView.PozycjeSymulacji rs : pozycjeObliczeniaPodatku) {
-            table.addCell(ustawfrazeAlign(rs.getNazwa(), "left", 7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getWartosc()), "right", 7));
+            if (ia==porownanie) {
+                table.addCell(ustawfrazeAlign(rs.getNazwa(), "left", 7));
+                table.addCell(ustawfrazeAlign(formatujProcent(rs.getWartosc()), "right", 7));
+                ia++;
+                porownanie = porownanie+11;
+            } else {
+                table.addCell(ustawfrazeAlign(rs.getNazwa(), "left", 7));
+                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getWartosc()), "right", 7));
+                ia++;
+            }
         }
         return table;
     }
@@ -186,9 +197,19 @@ public class PdfSymulacjaWynikuNarastajaco {
         } catch (IOException ex) {
             // Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
+        int ia = 0;
+        int porownanie = 0;
         for (SymulacjaWynikuView.PozycjeSymulacji rs : pozycjeDoWyplaty) {
-            table.addCell(ustawfrazeAlign(rs.getNazwa(), "left", 7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getWartosc()), "right", 7));
+            if (ia==porownanie) {
+                table.addCell(ustawfrazeAlign(rs.getNazwa(), "left", 7));
+                table.addCell(ustawfrazeAlign(formatujProcent(rs.getWartosc()), "right", 7));
+                ia++;
+                porownanie = porownanie+4;
+            } else {
+                table.addCell(ustawfrazeAlign(rs.getNazwa(), "left", 7));
+                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getWartosc()), "right", 7));
+                ia++;
+            }
         }
         return table;
     }
