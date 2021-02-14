@@ -60,7 +60,6 @@ public class Dedraparser {
                 Msg.msg("Zaimportowano korekty bez błędów");
             }
         } catch (Exception ex) {
-             System.out.println(E.e(ex));
               Msg.msg("e", "Wystąpił błąd przy importowaniu pliku xml. Nie wiem gdzie");
             // Logger.getLogger(Dedraparser.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -80,7 +79,6 @@ public class Dedraparser {
                     p.setFaktura(eElement.getAttribute("F"));
                     ostatnia = eElement.getAttribute("F");
                     if (ostatnia.equals("5010000134")){
-                        System.out.println("");
                     }
                     p.setDatadokumentu(eElement.getAttribute("Den"));
                     p.setDataoperacji(eElement.getAttribute("Den"));

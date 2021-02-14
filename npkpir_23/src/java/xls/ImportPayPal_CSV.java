@@ -241,11 +241,9 @@ public class ImportPayPal_CSV implements Serializable {
                     i++;
                 }
         listaswierszy.add(y);
-        System.out.println("");      
         } catch (Exception ex) {
             E.e(ex);
         }
-        System.out.println("");
     }
 
  

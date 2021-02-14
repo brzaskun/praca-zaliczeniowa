@@ -1369,11 +1369,8 @@ private DokDAO dokDAO;
                         } catch (Exception ex) {
                         }
                     }
-                    System.out.println("Klient "+selected.getNazwapelna());
             }
-            System.out.println("KONIEC UPDATU DOKUMENTOW");
         } catch (Exception ex) {
-            System.out.println("");
         }
     }
 

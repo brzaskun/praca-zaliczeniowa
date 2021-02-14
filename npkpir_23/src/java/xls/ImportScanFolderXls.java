@@ -18,9 +18,6 @@ import java.util.logging.Logger;
 public class ImportScanFolderXls {
     public static void main(String[] args) {
         try {
-            Files.newDirectoryStream(Paths.get("E:\\Biuro\\Firmy\\_MAŁGOSIA\\Murawski Grzegorz\\Niemcy deklaracje\\012020\\Faktury"),
-                    path -> path.toString().endsWith(".xls"))
-                    .forEach(System.out::println);
         } catch (IOException ex) {
             // Logger.getLogger(ImportScanFolderXls.class.getName()).log(Level.SEVERE, null, ex);
         }

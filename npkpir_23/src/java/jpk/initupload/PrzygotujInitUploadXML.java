@@ -94,7 +94,6 @@ public class PrzygotujInitUploadXML {
             JAXBContext context = JAXBContext.newInstance(InitUploadType.class);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.marshal(doc, System.out);
             FileOutputStream fileStream = new FileOutputStream(new File(plikxmlnazwa));
             OutputStreamWriter writer = new OutputStreamWriter(fileStream, "UTF-8");
             marshaller.marshal(doc, writer);

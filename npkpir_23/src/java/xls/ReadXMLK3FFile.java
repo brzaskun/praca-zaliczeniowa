@@ -250,7 +250,6 @@ public class ReadXMLK3FFile {
                 interpaperXLS.setVatwaluta(Z.z(row.getInvTax()));
                 interpaperXLS.setBruttowaluta(row.getInvPrice());
             } catch (Exception e) {
-                System.out.println("");
                 zlafaktura = row;
             }
         return zlafaktura;

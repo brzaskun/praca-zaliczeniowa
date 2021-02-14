@@ -676,7 +676,6 @@ public class Data implements Serializable {
      public static void main(String[] args) {
          String data = "1/28/2020";
          boolean jest = dataamerico(data);
-         System.out.println("");
      }
     
 //   public static void main(String[] args) {

@@ -815,7 +815,6 @@ public class SessionFacade<T> implements Serializable {
     
     public List<Podatnik> findAktywnyPodatnik() {
         List<Podatnik> zwrot = Collections.synchronizedList( getEntityManager().createNamedQuery("Podatnik.findByPodmiotaktywny").getResultList());
-        System.out.println("POBRAŁEM PODATNIKÓW AKTYWNYCH");
         return zwrot;
     }
     

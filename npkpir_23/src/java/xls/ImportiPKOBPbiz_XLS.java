@@ -342,7 +342,6 @@ public static void main(String[] args) {
         rachunek = rachunek.substring(rozm-32, rozm);
         rachunek = rachunek.replace(" ", "").trim();
     }
-    System.out.println(rachunek);
 }
     
 

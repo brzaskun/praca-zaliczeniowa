@@ -24,23 +24,25 @@ import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import error.E;
 import gus.GUSView;
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.nio.charset.Charset;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
-import msg.Msg; import org.primefaces.PrimeFaces;
-import org.joda.time.DateTime;
+import msg.Msg;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVRecord;
+ import org.joda.time.DateTime;
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import pdf.PdfDok;
@@ -114,28 +116,33 @@ public class ImportCSVView  implements Serializable {
     private List<AmazonCSV> pobierzJPK(UploadedFile uploadedFile) {
         List<AmazonCSV> zwrot = Collections.synchronizedList(new ArrayList<>());
         AmazonCSV tmpzwrot = null;
-        String line = "";
-        String cvsSplitBy = ",";
+//        String line = "";
+//        String cvsSplitBy = ",";
         try {
             InputStream is = uploadedFile.getInputstream();
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(is, "windows-1252"))) {
-                while ((line = br.readLine()) != null) {
-                    try {
-                        // use comma as separator
-                        String[] tmpline = line.split(cvsSplitBy);
-                        if (line.contains("GBP")) {
-                            error.E.s("");
-                        }
-                        tmpzwrot = new AmazonCSV(tmpline);
-                        zwrot.add(tmpzwrot);
-                    } catch (Exception ex) {
-                        E.e(ex);
-                    }
-                }
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(new InputStreamReader(is, Charset.forName("windows-1252")));
+            for (CSVRecord record : recordss) {
+                tmpzwrot = new AmazonCSV(record);
+                zwrot.add(tmpzwrot);
             }
+//            try (BufferedReader br = new BufferedReader(new InputStreamReader(is, "windows-1252"))) {
+//                while ((line = br.readLine()) != null) {
+//                    try {
+//                        // use comma as separator
+//                        String[] tmpline = line.split(cvsSplitBy);
+//                        if (line.contains("GBP")) {
+//                            error.E.s("");
+//                        }
+//                        tmpzwrot = new AmazonCSV(tmpline);
+//                        zwrot.add(tmpzwrot);
+//                    } catch (Exception ex) {
+//                        E.e(ex);
+//                    }
+//                }
+//                br.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         } catch (Exception ex) {
             E.e(ex);
         }

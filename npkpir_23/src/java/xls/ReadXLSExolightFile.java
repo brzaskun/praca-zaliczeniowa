@@ -433,7 +433,6 @@ public class ReadXLSExolightFile {
                     String nettowaluta = row.getCell(7).getStringCellValue();
                     int nettowalutasize = nettowaluta.length();
                     String waluta = nettowaluta.substring(nettowalutasize-3, nettowalutasize);
-                    System.out.println(interpaperXLS.getNrfaktury());
                     //interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
                     interpaperXLS.setWalutaplatnosci(waluta);
                     interpaperXLS.setNettowaluta(zamiennakwote(row.getCell(7).getStringCellValue()));
@@ -444,7 +443,6 @@ public class ReadXLSExolightFile {
                     interpaperXLS.setVatPLN(zamiennakwote(row.getCell(11).getStringCellValue()));
                     i++;
                     if (i==384) {
-                        System.out.println("");
                     }
                 }
             }

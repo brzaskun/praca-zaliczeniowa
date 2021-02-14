@@ -77,8 +77,7 @@ public class F {
          f1 = f1.replace(",", ".");
          String f2 = f1.replaceAll("[^0-9.]","");
          double f3 = kwota(f2);
-         //f1.getBytes();
-         System.out.println(f3);
-         //System.out.println(f3);
+        //f1.getBytes();
+        //System.out.println(f3);
      }
 }

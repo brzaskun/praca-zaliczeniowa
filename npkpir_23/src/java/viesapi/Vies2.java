@@ -56,7 +56,6 @@ public class Vies2 {
         res.setName(name.value);
         res.setAddress(address.value);
         LOG.info("{}-{} : {}", countryCode, vatNumber, res);
-        System.out.println("");
         return res;
     }
 
@@ -66,7 +65,6 @@ public class Vies2 {
         countryCode = new Holder<>("PL");
         vatNumber = new Holder<>("8511005008");
         checkVatPort.checkVatApprox(countryCode, vatNumber, traderName, traderCompanyType, traderStreet, traderPostcode, traderCity, requesterCountryCode, requesterVatNumber, requestDate, valid, traderAddress, traderNameMatch, traderCompanyTypeMatch, traderStreetMatch, traderPostcodeMatch, traderCityMatch, requestIdentifier);
-        System.out.println("");
     }
     
     
@@ -152,7 +150,6 @@ checkVatApproxSimpl(countryCode, vatNumber);
 //        } catch (ViesVatServiceException ex) {
 //            java.util.logging.Logger.getLogger(Vies2.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        System.out.println("");
 //        error.E.s("wynik "+sprawdzNIP.getKomunikat());
 //        error.E.s("symbol "+sprawdzNIP.getKod().value());
     }

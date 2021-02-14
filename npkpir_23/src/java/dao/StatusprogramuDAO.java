@@ -33,7 +33,6 @@ public class StatusprogramuDAO  extends DAO implements Serializable {
          try {
             em = (EntityManager)ctx.lookup("ProjectEM");
          } catch (Exception e) {
-             System.out.println("");
          }
      }
     

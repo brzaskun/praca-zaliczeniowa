@@ -9,6 +9,7 @@ import data.Data;
 import entityfk.Waluty;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.csv.CSVRecord;
 import waluty.Z;
 
 /**
@@ -91,6 +92,41 @@ public class AmazonCSV {
         this.ShipToCity = tmpline[56+i];
         this.ShipToCountry = tmpline[53+i];
         this.ShipToPostalCode = tmpline[59+i];
+    }
+
+    public AmazonCSV(CSVRecord record) {
+        int i = 0;
+        this.MerchantID = record.get("Merchant ID");
+        this.OrderDate = record.get("Order Date");
+        this.TransactionType = record.get("Transaction Type");
+        this.OrderID = record.get("Order ID");
+        this.ShipmentDate = record.get("Shipment Date");
+        this.ShipmentID = record.get("Shipment ID");
+        this.TransactionID = record.get("Transaction ID");
+        this.TaxCalculationDate = record.get("Tax Calculation Date");
+        this.TaxRate = record.get("Tax Rate");
+        this.Currency = record.get("Currency");
+        this.TaxCalculationReasonCode = record.get("Tax Calculation Reason Code");
+        this.TaxAddressRole = record.get("Tax Address Role");
+        this.JurisdictionName = record.get("Jurisdiction Name");
+        this.OUR_PRICETaxInclusiveSellingPrice = Double.valueOf(record.get("OUR_PRICE Tax Inclusive Selling Price").replace(",", "."));
+        this.OUR_PRICETaxAmount = Double.valueOf(record.get("OUR_PRICE Tax Amount").replace(",", "."));
+        this.OUR_PRICETaxExclusiveSellingPrice = Double.valueOf(record.get("OUR_PRICE Tax Exclusive Selling Price").replace(",", "."));
+        this.SHIPPINGTaxInclusiveSellingPrice = Double.valueOf(record.get("SHIPPING Tax Inclusive Selling Price").replace(",", "."));
+        this.SHIPPINGTaxAmount = Double.valueOf(record.get("SHIPPING Tax Amount").replace(",", "."));
+        this.SHIPPINGTaxExclusiveSellingPrice = Double.valueOf(record.get("SHIPPING Tax Exclusive Selling Price").replace(",", "."));
+        this.SellerTaxRegistration = record.get("Seller Tax Registration");
+        this.SellerTaxRegistrationJurisdiction = record.get("Seller Tax Registration Jurisdiction");
+        this.BuyerTaxRegistration = record.get("Buyer Tax Registration");
+        this.BuyerTaxRegistrationJurisdiction = record.get("Buyer Tax Registration Jurisdiction");
+        this.InvoiceLevelCurrencyCode = record.get("Invoice Level Currency Code");
+        this.InvoiceLevelExchangeRate = record.get("Invoice Level Exchange Rate").equals("") ? 0.0 :Double.valueOf(record.get("Invoice Level Exchange Rate").replace(",", "."));
+        this.InvoiceLevelExchangeRateDate = record.get("Invoice Level Exchange Rate Date");
+        this.ConvertedTaxAmount = record.get("Converted Tax Amount").equals("") ? 0.0 : Double.valueOf(record.get("Converted Tax Amount").replace(",", "."));
+        this.VATInvoiceNumber = record.get("VAT Invoice Number");
+        this.ShipToCity = record.get("Ship To City");
+        this.ShipToCountry = record.get("Ship To Country");
+        this.ShipToPostalCode = record.get("Ship To Postal Code");
     }
     
     

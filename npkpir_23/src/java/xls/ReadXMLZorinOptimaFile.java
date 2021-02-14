@@ -256,7 +256,6 @@ public class ReadXMLZorinOptimaFile {
                 interpaperXLS.setVatwaluta(kwoty[4]);
                 interpaperXLS.setBruttowaluta(kwoty[5]);
             } catch (Exception e) {
-                System.out.println("");
                 zlafaktura = row;
             }
         }
@@ -295,7 +294,6 @@ public class ReadXMLZorinOptimaFile {
             interpaperXLS.setVatwaluta(kwoty[4]);
             interpaperXLS.setBruttowaluta(kwoty[5]);
         } catch (Exception e) {
-            System.out.println("");
             zlafaktura = row;
         }
         return zlafaktura;
@@ -439,7 +437,6 @@ public class ReadXMLZorinOptimaFile {
                     }
                 }
                 System.out.println("ilosc paragonow "+paragon);
-                System.out.println("ilosc faktur "+faktura);
             }
             file.close();
         }

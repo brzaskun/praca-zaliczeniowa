@@ -149,7 +149,6 @@ public class WalutyNBP implements Serializable {
             JAXBContext jaxbContext = JAXBContext.newInstance(ArrayOfExchangeRatesTable.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             ArrayOfExchangeRatesTable tabela =  (ArrayOfExchangeRatesTable) jaxbUnmarshaller.unmarshal(reader);
-            System.out.println("");
         } catch (Exception ex) {
             Logger.getLogger(WalutyNBP.class.getName()).log(Level.SEVERE, null, ex);
         }

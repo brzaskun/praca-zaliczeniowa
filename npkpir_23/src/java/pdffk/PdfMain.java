@@ -3160,7 +3160,6 @@ public class PdfMain {
 		//error.E.s("Format:" + whichFormat);
 		for (int i = 0; i <= 10; i++) {
 			double num = Math.PI * Math.pow(i, i) * i;
-			System.out.print("  formatted:" + numberFormat.format(num));
 		}
 	}
         

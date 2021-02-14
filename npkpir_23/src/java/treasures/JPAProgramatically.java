@@ -60,11 +60,9 @@ public class JPAProgramatically {
 //                System.out.println("podatnik "+p.getPrintnazwa());
 //            }
         if (dokfk.size()>0) {
-            System.out.println("");
         }
             emH2.getTransaction().commit();
         }
-        System.out.println("koniec");
     }
 
     private static void podmienkonta(Rodzajedok s, List<Konto> konta) {

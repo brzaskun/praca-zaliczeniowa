@@ -25,7 +25,6 @@ public class RSACrypto {
             KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", "SunJSSE");
             generator.initialize(2048);
             KeyPair keyPair = generator.generateKeyPair();
-            System.out.println ( "Key decrypted, length is " + keyPair.getPublic().getEncoded().length );
             SecretKey sessionKey = new SecretKeySpec(new byte[16], "AES");
             
             Cipher c = Cipher.getInstance("RSA/ECB/PKCS1Padding");

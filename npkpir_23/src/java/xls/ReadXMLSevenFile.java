@@ -252,7 +252,6 @@ public class ReadXMLSevenFile {
                 interpaperXLS.setVatwaluta(Z.z(row.getTotalTax()));
                 interpaperXLS.setBruttowaluta(row.getTotalPriceBrutto());
             } catch (Exception e) {
-                System.out.println("");
                 zlafaktura = row;
             }
         return zlafaktura;
@@ -418,10 +417,8 @@ public class ReadXMLSevenFile {
                     }
                 }
                 System.out.println("ilosc paragonow "+paragon);
-                System.out.println("ilosc faktur "+faktura);
             }
             file.close();
-            System.out.println("");
         }
         catch (Exception e) {
             E.e(e);
