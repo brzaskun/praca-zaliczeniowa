@@ -9,11 +9,10 @@ import entity.FakturaStopkaNiemiecka;
 import entity.Podatnik;
 import java.io.Serializable;
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import session.SessionFacade;
+import javax.transaction.Transactional;
 
 /**
  *
@@ -23,9 +22,8 @@ import session.SessionFacade;
 @Transactional
 public class FakturaStopkaNiemieckaDAO  extends DAO implements Serializable {
 
-    @Inject
-    private SessionFacade sessionFacade;
-      @PersistenceContext(unitName = "npkpir_22PU")
+
+    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
     @PreDestroy
@@ -37,20 +35,22 @@ public class FakturaStopkaNiemieckaDAO  extends DAO implements Serializable {
         error.E.s("koniec jpa");
     }
 
-    protected EntityManager getEntityManager() {
-        return em;
-    }
-
     public FakturaStopkaNiemieckaDAO() {
         super(FakturaStopkaNiemiecka.class);
         super.em = this.em;
     }
+
     
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
+
   
     public FakturaStopkaNiemiecka findByPodatnik(Podatnik podatnikObiekt) {
         FakturaStopkaNiemiecka zwrot = null;
         try {
-            zwrot = sessionFacade.findStopkaNiemieckaByPodatnik(podatnikObiekt);
+            zwrot = (FakturaStopkaNiemiecka)  getEntityManager().createNamedQuery("FakturaStopkaNiemiecka.findByPodatnik").setParameter("podatnik", podatnikObiekt).getSingleResult();
         } catch (Exception e) {
             //E.e(e); 
         }

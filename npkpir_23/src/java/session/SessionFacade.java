@@ -19,7 +19,6 @@ import entity.EVatwpis1;
 import entity.Evpozycja;
 import entity.Faktura;
 import entity.FakturaRozrachunki;
-import entity.FakturaStopkaNiemiecka;
 import entity.FakturaXXLKolumna;
 import entity.Fakturadodelementy;
 import entity.Fakturaelementygraficzne;
@@ -1665,9 +1664,7 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Sprawa.findByNadawca").setParameter("nadawca", nadawca).getResultList());
     }
 
-    public FakturaStopkaNiemiecka findStopkaNiemieckaByPodatnik(Podatnik podatnikObiekt) {
-        return (FakturaStopkaNiemiecka)  getEntityManager().createNamedQuery("FakturaStopkaNiemiecka.findByPodatnik").setParameter("podatnik", podatnikObiekt).getSingleResult();
-    }
+    
 
     public SMTPSettings findSMTPSettingsByUzytkownik(Uz uzytkownik) {
         SMTPSettings zwrot = null;

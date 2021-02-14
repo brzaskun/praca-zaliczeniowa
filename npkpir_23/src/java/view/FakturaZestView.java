@@ -23,10 +23,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 import waluty.Z;
 /**
@@ -78,7 +77,7 @@ public class FakturaZestView implements Serializable {
     
     public void pobierzwszystkoKlienta() {
         init();
-        szukanyklient = null;
+        Msg.msg("Pobrano dane");
     }
     
     public List<Faktura> pobierzfaktury() {

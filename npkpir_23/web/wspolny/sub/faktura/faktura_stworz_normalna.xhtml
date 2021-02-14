@@ -82,8 +82,8 @@
                         <f:selectItem itemLabel="np" itemValue="-1"/>
                     </h:selectOneMenu>
                 </p:column>
-                <p:column headerText="VAT" width="140" style="text-align: center;">
-                     <p:inputNumber id="VAT" value="#{row.podatekkwota}" required="true" styleClass="kwotarozrachunku" size="13" 
+                <p:column headerText="VAT" width="140" style="text-align: center;" rendered="#{fakturaView.selected.id ne null}">
+                     <p:inputNumber id="VAT" value="#{row.podatekkwota}" required="true" styleClass="kwotarozrachunku" size="13"
                                     requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="."  
                                     thousandSeparator="&#160;" inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
@@ -159,9 +159,9 @@
                         <f:selectItem itemLabel="np" itemValue="-1"/>
                     </h:selectOneMenu>
                 </p:column>
-                <p:column headerText="VAT" width="140" style="text-align: center;">
+                <p:column headerText="VAT" width="140" style="text-align: center;"  rendered="#{fakturaView.selected.id ne null}">
                      <p:inputNumber id="VATK" value="#{row.podatekkwota}" required="true" styleClass="kwotarozrachunku" size="13" 
-                                    requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="."  
+                                    requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." 
                                     thousandSeparator="&#160;" inputStyle="text-align: right;" decimalPlaces="2" minValue="-10000000"/> 
                 </p:column>
                 <p:column style="text-align: center;">

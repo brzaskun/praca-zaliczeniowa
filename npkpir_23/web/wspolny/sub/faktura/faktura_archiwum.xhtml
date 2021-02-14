@@ -48,7 +48,8 @@
                          selection="#{fakturaView.gosciwybralarchiuwm}" rowKey="#{wpis.numerkolejny}" widgetVar="archTable" rowSelectMode="add" style="max-width: 1400px;"
                          sortBy="#{wpis.numerkolejny}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}"
                          emptyMessage="Nie ma wygenerowanych i zaksięgowanych faktur w tym miesiącu" >
-                <p:ajax event="filter" global="false" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybralarchiuwm)}" update=":akordeon:formarchiwum:panelsum1"/>
+                <p:ajax event="filter" global="false"/>
+<!--                <p:ajax event="filter" global="false" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybralarchiuwm)}" update=":akordeon:formarchiwum:panelsum1"/>-->
                 <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybralarchiuwm)}" update=":akordeon:formarchiwum:panelsum1" global="false"/>
                 <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybralarchiuwm)}" update=":akordeon:formarchiwum:panelsum1" global="false"/>
                 <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych(fakturaView.gosciwybralarchiuwm)}" update=":akordeon:formarchiwum:panelsum1" global="false"/> 
