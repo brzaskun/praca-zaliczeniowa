@@ -224,7 +224,7 @@ public class DokDAO extends DAO implements Serializable {
     public Dok find(String typdokumentu, Podatnik podatnik, Integer rok){
          Dok zwrot = null;
         try {
-            zwrot = (Dok) getEntityManager().createNamedQuery("Dok.findByTPR").setParameter("podatnik", podatnik).setParameter("pkpirR", rok).setParameter("typdokumentu", typdokumentu).setMaxResults(1).getSingleResult();
+            zwrot = (Dok) getEntityManager().createNamedQuery("Dok.findByTPR").setParameter("podatnik", podatnik).setParameter("pkpirR", String.valueOf(rok)).setParameter("typdokumentu", typdokumentu).setMaxResults(1).getSingleResult();
         } catch (Exception e) {
         }
         return zwrot;
