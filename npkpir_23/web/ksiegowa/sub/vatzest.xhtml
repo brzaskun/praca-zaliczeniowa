@@ -153,6 +153,34 @@
                         </p:panelGrid>
                 
         </p:tab>
+        <p:tab title="pobrane FP">
+            <p:panel header="Lista fkatur fiskalizowanych pobranych za miesiąc bieżący"/>
+            <p:dataTable value="#{klientJPKView.lista}" var="itemikjpk" rowIndexVar="indexjpk"
+                         style="width: 1000px;"
+                         >
+                <p:column style="width: 50px;">
+                    <h:outputText value="#{indexjpk+1}"/>
+                </p:column>
+                <p:column headerText="data wystawienia">
+                    <h:outputText value="#{itemikjpk.dataWystawienia}"/>
+                </p:column>
+                <p:column headerText="data sprzedaży">
+                    <h:outputText value="#{itemikjpk.dataSprzedazy}"/>
+                </p:column>
+                <p:column headerText="nazwa" width="350">
+                    <h:outputText value="#{itemikjpk.nazwaKontrahenta}"/>
+                </p:column>
+                <p:column headerText="nr kontr">
+                    <h:outputText value="#{itemikjpk.nrKontrahenta}"/>
+                </p:column>
+                <p:column headerText="wartość netto" >
+                    <bcf:outputpl value="#{itemikjpk.netto}"/>
+                </p:column>
+                <p:column headerText="wartość vat" >
+                    <bcf:outputpl value="#{itemikjpk.vat}"/>
+                </p:column>
+            </p:dataTable>
+        </p:tab>
     </p:tabView>
 
 </ui:composition>   
