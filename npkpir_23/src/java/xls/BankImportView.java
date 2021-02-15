@@ -205,7 +205,7 @@ public class BankImportView implements Serializable {
                         lista.put(nowyiban, zwrot);
                     } else {
                         //szukamy jesli konto z innego roku
-                        zwrot = kontoDAO.findKonto(zwrot.getPelnynumer(), zwrot.getPodatnik(), zwrot.getRok());
+                        zwrot = kontoDAO.findKonto(zwrot.getPelnynumer(), zwrot.getPodatnik(), wpisView.getRokWpisu());
                         lista.put(nowyiban, zwrot);
                     }
                 }
