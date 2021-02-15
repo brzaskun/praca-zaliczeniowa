@@ -11,7 +11,7 @@ import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.UmowaFacade;
 import embeddable.Mce;
-import entity.Firma;
+import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
 import entity.Umowa;
@@ -36,7 +36,7 @@ public class KalendarzwzorView  implements Serializable {
     @Inject
     private Kalendarzwzor selectedlista;
     private List<Kalendarzwzor> lista;
-    private List<Firma> listafirm;
+    private List<FirmaKadry> listafirm;
     @Inject
     private KalendarzwzorFacade kalendarzwzorFacade;
     @Inject
@@ -107,7 +107,7 @@ public class KalendarzwzorView  implements Serializable {
     
       public void globalnie() {
         if (wpisView.getFirma()!=null && wpisView.getRokWpisu()!=null) {
-            Firma firmaglobalna = firmaFacade.findByNIP("8511005008");
+            FirmaKadry firmaglobalna = firmaFacade.findByNIP("8511005008");
             for (String mce: Mce.getMceListS()) {
                 Kalendarzwzor kal = new Kalendarzwzor();
                 kal.setRok(wpisView.getRokWpisu());
@@ -133,7 +133,7 @@ public class KalendarzwzorView  implements Serializable {
      
     public void nanieszmiany() {
         if (wpisView.getFirma()!=null && wpisView.getRokWpisu()!=null) {
-            Firma firma = wpisView.getFirma();
+            FirmaKadry firma = wpisView.getFirma();
             List<Kalendarzmiesiac> kalendarzepracownikow = kalendarzmiesiacFacade.findByFirmaRokMc(firma, selected.getRok(), selected.getMc());
             for (Kalendarzmiesiac kal: kalendarzepracownikow) {
                 Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(firma, selected.getRok(), selected.getMc());
@@ -191,11 +191,11 @@ public class KalendarzwzorView  implements Serializable {
         this.selectedlista = selectedlista;
     }
 
-    public List<Firma> getListafirm() {
+    public List<FirmaKadry> getListafirm() {
         return listafirm;
     }
 
-    public void setListafirm(List<Firma> listafirm) {
+    public void setListafirm(List<FirmaKadry> listafirm) {
         this.listafirm = listafirm;
     }
 

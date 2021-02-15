@@ -8,7 +8,7 @@ package view;
 import dao.FirmaFacade;
 import dao.UprawnieniaFacade;
 import dao.UzFacade;
-import entity.Firma;
+import entity.FirmaKadry;
 import entity.Uprawnienia;
 import entity.Uz;
 import java.io.Serializable;
@@ -28,10 +28,10 @@ import msg.Msg;
 public class FirmaView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
-    private Firma selected;
-    private Firma selectedlista;
-    private Firma selectedeast;
-    private List<Firma> lista;
+    private FirmaKadry selected;
+    private FirmaKadry selectedlista;
+    private FirmaKadry selectedeast;
+    private List<FirmaKadry> lista;
     @Inject
     private FirmaFacade firmaFacade;
     @Inject
@@ -59,7 +59,7 @@ public class FirmaView  implements Serializable {
             Msg.msg("Dodano nową firmę");
             Uprawnienia uprawnienia = uprawnieniaFacade.findByNazwa("Pracodawca");
             Uz uzer = new Uz(selected, uprawnienia);
-            selected = new Firma();
+            selected = new FirmaKadry();
             Msg.msg("Dodano nowy angaż");
             uzFacade.create(uzer);
             Msg.msg("Dodano nowego użytkownika");
@@ -70,7 +70,7 @@ public class FirmaView  implements Serializable {
       }
     }
     
-    public void aktywuj(Firma firma) {
+    public void aktywuj(FirmaKadry firma) {
         if (firma!=null) {
             wpisView.setFirma(firma);
             if (firma.getAngazList()==null||firma.getAngazList().isEmpty()) {
@@ -82,7 +82,7 @@ public class FirmaView  implements Serializable {
         }
     }
     
-    public void usun(Firma firma) {
+    public void usun(FirmaKadry firma) {
         if (firma!=null) {
             if (wpisView.getFirma()!=null && wpisView.getFirma().equals(firma)) {
                 wpisView.setFirma(null);
@@ -95,7 +95,7 @@ public class FirmaView  implements Serializable {
         }
     }
     
-    public void edytuj(Firma firma) {
+    public void edytuj(FirmaKadry firma) {
         if (firma!=null && firma.getEmail()!=null) {
             firmaFacade.edit(firma);
             Uz uz = uzFacade.findUzByPesel(firma.getNip());
@@ -114,35 +114,35 @@ public class FirmaView  implements Serializable {
         }
     }
     
-    public Firma getSelected() {
+    public FirmaKadry getSelected() {
         return selected;
     }
 
-    public void setSelected(Firma selected) {
+    public void setSelected(FirmaKadry selected) {
         this.selected = selected;
     }
 
-    public List<Firma> getLista() {
+    public List<FirmaKadry> getLista() {
         return lista;
     }
 
-    public void setLista(List<Firma> lista) {
+    public void setLista(List<FirmaKadry> lista) {
         this.lista = lista;
     }
 
-    public Firma getSelectedlista() {
+    public FirmaKadry getSelectedlista() {
         return selectedlista;
     }
 
-    public void setSelectedlista(Firma selectedlista) {
+    public void setSelectedlista(FirmaKadry selectedlista) {
         this.selectedlista = selectedlista;
     }
 
-    public Firma getSelectedeast() {
+    public FirmaKadry getSelectedeast() {
         return selectedeast;
     }
 
-    public void setSelectedeast(Firma selectedeast) {
+    public void setSelectedeast(FirmaKadry selectedeast) {
         this.selectedeast = selectedeast;
     }
     

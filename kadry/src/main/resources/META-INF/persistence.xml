@@ -10,23 +10,211 @@
     <class>entity.Rodzajwynagrodzenia</class>
     <class>entity.Umowakodzus</class>
     <class>entity.Nieobecnosckodzus</class>
-    <class>entity.Etat</class>
     <class>entity.Kodyzawodow</class>
     <class>entity.Wynagrodzeniahistoryczne</class>
     <class>entity.Uprawnienia</class>
     <class>entity.Urlopprezentacja</class>
+    <class>kadryiplace.SuperDep</class>
+    <class>kadryiplace.Spisy</class>
+    <class>kadryiplace.Miasto</class>
+    <class>kadryiplace.OcenaGrup</class>
+    <class>kadryiplace.RapoDat</class>
+    <class>kadryiplace.Dtproperties</class>
+    <class>kadryiplace.Kontyp</class>
+    <class>kadryiplace.Przebieg</class>
+    <class>kadryiplace.RozlOdli</class>
+    <class>kadryiplace.Grupa</class>
+    <class>kadryiplace.AdresHist</class>
+    <class>kadryiplace.Okres</class>
+    <class>kadryiplace.WzoryDok</class>
+    <class>kadryiplace.Zakupy</class>
+    <class>kadryiplace.StanPodgrup</class>
+    <class>kadryiplace.Jednostka</class>
+    <class>kadryiplace.TmpSecPion</class>
+    <class>kadryiplace.Przedmiot</class>
+    <class>kadryiplace.Dep</class>
+    <class>kadryiplace.KasaCh</class>
+    <class>kadryiplace.DaneStat</class>
+    <class>kadryiplace.Wersja</class>
+    <class>kadryiplace.DaneStatL</class>
+    <class>kadryiplace.OsobaPit</class>
+    <class>kadryiplace.Kongrupa</class>
+    <class>kadryiplace.OsobaDet</class>
+    <class>kadryiplace.SecWersja</class>
+    <class>kadryiplace.Rozliczzap</class>
+    <class>kadryiplace.StSystWartDni</class>
+    <class>kadryiplace.SecZmiany</class>
+    <class>kadryiplace.Tutor</class>
+    <class>kadryiplace.Amorty</class>
+    <class>kadryiplace.Magdoktyp</class>
+    <class>kadryiplace.DaneStatF</class>
+    <class>kadryiplace.Kontrahent</class>
+    <class>kadryiplace.Prefer</class>
+    <class>kadryiplace.Panstwo</class>
+    <class>kadryiplace.EppOpis</class>
+    <class>kadryiplace.TmpStanowisko</class>
+    <class>kadryiplace.Trasy</class>
+    <class>kadryiplace.Kalendarz</class>
+    <class>kadryiplace.Osoba</class>
+    <class>kadryiplace.Magpoz</class>
+    <class>kadryiplace.Zakdok</class>
+    <class>kadryiplace.Kedu</class>
+    <class>kadryiplace.ZatrudHist</class>
+    <class>kadryiplace.StSystOpis</class>
+    <class>kadryiplace.WymiarHist</class>
+    <class>kadryiplace.Rok</class>
+    <class>kadryiplace.PlacePrzZus</class>
+    <class>kadryiplace.Zus</class>
+    <class>kadryiplace.OsobaPrz</class>
+    <class>kadryiplace.KursList</class>
+    <class>kadryiplace.StSystWart</class>
+    <class>kadryiplace.SecLogHist</class>
+    <class>kadryiplace.DaneLiDaM</class>
+    <class>kadryiplace.SecUser</class>
+    <class>kadryiplace.Zatrud</class>
+    <class>kadryiplace.Absencja</class>
+    <class>kadryiplace.Stanowisko</class>
+    <class>kadryiplace.Paragon</class>
+    <class>kadryiplace.PlacePrz</class>
+    <class>kadryiplace.WynPotracenia</class>
+    <class>kadryiplace.StanHist</class>
+    <class>kadryiplace.DzialHist</class>
+    <class>kadryiplace.JezykList</class>
+    <class>kadryiplace.Sprzedaz</class>
+    <class>kadryiplace.Miesiac</class>
+    <class>kadryiplace.Krst</class>
+    <class>kadryiplace.DaneStatP</class>
+    <class>kadryiplace.Dokument</class>
+    <class>kadryiplace.DaneStatIx</class>
+    <class>kadryiplace.SecKlucz</class>
+    <class>kadryiplace.StanGrup</class>
+    <class>kadryiplace.EtataHist</class>
+    <class>kadryiplace.ScPromo</class>
+    <class>kadryiplace.Zasilki</class>
+    <class>kadryiplace.DaneStatA</class>
+    <class>kadryiplace.TytulWks</class>
+    <class>kadryiplace.DaneStatI</class>
+    <class>kadryiplace.DaneStatSc</class>
+    <class>kadryiplace.ParagonE</class>
+    <class>kadryiplace.Rejestr</class>
+    <class>kadryiplace.DaneStatW</class>
+    <class>kadryiplace.KonSlow</class>
+    <class>kadryiplace.Opiszdgosp</class>
+    <class>kadryiplace.Fakrach</class>
+    <class>kadryiplace.DaneHiDaX</class>
+    <class>kadryiplace.OsobaRod</class>
+    <class>kadryiplace.Podgrupa</class>
+    <class>kadryiplace.Vatrej</class>
+    <class>kadryiplace.TytulWpo</class>
+    <class>kadryiplace.DaneStDaX</class>
+    <class>kadryiplace.PlacePot</class>
+    <class>kadryiplace.Waluta</class>
+    <class>kadryiplace.WynKodPrzZus</class>
+    <class>kadryiplace.DaneStatS</class>
+    <class>kadryiplace.WynKodSkl</class>
+    <class>kadryiplace.EtatbHist</class>
+    <class>kadryiplace.PlaceSkl</class>
+    <class>kadryiplace.Ksiegapir</class>
+    <class>kadryiplace.SecGroup</class>
+    <class>kadryiplace.EppZest</class>
+    <class>kadryiplace.ScKamp</class>
+    <class>kadryiplace.DaneHiDa</class>
+    <class>kadryiplace.DaneStDaM</class>
+    <class>kadryiplace.Kurs</class>
+    <class>kadryiplace.Cele</class>
+    <class>kadryiplace.DaneLiDaX</class>
+    <class>kadryiplace.Zakpoz</class>
+    <class>kadryiplace.SecMenu</class>
+    <class>kadryiplace.DaneStatM</class>
+    <class>kadryiplace.Place</class>
+    <class>kadryiplace.OsobaSkl</class>
+    <class>kadryiplace.OcenaHist</class>
+    <class>kadryiplace.SecWindow</class>
+    <class>kadryiplace.Listy</class>
+    <class>kadryiplace.Spisznat</class>
+    <class>kadryiplace.PlaceZlec</class>
+    <class>kadryiplace.Numer</class>
+    <class>kadryiplace.TmpDzial</class>
+    <class>kadryiplace.Vat</class>
+    <class>kadryiplace.Magdok</class>
+    <class>kadryiplace.Pion</class>
+    <class>kadryiplace.Parpoz</class>
+    <class>kadryiplace.Srodki</class>
+    <class>kadryiplace.DaneStDa</class>
+    <class>kadryiplace.Tytul</class>
+    <class>kadryiplace.Pojazdy</class>
+    <class>kadryiplace.Lokalizacja</class>
+    <class>kadryiplace.Pozycja</class>
+    <class>kadryiplace.Kolumna</class>
+    <class>kadryiplace.KalGodz</class>
+    <class>kadryiplace.SposobZatr</class>
+    <class>kadryiplace.FakrachE</class>
+    <class>kadryiplace.AmoOkr</class>
+    <class>kadryiplace.SecDzial</class>
+    <class>kadryiplace.TmpSecPionTmp</class>
+    <class>kadryiplace.Rozliczus</class>
+    <class>kadryiplace.Formyzap</class>
+    <class>kadryiplace.KursGrup</class>
+    <class>kadryiplace.DaneLiDa</class>
+    <class>kadryiplace.WynZasilki</class>
+    <class>kadryiplace.Urzad</class>
+    <class>kadryiplace.LokGrupa</class>
+    <class>kadryiplace.DaneStatR</class>
+    <class>kadryiplace.SecLog</class>
+    <class>kadryiplace.DzialList</class>
+    <class>kadryiplace.OsobaPropTyp</class>
+    <class>kadryiplace.WynKodTyt</class>
+    <class>kadryiplace.OsobaPot</class>
+    <class>kadryiplace.Sprzap</class>
+    <class>kadryiplace.RapoSec</class>
+    <class>kadryiplace.Magazyn</class>
+    <class>kadryiplace.DaneStatO</class>
+    <class>kadryiplace.DaneLiSl</class>
+    <class>kadryiplace.Wyposaz</class>
+    <class>kadryiplace.TmpSecDzial</class>
+    <class>kadryiplace.SecMenuItem</class>
+    <class>kadryiplace.OsobaZlec</class>
+    <class>kadryiplace.ScMag</class>
+    <class>kadryiplace.ParagonK</class>
+    <class>kadryiplace.Podatek</class>
+    <class>kadryiplace.RozlZrodel</class>
+    <class>kadryiplace.Bank</class>
+    <class>kadryiplace.WynKodPrz</class>
+    <class>kadryiplace.PlanGrup</class>
+    <class>kadryiplace.DaneStatD</class>
+    <class>kadryiplace.Konto</class>
+    <class>kadryiplace.TmpSecFirmaTmp</class>
+    <class>kadryiplace.TmpSecFirma</class>
+    <class>kadryiplace.DaneHiDaM</class>
+    <class>kadryiplace.Zakzap</class>
+    <class>kadryiplace.Ubezp</class>
+    <class>kadryiplace.TytulWkp</class>
+    <class>kadryiplace.TmpSecDzialTmp</class>
+    <class>entity.EtatPrac</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>
     <properties>
-<!--      <property name="eclipselink.ddl-generation" value="create-tables"/>-->
+      <!--      <property name="eclipselink.ddl-generation" value="create-tables"/>-->
       <!--      <property name="eclipselink.query-results-cache" value="true"/>-->
       <!--      <property name="eclipselink.cache-usage" value="CheckCacheThenDatabase"/>-->
       <!-- configure logging -->
       <!--      <property name="eclipselink.logging.level" value="fine"/>-->
       <property name="eclipselink.query-results-cache" value="false"/>
       <property name="eclipselink.logging.level.sql" value="info"/>
-      <property name="eclipselink.logging.parameters" value="true"/>--&gt;
+      <property name="eclipselink.logging.parameters" value="true"/>
+    </properties>
+  </persistence-unit>
+   <persistence-unit name="microsoft" transaction-type="JTA">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <jta-data-source>microsoft</jta-data-source>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <shared-cache-mode>NONE</shared-cache-mode>
+    <validation-mode>NONE</validation-mode>
+    <properties>
+      <property name="eclipselink.query-results-cache" value="false"/>
+      <property name="eclipselink.logging.level.sql" value="info"/>
+      <property name="eclipselink.logging.parameters" value="true"/>
     </properties>
   </persistence-unit>
 </persistence>

@@ -19,7 +19,7 @@ import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
 import embeddable.Mce;
 import entity.Angaz;
-import entity.Etat;
+import entity.EtatPrac;
 import entity.Kalendarzmiesiac;
 import entity.Kalendarzwzor;
 import entity.Kodyzawodow;
@@ -48,7 +48,7 @@ public class UmowaView  implements Serializable {
     @Inject
     private Umowa selectedlista;
     @Inject
-    private Etat etat;
+    private EtatPrac etat;
     private List<Umowa> lista;
     private List<Angaz> listaangaz;
     private List<Umowakodzus> listaumowakodzus;
@@ -98,7 +98,7 @@ public class UmowaView  implements Serializable {
             umowaFacade.editList(lista);
             umowaFacade.create(selected);
             lista.add(selected);
-            Etat etat = new Etat(selected, etat1, etat2);
+            EtatPrac etat = new EtatPrac(selected, etat1, etat2);
             etatFacade.create(etat);
             wpisView.setUmowa(selected);
             Msg.msg("Dodano nową umowę");
@@ -337,11 +337,11 @@ public class UmowaView  implements Serializable {
         this.listaumowakodzus = listaumowakodzus;
     }
 
-    public Etat getEtat() {
+    public EtatPrac getEtat() {
         return etat;
     }
 
-    public void setEtat(Etat etat) {
+    public void setEtat(EtatPrac etat) {
         this.etat = etat;
     }
 

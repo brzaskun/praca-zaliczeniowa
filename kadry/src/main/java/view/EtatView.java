@@ -6,7 +6,7 @@
 package view;
 
 import dao.EtatFacade;
-import entity.Etat;
+import entity.EtatPrac;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -24,11 +24,11 @@ import msg.Msg;
 public class EtatView implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
-    private Etat selected;
+    private EtatPrac selected;
     @Inject
     private EtatFacade etatFacade;
-    private List<Etat> lista;
-    private Etat selectedlista;
+    private List<EtatPrac> lista;
+    private EtatPrac selectedlista;
     
     @Inject
     private WpisView wpisView;
@@ -45,7 +45,7 @@ public class EtatView implements Serializable {
             selected.setUmowa(wpisView.getUmowa());
             etatFacade.create(selected);
             lista.add(selected);
-            selected = new Etat();
+            selected = new EtatPrac();
             Msg.msg("Dodano etat");
           } catch (Exception e) {
               System.out.println("");
@@ -56,7 +56,7 @@ public class EtatView implements Serializable {
       }
     }
     
-    public void usunEtat(Etat zmienna) {
+    public void usunEtat(EtatPrac zmienna) {
         if (zmienna!=null) {
             etatFacade.remove(zmienna);
             lista.remove(zmienna);
@@ -66,27 +66,27 @@ public class EtatView implements Serializable {
         }
     }
 
-    public Etat getSelected() {
+    public EtatPrac getSelected() {
         return selected;
     }
 
-    public void setSelected(Etat selected) {
+    public void setSelected(EtatPrac selected) {
         this.selected = selected;
     }
 
-    public List<Etat> getLista() {
+    public List<EtatPrac> getLista() {
         return lista;
     }
 
-    public void setLista(List<Etat> lista) {
+    public void setLista(List<EtatPrac> lista) {
         this.lista = lista;
     }
 
-    public Etat getSelectedlista() {
+    public EtatPrac getSelectedlista() {
         return selectedlista;
     }
 
-    public void setSelectedlista(Etat selectedlista) {
+    public void setSelectedlista(EtatPrac selectedlista) {
         this.selectedlista = selectedlista;
     }
     

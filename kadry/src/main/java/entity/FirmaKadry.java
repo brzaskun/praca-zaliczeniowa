@@ -33,11 +33,11 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Firma.findAll", query = "SELECT f FROM Firma f"),
-    @NamedQuery(name = "Firma.findById", query = "SELECT f FROM Firma f WHERE f.id = :id"),
-    @NamedQuery(name = "Firma.findByNazwa", query = "SELECT f FROM Firma f WHERE f.nazwa = :nazwa"),
-    @NamedQuery(name = "Firma.findByNip", query = "SELECT f FROM Firma f WHERE f.nip = :nip")})
-public class Firma implements Serializable {
+    @NamedQuery(name = "FirmaKadry.findAll", query = "SELECT f FROM FirmaKadry f"),
+    @NamedQuery(name = "FirmaKadry.findById", query = "SELECT f FROM FirmaKadry f WHERE f.id = :id"),
+    @NamedQuery(name = "FirmaKadry.findByNazwa", query = "SELECT f FROM FirmaKadry f WHERE f.nazwa = :nazwa"),
+    @NamedQuery(name = "FirmaKadry.findByNip", query = "SELECT f FROM FirmaKadry f WHERE f.nip = :nip")})
+public class FirmaKadry implements Serializable {
 
     @Size(max = 255)
     @Column(name = "nazwa")
@@ -67,10 +67,10 @@ public class Firma implements Serializable {
     @Column(name = "telefon")
     private String telefon;
 
-    public Firma() {
+    public FirmaKadry() {
     }
 
-    public Firma(int id) {
+    public FirmaKadry(int id) {
         this.id = id;
     }
 
@@ -102,10 +102,10 @@ public class Firma implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Firma)) {
+        if (!(object instanceof FirmaKadry)) {
             return false;
         }
-        Firma other = (Firma) object;
+        FirmaKadry other = (FirmaKadry) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -114,7 +114,7 @@ public class Firma implements Serializable {
 
     @Override
     public String toString() {
-        return "Firma{" + "nazwa=" + nazwa + ", nip=" + nip + '}';
+        return "FirmaKadry{" + "nazwa=" + nazwa + ", nip=" + nip + '}';
     }
 
     

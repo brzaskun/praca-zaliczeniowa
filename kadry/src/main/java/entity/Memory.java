@@ -49,7 +49,7 @@ public class Memory implements Serializable {
     private Angaz angaz;
     @JoinColumn(name = "firma", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Firma firma;
+    private FirmaKadry firma;
     @JoinColumn(name = "pracownik", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Pracownik pracownik;
@@ -76,12 +76,12 @@ public class Memory implements Serializable {
         this.uzer = uzer;
     }
 
-    public Memory(Firma firma, Pracownik pracownik) {
+    public Memory(FirmaKadry firma, Pracownik pracownik) {
         this.firma = firma;
         this.pracownik = pracownik;
     }
 
-    public Memory(Uz uzer, Firma firma, Pracownik pracownik, String rokWpisu, String miesiacWpisu) {
+    public Memory(Uz uzer, FirmaKadry firma, Pracownik pracownik, String rokWpisu, String miesiacWpisu) {
         this.uzer = uzer;
         this.firma = firma;
         this.pracownik = pracownik;
@@ -155,11 +155,11 @@ public class Memory implements Serializable {
         this.angaz = angaz;
     }
 
-    public Firma getFirma() {
+    public FirmaKadry getFirma() {
         return firma;
     }
 
-    public void setFirma(Firma firma) {
+    public void setFirma(FirmaKadry firma) {
         this.firma = firma;
     }
 

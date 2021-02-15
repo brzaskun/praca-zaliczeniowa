@@ -8,7 +8,7 @@ package mail;
  *
  * @author Osito
  */
-import entity.Firma;
+import entity.FirmaKadry;
 import entity.Pracownik;
 import entity.SMTPSettings;
 import error.E;
@@ -90,7 +90,7 @@ public class Mail {
     }
 
   
-    public static void updateemailpracownik(Firma firma, String adres, SMTPSettings settings, SMTPSettings ogolne) {
+    public static void updateemailpracownik(FirmaKadry firma, String adres, SMTPSettings settings, SMTPSettings ogolne) {
         try {
             MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
             message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));
@@ -113,7 +113,7 @@ public class Mail {
         }
     }
     
-    public static void updateemailnowypracownik(Firma firma, Pracownik pracownik, String adres, SMTPSettings settings, SMTPSettings ogolne) {
+    public static void updateemailnowypracownik(FirmaKadry firma, Pracownik pracownik, String adres, SMTPSettings settings, SMTPSettings ogolne) {
         try {
             MimeMessage message = new MimeMessage(MailSetUp.otworzsesje(settings, ogolne));
             message.setFrom(new InternetAddress(SMTPBean.adresFrom(settings, ogolne), SMTPBean.nazwaFirmyFrom(settings, ogolne)));

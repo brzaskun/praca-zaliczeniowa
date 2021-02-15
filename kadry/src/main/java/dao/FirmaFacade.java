@@ -5,7 +5,7 @@
  */
 package dao;
 
-import entity.Firma;
+import entity.FirmaKadry;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -37,13 +37,13 @@ public class FirmaFacade extends DAO {
     }
 
    public FirmaFacade() {
-        super(Firma.class);
+        super(FirmaKadry.class);
         super.em = em;
     }
     
     
 
-    public Firma findByNIP(String nip) {
-        return (Firma) getEntityManager().createNamedQuery("Firma.findByNip").setParameter("nip", nip).getSingleResult();
+    public FirmaKadry findByNIP(String nip) {
+        return (FirmaKadry) getEntityManager().createNamedQuery("Firma.findByNip").setParameter("nip", nip).getSingleResult();
     }
 }

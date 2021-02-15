@@ -92,7 +92,7 @@ public class Uz implements Serializable {
     private String pesel;
     @JoinColumn(name = "firma", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Firma firma;
+    private FirmaKadry firma;
     @JoinColumn(name = "uprawnienia", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Uprawnienia uprawnienia;
@@ -127,7 +127,7 @@ public class Uz implements Serializable {
                 
     }
 
-    public Uz(Firma firma, Uprawnienia uprawnienia) {
+    public Uz(FirmaKadry firma, Uprawnienia uprawnienia) {
         this.firma = firma;
         this.email = firma.getEmail();
         this.imie = null;
@@ -213,10 +213,10 @@ public class Uz implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
-    public Firma getFirma() {
+    public FirmaKadry getFirma() {
         return firma;
     }
-    public void setFirma(Firma firma) {
+    public void setFirma(FirmaKadry firma) {
         this.firma = firma;
     }
     public Uprawnienia getUprawnienia() {

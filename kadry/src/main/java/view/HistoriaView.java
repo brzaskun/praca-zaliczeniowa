@@ -11,7 +11,7 @@ import dao.UmowaFacade;
 import dao.WynagrodzeniahistoryczneFacade;
 import data.Data;
 import entity.Angaz;
-import entity.Firma;
+import entity.FirmaKadry;
 import entity.Umowa;
 import entity.Wynagrodzeniahistoryczne;
 import java.io.Serializable;
@@ -54,7 +54,7 @@ public class HistoriaView  implements Serializable {
         }
     }
     
-    public void aktywuj(Firma firma) {
+    public void aktywuj(FirmaKadry firma) {
         if (firma!=null) {
             wpisView.setFirma(firma);
             if (firma.getAngazList()==null||firma.getAngazList().isEmpty()) {

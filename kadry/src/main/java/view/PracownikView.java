@@ -5,7 +5,7 @@
  */
 package view;
 
-import beans.IPaddress;
+import beanstesty.IPaddress;
 import dao.PracownikFacade;
 import data.Data;
 import entity.Pracownik;

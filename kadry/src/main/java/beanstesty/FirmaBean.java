@@ -5,7 +5,7 @@
  */
 package beanstesty;
 
-import entity.Firma;
+import entity.FirmaKadry;
 
 /**
  *
@@ -13,11 +13,11 @@ import entity.Firma;
  */
 public class FirmaBean {
  
-    public static Firma firma;
+    public static FirmaKadry firma;
     
-    public static Firma create() {
+    public static FirmaKadry create() {
         if (firma==null) {
-            firma = new Firma();
+            firma = new FirmaKadry();
             firma.setNazwa("Firma Testowa");
             firma.setNip("8511005008");
         }

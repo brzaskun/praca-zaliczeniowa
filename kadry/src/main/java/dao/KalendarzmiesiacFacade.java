@@ -5,7 +5,7 @@
  */
 package dao;
 
-import entity.Firma;
+import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
 import entity.Umowa;
 import java.util.ArrayList;
@@ -63,7 +63,7 @@ public class KalendarzmiesiacFacade  extends DAO {
         return zwrot;
     }
 
-    public List<Kalendarzmiesiac> findByFirmaRokMc(Firma firma, String rok, String mc) {
+    public List<Kalendarzmiesiac> findByFirmaRokMc(FirmaKadry firma, String rok, String mc) {
         List<Kalendarzmiesiac> zwrot = new ArrayList<>();
         try {
             zwrot = getEntityManager().createNamedQuery("Kalendarzmiesiac.findByFirmaRokMc").setParameter("rok", rok).setParameter("mc", mc).setParameter("firma", firma).getResultList();

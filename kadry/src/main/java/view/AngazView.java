@@ -12,7 +12,7 @@ import dao.SMTPSettingsFacade;
 import dao.UprawnieniaFacade;
 import dao.UzFacade;
 import entity.Angaz;
-import entity.Firma;
+import entity.FirmaKadry;
 import entity.Pracownik;
 import entity.SMTPSettings;
 import entity.Umowa;
@@ -43,7 +43,7 @@ public class AngazView  implements Serializable {
     private Angaz selectedeast;
     private List<Angaz> lista;
     private List<Angaz> listaeast;
-    private List<Firma> listafirm;
+    private List<FirmaKadry> listafirm;
     private List<Pracownik> listapracownikow;
     @Inject
     private AngazFacade angazFacade;
@@ -148,7 +148,7 @@ public class AngazView  implements Serializable {
         }
     }
     
-    public void findByFirma(Firma firma) {
+    public void findByFirma(FirmaKadry firma) {
         if (firma!=null) {
             listaeast = angazFacade.findByFirma(firma);
             Msg.msg("Pobrano pracowników firmy");
@@ -217,11 +217,11 @@ public class AngazView  implements Serializable {
         this.selectedlista = selectedlista;
     }
 
-    public List<Firma> getListafirm() {
+    public List<FirmaKadry> getListafirm() {
         return listafirm;
     }
 
-    public void setListafirm(List<Firma> listafirm) {
+    public void setListafirm(List<FirmaKadry> listafirm) {
         this.listafirm = listafirm;
     }
 

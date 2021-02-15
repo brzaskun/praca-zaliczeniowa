@@ -5,7 +5,7 @@
  */
 package view;
 
-import beans.IPaddress;
+import beanstesty.IPaddress;
 import dao.AngazFacade;
 import dao.PracownikFacade;
 import dao.UrlopprezentacjaFacade;

@@ -5,7 +5,7 @@
  */
 package dao;
 
-import entity.Firma;
+import entity.FirmaKadry;
 import entity.Kalendarzwzor;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -44,7 +44,7 @@ public class KalendarzwzorFacade extends DAO   {
 
    
 
-    public Kalendarzwzor findByFirmaRokMc(Firma firma, String rok, String mc) {
+    public Kalendarzwzor findByFirmaRokMc(FirmaKadry firma, String rok, String mc) {
         Kalendarzwzor zwrot = null;
         try {
             zwrot = (Kalendarzwzor) getEntityManager().createNamedQuery("Kalendarzwzor.findByFirmaRokMc").setParameter("firma", firma).setParameter("rok", rok). setParameter("mc", mc).getSingleResult();
@@ -52,7 +52,7 @@ public class KalendarzwzorFacade extends DAO   {
         return zwrot;
     }
 
-    public List<Kalendarzwzor> findByFirmaRok(Firma firma, String rok) {
+    public List<Kalendarzwzor> findByFirmaRok(FirmaKadry firma, String rok) {
        return getEntityManager().createNamedQuery("Kalendarzwzor.findByFirmaRok").setParameter("firma", firma).setParameter("rok", rok).getResultList();
     }
 }

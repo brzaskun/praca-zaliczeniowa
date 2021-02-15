@@ -59,7 +59,7 @@ public class Angaz implements Serializable {
     @JoinColumn(name = "firma", referencedColumnName = "id")
     @NotNull
     @ManyToOne
-    private Firma firma;
+    private FirmaKadry firma;
     @JoinColumn(name = "pracownik", referencedColumnName = "id")
     @NotNull
     @ManyToOne
@@ -95,11 +95,11 @@ public class Angaz implements Serializable {
         this.umowaList = umowaList;
     }
 
-    public Firma getFirma() {
+    public FirmaKadry getFirma() {
         return firma;
     }
 
-    public void setFirma(Firma firma) {
+    public void setFirma(FirmaKadry firma) {
         this.firma = firma;
     }
 

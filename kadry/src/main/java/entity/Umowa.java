@@ -114,7 +114,7 @@ public class Umowa implements Serializable {
     @ManyToOne(optional = false)
     private Kodyzawodow kodzawodu;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa", orphanRemoval = true)
-    private List<Etat> etatList;
+    private List<EtatPrac> etatList;
     @Column(name = "czastrwania")
     private Integer czastrwania;
     @JoinColumn(name = "umowakodzus", referencedColumnName = "id")
@@ -251,10 +251,10 @@ public class Umowa implements Serializable {
         this.czastrwania = zwrot;
     }
     @XmlTransient
-    public List<Etat> getEtatList() {
+    public List<EtatPrac> getEtatList() {
         return etatList;
     }
-    public void setEtatList(List<Etat> etatList) {
+    public void setEtatList(List<EtatPrac> etatList) {
         this.etatList = etatList;
     }
     public Kodyzawodow getKodzawodu() {

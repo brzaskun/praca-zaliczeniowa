@@ -11,7 +11,7 @@ import dao.RodzajlistyplacFacade;
 import data.Data;
 import embeddable.Mce;
 import entity.Definicjalistaplac;
-import entity.Firma;
+import entity.FirmaKadry;
 import entity.Rodzajlistyplac;
 import java.io.Serializable;
 import java.util.List;
@@ -34,7 +34,7 @@ public class DefinicjalistaplacView  implements Serializable {
     @Inject
     private Definicjalistaplac selectedlista;
     private List<Definicjalistaplac> lista;
-    private List<Firma> listafirm;
+    private List<FirmaKadry> listafirm;
     private List<Rodzajlistyplac> listarodzajlistyplac;
     @Inject
     private DefinicjalistaplacFacade definicjalistaplacFacade;
@@ -184,11 +184,11 @@ public class DefinicjalistaplacView  implements Serializable {
         this.selectedlista = selectedlista;
     }
 
-    public List<Firma> getListafirm() {
+    public List<FirmaKadry> getListafirm() {
         return listafirm;
     }
 
-    public void setListafirm(List<Firma> listafirm) {
+    public void setListafirm(List<FirmaKadry> listafirm) {
         this.listafirm = listafirm;
     }
 

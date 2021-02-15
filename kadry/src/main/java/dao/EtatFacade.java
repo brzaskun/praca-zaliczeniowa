@@ -5,7 +5,7 @@
  */
 package dao;
 
-import entity.Etat;
+import entity.EtatPrac;
 import entity.Pracownik;
 import entity.Umowa;
 import java.util.ArrayList;
@@ -43,19 +43,19 @@ public class EtatFacade extends DAO{
     }
 
     public EtatFacade() {
-        super(Etat.class);
+        super(EtatPrac.class);
         super.em = em;
     }
     
 
-    public List<Etat> findPracownik(Pracownik pracownik) {
-        List<Etat> zwrot = new ArrayList<>();
+    public List<EtatPrac> findPracownik(Pracownik pracownik) {
+        List<EtatPrac> zwrot = new ArrayList<>();
         zwrot = getEntityManager().createNamedQuery("Etat.findByPracownik").setParameter("pracownik", pracownik).getResultList();
         return zwrot;
     }
     
-    public List<Etat> findByUmowa(Umowa umowa) {
-        List<Etat> zwrot = new ArrayList<>();
+    public List<EtatPrac> findByUmowa(Umowa umowa) {
+        List<EtatPrac> zwrot = new ArrayList<>();
         zwrot = getEntityManager().createNamedQuery("Etat.findByUmowa").setParameter("umowa", umowa).getResultList();
         return zwrot;
     }

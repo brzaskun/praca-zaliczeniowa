@@ -9,7 +9,7 @@ import dao.MemoryFacade;
 import dao.PracownikFacade;
 import data.Data;
 import entity.Angaz;
-import entity.Firma;
+import entity.FirmaKadry;
 import entity.Memory;
 import entity.Pracownik;
 import entity.Umowa;
@@ -42,7 +42,7 @@ public class WpisView implements Serializable {
     private Uz uzer;
     private String miesiacOd;
     private String miesiacDo;
-    private Firma firma;
+    private FirmaKadry firma;
     private Pracownik pracownik;
     private Angaz angaz;
     private Umowa umowa;
@@ -162,11 +162,11 @@ public class WpisView implements Serializable {
         this.miesiacDo = miesiacDo;
     }
 
-    public Firma getFirma() {
+    public FirmaKadry getFirma() {
         return firma;
     }
 
-    public void setFirma(Firma firma) {
+    public void setFirma(FirmaKadry firma) {
         if (memory!=null) {
             memory.setFirma(firma);
             memoryFacade.edit(memory);

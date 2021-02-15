@@ -6,7 +6,7 @@
 package converter;
 
 import dao.FirmaFacade;
-import entity.Firma;
+import entity.FirmaKadry;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.component.UIComponent;
@@ -21,7 +21,7 @@ import javax.inject.Named;
 @Named
 public class FirmaConverter implements javax.faces.convert.Converter {
     
-    private List<Firma> lista;
+    private List<FirmaKadry> lista;
     @Inject
     private FirmaFacade firmaFacade;
     
@@ -34,7 +34,7 @@ public class FirmaConverter implements javax.faces.convert.Converter {
     public Object getAsObject(FacesContext facesContext, UIComponent component, String sub) {
         try {
             int submittedValue = Integer.parseInt(sub);
-            for (Firma p : lista) {
+            for (FirmaKadry p : lista) {
                 if (p.getId()==submittedValue) {
                     return p;
                 }
@@ -50,7 +50,7 @@ public class FirmaConverter implements javax.faces.convert.Converter {
         if (value == null || value.equals("")) {
             return "";
         } else {
-            return String.valueOf(((Firma) value).getId());
+            return String.valueOf(((FirmaKadry) value).getId());
         }
     }
 }

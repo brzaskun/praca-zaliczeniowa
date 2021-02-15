@@ -6,7 +6,7 @@
 package dao;
 
 import entity.Angaz;
-import entity.Firma;
+import entity.FirmaKadry;
 import entity.Pracownik;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +46,7 @@ public class AngazFacade extends DAO{
     }
 
         
-     public List<Angaz> findByFirma(Firma firma) {
+     public List<Angaz> findByFirma(FirmaKadry firma) {
          List<Angaz> zwrot = new ArrayList<>();
          try {
              zwrot = getEntityManager().createNamedQuery("Angaz.findByFirma").setParameter("firma", firma).getResultList();
@@ -54,7 +54,7 @@ public class AngazFacade extends DAO{
          return zwrot;
      }
      
-     public List<Pracownik> findPracownicyByFirma(Firma firma) {
+     public List<Pracownik> findPracownicyByFirma(FirmaKadry firma) {
          List<Pracownik> zwrot = new ArrayList<>();
          try {
              zwrot = getEntityManager().createNamedQuery("Angaz.findPracownikByFirma").setParameter("firma", firma).getResultList();

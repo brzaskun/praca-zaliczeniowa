@@ -76,7 +76,7 @@ public class Definicjalistaplac implements Serializable {
     private Rodzajlistyplac rodzajlistyplac;
     @JoinColumn(name = "firma", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Firma firma;
+    private FirmaKadry firma;
    
     @OneToMany(mappedBy = "definicjalistaplac", cascade = CascadeType.ALL)
     private List<Pasekwynagrodzen> pasekwynagrodzenList;
@@ -124,10 +124,10 @@ public class Definicjalistaplac implements Serializable {
     public String toString() {
         return "entity.Definicjalistaplac[ id=" + id + " ]";
     }
-    public Firma getFirma() {
+    public FirmaKadry getFirma() {
         return firma;
     }
-    public void setFirma(Firma firma) {
+    public void setFirma(FirmaKadry firma) {
         this.firma = firma;
     }
 

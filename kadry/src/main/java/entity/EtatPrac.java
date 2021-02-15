@@ -32,14 +32,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 })
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Etat.findAll", query = "SELECT e FROM Etat e"),
-    @NamedQuery(name = "Etat.findById", query = "SELECT e FROM Etat e WHERE e.id = :id"),
-    @NamedQuery(name = "Etat.findByUmowa", query = "SELECT e FROM Etat e WHERE e.umowa = :umowa"),
-    @NamedQuery(name = "Etat.findByDataod", query = "SELECT e FROM Etat e WHERE e.dataod = :dataod"),
-    @NamedQuery(name = "Etat.findByDatado", query = "SELECT e FROM Etat e WHERE e.datado = :datado"),
-    @NamedQuery(name = "Etat.findByEtat1", query = "SELECT e FROM Etat e WHERE e.etat1 = :etat1"),
-    @NamedQuery(name = "Etat.findByEtat2", query = "SELECT e FROM Etat e WHERE e.etat2 = :etat2")})
-public class Etat implements Serializable {
+    @NamedQuery(name = "EtatPrac.findAll", query = "SELECT e FROM EtatPrac e"),
+    @NamedQuery(name = "EtatPrac.findById", query = "SELECT e FROM EtatPrac e WHERE e.id = :id"),
+    @NamedQuery(name = "EtatPrac.findByUmowa", query = "SELECT e FROM EtatPrac e WHERE e.umowa = :umowa"),
+    @NamedQuery(name = "EtatPrac.findByDataod", query = "SELECT e FROM EtatPrac e WHERE e.dataod = :dataod"),
+    @NamedQuery(name = "EtatPrac.findByDatado", query = "SELECT e FROM EtatPrac e WHERE e.datado = :datado"),
+    @NamedQuery(name = "EtatPrac.findByEtatPrac1", query = "SELECT e FROM EtatPrac e WHERE e.etat1 = :etat1"),
+    @NamedQuery(name = "EtatPrac.findByEtatPrac2", query = "SELECT e FROM EtatPrac e WHERE e.etat2 = :etat2")})
+public class EtatPrac implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -67,21 +67,21 @@ public class Etat implements Serializable {
     @ManyToOne(optional = false)
     private Umowa umowa;
 
-    public Etat() {
+    public EtatPrac() {
     }
 
-    public Etat(Integer id) {
+    public EtatPrac(Integer id) {
         this.id = id;
     }
 
-    public Etat(Integer id, String dataod, int etat1, int etat2) {
+    public EtatPrac(Integer id, String dataod, int etat1, int etat2) {
         this.id = id;
         this.dataod = dataod;
         this.etat1 = etat1;
         this.etat2 = etat2;
     }
 
-    public Etat(Umowa selected, Integer etat1, Integer etat2) {
+    public EtatPrac(Umowa selected, Integer etat1, Integer etat2) {
         this.dataod = selected.getDataod();
         this.datado = selected.getDatado();
         this.etat1 = etat1==null?1:etat1;
@@ -113,19 +113,19 @@ public class Etat implements Serializable {
         this.datado = datado;
     }
 
-    public int getEtat1() {
+    public int getEtatPrac1() {
         return etat1;
     }
 
-    public void setEtat1(int etat1) {
+    public void setEtatPrac1(int etat1) {
         this.etat1 = etat1;
     }
 
-    public int getEtat2() {
+    public int getEtatPrac2() {
         return etat2;
     }
 
-    public void setEtat2(int etat2) {
+    public void setEtatPrac2(int etat2) {
         this.etat2 = etat2;
     }
 
@@ -147,10 +147,10 @@ public class Etat implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Etat)) {
+        if (!(object instanceof EtatPrac)) {
             return false;
         }
-        Etat other = (Etat) object;
+        EtatPrac other = (EtatPrac) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -159,7 +159,7 @@ public class Etat implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Etat[ id=" + id + " ]";
+        return "entity.EtatPrac[ id=" + id + " ]";
     }
     
 }

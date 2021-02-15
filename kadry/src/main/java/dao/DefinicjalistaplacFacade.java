@@ -6,7 +6,7 @@
 package dao;
 
 import entity.Definicjalistaplac;
-import entity.Firma;
+import entity.FirmaKadry;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -46,7 +46,7 @@ public class DefinicjalistaplacFacade extends DAO implements Serializable {
     }
 
   
-    public List<Definicjalistaplac> findByFirmaRok(Firma firma, String rok) {
+    public List<Definicjalistaplac> findByFirmaRok(FirmaKadry firma, String rok) {
         return getEntityManager().createNamedQuery("Definicjalistaplac.findByFirmaRok").setParameter("firma", firma).setParameter("rok", rok).getResultList();
     }
 }
