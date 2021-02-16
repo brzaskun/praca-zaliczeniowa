@@ -481,14 +481,7 @@ public class SessionFacade<T> implements Serializable {
     
     
 
-    public List<Fakturadodelementy> findFaktElementyPodatnik(String podatnik) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Fakturadodelementy.findByPodatnik").setParameter("podatnik", podatnik).getResultList());
-    }
-
-    public Fakturadodelementy findFaktStopkaPodatnik(String podatnik) {
-        return (Fakturadodelementy)  getEntityManager().createNamedQuery("Fakturadodelementy.findByNazwaelementuPodatnik").setParameter("podatnik", podatnik).setParameter("nazwaelementu", "mailstopka").getSingleResult();
-    }
-
+    
 
     public Fakturywystokresowe findOkresowa(String rok, String klientnip, String nazwapelna, double brutto) {
         return (Fakturywystokresowe)  getEntityManager().createNamedQuery("Fakturywystokresowe.findByOkresowa").setParameter("rok", rok).setParameter("podatnik", nazwapelna).setParameter("nipodbiorcy", klientnip).setParameter("brutto", brutto).getSingleResult();

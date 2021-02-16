@@ -79,7 +79,7 @@
                          header="#{facesContext.viewRoot.locale.language.equals('pl') ? statusProgramuView.aktualnystatus.tekst : (facesContext.viewRoot.locale.language.equals('de') ? statusProgramuView.aktualnystatus.tekst_de : statusProgramuView.aktualnystatus.tekst_en)}"
                          styleClass="#{statusProgramuView.aktualnystatus ne null ? 'aktywny':null}">
                     <p:focus id="focus" context="logowaniepanel"/>
-                    <p:panelGrid id="logowaniepanel" columns="2" style="margin-left: auto; margin-right: auto; margin-top: 4%; width: 350px; text-align: center;"  rendered="#{logowanie.liczniklogowan gt 0}">
+                    <p:panelGrid id="logowaniepanel" columns="2" style="margin-left: auto; margin-right: auto; margin-top: 4%; width: 350px; text-align: center;" >
                         <h:outputText id="loginnazwa" value="#{mgs.login}"/>
                         <h:inputText value="#{logowanie.uzytkownik}" accesskey="s" required="true" style="width: 150px;" requiredMessage="Wpisz login!" 
                                       >
@@ -95,7 +95,7 @@
                     <p:panelGrid id="logowaniebutton" columns="2" style="margin-left: auto; margin-right: auto; width: 350px; text-align: center; border: none !important;">
                         <p:defaultCommand target="zaloguj"/>
                         <p:commandButton id="zaloguj" value="#{mgs.zaloguj}" action="#{logowanie.login()}" ajax="false"
-                                       rendered="#{logowanie.liczniklogowan gt 0}" styleClass="loginbutton" style="width: 150px; text-align: center;">
+                                       styleClass="loginbutton" style="width: 150px; text-align: center;">
                         </p:commandButton>
                     </p:panelGrid>
                 </p:panel>

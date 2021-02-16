@@ -67,7 +67,11 @@ public class Pozycjenafakturze implements Serializable {
     }
 
     public Pozycjenafakturze(String co, Podatnik podatnikObiekt, int gora, int lewy) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.nazwa = co;
+        this.podid = podatnikObiekt;
+        this.aktywny = true;
+        this.gora = gora;
+        this.lewy = lewy;
     }
 
     

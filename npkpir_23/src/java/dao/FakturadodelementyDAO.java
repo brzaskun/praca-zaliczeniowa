@@ -7,25 +7,26 @@ package dao;
 import entity.Fakturadodelementy;
 import error.E;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 
 /**
  *
  * @author Osito
  */
-@Named
+@Stateless
+@Transactional
 public class FakturadodelementyDAO extends DAO implements Serializable {
 
-    @Inject
-    private SessionFacade fakturadodelementyFacade;
-
-      @PersistenceContext(unitName = "npkpir_22PU")
+    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
     @PreDestroy
@@ -50,7 +51,7 @@ public class FakturadodelementyDAO extends DAO implements Serializable {
     
     public  List<Fakturadodelementy> findFaktElementyPodatnik(String podatnik){
         try {
-            return fakturadodelementyFacade.findFaktElementyPodatnik(podatnik);
+            return getEntityManager().createNamedQuery("Fakturadodelementy.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
         } catch (Exception e) { E.e(e); 
             return null;
         }
@@ -58,7 +59,7 @@ public class FakturadodelementyDAO extends DAO implements Serializable {
     
     public  Fakturadodelementy findFaktStopkaPodatnik(String podatnik){
         try {
-            return fakturadodelementyFacade.findFaktStopkaPodatnik(podatnik);
+            return (Fakturadodelementy)  getEntityManager().createNamedQuery("Fakturadodelementy.findByNazwaelementuPodatnik").setParameter("podatnik", podatnik).setParameter("nazwaelementu", "mailstopka").getSingleResult();
         } catch (Exception e) { E.e(e); 
             return null;
         }
