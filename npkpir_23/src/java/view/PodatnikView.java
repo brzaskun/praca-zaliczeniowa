@@ -1293,13 +1293,13 @@ private DokDAO dokDAO;
                                         r.setOznaczenie2(tmp.getOznaczenie2());
                                     }
                                     if (tmp.getKontoRZiS() != null) {
-                                        r.setKontoRZiS(tmp.getKontoRZiS());
+                                        r.setKontoRZiS(ustawkonto(tmp.getKontoRZiS()));
                                     }
                                     if (tmp.getKontorozrachunkowe() != null) {
-                                        r.setKontorozrachunkowe(tmp.getKontorozrachunkowe());
+                                        r.setKontorozrachunkowe(ustawkonto(tmp.getKontorozrachunkowe()));
                                     }
                                     if (tmp.getKontovat() != null) {
-                                        r.setKontovat(tmp.getKontovat());
+                                        r.setKontovat(ustawkonto(tmp.getKontovat()));
                                     }
                                     KontaFKBean.nanieskonta(r, kontoDAOfk);
                                     rodzajedokDAO.edit(r);
@@ -2040,6 +2040,16 @@ public void przygotujedycjeopodatkowanie() {
 
     public void setRokgenerowanie(String rokgenerowanie) {
         this.rokgenerowanie = rokgenerowanie;
+    }
+
+    private Konto ustawkonto(Konto konto) {
+        Konto zwrot = null;
+        if (konto!=null) {
+            if (konto.getRok()!=wpisView.getRokWpisu()) {
+                zwrot = kontoDAOfk.findKonto(konto.getPelnynumer(), wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+            }
+        }
+        return zwrot;
     }
 
 }
