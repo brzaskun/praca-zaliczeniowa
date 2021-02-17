@@ -158,7 +158,7 @@
                         </div>
                         <div class="ui-grid-col-2">
                             <p:outputPanel id="polebankowe">
-                                <p:outputPanel rendered="#{fakturaView.listakontawwalucie==null or fakturaView.listakontawwalucie.size() eq 1}">
+                                <p:outputPanel rendered="#{fakturaView.listakontawwalucie==null or fakturaView.listakontawwalucie.size() eq 0}">
                                     <p:inplace id="kontobankowe" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
                                         <p:inputText value="#{fakturaView.selected.nrkontabankowego}" maxlength="34"
                                                      label="text" style="font-weight: bolder;"/>  
