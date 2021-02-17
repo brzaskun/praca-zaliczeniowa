@@ -75,9 +75,15 @@ public class PozycjeNaFakturzeView implements Serializable {
    
 
     public void zachowajpozycje() {
-        Pozycjenafakturze pozycje = new Pozycjenafakturze(co, wpisView.getPodatnikObiekt(), gora, lewy);
+        Pozycjenafakturze pozycje = pozycjeDAO.findPozycjePodatnikCo(wpisView.getPodatnikObiekt(),co);
+        if (pozycje == null) {
+                pozycje = new Pozycjenafakturze(co, wpisView.getPodatnikObiekt(), gora, lewy);
+        } else {
+            pozycje.setGora(gora);
+            pozycje.setLewy(lewy);
+        }
         try {
-            if (pozycje.getId()!=null) {
+            if (pozycje.getId()==null) {
                 pozycjeDAO.create(pozycje);
             } else {
                 pozycjeDAO.edit(pozycje);

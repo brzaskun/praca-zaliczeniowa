@@ -255,10 +255,11 @@ public class PdfFP {
                         pozycja = zwrocPolozenieElementu(skladnikifaktury, "wystawca");
                         prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:wystawca") - 65, 250, 80);
                         absText(writer, B.b("sprzedawca")+": ", (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca"), 10);
-                        if (selected.getWystawcanazwa()!=null) {
-                            absText(writer, selected.getWystawcanazwa(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca") - 20, 8);
+                        String wystawca = selected.getWystawca().getNazwadlafaktury()!=null?selected.getWystawca().getNazwadlafaktury():selected.getWystawcanazwa();
+                        if (wystawca.length() < 50) {
+                             absText(writer, wystawca, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca") - 20, 8);
                         } else {
-                            absText(writer, selected.getWystawca().getNazwadlafaktury(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca") - 20, 8);
+                            PdfFP.absColumn(writer, wystawca, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca") - 25, 8);
                         }
                         adres = selected.getWystawca().getAdresdlafaktury();
                         absText(writer, adres, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca") - 40, 8);
@@ -267,7 +268,7 @@ public class PdfFP {
                     }
                     break;
                 case "akordeon:formwzor:odbiorcan":
-                    if (selected.getOdbiorca()!=null) {
+                    if (selected.getOdbiorca()!=null && selected.getOdbiorca().getNip()!=null) {
                         //Dane do modulu odbiorca
                         pozycja = zwrocPolozenieElementu(skladnikifaktury, "odbiorcan");
                         prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:odbiorcan") - 65, 250, 80);
@@ -438,6 +439,13 @@ public class PdfFP {
                         absText(writer, PdfFP.pobierzelementdodatkowy("warunki dostawy", elementydod), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:warunkidostawy"), 8);
                     }
                     break;
+                case "akordeon:formwzor:poleUwagi":
+                    if (PdfFP.czydodatkowyelementjestAktywny("pole Uwagi", elementydod)&& selected.getPoleuwagi()!=null && selected.getPoleuwagi().length()>1) {
+                        pozycja = zwrocPolozenieElementu(skladnikifaktury, "poleUwagi");
+                        prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:poleUwagi") - 5, 400, 15);
+                        absText(writer, selected.getPoleuwagi(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:poleUwagi"), 8);
+                    }
+                    break;
                 case "akordeon:formwzor:wezwaniedozapłaty":
                     //Dane do modulu przewłaszczenie
                     if (PdfFP.czydodatkowyelementjestAktywny("wezwanie do zapłaty", elementydod)) {
@@ -461,13 +469,13 @@ public class PdfFP {
                         text = B.b("sposobzaplaty")+": " + B.b(selected.getSposobzaplaty());
                         absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:platnosc"), 8);
                         text = B.b("terminplatnosci")+": " + selected.getTerminzaplaty();
-                        absText(writer, text, (int) (pozycja.getLewy() / dzielnik) + 100, wymiaryGora.get("akordeon:formwzor:platnosc"), 8);
+                        absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:platnosc")-15, 8);
                     }
                     
                     if (sposobzaplaty.equals("przelew") && selected.getNrkontabankowego() != null && !selected.getNrkontabankowego().equals("")) {
                         text = B.b("nrkontabankowego")+": " + selected.getNrkontabankowego();
                         if (selected.getSposobzaplaty().equals("przelew") && selected.getNrkontabankowego() != null) {
-                            absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:platnosc") - 20, 8);
+                            absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:platnosc") - 30, 8);
                         }
                         if (selected.getSposobzaplaty().equals("przelew") && selected.getSwift() != null) {
                             text = "SWIFT: " + selected.getSwift();
@@ -618,6 +626,14 @@ public class PdfFP {
                         pobrane = zwrocPolozenieElementu(skladnikifaktury, "warunkidostawy");
                         prost(canvas, (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:warunkidostawy") - 5, 400, 15);
                         absText(canvas, PdfFP.pobierzelementdodatkowy("warunki dostawy", elementydod), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:warunkidostawy"), 8);
+                    }
+                    break;
+                case "akordeon:formwzor:poleUwagi":
+                    //Dane do modulu przewłaszczenie
+                    if (PdfFP.czydodatkowyelementjestAktywny("pole Uwagi", elementydod)) {
+                        pobrane = zwrocPolozenieElementu(skladnikifaktury, "poleUwagi");
+                        prost(canvas, (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:poleUwagi") - 5, 400, 15);
+                        absText(canvas, PdfFP.pobierzelementdodatkowy("warunki dostawy", elementydod), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:poleUwagi"), 8);
                     }
                     break;
                 case "akordeon:formwzor:wezwaniedozapłaty":

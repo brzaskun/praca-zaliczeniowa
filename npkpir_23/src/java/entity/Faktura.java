@@ -143,8 +143,8 @@ public class Faktura implements Serializable {
     private String miejscewystawienia;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 10)
-    @Column(nullable = false, length = 10)
+    @Size(min = 1, max = 40)
+    @Column(nullable = false, length = 40)
     private String terminzaplaty;
     @Basic(optional = false)
     @NotNull
@@ -316,7 +316,8 @@ public class Faktura implements Serializable {
     private double procentwaloryzacji;
     @Column(name = "recznaedycja")
     private boolean recznaedycja;
-    
+    @Column(name = "poleuwagi")
+    private String poleuwagi;
   
 
     public Faktura() {
@@ -996,6 +997,14 @@ public class Faktura implements Serializable {
     
     public double getNetto() {
         return this.netto;
+    }
+
+    public String getPoleuwagi() {
+        return poleuwagi;
+    }
+
+    public void setPoleuwagi(String poleuwagi) {
+        this.poleuwagi = poleuwagi;
     }
     
     public double getNettoPrzeliczWal() {

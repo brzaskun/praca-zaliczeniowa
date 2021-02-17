@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -26,7 +27,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(name = "pozycjenafakturze")
+@Table(name = "pozycjenafakturze", uniqueConstraints = {
+    @UniqueConstraint(columnNames={"podid","nazwa"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Pozycjenafakturze.findAll", query = "SELECT p FROM Pozycjenafakturze p"),
@@ -34,6 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Pozycjenafakturze.findByGora", query = "SELECT p FROM Pozycjenafakturze p WHERE p.gora = :gora"),
     @NamedQuery(name = "Pozycjenafakturze.findByLewy", query = "SELECT p FROM Pozycjenafakturze p WHERE p.lewy = :lewy"),
     @NamedQuery(name = "Pozycjenafakturze.findByNazwa", query = "SELECT p FROM Pozycjenafakturze p WHERE p.nazwa = :nazwa"),
+    @NamedQuery(name = "Pozycjenafakturze.findByNazwaCo", query = "SELECT p FROM Pozycjenafakturze p WHERE p.nazwa = :nazwa AND  p.podid = :podatnik"),
     @NamedQuery(name = "Pozycjenafakturze.findByPodatnik", query = "SELECT p FROM Pozycjenafakturze p WHERE p.podid = :podatnik")})
 public class Pozycjenafakturze implements Serializable {
     private static final long serialVersionUID = 1L;

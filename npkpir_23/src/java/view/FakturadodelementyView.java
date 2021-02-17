@@ -19,10 +19,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import mail.Mail;
 import msg.Msg;
 /**
@@ -48,6 +47,7 @@ public class FakturadodelementyView implements Serializable {
         elementy = new HashMap<String, String>();
         elementy.put("wezwanie do zapłaty","Niniejsza faktura jest jednocześnie wezwaniem do zapłaty");
         elementy.put("warunki dostawy","Dostawa na warunkach exworks");
+        elementy.put("pole Uwagi","Nie wpisywać tutaj treści! Pole drukowane jedynie w przypadku wypełnienia w fakturze");
         elementy.put("przewłaszczenie","Do momentu zapłaty towar jest własnością sprzedawcy");
         elementy.put("nr zamówienia","Podaj numer zamowienia");
         elementy.put("logo","Plik graficzny");
@@ -55,7 +55,7 @@ public class FakturadodelementyView implements Serializable {
         elementy.put("stopka", "Fakturę wygenerowano elektronicznie w autorskim programie księgowym Biura Rachunkowego Taxman. "
                 + "Dokument nie wymaga podpisu. Odbiorca dokumentu wyraził zgode na otrzymanie go w formie elektronicznej.");
         elementy.put("mailstopka", Mail.getStopka());
-        elementy.put("stopka niemiecka","Nie wpisywać. Dane pobierane z zakładki 'Stopka niemiecka'");
+        elementy.put("stopka niemiecka","Nie wpisywać tutaj treści! Dane są pobierane z zakładki 'Stopka niemiecka'");
         elementy.put("Dane Odbiorcy","Nie wpisywać. Dane pobierane każdorazowo z odpowiedniego formularza");
     }
     

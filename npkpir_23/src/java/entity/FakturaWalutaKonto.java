@@ -27,6 +27,8 @@ import javax.persistence.NamedQuery;
 @NamedQueries({
     @NamedQuery(name = "FakturaWalutaKonto.findAll", query = "SELECT e FROM FakturaWalutaKonto e"),
     @NamedQuery(name = "FakturaWalutaKonto.findByPodatnik", query = "SELECT e FROM FakturaWalutaKonto e WHERE e.podatnik = :podatnik"),
+    @NamedQuery(name = "FakturaWalutaKonto.findByPodatnikWalutaAktywne", query = "SELECT e FROM FakturaWalutaKonto e WHERE e.podatnik = :podatnik AND e.waluta.symbolwaluty = :symbolwaluty AND e.nieaktywny = '0'"),
+    @NamedQuery(name = "FakturaWalutaKonto.findByPodatnikWalutaAktywneString", query = "SELECT e.iban FROM FakturaWalutaKonto e WHERE e.podatnik = :podatnik AND e.waluta.symbolwaluty = :symbolwaluty AND e.nieaktywny = '0'"),
     @NamedQuery(name = "FakturaWalutaKonto.findByPodatnikAktywne", query = "SELECT e FROM FakturaWalutaKonto e WHERE e.podatnik = :podatnik AND e.nieaktywny = '0'")
 })
 public class FakturaWalutaKonto  implements Serializable{

@@ -289,7 +289,7 @@ public class FakturaBean {
         } else if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && !wpisView.getPodatnikObiekt().getWystawcafaktury().equals("")) {
             return wpisView.getPodatnikObiekt().getWystawcafaktury();
         }  else {
-            return wpisView.getPodatnikObiekt().getImie() + " " + wpisView.getPodatnikObiekt().getNazwisko();
+            return wpisView.getUzer().getImie() + " " + wpisView.getUzer().getNazw();
         }
     }
 

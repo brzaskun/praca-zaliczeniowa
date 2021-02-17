@@ -6,15 +6,14 @@
 package dao;
 
 import entity.FakturaWalutaKonto;
+import entity.Podatnik;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import session.SessionFacade;
 import view.WpisView;
 /**
  *
@@ -24,9 +23,7 @@ import view.WpisView;
 @Transactional
 public class FakturaWalutaKontoDAO extends DAO implements Serializable{
     private static final long serialVersionUID = 1L;
-    @Inject
-    private SessionFacade sessionFacade;
-      @PersistenceContext(unitName = "npkpir_22PU")
+    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
     @PreDestroy
@@ -57,10 +54,26 @@ public class FakturaWalutaKontoDAO extends DAO implements Serializable{
     }
 
     public List<FakturaWalutaKonto> findPodatnik(WpisView wpisView) {
-        return sessionFacade.getEntityManager().createNamedQuery("FakturaWalutaKonto.findByPodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
+        return getEntityManager().createNamedQuery("FakturaWalutaKonto.findByPodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
     }
     
     public List<FakturaWalutaKonto> findPodatnikAktywne(WpisView wpisView) {
-        return sessionFacade.getEntityManager().createNamedQuery("FakturaWalutaKonto.findByPodatnikAktywne").setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
+        return getEntityManager().createNamedQuery("FakturaWalutaKonto.findByPodatnikAktywne").setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
+    }
+
+    public List<FakturaWalutaKonto> findByWaluta(Podatnik podatnik, String walutafaktury) {
+        List<FakturaWalutaKonto> zwrot = null;
+        try {
+            zwrot = getEntityManager().createNamedQuery("FakturaWalutaKonto.findByPodatnikWalutaAktywne").setParameter("podatnik", podatnik).setParameter("symbolwaluty", walutafaktury).getResultList();
+        } catch (Exception e){}
+        return zwrot;
+    }
+    
+    public List<String> findByWalutaString(Podatnik podatnik, String walutafaktury) {
+        List<String> zwrot = null;
+        try {
+            zwrot = getEntityManager().createNamedQuery("FakturaWalutaKonto.findByPodatnikWalutaAktywneString").setParameter("podatnik", podatnik).setParameter("symbolwaluty", walutafaktury).getResultList();
+        } catch (Exception e){}
+        return zwrot;
     }
 }

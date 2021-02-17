@@ -19,6 +19,7 @@ import dao.EvewidencjaDAO;
 import dao.FakturaDAO;
 import dao.FakturaDodPozycjaKontrahentDAO;
 import dao.FakturaStopkaNiemieckaDAO;
+import dao.FakturaWalutaKontoDAO;
 import dao.FakturadodelementyDAO;
 import dao.FakturaelementygraficzneDAO;
 import dao.FakturywystokresoweDAO;
@@ -137,6 +138,8 @@ public class FakturaView implements Serializable {
     @Inject
     private FakturadodelementyDAO fakturadodelementyDAO;
     @Inject
+    private FakturaWalutaKontoDAO fakturaWalutaKontoDAO;
+    @Inject
     private FakturaDodPozycjaKontrahentDAO fakturaDodPozycjaKontrahentDAO;
     @Inject
     private PodatnikOpodatkowanieDAO podatnikOpodatkowanieDDAO;
@@ -214,6 +217,7 @@ public class FakturaView implements Serializable {
     private double gornylimit;
     private boolean pokaztylkoniewyslane;
     private boolean mailplussms;
+    List<String> listakontawwalucie;
         
 
     public FakturaView() {
@@ -455,6 +459,7 @@ public class FakturaView implements Serializable {
         selected.setWystawca(podatnikobiekt);
         selected.setRok(String.valueOf(wpisView.getRokWpisu()));
         selected.setMc(wpisView.getMiesiacWpisu());
+        listakontawwalucie = fakturaWalutaKontoDAO.findByWalutaString(wpisView.getPodatnikObiekt(),selected.getWalutafaktury());
     }
 
     public void dodaj() {
@@ -516,7 +521,7 @@ public class FakturaView implements Serializable {
         } else if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && !wpisView.getPodatnikObiekt().getWystawcafaktury().equals("")) {
             selected.setPodpis(wpisView.getPodatnikObiekt().getWystawcafaktury());
         }  else {
-            selected.setPodpis(podatnikobiekt.getImie() + " " + podatnikobiekt.getNazwisko());
+            selected.setPodpis(wpisView.getUzer().getImie() + " " + wpisView.getUzer().getNazw());
         }
         if (selected.getNazwa()!=null && selected.getNazwa().equals("")) {
             selected.setNazwa(null);
@@ -585,8 +590,14 @@ public class FakturaView implements Serializable {
     }
 
     public void wielekont() {
-        FakturaBean.wielekont(selected, fakturaWalutaKontoView.getListakontaktywne(), fakturaStopkaNiemieckaDAO, wpisView.getPodatnikObiekt());
-        Msg.msg("Zmieniono konto");
+        listakontawwalucie = fakturaWalutaKontoDAO.findByWalutaString(wpisView.getPodatnikObiekt(),selected.getWalutafaktury());
+        if (listakontawwalucie!=null&&listakontawwalucie.size()==1) {
+            FakturaBean.wielekont(selected, fakturaWalutaKontoView.getListakontaktywne(), fakturaStopkaNiemieckaDAO, wpisView.getPodatnikObiekt());
+            Msg.msg("Zmieniono konto");
+        } else {
+            Msg.msg("Pobrano listę kont. Wybierz jedno");
+        }
+        
     }
     
     public void skierujfakturedoedycjiZwykla(Faktura faktura) {
@@ -613,6 +624,7 @@ public class FakturaView implements Serializable {
         if (faktura.getOdbiorca()!=null) {
             odbiorcastworz.findComponent(faktura.getOdbiorca().getNpelna());
         }
+        listakontawwalucie = fakturaWalutaKontoDAO.findByWalutaString(wpisView.getPodatnikObiekt(),selected.getWalutafaktury());
 //        String funkcja = "PF('tworzenieklientapolenazwy').search('"+faktura.getKontrahent_nip()+"');";
 //        PrimeFaces.current().executeScript(funkcja);
 //        funkcja = "PF('tworzenieklientapolenazwy').activate();";
@@ -647,6 +659,7 @@ public class FakturaView implements Serializable {
         if (faktura.getOdbiorca()!=null) {
             odbiorcastworz.findComponent(faktura.getOdbiorca().getNpelna());
         }
+        listakontawwalucie = fakturaWalutaKontoDAO.findByWalutaString(wpisView.getPodatnikObiekt(),selected.getWalutafaktury());
 //        String funkcja = "PF('tworzenieklientapolenazwy').search('"+faktura.getKontrahent_nip()+"');";
 //        PrimeFaces.current().executeScript(funkcja);
 //        funkcja = "PF('tworzenieklientapolenazwy').activate();";
@@ -669,6 +682,7 @@ public class FakturaView implements Serializable {
         zapis0edycja1 = false;
         selected.setNumerkolejny(selected.getNumerkolejny()+"/KOR");
         selected.setPozycjepokorekcie(utworznowepozycje(faktura.getPozycjenafakturze()));
+        listakontawwalucie = fakturaWalutaKontoDAO.findByWalutaString(wpisView.getPodatnikObiekt(),selected.getWalutafaktury());
 //        String funkcja = "PF('tworzenieklientapolenazwy').search('"+faktura.getKontrahent_nip()+"');";
 //        PrimeFaces.current().executeScript(funkcja);
 //        funkcja = "PF('tworzenieklientapolenazwy').activate();";
@@ -3091,6 +3105,15 @@ public class FakturaView implements Serializable {
     public void setFaktury_edit_filter(List<Faktura> faktury_edit_filter) {
         this.faktury_edit_filter = faktury_edit_filter;
     }
-    
+
+    public List<String> getListakontawwalucie() {
+        return listakontawwalucie;
+    }
+
+    public void setListakontawwalucie(List<String> listakontawwalucie) {
+        this.listakontawwalucie = listakontawwalucie;
+    }
+
+   
     
 }
