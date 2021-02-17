@@ -70,6 +70,7 @@ public class KontaFKBean implements Serializable{
         selectednodekonto.setMapotomkow(false);
         kontoDAO.edit(selectednodekonto);
         List<Konto> sprawdzonemacierzyste = Collections.synchronizedList(new ArrayList<>());
+     
         wykazkont.stream().filter((p) -> (p.getKontomacierzyste()!=null)).forEachOrdered((p) -> {
             try {
                 Konto macierzyste = p.getKontomacierzyste();
@@ -84,6 +85,13 @@ public class KontaFKBean implements Serializable{
             }
         });
         kontoDAO.editList(sprawdzonemacierzyste);
+    }
+    public static Konto znajdzemacierzyste(int macierzysty, KontoDAOfk kontoDAO) {
+        Konto zwrot = null;
+        try {
+            zwrot = kontoDAO.findKonto(macierzysty);
+        } catch (Exception e){}
+        return zwrot;
     }
     
 //    public static void ustawCzyMaPotomkowWzorcowy(List<Konto> wykazkont, KontoDAOfk kontoDAO, String wzorcowy, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR ukladBR) {
@@ -296,5 +304,6 @@ public class KontaFKBean implements Serializable{
             }
         }
     }
+
     
 }

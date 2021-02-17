@@ -8,8 +8,10 @@ import abstractClasses.ToBeATreeNodeObject;
 import dao.KontoDAOfk;
 import entity.Podatnik;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -77,6 +79,7 @@ import org.eclipse.persistence.annotations.CacheType;
     @NamedQuery(name = "Konto.findBySrodkiTrwPodatnik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.rok = :rok AND  k.mapotomkow = false AND k.pelnynumer LIKE '010%'"),
     @NamedQuery(name = "Konto.findByRMKPodatnik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.rok = :rok AND  k.mapotomkow = false AND k.pelnynumer LIKE '64%'"),
     @NamedQuery(name = "Konto.findByMacierzysteBOPodatnik", query = "SELECT k FROM Konto k WHERE k.kontomacierzyste = :macierzyste AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000' AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findByMacierzystyPodatnik", query = "SELECT k FROM Konto k WHERE k.macierzysty = :macierzysty AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findBySiostrzaneBOPodatnik", query = "SELECT k FROM Konto k WHERE k.kontomacierzyste = :macierzyste AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByMacierzystePodatnikCOUNT", query = "SELECT MAX(CAST (k.nrkonta AS DECIMAL)) FROM Konto k WHERE k.kontomacierzyste = :macierzyste AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPozycjaWynikowe", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = 'wynikowe'  AND (k.pozycjaWn = :pozycja OR k.pozycjaMa = :pozycja)  AND k.podatnik = :podatnik AND k.rok = :rok"),
@@ -322,7 +325,9 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.saldoMaksiegi = old.saldoMaksiegi;
         this.zaksiegowane = old.zaksiegowane;
         this.niewidoczne = old.niewidoczne;
+        this.sprawdzono = old.sprawdzono;
     }
+
 
     
     
@@ -356,7 +361,9 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     }
     
     public void getAllChildren(List<Konto> listakontwszystkie, Podatnik podatnik, Integer rok, KontoDAOfk kontoDAOfk) {
-        List<Konto> children = kontoDAOfk.findKontaPotomnePodatnik(podatnik, rok, this);
+        Set<Konto> children = new HashSet<>();
+        children.addAll(kontoDAOfk.findKontaPotomnePodatnik(podatnik, rok, this));
+        children.addAll(kontoDAOfk.findKontaPotomnePodatnikMacierzysty(podatnik, rok, this.id));
         if (!children.isEmpty()) {
             for (Konto o : children) {
                 listakontwszystkie.add(o);

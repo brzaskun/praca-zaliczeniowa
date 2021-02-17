@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import view.WpisView;
+import javax.inject.Named;
+import msg.Msg;
+import view.WpisView;
 /**
  *
  * @author Osito
@@ -117,7 +117,7 @@ public class PlanKontUzupelnijView implements Serializable {
                     nowekontopozycjazapis.add(kp);
                 }
             }
-            kontopozycjaZapisDAO.create(nowekontopozycjazapis);
+            kontopozycjaZapisDAO.createList(nowekontopozycjazapis);
             Msg.msg("Zakończono implementację brakujących kont");
             //planKontView.init();
             //planKontView.porzadkowanieKontPodatnika();
@@ -162,7 +162,7 @@ public class PlanKontUzupelnijView implements Serializable {
             }
         }
         if (!nowekontalevel1.isEmpty()) {
-            kontoDAOfk.create(nowekontalevel1);
+            kontoDAOfk.createList(nowekontalevel1);
         }
         return nowekontalevel1;
     }
@@ -176,7 +176,7 @@ public class PlanKontUzupelnijView implements Serializable {
     }
 
     private Konto kopiujKonto(Konto p, List<Konto> macierzystelista, Podatnik podatnikDocelowy, boolean slownikowe) {
-        Konto r = serialclone.SerialClone.clone(p);
+        Konto r = new Konto(p);
         zeruDanekontaBO(r);
         r.setPodatnik(podatnikDocelowy);
         r.setRok(Integer.parseInt(rokdocelowy));
@@ -185,6 +185,7 @@ public class PlanKontUzupelnijView implements Serializable {
         Konto macierzyste = wyszukajmacierzyste(r.getKontomacierzyste().getPelnynumer(), macierzystelista);
         r.setMacierzysty(macierzyste.getId());
         r.setKontomacierzyste(macierzyste);
+        r.setSyntetycznenumer(r.getKontomacierzyste().getPelnynumer());
         return r;
     }
 

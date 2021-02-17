@@ -9,6 +9,7 @@ import entityfk.Kliencifk;
 import entityfk.Konto;
 import error.E;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -510,15 +511,28 @@ public class KontoDAOfk extends DAO implements Serializable {
     }
     
 
-    public List<Konto> findKontaPotomnePodatnik(Podatnik podatnik, Integer rok, Konto macierzyste) {
+    public List<Konto> findKontaPotomnePodatnikMacierzysty(Podatnik podatnik, Integer rok, int macierzysty) {
+        List<Konto> zwrot = new ArrayList<>();
         try {
             LoadGroup lg = new LoadGroup();
             lg.addAttribute("kontokategoria");
-            return getEntityManager().createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).setParameter("rok", rok).setHint(QueryHints.LOAD_GROUP, lg).getResultList();
+            zwrot = getEntityManager().createNamedQuery("Konto.findByMacierzystyPodatnik").setParameter("macierzysty", macierzysty).setParameter("podatnik", podatnik).setParameter("rok", rok).setHint(QueryHints.LOAD_GROUP, lg).getResultList();
         } catch (Exception e) {
             E.e(e);
-            return null;
         }
+        return zwrot;
+    }
+    
+    public List<Konto> findKontaPotomnePodatnik(Podatnik podatnik, Integer rok, Konto macierzyste) {
+        List<Konto> zwrot = new ArrayList<>();
+        try {
+            LoadGroup lg = new LoadGroup();
+            lg.addAttribute("kontokategoria");
+            zwrot = getEntityManager().createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).setParameter("rok", rok).setHint(QueryHints.LOAD_GROUP, lg).getResultList();
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return zwrot;
     }
 
   
@@ -684,5 +698,7 @@ public class KontoDAOfk extends DAO implements Serializable {
     public void zerujsaldazaksiegowane(WpisView wpisView) {
         getEntityManager().createNamedQuery("Konto.wyzerujSaldaZaksiegowanewKontach").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).executeUpdate();
     }
+
+    
 
 }

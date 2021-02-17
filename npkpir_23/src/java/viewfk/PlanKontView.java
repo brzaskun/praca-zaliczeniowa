@@ -11,17 +11,17 @@ import beansFK.PozycjaRZiSFKBean;
 import beansFK.UkladBRBean;
 import comparator.Kontocomparator;
 import converter.KontoConv;
-import dao.PodatnikDAO;
-import dao.RodzajedokDAO;
-import dao.StronaWierszaDAO;
 import dao.DelegacjaDAO;
 import dao.KliencifkDAO;
 import dao.KontoDAOfk;
 import dao.KontopozycjaZapisDAO;
 import dao.MiejsceKosztowDAO;
 import dao.MiejscePrzychodowDAO;
+import dao.PodatnikDAO;
 import dao.PojazdyDAO;
 import dao.PozycjaRZiSDAO;
+import dao.RodzajedokDAO;
+import dao.StronaWierszaDAO;
 import dao.UkladBRDAO;
 import dao.WierszBODAO;
 import embeddable.Mce;
@@ -49,10 +49,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.PersistenceException;
 import javax.persistence.RollbackException;
 import msg.Msg;
@@ -1041,6 +1041,12 @@ public class PlanKontView implements Serializable {
             List<Konto> wykazkontf = new ArrayList<>();
             //wykazkontf.add(selectednodekonto);
             kontoDAOfk.findKontaWszystkiePotomnePodatnik(wykazkontf, podatnik, wpisView.getRokWpisu(), selectednodekonto);
+            for (Konto k: wykazkont) {
+                if (k.getKontomacierzyste()==null && k.getMacierzysty()!=0) {
+                    k.setKontomacierzyste(KontaFKBean.znajdzemacierzyste(k.getMacierzysty(), kontoDAO));
+                    kontoDAO.edit(k);
+                }
+            }
             //resetuj kolumne macierzyste
 //            for (Konto p : wykazkontf) {
 //                p.czyscPozycje();
