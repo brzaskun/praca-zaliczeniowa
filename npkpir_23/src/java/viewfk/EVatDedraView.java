@@ -101,7 +101,7 @@ public class EVatDedraView  implements Serializable {
         if (wiersze != null && wiersze.size() > 0) {
             try {
                 wiersze.remove(wiersze.size()-1);
-                eVatwpisDedraDAO.create(wiersze);
+                eVatwpisDedraDAO.createList(wiersze);
                 wiersze.add(sumuj());
                 Msg.msg("Zachowano wiersze ewidencji");
             } catch (Exception e) {
@@ -116,7 +116,7 @@ public class EVatDedraView  implements Serializable {
     public void usunwierszeewidencji() {
         if (wiersze != null && wiersze.size() > 0) {
             try {
-                eVatwpisDedraDAO.remove(wiersze);
+                eVatwpisDedraDAO.removeList(wiersze);
                 wiersze.clear();
                 Msg.msg("Usunięto wiersze ewidencji");
             } catch (Exception e) {
