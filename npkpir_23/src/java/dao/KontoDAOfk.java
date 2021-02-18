@@ -479,7 +479,7 @@ public class KontoDAOfk extends DAO implements Serializable {
                 aktywapasywa = "0";
             }
             if (bilansowewynikowe.equals("bilansowe")) {
-                return getEntityManager().createNamedQuery("Konto.findByPozycjaBilansowe").setParameter("pozycja", pozycja).setParameter("aktywa0pasywa1", aktywa0pasywa1).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+                return getEntityManager().createNamedQuery("Konto.findByPozycjaBilansowe").setParameter("pozycja", pozycja).setParameter("aktywa0pasywa1", aktywapasywa).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
             } else {
                 return getEntityManager().createNamedQuery("Konto.findByPozycjaWynikowe").setParameter("pozycja", pozycja).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
             }
