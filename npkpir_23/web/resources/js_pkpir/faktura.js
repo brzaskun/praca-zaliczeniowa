@@ -1,6 +1,6 @@
 "use strict";
 
-var aktywujpolewyboruklientanafakturze = function (szukana){
+var aktywujpolewyboruklientanafakturze = function (){
     $(document.getElementById("akordeon:formstworz:datawystawienia")).focus();
     $(document.getElementById("akordeon:formstworz:datawystawienia")).select();
 };
