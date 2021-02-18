@@ -3352,19 +3352,21 @@ public class DokfkView implements Serializable {
     }
 
     public void pobierzpoledlawaluty() {
-        String wierszlp = (String) Params.params("wpisywaniefooter:lpwierszaRK");
-        int idwiersza = Integer.parseInt(wierszlp)-1;
-        if (!wiersz.equals("")) {
-            poledlawaluty = wierszlp;
-        }
-        if (idwiersza > -1) {
-            Wiersz wiersz = selected.getListawierszy().get(idwiersza);
-            FacesContext context = FacesContext.getCurrentInstance();
-            WalutyViewFK bean = context.getApplication().evaluateExpressionGet(context, "#{walutyViewFK}", WalutyViewFK.class);
-            Tabelanbp tab = tabelanbpDAO.findById(wiersz.getTabelanbp().getIdtabelanbp());
-            bean.setKurswprowadzonyrecznie(tab);
-            bean.setSymbolRecznie(wiersz.getWalutaWiersz());
-        }
+        try{
+            String wierszlp = (String) Params.params("wpisywaniefooter:lpwierszaRK");
+            int idwiersza = Integer.parseInt(wierszlp)-1;
+            if (!wiersz.equals("")) {
+                poledlawaluty = wierszlp;
+            }
+            if (idwiersza > -1) {
+                Wiersz wiersz = selected.getListawierszy().get(idwiersza);
+                FacesContext context = FacesContext.getCurrentInstance();
+                WalutyViewFK bean = context.getApplication().evaluateExpressionGet(context, "#{walutyViewFK}", WalutyViewFK.class);
+                Tabelanbp tab = tabelanbpDAO.findById(wiersz.getTabelanbp().getIdtabelanbp());
+                bean.setKurswprowadzonyrecznie(tab);
+                bean.setSymbolRecznie(wiersz.getWalutaWiersz());
+            }
+        }catch (Exception e){}
     }
 
     public void zamienkursnareczny() {
