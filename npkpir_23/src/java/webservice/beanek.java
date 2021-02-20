@@ -373,7 +373,7 @@ public class beanek  implements Serializable {
         } catch (ClientTransportException ex1) {
             Msg.msg("e", "Nie można nawiązać połączenia z serwerem podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
         }
-        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(idMB, wpisView);
+        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(idMB, wpisView.getPodatnikObiekt());
         List<String> komunikat = null;
         if (temp.getStatus().equals(stat.value)) {
             Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
@@ -659,7 +659,7 @@ public class beanek  implements Serializable {
         } catch (ClientTransportException ex1) {
             Msg.msg("e", "Nie można nawiązać testowego połączenia z serwerem ministerstwa podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
         }
-        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(idMBT, wpisView);
+        Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(idMBT, wpisView.getPodatnikObiekt());
         List<String> komunikat = null;
 //        if (temp.getStatus().equals(stat.value)) {
 //            Msg.msg("i", "Wypatruje testowego gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
@@ -690,7 +690,7 @@ public class beanek  implements Serializable {
         } catch (ClientTransportException ex1) {
             Msg.msg("e", "Nie można nawiązać testowego połączenia z serwerem ministerstwa podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
         }
-        Deklaracjevat sprawdzanadeklaracja = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator, wpisView);
+        Deklaracjevat sprawdzanadeklaracja = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator, wpisView.getPodatnikObiekt());
         List<String> komunikat = null;
         if (sprawdzanadeklaracja.getStatus().equals(stat.value)) {
             Msg.msg("i", "Wypatruje testowego gołębia z potwierdzeniem deklaracji podatnika ");

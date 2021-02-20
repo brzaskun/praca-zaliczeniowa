@@ -12,7 +12,6 @@ import entity.DeklaracjaVatSchemaWierszSum;
 import entity.DeklaracjaVatWierszSumaryczny;
 import entity.Deklaracjavat27;
 import entity.DeklaracjavatUE;
-import entity.Deklaracjevat;
 import entity.Dok;
 import entity.EVatOpis;
 import entity.EVatwpis1;
@@ -20,7 +19,6 @@ import entity.Evpozycja;
 import entity.Faktura;
 import entity.FakturaRozrachunki;
 import entity.FakturaXXLKolumna;
-import entity.Fakturadodelementy;
 import entity.Fakturaelementygraficzne;
 import entity.Fakturyokresowe;
 import entity.Fakturywystokresowe;
@@ -277,9 +275,7 @@ public class SessionFacade<T> implements Serializable {
         return (Zamknietemiesiace)  getEntityManager().createNamedQuery("Zamknietemiesiace.findByPodatnik").setParameter("podatnik", podatnik).getSingleResult();
     }
 
-  
-    
-
+ 
     public List<Srodkikst> findSrodekkst(String nazwa) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Srodkikst.findByNazwa").setParameter("nazwa", nazwa).getResultList());
     }
@@ -288,52 +284,6 @@ public class SessionFacade<T> implements Serializable {
         return (Srodkikst)  getEntityManager().createNamedQuery("Srodkikst.findByNazwa").setParameter("nazwa", nazwa).getSingleResult();
     }
 
-    public Deklaracjevat findDeklaracjevat(String rok, String mc, String pod) {
-        return (Deklaracjevat)  getEntityManager().createNamedQuery("Deklaracjevat.findByRokMcPod").setParameter("rok", rok).setParameter("miesiac", mc).setParameter("podatnik", pod).getSingleResult();
-    }
-
-    public List<Deklaracjevat> findDeklaracjewszystkie(String rok, String mc, String pod) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Deklaracjevat.findByRokMcPod").setParameter("rok", rok).setParameter("miesiac", mc).setParameter("podatnik", pod).getResultList());
-    }
-
-    public Deklaracjevat findDeklaracjewysylka(String pod) {
-        try {
-            return (Deklaracjevat)  getEntityManager().createNamedQuery("Deklaracjevat.findByPodatnikWysylka").setParameter("podatnik", pod).setParameter("identyfikator", "").getSingleResult();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public List<Deklaracjevat> findDeklaracjewysylkaLista(String pod) {
-        try {
-            return Collections.synchronizedList( getEntityManager().createNamedQuery("Deklaracjevat.findByPodatnikWysylka").setParameter("podatnik", pod).setParameter("identyfikator", "").getResultList());
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public List<Deklaracjevat> findDeklaracjewyslane(String pod) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Deklaracjevat.findByPodatnikWyslane").setParameter("podatnik", pod).setParameter("identyfikator", "").getResultList());
-    }
-
-    public Deklaracjevat findDeklaracjaPodatnik(String identyfikator, String podatnik) {
-        return (Deklaracjevat)  getEntityManager().createNamedQuery("Deklaracjevat.findByIdentyfikatorPodatnik").setParameter("identyfikator", identyfikator).setParameter("podatnik", podatnik).getSingleResult();
-    }
-
-    public List<Deklaracjevat> findDeklaracjewyslane(String pod, String rok) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRok").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rok).getResultList());
-    }
-    
-    public List<Deklaracjevat> findDeklaracjewyslaneMc(String pod, String rok, String mc) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRokMc").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rok).setParameter("mc", mc).getResultList());
-    }
-    
-    public List<Deklaracjevat> findDeklaracjewyslane200(String pod, String rok) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRok200").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rok).getResultList());
-    }
-    public List<Deklaracjevat> findDeklaracjewyslane200RokMc(String rok, String mc) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRokMc200").setParameter("status", "200").setParameter("rok", rok).setParameter("mc", mc).getResultList());
-    }
 
     public Srodkikst findSr(Srodkikst srodek) {
         return  getEntityManager().find(Srodkikst.class, srodek);
@@ -342,9 +292,6 @@ public class SessionFacade<T> implements Serializable {
     public EVatOpis findEVatOpis(String name) {
         return (EVatOpis)  getEntityManager().createNamedQuery("EVatOpis.findByLogin").setParameter("login", name).getSingleResult();
     }
-
-    
-    
 
 //    public List<Dok> findDokBKVAT(Podatnik pod, String rok) {
 //        return Collections.synchronizedList( getEntityManager().createNamedQuery("Dok.findByBKVAT").setParameter("podatnik", pod).setParameter("vatR", rok).getResultList());
@@ -371,9 +318,7 @@ public class SessionFacade<T> implements Serializable {
         return (Amodok)  getEntityManager().createNamedQuery("Amodok.findByPMR").setParameter("podatnik", pod).setParameter("rok", rok).setParameter("mc", miesiac).getSingleResult();
     }
 
-    public List<Deklaracjevat> findDeklaracjewysylka(String rok, String mc) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Deklaracjevat.findByRokMc").setParameter("rok", rok).setParameter("miesiac", mc).getResultList());
-    }
+    
 
     public List<SrodekTrw> findStrPod(String podatnik) {
         try {
@@ -1628,9 +1573,7 @@ public class SessionFacade<T> implements Serializable {
          getEntityManager().createNamedQuery("Amodok.usunAmoDokByMcRok").setParameter("podatnik",podatnik).setParameter("rok", rok).setParameter("mc", mc).executeUpdate();
     }
 
-    public List<Deklaracjevat> findDeklaracjeByPodatnik(String podatnikWpisu) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Deklaracjevat.findByPodatnik").setParameter("podatnik", podatnikWpisu).getResultList());
-    }
+    
 
     public List<PlatnoscWaluta> findPlatnoscWalutaByDok(Dok selected) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("PlatnoscWaluta.findByDok").setParameter("dokument", selected).getResultList());

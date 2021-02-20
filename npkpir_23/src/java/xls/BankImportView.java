@@ -312,6 +312,10 @@ public class BankImportView implements Serializable {
                             numerwyciagu = 1;
                             zwrot = ImportPayPal_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu(), wybranawaluta);
                             break;
+                        case 10 :
+                            numerwyciagu = 1;
+                            zwrot = ImportNeoBank_CSV.importujdok(partia, wyciagdataod, numerwyciagu, lpwiersza, wpisView.getMiesiacWpisu(), wybranawaluta);
+                            break;
                     }
                     if (zwrot.size()==5) {
                         Msg.msg("e", "Nie pobrano wszystkich plików. Wystąpił błąd");

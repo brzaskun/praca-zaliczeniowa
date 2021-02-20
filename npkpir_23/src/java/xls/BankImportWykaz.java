@@ -23,7 +23,8 @@ public class BankImportWykaz {
         new ImportowanyPlik("BNP Paribas BP csv ;","csv",6),
         new ImportowanyPlik("ING xml","xml",7),
         new ImportowanyPlik("Bank iPKO BP biznes xls ;","xls",8),
-        new ImportowanyPlik("Paypal csv ,","csv",9)
+        new ImportowanyPlik("Paypal csv ,","csv",9),
+        new ImportowanyPlik("NEO Bank csv ,","csv",10)
     ));
 
     

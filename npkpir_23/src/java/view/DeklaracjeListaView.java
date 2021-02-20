@@ -12,7 +12,6 @@ import entity.DeklSuper;
 import entity.Deklaracjavat27;
 import entity.DeklaracjavatUE;
 import entity.Deklaracjevat;
-import error.E;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
@@ -44,7 +43,7 @@ public class DeklaracjeListaView  implements Serializable {
     
     @PostConstruct
     public void init() { //E.m(this);
-        oczekujaceVAT7 = deklaracjevatDAO.findDeklaracjewysylka(wpisView);
+        oczekujaceVAT7 = deklaracjevatDAO.findDeklaracjewysylka(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         usunzbedne(oczekujaceVAT7);
         oczekujaceVATUE = deklaracjavatUEDAO.findDeklaracjewysylka(wpisView);
         usunzbedne(oczekujaceVATUE);
