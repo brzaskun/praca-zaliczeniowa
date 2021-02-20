@@ -249,6 +249,10 @@
             <from-outcome>importmatacz</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaImportMatacz.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>importmelka</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaImportMelka.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>importebay</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaImportEbay.xhtml?faces-redirect=true</to-view-id>
