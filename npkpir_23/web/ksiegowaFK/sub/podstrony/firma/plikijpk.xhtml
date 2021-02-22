@@ -20,13 +20,13 @@
                     <h:outputText value="#{item1.printnazwa}"/>
                 </p:column>
                 <p:column width="90" style="text-align: center;">
-                    <p:commandButton value="podgląd jpk" actionListener="#{jPK_VAT2View.przygotujXMLPodgladAll(item1)}" update="@form" style="width: 120px;"/>
+                    <p:commandButton value="podgląd jpk" actionListener="#{jpk_VAT2View.przygotujXMLPodgladAll(item1)}" update="@form" style="width: 120px;"/>
                 </p:column>
                 <p:column width="90" style="text-align: center;">
-                    <p:commandButton value="wyślij jpk" actionListener="#{jPK_VAT2View.przygotujXMLAll(item1, jPKListaView.jpkmoznarobic, jPKListaView.jpkzrobione)}" update="@form" style="width: 120px;"/>
+                    <p:commandButton value="wyślij jpk" actionListener="#{jpk_VAT2View.przygotujXMLAll(item1, jPKListaView.jpkmoznarobic, jPKListaView.jpkzrobione)}" update="@form" style="width: 120px;"/>
                 </p:column>
             </p:dataTable>
-            <p:commandButton value="pobierz 120" actionListener="#{jPK_VAT2View.pobierzwszystkie(jPKListaView.jpkzrobione)}" style="padding: 10px;margin: 10px; width: 120px;" update="@form"/>
+            <p:commandButton value="pobierz 120" actionListener="#{jpk_VAT2View.pobierzwszystkie(jPKListaView.jpkzrobione)}" style="padding: 10px;margin: 10px; width: 120px;" update="@form"/>
             <p:dataTable value="#{jPKListaView.jpkzrobione}" var="item" rowIndexVar="index" id="tabela" style="width: 1450px; margin-top: 10px;"
                          sortBy="#{item.podatnik.printnazwa}" filteredValue="#{jPKListaView.jpkzrobionefiltered}"
                      selectionMode="single" rowKey="#{item.id}"
@@ -92,13 +92,13 @@
                 <f:facet name="header">
                     <h:outputText value="upo"/>
                 </f:facet>
-                <p:commandButton icon="fa fa-archive" actionListener="#{jPK_VAT2View.pobierzUPO(item)}" update="@form"/>
+                <p:commandButton icon="fa fa-archive" actionListener="#{jpk_VAT2View.pobierzUPO(item)}" update="@form"/>
             </p:column>
              <p:column style="width: 40px; text-align: center;">
                 <f:facet name="header">
                     <h:outputText value="print"/>
                 </f:facet>
-                 <p:commandButton icon="fa fa-print" actionListener="#{jPK_VAT2View.drukujUPO(item)}"  global="false"/>
+                 <p:commandButton icon="fa fa-print" actionListener="#{jpk_VAT2View.drukujUPO(item)}"  global="false"/>
             </p:column>
             <p:rowExpansion>
                 <p:panelGrid columns="1">

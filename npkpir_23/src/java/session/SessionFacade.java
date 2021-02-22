@@ -67,7 +67,6 @@ import entityfk.PozycjaRZiSBilans;
 import entityfk.RMK;
 import entityfk.SprawozdanieFinansowe;
 import entityfk.StronaWiersza;
-import entityfk.Tabelanbp;
 import entityfk.Transakcja;
 import entityfk.UkladBR;
 import entityfk.Waluty;
@@ -564,37 +563,6 @@ public class SessionFacade<T> implements Serializable {
     }
 
     
-
-    
-
-    public Tabelanbp findByDateWaluta(String datatabeli, String nazwawaluty) {
-        return (Tabelanbp)  getEntityManager().createNamedQuery("Tabelanbp.findByDatatabeliSymbolwaluty").setParameter("datatabeli", datatabeli).setParameter("symbolwaluty", nazwawaluty).getSingleResult();
-    }
-    
-    public Tabelanbp findById(int id) {
-        return (Tabelanbp)  getEntityManager().createNamedQuery("Tabelanbp.findByIdtabelanbp").setParameter("idtabelanbp", id).getSingleResult();
-    }
-
-    public List<Tabelanbp> findByWaluta(Waluty waluta) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Tabelanbp.findByWaluta").setParameter("waluta", waluta).getResultList());
-    }
-    
-    public List<Tabelanbp> findByWalutaMcRok(String symbolwaluty, String mc, String rok) {
-        String likedatatabeli = rok+"-"+mc+"-%";
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Tabelanbp.findBySymbolWalutyRokMc").setParameter("symbolwaluty", symbolwaluty).setParameter("likedatatabeli", likedatatabeli).getResultList());
-    }
-
-    public List<Tabelanbp> findByDateWalutaLista(String datatabeli, String nazwawaluty) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Tabelanbp.findByDatatabeliSymbolwaluty").setParameter("datatabeli", datatabeli).setParameter("symbolwaluty", nazwawaluty).getResultList());
-    }
-
-    public Tabelanbp findTabelaPLN() {
-        return (Tabelanbp)  getEntityManager().createNamedQuery("Tabelanbp.findBySymbolWaluty").setParameter("symbolwaluty", "PLN").getSingleResult();
-    }
-
-    public Tabelanbp findOstatniaTabela(String symbolwaluty) {
-        return (Tabelanbp)  getEntityManager().createNamedQuery("Tabelanbp.findBySymbolWalutyOstatnia").setParameter("symbolwaluty", symbolwaluty).setMaxResults(1).getSingleResult();
-    }
 
     public Waluty findWalutaBySymbolWaluty(String staranazwa) {
         try {
@@ -1787,9 +1755,7 @@ public class SessionFacade<T> implements Serializable {
 
     
 
-     public void klientJPKdeleteByPodRokMc (Podatnik podatnik, String rok, String mc) {
-         getEntityManager().createNamedQuery("KlientJPK.deletePodRokMc").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mc", mc).executeUpdate();
-    }
+     
 
        
     

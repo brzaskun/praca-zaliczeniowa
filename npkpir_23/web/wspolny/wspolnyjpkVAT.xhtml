@@ -4,24 +4,24 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <h:form id="form_dialog_jpk_vat" >
-        <p:outputPanel rendered="#{jPK_VAT2View.jpkrazemzdeklaracja}" style="padding: 5px;">
-            <h:outputText value="#{jPK_VAT2View.wynikszukaniadeklaracji}" style="color: blue;"/>
+        <p:outputPanel rendered="#{jpk_VAT2View.jpkrazemzdeklaracja}" style="padding: 5px;">
+            <h:outputText value="#{jpk_VAT2View.wynikszukaniadeklaracji}" style="color: blue;"/>
         </p:outputPanel>
-        <p:panel header="wygeneruj JPK VAT MIESIĘCZNY KOREKTA za #{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt} (deklaracja VAT nie wymagana)" style="width: 1250px;" rendered="#{WpisView.jpk2020M and jPK_VAT2View.nowa0korekta1}"/>
-        <p:panel header="wygeneruj JPK VAT KWARTALNY KOREKTA za #{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt} (deklaracja VAT nie wymagana)" style="width: 1250px;" rendered="#{WpisView.jpk2020K and jPK_VAT2View.nowa0korekta1}"/>
-        <p:panel header="wygeneruj JPK VAT MIESIĘCZNY za #{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt} (wymagana miesięczna deklaracja VAT)" style="width: 1250px;" rendered="#{WpisView.jpk2020M and jPK_VAT2View.nowa0korekta1 eq false}"/>
-        <p:panel header="wygeneruj JPK VAT KWARTALNY za #{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt} (deklaracja tylko na koniec kwartału, w pozostałe miesiące bez deklaracji)" style="width: 1250px;" rendered="#{WpisView.jpk2020K and jPK_VAT2View.nowa0korekta1 eq false}"/>
+        <p:panel header="wygeneruj JPK VAT MIESIĘCZNY KOREKTA za #{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt} (deklaracja VAT nie wymagana)" style="width: 1250px;" rendered="#{WpisView.jpk2020M and jpk_VAT2View.nowa0korekta1}"/>
+        <p:panel header="wygeneruj JPK VAT KWARTALNY KOREKTA za #{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt} (deklaracja VAT nie wymagana)" style="width: 1250px;" rendered="#{WpisView.jpk2020K and jpk_VAT2View.nowa0korekta1}"/>
+        <p:panel header="wygeneruj JPK VAT MIESIĘCZNY za #{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt} (wymagana miesięczna deklaracja VAT)" style="width: 1250px;" rendered="#{WpisView.jpk2020M and jpk_VAT2View.nowa0korekta1 eq false}"/>
+        <p:panel header="wygeneruj JPK VAT KWARTALNY za #{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt} (deklaracja tylko na koniec kwartału, w pozostałe miesiące bez deklaracji)" style="width: 1250px;" rendered="#{WpisView.jpk2020K and jpk_VAT2View.nowa0korekta1 eq false}"/>
         <p:panelGrid columns="5" rendered="#{WpisView.podatnikObiekt.nip ne '5263158333'}">
-            <p:commandButton value="wyślij jpkfk" actionListener="#{jPK_VAT2View.przygotujXMLFK()}" update="@form form_dialog_jpk_vat:tabela" style="width: 120px;" rendered="#{jPK_VAT2View.jpkfk}"/>
-            <p:commandButton value="wyślij korektafk" actionListener="#{jPK_VAT2View.przygotujXMLFK()}" update="@form form_dialog_jpk_vat:tabela" style="width: 120px;" rendered="#{jPK_VAT2View.jpkfkkorekta}"/>
-            <p:commandButton value="wyślij jpk" actionListener="#{jPK_VAT2View.przygotujXML()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.jpkpkpir}"/>
-            <p:commandButton value="wyślij korekta" actionListener="#{jPK_VAT2View.przygotujXML()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.jpkpkpirkorekta}"/>
-            <p:commandButton value="podgląd jpkfk" actionListener="#{jPK_VAT2View.przygotujXMLFKPodglad()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.pkpir0ksiegi1}"/>
-            <p:commandButton value="podgląd jpk" actionListener="#{jPK_VAT2View.przygotujXMLPodglad()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.pkpir0ksiegi1}"/>
-            <p:commandButton value="pobierz jpkfk" actionListener="#{jPK_VAT2View.przygotujXMLFKDL()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.pkpir0ksiegi1}"/>
-            <p:commandButton value="pobierz jpk" actionListener="#{jPK_VAT2View.przygotujXMLDL()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.pkpir0ksiegi1}"/>
+            <p:commandButton value="wyślij jpkfk" actionListener="#{jpk_VAT2View.przygotujXMLFK()}" update="@form form_dialog_jpk_vat:tabela" style="width: 120px;" rendered="#{jpk_VAT2View.jpkfk}"/>
+            <p:commandButton value="wyślij korektafk" actionListener="#{jpk_VAT2View.przygotujXMLFK()}" update="@form form_dialog_jpk_vat:tabela" style="width: 120px;" rendered="#{jpk_VAT2View.jpkfkkorekta}"/>
+            <p:commandButton value="wyślij jpk" actionListener="#{jpk_VAT2View.przygotujXML()}" update="@form" style="width: 120px;" rendered="#{jpk_VAT2View.jpkpkpir}"/>
+            <p:commandButton value="wyślij korekta" actionListener="#{jpk_VAT2View.przygotujXML()}" update="@form" style="width: 120px;" rendered="#{jpk_VAT2View.jpkpkpirkorekta}"/>
+            <p:commandButton value="podgląd jpkfk" actionListener="#{jpk_VAT2View.przygotujXMLFKPodglad()}" update="@form" style="width: 120px;" rendered="#{jpk_VAT2View.pkpir0ksiegi1}"/>
+            <p:commandButton value="podgląd jpk" actionListener="#{jpk_VAT2View.przygotujXMLPodglad()}" update="@form" style="width: 120px;" rendered="#{!jpk_VAT2View.pkpir0ksiegi1}"/>
+            <p:commandButton value="pobierz jpkfk" actionListener="#{jpk_VAT2View.przygotujXMLFKDL()}" update="@form" style="width: 120px;" rendered="#{jpk_VAT2View.pkpir0ksiegi1}"/>
+            <p:commandButton value="pobierz jpk" actionListener="#{jpk_VAT2View.przygotujXMLDL()}" update="@form" style="width: 120px;" rendered="#{!jpk_VAT2View.pkpir0ksiegi1}"/>
             <h:outputText value="wersja jpk (0 - jpk pierwotne)" style="margin-left: 200px;"/>
-            <p:selectOneMenu value="#{jPK_VAT2View.werjsajpkrecznie}" label="wersja jpk">
+            <p:selectOneMenu value="#{jpk_VAT2View.werjsajpkrecznie}" label="wersja jpk">
                 <f:selectItem itemValue="0" itemLabel="0"/>
                 <f:selectItem itemValue="1" itemLabel="1"/>
                 <f:selectItem itemValue="2" itemLabel="2"/>
@@ -32,12 +32,12 @@
             </p:selectOneMenu>
         </p:panelGrid>
         <p:panelGrid columns="5" rendered="#{WpisView.podatnikObiekt.nip eq '5263158333'}">
-            <p:commandButton value="wyślij jpk" actionListener="#{jPK_VAT2View.przygotujXMLDedra()}" update="@form" style="width: 120px;" rendered="#{!jPK_VAT2View.nowa0korekta1}"/>
-            <p:commandButton value="wyślij korekta" actionListener="#{jPK_VAT2View.przygotujXMLDedra()}" update="@form" style="width: 120px;" rendered="#{jPK_VAT2View.nowa0korekta1}"/>
-            <p:commandButton value="podgląd jpk" actionListener="#{jPK_VAT2View.przygotujXMLPodgladDedra()}" update="@form" style="width: 120px;" />
-            <p:commandButton value="pobierz jpk" actionListener="#{jPK_VAT2View.przygotujXMLDedraDL()}" update="@form" style="width: 120px;" />
+            <p:commandButton value="wyślij jpk" actionListener="#{jpk_VAT2View.przygotujXMLDedra()}" update="@form" style="width: 120px;" rendered="#{!jpk_VAT2View.nowa0korekta1}"/>
+            <p:commandButton value="wyślij korekta" actionListener="#{jpk_VAT2View.przygotujXMLDedra()}" update="@form" style="width: 120px;" rendered="#{jpk_VAT2View.nowa0korekta1}"/>
+            <p:commandButton value="podgląd jpk" actionListener="#{jpk_VAT2View.przygotujXMLPodgladDedra()}" update="@form" style="width: 120px;" />
+            <p:commandButton value="pobierz jpk" actionListener="#{jpk_VAT2View.przygotujXMLDedraDL()}" update="@form" style="width: 120px;" />
             <h:outputText value="wersja jpk (0 - jpk pierwotne)" style="margin-left: 200px;"/>
-            <p:selectOneMenu value="#{jPK_VAT2View.werjsajpkrecznie}" label="wersja jpk">
+            <p:selectOneMenu value="#{jpk_VAT2View.werjsajpkrecznie}" label="wersja jpk">
                 <f:selectItem itemValue="0" itemLabel="0"/>
                 <f:selectItem itemValue="1" itemLabel="1"/>
                 <f:selectItem itemValue="2" itemLabel="2"/>
@@ -48,9 +48,9 @@
             </p:selectOneMenu>
         </p:panelGrid>
         <p:messages id="wiadomoscjpk"/>
-        <p:dataTable value="#{jPK_VAT2View.bledy}" var="itemblad" rowIndexVar="index" id="tabelablad" style="width: 1250px; margin-top: 10px;"
-                     sortBy="#{itemblad.miesiac}" rendered="#{jPK_VAT2View.bledy ne null and jPK_VAT2View.bledy.size() gt 0}"
-                     selection="#{jPK_VAT2View.selected}" selectionMode="single" rowKey="#{itemblad.hash()}"
+        <p:dataTable value="#{jpk_VAT2View.bledy}" var="itemblad" rowIndexVar="index" id="tabelablad" style="width: 1250px; margin-top: 10px;"
+                     sortBy="#{itemblad.miesiac}" rendered="#{jpk_VAT2View.bledy ne null and jpk_VAT2View.bledy.size() gt 0}"
+                     selection="#{jpk_VAT2View.selected}" selectionMode="single" rowKey="#{itemblad.hash()}"
                      emptyMessage="brak bledów w dokumentach">
             <p:ajax event="rowToggle" global="false"/>
                 <p:column style="width: 20px; text-align: center;">
@@ -96,9 +96,9 @@
                 <h:outputText value="#{itemblad.vat}" />
             </p:column>
         </p:dataTable>
-        <p:dataTable value="#{jPK_VAT2View.lista}" var="item" rowIndexVar="index" id="tabela" style="width: 1250px; margin-top: 10px; height: 450px;overflow-y: scroll;"
+        <p:dataTable value="#{jpk_VAT2View.lista}" var="item" rowIndexVar="index" id="tabela" style="width: 1250px; margin-top: 10px; height: 450px;overflow-y: scroll;"
                       sortBy="#{item.miesiac}"
-                     selection="#{jPK_VAT2View.selected}" selectionMode="single" rowKey="#{item.id}"
+                     selection="#{jpk_VAT2View.selected}" selectionMode="single" rowKey="#{item.id}"
                      emptyMessage="nie wysłano jeszcze plików jpk">
             <p:ajax event="rowToggle" global="false"/>
                 <p:column style="width: 20px; text-align: center;">
@@ -161,19 +161,19 @@
                 <f:facet name="header">
                     <h:outputText value="upo"/>
                 </f:facet>
-                <p:commandButton icon="fa fa-download" actionListener="#{jPK_VAT2View.pobierzUPO(item)}" update="@form"/>
+                <p:commandButton icon="fa fa-download" actionListener="#{jpk_VAT2View.pobierzUPO(item)}" update="@form"/>
             </p:column>
              <p:column style="width: 40px; text-align: center;">
                 <f:facet name="header">
                     <h:outputText value="print"/>
                 </f:facet>
-                 <p:commandButton icon="fa fa-print" actionListener="#{jPK_VAT2View.drukujUPO(item)}"  global="false"/>
+                 <p:commandButton icon="fa fa-print" actionListener="#{jpk_VAT2View.drukujUPO(item)}"  global="false"/>
             </p:column>
             <p:column style="width: 40px; text-align: center;">
                 <f:facet name="header">
                     <h:outputText value="zachowaj"/>
                 </f:facet>
-                <p:commandButton icon="fa fa-save" actionListener="#{jPK_VAT2View.zachowajJPK(item)}"  global="false" />
+                <p:commandButton icon="fa fa-save" actionListener="#{jpk_VAT2View.zachowajJPK(item)}"  global="false" />
             </p:column>
             <p:column style="width: 40px; text-align: center;">
                 <f:facet name="header">

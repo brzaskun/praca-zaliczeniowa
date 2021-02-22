@@ -13,11 +13,9 @@ import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import session.SessionFacade;
 
 /**
  *
@@ -29,8 +27,6 @@ import session.SessionFacade;
 public class TabelanbpDAO extends DAO implements Serializable {
     private static final long serialVersionUID = 1L;
     
-    @Inject
-    private SessionFacade tabelanbpFacade;
  @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
@@ -54,83 +50,84 @@ public class TabelanbpDAO extends DAO implements Serializable {
         
   
     public  List<Tabelanbp> findKursyRokNBP(String rok){
+        List<Tabelanbp> nowalista = null;
         try {
             String rok1 = rok+"%";
-            List<Tabelanbp> nowalista = tabelanbpFacade.getEntityManager().createNamedQuery("Tabelanbp.findAllRok").setParameter("rok", rok1).getResultList();
-            return nowalista;
-        } catch (Exception e) { E.e(e); 
-            return null;
+            nowalista = getEntityManager().createNamedQuery("Tabelanbp.findAllRok").setParameter("rok", rok1).getResultList();
+            
+        } catch (Exception e) { 
+            E.e(e); 
         }
+        return nowalista;
    }
     
     public  List<Tabelanbp> findKursyRokNieNBP(String rok){
+        List<Tabelanbp> nowalista = null;
         try {
             String rok1 = rok+"%";
-            List<Tabelanbp> nowalista = tabelanbpFacade.getEntityManager().createNamedQuery("Tabelanbp.findAllRokRecznie").setParameter("rok", rok1).getResultList();
-            return nowalista;
-        } catch (Exception e) { E.e(e); 
-            return null;
+            nowalista = getEntityManager().createNamedQuery("Tabelanbp.findAllRokRecznie").setParameter("rok", rok1).getResultList();
+        } catch (Exception e) { 
+            E.e(e); 
         }
+        return nowalista;
    }
    
-    public List<Tabelanbp> findLast(){
-        try {
-            return findXLast(Tabelanbp.class,1);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        }
-    }
-    
+
+
     public Tabelanbp findLastWalutaMc(String nazwawaluty, String rok, String mc){
+        Tabelanbp zwrot = null;
         try {
-            Tabelanbp zwrot = null;
-            List<Tabelanbp> lista = tabelanbpFacade.findByWalutaMcRok(nazwawaluty, mc, rok);
+            String likedatatabeli = rok+"-"+mc+"-%";
+            List<Tabelanbp> lista = getEntityManager().createNamedQuery("Tabelanbp.findBySymbolWalutyRokMc").setParameter("symbolwaluty", nazwawaluty).setParameter("likedatatabeli", likedatatabeli).getResultList();
             if (lista!=null) {
                 Collections.sort(lista, new Tabelanbpcomparator());
                 zwrot = lista.get(lista.size()-1);
             }
-            return zwrot;
-        } catch (Exception e) { E.e(e); 
-            return null;
+        } catch (Exception e) { 
+            E.e(e); 
         }
+        return zwrot;
     }
 
     public Tabelanbp findByDateWaluta(String datatabeli, String nazwawaluty) {
          try {
-            return tabelanbpFacade.findByDateWaluta(datatabeli, nazwawaluty);
+            return (Tabelanbp)  getEntityManager().createNamedQuery("Tabelanbp.findByDatatabeliSymbolwaluty").setParameter("datatabeli", datatabeli).setParameter("symbolwaluty", nazwawaluty).getSingleResult();
         } catch (Exception e) { 
             E.e(e); 
             return null;
         }
     }
-    
+
     public Tabelanbp findById(int id) {
          try {
-            return tabelanbpFacade.findById(id);
+            return (Tabelanbp)  getEntityManager().createNamedQuery("Tabelanbp.findByIdtabelanbp").setParameter("idtabelanbp", id).getSingleResult();
         } catch (Exception e) { E.e(e); 
             return null;
         }
     }
+ 
     
     public List<Tabelanbp> findByWaluta(Waluty waluta) {
          try {
-            return tabelanbpFacade.findByWaluta(waluta);
+            return getEntityManager().createNamedQuery("Tabelanbp.findByWaluta").setParameter("waluta", waluta).getResultList();
         } catch (Exception e) { E.e(e); 
             return null;
         }
     }
-    
+
     public List<Tabelanbp> findByDateWalutaLista(String datatabeli, String nazwawaluty) {
         try {
-            return tabelanbpFacade.findByDateWalutaLista(datatabeli, nazwawaluty);
+            return  getEntityManager().createNamedQuery("Tabelanbp.findByDatatabeliSymbolwaluty").setParameter("datatabeli", datatabeli).setParameter("symbolwaluty", nazwawaluty).getResultList();
         } catch (Exception e) { E.e(e); 
             return null;
         }
     }
-    
+        
+
+
     public Tabelanbp findByTabelaPLN() {
         try {
-            return tabelanbpFacade.findTabelaPLN();
+            return (Tabelanbp)  getEntityManager().createNamedQuery("Tabelanbp.findBySymbolWaluty").setParameter("symbolwaluty", "PLN").getSingleResult();
         } catch (Exception e) { E.e(e); 
             return null;
         }
@@ -138,7 +135,7 @@ public class TabelanbpDAO extends DAO implements Serializable {
 
     public Tabelanbp findOstatniaTabela(String symbolwaluty) {
         try {
-            return tabelanbpFacade.findOstatniaTabela(symbolwaluty);
+            return (Tabelanbp)  getEntityManager().createNamedQuery("Tabelanbp.findBySymbolWalutyOstatnia").setParameter("symbolwaluty", symbolwaluty).setMaxResults(1).getSingleResult();
         } catch (Exception e) { E.e(e); 
             return null;
         }

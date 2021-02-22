@@ -10,11 +10,9 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import session.SessionFacade;
 
 /**
  *
@@ -23,8 +21,7 @@ import session.SessionFacade;
 @Stateless
 @Transactional
 public class KlientJPKDAO  extends DAO implements Serializable {
-     @Inject
-    private SessionFacade sessionFacade;
+
     @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
 
@@ -51,11 +48,11 @@ public class KlientJPKDAO  extends DAO implements Serializable {
 
     
     public void deleteByPodRokMc (Podatnik podatnik, String rok, String mc) {
-        sessionFacade.klientJPKdeleteByPodRokMc(podatnik, rok, mc);
+        getEntityManager().createNamedQuery("KlientJPK.deletePodRokMc").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mc", mc).executeUpdate();
     }
 
     public List<KlientJPK> findbyKlientRokMc(Podatnik podatnikObiekt, String rokWpisuSt, String miesiacWpisu) {
-        return sessionFacade.getEntityManager().createNamedQuery("KlientJPK.findByPodRokMc").setParameter("podatnik", podatnikObiekt).setParameter("rok", rokWpisuSt).setParameter("mc", miesiacWpisu).getResultList();
+        return getEntityManager().createNamedQuery("KlientJPK.findByPodRokMc").setParameter("podatnik", podatnikObiekt).setParameter("rok", rokWpisuSt).setParameter("mc", miesiacWpisu).getResultList();
     }
     
     
