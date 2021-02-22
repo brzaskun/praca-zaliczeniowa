@@ -1294,26 +1294,13 @@ public class SessionFacade<T> implements Serializable {
         }
     }
 
-    
-    public List<UkladBR> findUkladBRPodatnik(Podatnik podatnik) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("UkladBR.findByPodatnik").setParameter("podatnik", podatnik).getResultList());
-    }
-    
-    public List<UkladBR> findUkladBRPodatnikRok(WpisView wpisView) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("UkladBR.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList());
-    }
-    
-    public List<UkladBR> findUkladBRPodatnikRok(Podatnik podatnik, String rok) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("UkladBR.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
-    }
+   
     
     public List<UkladBR> findUkladBRRok(Podatnik podatnik, String rok) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("UkladBR.findByRokNieWzor").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
 
-    public List<UkladBR> findRokUkladnazwa(String rok, String ukladnazwa) {
-        return  getEntityManager().createNamedQuery("UkladBR.findByRokNazwa").setParameter("ukladnazwa", ukladnazwa).setParameter("rok", rok).getResultList();
-    }
+    
     
     public void findRemoveRzisuklad(String uklad, String podatnik, String rok) {
          getEntityManager().createNamedQuery("PozycjaRZiS.Delete").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).executeUpdate();
@@ -1373,13 +1360,6 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("WynikFKRokMc.findPodatnikRokUdzialowiec").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList());
     }
 
-    
-    
-  
-
-    public UkladBR findUkladBRUklad(UkladBR ukladBR) {
-        return (UkladBR)  getEntityManager().createNamedQuery("UkladBR.findByUkladPodRok").setParameter("uklad", ukladBR.getUklad()).setParameter("podatnik", ukladBR.getPodatnik()).setParameter("rok", ukladBR.getRok()).getSingleResult();
-    }
 
     public void usunZapisaneKontoPozycjaPodatnikUklad(UkladBR uklad, String rb) {
         if (rb.equals("wynikowe")) {
@@ -1413,18 +1393,10 @@ public class SessionFacade<T> implements Serializable {
 //        return Collections.synchronizedList( getEntityManager().createNamedQuery("UkladBR.findByWzorcowyRok").setParameter("rok", rokWpisu).getResultList());
 //    }
 
-    public List<UkladBR> findukladBRPodatnikRok(Podatnik podatnikWpisu, String rokWpisuSt) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("UkladBR.findByPodatnikRok").setParameter("podatnik", podatnikWpisu).setParameter("rok", rokWpisuSt).getResultList());
-    }
     
-    public UkladBR findukladBRPodatnikRokPodstawowy(Podatnik podatnikWpisu, String rokWpisuSt) {
-        return (UkladBR)  getEntityManager().createNamedQuery("UkladBR.findByPodatnikRokPodstawowy").setParameter("podatnik", podatnikWpisu).setParameter("rok", rokWpisuSt).getSingleResult();
-    }
     
-    public UkladBR findukladBRPodatnikRokAktywny(Podatnik podatnikWpisu, String rokWpisuSt) {
-        return (UkladBR)  getEntityManager().createNamedQuery("UkladBR.findByPodatnikRokAktywny").setParameter("podatnik", podatnikWpisu).setParameter("rok", rokWpisuSt).getSingleResult();
-    }
-
+    
+    
     public KontopozycjaZapis fintKontoPozycjaZapisByKonto(Konto konto, UkladBR ukladBR) {
         return (KontopozycjaZapis)  getEntityManager().createNamedQuery("KontopozycjaZapis.findByKontoId").setParameter("kontoId", konto).setParameter("ukladBR", ukladBR).getSingleResult();
     }
@@ -1593,10 +1565,7 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("UmorzenieN.findStr").setParameter("srodekTrw", str).getResultList());
     }
 
-    public void ukladBRustawnieaktywne(Podatnik podatnik) {
-          getEntityManager().createNamedQuery("UkladBR.ustawNieaktywne").setParameter("podatnik", podatnik).executeUpdate();
-    }
-
+    
     public List<SprawozdanieFinansowe> findSprawozdanieRokPodatnik(WpisView wpisView, String rok) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("SprawozdanieFinansowe.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", rok).getResultList());
     }
@@ -1705,9 +1674,7 @@ public class SessionFacade<T> implements Serializable {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public List<UkladBR> findWszystkieUkladBR() {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("UkladBR.findAll").getResultList());
-    }
+    
 
     public List<KontopozycjaZapis> findKontaPozycjaZapisPodatnikRok(Podatnik podatnik, String rok) {
         return  getEntityManager().createNamedQuery("KontopozycjaZapis.findByPodatnikRok").setParameter("rok", rok).setParameter("podatnik", podatnik).getResultList();

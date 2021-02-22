@@ -11,11 +11,9 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import session.SessionFacade;
 
 /**
  *
@@ -23,13 +21,10 @@ import session.SessionFacade;
  */
 @Stateless
 @Transactional
-
 public class UkladBRDAO extends DAO implements Serializable{
     private static final long serialVersionUID = 1L;
     
-    @Inject
-    private SessionFacade sessionFacade;
- @PersistenceContext(unitName = "npkpir_22PU")
+    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
     @PreDestroy
@@ -49,24 +44,22 @@ public class UkladBRDAO extends DAO implements Serializable{
         super(UkladBR.class);
         super.em = this.em;
     }
-   
+
     public UkladBR findukladBR(UkladBR ukladBR) {
-        return sessionFacade.findUkladBRUklad(ukladBR);
+        return (UkladBR)  getEntityManager().createNamedQuery("UkladBR.findByUkladPodRok").setParameter("uklad", ukladBR.getUklad()).setParameter("podatnik", ukladBR.getPodatnik()).setParameter("rok", ukladBR.getRok()).getSingleResult();
     }
-  
+
     public List<UkladBR> findPodatnik(Podatnik nazwapelna) {
         try {
-            return sessionFacade.findUkladBRPodatnik(nazwapelna);
+            return getEntityManager().createNamedQuery("UkladBR.findByPodatnik").setParameter("podatnik", nazwapelna).getResultList();
         } catch (Exception e) { E.e(e); 
             return null;
         }
     }
-    
-     
-    
+
     public List<UkladBR> findPodatnikRok(Podatnik podatnik, String rok) {
         try {
-            return sessionFacade.findUkladBRPodatnikRok(podatnik, rok);
+            return getEntityManager().createNamedQuery("UkladBR.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
         } catch (Exception e) { E.e(e); 
             return null;
         }
@@ -74,54 +67,47 @@ public class UkladBRDAO extends DAO implements Serializable{
     
     public List<UkladBR> findUkladByRok(String rok) {
         try {
-            return sessionFacade.getEntityManager().createNamedQuery("UkladBR.findByRok").setParameter("rok", rok).getResultList();
+            return getEntityManager().createNamedQuery("UkladBR.findByRok").setParameter("rok", rok).getResultList();
         } catch (Exception e) { E.e(e); 
             return null;
         }
     }
     
-     
+
     public List<UkladBR> findRokUkladnazwa(String rok, String ukladnazwa) {
         try {
-            return sessionFacade.findRokUkladnazwa(rok, ukladnazwa);
+            return getEntityManager().createNamedQuery("UkladBR.findByRokNazwa").setParameter("ukladnazwa", ukladnazwa).setParameter("rok", rok).getResultList();
         } catch (Exception e) { E.e(e); 
             return null;
         }
     }
     
-
-//    public List<UkladBR> findukladBRWzorcowyRok(String rokWpisu) {
-//        try {
-//            return sessionFacade.findUkladBRWzorcowyRok(rokWpisu);
-//        } catch (Exception e) { E.e(e); 
-//            return null;
-//        }
-//    }
-
+    
     public List<UkladBR> findukladBRPodatnikRok(Podatnik podatnikWpisu, String rokWpisuSt) {
          try {
-            return sessionFacade.findukladBRPodatnikRok(podatnikWpisu, rokWpisuSt);
+            return getEntityManager().createNamedQuery("UkladBR.findByPodatnikRok").setParameter("podatnik", podatnikWpisu).setParameter("rok", rokWpisuSt).getResultList();
         } catch (Exception e) { 
             E.e(e); 
             return null;
         }
     }
-    
+
     public UkladBR findukladBRPodatnikRokPodstawowy(Podatnik podatnikWpisu, String rokWpisuSt) {
          try {
-            return sessionFacade.findukladBRPodatnikRokPodstawowy(podatnikWpisu, rokWpisuSt);
+            return (UkladBR)  getEntityManager().createNamedQuery("UkladBR.findByPodatnikRokPodstawowy").setParameter("podatnik", podatnikWpisu).setParameter("rok", rokWpisuSt).getSingleResult();
         } catch (Exception e) { 
             E.e(e); 
             return null;
         }
     }
-    
+
+
     public UkladBR findukladBRPodatnikRokAktywny(Podatnik podatnikWpisu, String rokWpisuSt) {
         UkladBR uklad = null;
          try {
-            uklad =  sessionFacade.findukladBRPodatnikRokAktywny(podatnikWpisu, rokWpisuSt);
+            uklad =  (UkladBR)  getEntityManager().createNamedQuery("UkladBR.findByPodatnikRokAktywny").setParameter("podatnik", podatnikWpisu).setParameter("rok", rokWpisuSt).getSingleResult();
             if (uklad == null) {
-                uklad = sessionFacade.findukladBRPodatnikRokPodstawowy(podatnikWpisu, rokWpisuSt);
+                uklad = this.findukladBRPodatnikRokPodstawowy(podatnikWpisu, rokWpisuSt);
                 uklad.setAktualny(true);
                 edit(uklad);
             }
@@ -133,7 +119,7 @@ public class UkladBRDAO extends DAO implements Serializable{
 
     public void ustawnieaktywne(Podatnik podatnik) {
          try {
-            sessionFacade.ukladBRustawnieaktywne(podatnik);
+            getEntityManager().createNamedQuery("UkladBR.ustawNieaktywne").setParameter("podatnik", podatnik).executeUpdate();
         } catch (Exception e) {
             E.e(e); 
         }
@@ -141,7 +127,7 @@ public class UkladBRDAO extends DAO implements Serializable{
 
     public List<UkladBR> findWszystkie() {
          try {
-            return sessionFacade.findWszystkieUkladBR();
+            return getEntityManager().createNamedQuery("UkladBR.findAll").getResultList();
         } catch (Exception e) {
             E.e(e);
             return null;
