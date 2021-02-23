@@ -28,7 +28,6 @@ import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
 import entityfk.Wiersz;
 import error.E;
-import gus.GUSView;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -215,7 +214,7 @@ public class Beanjpk {
         Wiersz w = new Wiersz(lpwiersza, nd, 2);
         uzupelnijwiersz(w, nd, faktura, tabelanbppl, tabelanbpDAO);
         w.setOpisWiersza("przychody ze sprzedaży - VAT");
-        StronaWiersza strma = new StronaWiersza(w, "Wn", faktura.getVat(), kontoma);
+        StronaWiersza strma = new StronaWiersza(w, "Ma", faktura.getVat(), kontoma);
         strma.setKwotaPLN(zrobpln(w,faktura.getVat()));
         w.setStronaMa(strma);
         return w;
