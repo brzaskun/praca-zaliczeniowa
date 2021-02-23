@@ -17,7 +17,7 @@
             <p:column headerText="wersja" width="60">
                 <p:panelGrid columns="1">
                 <h:outputText value="#{item.wzorschemy}"/>
-                <h:outputText value="deklar. z podp. kwalif." style="color: blue" rendered="#{item.jestcertyfikat}"/>
+                <h:outputText value="deklar. z podp. kwalif." rendered="#{item.jestcertyfikat}"/>
                 <h:outputText value="deklar. z kwotą autor. " rendered="#{!item.jestcertyfikat}"/>
                 </p:panelGrid>
             </p:column>
@@ -29,7 +29,7 @@
                             <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
                         </h:outputText>
                         <h:outputText value="miesięczna/kwartalna"/><h:outputText value="#{item.miesiackwartal eq false ? 'miesięczna' : 'kwartalna'}" style="font-weight: 900;"/>
-                        <h:outputText value="okres rozliczeniowy"/><h:outputText value="#{item.rok}#{item.rok != null ? '/' : null}#{item.miesiac}" style="font-weight: 900;"/>
+                        <h:outputText value="okres rozliczeniowy"/><h:outputText value="#{item.rok}#{item.rok != null ? '/' : null}#{item.miesiac}" style="font-weight: 900; color: blue;"/>
                         <h:outputText value="pierw./kor."/><h:outputText value="#{loop.celzlozenia eq 1 ? 'pierwotna' : 'korekta'}" style="font-weight: 900;"/>
                         <h:outputText value="nazwa urzędu"/><h:outputText value="#{loop.nazwaurzedu}"/>
                         <h:outputText value="sygn deklaracji"/><h:outputText value="#{item.identyfikator}"/>

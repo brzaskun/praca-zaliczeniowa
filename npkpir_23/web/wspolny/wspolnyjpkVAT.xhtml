@@ -131,17 +131,17 @@
                 </f:facet>
                 <h:outputText value="#{item.code}"/>
             </p:column>
-            <p:column style="width: 150px;" >
+            <p:column style="width: 200px;" >
                 <f:facet name="header">
                     <h:outputText value="status"/>
                 </f:facet>
-                <h:outputText value="#{item.description}"/>
+                <h:outputText value="#{item.description}" rendered="#{item.code ne '200'}"/>
             </p:column>
-            <p:column style="width: 150px;" >
+            <p:column style="width: 60px;text-align: center;" >
                 <f:facet name="header">
-                    <h:outputText value="opis"/>
+                    <h:outputText value="zawiera deklarację"/>
                 </f:facet>
-                <h:outputText value="#{item.details}"/>
+                <h:outputText value="#{item.czyjestdeklaracja()}"/>
             </p:column>
             <p:column style="width: 120px; text-align: center;" >
                 <f:facet name="header">

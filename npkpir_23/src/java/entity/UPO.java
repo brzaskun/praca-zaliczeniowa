@@ -226,6 +226,14 @@ public class UPO  implements Serializable {
         return zwrot;
     }
 
+    public String czyjestdeklaracja() {
+        String zwrot = "";
+        if (this.deklaracja!=null) {
+            zwrot = "tak";
+        }
+        return zwrot;
+    }
+    
     public void setJpk(JPKSuper jpk) {
         this.jpk = jpk;
     }
