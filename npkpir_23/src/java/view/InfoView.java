@@ -23,10 +23,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 
 /**
@@ -261,6 +260,9 @@ public class InfoView implements Serializable{
         } catch (Exception e) { E.e(e); }
         try{
         List<Deklaracjevat> wyslane = deklaracjevatDAO.findDeklaracjeWyslane(podatnik,rok);
+        if (wyslane==null || wyslane.size()==0) {
+            wyslane = deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu(), wpisView.getRokUprzedniSt());
+        }
         if(wyslane.isEmpty()){
             liczbavatwyslane = "Nie sporządzono żadnej deklaracji VAT w roku "+rok;
         } else {
