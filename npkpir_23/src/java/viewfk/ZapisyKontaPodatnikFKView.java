@@ -5,6 +5,7 @@
 package viewfk;
 
 
+import comparator.KontoZapisycomparator;
 import dao.KontoDAOfk;
 import dao.StronaWierszaDAO;
 import dao.TransakcjaDAO;
@@ -98,6 +99,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
         kontozapisy = Collections.synchronizedList(new ArrayList<>());
         pobierzZapisyNaKoncieNode(wykazkont);
         usunzerowe();
+        Collections.sort(kontozapisy, new KontoZapisycomparator());
     }
     
     public void pobierzZapisyNaKoncieNode(List<Konto> listakont) {
