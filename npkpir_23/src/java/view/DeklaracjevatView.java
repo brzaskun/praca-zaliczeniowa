@@ -10,12 +10,12 @@ import beansVAT.VATDeklaracja;
 import comparator.Vatcomparator;
 import dao.DeklaracjaVatSchemaDAO;
 import dao.DeklaracjevatDAO;
+import dao.DokDAOfk;
+import dao.KontoDAOfk;
 import dao.PodatnikDAO;
 import dao.SMTPSettingsDAO;
 import dao.SchemaEwidencjaDAO;
 import dao.WniosekVATZDEntityDAO;
-import dao.DokDAOfk;
-import dao.KontoDAOfk;
 import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Deklaracjevat;
@@ -30,12 +30,11 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
-import javax.inject.Named;
-
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import mail.MailOther;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
@@ -158,6 +157,9 @@ public class DeklaracjevatView implements Serializable {
         }
         try {
             wyslane = deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            if (wyslane==null || wyslane.size()==0) {
+                wyslane = deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu(), wpisView.getRokUprzedniSt());
+            }
             for (Deklaracjevat p : wyslane) {
                 try {
                     if (p.isTestowa()) {
