@@ -46,12 +46,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg; import org.primefaces.PrimeFaces;
-import org.joda.time.DateTime;
+import javax.inject.Named;
+import msg.Msg;
+ import org.joda.time.DateTime;
+import org.primefaces.PrimeFaces;
 import params.Params;
 import pdf.PdfVATKorektaReczna;
 import serialclone.SerialClone;
@@ -116,6 +116,9 @@ public class VatKorektaView implements Serializable {
     private void init() { //E.m(this);
         try {
             deklaracjeWyslane = deklaracjevatDAO.findDeklaracjeWyslane200(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            if (deklaracjeWyslane==null || deklaracjeWyslane.size()==0) {
+                deklaracjeWyslane = deklaracjevatDAO.findDeklaracjeWyslane200(wpisView.getPodatnikWpisu(), wpisView.getRokUprzedniSt());
+            }
             Podatnik podatnik = wpisView.getPodatnikObiekt();
             List<Rodzajedok> rodzajedokumentow = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             List<Rodzajedok> rodzajedokumentowFilter = Collections.synchronizedList(new ArrayList<>());

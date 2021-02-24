@@ -170,6 +170,7 @@ public class InterpaperImportView implements Serializable {
         zwrot.add(new ImportowanyPlik("Zorin nowy xml","xml","",7));
         zwrot.add(new ImportowanyPlik("Seven xml","xml","",8));
         zwrot.add(new ImportowanyPlik("K3F xml","xml","",9));
+        zwrot.add(new ImportowanyPlik("Amazon taxraport csv","csv","",10));
         return zwrot;
     }
     
@@ -252,6 +253,13 @@ public class InterpaperImportView implements Serializable {
                     przerwanyimport = (List<InterpaperXLS>) zwrot2[1];
                     importyzbrakami = (List<InterpaperXLS>) zwrot2[2];
                     innyokres = (List<InterpaperXLS>) zwrot2[3];
+                    break;
+                case 10:
+                    Object[] zwrot3 = ReadXMLK3FFile.getListafaktur(pobranyplik, k, klienciDAO, rodzajdok, jakipobor, wpisView.getMiesiacWpisu());
+                    pobranefaktury = (List<InterpaperXLS>) zwrot3[0];
+                    przerwanyimport = (List<InterpaperXLS>) zwrot3[1];
+                    importyzbrakami = (List<InterpaperXLS>) zwrot3[2];
+                    innyokres = (List<InterpaperXLS>) zwrot3[3];
                     break;
             }
             if (jakipobor!=null) {

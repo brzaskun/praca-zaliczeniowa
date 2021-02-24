@@ -146,11 +146,6 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
        try {
             znalezionedeklaracje = getEntityManager().createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRok200").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rok).getResultList();
         } catch (Exception e) { E.e(e); }
-       //szuka zawsze w roku poprzednim. jak nie ma wywala blad
-       if (znalezionedeklaracje.isEmpty()) {
-        String rokuprzedni = String.valueOf(Integer.parseInt(rok)-1);
-        znalezionedeklaracje = getEntityManager().createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRok200").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rokuprzedni).getResultList();
-       }
        return znalezionedeklaracje;
     }
 
