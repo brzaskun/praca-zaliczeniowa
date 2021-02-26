@@ -5,9 +5,11 @@
 package dao;
 
 import entity.Pismoadmin;
+import entity.Podatnik;
 import entity.UPO;
 import error.E;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -47,20 +49,20 @@ public class UPODAO extends DAO implements Serializable{
         super.em = this.em;
     }
 
-  
     
     public List<UPO> findPodatnikRok(WpisView wpisView) {
         try {
-            List<UPO> lista = sessionFacade.findUPOPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            List<UPO> lista = getEntityManager().createNamedQuery("UPO.findUPOPodatnikRok").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
             return lista;
         } catch (Exception e) { E.e(e); 
             return null;
         }
     }
-    
+
+
     public List<UPO> findUPORokMc(WpisView wpisView) {
         try {
-            List<UPO> lista = sessionFacade.findUPORokMc(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            List<UPO> lista = getEntityManager().createNamedQuery("UPO.findUPORokMc").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList();
             return lista;
         } catch (Exception e) { E.e(e); 
             return null;
@@ -69,16 +71,16 @@ public class UPODAO extends DAO implements Serializable{
     
     public List<UPO> findUPORokMc(String rok, String mc) {
         try {
-            List<UPO> lista = sessionFacade.findUPORokMc(rok, mc);
+            List<UPO> lista = getEntityManager().createNamedQuery("UPO.findUPORokMc").setParameter("rok", rok).setParameter("mc", mc).getResultList();
             return lista;
         } catch (Exception e) { E.e(e); 
             return null;
         }
     }
-    
+
     public List<UPO> findUPOBez200() {
         try {
-            List<UPO> lista = sessionFacade.findUPOBez200();
+            List<UPO> lista = getEntityManager().createNamedQuery("UPO.findUPOBez200").getResultList();
             return lista;
         } catch (Exception e) { E.e(e); 
             return null;
