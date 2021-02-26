@@ -26,8 +26,7 @@ import view.WpisView;
 @Stateless
 @Transactional
 public class UPODAO extends DAO implements Serializable{
-    @Inject
-    private SessionFacade sessionFacade;
+    
    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
