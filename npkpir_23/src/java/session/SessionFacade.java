@@ -44,7 +44,6 @@ import entity.SrodekTrw;
 import entity.Srodkikst;
 import entity.StornoDok;
 import entity.Sumypkpir;
-import entity.UPO;
 import entity.UmorzenieN;
 import entity.Uz;
 import entity.WniosekVATZDEntity;
@@ -395,10 +394,7 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Fakturywystokresowe.findByPodatnik").setParameter("podatnik", podatnik).getResultList());
     }
 
-    public Fakturywystokresowe findFakturaOkresowaById(Integer id) {
-        return (Fakturywystokresowe)  getEntityManager().createNamedQuery("Fakturywystokresowe.findById").setParameter("id", id).getSingleResult();
-    }
-
+    
     public List<Fakturywystokresowe> findPodatnikRokFaktury(String podatnik, String rok) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Fakturywystokresowe.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
@@ -427,10 +423,7 @@ public class SessionFacade<T> implements Serializable {
 
     
 
-    public Fakturywystokresowe findOkresowa(String rok, String klientnip, String nazwapelna, double brutto) {
-        return (Fakturywystokresowe)  getEntityManager().createNamedQuery("Fakturywystokresowe.findByOkresowa").setParameter("rok", rok).setParameter("podatnik", nazwapelna).setParameter("nipodbiorcy", klientnip).setParameter("brutto", brutto).getSingleResult();
-    }
-
+    
     public List<Wiersz> findWierszefkRozrachunki(String podatnik, Konto konto, Dokfk dokfk) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Wiersz.findByRozrachunki").setParameter("podatnik", podatnik).setParameter("konto", konto).setParameter("dokfk", dokfk).getResultList());
     }
@@ -485,45 +478,6 @@ public class SessionFacade<T> implements Serializable {
     }
 
 
-
-    
-
-    public List<Fakturywystokresowe> findOkresoweOstatnie(String podatnik, String mc, String rok) {
-        switch (mc) {
-            case "01":
-                return Collections.synchronizedList( getEntityManager().createNamedQuery("Fakturywystokresowe.findByM1").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
-            case "02":
-                return Collections.synchronizedList( getEntityManager().createNamedQuery("Fakturywystokresowe.findByM2").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
-            case "03":
-                return Collections.synchronizedList( getEntityManager().createNamedQuery("Fakturywystokresowe.findByM3").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
-            case "04":
-                return Collections.synchronizedList( getEntityManager().createNamedQuery("Fakturywystokresowe.findByM4").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
-            case "05":
-                return Collections.synchronizedList( getEntityManager().createNamedQuery("Fakturywystokresowe.findByM5").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
-            case "06":
-                return Collections.synchronizedList( getEntityManager().createNamedQuery("Fakturywystokresowe.findByM6").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
-            case "07":
-                return Collections.synchronizedList( getEntityManager().createNamedQuery("Fakturywystokresowe.findByM7").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
-            case "08":
-                return Collections.synchronizedList( getEntityManager().createNamedQuery("Fakturywystokresowe.findByM8").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
-            case "09":
-                return Collections.synchronizedList( getEntityManager().createNamedQuery("Fakturywystokresowe.findByM9").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
-            case "10":
-                return Collections.synchronizedList( getEntityManager().createNamedQuery("Fakturywystokresowe.findByM10").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
-            case "11":
-                return Collections.synchronizedList( getEntityManager().createNamedQuery("Fakturywystokresowe.findByM11").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
-            case "12":
-                return Collections.synchronizedList( getEntityManager().createNamedQuery("Fakturywystokresowe.findByM12").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
-        }
-        return null;
-    }
-
-    
-
-
-    
-
- 
     
 
 //    public Object findKontaPotomneWzorcowyCount(WpisView wpisView, String macierzyste) {
@@ -1576,10 +1530,7 @@ public class SessionFacade<T> implements Serializable {
 
     
 
-    public List<Fakturywystokresowe> findOkresoweOstatnieByfaktura(Faktura p) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Fakturywystokresowe.findByFaktura").setParameter("faktura", p).getResultList());
-    }
-
+    
     public void usunlogoplik(Podatnik podatnikObiekt) {
          getEntityManager().createNamedQuery("Logofaktura.usunlogo").setParameter("podatnik", podatnikObiekt).executeUpdate();
     }

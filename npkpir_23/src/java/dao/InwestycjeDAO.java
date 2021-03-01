@@ -23,6 +23,7 @@ import session.SessionFacade;
 @Stateless
 @Transactional
 public class InwestycjeDAO  extends DAO implements Serializable {
+     private static final long serialVersionUID = 1L;
     @Inject
     private SessionFacade sessionFacade;
        @PersistenceContext(unitName = "npkpir_22PU")

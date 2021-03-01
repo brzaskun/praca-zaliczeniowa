@@ -29,7 +29,7 @@ import org.eclipse.persistence.config.QueryHints;
 @Transactional
 public class FakturaDAO extends DAO implements Serializable {
 
-
+ private static final long serialVersionUID = 1L;
       @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     

@@ -66,6 +66,10 @@ public class Pozycjenafakturze implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "nazwa")
     private String nazwa;
+    @Column(name = "szerokosc")
+    private double szerokosc;
+    @Column(name = "wysokosc")
+    private double wysokosc;
 
     public Pozycjenafakturze() {
     }
@@ -120,6 +124,24 @@ public class Pozycjenafakturze implements Serializable {
         this.id = id;
     }
 
+    public double getSzerokosc() {
+        return szerokosc;
+    }
+
+    public void setSzerokosc(double szerokosc) {
+        this.szerokosc = szerokosc;
+    }
+
+    public double getWysokosc() {
+        return wysokosc;
+    }
+
+    public void setWysokosc(double wysokosc) {
+        this.wysokosc = wysokosc;
+    }
+
+    
+    
     @Override
     public int hashCode() {
         int hash = 5;

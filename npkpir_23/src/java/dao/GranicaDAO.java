@@ -8,10 +8,11 @@ import entity.Granica;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import session.SessionFacade;
 
 
@@ -22,6 +23,7 @@ import session.SessionFacade;
 @Stateless
 @Transactional
 public class GranicaDAO extends DAO implements Serializable{
+     private static final long serialVersionUID = 1L;
     @Inject
     private SessionFacade sessionFacade;
        @PersistenceContext(unitName = "npkpir_22PU")

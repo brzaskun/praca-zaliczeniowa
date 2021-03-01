@@ -11,10 +11,11 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +25,7 @@ import msg.Msg;
  * @author Osito
  */
 @Named
-@RequestScoped
+@ViewScoped
 public class PozycjeNaFakturzeView implements Serializable {
 
     private String lewyTablica;
@@ -47,6 +48,8 @@ public class PozycjeNaFakturzeView implements Serializable {
     private String co;
     @Inject
     private PozycjenafakturzeDAO pozycjeDAO;
+    private HashMap<String, Pozycjenafakturze> pozycjefakturapodatnik;
+    private List<Pozycjenafakturze> pozycjefakturapodatniklista;
 
     @PostConstruct
     private void init() { //E.m(this);
@@ -70,6 +73,7 @@ public class PozycjeNaFakturzeView implements Serializable {
             west = "../wspolny/sub/layoutFakturaMultiuser/west.xhtml";
             westustawienia = "sub/layoutFaktura/westustawienia.xhtml";
         }
+        pozycjefakturapodatnik = pobierzpozycjepodatnika();
     }
 
    
@@ -88,6 +92,7 @@ public class PozycjeNaFakturzeView implements Serializable {
             } else {
                 pozycjeDAO.edit(pozycje);
             }
+            pobierzpozycjepodatnika();
             Msg.msg("i", "Zachowano "+pozycje.toString(), "form:messages");
         } catch (Exception e) { 
             E.e(e); 
@@ -114,6 +119,97 @@ public class PozycjeNaFakturzeView implements Serializable {
         }
     }
 
+    private HashMap<String, Pozycjenafakturze> pobierzpozycjepodatnika() {
+        pozycjefakturapodatniklista = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikObiekt());
+        HashMap<String, Pozycjenafakturze> nowa = new HashMap<>();
+        for (Pozycjenafakturze p : pozycjefakturapodatniklista) {
+            nowa.put(p.getNazwa(), p);
+        }
+        return nowa;
+    }
+    
+    public String pW(String co) {
+        String coco = "akordeon:formwzor:"+co;
+        Pozycjenafakturze p = pozycjefakturapodatnik.get(coco);
+        double wartosc = pobierzwartosc(p,co,0);
+        return String.valueOf(wartosc);
+    }
+    public String pH(String co) {
+        String coco = "akordeon:formwzor:"+co;
+        Pozycjenafakturze p = pozycjefakturapodatnik.get(coco);
+        double wartosc = pobierzwartosc(p,co,1);
+        return String.valueOf(wartosc);
+    }
+    
+     private double pobierzwartosc(Pozycjenafakturze p, String co, int i) {
+        double zwrot = 0.0;
+        if (i==0) {
+            if (p.getSzerokosc()!=0.0) {
+                zwrot = p.getSzerokosc();
+            } else if (p.getSzerokosc()==0.0) {
+                switch (co) {
+                    case "nabywca":
+                    case "odbiorcan":
+                    case "wystawca":
+                        zwrot = 500.0;
+                        break;
+                    case "data":
+                        zwrot = 270.0;
+                        break;
+                    case "fakturanumer":
+                        zwrot = 380.0;
+                        break;
+                    case "platnosc":
+                        zwrot = 460.0;
+                        break;
+                    case "datasprzedazy":
+                        zwrot = 240.0;
+                        break;
+                    case "nrzamowienia":
+                        zwrot = 240.0;
+                        break;
+                    case "towary":
+                        zwrot = 1030.0;
+                        break;
+                    case "dozaplaty":
+                        zwrot = 650.0;
+                        break;
+                    case "podpis":
+                        zwrot = 350.0;
+                        break;
+                    case "wezwaniedozapłaty":
+                        zwrot = 450.0;
+                        break;
+                }
+                p.setSzerokosc(zwrot);
+                pozycjeDAO.edit(p);
+            }
+        } else {
+            if (p.getWysokosc()!=0.0) {
+                zwrot = p.getWysokosc();
+            } else if (p.getWysokosc()==0.0) {
+                switch (co) {
+                    case "nabywca":
+                    case "odbiorcan":
+                    case "wystawca":
+                        zwrot = 180.0;
+                    case "towary":
+                        zwrot = 260.0;
+                    case "platnosc":
+                        zwrot = 110.0;
+                        break;
+                }
+                p.setWysokosc(zwrot);
+                pozycjeDAO.edit(p);
+            }
+        }
+        return zwrot;
+    }
+    public void zapamietajwymiar(Pozycjenafakturze p ) {
+        pozycjeDAO.edit(p);
+        odchowaj();
+        Msg.msg("Zachowano zmiany");
+    }
 //    @Inject
 //    private PodatnikDAO podatnikDAO;
 //    
@@ -210,5 +306,25 @@ public class PozycjeNaFakturzeView implements Serializable {
     
     
    //</editor-fold>
+
+    public HashMap<String, Pozycjenafakturze> getPozycjefakturapodatnik() {
+        return pozycjefakturapodatnik;
+    }
+
+    public void setPozycjefakturapodatnik(HashMap<String, Pozycjenafakturze> pozycjefakturapodatnik) {
+        this.pozycjefakturapodatnik = pozycjefakturapodatnik;
+    }
+
+    public List<Pozycjenafakturze> getPozycjefakturapodatniklista() {
+        return pozycjefakturapodatniklista;
+    }
+
+    public void setPozycjefakturapodatniklista(List<Pozycjenafakturze> pozycjefakturapodatniklista) {
+        this.pozycjefakturapodatniklista = pozycjefakturapodatniklista;
+    }
+
+   
+
+    
 
 }
