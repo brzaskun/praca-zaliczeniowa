@@ -544,7 +544,7 @@ public class Data implements Serializable {
     
     public static String zmienkolejnosc(String zladata) {
         String dobradata = "";
-        if (zladata.length()==10 && !dataodprawejdolewej(zladata)) {
+        if (zladata!=null && zladata.length()==10 && !dataodprawejdolewej(zladata)) {
             zladata = zladata.replace("/", "-");
             zladata = zladata.replace(".", "-");
             String rok = pobierzokres(zladata, 2);

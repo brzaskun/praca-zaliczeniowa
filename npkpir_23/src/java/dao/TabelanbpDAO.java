@@ -140,4 +140,6 @@ public class TabelanbpDAO extends DAO implements Serializable {
             return null;
         }
     }
+
+  
 }

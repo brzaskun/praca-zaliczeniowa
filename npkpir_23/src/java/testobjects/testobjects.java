@@ -18,6 +18,7 @@ import entity.Dok;
 import entity.Faktura;
 import entity.Fakturywystokresowe;
 import entity.Klienci;
+import entity.KlientJPK;
 import entity.Podatnik;
 import entity.Rodzajedok;
 import entity.Ryczpoz;
@@ -304,6 +305,28 @@ public class testobjects {
        n.add("netto wal.");
        n.add("vat wal.");
        n.add("vat stawka");
+       n.add("vat kraj");
+       n.add("tab/kurs");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+    
+    public static List[] getListaDokJPK(List<KlientJPK> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("data wystawienia");
+       n.add("kontrahent");
+       n.add("nip");
+       n.add("nr własny");
+       n.add("netto");
+       n.add("vat");  
+       n.add("netto wal.");
+       n.add("vat wal.");
+       n.add("vat stawka");
+       n.add("Z");
+       n.add("DO");
        n.add("vat kraj");
        n.add("tab/kurs");
        List[] tabela = new List[2];

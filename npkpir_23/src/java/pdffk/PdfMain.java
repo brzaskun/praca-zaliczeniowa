@@ -42,6 +42,7 @@ import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Dok;
 import entity.Faktura;
 import entity.Fakturywystokresowe;
+import entity.KlientJPK;
 import entity.KwotaKolumna1;
 import entity.Podatnik;
 import entity.Ryczpoz;
@@ -1123,6 +1124,23 @@ public class PdfMain {
                     col[11] = 3;
                 }
                 return col;
+            case "entity.KlientJPK":
+                col = new int[size];
+                col[0] = 1;
+                col[1] = 2;
+                col[2] = 3;
+                col[3] = 3;
+                col[4] = 3;
+                col[5] = 2;
+                col[6] = 2;
+                col[7] = 2;
+                col[8] = 2;
+                col[9] = 2;
+                col[10] = 1;
+                col[11] = 1;
+                col[12] = 2;
+                col[13] = 2;
+                return col;
             case "entity.Ryczpoz":
                 col = new int[size];
                 col[0] = 1;
@@ -1708,6 +1726,20 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[6])), "right", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[7])), "right", 8));
                 table.addCell(ustawfrazeAlign((String)p[8], "left", 7));
+            }
+            if (nazwaklasy.equals("tabelaklientjpkfk")) {
+                //Object[] a = new Object[]{kraj, waluta, nettowaluta, vatwaluta, bruttowal, nettopl, vatpl, bruttopln};
+                List pa =  (List) it.next();
+                Object[] p = pa.toArray();
+                table.addCell(ustawfrazeAlign(i++, "center", 7));
+                table.addCell(ustawfrazeAlign((String)p[0], "left", 7));
+                table.addCell(ustawfrazeAlign((String)p[1], "left", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[2])), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[3])), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[4])), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[5])), "right", 8));
+                table.addCell(ustawfrazeAlign(format.F.procent((Double)p[6]), "right", 8));
+                table.addCell(ustawfrazeAlign(format.F.kurs6((Double)p[7]), "right", 8));
             }
             if (nazwaklasy.equals("embeddablefk.ImportJPKSprzedaz")) {
                 ImportJPKSprzedaz p =  (ImportJPKSprzedaz) it.next();
@@ -2482,6 +2514,42 @@ public class PdfMain {
                         E.e(e);
                     }
                 }
+            }
+            if (nazwaklasy.equals("entity.KlientJPK")) {
+                KlientJPK p = (KlientJPK) it.next();
+                    try {
+                        //error.E.s(""+p.toString());
+                        table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8, 20f));
+                        table.addCell(ustawfrazeAlign(p.getDataSprzedazy(), "center", 8));
+                        table.addCell(ustawfrazeAlign(p.getNazwaKontrahenta(), "left", 8));
+                        table.addCell(ustawfrazeAlign(p.getNrKontrahenta(), "left", 8));
+                        table.addCell(ustawfrazeAlign(p.getSerial(), "center", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 8));
+                        if (p.getWaluta()!=null) {
+                            table.addCell(ustawfrazeAlign(p.getWaluta().equals("PLN")? "":String.valueOf(number.format(p.getNettowaluta())), "right", 8));
+                            table.addCell(ustawfrazeAlign(p.getWaluta().equals("PLN")? "":String.valueOf(number.format(p.getVatwaluta())), "right", 8));
+                        } else {
+                            table.addCell(ustawfrazeAlign("", "center", 8));
+                            table.addCell(ustawfrazeAlign("", "center", 8));
+                        }
+                        if (p.getStawkavat()!=0.0) {
+                            table.addCell(ustawfrazeAlign(String.valueOf(percent.format(p.getStawkavat())), "right", 8));
+                        } else {
+                            table.addCell(ustawfrazeAlign("WDT", "center", 8));
+                        }
+                        table.addCell(ustawfrazeAlign(p.getKodKrajuNadania(), "center", 8));
+                        table.addCell(ustawfrazeAlign(p.getKodKrajuDoreczenia(), "center", 8));
+
+                        table.addCell(ustawfrazeAlign(p.getJurysdykcja(), "left", 8));
+                        if (!p.getWaluta().equals("PLN")) {
+                            table.addCell(ustawfrazeAlign(format.F.kurs6(p.getKurs()), "left", 8));
+                        } else {
+                            table.addCell(ustawfrazeAlign("", "left", 8));
+                        }
+                    } catch (Exception e) {
+                        E.e(e);
+                    }
             }
             if (nazwaklasy.equals("embeddablefk.KontoKwota")) {
                 Konto p = (Konto) it.next();

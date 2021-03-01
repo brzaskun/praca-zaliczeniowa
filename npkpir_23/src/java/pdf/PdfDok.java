@@ -10,28 +10,32 @@ import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 import entity.Dok;
+import entity.KlientJPK;
 import entityfk.Tabelanbp;
 import error.E;
 import format.F;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.primefaces.PrimeFaces;
 import pdffk.PdfMain;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
+import static pdffk.PdfMain.dodajTabele2;
 import static pdffk.PdfMain.finalizacjaDokumentuQR;
 import static pdffk.PdfMain.inicjacjaA4Landscape;
 import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
 import plik.Plik;
-import view.WpisView; import org.primefaces.PrimeFaces;
+ import view.WpisView;
 import waluty.Z;
 
 /**
@@ -385,4 +389,127 @@ public class PdfDok extends Pdf implements Serializable {
         return zwrot;
     }
     
+    
+     public static void drukujDokAmazonfk(List<KlientJPK> lista, WpisView wpisView, int modyfikator) {
+        String nazwa = wpisView.getPodatnikObiekt().getNip()+"listadok";
+        File file = Plik.plik(nazwa, true);
+        if (file.isFile()) {
+            file.delete();
+        }
+        Document document = PdfMain.inicjacjaA4Landscape();
+        try {
+            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            dodajOpisWstepny(document, "Zestawienie zaksięgowanych dokumentów firma -  ", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            Set<String> waluty = pobierzwalutyfk(lista);
+            Set<String> kraje = pobierzkrajefk(lista);
+            List tabelazbiorcza = new ArrayList<>();
+            List tabelazbiorczawdt = new ArrayList<>();
+            List<KlientJPK> sprzedaz = lista.stream().filter((p)->p.isWdt()==false).collect(Collectors.toList());
+            for (String kraj : kraje) {
+                List<KlientJPK> sprzedazkraj = sprzedaz.stream().filter((p)->p.getJurysdykcja().equals(kraj)).collect(Collectors.toList());
+                for (String waluta : waluty) {
+                    List<KlientJPK> sprzedazwaluty = sprzedazkraj.stream().filter((p)->p.getWaluta().equals(waluta)).collect(Collectors.toList());
+                    if (!sprzedazwaluty.isEmpty()) {
+                        dodajtabelekrajfk(kraj, waluta, document, sprzedazwaluty, modyfikator, tabelazbiorcza);
+                    }
+                }
+            }
+            PdfMain.dodajLinieOpisu(document, "");
+            List<KlientJPK> wdt = lista.stream().filter((p)->p.isWdt()).collect(Collectors.toList());
+            if (wdt.isEmpty()) {
+                PdfMain.dodajLinieOpisuBezOdstepu(document, "BRAK SPRZEDAŻY WDT");
+            } else {
+                for (String kraj : kraje) {
+                List<KlientJPK> sprzedazkraj = wdt.stream().filter((p)->p.getJurysdykcja().equals(kraj)).collect(Collectors.toList());
+                for (String waluta : waluty) {
+                    List<KlientJPK> sprzedazwaluty = sprzedazkraj.stream().filter((p)->p.getWaluta().equals(waluta)).collect(Collectors.toList());
+                    if (!sprzedazwaluty.isEmpty()) {
+                        dodajtabeleWDTfk(kraj, waluta, document, sprzedazwaluty, modyfikator, tabelazbiorczawdt);
+                    }
+                }
+            }
+            }
+            document.newPage();
+            PdfMain.dodajLinieOpisu(document, "SUMY SPRZEDAŻY DETALICZNEJ");
+            String[] nag1 = new String[]{"lp","kraj","waluta","netto","vat","netto pln","vat pln", "stawka vat", "kurs"};
+            int[] nag2 = new int[]{2,3,3,3,3,3,3,3,3};
+            dodajTabele2(document, nag1, nag2, tabelazbiorcza, 70, modyfikator,"tabelaklientjpkfk");
+            document.newPage();
+            PdfMain.dodajLinieOpisu(document, "SUMY SPRZEDAŻY WDT");
+            dodajTabele2(document, nag1, nag2, tabelazbiorczawdt, 70, modyfikator,"tabelaklientjpkfk");
+            finalizacjaDokumentuQR(document,nazwa);
+            String f = "pokazwydruk('"+nazwa+"');";
+            PrimeFaces.current().executeScript(f);
+        } catch (Exception e) {
+            E.e(e);
+        } finally {
+            finalizacjaDokumentuQR(document,nazwa);
+        }
+    }
+     
+     private static Set<String> pobierzwalutyfk(List<KlientJPK> lista) {
+        Set<String> zwrot = new HashSet<>();
+        for (KlientJPK p : lista) {
+            String poz = p.getWaluta();
+            if (poz!=null) {
+                zwrot.add(poz);
+            }
+        }
+        return zwrot;
+    }
+
+    private static Set<String> pobierzkrajefk(List<KlientJPK> lista) {
+        Set<String> zwrot = new HashSet<>();
+        for (KlientJPK p : lista) {
+            String poz = p.getJurysdykcja();
+            if (poz!=null) {
+                zwrot.add(poz);
+            }
+        }
+        return zwrot;
+    }
+    
+    private static void dodajtabelekrajfk(String kraj, String waluta, Document document, List<KlientJPK> lista, int modyfikator, List tabelazbiorcza) {
+        PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "SPRZEDAŻ OPODATKOWANA "+kraj.toUpperCase()+" WALUTA "+waluta, BaseColor.BLUE);
+        dodajTabele(document, testobjects.testobjects.getListaDokJPK(lista),100,modyfikator);
+        dodajsumyfk(lista, document, waluta, tabelazbiorcza);
+    }
+    private static void dodajtabeleWDTfk(String kraj, String waluta, Document document, List<KlientJPK> lista, int modyfikator,List tabelazbiorcza) {
+        PdfMain.dodajLinieOpisuBezOdstepuKolor(document, "SPRZEDAŻ WDT "+kraj.toUpperCase()+" WALUTA "+waluta, BaseColor.BLUE);
+        dodajTabele(document, testobjects.testobjects.getListaDokJPK(lista),100,modyfikator);
+        dodajsumyfk(lista, document, waluta, tabelazbiorcza);
+    }
+    public static void dodajsumyfk(List<KlientJPK> lista, Document document, String waluta, List tabelazbiorcza) {
+        double netto = 0.0;
+        double vat = 0.0;
+        double nettowaluta = 0.0;
+        double vatwaluta = 0.0;
+        double vatstawka = 0.0;
+        String jurys=  "";
+        for (KlientJPK p : lista) {
+            netto = Z.z(netto+p.getNetto());
+            vat = Z.z(vat+p.getVat());
+            nettowaluta = Z.z(nettowaluta+p.getNettowaluta());
+            vatwaluta = Z.z(vatwaluta+p.getVatwaluta());
+            jurys = p.getJurysdykcja();
+            vatstawka = p.getStawkavat();
+        }
+        double brutto = Z.z(netto+vat);
+        double bruttowaluta = Z.z(nettowaluta+vatwaluta);
+        String opis = "Podsumowanie jurysdykcja "+jurys;
+        PdfMain.dodajLinieOpisuBezOdstepu(document, opis);
+        opis = "Razem wartość wybranych dokumentów w PLN";
+        PdfMain.dodajLinieOpisuBezOdstepu(document, opis);
+        opis = "netto: "+F.curr(netto)+" vat: "+F.curr(vat)+" brutto: "+F.curr(brutto);
+        PdfMain.dodajLinieOpisu(document, opis);
+        opis = "Razem wartość wybranych dokumentów - waluta "+waluta;
+        PdfMain.dodajLinieOpisuBezOdstepu(document, opis);
+        opis = "netto wal: "+F.curr(nettowaluta, waluta)+" vat wal: "+F.curr(vatwaluta, waluta)+" brutto: "+F.curr(bruttowaluta, waluta);
+        PdfMain.dodajLinieOpisu(document, opis);
+        double kurs = nettowaluta!=0.0 ? Z.z6(netto/nettowaluta):0.0;
+        Object[] a = new Object[]{jurys, waluta, nettowaluta, vatwaluta, netto, vat, vatstawka, kurs};
+        tabelazbiorcza.add(Arrays.asList(a));
+    }
 }

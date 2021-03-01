@@ -40,8 +40,14 @@ public class KlientJPK implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private int id;
-    @Column(name = "kodkrajunadaniatin")
-    private String kodKrajuNadaniaTIN;
+    @Column(name = "serial")
+    private String serial;
+    @Column(name = "kodkrajunadania")
+    private String kodKrajuNadania;
+    @Column(name = "kodkrajudoreczenia")
+    private String kodKrajuDoreczenia;
+    @Column(name = "jurysdykcja")
+    private String jurysdykcja;
     @Column(name = "nrkontrahenta")
     private String nrKontrahenta;
     @Column(name = "nazwakontrahenta")
@@ -56,6 +62,14 @@ public class KlientJPK implements Serializable {
     private double netto;
     @Column(name = "vat")
     private double vat;
+     @Column(name = "nettowaluta")
+    private double nettowaluta;
+    @Column(name = "vatwaluta")
+    private double vatwaluta;
+    @Column(name = "stawkavat")
+    private double stawkavat;
+    @Column(name = "kurs")
+    private double kurs;
     @ManyToOne
     @JoinColumn(name = "podid", referencedColumnName = "id")
     private Podatnik podatnik;
@@ -70,6 +84,8 @@ public class KlientJPK implements Serializable {
     protected Evewidencja ewidencja;
     @Column(name = "waluta")
     private String waluta;
+    @Column(name = "wdt")
+    private boolean wdt;
 
     public KlientJPK() {
     }
@@ -113,16 +129,32 @@ public class KlientJPK implements Serializable {
         this.id = id;
     }
 
-    public String getKodKrajuNadaniaTIN() {
-        return kodKrajuNadaniaTIN;
+    public String getSerial() {
+        return serial;
     }
 
-    public void setKodKrajuNadaniaTIN(String kodKrajuNadaniaTIN) {
-        this.kodKrajuNadaniaTIN = kodKrajuNadaniaTIN;
+    public void setSerial(String serial) {
+        this.serial = serial;
+    }
+
+    public String getKodKrajuNadania() {
+        return kodKrajuNadania;
+    }
+
+    public void setKodKrajuNadania(String kodKrajuNadania) {
+        this.kodKrajuNadania = kodKrajuNadania;
     }
 
     public String getNrKontrahenta() {
         return nrKontrahenta;
+    }
+
+    public String getKodKrajuDoreczenia() {
+        return kodKrajuDoreczenia;
+    }
+
+    public void setKodKrajuDoreczenia(String kodKrajuDoreczenia) {
+        this.kodKrajuDoreczenia = kodKrajuDoreczenia;
     }
 
     public void setNrKontrahenta(String nrKontrahenta) {
@@ -151,6 +183,14 @@ public class KlientJPK implements Serializable {
 
     public void setDataWystawienia(String dataWystawienia) {
         this.dataWystawienia = dataWystawienia;
+    }
+
+    public String getJurysdykcja() {
+        return jurysdykcja;
+    }
+
+    public void setJurysdykcja(String jurysdykcja) {
+        this.jurysdykcja = jurysdykcja;
     }
 
     public String getDataSprzedazy() {
@@ -209,12 +249,52 @@ public class KlientJPK implements Serializable {
         this.vat = vat;
     }
 
+    public double getKurs() {
+        return kurs;
+    }
+
+    public void setKurs(double kurs) {
+        this.kurs = kurs;
+    }
+
+    public double getVatwaluta() {
+        return vatwaluta;
+    }
+
+    public void setVatwaluta(double vatwaluta) {
+        this.vatwaluta = vatwaluta;
+    }
+
+    public double getNettowaluta() {
+        return nettowaluta;
+    }
+
+    public void setNettowaluta(double nettowaluta) {
+        this.nettowaluta = nettowaluta;
+    }
+
+    public double getStawkavat() {
+        return stawkavat;
+    }
+
+    public void setStawkavat(double stawkavat) {
+        this.stawkavat = stawkavat;
+    }
+
     public String getWaluta() {
         return waluta;
     }
 
     public void setWaluta(String waluta) {
         this.waluta = waluta;
+    }
+
+    public boolean isWdt() {
+        return wdt;
+    }
+
+    public void setWdt(boolean wdt) {
+        this.wdt = wdt;
     }
     
     

@@ -22,7 +22,8 @@ import javax.xml.ws.soap.SOAPFaultException;
 public class Vies2 {
     
 
-   public static ViesVatRegistration  checkVat(javax.xml.ws.Holder<java.lang.String> countryCode, javax.xml.ws.Holder<java.lang.String> vatNumber, javax.xml.ws.Holder<javax.xml.datatype.XMLGregorianCalendar> requestDate, javax.xml.ws.Holder<Boolean> valid, javax.xml.ws.Holder<java.lang.String> name, javax.xml.ws.Holder<java.lang.String> address) throws ViesVatServiceException {
+   public static ViesVatRegistration  checkVat(javax.xml.ws.Holder<java.lang.String> countryCode, javax.xml.ws.Holder<java.lang.String> vatNumber, 
+           javax.xml.ws.Holder<javax.xml.datatype.XMLGregorianCalendar> requestDate, javax.xml.ws.Holder<Boolean> valid, javax.xml.ws.Holder<java.lang.String> name, javax.xml.ws.Holder<java.lang.String> address) throws ViesVatServiceException {
         CheckVatService chs = new CheckVatService();
         CheckVatPortType checkVatPort = chs.getCheckVatPort();
         try {
@@ -62,7 +63,9 @@ public class Vies2 {
     }
     
     
-    public static ViesVatRegistration checkVatApproxSimpl(javax.xml.ws.Holder<java.lang.String> countryCode, javax.xml.ws.Holder<java.lang.String> vatNumber)  {
+    public static ViesVatRegistration checkVatApproxSimpl(String kraj, String nip)  {
+        javax.xml.ws.Holder<java.lang.String> countryCode = new Holder<>(kraj);
+        javax.xml.ws.Holder<java.lang.String> vatNumber = new Holder<>(nip);
         javax.xml.ws.Holder<java.lang.String> traderName = new Holder<>();
         javax.xml.ws.Holder<java.lang.String> traderCompanyType = new Holder<>();
         javax.xml.ws.Holder<java.lang.String> traderStreet = new Holder<>();
@@ -118,8 +121,6 @@ public class Vies2 {
         javax.xml.ws.Holder<java.lang.String> traderStreet = new Holder<>();
         javax.xml.ws.Holder<java.lang.String> traderPostcode = new Holder<>();
         javax.xml.ws.Holder<java.lang.String> traderCity = new Holder<>();
-        javax.xml.ws.Holder<java.lang.String> countryCode = new Holder<>("DE");
-        javax.xml.ws.Holder<java.lang.String> vatNumber = new Holder<>("197456281");
         java.lang.String requesterCountryCode = "PL";
         java.lang.String requesterVatNumber = "8511005008";
         javax.xml.ws.Holder<javax.xml.datatype.XMLGregorianCalendar> requestDate = new Holder<>(data.Data.databiezaca());
@@ -140,12 +141,13 @@ public class Vies2 {
 //            java.util.logging.Logger.getLogger(Vies2.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //checkVatApprox(countryCode, vatNumber, traderName, traderCompanyType, traderStreet, traderPostcode, traderCity, requesterCountryCode, requesterVatNumber, requestDate, valid, traderAddress, traderNameMatch, traderCompanyTypeMatch, traderStreetMatch, traderPostcodeMatch, traderCityMatch, requestIdentifier);
-checkVatApproxSimpl(countryCode, vatNumber);
+checkVatApproxSimpl("DE", "197456281");
 //        } catch (ViesVatServiceException ex) {
 //            java.util.logging.Logger.getLogger(Vies2.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //        error.E.s("wynik "+sprawdzNIP.getKomunikat());
 //        error.E.s("symbol "+sprawdzNIP.getKod().value());
+System.out.println("");
     }
 
    

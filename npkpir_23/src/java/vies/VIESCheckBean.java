@@ -21,10 +21,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
-import javax.xml.ws.Holder;
 import org.jsoup.Connection;
 import org.jsoup.Connection.Method;
 import org.jsoup.Jsoup;
@@ -34,7 +31,6 @@ import org.jsoup.nodes.FormElement;
 import org.jsoup.select.Elements;
 import viesapi.Vies2;
 import viesapi.ViesVatRegistration;
-import viesapi.ViesVatServiceException;
 
 /**
  *
@@ -90,14 +86,27 @@ public class VIESCheckBean {
         return !isnumber;
     }
     
+    public static ViesVatRegistration pobierzKlient(String kraj, String nip) throws SocketTimeoutException {
+        ViesVatRegistration zwrot = null;
+        if (kraj.equals("GR")) {
+            kraj = "EL";
+        }
+        kraj = kraj.trim();
+        nip = nip.trim();
+        boolean jestprefix = sprawdznip(nip);
+        if (jestprefix) {
+            nip = nip.substring(2).trim();
+        }
+        zwrot = Vies2.checkVatApproxSimpl(kraj, nip);
+        return zwrot;
+    }
+    
     private static Vies pobierzAPI(String kraj, String nip, Klienci k, Podatnik podatnik, Uz wprowadzil) throws SocketTimeoutException {
         Vies zwrot = new Vies();
         if (kraj.equals("GR")) {
             kraj = "EL";
         }
-        javax.xml.ws.Holder<java.lang.String> countryCode = new Holder<>(kraj);
-        javax.xml.ws.Holder<java.lang.String> vatNumber = new Holder<>(nip);
-        ViesVatRegistration table = Vies2.checkVatApproxSimpl(countryCode, vatNumber);
+        ViesVatRegistration table = Vies2.checkVatApproxSimpl(kraj, nip);
         if (table != null) {
             zwrot.setPodatnik(podatnik);
             zwrot.setData(table.getRequestDate());

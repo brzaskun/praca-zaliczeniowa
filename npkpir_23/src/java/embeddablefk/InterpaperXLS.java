@@ -24,6 +24,8 @@ public class InterpaperXLS implements Serializable {
     private Date dataotrzymania;
     private Date datawystawienia;
     private Date datasprzedaży;
+    private String datawystawieniaS;
+    private String datasprzedażyS;
     private Date dataobvat;
     private String kontrahent;
     private Klienci klient;
@@ -55,6 +57,8 @@ public class InterpaperXLS implements Serializable {
     private String symbolzaksiegowanego;
     private Evewidencja evewidencja;
 
+
+  
     @Override
     public int hashCode() {
         int hash = 7;
@@ -416,6 +420,22 @@ public class InterpaperXLS implements Serializable {
 
     public void setEvewidencja(Evewidencja evewidencja) {
         this.evewidencja = evewidencja;
+    }
+
+    public String getDatawystawieniaS() {
+        return datawystawieniaS;
+    }
+
+    public void setDatawystawieniaS(String datawystawieniaS) {
+        this.datawystawieniaS = datawystawieniaS;
+    }
+
+    public String getDatasprzedażyS() {
+        return datasprzedażyS;
+    }
+
+    public void setDatasprzedażyS(String datasprzedażyS) {
+        this.datasprzedażyS = datasprzedażyS;
     }
 
     
