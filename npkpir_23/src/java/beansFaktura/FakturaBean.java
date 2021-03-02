@@ -56,9 +56,9 @@ public class FakturaBean {
     public static String uzyjwzorcagenerujnumerFaktura(String wzorzec, WpisView wpisView, FakturaDAO faktDAO) {
         String separator = znajdzseparator(wzorzec);
         Faktura ostatnidokument = faktDAO.findOstatniaFakturaByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt());
-        String mcostatniejfaktury = ostatnidokument.getMc();
+        String mcostatniejfaktury = ostatnidokument!=null? ostatnidokument.getMc():wpisView.getMiesiacWpisu();
         String[] elementypoprzedniafakt = elementydokumentu(ostatnidokument, separator);
-        String numerwstepny;
+        String numerwstepny ="";
         Faktura istnieje = null;
         do {
             if (mcostatniejfaktury.equals(wpisView.getMiesiacWpisu())) {
