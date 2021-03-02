@@ -21,8 +21,6 @@ import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.inject.Named;
 
 /**
@@ -174,6 +172,20 @@ public class PdfFont {
         return cell;
     }
     
+    public static PdfPCell ustawfrazeAlignBGColor(String fraza, String orient, int fontsize, BaseColor color) {
+        PdfPCell cell = null;
+        try {
+            String fraza2 = fraza != null ? fraza : "";
+            cell = new PdfPCell(new Phrase(fraza2,PF.getFont(Fonty.CALIBRI, fontsize)));
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            cell.setBackgroundColor(color);
+            getOrient(cell, orient);
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+        return cell;
+    }
+    
     public static PdfPCell ustawfrazeAlignLevel(String fraza, String orient, int fontsize, int level) {
         PdfPCell cell = null;
         try {
@@ -231,6 +243,37 @@ public class PdfFont {
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             getOrient(cell, orient);
             cell.setFixedHeight(fixedHeigth);
+            cell.setIndent(20);
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+        return cell;
+    }
+    
+    public static PdfPCell ustawfrazeAlign(Object fraza, String orient, int fontsize, float fixedHeigth, float intend) {
+        PdfPCell cell = null;
+        try {
+            String fraza2 = String.valueOf( fraza != null ? fraza : "");
+            cell = new PdfPCell(new Phrase(fraza2, PF.getFont(Fonty.CALIBRI, fontsize)));
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            getOrient(cell, orient);
+            cell.setFixedHeight(fixedHeigth);
+            cell.setIndent(intend);
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+        return cell;
+    }
+    
+    public static PdfPCell ustawfrazeAlignBold(Object fraza, String orient, int fontsize, float fixedHeigth, float intend) {
+        PdfPCell cell = null;
+        try {
+            String fraza2 = String.valueOf( fraza != null ? fraza : "");
+            cell = new PdfPCell(new Phrase(fraza2, PF.getFontBold(Fonty.CALIBRI, fontsize)));
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            getOrient(cell, orient);
+            cell.setFixedHeight(fixedHeigth);
+            cell.setIndent(intend);
         } catch (Exception ex) {
             E.e(ex);
         }

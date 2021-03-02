@@ -202,10 +202,15 @@ public class PozycjeNaFakturzeView implements Serializable {
                     case "odbiorcan":
                     case "wystawca":
                         zwrot = 180.0;
+                        break;
                     case "towary":
                         zwrot = 260.0;
+                        break;
                     case "platnosc":
                         zwrot = 110.0;
+                        break;
+                    case "fakturanumer":
+                        zwrot = 40.0;
                         break;
                 }
                 p.setWysokosc(zwrot);

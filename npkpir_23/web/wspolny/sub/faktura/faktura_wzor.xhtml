@@ -37,135 +37,126 @@
                     ustawstopkaniemiecka();
                 });
             </script>
-              <p:outputPanel style="background-color: #6374AB; height: 1672px; width: 1168px;">
+              <p:outputPanel>
+                  <h:outputText value="Rozmiar strony 595x842"/>
+              </p:outputPanel>
+              <p:outputPanel style="background-color: #6374AB; height: 842px; width: 595px;">
                   <p:panel id="nabywca" style="width: #{pozycjeNaFakturzeView.pW('nabywca')}px; height: #{pozycjeNaFakturzeView.pH('nabywca')}px;" >  
                     <p:panelGrid columns="2">
-                        <h:outputText value="Nabywca: " style="font-size: larger;"/><br/>
+                        <h:outputText value="Nabywca: " /><br/>
                         <h:outputText value="Marian Kowalski " /><br/>
                         <h:outputText value="Adres:" /> 
                         <h:outputText value="70-100 Szczecin ul. Zielona 15" />
-                        <h:outputText value="Nip:" />  
-                        <h:outputText value="851-100-50-08" />
                     </p:panelGrid>
                 </p:panel>
-                  <p:draggable for="nabywca" cursor="move" opacity="0.9" containment="parent" grid="8, 8"/>
+                  <p:draggable for="nabywca" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
                 <p:panel id="odbiorcan" style="width: #{pozycjeNaFakturzeView.pW('odbiorcan')}px; height: #{pozycjeNaFakturzeView.pH('odbiorcan')}px;"  rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('Dane Odbiorcy')}" >  
                     <p:panelGrid columns="2">
-                        <h:outputText value="OdbiorcaN: " style="font-size: larger;"/><br/>
+                        <h:outputText value="OdbiorcaN: " /><br/>
                         <h:outputText value="Jan Kowalski " /><br/>
                         <h:outputText value="Adres:" /> 
                         <h:outputText value="70-100 Szczecin ul. Bananowa 15" />
-                        <h:outputText value="Nip:" />  
-                        <h:outputText value="851-100-50-08" />
                     </p:panelGrid>
                 </p:panel>  
-                <p:draggable for="odbiorcan" cursor="move" opacity="0.9" containment="parent" grid="8, 8"/>
+                <p:draggable for="odbiorcan" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
                 <p:panel id="wystawca" style="width: #{pozycjeNaFakturzeView.pW('wystawca')}px; height: #{pozycjeNaFakturzeView.pH('wystawca')}px;"  rendered="#{!fakturadodelementyView.czydodatkowyelementjestAktywny('stopka niemiecka')}" >  
                     <p:panelGrid columns="2">
-                        <h:outputText value="Wystawca: " style="font-size: larger"/><br/>
+                        <h:outputText value="Wystawca: " /><br/>
                         <h:outputText value="Bober Mizialski"/><br/>
                         <h:outputText value="Adres:" />
                         <h:outputText value="70-100 Poznan ul. Bananowa 15" />
-                        <h:outputText value="Nip: " />  
-                        <h:outputText value="851-100-50-08" />
                     </p:panelGrid>
                 </p:panel>
-                <p:draggable for="wystawca" cursor="move" opacity="0.9" containment="parent" grid="8, 8"/>
-                <p:panel id="data" style="width: #{pozycjeNaFakturzeView.pW('data')}px;">  
+                <p:draggable for="wystawca" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
+                <p:panel id="data" style="width: #{pozycjeNaFakturzeView.pW('data')}px; height: #{pozycjeNaFakturzeView.pH('data')}px;">  
                     <p:panelGrid columns="1">
                         <h:outputText value="Data Szczecin, dnia 18.05.2013 " />
                     </p:panelGrid>
                 </p:panel>  
-                <p:draggable for="data" cursor="move" opacity="0.9" containment="parent" grid="8, 8"/>
-                <p:panel id="fakturanumer" style="width: #{pozycjeNaFakturzeView.pW('fakturanumer')}px;"  >  
+                <p:draggable for="data" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
+                <p:panel id="fakturanumer" style="width: #{pozycjeNaFakturzeView.pW('fakturanumer')}px; height: #{pozycjeNaFakturzeView.pH('fakturanumer')}px;"  >  
                     <p:panelGrid columns="2">
                         <h:outputText value="fakturanumer Faktura VAT nr 1/2003/WIZEX" style="font-size: larger;"/>
                     </p:panelGrid>
                 </p:panel>  
-                <p:draggable for="fakturanumer" cursor="move" opacity="0.9" containment="parent" grid="8, 8"/>
+                <p:draggable for="fakturanumer" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
                 <p:panel id="platnosc" style="width: #{pozycjeNaFakturzeView.pW('platnosc')}px; height: #{pozycjeNaFakturzeView.pH('platnosc')}px;"  >  
                     <p:panelGrid columns="4">
                         <h:outputText value="platnosc " /><h:outputText value="przelew" />
-                        <h:outputText value="termin zapłaty" /><h:outputText value="2013-05-06" />
                     </p:panelGrid>
                     <p:panelGrid columns="2">
                         <h:outputText value="konto bankowe" /><h:outputText value="99 1524 1524 1158 1522 1211 1574" />
-                        <h:outputText value="SWIFT" /><h:outputText value="BWFCTXSSS" />
                     </p:panelGrid>
                 </p:panel>  
-                <p:draggable for="platnosc" cursor="move" opacity="0.9" containment="parent" grid="8, 8"/>
-                <p:panel id="datasprzedazy"  style="width: #{pozycjeNaFakturzeView.pW('datasprzedazy')}px;">  
+                <p:draggable for="platnosc" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
+                <p:panel id="datasprzedazy"  style="width: #{pozycjeNaFakturzeView.pW('datasprzedazy')}px; height: #{pozycjeNaFakturzeView.pH('datasprzedazy')}px;">  
                     <p:panelGrid columns="2">
                         <h:outputText value="data sprzedaży 21-05-2013" />
                     </p:panelGrid>
                 </p:panel>
-                 <p:draggable for="datasprzedazy" cursor="move" opacity="0.9" containment="parent" grid="8, 8"/>
+                 <p:draggable for="datasprzedazy" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
                 <p:panel id="nrzamowienia"  style="width: #{pozycjeNaFakturzeView.pW('nrzamowienia')}px;" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('nr zamówienia')}" >  
                     <p:panelGrid columns="2">
                         <h:outputText value="#{fakturadodelementyView.pobierzelementdodatkowy('nr zamówienia')}"  />
                     </p:panelGrid>
                 </p:panel>
-                <p:draggable for="nrzamowienia" cursor="move" opacity="0.9" containment="parent" grid="8, 8"/>
+                <p:draggable for="nrzamowienia" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
                 <p:panel id="towary" style="width: #{pozycjeNaFakturzeView.pW('towary')}px; height: #{pozycjeNaFakturzeView.pH('towary')}px;"  >  
                     <p:dataTable value="#{pozycjeNaFakturzeView.zestaw}" var="wpis">
                         <p:column headerText="#{mgs.numerkolejny}" width="30"><h:outputText value="#{wpis.lp}"/></p:column>
                         <p:column headerText="Nazwa towaru/usługi" width="80"><h:outputText value="#{wpis.nazwa}"/></p:column>
-                        <p:column headerText="Symbol PKWiU"><h:outputText value="#{wpis.PKWiU}"/></p:column>
                         <p:column headerText="j.m."><h:outputText value="#{wpis.jednostka}"/></p:column>
                         <p:column headerText="il."><h:outputText value="#{wpis.ilosc}"/></p:column>
                         <p:column headerText="Cena jedn. bez pod."><h:outputText value="#{wpis.cena}"/></p:column>
-                        <p:column headerText="Wartość bez pod."><h:outputText value="#{wpis.netto}"/></p:column>
                         <p:column headerText="Podatek %"><h:outputText value="#{wpis.podatek}"/></p:column>
                         <p:column headerText="Podatek kwota"><h:outputText value="#{wpis.podatekkwota}"/></p:column>
                         <p:column headerText="Wartość z pod."><h:outputText value="#{wpis.brutto}"/></p:column>
-                        <p:column headerText="Uwagi"><h:outputText value=" "/></p:column>
                     </p:dataTable>
-                    <p:draggable for="towary" cursor="move" opacity="0.9" containment="parent" grid="8, 8"/>
+                    <p:draggable for="towary" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
                 </p:panel>
                 <p:panel id="dozaplaty" style="width: #{pozycjeNaFakturzeView.pW('dozaplaty')}px;"  >  
                     <p:panelGrid columns="1">
                         <h:outputText value="Do zapłaty: 12450,26zł" />
                         <h:outputText value="słownie do zapłaty: dwanaście tysięcy czterysta pięćdziesiąt sześć złotych dwadzieścia sześć groszy" />
                     </p:panelGrid>
-                    <p:draggable for="dozaplaty" cursor="move" opacity="0.9" containment="parent" grid="8, 8"/>
+                    <p:draggable for="dozaplaty" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
                 </p:panel>
                 <p:panel id="podpis" style="width: #{pozycjeNaFakturzeView.pW('podpis')}px;"  >  
                     <p:panelGrid columns="1">
-                        <h:outputText value="___________________________________" />
-                        <h:outputText value="upoważniony do wystawienia faktury" />
-                        <h:outputText value="Marianna Kowalska-Botonek" />
+                        <h:outputText value="______________________" />
+                        <h:outputText value="PODPIS" />
                     </p:panelGrid>
-                    <p:draggable for="podpis" cursor="move" opacity="0.9" containment="parent" grid="8, 8"/>
+                    <p:draggable for="podpis" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
                 </p:panel>
                 <p:panel id="przewłaszczenie" style="width: 450px;" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('przewłaszczenie')}" >  
                     <p:panelGrid columns="1">
                         <h:outputText value="#{fakturadodelementyView.pobierzelementdodatkowy('przewłaszczenie')}" />
                     </p:panelGrid>
-                    <p:draggable for="przewłaszczenie" cursor="move" opacity="0.9" containment="parent" grid="8, 8" />
+                    <p:draggable for="przewłaszczenie" cursor="move" opacity="0.9" containment="parent" grid="4, 4" />
                 </p:panel>
                 <p:panel id="warunkidostawy" style="width: 700px;" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('warunki dostawy')}" >  
                     <p:panelGrid columns="1">
                         <h:outputText value="#{fakturadodelementyView.pobierzelementdodatkowy('warunki dostawy')}" />
                     </p:panelGrid>
-                    <p:draggable for="warunkidostawy" cursor="move" opacity="0.9" containment="parent" grid="8, 8"/>
+                    <p:draggable for="warunkidostawy" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
                 </p:panel>
                 <p:panel id="poleUwagi" style="width: 400px;" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('pole Uwagi')}" >  
                     <p:panelGrid columns="1">
                         <h:outputText value="#{fakturadodelementyView.pobierzelementdodatkowy('pole Uwagi')}" />
                     </p:panelGrid>
-                    <p:draggable for="poleUwagi" cursor="move" opacity="0.9" containment="parent" grid="8, 8"/>
+                    <p:draggable for="poleUwagi" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
                 </p:panel>
                 <p:panel id="wezwaniedozapłaty" style="width: #{pozycjeNaFakturzeView.pW('podpis')}px;" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('wezwanie do zapłaty')}" >  
                     <p:panelGrid columns="1">
                         <h:outputText value="#{fakturadodelementyView.pobierzelementdodatkowy('wezwanie do zapłaty')}" />
                     </p:panelGrid>
-                    <p:draggable for="wezwaniedozapłaty" cursor="move" opacity="0.9" containment="parent" grid="8, 8"/>
+                    <p:draggable for="wezwaniedozapłaty" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
                 </p:panel>
                 <p:panel id="logo" style="width: #{fakturadodelementyView.pozycjecss.get('logo')[0]}px; height: #{fakturadodelementyView.pozycjecss.get('logo')[1]}px;" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('logo')}" >  
                     <p:panelGrid columns="1">
                         <h:outputText value="#{fakturadodelementyView.pobierzelementdodatkowy('logo')} rozmiary width: #{fakturadodelementyView.pozycjecss.get('logo')[0]} height: #{fakturadodelementyView.pozycjecss.get('logo')[1]}" />
                     </p:panelGrid>
-                    <p:draggable for="logo" cursor="move" opacity="0.9" containment="parent" grid="8, 8"/>
+                    <p:draggable for="logo" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
                 </p:panel>
                 <p:panel id="stopkaniemiecka" style="width: 1150px; height: 150px;color: gray; background-color: gray; margin-top: 300px;" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('stopka niemiecka')}" >  
                     <p:panelGrid columns="1">

@@ -10,7 +10,6 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.pdf.BaseFont;
-import error.E;
 import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import javax.faces.context.FacesContext;
@@ -30,7 +29,7 @@ public class PF {
             FontFactory.register(realPath+"resources/fonts/"+nazwafontu+".ttf");
             zwrot = FontFactory.getFont(nazwafontu, BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 8); //10 is the size
          } catch (Exception ex) {
-            E.e(ex);
+            //E.e(ex);
             zwrot = getDefault(8);
         }
         return zwrot;
@@ -44,7 +43,22 @@ public class PF {
             FontFactory.register(realPath+"resources/fonts/"+nazwafontu+".ttf");
             zwrot = FontFactory.getFont(nazwafontu, BaseFont.IDENTITY_H, BaseFont.EMBEDDED, size); //10 is the size
          } catch (Exception ex) {
-            E.e(ex);
+            //E.e(ex);
+            zwrot = getDefault(size);
+        }
+        return zwrot;
+    }
+    
+    public static Font getFontBold(String nazwafontu, int size) {
+        Font zwrot = null;
+        try {
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/");
+            FontFactory.register(realPath+"resources/fonts/"+nazwafontu+".ttf");
+            zwrot = FontFactory.getFont(nazwafontu, BaseFont.IDENTITY_H, BaseFont.EMBEDDED, size); //10 is the size
+            zwrot.setStyle(Font.BOLD);
+         } catch (Exception ex) {
+            //E.e(ex);
             zwrot = getDefault(size);
         }
         return zwrot;
@@ -59,7 +73,7 @@ public class PF {
             zwrot = FontFactory.getFont(nazwafontu, BaseFont.IDENTITY_H, BaseFont.EMBEDDED, size); //10 is the size
             zwrot.setColor(pobierzkolor(kolor));
          } catch (Exception ex) {
-            E.e(ex);
+            //E.e(ex);
             zwrot = getDefault(size);
         }
         return zwrot;
@@ -87,9 +101,9 @@ public class PF {
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
             zwrot = new Font(helvetica, size);
         } catch (DocumentException ex) {
-            E.e(ex);
+            //E.e(ex);
         } catch (IOException ex) {
-            E.e(ex);
+            //E.e(ex);
         }
         return zwrot;
     }

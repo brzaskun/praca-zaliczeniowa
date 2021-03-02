@@ -8,6 +8,7 @@ package beansPdf;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAF;
 import static beansPdf.PdfFont.ustawfrazeAlign;
+import static beansPdf.PdfFont.ustawfrazeAlignBGColor;
 import static beansPdf.PdfFont.ustawfrazeAlignNOBorder;
 import static beansPdf.PdfGrafika.prost;
 import com.itextpdf.text.BaseColor;
@@ -201,163 +202,163 @@ public class PdfFP {
 
     public static Map<String, Integer> pobierzwymiarGora(List<Pozycjenafakturze> lista) {
         Map<String, Integer> wymiary = new ConcurrentHashMap<>();
-        int gornylimit = 836;
+        int gornylimit = 900;
         for (Pozycjenafakturze p : lista) {
-            int wymiargora = (p.getGora() / 2);
+            int wymiargora = (p.getGora() / 1);
             wymiary.put(p.getNazwa(), gornylimit - wymiargora);
         }
         return wymiary;
     }
+    
+     public static Map<String, Integer> pobierzwymiarLewy(List<Pozycjenafakturze> lista) {
+        Map<String, Integer> wymiary = new ConcurrentHashMap<>();
+        int gornylimit = -20;
+        for (Pozycjenafakturze p : lista) {
+            int wymiarlewy = (p.getLewy() / 1);
+            wymiary.put(p.getNazwa(), gornylimit + wymiarlewy);
+        }
+        return wymiary;
+    }
 
-    public static void dolaczpozycjedofaktury(FakturaelementygraficzneDAO fakturaelementygraficzneDAO, PdfWriter writer, Faktura selected, Map<String, Integer> wymiaryGora, List<Pozycjenafakturze> skladnikifaktury, Podatnik podatnik, Document document, List<Fakturadodelementy> elementydod, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO) throws DocumentException, IOException {
+    public static void dolaczpozycjedofaktury(FakturaelementygraficzneDAO fakturaelementygraficzneDAO, PdfWriter writer, Faktura selected, Map<String, Integer> wymiaryGora, Map<String, Integer> wymiarylewy, List<Pozycjenafakturze> skladnikifaktury, Podatnik podatnik, Document document, List<Fakturadodelementy> elementydod, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO) throws DocumentException, IOException {
         int wierszewtabelach = PdfFP.obliczwierszewtabelach(selected);
         Pozycjenafakturze pozycja = new Pozycjenafakturze();
         String adres = "";
         String text = null;
-        float dzielnik = 2;
+        float dzielnik = 1;
         boolean bylnabywca=false;
         for (Pozycjenafakturze p : skladnikifaktury) {
-            int szerokosc = (int) (p.getSzerokosc()/2);
-            int wysokosc = (int) (p.getWysokosc()/2);
+            int szerokosc = (int) (p.getSzerokosc()/1);
+            int wysokosc = (int) (p.getWysokosc()/1);
             switch (p.getNazwa()) {
                 case "akordeon:formwzor:data":
                     //Dane do moudlu data
-                    pozycja = zwrocPolozenieElementu(skladnikifaktury, "data");
-                    prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:data") - 5, szerokosc, 15);
+//                    pozycja = zwrocPolozenieElementu(skladnikifaktury, "data");
+//                    prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:data") - 5, szerokosc, wysokosc);
+//                    absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:data"), 8);
                     text = selected.getMiejscewystawienia() + " "+B.b("dnia")+": " + selected.getDatawystawienia();
-                    absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:data"), 8);
+                    PdfPTable table = PdfFTablice.wygenerujtabliceDaty(text,szerokosc, wysokosc, 10);
+                    table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:data"), wymiaryGora.get("akordeon:formwzor:data"), writer.getDirectContent());
                     break;
                 case "akordeon:formwzor:datasprzedazy":
                     //Dane do moudlu data
-                    pozycja = zwrocPolozenieElementu(skladnikifaktury, "datasprzedazy");
-                    prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:datasprzedazy") - 5, szerokosc, 15);
                     text = B.b("datasprzedazy")+": " + selected.getDatasprzedazy();
-                    absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:datasprzedazy"), 8);
+//                    pozycja = zwrocPolozenieElementu(skladnikifaktury, "datasprzedazy");
+//                    prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:datasprzedazy") - 5, szerokosc, wysokosc);
+//                    
+//                    absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:datasprzedazy"), 8);
+                    table = PdfFTablice.wygenerujtabliceDaty(text,szerokosc, wysokosc, 10);
+                    table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:datasprzedazy"), wymiaryGora.get("akordeon:formwzor:datasprzedazy"), writer.getDirectContent());
                     break;
                 case "akordeon:formwzor:fakturanumer":
-                    //Dane do modulu fakturanumer
-                    pozycja = zwrocPolozenieElementu(skladnikifaktury, "fakturanumer");
-                    prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:fakturanumer") - 5, szerokosc, 20);
                     if (selected.isGutschrift()) {
-                        text = "Gutschrift Nr "+ selected.getNumerkolejny();
+                        text = "Gutschrift Nr ";
                     } else {
                         if (selected.isZaliczkowa()) {
-                            text = B.b("fakturazaliczkowanr")+" "+ selected.getNumerkolejny();
+                            text = B.b("fakturazaliczkowanr");
                         } else if (selected.getPozycjepokorekcie() != null) {
-                            text = B.b("fakturakorektanr")+" "+ selected.getNumerkolejny();
+                            text = B.b("fakturakorektanr");
                         } else {
-                            text = B.b("fakturanr")+" "+ selected.getNumerkolejny();
+                            text = B.b("fakturanr");
                         }
                     }
-                    absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:fakturanumer"), 10);
+                    table = PdfFTablice.wygenerujtabliceNrfaktury(text, selected.getNumerkolejny(), szerokosc, wysokosc, 10);
+                    table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:fakturanumer"), wymiaryGora.get("akordeon:formwzor:fakturanumer"), writer.getDirectContent());
+//                    prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:fakturanumer") - 5, szerokosc, wysokosc);
+//                    if (selected.isGutschrift()) {
+//                        text = "Gutschrift Nr "+ selected.getNumerkolejny();
+//                    } else {
+//                        if (selected.isZaliczkowa()) {
+//                            text = B.b("fakturazaliczkowanr")+" "+ selected.getNumerkolejny();
+//                        } else if (selected.getPozycjepokorekcie() != null) {
+//                            text = B.b("fakturakorektanr")+" "+ selected.getNumerkolejny();
+//                        } else {
+//                            text = B.b("fakturanr")+" "+ selected.getNumerkolejny();
+//                        }
+//                    }
+//                    absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:fakturanumer")+(wysokosc/2)-5, 10);
                     break;
                 case "akordeon:formwzor:wystawca":
                     //Dane do modulu sprzedawca
                     if (!czydodatkowyelementjestAktywny("stopka niemiecka", elementydod)) {
-                        pozycja = zwrocPolozenieElementu(skladnikifaktury, "wystawca");
-                        prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:wystawca") - 65, szerokosc, wysokosc);
-                        absText(writer, B.b("sprzedawca")+": ", (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca"), 10);
+                        String sprzedawca = B.b("sprzedawca")+": ";
                         String wystawca = selected.getWystawca().getNazwadlafaktury()!=null?selected.getWystawca().getNazwadlafaktury():selected.getWystawcanazwa();
-                        if (wystawca.length() < 50) {
-                             absText(writer, wystawca, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca") - 20, 8);
-                        } else {
-                            PdfFP.absColumn(writer, wystawca, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca") - 25, 8);
-                        }
                         adres = selected.getWystawca().getAdresdlafaktury();
-                        absText(writer, adres, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca") - 40, 8);
-                        String nip = selected.getWystawca().getNipdlafaktury() != null ? selected.getWystawca().getNipdlafaktury() : selected.getWystawca().getNip();
-                        absText(writer, B.b("NIP")+": " + selected.getWystawca().getNipdlafaktury(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wystawca") - 60, 8);
+                        String nip = selected.getWystawca().getNipdlafaktury() != null ? B.b("NIP")+": "+selected.getWystawca().getNipdlafaktury() : B.b("NIP")+": "+selected.getWystawca().getNip();
+                        table = PdfFTablice.wygenerujtabliceWystawcaOdbiorca(sprzedawca, wystawca, adres, nip, szerokosc, wysokosc, 10);
+                        table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:wystawca"), wymiaryGora.get("akordeon:formwzor:wystawca"), writer.getDirectContent());
                     }
                     break;
                 case "akordeon:formwzor:odbiorcan":
                     if (selected.getOdbiorca()!=null && selected.getOdbiorca().getNip()!=null) {
                         //Dane do modulu odbiorca
-                        pozycja = zwrocPolozenieElementu(skladnikifaktury, "odbiorcan");
-                        prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:odbiorcan") - 65, szerokosc, wysokosc);
-                        absText(writer, B.b("odbiorca")+": ", (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorcan"), 10);
-                        if (selected.getOdbiorca().getNpelna().length() < 50) {
-                             absText(writer, selected.getOdbiorca().getNpelna(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorcan") - 20, 8);
-                        } else {
-                            PdfFP.absColumn(writer, selected.getOdbiorca().getNpelna(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorcan") - 25, 8);
-                        }
+                        String odbiorca  = B.b("odbiorca")+": ";
+                        String nplna = selected.getOdbiorca().getNpelna();
                         if (selected.getOdbiorca().getLokal() != null && !selected.getOdbiorca().getLokal().equals("-") && !selected.getOdbiorca().getLokal().equals("")) {
                             adres = selected.getOdbiorca().getKodpocztowy() + " " + selected.getOdbiorca().getMiejscowosc() + " " + selected.getOdbiorca().getUlica() + " " + selected.getOdbiorca().getDom() + "/" + selected.getOdbiorca().getLokal();
                         } else {
                             adres = selected.getOdbiorca().getKodpocztowy() + " " + selected.getOdbiorca().getMiejscowosc() + " " + selected.getOdbiorca().getUlica() + " " + selected.getOdbiorca().getDom();
                         }
-                        absText(writer, adres, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorcan") - 40, 8);
                         if (selected.getOdbiorca().getNip() != null && selected.getOdbiorca().getNip().startsWith("XX")) {
                             text = B.b("numerklienta")+": " + selected.getOdbiorca().getNip();
                         } else {
                             text = B.b("NIP")+": " + selected.getOdbiorca().getNip();
                         }
-                        absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorcan") - 60, 8);
+                        table = PdfFTablice.wygenerujtabliceWystawcaOdbiorca(odbiorca, nplna, adres, text, szerokosc, wysokosc, 10);
+                        table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:odbiorcan"), wymiaryGora.get("akordeon:formwzor:odbiorcan"), writer.getDirectContent());
                     }
                     break;
                 case "akordeon:formwzor:nabywca":
                     //Dane do modulu odbiorca
                     if (bylnabywca==false) {
-                        pozycja = zwrocPolozenieElementu(skladnikifaktury, "nabywca");
-                        prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:nabywca") - 65, szerokosc, wysokosc);
-                        absText(writer, B.b("nabywca")+": ", (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:nabywca"), 10);
-                        if (selected.getKontrahent().getNpelna().length() < 50) {
-                             absText(writer, selected.getKontrahent().getNpelna(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:nabywca") - 20, 8);
-                        } else {
-                            PdfFP.absColumn(writer, selected.getKontrahent().getNpelna(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:nabywca") - 25, 8);
-                        }
+                        String nabywca = B.b("nabywca")+": ";
+                        String kontrahent = selected.getKontrahent().getNpelna();
                         if (selected.getKontrahent().getLokal() != null && !selected.getKontrahent().getLokal().equals("-") && !selected.getKontrahent().getLokal().equals("")) {
                             adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom() + "/" + selected.getKontrahent().getLokal();
                         } else {
                             adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom();
                         }
-                        absText(writer, adres, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:nabywca") - 40, 8);
+                        String nip = B.b("NIP")+": " + selected.getKontrahent().getNip();
                         if (selected.getKontrahent().getNip() != null && selected.getKontrahent().getNip().startsWith("XX")) {
-                            text = B.b("numerklienta")+": " + selected.getKontrahent().getNip();
-                        } else {
-                            text = B.b("NIP")+": " + selected.getKontrahent().getNip();
+                            nip = B.b("numerklienta")+": " + selected.getKontrahent().getNip();
                         }
-                        absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:nabywca") - 60, 8);
                         bylnabywca=true;
+                        table = PdfFTablice.wygenerujtabliceWystawcaOdbiorca(nabywca, kontrahent, adres, nip, szerokosc, wysokosc, 10);
+                        table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:nabywca"), wymiaryGora.get("akordeon:formwzor:nabywca"), writer.getDirectContent());
                     }
                     break;
                 case "akordeon:formwzor:odbiorca":
                     if (bylnabywca==false) {
-                        pozycja = zwrocPolozenieElementu(skladnikifaktury, "odbiorca");
-                        prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:odbiorca") - 65, szerokosc, wysokosc);
-                        absText(writer, B.b("odbiorca")+": ", (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca"), 10);
-                        if (selected.getKontrahent().getNpelna().length() < 50) {
-                             absText(writer, selected.getKontrahent().getNpelna(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca") - 20, 8);
-                        } else {
-                            PdfFP.absColumn(writer, selected.getKontrahent().getNpelna(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca") - 25, 8);
-                        }
+                        String odbiorca = B.b("odbiorca")+": ";
+                        String kontrahent = selected.getKontrahent().getNpelna();
                         if (selected.getKontrahent().getLokal() != null && !selected.getKontrahent().getLokal().equals("-") && !selected.getKontrahent().getLokal().equals("")) {
                             adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom() + "/" + selected.getKontrahent().getLokal();
                         } else {
                             adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom();
                         }
-                        absText(writer, adres, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca") - 40, 8);
                         if (selected.getKontrahent().getNip() != null && selected.getKontrahent().getNip().startsWith("XX")) {
                             text = B.b("numerklienta")+": " + selected.getKontrahent().getNip();
                         } else {
                             text = B.b("NIP")+": " + selected.getKontrahent().getNip();
                         }
-                        absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:odbiorca") - 60, 8);
                         bylnabywca=true;
+                        table = PdfFTablice.wygenerujtabliceWystawcaOdbiorca(odbiorca, kontrahent, adres, text, szerokosc, wysokosc, 10);
+                        table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:nabywca"), wymiaryGora.get("akordeon:formwzor:nabywca"), writer.getDirectContent());
                     }
                     break;
                 case "akordeon:formwzor:towary":
                     //Dane do tablicy z wierszami
                     pozycja = zwrocPolozenieElementu(skladnikifaktury, "towary");
-                    PdfPTable table = null;
+                    table = null;
                     PdfPTable tablekorekta = null;
                     if (selected.getPozycjepokorekcie() != null && selected.isFakturavatmarza() == true) {
                         table = wygenerujtablicevatmarza(false, selected.getPozycjenafakturze(), selected);
                         tablekorekta = wygenerujtablicevatmarza(true, selected.getPozycjepokorekcie(), selected);
                     } else if (selected.getPozycjepokorekcie() != null && selected.isFakturaxxl() == false) {
-                        table = wygenerujtablice(false, selected.getPozycjenafakturze(), selected);
-                        tablekorekta = wygenerujtablice(true, selected.getPozycjepokorekcie(), selected);
+                        table = wygenerujtablice(false, selected.getPozycjenafakturze(), selected, szerokosc);
+                        tablekorekta = wygenerujtablice(true, selected.getPozycjepokorekcie(), selected, szerokosc);
                     } else if (selected.getPozycjepokorekcie() == null && selected.isFakturaNormalna()) {
-                        table = wygenerujtablice(false, selected.getPozycjenafakturze(), selected);
+                        table = wygenerujtablice(false, selected.getPozycjenafakturze(), selected, szerokosc);
                     } else if (selected.getPozycjepokorekcie() == null && selected.isFakturavatmarza()) {
                         table = wygenerujtablicevatmarza(false, selected.getPozycjenafakturze(), selected);
                     } else if (selected.getPozycjepokorekcie() == null && selected.isRachunek()) {
@@ -381,13 +382,13 @@ public class PdfFP {
                         }
                     }
                     // write the table to an absolute position
-                    table.writeSelectedRows(0, table.getRows().size(), (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:towary"), writer.getDirectContent());
+                    table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:towary"), wymiaryGora.get("akordeon:formwzor:towary"), writer.getDirectContent());
                     if (selected.getPozycjepokorekcie() != null) {
                         int odstep = wymiaryGora.get("akordeon:formwzor:towary") - (table.getRows().size() * 17);
-                        tablekorekta.writeSelectedRows(0, tablekorekta.getRows().size(), (pozycja.getLewy() / dzielnik), odstep, writer.getDirectContent());
+                        tablekorekta.writeSelectedRows(0, tablekorekta.getRows().size(), wymiarylewy.get("akordeon:formwzor:towary"), odstep, writer.getDirectContent());
                         int odstep1 = wymiaryGora.get("akordeon:formwzor:towary") - (table.getRows().size() * 17) - (tablekorekta.getRows().size() * 17);
                         text = B.b("przyczynakorekty")+": " + selected.getPrzyczynakorekty();
-                        absText(writer, text, (int) (pozycja.getLewy() / dzielnik), odstep1, 8);
+                        absText(writer, text, wymiarylewy.get("akordeon:formwzor:towary"), odstep1, 8);
                     }
                     break;
                 case "akordeon:formwzor:logo":
@@ -407,7 +408,7 @@ public class PdfFP {
                                 float wysokoscg = zamienStringnaFloat(element.getWysokosc());
                                 float szerokoscg = zamienStringnaFloat(element.getSzerokosc());
                                 logo.scaleToFit(szerokoscg, wysokoscg);
-                                logo.setAbsolutePosition((pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:logo") - wysokoscg * .85f); //e
+                                logo.setAbsolutePosition((pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:logo") - wysokoscg); //e
                                 // Add paragraph to PDF document.
                                 document.add(logo);
                             }
@@ -458,53 +459,69 @@ public class PdfFP {
                     break;
                 case "akordeon:formwzor:platnosc":
                     //Dane do modulu platnosc
-                    pozycja = zwrocPolozenieElementu(skladnikifaktury, "platnosc");
-                    prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:platnosc") - 55, szerokosc, wysokosc);
+//                    pozycja = zwrocPolozenieElementu(skladnikifaktury, "platnosc");
+//                    prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:platnosc") - 55, szerokosc, wysokosc);
                     String sposobzaplaty = selected.getSposobzaplaty();
                     boolean zaplacono = selected.isZaplacona();
+                    String[] ttext = new String[2];
+                    String[] ttext1 = new String[2];
+                    String[] ttext2 = new String[2];
+                    String[] ttext3 = new String[2];
                     if (zaplacono) {
-                        text = B.b("zapłacono")+": " + B.b(selected.getSposobzaplaty());
-                        absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:platnosc"), 8);
-                        text = B.b("datazapłaty")+": " + selected.getTerminzaplaty();
-                        absText(writer, text, (int) (pozycja.getLewy() / dzielnik) + 100, wymiaryGora.get("akordeon:formwzor:platnosc"), 8);
+                        ttext[0] = B.b("zapłacono");
+                        ttext[1] = B.b(selected.getSposobzaplaty());
+                        ttext1[0] = B.b("datazapłaty");
+                        ttext1[1] = selected.getTerminzaplaty();
                     } else {
-                        text = B.b("sposobzaplaty")+": " + B.b(selected.getSposobzaplaty());
-                        absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:platnosc"), 8);
-                        text = B.b("terminplatnosci")+": " + selected.getTerminzaplaty();
-                        absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:platnosc")-15, 8);
+                        ttext[0] = B.b("sposobzaplaty");
+                        ttext[1] = B.b(selected.getSposobzaplaty());
+                        ttext1[0] = B.b("terminplatnosci");
+                        ttext1[1] = selected.getTerminzaplaty();
                     }
                     
                     if (sposobzaplaty.equals("przelew") && selected.getNrkontabankowego() != null && !selected.getNrkontabankowego().equals("")) {
-                        text = B.b("nrkontabankowego")+": " + selected.getNrkontabankowego();
                         if (selected.getSposobzaplaty().equals("przelew") && selected.getNrkontabankowego() != null) {
-                            absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:platnosc") - 30, 8);
+                            ttext2[0] = B.b("nrkontabankowego");
+                            ttext2[1] = selected.getNrkontabankowego();
                         }
                         if (selected.getSposobzaplaty().equals("przelew") && selected.getSwift() != null) {
-                            text = "SWIFT: " + selected.getSwift();
-                            absText(writer, text, (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:platnosc") - 45, 8);
+                            ttext2[0] = "SWIFT: ";
+                            ttext2[1] = selected.getSwift();
                         }
                     }
+                    table = PdfFTablice.wygenerujtablicePlatnosc(ttext, ttext1,ttext2,ttext3, szerokosc, wysokosc, 8);
+                    pozycja = zwrocPolozenieElementu(skladnikifaktury, "platnosc");
+                    table.writeSelectedRows(0, table.getRows().size(),  wymiarylewy.get("akordeon:formwzor:platnosc"), wymiaryGora.get("akordeon:formwzor:platnosc"), writer.getDirectContent());
                     break;
                 case "akordeon:formwzor:dozaplaty":
                     //Dane do modulu platnosc
-                    pozycja = zwrocPolozenieElementu(skladnikifaktury, "dozaplaty");
-                    prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:dozaplaty") - 25, szerokosc, 35);
+//                    pozycja = zwrocPolozenieElementu(skladnikifaktury, "dozaplaty");
+//                    prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:dozaplaty") - 25, szerokosc, 35);
                     double wynik = 0;
                     if (selected.getPozycjepokorekcie() != null) {
                         wynik = Z.z((selected.getNettopk() + selected.getVatpk()) - (selected.getNetto() + selected.getVat()));
                     } else {
                         wynik = Z.z(selected.getNetto() + selected.getVat());
                     }
+                    ttext = new String[2];
+                    ttext1 = new String[2];
                     if (wynik > 0) {
-                        absText(writer, B.b("dozaplaty")+": " + przerobkwote(wynik) + " " + selected.getWalutafaktury(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:dozaplaty"), 8);
+                        ttext[0] = B.b("dozaplaty")+": ";
+                        ttext[1] = przerobkwote(wynik) + " " + selected.getWalutafaktury();
                     } else {
-                        absText(writer, B.b("dozwrotu")+": " + przerobkwote(wynik) + " " + selected.getWalutafaktury(), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:dozaplaty"), 8);
+                        ttext[0] = B.b("dozwrotu")+": ";
+                        ttext[1] = przerobkwote(wynik) + " " + selected.getWalutafaktury();
                     }
                     if (FacesContext.getCurrentInstance().getViewRoot().getLocale().getLanguage().equals("pl_pl") || FacesContext.getCurrentInstance().getViewRoot().getLocale().getLanguage().equals("pl")) {
-                        absText(writer, B.b("slownie")+": "  + Slownie.slownie(String.valueOf(wynik),selected.getWalutafaktury()), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:dozaplaty") - 20, 8);
+                        ttext1[0] = B.b("slownie")+": ";
+                        ttext1[1] = Slownie.slownie(String.valueOf(wynik),selected.getWalutafaktury());
                     } else {
-                        absText(writer, B.b("slownie")+": "  + SlownieDE.slownie(String.valueOf(wynik),selected.getWalutafaktury()), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:dozaplaty") - 20, 8);
+                        ttext1[0] = B.b("slownie")+": ";
+                        ttext1[1] = SlownieDE.slownie(String.valueOf(wynik),selected.getWalutafaktury());
                     }
+                    table = PdfFTablice.wygenerujtabliceDozaplaty(ttext, ttext1, szerokosc, wysokosc, 8);
+                    pozycja = zwrocPolozenieElementu(skladnikifaktury, "dozaplaty");
+                    table.writeSelectedRows(0, table.getRows().size(),  wymiarylewy.get("akordeon:formwzor:dozaplaty"), wymiaryGora.get("akordeon:formwzor:dozaplaty"), writer.getDirectContent());
                     break;
                 case "akordeon:formwzor:podpis":
                     //Dane do modulu platnosc
@@ -676,7 +693,7 @@ public class PdfFP {
                 case "akordeon:formwzor:towary":
                     //Dane do tablicy z wierszami
                     pobrane = zwrocPolozenieElementu(skladnikifaktury, "towary");
-                    return wygenerujtablice(false, selected.getPozycjenafakturze(), selected);
+                    return wygenerujtablice(false, selected.getPozycjenafakturze(), selected, p.getSzerokosc());
                 default:
                     break;
             }
@@ -706,7 +723,7 @@ public class PdfFP {
                 case "akordeon:formwzor:towary":
                     //Dane do tablicy z wierszami
                     pobrane = zwrocPolozenieElementu(skladnikifaktury, "towary");
-                    return wygenerujtablice(true, selected.getPozycjepokorekcie(), selected);
+                    return wygenerujtablice(true, selected.getPozycjepokorekcie(), selected, p.getSzerokosc());
                 default:
                     break;
             }
@@ -822,15 +839,25 @@ public class PdfFP {
         return null;
     }
 
-    private static PdfPTable wygenerujtablice(boolean korekta, List<Pozycjenafakturzebazadanych> poz, Faktura selected) throws DocumentException, IOException {
+    private static PdfPTable wygenerujtablice(boolean korekta, List<Pozycjenafakturzebazadanych> poz, Faktura selected, double szerokosc) throws DocumentException, IOException {
         NumberFormat formatter = NumberFormat.getNumberInstance();
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);
+        float x1 = (float) (szerokosc*.03);
+        float x2 = (float) (szerokosc*.30);
+        float x3 = (float) (szerokosc*.07);
+        float x4 = (float) (szerokosc*.07);
+        float x5 = (float) (szerokosc*.07);
+        float x6 = (float) (szerokosc*.08);
+        float x7 = (float) (szerokosc*.09);
+        float x8 = (float) (szerokosc*.08);
+        float x9 = (float) (szerokosc*.09);
+        float x10 = (float) (szerokosc*.09);
+        float x11 = (float) (szerokosc*.03);
         PdfPTable table = new PdfPTable(11);
-        table.setTotalWidth(new float[]{20, 180, 40, 40, 40, 50, 60, 50, 60, 60, 30});
-        // set the total width of the table
-        table.setTotalWidth(540);
+        table.setTotalWidth(new float[]{x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11});
+        table.setLockedWidth(true);
         if (selected.getPozycjepokorekcie() != null) {
             if (korekta) {
                 table.addCell(ustawfrazeAlign("", "center", 8));
@@ -858,18 +885,18 @@ public class PdfFP {
                 table.addCell(ustawfrazeAlign("", "center", 8));
             }
         }
-        table.addCell(ustawfrazeAlign(B.b("lp"), "center", 8));
+        table.addCell(ustawfrazeAlignBGColor(B.b("lp"), "center", 8, BaseColor.LIGHT_GRAY));
         String opis = selected.getNazwa() != null ? selected.getNazwa() : B.b("opis");
-        table.addCell(ustawfrazeAlign(opis, "center", 8));
-        table.addCell(ustawfrazeAlign(B.b("pkwiu"), "center", 8));
-        table.addCell(ustawfrazeAlign(B.b("ilosc"), "center", 8));
-        table.addCell(ustawfrazeAlign(B.b("jednostkamiary"), "center", 8));
-        table.addCell(ustawfrazeAlign(B.b("cenanetto"), "center", 8));
-        table.addCell(ustawfrazeAlign(B.b("wartoscnetto"), "center", 8));
-        table.addCell(ustawfrazeAlign(B.b("stawkavat"), "center", 8));
-        table.addCell(ustawfrazeAlign(B.b("kwotavat"), "center", 8));
-        table.addCell(ustawfrazeAlign(B.b("wartoscbrutto"), "center", 8));
-        table.addCell(ustawfrazeAlign(B.b("uwagi"), "center", 8));
+        table.addCell(ustawfrazeAlignBGColor(opis, "center", 8, BaseColor.LIGHT_GRAY));
+        table.addCell(ustawfrazeAlignBGColor(B.b("pkwiu"), "center", 8, BaseColor.LIGHT_GRAY));
+        table.addCell(ustawfrazeAlignBGColor(B.b("ilosc"), "center", 8, BaseColor.LIGHT_GRAY));
+        table.addCell(ustawfrazeAlignBGColor(B.b("jednostkamiary"), "center", 8, BaseColor.LIGHT_GRAY));
+        table.addCell(ustawfrazeAlignBGColor(B.b("cenanetto"), "center", 8, BaseColor.LIGHT_GRAY));
+        table.addCell(ustawfrazeAlignBGColor(B.b("wartoscnetto"), "center", 8, BaseColor.LIGHT_GRAY));
+        table.addCell(ustawfrazeAlignBGColor(B.b("stawkavat"), "center", 8, BaseColor.LIGHT_GRAY));
+        table.addCell(ustawfrazeAlignBGColor(B.b("kwotavat"), "center", 8, BaseColor.LIGHT_GRAY));
+        table.addCell(ustawfrazeAlignBGColor(B.b("wartoscbrutto"), "center", 8, BaseColor.LIGHT_GRAY));
+        table.addCell(ustawfrazeAlignBGColor(B.b("uwagi"), "center", 8, BaseColor.LIGHT_GRAY));
         if (selected.getPozycjepokorekcie() != null) {
             table.setHeaderRows(2);
         } else {

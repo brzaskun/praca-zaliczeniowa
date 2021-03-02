@@ -22,9 +22,9 @@ public class PdfGrafika {
     public static void prost(PdfContentByte cb, int x, int y, int x1, int y1) {
         cb.saveState();
         PdfSpotColor color = new PdfSpotColor(RESULT, BaseColor.BLACK);
-        cb.setLineWidth((float) 0.5);
-        cb.setColorStroke(color, (float) 0.5);
-        cb.setFlatness(10);
+        cb.setLineWidth((float) 1.0);
+        cb.setColorStroke(color, (float) 1.0);
+        cb.setFlatness(20);
         cb.rectangle(x, y, x1, y1);
         cb.stroke();
         cb.restoreState();

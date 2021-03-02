@@ -7,7 +7,6 @@ package pdf;
 import beansPdf.PdfFP;
 import static beansPdf.PdfFont.*;
 import static beansPdf.PdfGrafika.prost;
-import beansPdf.PdfHeaderFooter;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -42,7 +41,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -55,7 +53,6 @@ import javax.servlet.ServletContext;
 import msg.Msg;
 import org.primefaces.PrimeFaces;
 import static pdf.PdfVAT7.absText;
-import plik.Plik;
 import view.WpisView;
 
 
@@ -286,6 +283,7 @@ public class PdfFaktura extends Pdf implements Serializable {
         } else {
             Collections.sort(skladnikifaktury, new Pozycjenafakturzecomparator());
             Map<String, Integer> wymiaryGora = PdfFP.pobierzwymiarGora(skladnikifaktury);
+            Map<String, Integer> wymiarylewy = PdfFP.pobierzwymiarLewy(skladnikifaktury);
             int wierszewtabelach = PdfFP.obliczwierszewtabelach(selected);
             boolean dlugiwiersz = selected.getPozycjenafakturze().get(0).getNazwa().length() > 100;
             boolean jestkorekta = selected.getPozycjepokorekcie() != null;
@@ -381,18 +379,18 @@ public class PdfFaktura extends Pdf implements Serializable {
                 }
                 if (czyjeststopkaniemiecka(elementydod)) {
                     PdfFP.dodajnaglowek(writer, elementydod);
-                    PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, podatnik, document, elementydod, fakturaXXLKolumnaDAO);
+                    PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, wymiarylewy, skladnikifaktury, podatnik, document, elementydod, fakturaXXLKolumnaDAO);
                     FakturaStopkaNiemiecka f = fakturaStopkaNiemieckaDAO.findByPodatnik(podatnik);
                     if (f != null) {
                         PdfFP.stopkaniemiecka(writer, document, f);
                     }
                 } else if (selected.isSprzedazsamochoduimportowanego()) {
                     PdfFP.dodajnaglowek(writer, elementydod);
-                    PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, podatnik, document, elementydod, fakturaXXLKolumnaDAO);
+                    PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, wymiarylewy, skladnikifaktury, podatnik, document, elementydod, fakturaXXLKolumnaDAO);
                     PdfFP.sprzedazsamochoduimportowanego(writer, document, selected);
                 } else {
                     PdfFP.dodajnaglowekstopka(writer, elementydod);
-                    PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, podatnik, document, elementydod, fakturaXXLKolumnaDAO);
+                    PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, wymiarylewy, skladnikifaktury, podatnik, document, elementydod, fakturaXXLKolumnaDAO);
                 }
                 document.close();
             }
@@ -442,6 +440,7 @@ public class PdfFaktura extends Pdf implements Serializable {
         List<Pozycjenafakturze> lista = pozycjeDAO.findFakturyPodatnik(podatnik);
         Collections.sort(lista, new Pozycjenafakturzecomparator());
         Map<String, Integer> wymiary = PdfFP.pobierzwymiarGora(lista);
+        Map<String, Integer> wymiarylewy = PdfFP.pobierzwymiarLewy(lista);
         PdfFP.dodajnaglowekstopka(writer, elementydod);
         //naglowek
         absText(writer, "Biuro Rachunkowe Taxman - program księgowy online", 15, 820, 6);
@@ -450,7 +449,7 @@ public class PdfFaktura extends Pdf implements Serializable {
         absText(writer, "Fakturę wygenerowano elektronicznie w autorskim programie księgowym Biura Rachunkowego Taxman.", 15, 26, 6);
         absText(writer, "Dokument nie wymaga podpisu. Odbiorca wyraził zgode na otrzymanie faktury w formie elektr.", 15, 18, 6);
         prost(writer.getDirectContent(), 12, 15, 560, 20);
-        PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiary, lista, podatnik, document, elementydod, fakturaXXLKolumnaDAO);
+        PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiary, wymiarylewy, lista, podatnik, document, elementydod, fakturaXXLKolumnaDAO);
         document.close();
         return nazwapliku;
 
@@ -479,115 +478,116 @@ public class PdfFaktura extends Pdf implements Serializable {
 //    
     
 
-public static void main(String[] args) throws DocumentException, FileNotFoundException, IOException {
-        Document document = new Document();
-        String nazwapliku = "testowa.pdf";
-        PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR(nazwapliku));
-        int liczydlo = 1;
-        PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
-        writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
-        //writer.setPageEvent(headerfoter);
-        writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
-        document.setMargins(0, 0, 400, 20);
-        document.addTitle("Faktura");
-        document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
-        document.addSubject("Wydruk faktury w formacie pdf");
-        document.addKeywords("Faktura, PDF");
-        document.addCreator("Grzegorz Grzelczyk");
-        document.open();
-        try {
-            document.setMargins(0, 0, 40, 20);
-            NumberFormat formatter = NumberFormat.getNumberInstance();
-            formatter.setMaximumFractionDigits(2);
-            formatter.setMinimumFractionDigits(2);
-            formatter.setGroupingUsed(true);
-            PdfPTable table = new PdfPTable(15);
-            table.setTotalWidth(new float[]{30, 150, 50, 30, 30, 70, 70, 70, 70, 70, 70, 90, 40, 90, 90});
-            // set the total width of the table
-            table.setWidthPercentage(95);
-            table.addCell(ustawfrazeAlign("lp", "center", 7));
-            table.addCell(ustawfrazeAlign("opis", "center", 7));
-            table.addCell(ustawfrazeAlign("PKWiU", "center", 7));
-            table.addCell(ustawfrazeAlign("ilość", "center", 7));
-            table.addCell(ustawfrazeAlign("j.m.", "center", 7));
-            table.addCell(ustawfrazeAlign("cena AAAAAAAAA", "center", 7));
-            table.addCell(ustawfrazeAlign("cena BBBBBB", "center", 7));
-            table.addCell(ustawfrazeAlign("cena CCCCCC", "center", 7));
-            table.addCell(ustawfrazeAlign("cena netto3", "center", 7));
-            table.addCell(ustawfrazeAlign("cena netto4", "center", 7));
-            table.addCell(ustawfrazeAlign("cena netto5", "center", 7));
-            table.addCell(ustawfrazeAlign("wartość netto", "center", 7));
-            table.addCell(ustawfrazeAlign("vat", "center", 7));
-            table.addCell(ustawfrazeAlign("kwota vat", "center", 7));
-            table.addCell(ustawfrazeAlign("wartość brutto", "center", 7));
-            table.setHeaderRows(1);
-            for (int i = 0; i < 9; i++) {
-                table.addCell(ustawfrazeAlign(String.valueOf(i), "center", 7));
-                table.addCell(ustawfrazeAlign("lolo ŚĆĄaŁcÓrŻeŹĘ", "left", 7));
-                table.addCell(ustawfrazeAlign("pkwiu śćąóńżź", "center", 7));
-                table.addCell(ustawfrazeAlign("10", "center", 7));
-                table.addCell(ustawfrazeAlign("kg", "center", 7));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11100)), "right", 7));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11101)), "right", 12));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11102)), "right", 7));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11103)), "right", 7));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11104)), "right", 7));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11105)), "right", 7));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(22000)), "right", 7));
-                table.addCell(ustawfrazeAlign(String.valueOf(22) + "%", "center", 7));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(123)), "right", 7));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(4000)), "right", 7));
 
-            }
-            table.addCell(ustawfraze("Razem", 11, 0));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(200.0)), "right", 7));
-            table.addCell(ustawfrazeAlign("*", "center", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(46.0)), "right", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(246.0)), "right", 7));
-            table.completeRow();
-            table.addCell(ustawfraze("w tym wg stawek vat", 11, 0));
-    //        List<EVatwpis> ewidencja = selected.getEwidencjavat();
-    //        int ilerow = 0;
-    //        if (ewidencja != null) {
-    //            for (EVatwpis p : ewidencja) {
-    //                if (ilerow > 0) {
-    //                    table.addCell(ustawfraze(" ", 10, 0));
-    //                }
-    //                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 8));
-    //                table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(p.getEstawka())) + "%", "center", 8));
-    //                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat())), "right", 8));
-    //                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto() + p.getVat())), "right", 8));
-    //                table.completeRow();
-    //                ilerow++;
-    //            }
-    //        }
-            float dzielnik = 2;
-            document.add(table);
-            //stopkaniemiecka(writer,document);
-            dodajodbiuorca(writer);
-            //table.writeSelectedRows(0, table.getRows().size(), 20, 700, writer.getDirectContent());
-            document.close();
-            writer.close();
-            //        PdfReader reader = new PdfReader("C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\build\\web\\wydruki\\testowa.pdf");
-            //        PdfReaderContentParser parser = new PdfReaderContentParser(reader);
-            //        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream("d:/tparser.pdf"));
-            //        TextMarginFinder finder;
-            //        int n = reader.getNumberOfPages();
-            //        finder = parser.processContent(n, new TextMarginFinder());
-            //        error.E.s(finder.getLlx());
-            //        error.E.s(finder.getLly());
-            //        error.E.s(finder.getWidth());
-            //        error.E.s(finder.getHeight());
-            //        //PdfContentByte canvas = stamper.getImportedPage(reader, n);
-            ////        PdfContentByte canvas = stamper.getOverContent(1);
-            ////        ColumnText.showTextAligned(canvas,Element.ALIGN_LEFT, new Phrase("Hello people!"), finder.getLlx()+30, finder.getLly()-20, 0);
-            //        stamper.close();
-            //        reader.close();
-        } catch (Exception e) {
-            document.close();
-        }
-    }
-
+//public static void main(String[] args) throws DocumentException, FileNotFoundException, IOException {
+//        Document document = new Document();
+//        String filenazwa = "d:\\testowa.pdf";
+//        BufferedOutputStream fileOutputStream = fileOutputStream = new BufferedOutputStream(new FileOutputStream(filenazwa));
+//        PdfWriter writer = PdfWriter.getInstance(document, fileOutputStream);
+//        int liczydlo = 1;
+//        PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
+//        writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
+//        //writer.setPageEvent(headerfoter);
+//        writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
+//        document.setMargins(0, 0, 400, 20);
+//        document.addTitle("Faktura");
+//        document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
+//        document.addSubject("Wydruk faktury w formacie pdf");
+//        document.addKeywords("Faktura, PDF");
+//        document.addCreator("Grzegorz Grzelczyk");
+//        document.open();
+//        try {
+//            document.setMargins(0, 0, 40, 20);
+//            NumberFormat formatter = NumberFormat.getNumberInstance();
+//            formatter.setMaximumFractionDigits(2);
+//            formatter.setMinimumFractionDigits(2);
+//            formatter.setGroupingUsed(true);
+//            PdfPTable table = new PdfPTable(15);
+//            table.setTotalWidth(new float[]{30, 150, 50, 30, 30, 70, 70, 70, 70, 70, 70, 90, 40, 90, 90});
+//            // set the total width of the table
+//            table.setWidthPercentage(95);
+//            table.addCell(ustawfrazeAlign("lp", "center", 7));
+//            table.addCell(ustawfrazeAlign("opis", "center", 7));
+//            table.addCell(ustawfrazeAlign("PKWiU", "center", 7));
+//            table.addCell(ustawfrazeAlign("ilość", "center", 7));
+//            table.addCell(ustawfrazeAlign("j.m.", "center", 7));
+//            table.addCell(ustawfrazeAlign("cena AAAAAAAAA", "center", 7));
+//            table.addCell(ustawfrazeAlign("cena BBBBBB", "center", 7));
+//            table.addCell(ustawfrazeAlign("cena CCCCCC", "center", 7));
+//            table.addCell(ustawfrazeAlign("cena netto3", "center", 7));
+//            table.addCell(ustawfrazeAlign("cena netto4", "center", 7));
+//            table.addCell(ustawfrazeAlign("cena netto5", "center", 7));
+//            table.addCell(ustawfrazeAlign("wartość netto", "center", 7));
+//            table.addCell(ustawfrazeAlign("vat", "center", 7));
+//            table.addCell(ustawfrazeAlign("kwota vat", "center", 7));
+//            table.addCell(ustawfrazeAlign("wartość brutto", "center", 7));
+//            table.setHeaderRows(1);
+//            for (int i = 0; i < 9; i++) {
+//                table.addCell(ustawfrazeAlign(String.valueOf(i), "center", 7));
+//                table.addCell(ustawfrazeAlign("lolo ŚĆĄaŁcÓrŻeŹĘ", "left", 7));
+//                table.addCell(ustawfrazeAlign("pkwiu śćąóńżź", "center", 7));
+//                table.addCell(ustawfrazeAlign("10", "center", 7));
+//                table.addCell(ustawfrazeAlign("kg", "center", 7));
+//                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11100)), "right", 7));
+//                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11101)), "right", 12));
+//                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11102)), "right", 7));
+//                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11103)), "right", 7));
+//                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11104)), "right", 7));
+//                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11105)), "right", 7));
+//                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(22000)), "right", 7));
+//                table.addCell(ustawfrazeAlign(String.valueOf(22) + "%", "center", 7));
+//                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(123)), "right", 7));
+//                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(4000)), "right", 7));
+//
+//            }
+//            table.addCell(ustawfraze("Razem", 11, 0));
+//            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(200.0)), "right", 7));
+//            table.addCell(ustawfrazeAlign("*", "center", 7));
+//            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(46.0)), "right", 7));
+//            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(246.0)), "right", 7));
+//            table.completeRow();
+//            table.addCell(ustawfraze("w tym wg stawek vat", 11, 0));
+//    //        List<EVatwpis> ewidencja = selected.getEwidencjavat();
+//    //        int ilerow = 0;
+//    //        if (ewidencja != null) {
+//    //            for (EVatwpis p : ewidencja) {
+//    //                if (ilerow > 0) {
+//    //                    table.addCell(ustawfraze(" ", 10, 0));
+//    //                }
+//    //                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 8));
+//    //                table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(p.getEstawka())) + "%", "center", 8));
+//    //                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat())), "right", 8));
+//    //                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto() + p.getVat())), "right", 8));
+//    //                table.completeRow();
+//    //                ilerow++;
+//    //            }
+//    //        }
+//            float dzielnik = 2;
+//            document.add(table);
+//            //stopkaniemiecka(writer,document);
+//            dodajodbiuorca(writer);
+//            //table.writeSelectedRows(0, table.getRows().size(), 20, 700, writer.getDirectContent());
+//            document.close();
+//            writer.close();
+//            //        PdfReader reader = new PdfReader("C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\build\\web\\wydruki\\testowa.pdf");
+//            //        PdfReaderContentParser parser = new PdfReaderContentParser(reader);
+//            //        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream("d:/tparser.pdf"));
+//            //        TextMarginFinder finder;
+//            //        int n = reader.getNumberOfPages();
+//            //        finder = parser.processContent(n, new TextMarginFinder());
+//            //        error.E.s(finder.getLlx());
+//            //        error.E.s(finder.getLly());
+//            //        error.E.s(finder.getWidth());
+//            //        error.E.s(finder.getHeight());
+//            //        //PdfContentByte canvas = stamper.getImportedPage(reader, n);
+//            ////        PdfContentByte canvas = stamper.getOverContent(1);
+//            ////        ColumnText.showTextAligned(canvas,Element.ALIGN_LEFT, new Phrase("Hello people!"), finder.getLlx()+30, finder.getLly()-20, 0);
+//            //        stamper.close();
+//            //        reader.close();
+//        } catch (Exception e) {
+//            document.close();
+//        }
+//    }
     private static void stopkaniemiecka(PdfWriter writer, Document document) {
         PdfPTable table = null;
         try {
