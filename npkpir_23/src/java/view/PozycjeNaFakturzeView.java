@@ -131,14 +131,23 @@ public class PozycjeNaFakturzeView implements Serializable {
     public String pW(String co) {
         String coco = "akordeon:formwzor:"+co;
         Pozycjenafakturze p = pozycjefakturapodatnik.get(coco);
-        double wartosc = pobierzwartosc(p,co,0);
-        return String.valueOf(wartosc);
+        if (p!=null) {
+            double wartosc = pobierzwartosc(p,co,0);
+            return String.valueOf(wartosc);
+        } else {
+            return "222.0";
+        }
     }
+        
     public String pH(String co) {
         String coco = "akordeon:formwzor:"+co;
         Pozycjenafakturze p = pozycjefakturapodatnik.get(coco);
-        double wartosc = pobierzwartosc(p,co,1);
-        return String.valueOf(wartosc);
+        if (p!=null) {
+            double wartosc = pobierzwartosc(p,co,1);
+            return String.valueOf(wartosc);
+        } else {
+            return "80.0";
+        }
     }
     
      private double pobierzwartosc(Pozycjenafakturze p, String co, int i) {
