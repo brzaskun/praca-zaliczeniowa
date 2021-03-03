@@ -92,7 +92,9 @@ public class FakturadodelementyView implements Serializable {
             Fakturaelementygraficzne elementgraficzny = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
             if (elementgraficzny != null) {
                 pozycjecss = new ConcurrentHashMap<>();
-                pozycjecss.put("logo", new String[]{elementgraficzny.getSzerokosc(),elementgraficzny.getWysokosc()});
+                Integer szer = Integer.parseInt(elementgraficzny.getSzerokosc())/2;
+                Integer wys = Integer.parseInt(elementgraficzny.getWysokosc())/2;
+                pozycjecss.put("logo", new String[]{String.valueOf(szer),String.valueOf(wys)});
             }
         } catch (Exception e) { 
                 E.e(e); 
