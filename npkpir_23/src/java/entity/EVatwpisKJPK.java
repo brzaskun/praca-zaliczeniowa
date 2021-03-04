@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Transient;
 
 /**
  *
@@ -27,6 +28,10 @@ import javax.persistence.NamedQuery;
     @NamedQuery(name = "EVatwpisKJPK.findByRokMc", query = "SELECT d FROM EVatwpisKJPK d WHERE d.rokEw = :pkpirR AND d.klientJPK.podatnik = :podatnik AND d.mcEw = :mc"),
     @NamedQuery(name = "EVatwpisKJPK.findByRok", query = "SELECT d FROM EVatwpisKJPK d WHERE d.rokEw = :rok"),
     @NamedQuery(name = "EVatwpisKJPK.findByMcRok", query = "SELECT d FROM EVatwpisKJPK d WHERE d.rokEw = :rok AND d.mcEw = :mc"),
+    @NamedQuery(name = "EVatwpisKJPK.findByPodatnikRokMc", query = "SELECT k FROM EVatwpisKJPK k WHERE k.klientJPK.podatnik = :podatnik AND k.rokEw = :rok AND k.mcEw = :mc"),
+    @NamedQuery(name = "EVatwpisKJPK.findByPodatnikRokMcSprzedaz", query = "SELECT k FROM EVatwpisKJPK k WHERE k.klientJPK.podatnik = :podatnik AND k.rokEw = :rok AND k.mcEw = :mc AND k.ewidencja.nazwa !=:nazwa"),
+    @NamedQuery(name = "EVatwpisKJPK.findByPodatnikRokMcodMcdo", query = "SELECT k FROM EVatwpisKJPK k WHERE k.klientJPK.podatnik = :podatnik AND k.rokEw = :rok AND k.mcEw >= :mcod AND k.mcEw <= :mcdo"),
+    @NamedQuery(name = "EVatwpisKJPK.findByPodatnikRokMcZakup", query = "SELECT k FROM EVatwpisKJPK k WHERE k.klientJPK.podatnik = :podatnik AND k.rokEw = :rok AND k.mcEw = :mc AND k.ewidencja.nazwa=:nazwa"),
     @NamedQuery(name = "EVatwpisKJPK.findByNULL", query = "SELECT d FROM EVatwpisKJPK d WHERE d.ewidencja IS NULL")
 })
 public class EVatwpisKJPK extends EVatwpisSuper implements Serializable {
@@ -35,6 +40,8 @@ public class EVatwpisKJPK extends EVatwpisSuper implements Serializable {
     @JoinColumn(name = "klientJPK", referencedColumnName = "id")
     @ManyToOne(cascade = CascadeType.ALL)
     private KlientJPK klientJPK;
+    @Transient
+    private int sprawdzony;
 
     
     public EVatwpisKJPK(EVatwpisKJPK wiersz) {
@@ -145,6 +152,14 @@ public class EVatwpisKJPK extends EVatwpisSuper implements Serializable {
 
     public void setRokEw(String rokEw) {
         this.rokEw = rokEw;
+    }
+
+    public int getSprawdzony() {
+        return sprawdzony;
+    }
+
+    public void setSprawdzony(int sprawdzony) {
+        this.sprawdzony = sprawdzony;
     }
     
     

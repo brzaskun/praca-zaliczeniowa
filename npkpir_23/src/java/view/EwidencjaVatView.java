@@ -7,15 +7,16 @@ package view;
 import comparator.EVatwpisFKcomparator;
 import comparator.EVatwpisSupercomparator;
 import dao.EVatwpis1DAO;
+import dao.EVatwpisDedraDAO;
+import dao.EVatwpisFKDAO;
+import dao.EVatwpisIncydentalniDAO;
 import dao.EvewidencjaDAO;
 import dao.PlatnoscWalutaDAO;
 import dao.RodzajedokDAO;
 import dao.SMTPSettingsDAO;
 import dao.StronaWierszaDAO;
-import dao.WniosekVATZDEntityDAO;
-import dao.EVatwpisDedraDAO;
-import dao.EVatwpisFKDAO;
 import dao.TransakcjaDAO;
+import dao.WniosekVATZDEntityDAO;
 import data.Data;
 import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
@@ -23,6 +24,7 @@ import embeddable.Mce;
 import embeddable.Parametr;
 import entity.Dok;
 import entity.EVatwpis1;
+import entity.EVatwpisKJPK;
 import entity.EVatwpisSuper;
 import entity.Evewidencja;
 import entity.PlatnoscWaluta;
@@ -50,17 +52,16 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import mail.MailOther;
 import msg.Msg;
- import org.primefaces.PrimeFaces;
+import org.primefaces.PrimeFaces;
 import org.primefaces.component.tabview.TabView;
-import org.primefaces.event.UnselectEvent;
+ import org.primefaces.event.UnselectEvent;
 import pdf.PdfVAT;
 import pdf.PdfVATsuma;
 import waluty.Z;
@@ -127,6 +128,8 @@ public class EwidencjaVatView implements Serializable {
     private boolean pobierzmiesiacdlajpk;
     @Inject
     private EVatwpisDedraDAO eVatwpisDedraDAO;
+    @Inject
+    private EVatwpisIncydentalniDAO eVatwpisIncydentalniDAO;
     @Inject
     private WniosekVATZDEntityDAO wniosekVATZDEntityDAO;
 
@@ -390,6 +393,7 @@ public class EwidencjaVatView implements Serializable {
                     }
                 }
             }
+            listadokvatprzetworzona.addAll(pobierzEVatIncydentalni(podatnik, vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
             przejrzyjEVatwpis1Lista();
             dodajwierszeVATZD(wniosekVATZDEntity);
             
@@ -738,7 +742,23 @@ public class EwidencjaVatView implements Serializable {
         }
     }
 
-
+ private List<EVatwpisKJPK> pobierzEVatIncydentalni(Podatnik podatnik, String vatokres, String rok, String mc) {
+        try {
+            switch (vatokres) {
+                case "blad":
+                    Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
+                    throw new Exception("Nie ma ustawionego parametru vat za dany okres");
+                case "miesięczne": 
+                    return eVatwpisIncydentalniDAO.findWierszePodatnikMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+                default:
+                    Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(mc)));
+                    List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
+                    return eVatwpisIncydentalniDAO.findPodatnikMc(podatnik, rok, miesiacewkwartale.get(0), miesiacewkwartale.get(2));
+            }
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
 
     private List<EVatwpisFK> pobierzEVatRokFK(Podatnik podatnik, String vatokres, String rok, String mc) {
         try {
