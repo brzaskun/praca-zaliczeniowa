@@ -183,7 +183,7 @@
          <p:tab title="pobrane FP">
             <p:panel header="Lista fkatur fiskalizowanych pobranych za miesiąc bieżący"/>
             <p:dataTable value="#{klientJPKView.lista}" var="itemikjpk" rowIndexVar="indexjpk"
-                         style="width: 1000px;"
+                         style="width: 1100px;"
                          >
                 <p:column style="width: 50px;">
                     <h:outputText value="#{indexjpk+1}"/>
@@ -205,6 +205,9 @@
                 </p:column>
                 <p:column headerText="wartość vat" >
                     <bcf:outputpl value="#{itemikjpk.vat}"/>
+                </p:column>
+                <p:column headerText="WDT" >
+                    <bcf:outputpl value="#{itemikjpk.wdt}"/>
                 </p:column>
             </p:dataTable>
         </p:tab>

@@ -8,10 +8,14 @@ package entity;
 import data.Data;
 import embeddablefk.InterpaperXLS;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +23,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -82,12 +87,15 @@ public class KlientJPK implements Serializable {
     @JoinColumn(name = "evewidencja", referencedColumnName = "id")
     @ManyToOne
     protected Evewidencja ewidencja;
+    @OneToMany(mappedBy = "klientJPK", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<EVatwpisKJPK> ewidencjaVAT;
     @Column(name = "waluta")
     private String waluta;
     @Column(name = "wdt")
     private boolean wdt;
 
     public KlientJPK() {
+        this.ewidencjaVAT = new ArrayList<>();
     }
 
     
@@ -104,6 +112,7 @@ public class KlientJPK implements Serializable {
         this.netto = d.getNetto();
         this.vat = d.getVat();
         this.waluta = d.getSymbolWaluty();
+        this.ewidencjaVAT = new ArrayList<>();
     }
 
     public KlientJPK(InterpaperXLS d, Podatnik podatnik, String rok, String mc) {
@@ -119,6 +128,7 @@ public class KlientJPK implements Serializable {
         this.netto = d.getNettoPLN();
         this.vat = d.getVatPLN();
         this.waluta = d.getWalutaplatnosci();
+        this.ewidencjaVAT = new ArrayList<>();
     }
 
     public int getId() {
@@ -295,6 +305,14 @@ public class KlientJPK implements Serializable {
 
     public void setWdt(boolean wdt) {
         this.wdt = wdt;
+    }
+
+    public List<EVatwpisKJPK> getEwidencjaVAT() {
+        return ewidencjaVAT;
+    }
+
+    public void setEwidencjaVAT(List<EVatwpisKJPK> ewidencjaVAT) {
+        this.ewidencjaVAT = ewidencjaVAT;
     }
     
     

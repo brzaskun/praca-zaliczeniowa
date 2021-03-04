@@ -44,16 +44,16 @@ public class VIESCheckBean {
             List<Vies> viesy = Collections.synchronizedList(new ArrayList<>());
              for (Iterator it = klienciWDTWNT.iterator(); it.hasNext();) {
                  VatUe p = (VatUe) it.next();
-                 if (p.getKontrahent() != null && (p.getVies()==null ||!p.getVies().isWynik())) {
-                     String kraj = p.getKontrahent().getKrajkod().trim();
-                     String nip = p.getKontrahent().getNip().trim();
-                     boolean jestprefix = sprawdznip(p.getKontrahent().getNip());
+                 String kraj = p.getKontrahentwyborKraj();
+                 String nip = p.getKontrahentwyborNIP();
+                 if (nip!=null && (p.getVies()==null ||!p.getVies().isWynik())) {
+                     boolean jestprefix = sprawdznip(nip);
                      if (jestprefix) {
-                         nip = p.getKontrahent().getNip().substring(2).trim();
+                         nip = nip.substring(2).trim();
                      }
                      Vies v = null;
                      try {
-                         v = VIESCheckBean.pobierzAPI(kraj, nip, p.getKontrahent(), podatnik, wprowadzil);
+                         v = VIESCheckBean.pobierzAPI(kraj, nip, podatnik, wprowadzil);
                          p.setVies(v);
                          v.setVatue(p);
                      } catch (SocketTimeoutException se) {
@@ -101,7 +101,7 @@ public class VIESCheckBean {
         return zwrot;
     }
     
-    private static Vies pobierzAPI(String kraj, String nip, Klienci k, Podatnik podatnik, Uz wprowadzil) throws SocketTimeoutException {
+    private static Vies pobierzAPI(String kraj, String nip, Podatnik podatnik, Uz wprowadzil) throws SocketTimeoutException {
         Vies zwrot = new Vies();
         if (kraj.equals("GR")) {
             kraj = "EL";

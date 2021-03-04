@@ -59,7 +59,10 @@ public class VatSuper implements Serializable{
     @Size(max = 4)
     @Column(name = "rok")
     protected String rok;
-    
+    @Column(name = "kontrahentnip")
+    protected String kontrahentnip;
+    @Column(name = "kontrahentkraj")
+    protected String kontrahentkraj;
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "vatUe")
     protected List<Dok> zawiera;
@@ -143,7 +146,22 @@ public class VatSuper implements Serializable{
     public void setLiczbadok(int liczbadok) {
         this.liczbadok = liczbadok;
     }
+    public String getKontrahentnip() {
+        return kontrahentnip;
+    }
 
+    public void setKontrahentnip(String kontrahentnip) {
+        this.kontrahentnip = kontrahentnip;
+    }
+
+    public String getKontrahentkraj() {
+        return kontrahentkraj;
+    }
+
+    public void setKontrahentkraj(String kontrahentkraj) {
+        this.kontrahentkraj = kontrahentkraj;
+    }
+  
     public List<Dok> getZawiera() {
         if (this instanceof entity.VatUe)  {
             return ((entity.VatUe)this).getZawiera();
@@ -210,13 +228,12 @@ public class VatSuper implements Serializable{
         this.id = id;
     }
 
-   
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 83 * hash + (int) (this.id ^ (this.id >>> 32));
-        hash = 83 * hash + Objects.hashCode(this.transakcja);
-        hash = 83 * hash + Objects.hashCode(this.kontrahent);
+        int hash = 7;
+        hash = 37 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 37 * hash + Objects.hashCode(this.kontrahent);
+        hash = 37 * hash + Objects.hashCode(this.kontrahentnip);
         return hash;
     }
 
@@ -238,11 +255,17 @@ public class VatSuper implements Serializable{
         if (!Objects.equals(this.transakcja, other.transakcja)) {
             return false;
         }
+        if (!Objects.equals(this.kontrahentnip, other.kontrahentnip)) {
+            return false;
+        }
         if (!Objects.equals(this.kontrahent, other.kontrahent)) {
             return false;
         }
         return true;
     }
+
+   
+   
 
     
     

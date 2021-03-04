@@ -1,0 +1,42 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
+     <p:tab title="pobrane FP">
+            <p:panel header="Lista fkatur fiskalizowanych pobranych za miesiąc bieżący"/>
+            <p:dataTable value="#{klientJPKView.lista}" var="itemikjpk" rowIndexVar="indexjpk"
+                         style="width: 1100px; height: 550px; overflow-y: scroll;" 
+                         rowsPerPageTemplate="30,50,300,400" paginatorPosition="top" paginator="#{klientJPKView.lista.size() gt 30 ? 'true':'false'}" rows="30"
+                         >
+                <p:column style="width: 50px;">
+                    <h:outputText value="#{indexjpk+1}"/>
+                </p:column>
+                <p:column headerText="data wystawienia">
+                    <h:outputText value="#{itemikjpk.dataWystawienia}"/>
+                </p:column>
+                <p:column headerText="data sprzedaży">
+                    <h:outputText value="#{itemikjpk.dataSprzedazy}"/>
+                </p:column>
+                <p:column headerText="nazwa" width="350">
+                    <h:outputText value="#{itemikjpk.nazwaKontrahenta}"/>
+                </p:column>
+                <p:column headerText="nr kontr">
+                    <h:outputText value="#{itemikjpk.nrKontrahenta}"/>
+                </p:column>
+                <p:column headerText="wartość netto" >
+                    <bcf:outputpl value="#{itemikjpk.netto}"/>
+                </p:column>
+                <p:column headerText="wartość vat" >
+                    <bcf:outputpl value="#{itemikjpk.vat}"/>
+                </p:column>
+                 <p:column headerText="WDT" >
+                     <h:outputText value="#{itemikjpk.wdt}"/>
+                </p:column>
+            </p:dataTable>
+        </p:tab>
+</ui:composition>

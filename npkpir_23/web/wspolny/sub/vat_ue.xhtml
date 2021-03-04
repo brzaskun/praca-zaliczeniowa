@@ -26,7 +26,7 @@
             <p:commandButton value="#{mgs.drukuj}" style="margin-left: 3%; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.drukujewidencjeUEfk()}"/>
             <p:commandButton value="#{mgs.drukujtab}" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.drukujewidencjeUEfkTabela()}"/>
             <p:commandButton value="rozwiń/zwiń" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" onclick="jQuery('.ui-row-toggler').click()" global="false"/>
-            <p:commandButton value="deklaracja" style="margin-left: 10px; margin-bottom: 1%; width: 120px;display:none;" id="deklbutton"
+            <p:commandButton value="deklaracja" style="margin-left: 10px; margin-bottom: 1%; width: 120px;display:inline ;" id="deklbutton"
                              actionListener="#{vatUeFKView.tworzdeklaracje(vatUeFKView.klienciWDTWNT)}" update="@(.upd3) @(.upd)" rendered="#{!vatUeFKView.deklaracja0korekta1}"/>
             <p:commandButton value="korekta" style="margin-left: 10px; margin-bottom: 1%; width: 120px; display: none;"  update="@(.upd3) @(.upd)"   id="deklbutton2" styleClass="upd3"
                              actionListener="#{vatUeFKView.tworzdeklaracjekorekta(vatUeFKView.klienciWDTWNT)}" rendered="#{vatUeFKView.deklaracja0korekta1}"/>
@@ -66,17 +66,17 @@
                               style="width: 20px; text-align: center;" filterStyle="display : none;" >  
                         <h:outputText value="#{wpis1.kontrahent.krajkod}"/>
                     </p:column>
-                    <p:column id="nipColumn" headerText="nip" filterBy="#{wpis1.kontrahent.nip}" 
-                              filterMatchMode="contains" sortBy="#{wpis1.kontrahent.nip}" style="width: 20%;" filterStyle="display : none;" >  
-                        <h:outputText value="#{wpis1.kontrahent.nip}" />
+                    <p:column id="nipColumn" headerText="nip" filterBy="#{wpis1.kontrahentwyborNIP}" 
+                              filterMatchMode="contains" sortBy="#{wpis1.kontrahentwyborNIP}" style="width: 20%;" filterStyle="display : none;" >  
+                        <h:outputText value="#{wpis1.kontrahentwyborNIP}" />
                     </p:column>
                     <p:column id="nipColumnold" headerText="pop. nip" filterBy="#{wpis1.poprzedninip}" 
                               filterMatchMode="contains" sortBy="#{wpis1.poprzedninip}" style="width: 25%;" filterStyle="display : none;" >  
                         <p:inputText value="#{wpis1.poprzedninip}" size="15"/>
                     </p:column>
-                    <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis1.kontrahent.npelna}" filterMatchMode="contains" 
-                              sortBy="#{wpis1.kontrahent.npelna}" filterStyle="display : none;" width="320">  
-                        <h:outputText value="#{wpis1.kontrahent.npelna}"  />
+                    <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis1.kontrahentwyborNazwa}" filterMatchMode="contains" 
+                              sortBy="#{wpis1.kontrahentwyborNazwa}" filterStyle="display : none;" width="320">  
+                        <h:outputText value="#{wpis1.kontrahentwyborNazwa}"  />
                     </p:column>
                     <p:column id="nettoColumn" headerText="#{mgs.netto} pln" filterBy="#{wpis1.netto}" filterMatchMode="contains" sortBy="#{wpis1.netto}" style="width: 15%;" filterStyle="display : none;" >  
                         <h:outputText value="#{wpis1.netto}" style="float: right;">

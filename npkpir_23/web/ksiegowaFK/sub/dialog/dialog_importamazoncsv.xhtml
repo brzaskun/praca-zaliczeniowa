@@ -23,17 +23,31 @@
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
                 </h:form>-->
             <bcf:ajaxs/>
-            <h:outputText value="import dokumentów z pliku CSV AMAZON"/>
+            <h:outputText value="import dokumentów z pliku CSV Amazon VAT Transactions Report"/>
                         <h:form>
                             <p:growl life="3600"  id="messages1"/>
-                            <p:fileUpload fileUploadListener="#{importCSVView.importujsprzedaz}" 
-                                          mode="advanced" dragDropSupport="true" fileLimit="1"
-                                          update="messages1 importtabela" 
-                                          validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
-                                          fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
-                                          uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" onstart="PF('dialogAjaxCzekaj').show();"
-                                          style="height: 100px;">
-                            </p:fileUpload>
+                            <p:panelGrid columns="2">
+                                <p:panelGrid columns="1">
+                                    <p:fileUpload fileUploadListener="#{importCSVView.importujsprzedaz}" 
+                                                  mode="advanced" dragDropSupport="true" fileLimit="1"
+                                                  update="messages1 importtabela" 
+                                                  validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
+                                                  fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
+                                                  uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" onstart="PF('dialogAjaxCzekaj').show();"
+                                                  style="height: 100px;">
+                                    </p:fileUpload>
+                                </p:panelGrid>
+                                <p:panelGrid columns="2" style="margin-left: 30px;">
+                                    <h:outputText value="wybierz rodzaj transakcji"/>
+                                    <p:selectOneMenu value="#{importCSVView.wybortransakcji}">
+                                        <f:selectItem itemValue="WSZYSTKIE" itemLabel="WSZYSTKIE"/>
+                                        <f:selectItem itemValue="SALE" itemLabel="SALE"/>
+                                        <f:selectItem itemValue="REFUND" itemLabel="REFUND"/>
+                                        <f:selectItem itemValue="FC_TRANSFER" itemLabel="FC_TRANSFER"/>
+                                        <p:ajax event="change" partialSubmit="true" global="false"/>
+                                    </p:selectOneMenu>
+                                </p:panelGrid>
+                            </p:panelGrid>
                         </h:form>
                         <h:form id="importtabela">
                             <p:dataTable  var="wpisama" value="#{importCSVView.listafk}" id="dokumentyLista" 
@@ -140,6 +154,7 @@
                             </p:dataTable> 
                             <p:growl life="3600"  id="messages2" ><p:autoUpdate/></p:growl>
                             <p:commandButton  icon="fa fa-print" style="margin-top: 20px; width: 120px;" actionListener="#{importCSVView.drukujfk()}"  rendered="#{importCSVView.listafk.size() gt 0}"/>
+                            <p:commandButton  value="zaksięguj WDT" style="margin-top: 20px; width: 120px;" actionListener="#{importCSVView.zaksiegujWDTjpk()}"  rendered="#{importCSVView.listafk.size() gt 0}"/>
 <!--                            <p:commandButton  value="CSV WDT" style="margin-top: 20px; width: 120px; margin-left: 40px;" actionListener="#{importCSVView.robcsv()}"  rendered="#{importCSVView.dokumenty.size() gt 0}"/>-->
                         </h:form>
 
