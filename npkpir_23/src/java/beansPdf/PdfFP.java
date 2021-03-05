@@ -456,8 +456,8 @@ public class PdfFP {
                             ttext2[1] = selected.getNrkontabankowego();
                         }
                         if (selected.getSposobzaplaty().equals("przelew") && selected.getSwift() != null) {
-                            ttext2[0] = "SWIFT: ";
-                            ttext2[1] = selected.getSwift();
+                            ttext3[0] = "SWIFT: ";
+                            ttext3[1] = selected.getSwift();
                         }
                     }
                     table = PdfFTablice.wygenerujtablicePlatnosc(ttext, ttext1,ttext2,ttext3, szerokosc, wysokosc, 8);
