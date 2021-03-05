@@ -39,6 +39,7 @@ public class VatUe extends VatSuper implements Serializable{
     protected Vies vies;
     @Transient
     private String poprzedninip;
+
     
 
     public VatUe() {
@@ -74,7 +75,7 @@ public class VatUe extends VatSuper implements Serializable{
         this.zawierafk = Collections.synchronizedList(new ArrayList<>());
     }
 
-
+   
     
     public List<Dok> getZawiera() {
         return zawiera;
@@ -116,6 +117,38 @@ public class VatUe extends VatSuper implements Serializable{
         this.poprzedninip = poprzedninip;
     }
 
+   
+
+    public String getKontrahentwyborNIP() {
+        String zwrot = this.kontrahentkraj;
+        try {
+            zwrot = zwrot+this.kontrahentnip;
+        } catch (Exception e){}
+        if (this.kontrahent!=null) {
+            this.kontrahent.getNip();
+        }   
+        return zwrot;
+    }
+    
+    public String getKontrahentwyborKraj() {
+        String zwrot = this.kontrahentkraj;
+        try {
+            if (this.kontrahent!=null) {
+                this.kontrahent.getKrajkod();
+            }   
+        } catch (Exception e){}
+        return zwrot;
+    }
+    
+     public String getKontrahentwyborNazwa() {
+        String zwrot = "incydentalny";
+        try {
+            if (this.kontrahent!=null) {
+                this.kontrahent.getNpelna();
+            }   
+        } catch (Exception e){}
+        return zwrot;
+    }
     
   
     

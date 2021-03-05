@@ -16,8 +16,6 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.math.BigInteger;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
@@ -37,7 +35,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
-import view.WpisView;import waluty.Z;
+import view.WpisView;
+import waluty.Z;
 
 
 /**
@@ -118,7 +117,7 @@ public class VATUEM4Bean {
         deklaracje.vatue.m4.PozycjeSzczegolowe poz = new PozycjeSzczegolowe();
         if (lista != null) {
             for (VatUe p : lista) {
-                if (p.getKontrahent() != null) {
+                if (p.getKontrahentwyborNIP() != null) {
                     switch (p.getTransakcja()) {
                         case "WDT":
                             poz.getGrupa1().add(grupa1(p));
@@ -139,7 +138,7 @@ public class VATUEM4Bean {
     private static Grupa1 grupa1(VatUe p) {
         Grupa1 g = new Grupa1();
         g.setPDa(kodkraju(p));
-        g.setPDb(przetworznip(p.getKontrahent().getNip()));
+        g.setPDb(przetworznip(p.getKontrahentwyborNIP()));
         g.setPDc(new BigInteger(Z.zUDI(p.getNetto()).toString()));
         g.setPDd((byte)1);
         return g;
@@ -148,7 +147,7 @@ public class VATUEM4Bean {
     private static Grupa2 grupa2(VatUe p) {
         Grupa2 g = new Grupa2();
         g.setPNa(kodkraju(p));
-        g.setPNb(przetworznip(p.getKontrahent().getNip()));
+        g.setPNb(przetworznip(p.getKontrahentwyborNIP()));
         g.setPNc(new BigInteger(Z.zUDI(p.getNetto()).toString()));
         g.setPNd((byte)1);
         return g;
@@ -157,7 +156,7 @@ public class VATUEM4Bean {
     private static Grupa3 grupa3(VatUe p) {
         Grupa3 g = new Grupa3();
         g.setPUa(kodkraju(p));
-        g.setPUb(przetworznip(p.getKontrahent().getNip()));
+        g.setPUb(przetworznip(p.getKontrahentwyborNIP()));
         g.setPUc(new BigInteger(Z.zUDI(p.getNetto()).toString()));
         return g;
     }
@@ -181,9 +180,9 @@ public class VATUEM4Bean {
 
     private static TKodKrajuUE kodkraju(VatUe p) {
         TKodKrajuUE zwrot = null;
-        if (p.getKontrahent().getKrajkod() != null) {
+        if (p.getKontrahentwyborKraj() != null) {
             try {
-                String k = p.getKontrahent().getKrajkod();
+                String k = p.getKontrahentwyborKraj();
                 if (k.equals("GR")) {
                     k = "EL";
                 }

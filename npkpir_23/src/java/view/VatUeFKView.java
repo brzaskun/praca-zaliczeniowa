@@ -7,9 +7,10 @@ package view;
 import beansPodpis.Xad;
 import dao.DeklaracjavatUEDAO;
 import dao.DokDAO;
-import dao.KlienciDAO;
-import dao.PodatnikDAO;
 import dao.DokDAOfk;
+import dao.KlienciDAO;
+import dao.KlientJPKDAO;
+import dao.PodatnikDAO;
 import dao.VatuepodatnikDAO;
 import dao.ViesDAO;
 import data.Data;
@@ -22,9 +23,11 @@ import entity.DeklaracjavatUE;
 import entity.Dok;
 import entity.DokSuper;
 import entity.Klienci;
+import entity.KlientJPK;
 import entity.Podatnik;
 import entity.VatUe;
 import entityfk.Dokfk;
+import entityfk.Waluty;
 import error.E;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -36,10 +39,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 import pdf.PdfVATUEdekl;
 import pdf.PdfVatUE;
@@ -86,6 +88,8 @@ public class VatUeFKView implements Serializable {
     private ViesDAO viesDAO;
     @Inject
     private KlienciDAO klienciDAO;
+     @Inject
+    private KlientJPKDAO klientJPKDAO;
     @Inject
     private TKodUS tKodUS;
     private String opisvatuepkpir;
@@ -166,6 +170,23 @@ public class VatUeFKView implements Serializable {
 //                klienciWDTWNT.add(rzadpodsumowanie);
 //                zachowajwbazie(String.valueOf(rok), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
 //            }
+        }
+        List<KlientJPK> lista = klientJPKDAO.findbyKlientRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        if (lista!=null) {
+             klienciWDTWNT.addAll(kontrahenciUEJPK(lista));
+             for (KlientJPK p : lista) {
+                for (VatUe s : klienciWDTWNT) {
+                    if (p.getNrKontrahenta().equals(s.getKontrahentwyborNIP())) {
+                            double netto = p.getNetto();
+                            double nettowaluta = p.getNettowaluta();
+                            s.setNetto(netto + s.getNetto());
+                            s.setNettowaluta(nettowaluta + s.getNettowaluta());
+                            s.setLiczbadok(s.getLiczbadok() + 1);
+                            s.setNazwawaluty(new Waluty());
+                            break;
+                        }
+                }
+            }
         }
         try {
             pobierzdeklaracjeUE();
@@ -248,6 +269,21 @@ public class VatUeFKView implements Serializable {
                     klienty.add(veu);
                     uzupelnijdanekontrahenta(p.getKontr());
                 }
+            }
+        }
+        return klienty;
+    }
+    
+    private Set<VatUe> kontrahenciUEJPK(List<KlientJPK> listadokumentow) {
+        Set<VatUe> klienty = new HashSet<>();
+        for (KlientJPK p : listadokumentow) {
+            if (p.isWdt()) {
+                //wyszukujemy dokumenty WNT i WDT dodajemu do sumy
+                VatUe veu = new VatUe("WDT", null, 0.0, 0);
+                veu.setKontrahentnip(pobierznip(p.getNrKontrahenta()));
+                veu.setKontrahentkraj(p.getKodKrajuDoreczenia());
+                veu.setZawierafk(new ArrayList<>());
+                klienty.add(veu);
             }
         }
         return klienty;
@@ -389,11 +425,33 @@ public class VatUeFKView implements Serializable {
     }
 
     private boolean sprawdznip(String nip) {
-        //jezeli false to dobrze
-        String prefix = nip.substring(0, 2);
+       //jezeli false to dobrze
+        int ile = 2;
+        String pr = nip.substring(0, 2);
+        if (pr.equals("ES")|| pr.equals("AT")) {
+            ile = 3;
+        }
+        String prefix = nip.substring(0, ile);
         Pattern p = Pattern.compile("[0-9]");
         boolean isnumber = p.matcher(prefix).find();
         return !isnumber;
+    }
+    
+     private String pobierznip(String nip) {
+       //jezeli false to dobrze
+        int ile = 2;
+        String pr = nip.substring(0, 2);
+        if (pr.equals("ES")|| pr.equals("AT")) {
+            ile = 3;
+        }
+        String prefix = nip.substring(0, ile);
+        Pattern p = Pattern.compile("[0-9]");
+        boolean isnumber = p.matcher(prefix).find();
+        String zwrot = nip;
+        if (!isnumber) {
+            zwrot = nip.substring(2);
+        }
+        return zwrot;
     }
 
     public void drukuj(DeklaracjavatUE d) {
