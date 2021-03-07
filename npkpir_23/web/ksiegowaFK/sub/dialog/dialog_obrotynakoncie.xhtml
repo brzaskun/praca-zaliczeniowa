@@ -7,18 +7,18 @@
     >
     <style>
         #panelzachodni {
-            width: 350px;
+            width: 450px;
         }
         .ui-layout-pane-west { 
-            width: 350px;
+            width: 450px;
         }
     </style>
     <p:dialog id="obroty" header="Obroty na kontach - #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="obrotynakoncie"   
-              resizable="false" onShow="ustawdialog('obroty','menudokumenty',1550,750);$(document.getElementById('formobrotykonta:wyborkontaobroty_input')).select();" onHide="resetujdialog('obroty');"  closeOnEscape="true"  
+              resizable="false" onShow="ustawdialog('obroty','menudokumenty',1750,780);$(document.getElementById('formobrotykonta:wyborkontaobroty_input')).select();" onHide="resetujdialog('obroty');"  closeOnEscape="true"  
               >
         
         <p:ajax event="open" listener="#{kontoObrotyFKView.init()}" update="formobrotykonta formobroty:dataListObroty"/>
-        <p:layout fullPage="false" style="width: 550px; height: 700px;">  
+        <p:layout fullPage="false" style="width: 720px; height: 700px;">  
             <p:layoutUnit position="north" >
                 <p:panelGrid columns="2" columnClasses="kontaGrid1, kontaGrid2">
                     <h:form id="formobrotykonta">
@@ -82,7 +82,7 @@
                     <p:dataTable id="dataListObroty" value="#{kontoObrotyFKView.wykazkont}" var="loop" selectionMode="single" 
                                  selection="#{kontoObrotyFKView.wybranekonto}"
                                  sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop}" 
-                                 styleClass="grid" style="width: 100%; height: 510px; overflow-y: scroll;" rowKey="#{loop.id}">
+                                 styleClass="grid" style="width: 450px; height: 510px; overflow-y: scroll;" rowKey="#{loop.id}">
                         <p:ajax event="rowSelect" update=":tabelazobrotami:tabelaobroty :tabelazsumamiobrotow:sumy :formobrotykonta:nazwawybranegokonta" 
                                 listener="#{kontoObrotyFKView.pobierzZapisyNaKoncieNode}" />
                         <p:ajax event="rowUnselect" update=":tabelazobrotami:tabelaobroty :tabelazsumamiobrotow:sumy :formobrotykonta:nazwawybranegokonta" 
@@ -99,20 +99,18 @@
                             <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
                             <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '3' ? true : false)}" style="margin-left: 30px;"/> 
                         </p:column>
-                        <p:column headerText="nazwa pełna" >
+                        <p:column headerText="nazwa pełna" style="width: 200px; height: 30px;">
                             <h:outputText value="#{loop.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
                             <h:outputText value="#{loop.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                         </p:column>
                     </p:dataTable>
                 </h:form>
             </p:layoutUnit>  
-            <!--            <p:layoutUnit position="east" size="200">  
-                        </p:layoutUnit>  -->
-            <p:layoutUnit position="center" style="min-width: 1100px;">
+            <p:layoutUnit position="center" style="min-width: 1460px;">
                 <h:form id="tabelazobrotami">  
-                    <p:dataTable id="tabelaobroty" value="#{kontoObrotyFKView.lista}" var="loop" rowKey="#{loop.miesiac}"  style="width: 1100px;"
+                    <p:dataTable id="tabelaobroty" value="#{kontoObrotyFKView.lista}" var="loop" rowKey="#{loop.miesiac}" 
                                  selection="#{kontoObrotyFKView.wybranekontadosumowania}" rowIndexVar="index"
-                                 rowStyleClass="#{index eq 0 ? 'niebieskietlo' : null}"
+                                 rowStyleClass="#{index eq 0 ? 'niebieskietlo' : null}" style="width: 1450px"
                                  >
                         <p:ajax event="rowSelectCheckbox" update=":tabelazsumamiobrotow:sumy" listener="#{kontoObrotyFKView.sumazapisowtotal}" global="false"/>
                         <p:ajax event="rowUnselectCheckbox" update=":tabelazsumamiobrotow:sumy" listener="#{kontoObrotyFKView.sumazapisowtotal}" global="false"/>

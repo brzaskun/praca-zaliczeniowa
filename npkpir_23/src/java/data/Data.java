@@ -282,6 +282,15 @@ public class Data implements Serializable {
         }
 	return zwrot;
     }
+    
+    public static String data_ddMMyyyy(Date date) {
+        String zwrot = "";
+        if (date != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            zwrot = sdf.format(date);
+        }
+	return zwrot;
+    }
 
     public static boolean czyjestpomiedzy (String dataOd, String dataDo, String rok, String mc) {
         return czyjestpo(dataOd, rok, mc) && czyjestprzed(dataDo, rok, mc);
@@ -511,6 +520,11 @@ public class Data implements Serializable {
    public static String calendarToString(XMLGregorianCalendar x) {
        Date date = x.toGregorianCalendar().getTime();
        return data_yyyyMMdd(date);
+   }
+   
+   public static String calendarToStringddMMYYY(XMLGregorianCalendar x) {
+       Date date = x.toGregorianCalendar().getTime();
+       return data_ddMMyyyy(date);
    }
    
    public static boolean sprawdzpoprawnoscdaty(String data) {

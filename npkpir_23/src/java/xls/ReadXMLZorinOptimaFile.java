@@ -120,7 +120,18 @@ public class ReadXMLZorinOptimaFile {
                                 }
                             } else {
                                 ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT zlyrow = null;
-                                if (jakipobor.equals("firmy") && nip!=null && !nip.equals("") &&  nip.length()>7) {
+                                if (jakipobor.equals("wszystko")) {
+                                    zlyrow = uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
+                                    if (zlyrow != null) {
+                                        przerwanyimport.add(zlyrow);
+                                    }
+                                    if (interpaperXLS.getKontrahent() != null && (interpaperXLS.getNettowaluta() != 0.0 || interpaperXLS.getVatwaluta() != 0.0)) {
+                                        interpaperXLS.setNr(i++);
+                                        listafaktur.add(interpaperXLS);
+                                    } else {
+                                        importyzbrakami.add(interpaperXLS);
+                                    }
+                                } else if (jakipobor.equals("firmy") && nip!=null && !nip.equals("") &&  nip.length()>7) {
                                     zlyrow = uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
                                     if (zlyrow!=null) {
                                         przerwanyimport.add(zlyrow);
@@ -133,6 +144,17 @@ public class ReadXMLZorinOptimaFile {
                                     }
                                 } else if (jakipobor.equals("fiz") && (nip==null || nip.equals("") || nip.length()<8)) {
                                     zlyrow = uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
+                                    if (zlyrow != null) {
+                                        przerwanyimport.add(zlyrow);
+                                    }
+                                    if (interpaperXLS.getKontrahent() != null && (interpaperXLS.getNettowaluta() != 0.0 || interpaperXLS.getVatwaluta() != 0.0)) {
+                                        interpaperXLS.setNr(i++);
+                                        listafaktur.add(interpaperXLS);
+                                    } else {
+                                        importyzbrakami.add(interpaperXLS);
+                                    }
+                                } else if (jakipobor.equals("paragony") && (nip==null || nip.equals("") || nip.length()<8)) {
+                                    zlyrow = uzupelnijsprzedazPar(interpaperXLS, row, k, klienciDAO, znalezieni);
                                     if (zlyrow != null) {
                                         przerwanyimport.add(zlyrow);
                                     }
@@ -226,6 +248,48 @@ public class ReadXMLZorinOptimaFile {
     private static ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT uzupelnijsprzedaz(InterpaperXLS interpaperXLS, ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
         ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT zlafaktura = null;
         if (!row.getOPIS().equals("PAR")&&!row.getOPIS().equals("PAR 2")&&!row.getOPIS().equals("KPAR")&&!row.getOPIS().equals("KPAR 2")) {
+            try {
+                if (row.getIDZRODLA().equals("A5BB0C3C-43E3-4251-97DB-DE9CF8FF59E8")) {
+                    System.out.println("");
+                }
+                interpaperXLS.setNrfaktury(row.getNUMER());
+                interpaperXLS.setDatawystawienia(row.getDATAWYSTAWIENIA().toGregorianCalendar().getTime());
+                interpaperXLS.setDatasprzedaży(row.getDATASPRZEDAZY().toGregorianCalendar().getTime());
+                interpaperXLS.setDataobvat(row.getDATASPRZEDAZY().toGregorianCalendar().getTime());
+                interpaperXLS.setKlientnazwa(row.getNAZWA1());
+                interpaperXLS.setKlientpaństwo(row.getKRAJ());
+                interpaperXLS.setKlientkod(row.getKODPOCZTOWY());
+                interpaperXLS.setKlientmiasto(row.getMIASTO());
+                interpaperXLS.setKlientulica(row.getULICA());
+                interpaperXLS.setKlientdom(row.getNRDOMU());
+                interpaperXLS.setKlientlokal(row.getNRLOKALU());
+                String kontr = row.getNAZWA1()+" "+row.getKRAJ()+" "+row.getKODPOCZTOWY()+" "+row.getMIASTO();
+                interpaperXLS.setKontrahent(kontr);
+                interpaperXLS.setNip(pobierznip(row));
+                interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
+                interpaperXLS.setWalutaplatnosci(pobierzwalute(row));
+                List<ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.POZYCJE.POZYCJA> poz = row.getPOZYCJE().getPOZYCJA();
+                ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.PLATNOSCI.PLATNOSC plt = row.getPLATNOSCI().getPLATNOSC();
+                interpaperXLS.setSaldofaktury(plt!=null?plt.getKWOTAPLAT():0.0);
+                interpaperXLS.setTerminplatnosci(plt!=null&&plt.getTERMINPLAT()!=null? plt.getTERMINPLAT().toGregorianCalendar().getTime():null);
+                double kwoty[] = obliczkwoty(poz,plt, pobierzwalute(row));
+                interpaperXLS.setNettoPLN(kwoty[0]);
+                interpaperXLS.setNettoPLNvat(kwoty[0]);
+                interpaperXLS.setVatPLN(kwoty[1]);
+                interpaperXLS.setBruttoPLN(kwoty[2]);
+                interpaperXLS.setNettowaluta(kwoty[3]);
+                interpaperXLS.setVatwaluta(kwoty[4]);
+                interpaperXLS.setBruttowaluta(kwoty[5]);
+            } catch (Exception e) {
+                zlafaktura = row;
+            }
+        }
+        return zlafaktura;
+    }
+    
+    private static ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT uzupelnijsprzedazPar(InterpaperXLS interpaperXLS, ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
+        ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT zlafaktura = null;
+        if (row.getOPIS().equals("PAR")&&row.getOPIS().equals("PAR 2")&&row.getOPIS().equals("KPAR")&&row.getOPIS().equals("KPAR 2")) {
             try {
                 interpaperXLS.setNrfaktury(row.getNUMER());
                 interpaperXLS.setDatawystawienia(row.getDATAWYSTAWIENIA().toGregorianCalendar().getTime());
@@ -417,7 +481,7 @@ public class ReadXMLZorinOptimaFile {
                             interpaperXLS.setNip(pobierznip(row));
                             interpaperXLS.setWalutaplatnosci(pobierzwalute(row));
                             List<ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.POZYCJE.POZYCJA> poz = row.getPOZYCJE().getPOZYCJA();
-                            ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.PLATNOSCI.PLATNOSC plt = row.getPLATNOSCI().getPLATNOSC();
+                            ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.PLATNOSCI.PLATNOSC plt = row.getPLATNOSCI().getPLATNOSC()!=null?row.getPLATNOSCI().getPLATNOSC():null;
                             interpaperXLS.setSaldofaktury(plt.getKWOTAPLAT());
                             interpaperXLS.setTerminplatnosci(plt.getTERMINPLAT().toGregorianCalendar().getTime());
                             double kwoty[] = obliczkwoty(poz,plt, pobierzwalute(row));
@@ -472,7 +536,7 @@ public class ReadXMLZorinOptimaFile {
 
     private static String pobierzwalute(ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT row) {
         String zwrot = null;
-        zwrot = row.getPLATNOSCI().getPLATNOSC().getWALUTADOK();
+        zwrot = row.getPLATNOSCI().getPLATNOSC()!=null?row.getPLATNOSCI().getPLATNOSC().getWALUTADOK():null;
         if (zwrot==null || zwrot.equals("")) {
             zwrot = "PLN";
         }
@@ -492,9 +556,7 @@ public class ReadXMLZorinOptimaFile {
             pozycjevat = Z.z(pozycjevat+Double.parseDouble(obetnijwalute(p.getVAT(), waluta)));
         }
         sumapozycje = Z.z(pozycjenetto+pozycjevat);
-        boolean pozycjesawzlotowkach = Z.z(sumapozycje) == Z.z(plt.getKWOTAPLNPLAT());
-        boolean kwotyrowne = Z.z(plt.getKWOTAPLAT())==Z.z(plt.getKWOTAPLNPLAT());
-        if (pozycjesawzlotowkach && kwotyrowne) {
+        if (plt==null) {
             nettopln = pozycjenetto;
             vatpln = pozycjevat;
             zwrot[0] = nettopln;
@@ -504,40 +566,53 @@ public class ReadXMLZorinOptimaFile {
             zwrot[4] = vatpln;
             zwrot[5] = Z.z(nettopln+vatpln);
         } else {
-            if (Z.z(sumapozycje)==Z.z(plt.getKWOTAPLAT())) {
-                double nettowaluta = pozycjenetto;
-                double vatwaluta = pozycjevat;
-                double stawkavat = vatwaluta/nettowaluta;
-                double procentvat = stawkavat/(1.0+stawkavat);
-                zwrot[3] = nettowaluta;
-                zwrot[4] = vatwaluta;
-                zwrot[5] = Z.z(nettowaluta+vatwaluta);
-                vatpln = Z.z(plt.getKWOTAPLNPLAT()*procentvat);
-                nettopln = Z.z(plt.getKWOTAPLNPLAT()-vatpln);
-                if (nettowaluta<0.0) {
-                    nettopln = -nettopln;
-                    vatpln = -vatpln;
-                }
-                zwrot[0] = nettopln;
-                zwrot[1] = vatpln;
-                zwrot[2] = Z.z(nettopln+vatpln);
-            } else {
+            boolean pozycjesawzlotowkach = Z.z(sumapozycje) == Z.z(plt.getKWOTAPLNPLAT());
+            boolean kwotyrowne = Z.z(plt.getKWOTAPLAT())==Z.z(plt.getKWOTAPLNPLAT());
+            if (pozycjesawzlotowkach && kwotyrowne) {
                 nettopln = pozycjenetto;
                 vatpln = pozycjevat;
-                double stawkavat = vatpln/nettopln;
-                double procentvat = stawkavat/(1+stawkavat);
                 zwrot[0] = nettopln;
                 zwrot[1] = vatpln;
                 zwrot[2] = Z.z(nettopln+vatpln);
-                double vatwaluta = Z.z(plt.getKWOTAPLAT()*procentvat);
-                double nettowaluta = Z.z(plt.getKWOTAPLAT()-vatwaluta);
-                if (nettopln<0.0) {
-                    nettowaluta = -nettowaluta;
-                    vatwaluta = -vatwaluta;
+                zwrot[3] = nettopln;
+                zwrot[4] = vatpln;
+                zwrot[5] = Z.z(nettopln+vatpln);
+            } else {
+                if (Z.z(Math.abs(sumapozycje))==Z.z(Math.abs(plt.getKWOTAPLAT()))) {
+                    double nettowaluta = pozycjenetto;
+                    double vatwaluta = pozycjevat;
+                    double stawkavat = vatwaluta/nettowaluta;
+                    double procentvat = stawkavat/(1.0+stawkavat);
+                    zwrot[3] = nettowaluta;
+                    zwrot[4] = vatwaluta;
+                    zwrot[5] = Z.z(nettowaluta+vatwaluta);
+                    vatpln = Z.z(plt.getKWOTAPLNPLAT()*procentvat);
+                    nettopln = Z.z(plt.getKWOTAPLNPLAT()-vatpln);
+                    if (nettowaluta<0.0) {
+                        nettopln = -nettopln;
+                        vatpln = -vatpln;
+                    }
+                    zwrot[0] = nettopln;
+                    zwrot[1] = vatpln;
+                    zwrot[2] = Z.z(nettopln+vatpln);
+                } else {
+                    nettopln = pozycjenetto;
+                    vatpln = pozycjevat;
+                    double stawkavat = vatpln/nettopln;
+                    double procentvat = stawkavat/(1+stawkavat);
+                    zwrot[0] = nettopln;
+                    zwrot[1] = vatpln;
+                    zwrot[2] = Z.z(nettopln+vatpln);
+                    double vatwaluta = Z.z(plt.getKWOTAPLAT()*procentvat);
+                    double nettowaluta = Z.z(plt.getKWOTAPLAT()-vatwaluta);
+                    if (nettopln<0.0) {
+                        nettowaluta = -nettowaluta;
+                        vatwaluta = -vatwaluta;
+                    }
+                    zwrot[3] = nettowaluta;
+                    zwrot[4] = vatwaluta;
+                    zwrot[5] = Z.z(nettowaluta+vatwaluta);
                 }
-                zwrot[3] = nettowaluta;
-                zwrot[4] = vatwaluta;
-                zwrot[5] = Z.z(nettowaluta+vatwaluta);
             }
         }
         return zwrot;

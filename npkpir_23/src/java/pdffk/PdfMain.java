@@ -1726,6 +1726,8 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[6])), "right", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format((Double)p[7])), "right", 8));
                 table.addCell(ustawfrazeAlign((String)p[8], "left", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format((Integer)p[9])), "right", 8));
+                
             }
             if (nazwaklasy.equals("tabelaklientjpkfk")) {
                 //Object[] a = new Object[]{kraj, waluta, nettowaluta, vatwaluta, bruttowal, nettopl, vatpl, bruttopln};

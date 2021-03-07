@@ -9,8 +9,6 @@ import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddablefk.InterpaperXLS;
-import entity.Dok;
-import entityfk.Tabelanbp;
 import error.E;
 import format.F;
 import java.io.File;
@@ -72,9 +70,11 @@ public class PdfXLSImport {
                         }
                     }
             }
+            
             document.newPage();
-            String[] nag1 = new String[]{"lp","kraj","waluta","netto","vat","brutto","nettopln","vatpln","bruttopln", "stawka vat"};
-            int[] nag2 = new int[]{2,3,3,3,3,3,3,3,3,3};
+            dodajwierszpodsumowania(tabelazbiorcza);
+            String[] nag1 = new String[]{"lp","kraj","waluta","netto","vat","brutto","nettopln","vatpln","bruttopln", "stawka vat", "licz.dok"};
+            int[] nag2 = new int[]{2,3,3,3,3,3,3,3,3,3,3};
             dodajTabele2(document, nag1, nag2, tabelazbiorcza, 70, modyfikator,"tabelazorint");
             finalizacjaDokumentuQR(document,nazwa);
             String f = "pokazwydruk('"+nazwa+"');";
@@ -109,7 +109,9 @@ public class PdfXLSImport {
         }
         double bruttopln = Z.z(nettopl+vatpl);
         double bruttowal = Z.z(nettowaluta+vatwaluta);
-        String opis = "Razem wartość wybranych dokumentów w PLN";
+        String opis = "Ilośc dokumentów "+lista.size();
+        PdfMain.dodajLinieOpisuBezOdstepu(document, opis);
+        opis = "Razem wartość wybranych dokumentów w PLN";
         PdfMain.dodajLinieOpisuBezOdstepu(document, opis);
         opis = "netto: "+F.curr(nettopl)+" vat: "+F.curr(vatpl)+" brutto: "+F.curr(bruttopln);
         PdfMain.dodajLinieOpisuBezOdstepu(document, opis);
@@ -119,7 +121,7 @@ public class PdfXLSImport {
             opis = "netto wal: "+F.curr(nettowaluta, waluta)+" vat wal: "+F.curr(vatwaluta, waluta)+" brutto: "+F.curr(bruttowal, waluta);
             PdfMain.dodajLinieOpisu(document, opis);
         } catch(Exception e) {}
-        Object[] a = new Object[]{kraj, waluta, nettowaluta, vatwaluta, bruttowal, nettopl, vatpl, bruttopln, vatstawka};
+        Object[] a = new Object[]{kraj, waluta, nettowaluta, vatwaluta, bruttowal, nettopl, vatpl, bruttopln, vatstawka, lista.size()};
         tabelazbiorcza.add(Arrays.asList(a));
         
     }
@@ -144,5 +146,21 @@ public class PdfXLSImport {
             }
         }
         return zwrot;
+    }
+
+    private static void dodajwierszpodsumowania(List tabelazbiorcza) {
+        double netto = 0.0;
+        double vat = 0.0;
+        double brutto = 0.0;
+        int liczba = 0;
+        for (int i = 0; i < tabelazbiorcza.size() ;i++) {
+            List wiersz2  = (List) tabelazbiorcza.get(i);
+            netto = netto + (double) wiersz2.get(5);
+            vat = vat + (double) wiersz2.get(6);
+            brutto = brutto + (double) wiersz2.get(7);
+            liczba = liczba + (int)wiersz2.get(9);
+        }
+        Object[] sumowanie = new Object[]{"suma", "PLN", 0.0, 0.0, 0.0, Z.z(netto), Z.z(vat), Z.z(brutto), "", liczba};
+        tabelazbiorcza.add(Arrays.asList(sumowanie));
     }
 }

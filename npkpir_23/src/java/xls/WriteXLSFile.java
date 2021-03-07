@@ -11,11 +11,13 @@ import embeddablefk.SaldoKonto;
 import entity.Rodzajedok;
 import entityfk.Konto;
 import entityfk.PozycjaRZiSBilans;
+import error.E;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +28,8 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Header;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -38,7 +42,9 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFPrintSetup;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import pl.com.cdn.optima.offline.ROOT;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -302,6 +308,46 @@ public class WriteXLSFile {
         return workbook;
     }
     
+    public static Workbook zachowajRaportZorin(ROOT.REJESTRYSPRZEDAZYVAT lista, WpisView wpisView){
+        Workbook workbook = new XSSFWorkbook();
+        try {
+            List headersList = headerzorinraport();
+            // Using XSSF for xlsx format, for xls use HSSF
+            Sheet sheet = workbook.createSheet("Raport");
+    //        Header header = sheet.getHeader();
+    //        header.setCenter(wpisView.getPodatnikWpisu());
+    //        header.setLeft("ZORIN RAPORT "+wpisView.getMiesiacWpisu());
+            int rowIndex = 0;
+            String opis = B.b("firma")+" "+wpisView.getPrintNazwa()+" "+"RAPORTOPTIMA"+wpisView.getRokWpisuSt()+"/"+wpisView.getMiesiacWpisu();
+            rowIndex = drawATableZorin(workbook, sheet, rowIndex, headersList, lista.getREJESTRSPRZEDAZYVAT(), opis, 3, "suma");
+            workbook.setPrintArea(
+            0, //sheet index
+            0, //start column
+            4, //end column
+            0, //start row
+            rowIndex //end row
+            );
+          //set paper size
+            sheet.getPrintSetup().setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
+            sheet.setFitToPage(true);
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/");
+            String FILE_PATH = realPath+FILE_PATH1;
+            //write this workbook in excel file.
+            OutputStream fos = new FileOutputStream(FILE_PATH);
+            workbook.write(fos);
+            fos.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception ez) {
+            System.out.println(E.e(ez));
+        }
+        return workbook;
+    }
+    
     public static Workbook zachowajSrodkiXLS(Map<String, List> listy, WpisView wpisView){
         List lista = listy.get("srodkitrwale");
         List headersList = headersrodki();
@@ -431,6 +477,31 @@ public class WriteXLSFile {
         return headers;
     }
     
+    public static List headerzorinraport() {
+        List headers = new ArrayList();
+        headers.add("lp");
+        headers.add("ID_ZRODLA");
+        headers.add("REJESTR");
+        headers.add("DATA_WYSTAWIENIA");
+        headers.add("DATA_SPRZEDAZY");
+        headers.add("NUMER");
+        headers.add("KOREKTA");
+        headers.add("FISKALNA");
+        headers.add("PODMIOT");
+        headers.add("PODMIOT_ID");
+        headers.add("NAZWA1");
+        headers.add("KRAJ");
+        headers.add("OPIS");
+        headers.add("NETTO");
+        headers.add("VAT");
+        headers.add("BRUTTO");
+        headers.add("WALUTA");
+        headers.add("NETTOpln");
+        headers.add("VATpln");
+        headers.add("BRUTTOpln");
+        return headers;
+    }
+    
     
     public static List headersrodki() {
         List headers = new ArrayList();
@@ -476,6 +547,159 @@ public class WriteXLSFile {
         return headers;
     }
     
+    private static <T> int drawATableZorin(Workbook workbook, Sheet sheet, int rowIndex, List headers, List<ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT> elements, String tableheader, int typ, String nazwasumy) {
+        int startindex = rowIndex+3;
+        int columnIndex = 0;
+        //Row rowTH = sheet.createRow(rowIndex++);
+        CellStyle styleheader = styleHeader(workbook, HorizontalAlignment.CENTER, VerticalAlignment.CENTER, (short) 10);
+//        createHeaderCell(styleheader, rowTH, (short) 2, tableheader);
+//        CellRangeAddress region = new CellRangeAddress( rowIndex-1, rowIndex-1, (short) 2, (short)12);
+//        sheet.addMergedRegion(region);
+        sheet.setAutoFilter(CellRangeAddress.valueOf("A1:S1"));
+        CellStyle styletext = styleText(workbook, HorizontalAlignment.LEFT, VerticalAlignment.CENTER);
+        CellStyle styletextcenter = styleText(workbook, HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
+        CellStyle styledata = styleData(workbook, HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
+        CellStyle styleformula = styleFormula(workbook, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER);
+        CellStyle styledouble = styleDouble(workbook, HorizontalAlignment.RIGHT, VerticalAlignment.CENTER);
+        Row rowH = sheet.createRow(rowIndex++);
+        for(Iterator it = headers.iterator(); it.hasNext();){
+            String header = (String) it.next();
+            createHeaderCell(styleheader, rowH, (short) columnIndex++, header);
+        }
+        int i = 1;
+        for (ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT st : elements) {
+            Row row = sheet.createRow(rowIndex++);
+            columnIndex = 0;
+            ustawWierszZorin(i, workbook, row, columnIndex, st, rowIndex, styletext, styletextcenter, styledouble, styledata);
+            i++;
+        }
+//        sheet.createRow(rowIndex++);//pusty row
+//        if (headers.size()> 3) {
+//            rowIndex = summaryRowZorin(startindex, rowIndex, workbook, sheet, nazwasumy, styletext, styleformula);
+//        }
+        autoAlign(sheet);
+        return rowIndex;
+    }
+    
+    private static <T> void ustawWierszZorin(int i, Workbook workbook, Row row, int columnIndex, ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT ob, int rowIndex, CellStyle styletext, CellStyle styletextcenter, CellStyle styledouble, CellStyle styledata) {
+        createTextCell(styletext, row, (short) columnIndex++, String.valueOf(i++));
+        createTextCell(styletext, row, (short) columnIndex++, ob.getIDZRODLA());
+        if (ob.getIDZRODLA().equals("45070899-0E3F-4499-AD4E-B7061E47809F")) {
+            System.out.println("");
+        }
+        createTextCell(styletext, row, (short) columnIndex++, ob.getREJESTR());
+        createDateCell(styledata, row, (short) columnIndex++, ob.getDATAWYSTAWIENIA().toGregorianCalendar().getTime());
+        createDateCell(styledata, row, (short) columnIndex++, ob.getDATASPRZEDAZY().toGregorianCalendar().getTime());
+        createTextCell(styletext, row, (short) columnIndex++, ob.getNUMER());
+        createTextCell(styletext, row, (short) columnIndex++, ob.getKOREKTA());
+        createTextCell(styletext, row, (short) columnIndex++, ob.getFISKALNA());
+        createTextCell(styletext, row, (short) columnIndex++, ob.getPODMIOT());
+        createTextCell(styletext, row, (short) columnIndex++, ob.getPODMIOTID());
+        createTextCell(styletext, row, (short) columnIndex++, ob.getNAZWA1());
+        createTextCell(styletext, row, (short) columnIndex++, ob.getKRAJ());
+        createTextCell(styletext, row, (short) columnIndex++, ob.getOPIS());
+        List<ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.POZYCJE.POZYCJA> poz = ob.getPOZYCJE().getPOZYCJA();
+        ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.PLATNOSCI.PLATNOSC plt = ob.getPLATNOSCI().getPLATNOSC()!=null?ob.getPLATNOSCI().getPLATNOSC():null;
+        double kwoty[] = obliczkwoty(poz,plt, pobierzwalute(ob));
+        createDoubleCell(styledouble, row, (short) columnIndex++, kwoty[3]);
+        createDoubleCell(styledouble, row, (short) columnIndex++, kwoty[4]);
+        createDoubleCell(styledouble, row, (short) columnIndex++, kwoty[5]);
+        createTextCell(styletext, row, (short) columnIndex++, pobierzwalute(ob));
+        createDoubleCell(styledouble, row, (short) columnIndex++, kwoty[0]);
+        createDoubleCell(styledouble, row, (short) columnIndex++, kwoty[1]);
+        createDoubleCell(styledouble, row, (short) columnIndex++, kwoty[2]);
+        
+    }
+    private static String pobierzwalute(ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT row) {
+        String zwrot = "PLN";
+        if (row.getPLATNOSCI().getPLATNOSC()!=null) {
+            zwrot = row.getPLATNOSCI().getPLATNOSC().getWALUTADOK();
+        }
+        return zwrot;
+    }
+    private static double[] obliczkwoty(List<ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.POZYCJE.POZYCJA> poz, ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.PLATNOSCI.PLATNOSC plt, String waluta) {
+        double zwrot[] = new double[6];
+        double pozycjenetto = 0.0;
+        double pozycjevat = 0.0;
+        double sumapozycje = 0.0;
+        double nettopln = 0.0;
+        double vatpln = 0.0;
+        double bruttopln = 0.0;
+        for (ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.POZYCJE.POZYCJA p :poz) {
+            pozycjenetto = Z.z(pozycjenetto+Double.parseDouble(obetnijwalute(p.getNETTO(), waluta)));
+            pozycjevat = Z.z(pozycjevat+Double.parseDouble(obetnijwalute(p.getVAT(), waluta)));
+        }
+        sumapozycje = Z.z(pozycjenetto+pozycjevat);
+        if (plt==null) {
+            nettopln = pozycjenetto;
+            vatpln = pozycjevat;
+            zwrot[0] = nettopln;
+            zwrot[1] = vatpln;
+            zwrot[2] = Z.z(nettopln+vatpln);
+            zwrot[3] = nettopln;
+            zwrot[4] = vatpln;
+            zwrot[5] = Z.z(nettopln+vatpln);
+        } else {
+            boolean pozycjesawzlotowkach = Z.z(sumapozycje) == Z.z(plt.getKWOTAPLNPLAT());
+            boolean kwotyrowne = Z.z(plt.getKWOTAPLAT())==Z.z(plt.getKWOTAPLNPLAT());
+            if (pozycjesawzlotowkach && kwotyrowne) {
+                nettopln = pozycjenetto;
+                vatpln = pozycjevat;
+                zwrot[0] = nettopln;
+                zwrot[1] = vatpln;
+                zwrot[2] = Z.z(nettopln+vatpln);
+                zwrot[3] = nettopln;
+                zwrot[4] = vatpln;
+                zwrot[5] = Z.z(nettopln+vatpln);
+            } else {
+                if (Z.z(Math.abs(sumapozycje))==Z.z(Math.abs(plt.getKWOTAPLAT()))) {
+                    double nettowaluta = pozycjenetto;
+                    double vatwaluta = pozycjevat;
+                    double stawkavat = vatwaluta/nettowaluta;
+                    double procentvat = stawkavat/(1.0+stawkavat);
+                    zwrot[3] = nettowaluta;
+                    zwrot[4] = vatwaluta;
+                    zwrot[5] = Z.z(nettowaluta+vatwaluta);
+                    vatpln = Z.z(plt.getKWOTAPLNPLAT()*procentvat);
+                    nettopln = Z.z(plt.getKWOTAPLNPLAT()-vatpln);
+                    if (nettowaluta<0.0) {
+                        nettopln = -nettopln;
+                        vatpln = -vatpln;
+                    }
+                    zwrot[0] = nettopln;
+                    zwrot[1] = vatpln;
+                    zwrot[2] = Z.z(nettopln+vatpln);
+                } else {
+                    nettopln = pozycjenetto;
+                    vatpln = pozycjevat;
+                    double stawkavat = vatpln/nettopln;
+                    double procentvat = stawkavat/(1+stawkavat);
+                    zwrot[0] = nettopln;
+                    zwrot[1] = vatpln;
+                    zwrot[2] = Z.z(nettopln+vatpln);
+                    double vatwaluta = Z.z(plt.getKWOTAPLAT()*procentvat);
+                    double nettowaluta = Z.z(plt.getKWOTAPLAT()-vatwaluta);
+                    if (nettopln<0.0) {
+                        nettowaluta = -nettowaluta;
+                        vatwaluta = -vatwaluta;
+                    }
+                    zwrot[3] = nettowaluta;
+                    zwrot[4] = vatwaluta;
+                    zwrot[5] = Z.z(nettowaluta+vatwaluta);
+                }
+            }
+        }
+        return zwrot;
+    }
+    private static String obetnijwalute(String netto, String waluta) {
+        String zwrot = netto;
+        if (netto.contains(waluta)) {
+            zwrot = netto.replace(waluta,"");
+            zwrot = zwrot.trim();
+        }
+        return zwrot;
+    }
+
     private static <T> int drawATable(Workbook workbook, Sheet sheet, int rowIndex, List headers, List<T> elements, String tableheader, int typ, String nazwasumy) {
         int startindex = rowIndex+3;
         int columnIndex = 0;
@@ -680,7 +904,26 @@ public class WriteXLSFile {
         } 
         return rowIndex;
     }
-    
+
+    private static int summaryRowZorin(int startindex, int rowIndex, Workbook workbook, Sheet sheet, String nazwasumy, CellStyle styletext, CellStyle styleformula) {
+            Row row = sheet.createRow(rowIndex);
+            createTextCell(styletext, row, (short) 12, "Razem");
+            String formula = "SUBTOTAL(9;N"+startindex+":N"+rowIndex+")";
+            createFormulaCell(styleformula, row, (short) 13, formula);
+            formula = "SUBTOTAL(9;O"+startindex+":O"+rowIndex+")";
+            createFormulaCell(styleformula, row, (short) 14, formula);
+            formula = "SUBTOTAL(9;P"+startindex+":P"+rowIndex+")";
+            createFormulaCell(styleformula, row, (short) 15, formula);
+            createTextCell(styletext, row, (short) 16, "");
+            formula = "SUBTOTAL(9;R"+startindex+":R"+rowIndex+")";
+            createFormulaCell(styleformula, row, (short) 17, formula);
+            formula = "SUBTOTAL(9;S"+startindex+":S"+rowIndex+")";
+            createFormulaCell(styleformula, row, (short) 18, formula);
+            formula = "SUBTOTAL(9;T"+startindex+":T"+rowIndex+")";
+            createFormulaCell(styleformula, row, (short) 19, formula);
+        return rowIndex;
+    }    
+
     private static void setCellName(Workbook workbook, String nazwasumy, String kolumna, String wiersz) {
         String nazwakom = "!$"+kolumna+"$"+wiersz;
         Name name;
@@ -744,9 +987,29 @@ public class WriteXLSFile {
         return cellStyle;
     }
     
+    private static CellStyle styleData(Workbook wb, HorizontalAlignment halign, VerticalAlignment valign) {
+        CellStyle cellStyle = wb.createCellStyle();
+        DataFormat format = wb.createDataFormat();
+        CreationHelper createHelper = wb.getCreationHelper();
+        cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("dd-MM-yyyy"));
+        cellStyle.setAlignment(halign);
+        cellStyle.setVerticalAlignment(valign);
+        cellStyle.setBorderBottom(BorderStyle.THIN);
+        cellStyle.setBorderTop(BorderStyle.THIN);
+        cellStyle.setBorderRight(BorderStyle.THIN);
+        cellStyle.setBorderLeft(BorderStyle.THIN);
+        return cellStyle;
+    }
+    
     private static void createTextCell(CellStyle cellStyle, Row row, short column, String value) {
         Cell cell = row.createCell(column);
         cell.setCellValue(new XSSFRichTextString(value));
+        cell.setCellStyle(cellStyle);
+    }
+    
+     private static void createDateCell(CellStyle cellStyle, Row row, short column, Date value) {
+        Cell cell = row.createCell(column);
+        cell.setCellValue(value);
         cell.setCellStyle(cellStyle);
     }
     
@@ -797,7 +1060,7 @@ public class WriteXLSFile {
     }
     
     private static void autoAlign(Sheet sheet) {
-        for (int i=0;i<15;i++) {
+        for (int i=0;i<20;i++) {
             sheet.autoSizeColumn((short) i);
         }
     }

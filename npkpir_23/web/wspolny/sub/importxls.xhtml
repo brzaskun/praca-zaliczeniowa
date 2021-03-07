@@ -44,6 +44,8 @@
                             <f:selectItem itemLabel="wybierz" itemValue=""/>
                             <f:selectItem itemLabel="osoby fizyczne" itemValue="fiz"/>
                             <f:selectItem itemLabel="firmy" itemValue="firmy" />
+                            <f:selectItem itemLabel="paragony" itemValue="paragony" />
+                            <f:selectItem itemLabel="wszystko" itemValue="wszystko" />
                             <p:ajax global="false" event="change"  partialSubmit="true"/>
                     </p:selectOneMenu>
                 </p:panelGrid>
@@ -94,7 +96,7 @@
                          style="width: 1420px; height: 480px; overflow-y: scroll; margin-top: 15px;margin-bottom: 15px;" filteredValue="#{interpaperImportView.pobranefakturyfilter}"
                          emptyMessage="Brak importowanych dokumentów/Sprawdź kolumny w dokumencie xls" styleClass="gridZaksiegowane"
                          sortBy="#{itemimp.nr}"  
-                         rowsPerPageTemplate="150,300,600,900,1200" paginatorPosition="top" paginator="#{interpaperImportView.pobranefaktury.size() gt 150 ? 'true':'false'}" rows="150"
+                         rowsPerPageTemplate="150,300,600,900,1200" paginatorPosition="top" paginator="#{interpaperImportView.pobranefaktury.size() gt 150 ? 'true':'false'}" 
                          >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
                 <p:ajax event="filter" global="false"/>

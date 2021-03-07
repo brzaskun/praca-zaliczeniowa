@@ -263,21 +263,23 @@ public class InterpaperImportView implements Serializable {
                     break;
             }
             if (jakipobor!=null) {
-                if (jakipobor.equals("fiz")) {
-                    for (Iterator<InterpaperXLS> it = pobranefaktury.iterator(); it.hasNext();) {
-                        InterpaperXLS f = it.next();
-                        if (f.getNip()!=null && !f.getNip().equals("")) {
-                            it.remove();
-                        }
-                    }
-                } else {
-                    for (Iterator<InterpaperXLS> it = pobranefaktury.iterator(); it.hasNext();) {
-                        InterpaperXLS f = it.next();
-                        if (f.getNip()==null) {
-                            it.remove();
-                        }
-                    }
-                }
+//                if (jakipobor.equals("wszystko")) {
+//                    
+//                } else if (jakipobor.equals("fiz")) {
+//                    for (Iterator<InterpaperXLS> it = pobranefaktury.iterator(); it.hasNext();) {
+//                        InterpaperXLS f = it.next();
+//                        if (f.getNip()!=null && !f.getNip().equals("")) {
+//                            it.remove();
+//                        }
+//                    }
+//                } else {
+//                    for (Iterator<InterpaperXLS> it = pobranefaktury.iterator(); it.hasNext();) {
+//                        InterpaperXLS f = it.next();
+//                        if (f.getNip()==null) {
+//                            it.remove();
+//                        }
+//                    }
+//                }
             }
             if (wybranyrodzajimportu.getLp()==2 && (rodzajdok.equals("sprzedaż NIP") || rodzajdok.contains("zakup"))) {
                 generujbutton.setRendered(true);

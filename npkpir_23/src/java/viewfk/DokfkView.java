@@ -1117,8 +1117,8 @@ public class DokfkView implements Serializable {
         
     public void edycjaimport() {
         selected.setImportowany(false);
-        wykazZaksiegowanychDokumentowimport.remove(selected);
         edycja();
+        wykazZaksiegowanychDokumentowimport.remove(selected);
         PrimeFaces.current().ajax().update("zestawieniedokumentowimport:dataListImport");
     }
 
