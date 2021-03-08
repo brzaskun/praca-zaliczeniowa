@@ -46,10 +46,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 import org.joda.time.DateTime;
 import org.primefaces.PrimeFaces;
@@ -1010,8 +1010,11 @@ public class Vat7DKView implements Serializable {
             nowadekl.setMiesiac(mc);
             nowadekl.setMiesiackwartal(false);
         }
+//        for (EwidPoz p : pozycjeSzczegoloweNowe) {
+//            p.setDeklaracja(nowadeklaracja);
+//        }
         for (EwidPoz p : pozycjeSzczegoloweNowe) {
-            p.setDeklaracja(nowadeklaracja);
+            p.setDeklaracja(nowadekl);
         }
         nowadekl.setEwidpozlista(pozycjeSzczegoloweNowe);
         nowadekl.setDeklaracjapodpisana(deklaracjapodpisana);

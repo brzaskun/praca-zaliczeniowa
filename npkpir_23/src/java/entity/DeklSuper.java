@@ -32,7 +32,7 @@ public class DeklSuper implements Serializable {
     protected Integer id;
     @Lob
     @Size(max = 2147483647)
-    @Column(name = "deklaracja")
+    @Column(name = "deklaracja", nullable = false)
     protected String deklaracja;
     @Column(name="miesiackwartal")
     protected boolean miesiackwartal;
@@ -54,7 +54,7 @@ public class DeklSuper implements Serializable {
     @Column(name = "nrkolejny")
     protected int nrkolejny;
     @Size(max = 255)
-    @Column(name = "podatnik")
+    @Column(name = "podatnik", nullable = false)
     protected String podatnik;
     @Lob
     @Size(max = 2147483647)

@@ -134,7 +134,9 @@ public class JPK_VAT2020M_Bean {
             if (vat != null) {
                 Method method = JPK.Ewidencja.SprzedazWiersz.class.getMethod(zwrocpolejpk(vat),BigDecimal.class);
                 method.invoke(w, BigDecimal.valueOf(Z.z(vatkwota)));
-                sprzedazCtrl.setPodatekNalezny(sprzedazCtrl.getPodatekNalezny().add(BigDecimal.valueOf(vatkwota)).setScale(2, RoundingMode.HALF_EVEN));
+                if (w.getTypDokumentu() == null || !w.getTypDokumentu().value().equals("FP")) {
+                    sprzedazCtrl.setPodatekNalezny(sprzedazCtrl.getPodatekNalezny().add(BigDecimal.valueOf(vatkwota)).setScale(2, RoundingMode.HALF_EVEN));
+                }
             }
             if (w.getTypDokumentu() == null || !w.getTypDokumentu().value().equals("FP")) {
                 if (nettosuma != null) {
