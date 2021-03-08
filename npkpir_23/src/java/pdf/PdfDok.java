@@ -506,7 +506,11 @@ public class PdfDok extends Pdf implements Serializable {
         PdfMain.dodajLinieOpisu(document, opis);
         opis = "Razem wartość wybranych dokumentów - waluta "+waluta;
         PdfMain.dodajLinieOpisuBezOdstepu(document, opis);
-        opis = "netto wal: "+F.curr(nettowaluta, waluta)+" vat wal: "+F.curr(vatwaluta, waluta)+" brutto: "+F.curr(bruttowaluta, waluta);
+        if (waluta!=null&&!waluta.equals("")) {
+            opis = "netto wal: "+F.curr(nettowaluta, waluta)+" vat wal: "+F.curr(vatwaluta, waluta)+" brutto: "+F.curr(bruttowaluta, waluta);
+        } else {
+            opis = "netto wal: "+F.curr(nettowaluta)+" vat wal: "+F.curr(vatwaluta)+" brutto: "+F.curr(bruttowaluta);
+        }
         PdfMain.dodajLinieOpisu(document, opis);
         double kurs = nettowaluta!=0.0 ? Z.z6(netto/nettowaluta):0.0;
         Object[] a = new Object[]{jurys, waluta, nettowaluta, vatwaluta, netto, vat, vatstawka, kurs};

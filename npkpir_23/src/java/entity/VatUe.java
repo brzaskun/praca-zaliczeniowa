@@ -125,7 +125,7 @@ public class VatUe extends VatSuper implements Serializable{
             zwrot = zwrot+this.kontrahentnip;
         } catch (Exception e){}
         if (this.kontrahent!=null) {
-            this.kontrahent.getNip();
+            zwrot = this.kontrahent.getNip();
         }   
         return zwrot;
     }
@@ -134,7 +134,7 @@ public class VatUe extends VatSuper implements Serializable{
         String zwrot = this.kontrahentkraj;
         try {
             if (this.kontrahent!=null) {
-                this.kontrahent.getKrajkod();
+                zwrot = this.kontrahent.getKrajkod();
             }   
         } catch (Exception e){}
         return zwrot;
@@ -144,7 +144,7 @@ public class VatUe extends VatSuper implements Serializable{
         String zwrot = "incydentalny";
         try {
             if (this.kontrahent!=null) {
-                this.kontrahent.getNpelna();
+                zwrot = this.kontrahent.getNpelna();
             }   
         } catch (Exception e){}
         return zwrot;

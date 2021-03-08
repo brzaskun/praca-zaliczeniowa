@@ -15,7 +15,7 @@
         }
     </style>
 
-    <p:dialog id="importamazoncsv" header="Zestawienie pobranych faktur -  #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="importamazoncsv" height="900" width="1450"
+    <p:dialog id="importamazoncsv" header="Zestawienie pobranych faktur" widgetVar="importamazoncsv" height="900" width="1450"
               resizable="false"  onShow="ustawdialog('importamazoncsv','menudokumenty',1450,900);" closeOnEscape="true" onHide="resetujdialog('importamazoncsv');" >
         <p:ajax event="open" listener="#{interpaperImportView.init()}" update="panelplik"/>
         <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" update=":akordeon5:form_importinterpaper"/>

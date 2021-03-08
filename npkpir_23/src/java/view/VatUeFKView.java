@@ -29,6 +29,7 @@ import entity.VatUe;
 import entityfk.Dokfk;
 import entityfk.Waluty;
 import error.E;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -39,6 +40,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -505,7 +508,7 @@ public class VatUeFKView implements Serializable {
         }
     }
     
-     public void tworzdeklaracjekorekta(List<VatUe> lista) {
+     public void tworzdeklaracjekorekta(List<VatUe> lista, int test0wysylka1) {
         DeklaracjavatUE stara = deklaracjavatUEDAO.findbyPodatnikRokMc(wpisView);
         if (stara.getDatazlozenia() == null) {
             Msg.msg("e", "Pierwotna deklaracja nie została wysłana, nie można zrobić korekty");
@@ -536,21 +539,21 @@ public class VatUeFKView implements Serializable {
             }
             if (robickorekte) {
                 nrkolejny = stara.getNrkolejny()+1;
-                boolean ok = robdeklaracjekorekta(lista, staralista, true, nrkolejny);
+                boolean ok = robdeklaracjekorekta(lista, staralista, true, nrkolejny, test0wysylka1);
             } else {
                 Msg.msg("w","Nie ma różnic w pozycjach deklaracji. Nie ma sensu robic korekty");
             }
         }
     }
     
-    public void tworzdeklaracje(List<VatUe> lista) {
-        boolean ok = robdeklaracje(lista, false, 0);
+    public void tworzdeklaracje(List<VatUe> lista, int test0wysylka1) {
+        boolean ok = robdeklaracje(lista, false, 0, test0wysylka1);
         init3();
     }
     
    
     
-    public boolean robdeklaracje(List<VatUe> lista, boolean korekta, int nrkolejny) {
+    public boolean robdeklaracje(List<VatUe> lista, boolean korekta, int nrkolejny, int test0wysylka1) {
         boolean zwrot = false;
         try {
             List zwrotdekl = sporzadz(lista, korekta);
@@ -558,21 +561,35 @@ public class VatUeFKView implements Serializable {
             Object dekl_object = zwrotdekl.get(1);
             Object[] walidacja = XMLValid.walidujCMLVATUE(deklaracja,dekl_object, 0);
             if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
-                Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
-                if (podpisanadeklaracja != null) {
-                    DeklaracjavatUE deklaracjavatUE = generujdeklaracje(podpisanadeklaracja);
-                    deklaracjavatUE.setNrkolejny(nrkolejny);
-                    for (VatUe p : lista) {
-                        p.setDeklaracjavatUE(deklaracjavatUE);
-                    }
-                    deklaracjavatUE.setPozycje(lista);
-                    //deklaracjavatUEDAO.create(deklaracjavatUE); dodamy ja przy wysylce bo wtedy robimy edit dok
-                    deklaracjeUE.add(deklaracjavatUE);
-                    deklaracjeUE_biezace.add(deklaracjavatUE);
-                    Msg.msg("Sporządzono deklarację VAT-UE miesięczną");
-                    zwrot = true;
+                if (test0wysylka1==0) {
+                    FacesContext facesContext = FacesContext.getCurrentInstance();
+                    ExternalContext externalContext = facesContext.getExternalContext();
+                    externalContext.setResponseContentType("application/vnd.ms-excel");
+                    String filename = "vatue"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
+                    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+                    // Write file to response body.
+                    OutputStream responseOutputStream = externalContext.getResponseOutputStream();
+                    responseOutputStream.write(deklaracja.getBytes());
+                    // Inform JSF that response is completed and it thus doesn't have to navigate.
+                    facesContext.responseComplete();
+                    Msg.msg("Wygenerowano deklarację do podglądu");
                 } else {
-                    Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UE. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
+                    Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
+                    if (podpisanadeklaracja != null) {
+                        DeklaracjavatUE deklaracjavatUE = generujdeklaracje(podpisanadeklaracja);
+                        deklaracjavatUE.setNrkolejny(nrkolejny);
+                        for (VatUe p : lista) {
+                            p.setDeklaracjavatUE(deklaracjavatUE);
+                        }
+                        deklaracjavatUE.setPozycje(lista);
+                        //deklaracjavatUEDAO.create(deklaracjavatUE); dodamy ja przy wysylce bo wtedy robimy edit dok
+                        deklaracjeUE.add(deklaracjavatUE);
+                        deklaracjeUE_biezace.add(deklaracjavatUE);
+                        Msg.msg("Sporządzono deklarację VAT-UE miesięczną");
+                        zwrot = true;
+                    } else {
+                        Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UE. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
+                    }
                 }
             } else {
                 Msg.msg("e", "Sprawdź oznaczenia krajów i NIP-y!");
@@ -585,7 +602,7 @@ public class VatUeFKView implements Serializable {
         return zwrot;
     }
     
-     public boolean robdeklaracjekorekta(List<VatUe> lista, List<VatUe> staralista, boolean korekta, int nrkolejny) {
+     public boolean robdeklaracjekorekta(List<VatUe> lista, List<VatUe> staralista, boolean korekta, int nrkolejny, int test0wysylka1) {
         boolean zwrot = false;
         try {
             List zwrotdekl = sporzadzkorekta(lista, staralista, korekta);
@@ -593,21 +610,35 @@ public class VatUeFKView implements Serializable {
             Object dekl_object = zwrotdekl.get(1);
             Object[] walidacja = XMLValid.walidujCMLVATUE(deklaracja,dekl_object, 1);
             if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
-                Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
-                if (podpisanadeklaracja != null) {
-                    DeklaracjavatUE deklaracjavatUE = generujdeklaracje(podpisanadeklaracja);
-                    deklaracjavatUE.setNrkolejny(nrkolejny);
-                    for (VatUe p : lista) {
-                        p.setDeklaracjavatUE(deklaracjavatUE);
-                    }
-                    deklaracjavatUE.setPozycje(lista);
-                    //deklaracjavatUEDAO.create(deklaracjavatUE);
-                    deklaracjeUE.add(deklaracjavatUE);
-                    deklaracjeUE_biezace.add(deklaracjavatUE);
-                    Msg.msg("Sporządzono deklarację VAT-UEK miesięczną wersja 4");
-                    zwrot = true;
+                if (test0wysylka1==0) {
+                    FacesContext facesContext = FacesContext.getCurrentInstance();
+                    ExternalContext externalContext = facesContext.getExternalContext();
+                    externalContext.setResponseContentType("application/vnd.ms-excel");
+                    String filename = "vatue"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
+                    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+                    // Write file to response body.
+                    OutputStream responseOutputStream = externalContext.getResponseOutputStream();
+                    responseOutputStream.write(deklaracja.getBytes());
+                    // Inform JSF that response is completed and it thus doesn't have to navigate.
+                    facesContext.responseComplete();
+                    Msg.msg("Wygenerowano deklarację korektę do podglądu");
                 } else {
-                    Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UEK. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
+                    Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
+                    if (podpisanadeklaracja != null) {
+                        DeklaracjavatUE deklaracjavatUE = generujdeklaracje(podpisanadeklaracja);
+                        deklaracjavatUE.setNrkolejny(nrkolejny);
+                        for (VatUe p : lista) {
+                            p.setDeklaracjavatUE(deklaracjavatUE);
+                        }
+                        deklaracjavatUE.setPozycje(lista);
+                        //deklaracjavatUEDAO.create(deklaracjavatUE);
+                        deklaracjeUE.add(deklaracjavatUE);
+                        deklaracjeUE_biezace.add(deklaracjavatUE);
+                        Msg.msg("Sporządzono deklarację VAT-UEK miesięczną wersja 4");
+                        zwrot = true;
+                    } else {
+                        Msg.msg("e","Wystąpił błąd. Niesporządzono deklaracji VAT-UEK. Sprawdź czy włożono kartę z podpisem! Sprawdź oznaczenia krajów i NIP-y");
+                    }
                 }
             } else {
                 Msg.msg("e", (String) walidacja[1]);
