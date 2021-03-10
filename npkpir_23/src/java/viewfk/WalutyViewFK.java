@@ -22,11 +22,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import org.primefaces.event.RowEditEvent;
-import view.WpisView; import org.primefaces.PrimeFaces;
+import javax.inject.Named;
+import msg.Msg;
+import org.primefaces.PrimeFaces;
+import org.primefaces.event.RowEditEvent;
+ import view.WpisView;
 import waluty.WalutyNBP;
 import waluty.Z;
 
@@ -92,6 +94,7 @@ public class WalutyViewFK implements Serializable {
                 kurswprowadzonyrecznie.setWaluta(w);
             }
         }
+        symboleTabelRecznie = new ArrayList<>();
         Set<String> st = new HashSet<>();
         for(Tabelanbp p : wprowadzonekursyRok) {
             st.add(p.getNrtabeli().split("/")[2]);

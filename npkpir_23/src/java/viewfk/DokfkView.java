@@ -3351,20 +3351,23 @@ public class DokfkView implements Serializable {
         this.poledlawaluty = poledlawaluty;
     }
 
+    //to jest gdy w raporcie kasowym zmiemniamy walute
     public void pobierzpoledlawaluty() {
         try{
             String wierszlp = (String) Params.params("wpisywaniefooter:lpwierszaRK");
-            int idwiersza = Integer.parseInt(wierszlp)-1;
-            if (!wiersz.equals("")) {
-                poledlawaluty = wierszlp;
-            }
-            if (idwiersza > -1) {
-                Wiersz wiersz = selected.getListawierszy().get(idwiersza);
-                FacesContext context = FacesContext.getCurrentInstance();
-                WalutyViewFK bean = context.getApplication().evaluateExpressionGet(context, "#{walutyViewFK}", WalutyViewFK.class);
-                Tabelanbp tab = tabelanbpDAO.findById(wiersz.getTabelanbp().getIdtabelanbp());
-                bean.setKurswprowadzonyrecznie(tab);
-                bean.setSymbolRecznie(wiersz.getWalutaWiersz());
+            if (!wierszlp.equals("")) {
+                int idwiersza = Integer.parseInt(wierszlp)-1;
+                if (!wiersz.equals("")) {
+                    poledlawaluty = wierszlp;
+                }
+                if (idwiersza > -1) {
+                    Wiersz wiersz = selected.getListawierszy().get(idwiersza);
+                    FacesContext context = FacesContext.getCurrentInstance();
+                    WalutyViewFK bean = context.getApplication().evaluateExpressionGet(context, "#{walutyViewFK}", WalutyViewFK.class);
+                    Tabelanbp tab = tabelanbpDAO.findById(wiersz.getTabelanbp().getIdtabelanbp());
+                    bean.setKurswprowadzonyrecznie(tab);
+                    bean.setSymbolRecznie(wiersz.getWalutaWiersz());
+                }
             }
         }catch (Exception e){}
     }
@@ -3374,7 +3377,7 @@ public class DokfkView implements Serializable {
             String wierszlp = poledlawaluty;
             if (selected.getRodzajedok().getKategoriadokumentu()==0 && !tabelanbprecznie.getWaluta().equals(selected.getWalutadokumentu())) {
                 Msg.msg("e", "Waluta dokumentu WB/RK jest inna niz wybranej tabeli z kursem. Nie zmieniam kursu wiersza");
-            } else if (!wiersz.equals("")) {
+            } else if (wierszlp!=null && !wiersz.equals("")) {
                 int wierszid = Integer.parseInt(wierszlp) - 1;
                 Wiersz wiersz = selected.getListawierszy().get(wierszid);
                 wiersz.setTabelanbp(tabelanbprecznie);
