@@ -146,7 +146,7 @@
                     </p:panelGrid>
                     <p:draggable for="poleUwagi" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
                 </p:panel>
-                <p:panel id="wezwaniedozapłaty" style="width: #{pozycjeNaFakturzeView.pW('podpis')}px;" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('wezwanie do zapłaty')}" >  
+                <p:panel id="wezwaniedozapłaty" style="width: #{pozycjeNaFakturzeView.pW('wezwaniedozapłaty')}px; height: #{pozycjeNaFakturzeView.pH('wezwaniedozapłaty')}px;" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('wezwanie do zapłaty')}" >  
                     <p:panelGrid columns="1">
                         <h:outputText value="#{fakturadodelementyView.pobierzelementdodatkowy('wezwanie do zapłaty')}" />
                     </p:panelGrid>

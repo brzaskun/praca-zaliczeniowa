@@ -423,9 +423,9 @@ public class PdfFP {
                 case "akordeon:formwzor:wezwaniedozapłaty":
                     //Dane do modulu przewłaszczenie
                     if (PdfFP.czydodatkowyelementjestAktywny("wezwanie do zapłaty", elementydod)) {
-                        pozycja = zwrocPolozenieElementu(skladnikifaktury, "wezwaniedozapłaty");
-                        prost(writer.getDirectContent(), (int) (pozycja.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:wezwaniedozapłaty") - 5, szerokosc, 15);
-                        absText(writer, PdfFP.pobierzelementdodatkowy("wezwanie do zapłaty", elementydod), (int) (pozycja.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:wezwaniedozapłaty"), 8);
+                        text = PdfFP.pobierzelementdodatkowy("wezwanie do zapłaty", elementydod);
+                        table = PdfFTablice.wygenerujtabliceDaty(text,szerokosc, wysokosc, 10);
+                        table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:wezwaniedozapłaty"), wymiaryGora.get("akordeon:formwzor:wezwaniedozapłaty"), writer.getDirectContent());
                     }
                     break;
                 case "akordeon:formwzor:platnosc":

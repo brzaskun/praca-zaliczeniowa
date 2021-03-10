@@ -132,6 +132,8 @@ public class PdfFTablice {
         table.completeRow();
         return table;
     }
+    
+    
     public static PdfPTable wygenerujtabliceWystawcaOdbiorca(String text, String text1, String text2, String text3, int szerokosc, int wysokosc, int czcionkasize) throws DocumentException, IOException {
         PdfPTable table = new PdfPTable(1);
         float x1 = (float) (szerokosc);

@@ -257,7 +257,8 @@ public class PdfFont {
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             getOrient(cell, orient);
             cell.setFixedHeight(fixedHeigth);
-            cell.setIndent(intend);
+            cell.setLeft(intend);
+            cell.setPaddingLeft(intend);
         } catch (Exception ex) {
             E.e(ex);
         }
@@ -272,7 +273,8 @@ public class PdfFont {
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             getOrient(cell, orient);
             cell.setFixedHeight(fixedHeigth);
-            cell.setIndent(intend);
+            cell.setPaddingLeft(intend);
+            cell.setLeft(intend);
         } catch (Exception ex) {
             E.e(ex);
         }
