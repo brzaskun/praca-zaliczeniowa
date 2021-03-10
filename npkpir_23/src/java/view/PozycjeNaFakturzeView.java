@@ -4,8 +4,10 @@
  */
 package view;
 
+import dao.PodatnikDAO;
 import dao.PozycjenafakturzeDAO;
 import embeddable.Pozycjenafakturzebazadanych;
+import entity.Podatnik;
 import entity.Pozycjenafakturze;
 import error.E;
 import java.io.Serializable;
@@ -48,6 +50,8 @@ public class PozycjeNaFakturzeView implements Serializable {
     private String co;
     @Inject
     private PozycjenafakturzeDAO pozycjeDAO;
+    @Inject
+    private PodatnikDAO podatnikDAO;
     private HashMap<String, Pozycjenafakturze> pozycjefakturapodatnik;
     private List<Pozycjenafakturze> pozycjefakturapodatniklista;
 
@@ -76,7 +80,26 @@ public class PozycjeNaFakturzeView implements Serializable {
         pozycjefakturapodatnik = pobierzpozycjepodatnika();
     }
 
-   
+
+    public void importuj() {
+        Podatnik wzorcowy = podatnikDAO.findPodatnikByNIP("8511005008");
+        List<Pozycjenafakturze> pozycjewzorcowe = pozycjeDAO.findFakturyPodatnik(wzorcowy);
+        pozycjefakturapodatnik = pobierzpozycjepodatnika();
+        for (Pozycjenafakturze wzor : pozycjewzorcowe) {
+            for (Pozycjenafakturze podatnik : pozycjefakturapodatnik.values()) {
+                if (wzor.getNazwa().equals(podatnik.getNazwa())) {
+                    podatnik.setGora(wzor.getGora());
+                    podatnik.setLewy(wzor.getLewy());
+                    podatnik.setSzerokosc(wzor.getSzerokosc());
+                    podatnik.setWysokosc(wzor.getWysokosc());
+                    podatnikDAO.edit(podatnik);
+                    break;
+                }
+            }
+        }
+        init();
+        Msg.msg("Zakonczono importowanie ustawień");
+    }
 
     public void zachowajpozycje() {
         Pozycjenafakturze pozycje = pozycjeDAO.findPozycjePodatnikCo(wpisView.getPodatnikObiekt(),co);

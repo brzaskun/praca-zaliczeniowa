@@ -6,9 +6,14 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:tab id="elementywymiary" title="wymiary podstawowych elementów faktury">
-         <p:outputPanel>
+        <p:outputPanel>
                   <h:outputText value="Rozmiar strony 595x842"/>
               </p:outputPanel>
+        <h:form id="formelementywymiaryimport">
+            <p:panelGrid columns="1"  style="margin: 20px;">
+                <p:commandButton value="importuj" style="width: 120px" actionListener="#{pozycjeNaFakturzeView.importuj}" update="akordeon:formelementywymiary akordeon:formwzor"/>
+            </p:panelGrid>
+        </h:form>
         <h:form id="formelementywymiary">
             <p:dataTable value="#{pozycjeNaFakturzeView.pozycjefakturapodatniklista}" sortBy="#{wpiswym.nazwa}"
                          var="wpiswym" style="width: 800px;" rowKey="#{wpiswym.nazwa}">
