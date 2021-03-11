@@ -126,7 +126,7 @@ public class DokfkView implements Serializable {
     private String wnmadoprzeniesienia;
     protected Dokfk selected;
     private List<Dokfk> selectedlist;
-    protected Dokfk selectedimport;
+    protected List<Dokfk>  selectedlistimport;
     @Inject
     private DokDAOfk dokDAOfk;
     @Inject
@@ -1117,8 +1117,8 @@ public class DokfkView implements Serializable {
         
     public void edycjaimport() {
         selected.setImportowany(false);
+        f.l.l(wykazZaksiegowanychDokumentowimport, filteredValueimport, selectedlistimport).remove(selected);
         edycja();
-        wykazZaksiegowanychDokumentowimport.remove(selected);
         PrimeFaces.current().ajax().update("zestawieniedokumentowimport:dataListImport");
     }
 
@@ -4065,13 +4065,15 @@ public void oznaczjakonkup() {
 //        kwota = Math.round(kwota * kurs * 100);
 //        kwota = kwota / 100;
 //}
-    public Dokfk getSelectedimport() {
-        return selectedimport;
+
+    public List<Dokfk> getSelectedlistimport() {
+        return selectedlistimport;
     }
 
-    public void setSelectedimport(Dokfk selectedimport) {
-        this.selectedimport = selectedimport;
+    public void setSelectedlistimport(List<Dokfk> selectedlistimport) {
+        this.selectedlistimport = selectedlistimport;
     }
+ 
 
     public List<Dokfk> getFilteredValueimport() {
         return filteredValueimport;
@@ -4476,7 +4478,10 @@ public void oznaczjakonkup() {
         Dokfk nastepny = null;
         boolean konczymy = false;
         int rowek = idwierszedycjaodswiezenie;
-        List<Dokfk> lista = wykazZaksiegowanychDokumentow!=null && !wykazZaksiegowanychDokumentow.isEmpty() ? wykazZaksiegowanychDokumentow : wykazZaksiegowanychDokumentowimport;
+        List<Dokfk> lista = f.l.l(wykazZaksiegowanychDokumentow, filteredValue, selectedlist);
+        if (lista.isEmpty()) {
+            lista = f.l.l(wykazZaksiegowanychDokumentowimport, filteredValueimport, selectedlistimport);
+        }
         if (lista!=null) {
                 for (Dokfk d : lista) {
                     if (konczymy==false && !d.equals(selected)) {
