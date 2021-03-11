@@ -8,6 +8,7 @@ import entityfk.Konto;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
@@ -114,8 +116,10 @@ public class Rodzajedok implements Serializable {
     @Column(name = "rok")
     private String rok;
     @JoinColumn(name = "oznaczenie1", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
     private JPKoznaczenia oznaczenie1;
-    @JoinColumn(name = "oznaczenie2", referencedColumnName = "id")
+    @JoinColumn(name = "oznaczenie2", referencedColumnName = "id", insertable = true)
+    @OneToOne(cascade = CascadeType.ALL)
     private JPKoznaczenia oznaczenie2;
 
 

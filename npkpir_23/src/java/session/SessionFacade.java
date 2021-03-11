@@ -36,7 +36,6 @@ import entity.PodatnikEwidencjaDok;
 import entity.PodatnikOpodatkowanieD;
 import entity.PodatnikUdzialy;
 import entity.Podstawki;
-import entity.Rodzajedok;
 import entity.Ryczpoz;
 import entity.SMTPSettings;
 import entity.Sprawa;
@@ -244,11 +243,7 @@ public class SessionFacade<T> implements Serializable {
         return wynik;
     }
 
-    public Rodzajedok findRodzajedok(String skrot) {
-        Rodzajedok wynik = null;
-        wynik = (Rodzajedok)  getEntityManager().createNamedQuery("Rodzajedok.findBySkrot").setParameter("skrot", skrot).getSingleResult();
-        return wynik;
-    }
+    
 
     
 
@@ -816,13 +811,9 @@ public class SessionFacade<T> implements Serializable {
     
 
     
-    public List<Rodzajedok> findListaPodatnikNull(Podatnik podatnik) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Rodzajedok.findByPodatnikNull").setParameter("podatnik", podatnik).getResultList());
-    }
     
-    public List<Rodzajedok> findListaPodatnikRO(Podatnik podatnik, String rok) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Rodzajedok.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).setHint(QueryHints.READ_ONLY, HintValues.TRUE).setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).getResultList());
-    }
+    
+    
 
     public List<StronaWiersza> findStronaByPodatnikKontoRokWaluta(Podatnik podatnik, Konto konto, String rok, String skrotWaluty) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("StronaWiersza.findByPodatnikKontoRokWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList());

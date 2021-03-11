@@ -12,11 +12,11 @@ import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import session.SessionFacade;
+import org.eclipse.persistence.config.HintValues;
+import org.eclipse.persistence.config.QueryHints;
 
 /**
  *
@@ -26,8 +26,6 @@ import session.SessionFacade;
 @Transactional
 public class RodzajedokDAO extends DAO implements Serializable{
 
-    @Inject
-    private SessionFacade rodzajedokFacade;
        @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
@@ -50,11 +48,12 @@ public class RodzajedokDAO extends DAO implements Serializable{
     }
 
 
-    
-    public Rodzajedok find(String skrot){
-        return rodzajedokFacade.findRodzajedok(skrot);
+    public Rodzajedok find(String skrot) {
+        Rodzajedok wynik = null;
+        wynik = (Rodzajedok)  getEntityManager().createNamedQuery("Rodzajedok.findBySkrot").setParameter("skrot", skrot).getSingleResult();
+        return wynik;
     }
-    
+   
     public Rodzajedok find(String skrot, Podatnik podatnik, String rok){
         Rodzajedok wynik = null;
         try {
@@ -87,11 +86,11 @@ public class RodzajedokDAO extends DAO implements Serializable{
         }
         return zwrot;
     }
-    
+
     public List<Rodzajedok> findListaPodatnikNull(Podatnik podatnik) {
         List<Rodzajedok> zwrot = null;
         try {
-            zwrot = rodzajedokFacade.findListaPodatnikNull(podatnik);
+            zwrot = getEntityManager().createNamedQuery("Rodzajedok.findByPodatnikNull").setParameter("podatnik", podatnik).getResultList();
         } catch (Exception e) { E.e(e); 
         }
         return zwrot;
@@ -99,7 +98,7 @@ public class RodzajedokDAO extends DAO implements Serializable{
     
     public List<Rodzajedok> findListaPodatnikRO(Podatnik podatnik, String rok) {
         try {
-            return rodzajedokFacade.findListaPodatnikRO(podatnik, rok);
+            return getEntityManager().createNamedQuery("Rodzajedok.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).setHint(QueryHints.QUERY_RESULTS_CACHE, HintValues.TRUE).getResultList();
         } catch (Exception e) { E.e(e); 
             return null;
         }

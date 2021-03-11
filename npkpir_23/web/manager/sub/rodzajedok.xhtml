@@ -152,12 +152,12 @@
              <h:outputText value=" jednostronny wiersz" />
              <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.jednostronny}"/>
              <h:outputText value=" jpk oznaczenie 1: " />
-             <h:selectOneMenu value="#{rodzajedokView.wprowadzany.oznaczenie1}" converter="#{jPKoznaczeniaConv}">
+             <h:selectOneMenu value="#{rodzajedokView.wprowadzany.oznaczenie1}" converter="#{jpkoznaczeniaConv}">
                  <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                  <f:selectItems value="#{rodzajedokView.jpkoznaczenia}" var="itm1" itemLabel="#{itm1.symbol}" itemValue="#{itm1}" itemDescription="#{itm1.opis}"/>
             </h:selectOneMenu>
              <h:outputText value=" jpk oznaczenie 2: " />
-             <h:selectOneMenu value="#{rodzajedokView.wprowadzany.oznaczenie2}" converter="#{jPKoznaczeniaConv}">
+             <h:selectOneMenu value="#{rodzajedokView.wprowadzany.oznaczenie2}" converter="#{jpkoznaczeniaConv}">
                  <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
                  <f:selectItems value="#{rodzajedokView.jpkoznaczenia}" var="itm1" itemLabel="#{itm1.symbol}" itemValue="#{itm1}" itemDescription="#{itm1.opis}"/>
             </h:selectOneMenu>
