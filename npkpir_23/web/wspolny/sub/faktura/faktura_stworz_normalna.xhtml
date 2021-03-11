@@ -8,7 +8,17 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     >
     <p:outputPanel rendered="#{fakturaView.fakturazwykla}">
-         <p:panelGrid columns="6">
+        <p:panelGrid columns="6"  styleClass="polefaktury" layout="grid">
+            <h:outputText value="nr projektu dla faktury częściowej "/>
+            <p:inputText value="#{fakturaView.selected.projektnumer}"  style="width: 100px;">
+                <p:ajax event="change" partialSubmit="true"/>
+            </p:inputText>
+            <h:outputText value="to jest faktura końcowa "/>
+            <p:selectBooleanCheckbox value="#{fakturaView.selected.koncowa}">
+                <p:ajax event="change" listener="#{fakturaView.pobierzczesciowe()}" update="akordeon:formstworz:rzadn"/>
+            </p:selectBooleanCheckbox>
+        </p:panelGrid>
+         <p:panelGrid columns="6"  styleClass="polefaktury" layout="grid">
             <h:outputText value="licz od wartości brutto " style="color: #{fakturaView.selected.liczodwartoscibrutto ? 'blue':'initial'}"/>
             <p:selectBooleanCheckbox value="#{fakturaView.selected.liczodwartoscibrutto}">
                 <p:ajax event="change" update="akordeon:formstworz:rzadn akordeon:formstworz:rzadkorektyn @parent"/>

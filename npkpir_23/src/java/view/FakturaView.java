@@ -64,6 +64,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
@@ -318,6 +319,36 @@ public class FakturaView implements Serializable {
 //        PrimeFaces.current().ajax().update("akordeon:proforma");
 //        PrimeFaces.current().ajax().update("akordeon:formarchiwum");
     }
+    
+    public void pobierzczesciowe() {
+        if (selected.isKoncowa()==true) {
+            String projektnumer = selected.getProjektnumer();
+            List<Faktura> czeciowe = fakturaDAO.findbyProjekt(projektnumer, wpisView.getPodatnikObiekt());
+            if (czeciowe.isEmpty()) {
+                Msg.msg("e", "brak faktur częściowych z podanym numerem projektu");
+            } else {
+                for (Faktura p : czeciowe) {
+                    if (!p.equals(selected)) {
+                        selected.getPozycjenafakturze().addAll(zamienznaki(p.getPozycjenafakturze(), p.getNumerkolejny(), p.getDatawystawienia()));
+                    }
+                }
+                Msg.msg("Pobrano faktury częściowe");
+            }
+        }
+    }
+    
+    private Collection<? extends Pozycjenafakturzebazadanych> zamienznaki(List<Pozycjenafakturzebazadanych> pozycjenafakturze, String numer, String data) {
+        List<Pozycjenafakturzebazadanych> zwrot = new ArrayList<>();
+        for (Pozycjenafakturzebazadanych p : pozycjenafakturze) {
+            Pozycjenafakturzebazadanych pozycjenafakturzebazadanych = new Pozycjenafakturzebazadanych(p);
+            pozycjenafakturzebazadanych.zmienznak();
+            String opis = "faktua częściowa nr "+numer+" z dnia "+data;
+            pozycjenafakturzebazadanych.setNazwa(opis);
+            zwrot.add(pozycjenafakturzebazadanych);
+        }
+        return zwrot;
+    }
+
     
     private void sprawdzczyniezniknalplik(String nazwa) {
         try {
@@ -2871,6 +2902,7 @@ public class FakturaView implements Serializable {
         return zwrot;
     }
 
+    
    
 
     

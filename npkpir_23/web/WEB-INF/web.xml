@@ -290,11 +290,7 @@
     </security-constraint>
     <error-page>
         <error-code>403</error-code>
-        <location>/AccessDenied.xhtml?faces-redirect=true</location>
-    </error-page>
-    <error-page>
-        <error-code>500</error-code>
-        <location>/blad_500.xhtml?faces-redirect=true</location>
+        <location>/AccessDenied.xhtml</location>
     </error-page>
     <error-page>
         <error-code>503</error-code>

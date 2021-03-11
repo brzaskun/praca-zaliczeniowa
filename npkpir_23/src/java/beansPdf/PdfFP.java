@@ -245,10 +245,14 @@ public class PdfFP {
                     if (selected.isGutschrift()) {
                         text = "Gutschrift Nr ";
                     } else {
-                        if (selected.isZaliczkowa()) {
+                         if (selected.isZaliczkowa()) {
                             text = B.b("fakturazaliczkowanr");
                         } else if (selected.getPozycjepokorekcie() != null) {
                             text = B.b("fakturakorektanr");
+                        } else if (selected.isKoncowa()) {
+                            text = "Faktura końcowa nr";
+                        } else if (selected.getProjektnumer()!=null) {
+                            text = "Faktura częsciowa nr";
                         } else {
                             text = B.b("fakturanr");
                         }
@@ -259,7 +263,7 @@ public class PdfFP {
                 case "akordeon:formwzor:wystawca":
                     if (!czydodatkowyelementjestAktywny("stopka niemiecka", elementydod)) {
                         String sprzedawca = B.b("sprzedawca")+": ";
-                        String wystawca = selected.getWystawca().getNazwadlafaktury()!=null?selected.getWystawca().getNazwadlafaktury():selected.getWystawcanazwa();
+                        String wystawca = selected.getWystawcanazwa()!=null?selected.getWystawcanazwa():selected.getWystawca().getNazwadlafaktury();
                         adres = selected.getWystawca().getAdresdlafaktury();
                         String nip = selected.getWystawca().getNipdlafaktury() != null ? B.b("NIP")+": "+selected.getWystawca().getNipdlafaktury() : B.b("NIP")+": "+selected.getWystawca().getNip();
                         table = PdfFTablice.wygenerujtabliceWystawcaOdbiorca(sprzedawca, wystawca, adres, nip, szerokosc, wysokosc, 10);
@@ -424,7 +428,7 @@ public class PdfFP {
                     //Dane do modulu przewłaszczenie
                     if (PdfFP.czydodatkowyelementjestAktywny("wezwanie do zapłaty", elementydod)) {
                         text = PdfFP.pobierzelementdodatkowy("wezwanie do zapłaty", elementydod);
-                        table = PdfFTablice.wygenerujtabliceDaty(text,szerokosc, wysokosc, 10);
+                        table = PdfFTablice.wygenerujtabliceDaty(text,szerokosc, wysokosc, 9);
                         table.writeSelectedRows(0, table.getRows().size(), wymiarylewy.get("akordeon:formwzor:wezwaniedozapłaty"), wymiaryGora.get("akordeon:formwzor:wezwaniedozapłaty"), writer.getDirectContent());
                     }
                     break;
@@ -582,6 +586,10 @@ public class PdfFP {
                             text = B.b("fakturazaliczkowanr");
                         } else if (selected.getPozycjepokorekcie() != null) {
                             text = B.b("fakturakorektanr");
+                        } else if (selected.isKoncowa()) {
+                            text = "Faktura końcowa nr";
+                        } else if (selected.getProjektnumer()!=null) {
+                            text = "Faktura częsciowa nr";
                         } else {
                             text = B.b("fakturanr");
                         }

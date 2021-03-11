@@ -273,6 +273,20 @@ public class Pozycjenafakturzebazadanych implements Serializable{
         }
         return zwrot;
     }
+
+    public void zmienznak() {
+       this.cenajedn0 = -cenajedn0;
+       this.cenajedn1 = -cenajedn1;
+       this.cenajedn2 = -cenajedn2;
+       this.cenajedn3 = -cenajedn3;
+       this.cenajedn4 = -cenajedn4;
+       this.cenajedn5 = -cenajedn5;
+       this.cena = -cena;
+       this.netto = -netto;
+       this.podatek = -podatek;
+       this.podatekkwota = -podatekkwota;
+       this.brutto = -brutto;
+    }
  
         
 }

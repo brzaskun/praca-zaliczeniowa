@@ -61,6 +61,7 @@ import waluty.Z;
     @NamedQuery(name = "Faktura.findByRodzajtransakcji", query = "SELECT f FROM Faktura f WHERE f.rodzajtransakcji = :rodzajtransakcji"),
     @NamedQuery(name = "Faktura.findByKontrahent_nip", query = "SELECT f FROM Faktura f WHERE f.kontrahent_nip = :kontrahent_nip"),
     @NamedQuery(name = "Faktura.findByKontrahentID", query = "SELECT f FROM Faktura f WHERE f.kontrahent = :kontrahent"),
+    @NamedQuery(name = "Faktura.findByProjektnr", query = "SELECT f FROM Faktura f WHERE f.projektnumer = :projektnumer AND f.wystawca = :podatnik"),
     @NamedQuery(name = "Faktura.findByKontrahent", query = "SELECT f FROM Faktura f WHERE f.kontrahent_nip = :kontrahent_nip AND f.wystawca = :wystawcanazwa"),
     @NamedQuery(name = "Faktura.findByKontrahentRok", query = "SELECT f FROM Faktura f WHERE f.kontrahent.nip = :kontrahent_nip AND f.wystawca = :wystawcanazwa AND f.rok = :rok AND f.tylkodlaokresowej = '0' ORDER BY f.datawystawienia"),
     @NamedQuery(name = "Faktura.findByKontrahentRokPo2015", query = "SELECT f FROM Faktura f WHERE f.kontrahent_nip = :kontrahent_nip AND f.wystawca = :wystawcanazwa AND f.rok > 2015 ORDER BY f.datawystawienia"),
@@ -318,6 +319,10 @@ public class Faktura implements Serializable {
     private boolean recznaedycja;
     @Column(name = "poleuwagi")
     private String poleuwagi;
+    @Column(name = "projektnumer")
+    private String projektnumer;
+    @Column(name = "koncowa")
+    private boolean koncowa;
   
 
     public Faktura() {
@@ -463,6 +468,24 @@ public class Faktura implements Serializable {
     public void setWystawcanazwa(String wystawcanazwa) {
         this.wystawcanazwa = wystawcanazwa;
     }
+
+    public String getProjektnumer() {
+        return projektnumer;
+    }
+
+    public void setProjektnumer(String projektnumer) {
+        this.projektnumer = projektnumer;
+    }
+
+    public boolean isKoncowa() {
+        return koncowa;
+    }
+
+    public void setKoncowa(boolean koncowa) {
+        this.koncowa = koncowa;
+    }
+
+
 
     public List<Pozycjenafakturzebd> getPozycjebd() {
         return null;
@@ -1301,6 +1324,9 @@ public class Faktura implements Serializable {
         }
         final Faktura other = (Faktura) obj;
         if (!Objects.equals(this.wystawcanazwa, other.wystawcanazwa)) {
+            return false;
+        }
+        if (!Objects.equals(this.wystawca, other.wystawca)) {
             return false;
         }
         if (!Objects.equals(this.numerkolejny, other.numerkolejny)) {

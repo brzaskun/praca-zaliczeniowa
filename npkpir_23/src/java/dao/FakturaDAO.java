@@ -203,4 +203,14 @@ public class FakturaDAO extends DAO implements Serializable {
     public Faktura findByID(int faktid) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    public List<Faktura> findbyProjekt(String projektnumer, Podatnik podatnik) {
+        List<Faktura> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createNamedQuery("Faktura.findByProjektnr").setParameter("projektnumer", projektnumer).setParameter("podatnik", podatnik).getResultList(); 
+        } catch (Exception e) {
+            
+        }
+        return zwrot;
+    }
 }
