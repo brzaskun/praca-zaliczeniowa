@@ -51,7 +51,7 @@
             </p:outputPanel>
         </h:form>
         <h:form id="formstworz">
-            <p:outputPanel id="panelfaktury"  rendered="#{fakturaView.pokazfakture ? true : true}">
+            <p:outputPanel id="panelfaktury"  rendered="#{fakturaView.pokazfakture ? true : false}">
                 <p:panelGrid columns="6" rendered="#{WpisView.podatnikObiekt.sadwienazwydlafaktury()}" styleClass="polefaktury" columnClasses="tp tp tp tp" layout="grid">
                             <h:outputLabel value="nazwa firmy wystawcy" style="color: green;font-weight: bold;"/>
                             <h:selectOneMenu value="#{fakturaView.selected.wystawcanazwa}" required="true" requiredMessage="Wybierz nazwę wystawcy"
