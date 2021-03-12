@@ -6,7 +6,8 @@ package deklaracjaVAT7_13;
 
 import embeddable.Daneteleadresowe;
 import embeddable.Vatpoz;
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
+
 
 
 /**
@@ -197,7 +198,8 @@ class Podmiot {
     }
 
     public static void main(String[] args) {
-        String escapedBodyValue = StringEscapeUtils.escapeXml("MWP D&H UG");
+        String escapedBodyValue = StringEscapeUtils.escapeXml11("MWP D&H UG");
+        System.out.println(escapedBodyValue);
     }
     
 }

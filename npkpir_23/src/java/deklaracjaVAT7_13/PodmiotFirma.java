@@ -6,7 +6,7 @@ package deklaracjaVAT7_13;
 
 import embeddable.Daneteleadresowe;
 import embeddable.Vatpoz;
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 /**
  *
@@ -24,7 +24,7 @@ class PodmiotFirma {
     public PodmiotFirma(Vatpoz selected) {
         Daneteleadresowe adres = selected.getAdres();
         NIP = adres.getNIP();
-        Nazwa = StringEscapeUtils.escapeXml(selected.getPodatnik());
+        Nazwa = StringEscapeUtils.escapeXml10(selected.getPodatnik());
         REGON = selected.getRegon();
         Integer rok = Integer.parseInt(selected.getRok());
         Integer mc = Integer.parseInt(selected.getMiesiac());

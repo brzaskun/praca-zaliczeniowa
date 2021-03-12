@@ -30,7 +30,8 @@ import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import msg.Msg;
-import org.apache.commons.lang3.text.WordUtils;
+import org.apache.commons.text.WordUtils;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
