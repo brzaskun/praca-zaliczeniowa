@@ -31,12 +31,12 @@
        
             <h:form id="importmelka">
                 <p:panelGrid columns="1" >
-            <p:dataTable id="dataListImport" value="#{importMelkaView.dokumenty}" var="itemimp" rowIndexVar="row" widgetVar="tablicadokumentyimport" 
+            <p:dataTable id="dataListImport" value="#{importMelkaView.wiersze}" var="itemimp" rowIndexVar="row" widgetVar="tablicadokumentyimport" 
                          selection="#{importMelkaView.selected}" rowKey="#{itemimp.nr}"  
                          style="width: 1420px; height: 580px; overflow-y: scroll; margin-top: 15px;margin-bottom: 15px;" filteredValue="#{importMelkaView.filter}"
                          emptyMessage="Brak importowanych dokumentów/Sprawdź kolumny w dokumencie xls" styleClass="gridZaksiegowane"
                          sortBy="#{itemimp.nr}"  
-                         rowsPerPageTemplate="150,300,600,900,1200" paginatorPosition="top" paginator="#{importMelkaView.dokumenty.size() gt 150 ? 'true':'false'}" rows="150"
+                         rowsPerPageTemplate="150,300,600,900,1200" paginatorPosition="top" paginator="#{importMelkaView.wiersze.size() gt 150 ? 'true':'false'}" rows="150"
                          >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
                 <p:ajax event="filter" global="false"/>

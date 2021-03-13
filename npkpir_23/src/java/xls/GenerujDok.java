@@ -41,13 +41,18 @@ import waluty.Z;
  */
 public class GenerujDok {
     
-    public int generowanieListaDok(List<InterpaperXLS> wiersze, List<Klienci> znalezieni, boolean zakup0sprzedaz, boolean towar0usluga1, boolean firmy0indycentalni1, WpisView wpisView, RodzajedokDAO  rodzajedokDAO, 
+    public static int generowanieListaDok(List<InterpaperXLS> wiersze, boolean zakup0sprzedaz, boolean towar0usluga1, boolean firmy0indycentalni1, WpisView wpisView, RodzajedokDAO  rodzajedokDAO, 
             TabelanbpDAO tabelanbpDAO, DokDAO dokDAO, KlienciDAO klienciDAO, EvewidencjaDAO evewidencjaDAO) {
         int zwrot = 0;
         List<Evewidencja> evewidencje = evewidencjaDAO.findAll();
+        List<Klienci> znalezieni = new ArrayList<>();
         if (wiersze!=null&&wiersze.size()>0) {
+            int i = 0;
             for (InterpaperXLS p : wiersze) {
                 generowanieDokumentu(p, znalezieni, zakup0sprzedaz, towar0usluga1, firmy0indycentalni1, wpisView, rodzajedokDAO, evewidencje, tabelanbpDAO, dokDAO, klienciDAO);
+                if (++i>3) {
+                    break;
+                }
             }
         } else {
             zwrot = 1;
@@ -55,7 +60,7 @@ public class GenerujDok {
         return zwrot;
     }
     
-     public int generowanieDokumentu(InterpaperXLS wiersz, List<Klienci> znalezieni, boolean zakup0sprzedaz, boolean towar0usluga1, boolean firmy0indycentalni1, WpisView wpisView, RodzajedokDAO  rodzajedokDAO, 
+     public static int generowanieDokumentu(InterpaperXLS wiersz, List<Klienci> znalezieni, boolean zakup0sprzedaz, boolean towar0usluga1, boolean firmy0indycentalni1, WpisView wpisView, RodzajedokDAO  rodzajedokDAO, 
                 List<Evewidencja> evewidencje, TabelanbpDAO tabelanbpDAO, DokDAO dokDAO, KlienciDAO klienciDAO) {
         int ile = 0;
         try {
@@ -111,7 +116,7 @@ public class GenerujDok {
         return ile;
     }
      
-     private Dok generujdok(InterpaperXLS wiersz, WpisView wpisView, boolean firmy0indycentalni1, String rodzajdok, RodzajedokDAO  rodzajedokDAO, String opis, 
+     private static Dok generujdok(InterpaperXLS wiersz, WpisView wpisView, boolean firmy0indycentalni1, String rodzajdok, RodzajedokDAO  rodzajedokDAO, String opis, 
                 List<Evewidencja> evewidencje, TabelanbpDAO tabelanbpDAO, DokDAO dokDAO, KlienciDAO klienciDAO, List<Klienci> znalezieni) {
         Dok selDokument = new Dok();
         try {
@@ -168,12 +173,16 @@ public class GenerujDok {
     }
      
 
-     private Tabelanbp pobierztabele(String waldok, String dataWyst, TabelanbpDAO tabelanbpDAO) {
-        DateTime dzienposzukiwany = new DateTime(dataWyst);
-        return TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, waldok);
+     private static Tabelanbp pobierztabele(String waldok, String dataWyst, TabelanbpDAO tabelanbpDAO) {
+        if (waldok.equals("PLN")) {
+            return tabelanbpDAO.findByTabelaPLN();
+        } else {
+            DateTime dzienposzukiwany = new DateTime(dataWyst);
+            return TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, waldok);
+        }
     }
     
-     private Klienci pobierzkontrahenta(InterpaperXLS wiersz, boolean firmy0indycentalni1, KlienciDAO klienciDAO, List<Klienci> znalezieni) {
+     private static Klienci pobierzkontrahenta(InterpaperXLS wiersz, boolean firmy0indycentalni1, KlienciDAO klienciDAO, List<Klienci> znalezieni) {
         if (firmy0indycentalni1) {
            Klienci inc = new Klienci();
            inc.setNip(wiersz.getNip());
@@ -207,7 +216,7 @@ public class GenerujDok {
         }
     }
     
-    private Evewidencja pobierzewidencje(Rodzajedok rodzajedok, double netto, double vat, List<Evewidencja> evewidencje) {
+    private static Evewidencja pobierzewidencje(Rodzajedok rodzajedok, double netto, double vat, List<Evewidencja> evewidencje) {
         Evewidencja zwrot = null;
         double stawka = obliczstawke(netto, vat);
         for (Evewidencja p : evewidencje) {
@@ -220,7 +229,7 @@ public class GenerujDok {
         return zwrot;
     }
     
-    private double obliczstawke(double netto, double vat) {
+    private static double obliczstawke(double netto, double vat) {
         double stawka = 23;
         double procent = Z.z4(vat/netto);
         if (procent>0.18) {
@@ -235,7 +244,7 @@ public class GenerujDok {
         return stawka;
     }
     
-     public Dok sprawdzCzyNieDuplikat(Dok selD, DokDAO dokDAO) {
+     public static Dok sprawdzCzyNieDuplikat(Dok selD, DokDAO dokDAO) {
         if (selD.getKontr().getNpelna().equals("OPTEGRA POLSKA sp. z o.o.")) {
             error.E.s("");
         }
@@ -244,7 +253,7 @@ public class GenerujDok {
         return tmp;
     }
 
-    private Rodzajedok pobierzrodzajrok(String rodzajdok, RodzajedokDAO rodzajedokDAO, Podatnik podatnik, String rok) {
+    private static Rodzajedok pobierzrodzajrok(String rodzajdok, RodzajedokDAO rodzajedokDAO, Podatnik podatnik, String rok) {
         return rodzajedokDAO.find(rodzajdok, podatnik, rok);
     }
 }

@@ -7,8 +7,13 @@ package embeddable;
 
 import data.Data;
 import entityfk.Waluty;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.csv.CSVRecord;
 import waluty.Z;
 
@@ -134,7 +139,14 @@ public class AmazonCSV {
         String d2 = "blad konwersji daty";
         if (this.ShipmentDate!=null) {
             String strypdate = this.ShipmentDate.subSequence(1, this.ShipmentDate.length()-1).toString();
-            Date date = new Date(strypdate);
+            DateFormat formatter;
+            formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = null;
+            try {
+                date = formatter.parse(strypdate);
+            } catch (ParseException ex) {
+                Logger.getLogger(AmazonCSV.class.getName()).log(Level.SEVERE, null, ex);
+            }
             d2 = Data.data_yyyyMMdd(date);
         }
         return d2;
@@ -446,7 +458,14 @@ public class AmazonCSV {
     
 public static void main(String[] args) {
     String data = "21-Apr-2018 UTC";
-    Date date = new Date(data);
+    DateFormat formatter;
+    formatter = new SimpleDateFormat("yyyy-MM-dd");
+    Date date = null;
+    try {
+        date = formatter.parse(data);
+    } catch (ParseException ex) {
+        Logger.getLogger(AmazonCSV.class.getName()).log(Level.SEVERE, null, ex);
+    }
     String d2 = Data.data_yyyyMMdd(date);
     error.E.s("data "+d2);
 //        String csvFile = "E:\\Biuro\\Firmy\\_MAŁGOSIA\\Cieślak Paweł\\amazonVAT.csv";

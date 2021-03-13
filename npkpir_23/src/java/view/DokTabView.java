@@ -39,13 +39,12 @@ import java.util.Locale;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.inject.Named;
-
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
  import org.primefaces.PrimeFaces;
 import pdf.PdfDok;
@@ -302,8 +301,10 @@ public class DokTabView implements Serializable {
                         Msg.msg("e", "Uwaga, istnieją dokumenty AMO zaksięgowane w następnych miesiącach!", "form:messages");
                     }
                     Amodok amotmp = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-                    amotmp.setZaksiegowane(false);
-                    amoDokDAO.edit(amotmp);
+                    if (amotmp!=null) {
+                        amotmp.setZaksiegowane(false);
+                        amoDokDAO.edit(amotmp);
+                    }
                 }
                 try {
                     String probsymbolu = dokdoUsuniecia.getSymbolinwestycji();
@@ -784,11 +785,13 @@ public class DokTabView implements Serializable {
     //</editor-fold>
 
     private void sumujdokumentydodane(Dok tmpx) {
-        sumanetto = sumanetto + tmpx.getNetto();
-        sumabrutto = sumabrutto + tmpx.getBrutto();
-        if (tmpx.getBrutto() != 0.0) {
-            sumavat = sumavat + (tmpx.getBrutto()-tmpx.getNetto());
-        }
+        try {
+            sumanetto = sumanetto + tmpx.getNetto();
+            sumabrutto = sumabrutto + tmpx.getBrutto();
+            if (tmpx.getBrutto() != 0.0) {
+                sumavat = sumavat + (tmpx.getBrutto()-tmpx.getNetto());
+            }
+        } catch (Exception ex){}
     }
 
     public void sumujwybrane() {
