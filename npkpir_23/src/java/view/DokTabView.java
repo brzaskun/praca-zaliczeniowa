@@ -15,8 +15,8 @@ import dao.InwestycjeDAO;
 import dao.PodatnikDAO;
 import dao.STRDAO;
 import dao.StornoDokDAO;
+import dao.UmorzenieNDAO;
 import dao.UzDAO;
-import entity.Amodok;
 import entity.Dok;
 import entity.EVatwpis1;
 import entity.Faktura;
@@ -24,6 +24,7 @@ import entity.Inwestycje;
 import entity.Podatnik;
 import entity.Rodzajedok;
 import entity.StornoDok;
+import entity.UmorzenieN;
 import entity.Uz;
 import entityfk.Cechazapisu;
 import error.E;
@@ -65,6 +66,8 @@ public class DokTabView implements Serializable {
     private Dok dokdoUsuniecia;
     @Inject
     private PodatnikDAO podatnikDAO;
+    @Inject
+    private UmorzenieNDAO umorzenieNDAO;
     //tablica obiektów
     private List<Dok> obiektDOKjsf;
     //tablica obiektw danego klienta
@@ -293,17 +296,12 @@ public class DokTabView implements Serializable {
             } else {
                 if (dokdoUsuniecia.getRodzajedok().getSkrot().equals("AMO")) {
                     //poszukiwanie czy nie ma po nim jakiegos
-                    Amodok amotmpnas = new Amodok();
-                    if (!"12".equals(wpisView.getMiesiacWpisu())) {
-                        amotmpnas = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacNastepny());
-                    }
-                    if (amotmpnas != null && amotmpnas.getZaksiegowane() == true) {
-                        Msg.msg("e", "Uwaga, istnieją dokumenty AMO zaksięgowane w następnych miesiącach!", "form:messages");
-                    }
-                    Amodok amotmp = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-                    if (amotmp!=null) {
-                        amotmp.setZaksiegowane(false);
-                        amoDokDAO.edit(amotmp);
+                    List<UmorzenieN> umorzenia = umorzenieNDAO.findByDok(dokdoUsuniecia);
+                    if (!umorzenia.isEmpty()) {
+                        for (UmorzenieN pa : umorzenia) {
+                            pa.setDokfk(null);
+                            umorzenieNDAO.edit(pa);
+                        }
                     }
                 }
                 try {

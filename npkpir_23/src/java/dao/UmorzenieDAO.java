@@ -4,12 +4,8 @@
  */
 package dao;
 
-import entity.SrodekTrw;
 import entity.UmorzenieN;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.ejb.Stateless;import javax.transaction.Transactional;
@@ -49,13 +45,6 @@ public class UmorzenieDAO extends DAO implements Serializable {
     }
 
   
-   
-    public List<UmorzenieN> findBySrodek(SrodekTrw str) {
-        List<UmorzenieN> list = umorzenieFacade.findUmorzenieBySrodek(str);
-        if (list == null) {
-            list = Collections.synchronizedList(new ArrayList<>());
-        }
-        return list;
-    }
+  
   
 }

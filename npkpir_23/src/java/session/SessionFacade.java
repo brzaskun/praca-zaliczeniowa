@@ -37,7 +37,6 @@ import entity.SrodekTrw;
 import entity.Srodkikst;
 import entity.StornoDok;
 import entity.Sumypkpir;
-import entity.UmorzenieN;
 import entity.Uz;
 import entity.WniosekVATZDEntity;
 import entity.ZamkniecieRokuEtap;
@@ -1452,10 +1451,7 @@ public class SessionFacade<T> implements Serializable {
         return zwrot;
     }
 
-    public List<UmorzenieN> findUmorzenieBySrodek(SrodekTrw str) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("UmorzenieN.findStr").setParameter("srodekTrw", str).getResultList());
-    }
-
+    
     
     public List<SprawozdanieFinansowe> findSprawozdanieRokPodatnik(WpisView wpisView, String rok) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("SprawozdanieFinansowe.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", rok).getResultList());

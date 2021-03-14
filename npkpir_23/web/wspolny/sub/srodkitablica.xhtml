@@ -47,7 +47,7 @@
                 </p:column>
                 <p:column style="text-align: center;">
                     <p:selectBooleanCheckbox value="#{sTRTabView.bezcalkowicieumorzonych}" label="bez umorzonych całkowicie" >
-                        <p:ajax event="change" global="false" listener="#{sTRTabView.init}" update=":akordeon:str_posiadane"
+                        <p:ajax event="change" partialSubmit="true" global="false" listener="#{sTRTabView.init}" update=":akordeon:str_posiadane  :akordeon:str_posiadane2 akordeon:str_umorzeniaPlan"
                                  />
                     </p:selectBooleanCheckbox>
                 </p:column>

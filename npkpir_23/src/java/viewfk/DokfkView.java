@@ -41,6 +41,7 @@ import dao.STRDAO;
 import dao.StronaWierszaDAO;
 import dao.TabelanbpDAO;
 import dao.TransakcjaDAO;
+import dao.UmorzenieNDAO;
 import dao.WalutyDAOfk;
 import dao.WierszBODAO;
 import dao.WierszDAO;
@@ -56,6 +57,7 @@ import entity.Klienci;
 import entity.PodatnikEwidencjaDok;
 import entity.Rodzajedok;
 import entity.SrodekTrw;
+import entity.UmorzenieN;
 import entity.Uz;
 import entityfk.Cechazapisu;
 import entityfk.Dokfk;
@@ -155,6 +157,8 @@ public class DokfkView implements Serializable {
     private STRDAO strDAO;
     @Inject
     private RMKDAO rmkDAO;
+    @Inject
+    private UmorzenieNDAO umorzenieNDAO;
     private boolean zapisz0edytuj1;
 //    private String wierszid;
 //    private String wnlubma;
@@ -3544,6 +3548,15 @@ public class DokfkView implements Serializable {
                 for (Dokfk p : selectedlist) {
                     wykazZaksiegowanychDokumentow.remove(p);
                     dokDAOfk.remove(p);
+                    if (p.getSeriadokfk().equals("AMO")) {
+                        List<UmorzenieN> umorzenia = umorzenieNDAO.findByDokfk(p);
+                        if (!umorzenia.isEmpty()) {
+                            for (UmorzenieN pa : umorzenia) {
+                                pa.setDokfk(null);
+                                umorzenieNDAO.edit(pa);
+                            }
+                        }
+                    }
                 }
                 selectedlist = null;
             }
@@ -3622,6 +3635,15 @@ public void oznaczjakonkup() {
                     }
                     dokDAOfk.remove(p);
                     wykazZaksiegowanychDokumentow.remove(p);
+                    if (p.getSeriadokfk().equals("AMO")) {
+                        List<UmorzenieN> umorzenia = umorzenieNDAO.findByDokfk(p);
+                        if (!umorzenia.isEmpty()) {
+                            for (UmorzenieN pas : umorzenia) {
+                                pas.setDokfk(null);
+                                umorzenieNDAO.edit(pas);
+                            }
+                        }
+                    }
                 }
                 selectedlist = null;
             }

@@ -10,6 +10,7 @@ import comparator.SrodekTrwNowaWartoscComparator;
 import comparator.SrodekTrwcomparator;
 import comparator.UmorzenieNcomparator;
 import dao.STRDAO;
+import dao.UmorzenieNDAO;
 import data.Data;
 import entity.SrodekTrw;
 import entity.SrodekTrw_NowaWartosc;
@@ -103,6 +104,9 @@ public class STRTabView implements Serializable {
     private double umplan_odpisrok;
     private double umplan_odpismc;
     private boolean pokazwnip;
+    @Inject
+    private UmorzenieNDAO umorzenieNDAO;
+    private List<UmorzenieN> umorzeniazamiesiaclista;
     
 
     public STRTabView() {
@@ -168,7 +172,7 @@ public class STRTabView implements Serializable {
                                     }
                                     srodkiTrwale.add(srodek);
                                     if (srodek.getDatasprzedazy() == null || srodek.getDatasprzedazy().equals("")) {
-                                        if (bezcalkowicieumorzonych && srodek.getNetto().doubleValue() == srodek.getUmorzeniepoczatkowe().doubleValue()) {
+                                        if (bezcalkowicieumorzonych && srodek.getStawka()==100) {
                                         } else {
                                             if (srodek.getNetto().doubleValue() != srodek.getUmorzeniepoczatkowe().doubleValue()) {
                                                 posiadane2.add(srodek);
@@ -180,7 +184,7 @@ public class STRTabView implements Serializable {
                                     } else if (srodek.getRokSprzedazy() <= wpisView.getRokWpisu()){
                                         sprzedane.add(srodek);
                                     } else {
-                                        if (bezcalkowicieumorzonych && srodek.getNetto().doubleValue() == srodek.getUmorzeniepoczatkowe().doubleValue()) {
+                                        if (bezcalkowicieumorzonych && srodek.getStawka()==100) {
                                         } else {
                                             if (srodek.getNetto().doubleValue() != srodek.getUmorzeniepoczatkowe().doubleValue()) {
                                                 posiadane2.add(srodek);
@@ -197,6 +201,7 @@ public class STRTabView implements Serializable {
                     iloscsrodkow = srodkiTrwale.size();
                 }
             }
+            umorzeniazamiesiaclista = umorzenieNDAO.findByPodatnikRokMc(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
             /**
              * to co bylo w amodok
              */
@@ -333,6 +338,14 @@ public class STRTabView implements Serializable {
 
     public void setFilteredValues(List<SrodekTrw> filteredValues) {
         this.filteredValues = filteredValues;
+    }
+
+    public List<UmorzenieN> getUmorzeniazamiesiaclista() {
+        return umorzeniazamiesiaclista;
+    }
+
+    public void setUmorzeniazamiesiaclista(List<UmorzenieN> umorzeniazamiesiaclista) {
+        this.umorzeniazamiesiaclista = umorzeniazamiesiaclista;
     }
 
     public double getUmplan_zakupnetto() {
@@ -960,9 +973,5 @@ public class STRTabView implements Serializable {
         umplan_odpismc += srodek.getOdpismc()==null ? 0.0 : srodek.getOdpismc();
     }
 
-    
-
-    
-
-    
+        
 }

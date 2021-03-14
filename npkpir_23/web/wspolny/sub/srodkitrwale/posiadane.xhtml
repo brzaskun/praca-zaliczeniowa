@@ -12,7 +12,7 @@
         <h:form id="str_posiadane">
             <p:contextMenu for="srodkiLista" style="width: 220px;">
                 <p:menuitem value="Wycofaj środek z ewidencji" update=":akordeon:str_posiadane  :akordeon:str_sprzedane" actionListener="#{sTRTabView.wycofajsrodek()}" icon="ui-icon-trash" />
-                <p:menuitem value="Zmień wartość środka" update="form_dialog_srodkitrwale_zmianawartosci" actionListener="#{sTRTabView.kopiujwybrany(sTRTabView.wybranysrodektrwalyPosiadane)}" oncomplete="PF('dialog_srodkitrwale_zmianawartosci').show()" icon="fa fa-cc-visa" />
+                <p:menuitem value="Edytuj dane środka trw." update="form_dialog_srodkitrwale_zmianawartosci" actionListener="#{sTRTabView.kopiujwybrany(sTRTabView.wybranysrodektrwalyPosiadane)}" oncomplete="PF('dialog_srodkitrwale_zmianawartosci').show()" icon="ui-icon-wrench" />
                 <p:menuitem value="Drukuj środek z ewidencji" actionListener="#{sTRTabView.drukujsrodek()}" icon="ui-icon-print" />
                 <p:menuitem value="Sprzedaż środka trwałego" update=":akordeon:str_posiadane   :akordeon:str_sprzedane" actionListener="#{sTRSprzedazView.sprzedazsrodkaFK()}" icon="ui-icon-cart" 
                             rendered="#{facesContext.externalContext.isUserInRole('BookkeeperFK')}"/>

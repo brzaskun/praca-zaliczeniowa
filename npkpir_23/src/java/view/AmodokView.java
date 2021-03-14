@@ -12,13 +12,13 @@ package view;
 import beansFK.DokumentFKBean;
 import beansSrodkiTrwale.SrodkiTrwBean;
 import dao.AmoDokDAO;
+import dao.DokDAOfk;
 import dao.KlienciDAO;
+import dao.KontoDAOfk;
 import dao.RodzajedokDAO;
 import dao.STRDAO;
-import dao.UmorzenieDAO;
-import dao.DokDAOfk;
-import dao.KontoDAOfk;
 import dao.TabelanbpDAO;
+import dao.UmorzenieNDAO;
 import embeddable.Roki;
 import entity.Amodok;
 import entity.SrodekTrw;
@@ -31,10 +31,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 @Named
 @ViewScoped
@@ -60,7 +59,7 @@ public class AmodokView implements Serializable {
     @Inject
     protected STRDAO sTRDAO;
     @Inject
-    private UmorzenieDAO umorzenieDAO;
+    private UmorzenieNDAO umorzenieDAO;
 
     public AmodokView() {
         this.amodoklist = Collections.synchronizedList(new ArrayList<>());
@@ -203,9 +202,9 @@ public class AmodokView implements Serializable {
         }
     }
 
-    public void ksiegujUmorzenieFK(Amodok amodok) {
-        Dokfk znalezionyBiezacy = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "AMO", String.valueOf(amodok.getAmodokPK().getRok()), wpisView.getMiesiacWpisu());
-        Dokfk dokumentAMO = DokumentFKBean.generujdokument(wpisView, klienciDAO, "AMO", "zaksięgowanie umorzenia ", rodzajedokDAO, tabelanbpDAO, kontoDAOfk, amodok.getPlanumorzen(), dokDAOfk);
+    public void ksiegujUmorzenieFK(List<UmorzenieN> umorzenia) {
+        Dokfk znalezionyBiezacy = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "AMO", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        Dokfk dokumentAMO = DokumentFKBean.generujdokument(wpisView, klienciDAO, "AMO", "zaksięgowanie umorzenia ", rodzajedokDAO, tabelanbpDAO, kontoDAOfk, umorzenia, dokDAOfk);
         String nrdokumentu = null;
         if (znalezionyBiezacy != null) {
             nrdokumentu = znalezionyBiezacy.getNumerwlasnydokfk();
@@ -214,8 +213,10 @@ public class AmodokView implements Serializable {
         }
         try {
             dokDAOfk.create(dokumentAMO);
-            amodok.setZaksiegowane(true);
-            amoDokDAO.edit(amodok);
+            for (UmorzenieN n : umorzenia) {
+                n.setDokfk(dokumentAMO);
+            }
+            umorzenieDAO.editList(umorzenia);
             Msg.msg("Zaksięgowano dokument AMO");
         } catch (Exception e) {
             E.e(e);

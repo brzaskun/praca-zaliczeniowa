@@ -8,6 +8,7 @@ package entity;
 import em.Em;
 import embeddable.Mce;
 import embeddable.Umorzenie;
+import entityfk.Dokfk;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +41,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "UmorzenieN.findAll", query = "SELECT k FROM UmorzenieN k"),
     @NamedQuery(name = "UmorzenieN.findStr", query = "SELECT k FROM UmorzenieN k WHERE k.srodekTrw = :srodekTrw"),
+    @NamedQuery(name = "UmorzenieN.findByDokfk", query = "SELECT k FROM UmorzenieN k WHERE k.dokfk = :dokfk"),
+    @NamedQuery(name = "UmorzenieN.findByDok", query = "SELECT k FROM UmorzenieN k WHERE k.dok = :dok"),
     @NamedQuery(name = "UmorzenieN.findStrMcRok", query = "SELECT k FROM UmorzenieN k WHERE k.srodekTrw.id = :srt AND k.mcUmorzenia = :mc AND k.rokUmorzenia = :rok"),
-    @NamedQuery(name = "UmorzenieN.findStrNazwaMcRok", query = "SELECT k FROM UmorzenieN k WHERE k.srodekTrw.nazwa = :srt AND k.srodekTrw.podatnik = :podatnik AND k.mcUmorzenia = :mc AND k.rokUmorzenia = :rok")
+    @NamedQuery(name = "UmorzenieN.findStrNazwaMcRok", query = "SELECT k FROM UmorzenieN k WHERE k.srodekTrw.nazwa = :srt AND k.srodekTrw.podatnik = :podatnik AND k.mcUmorzenia = :mc AND k.rokUmorzenia = :rok"),
+    @NamedQuery(name = "UmorzenieN.findByPodatnikRokMc", query = "SELECT k FROM UmorzenieN k WHERE k.srodekTrw.podatnik = :podatnik AND k.rokUmorzenia = :rok AND k.mcUmorzenia = :mc")
 })
 public class UmorzenieN implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -75,6 +79,10 @@ public class UmorzenieN implements Serializable {
     //chodzi o to czy środek trwały czy wnip
     @Column(name = "rodzaj")
     private String rodzaj;
+    @JoinColumn(name = "dokfk", referencedColumnName = "id")
+    private Dokfk dokfk;
+    @JoinColumn(name = "dok", referencedColumnName = "id_dok")
+    private Dok dok;
 
     public UmorzenieN() {
     }
@@ -216,6 +224,24 @@ public class UmorzenieN implements Serializable {
     public void setRodzaj(String rodzaj) {
         this.rodzaj = rodzaj;
     }
+
+    public Dokfk getDokfk() {
+        return dokfk;
+    }
+
+    public void setDokfk(Dokfk dokfk) {
+        this.dokfk = dokfk;
+    }
+
+    public Dok getDok() {
+        return dok;
+    }
+
+    public void setDok(Dok dok) {
+        this.dok = dok;
+    }
+    
+    
 //</editor-fold>
     
       public static void main(String[] args)  {

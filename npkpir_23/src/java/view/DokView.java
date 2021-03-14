@@ -15,6 +15,7 @@ import beansSrodkiTrwale.SrodkiTrwBean;
 import comparator.PodatnikEwidencjaDokcomparator;
 import comparator.Rodzajedokcomparator;
 import dao.AmoDokDAO;
+import dao.CechazapisuDAOfk;
 import dao.DokDAO;
 import dao.InwestycjeDAO;
 import dao.JPKOznaczeniaDAO;
@@ -25,8 +26,8 @@ import dao.PodatnikEwidencjaDokDAO;
 import dao.RodzajedokDAO;
 import dao.SrodkikstDAO;
 import dao.StornoDokDAO;
-import dao.CechazapisuDAOfk;
 import dao.TabelanbpDAO;
+import dao.UmorzenieNDAO;
 import dao.WalutyDAOfk;
 import data.Data;
 import embeddable.Mce;
@@ -49,6 +50,7 @@ import entity.Rodzajedok;
 import entity.SrodekTrw;
 import entity.Srodkikst;
 import entity.StornoDok;
+import entity.UmorzenieN;
 import entityfk.Cechazapisu;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
@@ -141,6 +143,8 @@ public class DokView implements Serializable {
     /*Środki trwałe*/
     @Inject
     private SrodekTrw selectedSTR;
+    @Inject
+    private UmorzenieNDAO umorzenieNDAO;
     /*Środki trwałe*/
     private boolean pokazEST;//pokazuje wykaz srodkow dla sprzedazy
     private List<Cechazapisu> pobranecechypodatnik;
@@ -1014,17 +1018,17 @@ public class DokView implements Serializable {
 
     public void dodajNowyWpisAutomatyczny() {
         double kwotaumorzenia = 0.0;
-        Amodok amodokBiezacy = amoDokDAO.amodokBiezacy(wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisu());
-        if (amodokBiezacy == null) {
+        List<UmorzenieN> umorzenialist = umorzenieNDAO.findByPodatnikRokMc(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+        if (umorzenialist.isEmpty()) {
             Msg.msg("e", "Brak naliczeń odpisów za bieżący miesiąc. Nie można utworzyć dokumentu AMO");
             return;
         }
-        Dok znalezionyBiezacy = dokDAO.findDokMC("AMO", wpisView.getPodatnikObiekt(), String.valueOf(amodokBiezacy.getAmodokPK().getRok()), Mce.getNumberToMiesiac().get(amodokBiezacy.getAmodokPK().getMc()));
+        Dok znalezionyBiezacy = dokDAO.findDokMC("AMO", wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), Mce.getNumberToMiesiac().get(wpisView.getMiesiacWpisu()));
         if (znalezionyBiezacy == null) {
             String[] poprzedniOkres = Data.poprzedniOkres(wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             Amodok amodokPoprzedni = amoDokDAO.amodokBiezacy(wpisView.getPodatnikWpisu(), poprzedniOkres[0], Integer.parseInt(poprzedniOkres[1]));
             //wyliczam kwote umorzenia
-            kwotaumorzenia = SrodkiTrwBean.sumujumorzenia(amodokBiezacy.getPlanumorzen());
+            kwotaumorzenia = SrodkiTrwBean.sumujumorzenia(umorzenialist);
             try {
                 if (amodokPoprzedni != null) {
                     if (amodokPoprzedni.getZaksiegowane() != true && amodokPoprzedni.getUmorzenia().size() > 0) {
@@ -1079,8 +1083,10 @@ public class DokView implements Serializable {
                     dokDAO.create(selDokument);
                     String wiadomosc = "Nowy dokument umorzenia zachowany: " + selDokument.getPkpirR() + "/" + selDokument.getPkpirM() + " kwota: " + selDokument.getNetto();
                     Msg.msg("i", wiadomosc);
-                    amodokBiezacy.setZaksiegowane(true);
-                    amoDokDAO.edit(amodokBiezacy);
+                     for (UmorzenieN n : umorzenialist) {
+                        n.setDok(selDokument);
+                    }
+                    umorzenieNDAO.editList(umorzenialist);
                     Msg.msg("i", "Informacje naniesione na dokumencie umorzenia");
                 } else {
                     Msg.msg("e", "Kwota umorzenia wynosi 0zł. Dokument nie został zaksiegowany!");

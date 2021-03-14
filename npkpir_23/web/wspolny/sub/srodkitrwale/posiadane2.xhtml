@@ -11,7 +11,7 @@
     <p:tab id="zestawienieposiadane2" title="posiadane2">
         <h:form id="str_posiadane2">
             <p:contextMenu for="srodkiLista2" style="width: 220px;">
-                <p:menuitem value="Zmień wartość środka" update="form_dialog_srodkitrwale_zmianawartosci" actionListener="#{sTRTabView.kopiujwybrany(sTRTabView.wybranysrodektrwalyPosiadane2)}" oncomplete="PF('dialog_srodkitrwale_zmianawartosci').show()" icon="fa fa-cc-visa" />
+                <p:menuitem value="Edytuj dane środka trw." update="form_dialog_srodkitrwale_zmianawartosci" actionListener="#{sTRTabView.kopiujwybrany(sTRTabView.wybranysrodektrwalyPosiadane2)}" oncomplete="PF('dialog_srodkitrwale_zmianawartosci').show()" icon="ui-icon-wrench" />
             </p:contextMenu>
                 <p:dataTable  var="wpis" value="#{sTRTabView.posiadane2}" id="srodkiLista2" 
                               widgetVar="srodkiLista2" style="width: 1400px; overflow-y: scroll; height: 390px;" 
@@ -68,7 +68,7 @@
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column  headerText="umorzenia mc" filterBy="#{wpis.strMce}" filterMatchMode="contains"
+                    <p:column  headerText="umorz. liczb. mc" filterBy="#{wpis.strMce}" filterMatchMode="contains"
                               filterStyle="display : none;" sortBy="#{wpis.strMce}"  style="width: 80px;">  
                         <h:outputText value="#{wpis.strMce}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
                            

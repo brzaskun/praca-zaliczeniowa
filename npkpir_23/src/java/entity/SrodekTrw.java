@@ -7,7 +7,6 @@ package entity;
 
 import comparator.UmorzenieNcomparator;
 import data.Data;
-import embeddable.Umorzenie;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import error.E;
@@ -31,11 +30,11 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import view.WpisView;import waluty.Z;
+import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -82,9 +81,6 @@ public class SrodekTrw implements Serializable {
     @Lob
     @Column(name = "umorzPlan")
     private List<Double> umorzPlan;
-    @Lob
-    @Column(name = "umorzWyk")
-    private List<Umorzenie> umorzWyk;
     @Column(name = "odpisrok")
     private Double odpisrok;
     @Column(name = "stawka")
@@ -168,9 +164,8 @@ public class SrodekTrw implements Serializable {
         this.umorzeniepoczatkowe = 0.0;
         this.netto = 0.0;
         this.vat = 0.0;
-        this.umorzWyk = Collections.synchronizedList(new ArrayList<>());
-        this.umorzPlan = Collections.synchronizedList(new ArrayList<>());
-        this.planumorzen = Collections.synchronizedList(new ArrayList<>());
+        this.umorzPlan = new ArrayList<>();
+        this.planumorzen = new ArrayList<>();
     }
 
     public SrodekTrw(Integer id) {
@@ -385,14 +380,6 @@ public class SrodekTrw implements Serializable {
     
     public void setUmorzPlan(List<Double> umorzPlan) {
         this.umorzPlan = umorzPlan;
-    }
-    
-    public List<Umorzenie> getUmorzWyk() {
-        return umorzWyk;
-    }
-    
-    public void setUmorzWyk(List<Umorzenie> umorzWyk) {
-        this.umorzWyk = umorzWyk;
     }
     
     public Double getOdpisrok() {
