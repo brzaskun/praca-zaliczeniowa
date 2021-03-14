@@ -6,12 +6,6 @@ package session;
 
 import dao.VATZDDAO;
 import embeddable.Mce;
-import entity.Amodok;
-import entity.DeklaracjaVatSchema;
-import entity.DeklaracjaVatSchemaWierszSum;
-import entity.DeklaracjaVatWierszSumaryczny;
-import entity.Deklaracjavat27;
-import entity.DeklaracjavatUE;
 import entity.Dok;
 import entity.EVatOpis;
 import entity.EVatwpis1;
@@ -247,11 +241,7 @@ public class SessionFacade<T> implements Serializable {
 
     
 
-    public List<Amodok> findAmodok(String podatnik) {
-        List<Amodok> tmp =  getEntityManager().createNamedQuery("Amodok.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
-        return Collections.synchronizedList(tmp);
-    }
-
+    
   
 
     public boolean findSTR(String podatnik, Double netto, String numer) {
@@ -306,10 +296,7 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Sumypkpir.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList());
     }
 
-    public Amodok findMR(String pod, Integer rok, String mc) {
-        Integer miesiac = Integer.parseInt(mc);
-        return (Amodok)  getEntityManager().createNamedQuery("Amodok.findByPMR").setParameter("podatnik", pod).setParameter("rok", rok).setParameter("mc", miesiac).getSingleResult();
-    }
+    
 
     
 
@@ -339,39 +326,8 @@ public class SessionFacade<T> implements Serializable {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("Inwestycje.findByPodatnikZakonczona").setParameter("podatnik", podatnik).setParameter("zakonczona", zakonczona).setHint(QueryHints.LOAD_GROUP, lg).getResultList());
     }
 
-    public List<Amodok> findPod(String podatnik) {
-        try {
-            return Collections.synchronizedList( getEntityManager().createNamedQuery("Amodok.findByPodatnik").setParameter("podatnik", podatnik).getResultList());
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public List<Amodok> AmoDokPodRok(String podatnik, String rok) {
-        try {
-            return Collections.synchronizedList( getEntityManager().createNamedQuery("Amodok.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList());
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public Amodok AmoDokPodMcRok(String podatnik, String mc, Integer rok) {
-        try {
-            return (Amodok)  getEntityManager().createNamedQuery("Amodok.findByPodatnikMcRok").setParameter("podatnik", podatnik).setParameter("mc", Mce.getMiesiacToNumber().get(mc)).setParameter("rok", rok).getSingleResult();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public List<Amodok> findAmoDokBiezacy(String podatnik, String mc, String rok) {
-        try {
-            return Collections.synchronizedList( getEntityManager().createNamedQuery("Amodok.findByPodatnik").setParameter("podatnik", podatnik).getResultList());
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
     
+   
 
     public Dokfk findZZapisu(String numer) {
         return (Dokfk)  getEntityManager().createNamedQuery("Dokfk.findByNumer").setParameter("numer", numer).getSingleResult();
@@ -1393,14 +1349,6 @@ public class SessionFacade<T> implements Serializable {
 
     
 
-    public List<DeklaracjaVatSchemaWierszSum> findWierszSumSchemy(DeklaracjaVatSchema wybranaschema) {
-        return Collections.synchronizedList((List<DeklaracjaVatSchemaWierszSum>)  getEntityManager().createNamedQuery("DeklaracjaVatSchemaWierszSum.findEwidencjeSchemy").setParameter("deklarachaVatSchema", wybranaschema).getResultList());
-    }
-
-    public DeklaracjaVatWierszSumaryczny findWierszSumaryczny(String razem_suma_przychodów) {
-        return (DeklaracjaVatWierszSumaryczny)  getEntityManager().createNamedQuery("DeklaracjaVatWierszSumaryczny.findWiersz").setParameter("nazwapozycji", razem_suma_przychodów).getSingleResult();
-    }
-
     public WynikFKRokMc findWynikFKRokMcUdzialowiec(WynikFKRokMc wynikFKRokMc) {
         return (WynikFKRokMc)  getEntityManager().createNamedQuery("WynikFKRokMc.findPodatnikRokMcUdzialowiec").setParameter("podatnik", wynikFKRokMc.getPodatnikObj()).setParameter("rok", wynikFKRokMc.getRok()).setParameter("mc", wynikFKRokMc.getMc()).setParameter("udzialowiec", wynikFKRokMc.getUdzialowiec()).getSingleResult();
     }
@@ -1454,9 +1402,7 @@ public class SessionFacade<T> implements Serializable {
     }
 
     
-    public void usunAmoDokByMcRok(String podatnik, int rok, int mc) {
-         getEntityManager().createNamedQuery("Amodok.usunAmoDokByMcRok").setParameter("podatnik",podatnik).setParameter("rok", rok).setParameter("mc", mc).executeUpdate();
-    }
+    
 
     
 
@@ -1530,38 +1476,6 @@ public class SessionFacade<T> implements Serializable {
         return (Logofaktura)  getEntityManager().createNamedQuery("Logofaktura.findByPodatnik").setParameter("podatnik", podatnikObiekt).getSingleResult();
     }
 
-    public List<DeklaracjavatUE> findDeklUEbyPodatnikRok(WpisView wpisView) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("DeklaracjavatUE.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList());
-    }
-
-    public List<DeklaracjavatUE> findDeklUEbyPodatnikRokMc(WpisView wpisView) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("DeklaracjavatUE.findByPodatnikRokMc").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("miesiac", wpisView.getMiesiacWpisu()).getResultList());
-    }
-
-    public void usundeklaracjeUE(WpisView wpisView) {
-         getEntityManager().createNamedQuery("DeklaracjavatUE.usundeklaracjeUE").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("miesiac", wpisView.getMiesiacWpisu()).executeUpdate();
-         getEntityManager().flush();
-    }
-    public List<Deklaracjavat27> findDekl27byPodatnikRok(WpisView wpisView) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Deklaracjavat27.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList());
-    }
-
-    public List<Deklaracjavat27> findDekl27byPodatnikRokMc(WpisView wpisView) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Deklaracjavat27.findByPodatnikRokMc").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("miesiac", wpisView.getMiesiacWpisu()).getResultList());
-    }
-
-    public void usundeklaracje27(WpisView wpisView) {
-         getEntityManager().createNamedQuery("Deklaracjavat27.usundeklaracje27").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("miesiac", wpisView.getMiesiacWpisu()).executeUpdate();
-         getEntityManager().flush();
-    }
-
-    public List<DeklaracjavatUE> findDeklaracjeUEwysylka(String rokWpisuSt, String miesiacWpisu) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("DeklaracjavatUE.findByRokMc").setParameter("rok", rokWpisuSt).setParameter("miesiac", miesiacWpisu).getResultList());
-    }
-
-    public List<Deklaracjavat27> findDeklaracje27wysylka(String rokWpisuSt, String miesiacWpisu) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Deklaracjavat27.findByRokMc").setParameter("rok", rokWpisuSt).setParameter("miesiac", miesiacWpisu).getResultList());
-    }
 
     public void usunSumyPKPiR(String podatnik, String rok, String mc) {
          getEntityManager().createNamedQuery("Sumypkpir.deleteByPodatnikRokMc").setParameter("podatnik", podatnik).setParameter("rok", rok).setParameter("mc", mc).executeUpdate();

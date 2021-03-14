@@ -8,11 +8,9 @@ package dao;
 import entity.DeklaracjaVatWierszSumaryczny;
 import java.io.Serializable;
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
 import javax.ejb.Stateless;import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import session.SessionFacade;
 
 /**
  *
@@ -22,9 +20,7 @@ import session.SessionFacade;
 @Transactional
 public class DeklaracjaVatWierszSumarycznyDAO  extends DAO implements Serializable{
     private static final long serialVersionUID = 1L;
-    
-    @Inject
-    private SessionFacade sessionFacade;
+
      @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
@@ -46,10 +42,9 @@ public class DeklaracjaVatWierszSumarycznyDAO  extends DAO implements Serializab
         super.em = this.em;
     }
     
-  
 
     public DeklaracjaVatWierszSumaryczny findWiersz(String razem_suma_przychodów) {
-        return sessionFacade.findWierszSumaryczny(razem_suma_przychodów);
+        return (DeklaracjaVatWierszSumaryczny)  getEntityManager().createNamedQuery("DeklaracjaVatWierszSumaryczny.findWiersz").setParameter("nazwapozycji", razem_suma_przychodów).getSingleResult();
     }
     
 }

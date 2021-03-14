@@ -5,6 +5,7 @@
 package dao;
 
 import data.Data;
+import embeddable.Mce;
 import entity.Amodok;
 import error.E;
 import java.io.Serializable;
@@ -12,11 +13,9 @@ import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import session.SessionFacade;
 
 /**
  *
@@ -26,8 +25,7 @@ import session.SessionFacade;
 @Transactional
 public class AmoDokDAO extends DAO implements Serializable {
 
-    @Inject
-    private SessionFacade sessionFacade;
+    
     @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
@@ -52,14 +50,16 @@ public class AmoDokDAO extends DAO implements Serializable {
     
      public  Amodok findMR(String pod, Integer rok, String mc){
         try {
-            return sessionFacade.findMR(pod,rok,mc);
+            Integer miesiac = Integer.parseInt(mc);
+            return (Amodok)  getEntityManager().createNamedQuery("Amodok.findByPMR").setParameter("podatnik", pod).setParameter("rok", rok).setParameter("mc", miesiac).getSingleResult();
         } catch (Exception e) { E.e(e); 
             return null;
         }
    }
-    
+
+
     public void destroy(String podatnik){
-        List<Amodok> lista = sessionFacade.findAmodok(podatnik);
+        List<Amodok> lista = getEntityManager().createNamedQuery("Amodok.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
         Iterator it;
         it = lista.iterator();
         while(it.hasNext()){
@@ -67,11 +67,10 @@ public class AmoDokDAO extends DAO implements Serializable {
             remove(tmp);
         }
     }
-    
-     
+
     public void usun(String podatnik, int rok, int mc){
         try {
-            sessionFacade.usunAmoDokByMcRok(podatnik,rok,mc);
+           getEntityManager().createNamedQuery("Amodok.usunAmoDokByMcRok").setParameter("podatnik",podatnik).setParameter("rok", rok).setParameter("mc", mc).executeUpdate();
         } catch (Exception e) {
             E.e(e);
         }
@@ -79,7 +78,7 @@ public class AmoDokDAO extends DAO implements Serializable {
     
     //Usuwa wszystkie pozniejsze
     public void destroy(String podatnik, int rok, int mc){
-        List<Amodok> lista = sessionFacade.findAmodok(podatnik);
+        List<Amodok> lista = getEntityManager().createNamedQuery("Amodok.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
         for(Amodok tmp : lista){
             int wynikporownywania = Data.compare(tmp.getAmodokPK().getRok(), tmp.getAmodokPK().getMc(), rok, mc);
             if(wynikporownywania >= 0) {
@@ -87,17 +86,17 @@ public class AmoDokDAO extends DAO implements Serializable {
             }
         }
     }
-    
-    public List<Amodok> amodokklient(String klient){
-        return sessionFacade.findPod(klient);
+
+    public List<Amodok> amodokklient(String podatnik){
+        return getEntityManager().createNamedQuery("Amodok.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
-    
-    public List<Amodok> amodokKlientRok(String klient, String rok){
-        return sessionFacade.AmoDokPodRok(klient, rok);
+
+    public List<Amodok> amodokKlientRok(String podatnik, String rok){
+        return getEntityManager().createNamedQuery("Amodok.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
     }
-    
-    public Amodok amodokBiezacy(String klient, String mc, Integer rok){
-        return sessionFacade.AmoDokPodMcRok(klient,mc, rok);
+
+    public Amodok amodokBiezacy(String podatnik, String mc, Integer rok){
+        return (Amodok)  getEntityManager().createNamedQuery("Amodok.findByPodatnikMcRok").setParameter("podatnik", podatnik).setParameter("mc", Mce.getMiesiacToNumber().get(mc)).setParameter("rok", rok).getSingleResult();
     }
 }
 

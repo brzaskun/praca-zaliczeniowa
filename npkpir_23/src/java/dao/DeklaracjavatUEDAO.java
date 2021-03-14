@@ -50,17 +50,18 @@ public class DeklaracjavatUEDAO extends DAO implements Serializable{
 
     public List<DeklaracjavatUE> findbyPodatnikRok(WpisView wpisView) {
         try {
-            return sessionFacade.findDeklUEbyPodatnikRok(wpisView);
+            return getEntityManager().createNamedQuery("DeklaracjavatUE.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
         } catch (Exception e) { 
             E.e(e); 
             return null;
         }
     }
-    
+
+
     public DeklaracjavatUE findbyPodatnikRokMc(WpisView wpisView) {
         DeklaracjavatUE zwrot = null;
         try {
-            List<DeklaracjavatUE> lista = sessionFacade.findDeklUEbyPodatnikRokMc(wpisView);
+            List<DeklaracjavatUE> lista = getEntityManager().createNamedQuery("DeklaracjavatUE.findByPodatnikRokMc").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("miesiac", wpisView.getMiesiacWpisu()).getResultList();
             int max = -1;
             for (DeklaracjavatUE p : lista) {
                 if (p.getNrkolejny() > max) {
@@ -72,12 +73,14 @@ public class DeklaracjavatUEDAO extends DAO implements Serializable{
         return zwrot;
     }
 
+    
     public void usundeklaracjeUE(WpisView wpisView) {
-        sessionFacade.usundeklaracjeUE(wpisView);
+        getEntityManager().createNamedQuery("DeklaracjavatUE.usundeklaracjeUE").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("miesiac", wpisView.getMiesiacWpisu()).executeUpdate();
     }
     
+    
     public List<DeklaracjavatUE> findDeklaracjewysylka(WpisView wpisView) {
-         return sessionFacade.findDeklaracjeUEwysylka(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+         return getEntityManager().createNamedQuery("DeklaracjavatUE.findByRokMc").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("miesiac", wpisView.getMiesiacWpisu()).getResultList();
     }
     
 }

@@ -9,11 +9,9 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import session.SessionFacade;
 
 /**
  *
@@ -23,8 +21,6 @@ import session.SessionFacade;
 @Transactional
 public class BankImportWzoryDAO extends DAO implements Serializable {
 
-    @Inject
-    private SessionFacade sessionFacade;
      @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
@@ -48,7 +44,7 @@ public class BankImportWzoryDAO extends DAO implements Serializable {
 
 
     public List<BankImportWzory> findByBank(String wybranybankimport) {
-        return sessionFacade.getEntityManager().createNamedQuery("BankImportWzory.findByBank").setParameter("bank", wybranybankimport).getResultList();
+        return getEntityManager().createNamedQuery("BankImportWzory.findByBank").setParameter("bank", wybranybankimport).getResultList();
     }
     
   

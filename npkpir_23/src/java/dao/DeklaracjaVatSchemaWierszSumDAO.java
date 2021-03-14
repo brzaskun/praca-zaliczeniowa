@@ -12,11 +12,9 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import session.SessionFacade;
 
 /**
  *
@@ -28,9 +26,8 @@ import session.SessionFacade;
 public class DeklaracjaVatSchemaWierszSumDAO  extends DAO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Inject
-    private SessionFacade sessionFacade;
- @PersistenceContext(unitName = "npkpir_22PU")
+    
+    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
     @PreDestroy
@@ -50,12 +47,12 @@ public class DeklaracjaVatSchemaWierszSumDAO  extends DAO implements Serializabl
         super(DeklaracjaVatSchemaWierszSum.class);
         super.em = this.em;
     }
-    
+
   
     public List<DeklaracjaVatSchemaWierszSum> findWierszeSchemy(DeklaracjaVatSchema wybranaschema) {
         List<DeklaracjaVatSchemaWierszSum> zwrot = null;
         try {
-            zwrot = sessionFacade.findWierszSumSchemy(wybranaschema);
+            zwrot = (List<DeklaracjaVatSchemaWierszSum>)  getEntityManager().createNamedQuery("DeklaracjaVatSchemaWierszSum.findEwidencjeSchemy").setParameter("deklarachaVatSchema", wybranaschema).getResultList();
         } catch (Exception e) { 
             E.e(e); 
         }
@@ -65,7 +62,7 @@ public class DeklaracjaVatSchemaWierszSumDAO  extends DAO implements Serializabl
     
     public void usunliste(DeklaracjaVatSchema s) {
         try {
-            sessionFacade.getEntityManager().createNamedQuery("DeklaracjaVatSchemaWierszSum.usunliste").setParameter("deklaracjaVatSchema", s).executeUpdate();
+            getEntityManager().createNamedQuery("DeklaracjaVatSchemaWierszSum.usunliste").setParameter("deklaracjaVatSchema", s).executeUpdate();
         } catch (Exception e) { 
             E.e(e); 
         }

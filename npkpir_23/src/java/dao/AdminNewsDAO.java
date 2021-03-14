@@ -8,11 +8,9 @@ import entity.EVatOpis;
 import java.io.Serializable;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import session.SessionFacade;
 
 /**
  *
@@ -23,9 +21,7 @@ import session.SessionFacade;
 //pomaga przenosci opisy bo inaczej nie chca sie zachowac. scopy nie pasuja
 public class AdminNewsDAO extends DAO implements Serializable {
 
-    @Inject
-    private SessionFacade eVatOpisFacade;
-      @PersistenceContext(unitName = "npkpir_22PU")
+    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
     @PreDestroy

@@ -10,11 +10,9 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import session.SessionFacade;
 import view.WpisView;
 /**
  *
@@ -23,8 +21,7 @@ import view.WpisView;
 @Stateless
 @Transactional
 public class Deklaracjavat27DAO extends DAO implements Serializable{
-    @Inject
-    private SessionFacade sessionFacade;
+
     //tablica wciagnieta z bazy danych
       @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
@@ -48,20 +45,19 @@ public class Deklaracjavat27DAO extends DAO implements Serializable{
     }
 
 
-
     public List<Deklaracjavat27> findbyPodatnikRok(WpisView wpisView) {
         try {
-            return sessionFacade.findDekl27byPodatnikRok(wpisView);
+            return getEntityManager().createNamedQuery("Deklaracjavat27.findByPodatnikRok").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
         } catch (Exception e) { 
             E.e(e); 
             return null;
         }
     }
-    
+
     public Deklaracjavat27 findbyPodatnikRokMc(WpisView wpisView) {
         Deklaracjavat27 zwrot = null;
         try {
-            List<Deklaracjavat27> lista = sessionFacade.findDekl27byPodatnikRokMc(wpisView);
+            List<Deklaracjavat27> lista = getEntityManager().createNamedQuery("Deklaracjavat27.findByPodatnikRokMc").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("miesiac", wpisView.getMiesiacWpisu()).getResultList();
             int max = -1;
             for (Deklaracjavat27 p : lista) {
                 if (p.getNrkolejny() > max) {
@@ -75,11 +71,11 @@ public class Deklaracjavat27DAO extends DAO implements Serializable{
     }
 
     public void usundeklaracje27(WpisView wpisView) {
-        sessionFacade.usundeklaracje27(wpisView);
+        getEntityManager().createNamedQuery("Deklaracjavat27.usundeklaracje27").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("miesiac", wpisView.getMiesiacWpisu()).executeUpdate();
     }
 
     public List<Deklaracjavat27> findDeklaracjewysylka(WpisView wpisView) {
-         return sessionFacade.findDeklaracje27wysylka(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+         return getEntityManager().createNamedQuery("Deklaracjavat27.findByRokMc").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("miesiac", wpisView.getMiesiacWpisu()).getResultList();
     }
     
     

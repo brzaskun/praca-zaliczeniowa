@@ -10,11 +10,9 @@ import entity.DeklaracjaVatWierszSumaryczny;
 import java.io.Serializable;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import session.SessionFacade;
 
 /**
  *
@@ -24,8 +22,6 @@ import session.SessionFacade;
 @Transactional
 public class DeklaracjaVatPozycjeKoncoweDAO  extends DAO implements Serializable{
     private static final long serialVersionUID = 1L;
-    @Inject
-    private SessionFacade sessionFacade;
     
     @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
@@ -50,7 +46,7 @@ public class DeklaracjaVatPozycjeKoncoweDAO  extends DAO implements Serializable
 
   
     public DeklaracjaVatPozycjeKoncowe findWiersz(String nazwa) {
-        return (DeklaracjaVatPozycjeKoncowe) sessionFacade.getEntityManager().createNamedQuery("DeklaracjaVatPozycjeKoncowe.findWiersz").setParameter("nazwapozycji", nazwa).getSingleResult();
+        return (DeklaracjaVatPozycjeKoncowe) getEntityManager().createNamedQuery("DeklaracjaVatPozycjeKoncowe.findWiersz").setParameter("nazwapozycji", nazwa).getSingleResult();
     }
     
 }
