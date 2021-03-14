@@ -74,7 +74,7 @@ public class UmorzenieNDAO extends DAO implements Serializable {
     }
 
     public List<UmorzenieN> findByDok(Dok dokdoUsuniecia) {
-        List<UmorzenieN> list = getEntityManager().createNamedQuery("UmorzenieN.findByDok").setParameter("dok", p).getResultList();
+        List<UmorzenieN> list = getEntityManager().createNamedQuery("UmorzenieN.findByDok").setParameter("dok", dokdoUsuniecia).getResultList();
         if (list == null) {
             list = Collections.synchronizedList(new ArrayList<>());
         }
