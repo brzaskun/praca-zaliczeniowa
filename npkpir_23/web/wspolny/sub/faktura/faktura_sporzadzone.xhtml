@@ -154,7 +154,7 @@
                     <h:outputText value=" korekta" rendered="#{wpis.pozycjepokorekcie.size() gt 0 or wpis.gutschrift}" style="color: red;"/>
                     <h:outputText value=" +duplikaty" rendered="#{wpis.duplikaty.size() gt 0}" style="color: green;"/>
                     <h:outputText value=" zalicz." rendered="#{wpis.zaliczkowa}" style="color: orange;"/>
-                    <h:outputText value=" część. #{wpis.projektnumer}" rendered="#{wpis.projektnumer ne null and wpis.koncowa eq false}" style="color: coral;"/>
+                    <h:outputText value=" część. #{wpis.projektnumer}" rendered="#{wpis.projektnumer ne null and wpis.projektnumer.length() gt 0 and wpis.koncowa eq false}" style="color: coral;"/>
                     <h:outputText value=" końcowa" rendered="#{wpis.koncowa}" style="color: coral;"/>
                 </p:column>
                 <p:column  headerText="edytuj" style="text-align: center;"  width="40">

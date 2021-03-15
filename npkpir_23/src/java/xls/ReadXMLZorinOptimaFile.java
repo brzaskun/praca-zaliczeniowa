@@ -266,6 +266,7 @@ public class ReadXMLZorinOptimaFile {
                 String kontr = row.getNAZWA1()+" "+row.getKRAJ()+" "+row.getKODPOCZTOWY()+" "+row.getMIASTO();
                 interpaperXLS.setKontrahent(kontr);
                 interpaperXLS.setNip(pobierznip(row));
+                interpaperXLS.setNipkrajzorin(row.getNIPKRAJ());
                 interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
                 interpaperXLS.setWalutaplatnosci(pobierzwalute(row));
                 List<ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.POZYCJE.POZYCJA> poz = row.getPOZYCJE().getPOZYCJA();
@@ -343,6 +344,7 @@ public class ReadXMLZorinOptimaFile {
             String kontr = row.getNAZWA1()+" "+row.getKRAJ()+" "+row.getKODPOCZTOWY()+" "+row.getMIASTO();
             interpaperXLS.setKontrahent(kontr);
             interpaperXLS.setNip(pobierznip(row));
+            interpaperXLS.setNipkrajzorin(row.getNIPKRAJ());
             interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
             interpaperXLS.setWalutaplatnosci(pobierzwalute(row));
             List<ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.POZYCJE.POZYCJA> poz = row.getPOZYCJE().getPOZYCJA();
@@ -395,14 +397,16 @@ public class ReadXMLZorinOptimaFile {
                     }
                 }
             }
-            if (klient==null && interpaperXLS.getNip()!=null && interpaperXLS.getNip().length()>6) {
+            if (klient==null && interpaperXLS.getNip()!=null && interpaperXLS.getNip().length()>6 && interpaperXLS.getNipkrajzorin().isEmpty()) {
                 String nip = interpaperXLS.getNip().trim();
                 if (nip.length()==10 && Character.isDigit(nip.charAt(0))) {
                     klient = SzukajDaneBean.znajdzdaneregonAutomat(nip);
-                    if (klient.getNpelna()==null) {
+                    if (klient.getNpelna()==null && (klient.getNpelna().equals("wystąpił błąd logowania do serwera GUS")||klient.getNpelna().equals("nie znaleziono firmy w bazie Regon"))) {
                         klient = null;
                     } else {
                         if (!klient.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
+                            klient.setKrajkod("PL");
+                            klient.setKrajnazwa("Polska");
                             klienciDAO.create(klient);
                         }
                     }

@@ -491,6 +491,8 @@ public class WriteXLSFile {
         headers.add("PODMIOT_ID");
         headers.add("NAZWA1");
         headers.add("KRAJ");
+        headers.add("NIP");
+        headers.add("NIPKRAJ");
         headers.add("OPIS");
         headers.add("NETTO");
         headers.add("VAT");
@@ -555,7 +557,7 @@ public class WriteXLSFile {
 //        createHeaderCell(styleheader, rowTH, (short) 2, tableheader);
 //        CellRangeAddress region = new CellRangeAddress( rowIndex-1, rowIndex-1, (short) 2, (short)12);
 //        sheet.addMergedRegion(region);
-        sheet.setAutoFilter(CellRangeAddress.valueOf("A1:S1"));
+        sheet.setAutoFilter(CellRangeAddress.valueOf("A1:U1"));
         CellStyle styletext = styleText(workbook, HorizontalAlignment.LEFT, VerticalAlignment.CENTER);
         CellStyle styletextcenter = styleText(workbook, HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
         CellStyle styledata = styleData(workbook, HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
@@ -597,6 +599,8 @@ public class WriteXLSFile {
         createTextCell(styletext, row, (short) columnIndex++, ob.getPODMIOTID());
         createTextCell(styletext, row, (short) columnIndex++, ob.getNAZWA1());
         createTextCell(styletext, row, (short) columnIndex++, ob.getKRAJ());
+        createTextCell(styletext, row, (short) columnIndex++, ob.getNIP());
+        createTextCell(styletext, row, (short) columnIndex++, ob.getNIPKRAJ());
         createTextCell(styletext, row, (short) columnIndex++, ob.getOPIS());
         List<ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.POZYCJE.POZYCJA> poz = ob.getPOZYCJE().getPOZYCJA();
         ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.PLATNOSCI.PLATNOSC plt = ob.getPLATNOSCI().getPLATNOSC()!=null?ob.getPLATNOSCI().getPLATNOSC():null;
@@ -1060,7 +1064,7 @@ public class WriteXLSFile {
     }
     
     private static void autoAlign(Sheet sheet) {
-        for (int i=0;i<20;i++) {
+        for (int i=0;i<22;i++) {
             sheet.autoSizeColumn((short) i);
         }
     }

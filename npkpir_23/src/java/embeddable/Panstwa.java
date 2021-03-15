@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.enterprise.context.SessionScoped;;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.persistence.Embeddable;
 
@@ -104,6 +104,7 @@ wykazPanstw.add("Gwinea Równikowa");
 wykazPanstw.add("Gwinea-Bissau");
 wykazPanstw.add("Haiti");
 wykazPanstw.add("Hiszpania");
+wykazPanstw.add("Holandia");
 wykazPanstw.add("Honduras");
 wykazPanstw.add("Hongkong");
 wykazPanstw.add("Indie");

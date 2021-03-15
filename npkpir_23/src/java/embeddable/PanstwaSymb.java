@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.enterprise.context.SessionScoped;;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.persistence.Embeddable;
 
@@ -98,6 +98,7 @@ static{
     wykazPanstwS.add("GW");
     wykazPanstwS.add("HT");
     wykazPanstwS.add("ES");
+    wykazPanstwS.add("NL");
     wykazPanstwS.add("HN");
     wykazPanstwS.add("HK");
     wykazPanstwS.add("IN");

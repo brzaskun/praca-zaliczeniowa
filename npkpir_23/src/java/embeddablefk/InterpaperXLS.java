@@ -37,6 +37,7 @@ public class InterpaperXLS implements Serializable {
     private String klientdom;
     private String klientlokal;
     private String nip;
+    private String nipkrajzorin;
     private String walutaplatnosci;
     private double bruttowaluta;
     private double saldofaktury;
@@ -340,6 +341,14 @@ public class InterpaperXLS implements Serializable {
 
     public void setKlientpaństwo(String klientpaństwo) {
         this.klientpaństwo = klientpaństwo;
+    }
+
+    public String getNipkrajzorin() {
+        return nipkrajzorin;
+    }
+
+    public void setNipkrajzorin(String nipkrajzorin) {
+        this.nipkrajzorin = nipkrajzorin;
     }
 
     public String getKlientkod() {
