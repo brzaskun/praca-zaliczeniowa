@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import pl.com.cdn.optima.offline.ROOT;
@@ -370,9 +371,16 @@ public class ReadXMLZorinOptimaFile {
 //           error.E.s("");
 //       }
        Klienci klient = null;
+//       if (interpaperXLS.getNrfaktury().equals("G/FD 2/000739/02/21")) {
+//           System.out.println("");
+//       }
+//       if (interpaperXLS.getNrfaktury().equals("G/FD 2/000796/02/21")) {
+//           System.out.println("");
+//       }
         try {
             if (!znalezieni.isEmpty()) {
-                for (String p : znalezieni.keySet()) {
+                Set<String> keySet = znalezieni.keySet();
+                for (String p : keySet) {
                     if (p.equals(interpaperXLS.getKontrahent().trim())) {
                         klient = znalezieni.get(p);
                         break;
