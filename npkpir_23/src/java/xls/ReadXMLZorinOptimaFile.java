@@ -336,7 +336,7 @@ public class ReadXMLZorinOptimaFile {
             interpaperXLS.setDatasprzedaży(row.getDATASPRZEDAZY().toGregorianCalendar().getTime());
             interpaperXLS.setDataobvat(row.getDATASPRZEDAZY().toGregorianCalendar().getTime());
             interpaperXLS.setKlientnazwa(row.getNAZWA1());
-            interpaperXLS.setKlientpaństwo(row.getKRAJ());
+            interpaperXLS.setKlientpaństwo(row.getKRAJ()!=null?row.getKRAJ().trim():null);
             interpaperXLS.setKlientkod(row.getKODPOCZTOWY());
             interpaperXLS.setKlientmiasto(row.getMIASTO());
             interpaperXLS.setKlientulica(row.getULICA());
@@ -345,7 +345,7 @@ public class ReadXMLZorinOptimaFile {
             String kontr = row.getNAZWA1()+" "+row.getKRAJ()+" "+row.getKODPOCZTOWY()+" "+row.getMIASTO();
             interpaperXLS.setKontrahent(kontr);
             interpaperXLS.setNip(pobierznip(row));
-            interpaperXLS.setNipkrajzorin(row.getNIPKRAJ());
+            interpaperXLS.setNipkrajzorin(row.getNIPKRAJ()!=null?row.getNIPKRAJ().trim():null);
             interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
             interpaperXLS.setWalutaplatnosci(pobierzwalute(row));
             List<ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.POZYCJE.POZYCJA> poz = row.getPOZYCJE().getPOZYCJA();
@@ -426,7 +426,7 @@ public class ReadXMLZorinOptimaFile {
                 String nip = interpaperXLS.getNip().trim();
                 if (interpaperXLS.getKlientpaństwo()!=null) {
                     klient = new Klienci(1, interpaperXLS.getKlientnazwa(), interpaperXLS.getKlientnazwa(), interpaperXLS.getNip(), interpaperXLS.getKlientkod(), interpaperXLS.getKlientmiasto(), interpaperXLS.getKlientulica(), interpaperXLS.getKlientdom(), interpaperXLS.getKlientlokal());
-                    klient.setKrajnazwa(interpaperXLS.getKlientpaństwo());
+                    klient.setKrajnazwa(interpaperXLS.getKlientpaństwo()!=null?interpaperXLS.getKlientpaństwo().trim():null);
                     klient.setKrajkod(PanstwaMap.getWykazPanstwSX().get(klient.getKrajnazwa()));
                     if (klient.getNip()!=null && klient.getNip().length()>5) {
                         if (!klient.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
