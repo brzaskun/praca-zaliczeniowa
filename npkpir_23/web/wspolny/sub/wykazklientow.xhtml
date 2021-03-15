@@ -129,13 +129,18 @@
             </f:facet> 
             <h:outputText value="#{wpis.ulica} #{wpis.dom}/#{wpis.lokal}" />
         </p:column>
-            <p:column id="Column4a" headerText="#{mgs.numerkolejny}" sortBy="#{wpis.email}" filterBy="#{wpis.email}" filterMatchMode="contains" width="100">  
+        <p:column id="Column4a" headerText="#{mgs.numerkolejny}" sortBy="#{wpis.email}" filterBy="#{wpis.email}" filterMatchMode="contains" width="100">  
             <f:facet name="header">  
                 <h:outputText value="email" />  
             </f:facet>
               <h:outputText value="#{wpis.email}"/>
         </p:column>
-         
+            <p:column headerText="kraj" sortBy="#{wpis.krajkod}" filterBy="#{wpis.krajkod}" filterMatchMode="contains" width="100">  
+            <f:facet name="header">  
+                <h:outputText value="kraj" />  
+            </f:facet>
+              <h:outputText value="#{wpis.krajkod}"/>
+        </p:column>
             <p:column id="deleteColumn" headerText="usuń" width="40">
             <p:commandButton actionListener="#{KlView.destroy(wpis)}" onclick="PF('confirmation').show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" update=":formY" />
         </p:column>

@@ -371,12 +371,12 @@ public class ReadXMLZorinOptimaFile {
 //           error.E.s("");
 //       }
        Klienci klient = null;
-//       if (interpaperXLS.getNrfaktury().equals("G/FD 2/000739/02/21")) {
-//           System.out.println("");
-//       }
-//       if (interpaperXLS.getNrfaktury().equals("G/FD 2/000796/02/21")) {
-//           System.out.println("");
-//       }
+       if (interpaperXLS.getNrfaktury().equals("G/FD 2/000739/02/21")) {
+           System.out.println("");
+       }
+       if (interpaperXLS.getNrfaktury().equals("G/FD 2/000796/02/21")) {
+           System.out.println("");
+       }
         try {
             if (!znalezieni.isEmpty()) {
                 Set<String> keySet = znalezieni.keySet();
