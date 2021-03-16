@@ -12,19 +12,20 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import session.SessionFacade;
+import javax.transaction.Transactional;
 
 /**
  *
  * @author Osito
  */
+@Stateless
+@Transactional
 public class FakturaDodPozycjaKontrahentDAO  extends DAO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    @Inject
-    private SessionFacade sessionFacade;
       @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
@@ -50,7 +51,7 @@ public class FakturaDodPozycjaKontrahentDAO  extends DAO implements Serializable
       
     public  FakturaDodPozycjaKontrahent findById(int id) {
         try {
-            return (FakturaDodPozycjaKontrahent) sessionFacade.getEntityManager().createNamedQuery("FakturaDodPozycjaKontrahent.findById").setParameter("id", id).getSingleResult();
+            return (FakturaDodPozycjaKontrahent) getEntityManager().createNamedQuery("FakturaDodPozycjaKontrahent.findById").setParameter("id", id).getSingleResult();
         } catch (Exception e) { E.e(e); 
             return null;
         }
@@ -58,15 +59,23 @@ public class FakturaDodPozycjaKontrahentDAO  extends DAO implements Serializable
     
     public  List<FakturaDodPozycjaKontrahent> findKontrRokMc(Klienci klienci, String rok, String mc) {
         try {
-            return sessionFacade.getEntityManager().createNamedQuery("FakturaDodPozycjaKontrahent.findByKontrahentRokMc").setParameter("kontrahent", klienci).setParameter("rok", rok).setParameter("mc", mc).getResultList();
+            return getEntityManager().createNamedQuery("FakturaDodPozycjaKontrahent.findByKontrahentRokMc").setParameter("kontrahent", klienci).setParameter("rok", rok).setParameter("mc", mc).getResultList();
         } catch (Exception e) { E.e(e); 
             return null;
         }
    }
-
+    
+    public List<FakturaDodPozycjaKontrahent> findByRok(String aktualnyRok) {
+        List<FakturaDodPozycjaKontrahent> zwrot = null;
+        try {
+            zwrot = getEntityManager().createNamedQuery("FakturaDodPozycjaKontrahent.findByRok").setParameter("rok", aktualnyRok).getResultList();
+        } catch (Exception e){}
+        return zwrot;
+    }
+    
     public  void deleteByID(int id) {
         try {
-            sessionFacade.getEntityManager().createNamedQuery("FakturaDodPozycjaKontrahent.deleteById").setParameter("id", id).executeUpdate();
+            getEntityManager().createNamedQuery("FakturaDodPozycjaKontrahent.deleteById").setParameter("id", id).executeUpdate();
         } catch (Exception e) { E.e(e); 
             
         }
@@ -83,7 +92,7 @@ public class FakturaDodPozycjaKontrahentDAO  extends DAO implements Serializable
     public List<FakturaDodPozycjaKontrahent> findbyKontrahent(Klienci t) {
         List<FakturaDodPozycjaKontrahent> zwrot =  new ArrayList<>();
         try {
-            zwrot = sessionFacade.getEntityManager().createNamedQuery("FakturaDodPozycjaKontrahent.findByKontrahent").setParameter("kontrahent", t).getResultList();
+            zwrot = getEntityManager().createNamedQuery("FakturaDodPozycjaKontrahent.findByKontrahent").setParameter("kontrahent", t).getResultList();
         } catch (Exception e) { E.e(e); 
             
         }

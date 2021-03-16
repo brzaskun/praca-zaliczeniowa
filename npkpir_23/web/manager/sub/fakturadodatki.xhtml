@@ -52,26 +52,32 @@
         <p:tab title="księgowanie pozycji">
             <h:form id="form2">
                 <p:growl life="3600" showDetail="true"/>
-                <p:panelGrid columns="4">
+                <p:panelGrid columns="1">
+                    <p:commandButton value="generuj permanentne" actionListener="#{fakturaDodPozycjaKontrahentView.generujpermanentne()}" style="width: 120px;" binding="#{fakturaDodPozycjaKontrahentView.button}" update="akordeon:form2" rendered="false"/>
+                </p:panelGrid>
+                <p:panelGrid columns="5">
                     <h:outputText value="rok"/>
                     <h:outputText value="mc"/>
                     <h:outputText value=""/>
                     <h:outputText value=""/>
+                    <h:outputText value=""/>
                     <p:selectOneMenu id="rokWpisu" value="#{fakturaDodPozycjaKontrahentView.rok}" style="width: 60px;">
-                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.pobierzklientow()}" update="form2:kontrpole form2:kontrpole2 akordeon:listapozycji:lista"/>
+                        <p:ajax event="change" partialSubmit="true" />
                         <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true" />
                         <f:selectItems value="#{roki.rokiList}"/>
                     </p:selectOneMenu>
                     <p:selectOneMenu id="miesiacWpisu" value="#{fakturaDodPozycjaKontrahentView.mc}" style="width: 60px;">
-                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.pobierzklientow()}" update="form2:kontrpole form2:kontrpole2 akordeon:listapozycji:lista"/>
+                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.pobierzklientow()}" update="form2 akordeon:listapozycji:lista"/>
                         <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true" />
                         <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>
                     <h:outputText value=""/>
                     <h:outputText value=""/>
+                    <h:outputText value=""/>
                     <h:outputText value="kontrahent"/>
                     <h:outputText value="dodatek"/>
                     <h:outputText value="ilość"/>
+                    <h:outputText value="permanentny"/>
                     <h:outputText value=""/>
                     <p:selectOneMenu widgetVar="kontrpole" id="kontrpole" value="#{fakturaDodPozycjaKontrahentView.selected.kontrahent}" style="width: 400px;" converter="#{klientConv1}" filter="true" filterMatchMode="contains">
                         <f:selectItem itemLabel="wybierz"  noSelectionOption="true" />
@@ -82,6 +88,7 @@
                         <f:selectItems value="#{fakturaDodPozycjaKontrahentView.pozycje}" var="papi" itemLabel="#{papi.nazwa}" itemValue="#{papi}"/>
                     </p:selectOneMenu>
                     <p:inputNumber id="ilość" value="#{fakturaDodPozycjaKontrahentView.selected.ilosc}" decimalPlaces="0" minValue="1" maxValue="100" size="9" style="text-align: right;" required="true" requiredMessage="minimalna wartośc to 1"/>
+                    <p:selectBooleanCheckbox value="#{fakturaDodPozycjaKontrahentView.selected.permanentny}"/>
                     <p:commandButton value="dodaj" actionListener="#{fakturaDodPozycjaKontrahentView.dodaj}" update="@(form)" style="width: 120px;"/>
                 </p:panelGrid>
                 <p:focus for="kontrpole"  context="form2" />
@@ -89,7 +96,7 @@
              <p:separator/>
              <h:form id="listapozycji">
                 <p:growl life="3600" showDetail="true"/>
-                <p:dataTable  var="zapis" value="#{fakturaDodPozycjaKontrahentView.lista_2}" id="lista" sortOrder="ascending" style="width: 1350px;" widgetVar="tabelazwynikami"
+                <p:dataTable  var="zapis" value="#{fakturaDodPozycjaKontrahentView.lista_2}" id="lista" sortOrder="ascending" style="width: 1400px;" widgetVar="tabelazwynikami"
                               filteredValue="#{fakturaDodPozycjaKontrahentView.lista_2_filter}"
                               paginator="true" paginatorAlwaysVisible="#{fakturaDodPozycjaKontrahentView.lista_2.size() gt 20 ? true : false}" rows="20" sortBy="#{zapis.kontrahent.getNazwabezCudzy()}"
                           paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
@@ -101,11 +108,13 @@
                 <p:column headerText="nazwa" width="400" filterBy="#{zapis.kontrahent.getNazwabezCudzy()}" filterMatchMode="contains">  
                     <h:outputText value="#{zapis.kontrahent.getNazwabezCudzy()}"/>
                 </p:column>
-                    <p:column headerText="pozycja" width="550" filterBy="#{zapis.fakturaDodatkowaPozycja.nazwa}" filterMatchMode="contains">  
+                    <p:column headerText="pozycja" width="450" filterBy="#{zapis.fakturaDodatkowaPozycja.nazwa}" filterMatchMode="contains">  
                     <h:outputText value="#{zapis.fakturaDodatkowaPozycja.nazwa}"/>
                 </p:column>
                 <p:column headerText="ilość" width="50" style="text-align: center;">  
-                    <h:outputText value="#{zapis.ilosc}" />
+                    <p:inputNumber value="#{zapis.ilosc}" decimalPlaces="0" minValue="1" size="3">
+                        <p:ajax event="change" parent="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis)}" />
+                    </p:inputNumber>
                 </p:column>
                 <p:column headerText="rozl" width="50" style="text-align: center;" filterBy="#{zapis.rozliczone}">  
                     <h:outputText value="#{zapis.rozliczone eq true ? 'tak':null}" />
@@ -117,8 +126,11 @@
                         </p:selectOneMenu>
                     </f:facet>
                 </p:column>
-                <p:column headerText="kwota" width="100">  
-                    <bcf:outputpl value="#{zapis.fakturaDodatkowaPozycja.kwota}" />
+                <p:column headerText="kwota" width="120">  
+                    <bcf:inputpl80 value="#{zapis.fakturaDodatkowaPozycja.kwota}"/>
+                </p:column>
+                <p:column headerText="perm" width="50" style="text-align: center;">  
+                    <h:outputText value="#{zapis.permanentny eq true ?'&#x2713;':''}" style="color:green;"/>
                 </p:column>
                 <p:column headerText="" style="text-align: center;" width="50">  
                     <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaDodPozycjaKontrahentView.usun(zapis)}" update="@form" rendered="#{zapis.rozliczone eq false}"/>
@@ -127,7 +139,7 @@
             </h:form>
              <h:form>
                  <p:panelGrid columns="2">
-                     <p:commandButton value="sumuj" actionListener="#{fakturaDodPozycjaKontrahentView.sumujwybrane}" update="@form"/>
+                     <p:commandButton value="sumuj" actionListener="#{fakturaDodPozycjaKontrahentView.sumujwybrane}" update="@form" style="width: 120px;"/>
                      <bcf:outputpl value="#{fakturaDodPozycjaKontrahentView.sumawybranych}" stylePlus="margin-left: 50px;"/>
                  </p:panelGrid>
              </h:form>

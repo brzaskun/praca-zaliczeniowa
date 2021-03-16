@@ -34,6 +34,7 @@ import javax.persistence.UniqueConstraint;
     @NamedQuery(name = "FakturaDodPozycjaKontrahent.findByKontrahent", query = "SELECT d FROM FakturaDodPozycjaKontrahent d WHERE d.kontrahent = :kontrahent"),
     @NamedQuery(name = "FakturaDodPozycjaKontrahent.findById", query = "SELECT d FROM FakturaDodPozycjaKontrahent d WHERE d.id = :id"),
     @NamedQuery(name = "FakturaDodPozycjaKontrahent.findByKontrahentRokMc", query = "SELECT d FROM FakturaDodPozycjaKontrahent d WHERE d.kontrahent = :kontrahent AND d.rok = :rok AND d.mc = :mc"),
+    @NamedQuery(name = "FakturaDodPozycjaKontrahent.findByRok", query = "SELECT d FROM FakturaDodPozycjaKontrahent d WHERE d.rok = :rok"),
     @NamedQuery(name = "FakturaDodPozycjaKontrahent.deleteById", query = "DELETE FROM FakturaDodPozycjaKontrahent s WHERE s.id = :id"),
     @NamedQuery(name = "FakturaDodPozycjaKontrahent.aktualizuj", query = "UPDATE FakturaDodPozycjaKontrahent r SET r.rozliczone = '0' WHERE r.id = :id")
     })
@@ -58,6 +59,8 @@ public class FakturaDodPozycjaKontrahent  implements Serializable{
     private String mc;
     @Column(name = "rozliczone")
     private boolean rozliczone;
+    @Column(name = "permanentny")
+    private boolean permanentny;
 
     @Override
     public int hashCode() {
@@ -157,6 +160,14 @@ public class FakturaDodPozycjaKontrahent  implements Serializable{
 
     public void setRozliczone(boolean rozliczone) {
         this.rozliczone = rozliczone;
+    }
+
+    public boolean isPermanentny() {
+        return permanentny;
+    }
+
+    public void setPermanentny(boolean permanentny) {
+        this.permanentny = permanentny;
     }
 
     

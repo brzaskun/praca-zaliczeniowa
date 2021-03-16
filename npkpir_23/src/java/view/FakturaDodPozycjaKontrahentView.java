@@ -10,7 +10,7 @@ import dao.FakturaDodPozycjaKontrahentDAO;
 import dao.FakturaDodatkowaPozycjaDAO;
 import dao.FakturywystokresoweDAO;
 import dao.PodatnikDAO;
-import embeddable.Mce;
+import data.Data;
 import entity.FakturaDodPozycjaKontrahent;
 import entity.FakturaDodatkowaPozycja;
 import entity.Fakturywystokresowe;
@@ -18,15 +18,15 @@ import entity.Klienci;
 import entity.Podatnik;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
+import org.primefaces.component.commandbutton.CommandButton;
 
 /**
  *
@@ -54,11 +54,12 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     private String rok;
     private String mc;
     private double sumawybranych;
+    private CommandButton button;
     
     @PostConstruct
     private void init() {
         pozycje = fakturaDodatkowaPozycjaDAO.findAll();
-        lista_wzor = fakturaDodPozycjaKontrahentDAO.findAll();
+        lista_wzor = fakturaDodPozycjaKontrahentDAO.findByRok(Data.aktualnyRok());
         lista_2 = new ArrayList<>();
         lista_2.addAll(lista_wzor);
     }
@@ -75,6 +76,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
                 }
                 klienci.add(k);
             }
+            button.setRendered(true);
         }
         Collections.sort(klienci,new Klienci1comparator());
         pozycje = fakturaDodatkowaPozycjaDAO.findAll();
@@ -116,6 +118,19 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
         }
     }
     
+    public void edytuj(FakturaDodPozycjaKontrahent sel) {
+        if (sel !=null) {
+            try {
+                fakturaDodPozycjaKontrahentDAO.edit(sel);
+                Msg.msg("Zmieniono ilość");
+            } catch (Exception e) {
+                Msg.msg("e","Nieudana zmiana ilości");
+            }
+        } else {
+            Msg.msg("e","Nie wybrano pozycji. Nie można wyedytować");
+        }
+    }
+    
     public void sumujwybrane() {
         List<FakturaDodPozycjaKontrahent> lista = lista_2_filter!=null && lista_2_filter.size()>0 ? lista_2_filter : lista_2;
         sumawybranych = 0.0;
@@ -123,6 +138,10 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
             sumawybranych = sumawybranych+p.getFakturaDodatkowaPozycja().getKwota();
         }
         Msg.msg("Podsumowano");
+    }
+    
+    public void generujpermanentne() {
+        Msg.msg("e","brak funkcji generującej");
     }
 
     public FakturaDodPozycjaKontrahent getSelected() {
@@ -187,6 +206,14 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
 
     public void setSumawybranych(double sumawybranych) {
         this.sumawybranych = sumawybranych;
+    }
+
+    public CommandButton getButton() {
+        return button;
+    }
+
+    public void setButton(CommandButton button) {
+        this.button = button;
     }
     
     

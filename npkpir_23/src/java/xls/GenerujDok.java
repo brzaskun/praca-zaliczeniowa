@@ -50,9 +50,6 @@ public class GenerujDok {
             int i = 0;
             for (InterpaperXLS p : wiersze) {
                 generowanieDokumentu(p, znalezieni, zakup0sprzedaz, towar0usluga1, firmy0indycentalni1, wpisView, rodzajedokDAO, evewidencje, tabelanbpDAO, dokDAO, klienciDAO);
-                if (++i>3) {
-                    break;
-                }
             }
         } else {
             zwrot = 1;

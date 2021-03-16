@@ -8,16 +8,21 @@ package dao;
 import entity.FakturaDodatkowaPozycja;
 import java.io.Serializable;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 /**
  *
  * @author Osito
  */
+@Stateless
+@Transactional
 public class FakturaDodatkowaPozycjaDAO  extends DAO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-      @PersistenceContext(unitName = "npkpir_22PU")
+    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
     @PreDestroy
@@ -37,6 +42,8 @@ public class FakturaDodatkowaPozycjaDAO  extends DAO implements Serializable {
         super(FakturaDodatkowaPozycja.class);
         super.em = this.em;
     }
+
+   
 
    
     

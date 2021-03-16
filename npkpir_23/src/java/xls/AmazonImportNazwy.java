@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -22,6 +23,10 @@ import javax.inject.Named;
 import msg.Msg;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -98,14 +103,17 @@ public class AmazonImportNazwy implements Serializable {
     public static void main(String[] args) {
         HashMap<String, String> id_nazwa = new HashMap<>();
         try {
-            String filename = "D://aba.xlsx";
+            String filename = "D://aba4.xlsx";
             FileInputStream file = new FileInputStream(new File(filename));
-            Iterable<CSVRecord> recordss = CSVFormat.EXCEL.withFirstRecordAsHeader().parse(new InputStreamReader(file));
-            for (CSVRecord row : recordss) {
-                String nip = row.get("BUYER_VAT_NUMBER");
+            Workbook workbook = WorkbookFactory.create(file);
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rowIterator = sheet.iterator();
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                String nip = row.getCell(2)!=null? row.getCell(2).getStringCellValue():null;
                 if (nip!=null&&!nip.equals("")) {
-                    String id = row.get("ORIGINAL_INVOICE_NUMBER");
-                    String nazwa = row.get("BUYER_NAME");
+                    String id = row.getCell(0).getStringCellValue();
+                    String nazwa = row.getCell(1).getStringCellValue();
                     id_nazwa.put(id, nazwa);
                 }
                 
