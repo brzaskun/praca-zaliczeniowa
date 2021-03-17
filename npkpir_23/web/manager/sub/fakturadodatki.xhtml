@@ -78,7 +78,7 @@
                     <h:outputText value="dodatek"/>
                     <h:outputText value="ilość"/>
                     <h:outputText value="permanentny"/>
-                    <h:outputText value=""/>
+                    <h:outputText value="kwota"/>
                     <p:selectOneMenu widgetVar="kontrpole" id="kontrpole" value="#{fakturaDodPozycjaKontrahentView.selected.kontrahent}" style="width: 400px;" converter="#{klientConv1}" filter="true" filterMatchMode="contains">
                         <f:selectItem itemLabel="wybierz"  noSelectionOption="true" />
                         <f:selectItems value="#{fakturaDodPozycjaKontrahentView.klienci}" var="opipi" itemLabel="#{opipi.getNazwabezCudzy()}" itemValue="#{opipi}"/>
@@ -89,6 +89,7 @@
                     </p:selectOneMenu>
                     <p:inputNumber id="ilość" value="#{fakturaDodPozycjaKontrahentView.selected.ilosc}" decimalPlaces="0" minValue="1" maxValue="100" size="9" style="text-align: right;" required="true" requiredMessage="minimalna wartośc to 1"/>
                     <p:selectBooleanCheckbox value="#{fakturaDodPozycjaKontrahentView.selected.permanentny}"/>
+                    <bcf:inputpl80 value="#{fakturaDodPozycjaKontrahentView.selected.kwotaindywid}">
                     <p:commandButton value="dodaj" actionListener="#{fakturaDodPozycjaKontrahentView.dodaj}" update="@(form)" style="width: 120px;"/>
                 </p:panelGrid>
                 <p:focus for="kontrpole"  context="form2" />
@@ -127,7 +128,7 @@
                     </f:facet>
                 </p:column>
                 <p:column headerText="kwota" width="120">  
-                    <bcf:inputpl80 value="#{zapis.fakturaDodatkowaPozycja.kwota}">
+                    <bcf:inputpl80 value="#{zapis.kwotaindywid}">
                         <p:ajax event="change" parent="true" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis)}" />
                     </bcf:inputpl80>
                 </p:column>

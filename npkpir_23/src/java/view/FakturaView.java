@@ -786,7 +786,7 @@ public class FakturaView implements Serializable {
             int lp = pozycje.get(pozycje.size()-1).getLp();
             for (FakturaDodPozycjaKontrahent p : lista) {
                 double ilosc = p.getIlosc();
-                double cena = p.getFakturaDodatkowaPozycja().getKwota();
+                double cena = p.getKwotaindywid()!=0.0 ?p.getKwotaindywid() : p.getFakturaDodatkowaPozycja().getKwota();
                 double netto = Z.z(ilosc*cena);
                 double podatek = 23.0;
                 double podatekkwota = Z.z(netto*podatek/100);

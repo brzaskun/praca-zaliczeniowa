@@ -201,6 +201,7 @@ public class GenerujDok {
                     }
                     if (juzjest==false) {
                         znalezieni.add(klientznaleziony);
+                        klienciDAO.create(klientznaleziony);
                     }
                 } else if (klientznaleziony!=null){
                      klientznaleziony.setNskrocona(klientznaleziony.getNpelna());

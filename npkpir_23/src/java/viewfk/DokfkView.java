@@ -1121,7 +1121,6 @@ public class DokfkView implements Serializable {
         
     public void edycjaimport() {
         selected.setImportowany(false);
-        f.l.l(wykazZaksiegowanychDokumentowimport, filteredValueimport, selectedlistimport).remove(selected);
         edycja();
         PrimeFaces.current().ajax().update("zestawieniedokumentowimport:dataListImport");
     }
@@ -1170,6 +1169,9 @@ public class DokfkView implements Serializable {
                 wykazZaksiegowanychDokumentow.remove(selected);
                 wykazZaksiegowanychDokumentow.add(dokDAOfk.findDokfkObj(selected));
                 Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
+                try {
+                    f.l.l(wykazZaksiegowanychDokumentowimport, filteredValueimport, selectedlistimport).remove(selected);
+                } catch (Exception e){}
                 resetujDokument();
                 if (totylkoedycjazapis) {
                     //to jest potrzebne w sumie do edycji dokumenty z zapisow konta, tylko ze wywolujemy inita KOmntoZapisy FKView

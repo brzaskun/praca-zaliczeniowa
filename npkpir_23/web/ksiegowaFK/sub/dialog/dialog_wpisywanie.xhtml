@@ -716,7 +716,7 @@
                         <p:column>
                         <p:commandButton id="edytujdokbuttonimport" value="zaksięguj" styleClass="fkbutton" style="width: 150px;" 
                                          actionListener="#{dokfkView.edycjaimport}" 
-                                         onfocus="focusNaNowoDodanymEnter();"
+                                         onfocus="focusNaNowoDodanymEnter();" update="zestawieniedokumentowimport:dataListImport"
                                          rendered="#{dokfkView.zapisz0edytuj1 and dokfkView.selected.importowany}" onclick="sprawdzgrupeprzykliknieciuwzapisz();" 
                                          global="false"/>
                         </p:column>

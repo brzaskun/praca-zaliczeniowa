@@ -114,6 +114,7 @@ public class InterpaperImportView implements Serializable {
     private Konto kontonettotowary;
     private Konto kontovat;
     private Konto kontovatnaliczony;
+    private Konto kontovatnalezny;
     private Konto kontovatnaliczonyprzesuniecie;
     private Konto kontovatzagranica;
     private Tabelanbp tabelanbppl;
@@ -153,6 +154,7 @@ public class InterpaperImportView implements Serializable {
         kontonettokoszt = kontoDAO.findKonto("403", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         kontonettotowary = kontoDAO.findKonto("330-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         kontovatnaliczony = kontoDAO.findKonto("221-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+        kontovatnalezny = kontoDAO.findKonto("221-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         kontovatnaliczonyprzesuniecie = kontoDAO.findKonto("221-4", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
         tabelanbppl = tabelanbpDAO.findByTabelaPLN();
         walutapln = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
@@ -281,7 +283,7 @@ public class InterpaperImportView implements Serializable {
 //                    }
 //                }
             }
-            if (wybranyrodzajimportu.getLp()==2 && (rodzajdok.equals("sprzedaż NIP") || rodzajdok.contains("zakup"))) {
+            if (wybranyrodzajimportu.getLp()==2 && (rodzajdok.equals("sprzedaż NIP") || rodzajdok.contains("zakup") || rodzajdok.contains("WNT") || rodzajdok.contains("IU"))) {
                 generujbutton.setRendered(true);
                 drkujfizbutton.setRendered(true);
                 kontobutton.setRendered(true);
@@ -289,15 +291,15 @@ public class InterpaperImportView implements Serializable {
                 generujbutton.setRendered(true);
                 drkujfizbutton.setRendered(true);
                 kontobutton.setRendered(true);
-            } else if (wybranyrodzajimportu.getLp()==1 && (rodzajdok.equals("sprzedaż") || rodzajdok.contains("zakup"))){
+            } else if (wybranyrodzajimportu.getLp()==1 && (rodzajdok.equals("sprzedaż") || rodzajdok.contains("zakup") || rodzajdok.contains("WNT") || rodzajdok.contains("IU"))){
                 drkujfizbutton.setRendered(true);
                 generujbutton.setRendered(true);
                 kontobutton.setRendered(true);
-            } else if (wybranyrodzajimportu.getLp()==3 && (rodzajdok.equals("sprzedaż") || rodzajdok.equals("zakup"))){
+            } else if (wybranyrodzajimportu.getLp()==3 && (rodzajdok.equals("sprzedaż") || rodzajdok.equals("zakup") || rodzajdok.contains("WNT") || rodzajdok.contains("IU"))){
                 drkujfizbutton.setRendered(true);
                 generujbutton.setRendered(true);
                 kontobutton.setRendered(true);
-            } else if (wybranyrodzajimportu.getLp()==4 && (rodzajdok.equals("sprzedaż") || rodzajdok.contains("zakup"))){
+            } else if (wybranyrodzajimportu.getLp()==4 && (rodzajdok.equals("sprzedaż") || rodzajdok.contains("zakup") || rodzajdok.contains("WNT") || rodzajdok.contains("IU"))){
                 drkujfizbutton.setRendered(true);
                 generujbutton.setRendered(true);
                 kontobutton.setRendered(true);
@@ -394,16 +396,15 @@ public class InterpaperImportView implements Serializable {
                 }
                 dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, "przychody ze sprzedaży");
             } else {
-                if (this.rodzajdok.equals("zakup/WNT")) {
-                    rodzajdk = polska0unia1zagranica2==0 ? "ZZ" : "WNT";
+                if (this.rodzajdok.equals("zakup")) {
+                    rodzajdk = "ZZ";
                     if (interpaperXLS.getVatPLN()!=0.0 && !interpaperXLS.getKlientpaństwo().equals("Polska")) {
                         rodzajdk = "RACH";
                     }
-                } else {
-                    rodzajdk = polska0unia1zagranica2==0 ? "ZZ" : "IU";
-                    if (interpaperXLS.getVatPLN()!=0.0 && !interpaperXLS.getKlientpaństwo().equals("Polska")) {
-                        rodzajdk = "RACH";
-                    }
+                } else if (this.rodzajdok.equals("WNT")) {
+                    rodzajdk = "WNT";
+                } else if (this.rodzajdok.equals("IU")) {
+                    rodzajdk = "IU";
                 }
                 dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, "zakup towarów/koszty");
             }
@@ -639,6 +640,8 @@ public class InterpaperImportView implements Serializable {
         strwn.setKwotaPLN(Z.z(nettopln));
         if (nd.getRodzajedok().getSkrotNazwyDok().equals("WNT")) {
             strwn.setKonto(kontodlanetto!=null?kontodlanetto:kontonettotowary);
+            strma.setKwotaPLN(Z.z(nettopln));
+            strma.setKwota(Z.z(interpaperXLS.getNettowaluta()));
         } else {
             strwn.setKonto(kontodlanetto!=null?kontodlanetto:kontonettokoszt);
         }
@@ -650,6 +653,9 @@ public class InterpaperImportView implements Serializable {
     
     private Wiersz przygotujwierszVatK(InterpaperXLS interpaperXLS, Dokfk nd) {
         Wiersz w = new Wiersz(2, nd, 1);
+        if (nd.getRodzajedok().getSkrotNazwyDok().equals("WNT")) {
+            w = new Wiersz(2, nd, 0);
+        }
         uzupelnijwiersz(w, nd, 1);
         String opiswiersza = nd.getOpisdokfk()+" - VAT"; 
         w.setOpisWiersza(opiswiersza);
@@ -663,6 +669,13 @@ public class InterpaperImportView implements Serializable {
             strwn.setKonto(kontovatnaliczony);
         } else {
             strwn.setKonto(kontovatnaliczonyprzesuniecie);
+        }
+        if (nd.getRodzajedok().getSkrotNazwyDok().equals("WNT")) {
+            strwn.setKonto(kontovatnaliczony);
+            StronaWiersza strma = new StronaWiersza(w, "Ma", interpaperXLS.getVatwaluta(), null);
+            strma.setKwotaPLN(Z.z(vatpln));
+            strma.setKonto(kontovatnalezny);
+            w.setStronaMa(strma);
         }
         w.setStronaWn(strwn);
         return w;
@@ -694,8 +707,7 @@ public class InterpaperImportView implements Serializable {
                             przesuniecie(nd,eVatwpisFK);
                             eVatwpisFK.setLp(k++);
                             eVatwpisFK.setEwidencja(p);
-                            if (Z.z(interpaperXLS.getVatwaluta())!=0.0) {
-                                if (p.getNazwa().equals("sprzedaż 23%")||p.getNazwa().equals("zakup")) {
+                             if (p.getNazwa().equals("sprzedaż 23%")||p.getNazwa().equals("zakup")) {
                                     eVatwpisFK.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
                                     eVatwpisFK.setVatwwalucie(Z.z(interpaperXLS.getVatwaluta()));
                                     eVatwpisFK.setNetto(Z.z(nettopln));
@@ -705,9 +717,7 @@ public class InterpaperImportView implements Serializable {
                                     eVatwpisFK.setEstawka("op");
                                     nd.getEwidencjaVAT().add(eVatwpisFK);
                                     break;
-                                }
-                            } else {
-                                if (PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("rejestr WDT")) {
+                            } else if (PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("rejestr WDT")) {
                                     eVatwpisFK.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
                                     eVatwpisFK.setVatwwalucie(0.0);
                                     eVatwpisFK.setNetto(Z.z(nettopln));
@@ -719,9 +729,9 @@ public class InterpaperImportView implements Serializable {
                                     break;
                                 } else if (PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("rejestr WNT")) {
                                     eVatwpisFK.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
-                                    eVatwpisFK.setVatwwalucie(0.0);
+                                    eVatwpisFK.setVatwwalucie(Z.z(interpaperXLS.getVatwaluta()));
                                     eVatwpisFK.setNetto(Z.z(nettopln));
-                                    eVatwpisFK.setVat(0.0);
+                                    eVatwpisFK.setVat(Z.z(vatpln));
                                     eVatwpisFK.setBrutto(Z.z(nettopln));
                                     eVatwpisFK.setDokfk(nd);
                                     eVatwpisFK.setEstawka("op");
@@ -789,7 +799,6 @@ public class InterpaperImportView implements Serializable {
                                     break;
                                 }
                             }
-                        }
                 } else {
                     Msg.msg("e", "Brak podstawowych ustawień dla podatnika dotyczących opodatkowania. Nie można wpisywać dokumentów! podepnijEwidencjeVat()");
                 }
@@ -942,11 +951,13 @@ public class InterpaperImportView implements Serializable {
         List<String> zwrot = new ArrayList<>();
         switch (i) {
             case 1:
-                zwrot.add("zakup/IU");
+                zwrot.add("zakup");
+                zwrot.add("IU");
                 zwrot.add("sprzedaż");
                 break;
             case 2:
-                zwrot.add("zakup/WNT");
+                zwrot.add("zakup");
+                zwrot.add("WNT");
                 zwrot.add("sprzedaż NIP");
                 zwrot.add("sprzedaż os.fiz");
                 break;
@@ -955,7 +966,8 @@ public class InterpaperImportView implements Serializable {
                 zwrot.add("sprzedaż");
                 break;
             case 4: 
-                zwrot.add("zakup/WNT");
+                zwrot.add("zakup");
+                zwrot.add("WNT");
                 zwrot.add("sprzedaż");
                 break;
             case 5:

@@ -61,6 +61,8 @@ public class FakturaDodPozycjaKontrahent  implements Serializable{
     private boolean rozliczone;
     @Column(name = "permanentny")
     private boolean permanentny;
+    @Column(name = "kwotaindywid")
+    private double kwotaindywid;
 
     @Override
     public int hashCode() {
@@ -170,6 +172,15 @@ public class FakturaDodPozycjaKontrahent  implements Serializable{
         this.permanentny = permanentny;
     }
 
+    public double getKwotaindywid() {
+        return kwotaindywid;
+    }
+
+    public void setKwotaindywid(double kwotaindywid) {
+        this.kwotaindywid = kwotaindywid;
+    }
+
+ 
     
 
     @Override

@@ -7,10 +7,10 @@ package xls;
 
 import beansRegon.SzukajDaneBean;
 import dao.KlienciDAO;
-import dao.RodzajedokDAO;
 import dao.KontoDAOfk;
 import dao.PozycjaBilansDAO;
 import dao.PozycjaRZiSDAO;
+import dao.RodzajedokDAO;
 import embeddable.PanstwaMap;
 import embeddablefk.InterpaperXLS;
 import entity.Klienci;
@@ -107,7 +107,7 @@ public class ReadXLSExolightFile {
                     try {
                         InterpaperXLS interpaperXLS = new InterpaperXLS();
                         //String nip = row.getCell(2).getStringCellValue().replace("-", "").trim();
-                        if (rodzajdok.contains("zakup")) {
+                        if (rodzajdok.contains("zakup")||rodzajdok.contains("WNT")||rodzajdok.contains("IU")) {
 //                            String mcdok = Data.getMc(Data.data_yyyyMMdd(row.getCell(1).getDateCellValue()));
 //                            if (mc.equals(mcdok)) {
                                 uzupelnijzakup(interpaperXLS, row, k, klienciDAO, znalezieni);
@@ -159,10 +159,10 @@ public class ReadXLSExolightFile {
             interpaperXLS.setWalutaplatnosci(waluta);
             interpaperXLS.setNettowaluta(zamiennakwote(row.getCell(10).getStringCellValue()));
             interpaperXLS.setBruttowaluta(zamiennakwote(row.getCell(11).getStringCellValue()));
-            interpaperXLS.setVatwaluta(Z.z(interpaperXLS.getBruttowaluta()-interpaperXLS.getNettowaluta()));
+            interpaperXLS.setVatwaluta(Z.z(interpaperXLS.getNettowaluta()*0.23));
             interpaperXLS.setNettoPLN(zamiennakwote(row.getCell(7).getStringCellValue()));
             interpaperXLS.setBruttoPLN(zamiennakwote(row.getCell(9).getStringCellValue()));
-            interpaperXLS.setVatPLN(zamiennakwote(row.getCell(8).getStringCellValue()));
+            interpaperXLS.setVatPLN(interpaperXLS.getNettoPLN()*0.23);
             interpaperXLS.setOpis("zakup towaru");
         }
    }
