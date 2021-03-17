@@ -113,7 +113,7 @@
                 </p:column>
                 <p:column headerText="ilość" width="50" style="text-align: center;">  
                     <p:inputNumber value="#{zapis.ilosc}" decimalPlaces="0" minValue="1" size="3">
-                        <p:ajax event="change" parent="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis)}" />
+                        <p:ajax event="change" parent="true" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis)}" />
                     </p:inputNumber>
                 </p:column>
                 <p:column headerText="rozl" width="50" style="text-align: center;" filterBy="#{zapis.rozliczone}">  
@@ -128,7 +128,7 @@
                 </p:column>
                 <p:column headerText="kwota" width="120">  
                     <bcf:inputpl80 value="#{zapis.fakturaDodatkowaPozycja.kwota}">
-                        <p:ajax event="change" parent="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis)}" />
+                        <p:ajax event="change" parent="true" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis)}" />
                     </bcf:inputpl80>
                 </p:column>
                 <p:column headerText="perm" width="50" style="text-align: center;">  
