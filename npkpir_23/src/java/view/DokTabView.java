@@ -188,27 +188,30 @@ public class DokTabView implements Serializable {
         for (Dok tmpx : dokumentypobrane) {
             boolean dodaj = false;
             tmpx.setNrWpkpir(numerkolejny++);
-            if (tmpx.getNrWlDk().equals("31100068/07")) {
-            }
-            if (tmpx.getPkpirM().equals(mc)) {
-                dokumentyl.add(tmpx.getRodzajedok());
-                kontrahenty.add(tmpx.getKontr().getNpelna());
-                waluty.add(tmpx.getWalutadokumentu() != null ? tmpx.getWalutadokumentu().getSymbolwaluty() : "PLN");
-                if (wybranacechadok == null) {
-                    dodaj = true;
-                } else if (!tmpx.getCechadokumentuLista().isEmpty() && !wybranacechadok.equals("bezcechy")) {
-                    for (Cechazapisu cz : tmpx.getCechadokumentuLista()) {
-                        if (cz.getNazwacechy().equals(wybranacechadok)) {
-                            dodaj = true;
-                            break;
+            if (tmpx.getNrWlDk()==null) {
+                System.out.println("");
+                dokDAO.remove(tmpx);
+            } else {
+                if (tmpx.getPkpirM().equals(mc)) {
+                    dokumentyl.add(tmpx.getRodzajedok());
+                    kontrahenty.add(tmpx.getKontr().getNpelna());
+                    waluty.add(tmpx.getWalutadokumentu() != null ? tmpx.getWalutadokumentu().getSymbolwaluty() : "PLN");
+                    if (wybranacechadok == null) {
+                        dodaj = true;
+                    } else if (!tmpx.getCechadokumentuLista().isEmpty() && !wybranacechadok.equals("bezcechy")) {
+                        for (Cechazapisu cz : tmpx.getCechadokumentuLista()) {
+                            if (cz.getNazwacechy().equals(wybranacechadok)) {
+                                dodaj = true;
+                                break;
+                            }
                         }
+                    } else if (wybranacechadok.equals("bezcechy") && (tmpx.getCechadokumentuLista() == null || tmpx.getCechadokumentuLista().isEmpty())){
+                        dodaj = true;
                     }
-                } else if (wybranacechadok.equals("bezcechy") && (tmpx.getCechadokumentuLista() == null || tmpx.getCechadokumentuLista().isEmpty())){
-                    dodaj = true;
-                }
-                if (dodaj) {
-                    dokumentylista.add(tmpx);
-                    sumujdokumentydodane(tmpx);
+                    if (dodaj) {
+                        dokumentylista.add(tmpx);
+                        sumujdokumentydodane(tmpx);
+                    }
                 }
             }
         }
