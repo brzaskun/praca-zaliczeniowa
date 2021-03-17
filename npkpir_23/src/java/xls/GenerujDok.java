@@ -137,6 +137,9 @@ public class GenerujDok {
             selDokument.setRodzajedok(pobierzrodzajrok(rodzajdok, rodzajedokDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt()));
             selDokument.setOpis(opis);
             selDokument.setNrWlDk(wiersz.getNrfaktury());
+            if (wiersz.getNrfaktury().equals("FS 150/02/2021")) {
+                System.out.println("");
+            }
             List<KwotaKolumna1> listaX = Collections.synchronizedList(new ArrayList<>());
             KwotaKolumna1 tmpX = new KwotaKolumna1();
             tmpX.setNetto(wiersz.getNettoPLN());
@@ -165,6 +168,7 @@ public class GenerujDok {
             }
         } catch (Exception e) {
             E.e(e);
+            selDokument = null;
         }
         return selDokument;
     }

@@ -141,7 +141,7 @@ public class ImportMelkaView  implements Serializable {
                     interpaperXLS.setKontrahent(pobierzkontrahenta(row.getCell(4)));
                     String nip = pobierznip(row.getCell(8));
                     interpaperXLS.setNip(nip);
-                    interpaperXLS.setKlient(pobierzkraj(nip));
+                    interpaperXLS.setKlient(pobierzkraj(row.getCell(8)));
                     String waluta = "PLN";
                     //interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
                     interpaperXLS.setWalutaplatnosci(waluta);
@@ -248,28 +248,27 @@ public class ImportMelkaView  implements Serializable {
         Pattern p = Pattern.compile(regex);
          Matcher m = p.matcher(poczatek);
         if (m.matches()) {
-            nip = nip.substring(2);
+            nip = nip.substring(2).trim();
         }
         return nip;
     }
     
-      private static Klienci pobierzkraj(String nip) {
-        String poczatek = nip;
+      private static Klienci pobierzkraj(Cell krajcell) {
+        DataFormatter formatter = new DataFormatter(new Locale("pl_pl"));;
         Klienci klient = new Klienci();
-        klient.setNip(nip);
-        String kraj = null;
+        String poczatek = formatter.formatCellValue(krajcell);
         if (poczatek!=null&&poczatek.length()==10) {
             poczatek = poczatek.substring(0,2);
             String regex = "^[a-zA-Z]+$";
             Pattern p = Pattern.compile(regex);
             Matcher m = p.matcher(poczatek);
             if (m.matches()) {
-                kraj = PanstwaMap.getWykazPanstwXS().get(poczatek);
+                String kraj = PanstwaMap.getWykazPanstwXS().get(poczatek);
                 klient.setKrajnazwa(kraj);
                 klient.setKrajkod(poczatek);
             } else {
                 poczatek = "PL";
-                kraj = PanstwaMap.getWykazPanstwXS().get(poczatek);
+                String kraj = PanstwaMap.getWykazPanstwXS().get(poczatek);
                 klient.setKrajnazwa(kraj);
                 klient.setKrajkod(poczatek);
             }
