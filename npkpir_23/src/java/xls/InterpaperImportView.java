@@ -10,6 +10,7 @@ import beansFK.PlanKontFKBean;
 import beansRegon.SzukajDaneBean;
 import comparator.Kliencifkcomparator;
 import dao.DokDAOfk;
+import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
 import dao.KliencifkDAO;
 import dao.KontoDAOfk;
@@ -18,8 +19,11 @@ import dao.RodzajedokDAO;
 import dao.TabelanbpDAO;
 import dao.UkladBRDAO;
 import dao.WalutyDAOfk;
+import data.Data;
+import embeddable.Mce;
 import embeddable.PanstwaEUSymb;
 import embeddable.PanstwaMap;
+import embeddable.Roki;
 import embeddablefk.InterpaperXLS;
 import entity.Evewidencja;
 import entity.Klienci;
@@ -429,12 +433,12 @@ public class InterpaperImportView implements Serializable {
      
       private Dokfk stworznowydokument(int numerkolejny, InterpaperXLS interpaperXLS, String rodzajdok, List<Klienci> k, String opis) {
         Dokfk nd = new Dokfk(numerkolejny, wpisView.getRokWpisuSt());
+        ustawrodzajedok(nd, rodzajdok);
         ustawdaty(nd, interpaperXLS);
         nd.setKontr(interpaperXLS.getKlient());
         ustawnumerwlasny(nd, interpaperXLS);
         nd.setOpisdokfk(opis);
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
-        ustawrodzajedok(nd, rodzajdok);
         ustawtabelenbp(nd, interpaperXLS);
         przewalutuj(nd, interpaperXLS);
         podepnijEwidencjeVat(nd, interpaperXLS);
@@ -475,14 +479,14 @@ public class InterpaperImportView implements Serializable {
         String datasprzedazy = formatterX.format(interpaperXLS.getDatasprzedaży());
         if (interpaperXLS.getDataotrzymania()!=null) {
             String dataotrzymania = formatterX.format(interpaperXLS.getDataotrzymania());
-            nd.setDatadokumentu(datawystawienia);
             nd.setDatawplywu(dataotrzymania);
+            nd.setDatawystawienia(dataotrzymania);
         } else {
-            nd.setDatadokumentu(datawystawienia);
+            nd.setDatawystawienia(datawystawienia);
             nd.setDatawplywu(datawystawienia);
         }
         nd.setDataoperacji(datasprzedazy);
-        nd.setDatawystawienia(datawystawienia);
+        nd.setDatadokumentu(datasprzedazy);
         nd.setDataujecia(new Date());
         nd.setMiesiac(wpisView.getMiesiacWpisu());
         if (rodzajdok.contains("sprzedaż")) {
@@ -492,6 +496,11 @@ public class InterpaperImportView implements Serializable {
             String dataotrzymania = formatterX.format(interpaperXLS.getDataotrzymania()!=null?interpaperXLS.getDataotrzymania():interpaperXLS.getDatawystawienia());
             nd.setVatM(dataotrzymania.split("-")[1]);
             nd.setVatR(dataotrzymania.split("-")[0]);
+            if (nd.getRodzajedok().getSkrotNazwyDok().equals("WNT")) {
+                String dataoperacji = formatterX.format(interpaperXLS.getDatasprzedaży());
+                nd.setVatM(dataoperacji.split("-")[1]);
+                nd.setVatR(dataoperacji.split("-")[0]);
+            }
         }
     }
     
@@ -688,7 +697,8 @@ public class InterpaperImportView implements Serializable {
         w.setTabelanbp(w.getTabelanbp());
         w.setDataksiegowania(nd.getDatawplywu());
     }
-    
+    @Inject
+    private EvewidencjaDAO eVDAO;
     private void podepnijEwidencjeVat(Dokfk nd, InterpaperXLS interpaperXLS) {
         if (nd.getRodzajedok().getKategoriadokumentu() != 0 && nd.getRodzajedok().getKategoriadokumentu() != 5) {
             if (nd.iswTrakcieEdycji() == false) {
@@ -701,6 +711,7 @@ public class InterpaperImportView implements Serializable {
                         /*wyswietlamy ewidencje VAT*/
                         List<Evewidencja> opisewidencji = Collections.synchronizedList(new ArrayList<>());
                         opisewidencji.addAll(listaEwidencjiVat.pobierzEvewidencje(nd.getRodzajedok().getRodzajtransakcji()));
+                        Evewidencja ewidencjazakupu = eVDAO.znajdzponazwie("zakup");
                         int k = 0;
                         for (Evewidencja p : opisewidencji) {
                             EVatwpisFK eVatwpisFK = new EVatwpisFK();
@@ -728,14 +739,42 @@ public class InterpaperImportView implements Serializable {
                                     nd.getEwidencjaVAT().add(eVatwpisFK);
                                     break;
                                 } else if (PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("rejestr WNT")) {
-                                    eVatwpisFK.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
-                                    eVatwpisFK.setVatwwalucie(Z.z(interpaperXLS.getVatwaluta()));
-                                    eVatwpisFK.setNetto(Z.z(nettopln));
-                                    eVatwpisFK.setVat(Z.z(vatpln));
-                                    eVatwpisFK.setBrutto(Z.z(nettopln));
-                                    eVatwpisFK.setDokfk(nd);
-                                    eVatwpisFK.setEstawka("op");
-                                    nd.getEwidencjaVAT().add(eVatwpisFK);
+                                      if(nd.isDwarejestry() && czyrozjechalysiemce(nd)) {
+                                        EVatwpisFK pierwszaewid = new EVatwpisFK(k++, p, nd);
+                                        pierwszaewid.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
+                                        pierwszaewid.setVatwwalucie(Z.z(interpaperXLS.getVatwaluta()));
+                                        pierwszaewid.setNetto(Z.z(nettopln));
+                                        pierwszaewid.setVat(Z.z(vatpln));
+                                        pierwszaewid.setBrutto(Z.z(nettopln));
+                                        pierwszaewid.setDokfk(nd);
+                                        pierwszaewid.setEstawka("op");
+                                        pierwszaewid.setNieduplikuj(true);
+                                        nd.getEwidencjaVAT().add(pierwszaewid);
+                                        String[] rokmiesiacduplikatu = rokmiesiacduplikatu(nd);
+                                        EVatwpisFK drugaewid = (EVatwpisFK) beansVAT.EwidencjaVATSporzadzanie.duplikujEVatwpisSuper(pierwszaewid,ewidencjazakupu);
+                                        drugaewid.setLp(k++);
+                                        drugaewid.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
+                                        drugaewid.setVatwwalucie(Z.z(interpaperXLS.getVatwaluta()));
+                                        drugaewid.setNetto(Z.z(nettopln));
+                                        drugaewid.setVat(Z.z(vatpln));
+                                        drugaewid.setBrutto(Z.z(nettopln));
+                                        drugaewid.setDokfk(nd);
+                                        drugaewid.setEstawka("op");
+                                        drugaewid.setNieduplikuj(true);
+                                        drugaewid.setRokEw(rokmiesiacduplikatu[0]);
+                                        drugaewid.setMcEw(rokmiesiacduplikatu[1]);
+                                        nd.getEwidencjaVAT().add(drugaewid);
+                                    } else {
+                                        eVatwpisFK.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
+                                        eVatwpisFK.setVatwwalucie(Z.z(interpaperXLS.getVatwaluta()));
+                                        eVatwpisFK.setNetto(Z.z(nettopln));
+                                        eVatwpisFK.setVat(Z.z(vatpln));
+                                        eVatwpisFK.setBrutto(Z.z(nettopln));
+                                        eVatwpisFK.setDokfk(nd);
+                                        eVatwpisFK.setEstawka("op");
+                                        nd.getEwidencjaVAT().add(eVatwpisFK); 
+                                      }
+                                    
                                     break;
                                 } else if (!PanstwaEUSymb.getWykazPanstwUE().contains(interpaperXLS.getKlient().getKrajkod()) && p.getNazwa().equals("eksport towarów")) {
                                     eVatwpisFK.setNettowwalucie(Z.z(interpaperXLS.getNettowaluta()));
@@ -806,6 +845,41 @@ public class InterpaperImportView implements Serializable {
         }
     }
 
+    private boolean czyrozjechalysiemce(Dokfk selected) {
+        boolean zwrot = false;
+        if (selected.getDataoperacji() != null && selected.getDatawplywu() != null) {
+            String dataoperacji = selected.getDataoperacji();
+            String datawplywu = selected.getDatawplywu();
+            if (Data.getMc(dataoperacji).equals(Data.getMc(datawplywu))) {
+                return false;
+            }
+            int ilemiesiecy = Mce.odlegloscMcy(Data.getMc(dataoperacji), Data.getRok(dataoperacji), Data.getMc(datawplywu), Data.getRok(datawplywu));
+            if (ilemiesiecy > 3) {
+                zwrot = true;
+            }
+        }
+        return zwrot;
+    }
+    
+    private String[] rokmiesiacduplikatu(Dokfk selected) {
+        String[] zwrot = new String[2];
+        String dzienwplywu = Data.getDzien(selected.getDatawplywu());
+        String miesiacwplywu = Data.getMc(selected.getDatawplywu());
+        String rokwplywu = Data.getRok(selected.getDatawplywu());
+        if (Integer.valueOf(dzienwplywu) < 25) {
+                if (miesiacwplywu.equals("01")) {
+                    zwrot[0] = Roki.rokPoprzedni(rokwplywu);
+                } else {
+                    zwrot[0] = rokwplywu;
+                }
+                zwrot[1] = Mce.zmniejszmiesiac(rokwplywu, miesiacwplywu)[1];
+        } else {
+                zwrot[0] = rokwplywu;
+                zwrot[1] = miesiacwplywu;
+        }
+        return zwrot;
+    }
+    
      private Konto pobierzkontoWn(Dokfk nd, InterpaperXLS interpaperXLS, Klienci klient) {
         Konto kontoRozrachunkowe = null;
         Kliencifk klientMaKonto = kliencifkDAO.znajdzkontofk(klient.getNip(), wpisView.getPodatnikObiekt().getNip());

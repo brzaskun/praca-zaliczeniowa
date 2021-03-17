@@ -170,7 +170,8 @@ public class ReadXLSExolightFile {
     private static void uzupelnijsprzedaz(InterpaperXLS interpaperXLS, Row row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
         if (row.getCell(0).getRowIndex()>0) {
                 interpaperXLS.setNrfaktury(row.getCell(2).getStringCellValue());
-                interpaperXLS.setDatawystawienia(row.getCell(0).getDateCellValue());
+                interpaperXLS.setDatawystawienia(row.getCell(1).getDateCellValue());
+                interpaperXLS.setDataotrzymania(row.getCell(0).getDateCellValue());
                 interpaperXLS.setDatasprzedaży(row.getCell(1).getDateCellValue());
                 interpaperXLS.setKontrahent(pobierzkontrahenta(row.getCell(3)));
                 interpaperXLS.setKlientnazwa(pobierzkontrahenta(row.getCell(3)));
