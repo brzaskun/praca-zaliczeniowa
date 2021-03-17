@@ -127,7 +127,9 @@
                     </f:facet>
                 </p:column>
                 <p:column headerText="kwota" width="120">  
-                    <bcf:inputpl80 value="#{zapis.fakturaDodatkowaPozycja.kwota}"/>
+                    <bcf:inputpl80 value="#{zapis.fakturaDodatkowaPozycja.kwota}">
+                        <p:ajax event="change" parent="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis)}" />
+                    </bcf:inputpl80>
                 </p:column>
                 <p:column headerText="perm" width="50" style="text-align: center;">  
                     <h:outputText value="#{zapis.permanentny eq true ?'&#x2713;':''}" style="color:green;"/>
