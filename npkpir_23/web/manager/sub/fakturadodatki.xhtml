@@ -89,8 +89,9 @@
                     </p:selectOneMenu>
                     <p:inputNumber id="ilość" value="#{fakturaDodPozycjaKontrahentView.selected.ilosc}" decimalPlaces="0" minValue="1" maxValue="100" size="9" style="text-align: right;" required="true" requiredMessage="minimalna wartośc to 1"/>
                     <p:selectBooleanCheckbox value="#{fakturaDodPozycjaKontrahentView.selected.permanentny}"/>
-                    <bcf:inputpl80 value="#{fakturaDodPozycjaKontrahentView.selected.kwotaindywid}">
+                    <bcf:inputpl80 value="#{fakturaDodPozycjaKontrahentView.selected.kwotaindywid}"/>
                     <p:commandButton value="dodaj" actionListener="#{fakturaDodPozycjaKontrahentView.dodaj}" update="@(form)" style="width: 120px;"/>
+
                 </p:panelGrid>
                 <p:focus for="kontrpole"  context="form2" />
             </h:form>

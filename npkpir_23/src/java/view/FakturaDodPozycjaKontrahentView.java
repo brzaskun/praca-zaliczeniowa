@@ -27,6 +27,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
 import org.primefaces.component.commandbutton.CommandButton;
+import waluty.Z;
 
 /**
  *
@@ -135,7 +136,11 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
         List<FakturaDodPozycjaKontrahent> lista = lista_2_filter!=null && lista_2_filter.size()>0 ? lista_2_filter : lista_2;
         sumawybranych = 0.0;
         for (FakturaDodPozycjaKontrahent p : lista) {
-            sumawybranych = sumawybranych+p.getFakturaDodatkowaPozycja().getKwota();
+            if (p.getKwotaindywid()!=0.0) {
+                sumawybranych = Z.z(sumawybranych+p.getKwotaindywid()*p.getIlosc());
+            } else {
+                sumawybranych = Z.z(sumawybranych+p.getFakturaDodatkowaPozycja().getKwota()*p.getIlosc());
+            }
         }
         Msg.msg("Podsumowano");
     }
