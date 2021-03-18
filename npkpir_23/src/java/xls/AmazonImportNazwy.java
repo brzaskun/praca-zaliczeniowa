@@ -11,9 +11,7 @@ import error.E;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -21,8 +19,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVRecord;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -57,16 +53,22 @@ public class AmazonImportNazwy implements Serializable {
             String filename = uploadedFile.getFileName();
              try {
             InputStream is = uploadedFile.getInputstream();
-            Iterable<CSVRecord> recordss = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(new InputStreamReader(is, Charset.forName("UTF-8")));
-            id_nazwa = new HashMap<>();
-            for (CSVRecord row : recordss) {
-                String nip = row.get("BUYER_VAT_NUMBER");
-                if (nip!=null&&!nip.equals("")) {
-                    String id = row.get("ORIGINAL_INVOICE_NUMBER");
-                    String nazwa = row.get("BUYER_NAME");
-                    id_nazwa.put(id, nazwa);
+            FileInputStream file = new FileInputStream(new File(filename));
+            Workbook workbook = WorkbookFactory.create(file);
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rowIterator = sheet.iterator();
+            int i = 0;
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                if (i>2) {
+                    String nip = row.getCell(46)!=null? row.getCell(46).getStringCellValue():null;
+                    if (nip!=null&&!nip.equals("")) {
+                        String id = row.getCell(5).getStringCellValue();
+                        String nazwa = row.getCell(36).getStringCellValue();
+                        id_nazwa.put(id, nazwa);
+                    }
                 }
-                
+                i++;
             }
         } catch (Exception ex) {
             E.e(ex);
@@ -103,23 +105,26 @@ public class AmazonImportNazwy implements Serializable {
     public static void main(String[] args) {
         HashMap<String, String> id_nazwa = new HashMap<>();
         try {
-            String filename = "D://aba4.xlsx";
+            String filename = "D://amaz.xlsx";
             FileInputStream file = new FileInputStream(new File(filename));
             Workbook workbook = WorkbookFactory.create(file);
             Sheet sheet = workbook.getSheetAt(0);
             Iterator<Row> rowIterator = sheet.iterator();
+            int i = 0;
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
-                String nip = row.getCell(2)!=null? row.getCell(2).getStringCellValue():null;
-                if (nip!=null&&!nip.equals("")) {
-                    String id = row.getCell(0).getStringCellValue();
-                    String nazwa = row.getCell(1).getStringCellValue();
-                    id_nazwa.put(id, nazwa);
+                if (i>2) {
+                    String nip = row.getCell(46)!=null? row.getCell(46).getStringCellValue():null;
+                    if (nip!=null&&!nip.equals("")) {
+                        String id = row.getCell(5).getStringCellValue();
+                        String nazwa = row.getCell(36).getStringCellValue();
+                        id_nazwa.put(id, nazwa);
+                    }
                 }
-                
+                i++;
             }
         } catch (Exception e) {
-            
+            System.out.println(""); 
         }
         System.out.println("koniec");
     }

@@ -139,14 +139,16 @@ public class AmazonCSV {
         String d2 = "blad konwersji daty";
         if (this.ShipmentDate!=null) {
             String strypdate = this.ShipmentDate.subSequence(1, this.ShipmentDate.length()-1).toString();
-            DateFormat formatter;
-            formatter = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = null;
-            try {
-                date = formatter.parse(strypdate);
-            } catch (ParseException ex) {
-                Logger.getLogger(AmazonCSV.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            //"2-Jan-2021 UT" to trzeba przekonwertowac
+//               DateFormat formatter;
+//            formatter = new SimpleDateFormat("yyyy-MM-dd");
+//            Date date = null;
+//            try {
+//                date = formatter.parse(strypdate);
+//            } catch (ParseException ex) {
+//                Logger.getLogger(AmazonCSV.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+            Date date = new Date(strypdate);
             d2 = Data.data_yyyyMMdd(date);
         }
         return d2;

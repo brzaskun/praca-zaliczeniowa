@@ -21,7 +21,7 @@
                         <h:outputText value="import dokumentów z pliku CSV AMAZON"/>
                         <h:form>
                             <p:growl life="3600"  id="messages1"/>
-                            <p:fileUpload fileUploadListener="#{importCSVView.importujsprzedaz}" 
+                            <p:fileUpload fileUploadListener="#{importAmaCSVView.importujsprzedaz}" 
                                           mode="advanced" dragDropSupport="true" fileLimit="1"
                                           update="messages1 importtabela" 
                                           validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
@@ -31,7 +31,7 @@
                             </p:fileUpload>
                         </h:form>
                         <h:form id="importtabela">
-                            <p:dataTable  var="wpis" value="#{importCSVView.dokumenty}" id="dokumentyLista" 
+                            <p:dataTable  var="wpis" value="#{importAmaCSVView.dokumenty}" id="dokumentyLista" 
                                           rowIndexVar="index" 
                                           style="width: 1400px; margin-top: 10px;" rowKey="#{wpis.id}" 
                                           paginator="true" paginatorAlwaysVisible="true" rows="12"
@@ -45,7 +45,7 @@
                                 <p:ajax event="filter" global="false" />
 
                                 <f:facet name="header">  
-                                    <h:outputText value="Zestawienie #{importCSVView.dokumenty.size()} zaimportowanych dokumentów z pliku tzt" />  
+                                    <h:outputText value="Zestawienie #{importAmaCSVView.dokumenty.size()} zaimportowanych dokumentów z pliku tzt" />  
                                     <h:outputText value="- wyszukiwanie: " />  
                                     <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:250px" placeholder="wyszukiwane wyrażenie" />  
                                     <!--                    <p:commandButton id="toggler" type="button" value="Kolumny" style="float:right" icon="ui-icon-calculator" />
@@ -154,16 +154,16 @@
                                     <h:outputText value="#{wpis.tabelanbp.kurssredni}" rendered="#{wpis.tabelanbp ne null and wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}" style="width: 50px;"/>
                                 </p:column>-->
                                 <p:column id="deleteColumn" headerText="usuń" style="width: 4%; text-align: center;">
-                                    <p:commandButton actionListener="#{importCSVView.usun(wpis)}" style="width: 30px;"
+                                    <p:commandButton actionListener="#{importAmaCSVView.usun(wpis)}" style="width: 30px;"
                                                      id="delete" icon="ui-icon ui-icon-trash" update="importtabela:dokumentyLista"/>
                                 </p:column>
                             </p:dataTable> 
                             <p:growl life="3600"  id="messages2" ><p:autoUpdate/></p:growl>
-                            <p:commandButton  icon="fa fa-print" style="margin-top: 20px; width: 120px;" actionListener="#{importCSVView.drukuj()}"  rendered="#{importCSVView.dokumenty.size() gt 0}"/>
-                            <p:inputNumber style="margin-top: 20px; width: 120px; margin-left: 40px;" decimalPlaces="5" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" value="#{importCSVView.kursumst}"  rendered="#{importCSVView.dokumenty.size() gt 0}">
+                            <p:commandButton  icon="fa fa-print" style="margin-top: 20px; width: 120px;" actionListener="#{importAmaCSVView.drukuj()}"  rendered="#{importAmaCSVView.dokumenty.size() gt 0}"/>
+                            <p:inputNumber style="margin-top: 20px; width: 120px; margin-left: 40px;" decimalPlaces="5" symbolPosition="s" decimalSeparator="."   inputStyle="text-align: right;" value="#{importAmaCSVView.kursumst}"  rendered="#{importAmaCSVView.dokumenty.size() gt 0}">
                                 <p:ajax event="blur" partialSubmit="true"/>
                             </p:inputNumber>
-<!--                            <p:commandButton  value="CSV WDT" style="margin-top: 20px; width: 120px; margin-left: 40px;" actionListener="#{importCSVView.robcsv()}"  rendered="#{importCSVView.dokumenty.size() gt 0}"/>-->
+<!--                            <p:commandButton  value="CSV WDT" style="margin-top: 20px; width: 120px; margin-left: 40px;" actionListener="#{importAmaCSVView.robcsv()}"  rendered="#{importAmaCSVView.dokumenty.size() gt 0}"/>-->
                         </h:form>
                     </p:layoutUnit>
                 </p:layout>

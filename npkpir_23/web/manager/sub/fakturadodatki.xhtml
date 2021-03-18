@@ -113,7 +113,7 @@
                     <p:column headerText="pozycja" width="450" filterBy="#{zapis.fakturaDodatkowaPozycja.nazwa}" filterMatchMode="contains">  
                     <h:outputText value="#{zapis.fakturaDodatkowaPozycja.nazwa}"/>
                 </p:column>
-                <p:column headerText="ilość" width="50" style="text-align: center;">  
+                    <p:column headerText="ilość" width="50" style="text-align: center;" sortBy="#{zapis.ilosc}">  
                     <p:inputNumber value="#{zapis.ilosc}" decimalPlaces="0" minValue="1" size="3">
                         <p:ajax event="change" parent="true" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis)}" />
                     </p:inputNumber>
@@ -128,13 +128,15 @@
                         </p:selectOneMenu>
                     </f:facet>
                 </p:column>
-                <p:column headerText="kwota" width="120">  
+                    <p:column headerText="kwota" width="120" sortBy="#{zapis.kwotaindywid}">  
                     <bcf:inputpl80 value="#{zapis.kwotaindywid}">
                         <p:ajax event="change" parent="true" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis)}" />
                     </bcf:inputpl80>
                 </p:column>
-                <p:column headerText="perm" width="50" style="text-align: center;">  
-                    <h:outputText value="#{zapis.permanentny eq true ?'&#x2713;':''}" style="color:green;"/>
+                <p:column headerText="perm" width="50" style="text-align: center;"> 
+                    <p:selectBooleanCheckbox value="#{zapis.permanentny}">
+                        <p:ajax event="change" parent="true" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis)}" />
+                    </p:selectBooleanCheckbox>
                 </p:column>
                 <p:column headerText="" style="text-align: center;" width="50">  
                     <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaDodPozycjaKontrahentView.usun(zapis)}" update="@form" rendered="#{zapis.rozliczone eq false}"/>
