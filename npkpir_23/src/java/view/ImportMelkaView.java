@@ -9,13 +9,11 @@ import beansDok.ListaEwidencjiVat;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
-import dao.KlientJPKDAO;
 import dao.RodzajedokDAO;
 import dao.TabelanbpDAO;
 import data.Data;
 import embeddable.PanstwaMap;
 import embeddablefk.InterpaperXLS;
-import entity.Evewidencja;
 import entity.Klienci;
 import error.E;
 import java.io.ByteArrayInputStream;
@@ -61,8 +59,6 @@ public class ImportMelkaView  implements Serializable {
     @Inject
     private WpisView wpisView;
     @Inject
-    private KlientJPKDAO klientJPKDAO;
-    @Inject
     private KlienciDAO klienciDAO;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
@@ -75,10 +71,7 @@ public class ImportMelkaView  implements Serializable {
     private byte[] pobraneplikibytes;
     @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
-    private Evewidencja evewidencja23;
-    private Evewidencja evewidencja8;
-    @Inject
-    private PanstwaMap panstwaMap;
+
 
       
 //    private boolean fakturypolska;
@@ -87,14 +80,6 @@ public class ImportMelkaView  implements Serializable {
     @PostConstruct
     private void init() { //E.m(this);
         wiersze = Collections.synchronizedList(new ArrayList<>());
-        for (Evewidencja p : listaEwidencjiVat.getSprzedazVList()) {
-            if (p.getNazwa().equals("sprzedaż 23%")) {
-                evewidencja23 = p;
-            }
-            if (p.getNazwa().equals("sprzedaż 8%")) {
-                evewidencja8 = p;
-            }
-        }
     }
     
     public void zachowajplik(FileUploadEvent event) {
@@ -277,7 +262,7 @@ public class ImportMelkaView  implements Serializable {
     }
 
     public void zaksiegujdokjpk() {
-        GenerujDok.generowanieListaDok(wiersze, true, true, false, wpisView, rodzajedokDAO, tabelanbpDAO, dokDAO, klienciDAO, evewidencjaDAO);
+        GenerujDok.generowanieListaDok(wiersze, true, true, false, wpisView, rodzajedokDAO, tabelanbpDAO, dokDAO, klienciDAO, listaEwidencjiVat);
     }
                 
     

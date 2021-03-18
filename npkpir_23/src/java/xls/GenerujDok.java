@@ -5,10 +5,10 @@
  */
 package xls;
 
+import beansDok.ListaEwidencjiVat;
 import beansFK.TabelaNBPBean;
 import beansRegon.SzukajDaneBean;
 import dao.DokDAO;
-import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import dao.TabelanbpDAO;
@@ -42,14 +42,13 @@ import waluty.Z;
 public class GenerujDok {
     
     public static int generowanieListaDok(List<InterpaperXLS> wiersze, boolean zakup0sprzedaz, boolean towar0usluga1, boolean firmy0indycentalni1, WpisView wpisView, RodzajedokDAO  rodzajedokDAO, 
-            TabelanbpDAO tabelanbpDAO, DokDAO dokDAO, KlienciDAO klienciDAO, EvewidencjaDAO evewidencjaDAO) {
+            TabelanbpDAO tabelanbpDAO, DokDAO dokDAO, KlienciDAO klienciDAO, ListaEwidencjiVat listaEwidencjiVat) {
         int zwrot = 0;
-        List<Evewidencja> evewidencje = evewidencjaDAO.findAll();
         List<Klienci> znalezieni = new ArrayList<>();
         if (wiersze!=null&&wiersze.size()>0) {
             int i = 0;
             for (InterpaperXLS p : wiersze) {
-                generowanieDokumentu(p, znalezieni, zakup0sprzedaz, towar0usluga1, firmy0indycentalni1, wpisView, rodzajedokDAO, evewidencje, tabelanbpDAO, dokDAO, klienciDAO);
+                generowanieDokumentu(p, znalezieni, zakup0sprzedaz, towar0usluga1, firmy0indycentalni1, wpisView, rodzajedokDAO, tabelanbpDAO, dokDAO, klienciDAO, listaEwidencjiVat);
             }
         } else {
             zwrot = 1;
@@ -58,7 +57,7 @@ public class GenerujDok {
     }
     
      public static int generowanieDokumentu(InterpaperXLS wiersz, List<Klienci> znalezieni, boolean zakup0sprzedaz, boolean towar0usluga1, boolean firmy0indycentalni1, WpisView wpisView, RodzajedokDAO  rodzajedokDAO, 
-                List<Evewidencja> evewidencje, TabelanbpDAO tabelanbpDAO, DokDAO dokDAO, KlienciDAO klienciDAO) {
+                TabelanbpDAO tabelanbpDAO, DokDAO dokDAO, KlienciDAO klienciDAO, ListaEwidencjiVat listaEwidencjiVat) {
         int ile = 0;
         try {
             int polska0unia1zagranica2 = 0;
@@ -80,6 +79,7 @@ public class GenerujDok {
                 } else {
                     rodzajdk = polska0unia1zagranica2==0 ? "SZ" : polska0unia1zagranica2==1 ? "WDT" : "EXP";
                 }
+                List<Evewidencja> evewidencje = listaEwidencjiVat.pobierzEvewidencje(rodzajdk);
                 dokument = generujdok(wiersz, wpisView, firmy0indycentalni1, rodzajdk, rodzajedokDAO, "przychody ze sprzedaży", evewidencje, tabelanbpDAO, dokDAO, klienciDAO, znalezieni);
             } else {
                 if (towar0usluga1) {
@@ -93,6 +93,7 @@ public class GenerujDok {
                         rodzajdk = "RACH";
                     }
                 }
+                List<Evewidencja> evewidencje = listaEwidencjiVat.pobierzEvewidencje(rodzajdk);
                 dokument = generujdok(wiersz, wpisView, firmy0indycentalni1, rodzajdk, rodzajedokDAO, "zakup towarów/koszty", evewidencje, tabelanbpDAO, dokDAO, klienciDAO, znalezieni);
             }
             
