@@ -6,11 +6,13 @@
 package xls;
 
 import beansRegon.SzukajDaneBean;
+import dao.DokDAOfk;
 import dao.KlienciDAO;
 import data.Data;
 import embeddable.PanstwaMap;
 import embeddablefk.InterpaperXLS;
 import entity.Klienci;
+import entityfk.Dokfk;
 import error.E;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -20,12 +22,14 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import pl.com.cdn.optima.offline.ROOT;
+import view.WpisView;
 import waluty.Z;
 /**
  *
@@ -91,7 +95,7 @@ public class ReadXMLZorinOptimaFile {
 //        return listafaktur;
 //    }
     
-     public static Object[] getListafakturXLS(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, String jakipobor, String mc) {
+     public static Object[] getListafakturXLS(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, String jakipobor, String mc, DokDAOfk dokDAOfk, WpisView wpisView) {
         Object[] zwrot = new Object[4];
         List<InterpaperXLS> listafaktur = Collections.synchronizedList(new ArrayList<>());
         List<ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT> innyokres = new ArrayList<>();
@@ -181,6 +185,24 @@ public class ReadXMLZorinOptimaFile {
             file.close();
         } catch (Exception e) {
             E.e(e);
+        }
+        List<Dokfk> faktury = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
+        boolean znaleziono = false;
+        for (Iterator<Dokfk> it = faktury.iterator();it.hasNext();) {
+            Dokfk d = it.next();
+            for (Iterator<InterpaperXLS> itn = listafaktur.iterator();itn.hasNext();) {
+                InterpaperXLS e = itn.next();
+                if (d.getNumerwlasnydokfk().equals(e.getNrfaktury())) {
+                    e.setJuzzaksiegowany(true);
+                    itn.remove();
+                    znaleziono = true;
+                    break;
+                }
+            }
+            if (znaleziono) {
+                it.remove();
+                znaleziono = false;
+            }
         }
         zwrot[0] = listafaktur;
         zwrot[2] = importyzbrakami;

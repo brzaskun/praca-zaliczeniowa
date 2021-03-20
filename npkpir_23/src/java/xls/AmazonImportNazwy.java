@@ -53,11 +53,11 @@ public class AmazonImportNazwy implements Serializable {
             String filename = uploadedFile.getFileName();
              try {
             InputStream is = uploadedFile.getInputstream();
-            FileInputStream file = new FileInputStream(new File(filename));
-            Workbook workbook = WorkbookFactory.create(file);
-            Sheet sheet = workbook.getSheetAt(0);
+            Workbook workbook = WorkbookFactory.create(is);
+            Sheet sheet = workbook.getSheet("Template");
             Iterator<Row> rowIterator = sheet.iterator();
             int i = 0;
+            id_nazwa = new HashMap<>();
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
                 if (i>2) {
@@ -65,6 +65,9 @@ public class AmazonImportNazwy implements Serializable {
                     if (nip!=null&&!nip.equals("")) {
                         String id = row.getCell(5).getStringCellValue();
                         String nazwa = row.getCell(36).getStringCellValue();
+                        if (nazwa==null||nazwa.equals("")) {
+                            nazwa = row.getCell(38).getStringCellValue();
+                        }
                         id_nazwa.put(id, nazwa);
                     }
                 }
@@ -108,13 +111,14 @@ public class AmazonImportNazwy implements Serializable {
             String filename = "D://amaz.xlsx";
             FileInputStream file = new FileInputStream(new File(filename));
             Workbook workbook = WorkbookFactory.create(file);
-            Sheet sheet = workbook.getSheetAt(0);
+            Sheet sheet = workbook.getSheet("Template");
             Iterator<Row> rowIterator = sheet.iterator();
             int i = 0;
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
                 if (i>2) {
                     String nip = row.getCell(46)!=null? row.getCell(46).getStringCellValue():null;
+                    String id1 = row.getCell(5).getStringCellValue();
                     if (nip!=null&&!nip.equals("")) {
                         String id = row.getCell(5).getStringCellValue();
                         String nazwa = row.getCell(36).getStringCellValue();

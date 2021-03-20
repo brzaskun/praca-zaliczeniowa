@@ -16,10 +16,9 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import dao.AmoDokDAO;
 import dao.PodatnikDAO;
+import dao.UmorzenieNDAO;
 import dao.UzDAO;
-import entity.Amodok;
 import entity.Dok;
 import entity.KwotaKolumna1;
 import entity.Podatnik;
@@ -33,7 +32,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import msg.Msg;import static pdf.PdfVAT7.absText;
+import msg.Msg;
+import static pdf.PdfVAT7.absText;
 import plik.Plik;
 import view.WpisView;
 /**
@@ -45,7 +45,7 @@ import view.WpisView;
 public class PdfPK {
 
  
-    public static String drukujPK(List<Dok> gosciuwybral, PodatnikDAO podatnikDAO, WpisView wpisView, UzDAO uzDAO, AmoDokDAO amoDokDAO) throws DocumentException, FileNotFoundException, IOException {
+    public static String drukujPK(List<Dok> gosciuwybral, PodatnikDAO podatnikDAO, WpisView wpisView, UzDAO uzDAO, UmorzenieNDAO umorzenieNDAO) throws DocumentException, FileNotFoundException, IOException {
         Dok selected = gosciuwybral.get(0);
         Document document = new Document();
         String nazwapliku = "pk" + wpisView.getPodatnikWpisu() + ".pdf";
@@ -142,7 +142,7 @@ public class PdfPK {
         if (selected.getRodzajedok().getSkrot().equals("AMO")) {
             document.add(new Paragraph("Zawartość dokumentu amortyzacji", fontM));
             document.add(Chunk.NEWLINE);
-            dodajamo(document, amoDokDAO, wpisView);
+            dodajamo(document, umorzenieNDAO, selected);
             document.add(Chunk.NEWLINE);
         }
         Uz uz = uzDAO.findUzByLogin(selected.getWprowadzil());
@@ -154,13 +154,12 @@ public class PdfPK {
         return nazwapliku;
     }
 
-    private static void dodajamo(Document document, AmoDokDAO amoDokDAO, WpisView wpisView) throws DocumentException, IOException {
+    private static void dodajamo(Document document, UmorzenieNDAO umorzenieNDAO, Dok selected) throws DocumentException, IOException {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);
-        Amodok odpis = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-        List<UmorzenieN> umorzenia = odpis.getPlanumorzen();
+        List<UmorzenieN> umorzenia = umorzenieNDAO.findByDok(selected);
         PdfPTable table = new PdfPTable(4);
         table.setWidths(new int[]{1, 6, 2, 2});
         table.addCell(ustawfrazeAlign("lp", "center", 10));

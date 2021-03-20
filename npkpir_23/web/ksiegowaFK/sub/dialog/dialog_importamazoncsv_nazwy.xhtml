@@ -17,7 +17,7 @@
 
     <p:dialog id="importamazoncsvnazwy" header="Zestawienie pobranych faktur" widgetVar="importamazoncsvnazwy" height="900" width="1450"
               resizable="false"  onShow="ustawdialog('importamazoncsvnazwy','menudokumenty',1450,900);" closeOnEscape="true" onHide="resetujdialog('importamazoncsvnazwy');" >
-        <p:ajax event="open" listener="#{amazonImportNazwy.init()}" update="panelplik"/>
+        <p:ajax event="open" listener="#{amazonImportNazwy.init()}" update="importtabelanazwy"/>
         <bcf:ajaxs/>
         <h:outputText value="import dokumentów z pliku CSV AdditionalDataTemplate"/>
         <h:form>
