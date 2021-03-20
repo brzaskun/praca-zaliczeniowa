@@ -176,9 +176,10 @@
                     </p:column>
                 </p:panelGrid>
             
-            <p:panelGrid columns="2" style="column-width: 350px; width: 300px; padding: 10px;">
+            <p:panelGrid columns="3" style="column-width: 350px; width: 300px; padding: 10px;">
                 <p:commandButton actionListener="#{podatnikView.dodajDokKsi()}" global="false" value="dodaj dokument" update=":akordeon:form6:pDokKsi :akordeon:form7" />
                 <p:commandButton actionListener="#{podatnikView.editdok()}" global="false" value="edytuj dokument" update=":akordeon:form6:pDokKsi :akordeon:form7" />
+                <p:commandButton actionListener="#{podatnikView.pobierzrokpoprzedni}" global="false" value="pobierz rok pop." update=":akordeon:form6:pDokKsi :akordeon:form7" />
             </p:panelGrid>
             <p:panelGrid columns="1" style="margin-top: 15px;">
                 <h:outputText value="*Dopuszczalne elementy wzorca: n - numer kolejny w roku, N - numer kolejny w miesiącu,	m - numer miesiąca, r - numer roku, s - dowolny ciąg znaków za wyjątkiem: /"/>
