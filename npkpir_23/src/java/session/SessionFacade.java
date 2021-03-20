@@ -1172,16 +1172,7 @@ public class SessionFacade<T> implements Serializable {
         return (long)  getEntityManager().createNamedQuery("Pojazdy.countByPodatnik").setParameter("podatnik", podatnikObiekt).getSingleResult();
     }
 
-    public List<Delegacja> findDelegacjaPodatnik(WpisView wpisView, boolean krajowa0zagraniczna1) {
-        return Collections.synchronizedList( getEntityManager().createNamedQuery("Delegacja.findByPodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("krajowa0zagraniczna1", krajowa0zagraniczna1).getResultList());
-    }
-
-    public long countDelegacja(WpisView wpisView, boolean krajowa0zagraniczna1) {
-        return (long)  getEntityManager().createNamedQuery("Delegacja.countByPodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("krajowa0zagraniczna1", krajowa0zagraniczna1).getSingleResult();
-    }
-
     
-
     public List<MultiuserSettings> findMutliuserSettingsByUz(Uz user) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("MultiuserSettings.findByUser").setParameter("user", user).getResultList());
     }
@@ -1301,13 +1292,8 @@ public class SessionFacade<T> implements Serializable {
         return (KontopozycjaZapis)  getEntityManager().createNamedQuery("KontopozycjaZapis.findByKontoId").setParameter("kontoId", konto).setParameter("ukladBR", ukladBR).getSingleResult();
     }
 
-    public Delegacja findDelegacja(Delegacja delegacja) {
-        return (Delegacja)  getEntityManager().createNamedQuery("Delegacja.findById").setParameter("id", delegacja.getId()).getSingleResult();
-    }
-
-    public Delegacja findDelegacjaByNr(String nrdelegacji) {
-        return (Delegacja)  getEntityManager().createNamedQuery("Delegacja.findByOpisdlugiOnly").setParameter("opisdlugi", nrdelegacji).getSingleResult();
-    }
+    
+    
 
     public List<PodatnikUdzialy> findUdzialyPodatnik(WpisView wpisView) {
         return Collections.synchronizedList( getEntityManager().createNamedQuery("PodatnikUdzialy.findBypodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList());

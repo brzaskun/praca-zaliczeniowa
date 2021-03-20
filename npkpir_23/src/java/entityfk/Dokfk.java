@@ -1099,8 +1099,10 @@ public class Dokfk extends DokSuper implements Serializable {
         double netto = 0.0;
         double nettowaluta = 0.0;
         for (EVatwpisFK p : ewidencjaVAT) {
-            netto += p.getNetto();
-            nettowaluta += p.getNettowwalucie();
+            if (p.getEwidencja().getNazwa().equals("rejestr WDT")||p.getEwidencja().getNazwa().equals("rejestr WNT")) {
+                netto += p.getNetto();
+                nettowaluta += p.getNettowwalucie();
+            }
         }
         return new double[]{Z.z(netto),Z.z(nettowaluta)};
     }
