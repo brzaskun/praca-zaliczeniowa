@@ -479,10 +479,10 @@ public class Jpk_VAT2View implements Serializable {
                     Msg.msg(wiadomosc[0], wiadomosc[1]);
                 }
             } else {
-                Msg.msg("e", "Brak karty w czytniku. Nie można wysłać JPK");
+                Msg.msg("e", "Brak karty w czytniku/lub karta zablokowana. Nie można wysłać JPK");
             }
         } catch (KeyStoreException ex) {
-            Msg.msg("e", "Brak karty w czytniku");
+            Msg.msg("e", "Brak karty w czytniku/lub karta zablokowana");
         } catch (IOException ex) {
             Msg.msg("e", "UWAGA! Błędne hasło!");
         } catch (Exception ex) {
