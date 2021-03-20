@@ -10,6 +10,7 @@ import comparator.Rodzajedokcomparator;
 import dao.AmoDokDAO;
 import dao.DokDAO;
 import dao.PodatnikDAO;
+import dao.UmorzenieNDAO;
 import dao.UzDAO;
 import entity.Dok;
 import entity.Podatnik;
@@ -49,6 +50,8 @@ public class DokTabGuestView implements Serializable {
     private DokDAO dokDAO;
     @Inject
     private PodatnikDAO podatnikDAO;
+    @Inject
+    private UmorzenieNDAO umorzenieNDAO;
     @Inject
     private UzDAO uzDAO;
     @Inject
@@ -130,7 +133,7 @@ public class DokTabGuestView implements Serializable {
      
      public void drukPIT5Pdf() {
          try {
-             PdfPK.drukujPK(selected, podatnikDAO, wpisView, uzDAO, amoDokDAO);
+             PdfPK.drukujPK(selected, podatnikDAO, wpisView, uzDAO, umorzenieNDAO);
          } catch (Exception e) { E.e(e); 
              
          }

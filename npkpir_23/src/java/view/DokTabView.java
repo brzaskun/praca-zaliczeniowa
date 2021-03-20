@@ -522,7 +522,7 @@ public class DokTabView implements Serializable {
       
        public void printPDFPK() {
          try {
-            PdfPK.drukujPK(gosciuwybral, podatnikDAO, wpisView, uzDAO, amoDokDAO);
+            PdfPK.drukujPK(gosciuwybral, podatnikDAO, wpisView, uzDAO, umorzenieNDAO);
          } catch (Exception e) { E.e(e); 
              
          }
