@@ -19,7 +19,7 @@
               resizable="false"  onShow="ustawdialog('importamazoncsvnazwy','menudokumenty',1450,900);" closeOnEscape="true" onHide="resetujdialog('importamazoncsvnazwy');" >
         <p:ajax event="open" listener="#{amazonImportNazwy.init()}" update="importtabelanazwy"/>
         <bcf:ajaxs/>
-        <h:outputText value="import dokumentów z pliku CSV AdditionalDataTemplate"/>
+        <h:outputText value="import dokumentów z pliku XLS AdditionalDataTemplate"/>
         <h:form>
             <p:growl life="3600"  id="messages1"/>
             <p:panelGrid columns="2">
