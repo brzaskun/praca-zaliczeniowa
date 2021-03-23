@@ -11,6 +11,7 @@ package enumy;
  */
 
 public enum FormaPrawna {
+    OSOBA_FIZYCZNA,
     SPOLKA_CYWILNA,
     SPOLKA_Z_O_O,
     SPOLKA_KOMANDYTOWA,
@@ -18,6 +19,11 @@ public enum FormaPrawna {
     FEDERACJA,
     FUNDACJA;
 
+    public static FormaPrawna getOSOBA_FIZYCZNA() {
+        return OSOBA_FIZYCZNA;
+    }
+
+    
     public static FormaPrawna getSPOLKA_CYWILNA() {
         return SPOLKA_CYWILNA;
     }
