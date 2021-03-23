@@ -252,7 +252,7 @@ public class PdfFP {
                             text = B.b("fakturakorektanr");
                         } else if (selected.isKoncowa()) {
                             text = "Faktura końcowa nr";
-                        } else if (selected.getProjektnumer()!=null && selected.getProjektnumer().length() > 1) {
+                        } else if (selected.getProjektnumer()!=null && !selected.getProjektnumer().equals("") &&selected.getProjektnumer().length() > 1) {
                             text = "Faktura częściowa nr";
                         }
                     }
