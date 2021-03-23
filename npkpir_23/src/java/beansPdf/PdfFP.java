@@ -245,6 +245,7 @@ public class PdfFP {
                     if (selected.isGutschrift()) {
                         text = "Gutschrift Nr ";
                     } else {
+                        text = B.b("fakturanr");
                          if (selected.isZaliczkowa()) {
                             text = B.b("fakturazaliczkowanr");
                         } else if (selected.getPozycjepokorekcie() != null) {
@@ -253,8 +254,6 @@ public class PdfFP {
                             text = "Faktura końcowa nr";
                         } else if (selected.getProjektnumer()!=null && selected.getProjektnumer().length() > 1) {
                             text = "Faktura częściowa nr";
-                        } else {
-                            text = B.b("fakturanr");
                         }
                     }
                     table = PdfFTablice.wygenerujtabliceNrfaktury(text, selected.getNumerkolejny(), szerokosc, wysokosc, 10);
