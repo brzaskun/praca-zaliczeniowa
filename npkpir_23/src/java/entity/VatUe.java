@@ -141,11 +141,11 @@ public class VatUe extends VatSuper implements Serializable{
     }
     
      public String getKontrahentwyborNazwa() {
-        String zwrot = "incydentalny";
+        String zwrot = this.kontrahentnazwa;
         try {
             if (this.kontrahent!=null) {
                 zwrot = this.kontrahent.getNpelna();
-            }   
+            }    
         } catch (Exception e){}
         return zwrot;
     }

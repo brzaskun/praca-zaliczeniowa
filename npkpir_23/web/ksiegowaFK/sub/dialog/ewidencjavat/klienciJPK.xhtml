@@ -8,7 +8,11 @@
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:bcf="http://brzaskun.com/facelets">
      <p:tab title="pobrane FP">
-            <p:panel header="Lista fkatur fiskalizowanych pobranych za miesiąc bieżący"/>
+            <p:panel header="Lista fiskalizowanych/WDT incydentalnych pobranych za miesiąc bieżący"/>
+             <p:panelGrid columns="2">
+                <h:outputText value="suma"/>
+                <bcf:outputpl value="#{klientJPKView.suma}"/>
+            </p:panelGrid>
             <p:dataTable value="#{klientJPKView.lista}" var="itemikjpk" rowIndexVar="indexjpk"
                          style="width: 1100px; height: 550px; overflow-y: scroll;" 
                          rowsPerPageTemplate="30,50,300,400" paginatorPosition="top" paginator="#{klientJPKView.lista.size() gt 30 ? 'true':'false'}" rows="30"
@@ -22,13 +26,13 @@
                 <p:column headerText="data sprzedaży">
                     <h:outputText value="#{itemikjpk.dataSprzedazy}"/>
                 </p:column>
-                <p:column headerText="nazwa" width="350">
+                <p:column headerText="nazwa" width="350" sortBy="#{itemikjpk.nazwaKontrahenta}" filterBy="#{itemikjpk.nazwaKontrahenta}" filterMatchMode="contains">
                     <h:outputText value="#{itemikjpk.nazwaKontrahenta}"/>
                 </p:column>
-                <p:column headerText="nr kontr">
+                <p:column headerText="nr kontr" sortBy="#{itemikjpk.nrKontrahenta}">
                     <h:outputText value="#{itemikjpk.nrKontrahenta}"/>
                 </p:column>
-                <p:column headerText="wartość netto" >
+                <p:column headerText="wartość netto"  sortBy="#{itemikjpk.netto}">
                     <bcf:outputpl value="#{itemikjpk.netto}"/>
                 </p:column>
                 <p:column headerText="wartość vat" >

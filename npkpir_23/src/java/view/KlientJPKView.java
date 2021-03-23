@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import waluty.Z;
 
 /**
  *
@@ -27,12 +28,17 @@ public class KlientJPKView implements Serializable {
     @Inject
     private KlientJPKDAO klientJPKDAO;
     private List<KlientJPK> lista;
+    private double suma;
     
     
    @PostConstruct
    private void init() {
        try {
            lista = klientJPKDAO.findbyKlientRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+           suma = 0.0;
+           for (KlientJPK p : lista) {
+               suma = Z.z(suma+p.getNetto());
+           }
        } catch (Exception e){}
    }
 
@@ -42,6 +48,14 @@ public class KlientJPKView implements Serializable {
 
     public void setLista(List<KlientJPK> lista) {
         this.lista = lista;
+    }
+
+    public double getSuma() {
+        return suma;
+    }
+
+    public void setSuma(double suma) {
+        this.suma = suma;
     }
    
    

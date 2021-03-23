@@ -285,6 +285,7 @@ public class VatUeFKView implements Serializable {
                 VatUe veu = new VatUe("WDT", null, 0.0, 0);
                 veu.setKontrahentnip(pobierznip(p.getNrKontrahenta()));
                 veu.setKontrahentkraj(p.getKodKrajuDoreczenia());
+                veu.setKontrahentnazwa(p.getNazwaKontrahenta()!=null?p.getNazwaKontrahenta():"incydentalny");
                 veu.setZawierafk(new ArrayList<>());
                 klienty.add(veu);
             }

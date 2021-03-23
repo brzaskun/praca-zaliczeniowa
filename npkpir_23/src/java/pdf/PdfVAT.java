@@ -24,6 +24,7 @@ import comparator.EVatViewPolaWartoscNettocomparator;
 import comparator.EVatViewPolaWartosccomparator;
 import comparator.EVatViewPolacomparator;
 import entity.EVatwpis1;
+import entity.EVatwpisKJPK;
 import entity.EVatwpisSuper;
 import entity.Podatnik;
 import error.E;
@@ -36,8 +37,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import plik.Plik;
 import view.WpisView;
 /**
@@ -166,6 +165,8 @@ public class PdfVAT {
                     for (EVatwpisSuper rs : ew) {
                         if (rs instanceof EVatwpis1) {
                             dodajwiersztabeliEVatwpis1(table, rs, i);
+                        } else if (rs instanceof EVatwpisKJPK) {
+                            dodajwiersztabeliEVatKJPK(table, rs, i);
                         } else {
                             dodajwiersztabeli(table, rs, i);
                         }
@@ -301,6 +302,8 @@ pdffk.PdfMain.dodajQR(nazwapliku);
                      for (EVatwpisSuper rs : wybranewierszeewidencji) {
                         if (rs instanceof EVatwpis1) {
                             dodajwiersztabeliEVatwpis1(table, rs, i);
+                        } else if (rs instanceof EVatwpisKJPK) {
+                            dodajwiersztabeliEVatKJPK(table, rs, i);
                         } else {
                             dodajwiersztabeli(table, rs, i);
                         }
@@ -530,5 +533,37 @@ pdffk.PdfMain.dodajQR(nazwapliku);
             return null;
         }
 
+    }
+
+    private static void dodajwiersztabeliEVatKJPK(PdfPTable table, EVatwpisSuper eVatwpisSuper, Integer i) {
+        EVatwpisKJPK rs = (EVatwpisKJPK) eVatwpisSuper;
+        table.addCell(ustawfrazeAlign(i.toString(), "center", 6));
+        table.addCell(ustawfrazeAlign(rs.getDataSprz(), "left", 7));
+        table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left", 7));
+        table.addCell(ustawfrazeAlign(rs.getNrKolejny(), "left", 6));
+        try {
+            if (!rs.getOpis().equals("podsumowanie")&& rs.getNrWlDk() != null) {
+                table.addCell(ustawfrazeAlign(rs.getNrpozycji(), "left", 6));
+            } else {
+                table.addCell(ustawfrazeAlign("podsumowanie", "left", 6));
+            }
+            if (!rs.getOpis().equals("podsumowanie")) {
+                table.addCell(ustawfrazeAlign(rs.getKontr(), "left", 6));
+            } else {
+                table.addCell(ustawfrazeAlign("", "left", 6));
+            }
+            if (!rs.getOpis().equals("podsumowanie")&&rs.getKlientJPK() != null && rs.getKlientJPK().getNrKontrahenta() != null) {
+                table.addCell(ustawfrazeAlign(rs.getKlientJPK().getNrKontrahenta(), "left", 6));
+            } else {
+                table.addCell(ustawfrazeAlign("", "left", 6));
+            }
+            table.addCell(ustawfrazeAlign("", "left", 6));
+        } catch (Exception e) {
+            E.e(e); 
+        }
+        table.addCell(ustawfrazeAlign(rs.getOpis(), "left", 6));
+        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto()), "right", 7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getVat()), "right", 7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto() + rs.getVat()), "right", 7));
     }
 }

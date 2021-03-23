@@ -19,7 +19,6 @@ import embeddable.Parametr;
 import entity.Dok;
 import entity.Podatnik;
 import entity.Uz;
-import entity.VatSuper;
 import entity.VatUe;
 import entityfk.Dokfk;
 import error.E;
@@ -83,7 +82,7 @@ public class PdfVatUE {
             PdfMain.dodajOpisWstepny(document, "wydruk - zestawienie dokumentów do deklaracji "+nazwa+". Firma: ", wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             int lp = 1;
             for (Iterator it = lista.iterator(); it.hasNext();) {
-                VatSuper p = (VatSuper) it.next();
+                VatUe p = (VatUe) it.next();
                 PdfPTable table = new PdfPTable(7);
                 table.setWidthPercentage(95);
                 if (!p.getTransakcja().equals("podsumowanie")) {
@@ -98,10 +97,10 @@ public class PdfVatUE {
                     table.setHeaderRows(1);
                     table.addCell(ustawfrazeAlign(String.valueOf(lp++), "center", 8));
                     table.addCell(ustawfrazeAlign(p.getTransakcja(), "center", 8));
-                    String kod = p.getKontrahent().getKrajkod() != null ? p.getKontrahent().getKrajkod() : "brak";
+                    String kod = p.getKontrahentwyborKraj() != null ? p.getKontrahentwyborKraj() : "brak";
                     table.addCell(ustawfrazeAlign(kod, "center", 8));
-                    table.addCell(ustawfrazeAlign(p.getKontrahent().getNip(), "center", 8));
-                    table.addCell(ustawfrazeAlign(p.getKontrahent().getNpelna(), "center", 8));
+                    table.addCell(ustawfrazeAlign(p.getKontrahentwyborNIP(), "center", 8));
+                    table.addCell(ustawfrazeAlign(p.getKontrahentwyborNazwa(), "center", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(p.getLiczbadok()), "center", 8));
                     document.add(table);

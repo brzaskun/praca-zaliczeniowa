@@ -214,7 +214,11 @@ public class EVatwpisKJPK extends EVatwpisSuper implements Serializable {
     public Klienci getKontr() {
       Klienci zwrot = new Klienci();
       if (this.getKlientJPK()!=null) {
-          zwrot.setNpelna("klient");
+          zwrot.setNpelna("klient incydentalny");
+          zwrot.setNip(this.getKlientJPK().getNrKontrahenta());
+      }
+      if (this.getKlientJPK().getNazwaKontrahenta()!=null && !this.getKlientJPK().getNazwaKontrahenta().equals("")) {
+          zwrot.setNpelna(this.getKlientJPK().getNazwaKontrahenta());
           zwrot.setNip(this.getKlientJPK().getNrKontrahenta());
       }
       return zwrot;
@@ -230,10 +234,20 @@ public class EVatwpisKJPK extends EVatwpisSuper implements Serializable {
     public String getNrWlDk() {
       return this.getKlientJPK() != null ? this.getKlientJPK().getSerial() :"";
     }
-    
+   
+  @Override
+   public String getNrpozycji() {
+        if (!this.getOpis().equals("podsumowanie")) {
+            return this.getNrWlDk();
+        } else if (!this.getOpis().equals("podsumowanie")){
+            return "";
+        } else {
+            return "";
+        }
+    }
     @Override
     public String getOpis() {
-      String zwrot = this.getKlientJPK() != null ? "ama" : "podsumowanie";
+      String zwrot = this.getKlientJPK() != null ? "WDT online" : "podsumowanie";
       return zwrot;
     }
     

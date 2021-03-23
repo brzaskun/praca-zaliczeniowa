@@ -63,6 +63,8 @@ public class VatSuper implements Serializable{
     protected String kontrahentnip;
     @Column(name = "kontrahentkraj")
     protected String kontrahentkraj;
+     @Column(name = "kontrahentnazwa")
+    protected String kontrahentnazwa;
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "vatUe")
     protected List<Dok> zawiera;
@@ -161,6 +163,16 @@ public class VatSuper implements Serializable{
     public void setKontrahentkraj(String kontrahentkraj) {
         this.kontrahentkraj = kontrahentkraj;
     }
+
+    public String getKontrahentnazwa() {
+        return kontrahentnazwa;
+    }
+
+    public void setKontrahentnazwa(String kontrahentnazwa) {
+        this.kontrahentnazwa = kontrahentnazwa;
+    }
+    
+    
   
     public List<Dok> getZawiera() {
         if (this instanceof entity.VatUe)  {
