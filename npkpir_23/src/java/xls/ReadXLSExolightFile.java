@@ -11,6 +11,7 @@ import dao.KontoDAOfk;
 import dao.PozycjaBilansDAO;
 import dao.PozycjaRZiSDAO;
 import dao.RodzajedokDAO;
+import data.Data;
 import embeddable.PanstwaMap;
 import embeddablefk.InterpaperXLS;
 import entity.Klienci;
@@ -31,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -143,8 +145,13 @@ public class ReadXLSExolightFile {
    private static void uzupelnijzakup(InterpaperXLS interpaperXLS, Row row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
         if (row.getCell(0).getRowIndex()>0) {
             interpaperXLS.setNrfaktury(row.getCell(2).getStringCellValue());
-            interpaperXLS.setDatawystawienia(row.getCell(0).getDateCellValue());
-            interpaperXLS.setDatasprzedaży(row.getCell(1).getDateCellValue());
+            if (row.getCell(0).getCellType() == CellType.STRING) {
+                interpaperXLS.setDatawystawienia(Data.stringToDate(row.getCell(0).getStringCellValue()));
+                interpaperXLS.setDatasprzedaży(Data.stringToDate(row.getCell(1).getStringCellValue()));
+            } else {
+                interpaperXLS.setDatawystawienia(row.getCell(0).getDateCellValue());
+                interpaperXLS.setDatasprzedaży(row.getCell(1).getDateCellValue());
+            }
             interpaperXLS.setKontrahent(pobierzkontrahenta(row.getCell(3)));
             interpaperXLS.setKlientnazwa(pobierzkontrahenta(row.getCell(3)));
             interpaperXLS.setKlientmiasto(pobierzkontrahenta(row.getCell(4)));
