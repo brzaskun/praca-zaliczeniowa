@@ -36,7 +36,7 @@
             <p:panelGrid columns="2">
                 <p:treeTable id="dataList" value="#{bilansPodgladView.root}" var="loopbop"  selection="#{bilansPodgladView.selectednodes}" selectionMode="checkbox"
                              rowStyleClass="#{loopbop.level eq 0 ? 'row1' : loopbop.level eq 1 ? 'row2' : loopbop.level eq 2 ? 'row3' : 'row4'}" styleClass="tablicaplankont"
-                             scrollable="true" style="width: 1290px; height: 600px;" emptyMessage="Nie ma zapisów na kontach w pozycji BO. Sprawdz czy zapisano wiersze BO do bazy." sortBy="#{loopbop.pelnynumer}">
+                             scrollable="true" style="width: 1290px; height: 600px;overflow-y: scroll;" emptyMessage="Nie ma zapisów na kontach w pozycji BO. Sprawdz czy zapisano wiersze BO do bazy." sortBy="#{loopbop.pelnynumer}">
                     <p:ajax event="select" global="false"/>
                     <p:ajax event="unselect" global="false" />
                     <p:column headerText="nr konta" style="width: 100px;" styleClass="#{loopbop.level eq 2 ? 'druga' : null}">
