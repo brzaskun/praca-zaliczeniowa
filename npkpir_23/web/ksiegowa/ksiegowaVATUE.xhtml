@@ -9,8 +9,8 @@
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
-             
                 <f:view>
+                    <f:event type="preRenderView"  listener="#{vatUeFKView.init()}"/>
                     <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
                         <ui:include src="sub/layoutVat/north.xhtml"/>  <!-- panel polnocny-->
                         <ui:include src="sub/layoutVat/south.xhtml"/>   <!-- panel poludniowy-->

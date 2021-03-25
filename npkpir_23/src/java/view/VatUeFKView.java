@@ -39,7 +39,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
-import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -102,7 +101,6 @@ public class VatUeFKView implements Serializable {
         klienciWDTWNT = Collections.synchronizedList(new ArrayList<>());
     }
 
-    @PostConstruct
     public void init() { //E.m(this);
         listaDok = Collections.synchronizedList(new ArrayList<>());
         listaDokfk = Collections.synchronizedList(new ArrayList<>());
@@ -150,7 +148,7 @@ public class VatUeFKView implements Serializable {
                             s.setNetto(netto + s.getNetto());
                             s.setNettowaluta(nettowaluta + s.getNettowaluta());
                             s.setLiczbadok(s.getLiczbadok() + 1);
-                            if (p.getClass().getSimpleName().equals("Dokfk")) {
+                            if (p instanceof Dokfk) {
                                 s.getZawierafk().add((Dokfk)p);
                                 Dokfk dodod = ((Dokfk)p);
                                 dodod.setVatUe(s);
