@@ -44,7 +44,7 @@
                         </p:fileUpload>
                         <p:growl life="3600"  id="messages1" showDetail="false"/>
                     </p:panelGrid>
-                <p:panelGrid columns="4" style="margin-top: 20px;margin-bottom: 10px; float: right;" rendered="false" binding="#{bankImportView.grid1}">
+                <p:panelGrid columns="6" style="margin-top: 20px;margin-bottom: 10px; float: right;" rendered="false" binding="#{bankImportView.grid1}">
                     <h:outputText value="rodzaj wyciągu" style="margin-left: 40px;"/>
                         <p:selectOneMenu id="symbolall" value="#{bankImportView.rodzajdok}" 
                                          style="width: 200px; margin-left: 20px;"  converter="#{rodzajedokConv}">
@@ -63,6 +63,10 @@
                             <f:selectItem itemLabel="USD" itemValue="USD"/>
                             <p:ajax global="false" event="blur"  partialSubmit="true"/>
                         </p:selectOneMenu>
+                    <p:outputLabel for="pobierzcalyrok" value="cały rok"/>
+                    <p:selectBooleanCheckbox id="pobierzcalyrok" value="#{bankImportView.pobierzcalyrok}">
+                        <p:ajax global="false" event="change"  partialSubmit="true" listener="#{bankImportView.czyjeststyczen}" update="@parent"/>
+                    </p:selectBooleanCheckbox>
                 </p:panelGrid>
             </p:panelGrid>
         </h:form>
@@ -87,9 +91,9 @@
         <h:outputText value="#{bankImportView.wiadomoscnieprzypkonta}" style="color: red; margin-bottom: 10px;"/>
         <p:panelGrid columns="3" style="width: 500px;">
             
-                <p:commandButton value="pobierz dane" actionListener="#{bankImportView.importujdok()}" update="panelprzyciskowbankall form_importbankall" style="width: 120px;" />
+                <p:commandButton value="pobierz dane" actionListener="#{bankImportView.importujdokbadaj()}" update="panelprzyciskowbankall form_importbankall" style="width: 120px;" />
                 <p:commandButton value="resetuj" actionListener="#{bankImportView.resetuj()}" update="panelplikbankall panelprzyciskowbankall form_importbankall" style="width: 120px; margin-left: 20px;" resetValues="true"/>
-                <p:commandButton value="generuj dok" actionListener="#{bankImportView.generuj()}" update="form_importbankall" style="width: 120px;margin-left: 60px;" rendered="false" binding="#{bankImportView.generujbutton}"/>
+                <p:commandButton value="generuj dok" actionListener="#{bankImportView.generujbadaj()}" update="form_importbankall" style="width: 120px;margin-left: 60px;" rendered="false" binding="#{bankImportView.generujbutton}"/>
             </p:panelGrid>
         </p:panelGrid>
         </h:form>  
