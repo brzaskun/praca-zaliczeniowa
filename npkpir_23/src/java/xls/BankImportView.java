@@ -188,9 +188,30 @@ public class BankImportView implements Serializable {
     
     private Map<String, Konto> zrobibankonto() {
         List<Wiersz> wiersze = wierszDAO.pobierzWierszeMcDokImportIBAN(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        wiersze.addAll(wierszDAO.pobierzWierszeMcDokImportIBAN(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt()));
         Map<String,Konto> lista = new HashMap<>();
         if (wiersze!=null && wiersze.size()>0) {
+            for (Wiersz p : wiersze) {
+                Konto zwrot = null;
+                if (p.getIban()!=null && !p.getIban().equals("")) {
+                    if (p.getStronaWn()!=null&& p.getStronaWn().getKonto()!=null && !p.getStronaWn().getKonto().getPelnynumer().startsWith("13")) {
+                        zwrot = p.getStronaWn().getKonto();
+                    } else if (p.getStronaMa()!=null && p.getStronaMa().getKonto()!=null && !p.getStronaMa().getKonto().getPelnynumer().startsWith("13")) {
+                        zwrot = p.getStronaMa().getKonto();
+                    }
+                }
+                if (zwrot!=null) {
+                    String nowyiban = p.getIban().replace("\"", "").replace("'", "").replace("'", "");
+                    if (zwrot.getRokSt().equals(wpisView.getRokWpisuSt())) {
+                        lista.put(nowyiban, zwrot);
+                    } else {
+                        //szukamy jesli konto z innego roku
+                        zwrot = kontoDAO.findKonto(zwrot.getPelnynumer(), zwrot.getPodatnik(), wpisView.getRokWpisu());
+                        lista.put(nowyiban, zwrot);
+                    }
+                }
+            }
+        } else if (lista.size()<5) {
+            wiersze = wierszDAO.pobierzWierszeMcDokImportIBAN(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
             for (Wiersz p : wiersze) {
                 Konto zwrot = null;
                 if (p.getIban()!=null && !p.getIban().equals("")) {
