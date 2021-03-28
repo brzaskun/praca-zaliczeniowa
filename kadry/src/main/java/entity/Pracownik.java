@@ -6,7 +6,9 @@
 package entity;
 
 
+import data.Data;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -142,6 +144,12 @@ public class Pracownik implements Serializable {
     private String datalogowania;
     @Column(name = "modyfikowal")
     private String modyfikowal;
+    @Column(name = "ojciec")
+    private String ojciec;
+    @Column(name = "matka")
+    private String matka;
+    @Column(name = "formawynagrodzenia")
+    private int formawynagrodzenia;
    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -169,6 +177,22 @@ public class Pracownik implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getOjciec() {
+        return ojciec;
+    }
+
+    public void setOjciec(String ojciec) {
+        this.ojciec = ojciec;
+    }
+
+    public String getMatka() {
+        return matka;
+    }
+
+    public void setMatka(String matka) {
+        this.matka = matka;
     }
 
 
@@ -411,6 +435,10 @@ public class Pracownik implements Serializable {
     public void setDatazatrudnienia(String datazatrudnienia) {
         this.datazatrudnienia = datazatrudnienia;
     }
+    
+    public void setDatazatrudnienia(Date datazatrudnienia) {
+        this.datazatrudnienia = Data.data_yyyyMMdd(datazatrudnienia);
+    }
 
     public String getDatazwolnienia() {
         return datazwolnienia;
@@ -418,6 +446,10 @@ public class Pracownik implements Serializable {
 
     public void setDatazwolnienia(String datazwolnienia) {
         this.datazwolnienia = datazwolnienia;
+    }
+     
+    public void setDatazwolnienia(Date datazwolnienia) {
+        this.datazwolnienia = Data.data_yyyyMMdd(datazwolnienia);
     }
 
     public String getBanknazwa() {
@@ -483,6 +515,14 @@ public class Pracownik implements Serializable {
 
     public void setTelefon(String telefon) {
         this.telefon = telefon;
+    }
+
+    public int getFormawynagrodzenia() {
+        return formawynagrodzenia;
+    }
+
+    public void setFormawynagrodzenia(int formawynagrodzenia) {
+        this.formawynagrodzenia = formawynagrodzenia;
     }
 
     @XmlTransient

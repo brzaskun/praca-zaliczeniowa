@@ -50,13 +50,13 @@ public class EtatFacade extends DAO{
 
     public List<EtatPrac> findPracownik(Pracownik pracownik) {
         List<EtatPrac> zwrot = new ArrayList<>();
-        zwrot = getEntityManager().createNamedQuery("Etat.findByPracownik").setParameter("pracownik", pracownik).getResultList();
+        zwrot = getEntityManager().createNamedQuery("EtatPrac.findByPracownik").setParameter("pracownik", pracownik).getResultList();
         return zwrot;
     }
     
     public List<EtatPrac> findByUmowa(Umowa umowa) {
         List<EtatPrac> zwrot = new ArrayList<>();
-        zwrot = getEntityManager().createNamedQuery("Etat.findByUmowa").setParameter("umowa", umowa).getResultList();
+        zwrot = getEntityManager().createNamedQuery("EtatPrac.findByUmowa").setParameter("umowa", umowa).getResultList();
         return zwrot;
     }
 }

@@ -217,4 +217,13 @@
       <property name="eclipselink.logging.parameters" value="true"/>
     </properties>
   </persistence-unit>
+  <persistence-unit name="WebApplication1PU" transaction-type="RESOURCE_LOCAL">
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost\sqlexpress;databaseName=kadryiplace"/>
+      <property name="javax.persistence.jdbc.user" value="sa"/>
+      <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+      <property name="javax.persistence.jdbc.password" value="sql"/>
+    </properties>
+  </persistence-unit>
 </persistence>

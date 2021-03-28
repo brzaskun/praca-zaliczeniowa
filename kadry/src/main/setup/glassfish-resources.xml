@@ -4,7 +4,24 @@
   <jdbc-resource enabled="true" jndi-name="kadryDB" object-type="user" pool-name="connectionPool">
     <description/>
   </jdbc-resource>
-  <jdbc-connection-pool associate-with-thread="false"
+   <jdbc-connection-pool associate-with-thread="false"
+                          datasource-classname="com.mysql.cj.jdbc.MysqlDataSource"
+                         name="connectionPool"
+                          res-type="javax.sql.DataSource"   
+                         
+
+    >
+        <property name="serverName" value="localhost"/>
+        <property name="portNumber" value="3306"/>
+        <property name="databaseName" value="pkpir"/>
+        <property name="User" value="brzaskun"/>
+        <property name="Password" value="pufikun"/>
+        <property name="PasswordCredential" value="pufikun"/>
+        <property name="URL" value="jdbc:mysql://localhost:3306/kadry?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false&amp;allowPublicKeyRetrieval=true&amp;"/>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+       
+    </jdbc-connection-pool>
+<!--  <jdbc-connection-pool associate-with-thread="false"
                           datasource-classname="com.mysql.cj.jdbc.MysqlDataSource"
                           wrap-jdbc-objects="true" connection-creation-retry-attempts="10" connection-creation-retry-interval-in-seconds="1" 
                           connection-leak-reclaim="true"
@@ -29,5 +46,5 @@
         <property name="portNumber" value="3306"/>
         <property name="databaseName" value="kadry"/>
         <property name="PasswordCredential" value="pufikun"/>
-        <property name="driverClass" value="com.mysql.jdbc.Driver"/>  </jdbc-connection-pool>
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>  </jdbc-connection-pool>-->
 </resources>

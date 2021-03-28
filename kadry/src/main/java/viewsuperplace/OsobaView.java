@@ -7,6 +7,7 @@ package viewsuperplace;
 
 import DAOsuperplace.OsobaFacade;
 import data.Data;
+import entity.Pracownik;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.view.ViewScoped;
@@ -18,6 +19,7 @@ import kadryiplace.Osoba;
 import kadryiplace.OsobaPrz;
 import kadryiplace.Place;
 import kadryiplace.PlacePrz;
+import kadryiplace.StanHist;
 import kadryiplace.ZatrudHist;
 
 /**
@@ -31,13 +33,50 @@ public class OsobaView implements Serializable {
     @Inject
     private OsobaFacade osobaFacade;
     
+    
+    
+    
+    
     public void rob() {
-        List<Osoba> podatnicy = osobaFacade.findAll();
+        //List<Osoba> podatnicy = osobaFacade.findAll();
         Osoba p = osobaFacade.findByPesel("83020610048");
+        Pracownik pracownik = new Pracownik();
+        pracownik.setImie(p.getOsoImie1());
+        pracownik.setDrugieimie(p.getOsoImie2());
+        pracownik.setPesel(p.getOsoPesel());
+        pracownik.setDowodosobisty(p.getOsoDodVchar1());
+        pracownik.setDataurodzenia(Data.data_yyyyMMdd(p.getOsoUrodzData()));
+        pracownik.setPlec(p.getOsoPlec().toString());
+        pracownik.setOjciec(p.getOsoImieOjca());
+        pracownik.setMatka(p.getOsoImieMatki());
+        pracownik.setMiejsceurodzenia(p.getOsoMiejsceUr());
+        pracownik.setFormawynagrodzenia(p.getOsoWynForma());
+        pracownik.setBankkonto(p.getOsoKonto());
+        pracownik.setDatazatrudnienia(p.getOsoDataZatr());
+        pracownik.setDatazwolnienia(p.getOsoDataZwol());
+        //tu sa wszystkie umowy
+        List<ZatrudHist> zatrudHist = p.getZatrudHistList();
+        for (ZatrudHist r : zatrudHist) {
+            try {
+                //typ P - tenpracodawca, I inny prac, E-edukacja
+                String zatrudnieniehist = Data.data_yyyyMMdd(r.getZahDataOd())+" "+Data.data_yyyyMMdd(r.getZahDataDo())+" "+r.getZahTyp()+" "+r.getZahStatus();
+                System.out.println(zatrudnieniehist);
+            } catch (Exception e){}
+        }
+        List<StanHist> stanHist = p.getStanHistList();
+        for (StanHist r : stanHist) {
+            try {
+                //typ P - tenpracodawca, I inny prac, E-edukacja
+                String stanowisko = Data.data_yyyyMMdd(r.getSthDataOd())+" "+Data.data_yyyyMMdd(r.getSthDataDo())+" "+r.getSthStaSerial().getStaNazwa();
+                System.out.println(stanowisko);
+            } catch (Exception e){}
+        }
         String imienaziwko = p.getOsoNazwisko()+" "+p.getOsoImie1();
         System.out.println(imienaziwko);
-        String firBiuroNip = p.getOsoFirSerial().getFirNazwaPel();
+        String firmanazwa = p.getOsoFirSerial().getFirNazwaPel();
+        String firBiuroNip = p.getOsoFirSerial().getFirBiuroNip();
         System.out.println(firBiuroNip);
+        String osoKonto = p.getOsoKonto(); 
         List<OsobaPrz> osobaPrzList = p.getOsobaPrzList();
         for (OsobaPrz r : osobaPrzList) {
             try {
@@ -56,13 +95,6 @@ public class OsobaView implements Serializable {
          for (PlacePrz r : placeprz) {
             try {
                 String przerwa = Data.data_yyyyMMdd(r.getPrzDataOd())+" "+Data.data_yyyyMMdd(r.getPrzDataDo())+" "+r.getPrzAbsencja()+" "+r.getPrzWyp()+" "+r.getPrzChorWyp();
-                System.out.println(przerwa);
-            } catch (Exception e){}
-        }
-        List<ZatrudHist> zatrudHistList = p.getZatrudHistList();
-        for (ZatrudHist r : zatrudHistList) {
-            try {
-                String przerwa = Data.data_yyyyMMdd(r.getZahDataOd())+" "+Data.data_yyyyMMdd(r.getZahDataDo())+" "+r.getZahStatus()+" "+r.getZahTyp();
                 System.out.println(przerwa);
             } catch (Exception e){}
         }

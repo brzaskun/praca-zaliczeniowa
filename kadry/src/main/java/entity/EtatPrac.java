@@ -113,19 +113,19 @@ public class EtatPrac implements Serializable {
         this.datado = datado;
     }
 
-    public int getEtatPrac1() {
+    public int getEtat1() {
         return etat1;
     }
 
-    public void setEtatPrac1(int etat1) {
+    public void setEtat1(int etat1) {
         this.etat1 = etat1;
     }
 
-    public int getEtatPrac2() {
+    public int getEtat2() {
         return etat2;
     }
 
-    public void setEtatPrac2(int etat2) {
+    public void setEtat2(int etat2) {
         this.etat2 = etat2;
     }
 
@@ -136,6 +136,8 @@ public class EtatPrac implements Serializable {
     public void setUmowa(Umowa umowa) {
         this.umowa = umowa;
     }
+
+    
 
     @Override
     public int hashCode() {
