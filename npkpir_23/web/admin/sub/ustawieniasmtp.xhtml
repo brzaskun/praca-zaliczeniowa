@@ -22,11 +22,11 @@
                 <h:outputText value="smtp port"/>
                 <h:outputText value="#{sMTPSettingsView.selected.smtpport}"/>
                 <h:outputText value="smtp auth"/>
-                <p:selectBooleanCheckbox value="#{sMTPSettingsView.selected.smtpauth}" disabled="true"/>
+                <h:outputText value="#{sMTPSettingsView.selected.smtpauth eq true? '&#x2713;':''}" />
                 <h:outputText value="smtp starttls"/>
-                <p:selectBooleanCheckbox value="#{sMTPSettingsView.selected.starttlsenable}" disabled="true"/>
+                <h:outputText value="#{sMTPSettingsView.selected.starttlsenable eq true? '&#x2713;':''}"/>
                 <h:outputText value="smtp ssl"/>
-                <p:selectBooleanCheckbox value="#{sMTPSettingsView.selected.sslenable}" disabled="true"/>
+                <h:outputText value="#{sMTPSettingsView.selected.sslenable eq true? '&#x2713;':''}"/>
             </p:panelGrid>
             <p:commandButton value="edytuj" style="width: 120px;" actionListener="#{sMTPSettingsView.przygotujedycja}" global="false" update="form2"/>
         </p:outputPanel>
