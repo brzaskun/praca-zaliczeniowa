@@ -9,10 +9,10 @@ package viewfk;
 import beansFK.DelegacjaBean;
 import beansFK.PlanKontFKBean;
 import beansFK.SlownikiBean;
-import dao.StronaWierszaDAO;
 import dao.DelegacjaDAO;
 import dao.KontoDAOfk;
 import dao.KontopozycjaZapisDAO;
+import dao.StronaWierszaDAO;
 import dao.UkladBRDAO;
 import embeddablefk.DelegacjaZest;
 import entityfk.Delegacja;
@@ -23,11 +23,12 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;import view.WpisView; import org.primefaces.PrimeFaces;
+import javax.inject.Named;
+import msg.Msg;
+import org.primefaces.PrimeFaces;
+ import view.WpisView;
 
 /**
  *
@@ -58,6 +59,7 @@ public class DelegacjeView  implements Serializable{
     @Inject
     private PlanKontCompleteView planKontCompleteView;
     private int jest1niema0;
+    private String rodzajdokpole;
 
     public DelegacjeView() {
         
@@ -174,6 +176,7 @@ public class DelegacjeView  implements Serializable{
     public void sprawdzIstnienieDelegacji(Dokfk dokfk) {
         try {
             if (dokfk.getRodzajedok().getSkrot().contains("DEL")) {
+                rodzajdokpole = dokfk.getRodzajedok().getSkrot();
                 jest1niema0 = DelegacjaBean.sprawdzczyjestdelegacja(delegacjaDAO, dokfk.getNumerwlasnydokfk());
                 Konto kontoRozrachunkowe = null;
                 try {
@@ -199,10 +202,15 @@ public class DelegacjeView  implements Serializable{
             } catch (Exception e) {
 
             }
-            if (kontoRozrachunkowe != null) {
-                dokfk.getRodzajedok().setKontorozrachunkowe(kontoRozrachunkowe);
-                PrimeFaces.current().ajax().update("formwpisdokument:przypkonto");
-            }
+            try {
+                if (kontoRozrachunkowe != null) {
+                    dokfk.getRodzajedok().setKontorozrachunkowe(kontoRozrachunkowe);
+                    PrimeFaces.current().ajax().update("formwpisdokument:przypkonto");
+                    dokfk.getListawierszy().get(0).getStronaMa().setKonto(kontoRozrachunkowe);
+                    PrimeFaces.current().ajax().update("formwpisdokument:dataList");
+
+                }
+            } catch (Exception e){}
         }
     }
     
@@ -272,6 +280,14 @@ public class DelegacjeView  implements Serializable{
 
     public void setJest1niema0(int jest1niema0) {
         this.jest1niema0 = jest1niema0;
+    }
+
+    public String getRodzajdokpole() {
+        return rodzajdokpole;
+    }
+
+    public void setRodzajdokpole(String rodzajdokpole) {
+        this.rodzajdokpole = rodzajdokpole;
     }
 
     

@@ -258,7 +258,7 @@
                                 <p:column>
                                     <p:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 160px;" valueChangeListener="#{dokfkView.skorygujokreswpisudokumentu}">
                                         <p:ajax event="blur" global="false" partialSubmit="true" listener="#{delegacjeView.sprawdzIstnienieDelegacji(dokfkView.selected)}" 
-                                                update=":parametrydel:jest1niema0"/>
+                                                update=":parametrydel:jest1niema0 :rodzajdokpole:pole"/>
                                         <p:ajax event="change" global="false"  partialSubmit="true" update="formwpisdokument:panelwpisbutton formwpisdokument:komunikatywpisdok" listener="#{dokfkView.resetujnumer()}"/>
                                     </p:inputText>
                                 </p:column>
@@ -802,6 +802,9 @@
             </h:form>
             <h:form id="parametry">
                 <h:inputHidden id="aktualnywierszrozrachunkow" value="#{dokfkView.rodzaj}" />
+            </h:form>
+            <h:form id="rodzajdokpole">
+                <h:inputHidden id="pole" value="#{delegacjeView.rodzajdokpole}"/>
             </h:form>
             <h:form id="parametrydel">
                 <h:inputHidden id="jest1niema0" value="#{delegacjeView.jest1niema0}"/>

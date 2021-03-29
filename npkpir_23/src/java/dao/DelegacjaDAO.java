@@ -52,7 +52,7 @@ public class DelegacjaDAO extends DAO implements Serializable{
     }
 
     public int countDelegacja(WpisView wpisView, boolean krajowa0zagraniczna1) {
-        return (int) getEntityManager().createNamedQuery("Delegacja.countByPodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("krajowa0zagraniczna1", krajowa0zagraniczna1).getSingleResult();
+        return  Integer.valueOf(String.valueOf(getEntityManager().createNamedQuery("Delegacja.countByPodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("krajowa0zagraniczna1", krajowa0zagraniczna1).getSingleResult()));
     }
 
     public Delegacja findDelegacja(Delegacja delegacja) {
