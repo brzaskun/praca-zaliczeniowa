@@ -73,11 +73,13 @@ public class JPK_VAT2020M_Bean {
     public static JPK.Ewidencja.SprzedazWiersz dodajwierszsprzedazy(KlientJPK ev, BigInteger lp, JPK.Ewidencja.SprzedazCtrl sprzedazCtrl, JPKvatwersjaEvewidencja jPKvatwersjaEvewidencja) {
         JPK.Ewidencja.SprzedazWiersz w = new JPK.Ewidencja.SprzedazWiersz();
         try {
-            w.setTypDokumentu(pl.gov.crd.wzor._2020._05._08._9393.TDowoduSprzedazy.FP);
+            if (ev.isWdt()==false) {
+                w.setTypDokumentu(pl.gov.crd.wzor._2020._05._08._9393.TDowoduSprzedazy.FP);
+            }
             w.setLpSprzedazy(lp);
             w.setDataSprzedazy(Data.dataoddo(ev.getDataSprzedazy()));
             w.setDataWystawienia(Data.dataoddo(ev.getDataWystawienia()));
-            w.setNrKontrahenta("brak");
+            w.setNrKontrahenta(ev.getNrKontrahenta()!=null?ev.getNrKontrahenta():"brak");
             w.setNazwaKontrahenta(ev.getNazwaKontrahenta());
             w.setDowodSprzedazy(ev.getDowodSprzedazy());
             dodajkwotydowierszaSprzedazy(w,ev.getNetto(), ev.getVat(),sprzedazCtrl, jPKvatwersjaEvewidencja);

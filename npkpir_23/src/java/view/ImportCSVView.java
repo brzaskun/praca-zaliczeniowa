@@ -521,6 +521,7 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
                 String nip = row.get("BUYER_VAT_NUMBER");
                 klientJPK.setKodKrajuNadania(krajwysylki);
                 klientJPK.setKodKrajuDoreczenia(krajcdocelowy);
+                klientJPK.setNazwaKontrahenta("brak");
                 klientJPK.setNrKontrahenta(nip);
                 klientJPK.setRok(wpisView.getRokWpisuSt());
                 klientJPK.setMc(wpisView.getMiesiacWpisu());
@@ -558,6 +559,7 @@ private static Klienci ustawkontrahenta(InterpaperXLS interpaperXLS, List<Klienc
                     klientJPK.setEwidencja(pobierzewidencje(klientJPK));
                 }
                 String nip = row.get("BUYER_VAT_NUMBER");
+                klientJPK.setNazwaKontrahenta("brak");
                 klientJPK.setKodKrajuNadania(krajwysylki);
                 klientJPK.setKodKrajuDoreczenia(krajcdocelowy);
                 klientJPK.setNrKontrahenta(nip);

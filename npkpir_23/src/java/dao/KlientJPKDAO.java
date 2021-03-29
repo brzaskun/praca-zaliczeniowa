@@ -21,6 +21,7 @@ import javax.transaction.Transactional;
 @Stateless
 @Transactional
 public class KlientJPKDAO  extends DAO implements Serializable {
+     private static final long serialVersionUID = 1L;
 
     @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
