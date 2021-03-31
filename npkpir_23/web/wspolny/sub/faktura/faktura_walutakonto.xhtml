@@ -50,8 +50,8 @@
                                      style="width: 300px;" required="true" requiredMessage="wpisz numer konta w formacie iban"/>
                     </p:column>
                     <p:column >
-                        <p:inputText value="#{fakturaWalutaKontoView.selected.nrkonta}" maxlength="26"
-                                     style="width: 300px;" required="true" requiredMessage="wpisz numer konta"/>
+                        <p:inputText value="#{fakturaWalutaKontoView.selected.nrkonta}" maxlength="32"
+                                     style="width: 300px;" required="true" requiredMessage="wpisz numer konta" placeholder="11 0000 1111 0000 1111 0000 1111"/>
                     </p:column>
                     <p:column>
                         <p:commandButton value="dodaj" styleClass="nb" global="false" update="akordeon:form_fakturawalutakonto akordeon:form_fakturawalutakonto1:tabela"
