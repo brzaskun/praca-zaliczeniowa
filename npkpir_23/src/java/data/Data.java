@@ -326,7 +326,7 @@ public class Data implements Serializable {
      */
     public static boolean czyjestpomc(String mcgraniczny, String rokgraniczny, String mcbadanegookresu, String rokbadanegookresu) {
         int wynikporównania = -1;
-        wynikporównania  = compare(rokbadanegookresu, mcbadanegookresu,rokbadanegookresu, mcgraniczny);
+        wynikporównania  = compare(rokbadanegookresu, mcbadanegookresu,rokgraniczny, mcgraniczny);
         return wynikporównania > -1;
     }
 
