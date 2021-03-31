@@ -11,16 +11,18 @@
             try {
                 r('akordeon2:formVATUE:deklbutton').show();
                 r('akordeon2:formVATUE:deklbutton2').show();
+                r('akordeon2:formVATUE:drukviesbutton').show();
             } catch(e){}
             try {
                 r('akordeon:formVATUE:deklbutton').show();
                 r('akordeon:formVATUE:deklbutton2').show();
+                r('akordeon:formVATUE:drukviesbutton').show();
             } catch(e){}
             
         }
     </script>
     
-    <p:panelGrid id="panelue" columns="8">
+    <p:panelGrid id="panelue" columns="9">
             <h:outputText value="suma wybranych"/>
             <bcf:outputpl value="#{vatUeFKView.sumawybranych}"/>
             <p:commandButton value="#{mgs.drukuj}" style="margin-left: 3%; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.drukujewidencjeUEfk()}"/>
@@ -35,7 +37,7 @@
             <p:commandButton value="korekta" style="margin-left: 10px; margin-bottom: 1%; width: 120px; display: none;"  update="@(.upd3) @(.upd)"   id="deklbutton2" styleClass="upd3"
                              actionListener="#{vatUeFKView.tworzdeklaracjekorekta(vatUeFKView.klienciWDTWNT, 1)}" rendered="#{vatUeFKView.deklaracja0korekta1}"/>
             <p:commandButton value="VIES" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.sprawdzVIES}"
-                             update="@(.upd1)" oncomplete="r('form:akordeon:drukviesbutton').show();pokazbutony();"/>
+                             update="@(.upd1)" oncomplete="pokazbutony();"/>
             <p:commandButton value="druk VIES" style="margin-left: 10px; margin-bottom: 1%; width: 120px; display: none;" id="drukviesbutton"
                              actionListener="#{vatUeFKView.drukujVIES}"
                              />

@@ -29,7 +29,6 @@ import entity.VatUe;
 import entityfk.Dokfk;
 import entityfk.Waluty;
 import error.E;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -39,17 +38,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import msg.Msg;
+import org.primefaces.PrimeFaces;
 import pdf.PdfVATUEdekl;
 import pdf.PdfVatUE;
 import pdffk.PdfVIES;
 import pl.gov.crd.wzor._2020._07._03._9689.VATUEKM5Bean;
 import pl.gov.crd.wzor._2020._07._03._9690.VATUEM5Bean;
+import plik.Plik;
 import vies.VIESCheckBean;
 import vies.Vies;
 import waluty.Z;
@@ -568,16 +567,8 @@ public class VatUeFKView implements Serializable {
             Object[] walidacja = XMLValid.walidujCMLVATUE(deklaracja,dekl_object, 0);
             if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
                 if (test0wysylka1==0) {
-                    FacesContext facesContext = FacesContext.getCurrentInstance();
-                    ExternalContext externalContext = facesContext.getExternalContext();
-                    externalContext.setResponseContentType("application/vnd.ms-excel");
-                    String filename = "vatue"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
-                    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
-                    // Write file to response body.
-                    OutputStream responseOutputStream = externalContext.getResponseOutputStream();
-                    responseOutputStream.write(deklaracja.getBytes());
-                    // Inform JSF that response is completed and it thus doesn't have to navigate.
-                    facesContext.responseComplete();
+                    String name = Plik.zapiszplik("vatue"+wpisView.getPodatnikObiekt().getNip(), "xml", deklaracja.getBytes());
+                    PrimeFaces.current().executeScript("pokazwydrukpdf('"+name+"')");
                     Msg.msg("Wygenerowano deklarację do podglądu");
                 } else {
                     Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
@@ -617,17 +608,20 @@ public class VatUeFKView implements Serializable {
             Object[] walidacja = XMLValid.walidujCMLVATUE(deklaracja,dekl_object, 1);
             if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
                 if (test0wysylka1==0) {
-                    FacesContext facesContext = FacesContext.getCurrentInstance();
-                    ExternalContext externalContext = facesContext.getExternalContext();
-                    externalContext.setResponseContentType("application/vnd.ms-excel");
-                    String filename = "vatue"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
-                    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
-                    // Write file to response body.
-                    OutputStream responseOutputStream = externalContext.getResponseOutputStream();
-                    responseOutputStream.write(deklaracja.getBytes());
-                    // Inform JSF that response is completed and it thus doesn't have to navigate.
-                    facesContext.responseComplete();
-                    Msg.msg("Wygenerowano deklarację korektę do podglądu");
+                    String name = Plik.zapiszplik("vatuedekl"+wpisView.getPodatnikObiekt().getNip(), "xml", deklaracja.getBytes());
+                    PrimeFaces.current().executeScript("pokazwydrukpdf('"+name+"')");
+                    Msg.msg("Wygenerowano deklarację do podglądu");
+//                    FacesContext facesContext = FacesContext.getCurrentInstance();
+//                    ExternalContext externalContext = facesContext.getExternalContext();
+//                    externalContext.setResponseContentType("application/vnd.ms-excel");
+//                    String filename = "vatue"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xml";
+//                    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+//                    // Write file to response body.
+//                    OutputStream responseOutputStream = externalContext.getResponseOutputStream();
+//                    responseOutputStream.write(deklaracja.getBytes());
+//                    // Inform JSF that response is completed and it thus doesn't have to navigate.
+//                    facesContext.responseComplete();
+//                    Msg.msg("Wygenerowano deklarację korektę do podglądu");
                 } else {
                     Object[] podpisanadeklaracja = podpiszDeklaracje(deklaracja);
                     if (podpisanadeklaracja != null) {
