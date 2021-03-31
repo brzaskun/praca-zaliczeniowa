@@ -15,7 +15,7 @@
         }
     </style>
    
-        <p:dialog id="raportzorin" header="Zestawienie pobranych faktur -  #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="raportzorin" height="900" width="1450"
+        <p:dialog id="raportzorin" header="Zestawienie pobranych faktur do transferu -  #{WpisView.podatnikObiekt.nazwapelnaPDF}" widgetVar="raportzorin" height="900" width="1450"
               resizable="false"  onShow="ustawdialog('raportzorin','menudokumenty',1450,900);" closeOnEscape="true" onHide="resetujdialog('raportzorin');" >
         <p:ajax event="open" listener="#{interpaperImportView.init()}" update="panelplik"/>
         <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" update="form_raportzorin"/>

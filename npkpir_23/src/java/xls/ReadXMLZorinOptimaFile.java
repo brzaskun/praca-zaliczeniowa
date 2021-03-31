@@ -194,7 +194,6 @@ public class ReadXMLZorinOptimaFile {
                 InterpaperXLS e = itn.next();
                 if (d.getNumerwlasnydokfk().equals(e.getNrfaktury())) {
                     e.setJuzzaksiegowany(true);
-                    itn.remove();
                     znaleziono = true;
                     break;
                 }
