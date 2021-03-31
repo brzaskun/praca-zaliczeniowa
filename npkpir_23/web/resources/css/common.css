@@ -7,6 +7,9 @@ and open the template in the editor.
     Created on : 2016-10-24, 18:13:33
     Author     : Osito
 */
+@font-face {
+  font-display: swap;
+}
 
 .filter10 input {
     width: 10px !important;

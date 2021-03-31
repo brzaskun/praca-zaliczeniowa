@@ -1,4 +1,13 @@
 "use strict";
+//$(document).keypress(function(e) {
+//    if (e.which === 32) {
+//        console.log("wdwdw");
+//   }
+//});
+//
+//var zlap = function (){
+//    console.log("wdwdw");
+//};
 
 var MYAPP = {};
 
@@ -169,6 +178,8 @@ var coff = function() {
 //   clearTimeout(t);
 //   PF('dialogAjaxCzekaj').hide();
 //};
+
+
 
 var wydrukJPK = function(nazwa){
     window.open('../resources/xml/'+nazwa,'','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');

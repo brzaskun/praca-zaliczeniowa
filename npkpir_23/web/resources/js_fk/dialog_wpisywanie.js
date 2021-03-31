@@ -726,11 +726,11 @@ var skopiujopis = function(nrbiezacegowiersza){
     if(nrbiezacegowiersza===1){
         return;
     } else {
-        var nrstaregowiersza = nrbiezacegowiersza-2;
         nrbiezacegowiersza = nrbiezacegowiersza-1;
         var biezacywiersz = "formwpisdokument:dataList:"+nrbiezacegowiersza+":opisdokwpis";
-        var poprzedniopisval = r("formwpisdokument:dataList:"+nrstaregowiersza+":opisdokwpis").val();
         if (r(biezacywiersz).val() === "") {
+            var nrstaregowiersza = nrbiezacegowiersza-2;
+            var poprzedniopisval = r("formwpisdokument:dataList:"+nrstaregowiersza+":opisdokwpis").val();
             var czyjestpodatek = poprzedniopisval.indexOf(" - podatek vat");
             if (czyjestpodatek > -1) {
                 poprzedniopisval = poprzedniopisval.substring(0,czyjestpodatek);
