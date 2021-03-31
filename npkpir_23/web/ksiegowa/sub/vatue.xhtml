@@ -8,6 +8,7 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     <bcf:ajaxs/>
     <h:form id="formVATUE">
+         <f:event type="preRenderView"  listener="#{vatUeFKView.init()}" />
         <ui:include src="menu_wiad.xhtml"/>
         <ui:include src="../../wspolny/sub/vat_ue.xhtml"/>
     </h:form>

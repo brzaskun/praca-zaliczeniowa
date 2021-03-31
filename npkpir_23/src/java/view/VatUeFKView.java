@@ -96,122 +96,129 @@ public class VatUeFKView implements Serializable {
     private TKodUS tKodUS;
     private String opisvatuepkpir;
     boolean deklaracja0korekta1;
+    boolean inicjacjabyla;
 
     public VatUeFKView() {
         klienciWDTWNT = Collections.synchronizedList(new ArrayList<>());
+        inicjacjabyla = false;
     }
 
     public void init() { //E.m(this);
-        listaDok = Collections.synchronizedList(new ArrayList<>());
-        listaDokfk = Collections.synchronizedList(new ArrayList<>());
-        //List<Dokfk> dokvatmc = Collections.synchronizedList(new ArrayList<>());
-        Integer rok = wpisView.getRokWpisu();
-        String m = wpisView.getMiesiacWpisu();
-        try {
-            String vatUEokres = ParametrView.zwrocParametr(wpisView.getPodatnikObiekt().getParamVatUE(), rok, m);
-            if (vatUEokres.equals("miesięczne")) {
-                if (wpisView.isKsiegirachunkowe()) {
-                    listadokumentowUE = dokDAOfk.findDokfkPodatnikRokMcVAT(wpisView);
+        if (inicjacjabyla==false) {
+            klienciWDTWNT = Collections.synchronizedList(new ArrayList<>());
+            listaDok = Collections.synchronizedList(new ArrayList<>());
+            listaDokfk = Collections.synchronizedList(new ArrayList<>());
+            //List<Dokfk> dokvatmc = Collections.synchronizedList(new ArrayList<>());
+            Integer rok = wpisView.getRokWpisu();
+            String m = wpisView.getMiesiacWpisu();
+            try {
+                String vatUEokres = ParametrView.zwrocParametr(wpisView.getPodatnikObiekt().getParamVatUE(), rok, m);
+                if (vatUEokres.equals("miesięczne")) {
+                    if (wpisView.isKsiegirachunkowe()) {
+                        listadokumentowUE = dokDAOfk.findDokfkPodatnikRokMcVAT(wpisView);
+                    } else {
+                        listadokumentowUE = dokDAO.zwrocBiezacegoKlientaRokMCVAT(wpisView);
+                    }
+                    opisvatuepkpir = wpisView.getPrintNazwa()+" Miesięczne zestawienie dokumentów do deklaracji VAT-UE na koniec "+ rok+"/"+m;
                 } else {
-                    listadokumentowUE = dokDAO.zwrocBiezacegoKlientaRokMCVAT(wpisView);
-                }
-                opisvatuepkpir = wpisView.getPrintNazwa()+" Miesięczne zestawienie dokumentów do deklaracji VAT-UE na koniec "+ rok+"/"+m;
-            } else {
-                if (wpisView.isKsiegirachunkowe()) {
-                    listadokumentowUE = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
-                } else {
-                    listadokumentowUE = dokDAO.zwrocBiezacegoKlientaRokKW(wpisView);
-                }
-                opisvatuepkpir = wpisView.getPrintNazwa()+" Kwartalne zestawienie dokumentów do deklaracji VAT-UE na koniec "+ rok+"/"+m;
-            }            
-        } catch (Exception e) { 
-            E.e(e); 
-        }
-        //jest miesiecznie wiec nie ma co wybierac
-        if (listadokumentowUE != null) {
-            //a teraz podsumuj klientów
-            klienciWDTWNT.addAll(kontrahenciUE(listadokumentowUE));
-            double sumanettovatue = 0.0;
-            double sumanettovatuewaluta = 0.0;
-            for (DokSuper p : listadokumentowUE) {
-                String typdokumentu = null;
-                if (p instanceof Dok) {
-                    typdokumentu = ((Dok) p).getRodzajedok().getSkrot();
-                } else {
-                    typdokumentu = ((Dokfk) p).getRodzajedok().getSkrot();
-                }
-                for (VatUe s : klienciWDTWNT) {
-                    if (p.getKontr()!= null && p.getKontr().getNip().equals(s.getKontrahent().getNip()) && typdokumentu.equals(s.getTransakcja())) {
-                            double[] t = p.pobierzwartosci();
-                            double netto = t[0];
-                            double nettowaluta = t[1];
-                            s.setNetto(netto + s.getNetto());
-                            s.setNettowaluta(nettowaluta + s.getNettowaluta());
-                            s.setLiczbadok(s.getLiczbadok() + 1);
-                            if (p instanceof Dokfk) {
-                                s.getZawierafk().add((Dokfk)p);
-                                Dokfk dodod = ((Dokfk)p);
-                                dodod.setVatUe(s);
-                                listaDokfk.add(dodod);
-                            } else {
-                                s.getZawiera().add((Dok) p);
-                                Dok dodod = ((Dok)p);
-                                dodod.setVatUe(s);
-                                listaDok.add(dodod);
+                    if (wpisView.isKsiegirachunkowe()) {
+                        listadokumentowUE = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
+                    } else {
+                        listadokumentowUE = dokDAO.zwrocBiezacegoKlientaRokKW(wpisView);
+                    }
+                    opisvatuepkpir = wpisView.getPrintNazwa()+" Kwartalne zestawienie dokumentów do deklaracji VAT-UE na koniec "+ rok+"/"+m;
+                }            
+            } catch (Exception e) { 
+                E.e(e); 
+            }
+            //jest miesiecznie wiec nie ma co wybierac
+            if (listadokumentowUE != null) {
+                //a teraz podsumuj klientów
+                klienciWDTWNT.addAll(kontrahenciUE(listadokumentowUE));
+                double sumanettovatue = 0.0;
+                double sumanettovatuewaluta = 0.0;
+                for (DokSuper p : listadokumentowUE) {
+                    String typdokumentu = null;
+                    if (p instanceof Dok) {
+                        typdokumentu = ((Dok) p).getRodzajedok().getSkrot();
+                    } else {
+                        typdokumentu = ((Dokfk) p).getRodzajedok().getSkrot();
+                    }
+                    for (VatUe s : klienciWDTWNT) {
+                        if (p.getKontr()!= null && p.getKontr().getNip().equals(s.getKontrahent().getNip()) && typdokumentu.equals(s.getTransakcja())) {
+                                double[] t = p.pobierzwartosci();
+                                double netto = t[0];
+                                double nettowaluta = t[1];
+                                s.setNetto(netto + s.getNetto());
+                                s.setNettowaluta(nettowaluta + s.getNettowaluta());
+                                s.setLiczbadok(s.getLiczbadok() + 1);
+                                if (p instanceof Dokfk) {
+                                    s.getZawierafk().add((Dokfk)p);
+                                    Dokfk dodod = ((Dokfk)p);
+                                    dodod.setVatUe(s);
+                                    listaDokfk.add(dodod);
+                                } else {
+                                    s.getZawiera().add((Dok) p);
+                                    Dok dodod = ((Dok)p);
+                                    dodod.setVatUe(s);
+                                    listaDok.add(dodod);
+                                }
+                                s.setNazwawaluty(p.getWalutadokumentu());
+                                sumanettovatue += netto;
+                                sumanettovatuewaluta += nettowaluta;
+                                break;
                             }
-                            s.setNazwawaluty(p.getWalutadokumentu());
-                            sumanettovatue += netto;
-                            sumanettovatuewaluta += nettowaluta;
-                            break;
-                        }
+                    }
+                }
+    //            if (klienciWDTWNT.size() > 0) {
+    //                VatUe rzadpodsumowanie = new VatUe("podsum.", null, Z.z(sumanettovatue), Z.z(sumanettovatuewaluta));
+    //                klienciWDTWNT.add(rzadpodsumowanie);
+    //                zachowajwbazie(String.valueOf(rok), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
+    //            }
+            }
+            List<KlientJPK> lista = klientJPKDAO.findbyKlientRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            if (lista!=null) {
+                 klienciWDTWNT.addAll(kontrahenciUEJPK(lista));
+                 for (KlientJPK p : lista) {
+                    for (VatUe s : klienciWDTWNT) {
+                        if (p.getNrKontrahenta().equals(s.getKontrahentwyborNIP())) {
+                                double netto = p.getNetto();
+                                double nettowaluta = p.getNettowaluta();
+                                s.setNetto(netto + s.getNetto());
+                                s.setNettowaluta(nettowaluta + s.getNettowaluta());
+                                s.setLiczbadok(s.getLiczbadok() + 1);
+                                s.setNazwawaluty(new Waluty());
+                                break;
+                            }
+                    }
                 }
             }
-//            if (klienciWDTWNT.size() > 0) {
-//                VatUe rzadpodsumowanie = new VatUe("podsum.", null, Z.z(sumanettovatue), Z.z(sumanettovatuewaluta));
-//                klienciWDTWNT.add(rzadpodsumowanie);
-//                zachowajwbazie(String.valueOf(rok), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
-//            }
-        }
-        List<KlientJPK> lista = klientJPKDAO.findbyKlientRokMc(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        if (lista!=null) {
-             klienciWDTWNT.addAll(kontrahenciUEJPK(lista));
-             for (KlientJPK p : lista) {
-                for (VatUe s : klienciWDTWNT) {
-                    if (p.getNrKontrahenta().equals(s.getKontrahentwyborNIP())) {
-                            double netto = p.getNetto();
-                            double nettowaluta = p.getNettowaluta();
-                            s.setNetto(netto + s.getNetto());
-                            s.setNettowaluta(nettowaluta + s.getNettowaluta());
-                            s.setLiczbadok(s.getLiczbadok() + 1);
-                            s.setNazwawaluty(new Waluty());
-                            break;
-                        }
+            try {
+                pobierzdeklaracjeUE();
+                DeklaracjavatUE d = deklaracjavatUEDAO.findbyPodatnikRokMc(wpisView);
+                if (d != null) {
+                    deklaracja0korekta1 = true;
                 }
+            } catch (Exception e) { 
+                E.e(e); 
             }
-        }
-        try {
-            pobierzdeklaracjeUE();
-            DeklaracjavatUE d = deklaracjavatUEDAO.findbyPodatnikRokMc(wpisView);
-            if (d != null) {
-                deklaracja0korekta1 = true;
-            }
-        } catch (Exception e) { 
-            E.e(e); 
+            inicjacjabyla = true;
         }
     }
-    
-    public void init2() {
-        try {
-            pobierzdeklaracjeUE();
-            DeklaracjavatUE d = deklaracjavatUEDAO.findbyPodatnikRokMc(wpisView);
-            if (d != null) {
-                deklaracja0korekta1 = true;
-            } else {
-                deklaracja0korekta1 = false;
+
+        public void init2() {
+            try {
+                pobierzdeklaracjeUE();
+                DeklaracjavatUE d = deklaracjavatUEDAO.findbyPodatnikRokMc(wpisView);
+                if (d != null) {
+                    deklaracja0korekta1 = true;
+                } else {
+                    deklaracja0korekta1 = false;
+                }
+            } catch (Exception e) { 
+                E.e(e); 
             }
-        } catch (Exception e) { 
-            E.e(e); 
-        }
+            
     }
     
     public void init3() {

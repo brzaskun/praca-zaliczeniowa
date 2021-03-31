@@ -5,12 +5,13 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <ui:composition template="/template.xhtml">
 
+      
         <ui:define name="title">
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
+            
                 <f:view>
-                    <f:event type="preRenderView"  listener="#{vatUeFKView.init()}"/>
                     <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
                         <ui:include src="sub/layoutVat/north.xhtml"/>  <!-- panel polnocny-->
                         <ui:include src="sub/layoutVat/south.xhtml"/>   <!-- panel poludniowy-->
@@ -19,6 +20,7 @@
                         <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
                             <p:tabView style="width: 1400px;" id="akordeon">
                                 <p:tab title="bieżące">
+                                   
                                     <ui:include src="sub/vatue.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                                 </p:tab>
                                 <p:tab title="archiwalne">
