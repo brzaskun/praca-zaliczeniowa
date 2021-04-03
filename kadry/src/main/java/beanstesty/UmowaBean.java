@@ -5,8 +5,13 @@
  */
 package beanstesty;
 
+import data.Data;
+import entity.Angaz;
+import entity.Slownikszkolazatrhistoria;
 import entity.Umowa;
 import java.util.ArrayList;
+import kadryiplace.Osoba;
+import kadryiplace.ZatrudHist;
 
 /**
  *
@@ -31,7 +36,7 @@ public class UmowaBean {
             umowa.setEmerytalne(Boolean.TRUE);
             umowa.setCzastrwania("umowa na okres próbny");
             umowa.setKodzawodu(KodzawoduBean.create());
-            umowa.setKosztyuzyskania(250.0);
+            umowa.setKosztyuzyskaniaprocent(250.0);
             umowa.setNfz("16");
             umowa.setNieliczFGSP(Boolean.FALSE);
             umowa.setNieliczFP(Boolean.FALSE);
@@ -46,6 +51,41 @@ public class UmowaBean {
             umowa.setSkladnikpotraceniaList(new ArrayList<>());
             umowa.getSkladnikpotraceniaList().add(SkladnikpotraceniaBean.create());
         }
+        return umowa;
+    }
+    
+     public static Umowa create(Osoba osoba, Angaz angaz, ZatrudHist r, Slownikszkolazatrhistoria s) {
+            Umowa umowa = new Umowa();
+            umowa.setAngaz(angaz);
+            umowa.setChorobowe(Boolean.TRUE);
+            umowa.setChorobowedobrowolne(Boolean.FALSE);
+            umowa.setDatanfz(Data.data_yyyyMMddNull(r.getZahDataOd()));
+            umowa.setDataod(Data.data_yyyyMMddNull(r.getZahDataOd()));
+            umowa.setDatado(Data.data_yyyyMMddNull(r.getZahDataDo()));
+            umowa.setDataspoleczne(Data.data_yyyyMMddNull(r.getZahDataOd()));
+            umowa.setDatazawarcia(Data.data_yyyyMMddNull(r.getZahDataOd()));
+            umowa.setDatazdrowotne(Data.data_yyyyMMddNull(r.getZahDataOd()));
+            umowa.setSlownikszkolazatrhistoria(s);
+            umowa.setLiczdourlopu(true);
+            if (s.getPraca0nauka1()==false) {
+                umowa.setPrzyczynawypowiedzenia(r.getZahZwolUwagi());
+                umowa.setEmerytalne(Boolean.TRUE);
+                umowa.setCzastrwania("umowa na okres próbny");
+                umowa.setKosztyuzyskaniaprocent(osoba.getOsoWynKosztyProc().doubleValue());
+                umowa.setKwotawolnaprocent(osoba.getOsoPodWolnaProc().doubleValue());
+                umowa.setNfz("16");
+                umowa.setNieliczFGSP(Boolean.FALSE);
+                umowa.setNieliczFP(Boolean.FALSE);
+                umowa.setOdliczaculgepodatkowa(Boolean.TRUE);
+                umowa.setRentowe(Boolean.TRUE);
+                umowa.setWypadkowe(Boolean.TRUE);
+                umowa.setZdrowotne(Boolean.TRUE);
+                umowa.setLiczdoemerytury(true);
+                umowa.setLiczdonagrody(true);
+                umowa.setLiczdostazowego(true);
+                umowa.setAktywna(r.getZahStatus().equals('H')?false:true);
+                osoba.getOsoUrzSerial();
+            }
         return umowa;
     }
         

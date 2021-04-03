@@ -110,6 +110,24 @@ public class AngazView  implements Serializable {
             }
         }
     }
+   
+   public void aktywuj() {
+        if (selectedlista!=null) {
+            wpisView.setAngaz(selectedlista);
+            wpisView.setPracownik(selectedlista.getPracownik());
+            List<Umowa> umowy = wpisView.getAngaz().getUmowaList();
+            if (umowy!=null && umowy.size()==1) {
+                wpisView.setUmowa(umowy.get(0));
+            }
+            umowaView.init();
+            skladnikWynagrodzeniaView.init();
+            zmiennaWynagrodzeniaView.init();
+            kalendarzmiesiacView.init();
+            etatView.init();
+            Msg.msg("Aktywowano pracownika");
+        }
+    }
+    
     
    public void aktywuj(Angaz angaz) {
         if (angaz!=null) {
@@ -138,6 +156,7 @@ public class AngazView  implements Serializable {
             Pracownik prac = angaz.getPracownik();
             angazFacade.remove(angaz);
             lista.remove(angaz);
+            pracownikView.init();
             Msg.msg("Usunięto angaż");
             try {
                 Uz uzer = uzFacade.findUzByLogin(prac.getEmail());

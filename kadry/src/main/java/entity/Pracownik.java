@@ -20,6 +20,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -31,9 +33,9 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 //docelowo trzeba to zrobic
-//@Table(name = "pracownik", uniqueConstraints = {
-//    @UniqueConstraint(columnNames={"pesel"})
-//})
+@Table(name = "pracownik", uniqueConstraints = {
+    @UniqueConstraint(columnNames={"pesel"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Pracownik.findAll", query = "SELECT p FROM Pracownik p"),
@@ -68,7 +70,7 @@ public class Pracownik implements Serializable {
     @Column(name = "miejsceurodzenia")
     private String miejsceurodzenia;
     @Size(max = 11)
-    @Column(name = "pesel")
+    @Column(name = "pesel", unique = true)
     private String pesel;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 128)

@@ -289,6 +289,15 @@ public class Data implements Serializable {
         }
 	return zwrot;
     }
+    
+    public static String data_yyyyMMddNull(Date date) {
+        String zwrot = null;
+        if (date != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            zwrot = sdf.format(date);
+        }
+	return zwrot;
+    }
 
     public static boolean czyjestpomiedzy (String dataOd, String dataDo, String rok, String mc) {
         return czyjestpo(dataOd, rok, mc) && czyjestprzed(dataDo, rok, mc);

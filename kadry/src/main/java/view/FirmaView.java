@@ -40,7 +40,12 @@ public class FirmaView  implements Serializable {
     private UzFacade uzFacade;
     @Inject
     private WpisView wpisView;
+    @Inject
     private PracownikView pracownikView;
+    @Inject
+    private AngazView angazView;
+    @Inject
+    private PracodawcaDaneView pracodawcaDaneView;
     
     @PostConstruct
     private void init() {
@@ -78,6 +83,8 @@ public class FirmaView  implements Serializable {
                 wpisView.setAngaz(null);
                 wpisView.setUmowa(null);
             }
+            angazView.init();
+            pracodawcaDaneView.init();
             Msg.msg("Aktywowano firmę "+firma.getNazwa());
         }
     }

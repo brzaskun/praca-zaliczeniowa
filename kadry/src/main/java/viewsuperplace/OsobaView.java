@@ -6,8 +6,18 @@
 package viewsuperplace;
 
 import DAOsuperplace.OsobaFacade;
+import dao.AngazFacade;
+import dao.PracownikFacade;
+import dao.SlownikszkolazatrhistoriaFacade;
+import dao.SlownikwypowiedzenieumowyFacade;
+import dao.UmowaFacade;
 import data.Data;
+import entity.Angaz;
+import entity.FirmaKadry;
 import entity.Pracownik;
+import entity.Slownikszkolazatrhistoria;
+import entity.Slownikwypowiedzenieumowy;
+import entity.Umowa;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.view.ViewScoped;
@@ -17,10 +27,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import kadryiplace.Osoba;
 import kadryiplace.OsobaPrz;
-import kadryiplace.Place;
-import kadryiplace.PlacePrz;
-import kadryiplace.StanHist;
-import kadryiplace.ZatrudHist;
+import msg.Msg;
+import view.WpisView;
 
 /**
  *
@@ -32,73 +40,89 @@ public class OsobaView implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private OsobaFacade osobaFacade;
-    
-    
+    @Inject
+    private WpisView wpisView;
+    @Inject
+    private SlownikszkolazatrhistoriaFacade  slownikszkolazatrhistoriaFacade;
+    @Inject
+    private SlownikwypowiedzenieumowyFacade  slownikwypowiedzenieumowyFacade;
+    @Inject
+    private PracownikFacade pracownikFacade;
+    @Inject
+    private AngazFacade angazFacade;
+    @Inject
+    private UmowaFacade umowaFacade;
     
     
     
     public void rob() {
         //List<Osoba> podatnicy = osobaFacade.findAll();
-        Osoba p = osobaFacade.findByPesel("83020610048");
-        Pracownik pracownik = new Pracownik();
-        pracownik.setImie(p.getOsoImie1());
-        pracownik.setDrugieimie(p.getOsoImie2());
-        pracownik.setPesel(p.getOsoPesel());
-        pracownik.setDowodosobisty(p.getOsoDodVchar1());
-        pracownik.setDataurodzenia(Data.data_yyyyMMdd(p.getOsoUrodzData()));
-        pracownik.setPlec(p.getOsoPlec().toString());
-        pracownik.setOjciec(p.getOsoImieOjca());
-        pracownik.setMatka(p.getOsoImieMatki());
-        pracownik.setMiejsceurodzenia(p.getOsoMiejsceUr());
-        pracownik.setFormawynagrodzenia(p.getOsoWynForma());
-        pracownik.setBankkonto(p.getOsoKonto());
-        pracownik.setDatazatrudnienia(p.getOsoDataZatr());
-        pracownik.setDatazwolnienia(p.getOsoDataZwol());
-        //tu sa wszystkie umowy
-        List<ZatrudHist> zatrudHist = p.getZatrudHistList();
-        for (ZatrudHist r : zatrudHist) {
-            try {
-                //typ P - tenpracodawca, I inny prac, E-edukacja
-                String zatrudnieniehist = Data.data_yyyyMMdd(r.getZahDataOd())+" "+Data.data_yyyyMMdd(r.getZahDataDo())+" "+r.getZahTyp()+" "+r.getZahStatus();
-                System.out.println(zatrudnieniehist);
-            } catch (Exception e){}
-        }
-        List<StanHist> stanHist = p.getStanHistList();
-        for (StanHist r : stanHist) {
-            try {
-                //typ P - tenpracodawca, I inny prac, E-edukacja
-                String stanowisko = Data.data_yyyyMMdd(r.getSthDataOd())+" "+Data.data_yyyyMMdd(r.getSthDataDo())+" "+r.getSthStaSerial().getStaNazwa();
-                System.out.println(stanowisko);
-            } catch (Exception e){}
-        }
-        String imienaziwko = p.getOsoNazwisko()+" "+p.getOsoImie1();
-        System.out.println(imienaziwko);
-        String firmanazwa = p.getOsoFirSerial().getFirNazwaPel();
-        String firBiuroNip = p.getOsoFirSerial().getFirBiuroNip();
-        System.out.println(firBiuroNip);
-        String osoKonto = p.getOsoKonto(); 
-        List<OsobaPrz> osobaPrzList = p.getOsobaPrzList();
-        for (OsobaPrz r : osobaPrzList) {
-            try {
-                String przerwa = Data.data_yyyyMMdd(r.getOspDataOd())+" "+Data.data_yyyyMMdd(r.getOspDataDo())+" "+r.getOspAbsSerial().getAbsOpis()+" "+r.getOspAbsSerial().getAbsKod();
-                System.out.println(przerwa);
-            } catch (Exception e){}
-        }
-        List<Place> placeList = p.getPlaceList();
-         for (Place r : placeList) {
-            try {
-                String przerwa = Data.data_yyyyMMdd(r.getLplDataWyplaty())+" "+r.getLplPdstZus()+" "+r.getLplPodDoch()+" "+r.getLplPit4();
-                System.out.println(przerwa);
-            } catch (Exception e){}
-        }
-         List<PlacePrz> placeprz = p.getPlacePrzList();
-         for (PlacePrz r : placeprz) {
-            try {
-                String przerwa = Data.data_yyyyMMdd(r.getPrzDataOd())+" "+Data.data_yyyyMMdd(r.getPrzDataDo())+" "+r.getPrzAbsencja()+" "+r.getPrzWyp()+" "+r.getPrzChorWyp();
-                System.out.println(przerwa);
-            } catch (Exception e){}
-        }
-        
+        Osoba osoba = osobaFacade.findByPesel("83020610048");
+        Pracownik pracownik = OsobaBean.pobierzOsobaBasic(osoba);
+        pracownikFacade.create(pracownik);
+        FirmaKadry firma = wpisView.getFirma();
+        Angaz angaz = OsobaBean.nowyangaz(pracownik,firma);
+        angazFacade.create(angaz);
+        List<Slownikszkolazatrhistoria> rodzajezatr = slownikszkolazatrhistoriaFacade.findAll();
+        List<Slownikwypowiedzenieumowy> rodzajewypowiedzenia = slownikwypowiedzenieumowyFacade.findAll();
+        List<Umowa> umowy = OsobaBean.pobierzumowy(osoba, angaz, rodzajezatr, rodzajewypowiedzenia);
+        umowaFacade.createList(umowy);
+//        
+//        List<StanHist> stanHist = osoba.getStanHistList();
+//        Short formawynagrodzenia = osoba.getOsoWynForma();
+//        //Formyzap p = Formyzap.get(formawynagrodzenia);
+//        for (StanHist r : stanHist) {
+//            try {
+//                //typ P - tenpracodawca, I inny prac, E-edukacja
+//                String stanowisko = Data.data_yyyyMMdd(r.getSthDataOd())+" "+Data.data_yyyyMMdd(r.getSthDataDo())+" "+r.getSthStaSerial().getStaNazwa();
+//                System.out.println(stanowisko);
+//            } catch (Exception e){}
+//        }
+//        List<WymiarHist> wymiarHist = osoba.getWymiarHistList();
+//        for (WymiarHist r : wymiarHist) {
+//            try {
+//                //typ P - tenpracodawca, I inny prac, E-edukacja
+//                String etat = Data.data_yyyyMMdd(r.getWehDataOd())+" "+Data.data_yyyyMMdd(r.getWehDataDo())+" "+r.getWehEtat1()+"/"+r.getWehEtat2()+" "+r.getWehStatus();
+//                System.out.println(etat);
+//            } catch (Exception e){}
+//        }
+//        //ubezpieczenia u danej osoby
+//        List<OsobaDet> osobaDet = osoba.getOsobaDetList();
+//        for (OsobaDet r : osobaDet) {
+//            try {
+//                //typ P - tenpracodawca, I inny prac, E-edukacja
+//                String ubezp = r.getOsdEmerProc()+" "+r.getOsdChorProc();
+//                System.out.println(ubezp);
+//            } catch (Exception e){}
+//        }
+//        String imienaziwko = osoba.getOsoNazwisko()+" "+osoba.getOsoImie1();
+//        System.out.println(imienaziwko);
+//        String firmanazwa = osoba.getOsoFirSerial().getFirNazwaPel();
+//        String firBiuroNip = osoba.getOsoFirSerial().getFirBiuroNip();
+//        System.out.println(firBiuroNip);
+//        String osoKonto = osoba.getOsoKonto(); 
+//        List<OsobaPrz> osobaPrzList = osoba.getOsobaPrzList();
+//        for (OsobaPrz r : osobaPrzList) {
+//            try {
+//                String przerwa = Data.data_yyyyMMdd(r.getOspDataOd())+" "+Data.data_yyyyMMdd(r.getOspDataDo())+" "+r.getOspAbsSerial().getAbsOpis()+" "+r.getOspAbsSerial().getAbsKod();
+//                System.out.println(przerwa);
+//            } catch (Exception e){}
+//        }
+//        List<Place> placeList = osoba.getPlaceList();
+//         for (Place r : placeList) {
+//            try {
+//                String przerwa = Data.data_yyyyMMdd(r.getLplDataWyplaty())+" "+r.getLplPdstZus()+" "+r.getLplPodDoch()+" "+r.getLplPit4();
+//                System.out.println(przerwa);
+//            } catch (Exception e){}
+//        }
+//         List<PlacePrz> placeprz = osoba.getPlacePrzList();
+//         for (PlacePrz r : placeprz) {
+//            try {
+//                String przerwa = Data.data_yyyyMMdd(r.getPrzDataOd())+" "+Data.data_yyyyMMdd(r.getPrzDataDo())+" "+r.getPrzAbsencja()+" "+r.getPrzWyp()+" "+r.getPrzChorWyp();
+//                System.out.println(przerwa);
+//            } catch (Exception e){}
+//        }
+        Msg.msg("Pracownik pobrany");
         System.out.println("");
     }
     

@@ -90,8 +90,10 @@ public class Umowa implements Serializable {
     @Column(name = "stanowisko")
     private String stanowisko;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "kosztyuzyskania")
-    private double kosztyuzyskania;
+    @Column(name = "kosztyuzyskaniaprocent")
+    private double kosztyuzyskaniaprocent;
+     @Column(name = "kwotawolnaprocent")
+    private double kwotawolnaprocent;
     @Column(name = "odliczaculgepodatkowa")
     private boolean odliczaculgepodatkowa;
     @Column(name = "chorobowe")
@@ -138,11 +140,31 @@ public class Umowa implements Serializable {
     private List<Skladnikpotracenia> skladnikpotraceniaList;
     @OneToMany(mappedBy = "umowa", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Skladnikwynagrodzenia> skladnikwynagrodzeniaList;
-     @Column(name = "aktywna")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "umowa")
+    private List<Stanowiskoprac> stanowiskopracList;
+    @Column(name = "aktywna")
     private  boolean aktywna;
     @Size(max = 10)
     @Column(name = "datasystem")
     private String datasystem;
+    @JoinColumn(name = "slownikszkolazatrhistoria", referencedColumnName = "id")
+    @ManyToOne
+    private  Slownikszkolazatrhistoria slownikszkolazatrhistoria;
+    @Column(name = "liczdourlopu")
+    private  boolean liczdourlopu;
+    @Column(name = "liczdostazowego")
+    private  boolean liczdostazowego;
+    @Column(name = "liczdonagrody")
+    private  boolean liczdonagrody;
+    @Column(name = "liczdoemerytury")
+    private  boolean liczdoemerytury;
+    @JoinColumn(name = "slownikwypowiedzenieumowy", referencedColumnName = "id")
+    @ManyToOne
+    private  Slownikwypowiedzenieumowy slownikwypowiedzenieumowy;
+    @Column(name = "przyczynawypowiedzenia")
+    private String przyczynawypowiedzenia;
+    @Column(name = "opiszawodu")
+    private String opiszawodu;
 
     public Umowa() {
         this.etatList = new ArrayList<>();
@@ -266,12 +288,12 @@ public class Umowa implements Serializable {
 
 
 
-    public  double getKosztyuzyskania() {
-        return kosztyuzyskania;
+    public  double getKosztyuzyskaniaprocent() {
+        return kosztyuzyskaniaprocent;
     }
 
-    public void setKosztyuzyskania( double kosztyuzyskania) {
-        this.kosztyuzyskania = kosztyuzyskania;
+    public void setKosztyuzyskaniaprocent( double kosztyuzyskaniaprocent) {
+        this.kosztyuzyskaniaprocent = kosztyuzyskaniaprocent;
     }
 
     public  boolean getOdliczaculgepodatkowa() {
@@ -446,6 +468,86 @@ public class Umowa implements Serializable {
 
     public void setDatasystem(String datasystem) {
         this.datasystem = datasystem;
+    }
+
+    public Slownikszkolazatrhistoria getSlownikszkolazatrhistoria() {
+        return slownikszkolazatrhistoria;
+    }
+
+    public void setSlownikszkolazatrhistoria(Slownikszkolazatrhistoria slownikszkolazatrhistoria) {
+        this.slownikszkolazatrhistoria = slownikszkolazatrhistoria;
+    }
+
+    public boolean isLiczdourlopu() {
+        return liczdourlopu;
+    }
+
+    public void setLiczdourlopu(boolean liczdourlopu) {
+        this.liczdourlopu = liczdourlopu;
+    }
+
+    public boolean isLiczdostazowego() {
+        return liczdostazowego;
+    }
+
+    public void setLiczdostazowego(boolean liczdostazowego) {
+        this.liczdostazowego = liczdostazowego;
+    }
+
+    public boolean isLiczdonagrody() {
+        return liczdonagrody;
+    }
+
+    public void setLiczdonagrody(boolean liczdonagrody) {
+        this.liczdonagrody = liczdonagrody;
+    }
+
+    public boolean isLiczdoemerytury() {
+        return liczdoemerytury;
+    }
+
+    public void setLiczdoemerytury(boolean liczdoemerytury) {
+        this.liczdoemerytury = liczdoemerytury;
+    }
+
+    public Slownikwypowiedzenieumowy getSlownikwypowiedzenieumowy() {
+        return slownikwypowiedzenieumowy;
+    }
+
+    public void setSlownikwypowiedzenieumowy(Slownikwypowiedzenieumowy slownikwypowiedzenieumowy) {
+        this.slownikwypowiedzenieumowy = slownikwypowiedzenieumowy;
+    }
+
+    public String getPrzyczynawypowiedzenia() {
+        return przyczynawypowiedzenia;
+    }
+
+    public void setPrzyczynawypowiedzenia(String przyczynawypowiedzenia) {
+        this.przyczynawypowiedzenia = przyczynawypowiedzenia;
+    }
+
+    public String getOpiszawodu() {
+        return opiszawodu;
+    }
+
+    public void setOpiszawodu(String opiszawodu) {
+        this.opiszawodu = opiszawodu;
+    }
+
+    public double getKwotawolnaprocent() {
+        return kwotawolnaprocent;
+    }
+
+    public void setKwotawolnaprocent(double kwotawolnaprocent) {
+        this.kwotawolnaprocent = kwotawolnaprocent;
+    }
+
+    public List<Stanowiskoprac> getStanowiskopracList() {
+        return stanowiskopracList;
+    }
+
+    public void setStanowiskopracList(List<Stanowiskoprac> stanowiskopracList) {
+        this.stanowiskopracList = stanowiskopracList;
     }
     
     

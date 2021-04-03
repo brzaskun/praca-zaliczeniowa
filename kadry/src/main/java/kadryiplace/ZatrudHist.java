@@ -71,10 +71,29 @@ public class ZatrudHist implements Serializable {
     @Size(max = 64)
     @Column(name = "zah_zwol_uwagi", length = 64)
     private String zahZwolUwagi;
+    //H historyczny A aktualny
     @Basic(optional = false)
     @NotNull
     @Column(name = "zah_status", nullable = false)
     private Character zahStatus;
+    //A - zasadnicza szkoła zawodowa
+    //B - średnia szkoła zawodowa
+    //Z - średnia szkoła zawodowa dla absolwentow ZSZ
+    //V - liceum zawodowe
+    //C - szkola ogólnokształcąca
+    //D - szkoła policealna
+    //E - szkola wyzsza
+    //I - inny pracodawca
+    //J - inny okres
+    //Y - okres pobytu w ewidencji dla bezrobotnych
+    //Z - okres pobierania zasiłku dla bezrobotnych
+    //W - służba wojskowa
+    //1 biezacy okres probny
+    //2 biezacy okres wstepny
+    //3 biezacy na czas okreslonej pracy
+    //4 biezacy czas okreslony
+    //5 biezacy czas okreslony zastępstwo
+    //P biezacy nieokreślony
     @Basic(optional = false)
     @NotNull
     @Column(name = "zah_typ", nullable = false)

@@ -39,7 +39,7 @@ public class PracownikView  implements Serializable {
     private WpisView wpisView;
     
     @PostConstruct
-    private void init() {
+    public void init() {
         lista  = pracownikFacade.findAll();
     }
 

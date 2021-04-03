@@ -101,9 +101,11 @@ body {
 .ui-datatable .ui-datatable-data td {
     vertical-align : central;
     word-break: normal;
+    padding: 0px;
 }
 .ui-datatable .ui-datatable-data tr {
     word-break: normal !important;
+    padding: 0px;
 }
 
 

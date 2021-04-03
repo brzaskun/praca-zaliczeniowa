@@ -267,7 +267,7 @@ public class PasekwynagrodzenBean {
         double zzus = pasek.getBruttozus();
         double bezzus = pasek.getBruttobezzus();
         double skladki = pasek.getRazemspolecznepracownik();
-        double kosztyuzyskania = pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskania();
+        double kosztyuzyskania = pasek.getKalendarzmiesiac().getUmowa().getKosztyuzyskaniaprocent();
         double dieta30proc = pasek.getDietaodliczeniepodstawaop();
         double podstawa = Z.z0(zzus+bezzus-skladki-kosztyuzyskania-dieta30proc) > 0.0 ? Z.z0(zzus+bezzus-skladki-kosztyuzyskania-dieta30proc) :0.0;
         pasek.setPodstawaopodatkowania(podstawa);
