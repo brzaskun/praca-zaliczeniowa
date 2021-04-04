@@ -54,11 +54,10 @@ public class UmowaBean {
         return umowa;
     }
     
-     public static Umowa create(Osoba osoba, Angaz angaz, ZatrudHist r, Slownikszkolazatrhistoria s) {
+     public static Umowa create(int numerumowy, Osoba osoba, Angaz angaz, ZatrudHist r, Slownikszkolazatrhistoria s) {
             Umowa umowa = new Umowa();
             umowa.setAngaz(angaz);
-            umowa.setChorobowe(Boolean.TRUE);
-            umowa.setChorobowedobrowolne(Boolean.FALSE);
+            umowa.setNrkolejny(String.valueOf(numerumowy)+"/"+String.valueOf(angaz.getId()));
             umowa.setDatanfz(Data.data_yyyyMMddNull(r.getZahDataOd()));
             umowa.setDataod(Data.data_yyyyMMddNull(r.getZahDataOd()));
             umowa.setDatado(Data.data_yyyyMMddNull(r.getZahDataDo()));
@@ -69,6 +68,8 @@ public class UmowaBean {
             umowa.setLiczdourlopu(true);
             if (s.getPraca0nauka1()==false) {
                 umowa.setPrzyczynawypowiedzenia(r.getZahZwolUwagi());
+                umowa.setChorobowe(Boolean.TRUE);
+                umowa.setChorobowedobrowolne(Boolean.FALSE);
                 umowa.setEmerytalne(Boolean.TRUE);
                 umowa.setCzastrwania("umowa na okres próbny");
                 umowa.setKosztyuzyskaniaprocent(osoba.getOsoWynKosztyProc().doubleValue());

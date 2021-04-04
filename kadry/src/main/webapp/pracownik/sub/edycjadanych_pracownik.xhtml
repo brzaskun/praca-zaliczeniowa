@@ -28,7 +28,7 @@
         </p:outputPanel>
         <p:outputPanel>
             <h:form id="PracownikListForm">
-                <p:panel header="Wykaz pracowników w programie">
+                <p:panel header="Wykaz pracowników w programieAA">
                     <p:dataTable id="datalist" value="#{pracownikView.lista}" var="item2"
                                  selectionMode="single" selection="#{pracownikView.selectedlista}" 
                                  rowKey="#{item2.pesel}" sortBy="#{item2.nazwisko}" filteredValue="#{pracownikView.listafiltered}"
@@ -95,7 +95,7 @@
                              <h:outputText value="#{item2.czyjestumowa}"/>
                         </p:column>
                         <p:column width="50" style="text-align: center;">
-                            <p:commandButton icon="fa fa-trash" actionListener="#{pracownikView.usun(item2)}" update="north,@(form)"/>
+                            <p:commandButton icon="fa fa-trash" actionListener="#{pracownikView.usun(item2)}" update="north PracownikListForm"/>
                         </p:column>
                     </p:dataTable>
                 </p:panel>

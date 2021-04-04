@@ -7,7 +7,7 @@ package view;
 
 import beanstesty.KodzawoduBean;
 import dao.AngazFacade;
-import dao.EtatFacade;
+import dao.EtatPracFacade;
 import dao.KalendarzmiesiacFacade;
 import dao.KalendarzwzorFacade;
 import dao.KodyzawodowFacade;
@@ -58,7 +58,7 @@ public class UmowaView  implements Serializable {
     @Inject
     private KodyzawodowFacade kodyzawodowFacade;
     @Inject
-    private EtatFacade etatFacade;
+    private EtatPracFacade etatFacade;
     @Inject
     private UmowakodzusFacade rodzajumowyFacade;
     @Inject

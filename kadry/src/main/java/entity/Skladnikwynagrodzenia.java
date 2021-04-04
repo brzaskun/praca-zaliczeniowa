@@ -38,30 +38,30 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Skladnikwynagrodzenia.findByPracownik", query = "SELECT s FROM Skladnikwynagrodzenia s WHERE s.umowa.angaz.pracownik = :pracownik")
 })
 public class Skladnikwynagrodzenia implements Serializable {
-
-    @Size(max = 255)
-    @Column(name = "uwagi")
-    private String uwagi;
-    @JoinColumn(name = "rodzajwynagrodzenia", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Rodzajwynagrodzenia rodzajwynagrodzenia;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @JoinColumn(name = "rodzajwynagrodzenia", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Rodzajwynagrodzenia rodzajwynagrodzenia;
+    @JoinColumn(name = "umowa", referencedColumnName = "id")
+    @ManyToOne
+    private Umowa umowa;
+    @Column(name = "oddelegowanie")
+    private  boolean oddelegowanie;
+    @Size(max = 255)
+    @Column(name = "uwagi")
+    private String uwagi;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikwynagrodzenia", orphanRemoval = true)
+    private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikwynagrodzenia", orphanRemoval = true)
     private List<Zmiennawynagrodzenia> zmiennawynagrodzeniaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikwynagrodzenia", orphanRemoval = true)
     private List<Naliczenieskladnikawynagrodzenia> naliczenieskladnikawynagrodzeniaList;
-    @JoinColumn(name = "umowa", referencedColumnName = "id")
-    @ManyToOne
-    private Umowa umowa;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "skladnikwynagrodzenia", orphanRemoval = true)
-    private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
-    @Column(name = "oddelegowanie")
-    private  boolean oddelegowanie;
+    
 
     public Skladnikwynagrodzenia() {
         this.zmiennawynagrodzeniaList = new ArrayList<>();

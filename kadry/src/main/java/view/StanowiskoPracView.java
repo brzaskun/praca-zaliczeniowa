@@ -5,8 +5,8 @@
  */
 package view;
 
-import dao.EtatPracFacade;
-import entity.EtatPrac;
+import dao.StanowiskopracFacade;
+import entity.Stanowiskoprac;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -21,14 +21,14 @@ import msg.Msg;
  */
 @Named
 @RequestScoped
-public class EtatView implements Serializable {
+public class StanowiskoPracView implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
-    private EtatPrac selected;
+    private Stanowiskoprac selected;
     @Inject
-    private EtatPracFacade etatFacade;
-    private List<EtatPrac> lista;
-    private EtatPrac selectedlista;
+    private StanowiskopracFacade stanowiskopracFacade;
+    private List<Stanowiskoprac> lista;
+    private Stanowiskoprac selectedlista;
     
     @Inject
     private WpisView wpisView;
@@ -36,16 +36,16 @@ public class EtatView implements Serializable {
     @PostConstruct
     public void init() {
         selected.setUmowa(wpisView.getUmowa());
-        lista = etatFacade.findByUmowa(wpisView.getUmowa());
+        lista = stanowiskopracFacade.findByUmowa(wpisView.getUmowa());
     }
     
     public void create() {
       if (selected!=null && wpisView.getUmowa()!=null) {
           try {
             selected.setUmowa(wpisView.getUmowa());
-            etatFacade.create(selected);
+            stanowiskopracFacade.create(selected);
             lista.add(selected);
-            selected = new EtatPrac();
+            selected = new Stanowiskoprac();
             Msg.msg("Dodano etat");
           } catch (Exception e) {
               System.out.println("");
@@ -56,9 +56,9 @@ public class EtatView implements Serializable {
       }
     }
     
-    public void usunEtat(EtatPrac zmienna) {
+    public void usun(Stanowiskoprac zmienna) {
         if (zmienna!=null) {
-            etatFacade.remove(zmienna);
+            stanowiskopracFacade.remove(zmienna);
             lista.remove(zmienna);
             Msg.msg("Usunięto etat");
         } else {
@@ -66,27 +66,27 @@ public class EtatView implements Serializable {
         }
     }
 
-    public EtatPrac getSelected() {
+    public Stanowiskoprac getSelected() {
         return selected;
     }
 
-    public void setSelected(EtatPrac selected) {
+    public void setSelected(Stanowiskoprac selected) {
         this.selected = selected;
     }
 
-    public List<EtatPrac> getLista() {
+    public List<Stanowiskoprac> getLista() {
         return lista;
     }
 
-    public void setLista(List<EtatPrac> lista) {
+    public void setLista(List<Stanowiskoprac> lista) {
         this.lista = lista;
     }
 
-    public EtatPrac getSelectedlista() {
+    public Stanowiskoprac getSelectedlista() {
         return selectedlista;
     }
 
-    public void setSelectedlista(EtatPrac selectedlista) {
+    public void setSelectedlista(Stanowiskoprac selectedlista) {
         this.selectedlista = selectedlista;
     }
     

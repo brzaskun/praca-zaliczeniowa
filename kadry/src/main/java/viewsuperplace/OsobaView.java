@@ -7,17 +7,27 @@ package viewsuperplace;
 
 import DAOsuperplace.OsobaFacade;
 import dao.AngazFacade;
+import dao.EtatPracFacade;
 import dao.PracownikFacade;
+import dao.RodzajwynagrodzeniaFacade;
+import dao.SkladnikWynagrodzeniaFacade;
 import dao.SlownikszkolazatrhistoriaFacade;
 import dao.SlownikwypowiedzenieumowyFacade;
+import dao.StanowiskopracFacade;
 import dao.UmowaFacade;
+import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
 import entity.Angaz;
+import entity.EtatPrac;
 import entity.FirmaKadry;
 import entity.Pracownik;
+import entity.Rodzajwynagrodzenia;
+import entity.Skladnikwynagrodzenia;
 import entity.Slownikszkolazatrhistoria;
 import entity.Slownikwypowiedzenieumowy;
+import entity.Stanowiskoprac;
 import entity.Umowa;
+import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.view.ViewScoped;
@@ -29,6 +39,7 @@ import kadryiplace.Osoba;
 import kadryiplace.OsobaPrz;
 import msg.Msg;
 import view.WpisView;
+import z.Z;
 
 /**
  *
@@ -52,6 +63,16 @@ public class OsobaView implements Serializable {
     private AngazFacade angazFacade;
     @Inject
     private UmowaFacade umowaFacade;
+    @Inject
+    private StanowiskopracFacade stanowiskopracFacade;
+    @Inject
+    private EtatPracFacade etatpracFacade;
+    @Inject
+    private RodzajwynagrodzeniaFacade rodzajwynagrodzeniaFacade;
+    @Inject
+    private SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade;
+    @Inject
+    private ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade;
     
     
     
@@ -66,26 +87,21 @@ public class OsobaView implements Serializable {
         List<Slownikszkolazatrhistoria> rodzajezatr = slownikszkolazatrhistoriaFacade.findAll();
         List<Slownikwypowiedzenieumowy> rodzajewypowiedzenia = slownikwypowiedzenieumowyFacade.findAll();
         List<Umowa> umowy = OsobaBean.pobierzumowy(osoba, angaz, rodzajezatr, rodzajewypowiedzenia);
+        Umowa aktywna = umowy.stream().filter(p -> p.isAktywna()).findFirst().get();
         umowaFacade.createList(umowy);
-//        
-//        List<StanHist> stanHist = osoba.getStanHistList();
-//        Short formawynagrodzenia = osoba.getOsoWynForma();
-//        //Formyzap p = Formyzap.get(formawynagrodzenia);
-//        for (StanHist r : stanHist) {
-//            try {
-//                //typ P - tenpracodawca, I inny prac, E-edukacja
-//                String stanowisko = Data.data_yyyyMMdd(r.getSthDataOd())+" "+Data.data_yyyyMMdd(r.getSthDataDo())+" "+r.getSthStaSerial().getStaNazwa();
-//                System.out.println(stanowisko);
-//            } catch (Exception e){}
-//        }
-//        List<WymiarHist> wymiarHist = osoba.getWymiarHistList();
-//        for (WymiarHist r : wymiarHist) {
-//            try {
-//                //typ P - tenpracodawca, I inny prac, E-edukacja
-//                String etat = Data.data_yyyyMMdd(r.getWehDataOd())+" "+Data.data_yyyyMMdd(r.getWehDataDo())+" "+r.getWehEtat1()+"/"+r.getWehEtat2()+" "+r.getWehStatus();
-//                System.out.println(etat);
-//            } catch (Exception e){}
-//        }
+        List<Stanowiskoprac> stanowiska = OsobaBean.pobierzstanowiska(osoba, aktywna);
+        stanowiskopracFacade.createList(stanowiska);
+        Short formawynagrodzenia = osoba.getOsoWynForma();
+        List<EtatPrac> etaty = OsobaBean.pobierzetaty(osoba, aktywna);
+        etatpracFacade.createList(etaty);
+        Rodzajwynagrodzenia rodzajwynagrodzenia = rodzajwynagrodzeniaFacade.findZasadnicze();
+        Skladnikwynagrodzenia skladnikwynagrodzenia = OsobaBean.pobierzskladnikwynagrodzenia(rodzajwynagrodzenia, aktywna);
+        skladnikWynagrodzeniaFacade.create(skladnikwynagrodzenia);
+        Zmiennawynagrodzenia zmiennawynagrodzenia = OsobaBean.pobierzzmiennawynagrodzenia(aktywna, skladnikwynagrodzenia);
+        double kwota = osoba.getOsoWynZasadn().doubleValue();
+        zmiennawynagrodzenia.setKwota(Z.z(kwota));
+        zmiennaWynagrodzeniaFacade.create(zmiennawynagrodzenia);
+
 //        //ubezpieczenia u danej osoby
 //        List<OsobaDet> osobaDet = osoba.getOsobaDetList();
 //        for (OsobaDet r : osobaDet) {

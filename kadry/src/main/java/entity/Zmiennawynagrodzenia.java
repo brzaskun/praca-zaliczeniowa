@@ -58,7 +58,7 @@ public class Zmiennawynagrodzenia implements Serializable {
     @Column(name = "waluta")
     private String waluta;
     @Column(name = "netto0brutto1")
-    private boolean brutto;
+    private boolean netto0brutto1;
     @JoinColumn(name = "skladnikwynagrodzenia", referencedColumnName = "id")
     @ManyToOne
     private Skladnikwynagrodzenia skladnikwynagrodzenia;
@@ -70,13 +70,13 @@ public class Zmiennawynagrodzenia implements Serializable {
 
     public Zmiennawynagrodzenia() {
         this.waluta = "PLN";
-        this.brutto = true;
+        this.netto0brutto1 = true;
     }
 
     public Zmiennawynagrodzenia(int id) {
         this.id = id;
         this.waluta = "PLN";
-        this.brutto = true;
+        this.netto0brutto1 = true;
     }
 
     public Integer getId() {
@@ -163,12 +163,12 @@ public class Zmiennawynagrodzenia implements Serializable {
         this.waluta = waluta;
     }
 
-    public boolean isBrutto() {
-        return brutto;
+    public boolean isNetto0brutto1() {
+        return netto0brutto1;
     }
 
-    public void setBrutto(boolean brutto) {
-        this.brutto = brutto;
+    public void setNetto0brutto1(boolean netto0brutto1) {
+        this.netto0brutto1 = netto0brutto1;
     }
 
     

@@ -22,7 +22,7 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class EtatFacade extends DAO{
+public class EtatPracFacade extends DAO{
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
@@ -42,7 +42,7 @@ public class EtatFacade extends DAO{
         return em;
     }
 
-    public EtatFacade() {
+    public EtatPracFacade() {
         super(EtatPrac.class);
         super.em = em;
     }

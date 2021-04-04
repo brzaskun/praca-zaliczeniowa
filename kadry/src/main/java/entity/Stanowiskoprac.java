@@ -5,7 +5,6 @@
  */
 package entity;
 
-import entity.Umowa;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -35,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Stanowiskoprac.findByDataod", query = "SELECT s FROM Stanowiskoprac s WHERE s.dataod = :dataod"),
     @NamedQuery(name = "Stanowiskoprac.findByDatado", query = "SELECT s FROM Stanowiskoprac s WHERE s.datado = :datado"),
     @NamedQuery(name = "Stanowiskoprac.findByOpis", query = "SELECT s FROM Stanowiskoprac s WHERE s.opis = :opis"),
+    @NamedQuery(name = "Stanowiskoprac.findByUmowa", query = "SELECT s FROM Stanowiskoprac s WHERE s.umowa = :umowa"),
     @NamedQuery(name = "Stanowiskoprac.findByUwagi", query = "SELECT s FROM Stanowiskoprac s WHERE s.uwagi = :uwagi")})
 public class Stanowiskoprac implements Serializable {
 
@@ -63,7 +63,7 @@ public class Stanowiskoprac implements Serializable {
     @Column(name = "uwagi")
     private String uwagi;
     @JoinColumn(name = "umowa", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Umowa umowa;
 
     public Stanowiskoprac() {
@@ -150,7 +150,8 @@ public class Stanowiskoprac implements Serializable {
 
     @Override
     public String toString() {
-        return "DAOsuperplace.Stanowiskoprac[ id=" + id + " ]";
+        return "Stanowiskoprac{" + "dataod=" + dataod + ", datado=" + datado + ", opis=" + opis + ", uwagi=" + uwagi + '}';
     }
+
     
 }
