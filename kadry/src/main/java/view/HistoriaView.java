@@ -115,7 +115,7 @@ public class HistoriaView  implements Serializable {
         List<Umowa> umowy = selectedangaz.getUmowaList();
         if (umowy!=null && umowy.size()>0) {
             Umowa umowa = pobierzaktywna(umowy);
-            String[] poprzedniOkres = Data.poprzedniOkres("01", "2020");
+            String[] poprzedniOkres = Data.poprzedniOkres("01", "2021");
             for (int i=11;i>=0;i--) {
                 Wynagrodzeniahistoryczne wynagrodzeniahistoryczne = new Wynagrodzeniahistoryczne(selectedangaz, poprzedniOkres);
                 wynagrodzeniahistoryczne.setDniobowiazku(dni[i]);

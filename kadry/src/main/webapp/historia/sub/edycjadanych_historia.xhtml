@@ -6,7 +6,15 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
         
     xmlns:bcf="http://brzaskun.com/facelets">
-    <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 300px;width: 1500px;">
+    <p:panelGrid columns="1" columnClasses="thirty-percent, seventy-percent" style="height: 300px;width: 1500px;">
+        <p:outputPanel style="padding: 10px;">
+            <p:panel header="Pobranie danych z programu SuperPłace"/>
+            <h:form id="SuperForm">
+                <p:inputText value="#{osobaView.serial}"></p:inputText>
+                <p:commandButton style="width: 120px" value="pobierz dane" actionListener="#{osobaView.rob()}"/>
+            </h:form>
+        </p:outputPanel>
+
         <p:outputPanel>
             <p:panel header="Wybór pracownika"/>
             <h:form id="HistoriaForm">

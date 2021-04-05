@@ -48,6 +48,10 @@ public class OsobaFacade extends DAO{
         return (Osoba) getEntityManager().createNamedQuery("Osoba.findByOsoPesel").setParameter("osoPesel", pesel).getSingleResult();
     }
     
+    public Osoba findBySerial(String serial) {
+        return (Osoba) getEntityManager().createNamedQuery("Osoba.findByOsoSerial").setParameter("osoSerial", Integer.valueOf(serial)).getSingleResult();
+    }
+    
 
    
 }

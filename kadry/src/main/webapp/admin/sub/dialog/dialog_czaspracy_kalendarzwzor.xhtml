@@ -128,14 +128,15 @@
                     </p:dataTable>
                 </p:panel>
                 <p:outputPanel>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzwzorView.edit}" value="#{bundle.Edit}"  update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist" rendered="#{kalendarzwzorView.selected.id ne null}"/>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzwzorView.create}" value="#{bundle.Save}"  update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist" rendered="#{kalendarzwzorView.selected.id eq null}"/>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzwzorView.nanieszmiany}" value="nanieś pracow."  update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist" rendered="#{kalendarzwzorView.selected.id ne null}"/>
-                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzwzorView.implementuj}" value="implementuj wszyscy"  update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist" rendered="#{kalendarzwzorView.selected.id ne null}"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzwzorView.edit}" value="#{bundle.Edit}"  update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist KalendarzwzormiesiacSaRokForm:datalist" rendered="#{kalendarzwzorView.selected.id ne null}"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzwzorView.create}" value="#{bundle.Save}"  update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist KalendarzwzormiesiacSaRokForm:datalist" rendered="#{kalendarzwzorView.selected.id eq null}"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzwzorView.nanieszmiany}" value="nanieś pracow."  update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist KalendarzwzormiesiacSaRokForm:datalist" rendered="#{kalendarzwzorView.selected.id ne null}"/>
+                    <p:commandButton styleClass="buttonnorm" actionListener="#{kalendarzwzorView.implementuj}" value="implementuj wszyscy"  update="KalendarzwzorCreateForm:mc :KalendarzwzorListForm:datalist KalendarzwzormiesiacSaRokForm:datalist" rendered="#{kalendarzwzorView.selected.id ne null}"/>
                 </p:outputPanel>
            </h:form>
                 <p:outputPanel>
                     <p:panelGrid columns="1">
+                    <h:outputText value="-1 wykluczony"/>
                     <h:outputText value="0 roboczy"/>
                     <h:outputText value="1 sobota"/>
                     <h:outputText value="2 niedziela"/>

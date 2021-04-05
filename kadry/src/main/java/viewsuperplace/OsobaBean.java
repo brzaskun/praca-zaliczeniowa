@@ -6,6 +6,8 @@
 package viewsuperplace;
 
 import beanstesty.UmowaBean;
+import dao.KalendarzmiesiacFacade;
+import dao.KalendarzwzorFacade;
 import data.Data;
 import embeddable.Mce;
 import entity.Angaz;
@@ -13,6 +15,8 @@ import entity.Definicjalistaplac;
 import entity.EtatPrac;
 import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
+import entity.Kalendarzwzor;
+import entity.Nieobecnosc;
 import entity.Pasekwynagrodzen;
 import entity.Pracownik;
 import entity.Rodzajwynagrodzenia;
@@ -26,10 +30,12 @@ import java.util.ArrayList;
 import java.util.List;
 import kadryiplace.Okres;
 import kadryiplace.Osoba;
+import kadryiplace.OsobaPrz;
 import kadryiplace.Place;
 import kadryiplace.StanHist;
 import kadryiplace.WymiarHist;
 import kadryiplace.ZatrudHist;
+import msg.Msg;
 import view.WpisView;
 
 /**
@@ -150,7 +156,46 @@ public class OsobaBean {
         }
         return zwrot;
     }
-
+    
+    static List<Kalendarzmiesiac> generujKalendarzNowaUmowa(Angaz angaz, Pracownik pracownik, Umowa umowa, KalendarzmiesiacFacade kalendarzmiesiacFacade, KalendarzwzorFacade kalendarzwzorFacade, String rok) {
+        List<Kalendarzmiesiac> zwrot = new ArrayList<>();
+        if (angaz!=null && pracownik!=null && umowa!=null) {
+            Integer rokodumowy = Integer.parseInt(Data.getRok(umowa.getDataod()));
+            Integer rokimportu = Integer.parseInt(rok);
+            Integer mcod = Integer.parseInt(Data.getMc(umowa.getDataod()));
+            Integer dzienod = Integer.parseInt(Data.getDzien(umowa.getDataod()));
+            if (rokodumowy<rokimportu) {
+                mcod = 1;
+                dzienod = 1;
+            }
+            for (String mce: Mce.getMceListS()) {
+                Integer kolejnymc = Integer.parseInt(mce);
+                if (kolejnymc>=mcod) {
+                    Kalendarzmiesiac kal = new Kalendarzmiesiac();
+                    kal.setRok(rok);
+                    kal.setMc(mce);
+                    kal.setUmowa(umowa);
+                    Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcUmowa(umowa,rok, mce);
+                    if (kalmiesiac==null) {
+                        Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(kal.getUmowa().getAngaz().getFirma(), kal.getRok(), mce);
+                        if (znaleziono!=null) {
+                            kal.ganerujdnizwzrocowego(znaleziono, dzienod);
+                            zwrot.add(kal);
+                            dzienod = 1;
+                        } else {
+                            Msg.msg("e","Brak kalendarza wzorcowego za "+mce);
+                            break;
+                        }
+                    }
+                }
+            }
+            Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych i utworzono kalendarze pracownika");
+        } else {
+            Msg.msg("e","Nie wybrano pracownika i umowy");
+        }
+        return zwrot;
+    }
+    
     static Skladnikwynagrodzenia pobierzskladnikwynagrodzenia(Rodzajwynagrodzenia rodzajwynagrodzenia, Umowa aktywna) {
         Skladnikwynagrodzenia zwrot = new Skladnikwynagrodzenia();
         zwrot.setUmowa(aktywna);
@@ -203,6 +248,22 @@ public class OsobaBean {
             }
         }
         return paski;
+    }
+
+    static List<Nieobecnosc> pobierznieobecnosci(Osoba osoba, Umowa umowa) {
+        List<Nieobecnosc> zwrot = new ArrayList<>();
+        List<OsobaPrz> osobaPrzList = osoba.getOsobaPrzList();
+        for (OsobaPrz r : osobaPrzList) {
+            try {
+                Nieobecnosc n = new Nieobecnosc(r, umowa);
+                if (n.getUmowa()!=null) {
+                    zwrot.add(n);
+                }
+            } catch (Exception e){
+                System.out.println("");
+            }
+        }
+        return zwrot;
     }
     
 }

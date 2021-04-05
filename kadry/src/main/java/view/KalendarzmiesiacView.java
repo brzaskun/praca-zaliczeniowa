@@ -49,14 +49,14 @@ public class KalendarzmiesiacView  implements Serializable {
         if (szukany==null) {
             selected.setRok(wpisView.getRokWpisu());
             selected.setMc(wpisView.getMiesiacWpisu());
-            listaumowa = new ArrayList<>();
-            try {
-                listaumowa.add(umowaFacade.findPracownikFirmaJeden(wpisView.getPracownik(), wpisView.getFirma()));
-            } catch (Exception e){}
-            pobierzkalendarzeprac();
         } else {
             selected  = kalendarzmiesiacFacade.findByRokMcUmowa(wpisView.getUmowa(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
         }
+        listaumowa = new ArrayList<>();
+        try {
+            listaumowa.add(umowaFacade.findPracownikFirmaJeden(wpisView.getPracownik(), wpisView.getFirma()));
+        } catch (Exception e){}
+        pobierzkalendarzeprac();
     }
         
 

@@ -4,7 +4,8 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    >
+        
+    xmlns:bcf="http://brzaskun.com/facelets">
     <p:dialog id="dialogpracownikanieobecnosci" header="Wprowadzanie nieobecności" widgetVar="dialogpracownikanieobecnosci"  
               resizable="false"  onShow="ustawdialog('dialogpracownikanieobecnosci','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogpracownikanieobecnosci');" 
               fitViewport="true">
@@ -30,6 +31,10 @@
                             </p:selectOneMenu>
                             <p:outputLabel value="kod" for="kod" />
                             <p:inputText id="kod" value="#{nieobecnoscView.selected.nieobecnosckodzus.kod}" title="kod" required="true" readonly="true"/>
+                            <p:outputLabel value="uwagi" for="uwagi" />
+                            <p:inputText id="uwagi" value="#{nieobecnoscView.selected.uzasadnienie}" title="uwagi" />
+                            <p:outputLabel value="procent" for="procent" />
+                            <p:inputText id="procent" value="#{nieobecnoscView.selected.zwolnienieprocent}" title="uwagi" />
                             <p:outputLabel value="data od" for="dataod" />
                             <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="datac od"  placeholder="____-__-__" />
                             <p:outputLabel value="data do" for="datado" />
@@ -56,7 +61,7 @@
                 <p:panel header="Lista nieobecnosci">
                     <p:dataTable id="datalist" value="#{nieobecnoscView.lista}" var="itemNieob"
                                  selectionMode="single" selection="#{angazView.selectedlista}"
-                                 rowKey="#{itemNieob.id}"
+                                 rowKey="#{itemNieob.id}" sortBy="#{itemNieob.dataod}"
                                 style="height: 450px; overflow-y: scroll;"
                                  >
                         <p:column width="40" style="text-align: center;">
@@ -89,11 +94,29 @@
                             </f:facet>
                             <h:outputText value="#{itemNieob.datado}"/>
                         </p:column>
-                         <p:column>
+                        <p:column style="text-align: center">
                             <f:facet name="header">
                                 <h:outputText value="kod zwolnienia"/>
                             </f:facet>
                              <h:outputText value="#{itemNieob.kodzwolnienia}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="przycz."/>
+                            </f:facet>
+                             <h:outputText value="#{itemNieob.uzasadnienie}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="proc."/>
+                            </f:facet>
+                            <bcf:outputpl value="#{itemNieob.zwolnienieprocent}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="seria i nr"/>
+                            </f:facet>
+                            <h:outputText value="#{itemNieob.seriainrzwolnienia}"/>
                         </p:column>
                          <p:column>
                             <f:facet name="header">

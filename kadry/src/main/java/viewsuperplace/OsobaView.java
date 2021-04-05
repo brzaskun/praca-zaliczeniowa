@@ -10,6 +10,8 @@ import dao.AngazFacade;
 import dao.DefinicjalistaplacFacade;
 import dao.EtatPracFacade;
 import dao.KalendarzmiesiacFacade;
+import dao.KalendarzwzorFacade;
+import dao.NieobecnosckodzusFacade;
 import dao.PasekwynagrodzenFacade;
 import dao.PracownikFacade;
 import dao.RodzajwynagrodzeniaFacade;
@@ -22,9 +24,19 @@ import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
 import entity.Angaz;
 import entity.Definicjalistaplac;
+import entity.EtatPrac;
+import entity.FirmaKadry;
 import entity.Kalendarzmiesiac;
+import entity.Nieobecnosc;
 import entity.Pasekwynagrodzen;
+import entity.Pracownik;
+import entity.Rodzajwynagrodzenia;
+import entity.Skladnikwynagrodzenia;
+import entity.Slownikszkolazatrhistoria;
+import entity.Slownikwypowiedzenieumowy;
+import entity.Stanowiskoprac;
 import entity.Umowa;
+import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +51,7 @@ import kadryiplace.OsobaPrz;
 import kadryiplace.Rok;
 import msg.Msg;
 import view.WpisView;
+import z.Z;
 
 /**
  *
@@ -75,81 +88,92 @@ public class OsobaView implements Serializable {
     @Inject
     private DefinicjalistaplacFacade definicjalistaplacFacade;
     @Inject
+    private KalendarzwzorFacade kalendarzwzorFacade;
+    @Inject
     private KalendarzmiesiacFacade kalendarzmiesiacFacade;
     @Inject
     private PasekwynagrodzenFacade pasekwynagrodzenFacade;
+    @Inject
+    private NieobecnosckodzusFacade nieobecnosckodzusFacade;
     
+    private String serial;
     
     
     public void rob() {
         //List<Osoba> podatnicy = osobaFacade.findAll();
-        Osoba osoba = osobaFacade.findByPesel("83020610048");
-//        Pracownik pracownik = OsobaBean.pobierzOsobaBasic(osoba);
-//        pracownikFacade.create(pracownik);
-//        FirmaKadry firma = wpisView.getFirma();
-//        Angaz angaz = OsobaBean.nowyangaz(pracownik,firma);
-//        angazFacade.create(angaz);
-//        List<Slownikszkolazatrhistoria> rodzajezatr = slownikszkolazatrhistoriaFacade.findAll();
-//        List<Slownikwypowiedzenieumowy> rodzajewypowiedzenia = slownikwypowiedzenieumowyFacade.findAll();
-//        List<Umowa> umowy = OsobaBean.pobierzumowy(osoba, angaz, rodzajezatr, rodzajewypowiedzenia);
-//        Umowa aktywna = umowy.stream().filter(p -> p.isAktywna()).findFirst().get();
-//        umowaFacade.createList(umowy);
-//        List<Stanowiskoprac> stanowiska = OsobaBean.pobierzstanowiska(osoba, aktywna);
-//        stanowiskopracFacade.createList(stanowiska);
-//        Short formawynagrodzenia = osoba.getOsoWynForma();
-//        List<EtatPrac> etaty = OsobaBean.pobierzetaty(osoba, aktywna);
-//        etatpracFacade.createList(etaty);
-//        Rodzajwynagrodzenia rodzajwynagrodzenia = rodzajwynagrodzeniaFacade.findZasadnicze();
-//        Skladnikwynagrodzenia skladnikwynagrodzenia = OsobaBean.pobierzskladnikwynagrodzenia(rodzajwynagrodzenia, aktywna);
-//        skladnikWynagrodzeniaFacade.create(skladnikwynagrodzenia);
-//        Zmiennawynagrodzenia zmiennawynagrodzenia = OsobaBean.pobierzzmiennawynagrodzenia(aktywna, skladnikwynagrodzenia);
-//        double kwota = osoba.getOsoWynZasadn().doubleValue();
-//        zmiennawynagrodzenia.setKwota(Z.z(kwota));
-//        zmiennaWynagrodzeniaFacade.create(zmiennawynagrodzenia);
-        List<Rok> rokList = osoba.getOsoFirSerial().getRokList();
-        Rok rok = pobierzrok(wpisView.getRokWpisu(), rokList);
-        List<Okres> okresList = pobierzokresy(Integer.valueOf(wpisView.getMiesiacWpisu()), rok.getOkresList());
-        List<Pasekwynagrodzen> paski = OsobaBean.zrobpaski(wpisView, osoba, okresList);
-        List<Definicjalistaplac> listyplac = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
-        Angaz angaz = angazFacade.findByPeselFirma("83020610048", wpisView.getFirma());
-        List<Umowa> umowy = umowaFacade.findByAngaz(angaz);
-        Umowa aktywna = umowy.stream().filter(p -> p.isAktywna()).findFirst().get();
-        List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, wpisView.getRokWpisu());
-        List<Pasekwynagrodzen> paskigotowe = OsobaBean.przyporzadkuj(paski, listyplac, kalendarze);
-        pasekwynagrodzenFacade.createList(paskigotowe);
+        //Osoba osoba = osobaFacade.findByPesel("83020610048");
+//        Osoba osoba = osobaFacade.findBySerial("1609");
+        if (serial != null) {
+            Osoba osoba = osobaFacade.findBySerial(serial);
+            Pracownik pracownik = OsobaBean.pobierzOsobaBasic(osoba);
+            pracownikFacade.create(pracownik);
+            wpisView.setPracownik(pracownik);
+            FirmaKadry firma = wpisView.getFirma();
+            Angaz angaz = OsobaBean.nowyangaz(pracownik, firma);
+            angazFacade.create(angaz);
+            wpisView.setAngaz(angaz);
+            List<Slownikszkolazatrhistoria> rodzajezatr = slownikszkolazatrhistoriaFacade.findAll();
+            List<Slownikwypowiedzenieumowy> rodzajewypowiedzenia = slownikwypowiedzenieumowyFacade.findAll();
+            List<Umowa> umowy = OsobaBean.pobierzumowy(osoba, angaz, rodzajezatr, rodzajewypowiedzenia);
+            Umowa aktywna = umowy.stream().filter(p -> p.isAktywna()).findFirst().get();
+            umowaFacade.createList(umowy);
+            List<Stanowiskoprac> stanowiska = OsobaBean.pobierzstanowiska(osoba, aktywna);
+            stanowiskopracFacade.createList(stanowiska);
+            Short formawynagrodzenia = osoba.getOsoWynForma();
+            List<EtatPrac> etaty = OsobaBean.pobierzetaty(osoba, aktywna);
+            etatpracFacade.createList(etaty);
+            Rodzajwynagrodzenia rodzajwynagrodzenia = rodzajwynagrodzeniaFacade.findZasadnicze();
+            Skladnikwynagrodzenia skladnikwynagrodzenia = OsobaBean.pobierzskladnikwynagrodzenia(rodzajwynagrodzenia, aktywna);
+            skladnikWynagrodzeniaFacade.create(skladnikwynagrodzenia);
+            Zmiennawynagrodzenia zmiennawynagrodzenia = OsobaBean.pobierzzmiennawynagrodzenia(aktywna, skladnikwynagrodzenia);
+            double kwota = osoba.getOsoWynZasadn().doubleValue();
+            zmiennawynagrodzenia.setKwota(Z.z(kwota));
+            zmiennaWynagrodzeniaFacade.create(zmiennawynagrodzenia);
+            List<Kalendarzmiesiac> generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, wpisView.getRokWpisu());
+            kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa);
+            List<Rok> rokList = osoba.getOsoFirSerial().getRokList();
+            Rok rok = pobierzrok(wpisView.getRokWpisu(), rokList);
+            List<Okres> okresList = pobierzokresy(Integer.valueOf(wpisView.getMiesiacWpisu()), rok.getOkresList());
+            List<Pasekwynagrodzen> paski = OsobaBean.zrobpaski(wpisView, osoba, okresList);
+            List<Definicjalistaplac> listyplac = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
+            //angaz = angazFacade.findByPeselFirma("83020610048", wpisView.getFirma());
+            //List<Umowa> umowy2 = umowaFacade.findByAngaz(angaz);
+            //aktywna = umowy2.stream().filter(p -> p.isAktywna()).findFirst().get();
+            List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, wpisView.getRokWpisu());
+            List<Pasekwynagrodzen> paskigotowe = OsobaBean.przyporzadkuj(paski, listyplac, kalendarze);
+            pasekwynagrodzenFacade.createList(paskigotowe);
+            List<Nieobecnosc> nieobecnosci = OsobaBean.pobierznieobecnosci(osoba, aktywna);
+            for (Nieobecnosc p : nieobecnosci) {
+                if (p.getKodzwolnienia().length() < 3) {
+                    p.setNieobecnosckodzus(nieobecnosckodzusFacade.findByOpis(p.getOpis()));
+                } else {
+                    p.setNieobecnosckodzus(nieobecnosckodzusFacade.findByKod(p.getKodzwolnienia()));
+                }
+            }
+            nieobecnosckodzusFacade.createList(nieobecnosci);
 
-//        //ubezpieczenia u danej osoby
-//        List<OsobaDet> osobaDet = osoba.getOsobaDetList();
-//        for (OsobaDet r : osobaDet) {
-//            try {
-//                //typ P - tenpracodawca, I inny prac, E-edukacja
-//                String ubezp = r.getOsdEmerProc()+" "+r.getOsdChorProc();
-//                System.out.println(ubezp);
-//            } catch (Exception e){}
-//        }
-//        String imienaziwko = osoba.getOsoNazwisko()+" "+osoba.getOsoImie1();
-//        System.out.println(imienaziwko);
-//        String firmanazwa = osoba.getOsoFirSerial().getFirNazwaPel();
-//        String firBiuroNip = osoba.getOsoFirSerial().getFirBiuroNip();
-//        System.out.println(firBiuroNip);
-//        String osoKonto = osoba.getOsoKonto(); 
-//        List<OsobaPrz> osobaPrzList = osoba.getOsobaPrzList();
-//        for (OsobaPrz r : osobaPrzList) {
-//            try {
-//                String przerwa = Data.data_yyyyMMdd(r.getOspDataOd())+" "+Data.data_yyyyMMdd(r.getOspDataDo())+" "+r.getOspAbsSerial().getAbsOpis()+" "+r.getOspAbsSerial().getAbsKod();
-//                System.out.println(przerwa);
-//            } catch (Exception e){}
-//        }
-
-//         List<PlacePrz> placeprz = osoba.getPlacePrzList();
-//         for (PlacePrz r : placeprz) {
-//            try {
-//                String przerwa = Data.data_yyyyMMdd(r.getPrzDataOd())+" "+Data.data_yyyyMMdd(r.getPrzDataDo())+" "+r.getPrzAbsencja()+" "+r.getPrzWyp()+" "+r.getPrzChorWyp();
-//                System.out.println(przerwa);
-//            } catch (Exception e){}
-//        }
-        Msg.msg("Pracownik pobrany");
-        System.out.println("");
+            //        //ubezpieczenia u danej osoby
+            //        List<OsobaDet> osobaDet = osoba.getOsobaDetList();
+            //        for (OsobaDet r : osobaDet) {
+            //            try {
+            //                //typ P - tenpracodawca, I inny prac, E-edukacja
+            //                String ubezp = r.getOsdEmerProc()+" "+r.getOsdChorProc();
+            //                System.out.println(ubezp);
+            //            } catch (Exception e){}
+            //        }
+            //         List<PlacePrz> placeprz = osoba.getPlacePrzList();
+            //         for (PlacePrz r : placeprz) {
+            //            try {
+            //                String przerwa = Data.data_yyyyMMdd(r.getPrzDataOd())+" "+Data.data_yyyyMMdd(r.getPrzDataDo())+" "+r.getPrzAbsencja()+" "+r.getPrzWyp()+" "+r.getPrzChorWyp();
+            //                System.out.println(przerwa);
+            //            } catch (Exception e){}
+            //        }
+            Msg.msg("Pracownik pobrany");
+            System.out.println("koniec");
+        } else {
+            Msg.msg("e", "Brak numeru serial");
+            System.out.println("koniec");
+        }
     }
     
     
@@ -237,6 +261,15 @@ public class OsobaView implements Serializable {
         return zwrot;
     }
 
+    public String getSerial() {
+        return serial;
+    }
+
+    public void setSerial(String serial) {
+        this.serial = serial;
+    }
+
+    
   
     
 }

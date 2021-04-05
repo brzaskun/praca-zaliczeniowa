@@ -24,6 +24,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import kadryiplace.OsobaPrz;
 
 /**
  *
@@ -67,6 +68,22 @@ public class Nieobecnosc implements Serializable {
     private Integer id;
     @OneToMany(mappedBy = "nieobecnosc")
     private List<Naliczenienieobecnosc> naliczenienieobecnoscList;
+    @Size(max = 256)
+    @Column(name = "opis")
+    private String opis;
+    @Size(max = 128)
+    @Column(name = "uzasadnienie")
+    private String uzasadnienie;
+    @Column(name = "dnikalendarzowe")
+    private double dnikalendarzowe;
+    @Column(name = "zwolnienieprocent")
+    private double zwolnienieprocent;
+    @Column(name = "dnirobocze")
+    private double dnirobocze;
+    @Column(name = "godzinyrobocze")
+    private double godzinyrobocze;
+    @Column(name = "seriainrzwolnienia")
+    private String seriainrzwolnienia;
 
    
     public Nieobecnosc() {
@@ -83,7 +100,34 @@ public class Nieobecnosc implements Serializable {
         this.setKodzwolnienia(zwrot.getDokumentyEzla().getDaneDokumentu().getSeria()+zwrot.getDokumentyEzla().getDaneDokumentu().getNumer());
     }
 
-   
+    public Nieobecnosc(OsobaPrz r, Umowa umowa) {
+        if (r.getOspWkpSerial()!=null) {
+            this.dataod = Data.data_yyyyMMdd(r.getOspDataOd());
+            this.datado = Data.data_yyyyMMdd(r.getOspDataDo());
+            this.opis = r.getOspWkpSerial().getWkpOpis();
+            this.uzasadnienie = r.getOspVchar1();
+            this.dnikalendarzowe = r.getOspLiczba();
+            this.zwolnienieprocent = r.getOspNum1()!=null?r.getOspNum1().doubleValue():0.0;
+            this.dnirobocze = r.getOspNum3()!=null?r.getOspNum3().doubleValue():0.0;
+            this.godzinyrobocze = r.getOspNum2().doubleValue();
+            this.seriainrzwolnienia = r.getOspVchar2()!=null?r.getOspVchar2().replaceAll("\\s+", ""):null;
+            this.kodzwolnienia = r.getOspWkpSerial().getWkpKod();
+            this.umowa = umowa;
+        } else if (r.getOspAbsSerial()!=null) {
+            this.dataod = Data.data_yyyyMMdd(r.getOspDataOd());
+            this.datado = Data.data_yyyyMMdd(r.getOspDataDo());
+            this.opis = r.getOspAbsSerial().getAbsOpis();
+            this.uzasadnienie = r.getOspVchar1();
+            this.dnikalendarzowe = r.getOspLiczba();
+            this.godzinyrobocze = r.getOspNum2().doubleValue();
+            this.kodzwolnienia = r.getOspAbsSerial().getAbsKod().toString();
+            this.umowa = umowa;
+        } else {
+            System.out.println("");
+        }
+    }
+
+     
 
     public Integer getId() {
         return id;
@@ -175,6 +219,62 @@ public class Nieobecnosc implements Serializable {
 
     public void setKodzwolnienia(String kodzwolnienia) {
         this.kodzwolnienia = kodzwolnienia;
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
+    }
+
+    public String getUzasadnienie() {
+        return uzasadnienie;
+    }
+
+    public void setUzasadnienie(String uzasadnienie) {
+        this.uzasadnienie = uzasadnienie;
+    }
+
+    public double getDnikalendarzowe() {
+        return dnikalendarzowe;
+    }
+
+    public void setDnikalendarzowe(double dnikalendarzowe) {
+        this.dnikalendarzowe = dnikalendarzowe;
+    }
+
+    public double getZwolnienieprocent() {
+        return zwolnienieprocent;
+    }
+
+    public void setZwolnienieprocent(double zwolnienieprocent) {
+        this.zwolnienieprocent = zwolnienieprocent;
+    }
+
+    public double getDnirobocze() {
+        return dnirobocze;
+    }
+
+    public void setDnirobocze(double dnirobocze) {
+        this.dnirobocze = dnirobocze;
+    }
+
+    public double getGodzinyrobocze() {
+        return godzinyrobocze;
+    }
+
+    public void setGodzinyrobocze(double godzinyrobocze) {
+        this.godzinyrobocze = godzinyrobocze;
+    }
+
+    public String getSeriainrzwolnienia() {
+        return seriainrzwolnienia;
+    }
+
+    public void setSeriainrzwolnienia(String seriainrzwolnienia) {
+        this.seriainrzwolnienia = seriainrzwolnienia;
     }
     
 }

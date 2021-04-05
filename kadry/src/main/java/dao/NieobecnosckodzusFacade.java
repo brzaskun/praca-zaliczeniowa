@@ -45,4 +45,8 @@ public class NieobecnosckodzusFacade extends DAO  {
     public Nieobecnosckodzus findByKod(String string) {
         return (Nieobecnosckodzus) getEntityManager().createNamedQuery("Nieobecnosckodzus.findByKod").setParameter("kod", string).getSingleResult();
     }
+    
+    public Nieobecnosckodzus findByOpis(String opis) {
+        return (Nieobecnosckodzus) getEntityManager().createNamedQuery("Nieobecnosckodzus.findByOpis").setParameter("opis", opis).getSingleResult();
+    }
 }
