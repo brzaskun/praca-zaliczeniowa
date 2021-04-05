@@ -8,6 +8,7 @@ package dao;
 import entity.Skladnikwynagrodzenia;
 import entity.Umowa;
 import entity.Zmiennawynagrodzenia;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
@@ -21,7 +22,8 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class ZmiennaWynagrodzeniaFacade extends DAO {
+public class ZmiennaWynagrodzeniaFacade extends DAO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;

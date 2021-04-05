@@ -7,6 +7,7 @@ package dao;
 
 import entity.Stanowiskoprac;
 import entity.Umowa;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -21,7 +22,8 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class StanowiskopracFacade extends DAO  {
+public class StanowiskopracFacade extends DAO  implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;

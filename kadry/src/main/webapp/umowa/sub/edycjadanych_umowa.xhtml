@@ -96,8 +96,8 @@
                             <p:outputLabel value="data wprowadzenia do systemu" for="datasystem" />
                             <p:inputText id="datasystem" value="#{umowaView.selected.datasystem}" title="data wprowadzenia do systemu"  placeholder="____-__-__"  styleClass="dataUmowy"/>
                             <h:outputText value="etat"/><h:outputText value=""/>
-                            <p:inputNumber id="etat1" value="#{umowaView.etat1}" size="2" maxValue="9" maxlength="1" decimalPlaces="0" required="true" requiredMessage="Wpisz etat"/>
-                            <p:inputNumber id="etat2" value="#{umowaView.etat2}" size="2" maxValue="9" maxlength="1" decimalPlaces="0" required="true" requiredMessage="Wpisz etat"/>
+                            <p:inputNumber id="etat1" value="#{umowaView.etat1}" size="2" maxValue="9" maxlength="1" decimalPlaces="0" />
+                            <p:inputNumber id="etat2" value="#{umowaView.etat2}" size="2" maxValue="9" maxlength="1" decimalPlaces="0" />
                         </p:panelGrid>
                     </p:panelGrid>
 <!--                    <p:panelGrid columns="1" id="paneldodawaniaetatu" rendered="#{umowaView.selected.id != null}">

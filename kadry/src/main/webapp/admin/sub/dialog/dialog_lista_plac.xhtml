@@ -84,6 +84,7 @@
                                 <p:row>
                                     <p:column width="40" style="text-align: center;">
                                         <h:outputText value="#{indexpasek+1}"/>
+                                        <h:outputText value="/import" style="color:blue;" rendered="#{itempasek.importowany eq true}"/>
                                     </p:column>
                                     <p:column>
                                         <bcf:inputpl value="#{itempasek.bruttobezzus}"/>
@@ -127,7 +128,7 @@
                                                         </p:column>-->
                                 <p:row>
                                     <p:column>
-                                        <h:outputText value="nazwisko i imię"/>
+                                        <h:outputText value="#{itempasek.rok}/#{itempasek.mc}"/>
                                     </p:column>
                                     <p:column>
                                         <h:outputText value="koszty uzyskania"/>

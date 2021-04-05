@@ -109,12 +109,13 @@ public class HistoriaView  implements Serializable {
     
     
     private void generujlistawynhist() {
+        //to sa dni 2020
         Integer[] dni = {21,20,22,21,20,21,23,20,22,22,20,21};
         listawynagrodzenhistoria = new ArrayList<>();
         List<Umowa> umowy = selectedangaz.getUmowaList();
-        if (umowy!=null && umowy.size()==1) {
+        if (umowy!=null && umowy.size()>0) {
             Umowa umowa = pobierzaktywna(umowy);
-            String[] poprzedniOkres = Data.poprzedniOkres(Data.getMc(umowa.getDatasystem()), Data.getRok(umowa.getDatasystem()));
+            String[] poprzedniOkres = Data.poprzedniOkres("01", "2020");
             for (int i=11;i>=0;i--) {
                 Wynagrodzeniahistoryczne wynagrodzeniahistoryczne = new Wynagrodzeniahistoryczne(selectedangaz, poprzedniOkres);
                 wynagrodzeniahistoryczne.setDniobowiazku(dni[i]);

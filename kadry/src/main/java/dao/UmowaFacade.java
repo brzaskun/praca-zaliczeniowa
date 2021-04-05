@@ -9,6 +9,7 @@ import entity.Angaz;
 import entity.FirmaKadry;
 import entity.Pracownik;
 import entity.Umowa;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -23,7 +24,8 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class UmowaFacade extends DAO  {
+public class UmowaFacade extends DAO  implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
@@ -57,7 +59,17 @@ public class UmowaFacade extends DAO  {
         zwrot = getEntityManager().createNamedQuery("Umowa.findByPracownikFirma").setParameter("pracownik", pracownik).setParameter("firma", firma).getResultList();
         return zwrot;
     }
-     
+    public Umowa findPracownikFirmaJeden(Pracownik pracownik, FirmaKadry firma) {
+        Umowa zwrot = null;
+        List<Umowa> lista = new ArrayList<>();
+        lista = getEntityManager().createNamedQuery("Umowa.findByPracownikFirma").setParameter("pracownik", pracownik).setParameter("firma", firma).getResultList();
+        if (!lista.isEmpty()) {
+            zwrot = lista.stream().filter(p->p.isAktywna()).findFirst().get();
+        }
+        return zwrot;
+    }
+    
+    
     public List<Umowa> findByAngaz(Angaz angaz) {
         List<Umowa> zwrot = new ArrayList<>();
         zwrot = getEntityManager().createNamedQuery("Umowa.findByAngaz").setParameter("angaz", angaz).getResultList();

@@ -7,6 +7,7 @@ package dao;
 
 import entity.Memory;
 import entity.Uz;
+import java.io.Serializable;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -19,7 +20,8 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class MemoryFacade extends DAO  {
+public class MemoryFacade extends DAO  implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;

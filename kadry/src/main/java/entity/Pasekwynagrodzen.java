@@ -23,6 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import kadryiplace.Place;
 import z.Z;
 
 /**
@@ -64,7 +65,7 @@ public class Pasekwynagrodzen implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "bruttobezzus")
-private double bruttobezzus;
+    private double bruttobezzus;
     @Column(name = "bruttozus")
     private double bruttozus;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -148,6 +149,12 @@ private double bruttobezzus;
     @JoinColumn(name = "kalendarzmiesiac", referencedColumnName = "id")
     @ManyToOne
     private Kalendarzmiesiac kalendarzmiesiac;
+    @Column(name="rok")
+    private String rok;
+    @Column(name="mc")
+    private String mc;
+    @Column(name="importowany")
+    private boolean importowany;
 
     public Pasekwynagrodzen() {
         this.naliczeniepotracenieList = new ArrayList<>();
@@ -160,6 +167,62 @@ private double bruttobezzus;
         this.naliczeniepotracenieList = new ArrayList<>();
         this.naliczenieskladnikawynagrodzeniaList = new ArrayList<>();
         this.naliczenienieobecnoscList = new ArrayList<>();
+    }
+
+    public Pasekwynagrodzen(Place r) {
+        this.bruttobezzus = r.getLplNiezd().doubleValue();
+        this.bruttozus = r.getLplPodst().doubleValue();
+        this.fgsp = r.getLplFgspPrac().doubleValue();
+        this.fp = r.getLplFpPrac().doubleValue();
+        this.kosztyuzyskania = r.getLplKoszty().doubleValue();
+        this.kwotawolna = r.getLplZalWolna().doubleValue();
+        this.netto = r.getLplKwotaDod2().doubleValue();
+        this.podatekdochodowy = r.getLplZalDoch().doubleValue();
+        this.podstawaopodatkowania = r.getLplPdstPodDoch().doubleValue();
+        this.pracchorobowe = r.getLplChorUbez().doubleValue();
+        this.pracemerytalne = r.getLplEmerUbez().doubleValue();
+        this.pracrentowe = r.getLplRentUbez().doubleValue();
+        this.razemspolecznepracownik = r.getLplPodZusKw().doubleValue();
+        this.praczdrowotne = r.getLplZdroUbez().doubleValue();
+        this.praczdrowotnedodoliczenia = 0.0;
+        this.praczdrowotnedopotracenia = r.getLplPodZdroKw().doubleValue();
+        this.praczdrowotnepomniejszone = this.praczdrowotne-this.praczdrowotnedopotracenia;
+        this.emerytalne = r.getLplEmerPrac().doubleValue();
+        this.rentowe = r.getLplRentPrac().doubleValue();
+        this.wypadkowe = r.getLplWypPrac().doubleValue();
+        this.razemspolecznefirma = this.emerytalne+this.rentowe+this.wypadkowe;
+        this.podatekwstepny = r.getLplKwotaDod6().doubleValue();
+        this.podstawaubezpzdrowotne = r.getLplPdstZdrowotne().doubleValue();
+        this.potracenia = r.getLplPotracenia().doubleValue();
+        this.razem53 = this.fp+this.fgsp;
+        this.kosztpracodawcy = this.bruttozus+this.bruttobezzus+this.razemspolecznefirma;
+        this.dietastawka = 0.0;
+        this.dietaodliczeniepodstawaop = 0.0;
+        this.dieta = 0.0;
+        this.kurs = 0.0;
+        this.limitzus = 0.0;
+        this.dniobowiazku = r.getLplDniObow().intValue();
+        this.dniprzepracowane = r.getLplDniPrzepr().intValue();
+    }
+    
+    public void dodajPasek(Pasekwynagrodzen p) {
+        this.bruttozus = this.bruttozus + p.bruttozus;
+        this.fgsp = this.fgsp + p.fgsp;
+        this.fp = this.fp + p.fp;
+        this.bruttobezzus = this.bruttobezzus + p.bruttobezzus;
+        this.podatekdochodowy = this.podatekdochodowy + p.podatekdochodowy;
+        this.pracchorobowe = this.pracchorobowe + p.pracchorobowe;
+        this.pracemerytalne = this.pracemerytalne + p.pracemerytalne;
+        this.pracrentowe = this.pracrentowe + p.pracrentowe;
+        this.praczdrowotne = this.praczdrowotne + p.praczdrowotne;
+        this.emerytalne = this.emerytalne + p.emerytalne;
+        this.rentowe = this.rentowe + p.rentowe;
+        this.wypadkowe = this.wypadkowe + p.wypadkowe;
+        this.razemspolecznepracownik = this.razemspolecznepracownik + p.razemspolecznepracownik;
+        this.razemspolecznefirma = this.razemspolecznefirma + p.razemspolecznefirma;
+        this.podstawaubezpzdrowotne = this.podstawaubezpzdrowotne + p.podstawaubezpzdrowotne;
+        this.razem53 = this.razem53 + p.razem53;
+        this.kosztpracodawcy = this.kosztpracodawcy + p.kosztpracodawcy;
     }
 
     public Integer getId() {
@@ -503,28 +566,35 @@ private double bruttobezzus;
     public void setDniprzepracowane(Integer dniprzepracowane) {
         this.dniprzepracowane = dniprzepracowane;
     }
-    
+
+    public String getRok() {
+        return rok;
+    }
+
+    public void setRok(String rok) {
+        this.rok = rok;
+    }
+
+    public String getMc() {
+        return mc;
+    }
+
+    public void setMc(String mc) {
+        this.mc = mc;
+    }
+
+    public boolean isImportowany() {
+        return importowany;
+    }
+
+    public void setImportowany(boolean importowany) {
+        this.importowany = importowany;
+    }
+
+   
     
 
-    public void dodajPasek(Pasekwynagrodzen p) {
-        this.bruttozus = this.bruttozus + p.bruttozus;
-        this.fgsp = this.fgsp + p.fgsp;
-        this.fp = this.fp + p.fp;
-        this.bruttobezzus = this.bruttobezzus + p.bruttobezzus;
-        this.podatekdochodowy = this.podatekdochodowy + p.podatekdochodowy;
-        this.pracchorobowe = this.pracchorobowe + p.pracchorobowe;
-        this.pracemerytalne = this.pracemerytalne + p.pracemerytalne;
-        this.pracrentowe = this.pracrentowe + p.pracrentowe;
-        this.praczdrowotne = this.praczdrowotne + p.praczdrowotne;
-        this.emerytalne = this.emerytalne + p.emerytalne;
-        this.rentowe = this.rentowe + p.rentowe;
-        this.wypadkowe = this.wypadkowe + p.wypadkowe;
-        this.razemspolecznepracownik = this.razemspolecznepracownik + p.razemspolecznepracownik;
-        this.razemspolecznefirma = this.razemspolecznefirma + p.razemspolecznefirma;
-        this.podstawaubezpzdrowotne = this.podstawaubezpzdrowotne + p.podstawaubezpzdrowotne;
-        this.razem53 = this.razem53 + p.razem53;
-        this.kosztpracodawcy = this.kosztpracodawcy + p.kosztpracodawcy;
-    }
+    
     
     
 }

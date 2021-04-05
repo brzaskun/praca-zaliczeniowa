@@ -44,7 +44,6 @@ public class Dzien implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-
     @Column(name = "nrdnia")
     private int nrdnia;
     @Column(name = "typdnia")
@@ -78,7 +77,6 @@ public class Dzien implements Serializable {
     private double wynagrodzeniezachorobe;
     @Column(name = "zasilek")
     private double zasilek;
-    
     @JoinColumn(name = "kalendarzwzor", referencedColumnName = "id")
     @ManyToOne
     private Kalendarzwzor kalendarzwzor;

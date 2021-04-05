@@ -76,7 +76,9 @@ public class PracownikView  implements Serializable {
             pracownikFacade.remove(pracownik);
             lista.remove(pracownik);
             Msg.msg("Usunięto pracownika");
-            listafiltered.remove(pracownik);
+            if (!listafiltered.isEmpty()) {
+                listafiltered.remove(pracownik);
+            }
         } else {
             Msg.msg("e","Nie wybrano pracownika");
         }

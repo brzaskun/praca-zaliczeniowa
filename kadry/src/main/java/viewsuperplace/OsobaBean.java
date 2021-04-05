@@ -7,9 +7,13 @@ package viewsuperplace;
 
 import beanstesty.UmowaBean;
 import data.Data;
+import embeddable.Mce;
 import entity.Angaz;
+import entity.Definicjalistaplac;
 import entity.EtatPrac;
 import entity.FirmaKadry;
+import entity.Kalendarzmiesiac;
+import entity.Pasekwynagrodzen;
 import entity.Pracownik;
 import entity.Rodzajwynagrodzenia;
 import entity.Skladnikwynagrodzenia;
@@ -20,10 +24,13 @@ import entity.Umowa;
 import entity.Zmiennawynagrodzenia;
 import java.util.ArrayList;
 import java.util.List;
+import kadryiplace.Okres;
 import kadryiplace.Osoba;
+import kadryiplace.Place;
 import kadryiplace.StanHist;
 import kadryiplace.WymiarHist;
 import kadryiplace.ZatrudHist;
+import view.WpisView;
 
 /**
  *
@@ -159,6 +166,43 @@ public class OsobaBean {
         zwrot.setWaluta("PLN");
         zwrot.setDataod(aktywna.getDataod());
         return zwrot;
+    }
+
+    static List<Pasekwynagrodzen> zrobpaski(WpisView wpisView, Osoba osoba, List<Okres> okresList) {
+        List<Pasekwynagrodzen> zwrot = new ArrayList<>();
+        List<Place> placeList = osoba.getPlaceList();
+        for (Place r : placeList) {
+            try {
+                if (okresList.contains(r.getLplOkrSerial())) {
+                    Pasekwynagrodzen nowypasek = new Pasekwynagrodzen(r);
+                    String rok = String.valueOf(r.getLplOkrSerial().getOkrRokSerial().getRokNumer());
+                    String mc = Mce.getNumberToMiesiac().get(Integer.valueOf(r.getLplOkrSerial().getOkrMieNumer()));
+                    nowypasek.setRok(rok);
+                    nowypasek.setMc(mc);
+                    nowypasek.setImportowany(true);
+                    zwrot.add(nowypasek);
+                }
+            } catch (Exception e){}
+        }
+        return zwrot;
+    }
+
+    static List<Pasekwynagrodzen> przyporzadkuj(List<Pasekwynagrodzen> paski, List<Definicjalistaplac> listyplac, List<Kalendarzmiesiac> kalendarze) {
+        for (Pasekwynagrodzen p : paski) {
+            for (Definicjalistaplac r : listyplac) {
+                if (r.getRok().equals(p.getRok())&&r.getMc().equals(p.getMc())) {
+                    p.setDefinicjalistaplac(r);
+                    break;
+                }
+            }
+            for (Kalendarzmiesiac r : kalendarze) {
+                if (r.getRok().equals(p.getRok())&&r.getMc().equals(p.getMc())) {
+                    p.setKalendarzmiesiac(r);
+                    break;
+                }
+            }
+        }
+        return paski;
     }
     
 }

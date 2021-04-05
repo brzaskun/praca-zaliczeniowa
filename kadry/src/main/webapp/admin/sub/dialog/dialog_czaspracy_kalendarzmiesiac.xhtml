@@ -12,7 +12,7 @@
             <h:panelGroup id="display">
                 <p:panelGrid columns="3">
                     <h:form id="KalendarzmiesiacCreateForm">
-                        <p:panelGrid columns="2" rendered="#{kalendarzmiesiacView.selected != null}">
+                        <p:panelGrid columns="2">
                             <p:outputLabel value="umowa" for="umowakalendarz" />
                             <p:selectOneMenu id="umowakalendarz" value="#{kalendarzmiesiacView.selected.umowa}" converter="#{umowaConverter}">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
@@ -41,7 +41,7 @@
                     <h:form id="KalendarzmiesiacSaRokForm">
                         <p:dataTable id="datalist" value="#{kalendarzmiesiacView.listakalendarzeprac}" var="itemkalendarzjest"
                                      rowKey="#{itemkalendarzjest.id}" emptyMessage="brak kalendarzy prac"
-                                     selection="#{kalendarzmiesiacView.selectedlista}" selectionMode="single"
+                                     selection="#{kalendarzmiesiacView.selected}" selectionMode="single"
                                  style="height: 150px;overflow-y: scroll; width: 150px; margin-left: 50px;" sortBy="#{itemkalendarzjest.mc}"
                                  >
                             <p:ajax event="rowSelect" partialSubmit="true" global="false" update="KalendarzmiesiacListForm"/>
@@ -59,7 +59,7 @@
         <p:outputPanel>
             <h:form id="KalendarzmiesiacListForm">
                 <p:panel header="Dni kalendarza pracownika">
-                    <p:dataTable id="datalist" value="#{kalendarzmiesiacView.selectedlista.dzienList}" var="itemkalendarz"
+                    <p:dataTable id="datalist" value="#{kalendarzmiesiacView.selected.dzienList}" var="itemkalendarz"
                                  rowKey="#{itemkalendarz.id}"
                                  style="height: 450px; overflow-y: scroll;" sortBy="#{itemkalendarz.nrdnia}"
                                  >

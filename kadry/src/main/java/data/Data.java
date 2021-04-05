@@ -382,7 +382,8 @@ public class Data implements Serializable {
             if (rok.equals(rokdaty) && mc.equals(mcdaty)) {
                 zwrot = true;
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         return zwrot;
      }
 

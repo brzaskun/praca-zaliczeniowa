@@ -103,6 +103,8 @@ public class PasekwynagrodzenBean {
         PasekwynagrodzenBean.razem53(pasek);
         PasekwynagrodzenBean.razemkosztpracodawcy(pasek);
         PasekwynagrodzenBean.naniesrobocze(pasek,kalendarz);
+        pasek.setRok(definicjalistaplac.getRok());
+        pasek.setMc(definicjalistaplac.getMc());
         System.out.println("****************");
         for (Naliczenieskladnikawynagrodzenia r : pasek.getNaliczenieskladnikawynagrodzeniaList()) {
             if (r.getSkladnikwynagrodzenia().getRodzajwynagrodzenia().getRedukowany()) {

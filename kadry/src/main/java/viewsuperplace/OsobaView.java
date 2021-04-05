@@ -7,7 +7,10 @@ package viewsuperplace;
 
 import DAOsuperplace.OsobaFacade;
 import dao.AngazFacade;
+import dao.DefinicjalistaplacFacade;
 import dao.EtatPracFacade;
+import dao.KalendarzmiesiacFacade;
+import dao.PasekwynagrodzenFacade;
 import dao.PracownikFacade;
 import dao.RodzajwynagrodzeniaFacade;
 import dao.SkladnikWynagrodzeniaFacade;
@@ -18,28 +21,24 @@ import dao.UmowaFacade;
 import dao.ZmiennaWynagrodzeniaFacade;
 import data.Data;
 import entity.Angaz;
-import entity.EtatPrac;
-import entity.FirmaKadry;
-import entity.Pracownik;
-import entity.Rodzajwynagrodzenia;
-import entity.Skladnikwynagrodzenia;
-import entity.Slownikszkolazatrhistoria;
-import entity.Slownikwypowiedzenieumowy;
-import entity.Stanowiskoprac;
+import entity.Definicjalistaplac;
+import entity.Kalendarzmiesiac;
+import entity.Pasekwynagrodzen;
 import entity.Umowa;
-import entity.Zmiennawynagrodzenia;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import kadryiplace.Okres;
 import kadryiplace.Osoba;
 import kadryiplace.OsobaPrz;
+import kadryiplace.Rok;
 import msg.Msg;
 import view.WpisView;
-import z.Z;
 
 /**
  *
@@ -73,34 +72,51 @@ public class OsobaView implements Serializable {
     private SkladnikWynagrodzeniaFacade skladnikWynagrodzeniaFacade;
     @Inject
     private ZmiennaWynagrodzeniaFacade zmiennaWynagrodzeniaFacade;
+    @Inject
+    private DefinicjalistaplacFacade definicjalistaplacFacade;
+    @Inject
+    private KalendarzmiesiacFacade kalendarzmiesiacFacade;
+    @Inject
+    private PasekwynagrodzenFacade pasekwynagrodzenFacade;
     
     
     
     public void rob() {
         //List<Osoba> podatnicy = osobaFacade.findAll();
         Osoba osoba = osobaFacade.findByPesel("83020610048");
-        Pracownik pracownik = OsobaBean.pobierzOsobaBasic(osoba);
-        pracownikFacade.create(pracownik);
-        FirmaKadry firma = wpisView.getFirma();
-        Angaz angaz = OsobaBean.nowyangaz(pracownik,firma);
-        angazFacade.create(angaz);
-        List<Slownikszkolazatrhistoria> rodzajezatr = slownikszkolazatrhistoriaFacade.findAll();
-        List<Slownikwypowiedzenieumowy> rodzajewypowiedzenia = slownikwypowiedzenieumowyFacade.findAll();
-        List<Umowa> umowy = OsobaBean.pobierzumowy(osoba, angaz, rodzajezatr, rodzajewypowiedzenia);
+//        Pracownik pracownik = OsobaBean.pobierzOsobaBasic(osoba);
+//        pracownikFacade.create(pracownik);
+//        FirmaKadry firma = wpisView.getFirma();
+//        Angaz angaz = OsobaBean.nowyangaz(pracownik,firma);
+//        angazFacade.create(angaz);
+//        List<Slownikszkolazatrhistoria> rodzajezatr = slownikszkolazatrhistoriaFacade.findAll();
+//        List<Slownikwypowiedzenieumowy> rodzajewypowiedzenia = slownikwypowiedzenieumowyFacade.findAll();
+//        List<Umowa> umowy = OsobaBean.pobierzumowy(osoba, angaz, rodzajezatr, rodzajewypowiedzenia);
+//        Umowa aktywna = umowy.stream().filter(p -> p.isAktywna()).findFirst().get();
+//        umowaFacade.createList(umowy);
+//        List<Stanowiskoprac> stanowiska = OsobaBean.pobierzstanowiska(osoba, aktywna);
+//        stanowiskopracFacade.createList(stanowiska);
+//        Short formawynagrodzenia = osoba.getOsoWynForma();
+//        List<EtatPrac> etaty = OsobaBean.pobierzetaty(osoba, aktywna);
+//        etatpracFacade.createList(etaty);
+//        Rodzajwynagrodzenia rodzajwynagrodzenia = rodzajwynagrodzeniaFacade.findZasadnicze();
+//        Skladnikwynagrodzenia skladnikwynagrodzenia = OsobaBean.pobierzskladnikwynagrodzenia(rodzajwynagrodzenia, aktywna);
+//        skladnikWynagrodzeniaFacade.create(skladnikwynagrodzenia);
+//        Zmiennawynagrodzenia zmiennawynagrodzenia = OsobaBean.pobierzzmiennawynagrodzenia(aktywna, skladnikwynagrodzenia);
+//        double kwota = osoba.getOsoWynZasadn().doubleValue();
+//        zmiennawynagrodzenia.setKwota(Z.z(kwota));
+//        zmiennaWynagrodzeniaFacade.create(zmiennawynagrodzenia);
+        List<Rok> rokList = osoba.getOsoFirSerial().getRokList();
+        Rok rok = pobierzrok(wpisView.getRokWpisu(), rokList);
+        List<Okres> okresList = pobierzokresy(Integer.valueOf(wpisView.getMiesiacWpisu()), rok.getOkresList());
+        List<Pasekwynagrodzen> paski = OsobaBean.zrobpaski(wpisView, osoba, okresList);
+        List<Definicjalistaplac> listyplac = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
+        Angaz angaz = angazFacade.findByPeselFirma("83020610048", wpisView.getFirma());
+        List<Umowa> umowy = umowaFacade.findByAngaz(angaz);
         Umowa aktywna = umowy.stream().filter(p -> p.isAktywna()).findFirst().get();
-        umowaFacade.createList(umowy);
-        List<Stanowiskoprac> stanowiska = OsobaBean.pobierzstanowiska(osoba, aktywna);
-        stanowiskopracFacade.createList(stanowiska);
-        Short formawynagrodzenia = osoba.getOsoWynForma();
-        List<EtatPrac> etaty = OsobaBean.pobierzetaty(osoba, aktywna);
-        etatpracFacade.createList(etaty);
-        Rodzajwynagrodzenia rodzajwynagrodzenia = rodzajwynagrodzeniaFacade.findZasadnicze();
-        Skladnikwynagrodzenia skladnikwynagrodzenia = OsobaBean.pobierzskladnikwynagrodzenia(rodzajwynagrodzenia, aktywna);
-        skladnikWynagrodzeniaFacade.create(skladnikwynagrodzenia);
-        Zmiennawynagrodzenia zmiennawynagrodzenia = OsobaBean.pobierzzmiennawynagrodzenia(aktywna, skladnikwynagrodzenia);
-        double kwota = osoba.getOsoWynZasadn().doubleValue();
-        zmiennawynagrodzenia.setKwota(Z.z(kwota));
-        zmiennaWynagrodzeniaFacade.create(zmiennawynagrodzenia);
+        List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, wpisView.getRokWpisu());
+        List<Pasekwynagrodzen> paskigotowe = OsobaBean.przyporzadkuj(paski, listyplac, kalendarze);
+        pasekwynagrodzenFacade.createList(paskigotowe);
 
 //        //ubezpieczenia u danej osoby
 //        List<OsobaDet> osobaDet = osoba.getOsobaDetList();
@@ -124,13 +140,7 @@ public class OsobaView implements Serializable {
 //                System.out.println(przerwa);
 //            } catch (Exception e){}
 //        }
-//        List<Place> placeList = osoba.getPlaceList();
-//         for (Place r : placeList) {
-//            try {
-//                String przerwa = Data.data_yyyyMMdd(r.getLplDataWyplaty())+" "+r.getLplPdstZus()+" "+r.getLplPodDoch()+" "+r.getLplPit4();
-//                System.out.println(przerwa);
-//            } catch (Exception e){}
-//        }
+
 //         List<PlacePrz> placeprz = osoba.getPlacePrzList();
 //         for (PlacePrz r : placeprz) {
 //            try {
@@ -206,5 +216,27 @@ public class OsobaView implements Serializable {
 //        }
 //    }
 
+    private Rok pobierzrok(String rokWpisu, List<Rok> rokList) {
+        Rok zwrot = null;
+        for (Rok p : rokList) {
+            if (p.getRokNumer().toString().equals(rokWpisu)) {
+                zwrot = p;
+                break;
+            }
+        }
+        return zwrot;
+    }
+
+    private List<Okres> pobierzokresy(int mcWpisu, List<Okres> okresList) {
+        List<Okres> zwrot = new ArrayList<>();
+        for (Okres o : okresList) {
+            if (o.getOkrMieNumer()<=mcWpisu) {
+                zwrot.add(o);
+            }
+        }
+        return zwrot;
+    }
+
+  
     
 }

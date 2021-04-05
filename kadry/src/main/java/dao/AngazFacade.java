@@ -61,4 +61,12 @@ public class AngazFacade extends DAO{
          } catch (Exception e){}
          return zwrot;
      }
+
+    public Angaz findByPeselFirma(String pesel, FirmaKadry firma) {
+        Angaz zwrot = null;
+         try {
+             zwrot = (Angaz) getEntityManager().createNamedQuery("Angaz.findByPeselFirma").setParameter("firma", firma).setParameter("pesel", pesel).getSingleResult();
+         } catch (Exception e){}
+         return zwrot;
+    }
 }
