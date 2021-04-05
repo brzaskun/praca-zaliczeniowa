@@ -9,6 +9,7 @@
     <p:dialog id="dialogpracownikanieobecnosci" header="Wprowadzanie nieobecności" widgetVar="dialogpracownikanieobecnosci"  
               resizable="false"  onShow="ustawdialog('dialogpracownikanieobecnosci','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogpracownikanieobecnosci');" 
               fitViewport="true">
+        <p:ajax event="open" listener="#{nieobecnoscView.init()}" update="NieobecnoscCreateForm NieobecnoscListForm" global="false"/>
         <p:outputPanel style="height: 200px">
             <p:panelGrid columns="2">
                 <h:form id="NieobecnoscCreateForm">
@@ -94,6 +95,12 @@
                             </f:facet>
                             <h:outputText value="#{itemNieob.datado}"/>
                         </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="dni kal."/>
+                            </f:facet>
+                            <h:outputText value="#{itemNieob.dnikalendarzowe}"/>
+                        </p:column>
                         <p:column style="text-align: center">
                             <f:facet name="header">
                                 <h:outputText value="kod zwolnienia"/>
@@ -118,19 +125,19 @@
                             </f:facet>
                             <h:outputText value="#{itemNieob.seriainrzwolnienia}"/>
                         </p:column>
-                         <p:column>
+                         <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="zus"/>
                             </f:facet>
                              <h:outputText value="&#x2714;" rendered="#{itemNieob.nieobecnosckodzus.spoleczne}"/>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="podatek"/>
                             </f:facet>
                             <h:outputText value="&#x2714;" rendered="#{itemNieob.nieobecnosckodzus.podatek}"/>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="naniesiona"/>
                             </f:facet>

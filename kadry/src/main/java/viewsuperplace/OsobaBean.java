@@ -177,9 +177,9 @@ public class OsobaBean {
                     kal.setUmowa(umowa);
                     Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcUmowa(umowa,rok, mce);
                     if (kalmiesiac==null) {
-                        Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(kal.getUmowa().getAngaz().getFirma(), kal.getRok(), mce);
-                        if (znaleziono!=null) {
-                            kal.ganerujdnizwzrocowego(znaleziono, dzienod);
+                        Kalendarzwzor pobranywzorcowy = kalendarzwzorFacade.findByFirmaRokMc(kal.getUmowa().getAngaz().getFirma(), kal.getRok(), mce);
+                        if (pobranywzorcowy!=null) {
+                            kal.ganerujdnizwzrocowego(pobranywzorcowy, dzienod);
                             zwrot.add(kal);
                             dzienod = 1;
                         } else {

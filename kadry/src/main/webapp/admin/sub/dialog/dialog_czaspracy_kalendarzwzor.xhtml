@@ -19,11 +19,11 @@
                                 <f:selectItems value="#{kalendarzwzorView.listafirm}"
                                                var="firmaKItem"
                                                itemValue="#{firmaKItem}" itemLabel="#{firmaKItem.nazwa}"/> 
-                                <p:ajax event="change" partialSubmit="true" listener="#{kalendarzwzorView.init2()}" global="false" update="KalendarzwzormiesiacSaRokForm"/>
+                                <p:ajax event="change" partialSubmit="true" listener="#{kalendarzwzorView.init2()}" global="false" update="KalendarzwzormiesiacSaRokForm:datalist"/>
                             </p:selectOneMenu>
                             <p:outputLabel value="rok" for="rok" />
                             <p:inputText id="rok" value="#{kalendarzwzorView.selected.rok}" title="rok" >
-                                <p:ajax event="change" partialSubmit="true" listener="#{kalendarzwzorView.init2()}" global="false" update="KalendarzwzormiesiacSaRokForm" />
+                                <p:ajax event="change" partialSubmit="true" listener="#{kalendarzwzorView.init2()}" global="false" update="KalendarzwzormiesiacSaRokForm:datalist" />
                             </p:inputText>
                             <p:outputLabel value="miesiąc" for="mc" />
                             <p:inputText id="mc" value="#{kalendarzwzorView.selected.mc}" title="mc" >

@@ -118,6 +118,8 @@ public class AngazView  implements Serializable {
             List<Umowa> umowy = wpisView.getAngaz().getUmowaList();
             if (umowy!=null && umowy.size()==1) {
                 wpisView.setUmowa(umowy.get(0));
+            } else if (umowy!=null) {
+                wpisView.setUmowa(umowy.stream().filter(p->p.isAktywna()).findFirst().get());
             }
             umowaView.init();
             skladnikWynagrodzeniaView.init();
@@ -136,6 +138,8 @@ public class AngazView  implements Serializable {
             List<Umowa> umowy = wpisView.getAngaz().getUmowaList();
             if (umowy!=null && umowy.size()==1) {
                 wpisView.setUmowa(umowy.get(0));
+            } else if (umowy!=null) {
+                wpisView.setUmowa(umowy.stream().filter(p->p.isAktywna()).findFirst().get());
             }
             umowaView.init();
             skladnikWynagrodzeniaView.init();

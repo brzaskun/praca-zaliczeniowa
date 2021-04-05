@@ -27,7 +27,6 @@ import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -74,8 +73,16 @@ public class NieobecnoscView  implements Serializable {
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/zuszla.wsdl")
     private zuszla.WsdlPlatnikRaportyZla wsdlPlatnikRaportyZla;
     
-    @PostConstruct
-    private void init() {
+    
+    public void init() {
+        if (wpisView.getUmowa()==null) {
+            List<Umowa> umowy = wpisView.getAngaz().getUmowaList();
+            if (umowy!=null && umowy.size()==1) {
+                wpisView.setUmowa(umowy.get(0));
+            } else if (umowy!=null) {
+                wpisView.setUmowa(umowy.stream().filter(p->p.isAktywna()).findFirst().get());
+            }
+        }
         lista  = nieobecnoscFacade.findByUmowa(wpisView.getUmowa());
         listaumowa = umowaFacade.findPracownik(wpisView.getPracownik());
         listanieobecnosckodzus = nieobecnosckodzusFacade.findAll();
