@@ -19,6 +19,7 @@ import dao.WierszDAO;
 import data.Data;
 import embeddable.Mce;
 import entity.Klienci;
+import entity.Podatnik;
 import entity.Rodzajedok;
 import entityfk.BankImportWzory;
 import entityfk.Dokfk;
@@ -210,8 +211,10 @@ public class BankImportView implements Serializable {
                     }
                 }
             }
-        } else if (lista.size()<5) {
-            wiersze = wierszDAO.pobierzWierszeMcDokImportIBAN(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
+        }
+        wiersze = wierszDAO.pobierzWierszeMcDokImportIBAN(wpisView.getPodatnikObiekt(), wpisView.getRokUprzedniSt());
+        if (wiersze!=null && wiersze.size()>0) {
+            Map<String, Konto> kontapoprok = pobierzkontarokpop(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
             for (Wiersz p : wiersze) {
                 Konto zwrot = null;
                 if (p.getIban()!=null && !p.getIban().equals("")) {
@@ -227,13 +230,21 @@ public class BankImportView implements Serializable {
                         lista.put(nowyiban, zwrot);
                     } else {
                         //szukamy jesli konto z innego roku
-                        zwrot = kontoDAO.findKonto(zwrot.getPelnynumer(), zwrot.getPodatnik(), wpisView.getRokWpisu());
+                        zwrot = kontapoprok.get(zwrot.getPelnynumer());
                         lista.put(nowyiban, zwrot);
                     }
                 }
             }
         }
         return lista;
+    }
+    private Map<String, Konto> pobierzkontarokpop(Podatnik podatnikObiekt, Integer rokWpisu) {
+        Map<String, Konto> mapa = new HashMap<>();
+        List<Konto> kontalista = kontoDAO.findKontaOstAlityka(podatnikObiekt, rokWpisu);
+        for (Konto p : kontalista) {
+            mapa.put(p.getPelnynumer(), p);
+        }
+        return mapa;
     }
     
     private List<ImportowanyPlik> zrobrodzajeimportu() {
@@ -1088,6 +1099,8 @@ public class BankImportView implements Serializable {
     }
         
     }
+
+    
 
     
 
