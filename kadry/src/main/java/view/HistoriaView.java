@@ -5,6 +5,7 @@
  */
 package view;
 
+import DAOsuperplace.OsobaFacade;
 import dao.AngazFacade;
 import dao.PracownikFacade;
 import dao.UmowaFacade;
@@ -21,6 +22,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import kadryiplace.Osoba;
 import msg.Msg;
 
 /**
@@ -45,9 +47,14 @@ public class HistoriaView  implements Serializable {
     private Angaz selectedangaz;
     @Inject
     private WpisView wpisView;
+    private List<Osoba> osoby;
+    private Osoba selected;
+    @Inject
+    private OsobaFacade osobaFacade;
     
     @PostConstruct
     public void init() {
+        osoby = osobaFacade.findByFirma("851-100-50-08");
         listapracownikow = angazFacade.findByFirma(wpisView.getFirma());
         if (selectedangaz!=null) {
             listawynagrodzenhistoria = wynagrodzeniahistoryczneFacade.findByAngaz(selectedangaz);
@@ -103,6 +110,22 @@ public class HistoriaView  implements Serializable {
 
     public void setListawynagrodzenhistoria(List<Wynagrodzeniahistoryczne> listawynagrodzenhistoria) {
         this.listawynagrodzenhistoria = listawynagrodzenhistoria;
+    }
+
+    public List<Osoba> getOsoby() {
+        return osoby;
+    }
+
+    public void setOsoby(List<Osoba> osoby) {
+        this.osoby = osoby;
+    }
+
+    public Osoba getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Osoba selected) {
+        this.selected = selected;
     }
 
     

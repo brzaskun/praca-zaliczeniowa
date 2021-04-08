@@ -6,10 +6,46 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
         
     xmlns:bcf="http://brzaskun.com/facelets">
-    <p:panelGrid columns="1" columnClasses="thirty-percent, seventy-percent" style="height: 300px;width: 1500px;">
+    <p:panelGrid columns="1" columnClasses="thirty-percent, seventy-percent" style="height: 600px;width: 1500px;">
         <p:outputPanel style="padding: 10px;">
             <p:panel header="Pobranie danych z programu SuperPłace"/>
-            <h:form id="SuperForm">
+            <h:form id="SuperFormFirma">
+                <p:dataTable id="datalist" value="#{historiaView.osoby}" var="osobylistdata" rowIndexVar="yndex"
+                             rowKey="#{osobylistdata.osoSerial}" emptyMessage="brak osób w firmie"
+                             selection="#{historiaView.selected}" selectionMode="single"
+                             style="height: 200px;overflow-y: scroll; width: 600px; " sortBy="#{osobylistdata.osoNazwisko}"
+                             >
+                    <p:ajax event="rowSelect" partialSubmit="true" global="false" update="SuperFormFirma"/>
+                    <p:column width="50" style="text-align: center;">
+                        <h:outputText value="#{yndex+1}"/>
+                    </p:column>
+                    <p:column width="100" style="text-align: left;">
+                        <f:facet name="header">
+                            <h:outputText value="nazwisko"/>
+                        </f:facet>
+                        <h:outputText value="#{osobylistdata.osoNazwisko}"/>
+                    </p:column>
+                    <p:column width="150" style="text-align: left;">
+                        <f:facet name="header">
+                            <h:outputText value="imię"/>
+                        </f:facet>
+                        <h:outputText value="#{osobylistdata.osoImie1}"/>
+                    </p:column>
+                    <p:column width="100" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="pesel"/>
+                        </f:facet>
+                        <h:outputText value="#{osobylistdata.osoPesel}"/>
+                    </p:column>
+                    <p:column width="100" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="serial"/>
+                        </f:facet>
+                        <h:outputText value="#{osobylistdata.osoSerial}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <h:form id="SuperForm" style="margin-top: 30px;">
                 <p:inputText value="#{osobaView.serial}"></p:inputText>
                 <p:commandButton style="width: 120px" value="pobierz dane" actionListener="#{osobaView.rob()}"/>
             </h:form>

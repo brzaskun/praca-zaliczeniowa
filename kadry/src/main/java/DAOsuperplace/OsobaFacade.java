@@ -6,6 +6,8 @@
 package DAOsuperplace;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -50,6 +52,14 @@ public class OsobaFacade extends DAO{
     
     public Osoba findBySerial(String serial) {
         return (Osoba) getEntityManager().createNamedQuery("Osoba.findByOsoSerial").setParameter("osoSerial", Integer.valueOf(serial)).getSingleResult();
+    }
+
+    public List<Osoba> findByFirma(String nip) {
+        List<Osoba> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createNamedQuery("Osoba.findByOsoFirSerial").setParameter("nip", nip).getResultList();
+        } catch (Exception ex) {}
+        return zwrot;
     }
     
 
