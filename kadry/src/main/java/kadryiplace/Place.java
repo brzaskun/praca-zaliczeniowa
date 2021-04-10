@@ -2847,7 +2847,9 @@ public class Place implements Serializable {
 
     @Override
     public String toString() {
-        return "kadryiplace.Place[ lplSerial=" + lplSerial + " ]";
+        return "Place{" + "lplChorPrac=" + lplNiezd.doubleValue() + ", lplChorBudz=" + lplPodst.doubleValue() + ", lplChorPfron=" + lplKoszty.toString() + ", lplWypUbez=" + lplWypUbez + '}';
     }
+
+    
     
 }

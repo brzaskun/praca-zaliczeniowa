@@ -866,7 +866,9 @@ public class Okres implements Serializable {
 
     @Override
     public String toString() {
-        return "kadryiplace.Okres[ okrSerial=" + okrSerial + " ]";
+        return "Okres{" + "okrDataOd=" + okrDataOd + ", okrDataDo=" + okrDataDo + ", okrOpis=" + okrOpis + '}';
     }
+
+    
     
 }

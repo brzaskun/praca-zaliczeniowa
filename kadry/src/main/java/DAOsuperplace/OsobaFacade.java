@@ -6,6 +6,7 @@
 package DAOsuperplace;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -21,7 +22,8 @@ import kadryiplace.Osoba;
  */
 @Stateless
 @Transactional
-public class OsobaFacade extends DAO{
+public class OsobaFacade extends DAO  implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @PersistenceContext(unitName = "microsoft")
     private EntityManager em;
@@ -57,7 +59,15 @@ public class OsobaFacade extends DAO{
     public List<Osoba> findByFirma(String nip) {
         List<Osoba> zwrot = new ArrayList<>();
         try {
-            zwrot = getEntityManager().createNamedQuery("Osoba.findByOsoFirSerial").setParameter("nip", nip).getResultList();
+            zwrot = getEntityManager().createNamedQuery("Osoba.findByOsoFirSerialNip").setParameter("nip", nip).getResultList();
+        } catch (Exception ex) {}
+        return zwrot;
+    }
+    
+    public List<Osoba> findByFirmaSerial(Integer serial) {
+        List<Osoba> zwrot = new ArrayList<>();
+        try {
+            zwrot = getEntityManager().createNamedQuery("Osoba.findByOsoFirSerial").setParameter("serial", serial).getResultList();
         } catch (Exception ex) {}
         return zwrot;
     }

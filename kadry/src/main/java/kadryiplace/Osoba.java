@@ -36,7 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Osoba.findAll", query = "SELECT o FROM Osoba o"),
-    @NamedQuery(name = "Osoba.findByOsoFirSerial", query = "SELECT o FROM Osoba o WHERE o.osoFirSerial.firNip = :nip"),
+    @NamedQuery(name = "Osoba.findByOsoFirSerial", query = "SELECT o FROM Osoba o WHERE o.osoFirSerial.firSerial = :serial"),
+    @NamedQuery(name = "Osoba.findByOsoFirSerialNip", query = "SELECT o FROM Osoba o WHERE o.osoFirSerial.firNip = :nip"),
     @NamedQuery(name = "Osoba.findByOsoSerial", query = "SELECT o FROM Osoba o WHERE o.osoSerial = :osoSerial"),
     @NamedQuery(name = "Osoba.findByOsoNazwisko", query = "SELECT o FROM Osoba o WHERE o.osoNazwisko = :osoNazwisko"),
     @NamedQuery(name = "Osoba.findByOsoImie1", query = "SELECT o FROM Osoba o WHERE o.osoImie1 = :osoImie1"),
@@ -2744,7 +2745,8 @@ public class Osoba implements Serializable {
 
     @Override
     public String toString() {
-        return "kadryiplace.Osoba[ osoSerial=" + osoSerial + " ]";
+        return "Osoba{" + "osoNazwisko=" + osoNazwisko + ", osoImie1=" + osoImie1 + ", osoUrodzData=" + osoUrodzData + ", osoPesel=" + osoPesel + ", osoDataZatr=" + osoDataZatr + ", osoDataZwol=" + osoDataZwol + '}';
     }
+
     
 }

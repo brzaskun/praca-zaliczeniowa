@@ -5,6 +5,7 @@
  */
 package view;
 
+import DAOsuperplace.FirmaFacade;
 import DAOsuperplace.OsobaFacade;
 import dao.AngazFacade;
 import dao.PracownikFacade;
@@ -22,6 +23,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import kadryiplace.Firma;
 import kadryiplace.Osoba;
 import msg.Msg;
 
@@ -47,18 +49,26 @@ public class HistoriaView  implements Serializable {
     private Angaz selectedangaz;
     @Inject
     private WpisView wpisView;
+    private List<Firma> firmy;
     private List<Osoba> osoby;
-    private Osoba selected;
+    private Osoba selectedosoba;
+    private Firma selectedfirma;
     @Inject
     private OsobaFacade osobaFacade;
+     @Inject
+    private FirmaFacade firmaFacade;
     
     @PostConstruct
     public void init() {
-        osoby = osobaFacade.findByFirma("851-100-50-08");
+        firmy = firmaFacade.findAll();
         listapracownikow = angazFacade.findByFirma(wpisView.getFirma());
         if (selectedangaz!=null) {
             listawynagrodzenhistoria = wynagrodzeniahistoryczneFacade.findByAngaz(selectedangaz);
         }
+    }
+    
+    public void pobierzosoby() {
+        osoby = osobaFacade.findByFirmaSerial(selectedfirma.getFirSerial());
     }
     
     public void aktywuj(FirmaKadry firma) {
@@ -120,12 +130,28 @@ public class HistoriaView  implements Serializable {
         this.osoby = osoby;
     }
 
-    public Osoba getSelected() {
-        return selected;
+    public Osoba getSelectedosoba() {
+        return selectedosoba;
     }
 
-    public void setSelected(Osoba selected) {
-        this.selected = selected;
+    public void setSelectedosoba(Osoba selectedosoba) {
+        this.selectedosoba = selectedosoba;
+    }
+
+    public List<Firma> getFirmy() {
+        return firmy;
+    }
+
+    public void setFirmy(List<Firma> firmy) {
+        this.firmy = firmy;
+    }
+
+    public Firma getSelectedfirma() {
+        return selectedfirma;
+    }
+
+    public void setSelectedfirma(Firma selectedfirma) {
+        this.selectedfirma = selectedfirma;
     }
 
     

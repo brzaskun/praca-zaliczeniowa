@@ -6,6 +6,7 @@
 package DAOsuperplace;
 
 
+import java.io.Serializable;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -19,7 +20,8 @@ import kadryiplace.OsobaPrz;
  */
 @Stateless
 @Transactional
-public class OsobaPrzFacade extends DAO{
+public class OsobaPrzFacade extends DAO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @PersistenceContext(unitName = "microsoft")
     private EntityManager em;

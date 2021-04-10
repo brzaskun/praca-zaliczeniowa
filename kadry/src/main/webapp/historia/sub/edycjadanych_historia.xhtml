@@ -8,45 +8,89 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:panelGrid columns="1" columnClasses="thirty-percent, seventy-percent" style="height: 600px;width: 1500px;">
         <p:outputPanel style="padding: 10px;">
-            <p:panel header="Pobranie danych z programu SuperPłace"/>
-            <h:form id="SuperFormFirma">
-                <p:dataTable id="datalist" value="#{historiaView.osoby}" var="osobylistdata" rowIndexVar="yndex"
-                             rowKey="#{osobylistdata.osoSerial}" emptyMessage="brak osób w firmie"
-                             selection="#{historiaView.selected}" selectionMode="single"
-                             style="height: 200px;overflow-y: scroll; width: 600px; " sortBy="#{osobylistdata.osoNazwisko}"
-                             >
-                    <p:ajax event="rowSelect" partialSubmit="true" global="false" update="SuperFormFirma"/>
-                    <p:column width="50" style="text-align: center;">
-                        <h:outputText value="#{yndex+1}"/>
-                    </p:column>
-                    <p:column width="100" style="text-align: left;">
-                        <f:facet name="header">
-                            <h:outputText value="nazwisko"/>
-                        </f:facet>
-                        <h:outputText value="#{osobylistdata.osoNazwisko}"/>
-                    </p:column>
-                    <p:column width="150" style="text-align: left;">
-                        <f:facet name="header">
-                            <h:outputText value="imię"/>
-                        </f:facet>
-                        <h:outputText value="#{osobylistdata.osoImie1}"/>
-                    </p:column>
-                    <p:column width="100" style="text-align: center;">
-                        <f:facet name="header">
-                            <h:outputText value="pesel"/>
-                        </f:facet>
-                        <h:outputText value="#{osobylistdata.osoPesel}"/>
-                    </p:column>
-                    <p:column width="100" style="text-align: center;">
-                        <f:facet name="header">
-                            <h:outputText value="serial"/>
-                        </f:facet>
-                        <h:outputText value="#{osobylistdata.osoSerial}"/>
-                    </p:column>
-                </p:dataTable>
-            </h:form>
-            <h:form id="SuperForm" style="margin-top: 30px;">
-                <p:inputText value="#{osobaView.serial}"></p:inputText>
+            <p:panel header="Pobranie danych firmy z programu SuperPłace"/>
+            <p:panelGrid columns="2">
+                <h:form id="SuperFormFirma1">
+                    <p:dataTable id="datalist" value="#{historiaView.firmy}" var="firmylistdata" rowIndexVar="yndex1"
+                                 rowKey="#{firmylistdata.firSerial}" emptyMessage="brak osób w firmie"
+                                 selection="#{historiaView.selectedfirma}" selectionMode="single"
+                                 style="height: 200px;overflow-y: scroll; width: 800px; " sortBy="#{firmylistdata.firNazwaPel}"
+                                 >
+                        <p:ajax event="rowSelect" listener="#{historiaView.pobierzosoby}" partialSubmit="true" global="false" update="SuperFormFirma2"/>
+                        <p:column width="50" style="text-align: center;">
+                            <h:outputText value="#{yndex1+1}"/>
+                        </p:column>
+                        <p:column width="400" style="text-align: left;" filterBy="#{firmylistdata.firNazwaPel}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="nazwa pełna"/>
+                            </f:facet>
+                            <h:outputText value="#{firmylistdata.firNazwaPel}"/>
+                        </p:column>
+                        <p:column width="100" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="nip"/>
+                            </f:facet>
+                            <h:outputText value="#{firmylistdata.firNip}"/>
+                        </p:column>
+                        <p:column width="100" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="serial"/>
+                            </f:facet>
+                            <h:outputText value="#{firmylistdata.firSerial}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+                <h:form id="SuperFormFirma2">
+                    <p:dataTable id="datalist" value="#{historiaView.osoby}" var="osobylistdata" rowIndexVar="yndex"
+                                 rowKey="#{osobylistdata.osoSerial}" emptyMessage="brak osób w firmie"
+                                 selection="#{historiaView.selectedosoba}" selectionMode="single"
+                                 style="height: 200px;overflow-y: scroll; width: 670px; " sortBy="#{osobylistdata.osoNazwisko}"
+                                 >
+                        <p:ajax event="rowSelect" partialSubmit="true" global="false" update="SuperFormFirma2"/>
+                        <p:column width="50" style="text-align: center;">
+                            <h:outputText value="#{yndex+1}"/>
+                        </p:column>
+                        <p:column width="100" style="text-align: left;">
+                            <f:facet name="header">
+                                <h:outputText value="nazwisko"/>
+                            </f:facet>
+                            <h:outputText value="#{osobylistdata.osoNazwisko}"/>
+                        </p:column>
+                        <p:column width="100" style="text-align: left;">
+                            <f:facet name="header">
+                                <h:outputText value="imię"/>
+                            </f:facet>
+                            <h:outputText value="#{osobylistdata.osoImie1}"/>
+                        </p:column>
+                        <p:column width="100" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="pesel"/>
+                            </f:facet>
+                            <h:outputText value="#{osobylistdata.osoPesel}"/>
+                        </p:column>
+                        <p:column width="80" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="serial"/>
+                            </f:facet>
+                            <h:outputText value="#{osobylistdata.osoSerial}"/>
+                        </p:column>
+                        <p:column width="80" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="zatr"/>
+                            </f:facet>
+                            <h:outputText value="#{osobylistdata.osoDataZatr}">
+                                <f:convertDateTime dateStyle="medium" locale="pl"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:panelGrid>
+            <p:panel header="Pobranie danych wybranej osoby z programu SuperPłace" style="margin-top: 10px;"/>
+            <h:form id="SuperForm" style="margin-top: 10px;">
+                <p:panelGrid columns="2">
+                    <h:outputText value="serial osoby"/>
+                    <p:inputText value="#{osobaView.serial}"></p:inputText>
+                </p:panelGrid>
                 <p:commandButton style="width: 120px" value="pobierz dane" actionListener="#{osobaView.rob()}"/>
             </h:form>
         </p:outputPanel>

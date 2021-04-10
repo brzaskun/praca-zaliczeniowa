@@ -115,9 +115,9 @@ public class OsobaView implements Serializable {
             List<Slownikszkolazatrhistoria> rodzajezatr = slownikszkolazatrhistoriaFacade.findAll();
             List<Slownikwypowiedzenieumowy> rodzajewypowiedzenia = slownikwypowiedzenieumowyFacade.findAll();
             List<Umowa> umowy = OsobaBean.pobierzumowy(osoba, angaz, rodzajezatr, rodzajewypowiedzenia);
+            umowaFacade.createList(umowy);
             Umowa aktywna = umowy.stream().filter(p -> p.isAktywna()).findFirst().get();
             wpisView.setUmowa(aktywna);
-            umowaFacade.createList(umowy);
             List<Stanowiskoprac> stanowiska = OsobaBean.pobierzstanowiska(osoba, aktywna);
             stanowiskopracFacade.createList(stanowiska);
             Short formawynagrodzenia = osoba.getOsoWynForma();

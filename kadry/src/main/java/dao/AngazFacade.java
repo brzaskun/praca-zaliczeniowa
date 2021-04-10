@@ -8,6 +8,7 @@ package dao;
 import entity.Angaz;
 import entity.FirmaKadry;
 import entity.Pracownik;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PreDestroy;
@@ -22,7 +23,8 @@ import javax.transaction.Transactional;
  */
 @Stateless
 @Transactional
-public class AngazFacade extends DAO{
+public class AngazFacade extends DAO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @PersistenceContext(unitName = "kadryPU")
     private EntityManager em;
