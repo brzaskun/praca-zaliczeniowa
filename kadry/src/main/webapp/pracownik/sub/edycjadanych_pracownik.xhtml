@@ -28,7 +28,7 @@
         </p:outputPanel>
         <p:outputPanel>
             <h:form id="PracownikListForm">
-                <p:panel header="Wykaz pracowników w programieAA">
+                <p:panel header="Wykaz pracowników u wszystkich pracodawców">
                     <p:dataTable id="datalist" value="#{pracownikView.lista}" var="item2"
                                  selectionMode="single" selection="#{pracownikView.selectedlista}" 
                                  rowKey="#{item2.pesel}" sortBy="#{item2.nazwisko}" filteredValue="#{pracownikView.listafiltered}"

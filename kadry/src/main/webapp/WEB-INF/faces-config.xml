@@ -40,12 +40,12 @@
             <to-view-id>/pracownikdane/index.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
-            <from-outcome>PracownikUst</from-outcome>
-            <to-view-id>/pracownikust/index.xhtml?faces-redirect=true</to-view-id>
+            <from-outcome>PortalPracownik</from-outcome>
+            <to-view-id>/portalpracownik/index.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
-            <from-outcome>Pracodawca</from-outcome>
-            <to-view-id>/pracodawca/index.xhtml?faces-redirect=true</to-view-id>
+            <from-outcome>PortalPracodawca</from-outcome>
+            <to-view-id>/portalpracodawca/index.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
          <navigation-case>
             <from-outcome>Parametry</from-outcome>

@@ -115,7 +115,8 @@
             <url-pattern>/parametry/*</url-pattern>
             <url-pattern>/umowa/*</url-pattern>
             <url-pattern>/historia/*</url-pattern>
-            <url-pattern>/pracownikust/*</url-pattern>
+            <url-pattern>/portalpracownik/*</url-pattern>
+            <url-pattern>/portalpracodawca/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Administrator</role-name>
@@ -127,7 +128,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Pracownik Area</web-resource-name>
-            <url-pattern>/pracownikust/*</url-pattern>
+            <url-pattern>/portalpracownik/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Pracownik</role-name>
@@ -139,7 +140,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Pracodawca Area</web-resource-name>
-            <url-pattern>/pracodawca/*</url-pattern>
+            <url-pattern>/portalpracodawca/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Pracodawca</role-name>

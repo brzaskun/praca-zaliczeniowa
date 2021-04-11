@@ -61,9 +61,9 @@ public class Loging implements Serializable {
                 if (request.isUserInRole("Administrator")) {
                     navto = "Administrator";
                 } else if (request.isUserInRole("Pracownik")) {
-                    navto = "PracownikUst";
+                    navto = "PortalPracownik";
                 } else if (request.isUserInRole("Pracodawca")) {
-                    navto = "Pracodawca";
+                    navto = "PortalPracodawca";
                 }
                 Uz uzer = uzFacade.findUzByLogin(lo);
                 wpisView.setUzer(uzer);

@@ -42,6 +42,11 @@ import javax.xml.bind.annotation.XmlTransient;
 
 public class Angaz implements Serializable {
 
+    @Column(name = "ciagloscchorobowe")
+    private Boolean ciagloscchorobowe;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz")
+    private List<Kartawynagrodzen> kartawynagrodzenList;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "angaz")
     private List<Wynagrodzeniahistoryczne> wynagrodzeniahistoryczneList;
 
@@ -67,8 +72,6 @@ public class Angaz implements Serializable {
     private Pracownik pracownik;
     @Column(name = "rodzajwynagrodzenia")
     private Integer rodzajwynagrodzenia;
-    @Column(name = "ciagloscchorobowe")
-    private boolean ciagloscchorobowe;
 
 
     public Angaz() {
@@ -169,12 +172,21 @@ public class Angaz implements Serializable {
         this.wynagrodzeniahistoryczneList = wynagrodzeniahistoryczneList;
     }
 
-    public boolean isCiagloscchorobowe() {
+    public Boolean getCiagloscchorobowe() {
         return ciagloscchorobowe;
     }
 
-    public void setCiagloscchorobowe(boolean ciagloscchorobowe) {
+    public void setCiagloscchorobowe(Boolean ciagloscchorobowe) {
         this.ciagloscchorobowe = ciagloscchorobowe;
+    }
+
+    @XmlTransient
+    public List<Kartawynagrodzen> getKartawynagrodzenList() {
+        return kartawynagrodzenList;
+    }
+
+    public void setKartawynagrodzenList(List<Kartawynagrodzen> kartawynagrodzenList) {
+        this.kartawynagrodzenList = kartawynagrodzenList;
     }
     
     

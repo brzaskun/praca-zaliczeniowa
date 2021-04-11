@@ -19,6 +19,7 @@
                     <p:layoutUnit position="center" id="centertile" >
                         <h:form id="formmenu">
                          <p:menubar autoDisplay="true">
+                             <p:menuitem icon="fa fa-exchange" value="parametry" style="width: 150px" action="Parametry"/>
                              <p:menuitem icon="fa fa-institution" value="firmy" style="width: 150px" action="Firma"/>
                               <p:submenu icon="fa fa-institution" label="pracownicy" style="width: 150px">
                                          <p:menuitem icon="fa fa-institution" value="pracownicy angaże" style="width: 150px" action="Pracownik"/>
@@ -35,11 +36,12 @@
                             <p:submenu label="listy płac" style="width: 150px">
                                 <p:menuitem icon="fa fa-stack-overflow" value="definicja listy" style="width: 150px" onclick="PF('dialoglistadefinicja').show()" async="true"/>
                                 <p:menuitem icon="fa fa-stack-overflow" value="lista płac" style="width: 150px" onclick="PF('dialoglistaplac').show()" async="true"/>
+                                <p:menuitem icon="fa fa-stack-overflow" value="karta wynagrodzeń" style="width: 150px" onclick="PF('dialogkartawynagrodzen').show()" async="true"/>
                                 <p:menuitem icon="fa fa-stack-overflow" value="DRA" style="width: 150px" onclick="PF('dialogdra').show()" async="true"/>
                             </p:submenu>
                             <p:menuitem icon="fa fa-tasks" value=""  style="width: 150px"/>
                             <p:menuitem icon="fa fa-pencil" value="PIT" style="width: 150px"/>
-                            <p:menuitem icon="fa fa-exchange" value="parametry" style="width: 150px" action="Parametry"/>
+                            
                         </p:menubar>
                         </h:form>
                        <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
@@ -50,6 +52,7 @@
                      <ui:include src="sub/dialog/dialog_lista_definicja.xhtml"/>
                      <ui:include src="sub/dialog/dialog_lista_plac.xhtml"/>
                      <ui:include src="sub/dialog/dialog_dra.xhtml"/>
+                     <ui:include src="sub/dialog/dialog_karta_wynagrodzen.xhtml"/>
                      <h:form>
 <!--                         <p:commandButton value="zus zla" styleClass="buttonnorm" actionListener="#{zusZLAView.zuszla()}" />-->
 <!--                         <p:commandButton value="prac zmiany" styleClass="buttonnorm" actionListener="#{pracownikView.korektadat()}" />-->

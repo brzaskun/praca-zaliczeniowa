@@ -22,6 +22,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
+import entity.Angaz;
 import entity.Definicjalistaplac;
 import error.E;
 import java.io.File;
@@ -320,6 +321,32 @@ public class PdfMain {
             } else {
                 opiswstepny = new Paragraph(new Phrase("okres rozliczeniony" + " rok "+ rok, ft[1]));
             }
+            document.add(opiswstepny);
+            document.add(Chunk.NEWLINE);
+        } catch (DocumentException ex) {
+            E.e(ex);
+        }
+    }
+    
+    public static void dodajOpisWstepny(Document document, Angaz angaz, String nazwadok, String rok) {
+        try {
+            StringBuilder s = new StringBuilder();
+            s.append(nazwadok);
+            s.append(" ");
+            s.append(angaz.getPracownik().getNazwiskoImie());
+            StringBuilder s1 = new StringBuilder();
+            s1.append("Firma ");
+            s1.append(angaz.getFirma().getNazwa());
+            s1.append(" NIP ");
+            s1.append(angaz.getFirma().getNip());
+            Paragraph opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
+            opiswstepny = new Paragraph(new Phrase(s.toString(), ft[2]));
+            opiswstepny.setAlignment(Element.ALIGN_CENTER);
+            document.add(opiswstepny);
+            opiswstepny = new Paragraph(new Phrase(s1.toString(), ft[2]));
+            opiswstepny.setAlignment(Element.ALIGN_CENTER);
+            document.add(opiswstepny);
+            opiswstepny = new Paragraph(new Phrase("okres rozliczeniony rok "  + rok, ft[1]));
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {

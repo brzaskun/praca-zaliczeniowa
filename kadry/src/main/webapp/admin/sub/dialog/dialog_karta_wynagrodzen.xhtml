@@ -1,0 +1,112 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+        
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:dialog id="dialogkartawynagrodzen" header="Rozliczenie urlopu" widgetVar="dialogkartawynagrodzen"  
+              resizable="false"  onShow="ustawdialog('dialogkartawynagrodzen','centertile',1650,800);" closeOnEscape="true" onHide="resetujdialog('dialogkartawynagrodzen');" 
+              fitViewport="true">
+            <p:panelGrid columns="1">
+                <p:outputPanel style="height: 200px">
+                <h:form id="KartyWynagrodzenForm">
+                    <p:selectOneMenu id="pracownik" value="#{kartaWynagrodzenView.selectedangaz}" required="true" requiredMessage="pracownik"  converter="#{angazConverter}" style="width: 300px;" filter="true" filterMatchMode="contains">
+                        <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
+                        <f:selectItems value="#{kartaWynagrodzenView.listapracownikow}"
+                                       var="pracownikItem"
+                                       itemValue="#{pracownikItem}" itemLabel="#{pracownikItem.pracownik.nazwiskoImie}"/>
+                        <p:ajax event="change" partialSubmit="true" listener="#{kartaWynagrodzenView.pobierzdane}" global="false" update="KartyWynangrodzenListForm"/>
+                    </p:selectOneMenu>
+                </h:form>
+            </p:outputPanel>
+            </p:panelGrid>
+        <p:outputPanel>
+             <h:form id="KartyWynangrodzenListForm">
+                  <p:panel header="Karta wynagrodzen"/>
+                    <p:dataTable id="datalist" value="#{kartaWynagrodzenView.kartawynagrodzenlist}" var="itemkarta"
+                                 rowKey="#{itemkarta.id}" sortBy="#{itemkarta.mc}" rowIndexVar="indexka"
+                                style="height: 450px; overflow-y: scroll;"
+                                 >
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="id"/>
+                            </f:facet>
+                            <h:outputText value="#{indexka+1}"/>
+                        </p:column>
+                        <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="mc"/>
+                            </f:facet>
+                            <h:outputText value="#{itemkarta.mc}"/>
+                        </p:column>
+                        <p:column width="60">
+                            <f:facet name="header">
+                                <h:outputText value="ubrutt."/>
+                            </f:facet>
+                            <bcf:outputpl value="#{itemkarta.kosztpracodawcy}"/>
+                        </p:column>
+                        <p:column width="60">
+                            <f:facet name="header">
+                                <h:outputText value="wyn. z zus"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{itemkarta.bruttozus}"/>
+                        </p:column>
+                        <p:column width="60">
+                            <f:facet name="header">
+                                <h:outputText value="wyn. bez zus"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{itemkarta.bruttobezzus}"/>
+                        </p:column>
+                        <p:column width="60">
+                            <f:facet name="header">
+                                <h:outputText value="składki"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{itemkarta.razemspolecznepracownik}"/>
+                        </p:column>
+                        <p:column width="60">
+                            <f:facet name="header">
+                                <h:outputText value="podstawa opod."/>
+                            </f:facet>
+                            <bcf:outputpl value="#{itemkarta.podstawaopodatkowania}"/>
+                        </p:column>
+                        <p:column width="60">
+                            <f:facet name="header">
+                                <h:outputText value="koszty uzysk."/>
+                            </f:facet>
+                            <bcf:outputpl value="#{itemkarta.kosztyuzyskania}"/>
+                        </p:column>
+                        <p:column width="60">
+                            <f:facet name="header">
+                                <h:outputText value="zdrowotne"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{itemkarta.praczdrowotne}"/>
+                        </p:column>
+                         <p:column width="60">
+                            <f:facet name="header">
+                                <h:outputText value="zdrowotne odlicz."/>
+                            </f:facet>
+                             <bcf:outputpl value="#{itemkarta.praczdrowotnedodoliczenia}"/>
+                        </p:column>
+                        <p:column width="60">
+                            <f:facet name="header">
+                                <h:outputText value="podatek"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{itemkarta.podatekdochodowy}"/>
+                        </p:column>
+                        <p:column width="60">
+                            <f:facet name="header">
+                                <h:outputText value="wyn. netto"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{itemkarta.netto}"/>
+                        </p:column>
+                    </p:dataTable>
+            </h:form>
+        </p:outputPanel>
+        <p:outputPanel>
+            <p:commandButton value="drukuj" style="width: 120px;" actionListener="#{kartaWynagrodzenView.drukuj}"/>
+        </p:outputPanel>
+    </p:dialog>
+</ui:composition>
+
