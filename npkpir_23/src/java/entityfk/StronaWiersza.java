@@ -38,7 +38,8 @@ import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import org.eclipse.persistence.annotations.Cache;
 import org.eclipse.persistence.annotations.CacheType;
-import view.WpisView;import waluty.Z;
+import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -737,6 +738,9 @@ public class StronaWiersza implements Serializable {
         return wiersz.getDokfk();
     }
 
+    public String getTyp() {
+        return this.wiersz.getDokfk().getRodzajedok().getRodzajtransakcji();
+    }
    
     public List<Cechazapisu> getListaCechazapisu() {
         return wiersz.getDokfk().getCechadokumentuLista();

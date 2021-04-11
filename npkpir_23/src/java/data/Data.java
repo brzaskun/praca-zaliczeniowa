@@ -550,10 +550,16 @@ public class Data implements Serializable {
         return zwrot;
     }
 
-    public static XMLGregorianCalendar dataoddo(String data) throws DatatypeConfigurationException {
-        String f = "yyyy-MM-dd";
-        DateFormat format = new SimpleDateFormat(f);
-        return DatatypeFactory.newInstance().newXMLGregorianCalendar(f.format(data));
+    public static XMLGregorianCalendar dataStringToXMLGregorian(String data) {
+        XMLGregorianCalendar zwrot = null;
+        if (data!=null&&data.length()==10) {
+            try {
+                String f = "yyyy-MM-dd";
+                DateFormat format = new SimpleDateFormat(f);
+                zwrot = DatatypeFactory.newInstance().newXMLGregorianCalendar(f.format(data));
+            } catch (Exception e) {}
+        }
+        return zwrot;
     }
     
     public static String zmienkolejnosc(String zladata) {

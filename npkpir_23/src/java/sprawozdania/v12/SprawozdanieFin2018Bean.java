@@ -23,9 +23,9 @@ public class SprawozdanieFin2018Bean {
     public static TNaglowekSprawozdaniaFinansowegoJednostkaInnaWZlotych naglowek(String datasporzadzenia, String okresod, String okresdo) {
         TNaglowekSprawozdaniaFinansowegoJednostkaInnaWZlotych naglowek = new TNaglowekSprawozdaniaFinansowegoJednostkaInnaWZlotych();
         try {
-            naglowek.dataSporzadzenia = Data.dataoddo(datasporzadzenia);
-            naglowek.okresOd = Data.dataoddo(okresod);
-            naglowek.okresDo = Data.dataoddo(okresdo);
+            naglowek.dataSporzadzenia = Data.dataStringToXMLGregorian(datasporzadzenia);
+            naglowek.okresOd = Data.dataStringToXMLGregorian(okresod);
+            naglowek.okresDo = Data.dataStringToXMLGregorian(okresdo);
             naglowek.wariantSprawozdania = "1";
             naglowek.kodSprawozdania = pobierzkodsprawozdania();
         } catch (DatatypeConfigurationException ex) {
@@ -151,8 +151,8 @@ public class SprawozdanieFin2018Bean {
     private static TZakresDatSF pobierzzakresdat(String okresod, String okresdo) {
         TZakresDatSF zakres = new TZakresDatSF();
         try {
-            zakres.dataOd = Data.dataoddo(okresod);
-            zakres.dataDo = Data.dataoddo(okresdo);
+            zakres.dataOd = Data.dataStringToXMLGregorian(okresod);
+            zakres.dataDo = Data.dataStringToXMLGregorian(okresdo);
         } catch (DatatypeConfigurationException ex) {
             // Logger.getLogger(SprawozdanieFin2018Bean.class.getName()).log(Level.SEVERE, null, ex);
         }

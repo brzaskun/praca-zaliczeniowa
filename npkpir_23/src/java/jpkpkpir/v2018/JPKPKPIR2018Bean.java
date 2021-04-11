@@ -33,8 +33,8 @@ public class JPKPKPIR2018Bean {
         TNaglowek tNaglowek = new TNaglowek();
         try {
             tNaglowek.celZlozenia = celzlozenia;
-            tNaglowek.dataOd = Data.dataoddo(Data.dzienpierwszy(wpisView));
-            tNaglowek.dataDo = Data.dataoddo(Data.ostatniDzien(wpisView));
+            tNaglowek.dataOd = Data.dataStringToXMLGregorian(Data.dzienpierwszy(wpisView));
+            tNaglowek.dataDo = Data.dataStringToXMLGregorian(Data.ostatniDzien(wpisView));
             tNaglowek.dataWytworzeniaJPK = Data.databiezaca();
             tNaglowek.domyslnyKodWaluty = CurrCodeType.PLN;
             tNaglowek.kodFormularza = kodformularza();
@@ -109,7 +109,7 @@ public class JPKPKPIR2018Bean {
                     JPK.PKPIRWiersz w = new JPK.PKPIRWiersz();
                     w.typ = "G";
                     w.k1 = BigInteger.valueOf(p.getNrWpkpir());
-                    w.k2 = Data.dataoddo(p.getDokument().getDataSprz());
+                    w.k2 = Data.dataStringToXMLGregorian(p.getDokument().getDataSprz());
                     w.k3 = p.getNrWlDk();
                     w.k4 = p.getKontr().getNpelna();
                     w.k5 = p.getKontr().getAdres();

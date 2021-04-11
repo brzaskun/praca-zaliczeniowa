@@ -5,8 +5,8 @@
 package view;
 
 import java.io.Serializable;
-import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 
 /**
  *

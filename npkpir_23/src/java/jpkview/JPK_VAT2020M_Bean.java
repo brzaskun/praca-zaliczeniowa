@@ -38,8 +38,8 @@ public class JPK_VAT2020M_Bean {
         try {
             w.setTypDokumentu(pobierztypdokumentu(ev));
             w.setLpSprzedazy(lp);
-            w.setDataSprzedazy(Data.dataoddo(ev.getDok().getDataSprz()));
-            w.setDataWystawienia(Data.dataoddo(ev.getDok().getDataWyst()));
+            w.setDataSprzedazy(Data.dataStringToXMLGregorian(ev.getDok().getDataSprz()));
+            w.setDataWystawienia(Data.dataStringToXMLGregorian(ev.getDok().getDataWyst()));
             w.setKodKrajuNadaniaTIN(kodkraju(ev.getDok().getKontr1()));
             w.setNrKontrahenta(przetworznip(ev.getDok().getKontr1().getNip()));
             w.setNazwaKontrahenta(ev.getDok().getKontr1().getNpelna());
@@ -57,8 +57,8 @@ public class JPK_VAT2020M_Bean {
         try {
             w.setTypDokumentu(pobierztypdokumentu(ev));
             w.setLpSprzedazy(lp);
-            w.setDataSprzedazy(Data.dataoddo(ev.getDataoperacji()));
-            w.setDataWystawienia(Data.dataoddo(ev.getDatadokumentu()));
+            w.setDataSprzedazy(Data.dataStringToXMLGregorian(ev.getDataoperacji()));
+            w.setDataWystawienia(Data.dataStringToXMLGregorian(ev.getDatadokumentu()));
             w.setNrKontrahenta("brak");
             w.setNazwaKontrahenta(ev.getImienazwisko());
             w.setDowodSprzedazy(ev.getFaktura());
@@ -77,8 +77,8 @@ public class JPK_VAT2020M_Bean {
                 w.setTypDokumentu(pl.gov.crd.wzor._2020._05._08._9393.TDowoduSprzedazy.FP);
             }
             w.setLpSprzedazy(lp);
-            w.setDataSprzedazy(Data.dataoddo(ev.getDataSprzedazy()));
-            w.setDataWystawienia(Data.dataoddo(ev.getDataWystawienia()));
+            w.setDataSprzedazy(Data.dataStringToXMLGregorian(ev.getDataSprzedazy()));
+            w.setDataWystawienia(Data.dataStringToXMLGregorian(ev.getDataWystawienia()));
             w.setNrKontrahenta(ev.getNrKontrahenta()!=null?ev.getNrKontrahenta():"brak");
             w.setNazwaKontrahenta(ev.getNazwaKontrahenta());
             w.setDowodSprzedazy(ev.getDowodSprzedazy());
@@ -100,16 +100,16 @@ public class JPK_VAT2020M_Bean {
             w.setLpSprzedazy(lp);
             if ((ev.getDokfk().getRodzajedok().getKategoriadokumentu()==0 || ev.getDokfk().getRodzajedok().getKategoriadokumentu()==5) && ev.getNumerwlasnydokfk()!=null) {
                 w.setTypDokumentu(pobierztypdokumentu(ev));
-                w.setDataSprzedazy(Data.dataoddo(ev.getDataoperacji()));
-                w.setDataWystawienia(Data.dataoddo(ev.getDatadokumentu()));
+                w.setDataSprzedazy(Data.dataStringToXMLGregorian(ev.getDataoperacji()));
+                w.setDataWystawienia(Data.dataStringToXMLGregorian(ev.getDatadokumentu()));
                 w.setKodKrajuNadaniaTIN(kodkraju(ev.getDokfk().getKontr()));
                 w.setNrKontrahenta(przetworznip(ev.getDokfk().getKontr().getNip()));
                 w.setNazwaKontrahenta(ev.getKlient().getNpelna());
                 w.setDowodSprzedazy(ev.getNumerwlasnydokfk());
             } else {
                 w.setTypDokumentu(pobierztypdokumentu(ev));
-                w.setDataSprzedazy(Data.dataoddo(ev.getDokfk().getDataoperacji()));
-                w.setDataWystawienia(Data.dataoddo(ev.getDokfk().getDatawystawienia()));
+                w.setDataSprzedazy(Data.dataStringToXMLGregorian(ev.getDokfk().getDataoperacji()));
+                w.setDataWystawienia(Data.dataStringToXMLGregorian(ev.getDokfk().getDatawystawienia()));
                 w.setKodKrajuNadaniaTIN(kodkraju(ev.getDokfk().getKontr()));
                 w.setNrKontrahenta(przetworznip(ev.getDokfk().getKontr().getNip()));
                 w.setNazwaKontrahenta(ev.getDokfk().getKontr().getNpelna());
@@ -171,8 +171,8 @@ public class JPK_VAT2020M_Bean {
         try {
             w.setLpZakupu(lp);
             w.setDokumentZakupu(pobierzdokumentzakupu(ev));
-            w.setDataZakupu(Data.dataoddo(ev.getDok().getDataSprz()));
-            w.setDataWplywu(Data.dataoddo(ev.getDok().getDataWyst()));
+            w.setDataZakupu(Data.dataStringToXMLGregorian(ev.getDok().getDataSprz()));
+            w.setDataWplywu(Data.dataStringToXMLGregorian(ev.getDok().getDataWyst()));
             w.setNazwaDostawcy(ev.getDok().getKontr1().getNpelna());
             w.setKodKrajuNadaniaTIN(kodkraju(ev.getDok().getKontr1()));
             w.setNrDostawcy(przetworznip(ev.getDok().getKontr1().getNip()));
@@ -190,8 +190,8 @@ public class JPK_VAT2020M_Bean {
         try {
             w.setLpZakupu(lp);
             w.setDokumentZakupu(pobierzdokumentzakupu(ev));
-            w.setDataZakupu(Data.dataoddo(ev.getDataoperacji()));
-            w.setDataWplywu(Data.dataoddo(ev.getDatadokumentu()));
+            w.setDataZakupu(Data.dataStringToXMLGregorian(ev.getDataoperacji()));
+            w.setDataWplywu(Data.dataStringToXMLGregorian(ev.getDatadokumentu()));
             w.setNazwaDostawcy(ev.getKlient().getNpelna());
             w.setKodKrajuNadaniaTIN(kodkraju(ev.getKlient()));
             w.setNrDostawcy(przetworznip(ev.getKlient().getNip()));
@@ -210,16 +210,16 @@ public class JPK_VAT2020M_Bean {
             w.setLpZakupu(lp);
             if ((ev.getDokfk().getRodzajedok().getKategoriadokumentu()==0 || ev.getDokfk().getRodzajedok().getKategoriadokumentu()==5) && ev.getNumerwlasnydokfk()!=null) {
                 w.setDokumentZakupu(pobierzdokumentzakupu(ev));
-                w.setDataZakupu(Data.dataoddo(ev.getDataoperacji()));
-                w.setDataWplywu(Data.dataoddo(ev.getDatadokumentu()));
+                w.setDataZakupu(Data.dataStringToXMLGregorian(ev.getDataoperacji()));
+                w.setDataWplywu(Data.dataStringToXMLGregorian(ev.getDatadokumentu()));
                 w.setKodKrajuNadaniaTIN(kodkraju(ev.getKlient()));
                 w.setNrDostawcy(przetworznip(ev.getKlient().getNip()));
                 w.setNazwaDostawcy(ev.getKlient().getNpelna());
                 w.setDowodZakupu(ev.getNumerwlasnydokfk());
             } else {
                 w.setDokumentZakupu(pobierzdokumentzakupu(ev));
-                w.setDataZakupu(Data.dataoddo(ev.getDokfk().getDataoperacji()));
-                w.setDataWplywu(Data.dataoddo(ev.getDokfk().getDatawystawienia()));
+                w.setDataZakupu(Data.dataStringToXMLGregorian(ev.getDokfk().getDataoperacji()));
+                w.setDataWplywu(Data.dataStringToXMLGregorian(ev.getDokfk().getDatawystawienia()));
                 w.setNazwaDostawcy(ev.getDokfk().getKontr().getNpelna());
                 w.setKodKrajuNadaniaTIN(kodkraju(ev.getDokfk().getKontr()));
                 w.setNrDostawcy(przetworznip(ev.getDokfk().getKontr().getNip()));
@@ -331,7 +331,7 @@ public class JPK_VAT2020M_Bean {
         p.setNazwisko(wv.getNazwisko());
         XMLGregorianCalendar dataurodzenia=null;
         try {
-            dataurodzenia = Data.dataoddo(wv.getDataurodzenia());
+            dataurodzenia = Data.dataStringToXMLGregorian(wv.getDataurodzenia());
         } catch (DatatypeConfigurationException ex) {
             
         }
