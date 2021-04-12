@@ -822,7 +822,7 @@ public class Dokfk extends DokSuper implements Serializable {
             } else {
                 double kwotaWn = wn;
                 double kwotaMa = ma;
-                if (kwotaMa > kwotaWn) {
+                if (Math.abs(kwotaMa) > Math.abs(kwotaWn)) {
                     suma += wn;
                 } else {
                     suma += ma;
