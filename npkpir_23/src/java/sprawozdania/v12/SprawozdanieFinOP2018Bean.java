@@ -31,7 +31,7 @@ public class SprawozdanieFinOP2018Bean {
             naglowek.okresDo = Data.dataStringToXMLGregorian(okresdo);
             naglowek.wariantSprawozdania = "1";
             naglowek.kodSprawozdania = pobierzkodsprawozdania();
-        } catch (DatatypeConfigurationException ex) {
+        } catch (Exception ex) {
             // Logger.getLogger(SprawozdanieFinOP2018Bean.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             return naglowek;
@@ -133,7 +133,7 @@ public class SprawozdanieFinOP2018Bean {
         try {
             zakres.dataOd = Data.dataStringToXMLGregorian(okresod);
             zakres.dataDo = Data.dataStringToXMLGregorian(okresdo);
-        } catch (DatatypeConfigurationException ex) {
+        } catch (Exception ex) {
             // Logger.getLogger(SprawozdanieFinOP2018Bean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return zakres;

@@ -21,7 +21,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.regex.Pattern;
-import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
 import pl.gov.crd.wzor._2020._05._08._9393.*;
 import pl.gov.crd.wzor._2020._05._08._9393.JPK.Podmiot1;
@@ -332,7 +331,7 @@ public class JPK_VAT2020M_Bean {
         XMLGregorianCalendar dataurodzenia=null;
         try {
             dataurodzenia = Data.dataStringToXMLGregorian(wv.getDataurodzenia());
-        } catch (DatatypeConfigurationException ex) {
+        } catch (Exception ex) {
             
         }
         p.setDataUrodzenia(dataurodzenia);

@@ -74,7 +74,7 @@ public class VATZDBean {
             newXMLGregorianCalendar.setYear(Integer.parseInt(data[0]));
             newXMLGregorianCalendar.setMonth(Integer.parseInt(data[1]));
             newXMLGregorianCalendar.setDay(Integer.parseInt(data[2]));
-        } catch (DatatypeConfigurationException ex) {
+        } catch (Exception ex) {
             // Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
         }
         return newXMLGregorianCalendar;

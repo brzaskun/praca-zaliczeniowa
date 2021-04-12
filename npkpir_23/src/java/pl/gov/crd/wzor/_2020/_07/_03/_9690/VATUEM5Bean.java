@@ -110,7 +110,7 @@ public class VATUEM5Bean {
             idf.setNazwisko(w.getPodatnikObiekt().getNazwisko());
             idf.setImiePierwsze(w.getPodatnikObiekt().getImie());
             idf.setDataUrodzenia(DatatypeFactory.newInstance().newXMLGregorianCalendar(w.getPodatnikObiekt().getDataurodzenia()));
-        } catch (DatatypeConfigurationException ex) {
+        } catch (Exception ex) {
             // Logger.getLogger(VATUEM4Bean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return idf;

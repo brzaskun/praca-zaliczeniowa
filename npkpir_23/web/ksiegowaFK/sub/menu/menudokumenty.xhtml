@@ -35,7 +35,7 @@
                     <p:menuitem value="brak planu kont - nie można księgować" rendered="#{!WpisView.rokzamkniety and planKontCompleteView.listakontOstatniaAnalitykaklienta.size() eq 0}"
                                 oncomplete="alert('Wygeneruj najpierw plan kont!')" style="color: red;" global="false"
                                 ></p:menuitem>
-                    <p:menuitem value="przeglądanie zakięgowanych" oncomplete="PF('zestawieniezaksiegowanych').show();" 
+                    <p:menuitem value="przeglądanie zaksięgowanych" oncomplete="PF('zestawieniezaksiegowanych').show();" 
                                 ></p:menuitem>
                     <p:menuitem value="zapisy na koncie" onclick="PF('zapisynakoncie').show();" 
                                        ></p:menuitem>
@@ -44,6 +44,7 @@
                     <p:menuitem value="rozrachunki wg kont" onclick="PF('rozrachunkiPrzeglad').show();"
                                          update="formwpisrozrachunki form1 tabelanowerozrachunki tabelazsumamirozrach"></p:menuitem>
                     <p:menuitem value="#{mgs.zestawienia}"  outcome="guestwynikFK" icon="ui-icon-circle-arrow-e" oncomplete="$('#akordeon\\:symulacjawyniku').click();"/>
+                    <p:menuitem value="generuj JPK_KR za miesiąc" actionListener="#{jPKKRView.przygotuj()}"  icon="ui-icon-circle-arrow-e" />  
                 </p:menu>  
             </h:form>
         </p:tab>

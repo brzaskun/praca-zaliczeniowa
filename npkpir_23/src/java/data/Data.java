@@ -62,6 +62,12 @@ public class Data implements Serializable {
        return ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
     }
     
+    public static String pierwszyDzien(WpisView wpisView) {
+       String rok = wpisView.getRokWpisuSt();
+       String mc = wpisView.getMiesiacWpisu();
+       return rok + "-" + mc + "-01";
+    }
+    
     /**
      * Porównywanie dwóch rokow i mce. Przyjmuje integer
      * 

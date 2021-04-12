@@ -6,6 +6,7 @@ package view;
 
 import beansFK.KontaFKBean;
 import beansRegon.SzukajDaneBean;
+import comparator.Dokfkcomparator;
 import comparator.Kontocomparator;
 import comparator.Podatnikcomparator;
 import dao.DokDAO;
@@ -1550,10 +1551,13 @@ private DokDAO dokDAO;
     
     private void zaksiegujdokumenty() {
         List<Dokfk> selectedlist = dokDAOfk.findDokfkPodatnikRok(wpisView);
+        Collections.sort(selectedlist, new Dokfkcomparator());
             try {
+                int i = 1;
                 for (Dokfk p : selectedlist) {
                     if (p.getDataksiegowania() == null) {
                         p.setDataksiegowania(new Date());
+                        p.setNrdziennika(i++);
                     }
                 }
                 dokDAOfk.editList(selectedlist);
@@ -1569,6 +1573,7 @@ private DokDAO dokDAO;
             try {
                 for (Dokfk p : selectedlist) {
                     p.setDataksiegowania(null);
+                    p.setNrdziennika(null);
                 }
                 dokDAOfk.editList(selectedlist);
                 Msg.msg("Odksięgowano dokumenty w liczbie: "+selectedlist.size());

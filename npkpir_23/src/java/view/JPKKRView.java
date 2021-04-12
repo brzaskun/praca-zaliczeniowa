@@ -5,20 +5,42 @@
  */
 package view;
 
+import comparator.DokfkNrDziennikacomparator;
+import comparator.KontoZapisycomparator;
+import comparator.SaldoKontocomparator;
+import dao.DokDAOfk;
 import data.Data;
+import static deklaracje.vatuek.m4.VATUEKM4Bean.StringToDocument;
 import embeddablefk.SaldoKonto;
 import entity.Podatnik;
 import entityfk.Dokfk;
+import entityfk.Konto;
 import entityfk.KontoZapisy;
 import entityfk.StronaWiersza;
+import entityfk.Wiersz;
+import error.E;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Serializable;
+import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.transform.stream.StreamResult;
+import msg.Msg;
+import org.primefaces.PrimeFaces;
+import org.w3c.dom.Document;
 import pl.gov.crd.xml.schematy.dziedzinowe.mf._2013._05._23.ed.kodycechkrajow.CurrCodeType;
 import pl.gov.crd.xml.schematy.dziedzinowe.mf._2016._01._25.ed.definicjetypy.TAdresPolski;
 import pl.gov.crd.xml.schematy.dziedzinowe.mf._2016._01._25.ed.definicjetypy.TIdentyfikatorOsobyNiefizycznej;
@@ -26,6 +48,10 @@ import pl.gov.crd.xml.schematy.dziedzinowe.mf._2016._01._25.ed.definicjetypy.TKo
 import pl.gov.mf.jpk.wzor._2016._03._09._03091.JPK;
 import pl.gov.mf.jpk.wzor._2016._03._09._03091.TKodFormularza;
 import pl.gov.mf.jpk.wzor._2016._03._09._03091.TNaglowek;
+import viewfk.SaldoAnalitykaView;
+import viewfk.ZapisyKontaPodatnikFKView;
+import waluty.Z;
+import xml.XMLValid;
 
 /**
  *
@@ -37,6 +63,32 @@ public class JPKKRView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private WpisView wpisView;
+    @Inject
+    private DokDAOfk dokDAOfk;
+    @Inject
+    private ZapisyKontaPodatnikFKView zapisyKontaPodatnikFKView;
+    @Inject
+    private SaldoAnalitykaView saldoAnalitykaView;
+    
+    
+    public void przygotuj() {
+        String dataod = Data.pierwszyDzien(wpisView);
+        String datado = Data.ostatniDzien(wpisView);
+        List<Dokfk> dokumenty = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
+        sumujdokumenty(dokumenty);
+        Collections.sort(dokumenty, new DokfkNrDziennikacomparator());
+        zapisyKontaPodatnikFKView.init();
+        List<KontoZapisy> kontozapisy = zapisyKontaPodatnikFKView.getKontozapisy();
+        Collections.sort(kontozapisy, new KontoZapisycomparator());
+        saldoAnalitykaView.init();
+        List<SaldoKonto> salda = saldoAnalitykaView.getListaSaldoKonto();
+        Collections.sort(salda, new SaldoKontocomparator());
+        JPK rob = rob(false, dataod, datado, "3215", wpisView.getPodatnikObiekt(), dokumenty, kontozapisy, salda);
+        marszajuldoplikuxml(rob, wpisView);
+        System.out.println("");
+        porownaj(dokumenty, kontozapisy);
+    }
+    
     
     private JPK rob(boolean pierwotna0korekta1, String dataod, String datado, String kodurzedu, Podatnik podatnik, List<Dokfk> dokumenty, List<KontoZapisy> kontozapisy, List<SaldoKonto> salda) {
         JPK jpk = new JPK();
@@ -104,6 +156,7 @@ public class JPKKRView  implements Serializable {
         adres.setUlica(podatnik.getUlica());
         adres.setNrDomu(podatnik.getNrdomu());
         adres.setNrLokalu(podatnik.getNrlokalu());
+        adres.setPoczta(podatnik.getPoczta());
         return adres;
     }
 
@@ -114,14 +167,15 @@ public class JPKKRView  implements Serializable {
              dziennik.setDataDowodu(Data.dataStringToXMLGregorian(p.getDatadokumentu()));
              dziennik.setDataKsiegowania(Data.dataStringToXMLGregorian(p.getDatawplywu()));
              dziennik.setDataOperacji(Data.dataStringToXMLGregorian(p.getDataoperacji()));
-             dziennik.setDziennikKwotaOperacji(BigDecimal.valueOf(p.getWartoscdokumentu()));
+             dziennik.setDziennikKwotaOperacji(BigDecimal.valueOf(Z.z(p.getWartoscdokumentu())));
              dziennik.setKodOperatora(p.getWprowadzil());
              dziennik.setLpZapisuDziennika(BigInteger.valueOf(Integer.valueOf(p.getNrdziennika())));
              dziennik.setNrDowoduKsiegowego(p.getNumerwlasnydokfk());
              dziennik.setNrZapisuDziennika(p.getDokfkSN());
-             dziennik.setOpisDziennika(p.getRodzajedok().getNazwa());
+             dziennik.setOpisDziennika(p.getRodzajedok().getRodzajtransakcji());
              dziennik.setOpisOperacji(p.getOpisdokfk());
-             dziennik.setTyp(p.getRodzajedok().getRodzajtransakcji());
+             dziennik.setTyp(dziennik.getTyp());
+             dziennik.setRodzajDowodu(p.getRodzajedok().getNazwa());
              listadziennik.add(dziennik);
          }
          return listadziennik;
@@ -143,7 +197,10 @@ public class JPKKRView  implements Serializable {
                     zapis.setLpZapisu(BigInteger.valueOf(i++));
                     zapis.setNrZapisu(r.getDokfkS());
                     zapis.setOpisZapisuWinien(r.getWiersz().getOpisWiersza());
-                    zapis.setTyp(r.getTyp());
+                    zapis.setTyp(zapis.getTyp());
+                    //Ma
+                    zapis.setKodKontaMa(p.getKonto().getPelnynumer());
+                    zapis.setKwotaMa(BigDecimal.valueOf(0.0));
                 } else {
                     zapis.setKodKontaMa(p.getKonto().getPelnynumer());
                     if (r.getSymbolWaluty().equals("PLN")) {
@@ -153,10 +210,13 @@ public class JPKKRView  implements Serializable {
                     zapis.setKwotaMa(BigDecimal.valueOf(r.getKwotaPLN()));
                     zapis.setLpZapisu(BigInteger.valueOf(i++));
                     zapis.setNrZapisu(r.getDokfkS());
-                    zapis.setOpisZapisuWinien(r.getWiersz().getOpisWiersza());
-                    zapis.setTyp(r.getTyp());
+                    zapis.setOpisZapisuMa(r.getWiersz().getOpisWiersza());
+                    zapis.setTyp(zapis.getTyp());
+                    //Wn
+                    zapis.setKodKontaWinien(p.getKonto().getPelnynumer());
+                    zapis.setKwotaWinien(BigDecimal.valueOf(0.0));
                 }
-            
+                listakontozapisy.add(zapis);
             }
         }
         return listakontozapisy;
@@ -172,6 +232,7 @@ public class JPKKRView  implements Serializable {
         List<JPK.ZOiS> listakontozapisy= new ArrayList<>();
         for (SaldoKonto p : salda) {
             JPK.ZOiS saldo = new JPK.ZOiS();
+            Konto macierzyste = p.getKonto().getKontomacierzyste()!=null?p.getKonto().getKontomacierzyste():p.getKonto();
             saldo.setBilansOtwarciaWinien(BigDecimal.valueOf(p.getBoWn()));
             saldo.setBilansOtwarciaMa(BigDecimal.valueOf(p.getBoMa()));
             saldo.setObrotyWinien(BigDecimal.valueOf(p.getObrotyWnMc()));
@@ -181,13 +242,15 @@ public class JPKKRView  implements Serializable {
             saldo.setSaldoWinien(BigDecimal.valueOf(p.getSaldoWn()));
             saldo.setSaldoMa(BigDecimal.valueOf(p.getSaldoMa()));
             saldo.setKodKonta(p.getKonto().getPelnynumer());
-            saldo.setKodKategorii(p.getNrpelnymacierzystego());
-            saldo.setKodPodkategorii(p.getKonto().getKontomacierzyste().getPelnynumer());
-            saldo.setKodZespolu(p.getNrpelnymacierzystego().substring(0, 1));
-            saldo.setOpisKategorii(p.getKonto().getKontomacierzyste().getNazwapelna());
+            saldo.setKodKategorii(macierzyste.getPelnynumer());
+//            saldo.setKodPodkategorii(macierzyste.getPelnynumer());
+            saldo.setKodZespolu(macierzyste.getPelnynumer().substring(0, 1));
+            saldo.setOpisKategorii(macierzyste.getNazwapelna());
             saldo.setOpisKonta(p.getKonto().getNazwapelna());
-            saldo.setOpisZespolu(p.getKonto().getKontomacierzyste().getNazwapelna());
+            saldo.setOpisZespolu(macierzyste.getNazwapelna());
             saldo.setTypKonta(p.getKonto().getBilansowewynikowe()+"/"+p.getKonto().getZwyklerozrachszczegolne());
+            saldo.setTyp(saldo.getTyp());
+            listakontozapisy.add(saldo);
         }
         return listakontozapisy;
     }
@@ -199,7 +262,7 @@ public class JPKKRView  implements Serializable {
         for (JPK.Dziennik p  : dziennik) {
             summa = summa+p.getDziennikKwotaOperacji().doubleValue();
         }
-        suma.setSumaKwotOperacji(BigDecimal.valueOf(summa));
+        suma.setSumaKwotOperacji(BigDecimal.valueOf(Z.z(summa)));
         return suma;
     }
 
@@ -209,12 +272,103 @@ public class JPKKRView  implements Serializable {
         double summawn = 0.0;
         double summama = 0.0;
         for (JPK.KontoZapis p : kontozapis) {
-            summawn = summawn+p.getKwotaWinien().doubleValue();
-            summama = summama+p.getKwotaMa().doubleValue();
+            if (p.getKwotaWinien()!=null) {
+                summawn = summawn+p.getKwotaWinien().doubleValue();
+            }
+            if (p.getKwotaMa()!=null) {
+                summama = summama+p.getKwotaMa().doubleValue();
+            }
         }
-        suma.setSumaWinien(BigDecimal.valueOf(summawn));
-        suma.setSumaMa(BigDecimal.valueOf(summama));
+        suma.setSumaWinien(BigDecimal.valueOf(Z.z(summawn)));
+        suma.setSumaMa(BigDecimal.valueOf(Z.z(summama)));
         return suma;
+    }
+    
+    public static void marszajuldoplikuxml(JPK jpk, WpisView wpisView) {
+        try {
+            JAXBContext context = JAXBContext.newInstance(JPK.class);
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+            StringWriter sw = new StringWriter();
+            marshaller.marshal(jpk, new StreamResult(sw));
+            Document dokmt = StringToDocument(sw.toString());
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String mainfilename = "JPKKR"+wpisView.getPodatnikObiekt().getNip()+".xml";
+            String plik = ctx.getRealPath("/")+"resources\\xml\\"+mainfilename;
+            FileOutputStream fileStream = new FileOutputStream(new File(plik));
+            OutputStreamWriter writer = new OutputStreamWriter(fileStream, "UTF-8");
+            marshaller.marshal(jpk, writer);
+            Object[] walidacja = XMLValid.walidujJPKKR(mainfilename);
+            String[] zwrot = new String[2];
+            if (walidacja!=null && walidacja[0]==Boolean.TRUE) {
+                zwrot[0] = mainfilename;
+                zwrot[1] = "ok";
+                Msg.msg("Walidacja JPK pomyślna");
+                Msg.msg("Zachowano JPK");
+                String exec = "wydrukJPK('"+mainfilename+"')";
+                PrimeFaces.current().executeScript(exec);
+            } else if (walidacja!=null && walidacja[0]==Boolean.FALSE){
+                zwrot[0] = mainfilename;
+                zwrot[1] = null;
+                Msg.msg("Nie zachowano JPK");
+                Msg.msg("e", (String) walidacja[1]);
+            }
+           
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+    }
+
+    private void sumujdokumenty(List<Dokfk> dokumenty) {
+        for (Dokfk d : dokumenty) {
+            d.setWartoscdokumentu(0.0);
+            for (Wiersz p : d.getListawierszy()) {
+                double sumawiersza = dodajKwotyWierszaDoSumyDokumentu(p);
+                d.setWartoscdokumentu(Z.z(d.getWartoscdokumentu()+sumawiersza));
+            }
+        }
+    }
+    
+     public double dodajKwotyWierszaDoSumyDokumentu(Wiersz biezacywiersz) {
+        double suma = 0.0;
+        try {//robimy to bo sa nowy wiersz jest tez podsumowywany, ale moze byc przeciez pusty wiec wyrzuca blad
+            int typwiersza = biezacywiersz.getTypWiersza();
+            double wn = biezacywiersz.getStronaWn() != null ? biezacywiersz.getStronaWn().getKwotaPLN() : 0.0;
+            double ma = biezacywiersz.getStronaMa() != null ? biezacywiersz.getStronaMa().getKwotaPLN() : 0.0;
+            
+            if (typwiersza == 1) {
+                suma += wn;
+            } else if (typwiersza == 2) {
+                suma += ma;
+            } else {
+                double kwotaWn = wn;
+                double kwotaMa = ma;
+                if (kwotaMa > kwotaWn) {
+                    suma += wn;
+                } else {
+                    suma += ma;
+                }
+            }
+        } catch (Exception e) {
+
+        }
+        return Z.z(suma);
+    }
+
+
+    private void porownaj(List<Dokfk> dokumenty, List<KontoZapisy> kontozapisy) {
+        List<StronaWiersza> strony = new ArrayList<>();
+        for (KontoZapisy p : kontozapisy) {
+            strony.addAll(p.getStronywiersza());
+        }
+        for (Iterator<StronaWiersza> it = strony.iterator(); it.hasNext();) {
+            StronaWiersza p = it.next();
+            if (dokumenty.contains(p.getDokfk())) {
+                it.remove();
+            }
+        }
+        System.out.println("");
     }
 
 }

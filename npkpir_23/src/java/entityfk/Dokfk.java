@@ -197,7 +197,7 @@ public class Dokfk extends DokSuper implements Serializable {
             })
     private List<Cechazapisu> cechadokumentuLista;
     @Column(name = "nrdziennika")
-    private String nrdziennika;
+    private Integer nrdziennika;
     @Column(name = "importowany")
     private boolean importowany;
     @Column(name = "lp")
@@ -322,11 +322,11 @@ public class Dokfk extends DokSuper implements Serializable {
     
   
     //<editor-fold defaultstate="collapsed" desc="comment">
-    public String getNrdziennika() {
+    public Integer getNrdziennika() {
         return nrdziennika;
     }
 
-    public void setNrdziennika(String nrdziennika) {
+    public void setNrdziennika(Integer nrdziennika) {
         this.nrdziennika = nrdziennika;
     }
 

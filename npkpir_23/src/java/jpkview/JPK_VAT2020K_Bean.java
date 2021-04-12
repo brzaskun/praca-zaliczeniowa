@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.regex.Pattern;
-import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
 import waluty.Z;
 
@@ -305,7 +304,7 @@ public class JPK_VAT2020K_Bean {
         XMLGregorianCalendar dataurodzenia=null;
         try {
             dataurodzenia = Data.dataStringToXMLGregorian(wv.getDataurodzenia());
-        } catch (DatatypeConfigurationException ex) {
+        } catch (Exception ex) {
             
         }
         p.setDataUrodzenia(dataurodzenia);
