@@ -6,7 +6,6 @@
 package view;
 
 import comparator.DokfkNrDziennikacomparator;
-import comparator.KontoZapisycomparator;
 import comparator.SaldoKontocomparator;
 import dao.DokDAOfk;
 import data.Data;
@@ -15,7 +14,6 @@ import embeddablefk.SaldoKonto;
 import entity.Podatnik;
 import entityfk.Dokfk;
 import entityfk.Konto;
-import entityfk.KontoZapisy;
 import entityfk.StronaWiersza;
 import entityfk.Wiersz;
 import error.E;
@@ -49,7 +47,6 @@ import pl.gov.mf.jpk.wzor._2016._03._09._03091.JPK;
 import pl.gov.mf.jpk.wzor._2016._03._09._03091.TKodFormularza;
 import pl.gov.mf.jpk.wzor._2016._03._09._03091.TNaglowek;
 import viewfk.SaldoAnalitykaView;
-import viewfk.ZapisyKontaPodatnikFKView;
 import waluty.Z;
 import xml.XMLValid;
 
@@ -66,8 +63,6 @@ public class JPKKRView  implements Serializable {
     @Inject
     private DokDAOfk dokDAOfk;
     @Inject
-    private ZapisyKontaPodatnikFKView zapisyKontaPodatnikFKView;
-    @Inject
     private SaldoAnalitykaView saldoAnalitykaView;
     
     
@@ -77,27 +72,24 @@ public class JPKKRView  implements Serializable {
         List<Dokfk> dokumenty = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
         sumujdokumenty(dokumenty);
         Collections.sort(dokumenty, new DokfkNrDziennikacomparator());
-        zapisyKontaPodatnikFKView.init();
-        List<KontoZapisy> kontozapisy = zapisyKontaPodatnikFKView.getKontozapisy();
-        Collections.sort(kontozapisy, new KontoZapisycomparator());
         saldoAnalitykaView.init();
         List<SaldoKonto> salda = saldoAnalitykaView.getListaSaldoKonto();
         Collections.sort(salda, new SaldoKontocomparator());
-        JPK rob = rob(false, dataod, datado, "3215", wpisView.getPodatnikObiekt(), dokumenty, kontozapisy, salda);
+        JPK rob = rob(false, dataod, datado, "3215", wpisView.getPodatnikObiekt(), dokumenty, salda);
         marszajuldoplikuxml(rob, wpisView);
         System.out.println("");
-        porownaj(dokumenty, kontozapisy);
+        //porownaj(dokumenty, kontozapisy);
     }
     
     
-    private JPK rob(boolean pierwotna0korekta1, String dataod, String datado, String kodurzedu, Podatnik podatnik, List<Dokfk> dokumenty, List<KontoZapisy> kontozapisy, List<SaldoKonto> salda) {
+    private JPK rob(boolean pierwotna0korekta1, String dataod, String datado, String kodurzedu, Podatnik podatnik, List<Dokfk> dokumenty, List<SaldoKonto> salda) {
         JPK jpk = new JPK();
         jpk.setNaglowek(zrobnaglowek(jpk, pierwotna0korekta1, dataod, datado, kodurzedu));
         jpk.setPodmiot1(zrobpodmiot(podatnik));
         List<JPK.Dziennik> dziennik = zrobdziennik(dokumenty);
         jpk.getDziennik().addAll(dziennik);
         jpk.setDziennikCtrl(zrobdziennikCtrl(jpk.getDziennik()));
-        List<JPK.KontoZapis> kontozapis = zrobkontozapis(kontozapisy);
+        List<JPK.KontoZapis> kontozapis = zrobkontozapis(dokumenty);
         jpk.getKontoZapis().addAll(kontozapis);
         jpk.setKontoZapisCtrl(zrobkontozapisCtrl(kontozapis));
         List<JPK.ZOiS> saldalista = zrobsalda(salda);
@@ -167,8 +159,8 @@ public class JPKKRView  implements Serializable {
              dziennik.setDataDowodu(Data.dataStringToXMLGregorian(p.getDatadokumentu()));
              dziennik.setDataKsiegowania(Data.dataStringToXMLGregorian(p.getDatawplywu()));
              dziennik.setDataOperacji(Data.dataStringToXMLGregorian(p.getDataoperacji()));
-             dziennik.setDziennikKwotaOperacji(BigDecimal.valueOf(Z.z(p.getWartoscdokumentu())));
-             dziennik.setKodOperatora(p.getWprowadzil());
+             dziennik.setDziennikKwotaOperacji(BigDecimal.valueOf(Z.z(sumujdokument(p))));
+             dziennik.setKodOperatora(p.getWprowadzil()!=null?p.getWprowadzil():"taxman");
              dziennik.setLpZapisuDziennika(BigInteger.valueOf(Integer.valueOf(p.getNrdziennika())));
              dziennik.setNrDowoduKsiegowego(p.getNumerwlasnydokfk());
              dziennik.setNrZapisuDziennika(p.getDokfkSN());
@@ -181,39 +173,39 @@ public class JPKKRView  implements Serializable {
          return listadziennik;
     }
 
-    private List<JPK.KontoZapis> zrobkontozapis(List<KontoZapisy> kontozapisy) {
+    private List<JPK.KontoZapis> zrobkontozapis(List<Dokfk> dokumenty) {
         List<JPK.KontoZapis> listakontozapisy= new ArrayList<>();
-        for (KontoZapisy p : kontozapisy) {
+        for (Dokfk p : dokumenty) {
             int i = 1;
-            for (StronaWiersza r : p.getStronywiersza()) {
+            for (StronaWiersza r : p.getStronyWierszy()) {
                 JPK.KontoZapis zapis = new JPK.KontoZapis();
                 if (r.isWn()) {
-                    zapis.setKodKontaWinien(p.getKonto().getPelnynumer());
-                    if (r.getSymbolWaluty().equals("PLN")) {
+                    zapis.setKodKontaWinien(r.getKonto().getPelnynumer());
+                    if (!r.getSymbolWaluty().equals("PLN")) {
                         zapis.setKodWalutyWinien(pobierzwalute(r));
-                        zapis.setKwotaWinienWaluta(BigDecimal.valueOf(r.getKwotaWaluta()));
+                        zapis.setKwotaWinienWaluta(BigDecimal.valueOf(Z.z(r.getKwotaWaluta())));
                     }
-                    zapis.setKwotaWinien(BigDecimal.valueOf(r.getKwotaPLN()));
+                    zapis.setKwotaWinien(BigDecimal.valueOf(Z.z(r.getKwotaPLN())));
                     zapis.setLpZapisu(BigInteger.valueOf(i++));
                     zapis.setNrZapisu(r.getDokfkS());
                     zapis.setOpisZapisuWinien(r.getWiersz().getOpisWiersza());
                     zapis.setTyp(zapis.getTyp());
                     //Ma
-                    zapis.setKodKontaMa(p.getKonto().getPelnynumer());
+                    zapis.setKodKontaMa(r.getKonto().getPelnynumer());
                     zapis.setKwotaMa(BigDecimal.valueOf(0.0));
                 } else {
-                    zapis.setKodKontaMa(p.getKonto().getPelnynumer());
-                    if (r.getSymbolWaluty().equals("PLN")) {
+                    zapis.setKodKontaMa(r.getKonto().getPelnynumer());
+                    if (!r.getSymbolWaluty().equals("PLN")) {
                         zapis.setKodWalutyMa(pobierzwalute(r));
-                        zapis.setKwotaMaWaluta(BigDecimal.valueOf(r.getKwotaWaluta()));
+                        zapis.setKwotaMaWaluta(BigDecimal.valueOf(Z.z(r.getKwotaWaluta())));
                     }
-                    zapis.setKwotaMa(BigDecimal.valueOf(r.getKwotaPLN()));
+                    zapis.setKwotaMa(BigDecimal.valueOf(Z.z(r.getKwotaPLN())));
                     zapis.setLpZapisu(BigInteger.valueOf(i++));
                     zapis.setNrZapisu(r.getDokfkS());
                     zapis.setOpisZapisuMa(r.getWiersz().getOpisWiersza());
                     zapis.setTyp(zapis.getTyp());
                     //Wn
-                    zapis.setKodKontaWinien(p.getKonto().getPelnynumer());
+                    zapis.setKodKontaWinien(r.getKonto().getPelnynumer());
                     zapis.setKwotaWinien(BigDecimal.valueOf(0.0));
                 }
                 listakontozapisy.add(zapis);
@@ -319,6 +311,15 @@ public class JPKKRView  implements Serializable {
             E.e(ex);
         }
     }
+    
+    private double sumujdokument(Dokfk d) {
+        double suma = 0.0;
+        for (Wiersz p : d.getListawierszy()) {
+            double sumawiersza = dodajKwotyWierszaDoSumyDokumentu(p);
+            suma += Z.z(sumawiersza);
+        }
+        return suma;
+    }
 
     private void sumujdokumenty(List<Dokfk> dokumenty) {
         for (Dokfk d : dokumenty) {
@@ -351,17 +352,13 @@ public class JPKKRView  implements Serializable {
                 }
             }
         } catch (Exception e) {
-
+            System.out.println("");
         }
         return Z.z(suma);
     }
 
 
-    private void porownaj(List<Dokfk> dokumenty, List<KontoZapisy> kontozapisy) {
-        List<StronaWiersza> strony = new ArrayList<>();
-        for (KontoZapisy p : kontozapisy) {
-            strony.addAll(p.getStronywiersza());
-        }
+    private void porownaj(List<Dokfk> dokumenty, List<StronaWiersza> strony) {
         for (Iterator<StronaWiersza> it = strony.iterator(); it.hasNext();) {
             StronaWiersza p = it.next();
             if (dokumenty.contains(p.getDokfk())) {
