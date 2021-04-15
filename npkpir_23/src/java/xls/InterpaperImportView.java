@@ -42,10 +42,14 @@ import java.io.Serializable;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -307,7 +311,11 @@ public class InterpaperImportView implements Serializable {
                 drkujfizbutton.setRendered(true);
                 generujbutton.setRendered(true);
                 kontobutton.setRendered(true);
-            } else {
+            } else if (wybranyrodzajimportu.getLp()==7 && (jakipobor.equals("fiz"))){
+                drkujfizbutton.setRendered(true);
+                generujbutton.setRendered(true);
+                kontobutton.setRendered(true);
+            }else {
                 if (jakipobor.equals("fiz")) {
                     drkujfizbutton.setRendered(true);
                 } else {
@@ -346,31 +354,159 @@ public class InterpaperImportView implements Serializable {
         if (pobranefaktury !=null && pobranefaktury.size()>0) {
             List<Klienci> k = klienciDAO.findAll();
             int ile = 0;
-            if (selected !=null && selected.size()>0) {
-                for (InterpaperXLS p : selected) {
-                    if (p.getNip()!=null) {
-                        ile += generowanieDokumentu(p, k);
-                    }
-                }
-                Msg.msg("Zaksięgowano "+ile+" z wybranych dokumentów");
-            } else  if (pobranefakturyfilter !=null && pobranefakturyfilter.size()>0) {
-                for (InterpaperXLS p : pobranefakturyfilter) {
-                    if (p.getNip()!=null) {
-                        ile += generowanieDokumentu(p, k);
-                    }
-                }
-                Msg.msg("Zaksięgowano "+ile+" z przefiltrowanych dokumentów");
-            } else {
-                for (InterpaperXLS p : pobranefaktury) {
-                   if (p.getNip()!=null) {
-                        ile += generowanieDokumentu(p, k);
+            if (wybranyrodzajimportu.getLp()==7&&jakipobor.equals("fiz")) {
+                List tabelazbiorcza = sumujpozycje();
+                List tabelarachsp = new ArrayList();
+                List tabelaszue = new ArrayList();
+               for (Object p : tabelazbiorcza) {
+                   Object[] r = ((List) p).toArray();
+                   if (r[0].equals("Niemcy")&& (r[8].equals("16.0%")||r[8].equals("19.0%"))) {
+                       tabelarachsp.add(p);
+                       System.out.println("");
+                   } else if (r[0].equals("Francja")&& r[8].equals("20.0%")) {
+                       tabelarachsp.add(p);
+                       System.out.println("");
+                   } else {
+                       tabelaszue.add(p);
+                       System.out.println("");
                    }
+               }
+               Klienci klient = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+               int kolejny = 0;
+               for (Object p : tabelarachsp) {
+                   try {
+                        String nrfaktury = null;
+                        Dokfk duplikat = null;
+                        do {
+                            ++kolejny;
+                            nrfaktury = kolejny+"/"+wpisView.getMiesiacWpisu()+"/OptimaImp";
+                            duplikat = dokDAOfk.findDokfkSzcz("RACHSP", wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt(), nrfaktury, klient);
+                        } while (duplikat!=null);
+                        String rodzajdk = "RACHSP";
+                        Object[] r = ((List) p).toArray();
+                        InterpaperXLS interpaperXLS = new InterpaperXLS(r, wpisView, klient, nrfaktury);
+                        String opis = "import sprzedaży "+r[0]+" w "+r[1];
+                        Dokfk dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, opis);
+                        dokDAOfk.create(dokument);
+                   } catch (Exception e) {
+                       Msg.msg("e","Nie udało się zachować dokumentu");
+                   }
+               }
+               kolejny = 0;
+               for (Object p : tabelaszue) {
+                   try {
+                        String nrfaktury = null;
+                        Dokfk duplikat = null;
+                        do {
+                            ++kolejny;
+                            nrfaktury = kolejny+"/"+wpisView.getMiesiacWpisu()+"/OptimaImp/VAT";
+                            duplikat = dokDAOfk.findDokfkSzcz("SZUE", wpisView.getRokWpisuSt(), wpisView.getPodatnikObiekt(), nrfaktury, klient);
+                        } while (duplikat!=null);
+                        String rodzajdk = "SZUE";
+                        Object[] r = ((List) p).toArray();
+                        String opis = "import sprzedaży "+r[0]+" w "+r[1];
+                        InterpaperXLS interpaperXLS = new InterpaperXLS(r, wpisView, klient, nrfaktury);
+                        Dokfk dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, opis);
+                        dokDAOfk.create(dokument);
+                   } catch (Exception e) {
+                       Msg.msg("e","Nie udało się zachować dokumentu ");
+                   }
+               }
+               System.out.println("");
+            } else {
+                if (selected !=null && selected.size()>0) {
+                    for (InterpaperXLS p : selected) {
+                        if (p.getNip()!=null) {
+                            ile += generowanieDokumentu(p, k);
+                        }
+                    }
+                    Msg.msg("Zaksięgowano "+ile+" z wybranych dokumentów");
+                } else  if (pobranefakturyfilter !=null && pobranefakturyfilter.size()>0) {
+                    for (InterpaperXLS p : pobranefakturyfilter) {
+                        if (p.getNip()!=null) {
+                            ile += generowanieDokumentu(p, k);
+                        }
+                    }
+                    Msg.msg("Zaksięgowano "+ile+" z przefiltrowanych dokumentów");
+                } else {
+                    for (InterpaperXLS p : pobranefaktury) {
+                       if (p.getNip()!=null) {
+                            ile += generowanieDokumentu(p, k);
+                       }
+                    }
+                    Msg.msg("Zaksięgowano "+ile+" dokumentów");
                 }
-                Msg.msg("Zaksięgowano "+ile+" dokumentów");
             }
         } else {
             Msg.msg("e", "Błąd! Lista danych źrdółowych jest pusta");
         }
+    }
+    
+    private List sumujpozycje() {
+        Set<String> waluty = pobierzwaluty(pobranefaktury);
+            Set<String> kraje = pobierzkraje(pobranefaktury);
+            List tabelazbiorcza = new ArrayList<>();
+            if (kraje!=null&&kraje.size()>1) {
+                for (String kraj : kraje) {
+                    List<InterpaperXLS> sprzedazkraj = pobranefaktury.stream().filter((p)->p.getKlientpaństwo().equals(kraj)).collect(Collectors.toList());
+                    for (String waluta : waluty) {
+                        List<InterpaperXLS> sprzedazwaluty = sprzedazkraj.stream().filter((p)->p.getWalutaplatnosci().equals(waluta)).collect(Collectors.toList());
+                        if (!sprzedazwaluty.isEmpty()) {
+                            dodajsumy(sprzedazwaluty, waluta, tabelazbiorcza, kraj);
+                        }
+                    }
+                }
+            } else {
+                for (String waluta : waluty) {
+                        List<InterpaperXLS> sprzedazwaluty = pobranefaktury.stream().filter((p)->p.getWalutaplatnosci().equals(waluta)).collect(Collectors.toList());
+                        if (!sprzedazwaluty.isEmpty()) {
+                            dodajsumy(sprzedazwaluty, waluta, tabelazbiorcza, "PL");
+                        }
+                    }
+            }
+            return tabelazbiorcza;
+    }
+    
+    public static void dodajsumy(List<InterpaperXLS> lista, String waluta, List tabelazbiorcza,String kraj) {
+        double nettowaluta = 0.0;
+        double vatwaluta = 0.0;
+        double nettopl = 0.0;
+        double vatpl = 0.0;
+        String vatstawka = null;
+        for (InterpaperXLS p : lista) {
+            nettopl = Z.z(nettopl+p.getNettoPLN());
+            vatpl = Z.z(vatpl+p.getVatPLN());
+            nettowaluta = Z.z(nettowaluta+p.getNettowaluta());
+            vatwaluta = Z.z(vatwaluta+p.getVatwaluta());
+            vatstawka = p.getVatstawka();
+        }
+        double bruttopln = Z.z(nettopl+vatpl);
+        double bruttowal = Z.z(nettowaluta+vatwaluta);
+        Object[] a = new Object[]{kraj, waluta, nettowaluta, vatwaluta, bruttowal, nettopl, vatpl, bruttopln, vatstawka, lista.size()};
+        tabelazbiorcza.add(Arrays.asList(a));
+        
+    }
+    
+    private Set<String> pobierzwaluty(List<InterpaperXLS> lista) {
+        Set<String> zwrot = new HashSet<>();
+        for (InterpaperXLS p : lista) {
+            String poz = p.getWalutaplatnosci();
+            if (poz!=null) {
+                zwrot.add(poz);
+            }
+        }
+        return zwrot;
+    }
+
+    private Set<String> pobierzkraje(List<InterpaperXLS> lista) {
+        Set<String> zwrot = new HashSet<>();
+        for (InterpaperXLS p : lista) {
+            String poz = p.getKlientpaństwo();
+            if (poz!=null) {
+                zwrot.add(poz);
+            }
+        }
+        return zwrot;
     }
     
      public int generowanieDokumentu(InterpaperXLS interpaperXLS, List<Klienci> k) {
@@ -441,7 +577,9 @@ public class InterpaperImportView implements Serializable {
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
         ustawtabelenbp(nd, interpaperXLS);
         przewalutuj(nd, interpaperXLS);
-        podepnijEwidencjeVat(nd, interpaperXLS);
+        if (nd.getRodzajedok().getKategoriadokumentu()==1||nd.getRodzajedok().getKategoriadokumentu()==2) {
+            podepnijEwidencjeVat(nd, interpaperXLS);
+        }
         Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
         if (juzjest!=null || nd.getKontr()==null) {
             nd = null;

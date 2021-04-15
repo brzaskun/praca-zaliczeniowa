@@ -5,12 +5,14 @@
  */
 package embeddablefk;
 
+import data.Data;
 import entity.Evewidencja;
 import entity.Klienci;
 import entityfk.Tabelanbp;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import view.WpisView;
 import waluty.Z;
 
 /**
@@ -58,6 +60,28 @@ public class InterpaperXLS implements Serializable {
     private String symbolzaksiegowanego;
     private Evewidencja evewidencja;
 
+    public InterpaperXLS(Object[] r, WpisView wpisView, Klienci klient, String nrfak) {
+        //{kraj, waluta, nettowaluta, vatwaluta, bruttowal, nettopl, vatpl, bruttopln, vatstawka, lista.size()};
+        this.dataotrzymania = Data.stringToDate(Data.ostatniDzien(wpisView));
+        this.datasprzedaży =  Data.stringToDate(Data.ostatniDzien(wpisView));
+        this.datawystawienia =  Data.stringToDate(Data.ostatniDzien(wpisView));
+        this.nrfaktury = nrfak;
+        this.klientpaństwo = (String) r[0];
+        this.walutaplatnosci = (String) r[1];
+        this.nettowaluta = (double) r[2];
+        this.vatwaluta = (double) r[3];
+        this.bruttowaluta = (double) r[4];
+        this.nettoPLN = (double) r[5];
+        this.vatPLN = (double) r[6];
+        this.bruttoPLN = (double) r[7];
+        this.nip = wpisView.getPodatnikObiekt().getNip();
+        this.klient = klient;
+    }
+
+    public InterpaperXLS() {
+    }
+
+    
 
   
     @Override

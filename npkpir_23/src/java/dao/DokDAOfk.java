@@ -8,6 +8,7 @@ import embeddable.Kwartaly;
 import entity.Klienci;
 import entity.Podatnik;
 import entityfk.Dokfk;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -225,6 +226,20 @@ public class DokDAOfk extends DAO implements Serializable {
        }
     }
     
+     public Dokfk findDokfkSzcz(String seria, String rok, Podatnik podatnik, String nrwlasny, Klienci klient) {
+        try {
+            return (Dokfk)  getEntityManager().createNamedQuery("Dokfk.findByDokEdycjaFK")
+                    .setParameter("seriadokfk", seria)
+                    .setParameter("rok", rok)
+                    .setParameter("podatnikObj", podatnik)
+                    .setParameter("numerwlasnydokfk", nrwlasny)
+                    .setParameter("kontrahent", klient)
+                    .getSingleResult();
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
        
     public Dokfk findDokfkObjKontrahent(Dokfk selected) {
        try {
