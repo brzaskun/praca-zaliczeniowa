@@ -21,7 +21,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -88,7 +87,7 @@ public class Intrastatwiersz implements Serializable {
     @JoinColumn(name = "podatnik", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Podatnik podatnik;
-    @XmlTransient
+     @Column(name = "numerkolejny")
     private String numerkolejny;
 
     public Intrastatwiersz() {

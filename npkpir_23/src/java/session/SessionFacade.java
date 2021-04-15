@@ -9,7 +9,6 @@ import embeddable.Mce;
 import entity.Dok;
 import entity.EVatOpis;
 import entity.EVatwpis1;
-import entity.Evpozycja;
 import entity.Faktura;
 import entity.FakturaRozrachunki;
 import entity.FakturaXXLKolumna;
@@ -116,9 +115,7 @@ public class SessionFacade<T> implements Serializable {
 
     
 
-    public Evpozycja findEvpozycjaByName(String nazwapola) {
-        return (Evpozycja)  getEntityManager().createNamedQuery("Evpozycja.findByNazwapola").setParameter("nazwapola", nazwapola).getSingleResult();
-    }
+   
 
     public List<Pitpoz> findPitpozAll() {
         List<Pitpoz> lista =  getEntityManager().createNamedQuery("Pitpoz.findAll").getResultList();

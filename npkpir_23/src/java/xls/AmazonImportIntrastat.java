@@ -149,11 +149,9 @@ public class AmazonImportIntrastat implements Serializable {
                 String sciezka = marszajuldoplikuxml(wpisView.getPodatnikObiekt(), ist);
                 String polecenie = "wydrukXML(\""+sciezka+"\")";
                 PrimeFaces.current().executeScript(polecenie);
-                Msg.msg("Wygenerowano JPK_PKPIR");
+                Msg.msg("Wygenerowano Intrastat");
             } catch (Exception e) {
-                String wiad = "Wystąpił błąd. Nie wygenerowano jpkpkpir ";
-                Msg.msg("e",wiad);
-                wiad = "Sprawdź czy wprowadzono remanent pocztąkowy";
+                String wiad = "Wystąpił błąd. Nie wygenerowano Intrastat ";
                 Msg.msg("e",wiad);
             }
         }

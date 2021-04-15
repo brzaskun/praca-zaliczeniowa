@@ -10,11 +10,9 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import session.SessionFacade;
 
 /**
  *
@@ -23,10 +21,8 @@ import session.SessionFacade;
 @Stateless
 @Transactional
 public class IntrastatwierszDAO extends DAO implements Serializable {
-
-    @Inject
-    private SessionFacade evpozycjaFacade;
-      @PersistenceContext(unitName = "npkpir_22PU")
+ private static final long serialVersionUID = 1L;
+    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
     @PreDestroy

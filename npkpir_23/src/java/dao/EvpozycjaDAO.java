@@ -7,11 +7,10 @@ package dao;
 import entity.Evpozycja;
 import java.io.Serializable;
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
-import javax.ejb.Stateless;import javax.transaction.Transactional;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import session.SessionFacade;
+import javax.transaction.Transactional;
 
 /**
  *
@@ -21,9 +20,7 @@ import session.SessionFacade;
 @Transactional
 public class EvpozycjaDAO extends DAO implements Serializable {
 
-    @Inject
-    private SessionFacade evpozycjaFacade;
-      @PersistenceContext(unitName = "npkpir_22PU")
+    @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
     
     @PreDestroy
@@ -44,11 +41,8 @@ public class EvpozycjaDAO extends DAO implements Serializable {
         super.em = this.em;
     }
 
-  
-    
-    public Evpozycja find(String nazwapola){
-        return evpozycjaFacade.findEvpozycjaByName(nazwapola);
+     public Evpozycja find(String nazwapola) {
+        return (Evpozycja)  getEntityManager().createNamedQuery("Evpozycja.findByNazwapola").setParameter("nazwapola", nazwapola).getSingleResult();
     }
-    
 
 }
