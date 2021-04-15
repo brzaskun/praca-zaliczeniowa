@@ -28,6 +28,7 @@ public class XMLValid {
     private static String schemaVATUEK4 = "resources\\schema\\vatuek4schemat.xsd";
     private static String schemaVATUEK5 = "resources\\schema\\vatuek5schemat.xsd";
     private static String schemaJPKKR = "resources\\schema\\jpkkrschemat.xsd";
+    private static String schemaIntrastat = "resources\\schema\\intratstat.xsd";
     private static String schemaVATUE4l = "d:\\vatue4schemat.xsd";
     private static String schemasprfin = "d:\\schemat.xsd";
     private static String deklaracja = "d:\\dekl.xml";
@@ -161,6 +162,48 @@ public class XMLValid {
             error.E.s("start walidacji");
             ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
             String realPath = ctx.getRealPath("/")+schemaJPKKR;
+            try {
+            File schemaFile = null;
+            try {
+                schemaFile = new File(realPath);
+            } catch (Exception ex) {
+                // Logger.getLogger(XMLValid.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            String realPath2 = ctx.getRealPath("/")+"resources\\xml\\";
+            FileInputStream fis = new FileInputStream(realPath2+mainfilename);
+            String data = IOUtils.toString(fis, "UTF-8");
+            Source xmlFile = new StreamSource(new ByteArrayInputStream(data.getBytes(org.apache.commons.codec.CharEncoding.UTF_8)));
+            SchemaFactory schemaFactory = SchemaFactory
+                    .newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            try {
+                Schema schema = schemaFactory.newSchema(schemaFile);
+                Validator validator = schema.newValidator();
+                validator.validate(xmlFile);
+                zwrot[0] = Boolean.TRUE;
+                zwrot[1] = "Plik prawidłowy";
+                error.E.s("Plik jest prawidłowy");
+                error.E.s("Koniec walidacji bezbledna");
+            } catch (SAXException e) {
+                zwrot[0] = Boolean.FALSE;
+                zwrot[1] = obsluzblad2(e);
+                error.E.s(obsluzblad2(e));
+            } catch (Exception e) {
+                zwrot[0] = Boolean.FALSE;
+                zwrot[1] = "Błąd walidacji pliku. Sprawdzanie przerwane";
+            }
+        } catch (Exception ex) {
+            E.e(ex);
+            error.E.s("Błąd ładowania plików do walidacji. Sprawdzanie przerwane");
+        }
+        return zwrot;
+    }
+     
+     public static Object[] walidujIntrastat(String mainfilename) {
+            Object[] zwrot = new Object[2];
+            zwrot[0] = Boolean.FALSE;
+            error.E.s("start walidacji");
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String realPath = ctx.getRealPath("/")+schemaIntrastat;
             try {
             File schemaFile = null;
             try {
@@ -475,7 +518,48 @@ public class XMLValid {
     }
     
     public static void main(String[] args) {
-        walidujJPK2020();
+        Object[] zwrot = new Object[2];
+        zwrot[0] = Boolean.FALSE;
+        InputStream stream = null;
+        File schemaFile = null;
+        try {
+            schemaFile = new File("d:\\intratstat.xsd");
+        } catch (Exception ex) {
+            // Logger.getLogger(XMLValid.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //webapp example xsd:
+        //URL schemaFile = new URL("http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd");
+        //local file example:
+            //File schemaFile = new File(realPath); // etc.
+            String data = null;
+            error.E.s("start walidacji");
+            try {
+                FileInputStream fis = new FileInputStream("d:\\int11.xml");
+                data = IOUtils.toString(fis, "UTF-8");
+            Source xmlFile = new StreamSource(new ByteArrayInputStream(data.getBytes(org.apache.commons.codec.CharEncoding.UTF_8)));
+            SchemaFactory schemaFactory = SchemaFactory
+                    .newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            try {
+                Schema schema = schemaFactory.newSchema(schemaFile);
+                Validator validator = schema.newValidator();
+                validator.validate(xmlFile);
+                zwrot[0] = Boolean.TRUE;
+                zwrot[1] = "Plik prawidłowy";
+                error.E.s("Plik jest prawidłowy");
+                error.E.s("Koniec walidacji bezbledna");
+            } catch (SAXException e) {
+                zwrot[0] = Boolean.FALSE;
+                zwrot[1] = obsluzblad(e);
+                error.E.s(obsluzblad(e));
+            } catch (Exception e) {
+                zwrot[0] = Boolean.FALSE;
+                zwrot[1] = "Błąd walidacji pliku. Sprawdzanie przerwane";
+            }
+        } catch (Exception ex) {
+            E.e(ex);
+            error.E.s("Błąd ładowania plików do walidacji. Sprawdzanie przerwane");
+        }
+
     }
 
     

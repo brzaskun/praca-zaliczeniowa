@@ -1,0 +1,82 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .waluta input {
+            width: 40px !important;
+        }
+
+        .zaksiegowanewaski input {
+            width: 75px !important;
+        }
+    </style>
+
+    <p:dialog id="importamazonintrastat" header="Zestawienie pobranych faktur" widgetVar="importamazonintrastat" height="900" width="1450"
+              resizable="false"  onShow="ustawdialog('importamazonintrastat','menudokumenty',1450,900);" closeOnEscape="true" onHide="resetujdialog('importamazonintrastat');" >
+        <p:ajax event="open" listener="#{amazonImportIntrastat.init()}" update="importtabelaintrastat"/>
+        <bcf:ajaxs/>
+        <h:outputText value="import dokumentów z pliku XLS AdditionalDataTemplate"/>
+        <h:form>
+            <p:growl life="3600"  id="messages1"/>
+            <p:panelGrid columns="2" >
+                <p:panelGrid columns="1" style="width: 900px;">
+                    <p:fileUpload fileUploadListener="#{amazonImportIntrastat.importujsprzedaz}" 
+                                  mode="advanced" dragDropSupport="true" fileLimit="1"
+                                  update="messages1 importtabelaintrastat" auto="true"
+                                  validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
+                                  fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
+                                  uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" onstart="PF('dialogAjaxCzekaj').show();"
+                                  style="height: 100px;">
+                    </p:fileUpload>
+                </p:panelGrid>
+                <p:panelGrid columns="2" style="margin-left: 30px;">
+                    <p:commandButton value="zachowaj" update="importtabelaintrastat" actionListener="#{amazonImportIntrastat.zaksieguj}"/>
+                    <p:commandButton value="intrastat"  actionListener="#{amazonImportIntrastat.intrastat}"/>
+                </p:panelGrid>
+            </p:panelGrid>
+        </h:form>
+        <h:form id="importtabelaintrastat">
+            <p:panel header="Lista faktur kontrahenci incydentalni pobranych za miesiąc bieżący"/>
+            <p:dataTable value="#{amazonImportIntrastat.lista}" var="itemikjpk" rowIndexVar="indexjpk"
+                         style="width: 1400px; height: 500px; overflow-y: scroll" 
+                         >
+                <p:column style="width: 50px;">
+                    <h:outputText value="#{indexjpk+1}"/>
+                </p:column>
+                <p:column headerText="wiersz" style="width: 350px;">
+                    <h:outputText value="#{itemikjpk.numerkolejny}"/>
+                </p:column>
+                <p:column headerText="kod">
+                    <h:outputText value="#{itemikjpk.kodtowaru}"/>
+                </p:column>
+                <p:column headerText="waga" width="50">
+                    <h:outputText value="#{itemikjpk.masanettokg}"/>
+                </p:column>
+                <p:column headerText="opis" width="350">
+                    <h:outputText value="#{itemikjpk.opistowaru}"/>
+                </p:column>
+                <p:column headerText="ilosc" width="50">
+                    <h:outputText value="#{itemikjpk.ilosc}"/>
+                </p:column>
+                <p:column headerText="nip" width="100" sortBy="#{itemikjpk.vatuekontrahenta}" filterBy="#{itemikjpk.vatuekontrahenta}" filterMatchMode="contains">
+                    <h:outputText value="#{itemikjpk.vatuekontrahenta}" />
+                </p:column>
+                <p:column headerText="kraj" width="50" sortBy="#{itemikjpk.krajprzeznaczenia}" filterBy="#{itemikjpk.krajprzeznaczenia}"  filterMatchMode="contains" style="text-align: center;">
+                    <h:outputText value="#{itemikjpk.krajprzeznaczenia}"/>
+                </p:column>
+                <p:column headerText="wartość"  sortBy="#{itemikjpk.wartoscfaktury}">
+                    <bcf:outputpl value="#{itemikjpk.wartoscfaktury}"/>
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
+
+    </p:dialog>
+</ui:composition>
+
+
+

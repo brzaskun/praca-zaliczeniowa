@@ -10,6 +10,7 @@ import comparator.SaldoKontocomparator;
 import dao.DokDAOfk;
 import data.Data;
 import static deklaracje.vatuek.m4.VATUEKM4Bean.StringToDocument;
+import embeddable.TKodUS;
 import embeddablefk.SaldoKonto;
 import entity.Podatnik;
 import entityfk.Dokfk;
@@ -64,6 +65,8 @@ public class JPKKRView  implements Serializable {
     private DokDAOfk dokDAOfk;
     @Inject
     private SaldoAnalitykaView saldoAnalitykaView;
+    @Inject
+    private TKodUS tKodUS;
     
     
     public void przygotuj() {
@@ -75,7 +78,7 @@ public class JPKKRView  implements Serializable {
         saldoAnalitykaView.init();
         List<SaldoKonto> salda = saldoAnalitykaView.getListaSaldoKonto();
         Collections.sort(salda, new SaldoKontocomparator());
-        JPK rob = rob(false, dataod, datado, "3215", wpisView.getPodatnikObiekt(), dokumenty, salda);
+        JPK rob = rob(false, dataod, datado, tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy()), wpisView.getPodatnikObiekt(), dokumenty, salda);
         marszajuldoplikuxml(rob, wpisView);
         System.out.println("");
         //porownaj(dokumenty, kontozapisy);
