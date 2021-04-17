@@ -164,6 +164,9 @@ public class ReadXLSMurawskiFile {
             if (kl.length==1) {
                 kl = rows.get(11).getCell(7).getStringCellValue().split("\n");
             }
+            if (kl.length==1) {
+                kl = rows.get(11).getCell(6).getStringCellValue().split("\n");
+            }
             if (kl!=null && kl.length==3) {
                 interpaperXLS.setKlientnazwa(kl[0]);
                 interpaperXLS.setKlientulica(kl[1]);

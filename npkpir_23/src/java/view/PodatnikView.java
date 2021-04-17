@@ -1278,9 +1278,18 @@ private DokDAO dokDAO;
                         for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
                             if (r.getSkrot().equals(tmp.getSkrot())) {
                                 odnaleziono = true;
-                                r.setOznaczenie1(tmp.getOznaczenie1());
-                                r.setOznaczenie2(tmp.getOznaczenie2());
-                                rodzajedokDAO.edit(r);
+                                boolean zachowaj = false;
+                                if (r.getOznaczenie1()==null) {
+                                    r.setOznaczenie1(tmp.getOznaczenie1());
+                                    zachowaj = true;
+                                }
+                                if (r.getOznaczenie2()==null) {
+                                    r.setOznaczenie2(tmp.getOznaczenie2());
+                                    zachowaj = true;
+                                }
+                                if (zachowaj) {
+                                    rodzajedokDAO.edit(r);
+                                }
                                 break;
                             }
                         }
@@ -1291,6 +1300,8 @@ private DokDAO dokDAO;
                             nowy.setKontoRZiS(null);
                             nowy.setKontorozrachunkowe(null);
                             nowy.setKontovat(null);
+                            nowy.setOznaczenie1(tmp.getOznaczenie1());
+                            nowy.setOznaczenie2(tmp.getOznaczenie2());
                             rodzajedokDAO.create(nowy);
                             dokumentyBiezacegoPodatnika.add(nowy);
                         }

@@ -386,7 +386,7 @@ public class InterpaperImportView implements Serializable {
                         Object[] r = ((List) p).toArray();
                         InterpaperXLS interpaperXLS = new InterpaperXLS(r, wpisView, klient, nrfaktury);
                         String opis = "import sprzedaży "+r[0]+" w "+r[1];
-                        Dokfk dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, opis);
+                        Dokfk dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, opis, true);
                         dokDAOfk.create(dokument);
                    } catch (Exception e) {
                        Msg.msg("e","Nie udało się zachować dokumentu");
@@ -406,12 +406,13 @@ public class InterpaperImportView implements Serializable {
                         Object[] r = ((List) p).toArray();
                         String opis = "import sprzedaży "+r[0]+" w "+r[1];
                         InterpaperXLS interpaperXLS = new InterpaperXLS(r, wpisView, klient, nrfaktury);
-                        Dokfk dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, opis);
+                        Dokfk dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, opis, true);
                         dokDAOfk.create(dokument);
                    } catch (Exception e) {
                        Msg.msg("e","Nie udało się zachować dokumentu ");
                    }
                }
+               Msg.msg("Zaksiegowano dokumenty");
                System.out.println("");
             } else {
                 if (selected !=null && selected.size()>0) {
@@ -534,7 +535,7 @@ public class InterpaperImportView implements Serializable {
                 } else {
                     rodzajdk = polska0unia1zagranica2==0 ? "SZ" : polska0unia1zagranica2==1 ? "WDT" : "EXP";
                 }
-                dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, "przychody ze sprzedaży");
+                dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, "przychody ze sprzedaży", false);
             } else {
                 if (this.rodzajdok.equals("zakup")) {
                     rodzajdk = "ZZ";
@@ -546,7 +547,7 @@ public class InterpaperImportView implements Serializable {
                 } else if (this.rodzajdok.equals("IU")) {
                     rodzajdk = "IU";
                 }
-                dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, "zakup towarów/koszty");
+                dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, "zakup towarów/koszty", false);
             }
             
             try {
@@ -567,7 +568,7 @@ public class InterpaperImportView implements Serializable {
         return ile;
     }
      
-      private Dokfk stworznowydokument(int numerkolejny, InterpaperXLS interpaperXLS, String rodzajdok, List<Klienci> k, String opis) {
+      private Dokfk stworznowydokument(int numerkolejny, InterpaperXLS interpaperXLS, String rodzajdok, List<Klienci> k, String opis, boolean nieprzeliczajwalut) {
         Dokfk nd = new Dokfk(numerkolejny, wpisView.getRokWpisuSt());
         ustawrodzajedok(nd, rodzajdok);
         ustawdaty(nd, interpaperXLS);
@@ -576,7 +577,7 @@ public class InterpaperImportView implements Serializable {
         nd.setOpisdokfk(opis);
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
         ustawtabelenbp(nd, interpaperXLS);
-        przewalutuj(nd, interpaperXLS);
+        przewalutuj(nd, interpaperXLS, nieprzeliczajwalut);
         if (nd.getRodzajedok().getKategoriadokumentu()==1||nd.getRodzajedok().getKategoriadokumentu()==2) {
             podepnijEwidencjeVat(nd, interpaperXLS);
         }
@@ -593,11 +594,13 @@ public class InterpaperImportView implements Serializable {
         return nd;
     }
       
-    private void przewalutuj(Dokfk nd, InterpaperXLS interpaperXLS) {
+    private void przewalutuj(Dokfk nd, InterpaperXLS interpaperXLS, boolean nieprzeliczajwalut) {
         Tabelanbp t = nd.getTabelanbp();
         if (t!=null && !t.getWaluta().getSymbolwaluty().equals("PLN")) {
-            interpaperXLS.setNettoPLN(Z.z(interpaperXLS.getNettowaluta()*t.getKurssredniPrzelicznik()));
-            interpaperXLS.setVatPLN(Z.z(interpaperXLS.getVatwaluta()*t.getKurssredniPrzelicznik()));
+            if (nieprzeliczajwalut==false) {
+                interpaperXLS.setNettoPLN(Z.z(interpaperXLS.getNettowaluta()*t.getKurssredniPrzelicznik()));
+                interpaperXLS.setVatPLN(Z.z(interpaperXLS.getVatwaluta()*t.getKurssredniPrzelicznik()));
+            }
         } else {
             interpaperXLS.setNettoPLN(interpaperXLS.getNettowaluta());
             interpaperXLS.setVatPLN(interpaperXLS.getVatPLN());

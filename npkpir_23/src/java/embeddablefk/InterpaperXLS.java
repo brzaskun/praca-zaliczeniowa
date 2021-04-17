@@ -72,6 +72,7 @@ public class InterpaperXLS implements Serializable {
         this.vatwaluta = (double) r[3];
         this.bruttowaluta = (double) r[4];
         this.nettoPLN = (double) r[5];
+        this.nettoPLNvat = (double) r[5];        
         this.vatPLN = (double) r[6];
         this.bruttoPLN = (double) r[7];
         this.nip = wpisView.getPodatnikObiekt().getNip();

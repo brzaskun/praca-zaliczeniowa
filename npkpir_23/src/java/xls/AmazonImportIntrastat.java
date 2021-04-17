@@ -147,9 +147,6 @@ public class AmazonImportIntrastat implements Serializable {
                 dodajwiersze(deklaracja, lista);
                 ist.setDeklaracja(deklaracja);
                 String sciezka = marszajuldoplikuxml(wpisView.getPodatnikObiekt(), ist);
-                String polecenie = "wydrukXML(\""+sciezka+"\")";
-                PrimeFaces.current().executeScript(polecenie);
-                Msg.msg("Wygenerowano Intrastat");
             } catch (Exception e) {
                 String wiad = "Wystąpił błąd. Nie wygenerowano Intrastat ";
                 Msg.msg("e",wiad);
@@ -211,7 +208,7 @@ public class AmazonImportIntrastat implements Serializable {
         pod.setMiejscowosc(p.getMiejscowosc());
         pod.setKodPocztowy(p.getKodpocztowy());
         pod.setNip(Long.parseLong(p.getNip()));
-        pod.setRegon(Long.parseLong(p.getRegon()));
+        pod.setRegon(Long.parseLong(p.getRegon()+"00000"));
         pod.setUlicaNumer(p.getUlica()+" "+p.getNrdomu());
         return pod;
     }
@@ -224,7 +221,7 @@ public class AmazonImportIntrastat implements Serializable {
         pod.setMiejscowosc(p.getMiejscowosc());
         pod.setKodPocztowy(p.getKodpocztowy());
         pod.setNip(Long.parseLong(p.getNip()));
-        pod.setRegon(Long.parseLong(p.getRegon()));
+        pod.setRegon(Long.parseLong(p.getRegon()+"00000"));
         pod.setUlicaNumer(p.getUlica()+" "+p.getNrdomu());
         return pod;
     }
