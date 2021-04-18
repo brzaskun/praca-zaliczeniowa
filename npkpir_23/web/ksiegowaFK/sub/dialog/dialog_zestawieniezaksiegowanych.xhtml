@@ -169,12 +169,16 @@
                 <p:menuitem value="usuń nieusuwalne" icon="fa fa-times" actionListener="#{dokfkView.usunspecjalne}"
                             oncomplete="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
                             update=":zestawieniedokumentow:dataList" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                 <p:menuitem value="usuń wszystkie" icon="fa fa-times" actionListener="#{dokfkView.usunwszystkie}"
+                            oncomplete="PF('tablicadokumenty').clearFilters();PF('tablicadokumenty').unselectAllRows();"
+                            update=":zestawieniedokumentow:dataList" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                
             </p:contextMenu>
 
             <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                          selection="#{dokfkView.selectedlist}" rowKey="#{item.dokfkSN}" binding="#{dokfkView.dataTablezaksiegowane}"
                          style="width: 1560px; height: 450px; overflow-y: scroll;" filteredValue="#{dokfkView.filteredValue}" 
-                         rowsPerPageTemplate="50,100,300,500" paginatorPosition="top"
+                         rowsPerPageTemplate="50,100,300,500, 1500, 3000" paginatorPosition="top"
                          emptyMessage="Brak zaksięgowanych dokumentów" styleClass="walkingtable" rowSelectMode="add"
                          rows="50" paginator="true"
                          >

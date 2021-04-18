@@ -533,7 +533,12 @@ public class InterpaperImportView implements Serializable {
                 if (wybranyrodzajimportu.getLp()==1) {
                     rodzajdk = polska0unia1zagranica2==0 ? "SZ" : polska0unia1zagranica2==1 ? "UPTK100" : "UPTK";
                 } else {
-                    rodzajdk = polska0unia1zagranica2==0 ? "SZ" : polska0unia1zagranica2==1 ? "WDT" : "EXP";
+                    if (interpaperXLS.getVatPLN()!=0.0) {
+                        rodzajdk = "SZ";
+                    } else {
+                        rodzajdk = polska0unia1zagranica2==0 ? "SZ" : polska0unia1zagranica2==1 ? "WDT" : "EXP";
+                    }
+                        
                 }
                 dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, "przychody ze sprzedaży", false);
             } else {

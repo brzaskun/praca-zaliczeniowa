@@ -3547,20 +3547,47 @@ public class DokfkView implements Serializable {
     public void usunzaznaczone() {
         try {
             if (selectedlist != null && selectedlist.size() > 0) {
-                for (Dokfk p : selectedlist) {
-                    wykazZaksiegowanychDokumentow.remove(p);
-                    dokDAOfk.remove(p);
-                    if (p.getSeriadokfk().equals("AMO")) {
-                        List<UmorzenieN> umorzenia = umorzenieNDAO.findByDokfk(p);
-                        if (!umorzenia.isEmpty()) {
-                            for (UmorzenieN pa : umorzenia) {
-                                pa.setDokfk(null);
-                                umorzenieNDAO.edit(pa);
-                            }
-                        }
-                    }
-                }
+                dokDAOfk.removeList(selectedlist);
+//                for (Dokfk p : selectedlist) {
+//                    wykazZaksiegowanychDokumentow.remove(p);
+//                    dokDAOfk.remove(p);
+//                    if (p.getSeriadokfk().equals("AMO")) {
+//                        List<UmorzenieN> umorzenia = umorzenieNDAO.findByDokfk(p);
+//                        if (!umorzenia.isEmpty()) {
+//                            for (UmorzenieN pa : umorzenia) {
+//                                pa.setDokfk(null);
+//                                umorzenieNDAO.edit(pa);
+//                            }
+//                        }
+//                    }
+//                }
+                wykazZaksiegowanychDokumentow.removeAll(selectedlist);
                 selectedlist = null;
+            }
+            Msg.msg("Usunięto zaznaczone dokumnety");
+        } catch (Exception e) {
+            Msg.msg("e", "Wystapił błąd poczad usuwania wybranych dokumentów. Spróbuj usunąć je pojedynczo");
+        }
+    }
+    
+    public void usunwszystkie() {
+        try {
+            if (wykazZaksiegowanychDokumentow != null && wykazZaksiegowanychDokumentow.size() > 0) {
+                dokDAOfk.removeList(wykazZaksiegowanychDokumentow);
+//                for (Dokfk p : selectedlist) {
+//                    wykazZaksiegowanychDokumentow.remove(p);
+//                    dokDAOfk.remove(p);
+//                    if (p.getSeriadokfk().equals("AMO")) {
+//                        List<UmorzenieN> umorzenia = umorzenieNDAO.findByDokfk(p);
+//                        if (!umorzenia.isEmpty()) {
+//                            for (UmorzenieN pa : umorzenia) {
+//                                pa.setDokfk(null);
+//                                umorzenieNDAO.edit(pa);
+//                            }
+//                        }
+//                    }
+//                }
+                wykazZaksiegowanychDokumentow.removeAll(selectedlist);
             }
             Msg.msg("Usunięto zaznaczone dokumnety");
         } catch (Exception e) {
@@ -4742,6 +4769,8 @@ public void oznaczjakonkup() {
                 }
                 dokDAOfk.edit(p);
             }
+            selectedlistimport = null;
+            filteredValueimport = null;
             Msg.msg("Zaksięgowano dokumenty importowe");
         } catch (Exception e) {
             Msg.msg("e","wystąpił błąd podczas księgowania dokumentów importowych");

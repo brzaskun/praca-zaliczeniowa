@@ -12,8 +12,8 @@ import static beansFK.DokFKVATBean.rozliczVatKosztNaprawRachunek;
 import static beansFK.DokFKVATBean.rozliczVatKosztNaprawWB;
 import static beansFK.DokFKVATBean.rozliczVatPrzychodNapraw;
 import beansFK.WartosciVAT;
-import dao.KlienciDAO;
 import dao.DokDAOfk;
+import dao.KlienciDAO;
 import dao.KliencifkDAO;
 import dao.KontoDAOfk;
 import data.Data;
@@ -35,13 +35,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import javax.inject.Named;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
-import org.primefaces.component.commandbutton.CommandButton;
-import viewfk.DokfkView;
 import waluty.Z;
 import webservice.NIPVATcheck;
 
@@ -64,7 +61,7 @@ public class DokfkWeryfikacjaView implements Serializable {
     private KontoDAOfk kontoDAO;
     @Inject
     private WpisView wpisView;
-    private CommandButton ksiegujbutton;
+    
 
     public void sprawdzNIPVAT(List<Dokfk> wykazZaksiegowanychDokumentow, List<Dokfk> filtered) {
         List<Dokfk> lista = filtered !=null && filtered.size()>0 ? filtered : wykazZaksiegowanychDokumentow;
@@ -135,7 +132,7 @@ public class DokfkWeryfikacjaView implements Serializable {
         Msg.msg("Zakończyłem sprawdzanie czy kontrahent jest czynnym VAT-owcem");
     }
     
-    public void sprawdzWnMawDokfk(List<Dokfk> listaZaksiegowanych, DokfkView dokfkView) {
+    public void sprawdzWnMawDokfk(List<Dokfk> listaZaksiegowanych) {
         List<Dokfk> listabrakiewidvat = Collections.synchronizedList(new ArrayList<>());
         List<Dokfk> listaRozniceWnMa = Collections.synchronizedList(new ArrayList<>());
         List<Dokfk> listabrakiKontaAnalityczne = Collections.synchronizedList(new ArrayList<>());
@@ -266,11 +263,6 @@ public class DokfkWeryfikacjaView implements Serializable {
         }
         if (czysto) {
             Msg.msg("i", "Nie stwierdzono błędów w dokumentach z listy", "zestawieniedokumentow:wiadomoscsprawdzenie");
-        }
-        ksiegujbutton.setRendered(true);
-        if (listaZaksiegowanychDokumentow.size()>0) {
-            dokfkView.setWykazZaksiegowanychDokumentow(new ArrayList<Dokfk>(listaZaksiegowanychDokumentow));
-            dokfkView.setWykazZaksiegowanychDokumentowimport(new ArrayList<Dokfk>(listaZaksiegowanychDokumentow));
         }
     }
     
@@ -719,14 +711,7 @@ public class DokfkWeryfikacjaView implements Serializable {
         return zwrot;
     }
 
-    public CommandButton getKsiegujbutton() {
-        return ksiegujbutton;
-    }
-
-    public void setKsiegujbutton(CommandButton ksiegujbutton) {
-        this.ksiegujbutton = ksiegujbutton;
-    }
-
+   
 
 public static void main(String[] args)     {
     error.E.s("dd");
