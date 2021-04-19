@@ -286,19 +286,21 @@ public class WalutyViewFK implements Serializable {
     private void przewalutujwiersze(Tabelanbp tabela) {
         List<Wiersz> wiersze = wierszDAO.pobierzWiersze(tabela, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         for (Wiersz p : wiersze) {
-            if (p.getTypWiersza() == 0 || p.getTypWiersza() == 1) {
-                if (p.getStronaWn().getKwota() != 0.0) {
-                    double kwota = p.getStronaWn().getKwota();
-                    p.getStronaWn().setKwotaPLN(Z.z(kwota * tabela.getKurssredniPrzelicznik()));
+            if (p.getDokfk().isNieprzeliczaj()==false) {
+                if (p.getTypWiersza() == 0 || p.getTypWiersza() == 1) {
+                    if (p.getStronaWn().getKwota() != 0.0) {
+                        double kwota = p.getStronaWn().getKwota();
+                        p.getStronaWn().setKwotaPLN(Z.z(kwota * tabela.getKurssredniPrzelicznik()));
+                    }
                 }
-            }
-            if (p.getTypWiersza() == 0 || p.getTypWiersza() == 2) {
-                if (p.getStronaMa().getKwota() != 0.0) {
-                    double kwota = p.getStronaMa().getKwota();
-                    p.getStronaMa().setKwotaPLN(Z.z(kwota * tabela.getKurssredniPrzelicznik()));
+                if (p.getTypWiersza() == 0 || p.getTypWiersza() == 2) {
+                    if (p.getStronaMa().getKwota() != 0.0) {
+                        double kwota = p.getStronaMa().getKwota();
+                        p.getStronaMa().setKwotaPLN(Z.z(kwota * tabela.getKurssredniPrzelicznik()));
+                    }
                 }
+                wierszDAO.edit(p);
             }
-            wierszDAO.edit(p);
         }
     }
 

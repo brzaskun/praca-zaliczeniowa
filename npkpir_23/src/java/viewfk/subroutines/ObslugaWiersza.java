@@ -855,13 +855,15 @@ public class ObslugaWiersza {
                     ma.setKwotaWaluta(ma.getKwota());
                 }
             } else {
-                if (wn != null) {
-                    wn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWn(wiersz));
-                    wn.setKwotaWaluta(wn.getKwota());
-                }
-                if (ma != null) {
-                    ma.setKwotaPLN(StronaWierszaBean.przeliczWalutyMa(wiersz));
-                    ma.setKwotaWaluta(ma.getKwota());
+                if (wiersz.getDokfk().isNieprzeliczaj()==false) {
+                    if (wn != null) {
+                        wn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWn(wiersz));
+                        wn.setKwotaWaluta(wn.getKwota());
+                    }
+                    if (ma != null) {
+                        ma.setKwotaPLN(StronaWierszaBean.przeliczWalutyMa(wiersz));
+                        ma.setKwotaWaluta(ma.getKwota());
+                    }
                 }
             }
         } catch (Exception e) {

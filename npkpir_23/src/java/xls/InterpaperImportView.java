@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -350,6 +351,56 @@ public class InterpaperImportView implements Serializable {
         }
     }
     
+    private HashMap<String,Konto> pobierzmapekont1() {
+        HashMap<String,Konto> konta = new HashMap<>();
+        konta.put("Niemcy", kontoDAO.findKonto("731-2-3-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Francja", kontoDAO.findKonto("731-2-3-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        return konta;
+    }
+    
+    private HashMap<String,Konto> pobierzmapekont() {
+        HashMap<String,Konto> konta = new HashMap<>();
+        konta.put("Portugalia", kontoDAO.findKonto("731-2-2-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Polinezja", kontoDAO.findKonto("731-2-2-3", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Malta", kontoDAO.findKonto("731-2-2-4", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Austria", kontoDAO.findKonto("731-2-2-5", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Włochy", kontoDAO.findKonto("731-2-2-6", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Słowacja", kontoDAO.findKonto("731-2-2-7", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Holandia", kontoDAO.findKonto("731-2-2-8", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Belgia", kontoDAO.findKonto("731-2-2-9", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Irlandia", kontoDAO.findKonto("731-2-2-10", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Francja", kontoDAO.findKonto("731-2-2-11", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Litwa", kontoDAO.findKonto("731-2-2-12", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Wielka Brytania", kontoDAO.findKonto("731-2-2-13", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Hiszpania", kontoDAO.findKonto("731-2-2-14", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Dania", kontoDAO.findKonto("731-2-2-15", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Luksemburg", kontoDAO.findKonto("731-2-2-16", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Monako", kontoDAO.findKonto("731-2-2-17", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Łotwa", kontoDAO.findKonto("731-2-2-18", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Finlandia", kontoDAO.findKonto("731-2-2-19", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Grecja", kontoDAO.findKonto("731-2-2-20", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Estonia", kontoDAO.findKonto("731-2-2-21", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Jersey", kontoDAO.findKonto("731-2-2-22", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Słowenia", kontoDAO.findKonto("731-2-2-23", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Rumunia", kontoDAO.findKonto("731-2-2-24", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Chorwacja", kontoDAO.findKonto("731-2-2-25", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Szwecja", kontoDAO.findKonto("731-2-2-26", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Islandia", kontoDAO.findKonto("731-2-2-27", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Bułgaria", kontoDAO.findKonto("731-2-2-28", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Czechy", kontoDAO.findKonto("731-2-2-30", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Eksport poza UE", kontoDAO.findKonto("731-2-2-31", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Lichtenstein", kontoDAO.findKonto("731-2-2-32", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Guernsey", kontoDAO.findKonto("731-2-2-33", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Szwajcaria", kontoDAO.findKonto("731-2-2-34", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Cypr", kontoDAO.findKonto("731-2-2-35", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Arabia Saudyjska", kontoDAO.findKonto("731-2-2-36", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Norwegia", kontoDAO.findKonto("731-2-2-37", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Węgry", kontoDAO.findKonto("731-2-2-38", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        konta.put("Polska", kontoDAO.findKonto("702-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu()));
+        return konta;
+    }
+    
+    
     public void generuj() {
         if (pobranefaktury !=null && pobranefaktury.size()>0) {
             List<Klienci> k = klienciDAO.findAll();
@@ -371,7 +422,9 @@ public class InterpaperImportView implements Serializable {
                        System.out.println("");
                    }
                }
+               Konto kontorozrachunkowe = kontoDAO.findKonto("203-3-1", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
                Klienci klient = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+               HashMap<String,Konto> listakont = pobierzmapekont1();
                int kolejny = 0;
                for (Object p : tabelarachsp) {
                    try {
@@ -386,12 +439,17 @@ public class InterpaperImportView implements Serializable {
                         Object[] r = ((List) p).toArray();
                         InterpaperXLS interpaperXLS = new InterpaperXLS(r, wpisView, klient, nrfaktury);
                         String opis = "import sprzedaży "+r[0]+" w "+r[1];
-                        Dokfk dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, opis, true);
+                        Konto kontonetto = listakont.get((String)r[0]);
+                        if (kontonetto==null) {
+                            kontonetto = kontoDAO.findKonto("702-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+                        }
+                        Dokfk dokument = stworznowydokumentZorin(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, opis, true, kontorozrachunkowe, kontonetto);
                         dokDAOfk.create(dokument);
                    } catch (Exception e) {
                        Msg.msg("e","Nie udało się zachować dokumentu");
                    }
                }
+               listakont = pobierzmapekont();
                kolejny = 0;
                for (Object p : tabelaszue) {
                    try {
@@ -405,8 +463,12 @@ public class InterpaperImportView implements Serializable {
                         String rodzajdk = "SZUE";
                         Object[] r = ((List) p).toArray();
                         String opis = "import sprzedaży "+r[0]+" w "+r[1];
+                        Konto kontonetto = listakont.get((String)r[0]);
+                        if (kontonetto==null) {
+                            kontonetto = kontoDAO.findKonto("702-2", wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
+                        }
                         InterpaperXLS interpaperXLS = new InterpaperXLS(r, wpisView, klient, nrfaktury);
-                        Dokfk dokument = stworznowydokument(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, opis, true);
+                        Dokfk dokument = stworznowydokumentZorin(oblicznumerkolejny(rodzajdk),interpaperXLS, rodzajdk, k, opis, true, kontorozrachunkowe, kontonetto);
                         dokDAOfk.create(dokument);
                    } catch (Exception e) {
                        Msg.msg("e","Nie udało się zachować dokumentu ");
@@ -575,6 +637,7 @@ public class InterpaperImportView implements Serializable {
      
       private Dokfk stworznowydokument(int numerkolejny, InterpaperXLS interpaperXLS, String rodzajdok, List<Klienci> k, String opis, boolean nieprzeliczajwalut) {
         Dokfk nd = new Dokfk(numerkolejny, wpisView.getRokWpisuSt());
+        nd.setNieprzeliczaj(nieprzeliczajwalut);
         ustawrodzajedok(nd, rodzajdok);
         ustawdaty(nd, interpaperXLS);
         nd.setKontr(interpaperXLS.getKlient());
@@ -582,7 +645,7 @@ public class InterpaperImportView implements Serializable {
         nd.setOpisdokfk(opis);
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
         ustawtabelenbp(nd, interpaperXLS);
-        przewalutuj(nd, interpaperXLS, nieprzeliczajwalut);
+        przewalutuj(nd, interpaperXLS);
         if (nd.getRodzajedok().getKategoriadokumentu()==1||nd.getRodzajedok().getKategoriadokumentu()==2) {
             podepnijEwidencjeVat(nd, interpaperXLS);
         }
@@ -599,10 +662,37 @@ public class InterpaperImportView implements Serializable {
         return nd;
     }
       
-    private void przewalutuj(Dokfk nd, InterpaperXLS interpaperXLS, boolean nieprzeliczajwalut) {
+     private Dokfk stworznowydokumentZorin(int numerkolejny, InterpaperXLS interpaperXLS, String rodzajdok, List<Klienci> k, String opis, boolean nieprzeliczajwalut, Konto kontorozrachunkowe, Konto kontonetto) {
+        Dokfk nd = new Dokfk(numerkolejny, wpisView.getRokWpisuSt());
+        nd.setNieprzeliczaj(nieprzeliczajwalut);
+        ustawrodzajedok(nd, rodzajdok);
+        ustawdaty(nd, interpaperXLS);
+        nd.setKontr(interpaperXLS.getKlient());
+        ustawnumerwlasny(nd, interpaperXLS);
+        nd.setOpisdokfk(opis);
+        nd.setPodatnikObj(wpisView.getPodatnikObiekt());
+        ustawtabelenbp(nd, interpaperXLS);
+        przewalutuj(nd, interpaperXLS);
+        if (nd.getRodzajedok().getKategoriadokumentu()==1||nd.getRodzajedok().getKategoriadokumentu()==2) {
+            podepnijEwidencjeVat(nd, interpaperXLS);
+        }
+        Dokfk juzjest = dokDAOfk.findDokfkObjKontrahent(nd);
+        if (juzjest!=null || nd.getKontr()==null) {
+            nd = null;
+            interpaperXLS.setJuzzaksiegowany(true);
+        } else {
+            ustawwierszeZorin(nd, interpaperXLS, kontorozrachunkowe, kontonetto);
+            nd.setImportowany(true);
+            nd.setWprowadzil(wpisView.getUzer().getLogin());
+            nd.przeliczKwotyWierszaDoSumyDokumentu();
+        }
+        return nd;
+    }
+      
+    private void przewalutuj(Dokfk nd, InterpaperXLS interpaperXLS) {
         Tabelanbp t = nd.getTabelanbp();
         if (t!=null && !t.getWaluta().getSymbolwaluty().equals("PLN")) {
-            if (nieprzeliczajwalut==false) {
+            if (nd.isNieprzeliczaj()==false) {
                 interpaperXLS.setNettoPLN(Z.z(interpaperXLS.getNettowaluta()*t.getKurssredniPrzelicznik()));
                 interpaperXLS.setVatPLN(Z.z(interpaperXLS.getVatwaluta()*t.getKurssredniPrzelicznik()));
             }
@@ -747,6 +837,21 @@ public class InterpaperImportView implements Serializable {
             }
         }
     }
+    
+    private void ustawwierszeZorin(Dokfk nd, InterpaperXLS interpaperXLS, Konto kontorozrachunkowe, Konto kontonetto) {
+        nd.setListawierszy(new ArrayList<Wiersz>());
+        if (rodzajdok.contains("sprzedaż")) {
+            nd.getListawierszy().add(przygotujwierszNettoZorin(interpaperXLS, nd, kontorozrachunkowe, kontonetto));
+            if (interpaperXLS.getVatwaluta() != 0) {
+                nd.getListawierszy().add(przygotujwierszVat(interpaperXLS, nd));
+            }
+        } else {
+            nd.getListawierszy().add(przygotujwierszNettoKZorin(interpaperXLS, nd, kontorozrachunkowe, kontonetto));
+            if (interpaperXLS.getVatwaluta() != 0) {
+                nd.getListawierszy().add(przygotujwierszVatK(interpaperXLS, nd));
+            }
+        }
+    }
 
     private Wiersz przygotujwierszNetto(InterpaperXLS interpaperXLS, Dokfk nd) {
         Wiersz w = new Wiersz(1, nd, 0);
@@ -762,6 +867,25 @@ public class InterpaperImportView implements Serializable {
         strma.setKwotaPLN(Z.z(nettopln));
         strma.setKonto(kontodlanetto!=null?kontodlanetto:kontonetto);
         strwn.setKonto(pobierzkontoWn(nd, interpaperXLS, nd.getKontr()));
+        w.setStronaWn(strwn);
+        w.setStronaMa(strma);
+        return w;
+    }
+    
+    private Wiersz przygotujwierszNettoZorin(InterpaperXLS interpaperXLS, Dokfk nd, Konto kontorozrachunkowe, Konto kontonetto) {
+        Wiersz w = new Wiersz(1, nd, 0);
+        uzupelnijwiersz(w, nd, 0);
+        String opiswiersza = nd.getOpisdokfk(); 
+        w.setOpisWiersza(opiswiersza);
+        StronaWiersza strwn = new StronaWiersza(w, "Wn", interpaperXLS.getBruttowaluta(), null);
+        StronaWiersza strma = new StronaWiersza(w, "Ma", interpaperXLS.getNettowaluta(), null);
+        double kurs = nd.getTabelanbp().getKurssredniPrzelicznik();
+        double nettopln = interpaperXLS.getNettoPLNvat()!=0.0 ? interpaperXLS.getNettoPLNvat():interpaperXLS.getNettoPLN(kurs);
+        double vatpln = interpaperXLS.getVatPLN()!=0.0 ? interpaperXLS.getVatPLN():interpaperXLS.getVatPLN(kurs);
+        strwn.setKwotaPLN(Z.z(nettopln+vatpln));
+        strma.setKwotaPLN(Z.z(nettopln));
+        strma.setKonto(kontonetto);
+        strwn.setKonto(kontorozrachunkowe);
         w.setStronaWn(strwn);
         w.setStronaMa(strma);
         return w;
@@ -801,6 +925,31 @@ public class InterpaperImportView implements Serializable {
             strwn.setKonto(kontodlanetto!=null?kontodlanetto:kontonettokoszt);
         }
         strma.setKonto(pobierzkontoMa(nd, interpaperXLS, nd.getKontr()));
+        w.setStronaMa(strma);
+        w.setStronaWn(strwn);
+        return w;
+    }
+    
+     private Wiersz przygotujwierszNettoKZorin(InterpaperXLS interpaperXLS, Dokfk nd, Konto kontorozrachunkowe, Konto kontonetto) {
+        Wiersz w = new Wiersz(1, nd, 0);
+        uzupelnijwiersz(w, nd, 0);
+        String opiswiersza = nd.getOpisdokfk(); 
+        w.setOpisWiersza(opiswiersza);
+        StronaWiersza strma = new StronaWiersza(w, "Ma", interpaperXLS.getBruttowaluta(), null);
+        StronaWiersza strwn = new StronaWiersza(w, "Wn", interpaperXLS.getNettowaluta(), null);
+        double kurs = nd.getTabelanbp().getKurssredniPrzelicznik();
+        double nettopln = interpaperXLS.getNettoPLNvat()!=0.0 ? interpaperXLS.getNettoPLNvat():interpaperXLS.getNettoPLN(kurs);
+        double vatpln = interpaperXLS.getVatPLN()!=0.0 ? interpaperXLS.getVatPLN():interpaperXLS.getVatPLN(kurs);
+        strma.setKwotaPLN(Z.z(nettopln+vatpln));
+        strwn.setKwotaPLN(Z.z(nettopln));
+        if (nd.getRodzajedok().getSkrotNazwyDok().equals("WNT")) {
+            strwn.setKonto(kontonetto);
+            strma.setKwotaPLN(Z.z(nettopln));
+            strma.setKwota(Z.z(interpaperXLS.getNettowaluta()));
+        } else {
+            strwn.setKonto(kontonetto);
+        }
+        strma.setKonto(kontorozrachunkowe);
         w.setStronaMa(strma);
         w.setStronaWn(strwn);
         return w;

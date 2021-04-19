@@ -2724,7 +2724,9 @@ public class DokfkView implements Serializable {
         if (stara!=null) {
             staranazwa = stara.getSymbolwaluty();
         }
-        if (staranazwa!=null && !staranazwa.equals("PLN") && !nazwawaluty.equals("PLN") && selected.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
+        if (selected.isNieprzeliczaj()==true) {
+            Msg.msg("w", "Dokument z ręcznie wyliczonym kursem, nie można zmieniać waluty");
+        } else if (staranazwa!=null && !staranazwa.equals("PLN") && !nazwawaluty.equals("PLN") && selected.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
             Msg.msg("w", "Prosze przewalutowywać do PLN");
         } else {
             if (!nazwawaluty.equals("PLN")) {

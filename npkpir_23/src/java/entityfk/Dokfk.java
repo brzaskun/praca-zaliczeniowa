@@ -239,6 +239,9 @@ public class Dokfk extends DokSuper implements Serializable {
     @JoinColumn(name = "fakturakontrahent", referencedColumnName = "id")
     @OneToOne
     private Faktura fakturakontrahent;
+    @Column(name = "nieprzeliczaj")
+    private boolean nieprzeliczaj;
+    
     
 
 
@@ -806,6 +809,14 @@ public class Dokfk extends DokSuper implements Serializable {
 
     public void setFakturakontrahent(Faktura fakturakontrahent) {
         this.fakturakontrahent = fakturakontrahent;
+    }
+
+    public boolean isNieprzeliczaj() {
+        return nieprzeliczaj;
+    }
+
+    public void setNieprzeliczaj(boolean nieprzeliczaj) {
+        this.nieprzeliczaj = nieprzeliczaj;
     }
     
    
