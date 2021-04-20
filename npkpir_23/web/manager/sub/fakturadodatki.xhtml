@@ -50,11 +50,14 @@
             </h:form>
         </p:tab>
         <p:tab title="księgowanie pozycji">
+             <h:form id="form2a">
+                <p:panelGrid columns="2">
+                    <p:commandButton value="generuj permanentne" actionListener="#{fakturaDodPozycjaKontrahentView.generujpermanentne()}" style="width: 120px;" binding="#{fakturaDodPozycjaKontrahentView.button}" update="akordeon:listapozycji" rendered="false"/>
+                    <p:commandButton value="zachowaj wygenerowane" actionListener="#{fakturaDodPozycjaKontrahentView.zachowajpermanentne()}" style="width: 120px;margin-left: 20px;" binding="#{fakturaDodPozycjaKontrahentView.button1}" update="akordeon:listapozycji" rendered="false"/>
+                </p:panelGrid>
+             </h:form>
             <h:form id="form2">
                 <p:growl life="3600" showDetail="true"/>
-                <p:panelGrid columns="1">
-                    <p:commandButton value="generuj permanentne" actionListener="#{fakturaDodPozycjaKontrahentView.generujpermanentne()}" style="width: 120px;" binding="#{fakturaDodPozycjaKontrahentView.button}" update="akordeon:form2" rendered="false"/>
-                </p:panelGrid>
                 <p:panelGrid columns="5">
                     <h:outputText value="rok"/>
                     <h:outputText value="mc"/>
@@ -67,7 +70,7 @@
                         <f:selectItems value="#{roki.rokiList}"/>
                     </p:selectOneMenu>
                     <p:selectOneMenu id="miesiacWpisu" value="#{fakturaDodPozycjaKontrahentView.mc}" style="width: 60px;">
-                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.pobierzklientow()}" update="form2 akordeon:listapozycji:lista"/>
+                        <p:ajax event="change" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.pobierzklientow()}" update="form2 akordeon:listapozycji:lista akordeon:form2a"/>
                         <f:selectItem itemLabel="wybierz" itemValue="" noSelectionOption="true" />
                         <f:selectItems value="#{mce.mceList}"/>
                     </p:selectOneMenu>

@@ -56,6 +56,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     private String mc;
     private double sumawybranych;
     private CommandButton button;
+    private CommandButton button1;
     
     @PostConstruct
     private void init() {
@@ -78,6 +79,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
                 klienci.add(k);
             }
             button.setRendered(true);
+            button1.setRendered(true);
         }
         Collections.sort(klienci,new Klienci1comparator());
         pozycje = fakturaDodatkowaPozycjaDAO.findAll();
@@ -146,7 +148,30 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
     }
     
     public void generujpermanentne() {
-        Msg.msg("e","brak funkcji generującej");
+         lista_wzor = fakturaDodPozycjaKontrahentDAO.findByRok(Data.aktualnyRok());
+         if (rok!=null&&mc!=null) {
+            String[] okrespop = Data.poprzedniOkres(mc, rok);
+            List<FakturaDodPozycjaKontrahent> lista_tmp = lista_wzor.stream().filter(p->p.getRok().equals(okrespop[1])&&p.getMc().equals(okrespop[0])).collect(Collectors.toList());
+            if (lista_tmp.isEmpty()) {
+                Msg.msg("e", "Brak pozycji stałych");
+            } else {
+                lista_2 = new ArrayList<>();
+                for (FakturaDodPozycjaKontrahent p : lista_tmp) {
+                    FakturaDodPozycjaKontrahent r = new FakturaDodPozycjaKontrahent(p, rok, mc);
+                    lista_2.add(r);
+                }
+                Msg.msg("Pobrano stałe pozycje");
+            }
+        }
+    }
+    
+    public void zachowajpermanentne() {
+        if (lista_2!=null&& !lista_2.isEmpty()) {
+            fakturaDodPozycjaKontrahentDAO.createEditList(lista_2);
+            Msg.msg("Zachowano pozycje");
+        } else {
+            Msg.msg("e","Lista pusta");
+        }
     }
 
     public FakturaDodPozycjaKontrahent getSelected() {
@@ -219,6 +244,14 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
 
     public void setButton(CommandButton button) {
         this.button = button;
+    }
+
+    public CommandButton getButton1() {
+        return button1;
+    }
+
+    public void setButton1(CommandButton button1) {
+        this.button1 = button1;
     }
     
     
