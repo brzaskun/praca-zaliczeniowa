@@ -19,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import waluty.Z;
 
 /**
  *
@@ -63,6 +64,24 @@ public class FakturaDodPozycjaKontrahent  implements Serializable{
     private boolean permanentny;
     @Column(name = "kwotaindywid")
     private double kwotaindywid;
+
+    public FakturaDodPozycjaKontrahent() {
+    }
+        
+
+    public FakturaDodPozycjaKontrahent(FakturaDodPozycjaKontrahent p, String rok, String mc) {
+        this.kontrahent = p.getKontrahent();
+        this.fakturaDodatkowaPozycja = p.getFakturaDodatkowaPozycja();
+        this.ilosc = 0;
+        this.rok = rok;
+        this.mc = mc;
+        this.rozliczone = false;
+        this.permanentny = p.isPermanentny();
+        this.kwotaindywid = Z.z(p.getKwotaindywid());
+    }
+
+  
+    
 
     @Override
     public int hashCode() {

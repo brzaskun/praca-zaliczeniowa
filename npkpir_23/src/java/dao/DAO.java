@@ -41,6 +41,25 @@ public abstract class DAO<T> {
             }
         }
      }
+     
+     public void createEditList(List<T> entityList) {
+        for (T p : entityList) {
+            boolean blad = false;
+            try {
+                getEntityManager().persist(p);
+            } catch (Exception e) {
+                blad = true;
+                E.e(e);
+            }
+            if (blad) {
+                try {
+                    getEntityManager().merge(p);
+                } catch (Exception e) {
+                    E.e(e);
+                }
+            }
+        }
+     }
         
     
     public void edit(T entity) {
