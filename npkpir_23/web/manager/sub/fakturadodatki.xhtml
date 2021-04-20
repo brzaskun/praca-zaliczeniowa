@@ -117,7 +117,7 @@
                     <h:outputText value="#{zapis.fakturaDodatkowaPozycja.nazwa}"/>
                 </p:column>
                     <p:column headerText="ilość" width="50" style="text-align: center;" sortBy="#{zapis.ilosc}">  
-                    <p:inputNumber value="#{zapis.ilosc}" decimalPlaces="0" minValue="1" size="3">
+                    <p:inputNumber value="#{zapis.ilosc}" decimalPlaces="0" size="3">
                         <p:ajax event="change" parent="true" partialSubmit="true" listener="#{fakturaDodPozycjaKontrahentView.edytuj(zapis)}" />
                     </p:inputNumber>
                 </p:column>
