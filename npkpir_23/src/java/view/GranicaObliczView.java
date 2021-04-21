@@ -12,15 +12,13 @@ import data.Data;
 import entity.Granica;
 import entity.Pitpoz;
 import entity.Ryczpoz;
-import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-
 import javax.inject.Inject;
+import javax.inject.Named;
 import msg.Msg;
 /**
  *
@@ -103,7 +101,6 @@ public class GranicaObliczView  implements Serializable {
         progresksiegi = progresksiegi > 150 ? 150 : progresksiegi;
         progreskasa = progreskasa > 150 ? 150 : progreskasa;
         } catch(Exception e) {
-            E.e(e);
             Msg.msg("e", "Błąd przy generowaniu limitów");
         }
     }

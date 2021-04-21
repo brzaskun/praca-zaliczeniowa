@@ -479,10 +479,10 @@ public class Jpk_VAT2View implements Serializable {
                     Msg.msg(wiadomosc[0], wiadomosc[1]);
                 }
             } else {
-                Msg.msg("e", "Brak karty w czytniku/lub karta zablokowana. Nie można wysłać JPK");
+                Msg.msg("e", "Brak karty w czytniku. Nie można wysłać JPK");
             }
         } catch (KeyStoreException ex) {
-            Msg.msg("e", "Brak karty w czytniku/lub karta zablokowana");
+            Msg.msg("e", "Brak karty w czytniku");
         } catch (IOException ex) {
             Msg.msg("e", "UWAGA! Błędne hasło!");
         } catch (Exception ex) {
@@ -809,8 +809,6 @@ public class Jpk_VAT2View implements Serializable {
                 Msg.msg("Zachowano JPK");
                 String exec = "wydrukJPK('"+mainfilename+"')";
                 PrimeFaces.current().executeScript(exec);
-            } else {
-                Msg.msg("e","Nie zachował się oryginalny jpk");
             }
         } catch (Exception e) {
             E.e(e);
