@@ -64,6 +64,7 @@ public class FakturaDodPozycjaKontrahentView  implements Serializable {
         lista_wzor = fakturaDodPozycjaKontrahentDAO.findByRok(Data.aktualnyRok());
         lista_2 = new ArrayList<>();
         lista_2.addAll(lista_wzor);
+        rok = Data.aktualnyRok();
     }
     
     public void pobierzklientow() {

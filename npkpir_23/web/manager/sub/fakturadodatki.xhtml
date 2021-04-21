@@ -8,47 +8,6 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     
     <p:tabView id="akordeon">
-        <p:tab title="dodatki wprowadzanie">
-            <h:form>
-            <p:growl life="3600" showDetail="true"/>
-            <p:panelGrid columns="3">
-                <h:outputText value="nazwa"/>
-                <h:outputText value="kwota"/>
-                <h:outputText value=""/>
-                <p:inputText value="#{fakturaDodatkowaPozycjaView.selected.nazwa}" size="100"/>
-                <p:inputNumber value="#{fakturaDodatkowaPozycjaView.selected.kwota}" decimalPlaces="2" decimalSeparator=" " minValue="0.0" size="9" inputStyle="text-align: right;"/>
-                <p:commandButton value="dodaj" actionListener="#{fakturaDodatkowaPozycjaView.dodaj()}" update="@(form)"/>
-            </p:panelGrid>
-            </h:form>
-            <p:separator/>
-          <h:form>
-                <p:growl life="3600" showDetail="true"/>
-                <p:dataTable  var="zapis" value="#{fakturaDodatkowaPozycjaView.lista}" id="lista" sortOrder="ascending" style="width: 770px;"
-                              paginator="true" paginatorAlwaysVisible="#{fakturaDodatkowaPozycjaView.lista.size() gt 20 ? true : false}" rows="20" sortBy="#{zapis.nazwa}"
-                          paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                          rowsPerPageTemplate="20,50,100" rowIndexVar="index"
-                          rowKey="#{zapis.id}"> 
-                <f:facet name="header">  
-                    <h:outputText value="Wykaz wprowadzonych wartości" />  
-                </f:facet>
-                    <p:column width="20">  
-                    <h:outputText value="#{index+1}"/>
-                </p:column>
-                <p:column headerText="nazwa" width="400">  
-                    <h:outputText value="#{zapis.nazwa}"/>
-                </p:column>
-                <p:column headerText="kwota" width="100">  
-                    <bcf:outputpl value="#{zapis.kwota}" />
-                </p:column>
-                    <p:column headerText="aktywny" width="80" style="text-align: center;">  
-                    <h:outputText value="#{zapis.aktywny eq true ? 'tak':'nie'}" />
-                </p:column>
-                <p:column headerText="" style="text-align: center;" width="50">  
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaDodatkowaPozycjaView.usun(zapis)}" update="@form"/>
-                </p:column>
-            </p:dataTable>
-            </h:form>
-        </p:tab>
         <p:tab title="księgowanie pozycji">
              <h:form id="form2a">
                 <p:panelGrid columns="2">
@@ -152,6 +111,47 @@
                      <bcf:outputpl value="#{fakturaDodPozycjaKontrahentView.sumawybranych}" stylePlus="margin-left: 50px;"/>
                  </p:panelGrid>
              </h:form>
+        </p:tab>
+        <p:tab title="dodatki wprowadzanie">
+            <h:form>
+            <p:growl life="3600" showDetail="true"/>
+            <p:panelGrid columns="3">
+                <h:outputText value="nazwa"/>
+                <h:outputText value="kwota"/>
+                <h:outputText value=""/>
+                <p:inputText value="#{fakturaDodatkowaPozycjaView.selected.nazwa}" size="100"/>
+                <p:inputNumber value="#{fakturaDodatkowaPozycjaView.selected.kwota}" decimalPlaces="2" decimalSeparator=" " minValue="0.0" size="9" inputStyle="text-align: right;"/>
+                <p:commandButton value="dodaj" actionListener="#{fakturaDodatkowaPozycjaView.dodaj()}" update="@(form)"/>
+            </p:panelGrid>
+            </h:form>
+            <p:separator/>
+          <h:form>
+                <p:growl life="3600" showDetail="true"/>
+                <p:dataTable  var="zapis" value="#{fakturaDodatkowaPozycjaView.lista}" id="lista" sortOrder="ascending" style="width: 770px;"
+                              paginator="true" paginatorAlwaysVisible="#{fakturaDodatkowaPozycjaView.lista.size() gt 20 ? true : false}" rows="20" sortBy="#{zapis.nazwa}"
+                          paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
+                          rowsPerPageTemplate="20,50,100" rowIndexVar="index"
+                          rowKey="#{zapis.id}"> 
+                <f:facet name="header">  
+                    <h:outputText value="Wykaz wprowadzonych wartości" />  
+                </f:facet>
+                    <p:column width="20">  
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="nazwa" width="400">  
+                    <h:outputText value="#{zapis.nazwa}"/>
+                </p:column>
+                <p:column headerText="kwota" width="100">  
+                    <bcf:outputpl value="#{zapis.kwota}" />
+                </p:column>
+                    <p:column headerText="aktywny" width="80" style="text-align: center;">  
+                    <h:outputText value="#{zapis.aktywny eq true ? 'tak':'nie'}" />
+                </p:column>
+                <p:column headerText="" style="text-align: center;" width="50">  
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaDodatkowaPozycjaView.usun(zapis)}" update="@form"/>
+                </p:column>
+            </p:dataTable>
+            </h:form>
         </p:tab>
     </p:tabView>
  </ui:composition>
