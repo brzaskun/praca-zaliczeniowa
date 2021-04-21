@@ -101,7 +101,7 @@
              <p:separator/>
              <h:form id="listapozycji">
                 <p:growl life="3600" showDetail="true"/>
-                <p:dataTable  var="zapis" value="#{fakturaDodPozycjaKontrahentView.lista_2}" id="lista" sortOrder="ascending" style="width: 1400px;" widgetVar="tabelazwynikami"
+                <p:dataTable  var="zapis" value="#{fakturaDodPozycjaKontrahentView.lista_2}" id="lista" sortOrder="ascending" style="width: 1300px;" widgetVar="tabelazwynikami"
                               filteredValue="#{fakturaDodPozycjaKontrahentView.lista_2_filter}"
                               paginator="true" paginatorAlwaysVisible="#{fakturaDodPozycjaKontrahentView.lista_2.size() gt 20 ? true : false}" rows="20" sortBy="#{zapis.kontrahent.getNazwabezCudzy()}"
                           paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
@@ -113,7 +113,7 @@
                 <p:column headerText="nazwa" width="400" filterBy="#{zapis.kontrahent.getNazwabezCudzy()}" filterMatchMode="contains">  
                     <h:outputText value="#{zapis.kontrahent.getNazwabezCudzy()}"/>
                 </p:column>
-                    <p:column headerText="pozycja" width="450" filterBy="#{zapis.fakturaDodatkowaPozycja.nazwa}" filterMatchMode="contains">  
+                    <p:column headerText="pozycja" width="350" filterBy="#{zapis.fakturaDodatkowaPozycja.nazwa}" filterMatchMode="contains">  
                     <h:outputText value="#{zapis.fakturaDodatkowaPozycja.nazwa}"/>
                 </p:column>
                     <p:column headerText="ilość" width="50" style="text-align: center;" sortBy="#{zapis.ilosc}">  
