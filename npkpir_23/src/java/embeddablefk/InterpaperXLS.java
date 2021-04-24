@@ -59,6 +59,8 @@ public class InterpaperXLS implements Serializable {
     private Tabelanbp tabelanbp;
     private String symbolzaksiegowanego;
     private Evewidencja evewidencja;
+    private double pobranastawkavat;
+    private boolean czytojestkorekta;
 
     public InterpaperXLS(Object[] r, WpisView wpisView, Klienci klient, String nrfak) {
         //{kraj, waluta, nettowaluta, vatwaluta, bruttowal, nettopl, vatpl, bruttopln, vatstawka, lista.size()};
@@ -470,6 +472,22 @@ public class InterpaperXLS implements Serializable {
 
     public void setDatasprzedażyS(String datasprzedażyS) {
         this.datasprzedażyS = datasprzedażyS;
+    }
+
+    public double getPobranastawkavat() {
+        return pobranastawkavat;
+    }
+
+    public void setPobranastawkavat(double pobranastawkavat) {
+        this.pobranastawkavat = pobranastawkavat;
+    }
+
+    public boolean isCzytojestkorekta() {
+        return czytojestkorekta;
+    }
+
+    public void setCzytojestkorekta(boolean czytojestkorekta) {
+        this.czytojestkorekta = czytojestkorekta;
     }
 
     

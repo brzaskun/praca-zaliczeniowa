@@ -113,6 +113,9 @@ public class ReadXMLZorinOptimaFile {
                 Map<String, Klienci> znalezieni = new HashMap<>();
                 for (ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT row :tabela.getREJESTRYSPRZEDAZYVAT().getREJESTRSPRZEDAZYVAT()) {
                     try {
+//                        if (row.getNUMER().equals("G/FD 2/000475/03/21")) {
+//                            System.out.println("");
+//                        }
                         InterpaperXLS interpaperXLS = new InterpaperXLS();
                         String nip = pobierznip(row);
                         String mcdok = Data.getMc(Data.calendarToString(row.getDATASPRZEDAZY()));
@@ -129,22 +132,19 @@ public class ReadXMLZorinOptimaFile {
                                     zlyrow = uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
                                     if (zlyrow != null) {
                                         przerwanyimport.add(zlyrow);
-                                    }
-                                    if (interpaperXLS.getKontrahent() != null && (interpaperXLS.getNettowaluta() != 0.0 || interpaperXLS.getVatwaluta() != 0.0)) {
-                                        interpaperXLS.setNr(i++);
-                                        listafaktur.add(interpaperXLS);
                                     } else {
-                                        importyzbrakami.add(interpaperXLS);
+                                        if (interpaperXLS.getKontrahent() != null && (interpaperXLS.getNettowaluta() != 0.0 || interpaperXLS.getVatwaluta() != 0.0)) {
+                                            interpaperXLS.setNr(i++);
+                                            listafaktur.add(interpaperXLS);
+                                        } else {
+                                            importyzbrakami.add(interpaperXLS);
+                                        }
                                     }
-                                } else if (jakipobor.equals("firmy") && nip!=null && !nip.equals("")) {
-                                    if (row.getKRAJ().equals("Islandia")) {
-                                        System.out.println("");
-                                    }
+                                } else if (jakipobor.equals("firmy") && !row.getPODMIOT().equals("!INCYDENTALNY")) {
                                     zlyrow = uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
                                     if (zlyrow!=null) {
                                         przerwanyimport.add(zlyrow);
-                                    }
-                                    if (ImportBean.prawidlowynip(nip, row.getKRAJ()) || (!ImportBean.prawidlowynip(nip, row.getKRAJ())&&Z.z(interpaperXLS.getVatwaluta()) == 0.0)) {
+                                    } else {
                                         if (interpaperXLS.getKontrahent()!=null && (interpaperXLS.getNettowaluta()!=0.0)) {
                                             interpaperXLS.setNr(i++);
                                             listafaktur.add(interpaperXLS);
@@ -152,12 +152,11 @@ public class ReadXMLZorinOptimaFile {
                                             importyzbrakami.add(interpaperXLS);
                                         }
                                     }
-                                } else if (jakipobor.equals("fiz") && (nip==null || nip.equals("") || nip.length()<8)) {
+                                } else if (jakipobor.equals("fiz")  && row.getPODMIOT().equals("!INCYDENTALNY")) {
                                     zlyrow = uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
                                     if (zlyrow != null) {
                                         przerwanyimport.add(zlyrow);
-                                    }
-                                    if (Z.z(interpaperXLS.getVatwaluta()) != 0.0) {
+                                    } else {
                                         if (interpaperXLS.getKontrahent() != null) {
                                             interpaperXLS.setNr(i++);
                                             listafaktur.add(interpaperXLS);
@@ -169,12 +168,13 @@ public class ReadXMLZorinOptimaFile {
                                     zlyrow = uzupelnijsprzedazPar(interpaperXLS, row, k, klienciDAO, znalezieni);
                                     if (zlyrow != null) {
                                         przerwanyimport.add(zlyrow);
-                                    }
-                                    if (interpaperXLS.getKontrahent() != null && (interpaperXLS.getNettowaluta() != 0.0 || interpaperXLS.getVatwaluta() != 0.0)) {
-                                        interpaperXLS.setNr(i++);
-                                        listafaktur.add(interpaperXLS);
                                     } else {
-                                        importyzbrakami.add(interpaperXLS);
+                                        if (interpaperXLS.getKontrahent() != null && (interpaperXLS.getNettowaluta() != 0.0 || interpaperXLS.getVatwaluta() != 0.0)) {
+                                            interpaperXLS.setNr(i++);
+                                            listafaktur.add(interpaperXLS);
+                                        } else {
+                                            importyzbrakami.add(interpaperXLS);
+                                        }
                                     }
                                 }
                             }
@@ -278,21 +278,34 @@ public class ReadXMLZorinOptimaFile {
         ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT zlafaktura = null;
         if (!row.getOPIS().equals("PAR")&&!row.getOPIS().equals("PAR 2")&&!row.getOPIS().equals("KPAR")&&!row.getOPIS().equals("KPAR 2")) {
             try {
-                if (row.getIDZRODLA().equals("A5BB0C3C-43E3-4251-97DB-DE9CF8FF59E8")) {
-                    System.out.println("");
-                }
+//                if (row.getNUMER().equals("G/FV/000001/03/21")) {
+//                    System.out.println("");
+//                }
                 interpaperXLS.setNrfaktury(row.getNUMER());
                 interpaperXLS.setDatawystawienia(row.getDATAWYSTAWIENIA().toGregorianCalendar().getTime());
                 interpaperXLS.setDatasprzedaży(row.getDATASPRZEDAZY().toGregorianCalendar().getTime());
                 interpaperXLS.setDataobvat(row.getDATASPRZEDAZY().toGregorianCalendar().getTime());
                 interpaperXLS.setKlientnazwa(row.getNAZWA1());
-                interpaperXLS.setKlientpaństwo(row.getKRAJ());
+                String kraj = row.getKRAJ();
+                if (kraj.equals("Mołdawia")) {
+                    kraj = "Mołdowa";
+                }
+                if (kraj.equals("")) {
+                    kraj = "Polska";
+                }
+                if (kraj.equals("Czechy")) {
+                    kraj = "Republika Czeska";
+                }
+                if (kraj.equals("Stany Zjednoczone")) {
+                    kraj = "Stany Zjedn. Ameryki Włącznie z Portoryko PR";
+                }
+                interpaperXLS.setKlientpaństwo(kraj);
                 interpaperXLS.setKlientkod(row.getKODPOCZTOWY());
                 interpaperXLS.setKlientmiasto(row.getMIASTO());
                 interpaperXLS.setKlientulica(row.getULICA());
                 interpaperXLS.setKlientdom(row.getNRDOMU());
                 interpaperXLS.setKlientlokal(row.getNRLOKALU());
-                String kontr = row.getNAZWA1()+" "+row.getKRAJ()+" "+row.getKODPOCZTOWY()+" "+row.getMIASTO();
+                String kontr = row.getNAZWA1()+" "+kraj+" "+row.getKODPOCZTOWY()+" "+row.getMIASTO();
                 interpaperXLS.setKontrahent(kontr);
                 interpaperXLS.setNip(pobierznip(row));
                 interpaperXLS.setNipkrajzorin(row.getNIPKRAJ());
@@ -300,16 +313,22 @@ public class ReadXMLZorinOptimaFile {
                 interpaperXLS.setWalutaplatnosci(pobierzwalute(row));
                 List<ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.POZYCJE.POZYCJA> poz = row.getPOZYCJE().getPOZYCJA();
                 ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.PLATNOSCI.PLATNOSC plt = row.getPLATNOSCI().getPLATNOSC();
-                interpaperXLS.setSaldofaktury(plt!=null?plt.getKWOTAPLAT():0.0);
-                interpaperXLS.setTerminplatnosci(plt!=null&&plt.getTERMINPLAT()!=null? plt.getTERMINPLAT().toGregorianCalendar().getTime():null);
-                double kwoty[] = obliczkwoty(poz,plt, pobierzwalute(row));
-                interpaperXLS.setNettoPLN(kwoty[0]);
-                interpaperXLS.setNettoPLNvat(kwoty[0]);
-                interpaperXLS.setVatPLN(kwoty[1]);
-                interpaperXLS.setBruttoPLN(kwoty[2]);
-                interpaperXLS.setNettowaluta(kwoty[3]);
-                interpaperXLS.setVatwaluta(kwoty[4]);
-                interpaperXLS.setBruttowaluta(kwoty[5]);
+                if (plt==null&&poz.isEmpty()) {
+                    zlafaktura = row;
+                } else {
+                    interpaperXLS.setSaldofaktury(plt!=null?plt.getKWOTAPLAT():0.0);
+                    interpaperXLS.setTerminplatnosci(plt!=null&&plt.getTERMINPLAT()!=null? plt.getTERMINPLAT().toGregorianCalendar().getTime():null);
+                    double kwoty[] = obliczkwoty(poz,plt, pobierzwalute(row));
+                    interpaperXLS.setNettoPLN(kwoty[0]);
+                    interpaperXLS.setNettoPLNvat(kwoty[0]);
+                    interpaperXLS.setVatPLN(kwoty[1]);
+                    interpaperXLS.setBruttoPLN(kwoty[2]);
+                    interpaperXLS.setNettowaluta(kwoty[3]);
+                    interpaperXLS.setVatwaluta(kwoty[4]);
+                    interpaperXLS.setBruttowaluta(kwoty[5]);
+                    interpaperXLS.setPobranastawkavat(kwoty[6]);
+                    interpaperXLS.setCzytojestkorekta(row.getKOREKTA().equals("Tak")?true:false);
+                }
             } catch (Exception e) {
                 zlafaktura = row;
             }
@@ -326,29 +345,47 @@ public class ReadXMLZorinOptimaFile {
                 interpaperXLS.setDatasprzedaży(row.getDATASPRZEDAZY().toGregorianCalendar().getTime());
                 interpaperXLS.setDataobvat(row.getDATASPRZEDAZY().toGregorianCalendar().getTime());
                 interpaperXLS.setKlientnazwa(row.getNAZWA1());
-                interpaperXLS.setKlientpaństwo(row.getKRAJ());
+                 String kraj = row.getKRAJ();
+                if (kraj.equals("Mołdawia")) {
+                    kraj = "Mołdowa";
+                }
+                if (kraj.equals("")) {
+                    kraj = "Polska";
+                }
+                if (kraj.equals("Czechy")) {
+                    kraj = "Republika Czeska";
+                }
+                 if (kraj.equals("Stany Zjednoczone")) {
+                    kraj = "Stany Zjedn. Ameryki Włącznie z Portoryko PR";
+                }
+                interpaperXLS.setKlientpaństwo(kraj);
                 interpaperXLS.setKlientkod(row.getKODPOCZTOWY());
                 interpaperXLS.setKlientmiasto(row.getMIASTO());
                 interpaperXLS.setKlientulica(row.getULICA());
                 interpaperXLS.setKlientdom(row.getNRDOMU());
                 interpaperXLS.setKlientlokal(row.getNRLOKALU());
-                String kontr = row.getNAZWA1()+" "+row.getKRAJ()+" "+row.getKODPOCZTOWY()+" "+row.getMIASTO();
+                String kontr = row.getNAZWA1()+" "+kraj+" "+row.getKODPOCZTOWY()+" "+row.getMIASTO();
                 interpaperXLS.setKontrahent(kontr);
                 interpaperXLS.setNip(pobierznip(row));
                 interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
                 interpaperXLS.setWalutaplatnosci(pobierzwalute(row));
                 List<ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.POZYCJE.POZYCJA> poz = row.getPOZYCJE().getPOZYCJA();
                 ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.PLATNOSCI.PLATNOSC plt = row.getPLATNOSCI().getPLATNOSC();
-                interpaperXLS.setSaldofaktury(plt.getKWOTAPLAT());
-                interpaperXLS.setTerminplatnosci(plt.getTERMINPLAT()!=null? plt.getTERMINPLAT().toGregorianCalendar().getTime():null);
-                double kwoty[] = obliczkwoty(poz,plt, pobierzwalute(row));
-                interpaperXLS.setNettoPLN(kwoty[0]);
-                interpaperXLS.setNettoPLNvat(kwoty[0]);
-                interpaperXLS.setVatPLN(kwoty[1]);
-                interpaperXLS.setBruttoPLN(kwoty[2]);
-                interpaperXLS.setNettowaluta(kwoty[3]);
-                interpaperXLS.setVatwaluta(kwoty[4]);
-                interpaperXLS.setBruttowaluta(kwoty[5]);
+                if (plt==null&&poz.isEmpty()) {
+                    zlafaktura = row;
+                } else {
+                    interpaperXLS.setSaldofaktury(plt.getKWOTAPLAT());
+                    interpaperXLS.setTerminplatnosci(plt.getTERMINPLAT()!=null? plt.getTERMINPLAT().toGregorianCalendar().getTime():null);
+                    double kwoty[] = obliczkwoty(poz,plt, pobierzwalute(row));
+                    interpaperXLS.setNettoPLN(kwoty[0]);
+                    interpaperXLS.setNettoPLNvat(kwoty[0]);
+                    interpaperXLS.setVatPLN(kwoty[1]);
+                    interpaperXLS.setBruttoPLN(kwoty[2]);
+                    interpaperXLS.setNettowaluta(kwoty[3]);
+                    interpaperXLS.setVatwaluta(kwoty[4]);
+                    interpaperXLS.setBruttowaluta(kwoty[5]);
+                    interpaperXLS.setCzytojestkorekta(row.getKOREKTA().equals("Tak")?true:false);
+                }
             } catch (Exception e) {
                 zlafaktura = row;
             }
@@ -373,7 +410,7 @@ public class ReadXMLZorinOptimaFile {
             String kontr = row.getNAZWA1()+" "+row.getKRAJ()+" "+row.getKODPOCZTOWY()+" "+row.getMIASTO();
             interpaperXLS.setKontrahent(kontr);
             interpaperXLS.setNip(pobierznip(row));
-            interpaperXLS.setNipkrajzorin(row.getNIPKRAJ()!=null?row.getNIPKRAJ().trim():null);
+            interpaperXLS.setNipkrajzorin(row.getKRAJ()!=null?row.getKRAJ().trim():null);
             interpaperXLS.setKlient(ustawkontrahenta(interpaperXLS, k, klienciDAO, znalezieni));
             interpaperXLS.setWalutaplatnosci(pobierzwalute(row));
             List<ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.POZYCJE.POZYCJA> poz = row.getPOZYCJE().getPOZYCJA();
@@ -398,6 +435,9 @@ public class ReadXMLZorinOptimaFile {
 //       if (interpaperXLS.getKontrahent().equals("HST")) {
 //           error.E.s("");
 //       }
+//        if (interpaperXLS.getNip().equals("1131835763")){
+//            System.out.println("");
+//        }
        Klienci klient = null;
        if (interpaperXLS.getNrfaktury().equals("G/FD 2/000739/02/21")) {
            System.out.println("");
@@ -415,16 +455,18 @@ public class ReadXMLZorinOptimaFile {
                     }
                 }
             }
-            if (klient==null && interpaperXLS.getNip()!=null && interpaperXLS.getNip().length()>6) {
+            if (klient==null && interpaperXLS.getNip()!=null && interpaperXLS.getNip().length()>4) {
                 for (Klienci p : k) {
                     if (p.getNip().contains(interpaperXLS.getNip().trim())) {
-                        klient = p;
-                        znalezieni.put(interpaperXLS.getKontrahent(), p);
-                        break;
+                        if (interpaperXLS.getKlientpaństwo()!=null&&p.getKrajnazwa()!=null&&interpaperXLS.getKlientpaństwo().equals(p.getKrajnazwa())) {
+                            klient = p;
+                            znalezieni.put(interpaperXLS.getKontrahent(), p);
+                            break;
+                        }
                     }
                 }
             }
-            if (klient==null && interpaperXLS.getKontrahent().toLowerCase().trim().length()>3 && interpaperXLS.getNip()!=null && interpaperXLS.getNip().length()>6) {
+            if (klient==null && interpaperXLS.getKontrahent().toLowerCase().trim().length()>3 && interpaperXLS.getNip()!=null && interpaperXLS.getNip().length()>4) {
                 for (Klienci p : k) {
                     if (p.getNpelna().toLowerCase().contains(interpaperXLS.getKontrahent().toLowerCase().trim()) || (p.getNskrocona()!=null && p.getNskrocona().toLowerCase().contains(interpaperXLS.getKontrahent().toLowerCase().trim()))) {
                         klient = p;
@@ -433,7 +475,7 @@ public class ReadXMLZorinOptimaFile {
                     }
                 }
             }
-            if (klient==null && interpaperXLS.getNip()!=null && interpaperXLS.getNip().length()>6 && interpaperXLS.getNipkrajzorin().isEmpty()) {
+            if (klient==null && interpaperXLS.getNip()!=null && interpaperXLS.getNip().length()>4 && interpaperXLS.getNipkrajzorin()!=null && interpaperXLS.getNipkrajzorin().equals("Polska")) {
                 String nip = interpaperXLS.getNip().trim();
                 if (nip.length()==10 && Character.isDigit(nip.charAt(0))) {
                     klient = SzukajDaneBean.znajdzdaneregonAutomat(nip);
@@ -450,7 +492,7 @@ public class ReadXMLZorinOptimaFile {
                 }
             }
              
-            if (klient==null && interpaperXLS.getNip()!=null && interpaperXLS.getNip().length()>6) {
+            if (klient==null && interpaperXLS.getNip()!=null && interpaperXLS.getNip().length()>4) {
                 String nip = interpaperXLS.getNip().trim();
                 if (interpaperXLS.getKlientpaństwo()!=null) {
                     klient = new Klienci(1, interpaperXLS.getKlientnazwa(), interpaperXLS.getKlientnazwa(), interpaperXLS.getNip(), interpaperXLS.getKlientkod(), interpaperXLS.getKlientmiasto(), interpaperXLS.getKlientulica(), interpaperXLS.getKlientdom(), interpaperXLS.getKlientlokal());
@@ -585,16 +627,17 @@ public class ReadXMLZorinOptimaFile {
     }
 
     private static double[] obliczkwoty(List<ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.POZYCJE.POZYCJA> poz, ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.PLATNOSCI.PLATNOSC plt, String waluta) {
-        double zwrot[] = new double[6];
+        double zwrot[] = new double[7];
         double pozycjenetto = 0.0;
         double pozycjevat = 0.0;
         double sumapozycje = 0.0;
         double nettopln = 0.0;
         double vatpln = 0.0;
-        double bruttopln = 0.0;
+        double stawka = 0.0;
         for (ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT.POZYCJE.POZYCJA p :poz) {
             pozycjenetto = Z.z(pozycjenetto+Double.parseDouble(obetnijwalute(p.getNETTO(), waluta)));
             pozycjevat = Z.z(pozycjevat+Double.parseDouble(obetnijwalute(p.getVAT(), waluta)));
+            stawka = p.getSTAWKAVAT();
         }
         sumapozycje = Z.z(pozycjenetto+pozycjevat);
         if (plt==null) {
@@ -606,6 +649,7 @@ public class ReadXMLZorinOptimaFile {
             zwrot[3] = nettopln;
             zwrot[4] = vatpln;
             zwrot[5] = Z.z(nettopln+vatpln);
+            zwrot[6] = stawka;
         } else {
             boolean pozycjesawzlotowkach = Z.z(sumapozycje) == Z.z(plt.getKWOTAPLNPLAT());
             boolean kwotyrowne = Z.z(plt.getKWOTAPLAT())==Z.z(plt.getKWOTAPLNPLAT());
@@ -618,6 +662,7 @@ public class ReadXMLZorinOptimaFile {
                 zwrot[3] = nettopln;
                 zwrot[4] = vatpln;
                 zwrot[5] = Z.z(nettopln+vatpln);
+                zwrot[6] = stawka;
             } else {
                 if (Z.z(Math.abs(sumapozycje))==Z.z(Math.abs(plt.getKWOTAPLAT()))) {
                     double nettowaluta = pozycjenetto;
@@ -627,6 +672,7 @@ public class ReadXMLZorinOptimaFile {
                     zwrot[3] = nettowaluta;
                     zwrot[4] = vatwaluta;
                     zwrot[5] = Z.z(nettowaluta+vatwaluta);
+                    zwrot[6] = stawka;
                     vatpln = Z.z(plt.getKWOTAPLNPLAT()*procentvat);
                     nettopln = Z.z(plt.getKWOTAPLNPLAT()-vatpln);
                     if (nettowaluta<0.0) {
@@ -653,6 +699,7 @@ public class ReadXMLZorinOptimaFile {
                     zwrot[3] = nettowaluta;
                     zwrot[4] = vatwaluta;
                     zwrot[5] = Z.z(nettowaluta+vatwaluta);
+                    zwrot[6] = stawka;
                 }
             }
         }
