@@ -9,16 +9,14 @@ import beansDok.ListaEwidencjiVat;
 import beansFK.PlanKontFKBean;
 import beansRegon.SzukajDaneBean;
 import comparator.Kliencifkcomparator;
-import dao.KlienciDAO;
-import dao.RodzajedokDAO;
 import dao.DokDAOfk;
+import dao.KlienciDAO;
 import dao.KliencifkDAO;
 import dao.KontoDAOfk;
 import dao.KontopozycjaZapisDAO;
+import dao.RodzajedokDAO;
 import dao.UkladBRDAO;
-import embeddable.Panstwa;
 import embeddable.PanstwaMap;
-import embeddablefk.ImportJPKSprzedaz;
 import entity.Evewidencja;
 import entity.Klienci;
 import entity.Podatnik;
@@ -28,11 +26,12 @@ import entityfk.EVatwpisFK;
 import entityfk.Kliencifk;
 import entityfk.Konto;
 import error.E;
-import gus.GUSView;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import msg.Msg;
@@ -405,7 +404,54 @@ public class ImportBean {
         }
     }
 
-   
+     
+        
+    public static boolean prawidlowynip (String nip, String kraj) {
+        boolean zwrot = false;
+        String krajsymbol = PanstwaMap.getWykazPanstwSX().get(kraj);
+        String regex = mapapanstwonip.get(krajsymbol);
+        if (regex!=null) {
+            Pattern p = Pattern.compile(regex);
+            Matcher m = p.matcher(nip);
+            if (m.matches()) {
+                zwrot = true;
+            }
+        }
+        return zwrot;
+    }
 
+    
+    private static final Map<String, String> mapapanstwonip;
    
+    static {
+        mapapanstwonip = new HashMap<>();
+        mapapanstwonip.put("AT", "U[0-9]{8}");
+        mapapanstwonip.put("BE", "0[0-9]{9}");
+        mapapanstwonip.put("BG", "[0-9]{9,10}");
+        mapapanstwonip.put("CY", "[0-9]{8}L");
+        mapapanstwonip.put("CZ", "[0-9]{8,10}");
+        mapapanstwonip.put("DE", "[0-9]{9}");
+        mapapanstwonip.put("DK", "[0-9]{8}");
+        mapapanstwonip.put("EE", "[0-9]{9}");
+        mapapanstwonip.put("EL", "[0-9]{9}");
+        mapapanstwonip.put("GR", "[0-9]{9}");
+        mapapanstwonip.put("ES", "[0-9A-Z][0-9]{7}[0-9A-Z]");
+        mapapanstwonip.put("FI", "[0-9]{8}");
+        mapapanstwonip.put("FR", "[0-9A-Z]{2}[0-9]{9}");
+        mapapanstwonip.put("GB", "([0-9]{9}([0-9]{3})?|[A-Z]{2}[0-9]{3})");
+        mapapanstwonip.put("HU", "[0-9]{8}");
+        mapapanstwonip.put("IE", "[0-9]S[0-9]{5}L");
+        mapapanstwonip.put("IT", "[0-9]{11}");
+        mapapanstwonip.put("LT", "([0-9]{9}|[0-9]{12})");
+        mapapanstwonip.put("LU", "[0-9]{8}");
+        mapapanstwonip.put("LV", "[0-9]{11}");
+        mapapanstwonip.put("MT", "[0-9]{8}");
+        mapapanstwonip.put("NL", "[0-9]{9}B[0-9]{2}");
+        mapapanstwonip.put("PL", "[0-9]{10}");
+        mapapanstwonip.put("PT", "[0-9]{9}");
+        mapapanstwonip.put("RO", "[0-9]{2,10}");
+        mapapanstwonip.put("SE", "[0-9]{12}");
+        mapapanstwonip.put("SI", "[0-9]{8}");
+        mapapanstwonip.put("SK", "[0-9]{10} ");
+    }
 }
