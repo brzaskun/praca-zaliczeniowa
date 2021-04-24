@@ -136,27 +136,34 @@ public class ReadXMLZorinOptimaFile {
                                     } else {
                                         importyzbrakami.add(interpaperXLS);
                                     }
-                                } else if (jakipobor.equals("firmy") && nip!=null && !nip.equals("") &&  nip.length()>7) {
+                                } else if (jakipobor.equals("firmy") && nip!=null && !nip.equals("")) {
+                                    if (row.getKRAJ().equals("Islandia")) {
+                                        System.out.println("");
+                                    }
                                     zlyrow = uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
                                     if (zlyrow!=null) {
                                         przerwanyimport.add(zlyrow);
                                     }
-                                    if (interpaperXLS.getKontrahent()!=null && (interpaperXLS.getNettowaluta()!=0.0 || interpaperXLS.getVatwaluta()!=0.0)) {
-                                        interpaperXLS.setNr(i++);
-                                        listafaktur.add(interpaperXLS);
-                                    } else {
-                                        importyzbrakami.add(interpaperXLS);
+                                    if (ImportBean.prawidlowynip(nip, row.getKRAJ()) || (!ImportBean.prawidlowynip(nip, row.getKRAJ())&&Z.z(interpaperXLS.getVatwaluta()) == 0.0)) {
+                                        if (interpaperXLS.getKontrahent()!=null && (interpaperXLS.getNettowaluta()!=0.0)) {
+                                            interpaperXLS.setNr(i++);
+                                            listafaktur.add(interpaperXLS);
+                                        } else {
+                                            importyzbrakami.add(interpaperXLS);
+                                        }
                                     }
                                 } else if (jakipobor.equals("fiz") && (nip==null || nip.equals("") || nip.length()<8)) {
                                     zlyrow = uzupelnijsprzedaz(interpaperXLS, row, k, klienciDAO, znalezieni);
                                     if (zlyrow != null) {
                                         przerwanyimport.add(zlyrow);
                                     }
-                                    if (interpaperXLS.getKontrahent() != null && (interpaperXLS.getNettowaluta() != 0.0 || interpaperXLS.getVatwaluta() != 0.0)) {
-                                        interpaperXLS.setNr(i++);
-                                        listafaktur.add(interpaperXLS);
-                                    } else {
-                                        importyzbrakami.add(interpaperXLS);
+                                    if (Z.z(interpaperXLS.getVatwaluta()) != 0.0) {
+                                        if (interpaperXLS.getKontrahent() != null) {
+                                            interpaperXLS.setNr(i++);
+                                            listafaktur.add(interpaperXLS);
+                                        } else {
+                                            importyzbrakami.add(interpaperXLS);
+                                        }
                                     }
                                 } else if (jakipobor.equals("paragony") && (nip==null || nip.equals("") || nip.length()<8)) {
                                     zlyrow = uzupelnijsprzedazPar(interpaperXLS, row, k, klienciDAO, znalezieni);
@@ -462,6 +469,7 @@ public class ReadXMLZorinOptimaFile {
                 klient = new Klienci(1, interpaperXLS.getKlientnazwa(), interpaperXLS.getKlientnazwa(), null, interpaperXLS.getKlientkod(), interpaperXLS.getKlientmiasto(), interpaperXLS.getKlientulica(), interpaperXLS.getKlientdom(), interpaperXLS.getKlientlokal());
                 klient.setKrajnazwa(interpaperXLS.getKlientpaństwo());
                 klient.setKrajkod(PanstwaMap.getWykazPanstwSX().get(klient.getKrajnazwa()));
+                klient.setNip(interpaperXLS.getNip());
                 znalezieni.put(interpaperXLS.getKontrahent(), klient);
             }
             if (klient.getKrajnazwa()==null) {
