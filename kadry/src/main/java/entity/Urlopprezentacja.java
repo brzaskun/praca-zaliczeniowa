@@ -78,9 +78,9 @@ public class Urlopprezentacja implements Serializable {
     private double w9;
     @Column(name = "w10")
     private double w10;
-     @Column(name = "w11")
+    @Column(name = "w11")
     private double w11;
-      @Column(name = "w12")
+    @Column(name = "w12")
     private double w12;
     @Column(name = "ekwiwalent")
     private double ekwiwalent;

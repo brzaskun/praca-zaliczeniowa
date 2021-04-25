@@ -168,28 +168,30 @@ public class OsobaBean {
                 mcod = 1;
                 dzienod = 1;
             }
-            for (String mce: Mce.getMceListS()) {
-                Integer kolejnymc = Integer.parseInt(mce);
-                if (kolejnymc>=mcod) {
-                    Kalendarzmiesiac kal = new Kalendarzmiesiac();
-                    kal.setRok(rok);
-                    kal.setMc(mce);
-                    kal.setUmowa(umowa);
-                    Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcUmowa(umowa,rok, mce);
-                    if (kalmiesiac==null) {
-                        Kalendarzwzor pobranywzorcowy = kalendarzwzorFacade.findByFirmaRokMc(kal.getUmowa().getAngaz().getFirma(), kal.getRok(), mce);
-                        if (pobranywzorcowy!=null) {
-                            kal.ganerujdnizwzrocowego(pobranywzorcowy, dzienod);
-                            zwrot.add(kal);
-                            dzienod = 1;
-                        } else {
-                            Msg.msg("e","Brak kalendarza wzorcowego za "+mce);
-                            break;
+            if (rokodumowy<=rokimportu) {
+                for (String mce: Mce.getMceListS()) {
+                    Integer kolejnymc = Integer.parseInt(mce);
+                    if (kolejnymc>=mcod) {
+                        Kalendarzmiesiac kal = new Kalendarzmiesiac();
+                        kal.setRok(rok);
+                        kal.setMc(mce);
+                        kal.setUmowa(umowa);
+                        Kalendarzmiesiac kalmiesiac = kalendarzmiesiacFacade.findByRokMcUmowa(umowa,rok, mce);
+                        if (kalmiesiac==null) {
+                            Kalendarzwzor pobranywzorcowy = kalendarzwzorFacade.findByFirmaRokMc(kal.getUmowa().getAngaz().getFirma(), kal.getRok(), mce);
+                            if (pobranywzorcowy!=null) {
+                                kal.ganerujdnizwzrocowego(pobranywzorcowy, dzienod);
+                                zwrot.add(kal);
+                                dzienod = 1;
+                            } else {
+                                Msg.msg("e","Brak kalendarza wzorcowego za "+mce);
+                                break;
+                            }
                         }
                     }
                 }
+                Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych i utworzono kalendarze pracownika");
             }
-            Msg.msg("Pobrano dane z kalendarza wzorcowego z bazy danych i utworzono kalendarze pracownika");
         } else {
             Msg.msg("e","Nie wybrano pracownika i umowy");
         }

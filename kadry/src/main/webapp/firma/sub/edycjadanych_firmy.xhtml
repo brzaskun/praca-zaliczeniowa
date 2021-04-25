@@ -30,8 +30,8 @@
                                  selectionMode="single" selection="#{firmaView.selectedlista}"
                                  rowKey="#{item1.id}" 
                                  style="height: 300px; overflow-y: scroll;"
-                                 >
-
+                                 > 
+                        <p:ajax event="rowSelect" update="FirmaUzupelnijForm" listener="#{firmaView.pobierzinfo}"/>
                         <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="id"/>
@@ -74,11 +74,55 @@
                         </p:column>
 
                         <p:column width="40" style="text-align: center;">
-                            <p:commandButton icon="fa fa-trash" actionListener="#{firmaView.usun(item1)}" update="north @(form)"/>
+                            <p:commandButton icon="fa fa-trash" actionListener="#{firmaView.usun(item1)}" update="north @(form)" />
                         </p:column>
                     </p:dataTable>
                 </p:panel>
             </h:form>
+        </p:outputPanel>
+    </p:panelGrid>
+    <p:panelGrid columns="2" columnClasses="thirty-percent, seventy-percent" style="height: 300px;width: 1500px;">
+        <p:outputPanel>
+            <h:form id="FirmaUzupelnijForm">
+                <p:panel header="adres siedziby firmy #{firmaView.selectedlista.nazwa}"/>
+                    <p:panelGrid columns="8">
+                        <p:outputLabel value="kraj" for="kraj" />
+                        <p:inputText id="kraj" value="#{firmaView.selectedlista.kraj}" title="kraj" required="true" requiredMessage="Wpisz nazwę kraju"/>
+                        <p:outputLabel value="województwo" for="woj" />
+                        <p:inputText id="woj" value="#{firmaView.selectedlista.wojewodztwo}" title="województwo" required="true" requiredMessage="Wpisz nazwę województwa"/>
+                        <p:outputLabel value="powiat" for="pow" />
+                        <p:inputText id="pow" value="#{firmaView.selectedlista.powiat}" title="powiat" required="true" requiredMessage="Wpisz powiat"/>
+                        <p:outputLabel value="gmina" for="gmina" />
+                        <p:inputText id="gmina" value="#{firmaView.selectedlista.gmina}" title="gmina"  required="true" requiredMessage="Wpisz nazwę gminy"/>
+                        <p:outputLabel value="miasto" for="miasto" />
+                        <p:inputText id="miasto" value="#{firmaView.selectedlista.miasto}" title="miasto" required="true" requiredMessage="Wpisz miasto"/>
+                        <p:outputLabel value="ulica" for="ulica" />
+                        <p:inputText id="ulica" value="#{firmaView.selectedlista.ulica}" title="ulica"/>
+                        <p:outputLabel value="nr domu" for="dom" />
+                        <p:inputText id="dom" value="#{firmaView.selectedlista.dom}" title="dom" required="true" requiredMessage="Wpisz nr domu"/>
+                        <p:outputLabel value="nr lokalu" for="lokal" />
+                        <p:inputText id="lokal" value="#{firmaView.selectedlista.lokal}" title="lokal"/>
+                        <p:outputLabel value="kod pocztowy" for="kod" />
+                        <p:inputText id="kod" value="#{firmaView.selectedlista.miasto}" title="kod pocztowy" required="true" requiredMessage="Wpisz kod pocztowy"/>
+                        <p:outputLabel value="poczta" for="poczta" />
+                        <p:inputText id="poczta" value="#{firmaView.selectedlista.poczta}" title="miasto" required="true" requiredMessage="Wpisz nazwę poczty"/>
+                    </p:panelGrid>
+                    <p:panel header="dane kontaktowe"/>
+                    <p:panelGrid columns="4">
+                        <p:outputLabel value="telefon" for="tel" />
+                        <p:inputText id="tel" value="#{firmaView.selectedlista.telefon}" title="telefon" required="true" requiredMessage="Wpisz nr telefonu" size="32"/>
+                        <p:outputLabel value="adres email" for="email" />
+                        <p:inputText id="email" value="#{firmaView.selectedlista.email}" title="telefon" required="true" requiredMessage="Wpisz adres email" size="32"/>
+                    </p:panelGrid>
+                    <p:panel header="bank"/>
+                    <p:panelGrid columns="4">
+                        <p:outputLabel value="nazwa banku" for="nzbaku" />
+                        <p:inputText id="nzbaku" value="#{firmaView.selectedlista.banknazwa}" title="nazwa banku" size="32"/>
+                        <p:outputLabel value="nr konta" for="nrkonta" />
+                        <p:inputText id="nrkonta" value="#{firmaView.selectedlista.bankkonto}" title="telefon" maxlength="32" size="32"/>
+                    </p:panelGrid>
+                    <p:commandButton value="zachowaj" styleClass="buttonnorm" actionListener="#{firmaView.edytuj()}" update="@(form)"/>
+                    </h:form>
         </p:outputPanel>
     </p:panelGrid>
 </ui:composition>

@@ -97,6 +97,12 @@ public class HistoriaView  implements Serializable {
             }
         }
     }
+    
+     public void pobierzinfo() {
+        if (selectedosoba!=null) {
+            Msg.msg("Pobrano pracownika do edycji");
+        }
+    }
 
     public List<Angaz> getListapracownikow() {
         return listapracownikow;

@@ -84,6 +84,15 @@ public class Nieobecnosc implements Serializable {
     private double godzinyrobocze;
     @Column(name = "seriainrzwolnienia")
     private String seriainrzwolnienia;
+    @Column(name = "importowana")
+    private boolean importowana;
+    @Column(name = "pobranazus")
+    private boolean pobranaZUS;
+    @Column(name = "rokod")
+    private String rokod;
+    @Column(name = "rokdo")
+    private String rokdo;
+    
 
    
     public Nieobecnosc() {
@@ -179,9 +188,7 @@ public class Nieobecnosc implements Serializable {
         this.umowa = umowa;
     }
 
-  
-
-    public boolean getNaniesiona() {
+    public boolean isNaniesiona() {
         return naniesiona;
     }
 
@@ -276,5 +283,39 @@ public class Nieobecnosc implements Serializable {
     public void setSeriainrzwolnienia(String seriainrzwolnienia) {
         this.seriainrzwolnienia = seriainrzwolnienia;
     }
+
+    public boolean isImportowana() {
+        return importowana;
+    }
+
+    public void setImportowana(boolean importowana) {
+        this.importowana = importowana;
+    }
+
+    public boolean isPobranaZUS() {
+        return pobranaZUS;
+    }
+
+    public void setPobranaZUS(boolean pobranaZUS) {
+        this.pobranaZUS = pobranaZUS;
+    }
+
+    public String getRokod() {
+        return rokod;
+    }
+
+    public void setRokod(String rokod) {
+        this.rokod = rokod;
+    }
+
+    public String getRokdo() {
+        return rokdo;
+    }
+
+    public void setRokdo(String rokdo) {
+        this.rokdo = rokdo;
+    }
+
+   
     
 }

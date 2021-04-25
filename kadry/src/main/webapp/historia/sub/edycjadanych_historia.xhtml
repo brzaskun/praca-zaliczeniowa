@@ -9,6 +9,7 @@
     <p:panelGrid columns="1" columnClasses="thirty-percent, seventy-percent" style="height: 600px;width: 1500px;">
         <p:outputPanel style="padding: 10px;">
             <p:panel header="Pobranie danych firmy z programu SuperPłace"/>
+            <h:outputText value="Należy najpierw wyszukać firmę, a potem serial pracownika. Pracownicy zwolnieni są oznaczeni na szaro." style="color: darkorchid;margin-left: 30px;"/>
             <p:panelGrid columns="2">
                 <h:form id="SuperFormFirma1">
                     <p:dataTable id="datalist" value="#{historiaView.firmy}" var="firmylistdata" rowIndexVar="yndex1"
@@ -46,7 +47,7 @@
                                  selection="#{historiaView.selectedosoba}" selectionMode="single"
                                  style="height: 200px;overflow-y: scroll; width: 670px; " sortBy="#{osobylistdata.osoNazwisko}"
                                  >
-                        <p:ajax event="rowSelect" partialSubmit="true" global="false" update="SuperFormFirma2"/>
+                        <p:ajax event="rowSelect" partialSubmit="true" listener="#{historiaView.pobierzinfo()}"/>
                         <p:column width="50" style="text-align: center;">
                             <h:outputText value="#{yndex+1}"/>
                         </p:column>
@@ -54,31 +55,31 @@
                             <f:facet name="header">
                                 <h:outputText value="nazwisko"/>
                             </f:facet>
-                            <h:outputText value="#{osobylistdata.osoNazwisko}"/>
+                            <h:outputText value="#{osobylistdata.osoNazwisko}" style="#{osobylistdata.osoDataZwol ne null ? 'color:gray;':''}"/>
                         </p:column>
                         <p:column width="100" style="text-align: left;">
                             <f:facet name="header">
                                 <h:outputText value="imię"/>
                             </f:facet>
-                            <h:outputText value="#{osobylistdata.osoImie1}"/>
+                            <h:outputText value="#{osobylistdata.osoImie1}" style="#{osobylistdata.osoDataZwol ne null ? 'color:gray;':''}"/>
                         </p:column>
                         <p:column width="100" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="pesel"/>
                             </f:facet>
-                            <h:outputText value="#{osobylistdata.osoPesel}"/>
+                            <h:outputText value="#{osobylistdata.osoPesel}" style="#{osobylistdata.osoDataZwol ne null ? 'color:gray;':''}"/>
                         </p:column>
                         <p:column width="80" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="serial"/>
                             </f:facet>
-                            <h:outputText value="#{osobylistdata.osoSerial}"/>
+                            <h:outputText value="#{osobylistdata.osoSerial}" style="#{osobylistdata.osoDataZwol ne null ? 'color:gray;':''}"/>
                         </p:column>
                         <p:column width="80" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="zatr"/>
                             </f:facet>
-                            <h:outputText value="#{osobylistdata.osoDataZatr}">
+                            <h:outputText value="#{osobylistdata.osoDataZatr}" style="#{osobylistdata.osoDataZwol ne null ? 'color:gray;':''}">
                                 <f:convertDateTime dateStyle="medium" locale="pl"/>
                             </h:outputText>
                         </p:column>
@@ -87,11 +88,12 @@
             </p:panelGrid>
             <p:panel header="Pobranie danych wybranej osoby z programu SuperPłace" style="margin-top: 10px;"/>
             <h:form id="SuperForm" style="margin-top: 10px;">
-                <p:panelGrid columns="2">
+                <p:panelGrid columns="3">
                     <h:outputText value="serial osoby"/>
                     <p:inputText value="#{osobaView.serial}"></p:inputText>
+                    <h:outputText value="Program pobiera dane za rok 2020 i 2021. Bieżący rok i mc w programie nie ma znaczenia." style="color: darkorchid;margin-left: 30px;"/>
                 </p:panelGrid>
-                <p:commandButton style="width: 120px" value="pobierz dane" actionListener="#{osobaView.rob()}"/>
+                <p:commandButton style="width: 120px" value="pobierz dane" actionListener="#{osobaView.rob()}" styleClass="buttonnorm"/>
             </h:form>
         </p:outputPanel>
 

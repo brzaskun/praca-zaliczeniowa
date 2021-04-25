@@ -84,6 +84,9 @@ public class UmowaView  implements Serializable {
         listaangaz = angazFacade.findByFirma(wpisView.getFirma());
         listaumowakodzus = rodzajumowyFacade.findAll();
         listakodyzawodow = kodyzawodowFacade.findAll();
+        if (listaangaz!=null && listaangaz.size()==1 && wpisView.getAngaz()==null) {
+            wpisView.setAngaz(listaangaz.get(listaangaz.size()-1));
+        }
        
     }
  

@@ -15,13 +15,12 @@
                 <h:form id="NieobecnoscCreateForm">
                     <h:panelGroup id="display">
                         <p:panelGrid columns="4" rendered="#{nieobecnoscView.selected != null}">
-                            <p:outputLabel value="umowa" for="umowa" />
-                            <p:selectOneMenu id="umowa" value="#{nieobecnoscView.selected.umowa}" required="true" requiredMessage="wybierz umowę" converter="#{umowaConverter}" >
-                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                                <f:selectItems value="#{nieobecnoscView.listaumowa}"
-                                               var="umowaItem"
-                                               itemValue="#{umowaItem}" itemLabel="#{umowaItem.nrkolejny}"/>
-                            </p:selectOneMenu>
+                            <p:outputLabel value="umowa nr" for="umowa" />
+                            <h:outputText id="umowa" value="#{nieobecnoscView.selected.umowa.nrkolejny}"/>
+                            <p:outputLabel value="data od" for="umowaod" />
+                            <h:outputText id="umowaod" value="#{nieobecnoscView.selected.umowa.dataod}">
+                                <f:convertDateTime dateStyle="medium" locale="pl"/>
+                            </h:outputText>
                             <p:outputLabel value="nazwa nieobecnosci" for="nieobkodzus" />
                             <p:selectOneMenu id="nieobkodzus" value="#{nieobecnoscView.selected.nieobecnosckodzus}" required="true" requiredMessage="wybierz rodzaj nieobecnosci"  converter="#{nieobecnosckodzusConverter}" filter="true">
                                 <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
@@ -35,7 +34,7 @@
                             <p:outputLabel value="uwagi" for="uwagi" />
                             <p:inputText id="uwagi" value="#{nieobecnoscView.selected.uzasadnienie}" title="uwagi" />
                             <p:outputLabel value="procent" for="procent" />
-                            <p:inputText id="procent" value="#{nieobecnoscView.selected.zwolnienieprocent}" title="uwagi" />
+                            <p:inputText id="procent" value="#{nieobecnoscView.selected.zwolnienieprocent}" title="uwagi" rendered="#{nieobecnoscView.selected.zwolnienieprocent ne 0.0}"/>
                             <p:outputLabel value="data od" for="dataod" />
                             <p:inputText id="dataod" value="#{nieobecnoscView.selected.dataod}" title="datac od"  placeholder="____-__-__" />
                             <p:outputLabel value="data do" for="datado" />
@@ -59,53 +58,53 @@
         </p:outputPanel>
         <p:outputPanel>
              <h:form id="NieobecnoscListForm">
-                <p:panel header="Lista nieobecnosci">
+                <p:panel header="Lista nieobecności">
                     <p:dataTable id="datalist" value="#{nieobecnoscView.lista}" var="itemNieob"
-                                 selectionMode="single" selection="#{angazView.selectedlista}"
-                                 rowKey="#{itemNieob.id}" sortBy="#{itemNieob.dataod}"
+                                 selectionMode="single" selection="#{angazView.selectedlista}" rowIndexVar="indexn"
+                                 rowKey="#{itemNieob.id}" sortBy="#{itemNieob.dataod}" sortOrder="descending"
                                 style="height: 450px; overflow-y: scroll;"
                                  >
                         <p:column width="40" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="id"/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.id}"/>
+                            <h:outputText value="#{indexn+1}"/>
                         </p:column>
-                        <p:column width="50">
+                        <p:column width="50" filterBy="#{itemNieob.nieobecnosckodzus.kod}" filterMatchMode="startsWith">
                             <f:facet name="header">
                                 <h:outputText value="kod"/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.nieobecnosckodzus.kod}"/>
+                            <h:outputText value="#{itemNieob.nieobecnosckodzus.kod}" style="#{itemNieob.rokod eq wpisView.rokWpisu ? 'color: green':''}"/>
                         </p:column>
-                        <p:column width="400">
+                        <p:column width="300">
                             <f:facet name="header">
                                 <h:outputText value="nazwa"/>
                             </f:facet>
                             <h:outputText value="#{itemNieob.nieobecnosckodzus.opis}"/>
                         </p:column>
-                        <p:column>
+                        <p:column width="50">
                             <f:facet name="header">
                                 <h:outputText value="data od"/>
                             </f:facet>
                             <h:outputText value="#{itemNieob.dataod}"/>
                         </p:column>
-                        <p:column>
+                        <p:column width="50">
                             <f:facet name="header">
                                 <h:outputText value="data do"/>
                             </f:facet>
                             <h:outputText value="#{itemNieob.datado}"/>
                         </p:column>
-                        <p:column style="text-align: center;">
+                        <p:column style="text-align: center;" width="40">
                             <f:facet name="header">
                                 <h:outputText value="dni kal."/>
                             </f:facet>
                             <h:outputText value="#{itemNieob.dnikalendarzowe}"/>
                         </p:column>
-                        <p:column style="text-align: center">
+                        <p:column style="text-align: center" width="30">
                             <f:facet name="header">
-                                <h:outputText value="kod zwolnienia"/>
+                                <h:outputText value="kod zwol."/>
                             </f:facet>
-                             <h:outputText value="#{itemNieob.kodzwolnienia}"/>
+                             <h:outputText value="#{itemNieob.kodzwolnienia}" style="#{itemNieob.kodzwolnienia eq 'U' ? 'color: green':''}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -113,11 +112,11 @@
                             </f:facet>
                              <h:outputText value="#{itemNieob.uzasadnienie}"/>
                         </p:column>
-                        <p:column>
+                        <p:column width="30">
                             <f:facet name="header">
                                 <h:outputText value="proc."/>
                             </f:facet>
-                            <bcf:outputpl value="#{itemNieob.zwolnienieprocent}"/>
+                            <bcf:outputpl value="#{itemNieob.zwolnienieprocent}" rendered="#{itemNieob.zwolnienieprocent ne 0.0}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -125,29 +124,35 @@
                             </f:facet>
                             <h:outputText value="#{itemNieob.seriainrzwolnienia}"/>
                         </p:column>
-                         <p:column style="text-align: center;">
+                         <p:column style="text-align: center;" width="30">
+                            <f:facet name="header">
+                                <h:outputText value="imp,"/>
+                            </f:facet>
+                             <h:outputText value="&#x2714;" rendered="#{itemNieob.importowana}"/>
+                        </p:column>
+                        <p:column style="text-align: center;" width="30">
                             <f:facet name="header">
                                 <h:outputText value="zus"/>
                             </f:facet>
                              <h:outputText value="&#x2714;" rendered="#{itemNieob.nieobecnosckodzus.spoleczne}"/>
                         </p:column>
-                        <p:column style="text-align: center;">
+                        <p:column style="text-align: center;" width="30">
                             <f:facet name="header">
                                 <h:outputText value="podatek"/>
                             </f:facet>
                             <h:outputText value="&#x2714;" rendered="#{itemNieob.nieobecnosckodzus.podatek}"/>
                         </p:column>
-                        <p:column style="text-align: center;">
+                        <p:column style="text-align: center;" width="30">
                             <f:facet name="header">
-                                <h:outputText value="naniesiona"/>
+                                <h:outputText value="nan."/>
                             </f:facet>
                             <h:outputText value="&#x2714;" rendered="#{itemNieob.naniesiona}"/>
                         </p:column>
-                        <p:column>
+                        <p:column width="100">
                             <f:facet name="header">
                                 <h:outputText value="umowa"/>
                             </f:facet>
-                            <h:outputText value="#{itemNieob.umowa.angaz.angazString}"/>
+                            <h:outputText value="#{itemNieob.umowa.nrkolejny}"/>
                         </p:column>
                     </p:dataTable>
                     <p:commandButton styleClass="buttonnorm" actionListener="#{nieobecnoscView.nieniesnakalendarz()}" value="nanieś na kal." update="NieobecnoscListForm:datalist"/>
