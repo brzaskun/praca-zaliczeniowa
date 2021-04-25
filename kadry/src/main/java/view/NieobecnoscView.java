@@ -86,12 +86,15 @@ public class NieobecnoscView  implements Serializable {
         lista  = nieobecnoscFacade.findByUmowa(wpisView.getUmowa());
         listaumowa = umowaFacade.findPracownik(wpisView.getPracownik());
         listanieobecnosckodzus = nieobecnosckodzusFacade.findAll();
+        selected.setUmowa(wpisView.getUmowa());
         Collections.sort(listanieobecnosckodzus, new Nieobecnoscikodzuscomparator());
     }
 
     public void create() {
       if (selected!=null) {
           try {
+            selected.setRokod(Data.getRok(selected.getDataod()));
+            selected.setRokdo(Data.getRok(selected.getDatado()));
             nieobecnoscFacade.create(selected);
             lista.add(selected);
             selected = new Nieobecnosc();
@@ -118,8 +121,10 @@ public class NieobecnoscView  implements Serializable {
                 }
             }
             for (Nieobecnosc p : lista) {
-                znaleziony.naniesnieobecnosc(p);
-                p.setNaniesiona(true);
+                if (p.isNaniesiona()==false && p.isImportowana()==false) {
+                    znaleziony.naniesnieobecnosc(p);
+                    p.setNaniesiona(true);
+                }
                 
             }
             nieobecnoscFacade.editList(lista);
@@ -183,6 +188,9 @@ public class NieobecnoscView  implements Serializable {
                 Nieobecnosc nieob = new Nieobecnosc(zwrot, wpisView.getUmowa());
                 nieob.setNieobecnosckodzus(nieobecnosckodzusFacade.findByKod("331"));
                 nieob.setId(999);
+                nieob.setPobranaZUS(true);
+                nieob.setRokod(Data.getRok(selected.getDataod()));
+                nieob.setRokdo(Data.getRok(selected.getDatado()));
                 lista.add(nieob);
             }
         } catch (Exception e) {

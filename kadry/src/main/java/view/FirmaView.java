@@ -6,9 +6,12 @@
 package view;
 
 import dao.FirmaFacade;
+import dao.KalendarzwzorFacade;
 import dao.UprawnieniaFacade;
 import dao.UzFacade;
+import embeddable.Mce;
 import entity.FirmaKadry;
+import entity.Kalendarzwzor;
 import entity.Uprawnienia;
 import entity.Uz;
 import java.io.Serializable;
@@ -46,6 +49,8 @@ public class FirmaView  implements Serializable {
     private AngazView angazView;
     @Inject
     private PracodawcaDaneView pracodawcaDaneView;
+    @Inject
+    private KalendarzwzorFacade kalendarzwzorFacade;
     
     @PostConstruct
     private void init() {
@@ -68,11 +73,38 @@ public class FirmaView  implements Serializable {
             Msg.msg("Dodano nowy angaż");
             uzFacade.create(uzer);
             Msg.msg("Dodano nowego użytkownika");
+            globalnie("2020");
+            globalnie("2021");
           } catch (Exception e) {
               System.out.println("");
               Msg.msg("e", "Błąd - nie dodano nowej firmy");
           }
       }
+    }
+    
+    public void globalnie(String rok) {
+        if (wpisView.getFirma()!=null) {
+            FirmaKadry firmaglobalna = firmaFacade.findByNIP("8511005008");
+            for (String mce: Mce.getMceListS()) {
+                Kalendarzwzor kal = new Kalendarzwzor();
+                kal.setRok(rok);
+                kal.setMc(mce);
+                kal.setFirma(wpisView.getFirma());
+                Kalendarzwzor kalmiesiac = kalendarzwzorFacade.findByFirmaRokMc(wpisView.getFirma(), kal.getRok(), mce);
+                if (kalmiesiac==null) {
+                    Kalendarzwzor znaleziono = kalendarzwzorFacade.findByFirmaRokMc(firmaglobalna, kal.getRok(), mce);
+                    if (znaleziono!=null) {
+                        kal.generujdnizglobalnego(znaleziono);
+                        kalendarzwzorFacade.create(kal);
+                    } else {
+                        Msg.msg("e","Brak kalendarza globalnego za "+mce);
+                    }
+                }
+            }
+            Msg.msg("Pobrano dane z kalendarza globalnego z bazy danych i utworzono kalendarz wzorcowy firmy za rok "+rok);
+        } else {
+            Msg.msg("e","Nie wybrano firmy");
+        }
     }
     
     public void aktywuj(FirmaKadry firma) {
@@ -121,6 +153,31 @@ public class FirmaView  implements Serializable {
         }
     }
     
+     public void edytuj() {
+        if (selectedlista!=null && selectedlista.getEmail()!=null) {
+            firmaFacade.edit(selectedlista);
+            Uz uz = uzFacade.findUzByPesel(selectedlista.getNip());
+            if (uz!=null) {
+                uz.setEmail(selectedlista.getEmail());
+                uz.setNrtelefonu(selectedlista.getTelefon());
+                uzFacade.edit(uz);
+            } else {
+                Uprawnienia uprawnienia = uprawnieniaFacade.findByNazwa("Pracodawca");
+                Uz uzer = new Uz(selectedlista, uprawnienia);
+                uzFacade.create(uzer);
+            }
+            Msg.msg("Edytowano firmę");
+        } else {
+            Msg.msg("e","Nie wybrano firmy");
+        }
+    }
+    
+    public void pobierzinfo() {
+        if (selectedlista!=null) {
+            Msg.msg("Pobrano firmę do edycji");
+        }
+    }
+      
     public FirmaKadry getSelected() {
         return selected;
     }

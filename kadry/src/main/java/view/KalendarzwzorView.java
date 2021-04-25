@@ -86,6 +86,21 @@ public class KalendarzwzorView  implements Serializable {
       }
     }
     
+    public void reset() {
+      if (selected!=null) {
+          try {
+            String[] popokres = data.Data.poprzedniOkres(selected.getMc(), selected.getRok());
+            Kalendarzwzor poprzedni = kalendarzwzorFacade.findByFirmaRokMc(selected.getFirma(), popokres[1], popokres[0]);
+            selected.zrobkolejnedni(poprzedni);
+            kalendarzwzorFacade.edit(selected);
+            Msg.msg("Zresetowano kalendarz");
+          } catch (Exception e) {
+              System.out.println("");
+              Msg.msg("e", "Błąd - nie zachowano zmian kalendarza");
+          }
+      }
+    }
+    
     public void zrobkalendarzumowa() {
         if (selected!=null && selected.getFirma()!=null) {
             if (selected.getRok()!=null&&selected.getMc()!=null) {
@@ -95,7 +110,14 @@ public class KalendarzwzorView  implements Serializable {
                         selected = znaleziono;
                         Msg.msg("Pobrano kalendarz z bazy danych");
                     } else {
+                        String mc = selected.getMc();
+                        String rok = selected.getRok();
+                        FirmaKadry firma = selected.getFirma();
+                        selected = new Kalendarzwzor(firma, rok, mc);
+                        String[] popokres = data.Data.poprzedniOkres(mc, rok);
+                        Kalendarzwzor poprzedni = kalendarzwzorFacade.findByFirmaRokMc(selected.getFirma(), popokres[1], popokres[0]);
                         KalendarzWzorBean.create(selected);
+                        selected.zrobkolejnedni(poprzedni);
                         Msg.msg("Przygotowano kalendarz");
                     }
                 } catch (Exception e){}

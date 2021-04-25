@@ -22,7 +22,7 @@
                                                itemValue="#{umowakodzusItem}" itemLabel="#{umowakodzusItem.opis}"/>
                                 <p:ajax event="change" listener="#{umowaView.ustawumowe}" partialSubmit="true" global="false" update="@(form)"/>
                             </p:selectOneMenu>
-                            <p:outputLabel value="kod" for="kodumowy" />
+                            <p:outputLabel value="kod ZUS" for="kodumowy" />
                             <p:inputText id="kodumowy" value="#{umowaView.selected.umowakodzus.kod}" title="kod" readonly="true"/>
                              <p:outputLabel value="nr umowy" for="nrumowy" />
                              <p:inputText id="nrumowy" value="#{umowaView.selected.nrkolejny}" title="data od" style="width: 200px;" required="true"/>
@@ -149,7 +149,7 @@
                 <p:panel header="Wykaz umów">
                     <p:dataTable id="datalist" value="#{umowaView.lista}" var="itemumowa" widgetVar="dataListumowa"
                                  selectionMode="single" selection="#{umowaView.selectedlista}"
-                                 rowKey="#{itemumowa.id}" sortBy="#{itemumowa.dataod}"
+                                 rowKey="#{itemumowa.id}" sortBy="#{itemumowa.dataod}" sortOrder="descending"
                                  style="height: 200px; overflow-y: scroll; width: 1600px;"
                                  >
                         <p:ajax event="rowSelect" listener="#{umowaView.aktywuj}" partialSubmit="true" global="false" update="north, @(form)"/>

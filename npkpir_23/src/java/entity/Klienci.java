@@ -127,7 +127,7 @@ public class Klienci extends KlienciSuper implements Serializable {
 
     //id==-1 nowyklient
     //id==-2 dodaj automatycznie
-    public Klienci(int id, String npelna, String nskrocona, String nip, String kodpocztowy, String miejscowosc, String ulica, String dom, String lokal) {
+    public Klienci(Integer id, String npelna, String nskrocona, String nip, String kodpocztowy, String miejscowosc, String ulica, String dom, String lokal) {
         this.id = id;
         this.npelna = npelna;
         this.nskrocona = nskrocona;
@@ -139,7 +139,7 @@ public class Klienci extends KlienciSuper implements Serializable {
         this.lokal = lokal;
     }
     
-     public Klienci(int id, String npelna, String nskrocona, String nip, String kodpocztowy, String miejscowosc, String ulica, String dom, String lokal, String krajkod) {
+     public Klienci(Integer id, String npelna, String nskrocona, String nip, String kodpocztowy, String miejscowosc, String ulica, String dom, String lokal, String krajkod) {
         this.id = id;
         this.npelna = npelna;
         this.nskrocona = nskrocona;

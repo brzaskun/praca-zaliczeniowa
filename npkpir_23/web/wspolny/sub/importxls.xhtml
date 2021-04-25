@@ -17,7 +17,7 @@
                             <p:ajax global="false" event="change"  partialSubmit="true" listener="#{interpaperImportView.grid0pokaz}" update="panelplik"/>
                     </p:selectOneMenu>
             </p:panelGrid>
-            <p:panelGrid columns="2" columnClasses="sixty-percent forty-percent"  binding="#{interpaperImportView.grid0}">
+       <p:panelGrid columns="2" columnClasses="sixty-percent forty-percent"  binding="#{interpaperImportView.grid0}" >
                     <p:panelGrid columns="1" style="margin-top: 20px;">
                         <h:outputText value="Akceptowana wersja pliku xls,xlsx, xml" style="font-weight: bold;"/>
                         <p:fileUpload fileUploadListener="#{interpaperImportView.zachowajplik}" 
@@ -121,7 +121,7 @@
                         <f:convertDateTime pattern="dd/MM/yyyy"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="nr fakt." styleClass="zaksiegowanewaski" width="70" sortBy="#{itemimp.nrfaktury}" filterBy="#{itemimp.nrfaktury}">
+                <p:column headerText="nr fakt." styleClass="zaksiegowanewaski" width="70" sortBy="#{itemimp.nrfaktury}" filterBy="#{itemimp.nrfaktury}"  filterMatchMode="contains" >
                     <h:outputText value="#{itemimp.nrfaktury}" rendered="#{itemimp.symbolzaksiegowanego  eq null and itemimp.juzzaksiegowany eq false}"/>
                     <h:outputText value="#{itemimp.nrfaktury}" rendered="#{itemimp.juzzaksiegowany ne false}" style="color: red;"/>
                     <h:outputText value="#{itemimp.symbolzaksiegowanego}" rendered="#{itemimp.symbolzaksiegowanego  ne null}"/>
@@ -135,7 +135,7 @@
                 <p:column headerText="nip" width="80" sortBy="#{itemimp.nip}" filterBy="#{itemimp.nip}" >
                     <h:outputText value="#{itemimp.nip}"/>
                 </p:column>
-                <p:column headerText="nazwafk" width="140" sortBy="#{itemimp.klient.npelna}" filterBy="#{itemimp.klient.npelna}" >
+                <p:column headerText="nazwafk" width="140" sortBy="#{itemimp.klient.npelna}" filterBy="#{itemimp.klient.npelna}"  filterMatchMode="contains"  >
                     <h:outputText value="#{itemimp.klient.npelna}" rendered="#{itemimp.klient ne null}"/>
                     <h:outputText value="nowy" rendered="#{itemimp.klient eq null}" style="color: green;"/>
                 </p:column>
@@ -155,6 +155,11 @@
                 <p:column headerText="vat" styleClass="zaksiegowanewaski" width="50" sortBy="#{itemimp.vatwaluta}" filterBy="#{itemimp.vatwaluta}" style="text-align: center;">
                     <h:outputText value="#{itemimp.vatwaluta}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="st." styleClass="zaksiegowanewaski" width="40" sortBy="#{itemimp.pobranastawkavat}" filterBy="#{itemimp.pobranastawkavat}" style="text-align: center;">
+                    <h:outputText value="#{itemimp.pobranastawkavat}" style="float: right;color: #6374AB;">
+                        <f:convertNumber minFractionDigits="1" locale="PL"/>
                     </h:outputText>
                 </p:column>
 <!--                <p:column width="80" style="text-align: center;">

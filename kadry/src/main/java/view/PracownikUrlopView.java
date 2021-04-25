@@ -7,10 +7,12 @@ package view;
 
 import beanstesty.IPaddress;
 import dao.AngazFacade;
+import dao.NieobecnoscFacade;
 import dao.PracownikFacade;
 import dao.UrlopprezentacjaFacade;
 import data.Data;
 import entity.Angaz;
+import entity.Nieobecnosc;
 import entity.Pracownik;
 import entity.Urlopprezentacja;
 import java.io.Serializable;
@@ -45,11 +47,17 @@ public class PracownikUrlopView  implements Serializable {
     private List<Angaz> listapracownikow;
     private Angaz selectedangaz;
     private Urlopprezentacja urlopprezentacja;
+    @Inject
+    private NieobecnoscFacade nieobecnoscFacade;
     
     
     @PostConstruct
     private void init() {
         listapracownikow = angazFacade.findByFirma(wpisView.getFirma());
+        selected = selectedangaz.getPracownik();
+        if (selected!=null) {
+            pobierzdane();
+        }
     }
 
         
@@ -73,10 +81,24 @@ public class PracownikUrlopView  implements Serializable {
         if (selectedangaz!=null) {
             selected = selectedangaz.getPracownik();
             wpisView.setPracownik(selected);
-            urlopprezentacja = urlopprezentacjaFacade.findPracownik(selected, wpisView.getRokWpisu());
+            urlopprezentacja = urlopprezentacjaFacade.findPracownik(selected, wpisView.getRokWpisu());  
+            List<Nieobecnosc> nieobcenosci = nieobecnoscFacade.findByUmowa(wpisView.getUmowa());
+            naniesurlopy(nieobcenosci, urlopprezentacja);
             Msg.msg("Pobrano dane");
         }
     }
+    
+    private void naniesurlopy(List<Nieobecnosc> nieobcenosci, Urlopprezentacja urlopprezentacja) {
+        for (Nieobecnosc p : nieobcenosci) {
+            if (p.getRokod().equals(wpisView.getRokWpisu())||p.getRokdo().equals(wpisView.getRokWpisu())) {
+                if (p.getKodzwolnienia().equals("U")) {
+                    urlopprezentacja.setW1(p.getDnirobocze());
+                }
+            }
+        }
+    }
+
+    
     public Pracownik getSelected() {
         return selected;
     }
@@ -109,6 +131,7 @@ public class PracownikUrlopView  implements Serializable {
         this.urlopprezentacja = urlopprezentacja;
     }
 
+    
     
     
 }

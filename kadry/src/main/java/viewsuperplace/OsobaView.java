@@ -104,92 +104,109 @@ public class OsobaView implements Serializable {
         //Osoba osoba = osobaFacade.findByPesel("83020610048");
 //        Osoba osoba = osobaFacade.findBySerial("1609");
         if (serial != null) {
-            Osoba osoba = osobaFacade.findBySerial(serial);
-            Pracownik pracownik = OsobaBean.pobierzOsobaBasic(osoba);
-            pracownikFacade.create(pracownik);
-            wpisView.setPracownik(pracownik);
-            FirmaKadry firma = wpisView.getFirma();
-            Angaz angaz = OsobaBean.nowyangaz(pracownik, firma);
-            angazFacade.create(angaz);
-            wpisView.setAngaz(angaz);
-            List<Slownikszkolazatrhistoria> rodzajezatr = slownikszkolazatrhistoriaFacade.findAll();
-            List<Slownikwypowiedzenieumowy> rodzajewypowiedzenia = slownikwypowiedzenieumowyFacade.findAll();
-            List<Umowa> umowy = OsobaBean.pobierzumowy(osoba, angaz, rodzajezatr, rodzajewypowiedzenia);
-            umowaFacade.createList(umowy);
-            Umowa aktywna = umowy.stream().filter(p -> p.isAktywna()).findFirst().get();
-            wpisView.setUmowa(aktywna);
-            List<Stanowiskoprac> stanowiska = OsobaBean.pobierzstanowiska(osoba, aktywna);
-            stanowiskopracFacade.createList(stanowiska);
-            Short formawynagrodzenia = osoba.getOsoWynForma();
-            List<EtatPrac> etaty = OsobaBean.pobierzetaty(osoba, aktywna);
-            etatpracFacade.createList(etaty);
-            Rodzajwynagrodzenia rodzajwynagrodzenia = rodzajwynagrodzeniaFacade.findZasadnicze();
-            Skladnikwynagrodzenia skladnikwynagrodzenia = OsobaBean.pobierzskladnikwynagrodzenia(rodzajwynagrodzenia, aktywna);
-            skladnikWynagrodzeniaFacade.create(skladnikwynagrodzenia);
-            Zmiennawynagrodzenia zmiennawynagrodzenia = OsobaBean.pobierzzmiennawynagrodzenia(aktywna, skladnikwynagrodzenia);
-            double kwota = osoba.getOsoWynZasadn().doubleValue();
-            zmiennawynagrodzenia.setKwota(Z.z(kwota));
-            zmiennaWynagrodzeniaFacade.create(zmiennawynagrodzenia);
-            String rokdlakalendarza = "2020";
-             //paski rok 2020
-            List<Kalendarzmiesiac> generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);
-            kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa);
-            List<Rok> rokList = osoba.getOsoFirSerial().getRokList();
-            Rok rok = pobierzrok(rokdlakalendarza, rokList);
-            List<Okres> okresList = pobierzokresy(Integer.valueOf(wpisView.getMiesiacWpisu()), rok.getOkresList());
-            List<Pasekwynagrodzen> paski = OsobaBean.zrobpaski(wpisView, osoba, okresList);
-            List<Definicjalistaplac> listyplac = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), rokdlakalendarza);
-            List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
-            List<Pasekwynagrodzen> paskigotowe = OsobaBean.przyporzadkuj(paski, listyplac, kalendarze);
-            pasekwynagrodzenFacade.createList(paskigotowe);
-            //koniec paski 2021
-            rokdlakalendarza = "2021";
-            //paski rok 2021
-            generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);
-            kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa);
-            rok = pobierzrok(rokdlakalendarza, rokList);
-            okresList = pobierzokresy(Integer.valueOf(wpisView.getMiesiacWpisu()), rok.getOkresList());
-            paski = OsobaBean.zrobpaski(wpisView, osoba, okresList);
-            listyplac = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), rokdlakalendarza);
-            kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
-            paskigotowe = OsobaBean.przyporzadkuj(paski, listyplac, kalendarze);
-            pasekwynagrodzenFacade.createList(paskigotowe);
-            //koniec paski 2021
-            
-            List<Nieobecnosc> nieobecnosci = OsobaBean.pobierznieobecnosci(osoba, aktywna);
-            for (Nieobecnosc p : nieobecnosci) {
-                if (p.getKodzwolnienia().length() < 3) {
-                    p.setNieobecnosckodzus(nieobecnosckodzusFacade.findByOpis(p.getOpis()));
-                } else {
-                    p.setNieobecnosckodzus(nieobecnosckodzusFacade.findByKod(p.getKodzwolnienia()));
-                }
+            boolean moznadalej = false;
+            Osoba osoba = null;
+            Pracownik pracownik = null;
+            try {
+                osoba = osobaFacade.findBySerial(serial);
+                pracownik = OsobaBean.pobierzOsobaBasic(osoba);
+                pracownikFacade.create(pracownik);
+                moznadalej = true;
+            } catch (Exception e) {
+                Msg.msg("e","Nie dodano pracownika. Sprawdź czy taka osoba nie jest już w bazie");
             }
-            nieobecnosckodzusFacade.createList(nieobecnosci);
-
-            //        //ubezpieczenia u danej osoby
-            //        List<OsobaDet> osobaDet = osoba.getOsobaDetList();
-            //        for (OsobaDet r : osobaDet) {
-            //            try {
-            //                //typ P - tenpracodawca, I inny prac, E-edukacja
-            //                String ubezp = r.getOsdEmerProc()+" "+r.getOsdChorProc();
-            //                System.out.println(ubezp);
-            //            } catch (Exception e){}
-            //        }
-            //         List<PlacePrz> placeprz = osoba.getPlacePrzList();
-            //         for (PlacePrz r : placeprz) {
-            //            try {
-            //                String przerwa = Data.data_yyyyMMdd(r.getPrzDataOd())+" "+Data.data_yyyyMMdd(r.getPrzDataDo())+" "+r.getPrzAbsencja()+" "+r.getPrzWyp()+" "+r.getPrzChorWyp();
-            //                System.out.println(przerwa);
-            //            } catch (Exception e){}
-            //        }
-            Msg.msg("Pracownik pobrany");
+            if (moznadalej) {
+                wpisView.setPracownik(pracownik);
+                FirmaKadry firma = wpisView.getFirma();
+                Angaz angaz = OsobaBean.nowyangaz(pracownik, firma);
+                Msg.msg("Stworzono angaż");
+                angazFacade.create(angaz);
+                wpisView.setAngaz(angaz);
+                List<Slownikszkolazatrhistoria> rodzajezatr = slownikszkolazatrhistoriaFacade.findAll();
+                List<Slownikwypowiedzenieumowy> rodzajewypowiedzenia = slownikwypowiedzenieumowyFacade.findAll();
+                List<Umowa> umowy = OsobaBean.pobierzumowy(osoba, angaz, rodzajezatr, rodzajewypowiedzenia);
+                umowaFacade.createList(umowy);
+                Msg.msg("Zachowano umowy");
+                Umowa aktywna = umowy.stream().filter(p -> p.isAktywna()).findFirst().get();
+                wpisView.setUmowa(aktywna);
+                List<Stanowiskoprac> stanowiska = OsobaBean.pobierzstanowiska(osoba, aktywna);
+                stanowiskopracFacade.createList(stanowiska);
+                Short formawynagrodzenia = osoba.getOsoWynForma();
+                List<EtatPrac> etaty = OsobaBean.pobierzetaty(osoba, aktywna);
+                etatpracFacade.createList(etaty);
+                Rodzajwynagrodzenia rodzajwynagrodzenia = rodzajwynagrodzeniaFacade.findZasadnicze();
+                Skladnikwynagrodzenia skladnikwynagrodzenia = OsobaBean.pobierzskladnikwynagrodzenia(rodzajwynagrodzenia, aktywna);
+                skladnikWynagrodzeniaFacade.create(skladnikwynagrodzenia);
+                Zmiennawynagrodzenia zmiennawynagrodzenia = OsobaBean.pobierzzmiennawynagrodzenia(aktywna, skladnikwynagrodzenia);
+                double kwota = osoba.getOsoWynZasadn().doubleValue();
+                zmiennawynagrodzenia.setKwota(Z.z(kwota));
+                zmiennaWynagrodzeniaFacade.create(zmiennawynagrodzenia);
+                Msg.msg("Uzupełniono zmienne dotyczące wynagrodzeń");
+                String rokdlakalendarza = "2020";
+                 //paski rok 2020
+                List<Kalendarzmiesiac> generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);
+                kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa);
+                List<Rok> rokList = osoba.getOsoFirSerial().getRokList();
+                Rok rok = pobierzrok(rokdlakalendarza, rokList);
+                List<Okres> okresList = pobierzokresy(Integer.valueOf(wpisView.getMiesiacWpisu()), rok.getOkresList());
+                List<Pasekwynagrodzen> paski = OsobaBean.zrobpaski(wpisView, osoba, okresList);
+                List<Definicjalistaplac> listyplac = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), rokdlakalendarza);
+                List<Kalendarzmiesiac> kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
+                List<Pasekwynagrodzen> paskigotowe = OsobaBean.przyporzadkuj(paski, listyplac, kalendarze);
+                pasekwynagrodzenFacade.createList(paskigotowe);
+                Msg.msg("Zrobiono kalendarz i paski za 2020");
+                //koniec paski 2021
+                rokdlakalendarza = "2021";
+                //paski rok 2021
+                generujKalendarzNowaUmowa = OsobaBean.generujKalendarzNowaUmowa(angaz, pracownik, aktywna, kalendarzmiesiacFacade, kalendarzwzorFacade, rokdlakalendarza);
+                kalendarzmiesiacFacade.createList(generujKalendarzNowaUmowa);
+                rok = pobierzrok(rokdlakalendarza, rokList);
+                okresList = pobierzokresy(Integer.valueOf(wpisView.getMiesiacWpisu()), rok.getOkresList());
+                paski = OsobaBean.zrobpaski(wpisView, osoba, okresList);
+                listyplac = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), rokdlakalendarza);
+                kalendarze = kalendarzmiesiacFacade.findByRokUmowa(aktywna, rokdlakalendarza);
+                paskigotowe = OsobaBean.przyporzadkuj(paski, listyplac, kalendarze);
+                pasekwynagrodzenFacade.createList(paskigotowe);
+                Msg.msg("Zrobiono kalendarz i paski za 2021");
+                //koniec paski 2021
+                List<Nieobecnosc> nieobecnosci = OsobaBean.pobierznieobecnosci(osoba, aktywna);
+                for (Nieobecnosc p : nieobecnosci) {
+                    p.setImportowana(true);
+                    p.setRokod(Data.getRok(p.getDataod()));
+                    p.setRokdo(Data.getRok(p.getDatado()));
+                    if (p.getKodzwolnienia().length() < 3) {
+                        p.setNieobecnosckodzus(nieobecnosckodzusFacade.findByOpis(p.getOpis()));
+                    } else {
+                        p.setNieobecnosckodzus(nieobecnosckodzusFacade.findByKod(p.getKodzwolnienia()));
+                    }
+                }
+                nieobecnosckodzusFacade.createList(nieobecnosci);
+                Msg.msg("Przeniesiono nieobecności");
+                //        //ubezpieczenia u danej osoby
+                //        List<OsobaDet> osobaDet = osoba.getOsobaDetList();
+                //        for (OsobaDet r : osobaDet) {
+                //            try {
+                //                //typ P - tenpracodawca, I inny prac, E-edukacja
+                //                String ubezp = r.getOsdEmerProc()+" "+r.getOsdChorProc();
+                //                System.out.println(ubezp);
+                //            } catch (Exception e){}
+                //        }
+                //         List<PlacePrz> placeprz = osoba.getPlacePrzList();
+                //         for (PlacePrz r : placeprz) {
+                //            try {
+                //                String przerwa = Data.data_yyyyMMdd(r.getPrzDataOd())+" "+Data.data_yyyyMMdd(r.getPrzDataDo())+" "+r.getPrzAbsencja()+" "+r.getPrzWyp()+" "+r.getPrzChorWyp();
+                //                System.out.println(przerwa);
+                //            } catch (Exception e){}
+                //        }
+                Msg.msg("Pracownik pobrany");
+            }
             System.out.println("koniec");
         } else {
             Msg.msg("e", "Brak numeru serial");
             System.out.println("koniec");
         }
     }
-    
+   
     
      public static void main(String[] args)  {
         EntityManagerFactory emfH2 = javax.persistence.Persistence.createEntityManagerFactory("WebApplication1PU");
