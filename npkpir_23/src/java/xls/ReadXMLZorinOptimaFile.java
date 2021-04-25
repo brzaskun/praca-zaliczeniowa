@@ -278,9 +278,9 @@ public class ReadXMLZorinOptimaFile {
         ROOT.REJESTRYSPRZEDAZYVAT.REJESTRSPRZEDAZYVAT zlafaktura = null;
         if (!row.getOPIS().equals("PAR")&&!row.getOPIS().equals("PAR 2")&&!row.getOPIS().equals("KPAR")&&!row.getOPIS().equals("KPAR 2")) {
             try {
-//                if (row.getNUMER().equals("G/FV/000001/03/21")) {
-//                    System.out.println("");
-//                }
+                if (row.getNUMER().equals("G/FVPR 2/001491/03/21")) {
+                    System.out.println("");
+                }
                 interpaperXLS.setNrfaktury(row.getNUMER());
                 interpaperXLS.setDatawystawienia(row.getDATAWYSTAWIENIA().toGregorianCalendar().getTime());
                 interpaperXLS.setDatasprzedaży(row.getDATASPRZEDAZY().toGregorianCalendar().getTime());
@@ -495,10 +495,10 @@ public class ReadXMLZorinOptimaFile {
             if (klient==null && interpaperXLS.getNip()!=null && interpaperXLS.getNip().length()>4) {
                 String nip = interpaperXLS.getNip().trim();
                 if (interpaperXLS.getKlientpaństwo()!=null) {
-                    klient = new Klienci(1, interpaperXLS.getKlientnazwa(), interpaperXLS.getKlientnazwa(), interpaperXLS.getNip(), interpaperXLS.getKlientkod(), interpaperXLS.getKlientmiasto(), interpaperXLS.getKlientulica(), interpaperXLS.getKlientdom(), interpaperXLS.getKlientlokal());
+                    klient = new Klienci(null, interpaperXLS.getKlientnazwa(), interpaperXLS.getKlientnazwa(), interpaperXLS.getNip(), interpaperXLS.getKlientkod(), interpaperXLS.getKlientmiasto(), interpaperXLS.getKlientulica(), interpaperXLS.getKlientdom(), interpaperXLS.getKlientlokal());
                     klient.setKrajnazwa(interpaperXLS.getKlientpaństwo()!=null?interpaperXLS.getKlientpaństwo().trim():null);
                     klient.setKrajkod(PanstwaMap.getWykazPanstwSX().get(klient.getKrajnazwa()));
-                    if (klient.getNip()!=null && klient.getNip().length()>5) {
+                    if (klient.getNip()!=null && klient.getNip().length()>4) {
                         if (!klient.getNpelna().equals("nie znaleziono firmy w bazie Regon")) {
                             klienciDAO.create(klient);
                         }
@@ -508,7 +508,7 @@ public class ReadXMLZorinOptimaFile {
             }
             //sa dwie opcje moze nie znalesc po nipoie polskiego i te bez nipu
             if (klient==null) {
-                klient = new Klienci(1, interpaperXLS.getKlientnazwa(), interpaperXLS.getKlientnazwa(), null, interpaperXLS.getKlientkod(), interpaperXLS.getKlientmiasto(), interpaperXLS.getKlientulica(), interpaperXLS.getKlientdom(), interpaperXLS.getKlientlokal());
+                klient = new Klienci(null, interpaperXLS.getKlientnazwa(), interpaperXLS.getKlientnazwa(), null, interpaperXLS.getKlientkod(), interpaperXLS.getKlientmiasto(), interpaperXLS.getKlientulica(), interpaperXLS.getKlientdom(), interpaperXLS.getKlientlokal());
                 klient.setKrajnazwa(interpaperXLS.getKlientpaństwo());
                 klient.setKrajkod(PanstwaMap.getWykazPanstwSX().get(klient.getKrajnazwa()));
                 klient.setNip(interpaperXLS.getNip());
