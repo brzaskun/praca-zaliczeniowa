@@ -53,11 +53,15 @@ public class PracownikUrlopView  implements Serializable {
     
     @PostConstruct
     private void init() {
-        listapracownikow = angazFacade.findByFirma(wpisView.getFirma());
-        selected = selectedangaz.getPracownik();
-        if (selected!=null) {
-            pobierzdane();
-        }
+        try {
+            if (wpisView.getFirma()!=null) {
+                listapracownikow = angazFacade.findByFirma(wpisView.getFirma());
+            }
+            selected = selectedangaz.getPracownik();
+            if (selected!=null) {
+                pobierzdane();
+            }
+        } catch (Exception e){}
     }
 
         
