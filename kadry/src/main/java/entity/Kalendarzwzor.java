@@ -5,8 +5,10 @@
  */
 package entity;
 
+import comparator.Dziencomparator;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -63,7 +65,7 @@ public class Kalendarzwzor implements Serializable {
     @NotNull
     @JoinColumn(name = "firma", referencedColumnName = "id")
     @ManyToOne
-    private Firma firma;
+    private FirmaKadry firma;
 
     public Kalendarzwzor() {
     }
@@ -72,9 +74,15 @@ public class Kalendarzwzor implements Serializable {
         this.id = id;
     }
 
-    public Kalendarzwzor(Firma firma, String rok) {
+    public Kalendarzwzor(FirmaKadry firma, String rok) {
         this.firma = firma;
         this.rok = rok;
+    }
+    
+    public Kalendarzwzor(FirmaKadry firma, String rok, String mc) {
+        this.firma = firma;
+        this.rok = rok;
+        this.mc = mc;
     }
 
     public Integer getId() {
@@ -127,14 +135,15 @@ public class Kalendarzwzor implements Serializable {
         this.dzienList = dzienList;
     }
 
-
-    public Firma getFirma() {
+    public FirmaKadry getFirma() {
         return firma;
     }
 
-    public void setFirma(Firma firma) {
+    public void setFirma(FirmaKadry firma) {
         this.firma = firma;
     }
+
+
 
     public String getRok() {
         return rok;
@@ -150,6 +159,40 @@ public class Kalendarzwzor implements Serializable {
 
     public void setMc(String mc) {
         this.mc = mc;
+    }
+
+    public void zrobkolejnedni(Kalendarzwzor poprzedni) {
+        if (poprzedni!=null) {
+            List<Dzien> dzienList = poprzedni.dzienList;
+            Collections.sort(dzienList,new Dziencomparator());
+            int iloscroboczych = 0;
+            for (int i = dzienList.size()-1;i>0;i--) {
+                Dzien dzien = dzienList.get(i);
+                if (dzien.getTypdnia()==2) {
+                    break;
+                } else if (dzien.getTypdnia()!=-1){
+                    iloscroboczych = iloscroboczych+1;
+                }
+            }
+            while (iloscroboczych>6) {
+                iloscroboczych = iloscroboczych-7;
+            }
+            for (Dzien d : this.dzienList) {
+                if (iloscroboczych<5) {
+                    d.setTypdnia(0);
+                    d.setNormagodzin(8.0);
+                    iloscroboczych++;
+                } else if (iloscroboczych==5) {
+                    d.setTypdnia(1);
+                    d.setNormagodzin(0.0);
+                    iloscroboczych++;
+                } else if (iloscroboczych==6) {
+                    d.setTypdnia(2);
+                    d.setNormagodzin(0.0);
+                    iloscroboczych=0;
+                }
+            }
+        }
     }
    
         
