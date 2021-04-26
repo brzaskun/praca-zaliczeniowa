@@ -63,7 +63,9 @@ public class DokFKVATBean {
             double obliczonenettowpln = Z.z(evatwpis.getNetto()/kurs*przelicznik);
             if (evatwpis.getNettowwalucie()!= obliczonenettowpln || evatwpis.getNettowwalucie() == 0) {
                 evatwpis.setNettowwalucie(evatwpis.getNetto());
-                evatwpis.setNetto(Z.z(evatwpis.getNetto()*kurs/przelicznik));
+                if (selected.isNieprzeliczaj()==false) {
+                    evatwpis.setNetto(Z.z(evatwpis.getNetto()*kurs/przelicznik));
+                }
             }
         }
         if (rodzajdok.contains("WDT") || rodzajdok.contains("UPTK") || rodzajdok.contains("RVCS") || rodzajdok.contains("EXP") || rodzajdok.contains("sprzedaż zw")) {

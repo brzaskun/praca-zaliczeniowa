@@ -27,6 +27,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -68,9 +69,9 @@ public class ReadXLSExolightFile {
                         InterpaperXLS interpaperXLS = new InterpaperXLS();
                         interpaperXLS.setNr(i++);
                         interpaperXLS.setNrfaktury(row.getCell(5).getStringCellValue());
-                        interpaperXLS.setDatawystawienia(row.getCell(4).getDateCellValue());
-                        interpaperXLS.setDatasprzedaży(row.getCell(4).getDateCellValue());
-                        interpaperXLS.setDataobvat(row.getCell(4).getDateCellValue());
+                        interpaperXLS.setDatawystawienia(pobierzdate(row.getCell(4)));
+                        interpaperXLS.setDatasprzedaży(pobierzdate(row.getCell(4)));
+                        interpaperXLS.setDataobvat(pobierzdate(row.getCell(4)));
                         interpaperXLS.setKontrahent(row.getCell(6).getStringCellValue());
                         interpaperXLS.setNip(row.getCell(12)!=null && row.getCell(12).getStringCellValue().length()==10?row.getCell(12).getStringCellValue():row.getCell(13).getStringCellValue());
                         interpaperXLS.setWalutaplatnosci(row.getCell(11).getStringCellValue());
@@ -90,6 +91,19 @@ public class ReadXLSExolightFile {
             E.e(e);
         }
         return listafaktur;
+    }
+    
+    private static Date pobierzdate(Cell cell) {
+        Date zwrot = null;
+        try {
+            zwrot = cell.getDateCellValue();
+        } catch (Exception e){}
+        if (zwrot==null) {
+            try {
+            zwrot = Data.stringToDate(cell.getStringCellValue());
+        } catch (Exception e){}
+        }
+        return zwrot;
     }
     
      public static List<InterpaperXLS> getListafakturXLS(byte[] plikinterpaper, List<Klienci> k, KlienciDAO klienciDAO, String rodzajdok, String mc) {
@@ -177,9 +191,9 @@ public class ReadXLSExolightFile {
     private static void uzupelnijsprzedaz(InterpaperXLS interpaperXLS, Row row, List<Klienci> k, KlienciDAO klienciDAO, Map<String, Klienci> znalezieni) {
         if (row.getCell(0).getRowIndex()>0) {
                 interpaperXLS.setNrfaktury(row.getCell(2).getStringCellValue());
-                interpaperXLS.setDatawystawienia(row.getCell(1).getDateCellValue());
-                interpaperXLS.setDataotrzymania(row.getCell(0).getDateCellValue());
-                interpaperXLS.setDatasprzedaży(row.getCell(1).getDateCellValue());
+                interpaperXLS.setDatawystawienia(pobierzdate(row.getCell(1)));
+                interpaperXLS.setDataotrzymania(pobierzdate(row.getCell(0)));
+                interpaperXLS.setDatasprzedaży(pobierzdate(row.getCell(1)));
                 interpaperXLS.setKontrahent(pobierzkontrahenta(row.getCell(3)));
                 interpaperXLS.setKlientnazwa(pobierzkontrahenta(row.getCell(3)));
                 interpaperXLS.setKlientmiasto(pobierzkontrahenta(row.getCell(4)));
