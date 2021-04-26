@@ -3582,24 +3582,11 @@ public class DokfkView implements Serializable {
         try {
             if (wykazZaksiegowanychDokumentow != null && wykazZaksiegowanychDokumentow.size() > 0) {
                 dokDAOfk.removeList(wykazZaksiegowanychDokumentow);
-//                for (Dokfk p : selectedlist) {
-//                    wykazZaksiegowanychDokumentow.remove(p);
-//                    dokDAOfk.remove(p);
-//                    if (p.getSeriadokfk().equals("AMO")) {
-//                        List<UmorzenieN> umorzenia = umorzenieNDAO.findByDokfk(p);
-//                        if (!umorzenia.isEmpty()) {
-//                            for (UmorzenieN pa : umorzenia) {
-//                                pa.setDokfk(null);
-//                                umorzenieNDAO.edit(pa);
-//                            }
-//                        }
-//                    }
-//                }
-                wykazZaksiegowanychDokumentow.removeAll(wykazZaksiegowanychDokumentow);
+                wykazZaksiegowanychDokumentow = new ArrayList<>();
             }
-            Msg.msg("Usunięto zaznaczone dokumnety");
+            Msg.msg("Usunięto listę dokumentów");
         } catch (Exception e) {
-            Msg.msg("e", "Wystapił błąd poczad usuwania wybranych dokumentów. Spróbuj usunąć je pojedynczo");
+            Msg.msg("e", "Wystapił błąd poczad usuwania wszystkich dokumentów. Spróbuj usunąć je pojedynczo");
         }
     }
 

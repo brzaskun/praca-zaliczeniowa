@@ -333,7 +333,7 @@ public class InterpaperImportView implements Serializable {
             Msg.msg("e", "Niewłaściwa wersja pliku. Może problem z kodowaniem");
         } catch (Exception e) {
             E.e(e);
-            Msg.msg("e", "Wystąpił błąd przy pobieraniu danych");
+            Msg.msg("e", "Wystąpił błąd przy pobieraniu danych "+E.e(e));
         }
 //        for (InterpaperXLS p : pobranefaktury) {
 //           generowanieDokumentu(p);
