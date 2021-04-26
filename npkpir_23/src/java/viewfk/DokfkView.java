@@ -3589,7 +3589,7 @@ public class DokfkView implements Serializable {
 //                        }
 //                    }
 //                }
-                wykazZaksiegowanychDokumentow.removeAll(selectedlist);
+                wykazZaksiegowanychDokumentow.removeAll(wykazZaksiegowanychDokumentow);
             }
             Msg.msg("Usunięto zaznaczone dokumnety");
         } catch (Exception e) {
