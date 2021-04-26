@@ -411,10 +411,7 @@ public class InterpaperImportView implements Serializable {
                 List tabelaszue = new ArrayList();
                for (Object p : tabelazbiorcza) {
                    Object[] r = ((List) p).toArray();
-                   if (r[0].equals("Niemcy")&& (r[8].equals("16.0%")||r[8].equals("19.0%"))) {
-                       tabelarachsp.add(p);
-                       System.out.println("");
-                   } else if (r[0].equals("Francja")&& r[8].equals("20.0%")) {
+                   if (r[8].equals("16.0%")||r[8].equals("19.0%")||r[8].equals("20.0%")) {
                        tabelarachsp.add(p);
                        System.out.println("");
                    } else {
