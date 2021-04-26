@@ -3326,10 +3326,16 @@ public class DokfkView implements Serializable {
             }
             filteredValueimport = Collections.synchronizedList(new ArrayList<>());
         } else {
-            for (Dokfk p : wykazZaksiegowanychDokumentowimport) {
-                dokDAOfk.remove(p);
+            try {
+                dokDAOfk.removeList(wykazZaksiegowanychDokumentowimport);
+            } catch (Exception e){}
+            odswiezzaksiegowaneimport();
+            if (wykazZaksiegowanychDokumentowimport!=null) {
+                for (Dokfk p : wykazZaksiegowanychDokumentowimport) {
+                    dokDAOfk.remove(p);
+                }
             }
-            wykazZaksiegowanychDokumentowimport = Collections.synchronizedList(new ArrayList<>());
+            wykazZaksiegowanychDokumentowimport = new ArrayList<>();
         }
         Msg.msg("Usunięto wszystkie zaimportowane dokumenty");
     }
@@ -3589,7 +3595,7 @@ public class DokfkView implements Serializable {
 //                        }
 //                    }
 //                }
-                wykazZaksiegowanychDokumentow.removeAll(selectedlist);
+                wykazZaksiegowanychDokumentow.removeAll(wykazZaksiegowanychDokumentow);
             }
             Msg.msg("Usunięto zaznaczone dokumnety");
         } catch (Exception e) {
