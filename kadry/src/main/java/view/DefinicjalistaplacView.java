@@ -46,7 +46,7 @@ public class DefinicjalistaplacView  implements Serializable {
     private WpisView wpisView;
     
     @PostConstruct
-    private void init() {
+    public void init() {
         lista  = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
         listafirm = firmaFacade.findAll();
         listarodzajlistyplac = rodzajlistyplacFacade.findAll();

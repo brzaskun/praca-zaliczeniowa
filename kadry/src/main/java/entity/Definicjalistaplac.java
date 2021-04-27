@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -87,6 +88,33 @@ public class Definicjalistaplac implements Serializable {
     public Definicjalistaplac(int id) {
         this.id = id;
     }
+
+    public Definicjalistaplac(Definicjalistaplac p, FirmaKadry firmaKadry) {
+        this.datapodatek = p.getDatapodatek();
+        this.datasporzadzenia = p.getDatasporzadzenia();
+        this.datazus = p.getDatazus();
+        this.nrkolejny = p.getNrkolejny();
+        this.opis = p.getOpis();
+        this.rok = p.getRok();
+        this.mc = p.getMc();
+        this.rodzajlistyplac = p.getRodzajlistyplac();
+        this.pasekwynagrodzenList = new ArrayList<>();
+        this.firma = firmaKadry;
+    }
+
+    public Definicjalistaplac(String datapodatek, String datasporzadzenia, String datazus, String nrkolejny, String opis, String rok, String mc, Rodzajlistyplac rodzajlistyplac, List<Pasekwynagrodzen> pasekwynagrodzenList) {
+        this.datapodatek = datapodatek;
+        this.datasporzadzenia = datasporzadzenia;
+        this.datazus = datazus;
+        this.nrkolejny = nrkolejny;
+        this.opis = opis;
+        this.rok = rok;
+        this.mc = mc;
+        this.rodzajlistyplac = rodzajlistyplac;
+        this.pasekwynagrodzenList = pasekwynagrodzenList;
+    }
+    
+    
 
     public Integer getId() {
         return id;

@@ -36,7 +36,6 @@ public class KalendarzwzorView  implements Serializable {
     @Inject
     private Kalendarzwzor selectedlista;
     private List<Kalendarzwzor> lista;
-    private List<FirmaKadry> listafirm;
     @Inject
     private KalendarzwzorFacade kalendarzwzorFacade;
     @Inject
@@ -49,11 +48,10 @@ public class KalendarzwzorView  implements Serializable {
     private WpisView wpisView;
     
     @PostConstruct
-    private void init() {
+    public void init() {
         selected.setFirma(wpisView.getFirma());
         selected.setRok(wpisView.getRokWpisu());
         lista  = kalendarzwzorFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
-        listafirm = firmaFacade.findAll();
     }
     
     public void init2() {
@@ -213,15 +211,7 @@ public class KalendarzwzorView  implements Serializable {
         this.selectedlista = selectedlista;
     }
 
-    public List<FirmaKadry> getListafirm() {
-        return listafirm;
-    }
-
-    public void setListafirm(List<FirmaKadry> listafirm) {
-        this.listafirm = listafirm;
-    }
-
-   
+      
     
     
 }

@@ -44,7 +44,7 @@
                                      selection="#{kalendarzmiesiacView.selected}" selectionMode="single"
                                  style="height: 150px;overflow-y: scroll; width: 150px; margin-left: 50px;" sortBy="#{itemkalendarzjest.mc}"
                                  >
-                            <p:ajax event="rowSelect" partialSubmit="true" global="false" update="KalendarzmiesiacListForm"/>
+                            <p:ajax event="rowSelect" partialSubmit="true" global="false" update="KalendarzmiesiacListForm KalendarzmiesiacCreateForm:mc"/>
                             <p:column width="50" style="text-align: center;">
                                 <f:facet name="header">
                                     <h:outputText value="utworzono kalendarze za mc"/>

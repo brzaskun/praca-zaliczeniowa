@@ -6,10 +6,12 @@
 package view;
 
 import beanstesty.IPaddress;
+import comparator.Pracownikcomparator;
 import dao.PracownikFacade;
 import data.Data;
 import entity.Pracownik;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -37,10 +39,13 @@ public class PracownikView  implements Serializable {
     private PracownikFacade pracownikFacade;
     @Inject
     private WpisView wpisView;
+    @Inject
+    private AngazView angazView;
     
     @PostConstruct
     public void init() {
         lista  = pracownikFacade.findAll();
+        Collections.sort(lista, new Pracownikcomparator());
     }
 
         
@@ -69,18 +74,28 @@ public class PracownikView  implements Serializable {
     }
     
     public void usun(Pracownik pracownik) {
-        if (pracownik!=null) {
-            if (wpisView.getPracownik()!=null&&wpisView.getPracownik().equals(pracownik)) {
-               wpisView.setPracownik(null);
-            }
-            pracownikFacade.remove(pracownik);
-            lista.remove(pracownik);
-            Msg.msg("Usunięto pracownika");
-            if (listafiltered!=null && !listafiltered.isEmpty()) {
-                listafiltered.remove(pracownik);
+        if (pracownik != null) {
+            try {
+                if (wpisView.getPracownik() != null && wpisView.getPracownik().equals(pracownik)) {
+                    wpisView.setPracownik(null);
+                }
+                if (wpisView.getAngaz() != null && wpisView.getAngaz().getPracownik().equals(pracownik)) {
+                    if (angazView.getLista()!=null) {
+                        angazView.getLista().remove(wpisView.getAngaz());
+                    }
+                    wpisView.setAngaz(null);
+                }
+                pracownikFacade.remove(pracownik);
+                lista.remove(pracownik);
+                Msg.msg("Usunięto pracownika");
+                if (listafiltered != null && !listafiltered.isEmpty()) {
+                    listafiltered.remove(pracownik);
+                }
+            } catch (Exception e) {
+                Msg.msg("e", "Nie można usunąć pracownika. Istnieją angaże");
             }
         } else {
-            Msg.msg("e","Nie wybrano pracownika");
+            Msg.msg("e", "Nie wybrano pracownika");
         }
     }
     
@@ -161,3 +176,4 @@ public class PracownikView  implements Serializable {
     
     
 }
+

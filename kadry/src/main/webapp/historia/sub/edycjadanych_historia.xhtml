@@ -15,7 +15,7 @@
                     <p:dataTable id="datalist" value="#{historiaView.firmy}" var="firmylistdata" rowIndexVar="yndex1"
                                  rowKey="#{firmylistdata.firSerial}" emptyMessage="brak osób w firmie"
                                  selection="#{historiaView.selectedfirma}" selectionMode="single"
-                                 style="height: 200px;overflow-y: scroll; width: 800px; " sortBy="#{firmylistdata.firNazwaPel}"
+                                 style="height: 200px;overflow-y: scroll; width: 770px; " sortBy="#{firmylistdata.firNazwaPel}"
                                  >
                         <p:ajax event="rowSelect" listener="#{historiaView.pobierzosoby}" partialSubmit="true" global="false" update="SuperFormFirma2"/>
                         <p:column width="50" style="text-align: center;">
@@ -45,7 +45,7 @@
                     <p:dataTable id="datalist" value="#{historiaView.osoby}" var="osobylistdata" rowIndexVar="yndex"
                                  rowKey="#{osobylistdata.osoSerial}" emptyMessage="brak osób w firmie"
                                  selection="#{historiaView.selectedosoba}" selectionMode="single"
-                                 style="height: 200px;overflow-y: scroll; width: 670px; " sortBy="#{osobylistdata.osoNazwisko}"
+                                 style="height: 200px;overflow-y: scroll; width: 690px; " sortBy="#{osobylistdata.osoNazwisko}"
                                  >
                         <p:ajax event="rowSelect" partialSubmit="true" listener="#{historiaView.pobierzinfo()}"/>
                         <p:column width="50" style="text-align: center;">
@@ -63,7 +63,7 @@
                             </f:facet>
                             <h:outputText value="#{osobylistdata.osoImie1}" style="#{osobylistdata.osoDataZwol ne null ? 'color:gray;':''}"/>
                         </p:column>
-                        <p:column width="100" style="text-align: center;">
+                        <p:column width="90" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="pesel"/>
                             </f:facet>
@@ -75,13 +75,19 @@
                             </f:facet>
                             <h:outputText value="#{osobylistdata.osoSerial}" style="#{osobylistdata.osoDataZwol ne null ? 'color:gray;':''}"/>
                         </p:column>
-                        <p:column width="80" style="text-align: center;">
+                        <p:column width="60" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="zatr"/>
                             </f:facet>
                             <h:outputText value="#{osobylistdata.osoDataZatr}" style="#{osobylistdata.osoDataZwol ne null ? 'color:gray;':''}">
                                 <f:convertDateTime dateStyle="medium" locale="pl"/>
                             </h:outputText>
+                        </p:column>
+                         <p:column width="40" style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="zaimp"/>
+                            </f:facet>
+                            <h:outputText value="&#x2714;"  style="color: green;" rendered="#{osobylistdata.osoDodVchar3 ne null}"/>
                         </p:column>
                     </p:dataTable>
                 </h:form>

@@ -25,7 +25,7 @@
                 <p:panelGrid columns="2" style="width: 600px;float: right;overflow-y: hidden;" columnClasses="sixty-percent, forty-percent">
                     <p:column>
                        <p:inputText value="#{wpisView.rokWpisu}" style="font-weight: 900; font-size: x-large;" size="4">
-                            <p:ajax event="change" partialSubmit="true" global="false" update="@(form)"/>
+                           <p:ajax event="change" partialSubmit="true" global="false" update="@(form)" listener="#{updateClassView.updateRok}"/>
                         </p:inputText>
                     </p:column>
                     <p:column>

@@ -82,7 +82,10 @@ public class OsobaBean {
         for (ZatrudHist r : zatrudHist) {
             try {
                 Slownikszkolazatrhistoria slownikszkolazatrhistoria = pobierzrodzajzatr(r, rodzajezatr);
-                Slownikwypowiedzenieumowy slownikwypowiedzenieumowy = pobierzrodzajwypowiedzenia(r, rodzajewypowiedzenia);
+                Slownikwypowiedzenieumowy slownikwypowiedzenieumowy = null;
+                if (r.getZahZwolKod()!=null) {
+                    slownikwypowiedzenieumowy = pobierzrodzajwypowiedzenia(r, rodzajewypowiedzenia);
+                }
                 Umowa nowa = UmowaBean.create(nrumowy, osoba, angaz, r, slownikszkolazatrhistoria);
                 nowa.setAngaz(angaz);
                 nowa.setSlownikszkolazatrhistoria(slownikszkolazatrhistoria);

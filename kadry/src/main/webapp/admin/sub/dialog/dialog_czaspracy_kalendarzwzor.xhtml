@@ -14,13 +14,7 @@
                     <h:panelGroup id="display">
                         <p:panelGrid columns="2" rendered="#{kalendarzwzorView.selected != null}">
                             <p:outputLabel value="firma" for="firmakalendarz" />
-                            <p:selectOneMenu id="firmakalendarz" value="#{kalendarzwzorView.selected.firma}" converter="#{firmaConverter}">
-                                <f:selectItem itemLabel="wybierz" noSelectionOption="true"/>
-                                <f:selectItems value="#{kalendarzwzorView.listafirm}"
-                                               var="firmaKItem"
-                                               itemValue="#{firmaKItem}" itemLabel="#{firmaKItem.nazwa}"/> 
-                                <p:ajax event="change" partialSubmit="true" listener="#{kalendarzwzorView.init2()}" global="false" update="KalendarzwzormiesiacSaRokForm:datalist"/>
-                            </p:selectOneMenu>
+                            <h:outputText id="firmakalendarz" value="#{kalendarzwzorView.selected.firma.nazwa}"/>
                             <p:outputLabel value="rok" for="rok" />
                             <p:inputText id="rok" value="#{kalendarzwzorView.selected.rok}" title="rok" >
                                 <p:ajax event="change" partialSubmit="true" listener="#{kalendarzwzorView.init2()}" global="false" update="KalendarzwzormiesiacSaRokForm:datalist" />

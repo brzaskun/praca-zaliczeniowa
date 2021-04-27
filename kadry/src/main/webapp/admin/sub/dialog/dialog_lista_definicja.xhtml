@@ -62,7 +62,7 @@
                                  selectionMode="single" selection="#{definicjalistaplacView.selectedlista}"
                                  rowKey="#{itemdeflisty.id}" sortBy="#{itemdeflisty.datasporzadzenia}"
                                  rowIndexVar="indexdeflp"
-                                 style="height: 500px; overflow-y: scroll;"
+                                 style="height: 500px; overflow-y: scroll;width: 1300px;"
                                  >
                         <p:ajax event="rowSelect" partialSubmit="true" global="false" listener="#{definicjalistaplacView.wybierzdoedycji}" update="DefinicjalistaplacdefCreateForm"/>
                         <p:column width="40" style="text-align: center;">
@@ -107,28 +107,23 @@
                             </f:facet>
                             <h:outputText value="#{itemdeflisty.rodzajlistyplac.nazwa}"/>
                         </p:column>
-                        <p:column>
+                        <p:column width="60" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="rok"/>
                             </f:facet>
                             <h:outputText value="#{itemdeflisty.rok}"/>
                         </p:column>
-                        <p:column>
+                        <p:column width="60" style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="mc"/>
                             </f:facet>
                             <h:outputText value="#{itemdeflisty.mc}"/>
                         </p:column>
-                        <p:column>
+                        <p:column width="60" style="text-align: center;">
                             <f:facet name="header">
-                                <h:outputText value="firma"/>
+                                <h:outputText value="naliczona"/>
                             </f:facet>
-                            <h:outputText value="#{itemdeflisty.firma.nazwa}"/>
-                        </p:column>
-                         <p:column>
-                            <f:facet name="header">
-                            </f:facet>
-                            <h:outputText value="#{itemdeflisty.firma.nazwa}"/>
+                            <h:outputText value="&#x2714;" rendered="#{itemdeflisty.pasekwynagrodzenList ne null and itemdeflisty.pasekwynagrodzenList.size() gt 0}"/>
                         </p:column>
                         <p:column width="40" style="text-align: center;">
                             <p:commandButton icon="fa fa-trash" actionListener="#{definicjalistaplacView.usun(itemdeflisty)}" update="north, @(form)"/>

@@ -62,7 +62,7 @@ public class PasekwynagrodzenView  implements Serializable {
     private WpisView wpisView;
     
     @PostConstruct
-    private void init() {
+    public void init() {
         lista = new ArrayList<>();
         listadefinicjalistaplac = definicjalistaplacFacade.findByFirmaRok(wpisView.getFirma(), wpisView.getRokWpisu());
         Collections.sort(listadefinicjalistaplac, new Defnicjalistaplaccomparator());

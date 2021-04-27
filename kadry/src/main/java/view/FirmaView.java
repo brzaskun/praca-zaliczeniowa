@@ -5,16 +5,19 @@
  */
 package view;
 
+import dao.DefinicjalistaplacFacade;
 import dao.FirmaFacade;
 import dao.KalendarzwzorFacade;
 import dao.UprawnieniaFacade;
 import dao.UzFacade;
 import embeddable.Mce;
+import entity.Definicjalistaplac;
 import entity.FirmaKadry;
 import entity.Kalendarzwzor;
 import entity.Uprawnienia;
 import entity.Uz;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -51,6 +54,8 @@ public class FirmaView  implements Serializable {
     private PracodawcaDaneView pracodawcaDaneView;
     @Inject
     private KalendarzwzorFacade kalendarzwzorFacade;
+    @Inject
+    private DefinicjalistaplacFacade definicjalistaplacFacade;
     
     @PostConstruct
     private void init() {
@@ -75,6 +80,8 @@ public class FirmaView  implements Serializable {
             Msg.msg("Dodano nowego użytkownika");
             globalnie("2020");
             globalnie("2021");
+            listyplac("2020");
+            listyplac("2021");
           } catch (Exception e) {
               System.out.println("");
               Msg.msg("e", "Błąd - nie dodano nowej firmy");
@@ -102,6 +109,21 @@ public class FirmaView  implements Serializable {
                 }
             }
             Msg.msg("Pobrano dane z kalendarza globalnego z bazy danych i utworzono kalendarz wzorcowy firmy za rok "+rok);
+        } else {
+            Msg.msg("e","Nie wybrano firmy");
+        }
+    }
+    
+    public void listyplac(String rok) {
+        if (rok!=null&&wpisView.getFirma()!=null) {
+            FirmaKadry firmaglobalna = firmaFacade.findByNIP("8511005008");
+            List<Definicjalistaplac> lista = definicjalistaplacFacade.findByFirmaRok(firmaglobalna, rok);
+            List<Definicjalistaplac> zwrot = new ArrayList<>();
+            for (Definicjalistaplac p : lista) {
+                zwrot.add(new Definicjalistaplac(p, wpisView.getFirma()));
+            }
+            definicjalistaplacFacade.createList(zwrot);
+            Msg.msg("Wygenerowano definicje list za rok "+rok);
         } else {
             Msg.msg("e","Nie wybrano firmy");
         }
