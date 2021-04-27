@@ -245,7 +245,12 @@ public class InterpaperImportView implements Serializable {
                     pobranefaktury = ReadXLSMuchaFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, wpisView.getMiesiacWpisu());
                     break;
                 case 7:
-                    Object[] zwrot = ReadXMLZorinOptimaFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, jakipobor, wpisView.getMiesiacWpisu(), dokDAOfk, wpisView);
+                    Object[] zwrot = null;
+                    if (wpisView.getRokWpisuSt().equals("2020")) {
+                        zwrot = ReadXMLZorinOptimaFile.getListafakturXLS2020(pobranyplik, k, klienciDAO, rodzajdok, jakipobor, wpisView.getMiesiacWpisu(), dokDAOfk, wpisView);
+                    } else {
+                        zwrot = ReadXMLZorinOptimaFile.getListafakturXLS(pobranyplik, k, klienciDAO, rodzajdok, jakipobor, wpisView.getMiesiacWpisu(), dokDAOfk, wpisView);
+                    }
                     pobranefaktury = (List<InterpaperXLS>) zwrot[0];
                     przerwanyimport = (List<InterpaperXLS>) zwrot[1];
                     importyzbrakami = (List<InterpaperXLS>) zwrot[2];

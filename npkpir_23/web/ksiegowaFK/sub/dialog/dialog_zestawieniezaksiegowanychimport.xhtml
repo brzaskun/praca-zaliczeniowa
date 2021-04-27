@@ -86,8 +86,8 @@
                 <p:column headerText="#{mgs.datadok}" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{item.datadokumentu}" filterBy="#{item.datadokumentu}" filterMatchMode="contains" >
                     <h:outputText value="#{item.datadokumentu}"/>
                 </p:column>
-                <p:column headerText="#{mgs.symbol}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.seriadokfk}" filterBy="#{item.seriadokfk}">
-                    <h:outputText value="#{item.seriadokfk}/#{item.nrkolejnywserii}/#{item.rok}"/>
+                <p:column headerText="#{mgs.symbol}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkSN}" filterBy="#{item.dokfkSN}" filterMatchMode="contains">
+                    <h:outputText value="#{item.dokfkSN}"/>
                 </p:column>
                 <p:column headerText="#{mgs.kontrahent}" width="140" sortBy="#{item.kontr.npelna}" filterBy="#{item.kontr.npelna}" >
                     <h:outputText value="#{item.kontr.npelna}"/>
